@@ -1365,6 +1365,13 @@
     "DID_YOU_ENJOY": "Did you enjoy this task?",
     "DUE_DATE": "Due date",
     "DURATION": "Duration",
+    "FILTER": {
+      "LOCATION": "",
+      "STATUS": "",
+      "TYPE": "",
+      "CROP": "",
+      "ASSIGNEE": ""
+    },
     "HARVEST_USE": "Harvest use",
     "HARVEST_USE_ALREADY_EXISTS": "Harvest use already exists",
     "HOW_WILL_HARVEST_BE_USED": "How will the harvest be used?",

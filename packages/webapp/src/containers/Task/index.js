@@ -4,6 +4,7 @@ import PageTitle from '../../components/PageTitle/v2';
 import { AddLink, Semibold } from '../../components/Typography';
 import { useDispatch, useSelector } from 'react-redux';
 import React, { useEffect, useMemo, useState } from 'react';
+import { FiFilter } from 'react-icons/all';
 import styles from './styles.module.scss';
 
 import { isAdminSelector, loginSelector } from '../userFarmSlice';
@@ -14,6 +15,9 @@ import { getManagementPlansAndTasks } from '../saga';
 import { taskCardContentSelector } from './taskCardContentSelector';
 import TaskCard from './TaskCard';
 import { onAddTask } from './onAddTask';
+import MuiFullPagePopup from '../../components/MuiFullPagePopup/v2';
+import TasksFilterPage from '../Filter/Tasks';
+
 
 export default function TaskPage({ history }) {
   const { t } = useTranslation();
@@ -24,6 +28,14 @@ export default function TaskPage({ history }) {
 
   const defaultTab = TODO;
   const [activeTab, setTab] = useState(defaultTab);
+
+  const [isFilterOpen, setIsFilterOpen] = useState(false);
+  const onFilterClose = () => {
+    setIsFilterOpen(false);
+  };
+  const onFilterOpen = () => {
+    setIsFilterOpen(true);
+  };
 
   useEffect(() => {
     dispatch(getManagementPlansAndTasks());
@@ -75,7 +87,13 @@ export default function TaskPage({ history }) {
           {t('TASK.TASKS_COUNT', { count: taskCardContents.length })}
         </div>
         <AddLink onClick={onAddTask(dispatch, history, `/tasks`)}>{t('TASK.ADD_TASK')}</AddLink>
+        <FiFilter onClick={onFilterOpen} />
       </div>
+
+      <MuiFullPagePopup open={isFilterOpen} onClose={onFilterClose}>
+        <TasksFilterPage onGoBack={onFilterClose} />
+      </MuiFullPagePopup>
+
       {taskCardContents.length > 0 ? (
         taskCardContents.map((task) => (
           <TaskCard

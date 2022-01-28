@@ -13,10 +13,19 @@ const initialDocumentsFilter = {
   TYPE: {},
   VALID_ON: undefined,
 };
+const intialTasksFilter = {
+  STATUS: {},
+  TYPE: {},
+  LOCATION: {},
+  CROP: {},
+  ASIGNEE: {},
+  // Date
+};
 
 export const initialState = {
   cropCatalogue: initialCropCatalogueFilter,
   documents: initialDocumentsFilter,
+  tasks: intialTasksFilter,
 };
 
 const filterSliceReducer = createSlice({
@@ -51,6 +60,12 @@ const filterSliceReducer = createSlice({
     setDocumentsFilter: (state, { payload: documentsFilter }) => {
       Object.assign(state.documents, documentsFilter);
     },
+    resetTasksFilter: (state) => {
+      state.tasks = intialTasksFilter;
+    },
+    setTasksFilter: (state, { payload: tasksFilter }) => {
+      Object.assign(state.tasks, tasksFilter);
+    },
   },
 });
 
@@ -65,6 +80,8 @@ export const {
   removeNonFilterValue,
   resetDocumentsFilter,
   setDocumentsFilter,
+  resetTasksFilter,
+  setTasksFilter,
 } = filterSliceReducer.actions;
 export default filterSliceReducer.reducer;
 
@@ -82,6 +99,10 @@ export const cropVarietyFilterSelector = (cropId) => {
 export const documentsFilterSelector = createSelector(
   [filterReducerSelector],
   (filterReducer) => filterReducer.documents,
+);
+export const tasksFilterSelector = createSelector(
+  [filterReducerSelector],
+  (filterReducer) => filterReducer.tasks,
 );
 export const cropCatalogueFilterDateSelector = createSelector(
   [cropCatalogueFilterSelector],

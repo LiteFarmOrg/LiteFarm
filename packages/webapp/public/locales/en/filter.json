@@ -17,5 +17,14 @@
     "PEST_CONTROL_PRODUCT": "Pest control product",
     "SOIL_AMENDMENT": "Soil amendment",
     "UNCATEGORIZED": "Uncategorized"
-  }
+  },
+  "TASKS": {
+    "LOCATION": "Location",
+    "STATUS": "Status",
+    "SUPPLIERS": "Suppliers",
+    "ACTIVE": "Active",
+    "ABANDONED": "Abandoned",
+    "COMPLETE": "Complete",
+    "PLANNED": "Planned",
+  },
 }

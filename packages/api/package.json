@@ -15,6 +15,7 @@
     "debug-i18n": "set NODE_ENV=development&& DEBUG=i18n:* nodemon src/server.js",
     "production": "NODE_ENV=production node src/server.js",
     "preinstall": "npx --yes npm-force-resolutions",
+    "postinstall": "./setup.sh",
     "integration": "NODE_ENV=integration node src/server.js",
     "migrate:testing:db": "NODE_ENV=test knex migrate:latest --env=test",
     "migrate:dev:db": "knex migrate:latest",

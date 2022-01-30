@@ -3,23 +3,11 @@ image:
 
 tasks:
   - name: API server
-    # One time initialization, executed at workspace creation.
-    init: |
-      cd packages/api
-      cp .env.default .env
-      npm install
-      cd ../..
-    # Start up command, executed each time workspace is opened.
-    command: cd packages/api && npm start
+    init: cd packages/api && npm install
+    command: cd packages/api 2> /dev/null; npm start
   - name: Web app server
-    # One time initialization, executed at workspace creation.
-    init: |
-      cd packages/webapp
-      cp .env.default .env
-      npm install
-      cd ../..
-    # Start up command, executed each time workspace is opened.
-    command: cd packages/webapp && npm start
+    init: cd packages/webapp && npm install
+    command: cd packages/webapp 2> /dev/null; npm start
 
 vscode:
   extensions:

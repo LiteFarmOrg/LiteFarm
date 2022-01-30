@@ -1,3 +1,3 @@
 #!/bin/bash
 
-cp env.default .env
+cp .env.default .env

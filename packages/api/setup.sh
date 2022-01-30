@@ -4,7 +4,7 @@
 cp .env.default .env
 
 # If GitPod, start Postgres server; else we assume it is running.
-[ -n "$GITPOD_WORKSPACE_URL"] && pg_start
+[ -n "$GITPOD_WORKSPACE_URL" ] && pg_start
 
 # Create main dev database.
 psql -c 'CREATE DATABASE "pg-litefarm";'

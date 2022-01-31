@@ -18,8 +18,7 @@ const intialTasksFilter = {
   TYPE: {},
   LOCATION: {},
   CROP: {},
-  ASIGNEE: {},
-  // Date
+  ASSIGNEE: {},
 };
 
 export const initialState = {

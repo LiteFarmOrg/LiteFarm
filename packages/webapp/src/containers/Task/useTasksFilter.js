@@ -1,10 +1,11 @@
 import { useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import { createSelector } from 'reselect';
+import moment from 'moment';
 
 import { taskCardContentSelector, getTaskStatus } from './taskCardContentSelector';
 import { tasksFilterSelector } from '../filterSlice';
-import { STATUS, TYPE, LOCATION, ASSIGNEE, CROP } from '../Filter/constants';
+import { STATUS, TYPE, LOCATION, ASSIGNEE, CROP, FROM_DATE, TO_DATE } from '../Filter/constants';
 
 
 const getActiveCriteria = (filter) => {
@@ -28,19 +29,36 @@ const filterByAssignee = ( task, activeAssignees ) => {
   return activeAssignees.has(user_id)
 };
 
+const filterByFromDate = (task, fromDate) => {
+  if (fromDate === undefined) {
+    return true;
+  }
+
+  return moment(task.completeOrDueDate).isSameOrAfter(fromDate, 'day');
+}
+
+const filterByToDate = (task, toDate) => {
+  if (toDate === undefined) {
+    return true;
+  }
+
+  return moment(task.completeOrDueDate).isSameOrBefore(toDate, 'day');
+}
+
 function filterTasks(tasks, filters) {
     const activeStatus = getActiveCriteria(filters[STATUS]);
     const activeTypes = getActiveCriteria(filters[TYPE]);
     const activeLocations = getActiveCriteria(filters[LOCATION]);
     const activeAssignees = getActiveCriteria(filters[ASSIGNEE]);
     const activeVarieties = getActiveCriteria(filters[CROP]);
-    console.log(activeVarieties)
 
     return tasks.filter(t => activeStatus.has(t.status))
                 .filter(t => activeTypes.has(t.taskType.task_type_id.toString()))
                 .filter(t => activeLocations.has(t.locationName))
                 .filter(t => activeVarieties.has(t.cropVarietyName))
-                .filter(t => filterByAssignee(t, activeAssignees));
+                .filter(t => filterByAssignee(t, activeAssignees))
+                .filter(t => filterByFromDate(t, filters[FROM_DATE]))
+                .filter(t => filterByToDate(t, filters[TO_DATE]));
 }
 
 export const selectFilteredTasks = createSelector(

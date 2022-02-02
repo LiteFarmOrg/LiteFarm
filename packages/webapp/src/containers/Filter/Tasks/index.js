@@ -1,10 +1,12 @@
-import React, { useRef } from 'react';
-import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
+import { useTranslation } from 'react-i18next';
+import React, { useRef, useState } from 'react';
 
 import PureFilterPage from '../../../components/FilterPage';
 import { tasksFilterSelector, setTasksFilter } from '../../filterSlice';
 import { taskCardContentSelector } from '../../Task/taskCardContentSelector';
+import Input from '../../../components/Form/Input';
+
 
 import {
   PLANNED,
@@ -16,7 +18,9 @@ import {
   TYPE,
   LOCATION,
   ASSIGNEE,
-  CROP
+  CROP,
+  FROM_DATE,
+  TO_DATE
 } from '../constants';
 
 import { FiFilter } from 'react-icons/all';
@@ -29,6 +33,9 @@ const TasksFilterPage = ({onGoBack}) => {
   const taskCardContent = useSelector(taskCardContentSelector);
   console.log(taskCardContent)
   const dispatch = useDispatch();
+
+  const [fromDate, setFromDate] = useState(tasksFilter[FROM_DATE] ?? '');
+  const [toDate, setToDate] = useState(tasksFilter[TO_DATE] ?? '');
 
   const statuses = [ABANDONED, COMPLETED, LATE, PLANNED];
   const locations = new Set( taskCardContent.map(t => t.locationName) )
@@ -50,10 +57,23 @@ const TasksFilterPage = ({onGoBack}) => {
   cropVarities.delete(undefined);
 
   const handleApply = () => {
-    dispatch(setTasksFilter(filterRef.current));
+    const filterToApply = {
+      ...filterRef.current,
+      FROM_DATE: fromDate ? fromDate : undefined,
+      TO_DATE: toDate ? toDate : undefined
+    };
+    dispatch(setTasksFilter(filterToApply));
     onGoBack?.();
   };
   const filterRef = useRef({});
+
+  const handleFromDateChange = (e) => {
+    setFromDate(e.target.value)
+  };
+
+  const handleToDateChange = (e) => {
+    setToDate(e.target.value)
+  };
 
   const filters = [
     {
@@ -92,7 +112,7 @@ const TasksFilterPage = ({onGoBack}) => {
         label: assignees[user_id],
       })),
     },
-    {
+    { // TODO: This should be a text search
       subject: t('TASK.FILTER.CROP'),
       filterKey: CROP,
       options: [...cropVarities].map((variety) => ({
@@ -111,7 +131,32 @@ const TasksFilterPage = ({onGoBack}) => {
       onApply={handleApply}
       filterRef={filterRef}
       onGoBack={onGoBack}
-    />
+      resetters={[
+        {
+          setFunc: setFromDate,
+          defaultVal: '',
+        },
+        {
+          setFunc: setToDate,
+          defaultVal: '',
+        },
+      ]}
+    >
+      <Input
+        label={t('TASK.FILTER.FROM')}
+        type={'date'}
+        value={fromDate}
+        onChange={handleFromDateChange}
+      />
+
+      <Input
+        label={t('TASK.FILTER.TO')}
+        type={'date'}
+        value={toDate}
+        onChange={handleToDateChange}
+      />
+
+    </PureFilterPage>
   );
 }
 

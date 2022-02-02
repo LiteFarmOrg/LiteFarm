@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { createSelector } from 'reselect';
-import { VALID_ON } from './Filter/constants';
+import { VALID_ON, FROM_DATE } from './Filter/constants';
 import { getDateInputFormat } from '../util/moment';
 
 const initialCropCatalogueFilter = {
@@ -19,6 +19,8 @@ const intialTasksFilter = {
   LOCATION: {},
   CROP: {},
   ASSIGNEE: {},
+  FROM_DATE: undefined,
+  TO_DATE: undefined,
 };
 
 export const initialState = {

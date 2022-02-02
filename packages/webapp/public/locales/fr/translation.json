@@ -1373,7 +1373,9 @@
       "STATUS": "MISSING",
       "TYPE": "MISSING",
       "CROP": "MISSING",
-      "ASSIGNEE": "MISSING"
+      "ASSIGNEE": "MISSING",
+      "FROM": "MISSING",
+      "TO": "MISSING"
     },
     "HARVEST_USE": "Utilisation de la récolte",
     "HARVEST_USE_ALREADY_EXISTS": "MISSING",

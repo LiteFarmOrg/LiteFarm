@@ -1374,7 +1374,9 @@
       "TYPE": "Type",
       "CROP": "Crop",
       "TITLE": "Task Filter",
-      "ASSIGNEE": "Assignee"
+      "ASSIGNEE": "Assignee",
+      "FROM": "From",
+      "TO": "To"
     },
     "HARVEST_USE": "Harvest use",
     "HARVEST_USE_ALREADY_EXISTS": "Harvest use already exists",

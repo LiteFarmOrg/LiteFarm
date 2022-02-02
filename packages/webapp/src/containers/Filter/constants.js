@@ -21,3 +21,5 @@ export const UNCATEGORIZED = 'UNCATEGORIZED';
 
 export const CROP = 'CROP';
 export const ASSIGNEE = 'ASSIGNEE';
+export const LATE = 'LATE';
+export const COMPLETED = 'COMPLETED';

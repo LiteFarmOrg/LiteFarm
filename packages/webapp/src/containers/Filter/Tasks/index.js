@@ -15,7 +15,8 @@ import {
   STATUS,
   TYPE,
   LOCATION,
-  ASSIGNEE
+  ASSIGNEE,
+  CROP
 } from '../constants';
 
 import { FiFilter } from 'react-icons/all';
@@ -44,6 +45,9 @@ const TasksFilterPage = ({onGoBack}) => {
       assignees['unassigned'] = t('TASK.UNASSIGNED');
     }
   }
+
+  let cropVarities = new Set( taskCardContent.map(t => t.cropVarietyName) );
+  cropVarities.delete(undefined);
 
   const handleApply = () => {
     dispatch(setTasksFilter(filterRef.current));
@@ -87,13 +91,22 @@ const TasksFilterPage = ({onGoBack}) => {
         default: tasksFilter[ASSIGNEE][user_id]?.active ?? false,
         label: assignees[user_id],
       })),
+    },
+    {
+      subject: t('TASK.FILTER.CROP'),
+      filterKey: CROP,
+      options: [...cropVarities].map((variety) => ({
+        value: variety,
+        default: tasksFilter[CROP][variety]?.active ?? false,
+        label: variety,
+      })),
     }
 
   ];
 
   return (
     <PureFilterPage
-      title={t('TASK.FILTER.ASSIGNEE')}
+      title={t('TASK.FILTER.TITLE')}
       filters={filters}
       onApply={handleApply}
       filterRef={filterRef}

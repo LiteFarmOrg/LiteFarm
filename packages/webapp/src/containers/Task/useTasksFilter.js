@@ -4,7 +4,7 @@ import { createSelector } from 'reselect';
 
 import { taskCardContentSelector, getTaskStatus } from './taskCardContentSelector';
 import { tasksFilterSelector } from '../filterSlice';
-import { STATUS, TYPE, LOCATION, ASSIGNEE } from '../Filter/constants';
+import { STATUS, TYPE, LOCATION, ASSIGNEE, CROP } from '../Filter/constants';
 
 
 const getActiveCriteria = (filter) => {
@@ -33,10 +33,13 @@ function filterTasks(tasks, filters) {
     const activeTypes = getActiveCriteria(filters[TYPE]);
     const activeLocations = getActiveCriteria(filters[LOCATION]);
     const activeAssignees = getActiveCriteria(filters[ASSIGNEE]);
+    const activeVarieties = getActiveCriteria(filters[CROP]);
+    console.log(activeVarieties)
 
     return tasks.filter(t => activeStatus.has(t.status))
                 .filter(t => activeTypes.has(t.taskType.task_type_id.toString()))
                 .filter(t => activeLocations.has(t.locationName))
+                .filter(t => activeVarieties.has(t.cropVarietyName))
                 .filter(t => filterByAssignee(t, activeAssignees));
 }
 

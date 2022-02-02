@@ -9,7 +9,7 @@
 //        "plugin:react/recommended",
 //        "prettier/react",
         "prettier",
-        "react-app"
+//        "react-app"
     ],
     "parserOptions": {
         "ecmaFeatures": {

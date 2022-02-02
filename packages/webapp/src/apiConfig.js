@@ -14,20 +14,20 @@
  */
 
 let URI;
-const NODE_ENV = process.env.NODE_ENV || 'development';
-const REACT_APP_ENV = process.env.REACT_APP_ENV || 'development';
+const NODE_ENV = import.meta.env.NODE_ENV || 'development';
+const VITE_ENV = import.meta.env.VITE_ENV || 'development';
 
 if (NODE_ENV === 'development') {
   URI = window.location.href.replace(/3000.*/, '5000');
 } else if (NODE_ENV === 'production') {
-  if (REACT_APP_ENV === 'production') {
+  if (VITE_ENV === 'production') {
     URI = 'https://api.app.litefarm.org';
-  } else if (REACT_APP_ENV === 'integration') {
+  } else if (VITE_ENV === 'integration') {
     URI = 'https://api.beta.litefarm.org';
   }
 }
 
-const apiConfig = {
+export default {
   userUrl: `${URI}/user`,
   pseudoUserUrl: `${URI}/user/pseudo`,
   farmUrl: `${URI}/farm`,
@@ -55,7 +55,7 @@ const apiConfig = {
   contactURL: URI + '/contact',
   farmDataUrl: URI + '/farmdata',
   userFarmUrl: `${URI}/user_farm`,
-  weatherAPIKey: process.env.REACT_APP_WEATHER_API_KEY,
+  weatherAPIKey: import.meta.env.VITE_WEATHER_API_KEY,
   // userFarm: URI + '/user_farm',
   rolesUrl: URI + '/roles',
   signUpUrl: `${URI}/sign_up`,
@@ -67,4 +67,41 @@ const apiConfig = {
   url: URI,
 };
 
-module.exports = apiConfig;
+
+export const userUrl = `${URI}/user`;
+export const pseudoUserUrl = `${URI}/user/pseudo`;
+export const farmUrl = `${URI}/farm`;
+export const inviteUserUrl = `${URI}/user/invite`;
+export const fieldURL = `${URI}/field`;
+export const locationURL = `${URI}/location`;
+export const cropURL = `${URI}/crop`;
+export const cropVarietyURL = `${URI}/crop_variety`;
+export const logURL = `${URI}/log`;
+export const fertUrl = `${URI}/fertilizer`;
+export const managementPlanURL = `${URI}/management_plan`;
+export const pesticideUrl = `${URI}/pesticide`;
+export const diseaseUrl = `${URI}/disease`;
+export const taskTypeUrl = `${URI}/task_type`;
+export const shiftUrl = `${URI}/shift`;
+export const priceURL = `${URI}/price`;
+export const yieldURL = `${URI}/yield`;
+export const insightUrl = `${URI}/insight`;
+export const documentUrl = `${URI}/document`;
+export const salesURL = URI + '/sale';
+export const cropSalesURL = URI + '/crop_sale';
+export const farmShiftUrl = URI + '/shift/farm/';
+export const expenseUrl = URI + '/expense';
+export const expenseTypeDefaultUrl = URI + '/expense_type';
+export const contactURL = URI + '/contact';
+export const farmDataUrl = URI + '/farmdata';
+export const userFarmUrl = `${URI}/user_farm`;
+export const weatherAPIKey = import.meta.env.VITE_WEATHER_API_KEY;
+// export const   userFarm = URI + '/user_farm';
+export const rolesUrl = URI + '/roles';
+export const signUpUrl = `${URI}/sign_up`;
+export const loginUrl = `${URI}/login`;
+export const resetPasswordUrl = `${URI}/password_reset`;
+export const spotlightUrl = `${URI}/showed_spotlight`;
+export const taskUrl = `${URI}/task`;
+export const productsUrl = `${URI}/product`;
+export const url = URI;

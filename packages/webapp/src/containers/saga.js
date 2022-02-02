@@ -13,17 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import {
-  all,
-  call,
-  delay,
-  put,
-  race,
-  select,
-  take,
-  takeLatest,
-  takeLeading,
-} from 'redux-saga/effects';
+import { all, call, delay, put, race, select, take, takeLatest, takeLeading } from 'redux-saga/effects';
 import apiConfig, { url } from '../apiConfig';
 import history from '../history';
 import {
@@ -38,52 +28,20 @@ import { createAction } from '@reduxjs/toolkit';
 import { logUserInfoSuccess, userLogReducerSelector } from './userLogSlice';
 import { getFieldsSuccess, onLoadingFieldFail, onLoadingFieldStart } from './fieldSlice';
 import { getBarnsSuccess, onLoadingBarnFail, onLoadingBarnStart } from './barnSlice';
-import {
-  getNaturalAreasSuccess,
-  onLoadingNaturalAreaFail,
-  onLoadingNaturalAreaStart,
-} from './naturalAreaSlice';
-import {
-  getCeremonialsSuccess,
-  onLoadingCeremonialFail,
-  onLoadingCeremonialStart,
-} from './ceremonialSlice';
+import { getNaturalAreasSuccess, onLoadingNaturalAreaFail, onLoadingNaturalAreaStart } from './naturalAreaSlice';
+import { getCeremonialsSuccess, onLoadingCeremonialFail, onLoadingCeremonialStart } from './ceremonialSlice';
 import {
   getFarmSiteBoundarysSuccess,
   onLoadingFarmSiteBoundaryFail,
   onLoadingFarmSiteBoundaryStart,
 } from './farmSiteBoundarySlice';
-import {
-  getResidencesSuccess,
-  onLoadingResidenceFail,
-  onLoadingResidenceStart,
-} from './residenceSlice';
-import {
-  getGreenhousesSuccess,
-  onLoadingGreenhouseFail,
-  onLoadingGreenhouseStart,
-} from './greenhouseSlice';
-import {
-  getSurfaceWatersSuccess,
-  onLoadingSurfaceWaterFail,
-  onLoadingSurfaceWaterStart,
-} from './surfaceWaterSlice';
-import {
-  getBufferZonesSuccess,
-  onLoadingBufferZoneFail,
-  onLoadingBufferZoneStart,
-} from './bufferZoneSlice';
-import {
-  getWatercoursesSuccess,
-  onLoadingWatercourseFail,
-  onLoadingWatercourseStart,
-} from './watercourseSlice';
+import { getResidencesSuccess, onLoadingResidenceFail, onLoadingResidenceStart } from './residenceSlice';
+import { getGreenhousesSuccess, onLoadingGreenhouseFail, onLoadingGreenhouseStart } from './greenhouseSlice';
+import { getSurfaceWatersSuccess, onLoadingSurfaceWaterFail, onLoadingSurfaceWaterStart } from './surfaceWaterSlice';
+import { getBufferZonesSuccess, onLoadingBufferZoneFail, onLoadingBufferZoneStart } from './bufferZoneSlice';
+import { getWatercoursesSuccess, onLoadingWatercourseFail, onLoadingWatercourseStart } from './watercourseSlice';
 import { getFencesSuccess, onLoadingFenceFail, onLoadingFenceStart } from './fenceSlice';
-import {
-  getWaterValvesSuccess,
-  onLoadingWaterValveFail,
-  onLoadingWaterValveStart,
-} from './waterValveSlice';
+import { getWaterValvesSuccess, onLoadingWaterValveFail, onLoadingWaterValveStart } from './waterValveSlice';
 import { getGatesSuccess, onLoadingGateFail, onLoadingGateStart } from './gateSlice';
 import { getAllCropsSuccess, onLoadingCropFail, onLoadingCropStart } from './cropSlice';
 import {
@@ -102,11 +60,7 @@ import {
   getAllSupportedCertifiers,
   getCertificationSurveys,
 } from './OrganicCertifierSurvey/saga';
-import {
-  getAllCropVarietiesSuccess,
-  onLoadingCropVarietyFail,
-  onLoadingCropVarietyStart,
-} from './cropVarietySlice';
+import { getAllCropVarietiesSuccess, onLoadingCropVarietyFail, onLoadingCropVarietyStart } from './cropVarietySlice';
 import {
   getBroadcastMethodsSuccess,
   onLoadingBroadcastMethodFail,
@@ -117,21 +71,9 @@ import {
   onLoadingContainerMethodFail,
   onLoadingContainerMethodStart,
 } from './containerMethodSlice';
-import {
-  getBedMethodsSuccess,
-  onLoadingBedMethodFail,
-  onLoadingBedMethodStart,
-} from './bedMethodSlice';
-import {
-  getRowMethodsSuccess,
-  onLoadingRowMethodFail,
-  onLoadingRowMethodStart,
-} from './rowMethodSlice';
-import {
-  getAllDocumentsSuccess,
-  onLoadingDocumentFail,
-  onLoadingDocumentStart,
-} from './documentSlice';
+import { getBedMethodsSuccess, onLoadingBedMethodFail, onLoadingBedMethodStart } from './bedMethodSlice';
+import { getRowMethodsSuccess, onLoadingRowMethodFail, onLoadingRowMethodStart } from './rowMethodSlice';
+import { getAllDocumentsSuccess, onLoadingDocumentFail, onLoadingDocumentStart } from './documentSlice';
 import { enqueueErrorSnackbar, enqueueSuccessSnackbar } from './Snackbar/snackbarSlice';
 import {
   getCropManagementPlansSuccess,
@@ -143,30 +85,22 @@ import {
   onLoadingPlantingManagementPlanFail,
   onLoadingPlantingManagementPlanStart,
 } from './plantingManagementPlanSlice';
-import {
-  getHarvestUseTypesSaga,
-  getProductsSaga,
-  getTasksSaga,
-  getTaskTypesSaga,
-} from './Task/saga';
-import {
-  getCertificationSurveysSuccess,
-  onLoadingCertifierSurveyFail,
-} from './OrganicCertifierSurvey/slice';
+import { getHarvestUseTypesSaga, getProductsSaga, getTasksSaga, getTaskTypesSaga } from './Task/saga';
+import { getCertificationSurveysSuccess, onLoadingCertifierSurveyFail } from './OrganicCertifierSurvey/slice';
 import { appVersionSelector, setAppVersion } from './appSettingSlice';
 import { APP_VERSION } from '../util/constants';
 import { hookFormPersistHistoryStackSelector } from './hooks/useHookFormPersist/hookFormPersistSlice';
+import axiosWithoutInterceptors from 'axios';
 
 const logUserInfoUrl = () => `${url}/userLog`;
 const getCropsByFarmIdUrl = (farm_id) => `${url}/crop/farm/${farm_id}`;
 const getLocationsUrl = (farm_id) => `${url}/location/farm/${farm_id}`;
 
-export const axios = require('axios');
-axios.interceptors.response.use(
-  function (response) {
+axiosWithoutInterceptors.interceptors.response.use(
+  function(response) {
     return response;
   },
-  function (error) {
+  function(error) {
     if (error?.response?.status === 401) {
       if (localStorage.getItem('id_token')) {
         logout();
@@ -177,6 +111,7 @@ axios.interceptors.response.use(
     return Promise.reject(error);
   },
 );
+export const axios = axiosWithoutInterceptors;
 
 export function getHeader(user_id, farm_id, { headers, ...props } = {}) {
   return {

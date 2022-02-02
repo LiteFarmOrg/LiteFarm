@@ -1,13 +1,23 @@
+const svgrPlugin = require('vite-plugin-svgr');
+
 module.exports = {
   stories: ['../src/stories/**/*.stories.mdx', '../src/stories/**/*.stories.@(js|jsx|ts|tsx)'],
-  addons: [
-    '@storybook/addon-links',
-    '@storybook/addon-essentials',
-    '@storybook/addon-a11y',
-    '@storybook/preset-create-react-app',
-  ],
-  webpackFinal: async (config, { configType }) => {
-    config.node = { fs: 'empty', tls: 'empty', net: 'empty', module: 'empty', console: true };
+  addons: ['@storybook/addon-links', '@storybook/addon-essentials', '@storybook/addon-a11y'],
+  framework: '@storybook/react',
+  core: {
+    builder: 'storybook-builder-vite',
+  },
+  features: {
+    storyStoreV7: true,
+  },
+  async viteFinal(config, { configType }) {
+    config.plugins.push(
+      svgrPlugin({
+        svgrOptions: {
+          icon: false,
+        },
+      }),
+    );
     return config;
   },
 };

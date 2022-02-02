@@ -13,6 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const createHistory = require('history').createBrowserHistory;
+import { createBrowserHistory } from 'history';
 
-export default createHistory();
+const history = createBrowserHistory();
+export default history;

@@ -5,17 +5,17 @@ import { useDispatch, useSelector } from 'react-redux';
 import PureFilterPage from '../../../components/FilterPage';
 import { tasksFilterSelector, setTasksFilter } from '../../filterSlice';
 import {
-  ABANDONED,
-  ACTIVE,
-  COMPLETE,
-  LOCATION,
   PLANNED,
+  COMPLETED,
+  FOR_REVIEW,
+  ABANDONED,
+  LATE,
   STATUS,
 } from '../constants';
 
 import { FiFilter } from 'react-icons/all';
 
-const statuses = [ACTIVE, ABANDONED, PLANNED, COMPLETE];
+const statuses = [ABANDONED, COMPLETED, LATE, PLANNED];
 
 const TasksFilterPage = ({onGoBack}) => {
   const { t } = useTranslation(['translation', 'filter']);

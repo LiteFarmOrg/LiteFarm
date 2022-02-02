@@ -17,17 +17,15 @@ import TaskCard from './TaskCard';
 import { onAddTask } from './onAddTask';
 import MuiFullPagePopup from '../../components/MuiFullPagePopup/v2';
 import TasksFilterPage from '../Filter/Tasks';
+import {selectFilteredTasks} from './useTasksFilter';
 
 
 export default function TaskPage({ history }) {
   const { t } = useTranslation();
   const isAdmin = useSelector(isAdminSelector);
   const { user_id, farm_id } = useSelector(loginSelector);
-  const tasks = useSelector(taskCardContentSelector);
+  const taskCardContents = useSelector(selectFilteredTasks);
   const dispatch = useDispatch();
-
-  const defaultTab = TODO;
-  const [activeTab, setTab] = useState(defaultTab);
 
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const onFilterClose = () => {
@@ -45,43 +43,11 @@ export default function TaskPage({ history }) {
     dispatch(resetAndUnLockFormData());
   }, []);
 
-  const taskCardContents = useMemo(() => {
-    switch (activeTab) {
-      case ALL:
-        return tasks;
-      case TODO:
-        return tasks.filter(
-          (task) => task.assignee?.user_id === user_id && ['planned', 'late'].includes(task.status),
-        );
-      case UNASSIGNED:
-        return tasks.filter((task) => !task.assignee);
-      default:
-        return [];
-    }
-  }, [tasks, activeTab]);
 
   return (
     <Layout classes={{ container: { backgroundColor: 'white' } }}>
       <PageTitle title={t('TASK.PAGE_TITLE')} style={{ paddingBottom: '20px' }} />
-      <StateTab
-        classes={{ container: { marginBottom: '20px' } }}
-        tabs={[
-          {
-            label: t('TASK.TODO'),
-            key: TODO,
-          },
-          {
-            label: t('TASK.UNASSIGNED'),
-            key: UNASSIGNED,
-          },
-          {
-            label: t('TASK.ALL'),
-            key: ALL,
-          },
-        ]}
-        state={activeTab}
-        setState={setTab}
-      />
+
       <div className={styles.taskCountContainer}>
         <div className={styles.taskCount}>
           {t('TASK.TASKS_COUNT', { count: taskCardContents.length })}

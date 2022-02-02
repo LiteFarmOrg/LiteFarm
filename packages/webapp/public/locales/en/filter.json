@@ -29,5 +29,10 @@
     "COMPLETED": "Completed",
     "LATE": "Late",
     "PLANNED": "Planned"
+  },
+  "FILTER": {
+    "VALID_ON": "Valid on",
+    "FROM_DATE": "From",
+    "TO_DATE": "To"
   }
 }

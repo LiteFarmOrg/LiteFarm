@@ -28,5 +28,10 @@
     "LOCATION": "MISSING",
     "PLANNED": "MISSING",
     "STATUS": "MISSING"
+  },
+  "FILTER": {
+    "VALID_ON": "MISSING",
+    "FROM_DATE": "MISSING",
+    "TO_DATE": "MISSING"
   }
 }

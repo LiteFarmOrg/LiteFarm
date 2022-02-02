@@ -18,6 +18,8 @@ import { onAddTask } from './onAddTask';
 import MuiFullPagePopup from '../../components/MuiFullPagePopup/v2';
 import TasksFilterPage from '../Filter/Tasks';
 import {selectFilteredTasks} from './useTasksFilter';
+import { tasksFilterSelector, isFilterCurrentlyActiveSelector } from '../filterSlice';
+import ActiveFilterBox from '../../components/ActiveFilterBox';
 
 
 export default function TaskPage({ history }) {
@@ -26,6 +28,9 @@ export default function TaskPage({ history }) {
   const { user_id, farm_id } = useSelector(loginSelector);
   const taskCardContents = useSelector(selectFilteredTasks);
   const dispatch = useDispatch();
+
+  const tasksFilter = useSelector(tasksFilterSelector);
+  const isFilterCurrentlyActive = useSelector(isFilterCurrentlyActiveSelector('tasks'));
 
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const onFilterClose = () => {
@@ -59,6 +64,14 @@ export default function TaskPage({ history }) {
       <MuiFullPagePopup open={isFilterOpen} onClose={onFilterClose}>
         <TasksFilterPage onGoBack={onFilterClose} />
       </MuiFullPagePopup>
+
+      {isFilterCurrentlyActive && (
+        <ActiveFilterBox
+          pageFilter={tasksFilter}
+          pageFilterKey={'tasks'}
+          style={{ marginBottom: '32px' }}
+        />
+      )}
 
       {taskCardContents.length > 0 ? (
         taskCardContents.map((task) => (

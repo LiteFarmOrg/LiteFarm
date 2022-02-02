@@ -27,5 +27,10 @@
     "LATE": "Tard",
     "PLANNED": "Planifié",
     "STATUS": "MISSING",
+  },
+  "FILTER": {
+    "VALID_ON": "MISSING",
+    "FROM_DATE": "MISSING",
+    "TO_DATE": "MISSING"
   }
 }

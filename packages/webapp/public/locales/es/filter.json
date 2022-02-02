@@ -27,5 +27,10 @@
     "LATE": "Tarde",
     "PLANNED": "Planificada",
     "STATUS": "Estatus",
+  },
+  "FILTER": {
+    "VALID_ON": "MISSING",
+    "FROM_DATE": "MISSING",
+    "TO_DATE": "MISSING"
   }
 }

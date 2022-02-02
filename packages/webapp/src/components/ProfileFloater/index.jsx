@@ -24,11 +24,7 @@ export function PureProfileFloaterComponent({ onInfo, onSwitchFarm, onHelp,
         transform: 'translateX(-12px)',
       }}
     >
-      <ListOption
-        clickFn={onInfo}
-        iconText={t('PROFILE_FLOATER.INFO')}
-        icon={<MyInfoIcon />}
-      />
+      <ListOption clickFn={onInfo} iconText={t('PROFILE_FLOATER.INFO')} icon={<MyInfoIcon />} />
 
       <ListOption
         clickFn={onSwitchFarm}

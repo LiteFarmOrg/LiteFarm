@@ -13,7 +13,13 @@ export default function ConfirmRetireModal({ dismissModal, handleRetire }) {
       dismissModal={dismissModal}
       buttonGroup={
         <>
-          <Button className={styles.button} onClick={dismissModal} color={'secondary'} type={'button'} sm>
+          <Button
+            className={styles.button}
+            onClick={dismissModal}
+            color={'secondary'}
+            type={'button'}
+            sm
+          >
             {t('common:CANCEL')}
           </Button>
           <Button className={styles.button} onClick={handleRetire} type={'submit'} sm>

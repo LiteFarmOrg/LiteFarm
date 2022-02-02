@@ -1,6 +1,6 @@
 import React from 'react';
 import Table from '../../../../components/Table';
-import moment, { duration } from 'moment';
+import moment from 'moment';
 import { useTranslation } from 'react-i18next';
 import { roundToTwoDecimal } from '../../../../util';
 

@@ -34,7 +34,7 @@ export function calcTotalLabour(tasks, startDate, endDate) {
         // if (s.wage.type === 'hourly')
         const rate = roundToTwoDecimal(t.wage_at_moment);
         const hoursWorked = roundToTwoDecimal(t.duration / 60);
-        total = roundToTwoDecimal(total + roundToTwoDecimal(rate * hoursWorked));
+        total = roundToTwoDecimal(roundToTwoDecimal(total) + roundToTwoDecimal(rate * hoursWorked));
       }
     }
   }
@@ -84,7 +84,7 @@ export function calcSales(sales, startDate, endDate) {
         saleDate.isSameOrBefore(endDate, 'day')
       ) {
         for (const c of s.cropSale) {
-          total = roundToTwoDecimal(total + roundToTwoDecimal(c.sale_value));
+          total = roundToTwoDecimal(roundToTwoDecimal(total) + roundToTwoDecimal(c.sale_value));
         }
       }
     }
@@ -106,7 +106,7 @@ export function calcBalanceByCrop(shifts, sales, expenses, startDate, endDate) {
           shiftDate.isSameOrBefore(endDate, 'day')
         ) {
           if (sortObj.hasOwnProperty(cid)) {
-            sortObj[cid].cost = roundToTwoDecimal(sortObj[cid].cost + cost);
+            sortObj[cid].cost = roundToTwoDecimal(roundToTwoDecimal(sortObj[cid].cost) + cost);
           } else {
             sortObj[cid] = {
               cost,
@@ -137,7 +137,7 @@ export function calcBalanceByCrop(shifts, sales, expenses, startDate, endDate) {
       for (const c of shiftCropOnField) {
         if (sortObj.hasOwnProperty(c)) {
           isAllocated = true;
-          sortObj[c].cost = roundToTwoDecimal(sortObj[c].cost + avgCost);
+          sortObj[c].cost = roundToTwoDecimal(roundToTwoDecimal(sortObj[c].cost) + avgCost);
         }
       }
     }
@@ -156,7 +156,7 @@ export function calcBalanceByCrop(shifts, sales, expenses, startDate, endDate) {
       revenue: 0,
     };
     for(const fk of fieldKeys){
-      sortObj['unallocated'].cost = roundToTwoDecimal(roundToTwoDecimal(sortObj['unallocated'].cost + roundToTwoDecimal(unAllocated[fk])));
+      sortObj['unallocated'].cost = roundToTwoDecimal(roundToTwoDecimal(sortObj['unallocated'].cost) + roundToTwoDecimal(unAllocated[fk]));
     }
     this.setState({
       hasUnAllocated: true,
@@ -169,7 +169,7 @@ export function calcBalanceByCrop(shifts, sales, expenses, startDate, endDate) {
   const expensePerCrop = roundToTwoDecimal(calcOtherExpense(expenses, startDate, endDate) / numOfCrops);
 
   for (const k of keys) {
-    sortObj[k].cost = roundToTwoDecimal(roundToTwoDecimal(sortObj[k].cost + expensePerCrop));
+    sortObj[k].cost = roundToTwoDecimal(roundToTwoDecimal(sortObj[k].cost) + expensePerCrop);
   }
 
   if (sales && sales.length) {
@@ -183,7 +183,7 @@ export function calcBalanceByCrop(shifts, sales, expenses, startDate, endDate) {
           const cid = cropSale.managementPlan.crop_id;
           const revenue = roundToTwoDecimal(cropSale.sale_value);
           if (sortObj.hasOwnProperty(cid)) {
-            sortObj[cid].revenue = roundToTwoDecimal(sortObj[cid].revenue + revenue);
+            sortObj[cid].revenue = roundToTwoDecimal(roundToTwoDecimal(sortObj[cid].revenue) + revenue);
           } else {
             sortObj[cid] = {
               cost: 0,
@@ -201,7 +201,7 @@ export function calcBalanceByCrop(shifts, sales, expenses, startDate, endDate) {
   for (const k of keys) {
     final.push({
       crop: sortObj[k].crop,
-      profit: roundToTwoDecimal(sortObj[k].revenue - sortObj[k].cost),
+      profit: roundToTwoDecimal(roundToTwoDecimal(sortObj[k].revenue) - roundToTwoDecimal(sortObj[k].cost)),
     });
   }
 

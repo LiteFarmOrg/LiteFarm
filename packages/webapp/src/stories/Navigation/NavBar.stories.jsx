@@ -5,7 +5,7 @@ import { Router } from 'react-router-dom';
 import history from './../../history';
 import NavBar from '../../components/Navigation/NavBar';
 import NoFarmNavBar from '../../components/Navigation/NoFarmNavBar';
-import { themeWrapper, useI18next } from '../Pages/config/Decorators';
+import { themeWrapper } from '../Pages/config/Decorators';
 
 const store = {
   getState: () => {
@@ -27,14 +27,10 @@ export default {
   title: 'Components/Navbar',
   decorators: [
     (story) => {
-      const ready = useI18next();
-      return ready ? (
-        <Provider store={store}>
-          <Router history={history}>{story()}</Router>
-        </Provider>
-      ) : (
-        'loading'
-      );
+
+      return <Provider store={store}>
+        <Router history={history}>{story()}</Router>
+      </Provider>;
     },
     themeWrapper,
   ],

@@ -21,12 +21,11 @@
     "UNCATEGORIZED": "Uncategorized"
   },
   "TASKS": {
-    "LOCATION": "Location",
-    "STATUS": "Status",
-    "SUPPLIERS": "Suppliers",
-    "ACTIVE": "Active",
     "ABANDONED": "Abandoned",
-    "COMPLETE": "Complete",
+    "COMPLETED": "Completed",
+    "FOR_REVIEW": "For review",
+    "LATE": "Late",
     "PLANNED": "Planned",
-  },
+    "STATUS": "Status"
+  }
 }

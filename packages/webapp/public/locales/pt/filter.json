@@ -19,5 +19,14 @@
     "SOIL_SAMPLE_RESULTS": "Resultados da amostra de solo",
     "WATER_SAMPLE_RESULTS": "Resultados da amostra de água",
     "UNCATEGORIZED": "Não categorizado"
+  },
+  "TASKS": {
+    "ABANDONED": "MISSING",
+    "COMPLETE": "MISSING",
+    "FOR REVIEW": "MISSING",
+    "LATE": "MISSING",
+    "LOCATION": "MISSING",
+    "PLANNED": "MISSING",
+    "STATUS": "MISSING"
   }
 }

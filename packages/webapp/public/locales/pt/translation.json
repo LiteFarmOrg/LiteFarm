@@ -1368,6 +1368,13 @@
     "DID_YOU_ENJOY": "Você gostou dessa tarefa?",
     "DUE_DATE": "Data de finalização",
     "DURATION": "Duração",
+    "FILTER": {
+      "LOCATION": "MISSING",
+      "STATUS": "MISSING",
+      "TYPE": "MISSING",
+      "CROP": "MISSING",
+      "ASSIGNEE": "MISSING"
+    },
     "HARVEST_USE": "Uso da colheita",
     "HARVEST_USE_ALREADY_EXISTS": "Uso de colheita já existe",
     "HOW_WILL_HARVEST_BE_USED": "Como a colheita vai ser utilizada?",

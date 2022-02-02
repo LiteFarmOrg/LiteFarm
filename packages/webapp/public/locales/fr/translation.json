@@ -1368,6 +1368,13 @@
     "DID_YOU_ENJOY": "Avez-vous apprécié cette tâche ?",
     "DUE_DATE": "Date d'échéance",
     "DURATION": "Durée",
+    "FILTER": {
+      "LOCATION": "MISSING",
+      "STATUS": "MISSING",
+      "TYPE": "MISSING",
+      "CROP": "MISSING",
+      "ASSIGNEE": "MISSING"
+    },
     "HARVEST_USE": "Utilisation de la récolte",
     "HARVEST_USE_ALREADY_EXISTS": "MISSING",
     "HOW_WILL_HARVEST_BE_USED": "Comment la récolte sera-t-elle utilisée ?",

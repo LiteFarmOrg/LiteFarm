@@ -1367,6 +1367,13 @@
     "DID_YOU_ENJOY": "¿Disfrutaste esta tarea?",
     "DUE_DATE": "Fecha de vencimiento",
     "DURATION": "Duración",
+    "FILTER": {
+      "LOCATION": "MISSING",
+      "STATUS": "MISSING",
+      "TYPE": "MISSING",
+      "CROP": "MISSING",
+      "ASSIGNEE": "MISSING"
+    },
     "HARVEST_USE": "Usa de la cosecha?",
     "HARVEST_USE_ALREADY_EXISTS": "El uso de cosecha ya existe",
     "HOW_WILL_HARVEST_BE_USED": "Como va a usar la cosecha?",

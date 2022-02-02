@@ -1369,11 +1369,11 @@
     "DUE_DATE": "Due date",
     "DURATION": "Duration",
     "FILTER": {
-      "LOCATION": "",
-      "STATUS": "",
-      "TYPE": "",
-      "CROP": "",
-      "ASSIGNEE": ""
+      "LOCATION": "Location",
+      "STATUS": "Status",
+      "TYPE": "Type",
+      "CROP": "Crop",
+      "ASSIGNEE": "Asignee"
     },
     "HARVEST_USE": "Harvest use",
     "HARVEST_USE_ALREADY_EXISTS": "Harvest use already exists",

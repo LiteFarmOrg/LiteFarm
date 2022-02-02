@@ -6,7 +6,6 @@ import { action } from '@storybook/addon-actions';
 import state from './state';
 import NavBar from '../../../containers/Navigation';
 import theme from '../../../assets/theme';
-import { useTranslation } from 'react-i18next';
 import { CssBaseline, ThemeProvider } from '@material-ui/core';
 
 const store = {
@@ -21,30 +20,7 @@ const auth = (isAuthenticated = false) => ({
   logout: () => {},
   isAuthenticated: () => isAuthenticated,
 });
-export const useI18next = () => {
-  const { t, ready } = useTranslation(
-    [
-      'certifications',
-      'crop_group',
-      'crop_nutrients',
-      'filter',
-      'translation',
-      'crop',
-      'common',
-      'disease',
-      'task',
-      'expense',
-      'fertilizer',
-      'message',
-      'gender',
-      'role',
-      'harvest_uses',
-      'soil',
-    ],
-    { useSuspense: false },
-  );
-  return ready;
-};
+
 
 const setIdToken = () => {
   if (!localStorage.getItem('id_token')) {
@@ -54,20 +30,18 @@ const setIdToken = () => {
 
 export default [
   (story) => {
-    const ready = useI18next();
     setIdToken();
-    return ready ? (
-      <Provider store={store}>
-        <ThemeProvider theme={theme}>
-          <CssBaseline />
-          <Router history={history}>
-            <div
-              style={{
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                minHeight: '100vh',
-              }}
+    return <Provider store={store}>
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <Router history={history}>
+          <div
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              minHeight: '100vh',
+            }}
             >
               <NavBar history={history} auth={auth()} />
               <div
@@ -86,28 +60,23 @@ export default [
           </Router>
         </ThemeProvider>
       </Provider>
-    ) : (
-      <div>loading</div>
-    );
   },
 ];
 
 export const authenticatedDecorators = [
   (story) => {
-    const ready = useI18next();
     setIdToken();
-    return ready ? (
-      <Provider store={store}>
-        <ThemeProvider theme={theme}>
-          <CssBaseline />
-          <Router history={history}>
-            <div
-              style={{
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                minHeight: '100vh',
-              }}
+    return <Provider store={store}>
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <Router history={history}>
+          <div
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              minHeight: '100vh',
+            }}
             >
               <NavBar history={history} auth={auth(true)} />
               <div
@@ -126,29 +95,22 @@ export const authenticatedDecorators = [
           </Router>
         </ThemeProvider>
       </Provider>
-    ) : (
-      <div>loading</div>
-    );
   },
 ];
 
 export const decoratorsWithStore = [
   (story) => {
-    const ready = useI18next();
-    return ready ? (
-      <Provider store={store}>
-        <ThemeProvider theme={theme}>
-          <>
-            <CssBaseline />
-            <Router history={history}>
-              <div style={{ padding: '24px' }}>{story()}</div>
-            </Router>
-          </>
-        </ThemeProvider>
-      </Provider>
-    ) : (
-      <div>loading</div>
-    );
+
+    return <Provider store={store}>
+      <ThemeProvider theme={theme}>
+        <>
+          <CssBaseline />
+          <Router history={history}>
+            <div style={{ padding: '24px' }}>{story()}</div>
+          </Router>
+        </>
+      </ThemeProvider>
+    </Provider>;
   },
 ];
 
@@ -161,28 +123,21 @@ export const themeWrapper = (story) => (
 
 export const componentDecorators = [
   (story) => {
-    const ready = useI18next();
-    return ready ? <div style={{ padding: '24px' }}>{story()}</div> : <div>loading</div>;
+    return <div style={{ padding: '24px' }}>{story()}</div>;
   },
   themeWrapper,
 ];
 
 export const componentDecoratorsGreyBackground = [
   (story) => {
-    const ready = useI18next();
-    return ready ? (
-      <div style={{ padding: '24px', backgroundColor: 'gray' }}>{story()}</div>
-    ) : (
-      <div>loading</div>
-    );
+    return <div style={{ padding: '24px', backgroundColor: 'gray' }}>{story()}</div>;
   },
   themeWrapper,
 ];
 
 export const componentDecoratorsWithoutPadding = [
   (story) => {
-    const ready = useI18next();
-    return ready ? story() : <div>loading</div>;
+    return story();
   },
   themeWrapper,
 ];

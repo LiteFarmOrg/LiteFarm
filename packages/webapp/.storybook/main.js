@@ -1,5 +1,4 @@
 const svgrPlugin = require('vite-plugin-svgr');
-const { Mode, plugin: mdPlugin } = require('vite-plugin-markdown');
 
 module.exports = {
   stories: ['../src/stories/**/*.stories.mdx', '../src/stories/**/*.stories.@(js|jsx|ts|tsx)'],
@@ -12,7 +11,6 @@ module.exports = {
     storyStoreV7: true,
   },
   async viteFinal(config, { configType }) {
-    config.plugins.push(mdPlugin({ mode: [Mode.HTML, Mode.TOC, Mode.REACT] }));
     config.plugins.push(
       svgrPlugin({
         svgrOptions: {

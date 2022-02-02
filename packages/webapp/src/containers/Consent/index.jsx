@@ -6,12 +6,12 @@ import { userFarmSelector } from '../userFarmSlice';
 import { patchConsent } from './saga';
 import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
-import { ReactComponent as EnglishOwnerConsent } from './locales/en/Owner.Consent.md';
-import { ReactComponent as EnglishWorkerConsent } from './locales/en/Worker.Consent.md';
-import { ReactComponent as PortugueseOwnerConsent } from './locales/pt/Owner.Consent.md';
-import { ReactComponent as PortugueseWorkerConsent } from './locales/pt/Worker.Consent.md';
-import { ReactComponent as SpanishOwnerConsent } from './locales/es/Owner.Consent.md';
-import { ReactComponent as SpanishWorkerConsent } from './locales/es/Worker.Consent.md';
+import EnglishOwnerConsent from './locales/en/Owner.Consent.md';
+import EnglishWorkerConsent from './locales/en/Worker.Consent.md';
+import PortugueseOwnerConsent from './locales/pt/Owner.Consent.md';
+import PortugueseWorkerConsent from './locales/pt/Worker.Consent.md';
+import SpanishOwnerConsent from './locales/es/Owner.Consent.md';
+import SpanishWorkerConsent from './locales/es/Worker.Consent.md';
 import { getLanguageFromLocalStorage } from '../../util/getLanguageFromLocalStorage';
 
 const languageConsent = {

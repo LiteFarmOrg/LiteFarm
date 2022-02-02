@@ -1,5 +1,5 @@
 import React, { lazy, Suspense } from 'react';
-import text from '../../containers/Consent/locales/en/Owner.Consent.md';
+import ConsentEnglish from '../../containers/Consent/locales/en/Owner.Consent.md';
 
 const Button = lazy(() => import('../../components/Form/Button'));
 const PureConsent = lazy(() => import('../../components/Consent'));
@@ -23,10 +23,12 @@ export const I18Lazyload = ({ ...args }) => (
 );
 
 I18Lazyload.args = {
-  onSubmit: () => {},
-  onGoBack: () => {},
+  onSubmit: () => {
+  },
+  onGoBack: () => {
+  },
   checkboxArgs: { label: 'I Agree' },
-  text: text,
+  consent: <ConsentEnglish />,
 };
 I18Lazyload.parameters = {
   chromatic: { disable: true },

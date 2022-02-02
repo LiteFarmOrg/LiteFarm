@@ -14,7 +14,8 @@ import {
   LATE,
   STATUS,
   TYPE,
-  LOCATION
+  LOCATION,
+  ASSIGNEE
 } from '../constants';
 
 import { FiFilter } from 'react-icons/all';
@@ -32,10 +33,17 @@ const TasksFilterPage = ({onGoBack}) => {
   const locations = new Set( taskCardContent.map(t => t.locationName) )
 
   let taskTypes = {};
+  let assignees = {};
   for (const task of taskCardContent) {
     taskTypes[task.taskType.task_type_id] = task.taskType;
-  }
 
+    if ( task.assignee !== undefined ) {
+      const { user_id, first_name, last_name } = task.assignee
+      assignees[user_id] = `${first_name} ${last_name}`;
+    } else {
+      assignees['unassigned'] = t('TASK.UNASSIGNED');
+    }
+  }
 
   const handleApply = () => {
     dispatch(setTasksFilter(filterRef.current));
@@ -70,12 +78,22 @@ const TasksFilterPage = ({onGoBack}) => {
         default: tasksFilter[LOCATION][location]?.active ?? false,
         label: location,
       })),
+    },
+    {
+      subject: t('TASK.FILTER.ASSIGNEE'),
+      filterKey: ASSIGNEE,
+      options: Object.keys(assignees).map((user_id) => ({
+        value: user_id,
+        default: tasksFilter[ASSIGNEE][user_id]?.active ?? false,
+        label: assignees[user_id],
+      })),
     }
+
   ];
 
   return (
     <PureFilterPage
-      title={t('TASK.FILTER.TITLE')}
+      title={t('TASK.FILTER.ASSIGNEE')}
       filters={filters}
       onApply={handleApply}
       filterRef={filterRef}

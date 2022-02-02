@@ -4,7 +4,7 @@ import { createSelector } from 'reselect';
 
 import { taskCardContentSelector, getTaskStatus } from './taskCardContentSelector';
 import { tasksFilterSelector } from '../filterSlice';
-import { STATUS, TYPE, LOCATION } from '../Filter/constants';
+import { STATUS, TYPE, LOCATION, ASSIGNEE } from '../Filter/constants';
 
 
 const getActiveCriteria = (filter) => {
@@ -20,15 +20,24 @@ const getActiveCriteria = (filter) => {
   return new Set( selected )
 };
 
+const filterByAssignee = ( task, activeAssignees ) => {
+  let user_id = 'unassigned';
+  if (task.assignee !== undefined) {
+    user_id = task.assignee.user_id;
+  }
+  return activeAssignees.has(user_id)
+};
+
 function filterTasks(tasks, filters) {
     const activeStatus = getActiveCriteria(filters[STATUS]);
     const activeTypes = getActiveCriteria(filters[TYPE]);
     const activeLocations = getActiveCriteria(filters[LOCATION]);
-    // console.log(activeLocations);
+    const activeAssignees = getActiveCriteria(filters[ASSIGNEE]);
 
     return tasks.filter(t => activeStatus.has(t.status))
                 .filter(t => activeTypes.has(t.taskType.task_type_id.toString()))
-                .filter(t => activeLocations.has(t.locationName));
+                .filter(t => activeLocations.has(t.locationName))
+                .filter(t => filterByAssignee(t, activeAssignees));
 }
 
 export const selectFilteredTasks = createSelector(

@@ -14,24 +14,28 @@ import {
   LATE,
   STATUS,
   TYPE,
+  LOCATION
 } from '../constants';
 
 import { FiFilter } from 'react-icons/all';
 
-const statuses = [ABANDONED, COMPLETED, LATE, PLANNED];
 
 const TasksFilterPage = ({onGoBack}) => {
   // TODO: ask if the tasks types should be included in the filter translation
   const { t } = useTranslation(['translation', 'filter', 'task']);
   const tasksFilter = useSelector(tasksFilterSelector);
   const taskCardContent = useSelector(taskCardContentSelector);
+  console.log(taskCardContent)
   const dispatch = useDispatch();
 
+  const statuses = [ABANDONED, COMPLETED, LATE, PLANNED];
+  const locations = new Set( taskCardContent.map(t => t.locationName) )
 
   let taskTypes = {};
   for (const task of taskCardContent) {
     taskTypes[task.taskType.task_type_id] = task.taskType;
   }
+
 
   const handleApply = () => {
     dispatch(setTasksFilter(filterRef.current));
@@ -56,6 +60,15 @@ const TasksFilterPage = ({onGoBack}) => {
         value: type.task_type_id,
         default: tasksFilter[TYPE][type.task_type_id]?.active ?? false,
         label: t(`task:${type.task_translation_key}`),
+      })),
+    },
+    {
+      subject: t('TASK.FILTER.LOCATION'),
+      filterKey: LOCATION,
+      options: [...locations].map((location) => ({
+        value: location,
+        default: tasksFilter[LOCATION][location]?.active ?? false,
+        label: location,
       })),
     }
   ];

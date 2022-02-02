@@ -4,7 +4,7 @@ import { createSelector } from 'reselect';
 
 import { taskCardContentSelector, getTaskStatus } from './taskCardContentSelector';
 import { tasksFilterSelector } from '../filterSlice';
-import { STATUS, TYPE } from '../Filter/constants';
+import { STATUS, TYPE, LOCATION } from '../Filter/constants';
 
 
 const getActiveCriteria = (filter) => {
@@ -23,9 +23,12 @@ const getActiveCriteria = (filter) => {
 function filterTasks(tasks, filters) {
     const activeStatus = getActiveCriteria(filters[STATUS]);
     const activeTypes = getActiveCriteria(filters[TYPE]);
+    const activeLocations = getActiveCriteria(filters[LOCATION]);
+    // console.log(activeLocations);
 
     return tasks.filter(t => activeStatus.has(t.status))
-                .filter(t => activeTypes.has(t.taskType.task_type_id.toString()));
+                .filter(t => activeTypes.has(t.taskType.task_type_id.toString()))
+                .filter(t => activeLocations.has(t.locationName));
 }
 
 export const selectFilteredTasks = createSelector(

@@ -1373,7 +1373,8 @@
       "STATUS": "Status",
       "TYPE": "Type",
       "CROP": "Crop",
-      "ASSIGNEE": "Asignee"
+      "TITLE": "Task Filter",
+      "ASSIGNEE": "Assignee"
     },
     "HARVEST_USE": "Harvest use",
     "HARVEST_USE_ALREADY_EXISTS": "Harvest use already exists",

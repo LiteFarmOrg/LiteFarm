@@ -20,12 +20,14 @@
     "WATER_SAMPLE_RESULTS": "Water sample results",
     "UNCATEGORIZED": "Uncategorized"
   },
-  "TASKS": {
+  "TASK": {
+    "LOCATION": "Location",
+    "STATUS": "Status",
+    "SUPPLIERS": "Suppliers",
+    "ACTIVE": "Active",
     "ABANDONED": "Abandoned",
     "COMPLETED": "Completed",
-    "FOR_REVIEW": "For review",
     "LATE": "Late",
-    "PLANNED": "Planned",
-    "STATUS": "Status"
+    "PLANNED": "Planned"
   }
 }

@@ -13,18 +13,18 @@ const initialDocumentsFilter = {
   TYPE: {},
   VALID_ON: undefined,
 };
-const initialTasksFilter = {
+const intialTasksFilter = {
   STATUS: {},
   TYPE: {},
   LOCATION: {},
   CROP: {},
-  ASIGNEE: {}
+  ASSIGNEE: {},
 };
 
 export const initialState = {
   cropCatalogue: initialCropCatalogueFilter,
   documents: initialDocumentsFilter,
-  tasks: initialTasksFilter,
+  tasks: intialTasksFilter,
 };
 
 const filterSliceReducer = createSlice({
@@ -60,7 +60,7 @@ const filterSliceReducer = createSlice({
       Object.assign(state.documents, documentsFilter);
     },
     resetTasksFilter: (state) => {
-      state.tasks = initialTasksFilter;
+      state.tasks = intialTasksFilter;
     },
     setTasksFilter: (state, { payload: tasksFilter }) => {
       Object.assign(state.tasks, tasksFilter);

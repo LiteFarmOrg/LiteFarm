@@ -5,19 +5,18 @@ import { useDispatch, useSelector } from 'react-redux';
 import PureFilterPage from '../../../components/FilterPage';
 import { tasksFilterSelector, setTasksFilter } from '../../filterSlice';
 import {
-  PLANNED,
-  COMPLETED,
-  FOR_REVIEW,
-  ABANDONED,
   LATE,
+  ABANDONED,
+  COMPLETED,
+  PLANNED,
   STATUS,
 } from '../constants';
 
 import { FiFilter } from 'react-icons/all';
 
-const statuses = [ABANDONED, COMPLETED, LATE, PLANNED];
+const statuses = [LATE, ABANDONED, PLANNED, COMPLETED];
 
-const TasksFilterPage = ({onGoBack}) => {
+const TasksFilterPage = ({ onGoBack }) => {
   const { t } = useTranslation(['translation', 'filter']);
   const tasksFilter = useSelector(tasksFilterSelector);
   const dispatch = useDispatch();
@@ -35,7 +34,7 @@ const TasksFilterPage = ({onGoBack}) => {
       options: statuses.map((status) => ({
         value: status,
         default: tasksFilter[STATUS][status]?.active ?? false,
-        label: t(`filter:TASKS.${status}`),
+        label: t(`filter:TASK.${status}`),
       })),
     },
 
@@ -43,7 +42,7 @@ const TasksFilterPage = ({onGoBack}) => {
 
   return (
     <PureFilterPage
-      title={t('CROP_CATALOGUE.FILTER.TITLE')}
+      title={t('TASK.FILTER.TITLE')}
       filters={filters}
       onApply={handleApply}
       filterRef={filterRef}

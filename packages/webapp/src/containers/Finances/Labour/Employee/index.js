@@ -4,6 +4,7 @@ import moment from 'moment';
 import { useTranslation } from 'react-i18next';
 import { userFarmsByFarmSelector } from '../../../userFarmSlice';
 import { useSelector } from 'react-redux';
+import { roundToTwoDecimal } from '../../../../util';
 
 const Employee = ({ currencySymbol, tasks, startDate, endDate }) => {
   let data = [];
@@ -15,33 +16,27 @@ const Employee = ({ currencySymbol, tasks, startDate, endDate }) => {
     const completedTime = moment(task.completed_time);
     const abandonedTime = moment(task.abandoned_time);
     if (
-      ( completedTime.isSameOrAfter(startDate, 'day') &&
+      (completedTime.isSameOrAfter(startDate, 'day') &&
         completedTime.isSameOrBefore(endDate, 'day') &&
         task.duration) ||
-      ( abandonedTime.isSameOrAfter(startDate, 'day') &&
+      (abandonedTime.isSameOrAfter(startDate, 'day') &&
         abandonedTime.isSameOrBefore(endDate, 'day') &&
         task.duration)
     ) {
+      const minutes = parseInt(task.duration, 10);
+      const hours = roundToTwoDecimal(minutes / 60);
+      const rate = roundToTwoDecimal(task.wage_at_moment);
+      const labour_cost = roundToTwoDecimal(rate * hours);
+
       if (sortObj.hasOwnProperty(task.assignee_user_id)) {
         let referenceObj = sortObj[task.assignee_user_id];
-        const currentWorkedTime = hourlyTwoDecimals(referenceObj.time);
-        referenceObj.wage_amount =
-          (currentWorkedTime * referenceObj.wage_amount +
-            hourlyTwoDecimals(task.duration) * task.wage_at_moment) /
-          (currentWorkedTime + hourlyTwoDecimals(task.duration));
-        referenceObj.time = referenceObj.time + Number(task.duration);
+        referenceObj.labour_cost = roundToTwoDecimal(roundToTwoDecimal(referenceObj.labour_cost) + labour_cost);
+        referenceObj.hours = roundToTwoDecimal(referenceObj.hours + hours);
       } else {
-        let wage_amount = 0;
-
-        // if (s.wage.type === 'hourly') {
-        //   wage_amount = Number(parseFloat(s.wage_at_moment).toFixed(2));
-        // }
-        wage_amount = Number(parseFloat(task.wage_at_moment).toFixed(2));
         sortObj[task.assignee_user_id] = {
-          time: Number(task.duration),
-          wage_amount,
+          hours,
+          labour_cost,
           employee: `${assignee.first_name} ${assignee.last_name.substring(0, 1).toUpperCase()}.`,
-          shift_numbers: 1,
         };
       }
     }
@@ -50,20 +45,11 @@ const Employee = ({ currencySymbol, tasks, startDate, endDate }) => {
   let keys = Object.keys(sortObj);
 
   for (let k of keys) {
-    let timeInHour = (sortObj[k].time / 60).toFixed(2);
     data.push({
       employee: sortObj[k].employee,
-      time: timeInHour.toString() + ' HR',
-      labour_cost:
-        currencySymbol +
-        Number((sortObj[k].time / 60) * sortObj[k].wage_amount)
-          .toFixed(2)
-          .toString(),
+      time: sortObj[k].hours.toFixed(2) + ' HR',
+      labour_cost: currencySymbol + sortObj[k].labour_cost.toFixed(2),
     });
-  }
-
-  function hourlyTwoDecimals(number) {
-    return Number((number / 60).toFixed(2));
   }
 
   const columns = [

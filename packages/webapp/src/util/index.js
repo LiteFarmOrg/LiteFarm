@@ -14,7 +14,7 @@
  */
 
 import { convert } from './convert-units/convert';
-import { getMeasurementFromStore } from './getFromReduxStore';
+import { getMeasurementFromStore } from '../store/getFromReduxStore';
 
 const METRIC = 'metric';
 // const IMPERIAL = 'IMPERIAL';

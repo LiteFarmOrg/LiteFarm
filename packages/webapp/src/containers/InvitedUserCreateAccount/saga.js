@@ -1,15 +1,19 @@
 import { createAction } from '@reduxjs/toolkit';
 import { call, put, takeLeading } from 'redux-saga/effects';
 import { url } from '../../apiConfig';
-import { acceptInvitationSuccess, onLoadingUserFarmsFail, onLoadingUserFarmsStart } from '../userFarmSlice';
+import {
+  acceptInvitationSuccess,
+  onLoadingUserFarmsFail,
+  onLoadingUserFarmsStart,
+} from '../userFarmSlice';
 import history from '../../history';
 import { getFirstNameLastName } from '../../util';
-import { purgeState } from '../../main';
 import i18n from '../../locales/i18n';
 import { axios } from '../saga';
 import { startInvitationFlowWithSpotLight } from '../ChooseFarm/chooseFarmFlowSlice';
 import { enqueueErrorSnackbar } from '../Snackbar/snackbarSlice';
 import { getLanguageFromLocalStorage } from '../../util/getLanguageFromLocalStorage';
+import { purgeState } from '../../store/store';
 
 const acceptInvitationWithSSOUrl = () => `${url}/user/accept_invitation`;
 const acceptInvitationWithLiteFarmUrl = () => `${url}/user/accept_invitation`;

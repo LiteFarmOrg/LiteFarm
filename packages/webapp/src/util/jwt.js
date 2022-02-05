@@ -1,5 +1,5 @@
-import { purgeState } from '../main';
 import history from '../history';
+import { purgeState } from '../store/store';
 
 export const getAccessToken = () => {
   return localStorage.getItem('id_token');

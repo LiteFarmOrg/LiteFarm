@@ -19,8 +19,6 @@ import * as Sentry from '@sentry/react';
 import { Integrations } from '@sentry/tracing';
 import { Router } from 'react-router-dom';
 import history from './history';
-import { configureStore } from '@reduxjs/toolkit';
-import createSagaMiddleware from 'redux-saga';
 import homeSaga from './containers/saga';
 import addFarmSaga from './containers/AddFarm/saga';
 import peopleSaga from './containers/Profile/People/saga';
@@ -56,12 +54,7 @@ import callbackSaga from './containers/Callback/saga';
 import inviteUserSaga from './containers/InviteUser/saga';
 import exportSaga from './containers/ExportDownload/saga';
 import { Provider } from 'react-redux';
-import { persistReducer, persistStore } from 'redux-persist';
 import { PersistGate } from 'redux-persist/lib/integration/react';
-import autoMergeLevel2 from 'redux-persist/lib/stateReconciler/autoMergeLevel2';
-import storage from 'redux-persist/lib/storage';
-import rootReducer from './reducer';
-import { unregister } from './registerServiceWorker';
 import loginSaga from './containers/GoogleLoginButton/saga';
 import inviteSaga from './containers/InvitedUserCreateAccount/saga';
 import SSOInfoSaga from './containers/SSOUserCreateAccountInfo/saga';
@@ -76,6 +69,8 @@ import taskSaga from './containers/Task/saga';
 import abandonAndCompleteManagementPlanSaga from './containers/Crop/CompleteManagementPlan/saga';
 import errorHandlerSaga from './containers/ErrorHandler/saga';
 import App from './App';
+import { sagaMiddleware } from './store/sagaMiddleware';
+import { persistor, store } from './store/store';
 
 
 if (import.meta.env.VITE_SENTRY_DSN) {
@@ -89,49 +84,15 @@ if (import.meta.env.VITE_SENTRY_DSN) {
     tracesSampleRate: 0.7,
   });
 }
-// config for redux-persist
-const persistConfig = {
-  key: 'root',
-  storage,
-  stateReconciler: autoMergeLevel2,
-};
-const languages = ['en', 'es', 'pt'];
 
-const persistedReducer = persistReducer(persistConfig, rootReducer);
-
-const sagaMiddleware = createSagaMiddleware();
-const middlewares = [sagaMiddleware];
-export const store = configureStore({
-  reducer: persistedReducer,
-  middleware: (getDefaultMiddleware) => [
-    ...getDefaultMiddleware({
-      thunk: true,
-      immutableCheck: false,
-      serializableCheck: false,
-    }),
-    ...middlewares,
-  ],
-  devTools: import.meta.env.VITE_ENV !== 'production',
-});
-
-// https://redux-toolkit.js.org/tutorials/advanced-tutorial#store-setup-and-hmr
-if (import.meta.env.NODE_ENV === 'development' && module.hot) {
-  module.hot.accept('./reducer', () => {
-    const newRootReducer = require('./reducer').default;
-    store.replaceReducer(newRootReducer);
-  });
-}
 
 
 sagaMiddleware.run(homeSaga);
-// sagaMiddleware.run(createAccount);
 sagaMiddleware.run(addFarmSaga);
 sagaMiddleware.run(peopleSaga);
 sagaMiddleware.run(signUpSaga);
 sagaMiddleware.run(resetUserPasswordSaga);
-
 sagaMiddleware.run(outroSaga);
-
 sagaMiddleware.run(locationSaga);
 sagaMiddleware.run(fieldLocationSaga);
 sagaMiddleware.run(managementPlanSaga);
@@ -172,43 +133,20 @@ sagaMiddleware.run(abandonAndCompleteManagementPlanSaga);
 sagaMiddleware.run(exportSaga);
 sagaMiddleware.run(errorHandlerSaga);
 
-
-const persistor = persistStore(store);
-
-export const purgeState = () => {
-  persistor.purge();
-};
-
-export default () => {
-  return { store, persistor };
-};
-
-const render = () => {
-  ReactDOM.render(
-    <Provider store={store}>
-      <PersistGate loading={null} persistor={persistor}>
-        <ThemeProvider theme={theme}>
-          <>
-            <CssBaseline />
-            <Router history={history}>
-              <>
-                <App />
-              </>
-            </Router>
-          </>
-        </ThemeProvider>
-      </PersistGate>
-    </Provider>,
-    document.getElementById('root'),
-  );
-};
-
-render();
-
-if (import.meta.env.NODE_ENV === 'development' && module.hot) {
-  module.hot.accept('./App', render);
-}
-
-//FIXME: service worker disabled for now. Causing problems when deploying: shows blank page until N+1th visit
-// https://twitter.com/dan_abramov/status/954146978564395008
-unregister();
+ReactDOM.render(
+  <Provider store={store}>
+    <PersistGate loading={null} persistor={persistor}>
+      <ThemeProvider theme={theme}>
+        <>
+          <CssBaseline />
+          <Router history={history}>
+            <>
+              <App />
+            </>
+          </Router>
+        </>
+      </ThemeProvider>
+    </PersistGate>
+  </Provider>,
+  document.getElementById('root'),
+);

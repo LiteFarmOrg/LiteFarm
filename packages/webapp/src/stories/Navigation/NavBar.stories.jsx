@@ -5,7 +5,6 @@ import { Router } from 'react-router-dom';
 import history from './../../history';
 import NavBar from '../../components/Navigation/NavBar';
 import NoFarmNavBar from '../../components/Navigation/NoFarmNavBar';
-import { themeWrapper } from '../Pages/config/Decorators';
 
 const store = {
   getState: () => {
@@ -25,15 +24,6 @@ const store = {
 
 export default {
   title: 'Components/Navbar',
-  decorators: [
-    (story) => {
-
-      return <Provider store={store}>
-        <Router history={history}>{story()}</Router>
-      </Provider>;
-    },
-    themeWrapper,
-  ],
   component: NavBar,
 };
 

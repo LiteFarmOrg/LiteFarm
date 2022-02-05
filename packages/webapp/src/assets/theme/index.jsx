@@ -1,4 +1,4 @@
-import { createMuiTheme, ThemeProvider } from '@material-ui/core';
+import { createTheme, ThemeProvider } from '@material-ui/core';
 import React from 'react';
 
 export const colors = {
@@ -38,7 +38,7 @@ export const colors = {
   brown900: '#7E4C0E',
 };
 
-const theme = createMuiTheme({
+const theme = createTheme({
   palette: {
     primary: {
       contrastText: colors.grey900,
@@ -92,7 +92,11 @@ const theme = createMuiTheme({
   overrides: {
     MuiCssBaseline: {
       '@global': {
+        html: {
+          height: '100%',
+        },
         body: {
+          height: '100%',
           backgroundColor: '#fff',
           overflowX: 'hidden !important',
         },
@@ -107,7 +111,7 @@ const theme = createMuiTheme({
 });
 
 export default theme;
-const defaultTheme = createMuiTheme({});
+const defaultTheme = createTheme({});
 export const DefaultThemeProvider = ({ children }) => (
   <ThemeProvider theme={defaultTheme}>{children}</ThemeProvider>
 );

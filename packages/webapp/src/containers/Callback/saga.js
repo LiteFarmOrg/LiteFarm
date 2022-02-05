@@ -18,7 +18,6 @@ import { call, put, select, takeLeading } from 'redux-saga/effects';
 import { url } from '../../apiConfig';
 import history from '../../history';
 import { acceptInvitationSuccess, userFarmSelector } from '../userFarmSlice';
-import { purgeState } from '../../main';
 import jwt from '@tsndr/cloudflare-worker-jwt';
 import i18n from '../../locales/i18n';
 import { logout } from '../../util/jwt';
@@ -27,6 +26,7 @@ import { axios } from '../saga';
 import { startInvitationFlow } from '../ChooseFarm/chooseFarmFlowSlice';
 import { enqueueErrorSnackbar } from '../Snackbar/snackbarSlice';
 import { getLanguageFromLocalStorage } from '../../util/getLanguageFromLocalStorage';
+import { purgeState } from '../../store/store';
 
 const validateResetTokenUrl = () => `${url}/password_reset/validate`;
 const patchUserFarmStatusUrl = () => `${url}/user_farm/accept_invitation`;

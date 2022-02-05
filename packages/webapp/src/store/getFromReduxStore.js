@@ -1,4 +1,4 @@
-import { store } from '../main';
+import { store } from './store';
 
 const getStore = () => {
   return store;

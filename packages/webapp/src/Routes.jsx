@@ -32,7 +32,10 @@ import { useReduxSnackbar } from './containers/Snackbar/useReduxSnackbar';
 //dynamic imports
 const Home = React.lazy(() => import('./containers/Home'));
 const HelpRequest = React.lazy(() => import('./containers/Help'));
-const Profile = React.lazy(() => import('./containers/Profile'));
+const Account = React.lazy(() => import('./containers/Profile/Account'));
+const Farm = React.lazy(() => import('./containers/Profile/Farm/Farm'));
+const People = React.lazy(() => import('./containers/Profile/People/People'));
+const EditUser = React.lazy(() => import('./containers/Profile/EditUser'));
 const ConsentForm = React.lazy(() => import('./containers/Consent'));
 const Finances = React.lazy(() => import('./containers/Finances'));
 const ChooseFarm = React.lazy(() => import('./containers/ChooseFarm'));
@@ -355,19 +358,22 @@ const Routes = () => {
       return (
         <Suspense fallback={<Spinner />}>
           <Switch>
-            <Route path="/" exact component={Home} />
-            <Route path="/home" exact component={Home} />
-            <Route path="/profile" exact component={Profile} />
-            <Route path="/consent" exact component={ConsentForm} />
-            <Route path="/crop/new" exact component={AddNewCrop} />
-            <Route path="/crop/:crop_id/add_crop_variety" exact component={AddCrop} />
+            <Route path='/' exact component={Home} />
+            <Route path='/home' exact component={Home} />
+            <Route path='/profile' exact component={Account} />
+            <Route path='/people' exact component={People} />
+            <Route path='/farm' exact component={Farm} />
+            <Route path='/user/:user_id' exact component={EditUser} />
+            <Route path='/consent' exact component={ConsentForm} />
+            <Route path='/crop/new' exact component={AddNewCrop} />
+            <Route path='/crop/:crop_id/add_crop_variety' exact component={AddCrop} />
             <Route
-              path="/crop/:crop_id/add_crop_variety/compliance"
+              path='/crop/:crop_id/add_crop_variety/compliance'
               exact
               component={ComplianceInfo}
             />
-            <Route path="/crop/:variety_id/detail" exact component={CropDetail} />
-            <Route path="/crop/:variety_id/management" exact component={CropManagement} />
+            <Route path='/crop/:variety_id/detail' exact component={CropDetail} />
+            <Route path='/crop/:variety_id/management' exact component={CropManagement} />
             <Route path="/crop/:variety_id/edit_crop_variety" exact component={EditCrop} />
             <Route
               path="/crop/:variety_id/add_management_plan/planted_already"
@@ -635,16 +641,20 @@ const Routes = () => {
       return (
         <Suspense fallback={<Spinner />}>
           <Switch>
-            <Route path="/" exact component={Home} />
-            <Route path="/home" exact component={Home} />
-            <Route path="/profile" exact component={Profile} />
-            <Route path="/consent" exact component={ConsentForm} />
-            <Route path="/help" exact component={HelpRequest} />
-            <Route path="/crop/new" exact component={AddNewCrop} />
-            <Route path="/tasks" exact component={Tasks} />
-            <Route path="/tasks/:task_id/read_only" exact component={TaskReadOnly} />
+            <Route path='/' exact component={Home} />
+            <Route path='/home' exact component={Home} />
+            <Route path='/profile' exact component={Account} />
+            <Route path='/people' exact component={People} />
+            <Route path='/user/:user_id' exact component={EditUser} />
+
+            <Route path='/farm' exact component={Farm} />
+            <Route path='/consent' exact component={ConsentForm} />
+            <Route path='/help' exact component={HelpRequest} />
+            <Route path='/crop/new' exact component={AddNewCrop} />
+            <Route path='/tasks' exact component={Tasks} />
+            <Route path='/tasks/:task_id/read_only' exact component={TaskReadOnly} />
             <Route
-              path="/crop/:crop_id/add_crop_variety/compliance"
+              path='/crop/:crop_id/add_crop_variety/compliance'
               exact
               component={ComplianceInfo}
             />
@@ -923,16 +933,20 @@ const Routes = () => {
       return (
         <Suspense fallback={<Spinner />}>
           <Switch>
-            <Route path="/" exact component={Home} />
-            <Route path="/home" exact component={Home} />
-            <Route path="/profile" exact component={Profile} />
-            <Route path="/consent" exact component={ConsentForm} />
-            <Route path="/crop_catalogue" exact component={CropCatalogue} />
-            <Route path="/crop_varieties/crop/:crop_id" exact component={CropVarieties} />
-            <Route path="/crop/:variety_id/detail" exact component={CropDetail} />
-            <Route path="/crop/:variety_id/management" exact component={CropManagement} />
+            <Route path='/' exact component={Home} />
+            <Route path='/home' exact component={Home} />
+            <Route path='/profile' exact component={Account} />
+            <Route path='/people' exact component={People} />
+            <Route path='/user/:user_id' exact component={EditUser} />
+
+            <Route path='/farm' exact component={Farm} />
+            <Route path='/consent' exact component={ConsentForm} />
+            <Route path='/crop_catalogue' exact component={CropCatalogue} />
+            <Route path='/crop_varieties/crop/:crop_id' exact component={CropVarieties} />
+            <Route path='/crop/:variety_id/detail' exact component={CropDetail} />
+            <Route path='/crop/:variety_id/management' exact component={CropManagement} />
             <Route
-              path="/crop/:variety_id/management_plan/:management_plan_id/tasks"
+              path='/crop/:variety_id/management_plan/:management_plan_id/tasks'
               exact
               component={ManagementTasks}
             />

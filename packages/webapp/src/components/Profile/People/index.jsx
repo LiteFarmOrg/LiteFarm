@@ -3,9 +3,8 @@ import { useTranslation } from 'react-i18next';
 import React, { useState } from 'react';
 import Button from '../../Form/Button';
 import PropTypes from 'prop-types';
-import { Tab, Tabs } from '@material-ui/core';
 import Table from '../../Table';
-import styles from './styles.module.scss';
+import ProfileLayout from '../ProfileLayout';
 
 export default function PurePeople({ users, history, isAdmin }) {
   const { t } = useTranslation();
@@ -85,19 +84,22 @@ export default function PurePeople({ users, history, isAdmin }) {
     return {
       onClick: (e) => {
         if (isClickable) {
-          history.push(`/update_user_permission/user/${rowInfo.original.user_id}`);
+          history.push(`/user/${rowInfo.original.user_id}`);
         }
       },
       style: isClickable ? clickableStyle : normalTextStyle,
     };
   };
   return (
-    <div className={styles.container}>
-      <Tabs value={0} aria-label="disabled tabs example">
-        <Tab label="Account" />
-        <Tab label="People" />
-        <Tab label="Farm" />
-      </Tabs>
+    <ProfileLayout
+      onSubmit={() => history.push('/invite_user')}
+      history={history}
+      buttonGroup={
+        <Button fullLength type={'submit'}>
+          {t('PROFILE.PEOPLE.INVITE_USER')}
+        </Button>
+      }
+    >
       <Input
         value={searchString}
         onChange={onChange}
@@ -110,13 +112,10 @@ export default function PurePeople({ users, history, isAdmin }) {
         showPagination={true}
         pageSizeOptions={[5, 10, 20, 50]}
         defaultPageSize={5}
-        className="-striped -highlight"
+        className='-striped -highlight'
         getTdProps={onRowEdit}
       />
-      <Button onClick={() => history.push('/invite_user')} fullLength>
-        {t('PROFILE.PEOPLE.INVITE_USER')}
-      </Button>
-    </div>
+    </ProfileLayout>
   );
 }
 PurePeople.propTypes = {

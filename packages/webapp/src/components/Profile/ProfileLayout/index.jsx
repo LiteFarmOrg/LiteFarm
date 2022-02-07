@@ -3,17 +3,29 @@ import React from 'react';
 import styles from './styles.module.scss';
 import Footer from '../../Footer';
 import PropTypes from 'prop-types';
-import { Tab, Tabs } from '@material-ui/core';
+import RouterTab from '../../RouterTab';
+import { useTranslation } from 'react-i18next';
 
-export default function ProfileLayout({ children, buttonGroup, onSubmit }) {
+export default function ProfileLayout({ children, buttonGroup, onSubmit, history }) {
+  const { t } = useTranslation();
   return (
     <form onSubmit={onSubmit} className={styles.form}>
       <div className={styles.container}>
-        <Tabs value={0} aria-label="disabled tabs example">
-          <Tab label="Account" />
-          <Tab label="People" />
-          <Tab label="Farm" />
-        </Tabs>
+        <RouterTab history={history}
+                   tabs={[
+                     {
+                       label: t('PROFILE.ACCOUNT_TAB'),
+                       path: `/profile`,
+                     },
+                     {
+                       label: t('PROFILE.PEOPLE_TAB'),
+                       path: `/people`,
+                     },
+                     {
+                       label: t('PROFILE.FARM_TAB'),
+                       path: `/farm`,
+                     },
+                   ]} />
         {children}
       </div>
       <Footer>{buttonGroup}</Footer>

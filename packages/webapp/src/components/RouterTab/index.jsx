@@ -4,7 +4,7 @@ import styles from './styles.module.scss';
 import clsx from 'clsx';
 
 export default function RouterTab({ tabs, history, classes }) {
-  const isSelected = (path) => history.location.pathname.includes(path);
+  const isSelected = (path) => history.location.pathname?.toLowerCase().includes(path);
   return (
     <div className={styles.container} style={classes?.container}>
       {tabs.map((tab, index) => (

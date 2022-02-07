@@ -144,8 +144,7 @@ export default function PureNavBar({
 
   const farmInfoClick = () => {
     history.push({
-      pathname: '/Profile',
-      state: 'farm',
+      pathname: '/farm',
     });
     closeFloater();
   };
@@ -155,8 +154,7 @@ export default function PureNavBar({
   };
   const peopleClick = () => {
     history.push({
-      pathname: '/Profile',
-      state: 'people',
+      pathname: '/people',
     });
     closeFloater();
   };
@@ -179,7 +177,7 @@ export default function PureNavBar({
     closeFloater();
   };
   const myInfoClick = () => {
-    history.push('/Profile');
+    history.push('/profile');
     closeFloater();
   };
   const openTutorialsClick = () => {

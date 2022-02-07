@@ -7,20 +7,17 @@ import React from 'react';
 import Button from '../../Form/Button';
 import PropTypes from 'prop-types';
 import ProfileLayout from '../ProfileLayout';
-import useDefaultOption from '../../Form/useDefaultOption';
 
-export default function PureFarm({ userFarm, onSubmit }) {
-  const MEASUREMENT = 'measurement';
-  const CURRENCY = 'currency';
-  const getDefaultValues = () => {
-    const defaultValues = {};
-    defaultValues[userFarmEnum.farm_name] = userFarm.farm_name;
-    defaultValues[userFarmEnum.farm_phone_number] = userFarm.farm_phone_number;
-    defaultValues[userFarmEnum.address] = userFarm.address;
-    defaultValues[CURRENCY] = userFarm.units.currency;
-    return defaultValues;
-  };
+export default function PureFarm({ userFarm, onSubmit, history, isAdmin }) {
+  const MEASUREMENT = 'units.measurement';
   const { t } = useTranslation();
+
+  const measurementOptionMap = {
+    metric: { label: t('PROFILE.FARM.METRIC'), value: 'metric' },
+    imperial: { label: t('PROFILE.FARM.IMPERIAL'), value: 'imperial' },
+  };
+  const options = Object.values(measurementOptionMap);
+  const defaultMeasurementOption = measurementOptionMap[userFarm.units.measurement];
   const {
     register,
     handleSubmit,
@@ -28,19 +25,15 @@ export default function PureFarm({ userFarm, onSubmit }) {
     formState: { isValid, isDirty },
   } = useForm({
     mode: 'onChange',
-    defaultValues: getDefaultValues(),
+    defaultValues: { ...userFarm, units: { measurement: defaultMeasurementOption } },
+    shouldUnregister: true,
   });
-
   const disabled = !isDirty || !isValid;
 
-  const options = [
-    { label: t('PROFILE.FARM.METRIC'), value: 'metric' },
-    { label: t('PROFILE.FARM.IMPERIAL'), value: 'imperial' },
-  ];
-  const defaultMeasurementOption = useDefaultOption(options, userFarm.units.measurement);
   return (
     <ProfileLayout
       onSubmit={handleSubmit(onSubmit)}
+      history={history}
       buttonGroup={
         <Button fullLength type={'submit'} disabled={disabled}>
           {t('common:SAVE')}
@@ -50,29 +43,33 @@ export default function PureFarm({ userFarm, onSubmit }) {
       <Input
         label={t('PROFILE.FARM.FARM_NAME')}
         hookFormRegister={register(userFarmEnum.farm_name, { required: true })}
+        disabled={!isAdmin}
       />
       <Input
         label={t('PROFILE.FARM.PHONE_NUMBER')}
         hookFormRegister={register(userFarmEnum.farm_phone_number, { required: false })}
         type={'number'}
         onKeyDown={integerOnKeyDown}
+        disabled={!isAdmin}
+        optional
+
       />
       <Input
         label={t('PROFILE.FARM.ADDRESS')}
-        hookFormRegister={register(userFarmEnum.address, { required: false })}
+        value={userFarm.address}
         disabled
       />
       <Controller
         control={control}
         name={MEASUREMENT}
-        defaultValue={defaultMeasurementOption}
         render={({ field }) => (
-          <ReactSelect {...field} label={t('PROFILE.FARM.UNITS')} options={options} />
+          <ReactSelect disabled={!isAdmin}
+                       {...field} label={t('PROFILE.FARM.UNITS')} options={options} />
         )}
       />
       <Input
         label={t('PROFILE.FARM.CURRENCY')}
-        hookFormRegister={register(CURRENCY, { required: false })}
+        value={userFarm.units.currency}
         disabled
       />
     </ProfileLayout>

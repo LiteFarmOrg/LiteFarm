@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import Joyride, { ACTIONS, LIFECYCLE } from 'react-joyride';
 import PropTypes from 'prop-types';
 import styles from './styles.module.scss';
 import { ReactComponent as AddLogo } from '../../../assets/images/map/add.svg';
@@ -9,6 +8,7 @@ import clsx from 'clsx';
 import { useTranslation } from 'react-i18next';
 import MapDrawer from '../../MapDrawer';
 import { locationEnum } from '../../../containers/Map/constants';
+import { TourProviderWrapper } from '../../TourProviderWrapper/TourProviderWrapper';
 
 export default function PureMapFooter({
   className,
@@ -47,123 +47,37 @@ export default function PureMapFooter({
   const { t } = useTranslation();
   const [stepSpotlighted, setStepSpotlighted] = useState(null);
 
-  const resetSpotlightStatus = (data) => {
-    const { action, status, lifecycle } = data;
-    const CLICK_OUT = action === ACTIONS.CLOSE && lifecycle === LIFECYCLE.COMPLETE;
-    const FINISH = action === ACTIONS.NEXT && lifecycle === LIFECYCLE.INIT;
-    if (CLICK_OUT || FINISH) {
-      setStepSpotlighted(null);
-      resetSpotlight();
-    } else if ([ACTIONS.UPDATE].includes(action) && lifecycle === LIFECYCLE.TOOLTIP) {
-      setStepSpotlighted(data.index);
-    }
-  };
-  const steps = [
-    {
-      target: '#mapFirstStep',
-      title: TitleContent(t('FARM_MAP.SPOTLIGHT.ADD_TITLE')),
-      content: BodyContent(t('FARM_MAP.SPOTLIGHT.ADD')),
-      locale: {
-        next: NextButtonContent(t('common:NEXT')),
-      },
-      showCloseButton: false,
-      disableBeacon: true,
-      placement: 'top-start',
-      styles: {
-        options: {
-          width: 240,
-        },
-      },
-    },
-    {
-      target: '#mapSecondStep',
-      title: TitleContent(t('FARM_MAP.SPOTLIGHT.FILTER_TITLE')),
-      content: BodyContent(t('FARM_MAP.SPOTLIGHT.FILTER')),
-      locale: {
-        next: NextButtonContent(t('common:NEXT')),
-      },
-      showCloseButton: false,
-      placement: 'top-start',
-      styles: {
-        options: {
-          width: 260,
-        },
-      },
-    },
-    {
-      target: '#mapThirdStep',
-      title: TitleContent(t('FARM_MAP.SPOTLIGHT.EXPORT_TITLE')),
-      content: BodyContent(t('FARM_MAP.SPOTLIGHT.EXPORT')),
-      locale: {
-        last: NextButtonContent(t('common:GOT_IT')),
-      },
-      placement: 'top-start',
-      showCloseButton: false,
-      styles: {
-        options: {
-          width: 240,
-        },
-      },
-    },
-  ];
 
   const { container, button, svg, spotlighted } = styles;
   return (
-    <>
-      {showSpotlight && (
-        //Deprecated
-        <Joyride
-          steps={steps}
-          continuous
-          callback={resetSpotlightStatus}
-          floaterProps={{ disableAnimation: true }}
-          styles={{
-            options: {
-              // modal arrow color
-              arrowColor: '#fff',
-              // modal background color
-              backgroundColor: '#fff',
-              // tooltip overlay color
-              overlayColor: 'rgba(30, 30, 48, 1)',
-              // next button color
-              primaryColor: '#FCE38D',
-              //width of modal
-              width: 270,
-              //zindex of modal
-              zIndex: 1500,
-            },
-            buttonClose: {
-              display: 'none',
-            },
-            buttonBack: {
-              display: 'none',
-            },
-            tooltip: {
-              padding: '16px',
-            },
-            buttonNext: {
-              order: -1,
-              minWidth: '81px',
-              minHeight: '32px',
-              boxShadow: '0px 2px 8px rgba(102, 115, 138, 0.3)',
-              marginTop: '9px',
-            },
-            tooltipContent: {
-              padding: '4px 0 0 0',
-              marginBottom: '20px',
-            },
-            spotlight: {
-              borderRadius: 0,
-            },
-          }}
-          spotlightPadding={0}
-        />
-      )}
+    <TourProviderWrapper padding={0} open={showSpotlight} onFinish={resetSpotlight} steps={[
+      {
+        selector: '#mapFirstStep',
+        title: t('FARM_MAP.SPOTLIGHT.ADD_TITLE'),
+        contents: [t('FARM_MAP.SPOTLIGHT.HERE_YOU_CAN')],
+        list: [t('FARM_MAP.SPOTLIGHT.ADD')],
+        position: 'center',
+      },
+      {
+        selector: '#mapSecondStep',
+        title: t('FARM_MAP.SPOTLIGHT.FILTER_TITLE'),
+        contents: [t('FARM_MAP.SPOTLIGHT.HERE_YOU_CAN')],
+        list: [t('FARM_MAP.SPOTLIGHT.FILTER')],
+        position: 'center',
+      },
+      {
+        selector: '#mapThirdStep',
+        title: t('FARM_MAP.SPOTLIGHT.EXPORT_TITLE'),
+        contents: [t('FARM_MAP.SPOTLIGHT.HERE_YOU_CAN')],
+        list: [t('FARM_MAP.SPOTLIGHT.EXPORT')],
+        position: 'center',
+      },
+    ]}>
       <div className={clsx(container, className)} style={style}>
         {isAdmin && (
           <button
             className={clsx(button, (stepSpotlighted === 0 || showAddDrawer) && spotlighted)}
-            id="mapFirstStep"
+            id='mapFirstStep'
             onClick={onClickAdd}
           >
             <AddLogo className={svg} />
@@ -202,7 +116,7 @@ export default function PureMapFooter({
         headerTitle={t('FARM_MAP.MAP_FILTER.ADD_TITLE')}
         onMenuItemClick={onAddMenuClick}
       />
-    </>
+    </TourProviderWrapper>
   );
 }
 
@@ -228,36 +142,4 @@ PureMapFooter.prototype = {
     point: PropTypes.array,
     line: PropTypes.array,
   }),
-};
-
-const TitleContent = (text) => {
-  return (
-    <p align="left" className={styles.spotlightTitle}>
-      {text}
-    </p>
-  );
-};
-
-const BodyContent = (text) => {
-  const { t } = useTranslation();
-  return (
-    <>
-      <p className={styles.spotlightText} align="left">
-        {t('FARM_MAP.SPOTLIGHT.HERE_YOU_CAN')}
-      </p>
-      <ul style={{ paddingInlineStart: '20px' }}>
-        {text.split(',').map(function (item, key) {
-          return (
-            <li key={key} className={styles.spotlightText}>
-              {item}
-            </li>
-          );
-        })}
-      </ul>
-    </>
-  );
-};
-
-const NextButtonContent = (text) => {
-  return <span className={styles.spotlightButton}>{text}</span>;
 };

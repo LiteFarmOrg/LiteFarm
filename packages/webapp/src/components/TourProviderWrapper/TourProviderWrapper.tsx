@@ -68,11 +68,21 @@ const getStyles = ({
     const isVertical = position === 'top' || position === 'bottom';
     const verticalAlign: VerticalAlign = state?.verticalAlign;
     const horizontalAlign: HorizontalAlign = state?.horizontalAlign;
+    const getPopoverOffset = () => {
+      switch (position) {
+        case 'top':
+          return { top: '-24px' };
+        case 'bottom':
+          return { top: '12px' };
+        default:
+          return {};
+      }
+    };
     return {
       ...base,
       flexDirection: 'column',
       ...baseStyles,
-      [opositeSide[position]]: '12px',
+      ...getPopoverOffset(),
       '&::after': {
         content: '\'\'',
         width: 0,
@@ -127,7 +137,7 @@ export function TourProviderWrapper({ steps, children = <></>, open, onFinish, .
                            step={step} />,
       };
     });
-  }, [steps]);
+  }, []);
   return <TourProvider
     onClickMask={({ setIsOpen }) => {
       setIsOpen(false);

@@ -58,8 +58,7 @@ specifiers:
   react-google-login: ^5.1.25
   react-hook-form: ^7.13.0-next.0
   react-i18next: ^11.8.5
-  react-icons: ^4.2.0
-  react-joyride: ^2.3.2
+  react-icons: ^4.3.1
   react-load-script: ^0.0.6
   react-player: ^1.15.3
   react-redux: ^7.2.4
@@ -121,7 +120,6 @@ dependencies:
   react-hook-form: 7.26.0_react@17.0.2
   react-i18next: 11.15.3_8f2a12f93b34591c18c344cd829419b1
   react-icons: 4.3.1_react@17.0.2
-  react-joyride: 2.3.2_75cb922c19ee1b7939faae9b4d1f4cf7
   react-load-script: 0.0.6_prop-types@15.8.1+react@17.0.2
   react-player: 1.15.3_react@17.0.2
   react-redux: 7.2.6_react-dom@17.0.2+react@17.0.2
@@ -9853,10 +9851,6 @@ packages:
     resolution: { integrity: sha512-BnBBoo/8bBNRdAnJc7+m79oWk7dXwW1+vCesaEQhfDGVwXGLMvmI4NwYgLTW94R/x+R2s/yr2g/hB/4w/YSAvA== }
     dev: false
 
-  /nested-property/4.0.0:
-    resolution: { integrity: sha512-yFehXNWRs4cM0+dz7QxCd06hTbWbSkV0ISsqBfkntU6TOY4Qm3Q88fRRLOddkGh2Qq6dZvnKVAahfhjcUvLnyA== }
-    dev: false
-
   /next-tick/1.0.0:
     resolution: { integrity: sha1-yobR/ogoFpsBICCOPchCS524NCw= }
     dev: false
@@ -11103,28 +11097,6 @@ packages:
   /react-is/17.0.2:
     resolution: { integrity: sha512-w2GsyukL62IJnlaff/nRegPQR94C/XXamvMWmSHRJ4y7Ts/4ocGRmTHvOs8PSE6pB3dWOrD/nueuU5sduBsQ4w== }
 
-  /react-joyride/2.3.2_75cb922c19ee1b7939faae9b4d1f4cf7:
-    resolution: { integrity: sha512-MPYvHdxF/ylBZXJkKzyR3nTd+jydPeTKVwQDg8y7Ctl5H0UPgvF3uCzfieyJqE/JnK2wJU4QcjkontqBU1g7Xg== }
-    peerDependencies:
-      prop-types: ^15.0.0
-      react: ^15.0.0 || ^16.0.0 || ^17.0.0
-      react-dom: ^15.0.0 || ^16.0.0 || ^17.0.0
-    dependencies:
-      deep-diff: 1.0.2
-      deepmerge: 4.2.2
-      exenv: 1.2.2
-      is-lite: 0.8.1
-      nested-property: 4.0.0
-      prop-types: 15.8.1
-      react: 17.0.2
-      react-dom: 17.0.2_react@17.0.2
-      react-floater: 0.7.3_75cb922c19ee1b7939faae9b4d1f4cf7
-      react-is: 16.13.1
-      scroll: 3.0.1
-      scrollparent: 2.0.1
-      tree-changes: 0.7.1
-    dev: false
-
   /react-lifecycles-compat/3.0.4:
     resolution: { integrity: sha512-fBASbA6LnOU9dOU2eW7aQ8xmYBSXUIWr+UmF9b1efZBazGNO+rcXT/icdKnYm2pTwcRylVUYwW7H1PHfLekVzA== }
     dev: false
@@ -11928,14 +11900,6 @@ packages:
       ajv: 6.12.6
       ajv-keywords: 3.5.2_ajv@6.12.6
     dev: true
-
-  /scroll/3.0.1:
-    resolution: { integrity: sha512-pz7y517OVls1maEzlirKO5nPYle9AXsFzTMNJrRGmT951mzpIBy7sNHOg5o/0MQd/NqliCiWnAi0kZneMPFLcg== }
-    dev: false
-
-  /scrollparent/2.0.1:
-    resolution: { integrity: sha1-cV1bnMV3YPsivczDvvtb/gaxoxc= }
-    dev: false
 
   /semver-compare/1.0.0:
     resolution: { integrity: sha1-De4hahyUGrN+nvsXiPavxf9VN/w= }
@@ -12811,13 +12775,6 @@ packages:
     dependencies:
       deep-diff: 1.0.2
       nested-property: 1.0.1
-    dev: false
-
-  /tree-changes/0.7.1:
-    resolution: { integrity: sha512-sPIt8PKDi0OQTglr7lsetcB9DU19Ls/ZgFSjFvK6DWJGisAn4sOxtjpmQfuqjexQE4UU9U53LNmataL1kRJ3Uw== }
-    dependencies:
-      fast-deep-equal: 3.1.3
-      is-lite: 0.8.1
     dev: false
 
   /trim-trailing-lines/1.1.4:

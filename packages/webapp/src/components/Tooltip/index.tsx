@@ -1,9 +1,8 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { makeStyles, Tooltip } from '@material-ui/core';
+import React, { ReactNode } from 'react';
+import { makeStyles, Tooltip, TooltipProps } from '@material-ui/core';
 import { colors } from '../../assets/theme';
 
-const useStyles = ({ arrowOffset = 0, isChildrenIcon } = {}) =>
+const useStyles = ({ arrowOffset = 0, isChildrenIcon = false }) =>
   makeStyles((theme) => ({
     arrow: {
       zIndex: -1,
@@ -41,19 +40,30 @@ const useStyles = ({ arrowOffset = 0, isChildrenIcon } = {}) =>
       },
     },
   }));
+
+export type OverlayTooltipProps = Omit<TooltipProps, 'children' | 'title'> & {
+  content: TooltipProps['title'],
+  children?: ReactNode,
+  arrowOffset?: number,
+  autoOpen?: boolean,
+  isChildrenIcon?: boolean,
+  icon?: ReactNode,
+}
+
 export default function OverlayTooltip({
-  children = 'LiteFarm',
-  content = 'LiteFarm',
-  placement,
-  arrowOffset,
-  autoOpen,
-  isChildrenIcon,
-  icon,
-  ...props
-}) {
+                                         children,
+                                         content,
+                                         placement,
+                                         arrowOffset,
+                                         autoOpen,
+                                         isChildrenIcon,
+                                         icon,
+                                         ...props
+                                       }: OverlayTooltipProps) {
   const classes = useStyles({ arrowOffset, isChildrenIcon: !!icon || isChildrenIcon })();
   return (
     <Tooltip
+      {...props}
       title={content}
       placement={placement}
       arrow={true}
@@ -66,11 +76,3 @@ export default function OverlayTooltip({
   );
 }
 
-OverlayTooltip.propTypes = {
-  children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]),
-  content: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]),
-  placement: PropTypes.string,
-  arrowOffset: PropTypes.number,
-  style: PropTypes.objectOf(PropTypes.string),
-  autoOpen: PropTypes.bool,
-};

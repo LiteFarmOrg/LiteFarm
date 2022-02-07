@@ -1,5 +1,5 @@
 import { createTheme, ThemeProvider } from '@material-ui/core';
-import React from 'react';
+import React, { FC } from 'react';
 
 export const colors = {
   teal900: '#085d50',
@@ -98,7 +98,7 @@ const theme = createTheme({
         body: {
           height: '100%',
           backgroundColor: '#fff',
-          overflowX: 'hidden !important',
+          overflowX: 'hidden',
         },
         '*': {
           boxSizing: 'border-box',
@@ -112,6 +112,6 @@ const theme = createTheme({
 
 export default theme;
 const defaultTheme = createTheme({});
-export const DefaultThemeProvider = ({ children }) => (
+export const DefaultThemeProvider: FC = ({ children }) => (
   <ThemeProvider theme={defaultTheme}>{children}</ThemeProvider>
 );

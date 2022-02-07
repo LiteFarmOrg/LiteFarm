@@ -58,7 +58,7 @@ function CropDetail({ history, match }) {
   const isAdmin = useSelector(isAdminSelector);
 
   return (
-    <>
+    <CropVarietySpotlight>
       <PureCropDetail
         history={history}
         match={match}
@@ -69,7 +69,6 @@ function CropDetail({ history, match }) {
         onEdit={handleEdit}
         isAdmin={isAdmin}
       />
-      <CropVarietySpotlight />
       {showWarningBox && (
         <RetireCropWarning
           handleRetire={confirmRetire}
@@ -83,7 +82,7 @@ function CropDetail({ history, match }) {
           handleEdit={() => history.push(`/crop/${variety_id}/edit_crop_variety`)}
         />
       )}
-    </>
+    </CropVarietySpotlight>
   );
 }
 

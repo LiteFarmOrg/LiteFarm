@@ -1,15 +1,14 @@
 import React, { useState } from 'react';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
-import PureProfileFloater from '../../ProfileFloater';
+import PureProfileFloater from '../Floater/ProfileFloater';
 import { ReactComponent as MyFarmIcon } from '../../../assets/images/my-farm.svg';
 import { ReactComponent as MyFarmIconSpan } from '../../../assets/images/my-farm-es.svg';
 import { ReactComponent as MyFarmIconPort } from '../../../assets/images/my-farm-pt.svg';
 import { ReactComponent as TaskIcon } from '../../../assets/images/task_icon.svg';
 // TODO: use profile picture stored in db
 import { ReactComponent as ProfilePicture } from '../../../assets/images/navbar/defaultpfp.svg';
-import PureMyFarmFloater from '../../MyFarmFloater';
-import PureNotificationFloater from '../../NotificationFloater';
+import PureMyFarmFloater from '../Floater/MyFarmFloater';
 import { logout } from '../../../util/jwt';
 import { useTranslation } from 'react-i18next';
 import SmallerLogo from '../../../assets/images/smaller_logo.svg';
@@ -24,7 +23,6 @@ import SlideMenu from './slideMenu';
 import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
 import { getLanguageFromLocalStorage } from '../../../util/getLanguageFromLocalStorage';
-import { setIntroducingCertifications } from '../../../containers/Navigation/navbarSlice';
 import { NavbarSpotlightProvider } from './NavbarSpotlightProvider';
 
 const useStyles = makeStyles((theme) => ({
@@ -134,7 +132,6 @@ export default function PureNavBar({
   const isProfileFloaterOpen = openFloater === PROFILE;
   const closeFloater = () => {
     setOpenFloater(null);
-    dispatch(setIntroducingCertifications(false));
   };
   const farmButtonOnClick = () => setOpenFloater(isFarmFloaterOpen ? null : FARM);
   const taskIconClick = () => {
@@ -260,11 +257,8 @@ export default function PureNavBar({
                   )}
                 </IconButton>
               </PureMyFarmFloater>
-              <PureNotificationFloater
-                openProfile={isNotificationFloaterOpen}
-                notificationTeaserClick={notificationTeaserClick}
-              >
-                <IconButton
+
+              <IconButton
                   aria-label='notification icon'
                   color='inherit'
                   id='secondStepNavBar'
@@ -274,7 +268,6 @@ export default function PureNavBar({
                 >
                   <TaskIcon />
                 </IconButton>
-              </PureNotificationFloater>
 
               <PureProfileFloater
                 openProfile={isProfileFloaterOpen}

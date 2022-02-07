@@ -73,7 +73,6 @@ import documentReducer from '../containers/documentSlice';
 import certificationReducer from '../containers/OrganicCertifierSurvey/certificationSlice';
 import certifierReducer from '../containers/OrganicCertifierSurvey/certifierSlice';
 import snackbarReducer from '../containers/Snackbar/snackbarSlice';
-import navbarReducer from '../containers/Navigation/navbarSlice';
 import appSettingReducer from '../containers/appSettingSlice';
 // all the initial state for the forms
 const initialFarmState = {
@@ -203,7 +202,6 @@ const tempStateReducer = combineReducers({
   hookFormPersistReducer,
   filterReducer,
   snackbarReducer,
-  navbarReducer,
 });
 
 // combine all reducers here and pass it to application

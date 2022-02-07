@@ -1,4 +1,3 @@
-import Floater from 'react-floater';
 import React from 'react';
 import FarmSwitchOutro from '../../components/FarmSwitchOutro';
 import { useSelector } from 'react-redux';

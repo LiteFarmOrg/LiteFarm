@@ -1,7 +1,6 @@
 import React from 'react';
-import { PureNotificationFloaterComponent } from '../../components/NotificationFloater';
-import { PureMyFarmFloaterComponent } from '../../components/MyFarmFloater';
-import { PureProfileFloaterComponent } from '../../components/ProfileFloater';
+import { PureMyFarmFloaterComponent } from '../../components/Navigation/Floater/MyFarmFloater';
+import { PureProfileFloaterComponent } from '../../components/Navigation/Floater/ProfileFloater';
 import { componentDecoratorsGreyBackground } from '../Pages/config/Decorators';
 
 export default {
@@ -10,7 +9,6 @@ export default {
   component: PureProfileFloaterComponent,
 };
 
-export const NotificationFloater = (() => <PureNotificationFloaterComponent />).bind({});
 
 export const MyFarmFloater = (() => <PureMyFarmFloaterComponent />).bind({});
 

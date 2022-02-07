@@ -1,5 +1,5 @@
 import React from 'react';
-import { PureProfileFloaterComponent } from '../../components/ProfileFloater';
+import { PureProfileFloaterComponent } from '../../components/Navigation/Floater/ProfileFloater';
 import { componentDecoratorsWithoutPadding } from '../Pages/config/Decorators';
 import SlideMenu from '../../components/Navigation/NavBar/slideMenu';
 

@@ -22,14 +22,9 @@ import { colors } from '../../../assets/theme';
 import { ClickAwayListener, SwipeableDrawer } from '@material-ui/core';
 import SlideMenu from './slideMenu';
 import PropTypes from 'prop-types';
-import { useDispatch, useSelector } from 'react-redux';
-import { showedSpotlightSelector } from '../../../containers/showedSpotlightSlice';
-import { setSpotlightToShown } from '../../../containers/Map/saga';
+import { useDispatch } from 'react-redux';
 import { getLanguageFromLocalStorage } from '../../../util/getLanguageFromLocalStorage';
-import {
-  isIntroducingCertificationsSelector,
-  setIntroducingCertifications,
-} from '../../../containers/Navigation/navbarSlice';
+import { setIntroducingCertifications } from '../../../containers/Navigation/navbarSlice';
 import { NavbarSpotlightProvider } from './NavbarSpotlightProvider';
 
 const useStyles = makeStyles((theme) => ({
@@ -120,9 +115,6 @@ export default function PureNavBar({
     'certifications',
     'crop_group',
   ]);
-  const { introduce_map, navigation } = useSelector(showedSpotlightSelector);
-  const isIntroducingFarmMap = !introduce_map && navigation;
-  const isIntroducingCertifications = useSelector(isIntroducingCertificationsSelector);
   const dispatch = useDispatch();
   //Drawer
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
@@ -154,7 +146,6 @@ export default function PureNavBar({
   };
 
   const farmInfoClick = () => {
-    if (!introduce_map) return;
     history.push({
       pathname: '/Profile',
       state: 'farm',
@@ -162,12 +153,10 @@ export default function PureNavBar({
     closeFloater();
   };
   const farmMapClick = () => {
-    if (!introduce_map) dispatch(setSpotlightToShown('introduce_map'));
     history.push('/map');
     closeFloater();
   };
   const peopleClick = () => {
-    if (!introduce_map) return;
     history.push({
       pathname: '/Profile',
       state: 'people',
@@ -175,7 +164,6 @@ export default function PureNavBar({
     closeFloater();
   };
   const certificationClick = () => {
-    if (!introduce_map) return;
     history.push('/certification');
     closeFloater();
   };
@@ -255,8 +243,6 @@ export default function PureNavBar({
                 farmMapClick={farmMapClick}
                 peopleClick={peopleClick}
                 certificationClick={certificationClick}
-                isIntroducingFarmMap={isIntroducingFarmMap}
-                isIntroducingCertifications={isIntroducingCertifications}
               >
                 <IconButton
                   aria-label='farm-icon'

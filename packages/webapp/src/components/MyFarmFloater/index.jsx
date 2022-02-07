@@ -5,8 +5,6 @@ import { ReactComponent as PeopleIcon } from '../../assets/images/farm-profile/p
 import { ReactComponent as CertificationsIcon } from '../../assets/images/farm-profile/certificate.svg';
 import ListOption from '../Navigation/NavBar/ListOption';
 import { useTranslation } from 'react-i18next';
-
-import Floater from 'react-floater';
 import { useSelector } from 'react-redux';
 import { userFarmSelector } from '../../containers/userFarmSlice';
 import { Tooltip } from '@material-ui/core';
@@ -16,12 +14,9 @@ export function PureMyFarmFloaterComponent({
   farmMap,
   people,
   certification,
-  isIntroducingFarmMap,
-  isIntroducingCertifications,
   isAdmin,
 }) {
   const { t } = useTranslation();
-  const isIntroductionActive = isIntroducingFarmMap || isIntroducingCertifications;
   return (
     <div
       style={{
@@ -35,29 +30,23 @@ export function PureMyFarmFloaterComponent({
       <ListOption
         clickFn={farmInfo}
         iconText={t('MY_FARM.FARM_INFO')}
-        icon={<FarmInfoIcon style={isIntroductionActive ? { background: 'white' } : {}} />}
-        isIntroductionActive={isIntroductionActive}
+        icon={<FarmInfoIcon />}
       />
       <ListOption
         clickFn={farmMap}
         iconText={t('MY_FARM.FARM_MAP')}
-        icon={<FarmMapIcon style={isIntroducingCertifications ? { background: 'white' } : {}} />}
-        isIntroductionActive={isIntroductionActive}
-        isBeingIntroduced={isIntroducingFarmMap}
+        icon={<FarmMapIcon />}
       />
       <ListOption
         clickFn={people}
         iconText={t('MY_FARM.PEOPLE')}
-        icon={<PeopleIcon style={isIntroductionActive ? { background: 'white' } : {}} />}
-        isIntroductionActive={isIntroductionActive}
+        icon={<PeopleIcon />}
       />
       {isAdmin && (
         <ListOption
           clickFn={certification}
           iconText={t('MY_FARM.CERTIFICATIONS')}
-          icon={<CertificationsIcon style={isIntroducingFarmMap ? { background: 'white' } : {}} />}
-          isIntroductionActive={isIntroductionActive}
-          isBeingIntroduced={isIntroducingCertifications}
+          icon={<CertificationsIcon />}
         />
       )}
     </div>
@@ -66,16 +55,13 @@ export function PureMyFarmFloaterComponent({
 
 export default function PureMyFarmFloater({
   children,
-  openProfile,
   farmInfoClick,
   farmMapClick,
   peopleClick,
   certificationClick,
   isIntroducingFarmMap,
-  isIntroducingCertifications,
 }) {
   const { is_admin } = useSelector(userFarmSelector);
-  const isIntroductionActive = isIntroducingFarmMap || isIntroducingCertifications;
   const Wrapper = (
     <PureMyFarmFloaterComponent
       farmInfo={farmInfoClick}
@@ -83,7 +69,6 @@ export default function PureMyFarmFloater({
       people={peopleClick}
       certification={certificationClick}
       isIntroducingFarmMap={isIntroducingFarmMap}
-      isIntroducingCertifications={isIntroducingCertifications}
       isAdmin={is_admin}
     />
   );

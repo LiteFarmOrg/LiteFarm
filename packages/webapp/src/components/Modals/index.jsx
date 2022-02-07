@@ -1,6 +1,5 @@
 import React from 'react';
 import ModalComponent from './ModalComponent/v1';
-import Floater from 'react-floater';
 import { Dialog } from '@material-ui/core';
 
 function Modal({ children, dismissModal }) {

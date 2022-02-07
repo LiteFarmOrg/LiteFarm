@@ -1,18 +1,18 @@
 import React from 'react';
-import { ReactComponent as LogoutIcon } from '../../assets/images/navbar/logout.svg';
-import { ReactComponent as MyInfoIcon } from '../../assets/images/navbar/my-info.svg';
-import { ReactComponent as HelpIcon } from '../../assets/images/navbar/help-profile.svg';
-import { ReactComponent as VideoIcon } from '../../assets/images/video_icon.svg';
-import { ReactComponent as SwitchFarmIcon } from '../../assets/images/navbar/switch-farm.svg';
-import ListOption from '../Navigation/NavBar/ListOption';
+import { ReactComponent as LogoutIcon } from '../../../assets/images/navbar/logout.svg';
+import { ReactComponent as MyInfoIcon } from '../../../assets/images/navbar/my-info.svg';
+import { ReactComponent as HelpIcon } from '../../../assets/images/navbar/help-profile.svg';
+import { ReactComponent as VideoIcon } from '../../../assets/images/video_icon.svg';
+import { ReactComponent as SwitchFarmIcon } from '../../../assets/images/navbar/switch-farm.svg';
+import ListOption from '../NavBar/ListOption';
 import { useTranslation } from 'react-i18next';
-import Floater from 'react-floater';
 import PropTypes from 'prop-types';
-import { Tooltip } from '@material-ui/core';
+import { Floater } from './Floater';
 
-export function PureProfileFloaterComponent({ onInfo, onSwitchFarm, onHelp,
-  onTutorials, onLogout }) {
-
+export function PureProfileFloaterComponent({
+  onInfo, onSwitchFarm, onHelp,
+  onTutorials, onLogout,
+}) {
   const { t } = useTranslation();
   return (
     <div
@@ -21,7 +21,6 @@ export function PureProfileFloaterComponent({ onInfo, onSwitchFarm, onHelp,
         minWidth: '138px',
         backgroundColor: 'white',
         borderRadius: '4px',
-        transform: 'translateX(-12px)',
       }}
     >
       <ListOption
@@ -68,8 +67,8 @@ export default function PureProfileFloater({
   tutorialsClick,
 }) {
   return (
-    <Tooltip
-      title={
+    <Floater
+      body={
         <PureProfileFloaterComponent
           onHelp={helpClick}
           onInfo={myInfoClick}
@@ -79,13 +78,10 @@ export default function PureProfileFloater({
         />
       }
       placement={'bottom-end'}
-      // open={openProfile}
-      // styles={{
-      //   floater: { zIndex: 1500, display: openProfile ? 'initial' : 'none' },
-      // }}
+      open={openProfile}
     >
       {children}
-    </Tooltip>
+    </Floater>
   );
 }
 

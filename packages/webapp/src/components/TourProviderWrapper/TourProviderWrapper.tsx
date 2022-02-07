@@ -37,29 +37,30 @@ const getStyles = ({
                    }: getStylesProps): TourProps['styles'] => ({
   maskArea: (base, state) => ({ ...base, rx: 8, display: showMaskArea ? undefined : 'none' }),
   popover: (base, state) => {
+    const fadein = keyframes`
+      0%, 50% {
+        opacity: 0;
+      }
+      100% {
+        opacity: 100%;
+      }`;
     const baseStyles = {
       borderRadius: 8,
       display: 'flex',
       maxWidth: '500px',
       background: colors.grey100,
       padding: '16px',
+      animation: `${fadein} 0.5s ease`,
       ...popoverStyles,
     };
     const position: Position = state?.position;
     if (!position || position === 'custom' || position === 'center') {
-      const fadein = keyframes`
-        0%, 50% {
-          opacity: 0;
-        }
-        100% {
-          opacity: 100%;
-        }`;
+
       return {
         ...base,
         flexDirection: 'column',
         ...baseStyles,
         width: 'min(500px, calc(100vw - 48px))',
-        animation: `${fadein} 0.5s ease`,
       };
     }
 

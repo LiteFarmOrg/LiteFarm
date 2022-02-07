@@ -1,13 +1,13 @@
 import React from 'react';
-import { ReactComponent as FarmMapIcon } from '../../assets/images/farm-profile/farm-map.svg';
-import { ReactComponent as FarmInfoIcon } from '../../assets/images/farm-profile/farm-info.svg';
-import { ReactComponent as PeopleIcon } from '../../assets/images/farm-profile/people.svg';
-import { ReactComponent as CertificationsIcon } from '../../assets/images/farm-profile/certificate.svg';
-import ListOption from '../Navigation/NavBar/ListOption';
+import { ReactComponent as FarmMapIcon } from '../../../assets/images/farm-profile/farm-map.svg';
+import { ReactComponent as FarmInfoIcon } from '../../../assets/images/farm-profile/farm-info.svg';
+import { ReactComponent as PeopleIcon } from '../../../assets/images/farm-profile/people.svg';
+import { ReactComponent as CertificationsIcon } from '../../../assets/images/farm-profile/certificate.svg';
+import ListOption from '../NavBar/ListOption';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
-import { userFarmSelector } from '../../containers/userFarmSlice';
-import { Tooltip } from '@material-ui/core';
+import { userFarmSelector } from '../../../containers/userFarmSlice';
+import { Floater } from './Floater';
 
 export function PureMyFarmFloaterComponent({
   farmInfo,
@@ -59,7 +59,7 @@ export default function PureMyFarmFloater({
   farmMapClick,
   peopleClick,
   certificationClick,
-  isIntroducingFarmMap,
+  openProfile,
 }) {
   const { is_admin } = useSelector(userFarmSelector);
   const Wrapper = (
@@ -68,23 +68,16 @@ export default function PureMyFarmFloater({
       farmMap={farmMapClick}
       people={peopleClick}
       certification={certificationClick}
-      isIntroducingFarmMap={isIntroducingFarmMap}
       isAdmin={is_admin}
     />
   );
   return (
-    <Tooltip
-      title={Wrapper}
+    <Floater
+      body={Wrapper}
       placement={'bottom-end'}
-      // open={openProfile || isIntroductionActive}
-      // styles={{
-      //   floater: {
-      //     zIndex: 1500,
-      //     display: openProfile || isIntroductionActive ? 'initial' : 'none',
-      //   },
-      // }}
+      open={openProfile}
     >
       {children}
-    </Tooltip>
+    </Floater>
   );
 }

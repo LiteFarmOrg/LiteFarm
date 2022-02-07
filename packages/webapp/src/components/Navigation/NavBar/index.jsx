@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import ReactJoyride, { STATUS } from 'react-joyride';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import PureProfileFloater from '../../ProfileFloater';
@@ -31,6 +30,7 @@ import {
   isIntroducingCertificationsSelector,
   setIntroducingCertifications,
 } from '../../../containers/Navigation/navbarSlice';
+import { NavbarSpotlightProvider } from './NavbarSpotlightProvider';
 
 const useStyles = makeStyles((theme) => ({
   menuButton: {
@@ -217,74 +217,6 @@ export default function PureNavBar({
     closeFloater();
   };
 
-  //Spotlight
-  const resetSpotlightStatus = (data) => {
-    const { action, status } = data;
-    if ([STATUS.FINISHED, STATUS.SKIPPED].includes(status) || action === 'close') {
-      resetSpotlight();
-    }
-  };
-  const farmSpotlight = t('NAVIGATION.SPOTLIGHT.FARM');
-  const notificationsSpotlight = t('NAVIGATION.SPOTLIGHT.NOTIFICATION');
-  const myProfileSpotlight = t('NAVIGATION.SPOTLIGHT.PROFILE');
-  const steps = [
-    {
-      target: '#firstStep',
-      title: returnContent(t('NAVIGATION.SPOTLIGHT.FARM_TITLE'), true, classes),
-      content: returnContent(farmSpotlight, false, classes),
-      locale: {
-        next: returnNextButton(t('common:NEXT'), classes),
-      },
-      showCloseButton: false,
-      disableBeacon: true,
-      placement: 'right-start',
-      styles: {
-        options: {
-          width: 240,
-        },
-      },
-    },
-    {
-      target: '#secondStep',
-      title: returnContent(t('NAVIGATION.SPOTLIGHT.NOTIFICATION_TITLE'), true, classes),
-      content: returnContent(notificationsSpotlight, false, classes),
-      locale: {
-        next: returnNextButton(t('common:NEXT'), classes),
-      },
-      showCloseButton: false,
-      placement: 'right-start',
-      styles: {
-        options: {
-          width: 260,
-        },
-      },
-    },
-    {
-      target: '#thirdStep',
-      title: returnContent(t('NAVIGATION.SPOTLIGHT.PROFILE_TITLE'), true, classes),
-      content: returnContent(myProfileSpotlight, false, classes),
-      locale: {
-        last: returnNextButton(t('common:GOT_IT'), classes),
-      },
-      placement: 'right-start',
-      showCloseButton: false,
-      styles: {
-        options: {
-          width: 210,
-        },
-        tooltip: {
-          transform: 'translateX(-12px)',
-        },
-      },
-      floaterProps: {
-        styles: {
-          floater: {
-            marginRight: '0',
-          },
-        },
-      },
-    },
-  ];
   return (
     <AppBar position="sticky" className={classes.appBar}>
       <Toolbar className={classes.toolbar}>
@@ -314,144 +246,77 @@ export default function PureNavBar({
           />
         </SwipeableDrawer>
         <Logo history={history} />
-        <ClickAwayListener onClickAway={onClickAway}>
-          <div className={classes.icons}>
-            <PureMyFarmFloater
-              openProfile={isFarmFloaterOpen}
-              farmInfoClick={farmInfoClick}
-              farmMapClick={farmMapClick}
-              peopleClick={peopleClick}
-              certificationClick={certificationClick}
-              isIntroducingFarmMap={isIntroducingFarmMap}
-              isIntroducingCertifications={isIntroducingCertifications}
-            >
-              <IconButton
-                aria-label="farm-icon"
-                color="inherit"
-                id="firstStep"
-                className={classes.iconButton}
-                onClick={farmButtonOnClick}
+        <NavbarSpotlightProvider open={showSpotLight} onFinish={resetSpotlight}>
+          <ClickAwayListener onClickAway={onClickAway}>
+            <div className={classes.icons}>
+              <PureMyFarmFloater
+                openProfile={isFarmFloaterOpen}
+                farmInfoClick={farmInfoClick}
+                farmMapClick={farmMapClick}
+                peopleClick={peopleClick}
+                certificationClick={certificationClick}
+                isIntroducingFarmMap={isIntroducingFarmMap}
+                isIntroducingCertifications={isIntroducingCertifications}
               >
-                {selectedLanguage === 'pt' ? (
-                  <MyFarmIconPort />
-                ) : selectedLanguage === 'es' ? (
-                  <MyFarmIconSpan />
-                ) : (
-                  <MyFarmIcon />
-                )}
-              </IconButton>
-            </PureMyFarmFloater>
-            <PureNotificationFloater
-              openProfile={isNotificationFloaterOpen}
-              notificationTeaserClick={notificationTeaserClick}
-            >
-              <IconButton
-                aria-label="notification icon"
-                color="inherit"
-                id="secondStep"
-                onClick={taskIconClick}
-                className={classes.iconButton}
-                classes={{ root: classes.notificationButton }}
+                <IconButton
+                  aria-label='farm-icon'
+                  color='inherit'
+                  id='firstStepNavBar'
+                  className={classes.iconButton}
+                  onClick={farmButtonOnClick}
+                >
+                  {selectedLanguage === 'pt' ? (
+                    <MyFarmIconPort />
+                  ) : selectedLanguage === 'es' ? (
+                    <MyFarmIconSpan />
+                  ) : (
+                    <MyFarmIcon />
+                  )}
+                </IconButton>
+              </PureMyFarmFloater>
+              <PureNotificationFloater
+                openProfile={isNotificationFloaterOpen}
+                notificationTeaserClick={notificationTeaserClick}
               >
-                <TaskIcon />
-              </IconButton>
-            </PureNotificationFloater>
+                <IconButton
+                  aria-label='notification icon'
+                  color='inherit'
+                  id='secondStepNavBar'
+                  onClick={taskIconClick}
+                  className={classes.iconButton}
+                  classes={{ root: classes.notificationButton }}
+                >
+                  <TaskIcon />
+                </IconButton>
+              </PureNotificationFloater>
 
-            <PureProfileFloater
-              openProfile={isProfileFloaterOpen}
-              helpClick={helpClick}
-              tutorialsClick={openTutorialsClick}
-              myInfoClick={myInfoClick}
-              logOutClick={logOutClick}
-              switchFarmClick={switchFarmClick}
-            >
-              <IconButton
-                edge="end"
-                aria-label="profile icon"
-                color="inherit"
-                onClick={profileButtonOnClick}
-                id="thirdStep"
-                className={classes.iconButton}
-                classes={{ root: classes.profileButton }}
+              <PureProfileFloater
+                openProfile={isProfileFloaterOpen}
+                helpClick={helpClick}
+                tutorialsClick={openTutorialsClick}
+                myInfoClick={myInfoClick}
+                logOutClick={logOutClick}
+                switchFarmClick={switchFarmClick}
               >
-                <ProfilePicture />
-              </IconButton>
-            </PureProfileFloater>
-          </div>
-        </ClickAwayListener>
-        {showSpotLight && (
-          //Deprecated
-          <ReactJoyride
-            steps={steps}
-            continuous
-            callback={resetSpotlightStatus}
-            floaterProps={{ disableAnimation: true }}
-            styles={{
-              options: {
-                // modal arrow color
-                arrowColor: '#fff',
-                // modal background color
-                backgroundColor: '#fff',
-                // tooltip overlay color
-                overlayColor: 'rgba(30, 30, 48, 1)',
-                // next button color
-                primaryColor: '#FCE38D',
-                //width of modal
-                width: 270,
-                //zindex of modal
-                zIndex: 1500,
-              },
-              buttonClose: {
-                display: 'none',
-              },
-              buttonBack: {
-                display: 'none',
-              },
-              tooltip: {
-                padding: '20px',
-              },
-              tooltipContent: {
-                padding: '4px 0 0 0',
-                marginBottom: '20px',
-              },
-              buttonNext: {
-                minWidth: '81px',
-                minHeight: '32px',
-                boxShadow: '0px 2px 8px rgba(102, 115, 138, 0.3)',
-                marginTop: '9px',
-                fontFamily: 'Open Sans, SansSerif, serif',
-                fontWeight: 600,
-                color: colors.grey900,
-              },
-            }}
-          />
-        )}
+                <IconButton
+                  edge='end'
+                  aria-label='profile icon'
+                  color='inherit'
+                  onClick={profileButtonOnClick}
+                  id='thirdStepNavBar'
+                  className={classes.iconButton}
+                  classes={{ root: classes.profileButton }}
+                >
+                  <ProfilePicture />
+                </IconButton>
+              </PureProfileFloater>
+            </div>
+          </ClickAwayListener>
+        </NavbarSpotlightProvider>
       </Toolbar>
     </AppBar>
   );
 }
-
-const returnContent = (spotlightType, title, classes) => {
-  return spotlightType.split(',').map(function (item, key) {
-    return title ? (
-      <span key={key} className={classes.green}>
-        <p align="left" className={classes.p}>
-          {item}
-        </p>
-      </span>
-    ) : (
-      <span key={key}>
-        <p align="left" className={classes.p}>
-          {item}
-        </p>
-      </span>
-    );
-  });
-};
-
-const returnNextButton = (str, classes) => {
-  return <span className={classes.black}>{str}</span>;
-};
 
 const Logo = ({ history }) => {
   const theme = useTheme();

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactNode } from 'react';
 import styles from './typography.module.scss';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
@@ -6,7 +6,14 @@ import Infoi from '../Tooltip/Infoi';
 import { ReactComponent as Leaf } from '../../assets/images/farmMapFilter/Leaf.svg';
 import { ReactComponent as Pencil } from '../../assets/images/managementPlans/pencil.svg';
 
-export const Underlined = ({ children = 'Link', className = '', style, ...props }) => {
+type TypographyProps = {
+  style?: object,
+  onClick?: () => void,
+  children?: ReactNode,
+  className?: string,
+}
+
+export const Underlined = ({ children = 'Link', className = '', style = {}, ...props }: TypographyProps) => {
   return (
     <p className={clsx(styles.underlined, className)} style={style} {...props}>
       {children}
@@ -14,20 +21,17 @@ export const Underlined = ({ children = 'Link', className = '', style, ...props 
   );
 };
 
-Underlined.propTypes = {
-  children: PropTypes.node,
-  className: PropTypes.string,
-  style: PropTypes.object,
-};
-
+type IconLinkProps = TypographyProps & {
+  icon?: ReactNode,
+}
 export const IconLink = ({
-  children = 'IconLink',
-  className = '',
-  style,
-  onClick,
-  icon,
-  ...props
-}) => {
+                           children = 'IconLink',
+                           className = '',
+                           style,
+                           onClick,
+                           icon,
+                           ...props
+                         }: IconLinkProps) => {
   return (
     <p style={style} className={clsx(styles.addLinkContainer, className)} {...props}>
       {icon}{' '}
@@ -38,14 +42,7 @@ export const IconLink = ({
   );
 };
 
-IconLink.propTypes = {
-  children: PropTypes.node,
-  className: PropTypes.string,
-  style: PropTypes.object,
-  icon: PropTypes.node,
-};
-
-export const AddLink = ({ children = 'AddLink', className = '', style, onClick, ...props }) => {
+export const AddLink = ({ children = 'AddLink', className = '', style, onClick, ...props }: TypographyProps) => {
   return (
     <IconLink className={className} style={style} onClick={onClick} icon={'+'} {...props}>
       {children}
@@ -53,20 +50,17 @@ export const AddLink = ({ children = 'AddLink', className = '', style, onClick, 
   );
 };
 
-AddLink.propTypes = {
-  children: PropTypes.node,
-  className: PropTypes.string,
-  style: PropTypes.object,
-};
-
+type SubtractLinkProps = TypographyProps & {
+  color?: string
+}
 export const SubtractLink = ({
-  children = 'SubtractLink',
-  className = '',
-  style,
-  onClick,
-  color,
-  ...props
-}) => {
+                               children = 'SubtractLink',
+                               className = '',
+                               style,
+                               onClick,
+                               color,
+                               ...props
+                             }: SubtractLinkProps) => {
   return (
     <IconLink className={className} style={style} onClick={onClick} icon={'-'} {...props}>
       {children}
@@ -74,13 +68,7 @@ export const SubtractLink = ({
   );
 };
 
-SubtractLink.propTypes = {
-  children: PropTypes.node,
-  className: PropTypes.string,
-  style: PropTypes.object,
-};
-
-export const EditLink = ({ children = 'Link', className = '', style, onClick, ...props }) => {
+export const EditLink = ({ children = 'Link', className = '', style, onClick, ...props }: TypographyProps) => {
   return (
     <p style={style} className={clsx(styles.editLinkContainer, className)} {...props}>
       <Pencil className={styles.pencil} />
@@ -91,13 +79,7 @@ export const EditLink = ({ children = 'Link', className = '', style, onClick, ..
   );
 };
 
-EditLink.propTypes = {
-  children: PropTypes.node,
-  className: PropTypes.string,
-  style: PropTypes.object,
-};
-
-export const Title = ({ children = 'Title', className = '', style, ...props }) => {
+export const Title = ({ children = 'Title', className = '', style, ...props }: TypographyProps) => {
   return (
     <h3 className={clsx(styles.title, className)} style={style} {...props}>
       {children}
@@ -105,13 +87,9 @@ export const Title = ({ children = 'Title', className = '', style, ...props }) =
   );
 };
 
-Title.propTypes = {
-  children: PropTypes.node,
-  className: PropTypes.string,
-  style: PropTypes.object,
-};
+type TypographySmProps = TypographyProps & { sm?: boolean }
 
-export const Semibold = ({ children = 'Semibold', className = '', style, sm, ...props }) => {
+export const Semibold = ({ children = 'Semibold', className = '', style, sm, ...props }: TypographySmProps) => {
   return (
     <h4 className={clsx(styles.semibold, sm && styles.sm, className)} style={style} {...props}>
       {children}
@@ -119,14 +97,7 @@ export const Semibold = ({ children = 'Semibold', className = '', style, sm, ...
   );
 };
 
-Semibold.propTypes = {
-  children: PropTypes.node,
-  className: PropTypes.string,
-  style: PropTypes.object,
-  sm: PropTypes.bool,
-};
-
-export const Label = ({ children = 'Label', className = '', sm = false, style, ...props }) => {
+export const Label = ({ children = 'Label', className = '', sm = false, style, ...props }: TypographySmProps) => {
   return sm ? (
     <span className={clsx(styles.smLabel, className)} style={style} {...props}>
       {children}
@@ -138,14 +109,7 @@ export const Label = ({ children = 'Label', className = '', sm = false, style, .
   );
 };
 
-Label.propTypes = {
-  children: PropTypes.node,
-  className: PropTypes.string,
-  style: PropTypes.object,
-  sm: PropTypes.bool,
-};
-
-export const Error = ({ children = 'Error', className = '', style, ...props }) => {
+export const Error = ({ children = 'Error', className = '', style, ...props }: TypographyProps) => {
   return (
     <p className={clsx(styles.error, className)} style={style} {...props}>
       {children}
@@ -159,7 +123,7 @@ Error.propTypes = {
   style: PropTypes.object,
 };
 
-export const Info = ({ children = 'Info', className = '', style, ...props }) => {
+export const Info = ({ children = 'Info', className = '', style, ...props }: TypographyProps) => {
   return (
     <p className={clsx(styles.info, className)} style={style} {...props}>
       {children}
@@ -167,20 +131,20 @@ export const Info = ({ children = 'Info', className = '', style, ...props }) => 
   );
 };
 
-Info.propTypes = {
-  children: PropTypes.node,
-  className: PropTypes.string,
-  style: PropTypes.object,
-};
+
+type MainProps = TypographyProps & {
+  hasLeaf?: boolean,
+  tooltipContent: boolean | React.ReactChild | React.ReactFragment | React.ReactPortal,
+}
 
 export const Main = ({
-  children = 'Main',
-  tooltipContent,
-  hasLeaf,
-  className = '',
-  style,
-  ...props
-}) => {
+                       children = 'Main',
+                       tooltipContent,
+                       hasLeaf,
+                       className = '',
+                       style,
+                       ...props
+                     }: MainProps) => {
   return (
     <p className={clsx(styles.main, className)} style={style} {...props}>
       {children}
@@ -206,7 +170,7 @@ Main.propTypes = {
   hasLeaf: PropTypes.bool,
 };
 
-export const Text = ({ children = 'Text', className = '', style, ...props }) => {
+export const Text = ({ children = 'Text', className = '', style, ...props }: TypographyProps) => {
   return (
     <p className={clsx(styles.text, className)} style={style} {...props}>
       {children}
@@ -214,8 +178,3 @@ export const Text = ({ children = 'Text', className = '', style, ...props }) => 
   );
 };
 
-Text.propTypes = {
-  children: PropTypes.node,
-  className: PropTypes.string,
-  style: PropTypes.object,
-};

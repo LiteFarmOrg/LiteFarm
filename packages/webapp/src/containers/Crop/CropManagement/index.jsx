@@ -109,7 +109,7 @@ function CropManagement({ history, match }) {
 
   const isAdmin = useSelector(isAdminSelector);
   return (
-    <>
+    <CropVarietySpotlight>
       <PureCropManagement
         history={history}
         variety={selectedVariety}
@@ -119,8 +119,7 @@ function CropManagement({ history, match }) {
         managementPlanCardContents={managementPlanCardContents}
         isAdmin={isAdmin}
       />
-      <CropVarietySpotlight />
-    </>
+    </CropVarietySpotlight>
   );
 }
 

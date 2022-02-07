@@ -1009,10 +1009,21 @@
   "NAVIGATION": {
     "SPOTLIGHT": {
       "FARM": "Ici vous pouvez :, • Modifier les paramètres de votre ferme, • Cartographier votre ferme, • Gérer vos employés",
+      "YOU_CAN": "Ici vous pouvez:",
+      "EDIT_FARM_SETTING": "Modifier les paramètres de votre ferme",
+      "MAP_FARM": "Cartographier votre ferme",
+      "MANAGE_EMPLOYEE": "Gérer vos employés",
       "FARM_TITLE": "Ceci est votre profil de ferme",
       "NOTIFICATION": "Ici vous pouvez:, • Gérer vos tâches, • Voir les mises à jour importantes, • Coordonner les activités de la ferme",
-      "NOTIFICATION_TITLE": "Ceci est votre centre de notification",
+      "MANAGE_TASK": "Gérer vos tâches",
+      "SEE_TASK": "Voir les mises à jour importantes",
+      "COORDINATE_ACTIVITIES": "Coordonner les activités de la ferme",
+      "TASK_TITLE": "Ceci est votre centre de notification",
       "PROFILE": "Vous trouverez ici :, • Vos informations, • Des conseils utiles, • Le bouton de déconnexion",
+      "YOU_WILL_FIND": "Vous trouverez ici:",
+      "INFO": "Vos informations",
+      "TIPS": "Des conseils utiles",
+      "LOG_OUT": "Le bouton de déconnexion",
       "PROFILE_TITLE": "Ceci est votre profil"
     }
   },

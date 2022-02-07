@@ -3,49 +3,53 @@ import { Controller, useForm } from 'react-hook-form';
 import { userFarmEnum } from '../../../containers/constants';
 import ReactSelect from '../../Form/ReactSelect';
 import { useTranslation } from 'react-i18next';
-import React, { useMemo } from 'react';
+import React, { useEffect, useRef } from 'react';
 import Button from '../../Form/Button';
 import PropTypes from 'prop-types';
 import ProfileLayout from '../ProfileLayout';
-import { getLanguageFromLocalStorage } from '../../../util/getLanguageFromLocalStorage';
 
-export default function PureAccount({ userFarm, onSubmit }) {
-  const getDefaultValues = () => {
-    const defaultValues = {};
-    defaultValues[userFarmEnum.first_name] = userFarm.first_name;
-    defaultValues[userFarmEnum.last_name] = userFarm.last_name;
-    defaultValues[userFarmEnum.email] = userFarm.email;
-    defaultValues[userFarmEnum.phone_number] = userFarm.phone_number;
-    defaultValues[userFarmEnum.user_address] = userFarm.user_address;
-    return defaultValues;
+const useLanguageOptions = (language_preference) => {
+  const { t } = useTranslation();
+  const languageOptionMap = {
+    en: { label: t('PROFILE.ACCOUNT.ENGLISH'), value: 'en' },
+    es: { label: t('PROFILE.ACCOUNT.SPANISH'), value: 'es' },
+    pt: { label: t('PROFILE.ACCOUNT.PORTUGUESE'), value: 'pt' },
+    fr: { label: t('PROFILE.ACCOUNT.FRENCH'), value: 'fr' },
   };
+  const languageOptions = Object.values(languageOptionMap);
+  const languagePreferenceOptionRef = useRef();
+  languagePreferenceOptionRef.current = languageOptionMap[language_preference];
+  return { languageOptionMap, languageOptions, languagePreferenceOptionRef };
+};
+
+export default function PureAccount({ userFarm, onSubmit, history, isAdmin }) {
+  const { languageOptions, languagePreferenceOptionRef } = useLanguageOptions(userFarm.language_preference);
   const { t } = useTranslation();
   const {
     register,
     handleSubmit,
     control,
+    setValue,
     formState: { isValid, isDirty },
   } = useForm({
     mode: 'onChange',
-    defaultValues: getDefaultValues(),
+    defaultValues: userFarm,
+    shouldUnregister: true,
   });
+  useEffect(() => {
+    setValue(userFarmEnum.language_preference, null, { shouldValidate: false, shouldDirty: false });
+    setTimeout(() => {
+      setValue(userFarmEnum.language_preference, languagePreferenceOptionRef.current, {
+        shouldValidate: false,
+        shouldDirty: false,
+      });
+    }, 100);
+  }, [userFarm.language_preference]);
   const disabled = !isDirty || !isValid;
-
-  const options = [
-    { label: t('PROFILE.ACCOUNT.ENGLISH'), value: 'en' },
-    { label: t('PROFILE.ACCOUNT.SPANISH'), value: 'es' },
-    { label: t('PROFILE.ACCOUNT.PORTUGUESE'), value: 'pt' },
-    { label: t('PROFILE.ACCOUNT.FRENCH'), value: 'fr' },
-  ];
-  const language_preference = getLanguageFromLocalStorage();
-  const defaultLanguageOption = useMemo(() => {
-    for (const option of options) {
-      if (language_preference.includes(option.value)) return option;
-    }
-  }, [language_preference]);
   return (
     <ProfileLayout
       onSubmit={handleSubmit(onSubmit)}
+      history={history}
       buttonGroup={
         <Button fullLength type={'submit'} disabled={disabled}>
           {t('common:SAVE')}
@@ -71,18 +75,16 @@ export default function PureAccount({ userFarm, onSubmit }) {
         hookFormRegister={register(userFarmEnum.phone_number, { required: false })}
         onKeyDown={integerOnKeyDown}
       />
-      <Input
-        label={t('PROFILE.ACCOUNT.USER_ADDRESS')}
-        hookFormRegister={register(userFarmEnum.user_address, { required: false })}
-      />
-
       <Controller
         control={control}
         name={userFarmEnum.language_preference}
-        defaultValue={defaultLanguageOption}
         render={({ field }) => (
-          <ReactSelect label={t('PROFILE.ACCOUNT.LANGUAGE')} options={options} {...field} />
+          <ReactSelect label={t('PROFILE.ACCOUNT.LANGUAGE')} options={languageOptions} {...field} />
         )}
+      />
+      <Input
+        label={t('PROFILE.ACCOUNT.USER_ADDRESS')}
+        hookFormRegister={register(userFarmEnum.user_address, { required: false })}
       />
     </ProfileLayout>
   );

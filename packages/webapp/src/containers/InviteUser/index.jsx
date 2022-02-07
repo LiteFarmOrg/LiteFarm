@@ -7,8 +7,7 @@ import PureInviteUser from '../../components/InviteUser';
 import { rolesSelector } from '../Profile/People/slice';
 import { loginSelector } from '../userFarmSlice';
 import { useTranslation } from 'react-i18next';
-
-const { v4: uuidv4 } = require('uuid');
+import { v4 as uuidv4 } from 'uuid';
 
 function InviteUser() {
   const dispatch = useDispatch();
@@ -24,8 +23,7 @@ function InviteUser() {
   const roleOptions = roles.map(({ role_id }) => ({ value: role_id, label: dropDownMap[role_id] }));
   const onGoBack = () => {
     history.push({
-      pathname: '/Profile',
-      state: 'people',
+      pathname: '/people',
     });
   };
 
@@ -86,8 +84,7 @@ function InviteUser() {
     }
 
     history.push({
-      pathname: '/Profile',
-      state: 'people',
+      pathname: '/people',
     });
   };
 

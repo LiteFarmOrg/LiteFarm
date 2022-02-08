@@ -41,12 +41,12 @@ export default function PurePeople({ users, history, isAdmin }) {
   ];
 
   const getFilteredUsers = () => {
-    const ROLE_TRANSLATIONS = {
-      Owner: t('role:OWNER'),
-      'Extension Officer': t('role:EXTENSION_OFFICER'),
-      Manager: t('role:MANAGER'),
-      Worker: t('role:WORKER'),
-      'Worker Without Account': t('role:WORKER_WITHOUT_ACCOUNT'),
+    const dropDownMap = {
+      1: t('role:OWNER'),
+      2: t('role:MANAGER'),
+      3: t('role:WORKER'),
+      4: t('role:WORKER_WITHOUT_ACCOUNT'),
+      5: t('role:EXTENSION_OFFICER'),
     };
     const STATUS_TRANSLATIONS = {
       Active: t('STATUS.ACTIVE'),
@@ -66,7 +66,7 @@ export default function PurePeople({ users, history, isAdmin }) {
     return filteredUsers.map((user) => ({
       name: getName(user),
       user_id: user.user_id,
-      role: ROLE_TRANSLATIONS[user.role],
+      role: dropDownMap[user.role_id],
       email: user.email,
       status: STATUS_TRANSLATIONS[user.status],
       originalStatus: user.status,

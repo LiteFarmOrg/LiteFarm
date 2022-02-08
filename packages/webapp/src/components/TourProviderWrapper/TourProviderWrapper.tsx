@@ -125,7 +125,7 @@ type TourProviderWrapperProps = ReactourChildrenWrapperProps & Omit<ProviderProp
   onFinish?(): void,
 }
 
-export function TourProviderWrapper({ steps, children = <></>, open, onFinish, ...props }: TourProviderWrapperProps) {
+export function TourProviderWrapper({ steps, children = <div />, open, onFinish, ...props }: TourProviderWrapperProps) {
   if (!open) return children;
   const processedSteps = useMemo(() => {
     return steps.map(({ arrowOffset, popoverStyles, maskStyles, ...step }) => {

@@ -937,8 +937,6 @@ const Routes = () => {
             <Route path='/home' exact component={Home} />
             <Route path='/profile' exact component={Account} />
             <Route path='/people' exact component={People} />
-            <Route path='/user/:user_id' exact component={EditUser} />
-
             <Route path='/farm' exact component={Farm} />
             <Route path='/consent' exact component={ConsentForm} />
             <Route path='/crop_catalogue' exact component={CropCatalogue} />

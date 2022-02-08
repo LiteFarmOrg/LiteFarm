@@ -16,11 +16,13 @@
     "module": "ESNext",
     "moduleResolution": "Node",
     "resolveJsonModule": true,
-    "isolatedModules": true,
+    "isolatedModules": false,
     "noEmit": true,
     "jsx": "react-jsx",
     "types": [
-      "vite-plugin-svgr/client"
+      "vite/client",
+      "vite-plugin-svgr/client",
+      "@emotion/react/types/css-prop"
     ]
   },
   "include": [

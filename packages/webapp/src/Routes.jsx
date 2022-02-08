@@ -851,10 +851,7 @@ const Routes = () => {
               exact
               component={ComplianceInfo}
             />
-            {/* TODO: use edit_expense_categories and edit_add_expense when restructuring edit expense */}
-            {/* and remove edit_expense  */}
-            {/* <Route path="/edit_expense_categories" exact component={EditExpenseCategories} /> */}
-            {/* <Route path="/edit_add_expense" exact component={EditAddExpense} /> */}
+
             <Route path="/edit_expense" exact component={TempEditExpense} />
             <Route path="/sale_detail" exact component={SaleDetail} />
             <Route path="/farm_selection" exact component={ChooseFarm} />

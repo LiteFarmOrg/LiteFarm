@@ -19,7 +19,7 @@
     "*.{js, jsx}": [
       "eslint --quiet --fix"
     ],
-    "*.{js, jsx, json,md,html}": [
+    "*.{js, jsx, ts, tsx, json,md,html}": [
       "prettier --write"
     ]
   },

@@ -1,13 +1,13 @@
-FROM node:10.14.0
+FROM node:16.13.2
 
 WORKDIR /usr/src/app
 
 COPY ./package.json .
 
-COPY ./package-lock.json .
+COPY ./pnpm-lock.yaml .
 
-RUN npm install
+RUN npm i pnpm -g && pnpm i
 
 COPY . .
 
-CMD  npm start
+CMD  pnpm dev

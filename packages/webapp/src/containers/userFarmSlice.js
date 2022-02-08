@@ -49,6 +49,7 @@ const addUserFarm = (state, { payload: userFarm }) => {
   }
   state.byFarmIdUserId[farm_id] = state.byFarmIdUserId[farm_id] || {};
   state.byFarmIdUserId[farm_id][user_id] = userFarm;
+  delete state.byFarmIdUserId[farm_id][user_id].role;
 };
 
 const removeUserFarm = (state, { payload: userFarm }) => {
@@ -92,6 +93,7 @@ const userFarmSlice = createSlice({
         state.byFarmIdUserId[farm_id] = prevUserFarms;
         state.byFarmIdUserId[farm_id][user_id] = prevUserFarms[user_id] || {};
         Object.assign(state.byFarmIdUserId[farm_id][user_id], userFarm);
+        delete state.byFarmIdUserId[farm_id][user_id].role;
       });
     },
     postFarmSuccess: addUserFarm,
@@ -106,14 +108,8 @@ const userFarmSlice = createSlice({
       });
     },
     patchConsentStepThreeSuccess: (state, { payload }) => {
-      const {
-        step_three,
-        step_three_end,
-        has_consent,
-        consent_version,
-        farm_id,
-        user_id,
-      } = payload;
+      const { step_three, step_three_end, has_consent, consent_version, farm_id, user_id } =
+        payload;
       Object.assign(state.byFarmIdUserId[farm_id][user_id], {
         step_three,
         step_three_end,
@@ -163,10 +159,10 @@ const userFarmSlice = createSlice({
       removeUserFarm(state, { payload: pseudoUserFarm });
       addUserFarm(state, { payload: newUserFarm });
     },
-    setLoadingStart: (state, {}) => {
+    setLoadingStart: (state) => {
       state.loading = true;
     },
-    setLoadingEnd: (state, {}) => {
+    setLoadingEnd: (state) => {
       state.loading = false;
     },
   },

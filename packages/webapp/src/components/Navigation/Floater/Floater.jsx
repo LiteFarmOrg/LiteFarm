@@ -9,13 +9,15 @@ const useStyle = makeStyles((theme) => ({
     overflow: 'initial',
     width: '32px',
     height: '16px',
-    marginTop: '-16px !important',
     '&::before': {
-      transform: `translate(4px, 0px) rotate(45deg)`,
+      transform: `translate(4px, -8px) rotate(45deg)`,
     },
   },
   tooltip: {
-    top: '-6px',
+    top: '-8px',
+    [theme.breakpoints.up('sm')]: {
+      top: '4px',
+    },
     pointerEvents: 'initial',
     zIndex: 1000,
     backgroundColor: 'white',

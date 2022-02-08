@@ -34,7 +34,7 @@ export default function PureInviteUser({ onInvite, onGoBack, roleOptions = [] })
   const role = watch(ROLE, undefined);
   const selectedRoleId = role?.value;
   useEffect(() => {
-    trigger(EMAIL);
+    selectedRoleId && trigger(EMAIL);
   }, [selectedRoleId]);
   const { t } = useTranslation(['translation', 'common', 'gender']);
   const title = t('INVITE_USER.TITLE');
@@ -52,13 +52,10 @@ export default function PureInviteUser({ onInvite, onGoBack, roleOptions = [] })
     const { first_name, last_name } = getFirstNameLastName(data.name);
     onInvite({ ...data, email, first_name, last_name });
   };
-  const onError = (data) => {
-    console.log('error: ', data);
-  };
 
   return (
     <Form
-      onSubmit={handleSubmit(onSubmit, onError)}
+      onSubmit={handleSubmit(onSubmit)}
       buttonGroup={
         <>
           <Button onClick={onGoBack} color={'secondary'} type={'button'} fullLength>
@@ -95,9 +92,12 @@ export default function PureInviteUser({ onInvite, onGoBack, roleOptions = [] })
         label={t('INVITE_USER.EMAIL')}
         hookFormRegister={register(EMAIL, {
           required: selectedRoleId !== 3,
-          pattern: /^$|^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
+          pattern: {
+            value: /^$|^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
+            message: t('INVITE_USER.INVALID_EMAIL_ERROR'),
+          },
         })}
-        errors={errors[EMAIL]?.type === 'pattern' && t('INVITE_USER.INVALID_EMAIL_ERROR')}
+        errors={getInputErrors(errors, EMAIL)}
         optional={selectedRoleId === 3}
         info={t('INVITE_USER.EMAIL_INFO')}
         style={{ marginBottom: '16px' }}

@@ -1009,10 +1009,21 @@
   "NAVIGATION": {
     "SPOTLIGHT": {
       "FARM": "Here you can:, • Edit your farm settings, • Map your farm, • Manage your employees",
+      "YOU_CAN": "Here you can:",
+      "EDIT_FARM_SETTING": "Edit your farm settings",
+      "MAP_FARM": "Map your farm",
+      "MANAGE_EMPLOYEE": "Manage your employees",
       "FARM_TITLE": "This is your farm profile",
       "NOTIFICATION": "Here you can:, • Manage your tasks, • See what else is going on, • Coordinate farm activities",
-      "NOTIFICATION_TITLE": "This is your farm tasks",
+      "MANAGE_TASK": "Manage your tasks",
+      "SEE_TASK": "See what else is going on",
+      "COORDINATE_ACTIVITIES": "Coordinate farm activities",
+      "TASK_TITLE": "This is your farm tasks",
       "PROFILE": "Here you will find:, • Your info, • Helpful tips, • The log out button",
+      "YOU_WILL_FIND": "Here you will find:",
+      "INFO": "Your info",
+      "TIPS": "Helpful tips",
+      "LOG_OUT": "The log out button",
       "PROFILE_TITLE": "This is your profile"
     }
   },

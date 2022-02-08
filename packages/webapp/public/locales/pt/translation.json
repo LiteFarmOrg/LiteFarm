@@ -1009,10 +1009,21 @@
   "NAVIGATION": {
     "SPOTLIGHT": {
       "FARM": "Aqui você pode :, • Editar as configurações da sua fazenda, • Mapear sua fazenda, • Orientar seus funcionários",
+      "YOU_CAN": "Aqui você pode:",
+      "EDIT_FARM_SETTING": "Editar as configurações da sua fazenda",
+      "MAP_FARM": "Mapear sua fazenda",
+      "MANAGE_EMPLOYEE": "Orientar seus funcionários",
       "FARM_TITLE": "O perfil de fazenda",
       "NOTIFICATION": "Aqui você pode:, • Administrar suas tarefas, • Ver o que mais está acontecendo, • Coordenar as atividades da fazenda",
-      "NOTIFICATION_TITLE": "Essas são as tarefas da sua propriedade",
+      "MANAGE_TASK": "Administrar suas tarefas",
+      "SEE_TASK": "Ver o que mais está acontecendo",
+      "COORDINATE_ACTIVITIES": "Coordenar as atividades da fazenda",
+      "TASK_TITLE": "Essas são as tarefas da sua propriedade",
       "PROFILE": "Aqui você encontrará :, • Suas informações, • Dicas úteis, • O botão de logout",
+      "YOU_WILL_FIND": "Aqui você encontrará:",
+      "INFO": "Suas informações",
+      "TIPS": "Dicas úteis",
+      "LOG_OUT": "O botão de logout",
       "PROFILE_TITLE": "Seu Perfil"
     }
   },

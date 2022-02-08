@@ -17,11 +17,12 @@
   /* Rectangle 49 */
   display: flex;
   flex-direction: column;
-  width: 312px;
+  width: 296px;
   height: 430px;
   /* Grey-100 */
   background: #fafafd;
   border-radius: 7.05466px;
+  align-items: center;
 }
 
 .descriptionTop {
@@ -62,16 +63,13 @@
 }
 
 .imgContainer {
-  margin-left: 5%;
   margin-top: -40px;
+  width: 100%;
 }
 
 .title {
   margin-top: 20px;
-  margin-left: 20%;
   font-family: 'Open Sans', 'SansSerif', serif;
-  padding-left: 20px;
-  padding-right: 20px;
   font-style: normal;
   font-weight: lighter;
   font-size: 20px;
@@ -88,7 +86,7 @@
 }
 
 .bottomContainer {
-  margin: 30px auto 0 auto;
+  margin: 30px 0 0 0;
   width: 240px;
   box-shadow: 0 2px 8px rgba(102, 115, 138, 0.5);
 }

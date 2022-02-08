@@ -42,7 +42,7 @@ export function* archiveDocumentSaga({ payload: document_id }) {
     if (result) {
       yield put(archiveDocumentSuccess(document_id));
       yield put(enqueueSuccessSnackbar(i18n.t('message:ATTACHMENTS.SUCCESS.ARCHIVE')));
-      history.goBack();
+      history.back();
     } else {
       yield put(enqueueErrorSnackbar(i18n.t('message:ATTACHMENTS.ERROR.FAILED_ARCHIVE')));
     }

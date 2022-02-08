@@ -8,6 +8,10 @@
   flex-grow: 1;
   width: 100%;
   overflow-y: scroll;
+  display: flex;
+  row-gap: 20px;
+  flex-direction: column;
+  padding-bottom: 40px;
 }
 
 .consentTextContainer li {

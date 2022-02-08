@@ -41,7 +41,7 @@ function TaskActiveAndPlannedCropLocations({ history }) {
   };
 
   const onGoBack = () => {
-    history.goBack();
+    history.back();
   };
   return (
     <TaskLocations
@@ -62,7 +62,7 @@ function TaskTransplantLocations({ history }) {
   };
 
   const onGoBack = () => {
-    history.goBack();
+    history.back();
   };
   return (
     <TaskLocations
@@ -92,7 +92,7 @@ function TaskAllLocations({ history }) {
   };
 
   const onGoBack = () => {
-    history.goBack();
+    history.back();
   };
   return (
     <TaskLocations

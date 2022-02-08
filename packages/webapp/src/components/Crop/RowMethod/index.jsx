@@ -17,7 +17,7 @@ export default function PureRowMethod({
   history,
   prefix = `crop_management_plan.planting_management_plans.${isFinalPage ? 'final' : 'initial'}`,
   submitPath,
-  onGoBack = () => history.goBack(),
+  onGoBack = () => history.back(),
   isHistoricalPage,
 }) {
   const { t } = useTranslation();

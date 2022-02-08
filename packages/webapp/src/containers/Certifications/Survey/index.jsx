@@ -30,7 +30,7 @@ function CertificationSurveyPage({ history, match }) {
     <HookFormPersistProvider>
       <PureCertificationSurveyPage
         onExport={onExport}
-        handleGoBack={() => history.goBack()}
+        handleGoBack={() => history.back()}
         handleCancel={() => history.push('/certification')}
         certifierSurvey={certifierSurvey}
         interested={interested}

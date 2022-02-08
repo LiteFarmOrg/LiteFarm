@@ -69,7 +69,7 @@ export default function PureEditUser({ userFarm, onUpdate, history, isAdmin, onA
       </>
       }
     >
-      <PageTitle style={{ marginBottom: '32px' }} onGoBack={() => history.goBack()}
+      <PageTitle style={{ marginBottom: '32px' }} onGoBack={() => history.back()}
                  title={t('PROFILE.ACCOUNT.EDIT_USER')} />
       <Input
         label={t('PROFILE.ACCOUNT.FIRST_NAME')}

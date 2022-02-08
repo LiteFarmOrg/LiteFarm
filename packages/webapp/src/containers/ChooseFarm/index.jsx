@@ -57,7 +57,7 @@ function ChooseFarm() {
   }, [farms, loaded]);
 
   const onGoBack = () => {
-    history.goBack();
+    history.back();
   };
 
   const onProceed = () => {

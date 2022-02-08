@@ -25,7 +25,7 @@ function TaskReadOnly({ history, match }) {
   const harvestUseTypes = useSelector(harvestUseTypesSelector);
 
   const onGoBack = () => {
-    history.goBack();
+    history.back();
   };
 
   const onComplete = () => {

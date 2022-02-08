@@ -40,7 +40,7 @@ export default function PureManagementPlanName({
   });
   const { historyCancel } = useHookFormPersist(getValues);
 
-  const onGoBack = () => history.goBack();
+  const onGoBack = () => history.back();
 
   const disabled = !isValid;
 

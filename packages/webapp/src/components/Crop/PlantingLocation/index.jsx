@@ -99,12 +99,13 @@ export default function PurePlantingLocation({
     setPinToggle((pinToggle) => !pinToggle);
   };
 
-  const onSubmit = () =>
-    history.push(
-      getPlantingLocationPaths(variety_id, persistedFormData, isFinalLocationPage).submitPath,
-    );
-  const onGoBack = () =>
-    history.goBack();
+  const onSubmit = () => history.push(
+    getPlantingLocationPaths(variety_id, persistedFormData, isFinalLocationPage).submitPath,
+  );
+  const onGoBack = () => {
+    console.log('goback');
+    history.back();
+  };
 
 
   return (

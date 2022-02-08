@@ -42,7 +42,7 @@ function TaskDetails({ history, match }) {
 
   const isTransplantTask = useIsTaskType('TRANSPLANT_TASK');
   const handleGoBack = () => {
-    history.goBack();
+    history.back();
   };
 
   const onSubmit = () => {

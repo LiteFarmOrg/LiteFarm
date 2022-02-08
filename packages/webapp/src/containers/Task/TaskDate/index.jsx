@@ -5,7 +5,7 @@ import { useIsTaskType } from '../useIsTaskType';
 
 function TaskDate({ history, match }) {
   const onGoBack = () => {
-    history.goBack();
+    history.back();
   };
   const isTransplantTask = useIsTaskType('TRANSPLANT_TASK');
   const onContinue = () => {

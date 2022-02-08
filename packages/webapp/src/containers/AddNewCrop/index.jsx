@@ -11,7 +11,7 @@ function AddNewCrop({ history }) {
     <HookFormPersistProvider>
       <PureAddNewCrop
         handleContinue={() => history.push(`/crop/new/add_crop_variety`)}
-        handleGoBack={() => history.goBack()}
+        handleGoBack={() => history.back()}
         handleError={onError}
       />
     </HookFormPersistProvider>

@@ -18,7 +18,7 @@ function PurePlanGuidance({
   prefix = `crop_management_plan.planting_management_plans.${isFinalPage ? 'final' : 'initial'}`,
   history,
   submitPath,
-  onGoBack = () => history.goBack(),
+  onGoBack = () => history.back(),
   onSubmit = () => history.push(submitPath),
 }) {
   const { t } = useTranslation(['translation']);

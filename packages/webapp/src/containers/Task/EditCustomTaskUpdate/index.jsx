@@ -5,7 +5,7 @@ function EditCustomTaskUpdate({ history, match }) {
   const onGoBackPath = '/add_task/edit_custom_task';
   const persistedPaths = [onGoBackPath];
   const handleGoBack = () => {
-    history.goBack();
+    history.back();
   };
 
   return (

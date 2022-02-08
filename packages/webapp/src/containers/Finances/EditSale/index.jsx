@@ -144,7 +144,7 @@ class EditSale extends Component {
         <PageTitle
           title={this.props.t('SALE.EDIT_SALE.TITLE')}
           style={{ marginBottom: '24px' }}
-          onGoBack={() => history.goBack()}
+          onGoBack={() => history.back()}
         />
         <span className={defaultStyles.dateContainer}>
           <label>{this.props.t('SALE.EDIT_SALE.DATE')}</label>

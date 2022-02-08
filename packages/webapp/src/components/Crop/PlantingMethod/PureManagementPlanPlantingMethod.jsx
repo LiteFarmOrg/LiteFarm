@@ -85,7 +85,7 @@ export default function PureManagementPlanPlantingMethod({
       ).submitPath,
     );
   const onGoBack = () =>
-    history.goBack();
+    history.back();
 
 
   const disabled = !isValid;

@@ -9,12 +9,12 @@ function AddCustomTask({ history, match }) {
   const dispatch = useDispatch();
 
   const handleGoBack = () => {
-    history.goBack();
+    history.back();
   };
 
   const onSave = (payload) => {
     dispatch(addCustomTaskType(payload));
-    history.goBack();
+    history.back();
   };
 
   return (

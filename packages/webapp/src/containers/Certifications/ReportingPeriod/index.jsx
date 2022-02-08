@@ -24,7 +24,7 @@ function CertificationReportingPeriod({ history, match }) {
       <PureCertificationReportingPeriod
         onSubmit={onContinue}
         onError={onError}
-        handleGoBack={() => history.goBack()}
+        handleGoBack={() => history.back()}
         defaultEmail={email}
       />
     </HookFormPersistProvider>

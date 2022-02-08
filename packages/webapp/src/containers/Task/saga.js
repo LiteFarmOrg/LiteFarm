@@ -426,9 +426,8 @@ const getCompletePlantingTaskBody = (task_translation_key) => (data) => {
     const taskType = task_translation_key.toLowerCase();
     const planting_management_plan = data?.taskData?.[taskType]?.planting_management_plan;
     if (planting_management_plan) {
-      data.taskData[taskType].planting_management_plan = getPlantingMethodReqBody(
-        planting_management_plan,
-      );
+      data.taskData[taskType].planting_management_plan =
+        getPlantingMethodReqBody(planting_management_plan);
       data.taskData[taskType].planting_management_plan.planting_management_plan_id =
         data.taskData[taskType].planting_management_plan_id;
       delete data.taskData[taskType].planting_management_plan_id;
@@ -546,7 +545,7 @@ export function* deleteTaskTypeSaga({ payload: id }) {
     if (result) {
       yield put(deleteTaskTypeSuccess(id));
       yield put(enqueueSuccessSnackbar(i18n.t('message:TASK_TYPE.DELETE.SUCCESS')));
-      history.goBack();
+      history.back();
     }
   } catch (e) {
     yield put(enqueueErrorSnackbar(i18n.t('message:TASK_TYPE.DELETE.FAILED')));

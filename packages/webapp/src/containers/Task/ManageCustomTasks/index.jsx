@@ -7,7 +7,7 @@ function ManageCustomTasks({ history, match }) {
   const onAddCustomTaskPath = '/add_task/add_custom_task';
   const onEditCustomTaskPath = '/add_task/edit_custom_task';
   const handleGoBack = () => {
-    history.goBack();
+    history.back();
   };
 
   const onEditCustomTask = () => {

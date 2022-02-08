@@ -55,7 +55,7 @@ export function* deactivateUserSaga({ payload: target_user_id }) {
     );
     yield put(patchUserStatusSuccess({ farm_id, user_id: target_user_id, ...body }));
     yield put(enqueueSuccessSnackbar(i18n.t('message:USER.SUCCESS.REVOKE')));
-    history.goBack();
+    history.back();
   } catch (e) {
     yield put(enqueueErrorSnackbar(i18n.t('message:USER.ERROR.REVOKE')));
   }
@@ -82,7 +82,7 @@ export function* reactivateUserSaga({ payload: target_user_id }) {
     );
     yield put(patchUserStatusSuccess({ farm_id, user_id: target_user_id, ...body }));
     yield put(enqueueSuccessSnackbar(i18n.t('message:USER.SUCCESS.RESTORE')));
-    history.goBack();
+    history.back();
   } catch (e) {
     yield put(enqueueErrorSnackbar(i18n.t('message:USER.ERROR.RESTORE')));
   }
@@ -103,7 +103,7 @@ export function* updateUserFarmSaga({ payload: user }) {
     const results = yield all(patchRequests);
     yield put(putUserSuccess({ ...user, farm_id }));
     yield put(enqueueSuccessSnackbar(i18n.t('message:USER.SUCCESS.UPDATE')));
-    history.goBack();
+    history.back();
   } catch (e) {
     yield put(enqueueErrorSnackbar(i18n.t('message:USER.ERROR.UPDATE')));
     console.error(e);
@@ -131,7 +131,7 @@ export function* invitePseudoUserSaga({ payload: user }) {
       }),
     );
     yield put(enqueueSuccessSnackbar(i18n.t('message:USER.SUCCESS.UPDATE')));
-    history.goBack();
+    history.back();
   } catch (e) {
     yield put(enqueueErrorSnackbar(i18n.t('message:USER.ERROR.UPDATE')));
     console.error(e);

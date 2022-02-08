@@ -358,7 +358,7 @@ const Unit = ({
                 if (!isDirty) setDirty(true);
               }}
               value={value}
-              inputRef={ref}
+              ref={ref}
               customStyles
               styles={reactSelectStyles}
               isSearchable={false}

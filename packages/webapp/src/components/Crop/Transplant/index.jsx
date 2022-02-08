@@ -42,7 +42,7 @@ export default function PureTransplant({
   const onSubmit = () => {
     history?.push(submitPath);
   };
-  const onGoBack = () => history.goBack();
+  const onGoBack = () => history.back();
 
 
   const disabled = !isValid;

@@ -39,7 +39,7 @@ export function* postResidenceLocationSaga({ payload: data }) {
       ]),
     );
     yield put(canShowSuccessHeader(true));
-    history.goBack();
+    history.back();
   } catch (e) {
     history.push({
       path: history.location.pathname,

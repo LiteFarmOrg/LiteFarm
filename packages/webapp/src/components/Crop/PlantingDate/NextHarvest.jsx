@@ -58,7 +58,7 @@ export default function PureNextHarvest({
     [],
   );
   const onSubmit = () => history.push(submitPath);
-  const onGoBack = () => history.goBack();
+  const onGoBack = () => history.back();
 
   const showEstimatedYield = !persistedFormData.crop_management_plan.for_cover;
 

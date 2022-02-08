@@ -94,7 +94,7 @@ class AddSale extends Component {
     const cropVarietyOptions = this.getCropVarietyOptions(managementPlans);
     return (
       <div className={defaultStyles.financesContainer}>
-        <PageTitle title={this.props.t('SALE.ADD_SALE.TITLE')} onGoBack={() => history.goBack()} />
+        <PageTitle title={this.props.t('SALE.ADD_SALE.TITLE')} onGoBack={() => history.back()} />
         <span className={defaultStyles.dateContainer}>
           <label>{this.props.t('SALE.ADD_SALE.DATE')}</label>
           <DateContainer

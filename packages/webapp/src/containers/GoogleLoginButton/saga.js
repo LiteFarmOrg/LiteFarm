@@ -32,17 +32,21 @@ export function* loginWithGoogleSaga({ payload: google_id_token }) {
     localStorage.setItem('id_token', id_token);
     localStorage.setItem('litefarm_lang', user.language_preference);
     if (id_token === '') {
-      history.push({
-        pathname: '/',
-        state: { component: ENTER_PASSWORD_PAGE, user },
-      });
+      history.push(
+        {
+          pathname: '/',
+        },
+        { component: ENTER_PASSWORD_PAGE, user },
+      );
     } else {
       yield put(loginSuccess(user));
       if (isSignUp) {
-        history.push({
-          pathname: '/sso_signup_information',
-          state: { user },
-        });
+        history.push(
+          {
+            pathname: '/sso_signup_information',
+          },
+          { user },
+        );
       } else {
         history.push('/farm_selection');
       }

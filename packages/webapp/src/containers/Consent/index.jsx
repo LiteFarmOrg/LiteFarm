@@ -1,5 +1,5 @@
 import { useForm } from 'react-hook-form';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import PureConsent from '../../components/Consent';
 import { userFarmSelector } from '../userFarmSlice';
@@ -39,7 +39,7 @@ function ConsentForm({
 
     formState: { errors },
   } = useForm();
-  const [consentVersion] = useState('3.0');
+  const [consentVersion] = useState('4.0');
   const consent = role.role_id === 3 ? getLanguageConsent(language).worker : getLanguageConsent(language).owner;
   const checkboxName = 'consentCheckbox';
   const hasConsent = watch(checkboxName, false);

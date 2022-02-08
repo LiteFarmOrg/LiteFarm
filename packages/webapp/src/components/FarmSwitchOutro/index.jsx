@@ -22,9 +22,8 @@ export default function FarmSwitchPureOutroSplash({ onFinish, farm_name }) {
       <div className={styles.bold}>{farm_name}</div>
       <Button
         className={styles.bottomContainer}
-        children={t('SWITCH_OUTRO.BUTTON')}
         onClick={onFinish}
-      />
+      >{t('SWITCH_OUTRO.BUTTON')}</Button>
     </div>
   );
 }

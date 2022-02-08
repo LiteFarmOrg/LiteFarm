@@ -1,0 +1,37 @@
+image:
+  file: .gitpod.Dockerfile
+
+tasks:
+  - name: API server
+    init: |
+      cd packages/api
+      cp .env.default .env
+      npm run migrate:dev:db
+      npm install
+      cd ../..
+      psql -c 'CREATE DATABASE "pg-litefarm";'
+      psql -c "CREATE DATABASE test_farm;"
+      psql -c "CREATE ROLE postgres WITH LOGIN SUPERUSER PASSWORD 'postgres';"
+    command: cd packages/api && npm start
+  - name: Web app server
+    init: |
+      cd packages/webapp
+      cp .env.default .env
+      npm install
+      cd ../..
+    command: cd packages/webapp && npm start
+
+vscode:
+  extensions:
+    - dbaeumer.vscode-eslint
+
+ports:
+  - port: 3000
+    visibility: public
+    onOpen: open-browser
+  - port: 5000
+    visibility: public
+    onOpen: ignore
+  - port: 5432
+    visibility: private
+    onOpen: ignore

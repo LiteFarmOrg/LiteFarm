@@ -36,21 +36,6 @@ export default function Home({ history }) {
       {userFarm ? <WeatherBoard /> : null}
       {showSwitchFarmModal && !showSpotLight && <FarmSwitchOutro onFinish={dismissPopup} />}
 
-      {showSwitchFarmModal && !showSpotLight && (
-        <div
-          onClick={dismissPopup}
-          style={{
-            position: 'fixed',
-            zIndex: 1500,
-            left: 0,
-            right: 0,
-            top: 0,
-            bottom: 0,
-            backgroundColor: 'rgba(25, 25, 40, 0.8)',
-          }}
-        />
-      )}
-
       {showHelpRequestModal && (
         <RequestConfirmationComponent
           onClick={showRequestConfirmationModalOnClick}

@@ -103,8 +103,8 @@ export default function PurePlantingLocation({
     getPlantingLocationPaths(variety_id, persistedFormData, isFinalLocationPage).submitPath,
   );
   const onGoBack = () => {
-    console.log('goback');
     history.back();
+    ``;
   };
 
 

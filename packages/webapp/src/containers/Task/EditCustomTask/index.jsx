@@ -13,7 +13,7 @@ function EditCustomTask({ history, match }) {
   const { persistedData } = useHookFormPersist();
   const selectedTaskType = useSelector(taskTypeSelector(persistedData.task_type_id));
   const handleGoBack = () => {
-    history.goBack();
+    history.back();
   };
 
   const handleEdit = () => {

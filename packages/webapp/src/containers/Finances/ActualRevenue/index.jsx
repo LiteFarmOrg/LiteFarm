@@ -14,7 +14,7 @@ import FinanceListHeader from '../../../components/Finances/FinanceListHeader';
 
 export default function ActualRevenue({ history, match }) {
   const { t } = useTranslation();
-  const onGoBack = () => history.goBack();
+  const onGoBack = () => history.back();
   const onAddRevenue = () => history.push(`/add_sale`);
   // TODO: refactor sale data after finance reducer is remade
   const sales = useSelector(salesSelector);

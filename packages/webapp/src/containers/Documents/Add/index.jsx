@@ -15,7 +15,7 @@ function AddDocument({ history }) {
   };
 
   const onBack = () => {
-    history.goBack();
+    history.back();
   };
 
 

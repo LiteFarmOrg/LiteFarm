@@ -35,7 +35,7 @@ export function* postGardenLocationSaga({ payload: data }) {
       setSuccessMessage([i18n.t('FARM_MAP.MAP_FILTER.GARDEN'), i18n.t('message:MAP.SUCCESS_POST')]),
     );
     yield put(canShowSuccessHeader(true));
-    history.goBack();
+    history.back();
   } catch (e) {
     history.push({
       path: history.location.pathname,

@@ -20,7 +20,7 @@ function TaskCompleteStepOne({ history, match }) {
   };
 
   const onGoBack = () => {
-    history.goBack();
+    history.back();
   };
 
   return (

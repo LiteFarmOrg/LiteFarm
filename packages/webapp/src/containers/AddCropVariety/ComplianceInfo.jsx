@@ -34,7 +34,7 @@ function ComplianceInfoForm({ history, match }) {
   };
 
   const onGoBack = () => {
-    history.goBack();
+    history.back();
   };
 
 

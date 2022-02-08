@@ -9,7 +9,7 @@ export default function Forbidden({ history }) {
   if (history?.location?.state?.error?.response?.status === 403) {
    dispatch(handle403());
   } else if (history.length) {
-   history.goBack();
+   history.back();
   } else {
    history.replace('/');
   }

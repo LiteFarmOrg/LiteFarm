@@ -45,7 +45,7 @@ function TaskCrops({
 
 
   const handleGoBack = () => {
-    history.goBack();
+    history.back();
   };
 
   const onContinue = () => {

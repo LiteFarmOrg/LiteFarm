@@ -103,7 +103,7 @@ export default function PurePlantedAlready({
     }
     history.push(submitPath);
   };
-  const onGoBack = () => history.goBack();
+  const onGoBack = () => history.back();
 
   const already_in_ground = watch(ALREADY_IN_GROUND);
   const is_seed = watch(IS_SEED);

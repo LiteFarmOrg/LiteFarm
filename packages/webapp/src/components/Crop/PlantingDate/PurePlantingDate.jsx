@@ -240,7 +240,7 @@ export default function PurePlantingDate({
     [],
   );
   const onSubmit = () => history.push(submitPath);
-  const onGoBack = () => history.goBack();
+  const onGoBack = () => history.back();
 
   const onError = () => {};
 

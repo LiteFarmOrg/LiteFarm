@@ -26,11 +26,11 @@ export default function LocationPageHeader({
         isStepBack: true,
       });
     isViewLocationPage &&
-      history.replace({
-        pathname: '/map',
-        cameraInfo: { zoom: currentZoomLevel, location: position },
-      });
-    isEditLocationPage && history.goBack();
+    history.replace({
+      pathname: '/map',
+      cameraInfo: { zoom: currentZoomLevel, location: position },
+    });
+    isEditLocationPage && history.back();
   };
   return (
     <PageTitle

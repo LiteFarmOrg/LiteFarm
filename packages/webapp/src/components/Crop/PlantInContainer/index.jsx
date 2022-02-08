@@ -20,7 +20,7 @@ export default function PurePlantInContainer({
   prefix = `crop_management_plan.planting_management_plans.${isFinalPage ? 'final' : 'initial'}`,
   submitPath,
   onSubmit = () => history.push(submitPath),
-  onGoBack = () => history.goBack(),
+  onGoBack = () => history.back(),
 }) {
   const progress = useMemo(() => {
     if (isHistorical && !isFinalPage) return 55;

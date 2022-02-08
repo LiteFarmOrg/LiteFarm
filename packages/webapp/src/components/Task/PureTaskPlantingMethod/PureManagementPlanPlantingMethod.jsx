@@ -31,7 +31,7 @@ export function PureTaskPlantingMethod({ useHookFormPersist, persistedFormData, 
   const onError = () => {};
 
   const onSubmit = () => history.push(`/add_task/${planting_method.toLowerCase()}`);
-  const onGoBack = () => history.goBack();
+  const onGoBack = () => history.back();
   const onCancel = () => history.push(entryPath);
 
   const disabled = !isValid;

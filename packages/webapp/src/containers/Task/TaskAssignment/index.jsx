@@ -69,7 +69,7 @@ export default function TaskManagement({ history, match }) {
   };
 
   const handleGoBack = () => {
-    history.goBack();
+    history.back();
   };
 
   const onError = () => {

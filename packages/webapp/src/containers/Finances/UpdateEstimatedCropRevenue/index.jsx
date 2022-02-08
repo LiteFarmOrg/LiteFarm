@@ -32,7 +32,7 @@ function UpdateEstimatedCropRevenue({ history, match }) {
     <PureUpdateEstimatedCropRevenue
       system={system}
       managementPlan={managementPlan}
-      onGoBack={() => history.goBack()}
+      onGoBack={() => history.back()}
       onSubmit={onSubmit}
     />
   );

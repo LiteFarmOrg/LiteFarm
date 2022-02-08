@@ -17,7 +17,7 @@ function HarvestCompleteQuantity({ history, match }) {
 
 
   const onGoBack = () => {
-    history.goBack();
+    history.back();
   };
 
   return (

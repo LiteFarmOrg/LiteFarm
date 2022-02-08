@@ -45,7 +45,6 @@ import watercourseSaga from './containers/LocationDetails/LineDetails/Watercours
 import financeSaga from './containers/Finances/saga';
 import varietalSaga from './containers/AddCropVariety/saga';
 import insightSaga from './containers/Insights/saga';
-import farmDataSaga from './containers/Profile/Farm/saga';
 import chooseFarmSaga from './containers/ChooseFarm/saga';
 import supportSaga from './containers/Help/saga';
 import certifierSurveySaga from './containers/OrganicCertifierSurvey/saga';
@@ -112,7 +111,6 @@ sagaMiddleware.run(watercourseSaga);
 sagaMiddleware.run(financeSaga);
 sagaMiddleware.run(varietalSaga);
 sagaMiddleware.run(insightSaga);
-sagaMiddleware.run(farmDataSaga);
 sagaMiddleware.run(chooseFarmSaga);
 sagaMiddleware.run(certifierSurveySaga);
 sagaMiddleware.run(consentSaga);

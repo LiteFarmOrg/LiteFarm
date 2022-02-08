@@ -19,7 +19,6 @@ import { combineForms } from 'react-redux-form';
 import { PURGE } from 'redux-persist';
 import insightReducer from '../containers/Insights/reducer';
 import financeReducer from '../containers/Finances/reducer';
-import farmReducer from '../containers/Profile/Farm/reducer';
 import certifierSurveyReducer from '../containers/OrganicCertifierSurvey/slice';
 import userFarmReducer from '../containers/userFarmSlice';
 import rolesReducer from '../containers/Profile/People/slice';
@@ -224,7 +223,6 @@ const appReducer = combineReducers({
   baseReducer,
   insightReducer,
   financeReducer,
-  farmReducer,
 });
 
 const rootReducer = (state, action) => {

@@ -80,11 +80,11 @@ const useMapAssetRenderer = ({ isClickable }) => {
   const pointAssets = useSelector(pointSelector);
 
   const assetFunctionMap = (assetType) => {
-    return !!isArea(assetType)
+    return isArea(assetType)
       ? isNoFillArea(assetType)
         ? drawNoFillArea
         : drawArea
-      : !!isLine(assetType)
+      : isLine(assetType)
       ? drawLine
       : drawPoint;
   };

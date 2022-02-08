@@ -420,12 +420,12 @@ class Finances extends Component {
           </Semibold>
           <DescriptiveButton
             label={this.props.t('SALE.FINANCES.LABOUR_LABEL')}
-            number={this.state.currencySymbol + labourExpense.toFixed(2).toString()}
+            number={this.state.currencySymbol + labourExpense.toFixed(2)}
             onClick={() => history.push('/labour')}
           />
           <DescriptiveButton
             label={this.props.t('SALE.FINANCES.OTHER_EXPENSES_LABEL')}
-            number={this.state.currencySymbol + otherExpense.toString()}
+            number={this.state.currencySymbol + otherExpense.toFixed(2)}
             onClick={() => history.push('/other_expense')}
           />
 

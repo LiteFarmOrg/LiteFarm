@@ -1,6 +1,6 @@
 /*
- *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>
- *  This file (util.js) is part of LiteFarm.
+ *  Copyright 2019-2022 LiteFarm.org
+ *  This file is part of LiteFarm.
  *
  *  LiteFarm is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -14,26 +14,27 @@
  */
 
 import moment from 'moment';
+import { roundToTwoDecimal } from '../../util';
 
 export function calcTotalLabour(tasks, startDate, endDate) {
-  let total = 0;
+  let total = 0.00;
   if (Array.isArray(tasks)) {
-    for (let t of tasks) {
+    for (const t of tasks) {
       const completedTime = moment(t.completed_time);
       const abandonedTime = moment(t.abandoned_time);
       if (
-        ( completedTime.isSameOrAfter(startDate, 'day') &&
+        (completedTime.isSameOrAfter(startDate, 'day') &&
           completedTime.isSameOrBefore(endDate, 'day') &&
           t.duration) ||
-        ( abandonedTime.isSameOrAfter(startDate, 'day') &&
+        (abandonedTime.isSameOrAfter(startDate, 'day') &&
           abandonedTime.isSameOrBefore(endDate, 'day') &&
           t.duration)
       ) {
         // TODO: possibly implement check when wage can be yearly
         // if (s.wage.type === 'hourly')
-        let rate = parseFloat(t.wage_at_moment).toFixed(2);
-        let hoursWorked = Number((t.duration / 60).toFixed(2));
-        total += rate * hoursWorked;
+        const rate = roundToTwoDecimal(t.wage_at_moment);
+        const hoursWorked = roundToTwoDecimal(t.duration / 60);
+        total = roundToTwoDecimal(roundToTwoDecimal(total) + roundToTwoDecimal(rate * hoursWorked));
       }
     }
   }
@@ -57,48 +58,47 @@ export const filterSalesByCurrentYear = (sales) => {
 };
 
 export function calcOtherExpense(expenses, startDate, endDate) {
-  let total = 0;
+  let total = 0.00;
   if (Array.isArray(expenses)) {
-    for (let e of expenses) {
+    for (const e of expenses) {
       const expenseDate = moment(e.expense_date);
       if (
         expenseDate.isSameOrAfter(startDate, 'day') &&
         expenseDate.isSameOrBefore(endDate, 'day')
       ) {
-        total += parseFloat(e.value);
+        total = roundToTwoDecimal(total + roundToTwoDecimal(e.value));
       }
     }
   }
-  total = total.toFixed(2);
   return total;
 }
 
 export function calcSales(sales, startDate, endDate) {
-  let total = 0;
+  let total = 0.00;
 
   if (Array.isArray(sales)) {
-    for (let s of sales) {
+    for (const s of sales) {
       const saleDate = moment(s.sale_date);
       if (
         saleDate.isSameOrAfter(startDate, 'day') &&
         saleDate.isSameOrBefore(endDate, 'day')
       ) {
-        for (let c of s.cropSale) {
-          total += parseFloat(c.sale_value);
+        for (const c of s.cropSale) {
+          total = roundToTwoDecimal(roundToTwoDecimal(total) + roundToTwoDecimal(c.sale_value));
         }
       }
     }
   }
-  total = total.toFixed(2);
   return total;
 }
 
 export function calcBalanceByCrop(shifts, sales, expenses, startDate, endDate) {
-  let sortObj = {};
-  let unAllocated = {};
+  const sortObj = {};
+  const unAllocated = {};
   if (shifts && shifts.length) {
-    for (let s of shifts) {
-      let cid = s.crop_id;
+    for (const s of shifts) {
+      const cid = s.crop_id;
+      const cost = roundToTwoDecimal(roundToTwoDecimal(s.wage_at_moment) * roundToTwoDecimal(s.duration / 60));
       if (cid) {
         const shiftDate = moment(s.shift_date);
         if (
@@ -106,10 +106,10 @@ export function calcBalanceByCrop(shifts, sales, expenses, startDate, endDate) {
           shiftDate.isSameOrBefore(endDate, 'day')
         ) {
           if (sortObj.hasOwnProperty(cid)) {
-            sortObj[cid].cost += parseFloat(s.wage_at_moment) * (s.duration / 60);
+            sortObj[cid].cost = roundToTwoDecimal(roundToTwoDecimal(sortObj[cid].cost) + cost);
           } else {
             sortObj[cid] = {
-              cost: parseFloat(s.wage_at_moment) * (s.duration / 60),
+              cost,
               crop: s.crop_common_name,
               revenue: 0,
             };
@@ -118,26 +118,26 @@ export function calcBalanceByCrop(shifts, sales, expenses, startDate, endDate) {
       } else {
         if (s.location_id && s.is_field) {
           if (unAllocated.hasOwnProperty(s.location_id)) {
-            unAllocated[s.location_id] += Number(parseFloat(s.wage_at_moment) * (s.duration / 60));
+            unAllocated[s.location_id] = roundToTwoDecimal(roundToTwoDecimal(unAllocated[s.location_id] + cost));
           } else {
-            unAllocated[s.location_id] = Number(parseFloat(s.wage_at_moment) * (s.duration / 60));
+            unAllocated[s.location_id] = cost;
           }
         }
       }
     }
   }
 
-  let fieldKeys = Object.keys(unAllocated);
+  const fieldKeys = Object.keys(unAllocated);
 
-  for (let fk of fieldKeys) {
-    let shiftCropOnField = getShiftCropOnField(fk, shifts);
+  for (const fk of fieldKeys) {
+    const shiftCropOnField = getShiftCropOnField(fk, shifts);
     let isAllocated = false;
     if (shiftCropOnField.length) {
-      let avgCost = unAllocated[fk] / shiftCropOnField.length;
-      for (let c of shiftCropOnField) {
+      const avgCost = roundToTwoDecimal(roundToTwoDecimal(unAllocated[fk]) / shiftCropOnField.length);
+      for (const c of shiftCropOnField) {
         if (sortObj.hasOwnProperty(c)) {
           isAllocated = true;
-          sortObj[c].cost += avgCost;
+          sortObj[c].cost = roundToTwoDecimal(roundToTwoDecimal(sortObj[c].cost) + avgCost);
         }
       }
     }
@@ -155,8 +155,8 @@ export function calcBalanceByCrop(shifts, sales, expenses, startDate, endDate) {
       crop: 'Unallocated*',
       revenue: 0,
     };
-    for(let fk of fieldKeys){
-      sortObj['unallocated'].cost += unAllocated[fk];
+    for(const fk of fieldKeys){
+      sortObj['unallocated'].cost = roundToTwoDecimal(roundToTwoDecimal(sortObj['unallocated'].cost) + roundToTwoDecimal(unAllocated[fk]));
     }
     this.setState({
       hasUnAllocated: true,
@@ -165,31 +165,30 @@ export function calcBalanceByCrop(shifts, sales, expenses, startDate, endDate) {
   */
 
   let keys = Object.keys(sortObj);
-  let numOfCrops = keys.length;
-  let expensePerCrop = Number(
-    (parseFloat(calcOtherExpense(expenses, startDate, endDate)) / numOfCrops).toFixed(2),
-  );
+  const numOfCrops = keys.length;
+  const expensePerCrop = roundToTwoDecimal(calcOtherExpense(expenses, startDate, endDate) / numOfCrops);
 
-  for (let k of keys) {
-    sortObj[k].cost += Number(parseFloat(expensePerCrop).toFixed(2));
+  for (const k of keys) {
+    sortObj[k].cost = roundToTwoDecimal(roundToTwoDecimal(sortObj[k].cost) + expensePerCrop);
   }
 
   if (sales && sales.length) {
-    for (let s of sales) {
+    for (const s of sales) {
       const saleDate = moment(s.sale_date);
       if (
         saleDate.isSameOrAfter(startDate, 'day') &&
         saleDate.isSameOrBefore(endDate, 'day')
       ) {
-        for (let cropSale of s.cropSale) {
-          let cid = cropSale.managementPlan.crop_id;
+        for (const cropSale of s.cropSale) {
+          const cid = cropSale.managementPlan.crop_id;
+          const revenue = roundToTwoDecimal(cropSale.sale_value);
           if (sortObj.hasOwnProperty(cid)) {
-            sortObj[cid].revenue += Number(parseFloat(cropSale.sale_value).toFixed(2));
+            sortObj[cid].revenue = roundToTwoDecimal(roundToTwoDecimal(sortObj[cid].revenue) + revenue);
           } else {
             sortObj[cid] = {
               cost: 0,
               crop: cropSale.managementPlan.crop.crop_common_name,
-              revenue: Number(parseFloat(cropSale.sale_value).toFixed(2)),
+              revenue,
             };
           }
         }
@@ -197,12 +196,12 @@ export function calcBalanceByCrop(shifts, sales, expenses, startDate, endDate) {
     }
   }
 
-  let final = [];
+  const final = [];
   keys = Object.keys(sortObj);
-  for (let k of keys) {
+  for (const k of keys) {
     final.push({
       crop: sortObj[k].crop,
-      profit: Number((parseFloat(sortObj[k].revenue) - parseFloat(sortObj[k].cost)).toFixed(2)),
+      profit: roundToTwoDecimal(roundToTwoDecimal(sortObj[k].revenue) - roundToTwoDecimal(sortObj[k].cost)),
     });
   }
 
@@ -210,9 +209,9 @@ export function calcBalanceByCrop(shifts, sales, expenses, startDate, endDate) {
 }
 
 export function getShiftCropOnField(fieldID, shifts) {
-  let crops = [];
+  const crops = [];
 
-  for (let s of shifts) {
+  for (const s of shifts) {
     if (s.location_id === fieldID && s.crop_id) {
       crops.push(s.crop_id);
     }

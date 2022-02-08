@@ -2,6 +2,7 @@ import React from 'react';
 import Table from '../../../../components/Table';
 import moment from 'moment';
 import { useTranslation } from 'react-i18next';
+import { roundToTwoDecimal } from '../../../../util';
 
 const Task = ({ currencySymbol, tasks, startDate, endDate }) => {
   let data = [];
@@ -11,21 +12,25 @@ const Task = ({ currencySymbol, tasks, startDate, endDate }) => {
     const completedTime = moment(task.completed_time);
     const abandonedTime = moment(task.abandoned_time);
     if (
-      ( completedTime.isSameOrAfter(startDate, 'day') &&
+      (completedTime.isSameOrAfter(startDate, 'day') &&
         completedTime.isSameOrBefore(endDate, 'day') &&
         task.duration) ||
-      ( abandonedTime.isSameOrAfter(startDate, 'day') &&
+      (abandonedTime.isSameOrAfter(startDate, 'day') &&
         abandonedTime.isSameOrBefore(endDate, 'day') &&
         task.duration)
     ) {
+      const minutes = parseInt(task.duration, 10);
+      const hours = roundToTwoDecimal(minutes / 60);
+      const rate = roundToTwoDecimal(task.wage_at_moment);
+      const labour_cost = roundToTwoDecimal(rate * hours);
+
       if (sortObj.hasOwnProperty(task.task_type_id)) {
-        sortObj[task.task_type_id].time += parseInt(task.duration, 10);
-        sortObj[task.task_type_id].labour_cost +=
-          parseFloat(task.wage_at_moment) * (task.duration / 60);
+        sortObj[task.task_type_id].time = roundToTwoDecimal(sortObj[task.task_type_id].time) + minutes;
+        sortObj[task.task_type_id].labour_cost = roundToTwoDecimal(sortObj[task.task_type_id].labour_cost) + labour_cost;
       } else {
         sortObj[task.task_type_id] = {
-          time: parseInt(task.duration, 10),
-          labour_cost: parseFloat(task.wage_at_moment) * (task.duration / 60),
+          time: minutes,
+          labour_cost,
           task: t(`task:${task.taskType.task_translation_key}`),
         };
       }
@@ -38,8 +43,8 @@ const Task = ({ currencySymbol, tasks, startDate, endDate }) => {
     let obj = sortObj[k];
     data.push({
       task: obj.task,
-      time: (obj.time / 60).toFixed(2).toString() + ' HR',
-      labour_cost: currencySymbol + obj.labour_cost.toFixed(2),
+      time: roundToTwoDecimal(obj.time / 60) + ' HR',
+      labour_cost: currencySymbol + roundToTwoDecimal(obj.labour_cost).toFixed(2),
     });
   }
 

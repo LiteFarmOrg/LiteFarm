@@ -16,7 +16,7 @@ exports.up = async function (knex) {
     table.dateTime('updated_at').notNullable();
   });
 
-  await knex.schema.createTable('notification_status', function (table) {
+  await knex.schema.createTable('notification_user', function (table) {
     table.primary(['notification_id', 'user_id']);
     table.uuid('notification_id').references('notification_id').inTable('notification');
     table.string('user_id').references('user_id').inTable('users');
@@ -31,6 +31,6 @@ exports.up = async function (knex) {
 }
 
 exports.down = async function (knex) {
-  await knex.schema.dropTable('notification_status');
+  await knex.schema.dropTable('notification_user');
   await knex.schema.dropTable('notification');
 }

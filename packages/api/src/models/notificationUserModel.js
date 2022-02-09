@@ -16,9 +16,9 @@
 const Model = require('objection').Model;
 const baseModel = require('./baseModel');
 
-class NotificationStatus extends baseModel {
+class NotificationUser extends baseModel {
   static get tableName() {
-    return 'notification_status';
+    return 'notification_user';
   }
 
   static get idColumn() {
@@ -50,14 +50,23 @@ class NotificationStatus extends baseModel {
     return {
       notification: {
         relation: Model.BelongsToOneRelation,
-        modelClass: require('./Notification'),
+        modelClass: require('./notificationModel'),
+        // Notification's scope may contain various IDs; filter it out for security.
+        filter: query => query.select('notification_id', 'title', 'body', 'ref_type', 'ref', 'farm_id'),
         join: {
-          from: 'notification_status.',
+          from: 'notification_user.notification_id',
           to: 'notification.notification_id',
         },
       },
     };
   }
+
+  static async getNotificationsForFarmUser(farm_id, user_id) {
+    return await NotificationUser.query().withGraphJoined('notification')
+      .whereRaw('deleted = false AND user_id = ? AND (farm_id IS NULL OR farm_id = ?)', [user_id, farm_id])
+      .orderBy('created_at', 'desc')
+      .limit(100);
+  }
 }
 
-module.exports = NotificationStatus;
+module.exports = NotificationUser;

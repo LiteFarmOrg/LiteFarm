@@ -38,14 +38,16 @@ export function* postFieldLocationSaga({ payload: data }) {
     yield put(canShowSuccessHeader(true));
     history.back();
   } catch (e) {
-    history.push({
-      path: history.location.pathname,
-      state: {
+    history.push(
+      {
+        pathname: history.location.pathname,
+      },
+      {
         error: `${i18n.t('message:MAP.FAIL_POST')} ${i18n
           .t('FARM_MAP.MAP_FILTER.FIELD')
           .toLowerCase()}`,
       },
-    });
+    );
     console.log(e);
   }
 }
@@ -75,14 +77,16 @@ export function* editFieldLocationSaga({ payload: data }) {
     yield put(canShowSuccessHeader(true));
     history.push({ pathname: '/map' });
   } catch (e) {
-    history.push({
-      path: history.location.pathname,
-      state: {
+    history.push(
+      {
+        pathname: history.location.pathname,
+      },
+      {
         error: `${i18n.t('message:MAP.FAIL_PATCH')} ${i18n
           .t('FARM_MAP.MAP_FILTER.FIELD')
           .toLowerCase()}`,
       },
-    });
+    );
     console.log(e);
   }
 }
@@ -107,14 +111,16 @@ export function* deleteFieldLocationSaga({ payload: data }) {
     yield put(canShowSuccessHeader(true));
     history.push({ pathname: '/map' });
   } catch (e) {
-    history.push({
-      path: history.location.pathname,
-      state: {
+    history.push(
+      {
+        pathname: history.location.pathname,
+      },
+      {
         error: {
           retire: true,
         },
       },
-    });
+    );
     console.log(e);
   }
 }

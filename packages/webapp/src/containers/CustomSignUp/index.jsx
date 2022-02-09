@@ -110,13 +110,15 @@ function CustomSignUp() {
   const enterPasswordOnGoBack = () => {
     history.push({
       pathname: '/',
-      component: CUSTOM_SIGN_UP,
-      user: { email },
-    });
+
+
+    }, { user: { email }, component: CUSTOM_SIGN_UP });
   };
   const createUserAccountOnGoBack = () => {
     history.push({
       pathname: '/',
+
+    }, {
       component: CUSTOM_SIGN_UP,
       user: { email },
     });

@@ -61,7 +61,6 @@ const useStyles = makeStyles((theme) => ({
     transform: 'translateY(1px)',
   },
   profileButton: {
-    transform: 'translateY(-2px)',
   },
   iconButton: {
     margin: theme.spacing(1),

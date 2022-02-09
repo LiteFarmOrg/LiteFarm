@@ -5,9 +5,12 @@ import mdx from 'vite-plugin-mdx';
 import svgrPlugin from 'vite-plugin-svgr';
 
 // https://vitejs.dev/config/
-export default defineConfig({
+export default defineConfig(({ mode }) => ({
   plugins: [react({
-    jsxRuntime: 'classic',
+    babel: {
+      plugins: ['@emotion/babel-plugin'],
+    },
+    jsxRuntime: mode === 'development' ? 'automatic' : 'classic',
   }),
     mdx(),
     svgrPlugin({
@@ -16,5 +19,5 @@ export default defineConfig({
       },
     }),
   ],
-});
+}));
 

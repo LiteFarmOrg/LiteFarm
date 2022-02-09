@@ -37,28 +37,32 @@ export function* customSignUpSaga({ payload: { email, showSSOError } }) {
     const result = yield call(axios.get, loginUrl(email));
     if (result.data.exists && !result.data.sso) {
       localStorage.setItem('litefarm_lang', result.data.language);
-      history.push({
-        pathname: '/',
-        state: {
+      history.push(
+        {
+          pathname: '/',
+        },
+        {
           component: ENTER_PASSWORD_PAGE,
           user: {
             first_name: result.data.first_name,
             email: result.data.email,
           },
         },
-      });
+      );
     } else if (result.data.invited) {
       showSSOError(inlineErrors.invited);
     } else if (result.data.expired) {
       showSSOError(inlineErrors.expired);
     } else if (!result.data.exists && !result.data.sso) {
-      history.push({
-        pathname: '/',
-        state: {
+      history.push(
+        {
+          pathname: '/',
+        },
+        {
           component: CREATE_USER_ACCOUNT,
           user: { email },
         },
-      });
+      );
     } else if (result.data.sso) {
       showSSOError(inlineErrors.sso);
     }

@@ -14,17 +14,14 @@
  */
 
 let URI;
-const NODE_ENV = import.meta.env.NODE_ENV || 'development';
 const VITE_ENV = import.meta.env.VITE_ENV || 'development';
 
-if (NODE_ENV === 'development') {
+if (VITE_ENV === 'development') {
   URI = window.location.href.replace(/3000.*/, '5000');
-} else if (NODE_ENV === 'production') {
-  if (VITE_ENV === 'production') {
-    URI = 'https://api.app.litefarm.org';
-  } else if (VITE_ENV === 'integration') {
-    URI = 'https://api.beta.litefarm.org';
-  }
+} else if (VITE_ENV === 'production') {
+  URI = 'https://api.app.litefarm.org';
+} else if (VITE_ENV === 'integration') {
+  URI = 'https://api.beta.litefarm.org';
 }
 
 export default {
@@ -66,7 +63,6 @@ export default {
   productsUrl: `${URI}/product`,
   url: URI,
 };
-
 
 export const userUrl = `${URI}/user`;
 export const pseudoUserUrl = `${URI}/user/pseudo`;

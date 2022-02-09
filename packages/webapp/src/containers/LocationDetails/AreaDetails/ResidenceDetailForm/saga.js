@@ -41,14 +41,16 @@ export function* postResidenceLocationSaga({ payload: data }) {
     yield put(canShowSuccessHeader(true));
     history.back();
   } catch (e) {
-    history.push({
-      path: history.location.pathname,
-      state: {
+    history.push(
+      {
+        pathname: history.location.pathname,
+      },
+      {
         error: `${i18n.t('message:MAP.FAIL_POST')} ${i18n
           .t('FARM_MAP.MAP_FILTER.RESIDENCE')
           .toLowerCase()}`,
       },
-    });
+    );
     console.log(e);
   }
 }
@@ -81,14 +83,16 @@ export function* editResidenceLocationSaga({ payload: data }) {
     yield put(canShowSuccessHeader(true));
     history.push({ pathname: '/map' });
   } catch (e) {
-    history.push({
-      path: history.location.pathname,
-      state: {
+    history.push(
+      {
+        pathname: history.location.pathname,
+      },
+      {
         error: `${i18n.t('message:MAP.FAIL_PATCH')} ${i18n
           .t('FARM_MAP.MAP_FILTER.RESIDENCE')
           .toLowerCase()}`,
       },
-    });
+    );
     console.log(e);
   }
 }
@@ -113,14 +117,16 @@ export function* deleteResidenceLocationSaga({ payload: data }) {
     yield put(canShowSuccessHeader(true));
     history.push({ pathname: '/map' });
   } catch (e) {
-    history.push({
-      path: history.location.pathname,
-      state: {
+    history.push(
+      {
+        pathname: history.location.pathname,
+      },
+      {
         error: {
           retire: true,
         },
       },
-    });
+    );
     console.log(e);
   }
 }

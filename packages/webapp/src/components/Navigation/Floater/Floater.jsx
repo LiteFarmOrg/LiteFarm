@@ -9,8 +9,9 @@ const useStyle = makeStyles((theme) => ({
     overflow: 'initial',
     width: '32px',
     height: '16px',
+    marginTop: '-16px !important',
     '&::before': {
-      transform: `translate(4px, -8px) rotate(45deg)`,
+      transform: `translate(4px, 0) rotate(45deg)`,
     },
   },
   tooltip: {

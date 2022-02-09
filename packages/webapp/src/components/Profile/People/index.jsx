@@ -95,7 +95,7 @@ export default function PurePeople({ users, history, isAdmin }) {
       onSubmit={() => history.push('/invite_user')}
       history={history}
       buttonGroup={
-        <Button fullLength type={'submit'}>
+        isAdmin && <Button fullLength type={'submit'}>
           {t('PROFILE.PEOPLE.INVITE_USER')}
         </Button>
       }

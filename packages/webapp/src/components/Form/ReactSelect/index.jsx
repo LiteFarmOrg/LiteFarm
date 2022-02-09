@@ -68,7 +68,8 @@ export const styles = {
     borderColor: 'transparent',
   }),
 
-  placeholder: () => ({
+  placeholder: (provided) => ({
+    ...provided,
     fontSize: '16px',
     lineHeight: '24px',
     color: 'var(--iconDefault)',

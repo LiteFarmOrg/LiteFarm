@@ -7,7 +7,6 @@ exports.up = async function (knex) {
       // 'observation', 'weather', 'sensor', 'irrigation', 'insight',
     ]);
     table.string('ref');
-    table.jsonb('scope');
     table.uuid('farm_id').references('farm_id').inTable('farm').onDelete('CASCADE');
     table.boolean('deleted').defaultTo(false);
     table.string('created_by_user_id').references('user_id').inTable('users');

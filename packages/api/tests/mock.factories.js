@@ -1,4 +1,5 @@
 const faker = require('faker');
+const { TimeoutSettings } = require('puppeteer');
 const knex = require('../src/util/knex');
 
 function weather_stationFactory(station = fakeStation()) {
@@ -151,17 +152,17 @@ function fakeArea(stringify = true, defaultData = {}) {
     total_area: faker.datatype.number(2000),
     grid_points: stringify
       ? JSON.stringify([
-          ...Array(3).map(() => ({
-            lat: faker.address.latitude(),
-            lng: faker.address.longitude(),
-          })),
-        ])
+        ...Array(3).map(() => ({
+          lat: faker.address.latitude(),
+          lng: faker.address.longitude(),
+        })),
+      ])
       : [
-          ...Array(3).map(() => ({
-            lat: faker.address.latitude(),
-            lng: faker.address.longitude(),
-          })),
-        ],
+        ...Array(3).map(() => ({
+          lat: faker.address.latitude(),
+          lng: faker.address.longitude(),
+        })),
+      ],
     perimeter: faker.datatype.number(),
     total_area_unit: faker.random.arrayElement(['m2', 'ha', 'ft2', 'ac']),
     perimeter_unit: faker.random.arrayElement(['m', 'km', 'ft', 'mi']),
@@ -288,17 +289,17 @@ function fakeLine(stringify = true, defaultData = {}) {
     width: faker.datatype.number(),
     line_points: stringify
       ? JSON.stringify([
-          ...Array(2).map(() => ({
-            lat: faker.address.latitude(),
-            lng: faker.address.longitude(),
-          })),
-        ])
+        ...Array(2).map(() => ({
+          lat: faker.address.latitude(),
+          lng: faker.address.longitude(),
+        })),
+      ])
       : [
-          ...Array(2).map(() => ({
-            lat: faker.address.latitude(),
-            lng: faker.address.longitude(),
-          })),
-        ],
+        ...Array(2).map(() => ({
+          lat: faker.address.latitude(),
+          lng: faker.address.longitude(),
+        })),
+      ],
     ...defaultData,
   };
 }
@@ -1700,7 +1701,6 @@ function fakeSale(defaultData = {}) {
     ...defaultData,
   };
 }
-
 function fakeExpenseType(defaultData = {}) {
   return {
     expense_name: faker.finance.transactionType(),
@@ -2108,6 +2108,47 @@ function fakeFile(defaultData = {}) {
   };
 }
 
+async function notification_userFactory(
+  {
+    promisedFarm = farmFactory(),
+    promisedUser = usersFactory(),
+  } = {},
+  notificationUser = fakeNotificationUser(),
+) {
+  const [farm, user] = await Promise.all([promisedFarm, promisedUser]);
+  const [{ user_id }] = user;
+  const [{ farm_id }] = farm;
+  const notification_id = faker.datatype.uuid();
+  await knex('notification')
+    .insert({
+      notification_id,
+      title: `title of notification ${notification_id}`,
+      body: `body of notification ${notification_id}`,
+      farm_id,
+      created_at: faker.date.past(),
+      updated_at: faker.date.past(),
+    });
+
+  return await knex('notification_user')
+    .insert({
+      ...notificationUser,
+      notification_id,
+      user_id,
+    })
+    .returning('*');
+}
+
+function fakeNotificationUser(defaultData = {}) {
+  return {
+    notification_id: faker.datatype.uuid(),
+    user_id: faker.datatype.uuid(),
+    created_at: faker.date.past(),
+    updated_at: faker.date.past(),
+    ...defaultData,
+  };
+}
+
+
 module.exports = {
   weather_stationFactory,
   fakeStation,
@@ -2238,5 +2279,6 @@ module.exports = {
   fileFactory,
   fakeOrganicHistory,
   organic_historyFactory,
+  notification_userFactory,
   baseProperties,
 };

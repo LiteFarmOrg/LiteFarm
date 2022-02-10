@@ -42,13 +42,6 @@ class Notification extends baseModel {
         },
         ref: { type: 'string' },
         farm_id: { type: 'string' },
-        scope: {
-          type: 'object',
-          properties: {
-            type: { type: 'string' },
-            ids: { type: 'array' },
-          },
-        },
         ...this.baseProperties,
       },
       additionalProperties: false,

@@ -51,8 +51,6 @@ class NotificationUser extends baseModel {
       notification: {
         relation: Model.BelongsToOneRelation,
         modelClass: require('./notificationModel'),
-        // Notification's scope may contain various IDs; filter it out for security.
-        filter: query => query.select('notification_id', 'title', 'body', 'ref_type', 'ref', 'farm_id'),
         join: {
           from: 'notification_user.notification_id',
           to: 'notification.notification_id',
@@ -63,7 +61,8 @@ class NotificationUser extends baseModel {
 
   static async getNotificationsForFarmUser(farm_id, user_id) {
     return await NotificationUser.query().withGraphJoined('notification')
-      .whereRaw('deleted = false AND user_id = ? AND (farm_id IS NULL OR farm_id = ?)', [user_id, farm_id])
+      .whereRaw('notification.deleted = false AND notification_user.deleted = false AND user_id = ? AND (farm_id IS NULL OR farm_id = ?)',
+        [user_id, farm_id])
       .orderBy('created_at', 'desc')
       .limit(100);
   }

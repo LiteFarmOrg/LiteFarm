@@ -36,6 +36,8 @@ class TestEnvironment extends NodeEnvironment {
 async function tableCleanup(knex) {
   await knex('farm').whereNotNull('default_initial_location_id').update({ default_initial_location_id: null });
   return knex.raw(`
+    DELETE FROM "notification_user";
+    DELETE FROM "notification";
     DELETE FROM "supportTicket";
     DELETE FROM "organicCertifierSurvey";
     DELETE FROM "password";

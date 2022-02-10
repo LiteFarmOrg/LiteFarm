@@ -35,7 +35,7 @@ export default function PureFarm({ userFarm, onSubmit, history, isAdmin }) {
       onSubmit={handleSubmit(onSubmit)}
       history={history}
       buttonGroup={
-        <Button fullLength type={'submit'} disabled={disabled}>
+        isAdmin && <Button fullLength type={'submit'} disabled={disabled}>
           {t('common:SAVE')}
         </Button>
       }
@@ -63,7 +63,7 @@ export default function PureFarm({ userFarm, onSubmit, history, isAdmin }) {
         control={control}
         name={MEASUREMENT}
         render={({ field }) => (
-          <ReactSelect disabled={!isAdmin}
+          <ReactSelect isDisabled={!isAdmin}
                        {...field} label={t('PROFILE.FARM.UNITS')} options={options} />
         )}
       />

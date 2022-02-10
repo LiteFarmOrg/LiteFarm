@@ -8,6 +8,7 @@ import { harvestUseTypesSelector } from '../../harvestUseTypeSlice';
 import { useReadonlyTask } from './useReadonlyTask';
 import { isTaskType } from '../useIsTaskType';
 import { useMaxZoom } from '../../Map/useMaxZoom';
+import { assignTask, assignTasksOnDate } from '../saga';
 
 function TaskReadOnly({ history, match }) {
   const task_id = match.params.task_id;
@@ -55,7 +56,10 @@ function TaskReadOnly({ history, match }) {
     history.push(`/tasks/${task_id}/abandon`);
   };
   const { maxZoomRef, getMaxZoom } = useMaxZoom();
-  return (
+
+  const onAssignTasksOnDate = (task) => dispatch(assignTasksOnDate(task));
+  const onAssignTask = (task) => dispatch(assignTask(task));
+  return <>
     <PureTaskReadOnly
       task_id={task_id}
       onGoBack={onGoBack}
@@ -72,8 +76,10 @@ function TaskReadOnly({ history, match }) {
       isTaskTypeCustom={isTaskTypeCustom}
       maxZoomRef={maxZoomRef}
       getMaxZoom={getMaxZoom}
+      onAssignTasksOnDate={onAssignTasksOnDate}
+      onAssignTask={onAssignTask}
     />
-  );
+  </>
 }
 
 export default TaskReadOnly;

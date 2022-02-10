@@ -25,9 +25,8 @@ export const useReadonlyTask = (task_id) => {
     const pin_coordinate = prev_planting_management_plan.pin_coordinate;
     if (pin_coordinate) {
       task.pinCoordinates.push(pin_coordinate);
-      task.managementPlansByPinCoordinate[
-        getLocationName({ pin_coordinate }, 6)
-      ] = getManagementPlanTile(managementPlan, tasksByManagementPlanId);
+      task.managementPlansByPinCoordinate[getLocationName({ pin_coordinate }, 6)] =
+        getManagementPlanTile(managementPlan, tasksByManagementPlanId);
     } else {
       task.managementPlansByLocation[prev_planting_management_plan.location_id] = [
         getManagementPlanTile(managementPlan, tasksByManagementPlanId),
@@ -69,7 +68,7 @@ export const useReadonlyTask = (task_id) => {
 
   return useMemo(() => {
     return produce(task, task.transplant_task ? getTransplantTask : getTask);
-  }, []);
+  }, [task]);
 };
 
 const getLocationsById = (task) => {

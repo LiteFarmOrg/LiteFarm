@@ -20,7 +20,7 @@ import i18n from '../../locales/i18n';
 
 export default function DownloadExport({ match }) {
   const { id, from, to } = match.params;
-  let fileSrc = Buffer.from(id, 'base64');
+  let fileSrc = window.atob(id);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -29,7 +29,7 @@ export default function DownloadExport({ match }) {
       from,
       to,
     }));
-  }, [dispatch, fileSrc, from, to])
+  }, [])
 
   return <p style={{ marginLeft: '8px', marginTop: '24px' }}>{i18n.t('CERTIFICATIONS.EXPORT_DOWNLOADING_MESSAGE')}</p>;
 }

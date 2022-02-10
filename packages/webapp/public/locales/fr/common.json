@@ -14,6 +14,7 @@
   "DELETE": "Effacer",
   "DO_NOT_SHOW": "Ne plus afficher ce message",
   "EDIT": "Modifier",
+  "EDIT_DATE": "Modifier la Date",
   "EXPORT": "Exporter",
   "FINISH": "Terminer",
   "FROM": "De",
@@ -49,6 +50,5 @@
   "SUBMITTING": "Soumission en cours...",
   "UPDATE": "Mettre à Jour",
   "WORD_LIMIT_ERROR": "Seulement les charactères{{value}} peuvent être affichés",
-  "YES": "Oui",
-  "EDIT_DATE": "Modifier la Date"
+  "YES": "Oui"
 }

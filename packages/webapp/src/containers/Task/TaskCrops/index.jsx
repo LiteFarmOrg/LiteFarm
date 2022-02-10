@@ -61,6 +61,7 @@ function TaskCrops({
     locations || persistedFormData.locations,
     showWildCrops,
   );
+  const isRequired = isHarvestTask || isTransplantTask || (showWildCrops && !persistedFormData.locations?.length);
   return (
     <HookFormPersistProvider>
       <PureTaskCrops
@@ -71,7 +72,7 @@ function TaskCrops({
         managementPlansByLocationIds={activeAndCurrentManagementPlansByLocationIds}
         onContinue={onContinue}
         isMulti={!isTransplantTask}
-        isRequired={isHarvestTask || isTransplantTask}
+        isRequired={isRequired}
         wildManagementPlanTiles={showWildCrops ? wildManagementPlanTiles : undefined}
       />
     </HookFormPersistProvider>

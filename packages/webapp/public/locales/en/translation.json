@@ -45,7 +45,6 @@
     "EDIT_CUSTOM_TASK": "Edit custom task",
     "FIELD_WORK_VIEW": {
       "OTHER_TYPE_OF_FIELD_WORK": "Describe the type of field work",
-      "TYPE_OF_FIELD_WORK": "Type of field work",
       "TYPE": {
         "COVERING_SOIL": "Covering soil",
         "FENCING": "Fencing",
@@ -56,7 +55,8 @@
         "TERMINATION": "Termination",
         "TILLAGE": "Tillage",
         "WEEDING": "Weeding"
-      }
+      },
+      "TYPE_OF_FIELD_WORK": "Type of field work"
     },
     "GO_TO_CATALOGUE": "Go to Crop Catalogue",
     "HARVEST_EVERYTHING": "Harvest everything that is ready",
@@ -182,19 +182,10 @@
       "YOUR_CERTIFICATION": "Your certification"
     }
   },
-  "CERTIFICATIONS_MODAL": {
-    "MAYBE_LATER": "Maybe later",
-    "STEP_ONE": {
-      "DESCRIPTION": "We've added support for certifications and certifiers! Want to see what’s available in your area?",
-      "TITLE": "New feature!"
-    },
-    "STEP_TWO": {
-      "DESCRIPTION": "That’s okay! You can add certifications and certifiers later under “my farm”.",
-      "TITLE": "Viewing certifications"
-    }
-  },
   "CERTIFICATIONS": {
     "COULD_NOT_CONTACT_CERTIFIER": "It looks like LiteFarm doesn’t currently export in the format of your certifier. You can still export your documents but your certifier may require additional information. We’ll send them to you at:",
+    "EMAIL": "Email",
+    "EMAIL_ERROR": "Valid email required",
     "EXPORT": "Export",
     "EXPORT_DOCS": "Export certification docs",
     "EXPORT_DOWNLOADING_MESSAGE": "Downloading your organic certification files ...",
@@ -208,10 +199,19 @@
     "ORGANIC_CERTIFICATION_FROM": "Organic certification from",
     "SELECT_REPORTING_PERIOD": "Select your reporting period",
     "UH_OH": "Uh oh!",
-    "WOULD_LIKE_ANSWERS": "Your certifier would like you to answer a few additional questions before we can export your documents.",
-    "EMAIL": "Email",
-    "EMAIL_ERROR": "Valid email required",
-    "WHERE_TO_SEND_DOCS": "Where do you want your documents sent?"
+    "WHERE_TO_SEND_DOCS": "Where do you want your documents sent?",
+    "WOULD_LIKE_ANSWERS": "Your certifier would like you to answer a few additional questions before we can export your documents."
+  },
+  "CERTIFICATIONS_MODAL": {
+    "MAYBE_LATER": "Maybe later",
+    "STEP_ONE": {
+      "DESCRIPTION": "We've added support for certifications and certifiers! Want to see what’s available in your area?",
+      "TITLE": "New feature!"
+    },
+    "STEP_TWO": {
+      "DESCRIPTION": "That’s okay! You can add certifications and certifiers later under “my farm”.",
+      "TITLE": "Viewing certifications"
+    }
   },
   "CHOOSE_FARM": {
     "ADD_NEW": "Add new farm",
@@ -242,6 +242,29 @@
     "PASSWORD": "Password",
     "TITLE": "Create new user account"
   },
+  "CROP": {
+    "ADD_COMPLIANCE_FILE": "Link to a compliance file",
+    "ADD_CROP": "Add a crop",
+    "ADD_IMAGE": "Add Custom Image",
+    "ANNUAL": "Annual",
+    "ANNUAL_OR_PERENNIAL": "Is the crop an annual or perennial?",
+    "EDIT_CROP": "Edit crop",
+    "EDIT_MODAL": {
+      "BODY": "Editing this crop will not modify any existing crop plans. Only crop plans created after your edits will be impacted. Proceed to edit?",
+      "TITLE": "Edit crop?"
+    },
+    "IS_GENETICALLY_ENGINEERED": "Is the crop genetically engineered?",
+    "IS_ORGANIC": "Is the seed or crop certified organic?",
+    "NEED_DOCUMENT_GENETICALLY_ENGINEERED": "Your certifier may ask for documentation supporting your claim this crop isn't genetically engineered.",
+    "NEED_DOCUMENT_PERFORM_SEARCH": "Your certifier may ask for documentation supporting your search.",
+    "NEED_DOCUMENT_TREATED": "Your certifier may ask for documentation describing any treatments.",
+    "NUTRIENTS_IN_EDIBLE_PORTION": "Nutrients in edible portion (per 100g)",
+    "PERENNIAL": "Perennial",
+    "PERFORM_SEARCH": "Did you perform a commercial availability search?",
+    "PHYSIOLOGY_AND_ANATOMY": "Physiology and Anatomy",
+    "TREATED": "Have the seeds for this crop been treated?",
+    "UPLOAD_LATER": "You can upload files at a later time as well"
+  },
   "CROP_CATALOGUE": {
     "ADD_CROP": "Add a new crop",
     "ADD_CROPS_T0_YOUR_FARM": "Add crops to your farm",
@@ -252,6 +275,7 @@
     "CROP_CATALOGUE": "Crop catalogue",
     "CROP_GROUP": "Crop group",
     "CROP_GROUP_TOOL_TIP": "Selecting a crop group allows LiteFarm to pre-populate a lot of information about this crop such as growing season, nutritional values, and estimated annual yield. Don't worry, you can change these values below once you've selected a crop group.",
+    "CROP_STATUS": "Crop status on:",
     "DOCUMENT_NECESSARY_INFO_FOR_ORGANIC_PRODUCTION": "Document necessary info for organic production",
     "FILTER": {
       "LOCATION": "Location",
@@ -259,14 +283,13 @@
       "SUPPLIERS": "Suppliers",
       "TITLE": "Crop Catalogue Filter"
     },
+    "FILTER_TITLE": "Crop Catalogue Filter",
     "HERE_YOU_CAN": "Here you can:",
     "LETS_BEGIN": "Let's begin",
     "NEW_CROP_NAME": "New Crop Name",
     "NO_RESULTS_FOUND": "No results found. Please change your filters.",
     "ON_YOUR_FARM": "On your farm",
-    "SELECT_A_CROP": "Select a crop to add it to your farm. Use search and filters to find crops more quickly.",
-    "CROP_STATUS": "Crop status on:",
-    "FILTER_TITLE": "Crop Catalogue Filter"
+    "SELECT_A_CROP": "Select a crop to add it to your farm. Use search and filters to find crops more quickly."
   },
   "CROP_DETAIL": {
     "ADD_PLAN": "Add a plan",
@@ -280,9 +303,9 @@
     "MANAGEMENT_PLANS": "Crop Plans",
     "MANAGEMENT_TAB": "Management",
     "ORGANIC": "Is the seed or crop certified organic?",
+    "ORGANIC_COMPLIANCE": "Organic Compliance",
     "PERENNIAL": "Perennial",
-    "TREATED": "Have the seeds for this crop been treated?",
-    "ORGANIC_COMPLIANCE": "Organic Compliance"
+    "TREATED": "Have the seeds for this crop been treated?"
   },
   "CROP_MANAGEMENT": {
     "GERMINATE": "Germinate",
@@ -304,41 +327,17 @@
     },
     "SUPPLIER": "Supplier"
   },
-  "CROP": {
-    "ADD_CROP": "Add a crop",
-    "ADD_IMAGE": "Add Custom Image",
-    "ANNUAL": "Annual",
-    "ANNUAL_OR_PERENNIAL": "Is the crop an annual or perennial?",
-    "EDIT_CROP": "Edit crop",
-    "EDIT_MODAL": {
-      "BODY": "Editing this crop will not modify any existing crop plans. Only crop plans created after your edits will be impacted. Proceed to edit?",
-      "TITLE": "Edit crop?"
-    },
-    "IS_GENETICALLY_ENGINEERED": "Is the crop genetically engineered?",
-    "IS_ORGANIC": "Is the seed or crop certified organic?",
-    "NEED_DOCUMENT_GENETICALLY_ENGINEERED": "Your certifier may ask for documentation supporting your claim this crop isn't genetically engineered.",
-    "NEED_DOCUMENT_PERFORM_SEARCH": "Your certifier may ask for documentation supporting your search.",
-    "NEED_DOCUMENT_TREATED": "Your certifier may ask for documentation describing any treatments.",
-    "NUTRIENTS_IN_EDIBLE_PORTION": "Nutrients in edible portion (per 100g)",
-    "PERENNIAL": "Perennial",
-    "PERFORM_SEARCH": "Did you perform a commercial availability search?",
-    "PHYSIOLOGY_AND_ANATOMY": "Physiology and Anatomy",
-    "TREATED": "Have the seeds for this crop been treated?",
-    "ADD_COMPLIANCE_FILE": "Link to a compliance file",
-    "UPLOAD_LATER": "You can upload files at a later time as well"
+  "DATE_RANGE": {
+    "HELP_BODY": "Select the date range to create a financial report for your farm for a given time window.",
+    "HELP_TITLE": "Date Range Help",
+    "TITLE": "Filter Report by Date"
   },
   "DATE_RANGE_PICKER": {
     "FROM": "From",
     "TO": "To",
     "TO_MUST_BE_AFTER_FROM": "'To' date must come after the 'From' date"
   },
-  "DATE_RANGE": {
-    "HELP_BODY": "Select the date range to create a financial report for your farm for a given time window.",
-    "HELP_TITLE": "Date Range Help",
-    "TITLE": "Filter Report by Date"
-  },
   "DOCUMENTS": {
-    "ADD_DOCUMENT": "Add a new document",
     "ADD": {
       "ADD_MORE_PAGES": "Add more pages",
       "DOCUMENT_NAME": "Document name",
@@ -347,6 +346,7 @@
       "TYPE": "Type",
       "VALID_UNTIL": "Valid until"
     },
+    "ADD_DOCUMENT": "Add a new document",
     "ARCHIVE": "Archive",
     "ARCHIVE_DOCUMENT": "Archive document?",
     "ARCHIVE_DOCUMENT_TEXT": "Archiving this document will move it to the archived section of your documents, but not delete it. Archived documents will not be exported for your certifications. Do you want to proceed?",
@@ -839,15 +839,15 @@
     "DISEASE": "Disease",
     "HARVEST": "Harvest",
     "HARVEST_ALLOCATION_SUBTITLE": "About how much of the harvest will be used for each purpose?",
+    "HARVEST_ALLOCATION_SUBTITLE_TWO": "Amount to allocate",
+    "HARVEST_QUANTITY": "Harvest Quantity",
+    "HARVEST_USE": "Harvest Use",
     "HARVEST_USE_TYPE_SUBTITLE": "How will the harvest be used?",
     "OTHER": "Other",
     "PEST": "Pest",
     "QUANTITY_ERROR": "Quantity must be up to 2 decimal places",
     "TITLE": "Harvest Log",
-    "WEED": "Weed",
-    "HARVEST_QUANTITY": "Harvest Quantity",
-    "HARVEST_USE": "Harvest Use",
-    "HARVEST_ALLOCATION_SUBTITLE_TWO": "Amount to allocate"
+    "WEED": "Weed"
   },
   "LOG_IRRIGATION": {
     "DRIP": "Drip",
@@ -967,12 +967,19 @@
     "SELECTED_STARTING_LOCATION": "Always select this as the starting location for crops that will be transplanted",
     "SPOTLIGHT_HERE_YOU_CAN": "Here you can:",
     "STARTED": "Let's get started",
+    "STATUS": {
+      "ABANDONED": "Abandoned",
+      "ACTIVE": "Active",
+      "COMPLETED": "Completed",
+      "PLANNED": "Planned"
+    },
     "SUPPLIER": "Supplier",
     "TERMINATION": "Termination",
     "TERMINATION_DATE": "When will you terminate this crop?",
     "TOTAL_PLANTS": "# of plants",
     "TRANSPLANT": "Transplant",
     "TRANSPLANT_DATE": "What is your transplant date?",
+    "TRANSPLANT_LOCATION": "Where will you transplant to?",
     "TRANSPLANT_SPOTLIGHT": {
       "BODY": {
         "PLANTED": "planted",
@@ -988,17 +995,10 @@
     "VARIETY": "Variety",
     "WHAT_IS_AGE": "What is the approximate age of the crop?",
     "WHAT_WAS_PLANTING_METHOD": "What was the planting method?",
+    "WHAT_WAS_PLANTING_METHOD_INFO": "Selecting the right planting method will help LiteFarm more accurately estimate the quantity of seed needed, yield, and other helpful insights.",
     "WHERE_START_LOCATION": "Where is your starting location?",
     "WHERE_TRANSPLANT_LOCATION": "Where will you transplant to?",
-    "WILD_CROP": "Are you harvesting a wild crop?",
-    "STATUS": {
-      "ABANDONED": "Abandoned",
-      "ACTIVE": "Active",
-      "COMPLETED": "Completed",
-      "PLANNED": "Planned"
-    },
-    "WHAT_WAS_PLANTING_METHOD_INFO": "Selecting the right planting method will help LiteFarm more accurately estimate the quantity of seed needed, yield, and other helpful insights.",
-    "TRANSPLANT_LOCATION": "Where will you transplant to?"
+    "WILD_CROP": "Are you harvesting a wild crop?"
   },
   "MY_FARM": {
     "CERTIFICATIONS": "Certifications",
@@ -1008,23 +1008,23 @@
   },
   "NAVIGATION": {
     "SPOTLIGHT": {
-      "FARM": "Here you can:, • Edit your farm settings, • Map your farm, • Manage your employees",
-      "YOU_CAN": "Here you can:",
-      "EDIT_FARM_SETTING": "Edit your farm settings",
-      "MAP_FARM": "Map your farm",
-      "MANAGE_EMPLOYEE": "Manage your employees",
-      "FARM_TITLE": "This is your farm profile",
-      "NOTIFICATION": "Here you can:, • Manage your tasks, • See what else is going on, • Coordinate farm activities",
-      "MANAGE_TASK": "Manage your tasks",
-      "SEE_TASK": "See what else is going on",
       "COORDINATE_ACTIVITIES": "Coordinate farm activities",
-      "TASK_TITLE": "This is your farm tasks",
-      "PROFILE": "Here you will find:, • Your info, • Helpful tips, • The log out button",
-      "YOU_WILL_FIND": "Here you will find:",
+      "EDIT_FARM_SETTING": "Edit your farm settings",
+      "FARM": "Here you can:, • Edit your farm settings, • Map your farm, • Manage your employees",
+      "FARM_TITLE": "This is your farm profile",
       "INFO": "Your info",
-      "TIPS": "Helpful tips",
       "LOG_OUT": "The log out button",
-      "PROFILE_TITLE": "This is your profile"
+      "MANAGE_EMPLOYEE": "Manage your employees",
+      "MANAGE_TASK": "Manage your tasks",
+      "MAP_FARM": "Map your farm",
+      "NOTIFICATION": "Here you can:, • Manage your tasks, • See what else is going on, • Coordinate farm activities",
+      "PROFILE": "Here you will find:, • Your info, • Helpful tips, • The log out button",
+      "PROFILE_TITLE": "This is your profile",
+      "SEE_TASK": "See what else is going on",
+      "TASK_TITLE": "This is your farm tasks",
+      "TIPS": "Helpful tips",
+      "YOU_CAN": "Here you can:",
+      "YOU_WILL_FIND": "Here you will find:"
     }
   },
   "NOTIFICATION": {
@@ -1034,11 +1034,6 @@
     "ALL_DONE": "Great! You're all done. Ready to get your hands dirty?",
     "IMPORTANT_THINGS": "And finally, let us show you a couple of important things!"
   },
-  "PASSWORD_RESET_SUCCESS_MODAL": {
-    "BUTTON": "Great!",
-    "DESCRIPTION": "Your password has been updated. Redirecting you to your farms in 10 seconds...",
-    "TITLE": "Success!"
-  },
   "PASSWORD_RESET": {
     "BUTTON": "Resend Link",
     "BUTTON_SENDING": "Sending...",
@@ -1047,6 +1042,11 @@
     "NEW_ACCOUNT_BUTTON": "Update",
     "NEW_ACCOUNT_TITLE": "Set your new password",
     "TITLE": "Link Sent"
+  },
+  "PASSWORD_RESET_SUCCESS_MODAL": {
+    "BUTTON": "Great!",
+    "DESCRIPTION": "Your password has been updated. Redirecting you to your farms in 10 seconds...",
+    "TITLE": "Success!"
   },
   "PLAN_GUIDANCE": {
     "ADDITIONAL_GUIDANCE": "Is there additional guidance you want to provide for this seeding task?",
@@ -1067,15 +1067,7 @@
     "MESSAGE": "LiteFarm is putting together your certification documents in the background and you’ll receive an email when we’re done - it could take a few minutes... You can click outside this box to continue using LiteFarm without interrupting the process.",
     "TITLE": "Your export is being prepared"
   },
-  "PROFILE_FLOATER": {
-    "HELP": "Help",
-    "INFO": "My info",
-    "LOG_OUT": "Log Out",
-    "SWITCH": "Switch Farm",
-    "TUTORIALS": "Tutorials"
-  },
   "PROFILE": {
-    "ACCOUNT_TAB": "Account",
     "ACCOUNT": {
       "CONVERT_TO_HAVE_ACCOUNT": "Convert this worker to a user with account",
       "EDIT_USER": "Edit user",
@@ -1091,7 +1083,7 @@
       "SPANISH": "Spanish",
       "USER_ADDRESS": "User Address"
     },
-    "FARM_TAB": "Farm",
+    "ACCOUNT_TAB": "Account",
     "FARM": {
       "ADDRESS": "Address",
       "CURRENCY": "Currency",
@@ -1101,7 +1093,7 @@
       "PHONE_NUMBER": "Phone Number",
       "UNITS": "Units"
     },
-    "PEOPLE_TAB": "People",
+    "FARM_TAB": "Farm",
     "PEOPLE": {
       "DO_YOU_WANT_TO_REMOVE": "Do you want to remove this user from your farm?",
       "EO": "Extension Officer",
@@ -1119,12 +1111,20 @@
       "THIS_WILL_REMOVE": "This action will remove the user from your farm.",
       "USERS_FOUND": "Users found"
     },
+    "PEOPLE_TAB": "People",
     "TABLE": {
       "HEADER_EMAIL": "Email",
       "HEADER_NAME": "Name",
       "HEADER_ROLE": "Role",
       "HEADER_STATUS": "Status"
     }
+  },
+  "PROFILE_FLOATER": {
+    "HELP": "Help",
+    "INFO": "My info",
+    "LOG_OUT": "Log Out",
+    "SWITCH": "Switch Farm",
+    "TUTORIALS": "Tutorials"
   },
   "REACT_SELECT": {
     "CLEAR": "Clear",
@@ -1289,12 +1289,14 @@
     "EMAIL_INVALID": "Email is invalid",
     "ENTER_EMAIL": "Enter your email address",
     "EXPIRED_ERROR": "We've updated our infrastructure and you'll need to reset your password. Check your inbox to proceed.",
+    "EXPIRED_INVITATION_LINK_ERROR": "Invalid or expired invitation",
     "GOOGLE_BUTTON": "CONTINUE WITH GOOGLE",
     "INVITED_ERROR": "We've updated our infrastructure and you'll need to check your inbox for a farm invitation to proceed.",
     "LITEFARM_UPDATED": "We've updated LiteFarm!",
     "PASSWORD_ERROR": "Password incorrect",
     "SIGN_IN": "Sign In",
     "SSO_ERROR": "Please login by clicking the Google button above",
+    "USED_INVITATION_LINK_ERROR": "This invitation has already been used, please log in to access this farm",
     "WELCOME_BACK": "Welcome back",
     "WRONG_BROWSER": "LiteFarm is not optimized for this browser.",
     "WRONG_BROWSER_BOTTOM": "Please login using Chrome."
@@ -1333,14 +1335,11 @@
     "ROWS_TEXT": "rows"
   },
   "TASK": {
-    "ABANDON_TASK": "Abandon this task",
-    "ABANDON_TASK_DURATION": "Was any work completed for this task?",
     "ABANDON": {
       "ABANDON": "Abandon",
       "INFO": "Abandoning this task will change its' status to abandoned and remove it from all users ‘To do’ and ‘Unassigned’ lists.",
       "NOTES": "Task abandonment notes",
       "NOTES_CHAR_LIMIT": "Notes must be less than 10,000 characters",
-      "REASON_FOR_ABANDONMENT": "Reason for abandoning",
       "REASON": {
         "CROP_FAILURE": "Crop failure",
         "LABOUR_ISSUE": "Labour issue",
@@ -1350,9 +1349,12 @@
         "SCHEDULING_ISSUE": "Scheduling issue",
         "WEATHER": "Weather"
       },
+      "REASON_FOR_ABANDONMENT": "Reason for abandoning",
       "TITLE": "Abandon task",
       "WHAT_HAPPENED": "What happened?"
     },
+    "ABANDON_TASK": "Abandon this task",
+    "ABANDON_TASK_DURATION": "Was any work completed for this task?",
     "ABANDONMENT_DETAILS": "Task abandonment details",
     "ADD_CUSTOM_HARVEST_USE": "Create a custom harvest use",
     "ADD_HARVEST_USE": "Add another harvest use",
@@ -1394,20 +1396,20 @@
     "SELECT_DATE": "Select the task date",
     "SELECT_TASK_LOCATIONS": "Select the task location(s)",
     "SELECT_WILD_CROP": "This task targets a wild crop",
-    "TASK": "task",
-    "TASKS_COUNT": "{{count}} task",
-    "TASKS_COUNT_plural": "{{count}} tasks",
-    "TODO": "To do",
-    "TRANSPLANT": "Transplant",
-    "TRANSPLANT_LOCATIONS": "Select a transplant location",
-    "UNASSIGNED": "Unassigned",
     "STATUS": {
       "ABANDONED": "Abandoned",
       "COMPLETED": "Completed",
       "FOR_REVIEW": "For Review",
       "LATE": "Late",
       "PLANNED": "Planned"
-    }
+    },
+    "TASK": "task",
+    "TASKS_COUNT": "{{count}} task",
+    "TASKS_COUNT_plural": "{{count}} tasks",
+    "TODO": "To do",
+    "TRANSPLANT": "Transplant",
+    "TRANSPLANT_LOCATIONS": "Select a transplant location",
+    "UNASSIGNED": "Unassigned"
   },
   "UNIT": {
     "TIME": {

@@ -22,6 +22,21 @@ const props = {
       first_name: 'litefarm2',
       last_name: 'dev',
     },
+    {
+      user_id: '104942873090979111005',
+      first_name: 'litefarm3',
+      last_name: 'dev',
+    },
+    {
+      user_id: '104942873090979111006',
+      first_name: 'litefarm4',
+      last_name: 'dev',
+    },
+    {
+      user_id: '104942873090979111007',
+      first_name: 'litefarm5',
+      last_name: 'dev',
+    },
   ],
   user: {
     is_admin: true,

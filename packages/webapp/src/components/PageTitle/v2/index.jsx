@@ -1,4 +1,4 @@
-import { EditLink, Title } from '../../Typography';
+import { Title } from '../../Typography';
 import React from 'react';
 import styles from './styles.module.scss';
 import { BsChevronLeft } from 'react-icons/bs';
@@ -9,10 +9,8 @@ function PageTitle({
   title,
   onGoBack,
   onCancel,
-  onEdit,
   style,
   cancelModalTitle,
-  editLink,
   label,
 }) {
   return (
@@ -25,12 +23,6 @@ function PageTitle({
         )}
         <Title style={{ marginBottom: 0 }}>{title}</Title>
       </div>
-      {!!onEdit && (
-        <EditLink style={{ marginTop: '10px' }} onClick={onEdit}>
-          {' '}
-          {editLink}{' '}
-        </EditLink>
-      )}
       {!!onCancel && <CancelButton onCancel={onCancel} cancelModalTitle={cancelModalTitle} />}
       {label}
     </div>

@@ -1,6 +1,6 @@
 import Layout from '../../Layout';
 import Button from '../../Form/Button';
-import React from 'react';
+import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import PageTitle from '../../PageTitle/v2';
 import Input from '../../Form/Input';
@@ -28,6 +28,8 @@ import { taskStatusTranslateKey } from '../../CardWithStatus/TaskCard/TaskCard';
 import { TransplantLocationLabel } from './TransplantLocationLabel/TransplantLocationLabel';
 import { isTaskType } from '../../../containers/Task/useIsTaskType';
 import ReactSelect from '../../Form/ReactSelect';
+import { BiPencil } from 'react-icons/bi';
+import TaskQuickAssignModal from '../../Modals/QuickAssignModal';
 
 export default function PureTaskReadOnly({
   onGoBack,
@@ -43,6 +45,8 @@ export default function PureTaskReadOnly({
   harvestUseTypes,
   maxZoomRef,
   getMaxZoom,
+  onAssignTasksOnDate,
+  onAssignTask,
 }) {
   const { t } = useTranslation();
   const taskType = task.taskType;
@@ -79,6 +83,9 @@ export default function PureTaskReadOnly({
 
   const showTaskNotes =
     !isTaskType(taskType, 'PLANT_TASK') && !isTaskType(taskType, 'TRANSPLANT_TASK');
+
+  const [showTaskAssignModal, setShowTaskAssignModal] = useState(false);
+
   return (
     <Layout
       buttonGroup={
@@ -104,17 +111,17 @@ export default function PureTaskReadOnly({
             />
           )
         }
-        // TODO: Evaluate edit tasks
-        // onEdit={(isAdmin || owner_user_id === user.user_id) && isCurrent ? onEdit : false}
-        // editLink={t('TASK.EDIT_TASK')}
       />
+      <div className={styles.assigneeContainer} style={{ marginBottom: '40px' }}>
+        <Input
 
-      <Input
-        style={{ marginBottom: '40px' }}
-        label={t('ADD_TASK.ASSIGNEE')}
-        disabled={true}
-        value={assigneeName ? assigneeName : t('TASK.UNASSIGNED')}
-      />
+          label={t('ADD_TASK.ASSIGNEE')}
+          disabled={true}
+          value={assigneeName ? assigneeName : t('TASK.UNASSIGNED')}
+        />
+        <BiPencil className={styles.pencil} onClick={_ => setShowTaskAssignModal(true)} />
+      </div>
+
 
       <Input
         style={{ marginBottom: '40px' }}
@@ -322,6 +329,18 @@ export default function PureTaskReadOnly({
             {t('TASK.ABANDON_TASK')}
           </Underlined>
         )}
+      {showTaskAssignModal && (
+        <TaskQuickAssignModal
+          task_id={task.task_id}
+          due_date={task.completed_time || task.due_date}
+          isAssigned={!!task?.assignee}
+          onAssignTasksOnDate={onAssignTasksOnDate}
+          onAssignTask={onAssignTask}
+          users={users}
+          user={user}
+          dismissModal={() => setShowTaskAssignModal(false)}
+        />
+      )}
     </Layout>
   );
 }

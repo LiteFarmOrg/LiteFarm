@@ -45,11 +45,14 @@ const PureCertificationSurveyPage = ({
   }, []);
 
   const { certifier_acronym, survey_id } = certifier ?? {};
+  const [isSurveySkipped, setSurveySkipped] = useState(false);
 
   return (
     <>
       <Layout
-        buttonGroup={
+        buttonGroup={<>
+          {survey_id && !isSurveySkipped &&
+            <Button color={'secondary'} fullLength onClick={() => setSurveySkipped(true)}>{t('common:SKIP')}</Button>}
           <Button
             fullLength
             onClick={() =>
@@ -58,10 +61,11 @@ const PureCertificationSurveyPage = ({
                 submission_id: submissionId,
               })
             }
-            disabled={survey_id && !submissionId}
+            disabled={survey_id && !submissionId && !isSurveySkipped}
           >
             {t('CERTIFICATIONS.EXPORT')}
           </Button>
+        </>
         }
       >
         <MultiStepPageTitle
@@ -77,6 +81,7 @@ const PureCertificationSurveyPage = ({
           requested_certifier={requested_certifier}
           certifier_acronym={certifier_acronym}
           surveyId={survey_id}
+          isSurveySkipped={isSurveySkipped}
           submissionId={submissionId}
           email={email}
           // TODO: use hook form email when we make it dynamic
@@ -87,7 +92,7 @@ const PureCertificationSurveyPage = ({
   );
 };
 
-const SurveyBody = ({ requested_certifier, certifier_acronym, surveyId, submissionId, email }) => {
+const SurveyBody = ({ requested_certifier, certifier_acronym, surveyId, submissionId, email, isSurveySkipped }) => {
   if (requested_certifier) {
     return <UnregisteredCertifierSurvey email={email} />;
   } else {
@@ -98,6 +103,7 @@ const SurveyBody = ({ requested_certifier, certifier_acronym, surveyId, submissi
           certiferAcronym={certifier_acronym}
           surveyId={surveyId}
           submissionId={submissionId}
+          isSurveySkipped={isSurveySkipped}
           email={email}
         />
       );

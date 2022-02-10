@@ -50,5 +50,6 @@
   "SUBMITTING": "Soumission en cours...",
   "UPDATE": "Mettre à Jour",
   "WORD_LIMIT_ERROR": "Seulement les charactères{{value}} peuvent être affichés",
-  "YES": "Oui"
+  "YES": "Oui",
+  "SKIP": "MISSING"
 }

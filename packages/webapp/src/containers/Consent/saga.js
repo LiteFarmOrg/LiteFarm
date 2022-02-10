@@ -59,6 +59,10 @@ export function* patchConsentSaga({ payload }) {
       yield put(patchStatusConsentSuccess({ ...userFarm, ...data, status: 'Active' }));
       yield call(fetchAllSaga);
       history.push('/outro', { farm_id, farm_name });
+    } else if (payload.goForwardTo === '/') {
+      yield put(patchStatusConsentSuccess({ ...userFarm, ...data, status: 'Active' }));
+      yield call(fetchAllSaga);
+      history.push(payload.goForwardTo);
     } else {
       yield put(patchConsentStepThreeSuccess({ ...userFarm, ...step, ...data }));
       history.push(payload.goForwardTo);

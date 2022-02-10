@@ -13,17 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import {
-  all,
-  call,
-  delay,
-  put,
-  race,
-  select,
-  take,
-  takeLatest,
-  takeLeading,
-} from 'redux-saga/effects';
+import { all, call, delay, put, select, takeLatest, takeLeading } from 'redux-saga/effects';
 import apiConfig, { url } from '../apiConfig';
 import history from '../history';
 import {
@@ -149,10 +139,6 @@ import {
   getTasksSaga,
   getTaskTypesSaga,
 } from './Task/saga';
-import {
-  getCertificationSurveysSuccess,
-  onLoadingCertifierSurveyFail,
-} from './OrganicCertifierSurvey/slice';
 import { appVersionSelector, setAppVersion } from './appSettingSlice';
 import { APP_VERSION } from '../util/constants';
 import { hookFormPersistHistoryStackSelector } from './hooks/useHookFormPersist/hookFormPersistSlice';
@@ -595,28 +581,10 @@ export function* selectFarmAndFetchAllSaga({ payload: userFarm }) {
     const { has_consent, user_id, farm_id } = yield select(userFarmSelector);
     if (!has_consent) return history.push('/consent');
     yield call(fetchAllSaga);
-    const isAdmin = yield select(isAdminSelector);
-    /**
-     * wait for getManagementPlansAndTasks to finish
-     */
-    if (isAdmin) {
-      yield put(waitForCertificationSurveyResultAndPushToHome());
-    } else {
-      history.push({ pathname: '/' });
-    }
+    history.push({ pathname: '/' });
   } catch (e) {
     console.error('failed to fetch farm info', e);
   }
-}
-
-//TODO: remove after removing certification spotlight
-export const waitForCertificationSurveyResultAndPushToHome = createAction(
-  'waitForCertificationSurveyResultAndPushToHomeSaga',
-);
-
-export function* waitForCertificationSurveyResultAndPushToHomeSaga() {
-  yield race([take(getCertificationSurveysSuccess.type), take(onLoadingCertifierSurveyFail.type)]);
-  history.push({ pathname: '/' });
 }
 
 export function* onReqSuccessSaga({ pathname, state, message }) {
@@ -662,10 +630,6 @@ export default function* getFarmIdSaga() {
   yield takeLatest(
     getManagementPlanAndPlantingMethodSuccess.type,
     getManagementPlanAndPlantingMethodSuccessSaga,
-  );
-  yield takeLatest(
-    waitForCertificationSurveyResultAndPushToHome.type,
-    waitForCertificationSurveyResultAndPushToHomeSaga,
   );
   yield takeLatest(getManagementPlansAndTasks.type, getManagementPlansAndTasksSaga);
   yield takeLatest(getCropsAndManagementPlans.type, getCropsAndManagementPlansSaga);

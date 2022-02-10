@@ -59,8 +59,9 @@ export default function PureEditUser({ userFarm, onUpdate, history, isAdmin, onA
       buttonGroup={<>
         {
           userFarm.status === 'Inactive' ?
-            <Button onClick={onActivate} fullLength color={'success'}>{t('PROFILE.PEOPLE.RESTORE_ACCESS')}</Button>
-            : <Button onClick={() => {
+            <Button type={'button'} onClick={onActivate} fullLength
+                    color={'success'}>{t('PROFILE.PEOPLE.RESTORE_ACCESS')}</Button>
+            : <Button type={'button'} onClick={() => {
               setShowRevokeUserAccessModal(true);
             }} fullLength color={'secondary'}>{t('PROFILE.PEOPLE.REVOKE_ACCESS')}</Button>}
         <Button fullLength type={'submit'} disabled={disabled}>

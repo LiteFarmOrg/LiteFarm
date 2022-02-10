@@ -580,8 +580,8 @@ export function* selectFarmAndFetchAllSaga({ payload: userFarm }) {
     yield put(selectFarmSuccess(userFarm));
     const { has_consent, user_id, farm_id } = yield select(userFarmSelector);
     if (!has_consent) return history.push('/consent');
-    yield call(fetchAllSaga);
     history.push({ pathname: '/' });
+    yield call(fetchAllSaga);
   } catch (e) {
     console.error('failed to fetch farm info', e);
   }
@@ -631,6 +631,6 @@ export default function* getFarmIdSaga() {
     getManagementPlanAndPlantingMethodSuccess.type,
     getManagementPlanAndPlantingMethodSuccessSaga,
   );
-  yield takeLatest(getManagementPlansAndTasks.type, getManagementPlansAndTasksSaga);
+  yield takeLeading(getManagementPlansAndTasks.type, getManagementPlansAndTasksSaga);
   yield takeLatest(getCropsAndManagementPlans.type, getCropsAndManagementPlansSaga);
 }

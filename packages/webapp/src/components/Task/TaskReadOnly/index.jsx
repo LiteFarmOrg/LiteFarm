@@ -103,13 +103,10 @@ export default function PureTaskReadOnly({
         onGoBack={onGoBack}
         style={{ marginBottom: '24px' }}
         title={t(`task:${taskType.task_translation_key}`) + ' ' + t('TASK.TASK')}
-        label={
-          !isCurrent && (
-            <StatusLabel
-              label={t(`TASK.STATUS.${taskStatusTranslateKey[taskStatus]}`)}
-              color={taskStatus}
-            />
-          )
+        label={<StatusLabel
+          label={t(`TASK.STATUS.${taskStatusTranslateKey[taskStatus]}`)}
+          color={taskStatus}
+        />
         }
       />
       <div className={styles.assigneeContainer} style={{ marginBottom: '40px' }}>

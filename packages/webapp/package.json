@@ -31,7 +31,7 @@
     "jsonwebtoken": "^8.5.1",
     "moment": "^2.29.1",
     "moment-range": "^4.0.2",
-    "node-sass": "^6.0.1",
+    "node-sass": "^7.0.0",
     "notistack": "^1.0.9",
     "nuka-carousel": "^4.5.12",
     "prop-types": "^15.7.2",

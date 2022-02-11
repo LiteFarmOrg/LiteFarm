@@ -20,7 +20,7 @@
     "migrate:dev:db": "knex migrate:latest",
     "migrate:make:dev": "knex migrate:latest",
     "migrate:dev:seed": "knex seed:run",
-    "migrate:pipeline:db": "NODE_ENV=test knex migrate:latest --env=pipeline",
+    "migrate:pipeline:db": "NODE_ENV=test npx knex migrate:latest --env=pipeline",
     "migrate:testing:seed": "knex seed:run --env=test",
     "migrate:rollback:testing:db": "NODE_ENV=test knex migrate:rollback --env=test",
     "lint": "eslint src",

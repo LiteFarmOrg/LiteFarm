@@ -80,7 +80,8 @@ This approach runs the LiteFarm applications and database server directly on you
        exit;       
        ```
 
-3. In a terminal, run `npm i` under the root folder of the repository, `npm i` under `packages/api`, and `pnpm i`
+3. In a terminal, run `npm i pnpm -g` *if pnpm is not already installed*, run `npm i` under the root folder of the
+   repository, `npm i` under `packages/api`, and `pnpm i`
    under `packages/webapp`.
 
 4. Edit the `packages/api/.env` file, setting the value of variable `DEV_DATABASE_HOST` to `localhost`

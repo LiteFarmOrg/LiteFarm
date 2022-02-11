@@ -19,9 +19,7 @@
     "*.{js, jsx}": [
       "eslint --quiet --fix"
     ],
-    "*.{js, jsx, ts, tsx, json,md,html}": [
-      "prettier --write"
-    ]
+    "*.{js,jsx,ts,tsx,json,md,html}": "prettier --write"
   },
   "dependencies": {
     "@emotion/react": "^11.7.1",

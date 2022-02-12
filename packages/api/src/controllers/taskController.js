@@ -22,8 +22,8 @@ const taskController = {
           return res.status(403).send('Not authorized to assign other people for this task');
         }
 
-        const checkTaskStatus = await TaskModel.query().select('completed_time', 'abandoned_time').where({ task_id }).first();
-        if (checkTaskStatus.completed_time || checkTaskStatus.abandoned_time) {
+        const checkTaskStatus = await TaskModel.query().select('complete_date', 'abandon_date').where({ task_id }).first();
+        if (checkTaskStatus.complete_date || checkTaskStatus.abandon_date) {
           return res.status(406).send('Task has already been completed or abandoned');
         }
         const result = await TaskModel.query().context(req.user).findById(task_id).patch({
@@ -55,8 +55,8 @@ const taskController = {
             if (assignee_user_id !== null) {
               builder.where('assignee_user_id', null);
             }
-            builder.where('completed_time', null);
-            builder.where('abandoned_time', null);
+            builder.where('complete_date', null);
+            builder.where('abandon_date', null);
           });
         available_tasks = available_tasks.map(({ task_id }) => task_id);
         const result = await TaskModel.query().context(req.user).patch({
@@ -74,7 +74,14 @@ const taskController = {
       try {
         const { task_id } = req.params;
         const { user_id, farm_id } = req.headers;
-        const { abandonment_reason, other_abandonment_reason, abandonment_notes, happiness, duration } = req.body;
+        const {
+          abandonment_reason,
+          other_abandonment_reason,
+          abandonment_notes,
+          happiness,
+          duration,
+          abandon_date,
+        } = req.body;
 
         const { owner_user_id, assignee_user_id, wage_at_moment, override_hourly_wage } = await TaskModel.query()
           .select('owner_user_id', 'assignee_user_id', 'wage_at_moment', 'override_hourly_wage')
@@ -99,7 +106,7 @@ const taskController = {
         }
 
         const result = await TaskModel.query().context(req.user).findById(task_id).patch({
-          abandoned_time: new Date(Date.now()),
+          abandon_date,
           abandonment_reason,
           other_abandonment_reason,
           abandonment_notes,
@@ -417,7 +424,7 @@ async function patchManagementPlanStartDate(trx, req, typeOfTask, task = req.bod
   const management_plans = await getManagementPlans(task_id, typeOfTask);
   const management_plan_ids = management_plans.map(({ management_plan_id }) => management_plan_id);
   if (management_plan_ids.length > 0) {
-    await managementPlanModel.query(trx).context(req.user).patch({ start_date: task.completed_time })
+    await managementPlanModel.query(trx).context(req.user).patch({ start_date: task.complete_date })
       .whereIn('management_plan_id', management_plan_ids)
       .where('start_date', null).returning('*');
   }

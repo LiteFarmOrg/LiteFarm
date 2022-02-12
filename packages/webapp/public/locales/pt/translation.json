@@ -676,6 +676,9 @@
       "INSECTS": "Insetos",
       "PLANTS": "Plantas",
       "SPECIES_COUNT": "{{count}} espécies",
+      "SPECIES_COUNT_one": "MISSING",
+      "SPECIES_COUNT_many": "MISSING",
+      "SPECIES_COUNT_other": "MISSING",
       "SPECIES_COUNT_plural": "{{count}} espécies",
       "TITLE": "Biodiversidade"
     },
@@ -691,6 +694,9 @@
       "CHOOSE_A_FREQUENCY": "Escolha uma frequência",
       "CHOOSE_FREQUENCY": "Escolha uma frequência...",
       "COUNT_MONTHS": "{{count}} mês",
+      "COUNT_MONTHS_one": "MISSING",
+      "COUNT_MONTHS_many": "MISSING",
+      "COUNT_MONTHS_other": "MISSING",
       "COUNT_MONTHS_plural": "{{count}} meses",
       "CYCLE_INDICATOR": "Your Nitrogen Balance is on a {{frequency}} months cycle and data will show on: {{refreshDate}}",
       "FIRST_TIME": "Parece que esta é sua primeira vez executando isso! Por favor, selecione uma frequência para calcular o seu balanço de nitrogênio.",
@@ -707,6 +713,9 @@
       "HEADER": "Número de refeições",
       "INFO": "Nós estimamos o número de refeições potencialmente fornecidas por sua fazenda com base nos dados de vendas e na composição nutricional dos cultivos. Assumimos que as necessidades nutricionais diárias são divididas igualmente em três refeições por dia",
       "MEAL_COUNT": "{{count}} refeições",
+      "MEAL_COUNT_one": "MISSING",
+      "MEAL_COUNT_many": "MISSING",
+      "MEAL_COUNT_other": "MISSING",
       "MEAL_COUNT_plural": "{{count}} refeições",
       "MEALS": "refeições",
       "PROTEIN": "Proteínas",
@@ -717,6 +726,9 @@
     "PRICES": {
       "INFO": "Mostramos a trajetória comparativa entre seus preços de venda em relação aos preços de venda dos mesmos produtos encontrados a uma determinada distância de você, utilizando dados coletados na rede LiteFarm.",
       "NEARBY_FARMS": "Vindo de {{count}} fazenda para dados de vendas",
+      "NEARBY_FARMS_one": "MISSING",
+      "NEARBY_FARMS_many": "MISSING",
+      "NEARBY_FARMS_other": "MISSING",
       "NEARBY_FARMS_plural": "Vindo de {{count}} fazendas para dados de vendas",
       "NETWORK_PRICE": "Preço de rede",
       "NO_ADDRESS": "You currently do not have an address in LiteFarm. Please update it in your Profile to get nearby prices information!",
@@ -1337,6 +1349,7 @@
   "TASK": {
     "ABANDON": {
       "ABANDON": "Abandonar",
+      "DATE": "MISSING",
       "INFO": "Abandonar esta tarefa mudará seu estado para abandonado e a removerá das listas de 'Tarefas' e 'Não atribuídas' de todos os usuários.",
       "NOTES": "Observações de abandono de tarefa",
       "NOTES_CHAR_LIMIT": "Observações não devem exceder 10.000 caractéres",
@@ -1351,7 +1364,8 @@
       },
       "REASON_FOR_ABANDONMENT": "Razão de abandono",
       "TITLE": "Abandonar tarefa",
-      "WHAT_HAPPENED": "O que aconteceu?"
+      "WHAT_HAPPENED": "O que aconteceu?",
+      "WHEN": "MISSING"
     },
     "ABANDON_TASK": "Abandonar esta tarefa",
     "ABANDON_TASK_DURATION": "Algum trabalho foi concluído para esta tarefa?",
@@ -1365,6 +1379,10 @@
     "CARD": {
       "MULTIPLE_CROPS": "Múltiplos cultivos",
       "MULTIPLE_LOCATIONS": "Múltiplos locais"
+    },
+    "COMPLETE": {
+      "DATE": "MISSING",
+      "WHEN": "MISSING"
     },
     "COMPLETE_HARVEST_QUANTITY": "Quanto foi colhido?",
     "COMPLETE_TASK": "Completar tarefa",
@@ -1405,6 +1423,9 @@
     },
     "TASK": "tarefa",
     "TASKS_COUNT": "{{count}} tarefa",
+    "TASKS_COUNT_one": "MISSING",
+    "TASKS_COUNT_many": "MISSING",
+    "TASKS_COUNT_other": "MISSING",
     "TASKS_COUNT_plural": "{{count}} tarefas",
     "TODO": "A fazer",
     "TRANSPLANT": "Transplantar",

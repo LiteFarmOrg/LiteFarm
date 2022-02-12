@@ -11,6 +11,8 @@ import InputAutoSize from '../../Form/InputAutoSize';
 import Rating from '../../Rating';
 import styles from './styles.module.scss';
 import { getObjectInnerValues } from '../../../util';
+import Input from '../../Form/Input';
+import { getDateInputFormat } from '../../../util/moment';
 
 export default function PureTaskComplete({
   onSave,
@@ -20,6 +22,12 @@ export default function PureTaskComplete({
 
   useHookFormPersist,
 }) {
+  const DURATION = 'duration';
+  const COMPLETION_NOTES = 'completion_notes';
+  const HAPPINESS = 'happiness';
+  const PREFER_NOT_TO_SAY = 'prefer_not_to_say';
+  const COMPLETE_DATE = 'complete_date';
+
   const { t } = useTranslation();
 
   const {
@@ -32,18 +40,13 @@ export default function PureTaskComplete({
   } = useForm({
     mode: 'onChange',
     shouldUnregister: false,
-    defaultValues: { ...persistedFormData },
+    defaultValues: { [COMPLETE_DATE]: getDateInputFormat(), ...persistedFormData },
   });
 
   const { historyCancel } = useHookFormPersist(getValues);
 
 
   const progress = 66;
-
-  const DURATION = 'duration';
-  const COMPLETION_NOTES = 'completion_notes';
-  const HAPPINESS = 'happiness';
-  const PREFER_NOT_TO_SAY = 'prefer_not_to_say';
 
   const duration = watch(DURATION);
   const prefer_not_to_say = watch(PREFER_NOT_TO_SAY);
@@ -60,13 +63,13 @@ export default function PureTaskComplete({
           {t('common:SAVE')}
         </Button>
       }
-      onSubmit={handleSubmit(() => {
+      onSubmit={handleSubmit((formData) => {
         let data = {
           taskData: {
-            completed_time: new Date().toISOString(),
             duration: duration,
             happiness: prefer_not_to_say ? null : happiness,
             completion_notes: notes,
+            complete_date: formData.complete_date,
           },
           task_translation_key: persistedFormData?.taskType.task_translation_key,
           isCustomTaskType: !!persistedFormData?.taskType.farm_id,
@@ -94,6 +97,17 @@ export default function PureTaskComplete({
         cancelModalTitle={t('TASK.COMPLETE_TASK_FLOW')}
         title={t('TASK.COMPLETE_TASK')}
         value={progress}
+      />
+
+      <Main style={{ marginBottom: '24px' }}>{t('TASK.COMPLETE.WHEN')}</Main>
+
+      <Input
+        label={t('TASK.COMPLETE.DATE')}
+        hookFormRegister={register(COMPLETE_DATE, { required: true })}
+        style={{ marginBottom: '24px' }}
+        type={'date'}
+        max={getDateInputFormat()}
+        required
       />
 
       <Main style={{ marginBottom: '24px' }}>{t('TASK.COMPLETE_TASK_DURATION')}</Main>

@@ -273,9 +273,9 @@ const organicCertifierSurveyController = {
                           p.supplier,
                           sat.product_quantity,
                           CASE
-                              WHEN t.completed_time is null
+                              WHEN t.complete_date is null
                                   THEN t.due_date
-                              ELSE t.completed_time
+                              ELSE t.complete_date
                               END as date_used,
                           t.task_id,
                           p.on_permitted_substances_list
@@ -297,9 +297,9 @@ const organicCertifierSurveyController = {
               FROM garden
               WHERE organic_status != 'Non-Organic'
           ) lu ON lu.location_id = l.location_id
-          WHERE ((completed_time::date <= :to_date::date AND completed_time::date >= :from_date::date) OR
+          WHERE ((complete_date::date <= :to_date::date AND complete_date::date >= :from_date::date) OR
                  (due_date::date <= :to_date::date AND due_date::date >= :from_date::date))
-            AND abandoned_time IS NULL
+            AND abandon_date IS NULL
             AND p.farm_id = :farm_id
       `,
       { to_date, from_date, farm_id },
@@ -334,18 +334,18 @@ const organicCertifierSurveyController = {
                  p.supplier,
                  ct.product_quantity,
                  CASE
-                     WHEN t.completed_time is null
+                     WHEN t.complete_date is null
                          THEN t.due_date
-                     ELSE t.completed_time
+                     ELSE t.complete_date
                      END as date_used,
                  t.task_id,
                  p.on_permitted_substances_list
           FROM task t
                    JOIN cleaning_task ct ON ct.task_id = t.task_id
                    JOIN product p ON p.product_id = ct.product_id
-          WHERE ((completed_time::date <= :to_date::date AND completed_time::date >= :from_date::date) OR
+          WHERE ((complete_date::date <= :to_date::date AND complete_date::date >= :from_date::date) OR
                  (due_date::date <= :to_date::date AND due_date::date >= :from_date::date))
-            AND abandoned_time IS NULL
+            AND abandon_date IS NULL
             AND p.farm_id = :farm_id
       `,
       { to_date, from_date, farm_id },
@@ -408,9 +408,9 @@ const organicCertifierSurveyController = {
        */
       const hasBeenTransplanted = plantingManagementPlans
         .filter((plantingManagementPlan) => {
-          if (plantingManagementPlan?.transplant_task?.task?.abandoned_time) return false;
+          if (plantingManagementPlan?.transplant_task?.task?.abandon_date) return false;
           const transplantTaskDate =
-            plantingManagementPlan?.transplant_task?.task?.completed_time ||
+            plantingManagementPlan?.transplant_task?.task?.complete_date ||
             plantingManagementPlan.transplant_task?.task?.due_date;
           if (!transplantTaskDate) return true;
           return transplantTaskDate <= endOfEndDate;
@@ -421,12 +421,12 @@ const organicCertifierSurveyController = {
           if (!task2.transplant_task) return -1;
           const {
             transplant_task: {
-              task: { completed_time: firstCompleteTime, due_date: firstDueDate },
+              task: { complete_date: firstCompleteTime, due_date: firstDueDate },
             },
           } = task1;
           const {
             transplant_task: {
-              task: { completed_time: secondCompleteTime, due_date: secondDueDate },
+              task: { complete_date: secondCompleteTime, due_date: secondDueDate },
             },
           } = task2;
           return (
@@ -439,7 +439,7 @@ const organicCertifierSurveyController = {
             managementPlan.crop_variety.crop.crop_translation_key,
           );
           const transplantTaskDate =
-            plantingManagementPlan?.transplant_task?.task?.completed_time ||
+            plantingManagementPlan?.transplant_task?.task?.complete_date ||
             plantingManagementPlan.transplant_task?.task?.due_date;
           return transplantTaskDate && transplantTaskDate < startOfFromDate;
         });
@@ -551,11 +551,11 @@ const organicCertifierSurveyController = {
         if (planting_management_plan.transplant_task)
           tasks.push(planting_management_plan.transplant_task.task);
 
-        const nonAbandonedTasks = tasks.filter((task) => !task.abandoned_time);
+        const nonAbandonedTasks = tasks.filter((task) => !task.abandon_date);
         let hasTasksBeforeReportingPeriod;
         let hasTasksAfterReportingPeriod;
         for (const task of nonAbandonedTasks) {
-          const taskDate = task?.completed_time || task.due_date;
+          const taskDate = task?.complete_date || task.due_date;
           if (taskDate >= startOfFromDate && taskDate <= endOfEndDate) return true;
           if (taskDate < startOfFromDate) hasTasksBeforeReportingPeriod = true;
           if (taskDate > endOfEndDate) hasTasksAfterReportingPeriod = true;
@@ -635,10 +635,10 @@ const organicCertifierSurveyController = {
           SELECT DISTINCT p.name,
                           p.supplier,
                           pct.product_quantity,
-                          t.completed_time::date as date_used, CASE
-                                                                   WHEN t.completed_time is null
-                                                                       THEN t.due_date
-                                                                   ELSE t.completed_time
+                          t.complete_date::date as date_used, CASE
+                                                                  WHEN t.complete_date is null
+                                                                      THEN t.due_date
+                                                                  ELSE t.complete_date
               END as date_used,
                           p.on_permitted_substances_list,
                           t.task_id
@@ -660,7 +660,7 @@ const organicCertifierSurveyController = {
               FROM garden
               WHERE organic_status != 'Non-Organic'
           ) lu ON lu.location_id = l.location_id
-          WHERE ((completed_time::date <= :to_date::date AND completed_time::date >= :from_date::date) OR
+          WHERE ((complete_date::date <= :to_date::date AND complete_date::date >= :from_date::date) OR
                  (due_date::date <= :to_date::date AND due_date::date >= :from_date::date))
             AND p.farm_id = :farm_id`,
       { to_date, from_date, farm_id },
@@ -674,9 +674,9 @@ const organicCertifierSurveyController = {
                           p.supplier,
                           pct.product_quantity,
                           CASE
-                              WHEN t.completed_time is null
+                              WHEN t.complete_date is null
                                   THEN t.due_date
-                              ELSE t.completed_time
+                              ELSE t.complete_date
                               END as date_used,
                           p.on_permitted_substances_list,
                           t.task_id
@@ -716,7 +716,7 @@ const organicCertifierSurveyController = {
               SELECT location_id
               FROM residence
           ) lu ON lu.location_id = l.location_id
-          WHERE ((completed_time::date <= :to_date::date AND completed_time::date >= :from_date::date) OR
+          WHERE ((complete_date::date <= :to_date::date AND complete_date::date >= :from_date::date) OR
                  (due_date::date <= :to_date::date AND due_date::date >= :from_date::date))
             AND p.farm_id = :farm_id`,
       { to_date, from_date, farm_id },

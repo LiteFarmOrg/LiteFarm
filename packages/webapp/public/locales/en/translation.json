@@ -677,6 +677,8 @@
       "INSECTS": "Insects",
       "PLANTS": "Plants",
       "SPECIES_COUNT": "{{count}} species",
+      "SPECIES_COUNT_one": "{{count}} species",
+      "SPECIES_COUNT_other": "{{count}} species",
       "SPECIES_COUNT_plural": "{{count}} species",
       "TITLE": "Biodiversity"
     },
@@ -692,6 +694,8 @@
       "CHOOSE_A_FREQUENCY": "Choose a frequency",
       "CHOOSE_FREQUENCY": "Choose Frequency...",
       "COUNT_MONTHS": "{{count}} month",
+      "COUNT_MONTHS_one": "{{count}} month",
+      "COUNT_MONTHS_other": "{{count}} months",
       "COUNT_MONTHS_plural": "{{count}} months",
       "CYCLE_INDICATOR": "Your Nitrogen Balance is on a {{frequency}} months cycle and data will show on: {{refreshDate}}",
       "FIRST_TIME": "It looks like it's your first time running this! Please select a frequency to calculate your nitrogen balance.",
@@ -708,6 +712,8 @@
       "HEADER": "Number of Meals",
       "INFO": "We estimate the number of potential meals provided by your farm based on sales data, and crop composition databases. We assume that daily requirements are divided equally across three meals a day.",
       "MEAL_COUNT": "{{count}} meal",
+      "MEAL_COUNT_one": "{{count}} meal",
+      "MEAL_COUNT_other": "{{count}} meals",
       "MEAL_COUNT_plural": "{{count}} meals",
       "MEALS": "meals",
       "PROTEIN": "Protein",
@@ -718,6 +724,8 @@
     "PRICES": {
       "INFO": "We show you the trajectory of your sales prices against the sales prices for the same goods within a given distance of you, collected across the LiteFarm network.",
       "NEARBY_FARMS": "Network price is based on {{count}} farms in your local area",
+      "NEARBY_FARMS_one": "Network price is based on {{count}} farm in your local area",
+      "NEARBY_FARMS_other": "Network price is based on {{count}} farms in your local area",
       "NEARBY_FARMS_plural": "Network price is based on {{count}} farms in your local area",
       "NETWORK_PRICE": "Network Price",
       "NO_ADDRESS": "You currently do not have an address in LiteFarm. Please update it in your Profile to get nearby prices information!",
@@ -1337,6 +1345,7 @@
   "TASK": {
     "ABANDON": {
       "ABANDON": "Abandon",
+      "DATE": "Abandonment date",
       "INFO": "Abandoning this task will change its' status to abandoned and remove it from all users ‘To do’ and ‘Unassigned’ lists.",
       "NOTES": "Task abandonment notes",
       "NOTES_CHAR_LIMIT": "Notes must be less than 10,000 characters",
@@ -1351,7 +1360,8 @@
       },
       "REASON_FOR_ABANDONMENT": "Reason for abandoning",
       "TITLE": "Abandon task",
-      "WHAT_HAPPENED": "What happened?"
+      "WHAT_HAPPENED": "What happened?",
+      "WHEN": "When was the task abandoned?"
     },
     "ABANDON_TASK": "Abandon this task",
     "ABANDON_TASK_DURATION": "Was any work completed for this task?",
@@ -1365,6 +1375,10 @@
     "CARD": {
       "MULTIPLE_CROPS": "Multiple crops",
       "MULTIPLE_LOCATIONS": "Multiple locations"
+    },
+    "COMPLETE": {
+      "DATE": "Completion date",
+      "WHEN": "When was the task completed?"
     },
     "COMPLETE_HARVEST_QUANTITY": "How much was harvested?",
     "COMPLETE_TASK": "Complete task",
@@ -1405,6 +1419,8 @@
     },
     "TASK": "task",
     "TASKS_COUNT": "{{count}} task",
+    "TASKS_COUNT_one": "{{count}} task",
+    "TASKS_COUNT_other": "{{count}} tasks",
     "TASKS_COUNT_plural": "{{count}} tasks",
     "TODO": "To do",
     "TRANSPLANT": "Transplant",

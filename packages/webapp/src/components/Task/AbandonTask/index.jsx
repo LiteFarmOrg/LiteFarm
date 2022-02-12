@@ -12,8 +12,17 @@ import Input from '../../Form/Input';
 import TimeSlider from '../../Form/Slider/TimeSlider';
 import Checkbox from '../../Form/Checkbox';
 import Rating from '../../Rating';
+import { getDateInputFormat } from '../../../util/moment';
 
 const PureAbandonTask = ({ onSubmit, onError, onGoBack, hasAssignee }) => {
+  const REASON_FOR_ABANDONMENT = 'reason_for_abandonment';
+  const OTHER_REASON_FOR_ABANDONMENT = 'other_abandonment_reason';
+  const ABANDON_DATE = 'abandon_date';
+  const TASK_ABANDONMENT_NOTES = 'abandonment_notes';
+  const DURATION = 'duration';
+  const HAPPINESS = 'happiness';
+  const NO_WORK_COMPLETED = 'no_work_completed';
+  const PREFER_NOT_TO_SAY = 'prefer_not_to_say';
   const { t } = useTranslation();
   const {
     register,
@@ -24,15 +33,8 @@ const PureAbandonTask = ({ onSubmit, onError, onGoBack, hasAssignee }) => {
     formState: { errors, isValid },
   } = useForm({
     mode: 'onChange',
+    defaultValues: { [ABANDON_DATE]: getDateInputFormat() },
   });
-
-  const REASON_FOR_ABANDONMENT = 'reason_for_abandonment';
-  const OTHER_REASON_FOR_ABANDONMENT = 'other_abandonment_reason';
-  const TASK_ABANDONMENT_NOTES = 'abandonment_notes';
-  const DURATION = 'duration';
-  const HAPPINESS = 'happiness';
-  const NO_WORK_COMPLETED = 'no_work_completed';
-  const PREFER_NOT_TO_SAY = 'prefer_not_to_say';
 
   const reason_for_abandonment = watch(REASON_FOR_ABANDONMENT);
   const prefer_not_to_say = watch(PREFER_NOT_TO_SAY);
@@ -62,7 +64,20 @@ const PureAbandonTask = ({ onSubmit, onError, onGoBack, hasAssignee }) => {
     >
       <PageTitle title={t('TASK.ABANDON.TITLE')} onGoBack={onGoBack} />
 
+
       <Info style={{ marginTop: '20px', marginBottom: '24px' }}>{t('TASK.ABANDON.INFO')}</Info>
+
+      <Main style={{ marginBottom: '24px' }}>{t('TASK.ABANDON.WHEN')}</Main>
+
+
+      <Input
+        label={t('TASK.ABANDON.DATE')}
+        hookFormRegister={register(ABANDON_DATE, { required: true })}
+        style={{ marginBottom: '24px' }}
+        type={'date'}
+        max={getDateInputFormat()}
+        required
+      />
 
       <Controller
         control={control}

@@ -676,6 +676,9 @@
       "INSECTS": "Insectos",
       "PLANTS": "Plantas",
       "SPECIES_COUNT": "{{count}} Especies",
+      "SPECIES_COUNT_one": "MISSING",
+      "SPECIES_COUNT_many": "MISSING",
+      "SPECIES_COUNT_other": "MISSING",
       "SPECIES_COUNT_plural": "{{count}} Especies",
       "TITLE": "Biodiversidad"
     },
@@ -691,6 +694,9 @@
       "CHOOSE_A_FREQUENCY": "Escoja una frecuencia",
       "CHOOSE_FREQUENCY": "Escoja Frecuencia...",
       "COUNT_MONTHS": "{{count}} mese",
+      "COUNT_MONTHS_one": "MISSING",
+      "COUNT_MONTHS_many": "MISSING",
+      "COUNT_MONTHS_other": "MISSING",
       "COUNT_MONTHS_plural": "{{count}} meses",
       "CYCLE_INDICATOR": "Su balance de nitrogeno esta en {{frequency}} meses por ciclo y la data se vera en: {{refreshDate}}",
       "FIRST_TIME": "Parece que es la primera vez que corres esto! Por favor, selecciona una frecuencia para calcular su balance de nitrogeno",
@@ -707,6 +713,9 @@
       "HEADER": "Numero de comidas",
       "INFO": "Estimamos el numero de comidas potenciales provistas por su granja basandonos en los datos de sus ventas y la base de datos de la composicion de cultivos. Asumimos que los requerimientos diarios se dividen en partes iguales en 3 comidas al dia.",
       "MEAL_COUNT": "{{count}} comida",
+      "MEAL_COUNT_one": "MISSING",
+      "MEAL_COUNT_many": "MISSING",
+      "MEAL_COUNT_other": "MISSING",
       "MEAL_COUNT_plural": "{{count}} comidas",
       "MEALS": "Comidas",
       "PROTEIN": "Proteina",
@@ -717,6 +726,9 @@
     "PRICES": {
       "INFO": "Se mostramos la trayectoria de sus precios de venta contra el precio de venta de los mismos bienes en una distancia dada de su granja, recolectadas a traves de la red de Litefarm.",
       "NEARBY_FARMS": "Buscando data de ventas de {{count}} granja",
+      "NEARBY_FARMS_one": "MISSING",
+      "NEARBY_FARMS_many": "MISSING",
+      "NEARBY_FARMS_other": "MISSING",
       "NEARBY_FARMS_plural": "Buscando data de ventas de {{count}} granjas",
       "NETWORK_PRICE": "Precio de red",
       "NO_ADDRESS": "Actualmente no tienes una direccion en Litefarm. Por favor actualizala en su Perfil para obtener data de ventas cercanas.",
@@ -1336,6 +1348,7 @@
   "TASK": {
     "ABANDON": {
       "ABANDON": "Abandonar",
+      "DATE": "MISSING",
       "INFO": "Abandonar esta tarea cambiará su estado a abandonada y la eliminará de todas las listas de ‘Tareas pendientes’ y ‘No asignadas’ de todos los usuarios.",
       "NOTES": "Notas de abandono de tarea",
       "NOTES_CHAR_LIMIT": "Las notas deben tener menos de 10,000 caracteres",
@@ -1350,7 +1363,8 @@
       },
       "REASON_FOR_ABANDONMENT": "Razón para abandonar",
       "TITLE": "Abandonar tarea",
-      "WHAT_HAPPENED": "¿Qué sucedió?"
+      "WHAT_HAPPENED": "¿Qué sucedió?",
+      "WHEN": "MISSING"
     },
     "ABANDON_TASK": "Abandonar esta tarea",
     "ABANDON_TASK_DURATION": "¿Se completó algún trabajo para esta tarea?",
@@ -1364,6 +1378,10 @@
     "CARD": {
       "MULTIPLE_CROPS": "Múltiples cultivos",
       "MULTIPLE_LOCATIONS": "Múltiples ubicaciones"
+    },
+    "COMPLETE": {
+      "DATE": "MISSING",
+      "WHEN": "MISSING"
     },
     "COMPLETE_HARVEST_QUANTITY": "¿Cuánto se cosechó?",
     "COMPLETE_TASK": "Completar tarea",
@@ -1404,6 +1422,9 @@
     },
     "TASK": "tarea",
     "TASKS_COUNT": "{{count}} tarea",
+    "TASKS_COUNT_one": "MISSING",
+    "TASKS_COUNT_many": "MISSING",
+    "TASKS_COUNT_other": "MISSING",
     "TASKS_COUNT_plural": "{{count}} tareas",
     "TODO": "Para hacer",
     "TRANSPLANT": "Trasplantar",

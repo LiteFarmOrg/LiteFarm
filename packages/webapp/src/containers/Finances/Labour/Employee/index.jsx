@@ -13,8 +13,8 @@ const Employee = ({ currencySymbol, tasks, startDate, endDate }) => {
   const userFarmsOfFarm = useSelector(userFarmsByFarmSelector);
   for (let task of tasks) {
     const assignee = userFarmsOfFarm.find((user) => user.user_id === task.assignee_user_id);
-    const completedTime = moment(task.completed_time);
-    const abandonedTime = moment(task.abandoned_time);
+    const completedTime = moment(task.complete_date);
+    const abandonedTime = moment(task.abandon_date);
     if (
       (completedTime.isSameOrAfter(startDate, 'day') &&
         completedTime.isSameOrBefore(endDate, 'day') &&

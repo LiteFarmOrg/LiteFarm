@@ -30,10 +30,10 @@ export const getTask = (obj) => {
     'duration',
     'wage_at_moment',
     'happiness',
-    'completed_time',
+    'complete_date',
     'late_time',
     'for_review_time',
-    'abandoned_time',
+    'abandon_date',
     'locations',
     'managementPlans',
     'abandonment_reason',
@@ -249,7 +249,7 @@ export const tasksByManagementPlanIdSelector = (management_plan_id) =>
 export const taskSelector = (task_id) => (state) => taskEntitiesSelector(state)[task_id];
 
 export const getPendingTasks = (tasks) =>
-  tasks.filter((task) => !task.abandoned_time && !task.completed_time);
+  tasks.filter((task) => !task.abandon_date && !task.complete_date);
 
 export const pendingTasksSelector = createSelector([tasksSelector], getPendingTasks);
 
@@ -265,11 +265,11 @@ export const pendingTasksByManagementPlanIdSelector = (management_plan_id) =>
   );
 
 export const getCompletedTasks = (tasks) =>
-  tasks.filter((task) => !task.abandoned_time && task.completed_time);
+  tasks.filter((task) => !task.abandon_date && task.complete_date);
 
 export const completedTasksSelector = createSelector([tasksSelector], getCompletedTasks);
 
-export const getAbandonedTasks = (tasks) => tasks.filter((task) => task.abandoned_time);
+export const getAbandonedTasks = (tasks) => tasks.filter((task) => task.abandon_date);
 
 export const abandonedTasksSelector = createSelector([tasksSelector], getAbandonedTasks);
 

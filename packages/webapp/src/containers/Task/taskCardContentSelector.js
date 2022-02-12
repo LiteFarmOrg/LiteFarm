@@ -10,33 +10,33 @@ const getTaskContents = (tasks, userFarmEntities, { farm_id }) => {
   return tasks
     .sort((taskA, taskB) => {
       if (
-        !taskA.completed_time &&
-        !taskA.abandoned_time &&
-        (taskB.completed_time || taskB.abandoned_time)
+        !taskA.complete_date &&
+        !taskA.abandon_date &&
+        (taskB.complete_date || taskB.abandon_date)
       ) {
         return -1;
       }
       if (
-        taskA.completed_time &&
-        !taskA.abandoned_time &&
-        !taskB.completed_time &&
-        taskB.abandoned_time
+        taskA.complete_date &&
+        !taskA.abandon_date &&
+        !taskB.complete_date &&
+        taskB.abandon_date
       ) {
         return -1;
       }
       if (
-        !taskA.completed_time &&
-        !taskA.abandoned_time &&
-        !taskB.completed_time &&
-        !taskB.abandoned_time
+        !taskA.complete_date &&
+        !taskA.abandon_date &&
+        !taskB.complete_date &&
+        !taskB.abandon_date
       ) {
         return new Date(taskA.due_date).getTime() - new Date(taskB.due_date).getTime();
       }
-      if (taskA.completed_time && taskB.completed_time) {
-        return new Date(taskA.completed_time).getTime() - new Date(taskB.completed_time).getTime();
+      if (taskA.complete_date && taskB.complete_date) {
+        return new Date(taskA.complete_date).getTime() - new Date(taskB.complete_date).getTime();
       }
-      if (taskA.abandoned_time && taskB.abandoned_time) {
-        return new Date(taskA.abandoned_time).getTime() - new Date(taskB.abandoned_time).getTime();
+      if (taskA.abandon_date && taskB.abandon_date) {
+        return new Date(taskA.abandon_date).getTime() - new Date(taskB.abandon_date).getTime();
       }
       return 1;
     })
@@ -48,10 +48,10 @@ const getTaskContents = (tasks, userFarmEntities, { farm_id }) => {
         status: getTaskStatus(task),
         cropVarietyName: getCropVarietyName(managementPlans),
         locationName: getLocationNameOfTask(managementPlans, task.locations, task.taskType),
-        completeOrDueDate: getTaskCardDate(task.completed_time || task.due_date),
+        completeOrDueDate: getTaskCardDate(task.complete_date || task.due_date),
         assignee: userFarmEntities[farm_id][task.assignee_user_id],
         happiness: task.happiness,
-        abandoned_time: task.abandoned_time,
+        abandon_date: task.abandon_date,
       };
     });
 };
@@ -68,8 +68,8 @@ export const taskCardContentByManagementPlanSelector = (management_plan_id) =>
   );
 
 export const getTaskStatus = (task) => {
-  if (task.completed_time) return 'completed';
-  if (task.abandoned_time) return 'abandoned';
+  if (task.complete_date) return 'completed';
+  if (task.abandon_date) return 'abandoned';
   if (new Date(task.due_date) > Date.now()) return 'planned';
   return 'late';
 };

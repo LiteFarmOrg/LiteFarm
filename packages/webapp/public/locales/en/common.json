@@ -45,11 +45,11 @@
   "SAVE_CHANGES": "Save Changes",
   "SEARCH": "Search",
   "SELECT": "Select",
+  "SKIP": "Skip",
   "SORRY": "Sorry",
   "SUBMIT": "Submit",
   "SUBMITTING": "Submitting...",
   "UPDATE": "Update",
   "WORD_LIMIT_ERROR": "Only {{value}} characters can be displayed",
-  "YES": "Yes",
-  "SKIP": "Skip"
+  "YES": "Yes"
 }

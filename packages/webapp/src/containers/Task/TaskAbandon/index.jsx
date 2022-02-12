@@ -17,18 +17,19 @@ function TaskAbandon({ history, match }) {
   useEffect(() => {
     // Redirect user to the task's read only view if task is abandoned
     // or if user is worker and not assigned to the task
-    if (task.abandoned_time || (!isAdmin && task.assignee_user_id !== user_id && task.owner_user_id !== user_id)) {
+    if (task.abandon_date || (!isAdmin && task.assignee_user_id !== user_id && task.owner_user_id !== user_id)) {
       history.back();
     }
   }, []);
 
   const onSubmit = (data) => {
-    const { no_work_completed, prefer_not_to_say } = data;
+    const { no_work_completed, prefer_not_to_say, abandon_date } = data;
     let patchData = {
       abandonment_reason: data.reason_for_abandonment.value,
       abandonment_notes: data.abandonment_notes,
       duration: no_work_completed ? null : data.duration,
       happiness: prefer_not_to_say ? null : data.happiness,
+      abandon_date,
     };
     if (patchData.abandonment_reason === 'OTHER') {
       patchData.other_abandonment_reason = data.other_abandonment_reason;

@@ -20,8 +20,8 @@ export function calcTotalLabour(tasks, startDate, endDate) {
   let total = 0.00;
   if (Array.isArray(tasks)) {
     for (const t of tasks) {
-      const completedTime = moment(t.completed_time);
-      const abandonedTime = moment(t.abandoned_time);
+      const completedTime = moment(t.complete_date);
+      const abandonedTime = moment(t.abandon_date);
       if (
         (completedTime.isSameOrAfter(startDate, 'day') &&
           completedTime.isSameOrBefore(endDate, 'day') &&

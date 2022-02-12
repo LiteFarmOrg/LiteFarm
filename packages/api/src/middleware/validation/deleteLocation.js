@@ -31,8 +31,8 @@ async function validateLocationDependency(req, res, next) {
   const tasks = await taskModel.query().whereNotDeleted()
     .join('location_tasks', 'location_tasks.task_id', 'task.task_id')
     .where('location_tasks.location_id', location_id)
-    .whereNull('task.completed_time')
-    .whereNull('task.abandoned_time');
+    .whereNull('task.complete_date')
+    .whereNull('task.abandon_date');
   if (tasks.length) {
     return res.status(400).send('Location cannot be deleted when it is referenced by a task');
   }

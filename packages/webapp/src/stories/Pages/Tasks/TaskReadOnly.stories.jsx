@@ -140,10 +140,10 @@ TaskReadOnly.args = {
     'duration': null,
     'wage_at_moment': 0,
     'happiness': null,
-    'completed_time': null,
+    'complete_date': null,
     'late_time': null,
     'for_review_time': null,
-    'abandoned_time': null,
+    'abandon_date': null,
     'locations': [
       {
         'farm_id': '71d84984-88cc-11eb-84e5-0a7facd3678d',

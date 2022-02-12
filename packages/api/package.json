@@ -5,7 +5,7 @@
   "main": "./api/src/server.js",
   "scripts": {
     "test": "jest --runInBand",
-    "test-ci": "NODE_ENV=pipeline npx jest --runInBand --forceExit",
+    "test-ci": "NODE_ENV=pipeline jest --runInBand --forceExit",
     "test-end2end": "jest endToEnd",
     "jest-w": "jest --watch",
     "start": "set NODE_ENV=development&& node src/server.js",
@@ -14,13 +14,12 @@
     "debug-email-template": "set NODE_ENV=development&& DEBUG=email-templates nodemon src/server.js",
     "debug-i18n": "set NODE_ENV=development&& DEBUG=i18n:* nodemon src/server.js",
     "production": "NODE_ENV=production node src/server.js",
-    "preinstall": "npx npm-force-resolutions",
     "integration": "NODE_ENV=integration node src/server.js",
     "migrate:testing:db": "NODE_ENV=test knex migrate:latest --env=test",
     "migrate:dev:db": "knex migrate:latest",
     "migrate:make:dev": "knex migrate:latest",
     "migrate:dev:seed": "knex seed:run",
-    "migrate:pipeline:db": "NODE_ENV=test npx knex migrate:latest --env=pipeline",
+    "migrate:pipeline:db": "NODE_ENV=test knex migrate:latest --env=pipeline",
     "migrate:testing:seed": "knex seed:run --env=test",
     "migrate:rollback:testing:db": "NODE_ENV=test knex migrate:rollback --env=test",
     "lint": "eslint src",
@@ -85,7 +84,7 @@
     "objection-soft-delete": "^1.0.7",
     "pg": "^8.5.1",
     "pug": "^3.0.2",
-    "puppeteer": "^10.1.0",
+    "puppeteer": "^13.3.1",
     "request": "^2.87.0",
     "request-promise": "^4.2.2",
     "rimraf": "^3.0.2",
@@ -108,10 +107,6 @@
     "nodemon": "^2.0.7",
     "prettier": "2.2.1",
     "start-server-and-test": "^1.11.7"
-  },
-  "resolutions": {
-    "set-value": "^4.1.0",
-    "glob-parent": "^6.0.2"
   },
   "lint-staged": {
     "*.{js}": [

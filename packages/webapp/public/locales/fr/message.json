@@ -16,6 +16,14 @@
       "UPDATE": "MISSING"
     }
   },
+  "CROP": {
+    "ERROR": {
+      "DELETE": "MISSING"
+    },
+    "SUCCESS": {
+      "DELETE": "MISSING"
+    }
+  },
   "CROP_VARIETY": {
     "ERROR": {
       "ADD": "MISSING",
@@ -27,14 +35,6 @@
       "ADD": "MISSING",
       "DELETE": "MISSING",
       "UPDATE": "MISSING"
-    }
-  },
-  "CROP": {
-    "ERROR": {
-      "DELETE": "MISSING"
-    },
-    "SUCCESS": {
-      "DELETE": "MISSING"
     }
   },
   "EXPENSE": {
@@ -144,16 +144,6 @@
       "UPDATE": "MISSING"
     }
   },
-  "TASK_TYPE": {
-    "CREATE": {
-      "FAILED": "MISSING",
-      "SUCCESS": "MISSING"
-    },
-    "DELETE": {
-      "FAILED": "MISSING",
-      "SUCCESS": "MISSING"
-    }
-  },
   "TASK": {
     "ABANDON": {
       "FAILED": "MISSING",
@@ -164,6 +154,16 @@
       "SUCCESS": "MISSING"
     },
     "CREATE": {
+      "FAILED": "MISSING",
+      "SUCCESS": "MISSING"
+    }
+  },
+  "TASK_TYPE": {
+    "CREATE": {
+      "FAILED": "MISSING",
+      "SUCCESS": "MISSING"
+    },
+    "DELETE": {
       "FAILED": "MISSING",
       "SUCCESS": "MISSING"
     }

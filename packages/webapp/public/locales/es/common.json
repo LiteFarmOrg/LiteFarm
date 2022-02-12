@@ -14,6 +14,7 @@
   "DELETE": "Borrar",
   "DO_NOT_SHOW": "No vuelva a mostrar este mensaje.",
   "EDIT": "Editar",
+  "EDIT_DATE": "Editar fecha",
   "EXPORT": "Exportar",
   "FINISH": "Terminar",
   "FROM": "de",
@@ -50,5 +51,5 @@
   "UPDATE": "Actualizar",
   "WORD_LIMIT_ERROR": "Solo se pueden mostrar {{value}} caracteres",
   "YES": "Sí",
-  "EDIT_DATE": "Editar fecha"
+  "SKIP": "MISSING"
 }

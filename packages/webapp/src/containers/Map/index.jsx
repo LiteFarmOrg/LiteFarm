@@ -8,7 +8,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { measurementSelector, userFarmSelector } from '../userFarmSlice';
 import html2canvas from 'html2canvas';
 import { sendMapToEmail, setSpotlightToShown } from './saga';
-import { canShowSuccessHeader, setShowSuccessHeaderSelector, setSuccessMessageSelector } from '../mapSlice';
+import {
+  canShowSuccessHeader,
+  setShowSuccessHeaderSelector,
+  setSuccessMessageSelector,
+} from '../mapSlice';
 import { showedSpotlightSelector } from '../showedSpotlightSlice';
 
 import PureMapHeader from '../../components/Map/Header';
@@ -403,7 +407,6 @@ export default function Map({ history }) {
 
         {!drawingState.type && (
           <PureMapFooter
-            className={styles.mapFooter}
             isAdmin={is_admin}
             showSpotlight={!showedSpotlight.map}
             resetSpotlight={() => dispatch(setSpotlightToShown('map'))}

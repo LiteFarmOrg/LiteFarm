@@ -11,7 +11,6 @@ import { locationEnum } from '../../../containers/Map/constants';
 import { TourProviderWrapper } from '../../TourProviderWrapper/TourProviderWrapper';
 
 export default function PureMapFooter({
-  className,
   style,
   isAdmin,
   showSpotlight,
@@ -47,37 +46,41 @@ export default function PureMapFooter({
   const { t } = useTranslation();
   const [stepSpotlighted, setStepSpotlighted] = useState(null);
 
-
   const { container, button, svg, spotlighted } = styles;
   return (
-    <TourProviderWrapper padding={0} open={showSpotlight} onFinish={resetSpotlight} steps={[
-      {
-        selector: '#mapFirstStep',
-        title: t('FARM_MAP.SPOTLIGHT.ADD_TITLE'),
-        contents: [t('FARM_MAP.SPOTLIGHT.HERE_YOU_CAN')],
-        list: [t('FARM_MAP.SPOTLIGHT.ADD')],
-        position: 'center',
-      },
-      {
-        selector: '#mapSecondStep',
-        title: t('FARM_MAP.SPOTLIGHT.FILTER_TITLE'),
-        contents: [t('FARM_MAP.SPOTLIGHT.HERE_YOU_CAN')],
-        list: [t('FARM_MAP.SPOTLIGHT.FILTER')],
-        position: 'center',
-      },
-      {
-        selector: '#mapThirdStep',
-        title: t('FARM_MAP.SPOTLIGHT.EXPORT_TITLE'),
-        contents: [t('FARM_MAP.SPOTLIGHT.HERE_YOU_CAN')],
-        list: [t('FARM_MAP.SPOTLIGHT.EXPORT')],
-        position: 'center',
-      },
-    ]}>
-      <div className={clsx(container, className)} style={style}>
+    <TourProviderWrapper
+      padding={0}
+      open={showSpotlight}
+      onFinish={resetSpotlight}
+      steps={[
+        {
+          selector: '#mapFirstStep',
+          title: t('FARM_MAP.SPOTLIGHT.ADD_TITLE'),
+          contents: [t('FARM_MAP.SPOTLIGHT.HERE_YOU_CAN')],
+          list: [t('FARM_MAP.SPOTLIGHT.ADD')],
+          position: 'center',
+        },
+        {
+          selector: '#mapSecondStep',
+          title: t('FARM_MAP.SPOTLIGHT.FILTER_TITLE'),
+          contents: [t('FARM_MAP.SPOTLIGHT.HERE_YOU_CAN')],
+          list: [t('FARM_MAP.SPOTLIGHT.FILTER')],
+          position: 'center',
+        },
+        {
+          selector: '#mapThirdStep',
+          title: t('FARM_MAP.SPOTLIGHT.EXPORT_TITLE'),
+          contents: [t('FARM_MAP.SPOTLIGHT.HERE_YOU_CAN')],
+          list: [t('FARM_MAP.SPOTLIGHT.EXPORT')],
+          position: 'center',
+        },
+      ]}
+    >
+      <div className={clsx(container)} style={style}>
         {isAdmin && (
           <button
             className={clsx(button, (stepSpotlighted === 0 || showAddDrawer) && spotlighted)}
-            id='mapFirstStep'
+            id="mapFirstStep"
             onClick={onClickAdd}
           >
             <AddLogo className={svg} />

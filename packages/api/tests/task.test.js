@@ -196,7 +196,7 @@ describe('Task tests', () => {
       const [{ user_id: another_id }] = await mocks.userFarmFactory({ promisedFarm: [{ farm_id }] }, fakeUserFarm(2));
       const fakeTask = mocks.fakeTask({
         assignee_user_id: user_id,
-        completed_time: faker.date.future(),
+        complete_date: faker.date.future(),
       });
       const [{ task_id }] = await mocks.taskFactory({ promisedUser: [{ user_id }] }, task = fakeTask);
       const [{ location_id }] = await mocks.locationFactory({ promisedFarm: [{ farm_id }] });
@@ -212,7 +212,7 @@ describe('Task tests', () => {
       const [{ user_id: another_id }] = await mocks.userFarmFactory({ promisedFarm: [{ farm_id }] }, fakeUserFarm(2));
       const fakeTask = mocks.fakeTask({
         assignee_user_id: user_id,
-        abandoned_time: faker.date.future(),
+        abandon_date: faker.date.future(),
       });
       const [{ task_id }] = await mocks.taskFactory({ promisedUser: [{ user_id }] }, task = fakeTask);
       const [{ location_id }] = await mocks.locationFactory({ promisedFarm: [{ farm_id }] });
@@ -376,11 +376,11 @@ describe('Task tests', () => {
       const [{ user_id: another_id }] = await mocks.userFarmFactory({ promisedFarm: [{ farm_id }] }, fakeUserFarm(2));
       const date = faker.date.future().toISOString().split('T')[0];
       const fakeTask_completed = mocks.fakeTask({
-        completed_time: faker.date.future(),
+        complete_date: faker.date.future(),
         due_date: date,
       });
       const fakeTask_abandoned = mocks.fakeTask({
-        abandoned_time: faker.date.future(),
+        abandon_date: faker.date.future(),
         due_date: date,
       });
       const [task_1] = await mocks.taskFactory({ promisedUser: [{ user_id }] }, mocks.fakeTask({ due_date: date }));
@@ -990,14 +990,13 @@ describe('Task tests', () => {
       plant_task: () => mocks.fakePlantTask(),
     };
 
-    const completed_time = faker.date.future();
-    const completed_date = completed_time.toISOString().split('T')[0];
+    const complete_date = '2222-01-01';
     const duration = 15;
     const happiness = 5;
     const notes = faker.lorem.sentence();
 
     const fakeCompletionData = {
-      completed_time: completed_time,
+      complete_date: complete_date,
       duration: duration,
       happiness: happiness,
       completion_notes: notes,
@@ -1046,7 +1045,7 @@ describe('Task tests', () => {
       }, task_id, 'soil_amendment_task', async (err, res) => {
         expect(res.status).toBe(200);
         const completed_task = await knex('task').where({ task_id }).first();
-        expect(completed_task.completed_time.toString()).toBe(completed_time.toString());
+        expect(completed_task.complete_date.toISOString().split('T')[0]).toBe(complete_date);
         expect(completed_task.duration).toBe(duration);
         expect(completed_task.happiness).toBe(happiness);
         expect(completed_task.completion_notes).toBe(notes);
@@ -1083,7 +1082,7 @@ describe('Task tests', () => {
       }, task_id, 'pest_control_task', async (err, res) => {
         expect(res.status).toBe(200);
         const completed_task = await knex('task').where({ task_id }).first();
-        expect(completed_task.completed_time.toString()).toBe(completed_time.toString());
+        expect(completed_task.complete_date.toISOString().split('T')[0]).toBe(complete_date);
         expect(completed_task.duration).toBe(duration);
         expect(completed_task.happiness).toBe(happiness);
         expect(completed_task.completion_notes).toBe(notes);
@@ -1129,7 +1128,7 @@ describe('Task tests', () => {
       completeTaskRequest({ user_id, farm_id }, { task: { ...fakeCompletionData, harvest_task: { task_id, actual_quantity } }, harvest_uses: harvest_uses }, task_id, 'harvest_task', async (err, res) => {
         expect(res.status).toBe(200);
         const completed_task = await knex('task').where({ task_id }).first();
-        expect(completed_task.completed_time.toString()).toBe(completed_time.toString());
+        expect(completed_task.complete_date.toISOString().split('T')[0]).toBe(complete_date);
         expect(completed_task.duration).toBe(duration);
         expect(completed_task.happiness).toBe(happiness);
         expect(completed_task.completion_notes).toBe(notes);
@@ -1171,7 +1170,7 @@ describe('Task tests', () => {
       }, task_id, 'plant_task', async (err, res) => {
         expect(res.status).toBe(200);
         const completed_task = await knex('task').where({ task_id }).first();
-        expect(completed_task.completed_time.toString()).toBe(completed_time.toString());
+        expect(completed_task.complete_date.toString()).toBe(complete_date.toString());
         expect(completed_task.duration).toBe(duration);
         expect(completed_task.happiness).toBe(happiness);
         expect(completed_task.completion_notes).toBe(notes);
@@ -1232,7 +1231,7 @@ describe('Task tests', () => {
       }, task_id, 'soil_amendment_task', async (err, res) => {
         expect(res.status).toBe(200);
         const completed_task = await knex('task').where({ task_id }).first();
-        expect(completed_task.completed_time.toString()).toBe(completed_time.toString());
+        expect(completed_task.complete_date.toISOString().split('T')[0]).toBe(complete_date);
         expect(completed_task.duration).toBe(duration);
         expect(completed_task.happiness).toBe(happiness);
         expect(completed_task.completion_notes).toBe(notes);
@@ -1242,9 +1241,9 @@ describe('Task tests', () => {
         const management_plan_1 = await knex('management_plan').where({ management_plan_id: promisedManagement[0][0].management_plan_id }).first();
         const management_plan_2 = await knex('management_plan').where({ management_plan_id: promisedManagement[1][0].management_plan_id }).first();
         const management_plan_3 = await knex('management_plan').where({ management_plan_id: promisedManagement[2][0].management_plan_id }).first();
-        expect(management_plan_1.start_date.toISOString().split('T')[0]).toBe(completed_date);
-        expect(management_plan_2.start_date.toISOString().split('T')[0]).toBe(completed_date);
-        expect(management_plan_3.start_date.toISOString().split('T')[0]).toBe(completed_date);
+        expect(management_plan_1.start_date.toISOString().split('T')[0]).toBe(complete_date);
+        expect(management_plan_2.start_date.toISOString().split('T')[0]).toBe(complete_date);
+        expect(management_plan_3.start_date.toISOString().split('T')[0]).toBe(complete_date);
         done();
       });
     });
@@ -1314,7 +1313,7 @@ describe('Task tests', () => {
       abandonTaskRequest({ user_id, farm_id }, abandonTaskBody, task.task_id, async (err, res) => {
         expect(res.status).toBe(200);
         const updated_task = await getTask(task.task_id);
-        expect(updated_task.abandoned_time).toBeDefined();
+        expect(updated_task.abandon_date).toBeDefined();
         expect(updated_task.abandonment_reason).toBe(CROP_FAILURE);
         expect(updated_task.other_abandonment_reason).toBe(null);
         expect(updated_task.abandonment_notes).toBe(sampleNote);
@@ -1331,7 +1330,7 @@ describe('Task tests', () => {
       abandonTaskRequest({ user_id, farm_id }, abandonTaskBody, task.task_id, async (err, res) => {
         expect(res.status).toBe(200);
         const updated_task = await getTask(task.task_id);
-        expect(updated_task.abandoned_time).toBeDefined();
+        expect(updated_task.abandon_date).toBeDefined();
         expect(updated_task.abandonment_reason).toBe(CROP_FAILURE);
         expect(updated_task.other_abandonment_reason).toBe(null);
         expect(updated_task.abandonment_notes).toBe(sampleNote);
@@ -1348,7 +1347,7 @@ describe('Task tests', () => {
       abandonTaskRequest({ user_id, farm_id }, abandonTaskBody, task.task_id, async (err, res) => {
         expect(res.status).toBe(200);
         const updated_task = await getTask(task.task_id);
-        expect(updated_task.abandoned_time).toBeDefined();
+        expect(updated_task.abandon_date).toBeDefined();
         expect(updated_task.abandonment_reason).toBe(CROP_FAILURE);
         expect(updated_task.other_abandonment_reason).toBe(null);
         expect(updated_task.abandonment_notes).toBe(sampleNote);
@@ -1366,7 +1365,7 @@ describe('Task tests', () => {
       abandonTaskRequest({ user_id, farm_id }, abandonTaskBody, task.task_id, async (err, res) => {
         expect(res.status).toBe(200);
         const updated_task = await getTask(task.task_id);
-        expect(updated_task.abandoned_time).toBeDefined();
+        expect(updated_task.abandon_date).toBeDefined();
         expect(updated_task.abandonment_reason).toBe(CROP_FAILURE);
         expect(updated_task.other_abandonment_reason).toBe(null);
         expect(updated_task.abandonment_notes).toBe(sampleNote);
@@ -1386,7 +1385,7 @@ describe('Task tests', () => {
       abandonTaskRequest({ user_id, farm_id }, abandonTaskBody, task.task_id, async (err, res) => {
         expect(res.status).toBe(200);
         const updated_task = await getTask(task.task_id);
-        expect(updated_task.abandoned_time).toBeDefined();
+        expect(updated_task.abandon_date).toBeDefined();
         expect(updated_task.abandonment_reason).toBe(CROP_FAILURE);
         expect(updated_task.other_abandonment_reason).toBe(null);
         expect(updated_task.abandonment_notes).toBe(sampleNote);
@@ -1405,7 +1404,7 @@ describe('Task tests', () => {
       abandonTaskRequest({ user_id, farm_id }, abandonTaskBody, task.task_id, async (err, res) => {
         expect(res.status).toBe(200);
         const updated_task = await getTask(task.task_id);
-        expect(updated_task.abandoned_time).toBeDefined();
+        expect(updated_task.abandon_date).toBeDefined();
         expect(updated_task.abandonment_reason).toBe(CROP_FAILURE);
         expect(updated_task.other_abandonment_reason).toBe(null);
         expect(updated_task.abandonment_notes).toBe(sampleNote);
@@ -1425,7 +1424,7 @@ describe('Task tests', () => {
       abandonTaskRequest({ user_id, farm_id }, abandonTaskBody, task.task_id, async (err, res) => {
         expect(res.status).toBe(200);
         const updated_task = await getTask(task.task_id);
-        expect(updated_task.abandoned_time).toBeDefined();
+        expect(updated_task.abandon_date).toBeDefined();
         expect(updated_task.abandonment_reason).toBe(CROP_FAILURE);
         expect(updated_task.other_abandonment_reason).toBe(null);
         expect(updated_task.abandonment_notes).toBe(sampleNote);

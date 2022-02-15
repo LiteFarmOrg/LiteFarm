@@ -45,11 +45,11 @@
   "SAVE_CHANGES": "Salvar mudanças",
   "SEARCH": "Buscar",
   "SELECT": "Selecionar",
+  "SKIP": "MISSING",
   "SORRY": "Desculpa",
   "SUBMIT": "Enviar",
   "SUBMITTING": "Enviando...",
   "UPDATE": "Atualizar",
   "WORD_LIMIT_ERROR": "Somente {{value}} caractéres podem ser exibidos",
-  "YES": "Sim",
-  "SKIP": "MISSING"
+  "YES": "Sim"
 }

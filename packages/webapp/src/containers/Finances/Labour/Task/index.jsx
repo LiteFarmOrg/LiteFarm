@@ -9,8 +9,8 @@ const Task = ({ currencySymbol, tasks, startDate, endDate }) => {
   let sortObj = {};
   const { t } = useTranslation(['translation', 'task']);
   for (let task of tasks) {
-    const completedTime = moment(task.completed_time);
-    const abandonedTime = moment(task.abandoned_time);
+    const completedTime = moment(task.complete_date);
+    const abandonedTime = moment(task.abandon_date);
     if (
       (completedTime.isSameOrAfter(startDate, 'day') &&
         completedTime.isSameOrBefore(endDate, 'day') &&

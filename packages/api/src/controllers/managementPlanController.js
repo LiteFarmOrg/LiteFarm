@@ -179,20 +179,20 @@ const managementPlanController = {
             .then(tasks => managementTasksModel.query()
               .join('planting_management_plan', 'planting_management_plan.planting_management_plan_id', 'management_tasks.planting_management_plan_id')
               .join('task', 'task.task_id', 'management_tasks.task_id')
-              .whereNull('task.completed_time')
+              .whereNull('task.complete_date')
               .whereIn('management_tasks.task_id', tasks.map(({ task_id }) => task_id))
               .groupBy('management_tasks.task_id').count('planting_management_plan.management_plan_id').select('management_tasks.task_id'));
 
           const transplantTasks = await transplantTaskModel.query().select('*')
             .join('planting_management_plan', 'planting_management_plan.planting_management_plan_id', 'transplant_task.planting_management_plan_id')
             .join('task', 'task.task_id', 'transplant_task.task_id')
-            .whereNull('task.completed_time')
+            .whereNull('task.complete_date')
             .where('planting_management_plan.management_plan_id', management_plan_id);
 
           const plantTasks = await plantTaskModel.query().select('*')
             .join('planting_management_plan', 'planting_management_plan.planting_management_plan_id', 'plant_task.planting_management_plan_id')
             .join('task', 'task.task_id', 'plant_task.task_id')
-            .whereNull('task.completed_time')
+            .whereNull('task.complete_date')
             .where('planting_management_plan.management_plan_id', management_plan_id);
 
           const taskIdsRelatedToOneManagementPlan = [...tasksWithManagementPlanCount.filter(({ count }) => count === '1'), ...transplantTasks, ...plantTasks]
@@ -200,7 +200,7 @@ const managementPlanController = {
           const abandonedTasks = await taskModel.query(trx).context(req.user)
             .whereIn('task_id', taskIdsRelatedToOneManagementPlan)
             .patch({
-              abandoned_time: req.body.abandon_date,
+              abandon_date: req.body.abandon_date,
               abandonment_reason: 'OTHER',
               other_abandonment_reason: 'Crop management plan abandoned',
             });

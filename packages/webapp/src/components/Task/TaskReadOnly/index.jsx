@@ -1,6 +1,6 @@
 import Layout from '../../Layout';
 import Button from '../../Form/Button';
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import PageTitle from '../../PageTitle/v2';
 import Input from '../../Form/Input';
@@ -30,6 +30,7 @@ import { isTaskType } from '../../../containers/Task/useIsTaskType';
 import ReactSelect from '../../Form/ReactSelect';
 import { BiPencil } from 'react-icons/bi';
 import TaskQuickAssignModal from '../../Modals/QuickAssignModal';
+import { getDateInputFormat } from '../../../util/moment';
 
 export default function PureTaskReadOnly({
   onGoBack,
@@ -50,7 +51,24 @@ export default function PureTaskReadOnly({
 }) {
   const { t } = useTranslation();
   const taskType = task.taskType;
-  const dueDate = task.due_date.split('T')[0];
+  const { date, dateLabel } = useMemo(() => {
+    if (task.abandon_date) {
+      return {
+        date: getDateInputFormat(task.abandon_date),
+        dateLabel: t('TASK.ABANDON.DATE'),
+      };
+    } else if (task.complete_date) {
+      return {
+        date: getDateInputFormat(task.complete_date),
+        dateLabel: t('TASK.COMPLETE.DATE'),
+      };
+    } else {
+      return {
+        date: getDateInputFormat(task.due_date),
+        dateLabel: t('TASK.DUE_DATE'),
+      };
+    }
+  }, []);
   const locationIds = task.locations.map(({ location_id }) => location_id);
   const owner_user_id = task.owner_user_id;
   const {
@@ -76,8 +94,8 @@ export default function PureTaskReadOnly({
   const assignee = users.find((user) => user.user_id === task.assignee_user_id);
   const assigneeName = assignee && `${assignee.first_name} ${assignee.last_name}`;
 
-  const isCompleted = !!task.completed_time;
-  const isAbandoned = !!task.abandoned_time;
+  const isCompleted = !!task.complete_date;
+  const isAbandoned = !!task.abandon_date;
   const isCurrent = !isCompleted && !isAbandoned;
   const taskStatus = getTaskStatus(task);
 
@@ -123,8 +141,8 @@ export default function PureTaskReadOnly({
       <Input
         style={{ marginBottom: '40px' }}
         type={'date'}
-        value={dueDate}
-        label={t('TASK.DUE_DATE')}
+        value={date}
+        label={dateLabel}
         disabled
       />
 
@@ -329,7 +347,7 @@ export default function PureTaskReadOnly({
       {showTaskAssignModal && (
         <TaskQuickAssignModal
           task_id={task.task_id}
-          due_date={task.completed_time || task.due_date}
+          due_date={task.complete_date || task.due_date}
           isAssigned={!!task?.assignee}
           onAssignTasksOnDate={onAssignTasksOnDate}
           onAssignTask={onAssignTask}

@@ -291,9 +291,15 @@ const getPostTaskBody = (data, endpoint, managementPlanWithCurrentLocationEntiti
 
 const getPostHarvestTaskBody = (data, endpoint, managementPlanWithCurrentLocationEntities) => {
   return data.harvest_tasks.map((harvest_task) => {
-    const [location_id, management_plan_id] = harvest_task.id.split('.');
+    const { location_id, management_plan_id } = harvest_task;
     return getObjectInnerValues({
-      harvest_task: { ...harvest_task, id: undefined, notes: undefined },
+      harvest_task: {
+        ...harvest_task,
+        location_id: undefined,
+        management_plan_id: undefined,
+        id: undefined,
+        notes: undefined,
+      },
       ...pick(
         data,
         Object.keys(data).filter(

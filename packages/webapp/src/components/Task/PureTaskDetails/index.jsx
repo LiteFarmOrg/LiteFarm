@@ -19,8 +19,6 @@ export default function PureTaskDetails({
   onError,
   persistedFormData,
   useHookFormPersist,
-
-
   products,
   system,
   selectedTaskType,
@@ -41,7 +39,8 @@ export default function PureTaskDetails({
   const harvest_tasks = useMemo(() => {
     const harvestTasksById = persistedFormData?.harvest_tasks?.reduce(
       (harvestTasksById, harvestTask) => {
-        harvestTasksById[harvestTask.id] = harvestTask;
+        const { location_id, management_plan_id } = harvestTask;
+        harvestTasksById[`${location_id}.${management_plan_id}`] = harvestTask;
         return harvestTasksById;
       },
       {},
@@ -49,11 +48,11 @@ export default function PureTaskDetails({
 
     const harvestTasksWithLocations = Object.keys(managementPlanByLocations).reduce(
       (harvest_tasks, location_id) => {
-        for (const managementPlan of managementPlanByLocations[location_id]) {
-          const id = `${location_id}.${managementPlan.management_plan_id}`;
+        for (const { management_plan_id } of managementPlanByLocations[location_id]) {
           harvest_tasks.push(
-            harvestTasksById?.[id] || {
-              id,
+            harvestTasksById?.[`${location_id}.${management_plan_id}`] || {
+              location_id,
+              management_plan_id,
               harvest_everything: false,
             },
           );
@@ -64,11 +63,11 @@ export default function PureTaskDetails({
     );
 
     const allHarvestTasks =
-      wildManagementPlanTiles?.reduce?.((harvest_tasks, managementPlan) => {
-        const id = `PIN_LOCATION.${managementPlan.management_plan_id}`;
+      wildManagementPlanTiles?.reduce?.((harvest_tasks, { management_plan_id }) => {
         harvest_tasks.push(
-          harvestTasksById?.[id] || {
-            id,
+          harvestTasksById?.[`PIN_LOCATION.${management_plan_id}`] || {
+            location_id: 'PIN_LOCATION',
+            management_plan_id,
             harvest_everything: false,
           },
         );

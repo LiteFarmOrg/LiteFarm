@@ -19,7 +19,6 @@ export default function PureHarvestUses({
   system,
   persistedFormData,
 
-
   useHookFormPersist,
   amount,
   unit,
@@ -48,7 +47,6 @@ export default function PureHarvestUses({
   });
 
   const { historyCancel } = useHookFormPersist(getValues);
-
 
   const progress = 50;
 
@@ -175,7 +173,7 @@ export default function PureHarvestUses({
           </div>
         );
       })}
-      {amount_to_allocate < 0 && (
+      {roundToTwoDecimal(amount_to_allocate) < 0 && (
         <Error style={{ marginBottom: '20px' }}>{t('TASK.QUANTITY_CANNOT_EXCEED')}</Error>
       )}
 

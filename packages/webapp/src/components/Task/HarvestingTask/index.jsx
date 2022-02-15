@@ -53,8 +53,8 @@ const PureHarvestingTask = ({
             </div>
             <div className={styles.container}>
               {fields.map((field, index) => {
-                let managementLocation = field.id.split('.')[0];
-                let managementPlanId = field.id.split('.')[1];
+                let managementLocation = field?.location_id;
+                let managementPlanId = field?.management_plan_id;
                 let managementPlan = managementPlansMap[managementPlanId];
                 if (managementLocation === location_id) {
                   return (
@@ -77,15 +77,15 @@ const PureHarvestingTask = ({
           </div>
         );
       })}
-      {wildManagementPlanTiles?.length && (
+      {!!wildManagementPlanTiles?.length && (
         <div>
           <div style={{ paddingBottom: '16px' }}>
             <PageBreak label={t('ADD_TASK.WILD_CROP')} />
           </div>
           <div className={styles.container}>
             {fields.map((field, index) => {
-              let managementLocation = field.id.split('.')[0];
-              let managementPlanId = field.id.split('.')[1];
+              let managementLocation = field?.location_id;
+              let managementPlanId = field?.management_plan_id;
               let managementPlan = wildManagementPlanTiles.find(
                 ({ management_plan_id }) => management_plan_id === Number(managementPlanId),
               );

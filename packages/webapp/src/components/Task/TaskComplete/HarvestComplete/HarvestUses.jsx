@@ -173,7 +173,7 @@ export default function PureHarvestUses({
           </div>
         );
       })}
-      {amount_to_allocate < -0.1 && (
+      {roundToTwoDecimal(amount_to_allocate) < 0 && (
         <Error style={{ marginBottom: '20px' }}>{t('TASK.QUANTITY_CANNOT_EXCEED')}</Error>
       )}
 

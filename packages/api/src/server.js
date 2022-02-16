@@ -69,6 +69,7 @@ const farmTokenRoute = require('./routes/farmTokenRoute');
 const documentRoute = require('./routes/documentRoute');
 const taskRoute = require('./routes/taskRoute');
 const productRoute = require('./routes/productRoute');
+const notificationUserRoute = require('./routes/notificationUserRoute');
 
 // register API
 const router = promiseRouter();
@@ -138,6 +139,7 @@ app.use(bodyParser.json())
   .use('/document', documentRoute)
   .use('/task', taskRoute)
   .use('/product', productRoute)
+  .use('/notification_user', notificationUserRoute)
 
   // handle errors
   .use((req, res, next) => {

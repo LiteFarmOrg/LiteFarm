@@ -2,12 +2,19 @@ exports.up = async function (knex) {
   await knex.schema.createTable('notification', function (table) {
     table.uuid('notification_id').primary();
     table.string('title').notNullable();
-    table.string('body').notNullable();
-    table.enum('ref_type', ['task', 'location', 'users', 'farm', 'document', 'export',
+    table.text('body').notNullable();
+    table.enum('ref_table', ['task', 'location', 'users', 'farm', 'document', 'export',
       // 'observation', 'weather', 'sensor', 'irrigation', 'insight',
     ]);
-    table.string('ref');
-    table.uuid('farm_id').references('farm_id').inTable('farm').onDelete('CASCADE');
+    table.enum('ref_subtable', ['cleaning_task', 'field_work_task', 'harvest_task', 'irrigation_task',
+      'location_tasks', 'management_tasks', 'pest_control_task', 'plant_task', 'sale_task', 'scouting_task',
+      'shiftTask', 'social_task', 'soil_task', 'soil_amendment_task', 'transplant_task', 'transport_task',
+      'wash_and_pack_task',
+      'area', 'barn', 'buffer_zone', 'ceremonial_area', 'farm_site_boundary', 'fence', 'field', 'figure', 'garden',
+      'gate', 'greenhouse', 'line', 'natural_area', 'point', 'residence', 'surface_water', 'watercourse', 'water_valve',
+    ]);
+    table.string('ref_pk');
+    table.uuid('farm_id').references('farm_id').inTable('farm');
     table.boolean('deleted').defaultTo(false);
     table.string('created_by_user_id').references('user_id').inTable('users');
     table.string('updated_by_user_id').references('user_id').inTable('users');

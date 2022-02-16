@@ -33,10 +33,14 @@ describe('Notification tests', () => {
 
   let user;
   let farm;
+  let userFarm;
 
   beforeEach(async () => {
     [user] = await mocks.usersFactory();
     [farm] = await mocks.farmFactory();
+    [userFarm] = await mocks.userFarmFactory(
+      { promisedUser: [user], promisedFarm: [farm] },
+    );
 
     const middleware = require('../src/middleware/acl/checkJwt');
     middleware.mockImplementation((req, res, next) => {
@@ -55,8 +59,7 @@ describe('Notification tests', () => {
   describe('GET user notifications', () => {
     test('Users should get their notifications scoped for all farms', async (done) => {
       const [notification] = await mocks.notification_userFactory({
-        promisedFarm: [{ farm_id: null }],
-        promisedUser: [user],
+        promisedUserFarm: [userFarm],
       });
       getRequest('/notification_user', {},
         (err, res) => {
@@ -70,7 +73,9 @@ describe('Notification tests', () => {
     });
 
     test('Users should get their notifications scoped for their current farm', async (done) => {
-      const [notification] = await mocks.notification_userFactory({ promisedFarm: [farm], promisedUser: [user] });
+      const [notification] = await mocks.notification_userFactory({
+        promisedUserFarm: [userFarm],
+      });
       getRequest('/notification_user', {},
         (err, res) => {
           expect(err).toBe(null);
@@ -84,12 +89,34 @@ describe('Notification tests', () => {
 
     test('Users should not get their notifications scoped for farms other than their current farm', async (done) => {
       const [otherFarm] = await mocks.farmFactory();
-      await mocks.notification_userFactory({ promisedFarm: [otherFarm], promisedUser: [user] });
+      const [otherUserFarm] = await mocks.userFarmFactory(
+        { promisedUser: [user], promisedFarm: [otherFarm] },
+      );
+      await mocks.notification_userFactory({
+        promisedUserFarm: [otherUserFarm],
+      });
       getRequest('/notification_user', {},
         (err, res) => {
           expect(err).toBe(null);
           expect(res.status).toBe(200);
           expect(res.body.length).toBe(0);
+          done();
+        });
+    });
+
+    test('Users are not authorized to get "their" notifications for farms where they are not active', async (done) => {
+      const [inactiveFarm] = await mocks.farmFactory();
+      const [inactiveUserFarm] = await mocks.userFarmFactory(
+        { promisedUser: [user], promisedFarm: [inactiveFarm] },
+        userFarm = mocks.fakeUserFarm({ status: 'Inactive' }),
+      );
+      await mocks.notification_userFactory({
+        promisedUserFarm: [inactiveUserFarm],
+      });
+      getRequest('/notification_user', { farm_id: inactiveFarm.farm_id },
+        (err, res) => {
+          expect(err).toBe(null);
+          expect(res.status).toBe(403);
           done();
         });
     });

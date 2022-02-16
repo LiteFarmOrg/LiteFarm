@@ -18,8 +18,7 @@ const NotificationUserModel = require('../models/notificationUserModel');
 module.exports = {
   async getNotifications(req, res) {
     try {
-      const { farm_id, user_id } = req.headers;
-      const notifications = await NotificationUserModel.getNotificationsForFarmUser(farm_id, user_id);
+      const notifications = await NotificationUserModel.getNotificationsForFarmUser(req.headers.farm_id, req.user.user_id);
       res.status(200).send(notifications);
     } catch (error) {
       console.log(error);

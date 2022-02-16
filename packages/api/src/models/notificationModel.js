@@ -36,46 +36,27 @@ class Notification extends baseModel {
         notification_id: { type: 'string' },
         title: { type: 'string', minLength: 1, maxLength: 255 },
         body: { type: 'string', minLength: 1, maxLength: 10000 },
-        ref_type: {
+        ref_table: {
           type: 'string',
           enum: ['task', 'location', 'users', 'farm', 'document', 'export'],
         },
-        ref: { type: 'string' },
+        ref_subtable: {
+          type: 'string',
+          enum: ['cleaning_task', 'field_work_task', 'harvest_task', 'irrigation_task',
+            'location_tasks', 'management_tasks', 'pest_control_task', 'plant_task', 'sale_task', 'scouting_task',
+            'shiftTask', 'social_task', 'soil_task', 'soil_amendment_task', 'transplant_task', 'transport_task',
+            'wash_and_pack_task',
+            'area', 'barn', 'buffer_zone', 'ceremonial_area', 'farm_site_boundary', 'fence', 'field', 'figure', 'garden',
+            'gate', 'greenhouse', 'line', 'natural_area', 'point', 'residence', 'surface_water', 'watercourse', 'water_valve',
+          ],
+        },
+        ref_pk: { type: 'string' },
         farm_id: { type: 'string' },
         ...this.baseProperties,
       },
       additionalProperties: false,
     };
   }
-
-  static get relationMappings() {
-    return {
-      //TODO: remove price and yield
-      price: {
-        relation: Model.HasManyRelation,
-        // The related model. This can be either a Model
-        // subclass constructor or an absolute file path
-        // to a module that exports one.
-        modelClass: require('./priceModel'),
-        join: {
-          from: 'farm.farm_id',
-          to: 'price.farm_id',
-        },
-      },
-      yield: {
-        relation: Model.HasManyRelation,
-        // The related model. This can be either a Model
-        // subclass constructor or an absolute file path
-        // to a module that exports one.
-        modelClass: require('./yieldModel'),
-        join: {
-          from: 'farm.farm_id',
-          to: 'yield.farm_id',
-        },
-      },
-    };
-  }
-
 }
 
 module.exports = Notification;

@@ -14,9 +14,10 @@
  */
 
 const NotificationUserController = require('../controllers/notificationUserController');
+const checkUserFarmStatus = require('../middleware/acl/checkUserFarmStatus');
 const express = require('express');
 const router = express.Router();
 
-router.get('/', NotificationUserController.getNotifications);
+router.get('/', checkUserFarmStatus(), NotificationUserController.getNotifications);
 
 module.exports = router;

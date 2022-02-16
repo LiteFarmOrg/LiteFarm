@@ -1,5 +1,4 @@
 const faker = require('faker');
-const { TimeoutSettings } = require('puppeteer');
 const knex = require('../src/util/knex');
 
 function weather_stationFactory(station = fakeStation()) {
@@ -2110,24 +2109,16 @@ function fakeFile(defaultData = {}) {
 
 async function notification_userFactory(
   {
-    promisedFarm = farmFactory(),
-    promisedUser = usersFactory(),
+    promisedUserFarm = userFarmFactory(),
   } = {},
   notificationUser = fakeNotificationUser(),
+  notification = fakeNotification(),
 ) {
-  const [farm, user] = await Promise.all([promisedFarm, promisedUser]);
-  const [{ user_id }] = user;
-  const [{ farm_id }] = farm;
-  const notification_id = faker.datatype.uuid();
-  await knex('notification')
-    .insert({
-      notification_id,
-      title: `title of notification ${notification_id}`,
-      body: `body of notification ${notification_id}`,
-      farm_id,
-      created_at: faker.date.past(),
-      updated_at: faker.date.past(),
-    });
+  const [userFarm] = await Promise.all([promisedUserFarm]);
+  const [{ user_id, farm_id }] = userFarm;
+  const [{ notification_id }] = await knex('notification')
+    .insert({ ...notification, farm_id })
+    .returning('*');
 
   return await knex('notification_user')
     .insert({
@@ -2148,6 +2139,18 @@ function fakeNotificationUser(defaultData = {}) {
   };
 }
 
+function fakeNotification(defaultData = {}) {
+  const notification_id = faker.datatype.uuid();
+  return {
+    notification_id,
+    title: `title of notification ${notification_id}`,
+    body: `body of notification ${notification_id}`,
+    farm_id: faker.datatype.uuid(),
+    created_at: faker.date.past(),
+    updated_at: faker.date.past(),
+    ...defaultData,
+  };
+}
 
 module.exports = {
   weather_stationFactory,

@@ -67,8 +67,10 @@ const documentSlice = createSlice({
     },
     archiveDocumentSuccess(state, { payload: document_id }) {
       return updateOneDocument(state, {
-        document_id,
-        valid_until: new Date('2000/1/1').toISOString(),
+        payload: {
+          document_id,
+          valid_until: new Date('2000/1/1').toISOString(),
+        },
       });
     },
   },

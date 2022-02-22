@@ -18,8 +18,7 @@ if (import.meta.env.VITE_API_URL?.length) {
   URI = import.meta.env.VITE_API_URL;
   console.log('URI', URI);
 } else {
-  const VITE_ENV = import.meta.env.VITE_ENV || 'development';
-
+  /* global VITE_ENV */
   if (VITE_ENV === 'development') {
     URI = window.location.href.replace(/3000.*/, '5000');
   } else if (VITE_ENV === 'production') {

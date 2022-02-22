@@ -18,6 +18,7 @@ import { userFarmSelector } from '../../../userFarmSlice';
 import { withTranslation } from 'react-i18next';
 import { numberOnKeyDown } from '../../../../components/Form/Input';
 import grabCurrencySymbol from '../../../../util/grabCurrencySymbol';
+import { Tooltip } from '@material-ui/core';
 
 class AddExpense extends Component {
   constructor(props) {
@@ -204,12 +205,11 @@ class AddExpense extends Component {
                     ))}
                   </div>
                   <div className={styles.addContainer}>
-                    <div className={styles.greenPlus} onClick={() => this.addSubExpense(k)}>
-                      +
-                    </div>
-                    <button onClick={() => this.addSubExpense(k)}>
-                      {this.props.t('EXPENSE.ADD_MORE_ITEMS')}
-                    </button>
+                    <Tooltip title={this.props.t('EXPENSE.ADD_MORE_ITEMS')}>
+                      <div className={styles.greenPlus} onClick={() => this.addSubExpense(k)}>
+                        +
+                      </div>
+                    </Tooltip>
                   </div>
                 </Form>
               </div>

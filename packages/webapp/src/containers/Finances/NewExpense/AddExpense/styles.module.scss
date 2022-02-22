@@ -8,6 +8,12 @@
   justify-content: center;
   color: white;
   border-radius: 2em;
+  cursor: pointer;
+}
+
+.greenPlus:hover {
+
+  background: #286090;
 }
 
 .expenseTitle {

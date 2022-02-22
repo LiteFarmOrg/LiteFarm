@@ -14,10 +14,10 @@
  */
 
 let URI;
+const VITE_ENV = import.meta.env.VITE_ENV || 'development';
 if (import.meta.env.VITE_API_URL?.length) {
   URI = import.meta.env.VITE_API_URL;
 } else {
-  /* global VITE_ENV */
   if (VITE_ENV === 'development') {
     URI = window.location.href.replace(/3000.*/, '5000');
   } else if (VITE_ENV === 'production') {

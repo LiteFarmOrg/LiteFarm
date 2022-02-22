@@ -16,7 +16,6 @@
 let URI;
 if (import.meta.env.VITE_API_URL?.length) {
   URI = import.meta.env.VITE_API_URL;
-  console.log('URI', URI);
 } else {
   /* global VITE_ENV */
   if (VITE_ENV === 'development') {

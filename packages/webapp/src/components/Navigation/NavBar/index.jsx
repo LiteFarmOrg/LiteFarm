@@ -24,6 +24,7 @@ import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
 import { getLanguageFromLocalStorage } from '../../../util/getLanguageFromLocalStorage';
 import { NavbarSpotlightProvider } from './NavbarSpotlightProvider';
+import { Alert } from './Alert.jsx';
 
 const useStyles = makeStyles((theme) => ({
   menuButton: {
@@ -60,8 +61,7 @@ const useStyles = makeStyles((theme) => ({
   notificationButton: {
     transform: 'translateY(1px)',
   },
-  profileButton: {
-  },
+  profileButton: {},
   iconButton: {
     margin: theme.spacing(1),
     padding: 0,
@@ -88,10 +88,12 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function PureNavBar({
+  farmId,
   showSpotLight,
   resetSpotlight,
   history,
   showFinances,
+  alertsUrl,
   defaultOpenFloater,
 }) {
   const classes = useStyles();
@@ -181,9 +183,9 @@ export default function PureNavBar({
   };
   const openTutorialsClick = () => {
     const playlistIDs = {
-      'es': 'PLDRpVZ4VsXJhghxfEQuApFQTeCWUbGBN9',
-      'pt': 'PLDRpVZ4VsXJg0ke20m47MmJq6uAJAlAGF',
-      'en': 'PLDRpVZ4VsXJgVGrmmXJooNqceXvre8IDY'
+      es: 'PLDRpVZ4VsXJhghxfEQuApFQTeCWUbGBN9',
+      pt: 'PLDRpVZ4VsXJg0ke20m47MmJq6uAJAlAGF',
+      en: 'PLDRpVZ4VsXJgVGrmmXJooNqceXvre8IDY',
     };
 
     const playList = playlistIDs[selectedLanguage] || playlistIDs['en'];
@@ -192,7 +194,7 @@ export default function PureNavBar({
     const win = window.open(url, '_blank');
     win.focus();
     closeFloater();
-  }
+  };
 
   // Pure Notification Floater
   const notificationTeaserClick = () => {
@@ -231,6 +233,8 @@ export default function PureNavBar({
         <NavbarSpotlightProvider open={showSpotLight} onFinish={resetSpotlight}>
           <ClickAwayListener onClickAway={onClickAway}>
             <div className={classes.icons}>
+              <Alert farmId={farmId} alertsUrl={alertsUrl} />
+
               <PureMyFarmFloater
                 openProfile={isFarmFloaterOpen}
                 farmInfoClick={farmInfoClick}
@@ -239,9 +243,9 @@ export default function PureNavBar({
                 certificationClick={certificationClick}
               >
                 <IconButton
-                  aria-label='farm-icon'
-                  color='inherit'
-                  id='firstStepNavBar'
+                  aria-label="farm-icon"
+                  color="inherit"
+                  id="firstStepNavBar"
                   className={classes.iconButton}
                   onClick={farmButtonOnClick}
                 >
@@ -256,15 +260,15 @@ export default function PureNavBar({
               </PureMyFarmFloater>
 
               <IconButton
-                  aria-label='notification icon'
-                  color='inherit'
-                  id='secondStepNavBar'
-                  onClick={taskIconClick}
-                  className={classes.iconButton}
-                  classes={{ root: classes.notificationButton }}
-                >
-                  <TaskIcon />
-                </IconButton>
+                aria-label="notification icon"
+                color="inherit"
+                id="secondStepNavBar"
+                onClick={taskIconClick}
+                className={classes.iconButton}
+                classes={{ root: classes.notificationButton }}
+              >
+                <TaskIcon />
+              </IconButton>
 
               <PureProfileFloater
                 openProfile={isProfileFloaterOpen}
@@ -275,11 +279,11 @@ export default function PureNavBar({
                 switchFarmClick={switchFarmClick}
               >
                 <IconButton
-                  edge='end'
-                  aria-label='profile icon'
-                  color='inherit'
+                  edge="end"
+                  aria-label="profile icon"
+                  color="inherit"
                   onClick={profileButtonOnClick}
-                  id='thirdStepNavBar'
+                  id="thirdStepNavBar"
                   className={classes.iconButton}
                   classes={{ root: classes.profileButton }}
                 >

@@ -1,6 +1,6 @@
 /*
- *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>
- *  This file (apiConfig.js) is part of LiteFarm.
+ *  Copyright 2019-2022 LiteFarm.org
+ *  This file is part of LiteFarm.
  *
  *  LiteFarm is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -60,6 +60,7 @@ export const resetPasswordUrl = `${URI}/password_reset`;
 export const spotlightUrl = `${URI}/showed_spotlight`;
 export const taskUrl = `${URI}/task`;
 export const productsUrl = `${URI}/product`;
+export const alertsUrl = `${URI}/notification_user/subscribe`;
 export const url = URI;
 
 export default {
@@ -99,5 +100,6 @@ export default {
   spotlightUrl,
   taskUrl,
   productsUrl,
+  alertsUrl,
   url,
 };

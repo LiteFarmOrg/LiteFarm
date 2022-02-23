@@ -1,6 +1,6 @@
 /*
- *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>
- *  This file (index.js) is part of LiteFarm.
+ *  Copyright 2019-2022 LiteFarm.org
+ *  This file is part of LiteFarm.
  *
  *  LiteFarm is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -19,13 +19,27 @@ import NoFarmNavBar from '../../components/Navigation/NoFarmNavBar';
 
 import { chooseFarmFlowSelector } from '../ChooseFarm/chooseFarmFlowSlice';
 import PureNavBar from '../../components/Navigation/NavBar';
-import { isAdminSelector, userFarmLengthSelector, userFarmSelector } from '../userFarmSlice';
+import {
+  isAdminSelector,
+  userFarmLengthSelector,
+  userFarmSelector,
+  alertsUrlSelector,
+} from '../userFarmSlice';
 import { isAuthenticated } from '../../util/jwt';
 import { showedSpotlightSelector } from '../showedSpotlightSlice';
 import { setSpotlightToShown } from '../Map/saga';
 
 const NavBar = (props) => {
-  const { history, farm, farmState, dispatch, numberOfUserFarm, isAdmin, showedSpotlight } = props;
+  const {
+    history,
+    farm,
+    farmState,
+    dispatch,
+    numberOfUserFarm,
+    isAdmin,
+    showedSpotlight,
+    alertsUrl,
+  } = props;
   const { isInvitationFlow } = farmState;
   const { navigation } = showedSpotlight;
   const isFarmSelected =
@@ -36,11 +50,13 @@ const NavBar = (props) => {
   return isFarmSelected ? (
     <Suspense fallback={<NoFarmNavBar />}>
       <PureNavBar
+        farmId={farm.farm_id}
         showSpotLight={!navigation}
         resetSpotlight={resetSpotlight}
         showSwitchFarm={numberOfUserFarm > 1}
         history={history}
         showFinances={isAdmin}
+        alertsUrl={alertsUrl}
       />
     </Suspense>
   ) : (
@@ -55,6 +71,7 @@ const mapStateToProps = (state) => {
     numberOfUserFarm: userFarmLengthSelector(state),
     isAdmin: isAdminSelector(state),
     showedSpotlight: showedSpotlightSelector(state),
+    alertsUrl: alertsUrlSelector(state),
   };
 };
 

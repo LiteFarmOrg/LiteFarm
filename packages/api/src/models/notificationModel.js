@@ -13,7 +13,6 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const Model = require('objection').Model;
 const baseModel = require('./baseModel');
 
 class Notification extends baseModel {
@@ -42,12 +41,42 @@ class Notification extends baseModel {
         },
         ref_subtable: {
           type: 'string',
-          enum: ['cleaning_task', 'field_work_task', 'harvest_task', 'irrigation_task',
-            'location_tasks', 'management_tasks', 'pest_control_task', 'plant_task', 'sale_task', 'scouting_task',
-            'shiftTask', 'social_task', 'soil_task', 'soil_amendment_task', 'transplant_task', 'transport_task',
+          enum: [
+            'cleaning_task',
+            'field_work_task',
+            'harvest_task',
+            'irrigation_task',
+            'location_tasks',
+            'management_tasks',
+            'pest_control_task',
+            'plant_task',
+            'sale_task',
+            'scouting_task',
+            'shiftTask',
+            'social_task',
+            'soil_task',
+            'soil_amendment_task',
+            'transplant_task',
+            'transport_task',
             'wash_and_pack_task',
-            'area', 'barn', 'buffer_zone', 'ceremonial_area', 'farm_site_boundary', 'fence', 'field', 'figure', 'garden',
-            'gate', 'greenhouse', 'line', 'natural_area', 'point', 'residence', 'surface_water', 'watercourse', 'water_valve',
+            'area',
+            'barn',
+            'buffer_zone',
+            'ceremonial_area',
+            'farm_site_boundary',
+            'fence',
+            'field',
+            'figure',
+            'garden',
+            'gate',
+            'greenhouse',
+            'line',
+            'natural_area',
+            'point',
+            'residence',
+            'surface_water',
+            'watercourse',
+            'water_valve',
           ],
         },
         ref_pk: { type: 'string' },

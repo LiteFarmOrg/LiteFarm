@@ -19,5 +19,6 @@ const express = require('express');
 const router = express.Router();
 
 router.get('/', checkUserFarmStatus(), NotificationUserController.getNotifications);
+router.get('/subscribe', NotificationUserController.subscribeToAlerts);
 
 module.exports = router;

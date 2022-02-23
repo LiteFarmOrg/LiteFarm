@@ -13,8 +13,9 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const Model = require('objection').Model;
 const baseModel = require('./baseModel');
+const Notification = require('./notificationModel');
+const NotificationUserController = require('../controllers/notificationUserController');
 
 class NotificationUser extends baseModel {
   static get tableName() {
@@ -31,7 +32,7 @@ class NotificationUser extends baseModel {
   static get jsonSchema() {
     return {
       type: 'object',
-      required: ['alert', 'status'],
+      required: ['user_id'],
       properties: {
         notification_id: { type: 'string' },
         user_id: { type: 'string' },
@@ -46,25 +47,27 @@ class NotificationUser extends baseModel {
     };
   }
 
-  static get relationMappings() {
-    return {
-      notification: {
-        relation: Model.BelongsToOneRelation,
-        modelClass: require('./notificationModel'),
-        join: {
-          from: 'notification_user.notification_id',
-          to: 'notification.notification_id',
-        },
-      },
-    };
-  }
-
   static async getNotificationsForFarmUser(farm_id, user_id) {
-    return await NotificationUser.query().withGraphJoined('notification')
-      .whereRaw('notification.deleted = false AND notification_user.deleted = false AND user_id = ? AND (farm_id IS NULL OR farm_id = ?)',
-        [user_id, farm_id])
+    return await NotificationUser.query()
+      .withGraphJoined('notification')
+      .whereRaw(
+        `notification.deleted = false AND notification_user.deleted = false 
+        AND user_id = ? AND (farm_id IS NULL OR farm_id = ?)`,
+        [user_id, farm_id],
+      )
       .orderBy('created_at', 'desc')
       .limit(100);
+  }
+
+  static async notify(notification, userIds) {
+    if (!userIds.length) return;
+    const { notification_id } = await Notification.query()
+      .insert(notification)
+      .context({ user_id: '1' });
+    userIds.forEach(async (user_id) => {
+      await NotificationUser.query().insert({ user_id, notification_id }).context({ user_id: '1' });
+    });
+    NotificationUserController.alert(notification.farm_id, userIds);
   }
 }
 

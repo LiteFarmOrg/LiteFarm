@@ -1,15 +1,23 @@
-import React, { useEffect, useState } from 'react';
-import ReactChartKick, { AreaChart } from 'react-chartkick';
-import Chart from 'chart.js';
+import React, { useEffect, useRef, useState } from 'react';
 import { getMassUnit, roundToTwoDecimal } from '../../../util';
 import { useSelector } from 'react-redux';
 import { userFarmSelector } from '../../../containers/userFarmSlice';
 import { Semibold } from '../../Typography';
 import { useTranslation } from 'react-i18next';
 
-ReactChartKick.addAdapter(Chart);
-
-function PriceCropContainer({ currencySymbol, name, pricePoints }) {
+function PriceCropContainer({
+  currencySymbol,
+  name,
+  pricePoints,
+  config: {
+    marginTop = 20, // top margin, in pixels
+    marginRight = 30, // right margin, in pixels
+    marginBottom = 30, // bottom margin, in pixels
+    marginLeft = 40, // left margin, in pixels
+    width = 640,
+    height = 400,
+  } = {},
+}) {
   const [state, setState] = useState({
     max: 0,
     ownPriceSeries: {},
@@ -53,48 +61,66 @@ function PriceCropContainer({ currencySymbol, name, pricePoints }) {
 
   const { ownPriceSeries, networkPriceSeries, max } = state;
 
-  const yTitle = t('INSIGHTS.PRICES.Y_TITLE', { currency: currencySymbol, mass: getMassUnit(), interpolation: { escapeValue: false } });
+  const yTitle = t('INSIGHTS.PRICES.Y_TITLE', {
+    currency: currencySymbol,
+    mass: getMassUnit(),
+    interpolation: { escapeValue: false },
+  });
+
+  const svgRef = useRef();
+  const xAxisRef = useRef();
   return (
     <div style={{ marginBottom: '12px' }}>
       <Semibold>{name}</Semibold>
+      <svg
+        ref={svgRef}
+        width={width}
+        height={height}
+        viewBox={`0,0,${width},${height}`}
+        style={{ maxWi: '100%' }}
+        fontSize={10}
+      >
+        <g ref={xAxisRef} />
+      </svg>
+
       <div>
-        <AreaChart
-          messages={{ empty: 'Not data' }}
-          width="95%"
-          height="85%"
-          ytitle={yTitle}
-          max={max}
-          library={{
-            scales: {
-              xAxes: [
-                {
-                  type: 'time',
-                  time: {
-                    displayFormats: {
-                      month: 'YYYY-MM',
-                    },
-                  },
-                },
-              ],
-            },
-          }}
-          data={[
-            {
-              name: t('INSIGHTS.PRICES.OWN_PRICE'),
-              data: ownPriceSeries,
-              dataset: {
-                backgroundColor: 'rgba(51, 102, 204, 0.4)',
-              },
-            },
-            {
-              name: t('INSIGHTS.PRICES.NETWORK_PRICE'),
-              data: networkPriceSeries,
-              dataset: {
-                backgroundColor: 'rgba(220, 57, 18, 0.4)',
-              },
-            },
-          ]}
-        />
+        {/*<AreaChart*/}
+        {/*  messages={{ empty: 'Not data' }}*/}
+        {/*  width="95%"*/}
+        {/*  height="85%"*/}
+        {/*  ytitle={yTitle}*/}
+        {/*  max={max}*/}
+        {/*  library={{*/}
+        {/*    scales: {*/}
+        {/*      xAxes: [*/}
+        {/*        {*/}
+        {/*          type: 'time',*/}
+        {/*          time: {*/}
+        {/*            displayFormats: {*/}
+        {/*              month: 'YYYY-MM',*/}
+        {/*            },*/}
+        {/*          },*/}
+        {/*        },*/}
+        {/*      ],*/}
+        {/*    },*/}
+        {/*  }}*/}
+        {/*  data={[*/}
+        {/*    {*/}
+        {/*      name: t('INSIGHTS.PRICES.OWN_PRICE'),*/}
+        {/*      data: ownPriceSeries,*/}
+        {/*      dataset: {*/}
+        {/*        backgroundColor: 'rgba(51, 102, 204, 0.4)',*/}
+        {/*      },*/}
+        {/*    },*/}
+        {/*    {*/}
+        {/*      name: t('INSIGHTS.PRICES.NETWORK_PRICE'),*/}
+        {/*      data: networkPriceSeries,*/}
+        {/*      dataset: {*/}
+        {/*        backgroundColor: 'rgba(220, 57, 18, 0.4)',*/}
+        {/*      },*/}
+        {/*    },*/}
+        {/*  ]}*/}
+        {/*/>*/}
       </div>
     </div>
   );

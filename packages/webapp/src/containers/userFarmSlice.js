@@ -273,5 +273,5 @@ export const getUserFarmSelector = (farmId, userId) => {
 
 export const alertsUrlSelector = createSelector(
   loginSelector,
-  ({ user_id }) => `${alertsUrl}?user=${user_id}`,
+  ({ user_id, farm_id }) => `${alertsUrl}?user_id=${user_id}&farm_id=${farm_id}`,
 );

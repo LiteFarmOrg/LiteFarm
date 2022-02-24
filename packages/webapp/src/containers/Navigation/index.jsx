@@ -50,7 +50,6 @@ const NavBar = (props) => {
   return isFarmSelected ? (
     <Suspense fallback={<NoFarmNavBar />}>
       <PureNavBar
-        farmId={farm.farm_id}
         showSpotLight={!navigation}
         resetSpotlight={resetSpotlight}
         showSwitchFarm={numberOfUserFarm > 1}

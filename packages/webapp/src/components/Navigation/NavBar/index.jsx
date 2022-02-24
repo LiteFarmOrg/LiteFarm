@@ -88,7 +88,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function PureNavBar({
-  farmId,
   showSpotLight,
   resetSpotlight,
   history,
@@ -233,7 +232,7 @@ export default function PureNavBar({
         <NavbarSpotlightProvider open={showSpotLight} onFinish={resetSpotlight}>
           <ClickAwayListener onClickAway={onClickAway}>
             <div className={classes.icons}>
-              <Alert farmId={farmId} alertsUrl={alertsUrl} />
+              <Alert alertsUrl={alertsUrl} />
 
               <PureMyFarmFloater
                 openProfile={isFarmFloaterOpen}

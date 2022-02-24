@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { retry } from 'redux-saga/effects';
 
-export function Alert({ farmId, alertsUrl }) {
+export function Alert({ alertsUrl }) {
   // TODO initialize alertCount with the actual count of alerts for the user/farm
   const [alertCount, setAlertCount] = useState(0);
   const [retryCount, setRetryCount] = useState(3);
@@ -10,8 +10,7 @@ export function Alert({ farmId, alertsUrl }) {
     let subscription = new EventSource(alertsUrl);
 
     subscription.onopen = () => {
-      console.log('server event stream opened');
-      console.log('farm', farmId);
+      console.log(`server event stream opened: ${alertsUrl}`);
     };
 
     subscription.onerror = () => {
@@ -29,15 +28,14 @@ export function Alert({ farmId, alertsUrl }) {
     subscription.onmessage = (event) => {
       const alert = JSON.parse(event.data);
       console.log('alert', alert);
-      if (alert.farm_id === farmId) setAlertCount((prev) => prev + alert.delta);
+      // if (alert.farm_id === farmId)
+      setAlertCount((prev) => prev + alert.delta);
     };
 
     // Return a cleanup function to avoid memory leak.
     return () => {
-      // if (subscription) {
       console.log('cleaning up event stream');
       subscription.close();
-      // }
     };
   }, []);
 

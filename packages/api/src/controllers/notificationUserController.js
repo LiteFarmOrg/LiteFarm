@@ -32,7 +32,7 @@ module.exports = {
   },
 
   subscribeToAlerts(req, res) {
-    const { user } = req.query;
+    const { user_id, farm_id } = req.query;
 
     res.writeHead(200, {
       'Content-Type': 'text/event-stream',
@@ -42,28 +42,35 @@ module.exports = {
     });
     res.write('\n');
 
-    console.log(`opening subscription user ${user}`);
+    console.log(`opening subscription user ${user_id}`);
 
-    let userSubs = subscriptions.get(user);
+    let userSubs = subscriptions.get(user_id);
     if (!userSubs) {
       userSubs = new Map();
-      subscriptions.set(user, userSubs);
+      subscriptions.set(user_id, userSubs);
     }
 
-    const opened = new Date();
-    userSubs.set(opened, res);
+    const opened = new Date().toISOString();
+    userSubs.set(opened, { farm_id, res });
 
     req.on('close', () => {
-      console.log(`closing subscription user ${user} opened ${opened}`);
-      const userSubs = subscriptions.get(user);
-      if (userSubs) {
-        userSubs.delete(opened);
-      } else {
-        console.log(
-          `Problem closing alerts subscription: no subscription for user ${user} opened ${opened}`,
-        );
+      console.log(`closing subscription user ${user_id} opened ${opened}`);
+      const userSubs = subscriptions.get(user_id);
+      if (!userSubs) {
+        console.log(`Problem closing alerts subscription: no subscriptions for user ${user_id}`);
+        return;
       }
-      if (userSubs.size === 0) subscriptions.delete(user);
+
+      const sub = userSubs.get(opened);
+      if (!sub) {
+        console.log(
+          `Problem closing alerts subscription: no subscription for user ${user_id} opened ${opened}`,
+        );
+        return;
+      }
+      sub.res.end();
+      userSubs.delete(opened);
+      if (userSubs.size === 0) subscriptions.delete(user_id);
     });
   },
 
@@ -71,7 +78,11 @@ module.exports = {
     userIds.forEach((user_id) => {
       const userSubs = subscriptions.get(user_id);
       if (userSubs) {
-        userSubs.forEach((res) => res.write(`data: ${JSON.stringify({ farm_id, delta: 1 })}\n\n`));
+        userSubs.forEach((sub) => {
+          if (sub.farm_id === farm_id || farm_id === null) {
+            sub.res.write(`data: ${JSON.stringify({ delta: 1 })}\n\n`);
+          }
+        });
       }
     });
   },

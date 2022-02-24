@@ -89,7 +89,9 @@ async function validateLocationDependency(req, res, next) {
       } else if (
         !completeDate &&
         !managementPlanLocationId &&
-        plantingManagementPlan.plant_task &&
+        (plantingManagementPlan.plant_task ||
+          (plantingManagementPlan.plant_task === null &&
+            plantingManagementPlan.transplant_task === null)) &&
         plantingManagementPlan.location_id
       ) {
         managementPlanLocationId = plantingManagementPlan.location_id;

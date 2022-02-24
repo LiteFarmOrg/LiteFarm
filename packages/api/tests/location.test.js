@@ -285,7 +285,6 @@ describe('Location tests', () => {
         expect(res.status).toBe(200);
         const location = await knex('location').where({ location_id: field1.location_id }).first();
         const location2 = await knex('location').where({ location_id: field2.location_id }).first();
-        console.log(location);
         expect(location.deleted).toBeTruthy();
         expect(location2.deleted).toBeFalsy();
         done();
@@ -307,6 +306,27 @@ describe('Location tests', () => {
         promisedField: [field1],
       });
       await createPlantTask(user_id, planting_management_plan_id);
+
+      deleteLocation({ user_id, farm_id }, field1.location_id, async (err, res) => {
+        expect(res.status).toBe(400);
+        done();
+      });
+    });
+
+    test('Delete should return 400 when field is referenced by managementPlan (wild crop location)', async (done) => {
+      let [{ user_id, farm_id }] = await mocks.userFarmFactory(
+        {},
+        { status: 'Active', role_id: 1 },
+      );
+      const [[field1], [field2]] = await appendFieldToFarm(farm_id, 2);
+
+      const [
+        { planting_management_plan_id, management_plan_id },
+      ] = await mocks.planting_management_planFactory({
+        promisedFarm: [{ farm_id }],
+        promisedLocation: [field1],
+        promisedField: [field1],
+      });
 
       deleteLocation({ user_id, farm_id }, field1.location_id, async (err, res) => {
         expect(res.status).toBe(400);

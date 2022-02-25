@@ -307,7 +307,7 @@ describe('Task tests', () => {
         { assignee_user_id: another_id },
         task_id,
         async (err, res) => {
-          expect(res.status).toBe(406);
+          expect(res.status).toBe(400);
           done();
         },
       );
@@ -337,7 +337,7 @@ describe('Task tests', () => {
         { assignee_user_id: another_id },
         task_id,
         async (err, res) => {
-          expect(res.status).toBe(406);
+          expect(res.status).toBe(400);
           done();
         },
       );
@@ -1821,7 +1821,7 @@ describe('Task tests', () => {
         abandonTaskBodyWithRating,
         task.task_id,
         async (err, res) => {
-          expect(res.status).toBe(406);
+          expect(res.status).toBe(400);
           done();
         },
       );
@@ -1845,7 +1845,7 @@ describe('Task tests', () => {
         abandonTaskBodyWithDuration,
         task.task_id,
         async (err, res) => {
-          expect(res.status).toBe(406);
+          expect(res.status).toBe(400);
           done();
         },
       );

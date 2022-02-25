@@ -11,7 +11,8 @@ import { Label, Semibold } from '../../Typography';
 import styles from './styles.module.scss';
 import { colors } from '../../../assets/theme';
 
-export function PriceCropCharts({ cropsWithPriceInfo, currencySymbol, unit }) {
+export function PriceCropCharts({ cropsWithPriceInfo, currencySymbol, isImperial }) {
+  const unit = isImperial ? 'lb' : 'kg';
   const { t } = useTranslation();
   const { ref, width } = useComponentWidth();
 
@@ -39,8 +40,8 @@ export function PriceCropCharts({ cropsWithPriceInfo, currencySymbol, unit }) {
         })
         .map((pricePoint) => ({
           ...pricePoint,
-          own_price: roundToTwoDecimal(convert(pricePoint.crop_price).from('km').to(unit)),
-          network_price: roundToTwoDecimal(convert(pricePoint.network_price).from('km').to(unit)),
+          own_price: roundToTwoDecimal(convert(pricePoint.crop_price).from('kg').to(unit)),
+          network_price: roundToTwoDecimal(convert(pricePoint.network_price).from('kg').to(unit)),
         }));
       if (pricePoints.length > 0) {
         filteredPricePoints[crop_translation_key] = {};

@@ -38,10 +38,14 @@ export default function ActualRevenue({ history, match }) {
   const toDate = watch('to_date');
 
   const filteredSales = useMemo(() => {
-    return sales.filter((sale) => {
-      const saleDate = moment(new Date(sale.sale_date)).utc().format('YYYY-MM-DD');
-      return new Date(saleDate) >= new Date(fromDate) && new Date(saleDate) <= new Date(toDate);
-    });
+    return sales
+      .filter((sale) => {
+        const saleDate = moment(new Date(sale.sale_date)).utc().format('YYYY-MM-DD');
+        return new Date(saleDate) >= new Date(fromDate) && new Date(saleDate) <= new Date(toDate);
+      })
+      .sort((a, b) => {
+        return new Date(a.sale_date) - new Date(b.sale_date);
+      });
   }, [sales, fromDate, toDate]);
 
   const total = filteredSales.reduce((acc, sale) => {

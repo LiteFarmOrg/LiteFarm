@@ -596,7 +596,7 @@ CleaningTask.args = {
   onSubmit: () => console.log('onSave called'),
   handleCancel: () => console.log('handleCancel called'),
   onError: () => console.log('onError called'),
-  useHookFormPersist: () => {},
+  useHookFormPersist: () => ({}),
   persistedFormData: {
     type: 91,
     due_date: '2021-08-23',
@@ -641,7 +641,7 @@ PestControlTask.args = {
   onSubmit: () => console.log('onSave called'),
   handleCancel: () => console.log('handleCancel called'),
   onError: () => console.log('onError called'),
-  useHookFormPersist: () => {},
+  useHookFormPersist: () => ({}),
   persistedFormData: {
     type: 11,
     due_date: '2021-08-23',
@@ -686,7 +686,7 @@ FieldWorkTask.args = {
   onSubmit: () => console.log('onSave called'),
   handleCancel: () => console.log('handleCancel called'),
   onError: () => console.log('onError called'),
-  useHookFormPersist: () => {},
+  useHookFormPersist: () => ({}),
   persistedFormData: {
     type: 9,
     due_date: '2021-08-23',
@@ -731,7 +731,7 @@ SoilAmendmentTask.args = {
   onSubmit: () => console.log('onSave called'),
   handleCancel: () => console.log('handleCancel called'),
   onError: () => console.log('onError called'),
-  useHookFormPersist: () => {},
+  useHookFormPersist: () => ({}),
   persistedFormData: {
     type: 6,
     due_date: '2021-08-23',
@@ -781,7 +781,7 @@ HarvestTask.args = {
   onSubmit: () => console.log('onSave called'),
   handleCancel: () => console.log('handleCancel called'),
   onError: () => console.log('onError called'),
-  useHookFormPersist: () => {},
+  useHookFormPersist: () => ({}),
   persistedFormData: {
     type: 8,
     due_date: '2021-08-23',

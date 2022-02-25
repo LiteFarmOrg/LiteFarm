@@ -6,12 +6,13 @@ import svgrPlugin from 'vite-plugin-svgr';
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => ({
-  plugins: [react({
-    babel: {
-      plugins: ['@emotion/babel-plugin'],
-    },
-    jsxRuntime: mode === 'development' ? 'automatic' : 'classic',
-  }),
+  plugins: [
+    react({
+      babel: {
+        plugins: ['@emotion/babel-plugin'],
+      },
+      jsxRuntime: mode === 'development' ? 'automatic' : 'classic',
+    }),
     mdx(),
     svgrPlugin({
       svgrOptions: {
@@ -19,5 +20,7 @@ export default defineConfig(({ mode }) => ({
       },
     }),
   ],
+  build: {
+    sourcemap: true,
+  },
 }));
-

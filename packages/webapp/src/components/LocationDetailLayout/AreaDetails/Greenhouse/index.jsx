@@ -40,9 +40,11 @@ export function PureGreenhouse({
   const { t } = useTranslation();
   const getDefaultValues = () => {
     return {
-      [greenhouseEnum.transition_date]: getDateInputFormat(new Date()),
       [greenhouseEnum.organic_status]: 'Non-Organic',
       ...persistedFormData,
+      [greenhouseEnum.transition_date]: getDateInputFormat(
+        persistedFormData[greenhouseEnum.transition_date] || new Date(),
+      ),
     };
   };
   const {

@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import insightStyles from '../styles.module.scss';
 import PageTitle from '../../../components/PageTitle';
 import { pricesDistanceSelector, pricesSelector } from '../selectors';
-import PriceCropContainer from '../../../components/Insights/PriceCropContainer';
 import { getPricesWithDistanceData, setPricesDistance } from '../actions';
 import PriceDistanceComponent from '../../../components/Insights/PriceDistanceComponent';
 import styles from './styles.module.scss';
@@ -11,6 +10,7 @@ import { userFarmSelector } from '../../userFarmSlice';
 import { withTranslation } from 'react-i18next';
 import { Text } from '../../../components/Typography';
 import grabCurrencySymbol from '../../../util/grabCurrencySymbol';
+import { PriceCropCharts } from '../../../components/Insights/PriceCropCharts/PriceCropCharts';
 
 const MILE_TO_KILOMETER = 1.609;
 
@@ -131,19 +131,11 @@ class Prices extends Component {
           </div>
         )}
         {!this.props.farm.grid_points && <div>{t('INSIGHTS.PRICES.NO_ADDRESS')}</div>}
-        {cropsWithPriceInfo.map((cropInfo, index) => {
-          const cropName = Object.keys(cropInfo)[0];
-          const pricePoints = cropInfo[cropName]; // each month is a price point
-          return (
-            <div key={index + '-' + cropName}>
-              <PriceCropContainer
-                currencySymbol={currencySymbol}
-                name={t(`crop:${cropName}`)}
-                pricePoints={pricePoints}
-              />
-            </div>
-          );
-        })}
+        <PriceCropCharts
+          unit={unit}
+          cropsWithPriceInfo={cropsWithPriceInfo}
+          currencySymbol={currencySymbol}
+        />
       </div>
     );
   }

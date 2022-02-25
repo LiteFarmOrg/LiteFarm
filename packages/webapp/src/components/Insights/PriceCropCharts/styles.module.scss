@@ -1,0 +1,22 @@
+.svg {
+  height: 20px;
+  width: 48px;
+}
+
+.chartTitleContainer {
+  position: relative;
+  pointer-events: none;
+}
+
+.labelContainer {
+  position: absolute;
+  right: 0;
+  top: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.label {
+  display: flex;
+  flex-direction: row;
+}

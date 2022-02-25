@@ -15,7 +15,7 @@ TaskCompleteCleaning.args = {
   onCancel: () => {},
   onGoBack: () => {},
   onSave: () => {},
-  useHookFormPersist: () => {},
+  useHookFormPersist: () => ({}),
   persistedFormData: {
     cleaning_task: {
       cleaning_target: 'target',

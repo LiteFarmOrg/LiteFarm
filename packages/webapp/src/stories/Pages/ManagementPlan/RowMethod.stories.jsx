@@ -16,7 +16,7 @@ Primary.args = {
   history: {},
   system: 'metric',
   variety: { average_seed_weight: 10, yield_per_plant: 10 },
-  useHookFormPersist: () => {},
+  useHookFormPersist: () => ({}),
   persistedFormData: {
     crop_management_plan: {
       planting_management_plans: {
@@ -35,7 +35,7 @@ HistoricalInitial.args = {
   history: {},
   system: 'metric',
   variety: { average_seed_weight: 10, yield_per_plant: 10 },
-  useHookFormPersist: () => {},
+  useHookFormPersist: () => ({}),
   persistedFormData: {
     crop_management_plan: {
       already_in_ground: true,
@@ -56,7 +56,7 @@ HistoricalFinal.args = {
   history: {},
   system: 'metric',
   variety: { average_seed_weight: 10, yield_per_plant: 10 },
-  useHookFormPersist: () => {},
+  useHookFormPersist: () => ({}),
   persistedFormData: {
     crop_management_plan: {
       already_in_ground: true,
@@ -77,7 +77,7 @@ FinalSameLength.args = {
   history: {},
   system: 'metric',
   variety: { average_seed_weight: 10, yield_per_plant: 10 },
-  useHookFormPersist: () => {},
+  useHookFormPersist: () => ({}),
   persistedFormData: {
     crop_management_plan: {
       planting_management_plans: {
@@ -103,7 +103,7 @@ InitialDifferentLength.args = {
   history: {},
   system: 'metric',
   variety: { average_seed_weight: 10, yield_per_plant: 10 },
-  useHookFormPersist: () => {},
+  useHookFormPersist: () => ({}),
   persistedFormData: {
     crop_management_plan: {
       planting_management_plans: {

@@ -15,13 +15,16 @@
 
 let URI;
 const VITE_ENV = import.meta.env.VITE_ENV || 'development';
-
-if (VITE_ENV === 'development') {
-  URI = window.location.href.replace(/3000.*/, '5000');
-} else if (VITE_ENV === 'production') {
-  URI = 'https://api.app.litefarm.org';
-} else if (VITE_ENV === 'integration') {
-  URI = 'https://api.beta.litefarm.org';
+if (import.meta.env.VITE_API_URL?.length) {
+  URI = import.meta.env.VITE_API_URL;
+} else {
+  if (VITE_ENV === 'development') {
+    URI = window.location.href.replace(/3000.*/, '5000');
+  } else if (VITE_ENV === 'production') {
+    URI = 'https://api.app.litefarm.org';
+  } else if (VITE_ENV === 'integration') {
+    URI = 'https://api.beta.litefarm.org';
+  }
 }
 
 export const userUrl = `${URI}/user`;

@@ -15,6 +15,6 @@ HarvestCompleteQuantity.args = {
   onCancel: () => {},
   onGoBack: () => {},
   system: 'metric',
-  useHookFormPersist: () => {},
+  useHookFormPersist: () => ({}),
   persistedFormData: {},
 };

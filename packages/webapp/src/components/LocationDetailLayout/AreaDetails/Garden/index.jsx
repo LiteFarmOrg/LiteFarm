@@ -40,9 +40,11 @@ export function PureGarden({
   const { t } = useTranslation();
   const getDefaultValues = () => {
     return {
-      [gardenEnum.transition_date]: getDateInputFormat(new Date()),
       [gardenEnum.organic_status]: 'Non-Organic',
       ...persistedFormData,
+      [gardenEnum.transition_date]: getDateInputFormat(
+        persistedFormData[gardenEnum.transition_date] || new Date(),
+      ),
     };
   };
   const {

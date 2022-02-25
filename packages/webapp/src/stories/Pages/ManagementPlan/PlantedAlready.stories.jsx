@@ -21,7 +21,7 @@ Seedling.args = {
       is_seed: false,
     },
   },
-  useHookFormPersist: () => {},
+  useHookFormPersist: () => ({}),
   system: 'metric',
   cropVariety: {
     needs_transplant: true,
@@ -42,7 +42,7 @@ WildCrop.args = {
       is_wild: true,
     },
   },
-  useHookFormPersist: () => {},
+  useHookFormPersist: () => ({}),
   system: 'imperial',
   cropVariety: {
     needs_transplant: false,

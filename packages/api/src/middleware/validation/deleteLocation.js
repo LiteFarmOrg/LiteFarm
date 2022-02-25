@@ -13,28 +13,94 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const plantingManagementPlanModel = require('../../models/plantingManagementPlanModel');
-const taskModel = require('../../models/taskModel');
-const { raw } = require('objection');
+const { Model } = require('objection');
+const managementPlanModel = require('../../models/managementPlanModel');
 
 async function validateLocationDependency(req, res, next) {
-
   const location_id = req?.params?.location_id;
-  const managementPlans = await plantingManagementPlanModel.query()
-    .join('management_plan', 'management_plan.management_plan_id', 'planting_management_plan.management_plan_id')
-    .where('planting_management_plan.location_id', location_id)
-    .where('management_plan.deleted', false).whereNull('complete_date').whereNull('abandon_date');
 
-  if (managementPlans.length) {
-    return res.status(400).send('Location cannot be deleted when it has a managementPlan');
+  const tasks = await Model.knex().raw(
+    `
+        SELECT DISTINCT lt.task_id,
+                        lt.location_id
+        FROM location_tasks lt
+                 JOIN task t on t.task_id = lt.task_id
+        WHERE lt.location_id = :location_id
+          AND t.complete_date is null
+          AND t.abandon_date is null
+        UNION
+        SELECT DISTINCT mt.task_id, pmp.location_id
+        FROM management_tasks mt
+                 JOIN task t on t.task_id = mt.task_id
+                 JOIN planting_management_plan pmp on pmp.planting_management_plan_id = mt.planting_management_plan_id
+        WHERE pmp.location_id = :location_id
+          AND t.complete_date is null
+          AND t.abandon_date is null
+        UNION
+        SELECT DISTINCT pt.task_id, pmp.location_id
+        from plant_task pt
+                 JOIN task t on t.task_id = pt.task_id
+                 JOIN planting_management_plan pmp on pt.planting_management_plan_id = pmp.planting_management_plan_id
+        WHERE pmp.location_id = :location_id
+          AND t.complete_date is null
+          AND t.abandon_date is null
+        UNION
+        SELECT DISTINCT tt.task_id, pmp.location_id
+        from transplant_task tt
+                 JOIN task t on t.task_id = tt.task_id
+                 JOIN planting_management_plan pmp on tt.planting_management_plan_id = pmp.planting_management_plan_id
+        WHERE pmp.location_id = :location_id
+          AND t.complete_date is null
+          AND t.abandon_date is null
+    `,
+    { location_id },
+  );
+  if (tasks.rows.length) {
+    return res.status(400).send('Location cannot be deleted when it has incomplete tasks');
   }
-  const tasks = await taskModel.query().whereNotDeleted()
-    .join('location_tasks', 'location_tasks.task_id', 'task.task_id')
-    .where('location_tasks.location_id', location_id)
-    .whereNull('task.complete_date')
-    .whereNull('task.abandon_date');
-  if (tasks.length) {
-    return res.status(400).send('Location cannot be deleted when it is referenced by a task');
+
+  const managementPlans = await managementPlanModel
+    .query()
+    .whereNotDeleted()
+    .withGraphJoined(
+      `[crop_variety.[crop], crop_management_plan.[planting_management_plans.[transplant_task.[task], 
+      plant_task.[task] ]]]`,
+      {
+        aliases: {
+          crop_management_plan: 'cmp',
+          planting_management_plans: 'pmps',
+        },
+      },
+    )
+    .where('crop_variety.farm_id', req.headers.farm_id);
+  //TODO: deprecate req.headers.farm_id and move farm_id to req.context in hasFarmAccess
+
+  for (const {
+    crop_management_plan: { planting_management_plans },
+  } of managementPlans) {
+    let managementPlanLocationId;
+    let completeDate;
+    for (const plantingManagementPlan of planting_management_plans) {
+      if (
+        plantingManagementPlan.transplant_task &&
+        (plantingManagementPlan.transplant_task.task.complete_date > completeDate || !completeDate)
+      ) {
+        completeDate = plantingManagementPlan.transplant_task.task.complete_date;
+        managementPlanLocationId = plantingManagementPlan.location_id;
+      } else if (
+        !completeDate &&
+        !managementPlanLocationId &&
+        (plantingManagementPlan.plant_task ||
+          (plantingManagementPlan.plant_task === null &&
+            plantingManagementPlan.transplant_task === null)) &&
+        plantingManagementPlan.location_id
+      ) {
+        managementPlanLocationId = plantingManagementPlan.location_id;
+      }
+    }
+    if (managementPlanLocationId === location_id) {
+      return res.status(400).send('Location cannot be deleted when it has a managementPlan');
+    }
   }
 
   return next();

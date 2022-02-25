@@ -166,7 +166,7 @@ export const FinalInGround = Template.bind({});
 FinalInGround.args = {
   cropLocations,
   variety_id: 'variety_id',
-  useHookFormPersist: () => {},
+  useHookFormPersist: () => ({}),
   persistedFormData,
   isFinalLocationPage: true,
   farmCenterCoordinate: {
@@ -182,7 +182,7 @@ export const InitialInGround = Template.bind({});
 InitialInGround.args = {
   cropLocations,
   variety_id: 'variety_id',
-  useHookFormPersist: () => {},
+  useHookFormPersist: () => ({}),
   persistedFormData,
   isFinalLocationPage: false,
   farmCenterCoordinate: {
@@ -198,7 +198,7 @@ export const FinalSeedling = Template.bind({});
 FinalSeedling.args = {
   cropLocations,
   variety_id: 'variety_id',
-  useHookFormPersist: () => {},
+  useHookFormPersist: () => ({}),
   persistedFormData: produce(persistedFormData, (persistedFormData) => {
     persistedFormData.crop_management_plan.already_in_ground = false;
   }),
@@ -216,7 +216,7 @@ export const InitialSeedling = Template.bind({});
 InitialSeedling.args = {
   cropLocations,
   variety_id: 'variety_id',
-  useHookFormPersist: () => {},
+  useHookFormPersist: () => ({}),
   persistedFormData: produce(persistedFormData, (persistedFormData) => {
     persistedFormData.crop_management_plan.already_in_ground = false;
   }),
@@ -234,7 +234,7 @@ export const InitialSeedlingWithDefaultFarmLocation = Template.bind({});
 InitialSeedlingWithDefaultFarmLocation.args = {
   cropLocations,
   variety_id: 'variety_id',
-  useHookFormPersist: () => {},
+  useHookFormPersist: () => ({}),
   persistedFormData: produce(persistedFormData, (persistedFormData) => {
     persistedFormData.crop_management_plan.already_in_ground = false;
     persistedFormData.farm = {

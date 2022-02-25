@@ -4,12 +4,20 @@ import { useTranslation } from 'react-i18next';
 import Input, { getInputErrors, integerOnKeyDown } from '../../Form/Input';
 import RadioGroup from '../../Form/RadioGroup';
 import Unit from '../../Form/Unit';
-import { container_plant_spacing, container_planting_depth, seedYield } from '../../../util/convert-units/unit';
+import {
+  container_plant_spacing,
+  container_planting_depth,
+  seedYield,
+} from '../../../util/convert-units/unit';
 import styles from './styles.module.scss';
 import { isNonNegativeNumber } from '../../Form/validations';
-import { hookFormMaxLengthValidation, hookFormMaxValidation } from '../../Form/hookformValidationUtils';
+import {
+  hookFormMaxLengthValidation,
+  hookFormMaxValidation,
+} from '../../Form/hookformValidationUtils';
 import clsx from 'clsx';
 import InputAutoSize from '../../Form/InputAutoSize';
+import { get } from 'react-hook-form';
 
 export default function PureContainerForm({
   system,
@@ -23,6 +31,7 @@ export default function PureContainerForm({
   setValue,
   errors,
   disabled,
+  clearErrors,
 }) {
   const { t } = useTranslation();
   const IN_GROUND = `${prefix}.container_method.in_ground`;
@@ -54,7 +63,9 @@ export default function PureContainerForm({
   useEffect(() => {
     const { average_seed_weight = 0, yield_per_plant = 0 } = crop_variety;
     const shouldCalculateInGroundEstimatedValues =
-      in_ground && isNonNegativeNumber(total_plants) && isNonNegativeNumber(plant_spacing);
+      in_ground &&
+      isNonNegativeNumber(total_plants) &&
+      (isNonNegativeNumber(plant_spacing) || total_plants === 1);
     const shouldCalculateContainerEstimatedValues =
       !in_ground &&
       isNonNegativeNumber(number_of_container) &&
@@ -65,6 +76,7 @@ export default function PureContainerForm({
         shouldCalculateInGroundEstimatedValues || shouldCalculateContainerEstimatedValues,
       );
     } else if (shouldCalculateInGroundEstimatedValues) {
+      get(errors, PLANT_SPACING)?.type === 'required' && clearErrors(PLANT_SPACING);
       const required_seeds = total_plants * average_seed_weight;
       const estimated_yield = total_plants * yield_per_plant;
       average_seed_weight && setValue(ESTIMATED_SEED, required_seeds);
@@ -272,4 +284,5 @@ PureContainerForm.prototype = {
   control: PropTypes.any,
   setValue: PropTypes.func,
   errors: PropTypes.object,
+  clearErrors: PropTypes.func,
 };

@@ -14,11 +14,8 @@ function RoleSelection() {
 
   const onSubmit = ({ role, owner_operated }) => {
     const callback = () => history.push('/consent');
-    const boolOwnerOperated =
-      owner_operated === 'true' ? true : owner_operated === 'false' ? false : null;
-    dispatch(
-      patchRole({ role, owner_operated: boolOwnerOperated, role_id: roleToId[role], callback }),
-    );
+
+    dispatch(patchRole({ role, owner_operated, role_id: roleToId[role], callback }));
   };
 
   const onGoBack = () => {

@@ -50,6 +50,7 @@ class NotificationUser extends baseModel {
   static async getNotificationsForFarmUser(farm_id, user_id) {
     return await NotificationUser.query()
       .withGraphJoined('notification')
+      .context({ showHidden: true })
       .whereRaw(
         `notification.deleted = false AND notification_user.deleted = false 
         AND user_id = ? AND (farm_id IS NULL OR farm_id = ?)`,

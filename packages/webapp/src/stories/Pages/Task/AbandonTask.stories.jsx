@@ -13,7 +13,7 @@ const Template = (args) => <PureAbandonTask {...args} />;
 
 export const Primary = Template.bind({});
 Primary.args = {
-  //   useHookFormPersist: () => {},
+  //   useHookFormPersist: () => ({}),
   onSubmit: () => console.log('onSubmit called'),
   onGoBack: () => console.log('handleGoBack called'),
 };

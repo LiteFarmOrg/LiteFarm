@@ -21,7 +21,7 @@ const taskController = {
           .where({ task_id })
           .first();
         if (checkTaskStatus.complete_date || checkTaskStatus.abandon_date) {
-          return res.status(406).send('Task has already been completed or abandoned');
+          return res.status(400).send('Task has already been completed or abandoned');
         }
         const result = await TaskModel.query().context(req.user).findById(task_id).patch({
           assignee_user_id,
@@ -61,9 +61,7 @@ const taskController = {
             assignee_user_id,
           })
           .whereIn('task_id', available_tasks);
-        return result
-          ? res.status(200).send(available_tasks)
-          : res.status(404).send('Tasks not found');
+        return res.status(200).send(available_tasks);
       } catch (error) {
         return res.status(400).json({ error });
       }
@@ -106,7 +104,7 @@ const taskController = {
         // cannot abandon an unassigned task with rating or duration
         if (!hasAssignee && (happiness || duration)) {
           return res
-            .status(406)
+            .status(400)
             .send('An unassigned task should not be rated or have time clocked');
         }
 

@@ -1,6 +1,6 @@
 import Form from '../Form';
 import Button from '../Form/Button';
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Label, Title } from '../Typography';
 import { useTranslation } from 'react-i18next';
 import PageTitle from '../PageTitle/v2';
@@ -18,6 +18,8 @@ export default function PureRoleSelection({
   defaultOwnerOperated,
 }) {
   const { t } = useTranslation(['translation', 'common']);
+  const ROLE = 'role';
+  const OWNER_OPERATED = 'owner_operated';
   const {
     register,
     handleSubmit,
@@ -25,15 +27,14 @@ export default function PureRoleSelection({
     control,
     watch,
     formState: { isValid },
-  } = useForm();
-  const ROLE = 'role';
-  const OWNER_OPERATED = 'owner_operated';
-  const role = watch(ROLE);
+  } = useForm({
+    defaultValues: {
+      [ROLE]: defaultRole,
+      [OWNER_OPERATED]: defaultOwnerOperated,
+    },
+  });
 
-  useEffect(() => {
-    setValue(ROLE, defaultRole);
-    setValue(OWNER_OPERATED, defaultOwnerOperated?.toString());
-  }, []);
+  const role = watch(ROLE);
 
   const disabled = !role;
 

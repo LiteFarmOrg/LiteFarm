@@ -2657,7 +2657,7 @@ const Template = (args) => <PureTaskCrops {...args} />;
 export const Primary = Template.bind({});
 Primary.args = {
   managementPlansByLocationIds,
-  useHookFormPersist: () => {},
+  useHookFormPersist: () => ({}),
   persistedFormData,
 };
 Primary.parameters = {

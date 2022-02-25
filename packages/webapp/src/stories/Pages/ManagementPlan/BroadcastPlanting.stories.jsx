@@ -14,7 +14,7 @@ const Template = (args) => <PureBroadcastPlan {...args} />;
 export const Primary = Template.bind({});
 Primary.args = {
   variety_id: 'variety_id',
-  useHookFormPersist: () => {},
+  useHookFormPersist: () => ({}),
   persistedFormData: {
     crop_management_plan: {
       planting_management_plans: {
@@ -36,7 +36,7 @@ Primary.parameters = {
 export const Final = Template.bind({});
 Final.args = {
   variety_id: 'variety_id',
-  useHookFormPersist: () => {},
+  useHookFormPersist: () => ({}),
   persistedFormData: {
     crop_management_plan: {
       planting_management_plans: {
@@ -61,7 +61,7 @@ Final.parameters = {
 export const HistoricalInitial = Template.bind({});
 HistoricalInitial.args = {
   variety_id: 'variety_id',
-  useHookFormPersist: () => {},
+  useHookFormPersist: () => ({}),
   persistedFormData: {
     crop_management_plan: {
       already_in_ground: true,
@@ -81,7 +81,7 @@ HistoricalInitial.parameters = {
 export const HistoricalFinal = Template.bind({});
 HistoricalFinal.args = {
   variety_id: 'variety_id',
-  useHookFormPersist: () => {},
+  useHookFormPersist: () => ({}),
   persistedFormData: {
     crop_management_plan: {
       already_in_ground: true,

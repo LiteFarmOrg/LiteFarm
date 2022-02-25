@@ -16,7 +16,7 @@ Primary.args = {
   history: {},
   system: 'metric',
   crop_variety: { average_seed_weight: 10, yield_per_plant: 10 },
-  useHookFormPersist: () => {},
+  useHookFormPersist: () => ({}),
   persistedFormData: {
     crop_management_plan: {
       planting_management_plans: {
@@ -35,7 +35,7 @@ Final.args = {
   history: {},
   system: 'metric',
   crop_variety: { average_seed_weight: 10, yield_per_plant: 10 },
-  useHookFormPersist: () => {},
+  useHookFormPersist: () => ({}),
   persistedFormData: {
     crop_management_plan: {
       planting_management_plans: {
@@ -61,7 +61,7 @@ Historical.args = {
   history: {},
   system: 'metric',
   crop_variety: { average_seed_weight: 10, yield_per_plant: 10 },
-  useHookFormPersist: () => {},
+  useHookFormPersist: () => ({}),
   persistedFormData: {
     crop_management_plan: {
       planting_management_plans: {

@@ -149,7 +149,7 @@ const Template = (args) => <PureTaskTypeSelection {...args} />;
 
 export const Primary = Template.bind({});
 Primary.args = {
-  useHookFormPersist: () => {},
+  useHookFormPersist: () => ({}),
   persistedFormData: {},
   taskTypes,
   customTasks,

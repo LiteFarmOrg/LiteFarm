@@ -14,7 +14,10 @@ import RouterTab from '../../../RouterTab';
 import { getDateInputFormat } from '../../../../util/moment';
 import { PersistedFormWrapper } from '../../PersistedFormWrapper';
 import RadioGroup from '../../../Form/RadioGroup';
-import { getFormDataWithoutNulls, getProcessedFormData } from '../../../../containers/hooks/useHookFormPersist/utils';
+import {
+  getFormDataWithoutNulls,
+  getProcessedFormData,
+} from '../../../../containers/hooks/useHookFormPersist/utils';
 
 export default function PureFieldWrapper(props) {
   return (
@@ -41,9 +44,11 @@ export function PureField({
   const { t } = useTranslation();
   const getDefaultValues = () => {
     return {
-      [fieldEnum.transition_date]: getDateInputFormat(new Date()),
       [fieldEnum.organic_status]: 'Non-Organic',
       ...persistedFormData,
+      [fieldEnum.transition_date]: getDateInputFormat(
+        persistedFormData[fieldEnum.transition_date] || new Date(),
+      ),
     };
   };
   const {
@@ -61,7 +66,6 @@ export function PureField({
     shouldUnregister: true,
     defaultValues: getDefaultValues(),
   });
-
   const { historyCancel } = useHookFormPersist?.(getValues) || {};
 
   const onError = (data) => {};

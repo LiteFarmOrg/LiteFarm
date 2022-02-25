@@ -51,5 +51,6 @@
   "SUBMITTING": "Enviando...",
   "UPDATE": "Atualizar",
   "WORD_LIMIT_ERROR": "Somente {{value}} caractéres podem ser exibidos",
+  "YEAR": "MISSING",
   "YES": "Sim"
 }

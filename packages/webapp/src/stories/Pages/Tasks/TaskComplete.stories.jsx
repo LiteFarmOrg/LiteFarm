@@ -15,6 +15,6 @@ TaskComplete.args = {
   onCancel: () => {},
   onGoBack: () => {},
   onSave: () => {},
-  useHookFormPersist: () => {},
+  useHookFormPersist: () => ({}),
   persistedFormData: {},
 };

@@ -28,7 +28,7 @@ const Template = (args) => <PureManageCustomTasks {...args} />;
 
 export const Primary = Template.bind({});
 Primary.args = {
-  useHookFormPersist: () => {},
+  useHookFormPersist: () => ({}),
   persistedFormData: {},
   customTasks,
 };

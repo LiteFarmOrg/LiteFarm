@@ -400,7 +400,7 @@ const Template = (args) => <PureTaskLocations {...args} />;
 export const Primary = Template.bind({});
 Primary.args = {
   locations,
-  useHookFormPersist: () => {},
+  useHookFormPersist: () => ({}),
   persistedFormData,
   farmCenterCoordinate: {
     lat: 49.26886611583817,

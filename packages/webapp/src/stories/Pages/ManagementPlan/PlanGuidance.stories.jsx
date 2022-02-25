@@ -13,7 +13,7 @@ const Template = (args) => <PurePlanGuidance {...args} />;
 export const HistoricalBeds = Template.bind({});
 HistoricalBeds.args = {
   system: 'metric',
-  useHookFormPersist: () => {},
+  useHookFormPersist: () => ({}),
   persistedFormData: {
     crop_management_plan: {
       planting_management_plans: {
@@ -28,7 +28,7 @@ HistoricalBeds.args = {
 export const FinalRows = Template.bind({});
 FinalRows.args = {
   system: 'metric',
-  useHookFormPersist: () => {},
+  useHookFormPersist: () => ({}),
   persistedFormData: {
     crop_management_plan: {
       planting_management_plans: {

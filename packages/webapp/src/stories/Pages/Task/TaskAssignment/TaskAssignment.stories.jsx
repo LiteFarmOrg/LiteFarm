@@ -35,7 +35,7 @@ const Template = (args) => <PureTaskAssignment {...args} />;
 
 export const TaskAssignment = Template.bind({});
 TaskAssignment.args = {
-  useHookFormPersist: () => {},
+  useHookFormPersist: () => ({}),
   onSubmit: () => console.log('onSave called'),
   handleGoBack: () => console.log('handleGoBack called'),
   handleCancel: () => console.log('handleCancel called'),
@@ -45,7 +45,7 @@ TaskAssignment.args = {
 
 export const TaskAssignmentFarmWorker = Template.bind({});
 TaskAssignmentFarmWorker.args = {
-  useHookFormPersist: () => {},
+  useHookFormPersist: () => ({}),
   onSubmit: () => console.log('onSave called'),
   handleGoBack: () => console.log('handleGoBack called'),
   handleCancel: () => console.log('handleCancel called'),
@@ -56,7 +56,7 @@ TaskAssignmentFarmWorker.args = {
 
 export const TaskAssignmentOneUser = Template.bind({});
 TaskAssignmentOneUser.args = {
-  useHookFormPersist: () => {},
+  useHookFormPersist: () => ({}),
   onSubmit: () => console.log('onSave called'),
   handleGoBack: () => console.log('handleGoBack called'),
   handleCancel: () => console.log('handleCancel called'),

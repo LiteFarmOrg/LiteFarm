@@ -12,7 +12,7 @@ const Template = (args) => <PureNextHarvest {...args} />;
 
 export const Management = Template.bind({});
 Management.args = {
-  useHookFormPersist: () => {},
+  useHookFormPersist: () => ({}),
   persistedFormData: { crop_management_plan: {} },
   system: 'metric',
 };

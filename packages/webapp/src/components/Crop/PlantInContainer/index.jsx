@@ -38,6 +38,7 @@ export default function PurePlantInContainer({
     control,
     setValue,
     formState: { errors, isValid },
+    clearErrors,
   } = useForm({
     mode: 'onChange',
     shouldUnregister: false,
@@ -84,6 +85,7 @@ export default function PurePlantInContainer({
           control,
           setValue,
           errors,
+          clearErrors,
         }}
       />
     </Form>

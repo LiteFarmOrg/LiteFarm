@@ -15,7 +15,7 @@ CanNotBeCoverCrop.args = {
   persistedFormData: {
     crop_management_plan: { needs_transplant: true },
   },
-  useHookFormPersist: () => {},
+  useHookFormPersist: () => ({}),
   onSubmit: (data) => {
     console.log(data);
   },
@@ -30,7 +30,7 @@ CoverCrop.args = {
     crop_management_plan: { needs_transplant: false, for_cover: false },
   },
   can_be_cover_crop: true,
-  useHookFormPersist: () => {},
+  useHookFormPersist: () => ({}),
   onSubmit: (data) => {
     console.log(data);
   },

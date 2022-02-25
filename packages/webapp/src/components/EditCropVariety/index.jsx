@@ -34,7 +34,9 @@ export default function PureEditCropVariety({
     defaultValues: {
       crop_variety_photo_url:
         cropVariety.crop_variety_photo_url ||
-        cropVariety.crop_photo_url`https://${import.meta.env.VITE_DO_BUCKET_NAME}.nyc3.digitaloceanspaces.com//default_crop/v2/default.webp`,
+        cropVariety.crop_photo_url`https://${
+          import.meta.env.VITE_DO_BUCKET_NAME
+        }.nyc3.digitaloceanspaces.com//default_crop/v2/default.webp`,
       ...(({
         crop_variety_name,
         supplier,
@@ -43,6 +45,7 @@ export default function PureEditCropVariety({
         treated,
         genetically_engineered,
         searched,
+        hs_code_id,
       }) => ({
         crop_variety_name,
         supplier,
@@ -51,6 +54,7 @@ export default function PureEditCropVariety({
         treated,
         genetically_engineered,
         searched,
+        hs_code_id,
       }))(cropVariety),
     },
   });
@@ -235,18 +239,19 @@ export default function PureEditCropVariety({
               <RadioGroup hookFormControl={control} name={TREATED} required showNotSure />
             </div>
           )}
-          {(organic === true || organic === false) && <Input
-            label={t('CROP_DETAIL.HS_CODE')}
-            style={{ paddingBottom: '16px', paddingTop: '24px' }}
-            hookFormRegister={register(HS_CODE_ID, {
-              valueAsNumber: true,
-            })}
-            type={'number'}
-            onKeyDown={integerOnKeyDown}
-            max={9999999999}
-            optional
-          />}
-
+          {(organic === true || organic === false) && (
+            <Input
+              label={t('CROP_DETAIL.HS_CODE')}
+              style={{ paddingBottom: '16px', paddingTop: '24px' }}
+              hookFormRegister={register(HS_CODE_ID, {
+                valueAsNumber: true,
+              })}
+              type={'number'}
+              onKeyDown={integerOnKeyDown}
+              max={9999999999}
+              optional
+            />
+          )}
         </>
       )}
     </Form>

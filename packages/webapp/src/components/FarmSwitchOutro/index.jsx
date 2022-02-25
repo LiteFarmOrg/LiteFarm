@@ -12,18 +12,19 @@ export default function FarmSwitchPureOutroSplash({ onFinish, farm_name }) {
 
   return (
     <div className={styles.outroContainer}>
-      <div className={styles.title}>{t('SWITCH_OUTRO.TITLE')}</div>
-      <div className={styles.imgContainer}>
-        <OutroImg />
-      </div>
+      <div className={styles.bodyContainer}>
+        <div className={styles.title}>{t('SWITCH_OUTRO.TITLE')}</div>
+        <div className={styles.imgContainer}>
+          <OutroImg />
+        </div>
 
-      <div className={styles.descriptionTop}>{descriptionTop}</div>
-      <div className={styles.descriptionBottom}>{descriptionBottom}</div>
-      <div className={styles.bold}>{farm_name}</div>
-      <Button
-        className={styles.bottomContainer}
-        onClick={onFinish}
-      >{t('SWITCH_OUTRO.BUTTON')}</Button>
+        <div className={styles.descriptionTop}>{descriptionTop}</div>
+        <div className={styles.descriptionBottom}>{descriptionBottom}</div>
+        <div className={styles.bold}>{farm_name}</div>
+      </div>
+      <Button className={styles.bottomContainer} onClick={onFinish}>
+        {t('SWITCH_OUTRO.BUTTON')}
+      </Button>
     </div>
   );
 }

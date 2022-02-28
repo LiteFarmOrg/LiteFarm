@@ -13,7 +13,6 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-
 const { transaction, Model } = require('objection');
 const waterBalanceModel = require('../models/waterBalanceModel');
 const nitrogenScheduleModel = require('../models/nitrogenScheduleModel');
@@ -24,19 +23,22 @@ const waterBalanceScheduler = require('../jobs/waterBalance/waterBalance');
 // TODO: put nitrogen scheduler here for when we want to put it back
 
 const insightController = {
-
   // this is for the People Fed module
   getPeopleFedData() {
     return async (req, res) => {
       try {
         const farmID = req.params.farm_id;
         const saleData = await knex.raw(
-          `SELECT DISTINCT cs.sale_id as id, cs.quantity_kg, c.percentrefuse, c.crop_common_name, c.energy, c.protein, c.lipid, c.vitc, c.vita_rae
+          `SELECT DISTINCT cs.sale_id as id, cs.quantity_kg, c.percentrefuse, c.crop_common_name, c.energy, c.protein, 
+            c.lipid, c.vitc, c.vita_rae
               FROM "cropSale" cs JOIN "sale" s ON cs.sale_id = s.sale_id
               JOIN "crop" c ON cs.crop_id = c.crop_id
-              WHERE s.farm_id = ? AND s.deleted = FALSE`, [farmID]);
+              WHERE s.farm_id = ? AND s.deleted = FALSE`,
+          [farmID],
+        );
         const harvestData = await knex.raw(
-          `SELECT DISTINCT hu.harvest_use_id as id, hu.quantity_kg, c.percentrefuse, c.crop_common_name, c.energy, c.protein, c.lipid, c.vitc, c.vita_rae
+          `SELECT DISTINCT hu.harvest_use_id as id, hu.quantity_kg, c.percentrefuse, c.crop_common_name, c.energy, 
+            c.protein, c.lipid, c.vitc, c.vita_rae
                 FROM "harvestUse" hu 
                 JOIN "task" al ON hu.task_id = al.task_id
                 JOIN "management_tasks" mt ON hu.task_id = mt.task_id 
@@ -46,7 +48,9 @@ const insightController = {
                 JOIN "crop_variety" ON mp.crop_variety_id = crop_variety.crop_variety_id
                 JOIN "crop" c ON mp.crop_id = c.crop_id
                 WHERE location.farm_id = ? AND al.deleted = FALSE
-                AND hu.harvest_use_type_id IN (2,5,6)`, [farmID]);
+                AND hu.harvest_use_type_id IN (2,5,6)`,
+          [farmID],
+        );
         const data = saleData.rows.concat(harvestData.rows);
         if (data) {
           const people_fed_data = insightHelpers.getNutritionalData(data);
@@ -59,11 +63,13 @@ const insightController = {
         } else {
           res.status(200).send({
             preview: 0,
-            data: [{ label: 'Calories', val: 0, percentage: 0 },
+            data: [
+              { label: 'Calories', val: 0, percentage: 0 },
               { label: 'Protein', val: 0, percentage: 0 },
               { label: 'Fat', val: 0, percentage: 0 },
               { label: 'Vitamin C', val: 0, percentage: 0 },
-              { label: 'Vitamin A', val: 0, percentage: 0 }],
+              { label: 'Vitamin A', val: 0, percentage: 0 },
+            ],
           });
         }
       } catch (error) {
@@ -122,7 +128,9 @@ const insightController = {
             AND r.location_id IS NULL
 --            AND g.location_id IS NULL
           GROUP BY l.location_id, l.name, area.grid_points
-          ORDER BY l.name`, [farmID, farmID]);
+          ORDER BY l.name`,
+          [farmID, farmID],
+        );
 
         const bufferZoneData = await knex.raw(
           `SELECT DISTINCT
@@ -149,10 +157,12 @@ const insightController = {
           WHERE l.farm_id = ?
             AND l.deleted = false
           GROUP BY l.location_id, l.name, line.line_points
-          ORDER BY l.name`, [farmID, farmID]);
+          ORDER BY l.name`,
+          [farmID, farmID],
+        );
 
         // buffer zones don't have grid_points, add line_points as grid_points to not break in helper function
-        bufferZoneData.rows = bufferZoneData.rows.map(bufferZone => ({
+        bufferZoneData.rows = bufferZoneData.rows.map((bufferZone) => ({
           ...bufferZone,
           grid_points: bufferZone.line_points,
         }));
@@ -184,7 +194,27 @@ const insightController = {
               AND t.task_type_id = tt.task_type_id
               AND lt.location_id = l.location_id
               AND l.farm_id = ?
-              AND t.happiness is not null;`, [farmID]);
+              AND t.happiness is not null
+            UNION
+            SELECT t.task_id, t.happiness, t.duration, tt.task_translation_key
+            FROM "task" t, "plant_task" pt, "task_type" tt, "planting_management_plan" pmp, "location" l
+            WHERE t.task_id = pt.task_id
+              AND pt.planting_management_plan_id = pmp.planting_management_plan_id
+              AND t.task_type_id = tt.task_type_id
+              AND pmp.location_id = l.location_id
+              AND l.farm_id = ?
+              AND t.happiness is not null
+              UNION
+            SELECT t.task_id, t.happiness, t.duration, tt.task_translation_key
+            FROM "task" t, "transplant_task" tpt, "task_type" tt, "planting_management_plan" pmp, "location" l
+            WHERE t.task_id = tpt.task_id
+              AND tpt.planting_management_plan_id = pmp.planting_management_plan_id
+              AND t.task_type_id = tt.task_type_id
+              AND pmp.location_id = l.location_id
+              AND l.farm_id = ?
+              AND t.happiness is not null;`,
+          [farmID, farmID, farmID],
+        );
 
         if (data.rows) {
           const body = insightHelpers.getLabourHappiness(data.rows);
@@ -210,14 +240,18 @@ const insightController = {
           JOIN "area" on figure.figure_id = area.figure_id
           WHERE location.farm_id = ?
           AND location.deleted = false
-          GROUP BY area.grid_points`, [farmID]);
+          GROUP BY area.grid_points`,
+          [farmID],
+        );
         const cropCount = await knex.raw(
           `SELECT DISTINCT crop_variety.crop_variety_id
           FROM "management_plan" mp
           LEFT JOIN "crop_variety"
             on mp.crop_variety_id = crop_variety.crop_variety_id
           WHERE crop_variety.farm_id = ?
-            and mp.start_date is not null`, [farmID]);
+            and mp.start_date is not null`,
+          [farmID],
+        );
         if (dataPoints.rows && cropCount.rows) {
           const count = cropCount.rows.length;
           const body = await insightHelpers.getBiodiversityAPI(dataPoints.rows, count);
@@ -240,12 +274,20 @@ const insightController = {
         const myLat = req.query.lat;
         const myLong = req.query.long;
         const startDate = req.query.startdate;
-        const dataPoints = await insightController.queryCropSalesNearByStartDateAndFarmId(startDate, farmID);
+        const dataPoints = await insightController.queryCropSalesNearByStartDateAndFarmId(
+          startDate,
+          farmID,
+        );
 
         if (dataPoints.rows) {
           const filtered_datapoints = dataPoints.rows.filter((dataPoint) => {
             const farm_location = dataPoint['grid_points'];
-            const field_distance = insightHelpers.distance(farm_location['lat'], farm_location['lng'], parseFloat(myLat), parseFloat(myLong));
+            const field_distance = insightHelpers.distance(
+              farm_location['lat'],
+              farm_location['lng'],
+              parseFloat(myLat),
+              parseFloat(myLong),
+            );
             return field_distance < distance;
           });
           const body = insightHelpers.formatPricesNearbyData(farmID, filtered_datapoints);
@@ -253,7 +295,6 @@ const insightController = {
         } else {
           res.status(200).send({});
         }
-
       } catch (error) {
         console.log(error);
         res.status(400).json({ error });
@@ -264,7 +305,8 @@ const insightController = {
   async queryCropSalesNearByStartDateAndFarmId(startDate, farmID) {
     return await knex.raw(
       `
-        SELECT to_char(date(s.sale_date), 'YYYY-MM') as year_month, c.crop_common_name, c.crop_translation_key, SUM(cvs.quantity) as sale_quant, SUM(cvs.sale_value) as sale_value, fa.farm_id, fa.grid_points
+        SELECT to_char(date(s.sale_date), 'YYYY-MM') as year_month, c.crop_common_name, c.crop_translation_key, 
+         SUM(cvs.quantity) as sale_quant, SUM(cvs.sale_value) as sale_value, fa.farm_id, fa.grid_points
           FROM "sale" s
         JOIN "crop_variety_sale" cvs on cvs.sale_id = s.sale_id
         JOIN "crop_variety" cv on cvs.crop_variety_id = cv.crop_variety_id
@@ -275,7 +317,9 @@ const insightController = {
         FROM "crop_variety"
         where crop_variety.farm_id = ?)
           GROUP BY year_month, c.crop_common_name, c.crop_translation_key, fa.farm_id
-          ORDER BY year_month, c.crop_common_name`, [startDate, farmID]);
+          ORDER BY year_month, c.crop_common_name`,
+      [startDate, farmID],
+    );
   },
 
   getWaterBalance() {
@@ -286,8 +330,13 @@ const insightController = {
         const dataPoints = await knex.raw(
           `SELECT c.crop_common_name, location.name, location.location_id, w.plant_available_water
           FROM "management_plan" mp, "location", "waterBalance" w, "crop" c, "crop_variety"
-          WHERE mp.location_id = location.location_id and location.farm_id = ? and c.crop_id = w.crop_id and w.location_id = location.location_id and
-           mp.crop_variety_id = crop_variety.crop_variety_id and crop_variety.crop_id = w.crop_id and to_char(date(w.created_at), 'YYYY-MM-DD') = ?`, [farmID, prevDate]);
+          WHERE mp.location_id = location.location_id and location.farm_id = ? 
+           AND c.crop_id = w.crop_id and w.location_id = location.location_id 
+           AND mp.crop_variety_id = crop_variety.crop_variety_id 
+           AND crop_variety.crop_id = w.crop_id 
+           AND to_char(date(w.created_at), 'YYYY-MM-DD') = ?`,
+          [farmID, prevDate],
+        );
         if (dataPoints.rows) {
           const body = await insightHelpers.formatWaterBalanceData(dataPoints.rows);
           res.status(200).send(body);
@@ -320,7 +369,9 @@ const insightController = {
         const dataPoints = await knex.raw(
           `SELECT *
           FROM "waterBalanceSchedule" w
-          WHERE w.farm_id = ?`, [farmID]);
+          WHERE w.farm_id = ?`,
+          [farmID],
+        );
         if (dataPoints.rows.length > 0) {
           const body = dataPoints.rows[0];
           res.status(200).send(body);
@@ -341,8 +392,11 @@ const insightController = {
         const dataPoints = await knex.raw(
           `SELECT location.location_id, location.name, AVG(n.nitrogen_value) as nitrogen_value
             FROM "location", "nitrogenBalance" n
-            WHERE location.farm_id = ? and n.location_id = location.location_id and to_char(date(n.created_at), 'YYYY-MM-DD') >= ?
-            GROUP BY location.location_id`, [farmID, prevDate]);
+            WHERE location.farm_id = ? and n.location_id = location.location_id 
+             AND to_char(date(n.created_at), 'YYYY-MM-DD') >= ?
+            GROUP BY location.location_id`,
+          [farmID, prevDate],
+        );
         if (dataPoints.rows.length > 0) {
           const body = await insightHelpers.formatNitrogenBalanceData(dataPoints.rows);
           res.status(200).send(body);
@@ -364,7 +418,8 @@ const insightController = {
           `SELECT *
           FROM "nitrogenSchedule" n
           WHERE n.farm_id = ?
-          ORDER BY n.scheduled_at DESC`, [farmID],
+          ORDER BY n.scheduled_at DESC`,
+          [farmID],
         );
         if (dataPoints.rows) {
           const body = dataPoints.rows[0];
@@ -372,7 +427,6 @@ const insightController = {
         } else {
           res.status(404).json({ error: 'no data' });
         }
-
       } catch (error) {
         res.status(400).json({ error });
       }
@@ -385,7 +439,12 @@ const insightController = {
       const body = req.body;
       trx = await transaction.start(Model.knex());
       try {
-        const waterBalanceResult = await baseController.postWithResponse(waterBalanceModel, body, req, { trx });
+        const waterBalanceResult = await baseController.postWithResponse(
+          waterBalanceModel,
+          body,
+          req,
+          { trx },
+        );
         await trx.commit();
         res.status(201).send(waterBalanceResult);
       } catch (error) {
@@ -401,7 +460,12 @@ const insightController = {
       const body = req.body;
       trx = await transaction.start(Model.knex());
       try {
-        const nitrogenScheduleResult = await baseController.postWithResponse(nitrogenScheduleModel, body, req, { trx });
+        const nitrogenScheduleResult = await baseController.postWithResponse(
+          nitrogenScheduleModel,
+          body,
+          req,
+          { trx },
+        );
         await trx.commit();
         res.status(201).send(nitrogenScheduleResult);
       } catch (error) {
@@ -414,8 +478,14 @@ const insightController = {
   delNitrogenSchedule() {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
+      const { nitrogen_schedule_id } = req.params;
       try {
-        const isDeleted = await baseController.delete(nitrogenScheduleModel, req.params.nitrogen_schedule_id, req, { trx });
+        const isDeleted = await baseController.delete(
+          nitrogenScheduleModel,
+          nitrogen_schedule_id,
+          req,
+          { trx },
+        );
         await trx.commit();
         if (isDeleted) {
           res.sendStatus(200);
@@ -431,6 +501,5 @@ const insightController = {
     };
   },
 };
-
 
 module.exports = insightController;

@@ -132,7 +132,7 @@ class Prices extends Component {
         )}
         {!this.props.farm.grid_points && <div>{t('INSIGHTS.PRICES.NO_ADDRESS')}</div>}
         <PriceCropCharts
-          unit={unit}
+          isImperial={isImperial}
           cropsWithPriceInfo={cropsWithPriceInfo}
           currencySymbol={currencySymbol}
         />

@@ -26,7 +26,7 @@ const TaskCard = ({
   const dispatch = useDispatch();
   const onAssignTasksOnDate = (task) => dispatch(assignTasksOnDate(task));
   const onAssignTask = (task) => dispatch(assignTask(task));
-  const users = useSelector(userFarmsByFarmSelector);
+  const users = useSelector(userFarmsByFarmSelector).filter((user) => user.status !== 'Inactive');
   const user = useSelector(userFarmSelector);
   const immutableStatus = ['completed', 'abandoned'];
 

@@ -1,9 +1,17 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import PureTaskReadOnly from '../../../components/Task/TaskReadOnly';
-import { isAdminSelector, measurementSelector, userFarmsByFarmSelector, userFarmSelector } from '../../userFarmSlice';
+import {
+  isAdminSelector,
+  measurementSelector,
+  userFarmsByFarmSelector,
+  userFarmSelector,
+} from '../../userFarmSlice';
 import { productsSelector } from '../../productSlice';
-import { setFormData, setPersistedPaths } from '../../hooks/useHookFormPersist/hookFormPersistSlice';
+import {
+  setFormData,
+  setPersistedPaths,
+} from '../../hooks/useHookFormPersist/hookFormPersistSlice';
 import { harvestUseTypesSelector } from '../../harvestUseTypeSlice';
 import { useReadonlyTask } from './useReadonlyTask';
 import { isTaskType } from '../useIsTaskType';
@@ -16,7 +24,7 @@ function TaskReadOnly({ history, match }) {
   const system = useSelector(measurementSelector);
   const task = useReadonlyTask(task_id);
   const products = useSelector(productsSelector);
-  const users = useSelector(userFarmsByFarmSelector);
+  const users = useSelector(userFarmsByFarmSelector).filter((user) => user.status !== 'Inactive');
   const user = useSelector(userFarmSelector);
   const isAdmin = useSelector(isAdminSelector);
   const isTaskTypeCustom = !!task.taskType.farm_id;
@@ -59,27 +67,29 @@ function TaskReadOnly({ history, match }) {
 
   const onAssignTasksOnDate = (task) => dispatch(assignTasksOnDate(task));
   const onAssignTask = (task) => dispatch(assignTask(task));
-  return <>
-    <PureTaskReadOnly
-      task_id={task_id}
-      onGoBack={onGoBack}
-      onComplete={onComplete}
-      onEdit={onEdit}
-      onAbandon={onAbandon}
-      task={task}
-      users={users}
-      user={user}
-      isAdmin={isAdmin}
-      system={system}
-      products={products}
-      harvestUseTypes={harvestUseTypes}
-      isTaskTypeCustom={isTaskTypeCustom}
-      maxZoomRef={maxZoomRef}
-      getMaxZoom={getMaxZoom}
-      onAssignTasksOnDate={onAssignTasksOnDate}
-      onAssignTask={onAssignTask}
-    />
-  </>
+  return (
+    <>
+      <PureTaskReadOnly
+        task_id={task_id}
+        onGoBack={onGoBack}
+        onComplete={onComplete}
+        onEdit={onEdit}
+        onAbandon={onAbandon}
+        task={task}
+        users={users}
+        user={user}
+        isAdmin={isAdmin}
+        system={system}
+        products={products}
+        harvestUseTypes={harvestUseTypes}
+        isTaskTypeCustom={isTaskTypeCustom}
+        maxZoomRef={maxZoomRef}
+        getMaxZoom={getMaxZoom}
+        onAssignTasksOnDate={onAssignTasksOnDate}
+        onAssignTask={onAssignTask}
+      />
+    </>
+  );
 }
 
 export default TaskReadOnly;

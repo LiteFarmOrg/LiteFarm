@@ -8,6 +8,12 @@
   justify-content: center;
   color: white;
   border-radius: 2em;
+  cursor: pointer;
+}
+
+.greenPlus:hover {
+
+  background: #286090;
 }
 
 .expenseTitle {
@@ -21,11 +27,11 @@
 
 .addContainer {
   width: 70%;
-  margin: 18px auto 25px auto;
+  margin: 18px 0px 25px 0px;
   display: flex;
   flex-direction: row;
-  justify-content: center;
-  align-items: center;
+  justify-content: left;
+  align-items: left;
   color: #00756a;
   font-style: normal;
   font-weight: normal;

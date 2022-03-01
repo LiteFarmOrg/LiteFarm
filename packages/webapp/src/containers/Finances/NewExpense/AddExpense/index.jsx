@@ -3,8 +3,13 @@ import moment from 'moment';
 import PageTitle from '../../../../components/PageTitle';
 import connect from 'react-redux/es/connect/connect';
 import defaultStyles from '../../styles.module.scss';
+import { AddLink, Semibold } from '../../../../components/Typography';
 import styles from './styles.module.scss';
-import { expenseDetailSelector, expenseTypeSelector, selectedExpenseSelector } from '../../selectors';
+import {
+  expenseDetailSelector,
+  expenseTypeSelector,
+  selectedExpenseSelector,
+} from '../../selectors';
 import history from '../../../../history';
 import DateContainer from '../../../../components/Inputs/DateContainer';
 import { actions, Control, Field, Form } from 'react-redux-form';
@@ -200,10 +205,9 @@ class AddExpense extends Component {
                     ))}
                   </div>
                   <div className={styles.addContainer}>
-                    <div className={styles.greenPlus}>+</div>
-                    <button onClick={() => this.addSubExpense(k)}>
+                    <AddLink onClick={() => this.addSubExpense(k)}>
                       {this.props.t('EXPENSE.ADD_MORE_ITEMS')}
-                    </button>
+                    </AddLink>
                   </div>
                 </Form>
               </div>

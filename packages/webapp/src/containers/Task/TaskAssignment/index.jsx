@@ -15,7 +15,7 @@ export default function TaskManagement({ history, match }) {
   const userFarm = useSelector(userFarmSelector);
   const dispatch = useDispatch();
   const users = userFarms[farm_id];
-  const userData = Object.values(users);
+  const userData = Object.values(users).filter((user) => user.status !== 'Inactive');
   const persistedFormData = useSelector(hookFormPersistSelector);
   const selectedTaskType = useSelector(taskTypeSelector(persistedFormData.task_type_id));
   const isCustomType = !!selectedTaskType.farm_id;
@@ -26,7 +26,6 @@ export default function TaskManagement({ history, match }) {
   const [isFarmWorker] = useState(userFarm.role_id === 3);
   const currencySymbol = grabCurrencySymbol(getCurrencyFromStore());
   const worker = users[userFarm.user_id];
-
 
   useEffect(() => {
     let wage_data = [];

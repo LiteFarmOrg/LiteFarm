@@ -8,7 +8,7 @@
     "FARM_LOCATION": "Ubicación de la finca",
     "FARM_LOCATION_INPUT_INFO": "Dirección de la calle o usa latitud y longitud separadas con una coma (p. ej 49.250945, -123.238492)",
     "FARM_NAME": "Nombre de la finca",
-    "INVALID_FARM_LOCATION": "Ubicación de la finca inválida",
+    "INVALID_FARM_LOCATION": "MISSING",
     "LOCATING": "Localizando...",
     "NO_ADDRESS": "Ubicación no encontrada! Trate latitud y longitud",
     "TELL_US_ABOUT_YOUR_FARM": "Cuéntenos sobre su finca"

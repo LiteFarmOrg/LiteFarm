@@ -8,7 +8,7 @@
     "FARM_LOCATION": "Localização do sítio/fazenda",
     "FARM_LOCATION_INPUT_INFO": "Endereço ou latitude e longitude separados por vírgula (ex.: 49.250945, -123.238492)",
     "FARM_NAME": "Nome do sítio/fazenda",
-    "INVALID_FARM_LOCATION": "Localização do sítio/fazenda inválida",
+    "INVALID_FARM_LOCATION": "MISSING",
     "LOCATING": "Localizando...",
     "NO_ADDRESS": "Localização não encontrada. Tente inserir latitue e longitude",
     "TELL_US_ABOUT_YOUR_FARM": "Conte-nos sobre seu sítio/fazenda"

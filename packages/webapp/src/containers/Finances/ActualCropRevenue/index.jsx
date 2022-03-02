@@ -5,12 +5,12 @@ import FinanceGroup from '../../../components/Finances/FinanceGroup';
 import { getManagementPlanCardDate } from '../../../util/moment';
 import { cropVarietyEntitiesSelector } from '../../cropVarietySlice';
 import { setSelectedSale } from '../actions';
-import { convertFromMetric, roundToTwoDecimal } from '../../../util';
+import { getMass, getMassUnit, roundToTwoDecimal } from '../../../util';
 import { useTranslation } from 'react-i18next';
 
 const ActualCropRevenue = ({ sale, history, ...props }) => {
   const { t } = useTranslation();
-  const { sale_id, sale_date, customer_name, crop_variety_sale } = sale;
+  const { sale_date, customer_name, crop_variety_sale } = sale;
 
   const dispatch = useDispatch();
 
@@ -24,6 +24,8 @@ const ActualCropRevenue = ({ sale, history, ...props }) => {
     history.push(`/edit_sale`);
   };
 
+  const quantity_unit = getMassUnit();
+
   return (
     <FinanceGroup
       headerTitle={getManagementPlanCardDate(sale_date)}
@@ -31,16 +33,18 @@ const ActualCropRevenue = ({ sale, history, ...props }) => {
       headerClickForward={onClickForward}
       totalAmount={total}
       financeItemsProps={crop_variety_sale.map((cvs) => {
-        const convertedQuantity = roundToTwoDecimal(
-          convertFromMetric(cvs.quantity.toString(), cvs.quantity_unit, 'kg').toString(),
-        );
-        const { crop_variety_name, crop: { crop_translation_key } } = cropVarietyEntities[cvs.crop_variety_id];
-        const title = crop_variety_name ? `${crop_variety_name}, ${t(`crop:${crop_translation_key}`)}`
+        const convertedQuantity = roundToTwoDecimal(getMass(cvs.quantity).toString());
+        const {
+          crop_variety_name,
+          crop: { crop_translation_key },
+        } = cropVarietyEntities[cvs.crop_variety_id];
+        const title = crop_variety_name
+          ? `${crop_variety_name}, ${t(`crop:${crop_translation_key}`)}`
           : t(`crop:${crop_translation_key}`);
         return {
           key: cvs.crop_variety_id,
           title,
-          subtitle: `${convertedQuantity} ${cvs.quantity_unit}`,
+          subtitle: `${convertedQuantity} ${quantity_unit}`,
           amount: cvs.sale_value,
         };
       })}

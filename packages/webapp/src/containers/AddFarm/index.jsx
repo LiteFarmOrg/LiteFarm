@@ -4,7 +4,11 @@ import Script from 'react-load-script';
 import GoogleMap from 'google-map-react';
 import { VscLocation } from 'react-icons/vsc';
 import { useDispatch, useSelector } from 'react-redux';
-import { userFarmReducerSelector, userFarmsByUserSelector, userFarmSelector } from '../userFarmSlice';
+import {
+  userFarmReducerSelector,
+  userFarmsByUserSelector,
+  userFarmSelector,
+} from '../userFarmSlice';
 
 import PureAddFarm from '../../components/AddFarm';
 import { patchFarm, postFarm } from './saga';
@@ -172,7 +176,7 @@ const AddFarm = () => {
     if (place?.geometry?.location) {
       const countryLookup = place.address_components.find((component) =>
         component.types.includes('country'),
-      ).long_name;
+      )?.long_name;
 
       setValue(
         GRID_POINTS,
@@ -216,7 +220,9 @@ const AddFarm = () => {
   return (
     <>
       <Script
-        url={`https://maps.googleapis.com/maps/api/js?key=${import.meta.env.VITE_GOOGLE_MAPS_API_KEY}&libraries=places,drawing,geometry&language=en-US`}
+        url={`https://maps.googleapis.com/maps/api/js?key=${
+          import.meta.env.VITE_GOOGLE_MAPS_API_KEY
+        }&libraries=places,drawing,geometry&language=en-US`}
         onLoad={handleScriptLoad}
       />
       <PureAddFarm
@@ -294,18 +300,18 @@ function Map({ gridPoints, errors, isGettingLocation }) {
           <MapPinWrapper {...gridPoints} />
         </GoogleMap>
       )) || (
-          <div
-            style={{
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
-              minHeight: '152px',
-              flexGrow: 1,
-            }}
-          >
-            {(!!errors && <MapErrorPin />) || (isGettingLocation ? <LoadingAnimation /> : <MapPin />)}
-          </div>
-        )}
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            minHeight: '152px',
+            flexGrow: 1,
+          }}
+        >
+          {(!!errors && <MapErrorPin />) || (isGettingLocation ? <LoadingAnimation /> : <MapPin />)}
+        </div>
+      )}
     </div>
   );
 }

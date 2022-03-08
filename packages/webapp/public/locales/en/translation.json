@@ -27,6 +27,7 @@
     "ASSIGN_ALL_TO_PERSON": "Assign all unassigned tasks on this date to this person",
     "ASSIGN_TASK": "Assign task",
     "ASSIGNEE": "Assignee",
+    "ASSIGN_DATE": "Change task date",
     "CANCEL": "task creation",
     "CLEANING_VIEW": {
       "ESTIMATED_WATER": "Estimated water usage",

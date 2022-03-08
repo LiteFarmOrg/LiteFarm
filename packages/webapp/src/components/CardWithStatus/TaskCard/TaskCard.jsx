@@ -76,6 +76,7 @@ export const PureTaskCard = ({
   style,
   onClick = null,
   onClickAssignee = null,
+  onClickCompleteOrDueDate = null,
   selected,
   happiness,
   classes = { card: {} },
@@ -87,6 +88,10 @@ export const PureTaskCard = ({
   const onAssignTask = (e) => {
     e.stopPropagation();
     onClickAssignee?.();
+  };
+  const onAssignDate = (e) => {
+    e.stopPropagation();
+    onClickCompleteOrDueDate?.();
   };
   return (
     <CardWithStatus
@@ -117,7 +122,7 @@ export const PureTaskCard = ({
           {locationName || t('TASK.CARD.MULTIPLE_LOCATIONS')}
           {cropVarietyName && ` | ${cropVarietyName}`}
         </div>
-        <div className={styles.dateUserContainer}>
+        <div onClick={onAssignDate} className={styles.dateUserContainer}>
           <div className={styles.iconTextContainer}>
             <CalendarIcon />
             <div>{completeOrDueDate}</div>
@@ -161,5 +166,6 @@ PureTaskCard.propTypes = {
   completeOrDueDate: PropTypes.string,
   assignee: PropTypes.object,
   onClickAssignee: PropTypes.func,
+  onClickCompleteOrDueDate: PropTypes.func,
   selected: PropTypes.bool,
 };

@@ -39,6 +39,13 @@ router.patch(
 );
 
 router.patch(
+  '/patch_due_date/:task_id',
+  hasFarmAccess({ params: 'task_id' }),
+  checkScope(['edit:task']),
+  taskController.patchTaskDate(),
+);
+
+router.patch(
   '/abandon/:task_id',
   hasFarmAccess({ params: 'task_id' }),
   checkScope(['edit:task']),

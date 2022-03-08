@@ -49,8 +49,12 @@ function getCountryIdFromFarm({ farm_id, grid_points }) {
 
 async function insertCountryIdToFarm(knex, farm, country, countries) {
   if (country && country !== '') {
-    const { id } = countries.find((c) => c.country_name === country);
-    await knex('farm').update({ country_id: id }).where({ farm_id: farm });
+    const lookup = countries.find((c) => c.country_name === country);
+    if (lookup?.id) {
+      await knex('farm').update({ country_id: lookup.id }).where({ farm_id: farm });
+    } else {
+      console.log(`Found no country matching '${country}'; farm_id ${farm}`);
+    }
   }
 }
 

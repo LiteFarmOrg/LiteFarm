@@ -5,9 +5,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { userFarmsByFarmSelector, userFarmSelector } from '../../userFarmSlice';
 import { PureTaskCard } from '../../../components/CardWithStatus/TaskCard/TaskCard';
 import TaskQuickAssignModal from '../../../components/Modals/QuickAssignModal';
-import DateQuickAssignModal from '../../../components/Modals/DateQuickAssignModal';
+import UpdateTaskDateModal from '../../../components/Modals/UpdateTaskDateModal';
 import { assignTask, assignTasksOnDate, changeTaskDate } from '../saga';
-import { use } from 'i18next';
 
 const TaskCard = ({
   task_id,
@@ -72,7 +71,7 @@ const TaskCard = ({
         />
       )}
       {showDateAssignModal && (
-        <DateQuickAssignModal
+        <UpdateTaskDateModal
           due_date={completeOrDueDate}
           onChangeTaskDate={onChangeTaskDate}
           dismissModal={() => setShowDateAssignModal(false)}

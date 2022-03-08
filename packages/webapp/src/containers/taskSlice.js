@@ -62,13 +62,6 @@ const upsertOneTask = (state, { payload: task }) => {
   taskAdapter.upsertOne(state, task);
 };
 
-const updateOneTask = (state, { payload: task }) => {
-  state.loading = false;
-  state.error = null;
-  state.loaded = true;
-  taskAdapter.updateOne(state, task);
-};
-
 const updateManyTasks = (state, { payload: tasks }) => {
   state.loading = false;
   state.error = null;

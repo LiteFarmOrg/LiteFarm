@@ -141,7 +141,6 @@ export function* changeTaskDateSaga({ payload: { task_id, due_date } }) {
   const { taskUrl } = apiConfig;
   let { user_id, farm_id } = yield select(loginSelector);
   const header = getHeader(user_id, farm_id);
-  console.log(due_date);
   try {
     const result = yield call(
       axios.patch,

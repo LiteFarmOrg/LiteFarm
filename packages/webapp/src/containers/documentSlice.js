@@ -114,7 +114,10 @@ export const documentStatusSelector = createSelector(
 );
 
 const isValidDocument = (document, lastActiveDatetime) => {
-  return lastActiveDatetime <= new Date(document.valid_until).getTime() || document.no_expiration;
+  return (
+    lastActiveDatetime <= new Date(document.valid_until).getTime() ||
+    (!document.valid_until && document.no_expiration)
+  );
 };
 export const validDocumentSelector = createSelector(
   [documentsSelector, lastActiveDatetimeSelector],

@@ -20,13 +20,13 @@ const DateRangePicker = ({
 }) => {
   const { t } = useTranslation();
 
-  const fromDateRegister = register(FROM_DATE, {
+  const fromDateRegister = register?.(FROM_DATE, {
     required: true,
     validate: {
       beforeToDate: (v) => v < getValues(TO_DATE),
     },
   });
-  const toDateRegister = register(TO_DATE, {
+  const toDateRegister = register?.(TO_DATE, {
     required: true,
     validate: {
       afterFromDate: (v) => v > getValues(FROM_DATE),
@@ -56,7 +56,9 @@ const DateRangePicker = ({
           {...toProps}
         />
       </div>
-      <DateError control={control} errorMessage={t('DATE_RANGE_PICKER.TO_MUST_BE_AFTER_FROM')} />
+      {control && (
+        <DateError control={control} errorMessage={t('DATE_RANGE_PICKER.TO_MUST_BE_AFTER_FROM')} />
+      )}
     </div>
   );
 };

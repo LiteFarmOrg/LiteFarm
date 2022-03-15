@@ -1399,13 +1399,15 @@
     "DUE_DATE": "Fecha de vencimiento",
     "DURATION": "Duración",
     "FILTER": {
+      "ASSIGNEE": "MISSING",
+      "CROP": "MISSING",
+      "DATE_RANGE": "MISSING",
+      "FROM": "MISSING",
       "LOCATION": "MISSING",
       "STATUS": "MISSING",
-      "TYPE": "MISSING",
-      "CROP": "MISSING",
-      "ASSIGNEE": "MISSING",
-      "FROM": "MISSING",
-      "TO": "MISSING"
+      "TITLE": "MISSING",
+      "TO": "MISSING",
+      "TYPE": "MISSING"
     },
     "HARVEST_USE": "Usa de la cosecha?",
     "HARVEST_USE_ALREADY_EXISTS": "El uso de cosecha ya existe",

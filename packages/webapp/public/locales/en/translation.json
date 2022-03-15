@@ -1396,14 +1396,15 @@
     "DUE_DATE": "Due date",
     "DURATION": "Duration",
     "FILTER": {
+      "ASSIGNEE": "Assignee",
+      "CROP": "Crop",
+      "DATE_RANGE": "Filter by date range",
+      "FROM": "From",
       "LOCATION": "Location",
       "STATUS": "Status",
-      "TYPE": "Type",
-      "CROP": "Crop",
       "TITLE": "Task Filter",
-      "ASSIGNEE": "Assignee",
-      "FROM": "From",
-      "TO": "To"
+      "TO": "To",
+      "TYPE": "Type"
     },
     "HARVEST_USE": "Harvest use",
     "HARVEST_USE_ALREADY_EXISTS": "Harvest use already exists",

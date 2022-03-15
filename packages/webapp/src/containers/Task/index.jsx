@@ -3,30 +3,26 @@ import { useTranslation } from 'react-i18next';
 import PageTitle from '../../components/PageTitle/v2';
 import { AddLink, Semibold } from '../../components/Typography';
 import { useDispatch, useSelector } from 'react-redux';
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FiFilter } from 'react-icons/all';
 import styles from './styles.module.scss';
 
 import { isAdminSelector, loginSelector } from '../userFarmSlice';
 import { resetAndUnLockFormData } from '../hooks/useHookFormPersist/hookFormPersistSlice';
-import StateTab from '../../components/RouterTab/StateTab';
-import { ALL, TODO, UNASSIGNED } from './constants';
 import { getManagementPlansAndTasks } from '../saga';
-import { taskCardContentSelector } from './taskCardContentSelector';
 import TaskCard from './TaskCard';
 import { onAddTask } from './onAddTask';
 import MuiFullPagePopup from '../../components/MuiFullPagePopup/v2';
 import TasksFilterPage from '../Filter/Tasks';
-import {selectFilteredTasks} from './useTasksFilter';
-import { tasksFilterSelector, isFilterCurrentlyActiveSelector } from '../filterSlice';
+import { filteredTaskCardContentSelector } from './useTasksFilter';
+import { isFilterCurrentlyActiveSelector, tasksFilterSelector } from '../filterSlice';
 import ActiveFilterBox from '../../components/ActiveFilterBox';
-
 
 export default function TaskPage({ history }) {
   const { t } = useTranslation();
   const isAdmin = useSelector(isAdminSelector);
   const { user_id, farm_id } = useSelector(loginSelector);
-  const taskCardContents = useSelector(selectFilteredTasks);
+  const taskCardContents = useSelector(filteredTaskCardContentSelector);
   const dispatch = useDispatch();
 
   const tasksFilter = useSelector(tasksFilterSelector);
@@ -47,7 +43,6 @@ export default function TaskPage({ history }) {
   useEffect(() => {
     dispatch(resetAndUnLockFormData());
   }, []);
-
 
   return (
     <Layout classes={{ container: { backgroundColor: 'white' } }}>

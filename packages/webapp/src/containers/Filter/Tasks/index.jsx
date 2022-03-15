@@ -1,66 +1,84 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-import React, { useRef, useState } from 'react';
+import React, { useMemo, useRef, useState } from 'react';
 
 import PureFilterPage from '../../../components/FilterPage';
-import { tasksFilterSelector, setTasksFilter } from '../../filterSlice';
+import { setTasksFilter, tasksFilterSelector } from '../../filterSlice';
 import { taskCardContentSelector } from '../../Task/taskCardContentSelector';
-import Input from '../../../components/Form/Input';
-
 
 import {
-  PLANNED,
-  COMPLETED,
-  FOR_REVIEW,
   ABANDONED,
-  LATE,
-  STATUS,
-  TYPE,
-  LOCATION,
   ASSIGNEE,
+  COMPLETED,
   CROP,
   FROM_DATE,
-  TO_DATE
+  LATE,
+  LOCATION,
+  PLANNED,
+  STATUS,
+  TO_DATE,
+  TYPE,
 } from '../constants';
+import Switch from '../../../components/Form/Switch';
+import DateRangePicker from '../../../components/Form/DateRangePicker';
+import { getDateInputFormat } from '../../../util/moment';
 
-import { FiFilter } from 'react-icons/all';
-
-
-const TasksFilterPage = ({onGoBack}) => {
+const TasksFilterPage = ({ onGoBack }) => {
   // TODO: ask if the tasks types should be included in the filter translation
   const { t } = useTranslation(['translation', 'filter', 'task']);
   const tasksFilter = useSelector(tasksFilterSelector);
   const taskCardContent = useSelector(taskCardContentSelector);
-  console.log(taskCardContent)
   const dispatch = useDispatch();
 
+  const [showDateFilter, setShowDateFilter] = useState(
+    !!(tasksFilter[FROM_DATE] || tasksFilter[TO_DATE]),
+  );
+  const onSwitchClick = () => {
+    if (showDateFilter) {
+      setShowDateFilter(false);
+      setFromDate('');
+      setToDate('');
+    } else {
+      setShowDateFilter(true);
+      setFromDate(tasksFilter[FROM_DATE] || getDateInputFormat());
+      setToDate(() => {
+        if (tasksFilter[TO_DATE]) return tasksFilter[TO_DATE];
+        const defaultToDate = new Date();
+        defaultToDate.setDate(defaultToDate.getDate() + 7);
+        return getDateInputFormat(defaultToDate);
+      });
+    }
+  };
   const [fromDate, setFromDate] = useState(tasksFilter[FROM_DATE] ?? '');
   const [toDate, setToDate] = useState(tasksFilter[TO_DATE] ?? '');
 
   const statuses = [ABANDONED, COMPLETED, LATE, PLANNED];
-  const locations = new Set( taskCardContent.map(t => t.locationName) )
+  const locations = new Set(taskCardContent.map((t) => t.locationName));
 
-  let taskTypes = {};
-  let assignees = {};
-  for (const task of taskCardContent) {
-    taskTypes[task.taskType.task_type_id] = task.taskType;
+  const { taskTypes, assignees } = useMemo(() => {
+    let taskTypes = {};
+    let assignees = {};
+    for (const task of taskCardContent) {
+      taskTypes[task.taskType.task_type_id] = task.taskType;
 
-    if ( task.assignee !== undefined ) {
-      const { user_id, first_name, last_name } = task.assignee
-      assignees[user_id] = `${first_name} ${last_name}`;
-    } else {
-      assignees['unassigned'] = t('TASK.UNASSIGNED');
+      if (task.assignee !== undefined) {
+        const { user_id, first_name, last_name } = task.assignee;
+        assignees[user_id] = `${first_name} ${last_name}`;
+      } else {
+        assignees['unassigned'] = t('TASK.UNASSIGNED');
+      }
     }
-  }
+    return { taskTypes, assignees };
+  }, [taskCardContent.length]);
 
-  let cropVarities = new Set( taskCardContent.map(t => t.cropVarietyName) );
+  let cropVarities = new Set(taskCardContent.map((t) => t.cropVarietyName));
   cropVarities.delete(undefined);
 
   const handleApply = () => {
     const filterToApply = {
       ...filterRef.current,
       FROM_DATE: fromDate ? fromDate : undefined,
-      TO_DATE: toDate ? toDate : undefined
+      TO_DATE: toDate ? toDate : undefined,
     };
     dispatch(setTasksFilter(filterToApply));
     onGoBack?.();
@@ -68,11 +86,11 @@ const TasksFilterPage = ({onGoBack}) => {
   const filterRef = useRef({});
 
   const handleFromDateChange = (e) => {
-    setFromDate(e.target.value)
+    setFromDate(e.target.value);
   };
 
   const handleToDateChange = (e) => {
-    setToDate(e.target.value)
+    setToDate(e.target.value);
   };
 
   const filters = [
@@ -112,7 +130,8 @@ const TasksFilterPage = ({onGoBack}) => {
         label: assignees[user_id],
       })),
     },
-    { // TODO: This should be a text search
+    {
+      // TODO: This should be a text search
       subject: t('TASK.FILTER.CROP'),
       filterKey: CROP,
       options: [...cropVarities].map((variety) => ({
@@ -120,8 +139,7 @@ const TasksFilterPage = ({onGoBack}) => {
         default: tasksFilter[CROP][variety]?.active ?? false,
         label: variety,
       })),
-    }
-
+    },
   ];
 
   return (
@@ -142,22 +160,28 @@ const TasksFilterPage = ({onGoBack}) => {
         },
       ]}
     >
-      <Input
-        label={t('TASK.FILTER.FROM')}
-        type={'date'}
-        value={fromDate}
-        onChange={handleFromDateChange}
+      <Switch
+        label={t('TASK.FILTER.DATE_RANGE')}
+        style={{ marginBottom: '24px' }}
+        checked={showDateFilter}
+        onChange={onSwitchClick}
       />
-
-      <Input
-        label={t('TASK.FILTER.TO')}
-        type={'date'}
-        value={toDate}
-        onChange={handleToDateChange}
-      />
-
+      {showDateFilter && (
+        <>
+          <DateRangePicker
+            fromProps={{
+              value: fromDate,
+              onChange: handleFromDateChange,
+            }}
+            toProps={{
+              value: toDate,
+              onChange: handleToDateChange,
+            }}
+          />
+        </>
+      )}
     </PureFilterPage>
   );
-}
+};
 
 export default TasksFilterPage;

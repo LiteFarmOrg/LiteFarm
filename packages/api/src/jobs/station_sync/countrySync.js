@@ -19,9 +19,16 @@ async function mapFarmsToCountryId(knex = knex) {
       )
       .subscribe(async (farmData) => {
         const { farm_id, results } = farmData;
-        const country = results[0].address_components.find((component) =>
-          component.types.includes('country'),
-        )?.long_name;
+        let country;
+        results.find((place) =>
+          place?.address_components?.find((component) => {
+            if (component?.types?.includes?.('country')) {
+              country = component.long_name;
+              return true;
+            }
+            return false;
+          }),
+        );
         country && (await insertCountryIdToFarm(knex, farm_id, country, countries));
       });
   });
@@ -55,6 +62,8 @@ async function insertCountryIdToFarm(knex, farm, country, countries) {
     } else {
       console.log(`Found no country matching '${country}'; farm_id ${farm}`);
     }
+  } else {
+    console.log(`Found no country for farm_id ${farm}`);
   }
 }
 

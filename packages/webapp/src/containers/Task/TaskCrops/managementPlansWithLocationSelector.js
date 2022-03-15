@@ -37,8 +37,8 @@ export const managementPlansWithCurrentLocationSelector = createSelector(
           const transplantTasks = transplantTasksByManagementPlanId[management_plan_id] || [];
           let latestCompletedTime;
           for (const transplantTask of transplantTasks) {
-            const { completed_time } = taskEntities[transplantTask.task_id];
-            const completedTimeInNumericalTime = completed_time && new Date(completed_time).getTime();
+            const { complete_date } = taskEntities[transplantTask.task_id];
+            const completedTimeInNumericalTime = complete_date && new Date(complete_date).getTime();
             if (
               completedTimeInNumericalTime &&
               (!latestCompletedTime || completedTimeInNumericalTime > latestCompletedTime)

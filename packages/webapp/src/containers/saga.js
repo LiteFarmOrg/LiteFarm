@@ -13,17 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import {
-  all,
-  call,
-  delay,
-  put,
-  race,
-  select,
-  take,
-  takeLatest,
-  takeLeading,
-} from 'redux-saga/effects';
+import { all, call, delay, put, select, takeLatest, takeLeading } from 'redux-saga/effects';
 import apiConfig, { url } from '../apiConfig';
 import history from '../history';
 import {
@@ -149,20 +139,17 @@ import {
   getTasksSaga,
   getTaskTypesSaga,
 } from './Task/saga';
-import {
-  getCertificationSurveysSuccess,
-  onLoadingCertifierSurveyFail,
-} from './OrganicCertifierSurvey/slice';
 import { appVersionSelector, setAppVersion } from './appSettingSlice';
 import { APP_VERSION } from '../util/constants';
 import { hookFormPersistHistoryStackSelector } from './hooks/useHookFormPersist/hookFormPersistSlice';
+import axiosWithoutInterceptors from 'axios';
+import produce from 'immer';
 
 const logUserInfoUrl = () => `${url}/userLog`;
 const getCropsByFarmIdUrl = (farm_id) => `${url}/crop/farm/${farm_id}`;
 const getLocationsUrl = (farm_id) => `${url}/location/farm/${farm_id}`;
 
-export const axios = require('axios');
-axios.interceptors.response.use(
+axiosWithoutInterceptors.interceptors.response.use(
   function (response) {
     return response;
   },
@@ -177,6 +164,7 @@ axios.interceptors.response.use(
     return Promise.reject(error);
   },
 );
+export const axios = axiosWithoutInterceptors;
 
 export function getHeader(user_id, farm_id, { headers, ...props } = {}) {
   return {
@@ -197,20 +185,23 @@ export function* updateUserSaga({ payload: user }) {
   let { user_id, farm_id } = yield select(loginSelector);
   const header = getHeader(user_id, farm_id);
   const { userUrl } = apiConfig;
-  let data = user;
-  if (data.wage === null) {
-    delete data.wage;
-  }
-  if (data.phone_number === null) {
-    delete data.phone_number;
-  }
+  const data = produce(user, (user) => {
+    if (user.wage === null) {
+      delete user.wage;
+    }
+    if (user.phone_number === null) {
+      delete user.phone_number;
+    }
+  });
+
   try {
     const result = yield call(axios.put, userUrl + '/' + user_id, data, header);
-    yield put(putUserSuccess({ ...user, farm_id }));
+    yield put(putUserSuccess({ ...user, farm_id, user_id }));
     i18n.changeLanguage(user.language_preference);
     localStorage.setItem('litefarm_lang', user.language_preference);
     yield put(enqueueSuccessSnackbar(i18n.t('message:USER.SUCCESS.UPDATE')));
   } catch (e) {
+    console.log(e);
     yield put(enqueueErrorSnackbar(i18n.t('message:USER.ERROR.UPDATE')));
   }
 }
@@ -290,7 +281,7 @@ export const putFarm = createAction(`putFarmSaga`);
 
 export function* putFarmSaga({ payload: farm }) {
   const { farmUrl } = apiConfig;
-  let { user_id, farm_id } = yield select(loginSelector);
+  let { user_id, farm_id, units } = yield select(userFarmSelector);
   const header = getHeader(user_id, farm_id);
 
   // OC: We should never update address information of a farm.
@@ -298,11 +289,13 @@ export function* putFarmSaga({ payload: farm }) {
   if (data.farm_phone_number === null) {
     delete data.farm_phone_number;
   }
+  data.units = { measurement: data.units.measurement, currency: units.currency };
   try {
     const result = yield call(axios.put, farmUrl + '/' + farm_id, data, header);
-    yield put(patchFarmSuccess(data));
+    yield put(patchFarmSuccess({ ...data, farm_id, user_id }));
     yield put(enqueueSuccessSnackbar(i18n.t('message:FARM.SUCCESS.UPDATE')));
   } catch (e) {
+    console.log(e);
     yield put(enqueueErrorSnackbar(i18n.t('message:FARM.ERROR.UPDATE')));
   }
 }
@@ -587,29 +580,11 @@ export function* selectFarmAndFetchAllSaga({ payload: userFarm }) {
     yield put(selectFarmSuccess(userFarm));
     const { has_consent, user_id, farm_id } = yield select(userFarmSelector);
     if (!has_consent) return history.push('/consent');
+    history.push({ pathname: '/' });
     yield call(fetchAllSaga);
-    const isAdmin = yield select(isAdminSelector);
-    /**
-     * wait for getManagementPlansAndTasks to finish
-     */
-    if (isAdmin) {
-      yield put(waitForCertificationSurveyResultAndPushToHome());
-    } else {
-      history.push({ pathname: '/' });
-    }
   } catch (e) {
     console.error('failed to fetch farm info', e);
   }
-}
-
-//TODO: remove after removing certification spotlight
-export const waitForCertificationSurveyResultAndPushToHome = createAction(
-  'waitForCertificationSurveyResultAndPushToHomeSaga',
-);
-
-export function* waitForCertificationSurveyResultAndPushToHomeSaga() {
-  yield race([take(getCertificationSurveysSuccess.type), take(onLoadingCertifierSurveyFail.type)]);
-  history.push({ pathname: '/' });
 }
 
 export function* onReqSuccessSaga({ pathname, state, message }) {
@@ -656,10 +631,6 @@ export default function* getFarmIdSaga() {
     getManagementPlanAndPlantingMethodSuccess.type,
     getManagementPlanAndPlantingMethodSuccessSaga,
   );
-  yield takeLatest(
-    waitForCertificationSurveyResultAndPushToHome.type,
-    waitForCertificationSurveyResultAndPushToHomeSaga,
-  );
-  yield takeLatest(getManagementPlansAndTasks.type, getManagementPlansAndTasksSaga);
+  yield takeLeading(getManagementPlansAndTasks.type, getManagementPlansAndTasksSaga);
   yield takeLatest(getCropsAndManagementPlans.type, getCropsAndManagementPlansSaga);
 }

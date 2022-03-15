@@ -45,10 +45,10 @@ class TaskModel extends BaseModel {
         duration: { type: ['number', null] },
         wage_at_moment: { type: ['number', null] },
         happiness: { anyOf: [{ type: 'integer', minimum: 0, maximum: 5 }, { type: 'null' }] },
-        completed_time: { anyOf: [{ type: 'null' }, { type: 'date-time' }] },
+        complete_date: { anyOf: [{ type: 'null' }, { type: 'date' }] },
         late_time: { type: ['date-time', null] },
         for_review_time: { type: ['date-time', null] },
-        abandoned_time: { anyOf: [{ type: 'null' }, { type: 'date-time' }] },
+        abandon_date: { anyOf: [{ type: 'null' }, { type: 'date' }] },
         abandonment_reason: {
           type: 'string',
           enum: [

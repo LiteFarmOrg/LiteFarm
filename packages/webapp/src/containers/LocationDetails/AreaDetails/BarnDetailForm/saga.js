@@ -36,16 +36,18 @@ export function* postBarnLocationSaga({ payload: data }) {
       setSuccessMessage([i18n.t('FARM_MAP.MAP_FILTER.BARN'), i18n.t('message:MAP.SUCCESS_POST')]),
     );
     yield put(canShowSuccessHeader(true));
-    history.goBack();
+    history.back();
   } catch (e) {
-    history.push({
-      path: history.location.pathname,
-      state: {
+    history.push(
+      {
+        pathname: history.location.pathname,
+      },
+      {
         error: `${i18n.t('message:MAP.FAIL_POST')} ${i18n
           .t('FARM_MAP.MAP_FILTER.BARN')
           .toLowerCase()}`,
       },
-    });
+    );
     console.log(e);
   }
 }
@@ -75,14 +77,16 @@ export function* editBarnLocationSaga({ payload: data }) {
     yield put(canShowSuccessHeader(true));
     history.push({ pathname: '/map' });
   } catch (e) {
-    history.push({
-      path: history.location.pathname,
-      state: {
+    history.push(
+      {
+        pathname: history.location.pathname,
+      },
+      {
         error: `${i18n.t('message:MAP.FAIL_PATCH')} ${i18n
           .t('FARM_MAP.MAP_FILTER.BARN')
           .toLowerCase()}`,
       },
-    });
+    );
     console.log(e);
   }
 }
@@ -104,14 +108,16 @@ export function* deleteBarnLocationSaga({ payload: data }) {
     yield put(canShowSuccessHeader(true));
     history.push({ pathname: '/map' });
   } catch (e) {
-    history.push({
-      path: history.location.pathname,
-      state: {
+    history.push(
+      {
+        pathname: history.location.pathname,
+      },
+      {
         error: {
           retire: true,
         },
       },
-    });
+    );
     console.log(e);
   }
 }

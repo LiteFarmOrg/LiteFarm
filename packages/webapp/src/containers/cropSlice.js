@@ -189,7 +189,7 @@ export const cropGroupAverages = createSelector([cropReducerSelector], ({ entiti
     .map((k) => entities[k])
     .reduce((averagesObject, crop) => {
       const { crop_group } = crop;
-      if (!!averagesObject[crop_group]) {
+      if (averagesObject[crop_group]) {
         return { ...averagesObject, [crop_group]: cropsAverage(crop, averagesObject[crop_group]) };
       } else {
         return {

@@ -291,9 +291,15 @@ const getPostTaskBody = (data, endpoint, managementPlanWithCurrentLocationEntiti
 
 const getPostHarvestTaskBody = (data, endpoint, managementPlanWithCurrentLocationEntities) => {
   return data.harvest_tasks.map((harvest_task) => {
-    const [location_id, management_plan_id] = harvest_task.id.split('.');
+    const { location_id, management_plan_id } = harvest_task;
     return getObjectInnerValues({
-      harvest_task: { ...harvest_task, id: undefined, notes: undefined },
+      harvest_task: {
+        ...harvest_task,
+        location_id: undefined,
+        management_plan_id: undefined,
+        id: undefined,
+        notes: undefined,
+      },
       ...pick(
         data,
         Object.keys(data).filter(
@@ -426,9 +432,8 @@ const getCompletePlantingTaskBody = (task_translation_key) => (data) => {
     const taskType = task_translation_key.toLowerCase();
     const planting_management_plan = data?.taskData?.[taskType]?.planting_management_plan;
     if (planting_management_plan) {
-      data.taskData[taskType].planting_management_plan = getPlantingMethodReqBody(
-        planting_management_plan,
-      );
+      data.taskData[taskType].planting_management_plan =
+        getPlantingMethodReqBody(planting_management_plan);
       data.taskData[taskType].planting_management_plan.planting_management_plan_id =
         data.taskData[taskType].planting_management_plan_id;
       delete data.taskData[taskType].planting_management_plan_id;
@@ -546,7 +551,7 @@ export function* deleteTaskTypeSaga({ payload: id }) {
     if (result) {
       yield put(deleteTaskTypeSuccess(id));
       yield put(enqueueSuccessSnackbar(i18n.t('message:TASK_TYPE.DELETE.SUCCESS')));
-      history.goBack();
+      history.back();
     }
   } catch (e) {
     yield put(enqueueErrorSnackbar(i18n.t('message:TASK_TYPE.DELETE.FAILED')));

@@ -8,12 +8,12 @@ import {
 } from '../userFarmSlice';
 import history from '../../history';
 import { getFirstNameLastName } from '../../util';
-import { purgeState } from '../../index';
 import i18n from '../../locales/i18n';
 import { axios } from '../saga';
 import { startInvitationFlowWithSpotLight } from '../ChooseFarm/chooseFarmFlowSlice';
 import { enqueueErrorSnackbar } from '../Snackbar/snackbarSlice';
 import { getLanguageFromLocalStorage } from '../../util/getLanguageFromLocalStorage';
+import { purgeState } from '../../store/store';
 
 const acceptInvitationWithSSOUrl = () => `${url}/user/accept_invitation`;
 const acceptInvitationWithLiteFarmUrl = () => `${url}/user/accept_invitation`;
@@ -55,12 +55,11 @@ export function* acceptInvitationWithSSOSaga({
   } catch (e) {
     yield put(onLoadingUserFarmsFail(e));
     if (e.response.status === 401) {
-      const translateKey =
-        e.response.data === 'Invitation link is used'
-          ? 'SIGNUP.USED_INVITATION_LINK_ERROR'
-          : 'SIGNUP.EXPIRED_INVITATION_LINK_ERROR';
       history.push(`/?email=${encodeURIComponent(userForm.email)}`, {
-        error: i18n.t(translateKey),
+        error:
+          e.response.data === 'Invitation link is used'
+            ? i18n.t('SIGNUP.USED_INVITATION_LINK_ERROR')
+            : i18n.t('SIGNUP.EXPIRED_INVITATION_LINK_ERROR'),
       });
     } else {
       yield put(enqueueErrorSnackbar(i18n.t('message:LOGIN.ERROR.LOGIN_FAIL')));
@@ -101,12 +100,11 @@ export function* acceptInvitationWithLiteFarmSaga({ payload: { invite_token, use
   } catch (e) {
     yield put(onLoadingUserFarmsFail(e));
     if (e.response.status === 401) {
-      const translateKey =
-        e.response.data === 'Invitation link is used'
-          ? 'SIGNUP.USED_INVITATION_LINK_ERROR'
-          : 'SIGNUP.EXPIRED_INVITATION_LINK_ERROR';
       history.push(`/?email=${encodeURIComponent(userForm.email)}`, {
-        error: i18n.t(translateKey),
+        error:
+          e.response.data === 'Invitation link is used'
+            ? i18n.t('SIGNUP.USED_INVITATION_LINK_ERROR')
+            : i18n.t('SIGNUP.EXPIRED_INVITATION_LINK_ERROR'),
       });
     } else {
       yield put(enqueueErrorSnackbar(i18n.t('message:LOGIN.ERROR.LOGIN_FAIL')));

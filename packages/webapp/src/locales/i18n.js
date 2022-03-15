@@ -10,6 +10,7 @@ i18n
   .use(I18nextBrowserLanguageDetector)
   .init({
     defaultNS: 'translation',
+    nsSeparator: ':',
     fallbackLng: 'en',
     locales: ['en', 'pt', 'es'],
     debug: false,

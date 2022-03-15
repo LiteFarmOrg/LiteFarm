@@ -24,11 +24,14 @@ LiteFarm is comprised of two applications which both reside in this monorepo.
 
 The applications are configured with environment variables stored in `.env` files. Configuration information includes secrets like API keys, so the `.env` files should never be added to source control. This repository does contain `.env.default` files for api and webapp. Begin with these, and customize as needed.
 
-1. Create the api configuration file by copying `packages/api/env.default` to `packages/api/.env`. 
+1. Create the api configuration file by copying `packages/api/env.default` to `packages/api/.env`.
 
-2. Create the webapp configuration file by copying `packages/webapp/env.default` to `packages/webapp/.env`. For webapp to work, you must edit your new `.env` file to provide values for two required environment variables:
-     - `REACT_APP_GOOGLE_MAPS_API_KEY` is a Google Maps API key. You should obtain your own key value from [Google](https://developers.google.com/maps/documentation/javascript/get-api-key).
-     - `REACT_APP_WEATHER_API_KEY` is an OpenWeather API key. You should obtain your own key value from [OpenWeather](https://openweathermap.org/api). 
+2. Create the webapp configuration file by copying `packages/webapp/env.default` to `packages/webapp/.env`. For webapp
+   to work, you must edit your new `.env` file to provide values for two required environment variables:
+    - `VITE_GOOGLE_MAPS_API_KEY` is a Google Maps API key. You should obtain your own key value
+      from [Google](https://developers.google.com/maps/documentation/javascript/get-api-key).
+    - `VITE_WEATHER_API_KEY` is an OpenWeather API key. You should obtain your own key value
+      from [OpenWeather](https://openweathermap.org/api).
 
 ## Runtime setup
 
@@ -67,39 +70,38 @@ This approach runs the LiteFarm applications and database server directly on you
        CREATE DATABASE test_farm;
        exit;       
        ```
-       
-   - Windows. At the Start menu, type `psql` and the search results will show "SQL Shell (psql)". In the client, execute each of the following commands. (The last command terminates the client session.)
-   
+
+   - Windows. At the Start menu, type `psql` and the search results will show "SQL Shell (psql)". In the client, execute
+     each of the following commands. (The last command terminates the client session.)
+
        ```sql
        CREATE DATABASE "pg-litefarm";
        CREATE DATABASE test_farm;
        exit;       
        ```
-   
-3. In a terminal, navigate to the root folder of the repository. Run `npx lerna bootstrap` to install the dependencies for both applications.
-   
+
+3. In a terminal, run `npm i pnpm -g` *if pnpm is not already installed*, run `npm i` under the root folder of the
+   repository, `npm i` under `packages/api`, and `pnpm i`
+   under `packages/webapp`.
+
 4. Edit the `packages/api/.env` file, setting the value of variable `DEV_DATABASE_HOST` to `localhost`
 
 5. In the terminal, navigate to the `packages/api` folder. 
 
-6. Execute `npm run migrate:dev:db` to run the [migrations](https://knexjs.org/#Migrations) that set up the PostgreSQL database. (If you run into issues here, you can try dropping and recreating the database.) 
+6. Execute `npm run migrate:dev:db` to run the [migrations](https://knexjs.org/#Migrations) that set up the PostgreSQL database. (If you run into issues here, you can try dropping and recreating the database.)
 
-7. Run `npm start` to launch the api application. 
+7. Run `npm start` to launch the api application.
 
-8. In a different terminal, navigate to the `packages/webapp` folder and run `npm start` to launch the webapp application. Load it in your browser at http://localhost:3000.
+8. In a different terminal, navigate to the `packages/webapp` folder and run `pnpm dev` to launch the webapp
+   application. Load it in your browser at http://localhost:3000.
 
 # Testing
 
 ## webapp
 
-To run [ESLint](https://eslint.org/) checks execute `npm run lint`
+To run [ESLint](https://eslint.org/) checks execute `pnpm lint`
 
 Since this is a mobile web application, webapp should be viewed in a mobile view in the browser.
-
-Automated testing for the front-end is done using [cypress](https://www.cypress.io/). 
-
-1. In a terminal, navigate to the `packages/webapp` folder.
-2. Execute `npm test` to launch the tests. Or, to generate test coverage information, run `npm test -- --coverage .` and then see the `coverage/index.html` file.
 
 ## api
 

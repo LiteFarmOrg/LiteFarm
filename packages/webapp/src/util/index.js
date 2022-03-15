@@ -1,6 +1,6 @@
 /*
- *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>
- *  This file (index.js) is part of LiteFarm.
+ *  Copyright 2019-2022 LiteFarm.org
+ *  This file is part of LiteFarm.
  *
  *  LiteFarm is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -13,8 +13,8 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import convert from 'convert-units';
-import { getMeasurementFromStore } from './getFromReduxStore';
+import { convert } from './convert-units/convert';
+import { getMeasurementFromStore } from '../store/getFromReduxStore';
 
 const METRIC = 'metric';
 // const IMPERIAL = 'IMPERIAL';
@@ -52,7 +52,7 @@ export const roundToFourDecimal = (value) => {
 };
 
 export const roundToTwoDecimal = (value) => {
-  return Math.floor(value * 100) / 100;
+  return Math.round(value * 100) / 100;
 };
 
 const getConvertedString = (
@@ -65,9 +65,8 @@ const getConvertedString = (
 ) => {
   return measurement === METRIC
     ? `${value} ${metricSymbol ? metricSymbol : convertUnitMetric}`
-    : `${Math.round(convert(value).from(convertUnitMetric).to(convertUnitImperial))} ${
-        imperialSymbol ? imperialSymbol : convertUnitImperial
-      }`;
+    : `${Math.round(convert(value).from(convertUnitMetric).to(convertUnitImperial))} ${imperialSymbol ? imperialSymbol : convertUnitImperial
+    }`;
 };
 
 export const getFirstNameLastName = (fullName) => {

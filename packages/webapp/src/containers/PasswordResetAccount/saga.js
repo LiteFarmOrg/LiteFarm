@@ -18,7 +18,7 @@ import { call, put, takeLeading } from 'redux-saga/effects';
 import { url } from '../../apiConfig';
 import history from '../../history';
 import { loginSuccess } from '../userFarmSlice';
-import jwt from 'jsonwebtoken';
+import jwt from '@tsndr/cloudflare-worker-jwt';
 import { axios } from '../saga';
 
 const resetPasswordUrl = () => `${url}/password_reset`;

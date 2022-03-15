@@ -78,11 +78,6 @@ export const certifierSurveySelector = (state) => {
   return farm_id ? certifierSurveySelectors.selectById(state, farm_id) || {} : {};
 };
 
-export const doesCertifierSurveyExistSelector = createSelector(
-  [certifierSurveySelector],
-  (certifierSurvey) => certifierSurvey?.hasOwnProperty('survey_id'),
-);
-
 export const certifierSurveyStatusSelector = createSelector(
   [certifierSurveyReducerSelector],
   ({ loading, error }) => {

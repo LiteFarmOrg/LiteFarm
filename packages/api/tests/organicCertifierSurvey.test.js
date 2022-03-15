@@ -909,7 +909,7 @@ describe('organic certification Tests', () => {
             transplant_task: { plant_task: true, in_ground: true, transplant_task: true },
           },
           title: 'completed on report start date',
-          options: { completed_time: `'${JUNE01}${START_OF_DAY}'` },
+          options: { complete_date: `'${JUNE01}${START_OF_DAY}'` },
         },
         {
           include: {
@@ -919,7 +919,7 @@ describe('organic certification Tests', () => {
             transplant_task: { plant_task: true, in_ground: true, transplant_task: true },
           },
           title: 'completed on report end date',
-          options: { completed_time: `'${JUNE30}${END_OF_DAY}'` },
+          options: { complete_date: `'${JUNE30}${END_OF_DAY}'` },
         },
         {
           include: {
@@ -949,7 +949,7 @@ describe('organic certification Tests', () => {
             transplant_task: { plant_task: false, in_ground: false, transplant_task: true },
           },
           title: 'completed just before the report start date',
-          options: { completed_time: `'${MAY31}${END_OF_DAY}'` },
+          options: { complete_date: `'${MAY31}${END_OF_DAY}'` },
         },
         {
           include: {
@@ -959,7 +959,7 @@ describe('organic certification Tests', () => {
             transplant_task: { plant_task: true, in_ground: true, transplant_task: false },
           },
           title: 'completed just after the report end date',
-          options: { completed_time: `'${JULY01}${START_OF_DAY}'` },
+          options: { complete_date: `'${JULY01}${START_OF_DAY}'` },
         },
         {
           include: {
@@ -1070,7 +1070,7 @@ describe('organic certification Tests', () => {
         test(`Abandoned transplant tasks: should not include crops from abandoned transplant tasks ${scenario.title}`, async (done) => {
           await createTransplantTask({
             ...scenario.options,
-            abandoned_time: `'${JULY01}${START_OF_DAY}'`,
+            abandon_date: `'${JULY01}${START_OF_DAY}'`,
           });
           await createManagementTaskWithinReportingPeriod();
           const recordA = await getRecordAWithManagementPlans(JUNE30, JUNE01, farm_id);
@@ -1134,7 +1134,7 @@ describe('organic certification Tests', () => {
         test(`should not include crops from abandoned management tasks ${scenario.title}`, async (done) => {
           await createManagementTask({
             due_date: JUNE01,
-            abandoned_time: `'${JULY01}${START_OF_DAY}'`,
+            abandon_date: `'${JULY01}${START_OF_DAY}'`,
           });
           const recordA = await getRecordAWithManagementPlans(JUNE30, JUNE01, farm_id);
           expect(recordA).toHaveLength(1);
@@ -1177,7 +1177,7 @@ describe('organic certification Tests', () => {
       });
 
       test(`Task after reporting period: should not include crops from in ground management plan location`, async (done) => {
-        await createTask({ completed_time: `'${JULY01}${START_OF_DAY}'` });
+        await createTask({ complete_date: `'${JULY01}${START_OF_DAY}'` });
         const recordA = await getRecordAWithManagementPlans(JUNE30, JUNE01, farm_id);
         expect(recordA).toHaveLength(1);
         expect(recordA[0].crops).toHaveLength(0);
@@ -1185,7 +1185,7 @@ describe('organic certification Tests', () => {
       });
 
       test(`Reporting period between two tasks: should include crops from in ground management plan location`, async (done) => {
-        await createManagementTask({ completed_time: `'${MAY31}${START_OF_DAY}'` });
+        await createManagementTask({ complete_date: `'${MAY31}${START_OF_DAY}'` });
         await createManagementTask({ due_date: JULY01 });
         const recordA = await getRecordAWithManagementPlans(JUNE30, JUNE01, farm_id);
         expect(recordA).toHaveLength(1);
@@ -1233,7 +1233,7 @@ describe('organic certification Tests', () => {
       test('should exclude plant location when there are transplant tasks before start date', async (done) => {
         await createPlantTask({ due_date: JUNE01 });
         await createTransplantTask({ due_date: MAY31 });
-        await createTransplantTask({ completed_time: JUNE01 });
+        await createTransplantTask({ complete_date: JUNE01 });
         await createTransplantTask({ due_date: JUNE15 });
         const recordA = await getRecordAWithManagementPlans(JUNE30, JUNE01, farm_id);
         expect(recordA).toHaveLength(4);
@@ -1285,7 +1285,7 @@ describe('organic certification Tests', () => {
         );
 
         await createTransplantTask(
-          { completed_time: `'${JUNE30}${START_OF_DAY}` },
+          { complete_date: `'${JUNE30}${START_OF_DAY}` },
           { management_plan_id },
         );
 
@@ -1295,7 +1295,7 @@ describe('organic certification Tests', () => {
           .insert({ management_plan_id, location_id: location.location_id })
           .returning('*');
 
-        const task_id = await createTask({ completed_time: `'${JUNE01}${START_OF_DAY}` });
+        const task_id = await createTask({ complete_date: `'${JUNE01}${START_OF_DAY}` });
         await mocks.plant_taskFactory(
           { promisedTask: [{ task_id }] },
           { planting_management_plan_id },

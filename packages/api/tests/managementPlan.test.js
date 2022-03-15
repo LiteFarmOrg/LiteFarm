@@ -506,11 +506,11 @@ describe('ManagementPlan Tests', () => {
         const reqBody = getCompleteReqBody();
         const abandonedTask = await mocks.management_tasksFactory({
           promisedManagementPlan: [transplantManagementPlan],
-          promisedTask: mocks.taskFactory({ promisedUser: [owner] }, { ...mocks.fakeTask({ abandoned_time: faker.date.past() }) }),
+          promisedTask: mocks.taskFactory({ promisedUser: [owner] }, { ...mocks.fakeTask({ abandon_date: faker.date.past() }) }),
         });
         const completedTask = await mocks.management_tasksFactory({
           promisedManagementPlan: [transplantManagementPlan],
-          promisedTask: mocks.taskFactory({ promisedUser: [owner] }, { ...mocks.fakeTask({ abandoned_time: faker.date.past() }) }),
+          promisedTask: mocks.taskFactory({ promisedUser: [owner] }, { ...mocks.fakeTask({ abandon_date: faker.date.past() }) }),
         });
 
         completeManagementPlanRequest(reqBody, {}, async (err, res) => {
@@ -589,7 +589,7 @@ describe('ManagementPlan Tests', () => {
           const keptManagementTask2 = await knex('management_tasks').where(lodash.pick(taskToAbandon, ['planting_management_plan_id', 'task_id'])).first();
           expect(keptManagementTask2).toBeDefined();
           const abandonedTask = await knex('task').where(lodash.pick(taskToAbandon, ['task_id'])).first();
-          expect(getDateInputFormat(abandonedTask.abandoned_time)).toBe(reqBody.abandon_date);
+          expect(getDateInputFormat(abandonedTask.abandon_date)).toBe(reqBody.abandon_date);
           done();
         });
       });
@@ -606,7 +606,7 @@ describe('ManagementPlan Tests', () => {
           const newManagementPlan = await managementPlanModel.query().context({ showHidden: true }).where('management_plan_id', transplantManagementPlan.management_plan_id).first();
           expect(newManagementPlan.complete_notes).toBe(reqBody.complete_notes);
           const newTask = await knex('task').where('task_id', task.task_id).first();
-          expect(getDateInputFormat(newTask.abandoned_time)).toBe(reqBody.abandon_date);
+          expect(getDateInputFormat(newTask.abandon_date)).toBe(reqBody.abandon_date);
           // expect(newTask.abandon_reason).toBe('Crop management plan abandoned');
           done();
         });

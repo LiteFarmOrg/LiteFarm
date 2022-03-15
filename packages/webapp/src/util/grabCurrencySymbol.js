@@ -1,4 +1,4 @@
-import { getCurrencyFromStore } from './getFromReduxStore';
+import { getCurrencyFromStore } from '../store/getFromReduxStore';
 import commonCurrency from '../containers/AddFarm/currency/commonCurrency.json';
 
 export default function grabCurrencySymbol(currency = getCurrencyFromStore()) {

@@ -14,6 +14,7 @@
   "DELETE": "Excluir",
   "DO_NOT_SHOW": "Não mostrar esta mensagem novamente",
   "EDIT": "Editar",
+  "EDIT_DATE": "Editar data",
   "EXPORT": "Exportar",
   "FINISH": "Finalizar",
   "FROM": "de",
@@ -44,11 +45,12 @@
   "SAVE_CHANGES": "Salvar mudanças",
   "SEARCH": "Buscar",
   "SELECT": "Selecionar",
+  "SKIP": "MISSING",
   "SORRY": "Desculpa",
   "SUBMIT": "Enviar",
   "SUBMITTING": "Enviando...",
   "UPDATE": "Atualizar",
   "WORD_LIMIT_ERROR": "Somente {{value}} caractéres podem ser exibidos",
-  "YES": "Sim",
-  "EDIT_DATE": "Editar data"
+  "YEAR": "MISSING",
+  "YES": "Sim"
 }

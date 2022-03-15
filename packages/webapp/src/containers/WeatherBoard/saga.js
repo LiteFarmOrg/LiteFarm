@@ -13,12 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 import { call, put, select, takeLatest } from 'redux-saga/effects';
-import {
-  getWeatherSuccess,
-  onLoadingWeatherFail,
-  onLoadingWeatherStart,
-  weatherSelector,
-} from './weatherSlice';
+import { getWeatherSuccess, onLoadingWeatherFail, onLoadingWeatherStart, weatherSelector } from './weatherSlice';
 import { createAction } from '@reduxjs/toolkit';
 import { userFarmSelector } from '../userFarmSlice';
 import utils from './utils';
@@ -44,7 +39,7 @@ export function* getWeatherSaga({ payload: args }) {
       measurement !== weather?.measurement
     ) {
       yield put(onLoadingWeatherStart(farm_id));
-      const apikey = process.env.REACT_APP_WEATHER_API_KEY;
+      const apikey = import.meta.env.VITE_WEATHER_API_KEY;
       const baseUri = 'https://cors-anywhere.litefarm.workers.dev/';
       const params = {
         ...args,

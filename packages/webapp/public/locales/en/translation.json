@@ -1396,15 +1396,21 @@
     "DUE_DATE": "Due date",
     "DURATION": "Duration",
     "FILTER": {
+      "ASCENDING": "oldest first",
       "ASSIGNEE": "Assignee",
       "CROP": "Crop",
       "DATE_RANGE": "Filter by date range",
+      "DESCENDING": "newest first",
       "FROM": "From",
       "LOCATION": "Location",
+      "MY_TASK": "My tasks",
+      "SORT_BY": "Sort by",
       "STATUS": "Status",
       "TITLE": "Task Filter",
       "TO": "To",
-      "TYPE": "Type"
+      "TYPE": "Type",
+      "UNASSIGNED": "Unassigned",
+      "VIEW": "View"
     },
     "HARVEST_USE": "Harvest use",
     "HARVEST_USE_ALREADY_EXISTS": "Harvest use already exists",

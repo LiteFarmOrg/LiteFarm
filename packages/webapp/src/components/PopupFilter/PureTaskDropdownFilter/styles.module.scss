@@ -1,0 +1,96 @@
+@import '../../../assets/mixin';
+
+.container {
+  display: flex;
+  gap: 16px;
+  position: relative;
+  align-items: center;
+  padding-bottom: 16px;
+}
+
+
+
+.circle {
+  position: absolute;
+  right: 0;
+  width: 4px;
+  height: 4px;
+  border-radius: 2px;
+  background-color: var(--teal700);
+  transform: translate(-7px, -11px);
+}
+.filter{
+  font-size: 18px;
+  color: var(--grey600);
+  cursor: pointer;
+}
+.pillContainer{
+  padding-bottom: 16px;
+  flex-wrap: wrap;
+  display: flex;
+  gap: 16px;
+}
+.dropdownContainer{
+  flex-direction: row;
+  flex-grow: 1;
+  display: flex;
+  position: relative;
+  z-index: 1;
+}
+.dropdown{
+  z-index: 2;
+  flex-direction: row;
+  flex-grow: 1;
+  display: flex;
+  column-gap: 8px;
+  position: relative;
+  border: 1px solid var(--grey400);
+  border-radius: 4px;
+  height: 32px;
+  line-height: 24px;
+  align-items: center;
+  cursor: pointer;
+  user-select: none;
+
+}
+
+.dropdownMenu{
+  padding: 12px;
+  border: 1px solid var(--grey400);
+  border-radius: 0 0 4px 4px;
+
+  display: flex;
+  flex-grow: 1;
+  flex-direction: column;
+  width: 100%;
+  top: 31px;
+  background-color: white;
+}
+.dropdownMenuContainer{
+  padding-top: 31px;
+  position: absolute;
+  width: 100%;
+  @include midShadow();
+}
+.chevron{
+  color: var(--grey600);
+  position: absolute;
+  right: 12px;
+  font-size: 16px;
+}
+.chevronActive{
+  transform: scaleY(-1);
+}
+.active{
+  border-color: var(--inputActive);
+}
+.dropDownActive{
+  border-radius: 4px 4px 0 0;
+}
+.dateRadioContainer{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+

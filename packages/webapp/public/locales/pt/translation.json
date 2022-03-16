@@ -1400,15 +1400,21 @@
     "DUE_DATE": "Data de finalização",
     "DURATION": "Duração",
     "FILTER": {
+      "ASCENDING": "MISSING",
       "ASSIGNEE": "MISSING",
       "CROP": "MISSING",
       "DATE_RANGE": "MISSING",
+      "DESCENDING": "MISSING",
       "FROM": "MISSING",
       "LOCATION": "MISSING",
+      "MY_TASK": "MISSING",
+      "SORT_BY": "MISSING",
       "STATUS": "MISSING",
       "TITLE": "MISSING",
       "TO": "MISSING",
-      "TYPE": "MISSING"
+      "TYPE": "MISSING",
+      "UNASSIGNED": "MISSING",
+      "VIEW": "MISSING"
     },
     "HARVEST_USE": "Uso da colheita",
     "HARVEST_USE_ALREADY_EXISTS": "Uso de colheita já existe",

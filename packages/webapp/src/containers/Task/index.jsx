@@ -3,11 +3,10 @@ import { useTranslation } from 'react-i18next';
 import PageTitle from '../../components/PageTitle/v2';
 import { AddLink, Semibold } from '../../components/Typography';
 import { useDispatch, useSelector } from 'react-redux';
-import React, { useEffect, useState } from 'react';
-import { FiFilter } from 'react-icons/all';
+import React, { useEffect, useMemo, useState } from 'react';
 import styles from './styles.module.scss';
 
-import { isAdminSelector, loginSelector } from '../userFarmSlice';
+import { isAdminSelector, userFarmSelector } from '../userFarmSlice';
 import { resetAndUnLockFormData } from '../hooks/useHookFormPersist/hookFormPersistSlice';
 import { getManagementPlansAndTasks } from '../saga';
 import TaskCard from './TaskCard';
@@ -15,13 +14,20 @@ import { onAddTask } from './onAddTask';
 import MuiFullPagePopup from '../../components/MuiFullPagePopup/v2';
 import TasksFilterPage from '../Filter/Tasks';
 import { filteredTaskCardContentSelector } from './useTasksFilter';
-import { isFilterCurrentlyActiveSelector, tasksFilterSelector } from '../filterSlice';
+import {
+  isFilterCurrentlyActiveSelector,
+  setTasksFilter,
+  tasksFilterSelector,
+} from '../filterSlice';
 import ActiveFilterBox from '../../components/ActiveFilterBox';
+import PureTaskDropdownFilter from '../../components/PopupFilter/PureTaskDropdownFilter';
+import produce from 'immer';
+import { IS_ASCENDING } from '../Filter/constants';
 
 export default function TaskPage({ history }) {
   const { t } = useTranslation();
   const isAdmin = useSelector(isAdminSelector);
-  const { user_id, farm_id } = useSelector(loginSelector);
+  const { user_id, farm_id, first_name, last_name } = useSelector(userFarmSelector);
   const taskCardContents = useSelector(filteredTaskCardContentSelector);
   const dispatch = useDispatch();
 
@@ -44,16 +50,65 @@ export default function TaskPage({ history }) {
     dispatch(resetAndUnLockFormData());
   }, []);
 
+  const assigneeValue = useMemo(() => {
+    let unassigned;
+    let myTask;
+    for (const [assignee, { active }] of Object.entries(tasksFilter.ASSIGNEE)) {
+      if (assignee === 'unassigned' && active) {
+        unassigned = true;
+      } else if (assignee === user_id && active) {
+        myTask = true;
+      } else if (active) {
+        return undefined;
+      }
+    }
+    if (unassigned && !myTask) return 'unassigned';
+    if (myTask) return 'myTask';
+    return 'all';
+  }, [tasksFilter.ASSIGNEE]);
+  const onAssigneeChange = (e) => {
+    const assigneeValue = e.target.value;
+    dispatch(
+      setTasksFilter(
+        produce(tasksFilter, (tasksFilter) => {
+          for (const assignee in tasksFilter.ASSIGNEE) {
+            tasksFilter.ASSIGNEE[assignee].active = false;
+          }
+          if (assigneeValue === 'myTask') {
+            tasksFilter.ASSIGNEE[user_id] = { active: true, label: `${first_name} ${last_name}` };
+          } else if (assigneeValue === 'unassigned') {
+            tasksFilter.ASSIGNEE.unassigned = { active: true, label: t('TASK.UNASSIGNED') };
+          }
+        }),
+      ),
+    );
+  };
+  const onDateOrderChange = (e) => {
+    const dateOrderValue = e.target.value;
+    dispatch(
+      setTasksFilter(
+        produce(tasksFilter, (tasksFilter) => {
+          tasksFilter[IS_ASCENDING] = dateOrderValue === 'ascending';
+        }),
+      ),
+    );
+  };
   return (
     <Layout classes={{ container: { backgroundColor: 'white' } }}>
       <PageTitle title={t('TASK.PAGE_TITLE')} style={{ paddingBottom: '20px' }} />
-
+      <PureTaskDropdownFilter
+        onDateOrderChange={onDateOrderChange}
+        isAscending={tasksFilter[IS_ASCENDING]}
+        onAssigneeChange={onAssigneeChange}
+        assigneeValue={assigneeValue}
+        onFilterOpen={onFilterOpen}
+        isFilterActive={isFilterCurrentlyActive}
+      />
       <div className={styles.taskCountContainer}>
         <div className={styles.taskCount}>
           {t('TASK.TASKS_COUNT', { count: taskCardContents.length })}
         </div>
         <AddLink onClick={onAddTask(dispatch, history, `/tasks`)}>{t('TASK.ADD_TASK')}</AddLink>
-        <FiFilter onClick={onFilterOpen} />
       </div>
 
       <MuiFullPagePopup open={isFilterOpen} onClose={onFilterClose}>

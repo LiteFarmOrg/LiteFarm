@@ -1,9 +1,18 @@
 import { createSelector } from 'reselect';
 import moment from 'moment';
 
-import { taskCardContentSelector } from './taskCardContentSelector';
+import { sortTaskCardContent, taskCardContentSelector } from './taskCardContentSelector';
 import { tasksFilterSelector } from '../filterSlice';
-import { ASSIGNEE, CROP, FROM_DATE, LOCATION, STATUS, TO_DATE, TYPE } from '../Filter/constants';
+import {
+  ASSIGNEE,
+  CROP,
+  FROM_DATE,
+  IS_ASCENDING,
+  LOCATION,
+  STATUS,
+  TO_DATE,
+  TYPE,
+} from '../Filter/constants';
 
 const getActiveCriteria = (filter) => {
   const filterKeys = Object.keys(filter);
@@ -46,15 +55,15 @@ function filterTasks(tasks, filters) {
   const activeLocations = getActiveCriteria(filters[LOCATION]);
   const activeAssignees = getActiveCriteria(filters[ASSIGNEE]);
   const activeVarieties = getActiveCriteria(filters[CROP]);
-
-  return tasks
-    .filter((t) => activeStatus.has(t.status))
-    .filter((t) => activeTypes.has(t.taskType.task_type_id.toString()))
-    .filter((t) => activeLocations.has(t.locationName))
-    .filter((t) => activeVarieties.has(t.cropVarietyName))
-    .filter((t) => filterByAssignee(t, activeAssignees))
+  const filteredTasks = tasks
+    .filter((t) => !activeStatus.size || activeStatus.has(t.status))
+    .filter((t) => !activeTypes.size || activeTypes.has(t.taskType.task_type_id.toString()))
+    .filter((t) => !activeLocations.size || activeLocations.has(t.locationName))
+    .filter((t) => !activeVarieties.size || activeVarieties.has(t.cropVarietyName))
+    .filter((t) => !activeAssignees.size || filterByAssignee(t, activeAssignees))
     .filter((t) => filterByFromDate(t, filters[FROM_DATE]))
     .filter((t) => filterByToDate(t, filters[TO_DATE]));
+  return sortTaskCardContent(filteredTasks, filters[IS_ASCENDING]);
 }
 
 export const filteredTaskCardContentSelector = createSelector(

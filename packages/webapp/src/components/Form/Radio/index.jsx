@@ -50,7 +50,7 @@ const Radio = ({
 };
 
 Radio.propTypes = {
-  label: PropTypes.string,
+  label: PropTypes.node,
   disabled: PropTypes.bool,
   classes: PropTypes.exact({
     checkbox: PropTypes.object,

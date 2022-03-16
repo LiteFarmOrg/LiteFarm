@@ -26,3 +26,4 @@ export const COMPLETED = 'COMPLETED';
 export const FROM_DATE = 'FROM_DATE';
 export const TO_DATE = 'TO_DATE';
 export const FOR_REVIEW = 'FOR_REVIEW';
+export const IS_ASCENDING = 'IS_ASCENDING';

@@ -1,6 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { createSelector } from 'reselect';
-import { VALID_ON, FROM_DATE } from './Filter/constants';
 import { getDateInputFormat } from '../util/moment';
 
 const initialCropCatalogueFilter = {
@@ -21,6 +20,7 @@ const intialTasksFilter = {
   ASSIGNEE: {},
   FROM_DATE: undefined,
   TO_DATE: undefined,
+  IS_ASCENDING: true,
 };
 
 export const initialState = {
@@ -117,7 +117,7 @@ export const isFilterCurrentlyActiveSelector = (pageFilterKey) => {
 
     for (const filterKey in targetPageFilter) {
       const filter = targetPageFilter[filterKey];
-      const filterType = typeof(filter);
+      const filterType = typeof filter;
 
       if (filterType === 'object') {
         isActive = Object.values(filter).reduce((acc, curr) => {
@@ -126,7 +126,6 @@ export const isFilterCurrentlyActiveSelector = (pageFilterKey) => {
       } else {
         isActive = isActive || filterType === 'string';
       }
-
     }
 
     return isActive;

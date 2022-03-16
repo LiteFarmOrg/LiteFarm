@@ -17,3 +17,9 @@ export const Checked = Template.bind({});
 Checked.args = {
   checked: true,
 };
+
+export const WithLabel = Template.bind({});
+WithLabel.args = {
+  checked: true,
+  label: 'Switch',
+};

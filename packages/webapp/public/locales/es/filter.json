@@ -19,5 +19,18 @@
     "SOIL_SAMPLE_RESULTS": "Resultados de muestras del suelo",
     "WATER_SAMPLE_RESULTS": "Resultados de la muestra de agua",
     "UNCATEGORIZED": "Sin categorizar"
+  },
+  "TASKS": {
+    "ABANDONED": "Abandonada",
+    "COMPLETED": "Completada",
+    "FOR_REVIEW": "Para la revisión",
+    "LATE": "Tarde",
+    "PLANNED": "Planificada",
+    "STATUS": "Estatus",
+  },
+  "FILTER": {
+    "VALID_ON": "MISSING",
+    "FROM_DATE": "MISSING",
+    "TO_DATE": "MISSING"
   }
 }

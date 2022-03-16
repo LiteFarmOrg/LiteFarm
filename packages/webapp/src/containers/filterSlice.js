@@ -1,6 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { createSelector } from 'reselect';
-import { VALID_ON } from './Filter/constants';
 import { getDateInputFormat } from '../util/moment';
 
 const initialCropCatalogueFilter = {
@@ -13,10 +12,21 @@ const initialDocumentsFilter = {
   TYPE: {},
   VALID_ON: undefined,
 };
+const intialTasksFilter = {
+  STATUS: {},
+  TYPE: {},
+  LOCATION: {},
+  CROP: {},
+  ASSIGNEE: {},
+  FROM_DATE: undefined,
+  TO_DATE: undefined,
+  IS_ASCENDING: true,
+};
 
 export const initialState = {
   cropCatalogue: initialCropCatalogueFilter,
   documents: initialDocumentsFilter,
+  tasks: intialTasksFilter,
 };
 
 const filterSliceReducer = createSlice({
@@ -51,6 +61,12 @@ const filterSliceReducer = createSlice({
     setDocumentsFilter: (state, { payload: documentsFilter }) => {
       Object.assign(state.documents, documentsFilter);
     },
+    resetTasksFilter: (state) => {
+      state.tasks = intialTasksFilter;
+    },
+    setTasksFilter: (state, { payload: tasksFilter }) => {
+      Object.assign(state.tasks, tasksFilter);
+    },
   },
 });
 
@@ -65,6 +81,8 @@ export const {
   removeNonFilterValue,
   resetDocumentsFilter,
   setDocumentsFilter,
+  resetTasksFilter,
+  setTasksFilter,
 } = filterSliceReducer.actions;
 export default filterSliceReducer.reducer;
 
@@ -83,6 +101,10 @@ export const documentsFilterSelector = createSelector(
   [filterReducerSelector],
   (filterReducer) => filterReducer.documents,
 );
+export const tasksFilterSelector = createSelector(
+  [filterReducerSelector],
+  (filterReducer) => filterReducer.tasks,
+);
 export const cropCatalogueFilterDateSelector = createSelector(
   [cropCatalogueFilterSelector],
   (cropCatalogueFilter) => cropCatalogueFilter.date || getDateInputFormat(new Date()),
@@ -92,17 +114,20 @@ export const isFilterCurrentlyActiveSelector = (pageFilterKey) => {
   return createSelector([filterReducerSelector], (filterReducer) => {
     const targetPageFilter = filterReducer[pageFilterKey];
     let isActive = false;
+
     for (const filterKey in targetPageFilter) {
       const filter = targetPageFilter[filterKey];
-      if (filterKey === 'date') continue; // TODO: this is hacky, need to figure out if date can be stored differently, or if we can just remove it from initial state
-      if (filterKey === VALID_ON) {
-        isActive = isActive || !!filter;
-        continue;
+      const filterType = typeof filter;
+
+      if (filterType === 'object') {
+        isActive = Object.values(filter).reduce((acc, curr) => {
+          return acc || curr.active;
+        }, isActive);
+      } else {
+        isActive = isActive || filterType === 'string';
       }
-      isActive = Object.values(filter).reduce((acc, curr) => {
-        return acc || curr.active;
-      }, isActive);
     }
+
     return isActive;
   });
 };

@@ -9,6 +9,8 @@ const mocks = require('./mock.factories');
 const { tableCleanup } = require('./testEnvironment');
 const moment = require('moment');
 let faker = require('faker');
+const { test } = require('../knexfile');
+const { it } = require('faker/lib/locales');
 
 describe('Task tests', () => {
   let middleware;
@@ -83,6 +85,16 @@ describe('Task tests', () => {
     chai
       .request(server)
       .patch(`/task/assign_all_tasks_on_date/${task_id}`)
+      .set('user_id', user_id)
+      .set('farm_id', farm_id)
+      .send(data)
+      .end(callback);
+  }
+
+  function patchTaskDateRequest({ user_id, farm_id }, data, task_id, callback) {
+    chai
+      .request(server)
+      .patch(`/task/patch_due_date/${task_id}`)
       .set('user_id', user_id)
       .set('farm_id', farm_id)
       .send(data)
@@ -2030,6 +2042,35 @@ describe('Task tests', () => {
         expect(res.status).toBe(403);
         done();
       });
+    });
+  });
+
+  describe('Patch task date test', () => {
+    test('Owner must be able to patch task date', async (done) => {
+      const date = faker.date.future().toISOString().split('T')[0];
+      const patchTaskDateBody = {
+        due_date: date,
+      };
+      console.log(due_date);
+      const [{ user_id, farm_id }] = await mocks.userFarmFactory({}, fakeUserFarm(1));
+      const [{ task_id }] = await mocks.taskFactory({ promisedUser: [{ user_id }] });
+      const [{ location_id }] = await mocks.locationFactory({ promisedFarm: [{ farm_id }] });
+      await mocks.location_tasksFactory({
+        promisedTask: [{ task_id }],
+        promisedField: [{ location_id }],
+      });
+
+      patchTaskDateRequest(
+        { user_id, farm_id },
+        patchTaskDateBody,
+        task.task_id,
+        async (err, res) => {
+          expect(res.status).toBe(200);
+          const updated_task = await getTask(task_id);
+          expect(updated_task.due_date).toBe(due_date);
+          done();
+        },
+      );
     });
   });
 });

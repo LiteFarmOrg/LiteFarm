@@ -42,10 +42,14 @@ export default function PureTaskDropdownFilter({
               isDropdownOpen && styles.dropDownActive,
             )}
           >
-            <Semibold style={{ color: colors.grey600, marginLeft: '8px' }}>
-              {t('TASK.FILTER.VIEW')}:
-            </Semibold>
-            <Main style={{ color: colors.grey600 }}>{assigneeTranslationMap[assigneeValue]}</Main>
+            {assigneeTranslationMap[assigneeValue] && (
+              <>
+                <Semibold style={{ color: colors.grey600 }}>{t('TASK.FILTER.VIEW')}:</Semibold>
+                <Main style={{ color: colors.grey600 }}>
+                  {assigneeTranslationMap[assigneeValue]}
+                </Main>
+              </>
+            )}
             {isAscending ? <CalendarUp /> : <CalendarDown />}
             <BsChevronDown
               className={clsx(styles.chevron, isDropdownOpen && styles.chevronActive)}

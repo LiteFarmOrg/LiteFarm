@@ -7,10 +7,7 @@ jest.mock('jsdom');
 jest.mock('../src/middleware/acl/checkJwt');
 const mocks = require('./mock.factories');
 const { tableCleanup } = require('./testEnvironment');
-const moment = require('moment');
-let faker = require('faker');
-const { test } = require('../knexfile');
-const { it } = require('faker/lib/locales');
+const faker = require('faker');
 
 describe('Task tests', () => {
   let middleware;
@@ -46,7 +43,7 @@ describe('Task tests', () => {
   function postHarvestTasksRequest({ user_id, farm_id }, data, callback) {
     chai
       .request(server)
-      .post(`/task/harvest_tasks`)
+      .post('/task/harvest_tasks')
       .set('user_id', user_id)
       .set('farm_id', farm_id)
       .send(data)
@@ -56,7 +53,7 @@ describe('Task tests', () => {
   function postTransplantTaskRequest({ user_id, farm_id }, data, callback) {
     chai
       .request(server)
-      .post(`/task/transplant_task`)
+      .post('/task/transplant_task')
       .set('user_id', user_id)
       .set('farm_id', farm_id)
       .send(data)
@@ -305,10 +302,7 @@ describe('Task tests', () => {
         assignee_user_id: user_id,
         complete_date: faker.date.future(),
       });
-      const [{ task_id }] = await mocks.taskFactory(
-        { promisedUser: [{ user_id }] },
-        (task = fakeTask),
-      );
+      const [{ task_id }] = await mocks.taskFactory({ promisedUser: [{ user_id }] }, fakeTask);
       const [{ location_id }] = await mocks.locationFactory({ promisedFarm: [{ farm_id }] });
       await mocks.location_tasksFactory({
         promisedTask: [{ task_id }],
@@ -335,10 +329,7 @@ describe('Task tests', () => {
         assignee_user_id: user_id,
         abandon_date: faker.date.future(),
       });
-      const [{ task_id }] = await mocks.taskFactory(
-        { promisedUser: [{ user_id }] },
-        (task = fakeTask),
-      );
+      const [{ task_id }] = await mocks.taskFactory({ promisedUser: [{ user_id }] }, fakeTask);
       const [{ location_id }] = await mocks.locationFactory({ promisedFarm: [{ farm_id }] });
       await mocks.location_tasksFactory({
         promisedTask: [{ task_id }],
@@ -376,7 +367,7 @@ describe('Task tests', () => {
         { user_id, farm_id },
         {
           assignee_user_id: user_id,
-          date: date,
+          date,
         },
         task_1_id,
         async (err, res) => {
@@ -411,7 +402,7 @@ describe('Task tests', () => {
         { user_id, farm_id },
         {
           assignee_user_id: user_id,
-          date: date,
+          date,
         },
         task_1_id,
         async (err, res) => {
@@ -530,7 +521,7 @@ describe('Task tests', () => {
         { user_id, farm_id },
         {
           assignee_user_id: user_id,
-          date: date,
+          date,
         },
         task_1_id,
         async (err, res) => {
@@ -567,7 +558,7 @@ describe('Task tests', () => {
         { user_id, farm_id },
         {
           assignee_user_id: other_user_id,
-          date: date,
+          date,
         },
         task_1.task_id,
         async (err, res) => {
@@ -602,11 +593,11 @@ describe('Task tests', () => {
       );
       const [completed_task] = await mocks.taskFactory(
         { promisedUser: [{ user_id }] },
-        (task = fakeTask_completed),
+        fakeTask_completed,
       );
       const [abandoned_task] = await mocks.taskFactory(
         { promisedUser: [{ user_id }] },
-        (task = fakeTask_abandoned),
+        fakeTask_abandoned,
       );
       const [location_1] = await mocks.locationFactory({ promisedFarm: [{ farm_id }] });
       const [location_2] = await mocks.locationFactory({ promisedFarm: [{ farm_id }] });
@@ -624,7 +615,7 @@ describe('Task tests', () => {
         { user_id, farm_id },
         {
           assignee_user_id: another_id,
-          date: date,
+          date,
         },
         task_1.task_id,
         async (err, res) => {
@@ -652,7 +643,7 @@ describe('Task tests', () => {
       const [{ location_id }] = await mocks.locationFactory({ promisedFarm: [{ farm_id }] });
 
       const fakeTask = mocks.fakeTask({
-        task_type_id: task_type_id,
+        task_type_id,
         owner_user_id: user_id,
         assignee_user_id: user_id,
       });
@@ -680,7 +671,7 @@ describe('Task tests', () => {
           );
           const harvest_uses = [];
           for (let i = 0; i < harvest_types.length; i++) {
-            let [harvest_use] = await mocks.harvest_useFactory({
+            const [harvest_use] = await mocks.harvest_useFactory({
               promisedHarvestTask: [{ task_id }],
               promisedHarvestUseType: [
                 { harvest_use_type_id: harvest_types[i].harvest_use_type_id },
@@ -708,7 +699,7 @@ describe('Task tests', () => {
           const [{ location_id }] = await mocks.locationFactory({ promisedFarm: [{ farm_id }] });
 
           const fakeTask = mocks.fakeTask({
-            task_type_id: task_type_id,
+            task_type_id,
             owner_user_id: user_id,
             assignee_user_id: user_id,
           });
@@ -735,7 +726,7 @@ describe('Task tests', () => {
           );
           const harvest_uses = [];
           for (let i = 0; i < harvest_types.length; i++) {
-            let [harvest_use] = await mocks.harvest_useFactory({
+            const [harvest_use] = await mocks.harvest_useFactory({
               promisedHarvestTask: [{ task_id }],
               promisedHarvestUseType: [
                 { harvest_use_type_id: harvest_types[i].harvest_use_type_id },
@@ -759,7 +750,7 @@ describe('Task tests', () => {
   describe('GET tasks', () => {
     test('should get all tasks for a farm ', async (done) => {
       const [{ user_id, farm_id }] = await mocks.userFarmFactory({}, fakeUserFarm(1));
-      const tasks = await Promise.all(
+      await Promise.all(
         [...Array(10)].map(async () => {
           const [{ task_type_id }] = await mocks.task_typeFactory({ promisedFarm: [{ farm_id }] });
           const [{ location_id }] = await mocks.locationFactory({ promisedFarm: [{ farm_id }] });
@@ -788,7 +779,7 @@ describe('Task tests', () => {
       });
     });
 
-    xtest('should get all tasks that are related to a farm, but not from different farms of that user', async (done) => {
+    xtest('should get all tasks related to a farm, but not from different farms of that user', async (done) => {
       const [firstUserFarm] = await mocks.userFarmFactory({}, fakeUserFarm(1));
       const [secondUserFarmWithSameUser] = await mocks.userFarmFactory(
         { promisedUser: [{ user_id: firstUserFarm.user_id }] },
@@ -880,7 +871,7 @@ describe('Task tests', () => {
             return {
               harvest_task,
               due_date: faker.date.future(),
-              task_type_id: task_type_id,
+              task_type_id,
               owner_user_id: user_id,
               assignee_user_id: user_id,
               locations: [{ location_id }],
@@ -999,7 +990,7 @@ describe('Task tests', () => {
           const data = {
             ...mocks.fakeTask({
               [type]: { ...fakeTaskData[type]() },
-              task_type_id: task_type_id,
+              task_type_id,
               owner_user_id: user_id,
               assignee_user_id: user_id,
             }),
@@ -1036,14 +1027,13 @@ describe('Task tests', () => {
             user_id,
             farm_id,
             location_id,
-            management_plan_id,
             planting_management_plan_id,
             task_type_id,
           } = await userFarmTaskGenerator();
           const data = {
             ...mocks.fakeTask({
               [type]: { ...fakeTaskData[type]() },
-              task_type_id: task_type_id,
+              task_type_id,
               owner_user_id: user_id,
             }),
             locations: [{ location_id }],
@@ -1071,13 +1061,7 @@ describe('Task tests', () => {
       });
 
       test('should create a task (i.e soilamendment)  with multiple management plans', async (done) => {
-        const {
-          user_id,
-          farm_id,
-          location_id,
-          management_plan_id,
-          task_type_id,
-        } = await userFarmTaskGenerator(true);
+        const { user_id, farm_id, location_id, task_type_id } = await userFarmTaskGenerator(true);
         const promisedManagement = await Promise.all(
           [...Array(3)].map(async () =>
             mocks.crop_management_planFactory(
@@ -1106,7 +1090,7 @@ describe('Task tests', () => {
         const data = {
           ...mocks.fakeTask({
             soil_amendment_task: { ...fakeTaskData.soil_amendment_task() },
-            task_type_id: task_type_id,
+            task_type_id,
             owner_user_id: user_id,
           }),
           locations: [{ location_id }],
@@ -1128,13 +1112,7 @@ describe('Task tests', () => {
       });
 
       test('should create a task (i.e soilamendment) and override wage', async (done) => {
-        const {
-          user_id,
-          farm_id,
-          location_id,
-          management_plan_id,
-          task_type_id,
-        } = await userFarmTaskGenerator(true);
+        const { user_id, farm_id, location_id, task_type_id } = await userFarmTaskGenerator(true);
         const promisedManagement = await Promise.all(
           [...Array(3)].map(async () =>
             mocks.crop_management_planFactory(
@@ -1162,7 +1140,7 @@ describe('Task tests', () => {
         const data = {
           ...mocks.fakeTask({
             soil_amendment_task: { ...fakeTaskData.soil_amendment_task() },
-            task_type_id: task_type_id,
+            task_type_id,
             owner_user_id: user_id,
             wage_at_moment: 50,
           }),
@@ -1186,13 +1164,7 @@ describe('Task tests', () => {
       });
 
       test('should create a task (i.e soilamendment) and patch a product', async (done) => {
-        const {
-          user_id,
-          farm_id,
-          location_id,
-          management_plan_id,
-          task_type_id,
-        } = await userFarmTaskGenerator(true);
+        const { user_id, farm_id, location_id, task_type_id } = await userFarmTaskGenerator(true);
         const promisedManagement = await Promise.all(
           [...Array(3)].map(async () =>
             mocks.crop_management_planFactory(
@@ -1225,7 +1197,7 @@ describe('Task tests', () => {
               ...fakeTaskData.soil_amendment_task(),
               product: soilAmendmentProduct,
             },
-            task_type_id: task_type_id,
+            task_type_id,
             owner_user_id: user_id,
             wage_at_moment: 50,
           }),
@@ -1252,13 +1224,7 @@ describe('Task tests', () => {
       });
 
       test('should create a task (i.e soilamendment) and create a product', async (done) => {
-        const {
-          user_id,
-          farm_id,
-          location_id,
-          management_plan_id,
-          task_type_id,
-        } = await userFarmTaskGenerator(true);
+        const { user_id, farm_id, location_id, task_type_id } = await userFarmTaskGenerator(true);
         const promisedManagement = await Promise.all(
           [...Array(3)].map(async () =>
             mocks.crop_management_planFactory(
@@ -1293,7 +1259,7 @@ describe('Task tests', () => {
               product: soilAmendmentProduct,
               product_id: null,
             },
-            task_type_id: task_type_id,
+            task_type_id,
             owner_user_id: user_id,
             wage_at_moment: 50,
           }),
@@ -1321,7 +1287,6 @@ describe('Task tests', () => {
 
       test('should fail to create a task were a worker is trying to assign someone else', async (done) => {
         const {
-          user_id,
           farm_id,
           location_id,
           management_plan_id,
@@ -1338,7 +1303,7 @@ describe('Task tests', () => {
         const data = {
           ...mocks.fakeTask({
             soil_amendment_task: { ...fakeTaskData.soil_amendment_task() },
-            task_type_id: task_type_id,
+            task_type_id,
             owner_user_id: worker_id,
             assignee_user_id: another_id,
           }),
@@ -1359,7 +1324,6 @@ describe('Task tests', () => {
 
       test('should fail to create a task were a worker is trying to modify wage for himself ', async (done) => {
         const {
-          user_id,
           farm_id,
           location_id,
           management_plan_id,
@@ -1372,7 +1336,7 @@ describe('Task tests', () => {
         const data = {
           ...mocks.fakeTask({
             soil_amendment_task: { ...fakeTaskData.soil_amendment_task() },
-            task_type_id: task_type_id,
+            task_type_id,
             owner_user_id: worker_id,
             assignee_user_id: worker_id,
             wage_at_moment: 3512222,
@@ -1424,9 +1388,9 @@ describe('Task tests', () => {
     const notes = faker.lorem.sentence();
 
     const fakeCompletionData = {
-      complete_date: complete_date,
-      duration: duration,
-      happiness: happiness,
+      complete_date,
+      duration,
+      happiness,
       completion_notes: notes,
     };
 
@@ -1446,7 +1410,7 @@ describe('Task tests', () => {
         { user_id, farm_id },
         { assignee_user_id: user_id },
         task_id,
-        async (err, res) => {},
+        async () => {},
       );
       completeTaskRequest(
         { user_id: another_id, farm_id },
@@ -1470,7 +1434,7 @@ describe('Task tests', () => {
       const [{ location_id }] = await mocks.locationFactory({ promisedFarm: [{ farm_id }] });
 
       const fakeTask = mocks.fakeTask({
-        task_type_id: task_type_id,
+        task_type_id,
         owner_user_id: user_id,
         assignee_user_id: user_id,
       });
@@ -1493,7 +1457,7 @@ describe('Task tests', () => {
         { user_id, farm_id },
         {
           ...fakeCompletionData,
-          soil_amendment_task: { task_id: task_id, ...new_soil_amendment_task },
+          soil_amendment_task: { task_id, ...new_soil_amendment_task },
         },
         task_id,
         'soil_amendment_task',
@@ -1523,7 +1487,7 @@ describe('Task tests', () => {
       const [{ location_id }] = await mocks.locationFactory({ promisedFarm: [{ farm_id }] });
 
       const fakeTask = mocks.fakeTask({
-        task_type_id: task_type_id,
+        task_type_id,
         owner_user_id: user_id,
         assignee_user_id: user_id,
       });
@@ -1546,7 +1510,7 @@ describe('Task tests', () => {
         { user_id, farm_id },
         {
           ...fakeCompletionData,
-          pest_control_task: { task_id: task_id, ...new_pest_control_task },
+          pest_control_task: { task_id, ...new_pest_control_task },
         },
         task_id,
         'pest_control_task',
@@ -1579,7 +1543,7 @@ describe('Task tests', () => {
       const [{ location_id }] = await mocks.locationFactory({ promisedFarm: [{ farm_id }] });
 
       const fakeTask = mocks.fakeTask({
-        task_type_id: task_type_id,
+        task_type_id,
         owner_user_id: user_id,
         assignee_user_id: user_id,
       });
@@ -1607,8 +1571,8 @@ describe('Task tests', () => {
 
       let actual_quantity = 0;
       harvest_types.forEach(({ harvest_use_type_id }) => {
-        let harvest_use = mocks.fakeHarvestUse({
-          task_id: task_id,
+        const harvest_use = mocks.fakeHarvestUse({
+          task_id,
           harvest_use_type_id,
         });
         harvest_uses.push(harvest_use);
@@ -1618,7 +1582,7 @@ describe('Task tests', () => {
         { user_id, farm_id },
         {
           task: { ...fakeCompletionData, harvest_task: { task_id, actual_quantity } },
-          harvest_uses: harvest_uses,
+          harvest_uses,
         },
         task_id,
         'harvest_task',
@@ -1649,7 +1613,7 @@ describe('Task tests', () => {
       const [{ location_id }] = await mocks.locationFactory({ promisedFarm: [{ farm_id }] });
 
       const fakeTask = mocks.fakeTask({
-        task_type_id: task_type_id,
+        task_type_id,
         owner_user_id: user_id,
         assignee_user_id: user_id,
       });
@@ -1672,7 +1636,7 @@ describe('Task tests', () => {
         { user_id, farm_id },
         {
           ...fakeCompletionData,
-          plant_task: { task_id: task_id, ...new_plant_task },
+          plant_task: { task_id, ...new_plant_task },
         },
         task_id,
         'plant_task',
@@ -1719,7 +1683,7 @@ describe('Task tests', () => {
         planting_management_plan_id,
       }));
       const fakeTask = mocks.fakeTask({
-        task_type_id: task_type_id,
+        task_type_id,
         owner_user_id: user_id,
         assignee_user_id: user_id,
       });
@@ -1737,15 +1701,15 @@ describe('Task tests', () => {
       await mocks.soil_amendment_taskFactory({ promisedTask: [{ task_id }] });
 
       await mocks.management_tasksFactory({
-        promisedTask: [{ task_id: task_id }],
+        promisedTask: [{ task_id }],
         promisedPlantingManagementPlan: [managementPlans[0]],
       });
       await mocks.management_tasksFactory({
-        promisedTask: [{ task_id: task_id }],
+        promisedTask: [{ task_id }],
         promisedPlantingManagementPlan: [managementPlans[1]],
       });
       await mocks.management_tasksFactory({
-        promisedTask: [{ task_id: task_id }],
+        promisedTask: [{ task_id }],
         promisedPlantingManagementPlan: [managementPlans[2]],
       });
 
@@ -1755,7 +1719,7 @@ describe('Task tests', () => {
         { user_id, farm_id },
         {
           ...fakeCompletionData,
-          soil_amendment_task: { task_id: task_id, ...new_soil_amendment_task },
+          soil_amendment_task: { task_id, ...new_soil_amendment_task },
         },
         task_id,
         'soil_amendment_task',
@@ -1793,27 +1757,12 @@ describe('Task tests', () => {
 
   describe('PATCH abandon task tests', () => {
     const CROP_FAILURE = 'CROP_FAILURE';
-    const OTHER = 'OTHER';
-    const sampleOtherReason = 'sample reason';
     const sampleNote = 'This is a sample note';
     const abandonTaskBody = {
       abandonment_reason: CROP_FAILURE,
       other_abandonment_reason: null,
       abandonment_notes: sampleNote,
     };
-    const abandonTaskBodyOther = {
-      abandonment_reason: OTHER,
-      other_abandonment_reason: sampleOtherReason,
-      abandonment_notes: sampleNote,
-    };
-
-    beforeEach(async () => {
-      [{ product_id: product }] = await mocks.productFactory(
-        {},
-        mocks.fakeProduct({ supplier: 'mock' }),
-      );
-      productData = mocks.fakeProduct({ supplier: 'test' });
-    });
 
     test('An unassigned task should not abandoned with a rating', async (done) => {
       const [{ user_id, farm_id }] = await mocks.userFarmFactory({}, fakeUserFarm(1));
@@ -2047,11 +1996,11 @@ describe('Task tests', () => {
 
   describe('Patch task date test', () => {
     test('Owner must be able to patch task date', async (done) => {
-      const date = faker.date.future().toISOString().split('T')[0];
+      const due_date = faker.date.future().toISOString().split('T')[0];
       const patchTaskDateBody = {
-        due_date: date,
+        due_date,
       };
-      console.log(due_date);
+      // console.log(due_date);
       const [{ user_id, farm_id }] = await mocks.userFarmFactory({}, fakeUserFarm(1));
       const [{ task_id }] = await mocks.taskFactory({ promisedUser: [{ user_id }] });
       const [{ location_id }] = await mocks.locationFactory({ promisedFarm: [{ farm_id }] });
@@ -2060,17 +2009,14 @@ describe('Task tests', () => {
         promisedField: [{ location_id }],
       });
 
-      patchTaskDateRequest(
-        { user_id, farm_id },
-        patchTaskDateBody,
-        task.task_id,
-        async (err, res) => {
-          expect(res.status).toBe(200);
-          const updated_task = await getTask(task_id);
-          expect(updated_task.due_date).toBe(due_date);
-          done();
-        },
-      );
+      patchTaskDateRequest({ user_id, farm_id }, patchTaskDateBody, task_id, async (err, res) => {
+        expect(res.status).toBe(200);
+        const updated_task = await getTask(task_id);
+        expect(updated_task.due_date.toISOString().split('T')[0]).toBe(due_date);
+        done();
+      });
     });
   });
 });
+
+/* global jest describe test xtest expect beforeEach afterAll */

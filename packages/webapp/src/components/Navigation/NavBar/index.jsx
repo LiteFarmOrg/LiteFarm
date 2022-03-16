@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import PureProfileFloater from '../Floater/ProfileFloater';
+import { ReactComponent as NotificationIcon } from '../../../assets/images/notification_icon.svg';
 import { ReactComponent as MyFarmIcon } from '../../../assets/images/my-farm.svg';
 import { ReactComponent as MyFarmIconSpan } from '../../../assets/images/my-farm-es.svg';
 import { ReactComponent as MyFarmIconPort } from '../../../assets/images/my-farm-pt.svg';
@@ -24,7 +25,7 @@ import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
 import { getLanguageFromLocalStorage } from '../../../util/getLanguageFromLocalStorage';
 import { NavbarSpotlightProvider } from './NavbarSpotlightProvider';
-import { Alert } from './Alert.jsx';
+import Alert from '../../../containers/Navigation/Alert';
 
 const useStyles = makeStyles((theme) => ({
   menuButton: {
@@ -92,7 +93,6 @@ export default function PureNavBar({
   resetSpotlight,
   history,
   showFinances,
-  alertsUrl,
   defaultOpenFloater,
 }) {
   const classes = useStyles();
@@ -134,6 +134,10 @@ export default function PureNavBar({
     setOpenFloater(null);
   };
   const farmButtonOnClick = () => setOpenFloater(isFarmFloaterOpen ? null : FARM);
+  const notificationIconClick = () => {
+    console.log('This will show the notifications screen');
+    // history.push('/tasks');
+  };
   const taskIconClick = () => {
     history.push('/tasks');
   };
@@ -232,7 +236,17 @@ export default function PureNavBar({
         <NavbarSpotlightProvider open={showSpotLight} onFinish={resetSpotlight}>
           <ClickAwayListener onClickAway={onClickAway}>
             <div className={classes.icons}>
-              <Alert alertsUrl={alertsUrl} />
+              <IconButton
+                aria-label="notification icon"
+                color="inherit"
+                id="zerothStepNavBar"
+                onClick={notificationIconClick}
+                className={classes.iconButton}
+                classes={{ root: classes.notificationButton }}
+              >
+                <NotificationIcon />
+                <Alert />
+              </IconButton>
 
               <PureMyFarmFloater
                 openProfile={isFarmFloaterOpen}

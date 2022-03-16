@@ -24,6 +24,7 @@ import userFarmReducer from '../containers/userFarmSlice';
 import rolesReducer from '../containers/Profile/People/slice';
 import userLogReducer from '../containers/userLogSlice';
 import weatherReducer from '../containers/WeatherBoard/weatherSlice';
+import alertReducer from '../containers/Navigation/Alert/alertSlice';
 import chooseFarmFlowReducer from '../containers/ChooseFarm/chooseFarmFlowSlice';
 
 import barnReducer from '../containers/barnSlice';
@@ -149,6 +150,7 @@ const entitiesReducer = combineReducers({
   cropReducer,
   cropVarietyReducer,
   weatherReducer,
+  alertReducer,
   barnReducer,
   ceremonialReducer,
   farmSiteBoundaryReducer,

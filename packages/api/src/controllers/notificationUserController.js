@@ -15,9 +15,16 @@
 
 const NotificationUser = require('../models/notificationUserModel');
 
-const subscriptions = new Map();
-
+/**
+ * Controls requests related to the user's notifications.
+ */
 module.exports = {
+  /**
+   * Responds with the user's notifications regarding their current farm.
+   * @param {Request} req - The HTTP request object.
+   * @param {Response} res - The HTTP response object.
+   * @async
+   */
   async getNotifications(req, res) {
     try {
       const notifications = await NotificationUser.getNotificationsForFarmUser(
@@ -31,9 +38,15 @@ module.exports = {
     }
   },
 
+  /**
+   * Establishes a subscription for the user's notifications.
+   * @param {Request} req - The HTTP request object.
+   * @param {Response} res - The HTTP response object.
+   */
   subscribeToAlerts(req, res) {
     const { user_id, farm_id } = req.query;
 
+    // Use server-sent events.
     res.writeHead(200, {
       'Content-Type': 'text/event-stream',
       'Content-Encoding': 'identity',
@@ -42,48 +55,47 @@ module.exports = {
     });
     res.write('\n');
 
-    console.log(`opening subscription user ${user_id}`);
+    const opened = new Date().toISOString();
+    console.log(`Opening subscription: user ${user_id} at ${opened}`);
 
+    // Maintain subscriptions Map(key = user_id, value = Map(key = timestamp, value = res)).
+    const subscriptions = NotificationUser.subscriptions;
     let userSubs = subscriptions.get(user_id);
     if (!userSubs) {
       userSubs = new Map();
       subscriptions.set(user_id, userSubs);
     }
 
-    const opened = new Date().toISOString();
-    userSubs.set(opened, { farm_id, res });
+    // Register a function to send alerts to sessions for the user, farm combination.
+    const sendAlert = () => {
+      res.write(`data: ${JSON.stringify({ delta: 1 })}\n\n`);
+    };
+    // Register a function to end the long-term HTTP response that handles server-sent events.
+    const endHttpRes = () => {
+      res.end();
+    };
+    userSubs.set(opened, { farm_id, sendAlert, endHttpRes });
 
+    // Cleans up subscription tracking when HTTP request closes.
     req.on('close', () => {
-      console.log(`closing subscription user ${user_id} opened ${opened}`);
       const userSubs = subscriptions.get(user_id);
       if (!userSubs) {
-        console.log(`Problem closing alerts subscription: no subscriptions for user ${user_id}`);
+        console.log(`Cannot close non-existent subscription: user ${user_id}`);
         return;
       }
 
       const sub = userSubs.get(opened);
       if (!sub) {
-        console.log(
-          `Problem closing alerts subscription: no subscription for user ${user_id} opened ${opened}`,
-        );
+        console.log(`Cannot close non-existent subscription: user ${user_id} opened ${opened}`);
         return;
       }
-      sub.res.end();
+
+      // End the HTTP response.
+      sub.endHttpRes();
+      // Remove the subscription tracking.
       userSubs.delete(opened);
       if (userSubs.size === 0) subscriptions.delete(user_id);
-    });
-  },
-
-  alert(farm_id, userIds) {
-    userIds.forEach((user_id) => {
-      const userSubs = subscriptions.get(user_id);
-      if (userSubs) {
-        userSubs.forEach((sub) => {
-          if (sub.farm_id === farm_id || farm_id === null) {
-            sub.res.write(`data: ${JSON.stringify({ delta: 1 })}\n\n`);
-          }
-        });
-      }
+      console.log(`Closed subscription: user ${user_id} opened ${opened}`);
     });
   },
 };

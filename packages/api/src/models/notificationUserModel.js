@@ -13,22 +13,45 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
+const Model = require('objection').Model;
 const baseModel = require('./baseModel');
 const Notification = require('./notificationModel');
-const NotificationUserController = require('../controllers/notificationUserController');
 
+/**
+ * Models data persistence for users' notifications.
+ */
 class NotificationUser extends baseModel {
+  /**
+   * Tracks open subscription channels for server-sent events. To support multiple sessions by the same user,
+   *   keys are user IDs; values are Maps with timestamp keys and HTTP response object values.
+   * @member {Map}
+   * @static
+   */
+  static subscriptions = new Map();
+
+  /**
+   * Identifies the database table for this Model.
+   * @static
+   * @returns {string} Names of the database table.
+   */
   static get tableName() {
     return 'notification_user';
   }
 
+  /**
+   * Identifies the primary key fields for this Model.
+   * @static
+   * @returns {string[]} Names of the primary key fields.
+   */
   static get idColumn() {
     return ['notification_id', 'user_id'];
   }
 
-  // Optional JSON schema. This is not the database schema! Nothing is generated
-  // based on this. This is only used for validation. Whenever a model instance
-  // is created it is checked against this schema. http://json-schema.org/.
+  /**
+   * Supports validating instances of this Model class.
+   * @static
+   * @returns {Object} A description of valid instances.
+   */
   static get jsonSchema() {
     return {
       type: 'object',
@@ -47,6 +70,32 @@ class NotificationUser extends baseModel {
     };
   }
 
+  /**
+   * Defines this Model's associations with other Models.
+   * @static
+   * @returns {Object} A description of Model associations.
+   */
+  static get relationMappings() {
+    return {
+      notification: {
+        relation: Model.BelongsToOneRelation,
+        modelClass: Notification,
+        join: {
+          from: 'notification_user.notification_id',
+          to: 'notification.notification_id',
+        },
+      },
+    };
+  }
+
+  /**
+   * Retrieves notifications for a specified user and farm context.
+   * @param {uuid} farm_id - The farm context.
+   * @param {uuid} user_id - The specified user.
+   * @static
+   * @async
+   * @returns {Object} A description of Model associations.
+   */
   static async getNotificationsForFarmUser(farm_id, user_id) {
     return await NotificationUser.query()
       .withGraphJoined('notification')
@@ -60,6 +109,13 @@ class NotificationUser extends baseModel {
       .limit(100);
   }
 
+  /**
+   * Creates a notification and initiates status tracking for a specified set of recipients.
+   * @param {Object} notification - A notification to be created.
+   * @param {uuid[]} userIds - The user IDs of the recipients.
+   * @static
+   * @async
+   */
   static async notify(notification, userIds) {
     if (!userIds.length) return;
     const { notification_id } = await Notification.query()
@@ -68,7 +124,25 @@ class NotificationUser extends baseModel {
     userIds.forEach(async (user_id) => {
       await NotificationUser.query().insert({ user_id, notification_id }).context({ user_id: '1' });
     });
-    NotificationUserController.alert(notification.farm_id, userIds);
+    NotificationUser.alert(notification.farm_id, userIds);
+  }
+
+  /**
+   * Alerts any recipients with open subscription channels of a new notification.
+   * @param {uuid} farm_id - The farm context of the new notification (`null` for all farms).
+   * @param {uuid[]} userIds - The user IDs of the recipients.
+   * @static
+   */
+  static alert(farm_id, userIds) {
+    userIds.forEach((user_id) => {
+      const userSubs = NotificationUser.subscriptions.get(user_id);
+      if (!userSubs) return;
+      userSubs.forEach((subscription) => {
+        if (farm_id === subscription.farm_id || farm_id === null) {
+          subscription.sendAlert();
+        }
+      });
+    });
   }
 }
 

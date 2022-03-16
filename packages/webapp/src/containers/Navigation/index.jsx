@@ -19,27 +19,13 @@ import NoFarmNavBar from '../../components/Navigation/NoFarmNavBar';
 
 import { chooseFarmFlowSelector } from '../ChooseFarm/chooseFarmFlowSlice';
 import PureNavBar from '../../components/Navigation/NavBar';
-import {
-  isAdminSelector,
-  userFarmLengthSelector,
-  userFarmSelector,
-  alertsUrlSelector,
-} from '../userFarmSlice';
+import { isAdminSelector, userFarmLengthSelector, userFarmSelector } from '../userFarmSlice';
 import { isAuthenticated } from '../../util/jwt';
 import { showedSpotlightSelector } from '../showedSpotlightSlice';
 import { setSpotlightToShown } from '../Map/saga';
 
 const NavBar = (props) => {
-  const {
-    history,
-    farm,
-    farmState,
-    dispatch,
-    numberOfUserFarm,
-    isAdmin,
-    showedSpotlight,
-    alertsUrl,
-  } = props;
+  const { history, farm, farmState, dispatch, numberOfUserFarm, isAdmin, showedSpotlight } = props;
   const { isInvitationFlow } = farmState;
   const { navigation } = showedSpotlight;
   const isFarmSelected =
@@ -55,7 +41,6 @@ const NavBar = (props) => {
         showSwitchFarm={numberOfUserFarm > 1}
         history={history}
         showFinances={isAdmin}
-        alertsUrl={alertsUrl}
       />
     </Suspense>
   ) : (
@@ -70,7 +55,6 @@ const mapStateToProps = (state) => {
     numberOfUserFarm: userFarmLengthSelector(state),
     isAdmin: isAdminSelector(state),
     showedSpotlight: showedSpotlightSelector(state),
-    alertsUrl: alertsUrlSelector(state),
   };
 };
 

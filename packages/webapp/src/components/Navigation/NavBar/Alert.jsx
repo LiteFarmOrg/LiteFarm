@@ -1,47 +1,38 @@
-import React, { useState, useEffect } from 'react';
-import { retry } from 'redux-saga/effects';
+import { makeStyles } from '@material-ui/core/styles';
+import PropTypes from 'prop-types';
+import clsx from 'clsx';
 
-export function Alert({ alertsUrl }) {
-  // TODO initialize alertCount with the actual count of alerts for the user/farm
-  const [alertCount, setAlertCount] = useState(0);
-  const [retryCount, setRetryCount] = useState(3);
+const useStyles = makeStyles({
+  container: {
+    position: 'absolute',
+    left: '13px',
+    top: '0px',
+    width: '14px',
+    height: '14px',
+    padding: '4px',
+    borderRadius: '25px',
+    fontFamily: '"Open Sans"," SansSerif", serif',
+    fontWeight: 700,
+    fontSize: '8px',
+    lineHeight: '18px',
+    display: 'inline-flex',
+    alignItems: 'center',
+    textAlign: 'center',
+    justifyContent: 'center',
+    color: 'white',
+    backgroundColor: '#D02620',
+  },
+});
 
-  useEffect(() => {
-    let subscription = new EventSource(alertsUrl);
-
-    subscription.onopen = () => {
-      console.log(`server event stream opened: ${alertsUrl}`);
-    };
-
-    subscription.onerror = () => {
-      console.log(`server event stream error; readyState = ${subscription.readyState}`);
-      subscription.close();
-      if (retryCount > 0) {
-        console.log(
-          `will attempt to re-open stream ${retryCount} more time${retryCount === 1 ? '' : 's'}.`,
-        );
-        setRetryCount((prev) => prev - 1);
-        subscription = new EventSource(alertsUrl);
-      }
-    };
-
-    subscription.onmessage = (event) => {
-      const alert = JSON.parse(event.data);
-      console.log('alert', alert);
-      // if (alert.farm_id === farmId)
-      setAlertCount((prev) => prev + alert.delta);
-    };
-
-    // Return a cleanup function to avoid memory leak.
-    return () => {
-      console.log('cleaning up event stream');
-      subscription.close();
-    };
-  }, []);
-
+export default function PureAlert({ alertCount }) {
+  const classes = useStyles();
   return (
-    <div>
-      {alertCount} alert{alertCount !== 1 && 's'}.
-    </div>
+    alertCount && (
+      <div className={clsx(classes.container)}>{alertCount <= 9 ? alertCount : '9+'}</div>
+    )
   );
 }
+
+PureAlert.propTypes = {
+  alertCount: PropTypes.number.isRequired,
+};

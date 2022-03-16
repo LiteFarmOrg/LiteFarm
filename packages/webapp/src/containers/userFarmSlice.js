@@ -1,6 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { createSelector } from 'reselect';
-import { alertsUrl } from '../apiConfig';
 
 export function onLoadingStart(state) {
   state.loading = true;
@@ -270,8 +269,3 @@ export const getUserFarmSelector = (farmId, userId) => {
     byFarmIdUserId[farmId] && byFarmIdUserId[farmId][userId] ? byFarmIdUserId[farmId][userId] : {},
   );
 };
-
-export const alertsUrlSelector = createSelector(
-  loginSelector,
-  ({ user_id, farm_id }) => `${alertsUrl}?user_id=${user_id}&farm_id=${farm_id}`,
-);

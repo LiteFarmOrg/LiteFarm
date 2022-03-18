@@ -13,33 +13,38 @@ const ActiveFilterBox = ({ pageFilter, pageFilterKey, style }) => {
   const [firstRow, setFirstRow] = useState(0);
   const [open, setOpen] = useState(false);
 
-  const { t } = useTranslation();
+  const { t } = useTranslation(['translation', 'filter']);
   const dispatch = useDispatch();
 
   const activeFilters = Object.keys(pageFilter).reduce((acc, filterKey) => {
-    if (filterKey === 'date') return acc;
-    if (filterKey === VALID_ON) {
-      if (pageFilter[filterKey])
-        return [
-          ...acc,
-          {
+    const filter = pageFilter[filterKey];
+    const filterType = typeof filter;
+
+    if (filterType === 'object') {
+      return [...acc].concat(
+        Object.keys(pageFilter[filterKey])
+          .filter((k) => pageFilter[filterKey][k].active)
+          .map((k) => ({
             filterKey,
-            value: pageFilter[filterKey],
-            label: `${t('DOCUMENTS.FILTER.VALID_ON')}: ${pageFilter[filterKey]}`,
-            customRemoveFilter: removeNonFilterValue({ pageFilterKey, filterKey }),
-          },
-        ];
-      else return acc;
+            value: k,
+            label: pageFilter[filterKey][k].label,
+          })),
+      );
     }
-    return [...acc].concat(
-      Object.keys(pageFilter[filterKey])
-        .filter((k) => pageFilter[filterKey][k].active)
-        .map((k) => ({
+
+    if (filterType === 'string') {
+      return [
+        ...acc,
+        {
           filterKey,
-          value: k,
-          label: pageFilter[filterKey][k].label,
-        })),
-    );
+          value: pageFilter[filterKey],
+          label: `${t(`filter:FILTER.${filterKey}`)}: ${pageFilter[filterKey]}`,
+          customRemoveFilter: removeNonFilterValue({ pageFilterKey, filterKey }),
+        },
+      ];
+    }
+
+    return acc;
   }, []);
 
   const handleResize = () => {

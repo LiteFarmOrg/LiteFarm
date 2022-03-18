@@ -239,21 +239,19 @@ export default function PureEditCropVariety({
               <RadioGroup hookFormControl={control} name={TREATED} required showNotSure />
             </div>
           )}
-          {(organic === true || organic === false) && (
-            <Input
-              label={t('CROP_DETAIL.HS_CODE')}
-              style={{ paddingBottom: '16px', paddingTop: '24px' }}
-              hookFormRegister={register(HS_CODE_ID, {
-                valueAsNumber: true,
-              })}
-              type={'number'}
-              onKeyDown={integerOnKeyDown}
-              max={9999999999}
-              optional
-            />
-          )}
         </>
       )}
+      <Input
+        label={t('CROP_DETAIL.HS_CODE')}
+        style={{ paddingBottom: '16px', paddingTop: '24px' }}
+        hookFormRegister={register(HS_CODE_ID, {
+          valueAsNumber: true,
+        })}
+        type={'number'}
+        onKeyDown={integerOnKeyDown}
+        max={9999999999}
+        optional
+      />
     </Form>
   );
 }

@@ -15,22 +15,15 @@ const taskController = {
     return async (req, res, next) => {
       try {
         const { task_id } = req.params;
-        const { user_id, farm_id } = req.headers;
+        const { farm_id } = req.headers;
         const { assignee_user_id } = req.body;
-        if (
-          !adminRoles.includes(req.role) &&
-          user_id !== assignee_user_id &&
-          assignee_user_id !== null
-        ) {
-          return res.status(403).send('Not authorized to assign other people for this task');
-        }
 
         const checkTaskStatus = await TaskModel.query()
           .select('complete_date', 'abandon_date', 'assignee_user_id')
           .where({ task_id })
           .first();
         if (checkTaskStatus.complete_date || checkTaskStatus.abandon_date) {
-          return res.status(406).send('Task has already been completed or abandoned');
+          return res.status(400).send('Task has already been completed or abandoned');
         }
 
         // Avoid an empty update, and resulting duplicate notification.
@@ -66,15 +59,8 @@ const taskController = {
   assignAllTasksOnDate() {
     return async (req, res, next) => {
       try {
-        const { user_id, farm_id } = req.headers;
+        const { farm_id } = req.headers;
         const { assignee_user_id, date } = req.body;
-        if (
-          !adminRoles.includes(req.role) &&
-          user_id !== assignee_user_id &&
-          assignee_user_id !== null
-        ) {
-          return res.status(403).send('Not authorized to assign other people for this task');
-        }
         const tasks = await getTasksForFarm(farm_id);
         const taskIds = tasks.map(({ task_id }) => task_id);
         let available_tasks = await TaskModel.query()
@@ -155,7 +141,7 @@ const taskController = {
         // cannot abandon an unassigned task with rating or duration
         if (!hasAssignee && (happiness || duration)) {
           return res
-            .status(406)
+            .status(400)
             .send('An unassigned task should not be rated or have time clocked');
         }
 
@@ -321,7 +307,7 @@ const taskController = {
           override_hourly_wage,
         } = await TaskModel.query().context(req.user).findById(task_id);
         if (assignee_user_id !== user_id) {
-          return res.status(403).send("Not authorized to complete other people's task");
+          return res.status(403).send('Not authorized to complete other people\'s task');
         }
         const { wage } = await userFarmModel
           .query()
@@ -367,7 +353,7 @@ const taskController = {
         const task_id = parseInt(req.params.task_id);
         const { assignee_user_id } = await TaskModel.query().context(req.user).findById(task_id);
         if (assignee_user_id !== user_id) {
-          return res.status(403).send("Not authorized to complete other people's task");
+          return res.status(403).send('Not authorized to complete other people\'s task');
         }
         const harvest_uses = data.harvest_uses.map((harvest_use) => ({ ...harvest_use, task_id }));
         const task = data.task;
@@ -415,8 +401,9 @@ const taskController = {
         const graphTasks = await TaskModel.query()
           .whereNotDeleted()
           .withGraphFetched(
-            `[locations, managementPlans, soil_amendment_task, field_work_task, cleaning_task, 
-             pest_control_task, harvest_task.[harvest_use], plant_task, transplant_task]`,
+            `[locations, managementPlans, soil_amendment_task, field_work_task, cleaning_task, pest_control_task, 
+            harvest_task.[harvest_use], plant_task, transplant_task]
+        `,
           )
           .whereIn('task_id', taskIds);
         const filteredTasks = graphTasks.map(removeNullTypes);
@@ -531,37 +518,37 @@ async function getTasksForFarm(farm_id) {
 
 async function getManagementPlans(task_id, typeOfTask) {
   switch (typeOfTask) {
-    case 'plant_task':
-      return plantTaskModel
-        .query()
-        .join(
-          'planting_management_plan',
-          'plant_task.planting_management_plan_id',
-          'planting_management_plan.planting_management_plan_id',
-        )
-        .where({ task_id })
-        .select('*');
+  case 'plant_task':
+    return plantTaskModel
+      .query()
+      .join(
+        'planting_management_plan',
+        'plant_task.planting_management_plan_id',
+        'planting_management_plan.planting_management_plan_id',
+      )
+      .where({ task_id })
+      .select('*');
 
-    case 'transplant_task':
-      return transplantTaskModel
-        .query()
-        .join(
-          'planting_management_plan',
-          'transplant_task.planting_management_plan_id',
-          'planting_management_plan.planting_management_plan_id',
-        )
-        .where({ task_id })
-        .select('*');
-    default:
-      return managementTasksModel
-        .query()
-        .select('planting_management_plan.management_plan_id')
-        .join(
-          'planting_management_plan',
-          'planting_management_plan.planting_management_plan_id',
-          'management_tasks.planting_management_plan_id',
-        )
-        .where('task_id', task_id);
+  case 'transplant_task':
+    return transplantTaskModel
+      .query()
+      .join(
+        'planting_management_plan',
+        'transplant_task.planting_management_plan_id',
+        'planting_management_plan.planting_management_plan_id',
+      )
+      .where({ task_id })
+      .select('*');
+  default:
+    return managementTasksModel
+      .query()
+      .select('planting_management_plan.management_plan_id')
+      .join(
+        'planting_management_plan',
+        'planting_management_plan.planting_management_plan_id',
+        'management_tasks.planting_management_plan_id',
+      )
+      .where('task_id', task_id);
   }
 }
 

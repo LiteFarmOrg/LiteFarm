@@ -212,7 +212,7 @@ export function PriceCropContainer({
 
   return (
     <div style={{ marginBottom: '12px' }}>
-      <Text>{name}</Text>
+      <Text className={styles.title}>{name}</Text>
       <svg
         ref={svgRef}
         width={width}

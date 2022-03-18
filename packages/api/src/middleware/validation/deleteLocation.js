@@ -72,7 +72,9 @@ async function validateLocationDependency(req, res, next) {
         },
       },
     )
-    .where('crop_variety.farm_id', req.headers.farm_id);
+    .where('crop_variety.farm_id', req.headers.farm_id)
+    .where('management_plan.complete_date', null)
+    .where('management_plan.abandon_date', null);
   //TODO: deprecate req.headers.farm_id and move farm_id to req.context in hasFarmAccess
 
   for (const {

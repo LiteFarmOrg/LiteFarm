@@ -7,54 +7,51 @@ import { loginSelector, userFarmEntitiesSelector } from '../userFarmSlice';
 import { getLocationName } from '../Crop/CropManagement/useManagementPlanCardContents';
 
 const getTaskContents = (tasks, userFarmEntities, { farm_id }) => {
-  return tasks
-    .sort((taskA, taskB) => {
-      if (
-        !taskA.complete_date &&
-        !taskA.abandon_date &&
-        (taskB.complete_date || taskB.abandon_date)
-      ) {
-        return -1;
-      }
-      if (
-        taskA.complete_date &&
-        !taskA.abandon_date &&
-        !taskB.complete_date &&
-        taskB.abandon_date
-      ) {
-        return -1;
-      }
-      if (
-        !taskA.complete_date &&
-        !taskA.abandon_date &&
-        !taskB.complete_date &&
-        !taskB.abandon_date
-      ) {
-        return new Date(taskA.due_date).getTime() - new Date(taskB.due_date).getTime();
-      }
-      if (taskA.complete_date && taskB.complete_date) {
-        return new Date(taskA.complete_date).getTime() - new Date(taskB.complete_date).getTime();
-      }
-      if (taskA.abandon_date && taskB.abandon_date) {
-        return new Date(taskA.abandon_date).getTime() - new Date(taskB.abandon_date).getTime();
-      }
-      return 1;
-    })
-    .map((task) => {
-      const managementPlans = task.managementPlans;
-      return {
-        task_id: task.task_id,
-        taskType: task.taskType,
-        status: getTaskStatus(task),
-        cropVarietyName: getCropVarietyName(managementPlans),
-        locationName: getLocationNameOfTask(managementPlans, task.locations, task.taskType),
-        completeOrDueDate: getTaskCardDate(task.complete_date || task.due_date),
-        assignee: userFarmEntities[farm_id][task.assignee_user_id],
-        happiness: task.happiness,
-        abandon_date: task.abandon_date,
-      };
-    });
+  return tasks.map((task) => {
+    const managementPlans = task.managementPlans;
+    return {
+      task_id: task.task_id,
+      taskType: task.taskType,
+      status: getTaskStatus(task),
+      cropVarietyName: getCropVarietyName(managementPlans),
+      locationName: getLocationNameOfTask(managementPlans, task.locations, task.taskType),
+      completeOrDueDate: getTaskCardDate(task.complete_date || task.due_date),
+      assignee: userFarmEntities[farm_id][task.assignee_user_id],
+      happiness: task.happiness,
+      abandon_date: task.abandon_date,
+      date: task.abandon_date || task.complete_date || task.due_date,
+    };
+  });
 };
+
+export const sortTaskCardContent = (taskCardContents, isAscending = true) =>
+  taskCardContents.sort((taskA, taskB) => {
+    const order = isAscending ? 1 : -1;
+    const bottomTwoStatus = ['completed', 'abandoned'];
+    if (!bottomTwoStatus.includes(taskA.status) && bottomTwoStatus.includes(taskB.status)) {
+      return -1;
+    }
+    if (
+      taskA.status === 'completed' &&
+      taskB.status === 'abandoned' &&
+      taskA.status !== 'abandoned' &&
+      taskB.status !== 'completed'
+    ) {
+      return -1;
+    }
+    if (!bottomTwoStatus.includes(taskA.status) && !bottomTwoStatus.includes(taskB.status)) {
+      return (new Date(taskA.date).getTime() - new Date(taskB.date).getTime()) * order;
+    }
+    if (taskA.status === 'completed' && taskB.status === 'completed') {
+      return (new Date(taskA.date).getTime() - new Date(taskB.date).getTime()) * order;
+    }
+    if (taskA.status === 'abandoned' && taskB.status === 'abandoned') {
+      return (
+        (new Date(taskA.abandon_date).getTime() - new Date(taskB.abandon_date).getTime()) * order
+      );
+    }
+    return 1;
+  });
 
 export const taskCardContentSelector = createSelector(
   [tasksSelector, userFarmEntitiesSelector, loginSelector],
@@ -64,7 +61,8 @@ export const taskCardContentSelector = createSelector(
 export const taskCardContentByManagementPlanSelector = (management_plan_id) =>
   createSelector(
     [tasksByManagementPlanIdSelector(management_plan_id), userFarmEntitiesSelector, loginSelector],
-    getTaskContents,
+    (tasks, userFarmEntities, { farm_id }) =>
+      sortTaskCardContent(getTaskContents(tasks, userFarmEntities, { farm_id })),
   );
 
 export const getTaskStatus = (task) => {

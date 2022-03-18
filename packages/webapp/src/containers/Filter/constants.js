@@ -18,3 +18,12 @@ export const WATER_SAMPLE_RESULTS = 'WATER_SAMPLE_RESULTS';
 export const OTHER = 'OTHER';
 export const VALID_ON = 'VALID_ON';
 export const UNCATEGORIZED = 'UNCATEGORIZED';
+
+export const CROP = 'CROP';
+export const ASSIGNEE = 'ASSIGNEE';
+export const LATE = 'LATE';
+export const COMPLETED = 'COMPLETED';
+export const FROM_DATE = 'FROM_DATE';
+export const TO_DATE = 'TO_DATE';
+export const FOR_REVIEW = 'FOR_REVIEW';
+export const IS_ASCENDING = 'IS_ASCENDING';

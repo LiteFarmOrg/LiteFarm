@@ -7,13 +7,18 @@ import { ReactComponent as Leaf } from '../../assets/images/farmMapFilter/Leaf.s
 import { ReactComponent as Pencil } from '../../assets/images/managementPlans/pencil.svg';
 
 type TypographyProps = {
-  style?: object,
-  onClick?: () => void,
-  children?: ReactNode,
-  className?: string,
-}
+  style?: object;
+  onClick?: () => void;
+  children?: ReactNode;
+  className?: string;
+};
 
-export const Underlined = ({ children = 'Link', className = '', style = {}, ...props }: TypographyProps) => {
+export const Underlined = ({
+  children = 'Link',
+  className = '',
+  style = {},
+  ...props
+}: TypographyProps) => {
   return (
     <p className={clsx(styles.underlined, className)} style={style} {...props}>
       {children}
@@ -22,16 +27,16 @@ export const Underlined = ({ children = 'Link', className = '', style = {}, ...p
 };
 
 type IconLinkProps = TypographyProps & {
-  icon?: ReactNode,
-}
+  icon?: ReactNode;
+};
 export const IconLink = ({
-                           children = 'IconLink',
-                           className = '',
-                           style,
-                           onClick,
-                           icon,
-                           ...props
-                         }: IconLinkProps) => {
+  children = 'IconLink',
+  className = '',
+  style,
+  onClick,
+  icon,
+  ...props
+}: IconLinkProps) => {
   return (
     <p style={style} className={clsx(styles.addLinkContainer, className)} {...props}>
       {icon}{' '}
@@ -42,7 +47,13 @@ export const IconLink = ({
   );
 };
 
-export const AddLink = ({ children = 'AddLink', className = '', style, onClick, ...props }: TypographyProps) => {
+export const AddLink = ({
+  children = 'AddLink',
+  className = '',
+  style,
+  onClick,
+  ...props
+}: TypographyProps) => {
   return (
     <IconLink className={className} style={style} onClick={onClick} icon={'+'} {...props}>
       {children}
@@ -51,16 +62,16 @@ export const AddLink = ({ children = 'AddLink', className = '', style, onClick, 
 };
 
 type SubtractLinkProps = TypographyProps & {
-  color?: string
-}
+  color?: string;
+};
 export const SubtractLink = ({
-                               children = 'SubtractLink',
-                               className = '',
-                               style,
-                               onClick,
-                               color,
-                               ...props
-                             }: SubtractLinkProps) => {
+  children = 'SubtractLink',
+  className = '',
+  style,
+  onClick,
+  color,
+  ...props
+}: SubtractLinkProps) => {
   return (
     <IconLink className={className} style={style} onClick={onClick} icon={'-'} {...props}>
       {children}
@@ -68,7 +79,13 @@ export const SubtractLink = ({
   );
 };
 
-export const EditLink = ({ children = 'Link', className = '', style, onClick, ...props }: TypographyProps) => {
+export const EditLink = ({
+  children = 'Link',
+  className = '',
+  style,
+  onClick,
+  ...props
+}: TypographyProps) => {
   return (
     <p style={style} className={clsx(styles.editLinkContainer, className)} {...props}>
       <Pencil className={styles.pencil} />
@@ -87,9 +104,15 @@ export const Title = ({ children = 'Title', className = '', style, ...props }: T
   );
 };
 
-type TypographySmProps = TypographyProps & { sm?: boolean }
+type TypographySmProps = TypographyProps & { sm?: boolean };
 
-export const Semibold = ({ children = 'Semibold', className = '', style, sm, ...props }: TypographySmProps) => {
+export const Semibold = ({
+  children = 'Semibold',
+  className = '',
+  style,
+  sm,
+  ...props
+}: TypographySmProps) => {
   return (
     <h4 className={clsx(styles.semibold, sm && styles.sm, className)} style={style} {...props}>
       {children}
@@ -97,7 +120,13 @@ export const Semibold = ({ children = 'Semibold', className = '', style, sm, ...
   );
 };
 
-export const Label = ({ children = 'Label', className = '', sm = false, style, ...props }: TypographySmProps) => {
+export const Label = ({
+  children = 'Label',
+  className = '',
+  sm = false,
+  style,
+  ...props
+}: TypographySmProps) => {
   return sm ? (
     <span className={clsx(styles.smLabel, className)} style={style} {...props}>
       {children}
@@ -131,20 +160,19 @@ export const Info = ({ children = 'Info', className = '', style, ...props }: Typ
   );
 };
 
-
 type MainProps = TypographyProps & {
-  hasLeaf?: boolean,
-  tooltipContent: boolean | React.ReactChild | React.ReactFragment | React.ReactPortal,
-}
+  hasLeaf?: boolean;
+  tooltipContent?: boolean | React.ReactChild | React.ReactFragment | React.ReactPortal;
+};
 
 export const Main = ({
-                       children = 'Main',
-                       tooltipContent,
-                       hasLeaf,
-                       className = '',
-                       style,
-                       ...props
-                     }: MainProps) => {
+  children = 'Main',
+  tooltipContent,
+  hasLeaf,
+  className = '',
+  style,
+  ...props
+}: MainProps) => {
   return (
     <p className={clsx(styles.main, className)} style={style} {...props}>
       {children}
@@ -177,4 +205,3 @@ export const Text = ({ children = 'Text', className = '', style, ...props }: Typ
     </p>
   );
 };
-

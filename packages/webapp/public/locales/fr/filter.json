@@ -19,5 +19,18 @@
     "SOIL_SAMPLE_RESULTS": "MISSING",
     "WATER_SAMPLE_RESULTS": "MISSING",
     "UNCATEGORIZED": "Non Classé"
+  },
+  "TASKS": {
+    "ABANDONED": "Abandonné",
+    "COMPLETED": "Terminé",
+    "FOR_REVIEW": "Pour évaluer",
+    "LATE": "Tard",
+    "PLANNED": "Planifié",
+    "STATUS": "MISSING"
+  },
+  "FILTER": {
+    "VALID_ON": "MISSING",
+    "FROM_DATE": "MISSING",
+    "TO_DATE": "MISSING"
   }
 }

@@ -105,6 +105,7 @@ Default.args = {
   cropsWithPriceInfo,
   currencySymbol: '$',
   unit: 'mi',
+  isImperial: true,
 };
 
 export const OneYear = Template.bind({});
@@ -121,5 +122,5 @@ OneYear.args = {
     },
   ],
   currencySymbol: '$',
-  unit: 'mi',
+  isImperial: false,
 };

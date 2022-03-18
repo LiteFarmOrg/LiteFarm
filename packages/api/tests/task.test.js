@@ -8,6 +8,7 @@ jest.mock('../src/middleware/acl/checkJwt');
 const mocks = require('./mock.factories');
 const { tableCleanup } = require('./testEnvironment');
 const faker = require('faker');
+const { it } = require('faker/lib/locales');
 
 describe('Task tests', () => {
   let middleware;
@@ -1994,11 +1995,11 @@ describe('Task tests', () => {
     });
   });
 
-  describe('Patch task date test', () => {
-    test('Owner must be able to patch task date', async (done) => {
+  describe('Patch task due date test', () => {
+    test('Farm owner must be able to patch task due date', async (done) => {
       const due_date = faker.date.future().toISOString().split('T')[0];
       const patchTaskDateBody = {
-        due_date,
+        due_date: due_date,
       };
       // console.log(due_date);
       const [{ user_id, farm_id }] = await mocks.userFarmFactory({}, fakeUserFarm(1));

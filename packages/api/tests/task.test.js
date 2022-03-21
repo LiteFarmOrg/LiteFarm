@@ -1998,10 +1998,7 @@ describe('Task tests', () => {
   describe('Patch task due date test', () => {
     test('Farm owner must be able to patch task due date', async (done) => {
       const due_date = faker.date.future().toISOString().split('T')[0];
-      const patchTaskDateBody = {
-        due_date: due_date,
-      };
-      // console.log(due_date);
+      const patchTaskDateBody = { due_date };
       const [{ user_id, farm_id }] = await mocks.userFarmFactory({}, fakeUserFarm(1));
       const [{ task_id }] = await mocks.taskFactory({ promisedUser: [{ user_id }] });
       const [{ location_id }] = await mocks.locationFactory({ promisedFarm: [{ farm_id }] });
@@ -2013,7 +2010,14 @@ describe('Task tests', () => {
       patchTaskDateRequest({ user_id, farm_id }, patchTaskDateBody, task_id, async (err, res) => {
         expect(res.status).toBe(200);
         const updated_task = await getTask(task_id);
-        expect(updated_task.due_date.toISOString().split('T')[0]).toBe(due_date);
+        const dueDateFromDb = new Date(
+          updated_task.due_date.toLocaleString('en-US', {
+            timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+          }),
+        )
+          .toISOString()
+          .split('T')[0];
+        expect(dueDateFromDb).toBe(due_date);
         done();
       });
     });

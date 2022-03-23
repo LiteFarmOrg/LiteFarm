@@ -8,6 +8,15 @@ const HarvestUse = require('../models/harvestUseModel');
 
 const { typesOfTask } = require('./../middleware/validation/task');
 const adminRoles = [1, 2, 5];
+const isDateInPast = (date) => {
+  const today = new Date();
+  const newDate = new Date(date);
+  if (newDate.setHours(0, 0, 0, 0) < today.setHours(0, 0, 0, 0)) {
+    console.log('today:' + today + ' new date:' + newDate + ' true');
+    return true;
+  }
+  return false;
+};
 
 const taskController = {
   assignTask() {
@@ -61,11 +70,40 @@ const taskController = {
             assignee_user_id,
           })
           .whereIn('task_id', available_tasks);
-        return res.status(200).send(available_tasks);
+        return result
+          ? res.status(200).send(available_tasks)
+          : res.status(404).send('Tasks not found');
       } catch (error) {
         return res.status(400).json({ error });
       }
     };
+  },
+
+  async patchTaskDate(req, res) {
+    try {
+      const { task_id } = req.params;
+      const { due_date } = req.body;
+
+      //Ensure the task due date is not in the past
+      const isPast = await isDateInPast(due_date);
+      if (isPast) {
+        return res.status(401).send('Task due date must be today or in the future');
+      }
+
+      //Ensure only adminRoles can modify task due date
+      if (!adminRoles.includes(req.role)) {
+        return res.status(403).send('Not authorized to change due date');
+      }
+
+      const result = await TaskModel.query()
+        .context(req.user)
+        .findById(task_id)
+        .patch({ due_date });
+      return result ? res.sendStatus(200) : res.status(404).send('Task not found');
+    } catch (error) {
+      console.log(error);
+      return res.status(400).json({ error });
+    }
   },
 
   abandonTask() {

@@ -27,6 +27,7 @@
     "ASSIGN_ALL_TO_PERSON": "Asignar todas las tareas no asignadas en esta fecha a esta persona",
     "ASSIGN_TASK": "Asignar tarea",
     "ASSIGNEE": "Responsable",
+    "ASSIGN_DATE": "Asignar due date",
     "CANCEL": "creación de la tarea",
     "CLEANING_VIEW": {
       "ESTIMATED_WATER": "Uso de agua estimado",

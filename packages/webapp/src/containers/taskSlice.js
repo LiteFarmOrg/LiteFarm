@@ -55,11 +55,11 @@ const upsertManyTasks = (state, { payload: tasks }) => {
   );
 };
 
-const updateOneTask = (state, { payload: task }) => {
+const upsertOneTask = (state, { payload: task }) => {
   state.loading = false;
   state.error = null;
   state.loaded = true;
-  taskAdapter.updateOne(state, task);
+  taskAdapter.upsertOne(state, task);
 };
 
 const updateManyTasks = (state, { payload: tasks }) => {
@@ -95,7 +95,7 @@ const taskSlice = createSlice({
             })) || [],
         })),
       }),
-    putTaskSuccess: updateOneTask,
+    putTaskSuccess: upsertOneTask,
     putTasksSuccess: updateManyTasks,
     createTaskSuccess: taskAdapter.addOne,
     deleteTaskSuccess: taskAdapter.removeOne,

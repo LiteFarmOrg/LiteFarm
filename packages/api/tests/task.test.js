@@ -21,6 +21,20 @@ describe('Task tests', () => {
     });
   });
 
+  /**
+   * Converts a given Date to the local date in ISO-8601 extended format (YYYY-MM-DD).
+   * Date.prototype.toISOString() returns the same format of the UTC (not local) date.
+   * @param {Date} date - The date to be converted.
+   * @returns {string} The input's local date in YYYY-MM-DD format.
+   */
+  function toLocal8601Extended(date) {
+    return (
+      `${date.getFullYear()}-` +
+      `${(date.getMonth() + 1).toString().padStart(2, '0')}-` +
+      `${date.getDate().toString().padStart(2, '0')}`
+    );
+  }
+
   function assignTaskRequest({ user_id, farm_id }, data, task_id, callback) {
     chai
       .request(server)
@@ -1465,7 +1479,7 @@ describe('Task tests', () => {
         async (err, res) => {
           expect(res.status).toBe(200);
           const completed_task = await knex('task').where({ task_id }).first();
-          expect(completed_task.complete_date.toISOString().split('T')[0]).toBe(complete_date);
+          expect(toLocal8601Extended(completed_task.complete_date)).toBe(complete_date);
           expect(completed_task.duration).toBe(duration);
           expect(completed_task.happiness).toBe(happiness);
           expect(completed_task.completion_notes).toBe(notes);
@@ -1518,7 +1532,7 @@ describe('Task tests', () => {
         async (err, res) => {
           expect(res.status).toBe(200);
           const completed_task = await knex('task').where({ task_id }).first();
-          expect(completed_task.complete_date.toISOString().split('T')[0]).toBe(complete_date);
+          expect(toLocal8601Extended(completed_task.complete_date)).toBe(complete_date);
           expect(completed_task.duration).toBe(duration);
           expect(completed_task.happiness).toBe(happiness);
           expect(completed_task.completion_notes).toBe(notes);
@@ -1590,7 +1604,7 @@ describe('Task tests', () => {
         async (err, res) => {
           expect(res.status).toBe(200);
           const completed_task = await knex('task').where({ task_id }).first();
-          expect(completed_task.complete_date.toISOString().split('T')[0]).toBe(complete_date);
+          expect(toLocal8601Extended(completed_task.complete_date)).toBe(complete_date);
           expect(completed_task.duration).toBe(duration);
           expect(completed_task.happiness).toBe(happiness);
           expect(completed_task.completion_notes).toBe(notes);
@@ -1727,7 +1741,7 @@ describe('Task tests', () => {
         async (err, res) => {
           expect(res.status).toBe(200);
           const completed_task = await knex('task').where({ task_id }).first();
-          expect(completed_task.complete_date.toISOString().split('T')[0]).toBe(complete_date);
+          expect(toLocal8601Extended(completed_task.complete_date)).toBe(complete_date);
           expect(completed_task.duration).toBe(duration);
           expect(completed_task.happiness).toBe(happiness);
           expect(completed_task.completion_notes).toBe(notes);
@@ -1747,9 +1761,9 @@ describe('Task tests', () => {
           const management_plan_3 = await knex('management_plan')
             .where({ management_plan_id: promisedManagement[2][0].management_plan_id })
             .first();
-          expect(management_plan_1.start_date.toISOString().split('T')[0]).toBe(complete_date);
-          expect(management_plan_2.start_date.toISOString().split('T')[0]).toBe(complete_date);
-          expect(management_plan_3.start_date.toISOString().split('T')[0]).toBe(complete_date);
+          expect(toLocal8601Extended(management_plan_1.start_date)).toBe(complete_date);
+          expect(toLocal8601Extended(management_plan_2.start_date)).toBe(complete_date);
+          expect(toLocal8601Extended(management_plan_3.start_date)).toBe(complete_date);
           done();
         },
       );
@@ -1996,7 +2010,27 @@ describe('Task tests', () => {
   });
 
   describe('Patch task due date test', () => {
-    test('Farm owner must be able to patch task due date', async (done) => {
+    test('Farm owner must be able to patch task due date to today', async (done) => {
+      const today = new Date();
+      const due_date = today.toISOString().split('T')[0];
+      const patchTaskDateBody = { due_date };
+      const [{ user_id, farm_id }] = await mocks.userFarmFactory({}, fakeUserFarm(1));
+      const [{ task_id }] = await mocks.taskFactory({ promisedUser: [{ user_id }] });
+      const [{ location_id }] = await mocks.locationFactory({ promisedFarm: [{ farm_id }] });
+      await mocks.location_tasksFactory({
+        promisedTask: [{ task_id }],
+        promisedField: [{ location_id }],
+      });
+
+      patchTaskDateRequest({ user_id, farm_id }, patchTaskDateBody, task_id, async (err, res) => {
+        expect(res.status).toBe(200);
+        const updated_task = await getTask(task_id);
+        expect(toLocal8601Extended(updated_task.due_date)).toBe(due_date);
+        done();
+      });
+    });
+
+    test('Farm owner must be able to patch task due date to a future date', async (done) => {
       const due_date = faker.date.future().toISOString().split('T')[0];
       const patchTaskDateBody = { due_date };
       const [{ user_id, farm_id }] = await mocks.userFarmFactory({}, fakeUserFarm(1));
@@ -2010,14 +2044,159 @@ describe('Task tests', () => {
       patchTaskDateRequest({ user_id, farm_id }, patchTaskDateBody, task_id, async (err, res) => {
         expect(res.status).toBe(200);
         const updated_task = await getTask(task_id);
-        const dueDateFromDb = new Date(
-          updated_task.due_date.toLocaleString('en-US', {
-            timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
-          }),
-        )
-          .toISOString()
-          .split('T')[0];
-        expect(dueDateFromDb).toBe(due_date);
+        expect(toLocal8601Extended(updated_task.due_date)).toBe(due_date);
+        done();
+      });
+    });
+
+    test('Farm owner must not be able to patch task due date to a date in the past', async (done) => {
+      const past = faker.date.past();
+      const due_date = past.toISOString().split('T')[0];
+      console.log(due_date);
+      const patchTaskDateBody = { due_date };
+      const [{ user_id, farm_id }] = await mocks.userFarmFactory({}, fakeUserFarm(1));
+      const [{ task_id }] = await mocks.taskFactory({ promisedUser: [{ user_id }] });
+      const [{ location_id }] = await mocks.locationFactory({ promisedFarm: [{ farm_id }] });
+      await mocks.location_tasksFactory({
+        promisedTask: [{ task_id }],
+        promisedField: [{ location_id }],
+      });
+
+      patchTaskDateRequest({ user_id, farm_id }, patchTaskDateBody, task_id, async (err, res) => {
+        expect(res.status).toBe(401);
+        done();
+      });
+    });
+
+    test('EO must be able to patch task due date to today', async (done) => {
+      const today = new Date();
+      const due_date = today.toISOString().split('T')[0];
+      const patchTaskDateBody = { due_date };
+      const [{ user_id, farm_id }] = await mocks.userFarmFactory({}, fakeUserFarm(5));
+      const [{ task_id }] = await mocks.taskFactory({ promisedUser: [{ user_id }] });
+      const [{ location_id }] = await mocks.locationFactory({ promisedFarm: [{ farm_id }] });
+      await mocks.location_tasksFactory({
+        promisedTask: [{ task_id }],
+        promisedField: [{ location_id }],
+      });
+
+      patchTaskDateRequest({ user_id, farm_id }, patchTaskDateBody, task_id, async (err, res) => {
+        expect(res.status).toBe(200);
+        const updated_task = await getTask(task_id);
+        expect(toLocal8601Extended(updated_task.due_date)).toBe(due_date);
+        done();
+      });
+    });
+
+    test('EO must be able to patch task due date to a future date', async (done) => {
+      const due_date = faker.date.future().toISOString().split('T')[0];
+      const patchTaskDateBody = { due_date };
+      const [{ user_id, farm_id }] = await mocks.userFarmFactory({}, fakeUserFarm(5));
+      const [{ task_id }] = await mocks.taskFactory({ promisedUser: [{ user_id }] });
+      const [{ location_id }] = await mocks.locationFactory({ promisedFarm: [{ farm_id }] });
+      await mocks.location_tasksFactory({
+        promisedTask: [{ task_id }],
+        promisedField: [{ location_id }],
+      });
+
+      patchTaskDateRequest({ user_id, farm_id }, patchTaskDateBody, task_id, async (err, res) => {
+        expect(res.status).toBe(200);
+        const updated_task = await getTask(task_id);
+        expect(toLocal8601Extended(updated_task.due_date)).toBe(due_date);
+        done();
+      });
+    });
+
+    test('EO must not be able to patch task due date to a date in the past', async (done) => {
+      const past = faker.date.past();
+      const due_date = past.toISOString().split('T')[0];
+      console.log(due_date);
+      const patchTaskDateBody = { due_date };
+      const [{ user_id, farm_id }] = await mocks.userFarmFactory({}, fakeUserFarm(5));
+      const [{ task_id }] = await mocks.taskFactory({ promisedUser: [{ user_id }] });
+      const [{ location_id }] = await mocks.locationFactory({ promisedFarm: [{ farm_id }] });
+      await mocks.location_tasksFactory({
+        promisedTask: [{ task_id }],
+        promisedField: [{ location_id }],
+      });
+
+      patchTaskDateRequest({ user_id, farm_id }, patchTaskDateBody, task_id, async (err, res) => {
+        expect(res.status).toBe(401);
+        done();
+      });
+    });
+
+    test('Managers must be able to patch task due date to today', async (done) => {
+      const today = new Date();
+      const due_date = today.toISOString().split('T')[0];
+      const patchTaskDateBody = { due_date };
+      const [{ user_id, farm_id }] = await mocks.userFarmFactory({}, fakeUserFarm(5));
+      const [{ task_id }] = await mocks.taskFactory({ promisedUser: [{ user_id }] });
+      const [{ location_id }] = await mocks.locationFactory({ promisedFarm: [{ farm_id }] });
+      await mocks.location_tasksFactory({
+        promisedTask: [{ task_id }],
+        promisedField: [{ location_id }],
+      });
+
+      patchTaskDateRequest({ user_id, farm_id }, patchTaskDateBody, task_id, async (err, res) => {
+        expect(res.status).toBe(200);
+        const updated_task = await getTask(task_id);
+        expect(toLocal8601Extended(updated_task.due_date)).toBe(due_date);
+        done();
+      });
+    });
+
+    test('Managers must be able to patch task due date to a future date', async (done) => {
+      const due_date = faker.date.future().toISOString().split('T')[0];
+      const patchTaskDateBody = { due_date };
+      const [{ user_id, farm_id }] = await mocks.userFarmFactory({}, fakeUserFarm(5));
+      const [{ task_id }] = await mocks.taskFactory({ promisedUser: [{ user_id }] });
+      const [{ location_id }] = await mocks.locationFactory({ promisedFarm: [{ farm_id }] });
+      await mocks.location_tasksFactory({
+        promisedTask: [{ task_id }],
+        promisedField: [{ location_id }],
+      });
+
+      patchTaskDateRequest({ user_id, farm_id }, patchTaskDateBody, task_id, async (err, res) => {
+        expect(res.status).toBe(200);
+        const updated_task = await getTask(task_id);
+        expect(toLocal8601Extended(updated_task.due_date)).toBe(due_date);
+        done();
+      });
+    });
+
+    test('Managers must not be able to patch task due date to a date in the past', async (done) => {
+      const past = faker.date.past();
+      const due_date = past.toISOString().split('T')[0];
+      console.log(due_date);
+      const patchTaskDateBody = { due_date };
+      const [{ user_id, farm_id }] = await mocks.userFarmFactory({}, fakeUserFarm(5));
+      const [{ task_id }] = await mocks.taskFactory({ promisedUser: [{ user_id }] });
+      const [{ location_id }] = await mocks.locationFactory({ promisedFarm: [{ farm_id }] });
+      await mocks.location_tasksFactory({
+        promisedTask: [{ task_id }],
+        promisedField: [{ location_id }],
+      });
+
+      patchTaskDateRequest({ user_id, farm_id }, patchTaskDateBody, task_id, async (err, res) => {
+        expect(res.status).toBe(401);
+        done();
+      });
+    });
+
+    test('Farm worker must not be able to patch task due date', async (done) => {
+      const due_date = faker.date.future().toISOString().split('T')[0];
+      const patchTaskDateBody = { due_date };
+      const [{ user_id, farm_id }] = await mocks.userFarmFactory({}, fakeUserFarm(3));
+      const [{ task_id }] = await mocks.taskFactory({ promisedUser: [{ user_id }] });
+      const [{ location_id }] = await mocks.locationFactory({ promisedFarm: [{ farm_id }] });
+      await mocks.location_tasksFactory({
+        promisedTask: [{ task_id }],
+        promisedField: [{ location_id }],
+      });
+
+      patchTaskDateRequest({ user_id, farm_id }, patchTaskDateBody, task_id, async (err, res) => {
+        expect(res.status).toBe(403);
         done();
       });
     });

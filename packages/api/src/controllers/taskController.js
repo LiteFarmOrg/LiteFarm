@@ -8,6 +8,15 @@ const HarvestUse = require('../models/harvestUseModel');
 
 const { typesOfTask } = require('./../middleware/validation/task');
 const adminRoles = [1, 2, 5];
+const isDateInPast = (date) => {
+  const today = new Date();
+  const newDate = new Date(date);
+  if (newDate.setHours(0, 0, 0, 0) < today.setHours(0, 0, 0, 0)) {
+    console.log('today:' + today + ' new date:' + newDate + ' true');
+    return true;
+  }
+  return false;
+};
 
 const taskController = {
   assignTask() {
@@ -74,6 +83,18 @@ const taskController = {
     try {
       const { task_id } = req.params;
       const { due_date } = req.body;
+
+      //Ensure the task due date is not in the past
+      const isPast = await isDateInPast(due_date);
+      if (isPast) {
+        return res.status(401).send('Task due date must be today or in the future');
+      }
+
+      //Ensure only adminRoles can modify task due date
+      if (!adminRoles.includes(req.role)) {
+        return res.status(403).send('Not authorized to change due date');
+      }
+
       const result = await TaskModel.query()
         .context(req.user)
         .findById(task_id)

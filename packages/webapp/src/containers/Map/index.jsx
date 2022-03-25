@@ -83,7 +83,7 @@ export default function Map({ history }) {
     };
   }, [persistedPathsSet]);
   useEffect(() => {
-    if (!history.location.isStepBack) {
+    if (!history.location.state?.isStepBack) {
       dispatch(resetAndUnLockFormData());
     }
     return () => {
@@ -236,12 +236,12 @@ export default function Map({ history }) {
     let mapBounds = new maps.LatLngBounds();
     drawAssets(map, maps, mapBounds);
 
-    if (history.location.isStepBack) {
+    if (history.location.state?.isStepBack) {
       reconstructOverlay();
     }
 
-    if (history.location.cameraInfo) {
-      const { zoom, location } = history.location.cameraInfo;
+    if (history.location.state?.cameraInfo) {
+      const { zoom, location } = history.location.state.cameraInfo;
       if (zoom && location) {
         map.setZoom(zoom);
         map.setCenter(location);

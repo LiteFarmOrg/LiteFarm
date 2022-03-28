@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import PureProfileFloater from '../Floater/ProfileFloater';
-import { ReactComponent as NotificationIcon } from '../../../assets/images/notification_icon.svg';
+import { ReactComponent as NotificationIcon } from '../../../assets/images/notif.svg';
 import { ReactComponent as MyFarmIcon } from '../../../assets/images/my-farm.svg';
 import { ReactComponent as MyFarmIconSpan } from '../../../assets/images/my-farm-es.svg';
 import { ReactComponent as MyFarmIconPort } from '../../../assets/images/my-farm-pt.svg';
@@ -135,8 +135,7 @@ export default function PureNavBar({
   };
   const farmButtonOnClick = () => setOpenFloater(isFarmFloaterOpen ? null : FARM);
   const notificationIconClick = () => {
-    console.log('This will show the notifications screen');
-    // history.push('/tasks');
+    history.push('/notifications');
   };
   const taskIconClick = () => {
     history.push('/tasks');

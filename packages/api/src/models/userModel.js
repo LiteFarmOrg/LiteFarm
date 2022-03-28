@@ -119,6 +119,11 @@ class User extends Model {
       additionalProperties: false,
     };
   }
+
+  static async getNameFromUserId(userId) {
+    const user = await User.query().findById(userId).first();
+    return `${user?.first_name} ${user?.last_name}`;
+  }
 }
 
 module.exports = User;

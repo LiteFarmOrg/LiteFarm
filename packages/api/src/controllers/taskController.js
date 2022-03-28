@@ -6,6 +6,7 @@ const transplantTaskModel = require('../models/transplantTaskModel');
 const plantTaskModel = require('../models/plantTaskModel');
 const HarvestUse = require('../models/harvestUseModel');
 const NotificationUser = require('../models/notificationUserModel');
+const User = require('../models/userModel');
 
 const { typesOfTask } = require('./../middleware/validation/task');
 const adminRoles = [1, 2, 5];
@@ -19,14 +20,15 @@ const taskController = {
         const { assignee_user_id } = req.body;
 
         const checkTaskStatus = await TaskModel.query()
-          .select('complete_date', 'abandon_date', 'assignee_user_id')
+          .leftOuterJoin('task_type', 'task.task_type_id', 'task_type.task_type_id')
+          .select('complete_date', 'abandon_date', 'assignee_user_id', 'task_translation_key')
           .where({ task_id })
           .first();
         if (checkTaskStatus.complete_date || checkTaskStatus.abandon_date) {
           return res.status(400).send('Task has already been completed or abandoned');
         }
 
-        // Avoid an empty update, and resulting duplicate notification.
+        // Avoid 1) making an empty update, and 2) sending a redundant notification.
         if (checkTaskStatus.assignee_user_id === assignee_user_id) return res.sendStatus(200);
 
         const result = await TaskModel.query()
@@ -35,19 +37,13 @@ const taskController = {
           .patch({ assignee_user_id });
         if (!result) return res.status(404).send('Task not found');
 
-        if (assignee_user_id !== null) {
-          NotificationUser.notify(
-            {
-              title: 'You have a new task assignment',
-              body: 'TODO implement and translate this',
-              ref_table: 'task',
-              // ref_subtable: 'TODO implement this',
-              ref_pk: task_id,
-              farm_id,
-            },
-            [assignee_user_id],
-          );
-        }
+        await notifyAssignee(
+          assignee_user_id,
+          task_id,
+          checkTaskStatus.task_translation_key,
+          farm_id,
+        );
+
         return res.sendStatus(200);
       } catch (error) {
         console.log(error);
@@ -63,9 +59,10 @@ const taskController = {
         const { assignee_user_id, date } = req.body;
         const tasks = await getTasksForFarm(farm_id);
         const taskIds = tasks.map(({ task_id }) => task_id);
-        let available_tasks = await TaskModel.query()
+        const available_tasks = await TaskModel.query()
+          .leftOuterJoin('task_type', 'task.task_type_id', 'task_type.task_type_id')
           .context(req.user)
-          .select('task_id')
+          .select('task_id', 'task_translation_key')
           .where((builder) => {
             builder.where('due_date', date);
             builder.whereIn('task_id', taskIds);
@@ -75,25 +72,20 @@ const taskController = {
             builder.where('complete_date', null);
             builder.where('abandon_date', null);
           });
-        available_tasks = available_tasks.map(({ task_id }) => task_id);
+        const availableTaskIds = available_tasks.map(({ task_id }) => task_id);
         const result = await TaskModel.query()
           .context(req.user)
           .patch({
             assignee_user_id,
           })
-          .whereIn('task_id', available_tasks);
+          .whereIn('task_id', availableTaskIds);
         if (result) {
-          available_tasks.forEach((task) => {
-            NotificationUser.notify(
-              {
-                title: 'You have a new task assignment',
-                body: 'TODO implement and translate this',
-                ref_table: 'task',
-                // ref_subtable: 'TODO implement this',
-                ref_pk: task.task_id,
-                farm_id,
-              },
-              [assignee_user_id],
+          available_tasks.forEach(async (task) => {
+            await notifyAssignee(
+              assignee_user_id,
+              task.task_id,
+              task.task_translation_key,
+              farm_id,
             );
           });
           return res.status(200).send(available_tasks);
@@ -204,6 +196,15 @@ const taskController = {
             .where({ task_id });
           return removeNullTypes(task);
         });
+        if (result.assignee_user_id) {
+          const { assignee_user_id, task_id, taskType } = result;
+          await notifyAssignee(
+            assignee_user_id,
+            task_id,
+            taskType.task_translation_key,
+            req.headers.farm_id,
+          );
+        }
         return res.status(201).send(result);
       } catch (error) {
         console.log(error);
@@ -244,6 +245,7 @@ const taskController = {
                 noInsert: nonModifiable,
                 relate: ['locations', 'managementPlans'],
               });
+            // N.B. Notification not needed; these tasks are never assigned at creation.
             result.push(removeNullTypes(task));
           }
           return result;
@@ -286,6 +288,7 @@ const taskController = {
               noInsert: nonModifiable,
             });
         });
+        // N.B. Notification not needed; these tasks are never assigned at creation.
         return res.status(201).send(result);
       } catch (error) {
         console.log(error);
@@ -565,6 +568,26 @@ async function patchManagementPlanStartDate(trx, req, typeOfTask, task = req.bod
       .where('start_date', null)
       .returning('*');
   }
+}
+
+async function notifyAssignee(userId, taskId, taskTranslationKey, farmId) {
+  if (!userId) return;
+
+  const assigneeName = await User.getNameFromUserId(userId);
+  NotificationUser.notify(
+    {
+      translation_key: 'TASK_ASSIGNED',
+      variables: [
+        { name: 'taskType', value: `task:${taskTranslationKey}`, translate: true },
+        { name: 'assignee', value: assigneeName, translate: false },
+      ],
+      entity_type: TaskModel.tableName,
+      entity_id: String(taskId),
+      context: { task_translation_key: taskTranslationKey },
+      farm_id: farmId,
+    },
+    [userId],
+  );
 }
 
 module.exports = taskController;

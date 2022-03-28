@@ -1,34 +1,35 @@
 import { makeStyles } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
-
-const useStyles = makeStyles({
-  container: {
-    position: 'absolute',
-    left: '13px',
-    top: '0px',
-    width: '14px',
-    height: '14px',
-    padding: '4px',
-    borderRadius: '25px',
-    fontFamily: '"Open Sans"," SansSerif", serif',
-    fontWeight: 700,
-    fontSize: '8px',
-    lineHeight: '18px',
-    display: 'inline-flex',
-    alignItems: 'center',
-    textAlign: 'center',
-    justifyContent: 'center',
-    color: 'white',
-    backgroundColor: '#D02620',
-  },
-});
+import { ReactComponent as AlertIcon } from '../../../assets/images/alert.svg';
 
 export default function PureAlert({ alertCount }) {
+  const useStyles = makeStyles({
+    alert: {
+      position: 'absolute',
+      left: '13px',
+      top: '2px',
+      width: '12px',
+      height: '12px',
+    },
+    alertCount: {
+      fontFamily: '"Open Sans"," SansSerif", serif',
+      fontWeight: 700,
+      fontSize: '8px',
+      textAlign: 'center',
+      color: 'white',
+    },
+  });
   const classes = useStyles();
+
   return (
     alertCount && (
-      <div className={clsx(classes.container)}>{alertCount <= 9 ? alertCount : '9+'}</div>
+      <>
+        <AlertIcon className={clsx(classes.alert)} />
+        <div className={clsx(classes.alert, classes.alertCount)}>
+          {alertCount <= 9 ? alertCount : '9+'}
+        </div>
+      </>
     )
   );
 }

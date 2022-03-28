@@ -64,6 +64,7 @@ export const spotlightUrl = `${URI}/showed_spotlight`;
 export const taskUrl = `${URI}/task`;
 export const productsUrl = `${URI}/product`;
 export const alertsUrl = `${URI}/notification_user/subscribe`;
+export const notificationsUrl = `${URI}/notification_user`;
 export const url = URI;
 
 export default {
@@ -104,5 +105,6 @@ export default {
   taskUrl,
   productsUrl,
   alertsUrl,
+  notificationsUrl,
   url,
 };

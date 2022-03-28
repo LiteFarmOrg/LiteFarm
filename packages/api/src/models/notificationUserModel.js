@@ -62,6 +62,11 @@ class NotificationUser extends baseModel {
         alert: { type: 'boolean' },
         status: {
           type: 'string',
+          /**
+           * @name userNotificationStatusType
+           * @desc Enumerated type for user notification status.
+           * @enum
+           * */
           enum: ['Unread', 'Read', 'Archived'],
         },
         ...this.baseProperties,
@@ -94,19 +99,26 @@ class NotificationUser extends baseModel {
    * @param {uuid} user_id - The specified user.
    * @static
    * @async
-   * @returns {Object} A description of Model associations.
+   * @returns {Object[]} An array of data objects.
    */
   static async getNotificationsForFarmUser(farm_id, user_id) {
-    return await NotificationUser.query()
-      .withGraphJoined('notification')
-      .context({ showHidden: true })
-      .whereRaw(
-        `notification.deleted = false AND notification_user.deleted = false 
-        AND user_id = ? AND (farm_id IS NULL OR farm_id = ?)`,
+    return (
+      await NotificationUser.knex().raw(
+        `
+      SELECT notification.notification_id, alert, status, translation_key, variables, 
+        entity_type, entity_id, context, notification_user.created_at
+      FROM notification JOIN notification_user
+      ON notification.notification_id = notification_user.notification_id
+      WHERE notification.deleted = false 
+        AND notification_user.deleted = false 
+        AND user_id = ? 
+        AND (farm_id IS NULL OR farm_id = ?)
+      ORDER BY notification_user.created_at DESC
+      LIMIT 100;
+      `,
         [user_id, farm_id],
       )
-      .orderBy('created_at', 'desc')
-      .limit(100);
+    ).rows;
   }
 
   /**

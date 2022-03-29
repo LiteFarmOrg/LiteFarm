@@ -58,12 +58,12 @@ export const getLocalizedDateString = (date, format = 'MMMM DD, YYYY') =>
  * @returns {string}
  */
 export const getManagementPlanCardDate = (date) =>
-  moment(date).locale(getLanguageFromLocalStorage()).utc().format(`MMM DD,'YY`);
+  moment(date).locale(getLanguageFromLocalStorage()).format(`MMM DD,'YY`);
 
 export const getManagementPlanTileDate = (date) =>
-  moment(date).locale(getLanguageFromLocalStorage()).utc().format(`MMM DD,'YY`);
+  moment(date).locale(getLanguageFromLocalStorage()).format(`MMM DD,'YY`);
 
 export const getTaskCardDate = (date) =>
-  moment(date).locale(getLanguageFromLocalStorage()).utc().format('MMM D, YYYY');
+  moment(date).locale(getLanguageFromLocalStorage()).format('MMM D, YYYY');
 
-export const getCurrentDateLong = (date) => moment().utc().format('L');
+export const getCurrentDateLong = (date) => moment().format('L');

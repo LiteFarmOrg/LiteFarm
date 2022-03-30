@@ -11,3 +11,5 @@ packages/webapp/cypress/screenshots
 .vscode
 .DS_Store
 .env
+packages/webapp/cypress/integration/1-getting-started
+packages/webapp/cypress/integration/2-advanced-examples

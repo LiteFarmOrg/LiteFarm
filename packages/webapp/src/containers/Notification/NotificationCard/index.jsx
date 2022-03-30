@@ -16,7 +16,6 @@ const NotificationCard = ({
   classes = { card: {} },
   ...props
 }) => {
-  console.log('PNC', variables);
   return (
     <>
       <PureNotificationCard

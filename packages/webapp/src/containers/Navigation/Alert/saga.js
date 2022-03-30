@@ -68,7 +68,6 @@ export function* getAlertSaga() {
       `${url}/notification_user`,
       getHeader(user_id, farm_id),
     );
-    console.log('notifications', notifications.data);
     const count = notifications.data.reduce(
       (prev, notification) => prev + (notification.alert ? 1 : 0),
       0,

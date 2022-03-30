@@ -27,7 +27,6 @@ export function* getNotificationSaga() {
   try {
     yield put(onLoadingNotificationStart(user_id, farm_id));
     const result = yield call(axios.get, notificationsUrl, header);
-    console.log('result', result);
     yield put(getNotificationSuccess(result.data));
   } catch (e) {
     console.log(e);

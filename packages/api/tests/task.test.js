@@ -2063,7 +2063,7 @@ describe('Task tests', () => {
       });
 
       patchTaskDateRequest({ user_id, farm_id }, patchTaskDateBody, task_id, async (err, res) => {
-        expect(res.status).toBe(401);
+        expect(res.status).toBe(400);
         done();
       });
     });
@@ -2121,7 +2121,7 @@ describe('Task tests', () => {
       });
 
       patchTaskDateRequest({ user_id, farm_id }, patchTaskDateBody, task_id, async (err, res) => {
-        expect(res.status).toBe(401);
+        expect(res.status).toBe(400);
         done();
       });
     });
@@ -2179,7 +2179,7 @@ describe('Task tests', () => {
       });
 
       patchTaskDateRequest({ user_id, farm_id }, patchTaskDateBody, task_id, async (err, res) => {
-        expect(res.status).toBe(401);
+        expect(res.status).toBe(400);
         done();
       });
     });

@@ -11,8 +11,7 @@ const adminRoles = [1, 2, 5];
 const isDateInPast = (date) => {
   const today = new Date();
   const newDate = new Date(date);
-  if (newDate.setHours(0, 0, 0, 0) < today.setHours(0, 0, 0, 0)) {
-    console.log('today:' + today + ' new date:' + newDate + ' true');
+  if (newDate.setUTCHours(0, 0, 0, 0) < today.setUTCHours(0, 0, 0, 0)) {
     return true;
   }
   return false;
@@ -87,7 +86,7 @@ const taskController = {
       //Ensure the task due date is not in the past
       const isPast = await isDateInPast(due_date);
       if (isPast) {
-        return res.status(401).send('Task due date must be today or in the future');
+        return res.status(400).send('Task due date must be today or in the future');
       }
 
       //Ensure only adminRoles can modify task due date
@@ -308,7 +307,7 @@ const taskController = {
           override_hourly_wage,
         } = await TaskModel.query().context(req.user).findById(task_id);
         if (assignee_user_id !== user_id) {
-          return res.status(403).send("Not authorized to complete other people's task");
+          return res.status(403).send('Not authorized to complete other people\'s task');
         }
         const { wage } = await userFarmModel
           .query()
@@ -354,7 +353,7 @@ const taskController = {
         const task_id = parseInt(req.params.task_id);
         const { assignee_user_id } = await TaskModel.query().context(req.user).findById(task_id);
         if (assignee_user_id !== user_id) {
-          return res.status(403).send("Not authorized to complete other people's task");
+          return res.status(403).send('Not authorized to complete other people\'s task');
         }
         const harvest_uses = data.harvest_uses.map((harvest_use) => ({ ...harvest_use, task_id }));
         const task = data.task;

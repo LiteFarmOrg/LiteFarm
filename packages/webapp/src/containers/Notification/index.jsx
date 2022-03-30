@@ -64,3 +64,18 @@ export default function NotificationPage({ history }) {
     </Layout>
   );
 }
+
+/**
+ * @typedef Notification
+ * @desc The data for a notification sent to the current user.
+ * @type {object}
+ * @property {uuid} notification_id - A unique identifier for the object.
+ * @property {boolean} alert - Indicates if the notification is being presented to the user for the first time.
+ * @property {userNotificationStatusType} status - The notification's status.
+ * @property {string} translation_key - The translation key for the notification, which must contain subkeys for the title and body.
+ * @property {InterpolationVariable[]} variables - An array of translation interpolation variables.
+ * @property {string} entity_type - The type of entity that the notification refers to, e.g., 'task'.
+ * @property {string} entity_id - A unique identifier for the specific entity_type instance that the notification refers to.
+ * @property {object} context - A dictionary of context-specific data for the notification.
+ * @property {string} created_at - The creation time of the notification.
+ */

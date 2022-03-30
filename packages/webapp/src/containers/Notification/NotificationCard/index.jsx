@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { NotificationCard as PureNotificationCard } from '../../../components/Card/NotificationCard/NotificationCard';
+import { PureNotificationCard } from '../../../components/Card/NotificationCard/NotificationCard';
 
 const NotificationCard = ({
   alert,

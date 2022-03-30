@@ -12,7 +12,7 @@ import getTaskTypeIcon from '../../util/getTaskTypeIcon';
  * @param {NotificationCardConfig} param0
  * @returns {ReactComponent}
  */
-export function NotificationCard({
+export function PureNotificationCard({
   alert,
   status,
   translation_key,

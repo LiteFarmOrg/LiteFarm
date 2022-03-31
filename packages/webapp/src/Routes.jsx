@@ -285,6 +285,9 @@ const UpdateEstimatedCropRevenue = React.lazy(() =>
   import('./containers/Finances/UpdateEstimatedCropRevenue'),
 );
 const Notification = React.lazy(() => import('./containers/Notification'));
+const NotificationReadOnly = React.lazy(() =>
+  import('./containers/Notification/NotificationReadOnly'),
+);
 const Forbidden = React.lazy(() => import('./containers/ErrorHandler/Forbidden/Forbidden'));
 
 const Routes = () => {
@@ -620,6 +623,11 @@ const Routes = () => {
             <Route path="/add_task/row_method" exact component={TaskRowMethod} />
             <Route path="/add_task/row_guidance" exact component={TaskRowGuidance} />
             <Route path="/notifications" exact component={Notification} />
+            <Route
+              path="/notifications/:notification_id/read_only"
+              exact
+              component={NotificationReadOnly}
+            />
             <Route path="/403" exact component={Forbidden} />
             <Redirect
               to={'/'}
@@ -913,6 +921,11 @@ const Routes = () => {
             <Route path="/add_task/row_method" exact component={TaskRowMethod} />
             <Route path="/add_task/row_guidance" exact component={TaskRowGuidance} />
             <Route path="/notifications" exact component={Notification} />
+            <Route
+              path="/notifications/:notification_id/read_only"
+              exact
+              component={NotificationReadOnly}
+            />
             <Route path="/403" exact component={Forbidden} />
             <Redirect to={'/'} />
           </Switch>
@@ -1006,6 +1019,11 @@ const Routes = () => {
             <Route path="/add_task/row_method" exact component={TaskRowMethod} />
             <Route path="/add_task/row_guidance" exact component={TaskRowGuidance} />
             <Route path="/notifications" exact component={Notification} />
+            <Route
+              path="/notifications/:notification_id/read_only"
+              exact
+              component={NotificationReadOnly}
+            />
             <Route path="/403" exact component={Forbidden} />
             <Redirect to={'/'} />
           </Switch>

@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { PureNotificationCard } from '../../../components/Card/NotificationCard/NotificationCard';
+import history from '../../../history';
 
 const NotificationCard = ({
+  notification_id,
   alert,
   status,
   translation_key,
@@ -30,6 +32,8 @@ const NotificationCard = ({
         style={style}
         onClick={onClick}
         classes={classes}
+        notification_id={notification_id}
+        history={history}
       />
     </>
   );

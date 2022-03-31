@@ -5,7 +5,7 @@ import PureSearchbarAndFilter from '../../components/PopupFilter/PureSearchbarAn
 import { Semibold } from '../../components/Typography';
 import { useDispatch, useSelector } from 'react-redux';
 import React, { useEffect, useState } from 'react';
-import { notificationSelector } from '../notificationSlice';
+import { notificationsSelector } from '../notificationSlice';
 import NotificationCard from './NotificationCard';
 import { getNotification } from './saga';
 import useStringFilteredNotifications from './useStringFilteredNotifications';
@@ -19,7 +19,7 @@ export default function NotificationPage({ history }) {
   const { t } = useTranslation();
 
   // Get the data.
-  const cardContents = useSelector(notificationSelector);
+  const cardContents = useSelector(notificationsSelector);
 
   const dispatch = useDispatch();
   useEffect(() => {
@@ -50,8 +50,9 @@ export default function NotificationPage({ history }) {
         notifications.map((notification) => (
           <NotificationCard
             key={notification.notification_id}
+            notification_id={notification.notification_id}
             variables={notification.variables}
-            onClick={() => history.push(`/notification/${notification.notification_id}`)}
+            onClick={() => history.push(`/notification/${notification.notification_id}/read_only`)}
             translation_key={notification.translation_key}
             {...notification}
           />

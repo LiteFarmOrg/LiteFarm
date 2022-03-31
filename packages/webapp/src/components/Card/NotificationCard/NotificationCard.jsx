@@ -21,6 +21,8 @@ export function PureNotificationCard({
   entity_id,
   context,
   created_at,
+  notification_id,
+  history,
 }) {
   const { t } = useTranslation();
   // Construct translation options from interpolation variables, translating them as needed.
@@ -55,6 +57,7 @@ export function PureNotificationCard({
         borderBottomRightRadius: '0px',
         borderColor: '#D4DAE3',
         boxShadow: '0 0 0',
+        cursor: 'pointer',
       }}
       classes={{
         card: {
@@ -65,6 +68,7 @@ export function PureNotificationCard({
           padding: '160px',
         },
       }}
+      onClick={() => history.push(`/notifications/${notification_id}/read_only`)}
     >
       <div>
         <div
@@ -106,8 +110,6 @@ export function PureNotificationCard({
         </Semibold>
         <Text style={{ margin: 0, lineHeight: '18px' }}>
           {t(`NOTIFICATION.${translation_key}.BODY`, tOptions)}
-          <br />
-          {/* {`${entity_type}s/${entity_id}/read_only`} */}
         </Text>
       </div>
     </Card>

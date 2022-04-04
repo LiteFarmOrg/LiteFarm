@@ -5,7 +5,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { userFarmsByFarmSelector, userFarmSelector } from '../../userFarmSlice';
 import { PureTaskCard } from '../../../components/CardWithStatus/TaskCard/TaskCard';
 import TaskQuickAssignModal from '../../../components/Modals/QuickAssignModal';
-import { assignTask, assignTasksOnDate } from '../saga';
+import UpdateTaskDateModal from '../../../components/Modals/UpdateTaskDateModal';
+import { assignTask, assignTasksOnDate, changeTaskDate } from '../saga';
 
 const TaskCard = ({
   task_id,
@@ -23,7 +24,9 @@ const TaskCard = ({
   ...props
 }) => {
   const [showTaskAssignModal, setShowTaskAssignModal] = useState();
+  const [showDateAssignModal, setShowDateAssignModal] = useState();
   const dispatch = useDispatch();
+  const onChangeTaskDate = (date) => dispatch(changeTaskDate({ task_id, due_date: date }));
   const onAssignTasksOnDate = (task) => dispatch(assignTasksOnDate(task));
   const onAssignTask = (task) => dispatch(assignTask(task));
   const users = useSelector(userFarmsByFarmSelector).filter((user) => user.status !== 'Inactive');
@@ -46,6 +49,11 @@ const TaskCard = ({
             setShowTaskAssignModal(true);
           }
         }}
+        onClickCompleteOrDueDate={() => {
+          if (!immutableStatus.includes(status)) {
+            setShowDateAssignModal(true);
+          }
+        }}
         selected={selected}
         happiness={happiness}
         classes={classes}
@@ -60,6 +68,13 @@ const TaskCard = ({
           users={users}
           user={user}
           dismissModal={() => setShowTaskAssignModal(false)}
+        />
+      )}
+      {showDateAssignModal && (
+        <UpdateTaskDateModal
+          due_date={completeOrDueDate}
+          onChangeTaskDate={onChangeTaskDate}
+          dismissModal={() => setShowDateAssignModal(false)}
         />
       )}
     </>
@@ -78,6 +93,7 @@ TaskCard.propTypes = {
   completeOrDueDate: PropTypes.string,
   assignee: PropTypes.object,
   onClickAssignee: PropTypes.func,
+  onClickCompleteOrDueDate: PropTypes.func,
   selected: PropTypes.bool,
   task_id: PropTypes.number,
 };

@@ -32,4 +32,10 @@ module.exports = {
     'no-unused-vars': 'off',
     'no-prototype-builtins': 'off',
   },
+  globals: {
+    describe: 'readonly',
+    it: 'readonly',
+    cy: 'readonly',
+    Cypress: 'readonly',
+  },
 };

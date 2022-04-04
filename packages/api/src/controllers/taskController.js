@@ -10,6 +10,14 @@ const User = require('../models/userModel');
 
 const { typesOfTask } = require('./../middleware/validation/task');
 const adminRoles = [1, 2, 5];
+const isDateInPast = (date) => {
+  const today = new Date();
+  const newDate = new Date(date);
+  if (newDate.setUTCHours(0, 0, 0, 0) < today.setUTCHours(0, 0, 0, 0)) {
+    return true;
+  }
+  return false;
+};
 
 const taskController = {
   assignTask() {
@@ -95,6 +103,33 @@ const taskController = {
         return res.status(400).json({ error });
       }
     };
+  },
+
+  async patchTaskDate(req, res) {
+    try {
+      const { task_id } = req.params;
+      const { due_date } = req.body;
+
+      //Ensure the task due date is not in the past
+      const isPast = await isDateInPast(due_date);
+      if (isPast) {
+        return res.status(400).send('Task due date must be today or in the future');
+      }
+
+      //Ensure only adminRoles can modify task due date
+      if (!adminRoles.includes(req.role)) {
+        return res.status(403).send('Not authorized to change due date');
+      }
+
+      const result = await TaskModel.query()
+        .context(req.user)
+        .findById(task_id)
+        .patch({ due_date });
+      return result ? res.sendStatus(200) : res.status(404).send('Task not found');
+    } catch (error) {
+      console.log(error);
+      return res.status(400).json({ error });
+    }
   },
 
   abandonTask() {
@@ -310,7 +345,7 @@ const taskController = {
           override_hourly_wage,
         } = await TaskModel.query().context(req.user).findById(task_id);
         if (assignee_user_id !== user_id) {
-          return res.status(403).send('Not authorized to complete other people\'s task');
+          return res.status(403).send("Not authorized to complete other people's task");
         }
         const { wage } = await userFarmModel
           .query()
@@ -356,7 +391,7 @@ const taskController = {
         const task_id = parseInt(req.params.task_id);
         const { assignee_user_id } = await TaskModel.query().context(req.user).findById(task_id);
         if (assignee_user_id !== user_id) {
-          return res.status(403).send('Not authorized to complete other people\'s task');
+          return res.status(403).send("Not authorized to complete other people's task");
         }
         const harvest_uses = data.harvest_uses.map((harvest_use) => ({ ...harvest_use, task_id }));
         const task = data.task;
@@ -521,37 +556,37 @@ async function getTasksForFarm(farm_id) {
 
 async function getManagementPlans(task_id, typeOfTask) {
   switch (typeOfTask) {
-  case 'plant_task':
-    return plantTaskModel
-      .query()
-      .join(
-        'planting_management_plan',
-        'plant_task.planting_management_plan_id',
-        'planting_management_plan.planting_management_plan_id',
-      )
-      .where({ task_id })
-      .select('*');
+    case 'plant_task':
+      return plantTaskModel
+        .query()
+        .join(
+          'planting_management_plan',
+          'plant_task.planting_management_plan_id',
+          'planting_management_plan.planting_management_plan_id',
+        )
+        .where({ task_id })
+        .select('*');
 
-  case 'transplant_task':
-    return transplantTaskModel
-      .query()
-      .join(
-        'planting_management_plan',
-        'transplant_task.planting_management_plan_id',
-        'planting_management_plan.planting_management_plan_id',
-      )
-      .where({ task_id })
-      .select('*');
-  default:
-    return managementTasksModel
-      .query()
-      .select('planting_management_plan.management_plan_id')
-      .join(
-        'planting_management_plan',
-        'planting_management_plan.planting_management_plan_id',
-        'management_tasks.planting_management_plan_id',
-      )
-      .where('task_id', task_id);
+    case 'transplant_task':
+      return transplantTaskModel
+        .query()
+        .join(
+          'planting_management_plan',
+          'transplant_task.planting_management_plan_id',
+          'planting_management_plan.planting_management_plan_id',
+        )
+        .where({ task_id })
+        .select('*');
+    default:
+      return managementTasksModel
+        .query()
+        .select('planting_management_plan.management_plan_id')
+        .join(
+          'planting_management_plan',
+          'planting_management_plan.planting_management_plan_id',
+          'management_tasks.planting_management_plan_id',
+        )
+        .where('task_id', task_id);
   }
 }
 

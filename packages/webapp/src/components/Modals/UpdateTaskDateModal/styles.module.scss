@@ -1,0 +1,32 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    max-width: 312px;
+    width: 90vw;
+    background: #fafafd;
+    border-radius: 7.05466px;
+    position: relative;
+    padding: 24px;
+  }
+  
+  .title {
+    color: var(--teal700);
+    line-height: 24px;
+    margin-bottom: 16px;
+  }
+  
+  .stepList {
+    color: var(--grey600);
+    line-height: 18px;
+    margin-bottom: 8px;
+  }
+  
+  .stepListItem {
+    margin-bottom: 16px;
+  }
+  
+  .button {
+    width: 96px;
+  }
+  
+  

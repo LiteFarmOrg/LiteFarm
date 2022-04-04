@@ -99,7 +99,7 @@ export function* assignTaskSaga({ payload: { task_id, assignee_user_id } }) {
       { assignee_user_id: assignee_user_id },
       header,
     );
-    yield put(putTaskSuccess({ id: task_id, changes: { assignee_user_id } }));
+    yield put(putTaskSuccess({ assignee_user_id, task_id }));
     yield put(enqueueSuccessSnackbar(i18n.t('message:ASSIGN_TASK.SUCCESS')));
   } catch (e) {
     console.log(e);
@@ -128,6 +128,28 @@ export function* assignTaskOnDateSaga({ payload: { task_id, date, assignee_user_
       });
     }
     yield put(putTasksSuccess(modified_tasks));
+    yield put(enqueueSuccessSnackbar(i18n.t('message:ASSIGN_TASK.SUCCESS')));
+  } catch (e) {
+    console.log(e);
+    yield put(enqueueErrorSnackbar(i18n.t('message:ASSIGN_TASK.ERROR')));
+  }
+}
+
+export const changeTaskDate = createAction('changeTaskDateSaga');
+
+export function* changeTaskDateSaga({ payload: { task_id, due_date } }) {
+  const { taskUrl } = apiConfig;
+  let { user_id, farm_id } = yield select(loginSelector);
+  const header = getHeader(user_id, farm_id);
+  try {
+    const result = yield call(
+      axios.patch,
+      `${taskUrl}/patch_due_date/${task_id}`,
+      { due_date },
+      header,
+    );
+
+    yield put(putTaskSuccess({ due_date, task_id }));
     yield put(enqueueSuccessSnackbar(i18n.t('message:ASSIGN_TASK.SUCCESS')));
   } catch (e) {
     console.log(e);
@@ -467,7 +489,7 @@ export function* completeTaskSaga({ payload: { task_id, data } }) {
       header,
     );
     if (result) {
-      yield put(putTaskSuccess({ id: task_id, changes: result.data }));
+      yield put(putTaskSuccess(result.data));
       yield call(onReqSuccessSaga, {
         message: i18n.t('message:TASK.COMPLETE.SUCCESS'),
         pathname: '/tasks',
@@ -489,7 +511,7 @@ export function* abandonTaskSaga({ payload: data }) {
   try {
     const result = yield call(axios.patch, `${taskUrl}/abandon/${task_id}`, patchData, header);
     if (result) {
-      yield put(putTaskSuccess({ id: task_id, changes: result.data }));
+      yield put(putTaskSuccess(result.data));
       yield put(enqueueSuccessSnackbar(i18n.t('message:TASK.ABANDON.SUCCESS')));
       history.push('/tasks');
     }
@@ -606,6 +628,7 @@ export function* addCustomHarvestUseSaga({ payload: data }) {
 export default function* taskSaga() {
   yield takeLeading(addCustomTaskType.type, addTaskTypeSaga);
   yield takeLeading(assignTask.type, assignTaskSaga);
+  yield takeLeading(changeTaskDate.type, changeTaskDateSaga);
   yield takeLeading(createTask.type, createTaskSaga);
   yield takeLatest(getTaskTypes.type, getTaskTypesSaga);
   yield takeLeading(assignTasksOnDate.type, assignTaskOnDateSaga);

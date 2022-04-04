@@ -27,6 +27,7 @@
     "ASSIGN_ALL_TO_PERSON": "Attribuez toutes les tâches non assignées à cette date à cette personne",
     "ASSIGN_TASK": "Attribuer une tâche",
     "ASSIGNEE": "Destinataire",
+    "ASSIGN_DATE": "Attribuer due date",
     "CANCEL": "création de tâches",
     "CLEANING_VIEW": {
       "ESTIMATED_WATER": "Consommation d'eau estimée",

@@ -1,3 +1,5 @@
+import 'cypress-react-selector';
+
 // cypress/support/commands.js
 Cypress.Commands.add('loginByGoogleApi', () => {
   cy.log(process.env.REACT_APP_GOOGLE_CLIENTID);

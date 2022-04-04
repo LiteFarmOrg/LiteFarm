@@ -65,6 +65,7 @@ export const taskUrl = `${URI}/task`;
 export const productsUrl = `${URI}/product`;
 export const alertsUrl = `${URI}/notification_user/subscribe`;
 export const notificationsUrl = `${URI}/notification_user`;
+export const clearAlertsUrl = `${URI}/notification_user/clear_alerts`;
 export const url = URI;
 
 export default {

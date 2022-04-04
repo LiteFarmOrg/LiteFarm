@@ -1,6 +1,6 @@
 /*
  *  Copyright 2019-2022 LiteFarm.org
- *  This file  is part of LiteFarm.
+ *  This file is part of LiteFarm.
  *
  *  LiteFarm is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -12,7 +12,7 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
-import { take, put, call, select, takeEvery } from 'redux-saga/effects';
+import { take, put, call, select, takeLatest } from 'redux-saga/effects';
 import { createAction } from '@reduxjs/toolkit';
 import { eventChannel, END } from 'redux-saga';
 import { axios, getHeader } from '../../saga';
@@ -23,7 +23,7 @@ import {
   onLoadingAlertStart,
   alertSelector,
 } from './alertSlice';
-import { url, alertsUrl } from '../../../apiConfig';
+import { notificationsUrl, alertsUrl } from '../../../apiConfig';
 
 function subscribeToChannel(sseUrl) {
   return eventChannel((emitter) => {
@@ -48,6 +48,14 @@ function subscribeToChannel(sseUrl) {
   });
 }
 
+function getNotifications(user_id, farm_id) {
+  return axios.get(notificationsUrl, getHeader(user_id, farm_id));
+}
+
+function countAlerts(notifications) {
+  return notifications.reduce((prev, notification) => prev + (notification.alert ? 1 : 0), 0);
+}
+
 export const getAlert = createAction('getAlertSaga');
 
 export function* getAlertSaga() {
@@ -62,16 +70,9 @@ export function* getAlertSaga() {
       `${alertsUrl}?user_id=${user_id}&farm_id=${farm_id}`,
     );
 
-    // Call API to get current alert count; initialize it in the store.
-    const notifications = yield call(
-      axios.get,
-      `${url}/notification_user`,
-      getHeader(user_id, farm_id),
-    );
-    const count = notifications.data.reduce(
-      (prev, notification) => prev + (notification.alert ? 1 : 0),
-      0,
-    );
+    // Call API to get notifications; count alerts and store result
+    const notifications = yield call(getNotifications, user_id, farm_id);
+    const count = countAlerts(notifications.data);
     yield put(setAlertCount({ farm_id, count }));
 
     try {
@@ -79,7 +80,7 @@ export function* getAlertSaga() {
         // For each server-sent event, update the alert count.
         const { count } = yield select(alertSelector);
         const message = yield take(channel);
-        yield put(setAlertCount({ farm_id, count: count + message.delta }));
+        yield put(setAlertCount({ farm_id, count: Math.max(0, count + message.delta) }));
       }
     } finally {
       console.log('channel closed');
@@ -91,5 +92,5 @@ export function* getAlertSaga() {
 }
 
 export default function* alertSaga() {
-  yield takeEvery(getAlert.type, getAlertSaga);
+  yield takeLatest(getAlert.type, getAlertSaga);
 }

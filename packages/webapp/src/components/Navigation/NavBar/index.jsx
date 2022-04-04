@@ -135,7 +135,13 @@ export default function PureNavBar({
   };
   const farmButtonOnClick = () => setOpenFloater(isFarmFloaterOpen ? null : FARM);
   const notificationIconClick = () => {
-    history.push('/notifications');
+    const url = '/notifications';
+    if (history.location.pathname === url) {
+      // TODO click should update contents; is there better way than full page refresh?
+      history.go(0);
+    } else {
+      history.push(url);
+    }
   };
   const taskIconClick = () => {
     history.push('/tasks');

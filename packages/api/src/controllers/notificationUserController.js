@@ -20,25 +20,6 @@ const NotificationUser = require('../models/notificationUserModel');
  */
 module.exports = {
   /**
-   * Responds with the user's notifications regarding their current farm.
-   * @param {Request} req - The HTTP request object.
-   * @param {Response} res - The HTTP response object.
-   * @async
-   */
-  async getNotifications(req, res) {
-    try {
-      const notifications = await NotificationUser.getNotificationsForFarmUser(
-        req.headers.farm_id,
-        req.user.user_id,
-      );
-      res.status(200).send(notifications);
-    } catch (error) {
-      console.log(error);
-      res.status(400).json({ error });
-    }
-  },
-
-  /**
    * Establishes a subscription for the user's notifications.
    * @param {Request} req - The HTTP request object.
    * @param {Response} res - The HTTP response object.
@@ -67,8 +48,8 @@ module.exports = {
     }
 
     // Register a function to send alerts to sessions for the user, farm combination.
-    const sendAlert = () => {
-      res.write(`data: ${JSON.stringify({ delta: 1 })}\n\n`);
+    const sendAlert = (delta = 1) => {
+      res.write(`data: ${JSON.stringify({ delta })}\n\n`);
     };
     // Register a function to end the long-term HTTP response that handles server-sent events.
     const endHttpRes = () => {
@@ -97,5 +78,62 @@ module.exports = {
       if (userSubs.size === 0) subscriptions.delete(user_id);
       console.log(`Closed subscription: user ${user_id} opened ${opened}`);
     });
+  },
+
+  /**
+   * Responds with the user's notifications regarding their current farm.
+   * @param {Request} req - The HTTP request object.
+   * @param {Response} res - The HTTP response object.
+   * @async
+   */
+  async getNotifications(req, res) {
+    try {
+      const notifications = await NotificationUser.getNotificationsForFarmUser(
+        req.headers.farm_id,
+        req.user.user_id,
+      );
+      res.status(200).send(notifications);
+    } catch (error) {
+      console.log(error);
+      res.status(400).json({ error });
+    }
+  },
+
+  /**
+   * Handles requests to update user notifications.
+   * @param {Request} req - The HTTP request object.
+   * @param {Response} res - The HTTP response object.
+   * @async
+   */
+  async patchNotifications(req, res) {
+    const payload = { ...req.body };
+    delete payload.notification_ids;
+    try {
+      await NotificationUser.update(req.user.user_id, req.body.notification_ids, payload);
+      res.sendStatus(200);
+    } catch (error) {
+      console.log(error);
+      res.status(400).json({ error });
+    }
+  },
+
+  /**
+   * Handles requests to clear notification alert indicators.
+   * @param {Request} req - The HTTP request object.
+   * @param {Response} res - The HTTP response object.
+   * @async
+   */
+  async clearAlerts(req, res) {
+    try {
+      await NotificationUser.clearAlerts(
+        req.user.user_id,
+        req.headers.farm_id,
+        req.body.notification_ids,
+      );
+      res.sendStatus(200);
+    } catch (error) {
+      console.log(error);
+      res.status(400).json({ error });
+    }
   },
 };

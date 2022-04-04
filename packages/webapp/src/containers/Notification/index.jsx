@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import React, { useEffect, useState } from 'react';
 import { notificationsSelector } from '../notificationSlice';
 import NotificationCard from './NotificationCard';
-import { getNotification } from './saga';
+import { getNotification, readNotification, clearAlerts } from './saga';
 import useStringFilteredNotifications from './useStringFilteredNotifications';
 
 /**
@@ -15,7 +15,7 @@ import useStringFilteredNotifications from './useStringFilteredNotifications';
  * @param {} param0
  * @returns {ReactComponent}
  */
-export default function NotificationPage({ history }) {
+export default function NotificationPage() {
   const { t } = useTranslation();
 
   // Get the data.
@@ -29,6 +29,10 @@ export default function NotificationPage({ history }) {
   const [filterString, setFilterString] = useState('');
   const filterStringOnChange = (e) => setFilterString(e.target.value);
   const notifications = useStringFilteredNotifications(cardContents, filterString);
+  const alertIds = notifications
+    .filter((notification) => notification.alert)
+    .map((notification) => notification.notification_id);
+  if (alertIds.length) dispatch(clearAlerts(alertIds));
 
   return (
     <Layout classes={{ container: { backgroundColor: 'white', width: '100%', padding: '0px' } }}>
@@ -47,16 +51,20 @@ export default function NotificationPage({ history }) {
       </div>
 
       {notifications.length > 0 ? (
-        notifications.map((notification) => (
-          <NotificationCard
-            key={notification.notification_id}
-            notification_id={notification.notification_id}
-            variables={notification.variables}
-            onClick={() => history.push(`/notification/${notification.notification_id}/read_only`)}
-            translation_key={notification.translation_key}
-            {...notification}
-          />
-        ))
+        notifications
+          .sort((a, b) => {
+            if (a.alert !== b.alert) return a.alert ? -1 : 1;
+            return new Date(a.created_at) - new Date(b.created_at);
+          })
+          .map((notification) => (
+            <NotificationCard
+              key={notification.notification_id}
+              variables={notification.variables}
+              onClick={() => dispatch(readNotification(notification.notification_id))}
+              translation_key={notification.translation_key}
+              {...notification}
+            />
+          ))
       ) : (
         <Semibold style={{ color: 'var(--teal700)', marginLeft: '24px' }}>
           {t('NOTIFICATION.NONE_TO_DISPLAY')}

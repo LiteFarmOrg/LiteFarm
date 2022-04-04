@@ -25,10 +25,7 @@ const mocks = require('./mock.factories');
 
 describe('Notification tests', () => {
   function getRequest(url, { user_id = user.user_id, farm_id = farm.farm_id }, callback) {
-    chai.request(server).get(url)
-      .set('user_id', user_id)
-      .set('farm_id', farm_id)
-      .end(callback);
+    chai.request(server).get(url).set('user_id', user_id).set('farm_id', farm_id).end(callback);
   }
 
   let user;
@@ -38,9 +35,7 @@ describe('Notification tests', () => {
   beforeEach(async () => {
     [user] = await mocks.usersFactory();
     [farm] = await mocks.farmFactory();
-    [userFarm] = await mocks.userFarmFactory(
-      { promisedUser: [user], promisedFarm: [farm] },
-    );
+    [userFarm] = await mocks.userFarmFactory({ promisedUser: [user], promisedFarm: [farm] });
 
     const middleware = require('../src/middleware/acl/checkJwt');
     middleware.mockImplementation((req, res, next) => {
@@ -48,7 +43,7 @@ describe('Notification tests', () => {
       req.user.user_id = req.get('user_id');
       next();
     });
-  })
+  });
 
   afterAll(async (done) => {
     await tableCleanup(knex);
@@ -61,64 +56,122 @@ describe('Notification tests', () => {
       const [notification] = await mocks.notification_userFactory({
         promisedUserFarm: [userFarm],
       });
-      getRequest('/notification_user', {},
-        (err, res) => {
-          expect(err).toBe(null);
-          expect(res.status).toBe(200);
-          expect(res.body.length).toBe(1);
-          expect(res.body[0].user_id).toBe(user.user_id);
-          expect(res.body[0].notification.notification_id).toBe(notification.notification_id);
-          done();
-        });
+      getRequest('/notification_user', {}, (err, res) => {
+        expect(err).toBe(null);
+        expect(res.status).toBe(200);
+        expect(res.body.length).toBe(1);
+        expect(res.body[0].user_id).toBe(user.user_id);
+        expect(res.body[0].notification_id).toBe(notification.notification_id);
+        done();
+      });
     });
 
     test('Users should get their notifications scoped for their current farm', async (done) => {
       const [notification] = await mocks.notification_userFactory({
         promisedUserFarm: [userFarm],
       });
-      getRequest('/notification_user', {},
-        (err, res) => {
-          expect(err).toBe(null);
-          expect(res.status).toBe(200);
-          expect(res.body.length).toBe(1);
-          expect(res.body[0].user_id).toBe(user.user_id);
-          expect(res.body[0].notification.notification_id).toBe(notification.notification_id);
-          done();
-        });
+      getRequest('/notification_user', {}, (err, res) => {
+        expect(err).toBe(null);
+        expect(res.status).toBe(200);
+        expect(res.body.length).toBe(1);
+        expect(res.body[0].user_id).toBe(user.user_id);
+        expect(res.body[0].notification_id).toBe(notification.notification_id);
+        done();
+      });
     });
 
     test('Users should not get their notifications scoped for farms other than their current farm', async (done) => {
       const [otherFarm] = await mocks.farmFactory();
-      const [otherUserFarm] = await mocks.userFarmFactory(
-        { promisedUser: [user], promisedFarm: [otherFarm] },
-      );
+      const [otherUserFarm] = await mocks.userFarmFactory({
+        promisedUser: [user],
+        promisedFarm: [otherFarm],
+      });
       await mocks.notification_userFactory({
         promisedUserFarm: [otherUserFarm],
       });
-      getRequest('/notification_user', {},
-        (err, res) => {
-          expect(err).toBe(null);
-          expect(res.status).toBe(200);
-          expect(res.body.length).toBe(0);
-          done();
-        });
+      getRequest('/notification_user', {}, (err, res) => {
+        expect(err).toBe(null);
+        expect(res.status).toBe(200);
+        expect(res.body.length).toBe(0);
+        done();
+      });
     });
 
     test('Users are not authorized to get "their" notifications for farms where they are not active', async (done) => {
       const [inactiveFarm] = await mocks.farmFactory();
       const [inactiveUserFarm] = await mocks.userFarmFactory(
         { promisedUser: [user], promisedFarm: [inactiveFarm] },
-        userFarm = mocks.fakeUserFarm({ status: 'Inactive' }),
+        (userFarm = mocks.fakeUserFarm({ status: 'Inactive' })),
       );
       await mocks.notification_userFactory({
         promisedUserFarm: [inactiveUserFarm],
       });
-      getRequest('/notification_user', { farm_id: inactiveFarm.farm_id },
-        (err, res) => {
-          expect(err).toBe(null);
-          expect(res.status).toBe(403);
+      getRequest('/notification_user', { farm_id: inactiveFarm.farm_id }, (err, res) => {
+        expect(err).toBe(null);
+        expect(res.status).toBe(403);
+        done();
+      });
+    });
+  });
+
+  describe('PATCH user notifications', () => {
+    function clearAlerts(
+      notificationIds,
+      { user_id = user.user_id, farm_id = farm.farm_id },
+      callback,
+    ) {
+      chai
+        .request(server)
+        .patch('/notification_user/clear_alerts')
+        .set('user_id', user_id)
+        .set('farm_id', farm_id)
+        .send(notificationIds)
+        .end(callback);
+    }
+
+    function setStatus(body, { user_id = user.user_id, farm_id = farm.farm_id }, callback) {
+      chai
+        .request(server)
+        .patch('/notification_user')
+        .set('user_id', user_id)
+        .set('farm_id', farm_id)
+        .send(body)
+        .end(callback);
+    }
+
+    test('Users can clear alert flag on a set of their notifications', async (done) => {
+      const [notification] = await mocks.notification_userFactory({
+        promisedUserFarm: [userFarm],
+      });
+      expect(notification.alert).toBe(true);
+      clearAlerts({ notification_ids: [notification.notification_id] }, {}, (err, res) => {
+        expect(err).toBe(null);
+        expect(res.status).toBe(200);
+        getRequest('/notification_user', {}, (_, res) => {
+          expect(res.body[0].alert).toBe(false);
           done();
         });
+      });
+    });
+
+    test('Users can modify the status for a set of their notifications', async (done) => {
+      const [notification] = await mocks.notification_userFactory({
+        promisedUserFarm: [userFarm],
+      });
+      expect(notification.status).toBe('Unread');
+      const newStatus = 'Read';
+      setStatus(
+        { notification_ids: [notification.notification_id], status: newStatus },
+        {},
+        (err, res) => {
+          expect(err).toBe(null);
+          expect(res.status).toBe(200);
+          getRequest('/notification_user', {}, (_, res) => {
+            expect(res.body[0].status).toBe(newStatus);
+            done();
+          });
+        },
+      );
     });
   });
 });

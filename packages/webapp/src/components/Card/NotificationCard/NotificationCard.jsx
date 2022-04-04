@@ -17,12 +17,9 @@ export function PureNotificationCard({
   status,
   translation_key,
   variables,
-  entity_type,
-  entity_id,
   context,
   created_at,
-  notification_id,
-  history,
+  onClick,
 }) {
   const { t } = useTranslation();
   // Construct translation options from interpolation variables, translating them as needed.
@@ -68,7 +65,7 @@ export function PureNotificationCard({
           padding: '160px',
         },
       }}
-      onClick={() => history.push(`/notifications/${notification_id}/read_only`)}
+      onClick={onClick}
     >
       <div>
         <div

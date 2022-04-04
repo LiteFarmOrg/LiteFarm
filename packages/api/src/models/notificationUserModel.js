@@ -105,7 +105,7 @@ class NotificationUser extends baseModel {
     return (
       await NotificationUser.knex().raw(
         `
-      SELECT notification.notification_id, alert, status, translation_key, variables, 
+      SELECT notification.notification_id, user_id, alert, status, translation_key, variables, 
         entity_type, entity_id, context, notification_user.created_at
       FROM notification JOIN notification_user
       ON notification.notification_id = notification_user.notification_id
@@ -119,6 +119,45 @@ class NotificationUser extends baseModel {
         [user_id, farm_id],
       )
     ).rows;
+  }
+
+  /**
+   * Stores modifications for a set of user notifications
+   * @param {uuid} userId - The specified user.
+   * @param {uuid[]} notificationIds - An array of notification identifiers.
+   * @param {object} modifications - The altered data values.u
+   * @static
+   * @async
+   */
+  static async update(userId, notificationIds, modifications) {
+    await NotificationUser.query()
+      .patch(modifications)
+      .whereIn('notification_id', notificationIds)
+      .andWhere('user_id', userId)
+      .context({ user_id: userId });
+  }
+
+  /**
+   * Clears the alert indicator for a specified set of the user's notifications.
+   * @param {uuid} userId - The specified user.
+   * @param {uuid} farmId - The user session's current farm.
+   * @param {uuid[]} notificationIds - An array of notification identifiers.
+   * @static
+   * @async
+   */
+  static async clearAlerts(userId, farmId, notificationIds) {
+    const count = await NotificationUser.query()
+      .patch({ alert: false })
+      .whereIn('notification_id', notificationIds)
+      .andWhere('user_id', userId)
+      .andWhere('alert', true)
+      .context({ user_id: userId });
+    const userSubs = NotificationUser.subscriptions.get(userId);
+    userSubs?.forEach((subscription) => {
+      if (farmId === subscription.farm_id) {
+        subscription.sendAlert(-count);
+      }
+    });
   }
 
   /**
@@ -148,8 +187,7 @@ class NotificationUser extends baseModel {
   static alert(farm_id, userIds) {
     userIds.forEach((user_id) => {
       const userSubs = NotificationUser.subscriptions.get(user_id);
-      if (!userSubs) return;
-      userSubs.forEach((subscription) => {
+      userSubs?.forEach((subscription) => {
         if (farm_id === subscription.farm_id || farm_id === null) {
           subscription.sendAlert();
         }

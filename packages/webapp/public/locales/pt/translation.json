@@ -1040,7 +1040,14 @@
     }
   },
   "NOTIFICATION": {
-    "NOTIFICATION_TEASER": "Em breve!"
+    "NONE_TO_DISPLAY": "MISSING",
+    "NOTIFICATION_TEASER": "Em breve!",
+    "PAGE_TITLE": "MISSING",
+    "TAKE_ME_THERE": "MISSING",
+    "TASK_ASSIGNED": {
+      "TITLE": "MISSING",
+      "BODY": "MISSING"
+    }
   },
   "OUTRO": {
     "ALL_DONE": "Excelente. Pronto para sujar as mãos?",

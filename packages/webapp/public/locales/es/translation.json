@@ -1039,7 +1039,14 @@
     }
   },
   "NOTIFICATION": {
-    "NOTIFICATION_TEASER": "Proximamente!"
+    "NONE_TO_DISPLAY": "MISSING",
+    "NOTIFICATION_TEASER": "Proximamente!",
+    "PAGE_TITLE": "MISSING",
+    "TAKE_ME_THERE": "MISSING",
+    "TASK_ASSIGNED": {
+      "TITLE": "MISSING",
+      "BODY": "MISSING"
+    }
   },
   "OUTRO": {
     "ALL_DONE": "Excelente. Listo para ensuciarse las manos?",

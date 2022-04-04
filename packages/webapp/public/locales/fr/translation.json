@@ -1040,7 +1040,14 @@
     }
   },
   "NOTIFICATION": {
-    "NOTIFICATION_TEASER": "MISSING"
+    "NONE_TO_DISPLAY": "MISSING",
+    "NOTIFICATION_TEASER": "MISSING",
+    "PAGE_TITLE": "MISSING",
+    "TAKE_ME_THERE": "MISSING",
+    "TASK_ASSIGNED": {
+      "TITLE": "MISSING",
+      "BODY": "MISSING"
+    }
   },
   "OUTRO": {
     "ALL_DONE": "Super\u00a0! Vous avez terminé. Prêt à vous salir les mains\u00a0?",

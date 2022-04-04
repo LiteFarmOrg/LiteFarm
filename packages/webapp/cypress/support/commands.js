@@ -32,7 +32,6 @@ Cypress.Commands.add('loginByGoogleApi', () => {
       };
 
       window.localStorage.setItem('id_token', JSON.stringify(userItem));
-      cy.visit('/');
     });
   });
 });

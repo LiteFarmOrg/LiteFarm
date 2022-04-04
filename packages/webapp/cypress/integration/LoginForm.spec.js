@@ -10,14 +10,16 @@ describe('The login form', () => {
     });
     cy.get('[data-cy=continue]').should('be.enabled');
   });
+
+  it('should ensure that login with google button exists', function () {
+    cy.get('[data-cy=continueGoogle]').should('exist');
+  });
 });
 
 describe('Google', function () {
-  beforeEach(function () {
+  it('If user has already logged in with google the welcome page should be displayed when they navigate to the base url', function () {
     cy.loginByGoogleApi();
-  });
-
-  it('shows welcome page', function () {
+    cy.visit('/');
     cy.get('[data-cy=getStarted]').should('exist');
   });
 });

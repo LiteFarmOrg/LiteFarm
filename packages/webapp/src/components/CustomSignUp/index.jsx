@@ -47,7 +47,9 @@ export default function PureCustomSignUp({
             </div>
           )}
 
-          <div className={styles.ssoButton}>{GoogleLoginButton}</div>
+          <div data-cy="continueGoogle" className={styles.ssoButton}>
+            {GoogleLoginButton}
+          </div>
           <div className={styles.lineBreak}>
             <LineBreak />
           </div>

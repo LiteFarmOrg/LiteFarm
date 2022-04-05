@@ -14,12 +14,13 @@ describe('The login form', () => {
   it('should ensure that login with google button exists', function () {
     cy.get('[data-cy=continueGoogle]').should('exist');
   });
-});
-
-describe('Google', function () {
+  
   it('If user has already logged in with google the welcome page should be displayed when they navigate to the base url', function () {
     cy.loginByGoogleApi();
     cy.visit('/');
     cy.get('[data-cy=getStarted]').should('exist');
   });
+
 });
+
+

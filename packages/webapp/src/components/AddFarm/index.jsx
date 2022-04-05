@@ -24,14 +24,14 @@ export default function PureAddFarm({
     <Form
       onSubmit={onSubmit}
       buttonGroup={
-        <Button type={'submit'} disabled={disabled || loading} fullLength>
+        <Button data-cy="addFarm-continue" type={'submit'} disabled={disabled || loading} fullLength>
           {loading ? t('common:LOADING') : t('common:CONTINUE')}
         </Button>
       }
     >
       <PageTitle onGoBack={onGoBack} title={title} style={{ marginBottom: '20px' }} />
-      <Input style={style} {...inputs[0]} />
-      <Input style={style} {...inputs[1]} />
+      <Input data-cy="addFarm-farmName" style={style} {...inputs[0]} />
+      <Input data-cy="addFarm-location" style={style} {...inputs[1]} />
       {map}
     </Form>
   );

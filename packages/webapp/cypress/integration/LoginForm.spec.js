@@ -23,4 +23,39 @@ describe('The login form', () => {
 
 });
 
+describe('Create farm flow', () => {
+  beforeEach(function () {
+      cy.loginByGoogleApi()
+    })
+  
+  it('If user has already logged in with google the welcome page should be displayed when they navigate to the base url', function () {
+      cy.visit('/');
+    
+      // Get Started page
+      cy.get('[data-cy=getStarted]').should('exist');
+      cy.get('[data-cy=getStarted]').click();
+      
+      // Step 1
+      cy.get('[data-cy=addFarm-continue]').should('exist');
+      cy.get('[data-cy=addFarm-continue]').should('be.disabled');
+      cy.get('[data-cy=addFarm-farmName]').should('exist');
+      cy.get('[data-cy=addFarm-location]').should('exist');
+      cy.get('[data-cy=addFarm-farmName]').type('UBC FARM');
+      cy.get('[data-cy=addFarm-location]').type('49.250833,-123.2410777');
+      cy.get('[data-cy=addFarm-continue]').should('not.be.disabled').click();
+      // Step 2
+    });
+
+    it('consent page should load correctly', function () {
+      cy.visit('/add_farm');
+    
+      cy.get('[data-cy=addFarm-farmName]').type('UBC FARM');
+      cy.get('[data-cy=addFarm-location]').type('49.250833,-123.2410777');
+      cy.get('[data-cy=addFarm-continue]').should('not.be.disabled').click();
+
+      
+  });
+
+});
+
 

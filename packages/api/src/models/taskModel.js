@@ -139,10 +139,10 @@ class TaskModel extends BaseModel {
       },
 
       taskType: {
-        relation: Model.HasManyRelation,
+        relation: Model.BelongsToOneRelation,
         modelClass: require('./taskTypeModel'),
         join: {
-          from: 'task.type',
+          from: 'task.task_type_id',
           to: 'task_type.task_type_id',
         },
       },
@@ -175,7 +175,6 @@ class TaskModel extends BaseModel {
           },
           to: 'planting_management_plan.planting_management_plan_id',
         },
-
       },
       locations: {
         modelClass: require('./locationModel'),

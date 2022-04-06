@@ -151,17 +151,17 @@ function fakeArea(stringify = true, defaultData = {}) {
     total_area: faker.datatype.number(2000),
     grid_points: stringify
       ? JSON.stringify([
-        ...Array(3).map(() => ({
-          lat: faker.address.latitude(),
-          lng: faker.address.longitude(),
-        })),
-      ])
+          ...Array(3).map(() => ({
+            lat: faker.address.latitude(),
+            lng: faker.address.longitude(),
+          })),
+        ])
       : [
-        ...Array(3).map(() => ({
-          lat: faker.address.latitude(),
-          lng: faker.address.longitude(),
-        })),
-      ],
+          ...Array(3).map(() => ({
+            lat: faker.address.latitude(),
+            lng: faker.address.longitude(),
+          })),
+        ],
     perimeter: faker.datatype.number(),
     total_area_unit: faker.random.arrayElement(['m2', 'ha', 'ft2', 'ac']),
     perimeter_unit: faker.random.arrayElement(['m', 'km', 'ft', 'mi']),
@@ -288,17 +288,17 @@ function fakeLine(stringify = true, defaultData = {}) {
     width: faker.datatype.number(),
     line_points: stringify
       ? JSON.stringify([
-        ...Array(2).map(() => ({
-          lat: faker.address.latitude(),
-          lng: faker.address.longitude(),
-        })),
-      ])
+          ...Array(2).map(() => ({
+            lat: faker.address.latitude(),
+            lng: faker.address.longitude(),
+          })),
+        ])
       : [
-        ...Array(2).map(() => ({
-          lat: faker.address.latitude(),
-          lng: faker.address.longitude(),
-        })),
-      ],
+          ...Array(2).map(() => ({
+            lat: faker.address.latitude(),
+            lng: faker.address.longitude(),
+          })),
+        ],
     ...defaultData,
   };
 }
@@ -2108,9 +2108,7 @@ function fakeFile(defaultData = {}) {
 }
 
 async function notification_userFactory(
-  {
-    promisedUserFarm = userFarmFactory(),
-  } = {},
+  { promisedUserFarm = userFarmFactory() } = {},
   notificationUser = fakeNotificationUser(),
   notification = fakeNotification(),
 ) {
@@ -2133,6 +2131,8 @@ function fakeNotificationUser(defaultData = {}) {
   return {
     notification_id: faker.datatype.uuid(),
     user_id: faker.datatype.uuid(),
+    alert: true,
+    status: 'Unread',
     created_at: faker.date.past(),
     updated_at: faker.date.past(),
     ...defaultData,
@@ -2143,8 +2143,11 @@ function fakeNotification(defaultData = {}) {
   const notification_id = faker.datatype.uuid();
   return {
     notification_id,
-    title: `title of notification ${notification_id}`,
-    body: `body of notification ${notification_id}`,
+    translation_key: `translation_key of notification ${notification_id}`,
+    variables: [],
+    entity_id: faker.datatype.uuid(),
+    entity_type: `entity_type of notification ${notification_id}`,
+    context: {},
     farm_id: faker.datatype.uuid(),
     created_at: faker.date.past(),
     updated_at: faker.date.past(),

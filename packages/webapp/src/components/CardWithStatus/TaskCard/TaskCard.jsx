@@ -2,22 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { ReactComponent as CalendarIcon } from '../../../assets/images/task/Calendar.svg';
 import { ReactComponent as UnassignedIcon } from '../../../assets/images/task/Unassigned.svg';
-import { ReactComponent as CustomIcon } from '../../../assets/images/task/Custom.svg';
-import { ReactComponent as RecordSoilSample } from '../../../assets/images/task/RecordSoilSample.svg';
-import { ReactComponent as Sales } from '../../../assets/images/task/Sales.svg';
-import { ReactComponent as Scout } from '../../../assets/images/task/Scout.svg';
-import { ReactComponent as WashAndPack } from '../../../assets/images/task/WashAndPack.svg';
-import { ReactComponent as Transplant } from '../../../assets/images/task/Transplant.svg';
-import { ReactComponent as Harvest } from '../../../assets/images/task/Harvest.svg';
-import { ReactComponent as PestControl } from '../../../assets/images/task/PestControl.svg';
-import { ReactComponent as Irrigate } from '../../../assets/images/task/Irrigate.svg';
-import { ReactComponent as Transport } from '../../../assets/images/task/Transport.svg';
-import { ReactComponent as FieldWork } from '../../../assets/images/task/FieldWork.svg';
-import { ReactComponent as Plant } from '../../../assets/images/task/Plant.svg';
-import { ReactComponent as SocialEvent } from '../../../assets/images/task/SocialEvent.svg';
-import { ReactComponent as Clean } from '../../../assets/images/task/Clean.svg';
-import { ReactComponent as SoilAmendment } from '../../../assets/images/task/SoilAmendment.svg';
 import styles from './styles.module.scss';
+
+import getTaskTypeIcon from '../../util/getTaskTypeIcon';
 
 import { useTranslation } from 'react-i18next';
 import { CardWithStatus } from '../index';
@@ -45,27 +32,6 @@ export const taskStatusTranslateKey = {
   abandoned: 'ABANDONED',
 };
 
-const iconDict = {
-  CLEANING_TASK: Clean, // for release
-  HARVEST_TASK: Harvest, // for release
-  PEST_CONTROL_TASK: PestControl, // for release
-  PLANT_TASK: Plant, // for release
-  FIELD_WORK_TASK: FieldWork, // for release
-  TRANSPLANT_TASK: Transplant, // for release
-  SOIL_AMENDMENT_TASK: SoilAmendment, // for release
-  BED_PREPARATION_TASK: CustomIcon,
-  SALE_TASK: Sales,
-  FERTILIZING: SoilAmendment, // soil amendment replaces fertilizing
-  SCOUTING_TASK: Scout,
-  WASH_AND_PACK_TASK: WashAndPack,
-  OTHER_TASK: CustomIcon,
-  BREAK_TASK: CustomIcon,
-  SOIL_TASK: RecordSoilSample,
-  IRRIGATION_TASK: Irrigate,
-  TRANSPORT_TASK: Transport,
-  SOCIAL_TASK: SocialEvent,
-};
-
 export const PureTaskCard = ({
   taskType,
   status,
@@ -84,7 +50,7 @@ export const PureTaskCard = ({
 }) => {
   const { t } = useTranslation();
   const isCustomType = !!taskType.farm_id;
-  const TaskIcon = isCustomType ? CustomIcon : iconDict[taskType.task_translation_key];
+  const TaskIcon = getTaskTypeIcon(isCustomType ? 'CUSTOM_TASK' : taskType.task_translation_key);
   const onAssignTask = (e) => {
     e.stopPropagation();
     onClickAssignee?.();

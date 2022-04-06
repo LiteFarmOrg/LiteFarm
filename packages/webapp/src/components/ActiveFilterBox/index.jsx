@@ -18,7 +18,7 @@ const ActiveFilterBox = ({ pageFilter, pageFilterKey, style }) => {
 
   const activeFilters = Object.keys(pageFilter).reduce((acc, filterKey) => {
     const filter = pageFilter[filterKey];
-    const filterType = typeof(filter);
+    const filterType = typeof filter;
 
     if (filterType === 'object') {
       return [...acc].concat(
@@ -45,7 +45,6 @@ const ActiveFilterBox = ({ pageFilter, pageFilterKey, style }) => {
     }
 
     return acc;
-
   }, []);
 
   const handleResize = () => {

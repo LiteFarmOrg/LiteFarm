@@ -63,7 +63,8 @@ async function validateLocationDependency(req, res, next) {
     .query()
     .whereNotDeleted()
     .withGraphJoined(
-      '[crop_variety.[crop], crop_management_plan.[planting_management_plans.[transplant_task.[task], plant_task.[task] ]]]',
+      `[crop_variety.[crop], crop_management_plan.[planting_management_plans.[transplant_task.[task], 
+      plant_task.[task] ]]]`,
       {
         aliases: {
           crop_management_plan: 'cmp',

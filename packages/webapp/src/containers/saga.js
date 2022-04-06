@@ -139,6 +139,7 @@ import {
   getTasksSaga,
   getTaskTypesSaga,
 } from './Task/saga';
+import notificationSaga, { getNotification } from './Notification/saga';
 import { appVersionSelector, setAppVersion } from './appSettingSlice';
 import { APP_VERSION } from '../util/constants';
 import { hookFormPersistHistoryStackSelector } from './hooks/useHookFormPersist/hookFormPersistSlice';
@@ -633,4 +634,5 @@ export default function* getFarmIdSaga() {
   );
   yield takeLeading(getManagementPlansAndTasks.type, getManagementPlansAndTasksSaga);
   yield takeLatest(getCropsAndManagementPlans.type, getCropsAndManagementPlansSaga);
+  yield takeLatest(getNotification.type, notificationSaga);
 }

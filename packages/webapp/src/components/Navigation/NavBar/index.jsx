@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import PureProfileFloater from '../Floater/ProfileFloater';
+import { ReactComponent as NotificationIcon } from '../../../assets/images/notif.svg';
 import { ReactComponent as MyFarmIcon } from '../../../assets/images/my-farm.svg';
 import { ReactComponent as MyFarmIconSpan } from '../../../assets/images/my-farm-es.svg';
 import { ReactComponent as MyFarmIconPort } from '../../../assets/images/my-farm-pt.svg';
@@ -24,6 +25,7 @@ import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
 import { getLanguageFromLocalStorage } from '../../../util/getLanguageFromLocalStorage';
 import { NavbarSpotlightProvider } from './NavbarSpotlightProvider';
+import Alert from '../../../containers/Navigation/Alert';
 
 const useStyles = makeStyles((theme) => ({
   menuButton: {
@@ -60,8 +62,7 @@ const useStyles = makeStyles((theme) => ({
   notificationButton: {
     transform: 'translateY(1px)',
   },
-  profileButton: {
-  },
+  profileButton: {},
   iconButton: {
     margin: theme.spacing(1),
     padding: 0,
@@ -133,6 +134,15 @@ export default function PureNavBar({
     setOpenFloater(null);
   };
   const farmButtonOnClick = () => setOpenFloater(isFarmFloaterOpen ? null : FARM);
+  const notificationIconClick = () => {
+    const url = '/notifications';
+    if (history.location.pathname === url) {
+      // TODO click should update contents; is there better way than full page refresh?
+      history.go(0);
+    } else {
+      history.push(url);
+    }
+  };
   const taskIconClick = () => {
     history.push('/tasks');
   };
@@ -181,9 +191,9 @@ export default function PureNavBar({
   };
   const openTutorialsClick = () => {
     const playlistIDs = {
-      'es': 'PLDRpVZ4VsXJhghxfEQuApFQTeCWUbGBN9',
-      'pt': 'PLDRpVZ4VsXJg0ke20m47MmJq6uAJAlAGF',
-      'en': 'PLDRpVZ4VsXJgVGrmmXJooNqceXvre8IDY'
+      es: 'PLDRpVZ4VsXJhghxfEQuApFQTeCWUbGBN9',
+      pt: 'PLDRpVZ4VsXJg0ke20m47MmJq6uAJAlAGF',
+      en: 'PLDRpVZ4VsXJgVGrmmXJooNqceXvre8IDY',
     };
 
     const playList = playlistIDs[selectedLanguage] || playlistIDs['en'];
@@ -192,7 +202,7 @@ export default function PureNavBar({
     const win = window.open(url, '_blank');
     win.focus();
     closeFloater();
-  }
+  };
 
   // Pure Notification Floater
   const notificationTeaserClick = () => {
@@ -231,6 +241,18 @@ export default function PureNavBar({
         <NavbarSpotlightProvider open={showSpotLight} onFinish={resetSpotlight}>
           <ClickAwayListener onClickAway={onClickAway}>
             <div className={classes.icons}>
+              <IconButton
+                aria-label="notification icon"
+                color="inherit"
+                id="zerothStepNavBar"
+                onClick={notificationIconClick}
+                className={classes.iconButton}
+                classes={{ root: classes.notificationButton }}
+              >
+                <NotificationIcon />
+                <Alert />
+              </IconButton>
+
               <PureMyFarmFloater
                 openProfile={isFarmFloaterOpen}
                 farmInfoClick={farmInfoClick}
@@ -239,9 +261,9 @@ export default function PureNavBar({
                 certificationClick={certificationClick}
               >
                 <IconButton
-                  aria-label='farm-icon'
-                  color='inherit'
-                  id='firstStepNavBar'
+                  aria-label="farm-icon"
+                  color="inherit"
+                  id="firstStepNavBar"
                   className={classes.iconButton}
                   onClick={farmButtonOnClick}
                 >
@@ -256,15 +278,15 @@ export default function PureNavBar({
               </PureMyFarmFloater>
 
               <IconButton
-                  aria-label='notification icon'
-                  color='inherit'
-                  id='secondStepNavBar'
-                  onClick={taskIconClick}
-                  className={classes.iconButton}
-                  classes={{ root: classes.notificationButton }}
-                >
-                  <TaskIcon />
-                </IconButton>
+                aria-label="notification icon"
+                color="inherit"
+                id="secondStepNavBar"
+                onClick={taskIconClick}
+                className={classes.iconButton}
+                classes={{ root: classes.notificationButton }}
+              >
+                <TaskIcon />
+              </IconButton>
 
               <PureProfileFloater
                 openProfile={isProfileFloaterOpen}
@@ -275,11 +297,11 @@ export default function PureNavBar({
                 switchFarmClick={switchFarmClick}
               >
                 <IconButton
-                  edge='end'
-                  aria-label='profile icon'
-                  color='inherit'
+                  edge="end"
+                  aria-label="profile icon"
+                  color="inherit"
                   onClick={profileButtonOnClick}
-                  id='thirdStepNavBar'
+                  id="thirdStepNavBar"
                   className={classes.iconButton}
                   classes={{ root: classes.profileButton }}
                 >

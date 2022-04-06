@@ -2,10 +2,9 @@ const { from } = require('rxjs');
 const { delay, concatMap, catchError, finalize } = require('rxjs/operators');
 const rp = require('request-promise');
 
-const knex = require('./../../util/knex');
 const endPoints = require('../../endPoints');
 
-async function mapFarmsToCountryId(knex = knex) {
+async function mapFarmsToCountryId(knex) {
   const countries = await knex('countries').select('id', 'country_name');
   const farms = await farmsWithNoCountryId(knex);
   return new Promise((resolve) => {

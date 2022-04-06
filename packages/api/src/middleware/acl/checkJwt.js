@@ -1,6 +1,6 @@
 /*
- *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>
- *  This file (checkJwt.js) is part of LiteFarm.
+ *  Copyright 2019-2022 LiteFarm.org
+ *  This file is part of LiteFarm.
  *
  *  LiteFarm is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -15,7 +15,6 @@
 
 const jwt = require('express-jwt');
 
-
 const checkJwt = jwt({
   secret: process.env.JWT_SECRET,
   algorithms: ['HS256'],
@@ -26,6 +25,7 @@ const checkJwt = jwt({
     '/password_reset',
     '/user/accept_invitation',
     '/user_farm/accept_invitation',
+    '/notification_user/subscribe',
   ],
 });
 

@@ -58,6 +58,7 @@ import loginSaga from './containers/GoogleLoginButton/saga';
 import inviteSaga from './containers/InvitedUserCreateAccount/saga';
 import SSOInfoSaga from './containers/SSOUserCreateAccountInfo/saga';
 import weatherSaga from './containers/WeatherBoard/saga';
+import alertSaga from './containers/Navigation/Alert/saga';
 import mapSaga from './containers/Map/saga';
 import uploadDocumentSaga from './containers/Documents/DocumentUploader/saga';
 import { CssBaseline, ThemeProvider } from '@material-ui/core';
@@ -66,11 +67,11 @@ import cropVarietyImageUploaderSaga from './containers/ImagePickerWrapper/saga';
 import certificationsSaga from './containers/Certifications/saga';
 import taskSaga from './containers/Task/saga';
 import abandonAndCompleteManagementPlanSaga from './containers/Crop/CompleteManagementPlan/saga';
+import notificationSaga from './containers/Notification/saga';
 import errorHandlerSaga from './containers/ErrorHandler/saga';
 import App from './App';
 import { sagaMiddleware } from './store/sagaMiddleware';
 import { persistor, store } from './store/store';
-
 
 if (import.meta.env.VITE_SENTRY_DSN) {
   Sentry.init({
@@ -83,8 +84,6 @@ if (import.meta.env.VITE_SENTRY_DSN) {
     tracesSampleRate: 0.7,
   });
 }
-
-
 
 sagaMiddleware.run(homeSaga);
 sagaMiddleware.run(addFarmSaga);
@@ -120,6 +119,8 @@ sagaMiddleware.run(callbackSaga);
 sagaMiddleware.run(inviteSaga);
 sagaMiddleware.run(SSOInfoSaga);
 sagaMiddleware.run(weatherSaga);
+sagaMiddleware.run(alertSaga);
+sagaMiddleware.run(notificationSaga);
 sagaMiddleware.run(inviteUserSaga);
 sagaMiddleware.run(mapSaga);
 sagaMiddleware.run(uploadDocumentSaga);

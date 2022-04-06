@@ -1037,7 +1037,14 @@
     }
   },
   "NOTIFICATION": {
-    "NOTIFICATION_TEASER": "Coming Soon!"
+    "NONE_TO_DISPLAY": "There are no notifications to display.",
+    "NOTIFICATION_TEASER": "Coming Soon!",
+    "PAGE_TITLE": "Notifications",
+    "TAKE_ME_THERE": "Take me there",
+    "TASK_ASSIGNED": {
+      "TITLE": "Assigned task",
+      "BODY": "A {{taskType}} task has been assigned to {{assignee}}."
+    }
   },
   "OUTRO": {
     "ALL_DONE": "Great! You're all done. Ready to get your hands dirty?",

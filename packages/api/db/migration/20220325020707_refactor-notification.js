@@ -16,11 +16,9 @@ const oldFields = [
 
 exports.up = async function (knex) {
   for (const field of oldFields) {
-    console.log(`ALTER TABLE notification DROP COLUMN ${field.name};`);
     await knex.raw(`ALTER TABLE notification DROP COLUMN ${field.name};`);
   }
   for (const field of newFields) {
-    console.log(`ALTER TABLE notification ADD COLUMN ${field.name} ${field.defn};`);
     await knex.raw(`ALTER TABLE notification ADD COLUMN ${field.name} ${field.defn};`);
   }
 };

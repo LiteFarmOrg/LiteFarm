@@ -20,6 +20,7 @@ function GoogleLoginButton({ disabled }) {
   return (
     <GoogleLogin
       buttonText="Login"
+      data-cy="continueGoogle"
       onSuccess={onSuccess}
       onFailure={onFailure}
       disabled={disabled}

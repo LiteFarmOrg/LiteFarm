@@ -59,7 +59,7 @@ export default function PureCreateUserAccount({ onSignUp, email, onGoBack }) {
           <Button onClick={onGoBack} color={'secondary'} type={'button'} fullLength>
             {t('common:BACK')}
           </Button>
-          <Button disabled={disabled} type={'submit'} fullLength>
+          <Button data-cy="createUser-create"  disabled={disabled} type={'submit'} fullLength>
             {t('CREATE_USER.CREATE_BUTTON')}
           </Button>
         </>
@@ -73,6 +73,7 @@ export default function PureCreateUserAccount({ onSignUp, email, onGoBack }) {
         defaultValue={email}
       />
       <Input
+        data-cy="createUser-fullName"
         style={{ marginBottom: '28px' }}
         label={t('CREATE_USER.FULL_NAME')}
         placeholder={'e.g. Juan Perez'}
@@ -111,6 +112,7 @@ export default function PureCreateUserAccount({ onSignUp, email, onGoBack }) {
         optional
       />
       <Input
+      data-cy="createUser-password"
         style={{ marginBottom: '28px' }}
         label={t('CREATE_USER.PASSWORD')}
         type={PASSWORD}

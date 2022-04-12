@@ -16,6 +16,8 @@
  * @type {Cypress.PluginConfig}
  */
 // eslint-disable-next-line no-unused-vars
+const axios = require('axios');
+
 module.exports = (on, config) => {
   // `on` is used to hook into various events Cypress emits
   // `config` is the resolved Cypress config
@@ -24,6 +26,16 @@ module.exports = (on, config) => {
   config.env.googleClientSecret = process.env.REACT_APP_GOOGLE_CLIENT_SECRET;
 
   // plugins code ...
+  //const testDataApiEndpoint = `${config.env.apiUrl}`;
+
+
+  on("task", {
+    async "db:tableCleanup"() {
+      // clean up the database tables
+      const { data } = await axios.post('http://localhost:5001/testData/tableCleanup');
+      return data;
+    }});
+
 
   return config;
 };

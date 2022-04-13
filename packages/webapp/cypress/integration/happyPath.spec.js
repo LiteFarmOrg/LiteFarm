@@ -1,11 +1,11 @@
-describe.only('The login flow and user creation flow', () => {
+describe.only('LiteFarm end to end test', () => {
   before(() => {
 
     cy.task("db:tableCleanup");
   
   })
 
-  it('should ensure login page loads correctly', () => {
+  it('Happy path', () => {
   
     cy.visit('/');
     cy.get('[data-cy=email]').should('exist');
@@ -42,19 +42,23 @@ describe.only('The login flow and user creation flow', () => {
     cy.get('[data-cy=getStarted]').should('exist');
     cy.get('[data-cy=getStarted]').click();
 
-    // Step 1
+    // Ensure test is on the add farm page and continue button is disabled
+    cy.url().should('include', '/add_farm');
     cy.get('[data-cy=addFarm-continue]').should('exist');
     cy.get('[data-cy=addFarm-continue]').should('be.disabled');
     cy.get('[data-cy=addFarm-farmName]').should('exist');
     cy.get('[data-cy=addFarm-location]').should('exist');
 
-    // Step 2
+    // Enter new farm details and click continue which should be enabled
     cy.get('[data-cy=addFarm-farmName]').type(farmName);
     cy.get('[data-cy=addFarm-location]').type(location);
     cy.get('[data-cy=addFarm-continue]').should('not.be.disabled');
     cy.get('[data-cy=addFarm-continue]').click();
     
-    
+    //ensure test is on the role selection page
+    cy.contains('What is your role on the farm').should('exist');
+    cy.url().should('include', '/role_selection');
+    cy.get('[data-cy=roleSelection-continue]').should('exist').and('be.disabled');
       
   });
 

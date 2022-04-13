@@ -81,6 +81,11 @@ app.get('/', async (req, res) => {
   res.sendStatus(200);
 });
 
+if (environment === 'development') {
+  //test data route
+  app.use('/testData', testDataRoute)
+};
+
 
 app.use(bodyParser.json())
   .use(bodyParser.urlencoded({ extended: true }))
@@ -103,8 +108,6 @@ app.use(bodyParser.json())
   .set('json spaces', 2)
   .use('/login', loginRoutes)
   .use('/password_reset', passwordResetRoutes)
-  //test data route
-  .use('/testData', testDataRoute)
   // ACL middleware
   .use(checkJwt)
 
@@ -146,9 +149,6 @@ app.use(bodyParser.json())
   .use('/task', taskRoute)
   .use('/product', productRoute)
   .use('/notification_user', notificationUserRoute)
-  
-
-
   // handle errors
   .use((req, res, next) => {
     const error = new Error('Not found');

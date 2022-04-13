@@ -43,7 +43,7 @@ export default function PureRoleSelection({
       onSubmit={handleSubmit(onSubmit)}
       buttonGroup={
         <>
-          <Button type={'submit'} fullLength disabled={disabled} onClick={redirectConsent}>
+          <Button data-cy='roleSelection-continue' type={'submit'} fullLength disabled={disabled} onClick={redirectConsent}>
             {t('common:CONTINUE')}
           </Button>
         </>

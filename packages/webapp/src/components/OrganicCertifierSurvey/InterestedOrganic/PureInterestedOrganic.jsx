@@ -34,7 +34,7 @@ export function PureInterestedOrganic({
       onSubmit={handleSubmit(onSubmit)}
       buttonGroup={
         <>
-          <Button type={'submit'} fullLength disabled={disabled}>
+          <Button data-cy='interestedInOrganic-continue' type={'submit'} fullLength disabled={disabled}>
             {t('common:CONTINUE')}
           </Button>
         </>
@@ -44,7 +44,7 @@ export function PureInterestedOrganic({
       <Main style={{ marginBottom: '24px' }} tooltipContent={content}>
         {paragraph}
       </Main>
-      <RadioGroup hookFormControl={control} name={INTERESTED} required />
+      <RadioGroup data-cy='interestedInOrganic-select' hookFormControl={control} name={INTERESTED} required />
     </Form>
   );
 }

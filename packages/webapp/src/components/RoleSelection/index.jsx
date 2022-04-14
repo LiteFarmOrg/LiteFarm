@@ -61,6 +61,7 @@ export default function PureRoleSelection({
           {
             label: t('ROLE_SELECTION.FARM_MANAGER'),
             value: 'Manager',
+            id:'Manager',
           },
           {
             label: t('ROLE_SELECTION.FARM_EO'),
@@ -68,6 +69,7 @@ export default function PureRoleSelection({
           },
         ]}
         required
+        data-cy='roleSelection-role'
       />
       <Title>
         {t('ROLE_SELECTION.IS_OWNER_OPERATED')} <Label sm>{t('common:OPTIONAL')}</Label>

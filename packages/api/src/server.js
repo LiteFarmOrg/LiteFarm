@@ -81,7 +81,7 @@ app.get('/', async (req, res) => {
   res.sendStatus(200);
 });
 
-if (environment === 'development') {
+if (environment === 'development'|| environment === 'integration') {
   //test data route
   app.use('/testData', testDataRoute)
 };

@@ -44,7 +44,7 @@ export function PureCertifierSelectionScreen({
       classes={{ footer: { position: 'fixed', maxWidth: '1024px' } }}
       buttonGroup={
         <>
-          <Button onClick={onSubmit} fullLength disabled={disabled}>
+          <Button data-cy='certifierSelection-proceed' onClick={onSubmit} fullLength disabled={disabled}>
             {t('common:PROCEED')}
           </Button>
         </>
@@ -73,6 +73,7 @@ export function PureCertifierSelectionScreen({
       {filteredCertifiers.map((certifier) => {
         return (
           <CertifierSelectionMenuItem
+            data-cy='certifierSelection-item'
             key={certifier.certifier_id}
             style={{ marginBottom: '16px' }}
             certifierName={`${certifier.certifier_name} (${certifier.certifier_acronym})`}

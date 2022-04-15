@@ -937,7 +937,7 @@
     "PLANTED_ALREADY": "Você vai plantar este cultivo ou ele já está plantado?",
     "PLANTING": "Plantando",
     "PLANTING_DATE": "Qual é a sua data de plantio?",
-    "PLANTING_DATE_INFO": "Data de semeadura com base na idade da colheita: {{seed_date}}",
+    "PLANTING_DATE_INFO": "Data de semeadura com base na idade do cultivo: {{seed_date}}",
     "PLANTING_DATE_LABEL": "Data do plantio",
     "PLANTING_DEPTH": "Profundidade de plantio",
     "PLANTING_METHOD": "Qual é o seu método de plantio?",
@@ -985,7 +985,7 @@
       }
     },
     "VARIETY": "Variedade",
-    "WHAT_IS_AGE": "Qual é a idade aproximada da colheita?",
+    "WHAT_IS_AGE": "Qual é a idade aproximada do cultivo?",
     "WHAT_WAS_PLANTING_METHOD": "Qual foi o método de plantio?",
     "WHERE_START_LOCATION": "Onde é o seu local de partida?",
     "WHERE_TRANSPLANT_LOCATION": "Onde você fará o transplante?",

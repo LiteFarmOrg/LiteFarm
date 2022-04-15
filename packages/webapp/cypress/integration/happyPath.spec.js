@@ -39,7 +39,7 @@ describe.only('LiteFarm end to end test', () => {
     cy.contains('started').should('exist');
 
       // Get Started page
-    cy.get('[data-cy=getStarted]').should('exist', { timeout: 10000 });
+    cy.get('[data-cy=getStarted]').should('exist');
     cy.get('[data-cy=getStarted]').click();
 
     //Add farm page
@@ -51,7 +51,8 @@ describe.only('LiteFarm end to end test', () => {
 
     // Enter new farm details and click continue which should be enabled
     cy.get('[data-cy=addFarm-farmName]').type(farmName);
-    cy.get('[data-cy=addFarm-location]').type(location, { timeout: 10000 });
+    cy.get('[data-cy=addFarm-location]').type(location);
+    cy.wait(500);
     cy.get('[data-cy=addFarm-continue]').should('not.be.disabled')
     .click();
     
@@ -124,7 +125,21 @@ describe.only('LiteFarm end to end test', () => {
     cy.get('[data-cy=map-addFeature]').should('exist').and('not.be.disabled').click();
     cy.get('[data-cy=map-drawer]').contains('Field').should('exist').and('not.be.disabled').click();
     cy.get('[data-cy=mapTutorial-continue]').contains('Got it').should('exist').and('not.be.disabled').click();
-      
+    cy.get('[data-cy=map-mapContainer]').click(558,344);
+    cy.wait(500);
+    cy.get('[data-cy=map-mapContainer]').click(570,321);
+    cy.wait(500);
+    cy.get('[data-cy=map-mapContainer]').click(631,355);
+    cy.wait(500);
+    cy.get('[data-cy=map-mapContainer]').click(605,374);
+    cy.wait(1000);
+    cy.get('[data-cy=map-mapContainer]').click(558,344);
+    cy.wait(500);
+    cy.get('[data-cy=mapTutorial-continue]').contains('Got it').should('exist').and('not.be.disabled').click();
+    cy.get('[data-cy=map-drawCompleteContinue]').contains('Confirm').should('exist').and('not.be.disabled').click();
+
+    //Add field view
+
   });
 
 });

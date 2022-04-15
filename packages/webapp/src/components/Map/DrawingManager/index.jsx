@@ -76,7 +76,7 @@ export default function PureDrawingManager({
           <Button onClick={onClickTryAgain} className={styles.drawingButton} color={'secondary'} sm>
             {t('FARM_MAP.DRAWING_MANAGER.REDRAW')}
           </Button>
-          <Button onClick={onClickConfirm} className={styles.drawingButton} color={'primary'} sm>
+          <Button data-cy='map-drawCompleteContinue' onClick={onClickConfirm} className={styles.drawingButton} color={'primary'} sm>
             {t('common:CONFIRM')}
           </Button>
         </div>

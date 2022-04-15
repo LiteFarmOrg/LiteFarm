@@ -228,7 +228,7 @@ export function TourContentBody(
           {title}
         </Semibold>
       )}
-      <div className={classes.contentsContainer}>
+      <div data-cy="spotlight-contents" className={classes.contentsContainer}>
         {contents && !!contents.length && (
           <div className={classes.contentsContainer}>
             {contents?.map((line, index) => (

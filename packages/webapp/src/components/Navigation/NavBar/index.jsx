@@ -261,6 +261,7 @@ export default function PureNavBar({
                 certificationClick={certificationClick}
               >
                 <IconButton
+                data-cy='home-farmButton'
                   aria-label="farm-icon"
                   color="inherit"
                   id="firstStepNavBar"

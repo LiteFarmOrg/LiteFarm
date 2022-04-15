@@ -109,10 +109,21 @@ describe.only('LiteFarm end to end test', () => {
     cy.url().should('include', '/outro');
     cy.get('[data-cy=outro-finish]').should('exist').and('not.be.disabled').click();
 
-    //farm home pageFilterKey
+    //farm home page
     cy.get('[data-cy=spotlight-next]').contains('Next').should('exist').and('not.be.disabled').click();
     cy.get('[data-cy=spotlight-next]').contains('Next').should('exist').and('not.be.disabled').click();
     cy.get('[data-cy=spotlight-next]').contains('Got it').should('exist').and('not.be.disabled').click(); 
+    cy.get('[data-cy=home-farmButton]').should('exist').and('not.be.disabled').click();
+    cy.get('[data-cy=navbar-option]').contains('Farm map').should('exist').and('not.be.disabled').click();
+
+    //arrive at farm map page and draw a field
+    cy.url().should('include', '/map');
+    cy.get('[data-cy=spotlight-next]').contains('Next').should('exist').and('not.be.disabled').click();
+    cy.get('[data-cy=spotlight-next]').contains('Next').should('exist').and('not.be.disabled').click();
+    cy.get('[data-cy=spotlight-next]').contains('Got it').should('exist').and('not.be.disabled').click();
+    cy.get('[data-cy=map-addFeature]').should('exist').and('not.be.disabled').click();
+    cy.get('[data-cy=map-drawer]').contains('Field').should('exist').and('not.be.disabled').click();
+    cy.get('[data-cy=mapTutorial-continue]').contains('Got it').should('exist').and('not.be.disabled').click();
       
   });
 

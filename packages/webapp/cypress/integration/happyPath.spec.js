@@ -16,7 +16,7 @@ describe.only('LiteFarm end to end test', () => {
 
     //create test data
     const email = 'test@example.com';
-    const fullName = 'Test User';
+    const fullName = 'Test Farmer';
     const password = 'P@ssword123';
     const farmName = 'UBC FARM';
     const location = '49.250833,-123.2410777';
@@ -39,7 +39,7 @@ describe.only('LiteFarm end to end test', () => {
     cy.contains('started').should('exist');
 
       // Get Started page
-    cy.get('[data-cy=getStarted]').should('exist');
+    cy.get('[data-cy=getStarted]').should('exist', { timeout: 10000 });
     cy.get('[data-cy=getStarted]').click();
 
     //Add farm page
@@ -51,9 +51,9 @@ describe.only('LiteFarm end to end test', () => {
 
     // Enter new farm details and click continue which should be enabled
     cy.get('[data-cy=addFarm-farmName]').type(farmName);
-    cy.get('[data-cy=addFarm-location]').type(location);
-    cy.get('[data-cy=addFarm-continue]').should('not.be.disabled');
-    cy.get('[data-cy=addFarm-continue]').click();
+    cy.get('[data-cy=addFarm-location]').type(location, { timeout: 10000 });
+    cy.get('[data-cy=addFarm-continue]').should('not.be.disabled')
+    .click();
     
     //role selection page
     cy.contains('What is your role on the farm').should('exist');
@@ -93,13 +93,26 @@ describe.only('LiteFarm end to end test', () => {
     .first().click();
     let certifier;
     cy.get('[data-cy=certifierSelection-item]').first().then(function($elem) {
-      cy.get('[data-cy=certifierSelection-proceed]').should('not.be.disabled').click();
       certifier = $elem.text();
-      cy.contains(certifier).should('exist');
-      cy.log(certifier);
- })
- 
-    
+      let end = certifier.indexOf('(');
+      let result = certifier.substring(1, end);
+      //click the proceed button and ensure test is on the certification summary view and the certification selected is displayed
+      cy.get('[data-cy=certifierSelection-proceed]').should('not.be.disabled').click();
+      cy.url().should('include', '/certification/summary');
+      cy.contains(result).should('exist');
+ });
+
+    //certifacation summary
+    cy.get('[data-cy=certificationSummary-continue]').should('exist').and('not.be.disabled').click();
+
+    //onboarding outro
+    cy.url().should('include', '/outro');
+    cy.get('[data-cy=outro-finish]').should('exist').and('not.be.disabled').click();
+
+    //farm home pageFilterKey
+    cy.get('[data-cy=spotlight-next]').contains('Next').should('exist').and('not.be.disabled').click();
+    cy.get('[data-cy=spotlight-next]').contains('Next').should('exist').and('not.be.disabled').click();
+    cy.get('[data-cy=spotlight-next]').contains('Got it').should('exist').and('not.be.disabled').click(); 
       
   });
 

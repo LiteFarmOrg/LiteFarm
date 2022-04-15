@@ -20,7 +20,7 @@ export function PureSetCertificationSummary({
       onSubmit={onSubmit}
       buttonGroup={
         <>
-          <Button type={'submit'} fullLength onClick={onSubmit}>
+          <Button data-cy='certificationSummary-continue' type={'submit'} fullLength onClick={onSubmit}>
             {t('common:CONTINUE')}
           </Button>
         </>

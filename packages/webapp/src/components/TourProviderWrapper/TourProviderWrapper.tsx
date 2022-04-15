@@ -252,7 +252,7 @@ export function TourContentBody(
       {children}
       {
         <div className={classes.buttonGroup}>
-          <Button onClick={onClick} sm id={continuous ? 'next' : 'close'} {...primaryProps}>
+          <Button data-cy='spotlight-next' onClick={onClick} sm id={continuous ? 'next' : 'close'} {...primaryProps}>
             {buttonText || (isLastStep ? t('common:GOT_IT') : t('common:NEXT'))}
           </Button>
         </div>

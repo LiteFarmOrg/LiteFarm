@@ -20,25 +20,20 @@ describe.only('LiteFarm end to end test', () => {
     const password = 'P@ssword123';
     const farmName = 'UBC FARM';
     const location = '49.250833,-123.2410777';
-    //type email from the first user in users.json file into email input
+    const fieldName = 'Test Field';
+
+    //Login pafe
     cy.get('[data-cy=email]').type(email);
-    //check that the continue button is enabled
     cy.contains('Continue').should('exist').and('be.enabled').click();
   
     //check you are on the create user account page
     cy.contains('Create new user account').should('exist');
-
-    //type a fullName
     cy.get('[data-cy=createUser-fullName]').type(fullName);
-
-    //type a password
     cy.get('[data-cy=createUser-password]').type(password);
-    //click create account
     cy.contains('Create Account').should('exist').and('be.enabled').click();
 
+    //Get Started page
     cy.contains('started').should('exist');
-
-      // Get Started page
     cy.get('[data-cy=getStarted]').should('exist');
     cy.get('[data-cy=getStarted]').click();
 
@@ -51,8 +46,7 @@ describe.only('LiteFarm end to end test', () => {
 
     // Enter new farm details and click continue which should be enabled
     cy.get('[data-cy=addFarm-farmName]').type(farmName);
-    cy.get('[data-cy=addFarm-location]').type(location);
-    cy.wait(500);
+    cy.get('[data-cy=addFarm-location]').type(location).wait(1000);
     cy.get('[data-cy=addFarm-continue]').should('not.be.disabled')
     .click();
     
@@ -125,6 +119,7 @@ describe.only('LiteFarm end to end test', () => {
     cy.get('[data-cy=map-addFeature]').should('exist').and('not.be.disabled').click();
     cy.get('[data-cy=map-drawer]').contains('Field').should('exist').and('not.be.disabled').click();
     cy.get('[data-cy=mapTutorial-continue]').contains('Got it').should('exist').and('not.be.disabled').click();
+    cy.wait(1000);
     cy.get('[data-cy=map-mapContainer]').click(558,344);
     cy.wait(500);
     cy.get('[data-cy=map-mapContainer]').click(570,321);
@@ -139,7 +134,8 @@ describe.only('LiteFarm end to end test', () => {
     cy.get('[data-cy=map-drawCompleteContinue]').contains('Confirm').should('exist').and('not.be.disabled').click();
 
     //Add field view
-
+    cy.get('[data-cy=createField-fieldName]').should('exist').type(fieldName);
+    cy.get('[data-cy=createField-save]').should('exist').and('not.be.disabled').click();
   });
 
 });

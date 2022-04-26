@@ -109,7 +109,7 @@
     "start-server-and-test": "^1.11.7"
   },
   "lint-staged": {
-    "*.{js}": [
+    "*.js": [
       "eslint --quiet --fix"
     ],
     "*.{js,css,md}": "prettier --write"

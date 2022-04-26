@@ -33,6 +33,7 @@ module.exports = {
       'Content-Encoding': 'identity',
       Connection: 'keep-alive',
       'Cache-Control': 'no-cache',
+      'X-Accel-Buffering': 'no',
     });
     res.write('\n');
 

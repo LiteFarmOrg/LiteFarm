@@ -26,13 +26,13 @@ module.exports = (on, config) => {
   config.env.googleClientSecret = process.env.REACT_APP_GOOGLE_CLIENT_SECRET;
 
   // plugins code ...
-  //const testDataApiEndpoint = `${config.env.apiUrl}`;
+  const testDataApiEndpoint = `${config.env.apiUrl}/testData`;
 
 
   on("task", {
     async "db:tableCleanup"() {
       // clean up the database tables
-      const { data } = await axios.post('http://localhost:5001/testData/tableCleanup');
+      const { data } = await axios.post(`${testDataApiEndpoint}/tableCleanup`);
       return data;
     }});
 

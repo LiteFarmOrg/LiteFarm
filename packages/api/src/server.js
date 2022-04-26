@@ -77,12 +77,11 @@ const { use } = require('chai');
 // register API
 const router = promiseRouter();
 
-app.get('/', async (req, res) => {
+app.get('/', (req, res) => {
   res.sendStatus(200);
 });
 
 if (environment === 'development'|| environment === 'integration') {
-  //test data route
   app.use('/testData', testDataRoute)
 };
 

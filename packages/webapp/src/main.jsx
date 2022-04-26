@@ -72,6 +72,7 @@ import errorHandlerSaga from './containers/ErrorHandler/saga';
 import App from './App';
 import { sagaMiddleware } from './store/sagaMiddleware';
 import { persistor, store } from './store/store';
+import { GlobalScss } from './components/GlobalScss';
 
 if (import.meta.env.VITE_SENTRY_DSN) {
   Sentry.init({
@@ -137,6 +138,7 @@ ReactDOM.render(
     <PersistGate loading={null} persistor={persistor}>
       <ThemeProvider theme={theme}>
         <>
+          <GlobalScss />
           <CssBaseline />
           <Router history={history}>
             <>

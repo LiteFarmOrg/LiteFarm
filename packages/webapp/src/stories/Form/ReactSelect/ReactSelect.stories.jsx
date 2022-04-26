@@ -78,3 +78,10 @@ Disabled.args = {
   placeholder: 'placeholder',
   isDisabled: true,
 };
+export const IsMulti = Template.bind({});
+IsMulti.args = {
+  options: options,
+  label: 'label',
+  placeholder: 'placeholder',
+  isMulti: true,
+};

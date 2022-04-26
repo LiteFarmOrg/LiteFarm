@@ -59,7 +59,7 @@ function filterTasks(tasks, filters) {
     .filter((t) => !activeStatus.size || activeStatus.has(t.status))
     .filter((t) => !activeTypes.size || activeTypes.has(t.taskType.task_type_id.toString()))
     .filter((t) => !activeLocations.size || activeLocations.has(t.locationName))
-    .filter((t) => !activeVarieties.size || activeVarieties.has(t.cropVarietyName))
+    .filter((t) => !activeVarieties.size || activeVarieties.has(t.cropVarietyName || ''))
     .filter((t) => !activeAssignees.size || filterByAssignee(t, activeAssignees))
     .filter((t) => filterByFromDate(t, filters[FROM_DATE]))
     .filter((t) => filterByToDate(t, filters[TO_DATE]));

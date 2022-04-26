@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-import React, { useMemo, useRef, useState } from 'react';
+import React, { useMemo, useRef } from 'react';
 
 import PureFilterPage from '../../../components/FilterPage';
 import { setTasksFilter, tasksFilterSelector } from '../../filterSlice';
@@ -19,38 +19,15 @@ import {
   TO_DATE,
   TYPE,
 } from '../constants';
-import Switch from '../../../components/Form/Switch';
-import DateRangePicker from '../../../components/Form/DateRangePicker';
-import { getDateInputFormat } from '../../../util/moment';
+
+import { DATE_RANGE, SEARCHABLE_MULTI_SELECT } from '../../../components/Filter/filterTypes';
+import { getSupportedTaskTypesSet } from '../../../components/Task/getSupportedTaskTypesSet';
 
 const TasksFilterPage = ({ onGoBack }) => {
-  // TODO: ask if the tasks types should be included in the filter translation
   const { t } = useTranslation(['translation', 'filter', 'task']);
   const tasksFilter = useSelector(tasksFilterSelector);
   const taskCardContent = useSelector(taskCardContentSelector);
   const dispatch = useDispatch();
-
-  const [showDateFilter, setShowDateFilter] = useState(
-    !!(tasksFilter[FROM_DATE] || tasksFilter[TO_DATE]),
-  );
-  const onSwitchClick = () => {
-    if (showDateFilter) {
-      setShowDateFilter(false);
-      setFromDate('');
-      setToDate('');
-    } else {
-      setShowDateFilter(true);
-      setFromDate(tasksFilter[FROM_DATE] || getDateInputFormat());
-      setToDate(() => {
-        if (tasksFilter[TO_DATE]) return tasksFilter[TO_DATE];
-        const defaultToDate = new Date();
-        defaultToDate.setDate(defaultToDate.getDate() + 7);
-        return getDateInputFormat(defaultToDate);
-      });
-    }
-  };
-  const [fromDate, setFromDate] = useState(tasksFilter[FROM_DATE] ?? '');
-  const [toDate, setToDate] = useState(tasksFilter[TO_DATE] ?? '');
 
   const statuses = [ABANDONED, COMPLETED, LATE, PLANNED];
   const locations = new Set(taskCardContent.map((t) => t.locationName));
@@ -58,9 +35,11 @@ const TasksFilterPage = ({ onGoBack }) => {
   const { taskTypes, assignees } = useMemo(() => {
     let taskTypes = {};
     let assignees = {};
+    const supportedTaskTypes = getSupportedTaskTypesSet(true);
     for (const task of taskCardContent) {
-      taskTypes[task.taskType.task_type_id] = task.taskType;
-
+      if (task.taskType.farm_id || supportedTaskTypes.has(task.taskType.task_translation_key)) {
+        taskTypes[task.taskType.task_type_id] = task.taskType;
+      }
       if (task.assignee !== undefined) {
         const { user_id, first_name, last_name } = task.assignee;
         assignees[user_id] = `${first_name} ${last_name}`;
@@ -73,24 +52,11 @@ const TasksFilterPage = ({ onGoBack }) => {
 
   let cropVarities = new Set(taskCardContent.map((t) => t.cropVarietyName));
   cropVarities.delete(undefined);
-
-  const handleApply = () => {
-    const filterToApply = {
-      ...filterRef.current,
-      FROM_DATE: fromDate ? fromDate : undefined,
-      TO_DATE: toDate ? toDate : undefined,
-    };
-    dispatch(setTasksFilter(filterToApply));
-    onGoBack?.();
-  };
   const filterRef = useRef({});
 
-  const handleFromDateChange = (e) => {
-    setFromDate(e.target.value);
-  };
-
-  const handleToDateChange = (e) => {
-    setToDate(e.target.value);
+  const handleApply = () => {
+    dispatch(setTasksFilter(filterRef.current));
+    onGoBack?.();
   };
 
   const filters = [
@@ -131,14 +97,20 @@ const TasksFilterPage = ({ onGoBack }) => {
       })),
     },
     {
-      // TODO: This should be a text search
       subject: t('TASK.FILTER.CROP'),
       filterKey: CROP,
+      type: SEARCHABLE_MULTI_SELECT,
       options: [...cropVarities].map((variety) => ({
         value: variety,
         default: tasksFilter[CROP][variety]?.active ?? false,
         label: variety,
       })),
+    },
+    {
+      subject: t('TASK.FILTER.DATE_RANGE'),
+      type: DATE_RANGE,
+      defaultFromDate: tasksFilter[FROM_DATE],
+      defaultToDate: tasksFilter[TO_DATE],
     },
   ];
 
@@ -149,38 +121,7 @@ const TasksFilterPage = ({ onGoBack }) => {
       onApply={handleApply}
       filterRef={filterRef}
       onGoBack={onGoBack}
-      resetters={[
-        {
-          setFunc: setFromDate,
-          defaultVal: '',
-        },
-        {
-          setFunc: setToDate,
-          defaultVal: '',
-        },
-      ]}
-    >
-      <Switch
-        label={t('TASK.FILTER.DATE_RANGE')}
-        style={{ marginBottom: '24px' }}
-        checked={showDateFilter}
-        onChange={onSwitchClick}
-      />
-      {showDateFilter && (
-        <>
-          <DateRangePicker
-            fromProps={{
-              value: fromDate,
-              onChange: handleFromDateChange,
-            }}
-            toProps={{
-              value: toDate,
-              onChange: handleToDateChange,
-            }}
-          />
-        </>
-      )}
-    </PureFilterPage>
+    />
   );
 };
 

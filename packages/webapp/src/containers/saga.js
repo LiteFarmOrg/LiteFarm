@@ -22,6 +22,7 @@ import {
   patchFarmSuccess,
   putUserSuccess,
   selectFarmSuccess,
+  userFarmsByFarmSelector,
   userFarmSelector,
 } from './userFarmSlice';
 import { createAction } from '@reduxjs/toolkit';
@@ -86,7 +87,7 @@ import { getExpense, getSales } from './Finances/actions';
 import { logout } from '../util/jwt';
 import { getGardensSuccess, onLoadingGardenFail, onLoadingGardenStart } from './gardenSlice';
 import { getRoles } from './InviteUser/saga';
-import { getAllUserFarmsByFarmId } from './Profile/People/saga';
+import { getAllUserFarmsByFarmIDSaga } from './Profile/People/saga';
 import {
   getAllSupportedCertifications,
   getAllSupportedCertifiers,
@@ -145,6 +146,7 @@ import { APP_VERSION } from '../util/constants';
 import { hookFormPersistHistoryStackSelector } from './hooks/useHookFormPersist/hookFormPersistSlice';
 import axiosWithoutInterceptors from 'axios';
 import produce from 'immer';
+import { resetTasksFilter } from './filterSlice';
 
 const logUserInfoUrl = () => `${url}/userLog`;
 const getCropsByFarmIdUrl = (farm_id) => `${url}/crop/farm/${farm_id}`;
@@ -558,8 +560,8 @@ export function* fetchAllSaga() {
   ];
   const tasks = [
     put(getRoles()),
-    put(getAllUserFarmsByFarmId()),
     put(getManagementPlansAndTasks()),
+    call(getAllUserFarmsByFarmIDSaga),
   ];
 
   yield all(isAdmin ? [...tasks, ...adminTasks] : tasks);
@@ -572,15 +574,17 @@ export function* fetchAllSaga() {
   if (appVersion !== APP_VERSION) {
     yield put(setAppVersion());
   }
+  const userFarms = yield select(userFarmsByFarmSelector);
+  yield put(resetTasksFilter({ user_id, userFarms }));
 }
 
 export const selectFarmAndFetchAll = createAction('selectFarmAndFetchAllSaga');
 
-export function* selectFarmAndFetchAllSaga({ payload: userFarm }) {
+export function* selectFarmAndFetchAllSaga({ payload: farm }) {
   try {
-    yield put(selectFarmSuccess(userFarm));
-    const { has_consent, user_id, farm_id } = yield select(userFarmSelector);
-    if (!has_consent) return history.push('/consent');
+    yield put(selectFarmSuccess(farm));
+    const userFarm = yield select(userFarmSelector);
+    if (!userFarm.has_consent) return history.push('/consent');
     history.push({ pathname: '/' });
     yield call(fetchAllSaga);
   } catch (e) {

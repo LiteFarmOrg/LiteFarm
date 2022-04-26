@@ -1,8 +1,7 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef } from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import PureFilterPage from '../../../components/FilterPage';
-import Input from '../../../components/Form/Input';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   CLEANING_PRODUCT,
@@ -18,6 +17,7 @@ import {
   WATER_SAMPLE_RESULTS,
 } from '../constants';
 import { documentsFilterSelector, setDocumentsFilter } from '../../filterSlice';
+import { DATE } from '../../../components/Filter/filterTypes';
 
 const types = [
   CLEANING_PRODUCT,
@@ -35,18 +35,10 @@ const DocumentsFilterPage = ({ onGoBack }) => {
   const { t } = useTranslation(['translation', 'filter']);
   const documentsFilter = useSelector(documentsFilterSelector);
   const dispatch = useDispatch();
-  const [validUntilDate, setValidUntilDate] = useState(documentsFilter[VALID_ON] ?? '');
 
   const handleApply = () => {
-    const filterToApply = {
-      ...filterRef.current,
-      VALID_ON: validUntilDate ? validUntilDate : undefined,
-    };
-    dispatch(setDocumentsFilter(filterToApply));
+    dispatch(setDocumentsFilter(filterRef.current));
     onGoBack?.();
-  };
-  const handleDateChange = (e) => {
-    setValidUntilDate(e.target.value);
   };
 
   const filterRef = useRef({});
@@ -61,6 +53,12 @@ const DocumentsFilterPage = ({ onGoBack }) => {
         label: t(`filter:DOCUMENTS.${type}`),
       })),
     },
+    {
+      subject: t('DOCUMENTS.FILTER.VALID_ON'),
+      filterKey: 'VALID_ON',
+      type: DATE,
+      defaultValue: documentsFilter[VALID_ON],
+    },
   ];
 
   return (
@@ -70,20 +68,7 @@ const DocumentsFilterPage = ({ onGoBack }) => {
       onApply={handleApply}
       filterRef={filterRef}
       onGoBack={onGoBack}
-      resetters={[
-        {
-          setFunc: setValidUntilDate,
-          defaultVal: '',
-        },
-      ]}
-    >
-      <Input
-        label={t('DOCUMENTS.FILTER.VALID_ON')}
-        type={'date'}
-        value={validUntilDate}
-        onChange={handleDateChange}
-      />
-    </PureFilterPage>
+    />
   );
 };
 

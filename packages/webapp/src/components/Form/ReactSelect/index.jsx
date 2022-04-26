@@ -6,6 +6,7 @@ import { Label, Underlined } from '../../Typography';
 import { useTranslation } from 'react-i18next';
 import { colors } from '../../../assets/theme';
 import Infoi from '../../Tooltip/Infoi';
+import { BsX } from 'react-icons/bs';
 
 export const styles = {
   option: (provided, state) => ({
@@ -21,6 +22,7 @@ export const styles = {
     fontWeight: 'normal',
     fontFamily: '"Open Sans", "SansSerif", serif',
     paddingLeft: '10px',
+    minHeight: '40px',
   }),
   groupHeading: (provided, state) => ({
     ...provided,
@@ -86,17 +88,34 @@ export const styles = {
     fontWeight: 'normal',
     fontFamily: '"Open Sans", "SansSerif", serif',
   }),
+  multiValueRemove: (provided, state) => ({
+    ...provided,
+    color: 'white',
+    cursor: 'pointer',
+    fontSize: '18px',
+    '&:hover': {
+      backgroundColor: 'transparent',
+      color: 'white',
+    },
+  }),
 
   multiValueLabel: (provided, state) => ({
     ...provided,
-    fontSize: '12px',
-    lineHeight: '16px',
+    fontSize: '14px',
+    lineHeight: '24px',
+    color: 'white',
+    padding: 0,
   }),
   multiValue: (provided, state) => ({
     ...provided,
-    height: '24px',
-    margin: '4px',
+    borderRadius: '32px',
+    padding: '0 12px',
+    border: '1px solid var(--teal700)',
+    fontWeight: 600,
+    backgroundColor: colors.teal600,
+    minHeight: '26px',
   }),
+
   valueContainer: (provided, state) => ({
     ...provided,
     padding: '8px',
@@ -237,6 +256,11 @@ const ReactSelect = React.forwardRef(
                 >
                   {t('REACT_SELECT.CLEAR_ALL')}
                 </Underlined>
+              ),
+              MultiValueRemove: ({ innerProps }) => (
+                <div {...innerProps}>
+                  <BsX />
+                </div>
               ),
               ...components,
             }}

@@ -1,12 +1,15 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import Layout from '../Layout';
 import PageTitle from '../PageTitle/v2';
 import { Underlined } from '../Typography';
 import { useTranslation } from 'react-i18next';
-import Filter from '../Filter';
+import FilterPillSelect from '../Filter/FilterPillSelect';
 import Button from '../Form/Button';
-import { cloneObject } from '../../util';
+import { DATE, DATE_RANGE, PILL_SELECT, SEARCHABLE_MULTI_SELECT } from '../Filter/filterTypes';
+import { FilterDateRange } from '../Filter/FilterDateRange';
+import { FilterMultiSelect } from '../Filter/FilterMultiSelect';
+import { FilterDate } from '../Filter/FilterDate';
 
 const PureFilterPage = ({
   title,
@@ -19,60 +22,25 @@ const PureFilterPage = ({
 }) => {
   const { t } = useTranslation();
 
-  const initFilterPageState = {};
-  const initCountTrackerState = {};
-  for (const filter of filters) {
-    const initFilterState = {};
-    for (const option of filter.options) {
-      initFilterState[option.value] = {
-        active: option.default,
-        label: option.label,
-      };
-    }
-    initFilterPageState[filter.filterKey] = initFilterState;
-    initCountTrackerState[filter.filterKey] = 0;
-  }
-  const [filterPageState, setFilterPageState] = useState(initFilterPageState);
-  const [countTrackerState, setCountTrackerState] = useState(initCountTrackerState);
-
-  useEffect(() => {
-    for (const filterKey in filterPageState) {
-      const filter = filterPageState[filterKey];
-      const activeSum = Object.values(filter).reduce((acc, curr) => {
-        return curr.active ? acc + 1 : acc;
-      }, 0);
-      setCountTrackerState((prev) => {
-        const change = cloneObject(prev);
-        change[filterKey] = activeSum;
-        return change;
-      });
-    }
-  }, [filterPageState]);
-
-  const updateFilter = (filterKey, value) => {
-    setFilterPageState((prev) => {
-      const change = cloneObject(prev);
-      change[filterKey][value].active = !prev[filterKey][value].active;
-      return change;
-    });
-  };
+  const [shouldReset, setShouldReset] = useState(0);
+  const triggerReset = () => setShouldReset((shouldReset) => shouldReset + 1);
 
   const resetFilter = () => {
-    setFilterPageState((prev) => {
-      const change = filterResetHelper(cloneObject(prev));
-      return change;
-    });
-
+    triggerReset();
     for (const resetter of resetters) {
       const { setFunc, defaultVal } = resetter;
       setFunc(defaultVal);
     }
+    setIsDirty(true);
   };
+
+  const [isDirty, setIsDirty] = useState(false);
+  const setDirty = () => !isDirty && setIsDirty(true);
 
   return (
     <Layout
       buttonGroup={
-        <Button disabled={false} onClick={onApply} fullLength>
+        <Button disabled={!isDirty} onClick={onApply} fullLength>
           {t('common:APPLY')}
         </Button>
       }
@@ -86,20 +54,53 @@ const PureFilterPage = ({
       </div>
 
       {filters.map((filter) => {
-        if (filter.options.length !== 0)
+        if ((filter.type === PILL_SELECT || !filter.type) && filter.options.length > 0) {
           return (
-            <Filter
+            <FilterPillSelect
               subject={filter.subject}
-              items={filter.options}
+              options={filter.options}
               filterKey={filter.filterKey}
               style={{ marginBottom: '32px' }}
               filterRef={filterRef}
-              filterState={filterPageState[filter.filterKey]}
-              updateFilter={updateFilter}
               key={filter.filterKey}
-              counter={countTrackerState[filter.filterKey]}
+              shouldReset={shouldReset}
+              onChange={setDirty}
             />
           );
+        } else if (filter.type === DATE_RANGE) {
+          return (
+            <FilterDateRange
+              setDirty={setDirty}
+              key={filter.subject}
+              {...filter}
+              filterRef={filterRef}
+              shouldReset={shouldReset}
+            />
+          );
+        } else if (filter.type === SEARCHABLE_MULTI_SELECT) {
+          return (
+            <FilterMultiSelect
+              subject={filter.subject}
+              options={filter.options}
+              filterKey={filter.filterKey}
+              style={{ marginBottom: '32px' }}
+              filterRef={filterRef}
+              key={filter.filterKey}
+              shouldReset={shouldReset}
+              onChange={setDirty}
+            />
+          );
+        } else if (filter.type === DATE) {
+          return (
+            <FilterDate
+              {...filter}
+              onChange={setDirty}
+              key={filter.subject}
+              filterRef={filterRef}
+              shouldReset={shouldReset}
+            />
+          );
+        }
       })}
       {children}
     </Layout>
@@ -110,6 +111,7 @@ PureFilterPage.prototype = {
   subject: PropTypes.string,
   items: PropTypes.array,
   onGoBack: PropTypes.func,
+  hasDateRangeFilter: PropTypes.bool,
 };
 
 export default PureFilterPage;
@@ -126,14 +128,3 @@ export default PureFilterPage;
 //   });
 //   return filter;
 // };
-
-const filterResetHelper = (filter) => {
-  for (const filterKey in filter) {
-    const filterContents = filter[filterKey];
-    for (const filterValue in filterContents) {
-      const filterItem = filterContents[filterValue];
-      filterItem.active = false;
-    }
-  }
-  return filter;
-};

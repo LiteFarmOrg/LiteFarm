@@ -1,6 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { createSelector } from 'reselect';
 import { getDateInputFormat } from '../util/moment';
+import i18n from '../locales/i18n';
 
 const initialCropCatalogueFilter = {
   STATUS: {},
@@ -20,7 +21,7 @@ const intialTasksFilter = {
   ASSIGNEE: {},
   FROM_DATE: undefined,
   TO_DATE: undefined,
-  IS_ASCENDING: true,
+  IS_ASCENDING: false,
 };
 
 export const initialState = {
@@ -61,8 +62,22 @@ const filterSliceReducer = createSlice({
     setDocumentsFilter: (state, { payload: documentsFilter }) => {
       Object.assign(state.documents, documentsFilter);
     },
-    resetTasksFilter: (state) => {
-      state.tasks = intialTasksFilter;
+    resetTasksFilter: (state, { payload: { user_id, userFarms } }) => {
+      state.tasks = {
+        ...intialTasksFilter,
+        ASSIGNEE: userFarms.reduce((assignees, userFarm) => {
+          assignees[userFarm.user_id] = {
+            active: false,
+            label: `${userFarm.first_name} ${userFarm.last_name}`,
+          };
+          return assignees;
+        }, {}),
+      };
+      state.tasks.ASSIGNEE[user_id].active = true;
+      state.tasks.ASSIGNEE['unassigned'] = {
+        active: false,
+        label: i18n.t('TASK.UNASSIGNED'),
+      };
     },
     setTasksFilter: (state, { payload: tasksFilter }) => {
       Object.assign(state.tasks, tasksFilter);

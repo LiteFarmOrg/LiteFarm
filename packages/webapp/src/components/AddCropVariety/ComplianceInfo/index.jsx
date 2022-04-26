@@ -40,7 +40,6 @@ export default function ComplianceInfo({
   });
   const { historyCancel } = useHookFormPersist(getValues);
 
-
   const organic = watch(CERTIFIED_ORGANIC);
   const disabled = !isValid;
 
@@ -150,16 +149,17 @@ export default function ComplianceInfo({
           </div>
         )}
       </div>
-      {(organic === true || organic === false) && <Input
-        label={t('CROP_DETAIL.HS_CODE')}
-        style={{ paddingBottom: '16px', paddingTop: '24px' }}
-        hookFormRegister={register(HS_CODE_ID)}
-        type={'number'}
-        onKeyDown={integerOnKeyDown}
-        max={9999999999}
-        optional
-      />}
-
+      {(organic === true || organic === false) && (
+        <Input
+          label={t('CROP_DETAIL.HS_CODE')}
+          style={{ paddingBottom: '16px', paddingTop: '24px' }}
+          hookFormRegister={register(HS_CODE_ID, { valueAsNumber: true })}
+          type={'number'}
+          onKeyDown={integerOnKeyDown}
+          max={9999999999}
+          optional
+        />
+      )}
 
       {/* <div
         style={{

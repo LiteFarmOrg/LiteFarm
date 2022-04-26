@@ -28,6 +28,7 @@ import Button from '../../Form/Button';
 import { PlantingTaskModal } from '../../Modals/PlantingTaskModal';
 import { isTaskType } from '../../../containers/Task/useIsTaskType';
 import { NoCropManagementPlanModal } from '../../Modals/NoCropManagementPlanModal';
+import { getSupportedTaskTypesSet } from '../getSupportedTaskTypesSet';
 
 const icons = {
   SOIL_AMENDMENT_TASK: <SoilAmendment />,
@@ -49,32 +50,10 @@ const icons = {
   MAINTENANCE_TASK: <Maintenance />,
 };
 
-/**
- *
- * @param isAdmin {boolean}
- * @return {Set<string>}
- */
-const getSupportedTaskTypesSet = (isAdmin) => {
-  const supportedTaskTypes = new Set([
-    'SOIL_AMENDMENT_TASK',
-    'FIELD_WORK_TASK',
-    'PEST_CONTROL_TASK',
-    'CLEANING_TASK',
-    'HARVEST_TASK',
-  ]);
-
-  if (isAdmin) {
-    supportedTaskTypes.add('PLANT_TASK');
-    supportedTaskTypes.add('TRANSPLANT_TASK');
-  }
-  return supportedTaskTypes;
-};
-
 export const PureTaskTypeSelection = ({
   onCustomTask,
   handleGoBack,
   history,
-
 
   persistedFormData,
   useHookFormPersist,
@@ -97,7 +76,6 @@ export const PureTaskTypeSelection = ({
   const TASK_TYPE_ID = 'task_type_id';
   register(TASK_TYPE_ID);
   const selected_task_type = watch(TASK_TYPE_ID);
-
 
   const onSelectTask = (task_type_id) => {
     setValue(TASK_TYPE_ID, task_type_id);
@@ -208,12 +186,12 @@ export const PureTaskTypeSelection = ({
           updatePlantTaskSpotlight={updatePlantTaskSpotlight}
         />
       )}
-      {showNoManagementPlanModal &&
-      <NoCropManagementPlanModal
-        dismissModal={() => setShowNoManagementPlanModal(false)}
-        goToCatalogue={goToCatalogue}
-      />
-      }
+      {showNoManagementPlanModal && (
+        <NoCropManagementPlanModal
+          dismissModal={() => setShowNoManagementPlanModal(false)}
+          goToCatalogue={goToCatalogue}
+        />
+      )}
     </>
   );
 };

@@ -109,9 +109,9 @@
     "start-server-and-test": "^1.11.7"
   },
   "lint-staged": {
+    "*.{js,css,md}": "prettier --write",
     "*.js": [
       "eslint --quiet --fix"
-    ],
-    "*.{js,css,md}": "prettier --write"
+    ]
   }
 }

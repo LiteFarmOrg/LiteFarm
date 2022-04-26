@@ -17,6 +17,7 @@ const getDocument = (obj) => {
     'updated_at',
     'files',
     'no_expiration',
+    'archived',
   ]);
 };
 
@@ -69,7 +70,7 @@ const documentSlice = createSlice({
       return updateOneDocument(state, {
         payload: {
           document_id,
-          valid_until: new Date('2000/1/1').toISOString(),
+          archived: true,
         },
       });
     },
@@ -115,8 +116,9 @@ export const documentStatusSelector = createSelector(
 
 const isValidDocument = (document, lastActiveDatetime) => {
   return (
-    lastActiveDatetime <= new Date(document.valid_until).getTime() ||
-    (!document.valid_until && document.no_expiration)
+    !document.archived &&
+    (lastActiveDatetime <= new Date(document.valid_until).getTime() ||
+      (!document.valid_until && document.no_expiration))
   );
 };
 export const validDocumentSelector = createSelector(

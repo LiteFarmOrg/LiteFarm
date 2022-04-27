@@ -4,7 +4,6 @@ import React, { useMemo, useRef } from 'react';
 
 import PureFilterPage from '../../../components/FilterPage';
 import { setTasksFilter, tasksFilterSelector } from '../../filterSlice';
-import { taskCardContentSelector } from '../../Task/taskCardContentSelector';
 
 import {
   ABANDONED,
@@ -21,25 +20,29 @@ import {
 } from '../constants';
 
 import { DATE_RANGE, SEARCHABLE_MULTI_SELECT } from '../../../components/Filter/filterTypes';
-import { getSupportedTaskTypesSet } from '../../../components/Task/getSupportedTaskTypesSet';
+import { tasksSelector } from '../../taskSlice';
 
 const TasksFilterPage = ({ onGoBack }) => {
   const { t } = useTranslation(['translation', 'filter', 'task']);
   const tasksFilter = useSelector(tasksFilterSelector);
-  const taskCardContent = useSelector(taskCardContentSelector);
+  const tasks = useSelector(tasksSelector);
   const dispatch = useDispatch();
 
   const statuses = [ABANDONED, COMPLETED, LATE, PLANNED];
-  const locations = new Set(taskCardContent.map((t) => t.locationName));
+  const locationEntities = useMemo(() => {
+    return tasks.reduce((locationEntities, { locations }) => {
+      for (const location of locations) {
+        locationEntities[location.location_id] = location.name;
+      }
+      return locationEntities;
+    }, {});
+  }, [tasks.length]);
 
   const { taskTypes, assignees } = useMemo(() => {
     let taskTypes = {};
     let assignees = {};
-    const supportedTaskTypes = getSupportedTaskTypesSet(true);
-    for (const task of taskCardContent) {
-      if (task.taskType.farm_id || supportedTaskTypes.has(task.taskType.task_translation_key)) {
-        taskTypes[task.taskType.task_type_id] = task.taskType;
-      }
+    for (const task of tasks) {
+      taskTypes[task.taskType.task_type_id] = task.taskType;
       if (task.assignee !== undefined) {
         const { user_id, first_name, last_name } = task.assignee;
         assignees[user_id] = `${first_name} ${last_name}`;
@@ -48,10 +51,22 @@ const TasksFilterPage = ({ onGoBack }) => {
       }
     }
     return { taskTypes, assignees };
-  }, [taskCardContent.length]);
+  }, [tasks.length]);
 
-  let cropVarities = new Set(taskCardContent.map((t) => t.cropVarietyName));
-  cropVarities.delete(undefined);
+  const cropVarietyEntities = useMemo(() => {
+    return tasks.reduce((cropVarietyEntities, { managementPlans }) => {
+      for (const managementPlan of managementPlans) {
+        const cropVariety = managementPlan.crop_variety;
+        const crop = cropVariety.crop;
+        const cropName = t(`crop:${crop.crop_translation_key}`);
+        cropVarietyEntities[cropVariety.crop_variety_id] = cropVariety.crop_variety_name
+          ? `${cropVariety.crop_variety_name}, ${cropName}`
+          : cropName;
+      }
+      return cropVarietyEntities;
+    }, {});
+  }, [tasks.length]);
+
   const filterRef = useRef({});
 
   const handleApply = () => {
@@ -72,6 +87,7 @@ const TasksFilterPage = ({ onGoBack }) => {
     {
       subject: t('TASK.FILTER.TYPE'),
       filterKey: TYPE,
+      type: SEARCHABLE_MULTI_SELECT,
       options: Object.values(taskTypes).map((type) => ({
         value: type.task_type_id,
         default: tasksFilter[TYPE][type.task_type_id]?.active ?? false,
@@ -81,15 +97,17 @@ const TasksFilterPage = ({ onGoBack }) => {
     {
       subject: t('TASK.FILTER.LOCATION'),
       filterKey: LOCATION,
-      options: [...locations].map((location) => ({
-        value: location,
-        default: tasksFilter[LOCATION][location]?.active ?? false,
-        label: location,
+      type: SEARCHABLE_MULTI_SELECT,
+      options: Object.entries(locationEntities).map(([location_id, name]) => ({
+        value: location_id,
+        default: tasksFilter[LOCATION][location_id]?.active ?? false,
+        label: name,
       })),
     },
     {
       subject: t('TASK.FILTER.ASSIGNEE'),
       filterKey: ASSIGNEE,
+      type: SEARCHABLE_MULTI_SELECT,
       options: Object.keys(assignees).map((user_id) => ({
         value: user_id,
         default: tasksFilter[ASSIGNEE][user_id]?.active ?? false,
@@ -100,10 +118,10 @@ const TasksFilterPage = ({ onGoBack }) => {
       subject: t('TASK.FILTER.CROP'),
       filterKey: CROP,
       type: SEARCHABLE_MULTI_SELECT,
-      options: [...cropVarities].map((variety) => ({
-        value: variety,
-        default: tasksFilter[CROP][variety]?.active ?? false,
-        label: variety,
+      options: Object.entries(cropVarietyEntities).map(([crop_variety_id, name]) => ({
+        value: crop_variety_id,
+        default: tasksFilter[CROP][crop_variety_id]?.active ?? false,
+        label: name,
       })),
     },
     {

@@ -1,18 +1,7 @@
-import { createSelector } from 'reselect';
 import moment from 'moment';
 
-import { sortTaskCardContent, taskCardContentSelector } from './taskCardContentSelector';
-import { tasksFilterSelector } from '../filterSlice';
-import {
-  ASSIGNEE,
-  CROP,
-  FROM_DATE,
-  IS_ASCENDING,
-  LOCATION,
-  STATUS,
-  TO_DATE,
-  TYPE,
-} from '../Filter/constants';
+import { getTaskStatus } from './taskCardContentSelector';
+import { ASSIGNEE, CROP, FROM_DATE, LOCATION, STATUS, TO_DATE, TYPE } from '../Filter/constants';
 
 const getActiveCriteria = (filter) => {
   const filterKeys = Object.keys(filter);
@@ -38,7 +27,7 @@ const filterByFromDate = (task, fromDate) => {
     return true;
   }
 
-  return moment(task.completeOrDueDate).isSameOrAfter(fromDate, 'day');
+  return moment(task.complete_date || task.due_date).isSameOrAfter(fromDate, 'day');
 };
 
 const filterByToDate = (task, toDate) => {
@@ -46,27 +35,29 @@ const filterByToDate = (task, toDate) => {
     return true;
   }
 
-  return moment(task.completeOrDueDate).isSameOrBefore(toDate, 'day');
+  return moment(task.complete_date || task.due_date).isSameOrBefore(toDate, 'day');
 };
 
-function filterTasks(tasks, filters) {
+export function filterTasks(tasks, filters) {
   const activeStatus = getActiveCriteria(filters[STATUS]);
   const activeTypes = getActiveCriteria(filters[TYPE]);
   const activeLocations = getActiveCriteria(filters[LOCATION]);
   const activeAssignees = getActiveCriteria(filters[ASSIGNEE]);
   const activeVarieties = getActiveCriteria(filters[CROP]);
-  const filteredTasks = tasks
-    .filter((t) => !activeStatus.size || activeStatus.has(t.status))
+  return tasks
+    .filter((t) => !activeStatus.size || activeStatus.has(getTaskStatus(t)))
     .filter((t) => !activeTypes.size || activeTypes.has(t.taskType.task_type_id.toString()))
-    .filter((t) => !activeLocations.size || activeLocations.has(t.locationName))
-    .filter((t) => !activeVarieties.size || activeVarieties.has(t.cropVarietyName || ''))
+    .filter(
+      (t) =>
+        !activeLocations.size ||
+        t.locations.find(({ location_id }) => activeLocations.has(location_id)),
+    )
+    .filter(
+      (t) =>
+        !Object.values(filters[CROP]).find(({ active }) => active) ||
+        t.managementPlans.find(({ crop_variety_id }) => activeVarieties.has(crop_variety_id)),
+    )
     .filter((t) => !activeAssignees.size || filterByAssignee(t, activeAssignees))
     .filter((t) => filterByFromDate(t, filters[FROM_DATE]))
     .filter((t) => filterByToDate(t, filters[TO_DATE]));
-  return sortTaskCardContent(filteredTasks, filters[IS_ASCENDING]);
 }
-
-export const filteredTaskCardContentSelector = createSelector(
-  [taskCardContentSelector, tasksFilterSelector],
-  filterTasks,
-);

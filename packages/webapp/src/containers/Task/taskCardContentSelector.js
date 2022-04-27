@@ -5,6 +5,9 @@ import { isTaskType } from './useIsTaskType';
 import { getTaskCardDate } from '../../util/moment';
 import { loginSelector, userFarmEntitiesSelector } from '../userFarmSlice';
 import { getLocationName } from '../Crop/CropManagement/useManagementPlanCardContents';
+import { tasksFilterSelector } from '../filterSlice';
+import { filterTasks } from './tasksFilter';
+import { IS_ASCENDING } from '../Filter/constants';
 
 const getTaskContents = (tasks, userFarmEntities, { farm_id }) => {
   return tasks.map((task) => {
@@ -16,7 +19,7 @@ const getTaskContents = (tasks, userFarmEntities, { farm_id }) => {
       cropVarietyName: getCropVarietyName(managementPlans),
       locationName: getLocationNameOfTask(managementPlans, task.locations, task.taskType),
       completeOrDueDate: getTaskCardDate(task.complete_date || task.due_date),
-      assignee: userFarmEntities[farm_id][task.assignee_user_id],
+      assignee: task.assignee,
       happiness: task.happiness,
       abandon_date: task.abandon_date,
       date: task.abandon_date || task.complete_date || task.due_date,
@@ -56,6 +59,15 @@ export const sortTaskCardContent = (taskCardContents, isAscending = true) =>
 export const taskCardContentSelector = createSelector(
   [tasksSelector, userFarmEntitiesSelector, loginSelector],
   getTaskContents,
+);
+
+export const filteredTaskCardContentSelector = createSelector(
+  [tasksSelector, tasksFilterSelector, userFarmEntitiesSelector, loginSelector],
+  (tasks, filters, userFarmEntities, userFarm) =>
+    sortTaskCardContent(
+      getTaskContents(filterTasks(tasks, filters), userFarmEntities, userFarm),
+      filters[IS_ASCENDING],
+    ),
 );
 
 export const taskCardContentByManagementPlanSelector = (management_plan_id) =>

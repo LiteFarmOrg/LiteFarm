@@ -122,12 +122,6 @@ export const taskSelectors = taskAdapter.getSelectors(
   (state) => state.entitiesReducer[taskSlice.name],
 );
 
-const getTaskStatus = (task) => {
-  if (task.complete_date) return 'completed';
-  if (task.abandon_date) return 'abandoned';
-  if (new Date(task.due_date) > Date.now()) return 'planned';
-  return 'late';
-};
 //TODO: refactor
 export const taskEntitiesSelector = createSelector(
   [
@@ -210,7 +204,6 @@ export const taskEntitiesSelector = createSelector(
         }
         taskEntities[task_id].assignee =
           userFarmEntities[userFarm.farm_id][taskEntities[task_id].assignee_user_id];
-        taskEntities[task_id].status = getTaskStatus(taskEntities[task_id]);
       }
     });
   },

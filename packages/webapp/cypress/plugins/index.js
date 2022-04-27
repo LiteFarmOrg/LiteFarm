@@ -25,6 +25,7 @@ module.exports = (on, config) => {
   config.env.googleClientId = process.env.REACT_APP_GOOGLE_CLIENTID;
   config.env.googleClientSecret = process.env.REACT_APP_GOOGLE_CLIENT_SECRET;
 
+  require('@cypress/code-coverage/task')(on, config);
   // plugins code ...
   const testDataApiEndpoint = `${config.env.apiUrl}/testData`;
 

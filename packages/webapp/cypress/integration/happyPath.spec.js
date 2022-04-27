@@ -136,6 +136,10 @@ describe.only('LiteFarm end to end test', () => {
     //Add field view
     cy.get('[data-cy=createField-fieldName]').should('exist').type(fieldName);
     cy.get('[data-cy=createField-save]').should('exist').and('not.be.disabled').click();
+
+    //logout
+    cy.get('[data-cy=home-profileButton]').should('exist').click();
+    cy.get('[data-cy=navbar-option]').contains('Log Out').should('exist').and('not.be.disabled').click();
   });
 
 });

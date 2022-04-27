@@ -298,6 +298,7 @@ export default function PureNavBar({
                 switchFarmClick={switchFarmClick}
               >
                 <IconButton
+                data-cy='home-profileButton'
                   edge="end"
                   aria-label="profile icon"
                   color="inherit"

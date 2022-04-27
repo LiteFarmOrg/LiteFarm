@@ -3,7 +3,7 @@
   "version": "3.1.0",
   "private": true,
   "scripts": {
-    "dev": "vite",
+    "dev": "CYPRESS_COVERAGE=TRUE  vite",
     "build": "tsc && vite build",
     "preview": "vite preview",
     "lint": "eslint src",

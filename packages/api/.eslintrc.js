@@ -11,12 +11,6 @@ module.exports = {
   rules: {
     'comma-dangle': ['error', 'always-multiline'],
     'comma-spacing': ['error', { before: false, after: true }],
-    'max-len': [
-      'error',
-      {
-        code: 120,
-      },
-    ],
     'no-multiple-empty-lines': ['error'],
     'no-new-symbol': 'error',
     'no-trailing-spaces': ['error'],
@@ -25,7 +19,6 @@ module.exports = {
     'object-curly-spacing': ['error', 'always'],
     'object-shorthand': 'error',
     'prefer-const': 2,
-    quotes: ['error', 'single'],
     'space-in-parens': ['error', 'never'],
     strict: [2, 'never'],
   },

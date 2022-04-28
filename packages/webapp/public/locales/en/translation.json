@@ -25,9 +25,9 @@
     "ADD_CUSTOM_TASK": "Add custom task",
     "AFFECT_PLANS": "Will this task affect any plans?",
     "ASSIGN_ALL_TO_PERSON": "Assign all unassigned tasks on this date to this person",
+    "ASSIGN_DATE": "Change task date",
     "ASSIGN_TASK": "Assign task",
     "ASSIGNEE": "Assignee",
-    "ASSIGN_DATE": "Change task date",
     "CANCEL": "task creation",
     "CLEANING_VIEW": {
       "ESTIMATED_WATER": "Estimated water usage",
@@ -1042,8 +1042,8 @@
     "PAGE_TITLE": "Notifications",
     "TAKE_ME_THERE": "Take me there",
     "TASK_ASSIGNED": {
-      "TITLE": "Assigned task",
-      "BODY": "A {{taskType}} task has been assigned to {{assignee}}."
+      "BODY": "A {{taskType}} task has been assigned to {{assignee}}.",
+      "TITLE": "Assigned task"
     }
   },
   "OUTRO": {
@@ -1407,6 +1407,7 @@
       "ASCENDING": "oldest first",
       "ASSIGNEE": "Assignee",
       "CROP": "Crop",
+      "CROP_WITH_TASKS": "MISSING (need to fix the language) Only crops with tasks are shown.",
       "DATE_RANGE": "Filter by date range",
       "DESCENDING": "newest first",
       "FROM": "From",
@@ -1432,6 +1433,7 @@
     "QUANTITY_CANNOT_EXCEED": "Harvest quantity used cannot exceed amount to allocate",
     "RATE_THIS_TASK": "Rate this task",
     "REMOVE_HARVEST_USE": "Remove",
+    "SELECT": "MISSING",
     "SELECT_DATE": "Select the task date",
     "SELECT_TASK_LOCATIONS": "Select the task location(s)",
     "SELECT_WILD_CROP": "This task targets a wild crop",

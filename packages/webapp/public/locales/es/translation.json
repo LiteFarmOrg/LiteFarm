@@ -25,9 +25,9 @@
     "ADD_CUSTOM_TASK": "Agregar tarea personalizada",
     "AFFECT_PLANS": "¿Esta tarea afectará algún plan?",
     "ASSIGN_ALL_TO_PERSON": "Asignar todas las tareas no asignadas en esta fecha a esta persona",
+    "ASSIGN_DATE": "Asignar due date",
     "ASSIGN_TASK": "Asignar tarea",
     "ASSIGNEE": "Responsable",
-    "ASSIGN_DATE": "Asignar due date",
     "CANCEL": "creación de la tarea",
     "CLEANING_VIEW": {
       "ESTIMATED_WATER": "Uso de agua estimado",
@@ -1045,8 +1045,8 @@
     "PAGE_TITLE": "MISSING",
     "TAKE_ME_THERE": "MISSING",
     "TASK_ASSIGNED": {
-      "TITLE": "MISSING",
-      "BODY": "MISSING"
+      "BODY": "MISSING",
+      "TITLE": "MISSING"
     }
   },
   "OUTRO": {
@@ -1410,6 +1410,7 @@
       "ASCENDING": "MISSING",
       "ASSIGNEE": "MISSING",
       "CROP": "MISSING",
+      "CROP_WITH_TASKS": "MISSING",
       "DATE_RANGE": "MISSING",
       "DESCENDING": "MISSING",
       "FROM": "MISSING",
@@ -1435,6 +1436,7 @@
     "QUANTITY_CANNOT_EXCEED": "La cantidad de cosecha utilizada no puede exceder la cantidad a asignar",
     "RATE_THIS_TASK": "Califica esta tarea",
     "REMOVE_HARVEST_USE": "Quitar",
+    "SELECT": "MISSING",
     "SELECT_DATE": "Seleccione la fecha de la tarea",
     "SELECT_TASK_LOCATIONS": "Seleccione la(s) ubicación(es) de la tarea",
     "SELECT_WILD_CROP": "Esta tarea se dirige a un cultivo silvestre",

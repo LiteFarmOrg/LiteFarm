@@ -25,9 +25,9 @@
     "ADD_CUSTOM_TASK": "Ajouter une tâche personnalisée",
     "AFFECT_PLANS": "Cette tâche affectera-t-elle les plans\u00a0?",
     "ASSIGN_ALL_TO_PERSON": "Attribuez toutes les tâches non assignées à cette date à cette personne",
+    "ASSIGN_DATE": "Attribuer due date",
     "ASSIGN_TASK": "Attribuer une tâche",
     "ASSIGNEE": "Destinataire",
-    "ASSIGN_DATE": "Attribuer due date",
     "CANCEL": "création de tâches",
     "CLEANING_VIEW": {
       "ESTIMATED_WATER": "Consommation d'eau estimée",
@@ -1046,8 +1046,8 @@
     "PAGE_TITLE": "MISSING",
     "TAKE_ME_THERE": "MISSING",
     "TASK_ASSIGNED": {
-      "TITLE": "MISSING",
-      "BODY": "MISSING"
+      "BODY": "MISSING",
+      "TITLE": "MISSING"
     }
   },
   "OUTRO": {
@@ -1411,6 +1411,7 @@
       "ASCENDING": "MISSING",
       "ASSIGNEE": "MISSING",
       "CROP": "MISSING",
+      "CROP_WITH_TASKS": "MISSING",
       "DATE_RANGE": "MISSING",
       "DESCENDING": "MISSING",
       "FROM": "MISSING",
@@ -1436,6 +1437,7 @@
     "QUANTITY_CANNOT_EXCEED": "MISSING",
     "RATE_THIS_TASK": "MISSING",
     "REMOVE_HARVEST_USE": "Supprimer",
+    "SELECT": "MISSING",
     "SELECT_DATE": "Sélectionnez la date de la tâche",
     "SELECT_TASK_LOCATIONS": "Sélectionnez le(s) emplacement(s) de la tâche",
     "SELECT_WILD_CROP": "MISSING",

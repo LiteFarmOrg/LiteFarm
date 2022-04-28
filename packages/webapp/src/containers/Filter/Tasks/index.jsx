@@ -112,6 +112,7 @@ const TasksFilterPage = ({ onGoBack }) => {
       subject: t('TASK.FILTER.CROP'),
       filterKey: CROP,
       type: SEARCHABLE_MULTI_SELECT,
+      toolTipContent: t('TASK.FILTER.CROP_WITH_TASKS'),
       options: Object.entries(cropVarietyEntities).map(([crop_variety_id, name]) => ({
         value: crop_variety_id,
         default: tasksFilter[CROP][crop_variety_id]?.active ?? false,

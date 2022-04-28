@@ -11,6 +11,7 @@ export const FilterMultiSelect = ({
   shouldReset,
   options = [],
   onChange,
+  ...props
 }) => {
   const defaultValue = useMemo(() => {
     return options.filter((option) => option.default);
@@ -52,6 +53,7 @@ export const FilterMultiSelect = ({
         onChange?.(value);
       }}
       isMulti
+      {...props}
     />
   );
 };

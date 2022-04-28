@@ -80,14 +80,12 @@ const PureFilterPage = ({
         } else if (filter.type === SEARCHABLE_MULTI_SELECT) {
           return (
             <FilterMultiSelect
-              subject={filter.subject}
-              options={filter.options}
-              filterKey={filter.filterKey}
               style={{ marginBottom: '32px' }}
               filterRef={filterRef}
               key={filter.filterKey}
               shouldReset={shouldReset}
               onChange={setDirty}
+              {...filter}
             />
           );
         } else if (filter.type === DATE) {

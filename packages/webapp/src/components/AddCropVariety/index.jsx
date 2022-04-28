@@ -3,7 +3,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { Label } from '../Typography';
-import Input from '../Form/Input';
+import Input, { integerOnKeyDown } from '../Form/Input';
 import styles from './styles.module.scss';
 import Radio from '../Form/Radio';
 import Form from '../Form';
@@ -26,6 +26,7 @@ export default function PureAddCropVariety({
   const SUPPLIER = 'supplier';
   const LIFE_CYCLE = 'lifecycle';
   const CROP_VARIETY_PHOTO_URL = 'crop_variety_photo_url';
+  const HS_CODE_ID = 'hs_code_id';
   const {
     register,
     handleSubmit,
@@ -38,14 +39,16 @@ export default function PureAddCropVariety({
     defaultValues: {
       crop_variety_photo_url:
         crop.crop_photo_url ||
-        `https://${import.meta.env.VITE_DO_BUCKET_NAME}.nyc3.digitaloceanspaces.com/default_crop/v2/default.webp`,
+        `https://${
+          import.meta.env.VITE_DO_BUCKET_NAME
+        }.nyc3.digitaloceanspaces.com/default_crop/v2/default.webp`,
       [LIFE_CYCLE]: crop[LIFE_CYCLE],
+      [HS_CODE_ID]: crop?.[HS_CODE_ID],
       ...persistedFormData,
     },
   });
 
   const { historyCancel } = useHookFormPersist(getValues);
-
 
   const disabled = !isValid;
 
@@ -149,6 +152,17 @@ export default function PureAddCropVariety({
           />
         </div>
       </div>
+      {!isSeekingCert && (
+        <Input
+          label={t('CROP_DETAIL.HS_CODE')}
+          style={{ paddingBottom: '16px', paddingTop: '24px' }}
+          hookFormRegister={register(HS_CODE_ID, { valueAsNumber: true })}
+          type={'number'}
+          onKeyDown={integerOnKeyDown}
+          max={9999999999}
+          optional
+        />
+      )}
     </Form>
   );
 }

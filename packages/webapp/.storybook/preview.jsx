@@ -5,6 +5,7 @@ import theme from '../src/assets/theme';
 import { CssBaseline, ThemeProvider } from '@material-ui/core';
 import { Provider } from 'react-redux';
 import { useTranslation } from 'react-i18next';
+import { GlobalScss } from '../src/components/GlobalScss';
 
 export const parameters = {
   actions: { argTypesRegex: '^on[A-Z].*' },
@@ -47,13 +48,16 @@ export const decorators = [
       ],
       { useSuspense: false },
     );
-    return <Suspense fallback={<p>Loading...</p>}>
-      <Provider store={store}>
-        <ThemeProvider theme={theme}>
-          <CssBaseline />
-          <Story />
-        </ThemeProvider>
-      </Provider>
-    </Suspense>;
+    return (
+      <Suspense fallback={<p>Loading...</p>}>
+        <Provider store={store}>
+          <ThemeProvider theme={theme}>
+            <GlobalScss />
+            <CssBaseline />
+            <Story />
+          </ThemeProvider>
+        </Provider>
+      </Suspense>
+    );
   },
 ];

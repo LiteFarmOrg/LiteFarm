@@ -13,8 +13,13 @@ const documentController = {
     return async (req, res, next) => {
       const { farm_id } = req.params;
       try {
-        const result = await DocumentModel.query().whereNotDeleted().withGraphFetched('[files]').where({ farm_id });
-        return result?.length ? res.status(200).send(result) : res.status(404).send('No documents found');
+        const result = await DocumentModel.query()
+          .whereNotDeleted()
+          .withGraphFetched('[files]')
+          .where({ farm_id });
+        return result?.length
+          ? res.status(200).send(result)
+          : res.status(404).send('No documents found');
       } catch (error) {
         console.error(error);
         return res.status(400).json({ error });
@@ -24,9 +29,10 @@ const documentController = {
   createDocument() {
     return async (req, res, next) => {
       try {
-        const result = await DocumentModel.transaction(async trx => {
-          return await DocumentModel.query(trx).context({ user_id: req.user.user_id }).upsertGraph(
-            req.body, { noUpdate: true, noDelete: true });
+        const result = await DocumentModel.transaction(async (trx) => {
+          return await DocumentModel.query(trx)
+            .context({ user_id: req.user.user_id })
+            .upsertGraph(req.body, { noUpdate: true, noDelete: true });
         });
         return res.status(201).send(result);
       } catch (error) {
@@ -42,7 +48,10 @@ const documentController = {
     return async (req, res, next) => {
       const { document_id } = req.params;
       try {
-        const result = await DocumentModel.query().context(req.user).findById(document_id).patch({ valid_until: new Date('2000/1/1').toISOString() });
+        const result = await DocumentModel.query()
+          .context(req.user)
+          .findById(document_id)
+          .patch({ archived: true });
         return result ? res.sendStatus(200) : res.status(404).send('Document not found');
       } catch (error) {
         return res.status(400).json({ error });
@@ -54,16 +63,16 @@ const documentController = {
     return async (req, res, next) => {
       try {
         const { document_id } = req.params;
-        const result = await DocumentModel.transaction(async trx => {
-          return await DocumentModel.query(trx).context({ user_id: req.user.user_id }).upsertGraph(
-            {document_id: document_id, ...req.body}
-          );
+        const result = await DocumentModel.transaction(async (trx) => {
+          return await DocumentModel.query(trx)
+            .context({ user_id: req.user.user_id })
+            .upsertGraph({ document_id, ...req.body });
         });
         return res.status(201).send(result);
       } catch (err) {
         console.log(err);
         return res.status(400).json({
-          error,
+          error: err,
         });
       }
     };
@@ -77,12 +86,14 @@ const documentController = {
 
         const fileName = `${farm_id}/document/${getRandomFileName(req.file)}`;
 
-        const uploadOriginalDocumentPromise = s3.putObject({
-          Body: req.file.buffer,
-          Bucket: s3BucketName,
-          Key: fileName,
-          ACL: 'private',
-        }).promise();
+        const uploadOriginalDocumentPromise = s3
+          .putObject({
+            Body: req.file.buffer,
+            Bucket: s3BucketName,
+            Key: fileName,
+            ACL: 'private',
+          })
+          .promise();
 
         if (req.isMinimized) {
           await uploadOriginalDocumentPromise;
@@ -104,17 +115,21 @@ const documentController = {
             type: THUMBNAIL_FORMAT,
           });
 
-          const [thumbnail] = await Promise.all([imaginaryThumbnailPromise, uploadOriginalDocumentPromise]);
+          const [thumbnail] = await Promise.all([
+            imaginaryThumbnailPromise,
+            uploadOriginalDocumentPromise,
+          ]);
 
           const thumbnailName = `${farm_id}/thumbnail/${uuidv4()}.${THUMBNAIL_FORMAT}`;
 
-          await s3.putObject({
-            Body: thumbnail.data,
-            Bucket: getPrivateS3BucketName(),
-            Key: thumbnailName,
-            ACL: 'private',
-          }).promise();
-
+          await s3
+            .putObject({
+              Body: thumbnail.data,
+              Bucket: getPrivateS3BucketName(),
+              Key: thumbnailName,
+              ACL: 'private',
+            })
+            .promise();
 
           return res.status(201).json({
             url: `${getPrivateS3Url()}/${fileName}`,

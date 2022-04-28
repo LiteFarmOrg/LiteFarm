@@ -23,7 +23,7 @@ const locationModel = require('../models/locationModel');
 
 const documentModel = require('../models/documentModel');
 const Queue = require('bull');
-const { raw, Model } = require('objection');
+const { Model } = require('objection');
 const { v4: uuidv4 } = require('uuid');
 const knex = Model.knex();
 const redisConf = {
@@ -186,6 +186,7 @@ const organicCertifierSurveyController = {
             .whereBetween('valid_until', [from_date, to_date])
             .orWhere({ no_expiration: true });
         })
+        .where({ archived: false })
         .andWhere({ farm_id });
       const user_id = req.user.user_id;
       const files = documents
@@ -258,7 +259,7 @@ const organicCertifierSurveyController = {
                    JOIN crop c ON cp.crop_id = c.crop_id
                    JOIN crop_management_plan cpm ON cpm.management_plan_id = mp.management_plan_id
                    JOIN farm f ON cp.farm_id = f.farm_id
-          WHERE mp.management_plan_id = any(:managementPlanIds)
+          WHERE mp.management_plan_id = any (:managementPlanIds)
             AND cp.organic IS NOT NULL
             AND cp.farm_id = :farm_id
       `,
@@ -284,19 +285,17 @@ const organicCertifierSurveyController = {
                    JOIN product p ON p.product_id = sat.product_id
                    JOIN location_tasks tl ON t.task_id = tl.task_id
                    JOIN location l ON tl.location_id = l.location_id
-                   JOIN (
-              SELECT location_id
-              FROM field
-              WHERE organic_status != 'Non-Organic'
-              UNION
-              SELECT location_id
-              FROM greenhouse
-              WHERE organic_status != 'Non-Organic'
-              UNION
-              SELECT location_id
-              FROM garden
-              WHERE organic_status != 'Non-Organic'
-          ) lu ON lu.location_id = l.location_id
+                   JOIN (SELECT location_id
+                         FROM field
+                         WHERE organic_status != 'Non-Organic'
+                         UNION
+                         SELECT location_id
+                         FROM greenhouse
+                         WHERE organic_status != 'Non-Organic'
+                         UNION
+                         SELECT location_id
+                         FROM garden
+                         WHERE organic_status != 'Non-Organic') lu ON lu.location_id = l.location_id
           WHERE ((complete_date::date <= :to_date::date AND complete_date::date >= :from_date::date) OR
                  (due_date::date <= :to_date::date AND due_date::date >= :from_date::date))
             AND abandon_date IS NULL
@@ -405,8 +404,9 @@ const organicCertifierSurveyController = {
       }
       /**
        * https://lucid.app/lucidchart/482f5f34-1ff7-4166-a1c4-7c23560fe7b5/edit?invitationId=inv_f1389038-4f0a-4b67-a826-adc754bfeb9f
+       * hasBeenTransplanted = plantingManagementPlans.filter()
        */
-      const hasBeenTransplanted = plantingManagementPlans
+      plantingManagementPlans
         .filter((plantingManagementPlan) => {
           if (plantingManagementPlan?.transplant_task?.task?.abandon_date) return false;
           const transplantTaskDate =
@@ -647,19 +647,17 @@ const organicCertifierSurveyController = {
                    JOIN product p ON p.product_id = pct.product_id
                    JOIN location_tasks tl ON t.task_id = tl.task_id
                    JOIN location l ON tl.location_id = l.location_id
-                   JOIN (
-              SELECT location_id
-              FROM field
-              WHERE organic_status != 'Non-Organic'
-              UNION
-              SELECT location_id
-              FROM greenhouse
-              WHERE organic_status != 'Non-Organic'
-              UNION
-              SELECT location_id
-              FROM garden
-              WHERE organic_status != 'Non-Organic'
-          ) lu ON lu.location_id = l.location_id
+                   JOIN (SELECT location_id
+                         FROM field
+                         WHERE organic_status != 'Non-Organic'
+                         UNION
+                         SELECT location_id
+                         FROM greenhouse
+                         WHERE organic_status != 'Non-Organic'
+                         UNION
+                         SELECT location_id
+                         FROM garden
+                         WHERE organic_status != 'Non-Organic') lu ON lu.location_id = l.location_id
           WHERE ((complete_date::date <= :to_date::date AND complete_date::date >= :from_date::date) OR
                  (due_date::date <= :to_date::date AND due_date::date >= :from_date::date))
             AND p.farm_id = :farm_id`,
@@ -685,37 +683,35 @@ const organicCertifierSurveyController = {
                    JOIN product p ON p.product_id = pct.product_id
                    JOIN location_tasks tl ON t.task_id = tl.task_id
                    JOIN location l ON tl.location_id = l.location_id
-                   JOIN (
-              SELECT location_id
-              FROM buffer_zone
-              UNION
-              SELECT location_id
-              FROM water_valve
-              UNION
-              SELECT location_id
-              FROM watercourse
-              UNION
-              SELECT location_id
-              FROM barn
-              UNION
-              SELECT location_id
-              FROM ceremonial_area
-              UNION
-              SELECT location_id
-              FROM fence
-              UNION
-              SELECT location_id
-              FROM gate
-              UNION
-              SELECT location_id
-              FROM natural_area
-              UNION
-              SELECT location_id
-              FROM surface_water
-              UNION
-              SELECT location_id
-              FROM residence
-          ) lu ON lu.location_id = l.location_id
+                   JOIN (SELECT location_id
+                         FROM buffer_zone
+                         UNION
+                         SELECT location_id
+                         FROM water_valve
+                         UNION
+                         SELECT location_id
+                         FROM watercourse
+                         UNION
+                         SELECT location_id
+                         FROM barn
+                         UNION
+                         SELECT location_id
+                         FROM ceremonial_area
+                         UNION
+                         SELECT location_id
+                         FROM fence
+                         UNION
+                         SELECT location_id
+                         FROM gate
+                         UNION
+                         SELECT location_id
+                         FROM natural_area
+                         UNION
+                         SELECT location_id
+                         FROM surface_water
+                         UNION
+                         SELECT location_id
+                         FROM residence) lu ON lu.location_id = l.location_id
           WHERE ((complete_date::date <= :to_date::date AND complete_date::date >= :from_date::date) OR
                  (due_date::date <= :to_date::date AND due_date::date >= :from_date::date))
             AND p.farm_id = :farm_id`,

@@ -1,17 +1,17 @@
 import React from 'react';
-import Filter from '../../components/Filter';
+import FilterPillSelect from '../../components/Filter/FilterPillSelect';
 
 export default {
   title: 'Components/Filter',
-  component: Filter,
+  component: FilterPillSelect,
 };
 
-const Template = (args) => <Filter {...args} />;
+const Template = (args) => <FilterPillSelect {...args} />;
 
 export const Primary = Template.bind({});
 Primary.args = {
   subject: 'Status',
-  items: [
+  options: [
     {
       value: 'active',
       label: 'Active',
@@ -42,7 +42,7 @@ Primary.parameters = {
 export const Empty = Template.bind({});
 Empty.args = {
   subject: 'Status',
-  items: [],
+  options: [],
   filterRef: { current: {} },
 };
 Empty.parameters = {

@@ -13,7 +13,6 @@ import TaskCard from './TaskCard';
 import { onAddTask } from './onAddTask';
 import MuiFullPagePopup from '../../components/MuiFullPagePopup/v2';
 import TasksFilterPage from '../Filter/Tasks';
-import { filteredTaskCardContentSelector } from './useTasksFilter';
 import {
   isFilterCurrentlyActiveSelector,
   setTasksFilter,
@@ -23,6 +22,7 @@ import ActiveFilterBox from '../../components/ActiveFilterBox';
 import PureTaskDropdownFilter from '../../components/PopupFilter/PureTaskDropdownFilter';
 import produce from 'immer';
 import { IS_ASCENDING } from '../Filter/constants';
+import { filteredTaskCardContentSelector } from './taskCardContentSelector';
 
 export default function TaskPage({ history }) {
   const { t } = useTranslation();

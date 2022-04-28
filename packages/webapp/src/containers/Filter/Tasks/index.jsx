@@ -21,22 +21,16 @@ import {
 
 import { DATE_RANGE, SEARCHABLE_MULTI_SELECT } from '../../../components/Filter/filterTypes';
 import { tasksSelector } from '../../taskSlice';
+import { locationsSelector } from '../../locationSlice';
 
 const TasksFilterPage = ({ onGoBack }) => {
   const { t } = useTranslation(['translation', 'filter', 'task']);
   const tasksFilter = useSelector(tasksFilterSelector);
   const tasks = useSelector(tasksSelector);
   const dispatch = useDispatch();
+  const locations = useSelector(locationsSelector);
 
   const statuses = [ABANDONED, COMPLETED, LATE, PLANNED];
-  const locationEntities = useMemo(() => {
-    return tasks.reduce((locationEntities, { locations }) => {
-      for (const location of locations) {
-        locationEntities[location.location_id] = location.name;
-      }
-      return locationEntities;
-    }, {});
-  }, [tasks.length]);
 
   const { taskTypes, assignees } = useMemo(() => {
     let taskTypes = {};
@@ -98,7 +92,7 @@ const TasksFilterPage = ({ onGoBack }) => {
       subject: t('TASK.FILTER.LOCATION'),
       filterKey: LOCATION,
       type: SEARCHABLE_MULTI_SELECT,
-      options: Object.entries(locationEntities).map(([location_id, name]) => ({
+      options: locations.map(({ location_id, name }) => ({
         value: location_id,
         default: tasksFilter[LOCATION][location_id]?.active ?? false,
         label: name,

@@ -33,6 +33,8 @@ const TaskCard = ({
   const user = useSelector(userFarmSelector);
   const immutableStatus = ['completed', 'abandoned'];
 
+  const isAdmin = user.is_admin;
+
   return (
     <>
       <PureTaskCard
@@ -50,7 +52,7 @@ const TaskCard = ({
           }
         }}
         onClickCompleteOrDueDate={() => {
-          if (!immutableStatus.includes(status)) {
+          if (!immutableStatus.includes(status) && isAdmin) {
             setShowDateAssignModal(true);
           }
         }}

@@ -356,6 +356,7 @@ export default function MapDrawer({
   return (
     <div>
       <Drawer
+        data-cy="map-drawer"
         anchor={'bottom'}
         open={showMapDrawer}
         onClose={() => setShowMapDrawer(false)}

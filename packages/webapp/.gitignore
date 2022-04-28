@@ -24,6 +24,7 @@ yarn-error.log*
 ./cypress/screenshots*
 ./cypress/videos*
 ./cypress/integration/__snapshots__
+./cypress.env.json
 
 public/locales/*/*_old.json
 

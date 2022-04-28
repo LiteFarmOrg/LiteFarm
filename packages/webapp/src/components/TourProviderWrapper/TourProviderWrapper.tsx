@@ -243,7 +243,7 @@ export function TourContentBody({
           {title}
         </Semibold>
       )}
-      <div className={classes.contentsContainer}>
+      <div data-cy="spotlight-contents" className={classes.contentsContainer}>
         {contents && !!contents.length && (
           <div className={classes.contentsContainer}>
             {contents?.map((line, index) => (
@@ -267,7 +267,7 @@ export function TourContentBody({
       {children}
       {
         <div className={classes.buttonGroup}>
-          <Button onClick={onClick} sm id={continuous ? 'next' : 'close'} {...primaryProps}>
+          <Button data-cy='spotlight-next' onClick={onClick} sm id={continuous ? 'next' : 'close'} {...primaryProps}>
             {buttonText || (isLastStep ? t('common:GOT_IT') : t('common:NEXT'))}
           </Button>
         </div>

@@ -22,7 +22,7 @@ export default function MapTutorialModal({ title, steps, dismissModal, children,
           </ol>
         )}
         {children}
-        <Button color="primary" className={styles.button} onClick={dismissModal} sm>
+        <Button data-cy='mapTutorial-continue' color="primary" className={styles.button} onClick={dismissModal} sm>
           <div>{t('common:GOT_IT')}</div>
         </Button>
       </div>

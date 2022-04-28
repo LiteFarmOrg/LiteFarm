@@ -261,6 +261,7 @@ export default function PureNavBar({
                 certificationClick={certificationClick}
               >
                 <IconButton
+                data-cy='home-farmButton'
                   aria-label="farm-icon"
                   color="inherit"
                   id="firstStepNavBar"
@@ -297,6 +298,7 @@ export default function PureNavBar({
                 switchFarmClick={switchFarmClick}
               >
                 <IconButton
+                data-cy='home-profileButton'
                   edge="end"
                   aria-label="profile icon"
                   color="inherit"

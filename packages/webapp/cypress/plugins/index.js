@@ -16,7 +16,27 @@
  * @type {Cypress.PluginConfig}
  */
 // eslint-disable-next-line no-unused-vars
+const axios = require('axios');
+
 module.exports = (on, config) => {
   // `on` is used to hook into various events Cypress emits
   // `config` is the resolved Cypress config
+  config.env.googleRefreshToken = process.env.GOOGLE_REFRESH_TOKEN;
+  config.env.googleClientId = process.env.REACT_APP_GOOGLE_CLIENTID;
+  config.env.googleClientSecret = process.env.REACT_APP_GOOGLE_CLIENT_SECRET;
+
+  require('@cypress/code-coverage/task')(on, config);
+  // plugins code ...
+  const testDataApiEndpoint = `${config.env.apiUrl}/testData`;
+
+
+  on("task", {
+    async "db:tableCleanup"() {
+      // clean up the database tables
+      const { data } = await axios.post(`${testDataApiEndpoint}/tableCleanup`);
+      return data;
+    }});
+
+
+  return config;
 };

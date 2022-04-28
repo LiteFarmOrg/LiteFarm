@@ -15,7 +15,7 @@ export default function SubmitButton({
   return (
     <>
       {isCreateLocationPage && (
-        <Button type={'submit'} disabled={disabled} fullLength>
+        <Button data-cy='createField-save' type={'submit'} disabled={disabled} fullLength>
           {t('common:SAVE')}
         </Button>
       )}

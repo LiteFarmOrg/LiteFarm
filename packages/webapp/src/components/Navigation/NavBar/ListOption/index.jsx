@@ -55,8 +55,8 @@ export default function ListOption({
   );
   return (
     <span className={styles.listOption} onClick={clickFn}>
-      <div style={paragraphStyle}>
-        <div style={iconStyle}>{icon}</div>
+      <div data-cy='navbar-option' style={paragraphStyle}>
+        <div style={iconStyle} >{icon}</div>
         {iconText}
       </div>
     </span>

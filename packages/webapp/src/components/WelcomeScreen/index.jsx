@@ -20,7 +20,7 @@ export default function PureWelcomeScreen({ onClick }) {
     <Layout
       isSVG
       buttonGroup={
-        <Button onClick={onClick} fullLength>
+        <Button data-cy="getStarted" onClick={onClick} fullLength>
           {t('WELCOME_SCREEN.BUTTON')}
         </Button>
       }

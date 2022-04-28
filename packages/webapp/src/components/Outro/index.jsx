@@ -12,7 +12,7 @@ export default function PureOutroSplash({ onContinue, onGoBack, toShowSpotlight 
   return (
     <Layout
       buttonGroup={
-        <Button onClick={onContinue} fullLength>
+        <Button data-cy='outro-finish' onClick={onContinue} fullLength>
           {t('common:FINISH')}
         </Button>
       }

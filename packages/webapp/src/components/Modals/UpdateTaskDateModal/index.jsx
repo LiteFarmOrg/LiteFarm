@@ -43,7 +43,6 @@ export default function DateQuickAssignModal({ dismissModal, due_date, onChangeT
     >
       <Input
         value={date}
-        placeholder={t('TASK.SELECT')}
         min={getDateInputFormat(new Date())}
         type={'date'}
         label={t('TASK.SELECT_DATE')}

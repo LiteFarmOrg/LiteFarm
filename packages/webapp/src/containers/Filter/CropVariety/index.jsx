@@ -4,9 +4,23 @@ import { useTranslation } from 'react-i18next';
 import PureFilterPage from '../../../components/FilterPage';
 import { cropLocationsSelector } from '../../locationSlice';
 import { useDispatch, useSelector } from 'react-redux';
-import { ABANDONED, ACTIVE, COMPLETE, LOCATION, NEEDS_PLAN, PLANNED, STATUS, SUPPLIERS } from '../constants';
-import { cropVarietyFilterSelector, setCropVarietyFilter, setCropVarietyFilterDefault } from '../../filterSlice';
+import {
+  ABANDONED,
+  ACTIVE,
+  COMPLETE,
+  LOCATION,
+  NEEDS_PLAN,
+  PLANNED,
+  STATUS,
+  SUPPLIERS,
+} from '../constants';
+import {
+  cropVarietyFilterSelector,
+  setCropVarietyFilter,
+  setCropVarietyFilterDefault,
+} from '../../filterSlice';
 import { suppliersSelector } from '../../cropVarietySlice';
+import { SEARCHABLE_MULTI_SELECT } from '../../../components/Filter/filterTypes';
 
 const statuses = [ACTIVE, ABANDONED, PLANNED, COMPLETE, NEEDS_PLAN];
 
@@ -47,6 +61,7 @@ const CropVarietyFilterPage = ({ cropId, onGoBack }) => {
     {
       subject: t('CROP_CATALOGUE.FILTER.LOCATION'),
       filterKey: LOCATION,
+      type: SEARCHABLE_MULTI_SELECT,
       options: cropEnabledLocations.map((location) => ({
         value: location.location_id,
         default: cropVarietyFilter?.[LOCATION][location.location_id]?.active ?? false,
@@ -56,6 +71,7 @@ const CropVarietyFilterPage = ({ cropId, onGoBack }) => {
     {
       subject: t('CROP_CATALOGUE.FILTER.SUPPLIERS'),
       filterKey: SUPPLIERS,
+      type: SEARCHABLE_MULTI_SELECT,
       options: suppliers.map((supplier) => ({
         value: supplier,
         default: cropVarietyFilter?.[SUPPLIERS][supplier]?.active ?? false,

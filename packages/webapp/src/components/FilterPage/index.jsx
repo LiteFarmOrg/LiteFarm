@@ -72,9 +72,10 @@ const PureFilterPage = ({
             <FilterDateRange
               setDirty={setDirty}
               key={filter.subject}
-              {...filter}
               filterRef={filterRef}
               shouldReset={shouldReset}
+              style={{ marginBottom: '32px' }}
+              {...filter}
             />
           );
         } else if (filter.type === SEARCHABLE_MULTI_SELECT) {

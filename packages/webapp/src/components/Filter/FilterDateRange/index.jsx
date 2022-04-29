@@ -12,6 +12,7 @@ export function FilterDateRange({
   subject,
   filterRef,
   shouldReset,
+  style,
 }) {
   const [fromDate, setFromDate] = useState(defaultFromDate ?? '');
   const [toDate, setToDate] = useState(defaultToDate ?? '');
@@ -65,7 +66,7 @@ export function FilterDateRange({
     setDirty?.();
   };
   return (
-    <>
+    <div style={style}>
       <Switch
         label={subject}
         style={{ marginBottom: '24px' }}
@@ -86,7 +87,7 @@ export function FilterDateRange({
           />
         </>
       )}
-    </>
+    </div>
   );
 }
 

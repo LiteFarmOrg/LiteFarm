@@ -71,6 +71,7 @@ specifiers:
   typescript: ^4.5.5
   uuid: ^8.3.2
   vite: ^2.7.13
+  vite-plugin-istanbul: ^2.7.1
   vite-plugin-mdx: ^3.5.10
   vite-plugin-svgr: ^1.0.1
 
@@ -147,6 +148,7 @@ devDependencies:
   storybook-builder-vite: 0.1.15_9a273a6d3735cc0697133c0332bab5af
   typescript: 4.5.5
   vite: 2.7.13_sass@1.49.7
+  vite-plugin-istanbul: 2.7.1
   vite-plugin-mdx: 3.5.10_@mdx-js+mdx@1.6.22+vite@2.7.13
   vite-plugin-svgr: 1.0.1_vite@2.7.13
 
@@ -14182,6 +14184,16 @@ packages:
       cloneable-readable: 1.1.3
       remove-trailing-separator: 1.1.0
       replace-ext: 1.0.1
+    dev: true
+
+  /vite-plugin-istanbul/2.7.1:
+    resolution: {integrity: sha512-mIMbXBPFsxlvLrKAbHty7wMNLF3ClKQ6nLssE5eOiy3XXdA3gxpbvIvEIvUtvcWN6phldxk66VMM7oVFfCx/uA==}
+    dependencies:
+      istanbul-lib-instrument: 5.1.0
+      picocolors: 1.0.0
+      test-exclude: 6.0.0
+    transitivePeerDependencies:
+      - supports-color
     dev: true
 
   /vite-plugin-mdx/3.5.10_@mdx-js+mdx@1.6.22+vite@2.7.13:

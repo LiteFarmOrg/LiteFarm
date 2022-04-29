@@ -66,13 +66,8 @@ export function FilterDateRange({
     setDirty?.();
   };
   return (
-    <div style={style}>
-      <Switch
-        label={subject}
-        style={{ marginBottom: '24px' }}
-        checked={showDateFilter}
-        onChange={onSwitchClick}
-      />
+    <div style={{ display: 'flex', gap: '24px', flexDirection: 'column', ...style }}>
+      <Switch label={subject} checked={showDateFilter} onChange={onSwitchClick} />
       {showDateFilter && (
         <>
           <DateRangePicker

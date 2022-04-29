@@ -12,6 +12,7 @@ export function FilterDateRange({
   subject,
   filterRef,
   shouldReset,
+  style,
 }) {
   const [fromDate, setFromDate] = useState(defaultFromDate ?? '');
   const [toDate, setToDate] = useState(defaultToDate ?? '');
@@ -65,13 +66,8 @@ export function FilterDateRange({
     setDirty?.();
   };
   return (
-    <>
-      <Switch
-        label={subject}
-        style={{ marginBottom: '24px' }}
-        checked={showDateFilter}
-        onChange={onSwitchClick}
-      />
+    <div style={{ display: 'flex', gap: '24px', flexDirection: 'column', ...style }}>
+      <Switch label={subject} checked={showDateFilter} onChange={onSwitchClick} />
       {showDateFilter && (
         <>
           <DateRangePicker
@@ -86,7 +82,7 @@ export function FilterDateRange({
           />
         </>
       )}
-    </>
+    </div>
   );
 }
 

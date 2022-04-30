@@ -1,6 +1,6 @@
 /*
- *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>
- *  This file (server.js) is part of LiteFarm.
+ *  Copyright 2019-2022 LiteFarm.org
+ *  This file is part of LiteFarm.
  *
  *  LiteFarm is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -61,8 +61,8 @@ const passwordResetRoutes = require('./routes/passwordResetRoute.js');
 const showedSpotlightRoutes = require('./routes/showedSpotlightRoute.js');
 const testDataRoute = require('./routes/testDataRoute.js');
 
-const waterBalanceScheduler = require('./jobs/waterBalance/waterBalance');
-const nitrogenBalanceScheduler = require('./jobs/nitrogenBalance/nitrogenBalance');
+// const waterBalanceScheduler = require('./jobs/waterBalance/waterBalance');
+// const nitrogenBalanceScheduler = require('./jobs/nitrogenBalance/nitrogenBalance');
 // const farmDataScheduler = require('./jobs/sendFarmData/sendFarmData');
 const userLogRoute = require('./routes/userLogRoute');
 const supportTicketRoute = require('./routes/supportTicketRoute');
@@ -81,10 +81,55 @@ app.get('/', (req, res) => {
   res.sendStatus(200);
 });
 
+/**
+ * Configures Express to send custom JSON for specified object keys (database column names).
+ * Postgres `date` type fields, which have no time portion, are retrieved as JS Date objects with midnight UTC time.
+ * `JSON.stringify` transforms the Date object to '2020-01-15T00:00:00.000Z' which the API transmits to the client.
+ * A Pacific time client using local form, '2020-01-14T16:00:00.000-08:00', and ignoring time, ends up with wrong date.
+ * To address this, we make stringify produce '2020-01-15T00:00:00.000', the date with midnight of unspecified timezone.
+ * Clients treat this as midnight local time, preserving the correct date value.
+ * Note that the code will also handle string values with format YYYY-MM-DD or YYYY-MM-DDT00:00:00.000 --
+ *   values that do not come from the database, but occur as "literals", if only in test.
+ * Strings that are not dates, have non-midnight times, or timezones other than Z are not changed, with a log message--
+ *   these unexpected values will likely lead to errors.
+ */
+app.set('json replacer', (key, value) => {
+  // A list of database column names with Postgres type `date`.
+  // (Except as bindings for `date` type database columns, avoid these keys in objects sent via JSON/HTTPS.)
+  const pgDateTypeFields = [
+    'abandon_date',
+    'complete_date',
+    'due_date',
+    'effective_date',
+    'germination_date',
+    'harvest_date',
+    'plant_date',
+    'seed_date',
+    'shift_date',
+    'start_date',
+    'termination_date',
+    'transition_date',
+    'transplant_date',
+    'valid_until',
+  ];
+
+  if (value && pgDateTypeFields.includes(key)) {
+    // Valid values *must* start YYYY-MM-DD. Time portion of midnight *may* be present. Time zone Z *may* be present.
+    const validDateTypeValues = /^(\d{4}-[0-1]\d-[0-3]\d)(T00:00:00\.000)?Z?$/;
+
+    const matches = value.match(validDateTypeValues);
+    if (matches) return `${matches[1]}T00:00:00.000`; // YYYY-MM-DD with midnight time, no timezone indicator.
+
+    console.log(
+      `JSON payload problem: key '${key}' is reserved for db date fields; unexpected value ${value}.`,
+    );
+  }
+  return value;
+});
+
 if (environment === 'development'|| environment === 'integration') {
   app.use('/testData', testDataRoute)
 };
-
 
 app.use(bodyParser.json())
   .use(bodyParser.urlencoded({ extended: true }))
@@ -93,11 +138,17 @@ app.use(bodyParser.json())
   .use(cors())
   .use((req, res, next) => {
     res.header('Access-Control-Allow-Origin', '*');
-    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
+    res.header(
+      'Access-Control-Allow-Headers',
+      'Origin, X-Requested-With, Content-Type, Accept, Authorization',
+    );
     if (req.method === 'OPTIONS') {
       res.header('Access-Control-Allow-Methods', 'PUT, POST, PATCH, DELETE, GET');
       return res.status(200).json({});
-    } else if ((req.method === 'DELETE' || req.method === 'GET') && Object.keys(req.body).length > 0) {
+    } else if (
+      (req.method === 'DELETE' || req.method === 'GET') &&
+      Object.keys(req.body).length > 0
+    ) {
       // TODO: Find new bugs caused by this change
       return res.sendStatus(400);
     }
@@ -165,7 +216,11 @@ app.use(bodyParser.json())
   });
 
 const port = process.env.PORT || 5000;
-if (environment === 'development' || environment === 'production' || environment === 'integration') {
+if (
+  environment === 'development' ||
+  environment === 'production' ||
+  environment === 'integration'
+) {
   app.listen(port, () => {
     // eslint-disable-next-line no-console
     console.log('LiteFarm Backend listening on port ' + port + '!');

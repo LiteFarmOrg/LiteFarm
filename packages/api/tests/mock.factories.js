@@ -189,14 +189,13 @@ async function fieldFactory(
 function fakeField(defaultData = {}) {
   return {
     organic_status: faker.random.arrayElement(['Non-Organic', 'Transitional', 'Organic']),
-    transition_date: faker.date.future(),
+    transition_date: faker.date.future().toISOString().split('T')[0],
     ...defaultData,
   };
 }
 
 async function organic_historyFactory(
   {
-    promisedStation = weather_stationFactory(),
     promisedFarm = farmFactory(),
     promisedLocation = locationFactory({ promisedFarm }),
     promisedArea = areaFactory({ promisedLocation }, fakeArea(), 'field'),
@@ -215,7 +214,7 @@ async function organic_historyFactory(
 function fakeOrganicHistory(defaultData = {}) {
   return {
     organic_status: faker.random.arrayElement(['Non-Organic', 'Transitional', 'Organic']),
-    effective_date: faker.date.past(),
+    effective_date: faker.date.past().toISOString().split('T')[0],
     ...defaultData,
   };
 }
@@ -240,7 +239,7 @@ async function gardenFactory(
 function fakeGarden(defaultData = {}) {
   return {
     organic_status: faker.random.arrayElement(['Non-Organic', 'Transitional', 'Organic']),
-    transition_date: faker.date.future(),
+    transition_date: faker.date.future().toISOString().split('T')[0],
     ...defaultData,
   };
 }
@@ -549,7 +548,7 @@ function fakeManagementPlan(defaultData = {}) {
   return {
     name: faker.lorem.words(),
     notes: faker.lorem.words(),
-    start_date: faker.date.past(),
+    start_date: faker.date.past().toISOString().split('T')[0],
     ...defaultData,
   };
 }
@@ -648,12 +647,12 @@ function fakeCropManagementPlan(defaultData = {}) {
     estimated_revenue: faker.datatype.number(10000),
     estimated_yield: faker.datatype.number(10000),
     estimated_price_per_mass: faker.datatype.number(10000),
-    seed_date: faker.date.past(),
-    plant_date: faker.date.past(),
-    germination_date: faker.date.past(),
-    transplant_date: faker.date.past(),
-    harvest_date: faker.date.future(),
-    termination_date: faker.date.future(),
+    seed_date: faker.date.past().toISOString().split('T')[0],
+    plant_date: faker.date.past().toISOString().split('T')[0],
+    germination_date: faker.date.past().toISOString().split('T')[0],
+    transplant_date: faker.date.past().toISOString().split('T')[0],
+    harvest_date: faker.date.future().toISOString().split('T')[0],
+    termination_date: faker.date.future().toISOString().split('T')[0],
     already_in_ground: faker.datatype.boolean(),
     is_seed: faker.datatype.boolean(),
     needs_transplant: faker.datatype.boolean(),
@@ -1108,7 +1107,7 @@ async function taskFactory(
 
 function fakeTask(defaultData = {}) {
   return {
-    due_date: faker.date.future(),
+    due_date: faker.date.future().toISOString().split('T')[0],
     notes: faker.lorem.words(),
     happiness: faker.random.arrayElement([0, 1, 2, 3, 4, 5]),
     ...defaultData,
@@ -1635,7 +1634,7 @@ async function shiftFactory({ promisedUserFarm = userFarmFactory() } = {}, shift
 
 function fakeShift(defaultData = {}) {
   return {
-    shift_date: new Date(),
+    shift_date: new Date().toISOString().split('T')[0],
     mood: faker.random.arrayElement(['happy', 'neutral', 'very happy', 'sad', 'very sad', 'na']),
     wage_at_moment: faker.datatype.number(20),
     ...defaultData,
@@ -1716,16 +1715,16 @@ function fakeWaterBalance(defaultData = {}) {
   };
 }
 
-async function waterBalanceFactory(
-  { promisedManagementPlan = management_planFactory() } = {},
-  waterBalance = fakeWaterBalance(),
-) {
-  const [managementPlan] = await Promise.all([promisedManagementPlan]);
-  const [{ field_id, crop_id }] = managementPlan;
-  return knex('waterBalance')
-    .insert({ field_id, crop_id, ...waterBalance })
-    .returning('*');
-}
+// async function waterBalanceFactory(
+//   { promisedManagementPlan = management_planFactory() } = {},
+//   waterBalance = fakeWaterBalance(),
+// ) {
+//   const [managementPlan] = await Promise.all([promisedManagementPlan]);
+//   const [{ field_id, crop_id }] = managementPlan;
+//   return knex('waterBalance')
+//     .insert({ field_id, crop_id, ...waterBalance })
+//     .returning('*');
+// }
 
 function fakeNitrogenSchedule(defaultData = {}) {
   return {
@@ -1989,7 +1988,7 @@ async function baseArea(
     promisedArea = areaFactory({ promisedLocation }, fakeArea(), asset),
   } = {},
 ) {
-  const [location, area] = await Promise.all([promisedLocation, promisedArea]);
+  const [location] = await Promise.all([promisedLocation, promisedArea]);
   const [{ location_id }] = location;
   return knex(asset).insert({ location_id }).returning('*');
 }
@@ -2069,7 +2068,7 @@ function fakeDocument(defaultData = {}) {
   return {
     name: faker.lorem.words(),
     thumbnail_url: faker.image.imageUrl(),
-    valid_until: faker.date.future(),
+    valid_until: faker.date.future().toISOString().split('T')[0],
     notes: faker.lorem.words(),
     type: faker.random.arrayElement([
       'CLEANING_PRODUCT',

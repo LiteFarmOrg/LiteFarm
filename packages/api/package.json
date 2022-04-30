@@ -39,7 +39,8 @@
     },
     "collectCoverageFrom": [
       "src/**/*.{js,jsx,mjs}"
-    ]
+    ],
+    "globalSetup": "./jest-global-setup.js"
   },
   "author": "LiteFarm",
   "license": "ISC",

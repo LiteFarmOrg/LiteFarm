@@ -8,7 +8,6 @@ jest.mock('../src/middleware/acl/checkJwt');
 const mocks = require('./mock.factories');
 const { tableCleanup } = require('./testEnvironment');
 const faker = require('faker');
-const { it } = require('faker/lib/locales');
 
 describe('Task tests', () => {
   let middleware;
@@ -885,7 +884,7 @@ describe('Task tests', () => {
           .map((harvest_task, i) => {
             return {
               harvest_task,
-              due_date: faker.date.future(),
+              due_date: faker.date.future().toISOString().split('T')[0],
               task_type_id,
               owner_user_id: user_id,
               assignee_user_id: user_id,
@@ -2052,7 +2051,6 @@ describe('Task tests', () => {
     test('Farm owner must not be able to patch task due date to a date in the past', async (done) => {
       const past = faker.date.past();
       const due_date = past.toISOString().split('T')[0];
-      console.log(due_date);
       const patchTaskDateBody = { due_date };
       const [{ user_id, farm_id }] = await mocks.userFarmFactory({}, fakeUserFarm(1));
       const [{ task_id }] = await mocks.taskFactory({ promisedUser: [{ user_id }] });
@@ -2110,7 +2108,6 @@ describe('Task tests', () => {
     test('EO must not be able to patch task due date to a date in the past', async (done) => {
       const past = faker.date.past();
       const due_date = past.toISOString().split('T')[0];
-      console.log(due_date);
       const patchTaskDateBody = { due_date };
       const [{ user_id, farm_id }] = await mocks.userFarmFactory({}, fakeUserFarm(5));
       const [{ task_id }] = await mocks.taskFactory({ promisedUser: [{ user_id }] });
@@ -2168,7 +2165,6 @@ describe('Task tests', () => {
     test('Managers must not be able to patch task due date to a date in the past', async (done) => {
       const past = faker.date.past();
       const due_date = past.toISOString().split('T')[0];
-      console.log(due_date);
       const patchTaskDateBody = { due_date };
       const [{ user_id, farm_id }] = await mocks.userFarmFactory({}, fakeUserFarm(5));
       const [{ task_id }] = await mocks.taskFactory({ promisedUser: [{ user_id }] });

@@ -29,9 +29,8 @@ function subscribeToChannel(sseUrl) {
   return eventChannel((emitter) => {
     const subscription = new EventSource(sseUrl);
 
-    subscription.onerror = () => {
-      console.log(`server event stream error; readyState = ${subscription.readyState}`);
-      emitter(END);
+    subscription.onerror = (event) => {
+      console.log('server event stream error', event);
     };
 
     subscription.onmessage = (event) => {
@@ -64,30 +63,36 @@ export function* getAlertSaga() {
     // Tell the store this saga is loading.
     yield put(onLoadingAlertStart(farm_id));
 
-    // Set up subscription to server-sent events.
-    const channel = yield call(
-      subscribeToChannel,
-      `${alertsUrl}?user_id=${user_id}&farm_id=${farm_id}`,
-    );
+    while (true) {
+      // Set up subscription to server-sent events.
+      console.log('subscribing');
+      const channel = yield call(
+        subscribeToChannel,
+        `${alertsUrl}?user_id=${user_id}&farm_id=${farm_id}`,
+      );
 
-    // Call API to get notifications; count alerts and store result
-    const notifications = yield call(getNotifications, user_id, farm_id);
-    const count = countAlerts(notifications.data);
-    yield put(setAlertCount({ farm_id, count }));
+      // Call API to get notifications; count alerts and store result
+      const notifications = yield call(getNotifications, user_id, farm_id);
+      const count = countAlerts(notifications.data);
+      yield put(setAlertCount({ farm_id, count }));
 
-    try {
-      while (true) {
-        // For each server-sent event, update the alert count.
-        const { count } = yield select(alertSelector);
-        const message = yield take(channel);
-        yield put(setAlertCount({ farm_id, count: Math.max(0, count + message.delta) }));
+      try {
+        while (true) {
+          // For each server-sent event, update the alert count.
+          const { count } = yield select(alertSelector);
+          const message = yield take(channel);
+          console.log(`delta: ${message.delta}`);
+          yield put(setAlertCount({ farm_id, count: Math.max(0, count + message.delta) }));
+        }
+      } catch (e) {
+        console.log('caught', e);
+      } finally {
+        console.log('channel closed');
       }
-    } finally {
-      console.log('channel closed');
     }
   } catch (error) {
     yield put(onLoadingAlertFail({ error, farm_id }));
-    console.log(error);
+    console.log('hey', error);
   }
 }
 

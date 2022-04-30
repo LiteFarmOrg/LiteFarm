@@ -284,10 +284,11 @@ const ActualRevenue = React.lazy(() => import('./containers/Finances/ActualReven
 const UpdateEstimatedCropRevenue = React.lazy(() =>
   import('./containers/Finances/UpdateEstimatedCropRevenue'),
 );
-const Forbidden = React.lazy(() =>
-  import('./containers/ErrorHandler/Forbidden/Forbidden'),
+const Notification = React.lazy(() => import('./containers/Notification'));
+const NotificationReadOnly = React.lazy(() =>
+  import('./containers/Notification/NotificationReadOnly'),
 );
-
+const Forbidden = React.lazy(() => import('./containers/ErrorHandler/Forbidden/Forbidden'));
 
 const Routes = () => {
   useScrollToTop();
@@ -308,16 +309,8 @@ const Routes = () => {
     chooseFarmFlowSelector,
     (pre, next) => pre.isInvitationFlow === next.isInvitationFlow,
   );
-  let {
-    step_five,
-    has_consent,
-    role_id,
-    status,
-    step_one,
-    farm_id,
-    step_three,
-    step_four,
-  } = userFarm;
+  let { step_five, has_consent, role_id, status, step_one, farm_id, step_three, step_four } =
+    userFarm;
   const hasSelectedFarm = !!farm_id;
   const hasFinishedOnBoardingFlow = step_one && step_four && step_five;
   if (isAuthenticated()) {
@@ -358,22 +351,22 @@ const Routes = () => {
       return (
         <Suspense fallback={<Spinner />}>
           <Switch>
-            <Route path='/' exact component={Home} />
-            <Route path='/home' exact component={Home} />
-            <Route path='/profile' exact component={Account} />
-            <Route path='/people' exact component={People} />
-            <Route path='/farm' exact component={Farm} />
-            <Route path='/user/:user_id' exact component={EditUser} />
-            <Route path='/consent' exact component={ConsentForm} />
-            <Route path='/crop/new' exact component={AddNewCrop} />
-            <Route path='/crop/:crop_id/add_crop_variety' exact component={AddCrop} />
+            <Route path="/" exact component={Home} />
+            <Route path="/home" exact component={Home} />
+            <Route path="/profile" exact component={Account} />
+            <Route path="/people" exact component={People} />
+            <Route path="/farm" exact component={Farm} />
+            <Route path="/user/:user_id" exact component={EditUser} />
+            <Route path="/consent" exact component={ConsentForm} />
+            <Route path="/crop/new" exact component={AddNewCrop} />
+            <Route path="/crop/:crop_id/add_crop_variety" exact component={AddCrop} />
             <Route
-              path='/crop/:crop_id/add_crop_variety/compliance'
+              path="/crop/:crop_id/add_crop_variety/compliance"
               exact
               component={ComplianceInfo}
             />
-            <Route path='/crop/:variety_id/detail' exact component={CropDetail} />
-            <Route path='/crop/:variety_id/management' exact component={CropManagement} />
+            <Route path="/crop/:variety_id/detail" exact component={CropDetail} />
+            <Route path="/crop/:variety_id/management" exact component={CropManagement} />
             <Route path="/crop/:variety_id/edit_crop_variety" exact component={EditCrop} />
             <Route
               path="/crop/:variety_id/add_management_plan/planted_already"
@@ -628,8 +621,14 @@ const Routes = () => {
             <Route path="/add_task/bed_guidance" exact component={TaskBedGuidance} />
             <Route path="/add_task/container_method" exact component={TaskContainerMethod} />
             <Route path="/add_task/row_method" exact component={TaskRowMethod} />
-            <Route path='/add_task/row_guidance' exact component={TaskRowGuidance} />
-            <Route path='/403' exact component={Forbidden} />
+            <Route path="/add_task/row_guidance" exact component={TaskRowGuidance} />
+            <Route path="/notifications" exact component={Notification} />
+            <Route
+              path="/notifications/:notification_id/read_only"
+              exact
+              component={NotificationReadOnly}
+            />
+            <Route path="/403" exact component={Forbidden} />
             <Redirect
               to={'/'}
               //TODO change to 404
@@ -641,20 +640,20 @@ const Routes = () => {
       return (
         <Suspense fallback={<Spinner />}>
           <Switch>
-            <Route path='/' exact component={Home} />
-            <Route path='/home' exact component={Home} />
-            <Route path='/profile' exact component={Account} />
-            <Route path='/people' exact component={People} />
-            <Route path='/user/:user_id' exact component={EditUser} />
+            <Route path="/" exact component={Home} />
+            <Route path="/home" exact component={Home} />
+            <Route path="/profile" exact component={Account} />
+            <Route path="/people" exact component={People} />
+            <Route path="/user/:user_id" exact component={EditUser} />
 
-            <Route path='/farm' exact component={Farm} />
-            <Route path='/consent' exact component={ConsentForm} />
-            <Route path='/help' exact component={HelpRequest} />
-            <Route path='/crop/new' exact component={AddNewCrop} />
-            <Route path='/tasks' exact component={Tasks} />
-            <Route path='/tasks/:task_id/read_only' exact component={TaskReadOnly} />
+            <Route path="/farm" exact component={Farm} />
+            <Route path="/consent" exact component={ConsentForm} />
+            <Route path="/help" exact component={HelpRequest} />
+            <Route path="/crop/new" exact component={AddNewCrop} />
+            <Route path="/tasks" exact component={Tasks} />
+            <Route path="/tasks/:task_id/read_only" exact component={TaskReadOnly} />
             <Route
-              path='/crop/:crop_id/add_crop_variety/compliance'
+              path="/crop/:crop_id/add_crop_variety/compliance"
               exact
               component={ComplianceInfo}
             />
@@ -920,8 +919,14 @@ const Routes = () => {
             <Route path="/add_task/bed_guidance" exact component={TaskBedGuidance} />
             <Route path="/add_task/container_method" exact component={TaskContainerMethod} />
             <Route path="/add_task/row_method" exact component={TaskRowMethod} />
-            <Route path='/add_task/row_guidance' exact component={TaskRowGuidance} />
-            <Route path='/403' exact component={Forbidden} />
+            <Route path="/add_task/row_guidance" exact component={TaskRowGuidance} />
+            <Route path="/notifications" exact component={Notification} />
+            <Route
+              path="/notifications/:notification_id/read_only"
+              exact
+              component={NotificationReadOnly}
+            />
+            <Route path="/403" exact component={Forbidden} />
             <Redirect to={'/'} />
           </Switch>
         </Suspense>
@@ -930,18 +935,18 @@ const Routes = () => {
       return (
         <Suspense fallback={<Spinner />}>
           <Switch>
-            <Route path='/' exact component={Home} />
-            <Route path='/home' exact component={Home} />
-            <Route path='/profile' exact component={Account} />
-            <Route path='/people' exact component={People} />
-            <Route path='/farm' exact component={Farm} />
-            <Route path='/consent' exact component={ConsentForm} />
-            <Route path='/crop_catalogue' exact component={CropCatalogue} />
-            <Route path='/crop_varieties/crop/:crop_id' exact component={CropVarieties} />
-            <Route path='/crop/:variety_id/detail' exact component={CropDetail} />
-            <Route path='/crop/:variety_id/management' exact component={CropManagement} />
+            <Route path="/" exact component={Home} />
+            <Route path="/home" exact component={Home} />
+            <Route path="/profile" exact component={Account} />
+            <Route path="/people" exact component={People} />
+            <Route path="/farm" exact component={Farm} />
+            <Route path="/consent" exact component={ConsentForm} />
+            <Route path="/crop_catalogue" exact component={CropCatalogue} />
+            <Route path="/crop_varieties/crop/:crop_id" exact component={CropVarieties} />
+            <Route path="/crop/:variety_id/detail" exact component={CropDetail} />
+            <Route path="/crop/:variety_id/management" exact component={CropManagement} />
             <Route
-              path='/crop/:variety_id/management_plan/:management_plan_id/tasks'
+              path="/crop/:variety_id/management_plan/:management_plan_id/tasks"
               exact
               component={ManagementTasks}
             />
@@ -1012,8 +1017,14 @@ const Routes = () => {
             <Route path="/add_task/bed_guidance" exact component={TaskBedGuidance} />
             <Route path="/add_task/container_method" exact component={TaskContainerMethod} />
             <Route path="/add_task/row_method" exact component={TaskRowMethod} />
-            <Route path='/add_task/row_guidance' exact component={TaskRowGuidance} />
-            <Route path='/403' exact component={Forbidden} />
+            <Route path="/add_task/row_guidance" exact component={TaskRowGuidance} />
+            <Route path="/notifications" exact component={Notification} />
+            <Route
+              path="/notifications/:notification_id/read_only"
+              exact
+              component={NotificationReadOnly}
+            />
+            <Route path="/403" exact component={Forbidden} />
             <Redirect to={'/'} />
           </Switch>
         </Suspense>

@@ -18,6 +18,9 @@ const checkUserFarmStatus = require('../middleware/acl/checkUserFarmStatus');
 const express = require('express');
 const router = express.Router();
 
+router.get('/subscribe', NotificationUserController.subscribeToAlerts);
 router.get('/', checkUserFarmStatus(), NotificationUserController.getNotifications);
+router.patch('/', checkUserFarmStatus(), NotificationUserController.patchNotifications);
+router.patch('/clear_alerts', checkUserFarmStatus(), NotificationUserController.clearAlerts);
 
 module.exports = router;

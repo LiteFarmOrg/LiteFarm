@@ -360,7 +360,7 @@ export default function Map({ history }) {
       )}
       <div className={styles.pageWrapper} style={{ height: windowInnerHeight }}>
         <div className={styles.mapContainer}>
-          <div ref={mapWrapperRef} className={styles.mapContainer}>
+          <div data-cy='map-mapContainer' ref={mapWrapperRef} className={styles.mapContainer}>
             <GoogleMap
               style={{ flexGrow: 1 }}
               bootstrapURLKeys={{

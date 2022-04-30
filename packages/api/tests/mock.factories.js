@@ -2130,6 +2130,8 @@ function fakeNotificationUser(defaultData = {}) {
   return {
     notification_id: faker.datatype.uuid(),
     user_id: faker.datatype.uuid(),
+    alert: true,
+    status: 'Unread',
     created_at: faker.date.past(),
     updated_at: faker.date.past(),
     ...defaultData,
@@ -2140,8 +2142,11 @@ function fakeNotification(defaultData = {}) {
   const notification_id = faker.datatype.uuid();
   return {
     notification_id,
-    title: `title of notification ${notification_id}`,
-    body: `body of notification ${notification_id}`,
+    translation_key: `translation_key of notification ${notification_id}`,
+    variables: [],
+    entity_id: faker.datatype.uuid(),
+    entity_type: `entity_type of notification ${notification_id}`,
+    context: {},
     farm_id: faker.datatype.uuid(),
     created_at: faker.date.past(),
     updated_at: faker.date.past(),

@@ -13,7 +13,6 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const Model = require('objection').Model;
 const baseModel = require('./baseModel');
 
 class Notification extends baseModel {
@@ -31,26 +30,14 @@ class Notification extends baseModel {
   static get jsonSchema() {
     return {
       type: 'object',
-      required: ['title', 'body'],
+      required: ['translation_key'],
       properties: {
         notification_id: { type: 'string' },
-        title: { type: 'string', minLength: 1, maxLength: 255 },
-        body: { type: 'string', minLength: 1, maxLength: 10000 },
-        ref_table: {
-          type: 'string',
-          enum: ['task', 'location', 'users', 'farm', 'document', 'export'],
-        },
-        ref_subtable: {
-          type: 'string',
-          enum: ['cleaning_task', 'field_work_task', 'harvest_task', 'irrigation_task',
-            'location_tasks', 'management_tasks', 'pest_control_task', 'plant_task', 'sale_task', 'scouting_task',
-            'shiftTask', 'social_task', 'soil_task', 'soil_amendment_task', 'transplant_task', 'transport_task',
-            'wash_and_pack_task',
-            'area', 'barn', 'buffer_zone', 'ceremonial_area', 'farm_site_boundary', 'fence', 'field', 'figure', 'garden',
-            'gate', 'greenhouse', 'line', 'natural_area', 'point', 'residence', 'surface_water', 'watercourse', 'water_valve',
-          ],
-        },
-        ref_pk: { type: 'string' },
+        translation_key: { type: 'string' },
+        variables: { type: 'array' },
+        entity_id: { type: 'string' },
+        entity_type: { type: 'string' },
+        context: { type: 'object' },
         farm_id: { type: 'string' },
         ...this.baseProperties,
       },

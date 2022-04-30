@@ -47,13 +47,15 @@ export default function PureCustomSignUp({
             </div>
           )}
 
-          <div className={styles.ssoButton}>{GoogleLoginButton}</div>
+          <div data-cy="continueGoogle" className={styles.ssoButton}>
+            {GoogleLoginButton}
+          </div>
           <div className={styles.lineBreak}>
             <LineBreak />
           </div>
 
           <div className={styles.continueButton}>
-            <Input classes={inputClasses} {...inputs[0]} />
+            <Input data-cy="email" classes={inputClasses} {...inputs[0]} />
           </div>
         </div>
       </div>
@@ -70,6 +72,7 @@ export default function PureCustomSignUp({
             type="submit"
             fullLength
             children="Continue"
+            data-cy="continue"
           />
         </div>
       </Footer>

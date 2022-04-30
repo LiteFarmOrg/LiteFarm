@@ -35,6 +35,7 @@ const LocationPicker = ({
   const [isGoogleMapInitiated, setGoogleMapInitiated] = useState(false);
   const geometriesRef = useRef({});
   const markerClusterRef = useRef();
+  const mapRef = useRef();
 
   const onSelectLocationRef = usePropRef(onSelectLocation);
   const setPinCoordinateRef = usePropRef(setPinCoordinate);
@@ -53,6 +54,11 @@ const LocationPicker = ({
       polygon?.setOptions({ clickable: !isPinMode });
     }
     overlappedPositions.length && dismissSelectionModal();
+    if (mapRef.current) {
+      mapRef.current.setOptions({
+        draggableCursor: isPinMode ? 'crosshair' : '',
+      });
+    }
   }, [isPinMode, isGoogleMapInitiated]);
 
   const prevSelectedLocationIdsRef = useRef([]);
@@ -219,6 +225,7 @@ const LocationPicker = ({
   };
 
   const handleGoogleMapApi = (map, maps) => {
+    mapRef.current = map;
     getMaxZoom?.(maps);
     const mapBounds = new maps.LatLngBounds();
     mapBounds.extend(farmCenterCoordinate);

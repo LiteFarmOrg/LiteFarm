@@ -951,7 +951,7 @@
     "PLANTED_ALREADY": "Você vai plantar este cultivo ou ele já está plantado?",
     "PLANTING": "Plantando",
     "PLANTING_DATE": "Qual é a sua data de plantio?",
-    "PLANTING_DATE_INFO": "Data de semeadura com base na idade da colheita: {{seed_date}}",
+    "PLANTING_DATE_INFO": "Data de semeadura com base na idade do cultivo: {{seed_date}}",
     "PLANTING_DATE_LABEL": "Data do plantio",
     "PLANTING_DEPTH": "Profundidade de plantio",
     "PLANTING_METHOD": "Qual é o seu método de plantio?",
@@ -1006,7 +1006,7 @@
       }
     },
     "VARIETY": "Variedade",
-    "WHAT_IS_AGE": "Qual é a idade aproximada da colheita?",
+    "WHAT_IS_AGE": "Qual é a idade aproximada do cultivo?",
     "WHAT_WAS_PLANTING_METHOD": "Qual foi o método de plantio?",
     "WHAT_WAS_PLANTING_METHOD_INFO": "Selecionando corretamente o método de plantio vai ajudar o LiteFarm a estimar com mais precisão a quantidade de sementes necessárias, a produção e outros conhecimentos úteis.",
     "WHERE_START_LOCATION": "Onde é o seu local de partida?",
@@ -1041,7 +1041,14 @@
     }
   },
   "NOTIFICATION": {
-    "NOTIFICATION_TEASER": "Em breve!"
+    "NONE_TO_DISPLAY": "MISSING",
+    "NOTIFICATION_TEASER": "Em breve!",
+    "PAGE_TITLE": "MISSING",
+    "TAKE_ME_THERE": "MISSING",
+    "TASK_ASSIGNED": {
+      "TITLE": "MISSING",
+      "BODY": "MISSING"
+    }
   },
   "OUTRO": {
     "ALL_DONE": "Excelente. Pronto para sujar as mãos?",

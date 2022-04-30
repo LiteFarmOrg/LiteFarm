@@ -1,5 +1,10 @@
 import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
-import { loginSelector, onLoadingFail, onLoadingStart } from './userFarmSlice';
+import {
+  loginSelector,
+  onLoadingFail,
+  onLoadingStart,
+  userFarmEntitiesSelector,
+} from './userFarmSlice';
 import { createSelector } from 'reselect';
 import { pick } from '../util/pick';
 import { managementPlanEntitiesSelector } from './managementPlanSlice';
@@ -120,6 +125,8 @@ export const taskSelectors = taskAdapter.getSelectors(
 //TODO: refactor
 export const taskEntitiesSelector = createSelector(
   [
+    userFarmEntitiesSelector,
+    loginSelector,
     taskSelectors.selectEntities,
     taskTypeEntitiesSelector,
     managementPlanEntitiesSelector,
@@ -134,6 +141,8 @@ export const taskEntitiesSelector = createSelector(
     plantingManagementPlanEntitiesSelector,
   ],
   (
+    userFarmEntities,
+    userFarm,
     taskEntities,
     taskTypeEntities,
     managementPlanEntities,
@@ -193,6 +202,8 @@ export const taskEntitiesSelector = createSelector(
             getManagementPlanByPlantingManagementPlan(subtask),
           ];
         }
+        taskEntities[task_id].assignee =
+          userFarmEntities[userFarm.farm_id][taskEntities[task_id].assignee_user_id];
       }
     });
   },

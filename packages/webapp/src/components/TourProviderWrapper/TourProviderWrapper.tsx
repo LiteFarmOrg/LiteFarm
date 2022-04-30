@@ -9,32 +9,31 @@ import { ProviderProps, TourProps } from '@reactour/tour/dist/types';
 import { ContentProps } from '@reactour/tour/src/types';
 import { keyframes } from '@emotion/react';
 
-
 const opositeSide = {
   top: 'bottom',
   bottom: 'top',
   right: 'left',
   left: 'right',
 };
-type VerticalAlign = | 'top' | 'bottom';
-type HorizontalAlign = | 'left' | 'right';
-type Position = VerticalAlign | HorizontalAlign | 'custom' | 'center'
+type VerticalAlign = 'top' | 'bottom';
+type HorizontalAlign = 'left' | 'right';
+type Position = VerticalAlign | HorizontalAlign | 'custom' | 'center';
 
-type Style = { [prop: string]: string }
+type Style = { [prop: string]: string };
 
 type getStylesProps = {
-  arrowOffset: number,
-  popoverStyles: Style,
-  maskStyles: Style,
-  showMaskArea?: boolean
-}
+  arrowOffset: number;
+  popoverStyles: Style;
+  maskStyles: Style;
+  showMaskArea?: boolean;
+};
 
 const getStyles = ({
-                     showMaskArea,
-                     arrowOffset = 0,
-                     popoverStyles,
-                     maskStyles,
-                   }: getStylesProps): TourProps['styles'] => ({
+  showMaskArea,
+  arrowOffset = 0,
+  popoverStyles,
+  maskStyles,
+}: getStylesProps): TourProps['styles'] => ({
   maskArea: (base, state) => ({ ...base, rx: 8, display: showMaskArea ? undefined : 'none' }),
   popover: (base, state) => {
     const fadein = keyframes`
@@ -55,7 +54,6 @@ const getStyles = ({
     };
     const position: Position = state?.position;
     if (!position || position === 'custom' || position === 'center') {
-
       return {
         ...base,
         flexDirection: 'column',
@@ -85,77 +83,96 @@ const getStyles = ({
       ...baseStyles,
       ...getPopoverOffset(),
       '&::after': {
-        content: '\'\'',
+        content: "''",
         width: 0,
         height: 0,
         position: 'absolute',
-        [isVertical ? 'borderLeft' : 'borderTop']: `${
-          width / 2
-        }px solid transparent`,
-        [isVertical ? 'borderRight' : 'borderBottom']: `${
-          width / 2
-        }px solid transparent`,
+        [isVertical ? 'borderLeft' : 'borderTop']: `${width / 2}px solid transparent`,
+        [isVertical ? 'borderRight' : 'borderBottom']: `${width / 2}px solid transparent`,
         [`border${position[0].toUpperCase()}${position.substring(
           1,
         )}`]: `${height}px solid ${colors.grey100}`,
-        [isVertical ? opositeSide[horizontalAlign] : verticalAlign]:
-        height - 10 + arrowOffset,
+        [isVertical ? opositeSide[horizontalAlign] : verticalAlign]: height - 10 + arrowOffset,
         [opositeSide[position]]: -height,
       },
     };
   },
 });
 
-
 type TourContentBodyStep = {
-  title?: ReactNode,
-  children?: ReactNode,
-  contents?: ReactNode[],
-  isOrdered?: boolean,
-  list?: ReactNode[],
-  buttonText?: ReactNode,
-  icon?: ReactNode,
-  onNext?(): void,
-}
+  title?: ReactNode;
+  children?: ReactNode;
+  contents?: ReactNode[];
+  isOrdered?: boolean;
+  list?: ReactNode[];
+  buttonText?: ReactNode;
+  icon?: ReactNode;
+  onNext?(): void;
+};
 
-type Step = Omit<StepType, 'content'> & TourContentBodyStep & getStylesProps
+type Step = Omit<StepType, 'content'> & TourContentBodyStep & getStylesProps;
 
-type TourProviderWrapperProps = ReactourChildrenWrapperProps & Omit<ProviderProps, 'children' | 'steps'> & {
-  steps: Step[],
-  onFinish?(): void,
-}
+type TourProviderWrapperProps = ReactourChildrenWrapperProps &
+  Omit<ProviderProps, 'children' | 'steps'> & {
+    steps: Step[];
+    onFinish?(): void;
+  };
 
-export function TourProviderWrapper({ steps, children = <div />, open, onFinish, ...props }: TourProviderWrapperProps) {
+export function TourProviderWrapper({
+  steps,
+  children = <div />,
+  open,
+  onFinish,
+  ...props
+}: TourProviderWrapperProps) {
   if (!open) return children;
   const processedSteps = useMemo(() => {
     return steps.map(({ arrowOffset, popoverStyles, maskStyles, ...step }) => {
       return {
         ...step,
-        styles: getStyles({ showMaskArea: !!step.selector, arrowOffset, popoverStyles, maskStyles }),
-        content: (props: ContentProps) =>
-          <TourContentBody onFinish={onFinish}
-                           isLastStep={steps.length === props.currentStep + 1} {...props}
-                           step={step} />,
+        styles: getStyles({
+          showMaskArea: !!step.selector,
+          arrowOffset,
+          popoverStyles,
+          maskStyles,
+        }),
+        content: (props: ContentProps) => (
+          <TourContentBody
+            onFinish={onFinish}
+            isLastStep={steps.length === props.currentStep + 1}
+            {...props}
+            step={step}
+          />
+        ),
       };
     });
   }, []);
-  return <TourProvider
-    onClickMask={({ setIsOpen }) => {
-      setIsOpen(false);
-      onFinish?.();
-    }}
-    showBadge={false} showNavigation={false} showCloseButton={false} defaultOpen={open}
-    steps={processedSteps} {...props}>
-    <ReactourChildrenWrapper open={open}>
-      {children}
-    </ReactourChildrenWrapper>
-  </TourProvider>;
+  return (
+    <TourProvider
+      onClickMask={({ setCurrentStep, currentStep, setIsOpen }) => {
+        if (currentStep === steps.length - 1) {
+          setIsOpen(false);
+          onFinish?.();
+        } else {
+          setCurrentStep((s) => (s === steps.length - 1 ? 0 : s + 1));
+        }
+      }}
+      showBadge={false}
+      showNavigation={false}
+      showCloseButton={false}
+      defaultOpen={open}
+      steps={processedSteps}
+      {...props}
+    >
+      <ReactourChildrenWrapper open={open}>{children}</ReactourChildrenWrapper>
+    </TourProvider>
+  );
 }
 
 type ReactourChildrenWrapperProps = {
-  open: boolean,
-  children?: ReactNode
-}
+  open: boolean;
+  children?: ReactNode;
+};
 
 function ReactourChildrenWrapper({ open, children }: ReactourChildrenWrapperProps) {
   return <>{children}</>;
@@ -182,26 +199,24 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-
 type TourContentBodyProps = ContentProps & {
-  step: TourContentBodyStep,
-  continuous?: boolean,
-  primaryProps?: object,
-  isLastStep?: boolean,
-  onFinish?(): void
-}
+  step: TourContentBodyStep;
+  continuous?: boolean;
+  primaryProps?: object;
+  isLastStep?: boolean;
+  onFinish?(): void;
+};
 
-export function TourContentBody(
-  {
-    step: { title, children, contents, isOrdered, list, buttonText, icon, onNext },
-    continuous,
-    primaryProps,
-    isLastStep,
-    setCurrentStep,
-    currentStep,
-    setIsOpen,
-    onFinish,
-  }: TourContentBodyProps) {
+export function TourContentBody({
+  step: { title, children, contents, isOrdered, list, buttonText, icon, onNext },
+  continuous,
+  primaryProps,
+  isLastStep,
+  setCurrentStep,
+  currentStep,
+  setIsOpen,
+  onFinish,
+}: TourContentBodyProps) {
   const { t } = useTranslation();
   const classes = useStyles();
   const onClick = () => {
@@ -228,7 +243,7 @@ export function TourContentBody(
           {title}
         </Semibold>
       )}
-      <div className={classes.contentsContainer}>
+      <div data-cy="spotlight-contents" className={classes.contentsContainer}>
         {contents && !!contents.length && (
           <div className={classes.contentsContainer}>
             {contents?.map((line, index) => (
@@ -252,7 +267,7 @@ export function TourContentBody(
       {children}
       {
         <div className={classes.buttonGroup}>
-          <Button onClick={onClick} sm id={continuous ? 'next' : 'close'} {...primaryProps}>
+          <Button data-cy='spotlight-next' onClick={onClick} sm id={continuous ? 'next' : 'close'} {...primaryProps}>
             {buttonText || (isLastStep ? t('common:GOT_IT') : t('common:NEXT'))}
           </Button>
         </div>
@@ -262,12 +277,12 @@ export function TourContentBody(
 }
 
 type ListProps = {
-  children?: ReactNode,
-  isOrdered?: boolean,
+  children?: ReactNode;
+  isOrdered?: boolean;
   classes: {
-    contentsContainer?: string
-  }
-}
+    contentsContainer?: string;
+  };
+};
 
 function List({ children, isOrdered, classes }: ListProps) {
   const style = { marginLeft: '20px' };

@@ -68,7 +68,7 @@ export function PureCertificationSelection({
       onSubmit={handleSubmit(onSubmit)}
       buttonGroup={
         <>
-          <Button type={'submit'} fullLength disabled={disabled}>
+          <Button data-cy='certificationSelection-continue' type={'submit'} fullLength disabled={disabled}>
             {t('common:CONTINUE')}
           </Button>
         </>
@@ -80,6 +80,7 @@ export function PureCertificationSelection({
         style={{ marginBottom: '20px' }}
       />
       <RadioGroup
+        data-cy='certificationSelection-type'
         name={CERTIFICATION_ID}
         hookFormControl={control}
         radios={radioOptions}

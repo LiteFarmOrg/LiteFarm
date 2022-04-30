@@ -15,29 +15,58 @@
 
 const Model = require('objection').Model;
 const baseModel = require('./baseModel');
+const Notification = require('./notificationModel');
 
+/**
+ * Models data persistence for users' notifications.
+ */
 class NotificationUser extends baseModel {
+  /**
+   * Tracks open subscription channels for server-sent events. To support multiple sessions by the same user,
+   *   keys are user IDs; values are Maps with timestamp keys and HTTP response object values.
+   * @member {Map}
+   * @static
+   */
+  static subscriptions = new Map();
+
+  /**
+   * Identifies the database table for this Model.
+   * @static
+   * @returns {string} Names of the database table.
+   */
   static get tableName() {
     return 'notification_user';
   }
 
+  /**
+   * Identifies the primary key fields for this Model.
+   * @static
+   * @returns {string[]} Names of the primary key fields.
+   */
   static get idColumn() {
     return ['notification_id', 'user_id'];
   }
 
-  // Optional JSON schema. This is not the database schema! Nothing is generated
-  // based on this. This is only used for validation. Whenever a model instance
-  // is created it is checked against this schema. http://json-schema.org/.
+  /**
+   * Supports validating instances of this Model class.
+   * @static
+   * @returns {Object} A description of valid instances.
+   */
   static get jsonSchema() {
     return {
       type: 'object',
-      required: ['alert', 'status'],
+      required: ['user_id'],
       properties: {
         notification_id: { type: 'string' },
         user_id: { type: 'string' },
         alert: { type: 'boolean' },
         status: {
           type: 'string',
+          /**
+           * @name userNotificationStatusType
+           * @desc Enumerated type for user notification status.
+           * @enum
+           * */
           enum: ['Unread', 'Read', 'Archived'],
         },
         ...this.baseProperties,
@@ -46,11 +75,16 @@ class NotificationUser extends baseModel {
     };
   }
 
+  /**
+   * Defines this Model's associations with other Models.
+   * @static
+   * @returns {Object} A description of Model associations.
+   */
   static get relationMappings() {
     return {
       notification: {
         relation: Model.BelongsToOneRelation,
-        modelClass: require('./notificationModel'),
+        modelClass: Notification,
         join: {
           from: 'notification_user.notification_id',
           to: 'notification.notification_id',
@@ -59,16 +93,106 @@ class NotificationUser extends baseModel {
     };
   }
 
+  /**
+   * Retrieves notifications for a specified user and farm context.
+   * @param {uuid} farm_id - The farm context.
+   * @param {uuid} user_id - The specified user.
+   * @static
+   * @async
+   * @returns {Object[]} An array of data objects.
+   */
   static async getNotificationsForFarmUser(farm_id, user_id) {
-    return await NotificationUser.query()
-      .withGraphJoined('notification')
-      .context({ showHidden: true })
-      .whereRaw(
-        'notification.deleted = false AND notification_user.deleted = false AND user_id = ? AND (farm_id IS NULL OR farm_id = ?)',
+    return (
+      await NotificationUser.knex().raw(
+        `
+      SELECT notification.notification_id, user_id, alert, status, translation_key, variables, 
+        entity_type, entity_id, context, notification_user.created_at
+      FROM notification JOIN notification_user
+      ON notification.notification_id = notification_user.notification_id
+      WHERE notification.deleted = false 
+        AND notification_user.deleted = false 
+        AND user_id = ? 
+        AND (farm_id IS NULL OR farm_id = ?)
+      ORDER BY notification_user.created_at DESC
+      LIMIT 100;
+      `,
         [user_id, farm_id],
       )
-      .orderBy('created_at', 'desc')
-      .limit(100);
+    ).rows;
+  }
+
+  /**
+   * Stores modifications for a set of user notifications
+   * @param {uuid} userId - The specified user.
+   * @param {uuid[]} notificationIds - An array of notification identifiers.
+   * @param {object} modifications - The altered data values.u
+   * @static
+   * @async
+   */
+  static async update(userId, notificationIds, modifications) {
+    await NotificationUser.query()
+      .patch(modifications)
+      .whereIn('notification_id', notificationIds)
+      .andWhere('user_id', userId)
+      .context({ user_id: userId });
+  }
+
+  /**
+   * Clears the alert indicator for a specified set of the user's notifications.
+   * @param {uuid} userId - The specified user.
+   * @param {uuid} farmId - The user session's current farm.
+   * @param {uuid[]} notificationIds - An array of notification identifiers.
+   * @static
+   * @async
+   */
+  static async clearAlerts(userId, farmId, notificationIds) {
+    const count = await NotificationUser.query()
+      .patch({ alert: false })
+      .whereIn('notification_id', notificationIds)
+      .andWhere('user_id', userId)
+      .andWhere('alert', true)
+      .context({ user_id: userId });
+    const userSubs = NotificationUser.subscriptions.get(userId);
+    userSubs?.forEach((subscription) => {
+      if (farmId === subscription.farm_id) {
+        subscription.sendAlert(-count);
+      }
+    });
+  }
+
+  /**
+   * Creates a notification and initiates status tracking for a specified set of recipients.
+   * @param {Object} notification - A notification to be created.
+   * @param {uuid[]} userIds - The user IDs of the recipients.
+   * @static
+   * @async
+   */
+  static async notify(notification, userIds) {
+    if (!userIds.length) return;
+    const { notification_id } = await Notification.query()
+      .insert(notification)
+      .context({ user_id: '1' });
+    userIds.forEach(async (user_id) => {
+      await NotificationUser.query().insert({ user_id, notification_id }).context({ user_id: '1' });
+    });
+    NotificationUser.alert(notification.farm_id, userIds);
+  }
+
+  /**
+   * Alerts any recipients with open subscription channels of a new notification.
+   * @param {uuid} farm_id - The farm context of the new notification (`null` for all farms).
+   * @param {uuid[]} userIds - The user IDs of the recipients.
+   * @static
+   */
+  static alert(farm_id, userIds) {
+    userIds.forEach((user_id) => {
+      const userSubs = NotificationUser.subscriptions.get(user_id);
+      userSubs?.forEach((subscription) => {
+        if (farm_id === subscription.farm_id || farm_id === null) {
+          subscription.sendAlert();
+        }
+      });
+    });
   }
 }
 

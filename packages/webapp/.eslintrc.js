@@ -37,5 +37,7 @@ module.exports = {
     it: 'readonly',
     cy: 'readonly',
     Cypress: 'readonly',
+    beforeEach: 'readonly',
+    before: 'readonly',
   },
 };

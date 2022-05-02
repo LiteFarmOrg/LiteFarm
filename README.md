@@ -10,45 +10,27 @@ If you’re a farmer and would like to join LiteFarm you can sign up today at ap
 
 # Setup 
 
-LiteFarm is comprised of two applications which both reside in this monorepo.
+LiteFarm is comprised of three applications which all reside in this monorepo.
 
-- `packages/api`: the back-end API server
-- `packages/webapp`: the client-facing application
+- `packages/webapp` is the client-facing application 
+- `packages/api` is the back-end API server with entry point `src/server.js`
+- `packages/api/src/jobs` is the "jobs scheduler" for certification exports, with entry point `index.js` 
 
 ## Preliminaries 
 
 1. Install [node.js](https://nodejs.org/en/download/package-manager/) if you do not already have it.
-2. Use the `git clone` command to clone this repository to your computer.
+2. If you do not have pnpm installed, run `npm install -g pnpm` in a terminal.
+3. Use the `git clone` command to clone this repository to your computer.
+4. In a terminal, navigate to the root folder of the repo and run `npm install`.
+5. Navigate to the `packages/api` folder, and run `npm install`.
+6. Navigate to the `packages/webapp` folder, and run `pnpm install`.
 
-## Configure LiteFarm applications
 
-The applications are configured with environment variables stored in `.env` files. Configuration information includes secrets like API keys, so the `.env` files should never be added to source control. This repository does contain `.env.default` files for api and webapp. Begin with these, and customize as needed.
+## Configuring the applications
 
-1. Create the api configuration file by copying `packages/api/env.default` to `packages/api/.env`.
+The applications are configured with environment variables stored in `.env` files. Configuration information includes secrets like API keys, so the `.env` files should never be added to source control. This repository does contain `.env.default` files for api and webapp. These files contain all necessary environment variables, but for sensitive ones the values are redacted. Contact smattingly@litefarm.org for assistance.
 
-2. Create the webapp configuration file by copying `packages/webapp/env.default` to `packages/webapp/.env`. For webapp
-   to work, you must edit your new `.env` file to provide values for two required environment variables:
-    - `VITE_GOOGLE_MAPS_API_KEY` is a Google Maps API key. You should obtain your own key value
-      from [Google](https://developers.google.com/maps/documentation/javascript/get-api-key).
-    - `VITE_WEATHER_API_KEY` is an OpenWeather API key. You should obtain your own key value
-      from [OpenWeather](https://openweathermap.org/api).
-
-## Runtime setup
-
-### Option 1: Docker containers
-
-This approach runs the LiteFarm applications and the database server in Docker containers. If you prefer to run them directly on your hardware, skip to the next section.
-
-1. Install [docker](https://docs.docker.com/desktop/) and [docker-compose](https://docs.docker.com/compose/install/) if you do not already have them.
-2. In a terminal, navigate to the root folder for the repository.
-3. Execute `docker-compose -f docker-compose.dev.yml up`. Alternatively, you can run `make up` if you have `make` installed.
-    - The initial build will take some time. Subsequent incremental builds are much quicker. 
-    - This process will run [migrations](https://knexjs.org/#Migrations) to set up the PostgreSQL database, then start the Docker containers for webapp, api, databases, and Storybook.
-4. When the build completes, you can load the webapp at `http://localhost:3000`. Storybook is available on `http://localhost:6006`.
-
-### Option 2: Your hardware 
-
-This approach runs the LiteFarm applications and database server directly on your hardware. If you prefer Docker containers, see the previous section.
+## Database setup
 
 1. Install PostgreSQL by downloading installers or packages from https://www.postgresql.org/download/. Alternatively, Mac and Linux users can use homebrew as shown below.
 
@@ -61,7 +43,7 @@ This approach runs the LiteFarm applications and database server directly on you
    brew services start postgresql
    ```
 
-2. Set up the PostgreSQL role (account) and databases. (The `packages/api/.env.default` file specifies `pg-litefarm` and `test_farm`, respectively, for development and test database names.) You will use the `psql` client program. Account setup details will vary by OS. If an installer asks you to choose a password for the `postgres` (superuser) account, use `postgres`.
+2. Set up the PostgreSQL role (account) and databases. You will use the `psql` client program. Account setup details will vary by OS. If an installer asks you to choose a password for the `postgres` (superuser) account, use `postgres` for consistency with the contents of `.env.default`.
 
    - Linux. In a terminal, start the client with `sudo -u postgres psql`, then execute each of the following commands. (The last command terminates the client session.)
        ```sql
@@ -80,28 +62,21 @@ This approach runs the LiteFarm applications and database server directly on you
        exit;       
        ```
 
-3. In a terminal, run `npm i pnpm -g` *if pnpm is not already installed*, run `npm i` under the root folder of the
-   repository, `npm i` under `packages/api`, and `pnpm i`
-   under `packages/webapp`.
+3. In a terminal, navigate to the `packages/api` folder. Execute `npm run migrate:dev:db` to run the [migrations](https://knexjs.org/#Migrations) that set up the PostgreSQL database used by the app.
 
-4. Edit the `packages/api/.env` file, setting the value of variable `DEV_DATABASE_HOST` to `localhost`
+# Running the apps
 
-5. In the terminal, navigate to the `packages/api` folder. 
+## api
 
-6. Execute `npm run migrate:dev:db` to run the [migrations](https://knexjs.org/#Migrations) that set up the PostgreSQL database. (If you run into issues here, you can try dropping and recreating the database.)
-
-7. Run `npm start` to launch the api application.
-
-8. In a different terminal, navigate to the `packages/webapp` folder and run `pnpm dev` to launch the webapp
-   application. Load it in your browser at http://localhost:3000.
-
-# Testing
+In a terminal, navigate to the `packages/api` folder. Run `npm run nodemon` to launch the backend application. It will automatically reflect any changes you make to the backend.
 
 ## webapp
 
-To run [ESLint](https://eslint.org/) checks execute `pnpm lint`
+In a terminal, navigate to the `packages/webapp` folder and run `pnpm dev`. This builds the frontend code, and starts a web server that will automatically reflect any changes you make to the frontend.
 
-Since this is a mobile web application, webapp should be viewed in a mobile view in the browser.
+Load the frontend app in your browser at http://localhost:3000.
+
+# Testing
 
 ## api
 
@@ -113,4 +88,10 @@ The [chai.js](https://www.chaijs.com/) and [jest](https://jestjs.io/) libraries 
 2. Execute `npm run migrate:testing:db` to set up the test database.
 3. Execute `npm test` to launch the tests. Or, to generate test coverage information, run `npm test -- --coverage .` and then see the `coverage/index.html` file.
 
-It is good practice to use `psql` to `DROP` and `CREATE` the `test_farm` database before repeating this process.
+While the tests do attempt to clean up after themselves, it's a good idea to periodically use `psql` to `DROP` and `CREATE` the `test_farm` database, followed by the migrations from step 2 above.
+
+## webapp
+
+To run [ESLint](https://eslint.org/) checks execute `pnpm lint`
+
+Since this is a mobile web application, webapp should be viewed in a mobile view in the browser.

@@ -1,7 +1,7 @@
 {
   "name": "litefarm-api",
   "version": "3.1.1",
-  "description": "backend for LiteFarm",
+  "description": "LiteFarm API server",
   "main": "./api/src/server.js",
   "scripts": {
     "test": "jest --runInBand",
@@ -23,9 +23,6 @@
     "migrate:testing:seed": "knex seed:run --env=test",
     "migrate:rollback:testing:db": "NODE_ENV=test knex migrate:rollback --env=test",
     "lint": "eslint src",
-    "gitlab-server": "NODE_ENV=ci node src/server.js",
-    "ci": "start-server-and-test gitlab-server 5000 test-end2end",
-    "e2e": "start-server-and-test start 5000 test-end2end",
     "i18n-scheduler": "npx i18next 'src/jobs/certification/**/*.js' -c 'src/jobs/locales/i18next-parser.config.js'",
     "scheduler": "cp ../webapp/public/locales/en/crop.json src/jobs/locales/en && cp ../webapp/public/locales/es/crop.json src/jobs/locales/es && cp ../webapp/public/locales/pt/crop.json src/jobs/locales/pt && cp ../webapp/public/locales/fr/crop.json src/jobs/locales/fr && node src/jobs/index.js",
     "fix-lint": "eslint src --fix",
@@ -41,12 +38,6 @@
       "src/**/*.{js,jsx,mjs}"
     ],
     "globalSetup": "./jest-global-setup.js"
-  },
-  "author": "LiteFarm",
-  "license": "ISC",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/juice-tn/LiteFarm.git"
   },
   "dependencies": {
     "adm-zip": "^0.4.16",

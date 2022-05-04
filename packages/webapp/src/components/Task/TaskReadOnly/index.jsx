@@ -75,7 +75,6 @@ export default function PureTaskReadOnly({
       };
     }
   }, []);
-  console.table([date, dateLabel, secondDate, secondDateLabel]);
   const locationIds = task.locations.map(({ location_id }) => location_id);
   const owner_user_id = task.owner_user_id;
   const {

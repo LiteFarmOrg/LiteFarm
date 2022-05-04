@@ -51,24 +51,31 @@ export default function PureTaskReadOnly({
 }) {
   const { t } = useTranslation();
   const taskType = task.taskType;
-  const { date, dateLabel } = useMemo(() => {
+  const { date, dateLabel, secondDate, secondDateLabel } = useMemo(() => {
     if (task.abandon_date) {
       return {
-        date: getDateInputFormat(task.abandon_date),
-        dateLabel: t('TASK.ABANDON.DATE'),
+        date: getDateInputFormat(task.due_date),
+        dateLabel: t('TASK.DUE_DATE'),
+        secondDate: getDateInputFormat(task.abandon_date),
+        secondDateLabel: t('TASK.ABANDON.DATE'),
       };
     } else if (task.complete_date) {
       return {
         date: getDateInputFormat(task.complete_date),
         dateLabel: t('TASK.COMPLETE.DATE'),
+        secondDate: null,
+        secondDateLabel: null,
       };
     } else {
       return {
         date: getDateInputFormat(task.due_date),
         dateLabel: t('TASK.DUE_DATE'),
+        secondDate: null,
+        secondDateLabel: null,
       };
     }
   }, []);
+  console.table([date, dateLabel, secondDate, secondDateLabel]);
   const locationIds = task.locations.map(({ location_id }) => location_id);
   const owner_user_id = task.owner_user_id;
   const {
@@ -121,22 +128,23 @@ export default function PureTaskReadOnly({
         onGoBack={onGoBack}
         style={{ marginBottom: '24px' }}
         title={t(`task:${taskType.task_translation_key}`) + ' ' + t('TASK.TASK')}
-        label={<StatusLabel
-          label={t(`TASK.STATUS.${taskStatusTranslateKey[taskStatus]}`)}
-          color={taskStatus}
-        />
+        label={
+          <StatusLabel
+            label={t(`TASK.STATUS.${taskStatusTranslateKey[taskStatus]}`)}
+            color={taskStatus}
+          />
         }
       />
       <div className={styles.assigneeContainer} style={{ marginBottom: '40px' }}>
         <Input
-
           label={t('ADD_TASK.ASSIGNEE')}
           disabled={true}
           value={assigneeName ? assigneeName : t('TASK.UNASSIGNED')}
         />
-        {isCurrent && <BiPencil className={styles.pencil} onClick={_ => setShowTaskAssignModal(true)} />}
+        {isCurrent && (
+          <BiPencil className={styles.pencil} onClick={(_) => setShowTaskAssignModal(true)} />
+        )}
       </div>
-
 
       <Input
         style={{ marginBottom: '40px' }}
@@ -145,6 +153,16 @@ export default function PureTaskReadOnly({
         label={dateLabel}
         disabled
       />
+
+      {secondDate && (
+        <Input
+          style={{ marginBottom: '40px' }}
+          type={'date'}
+          value={secondDate}
+          label={secondDateLabel}
+          disabled
+        />
+      )}
 
       <Semibold style={{ marginBottom: '12px' }}>{t('TASK.LOCATIONS')}</Semibold>
       {isTaskType(taskType, 'TRANSPLANT_TASK') && (

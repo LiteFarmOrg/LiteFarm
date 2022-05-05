@@ -53,6 +53,13 @@
   border-bottom: 1px solid var(--teal700);
 }
 
+.iconTextContainerDisabled {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 3px;
+}
+
 .statusLabel {
   display: flex;
   right: 0;

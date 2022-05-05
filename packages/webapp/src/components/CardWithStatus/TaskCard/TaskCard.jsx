@@ -89,13 +89,23 @@ export const PureTaskCard = ({
           {cropVarietyName && ` | ${cropVarietyName}`}
         </div>
         <div onClick={onAssignDate} className={styles.dateUserContainer}>
-          <div className={styles.iconTextContainer}>
+          <div
+            className={
+              status === 'completed' || status === 'abandoned'
+                ? styles.iconTextContainerDisabled
+                : styles.iconTextContainer
+            }
+          >
             <CalendarIcon />
             <div>{completeOrDueDate}</div>
           </div>
           {assignee ? (
             <div
-              className={styles.iconTextContainer}
+              className={
+                status === 'completed' || status === 'abandoned'
+                  ? styles.iconTextContainerDisabled
+                  : styles.iconTextContainer
+              }
               onClick={onAssignTask}
               style={{ cursor: onClickAssignee ? 'pointer' : 'default' }}
             >

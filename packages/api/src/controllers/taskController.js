@@ -1,3 +1,18 @@
+/*
+ *  Copyright 2019, 2020, 2021, 2022 LiteFarm.org
+ *  This file is part of LiteFarm.
+ *
+ *  LiteFarm is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  LiteFarm is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
+ */
+
 const TaskModel = require('../models/taskModel');
 const userFarmModel = require('../models/userFarmModel');
 const managementPlanModel = require('../models/managementPlanModel');
@@ -397,7 +412,6 @@ const taskController = {
         const task = data.task;
 
         const result = await TaskModel.transaction(async (trx) => {
-          const result = {};
           const updated_task = await TaskModel.query(trx)
             .context({ user_id: req.user.user_id })
             .upsertGraph(
@@ -408,11 +422,10 @@ const taskController = {
                 noInsert: true,
               },
             );
-          result.task = removeNullTypes(updated_task);
-          const updated_harvest_uses = await HarvestUse.query(trx)
-            .context({ user_id: req.user.user_id })
-            .insert(harvest_uses);
-          result.harvest_uses = updated_harvest_uses;
+          const result = removeNullTypes(updated_task);
+          delete result.harvest_task;
+
+          await HarvestUse.query(trx).context({ user_id: req.user.user_id }).insert(harvest_uses);
           await patchManagementPlanStartDate(trx, req, 'harvest_task', req.body.task);
 
           return result;

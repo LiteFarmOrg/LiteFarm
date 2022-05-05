@@ -46,6 +46,14 @@ export default function PureRowForm({
 
   const IsValidNumberInput = (number) => number === 0 || number > 0;
 
+  const calculateEstimates = (length, spacing) => {
+    if (!(length % spacing)) {
+      return (length + spacing) / spacing;
+    } else {
+      return Math.ceil(length / spacing);
+    }
+  }
+
   const [showEstimatedValue, setShowEstimatedValue] = useState(false);
   const shouldSkipEstimatedValueCalculationRef = useRef(true);
 
@@ -64,15 +72,14 @@ export default function PureRowForm({
         shouldCalculatedSameLengthEstimatedValues || shouldCalculateDifferentLengthEstimatedValues,
       );
     } else if (shouldCalculatedSameLengthEstimatedValues) {
-      const estimated_seed_required =
-        ((num_of_rows * length_of_row) / plant_spacing) * average_seed_weight;
-      const estimated_yield = ((num_of_rows * length_of_row) / plant_spacing) * yield_per_plant;
+      const estimated_seed_required = calculateEstimates(length_of_row, plant_spacing) * num_of_rows * average_seed_weight;
+      const estimated_yield = calculateEstimates(length_of_row, plant_spacing) * num_of_rows * yield_per_plant;
       average_seed_weight && setValue(ESTIMATED_SEED, estimated_seed_required);
       yield_per_plant && setValue(ESTIMATED_YIELD, estimated_yield);
       setShowEstimatedValue(true);
     } else if (shouldCalculateDifferentLengthEstimatedValues) {
-      const estimated_seed_required = (total_length / plant_spacing) * average_seed_weight;
-      const estimated_yield = (total_length / plant_spacing) * yield_per_plant;
+      const estimated_seed_required = calculateEstimates(total_length, plant_spacing) * average_seed_weight;
+      const estimated_yield = calculateEstimates(total_length, plant_spacing) * yield_per_plant;
       average_seed_weight && setValue(ESTIMATED_SEED, estimated_seed_required);
       yield_per_plant && setValue(ESTIMATED_YIELD, estimated_yield);
       setShowEstimatedValue(true);

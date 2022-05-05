@@ -47,6 +47,7 @@ export const PureTaskCard = ({
   happiness,
   classes = { card: {} },
   isAdmin,
+  isAssignee,
   ...props
 }) => {
   const { t } = useTranslation();
@@ -67,7 +68,8 @@ export const PureTaskCard = ({
       flexDirection: 'row',
       alignItems: 'center',
       gap: '3px',
-      borderBottom: !isAdmin? 'none' : '1px solid var(--teal700)',
+      borderBottom: !isAdmin||!isAssignee ? 'none' : '1px solid var(--teal700)',
+      cursor: isAdmin||isAssignee ? 'pointer' : 'default',
     }
   }
   return (
@@ -106,9 +108,8 @@ export const PureTaskCard = ({
           </div>
           {assignee ? (
             <div
-              className={styles.iconTextContainer}
+            style={iconStyle.iconTextContainer}
               onClick={onAssignTask}
-              style={{ cursor: onClickAssignee ? 'pointer' : 'default' }}
             >
               <div className={clsx(styles.firstInitial, styles.icon)}>
                 {assignee.first_name.toUpperCase().charAt(0)}

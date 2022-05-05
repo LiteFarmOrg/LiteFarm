@@ -34,6 +34,7 @@ const TaskCard = ({
   const immutableStatus = ['completed', 'abandoned'];
 
   const isAdmin = user.is_admin;
+  const isAssignee = user.user_id === assignee.user_id;
 
   return (
     <>
@@ -47,7 +48,7 @@ const TaskCard = ({
         style={style}
         onClick={onClick}
         onClickAssignee={() => {
-          if (!immutableStatus.includes(status)) {
+          if (!immutableStatus.includes(status) && isAssignee || isAdmin) {
             setShowTaskAssignModal(true);
           }
         }}
@@ -60,6 +61,7 @@ const TaskCard = ({
         happiness={happiness}
         classes={classes}
         isAdmin={isAdmin}
+        isAssignee={isAssignee}
       />
       {showTaskAssignModal && (
         <TaskQuickAssignModal

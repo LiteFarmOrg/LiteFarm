@@ -68,7 +68,7 @@ export const PureTaskCard = ({
       flexDirection: 'row',
       alignItems: 'center',
       gap: '3px',
-      borderBottom: !isAdmin||!isAssignee ? 'none' : '1px solid var(--teal700)',
+      borderBottom: !isAdmin&&!isAssignee ? 'none' : '1px solid var(--teal700)',
       cursor: isAdmin||isAssignee ? 'pointer' : 'default',
     }
   }

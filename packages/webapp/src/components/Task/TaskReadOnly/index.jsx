@@ -69,10 +69,10 @@ export default function PureTaskReadOnly({
   const { date, dateLabel, secondDate, secondDateLabel } = useMemo(() => {
     if (task.abandon_date) {
       return {
-        date: getDateInputFormat(task.due_date),
-        dateLabel: t('TASK.DUE_DATE'),
-        secondDate: getDateInputFormat(task.abandon_date),
-        secondDateLabel: t('TASK.ABANDON.DATE'),
+        date: getDateInputFormat(task.abandon_date),
+        dateLabel: t('TASK.ABANDON.DATE'),
+        secondDate: getDateInputFormat(task.due_date),
+        secondDateLabel: t('TASK.DUE_DATE'),
       };
     } else if (task.complete_date) {
       return {

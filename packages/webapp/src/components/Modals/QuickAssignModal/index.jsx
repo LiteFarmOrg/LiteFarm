@@ -19,13 +19,14 @@ export default function TaskQuickAssignModal({
 }) {
   const { t } = useTranslation();
   const selfOption = { label: `${user.first_name} ${user.last_name}`, value: user.user_id };
-  const unAssignedOption = { label: t('TASK.UNASSIGNED'), value: null };
+  const unAssignedOption = { label: t('TASK.UNASSIGNED'), value: null, isDisabled: false };
   const options = useMemo(() => {
     if (user.is_admin) {
       const options = users.map(({ first_name, last_name, user_id }) => ({
         label: `${first_name} ${last_name}`,
         value: user_id,
       }));
+      unAssignedOption.isDisabled = !isAssigned;
       options.unshift(unAssignedOption);
       return options;
     } else return [selfOption, unAssignedOption];

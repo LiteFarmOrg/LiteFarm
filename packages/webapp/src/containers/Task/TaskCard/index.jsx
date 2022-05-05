@@ -59,6 +59,7 @@ const TaskCard = ({
         selected={selected}
         happiness={happiness}
         classes={classes}
+        isAdmin={isAdmin}
       />
       {showTaskAssignModal && (
         <TaskQuickAssignModal

@@ -46,6 +46,7 @@ export const PureTaskCard = ({
   selected,
   happiness,
   classes = { card: {} },
+  isAdmin,
   ...props
 }) => {
   const { t } = useTranslation();
@@ -59,6 +60,16 @@ export const PureTaskCard = ({
     e.stopPropagation();
     onClickCompleteOrDueDate?.();
   };
+
+  const iconStyle = {
+    iconTextContainer: {
+      display: 'flex',
+      flexDirection: 'row',
+      alignItems: 'center',
+      gap: '3px',
+      borderBottom: !isAdmin? 'none' : '1px solid var(--teal700)',
+    }
+  }
   return (
     <CardWithStatus
       color={selected ? activeCardColorMap[status] : statusColorMap[status]}

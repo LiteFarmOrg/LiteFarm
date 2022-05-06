@@ -642,6 +642,7 @@ function canCompleteTask(assigneeUserId, assigneeRoleId, userId, userRoleId) {
   const isAdmin = adminRoles.includes(userRoleId);
   // 4 is worker without account aka pseudo user
   return (assigneeUserId === userId) || (assigneeRoleId === 4 && isAdmin);
+
 }
 
 module.exports = taskController;

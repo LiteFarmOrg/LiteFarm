@@ -114,7 +114,6 @@ export default function PureTaskReadOnly({
 
   const assignee = users.find((user) => user.user_id === task.assignee_user_id);
   const assigneeName = assignee && `${assignee.first_name} ${assignee.last_name}`;
-  assignee && console.log(assignee.role_id);
   const assignedToPseudoUser = assignee && assignee.role_id === 4;
 
 

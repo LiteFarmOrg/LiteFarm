@@ -39,7 +39,6 @@ import {
 import { DATE_RANGE, SEARCHABLE_MULTI_SELECT } from '../../../components/Filter/filterTypes';
 import { tasksSelector } from '../../taskSlice';
 import { locationsSelector } from '../../locationSlice';
-import { isAdminSelector } from '../../userFarmSlice';
 import { getSupportedTaskTypesSet } from '../../../components/Task/getSupportedTaskTypesSet';
 
 const TasksFilterPage = ({ onGoBack }) => {

@@ -1,3 +1,18 @@
+/*
+ *  Copyright 2019, 2020, 2021, 2022 LiteFarm.org
+ *  This file is part of LiteFarm.
+ *
+ *  LiteFarm is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  LiteFarm is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ *  GNU General Public License for more details, see <<https://www.gnu.org/licenses/>.>
+ */
+
 const TaskModel = require('../models/taskModel');
 const userFarmModel = require('../models/userFarmModel');
 const managementPlanModel = require('../models/managementPlanModel');
@@ -341,10 +356,12 @@ const taskController = {
         const { task_id } = req.params;
         const {
           assignee_user_id,
+          assignee_role_id,
           wage_at_moment,
           override_hourly_wage,
-        } = await TaskModel.query().context(req.user).findById(task_id);
-        if (assignee_user_id !== user_id) {
+        } = await TaskModel.getTaskAssignee(task_id);
+        const { role_id } = await userFarmModel.getUserRoleId(user_id);
+        if (!canCompleteTask(assignee_user_id, assignee_role_id, user_id, role_id)) {
           return res.status(403).send("Not authorized to complete other people's task");
         }
         const { wage } = await userFarmModel
@@ -389,8 +406,9 @@ const taskController = {
         const data = req.body;
         const { user_id } = req.headers;
         const task_id = parseInt(req.params.task_id);
-        const { assignee_user_id } = await TaskModel.query().context(req.user).findById(task_id);
-        if (assignee_user_id !== user_id) {
+        const { assignee_user_id, assignee_role_id } = await TaskModel.getTaskAssignee(task_id);
+        const { role_id } = await userFarmModel.getUserRoleId(user_id);
+        if (!canCompleteTask(assignee_user_id, assignee_role_id, user_id, role_id)) {
           return res.status(403).send("Not authorized to complete other people's task");
         }
         const harvest_uses = data.harvest_uses.map((harvest_use) => ({ ...harvest_use, task_id }));
@@ -624,6 +642,22 @@ async function notifyAssignee(userId, taskId, taskTranslationKey, farmId) {
     },
     [userId],
   );
+}
+
+/**
+ * Checks if the current user can complete the task
+ * @param assigneeUserId {uuid} - uuid of the task assignee
+ * @param assigneeRoleId {number} - role id of assignee
+ * @param userId {uuid} - uuid of the user completing the task
+ * @param userRoleId {number} = role of the user completing the task
+ * @returns {boolean}
+ */
+
+function canCompleteTask(assigneeUserId, assigneeRoleId, userId, userRoleId) {
+  // 1 is Owner ID, 2 is Manager ID, 5 is EO ID
+  const is_admin = [1, 2, 5].includes(userRoleId);
+  // 4 is Worker Without Account aka pseudo user
+  return assigneeUserId === userId || (assigneeRoleId === 4 && is_admin);
 }
 
 module.exports = taskController;

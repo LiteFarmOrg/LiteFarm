@@ -440,11 +440,15 @@ const taskController = {
           .whereNotDeleted()
           .withGraphFetched(
             `[locations, managementPlans, soil_amendment_task, field_work_task, cleaning_task, pest_control_task, 
-            harvest_task.[harvest_use], plant_task, transplant_task]
+            harvest_task.[harvest_use], plant_task, transplant_task, assignee]
         `,
           )
-          .whereIn('task_id', taskIds);
-        const filteredTasks = graphTasks.map(removeNullTypes);
+          .whereIn('task.task_id', taskIds);
+        const graphTasksWithPseudo = graphTasks.map(({ assignee, ...task }) => {
+          const assignedToPseudoUser = assignee !== null && assignee.email.includes('pseudo.com');
+          return { ...task, assignedToPseudoUser };
+        });
+        const filteredTasks = graphTasksWithPseudo.map(removeNullTypes);
         if (graphTasks) {
           res.status(200).send(filteredTasks);
         }

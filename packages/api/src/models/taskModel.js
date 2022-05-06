@@ -189,6 +189,15 @@ class TaskModel extends BaseModel {
           to: 'location.location_id',
         },
       },
+      assignee: {
+        modelClass: require('./userModel'),
+        relation: Model.BelongsToOneRelation,
+        filter: (query) => query.select('email'),
+        join: {
+          from: 'task.assignee_user_id',
+          to: 'users.user_id',
+        },
+      },
     };
   }
 }

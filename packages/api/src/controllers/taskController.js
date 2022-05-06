@@ -440,7 +440,7 @@ const taskController = {
           .whereNotDeleted()
           .withGraphFetched(
             `[locations, managementPlans, soil_amendment_task, field_work_task, cleaning_task, pest_control_task, 
-            harvest_task.[harvest_use], plant_task, transplant_task, assignee]
+            harvest_task.[harvest_use], plant_task, transplant_task]
         `,
           )
           .whereIn('task.task_id', taskIds);

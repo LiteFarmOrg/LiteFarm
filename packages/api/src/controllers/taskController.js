@@ -37,7 +37,6 @@ const taskController = {
         }
 
         if(!adminRoles.includes(req.role) && checkTaskStatus.assignee_user_id != req.user.user_id && checkTaskStatus.assignee_user_id !== null){
-          console.log('Current assignee', checkTaskStatus.assignee_user_id);
           return res.status(400).send('Farm workers are not allowed to reassign a task assigned to another worker');
         }
 

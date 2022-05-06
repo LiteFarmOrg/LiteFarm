@@ -320,7 +320,6 @@ describe('Task tests', () => {
         owner_user_id: admin_user_id,
         assignee_user_id: other_user_id,
       });
-      console.log("fake task", fakeTask);
       const [{ task_id }] = await mocks.taskFactory({ promisedUser: [{ user_id }] }, fakeTask);
       const [{ location_id }] = await mocks.locationFactory({ promisedFarm: [{ farm_id }] });
       await mocks.location_tasksFactory({

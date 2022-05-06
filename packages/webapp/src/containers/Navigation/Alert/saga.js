@@ -92,7 +92,7 @@ export function* getAlertSaga() {
     }
   } catch (error) {
     yield put(onLoadingAlertFail({ error, farm_id }));
-    console.log('hey', error);
+    console.log(error);
   }
 }
 

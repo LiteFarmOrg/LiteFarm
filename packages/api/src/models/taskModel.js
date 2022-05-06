@@ -194,7 +194,7 @@ class TaskModel extends BaseModel {
 
   /**
    * Gets the assignee of a task.
-   * @param {number} taskId - the ID of the task
+   * @param {number} taskId - the ID of the task.
    * @static
    * @async
    * @returns {Object} - Object {assignee_user_id, assignee_role_id, wage_at_moment, override_hourly_wage}

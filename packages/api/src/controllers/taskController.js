@@ -10,7 +10,11 @@
  *  LiteFarm is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+<<<<<<< HEAD
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
+=======
+ *  GNU General Public License for more details, see <<https://www.gnu.org/licenses/>.>
+>>>>>>> 576cc888 (Updated task controller to allow admin to complete task for pseudo user)
  */
 
 const TaskModel = require('../models/taskModel');

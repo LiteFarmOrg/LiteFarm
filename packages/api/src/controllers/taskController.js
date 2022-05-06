@@ -24,7 +24,7 @@ const taskController = {
     return async (req, res, next) => {
       try {
         const { task_id } = req.params;
-        const { farm_id } = req.headers;
+        const { farm_id, user_id } = req.headers;
         const { assignee_user_id } = req.body;
 
         const checkTaskStatus = await TaskModel.query()
@@ -47,6 +47,14 @@ const taskController = {
 
         await notifyAssignee(
           assignee_user_id,
+          task_id,
+          checkTaskStatus.task_translation_key,
+          farm_id,
+        );
+
+        await notifyReassignee(
+          checkTaskStatus.assignee_user_id,
+          user_id,
           task_id,
           checkTaskStatus.task_translation_key,
           farm_id,
@@ -615,6 +623,26 @@ async function notifyAssignee(userId, taskId, taskTranslationKey, farmId) {
       variables: [
         { name: 'taskType', value: `task:${taskTranslationKey}`, translate: true },
         { name: 'assignee', value: assigneeName, translate: false },
+      ],
+      entity_type: TaskModel.tableName,
+      entity_id: String(taskId),
+      context: { task_translation_key: taskTranslationKey },
+      farm_id: farmId,
+    },
+    [userId],
+  );
+}
+
+async function notifyReassignee(userId, assignerId, taskId, taskTranslationKey, farmId) {
+  if (!userId) return;
+
+  const assignerName = await User.getNameFromUserId(assignerId);
+  NotificationUser.notify(
+    {
+      translation_key: 'TASK_REASSIGNED',
+      variables: [
+        { name: 'taskType', value: `task:${taskTranslationKey}`, translate: true },
+        { name: 'assigner', value: assignerName, translate: false },
       ],
       entity_type: TaskModel.tableName,
       entity_id: String(taskId),

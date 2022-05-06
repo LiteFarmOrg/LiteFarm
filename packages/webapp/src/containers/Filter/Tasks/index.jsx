@@ -4,6 +4,8 @@ import React, { useMemo, useRef } from 'react';
 
 import PureFilterPage from '../../../components/FilterPage';
 import { setTasksFilter, tasksFilterSelector } from '../../filterSlice';
+import { getTaskTypes } from '../../Task/saga';
+import { defaultTaskTypesSelector, userCreatedTaskTypesSelector } from '../../taskTypeSlice';
 
 import {
   ABANDONED,
@@ -29,14 +31,16 @@ const TasksFilterPage = ({ onGoBack }) => {
   const tasks = useSelector(tasksSelector);
   const dispatch = useDispatch();
   const locations = useSelector(locationsSelector);
+  const taskTypes = useSelector(defaultTaskTypesSelector);
+  const customTaskTypes = useSelector(userCreatedTaskTypesSelector);
+
+  useEffect(() => {});
 
   const statuses = [ABANDONED, COMPLETED, LATE, PLANNED];
 
-  const { taskTypes, assignees } = useMemo(() => {
-    let taskTypes = {};
+  const { assignees } = useMemo(() => {
     let assignees = {};
     for (const task of tasks) {
-      taskTypes[task.taskType.task_type_id] = task.taskType;
       if (task.assignee !== undefined) {
         const { user_id, first_name, last_name } = task.assignee;
         assignees[user_id] = `${first_name} ${last_name}`;

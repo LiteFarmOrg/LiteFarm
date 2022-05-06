@@ -418,7 +418,7 @@ const taskController = {
           ...harvest_use,
           task_id,
         }));
-        await HarvestUse.query(trx).context({ user_id: req.user.user_id }).insert(harvest_uses);
+        await HarvestUse.query(trx).context({ user_id }).insert(harvest_uses);
 
         await patchManagementPlanStartDate(trx, req, 'harvest_task', req.body.task);
 
@@ -631,15 +631,13 @@ async function notifyAssignee(userId, taskId, taskTranslationKey, farmId) {
  * @param assigneeUserId {uuid} - uuid of the task assignee
  * @param assigneeRoleId {number} - role id of assignee
  * @param userId {uuid} - uuid of the user completing the task
- * @param userRoleId {number} = role of the user completing the task
+ * @param userRoleId {number} - role of the user completing the task
  * @returns {boolean}
  */
-
 function canCompleteTask(assigneeUserId, assigneeRoleId, userId, userRoleId) {
-  // 1 is Owner ID, 2 is Manager ID, 5 is EO ID
-  const is_admin = adminRoles.includes(userRoleId);
-  // 4 is Worker Without Account aka pseudo user
-  return assigneeUserId === userId || (assigneeRoleId === 4 && is_admin);
+  const isAdmin = adminRoles.includes(userRoleId);
+  // 4 is worker without account aka pseudo user
+  return (assigneeUserId === userId) || (assigneeRoleId === 4 && isAdmin);
 }
 
 module.exports = taskController;

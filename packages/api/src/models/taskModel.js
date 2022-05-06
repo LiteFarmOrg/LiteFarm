@@ -193,14 +193,15 @@ class TaskModel extends BaseModel {
   }
 
   /**
-   * Gets the assignee of a task
-   * @param {number} taskId - The ID of the task
+   * Gets the assignee of a task.
+   * @param {number} taskId - the ID of the task
    * @static
    * @async
    * @returns {Object} - Object {assignee_user_id, assignee_role_id, wage_at_moment, override_hourly_wage}
    */
   static async getTaskAssignee(taskId) {
     return await TaskModel.query()
+      .whereNotDeleted()
       .join('users', 'task.assignee_user_id', 'users.user_id')
       .join('userFarm', 'users.user_id', 'userFarm.user_id')
       .join('role', 'role.role_id', 'userFarm.role_id')

@@ -444,11 +444,8 @@ const taskController = {
         `,
           )
           .whereIn('task.task_id', taskIds);
-        const graphTasksWithPseudo = graphTasks.map(({ assignee, ...task }) => {
-          const assignedToPseudoUser = assignee !== null && assignee.email.includes('pseudo.com');
-          return { ...task, assignedToPseudoUser };
-        });
-        const filteredTasks = graphTasksWithPseudo.map(removeNullTypes);
+
+        const filteredTasks = graphTasks.map(removeNullTypes);
         if (graphTasks) {
           res.status(200).send(filteredTasks);
         }

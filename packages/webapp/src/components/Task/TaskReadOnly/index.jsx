@@ -114,6 +114,7 @@ export default function PureTaskReadOnly({
 
   const assignee = users.find((user) => user.user_id === task.assignee_user_id);
   const assigneeName = assignee && `${assignee.first_name} ${assignee.last_name}`;
+  const assignedToPseudoUser = assignee && assignee.email.includes('@pseudo.com');
 
   const isCompleted = !!task.complete_date;
   const isAbandoned = !!task.abandon_date;
@@ -125,10 +126,13 @@ export default function PureTaskReadOnly({
 
   const [showTaskAssignModal, setShowTaskAssignModal] = useState(false);
 
+  const canCompleteTask =
+    user.user_id === task.assignee_user_id || (assignedToPseudoUser && user.is_admin);
+
   return (
     <Layout
       buttonGroup={
-        user.user_id === task.assignee_user_id &&
+        canCompleteTask &&
         isCurrent && (
           <>
             <Button color={'primary'} onClick={onComplete} fullLength>

@@ -655,7 +655,7 @@ async function notifyAssignee(userId, taskId, taskTranslationKey, farmId) {
 
 function canCompleteTask(assigneeUserId, assigneeRoleId, userId, userRoleId) {
   // 1 is Owner ID, 2 is Manager ID, 5 is EO ID
-  const is_admin = [1, 2, 5].includes(userRoleId);
+  const is_admin = adminRoles.includes(userRoleId);
   // 4 is Worker Without Account aka pseudo user
   return assigneeUserId === userId || (assigneeRoleId === 4 && is_admin);
 }

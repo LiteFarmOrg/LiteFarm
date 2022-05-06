@@ -306,6 +306,10 @@ describe('Task tests', () => {
       );
     });
 
+    test('Farm worker should not be able to re-assign a task assigned to another person', async (done) => {
+      //Assert farm workers are not allowed to reassign a task assigned to another worker
+    });
+
     test('Should not be able to re-assign completed tasks', async (done) => {
       const [{ user_id, farm_id }] = await mocks.userFarmFactory({}, fakeUserFarm(1));
       const [{ user_id: another_id }] = await mocks.userFarmFactory(

@@ -36,8 +36,14 @@ const taskController = {
           return res.status(400).send('Task has already been completed or abandoned');
         }
 
+        if(!adminRoles.includes(req.role) && checkTaskStatus.assignee_user_id != req.user.user_id){
+          return res.status(400).send('Farm workers are not allowed to reassign a task assigned to another worker');
+        }
+
         // Avoid 1) making an empty update, and 2) sending a redundant notification.
         if (checkTaskStatus.assignee_user_id === assignee_user_id) return res.sendStatus(200);
+
+
 
         const result = await TaskModel.query()
           .context(req.user)

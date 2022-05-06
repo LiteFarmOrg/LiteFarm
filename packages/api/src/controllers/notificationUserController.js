@@ -38,10 +38,10 @@ module.exports = {
     res.write('\n');
 
     const opened = new Date().toISOString();
-    console.log(`Opening subscription: user ${user_id} at ${opened}`);
 
     // Maintain subscriptions Map(key = user_id, value = Map(key = timestamp, value = res)).
     const subscriptions = NotificationUser.subscriptions;
+
     let userSubs = subscriptions.get(user_id);
     if (!userSubs) {
       userSubs = new Map();
@@ -52,14 +52,30 @@ module.exports = {
     const sendAlert = (delta = 1) => {
       res.write(`data: ${JSON.stringify({ delta })}\n\n`);
     };
+
+    // Periodically send a "heartbeat" to prevent browser from closing idle connection.
+    // Note: this works, but seems to be unnecessary because client code reconnects after idle timeout.
+    //   Keeping this in case it is needed in future. If reactivated, also reactivate clearInterval call onclose.
+    // const intervalId = setInterval(() => {
+    // sendAlert(0);
+    // }, 1000 * 30);
+
     // Register a function to end the long-term HTTP response that handles server-sent events.
     const endHttpRes = () => {
       res.end();
     };
+
+    // Record the subscription.
     userSubs.set(opened, { farm_id, sendAlert, endHttpRes });
+    subscriptions.set('count', (subscriptions.get('count') || 0) + 1);
+    console.log(`Opening subscription: user ${user_id} at ${opened}`);
+    console.log(
+      `  ${subscriptions.size - 1} users have ${subscriptions.get('count')} active subscriptions.`,
+    );
 
     // Cleans up subscription tracking when HTTP request closes.
     req.on('close', () => {
+      // clearInterval(intervalId); // See note regarding "heartbeat" above.
       const userSubs = subscriptions.get(user_id);
       if (!userSubs) {
         console.log(`Cannot close non-existent subscription: user ${user_id}`);
@@ -68,16 +84,23 @@ module.exports = {
 
       const sub = userSubs.get(opened);
       if (!sub) {
-        console.log(`Cannot close non-existent subscription: user ${user_id} opened ${opened}`);
+        console.log(`Cannot close non-existent subscription: user ${user_id} opened at ${opened}`);
         return;
       }
 
       // End the HTTP response.
       sub.endHttpRes();
+
       // Remove the subscription tracking.
       userSubs.delete(opened);
       if (userSubs.size === 0) subscriptions.delete(user_id);
-      console.log(`Closed subscription: user ${user_id} opened ${opened}`);
+      subscriptions.set('count', subscriptions.get('count') - 1);
+      console.log(`Closed subscription: user ${user_id} opened at ${opened}`);
+      console.log(
+        `  ${subscriptions.size - 1} users have ${subscriptions.get(
+          'count',
+        )} active subscriptions.`,
+      );
     });
   },
 

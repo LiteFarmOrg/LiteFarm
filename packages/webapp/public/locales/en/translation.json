@@ -1044,6 +1044,10 @@
     "TASK_ASSIGNED": {
       "TITLE": "Assigned task",
       "BODY": "A {{taskType}} task has been assigned to {{assignee}}."
+    },
+    "TASK_REASSIGNED": {
+      "TITLE": "Task re-assigned",
+      "BODY": "A {{taskType}} task previously assigned to you has been assigned to someone else by {{assigner}}."
     }
   },
   "OUTRO": {

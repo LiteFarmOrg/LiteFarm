@@ -123,7 +123,7 @@ export function* assignTaskOnDateSaga({ payload: { task_id, date, assignee_user_
     let modified_tasks = [];
     for (let i = 0; i < result.data.length; i++) {
       modified_tasks.push({
-        id: result.data[i],
+        id: result.data[i].task_id,
         changes: { assignee_user_id },
       });
     }

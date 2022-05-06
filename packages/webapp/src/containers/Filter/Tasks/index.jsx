@@ -28,9 +28,9 @@ const TasksFilterPage = ({ onGoBack }) => {
   const { t } = useTranslation(['translation', 'filter', 'task']);
   const tasksFilter = useSelector(tasksFilterSelector);
   const tasks = useSelector(tasksSelector);
-  const allActiveNonOwners = useSelector(userFarmsByFarmSelector)
-    .filter((assignee) => assignee.role != 'Owner')
-    .filter((assignee) => assignee.status != 'Inactive');
+  const activeUsers = useSelector(userFarmsByFarmSelector).filter(
+    (assignee) => assignee.status != 'Inactive',
+  );
 
   const dispatch = useDispatch();
   const locations = useSelector(locationsSelector);
@@ -47,7 +47,7 @@ const TasksFilterPage = ({ onGoBack }) => {
         assignees[user_id] = `${first_name} ${last_name}`;
       }
     }
-    for (const user of allActiveNonOwners) {
+    for (const user of activeUsers) {
       assignees[user['user_id']] = `${user['first_name']} ${user['last_name']}`;
     }
     return { taskTypes, assignees };

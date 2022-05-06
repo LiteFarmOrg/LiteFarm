@@ -29,17 +29,12 @@ function subscribeToChannel(sseUrl) {
   return eventChannel((emitter) => {
     const subscription = new EventSource(sseUrl);
 
-    subscription.onerror = (event) => {
-      console.log('server event stream error', event);
-    };
-
     subscription.onmessage = (event) => {
       const alert = JSON.parse(event.data);
       emitter(alert);
     };
 
     const unsubscribe = () => {
-      console.log('cleaning up event stream');
       subscription.close();
     };
 
@@ -65,7 +60,6 @@ export function* getAlertSaga() {
 
     while (true) {
       // Set up subscription to server-sent events.
-      console.log('subscribing');
       const channel = yield call(
         subscribeToChannel,
         `${alertsUrl}?user_id=${user_id}&farm_id=${farm_id}`,
@@ -81,13 +75,10 @@ export function* getAlertSaga() {
           // For each server-sent event, update the alert count.
           const { count } = yield select(alertSelector);
           const message = yield take(channel);
-          console.log(`delta: ${message.delta}`);
           yield put(setAlertCount({ farm_id, count: Math.max(0, count + message.delta) }));
         }
-      } catch (e) {
-        console.log('caught', e);
-      } finally {
-        console.log('channel closed');
+      } catch (error) {
+        console.log(error);
       }
     }
   } catch (error) {

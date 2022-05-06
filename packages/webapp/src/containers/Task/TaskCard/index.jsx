@@ -33,6 +33,12 @@ const TaskCard = ({
   const user = useSelector(userFarmSelector);
   const immutableStatus = ['completed', 'abandoned'];
 
+  let true_date = completeOrDueDate;
+  if (status == 'abandoned') {
+    let [day, month, date, year] = new Date(props['abandon_date']).toDateString().split(' ');
+    true_date = `${month} ${date}, ${year}`;
+  }
+
   const isAdmin = user.is_admin;
 
   return (
@@ -42,7 +48,7 @@ const TaskCard = ({
         status={status}
         locationName={locationName}
         cropVarietyName={cropVarietyName}
-        completeOrDueDate={completeOrDueDate}
+        completeOrDueDate={true_date}
         assignee={assignee}
         style={style}
         onClick={onClick}

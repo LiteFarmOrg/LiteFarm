@@ -15,7 +15,7 @@
 
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-import React, { useMemo, useRef, useEffect, useState } from 'react';
+import React, { useMemo, useRef, useEffect } from 'react';
 
 import PureFilterPage from '../../../components/FilterPage';
 import { setTasksFilter, tasksFilterSelector } from '../../filterSlice';
@@ -51,19 +51,24 @@ const TasksFilterPage = ({ onGoBack }) => {
   const defaultTaskTypes = useSelector(defaultTaskTypesSelector);
   const customTaskTypes = useSelector(userCreatedTaskTypesSelector);
 
-  const [taskTypes, setTaskTypes] = useState([]);
-
   useEffect(() => {
     dispatch(getTaskTypes());
   }, []);
 
-  useEffect(() => {
+  const taskTypes = useMemo(() => {
     const supportedTaskTypes = getSupportedTaskTypesSet(true);
-    const filteredDefaultTaskTypes = defaultTaskTypes?.filter(
-      (type) => type.deleted === false && supportedTaskTypes.has(type.task_translation_key),
-    );
-    const filteredCustomTaskTypes = customTaskTypes?.filter((type) => type.deleted === false);
-    setTaskTypes([...filteredDefaultTaskTypes, ...filteredCustomTaskTypes]);
+    let taskTypes = {};
+    for (const type of defaultTaskTypes) {
+      if (type.deleted === false && supportedTaskTypes.has(type.task_translation_key)) {
+        taskTypes[type.task_type_id] = type;
+      }
+    }
+    for (const type of customTaskTypes) {
+      if (type.deleted === false) {
+        taskTypes[type.task_type_id] = type;
+      }
+    }
+    return taskTypes;
   }, [defaultTaskTypes, customTaskTypes]);
 
   const statuses = [ABANDONED, COMPLETED, LATE, PLANNED];

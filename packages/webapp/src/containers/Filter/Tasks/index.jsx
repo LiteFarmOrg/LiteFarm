@@ -1,6 +1,21 @@
+/*
+ *  Copyright 2019, 2020, 2021, 2022 LiteFarm.org
+ *  This file is part of LiteFarm.
+ *
+ *  LiteFarm is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  LiteFarm is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ *  GNU General Public License for more details, see <<https://www.gnu.org/licenses/>.>
+ */
+
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-import React, { useMemo, useRef } from 'react';
+import React, { useMemo, useRef, useEffect, useState } from 'react';
 
 import PureFilterPage from '../../../components/FilterPage';
 import { setTasksFilter, tasksFilterSelector } from '../../filterSlice';
@@ -24,6 +39,8 @@ import {
 import { DATE_RANGE, SEARCHABLE_MULTI_SELECT } from '../../../components/Filter/filterTypes';
 import { tasksSelector } from '../../taskSlice';
 import { locationsSelector } from '../../locationSlice';
+import { isAdminSelector } from '../../userFarmSlice';
+import { getSupportedTaskTypesSet } from '../../../components/Task/getSupportedTaskTypesSet';
 
 const TasksFilterPage = ({ onGoBack }) => {
   const { t } = useTranslation(['translation', 'filter', 'task']);
@@ -31,10 +48,23 @@ const TasksFilterPage = ({ onGoBack }) => {
   const tasks = useSelector(tasksSelector);
   const dispatch = useDispatch();
   const locations = useSelector(locationsSelector);
-  const taskTypes = useSelector(defaultTaskTypesSelector);
+  const defaultTaskTypes = useSelector(defaultTaskTypesSelector);
   const customTaskTypes = useSelector(userCreatedTaskTypesSelector);
 
-  useEffect(() => {});
+  const [taskTypes, setTaskTypes] = useState([]);
+
+  useEffect(() => {
+    dispatch(getTaskTypes());
+  }, []);
+
+  useEffect(() => {
+    const supportedTaskTypes = getSupportedTaskTypesSet(true);
+    const filteredDefaultTaskTypes = defaultTaskTypes?.filter(
+      (type) => type.deleted === false && supportedTaskTypes.has(type.task_translation_key),
+    );
+    const filteredCustomTaskTypes = customTaskTypes?.filter((type) => type.deleted === false);
+    setTaskTypes([...filteredDefaultTaskTypes, ...filteredCustomTaskTypes]);
+  }, [defaultTaskTypes, customTaskTypes]);
 
   const statuses = [ABANDONED, COMPLETED, LATE, PLANNED];
 

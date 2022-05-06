@@ -92,7 +92,7 @@ export const PureTaskCard = ({
           <div
             className={
               status === 'completed' || status === 'abandoned'
-                ? styles.iconTextContainerDisabled
+                ? styles.iconTextContainerNoUnderline
                 : styles.iconTextContainer
             }
           >
@@ -103,7 +103,7 @@ export const PureTaskCard = ({
             <div
               className={
                 status === 'completed' || status === 'abandoned'
-                  ? styles.iconTextContainerDisabled
+                  ? styles.iconTextContainerNoUnderline
                   : styles.iconTextContainer
               }
               onClick={onAssignTask}

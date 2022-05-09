@@ -151,6 +151,15 @@ const taskController = {
         abandon_date,
       } = req.body;
 
+      const checkTaskStatus = await TaskModel.query()
+        .leftOuterJoin('task_type', 'task.task_type_id', 'task_type.task_type_id')
+        .select('complete_date', 'abandon_date', 'assignee_user_id', 'task_translation_key')
+        .where({ task_id })
+        .first();
+      if (checkTaskStatus.complete_date || checkTaskStatus.abandon_date) {
+        return res.status(400).send('Task has already been completed or abandoned');
+      }
+
       const {
         owner_user_id,
         assignee_user_id,
@@ -197,6 +206,16 @@ const taskController = {
           wage_at_moment: override_hourly_wage ? wage_at_moment : wage.amount,
         })
         .returning('*');
+
+      if (result) {
+        notifyAbandonee(
+          assignee_user_id,
+          user_id,
+          task_id,
+          checkTaskStatus.task_translation_key,
+          farm_id,
+        )
+      }
       return result ? res.status(200).send(result) : res.status(404).send('Task not found');
     } catch (error) {
       console.log(error);
@@ -609,6 +628,26 @@ async function notifyAssignee(userId, taskId, taskTranslationKey, farmId) {
       variables: [
         { name: 'taskType', value: `task:${taskTranslationKey}`, translate: true },
         { name: 'assignee', value: assigneeName, translate: false },
+      ],
+      entity_type: TaskModel.tableName,
+      entity_id: String(taskId),
+      context: { task_translation_key: taskTranslationKey },
+      farm_id: farmId,
+    },
+    [userId],
+  );
+}
+
+async function notifyAbandonee(userId, abaonderId, taskId, taskTranslationKey, farmId) {
+  if (!userId || !abaonderId) return;
+
+  const abandonerName = await User.getNameFromUserId(abaonderId);
+  NotificationUser.notify(
+    {
+      translation_key: 'TASK_ABANDONED',
+      variables: [
+        { name: 'taskType', value: `task:${taskTranslationKey}`, translate: true },
+        { name: 'abandoner', value: abandonerName, translate: false },
       ],
       entity_type: TaskModel.tableName,
       entity_id: String(taskId),

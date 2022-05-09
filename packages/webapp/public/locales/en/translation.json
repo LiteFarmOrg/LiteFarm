@@ -1043,11 +1043,11 @@
     "TAKE_ME_THERE": "Take me there",
     "TASK_ASSIGNED": {
       "TITLE": "Assigned task",
-      "BODY": "A {{taskType}} task has been assigned to {{assignee}}."
+      "BODY": "A {{taskType}} task has been assigned to {{user}}."
     },
     "TASK_ABANDONED": {
       "TITLE": "Task abandoned",
-      "BODY": "A {{taskType}} task assigned to you has been abandoned by {{abandoner}}."
+      "BODY": "A {{taskType}} task assigned to you has been abandoned by {{user}}."
     }
   },
   "OUTRO": {

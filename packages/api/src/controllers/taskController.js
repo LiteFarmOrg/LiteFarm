@@ -218,14 +218,6 @@ const taskController = {
         .returning('*');
       if (!result) return res.status(404).send('Task not found');
 
-      await sendTaskNotification(
-        assignee_user_id,
-        user_id,
-        task_id,
-        TaskNotificationTypes.TASK_ABANDONED,
-        checkTaskStatus.task_translation_key,
-        farm_id,
-      );
       return res.status(200).send(result);
     } catch (error) {
       console.log(error);

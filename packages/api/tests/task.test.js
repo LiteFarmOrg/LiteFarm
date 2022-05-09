@@ -306,6 +306,37 @@ describe('Task tests', () => {
       );
     });
 
+    test('Farm worker should not be able to re-assign a task assigned to another person', async (done) => {
+      const [{ user_id, farm_id }] = await mocks.userFarmFactory({}, fakeUserFarm(3));
+      const [{ user_id: admin_user_id }] = await mocks.userFarmFactory(
+        { promisedFarm: [{ farm_id }] },
+        fakeUserFarm(1),
+      );
+      const [{ user_id: other_user_id }] = await mocks.userFarmFactory(
+        { promisedFarm: [{ farm_id }] },
+        fakeUserFarm(3),
+      );
+      const fakeTask = mocks.fakeTask({
+        owner_user_id: admin_user_id,
+        assignee_user_id: other_user_id,
+      });
+      const [{ task_id }] = await mocks.taskFactory({ promisedUser: [{ user_id }] }, fakeTask);
+      const [{ location_id }] = await mocks.locationFactory({ promisedFarm: [{ farm_id }] });
+      await mocks.location_tasksFactory({
+        promisedTask: [{ task_id }],
+        promisedField: [{ location_id }],
+      });
+      assignTaskRequest(
+        { user_id, farm_id },
+        { assignee_user_id: user_id },
+        task_id,
+        async (err, res) => {
+          expect(res.status).toBe(403);
+          done();
+        },
+      );
+    });
+
     test('Should not be able to re-assign completed tasks', async (done) => {
       const [{ user_id, farm_id }] = await mocks.userFarmFactory({}, fakeUserFarm(1));
       const [{ user_id: another_id }] = await mocks.userFarmFactory(

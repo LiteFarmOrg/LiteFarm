@@ -35,7 +35,7 @@ import useFilterVarieties from '../CropCatalogue/useFilterVarieties';
 import { ACTIVE, COMPLETE, NEEDS_PLAN, PLANNED } from '../Filter/constants';
 import { useStartAddCropVarietyFlow } from './useStartAddCropVarietyFlow';
 import useCropCatalogue from '../CropCatalogue/useCropCatalogue';
-import useCropVarietyCatalogue from '../CropCatalogue/useCropVarietyCatalogue';
+import useCropVarietyCatalogue from './useCropVarietyCatalogue';
 import CropStatusInfoBox from '../../components/CropCatalogue/CropStatusInfoBox';
 import { cropVarietyDataSelector } from '../../containers/cropVarietySlice';
 import { managementPlanDataSelector } from '../../containers/managementPlanSlice';

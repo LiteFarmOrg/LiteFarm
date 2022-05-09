@@ -66,7 +66,6 @@ export default function TaskQuickAssignModal({
   };
 
   const onCheckedAll = () => {
-    checkUnassignedTaskForSameDate();
     setAssignAll(!assignAll);
   };
 

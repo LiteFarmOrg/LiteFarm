@@ -46,6 +46,8 @@ export const PureTaskCard = ({
   selected,
   happiness,
   classes = { card: {} },
+  isAdmin,
+  isAssignee,
   ...props
 }) => {
   const { t } = useTranslation();
@@ -59,6 +61,17 @@ export const PureTaskCard = ({
     e.stopPropagation();
     onClickCompleteOrDueDate?.();
   };
+
+  const iconStyle = { 
+    iconTextContainer: {
+      display: 'flex',
+      flexDirection: 'row',
+      alignItems: 'center',
+      gap: '3px',
+      borderBottom: !isAdmin&&!isAssignee ? 'none' : '1px solid var(--teal700)',
+      cursor: isAdmin||isAssignee ? 'pointer' : 'default',
+    }
+  }
   return (
     <CardWithStatus
       color={selected ? activeCardColorMap[status] : statusColorMap[status]}
@@ -107,7 +120,6 @@ export const PureTaskCard = ({
                   : styles.iconTextContainer
               }
               onClick={onAssignTask}
-              style={{ cursor: onClickAssignee ? 'pointer' : 'default' }}
             >
               <div className={clsx(styles.firstInitial, styles.icon)}>
                 {assignee.first_name.toUpperCase().charAt(0)}

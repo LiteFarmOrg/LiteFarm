@@ -152,7 +152,7 @@ export default function PureTaskReadOnly({
           />
         }
       />
-      <div className={styles.assigneeContainer} style={{ marginBottom: '40px' }}>
+      <div className={styles.editableContainer}>
         <Input
           label={t('ADD_TASK.ASSIGNEE')}
           disabled={true}
@@ -163,7 +163,7 @@ export default function PureTaskReadOnly({
         )}
       </div>
 
-      <div className={styles.assigneeContainer} style={{ marginBottom: '40px' }}>
+      <div className={styles.editableContainer}>
         <Input type={'date'} value={date} label={dateLabel} disabled />
         {isCurrent && isAdmin && (
           <BiPencil className={styles.pencil} onClick={(_) => setShowDueDateModal(true)} />

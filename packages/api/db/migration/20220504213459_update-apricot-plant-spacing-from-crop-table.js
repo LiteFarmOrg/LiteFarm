@@ -15,7 +15,7 @@
 
 const tableName = "crop";
 const apricot_id = 31; // Apricot
-const apricot_plant_spacing = 457.2; // in cm
+const apricot_plant_spacing = 4.572; // in m
 
 exports.up = async function(knex) {
   await knex(tableName)

@@ -18,10 +18,11 @@ import { useTranslation } from 'react-i18next';
 import ModalComponent from '../ModalComponent/v2';
 import styles from './styles.module.scss';
 import Button from '../../Form/Button';
+import PropTypes from 'prop-types';
 
-export default function ArchiveDocumentModal({ onSetArchive, dismissModal, archive }) {
+export default function ArchiveDocumentModal({ onSetArchive, dismissModal, isForArchiving }) {
   const { t } = useTranslation();
-  const archiveStr = archive ? 'ARCHIVE' : 'UNARCHIVE';
+  const archiveStr = isForArchiving ? 'ARCHIVE' : 'UNARCHIVE';
 
   return (
     <ModalComponent
@@ -43,3 +44,9 @@ export default function ArchiveDocumentModal({ onSetArchive, dismissModal, archi
     </ModalComponent>
   );
 }
+
+ArchiveDocumentModal.propTypes = {
+  onSetArchive: PropTypes.func,
+  dismissModal: PropTypes.func,
+  isForArchiving: PropTypes.bool, // whether this is an archive modal or unarchive modal
+};

@@ -51,7 +51,7 @@ export default function MainDocument({ history, match }) {
         <ArchiveDocumentModal
           dismissModal={() => setShowArchiveModal(false)}
           onSetArchive={onSetArchive}
-          archive={!document.archived}
+          isForArchiving={!document.archived} // whether this is for archiving or for unarchiving
         />
       )}
     </>

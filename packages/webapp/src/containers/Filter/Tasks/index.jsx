@@ -4,6 +4,7 @@ import React, { useMemo, useRef } from 'react';
 
 import PureFilterPage from '../../../components/FilterPage';
 import { setTasksFilter, tasksFilterSelector } from '../../filterSlice';
+import { userFarmsByFarmSelector } from '../../userFarmSlice';
 
 import {
   ABANDONED,
@@ -29,6 +30,9 @@ const TasksFilterPage = ({ onGoBack }) => {
   const tasks = useSelector(tasksSelector);
   const dispatch = useDispatch();
   const locations = useSelector(locationsSelector);
+  const activeUsers = useSelector(userFarmsByFarmSelector)
+    .filter((user) => user.role != 'Owner')
+    .filter((user) => user.status != 'Inactive');
 
   const statuses = [ABANDONED, COMPLETED, LATE, PLANNED];
 
@@ -40,9 +44,10 @@ const TasksFilterPage = ({ onGoBack }) => {
       if (task.assignee !== undefined) {
         const { user_id, first_name, last_name } = task.assignee;
         assignees[user_id] = `${first_name} ${last_name}`;
-      } else {
-        assignees['unassigned'] = t('TASK.UNASSIGNED');
       }
+    }
+    for (const user of activeUsers) {
+      assignees[user['user_id']] = `${user['first_name']} ${user['last_name']}`;
     }
     return { taskTypes, assignees };
   }, [tasks.length]);

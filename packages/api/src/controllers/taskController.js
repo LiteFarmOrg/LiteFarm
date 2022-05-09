@@ -634,6 +634,11 @@ const TaskNotificationTypes = {
   TASK_ABANDONED: 'TASK_ABANDONED',
 }
 
+const TaskNotificationUserTypes = {
+  TASK_ASSIGNED: 'assignee',
+  TASK_ABANDONED: 'abandoner',
+}
+
 async function sendTaskNotification(
   receiverId,
   senderId,
@@ -650,7 +655,7 @@ async function sendTaskNotification(
       translation_key: notifyTranslationKey,
       variables: [
         { name: 'taskType', value: `task:${taskTranslationKey}`, translate: true },
-        { name: 'user', value: userName, translate: false },
+        { name: TaskNotificationUserTypes[notifyTranslationKey], value: userName, translate: false },
       ],
       entity_type: TaskModel.tableName,
       entity_id: String(taskId),

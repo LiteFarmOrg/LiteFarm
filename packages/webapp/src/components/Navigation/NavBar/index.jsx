@@ -279,6 +279,7 @@ export default function PureNavBar({
               </PureMyFarmFloater>
 
               <IconButton
+                data-cy='home-notificationButton'
                 aria-label="notification icon"
                 color="inherit"
                 id="secondStepNavBar"

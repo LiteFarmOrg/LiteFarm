@@ -129,7 +129,6 @@ export function PureBroadcastForm({
               input: {
                 borderTopRightRadius: '0px',
                 borderBottomRightRadius: '0px',
-                borderRightStyle: 'none',
                 ...greenInput,
               },
             }}

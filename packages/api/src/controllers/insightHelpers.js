@@ -21,41 +21,47 @@ const endPoints = require('../endPoints');
 exports.averagePeopleFedMeals = (data) => {
   let finalAverage = 0;
   data.forEach((data) => {
-    finalAverage += data['val']
+    finalAverage += data['val'];
   });
 
   return Math.round((finalAverage / data.length) * 100) / 100;
 };
 
 exports.getNutritionalData = (cropNutritionData) => {
-// @TODO, a simpler way to do this???
+  // @TODO, a simpler way to do this???
   // generates the data for displaying a chart
   // cal, prot, fats, vitc, vita
   // returns an array with the values to easy-map
   // expected intak for each nutrtion is referenced in the doc
   const MEALS_PER_DAY = 3;
   const data = {
-    'Calories': { label: 'Calories', val: 0, percentage: 0 },
-    'Protein': { label: 'Protein', val: 0, percentage: 0 },
-    'Fat': { label: 'Fat', val: 0, percentage: 0 },
+    Calories: { label: 'Calories', val: 0, percentage: 0 },
+    Protein: { label: 'Protein', val: 0, percentage: 0 },
+    Fat: { label: 'Fat', val: 0, percentage: 0 },
     'Vitamin C': { label: 'Vitamin C', val: 0, percentage: 0 },
     'Vitamin A': { label: 'Vitamin A', val: 0, percentage: 0 },
   };
-  const expectedDailyIntake = { 'Calories': 2500, 'Protein': 52, 'Fat': 75, 'Vitamin C': 90, 'Vitamin A': 900 };
+  const expectedDailyIntake = {
+    Calories: 2500,
+    Protein: 52,
+    Fat: 75,
+    'Vitamin C': 90,
+    'Vitamin A': 900,
+  };
 
   cropNutritionData.map((item) => {
     const percentRefuse = item.percentrefuse || 0;
-    const percentLeft = 1 - (percentRefuse * 0.01);
-    data['Calories']['val'] += (item.energy * 10) * item.quantity_kg * percentLeft; // kcal/lb
-    data['Protein']['val'] += (item.protein * 10) * item.quantity_kg * percentLeft; // g/100g
-    data['Fat']['val'] += (item.lipid * 10) * item.quantity_kg * percentLeft; // g/100g
-    data['Vitamin C']['val'] += (item.vitc * 10) * item.quantity_kg * percentLeft; // mg/
-    data['Vitamin A']['val'] += (item.vita_rae * 10) * item.quantity_kg * percentLeft;
+    const percentLeft = 1 - percentRefuse * 0.01;
+    data['Calories']['val'] += item.energy * 10 * item.quantity_kg * percentLeft; // kcal/lb
+    data['Protein']['val'] += item.protein * 10 * item.quantity_kg * percentLeft; // g/100g
+    data['Fat']['val'] += item.lipid * 10 * item.quantity_kg * percentLeft; // g/100g
+    data['Vitamin C']['val'] += item.vitc * 10 * item.quantity_kg * percentLeft; // mg/
+    data['Vitamin A']['val'] += item.vita_rae * 10 * item.quantity_kg * percentLeft;
   });
 
   // now normalize the data values
   for (const key in data) {
-    if (data.hasOwnProperty(key)) {
+    if (data.hasOwn(key)) {
       data[key]['val'] = Math.round(data[key]['val'] / (expectedDailyIntake[key] / MEALS_PER_DAY));
     }
   }
@@ -63,7 +69,7 @@ exports.getNutritionalData = (cropNutritionData) => {
   // now find the highest value for progress-bar to go off of
   let maxVal = 0;
   for (const key in data) {
-    if (data.hasOwnProperty(key)) {
+    if (data.hasOwn(key)) {
       maxVal = maxVal > data[key]['val'] ? maxVal : data[key]['val'];
     }
   }
@@ -71,7 +77,7 @@ exports.getNutritionalData = (cropNutritionData) => {
   // now set the percentages for the progress-bar based off of the maxVal
 
   for (const key in data) {
-    if (data.hasOwnProperty(key)) {
+    if (data.hasOwn(key)) {
       data[key]['percentage'] = Math.round((data[key]['val'] / maxVal) * 100);
     }
   }
@@ -79,11 +85,11 @@ exports.getNutritionalData = (cropNutritionData) => {
 
   const returnArray = [];
   for (const key in data) {
-    if (data.hasOwnProperty(key)) {
-      returnArray.push(data[key])
+    if (data.hasOwn(key)) {
+      returnArray.push(data[key]);
     }
   }
-  return returnArray
+  return returnArray;
 };
 
 // helpers for Soil OM
@@ -100,17 +106,16 @@ exports.getSoilOM = async (data) => {
   data.map((element) => {
     if (!(element.location_id in returnData)) {
       // The current field is not added to the returnData yet
-      returnData[element.location_id] = initOMData(element)
+      returnData[element.location_id] = initOMData(element);
     } else {
       // If the current field has multiple soil data logs, put them
       // into a list for calculating the average
-      returnData[element.location_id]['activity_oms'].push(grabOM(element))
+      returnData[element.location_id]['activity_oms'].push(grabOM(element));
     }
   });
 
   // assigning 'soil_om' to be the average of 'activity_oms'
   // if there is no data, call the soilgrids api based on the first gridpoint
-
 
   const soilGridPromises = Object.keys(returnData).map(async (key) => {
     const summed = returnData[key]['activity_oms'].reduce((a, b) => a + b, 0);
@@ -129,17 +134,18 @@ exports.getSoilOM = async (data) => {
 
   let runningAverage = 0;
   for (const key in returnData) {
-    runningAverage += returnData[key]['soil_om']
+    runningAverage += returnData[key]['soil_om'];
   }
-  returnValue['preview'] = Math.round((runningAverage / Object.keys(returnData).length) * 100) / 100;
+  returnValue['preview'] =
+    Math.round((runningAverage / Object.keys(returnData).length) * 100) / 100;
 
   // max OM becomes 100% while everything else is based on it
   let maxSoilOM = 0;
   for (const key in returnData) {
-    maxSoilOM = Math.max(returnData[key]['soil_om'], maxSoilOM)
+    maxSoilOM = Math.max(returnData[key]['soil_om'], maxSoilOM);
   }
   for (const key in returnData) {
-    returnData[key]['percentage'] = (returnData[key]['soil_om'] / maxSoilOM) * 100
+    returnData[key]['percentage'] = (returnData[key]['soil_om'] / maxSoilOM) * 100;
   }
   // normalize to put in 'data' field of returnValue
 
@@ -158,14 +164,14 @@ const initOMData = (element) => {
   OMData['percentage'] = 0;
   OMData['activity_oms'] = [grabOM(element)];
 
-  return OMData
+  return OMData;
 };
 
 // if om does not exist, grab organic_carbon, if organic_carbon does not exist, grab total_carbon
 const grabOM = (element) => {
   // parse the OM %
   if (element.om !== 0) {
-    return element.om
+    return element.om;
   } else if (element.organic_carbon !== 0) {
     return element.organic_carbon;
   } else {
@@ -192,9 +198,8 @@ const callSoilGridAPI = async (data) => {
       return Math.floor(soil_om);
     })
     .catch((err) => {
-      return err
-    })
-
+      return err;
+    });
 };
 
 /* Helpers for Labour Happiness */
@@ -211,11 +216,14 @@ exports.getLabourHappiness = (data) => {
   //       need to check if we should account for any task with happiness set, or any with duration set
   data.map((element) => {
     const currentValueMood = element['happiness'];
-    const taskObject = { taskName: element['task_translation_key'], duration: element['duration'] ?? 0 };
+    const taskObject = {
+      taskName: element['task_translation_key'],
+      duration: element['duration'] ?? 0,
+    };
     if (!(element['task_id'] in tasks)) {
       tasks[element['task_id']] = { mood: currentValueMood, tasks: [taskObject] };
     } else {
-      tasks[element['task_id']]['tasks'].push(taskObject)
+      tasks[element['task_id']]['tasks'].push(taskObject);
     }
   });
 
@@ -225,15 +233,15 @@ exports.getLabourHappiness = (data) => {
     const currentMood = tasks[key]['mood'];
     const currentTasks = tasks[key]['tasks']; // an array
     let currentDurationAverage = 0;
-    currentTasks.map((element) => currentDurationAverage += element['duration']);
+    currentTasks.map((element) => (currentDurationAverage += element['duration']));
     currentTasks.map((element) => {
-      const weighted = currentDurationAverage ? (element['duration'] / currentDurationAverage) : 1;
+      const weighted = currentDurationAverage ? element['duration'] / currentDurationAverage : 1;
       if (!(element['taskName'] in weightedTasks)) {
-        weightedTasks[element['taskName']] = [{ mood: currentMood, weight: weighted }]
+        weightedTasks[element['taskName']] = [{ mood: currentMood, weight: weighted }];
       } else {
-        weightedTasks[element['taskName']].push({ mood: currentMood, weight: weighted })
+        weightedTasks[element['taskName']].push({ mood: currentMood, weight: weighted });
       }
-    })
+    });
   }
 
   // perform a "weighted mean" to get accurate data on ratings of tasks
@@ -258,7 +266,41 @@ exports.getLabourHappiness = (data) => {
     average += element['mood'];
   });
   returnValue['preview'] = Math.round((average / returnValue['data'].length) * 100) / 100;
-  return returnValue
+  return returnValue;
+};
+
+const findCentroid = (points) => {
+  let x = 0;
+  let y = 0;
+  points.forEach((p) => {
+    x += p.lng;
+    y += p.lat;
+  });
+  return { lng: x / points.length, lat: y / points.length };
+};
+
+const latlngLessThan = (a, b, center) => {
+  // compute the cross product of vectors (center -> a) x (center -> b)
+  // From right-hand rule this is +ve if a comes before b in ccw direction, -ve is a comes after b in ccw direction
+  const det =
+    (a.lng - center.lng) * (b.lat - center.lat) - (b.lng - center.lng) * (a.lat - center.lat);
+  if (det < 0) {
+    return 1;
+  } else if (det > 0) {
+    return -1;
+  }
+  // if we get here points are on the same line from the centre, so we want to return the point which is closest to the centre
+  const distanceA = Math.pow(a.lng - center.lng, 2) + Math.pow(a.lat - center.lat, 2);
+  const distanceB = Math.pow(b.lng - center.lng, 2) + Math.pow(b.lat - center.lat, 2);
+  return distanceA < distanceB ? 1 : -1;
+};
+
+const makePolygon = (points) => {
+  let polygonString = 'POLYGON((';
+  points.forEach((p) => {
+    polygonString = polygonString.concat(`${p.lng} ${p.lat},`);
+  });
+  return polygonString.concat(`${points[0].lng} ${points[0].lat}))`);
 };
 
 exports.getBiodiversityAPI = async (pointData, countData) => {
@@ -281,63 +323,49 @@ exports.getBiodiversityAPI = async (pointData, countData) => {
     Amphibians: 0,
     CropVarieties: 0,
   };
-
-  const sortLats = new Array(pointData.length);
-  const sortLngs = new Array(pointData.length);
-  for (let i = 0; i < pointData.length; i++) {
-    if (pointData[i]['grid_points'] != null) {
-      pointData[i]['grid_points'].map((grid_point) => {
-        if (Array.isArray(sortLats[i])) {
-          sortLats[i].push(Math.round(grid_point['lat'] * 10000) / 10000);
-          sortLngs[i].push(Math.round(grid_point['lng'] * 10000) / 10000);
-        } else {
-          sortLats[i] = [Math.round(grid_point['lat'] * 10000) / 10000];
-          sortLngs[i] = [Math.round(grid_point['lng'] * 10000) / 10000]
-        }
-      })
-    }
-  }
-  const fieldPoints = new Array(pointData.length);
-
-  for (let i = 0; i < pointData.length; i++) {
-    fieldPoints[i] = [
-      [Math.min(...sortLats[i]), Math.max(...sortLats[i])],
-      [Math.min(...sortLngs[i]), Math.max(...sortLngs[i])],
-    ]
-  }
+  console.table(pointData[0].grid_points);
   speciesCount['CropVarieties'] = parseInt(countData);
   const apiCalls = [];
 
-  fieldPoints.forEach((fieldPoint) => {
+  pointData.forEach((fieldPoint) => {
     // TODO: figure out how to fetch past limit. ST-46
+    const centroid = findCentroid(fieldPoint.grid_points);
+    const compareLatLong = (a, b) => latlngLessThan(a, b, centroid);
+    const sortedPoints = fieldPoint.grid_points.sort(compareLatLong);
+    const polygon = makePolygon(sortedPoints);
+    console.log(polygon);
+
     const options = {
       uri: endPoints.gbifAPI,
       qs: {
-        decimalLatitude: fieldPoint[0][0] + ',' + fieldPoint[0][1], //minLat maxLat
-        decimalLongitude: fieldPoint[1][0] + ',' + fieldPoint[1][1], //minLong maxLong
+        geometry: polygon,
+        limit: 300,
       },
     };
-    apiCalls.push(new Promise((resolve, reject) => {
-      rp(options)
-        .then((data) => {
-          const jsonfied = JSON.parse(data);
-          const results = jsonfied['results'];
-          const infoFiltered = results.map((currentSpecies) => ({
-            key: currentSpecies['key'],
-            identificationID: currentSpecies['identificationID'],
-            kingdom: currentSpecies['kingdom'],
-            class: currentSpecies['class'],
-          }));
-          resolve(infoFiltered);
-        })
-        .catch((error) => {
-          reject(error)
-        })
-    }));
+    apiCalls.push(
+      new Promise((resolve, reject) => {
+        rp(options)
+          .then((data) => {
+            const jsonfied = JSON.parse(data);
+            const results = jsonfied['results'];
+            const infoFiltered = results.map((currentSpecies) => ({
+              kingdom: currentSpecies['kingdom'],
+              class: currentSpecies['class'],
+              speciesKey: currentSpecies['speciesKey'],
+            }));
+            resolve(infoFiltered);
+          })
+          .catch((error) => {
+            reject(error);
+          });
+      }),
+    );
   });
   return await Promise.all(apiCalls)
     .then((apiResult) => {
+      // console.log(apiResult);
       const mergedResults = mergeSpeciesObjects(apiResult);
+      // console.log(mergedResults)
       mergedResults.map((currentSpecies) => {
         if (currentSpecies['kingdom'] in dictionary) {
           speciesCount[dictionary[currentSpecies['kingdom']]]++;
@@ -350,16 +378,18 @@ exports.getBiodiversityAPI = async (pointData, countData) => {
       for (const key in speciesCount) {
         runningTotal += speciesCount[key];
         maxSpecies = Math.max(speciesCount[key], maxSpecies);
-        resultData['data'].push({ name: key, count: speciesCount[key], percentage: 0 })
+        resultData['data'].push({ name: key, count: speciesCount[key], percentage: 0 });
       }
+      // console.log(maxSpecies);
       resultData['data'].map((curr) => {
-        curr['percentage'] = (curr['count'] / maxSpecies) * 100;
+        curr['percentage'] = (curr['count'] / runningTotal) * 100;
       });
       resultData['preview'] = runningTotal;
-      return resultData
+      console.log(resultData);
+      return resultData;
     })
     .catch((error) => {
-      return error
+      return error;
     });
 };
 
@@ -369,8 +399,8 @@ const mergeSpeciesObjects = (objects) => {
   }
   let merged = objects[0];
   for (let i = 1; i < objects.length; i++) {
-    const keys = new Set(merged.map(item => item.key));
-    merged = [...merged, ...objects[i].filter(item => !keys.has(item.key))];
+    const keys = new Set(merged.map((item) => item.speciesKey));
+    merged = [...merged, ...objects[i].filter((item) => !keys.has(item.speciesKey))];
   }
   return merged;
 };
@@ -405,9 +435,9 @@ exports.formatPricesData = (data) => {
       network_price: networkPriceForCrop.toFixed(2),
     };
     if (crop_name in organizeByMonthAndYear) {
-      organizeByMonthAndYear[crop_name].push(cropData)
+      organizeByMonthAndYear[crop_name].push(cropData);
     } else {
-      organizeByMonthAndYear[crop_name] = [cropData]
+      organizeByMonthAndYear[crop_name] = [cropData];
     }
   });
   runningTotal = (runningTotal * 100) / 100;
@@ -415,7 +445,7 @@ exports.formatPricesData = (data) => {
   for (const key in organizeByMonthAndYear) {
     returnData['data'].push({ [key]: organizeByMonthAndYear[key] });
   }
-  return returnData
+  return returnData;
 };
 
 exports.formatPricesNearbyData = (myFarmID, data) => {
@@ -430,32 +460,55 @@ exports.formatPricesNearbyData = (myFarmID, data) => {
   // tally the running total as well as separate the data into different months
   data.map((element) => {
     if (!(element['crop_translation_key'] in organizeByNameThenByDate)) {
-      organizeByNameThenByDate[element['crop_translation_key']] = {}
+      organizeByNameThenByDate[element['crop_translation_key']] = {};
     }
     if (!(element['year_month'] in organizeByNameThenByDate[element['crop_translation_key']])) {
       organizeByNameThenByDate[element['crop_translation_key']][element['year_month']] = {
-        'crop_price_total': 0,
-        'sale_quant_total': 0,
-        'network_price': 0,
-      }
+        crop_price_total: 0,
+        sale_quant_total: 0,
+        network_price: 0,
+      };
     }
     if (element['farm_id'] === myFarmID) {
-      organizeByNameThenByDate[element['crop_translation_key']][element['year_month']]['crop_price_total'] += element['sale_value'];
-      organizeByNameThenByDate[element['crop_translation_key']][element['year_month']]['sale_quant_total'] +=  element['sale_quant'];
+      organizeByNameThenByDate[element['crop_translation_key']][element['year_month']][
+        'crop_price_total'
+      ] += element['sale_value'];
+      organizeByNameThenByDate[element['crop_translation_key']][element['year_month']][
+        'sale_quant_total'
+      ] += element['sale_quant'];
 
-      if (Array.isArray(organizeByNameThenByDate[element['crop_translation_key']][element['year_month']]['network_price'])) {
-        organizeByNameThenByDate[element['crop_translation_key']][element['year_month']]['network_price'].push(element)
+      if (
+        Array.isArray(
+          organizeByNameThenByDate[element['crop_translation_key']][element['year_month']][
+            'network_price'
+          ],
+        )
+      ) {
+        organizeByNameThenByDate[element['crop_translation_key']][element['year_month']][
+          'network_price'
+        ].push(element);
       } else {
-        organizeByNameThenByDate[element['crop_translation_key']][element['year_month']]['network_price'] = [ element ];
+        organizeByNameThenByDate[element['crop_translation_key']][element['year_month']][
+          'network_price'
+        ] = [element];
       }
-    }
-    else {
+    } else {
       // first total up all network prices in an array and then grab the mean after
       farmIDs.add(element['farm_id']);
-      if (Array.isArray(organizeByNameThenByDate[element['crop_translation_key']][element['year_month']]['network_price'])) {
-        organizeByNameThenByDate[element['crop_translation_key']][element['year_month']]['network_price'].push(element)
+      if (
+        Array.isArray(
+          organizeByNameThenByDate[element['crop_translation_key']][element['year_month']][
+            'network_price'
+          ],
+        )
+      ) {
+        organizeByNameThenByDate[element['crop_translation_key']][element['year_month']][
+          'network_price'
+        ].push(element);
       } else {
-        organizeByNameThenByDate[element['crop_translation_key']][element['year_month']]['network_price'] = [ element ]
+        organizeByNameThenByDate[element['crop_translation_key']][element['year_month']][
+          'network_price'
+        ] = [element];
       }
     }
   });
@@ -468,16 +521,19 @@ exports.formatPricesNearbyData = (myFarmID, data) => {
         runningNetworkQuantity += sale['sale_quant'];
         runningNetworkValue += sale['sale_value'];
       });
-      const networkPrice =  runningNetworkValue / runningNetworkQuantity;
+      const networkPrice = runningNetworkValue / runningNetworkQuantity;
       const cropData = {
         crop_date: date,
-        crop_price: roundToTwoDecimal(organizeByNameThenByDate[crop_name][date]['crop_price_total']/(organizeByNameThenByDate[crop_name][date]['sale_quant_total'] || 1)),
+        crop_price: roundToTwoDecimal(
+          organizeByNameThenByDate[crop_name][date]['crop_price_total'] /
+            (organizeByNameThenByDate[crop_name][date]['sale_quant_total'] || 1),
+        ),
         network_price: roundToTwoDecimal(networkPrice),
       };
       if (crop_name in organizeByMonthAndYear) {
-        organizeByMonthAndYear[crop_name].push(cropData)
+        organizeByMonthAndYear[crop_name].push(cropData);
       } else {
-        organizeByMonthAndYear[crop_name] = [cropData]
+        organizeByMonthAndYear[crop_name] = [cropData];
       }
     }
   }
@@ -488,16 +544,16 @@ exports.formatPricesNearbyData = (myFarmID, data) => {
     organizeByMonthAndYear[crop].forEach((crop) => {
       if (crop['crop_price'] !== 0) {
         runningSum += crop['crop_price'] / crop['network_price'];
-        runningLength += 1
+        runningLength += 1;
       }
-    })
+    });
   }
   returnData['preview'] = Math.ceil((runningSum / runningLength) * 100);
   returnData['amountOfFarms'] = farmIDs.size || 0;
   for (const key in organizeByMonthAndYear) {
     returnData['data'].push({ [key]: organizeByMonthAndYear[key] });
   }
-  return returnData
+  return returnData;
 };
 
 exports.formatWaterBalanceData = async (dataPoints) => {
@@ -513,7 +569,10 @@ exports.formatWaterBalanceData = async (dataPoints) => {
   let runningTotal = 0;
   dataPoints.forEach((crop) => {
     const fieldKeyName = crop['field_id'] + ' ' + crop['field_name'];
-    const cropObject = { crop: crop['crop_common_name'], plantAvailableWater: crop['plant_available_water'] };
+    const cropObject = {
+      crop: crop['crop_common_name'],
+      plantAvailableWater: crop['plant_available_water'],
+    };
     runningTotal += crop['plant_available_water'];
     if (Array.isArray(cropsByField[fieldKeyName])) {
       cropsByField[fieldKeyName].push(cropObject);
@@ -522,11 +581,11 @@ exports.formatWaterBalanceData = async (dataPoints) => {
     }
   });
   for (const key in cropsByField) {
-    returnData['data'].push({ [key]: cropsByField[key] })
+    returnData['data'].push({ [key]: cropsByField[key] });
   }
   returnData['preview'] = Math.round((runningTotal / amountOfCrops) * 100) / 100;
 
-  return returnData
+  return returnData;
 };
 
 exports.formatNitrogenBalanceData = async (dataPoints) => {
@@ -538,17 +597,17 @@ exports.formatNitrogenBalanceData = async (dataPoints) => {
   if (dataPoints.length === 0) return returnData;
   dataPoints.forEach((row) => {
     runningTotal += row['nitrogen_value'];
-    returnData['data'].push({ [row['field_id'] + ' ' + row['field_name']]: Math.round(row['nitrogen_value'] * 100) / 100 })
+    returnData['data'].push({
+      [row['field_id'] + ' ' + row['field_name']]: Math.round(row['nitrogen_value'] * 100) / 100,
+    });
   });
-  returnData['preview'] = Math.round(runningTotal / dataPoints.length * 100) / 100;
-  return returnData
+  returnData['preview'] = Math.round((runningTotal / dataPoints.length) * 100) / 100;
+  return returnData;
 };
-
 
 exports.formatPreviousDate = (date, mode) => {
   const d = new Date(date);
-  let
-    year = d.getFullYear(),
+  let year = d.getFullYear(),
     month = '' + (d.getMonth() + 1),
     day = '' + d.getDate();
 
@@ -575,31 +634,33 @@ exports.formatPreviousDate = (date, mode) => {
 //:::                                                                         :::
 //:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
-exports.distance = (lat1, lon1, lat2, lon2, unit='KM') => {
-  if ((lat1 === lat2) && (lon1 === lon2)) {
+exports.distance = (lat1, lon1, lat2, lon2, unit = 'KM') => {
+  if (lat1 === lat2 && lon1 === lon2) {
     return 0;
   } else {
-    const radlat1 = Math.PI * lat1 / 180;
-    const radlat2 = Math.PI * lat2 / 180;
+    const radlat1 = (Math.PI * lat1) / 180;
+    const radlat2 = (Math.PI * lat2) / 180;
     const theta = lon1 - lon2;
-    const radtheta = Math.PI * theta / 180;
-    let dist = Math.sin(radlat1) * Math.sin(radlat2) + Math.cos(radlat1) * Math.cos(radlat2) * Math.cos(radtheta);
+    const radtheta = (Math.PI * theta) / 180;
+    let dist =
+      Math.sin(radlat1) * Math.sin(radlat2) +
+      Math.cos(radlat1) * Math.cos(radlat2) * Math.cos(radtheta);
     if (dist > 1) {
       dist = 1;
     }
     dist = Math.acos(dist);
-    dist = dist * 180 / Math.PI;
+    dist = (dist * 180) / Math.PI;
     dist = dist * 60 * 1.1515;
     if (unit === 'KM') {
-      dist = dist * 1.609344
+      dist = dist * 1.609344;
     }
     if (unit === 'MILE') {
-      dist = dist * 0.8684
+      dist = dist * 0.8684;
     }
     return dist;
   }
 };
 
 const roundToTwoDecimal = (number) => {
-  return number * 100 / 100
+  return (number * 100) / 100;
 };

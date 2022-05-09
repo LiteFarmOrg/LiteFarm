@@ -15,15 +15,17 @@ describe.only('LiteFarm end to end test', () => {
     
 
     //create test data
-    const email = 'test@example.com';
+    const emailOwner = 'test@example.com';
+    const emailWorker = 'worker@example.com';
     const fullName = 'Test Farmer';
     const password = 'P@ssword123';
     const farmName = 'UBC FARM';
     const location = '49.250833,-123.2410777';
     const fieldName = 'Test Field';
+    const workerName =  'Test Worker';
 
     //Login pafe
-    cy.get('[data-cy=email]').type(email);
+    cy.get('[data-cy=email]').type(emailOwner);
     cy.contains('Continue').should('exist').and('be.enabled').click();
   
     //check you are on the create user account page
@@ -137,9 +139,29 @@ describe.only('LiteFarm end to end test', () => {
     cy.get('[data-cy=createField-fieldName]').should('exist').type(fieldName);
     cy.get('[data-cy=createField-save]').should('exist').and('not.be.disabled').click();
 
+    //Add a farm worker to the farm
+    cy.get('[data-cy=home-farmButton]').should('exist').and('not.be.disabled').click();
+    cy.get('[data-cy=navbar-option]').contains('People').should('exist').and('not.be.disabled').click();
+    cy.url().should('include', '/people');
+    cy.get('[data-cy=people-inviteUser]').should('exist').and('not.be.disabled').click();
+
+    cy.url().should('include', '/invite_user');
+    cy.get('[data-cy=invite-fullName]').should('exist').type(workerName);
+    cy.contains('Choose Role').should('exist').click({ force: true });
+    cy.contains('Farm Worker').should('exist').click();
+    cy.get('[data-cy=invite-email]').should('exist').type(emailWorker);
+    cy.get('[data-cy=invite-submit]').should('exist').and('not.be.disabled').click();
+
+    // Add a crop variety
+
+    //Add a planting task for the new variety
+
+    //modify the management plan with quick assign modal
+
+
     //logout
-    cy.get('[data-cy=home-profileButton]').should('exist').click();
-    cy.get('[data-cy=navbar-option]').contains('Log Out').should('exist').and('not.be.disabled').click();
+    //cy.get('[data-cy=home-profileButton]').should('exist').click();
+    //cy.get('[data-cy=navbar-option]').contains('Log Out').should('exist').and('not.be.disabled').click();
   });
 
 });

@@ -388,7 +388,7 @@ const taskController = {
   async completeHarvestTask(req, res) {
     try {
       const nonModifiable = getNonModifiable('harvest_task');
-      const { user_id } = req.headers;
+      const { user_id } = req.user;
       const task_id = parseInt(req.params.task_id);
       const { assignee_user_id, assignee_role_id } = await TaskModel.getTaskAssignee(task_id);
       const { role_id } = await userFarmModel.getUserRoleId(user_id);
@@ -397,7 +397,7 @@ const taskController = {
       }
       const result = await TaskModel.transaction(async (trx) => {
         const updated_task = await TaskModel.query(trx)
-          .context({ user_id: user_id })
+          .context({ user_id })
           .upsertGraph(
             { task_id, ...req.body.task },
             {
@@ -623,7 +623,7 @@ async function notifyAssignee(userId, taskId, taskTranslationKey, farmId) {
 }
 
 /**
- * Checks if the current user can complete the task
+ * Checks if the current user can complete the task.
  * @param assigneeUserId {uuid} - uuid of the task assignee
  * @param assigneeRoleId {number} - role id of assignee
  * @param userId {uuid} - uuid of the user completing the task

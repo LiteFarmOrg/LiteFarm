@@ -5,7 +5,7 @@ describe.only('LiteFarm end to end test', () => {
   
   })
 
-  it('Happy path', () => {
+  it('Happy path', { defaultCommandTimeout: 5000 }, () => {
   
     cy.visit('/');
     cy.get('[data-cy=email]').should('exist');
@@ -152,7 +152,15 @@ describe.only('LiteFarm end to end test', () => {
     cy.get('[data-cy=invite-email]').should('exist').type(emailWorker);
     cy.get('[data-cy=invite-submit]').should('exist').and('not.be.disabled').click();
 
+    cy.url().should('include', '/people');
+    cy.contains(workerName.toLowerCase()).should('exist');
+    
     // Add a crop variety
+    cy.get('[data-cy=navbar-hamburger]').should('exist').click();
+    cy.contains('Crops').should('exist').click();
+    cy.get('body').click();
+
+    
 
     //Add a planting task for the new variety
 

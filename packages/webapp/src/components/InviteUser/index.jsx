@@ -58,10 +58,10 @@ export default function PureInviteUser({ onInvite, onGoBack, roleOptions = [] })
       onSubmit={handleSubmit(onSubmit)}
       buttonGroup={
         <>
-          <Button data-cy="invite-submit" onClick={onGoBack} color={'secondary'} type={'button'} fullLength>
+          <Button  onClick={onGoBack} color={'secondary'} type={'button'} fullLength>
             {t('common:CANCEL')}
           </Button>
-          <Button disabled={disabled} type={'submit'} fullLength>
+          <Button data-cy="invite-submit" disabled={disabled} type={'submit'} fullLength>
             {t('INVITE_USER.INVITE')}
           </Button>
         </>

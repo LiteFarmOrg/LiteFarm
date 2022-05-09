@@ -107,6 +107,7 @@ export default function PurePeople({ users, history, isAdmin }) {
         placeholder={t('PROFILE.PEOPLE.SEARCH')}
       />
       <Table
+        data-cy="people-table"
         columns={summaryColumns}
         data={getFilteredUsers()}
         showPagination={true}

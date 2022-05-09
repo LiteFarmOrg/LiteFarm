@@ -46,6 +46,23 @@ export default function PureRowForm({
 
   const IsValidNumberInput = (number) => number === 0 || number > 0;
 
+  /**
+   * Calculates the plant count in one row given length of the row and plant spacing. 
+   * If length is perfectly divisible by spacing (i.e. 5m spacing in a 10m row),
+   * you can plant 3 crops (at 0m, 5m, and 10m).
+   * Otherwise (i.e. 6m spacing in a 10m row), you can plant only 2 crops (at 0m and 6m).
+   * @param {number} length 
+   * @param {number} spacing 
+   * @returns {number} plant count
+   */
+  const calculatePlantCountPerRow = (length, spacing) => {
+    if (!(length % spacing)) {
+      return (length + spacing) / spacing;
+    } else {
+      return Math.ceil(length / spacing);
+    }
+  }
+
   const [showEstimatedValue, setShowEstimatedValue] = useState(false);
   const shouldSkipEstimatedValueCalculationRef = useRef(true);
 
@@ -64,15 +81,16 @@ export default function PureRowForm({
         shouldCalculatedSameLengthEstimatedValues || shouldCalculateDifferentLengthEstimatedValues,
       );
     } else if (shouldCalculatedSameLengthEstimatedValues) {
-      const estimated_seed_required =
-        ((num_of_rows * length_of_row) / plant_spacing) * average_seed_weight;
-      const estimated_yield = ((num_of_rows * length_of_row) / plant_spacing) * yield_per_plant;
+      const plantCountPerRow = calculatePlantCountPerRow(length_of_row, plant_spacing);
+      const estimated_seed_required = plantCountPerRow * num_of_rows * average_seed_weight;
+      const estimated_yield = plantCountPerRow * num_of_rows * yield_per_plant;
       average_seed_weight && setValue(ESTIMATED_SEED, estimated_seed_required);
       yield_per_plant && setValue(ESTIMATED_YIELD, estimated_yield);
       setShowEstimatedValue(true);
     } else if (shouldCalculateDifferentLengthEstimatedValues) {
-      const estimated_seed_required = (total_length / plant_spacing) * average_seed_weight;
-      const estimated_yield = (total_length / plant_spacing) * yield_per_plant;
+      const totalPlantCount = calculatePlantCountPerRow(total_length, plant_spacing);
+      const estimated_seed_required = totalPlantCount * average_seed_weight;
+      const estimated_yield = totalPlantCount * yield_per_plant;
       average_seed_weight && setValue(ESTIMATED_SEED, estimated_seed_required);
       yield_per_plant && setValue(ESTIMATED_YIELD, estimated_yield);
       setShowEstimatedValue(true);

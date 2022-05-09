@@ -279,7 +279,7 @@ const findCentroid = (points) => {
   return { lng: x / points.length, lat: y / points.length };
 };
 
-const latlngLessThan = (a, b, center) => {
+const latlngCounterClockwiseLessThan = (a, b, center) => {
   // compute the cross product of vectors (center -> a) x (center -> b)
   // From right-hand rule this is +ve if a comes before b in ccw direction, -ve is a comes after b in ccw direction
   const det =
@@ -295,15 +295,20 @@ const latlngLessThan = (a, b, center) => {
   return distanceA < distanceB ? 1 : -1;
 };
 
-const makePolygon = (points) => {
-  let polygonString = 'POLYGON((';
-  points.forEach((p) => {
-    polygonString = polygonString.concat(`${p.lng} ${p.lat},`);
-  });
-  return polygonString.concat(`${points[0].lng} ${points[0].lat}))`);
+const makeMultiPolygon = (pointsData) => {
+  let polygonString = 'MULTIPOLYGON(';
+  pointsData.forEach(points => {
+    polygonString = polygonString.concat("((")
+    points.forEach((p) => {
+      polygonString = polygonString.concat(`${p.lng} ${p.lat},`);
+    });
+    polygonString = polygonString.concat(`${points[0].lng} ${points[0].lat}))`)
+  })
+  return polygonString.concat(")");
 };
 
 exports.getBiodiversityAPI = async (pointData, countData) => {
+  console.time("Biodiversity");
   const resultData = {
     preview: 0,
     data: [],
@@ -314,7 +319,16 @@ exports.getBiodiversityAPI = async (pointData, countData) => {
     Insecta: 'Insects',
     Plantae: 'Plants',
     Amphibia: 'Amphibians',
+    Mammalia: "Mammals",
   };
+
+  // const gfibKeys = {
+  //   plants: 6,
+  //   insects: 216,
+  //   birds: 212,
+  //   mammals: 359,
+  //   amphibians: 131,
+  // }
 
   const speciesCount = {
     Birds: 0,
@@ -322,87 +336,169 @@ exports.getBiodiversityAPI = async (pointData, countData) => {
     Plants: 0,
     Amphibians: 0,
     CropVarieties: 0,
+    Mammals: 0,
   };
-  console.table(pointData[0].grid_points);
   speciesCount['CropVarieties'] = parseInt(countData);
+  // const apiCalls = [];
+  const counterClockwisePoints = pointData.map(point => {
+    const centroid = findCentroid(point.grid_points);
+    const compareLatLong = (a, b) => latlngCounterClockwiseLessThan(a, b, centroid);
+    return point.grid_points.sort(compareLatLong);
+  })
+  const multiPolygon = makeMultiPolygon(counterClockwisePoints);
+  console.log(multiPolygon);
+  const apiData = [];
   const apiCalls = [];
-
-  pointData.forEach((fieldPoint) => {
-    // TODO: figure out how to fetch past limit. ST-46
-    const centroid = findCentroid(fieldPoint.grid_points);
-    const compareLatLong = (a, b) => latlngLessThan(a, b, centroid);
-    const sortedPoints = fieldPoint.grid_points.sort(compareLatLong);
-    const polygon = makePolygon(sortedPoints);
-    console.log(polygon);
-
-    const options = {
-      uri: endPoints.gbifAPI,
-      qs: {
-        geometry: polygon,
-        limit: 300,
-      },
-    };
-    apiCalls.push(
-      new Promise((resolve, reject) => {
-        rp(options)
-          .then((data) => {
-            const jsonfied = JSON.parse(data);
-            const results = jsonfied['results'];
-            const infoFiltered = results.map((currentSpecies) => ({
-              kingdom: currentSpecies['kingdom'],
-              class: currentSpecies['class'],
-              speciesKey: currentSpecies['speciesKey'],
-            }));
-            resolve(infoFiltered);
-          })
-          .catch((error) => {
-            reject(error);
-          });
-      }),
-    );
-  });
-  return await Promise.all(apiCalls)
-    .then((apiResult) => {
-      // console.log(apiResult);
-      const mergedResults = mergeSpeciesObjects(apiResult);
-      // console.log(mergedResults)
-      mergedResults.map((currentSpecies) => {
-        if (currentSpecies['kingdom'] in dictionary) {
-          speciesCount[dictionary[currentSpecies['kingdom']]]++;
-        } else if (currentSpecies['class'] in dictionary) {
-          speciesCount[dictionary[currentSpecies['class']]]++;
-        }
-      });
-      let runningTotal = 0;
-      let maxSpecies = 0;
-      for (const key in speciesCount) {
-        runningTotal += speciesCount[key];
-        maxSpecies = Math.max(speciesCount[key], maxSpecies);
-        resultData['data'].push({ name: key, count: speciesCount[key], percentage: 0 });
+  // const year = new Date().getFullYear();
+  // We can get the number of records from a request, so make one request first and then create an array of the remaining requests
+  const firstRequestOptions = {
+    uri: endPoints.gbifAPI,
+    qs: {
+      geometry: multiPolygon,
+      // Max limit for api
+      limit: 300,
+      offset: 0,
+      // year: `${year - 5},${year}`,
+    },
+  };
+  console.time("first");
+  rp(firstRequestOptions)
+    .then(data => {
+      console.timeEnd("first")
+      console.time("parse");
+      const { count, results } = JSON.parse(data);
+      console.timeEnd("parse")
+      console.log(count);
+      apiData.push(...results);
+      for (let i = 300; i < count; i += 300) {
+        apiCalls.push(
+          new Promise((resolve, reject) => {
+            const a = i;
+            rp({
+              uri: endPoints.gbifAPI,
+              qs: {
+                geometry: multiPolygon,
+                limit: 300,
+                offset: i,
+                // year: `${year - 5},${year}`,
+              },
+            }).then((data) => {
+              const filteredData = JSON.parse(data);
+              apiData.push(...filteredData.results);
+              resolve();
+            }).catch(error => {
+              console.log(`Rejecting error on offset: ${a}`);
+              // console.log(error);
+              reject(error)
+            });
+          }),
+        )
       }
-      // console.log(maxSpecies);
-      resultData['data'].map((curr) => {
-        curr['percentage'] = (curr['count'] / runningTotal) * 100;
-      });
-      resultData['preview'] = runningTotal;
-      console.log(resultData);
-      return resultData;
+      console.time("api calls")
+      return Promise.allSettled(apiCalls)
+        .then(() => {
+          console.timeEnd("api calls");
+          const filteredData = apiData.reduce((filtered, current) => {
+            if (!filtered.includes(current['speciesKey'])) {
+              filtered.push(current['speciesKey'])
+              if (current['kingdom'] in dictionary) {
+                speciesCount[dictionary[current['kingdom']]]++;
+                // console.log(current["kingdom"]);
+                // console.log(current["kingdomKey"]);
+              }
+              if (current['class'] in dictionary) {
+                speciesCount[dictionary[current['class']]]++;
+                // console.log(current["class"]);
+                // console.log(current["classKey"]);
+              }
+            }
+            return filtered;
+          }, []);
+          for (const species in speciesCount) {
+            resultData['data'].push({ name: species, count: speciesCount[species], percentage: speciesCount[species] / filteredData.length })
+          }
+          resultData['preview'] = filteredData.length;
+          console.log(resultData);
+          console.timeEnd("Biodiversity");
+          return resultData;
+        })
+        .catch(error => {
+          return error;
+        })
     })
-    .catch((error) => {
-      return error;
-    });
-};
+  // pointData.forEach(point => {
+  //   const centroid = findCentroid(point.grid_points);
+  //   const compareLatLong = (a, b) => latlngCounterClockwiseLessThan(a, b, centroid);
+  //   // API requires that the points are in counterclockwise order
+  //   const counterClockwisePoints = point.grid_points.sort(compareLatLong);
+  //   const po
+  // })
 
-const mergeSpeciesObjects = (objects) => {
-  if (objects.length === 0) {
-    return [];
-  }
-  let merged = objects[0];
-  for (let i = 1; i < objects.length; i++) {
-    const keys = new Set(merged.map((item) => item.speciesKey));
-    merged = [...merged, ...objects[i].filter((item) => !keys.has(item.speciesKey))];
-  }
-  return merged;
+  // pointData.forEach((fieldPoint) => {
+  //   // TODO: figure out how to fetch past limit. ST-46
+  //   const centroid = findCentroid(fieldPoint.grid_points);
+  //   const compareLatLong = (a, b) => latlngCounterClockwiseLessThan(a, b, centroid);
+  //   // API requires that the points are in counterclockwise order
+  //   const counterClockwisePoints = fieldPoint.grid_points.sort(compareLatLong);
+  //   const polygon = makePolygon(counterClockwisePoints);
+  //   console.log(polygon);
+  //
+  //   const options = {
+  //     uri: endPoints.gbifAPI,
+  //     qs: {
+  //       geometry: polygon,
+  //       limit: 300,
+  //     },
+  //   };
+  //   apiCalls.push(
+  //     new Promise((resolve, reject) => {
+  //       rp(options)
+  //         .then((data) => {
+  //           const jsonfied = JSON.parse(data);
+  //           const results = jsonfied['results'];
+  //           const infoFiltered = results.map((currentSpecies) => ({
+  //             kingdom: currentSpecies['kingdom'],
+  //             class: currentSpecies['class'],
+  //             speciesKey: currentSpecies['speciesKey'],
+  //           }));
+  //           resolve(infoFiltered);
+  //         })
+  //         .catch((error) => {
+  //           reject(error);
+  //         });
+  //     }),
+  //   );
+  // });
+  // return await Promise.all(apiCalls)
+  //   .then((apiResult) => {
+  //     // console.log(apiResult);
+  //     const mergedResults = mergeSpeciesObjects(apiResult);
+  //     // console.log(mergedResults)
+  //     mergedResults.map((currentSpecies) => {
+  //       if (currentSpecies['kingdom'] in dictionary) {
+  //         speciesCount[dictionary[currentSpecies['kingdom']]]++;
+  //       } else if (currentSpecies['class'] in dictionary) {
+  //         speciesCount[dictionary[currentSpecies['class']]]++;
+  //       }
+  //     });
+  //     let runningTotal = 0;
+  //     let maxSpecies = 0;
+  //     for (const key in speciesCount) {
+  //       runningTotal += speciesCount[key];
+  //       maxSpecies = Math.max(speciesCount[key], maxSpecies);
+  //       resultData['data'].push({ name: key, count: speciesCount[key], percentage: 0 });
+  //     }
+  //     // console.log(maxSpecies);
+  //     resultData['data'].map((curr) => {
+  //       curr['percentage'] = (curr['count'] / runningTotal) * 100;
+  //     });
+  //     resultData['preview'] = runningTotal;
+  //     console.log(resultData);
+  //     return resultData;
+  //   })
+  //   .catch((error) => {
+  //     return error;
+  //   });
 };
 
 exports.formatPricesData = (data) => {

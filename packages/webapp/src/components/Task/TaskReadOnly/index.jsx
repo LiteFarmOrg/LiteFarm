@@ -170,15 +170,7 @@ export default function PureTaskReadOnly({
         )}
       </div>
 
-      {secondDate && (
-        <Input
-          style={{ marginBottom: '40px' }}
-          type={'date'}
-          value={secondDate}
-          label={secondDateLabel}
-          disabled
-        />
-      )}
+      {secondDate && <Input type={'date'} value={secondDate} label={secondDateLabel} disabled />}
 
       <Semibold style={{ marginBottom: '12px' }}>{t('TASK.LOCATIONS')}</Semibold>
       {isTaskType(taskType, 'TRANSPLANT_TASK') && (

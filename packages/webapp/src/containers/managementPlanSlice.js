@@ -193,6 +193,8 @@ export const currentManagementPlansSelector = createSelector(
 );
 
 export const isCurrentManagementPlan = (managementPlan, time) => {
+  // console.log('managementPlan', managementPlan)
+  // console.log('managementPlan.start_date', managementPlan.start_date)
   return (
     !isExpiredManagementPlan(managementPlan, time) &&
     managementPlan.start_date &&
@@ -203,6 +205,20 @@ export const isCurrentManagementPlan = (managementPlan, time) => {
 export const getCurrentManagementPlans = (managementPlans, time) => {
   return managementPlans.filter((managementPlan) => isCurrentManagementPlan(managementPlan, time));
 };
+
+// export const isCurrentManagementPlan = (managementPlan, time) => {
+//   return (
+//     !isExpiredManagementPlan(managementPlan, time) &&
+//     managementPlan.start_date &&
+//     new Date(managementPlan.start_date).getTime() <= time
+//   );
+// };
+
+// export const getVarietyCropManagementPlan = (managementPlans, time) => {
+//   return managementPlans.filter((managementPlan) => {
+//     isCurrentManagementPlan(managementPlan, time)
+//   });
+// };
 
 export const plannedManagementPlansSelector = createSelector(
   [managementPlansSelector, lastActiveDatetimeSelector],
@@ -253,6 +269,17 @@ export const cropVarietiesWithoutManagementPlanSelector = createSelector(
   },
 );
 
+export const allCropVarietiesSelector = createSelector(
+  [managementPlansSelector, cropVarietiesSelector],
+  (managementPlans, cropVarieties) => {
+    const cropVarietyIds = new Set();
+    for (const managementPlan of managementPlans) {
+      cropVarietyIds.add(managementPlan.crop_variety_id);
+    }
+    return cropVarieties;
+  },
+);
+
 export const currentAndPlannedManagementPlansByCropVarietySelector = (crop_variety) =>
   createSelector(
     [() => crop_variety, currentAndPlannedManagementPlansSelector],
@@ -264,6 +291,13 @@ export const managementPlanStatusSelector = createSelector(
   [managementPlanReducerSelector],
   ({ loading, error, loaded }) => {
     return { loading, error, loaded };
+  },
+);
+
+export const managementPlanDataSelector = createSelector(
+  [managementPlanReducerSelector],
+  (data) => {
+    return data;
   },
 );
 
@@ -281,19 +315,40 @@ export const currentManagementPlanByCropIdSelector = (crop_id) =>
 export const plannedManagementPlanByCropIdSelector = (crop_id) =>
   createSelector(
     [managementPlanByCropIdSelector(crop_id), cropCatalogueFilterDateSelector],
-    (managementPlans, cropCatalogFilterDate) =>
-      getPlannedManagementPlans(managementPlans, new Date(cropCatalogFilterDate).getTime()),
+    (managementPlans, cropCatalogFilterDate) => {
+      // console.log('managementPlans', managementPlans.map(c=> c.crop_variety_name))
+      const exp = getPlannedManagementPlans(
+        managementPlans,
+        new Date(cropCatalogFilterDate).getTime(),
+      );
+      // console.log('exp', exp.map(c=> c.crop_variety_name))
+      return exp;
+    },
   );
 export const expiredManagementPlanByCropIdSelector = (crop_id) =>
   createSelector(
     [managementPlanByCropIdSelector(crop_id), cropCatalogueFilterDateSelector],
-    (managementPlans, cropCatalogFilterDate) =>
-      getExpiredManagementPlans(managementPlans, new Date(cropCatalogFilterDate).getTime()),
+    (managementPlans, cropCatalogFilterDate) => {
+      // console.log('managementPlans', managementPlans.map(c=> c.crop_variety_name))
+      const exp = getExpiredManagementPlans(
+        managementPlans,
+        new Date(cropCatalogFilterDate).getTime(),
+      );
+      // console.log('exp', exp.map(c=> c.crop_variety_name))
+      return exp;
+    },
   );
 export const cropVarietiesWithoutManagementPlanByCropIdSelector = (crop_id) =>
-  createSelector([cropVarietiesWithoutManagementPlanSelector], (cropVarieties) =>
-    cropVarieties.filter((cropVariety) => cropVariety.crop_id === crop_id),
-  );
+  createSelector([cropVarietiesWithoutManagementPlanSelector], (cropVarieties) => {
+    // console.log('cropVarieties', cropVarieties)
+    return cropVarieties.filter((cropVariety) => cropVariety.crop_id === crop_id);
+  });
+
+export const allVarietyCropManagementPlanSelector = (crop_id) =>
+  createSelector([allCropVarietiesSelector], (cropVarieties) => {
+    // console.log('cropVarieties', cropVarieties)
+    return cropVarieties.filter((cropVariety) => cropVariety.crop_id === crop_id);
+  });
 
 export const getUniqueEntities = (entities, key) => {
   const entitiesByKey = {};

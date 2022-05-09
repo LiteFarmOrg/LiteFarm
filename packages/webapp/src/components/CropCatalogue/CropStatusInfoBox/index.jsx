@@ -72,6 +72,11 @@ export default function CropStatusInfoBox({
             <Square color={'past'}>{status.past}</Square>
             {t('common:PAST')}
           </div>
+          <div className={classes.cropCountContainer}>
+            <Square color={'needsPlan'}>{status.needsPlan}</Square>
+            {/* {t('common:NEEDS_PLAN')} */}
+            {'Needs plan'}
+          </div>
         </div>
       )}
     </Card>
@@ -86,5 +91,6 @@ CropStatusInfoBox.propTypes = {
     active: PropTypes.number,
     planned: PropTypes.number,
     past: PropTypes.number,
+    needsPlan: PropTypes.number,
   }),
 };

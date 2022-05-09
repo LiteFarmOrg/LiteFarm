@@ -11,6 +11,7 @@ import {
   currentCropVarietiesByCropIdSelector,
   expiredCropVarietiesByCropIdSelector,
   plannedCropVarietiesByCropIdSelector,
+  allVarietyCropManagementPlanSelector,
 } from '../managementPlanSlice';
 import useCropTileListGap from '../../components/CropTile/useCropTileListGap';
 import PureCropTile from '../../components/CropTile';
@@ -33,6 +34,12 @@ import ActiveFilterBox from '../../components/ActiveFilterBox';
 import useFilterVarieties from '../CropCatalogue/useFilterVarieties';
 import { ACTIVE, COMPLETE, NEEDS_PLAN, PLANNED } from '../Filter/constants';
 import { useStartAddCropVarietyFlow } from './useStartAddCropVarietyFlow';
+import useCropCatalogue from '../CropCatalogue/useCropCatalogue';
+import useCropVarietyCatalogue from '../CropCatalogue/useCropVarietyCatalogue';
+import CropStatusInfoBox from '../../components/CropCatalogue/CropStatusInfoBox';
+import { cropVarietyDataSelector } from '../../containers/cropVarietySlice';
+import { managementPlanDataSelector } from '../../containers/managementPlanSlice';
+import { createSelector } from 'reselect';
 
 export default function CropVarieties({ history, match }) {
   const { t } = useTranslation();
@@ -43,6 +50,24 @@ export default function CropVarieties({ history, match }) {
 
   const [filterString, setFilterString] = useState('');
   const filterStringOnChange = (e) => setFilterString(e.target.value);
+
+  const {
+    active,
+    planned,
+    past,
+    needsPlan,
+    sum,
+    cropCatalogue,
+    filteredCropsWithoutManagementPlan,
+  } = useCropVarietyCatalogue(filterString, crop_id);
+
+  console.log('needsPlan', needsPlan);
+
+  const allVarietyCropManagementPlan = useFilterVarieties(
+    useStringFilteredCrops(useSortByVarietyName(cropCatalogue), filterString),
+    crop_id,
+    NEEDS_PLAN,
+  );
 
   const cropVarietiesWithoutManagementPlan = useFilterVarieties(
     useStringFilteredCrops(
@@ -78,7 +103,12 @@ export default function CropVarieties({ history, match }) {
     crop_id,
     COMPLETE,
   );
-  const { ref: containerRef, gap, padding, cardWidth } = useCropTileListGap([
+  const {
+    ref: containerRef,
+    gap,
+    padding,
+    cardWidth,
+  } = useCropTileListGap([
     currentCropVarieties.length,
     plannedCropVarieties.length,
     expiredCropVarieties.length,
@@ -143,126 +173,85 @@ export default function CropVarieties({ history, match }) {
 
       {/* <CropStatusInfoBox style={{ marginBottom: '16px' }} date={date} setDate={setDate} /> */}
 
-      <div ref={containerRef}>
-        {!!cropVarietiesWithoutManagementPlan.length && (
-          <>
-            <PageBreak style={{ paddingBottom: '22px' }} label={t('CROP_VARIETIES.NEEDS_PLAN')} />
-            <PureCropTileContainer gap={gap} padding={padding}>
-              {cropVarietiesWithoutManagementPlan.map((cropVariety) => {
-                const {
-                  crop_translation_key,
-                  crop_variety_name,
-                  crop_variety_id,
-                  crop_variety_photo_url,
-                } = cropVariety;
-                const imageKey = crop_translation_key.toLowerCase();
-                return (
-                  <PureCropTile
-                    key={cropVariety.crop_variety_id}
-                    title={crop_variety_name || t(`crop:${crop_translation_key}`)}
-                    src={crop_variety_photo_url}
-                    alt={imageKey}
-                    style={{ width: cardWidth }}
-                    onClick={() => goToVarietyManagement(crop_variety_id)}
-                  />
-                );
-              })}
-            </PureCropTileContainer>
-          </>
-        )}
+      {!!(sum + allVarietyCropManagementPlan.length) ? (
+        <>
+          <PageBreak style={{ paddingBottom: '16px' }} label={t('CROP_CATALOGUE.ON_YOUR_FARM')} />
+          <CropStatusInfoBox
+            status={{ active, past, planned, needsPlan }}
+            style={{ marginBottom: '16px' }}
+            date={date}
+            setDate={setDate}
+          />
+          <PureCropTileContainer gap={gap} padding={padding}>
+            {allVarietyCropManagementPlan.map((cropVariety, index) => {
+              const {
+                crop_variety_name,
+                crop_photo_url,
+                crop_id,
+                crop_variety_id,
+                active,
+                planned,
+                noplan,
+                past,
+              } = cropVariety;
+              const imageKey = cropVariety.crop_translation_key?.toLowerCase();
 
-        {!!currentCropVarieties.length && (
-          <>
-            <PageBreak style={{ paddingBottom: '22px' }} label={t('common:ACTIVE')} />
-            <PureCropTileContainer gap={gap} padding={padding}>
-              {currentCropVarieties.map((cropVariety) => {
-                const {
-                  crop_translation_key,
-                  crop_variety_name,
-                  crop_variety_id,
-                  crop_variety_photo_url,
-                } = cropVariety;
-                const imageKey = crop_translation_key.toLowerCase();
-                return (
-                  <PureCropTile
-                    key={cropVariety.crop_variety_id}
-                    title={crop_variety_name || t(`crop:${crop_translation_key}`)}
-                    src={crop_variety_photo_url}
-                    alt={imageKey}
-                    style={{ width: cardWidth }}
-                    onClick={() => goToVarietyManagement(crop_variety_id)}
-                  />
-                );
-              })}
-            </PureCropTileContainer>
-          </>
-        )}
+              return (
+                <PureCropTile
+                  key={index}
+                  title={t(`crop:${crop_variety_name}`)}
+                  src={crop_photo_url}
+                  alt={imageKey}
+                  cropCount={{
+                    active,
+                    planned,
+                    past,
+                    needsPlan: noplan,
+                  }}
+                  style={{ width: cardWidth }}
+                  onClick={() => goToVarietyManagement(crop_variety_id)}
+                  needsPlan={cropVariety.noplan !== 0}
+                />
+              );
+            })}
+            {/* {cropCatalogue.map((cropCatalog) => {
+            const {
+              crop_translation_key,
+              active,
+              planned,
+              past,
+              imageKey,
+              crop_photo_url,
+              crop_id,
+              needsPlan,
+            } = cropCatalog;
 
-        {!!plannedCropVarieties.length && (
-          <>
-            <PageBreak style={{ paddingBottom: '22px' }} label={t('common:PLANNED')} />
-            <PureCropTileContainer gap={gap} padding={padding}>
-              {plannedCropVarieties.map((cropVariety) => {
-                const {
-                  crop_translation_key,
-                  crop_variety_name,
-                  crop_variety_id,
-                  crop_variety_photo_url,
-                } = cropVariety;
-                const imageKey = crop_translation_key.toLowerCase();
-                return (
-                  <PureCropTile
-                    key={cropVariety.crop_variety_id}
-                    title={crop_variety_name || t(`crop:${crop_translation_key}`)}
-                    src={crop_variety_photo_url}
-                    alt={imageKey}
-                    style={{ width: cardWidth }}
-                    onClick={() => goToVarietyManagement(crop_variety_id)}
-                  />
-                );
-              })}
-            </PureCropTileContainer>
-          </>
-        )}
-
-        {!!expiredCropVarieties.length && (
-          <>
-            <PageBreak style={{ paddingBottom: '22px' }} label={t('common:PAST')} />
-            <PureCropTileContainer gap={gap} padding={padding}>
-              {expiredCropVarieties.map((cropVariety) => {
-                const {
-                  crop_translation_key,
-                  crop_variety_name,
-                  crop_variety_id,
-                  crop_variety_photo_url,
-                } = cropVariety;
-                const imageKey = crop_translation_key.toLowerCase();
-                return (
-                  <PureCropTile
-                    key={cropVariety.crop_variety_id}
-                    title={crop_variety_name || t(`crop:${crop_translation_key}`)}
-                    src={crop_variety_photo_url}
-                    alt={imageKey}
-                    style={{ width: cardWidth }}
-                    onClick={() => goToVarietyManagement(crop_variety_id)}
-                    isPastVariety
-                  />
-                );
-              })}
-            </PureCropTileContainer>
-          </>
-        )}
-
-        {!cropVarietiesWithoutManagementPlan.length &&
-          !currentCropVarieties.length &&
-          !plannedCropVarieties.length &&
-          !expiredCropVarieties.length &&
-          isFilterCurrentlyActive && (
-            <Semibold style={{ color: 'var(--teal700)' }}>
-              {t('CROP_CATALOGUE.NO_RESULTS_FOUND')}
-            </Semibold>
-          )}
-      </div>
+            return (
+              <PureCropTile
+                key={crop_translation_key}
+                cropCount={{
+                  active: active.length,
+                  planned: planned.length,
+                  past: past.length,
+                }}
+                needsPlan={needsPlan}
+                title={t(`crop:${crop_translation_key}`)}
+                src={crop_photo_url}
+                alt={imageKey}
+                style={{ width: cardWidth }}
+                onClick={() => history.push(`/crop_varieties/crop/${cropCatalog.crop_id}`)}
+              />
+            );
+          })} */}
+          </PureCropTileContainer>
+        </>
+      ) : (
+        isFilterCurrentlyActive && (
+          <Semibold style={{ color: 'var(--teal700)' }}>
+            {t('CROP_CATALOGUE.NO_RESULTS_FOUND')}
+          </Semibold>
+        )
+      )}
 
       {isAdmin && !isFilterCurrentlyActive && (
         <AddLink onClick={goToVarietyCreation}>{t('CROP_VARIETIES.ADD_VARIETY')}</AddLink>

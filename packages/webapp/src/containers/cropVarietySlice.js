@@ -168,6 +168,10 @@ export const cropVarietyStatusSelector = createSelector(
   },
 );
 
+export const cropVarietyDataSelector = createSelector([cropVarietyReducerSelector], (data) => {
+  return data;
+});
+
 export const suppliersSelector = createSelector([cropVarietiesSelector], (cropVarieties) => {
   const suppliers = new Set(cropVarieties.map(({ supplier }) => supplier));
   suppliers.delete(null);

@@ -2,7 +2,13 @@ import {
   getCurrentManagementPlans,
   getExpiredManagementPlans,
   getPlannedManagementPlans,
+  allVarietyCropManagementPlanSelector,
+  cropVarietiesWithoutManagementPlanByCropIdSelector,
+  currentCropVarietiesByCropIdSelector,
+  expiredCropVarietiesByCropIdSelector,
+  plannedCropVarietiesByCropIdSelector,
 } from '../managementPlanSlice';
+
 import { useSelector } from 'react-redux';
 import { cropCatalogueFilterDateSelector, cropCatalogueFilterSelector } from '../filterSlice';
 import { useMemo } from 'react';
@@ -13,17 +19,57 @@ import useFilterNoPlan from './useFilterNoPlan';
 import useSortByCropTranslation from './useSortByCropTranslation';
 import { managementPlansWithCurrentLocationSelector } from '../Task/TaskCrops/managementPlansWithLocationSelector';
 
-export default function useCropCatalogue(filterString) {
-  const managementPlansWithCurrentLocation = useSelector(
-    managementPlansWithCurrentLocationSelector,
+export default function useCropCatalogue(filterString, crop_id) {
+  let allVarietyCropManagementPlan = useSelector(allVarietyCropManagementPlanSelector(crop_id));
+  const cropVarietiesWithoutManagementPlanByCropId = useSelector(
+    cropVarietiesWithoutManagementPlanByCropIdSelector(crop_id),
   );
+  const currentCropVarietiesByCropId = useSelector(currentCropVarietiesByCropIdSelector(crop_id));
+  const expiredCropVarietiesByCropId = useSelector(expiredCropVarietiesByCropIdSelector(crop_id));
+  const plannedCropVarietiesByCropId = useSelector(plannedCropVarietiesByCropIdSelector(crop_id));
 
-  // console.log('managementPlansWithCurrentLocation', managementPlansWithCurrentLocation)
+  const cropCataloguesStatus = {
+    sum:
+      plannedCropVarietiesByCropId.length +
+      expiredCropVarietiesByCropId.length +
+      currentCropVarietiesByCropId.length +
+      cropVarietiesWithoutManagementPlanByCropId.length,
+    active: currentCropVarietiesByCropId.length,
+    planned: plannedCropVarietiesByCropId.length,
+    past: expiredCropVarietiesByCropId.length,
+    needsPlan: cropVarietiesWithoutManagementPlanByCropId.length,
+  };
 
+  let allVarietyCrop = [];
+  for (let main_plan of allVarietyCropManagementPlan) {
+    let varietyCrop = { ...main_plan };
+
+    varietyCrop.noplan = cropVarietiesWithoutManagementPlanByCropId.filter(
+      (c) => c.crop_variety_id === main_plan.crop_variety_id,
+    ).length;
+    varietyCrop.active = currentCropVarietiesByCropId.filter(
+      (c) => c.crop_variety_id === main_plan.crop_variety_id,
+    ).length;
+    varietyCrop.past = expiredCropVarietiesByCropId.filter(
+      (c) => c.crop_variety_id === main_plan.crop_variety_id,
+    ).length;
+    varietyCrop.planned = plannedCropVarietiesByCropId.filter(
+      (c) => c.crop_variety_id === main_plan.crop_variety_id,
+    ).length;
+    allVarietyCrop.push(varietyCrop);
+    // console.log('main_plan', main_plan)
+  }
+
+  // Today's date
   const cropCatalogFilterDate = useSelector(cropCatalogueFilterDateSelector);
+  // console.log('cropCatalogFilterDate', cropCatalogFilterDate)
+
+  // location, status, supplier
   const cropCatalogueFilter = useSelector(cropCatalogueFilterSelector);
+  // console.log('cropCatalogueFilter', cropCatalogueFilter)
+
   const managementPlansFilteredByFilterString = useStringFilteredCrops(
-    managementPlansWithCurrentLocation,
+    allVarietyCrop,
     filterString,
   );
 
@@ -52,32 +98,32 @@ export default function useCropCatalogue(filterString) {
   }, [cropCatalogueFilter[SUPPLIERS], managementPlansFilteredByLocations]);
 
   const cropCatalogue = useMemo(() => {
-    const time = new Date(cropCatalogFilterDate).getTime();
-    const managementPlansByStatus = {
-      active: getCurrentManagementPlans(managementPlansFilteredBySuppliers, time),
-      planned: getPlannedManagementPlans(managementPlansFilteredBySuppliers, time),
-      past: getExpiredManagementPlans(managementPlansFilteredBySuppliers, time),
-    };
-    const managementPlansByCropId = {};
-    for (const status in managementPlansByStatus) {
-      for (const managementPlan of managementPlansByStatus[status]) {
-        if (!managementPlansByCropId.hasOwnProperty(managementPlan.crop_id)) {
-          managementPlansByCropId[managementPlan.crop_id] = {
-            active: [],
-            planned: [],
-            past: [],
-            crop_common_name: managementPlan.crop_common_name,
-            crop_translation_key: managementPlan.crop_translation_key,
-            imageKey: managementPlan.crop_translation_key?.toLowerCase(),
-            crop_id: managementPlan.crop_id,
-            crop_photo_url: managementPlan.crop_photo_url,
-          };
-        }
-        managementPlansByCropId[managementPlan.crop_id][status].push(managementPlan);
-      }
-    }
-    console.log('managementPlansByCropId', managementPlansByCropId);
-    return Object.values(managementPlansByCropId);
+    // const time = new Date(cropCatalogFilterDate).getTime();
+    // const managementPlansByStatus = {
+    //   active: getCurrentManagementPlans(managementPlansFilteredBySuppliers, time),
+    //   planned: getPlannedManagementPlans(managementPlansFilteredBySuppliers, time),
+    //   past: getExpiredManagementPlans(managementPlansFilteredBySuppliers, time),
+    // };
+    // const managementPlansByCropId = {};
+    // for (const status in managementPlansByStatus) {
+    //   for (const managementPlan of managementPlansByStatus[status]) {
+    //     if (!managementPlansByCropId.hasOwnProperty(managementPlan.crop_id)) {
+    //       managementPlansByCropId[managementPlan.crop_id] = {
+    //         active: [],
+    //         planned: [],
+    //         past: [],
+    //         crop_common_name: managementPlan.crop_common_name,
+    //         crop_translation_key: managementPlan.crop_translation_key,
+    //         imageKey: managementPlan.crop_translation_key?.toLowerCase(),
+    //         crop_id: managementPlan.crop_id,
+    //         crop_photo_url: managementPlan.crop_photo_url,
+    //       };
+    //     }
+    //     managementPlansByCropId[managementPlan.crop_id][status].push(managementPlan);
+    //   }
+    // }
+    return allVarietyCrop;
+    // return Object.values(managementPlansByCropId);
   }, [managementPlansFilteredBySuppliers, cropCatalogFilterDate]);
 
   const cropCatalogueFilteredByStatus = useMemo(() => {
@@ -98,18 +144,18 @@ export default function useCropCatalogue(filterString) {
     );
   }, [cropCatalogueFilter[STATUS], cropCatalogue]);
 
-  const cropCataloguesStatus = useMemo(() => {
-    const cropCataloguesStatus = { active: 0, planned: 0, past: 0 };
-    for (const managementPlansByStatus of cropCatalogueFilteredByStatus) {
-      for (const status in cropCataloguesStatus) {
-        cropCataloguesStatus[status] += managementPlansByStatus[status].length;
-      }
-    }
-    return {
-      ...cropCataloguesStatus,
-      sum: cropCataloguesStatus.active + cropCataloguesStatus.planned + cropCataloguesStatus.past,
-    };
-  }, [cropCatalogueFilteredByStatus]);
+  // const cropCataloguesStatus = useMemo(() => {
+  //   const cropCataloguesStatus = { active: 0, planned: 0, past: 0 };
+  //   for (const managementPlansByStatus of cropCatalogueFilteredByStatus) {
+  //     for (const status in cropCataloguesStatus) {
+  //       cropCataloguesStatus[status] += managementPlansByStatus[status].length;
+  //     }
+  //   }
+  //   return {
+  //     ...cropCataloguesStatus,
+  //     sum: cropCataloguesStatus.active + cropCataloguesStatus.planned + cropCataloguesStatus.past,
+  //   };
+  // }, [cropCatalogueFilteredByStatus]);
 
   const { t } = useTranslation();
   const onlyOneOfTwoNumberIsZero = (i, j) => i + j > 0 && i * j === 0;
@@ -136,11 +182,6 @@ export default function useCropCatalogue(filterString) {
     useFilterNoPlan(filterString),
   );
 
-  console.log(
-    'filteredCropVarietiesWithoutManagementPlan',
-    filteredCropVarietiesWithoutManagementPlan,
-  );
-
   const filteredCropsWithoutManagementPlan = useMemo(() => {
     const cropIdsWithPlan = new Set(sortedCropCatalogue.map(({ crop_id }) => crop_id));
     return filteredCropVarietiesWithoutManagementPlan.filter(
@@ -157,6 +198,8 @@ export default function useCropCatalogue(filterString) {
       needsPlan: cropIdsWithoutPlan.has(crop.crop_id),
     }));
   }, [filteredCropVarietiesWithoutManagementPlan, sortedCropCatalogue]);
+
+  // console.log('sortedCropCatalogueWithNeedsPlanProp', sortedCropCatalogueWithNeedsPlanProp)
 
   return {
     cropCatalogue: sortedCropCatalogueWithNeedsPlanProp,

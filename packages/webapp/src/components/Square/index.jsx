@@ -52,7 +52,8 @@ export default function Square({ color = 'active', children, isCropTile, ...prop
       className={clsx(classes.container, classes[color], isCropTile && classes.cropTile)}
       {...props}
     >
-      {color === 'needsPlan' ? <FaExclamation style={{ fontSize: '12px' }} /> : children}
+      {/* {color === 'needsPlan' ? <FaExclamation style={{ fontSize: '12px' }} /> : children} */}
+      {children}
     </div>
   );
 }

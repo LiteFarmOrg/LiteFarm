@@ -15,6 +15,7 @@ Default.args = {
     active: 8,
     planned: 8,
     past: 8,
+    needsPlan: 8,
   },
   // defaultDate: 'Sept 12, 2021',
 };

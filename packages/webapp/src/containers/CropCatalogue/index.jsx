@@ -24,7 +24,10 @@ import { isAdminSelector } from '../userFarmSlice';
 import useCropCatalogue from './useCropCatalogue';
 import useStringFilteredCrops from './useStringFilteredCrops';
 import useSortByCropTranslation from './useSortByCropTranslation';
-import { resetAndUnLockFormData, setPersistedPaths } from '../hooks/useHookFormPersist/hookFormPersistSlice';
+import {
+  resetAndUnLockFormData,
+  setPersistedPaths,
+} from '../hooks/useHookFormPersist/hookFormPersistSlice';
 import CatalogSpotlight from './CatalogSpotlight';
 import ActiveFilterBox from '../../components/ActiveFilterBox';
 import { useStartAddCropVarietyFlow } from '../CropVarieties/useStartAddCropVarietyFlow';
@@ -36,14 +39,8 @@ export default function CropCatalogue({ history }) {
 
   const [filterString, setFilterString] = useState('');
   const filterStringOnChange = (e) => setFilterString(e.target.value);
-  const {
-    active,
-    planned,
-    past,
-    sum,
-    cropCatalogue,
-    filteredCropsWithoutManagementPlan,
-  } = useCropCatalogue(filterString);
+  const { active, planned, past, sum, cropCatalogue, filteredCropsWithoutManagementPlan } =
+    useCropCatalogue(filterString);
   const crops = useStringFilteredCrops(
     useSortByCropTranslation(useSelector(cropsSelector)),
     filterString,
@@ -73,13 +70,20 @@ export default function CropCatalogue({ history }) {
 
   const { onAddCropVariety } = useStartAddCropVarietyFlow();
   const onAddCrop = () => {
-    dispatch(setPersistedPaths([
-      '/crop/new',
-      '/crop/new/add_crop_variety',
-      '/crop/new/add_crop_variety/compliance',
-    ]));
+    dispatch(
+      setPersistedPaths([
+        '/crop/new',
+        '/crop/new/add_crop_variety',
+        '/crop/new/add_crop_variety/compliance',
+      ]),
+    );
     history.push('/crop/new');
   };
+
+  // useSelector()
+
+  // console.log('cropCatalogue', cropCatalogue)
+  // console.log('filteredCropsWithoutManagementPlan', filteredCropsWithoutManagementPlan)
   return (
     <Layout classes={{ container: { backgroundColor: 'white' } }}>
       <PageTitle title={t('CROP_CATALOGUE.CROP_CATALOGUE')} style={{ paddingBottom: '20px' }} />
@@ -110,7 +114,7 @@ export default function CropCatalogue({ history }) {
           <>
             <PageBreak style={{ paddingBottom: '16px' }} label={t('CROP_CATALOGUE.ON_YOUR_FARM')} />
             <CropStatusInfoBox
-              status={{ active, past, planned }}
+              status={{ active, past, planned, needsPlan: 0 }}
               style={{ marginBottom: '16px' }}
               date={date}
               setDate={setDate}
@@ -151,13 +155,14 @@ export default function CropCatalogue({ history }) {
                       active: active.length,
                       planned: planned.length,
                       past: past.length,
+                      // needsPlan: 10
                     }}
-                    needsPlan={needsPlan}
                     title={t(`crop:${crop_translation_key}`)}
                     src={crop_photo_url}
                     alt={imageKey}
                     style={{ width: cardWidth }}
                     onClick={() => history.push(`/crop_varieties/crop/${cropCatalog.crop_id}`)}
+                    // needsPlan={false}
                   />
                 );
               })}
@@ -193,6 +198,7 @@ export default function CropCatalogue({ history }) {
                         onClick={() => {
                           onAddCropVariety(crop.crop_id);
                         }}
+                        // needsPlan={false}
                       />
                     );
                   })}
@@ -200,11 +206,7 @@ export default function CropCatalogue({ history }) {
               </>
             )}
             <Text style={{ paddingBottom: '8px' }}>{t('CROP_CATALOGUE.CAN_NOT_FIND')}</Text>
-            <AddLink
-              onClick={onAddCrop}
-            >
-              {t('CROP_CATALOGUE.ADD_CROP')}
-            </AddLink>
+            <AddLink onClick={onAddCrop}>{t('CROP_CATALOGUE.ADD_CROP')}</AddLink>
           </>
         )}
       </div>

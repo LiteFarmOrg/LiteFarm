@@ -121,7 +121,7 @@ const Input = ({
         ref={mergeRefs(hookFormRegister?.ref, input)}
         type={inputType}
         min={inputType === 'date' ? min : undefined}
-        max={inputType === 'date' ? (max || '9999-12-31') : undefined}
+        max={inputType === 'date' ? max || '9999-12-31' : undefined}
         onKeyDown={onKeyDown}
         name={name}
         placeholder={(!disabled && placeholder) || (isSearchBar && t('common:SEARCH'))}
@@ -193,7 +193,7 @@ export default Input;
 
 export const numberOnKeyDown = (e) => ['e', 'E', '+', '-'].includes(e.key) && e.preventDefault();
 export const integerOnKeyDown = (e) =>
-  ['e', 'E', '+', '-', '.'].includes(e.key) && e.preventDefault();
+  e.charCode > 47 && e.charCode < 58 ? true : e.preventDefault();
 export const preventNumberScrolling = (e) => e.target.blur();
 
 export const getInputErrors = (errors, name) => {

@@ -62,7 +62,7 @@ export const PureTaskCard = ({
     onClickCompleteOrDueDate?.();
   };
 
-  const iconStyle = {
+  const iconStyle = { 
     iconTextContainer: {
       display: 'flex',
       flexDirection: 'row',

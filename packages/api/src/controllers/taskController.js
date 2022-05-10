@@ -50,10 +50,9 @@ const taskController = {
         return res.status(400).send('Task has already been completed or abandoned');
       }
 
-      if (!adminRoles.includes(req.role) && checkTaskStatus.assignee_user_id != req.user.user_id) {
-        return res
-          .status(400)
-          .send('Farm workers are not allowed to reassign a task assigned to another worker');
+
+      if (!adminRoles.includes(req.role) && checkTaskStatus.assignee_user_id != req.user.user_id && checkTaskStatus.assignee_user_id !== null){
+        return res.status(403).send('Farm workers are not allowed to reassign a task assigned to another worker');
       }
 
       // Avoid 1) making an empty update, and 2) sending a redundant notification.

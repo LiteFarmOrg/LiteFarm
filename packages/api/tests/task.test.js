@@ -331,7 +331,7 @@ describe('Task tests', () => {
         { assignee_user_id: user_id },
         task_id,
         async (err, res) => {
-          expect(res.status).toBe(400);
+          expect(res.status).toBe(403);
           done();
         },
       );

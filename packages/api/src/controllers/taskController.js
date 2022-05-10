@@ -339,7 +339,8 @@ const taskController = {
     return async (req, res, next) => {
       try {
         const data = req.body;
-        const { user_id, farm_id } = req.headers;
+        const { farm_id } = req.headers;
+        const { user_id } = req.user;
         const { task_id } = req.params;
         const {
           assignee_user_id,

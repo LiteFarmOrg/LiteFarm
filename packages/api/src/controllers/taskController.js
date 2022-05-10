@@ -10,11 +10,7 @@
  *  LiteFarm is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-<<<<<<< HEAD
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
-=======
- *  GNU General Public License for more details, see <<https://www.gnu.org/licenses/>.>
->>>>>>> 576cc888 (Updated task controller to allow admin to complete task for pseudo user)
  */
 
 const TaskModel = require('../models/taskModel');
@@ -54,8 +50,10 @@ const taskController = {
         return res.status(400).send('Task has already been completed or abandoned');
       }
 
-      if(!adminRoles.includes(req.role) && checkTaskStatus.assignee_user_id != req.user.user_id){
-        return res.status(400).send('Farm workers are not allowed to reassign a task assigned to another worker');
+      if (!adminRoles.includes(req.role) && checkTaskStatus.assignee_user_id != req.user.user_id) {
+        return res
+          .status(400)
+          .send('Farm workers are not allowed to reassign a task assigned to another worker');
       }
 
       // Avoid 1) making an empty update, and 2) sending a redundant notification.
@@ -641,8 +639,7 @@ async function notifyAssignee(userId, taskId, taskTranslationKey, farmId) {
 function canCompleteTask(assigneeUserId, assigneeRoleId, userId, userRoleId) {
   const isAdmin = adminRoles.includes(userRoleId);
   // 4 is worker without account aka pseudo user
-  return (assigneeUserId === userId) || (assigneeRoleId === 4 && isAdmin);
-
+  return assigneeUserId === userId || (assigneeRoleId === 4 && isAdmin);
 }
 
 module.exports = taskController;

@@ -23,6 +23,7 @@ describe.only('LiteFarm end to end test', () => {
     const location = '49.250833,-123.2410777';
     const fieldName = 'Test Field';
     const workerName =  'Test Worker';
+    const testCrop = 'New Crop';
 
     //Login pafe
     cy.get('[data-cy=email]').type(emailOwner);
@@ -158,11 +159,31 @@ describe.only('LiteFarm end to end test', () => {
     // Add a crop variety
     cy.get('[data-cy=navbar-hamburger]').should('exist').click();
     cy.contains('Crops').should('exist').click();
-    cy.get('body').click();
+    cy.url().should('include', '/crop_catalogue');
+    cy.get('[data-cy=spotlight-next]').contains('Next').should('exist').and('not.be.disabled').click();
+    cy.get('[data-cy=spotlight-next]').contains('Got it').should('exist').and('not.be.disabled').click();
+    cy.get('[data-cy=crop-addLink]').contains('Add a new crop').should('exist').and('not.be.disabled').click();
 
-    
+    cy.url().should('include', '/crop/new');
+    cy.get('[data-cy=crop-cropName]').should('exist').type(testCrop);
+    cy.contains('Select').should('exist').click({ force: true });
+    cy.contains('Cereals').should('exist').click();
+    cy.get('[data-cy=crop-submit]').should('exist').and('not.be.disabled').click();
 
-    //Add a planting task for the new variety
+    cy.url().should('include', '/crop/new/add_crop_variety');
+    cy.get('[data-cy=crop-variety]').should('exist').type('New Variety');
+    cy.get('[data-cy=crop-supplier]').should('exist').type('New Supplier');
+    cy.get('[type="radio"]').first().check({ force: true });
+    cy.get('[data-cy=variety-submit]').should('exist').and('not.be.disabled').click();
+
+    cy.url().should('include', '/crop/new/add_crop_variety/compliance');
+    cy.get('[data-cy=compliance-seed]').eq(1).should('exist').check({ force: true });
+    cy.get('[data-cy=compliance-seedAvailability]').eq(1).should('exist').check({ force: true });
+    cy.get('[data-cy=compliance-seedEngineered]').eq(0).should('exist').check({ force: true });
+    cy.get('[data-cy=compliance-seedTreated]').eq(2).should('exist').check({ force: true });
+    cy.get('[data-cy=compliance-newVarietySave]').should('exist').and('not.be.disabled').click();
+
+    //Add a management plan for the new variety
 
     //modify the management plan with quick assign modal
 

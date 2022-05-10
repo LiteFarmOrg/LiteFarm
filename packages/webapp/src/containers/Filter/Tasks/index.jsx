@@ -30,9 +30,9 @@ const TasksFilterPage = ({ onGoBack }) => {
   const tasks = useSelector(tasksSelector);
   const dispatch = useDispatch();
   const locations = useSelector(locationsSelector);
-  const activeUsers = useSelector(userFarmsByFarmSelector)
-    .filter((user) => user.role != 'Owner')
-    .filter((user) => user.status != 'Inactive');
+  const activeUsers = useSelector(userFarmsByFarmSelector).filter(
+    (user) => user.status != 'Inactive',
+  );
 
   const statuses = [ABANDONED, COMPLETED, LATE, PLANNED];
 

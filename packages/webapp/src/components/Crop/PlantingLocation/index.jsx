@@ -131,6 +131,7 @@ export default function PurePlantingLocation({
         <p className={styles.planting_label}>{plantingLabel}</p>
 
         <LocationPicker
+        data-cy='map-plantingLocation'
           onSelectLocation={setLocationId}
           farmCenterCoordinate={farmCenterCoordinate}
           selectedLocationIds={[selectedLocationId]}
@@ -162,7 +163,7 @@ export default function PurePlantingLocation({
             onClick={handlePinMode}
             fullLength
           >
-            <LocationPin />
+            <LocationPin  />
             {t('MANAGEMENT_PLAN.DROP_PIN')}
           </Button>
         )}

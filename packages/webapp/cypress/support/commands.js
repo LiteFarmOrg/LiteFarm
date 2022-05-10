@@ -1,4 +1,5 @@
 import 'cypress-react-selector';
+import { getDateInputFormat } from '../../src/util/moment';
 
 // cypress/support/commands.js
 Cypress.Commands.add('loginByGoogleApi', () => {
@@ -41,3 +42,9 @@ Cypress.Commands.add('loginByGoogleApi', () => {
     });
   });
 });
+
+Cypress.Commands.add('formattedDate', (date)=>{
+  const formDate = getDateInputFormat(date);
+  console.log(formDate);
+  return formDate;
+})

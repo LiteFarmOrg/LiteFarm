@@ -45,12 +45,13 @@ export default function PureMapLocationSelectionModal({
 }) {
   const classes = useStyles();
   return (
-    <div className={classes.container} onClick={dismissSelectionModal}>
+    <div   className={classes.container} onClick={dismissSelectionModal}>
       <div className={styles.selectionContainer}>
         {locations.map((location, idx) => {
           const { type, name, location_id } = location;
           return (
             <div
+            
               key={idx}
               onClick={() => onSelect(location_id)}
               className={clsx(
@@ -62,7 +63,7 @@ export default function PureMapLocationSelectionModal({
                 {' '}
                 {locationImgMap[type]}{' '}
               </div>
-              <div style={{ padding: '12px 20px 10px 55px' }}>{name}</div>
+              <div  style={{ padding: '12px 20px 10px 55px' }}>{name}</div>
             </div>
           );
         })}

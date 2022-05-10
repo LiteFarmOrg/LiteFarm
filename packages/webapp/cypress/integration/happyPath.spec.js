@@ -1,3 +1,5 @@
+import { getDateInputFormat } from '../../src/util/moment';
+
 describe.only('LiteFarm end to end test', () => {
   before(() => {
 
@@ -123,6 +125,12 @@ describe.only('LiteFarm end to end test', () => {
     cy.get('[data-cy=map-drawer]').contains('Field').should('exist').and('not.be.disabled').click();
     cy.get('[data-cy=mapTutorial-continue]').contains('Got it').should('exist').and('not.be.disabled').click();
     cy.wait(1000);
+    let initialWidth;
+    let initialHeight;
+    cy.get('[data-cy=map-mapContainer]').then($canvas =>{ 
+      initialWidth = $canvas.width();
+      initialHeight = $canvas.height();
+    });
     cy.get('[data-cy=map-mapContainer]').click(558,344);
     cy.wait(500);
     cy.get('[data-cy=map-mapContainer]').click(570,321);
@@ -183,7 +191,42 @@ describe.only('LiteFarm end to end test', () => {
     cy.get('[data-cy=compliance-seedTreated]').eq(2).should('exist').check({ force: true });
     cy.get('[data-cy=compliance-newVarietySave]').should('exist').and('not.be.disabled').click();
 
+    cy.url().should('include', '/management');
+    cy.get('[data-cy=spotlight-next]').contains('Next').should('exist').and('not.be.disabled').click();
+    cy.get('[data-cy=spotlight-next]').contains(`Let's get started`).should('exist').and('not.be.disabled').click();
     //Add a management plan for the new variety
+    cy.get('[data-cy=crop-addPlan]').contains('Add a plan').should('exist').and('not.be.disabled').click();    
+    cy.url().should('include', '/add_management_plan');
+    cy.get('[data-cy=cropPlan-groundPlanted]').should('exist').first().check({ force: true });
+    cy.get('[data-cy=cropPlan-submit]').should('exist').and('not.be.disabled').click();
+
+    cy.url().should('include', '/add_management_plan/needs_transplant');
+    cy.get('[data-cy=cropPlan-transplantSubmit]').should('exist').and('not.be.disabled').click();
+    cy.url().should('include', '/add_management_plan/plant_date');
+    const date = new Date();
+    date.setDate(date. getDate() + 7);
+    const formattedDate = getDateInputFormat(date);
+    cy.get('[data-cy=cropPlan-plantDate]').should('exist').type(formattedDate);
+    cy.get('[data-cy=cropPlan-seedGermination]').should('exist').type(7);
+    cy.get('[data-cy=cropPlan-plantHarvest]').should('exist').type(200);
+    cy.get('[data-cy=plantDate-submit]').should('exist').and('not.be.disabled').click();
+
+    cy.url().should('include', '/add_management_plan/choose_final_planting_location');
+    cy.get('[data-cy=map-selectLocation]').should('exist');
+
+    let heightFactor;
+    let widthFactor;
+
+    cy.get('[data-cy=map-selectLocation]').then($canvas =>{ 
+      const canvasWidth = $canvas.width();
+      const canvasHeight = $canvas.height();
+
+      heightFactor = canvasHeight / initialHeight;
+      widthFactor = canvasWidth / initialWidth;
+
+      cy.wrap($canvas).click(widthFactor*570, heightFactor*321, { force: true});
+    });
+
 
     //modify the management plan with quick assign modal
 

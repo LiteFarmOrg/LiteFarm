@@ -38,7 +38,8 @@ const taskController = {
   async assignTask(req, res) {
     try {
       const { task_id } = req.params;
-      const { farm_id, user_id } = req.headers;
+      const { farm_id } = req.headers;
+      const { user_id } = req.user;
       const { assignee_user_id } = req.body;
 
       const checkTaskStatus = await getTaskStatus(task_id);
@@ -633,12 +634,12 @@ async function getTaskStatus(taskId) {
 const TaskNotificationTypes = {
   TASK_ASSIGNED: 'TASK_ASSIGNED',
   TASK_REASSIGNED: 'TASK_REASSIGNED',
-}
+};
 
 const TaskNotificationUserTypes = {
   TASK_ASSIGNED: 'assignee',
   TASK_REASSIGNED: 'assigner',
-}
+};
 
 async function sendTaskNotification(
   receiverId,
@@ -656,7 +657,11 @@ async function sendTaskNotification(
       translation_key: notifyTranslationKey,
       variables: [
         { name: 'taskType', value: `task:${taskTranslationKey}`, translate: true },
-        { name: TaskNotificationUserTypes[notifyTranslationKey], value: userName, translate: false },
+        {
+          name: TaskNotificationUserTypes[notifyTranslationKey],
+          value: userName,
+          translate: false,
+        },
       ],
       entity_type: TaskModel.tableName,
       entity_id: String(taskId),

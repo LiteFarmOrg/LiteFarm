@@ -900,6 +900,7 @@
       },
       "WHAT_HAPPENED": "¿Qué sucedió?"
     },
+    "COMPLETION_NOTES": "MISSING",
     "CONTAINER": "Maceta",
     "CONTAINER_OR_IN_GROUND": "¿Está plantando en una maceta o en el suelo?",
     "CONTAINER_TYPE": "Tipo de maceta",
@@ -958,6 +959,7 @@
     "PLANTING_NOTE": "Notas de la siembra",
     "PLANTING_SOIL": "Suelo de siembra que se utilizará",
     "PLANTS_PER_CONTAINER": "# de plantas/maceta",
+    "RATE_THIS_MANAGEMENT_PLAN": "MISSING",
     "REMOVE_PIN": "Quitar el pin",
     "ROW_METHOD": {
       "HISTORICAL_SAME_LENGTH": "¿Tenían todas las filas la misma longitud?",

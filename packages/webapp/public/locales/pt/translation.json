@@ -900,6 +900,7 @@
       },
       "WHAT_HAPPENED": "O que aconteceu?"
     },
+    "COMPLETION_NOTES": "MISSING",
     "CONTAINER": "Recipiente",
     "CONTAINER_OR_IN_GROUND": "Você está plantando em um recipiente ou no solo?",
     "CONTAINER_TYPE": "Tipo de recipiente",
@@ -959,6 +960,7 @@
     "PLANTING_NOTE": "Notas de plantio",
     "PLANTING_SOIL": "Solo de plantio a ser usado",
     "PLANTS_PER_CONTAINER": "Nº de plantas /recipiente",
+    "RATE_THIS_MANAGEMENT_PLAN": "MISSING",
     "REMOVE_PIN": "Remover alfinete",
     "ROW_METHOD": {
       "HISTORICAL_SAME_LENGTH": "As linhas eram todas do mesmo comprimento?",

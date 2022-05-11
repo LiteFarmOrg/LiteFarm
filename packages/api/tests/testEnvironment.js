@@ -15,7 +15,6 @@
 
 const NodeEnvironment = require('jest-environment-node');
 
-
 class TestEnvironment extends NodeEnvironment {
   constructor(config) {
     super(config);
@@ -34,7 +33,9 @@ class TestEnvironment extends NodeEnvironment {
 }
 
 async function tableCleanup(knex) {
-  await knex('farm').whereNotNull('default_initial_location_id').update({ default_initial_location_id: null });
+  await knex('farm')
+    .whereNotNull('default_initial_location_id')
+    .update({ default_initial_location_id: null });
   return knex.raw(`
     DELETE FROM "notification_user";
     DELETE FROM "notification";
@@ -112,7 +113,7 @@ async function tableCleanup(knex) {
     DELETE FROM "waterBalanceSchedule";
     DELETE FROM "nitrogenSchedule";
     DELETE FROM "farm";
-    DELETE FROM "users";
+    DELETE FROM "users" WHERE user_id <> '1';
     DELETE FROM "weatherHourly";
     DELETE FROM "weather";
     DELETE FROM "weather_station";

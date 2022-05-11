@@ -47,6 +47,11 @@ const taskController = {
         return res.status(400).send('Task has already been completed or abandoned');
       }
 
+
+      if (!adminRoles.includes(req.role) && checkTaskStatus.assignee_user_id != req.user.user_id && checkTaskStatus.assignee_user_id !== null){
+        return res.status(403).send('Farm workers are not allowed to reassign a task assigned to another worker');
+      }
+
       // Avoid 1) making an empty update, and 2) sending a redundant notification.
       if (checkTaskStatus.assignee_user_id === assignee_user_id) return res.sendStatus(200);
 
@@ -357,14 +362,17 @@ const taskController = {
     return async (req, res, next) => {
       try {
         const data = req.body;
-        const { user_id, farm_id } = req.headers;
+        const { farm_id } = req.headers;
+        const { user_id } = req.user;
         const { task_id } = req.params;
         const {
           assignee_user_id,
+          assignee_role_id,
           wage_at_moment,
           override_hourly_wage,
-        } = await TaskModel.query().context(req.user).findById(task_id);
-        if (assignee_user_id !== user_id) {
+        } = await TaskModel.getTaskAssignee(task_id);
+        const { role_id } = await userFarmModel.getUserRoleId(user_id);
+        if (!canCompleteTask(assignee_user_id, assignee_role_id, user_id, role_id)) {
           return res.status(403).send("Not authorized to complete other people's task");
         }
         const { wage } = await userFarmModel
@@ -410,15 +418,16 @@ const taskController = {
   async completeHarvestTask(req, res) {
     try {
       const nonModifiable = getNonModifiable('harvest_task');
+      const { user_id } = req.user;
       const task_id = parseInt(req.params.task_id);
-      const { assignee_user_id } = await TaskModel.query().context(req.user).findById(task_id);
-      if (assignee_user_id !== req.headers.user_id) {
+      const { assignee_user_id, assignee_role_id } = await TaskModel.getTaskAssignee(task_id);
+      const { role_id } = await userFarmModel.getUserRoleId(user_id);
+      if (!canCompleteTask(assignee_user_id, assignee_role_id, user_id, role_id)) {
         return res.status(403).send("Not authorized to complete other people's task");
       }
-
       const result = await TaskModel.transaction(async (trx) => {
         const updated_task = await TaskModel.query(trx)
-          .context({ user_id: req.user.user_id })
+          .context({ user_id })
           .upsertGraph(
             { task_id, ...req.body.task },
             {
@@ -435,7 +444,7 @@ const taskController = {
           ...harvest_use,
           task_id,
         }));
-        await HarvestUse.query(trx).context({ user_id: req.user.user_id }).insert(harvest_uses);
+        await HarvestUse.query(trx).context({ user_id }).insert(harvest_uses);
 
         await patchManagementPlanStartDate(trx, req, 'harvest_task', req.body.task);
 
@@ -672,6 +681,20 @@ async function sendTaskNotification(
     },
     [receiverId],
   );
+}
+
+/**
+ * Checks if the current user can complete the task.
+ * @param assigneeUserId {uuid} - uuid of the task assignee
+ * @param assigneeRoleId {number} - role id of assignee
+ * @param userId {uuid} - uuid of the user completing the task
+ * @param userRoleId {number} - role of the user completing the task
+ * @returns {boolean}
+ */
+function canCompleteTask(assigneeUserId, assigneeRoleId, userId, userRoleId) {
+  const isAdmin = adminRoles.includes(userRoleId);
+  // 4 is worker without account aka pseudo user
+  return assigneeUserId === userId || (assigneeRoleId === 4 && isAdmin);
 }
 
 module.exports = taskController;

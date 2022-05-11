@@ -634,11 +634,13 @@ async function getTaskStatus(taskId) {
 const TaskNotificationTypes = {
   TASK_ASSIGNED: 'TASK_ASSIGNED',
   TASK_REASSIGNED: 'TASK_REASSIGNED',
+  TASK_COMPLETED_BY_OTHER_USER: 'TASK_COMPLETED_BY_OTHER_USER',
 };
 
 const TaskNotificationUserTypes = {
   TASK_ASSIGNED: 'assignee',
   TASK_REASSIGNED: 'assigner',
+  TASK_COMPLETED_BY_OTHER_USER: 'assigner',
 };
 
 async function sendTaskNotification(

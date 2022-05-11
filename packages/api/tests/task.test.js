@@ -1451,25 +1451,22 @@ describe('Task tests', () => {
         promisedTask: [{ task_id }],
         promisedField: [{ location_id }],
       });
-      assignTaskRequest(
-        { user_id, farm_id },
-        { assignee_user_id: user_id },
-        task_id,
-        async () => {},
-      );
-      completeTaskRequest(
-        { user_id: another_id, farm_id },
-        {
-          ...fakeCompletionData,
-          soil_amendment_task: fakeTaskData.soil_amendment_task(),
-        },
-        task_id,
-        'soil_amendment_task',
-        async (err, res) => {
-          expect(res.status).toBe(403);
-          done();
-        },
-      );
+      assignTaskRequest({ user_id, farm_id }, { assignee_user_id: user_id }, task_id, async () => {
+        completeTaskRequest(
+          { user_id: another_id, farm_id },
+          {
+            ...fakeCompletionData,
+            soil_amendment_task: fakeTaskData.soil_amendment_task(),
+            assignee_user_id: user_id,
+          },
+          task_id,
+          'soil_amendment_task',
+          async (err, res) => {
+            expect(res.status).toBe(403);
+            done();
+          },
+        );
+      });
     });
 
     test('should be able to complete a soil amendment task', async (done) => {

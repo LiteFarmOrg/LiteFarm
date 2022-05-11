@@ -20,6 +20,7 @@ const TaskCard = ({
   onClick = null,
   selected,
   happiness,
+  taskCardContents,
   classes = { card: {} },
   ...props
 }) => {
@@ -32,7 +33,18 @@ const TaskCard = ({
   const users = useSelector(userFarmsByFarmSelector).filter((user) => user.status !== 'Inactive');
   const user = useSelector(userFarmSelector);
   const immutableStatus = ['completed', 'abandoned'];
-  const isAdmin = user.is_admin;
+  let isAssignee = false;
+  let isAdmin = false;
+  let taskUnassigned = false;
+
+  if(user){
+  isAdmin = user.is_admin;
+  }
+  if(assignee){
+  isAssignee = user.user_id === assignee.user_id;
+  }else{
+    taskUnassigned = true;
+  }
 
   return (
     <>
@@ -47,7 +59,7 @@ const TaskCard = ({
         style={style}
         onClick={onClick}
         onClickAssignee={() => {
-          if (!immutableStatus.includes(status)) {
+          if (!immutableStatus.includes(status) && isAssignee || isAdmin || taskUnassigned) {
             setShowTaskAssignModal(true);
           }
         }}
@@ -59,6 +71,8 @@ const TaskCard = ({
         selected={selected}
         happiness={happiness}
         classes={classes}
+        isAdmin={isAdmin}
+        isAssignee={isAssignee}
       />
       {showTaskAssignModal && (
         <TaskQuickAssignModal
@@ -69,6 +83,7 @@ const TaskCard = ({
           onAssignTask={onAssignTask}
           users={users}
           user={user}
+          taskCardContents={taskCardContents}
           dismissModal={() => setShowTaskAssignModal(false)}
         />
       )}
@@ -98,6 +113,7 @@ TaskCard.propTypes = {
   onClickCompleteOrDueDate: PropTypes.func,
   selected: PropTypes.bool,
   task_id: PropTypes.number,
+  taskCardContents: PropTypes.array,
 };
 
 export default TaskCard;

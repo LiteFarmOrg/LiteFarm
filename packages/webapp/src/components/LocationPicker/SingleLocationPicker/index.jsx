@@ -296,7 +296,6 @@ const LocationPicker = ({
       />
       {overlappedPositions.length > 1 && !isPinMode && (
         <PureSelectionHandler
-        data-cy='map-mustSelect'
           locations={overlappedPositions}
           onSelect={onSelectionModalClick}
           dismissSelectionModal={dismissSelectionModal}

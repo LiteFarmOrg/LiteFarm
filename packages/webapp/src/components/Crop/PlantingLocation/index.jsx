@@ -113,7 +113,7 @@ export default function PurePlantingLocation({
       <Layout
         buttonGroup={
           <>
-            <Button disabled={!selectedLocationId && !pinCoordinate} onClick={onSubmit} fullLength>
+            <Button data-cy='cropPlan-locationSubmit' disabled={!selectedLocationId && !pinCoordinate} onClick={onSubmit} fullLength>
               {t('common:CONTINUE')}
             </Button>
           </>

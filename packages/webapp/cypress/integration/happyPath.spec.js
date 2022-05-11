@@ -291,12 +291,35 @@ describe.only('LiteFarm end to end test', () => {
       heightFactor = canvasHeight / initialHeight;
       widthFactor = canvasWidth / initialWidth;
 
-      // cy.wrap($canvas).click(widthFactor*570, heightFactor*321, { force: true});
       cy.wait(500);
       cy.get('[data-cy=map-selectLocation]').click(widthFactor * 570, heightFactor * 321, {
         force: false,
       });
     });
+
+    cy.get('[data-cy=cropPlan-locationSubmit]').should('exist').and('not.be.disabled').click();
+    cy.url().should('include', '/add_management_plan/final_planting_method');
+
+    cy.get('[data-cy=cropPlan-plantingMethod]').eq(0).should('exist').check({ force: true });
+
+    cy.get('[data-cy=plantingMethod-submit]').should('exist').and('not.be.disabled').click();
+    cy.url().should('include', '/add_management_plan/row_method');
+
+    cy.get('[data-cy=rowMethod-equalLength]').eq(0).should('exist').check({ force: true });
+    
+
+    cy.get('[data-cy=rowMethod-rows]').should('exist').should('have.value', '').type('10');
+    cy.get('[data-cy=rowMethod-length]').should('exist').should('have.value', '').type('30');
+    cy.get('[data-cy=rowMethod-spacing]').should('exist').should('have.value', '').type('15');
+    cy.contains('row').click();
+    cy.get('[data-cy=rowMethod-yeild]').should('exist').should('have.value', '').type('1500');
+    cy.contains('row').click();
+
+    cy.get('[data-cy=rowMethod-submit]').should('exist').and('not.be.disabled').click();
+    cy.url().should('include', '/add_management_plan/row_guidance');
+    cy.get('[data-cy=planGuidance-submit]').should('exist').and('not.be.disabled').click();
+    cy.get('[data-cy=cropPlan-save]').should('exist').and('not.be.disabled').click();
+
 
     //modify the management plan with quick assign modal
 

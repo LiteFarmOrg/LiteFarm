@@ -3,6 +3,7 @@ import { getDateInputFormat } from '../../src/util/moment';
 describe.only('LiteFarm end to end test', () => {
   before(() => {
     cy.task('db:tableCleanup');
+    cy.task('db:migrations');
   });
 
   it('Happy path', { defaultCommandTimeout: 5000 }, () => {
@@ -23,7 +24,7 @@ describe.only('LiteFarm end to end test', () => {
     const workerName = 'Test Worker';
     const testCrop = 'New Crop';
 
-    //Login pafe
+    //Login page
     cy.get('[data-cy=email]').type(emailOwner);
     cy.contains('Continue').should('exist').and('be.enabled').click();
 

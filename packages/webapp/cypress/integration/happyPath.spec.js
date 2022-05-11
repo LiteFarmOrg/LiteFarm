@@ -1,10 +1,6 @@
-import { getDateInputFormat } from '../../src/util/moment';
+import { getDateInputFormat, getDateString } from '../../src/util/moment';
 
 describe.only('LiteFarm end to end test', () => {
-  before(() => {
-    cy.task('db:tableCleanup');
-    cy.task('db:migrations');
-  });
 
   it('Happy path', { defaultCommandTimeout: 5000 }, () => {
     cy.visit('/');
@@ -308,7 +304,6 @@ describe.only('LiteFarm end to end test', () => {
 
     cy.get('[data-cy=rowMethod-equalLength]').eq(0).should('exist').check({ force: true });
     
-
     cy.get('[data-cy=rowMethod-rows]').should('exist').should('have.value', '').type('10');
     cy.get('[data-cy=rowMethod-length]').should('exist').should('have.value', '').type('30');
     cy.get('[data-cy=rowMethod-spacing]').should('exist').should('have.value', '').type('15');
@@ -320,9 +315,20 @@ describe.only('LiteFarm end to end test', () => {
     cy.url().should('include', '/add_management_plan/row_guidance');
     cy.get('[data-cy=planGuidance-submit]').should('exist').and('not.be.disabled').click();
     cy.get('[data-cy=cropPlan-save]').should('exist').and('not.be.disabled').click();
-
-
+    cy.get('[data-cy=spotlight-next]')
+      .contains('Got it')
+      .should('exist')
+      .and('not.be.disabled')
+      .click();
     //modify the management plan with quick assign modal
+    cy.get('[data-cy=taskCard-dueDate]').eq(0).should('exist').and('not.be.disabled').click();
+    cy.get('[data-cy=dateAssign-update]').should('exist').and('be.disabled')
+    date.setDate(date.getDate() + 30);
+    const dueDate = getDateInputFormat(date);
+    const displayDate = getDateString(dueDate);
+    cy.get('[data-cy=dateAssign-date]').should('exist').type(dueDate);
+    cy.get('[data-cy=dateAssign-update]').should('exist').and('not.be.disabled').click();
+    cy.get('[data-cy=taskCard-dueDate]').eq(0).should('exist').contains(displayDate);
 
     //logout
     //cy.get('[data-cy=home-profileButton]').should('exist').click();

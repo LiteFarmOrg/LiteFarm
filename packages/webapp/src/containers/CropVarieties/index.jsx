@@ -194,6 +194,8 @@ export default function CropVarieties({ history, match }) {
                   crop_photo_url,
                   crop_id,
                   needsPlan,
+                  noPlans,
+                  noPlansCount,
                   crop_variety_name,
                   crop_variety_id,
                 } = cropCatalog;
@@ -206,7 +208,7 @@ export default function CropVarieties({ history, match }) {
                       planned: planned.length,
                       past: past.length,
                     }}
-                    needsPlan={needsPlan}
+                    needsPlan={!!noPlansCount}
                     title={crop_variety_name}
                     src={crop_photo_url}
                     alt={imageKey}

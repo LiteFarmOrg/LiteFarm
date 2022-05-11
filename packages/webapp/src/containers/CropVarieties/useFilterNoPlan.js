@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import { LOCATION, NEEDS_PLAN, STATUS, SUPPLIERS } from '../Filter/constants';
-import { cropCatalogueFilterSelector } from '../filterSlice';
+import { cropVarietyFilterSelector } from '../filterSlice';
 import useStringFilteredCrops from '../CropCatalogue/useStringFilteredCrops';
 import useSortByCropTranslation from '../CropCatalogue/useSortByCropTranslation';
 import {
@@ -11,10 +11,18 @@ import {
 } from '../managementPlanSlice';
 import { cropVarietiesSelector } from '../cropVarietySlice';
 
-export default function useFilterNoPlan(filterString) {
+export default function useFilterNoPlan(filterString, crop_id) {
   const managementPlans = useSelector(managementPlansSelector);
   const cropVarieties = useSelector(cropVarietiesSelector);
-  const cropCatalogueFilter = useSelector(cropCatalogueFilterSelector);
+  let cropCatalogueFilter = useSelector(cropVarietyFilterSelector(crop_id));
+
+  if (!cropCatalogueFilter) {
+    cropCatalogueFilter = {
+      [LOCATION]: {},
+      [SUPPLIERS]: {},
+      [STATUS]: {},
+    };
+  }
 
   const varietiesFilteredBySupplier = useMemo(() => {
     const supplierFilter = cropCatalogueFilter[SUPPLIERS];

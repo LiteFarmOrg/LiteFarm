@@ -44,6 +44,8 @@ const TasksFilterPage = ({ onGoBack }) => {
       if (task.assignee !== undefined) {
         const { user_id, first_name, last_name } = task.assignee;
         assignees[user_id] = `${first_name} ${last_name}`;
+      } else {
+        assignees['unassigned'] = t('TASK.UNASSIGNED');
       }
     }
     for (const user of activeUsers) {

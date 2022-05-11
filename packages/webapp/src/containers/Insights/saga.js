@@ -93,11 +93,16 @@ export function* getLabourHappinessData() {
 export function* getBiodiversityData() {
   const { insightUrl } = apiConfig;
   let { user_id, farm_id } = yield select(loginSelector);
-  const header = getHeader(user_id, farm_id);
+  const defaultHeader = getHeader(user_id, farm_id);
+  const header = {
+    ...defaultHeader,
+    headers: { Connection: 'Keep-Alive', 'Keep-Alive': 'timeout=60', ...defaultHeader.headers },
+  };
 
   try {
     const result = yield call(axios.get, insightUrl + '/biodiversity/' + farm_id, header);
     if (result) {
+      console.log(result);
       yield put(setBiodiversityData(result.data));
     }
   } catch (e) {

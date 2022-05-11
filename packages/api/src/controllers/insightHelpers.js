@@ -295,20 +295,15 @@ const latlngCounterClockwiseLessThan = (a, b, center) => {
   return distanceA < distanceB ? 1 : -1;
 };
 
-const makeMultiPolygon = (pointsData) => {
-  let polygonString = 'MULTIPOLYGON(';
-  pointsData.forEach(points => {
-    polygonString = polygonString.concat("((")
-    points.forEach((p) => {
-      polygonString = polygonString.concat(`${p.lng} ${p.lat},`);
-    });
-    polygonString = polygonString.concat(`${points[0].lng} ${points[0].lat}))`)
-  })
-  return polygonString.concat(")");
+const makePolygon = (points) => {
+  let polygonString = 'POLYGON((';
+  points.forEach((p) => {
+    polygonString = polygonString.concat(`${p.lng} ${p.lat},`);
+  });
+  return polygonString.concat(`${points[0].lng} ${points[0].lat}))`);
 };
 
 exports.getBiodiversityAPI = async (pointData, countData) => {
-  console.time("Biodiversity");
   const resultData = {
     preview: 0,
     data: [],
@@ -319,16 +314,8 @@ exports.getBiodiversityAPI = async (pointData, countData) => {
     Insecta: 'Insects',
     Plantae: 'Plants',
     Amphibia: 'Amphibians',
-    Mammalia: "Mammals",
+    Mammalia: 'Mammals',
   };
-
-  // const gfibKeys = {
-  //   plants: 6,
-  //   insects: 216,
-  //   birds: 212,
-  //   mammals: 359,
-  //   amphibians: 131,
-  // }
 
   const speciesCount = {
     Birds: 0,
@@ -339,166 +326,89 @@ exports.getBiodiversityAPI = async (pointData, countData) => {
     Mammals: 0,
   };
   speciesCount['CropVarieties'] = parseInt(countData);
-  // const apiCalls = [];
-  const counterClockwisePoints = pointData.map(point => {
-    const centroid = findCentroid(point.grid_points);
+
+  const polygons = pointData.map((points) => {
+    const centroid = findCentroid(points.grid_points);
     const compareLatLong = (a, b) => latlngCounterClockwiseLessThan(a, b, centroid);
-    return point.grid_points.sort(compareLatLong);
-  })
-  const multiPolygon = makeMultiPolygon(counterClockwisePoints);
-  console.log(multiPolygon);
+    return makePolygon(points.grid_points.sort(compareLatLong));
+  });
+
   const apiData = [];
   const apiCalls = [];
-  // const year = new Date().getFullYear();
-  // We can get the number of records from a request, so make one request first and then create an array of the remaining requests
-  const firstRequestOptions = {
-    uri: endPoints.gbifAPI,
-    qs: {
-      geometry: multiPolygon,
-      // Max limit for api
-      limit: 300,
-      offset: 0,
-      // year: `${year - 5},${year}`,
-    },
-  };
-  console.time("first");
-  rp(firstRequestOptions)
-    .then(data => {
-      console.timeEnd("first")
-      console.time("parse");
+  console.time('First requests');
+  const counts = await Promise.all(
+    polygons.map(async (polygon) => {
+      const firstRequestOptions = {
+        uri: endPoints.gbifAPI,
+        qs: {
+          geometry: polygon,
+          // Max limit for api
+          limit: 300,
+          offset: 0,
+          // year: `${year - 5},${year}`,
+        },
+      };
+      const data = await rp(firstRequestOptions);
       const { count, results } = JSON.parse(data);
-      console.timeEnd("parse")
-      console.log(count);
       apiData.push(...results);
-      for (let i = 300; i < count; i += 300) {
-        apiCalls.push(
-          new Promise((resolve, reject) => {
-            const a = i;
-            rp({
-              uri: endPoints.gbifAPI,
-              qs: {
-                geometry: multiPolygon,
-                limit: 300,
-                offset: i,
-                // year: `${year - 5},${year}`,
-              },
-            }).then((data) => {
-              const filteredData = JSON.parse(data);
-              apiData.push(...filteredData.results);
+      return count;
+    }),
+  );
+  console.timeEnd('First requests');
+  console.time('generate');
+  counts.forEach((count, index) => {
+    for (let i = 300; i < count; i += 300) {
+      apiCalls.push(
+        new Promise((resolve, reject) => {
+          const a = i;
+          rp({
+            uri: endPoints.gbifAPI,
+            qs: {
+              geometry: polygons[index],
+              limit: 300,
+              offset: i,
+            },
+          })
+            .then((data) => {
+              const parsedData = JSON.parse(data);
+              apiData.push(...parsedData.results);
               resolve();
-            }).catch(error => {
+            })
+            .catch((error) => {
               console.log(`Rejecting error on offset: ${a}`);
-              // console.log(error);
-              reject(error)
+              reject(error);
             });
-          }),
-        )
+        }),
+      );
+    }
+  });
+  console.timeEnd('generate');
+  console.time('Api calls');
+  await Promise.allSettled(apiCalls);
+  console.timeEnd('Api calls');
+  console.time('Filter');
+  const filteredData = apiData.reduce((filtered, current) => {
+    if (!filtered.includes(current['speciesKey'])) {
+      filtered.push(current['speciesKey']);
+      if (current['kingdom'] in dictionary) {
+        speciesCount[dictionary[current['kingdom']]]++;
       }
-      console.time("api calls")
-      return Promise.allSettled(apiCalls)
-        .then(() => {
-          console.timeEnd("api calls");
-          const filteredData = apiData.reduce((filtered, current) => {
-            if (!filtered.includes(current['speciesKey'])) {
-              filtered.push(current['speciesKey'])
-              if (current['kingdom'] in dictionary) {
-                speciesCount[dictionary[current['kingdom']]]++;
-                // console.log(current["kingdom"]);
-                // console.log(current["kingdomKey"]);
-              }
-              if (current['class'] in dictionary) {
-                speciesCount[dictionary[current['class']]]++;
-                // console.log(current["class"]);
-                // console.log(current["classKey"]);
-              }
-            }
-            return filtered;
-          }, []);
-          for (const species in speciesCount) {
-            resultData['data'].push({ name: species, count: speciesCount[species], percentage: speciesCount[species] / filteredData.length })
-          }
-          resultData['preview'] = filteredData.length;
-          console.log(resultData);
-          console.timeEnd("Biodiversity");
-          return resultData;
-        })
-        .catch(error => {
-          return error;
-        })
-    })
-  // pointData.forEach(point => {
-  //   const centroid = findCentroid(point.grid_points);
-  //   const compareLatLong = (a, b) => latlngCounterClockwiseLessThan(a, b, centroid);
-  //   // API requires that the points are in counterclockwise order
-  //   const counterClockwisePoints = point.grid_points.sort(compareLatLong);
-  //   const po
-  // })
-
-  // pointData.forEach((fieldPoint) => {
-  //   // TODO: figure out how to fetch past limit. ST-46
-  //   const centroid = findCentroid(fieldPoint.grid_points);
-  //   const compareLatLong = (a, b) => latlngCounterClockwiseLessThan(a, b, centroid);
-  //   // API requires that the points are in counterclockwise order
-  //   const counterClockwisePoints = fieldPoint.grid_points.sort(compareLatLong);
-  //   const polygon = makePolygon(counterClockwisePoints);
-  //   console.log(polygon);
-  //
-  //   const options = {
-  //     uri: endPoints.gbifAPI,
-  //     qs: {
-  //       geometry: polygon,
-  //       limit: 300,
-  //     },
-  //   };
-  //   apiCalls.push(
-  //     new Promise((resolve, reject) => {
-  //       rp(options)
-  //         .then((data) => {
-  //           const jsonfied = JSON.parse(data);
-  //           const results = jsonfied['results'];
-  //           const infoFiltered = results.map((currentSpecies) => ({
-  //             kingdom: currentSpecies['kingdom'],
-  //             class: currentSpecies['class'],
-  //             speciesKey: currentSpecies['speciesKey'],
-  //           }));
-  //           resolve(infoFiltered);
-  //         })
-  //         .catch((error) => {
-  //           reject(error);
-  //         });
-  //     }),
-  //   );
-  // });
-  // return await Promise.all(apiCalls)
-  //   .then((apiResult) => {
-  //     // console.log(apiResult);
-  //     const mergedResults = mergeSpeciesObjects(apiResult);
-  //     // console.log(mergedResults)
-  //     mergedResults.map((currentSpecies) => {
-  //       if (currentSpecies['kingdom'] in dictionary) {
-  //         speciesCount[dictionary[currentSpecies['kingdom']]]++;
-  //       } else if (currentSpecies['class'] in dictionary) {
-  //         speciesCount[dictionary[currentSpecies['class']]]++;
-  //       }
-  //     });
-  //     let runningTotal = 0;
-  //     let maxSpecies = 0;
-  //     for (const key in speciesCount) {
-  //       runningTotal += speciesCount[key];
-  //       maxSpecies = Math.max(speciesCount[key], maxSpecies);
-  //       resultData['data'].push({ name: key, count: speciesCount[key], percentage: 0 });
-  //     }
-  //     // console.log(maxSpecies);
-  //     resultData['data'].map((curr) => {
-  //       curr['percentage'] = (curr['count'] / runningTotal) * 100;
-  //     });
-  //     resultData['preview'] = runningTotal;
-  //     console.log(resultData);
-  //     return resultData;
-  //   })
-  //   .catch((error) => {
-  //     return error;
-  //   });
+      if (current['class'] in dictionary) {
+        speciesCount[dictionary[current['class']]]++;
+      }
+    }
+    return filtered;
+  }, []);
+  console.timeEnd('Filter');
+  for (const species in speciesCount) {
+    resultData['data'].push({
+      name: species,
+      count: speciesCount[species],
+      percentage: (speciesCount[species] / filteredData.length) * 100,
+    });
+  }
+  resultData.preview = filteredData.length;
+  return resultData;
 };
 
 exports.formatPricesData = (data) => {

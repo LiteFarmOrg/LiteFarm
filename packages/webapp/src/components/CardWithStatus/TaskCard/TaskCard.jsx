@@ -62,6 +62,12 @@ export const PureTaskCard = ({
     onClickCompleteOrDueDate?.();
   };
 
+  let trueDate = completeOrDueDate;
+  if (status == 'abandoned') {
+    let [day, month, date, year] = new Date(props['abandonDate']).toDateString().split(' ');
+    trueDate = `${month} ${date}, ${year}`;
+  }
+
   const iconStyle = { 
     iconTextContainer: {
       display: 'flex',
@@ -110,7 +116,7 @@ export const PureTaskCard = ({
             }
           >
             <CalendarIcon />
-            <div>{completeOrDueDate}</div>
+            <div>{trueDate}</div>
           </div>
           {assignee ? (
             <div

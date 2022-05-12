@@ -68,3 +68,6 @@ export default function useFilterNoPlan(filterString, crop_id) {
 
   return cropsFilteredByStatusAndLocation;
 }
+
+export const useFilterNoPlanByCropId = (filterString, crop_id) =>
+  useFilterNoPlan(filterString, crop_id).filter((c) => c.crop_id === crop_id);

@@ -676,6 +676,7 @@
       "INFO": "La biodiversidad es excelente para las personas y el planeta. Contamos la riqueza de especies de todos los registros conocidos de biodiversidad en su finca desde los límites de su finca. Puede aumentar la biodiversidad de los cultivos en su granja agregando cultivos adicionales. Puede aumentar el recuento de biodiversidad no agrícola en su granja registrando ubicaciones en https://www.inaturalist.org/app.",
       "INSECTS": "Insectos",
       "PLANTS": "Plantas",
+      "MAMMALS": "MISSING",
       "SPECIES_COUNT": "{{count}} Especies",
       "SPECIES_COUNT_one": "MISSING",
       "SPECIES_COUNT_many": "MISSING",

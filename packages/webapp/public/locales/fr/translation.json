@@ -677,6 +677,7 @@
       "INFO": "La biodiversité est excellente pour les gens et la planète. Nous comptons la richesse en espèces de tous les enregistrements connus de la biodiversité sur votre ferme à partir des limites de vos champs. Vous pouvez augmenter le nombre de votre biodiversité sur votre ferme en utilisant le https:// www.inaturalist.org/app.",
       "INSECTS": "Insectes",
       "PLANTS": "Plantes",
+      "MAMMALS": "MISSING",
       "SPECIES_COUNT": "{{count}} espèces",
       "SPECIES_COUNT_one": "MISSING",
       "SPECIES_COUNT_many": "MISSING",

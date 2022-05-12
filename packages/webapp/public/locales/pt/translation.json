@@ -676,6 +676,7 @@
       "INFO": "A biodiversidade é ótima para as pessoas e para o planeta. Contabilizamos a riqueza de espécies a partir de todos os registros conhecidos sobre a biodiversidade ao redor de sua fazenda. Você pode aumentar a contagem de espécies em sua fazenda utilizando o https://www.inaturalist.org/app.",
       "INSECTS": "Insetos",
       "PLANTS": "Plantas",
+      "MAMMALS": "MISSING",
       "SPECIES_COUNT": "{{count}} espécies",
       "SPECIES_COUNT_one": "MISSING",
       "SPECIES_COUNT_many": "MISSING",

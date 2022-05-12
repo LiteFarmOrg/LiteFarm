@@ -1,6 +1,6 @@
 /*
- *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>
- *  This file (taskModel.js) is part of LiteFarm.
+ *  Copyright 2019, 2020, 2021, 2022 LiteFarm.org
+ *  This file is part of LiteFarm.
  *
  *  LiteFarm is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -10,7 +10,7 @@
  *  LiteFarm is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
+ *  GNU General Public License for more details, see <<https://www.gnu.org/licenses/>.>
  */
 
 const Model = require('objection').Model;
@@ -190,6 +190,28 @@ class TaskModel extends BaseModel {
         },
       },
     };
+  }
+
+  /**
+   * Gets the assignee of a task.
+   * @param {number} taskId - the ID of the task.
+   * @static
+   * @async
+   * @returns {Object} - Object {assignee_user_id, assignee_role_id, wage_at_moment, override_hourly_wage}
+   */
+  static async getTaskAssignee(taskId) {
+    return await TaskModel.query()
+      .whereNotDeleted()
+      .join('users', 'task.assignee_user_id', 'users.user_id')
+      .join('userFarm', 'users.user_id', 'userFarm.user_id')
+      .join('role', 'role.role_id', 'userFarm.role_id')
+      .select(
+        TaskModel.knex().raw(
+          'users.user_id as assignee_user_id, role.role_id as assignee_role_id, task.wage_at_moment, task.override_hourly_wage',
+        ),
+      )
+      .where('task.task_id', taskId)
+      .first();
   }
 }
 

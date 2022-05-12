@@ -23,7 +23,6 @@ const environment = process.env.NODE_ENV || 'development';
 const promiseRouter = require('express-promise-router');
 const { Model } = require('objection');
 const checkJwt = require('./middleware/acl/checkJwt');
-const { tableCleanup } = require('../tests/testEnvironment');
 const cors = require('cors');
 
 // initialize knex
@@ -72,7 +71,7 @@ const documentRoute = require('./routes/documentRoute');
 const taskRoute = require('./routes/taskRoute');
 const productRoute = require('./routes/productRoute');
 const notificationUserRoute = require('./routes/notificationUserRoute');
-const { use } = require('chai');
+const timeNotificationRoute = require('./routes/timeNotificationRoute');
 
 // register API
 const router = promiseRouter();
@@ -127,11 +126,12 @@ app.set('json replacer', (key, value) => {
   return value;
 });
 
-if (environment === 'development'|| environment === 'integration') {
-  app.use('/testData', testDataRoute)
-};
+if (environment === 'development' || environment === 'integration') {
+  app.use('/testData', testDataRoute);
+}
 
-app.use(bodyParser.json())
+app
+  .use(bodyParser.json())
   .use(bodyParser.urlencoded({ extended: true }))
 
   // prevent CORS errors
@@ -199,6 +199,7 @@ app.use(bodyParser.json())
   .use('/task', taskRoute)
   .use('/product', productRoute)
   .use('/notification_user', notificationUserRoute)
+  .use('/time_notification', timeNotificationRoute)
   // handle errors
   .use((req, res, next) => {
     const error = new Error('Not found');

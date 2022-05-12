@@ -1048,6 +1048,10 @@
     "TASK_ASSIGNED": {
       "TITLE": "MISSING",
       "BODY": "MISSING"
+    },
+    "WEEKLY_UNASSIGNED_TASKS": {
+      "TITLE": "MISSING",
+      "BODY": "MISSING"
     }
   },
   "OUTRO": {

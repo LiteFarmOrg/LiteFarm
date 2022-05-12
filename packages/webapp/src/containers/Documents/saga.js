@@ -66,9 +66,11 @@ export function* archiveDocumentSaga({ payload: { document_id, archived } }) {
       history.back();
     } else {
       yield put(enqueueErrorSnackbar(i18n.t(`message:ATTACHMENTS.ERROR.FAILED_${archivedStr}`)));
+      history.go(0);
     }
   } catch (e) {
     yield put(enqueueErrorSnackbar(i18n.t(`message:ATTACHMENTS.ERROR.FAILED_${archivedStr}`)));
+    history.go(0);
     console.log(e);
   }
 }

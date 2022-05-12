@@ -4,11 +4,7 @@ import {
   getPlannedManagementPlans,
 } from '../managementPlanSlice';
 import { useSelector } from 'react-redux';
-import {
-  cropCatalogueFilterDateSelector,
-  cropCatalogueFilterSelector,
-  cropVarietyFilterSelector,
-} from '../filterSlice';
+import { cropCatalogueFilterDateSelector, cropVarietyFilterSelector } from '../filterSlice';
 import { useMemo } from 'react';
 import useStringFilteredCrops from '../CropCatalogue/useStringFilteredCrops';
 import {
@@ -113,18 +109,21 @@ export default function useCropVarietyCatalogue(filterString, crop_id) {
       }
     }
     const managementPlansByCropId_list = Object.values(managementPlansByCropId);
-    const _final_with_plans = managementPlansByCropId_list.reduce((previousValue, currentValue) => {
-      const no_plan_found = _without_management_plan_ByCropId.filter(
-        (np) => np.crop_variety_name.trim() === currentValue.crop_variety_name.trim(),
-      );
-      if (!no_plan_found) {
-        previousValue.push({ ...currentValue, noPlans: [] });
-      } else {
-        previousValue.push({ ...currentValue, noPlans: no_plan_found });
-      }
-      return previousValue;
-    }, []);
-    return _final_with_plans;
+    const managementPlansByCropIdWithNoPlans = managementPlansByCropId_list.reduce(
+      (previousValue, currentValue) => {
+        const no_plan_found = _without_management_plan_ByCropId.filter(
+          (np) => np.crop_variety_name.trim() === currentValue.crop_variety_name.trim(),
+        );
+        if (!no_plan_found) {
+          previousValue.push({ ...currentValue, noPlans: [] });
+        } else {
+          previousValue.push({ ...currentValue, noPlans: no_plan_found });
+        }
+        return previousValue;
+      },
+      [],
+    );
+    return managementPlansByCropIdWithNoPlans;
   }, [managementPlansFilteredBySuppliers, cropCatalogFilterDate]);
 
   const cropCatalogueFilteredByStatus = useMemo(() => {
@@ -153,7 +152,7 @@ export default function useCropVarietyCatalogue(filterString, crop_id) {
   }, [cropCatalogueFilter[STATUS], cropCatalogue]);
 
   const cropCataloguesStatus = useMemo(() => {
-    const cropCataloguesStatus = { active: 0, planned: 0, past: 0 };
+    const cropCataloguesStatus = { active: 0, planned: 0, past: 0, noPlans: 0 };
     for (const managementPlansByStatus of cropCatalogueFilteredByStatus) {
       for (const status in cropCataloguesStatus) {
         cropCataloguesStatus[status] += managementPlansByStatus[status].length;
@@ -161,7 +160,11 @@ export default function useCropVarietyCatalogue(filterString, crop_id) {
     }
     return {
       ...cropCataloguesStatus,
-      sum: cropCataloguesStatus.active + cropCataloguesStatus.planned + cropCataloguesStatus.past,
+      sum:
+        cropCataloguesStatus.active +
+        cropCataloguesStatus.planned +
+        cropCataloguesStatus.past +
+        cropCataloguesStatus.noPlans,
     };
   }, [cropCatalogueFilteredByStatus]);
 
@@ -214,34 +217,36 @@ export default function useCropVarietyCatalogue(filterString, crop_id) {
     }));
   }, [filteredCropVarietiesWithoutManagementPlanByCropId, sortedCropCatalogue]);
 
-  const _list_data = filteredCropsWithoutManagementPlan.reduce((previousValue, currentValue) => {
-    if (previousValue.length === 0) {
-      previousValue.push({ ...currentValue, noPlans: 1 });
-    } else {
-      let _f = previousValue.find((pre) => {
-        return pre.crop_variety_name === currentValue.crop_variety_name;
-      });
-      if (!_f) {
+  const filteredCropsWithoutManagementPlanList = filteredCropsWithoutManagementPlan.reduce(
+    (previousValue, currentValue) => {
+      if (previousValue.length === 0) {
         previousValue.push({ ...currentValue, noPlans: 1 });
       } else {
-        const idx = previousValue.indexOf(_f);
-        previousValue[idx].noPlans += 1;
+        let _f = previousValue.find((pre) => {
+          return pre.crop_variety_name === currentValue.crop_variety_name;
+        });
+        if (!_f) {
+          previousValue.push({ ...currentValue, noPlans: 1 });
+        } else {
+          const idx = previousValue.indexOf(_f);
+          previousValue[idx].noPlans += 1;
+        }
       }
-    }
-    return previousValue;
-  }, []);
+      return previousValue;
+    },
+    [],
+  );
 
-  const _final_with_plans = sortedCropCatalogueWithNeedsPlanProp.reduce(
+  const sortedCropCatalogueWithNeedsPlanPropList = sortedCropCatalogueWithNeedsPlanProp.reduce(
     (previousValue, currentValue) => {
-      const no_plan_found = _list_data.find(
+      const no_plan_found = filteredCropsWithoutManagementPlanList.find(
         (np) => np.crop_variety_name.trim() === currentValue.crop_variety_name.trim(),
       );
-      const no_plan_found_idx = _list_data.indexOf(no_plan_found);
-      // undefined
+      const no_plan_found_idx = filteredCropsWithoutManagementPlanList.indexOf(no_plan_found);
       if (!no_plan_found) {
         previousValue.push({ ...currentValue, noPlansCount: 0 });
       } else {
-        _list_data.splice(no_plan_found_idx, 1);
+        filteredCropsWithoutManagementPlanList.splice(no_plan_found_idx, 1);
         previousValue.push({ ...currentValue, noPlansCount: no_plan_found.noPlans });
       }
       return previousValue;
@@ -250,8 +255,8 @@ export default function useCropVarietyCatalogue(filterString, crop_id) {
   );
 
   return {
-    cropCatalogue: _final_with_plans,
-    filteredCropsWithoutManagementPlan: _list_data,
+    cropCatalogue: sortedCropCatalogueWithNeedsPlanPropList,
+    filteredCropsWithoutManagementPlan: filteredCropsWithoutManagementPlanList,
     ...cropCataloguesStatus,
   };
 }

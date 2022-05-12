@@ -173,3 +173,18 @@ export const suppliersSelector = createSelector([cropVarietiesSelector], (cropVa
   suppliers.delete(null);
   return Array.from(suppliers);
 });
+
+export const suppliersByCropIdSelector = (cropId) => {
+  return createSelector([cropVarietiesSelector], (cropVarieties) => {
+    const suppliers = new Set(
+      cropVarieties.reduce((acc, { crop_id, supplier }) => {
+        if (crop_id === cropId) {
+          acc.push(supplier);
+        }
+        return acc;
+      }, []),
+    );
+    suppliers.delete(null);
+    return Array.from(suppliers);
+  });
+};

@@ -1,10 +1,14 @@
-import React, { Component, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import insightStyles from '../styles.module.scss';
 import PageTitle from '../../../components/PageTitle';
-import { biodiversityLoadingSelector, biodiversitySelector } from '../selectors';
+import {
+  biodiversityErrorSelector,
+  biodiversityLoadingSelector,
+  biodiversitySelector,
+} from '../selectors';
 import BiodiversitySpecies from '../../../components/Insights/BiodiversitySpecies';
-import { useTranslation, withTranslation } from 'react-i18next';
+import { useTranslation } from 'react-i18next';
 import { Semibold } from '../../../components/Typography';
 import { getBiodiversityData } from '../actions';
 import BiodiversityLoadingModal from '../../../components/Modals/BiodiversityLoadingModal/BiodiversityLoadingModal';
@@ -13,6 +17,7 @@ import history from '../../../history';
 const Biodiversity = () => {
   const biodiversityData = useSelector(biodiversitySelector);
   const biodiversityLoading = useSelector(biodiversityLoadingSelector);
+  const biodiversityError = useSelector(biodiversityErrorSelector);
 
   const { t } = useTranslation();
   const dispatch = useDispatch();
@@ -22,14 +27,13 @@ const Biodiversity = () => {
   };
 
   useEffect(() => {
-    // if (!(biodiversityData.timeFetched && getMinutesSinceTime(biodiversityData.timeFetched) < 30)) {
-    //   dispatch(getBiodiversityData());
-    // }
+    if (!(biodiversityData.timeFetched && getMinutesSinceTime(biodiversityData.timeFetched) < 30)) {
+      dispatch(getBiodiversityData());
+    }
     dispatch(getBiodiversityData());
-  });
+  }, []);
 
   const biodiversityInfoItems = biodiversityData.data.map((current, index) => {
-    console.log(current);
     return (
       <BiodiversitySpecies
         key={`item-${index}`}
@@ -57,11 +61,11 @@ const Biodiversity = () => {
         <Semibold>{t('INSIGHTS.BIODIVERSITY.HEADER')}</Semibold>
       </div>
       <hr className={insightStyles.defaultLine} />
-      {biodiversityLoading ? (
+      {biodiversityLoading || biodiversityError ? (
         <BiodiversityLoadingModal
           dismissModal={dismissModal}
-          loadingError={true}
-          minutes={getMinutesSinceTime(30 - biodiversityData.timeFetched)}
+          loadingError={biodiversityError}
+          minutes={30 - getMinutesSinceTime(biodiversityData.timeFetched)}
         />
       ) : (
         biodiversityInfoItems
@@ -70,54 +74,4 @@ const Biodiversity = () => {
   );
 };
 
-class BiodiversityOld extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {};
-  }
-
-  render() {
-    const { t } = this.props;
-    let biodiversityData = this.props.biodiversityData['data'] || [];
-    return (
-      <div className={insightStyles.insightContainer}>
-        <PageTitle
-          title={t('INSIGHTS.BIODIVERSITY.TITLE')}
-          backUrl="/Insights"
-          rightIcon={true}
-          rightIconTitle={t('INSIGHTS.BIODIVERSITY.TITLE')}
-          rightIconBody={<div>{t('INSIGHTS.BIODIVERSITY.INFO')}</div>}
-        />
-        <div>
-          <Semibold>{t('INSIGHTS.BIODIVERSITY.HEADER')}</Semibold>
-        </div>
-        <hr className={insightStyles.defaultLine} />
-        {biodiversityData.map((curr, index) => {
-          return (
-            <BiodiversitySpecies
-              key={'item-' + index}
-              species={curr['name']}
-              count={curr['count']}
-              percent={curr['percentage']}
-            />
-          );
-        })}
-      </div>
-    );
-  }
-}
-
-const mapStateToProps = (state) => {
-  return {
-    biodiversityData: biodiversitySelector(state),
-  };
-};
-
-const mapDispatchToProps = (dispatch) => {
-  return {
-    dispatch,
-  };
-};
-
-// export default connect(mapStateToProps, mapDispatchToProps)(withTranslation()(Biodiversity));
 export default Biodiversity;

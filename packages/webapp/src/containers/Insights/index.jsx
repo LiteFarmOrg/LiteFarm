@@ -34,6 +34,7 @@ import {
 } from './actions';
 // selectors
 import {
+  biodiversityErrorSelector,
   biodiversityLoadingSelector,
   biodiversitySelector,
   cropsNutritionSelector,
@@ -62,6 +63,7 @@ const Insights = () => {
   const biodiversityData = useSelector(biodiversitySelector);
   const pricesData = useSelector(pricesSelector);
   const biodiversityLoading = useSelector(biodiversityLoadingSelector);
+  const biodiversityError = useSelector(biodiversityErrorSelector);
 
   const dispatch = useDispatch();
   const { t } = useTranslation();
@@ -94,13 +96,13 @@ const Insights = () => {
   ];
 
   useEffect(() => {
-    console.log('Dispatching...');
     dispatch(getSoilOMData());
     dispatch(getLabourHappinessData());
     dispatch(getPricesWithDistanceData(farm.grid_points, pricesDistance));
     if (
       !(
-        biodiversityData.timeFetched /*&& (Date.now() - biodiversityData.timeFetched) / (1000*60) < 30*/
+        biodiversityData.timeFetched &&
+        (Date.now() - biodiversityData.timeFetched) / (1000 * 60) < 30
       )
     ) {
       dispatch(getBiodiversityData());
@@ -138,11 +140,15 @@ const Insights = () => {
     insightData['LabourHappiness'] = labourHappinessData.preview
       ? labourHappinessData.preview + '/5'
       : t('INSIGHTS.UNAVAILABLE');
-    insightData['Biodiversity'] = biodiversityLoading
-      ? t('INSIGHTS.BIODIVERSITY.LOADING.PREVIEW')
-      : t('INSIGHTS.BIODIVERSITY.SPECIES_COUNT', {
-          count: biodiversityData.preview,
-        });
+    if (biodiversityLoading) {
+      insightData['Biodiversity'] = t('INSIGHTS.BIODIVERSITY.LOADING.PREVIEW');
+    } else if (biodiversityError) {
+      insightData['Biodiversity'] = t('INSIGHTS.BIODIVERSITY.ERROR.PREVIEW');
+    } else {
+      insightData['Biodiversity'] = t('INSIGHTS.BIODIVERSITY.SPECIES_COUNT', {
+        count: biodiversityData.preview,
+      });
+    }
     insightData['prices'] = pricesData.preview
       ? t('INSIGHTS.PRICES.PERCENT_OF_MARKET', { percentage: pricesData.preview })
       : t('INSIGHTS.UNAVAILABLE');
@@ -150,7 +156,6 @@ const Insights = () => {
   }, [soilOMData, labourHappinessData, biodiversityData, pricesData]);
 
   const renderedItems = useMemo(() => {
-    console.log(insightData);
     return (
       insightData &&
       items.map((item, index) => {

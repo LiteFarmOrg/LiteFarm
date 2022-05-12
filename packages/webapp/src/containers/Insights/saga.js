@@ -17,6 +17,7 @@ import apiConfig from '../../apiConfig';
 import { call, put, select, takeLatest, takeLeading } from 'redux-saga/effects';
 import {
   setBiodiversityData,
+  setBiodiversityError,
   setBiodiversityLoading,
   setCropsSoldNutritionInState,
   setFrequencyNitrogenBalance,
@@ -93,7 +94,9 @@ export function* getLabourHappinessData() {
 }
 
 export function* getBiodiversityData() {
+  console.log('Getting biodiversity data');
   yield put(setBiodiversityLoading(true));
+  yield put(setBiodiversityError(false));
   const { insightUrl } = apiConfig;
   let { user_id, farm_id } = yield select(loginSelector);
   const defaultHeader = getHeader(user_id, farm_id);
@@ -110,7 +113,9 @@ export function* getBiodiversityData() {
       yield put(setBiodiversityData(result.data));
     }
   } catch (e) {
+    console.log(e);
     yield put(setBiodiversityLoading(false));
+    yield put(setBiodiversityError(true, Date.now()));
     console.log('failed to fetch biodiversity data from db');
   }
 }

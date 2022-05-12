@@ -33,6 +33,11 @@ const biodiversityLoadingSelector = createSelector(
   (state) => state.biodiversityLoading,
 );
 
+const biodiversityErrorSelector = createSelector(
+  insightSelector,
+  (state) => state.biodiversityError,
+);
+
 const pricesSelector = createSelector(insightSelector, (state) => state.pricesData);
 
 const pricesDistanceSelector = createSelector(insightSelector, (state) => state.pricesDistance);
@@ -60,6 +65,7 @@ export {
   labourHappinessSelector,
   biodiversitySelector,
   biodiversityLoadingSelector,
+  biodiversityErrorSelector,
   pricesSelector,
   pricesDistanceSelector,
   waterBalanceSelector,

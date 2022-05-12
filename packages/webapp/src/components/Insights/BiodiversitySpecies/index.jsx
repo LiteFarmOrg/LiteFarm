@@ -21,7 +21,6 @@ class BiodiversitySpecies extends Component {
 
   render() {
     const { species, count, percent, t } = this.props;
-    console.log(this.props);
     return (
       <div>
         <div className={sharedStyles.infoTextLine}>

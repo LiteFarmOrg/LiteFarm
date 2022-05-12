@@ -39,6 +39,8 @@ import {
   CREATE_FREQUENCY_WATER_BALANCE,
   GET_BIODIVERSITY_LOADING,
   SET_BIODIVERSITY_LOADING,
+  GET_BIODIVERSITY_ERROR,
+  SET_BIODIVERSITY_ERROR,
 } from './constants';
 
 export const getCropsSoldNutrition = () => {
@@ -106,6 +108,20 @@ export const setBiodiversityLoading = (biodiversityLoading) => {
   return {
     type: SET_BIODIVERSITY_LOADING,
     biodiversityLoading,
+  };
+};
+
+export const getBiodiversityError = () => {
+  return {
+    type: GET_BIODIVERSITY_ERROR,
+  };
+};
+
+export const setBiodiversityError = (biodiversityError, timeFailed) => {
+  return {
+    type: SET_BIODIVERSITY_ERROR,
+    biodiversityError,
+    timeFailed,
   };
 };
 

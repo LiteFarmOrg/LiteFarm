@@ -689,7 +689,7 @@
         "BODY": "We're generating the latest biodiversity insights for your farm. This can take up to 60 seconds."
       },
       "ERROR": {
-        "PREVIEW": "Temporarily unavailable",
+        "PREVIEW": "Unavailable",
         "TITLE": "There was a problem",
         "BODY": "LiteFarm generates biodiversity insights based on several sources and was unable to do so at this time. Please try again after {{minutes}} minutes."
       }

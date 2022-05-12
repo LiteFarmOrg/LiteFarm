@@ -17,29 +17,23 @@ import {
   NEEDS_PLAN,
 } from '../Filter/constants';
 import { useTranslation } from 'react-i18next';
-import useFilterNoPlan from './useFilterNoPlan';
+import { useFilterNoPlanByCropId } from './useFilterNoPlan';
 import useSortByCropTranslation from '../CropCatalogue/useSortByCropTranslation';
-import { managementPlansWithCurrentLocationSelector } from '../Task/TaskCrops/managementPlansWithLocationSelector';
-import { cropVarietiesSelector } from '../../containers/cropVarietySlice';
+import { managementPlansWithCurrentLocationByCropIdSelector } from '../Task/TaskCrops/managementPlansWithLocationSelector';
 
 export default function useCropVarietyCatalogue(filterString, crop_id) {
-  const managementPlansWithCurrentLocation = useSelector(
-    managementPlansWithCurrentLocationSelector,
+  const managementPlansWithCurrentLocationByCropId = useSelector(
+    managementPlansWithCurrentLocationByCropIdSelector(crop_id),
   );
-
-  let cropVarieties = useSelector(cropVarietiesSelector);
-
-  const managementPlansWithCurrentLocationByCropId = managementPlansWithCurrentLocation.filter(
-    (c) => c.crop_id === crop_id,
-  );
-
-  cropVarieties = cropVarieties.filter((c) => c.crop_id === crop_id);
 
   const cropCatalogFilterDate = useSelector(cropCatalogueFilterDateSelector);
   let cropCatalogueFilter = useSelector(cropVarietyFilterSelector(crop_id));
   const managementPlansFilteredByFilterString = useStringFilteredCrops(
     managementPlansWithCurrentLocationByCropId,
     filterString,
+  );
+  const withoutManagementPlanListByCropId = useSortByCropTranslation(
+    useFilterNoPlanByCropId(filterString, crop_id),
   );
 
   if (!cropCatalogueFilter) {
@@ -50,12 +44,7 @@ export default function useCropVarietyCatalogue(filterString, crop_id) {
     };
   }
 
-  const _without_management_plan = useSortByCropTranslation(useFilterNoPlan(filterString, crop_id));
-
-  const _without_management_plan_ByCropId = _without_management_plan.filter(
-    (c) => c.crop_id === crop_id,
-  );
-
+  // location filter on management plan.
   const managementPlansFilteredByLocations = useMemo(() => {
     const locationFilter = cropCatalogueFilter[LOCATION];
     const included = new Set();
@@ -68,6 +57,7 @@ export default function useCropVarietyCatalogue(filterString, crop_id) {
     );
   }, [cropCatalogueFilter[LOCATION], managementPlansFilteredByFilterString]);
 
+  // suppliers filter on management plan.
   const managementPlansFilteredBySuppliers = useMemo(() => {
     const supplierFilter = cropCatalogueFilter[SUPPLIERS];
     const included = new Set();
@@ -80,6 +70,7 @@ export default function useCropVarietyCatalogue(filterString, crop_id) {
     );
   }, [cropCatalogueFilter[SUPPLIERS], managementPlansFilteredByLocations]);
 
+  // crop varity list the contains active, planned, past and noPlans count.
   const cropCatalogue = useMemo(() => {
     const time = new Date(cropCatalogFilterDate).getTime();
     const managementPlansByStatus = {
@@ -110,22 +101,23 @@ export default function useCropVarietyCatalogue(filterString, crop_id) {
     }
     const managementPlansByCropId_list = Object.values(managementPlansByCropId);
     const managementPlansByCropIdWithNoPlans = managementPlansByCropId_list.reduce(
-      (previousValue, currentValue) => {
-        const no_plan_found = _without_management_plan_ByCropId.filter(
+      (acc, currentValue) => {
+        const noPlanFoundCropVariety = withoutManagementPlanListByCropId.filter(
           (np) => np.crop_variety_name.trim() === currentValue.crop_variety_name.trim(),
         );
-        if (!no_plan_found) {
-          previousValue.push({ ...currentValue, noPlans: [] });
+        if (!noPlanFoundCropVariety) {
+          acc.push({ ...currentValue, noPlans: [] });
         } else {
-          previousValue.push({ ...currentValue, noPlans: no_plan_found });
+          acc.push({ ...currentValue, noPlans: noPlanFoundCropVariety });
         }
-        return previousValue;
+        return acc;
       },
       [],
     );
     return managementPlansByCropIdWithNoPlans;
   }, [managementPlansFilteredBySuppliers, cropCatalogFilterDate]);
 
+  // filter crop variety on the basis of active, planned, past and noPlan status.
   const cropCatalogueFilteredByStatus = useMemo(() => {
     const statusFilter = cropCatalogueFilter[STATUS];
     const included = new Set();
@@ -151,6 +143,8 @@ export default function useCropVarietyCatalogue(filterString, crop_id) {
     );
   }, [cropCatalogueFilter[STATUS], cropCatalogue]);
 
+  // this method is used to calculate the sum of active, planned, past, noPlans of all
+  // crop varieties for a particular crop.
   const cropCataloguesStatus = useMemo(() => {
     const cropCataloguesStatus = { active: 0, planned: 0, past: 0, noPlans: 0 };
     for (const managementPlansByStatus of cropCatalogueFilteredByStatus) {
@@ -168,6 +162,7 @@ export default function useCropVarietyCatalogue(filterString, crop_id) {
     };
   }, [cropCatalogueFilteredByStatus]);
 
+  // sort the crop varieties on the basis of active, planned, past.
   const { t } = useTranslation();
   const onlyOneOfTwoNumberIsZero = (i, j) => i + j > 0 && i * j === 0;
   const sortedCropCatalogue = useMemo(() => {
@@ -189,67 +184,64 @@ export default function useCropVarietyCatalogue(filterString, crop_id) {
     });
   }, [cropCatalogueFilteredByStatus]);
 
-  const filteredCropVarietiesWithoutManagementPlan = useSortByCropTranslation(
-    useFilterNoPlan(filterString, crop_id),
-  );
-
-  const filteredCropVarietiesWithoutManagementPlanByCropId =
-    filteredCropVarietiesWithoutManagementPlan.filter((c) => c.crop_id === crop_id);
-
   const filteredCropsWithoutManagementPlan = useMemo(() => {
     const cropIdsWithPlan = new Set(
       sortedCropCatalogue.map(({ crop_variety_id }) => crop_variety_id),
     );
-    return filteredCropVarietiesWithoutManagementPlanByCropId.filter(
+    return withoutManagementPlanListByCropId.filter(
       (cropVariety) => !cropIdsWithPlan.has(cropVariety.crop_variety_id),
     );
-  }, [filteredCropVarietiesWithoutManagementPlanByCropId, sortedCropCatalogue]);
+  }, [withoutManagementPlanListByCropId, sortedCropCatalogue]);
 
+  // used to create flag of no plans in the crop catalogue list.
   const sortedCropCatalogueWithNeedsPlanProp = useMemo(() => {
     const cropIdsWithoutPlan = new Set(
-      filteredCropVarietiesWithoutManagementPlanByCropId.map(
-        ({ crop_variety_id }) => crop_variety_id,
-      ),
+      withoutManagementPlanListByCropId.map(({ crop_variety_id }) => crop_variety_id),
     );
     return sortedCropCatalogue.map((crop) => ({
       ...crop,
       needsPlan: cropIdsWithoutPlan.has(crop.crop_variety_id),
     }));
-  }, [filteredCropVarietiesWithoutManagementPlanByCropId, sortedCropCatalogue]);
+  }, [withoutManagementPlanListByCropId, sortedCropCatalogue]);
 
+  // to calculate no plans count for each crop that's not having any management plan.
   const filteredCropsWithoutManagementPlanList = filteredCropsWithoutManagementPlan.reduce(
-    (previousValue, currentValue) => {
-      if (previousValue.length === 0) {
-        previousValue.push({ ...currentValue, noPlans: 1 });
+    (acc, currentValue) => {
+      if (acc.length === 0) {
+        acc.push({ ...currentValue, noPlans: 1 });
       } else {
-        let _f = previousValue.find((pre) => {
+        let noPlanFoundCropVariety = acc.find((pre) => {
           return pre.crop_variety_name === currentValue.crop_variety_name;
         });
-        if (!_f) {
-          previousValue.push({ ...currentValue, noPlans: 1 });
+        if (!noPlanFoundCropVariety) {
+          acc.push({ ...currentValue, noPlans: 1 });
         } else {
-          const idx = previousValue.indexOf(_f);
-          previousValue[idx].noPlans += 1;
+          const idx = acc.indexOf(noPlanFoundCropVariety);
+          acc[idx].noPlans += 1;
         }
       }
-      return previousValue;
+      return acc;
     },
     [],
   );
 
+  // aggregates the "with plan crop variety" list with the "no plan crop variety" list. this function takes the
+  // object from the "no plans crop variety" list and puts it into the "with plan crop variety" list if that crop
+  // variety is present in the "with plan crop variety" list along with the plans count.
   const sortedCropCatalogueWithNeedsPlanPropList = sortedCropCatalogueWithNeedsPlanProp.reduce(
-    (previousValue, currentValue) => {
-      const no_plan_found = filteredCropsWithoutManagementPlanList.find(
+    (acc, currentValue) => {
+      const noPlanFoundCropVariety = filteredCropsWithoutManagementPlanList.find(
         (np) => np.crop_variety_name.trim() === currentValue.crop_variety_name.trim(),
       );
-      const no_plan_found_idx = filteredCropsWithoutManagementPlanList.indexOf(no_plan_found);
-      if (!no_plan_found) {
-        previousValue.push({ ...currentValue, noPlansCount: 0 });
+      const noPlanFoundCropVarietyIndex =
+        filteredCropsWithoutManagementPlanList.indexOf(noPlanFoundCropVariety);
+      if (!noPlanFoundCropVariety) {
+        acc.push({ ...currentValue, noPlansCount: 0 });
       } else {
-        filteredCropsWithoutManagementPlanList.splice(no_plan_found_idx, 1);
-        previousValue.push({ ...currentValue, noPlansCount: no_plan_found.noPlans });
+        filteredCropsWithoutManagementPlanList.splice(noPlanFoundCropVarietyIndex, 1);
+        acc.push({ ...currentValue, noPlansCount: noPlanFoundCropVariety.noPlans });
       }
-      return previousValue;
+      return acc;
     },
     [],
   );

@@ -188,3 +188,9 @@ export const suppliersByCropIdSelector = (cropId) => {
     return Array.from(suppliers);
   });
 };
+
+export const cropVarietiesByCropIdSelector = (cropId) => {
+  return createSelector([cropVarietiesSelector], (cropVarieties) =>
+    cropVarieties.filter((c) => c.crop_id === cropId),
+  );
+};

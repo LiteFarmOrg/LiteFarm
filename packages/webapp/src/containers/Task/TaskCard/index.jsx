@@ -54,6 +54,7 @@ const TaskCard = ({
         locationName={locationName}
         cropVarietyName={cropVarietyName}
         completeOrDueDate={completeOrDueDate}
+        abandonDate={props['abandon_date']}
         assignee={assignee}
         style={style}
         onClick={onClick}

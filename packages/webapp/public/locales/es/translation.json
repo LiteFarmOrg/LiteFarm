@@ -682,7 +682,17 @@
       "SPECIES_COUNT_many": "MISSING",
       "SPECIES_COUNT_other": "MISSING",
       "SPECIES_COUNT_plural": "{{count}} Especies",
-      "TITLE": "Biodiversidad"
+      "TITLE": "Biodiversidad",
+      "LOADING": {
+        "PREVIEW": "MISSING",
+        "TITLE": "MISSING",
+        "BODY": "MISSING"
+      },
+      "ERROR": {
+        "PREVIEW": "MISSING",
+        "TITLE": "MISSING",
+        "BODY": "MISSING"
+      }
     },
     "CURRENT": "Actual",
     "INFO": "Las reflexiones son caracteristicas de datos de que esta pasando en su granja. Mientras mas data proveas en la aplicacion mas reflexiones pueden ser generadas. Mira las reflexiones individuales para mas informacion.",

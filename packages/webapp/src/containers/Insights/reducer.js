@@ -18,6 +18,7 @@ import {
   SET_SOLD_OM_DATA,
   SET_LABOUR_HAPPINESS_DATA,
   SET_BIODIVERSITY_DATA,
+  SET_BIODIVERSITY_LOADING,
   SET_PRICES_DATA,
   SET_PRICES_DISTANCE,
   SET_WATER_BALANCE_DATA,
@@ -31,6 +32,7 @@ const initialState = {
   soilOMData: { preview: 0, data: [] },
   labourHappinessData: { preview: 0, data: [] },
   biodiversityData: { preview: 0, data: [] },
+  biodiversityLoading: false,
   pricesData: { preview: 0, amountOfFarms: 0, data: [] },
   waterBalanceData: { preview: 0, data: [] },
   waterBalanceSchedule: {},
@@ -61,30 +63,41 @@ function insightReducer(state = initialState, action) {
         biodiversityData: action.biodiversityData,
       });
 
+    case SET_BIODIVERSITY_LOADING:
+      return Object.assign({}, state, {
+        biodiversityLoading: action.biodiversityLoading,
+      });
+
     case SET_PRICES_DATA:
       return Object.assign({}, state, {
         pricesData: action.pricesData,
       });
+
     case SET_WATER_BALANCE_DATA:
       return Object.assign({}, state, {
         waterBalanceData: action.waterBalanceData,
       });
+
     case SET_FREQUENCY_WATER_BALANCE:
       return Object.assign({}, state, {
         waterBalanceSchedule: action.waterBalanceSchedule,
       });
+
     case SET_NITROGEN_BALANCE_DATA:
       return Object.assign({}, state, {
         nitrogenBalanceData: action.nitrogenBalanceData,
       });
+
     case SET_FREQUENCY_NITROGEN_BALANCE:
       return Object.assign({}, state, {
         nitrogenFrequencyData: action.data,
       });
+
     case SET_PRICES_DISTANCE:
       return Object.assign({}, state, {
         pricesDistance: action.distance,
       });
+
     default:
       return state;
   }

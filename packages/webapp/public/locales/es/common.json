@@ -52,5 +52,6 @@
   "UPDATE": "Actualizar",
   "WORD_LIMIT_ERROR": "Solo se pueden mostrar {{value}} caracteres",
   "YEAR": "MISSING",
-  "YES": "Sí"
+  "YES": "Sí",
+  "OK": "MISSING"
 }

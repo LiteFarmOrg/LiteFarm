@@ -404,7 +404,7 @@ exports.getBiodiversityAPI = async (pointData, countData) => {
     resultData['data'].push({
       name: species,
       count: speciesCount[species],
-      percentage: (speciesCount[species] / filteredData.length) * 100,
+      percent: (speciesCount[species] / filteredData.length) * 100,
     });
   }
   resultData.preview = filteredData.length;

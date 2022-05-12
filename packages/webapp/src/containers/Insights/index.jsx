@@ -34,6 +34,7 @@ import {
 } from './actions';
 // selectors
 import {
+  biodiversityLoadingSelector,
   biodiversitySelector,
   cropsNutritionSelector,
   labourHappinessSelector,
@@ -60,6 +61,7 @@ const Insights = () => {
   const labourHappinessData = useSelector(labourHappinessSelector);
   const biodiversityData = useSelector(biodiversitySelector);
   const pricesData = useSelector(pricesSelector);
+  const biodiversityLoading = useSelector(biodiversityLoadingSelector);
 
   const dispatch = useDispatch();
   const { t } = useTranslation();
@@ -95,8 +97,14 @@ const Insights = () => {
     console.log('Dispatching...');
     dispatch(getSoilOMData());
     dispatch(getLabourHappinessData());
-    dispatch(getBiodiversityData());
     dispatch(getPricesWithDistanceData(farm.grid_points, pricesDistance));
+    if (
+      !(
+        biodiversityData.timeFetched /*&& (Date.now() - biodiversityData.timeFetched) / (1000*60) < 30*/
+      )
+    ) {
+      dispatch(getBiodiversityData());
+    }
   }, []);
 
   const handleClick = (route) => {
@@ -125,15 +133,16 @@ const Insights = () => {
   );
 
   const insightData = useMemo(() => {
-    console.log('Setting insight Data');
     const insightData = {};
     insightData['SoilOM'] = (soilOMData.preview ?? '0') + '%';
     insightData['LabourHappiness'] = labourHappinessData.preview
       ? labourHappinessData.preview + '/5'
       : t('INSIGHTS.UNAVAILABLE');
-    insightData['Biodiversity'] = t('INSIGHTS.BIODIVERSITY.SPECIES_COUNT', {
-      count: biodiversityData.preview,
-    });
+    insightData['Biodiversity'] = biodiversityLoading
+      ? t('INSIGHTS.BIODIVERSITY.LOADING.PREVIEW')
+      : t('INSIGHTS.BIODIVERSITY.SPECIES_COUNT', {
+          count: biodiversityData.preview,
+        });
     insightData['prices'] = pricesData.preview
       ? t('INSIGHTS.PRICES.PERCENT_OF_MARKET', { percentage: pricesData.preview })
       : t('INSIGHTS.UNAVAILABLE');

@@ -52,5 +52,6 @@
   "UPDATE": "Mettre à Jour",
   "WORD_LIMIT_ERROR": "Seulement les charactères{{value}} peuvent être affichés",
   "YEAR": "MISSING",
-  "YES": "Oui"
+  "YES": "Oui",
+  "OK": "MISSING"
 }

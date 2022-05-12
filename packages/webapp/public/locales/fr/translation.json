@@ -683,7 +683,17 @@
       "SPECIES_COUNT_many": "MISSING",
       "SPECIES_COUNT_other": "MISSING",
       "SPECIES_COUNT_plural": "{{count}} espèces",
-      "TITLE": "Biodiversité"
+      "TITLE": "Biodiversité",
+      "LOADING": {
+        "PREVIEW": "MISSING",
+        "TITLE": "MISSING",
+        "BODY": "MISSING"
+      },
+      "ERROR": {
+        "PREVIEW": "MISSING",
+        "TITLE": "MISSING",
+        "BODY": "MISSING"
+      }
     },
     "CURRENT": "Courant",
     "INFO": "Les insights fournit des informations supplémentaires sur ce qui se passe sur votre ferme. Plus vous fournissez de données dans l'application, plus vous pouvez générer d'informations. Veuillez explorer les informations individuelles pour plus d'informations.",

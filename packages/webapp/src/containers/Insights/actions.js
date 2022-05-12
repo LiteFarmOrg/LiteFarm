@@ -37,6 +37,8 @@ import {
   GET_FREQUENCY_WATER_BALANCE,
   SET_FREQUENCY_WATER_BALANCE,
   CREATE_FREQUENCY_WATER_BALANCE,
+  GET_BIODIVERSITY_LOADING,
+  SET_BIODIVERSITY_LOADING,
 } from './constants';
 
 export const getCropsSoldNutrition = () => {
@@ -87,7 +89,23 @@ export const getBiodiversityData = () => {
 export const setBiodiversityData = (biodiversityData) => {
   return {
     type: SET_BIODIVERSITY_DATA,
-    biodiversityData,
+    biodiversityData: {
+      ...biodiversityData,
+      timeFetched: Date.now(),
+    },
+  };
+};
+
+export const getBiodiversityLoading = () => {
+  return {
+    type: GET_BIODIVERSITY_LOADING,
+  };
+};
+
+export const setBiodiversityLoading = (biodiversityLoading) => {
+  return {
+    type: SET_BIODIVERSITY_LOADING,
+    biodiversityLoading,
   };
 };
 

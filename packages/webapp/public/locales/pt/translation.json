@@ -682,7 +682,17 @@
       "SPECIES_COUNT_many": "MISSING",
       "SPECIES_COUNT_other": "MISSING",
       "SPECIES_COUNT_plural": "{{count}} espécies",
-      "TITLE": "Biodiversidade"
+      "TITLE": "Biodiversidade",
+      "LOADING": {
+        "PREVIEW": "MISSING",
+        "TITLE": "MISSING",
+        "BODY": "MISSING"
+      },
+      "ERROR": {
+        "PREVIEW": "MISSING",
+        "TITLE": "MISSING",
+        "BODY": "MISSING"
+      }
     },
     "CURRENT": "Atual",
     "INFO": "Os relatórios fornecem informações adicionais sobre o que está acontecendo em sua fazenda. Quanto mais dados você fornecer no aplicativo, mais relatórios serão gerados. Veja os relatórios individuais para mais informações.",

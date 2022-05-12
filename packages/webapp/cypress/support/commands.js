@@ -43,8 +43,27 @@ Cypress.Commands.add('loginByGoogleApi', () => {
   });
 });
 
-Cypress.Commands.add('formattedDate', (date)=>{
-  const formDate = getDateInputFormat(date);
-  console.log(formDate);
-  return formDate;
-})
+Cypress.Commands.add('waitForGoogleApi', () => {
+  let mapWaitCount = 0
+  const mapWaitMax = 5
+
+  cyMapLoad()
+
+  function cyMapLoad() {
+    mapWaitCount++
+
+    cy.window().then(win => {
+      if (typeof win.google != 'undefined') {
+        console.log(`Done at attempt #${mapWaitCount}:`, win)
+        return true
+      } else if (mapWaitCount <= mapWaitMax) {
+        console.log('Waiting attempt #' + mapWaitCount) // just log
+        cy.wait(2000)
+        cyMapLoad()
+      } else if (mapWaitCount > mapWaitMax) {
+        console.log('Failed to load google api')
+        return false
+      }
+    })
+  }
+});

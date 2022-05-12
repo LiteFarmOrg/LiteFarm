@@ -61,6 +61,7 @@ export const PureTaskCard = ({
   };
   return (
     <CardWithStatus
+      data-cy='taskCard'
       color={selected ? activeCardColorMap[status] : statusColorMap[status]}
       style={style}
       status={status}
@@ -101,7 +102,7 @@ export const PureTaskCard = ({
           </div>
           {assignee ? (
             <div
-            data-cy='taskCard-assignee'
+            
               className={
                 status === 'completed' || status === 'abandoned'
                   ? styles.iconTextContainerNoUnderline
@@ -117,6 +118,7 @@ export const PureTaskCard = ({
             </div>
           ) : (
             <div
+            data-cy='taskCard-assignee'
               className={clsx(styles.iconTextContainer, styles.unassigned)}
               onClick={onAssignTask}
               style={{ cursor: onClickAssignee ? 'pointer' : 'default' }}

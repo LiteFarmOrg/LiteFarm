@@ -1,8 +1,8 @@
-import { getDateInputFormat, getDateString } from '../../src/util/moment';
+import { getDateInputFormat} from '../../src/util/moment';
 
 describe.only('LiteFarm end to end test', () => {
 
-  it('Happy path', { defaultCommandTimeout: 5000 }, () => {
+  it('Happy path', { defaultCommandTimeout: 7000 }, () => {
     cy.visit('/');
     cy.get('[data-cy=email]').should('exist');
     cy.get('[data-cy=continue]').should('exist');
@@ -43,9 +43,11 @@ describe.only('LiteFarm end to end test', () => {
     cy.get('[data-cy=addFarm-location]').should('exist');
 
     // Enter new farm details and click continue which should be enabled
+    cy.waitForGoogleApi().then(() => {
     cy.get('[data-cy=addFarm-farmName]').type(farmName);
     cy.get('[data-cy=addFarm-location]').type(location).wait(1000);
     cy.get('[data-cy=addFarm-continue]').should('not.be.disabled').click();
+    });
 
     //role selection page
     cy.contains('What is your role on the farm').should('exist');
@@ -152,9 +154,13 @@ describe.only('LiteFarm end to end test', () => {
       .should('exist')
       .and('not.be.disabled')
       .click();
-    cy.wait(1000);
+    
     let initialWidth;
     let initialHeight;
+
+    cy.waitForGoogleApi().then(() => {
+      // here comes the code to execute after loading the google Apis
+  
     cy.get('[data-cy=map-mapContainer]').then(($canvas) => {
       initialWidth = $canvas.width();
       initialHeight = $canvas.height();
@@ -166,9 +172,8 @@ describe.only('LiteFarm end to end test', () => {
     cy.get('[data-cy=map-mapContainer]').click(631, 355);
     cy.wait(500);
     cy.get('[data-cy=map-mapContainer]').click(605, 374);
-    cy.wait(1000);
-    cy.get('[data-cy=map-mapContainer]').click(558, 344);
     cy.wait(500);
+    cy.get('[data-cy=map-mapContainer]').click(558, 344);
     cy.get('[data-cy=mapTutorial-continue]')
       .contains('Got it')
       .should('exist')
@@ -179,7 +184,7 @@ describe.only('LiteFarm end to end test', () => {
       .should('exist')
       .and('not.be.disabled')
       .click();
-
+    });
     //Add field view
     cy.get('[data-cy=createField-fieldName]').should('exist').type(fieldName);
     cy.get('[data-cy=createField-save]').should('exist').and('not.be.disabled').click();
@@ -280,19 +285,21 @@ describe.only('LiteFarm end to end test', () => {
 
     let heightFactor;
     let widthFactor;
-
-    cy.get('[data-cy=map-selectLocation]').then(($canvas) => {
-      const canvasWidth = $canvas.width();
-      const canvasHeight = $canvas.height();
-
-      heightFactor = canvasHeight / initialHeight;
-      widthFactor = canvasWidth / initialWidth;
-
-      cy.wait(500);
-      cy.get('[data-cy=map-selectLocation]').click(widthFactor * 570, heightFactor * 321, {
-        force: false,
+    cy.waitForGoogleApi().then(() => {
+      // here comes the code to execute after loading the google Apis
+      cy.get('[data-cy=map-selectLocation]').then(($canvas) => {
+        const canvasWidth = $canvas.width();
+        const canvasHeight = $canvas.height();
+  
+        heightFactor = canvasHeight / initialHeight;
+        widthFactor = canvasWidth / initialWidth;
+        cy.wait(1000);
+        cy.get('[data-cy=map-selectLocation]',{ timeout: 10000 }).click(widthFactor * 570, heightFactor * 321, {
+          force: false,
+        });
       });
-    });
+  });
+    
 
     cy.get('[data-cy=cropPlan-locationSubmit]').should('exist').and('not.be.disabled').click();
     cy.url().should('include', '/add_management_plan/final_planting_method');
@@ -322,13 +329,28 @@ describe.only('LiteFarm end to end test', () => {
       .click();
     //modify the management plan with quick assign modal
     cy.get('[data-cy=taskCard-dueDate]').eq(0).should('exist').and('not.be.disabled').click();
-    cy.get('[data-cy=dateAssign-update]').should('exist').and('be.disabled')
+    cy.get('[data-cy=dateAssign-update]').should('exist').and('be.disabled');
+
     date.setDate(date.getDate() + 30);
     const dueDate = getDateInputFormat(date);
-    const displayDate = getDateString(dueDate);
+    
+
     cy.get('[data-cy=dateAssign-date]').should('exist').type(dueDate);
-    cy.get('[data-cy=dateAssign-update]').should('exist').and('not.be.disabled').click();
-    cy.get('[data-cy=taskCard-dueDate]').eq(0).should('exist').contains(displayDate);
+    cy.get('[data-cy=dateAssign-update]').should('exist').and('not.be.disabled').click().then(()=>{
+      function reformatDateString(s) {
+        var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+        var parts = s.split('-');
+        return months[parts[1] - 1] + ' ' + Number(parts[2]) + ', ' + parts[0];
+      }
+  
+      const Date = reformatDateString(dueDate);
+      
+      cy.get('[data-cy=taskCard-dueDate]').eq(0).contains(Date).should('exist');
+
+    });
+
+    cy.get('[data-cy=taskCard-assignee]').eq(0).should('exist').and('not.be.disabled');
+    cy.get('[data-cy=taskCard]').should('exist').click('right');
 
     //logout
     //cy.get('[data-cy=home-profileButton]').should('exist').click();

@@ -165,6 +165,7 @@ describe.only('LiteFarm end to end test', () => {
       initialWidth = $canvas.width();
       initialHeight = $canvas.height();
     });
+    cy.wait(1000);
     cy.get('[data-cy=map-mapContainer]').click(558, 344);
     cy.wait(500);
     cy.get('[data-cy=map-mapContainer]').click(570, 321);
@@ -282,7 +283,6 @@ describe.only('LiteFarm end to end test', () => {
 
     cy.url().should('include', '/add_management_plan/choose_final_planting_location');
     cy.get('[data-cy=map-selectLocation]').should('exist');
-
     let heightFactor;
     let widthFactor;
     cy.waitForGoogleApi().then(() => {
@@ -293,8 +293,9 @@ describe.only('LiteFarm end to end test', () => {
   
         heightFactor = canvasHeight / initialHeight;
         widthFactor = canvasWidth / initialWidth;
-        cy.wait(1000);
-        cy.get('[data-cy=map-selectLocation]',{ timeout: 10000 }).click(widthFactor * 570, heightFactor * 321, {
+        cy.contains(fieldName).should('exist');
+        cy.wait(500);
+        cy.get('[data-cy=map-selectLocation]').click(widthFactor * 570, heightFactor * 321, {
           force: false,
         });
       });
@@ -350,7 +351,9 @@ describe.only('LiteFarm end to end test', () => {
     });
 
     cy.get('[data-cy=taskCard-assignee]').eq(0).should('exist').and('not.be.disabled');
-    cy.get('[data-cy=taskCard]').should('exist').click('right');
+    cy.get('[data-cy=taskCard]').eq(1).should('exist').click('right');
+    cy.get('[data-cy=taskReadOnly-pencil]').should('exist').click();
+    cy.get('[data-cy=quickAssign-update]').should('exist').and('not.be.disabled').click();
 
     //logout
     //cy.get('[data-cy=home-profileButton]').should('exist').click();

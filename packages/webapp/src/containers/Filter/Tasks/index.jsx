@@ -82,13 +82,12 @@ const TasksFilterPage = ({ onGoBack }) => {
       if (task.assignee !== undefined) {
         const { user_id, first_name, last_name } = task.assignee;
         assignees[user_id] = `${first_name} ${last_name}`;
-      } else {
-        assignees['unassigned'] = t('TASK.UNASSIGNED');
       }
     }
     for (const user of activeUsers) {
       assignees[user['user_id']] = `${user['first_name']} ${user['last_name']}`;
     }
+    assignees['unassigned'] = t('TASK.UNASSIGNED');
     return { taskTypes, assignees };
   }, [tasks.length]);
 

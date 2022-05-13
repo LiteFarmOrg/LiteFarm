@@ -113,7 +113,7 @@ export default function PurePlantedAlready({
   return (
     <Form
       buttonGroup={
-        <Button disabled={disabled} fullLength>
+        <Button data-cy='cropPlan-submit' disabled={disabled} fullLength>
           {t('common:CONTINUE')}
         </Button>
       }
@@ -135,6 +135,7 @@ export default function PurePlantedAlready({
       </Label>
 
       <RadioGroup
+      data-cy='cropPlan-groundPlanted'
         hookFormControl={control}
         style={{ marginBottom: '16px' }}
         name={ALREADY_IN_GROUND}

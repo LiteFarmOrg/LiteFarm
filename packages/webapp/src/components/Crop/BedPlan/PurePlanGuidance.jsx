@@ -41,7 +41,7 @@ function PurePlanGuidance({
   return (
     <Form
       buttonGroup={
-        <Button type={'submit'} disabled={!isValid} fullLength>
+        <Button data-cy='planGuidance-submit' type={'submit'} disabled={!isValid} fullLength>
           {t('common:CONTINUE')}
         </Button>
       }

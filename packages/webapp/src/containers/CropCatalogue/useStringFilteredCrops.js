@@ -14,8 +14,9 @@ export default function useStringFilteredCrops(crops, filterString) {
     // These fields can be used in future.
     // Hence, keeping it in the comments
     // use it in the check function argument.
-    // crop?.crop_common_name,
     // crop?.crop_variety_name,
-    return crops.filter((crop) => check([t(`crop:${crop.crop_translation_key}`)]));
+    return crops.filter((crop) =>
+      check([crop?.crop_common_name, t(`crop:${crop.crop_translation_key}`)]),
+    );
   }, [crops, filterString]);
 }

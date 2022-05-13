@@ -9,7 +9,7 @@ import { getNotificationCardDate } from '../../util/moment.js';
 import history from '../../history';
 
 function PureNotificationReadOnly({ onGoBack, notification }) {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const tOptions = notification.variables.reduce((optionsSoFar, currentOption) => {
     let options = { ...optionsSoFar };
     options[currentOption.name] = currentOption.translate
@@ -47,16 +47,21 @@ function PureNotificationReadOnly({ onGoBack, notification }) {
       </div>
 
       <Semibold style={{ color: colors.teal700, marginBottom: '16px' }}>
-        {t(`NOTIFICATION.${notification.translation_key}.TITLE`)}
+        {notification.title.key ? t(notification.title.key) : notification.title[i18n.language]}
       </Semibold>
       <Text style={{ fontSize: '16px', marginBottom: '16px' }}>
-        {t(`NOTIFICATION.${notification.translation_key}.BODY`, tOptions)}
+        {notification.body.key
+          ? t(notification.body.key, tOptions)
+          : notification.body[i18n.language]}
       </Text>
       <Button
         sm
         style={{ height: '32px', width: '150px' }}
         onClick={() => {
-          history.push(`/${notification.entity_type}s/${notification.entity_id}/read_only`);
+          const route =
+            notification.ref.url ??
+            `/${notification.ref.entity.type}s/${notification.ref.entity.id}/read_only`;
+          history.push(route);
         }}
       >
         {t('NOTIFICATION.TAKE_ME_THERE')}

@@ -47,9 +47,14 @@ const taskController = {
         return res.status(400).send('Task has already been completed or abandoned');
       }
 
-
-      if (!adminRoles.includes(req.role) && checkTaskStatus.assignee_user_id != req.user.user_id && checkTaskStatus.assignee_user_id !== null){
-        return res.status(403).send('Farm workers are not allowed to reassign a task assigned to another worker');
+      if (
+        !adminRoles.includes(req.role) &&
+        checkTaskStatus.assignee_user_id != req.user.user_id &&
+        checkTaskStatus.assignee_user_id !== null
+      ) {
+        return res
+          .status(403)
+          .send('Farm workers are not allowed to reassign a task assigned to another worker');
       }
 
       // Avoid 1) making an empty update, and 2) sending a redundant notification.
@@ -674,8 +679,7 @@ async function sendTaskNotification(
           translate: false,
         },
       ],
-      entity_type: TaskModel.tableName,
-      entity_id: String(taskId),
+      ref: { entity: { type: 'task', id: taskId } },
       context: { task_translation_key: taskTranslationKey },
       farm_id: farmId,
     },

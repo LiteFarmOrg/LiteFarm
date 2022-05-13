@@ -16,7 +16,7 @@
 const chai = require('chai');
 const chaiHttp = require('chai-http');
 const moment = require('moment');
-const faker = require('faker');
+const { faker } = require('@faker-js/faker');
 chai.use(chaiHttp);
 const server = require('./../src/server');
 const knex = require('../src/util/knex');

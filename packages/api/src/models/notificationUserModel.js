@@ -123,25 +123,7 @@ class NotificationUser extends baseModel {
       .andWhere({ user_id })
       .andWhere({ 'notification.deleted': false })
       .orderBy('notification_user.created_at', 'desc')
-      .limit(100)
-      .debug(true);
-    // return (
-    //   await NotificationUser.knex().raw(
-    //     `
-    //   SELECT notification.notification_id, user_id, alert, status, translation_key, variables,
-    //     entity_type, entity_id, context, notification_user.created_at
-    //   FROM notification JOIN notification_user
-    //   ON notification.notification_id = notification_user.notification_id
-    //   WHERE notification.deleted = false
-    //     AND notification_user.deleted = false
-    //     AND user_id = ?
-    //     AND (farm_id IS NULL OR farm_id = ?)
-    //   ORDER BY notification_user.created_at DESC
-    //   LIMIT 100;
-    //   `,
-    //     [user_id, farm_id],
-    //   )
-    // ).rows;
+      .limit(100);
   }
 
   /**

@@ -99,8 +99,7 @@ export default function useCropVarietyCatalogue(filterString, crop_id) {
         managementPlansByCropId[managementPlan.crop_variety_id][status].push(managementPlan);
       }
     }
-    const managementPlansByCropId_list = Object.values(managementPlansByCropId);
-    const managementPlansByCropIdWithNoPlans = managementPlansByCropId_list.reduce(
+    const managementPlansByCropIdWithNoPlans = Object.values(managementPlansByCropId).reduce(
       (acc, currentValue) => {
         const noPlanFoundCropVariety = withoutManagementPlanListByCropId.filter(
           (np) => np.crop_variety_name.trim() === currentValue.crop_variety_name.trim(),

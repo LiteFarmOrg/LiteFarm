@@ -404,6 +404,16 @@ const taskController = {
           return task;
         });
         if (result) {
+          const taskType = await TaskModel.getTaskType(task_id);
+          console.log(taskType);
+          await sendTaskNotification(
+            assignee_user_id,
+            user_id,
+            task_id,
+            TaskNotificationTypes.TASK_COMPLETED_BY_OTHER_USER,
+            taskType.task_translation_key,
+            farm_id,
+          );
           return res.status(200).send(result);
         } else {
           return res.status(404).send('Task not found');
@@ -424,6 +434,7 @@ const taskController = {
     try {
       const nonModifiable = getNonModifiable('harvest_task');
       const { user_id } = req.user;
+      const { farm_id } = req.headers;
       const task_id = parseInt(req.params.task_id);
       const { assignee_user_id, assignee_role_id } = await TaskModel.getTaskAssignee(task_id);
       const { role_id } = await userFarmModel.getUserRoleId(user_id);
@@ -457,11 +468,14 @@ const taskController = {
       });
 
       if (Object.keys(result).length > 0) {
+        const { task_translation_key } = await TaskModel.getTaskType(task_id);
         await sendTaskNotification(
           assignee_user_id,
           user_id,
           task_id,
           TaskNotificationTypes.TASK_COMPLETED_BY_OTHER_USER,
+          task_translation_key,
+          farm_id,
         );
         return res.status(200).send(result);
       } else {
@@ -676,8 +690,10 @@ async function sendTaskNotification(
   const userName = await User.getNameFromUserId(senderId ? senderId : receiverId);
   await NotificationUser.notify(
     {
-      title: { key: `NOTIFICATION.${TaskNotificationTypes[taskTranslationKey]}.TITLE` },
-      body: { key: `NOTIFICATION.${TaskNotificationTypes[taskTranslationKey]}.BODY` },
+      title: {
+        translation_key: `NOTIFICATION.${TaskNotificationTypes[notifyTranslationKey]}.TITLE`,
+      },
+      body: { translation_key: `NOTIFICATION.${TaskNotificationTypes[notifyTranslationKey]}.BODY` },
       variables: [
         { name: 'taskType', value: `task:${taskTranslationKey}`, translate: true },
         {

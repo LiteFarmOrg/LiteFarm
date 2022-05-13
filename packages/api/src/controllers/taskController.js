@@ -619,8 +619,8 @@ async function notifyAssignee(userId, taskId, taskTranslationKey, farmId) {
   const assigneeName = await User.getNameFromUserId(userId);
   await NotificationUser.notify(
     {
-      title: { key: 'NOTIFICATION.TASK_ASSIGNED.TITLE' },
-      body: { key: 'NOTIFICATION.TASK_ASSIGNED.BODY' },
+      title: { translation_key: 'NOTIFICATION.TASK_ASSIGNED.TITLE' },
+      body: { translation_key: 'NOTIFICATION.TASK_ASSIGNED.BODY' },
       variables: [
         { name: 'taskType', value: `task:${taskTranslationKey}`, translate: true },
         { name: 'assignee', value: assigneeName, translate: false },

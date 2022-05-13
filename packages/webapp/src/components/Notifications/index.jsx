@@ -7,9 +7,11 @@ import Button from '../../components/Form/Button';
 import { Semibold, Text } from '../Typography';
 import { getNotificationCardDate } from '../../util/moment.js';
 import history from '../../history';
+import { getLanguageFromLocalStorage } from '../../util/getLanguageFromLocalStorage';
 
 function PureNotificationReadOnly({ onGoBack, notification }) {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
+  const currentLang = getLanguageFromLocalStorage();
   const tOptions = notification.variables.reduce((optionsSoFar, currentOption) => {
     let options = { ...optionsSoFar };
     options[currentOption.name] = currentOption.translate
@@ -47,12 +49,14 @@ function PureNotificationReadOnly({ onGoBack, notification }) {
       </div>
 
       <Semibold style={{ color: colors.teal700, marginBottom: '16px' }}>
-        {notification.title.key ? t(notification.title.key) : notification.title[i18n.language]}
+        {notification.title.translation_key
+          ? t(notification.title.translation_key)
+          : notification.title[currentLang]}
       </Semibold>
       <Text style={{ fontSize: '16px', marginBottom: '16px' }}>
-        {notification.body.key
-          ? t(notification.body.key, tOptions)
-          : notification.body[i18n.language]}
+        {notification.body.translation_key
+          ? t(notification.body.translation_key, tOptions)
+          : notification.body[currentLang]}
       </Text>
       <Button
         sm

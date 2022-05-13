@@ -18,8 +18,6 @@ function PureNotificationReadOnly({ onGoBack, notification }) {
     return options;
   }, {});
 
-  console.log(notification);
-
   return (
     <Layout>
       <PageTitle
@@ -60,11 +58,9 @@ function PureNotificationReadOnly({ onGoBack, notification }) {
         sm
         style={{ height: '32px', width: '150px' }}
         onClick={() => {
-          console.log(notification.ref);
           const route =
             notification.ref.url ??
             `/${notification.ref.entity.type}s/${notification.ref.entity.id}/read_only`;
-          console.log(route);
           history.push(route);
         }}
       >

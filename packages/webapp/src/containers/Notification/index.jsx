@@ -57,7 +57,6 @@ export default function NotificationPage() {
             return new Date(a.created_at) - new Date(b.created_at);
           })
           .map((notification) => {
-            console.log(notification);
             return (
               <NotificationCard
                 key={notification.notification_id}

@@ -23,7 +23,6 @@ const environment = process.env.NODE_ENV || 'development';
 const promiseRouter = require('express-promise-router');
 const { Model } = require('objection');
 const checkJwt = require('./middleware/acl/checkJwt');
-const { tableCleanup } = require('../tests/testEnvironment');
 const cors = require('cors');
 
 // initialize knex
@@ -126,10 +125,6 @@ app.set('json replacer', (key, value) => {
   }
   return value;
 });
-
-if (environment === 'development'|| environment === 'integration') {
-  app.use('/testData', testDataRoute)
-};
 
 app.use(bodyParser.json())
   .use(bodyParser.urlencoded({ extended: true }))

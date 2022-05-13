@@ -50,7 +50,7 @@ export default function PureTransplant({
   return (
     <Form
       buttonGroup={
-        <Button disabled={disabled} fullLength>
+        <Button data-cy='cropPlan-transplantSubmit' disabled={disabled} fullLength>
           {t('common:CONTINUE')}
         </Button>
       }

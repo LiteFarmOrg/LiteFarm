@@ -249,7 +249,7 @@ export default function PurePlantingDate({
   return (
     <Form
       buttonGroup={
-        <Button disabled={disabled} fullLength>
+        <Button data-cy='plantDate-submit' disabled={disabled} fullLength>
           {t('common:CONTINUE')}
         </Button>
       }
@@ -266,6 +266,7 @@ export default function PurePlantingDate({
       <Main style={{ marginBottom: '24px' }}>{dateTitle}</Main>
 
       <Input
+      data-cy='cropPlan-plantDate'
         style={{ marginBottom: '40px' }}
         type={'date'}
         label={dateLabel}
@@ -301,6 +302,7 @@ export default function PurePlantingDate({
       )}
       {showGerminationOffset && (
         <InputDuration
+        data-cy='cropPlan-seedGermination'
           style={{ marginBottom: '40px' }}
           startDate={startDate}
           hookFormWatch={watch}
@@ -319,6 +321,7 @@ export default function PurePlantingDate({
       )}
       {showTransplantOffset && (
         <InputDuration
+        
           style={{ marginBottom: '40px' }}
           startDate={startDate}
           hookFormWatch={watch}
@@ -341,6 +344,7 @@ export default function PurePlantingDate({
       )}
       {showHarvestTerminationOffset && (
         <InputDuration
+        data-cy='cropPlan-plantHarvest'
           style={{ marginBottom: '16px' }}
           startDate={startDate}
           hookFormWatch={watch}

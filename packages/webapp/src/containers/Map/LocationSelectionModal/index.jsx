@@ -13,7 +13,7 @@ export default function LocationSelectionModal({ history, selectingOnly }) {
     <>
       {showSelection && (
         <div className={styles.selectionModal} onClick={dismissSelectionModal}>
-          <div className={styles.selectionContainer}>
+          <div  className={styles.selectionContainer}>
             <PureSelectionHandler
               locations={locations}
               history={history}

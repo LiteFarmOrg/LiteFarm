@@ -37,6 +37,13 @@ module.exports = (on, config) => {
       return data;
     }});
 
+    on("task", {
+      async "db:migrations"() {
+        // run migration and seed the database tables
+        const { data } = await axios.post(`${testDataApiEndpoint}/runMigrations`);
+        return data;
+      }});
+
 
   return config;
 };

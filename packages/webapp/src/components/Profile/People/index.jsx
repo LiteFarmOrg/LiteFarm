@@ -95,7 +95,7 @@ export default function PurePeople({ users, history, isAdmin }) {
       onSubmit={() => history.push('/invite_user')}
       history={history}
       buttonGroup={
-        isAdmin && <Button fullLength type={'submit'}>
+        isAdmin && <Button data-cy="people-inviteUser" fullLength type={'submit'}>
           {t('PROFILE.PEOPLE.INVITE_USER')}
         </Button>
       }
@@ -107,6 +107,7 @@ export default function PurePeople({ users, history, isAdmin }) {
         placeholder={t('PROFILE.PEOPLE.SEARCH')}
       />
       <Table
+        data-cy="people-table"
         columns={summaryColumns}
         data={getFilteredUsers()}
         showPagination={true}

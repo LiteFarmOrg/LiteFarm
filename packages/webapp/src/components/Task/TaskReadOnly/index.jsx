@@ -162,7 +162,7 @@ export default function PureTaskReadOnly({
           value={assigneeName ? assigneeName : t('TASK.UNASSIGNED')}
         />
         {isCurrent && (
-          <BiPencil className={styles.pencil} onClick={(_) => setShowTaskAssignModal(true)} />
+          <BiPencil data-cy='taskReadOnly-pencil' className={styles.pencil} onClick={(_) => setShowTaskAssignModal(true)} />
         )}
       </div>
 

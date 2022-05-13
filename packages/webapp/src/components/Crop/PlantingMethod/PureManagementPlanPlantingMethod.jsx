@@ -93,7 +93,7 @@ export default function PureManagementPlanPlantingMethod({
   return (
     <Form
       buttonGroup={
-        <Button disabled={disabled} fullLength>
+        <Button data-cy='plantingMethod-submit' disabled={disabled} fullLength>
           {t('common:CONTINUE')}
         </Button>
       }

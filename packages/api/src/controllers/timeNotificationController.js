@@ -26,12 +26,24 @@ const timeNotificationController = {
   async postWeeklyUnassignedTasks(req, res) {
     const { farm_id } = req.params;
     try {
-      const unassignedTasks = await TaskModel.query()
-        .select('task.task_id', 'task_type.task_translation_key')
-        .join('userFarm', 'task.owner_user_id', 'userFarm.user_id')
-        .join('task_type', 'task_type.task_type_id', 'task.task_type_id')
-        .where({ 'userFarm.farm_id': farm_id, 'task.assignee_user_id': null })
-        .whereRaw("due_date <= now() + interval '6 days' AND due_date >= now()");
+      // All unassigned tasks at the farm associated with farm_id due this week that are
+      // not completed or abandoned
+      // We also want the translation key so that we have an icon we can use for the notification
+      const { rows: unassignedTasks } = await TaskModel.knex().raw(
+        `
+        SELECT task.task_id, task_type.task_translation_key FROM task
+        JOIN "userFarm" AS u ON task.owner_user_id = u.user_id
+        JOIN task_type ON task_type.task_type_id = task.task_type_id
+        WHERE u.farm_id = ? 
+        AND task.assignee_user_id IS NULL
+        AND task.complete_date IS NULL
+        AND task.abandon_date IS NULL
+        AND task.due_date <= (now() + interval '1 week')::date
+        AND task.due_date >= now()::date
+        AND task.deleted = false
+        `,
+        [farm_id],
+      );
 
       const farmManagementObjs = await UserFarmModel.query()
         .select('userFarm.user_id')

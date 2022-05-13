@@ -58,7 +58,6 @@ const rolesRoutes = require('./routes/rolesRoute');
 const organicCertifierSurveyRoutes = require('./routes/organicCertifierSurveyRoute');
 const passwordResetRoutes = require('./routes/passwordResetRoute.js');
 const showedSpotlightRoutes = require('./routes/showedSpotlightRoute.js');
-const testDataRoute = require('./routes/testDataRoute.js');
 
 // const waterBalanceScheduler = require('./jobs/waterBalance/waterBalance');
 // const nitrogenBalanceScheduler = require('./jobs/nitrogenBalance/nitrogenBalance');
@@ -71,7 +70,6 @@ const documentRoute = require('./routes/documentRoute');
 const taskRoute = require('./routes/taskRoute');
 const productRoute = require('./routes/productRoute');
 const notificationUserRoute = require('./routes/notificationUserRoute');
-const { use } = require('chai');
 
 // register API
 const router = promiseRouter();
@@ -126,7 +124,8 @@ app.set('json replacer', (key, value) => {
   return value;
 });
 
-app.use(bodyParser.json())
+app
+  .use(bodyParser.json())
   .use(bodyParser.urlencoded({ extended: true }))
 
   // prevent CORS errors

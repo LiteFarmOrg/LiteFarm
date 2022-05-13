@@ -24,6 +24,25 @@ export default function useCropCatalogue(filterString) {
     filterString,
   );
 
+  const filteredCropVarietiesWithoutManagementPlanByCropVariety = useSortByCropTranslation(
+    useFilterNoPlan(filterString, false),
+  );
+
+  const filteredCropVarietiesWithoutManagementPlan =
+    filteredCropVarietiesWithoutManagementPlanByCropVariety.reduce((acc, cropVariety) => {
+      if (acc.length === 0) {
+        acc.push({ ...cropVariety, noPlansCount: 1 });
+      } else {
+        let cropFound = acc.find((crop) => crop.crop_id === cropVariety.crop_id);
+        if (!cropFound) {
+          acc.push({ ...cropVariety, noPlansCount: 1 });
+        } else {
+          cropFound.noPlansCount += 1;
+        }
+      }
+      return acc;
+    }, []);
+
   const managementPlansFilteredByLocations = useMemo(() => {
     const locationFilter = cropCatalogueFilter[LOCATION];
     const included = new Set();
@@ -74,7 +93,24 @@ export default function useCropCatalogue(filterString) {
         managementPlansByCropId[managementPlan.crop_id][status].push(managementPlan);
       }
     }
-    return Object.values(managementPlansByCropId);
+    const managementPlansByCropIdWithNoPlans = Object.values(managementPlansByCropId).reduce(
+      (acc, currentValue) => {
+        const noPlanFoundCrop = filteredCropVarietiesWithoutManagementPlanByCropVariety.filter(
+          (np) => np.crop_id === currentValue.crop_id,
+        );
+        if (!noPlanFoundCrop) {
+          acc.push({ ...currentValue, noPlans: [] });
+        } else {
+          acc.push({
+            ...currentValue,
+            noPlans: noPlanFoundCrop.map((c) => ({ crop_variety_name: c.crop_variety_name })),
+          });
+        }
+        return acc;
+      },
+      [],
+    );
+    return managementPlansByCropIdWithNoPlans;
   }, [managementPlansFilteredBySuppliers, cropCatalogFilterDate]);
 
   const cropCatalogueFilteredByStatus = useMemo(() => {
@@ -128,10 +164,6 @@ export default function useCropCatalogue(filterString) {
       }
     });
   }, [cropCatalogueFilteredByStatus]);
-
-  const filteredCropVarietiesWithoutManagementPlan = useSortByCropTranslation(
-    useFilterNoPlan(filterString),
-  );
 
   const filteredCropsWithoutManagementPlan = useMemo(() => {
     const cropIdsWithPlan = new Set(sortedCropCatalogue.map(({ crop_id }) => crop_id));

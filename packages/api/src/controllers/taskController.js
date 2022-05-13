@@ -457,6 +457,12 @@ const taskController = {
       });
 
       if (Object.keys(result).length > 0) {
+        await sendTaskNotification(
+          assignee_user_id,
+          user_id,
+          task_id,
+          TaskNotificationTypes.TASK_COMPLETED_BY_OTHER_USER,
+        );
         return res.status(200).send(result);
       } else {
         return res.status(404).send('Task not found');
@@ -668,9 +674,10 @@ async function sendTaskNotification(
   if (!receiverId) return;
 
   const userName = await User.getNameFromUserId(senderId ? senderId : receiverId);
-  NotificationUser.notify(
+  await NotificationUser.notify(
     {
-      translation_key: notifyTranslationKey,
+      title: { key: `NOTIFICATION.${TaskNotificationTypes[taskTranslationKey]}.TITLE` },
+      body: { key: `NOTIFICATION.${TaskNotificationTypes[taskTranslationKey]}.BODY` },
       variables: [
         { name: 'taskType', value: `task:${taskTranslationKey}`, translate: true },
         {

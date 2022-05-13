@@ -15,13 +15,14 @@ import getTaskTypeIcon from '../../util/getTaskTypeIcon';
 export function PureNotificationCard({
   alert,
   status,
-  translation_key,
+  title,
+  body,
   variables,
   context,
   created_at,
   onClick,
 }) {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   // Construct translation options from interpolation variables, translating them as needed.
   const tOptions = variables.reduce((optionsSoFar, currentOption) => {
     let options = { ...optionsSoFar };
@@ -102,11 +103,11 @@ export function PureNotificationCard({
 
       <div>
         <Semibold style={{ color: colors.teal700, marginBottom: '12px', lineHeight: '20px' }}>
-          {t(`NOTIFICATION.${translation_key}.TITLE`)}
+          {title.key ? t(title.key) : title[i18n.language]}
           {alert && <AlertIcon style={{ marginLeft: '8px', marginBottom: '2px' }} />}
         </Semibold>
         <Text style={{ margin: 0, lineHeight: '18px' }}>
-          {t(`NOTIFICATION.${translation_key}.BODY`, tOptions)}
+          {body.key ? t(body.key, tOptions) : t[i18n.language]}
         </Text>
       </div>
     </Card>

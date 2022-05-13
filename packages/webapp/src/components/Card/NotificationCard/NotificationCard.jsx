@@ -107,7 +107,7 @@ export function PureNotificationCard({
           {alert && <AlertIcon style={{ marginLeft: '8px', marginBottom: '2px' }} />}
         </Semibold>
         <Text style={{ margin: 0, lineHeight: '18px' }}>
-          {body.key ? t(body.key, tOptions) : t[i18n.language]}
+          {body.key ? t(body.key, tOptions) : body[i18n.language]}
         </Text>
       </div>
     </Card>

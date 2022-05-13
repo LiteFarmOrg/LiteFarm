@@ -7,7 +7,15 @@ import { useSelector } from 'react-redux';
 import { cropCatalogueFilterDateSelector, cropCatalogueFilterSelector } from '../filterSlice';
 import { useMemo } from 'react';
 import useStringFilteredCrops from './useStringFilteredCrops';
-import { ACTIVE, COMPLETE, LOCATION, PLANNED, STATUS, SUPPLIERS } from '../Filter/constants';
+import {
+  ACTIVE,
+  COMPLETE,
+  LOCATION,
+  PLANNED,
+  STATUS,
+  SUPPLIERS,
+  NEEDS_PLAN,
+} from '../Filter/constants';
 import { useTranslation } from 'react-i18next';
 import useFilterNoPlan from './useFilterNoPlan';
 import useSortByCropTranslation from './useSortByCropTranslation';
@@ -125,14 +133,19 @@ export default function useCropCatalogue(filterString) {
       active: statusFilter[ACTIVE].active ? catalogue.active : [],
       planned: statusFilter[PLANNED].active ? catalogue.planned : [],
       past: statusFilter[COMPLETE].active ? catalogue.past : [],
+      noPlans: statusFilter[NEEDS_PLAN].active ? catalogue.noPlans : [],
     }));
     return newCropCatalogue.filter(
-      (catalog) => catalog.active.length || catalog.past.length || catalog.planned.length,
+      (catalog) =>
+        catalog.active.length ||
+        catalog.past.length ||
+        catalog.planned.length ||
+        catalog.noPlans.length,
     );
   }, [cropCatalogueFilter[STATUS], cropCatalogue]);
 
   const cropCataloguesStatus = useMemo(() => {
-    const cropCataloguesStatus = { active: 0, planned: 0, past: 0 };
+    const cropCataloguesStatus = { active: 0, planned: 0, past: 0, noPlans: 0 };
     for (const managementPlansByStatus of cropCatalogueFilteredByStatus) {
       for (const status in cropCataloguesStatus) {
         cropCataloguesStatus[status] += managementPlansByStatus[status].length;
@@ -140,7 +153,11 @@ export default function useCropCatalogue(filterString) {
     }
     return {
       ...cropCataloguesStatus,
-      sum: cropCataloguesStatus.active + cropCataloguesStatus.planned + cropCataloguesStatus.past,
+      sum:
+        cropCataloguesStatus.active +
+        cropCataloguesStatus.planned +
+        cropCataloguesStatus.past +
+        cropCataloguesStatus.noPlans,
     };
   }, [cropCatalogueFilteredByStatus]);
 

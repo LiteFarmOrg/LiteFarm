@@ -639,7 +639,7 @@
     "DATE": "Date",
     "ESTIMATED_REVENUE": {
       "ESTIMATED_ANNUAL_REVENUE": "Estimated annual revenue",
-      "ESTIMATED_ANNUAL_YIELD": "Estimated annual yield",
+      "ESTIMATED_ANNUAL_YIELD": "Estimated annual harvest",
       "ESTIMATED_PRICE_PER_UNIT": "Estimated price per unit",
       "TITLE": "Estimated Revenue"
     },
@@ -913,7 +913,7 @@
     "DURATION_TOOLTIP": "These are suggested values. Please adjust for your local conditions.",
     "EDITING_PLAN_WILL_NOT_MODIFY": "Editing this plan will not modify tasks assigned to it.",
     "ESTIMATED_SEED": "Estimated seed required",
-    "ESTIMATED_YIELD": "Estimated annual yield",
+    "ESTIMATED_YIELD": "Estimated annual harvest",
     "FIRST_MP_SPOTLIGHT": {
       "BODY_PART1": "LiteFarm has generated a few tasks based on your plan. You can add more tasks or assign them on this screen.",
       "BODY_PART2": "Your plan will become active once you complete a task.",

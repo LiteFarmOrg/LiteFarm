@@ -1,7 +1,7 @@
 version: '3'
 services:
   postgres:
-    image: postgres:11.5
+    image: postgres:13
     environment:
       POSTGRES_DB: 'test_farm'
       POSTGRES_USER: 'postgres'

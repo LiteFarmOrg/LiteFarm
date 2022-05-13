@@ -638,7 +638,7 @@
     "DATE": "Data",
     "ESTIMATED_REVENUE": {
       "ESTIMATED_ANNUAL_REVENUE": "Receita anual estimada",
-      "ESTIMATED_ANNUAL_YIELD": "Rendimento anual estimado",
+      "ESTIMATED_ANNUAL_YIELD": "MISSING",
       "ESTIMATED_PRICE_PER_UNIT": "Preço por unidade estimado",
       "TITLE": "Receita Estimada"
     },
@@ -916,7 +916,7 @@
     "DURATION_TOOLTIP": "Esses são valores sugeridos. Ajuste de acordo com as condições locais.",
     "EDITING_PLAN_WILL_NOT_MODIFY": "Editar este plano não irá modificar as tarefas atribuídas a ele.",
     "ESTIMATED_SEED": "Semente estimada necessária",
-    "ESTIMATED_YIELD": "Rendimento estimado",
+    "ESTIMATED_YIELD": "MISSING",
     "FIRST_MP_SPOTLIGHT": {
       "BODY_PART1": "LiteFarm gerou algumas tarefas com base em seu plano. Você pode adicionar mais tarefas ou atribuí-las nesta tela.",
       "BODY_PART2": "Seu plano será ativado assim que você concluir uma tarefa.",

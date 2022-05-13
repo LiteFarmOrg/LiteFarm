@@ -51,7 +51,8 @@ export default function CropVarieties({ history, match }) {
     gap,
     padding,
     cardWidth,
-  } = useCropTileListGap([cropCatalogue.length, filteredCropsWithoutManagementPlan.length]);
+  } = useCropTileListGap([sum, cropCatalogue.length]);
+
   useEffect(() => {
     dispatch(getCropVarieties());
   }, []);

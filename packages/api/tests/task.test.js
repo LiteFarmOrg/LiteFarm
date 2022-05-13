@@ -7,7 +7,7 @@ jest.mock('jsdom');
 jest.mock('../src/middleware/acl/checkJwt');
 const mocks = require('./mock.factories');
 const { tableCleanup } = require('./testEnvironment');
-const faker = require('faker');
+const { faker } = require('@faker-js/faker');
 
 describe('Task tests', () => {
   let middleware;

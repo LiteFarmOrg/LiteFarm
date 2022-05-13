@@ -43,7 +43,7 @@ export default function CropVarieties({ history, match }) {
     dispatch(resetAndUnLockFormData());
   }, []);
 
-  const { active, planned, past, sum, cropCatalogue, filteredCropsWithoutManagementPlan } =
+  const { active, planned, past, noPlans, sum, cropCatalogue, filteredCropsWithoutManagementPlan } =
     useCropVarietyCatalogue(filterString, crop_id);
 
   const {
@@ -109,7 +109,7 @@ export default function CropVarieties({ history, match }) {
           <>
             <PageBreak style={{ paddingBottom: '16px' }} label={t('CROP_CATALOGUE.ON_YOUR_FARM')} />
             <CropStatusInfoBox
-              status={{ active, past, planned }}
+              status={{ active, past, planned, noPlans }}
               style={{ marginBottom: '16px' }}
               date={date}
               setDate={setDate}
@@ -122,6 +122,7 @@ export default function CropVarieties({ history, match }) {
                   crop_id,
                   crop_variety_name,
                   crop_variety_id,
+                  noPlansCount,
                 } = cropVariety;
                 const imageKey = cropVariety.crop_translation_key?.toLowerCase();
 
@@ -133,7 +134,9 @@ export default function CropVarieties({ history, match }) {
                     alt={imageKey}
                     style={{ width: cardWidth }}
                     onClick={() => goToVarietyManagement(crop_variety_id)}
-                    needsPlan
+                    cropCount={{
+                      noPlans: noPlansCount,
+                    }}
                   />
                 );
               })}
@@ -160,6 +163,7 @@ export default function CropVarieties({ history, match }) {
                       active: active.length,
                       planned: planned.length,
                       past: past.length,
+                      noPlans: noPlans.length,
                     }}
                     needsPlan={!!noPlansCount}
                     title={crop_variety_name}

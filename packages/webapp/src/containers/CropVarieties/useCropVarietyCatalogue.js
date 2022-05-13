@@ -142,25 +142,6 @@ export default function useCropVarietyCatalogue(filterString, crop_id) {
     );
   }, [cropCatalogueFilter[STATUS], cropCatalogue]);
 
-  // this method is used to calculate the sum of active, planned, past, noPlans of all
-  // crop varieties for a particular crop.
-  const cropCataloguesStatus = useMemo(() => {
-    const cropCataloguesStatus = { active: 0, planned: 0, past: 0, noPlans: 0 };
-    for (const managementPlansByStatus of cropCatalogueFilteredByStatus) {
-      for (const status in cropCataloguesStatus) {
-        cropCataloguesStatus[status] += managementPlansByStatus[status].length;
-      }
-    }
-    return {
-      ...cropCataloguesStatus,
-      sum:
-        cropCataloguesStatus.active +
-        cropCataloguesStatus.planned +
-        cropCataloguesStatus.past +
-        cropCataloguesStatus.noPlans,
-    };
-  }, [cropCatalogueFilteredByStatus]);
-
   // sort the crop varieties on the basis of active, planned, past.
   const { t } = useTranslation();
   const onlyOneOfTwoNumberIsZero = (i, j) => i + j > 0 && i * j === 0;
@@ -207,16 +188,16 @@ export default function useCropVarietyCatalogue(filterString, crop_id) {
   const filteredCropsWithoutManagementPlanList = filteredCropsWithoutManagementPlan.reduce(
     (acc, currentValue) => {
       if (acc.length === 0) {
-        acc.push({ ...currentValue, noPlans: 1 });
+        acc.push({ ...currentValue, noPlansCount: 1 });
       } else {
         let noPlanFoundCropVariety = acc.find((pre) => {
           return pre.crop_variety_name === currentValue.crop_variety_name;
         });
         if (!noPlanFoundCropVariety) {
-          acc.push({ ...currentValue, noPlans: 1 });
+          acc.push({ ...currentValue, noPlansCount: 1 });
         } else {
           const idx = acc.indexOf(noPlanFoundCropVariety);
-          acc[idx].noPlans += 1;
+          acc[idx].noPlansCount += 1;
         }
       }
       return acc;
@@ -244,6 +225,37 @@ export default function useCropVarietyCatalogue(filterString, crop_id) {
     },
     [],
   );
+
+  // this method is used to calculate the sum of active, planned, past, noPlans of all
+  // crop varieties for a particular crop.
+  const cropCataloguesStatus = useMemo(() => {
+    const cropsWithoutManagementPlanCount = filteredCropsWithoutManagementPlanList.reduce(
+      (acc, c) => {
+        acc += c.noPlansCount;
+        return acc;
+      },
+      0,
+    );
+    const cropCataloguesStatus = {
+      active: 0,
+      planned: 0,
+      past: 0,
+      noPlans: cropsWithoutManagementPlanCount,
+    };
+    for (const managementPlansByStatus of cropCatalogueFilteredByStatus) {
+      for (const status in cropCataloguesStatus) {
+        cropCataloguesStatus[status] += managementPlansByStatus[status].length;
+      }
+    }
+    return {
+      ...cropCataloguesStatus,
+      sum:
+        cropCataloguesStatus.active +
+        cropCataloguesStatus.planned +
+        cropCataloguesStatus.past +
+        cropCataloguesStatus.noPlans,
+    };
+  }, [cropCatalogueFilteredByStatus, filteredCropsWithoutManagementPlanList]);
 
   return {
     cropCatalogue: sortedCropCatalogueWithNeedsPlanPropList,

@@ -29,6 +29,7 @@
   "MAX_ERROR": "Please enter a value less than {{value}}",
   "MIN_ERROR": "Please enter a value greater than {{value}}",
   "NAME": "Name",
+  "NEEDS_PLAN": "Needs plan",
   "NEXT": "Next",
   "NO": "No",
   "NOT_SURE": "Not sure",

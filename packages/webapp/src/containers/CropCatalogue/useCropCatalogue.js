@@ -144,23 +144,6 @@ export default function useCropCatalogue(filterString) {
     );
   }, [cropCatalogueFilter[STATUS], cropCatalogue]);
 
-  const cropCataloguesStatus = useMemo(() => {
-    const cropCataloguesStatus = { active: 0, planned: 0, past: 0, noPlans: 0 };
-    for (const managementPlansByStatus of cropCatalogueFilteredByStatus) {
-      for (const status in cropCataloguesStatus) {
-        cropCataloguesStatus[status] += managementPlansByStatus[status].length;
-      }
-    }
-    return {
-      ...cropCataloguesStatus,
-      sum:
-        cropCataloguesStatus.active +
-        cropCataloguesStatus.planned +
-        cropCataloguesStatus.past +
-        cropCataloguesStatus.noPlans,
-    };
-  }, [cropCatalogueFilteredByStatus]);
-
   const { t } = useTranslation();
   const onlyOneOfTwoNumberIsZero = (i, j) => i + j > 0 && i * j === 0;
   const sortedCropCatalogue = useMemo(() => {
@@ -198,6 +181,27 @@ export default function useCropCatalogue(filterString) {
       needsPlan: cropIdsWithoutPlan.has(crop.crop_id),
     }));
   }, [filteredCropVarietiesWithoutManagementPlan, sortedCropCatalogue]);
+
+  const cropCataloguesStatus = useMemo(() => {
+    const cropCataloguesStatus = { active: 0, planned: 0, past: 0, noPlans: 0 };
+    for (const managementPlansByStatus of cropCatalogueFilteredByStatus) {
+      for (const status in cropCataloguesStatus) {
+        cropCataloguesStatus[status] += managementPlansByStatus[status].length;
+      }
+    }
+    cropCataloguesStatus.noPlans = filteredCropVarietiesWithoutManagementPlan.reduce((acc, c) => {
+      acc += c.noPlansCount;
+      return acc;
+    }, 0);
+    return {
+      ...cropCataloguesStatus,
+      sum:
+        cropCataloguesStatus.active +
+        cropCataloguesStatus.planned +
+        cropCataloguesStatus.past +
+        cropCataloguesStatus.noPlans,
+    };
+  }, [cropCatalogueFilteredByStatus, filteredCropVarietiesWithoutManagementPlan]);
 
   return {
     cropCatalogue: sortedCropCatalogueWithNeedsPlanProp,

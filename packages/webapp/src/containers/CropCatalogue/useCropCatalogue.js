@@ -36,6 +36,7 @@ export default function useCropCatalogue(filterString) {
     useFilterNoPlan(filterString, false),
   );
 
+  // aggregates all crop varieties by crop id and counts the 'Need plans' count value.
   const filteredCropVarietiesWithoutManagementPlan =
     filteredCropVarietiesWithoutManagementPlanByCropVariety.reduce((acc, cropVariety) => {
       if (acc.length === 0) {
@@ -101,6 +102,8 @@ export default function useCropCatalogue(filterString) {
         managementPlansByCropId[managementPlan.crop_id][status].push(managementPlan);
       }
     }
+    // calcluates the needs plans values from crop varieties without management plan
+    // and merges it with the crop with the management plan
     const managementPlansByCropIdWithNoPlans = Object.values(managementPlansByCropId).reduce(
       (acc, currentValue) => {
         const noPlanFoundCrop = filteredCropVarietiesWithoutManagementPlanByCropVariety.filter(
@@ -182,6 +185,9 @@ export default function useCropCatalogue(filterString) {
     }));
   }, [filteredCropVarietiesWithoutManagementPlan, sortedCropCatalogue]);
 
+  // this method is used to calculate the sum of active, planned, past, noPlans of all
+  // crop varieties for a particular crop.
+  // calculates the active, planned, past, noPlans for CropStatusInfoBox component.
   const cropCataloguesStatus = useMemo(() => {
     const cropCataloguesStatus = { active: 0, planned: 0, past: 0, noPlans: 0 };
     for (const managementPlansByStatus of cropCatalogueFilteredByStatus) {

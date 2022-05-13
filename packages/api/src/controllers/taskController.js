@@ -666,8 +666,10 @@ async function sendTaskNotification(
   const userName = await User.getNameFromUserId(senderId ? senderId : receiverId);
   await NotificationUser.notify(
     {
-      title: { translation_key: 'NOTIFICATION.TASK_ASSIGNED.TITLE' },
-      body: { translation_key: 'NOTIFICATION.TASK_ASSIGNED.BODY' },
+      title: {
+        translation_key: `NOTIFICATION.${TaskNotificationTypes[notifyTranslationKey]}.TITLE`,
+      },
+      body: { translation_key: `NOTIFICATION.${TaskNotificationTypes[notifyTranslationKey]}.BODY` },
       variables: [
         { name: 'taskType', value: `task:${taskTranslationKey}`, translate: true },
         {

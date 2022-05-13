@@ -30,15 +30,15 @@ class Notification extends baseModel {
   static get jsonSchema() {
     return {
       type: 'object',
-      required: ['translation_key'],
       properties: {
         notification_id: { type: 'string' },
         translation_key: { type: 'string' },
         variables: { type: 'array' },
-        entity_id: { type: 'string' },
-        entity_type: { type: 'string' },
         context: { type: 'object' },
         farm_id: { type: 'string' },
+        title: { type: 'object' },
+        body: { type: 'object' },
+        ref: { type: 'object' },
         ...this.baseProperties,
       },
       additionalProperties: false,

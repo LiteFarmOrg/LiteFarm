@@ -116,6 +116,7 @@ module.exports = {
         req.headers.farm_id,
         req.user.user_id,
       );
+      console.log(notifications);
       res.status(200).send(notifications);
     } catch (error) {
       console.log(error);

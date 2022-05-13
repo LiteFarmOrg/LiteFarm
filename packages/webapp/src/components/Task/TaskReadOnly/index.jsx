@@ -46,6 +46,7 @@ import ReactSelect from '../../Form/ReactSelect';
 import { BiPencil } from 'react-icons/bi';
 import TaskQuickAssignModal from '../../Modals/QuickAssignModal';
 import { getDateInputFormat } from '../../../util/moment';
+import UpdateTaskDateModal from '../../Modals/UpdateTaskDateModal';
 
 export default function PureTaskReadOnly({
   onGoBack,
@@ -63,6 +64,7 @@ export default function PureTaskReadOnly({
   getMaxZoom,
   onAssignTasksOnDate,
   onAssignTask,
+  onChangeTaskDate,
 }) {
   const { t } = useTranslation();
   const taskType = task.taskType;
@@ -89,7 +91,7 @@ export default function PureTaskReadOnly({
         secondDateLabel: null,
       };
     }
-  }, []);
+  }, [task]);
   const locationIds = task.locations.map(({ location_id }) => location_id);
   const owner_user_id = task.owner_user_id;
   const {
@@ -114,6 +116,7 @@ export default function PureTaskReadOnly({
 
   const assignee = users.find((user) => user.user_id === task.assignee_user_id);
   const assigneeName = assignee && `${assignee.first_name} ${assignee.last_name}`;
+  const assignedToPseudoUser = assignee && assignee.role_id === 4;
 
   const isCompleted = !!task.complete_date;
   const isAbandoned = !!task.abandon_date;
@@ -124,11 +127,15 @@ export default function PureTaskReadOnly({
     !isTaskType(taskType, 'PLANT_TASK') && !isTaskType(taskType, 'TRANSPLANT_TASK');
 
   const [showTaskAssignModal, setShowTaskAssignModal] = useState(false);
+  const [showDueDateModal, setShowDueDateModal] = useState(false);
+
+  const canCompleteTask =
+    user.user_id === task.assignee_user_id || (assignedToPseudoUser && user.is_admin);
 
   return (
     <Layout
       buttonGroup={
-        user.user_id === task.assignee_user_id &&
+        canCompleteTask &&
         isCurrent && (
           <>
             <Button color={'primary'} onClick={onComplete} fullLength>
@@ -149,7 +156,7 @@ export default function PureTaskReadOnly({
           />
         }
       />
-      <div className={styles.assigneeContainer} style={{ marginBottom: '40px' }}>
+      <div className={styles.editableContainer}>
         <Input
           label={t('ADD_TASK.ASSIGNEE')}
           disabled={true}
@@ -160,23 +167,14 @@ export default function PureTaskReadOnly({
         )}
       </div>
 
-      <Input
-        style={{ marginBottom: '40px' }}
-        type={'date'}
-        value={date}
-        label={dateLabel}
-        disabled
-      />
+      <div className={styles.editableContainer}>
+        <Input type={'date'} value={date} label={dateLabel} disabled />
+        {isCurrent && isAdmin && (
+          <BiPencil className={styles.pencil} onClick={(_) => setShowDueDateModal(true)} />
+        )}
+      </div>
 
-      {secondDate && (
-        <Input
-          style={{ marginBottom: '40px' }}
-          type={'date'}
-          value={secondDate}
-          label={secondDateLabel}
-          disabled
-        />
-      )}
+      {secondDate && <Input type={'date'} value={secondDate} label={secondDateLabel} disabled />}
 
       <Semibold style={{ marginBottom: '12px' }}>{t('TASK.LOCATIONS')}</Semibold>
       {isTaskType(taskType, 'TRANSPLANT_TASK') && (
@@ -386,6 +384,13 @@ export default function PureTaskReadOnly({
           users={users}
           user={user}
           dismissModal={() => setShowTaskAssignModal(false)}
+        />
+      )}
+      {showDueDateModal && (
+        <UpdateTaskDateModal
+          due_date={date}
+          onChangeTaskDate={onChangeTaskDate}
+          dismissModal={() => setShowDueDateModal(false)}
         />
       )}
     </Layout>

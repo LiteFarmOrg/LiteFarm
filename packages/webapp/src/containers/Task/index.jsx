@@ -16,21 +16,20 @@ import TasksFilterPage from '../Filter/Tasks';
 import {
   isFilterCurrentlyActiveSelector,
   setTasksFilter,
-  patchTasksFilter,
   tasksFilterSelector,
-  resetTasksFilter,
+  setTasksFilterUnassignedDueThisWeek,
 } from '../filterSlice';
 import ActiveFilterBox from '../../components/ActiveFilterBox';
 import PureTaskDropdownFilter from '../../components/PopupFilter/PureTaskDropdownFilter';
 import produce from 'immer';
-import { ASSIGNEE, IS_ASCENDING } from '../Filter/constants';
+import { IS_ASCENDING } from '../Filter/constants';
+import { WEEKLY_UNASSIGNED_TASKS } from '../Notification/constants';
 import { filteredTaskCardContentSelector } from './taskCardContentSelector';
 
 export default function TaskPage({ history }) {
   const { t } = useTranslation();
   const isAdmin = useSelector(isAdminSelector);
   const { user_id, farm_id, first_name, last_name } = useSelector(userFarmSelector);
-  const userFarms = useSelector(userFarmsByFarmSelector);
   const taskCardContents = useSelector(filteredTaskCardContentSelector);
   const dispatch = useDispatch();
 
@@ -54,10 +53,8 @@ export default function TaskPage({ history }) {
   }, []);
 
   useEffect(() => {
-    if (history.location.state?.taskFilters) {
-      dispatch(patchTasksFilter(history.location.state.taskFilters));
-    } else {
-      dispatch(resetTasksFilter(user_id, userFarms));
+    if (history.location.state?.notification_type === WEEKLY_UNASSIGNED_TASKS) {
+      dispatch(setTasksFilterUnassignedDueThisWeek());
     }
   }, []);
 

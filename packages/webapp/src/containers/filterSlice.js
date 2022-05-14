@@ -81,19 +81,27 @@ const filterSliceReducer = createSlice({
     },
     setTasksFilter: (state, { payload: tasksFilter }) => {
       Object.assign(state.tasks, tasksFilter);
-      console.log({ filters: tasksFilter });
     },
-    patchTasksFilter: (state, { payload: updatesToFilter }) => {
-      state.tasks = {
-        STATUS: { ...state.tasks.STATUS, ...(updatesToFilter.STATUS || {}) },
-        TYPE: { ...state.tasks.TYPE, ...(updatesToFilter.TYPE || {}) },
-        LOCATION: { ...state.tasks.LOCATION, ...(updatesToFilter.LOCATION || {}) },
-        CROP: { ...state.tasks.CROP, ...(updatesToFilter.CROP || {}) },
-        ASSIGNEE: { ...state.tasks.ASSIGNEE, ...(updatesToFilter.ASSIGNEE || {}) },
-        FROM_DATE: updatesToFilter.FROM_DATE || state.tasks.FROM_DATE,
-        TO_DATE: updatesToFilter.TO_DATE || state.tasks.TO_DATE,
-        IS_ASCENDING: updatesToFilter.TO_DATE ?? state.tasks.TO_DATE,
-      };
+    setTasksFilterUnassignedDueThisWeek: (state) => {
+      // reset state
+      state.tasks.STATUS = {};
+      state.tasks.LOCATION = {};
+      state.tasks.TYPE = {};
+      state.tasks.CROP = {};
+      state.tasks.IS_ASCENDING = false;
+
+      // set all assignee filters to false
+      for (const assigneeUserId in state.tasks.ASSIGNEE) {
+        state.tasks.ASSIGNEE[assigneeUserId].active = false;
+      }
+      state.tasks.ASSIGNEE['unassigned'].active = true;
+
+      // set date filter
+      const today = new Date();
+      const oneWeekFromNow = new Date();
+      oneWeekFromNow.setDate(today.getDate() + 6);
+      state.tasks.FROM_DATE = getDateInputFormat(today);
+      state.tasks.TO_DATE = getDateInputFormat(oneWeekFromNow);
     },
   },
 });
@@ -111,7 +119,7 @@ export const {
   setDocumentsFilter,
   resetTasksFilter,
   setTasksFilter,
-  patchTasksFilter,
+  setTasksFilterUnassignedDueThisWeek,
 } = filterSliceReducer.actions;
 export default filterSliceReducer.reducer;
 

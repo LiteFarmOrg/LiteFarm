@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import React, { useEffect, useMemo, useState } from 'react';
 import styles from './styles.module.scss';
 
-import { isAdminSelector, userFarmSelector } from '../userFarmSlice';
+import { isAdminSelector, userFarmSelector, userFarmsByFarmSelector } from '../userFarmSlice';
 import { resetAndUnLockFormData } from '../hooks/useHookFormPersist/hookFormPersistSlice';
 import { getManagementPlansAndTasks } from '../saga';
 import TaskCard from './TaskCard';
@@ -16,18 +16,21 @@ import TasksFilterPage from '../Filter/Tasks';
 import {
   isFilterCurrentlyActiveSelector,
   setTasksFilter,
+  patchTasksFilter,
   tasksFilterSelector,
+  resetTasksFilter,
 } from '../filterSlice';
 import ActiveFilterBox from '../../components/ActiveFilterBox';
 import PureTaskDropdownFilter from '../../components/PopupFilter/PureTaskDropdownFilter';
 import produce from 'immer';
-import { IS_ASCENDING } from '../Filter/constants';
+import { ASSIGNEE, IS_ASCENDING } from '../Filter/constants';
 import { filteredTaskCardContentSelector } from './taskCardContentSelector';
 
 export default function TaskPage({ history }) {
   const { t } = useTranslation();
   const isAdmin = useSelector(isAdminSelector);
   const { user_id, farm_id, first_name, last_name } = useSelector(userFarmSelector);
+  const userFarms = useSelector(userFarmsByFarmSelector);
   const taskCardContents = useSelector(filteredTaskCardContentSelector);
   const dispatch = useDispatch();
 
@@ -48,6 +51,14 @@ export default function TaskPage({ history }) {
 
   useEffect(() => {
     dispatch(resetAndUnLockFormData());
+  }, []);
+
+  useEffect(() => {
+    if (history.location.state?.taskFilters) {
+      dispatch(patchTasksFilter(history.location.state.taskFilters));
+    } else {
+      dispatch(resetTasksFilter(user_id, userFarms));
+    }
   }, []);
 
   const assigneeValue = useMemo(() => {

@@ -79,20 +79,23 @@ const timeNotificationController = {
  */
 function sendWeeklyUnassignedTaskNotifications(farmId, farmManagement, firstTaskTranslationKey) {
   const today = new Date();
+  today.setHours(0, 0, 0);
+  const todayStr = today.oISOString().split('T')[0];
   const oneWeekFromToday = today.setDate(today.getDate() + 7);
+  const oneWeekFromTodayStr = oneWeekFromToday.oISOString().split('T')[0];
 
   NotificationUser.notify(
     {
-      title: 'NOTIFICATION.WEEKLY_UNASSIGNED_TASKS.TITLE',
-      body: 'NOTIFICATION.WEEKLY_UNASSIGNED_TASKS.BODY',
+      title: { translation_key: 'NOTIFICATION.WEEKLY_UNASSIGNED_TASKS.TITLE' },
+      body: { translation_key: 'NOTIFICATION.WEEKLY_UNASSIGNED_TASKS.BODY' },
       variables: [],
       ref: { url: '/tasks' },
       context: {
         task_translation_key: firstTaskTranslationKey,
         taskFilters: {
-          ASSIGNEE: undefined,
-          FROM_DATE: today,
-          TO_DATE: oneWeekFromToday,
+          ASSIGNEE: { unassigned: { active: false, label: 'Unassigned' } },
+          FROM_DATE: todayStr,
+          TO_DATE: oneWeekFromTodayStr,
         },
       },
       farm_id: farmId,

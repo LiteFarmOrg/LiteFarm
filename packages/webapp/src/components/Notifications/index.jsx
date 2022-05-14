@@ -20,6 +20,13 @@ function PureNotificationReadOnly({ onGoBack, notification }) {
     return options;
   }, {});
 
+  const onTakeMeThere = () => {
+    const route =
+      notification.ref.url ??
+      `/${notification.ref.entity.type}s/${notification.ref.entity.id}/read_only`;
+    history.push(route, notification.context);
+  };
+
   return (
     <Layout>
       <PageTitle
@@ -58,16 +65,7 @@ function PureNotificationReadOnly({ onGoBack, notification }) {
           ? t(notification.body.translation_key, tOptions)
           : notification.body[currentLang]}
       </Text>
-      <Button
-        sm
-        style={{ height: '32px', width: '150px' }}
-        onClick={() => {
-          const route =
-            notification.ref.url ??
-            `/${notification.ref.entity.type}s/${notification.ref.entity.id}/read_only`;
-          history.push(route);
-        }}
-      >
+      <Button sm style={{ height: '32px', width: '150px' }} onClick={onTakeMeThere}>
         {t('NOTIFICATION.TAKE_ME_THERE')}
       </Button>
     </Layout>

@@ -81,6 +81,19 @@ const filterSliceReducer = createSlice({
     },
     setTasksFilter: (state, { payload: tasksFilter }) => {
       Object.assign(state.tasks, tasksFilter);
+      console.log({ filters: tasksFilter });
+    },
+    patchTasksFilter: (state, { payload: updatesToFilter }) => {
+      state.tasks = {
+        STATUS: { ...state.tasks.STATUS, ...(updatesToFilter.STATUS || {}) },
+        TYPE: { ...state.tasks.TYPE, ...(updatesToFilter.TYPE || {}) },
+        LOCATION: { ...state.tasks.LOCATION, ...(updatesToFilter.LOCATION || {}) },
+        CROP: { ...state.tasks.CROP, ...(updatesToFilter.CROP || {}) },
+        ASSIGNEE: { ...state.tasks.ASSIGNEE, ...(updatesToFilter.ASSIGNEE || {}) },
+        FROM_DATE: updatesToFilter.FROM_DATE || state.tasks.FROM_DATE,
+        TO_DATE: updatesToFilter.TO_DATE || state.tasks.TO_DATE,
+        IS_ASCENDING: updatesToFilter.TO_DATE ?? state.tasks.TO_DATE,
+      };
     },
   },
 });
@@ -98,6 +111,7 @@ export const {
   setDocumentsFilter,
   resetTasksFilter,
   setTasksFilter,
+  patchTasksFilter,
 } = filterSliceReducer.actions;
 export default filterSliceReducer.reducer;
 

@@ -24,7 +24,10 @@ import { isAdminSelector } from '../userFarmSlice';
 import useCropCatalogue from './useCropCatalogue';
 import useStringFilteredCrops from './useStringFilteredCrops';
 import useSortByCropTranslation from './useSortByCropTranslation';
-import { resetAndUnLockFormData, setPersistedPaths } from '../hooks/useHookFormPersist/hookFormPersistSlice';
+import {
+  resetAndUnLockFormData,
+  setPersistedPaths,
+} from '../hooks/useHookFormPersist/hookFormPersistSlice';
 import CatalogSpotlight from './CatalogSpotlight';
 import ActiveFilterBox from '../../components/ActiveFilterBox';
 import { useStartAddCropVarietyFlow } from '../CropVarieties/useStartAddCropVarietyFlow';
@@ -36,14 +39,8 @@ export default function CropCatalogue({ history }) {
 
   const [filterString, setFilterString] = useState('');
   const filterStringOnChange = (e) => setFilterString(e.target.value);
-  const {
-    active,
-    planned,
-    past,
-    sum,
-    cropCatalogue,
-    filteredCropsWithoutManagementPlan,
-  } = useCropCatalogue(filterString);
+  const { active, planned, past, sum, cropCatalogue, filteredCropsWithoutManagementPlan } =
+    useCropCatalogue(filterString);
   const crops = useStringFilteredCrops(
     useSortByCropTranslation(useSelector(cropsSelector)),
     filterString,
@@ -73,11 +70,13 @@ export default function CropCatalogue({ history }) {
 
   const { onAddCropVariety } = useStartAddCropVarietyFlow();
   const onAddCrop = () => {
-    dispatch(setPersistedPaths([
-      '/crop/new',
-      '/crop/new/add_crop_variety',
-      '/crop/new/add_crop_variety/compliance',
-    ]));
+    dispatch(
+      setPersistedPaths([
+        '/crop/new',
+        '/crop/new/add_crop_variety',
+        '/crop/new/add_crop_variety/compliance',
+      ]),
+    );
     history.push('/crop/new');
   };
   return (
@@ -200,9 +199,7 @@ export default function CropCatalogue({ history }) {
               </>
             )}
             <Text style={{ paddingBottom: '8px' }}>{t('CROP_CATALOGUE.CAN_NOT_FIND')}</Text>
-            <AddLink
-              onClick={onAddCrop}
-            >
+            <AddLink data-cy="crop-addLink" onClick={onAddCrop}>
               {t('CROP_CATALOGUE.ADD_CROP')}
             </AddLink>
           </>

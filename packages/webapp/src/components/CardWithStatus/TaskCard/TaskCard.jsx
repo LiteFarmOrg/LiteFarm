@@ -68,18 +68,19 @@ export const PureTaskCard = ({
     trueDate = `${month} ${date}, ${year}`;
   }
 
-  const iconStyle = { 
+  const iconStyle = {
     iconTextContainer: {
       display: 'flex',
       flexDirection: 'row',
       alignItems: 'center',
       gap: '3px',
-      borderBottom: !isAdmin&&!isAssignee ? 'none' : '1px solid var(--teal700)',
-      cursor: isAdmin||isAssignee ? 'pointer' : 'default',
-    }
-  }
+      borderBottom: !isAdmin && !isAssignee ? 'none' : '1px solid var(--teal700)',
+      cursor: isAdmin || isAssignee ? 'pointer' : 'default',
+    },
+  };
   return (
     <CardWithStatus
+      data-cy="taskCard"
       color={selected ? activeCardColorMap[status] : statusColorMap[status]}
       style={style}
       status={status}
@@ -107,7 +108,7 @@ export const PureTaskCard = ({
           {locationName || t('TASK.CARD.MULTIPLE_LOCATIONS')}
           {cropVarietyName && ` | ${cropVarietyName}`}
         </div>
-        <div onClick={onAssignDate} className={styles.dateUserContainer}>
+        <div data-cy="taskCard-dueDate" onClick={onAssignDate} className={styles.dateUserContainer}>
           <div
             className={
               status === 'completed' || status === 'abandoned'
@@ -134,6 +135,7 @@ export const PureTaskCard = ({
             </div>
           ) : (
             <div
+              data-cy="taskCard-assignee"
               className={clsx(styles.iconTextContainer, styles.unassigned)}
               onClick={onAssignTask}
               style={{ cursor: onClickAssignee ? 'pointer' : 'default' }}

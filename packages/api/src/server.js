@@ -58,7 +58,6 @@ const rolesRoutes = require('./routes/rolesRoute');
 const organicCertifierSurveyRoutes = require('./routes/organicCertifierSurveyRoute');
 const passwordResetRoutes = require('./routes/passwordResetRoute.js');
 const showedSpotlightRoutes = require('./routes/showedSpotlightRoute.js');
-const testDataRoute = require('./routes/testDataRoute.js');
 
 // const waterBalanceScheduler = require('./jobs/waterBalance/waterBalance');
 // const nitrogenBalanceScheduler = require('./jobs/nitrogenBalance/nitrogenBalance');
@@ -125,10 +124,6 @@ app.set('json replacer', (key, value) => {
   }
   return value;
 });
-
-if (environment === 'development' || environment === 'integration') {
-  app.use('/testData', testDataRoute);
-}
 
 app
   .use(bodyParser.json())

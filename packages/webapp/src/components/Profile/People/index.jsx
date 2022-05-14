@@ -95,9 +95,11 @@ export default function PurePeople({ users, history, isAdmin }) {
       onSubmit={() => history.push('/invite_user')}
       history={history}
       buttonGroup={
-        isAdmin && <Button fullLength type={'submit'}>
-          {t('PROFILE.PEOPLE.INVITE_USER')}
-        </Button>
+        isAdmin && (
+          <Button data-cy="people-inviteUser" fullLength type={'submit'}>
+            {t('PROFILE.PEOPLE.INVITE_USER')}
+          </Button>
+        )
       }
     >
       <Input
@@ -107,12 +109,13 @@ export default function PurePeople({ users, history, isAdmin }) {
         placeholder={t('PROFILE.PEOPLE.SEARCH')}
       />
       <Table
+        data-cy="people-table"
         columns={summaryColumns}
         data={getFilteredUsers()}
         showPagination={true}
         pageSizeOptions={[5, 10, 20, 50]}
         defaultPageSize={5}
-        className='-striped -highlight'
+        className="-striped -highlight"
         getTdProps={onRowEdit}
       />
     </ProfileLayout>

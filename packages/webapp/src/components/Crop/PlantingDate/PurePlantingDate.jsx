@@ -11,7 +11,11 @@ import InputDuration from '../../Form/InputDuration';
 import FullYearCalendarView from '../../FullYearCalendar';
 import { cloneObject } from '../../../util';
 import FullMonthCalendarView from '../../MonthCalendar';
-import { getDateDifference, getDateInputFormat, getLocalizedDateString } from '../../../util/moment';
+import {
+  getDateDifference,
+  getDateInputFormat,
+  getLocalizedDateString,
+} from '../../../util/moment';
 import { isNonNegativeNumber } from '../../Form/validations';
 import { getPlantingDatePaths } from '../getAddManagementPlanPath';
 import Unit from '../../Form/Unit';
@@ -40,30 +44,20 @@ export default function PurePlantingDate({
   const ESTIMATED_YIELD = 'crop_management_plan.estimated_yield';
   const ESTIMATED_YIELD_UNIT = 'crop_management_plan.estimated_yield_unit';
 
-  const {
-    already_in_ground,
-    is_wild,
-    for_cover,
-    needs_transplant,
-    is_seed,
-  } = persistedFormData.crop_management_plan;
+  const { already_in_ground, is_wild, for_cover, needs_transplant, is_seed } =
+    persistedFormData.crop_management_plan;
 
-  const {
-    harvestIsMain,
-    terminationIsMain,
-    transplantIsMain,
-    seedIsMain,
-    plantingIsMain,
-  } = useMemo(
-    () => ({
-      seedIsMain: !already_in_ground && is_seed,
-      plantingIsMain: !already_in_ground && !is_seed,
-      transplantIsMain: already_in_ground && needs_transplant,
-      harvestIsMain: already_in_ground && !needs_transplant && !is_wild && !for_cover,
-      terminationIsMain: already_in_ground && !needs_transplant && !is_wild && for_cover,
-    }),
-    [],
-  );
+  const { harvestIsMain, terminationIsMain, transplantIsMain, seedIsMain, plantingIsMain } =
+    useMemo(
+      () => ({
+        seedIsMain: !already_in_ground && is_seed,
+        plantingIsMain: !already_in_ground && !is_seed,
+        transplantIsMain: already_in_ground && needs_transplant,
+        harvestIsMain: already_in_ground && !needs_transplant && !is_wild && !for_cover,
+        terminationIsMain: already_in_ground && !needs_transplant && !is_wild && for_cover,
+      }),
+      [],
+    );
 
   const MAIN_DATE = useMemo(
     () =>
@@ -249,7 +243,7 @@ export default function PurePlantingDate({
   return (
     <Form
       buttonGroup={
-        <Button disabled={disabled} fullLength>
+        <Button data-cy="plantDate-submit" disabled={disabled} fullLength>
           {t('common:CONTINUE')}
         </Button>
       }
@@ -266,6 +260,7 @@ export default function PurePlantingDate({
       <Main style={{ marginBottom: '24px' }}>{dateTitle}</Main>
 
       <Input
+        data-cy="cropPlan-plantDate"
         style={{ marginBottom: '40px' }}
         type={'date'}
         label={dateLabel}
@@ -301,6 +296,7 @@ export default function PurePlantingDate({
       )}
       {showGerminationOffset && (
         <InputDuration
+          data-cy="cropPlan-seedGermination"
           style={{ marginBottom: '40px' }}
           startDate={startDate}
           hookFormWatch={watch}
@@ -341,6 +337,7 @@ export default function PurePlantingDate({
       )}
       {showHarvestTerminationOffset && (
         <InputDuration
+          data-cy="cropPlan-plantHarvest"
           style={{ marginBottom: '16px' }}
           startDate={startDate}
           hookFormWatch={watch}
@@ -380,22 +377,31 @@ export default function PurePlantingDate({
           style={{ paddingBottom: '16px', paddingTop: '24px' }}
         />
       )}
-      {main_date && Math.abs(new Date(main_date).getFullYear() - new Date().getFullYear()) < 1000 && !harvestIsMain && !terminationIsMain && (
-        <FullYearCalendarView
-          language={language}
-          {...{
-            seed_date: [PLANT_DATE, SEED_DATE].includes(MAIN_DATE) ? seed_date : undefined,
-            germination_date: showGerminationOffset ? germination_date : undefined,
-            transplant_date:
-              showTransplantOffset || MAIN_DATE === TRANSPLANT_DATE ? transplant_date : undefined,
-            termination_date: showTerminationOffset ? termination_date : undefined,
-            harvest_date: showHarvestOffset ? harvest_date : undefined,
-            initial: MAIN_DATE.split('.')[1],
-            plant_date: plantingIsMain ? plant_date : undefined,
-          }}
-        />
-      )}
-      {((harvestIsMain && harvest_date && Math.abs(new Date(harvest_date).getFullYear() - new Date().getFullYear()) < 1000) || (terminationIsMain && termination_date && Math.abs(new Date(termination_date).getFullYear() - new Date().getFullYear()) < 1000)) && (
+      {main_date &&
+        Math.abs(new Date(main_date).getFullYear() - new Date().getFullYear()) < 1000 &&
+        !harvestIsMain &&
+        !terminationIsMain && (
+          <FullYearCalendarView
+            language={language}
+            {...{
+              seed_date: [PLANT_DATE, SEED_DATE].includes(MAIN_DATE) ? seed_date : undefined,
+              germination_date: showGerminationOffset ? germination_date : undefined,
+              transplant_date:
+                showTransplantOffset || MAIN_DATE === TRANSPLANT_DATE ? transplant_date : undefined,
+              termination_date: showTerminationOffset ? termination_date : undefined,
+              harvest_date: showHarvestOffset ? harvest_date : undefined,
+              initial: MAIN_DATE.split('.')[1],
+              plant_date: plantingIsMain ? plant_date : undefined,
+            }}
+          />
+        )}
+      {((harvestIsMain &&
+        harvest_date &&
+        Math.abs(new Date(harvest_date).getFullYear() - new Date().getFullYear()) < 1000) ||
+        (terminationIsMain &&
+          termination_date &&
+          Math.abs(new Date(termination_date).getFullYear() - new Date().getFullYear()) <
+            1000)) && (
         <FullMonthCalendarView
           date={
             harvestIsMain ? getDateInputFormat(harvest_date) : getDateInputFormat(termination_date)

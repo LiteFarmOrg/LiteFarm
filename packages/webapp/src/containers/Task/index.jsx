@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import React, { useEffect, useMemo, useState } from 'react';
 import styles from './styles.module.scss';
 
-import { isAdminSelector, userFarmSelector, userFarmsByFarmSelector } from '../userFarmSlice';
+import { isAdminSelector, userFarmSelector } from '../userFarmSlice';
 import { resetAndUnLockFormData } from '../hooks/useHookFormPersist/hookFormPersistSlice';
 import { getManagementPlansAndTasks } from '../saga';
 import TaskCard from './TaskCard';

@@ -213,6 +213,7 @@ export default function PureNavBar({
     <AppBar position="sticky" className={classes.appBar}>
       <Toolbar className={classes.toolbar}>
         <IconButton
+        data-cy='navbar-hamburger'
           edge="start"
           className={classes.menuButton}
           color="inherit"
@@ -279,6 +280,7 @@ export default function PureNavBar({
               </PureMyFarmFloater>
 
               <IconButton
+                data-cy='home-notificationButton'
                 aria-label="notification icon"
                 color="inherit"
                 id="secondStepNavBar"

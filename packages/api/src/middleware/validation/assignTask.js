@@ -25,6 +25,11 @@ async function validateAssigneeId(req, res, next) {
     return res.status(403).send('Not authorized to assign other people for this task');
   }
 
+  // if the assignee_user_id is null, this means that the task is 'Unassigned' which is a valid
+  if (assignee_user_id === null) {
+    return next();
+  }
+
   const userFarm = await userFarmModel
     .query()
     .where({

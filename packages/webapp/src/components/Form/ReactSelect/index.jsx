@@ -17,7 +17,7 @@ export const styles = {
     },
     fontSize: '16px',
     lineHeight: '24px',
-    color: 'var(--fontColor)',
+    color: state.isDisabled ? 'var(--grey400)' : 'var(--fontColor)',
     fontStyle: 'normal',
     fontWeight: 'normal',
     fontFamily: '"Open Sans", "SansSerif", serif',

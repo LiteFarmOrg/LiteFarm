@@ -21,6 +21,22 @@
     ],
     "*.{js,jsx,ts,tsx,json,md,html}": "prettier --write"
   },
+  "pnpm": {
+    "peerDependencyRules": {
+      "ignoreMissing": [
+        "@babel/core",
+        "@storybook/core-common",
+        "babel-loader",
+        "prettier",
+        "webpack"
+      ],
+      "allowedVersions": {
+        "react": "17",
+        "react-dom": "17",
+        "acorn": "7"
+      }
+    }
+  },
   "dependencies": {
     "@emotion/react": "^11.7.1",
     "@googlemaps/markerclustererplus": "^1.1.0",
@@ -68,6 +84,7 @@
     "uuid": "^8.3.2"
   },
   "devDependencies": {
+    "@cypress/code-coverage": "^3.9.12",
     "@emotion/babel-plugin": "^11.7.2",
     "@mdx-js/mdx": "^1.6.22",
     "@mdx-js/react": "^1.6.22",

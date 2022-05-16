@@ -897,6 +897,7 @@
       },
       "WHAT_HAPPENED": "What happened?"
     },
+    "COMPLETION_NOTES": "Completion notes",
     "CONTAINER": "Container",
     "CONTAINER_OR_IN_GROUND": "Are you planting in a container or in ground?",
     "CONTAINER_TYPE": "Type of container",
@@ -955,6 +956,7 @@
     "PLANTING_NOTE": "Planting notes",
     "PLANTING_SOIL": "Planting soil to be used",
     "PLANTS_PER_CONTAINER": "# of plants/container",
+    "RATE_THIS_MANAGEMENT_PLAN": "Rate this management plan",
     "REMOVE_PIN": "Remove pin",
     "ROW_METHOD": {
       "HISTORICAL_SAME_LENGTH": "Were the rows all the same length?",

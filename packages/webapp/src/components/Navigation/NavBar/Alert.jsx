@@ -26,7 +26,7 @@ export default function PureAlert({ alertCount }) {
     alertCount && (
       <>
         <AlertIcon className={clsx(classes.alert)} />
-        <div className={clsx(classes.alert, classes.alertCount)}>
+        <div data-cy="notification-alert" className={clsx(classes.alert, classes.alertCount)}>
           {alertCount <= 9 ? alertCount : '9+'}
         </div>
       </>

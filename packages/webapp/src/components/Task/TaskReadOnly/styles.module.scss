@@ -20,9 +20,10 @@
   cursor: pointer;
 }
 
-.assigneeContainer {
+.editableContainer {
   display: flex;
   flex-direction: row;
+  margin-bottom: 40px;
   div {
     flex-grow: 1;
   }

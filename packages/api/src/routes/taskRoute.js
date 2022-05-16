@@ -1,6 +1,6 @@
 /*
- *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>
- *  This file (fertilizerRoute.js) is part of LiteFarm.
+ *  Copyright 2019, 2020, 2021, 2022 LiteFarm.org
+ *  This file is part of LiteFarm.
  *
  *  LiteFarm is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -27,7 +27,7 @@ router.patch(
   hasFarmAccess({ params: 'task_id' }),
   checkScope(['edit:task']),
   validateAssigneeId,
-  taskController.assignTask(),
+  taskController.assignTask,
 );
 
 router.patch(
@@ -35,7 +35,7 @@ router.patch(
   hasFarmAccess({ params: 'task_id' }),
   checkScope(['edit:task']),
   validateAssigneeId,
-  taskController.assignAllTasksOnDate(),
+  taskController.assignAllTasksOnDate,
 );
 
 router.patch(
@@ -49,10 +49,10 @@ router.patch(
   '/abandon/:task_id',
   hasFarmAccess({ params: 'task_id' }),
   checkScope(['edit:task']),
-  taskController.abandonTask(),
+  taskController.abandonTask,
 );
 
-router.get('/:farm_id', hasFarmAccess({ params: 'farm_id' }), taskController.getTasksByFarmId());
+router.get('/:farm_id', hasFarmAccess({ params: 'farm_id' }), taskController.getTasksByFarmId);
 /**
  * endpoint name should follow
  * /task/task_type.task_translation_key.toLowerCase()
@@ -61,7 +61,7 @@ router.post(
   '/harvest_tasks',
   hasFarmAccess({ mixed: 'taskManagementPlanAndLocation' }),
   isWorkerToSelfOrAdmin({ hasManyTasks: true }),
-  taskController.createHarvestTasks(),
+  taskController.createHarvestTasks,
 );
 
 router.post(
@@ -136,7 +136,7 @@ router.post(
   modelMapping['transplant_task'],
   hasFarmAccess({ mix: 'transplant_task' }),
   isWorkerToSelfOrAdmin(),
-  taskController.createTransplantTask(),
+  taskController.createTransplantTask,
 );
 
 router.post(
@@ -211,7 +211,7 @@ router.patch(
   modelMapping['harvest_task'],
   hasFarmAccess({ params: 'task_id' }),
   checkScope(['edit:task']),
-  taskController.completeHarvestTask(),
+  taskController.completeHarvestTask,
 );
 
 router.patch(
@@ -241,7 +241,7 @@ router.patch(
 router.get(
   '/harvest_uses/farm/:farm_id',
   hasFarmAccess({ params: 'farm_id' }),
-  taskController.getHarvestUsesByFarmId(),
+  taskController.getHarvestUsesByFarmId,
 );
 
 module.exports = router;

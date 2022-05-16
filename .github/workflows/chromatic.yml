@@ -2,7 +2,7 @@ name: 'Chromatic'
 
 on:
   push:
-    branches: [ develop ]
+    branches: [ integration ]
 
 jobs:
   chromatic-deployment:

@@ -351,6 +351,10 @@
     "ARCHIVE_DOCUMENT": "Archivar documento",
     "ARCHIVE_DOCUMENT_TEXT": "Archivar este documento lo moverá a la sección de archivado de sus documentos, pero no lo eliminará. Los documentos archivados no se exportarán para sus certificaciones. Quiere proceder?",
     "ARCHIVED": "Archivado",
+    "UNARCHIVE": "MISSING",
+    "UNARCHIVE_DOCUMENT": "MISSING",
+    "UNARCHIVE_DOCUMENT_TEXT": "MISSING",
+    "UNARCHIVED": "MISSING",
     "CANCEL": "Cancelar",
     "COMPLIANCE_DOCUMENTS_AND_CERTIFICATION": "Documentos de cumplimiento y su certificación",
     "DOCUMENTS": "Documentos",
@@ -638,7 +642,7 @@
     "DATE": "Fecha",
     "ESTIMATED_REVENUE": {
       "ESTIMATED_ANNUAL_REVENUE": "Ingresos anuales estimados",
-      "ESTIMATED_ANNUAL_YIELD": "Rendimiento anual estimado",
+      "ESTIMATED_ANNUAL_YIELD": "MISSING",
       "ESTIMATED_PRICE_PER_UNIT": "Precio estimado por unidad",
       "TITLE": "Ingresos estimados"
     },
@@ -900,6 +904,7 @@
       },
       "WHAT_HAPPENED": "¿Qué sucedió?"
     },
+    "COMPLETION_NOTES": "MISSING",
     "CONTAINER": "Maceta",
     "CONTAINER_OR_IN_GROUND": "¿Está plantando en una maceta o en el suelo?",
     "CONTAINER_TYPE": "Tipo de maceta",
@@ -916,7 +921,7 @@
     "DURATION_TOOLTIP": "Estos son valores sugeridos. Ajústelo a las condiciones locales.",
     "EDITING_PLAN_WILL_NOT_MODIFY": "La edición de este plan no modificará las tareas asignadas.",
     "ESTIMATED_SEED": "Semilla estimada es obligatoria",
-    "ESTIMATED_YIELD": "Rendimiento estimado",
+    "ESTIMATED_YIELD": "MISSING",
     "FIRST_MP_SPOTLIGHT": {
       "BODY_PART1": "LiteFarm ha generado algunas tareas basadas en su plan. Puede agregar más tareas o asignarlas en esta pantalla.",
       "BODY_PART2": "Su plan se activará una vez que complete una tarea.",
@@ -958,6 +963,7 @@
     "PLANTING_NOTE": "Notas de la siembra",
     "PLANTING_SOIL": "Suelo de siembra que se utilizará",
     "PLANTS_PER_CONTAINER": "# de plantas/maceta",
+    "RATE_THIS_MANAGEMENT_PLAN": "MISSING",
     "REMOVE_PIN": "Quitar el pin",
     "ROW_METHOD": {
       "HISTORICAL_SAME_LENGTH": "¿Tenían todas las filas la misma longitud?",

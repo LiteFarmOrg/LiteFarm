@@ -29,6 +29,7 @@
   "MAX_ERROR": "Por favor, ingrese un valor menor que {{value}}",
   "MIN_ERROR": "Por favor, ingrese un valor mayor que {{value}}",
   "NAME": "Nombre",
+  "NEEDS_PLAN": "MISSING",
   "NEXT": "Próximo",
   "NO": "No",
   "NOT_SURE": "No estoy seguro/a",

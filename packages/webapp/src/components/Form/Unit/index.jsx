@@ -1,3 +1,18 @@
+/*
+ *  Copyright 2019, 2020, 2021, 2022 LiteFarm.org
+ *  This file is part of LiteFarm.
+ *
+ *  LiteFarm is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  LiteFarm is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ *  GNU General Public License for more details, see <<https://www.gnu.org/licenses/>.>
+ */
+
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import styles from './unit.module.scss';
 import clsx from 'clsx';
@@ -9,7 +24,11 @@ import i18n from '../../../locales/i18n';
 import { integerOnKeyDown, numberOnKeyDown, preventNumberScrolling } from '../Input';
 import Select from 'react-select';
 import { styles as reactSelectDefaultStyles } from '../ReactSelect';
-import { area_total_area, getDefaultUnit, roundToTwoDecimal } from '../../../util/convert-units/unit';
+import {
+  area_total_area,
+  getDefaultUnit,
+  roundToTwoDecimal,
+} from '../../../util/convert-units/unit';
 import Infoi from '../../Tooltip/Infoi';
 import { Controller, get, useFormState } from 'react-hook-form';
 import { ReactComponent as Leaf } from '../../../assets/images/signUp/leaf.svg';
@@ -89,19 +108,17 @@ const useReactSelectStyles = (disabled, { reactSelectWidth = DEFAULT_REACT_SELEC
         ...provided,
         padding: '0',
         width: `${reactSelectWidth - 19}px`,
+        display: 'flex',
         justifyContent: 'center',
       }),
       singleValue: (provided, state) => ({
         fontSize: '16px',
         lineHeight: '24px',
-        color: state.isDisabled ? 'var(--grey600)' : 'var(--grey600)',
+        color: 'var(--grey600)',
         fontStyle: 'normal',
         fontWeight: 'normal',
         fontFamily: '"Open Sans", "SansSerif", serif',
-        width: `${reactSelectWidth - 19}px`,
         overflowX: 'hidden',
-        textAlign: 'center',
-        position: 'absolute',
       }),
       placeholder: () => ({
         display: 'none',
@@ -287,7 +304,7 @@ const Unit = ({
     <div className={clsx(styles.container)} style={{ ...style, ...classes.container }}>
       {label && (
         <div className={styles.labelContainer}>
-          <Label style={{ position: 'absolute', bottom: 0 }}>
+          <Label>
             {label}{' '}
             {optional && (
               <Label sm className={styles.sm}>

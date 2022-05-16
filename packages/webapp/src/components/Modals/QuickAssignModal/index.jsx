@@ -16,16 +16,18 @@ export default function TaskQuickAssignModal({
   onAssignTask,
   users,
   user,
+  taskCardContents,
 }) {
   const { t } = useTranslation();
   const selfOption = { label: `${user.first_name} ${user.last_name}`, value: user.user_id };
-  const unAssignedOption = { label: t('TASK.UNASSIGNED'), value: null };
+  const unAssignedOption = { label: t('TASK.UNASSIGNED'), value: null, isDisabled: false };
   const options = useMemo(() => {
     if (user.is_admin) {
       const options = users.map(({ first_name, last_name, user_id }) => ({
         label: `${first_name} ${last_name}`,
         value: user_id,
       }));
+      unAssignedOption.isDisabled = !isAssigned;
       options.unshift(unAssignedOption);
       return options;
     } else return [selfOption, unAssignedOption];
@@ -34,8 +36,24 @@ export default function TaskQuickAssignModal({
   const [selectedWorker, setWorker] = useState(isAssigned ? unAssignedOption : selfOption);
   const [assignAll, setAssignAll] = useState(false);
 
+  const checkUnassignedTaskForSameDate = () => {
+    const selectedTask = taskCardContents.find((t) => t.task_id == task_id);
+    let isUnassignedTaskPresent = false;
+    for (let task of taskCardContents) {
+      if (
+        task.completeOrDueDate === selectedTask.completeOrDueDate &&
+        !task.assignee &&
+        task.task_id !== task_id
+      ) {
+        isUnassignedTaskPresent = true;
+        break;
+      }
+    }
+    return isUnassignedTaskPresent;
+  };
+
   const onAssign = () => {
-    assignAll
+    assignAll && checkUnassignedTaskForSameDate()
       ? onAssignTasksOnDate({
           task_id: task_id,
           date: due_date,
@@ -46,6 +64,10 @@ export default function TaskQuickAssignModal({
           assignee_user_id: selectedWorker.value,
         });
     dismissModal();
+  };
+
+  const onCheckedAll = () => {
+    setAssignAll(!assignAll);
   };
 
   const disabled = selectedWorker === null;
@@ -61,6 +83,7 @@ export default function TaskQuickAssignModal({
           </Button>
 
           <Button
+            data-cy="quickAssign-update"
             onClick={onAssign}
             disabled={disabled}
             className={styles.button}
@@ -85,7 +108,7 @@ export default function TaskQuickAssignModal({
       <Checkbox
         style={{ paddingRight: '24px' }}
         label={t('ADD_TASK.ASSIGN_ALL_TO_PERSON')}
-        onChange={() => setAssignAll(!assignAll)}
+        onChange={onCheckedAll}
       />
     </ModalComponent>
   );

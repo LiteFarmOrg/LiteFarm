@@ -1,9 +1,27 @@
+/*
+ *  Copyright 2019, 2020, 2021, 2022 LiteFarm.org
+ *  This file is part of LiteFarm.
+ *
+ *  LiteFarm is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  LiteFarm is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ *  GNU General Public License for more details, see <<https://www.gnu.org/licenses/>.>
+ */
+
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-import React, { useMemo, useRef } from 'react';
+import React, { useMemo, useRef, useEffect } from 'react';
 
 import PureFilterPage from '../../../components/FilterPage';
 import { setTasksFilter, tasksFilterSelector } from '../../filterSlice';
+import { userFarmsByFarmSelector } from '../../userFarmSlice';
+import { getTaskTypes } from '../../Task/saga';
+import { defaultTaskTypesSelector, userCreatedTaskTypesSelector } from '../../taskTypeSlice';
 
 import {
   ABANDONED,
@@ -22,6 +40,7 @@ import {
 import { DATE_RANGE, SEARCHABLE_MULTI_SELECT } from '../../../components/Filter/filterTypes';
 import { tasksSelector } from '../../taskSlice';
 import { locationsSelector } from '../../locationSlice';
+import { getSupportedTaskTypesSet } from '../../../components/Task/getSupportedTaskTypesSet';
 
 const TasksFilterPage = ({ onGoBack }) => {
   const { t } = useTranslation(['translation', 'filter', 'task']);
@@ -29,21 +48,46 @@ const TasksFilterPage = ({ onGoBack }) => {
   const tasks = useSelector(tasksSelector);
   const dispatch = useDispatch();
   const locations = useSelector(locationsSelector);
+  const activeUsers = useSelector(userFarmsByFarmSelector).filter(
+    (user) => user.status != 'Inactive',
+  );
+  const defaultTaskTypes = useSelector(defaultTaskTypesSelector);
+  const customTaskTypes = useSelector(userCreatedTaskTypesSelector);
+
+  useEffect(() => {
+    dispatch(getTaskTypes());
+  }, []);
+
+  const taskTypes = useMemo(() => {
+    const supportedTaskTypes = getSupportedTaskTypesSet(true);
+    let taskTypes = {};
+    for (const type of defaultTaskTypes) {
+      if (type.deleted === false && supportedTaskTypes.has(type.task_translation_key)) {
+        taskTypes[type.task_type_id] = type;
+      }
+    }
+    for (const type of customTaskTypes) {
+      if (type.deleted === false) {
+        taskTypes[type.task_type_id] = type;
+      }
+    }
+    return taskTypes;
+  }, [defaultTaskTypes, customTaskTypes]);
 
   const statuses = [ABANDONED, COMPLETED, LATE, PLANNED];
 
-  const { taskTypes, assignees } = useMemo(() => {
-    let taskTypes = {};
+  const { assignees } = useMemo(() => {
     let assignees = {};
     for (const task of tasks) {
-      taskTypes[task.taskType.task_type_id] = task.taskType;
       if (task.assignee !== undefined) {
         const { user_id, first_name, last_name } = task.assignee;
         assignees[user_id] = `${first_name} ${last_name}`;
-      } else {
-        assignees['unassigned'] = t('TASK.UNASSIGNED');
       }
     }
+    for (const user of activeUsers) {
+      assignees[user['user_id']] = `${user['first_name']} ${user['last_name']}`;
+    }
+    assignees['unassigned'] = t('TASK.UNASSIGNED');
     return { taskTypes, assignees };
   }, [tasks.length]);
 

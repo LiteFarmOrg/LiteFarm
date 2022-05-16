@@ -46,6 +46,8 @@ export const PureTaskCard = ({
   selected,
   happiness,
   classes = { card: {} },
+  isAdmin,
+  isAssignee,
   ...props
 }) => {
   const { t } = useTranslation();
@@ -59,8 +61,26 @@ export const PureTaskCard = ({
     e.stopPropagation();
     onClickCompleteOrDueDate?.();
   };
+
+  let trueDate = completeOrDueDate;
+  if (status == 'abandoned') {
+    let [day, month, date, year] = new Date(props['abandonDate']).toDateString().split(' ');
+    trueDate = `${month} ${date}, ${year}`;
+  }
+
+  const iconStyle = {
+    iconTextContainer: {
+      display: 'flex',
+      flexDirection: 'row',
+      alignItems: 'center',
+      gap: '3px',
+      borderBottom: !isAdmin && !isAssignee ? 'none' : '1px solid var(--teal700)',
+      cursor: isAdmin || isAssignee ? 'pointer' : 'default',
+    },
+  };
   return (
     <CardWithStatus
+      data-cy="taskCard"
       color={selected ? activeCardColorMap[status] : statusColorMap[status]}
       style={style}
       status={status}
@@ -88,16 +108,25 @@ export const PureTaskCard = ({
           {locationName || t('TASK.CARD.MULTIPLE_LOCATIONS')}
           {cropVarietyName && ` | ${cropVarietyName}`}
         </div>
-        <div onClick={onAssignDate} className={styles.dateUserContainer}>
-          <div className={styles.iconTextContainer}>
+        <div data-cy="taskCard-dueDate" onClick={onAssignDate} className={styles.dateUserContainer}>
+          <div
+            className={
+              status === 'completed' || status === 'abandoned'
+                ? styles.iconTextContainerNoUnderline
+                : styles.iconTextContainer
+            }
+          >
             <CalendarIcon />
-            <div>{completeOrDueDate}</div>
+            <div>{trueDate}</div>
           </div>
           {assignee ? (
             <div
-              className={styles.iconTextContainer}
+              className={
+                status === 'completed' || status === 'abandoned'
+                  ? styles.iconTextContainerNoUnderline
+                  : styles.iconTextContainer
+              }
               onClick={onAssignTask}
-              style={{ cursor: onClickAssignee ? 'pointer' : 'default' }}
             >
               <div className={clsx(styles.firstInitial, styles.icon)}>
                 {assignee.first_name.toUpperCase().charAt(0)}
@@ -106,6 +135,7 @@ export const PureTaskCard = ({
             </div>
           ) : (
             <div
+              data-cy="taskCard-assignee"
               className={clsx(styles.iconTextContainer, styles.unassigned)}
               onClick={onAssignTask}
               style={{ cursor: onClickAssignee ? 'pointer' : 'default' }}

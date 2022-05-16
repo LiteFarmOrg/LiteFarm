@@ -6,6 +6,7 @@ import LocationButtons from './LocationButtons';
 import LocationPageHeader from './LocationPageHeader';
 import Form from '../Form';
 import AreaDetails from './AreaDetails/AreaDetails';
+import LineDetails from './LineDetails/LineDetails';
 import RouterTab from '../RouterTab';
 
 export function PureLocationDetailLayout({
@@ -64,6 +65,18 @@ export function PureLocationDetailLayout({
         >
           {detailsChildren && detailsChildren}
         </AreaDetails>
+      );
+    } else if (locationCategory === 'line') {
+      return (
+        <LineDetails
+          name={t(`FARM_MAP.${translationKey}.NAME`)}
+          history={history}
+          isCreateLocationPage={isCreateLocationPage}
+          isEditLocationPage={isEditLocationPage}
+          isViewLocationPage={isViewLocationPage}
+        >
+          {detailsChildren && detailsChildren}
+        </LineDetails>
       );
     }
   }, [locationCategory]);

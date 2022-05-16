@@ -1,7 +1,7 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import LineDetails from '../LineDetails';
-import { useForm } from 'react-hook-form';
+import { useForm, useFormContext } from 'react-hook-form';
 import { bufferZoneEnum } from '../../../../containers/constants';
 import Unit from '../../../Form/Unit';
 import { area_total_area, line_width } from '../../../../util/convert-units/unit';
@@ -12,6 +12,8 @@ import LocationPageHeader from '../../LocationPageHeader';
 import RouterTab from '../../../RouterTab';
 import { PersistedFormWrapper } from '../../PersistedFormWrapper';
 import { getFormDataWithoutNulls } from '../../../../containers/hooks/useHookFormPersist/utils';
+import { PureLocationDetailLayout } from '../../PureLocationDetailLayout';
+import { FieldDetailsChildren } from '../../AreaDetails/Field';
 
 export default function PureBufferZoneWrapper(props) {
   return (
@@ -20,6 +22,7 @@ export default function PureBufferZoneWrapper(props) {
     </PersistedFormWrapper>
   );
 }
+
 export function PureBufferZone({
   history,
   match,
@@ -33,27 +36,6 @@ export function PureBufferZone({
   handleRetire,
   isAdmin,
 }) {
-  const { t } = useTranslation();
-  const {
-    register,
-    handleSubmit,
-    setValue,
-    getValues,
-    setError,
-    control,
-    watch,
-
-    formState: { isValid, isDirty, errors },
-  } = useForm({
-    mode: 'onChange',
-    shouldUnregister: true,
-    defaultValues: persistedFormData,
-  });
-
-  const { historyCancel } = useHookFormPersist?.(getValues) || {};
-
-  const onError = (data) => {};
-  const disabled = !isValid;
   const onSubmit = (data) => {
     const formData = getFormDataWithoutNulls({
       ...persistedFormData,
@@ -66,113 +48,89 @@ export function PureBufferZone({
     submitForm({ formData });
   };
 
-  const title =
-    (isCreateLocationPage && t('FARM_MAP.BUFFER_ZONE.TITLE')) ||
-    (isEditLocationPage && t('FARM_MAP.BUFFER_ZONE.EDIT_TITLE')) ||
-    (isViewLocationPage && persistedFormData.name);
-
   return (
-    <Form
-      buttonGroup={
-        <LocationButtons
-          disabled={disabled}
-          isCreateLocationPage={isCreateLocationPage}
+    <PureLocationDetailLayout
+      history={history}
+      match={match}
+      system={system}
+      locationType={'buffer_zone'}
+      locationCategory={'line'}
+      isCreateLocationPage={isCreateLocationPage}
+      isEditLocationPage={isEditLocationPage}
+      isViewLocationPage={isViewLocationPage}
+      persistedFormData={persistedFormData}
+      useHookFormPersist={useHookFormPersist}
+      handleRetire={handleRetire}
+      isAdmin={isAdmin}
+      onSubmit={onSubmit}
+      translationKey={'BUFFER_ZONE'}
+      detailsChildren={
+        <BufferZoneDetailsChildren
           isViewLocationPage={isViewLocationPage}
           isEditLocationPage={isEditLocationPage}
-          onEdit={() => history.push(`/buffer_zone/${match.params.location_id}/edit`)}
-          onRetire={handleRetire}
-          isAdmin={isAdmin}
+          system={system}
         />
       }
-      onSubmit={handleSubmit(onSubmit, onError)}
-    >
-      <LocationPageHeader
-        title={title}
-        isCreateLocationPage={isCreateLocationPage}
-        isViewLocationPage={isViewLocationPage}
-        isEditLocationPage={isEditLocationPage}
-        history={history}
-        match={match}
-        onCancel={historyCancel}
-      />
-      {isViewLocationPage && (
-        <RouterTab
-          classes={{ container: { margin: '6px 0 26px 0' } }}
-          history={history}
-          match={match}
-          tabs={[
-            {
-              label: t('FARM_MAP.TAB.CROPS'),
-              path: `/buffer_zone/${match.params.location_id}/crops`,
-            },
-            {
-              label: t('FARM_MAP.TAB.DETAILS'),
-              path: `/buffer_zone/${match.params.location_id}/details`,
-            },
-          ]}
+      tabs={['crops', 'tasks', 'details']}
+    />
+  );
+}
+
+export function BufferZoneDetailsChildren({ isViewLocationPage, isEditLocationPage, system }) {
+  const { t } = useTranslation();
+  const {
+    register,
+    setValue,
+    getValues,
+    watch,
+    control,
+    formState: { errors },
+  } = useFormContext();
+  return (
+    <div>
+      <div>
+        <Unit
+          register={register}
+          classes={{ container: { flexGrow: 1, marginBottom: '40px' } }}
+          label={t('FARM_MAP.BUFFER_ZONE.WIDTH')}
+          name={bufferZoneEnum.width}
+          displayUnitName={bufferZoneEnum.width_unit}
+          errors={errors[bufferZoneEnum.width]}
+          unitType={line_width}
+          system={system}
+          hookFormSetValue={setValue}
+          hookFormGetValue={getValues}
+          hookFromWatch={watch}
+          control={control}
+          disabled={!isEditLocationPage}
         />
-      )}
-      <LineDetails
-        name={t('FARM_MAP.BUFFER_ZONE.NAME')}
-        history={history}
-        isCreateLocationPage={isCreateLocationPage}
-        isViewLocationPage={isViewLocationPage}
-        isEditLocationPage={isEditLocationPage}
-        register={register}
-        disabled={disabled}
-        setValue={setValue}
-        getValues={getValues}
-        setError={setError}
-        control={control}
-        errors={errors}
-        system={system}
+      </div>
+      <div
+        style={{
+          flexDirection: 'row',
+          display: 'inline-flex',
+          paddingBottom: '40px',
+          width: '100%',
+          gap: '16px',
+        }}
       >
-        <div>
-          <div>
-            <Unit
-              register={register}
-              classes={{ container: { flexGrow: 1, marginBottom: '40px' } }}
-              label={t('FARM_MAP.BUFFER_ZONE.WIDTH')}
-              name={bufferZoneEnum.width}
-              displayUnitName={bufferZoneEnum.width_unit}
-              errors={errors[bufferZoneEnum.width]}
-              unitType={line_width}
-              system={system}
-              hookFormSetValue={setValue}
-              hookFormGetValue={getValues}
-              hookFromWatch={watch}
-              control={control}
-              disabled={!isEditLocationPage}
-            />
-          </div>
-          <div
-            style={{
-              flexDirection: 'row',
-              display: 'inline-flex',
-              paddingBottom: '40px',
-              width: '100%',
-              gap: '16px',
-            }}
-          >
-            <Unit
-              register={register}
-              classes={{ container: { flexGrow: 1 } }}
-              label={t('FARM_MAP.AREA_DETAILS.TOTAL_AREA')}
-              name={bufferZoneEnum.total_area}
-              displayUnitName={bufferZoneEnum.total_area_unit}
-              errors={errors[bufferZoneEnum.total_area]}
-              unitType={area_total_area}
-              system={system}
-              hookFormSetValue={setValue}
-              hookFormGetValue={getValues}
-              hookFromWatch={watch}
-              control={control}
-              required
-              disabled={isViewLocationPage}
-            />
-          </div>
-        </div>
-      </LineDetails>
-    </Form>
+        <Unit
+          register={register}
+          classes={{ container: { flexGrow: 1 } }}
+          label={t('FARM_MAP.AREA_DETAILS.TOTAL_AREA')}
+          name={bufferZoneEnum.total_area}
+          displayUnitName={bufferZoneEnum.total_area_unit}
+          errors={errors[bufferZoneEnum.total_area]}
+          unitType={area_total_area}
+          system={system}
+          hookFormSetValue={setValue}
+          hookFormGetValue={getValues}
+          hookFromWatch={watch}
+          control={control}
+          required
+          disabled={isViewLocationPage}
+        />
+      </div>
+    </div>
   );
 }

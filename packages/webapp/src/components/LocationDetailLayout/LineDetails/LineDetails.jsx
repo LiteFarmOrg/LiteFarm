@@ -5,19 +5,22 @@ import { fenceEnum as lineEnum } from '../../../containers/constants';
 import PureWarningBox from '../../WarningBox';
 import { Label } from '../../Typography';
 import InputAutoSize from '../../Form/InputAutoSize';
+import { useFormContext } from 'react-hook-form';
 
 export default function LineDetails({
   name,
-  register,
-  setValue,
   history,
   children,
-  errors,
   isCreateLocationPage,
   isViewLocationPage,
   isEditLocationPage,
 }) {
   const { t } = useTranslation();
+  const {
+    register,
+    setValue,
+    formState: { errors },
+  } = useFormContext();
   const [errorMessage, setErrorMessage] = useState();
 
   useEffect(() => {

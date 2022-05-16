@@ -1,7 +1,7 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import LineDetails from '../LineDetails';
-import { useForm } from 'react-hook-form';
+import { useForm, useFormContext } from 'react-hook-form';
 import Leaf from '../../../../assets/images/farmMapFilter/Leaf.svg';
 import { bufferZoneEnum, fenceEnum } from '../../../../containers/constants';
 import { Label } from '../../../Typography';
@@ -14,6 +14,7 @@ import LocationPageHeader from '../../LocationPageHeader';
 import RadioGroup from '../../../Form/RadioGroup';
 import { PersistedFormWrapper } from '../../PersistedFormWrapper';
 import { getFormDataWithoutNulls } from '../../../../containers/hooks/useHookFormPersist/utils';
+import { PureLocationDetailLayout } from '../../PureLocationDetailLayout';
 
 export default function PureFenceWrapper(props) {
   return (
@@ -22,6 +23,7 @@ export default function PureFenceWrapper(props) {
     </PersistedFormWrapper>
   );
 }
+
 export function PureFence({
   history,
   match,
@@ -35,27 +37,6 @@ export function PureFence({
   handleRetire,
   isAdmin,
 }) {
-  const { t } = useTranslation();
-  const {
-    register,
-    handleSubmit,
-    watch,
-    setValue,
-    getValues,
-    setError,
-    control,
-
-    formState: { isValid, isDirty, errors },
-  } = useForm({
-    mode: 'onChange',
-    shouldUnregister: true,
-    defaultValues: persistedFormData,
-  });
-
-  const { historyCancel } = useHookFormPersist?.(getValues) || {};
-
-  const onError = (data) => {};
-  const disabled = !isValid;
   const onSubmit = (data) => {
     const isPressureTreated = data[fenceEnum.pressure_treated];
     const formData = getFormDataWithoutNulls({
@@ -71,92 +52,80 @@ export function PureFence({
     submitForm({ formData });
   };
 
-  const title =
-    (isCreateLocationPage && t('FARM_MAP.FENCE.TITLE')) ||
-    (isEditLocationPage && t('FARM_MAP.FENCE.EDIT_TITLE')) ||
-    (isViewLocationPage && persistedFormData.name);
-
   return (
-    <Form
-      buttonGroup={
-        <LocationButtons
-          disabled={disabled}
-          isCreateLocationPage={isCreateLocationPage}
-          isViewLocationPage={isViewLocationPage}
-          isEditLocationPage={isEditLocationPage}
-          onEdit={() => history.push(`/fence/${match.params.location_id}/edit`)}
-          onRetire={handleRetire}
-          isAdmin={isAdmin}
-        />
+    <PureLocationDetailLayout
+      history={history}
+      match={match}
+      system={system}
+      locationType={'fence'}
+      locationCategory={'line'}
+      isCreateLocationPage={isCreateLocationPage}
+      isEditLocationPage={isEditLocationPage}
+      isViewLocationPage={isViewLocationPage}
+      persistedFormData={persistedFormData}
+      useHookFormPersist={useHookFormPersist}
+      handleRetire={handleRetire}
+      isAdmin={isAdmin}
+      onSubmit={onSubmit}
+      translationKey={'FENCE'}
+      detailsChildren={
+        <FenceDetailsChildren isViewLocationPage={isViewLocationPage} system={system} />
       }
-      onSubmit={handleSubmit(onSubmit, onError)}
-    >
-      <LocationPageHeader
-        title={title}
-        isCreateLocationPage={isCreateLocationPage}
-        isViewLocationPage={isViewLocationPage}
-        isEditLocationPage={isEditLocationPage}
-        history={history}
-        match={match}
-        onCancel={historyCancel}
-      />
-      <LineDetails
-        name={t('FARM_MAP.FENCE.NAME')}
-        history={history}
-        isCreateLocationPage={isCreateLocationPage}
-        isViewLocationPage={isViewLocationPage}
-        isEditLocationPage={isEditLocationPage}
-        register={register}
-        disabled={disabled}
-        handleSubmit={handleSubmit}
-        setValue={setValue}
-        getValues={getValues}
-        setError={setError}
-        control={control}
-        errors={errors}
-        system={system}
-      >
-        <div>
-          <div>
-            <Unit
-              style={{ marginBottom: '40px' }}
-              register={register}
-              classes={{ container: { flexGrow: 1 } }}
-              label={t('FARM_MAP.FENCE.LENGTH')}
-              name={fenceEnum.length}
-              displayUnitName={fenceEnum.length_unit}
-              errors={errors[fenceEnum.length]}
-              unitType={line_length}
-              system={system}
-              hookFormSetValue={setValue}
-              hookFormGetValue={getValues}
-              hookFromWatch={watch}
-              control={control}
-              required
-              disabled={isViewLocationPage}
-            />
-          </div>
-          <div>
-            <div style={{ marginBottom: '20px' }}>
-              <Label style={{ paddingRight: '7px', display: 'inline-block', fontSize: '16px' }}>
-                {t('FARM_MAP.FENCE.PRESSURE_TREATED')}
-              </Label>
-              <img src={Leaf} style={{ display: 'inline-block', paddingRight: '10px' }} />
-              <Label style={{ display: 'inline-block' }} sm>
-                {t('common:OPTIONAL')}
-              </Label>
-            </div>
-            <div style={{ marginBottom: '16px' }}>
-              <RadioGroup
-                row
-                disabled={isViewLocationPage}
-                name={fenceEnum.pressure_treated}
-                hookFormControl={control}
-              />
-            </div>
-          </div>
+      tabs={['crops', 'tasks', 'details']}
+    />
+  );
+}
+
+export function FenceDetailsChildren({ system, isViewLocationPage }) {
+  const { t } = useTranslation();
+  const {
+    register,
+    setValue,
+    getValues,
+    watch,
+    control,
+    formState: { errors },
+  } = useFormContext();
+  return (
+    <div>
+      <div>
+        <Unit
+          style={{ marginBottom: '40px' }}
+          register={register}
+          classes={{ container: { flexGrow: 1 } }}
+          label={t('FARM_MAP.FENCE.LENGTH')}
+          name={fenceEnum.length}
+          displayUnitName={fenceEnum.length_unit}
+          errors={errors[fenceEnum.length]}
+          unitType={line_length}
+          system={system}
+          hookFormSetValue={setValue}
+          hookFormGetValue={getValues}
+          hookFromWatch={watch}
+          control={control}
+          required
+          disabled={isViewLocationPage}
+        />
+      </div>
+      <div>
+        <div style={{ marginBottom: '20px' }}>
+          <Label style={{ paddingRight: '7px', display: 'inline-block', fontSize: '16px' }}>
+            {t('FARM_MAP.FENCE.PRESSURE_TREATED')}
+          </Label>
+          <img src={Leaf} style={{ display: 'inline-block', paddingRight: '10px' }} />
+          <Label style={{ display: 'inline-block' }} sm>
+            {t('common:OPTIONAL')}
+          </Label>
         </div>
-      </LineDetails>
-    </Form>
+        <div style={{ marginBottom: '16px' }}>
+          <RadioGroup
+            row
+            disabled={isViewLocationPage}
+            name={fenceEnum.pressure_treated}
+            hookFormControl={control}
+          />
+        </div>
+      </div>
+    </div>
   );
 }

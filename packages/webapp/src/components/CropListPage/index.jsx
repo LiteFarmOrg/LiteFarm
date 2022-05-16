@@ -25,11 +25,12 @@ export default function PureCropList({
   const isSearchable = true;
   const { t } = useTranslation();
 
-  const { ref: containerRef, gap, padding, cardWidth } = useCropTileListGap([
-    activeCrops?.length,
-    plannedCrops?.length,
-    pastCrops?.length,
-  ]);
+  const {
+    ref: containerRef,
+    gap,
+    padding,
+    cardWidth,
+  } = useCropTileListGap([activeCrops?.length, plannedCrops?.length, pastCrops?.length]);
 
   return (
     <Layout>
@@ -42,6 +43,10 @@ export default function PureCropList({
           {
             label: t('FARM_MAP.TAB.CROPS'),
             path: match.url,
+          },
+          {
+            label: t('FARM_MAP.TAB.TASKS'),
+            path: match.url.replace('crops', 'tasks'),
           },
           {
             label: t('FARM_MAP.TAB.DETAILS'),

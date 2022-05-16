@@ -6,9 +6,7 @@ import LocationButtons from './LocationButtons';
 import LocationPageHeader from './LocationPageHeader';
 import Form from '../Form';
 import AreaDetails from './AreaDetails/AreaDetails';
-
-import RadioGroup from '../Form/RadioGroup';
-// import AreaDetails from "./AreaDetails/AreaDetails";
+import RouterTab from '../RouterTab';
 
 export function PureLocationDetailLayout({
   history,
@@ -26,7 +24,10 @@ export function PureLocationDetailLayout({
   onSubmit,
   translationKey,
   detailsChildren,
+  showPerimeter,
+  tabs,
 }) {
+  console.log('PureLocationDetailLayout');
   const { t } = useTranslation();
   const formMethods = useForm({
     mode: 'onChange',
@@ -36,12 +37,18 @@ export function PureLocationDetailLayout({
   const { historyCancel } = useHookFormPersist?.(formMethods.getValues) || {};
   const onError = (data) => {};
   const disabled = !formMethods.formState.isValid;
-  const showPerimeter = false;
 
   const title =
     (isCreateLocationPage && t(`FARM_MAP.${translationKey}.TITLE`)) ||
     (isEditLocationPage && t(`FARM_MAP.${translationKey}.EDIT_TITLE`)) ||
     (isViewLocationPage && persistedFormData.name);
+
+  const routerTabs =
+    tabs &&
+    tabs.map((tab) => ({
+      label: t(`FARM_MAP.TAB.${tab.toUpperCase()}`),
+      path: `/${locationType}/${match.params.location_id}/${tab}`,
+    }));
 
   const details = useMemo(() => {
     if (locationCategory === 'area') {
@@ -55,7 +62,7 @@ export function PureLocationDetailLayout({
           system={system}
           showPerimeter={showPerimeter}
         >
-          {detailsChildren}
+          {detailsChildren && detailsChildren}
         </AreaDetails>
       );
     }
@@ -86,6 +93,14 @@ export function PureLocationDetailLayout({
           match={match}
           onCancel={historyCancel}
         />
+        {isViewLocationPage && tabs && (
+          <RouterTab
+            classes={{ container: { margin: '6px 0 26px 0' } }}
+            history={history}
+            match={match}
+            tabs={routerTabs}
+          />
+        )}
         {details}
       </Form>
     </FormProvider>

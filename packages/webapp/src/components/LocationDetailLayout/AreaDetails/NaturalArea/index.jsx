@@ -8,6 +8,8 @@ import Form from '../../../Form';
 import LocationPageHeader from '../../LocationPageHeader';
 import { PersistedFormWrapper } from '../../PersistedFormWrapper';
 import { getFormDataWithoutNulls } from '../../../../containers/hooks/useHookFormPersist/utils';
+import { PureLocationDetailLayout } from '../../PureLocationDetailLayout';
+import { FieldDetailsChildren } from '../Field';
 
 export default function PureNaturalAreaWrapper(props) {
   return (
@@ -16,6 +18,7 @@ export default function PureNaturalAreaWrapper(props) {
     </PersistedFormWrapper>
   );
 }
+
 export function PureNaturalArea({
   history,
   match,
@@ -30,27 +33,6 @@ export function PureNaturalArea({
   isAdmin,
 }) {
   const { t } = useTranslation();
-  const {
-    register,
-    handleSubmit,
-    watch,
-    setValue,
-    getValues,
-    setError,
-    control,
-
-    formState: { isValid, isDirty, errors },
-  } = useForm({
-    mode: 'onChange',
-    shouldUnregister: true,
-    defaultValues: persistedFormData,
-  });
-
-  const { historyCancel } = useHookFormPersist?.(getValues) || {};
-
-  const onError = (data) => {};
-  const disabled = !isValid;
-  const showPerimeter = true;
   const onSubmit = (data) => {
     data[naturalAreaEnum.total_area_unit] = data[naturalAreaEnum.total_area_unit]?.value;
     data[naturalAreaEnum.perimeter_unit] = data[naturalAreaEnum.perimeter_unit]?.value;
@@ -63,51 +45,24 @@ export function PureNaturalArea({
     submitForm({ formData });
   };
 
-  const title =
-    (isCreateLocationPage && t('FARM_MAP.NATURAL_AREA.TITLE')) ||
-    (isEditLocationPage && t('FARM_MAP.NATURAL_AREA.EDIT_TITLE')) ||
-    (isViewLocationPage && persistedFormData.name);
-
   return (
-    <Form
-      buttonGroup={
-        <LocationButtons
-          disabled={disabled}
-          isCreateLocationPage={isCreateLocationPage}
-          isViewLocationPage={isViewLocationPage}
-          isEditLocationPage={isEditLocationPage}
-          onEdit={() => history.push(`/natural_area/${match.params.location_id}/edit`)}
-          onRetire={handleRetire}
-          isAdmin={isAdmin}
-        />
-      }
-      onSubmit={handleSubmit(onSubmit, onError)}
-    >
-      <LocationPageHeader
-        title={title}
-        isCreateLocationPage={isCreateLocationPage}
-        isViewLocationPage={isViewLocationPage}
-        isEditLocationPage={isEditLocationPage}
-        history={history}
-        match={match}
-        onCancel={historyCancel}
-      />
-      <AreaDetails
-        name={t('FARM_MAP.NATURAL_AREA.NAME')}
-        history={history}
-        isCreateLocationPage={isCreateLocationPage}
-        isViewLocationPage={isViewLocationPage}
-        isEditLocationPage={isEditLocationPage}
-        register={register}
-        setValue={setValue}
-        getValues={getValues}
-        watch={watch}
-        setError={setError}
-        control={control}
-        showPerimeter={showPerimeter}
-        errors={errors}
-        system={system}
-      />
-    </Form>
+    <PureLocationDetailLayout
+      history={history}
+      match={match}
+      system={system}
+      locationType={'natural_area'}
+      locationCategory={'area'}
+      isCreateLocationPage={isCreateLocationPage}
+      isEditLocationPage={isEditLocationPage}
+      isViewLocationPage={isViewLocationPage}
+      persistedFormData={persistedFormData}
+      useHookFormPersist={useHookFormPersist}
+      handleRetire={handleRetire}
+      isAdmin={isAdmin}
+      onSubmit={onSubmit}
+      translationKey={'NATURAL_AREA'}
+      showPerimeter={true}
+      tabs={['tasks', 'details']}
+    />
   );
 }

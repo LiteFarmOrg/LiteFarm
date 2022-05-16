@@ -39,7 +39,7 @@ export default function CropCatalogue({ history }) {
 
   const [filterString, setFilterString] = useState('');
   const filterStringOnChange = (e) => setFilterString(e.target.value);
-  const { active, planned, past, sum, cropCatalogue, filteredCropsWithoutManagementPlan } =
+  const { active, planned, past, noPlans, sum, cropCatalogue, filteredCropsWithoutManagementPlan } =
     useCropCatalogue(filterString);
   const crops = useStringFilteredCrops(
     useSortByCropTranslation(useSelector(cropsSelector)),
@@ -109,14 +109,14 @@ export default function CropCatalogue({ history }) {
           <>
             <PageBreak style={{ paddingBottom: '16px' }} label={t('CROP_CATALOGUE.ON_YOUR_FARM')} />
             <CropStatusInfoBox
-              status={{ active, past, planned }}
+              status={{ active, past, planned, noPlans }}
               style={{ marginBottom: '16px' }}
               date={date}
               setDate={setDate}
             />
             <PureCropTileContainer gap={gap} padding={padding}>
               {filteredCropsWithoutManagementPlan.map((cropVariety) => {
-                const { crop_translation_key, crop_photo_url, crop_id } = cropVariety;
+                const { crop_translation_key, crop_photo_url, crop_id, noPlansCount } = cropVariety;
                 const imageKey = cropVariety.crop_translation_key?.toLowerCase();
 
                 return (
@@ -127,7 +127,9 @@ export default function CropCatalogue({ history }) {
                     alt={imageKey}
                     style={{ width: cardWidth }}
                     onClick={() => history.push(`/crop_varieties/crop/${cropVariety.crop_id}`)}
-                    needsPlan
+                    cropCount={{
+                      noPlans: noPlansCount,
+                    }}
                   />
                 );
               })}
@@ -150,6 +152,7 @@ export default function CropCatalogue({ history }) {
                       active: active.length,
                       planned: planned.length,
                       past: past.length,
+                      noPlans: cropCatalog?.noPlans?.length,
                     }}
                     needsPlan={needsPlan}
                     title={t(`crop:${crop_translation_key}`)}

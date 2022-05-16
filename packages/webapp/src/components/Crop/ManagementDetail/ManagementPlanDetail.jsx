@@ -9,8 +9,10 @@ import styles from './styles.module.scss';
 import RouterTab from '../../RouterTab';
 import { useForm } from 'react-hook-form';
 import { seedYield } from '../../../util/convert-units/unit';
+import { getDateInputFormat } from '../../../util/moment';
 import Unit from '../../Form/Unit';
 import InputAutoSize from '../../Form/InputAutoSize';
+import Rating from '../../Rating';
 
 export default function PureManagementDetail({
   onBack,
@@ -35,6 +37,8 @@ export default function PureManagementDetail({
     formState: { errors, isValid },
   } = useForm({
     defaultValues: {
+      complete_date: getDateInputFormat(plan.complete_date),
+      complete_notes: plan.complete_notes,
       notes: plan.notes,
       crop_management_plan: {
         estimated_yield: plan.estimated_yield,
@@ -44,9 +48,13 @@ export default function PureManagementDetail({
     shouldUnregister: false,
     mode: 'onChange',
   });
+
+  const COMPLETE_DATE = 'complete_date';
+  const COMPLETE_NOTES = 'complete_notes';
+  const PLAN_NOTES = 'notes';
   const ESTIMATED_YIELD = `crop_management_plan.estimated_yield`;
   const ESTIMATED_YIELD_UNIT = `crop_management_plan.estimated_yield_unit`;
-  const NOTES = 'notes';
+
   return (
     <Layout
       buttonGroup={
@@ -97,12 +105,37 @@ export default function PureManagementDetail({
 
       <InputAutoSize
         style={{ marginBottom: '40px' }}
+        label={t('MANAGEMENT_PLAN.COMPLETE_PLAN.DATE_OF_CHANGE')}
+        hookFormRegister={register(COMPLETE_DATE)}
+        errors={errors[COMPLETE_DATE]?.message}
+        disabled
+      />
+      <Rating
+        className={styles.rating}
+        style={{ marginBottom: '34px' }}
+        label={t('MANAGEMENT_PLAN.RATE_THIS_MANAGEMENT_PLAN')}
+        stars={plan.rating}
+        onRate={() => {}}
+      />
+
+      <InputAutoSize
+        style={{ marginBottom: '40px' }}
+        label={t('MANAGEMENT_PLAN.COMPLETION_NOTES')}
+        hookFormRegister={register(COMPLETE_NOTES, {
+          maxLength: { value: 10000, message: t('MANAGEMENT_PLAN.NOTES_CHAR_LIMIT') },
+        })}
+        errors={errors[COMPLETE_NOTES]?.message}
+        disabled
+      />
+
+      <InputAutoSize
+        style={{ marginBottom: '40px' }}
         label={t('MANAGEMENT_PLAN.PLAN_NOTES')}
-        hookFormRegister={register(NOTES, {
+        hookFormRegister={register(PLAN_NOTES, {
           maxLength: { value: 10000, message: t('MANAGEMENT_PLAN.NOTES_CHAR_LIMIT') },
         })}
         optional
-        errors={errors[NOTES]?.message}
+        errors={errors[PLAN_NOTES]?.message}
         disabled
       />
 

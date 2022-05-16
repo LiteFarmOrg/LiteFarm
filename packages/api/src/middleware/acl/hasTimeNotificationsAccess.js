@@ -12,22 +12,19 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
-const timeNotificationController = require('../controllers/timeNotificationController');
-const express = require('express');
-const checkSchedulerJwt = require('../middleware/acl/checkSchedulerJwt');
-const hasTimeNotificationsAccess = require('../middleware/acl/hasTimeNotificationsAccess');
-const router = express.Router();
 
-router.post(
-  '/weekly_unassigned_tasks/:farm_id',
-  checkSchedulerJwt,
-  hasTimeNotificationsAccess,
-  timeNotificationController.postWeeklyUnassignedTasks,
-);
-
-router.post(
-  '/daily_tasks_due_today',
-  timeNotificationController,
-);
-
-module.exports = router;
+/**
+ * Middleware for checking whether or not the client is authorized to
+ * access timed notifications
+ * @param {Request} req - The HTTP request object.
+ * @param {Response} res - The HTTP response object.
+ * @param {Function} next - Calls the next middleware in the stack
+ */
+const hasTimeNotificationsAccess = (req, res, next) => {
+  if (req.auth.requestTimedNotifications === true) {
+    next();
+  } else {
+    return res.status(403).send('Not authorized to access timed notifications');
+  }
+};
+module.exports = hasTimeNotificationsAccess;

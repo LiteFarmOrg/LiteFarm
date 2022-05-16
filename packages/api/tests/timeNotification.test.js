@@ -21,18 +21,18 @@ const server = require('./../src/server');
 const knex = require('../src/util/knex');
 const { tableCleanup } = require('./testEnvironment');
 const { faker } = require('@faker-js/faker');
+const { sign } = require('jsonwebtoken');
 
 jest.mock('jsdom');
+jest.mock('../src/util/jwt');
+jest.mock('../src/middleware/acl/checkSchedulerJwt.js');
 
 describe('Time Based Notification Tests', () => {
   let farmOwner;
   let farm;
+  let globalSchedulerToken;
 
   beforeEach(async () => {
-    // Reset notifications
-    // knex.raw('DELETE notification FROM');
-    // knex.raw('DELETE notification_user FROM');
-
     // Set up a farm with a farm owner
     [farmOwner] = await mocks.usersFactory();
     [farm] = await mocks.farmFactory();
@@ -45,8 +45,22 @@ describe('Time Based Notification Tests', () => {
       mocks.fakeUserFarm({ role_id: 1 }),
     );
 
-    /* TODO:  Set up jwt authentication. We don't want users to access these endpoints.
-    So we will make different authentication and middleware that should be set up here later */
+    const middleware = require('../src/middleware/acl/checkSchedulerJwt');
+    middleware.mockImplementation((req, res, next) => {
+      req.auth = {};
+      req.auth.requestTimedNotifications = true;
+      next();
+    });
+
+    const { createToken, tokenType } = require('../src/util/jwt');
+    createToken.mockImplementation(async (type, user) => {
+      const localSchedulerToken = sign(user, tokenType[type], {
+        expiresIn: '7d',
+        algorithm: 'HS256',
+      });
+      globalSchedulerToken = localSchedulerToken;
+      return localSchedulerToken;
+    });
   });
 
   function postWeeklyUnassignedTasksRequest(data, callback) {
@@ -54,6 +68,7 @@ describe('Time Based Notification Tests', () => {
     chai
       .request(server)
       .post(`/time_notification/weekly_unassigned_tasks/${farm_id}`)
+      .set('Authorization', `Bearer ${globalSchedulerToken}`)
       .end(callback);
   }
 
@@ -65,12 +80,9 @@ describe('Time Based Notification Tests', () => {
   });
 
   afterEach(async (done) => {
-    await knex.raw(
-      `
-        DELETE FROM "notification_user"; 
-        DELETE FROM "notification";
-        `,
-    );
+    // Reset notifications
+    await knex.raw('DELETE FROM "notification_user";');
+    await knex.raw('DELETE FROM "notification";');
     done();
   });
 
@@ -208,11 +220,70 @@ describe('Time Based Notification Tests', () => {
       });
     });
     describe('Notification Only Sent Under Correct Conditions Tests', () => {
-      test('Not Sent When There Are No Unassigned Tasks', () => {});
+      test('Not Sent When There Are No Unassigned Tasks', (done) => {
+        postWeeklyUnassignedTasksRequest({ farm_id: farm.farm_id }, async (err, res) => {
+          expect(res.status).toBe(200);
+          expect(res.body.unassignedTasks.length).toBe(0);
+          const notifications = await knex('notification');
+          expect(notifications.length).toBe(0);
+          done();
+        });
+      });
 
-      test('Not Sent When The Only Unassigned Tasks Are Due Later Then 7 Days', () => {});
+      test('Not Sent When The Only Unassigned Tasks Are Due Later Then 7 Days', async (done) => {
+        const laterThanOneWeekFromNow = new Date();
+        laterThanOneWeekFromNow.setDate(laterThanOneWeekFromNow.getDate() + 8);
+        const laterThanOneWeekFromNowStr = laterThanOneWeekFromNow.toISOString().split('T')[0];
 
-      test('Sent When There Are Unassigned Tasks Due Within The Next 7 days', () => {});
+        await mocks.taskFactory(
+          {},
+          mocks.fakeTask({
+            due_date: laterThanOneWeekFromNowStr,
+            assignee_user_id: null,
+          }),
+        );
+        postWeeklyUnassignedTasksRequest({ farm_id: farm.farm_id }, async (err, res) => {
+          expect(res.status).toBe(200);
+          expect(res.body.unassignedTasks.length).toBe(0);
+          const notifications = await knex('notification');
+          expect(notifications.length).toBe(0);
+          done();
+        });
+      });
+
+      test('Not Sent When The Only Tasks Due This Week Are Assigned', async (done) => {
+        await mocks.taskFactory(
+          {},
+          mocks.fakeTask({
+            due_date: faker.date.soon(6).toISOString().split('T')[0],
+            assignee_user_id: farmOwner.user_id,
+          }),
+        );
+        postWeeklyUnassignedTasksRequest({ farm_id: farm.farm_id }, async (err, res) => {
+          expect(res.status).toBe(200);
+          expect(res.body.unassignedTasks.length).toBe(0);
+          const notifications = await knex('notification');
+          expect(notifications.length).toBe(0);
+          done();
+        });
+      });
+
+      test('Sent When There Are Unassigned Tasks Due Within The Next 7 days', async (done) => {
+        await mocks.taskFactory(
+          { promisedUser: [farmOwner] },
+          mocks.fakeTask({
+            due_date: faker.date.soon(6).toISOString().split('T')[0],
+            assignee_user_id: null,
+          }),
+        );
+        postWeeklyUnassignedTasksRequest({ farm_id: farm.farm_id }, async (err, res) => {
+          expect(res.status).toBe(201);
+          expect(res.body.unassignedTasks.length).toBe(1);
+          const notifications = await knex('notification');
+          expect(notifications.length).toBe(1);
+          done();
+        });
+      });
     });
   });
 });

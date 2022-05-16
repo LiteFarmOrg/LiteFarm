@@ -37,12 +37,12 @@ const TaskCard = ({
   let isAdmin = false;
   let taskUnassigned = false;
 
-  if(user){
-  isAdmin = user.is_admin;
+  if (user) {
+    isAdmin = user.is_admin;
   }
-  if(assignee){
-  isAssignee = user.user_id === assignee.user_id;
-  }else{
+  if (assignee) {
+    isAssignee = user.user_id === assignee.user_id;
+  } else {
     taskUnassigned = true;
   }
 
@@ -59,7 +59,7 @@ const TaskCard = ({
         style={style}
         onClick={onClick}
         onClickAssignee={() => {
-          if (!immutableStatus.includes(status) && isAssignee || isAdmin || taskUnassigned) {
+          if ((!immutableStatus.includes(status) && isAssignee) || isAdmin || taskUnassigned) {
             setShowTaskAssignModal(true);
           }
         }}

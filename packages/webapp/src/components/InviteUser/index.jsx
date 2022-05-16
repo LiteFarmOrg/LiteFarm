@@ -58,7 +58,7 @@ export default function PureInviteUser({ onInvite, onGoBack, roleOptions = [] })
       onSubmit={handleSubmit(onSubmit)}
       buttonGroup={
         <>
-          <Button  onClick={onGoBack} color={'secondary'} type={'button'} fullLength>
+          <Button onClick={onGoBack} color={'secondary'} type={'button'} fullLength>
             {t('common:CANCEL')}
           </Button>
           <Button data-cy="invite-submit" disabled={disabled} type={'submit'} fullLength>
@@ -76,12 +76,11 @@ export default function PureInviteUser({ onInvite, onGoBack, roleOptions = [] })
         errors={getInputErrors(errors, NAME)}
       />
       <Controller
-      data-cy="invite-roleSelect"
+        data-cy="invite-roleSelect"
         control={control}
         name={ROLE}
         render={({ field }) => (
           <ReactSelect
-          
             {...field}
             label={t('INVITE_USER.ROLE')}
             options={roleOptions}
@@ -92,7 +91,7 @@ export default function PureInviteUser({ onInvite, onGoBack, roleOptions = [] })
         rules={{ required: true }}
       />
       <Input
-      data-cy="invite-email"
+        data-cy="invite-email"
         label={t('INVITE_USER.EMAIL')}
         hookFormRegister={register(EMAIL, {
           required: selectedRoleId !== 3,

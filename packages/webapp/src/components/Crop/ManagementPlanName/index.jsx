@@ -47,7 +47,7 @@ export default function PureManagementPlanName({
   return (
     <Form
       buttonGroup={
-        <Button data-cy='cropPlan-save' disabled={disabled} fullLength>
+        <Button data-cy="cropPlan-save" disabled={disabled} fullLength>
           {t('common:SAVE')}
         </Button>
       }

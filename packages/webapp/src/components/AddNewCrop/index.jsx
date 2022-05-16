@@ -85,7 +85,7 @@ export default function PureAddNewCrop({
   return (
     <Form
       buttonGroup={
-        <Button data-cy='crop-submit' type={'submit'} disabled={disabled} fullLength>
+        <Button data-cy="crop-submit" type={'submit'} disabled={disabled} fullLength>
           {t('common:CONTINUE')}
         </Button>
       }
@@ -100,7 +100,7 @@ export default function PureAddNewCrop({
       />
 
       <Input
-      data-cy='crop-cropName'
+        data-cy="crop-cropName"
         style={{ marginBottom: '40px' }}
         label={t('CROP_CATALOGUE.NEW_CROP_NAME')}
         hookFormRegister={register('crop_common_name', { required: true })}

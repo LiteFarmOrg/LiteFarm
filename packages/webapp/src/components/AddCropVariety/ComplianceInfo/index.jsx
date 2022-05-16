@@ -55,7 +55,7 @@ export default function ComplianceInfo({
   return (
     <Form
       buttonGroup={
-        <Button data-cy='compliance-newVarietySave' disabled={disabled} fullLength>
+        <Button data-cy="compliance-newVarietySave" disabled={disabled} fullLength>
           {t('common:SAVE')}
         </Button>
       }
@@ -78,7 +78,7 @@ export default function ComplianceInfo({
         </div>
       </div>
       <RadioGroup
-      data-cy='compliance-seed'
+        data-cy="compliance-seed"
         style={{ marginBottom: '16px' }}
         hookFormControl={control}
         name={CERTIFIED_ORGANIC}
@@ -102,7 +102,7 @@ export default function ComplianceInfo({
               </div>
             </div>
             <RadioGroup
-            data-cy='compliance-seedAvailability'
+              data-cy="compliance-seedAvailability"
               style={{ marginBottom: '16px' }}
               hookFormControl={control}
               name={COMMERCIAL_AVAILABILITY}
@@ -119,7 +119,7 @@ export default function ComplianceInfo({
               </div>
             </div>
             <RadioGroup
-            data-cy='compliance-seedEngineered'
+              data-cy="compliance-seedEngineered"
               style={{ marginBottom: '16px' }}
               hookFormControl={control}
               name={GENETIC_EGINEERED}
@@ -134,7 +134,13 @@ export default function ComplianceInfo({
               </div>
             </div>
 
-            <RadioGroup data-cy='compliance-seedTreated' hookFormControl={control} name={TREATED} required showNotSure />
+            <RadioGroup
+              data-cy="compliance-seedTreated"
+              hookFormControl={control}
+              name={TREATED}
+              required
+              showNotSure
+            />
           </div>
         )}
       </div>

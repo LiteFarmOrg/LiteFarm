@@ -279,9 +279,8 @@ const LocationPicker = ({
   };
 
   return (
-    <div data-cy='map-selectLocation' className={styles.mapContainer} style={style}>
+    <div data-cy="map-selectLocation" className={styles.mapContainer} style={style}>
       <GoogleMap
-       
         style={{ flexGrow: 1 }}
         bootstrapURLKeys={{
           key: GMAPS_API_KEY,

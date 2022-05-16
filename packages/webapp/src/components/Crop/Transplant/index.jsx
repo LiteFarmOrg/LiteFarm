@@ -44,13 +44,12 @@ export default function PureTransplant({
   };
   const onGoBack = () => history.back();
 
-
   const disabled = !isValid;
 
   return (
     <Form
       buttonGroup={
-        <Button data-cy='cropPlan-transplantSubmit' disabled={disabled} fullLength>
+        <Button data-cy="cropPlan-transplantSubmit" disabled={disabled} fullLength>
           {t('common:CONTINUE')}
         </Button>
       }

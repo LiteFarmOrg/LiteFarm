@@ -4,10 +4,12 @@ const rp = require('request-promise');
 const surveyStackURL = 'https://app.surveystack.io/api/';
 module.exports = async (submission, exportId) => {
   console.log('STEP X > SURVEY RECORD');
+
   const submissionData = await rp({
     uri: `${surveyStackURL}/submissions/${submission}`,
     json: true,
   });
+
   const survey = await rp({
     uri: `${surveyStackURL}/surveys/${submissionData.meta.survey.id}`,
     json: true,
@@ -45,6 +47,7 @@ module.exports = async (submission, exportId) => {
       .cell(`${col}${(row += 1)}`)
       .value(data['Answer'])
       .style({ fontFamily: 'Calibri' });
+    return col, row;
   };
 
   const writeInstructions = (sheet, col, row, data) => {
@@ -52,6 +55,7 @@ module.exports = async (submission, exportId) => {
       .cell(`${col}${row}`)
       .value(data['Instructions'])
       .style({ fontFamily: 'Calibri', italic: true });
+    return col, row;
   };
 
   const writeMultiOptionQs = (sheet, col, row, data) => {
@@ -80,6 +84,7 @@ module.exports = async (submission, exportId) => {
           .style({ fontFamily: 'Calibri' }); // Write 'X' to the right column
       }
     }
+    return col, row;
   };
 
   const typeToFuncMap = {
@@ -88,13 +93,13 @@ module.exports = async (submission, exportId) => {
     //   'date': func3,
     location: writeSimpleQs,
     selectSingle: writeMultiOptionQs, // Multiple choice
-    selectMultiple: writeMultiOptionQs, // Multiple choice
+    selectMultiple: writeMultiOptionQs, // Checkbox
     ontology: writeSimpleQs, //Dropdown
     //   'matrix': func6
     instructions: writeInstructions,
   };
 
-  console.log('THIS IS THE QUESITON & ANSWERS', questionAnswerMap[0]);
+  console.log('THIS IS THE QUESITON & ANSWERS', JSON.stringify(questionAnswerMap[0]));
 
   return XlsxPopulate.fromBlankAsync().then((workbook) => {
     // Populate the workbook.
@@ -102,8 +107,7 @@ module.exports = async (submission, exportId) => {
     var currentCol = 'A';
     var currentRow = 1;
     for (const qa of questionAnswerMap) {
-      typeToFuncMap[qa['Type']](sheet1, currentCol, currentRow, qa);
-      currentRow += 2; // Have each function return a new current postion
+      currentCol, (currentRow = typeToFuncMap[qa['Type']](sheet1, currentCol, currentRow, qa));
     }
     // Write to file.
     return workbook.toFileAsync(`${process.env.EXPORT_WD}/temp/${exportId}/Survey Record.xlsx`);

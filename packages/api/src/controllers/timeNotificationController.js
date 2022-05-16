@@ -60,9 +60,10 @@ const timeNotificationController = {
           farmManagement,
           unassignedTasks[0].task_translation_key,
         );
+        return res.status(201).send({ unassignedTasks, farmManagement });
+      } else {
+        return res.status(200).send({ unassignedTasks, farmManagement });
       }
-
-      return res.status(201).send({ unassignedTasks, farmManagement });
     } catch (error) {
       console.log(error);
       return res.status(400).send({ error });
@@ -75,6 +76,7 @@ const timeNotificationController = {
  * @param {String} farmId - id of the farm the farm managers belong to
  * @param {Array} farmManagement - user_ids of FM/FO/EO that need to be notified
  * @param {String} firstTaskTranslationKey - task translation key of the first unassigned task
+ * @async
  */
 async function sendWeeklyUnassignedTaskNotifications(
   farmId,

@@ -888,6 +888,7 @@
     "BROADCAST": "Semeadura a lanço ou com máquina semeadora",
     "COMPLETE_PLAN": {
       "ABANDON_PLAN": "Abandonar plano",
+      "ABANDON_NOTES": "MISSING",
       "ABANDON_REASON": "Razão do abandono",
       "COMPLETE_PLAN": "Plano completo",
       "DATE_OF_CHANGE": "Data de mudança do status",

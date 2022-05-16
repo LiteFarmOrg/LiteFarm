@@ -885,6 +885,7 @@
     "BROADCAST": "Broadcast or drill",
     "COMPLETE_PLAN": {
       "ABANDON_PLAN": "Abandon plan",
+      "ABANDON_NOTES": "Abandonment notes",
       "ABANDON_REASON": "Reason for abandoning",
       "COMPLETE_PLAN": "Complete plan",
       "DATE_OF_CHANGE": "Date of status change",

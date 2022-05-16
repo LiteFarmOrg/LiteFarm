@@ -888,6 +888,7 @@
     "BROADCAST": "Siembra a voleo o sembradora mecánica",
     "COMPLETE_PLAN": {
       "ABANDON_PLAN": "Abandonar plan",
+      "ABANDON_NOTES": "MISSING",
       "ABANDON_REASON": "Razón para abandonar",
       "COMPLETE_PLAN": "Completar plan",
       "DATE_OF_CHANGE": "Fecha de cambio de estado",

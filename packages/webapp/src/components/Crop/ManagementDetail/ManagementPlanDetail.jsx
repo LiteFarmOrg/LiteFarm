@@ -37,6 +37,8 @@ export default function PureManagementDetail({
     formState: { errors, isValid },
   } = useForm({
     defaultValues: {
+      abandon_date: getDateInputFormat(plan.abandon_date),
+      abandon_reason: plan.abandon_reason,
       complete_date: getDateInputFormat(plan.complete_date),
       complete_notes: plan.complete_notes,
       notes: plan.notes,
@@ -49,6 +51,9 @@ export default function PureManagementDetail({
     mode: 'onChange',
   });
 
+  const isAbandoned = plan.abandon_date ? true : false;
+  const DATE_OF_STATUS_CHANGE = isAbandoned ? 'abandon_date' : 'complete_date';
+  const ABANDON_REASON = 'abandon_reason';
   const COMPLETE_DATE = 'complete_date';
   const COMPLETE_NOTES = 'complete_notes';
   const PLAN_NOTES = 'notes';
@@ -106,10 +111,23 @@ export default function PureManagementDetail({
       <InputAutoSize
         style={{ marginBottom: '40px' }}
         label={t('MANAGEMENT_PLAN.COMPLETE_PLAN.DATE_OF_CHANGE')}
-        hookFormRegister={register(COMPLETE_DATE)}
-        errors={errors[COMPLETE_DATE]?.message}
+        hookFormRegister={register(DATE_OF_STATUS_CHANGE)}
+        errors={errors[DATE_OF_STATUS_CHANGE]?.message}
         disabled
       />
+
+      {isAbandoned && (
+        <InputAutoSize
+          style={{ marginBottom: '40px' }}
+          label={t('MANAGEMENT_PLAN.COMPLETE_PLAN.ABANDON_REASON')}
+          hookFormRegister={register(ABANDON_REASON, {
+            maxLength: { value: 10000, message: t('MANAGEMENT_PLAN.NOTES_CHAR_LIMIT') },
+          })}
+          errors={errors[ABANDON_REASON]?.message}
+          disabled
+        />
+      )}
+
       <Rating
         className={styles.rating}
         style={{ marginBottom: '34px' }}
@@ -120,7 +138,11 @@ export default function PureManagementDetail({
 
       <InputAutoSize
         style={{ marginBottom: '40px' }}
-        label={t('MANAGEMENT_PLAN.COMPLETION_NOTES')}
+        label={
+          isAbandoned
+            ? t('MANAGEMENT_PLAN.COMPLETE_PLAN.ABANDON_NOTES')
+            : t('MANAGEMENT_PLAN.COMPLETION_NOTES')
+        }
         hookFormRegister={register(COMPLETE_NOTES, {
           maxLength: { value: 10000, message: t('MANAGEMENT_PLAN.NOTES_CHAR_LIMIT') },
         })}
@@ -140,6 +162,7 @@ export default function PureManagementDetail({
       />
 
       <Unit
+        style={{ marginBottom: '46px' }}
         register={register}
         label={t('MANAGEMENT_PLAN.ESTIMATED_YIELD')}
         name={ESTIMATED_YIELD}

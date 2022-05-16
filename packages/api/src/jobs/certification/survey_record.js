@@ -28,8 +28,7 @@ module.exports = async (submission, exportId) => {
         Answer: submissionData.data[name].value,
         Type: type,
         Hint: hint,
-        Instructions: type == 'instructions' ? options.source.replace(/<p>|<\/p>/g, '') : null, // Replace the <p> and </p> tags from the string
-        Options: ['selectSingle', 'selectMultiple'].includes(type) ? options.source : null,
+        Options: options,
         MoreInfo: moreInfo,
       }))
       .filter((entry) => !['geoJSON', 'script', 'farmOsField'].includes(entry['Type']));
@@ -47,15 +46,14 @@ module.exports = async (submission, exportId) => {
       .cell(`${col}${(row += 1)}`)
       .value(data['Answer'])
       .style({ fontFamily: 'Calibri' });
-    return col, row;
+    return [col, row];
   };
 
   const writeInstructions = (sheet, col, row, data) => {
-    sheet
-      .cell(`${col}${row}`)
-      .value(data['Instructions'])
-      .style({ fontFamily: 'Calibri', italic: true });
-    return col, row;
+    const instructions = data['Options']['source'].replace(/<p>|<\/p>/g, '');
+    sheet.cell(`${col}${row}`).value(instructions).style({ fontFamily: 'Calibri', italic: true });
+    row += 1;
+    return [col, row];
   };
 
   const writeMultiOptionQs = (sheet, col, row, data) => {
@@ -63,16 +61,17 @@ module.exports = async (submission, exportId) => {
     if (data.Hint != null) {
       sheet
         .cell(`${col}${(row += 1)}`)
-        .value(data['Hint'])
+        .value(`Hint: ${data['Hint']}`)
         .style({ fontFamily: 'Calibri', italic: true });
     }
     if (data.MoreInfo != null) {
       sheet
         .cell(`${col}${(row += 1)}`)
-        .value(data['MoreInfo'])
+        .value(`Extra Info: ${data['MoreInfo']}`)
         .style({ fontFamily: 'Calibri', italic: true });
     }
-    for (const option of data['Options']) {
+    const allChoices = data['Options']['source'];
+    for (const option of allChoices) {
       sheet
         .cell(`${col}${(row += 1)}`)
         .value(option['value'])
@@ -84,7 +83,7 @@ module.exports = async (submission, exportId) => {
           .style({ fontFamily: 'Calibri' }); // Write 'X' to the right column
       }
     }
-    return col, row;
+    return [col, row];
   };
 
   const writeMatrixQs = (sheet, col, row, data) => {
@@ -110,7 +109,7 @@ module.exports = async (submission, exportId) => {
       row += 1;
     }
 
-    return col, row;
+    return [col, row];
   };
 
   const typeToFuncMap = {
@@ -118,7 +117,7 @@ module.exports = async (submission, exportId) => {
     number: writeSimpleQs,
     ontology: writeSimpleQs, //Dropdown
     location: writeSimpleQs,
-    //   'date': func3,
+    date: writeSimpleQs,
     selectSingle: writeMultiOptionQs, // Multiple choice
     selectMultiple: writeMultiOptionQs, // Checkbox
     matrix: writeMatrixQs,
@@ -133,7 +132,8 @@ module.exports = async (submission, exportId) => {
     var currentCol = 'A';
     var currentRow = 1;
     for (const qa of questionAnswerMap) {
-      currentCol, (currentRow = typeToFuncMap[qa['Type']](sheet1, currentCol, currentRow, qa));
+      [currentCol, currentRow] = typeToFuncMap[qa['Type']](sheet1, currentCol, currentRow, qa);
+      currentRow += 1;
     }
     // Write to file.
     return workbook.toFileAsync(`${process.env.EXPORT_WD}/temp/${exportId}/Survey Record.xlsx`);

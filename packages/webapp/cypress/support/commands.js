@@ -34,36 +34,47 @@ Cypress.Commands.add('loginByGoogleApi', () => {
         },
       };
 
-      window.localStorage.setItem('id_token', userItem.token)
-
-      
-      
-      
+      window.localStorage.setItem('id_token', userItem.token);
     });
   });
 });
 
 Cypress.Commands.add('waitForGoogleApi', () => {
-  let mapWaitCount = 0
-  const mapWaitMax = 5
+  let mapWaitCount = 0;
+  const mapWaitMax = 5;
 
-  cyMapLoad()
+  cyMapLoad();
 
   function cyMapLoad() {
-    mapWaitCount++
+    mapWaitCount++;
 
-    cy.window().then(win => {
+    cy.window().then((win) => {
       if (typeof win.google != 'undefined') {
-        console.log(`Done at attempt #${mapWaitCount}:`, win)
-        return true
+        console.log(`Done at attempt #${mapWaitCount}:`, win);
+        return true;
       } else if (mapWaitCount <= mapWaitMax) {
-        console.log('Waiting attempt #' + mapWaitCount) // just log
-        cy.wait(2000)
-        cyMapLoad()
+        console.log('Waiting attempt #' + mapWaitCount); // just log
+        cy.wait(2000);
+        cyMapLoad();
       } else if (mapWaitCount > mapWaitMax) {
-        console.log('Failed to load google api')
-        return false
+        console.log('Failed to load google api');
+        return false;
       }
-    })
+    });
   }
+});
+
+Cypress.Commands.add('loginFarmOwner', () => {
+  const emailOwner = 'test@example.com';
+  const fullName = 'Test Farmer';
+  const password = 'P@ssword123';
+
+  //Enter password page
+  cy.get('[data-cy=email]').type(emailOwner);
+  cy.contains('Continue').should('exist').and('be.enabled').click();
+  cy.get('[data-cy=enterPassword-password]').type(password);
+  cy.get('[data-cy=enterPassword-submit]').should('exist').and('be.enabled').click();
+
+  cy.get('[data-cy=chooseFarm-ubc]').eq(0).should('exist').click('right');
+  cy.get('[data-cy=chooseFarm-proceed]').should('exist').and('be.enabled').click();
 });

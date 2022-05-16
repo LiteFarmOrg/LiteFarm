@@ -96,7 +96,7 @@ module.exports = async (submission, exportId) => {
       sheet
         .cell(`${String.fromCharCode(col.charCodeAt(0) + i)}${row}`)
         .value(categories[i])
-        .style({ fontFamily: 'Calibri', bold: true, border: { color: '000000' } });
+        .style({ fontFamily: 'Calibri', bold: true, border: { color: '000000', style: 'thick' } });
     }
 
     // Fill in the matrix
@@ -106,7 +106,7 @@ module.exports = async (submission, exportId) => {
         sheet
           .cell(`${String.fromCharCode(col.charCodeAt(0) + i)}${row}`)
           .value(answer[categories[i]]['value'])
-          .style({ fontFamily: 'Calibri', border: { color: '000000' } });
+          .style({ fontFamily: 'Calibri', border: { color: '000000', style: 'thin' } });
       }
     }
 

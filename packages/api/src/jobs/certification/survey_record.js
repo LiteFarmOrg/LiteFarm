@@ -13,12 +13,20 @@ module.exports = async (submission, exportId) => {
     json: true,
   });
 
+  console.log('THIS IS THE SUBMISSION DATA: ', submissionData);
+  console.log(
+    'THIS IS THE WHOLE SURVEY INFORMATION: ',
+    survey.revisions[survey.revisions.length - 1].controls,
+  );
+
   const getQuestionsInfo = (questionAnswerList) => {
     return questionAnswerList
-      .map(({ label, name, type }) => ({
+      .map(({ label, name, type, hint, options }) => ({
         Question: label,
         Answer: submissionData.data[name].value,
         Type: type,
+        Hint: hint,
+        Instructions: type == 'instructions' ? options.source.replace(/<p>|<\/p>/g, '') : null,
       }))
       .filter((entry) => !['geoJSON', 'script', 'farmOsField'].includes(entry['Type']));
   };
@@ -39,14 +47,22 @@ module.exports = async (submission, exportId) => {
       .style({ fontFamily: 'Calibri' });
   };
 
+  const writeInstructions = (sheet, col, row, data) => {
+    sheet
+      .cell(`${col}${row}`)
+      .value(data['Instructions'])
+      .style({ fontFamily: 'Calibri', italic: true });
+  };
+
   const typeToFuncMap = {
     string: simpleQuestionProcess, // Text
     number: simpleQuestionProcess,
     //   'date': func3,
     location: simpleQuestionProcess,
     //   'selectSingle': func4, // Multiple choice
-    //   'ontology': func5, //Dropdown
+    ontology: simpleQuestionProcess, //Dropdown
     //   'matrix': func6
+    instructions: writeInstructions,
   };
 
   console.log('THIS IS THE QUESITON & ANSWERS', questionAnswerMap);

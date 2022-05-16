@@ -24,7 +24,10 @@ import { isAdminSelector } from '../userFarmSlice';
 import useCropCatalogue from './useCropCatalogue';
 import useStringFilteredCrops from './useStringFilteredCrops';
 import useSortByCropTranslation from './useSortByCropTranslation';
-import { resetAndUnLockFormData, setPersistedPaths } from '../hooks/useHookFormPersist/hookFormPersistSlice';
+import {
+  resetAndUnLockFormData,
+  setPersistedPaths,
+} from '../hooks/useHookFormPersist/hookFormPersistSlice';
 import CatalogSpotlight from './CatalogSpotlight';
 import ActiveFilterBox from '../../components/ActiveFilterBox';
 import { useStartAddCropVarietyFlow } from '../CropVarieties/useStartAddCropVarietyFlow';
@@ -36,14 +39,8 @@ export default function CropCatalogue({ history }) {
 
   const [filterString, setFilterString] = useState('');
   const filterStringOnChange = (e) => setFilterString(e.target.value);
-  const {
-    active,
-    planned,
-    past,
-    sum,
-    cropCatalogue,
-    filteredCropsWithoutManagementPlan,
-  } = useCropCatalogue(filterString);
+  const { active, planned, past, noPlans, sum, cropCatalogue, filteredCropsWithoutManagementPlan } =
+    useCropCatalogue(filterString);
   const crops = useStringFilteredCrops(
     useSortByCropTranslation(useSelector(cropsSelector)),
     filterString,
@@ -73,11 +70,13 @@ export default function CropCatalogue({ history }) {
 
   const { onAddCropVariety } = useStartAddCropVarietyFlow();
   const onAddCrop = () => {
-    dispatch(setPersistedPaths([
-      '/crop/new',
-      '/crop/new/add_crop_variety',
-      '/crop/new/add_crop_variety/compliance',
-    ]));
+    dispatch(
+      setPersistedPaths([
+        '/crop/new',
+        '/crop/new/add_crop_variety',
+        '/crop/new/add_crop_variety/compliance',
+      ]),
+    );
     history.push('/crop/new');
   };
   return (
@@ -110,14 +109,14 @@ export default function CropCatalogue({ history }) {
           <>
             <PageBreak style={{ paddingBottom: '16px' }} label={t('CROP_CATALOGUE.ON_YOUR_FARM')} />
             <CropStatusInfoBox
-              status={{ active, past, planned }}
+              status={{ active, past, planned, noPlans }}
               style={{ marginBottom: '16px' }}
               date={date}
               setDate={setDate}
             />
             <PureCropTileContainer gap={gap} padding={padding}>
               {filteredCropsWithoutManagementPlan.map((cropVariety) => {
-                const { crop_translation_key, crop_photo_url, crop_id } = cropVariety;
+                const { crop_translation_key, crop_photo_url, crop_id, noPlansCount } = cropVariety;
                 const imageKey = cropVariety.crop_translation_key?.toLowerCase();
 
                 return (
@@ -128,7 +127,9 @@ export default function CropCatalogue({ history }) {
                     alt={imageKey}
                     style={{ width: cardWidth }}
                     onClick={() => history.push(`/crop_varieties/crop/${cropVariety.crop_id}`)}
-                    needsPlan
+                    cropCount={{
+                      noPlans: noPlansCount,
+                    }}
                   />
                 );
               })}
@@ -151,6 +152,7 @@ export default function CropCatalogue({ history }) {
                       active: active.length,
                       planned: planned.length,
                       past: past.length,
+                      noPlans: cropCatalog?.noPlans?.length,
                     }}
                     needsPlan={needsPlan}
                     title={t(`crop:${crop_translation_key}`)}
@@ -200,10 +202,7 @@ export default function CropCatalogue({ history }) {
               </>
             )}
             <Text style={{ paddingBottom: '8px' }}>{t('CROP_CATALOGUE.CAN_NOT_FIND')}</Text>
-            <AddLink
-            data-cy='crop-addLink'
-              onClick={onAddCrop}
-            >
+            <AddLink data-cy="crop-addLink" onClick={onAddCrop}>
               {t('CROP_CATALOGUE.ADD_CROP')}
             </AddLink>
           </>

@@ -98,16 +98,16 @@ module.exports = async (submission, exportId) => {
         .value(categories[i])
         .style({ fontFamily: 'Calibri', bold: true, border: { color: '000000', style: 'thick' } });
     }
-
+    row += 1;
     // Fill in the matrix
     for (const answer of data['Answer']) {
-      row += 1;
       for (let i = 0; i < categories.length; i++) {
         sheet
           .cell(`${String.fromCharCode(col.charCodeAt(0) + i)}${row}`)
           .value(answer[categories[i]]['value'])
           .style({ fontFamily: 'Calibri', border: { color: '000000', style: 'thin' } });
       }
+      row += 1;
     }
 
     return col, row;

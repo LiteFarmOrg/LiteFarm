@@ -123,6 +123,7 @@ export default function PureInviteUser({ onInvite, onGoBack, roleOptions = [] })
       <Input
         label={t('INVITE_USER.BIRTH_YEAR')}
         type="number"
+        onKeyPress={integerOnKeyDown}
         hookFormRegister={register(BIRTHYEAR, {
           min: 1900,
           max: new Date().getFullYear(),
@@ -142,6 +143,7 @@ export default function PureInviteUser({ onInvite, onGoBack, roleOptions = [] })
         label={t('INVITE_USER.WAGE')}
         step="0.01"
         type="number"
+        onKeyPress={integerOnKeyDown}
         hookFormRegister={register(WAGE, { min: 0, valueAsNumber: true })}
         style={{ marginBottom: '24px' }}
         errors={errors[WAGE] && (errors[WAGE].message || t('INVITE_USER.WAGE_ERROR'))}
@@ -151,7 +153,7 @@ export default function PureInviteUser({ onInvite, onGoBack, roleOptions = [] })
         style={{ marginBottom: '24px' }}
         label={t('INVITE_USER.PHONE')}
         type={'number'}
-        onKeyDown={integerOnKeyDown}
+        onKeyPress={integerOnKeyDown}
         hookFormRegister={register(PHONE)}
         errors={errors[PHONE] && (errors[PHONE].message || t('INVITE_USER.PHONE_ERROR'))}
         optional

@@ -193,7 +193,7 @@ export default Input;
 
 export const numberOnKeyDown = (e) => ['e', 'E', '+', '-'].includes(e.key) && e.preventDefault();
 export const integerOnKeyDown = (e) =>
-  ['e', 'E', '+', '-', '.'].includes(e.key) && e.preventDefault();
+  e.charCode > 47 && e.charCode < 58 ? true : e.preventDefault();
 export const preventNumberScrolling = (e) => e.target.blur();
 
 export const getInputErrors = (errors, name) => {

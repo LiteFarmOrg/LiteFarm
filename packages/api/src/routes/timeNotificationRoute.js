@@ -21,4 +21,9 @@ router.post(
   timeNotificationController.postWeeklyUnassignedTasks,
 );
 
+router.post(
+  '/daily_tasks_due_today',
+  timeNotificationController,
+);
+
 module.exports = router;

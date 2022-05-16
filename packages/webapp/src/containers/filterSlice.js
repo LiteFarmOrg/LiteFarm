@@ -96,7 +96,6 @@ const filterSliceReducer = createSlice({
     },
     setTasksFilter: (state, { payload: tasksFilter }) => {
       Object.assign(state.tasks, tasksFilter);
-      console.log(current(state.tasks));
     },
     setTasksFilterUnassignedDueThisWeek: (state) => {
       const today = new Date();

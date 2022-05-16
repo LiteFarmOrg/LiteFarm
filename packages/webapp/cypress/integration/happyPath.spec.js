@@ -1,7 +1,7 @@
 import { getDateInputFormat } from '../../src/util/moment';
 
 describe.only('LiteFarm end to end test', () => {
-  it('Happy path', { defaultCommandTimeout: 7000 }, () => {
+  it.only('Happy path', { defaultCommandTimeout: 7000 }, () => {
     cy.visit('/');
     cy.get('[data-cy=email]').should('exist');
     cy.get('[data-cy=continue]').should('exist');
@@ -373,7 +373,7 @@ describe.only('LiteFarm end to end test', () => {
     //cy.get('[data-cy=navbar-option]').contains('Log Out').should('exist').and('not.be.disabled').click();
   });
 
-  it.only('Browser local detection', () => {
+  it('Browser local detection', () => {
     //Test for LF-2368
     cy.visit('/', {
       onBeforeLoad(win) {
@@ -388,6 +388,5 @@ describe.only('LiteFarm end to end test', () => {
     cy.get('[data-cy=email]').type('french@test.com');
     cy.contains('Continue').should('exist').and('be.enabled').click();
     cy.contains('Créer un nouveau compte utilisateur').should('exist');
-
   });
 });

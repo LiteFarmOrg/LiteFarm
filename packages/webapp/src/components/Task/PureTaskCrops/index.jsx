@@ -20,7 +20,6 @@ const PureTaskCrops = ({
   persistedFormData,
   onContinue,
 
-
   useHookFormPersist,
   managementPlansByLocationIds,
   wildManagementPlanTiles,
@@ -214,7 +213,12 @@ const PureTaskCrops = ({
       <Form
         buttonGroup={
           <div style={{ display: 'flex', flexDirection: 'column', rowGap: '16px', flexGrow: 1 }}>
-            <Button disabled={disabled} color={'primary'} fullLength>
+            <Button
+              data-cy="addTask-cropsContinue"
+              disabled={disabled}
+              color={'primary'}
+              fullLength
+            >
               {t('common:CONTINUE')}
             </Button>
           </div>

@@ -1,3 +1,5 @@
+import { getDateInputFormat } from '../../src/util/moment';
+
 describe.only('Tasks flow tests', () => {
   before(() => {
     //Ensure test environment is setup(i.e. farm exists, user accounts exist, tasks exist)
@@ -6,23 +8,57 @@ describe.only('Tasks flow tests', () => {
   it('farm worker tasks flow tests', () => {
     //Unassigned tasks : Farm workers should be able to assign the task to themselves
     //(the farm worker and “Unassigned” should be the only quick assign options)
-
     //Tasks assigned to the farm worker: Farm workers should be able to Unassign the task
     // (the farm worker and “Unassigned” should be the only quick assign options)
-
     //Tasks assigned to other individuals on the farm: None! Task card should be read-only
-
     //No visual cue that the user can update due date
-
     //clicking on a task should open the read_only view for said task
-    cy.url().should('include', '/read_only');
+    //cy.url().should('include', '/read_only');
     //Assignee input should exist and should be.disabled
     //Due date input should exist and be disabled
     //locations map should exist and display here said task will be carried out
     //Task specific data should exist(e.g. cleaning agent and estimated water usage for a cleaning task)
   });
 
-  it('admin user tasks flow tests', () => {
+  it.only('admin user tasks flow tests', () => {
+    cy.visit('/');
+    cy.loginFarmOwner();
+    cy.get('[data-cy=home-taskButton]').should('exist').and('not.be.disabled').click();
+
+    cy.contains('Create').should('exist').and('not.be.disabled').click({ force: true });
+    cy.contains('Clean').should('exist').and('not.be.disabled').click({ force: true });
+
+    cy.get('[data-cy=addTask-taskDate]').should('exist').type('2022-06-22');
+
+    cy.get('[data-cy=addTask-continue]')
+      .should('exist')
+      .and('not.be.disabled')
+      .click({ force: true });
+    cy.wait(2000);
+    cy.get('[data-cy=map-selectLocation]').click(540, 201, {
+      force: false,
+    });
+    cy.get('[data-cy=addTask-locationContinue]')
+      .should('exist')
+      .and('not.be.disabled')
+      .click({ force: true });
+    cy.get('[data-cy=addTask-cropsContinue]')
+      .should('exist')
+      .and('not.be.disabled')
+      .click({ force: true });
+    cy.get('[data-cy=addTask-detailsContinue]')
+      .should('exist')
+      .and('not.be.disabled')
+      .click({ force: true });
+    cy.get('[data-cy=addTask-assignmentSave]')
+      .should('exist')
+      .and('not.be.disabled')
+      .click({ force: true });
+
+    cy.contains('Unassigned').eq(0).should('exist').and('not.be.disabled').click({ force: true });
+    cy.get('[data-cy=quickAssign-assignee]').should('exist').click({ force: true });
+    cy.get('[data-cy=quickAssign-assignAll]').should('exist').check({ force: true });
+    cy.get('[data-cy=quickAssign-update]').should('exist').and('not.be.disabled').click();
     //         //on tasks view click on the assignee link of a harvest task
 
     //         //assign task to self and click update task
@@ -34,7 +70,7 @@ describe.only('Tasks flow tests', () => {
     //         cy.contains('Tasks').should('exist');
 
     //clicking on a task should open the read_only view for said task
-    cy.url().should('include', '/read_only');
+    //cy.url().should('include', '/read_only');
     //Assignee input should exist and should be.disabled
     //Due date input should exist and be disabled
     //locations map should exist and display here said task will be carried out
@@ -72,7 +108,7 @@ describe.only('Tasks flow tests', () => {
     cy.contains('completed').should('exist');
   });
 
-  it.only('tasks filters tests', () => {
+  it('tasks filters tests', () => {
     //tests for LF2365, run this test after running the happyPath spec
     cy.visit('/');
     cy.loginFarmOwner();

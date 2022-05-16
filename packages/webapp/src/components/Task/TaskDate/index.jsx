@@ -38,7 +38,7 @@ export default function PureTaskDate({
   return (
     <Form
       buttonGroup={
-        <Button type={'submit'} disabled={disabled} fullLength>
+        <Button data-cy="addTask-continue" type={'submit'} disabled={disabled} fullLength>
           {t('common:CONTINUE')}
         </Button>
       }
@@ -56,6 +56,7 @@ export default function PureTaskDate({
       <Main style={{ marginBottom: '16px' }}>{t('TASK.SELECT_DATE')}</Main>
 
       <Input
+        data-cy="addTask-taskDate"
         type={'date'}
         label={t('common:DATE')}
         hookFormRegister={register(DUE_DATE, {

@@ -12,7 +12,7 @@ i18n
     defaultNS: 'translation',
     nsSeparator: ':',
     fallbackLng: 'en',
-    locales: ['en', 'pt', 'es'],
+    locales: ['en', 'pt', 'es', 'fr'],
     debug: false,
     detection: {
       lookupLocalStorage: 'litefarm_lang',

@@ -26,6 +26,7 @@ const checkJwt = jwt({
     '/user/accept_invitation',
     '/user_farm/accept_invitation',
     '/notification_user/subscribe',
+    /\/time_notification\//i,
   ],
 });
 

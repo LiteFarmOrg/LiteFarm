@@ -46,9 +46,8 @@ const timeNotificationController = {
       );
 
       const farmManagementObjs = await UserFarmModel.query()
-        .select('userFarm.user_id')
-        .join('role', 'role.role_id', 'userFarm.role_id')
-        .whereIn('role.role', ['Owner', 'Manager', 'Extension Officer'])
+        .select('user_id')
+        .whereIn('role_id', [1, 2, 5])
         .where('userFarm.farm_id', farm_id);
 
       const farmManagement = farmManagementObjs.map(
@@ -56,14 +55,14 @@ const timeNotificationController = {
       );
 
       if (unassignedTasks.length > 0) {
-        sendWeeklyUnassignedTaskNotifications(
+        await sendWeeklyUnassignedTaskNotifications(
           farm_id,
           farmManagement,
           unassignedTasks[0].task_translation_key,
         );
       }
 
-      return res.status(200).send({ unassignedTasks, farmManagement });
+      return res.status(201).send({ unassignedTasks, farmManagement });
     } catch (error) {
       console.log(error);
       return res.status(400).send({ error });
@@ -77,8 +76,12 @@ const timeNotificationController = {
  * @param {Array} farmManagement - user_ids of FM/FO/EO that need to be notified
  * @param {String} firstTaskTranslationKey - task translation key of the first unassigned task
  */
-function sendWeeklyUnassignedTaskNotifications(farmId, farmManagement, firstTaskTranslationKey) {
-  NotificationUser.notify(
+async function sendWeeklyUnassignedTaskNotifications(
+  farmId,
+  farmManagement,
+  firstTaskTranslationKey,
+) {
+  await NotificationUser.notify(
     {
       title: { translation_key: 'NOTIFICATION.WEEKLY_UNASSIGNED_TASKS.TITLE' },
       body: { translation_key: 'NOTIFICATION.WEEKLY_UNASSIGNED_TASKS.BODY' },

@@ -91,22 +91,36 @@ module.exports = async (submission, exportId) => {
     sheet.cell(`${col}${row}`).value(data['Question']).style({ fontFamily: 'Calibri', bold: true });
     const categories = Object.keys(data['Answer'][0]);
     row += 1;
+    // Write column headers
     for (let i = 0; i < categories.length; i++) {
       sheet
         .cell(`${String.fromCharCode(col.charCodeAt(0) + i)}${row}`)
         .value(categories[i])
         .style({ fontFamily: 'Calibri', bold: true, border: { color: '000000' } });
     }
+
+    // Fill in the matrix
+    for (const answer of data['Answer']) {
+      row += 1;
+      for (let i = 0; i < categories.length; i++) {
+        sheet
+          .cell(`${String.fromCharCode(col.charCodeAt(0) + i)}${row}`)
+          .value(answer[categories[i]]['value'])
+          .style({ fontFamily: 'Calibri', border: { color: '000000' } });
+      }
+    }
+
+    return col, row;
   };
 
   const typeToFuncMap = {
     string: writeSimpleQs, // Text
     number: writeSimpleQs,
-    //   'date': func3,
+    ontology: writeSimpleQs, //Dropdown
     location: writeSimpleQs,
+    //   'date': func3,
     selectSingle: writeMultiOptionQs, // Multiple choice
     selectMultiple: writeMultiOptionQs, // Checkbox
-    ontology: writeSimpleQs, //Dropdown
     matrix: writeMatrixQs,
     instructions: writeInstructions,
   };

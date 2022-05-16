@@ -358,7 +358,7 @@ describe('JWT Tests', () => {
       const [pseudoUser] = await mocks.usersFactory({
         ...mocks.fakeUser(),
         status_id: 1,
-        email: `${faker.random.uuid()}@pseudo.com`,
+        email: `${faker.datatype.uuid()}@pseudo.com`,
       });
       postResetPasswordRequest(pseudoUser.email, async (err, res) => {
         expect(res.status).toBe(400);

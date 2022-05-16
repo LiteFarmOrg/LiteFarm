@@ -41,7 +41,7 @@ describe.only('Tasks flow tests', () => {
     //Task specific data should exist(e.g. cleaning agent and estimated water usage for a cleaning task)
   });
 
-  it.only('harvest task compeletion tests', () => {
+  it('harvest task compeletion tests', () => {
     //these are tests for LF2360 run this test script after running the happy path test
     //Action: click on the tasks icon. Expected: The tasks view opens with several task cards visible
     cy.visit('/');
@@ -72,8 +72,14 @@ describe.only('Tasks flow tests', () => {
     cy.contains('completed').should('exist');
   });
 
-  it('tasks filters tests', () => {
+  it.only('tasks filters tests', () => {
+    //tests for LF2365, run this test after running the happyPath spec
+    cy.visit('/');
+    cy.loginFarmOwner();
+    cy.get('[data-cy=home-taskButton]').should('exist').and('not.be.disabled').click();
+
     //         //user clicks on the funnel icon on the tasks view to open the tasks filter view
+    cy.get('[data-cy=tasks-filter]').click({ force: true });
     //         //user clicks on the assignee input
     //         //assert that all active users appear in the dropdown
     //         //assert that the assignee input is searchable

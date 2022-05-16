@@ -87,6 +87,18 @@ module.exports = async (submission, exportId) => {
     return col, row;
   };
 
+  const writeMatrixQs = (sheet, col, row, data) => {
+    sheet.cell(`${col}${row}`).value(data['Question']).style({ fontFamily: 'Calibri', bold: true });
+    const categories = Object.keys(data['Answer'][0]);
+    row += 1;
+    for (let i = 0; i < categories.length; i++) {
+      sheet
+        .cell(`${String.fromCharCode(col.charCodeAt(0) + i)}${row}`)
+        .value(categories[i])
+        .style({ fontFamily: 'Calibri', bold: true, border: { color: '000000' } });
+    }
+  };
+
   const typeToFuncMap = {
     string: writeSimpleQs, // Text
     number: writeSimpleQs,
@@ -95,7 +107,7 @@ module.exports = async (submission, exportId) => {
     selectSingle: writeMultiOptionQs, // Multiple choice
     selectMultiple: writeMultiOptionQs, // Checkbox
     ontology: writeSimpleQs, //Dropdown
-    //   'matrix': func6
+    matrix: writeMatrixQs,
     instructions: writeInstructions,
   };
 

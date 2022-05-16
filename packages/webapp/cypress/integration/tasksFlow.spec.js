@@ -8,10 +8,14 @@ describe.only('Tasks flow tests', () => {
   it('farm worker tasks flow tests', () => {
     //Unassigned tasks : Farm workers should be able to assign the task to themselves
     //(the farm worker and “Unassigned” should be the only quick assign options)
+
     //Tasks assigned to the farm worker: Farm workers should be able to Unassign the task
     // (the farm worker and “Unassigned” should be the only quick assign options)
+
     //Tasks assigned to other individuals on the farm: None! Task card should be read-only
+
     //No visual cue that the user can update due date
+
     //clicking on a task should open the read_only view for said task
     //cy.url().should('include', '/read_only');
     //Assignee input should exist and should be.disabled
@@ -21,43 +25,29 @@ describe.only('Tasks flow tests', () => {
   });
 
   it.only('admin user tasks flow tests', () => {
+    //Test for Lf-2314
     cy.visit('/');
     cy.loginFarmOwner();
     cy.get('[data-cy=home-taskButton]').should('exist').and('not.be.disabled').click();
 
-    cy.contains('Create').should('exist').and('not.be.disabled').click({ force: true });
-    cy.contains('Clean').should('exist').and('not.be.disabled').click({ force: true });
+    cy.contains('Create').should('exist').and('not.be.disabled').click({ force: true});
+    cy.contains('Clean').should('exist').and('not.be.disabled').click({ force: true});
 
-    cy.get('[data-cy=addTask-taskDate]').should('exist').type('2022-06-22');
+    cy.get('[data-cy=addTask-taskDate]').should('exist').type('2022-06-22')
 
-    cy.get('[data-cy=addTask-continue]')
-      .should('exist')
-      .and('not.be.disabled')
-      .click({ force: true });
+    cy.get('[data-cy=addTask-continue]').should('exist').and('not.be.disabled').click({ force: true});
     cy.wait(2000);
     cy.get('[data-cy=map-selectLocation]').click(540, 201, {
       force: false,
     });
-    cy.get('[data-cy=addTask-locationContinue]')
-      .should('exist')
-      .and('not.be.disabled')
-      .click({ force: true });
-    cy.get('[data-cy=addTask-cropsContinue]')
-      .should('exist')
-      .and('not.be.disabled')
-      .click({ force: true });
-    cy.get('[data-cy=addTask-detailsContinue]')
-      .should('exist')
-      .and('not.be.disabled')
-      .click({ force: true });
-    cy.get('[data-cy=addTask-assignmentSave]')
-      .should('exist')
-      .and('not.be.disabled')
-      .click({ force: true });
+    cy.get('[data-cy=addTask-locationContinue]').should('exist').and('not.be.disabled').click({ force: true});
+    cy.get('[data-cy=addTask-cropsContinue]').should('exist').and('not.be.disabled').click({ force: true});
+    cy.get('[data-cy=addTask-detailsContinue]').should('exist').and('not.be.disabled').click({ force: true});
+    cy.get('[data-cy=addTask-assignmentSave]').should('exist').and('not.be.disabled').click({ force: true});
 
-    cy.contains('Unassigned').eq(0).should('exist').and('not.be.disabled').click({ force: true });
-    cy.get('[data-cy=quickAssign-assignee]').should('exist').click({ force: true });
-    cy.get('[data-cy=quickAssign-assignAll]').should('exist').check({ force: true });
+    cy.contains('Unassigned').eq(0).should('exist').and('not.be.disabled').click({ force: true});
+    cy.get('[data-cy=quickAssign-assignee]').should('exist').click({ force: true});
+    cy.get('[data-cy=quickAssign-assignAll]').should('exist').check({force: true});
     cy.get('[data-cy=quickAssign-update]').should('exist').and('not.be.disabled').click();
     //         //on tasks view click on the assignee link of a harvest task
 

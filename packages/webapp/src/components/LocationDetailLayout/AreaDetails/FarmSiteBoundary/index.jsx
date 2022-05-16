@@ -52,6 +52,7 @@ export function PureFarmSiteBoundary({
       isAdmin={isAdmin}
       onSubmit={onSubmit}
       translationKey={'FARM_SITE_BOUNDARY'}
+      tabs={'details'}
       showPerimeter={true}
     />
   );

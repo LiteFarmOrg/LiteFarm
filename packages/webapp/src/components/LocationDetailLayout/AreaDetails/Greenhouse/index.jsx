@@ -83,7 +83,7 @@ export function PureGreenhouse({
       translationKey={'GREENHOUSE'}
       detailsChildren={<GreenhouseDetailsChildren isViewLocationPage={isViewLocationPage} />}
       showPerimeter={false}
-      tabs={['crops', 'tasks', 'details']}
+      tabs={['crops', 'details']}
     />
   );
 }

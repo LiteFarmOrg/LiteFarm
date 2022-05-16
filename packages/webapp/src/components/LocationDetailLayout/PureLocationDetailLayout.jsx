@@ -7,6 +7,7 @@ import LocationPageHeader from './LocationPageHeader';
 import Form from '../Form';
 import AreaDetails from './AreaDetails/AreaDetails';
 import LineDetails from './LineDetails/LineDetails';
+import PointDetails from './PointDetails/PointDetails';
 import RouterTab from '../RouterTab';
 
 export function PureLocationDetailLayout({
@@ -46,6 +47,7 @@ export function PureLocationDetailLayout({
 
   const routerTabs =
     tabs &&
+    tabs.length > 1 &&
     tabs.map((tab) => ({
       label: t(`FARM_MAP.TAB.${tab.toUpperCase()}`),
       path: `/${locationType}/${match.params.location_id}/${tab}`,
@@ -77,6 +79,18 @@ export function PureLocationDetailLayout({
         >
           {detailsChildren && detailsChildren}
         </LineDetails>
+      );
+    } else if (locationCategory === 'point') {
+      return (
+        <PointDetails
+          name={t(`FARM_MAP.${translationKey}.NAME`)}
+          history={history}
+          isCreateLocationPage={isCreateLocationPage}
+          isEditLocationPage={isEditLocationPage}
+          isViewLocationPage={isViewLocationPage}
+        >
+          {detailsChildren && detailsChildren}
+        </PointDetails>
       );
     }
   }, [locationCategory]);

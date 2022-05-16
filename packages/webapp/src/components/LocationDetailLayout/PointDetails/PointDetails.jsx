@@ -5,23 +5,22 @@ import { gateEnum as pointEnum } from '../../../containers/constants';
 import PureWarningBox from '../../WarningBox';
 import { Label } from '../../Typography';
 import InputAutoSize from '../../Form/InputAutoSize';
+import { useFormContext } from 'react-hook-form';
 
 export default function PointDetails({
   name,
-
   children,
-  setValue,
-
   history,
-
-  register,
-  errors,
-
   isCreateLocationPage,
   isViewLocationPage,
   isEditLocationPage,
 }) {
   const { t } = useTranslation();
+  const {
+    register,
+    setValue,
+    formState: { errors },
+  } = useFormContext();
   const [errorMessage, setErrorMessage] = useState();
 
   useEffect(() => {

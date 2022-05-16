@@ -66,7 +66,7 @@ export function PureSurfaceWater({
       translationKey={'SURFACE_WATER'}
       detailsChildren={<SurfaceWaterDetailsChildren isViewLocationPage={isViewLocationPage} />}
       showPerimeter={true}
-      tabs={['tasks', 'details']}
+      tabs={['details']}
     />
   );
 }

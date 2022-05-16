@@ -71,7 +71,7 @@ export function PureFence({
       detailsChildren={
         <FenceDetailsChildren isViewLocationPage={isViewLocationPage} system={system} />
       }
-      tabs={['crops', 'tasks', 'details']}
+      tabs={['details']}
     />
   );
 }

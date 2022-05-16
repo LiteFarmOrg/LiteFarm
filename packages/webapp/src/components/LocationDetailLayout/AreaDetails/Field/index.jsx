@@ -81,7 +81,7 @@ export function PureField({
       translationKey={'FIELD'}
       detailsChildren={<FieldDetailsChildren isViewLocationPage={isViewLocationPage} />}
       showPerimeter={true}
-      tabs={['crops', 'tasks', 'details']}
+      tabs={['crops', 'details']}
     />
   );
 }

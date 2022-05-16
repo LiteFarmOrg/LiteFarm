@@ -76,7 +76,7 @@ export function PureWatercourse({
           system={system}
         />
       }
-      tabs={['tasks', 'details']}
+      tabs={['details']}
     />
   );
 }

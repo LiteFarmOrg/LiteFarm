@@ -64,6 +64,7 @@ export function PureBarn({
       onSubmit={onSubmit}
       translationKey={'BARN'}
       detailsChildren={<BarnDetailChildren isViewLocationPage={isViewLocationPage} />}
+      tabs={['details']}
       showPerimeter={false}
     />
   );

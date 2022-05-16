@@ -1,6 +1,6 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import PointDetails from '../index';
+import PointDetails from '../PointDetails';
 import { useForm } from 'react-hook-form';
 import LocationButtons from '../../LocationButtons';
 

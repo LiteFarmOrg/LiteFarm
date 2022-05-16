@@ -1,6 +1,6 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import AreaDetails from '../index';
+import AreaDetails from '../AreaDetails';
 import { useForm } from 'react-hook-form';
 import { surfaceWaterEnum } from '../../../../containers/constants';
 import { Label } from '../../../Typography';

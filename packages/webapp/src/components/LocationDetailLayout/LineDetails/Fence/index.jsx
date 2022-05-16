@@ -1,6 +1,6 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import LineDetails from '../index';
+import LineDetails from '../LineDetails';
 import { useForm } from 'react-hook-form';
 import Leaf from '../../../../assets/images/farmMapFilter/Leaf.svg';
 import { bufferZoneEnum, fenceEnum } from '../../../../containers/constants';

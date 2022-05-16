@@ -1,6 +1,6 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import AreaDetails from '../index';
+import AreaDetails from '../AreaDetails';
 import { useForm } from 'react-hook-form';
 import Leaf from '../../../../assets/images/farmMapFilter/Leaf.svg';
 import Input, { getInputErrors } from '../../../Form/Input';

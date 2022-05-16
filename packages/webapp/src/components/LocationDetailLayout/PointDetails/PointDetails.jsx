@@ -6,7 +6,7 @@ import PureWarningBox from '../../WarningBox';
 import { Label } from '../../Typography';
 import InputAutoSize from '../../Form/InputAutoSize';
 
-export default function PointDetailsLayout({
+export default function PointDetails({
   name,
 
   children,

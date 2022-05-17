@@ -77,17 +77,18 @@ const timeNotificationController = {
    * @async
    */
   async postDailyDueTodayTasks(req, res) {
-    const { farm_id } = req.params;
+    const { user_id, farm_id } = req.params;
     try {
       const tasksDueToday = await TaskModel.query()
         .select('task.task_id', 'task_type.task_translation_key', 'task.assignee_user_id')
         .join('task_type', 'task_type.task_type_id', 'task.task_type_id')
-        .whereNot({ 'task.assignee_user_id': null })
+        .where({ 'task.assignee_user_id': user_id })
         .whereRaw('due_date = CURRENT_DATE')
 
       if (!tasksDueToday.length) {
         sendDailyDueTodayTaskNotification(
           farm_id,
+          user_id,
           tasksDueToday,
         );
       }
@@ -137,13 +138,13 @@ async function sendDailyDueTodayTaskNotification(
 ) {
   await NotificationUser.notify(
     {
-      title: {},
-      body: {},
+      title: { translation_key: 'NOTIFICATION.DAILY_TASKS_DUE_TODAY.TITLE' },
+      body: { translation_key: 'NOTIFICATION.DAILY_TASKS_DUE_TODAY.BODY' },
       variables: [],
-      ref: {},
+      ref: { url: '/tasks' },
       context: {
         task_translation_key: {},
-        notification_type: '',
+        notification_type: 'DAILY_TASKS_DUE_TODAY',
       },
       farm_id: farmId,
     },

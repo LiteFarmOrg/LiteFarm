@@ -26,8 +26,10 @@ router.post(
 );
 
 router.post(
-  '/daily_tasks_due_today',
-  timeNotificationController,
+  '/daily_due_today_tasks/:user_id',
+  checkSchedulerJwt,
+  hasTimeNotificationsAccess,
+  timeNotificationController.postDailyDueTodayTasks,
 );
 
 module.exports = router;

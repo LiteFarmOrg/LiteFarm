@@ -7,9 +7,11 @@ import Button from '../../components/Form/Button';
 import { Semibold, Text } from '../Typography';
 import { getNotificationCardDate } from '../../util/moment.js';
 import history from '../../history';
+import { getLanguageFromLocalStorage } from '../../util/getLanguageFromLocalStorage';
 
 function PureNotificationReadOnly({ onGoBack, notification }) {
   const { t } = useTranslation();
+  const currentLang = getLanguageFromLocalStorage();
   const tOptions = notification.variables.reduce((optionsSoFar, currentOption) => {
     let options = { ...optionsSoFar };
     options[currentOption.name] = currentOption.translate
@@ -47,16 +49,23 @@ function PureNotificationReadOnly({ onGoBack, notification }) {
       </div>
 
       <Semibold style={{ color: colors.teal700, marginBottom: '16px' }}>
-        {t(`NOTIFICATION.${notification.translation_key}.TITLE`)}
+        {notification.title.translation_key
+          ? t(notification.title.translation_key)
+          : notification.title[currentLang]}
       </Semibold>
       <Text style={{ fontSize: '16px', marginBottom: '16px' }}>
-        {t(`NOTIFICATION.${notification.translation_key}.BODY`, tOptions)}
+        {notification.body.translation_key
+          ? t(notification.body.translation_key, tOptions)
+          : notification.body[currentLang]}
       </Text>
       <Button
         sm
         style={{ height: '32px', width: '150px' }}
         onClick={() => {
-          history.push(`/${notification.entity_type}s/${notification.entity_id}/read_only`);
+          const route =
+            notification.ref.url ??
+            `/${notification.ref.entity.type}s/${notification.ref.entity.id}/read_only`;
+          history.push(route);
         }}
       >
         {t('NOTIFICATION.TAKE_ME_THERE')}

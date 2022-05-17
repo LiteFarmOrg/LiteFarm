@@ -1051,6 +1051,10 @@
     "TASK_REASSIGNED": {
       "TITLE": "MISSING",
       "BODY": "MISSING"
+    },
+    "TASK_COMPLETED_BY_OTHER_USER": {
+      "TITLE": "MISSING",
+      "BODY": "MISSING"
     }
   },
   "OUTRO": {

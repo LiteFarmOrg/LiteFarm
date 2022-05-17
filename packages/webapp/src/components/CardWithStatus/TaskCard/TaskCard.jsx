@@ -68,16 +68,16 @@ export const PureTaskCard = ({
     trueDate = `${month} ${date}, ${year}`;
   }
 
-  const iconStyle = { 
+  const iconStyle = {
     iconTextContainer: {
       display: 'flex',
       flexDirection: 'row',
       alignItems: 'center',
       gap: '3px',
-      borderBottom: !isAdmin&&!isAssignee ? 'none' : '1px solid var(--teal700)',
-      cursor: isAdmin||isAssignee ? 'pointer' : 'default',
-    }
-  }
+      borderBottom: !isAdmin && !isAssignee ? 'none' : '1px solid var(--teal700)',
+      cursor: isAdmin || isAssignee ? 'pointer' : 'default',
+    },
+  };
   return (
     <CardWithStatus
       color={selected ? activeCardColorMap[status] : statusColorMap[status]}

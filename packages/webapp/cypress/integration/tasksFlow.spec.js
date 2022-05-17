@@ -54,7 +54,25 @@ describe.only('Tasks flow tests', () => {
     //Task specific data should exist(e.g. cleaning agent and estimated water usage for a cleaning task)
   });
 
-  it.only('harvest task for apricot', () => {
+  it.only('Admin user must be able to complete tasks on behalf pseudo users', () => {
+    //Test for LF-2230
+    cy.visit('/');
+    cy.loginFarmOwner();
+    cy.get('[data-cy=home-taskButton]').should('exist').and('not.be.disabled').click();
+    cy.createTask();
+    cy.get('[data-cy=pill-close]').should('exist').and('not.be.disabled').click();
+    cy.get('[data-cy=taskCard]').eq(25).should('exist').click('right');
+    cy.get('[data-cy=taskReadOnly-pencil]').should('exist').click();
+    cy.contains('Test Farmer').should('exist').click({ force: true });
+    cy.contains('Sudo').should('exist').click({ force: true });
+    cy.get('[data-cy=quickAssign-update]').should('exist').and('not.be.disabled').click();
+    cy.contains('Mark Complete').should('exist').click({ force: true });
+    cy.contains('Continue').should('exist').click({ force: true });
+    cy.get('[data-cy=harvestComplete-rating]').should('exist').check({ force: true });
+    cy.get('[data-cy=harvestComplete-save]').should('exist').and('not.be.disabled').click();
+  });
+
+  it('harvest task for apricot', () => {
     //tests for LF-2332
     cy.visit('/');
     cy.loginFarmOwner();

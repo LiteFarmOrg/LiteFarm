@@ -1,47 +1,47 @@
 {
   "ASSIGN_TASK": {
-    "ERROR": "MISSING",
+    "ERROR": "N'a pas réussi à attribuer les tâches",
     "SUCCESS": "Tâches attribuées avec succès"
   },
   "ATTACHMENTS": {
     "ERROR": {
-      "CREATE": "MISSING",
-      "FAILED_ARCHIVE": "MISSING",
-      "FAILED_UPLOAD": "MISSING",
-      "UPDATE": "MISSING"
+      "CREATE": "N'a pas réussi à créer un document",
+      "FAILED_ARCHIVE": "Impossible d'archiver le document",
+      "FAILED_UPLOAD": "Le téléchargement des pièces jointes a échoué",
+      "UPDATE": "La mise à jour a échouée"
     },
     "SUCCESS": {
-      "ARCHIVE": "MISSING",
-      "CREATE": "MISSING",
-      "UPDATE": "MISSING"
+      "ARCHIVE": "Document archivé avec succès",
+      "CREATE": "Document créé avec succès",
+      "UPDATE": "Document mis à jour avec succès"
     }
   },
   "CROP": {
     "ERROR": {
-      "DELETE": "MISSING"
+      "DELETE": "N'a pas réussi à supprimer la grande culture"
     },
     "SUCCESS": {
-      "DELETE": "MISSING"
+      "DELETE": "Culture supprimée avec succès"
     }
   },
   "CROP_VARIETY": {
     "ERROR": {
-      "ADD": "MISSING",
-      "ADD_ALREADY_EXISTS": "MISSING",
-      "DELETE": "MISSING",
-      "UPDATE": "MISSING"
+      "ADD": "Erreur : échec de l'ajout de la variété à la base de données",
+      "ADD_ALREADY_EXISTS": "Erreur : la variété existe déjà",
+      "DELETE": "Échec de la suppression de la variété de culture",
+      "UPDATE": "Échec de la mise à jour de la variété de culture"
     },
     "SUCCESS": {
-      "ADD": "MISSING",
-      "DELETE": "MISSING",
-      "UPDATE": "MISSING"
+      "ADD": "Variété de culture sauvegardée avec succès !",
+      "DELETE": "Variété de culture supprimée",
+      "UPDATE": "Variété de culture mise à jour avec succès"
     }
   },
   "EXPENSE": {
     "ERROR": {
-      "ADD": "MISSING",
-      "DELETE": "MISSING",
-      "UPDATE": "MISSING"
+      "ADD": "Impossible d'ajouter de nouvelles dépenses",
+      "DELETE": "Impossible de supprimer les dépenses",
+      "UPDATE": "Impossible de mettre à jour les dépenses"
     },
     "SUCCESS": {
       "ADD": "MISSING",

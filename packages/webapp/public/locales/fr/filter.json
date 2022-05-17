@@ -16,8 +16,8 @@
     "OTHER": "Autre",
     "PEST_CONTROL_PRODUCT": "Produits Antiparasitaires",
     "SOIL_AMENDMENT": "Amendement de Sol",
-    "SOIL_SAMPLE_RESULTS": "MISSING",
-    "WATER_SAMPLE_RESULTS": "MISSING",
+    "SOIL_SAMPLE_RESULTS": "Résultat de l'échantillon de sol",
+    "WATER_SAMPLE_RESULTS": "Résultat de l'échantillon d'eau",
     "UNCATEGORIZED": "Non Classé"
   },
   "TASKS": {
@@ -26,11 +26,11 @@
     "FOR_REVIEW": "Pour évaluer",
     "LATE": "Tard",
     "PLANNED": "Planifié",
-    "STATUS": "MISSING"
+    "STATUS": "Statut"
   },
   "FILTER": {
-    "VALID_ON": "MISSING",
-    "FROM_DATE": "MISSING",
-    "TO_DATE": "MISSING"
+    "VALID_ON": "Valable le",
+    "FROM_DATE": "De",
+    "TO_DATE": "À"
   }
 }

@@ -1,7 +1,7 @@
 {
   "ASSIGN_TASK": {
     "ERROR": "MISSING",
-    "SUCCESS": "MISSING"
+    "SUCCESS": "Tâches attribuées avec succès"
   },
   "ATTACHMENTS": {
     "ERROR": {

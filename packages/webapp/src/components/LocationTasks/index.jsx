@@ -8,10 +8,13 @@ import TaskCount from '../Task/TaskCount';
 import TaskCard from '../../containers/Task/TaskCard';
 import PageBreak from '../PageBreak';
 import { getLanguageFromLocalStorage } from '../../util/getLanguageFromLocalStorage';
+import { onAddTask } from '../../containers/Task/onAddTask';
+import { useDispatch } from 'react-redux';
 
 export default function PureLocationTasks({ location, history, match, hasCrops, tasks, count }) {
   const language = getLanguageFromLocalStorage();
   const { t } = useTranslation();
+  const dispatch = useDispatch();
 
   const renderTasksForDay = (dateString, tasksForDate) => (
     <>
@@ -32,10 +35,6 @@ export default function PureLocationTasks({ location, history, match, hasCrops, 
 
   const renderTasksByDay = (tasks) => {
     return Object.keys(tasks).map((key) => renderTasksForDay(key, tasks[key]));
-  };
-
-  const handleAddTask = () => {
-    history.push('/add_task/task_type_selection', { location });
   };
 
   const routerTabs = hasCrops
@@ -73,7 +72,7 @@ export default function PureLocationTasks({ location, history, match, hasCrops, 
         match={match}
         tabs={routerTabs}
       />
-      <TaskCount handleAddTask={handleAddTask} count={count} />
+      <TaskCount handleAddTask={onAddTask(dispatch, history, { location })} count={count} />
       {count > 0 ? (
         renderTasksByDay(tasks)
       ) : (

@@ -33,12 +33,13 @@ import {
   setTasksFilter,
   tasksFilterSelector,
   setTasksFilterUnassignedDueThisWeek,
+  setTasksFilterDueToday,
 } from '../filterSlice';
 import ActiveFilterBox from '../../components/ActiveFilterBox';
 import PureTaskDropdownFilter from '../../components/PopupFilter/PureTaskDropdownFilter';
 import produce from 'immer';
 import { IS_ASCENDING } from '../Filter/constants';
-import { WEEKLY_UNASSIGNED_TASKS } from '../Notification/constants';
+import { WEEKLY_UNASSIGNED_TASKS, DAILY_TASKS_DUE_TODAY } from '../Notification/constants';
 import { filteredTaskCardContentSelector } from './taskCardContentSelector';
 
 export default function TaskPage({ history }) {
@@ -70,6 +71,12 @@ export default function TaskPage({ history }) {
   useEffect(() => {
     if (history.location.state?.notification_type === WEEKLY_UNASSIGNED_TASKS) {
       dispatch(setTasksFilterUnassignedDueThisWeek());
+    }
+  }, []);
+
+  useEffect(() => {
+    if (history.location.state?.notification_type === DAILY_TASKS_DUE_TODAY) {
+      dispatch(setTasksFilterDueToday({ user_id, first_name, last_name }));
     }
   }, []);
 

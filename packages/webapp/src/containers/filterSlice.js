@@ -119,6 +119,24 @@ const filterSliceReducer = createSlice({
         label: i18n.t('TASK.UNASSIGNED'),
       };
     },
+    setTasksFilterDueToday: (state, { payload: { user_id, first_name, last_name } }) => {
+      const today = new Date();
+      const yesterday = new Date();
+      yesterday.setDate(today.getDate() - 1);
+      state.tasks = {
+        ...intialTasksFilter,
+        ASSIGNEE: Object.keys(state.tasks.ASSIGNEE).reduce((assignees, assigneeUserId) => {
+          assignees[assigneeUserId] = {
+            active: false,
+          };
+          return assignees;
+        }, {}),
+        FROM_DATE: getDateInputFormat(yesterday),
+        TO_DATE: getDateInputFormat(today),
+      };
+      state.tasks.ASSIGNEE[user_id].active = true;
+      state.tasks.ASSIGNEE[user_id].label = `${first_name} ${last_name}`;
+    }
   },
 });
 
@@ -136,6 +154,7 @@ export const {
   resetTasksFilter,
   setTasksFilter,
   setTasksFilterUnassignedDueThisWeek,
+  setTasksFilterDueToday,
 } = filterSliceReducer.actions;
 export default filterSliceReducer.reducer;
 

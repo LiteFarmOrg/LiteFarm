@@ -13,19 +13,19 @@ import { getDateInputFormat } from '../../../util/moment';
 import AbandonManagementPlanModal from '../../Modals/AbandonManagementPlanModal';
 import i18n from '../../../locales/i18n';
 
-export const SOMETHING_ELSE = 'SOMETHING_ELSE';
+export const SOMETHING_ELSE = 'Something Else';
 export const defaultAbandonManagementPlanReasonOptions = [
-  { label: i18n.t('MANAGEMENT_PLAN.COMPLETE_PLAN.REASON.CROP_FAILURE'), value: 'CROP_FAILURE' },
-  { label: i18n.t('MANAGEMENT_PLAN.COMPLETE_PLAN.REASON.LABOUR_ISSUE'), value: 'LABOUR_ISSUE' },
-  { label: i18n.t('MANAGEMENT_PLAN.COMPLETE_PLAN.REASON.MARKET_PROBLEM'), value: 'MARKET_PROBLEM' },
-  { label: i18n.t('MANAGEMENT_PLAN.COMPLETE_PLAN.REASON.WEATHER'), value: 'WEATHER' },
+  { label: i18n.t('MANAGEMENT_PLAN.COMPLETE_PLAN.REASON.CROP_FAILURE'), value: 'Crop Failure' },
+  { label: i18n.t('MANAGEMENT_PLAN.COMPLETE_PLAN.REASON.LABOUR_ISSUE'), value: 'Labour Issue' },
+  { label: i18n.t('MANAGEMENT_PLAN.COMPLETE_PLAN.REASON.MARKET_PROBLEM'), value: 'Market Problem' },
+  { label: i18n.t('MANAGEMENT_PLAN.COMPLETE_PLAN.REASON.WEATHER'), value: 'Weather' },
   {
     label: i18n.t('MANAGEMENT_PLAN.COMPLETE_PLAN.REASON.MACHINERY_ISSUE'),
-    value: 'MACHINERY_ISSUE',
+    value: 'Machinery Issue',
   },
   {
     label: i18n.t('MANAGEMENT_PLAN.COMPLETE_PLAN.REASON.SCHEDULING_ISSUE'),
-    value: 'SCHEDULING_ISSUE',
+    value: 'Scheduling Issue',
   },
   { label: i18n.t('MANAGEMENT_PLAN.COMPLETE_PLAN.REASON.SOMETHING_ELSE'), value: SOMETHING_ELSE },
 ];

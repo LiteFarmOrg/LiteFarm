@@ -66,7 +66,20 @@ Cypress.Commands.add('waitForGoogleApi', () => {
 
 Cypress.Commands.add('loginFarmOwner', () => {
   const emailOwner = 'test@example.com';
-  const fullName = 'Test Farmer';
+  const password = 'P@ssword123';
+
+  //Enter password page
+  cy.get('[data-cy=email]').type(emailOwner);
+  cy.contains('Continue').should('exist').and('be.enabled').click();
+  cy.get('[data-cy=enterPassword-password]').type(password);
+  cy.get('[data-cy=enterPassword-submit]').should('exist').and('be.enabled').click();
+
+  cy.get('[data-cy=chooseFarm-ubc]').eq(0).should('exist').click('right');
+  cy.get('[data-cy=chooseFarm-proceed]').should('exist').and('be.enabled').click();
+});
+
+Cypress.Commands.add('loginFarmWorker', () => {
+  const emailOwner = 'worker@example.com';
   const password = 'P@ssword123';
 
   //Enter password page
@@ -95,6 +108,14 @@ Cypress.Commands.add('createSudoUser', () => {
   cy.contains('Farm Worker').should('exist').click();
   cy.get('[data-cy=invite-submit]').should('exist').and('not.be.disabled').click();
 });
+
+Cypress.Commands.add('selectDropdown', () => {
+  cy.get('.css-tj5bde-Svg').should('exist');
+});
+Cypress.Commands.add('selectOptions', () => {
+  cy.get('.css-1plh46m-MenuList2').should('exist');
+});
+//<div class=" css-14sfozv-menu" id="react-select-3-listbox"><div class=" css-1plh46m-MenuList2"><div class=" css-19hntng-option" aria-disabled="false" id="react-select-3-option-0" tabindex="-1">Test Worker</div><div class=" css-1n3x1m8-option" aria-disabled="false" id="react-select-3-option-1" tabindex="-1">Unassigned</div></div></div>
 Cypress.Commands.add('createTask', () => {
   //Create an unassigned cleaning task
   cy.contains('Create').should('exist').and('not.be.disabled').click({ force: true });

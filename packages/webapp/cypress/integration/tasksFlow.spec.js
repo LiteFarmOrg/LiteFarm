@@ -5,12 +5,33 @@ describe.only('Tasks flow tests', () => {
     //Ensure test environment is setup(i.e. farm exists, user accounts exist, tasks exist)
   });
 
-  it('farm worker tasks flow tests', () => {
+  it.only('farm worker tasks flow tests', () => {
+
+    cy.visit('/');
+    cy.loginFarmWorker();
+    cy.get('[data-cy=home-taskButton]').should('exist').and('not.be.disabled').click();
+    cy.url().should('include', '/tasks');
+    cy.get('[data-cy=pill-close]').should('exist').and('not.be.disabled').click();
+
     //Unassigned tasks : Farm workers should be able to assign the task to themselves
+    cy.contains('Unassigned').should('exist').and('not.be.disabled').click();
     //(the farm worker and “Unassigned” should be the only quick assign options)
+    cy.selectDropdown().click();
+    cy.selectOptions().contains('Unassigned').should('exist');
+    cy.selectOptions().contains('Test Worker').should('exist');
+    cy.contains('Cancel').should('exist').click({ force: true });
+
     //Tasks assigned to the farm worker: Farm workers should be able to Unassign the task
+    cy.contains('Test W.').should('exist').and('not.be.disabled').click();
     // (the farm worker and “Unassigned” should be the only quick assign options)
+    cy.selectDropdown().click();
+    cy.selectOptions().contains('Unassigned').should('exist');
+    cy.selectOptions().contains('Test Worker').should('exist');
+    cy.contains('Cancel').should('exist').click({ force: true });
+
     //Tasks assigned to other individuals on the farm: None! Task card should be read-only
+    cy.contains('Test F.').should('exist').click();
+    cy.contains('Assign').should('not.exist');
     //No visual cue that the user can update due date
     //clicking on a task should open the read_only view for said task
     //cy.url().should('include', '/read_only');
@@ -54,7 +75,7 @@ describe.only('Tasks flow tests', () => {
     //Task specific data should exist(e.g. cleaning agent and estimated water usage for a cleaning task)
   });
 
-  it.only('Admin user must be able to complete tasks on behalf pseudo users', () => {
+  it('Admin user must be able to complete tasks on behalf pseudo users', () => {
     //Test for LF-2230
     cy.visit('/');
     cy.loginFarmOwner();

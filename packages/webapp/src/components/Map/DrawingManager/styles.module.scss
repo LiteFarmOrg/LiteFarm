@@ -5,7 +5,7 @@
   justify-content: space-between;
 }
 
-.backButton {
+.iconButton {
   width: 32px;
   height: 32px;
   background: white;
@@ -17,6 +17,12 @@
 
   .svg {
     stroke: var(--teal700);
+  }
+}
+
+.undoButton {
+  .svg {
+    fill: var(--teal700);
   }
 }
 

@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import styles from './styles.module.scss';
 import { useTranslation } from 'react-i18next';
 import { ReactComponent as BackIcon } from '../../../assets/images/map/back.svg';
+import { ReactComponent as UndoIcon } from '../../../assets/images/map/undo.svg';
 import clsx from 'clsx';
 import PureWarningBox from '../../WarningBox';
 import Button from '../../Form/Button';
@@ -32,9 +33,14 @@ export default function PureDrawingManager({
   return (
     <div className={clsx(styles.container, className)} style={style}>
       {!showLineModal && (
-        <button onClick={onClickBack} className={styles.backButton}>
-          <BackIcon className={styles.svg} />
-        </button>
+        <>
+          <button onClick={onClickBack} className={styles.iconButton}>
+            <BackIcon className={styles.svg} />
+          </button>
+          <button onClick={onClickBack} className={`${styles.iconButton} ${styles.undoButton}`}>
+            <UndoIcon className={styles.svg} />
+          </button>
+        </>
       )}
       {!isDrawing && (
         <>
@@ -76,12 +82,18 @@ export default function PureDrawingManager({
           <Button onClick={onClickTryAgain} className={styles.drawingButton} color={'secondary'} sm>
             {t('FARM_MAP.DRAWING_MANAGER.REDRAW')}
           </Button>
-          <Button data-cy='map-drawCompleteContinue' onClick={onClickConfirm} className={styles.drawingButton} color={'primary'} sm>
+          <Button
+            data-cy="map-drawCompleteContinue"
+            onClick={onClickConfirm}
+            className={styles.drawingButton}
+            color={'primary'}
+            sm
+          >
             {t('common:CONFIRM')}
           </Button>
         </div>
       )}
-      {!showLineModal && <div className={styles.flexFill} />}
+      {/* {!showLineModal && <div className={styles.flexFill} />} */}
     </div>
   );
 }

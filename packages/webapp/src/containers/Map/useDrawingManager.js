@@ -27,6 +27,7 @@ export default function useDrawingManager() {
 
   const [showAdjustAreaSpotlightModal, setShowAdjustAreaSpotlightModal] = useState(false);
   const [showAdjustLineSpotlightModal, setShowAdjustLineSpotlightModal] = useState(false);
+  const [drawingHistory, setDrawingHistory] = useState([]);
 
   const showedSpotlight = useSelector(showedSpotlightSelector);
   const overlayData = useSelector(hookFormPersistSelector);

@@ -26,27 +26,19 @@ describe.only('Tasks flow tests', () => {
 
   it.only('admin user tasks flow tests', () => {
     //Test for Lf-2314
+
     cy.visit('/');
     cy.loginFarmOwner();
     cy.get('[data-cy=home-taskButton]').should('exist').and('not.be.disabled').click();
+    
+  
+    cy.createTask();
+    cy.createTask();
 
-    cy.contains('Create').should('exist').and('not.be.disabled').click({ force: true});
-    cy.contains('Clean').should('exist').and('not.be.disabled').click({ force: true});
-
-    cy.get('[data-cy=addTask-taskDate]').should('exist').type('2022-06-22')
-
-    cy.get('[data-cy=addTask-continue]').should('exist').and('not.be.disabled').click({ force: true});
-    cy.wait(2000);
-    cy.get('[data-cy=map-selectLocation]').click(540, 201, {
-      force: false,
-    });
-    cy.get('[data-cy=addTask-locationContinue]').should('exist').and('not.be.disabled').click({ force: true});
-    cy.get('[data-cy=addTask-cropsContinue]').should('exist').and('not.be.disabled').click({ force: true});
-    cy.get('[data-cy=addTask-detailsContinue]').should('exist').and('not.be.disabled').click({ force: true});
-    cy.get('[data-cy=addTask-assignmentSave]').should('exist').and('not.be.disabled').click({ force: true});
-
-    cy.contains('Unassigned').eq(0).should('exist').and('not.be.disabled').click({ force: true});
-    cy.get('[data-cy=quickAssign-assignee]').should('exist').click({ force: true});
+    //assign all unassigned tasks on date to selected user
+    cy.url().should('include', '/tasks');
+    cy.get('[data-cy=pill-close]').should('exist').and('not.be.disabled').click();
+    cy.contains('Unassigned').last().should('exist').and('not.be.disabled').click({ force: true});
     cy.get('[data-cy=quickAssign-assignAll]').should('exist').check({force: true});
     cy.get('[data-cy=quickAssign-update]').should('exist').and('not.be.disabled').click();
     //         //on tasks view click on the assignee link of a harvest task

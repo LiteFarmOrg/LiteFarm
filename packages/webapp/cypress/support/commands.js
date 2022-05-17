@@ -78,3 +78,26 @@ Cypress.Commands.add('loginFarmOwner', () => {
   cy.get('[data-cy=chooseFarm-ubc]').eq(0).should('exist').click('right');
   cy.get('[data-cy=chooseFarm-proceed]').should('exist').and('be.enabled').click();
 });
+
+Cypress.Commands.add('createTask', () => {
+
+  //Create an unassigned cleaning task
+  cy.contains('Create').should('exist').and('not.be.disabled').click({ force: true});
+  cy.contains('Clean').should('exist').and('not.be.disabled').click({ force: true});
+
+  const date = new Date();
+  const dueDate = getDateInputFormat(date);
+
+  cy.get('[data-cy=addTask-taskDate]').should('exist').type(dueDate);
+
+  cy.get('[data-cy=addTask-continue]').should('exist').and('not.be.disabled').click({ force: true});
+  cy.wait(2000);
+  cy.get('[data-cy=map-selectLocation]').click(540, 201, {
+    force: false,
+  });
+  cy.get('[data-cy=addTask-locationContinue]').should('exist').and('not.be.disabled').click({ force: true});
+  cy.get('[data-cy=addTask-cropsContinue]').should('exist').and('not.be.disabled').click({ force: true});
+  cy.get('[data-cy=addTask-detailsContinue]').should('exist').and('not.be.disabled').click({ force: true});
+  cy.get('[data-cy=addTask-assignmentSave]').should('exist').and('not.be.disabled').click({ force: true});
+
+});

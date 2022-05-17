@@ -1,5 +1,5 @@
 /*
- *  Copyright 2019-2022 LiteFarm.org
+ *  Copyright 2019, 2020, 2021, 2022 LiteFarm.org
  *  This file is part of LiteFarm.
  *
  *  LiteFarm is free software: you can redistribute it and/or modify
@@ -15,7 +15,7 @@
 
 /**
  * Middleware for checking whether or not the client is authorized to
- * access timed notifications
+ * access timed notifications.
  * @param {Request} req - The HTTP request object.
  * @param {Response} res - The HTTP response object.
  * @param {Function} next - Calls the next middleware in the stack

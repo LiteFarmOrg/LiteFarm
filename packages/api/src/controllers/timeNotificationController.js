@@ -1,5 +1,5 @@
 /*
- *  Copyright 2019-2022 LiteFarm.org
+ *  Copyright 2019, 2020, 2021, 2022 LiteFarm.org
  *  This file is part of LiteFarm.
  *
  *  LiteFarm is free software: you can redistribute it and/or modify
@@ -12,13 +12,14 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
+
 const UserFarmModel = require('../models/userFarmModel');
 const TaskModel = require('../models/taskModel');
 const NotificationUser = require('../models/notificationUserModel');
 
 const timeNotificationController = {
   /**
-   * Notifies farm management of unassigned tasks due this week
+   * Notifies farm management of unassigned tasks due this week.
    * @param {Request} req - The HTTP request object.
    * @param {Response} res - The HTTP response object.
    * @async
@@ -72,7 +73,7 @@ const timeNotificationController = {
 };
 
 /**
- * Notifies farm management of unassigned tasks due this week
+ * Notifies farm management of unassigned tasks due this week.
  * @param {String} farmId - id of the farm the farm managers belong to
  * @param {Array} farmManagement - user_ids of FM/FO/EO that need to be notified
  * @param {String} firstTaskTranslationKey - task translation key of the first unassigned task

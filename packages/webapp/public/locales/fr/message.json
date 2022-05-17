@@ -90,13 +90,13 @@
     "FAIL_PATCH": "Impossible de mettre à jour",
     "FAIL_POST": "Impossible d'ajouter",
     "SUCCESS_DELETE": "Supprimé avec succès",
-    "SUCCESS_PATCH": "MISSING",
-    "SUCCESS_POST": "MISSING"
+    "SUCCESS_PATCH": "Mise à jour réussie",
+    "SUCCESS_POST": "Enregistré avec succès"
   },
   "ORGANIC_CERTIFIER_SURVEY": {
     "ERROR": {
-      "CREATE": "MISSING",
-      "UPDATE": "MISSING"
+      "CREATE": "Impossible de créer la certification",
+      "UPDATE": "Impossible de mettre à jour la certification"
     }
   },
   "PLAN": {

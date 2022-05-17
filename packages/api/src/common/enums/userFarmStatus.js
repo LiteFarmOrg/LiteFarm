@@ -1,5 +1,5 @@
-module.exports = {
-  ACTIVE: 'Active',
-  INACTIVE: 'Inactive',
-  INVITED: 'Invited',
-};
+// module.exports = {
+//   ACTIVE: 'Active',
+//   INACTIVE: 'Inactive',
+//   INVITED: 'Invited',
+// };

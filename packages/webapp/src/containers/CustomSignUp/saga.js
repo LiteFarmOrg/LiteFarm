@@ -15,7 +15,7 @@
 
 import { createAction } from '@reduxjs/toolkit';
 import { call, put, takeLeading } from 'redux-saga/effects';
-import { url } from '../../apiConfig';
+import { userUrl, resetPasswordUrl, loginUrl } from '../../apiConfig';
 import history from '../../history';
 import { CREATE_USER_ACCOUNT, ENTER_PASSWORD_PAGE, inlineErrors } from './constants';
 import { loginSuccess } from '../userFarmSlice';
@@ -25,16 +25,14 @@ import { axios } from '../saga';
 import { enqueueErrorSnackbar } from '../Snackbar/snackbarSlice';
 import { getLanguageFromLocalStorage } from '../../util/getLanguageFromLocalStorage';
 
-const loginUrl = (email) => `${url}/login/user/${email}`;
-const loginWithPasswordUrl = () => `${url}/login`;
-const userUrl = () => `${url}/user`;
-const resetPasswordUrl = () => `${url}/password_reset/send_email`;
+const loginUserEmailUrl = (email) => `${loginUrl}/user/${email}`;
+const resetPasswordEmailUrl = () => `${resetPasswordUrl}/send_email`;
 
 export const customSignUp = createAction(`customSignUpSaga`);
 
 export function* customSignUpSaga({ payload: { email, showSSOError } }) {
   try {
-    const result = yield call(axios.get, loginUrl(email));
+    const result = yield call(axios.get, loginUserEmailUrl(email));
     if (result.data.exists && !result.data.sso) {
       localStorage.setItem('litefarm_lang', result.data.language);
       history.push(
@@ -83,7 +81,7 @@ export function* customLoginWithPasswordSaga({ payload: { showPasswordError, ...
       screenSize: screenSize,
       user: user,
     };
-    const result = yield call(axios.post, loginWithPasswordUrl(), data);
+    const result = yield call(axios.post, loginUrl, data);
 
     const {
       id_token,
@@ -125,7 +123,7 @@ export function* customCreateUserSaga({ payload: data }) {
 
     !reqBody.birth_year && delete reqBody.birth_year;
 
-    const result = yield call(axios.post, userUrl(), reqBody);
+    const result = yield call(axios.post, userUrl, reqBody);
 
     if (result) {
       const {
@@ -147,7 +145,7 @@ export const sendResetPasswordEmail = createAction(`sendResetPasswordEmailSaga`)
 
 export function* sendResetPasswordEmailSaga({ payload: email }) {
   try {
-    const result = yield call(axios.post, resetPasswordUrl(), { email });
+    const result = yield call(axios.post, resetPasswordEmailUrl(), { email });
   } catch (e) {
     yield put(enqueueErrorSnackbar(i18n.t('message:USER.ERROR.RESET_PASSWORD')));
   }

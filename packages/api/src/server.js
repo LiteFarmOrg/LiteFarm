@@ -43,7 +43,7 @@ const farmExpenseRoute = require('./routes/farmExpenseRoute');
 const farmExpenseTypeRoute = require('./routes/farmExpenseTypeRoute');
 const farmRoutes = require('./routes/farmRoute');
 const logRoutes = require('./routes/logRoute');
-const shiftRoutes = require('./routes/shiftRoute');
+// const shiftRoutes = require('./routes/shiftRoute');
 const managementPlanRoute = require('./routes/managementPlanRoute');
 const fertilizerRoutes = require('./routes/fertilizerRoute');
 const diseaseRoutes = require('./routes/diseaseRoute');
@@ -161,19 +161,14 @@ app
   .use('/crop', cropRoutes)
   .use('/crop_variety', cropVarietyRoutes)
   .use('/field', fieldRoutes)
-  // .use('/plan', planRoutes)
   .use('/sale', saleRoutes)
-  //.use('/shift_task', shiftTaskRoutes)
   .use('/task_type', taskTypeRoutes)
-  // .use('/todo', todoRoutes)
   .use('/user', userRoutes)
   .use('/expense', farmExpenseRoute)
   .use('/expense_type', farmExpenseTypeRoute)
-  // .use('/notification', notificationRoutes)
   .use('/farm', farmRoutes)
   .use('/log', logRoutes)
-  .use('/shift', shiftRoutes)
-  // .use('/notification_setting', notificationSettingRoutes)
+  // .use('/shift', shiftRoutes)
   .use('/management_plan', managementPlanRoute)
   .use('/fertilizer', fertilizerRoutes)
   .use('/disease', diseaseRoutes)
@@ -217,7 +212,7 @@ if (
 ) {
   app.listen(port, () => {
     // eslint-disable-next-line no-console
-    console.log('LiteFarm Backend listening on port ' + port + '!');
+    console.log('LiteFarm Backend listening on port ' + port);
   });
   // waterBalanceScheduler.registerHourlyJob();
   // waterBalanceScheduler.registerDailyJob();
@@ -226,7 +221,7 @@ if (
 
   // farmDataScheduler.registerJob();
   // eslint-disable-next-line no-console
-  console.log('LiteFarm Water Balance Scheduler Enabled');
+  // console.log('LiteFarm Water Balance Scheduler Enabled');
 }
 
 app.on('close', () => {

@@ -66,10 +66,7 @@ export default function PurePlantedAlready({
     }
   }, []);
 
-  const { submitPath } = useMemo(
-    () => getPlantedAlreadyPaths(cropVariety.crop_variety_id),
-    [],
-  );
+  const { submitPath } = useMemo(() => getPlantedAlreadyPaths(cropVariety.crop_variety_id), []);
 
   const onSubmit = () => {
     const age = getValues(AGE);
@@ -113,7 +110,7 @@ export default function PurePlantedAlready({
   return (
     <Form
       buttonGroup={
-        <Button data-cy='cropPlan-submit' disabled={disabled} fullLength>
+        <Button data-cy="cropPlan-submit" disabled={disabled} fullLength>
           {t('common:CONTINUE')}
         </Button>
       }
@@ -135,7 +132,7 @@ export default function PurePlantedAlready({
       </Label>
 
       <RadioGroup
-      data-cy='cropPlan-groundPlanted'
+        data-cy="cropPlan-groundPlanted"
         hookFormControl={control}
         style={{ marginBottom: '16px' }}
         name={ALREADY_IN_GROUND}
@@ -206,6 +203,7 @@ export default function PurePlantedAlready({
           </Label>
 
           <Unit
+            data-cy="cropPlan-age"
             register={register}
             label={t('MANAGEMENT_PLAN.AGE')}
             name={AGE}
@@ -225,7 +223,12 @@ export default function PurePlantedAlready({
           <Label className={styles.label} style={{ marginBottom: '18px' }}>
             {t('MANAGEMENT_PLAN.WILD_CROP')}
           </Label>
-          <RadioGroup hookFormControl={control} name={IS_WILD} required />
+          <RadioGroup
+            data-cy="cropPlan-wildCrop"
+            hookFormControl={control}
+            name={IS_WILD}
+            required
+          />
         </>
       )}
     </Form>

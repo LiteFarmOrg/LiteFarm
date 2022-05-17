@@ -356,6 +356,7 @@ const Unit = ({
           name={displayUnitName}
           render={({ field: { onChange, onBlur, value, name, ref } }) => (
             <Select
+              data-cy="unit-select"
               onBlur={onBlur}
               onChange={(e) => {
                 onChange(e);

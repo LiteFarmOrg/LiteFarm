@@ -8,14 +8,10 @@ describe.only('Tasks flow tests', () => {
   it('farm worker tasks flow tests', () => {
     //Unassigned tasks : Farm workers should be able to assign the task to themselves
     //(the farm worker and “Unassigned” should be the only quick assign options)
-
     //Tasks assigned to the farm worker: Farm workers should be able to Unassign the task
     // (the farm worker and “Unassigned” should be the only quick assign options)
-
     //Tasks assigned to other individuals on the farm: None! Task card should be read-only
-
     //No visual cue that the user can update due date
-
     //clicking on a task should open the read_only view for said task
     //cy.url().should('include', '/read_only');
     //Assignee input should exist and should be.disabled
@@ -24,22 +20,21 @@ describe.only('Tasks flow tests', () => {
     //Task specific data should exist(e.g. cleaning agent and estimated water usage for a cleaning task)
   });
 
-  it.only('admin user tasks flow tests', () => {
+  it('admin user tasks flow tests', () => {
     //Test for Lf-2314
 
     cy.visit('/');
     cy.loginFarmOwner();
     cy.get('[data-cy=home-taskButton]').should('exist').and('not.be.disabled').click();
-    
-  
+
     cy.createTask();
     cy.createTask();
 
     //assign all unassigned tasks on date to selected user
     cy.url().should('include', '/tasks');
     cy.get('[data-cy=pill-close]').should('exist').and('not.be.disabled').click();
-    cy.contains('Unassigned').last().should('exist').and('not.be.disabled').click({ force: true});
-    cy.get('[data-cy=quickAssign-assignAll]').should('exist').check({force: true});
+    cy.contains('Unassigned').last().should('exist').and('not.be.disabled').click({ force: true });
+    cy.get('[data-cy=quickAssign-assignAll]').should('exist').check({ force: true });
     cy.get('[data-cy=quickAssign-update]').should('exist').and('not.be.disabled').click();
     //         //on tasks view click on the assignee link of a harvest task
 
@@ -57,6 +52,55 @@ describe.only('Tasks flow tests', () => {
     //Due date input should exist and be disabled
     //locations map should exist and display here said task will be carried out
     //Task specific data should exist(e.g. cleaning agent and estimated water usage for a cleaning task)
+  });
+
+  it.only('harvest task for apricot', () => {
+    //tests for LF-2332
+    cy.visit('/');
+    cy.loginFarmOwner();
+
+    //create a harvest plan for apricot
+    cy.get('[data-cy=navbar-hamburger]').should('exist').click();
+    cy.contains('Crops').should('exist').click();
+    cy.contains('Apricot').should('exist').click();
+
+    cy.contains('New Variety').should('exist').and('not.be.disabled').click();
+
+    cy.get('[data-cy=crop-addPlan]')
+      .contains('Add a plan')
+      .should('exist')
+      .and('not.be.disabled')
+      .click();
+
+    cy.get('[data-cy=cropPlan-groundPlanted]').should('exist').eq(1).check({ force: true });
+    cy.get('[data-cy=cropPlan-age]').should('exist').type(200);
+    cy.get('[data-cy=cropPlan-wildCrop]').should('exist').eq(1).check({ force: true });
+    cy.get('[data-cy=cropPlan-submit]').should('exist').and('not.be.disabled').click();
+
+    cy.get('[data-cy=cropPlan-transplanted]').should('exist').eq(1).check({ force: true });
+    cy.get('[data-cy=cropPlan-transplantSubmit]').should('exist').and('not.be.disabled').click();
+
+    const date = new Date();
+    date.setDate(date.getDate() + 7);
+    const formattedDate = getDateInputFormat(date);
+    cy.get('[data-cy=cropPlan-plantDate]').should('exist').type(formattedDate);
+    cy.get('[data-cy=plantDate-submit]').should('exist').and('not.be.disabled').click();
+
+    cy.wait(2000);
+    cy.get('[data-cy=map-selectLocation]').click(540, 201, {
+      force: false,
+    });
+    cy.contains('Continue').should('exist').and('not.be.disabled').click({ force: true });
+
+    cy.get('[type="radio"]').first().check({ force: true });
+    cy.contains('Continue').should('exist').and('not.be.disabled').click({ force: true });
+    cy.get('[type="radio"]').first().check({ force: true });
+
+    cy.get('[data-cy=rowMethod-rows]').should('exist').type(10);
+    cy.get('[data-cy=rowMethod-length]').should('exist').type(30);
+    cy.get('[data-cy=rowMethod-spacing]').should('exist').clear().type('15');
+    cy.contains('Estimated').click();
+    cy.get('[data-cy=rowMethod-yield]').should('have.value', '1.43');
   });
 
   it('harvest task compeletion tests', () => {

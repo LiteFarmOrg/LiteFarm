@@ -77,20 +77,26 @@ const timeNotificationController = {
    * @async
    */
   async postDailyDueTodayTasks(req, res) {
-    const { user_id, farm_id } = req.params;
+    const { user_id } = req.params;
     try {
-      const tasksDueToday = await TaskModel.query()
-        .select('task.task_id', 'task_type.task_translation_key', 'task.assignee_user_id')
-        .join('task_type', 'task_type.task_type_id', 'task.task_type_id')
-        .where({ 'task.assignee_user_id': user_id })
-        .whereRaw('due_date = CURRENT_DATE')
+      const { rows: tasksDueToday } = await TaskModel.knex().raw(
+        `
+        SELECT task.task_id, task_type.task_translation_key, task.assignee_user_id, uf.farm_id
+        FROM task
+        JOIN "userFarm" AS uf ON task.assignee_user_id = uf.user_id
+        JOIN task_type ON task_type.task_type_id = task.task_type_id
+        WHERE task.assignee_user_id::text = '${user_id}' AND due_date = now()::date
+        `,
+      );
 
-      if (!tasksDueToday.length) {
-        sendDailyDueTodayTaskNotification(
-          farm_id,
+      if (tasksDueToday.length) {
+        await sendDailyDueTodayTaskNotification(
+          tasksDueToday[0].farm_id,
           user_id,
-          tasksDueToday,
         );
+        return res.status(201).send({ tasksDueToday });
+      } else {
+        return res.status(200).send({ tasksDueToday });
       }
     } catch (error) {
       console.log(error);
@@ -131,6 +137,7 @@ async function sendWeeklyUnassignedTaskNotifications(
  * Sends notification to a user of tasks due today
  * @param {String} farmId
  * @param {String} userId
+ * @async
  */
 async function sendDailyDueTodayTaskNotification(
   farmId,
@@ -143,7 +150,7 @@ async function sendDailyDueTodayTaskNotification(
       variables: [],
       ref: { url: '/tasks' },
       context: {
-        task_translation_key: {},
+        task_translation_key: 'FIELD_WORK_TASK',
         notification_type: 'DAILY_TASKS_DUE_TODAY',
       },
       farm_id: farmId,

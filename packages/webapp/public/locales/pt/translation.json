@@ -730,7 +730,7 @@
     },
     "PRICES": {
       "INFO": "Mostramos a trajetória comparativa entre seus preços de venda em relação aos preços de venda dos mesmos produtos encontrados a uma determinada distância de você, utilizando dados coletados na rede LiteFarm.",
-      "NEARBY_FARMS": "Vindo de {{count}} fazenda para dados de vendas",
+      "NEARBY_FARMS": "O preço do mercado é baseado em {{count}} fazendas em sua área local",
       "NEARBY_FARMS_one": "MISSING",
       "NEARBY_FARMS_many": "MISSING",
       "NEARBY_FARMS_other": "MISSING",

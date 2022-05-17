@@ -44,52 +44,52 @@
       "UPDATE": "Impossible de mettre à jour les dépenses"
     },
     "SUCCESS": {
-      "ADD": "MISSING",
-      "DELETE": "MISSING",
-      "UPDATE": "MISSING"
+      "ADD": "Nouvelles dépenses ajoutées avec succès !",
+      "DELETE": "Dépenses supprimées avec succès !",
+      "UPDATE": "Dépenses mises à jour avec succès !"
     }
   },
   "FARM": {
     "ERROR": {
-      "ADD": "MISSING",
-      "FETCH": "MISSING",
-      "UPDATE": "MISSING"
+      "ADD": "Impossible d'ajouter une ferme. Veuillez contacter LiteFarm pour obtenir de l'aide",
+      "FETCH": "Impossible de récupérer la ferme à partir de la base de données",
+      "UPDATE": "Impossible de mettre à jour les informations de la ferme"
     },
     "SUCCESS": {
-      "UPDATE": "MISSING"
+      "UPDATE": "Informations sur la ferme mises à jour !"
     }
   },
   "LOG_HARVEST": {
     "ERROR": {
-      "ADD_USE_TYPE": "Failed to add custom harvest use type",
-      "AMOUNT_TOTAL": "MISSING",
-      "GET_TYPES": "MISSING"
+      "ADD_USE_TYPE": "Impossible d'ajouter un type d'utilisation de récolte personnalisé",
+      "AMOUNT_TOTAL": "Le total n'est pas égal au montant à allouer",
+      "GET_TYPES": "Impossible de récupérer les types d'utilisation de récolte"
     },
     "SUCCESS": {
-      "ADD_USE_TYPE": "Successfully added custom harvest use type"
+      "ADD_USE_TYPE": "Type d'utilisation de récolte personnalisé ajouté avec succès"
     }
   },
   "LOGIN": {
     "ERROR": {
-      "LOGIN_FAIL": "MISSING"
+      "LOGIN_FAIL": "Impossible de se connecter aux informations de l'utilisateur"
     }
   },
   "MANAGEMENT_PLAN": {
     "ERROR": {
-      "ABANDON": "MISSING",
-      "COMPLETE": "MISSING",
-      "POST": "MISSING"
+      "ABANDON": "Le plan de culture n'est pas abandonné !",
+      "COMPLETE": "Impossible de terminer le plan de culture !",
+      "POST": "Le plan de culture n'est pas ajouté !"
     },
     "SUCCESS": {
-      "ABANDON": "MISSING",
-      "COMPLETE": "MISSING",
-      "POST": "MISSING"
+      "ABANDON": "Plan de culture abandonné avec succès !",
+      "COMPLETE": "Plan de culture terminé avec succès !",
+      "POST": "Plan de culture ajouté avec succès !"
     }
   },
   "MAP": {
-    "FAIL_PATCH": "MISSING",
-    "FAIL_POST": "MISSING",
-    "SUCCESS_DELETE": "MISSING",
+    "FAIL_PATCH": "Impossible de mettre à jour",
+    "FAIL_POST": "Impossible d'ajouter",
+    "SUCCESS_DELETE": "Supprimé avec succès",
     "SUCCESS_PATCH": "MISSING",
     "SUCCESS_POST": "MISSING"
   },

@@ -21,6 +21,8 @@ module.exports = async (submission, exportId) => {
     survey.revisions[survey.revisions.length - 1].controls,
   );
 
+  const ignoredQuestions = ['geoJSON', 'script', 'FarmOS Field', 'FarmOS Planting'];
+
   const getQuestionInfo = (questionAnswerList) => {
     return questionAnswerList
       .map(({ label, name, type, hint, options, moreInfo }) => ({
@@ -31,7 +33,7 @@ module.exports = async (submission, exportId) => {
         Options: options,
         MoreInfo: moreInfo,
       }))
-      .filter((entry) => !['geoJSON', 'script', 'farmOsField'].includes(entry['Type']));
+      .filter((entry) => !ignoredQuestions.includes(entry['Type']));
   };
 
   const questionAnswerMap = getQuestionInfo(survey.revisions[survey.revisions.length - 1].controls);
@@ -52,8 +54,7 @@ module.exports = async (submission, exportId) => {
   const writeInstructions = (sheet, col, row, data) => {
     const instructions = data['Options']['source'].replace(/<p>|<\/p>/g, '');
     sheet.cell(`${col}${row}`).value(instructions).style({ fontFamily: 'Calibri', italic: true });
-    row += 1;
-    return [col, row];
+    return [col, row + 1];
   };
 
   const writeMultiOptionQs = (sheet, col, row, data) => {
@@ -76,19 +77,24 @@ module.exports = async (submission, exportId) => {
         .cell(`${col}${(row += 1)}`)
         .value(option['value'])
         .style({ fontFamily: 'Calibri' });
-      if (data['Answer'].includes(option['value'])) {
+      if (data['Answer'] && data['Answer'].includes(option['value'])) {
         sheet
           .cell(`${String.fromCharCode(col.charCodeAt(0) + 1)}${row}`)
           .value('X')
           .style({ fontFamily: 'Calibri' }); // Write 'X' to the right column
       }
     }
-    return [col, row];
+    return [col, row + 1];
   };
 
   const writeMatrixQs = (sheet, col, row, data) => {
     sheet.cell(`${col}${row}`).value(data['Question']).style({ fontFamily: 'Calibri', bold: true });
-    const categories = Object.keys(data['Answer'][0]);
+    const categories = data['Options']['source']['content']
+      .map((c) => c['label'])
+      .filter((c) => !ignoredQuestions.includes(c)); // Get all the valid types of questions in the matrix
+
+    console.log('CATEGORIES: ', categories);
+
     row += 1;
     // Write column headers
     for (let i = 0; i < categories.length; i++) {
@@ -101,15 +107,17 @@ module.exports = async (submission, exportId) => {
     // Fill in the matrix
     for (const answer of data['Answer']) {
       for (let i = 0; i < categories.length; i++) {
-        sheet
-          .cell(`${String.fromCharCode(col.charCodeAt(0) + i)}${row}`)
-          .value(answer[categories[i]]['value'])
-          .style({ fontFamily: 'Calibri', border: { color: '000000', style: 'thin' } });
+        if (answer[categories[i]]) {
+          // Check if this answer has valid type
+          sheet
+            .cell(`${String.fromCharCode(col.charCodeAt(0) + i)}${row}`)
+            .value(answer[categories[i]]['value'])
+            .style({ fontFamily: 'Calibri', border: { color: '000000', style: 'thin' } });
+        }
       }
-      row += 1;
     }
 
-    return [col, row];
+    return [col, row + 1];
   };
 
   const typeToFuncMap = {

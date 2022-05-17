@@ -358,9 +358,13 @@ export default function Map({ history }) {
           title={successMessage}
         />
       )}
-      <div data-cy='map-selection'  className={styles.pageWrapper} style={{ height: windowInnerHeight }}>
+      <div
+        data-cy="map-selection"
+        className={styles.pageWrapper}
+        style={{ height: windowInnerHeight }}
+      >
         <div className={styles.mapContainer}>
-          <div data-cy='map-mapContainer' ref={mapWrapperRef} className={styles.mapContainer}>
+          <div data-cy="map-mapContainer" ref={mapWrapperRef} className={styles.mapContainer}>
             <GoogleMap
               style={{ flexGrow: 1 }}
               bootstrapURLKeys={{

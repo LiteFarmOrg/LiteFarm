@@ -1,7 +1,7 @@
 import { getDateInputFormat } from '../../src/util/moment';
 
 describe.only('LiteFarm end to end test', () => {
-  it.only('Happy path', { defaultCommandTimeout: 7000 }, () => {
+  it('Happy path', { defaultCommandTimeout: 7000 }, () => {
     cy.visit('/');
     cy.get('[data-cy=email]').should('exist');
     cy.get('[data-cy=continue]').should('exist');

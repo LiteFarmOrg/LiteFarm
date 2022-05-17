@@ -25,13 +25,8 @@ export default function PureManagementPlanPlantingMethod({
   const variety_id = match?.params?.variety_id;
 
   const { showBroadcast, showIsPlantingMethodKnown } = useMemo(() => {
-    const {
-      already_in_ground,
-      is_wild,
-      for_cover,
-      needs_transplant,
-      is_seed,
-    } = persistedFormData.crop_management_plan;
+    const { already_in_ground, is_wild, for_cover, needs_transplant, is_seed } =
+      persistedFormData.crop_management_plan;
     const showIsPlantingMethodKnown =
       (already_in_ground && !is_wild && for_cover && !needs_transplant && isFinalPlantingMethod) ||
       (already_in_ground && !is_wild && !for_cover && !needs_transplant && isFinalPlantingMethod) ||
@@ -84,16 +79,14 @@ export default function PureManagementPlanPlantingMethod({
         is_planting_method_known,
       ).submitPath,
     );
-  const onGoBack = () =>
-    history.back();
-
+  const onGoBack = () => history.back();
 
   const disabled = !isValid;
 
   return (
     <Form
       buttonGroup={
-        <Button data-cy='plantingMethod-submit' disabled={disabled} fullLength>
+        <Button data-cy="plantingMethod-submit" disabled={disabled} fullLength>
           {t('common:CONTINUE')}
         </Button>
       }

@@ -62,16 +62,6 @@ export const PureTaskCard = ({
     onClickCompleteOrDueDate?.();
   };
 
-  const iconStyle = { 
-    iconTextContainer: {
-      display: 'flex',
-      flexDirection: 'row',
-      alignItems: 'center',
-      gap: '3px',
-      borderBottom: !isAdmin&&!isAssignee ? 'none' : '1px solid var(--teal700)',
-      cursor: isAdmin||isAssignee ? 'pointer' : 'default',
-    }
-  }
   return (
     <CardWithStatus
       color={selected ? activeCardColorMap[status] : statusColorMap[status]}
@@ -104,7 +94,7 @@ export const PureTaskCard = ({
         <div onClick={onAssignDate} className={styles.dateUserContainer}>
           <div
             className={
-              status === 'completed' || status === 'abandoned'
+              status === 'completed' || status === 'abandoned' || (!isAssignee && !isAdmin)
                 ? styles.iconTextContainerNoUnderline
                 : styles.iconTextContainer
             }
@@ -115,7 +105,7 @@ export const PureTaskCard = ({
           {assignee ? (
             <div
               className={
-                status === 'completed' || status === 'abandoned'
+                status === 'completed' || status === 'abandoned' || (!isAdmin && !isAssignee)
                   ? styles.iconTextContainerNoUnderline
                   : styles.iconTextContainer
               }

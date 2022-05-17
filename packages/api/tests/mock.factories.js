@@ -41,7 +41,7 @@ function fakeSSOUser(defaultData = {}) {
     first_name: faker.name.findName(),
     last_name: faker.name.lastName(),
     email: email.toLowerCase(),
-    user_id: faker.datatype.number(10),
+    user_id: faker.datatype.number({min: 2, max: 10 }),
     phone_number: faker.phone.phoneNumber(),
     ...defaultData,
   };

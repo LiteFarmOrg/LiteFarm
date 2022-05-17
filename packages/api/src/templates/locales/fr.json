@@ -84,10 +84,10 @@
   "COMMON": {
     "JOIN": "Join",
     "LOG_IN": "Log In",
-    "OWNER": "MISSING",
-    "EXTENSION_OFFICER": "MISSING",
-    "WORKER": "MISSING",
-    "MANAGER": "MISSING"
+    "OWNER": "Propriétaire",
+    "EXTENSION_OFFICER": "Agent de vulgarisation",
+    "WORKER": "Ouvrier",
+    "MANAGER": "Gestionnaire"
   },
   "EXPORT": {
     "HI": "EXPORT.HI",

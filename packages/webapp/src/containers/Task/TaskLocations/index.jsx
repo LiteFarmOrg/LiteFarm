@@ -125,8 +125,6 @@ function TaskLocations({
   readOnlyPinCoordinates,
   location,
 }) {
-  console.log(location);
-
   const { grid_points } = useSelector(userFarmSelector);
   const { maxZoomRef, getMaxZoom } = useMaxZoom();
   return (

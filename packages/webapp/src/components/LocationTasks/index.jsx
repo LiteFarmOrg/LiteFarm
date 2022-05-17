@@ -34,7 +34,19 @@ export default function PureLocationTasks({ location, history, match, hasCrops, 
   );
 
   const renderTasksByDay = (tasks) => {
-    return Object.keys(tasks).map((key) => renderTasksForDay(key, tasks[key]));
+    return Object.keys(tasks)
+      .sort((a, b) => {
+        const dateA = Date.parse(a);
+        const dateB = Date.parse(b);
+        if (dateA < dateB) {
+          return -1;
+        } else if (dateB > dateA) {
+          return 1;
+        } else {
+          return 0;
+        }
+      })
+      .map((key) => renderTasksForDay(key, tasks[key]));
   };
 
   const routerTabs = hasCrops

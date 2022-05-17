@@ -6,7 +6,6 @@ describe.only('Tasks flow tests', () => {
   });
 
   it.only('farm worker tasks flow tests', () => {
-
     cy.visit('/');
     cy.loginFarmWorker();
     cy.get('[data-cy=home-taskButton]').should('exist').and('not.be.disabled').click();
@@ -25,9 +24,9 @@ describe.only('Tasks flow tests', () => {
     cy.contains('Test W.').should('exist').and('not.be.disabled').click();
     // (the farm worker and “Unassigned” should be the only quick assign options)
     cy.selectDropdown().click();
-    cy.selectOptions().contains('Unassigned').should('exist');
     cy.selectOptions().contains('Test Worker').should('exist');
-    cy.contains('Cancel').should('exist').click({ force: true });
+    cy.selectOptions().contains('Unassigned').should('exist').click();
+    cy.contains('Update').should('exist').click({ force: true });
 
     //Tasks assigned to other individuals on the farm: None! Task card should be read-only
     cy.contains('Test F.').should('exist').click();

@@ -84,16 +84,37 @@ module.exports = async (submission, exportId) => {
           .style({ fontFamily: 'Calibri' }); // Write 'X' to the right column
       }
     }
+    // Get the difference between given answers and all non-custom answers.
+    // If this list is non-empty, we know the user gave a custom answer
+    const customEntry = data['Answer'].filter(
+      (a) => !data['Options']['source'].map((s) => s['value']).includes(a),
+    );
+
+    if (customEntry != []) {
+      sheet
+        .cell(`${col}${(row += 1)}`)
+        .value(customEntry[0])
+        .style({ fontFamily: 'Calibri' });
+
+      sheet
+        .cell(`${String.fromCharCode(col.charCodeAt(0) + 1)}${row}`)
+        .value('X')
+        .style({ fontFamily: 'Calibri' });
+    }
+
     return [col, row + 1];
   };
 
+  /**
+   * Write a matrix question to the sheet in the same format as the matrix.
+   * Only include the valid question types
+   */
   const writeMatrixQs = (sheet, col, row, data) => {
     sheet.cell(`${col}${row}`).value(data['Question']).style({ fontFamily: 'Calibri', bold: true });
+    // Get all the valid types of questions in the matrix
     const categories = data['Options']['source']['content']
       .map((c) => c['label'])
-      .filter((c) => !ignoredQuestions.includes(c)); // Get all the valid types of questions in the matrix
-
-    console.log('CATEGORIES: ', categories);
+      .filter((c) => !ignoredQuestions.includes(c));
 
     row += 1;
     // Write column headers
@@ -103,6 +124,7 @@ module.exports = async (submission, exportId) => {
         .value(categories[i])
         .style({ fontFamily: 'Calibri', bold: true, border: { color: '000000', style: 'thick' } });
     }
+
     row += 1;
     // Fill in the matrix
     for (const answer of data['Answer']) {

@@ -71,7 +71,7 @@ export function PureBufferZone({
           system={system}
         />
       }
-      tabs={['crops', 'details']}
+      tabs={['crops', 'tasks', 'details']}
     />
   );
 }

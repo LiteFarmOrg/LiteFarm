@@ -62,7 +62,7 @@ export function PureResidence({
       onSubmit={onSubmit}
       translationKey={'RESIDENCE'}
       showPerimeter={false}
-      tabs={['details']}
+      tabs={['tasks', 'details']}
     />
   );
 }

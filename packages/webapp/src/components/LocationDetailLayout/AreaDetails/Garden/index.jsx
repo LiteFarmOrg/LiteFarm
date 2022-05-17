@@ -70,7 +70,7 @@ export function PureGarden({
       onSubmit={onSubmit}
       translationKey={'GARDEN'}
       detailsChildren={<GardenDetailsChildren isViewLocationPage={isViewLocationPage} />}
-      tabs={['crops', 'details']}
+      tabs={['crops', 'tasks', 'details']}
       showPerimeter={true}
     />
   );

@@ -13,13 +13,13 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const { transaction, Model } = require('objection');
-const waterBalanceModel = require('../models/waterBalanceModel');
-const nitrogenScheduleModel = require('../models/nitrogenScheduleModel');
-const baseController = require('../controllers/baseController');
+const { /* transaction, */ Model } = require('objection');
+// const waterBalanceModel = require('../models/waterBalanceModel');
+// const nitrogenScheduleModel = require('../models/nitrogenScheduleModel');
+// const baseController = require('../controllers/baseController');
 const knex = Model.knex();
 const insightHelpers = require('../controllers/insightHelpers');
-const waterBalanceScheduler = require('../jobs/waterBalance/waterBalance');
+// const waterBalanceScheduler = require('../jobs/waterBalance/waterBalance');
 // TODO: put nitrogen scheduler here for when we want to put it back
 
 const insightController = {
@@ -350,17 +350,17 @@ const insightController = {
     };
   },
 
-  addWaterBalanceSchedule() {
-    return async (req, res) => {
-      try {
-        const body = req.body;
-        await waterBalanceScheduler.registerFarmID(body.farm_id);
-        res.status(200).send({ preview: 0, data: 'Registered Farm ID' });
-      } catch (e) {
-        res.status(400).json({ e });
-      }
-    };
-  },
+  // addWaterBalanceSchedule() {
+  //   return async (req, res) => {
+  //     try {
+  //       const body = req.body;
+  //       await waterBalanceScheduler.registerFarmID(body.farm_id);
+  //       res.status(200).send({ preview: 0, data: 'Registered Farm ID' });
+  //     } catch (e) {
+  //       res.status(400).json({ e });
+  //     }
+  //   };
+  // },
 
   getWaterSchedule() {
     return async (req, res) => {
@@ -433,73 +433,73 @@ const insightController = {
     };
   },
 
-  addWaterBalance() {
-    let trx;
-    return async (req, res) => {
-      const body = req.body;
-      trx = await transaction.start(Model.knex());
-      try {
-        const waterBalanceResult = await baseController.postWithResponse(
-          waterBalanceModel,
-          body,
-          req,
-          { trx },
-        );
-        await trx.commit();
-        res.status(201).send(waterBalanceResult);
-      } catch (error) {
-        await trx.rollback();
-        res.status(400).json({ error });
-      }
-    };
-  },
+  // addWaterBalance() {
+  //   let trx;
+  //   return async (req, res) => {
+  //     const body = req.body;
+  //     trx = await transaction.start(Model.knex());
+  //     try {
+  //       const waterBalanceResult = await baseController.postWithResponse(
+  //         waterBalanceModel,
+  //         body,
+  //         req,
+  //         { trx },
+  //       );
+  //       await trx.commit();
+  //       res.status(201).send(waterBalanceResult);
+  //     } catch (error) {
+  //       await trx.rollback();
+  //       res.status(400).json({ error });
+  //     }
+  //   };
+  // },
 
-  addNitrogenSchedule() {
-    let trx;
-    return async (req, res) => {
-      const body = req.body;
-      trx = await transaction.start(Model.knex());
-      try {
-        const nitrogenScheduleResult = await baseController.postWithResponse(
-          nitrogenScheduleModel,
-          body,
-          req,
-          { trx },
-        );
-        await trx.commit();
-        res.status(201).send(nitrogenScheduleResult);
-      } catch (error) {
-        await trx.rollback();
-        res.status(400).json({ error });
-      }
-    };
-  },
+  // addNitrogenSchedule() {
+  //   let trx;
+  //   return async (req, res) => {
+  //     const body = req.body;
+  //     trx = await transaction.start(Model.knex());
+  //     try {
+  //       const nitrogenScheduleResult = await baseController.postWithResponse(
+  //         nitrogenScheduleModel,
+  //         body,
+  //         req,
+  //         { trx },
+  //       );
+  //       await trx.commit();
+  //       res.status(201).send(nitrogenScheduleResult);
+  //     } catch (error) {
+  //       await trx.rollback();
+  //       res.status(400).json({ error });
+  //     }
+  //   };
+  // },
 
-  delNitrogenSchedule() {
-    return async (req, res) => {
-      const trx = await transaction.start(Model.knex());
-      const { nitrogen_schedule_id } = req.params;
-      try {
-        const isDeleted = await baseController.delete(
-          nitrogenScheduleModel,
-          nitrogen_schedule_id,
-          req,
-          { trx },
-        );
-        await trx.commit();
-        if (isDeleted) {
-          res.sendStatus(200);
-        } else {
-          res.sendStatus(404);
-        }
-      } catch (error) {
-        await trx.rollback();
-        res.status(400).json({
-          error,
-        });
-      }
-    };
-  },
+  // delNitrogenSchedule() {
+  //   return async (req, res) => {
+  //     const trx = await transaction.start(Model.knex());
+  //     const { nitrogen_schedule_id } = req.params;
+  //     try {
+  //       const isDeleted = await baseController.delete(
+  //         nitrogenScheduleModel,
+  //         nitrogen_schedule_id,
+  //         req,
+  //         { trx },
+  //       );
+  //       await trx.commit();
+  //       if (isDeleted) {
+  //         res.sendStatus(200);
+  //       } else {
+  //         res.sendStatus(404);
+  //       }
+  //     } catch (error) {
+  //       await trx.rollback();
+  //       res.status(400).json({
+  //         error,
+  //       });
+  //     }
+  //   };
+  // },
 };
 
 module.exports = insightController;

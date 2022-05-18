@@ -37,20 +37,24 @@ module.exports = async (submission, exportId) => {
     fontFamily: 'Calibri',
     bold: true,
     fontSize: 14,
+    horizontalAlignment: 'left',
   };
   const groupHeaderStyle = {
-    fontFamily: 'Arial',
+    fontFamily: 'Calibri',
     bold: true,
     fontSize: 18,
+    horizontalAlignment: 'center',
   };
   const defaultStyle = {
     fontFamily: 'Calibri',
     fontSize: 12,
+    horizontalAlignment: 'left',
   };
   const titleStyle = {
     fontFamily: 'Calibri',
     fontSize: 20,
     bold: true,
+    horizontalAlignment: 'center',
   };
 
   const getQuestionInfo = (questionAnswerList) => {
@@ -77,7 +81,7 @@ module.exports = async (submission, exportId) => {
 
     sheet
       .cell(`${col}${(row += 1)}`)
-      .value(data['Answer'])
+      .value(typeof data['Answer'] == 'string' ? data['Answer'] : data['Answer'][0]) // Lists in case of ontology
       .style(defaultStyle);
     return [col, row];
   };
@@ -164,29 +168,35 @@ module.exports = async (submission, exportId) => {
       .map((c) => c['value'])
       .filter((c) => !ignoredQuestions.includes(c));
 
+    const labels = data['Options']['source']['content']
+      .map((c) => c['label'])
+      .filter((c) => !ignoredQuestions.includes(c));
+
     row += 1;
     // Write column headers
     for (let i = 0; i < categories.length; i++) {
       sheet
         .cell(`${String.fromCharCode(col.charCodeAt(0) + i)}${row}`)
-        .value(categories[i])
+        .value(labels[i])
         .style({ ...defaultStyle, bold: true, border: { color: '000000', style: 'thick' } });
     }
     // Fill in the matrix
-    for (const answer of data['Answer']) {
-      row += 1;
-      for (let i = 0; i < categories.length; i++) {
-        if (answer[categories[i]]) {
-          // Check if this answer has valid type
-          sheet
-            .cell(`${String.fromCharCode(col.charCodeAt(0) + i)}${row}`)
-            .value(answer[categories[i]]['value'])
-            .style({ ...defaultStyle, border: { color: '000000', style: 'thin' } });
+    if (data['Answer'] != null) {
+      for (const answer of data['Answer']) {
+        row += 1;
+        for (let i = 0; i < categories.length; i++) {
+          if (answer[categories[i]]) {
+            // Check if this answer has valid type
+            sheet
+              .cell(`${String.fromCharCode(col.charCodeAt(0) + i)}${row}`)
+              .value(answer[categories[i]]['value'])
+              .style({ ...defaultStyle, border: { color: '000000', style: 'thin' } });
+          }
         }
       }
+      return [col, row + 1];
     }
-
-    return [col, row + 1];
+    return [col, row];
   };
 
   const writeGroupOrPage = (sheet, col, row, data) => {
@@ -239,6 +249,16 @@ module.exports = async (submission, exportId) => {
       [currentCol, currentRow] = typeToFuncMap[qa['Type']](mainSheet, currentCol, currentRow, qa);
       currentRow += 1;
     }
+    // Resize cells
+    const maxStringLength = mainSheet.range(`A1:A${currentRow}`).reduce((max, cell) => {
+      const value = cell.value() == null ? '' : cell.value();
+      if (value === undefined) return max;
+      return Math.max(max, value.toString().length);
+    }, 0);
+
+    // For the default font settings in Excel, 1 char -> 1 pt is a pretty good estimate.
+    mainSheet.column('A').width(maxStringLength);
+
     // Write to file.
     return workbook.toFileAsync(`${process.env.EXPORT_WD}/temp/${exportId}/${surveyName}.xlsx`);
   });

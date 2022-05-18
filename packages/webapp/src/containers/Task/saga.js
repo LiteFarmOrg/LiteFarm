@@ -472,7 +472,7 @@ const taskTypeGetCompleteTaskBodyFunctionMap = {
 
 export const completeTask = createAction('completeTaskSaga');
 
-export function* completeTaskSaga({ payload: { task_id, data } }) {
+export function* completeTaskSaga({ payload: { task_id, data, returnPath } }) {
   const { taskUrl } = apiConfig;
   let { user_id, farm_id } = yield select(loginSelector);
   const { task_translation_key, isCustomTaskType } = data;
@@ -492,7 +492,7 @@ export function* completeTaskSaga({ payload: { task_id, data } }) {
       yield put(putTaskSuccess(result.data));
       yield call(onReqSuccessSaga, {
         message: i18n.t('message:TASK.COMPLETE.SUCCESS'),
-        pathname: '/tasks',
+        pathname: returnPath ?? '/tasks',
       });
     }
   } catch (e) {

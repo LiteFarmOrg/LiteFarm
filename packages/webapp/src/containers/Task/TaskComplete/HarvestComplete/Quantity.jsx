@@ -5,16 +5,15 @@ import { measurementSelector } from '../../../userFarmSlice';
 import { HookFormPersistProvider } from '../../../hooks/useHookFormPersist/HookFormPersistProvider';
 import { taskWithProductSelector } from '../../../taskSlice';
 
-function HarvestCompleteQuantity({ history, match }) {
+function HarvestCompleteQuantity({ history, match, location }) {
   const system = useSelector(measurementSelector);
   const task_id = match.params.task_id;
   const persistedPaths = [`/tasks/${task_id}/harvest_uses`];
   const task = useSelector(taskWithProductSelector(task_id));
 
   const onContinue = (data) => {
-    history.push(`/tasks/${task_id}/harvest_uses`);
+    history.push(`/tasks/${task_id}/harvest_uses`, location.state);
   };
-
 
   const onGoBack = () => {
     history.back();

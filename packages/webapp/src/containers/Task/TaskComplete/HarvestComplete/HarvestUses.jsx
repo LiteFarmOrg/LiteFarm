@@ -8,7 +8,7 @@ import { harvestUseTypesSelector } from '../../../harvestUseTypeSlice';
 import { taskWithProductSelector } from '../../../taskSlice';
 import AddHarvestUseTypeModal from './AddHarvestUseType';
 
-function HarvestUses({ history, match }) {
+function HarvestUses({ history, match, location }) {
   const system = useSelector(measurementSelector);
   const task_id = match.params.task_id;
   const persistedPaths = [
@@ -21,7 +21,7 @@ function HarvestUses({ history, match }) {
   const [showAddHarvestTypeModal, setShowAddHarvestTypeModal] = useState(false);
 
   const onContinue = (data) => {
-    history.push(`/tasks/${task_id}/complete`);
+    history.push(`/tasks/${task_id}/complete`, location.state);
   };
 
   const onGoBack = () => {

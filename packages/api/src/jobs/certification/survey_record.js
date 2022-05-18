@@ -61,6 +61,7 @@ module.exports = async (submission, exportId) => {
     return questionAnswerList
       .map(({ label, name, type, hint, options, moreInfo, children }) => ({
         Question: label,
+        Name: name,
         Answer: submissionData.data[name].value,
         Type: type,
         Hint: hint,
@@ -194,14 +195,12 @@ module.exports = async (submission, exportId) => {
           }
         }
       }
-      return [col, row + 1];
     }
-    return [col, row];
+    return [col, row + 1];
   };
 
   const writeGroupOrPage = (sheet, col, row, data) => {
     sheet.cell(`${col}${row}`).value(data['Question']).style(groupHeaderStyle);
-    // console.log("THIS IS THE CHILDREN: ", data['Children']);
     // const childInfo = data['Children']
     //     .map(({ label, name, type, hint, options, moreInfo, children }) => ({
     //     Question: label,
@@ -218,7 +217,7 @@ module.exports = async (submission, exportId) => {
     //     row += 1;
     // }
 
-    // return [col, row + 1];
+    return [col, row + 1];
   };
 
   const typeToFuncMap = {
@@ -257,7 +256,7 @@ module.exports = async (submission, exportId) => {
     }, 0);
 
     // For the default font settings in Excel, 1 char -> 1 pt is a pretty good estimate.
-    mainSheet.column('A').width(maxStringLength);
+    mainSheet.column('A').width(maxStringLength * (titleStyle.fontSize / 12));
 
     // Write to file.
     return workbook.toFileAsync(`${process.env.EXPORT_WD}/temp/${exportId}/${surveyName}.xlsx`);

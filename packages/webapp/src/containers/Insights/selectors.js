@@ -1,6 +1,6 @@
 /*
- *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>
- *  This file (selectors.js) is part of LiteFarm.
+ *  Copyright 2019, 2020, 2021, 2022 LiteFarm.org
+ *  This file is part of LiteFarm.
  *
  *  LiteFarm is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -17,7 +17,7 @@ import { createSelector } from 'reselect/es';
 
 const insightSelector = (state) => state.insightReducer || {};
 
-const cropsNutritionSelector = createSelector(insightSelector, (state) => state.cropNutritionData);
+// const cropsNutritionSelector = createSelector(insightSelector, (state) => state.cropNutritionData);
 
 const soilOMSelector = createSelector(insightSelector, (state) => state.soilOMData);
 
@@ -32,32 +32,32 @@ const pricesSelector = createSelector(insightSelector, (state) => state.pricesDa
 
 const pricesDistanceSelector = createSelector(insightSelector, (state) => state.pricesDistance);
 
-const waterBalanceSelector = createSelector(insightSelector, (state) => state.waterBalanceData);
+// const waterBalanceSelector = createSelector(insightSelector, (state) => state.waterBalanceData);
 
-const waterBalanceScheduleSelector = createSelector(
-  insightSelector,
-  (state) => state.waterBalanceSchedule,
-);
+// const waterBalanceScheduleSelector = createSelector(
+//   insightSelector,
+//   (state) => state.waterBalanceSchedule,
+// );
 
-const nitrogenBalanceSelector = createSelector(
-  insightSelector,
-  (state) => state.nitrogenBalanceData,
-);
+// const nitrogenBalanceSelector = createSelector(
+//   insightSelector,
+//   (state) => state.nitrogenBalanceData,
+// );
 
-const nitrogenFrequencySelector = createSelector(
-  insightSelector,
-  (state) => state.nitrogenFrequencyData,
-);
+// const nitrogenFrequencySelector = createSelector(
+//   insightSelector,
+//   (state) => state.nitrogenFrequencyData,
+// );
 
 export {
-  cropsNutritionSelector,
+  // cropsNutritionSelector,
   soilOMSelector,
   labourHappinessSelector,
   biodiversitySelector,
   pricesSelector,
   pricesDistanceSelector,
-  waterBalanceSelector,
-  waterBalanceScheduleSelector,
-  nitrogenBalanceSelector,
-  nitrogenFrequencySelector,
+  // waterBalanceSelector,
+  // waterBalanceScheduleSelector,
+  // nitrogenBalanceSelector,
+  // nitrogenFrequencySelector,
 };

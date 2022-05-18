@@ -1,6 +1,6 @@
 /*
- *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>
- *  This file (saga.js) is part of LiteFarm.
+ *  Copyright 2019, 2020, 2021, 2022 LiteFarm.org
+ *  This file is part of LiteFarm.
  *
  *  LiteFarm is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -14,50 +14,50 @@
  */
 
 import apiConfig from '../../apiConfig';
-import { call, put, select, takeLatest, takeLeading } from 'redux-saga/effects';
+import { call, put, select, takeLatest } from 'redux-saga/effects';
 import {
   setBiodiversityData,
-  setCropsSoldNutritionInState,
-  setFrequencyNitrogenBalance,
+  // setCropsSoldNutritionInState,
+  // setFrequencyNitrogenBalance,
   setLabourHappinessData,
-  setNitrogenBalanceData,
+  // setNitrogenBalanceData,
   setPricesData,
   setSoilOMData,
-  setWaterBalanceData,
-  setWaterBalanceSchedule,
+  // setWaterBalanceData,
+  // setWaterBalanceSchedule,
 } from './actions';
 import {
-  CREATE_FREQUENCY_NITROGEN_BALANCE,
-  CREATE_FREQUENCY_WATER_BALANCE,
-  DEL_FREQUENCY_NITROGEN_BALANCE,
+  // CREATE_FREQUENCY_NITROGEN_BALANCE,
+  // CREATE_FREQUENCY_WATER_BALANCE,
+  // DEL_FREQUENCY_NITROGEN_BALANCE,
   GET_BIODIVERSITY_DATA,
-  GET_CROPS_SOLD_NUTRITION,
-  GET_FREQUENCY_NITROGEN_BALANCE,
-  GET_FREQUENCY_WATER_BALANCE,
+  // GET_CROPS_SOLD_NUTRITION,
+  // GET_FREQUENCY_NITROGEN_BALANCE,
+  // GET_FREQUENCY_WATER_BALANCE,
   GET_LABOUR_HAPPINESS_DATA,
-  GET_NITROGEN_BALANCE_DATA,
+  // GET_NITROGEN_BALANCE_DATA,
   GET_PRICES_DATA,
   GET_PRICES_WITH_DISTANCE_DATA,
   GET_SOLD_OM_DATA,
-  GET_WATER_BALANCE_DATA,
+  // GET_WATER_BALANCE_DATA,
 } from './constants';
 import { loginSelector } from '../userFarmSlice';
 import { axios, getHeader } from '../saga';
 
-export function* getCropsSoldNutrition() {
-  const { insightUrl } = apiConfig;
-  let { user_id, farm_id } = yield select(loginSelector);
-  const header = getHeader(user_id, farm_id);
+// export function* getCropsSoldNutrition() {
+//   const { insightUrl } = apiConfig;
+//   let { user_id, farm_id } = yield select(loginSelector);
+//   const header = getHeader(user_id, farm_id);
 
-  try {
-    const result = yield call(axios.get, insightUrl + '/people_fed/' + farm_id, header);
-    if (result) {
-      yield put(setCropsSoldNutritionInState(result.data));
-    }
-  } catch (e) {
-    console.log('failed to fetch fields from db');
-  }
-}
+//   try {
+//     const result = yield call(axios.get, insightUrl + '/people_fed/' + farm_id, header);
+//     if (result) {
+//       yield put(setCropsSoldNutritionInState(result.data));
+//     }
+//   } catch (e) {
+//     console.log('failed to fetch fields from db');
+//   }
+// }
 
 export function* getSoldOMData() {
   const { insightUrl } = apiConfig;
@@ -145,142 +145,142 @@ export function* getPricesWithDistanceData(data) {
   }
 }
 
-export function* getWaterBalanceData() {
-  const { insightUrl } = apiConfig;
-  let { user_id, farm_id } = yield select(loginSelector);
-  const header = getHeader(user_id, farm_id);
+// export function* getWaterBalanceData() {
+//   const { insightUrl } = apiConfig;
+//   let { user_id, farm_id } = yield select(loginSelector);
+//   const header = getHeader(user_id, farm_id);
 
-  try {
-    const result = yield call(axios.get, insightUrl + '/waterbalance/' + farm_id, header);
-    if (result) {
-      yield put(setWaterBalanceData(result.data));
-    }
-  } catch (e) {
-    console.log('failed to fetch water balance data from db');
-  }
-}
+//   try {
+//     const result = yield call(axios.get, insightUrl + '/waterbalance/' + farm_id, header);
+//     if (result) {
+//       yield put(setWaterBalanceData(result.data));
+//     }
+//   } catch (e) {
+//     console.log('failed to fetch water balance data from db');
+//   }
+// }
 
-export function* getWaterBalanceSchedule() {
-  const { insightUrl } = apiConfig;
-  let { user_id, farm_id } = yield select(loginSelector);
-  const header = getHeader(user_id, farm_id);
+// export function* getWaterBalanceSchedule() {
+//   const { insightUrl } = apiConfig;
+//   let { user_id, farm_id } = yield select(loginSelector);
+//   const header = getHeader(user_id, farm_id);
 
-  try {
-    const result = yield call(axios.get, insightUrl + '/waterbalance/schedule/' + farm_id, header);
-    if (result) {
-      yield put(setWaterBalanceSchedule(result.data));
-    }
-  } catch (e) {
-    console.log('failed to fetch schedule water balance from db');
-  }
-}
+//   try {
+//     const result = yield call(axios.get, insightUrl + '/waterbalance/schedule/' + farm_id, header);
+//     if (result) {
+//       yield put(setWaterBalanceSchedule(result.data));
+//     }
+//   } catch (e) {
+//     console.log('failed to fetch schedule water balance from db');
+//   }
+// }
 
-export function* createWaterBalanceSchedule() {
-  const { insightUrl } = apiConfig;
-  let { user_id, farm_id } = yield select(loginSelector);
-  const header = getHeader(user_id, farm_id);
+// export function* createWaterBalanceSchedule() {
+//   const { insightUrl } = apiConfig;
+//   let { user_id, farm_id } = yield select(loginSelector);
+//   const header = getHeader(user_id, farm_id);
 
-  const data = {
-    farm_id: farm_id,
-  };
-  try {
-    const result = yield call(axios.post, insightUrl + '/waterbalance/schedule', data, header);
-    if (result) {
-      const result = yield call(
-        axios.get,
-        insightUrl + '/waterbalance/schedule/' + farm_id,
-        header,
-      );
-      if (result) {
-        yield put(setWaterBalanceSchedule(result.data));
-      }
-    }
-  } catch (error) {
-    console.log(error + ' Could not emit waterBalanceSchedule action');
-  }
-}
+//   const data = {
+//     farm_id: farm_id,
+//   };
+//   try {
+//     const result = yield call(axios.post, insightUrl + '/waterbalance/schedule', data, header);
+//     if (result) {
+//       const result = yield call(
+//         axios.get,
+//         insightUrl + '/waterbalance/schedule/' + farm_id,
+//         header,
+//       );
+//       if (result) {
+//         yield put(setWaterBalanceSchedule(result.data));
+//       }
+//     }
+//   } catch (error) {
+//     console.log(error + ' Could not emit waterBalanceSchedule action');
+//   }
+// }
 
-export function* getNitrogenBalanceData() {
-  const { insightUrl } = apiConfig;
-  let { user_id, farm_id } = yield select(loginSelector);
-  const header = getHeader(user_id, farm_id);
+// export function* getNitrogenBalanceData() {
+//   const { insightUrl } = apiConfig;
+//   let { user_id, farm_id } = yield select(loginSelector);
+//   const header = getHeader(user_id, farm_id);
 
-  try {
-    const result = yield call(axios.get, insightUrl + '/nitrogenbalance/' + farm_id, header);
-    if (result) {
-      yield put(setNitrogenBalanceData(result.data));
-    }
-  } catch (e) {
-    console.log('failed to fetch nitrogen data from db');
-  }
-}
+//   try {
+//     const result = yield call(axios.get, insightUrl + '/nitrogenbalance/' + farm_id, header);
+//     if (result) {
+//       yield put(setNitrogenBalanceData(result.data));
+//     }
+//   } catch (e) {
+//     console.log('failed to fetch nitrogen data from db');
+//   }
+// }
 
-export function* getNitrogenBalanceFrequency() {
-  const { insightUrl } = apiConfig;
-  let { user_id, farm_id } = yield select(loginSelector);
-  const header = getHeader(user_id, farm_id);
+// export function* getNitrogenBalanceFrequency() {
+//   const { insightUrl } = apiConfig;
+//   let { user_id, farm_id } = yield select(loginSelector);
+//   const header = getHeader(user_id, farm_id);
 
-  try {
-    const result = yield call(
-      axios.get,
-      insightUrl + '/nitrogenbalance/schedule/' + farm_id,
-      header,
-    );
-    if (result) {
-      yield put(setFrequencyNitrogenBalance(result.data));
-    }
-  } catch (e) {
-    console.log('failed to fetch schedule nitrogen balance from db');
-  }
-}
+//   try {
+//     const result = yield call(
+//       axios.get,
+//       insightUrl + '/nitrogenbalance/schedule/' + farm_id,
+//       header,
+//     );
+//     if (result) {
+//       yield put(setFrequencyNitrogenBalance(result.data));
+//     }
+//   } catch (e) {
+//     console.log('failed to fetch schedule nitrogen balance from db');
+//   }
+// }
 
-export function* postNitrogenBalanceFrequency(action) {
-  const { insightUrl } = apiConfig;
-  let { user_id, farm_id } = yield select(loginSelector);
-  const header = getHeader(user_id, farm_id);
+// export function* postNitrogenBalanceFrequency(action) {
+//   const { insightUrl } = apiConfig;
+//   let { user_id, farm_id } = yield select(loginSelector);
+//   const header = getHeader(user_id, farm_id);
 
-  const data = {
-    farm_id: farm_id,
-    created_at: action.nitrogenFrequency.created_at,
-    scheduled_at: action.nitrogenFrequency.scheduled_at,
-    frequency: action.nitrogenFrequency.frequency,
-  };
-  try {
-    const result = yield call(axios.post, insightUrl + '/nitrogenbalance/schedule', data, header);
-    if (result) {
-      const result = yield call(
-        axios.get,
-        insightUrl + '/nitrogenbalance/schedule/' + farm_id,
-        header,
-      );
-      if (result) {
-        yield put(setFrequencyNitrogenBalance(result.data));
-      }
-    }
-  } catch (error) {
-    console.log(error + ' Could not emit postNitrogenFrequency action');
-  }
-}
+//   const data = {
+//     farm_id: farm_id,
+//     created_at: action.nitrogenFrequency.created_at,
+//     scheduled_at: action.nitrogenFrequency.scheduled_at,
+//     frequency: action.nitrogenFrequency.frequency,
+//   };
+//   try {
+//     const result = yield call(axios.post, insightUrl + '/nitrogenbalance/schedule', data, header);
+//     if (result) {
+//       const result = yield call(
+//         axios.get,
+//         insightUrl + '/nitrogenbalance/schedule/' + farm_id,
+//         header,
+//       );
+//       if (result) {
+//         yield put(setFrequencyNitrogenBalance(result.data));
+//       }
+//     }
+//   } catch (error) {
+//     console.log(error + ' Could not emit postNitrogenFrequency action');
+//   }
+// }
 
-export function* deleteNitrogenBalanceFrequency(action) {
-  let frequencyID = action.nitrogenBalanceID;
-  const { insightUrl } = apiConfig;
-  let { user_id, farm_id } = yield select(loginSelector);
-  const header = getHeader(user_id, farm_id);
+// export function* deleteNitrogenBalanceFrequency(action) {
+//   let frequencyID = action.nitrogenBalanceID;
+//   const { insightUrl } = apiConfig;
+//   let { user_id, farm_id } = yield select(loginSelector);
+//   const header = getHeader(user_id, farm_id);
 
-  try {
-    const result = yield call(
-      axios.delete,
-      insightUrl + '/nitrogenbalance/schedule/' + frequencyID,
-      header,
-    );
-    if (result) {
-      console.log('Eyy, its deleted ' + result);
-    }
-  } catch (error) {
-    console.log(error + ' could not emit deleteNitrogenFrequencyAction');
-  }
-}
+//   try {
+//     const result = yield call(
+//       axios.delete,
+//       insightUrl + '/nitrogenbalance/schedule/' + frequencyID,
+//       header,
+//     );
+//     if (result) {
+//       console.log('Eyy, its deleted ' + result);
+//     }
+//   } catch (error) {
+//     console.log(error + ' could not emit deleteNitrogenFrequencyAction');
+//   }
+// }
 
 const formatDate = (date) => {
   let dd = date.getDate();
@@ -298,17 +298,17 @@ const formatDate = (date) => {
 };
 
 export default function* insightSaga() {
-  yield takeLatest(GET_CROPS_SOLD_NUTRITION, getCropsSoldNutrition);
+  // yield takeLatest(GET_CROPS_SOLD_NUTRITION, getCropsSoldNutrition);
   yield takeLatest(GET_SOLD_OM_DATA, getSoldOMData);
   yield takeLatest(GET_LABOUR_HAPPINESS_DATA, getLabourHappinessData);
   yield takeLatest(GET_BIODIVERSITY_DATA, getBiodiversityData);
   yield takeLatest(GET_PRICES_DATA, getPricesData);
   yield takeLatest(GET_PRICES_WITH_DISTANCE_DATA, getPricesWithDistanceData);
-  yield takeLatest(GET_WATER_BALANCE_DATA, getWaterBalanceData);
-  yield takeLatest(GET_FREQUENCY_WATER_BALANCE, getWaterBalanceSchedule);
-  yield takeLatest(GET_NITROGEN_BALANCE_DATA, getNitrogenBalanceData);
-  yield takeLeading(CREATE_FREQUENCY_WATER_BALANCE, createWaterBalanceSchedule);
-  yield takeLatest(GET_FREQUENCY_NITROGEN_BALANCE, getNitrogenBalanceFrequency);
-  yield takeLeading(CREATE_FREQUENCY_NITROGEN_BALANCE, postNitrogenBalanceFrequency);
-  yield takeLeading(DEL_FREQUENCY_NITROGEN_BALANCE, deleteNitrogenBalanceFrequency);
+  // yield takeLatest(GET_WATER_BALANCE_DATA, getWaterBalanceData);
+  // yield takeLatest(GET_FREQUENCY_WATER_BALANCE, getWaterBalanceSchedule);
+  // yield takeLatest(GET_NITROGEN_BALANCE_DATA, getNitrogenBalanceData);
+  // yield takeLeading(CREATE_FREQUENCY_WATER_BALANCE, createWaterBalanceSchedule);
+  // yield takeLatest(GET_FREQUENCY_NITROGEN_BALANCE, getNitrogenBalanceFrequency);
+  // yield takeLeading(CREATE_FREQUENCY_NITROGEN_BALANCE, postNitrogenBalanceFrequency);
+  // yield takeLeading(DEL_FREQUENCY_NITROGEN_BALANCE, deleteNitrogenBalanceFrequency);
 }

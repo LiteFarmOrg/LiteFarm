@@ -1,6 +1,6 @@
 /*
- *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>
- *  This file (index.js) is part of LiteFarm.
+ *  Copyright 2019, 2020, 2021, 2022 LiteFarm.org
+ *  This file is part of LiteFarm.
  *
  *  LiteFarm is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -25,19 +25,24 @@ import prices from '../../assets/images/insights/prices.svg';
 // import erosion from '../../assets/images/insights/erosion.svg';
 //
 // actions
-import { getBiodiversityData, getLabourHappinessData, getPricesWithDistanceData, getSoilOMData } from './actions';
+import {
+  getBiodiversityData,
+  getLabourHappinessData,
+  getPricesWithDistanceData,
+  getSoilOMData,
+} from './actions';
 // selectors
 import {
   biodiversitySelector,
-  cropsNutritionSelector,
+  // cropsNutritionSelector,
   labourHappinessSelector,
-  nitrogenBalanceSelector,
-  nitrogenFrequencySelector,
+  // nitrogenBalanceSelector,
+  // nitrogenFrequencySelector,
   pricesDistanceSelector,
   pricesSelector,
   soilOMSelector,
-  waterBalanceScheduleSelector,
-  waterBalanceSelector,
+  // waterBalanceScheduleSelector,
+  // waterBalanceSelector,
 } from './selectors';
 import InfoBoxComponent from '../../components/InfoBoxComponent';
 import { BsChevronRight } from 'react-icons/all';
@@ -134,19 +139,19 @@ class Insights extends Component {
   }
 
   generateView(
-    cropNutritionalData,
+    // cropNutritionalData,
     soilOMData,
     labourHappinessData,
     biodiversityData,
     pricesData,
-    waterBalanceData,
-    nitrogenBalanceData,
+    // waterBalanceData,
+    // nitrogenBalanceData,
   ) {
     const insightData = {};
     const isImperial = this.props.farm?.units?.measurement === 'imperial';
-    insightData['PeopleFed'] = this.props.t('INSIGHTS.PEOPLE_FED.MEAL_COUNT', {
-      count: cropNutritionalData.preview,
-    });
+    // insightData['PeopleFed'] = this.props.t('INSIGHTS.PEOPLE_FED.MEAL_COUNT', {
+    // count: cropNutritionalData.preview,
+    // });
     insightData['SoilOM'] = (soilOMData.preview || '0') + '%';
     insightData['LabourHappiness'] = labourHappinessData.preview
       ? labourHappinessData.preview + '/5'
@@ -157,12 +162,12 @@ class Insights extends Component {
     insightData['Prices'] = pricesData.preview
       ? this.props.t('INSIGHTS.PRICES.PERCENT_OF_MARKET', { percentage: pricesData.preview })
       : this.props.t('INSIGHTS.UNAVAILABLE');
-    insightData['WaterBalance'] = isImperial
-      ? Number(waterBalanceData.preview) * MILLIMETER_TO_INCH + ' in'
-      : waterBalanceData.preview + ' mm';
-    insightData['NitrogenBalance'] = isImperial
-      ? Number(nitrogenBalanceData.preview) * KILOGRAM_TO_POUND + ' lbs'
-      : nitrogenBalanceData.preview + ' kg';
+    // insightData['WaterBalance'] = isImperial
+    //   ? Number(waterBalanceData.preview) * MILLIMETER_TO_INCH + ' in'
+    //   : waterBalanceData.preview + ' mm';
+    // insightData['NitrogenBalance'] = isImperial
+    //   ? Number(nitrogenBalanceData.preview) * KILOGRAM_TO_POUND + ' lbs'
+    //   : nitrogenBalanceData.preview + ' kg';
     return insightData;
   }
 
@@ -184,22 +189,22 @@ class Insights extends Component {
   render() {
     // @TODO currently just throwing in data from the props into generateView, should refactor the code to handle it better
     const {
-      cropNutritionData,
+      // cropNutritionData,
       soilOMData,
       labourHappinessData,
       biodiversityData,
       pricesData,
-      waterBalanceData,
-      nitrogenBalanceData,
+      // waterBalanceData,
+      // nitrogenBalanceData,
     } = this.props;
     let insightData = this.generateView(
-      cropNutritionData,
+      // cropNutritionData,
       soilOMData,
       labourHappinessData,
       biodiversityData,
       pricesData,
-      waterBalanceData,
-      nitrogenBalanceData,
+      // waterBalanceData,
+      // nitrogenBalanceData,
     );
     const { t } = this.props;
     return (
@@ -230,15 +235,15 @@ class Insights extends Component {
 const mapStateToProps = (state) => {
   return {
     farm: userFarmSelector(state),
-    cropNutritionData: cropsNutritionSelector(state),
+    // cropNutritionData: cropsNutritionSelector(state),
     soilOMData: soilOMSelector(state),
     labourHappinessData: labourHappinessSelector(state),
     biodiversityData: biodiversitySelector(state),
     pricesData: pricesSelector(state),
-    waterBalanceData: waterBalanceSelector(state),
-    waterBalanceSchedule: waterBalanceScheduleSelector(state),
-    nitrogenBalanceData: nitrogenBalanceSelector(state),
-    nitrogenFrequencyData: nitrogenFrequencySelector(state),
+    // waterBalanceData: waterBalanceSelector(state),
+    // waterBalanceSchedule: waterBalanceScheduleSelector(state),
+    // nitrogenBalanceData: nitrogenBalanceSelector(state),
+    // nitrogenFrequencyData: nitrogenFrequencySelector(state),
     pricesDistance: pricesDistanceSelector(state),
   };
 };

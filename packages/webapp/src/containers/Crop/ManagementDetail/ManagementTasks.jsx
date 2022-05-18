@@ -39,11 +39,9 @@ export default function ManagementTasks({ history, match, location }) {
         onBack={onBack}
         onCompleted={onCompleted}
         onAbandon={onAbandon}
-        onAddTask={onAddTask(
-          dispatch,
-          history,
-          `/crop/${variety_id}/management_plan/${management_plan_id}/tasks`,
-        )}
+        onAddTask={onAddTask(dispatch, history, {
+          pathname: `/crop/${variety_id}/management_plan/${management_plan_id}/tasks`,
+        })}
         isAdmin={isAdmin}
         variety={variety}
         plan={plan}

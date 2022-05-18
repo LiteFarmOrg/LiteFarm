@@ -391,7 +391,9 @@ const getPostTaskReqBody = (
 
 export const createTask = createAction('createTaskSaga');
 
-export function* createTaskSaga({ payload: data }) {
+export function* createTaskSaga({ payload }) {
+  const { returnPath, ...data } = payload;
+
   const { taskUrl } = apiConfig;
   let { user_id, farm_id } = yield select(loginSelector);
   const { task_translation_key, farm_id: task_farm_id } = yield select(
@@ -426,7 +428,7 @@ export function* createTaskSaga({ payload: data }) {
       yield call(getTasksSuccessSaga, { payload: isHarvest ? result.data : [result.data] });
       yield call(onReqSuccessSaga, {
         message: i18n.t('message:TASK.CREATE.SUCCESS'),
-        pathname: '/tasks',
+        pathname: returnPath ?? '/tasks',
       });
     }
   } catch (e) {

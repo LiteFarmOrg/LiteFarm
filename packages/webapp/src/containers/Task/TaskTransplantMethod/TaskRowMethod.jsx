@@ -6,7 +6,7 @@ import { cropVarietySelector } from '../../cropVarietySlice';
 import { hookFormPersistSelector } from '../../hooks/useHookFormPersist/hookFormPersistSlice';
 import { managementPlanSelector } from '../../managementPlanSlice';
 
-export default function TaskRowMethod({ history, match }) {
+export default function TaskRowMethod({ history, match, location }) {
   const system = useSelector(measurementSelector);
   const persistedFormData = useSelector(hookFormPersistSelector);
   const { crop_variety_id } = useSelector(
@@ -14,6 +14,7 @@ export default function TaskRowMethod({ history, match }) {
   );
   const crop_variety = useSelector(cropVarietySelector(crop_variety_id));
 
+  console.log(location);
 
   return (
     <HookFormPersistProvider>
@@ -24,6 +25,7 @@ export default function TaskRowMethod({ history, match }) {
         history={history}
         submitPath={'/add_task/row_guidance'}
         prefix={'transplant_task.planting_management_plan'}
+        location={location}
       />
     </HookFormPersistProvider>
   );

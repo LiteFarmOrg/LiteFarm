@@ -1,30 +1,37 @@
 import React from 'react';
-import { hookFormPersistSelector, setManagementPlansData } from '../../hooks/useHookFormPersist/hookFormPersistSlice';
+import {
+  hookFormPersistSelector,
+  setManagementPlansData,
+} from '../../hooks/useHookFormPersist/hookFormPersistSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import PureTaskLocations from '../../../components/Task/TaskLocations';
 import { taskTypeIdNoCropsSelector } from '../../taskTypeSlice';
 import { HookFormPersistProvider } from '../../hooks/useHookFormPersist/HookFormPersistProvider';
 import { userFarmSelector } from '../../userFarmSlice';
-import { cropLocationEntitiesSelector, cropLocationsSelector, locationsSelector } from '../../locationSlice';
+import {
+  cropLocationEntitiesSelector,
+  cropLocationsSelector,
+  locationsSelector,
+} from '../../locationSlice';
 import { useActiveAndCurrentManagementPlanTilesByLocationIds } from '../TaskCrops/useManagementPlanTilesByLocationIds';
 import { useIsTaskType } from '../useIsTaskType';
 import { useTranslation } from 'react-i18next';
 import { useReadOnlyPinCoordinates } from '../useReadOnlyPinCoordinates';
 import { useMaxZoom } from '../../Map/useMaxZoom';
 
-export default function TaskLocationsSwitch({ history, match }) {
+export default function TaskLocationsSwitch({ history, match, location }) {
   const isCropLocation = useIsTaskType('HARVEST_TASK');
   const isTransplantLocation = useIsTaskType('TRANSPLANT_TASK');
   if (isCropLocation) {
-    return <TaskActiveAndPlannedCropLocations history={history} />;
+    return <TaskActiveAndPlannedCropLocations history={history} location={location} />;
   } else if (isTransplantLocation) {
-    return <TaskTransplantLocations history={history} />;
+    return <TaskTransplantLocations history={history} location={location} />;
   } else {
-    return <TaskAllLocations history={history} />;
+    return <TaskAllLocations history={history} location={location} />;
   }
 }
 
-function TaskActiveAndPlannedCropLocations({ history }) {
+function TaskActiveAndPlannedCropLocations({ history, location }) {
   const cropLocations = useSelector(cropLocationsSelector);
   const cropLocationEntities = useSelector(cropLocationEntitiesSelector);
   const cropLocationsIds = cropLocations.map(({ location_id }) => ({ location_id }));
@@ -37,7 +44,7 @@ function TaskActiveAndPlannedCropLocations({ history }) {
   const readOnlyPinCoordinates = useReadOnlyPinCoordinates();
 
   const onContinue = () => {
-    history.push('/add_task/task_crops');
+    history.push('/add_task/task_crops', location.state);
   };
 
   const onGoBack = () => {
@@ -54,11 +61,11 @@ function TaskActiveAndPlannedCropLocations({ history }) {
   );
 }
 
-function TaskTransplantLocations({ history }) {
+function TaskTransplantLocations({ history, location }) {
   const { t } = useTranslation();
   const cropLocations = useSelector(cropLocationsSelector);
   const onContinue = () => {
-    history.push('/add_task/planting_method');
+    history.push('/add_task/planting_method', location.state);
   };
 
   const onGoBack = () => {
@@ -76,7 +83,7 @@ function TaskTransplantLocations({ history }) {
   );
 }
 
-function TaskAllLocations({ history }) {
+function TaskAllLocations({ history, location }) {
   const dispatch = useDispatch();
   const locations = useSelector(locationsSelector);
   const persistedFormData = useSelector(hookFormPersistSelector);
@@ -86,9 +93,9 @@ function TaskAllLocations({ history }) {
   const onContinue = () => {
     if (taskTypesBypassCrops.includes(persistedFormData.task_type_id)) {
       dispatch(setManagementPlansData([]));
-      return history.push('/add_task/task_details');
+      return history.push('/add_task/task_details', location.state);
     }
-    history.push('/add_task/task_crops');
+    history.push('/add_task/task_crops', location.state);
   };
 
   const onGoBack = () => {
@@ -114,7 +121,6 @@ function TaskLocations({
   onGoBack,
   readOnlyPinCoordinates,
 }) {
-
   const { grid_points } = useSelector(userFarmSelector);
   const { maxZoomRef, getMaxZoom } = useMaxZoom();
   return (

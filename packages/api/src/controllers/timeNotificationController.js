@@ -1,5 +1,5 @@
 /*
- *  Copyright 2019-2022 LiteFarm.org
+ *  Copyright 2019, 2020, 2021, 2022 LiteFarm.org
  *  This file is part of LiteFarm.
  *
  *  LiteFarm is free software: you can redistribute it and/or modify
@@ -12,13 +12,16 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
+
 const UserFarmModel = require('../models/userFarmModel');
+const TaskTypeModel = require('../models/taskTypeModel');
 const TaskModel = require('../models/taskModel');
 const NotificationUser = require('../models/notificationUserModel');
+const { getTasksForFarm } = require('./taskController');
 
 const timeNotificationController = {
   /**
-   * Notifies farm management of unassigned tasks due this week
+   * Notifies farm management of unassigned tasks due this week.
    * @param {Request} req - The HTTP request object.
    * @param {Response} res - The HTTP response object.
    * @async
@@ -28,37 +31,25 @@ const timeNotificationController = {
     try {
       // All unassigned tasks at the farm associated with farm_id due this week that are
       // not completed or abandoned
-      // We also want the translation key so that we have an icon we can use for the notification
-      const { rows: unassignedTasks } = await TaskModel.knex().raw(
-        `
-        SELECT task.task_id, task_type.task_translation_key FROM task
-        JOIN "userFarm" AS u ON task.owner_user_id = u.user_id
-        JOIN task_type ON task_type.task_type_id = task.task_type_id
-        WHERE u.farm_id = ? 
-        AND task.assignee_user_id IS NULL
-        AND task.complete_date IS NULL
-        AND task.abandon_date IS NULL
-        AND task.due_date <= (now() + interval '1 week')::date
-        AND task.due_date >= now()::date
-        AND task.deleted = false
-        `,
-        [farm_id],
-      );
+      const tasksFromFarm = await getTasksForFarm(farm_id);
+      const taskIds = tasksFromFarm.map(({ task_id }) => task_id);
 
-      const farmManagementObjs = await UserFarmModel.query()
-        .select('user_id')
-        .whereIn('role_id', [1, 2, 5])
-        .where('userFarm.farm_id', farm_id);
+      const unassignedTasks = await TaskModel.getUnassignedTasksDueThiWeekFromIds(taskIds);
+      const farmManagementObjs = await UserFarmModel.getFarmManagementByFarmId(farm_id);
 
       const farmManagement = farmManagementObjs.map(
         (farmManagementObj) => farmManagementObj.user_id,
       );
 
       if (unassignedTasks.length > 0) {
+        const {
+          task_translation_key: firstTaskTranslationKey,
+        } = await TaskTypeModel.getTaskTranslationKeyById(unassignedTasks[0].task_type_id);
+
         await sendWeeklyUnassignedTaskNotifications(
           farm_id,
           farmManagement,
-          unassignedTasks[0].task_translation_key,
+          firstTaskTranslationKey,
         );
         return res.status(201).send({ unassignedTasks, farmManagement });
       } else {
@@ -106,7 +97,7 @@ const timeNotificationController = {
 };
 
 /**
- * Notifies farm management of unassigned tasks due this week
+ * Notifies farm management of unassigned tasks due this week.
  * @param {String} farmId - id of the farm the farm managers belong to
  * @param {Array} farmManagement - user_ids of FM/FO/EO that need to be notified
  * @param {String} firstTaskTranslationKey - task translation key of the first unassigned task

@@ -108,8 +108,12 @@ describe('Time Based Notification Tests', () => {
     describe('Notification Sent To All Valid Recipients Tests', () => {
       beforeEach(async () => {
         // Set up such that there are unassigned tasks due within the next week
-        await mocks.taskFactory(
-          { promisedUser: [farmOwner] },
+        const [{ task_type_id }] = await mocks.task_typeFactory({
+          promisedFarm: [{ farm_id: farm.farm_id }],
+        });
+
+        const task = await mocks.taskFactory(
+          { promisedUser: [farmOwner], promisedTaskType: [{ task_type_id }] },
           mocks.fakeTask({
             due_date: faker.date.soon(6).toISOString().split('T')[0],
             assignee_user_id: null,

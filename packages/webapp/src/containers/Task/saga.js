@@ -504,16 +504,17 @@ export function* completeTaskSaga({ payload: { task_id, data, returnPath } }) {
 export const abandonTask = createAction('abandonTaskSaga');
 
 export function* abandonTaskSaga({ payload: data }) {
+  console.log(data);
   const { taskUrl } = apiConfig;
   let { user_id, farm_id } = yield select(loginSelector);
-  const { task_id, patchData } = data;
+  const { task_id, patchData, returnPath } = data;
   const header = getHeader(user_id, farm_id);
   try {
     const result = yield call(axios.patch, `${taskUrl}/abandon/${task_id}`, patchData, header);
     if (result) {
       yield put(putTaskSuccess(result.data));
       yield put(enqueueSuccessSnackbar(i18n.t('message:TASK.ABANDON.SUCCESS')));
-      history.push('/tasks');
+      history.push(returnPath ?? '/tasks');
     }
   } catch (e) {
     console.log(e);

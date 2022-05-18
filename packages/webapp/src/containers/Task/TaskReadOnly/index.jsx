@@ -76,7 +76,7 @@ function TaskReadOnly({ history, match, location }) {
   };
 
   const onAbandon = () => {
-    history.push(`/tasks/${task_id}/abandon`);
+    history.push(`/tasks/${task_id}/abandon`, location.state);
   };
   const { maxZoomRef, getMaxZoom } = useMaxZoom();
 

@@ -126,18 +126,22 @@ export default function useDrawingManager() {
     setMaps(maps);
     setDrawingManager(drawingManagerInit);
     setDrawingModes(drawingModes);
+    maps.event.addListener(map, 'click', () => console.log('click'));
   };
 
   const startDrawing = (type) => {
+    console.log(type);
     setDrawLocationType(type);
     setIsDrawing(true);
     drawingManager.setOptions(getDrawingOptions(type));
     drawingManager.setDrawingMode(getDrawingMode(type, supportedDrawingModes));
+    console.log(drawingManager);
   };
 
   const finishDrawing = (drawing, innerMap) => {
     setIsDrawing(false);
     setDrawingToCheck(drawing);
+    console.log({ drawingType: drawing.type });
     if (drawing.type === 'polyline') {
       addLineListeners(drawing, innerMap);
     }
@@ -145,6 +149,7 @@ export default function useDrawingManager() {
   const addLineListeners = (drawing, innerMap) => {
     const { overlay } = drawing;
     innerMap.event.addListener(overlay.getPath(), 'set_at', (redrawnLine) => {
+      console.log('polyline!!!');
       setDrawingToCheck({ ...drawing });
     });
     innerMap.event.addListener(overlay.getPath(), 'insert_at', (redrawnLine) => {
@@ -224,6 +229,7 @@ export default function useDrawingManager() {
     drawingToCheck,
     showAdjustAreaSpotlightModal,
     showAdjustLineSpotlightModal,
+    drawingHistory,
   };
 
   const drawingFunctions = {

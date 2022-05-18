@@ -17,6 +17,8 @@ export default function PureDrawingManager({
   isDrawing,
   drawingType,
   onClickBack,
+  canUndo,
+  onUndo,
   onClickTryAgain,
   onClickConfirm,
   showZeroAreaWarning,
@@ -33,14 +35,14 @@ export default function PureDrawingManager({
   return (
     <div className={clsx(styles.container, className)} style={style}>
       {!showLineModal && (
-        <>
-          <button onClick={onClickBack} className={styles.iconButton}>
-            <BackIcon className={styles.svg} />
-          </button>
-          <button onClick={onClickBack} className={`${styles.iconButton} ${styles.undoButton}`}>
-            <UndoIcon className={styles.svg} />
-          </button>
-        </>
+        <button onClick={onClickBack} className={styles.iconButton}>
+          <BackIcon className={styles.svg} />
+        </button>
+      )}
+      {!showLineModal && canUndo && (
+        <button onClick={onUndo} className={`${styles.iconButton} ${styles.undoButton}`}>
+          <UndoIcon className={styles.svg} />
+        </button>
       )}
       {!isDrawing && (
         <>

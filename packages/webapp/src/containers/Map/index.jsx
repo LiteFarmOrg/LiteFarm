@@ -193,6 +193,7 @@ export default function Map({ history }) {
     });
 
     maps.event.addListener(drawingManagerInit, 'polygoncomplete', function (polygon) {
+      console.log({ polygon });
       const polygonAreaCheck = (path) => {
         if (Math.round(maps.geometry.spherical.computeArea(path)) === 0) setZeroAreaWarning(true);
         else setZeroAreaWarning(false);
@@ -207,6 +208,7 @@ export default function Map({ history }) {
       });
     });
     maps.event.addListener(drawingManagerInit, 'overlaycomplete', function (drawing) {
+      console.log({ drawing });
       finishDrawing(drawing, maps, map);
       this.setDrawingMode();
     });
@@ -391,6 +393,8 @@ export default function Map({ history }) {
                   dispatch(resetAndUnLockFormData());
                   closeDrawer();
                 }}
+                canUndo={drawingState.drawingHistory > 0}
+                onUndo={() => {}}
                 onClickTryAgain={() => {
                   setZeroAreaWarning(false);
                   resetDrawing();

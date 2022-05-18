@@ -82,11 +82,35 @@ module.exports = async (submission, exportId) => {
 
     sheet
       .cell(`${col}${(row += 1)}`)
-      .value(typeof data['Answer'] != 'object' ? data['Answer'] : data['Answer'][0]) // Lists in case of ontology
+      .value(data['Answer'])
       .style(defaultStyle);
     return [col, row];
   };
 
+  const writeDropdownQs = (sheet, col, row, data) => {
+    sheet.cell(`${col}${row}`).value(data['Question']).style(questionStyle);
+
+    for (const answer of data['Answer']) {
+      sheet
+        .cell(`${col}${(row += 1)}`)
+        .value(answer)
+        .style(defaultStyle);
+    }
+    return [col, row];
+  };
+
+  const writeDateQs = (sheet, col, row, data) => {
+    sheet.cell(`${col}${row}`).value(data['Question']).style(questionStyle);
+
+    const date = new Date(data['Answer']).toDateString();
+    sheet
+      .cell(`${col}${(row += 1)}`)
+      .value(date)
+      .style(defaultStyle);
+    return [col, row];
+  };
+
+  // Write instructions in italics
   const writeInstructions = (sheet, col, row, data) => {
     const instructions = data['Options']['source'].replace(/<p>|<\/p>/g, '');
     sheet
@@ -96,6 +120,8 @@ module.exports = async (submission, exportId) => {
     return [col, row + 1];
   };
 
+  // Write multiple choice/checkbox type questions to the Excel Sheet.
+  // Option is in the left column and a 'X' is placed in the immediate right column if this option was selected
   const writeMultiOptionQs = (sheet, col, row, data) => {
     sheet.cell(`${col}${row}`).value(data['Question']).style(questionStyle);
     if (data['Hint'] != null) {
@@ -199,7 +225,7 @@ module.exports = async (submission, exportId) => {
     return [col, row + 1];
   };
 
-  const writeGroupOrPage = (sheet, col, row, data) => {
+  const writeCollection = (sheet, col, row, data) => {
     sheet.cell(`${col}${row}`).value(data['Question']).style(groupHeaderStyle);
     const groupName = data['Name'];
     const childInfo = data['Children']
@@ -225,15 +251,15 @@ module.exports = async (submission, exportId) => {
   const typeToFuncMap = {
     string: writeSimpleQs, // Text
     number: writeSimpleQs,
-    ontology: writeSimpleQs, //Dropdown
+    ontology: writeDropdownQs, //Dropdown
     location: writeSimpleQs,
-    date: writeSimpleQs,
+    date: writeDateQs,
     selectSingle: writeMultiOptionQs, // Multiple choice
     selectMultiple: writeMultiOptionQs, // Checkbox
     matrix: writeMatrixQs,
     instructions: writeInstructions,
-    page: writeGroupOrPage,
-    group: writeGroupOrPage,
+    page: writeCollection,
+    group: writeCollection,
   };
 
   console.log('THIS IS THE QUESTION & ANSWERS', questionAnswerMap);

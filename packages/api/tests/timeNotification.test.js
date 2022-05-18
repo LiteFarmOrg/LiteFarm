@@ -30,12 +30,14 @@ jest.mock('../src/middleware/acl/checkSchedulerJwt.js');
 describe('Time Based Notification Tests', () => {
   let farmOwner;
   let farm;
+  let farmWorker;
   let globalSchedulerToken;
 
   beforeEach(async () => {
     // Set up a farm with a farm owner
     [farmOwner] = await mocks.usersFactory();
     [farm] = await mocks.farmFactory();
+    [farmWorker] = await mocks.usersFactory();
 
     await mocks.userFarmFactory(
       {
@@ -43,6 +45,14 @@ describe('Time Based Notification Tests', () => {
         promisedFarm: [farm],
       },
       mocks.fakeUserFarm({ role_id: 1 }),
+    );
+
+    await mocks.userFarmFactory(
+      {
+        promisedUser: [farmWorker],
+        promisedFarm: [farm],
+      },
+      mocks.fakeUserFarm({ role_id: 3 }),
     );
 
     const middleware = require('../src/middleware/acl/checkSchedulerJwt');
@@ -68,6 +78,14 @@ describe('Time Based Notification Tests', () => {
     chai
       .request(server)
       .post(`/time_notification/weekly_unassigned_tasks/${farm_id}`)
+      .set('Authorization', `Bearer ${globalSchedulerToken}`)
+      .end(callback);
+  }
+
+  function postDailyDueTodayTasks(data, callback) {
+    const { user_id } = data;
+    chai.request(server)
+      .post(`/time_notification/daily_due_today_tasks/${user_id}`)
       .set('Authorization', `Bearer ${globalSchedulerToken}`)
       .end(callback);
   }
@@ -286,4 +304,37 @@ describe('Time Based Notification Tests', () => {
       });
     });
   });
+
+  describe('Tasks Due Today Notification Test', () => {
+    describe('Notification sent tests', () => {
+      beforeEach(async () => {
+        await mocks.taskFactory(
+          { promisedUser: [farmOwner] },
+          mocks.fakeTask({
+            due_date: new Date().toISOString().split('T')[0],
+            assignee_user_id: farmWorker.user_id,
+          }),
+        );
+      });
+
+      test('Farm workers should receive a due today notification', async (done) => {
+        postDailyDueTodayTasks({ user_id: farmWorker.user_id }, async(err, res) => {
+          console.log(res.body);
+          expect(res.status).toBe(201);
+          const notifications = await knex('notification_user')
+            .join(
+              'notification',
+              'notification.notification_id',
+              'notification_user.notification_id',
+            )
+            .where('notification_user.user_id', farmWorker.user_id);
+          expect(notifications.length).toBe(1);
+          expect(notifications[0].title.translation_key).toBe('NOTIFICATION.DAILY_TASKS_DUE_TODAY.TITLE');
+          done();
+        });
+      });
+    });
+  });
 });
+
+/* global jest describe test expect beforeEach afterEach afterAll */

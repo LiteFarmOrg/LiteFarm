@@ -5,7 +5,7 @@ describe.only('Tasks flow tests', () => {
     //Ensure test environment is setup(i.e. farm exists, user accounts exist, tasks exist)
   });
 
-  it.only('farm worker tasks flow tests', () => {
+  it('farm worker tasks flow tests', () => {
     cy.visit('/');
     cy.loginFarmWorker();
     cy.get('[data-cy=home-taskButton]').should('exist').and('not.be.disabled').click();
@@ -31,11 +31,16 @@ describe.only('Tasks flow tests', () => {
     //Tasks assigned to other individuals on the farm: None! Task card should be read-only
     cy.contains('Test F.').should('exist').click();
     cy.contains('Assign').should('not.exist');
+
     //No visual cue that the user can update due date
-    //clicking on a task should open the read_only view for said task
+
+    //clicking on a task should open the read_only view for said task(test for LF-2374)
     //cy.url().should('include', '/read_only');
-    //Assignee input should exist and should be.disabled
-    //Due date input should exist and be disabled
+
+    //Assignee input should exist and should be.disabled, there should not be a pencil next to the input (test for LF-2374)
+
+    //Due date input should exist and be disabled there should not be a pencil next to the input (test for LF-2374)
+
     //locations map should exist and display here said task will be carried out
     //Task specific data should exist(e.g. cleaning agent and estimated water usage for a cleaning task)
   });
@@ -56,20 +61,17 @@ describe.only('Tasks flow tests', () => {
     cy.contains('Unassigned').last().should('exist').and('not.be.disabled').click({ force: true });
     cy.get('[data-cy=quickAssign-assignAll]').should('exist').check({ force: true });
     cy.get('[data-cy=quickAssign-update]').should('exist').and('not.be.disabled').click();
-    //         //on tasks view click on the assignee link of a harvest task
+    cy.contains('Tasks').should('exist');
 
-    //         //assign task to self and click update task
-
-    //         //click on the task card for the above harvest task
-
-    //         //complete task completion flow and click save task
-    //         cy.url().should('include', '/tasks');
-    //         cy.contains('Tasks').should('exist');
-
-    //clicking on a task should open the read_only view for said task
+    //clicking on a task should open the read_only view for said task (test for LF-2374)
     //cy.url().should('include', '/read_only');
-    //Assignee input should exist and should be.disabled
-    //Due date input should exist and be disabled
+
+    //Assignee input should exist and should be.disabled, there should be a pencil next to the input and
+    //the quick assign modal should appear on click (test for LF-2374)
+
+    //Due date input should exist and be disabledhere should be a pencil next to the input and
+    //the quick assign modal should appear on click (test for LF-2374)
+
     //locations map should exist and display here said task will be carried out
     //Task specific data should exist(e.g. cleaning agent and estimated water usage for a cleaning task)
   });
@@ -92,7 +94,7 @@ describe.only('Tasks flow tests', () => {
     cy.get('[data-cy=harvestComplete-save]').should('exist').and('not.be.disabled').click();
   });
 
-  it('harvest task for apricot', () => {
+  it.only('harvest task for apricot', () => {
     //tests for LF-2332
     cy.visit('/');
     cy.loginFarmOwner();
@@ -181,9 +183,11 @@ describe.only('Tasks flow tests', () => {
     //         //user clicks on the funnel icon on the tasks view to open the tasks filter view
     cy.get('[data-cy=tasks-filter]').click({ force: true });
     //         //user clicks on the assignee input
-    //         //assert that all active users appear in the dropdown
+    //         //assert that all active users appear in the dropdown (test for LF-2365)
     //         //assert that the assignee input is searchable
     //         //user types a letter into the assignee input, assert that the filter workspace
     //         //user clicks on one of the users, assert that a pill is generated for said user
+
+    // user clicks on the type filter, all 7 task types should appear (test for LF-2364)
   });
 });

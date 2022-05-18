@@ -82,7 +82,7 @@ module.exports = async (submission, exportId) => {
 
     sheet
       .cell(`${col}${(row += 1)}`)
-      .value(typeof data['Answer'] == 'string' ? data['Answer'] : data['Answer'][0]) // Lists in case of ontology
+      .value(typeof data['Answer'] != 'object' ? data['Answer'] : data['Answer'][0]) // Lists in case of ontology
       .style(defaultStyle);
     return [col, row];
   };
@@ -201,21 +201,23 @@ module.exports = async (submission, exportId) => {
 
   const writeGroupOrPage = (sheet, col, row, data) => {
     sheet.cell(`${col}${row}`).value(data['Question']).style(groupHeaderStyle);
-    // const childInfo = data['Children']
-    //     .map(({ label, name, type, hint, options, moreInfo, children }) => ({
-    //     Question: label,
-    //     Answer: submissionData.data[name].value,
-    //     Type: type,
-    //     Hint: hint,
-    //     Options: options,
-    //     MoreInfo: moreInfo,
-    //     Children: ['group', 'page'].includes(type) ? children : null,
-    //   }))
-    //   .filter((entry) => !ignoredQuestions.includes(entry['Type']))
-    // for (child in childInfo){
-    //     [col, row] = typeToFuncMap[child['Type']](sheet, col, row + 1, child);
-    //     row += 1;
-    // }
+    const groupName = data['Name'];
+    const childInfo = data['Children']
+      .map(({ label, name, type, hint, options, moreInfo, children }) => ({
+        Question: label,
+        Answer: submissionData.data[groupName][name].value,
+        Type: type,
+        Hint: hint,
+        Options: options,
+        MoreInfo: moreInfo,
+        Children: ['group', 'page'].includes(type) ? children : null,
+      }))
+      .filter((entry) => !ignoredQuestions.includes(entry['Type']));
+    // console.log("THESE ARE THE CHILDREN: ", childInfo);
+    for (const child of childInfo) {
+      [col, row] = typeToFuncMap[child['Type']](sheet, col, row + 1, child);
+      // row += 1;
+    }
 
     return [col, row + 1];
   };

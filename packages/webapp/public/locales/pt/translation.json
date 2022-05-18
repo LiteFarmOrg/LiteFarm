@@ -351,6 +351,10 @@
     "ARCHIVE_DOCUMENT": "Arquivar documento?",
     "ARCHIVE_DOCUMENT_TEXT": "Arquivar este documento o moverá para a seção arquivada de seus documentos, mas não o excluirá. Os documentos arquivados não serão exportados para suas certificações. Você quer prosseguir?",
     "ARCHIVED": "Arquivado",
+    "UNARCHIVE": "MISSING",
+    "UNARCHIVE_DOCUMENT": "MISSING",
+    "UNARCHIVE_DOCUMENT_TEXT": "MISSING",
+    "UNARCHIVED": "MISSING",
     "CANCEL": "Cancelar",
     "COMPLIANCE_DOCUMENTS_AND_CERTIFICATION": "Documentos de conformidade e sua certificação",
     "DOCUMENTS": "Documentos",
@@ -638,7 +642,7 @@
     "DATE": "Data",
     "ESTIMATED_REVENUE": {
       "ESTIMATED_ANNUAL_REVENUE": "Receita anual estimada",
-      "ESTIMATED_ANNUAL_YIELD": "Rendimento anual estimado",
+      "ESTIMATED_ANNUAL_YIELD": "MISSING",
       "ESTIMATED_PRICE_PER_UNIT": "Preço por unidade estimado",
       "TITLE": "Receita Estimada"
     },
@@ -900,6 +904,7 @@
       },
       "WHAT_HAPPENED": "O que aconteceu?"
     },
+    "COMPLETION_NOTES": "MISSING",
     "CONTAINER": "Recipiente",
     "CONTAINER_OR_IN_GROUND": "Você está plantando em um recipiente ou no solo?",
     "CONTAINER_TYPE": "Tipo de recipiente",
@@ -916,7 +921,7 @@
     "DURATION_TOOLTIP": "Esses são valores sugeridos. Ajuste de acordo com as condições locais.",
     "EDITING_PLAN_WILL_NOT_MODIFY": "Editar este plano não irá modificar as tarefas atribuídas a ele.",
     "ESTIMATED_SEED": "Semente estimada necessária",
-    "ESTIMATED_YIELD": "Rendimento estimado",
+    "ESTIMATED_YIELD": "MISSING",
     "FIRST_MP_SPOTLIGHT": {
       "BODY_PART1": "LiteFarm gerou algumas tarefas com base em seu plano. Você pode adicionar mais tarefas ou atribuí-las nesta tela.",
       "BODY_PART2": "Seu plano será ativado assim que você concluir uma tarefa.",
@@ -959,6 +964,7 @@
     "PLANTING_NOTE": "Notas de plantio",
     "PLANTING_SOIL": "Solo de plantio a ser usado",
     "PLANTS_PER_CONTAINER": "Nº de plantas /recipiente",
+    "RATE_THIS_MANAGEMENT_PLAN": "MISSING",
     "REMOVE_PIN": "Remover alfinete",
     "ROW_METHOD": {
       "HISTORICAL_SAME_LENGTH": "As linhas eram todas do mesmo comprimento?",

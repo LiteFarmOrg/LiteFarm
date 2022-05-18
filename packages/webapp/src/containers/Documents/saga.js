@@ -1,3 +1,18 @@
+/*
+ *  Copyright 2019, 2020, 2021, 2022 LiteFarm.org
+ *  This file is part of LiteFarm.
+ *
+ *  LiteFarm is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  LiteFarm is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ *  GNU General Public License for more details, see <<https://www.gnu.org/licenses/>.>
+ */
+
 import { call, put, select, takeLeading } from 'redux-saga/effects';
 import { createAction } from '@reduxjs/toolkit';
 import apiConfig from '../../apiConfig';
@@ -33,21 +48,29 @@ export function* postDocumentSaga({ payload: documentData }) {
 
 export const archiveDocument = createAction(`archiveDocumentSaga`);
 
-export function* archiveDocumentSaga({ payload: document_id }) {
+export function* archiveDocumentSaga({ payload: { document_id, archived } }) {
   const { documentUrl } = apiConfig;
   let { user_id, farm_id } = yield select(loginSelector);
   const header = getHeader(user_id, farm_id);
+  const archivedStr = archived ? 'ARCHIVE' : 'UNARCHIVE';
   try {
-    const result = yield call(axios.patch, `${documentUrl}/archive/${document_id}`, {}, header);
+    const result = yield call(
+      axios.patch,
+      `${documentUrl}/archive/${document_id}`,
+      { archived },
+      header,
+    );
     if (result) {
       yield put(archiveDocumentSuccess(document_id));
-      yield put(enqueueSuccessSnackbar(i18n.t('message:ATTACHMENTS.SUCCESS.ARCHIVE')));
+      yield put(enqueueSuccessSnackbar(i18n.t(`message:ATTACHMENTS.SUCCESS.${archivedStr}`)));
       history.back();
     } else {
-      yield put(enqueueErrorSnackbar(i18n.t('message:ATTACHMENTS.ERROR.FAILED_ARCHIVE')));
+      yield put(enqueueErrorSnackbar(i18n.t(`message:ATTACHMENTS.ERROR.FAILED_${archivedStr}`)));
+      history.go(0);
     }
   } catch (e) {
-    yield put(enqueueErrorSnackbar(i18n.t('message:ATTACHMENTS.ERROR.FAILED_ARCHIVE')));
+    yield put(enqueueErrorSnackbar(i18n.t(`message:ATTACHMENTS.ERROR.FAILED_${archivedStr}`)));
+    history.go(0);
     console.log(e);
   }
 }

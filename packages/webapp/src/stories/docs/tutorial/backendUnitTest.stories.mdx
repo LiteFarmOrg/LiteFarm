@@ -85,7 +85,7 @@ async function fieldFactory({
 
 function fakeField() {
   return {
-    organic_status: faker.random.arrayElement(['Non-Organic', 'Transitional', 'Organic']),
+    organic_status: faker.helpers.arrayElement(['Non-Organic', 'Transitional', 'Organic']),
     transition_date: faker.date.future(),
   };
 }

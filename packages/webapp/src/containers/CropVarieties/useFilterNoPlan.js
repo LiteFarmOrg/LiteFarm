@@ -1,9 +1,9 @@
 import { useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import { LOCATION, NEEDS_PLAN, STATUS, SUPPLIERS } from '../Filter/constants';
-import { cropCatalogueFilterSelector } from '../filterSlice';
-import useStringFilteredCrops from './useStringFilteredCrops';
-import useSortByCropTranslation from './useSortByCropTranslation';
+import { cropVarietyFilterSelector } from '../filterSlice';
+import useStringFilteredCrops from '../CropCatalogue/useStringFilteredCrops';
+import useSortByCropTranslation from '../CropCatalogue/useSortByCropTranslation';
 import {
   cropsWithVarietyWithoutManagementPlanSelector,
   getUniqueEntities,
@@ -11,10 +11,18 @@ import {
 } from '../managementPlanSlice';
 import { cropVarietiesSelector } from '../cropVarietySlice';
 
-export default function useFilterNoPlan(filterString, isCropSpecific = true) {
+export default function useFilterNoPlan(filterString, crop_id) {
   const managementPlans = useSelector(managementPlansSelector);
   const cropVarieties = useSelector(cropVarietiesSelector);
-  const cropCatalogueFilter = useSelector(cropCatalogueFilterSelector);
+  let cropCatalogueFilter = useSelector(cropVarietyFilterSelector(crop_id));
+
+  if (!cropCatalogueFilter) {
+    cropCatalogueFilter = {
+      [LOCATION]: {},
+      [SUPPLIERS]: {},
+      [STATUS]: {},
+    };
+  }
 
   const varietiesFilteredBySupplier = useMemo(() => {
     const supplierFilter = cropCatalogueFilter[SUPPLIERS];
@@ -37,7 +45,7 @@ export default function useFilterNoPlan(filterString, isCropSpecific = true) {
       varietiesFilteredByString.filter(
         (cropVariety) => !cropVarietyIds.has(cropVariety.crop_variety_id),
       ),
-      isCropSpecific ? 'crop_id' : 'crop_variety_id',
+      'crop_variety_id',
     );
   }, [managementPlans, varietiesFilteredByString]);
 
@@ -60,3 +68,6 @@ export default function useFilterNoPlan(filterString, isCropSpecific = true) {
 
   return cropsFilteredByStatusAndLocation;
 }
+
+export const useFilterNoPlanByCropId = (filterString, crop_id) =>
+  useFilterNoPlan(filterString, crop_id).filter((c) => c.crop_id === crop_id);

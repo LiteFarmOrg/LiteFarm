@@ -20,6 +20,7 @@ const TaskCard = ({
   onClick = null,
   selected,
   happiness,
+  taskCardContents,
   classes = { card: {} },
   ...props
 }) => {
@@ -36,12 +37,12 @@ const TaskCard = ({
   let isAdmin = false;
   let taskUnassigned = false;
 
-  if(user){
-  isAdmin = user.is_admin;
+  if (user) {
+    isAdmin = user.is_admin;
   }
-  if(assignee){
-  isAssignee = user.user_id === assignee.user_id;
-  }else{
+  if (assignee) {
+    isAssignee = user.user_id === assignee.user_id;
+  } else {
     taskUnassigned = true;
   }
 
@@ -53,11 +54,12 @@ const TaskCard = ({
         locationName={locationName}
         cropVarietyName={cropVarietyName}
         completeOrDueDate={completeOrDueDate}
+        abandonDate={props['abandon_date']}
         assignee={assignee}
         style={style}
         onClick={onClick}
         onClickAssignee={() => {
-          if (!immutableStatus.includes(status) && isAssignee || isAdmin || taskUnassigned) {
+          if ((!immutableStatus.includes(status) && isAssignee) || isAdmin || taskUnassigned) {
             setShowTaskAssignModal(true);
           }
         }}
@@ -81,6 +83,7 @@ const TaskCard = ({
           onAssignTask={onAssignTask}
           users={users}
           user={user}
+          taskCardContents={taskCardContents}
           dismissModal={() => setShowTaskAssignModal(false)}
         />
       )}
@@ -110,6 +113,7 @@ TaskCard.propTypes = {
   onClickCompleteOrDueDate: PropTypes.func,
   selected: PropTypes.bool,
   task_id: PropTypes.number,
+  taskCardContents: PropTypes.array,
 };
 
 export default TaskCard;

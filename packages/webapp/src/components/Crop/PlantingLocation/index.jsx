@@ -99,21 +99,26 @@ export default function PurePlantingLocation({
     setPinToggle((pinToggle) => !pinToggle);
   };
 
-  const onSubmit = () => history.push(
-    getPlantingLocationPaths(variety_id, persistedFormData, isFinalLocationPage).submitPath,
-  );
+  const onSubmit = () =>
+    history.push(
+      getPlantingLocationPaths(variety_id, persistedFormData, isFinalLocationPage).submitPath,
+    );
   const onGoBack = () => {
     history.back();
     ``;
   };
-
 
   return (
     <>
       <Layout
         buttonGroup={
           <>
-            <Button disabled={!selectedLocationId && !pinCoordinate} onClick={onSubmit} fullLength>
+            <Button
+              data-cy="cropPlan-locationSubmit"
+              disabled={!selectedLocationId && !pinCoordinate}
+              onClick={onSubmit}
+              fullLength
+            >
               {t('common:CONTINUE')}
             </Button>
           </>
@@ -131,6 +136,7 @@ export default function PurePlantingLocation({
         <p className={styles.planting_label}>{plantingLabel}</p>
 
         <LocationPicker
+          data-cy="map-plantingLocation"
           onSelectLocation={setLocationId}
           farmCenterCoordinate={farmCenterCoordinate}
           selectedLocationIds={[selectedLocationId]}

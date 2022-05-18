@@ -30,6 +30,8 @@ function AddCropVarietyForm({ history, match }) {
     const cropData = {
       ...persistedFormData,
       ...data,
+      crop_variety_name: data.crop_variety_name.trim(),
+      supplier: data.supplier.trim(),
       compliance_file_url: '',
       organic: null,
       treated: null,

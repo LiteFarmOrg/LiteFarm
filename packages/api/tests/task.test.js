@@ -7,7 +7,7 @@ jest.mock('jsdom');
 jest.mock('../src/middleware/acl/checkJwt');
 const mocks = require('./mock.factories');
 const { tableCleanup } = require('./testEnvironment');
-const faker = require('faker');
+const { faker } = require('@faker-js/faker');
 
 describe('Task tests', () => {
   let middleware;
@@ -974,10 +974,12 @@ describe('Task tests', () => {
               task_name: 'Transplant',
             },
           );
-          const [{ location_id }] = await mocks.fieldFactory({ promisedFarm: [userFarm] });
-          const [{ management_plan_id }] = await mocks.crop_management_planFactory({
-            promisedFarm: [userFarm],
-          });
+          const [
+            { location_id, management_plan_id },
+          ] = await mocks.planting_management_planFactory({ promisedFarm: [userFarm] });
+          const [
+            { planting_management_plan_id: prev_planting_management_plan_id },
+          ] = await mocks.planting_management_planFactory({ promisedFarm: [userFarm] });
           const transplant_task = {
             ...mocks.fakeTask(),
             task_type_id: transplantTaskType.task_type_id,
@@ -990,6 +992,7 @@ describe('Task tests', () => {
                 planting_method: planting_method.toUpperCase(),
                 [planting_method]: fakeMethodMap[planting_method](),
               },
+              prev_planting_management_plan_id,
             },
           };
 
@@ -1451,25 +1454,22 @@ describe('Task tests', () => {
         promisedTask: [{ task_id }],
         promisedField: [{ location_id }],
       });
-      assignTaskRequest(
-        { user_id, farm_id },
-        { assignee_user_id: user_id },
-        task_id,
-        async () => {},
-      );
-      completeTaskRequest(
-        { user_id: another_id, farm_id },
-        {
-          ...fakeCompletionData,
-          soil_amendment_task: fakeTaskData.soil_amendment_task(),
-        },
-        task_id,
-        'soil_amendment_task',
-        async (err, res) => {
-          expect(res.status).toBe(403);
-          done();
-        },
-      );
+      assignTaskRequest({ user_id, farm_id }, { assignee_user_id: user_id }, task_id, async () => {
+        completeTaskRequest(
+          { user_id: another_id, farm_id },
+          {
+            ...fakeCompletionData,
+            soil_amendment_task: fakeTaskData.soil_amendment_task(),
+            assignee_user_id: user_id,
+          },
+          task_id,
+          'soil_amendment_task',
+          async (err, res) => {
+            expect(res.status).toBe(403);
+            done();
+          },
+        );
+      });
     });
 
     test('should be able to complete a soil amendment task', async (done) => {

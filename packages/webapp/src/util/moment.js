@@ -52,6 +52,7 @@ export const addDaysToDate = (date, days, { toUTC = true } = {}) => {
  */
 export const getLocalizedDateString = (date, format = 'MMMM DD, YYYY') =>
   moment(date).locale(getLanguageFromLocalStorage()).format(format);
+
 /**
  *
  * @param date

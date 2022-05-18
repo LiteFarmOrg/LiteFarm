@@ -3,8 +3,6 @@ const XlsxPopulate = require('xlsx-populate');
 const rp = require('request-promise');
 const surveyStackURL = 'https://app.surveystack.io/api/';
 module.exports = async (submission, exportId) => {
-  console.log('STEP X > SURVEY RECORD');
-
   const submissionData = await rp({
     uri: `${surveyStackURL}/submissions/${submission}`,
     json: true,
@@ -17,11 +15,11 @@ module.exports = async (submission, exportId) => {
     headers: { Authorization: '<user-email> <user-token>' },
   });
 
-  console.log('THIS IS THE SUBMISSION DATA: ', submissionData);
-  console.log(
-    'THIS IS THE WHOLE SURVEY INFORMATION: ',
-    survey.revisions[survey.revisions.length - 1].controls,
-  );
+  //   console.log('THIS IS THE SUBMISSION DATA: ', submissionData);
+  //   console.log(
+  //     'THIS IS THE WHOLE SURVEY INFORMATION: ',
+  //     survey.revisions[survey.revisions.length - 1].controls,
+  //   );
 
   const ignoredQuestions = [
     'geoJSON',
@@ -90,11 +88,13 @@ module.exports = async (submission, exportId) => {
   const writeDropdownQs = (sheet, col, row, data) => {
     sheet.cell(`${col}${row}`).value(data['Question']).style(questionStyle);
 
-    for (const answer of data['Answer']) {
-      sheet
-        .cell(`${col}${(row += 1)}`)
-        .value(answer)
-        .style(defaultStyle);
+    if (data['Answer'] != null) {
+      for (const answer of data['Answer']) {
+        sheet
+          .cell(`${col}${(row += 1)}`)
+          .value(answer)
+          .style(defaultStyle);
+      }
     }
     return [col, row];
   };
@@ -226,7 +226,10 @@ module.exports = async (submission, exportId) => {
   };
 
   const writeCollection = (sheet, col, row, data) => {
-    sheet.cell(`${col}${row}`).value(data['Question']).style(groupHeaderStyle);
+    sheet
+      .cell(`${col}${row}`)
+      .value(data['Question'])
+      .style({ ...groupHeaderStyle, topBorder: { color: '000000', style: 'thin' } });
     const groupName = data['Name'];
     const childInfo = data['Children']
       .map(({ label, name, type, hint, options, moreInfo, children }) => ({
@@ -242,8 +245,10 @@ module.exports = async (submission, exportId) => {
     // console.log("THESE ARE THE CHILDREN: ", childInfo);
     for (const child of childInfo) {
       [col, row] = typeToFuncMap[child['Type']](sheet, col, row + 1, child);
-      // row += 1;
     }
+    sheet
+      .cell(`${col}${(row += 1)}`)
+      .style({ ...groupHeaderStyle, bottomBorder: { color: '000000', style: 'thin' } });
 
     return [col, row + 1];
   };
@@ -262,7 +267,7 @@ module.exports = async (submission, exportId) => {
     group: writeCollection,
   };
 
-  console.log('THIS IS THE QUESTION & ANSWERS', questionAnswerMap);
+  //   console.log('THIS IS THE QUESTION & ANSWERS', questionAnswerMap);
 
   return XlsxPopulate.fromBlankAsync().then((workbook) => {
     // Populate the workbook.

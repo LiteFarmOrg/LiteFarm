@@ -190,4 +190,14 @@ describe.only('Tasks flow tests', () => {
 
     // user clicks on the type filter, all 7 task types should appear (test for LF-2364)
   });
+
+  it('Complete crop plan', () => {
+    //Test for LF-2178
+    //Go to completed crop plan’s detail page, user should see the following:
+    //Expect Completed date
+    //Expect Plan rating
+    // Expect Completion notes
+    // Expect Plan notes
+    // Expect Estimated annual yield
+  });
 });

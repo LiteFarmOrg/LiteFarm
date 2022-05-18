@@ -312,8 +312,12 @@ describe('Time Based Notification Tests', () => {
   describe('Tasks Due Today Notification Test', () => {
     describe('Notification sent tests', () => {
       beforeEach(async () => {
+        const [{ task_type_id }] = await mocks.task_typeFactory({
+          promisedFarm: [{ farm_id: farm.farm_id }],
+        });
+
         await mocks.taskFactory(
-          { promisedUser: [farmOwner] },
+          { promisedUser: [farmOwner], promisedTaskType: [{ task_type_id }] },
           mocks.fakeTask({
             due_date: new Date().toISOString().split('T')[0],
             assignee_user_id: farmWorker.user_id,
@@ -334,6 +338,73 @@ describe('Time Based Notification Tests', () => {
             .where('notification_user.user_id', farmWorker.user_id);
           expect(notifications.length).toBe(1);
           expect(notifications[0].title.translation_key).toBe('NOTIFICATION.DAILY_TASKS_DUE_TODAY.TITLE');
+          done();
+        });
+      });
+    });
+
+    describe('Notification not sent tests', () => {
+      test('Farm workers should not receive a due today notification if no task is due today', async (done) => {
+        const [{ task_type_id }] = await mocks.task_typeFactory({
+          promisedFarm: [{ farm_id: farm.farm_id }],
+        });
+
+        await mocks.taskFactory(
+          { promisedUser: [farmOwner], promisedTaskType: [{ task_type_id }] },
+          mocks.fakeTask({
+            due_date: faker.date.soon(2).toISOString().split('T')[0],
+            assignee_user_id: farmWorker.user_id,
+          }),
+        );
+
+        postDailyDueTodayTasks({ user_id: farmWorker.user_id }, async(err, res) => {
+          console.log(res.body);
+          expect(res.status).toBe(200);
+          const notifications = await knex('notification_user')
+            .join(
+              'notification',
+              'notification.notification_id',
+              'notification_user.notification_id',
+            )
+            .where('notification_user.user_id', farmWorker.user_id);
+          expect(notifications.length).toBe(0);
+          done();
+        });
+      });
+
+      test('Other farm worker should not receive a due today notification of another worker', async (done) => {
+        const [farmWorker2] = await mocks.usersFactory();
+        await mocks.userFarmFactory(
+          {
+            promisedUser: [farmWorker2],
+            promisedFarm: [farm],
+          },
+          mocks.fakeUserFarm({ role_id: 3 }),
+        );
+
+        const [{ task_type_id }] = await mocks.task_typeFactory({
+          promisedFarm: [{ farm_id: farm.farm_id }],
+        });
+
+        await mocks.taskFactory(
+          { promisedUser: [farmOwner], promisedTaskType: [{ task_type_id }] },
+          mocks.fakeTask({
+            due_date: new Date().toISOString().split('T')[0],
+            assignee_user_id: farmWorker.user_id,
+          }),
+        );
+
+        postDailyDueTodayTasks({ user_id: farmWorker2.user_id }, async(err, res) => {
+          console.log(res.body);
+          expect(res.status).toBe(200);
+          const notifications = await knex('notification_user')
+            .join(
+              'notification',
+              'notification.notification_id',
+              'notification_user.notification_id',
+            )
+            .where('notification_user.user_id', farmWorker2.user_id);
+          expect(notifications.length).toBe(0);
           done();
         });
       });

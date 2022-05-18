@@ -232,6 +232,25 @@ class TaskModel extends BaseModel {
       `,
     );
   }
+
+  /**
+   * Gets the tasks that are due today for a given user
+   * @param {string} userId user id
+   * @returns {Object}
+   * @static
+   * @async
+   */
+  static async getTasksDueTodayFromUserId(userId) {
+    return await TaskModel.knex().raw(
+      `
+        SELECT task.task_id, task_type.task_translation_key, task.assignee_user_id, uf.farm_id
+        FROM task
+        JOIN "userFarm" AS uf ON task.assignee_user_id = uf.user_id
+        JOIN task_type ON task_type.task_type_id = task.task_type_id
+        WHERE task.assignee_user_id::text = '${userId}' AND due_date = now()::date
+      `,
+    )
+  }
 }
 
 module.exports = TaskModel;

@@ -70,19 +70,13 @@ const timeNotificationController = {
   async postDailyDueTodayTasks(req, res) {
     const { user_id } = req.params;
     try {
-      const { rows: tasksDueToday } = await TaskModel.knex().raw(
-        `
-        SELECT task.task_id, task_type.task_translation_key, task.assignee_user_id, uf.farm_id
-        FROM task
-        JOIN "userFarm" AS uf ON task.assignee_user_id = uf.user_id
-        JOIN task_type ON task_type.task_type_id = task.task_type_id
-        WHERE task.assignee_user_id::text = '${user_id}' AND due_date = now()::date
-        `,
-      );
+      const { rows: tasksDueToday } = await TaskModel.getTasksDueTodayFromUserId(user_id);
 
       if (tasksDueToday.length) {
+        const farm_id = tasksDueToday[0].farm_id;
+
         await sendDailyDueTodayTaskNotification(
-          tasksDueToday[0].farm_id,
+          farm_id,
           user_id,
         );
         return res.status(201).send({ tasksDueToday });

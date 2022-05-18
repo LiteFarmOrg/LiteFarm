@@ -112,7 +112,7 @@ describe('Time Based Notification Tests', () => {
           promisedFarm: [{ farm_id: farm.farm_id }],
         });
 
-        const task = await mocks.taskFactory(
+        await mocks.taskFactory(
           { promisedUser: [farmOwner], promisedTaskType: [{ task_type_id }] },
           mocks.fakeTask({
             due_date: faker.date.soon(6).toISOString().split('T')[0],
@@ -327,7 +327,6 @@ describe('Time Based Notification Tests', () => {
 
       test('Farm workers should receive a due today notification', async (done) => {
         postDailyDueTodayTasks({ user_id: farmWorker.user_id }, async(err, res) => {
-          console.log(res.body);
           expect(res.status).toBe(201);
           const notifications = await knex('notification_user')
             .join(

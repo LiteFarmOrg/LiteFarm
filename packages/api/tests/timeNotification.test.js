@@ -52,15 +52,15 @@ describe('Time Based Notification Tests', () => {
       next();
     });
 
-    const { createToken, tokenType } = require('../src/util/jwt');
-    createToken.mockImplementation(async (type, user) => {
-      const localSchedulerToken = sign(user, tokenType[type], {
-        expiresIn: '7d',
-        algorithm: 'HS256',
-      });
-      globalSchedulerToken = localSchedulerToken;
-      return localSchedulerToken;
-    });
+    // const { createToken, tokenType } = require('../src/util/jwt');
+    // createToken.mockImplementation(async (type, user) => {
+    //   const localSchedulerToken = sign(user, tokenType[type], {
+    //     expiresIn: '7d',
+    //     algorithm: 'HS256',
+    //   });
+    //   globalSchedulerToken = localSchedulerToken;
+    //   return localSchedulerToken;
+    // });
   });
 
   function postWeeklyUnassignedTasksRequest(data, callback) {
@@ -94,13 +94,17 @@ describe('Time Based Notification Tests', () => {
           promisedFarm: [{ farm_id: farm.farm_id }],
         });
 
-        const task = await mocks.taskFactory(
+        const [task] = await mocks.taskFactory(
           { promisedUser: [farmOwner], promisedTaskType: [{ task_type_id }] },
           mocks.fakeTask({
             due_date: faker.date.soon(6).toISOString().split('T')[0],
             assignee_user_id: null,
           }),
         );
+        const [location] = await mocks.locationFactory({
+          promisedFarm: [{ farm_id: farm.farm_id }],
+        });
+        await mocks.location_tasksFactory({ promisedTask: [task], promisedField: [location] });
       });
 
       test('Farm Owners Should Receive Notification', async (done) => {

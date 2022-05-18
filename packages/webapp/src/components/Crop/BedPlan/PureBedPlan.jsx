@@ -39,8 +39,6 @@ function PureBedPlan({
 
   const onSubmit = () => history.push(submitPath, location.state);
 
-  console.log(location);
-
   return (
     <Form
       buttonGroup={

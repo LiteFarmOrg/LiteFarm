@@ -14,8 +14,6 @@ export default function TaskRowMethod({ history, match, location }) {
   );
   const crop_variety = useSelector(cropVarietySelector(crop_variety_id));
 
-  console.log(location);
-
   return (
     <HookFormPersistProvider>
       <PureRowMethod

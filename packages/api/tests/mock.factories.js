@@ -1492,13 +1492,26 @@ function fakePlantTask(defaultData = {}) {
 }
 
 async function transplant_taskFactory(
-  { promisedTask = taskFactory() } = {},
+  {
+    promisedTask = taskFactory(),
+    promisedMgtPlan = planting_management_planFactory(),
+    promisedPrevMgtPlan = planting_management_planFactory(),
+  } = {},
   transplant_task = fakePlantTask(),
 ) {
-  const [activity] = await Promise.all([promisedTask]);
+  const [
+    activity,
+    [{ planting_management_plan_id }],
+    [{ planting_management_plan_id: prev_planting_management_plan_id }],
+  ] = await Promise.all([promisedTask, promisedMgtPlan, promisedPrevMgtPlan]);
   const [{ task_id }] = activity;
   return knex('transplant_task')
-    .insert({ task_id, ...transplant_task })
+    .insert({
+      task_id,
+      planting_management_plan_id,
+      prev_planting_management_plan_id,
+      ...transplant_task,
+    })
     .returning('*');
 }
 

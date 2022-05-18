@@ -352,6 +352,10 @@
     "ARCHIVE_DOCUMENT": "Archive document?",
     "ARCHIVE_DOCUMENT_TEXT": "Archiving this document will move it to the archived section of your documents, but not delete it. Archived documents will not be exported for your certifications. Do you want to proceed?",
     "ARCHIVED": "Archived",
+    "UNARCHIVE": "Unarchive",
+    "UNARCHIVE_DOCUMENT": "Unarchive document?",
+    "UNARCHIVE_DOCUMENT_TEXT": "Unarchiving this document will return it to your list of currently valid documents. Valid documents will be exported for your certifications. Do you want to proceed?",
+    "UNARCHIVED": "Unarchived",
     "CANCEL": "Cancel",
     "COMPLIANCE_DOCUMENTS_AND_CERTIFICATION": "Compliance documents and your certification",
     "DOCUMENTS": "Documents",
@@ -897,6 +901,7 @@
       },
       "WHAT_HAPPENED": "What happened?"
     },
+    "COMPLETION_NOTES": "Completion notes",
     "CONTAINER": "Container",
     "CONTAINER_OR_IN_GROUND": "Are you planting in a container or in ground?",
     "CONTAINER_TYPE": "Type of container",
@@ -955,6 +960,7 @@
     "PLANTING_NOTE": "Planting notes",
     "PLANTING_SOIL": "Planting soil to be used",
     "PLANTS_PER_CONTAINER": "# of plants/container",
+    "RATE_THIS_MANAGEMENT_PLAN": "Rate this management plan",
     "REMOVE_PIN": "Remove pin",
     "ROW_METHOD": {
       "HISTORICAL_SAME_LENGTH": "Were the rows all the same length?",

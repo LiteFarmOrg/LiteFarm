@@ -19,7 +19,7 @@ import {
   setCropVarietyFilter,
   setCropVarietyFilterDefault,
 } from '../../filterSlice';
-import { suppliersSelector } from '../../cropVarietySlice';
+import { suppliersByCropIdSelector } from '../../cropVarietySlice';
 import { SEARCHABLE_MULTI_SELECT } from '../../../components/Filter/filterTypes';
 
 const statuses = [ACTIVE, ABANDONED, PLANNED, COMPLETE, NEEDS_PLAN];
@@ -28,7 +28,7 @@ const CropVarietyFilterPage = ({ cropId, onGoBack }) => {
   const { t } = useTranslation(['translation', 'filter']);
   const cropEnabledLocations = useSelector(cropLocationsSelector);
   const cropVarietyFilter = useSelector(cropVarietyFilterSelector(cropId));
-  const suppliers = useSelector(suppliersSelector); //TODO: SELECT SUPPLIERS EXCLUSIVE TO THIS CROP
+  const suppliers = useSelector(suppliersByCropIdSelector(cropId));
   const dispatch = useDispatch();
 
   useEffect(() => {

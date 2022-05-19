@@ -1,14 +1,10 @@
 import { HookFormPersistProvider } from '../../hooks/useHookFormPersist/HookFormPersistProvider';
-import {
-  PureTaskPlantingMethod,
-} from '../../../components/Task/PureTaskPlantingMethod/PureManagementPlanPlantingMethod';
+import { PureTaskPlantingMethod } from '../../../components/Task/PureTaskPlantingMethod/PureManagementPlanPlantingMethod';
 
-export default function PlantingMethod({ history, match }) {
-
-
+export default function PlantingMethod({ history, match, location }) {
   return (
     <HookFormPersistProvider>
-      <PureTaskPlantingMethod history={history} />
+      <PureTaskPlantingMethod history={history} location={location} />
     </HookFormPersistProvider>
   );
 }

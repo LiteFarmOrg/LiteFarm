@@ -10,7 +10,7 @@ import React from 'react';
 import { taskCardContentByManagementPlanSelector } from '../../Task/taskCardContentSelector';
 import { onAddTask } from '../../Task/onAddTask';
 
-export default function ManagementTasks({ history, match }) {
+export default function ManagementTasks({ history, match, location }) {
   const dispatch = useDispatch();
   const variety_id = match.params.variety_id;
   const variety = useSelector(cropVarietySelector(variety_id));
@@ -39,11 +39,9 @@ export default function ManagementTasks({ history, match }) {
         onBack={onBack}
         onCompleted={onCompleted}
         onAbandon={onAbandon}
-        onAddTask={onAddTask(
-          dispatch,
-          history,
-          `/crop/${variety_id}/management_plan/${management_plan_id}/tasks`,
-        )}
+        onAddTask={onAddTask(dispatch, history, {
+          pathname: `/crop/${variety_id}/management_plan/${management_plan_id}/tasks`,
+        })}
         isAdmin={isAdmin}
         variety={variety}
         plan={plan}
@@ -54,7 +52,9 @@ export default function ManagementTasks({ history, match }) {
         {taskCardContents.map((task) => (
           <TaskCard
             key={task.task_id}
-            onClick={() => history.push(`/tasks/${task.task_id}/read_only`)}
+            onClick={() =>
+              history.push(`/tasks/${task.task_id}/read_only`, { pathname: location.pathname })
+            }
             style={{ marginBottom: '14px' }}
             taskCardContents={taskCardContents}
             {...task}

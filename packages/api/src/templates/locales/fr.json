@@ -1,89 +1,89 @@
 {
   "TEMPLATE": {
-    "DEAR": "Dear",
-    "CHEERS": "Cheers",
-    "LITEFARM_TEAM": "The LiteFarm team",
-    "NO_RESPONSE": "Please do not reply to this email.",
-    "GET_IN_TOUCH": "To get in touch with us, click",
-    "HELP": "help",
-    "OR": "or",
-    "CONTACT": "contact us"
+    "DEAR": "Cher / chère",
+    "CHEERS": "Bien à vous",
+    "LITEFARM_TEAM": "L'équipe LiteFarm",
+    "NO_RESPONSE": "S'il vous plait ne répondez pas à cet email.",
+    "GET_IN_TOUCH": "Pour nous contacter, cliquez",
+    "HELP": "aide-moi",
+    "OR": "ou",
+    "CONTACT": "contactez nous"
   },
   "HELP_REQUEST": {
-    "RESPONSE": "Thanks for reaching out. Someone on our support team will be in touch within 48 hours. A summary of your request is shown below.",
-    "TYPE_HEADER": "Type of support",
+    "RESPONSE": "Merci de nous avoir contactés. Un membre de notre équipe d'assistance vous contactera dans les 48 heures. Un récapitulatif de votre demande est présenté ci-dessous.",
+    "TYPE_HEADER": "Type d'aide",
     "MESSAGE_HEADER": "Message",
-    "CONTACT_METHOD_HEADER": "Preferred contact method",
-    "SUBJECT": "Your LiteFarm request for help"
+    "CONTACT_METHOD_HEADER": "Méthode de contact préférée",
+    "SUBJECT": "Votre demande d'aide LiteFarm"
   },
   "INVITE": {
-    "GREAT_FOLK": "The great folks at",
-    "INVITED_YOU": "have invited you to join their team on LiteFarm! LiteFarm is an open-source software tool for helping farmers manage their farms. You can read more about LiteFarm at",
-    "YOU_CAN_ACCEPT": "You can accept this invitation (on any device) using the button below",
-    "SUBJECT0": "You’ve been invited to join",
-    "SUBJECT1": "on LiteFarm!"
+    "GREAT_FOLK": "Les gens formidables de",
+    "INVITED_YOU": "vous ont invité à rejoindre leur équipe sur LiteFarm ! LiteFarm est un outil logiciel open source pour aider les agriculteurs à gérer leurs fermes. Vous pouvez en savoir plus sur LiteFarm à",
+    "YOU_CAN_ACCEPT": "Vous pouvez accepter cette invitation (sur n'importe quel appareil) en utilisant le bouton ci-dessous",
+    "SUBJECT0": "Vous avez été invité à rejoindre",
+    "SUBJECT1": "sur LiteFarm!"
   },
   "PASSWORD_RESET_REQUEST": {
-    "DID_YOU_FORGET": "Did you forget your LiteFarm password? Not a problem! Click the \"Reset\" button below and your access will soon be restored.",
-    "RESET": "Reset Password",
-    "IGNORE": "If you didn't ask us to send you this email, you can ignore it. No changes have been made to your account.",
-    "SUBJECT": "Password Reset Request"
+    "DID_YOU_FORGET": "Avez-vous oublié votre mot de passe LiteFarm ? Pas de problème! Cliquez sur le bouton \"Réinitialiser\" ci-dessous et votre accès sera bientôt restauré.",
+    "RESET": "RRéinitialiser",
+    "IGNORE": "Si vous ne nous avez pas demandé de vous envoyer ce message, vous pouvez l'ignorer. Aucune modification n'a été apportée à votre compte.",
+    "SUBJECT": "Demande de réinitialisation du mot de passe"
   },
   "PASSWORD_RESET_CONFIRMATION": {
-    "UPDATED": "We’ve updated your LiteFarm password. Click ‘Log In’ below to access your account.",
-    "SUBJECT": "Your LiteFarm password has been changed"
+    "UPDATED": "Nous avons mis à jour votre mot de passe LiteFarm. Cliquez sur 'Connexion' ci-dessous pour accéder à votre compte.",
+    "SUBJECT": "Votre mot de passe LiteFarm a été modifié"
   },
   "RESTORE_ACCESS": {
-    "ADMIN": "It looks like one of the administrators at",
-    "RESTORED": "has renewed your access to their farm on LiteFarm. Welcome back!",
-    "CLICK_BELOW": "You can log back in by clicking below",
-    "SUBJECT0": "Your access to",
-    "SUBJECT1": "has been restored!"
+    "ADMIN": "Il semble que l'un des administrateurs de",
+    "RESTORED": "a renouvelé votre accès à leur ferme sur LiteFarm. Content de te revoir!",
+    "CLICK_BELOW": "Vous pouvez vous reconnecter en cliquant ci-dessousw",
+    "SUBJECT0": "Votre accès à",
+    "SUBJECT1": "a été restauré !"
   },
   "REVOKE_ACCESS": {
-    "ADMIN": "It looks like one of the administrators at",
-    "REVOKE": "has revoked your access to their farm on LiteFarm. If this comes as a surprise, you should reach out to your contact there to fix the problem.",
-    "SUBJECT0": "You've lost access to",
-    "SUBJECT1": "on LiteFarm!"
+    "ADMIN": "Il semble que l'un des administrateurs de",
+    "REVOKE": "a révoqué votre accès à sa ferme sur LiteFarm. Si cela vous surprend, vous devez contacter votre contact là-bas pour résoudre le problème."
+    "SUBJECT0": "Vous avez perdu l'accès à",
+    "SUBJECT1": "sur LiteFarm!"
   },
   "ACCEPT_INVITE_CONFIRMATION": {
-    "CONGRATS": "Congrats on becoming the newest",
-    "AT": "at",
-    "CLICK_BELOW": "You can log-in (on any device) using the button below",
-    "SUBJECT": "You've successfully joined"
+    "CONGRATS": "Félicitations d'être devenu le plus récent",
+    "AT": "à",
+    "CLICK_BELOW": "Vous pouvez vous connecter (sur n'importe quel appareil) en utilisant le bouton ci-dessous",
+    "SUBJECT": "Vous avez rejoint avec succès"
   },
   "CREATE_ACCOUNT_CONFIRMATION": {
-    "WELCOME": "Welcome to LiteFarm! LiteFarm is an open-source software tool for helping farmers manage their farms. You can read more about LiteFarm at",
-    "CLICK_BELOW": "You can also log-in (on any device) using the button below",
-    "SUBJECT": "Welcome to LiteFarm!"
+    "WELCOME": "Bienvenue à Lite Farm ! LiteFarm est un outil logiciel open source pour aider les agriculteurs à gérer leurs fermes. Vous pouvez en savoir plus sur LiteFarm à",
+    "CLICK_BELOW": "Vous pouvez également vous connecter (sur n'importe quel appareil) en utilisant le bouton ci-dessous",
+    "SUBJECT": "Bienvenue à  LiteFarm !"
   },
   "WITHHOLD_CONSENT": {
-    "RECENT": "Recently, while joining",
-    "WITHHOLD": "on the LiteFarm application, you decided to withhold your consent regarding the LiteFarm privacy policy. This is absolutely your right, however, it means you won't be able to access the application. We're very sorry about this.",
-    "DEACTIVATE": "We've de-activated your association to",
-    "HOWEVER": "However, we still have the basic information you shared with us while setting up your user account. If you're associated with other farms, we also have any information you entered while working with those farms as well.",
-    "RIGHT": "You have the following rights regarding your data",
-    "COPY": "To know what data we have about you and request a copy of it",
-    "UPDATE": "To update or correct any data we have about you",
-    "STOP": "Request that we stop collecting your data (you've just done this)",
-    "TRANSFER": "Request a transfer of your data",
-    "DELETE": "Request that we delete your data",
-    "TO_REQUEST": "To request any of these actions, send an email to",
-    "SUPPORT": "with your request and we'll take care of you.",
-    "OTHERWISE": "Otherwise, if you change your mind, you can log-in (on any device) at any time and accept our privacy policy using the button below",
-    "RESTORE": "If you do so, you'll once again be able to access the LiteFarm system.",
-    "SUBJECT": "You didnt agree with the LiteFarm privacy policy – here are your options"
+    "RECENT": "Récemment, en rejoignant",
+    "WITHHOLD": "sur l'application LiteFarm, vous avez décidé de refuser votre consentement concernant la politique de confidentialité de LiteFarm. C'est tout à fait votre droit, cependant, cela signifie que vous ne pourrez pas accéder à l'application. Nous en sommes vraiment désolés.",
+    "DEACTIVATE": "Nous avons désactivé votre association pour",
+    "HOWEVER": "Cependant, nous avons toujours les informations de base que vous avez partagées avec nous lors de la configuration de votre compte utilisateur. Si vous êtes associé à d'autres fermes, nous avons également toutes les informations que vous avez saisies lorsque vous travaillez avec ces fermes.",
+    "RIGHT": "Vous disposez des droits suivants concernant vos données",
+    "COPY": "Le droit de savoir quelles données nous avons sur vous et d'en demander une copie",
+    "UPDATE": "Le droit de mettre à jour ou de corriger les données que nous possédons à votre sujet",
+    "STOP": "le droit de demander que nous arrêtions de collecter vos données (vous venez de le faire)",
+    "TRANSFER": "Le droit de demander un transfert de vos données",
+    "DELETE": "Le droit de demander que nous supprimions vos données",
+    "TO_REQUEST": "le droit de demander l'une de ces actions, envoyer un courriel à",
+    "SUPPORT": "avec votre demande et nous nous occuperons de vous.",
+    "OTHERWISE": "Sinon, si vous changez d'avis, vous pouvez vous connecter (sur n'importe quel appareil) à tout moment et accepter notre politique de confidentialité en utilisant le bouton ci-dessous.",
+    "RESTORE": "Si vous le faites, vous pourrez à nouveau accéder au système LiteFarm.",
+    "SUBJECT": "Vous n'êtes pas d'accord avec la politique de confidentialité de LiteFarm - voici vos options"
   },
   "EXPORT_MAP": {
-    "EXPORT": "Here’s the farm map export for",
-    "REQUESTED": "that you requested on LiteFarm.",
-    "GREETING": "Have a great day!",
-    "SUBJECT0": "Here’s your farm map for",
-    "SUBJECT1": "on LiteFarm"
+    "EXPORT": "Voici l'exportation de la carte de la ferme pour",
+    "REQUESTED": "que vous avez demandé sur LiteFarm.",
+    "GREETING": "Bonne journée!",
+    "SUBJECT0": "Voici votre carte de ferme pour",
+    "SUBJECT1": "sur LiteFarm"
   },
   "COMMON": {
-    "JOIN": "Join",
-    "LOG_IN": "Log In",
+    "JOIN": "Rejoindre",
+    "LOG_IN": "Connexion",
     "OWNER": "Propriétaire",
     "EXTENSION_OFFICER": "Agent de vulgarisation",
     "WORKER": "Ouvrier",
@@ -91,11 +91,11 @@
   },
   "EXPORT": {
     "HI": "EXPORT.HI",
-    "SEASON": "EXPORT.SEASON",
+    "SEASON": "EXPORT.SAISON",
     "CERTIFICATION": "EXPORT.CERTIFICATION",
-    "GET_YOUR_EXPORT": "EXPORT.GET_YOUR_EXPORT",
-    "SUBJECT": "EXPORT.SUBJECT",
-    "PRIVACY": "EXPORT.PRIVACY",
-    "LANGUAGE_DELAY": "EXPORT.LANGUAGE_DELAY"
+    "GET_YOUR_EXPORT": "EXPORT.OBTENEZ_VOTRE_EXPORTATION",
+    "SUBJECT": "EXPORT.SUBJET",
+    "PRIVACY": "EXPORT.CONFIDENTIALITÉ",
+    "LANGUAGE_DELAY": "EXPORT.DÉLAIS.LANGUE"
   }
 }

@@ -12,7 +12,7 @@ export default function PureCropTile({
   title,
   onClick,
   style,
-  cropCount,
+  cropCount = {},
   needsPlan,
   src,
   alt,
@@ -22,6 +22,7 @@ export default function PureCropTile({
   isSelected,
   status,
 }) {
+  const { active = 0, planned = 0, past = 0, noPlans = 0 } = cropCount;
   const { t } = useTranslation();
   return (
     <div
@@ -46,14 +47,14 @@ export default function PureCropTile({
         }}
       />
 
-      {cropCount && (
+      {planned + past + active !== 0 && (
         <div className={styles.cropCountContainer}>
-          <Square isCropTile>{cropCount.active}</Square>
+          <Square isCropTile>{active}</Square>
           <Square color={'planned'} isCropTile>
-            {cropCount.planned}
+            {planned}
           </Square>
           <Square color={'past'} isCropTile>
-            {cropCount.past}
+            {past}
           </Square>
         </div>
       )}
@@ -70,9 +71,11 @@ export default function PureCropTile({
         </div>
       )}
 
-      {needsPlan && (
+      {noPlans !== 0 && (
         <div className={styles.needsPlanContainer}>
-          <Square color={'needsPlan'} isCropTile style={{ borderBottomRightRadius: '4px' }} />
+          <Square color={'needsPlan'} isCropTile style={{ borderBottomRightRadius: '4px' }}>
+            {noPlans}
+          </Square>
         </div>
       )}
 

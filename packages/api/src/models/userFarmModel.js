@@ -125,7 +125,7 @@ class userFarm extends Model {
   }
 
   /**
-   * Retrieves role for a specified user
+   * Retrieves role for a specified user.
    * @param {uuid} userId - The specified user.
    * @static
    * @async
@@ -173,6 +173,19 @@ class userFarm extends Model {
       await transaction.commit();
     }
     return result;
+  /**
+   * Gets the userIds of FM/FO/EO from the farm with the given farmId
+   * @param {uuid} farmId - The specified user.
+   * @static
+   * @async
+   * @returns {Object} Object {userId} of FM/FO/EO
+   */
+  static async getFarmManagementByFarmId(farmId) {
+    return await userFarm
+      .query()
+      .select('user_id')
+      .whereIn('role_id', [1, 2, 5])
+      .where('userFarm.farm_id', farmId);
   }
 }
 

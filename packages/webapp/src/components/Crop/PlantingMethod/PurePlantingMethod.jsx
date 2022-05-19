@@ -62,6 +62,7 @@ export function PurePlantingMethod({
       </Main>
       <div className={styles.radioGroupContainer}>
         <RadioGroup
+          data-cy="cropPlan-plantingMethod"
           hookFormControl={control}
           name={PLANTING_METHOD}
           radios={[

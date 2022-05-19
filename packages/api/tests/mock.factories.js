@@ -1,4 +1,4 @@
-const faker = require('faker');
+const { faker } = require('@faker-js/faker');
 const knex = require('../src/util/knex');
 
 function weather_stationFactory(station = fakeStation()) {
@@ -28,7 +28,7 @@ function fakeUser(defaultData = {}) {
     user_id: faker.datatype.uuid(),
     status_id: 1,
     phone_number: faker.phone.phoneNumber(),
-    gender: faker.random.arrayElement(['OTHER', 'PREFER_NOT_TO_SAY', 'MALE', 'FEMALE']),
+    gender: faker.helpers.arrayElement(['OTHER', 'PREFER_NOT_TO_SAY', 'MALE', 'FEMALE']),
     birth_year: faker.datatype.number({ min: 1900, max: new Date().getFullYear() }),
     do_not_email: false,
     ...defaultData,
@@ -41,7 +41,7 @@ function fakeSSOUser(defaultData = {}) {
     first_name: faker.name.findName(),
     last_name: faker.name.lastName(),
     email: email.toLowerCase(),
-    user_id: faker.datatype.number(10),
+    user_id: faker.datatype.number({ min: 2, max: 10 }),
     phone_number: faker.phone.phoneNumber(),
     ...defaultData,
   };
@@ -82,7 +82,7 @@ async function userFarmFactory(
 
 function fakeUserFarm(defaultData = {}) {
   return {
-    role_id: faker.random.arrayElement([1, 2, 3, 5]),
+    role_id: faker.helpers.arrayElement([1, 2, 3, 5]),
     status: 'Active',
     has_consent: true,
     step_one: false,
@@ -122,7 +122,7 @@ async function locationFactory({ promisedFarm = farmFactory() } = {}, location =
 
 function fakeLocation(defaultData = {}) {
   return {
-    name: faker.random.arrayElement(['Location1', 'Nice Location', 'Fence', 'AreaLocation']),
+    name: faker.helpers.arrayElement(['Location1', 'Nice Location', 'Fence', 'AreaLocation']),
     notes: faker.lorem.word(3),
     ...defaultData,
   };
@@ -163,8 +163,8 @@ function fakeArea(stringify = true, defaultData = {}) {
           })),
         ],
     perimeter: faker.datatype.number(),
-    total_area_unit: faker.random.arrayElement(['m2', 'ha', 'ft2', 'ac']),
-    perimeter_unit: faker.random.arrayElement(['m', 'km', 'ft', 'mi']),
+    total_area_unit: faker.helpers.arrayElement(['m2', 'ha', 'ft2', 'ac']),
+    perimeter_unit: faker.helpers.arrayElement(['m', 'km', 'ft', 'mi']),
     ...defaultData,
   };
 }
@@ -188,7 +188,7 @@ async function fieldFactory(
 
 function fakeField(defaultData = {}) {
   return {
-    organic_status: faker.random.arrayElement(['Non-Organic', 'Transitional', 'Organic']),
+    organic_status: faker.helpers.arrayElement(['Non-Organic', 'Transitional', 'Organic']),
     transition_date: faker.date.future().toISOString().split('T')[0],
     ...defaultData,
   };
@@ -213,7 +213,7 @@ async function organic_historyFactory(
 
 function fakeOrganicHistory(defaultData = {}) {
   return {
-    organic_status: faker.random.arrayElement(['Non-Organic', 'Transitional', 'Organic']),
+    organic_status: faker.helpers.arrayElement(['Non-Organic', 'Transitional', 'Organic']),
     effective_date: faker.date.past().toISOString().split('T')[0],
     ...defaultData,
   };
@@ -238,7 +238,7 @@ async function gardenFactory(
 
 function fakeGarden(defaultData = {}) {
   return {
-    organic_status: faker.random.arrayElement(['Non-Organic', 'Transitional', 'Organic']),
+    organic_status: faker.helpers.arrayElement(['Non-Organic', 'Transitional', 'Organic']),
     transition_date: faker.date.future().toISOString().split('T')[0],
     ...defaultData,
   };
@@ -259,7 +259,7 @@ function fakeFieldForTests(defaultData = {}) {
 
 function fakePriceInsightForTests(defaultData = {}) {
   return {
-    distance: faker.random.arrayElement([5, 10, 25, 50]),
+    distance: faker.helpers.arrayElement([5, 10, 25, 50]),
     lat: faker.address.latitude(),
     long: faker.address.latitude(),
     startdate: '2021-10-10',
@@ -385,7 +385,7 @@ function fakeCrop(defaultData = {}) {
     crop_translation_key: faker.lorem.words(),
     crop_genus: faker.lorem.words(),
     crop_specie: faker.lorem.words(),
-    crop_group: faker.random.arrayElement([
+    crop_group: faker.helpers.arrayElement([
       'Fruit and nuts',
       'Other crops',
       'Stimulant, spice and aromatic crops',
@@ -398,7 +398,7 @@ function fakeCrop(defaultData = {}) {
       'Potatoes and yams',
       'Beverage and spice crops',
     ]),
-    crop_subgroup: faker.random.arrayElement([
+    crop_subgroup: faker.helpers.arrayElement([
       'Berries',
       'Cereals',
       'Citrus fruits',
@@ -477,14 +477,14 @@ function fakeCrop(defaultData = {}) {
     yield_per_area: faker.datatype.number(10),
     average_seed_weight: faker.datatype.number(10),
     yield_per_plant: faker.datatype.number(10),
-    seeding_type: faker.random.arrayElement(['SEED', 'SEEDLING_OR_PLANTING_STOCK']),
-    lifecycle: faker.random.arrayElement(['ANNUAL', 'PERENNIAL']),
+    seeding_type: faker.helpers.arrayElement(['SEED', 'SEEDLING_OR_PLANTING_STOCK']),
+    lifecycle: faker.helpers.arrayElement(['ANNUAL', 'PERENNIAL']),
     needs_transplant: faker.datatype.boolean(),
     germination_days: faker.datatype.number({ min: 1, max: 10 }),
     transplant_days: faker.datatype.number({ min: 11, max: 20 }),
     harvest_days: faker.datatype.number({ min: 21, max: 30 }),
     termination_days: faker.datatype.number({ min: 31, max: 40 }),
-    planting_method: faker.random.arrayElement([
+    planting_method: faker.helpers.arrayElement([
       'BROADCAST_METHOD',
       'CONTAINER_METHOD',
       'BED_METHOD',
@@ -727,7 +727,7 @@ async function planting_management_planFactory(
 function fakePlantingManagementPlan(defaultData = {}) {
   return {
     is_final_planting_management_plan: faker.datatype.boolean(),
-    planting_method: faker.random.arrayElement([
+    planting_method: faker.helpers.arrayElement([
       'BROADCAST_METHOD',
       'CONTAINER_METHOD',
       'BED_METHOD',
@@ -1015,11 +1015,11 @@ function fakeCropVariety(defaultData = {}) {
   return {
     crop_variety_name: faker.lorem.word(),
     supplier: faker.lorem.word(),
-    seeding_type: faker.random.arrayElement(['SEED', 'SEEDLING_OR_PLANTING_STOCK']),
-    lifecycle: faker.random.arrayElement(['ANNUAL', 'PERENNIAL']),
+    seeding_type: faker.helpers.arrayElement(['SEED', 'SEEDLING_OR_PLANTING_STOCK']),
+    lifecycle: faker.helpers.arrayElement(['ANNUAL', 'PERENNIAL']),
     compliance_file_url: faker.internet.url(),
     organic: faker.datatype.boolean(),
-    treated: faker.random.arrayElement(['YES', 'NO', 'NOT_SURE']),
+    treated: faker.helpers.arrayElement(['YES', 'NO', 'NOT_SURE']),
     genetically_engineered: faker.datatype.boolean(),
     searched: faker.datatype.boolean(),
     protein: faker.datatype.number(10),
@@ -1054,7 +1054,7 @@ function fakeCropVariety(defaultData = {}) {
     transplant_days: faker.datatype.number({ min: 11, max: 20 }),
     harvest_days: faker.datatype.number({ min: 21, max: 30 }),
     termination_days: faker.datatype.number({ min: 31, max: 40 }),
-    planting_method: faker.random.arrayElement([
+    planting_method: faker.helpers.arrayElement([
       'BROADCAST_METHOD',
       'CONTAINER_METHOD',
       'BED_METHOD',
@@ -1109,7 +1109,7 @@ function fakeTask(defaultData = {}) {
   return {
     due_date: faker.date.future().toISOString().split('T')[0],
     notes: faker.lorem.words(),
-    happiness: faker.random.arrayElement([0, 1, 2, 3, 4, 5]),
+    happiness: faker.helpers.arrayElement([0, 1, 2, 3, 4, 5]),
     ...defaultData,
   };
 }
@@ -1128,8 +1128,8 @@ function fakeProduct(defaultData = {}) {
   return {
     name: faker.lorem.words(2),
     supplier: faker.lorem.words(3),
-    on_permitted_substances_list: faker.random.arrayElement(['YES', 'NO', 'NOT_SURE']),
-    type: faker.random.arrayElement(['soil_amendment_task', 'pest_control_task', 'cleaning_task']),
+    on_permitted_substances_list: faker.helpers.arrayElement(['YES', 'NO', 'NOT_SURE']),
+    type: faker.helpers.arrayElement(['soil_amendment_task', 'pest_control_task', 'cleaning_task']),
     ...defaultData,
   };
 }
@@ -1149,7 +1149,7 @@ async function soil_amendment_taskFactory(
 function fakeSoilAmendmentTask(defaultData = {}) {
   return {
     product_quantity: faker.datatype.number(),
-    purpose: faker.random.arrayElement([
+    purpose: faker.helpers.arrayElement([
       'structure',
       'moisture_retention',
       'nutrient_availability',
@@ -1378,7 +1378,7 @@ function fakeDisease(defaultData = {}) {
   return {
     disease_scientific_name: faker.lorem.words(),
     disease_common_name: faker.lorem.words(),
-    disease_group: faker.random.arrayElement([
+    disease_group: faker.helpers.arrayElement([
       'Fungus',
       'Insect',
       'Bacteria',
@@ -1412,7 +1412,7 @@ function fakePestControlTask(defaultData = {}) {
   return {
     product_quantity: faker.datatype.number(2000),
     pest_target: faker.lorem.words(2),
-    control_method: faker.random.arrayElement([
+    control_method: faker.helpers.arrayElement([
       'systemicSpray',
       'foliarSpray',
       'handWeeding',
@@ -1492,13 +1492,26 @@ function fakePlantTask(defaultData = {}) {
 }
 
 async function transplant_taskFactory(
-  { promisedTask = taskFactory() } = {},
+  {
+    promisedTask = taskFactory(),
+    promisedMgtPlan = planting_management_planFactory(),
+    promisedPrevMgtPlan = planting_management_planFactory(),
+  } = {},
   transplant_task = fakePlantTask(),
 ) {
-  const [activity] = await Promise.all([promisedTask]);
+  const [
+    activity,
+    [{ planting_management_plan_id }],
+    [{ planting_management_plan_id: prev_planting_management_plan_id }],
+  ] = await Promise.all([promisedTask, promisedMgtPlan, promisedPrevMgtPlan]);
   const [{ task_id }] = activity;
   return knex('transplant_task')
-    .insert({ task_id, ...transplant_task })
+    .insert({
+      task_id,
+      planting_management_plan_id,
+      prev_planting_management_plan_id,
+      ...transplant_task,
+    })
     .returning('*');
 }
 
@@ -1521,7 +1534,7 @@ async function field_work_taskFactory(
 
 function fakeFieldWorkTask(defaultData = {}) {
   return {
-    type: faker.random.arrayElement([
+    type: faker.helpers.arrayElement([
       'COVERING_SOIL',
       'FENCING',
       'PREPARING_BEDS_OR_ROWS',
@@ -1546,7 +1559,7 @@ async function soil_taskFactory({ promisedTask = taskFactory() } = {}, soil_task
 
 function fakeSoilTask(defaultData = {}) {
   return {
-    texture: faker.random.arrayElement([
+    texture: faker.helpers.arrayElement([
       'sand',
       'loamySand',
       'sandyLoam',
@@ -1580,7 +1593,7 @@ function fakeSoilTask(defaultData = {}) {
     c: faker.datatype.number(1000),
     na: faker.datatype.number(1000),
     total_carbon: faker.datatype.number(1000),
-    depth_cm: faker.random.arrayElement(['5', '10', '20', '30', '50', '100']),
+    depth_cm: faker.helpers.arrayElement(['5', '10', '20', '30', '50', '100']),
     ...defaultData,
   };
 }
@@ -1598,7 +1611,7 @@ async function irrigation_taskFactory(
 
 function fakeIrrigationTask(defaultData = {}) {
   return {
-    type: faker.random.arrayElement(['sprinkler', 'drip', 'subsurface', 'flood']),
+    type: faker.helpers.arrayElement(['sprinkler', 'drip', 'subsurface', 'flood']),
     hours: faker.datatype.number(10),
     'flow_rate_l/min': faker.datatype.number(10),
     ...defaultData,
@@ -1618,7 +1631,7 @@ async function scouting_taskFactory(
 
 function fakeScoutingTask(defaultData = {}) {
   return {
-    type: faker.random.arrayElement(['harvest', 'pest', 'disease', 'weed', 'other']),
+    type: faker.helpers.arrayElement(['harvest', 'pest', 'disease', 'weed', 'other']),
     ...defaultData,
   };
 }
@@ -1635,7 +1648,7 @@ async function shiftFactory({ promisedUserFarm = userFarmFactory() } = {}, shift
 function fakeShift(defaultData = {}) {
   return {
     shift_date: new Date().toISOString().split('T')[0],
-    mood: faker.random.arrayElement(['happy', 'neutral', 'very happy', 'sad', 'very sad', 'na']),
+    mood: faker.helpers.arrayElement(['happy', 'neutral', 'very happy', 'sad', 'very sad', 'na']),
     wage_at_moment: faker.datatype.number(20),
     ...defaultData,
   };
@@ -1750,7 +1763,7 @@ function fakeCropVarietySale(defaultData = {}) {
   return {
     sale_value: faker.datatype.number(1000),
     quantity: faker.datatype.number(1000),
-    quantity_unit: faker.random.arrayElement(['kg', 'mt', 'lb', 't']),
+    quantity_unit: faker.helpers.arrayElement(['kg', 'mt', 'lb', 't']),
     ...defaultData,
   };
 }
@@ -1778,9 +1791,9 @@ function fakeSupportTicket(farm_id, defaultData = {}) {
   }
 
   return {
-    support_type: faker.random.arrayElement(support_type),
-    contact_method: faker.random.arrayElement(contact_method),
-    status: faker.random.arrayElement(status),
+    support_type: faker.helpers.arrayElement(support_type),
+    contact_method: faker.helpers.arrayElement(contact_method),
+    status: faker.helpers.arrayElement(status),
     message: faker.lorem.paragraphs(),
     attachments,
     email: faker.internet.email(),
@@ -1814,8 +1827,8 @@ function fakeOrganicCertifierSurvey(farm_id, defaultData = {}) {
   const past = faker.date.past();
   const now = new Date();
   return {
-    certifier_id: faker.random.arrayElement(certifierIDS),
-    certification_id: faker.random.arrayElement(certificationIDS),
+    certifier_id: faker.helpers.arrayElement(certifierIDS),
+    certification_id: faker.helpers.arrayElement(certificationIDS),
     created_at: past,
     updated_at: faker.date.between(past, now),
     interested: faker.datatype.boolean(),
@@ -1890,7 +1903,7 @@ async function greenhouseFactory(
 
 function fakeGreenhouse(defaultData = {}) {
   return {
-    organic_status: faker.random.arrayElement(['Non-Organic', 'Transitional', 'Organic']),
+    organic_status: faker.helpers.arrayElement(['Non-Organic', 'Transitional', 'Organic']),
     ...defaultData,
   };
 }
@@ -1932,13 +1945,13 @@ async function water_valveFactory(
 
 function fakeWaterValve(defaultData = {}) {
   return {
-    source: faker.random.arrayElement([
+    source: faker.helpers.arrayElement([
       'Municipal water',
       'Surface water',
       'Groundwater',
       'Rain water',
     ]),
-    flow_rate_unit: faker.random.arrayElement(['l/min', 'l/h', 'gal/min', 'gal/h']),
+    flow_rate_unit: faker.helpers.arrayElement(['l/min', 'l/h', 'gal/min', 'gal/h']),
     flow_rate: faker.datatype.number(1000),
     ...defaultData,
   };
@@ -2070,7 +2083,7 @@ function fakeDocument(defaultData = {}) {
     thumbnail_url: faker.image.imageUrl(),
     valid_until: faker.date.future().toISOString().split('T')[0],
     notes: faker.lorem.words(),
-    type: faker.random.arrayElement([
+    type: faker.helpers.arrayElement([
       'CLEANING_PRODUCT',
       'CROP_COMPLIANCE',
       'FERTILIZING_PRODUCT',
@@ -2142,10 +2155,12 @@ function fakeNotification(defaultData = {}) {
   const notification_id = faker.datatype.uuid();
   return {
     notification_id,
-    translation_key: `translation_key of notification ${notification_id}`,
+    title: { translation_key: `title_translation_key of notification ${notification_id}` },
+    body: { translation_key: `body_translation_key of notification ${notification_id}` },
     variables: [],
-    entity_id: faker.datatype.uuid(),
-    entity_type: `entity_type of notification ${notification_id}`,
+    ref: {
+      entity: { id: faker.datatype.uuid(), type: `entity_type of notification ${notification_id}` },
+    },
     context: {},
     farm_id: faker.datatype.uuid(),
     created_at: faker.date.past(),

@@ -29,14 +29,21 @@ module.exports = (on, config) => {
   // plugins code ...
   const testDataApiEndpoint = `${config.env.apiUrl}/testData`;
 
-
-  on("task", {
-    async "db:tableCleanup"() {
+  on('task', {
+    async 'db:tableCleanup'() {
       // clean up the database tables
       const { data } = await axios.post(`${testDataApiEndpoint}/tableCleanup`);
       return data;
-    }});
+    },
+  });
 
+  on('task', {
+    async 'db:migrations'() {
+      // run migration and seed the database tables
+      const { data } = await axios.post(`${testDataApiEndpoint}/runMigrations`);
+      return data;
+    },
+  });
 
   return config;
 };

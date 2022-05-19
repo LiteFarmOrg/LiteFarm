@@ -34,7 +34,7 @@ export default function PureCropManagement({
 
   return (
     <Layout>
-      <CropHeader {...variety} onBackClick={onBack} />
+      <CropHeader {...variety} onBackClick={() => history.back()} />
       <RouterTab
         classes={{ container: { margin: '24px 0 26px 0' } }}
         history={history}
@@ -59,7 +59,12 @@ export default function PureCropManagement({
           isSearchBar
         />
       )}
-      {isAdmin && <AddLink onClick={onAddManagementPlan}> {t('CROP_DETAIL.ADD_PLAN')}</AddLink>}
+      {isAdmin && (
+        <AddLink data-cy="crop-addPlan" onClick={onAddManagementPlan}>
+          {' '}
+          {t('CROP_DETAIL.ADD_PLAN')}
+        </AddLink>
+      )}
       {managementPlanCardContents && (
         <CardWithStatusContainer style={{ paddingTop: '16px' }}>
           {filteredManagementPlanCardContents.map((managementPlan, index) => (

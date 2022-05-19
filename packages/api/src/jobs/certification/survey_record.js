@@ -277,11 +277,23 @@ module.exports = async (submission, exportId) => {
     return [col, row, farthestCol];
   };
 
+  const writeLocationQs = (sheet, col, row, data) => {
+    sheet.cell(`${col}${row}`).value(data['Question']).style(questionStyle);
+    if (data['Answer'] != null) {
+      const longLat = data['Answer']['geometry']['coordinates'];
+      sheet
+        .cell(`${col}${(row += 1)}`)
+        .value(`Longitude:${longLat[0]}, Latitude:${longLat[1]}`)
+        .style(defaultStyle);
+    }
+    return [col, row, 1];
+  };
+
   const typeToFuncMap = {
     string: writeSimpleQs, // Text
     number: writeSimpleQs,
     ontology: writeDropdownQs, //Dropdown
-    location: writeSimpleQs,
+    location: writeLocationQs,
     date: writeDateQs,
     selectSingle: writeMultiOptionQs, // Multiple choice
     selectMultiple: writeMultiOptionQs, // Checkbox

@@ -6,13 +6,11 @@ module.exports = async (submission, exportId) => {
   const submissionData = await rp({
     uri: `${surveyStackURL}/submissions/${submission}`,
     json: true,
-    headers: { Authorization: 'ashaikh@litefarm.org' },
   });
 
   const survey = await rp({
     uri: `${surveyStackURL}/surveys/${submissionData.meta.survey.id}`,
     json: true,
-    headers: { Authorization: '<user-email> <user-token>' },
   });
 
   const ignoredQuestions = [

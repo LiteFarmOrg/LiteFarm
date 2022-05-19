@@ -420,5 +420,3 @@ describe('Document tests', () => {
     });
   });
 });
-
-/* global afterAll beforeEach describe test expect jest */

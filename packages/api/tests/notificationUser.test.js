@@ -175,5 +175,3 @@ describe('Notification tests', () => {
     });
   });
 });
-
-/* global jest describe test expect beforeEach afterAll */

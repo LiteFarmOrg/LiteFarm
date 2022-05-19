@@ -2229,5 +2229,3 @@ describe('Task tests', () => {
     });
   });
 });
-
-/* global jest describe test xtest expect beforeEach afterAll */

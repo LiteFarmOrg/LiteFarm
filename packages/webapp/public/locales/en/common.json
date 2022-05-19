@@ -53,5 +53,6 @@
   "UPDATE": "Update",
   "WORD_LIMIT_ERROR": "Only {{value}} characters can be displayed",
   "YEAR": "Year",
-  "YES": "Yes"
+  "YES": "Yes",
+  "OK": "OK"
 }

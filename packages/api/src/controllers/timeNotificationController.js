@@ -68,20 +68,26 @@ const timeNotificationController = {
    * @async
    */
   async postDailyDueTodayTasks(req, res) {
-    const { user_id } = req.params;
+    const { farm_id } = req.params;
     try {
-      const { rows: tasksDueToday } = await TaskModel.getTasksDueTodayFromUserId(user_id);
+      const activeUsers = await UserFarmModel.getActiveUsersFromFarmId(farm_id);
 
-      if (tasksDueToday.length) {
-        const farm_id = tasksDueToday[0].farm_id;
+      if (activeUsers.length) {
+        const tasksDueTodayNotificationUsers = [];
+        for (const { user_id } of activeUsers) {
+          const { rows: tasksDueToday } = await TaskModel.getTasksDueTodayFromUserId(user_id);
 
-        await sendDailyDueTodayTaskNotification(
-          farm_id,
-          user_id,
-        );
-        return res.status(201).send({ tasksDueToday });
+          if (tasksDueToday.length) {
+            await sendDailyDueTodayTaskNotification(
+              farm_id,
+              user_id,
+            );
+            tasksDueTodayNotificationUsers.push(user_id);
+          }
+        }
+        return res.status(201).send({ tasksDueTodayNotificationUsers });
       } else {
-        return res.status(200).send({ tasksDueToday });
+        return res.status(200).send('No tasks due today for any users.');
       }
     } catch (error) {
       console.log(error);

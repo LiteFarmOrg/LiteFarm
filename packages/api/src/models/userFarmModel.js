@@ -154,6 +154,20 @@ class userFarm extends Model {
       .whereIn('role_id', [1, 2, 5])
       .where('userFarm.farm_id', farmId);
   }
+
+  /**
+   * Gets the userIds of active users from a given farm
+   * @param {uuid} farmId farm id
+   * @static
+   * @async
+   * @returns {Array} Array [user_id]
+   */
+  static async getActiveUsersFromFarmId(farmId) {
+    return await userFarm
+      .query()
+      .select('user_id')
+      .where('userFarm.farm_id', farmId);
+  }
 }
 
 module.exports = userFarm;

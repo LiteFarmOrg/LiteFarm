@@ -27,7 +27,7 @@ router.post(
 );
 
 router.post(
-  '/daily_due_today_tasks/:user_id',
+  '/daily_due_today_tasks/:farm_id',
   checkSchedulerJwt,
   hasTimeNotificationsAccess,
   timeNotificationController.postDailyDueTodayTasks,

@@ -227,5 +227,3 @@ describe('Task Notification Tests', () => {
     });
   });
 });
-
-/* global jest describe test expect beforeEach afterEach afterAll */

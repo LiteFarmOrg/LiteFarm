@@ -5,7 +5,8 @@ import { PureNotificationCard } from '../../../components/Card/NotificationCard/
 const NotificationCard = ({
   alert,
   status,
-  translation_key,
+  title,
+  body,
   variables,
   context,
   created_at,
@@ -18,7 +19,8 @@ const NotificationCard = ({
       <PureNotificationCard
         alert={alert}
         status={status}
-        translation_key={translation_key}
+        title={title}
+        body={body}
         variables={variables}
         context={context}
         created_at={created_at}

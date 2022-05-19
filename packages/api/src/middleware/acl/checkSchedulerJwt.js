@@ -15,19 +15,10 @@
 
 const jwt = require('express-jwt');
 
-const checkJwt = jwt({
-  secret: process.env.JWT_SECRET,
+const checkSchedulerJwt = jwt({
+  secret: process.env.JWT_SCHEDULER_SECRET,
   algorithms: ['HS256'],
-}).unless({
-  path: [
-    '/user',
-    '/login',
-    '/password_reset',
-    '/user/accept_invitation',
-    '/user_farm/accept_invitation',
-    '/notification_user/subscribe',
-    /\/time_notification\//i,
-  ],
+  requestProperty: 'auth',
 });
 
-module.exports = checkJwt;
+module.exports = checkSchedulerJwt;

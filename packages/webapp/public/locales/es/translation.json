@@ -1055,6 +1055,10 @@
     "TASK_ASSIGNED": {
       "TITLE": "Tarea asignada",
       "BODY": "Se ha asignado una tarea {{taskType}} a {{assignee}}."
+    },
+    "WEEKLY_UNASSIGNED_TASKS": {
+      "TITLE": "MISSING",
+      "BODY": "MISSING"
     }
   },
   "OUTRO": {

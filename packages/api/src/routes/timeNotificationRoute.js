@@ -13,21 +13,17 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const jwt = require('express-jwt');
+const timeNotificationController = require('../controllers/timeNotificationController');
+const express = require('express');
+const checkSchedulerJwt = require('../middleware/acl/checkSchedulerJwt');
+const hasTimeNotificationsAccess = require('../middleware/acl/hasTimeNotificationsAccess');
+const router = express.Router();
 
-const checkJwt = jwt({
-  secret: process.env.JWT_SECRET,
-  algorithms: ['HS256'],
-}).unless({
-  path: [
-    '/user',
-    '/login',
-    '/password_reset',
-    '/user/accept_invitation',
-    '/user_farm/accept_invitation',
-    '/notification_user/subscribe',
-    /\/time_notification\//i,
-  ],
-});
+router.post(
+  '/weekly_unassigned_tasks/:farm_id',
+  checkSchedulerJwt,
+  hasTimeNotificationsAccess,
+  timeNotificationController.postWeeklyUnassignedTasks,
+);
 
-module.exports = checkJwt;
+module.exports = router;

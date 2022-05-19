@@ -45,6 +45,20 @@ class TaskName extends baseModel {
       additionalProperties: false,
     };
   }
+
+  /**
+   * Gets the task translation key id
+   * @param {number} task_type_id - the IDs of the task.
+   * @static
+   * @async
+   * @returns {String} - Object {task_type_id, task_id}
+   */
+  static async getTaskTranslationKeyById(taskTypeId) {
+    return await TaskName.query()
+      .select('task_translation_key')
+      .where('task_type_id', taskTypeId)
+      .first();
+  }
 }
 
 module.exports = TaskName;

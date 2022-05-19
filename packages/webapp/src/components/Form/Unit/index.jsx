@@ -238,17 +238,6 @@ const Unit = ({
     hookFormSetHiddenValue(hookFormValue, { shouldValidate: true, shouldDirty: false });
   }, []);
 
-  // uncomment the code to enable the unit conversion feature.
-  // useEffect(() => {
-  //   if (hookFormUnit && hookFormValue !== undefined) {
-  //     setVisibleInputValue(
-  //       roundToTwoDecimal(convert(hookFormValue).from(databaseUnit).to(hookFormUnit)),
-  //     );
-  //     //Trigger validation
-  //     (hookFormValue === 0 || hookFormValue > 0) && hookFormSetHiddenValue(hookFormValue);
-  //   }
-  // }, [hookFormUnit]);
-
   const inputOnChange = (e) => {
     setVisibleInputValue(e.target.value);
     mode === 'onChange' && inputOnBlur(e);

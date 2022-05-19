@@ -26,6 +26,7 @@ export default function PureInviteUser({ onInvite, onGoBack, roleOptions = [] })
   const ROLE = 'role';
   const EMAIL = 'email';
   const GENDER = 'gender';
+  const LANGUAGE = 'language';
   const BIRTHYEAR = 'birth_year';
   const WAGE = 'wage';
   const PHONE = 'phone_number';
@@ -44,11 +45,18 @@ export default function PureInviteUser({ onInvite, onGoBack, roleOptions = [] })
     { value: 'OTHER', label: t('gender:OTHER') },
     { value: 'PREFER_NOT_TO_SAY', label: t('gender:PREFER_NOT_TO_SAY') },
   ];
+  const languageOptions = [
+    { value: 'en', label: t('PROFILE.ACCOUNT.ENGLISH') },
+    { value: 'es', label: t('PROFILE.ACCOUNT.SPANISH') },
+    { value: 'pt', label: t('PROFILE.ACCOUNT.PORTUGUESE') },
+    { value: 'fr', label: t('PROFILE.ACCOUNT.FRENCH') },
+  ];
 
   const disabled = !isValid || !isDirty;
   const onSubmit = (data) => {
     data[GENDER] = data?.[GENDER]?.value || 'PREFER_NOT_TO_SAY';
     data[ROLE] = data?.[ROLE]?.value;
+    data[LANGUAGE] = data?.[LANGUAGE]?.value || t('INVITE_USER.DEFAULT_LANGUAGE_VALUE');
     const { first_name, last_name } = getFirstNameLastName(data.name);
     onInvite({ ...data, email, first_name, last_name });
   };
@@ -116,6 +124,23 @@ export default function PureInviteUser({ onInvite, onGoBack, roleOptions = [] })
             style={{ marginBottom: '24px' }}
             defaultValue={genderOptions[3]}
             {...field}
+          />
+        )}
+      />
+      <Controller
+        control={control}
+        name={LANGUAGE}
+        render={({ field }) => (
+          <ReactSelect
+            label={t('INVITE_USER.LANGUAGE_OF_INVITE')}
+            options={languageOptions}
+            style={{ marginBottom: '24px' }}
+            defaultValue={{
+              value: t('INVITE_USER.DEFAULT_LANGUAGE_VALUE'),
+              label: t('INVITE_USER.DEFAULT_LANGUAGE'),
+            }}
+            {...field}
+            required
           />
         )}
       />

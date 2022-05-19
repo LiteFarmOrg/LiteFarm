@@ -101,7 +101,7 @@ export const PureTaskCard = ({
             }
           >
             <CalendarIcon />
-            <div>{trueDate}</div>
+            <div>{completeOrDueDate}</div>
           </div>
           {assignee ? (
             <div

@@ -29,7 +29,6 @@ export function PureLocationDetailLayout({
   showPerimeter,
   tabs,
 }) {
-  console.log('PureLocationDetailLayout');
   const { t } = useTranslation();
   const formMethods = useForm({
     mode: 'onChange',

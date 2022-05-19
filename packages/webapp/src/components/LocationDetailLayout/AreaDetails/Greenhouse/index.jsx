@@ -89,7 +89,6 @@ export function PureGreenhouse({
 }
 
 export function GreenhouseDetailsChildren({ isViewLocationPage }) {
-  console.log('GreenHouseDetailsChildren');
   const { t } = useTranslation();
   const { register, watch, control } = useFormContext();
   const greenhouseTypeSelection = watch(greenhouseEnum.organic_status);

@@ -352,6 +352,10 @@
     "ARCHIVE_DOCUMENT": "Archive document?",
     "ARCHIVE_DOCUMENT_TEXT": "Archiving this document will move it to the archived section of your documents, but not delete it. Archived documents will not be exported for your certifications. Do you want to proceed?",
     "ARCHIVED": "Archived",
+    "UNARCHIVE": "Unarchive",
+    "UNARCHIVE_DOCUMENT": "Unarchive document?",
+    "UNARCHIVE_DOCUMENT_TEXT": "Unarchiving this document will return it to your list of currently valid documents. Valid documents will be exported for your certifications. Do you want to proceed?",
+    "UNARCHIVED": "Unarchived",
     "CANCEL": "Cancel",
     "COMPLIANCE_DOCUMENTS_AND_CERTIFICATION": "Compliance documents and your certification",
     "DOCUMENTS": "Documents",
@@ -677,11 +681,22 @@
       "INFO": "Biodiversity is great for people and the planet. We count species richness from all known records of biodiversity within your farm boundary(ies). You can increase the crop biodiversity on your farm by planting new varieties. You can increase the non-crop biodiversity count on your farm by recording sightings on https://inaturalist.org/app",
       "INSECTS": "Insects",
       "PLANTS": "Plants",
+      "MAMMALS": "Mammals",
       "SPECIES_COUNT": "{{count}} species",
       "SPECIES_COUNT_one": "{{count}} species",
       "SPECIES_COUNT_other": "{{count}} species",
       "SPECIES_COUNT_plural": "{{count}} species",
-      "TITLE": "Biodiversity"
+      "TITLE": "Biodiversity",
+      "LOADING": {
+        "PREVIEW": "Loading...",
+        "TITLE": "Generating the latest biodiversity insights...",
+        "BODY": "We're generating the latest biodiversity insights for your farm. This can take up to 60 seconds."
+      },
+      "ERROR": {
+        "PREVIEW": "Unavailable",
+        "TITLE": "There was a problem",
+        "BODY": "LiteFarm generates biodiversity insights based on several sources and was unable to do so at this time. Please try again after {{minutes}} minutes."
+      }
     },
     "CURRENT": "Current",
     "INFO": "Insights provides added data insights into what is happening on your farm. The more data you provide in the application, the more insights can be generated. See individual insights for further information.",
@@ -897,6 +912,7 @@
       },
       "WHAT_HAPPENED": "What happened?"
     },
+    "COMPLETION_NOTES": "Completion notes",
     "CONTAINER": "Container",
     "CONTAINER_OR_IN_GROUND": "Are you planting in a container or in ground?",
     "CONTAINER_TYPE": "Type of container",
@@ -955,6 +971,7 @@
     "PLANTING_NOTE": "Planting notes",
     "PLANTING_SOIL": "Planting soil to be used",
     "PLANTS_PER_CONTAINER": "# of plants/container",
+    "RATE_THIS_MANAGEMENT_PLAN": "Rate this management plan",
     "REMOVE_PIN": "Remove pin",
     "ROW_METHOD": {
       "HISTORICAL_SAME_LENGTH": "Were the rows all the same length?",

@@ -1,6 +1,6 @@
 /*
- *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>
- *  This file (constants.js) is part of LiteFarm.
+ *  Copyright 2019, 2020, 2021, 2022 LiteFarm.org
+ *  This file is part of LiteFarm.
  *
  *  LiteFarm is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -24,6 +24,10 @@ export const SET_LABOUR_HAPPINESS_DATA = 'SET_LABOUR_HAPPINESS_DATA';
 
 export const GET_BIODIVERSITY_DATA = 'GET_BIODIVERSITY_DATA';
 export const SET_BIODIVERSITY_DATA = 'SET_BIODIVERSITY_DATA';
+export const GET_BIODIVERSITY_LOADING = 'GET_BIODIVERSITY_LOADING';
+export const SET_BIODIVERSITY_LOADING = 'SET_BIODIVERSITY_LOADING';
+export const GET_BIODIVERSITY_ERROR = 'GET_BIODIVERSITY_ERROR';
+export const SET_BIODIVERSITY_ERROR = 'SET_BIODIVERSITY_ERROR';
 
 export const GET_PRICES_DATA = 'GET_PRICES_DATA';
 export const GET_PRICES_WITH_DISTANCE_DATA = 'GET_PRICES_WITH_DISTANCE_DATA';

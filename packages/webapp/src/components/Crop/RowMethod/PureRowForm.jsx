@@ -2,7 +2,11 @@ import React, { useEffect, useRef, useState } from 'react';
 import styles from './styles.module.scss';
 import { useTranslation } from 'react-i18next';
 import Input, { getInputErrors, integerOnKeyDown } from '../../Form/Input';
-import { container_plant_spacing, length_of_bed_or_row, seedYield } from '../../../util/convert-units/unit';
+import {
+  container_plant_spacing,
+  length_of_bed_or_row,
+  seedYield,
+} from '../../../util/convert-units/unit';
 import Unit from '../../Form/Unit';
 import RadioGroup from '../../Form/RadioGroup';
 import PropTypes from 'prop-types';
@@ -47,12 +51,12 @@ export default function PureRowForm({
   const IsValidNumberInput = (number) => number === 0 || number > 0;
 
   /**
-   * Calculates the plant count in one row given length of the row and plant spacing. 
+   * Calculates the plant count in one row given length of the row and plant spacing.
    * If length is perfectly divisible by spacing (i.e. 5m spacing in a 10m row),
    * you can plant 3 crops (at 0m, 5m, and 10m).
    * Otherwise (i.e. 6m spacing in a 10m row), you can plant only 2 crops (at 0m and 6m).
-   * @param {number} length 
-   * @param {number} spacing 
+   * @param {number} length
+   * @param {number} spacing
    * @returns {number} plant count
    */
   const calculatePlantCountPerRow = (length, spacing) => {
@@ -61,7 +65,7 @@ export default function PureRowForm({
     } else {
       return Math.ceil(length / spacing);
     }
-  }
+  };
 
   const [showEstimatedValue, setShowEstimatedValue] = useState(false);
   const shouldSkipEstimatedValueCalculationRef = useRef(true);
@@ -107,13 +111,20 @@ export default function PureRowForm({
           ? t('MANAGEMENT_PLAN.ROW_METHOD.HISTORICAL_SAME_LENGTH')
           : t('MANAGEMENT_PLAN.ROW_METHOD.SAME_LENGTH')}
       </Main>
-      <RadioGroup hookFormControl={control} name={SAME_LENGTH} required disabled={disabled} />
+      <RadioGroup
+        data-cy="rowMethod-equalLength"
+        hookFormControl={control}
+        name={SAME_LENGTH}
+        required
+        disabled={disabled}
+      />
       {(same_length === true || same_length === false) && (
         <>
           {same_length && (
             <>
               <div className={styles.row}>
                 <Input
+                  data-cy="rowMethod-rows"
                   label={t('MANAGEMENT_PLAN.ROW_METHOD.NUMBER_OF_ROWS')}
                   hookFormRegister={register(NUMBER_OF_ROWS, {
                     required: true,
@@ -126,6 +137,7 @@ export default function PureRowForm({
                   disabled={disabled}
                 />
                 <Unit
+                  data-cy="rowMethod-length"
                   register={register}
                   label={t('MANAGEMENT_PLAN.ROW_METHOD.LENGTH_OF_ROW')}
                   name={LENGTH_OF_ROW}
@@ -164,6 +176,7 @@ export default function PureRowForm({
           )}
           <div className={clsx(styles.paddingBottom40)}>
             <Unit
+              data-cy="rowMethod-spacing"
               register={register}
               label={t('MANAGEMENT_PLAN.PLANT_SPACING')}
               name={PLANT_SPACING}
@@ -199,6 +212,7 @@ export default function PureRowForm({
                 />
                 {showEstimatedYield && (
                   <Unit
+                    data-cy="rowMethod-yeild"
                     register={register}
                     label={t('MANAGEMENT_PLAN.ESTIMATED_YIELD')}
                     name={ESTIMATED_YIELD}

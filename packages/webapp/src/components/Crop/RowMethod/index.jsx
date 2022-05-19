@@ -42,7 +42,7 @@ export default function PureRowMethod({
   return (
     <Form
       buttonGroup={
-        <Button type={'submit'} disabled={!isValid} fullLength>
+        <Button data-cy="rowMethod-submit" type={'submit'} disabled={!isValid} fullLength>
           {t('common:CONTINUE')}
         </Button>
       }

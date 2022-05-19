@@ -213,7 +213,7 @@ export default function PureNavBar({
     <AppBar position="sticky" className={classes.appBar}>
       <Toolbar className={classes.toolbar}>
         <IconButton
-        data-cy='navbar-hamburger'
+          data-cy="navbar-hamburger"
           edge="start"
           className={classes.menuButton}
           color="inherit"
@@ -262,7 +262,7 @@ export default function PureNavBar({
                 certificationClick={certificationClick}
               >
                 <IconButton
-                data-cy='home-farmButton'
+                  data-cy="home-farmButton"
                   aria-label="farm-icon"
                   color="inherit"
                   id="firstStepNavBar"
@@ -280,7 +280,7 @@ export default function PureNavBar({
               </PureMyFarmFloater>
 
               <IconButton
-                data-cy='home-notificationButton'
+                data-cy="home-notificationButton"
                 aria-label="notification icon"
                 color="inherit"
                 id="secondStepNavBar"
@@ -300,7 +300,7 @@ export default function PureNavBar({
                 switchFarmClick={switchFarmClick}
               >
                 <IconButton
-                data-cy='home-profileButton'
+                  data-cy="home-profileButton"
                   edge="end"
                   aria-label="profile icon"
                   color="inherit"

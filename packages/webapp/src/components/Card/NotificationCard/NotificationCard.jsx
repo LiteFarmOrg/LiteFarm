@@ -6,6 +6,7 @@ import clsx from 'clsx';
 import { colors } from '../../../assets/theme';
 import { ReactComponent as AlertIcon } from '../../../assets/images/alert.svg';
 import getTaskTypeIcon from '../../util/getTaskTypeIcon';
+import { getLanguageFromLocalStorage } from '../../../util/getLanguageFromLocalStorage';
 
 /**
  * Renders a card containing notification data.
@@ -15,13 +16,15 @@ import getTaskTypeIcon from '../../util/getTaskTypeIcon';
 export function PureNotificationCard({
   alert,
   status,
-  translation_key,
+  title,
+  body,
   variables,
   context,
   created_at,
   onClick,
 }) {
   const { t } = useTranslation();
+  const currentLang = getLanguageFromLocalStorage();
   // Construct translation options from interpolation variables, translating them as needed.
   const tOptions = variables.reduce((optionsSoFar, currentOption) => {
     let options = { ...optionsSoFar };
@@ -102,11 +105,11 @@ export function PureNotificationCard({
 
       <div>
         <Semibold style={{ color: colors.teal700, marginBottom: '12px', lineHeight: '20px' }}>
-          {t(`NOTIFICATION.${translation_key}.TITLE`)}
+          {title.translation_key ? t(title.translation_key) : title[currentLang]}
           {alert && <AlertIcon style={{ marginLeft: '8px', marginBottom: '2px' }} />}
         </Semibold>
         <Text style={{ margin: 0, lineHeight: '18px' }}>
-          {t(`NOTIFICATION.${translation_key}.BODY`, tOptions)}
+          {body.translation_key ? t(body.translation_key, tOptions) : body[currentLang]}
         </Text>
       </div>
     </Card>

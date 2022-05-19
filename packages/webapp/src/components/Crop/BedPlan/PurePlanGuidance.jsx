@@ -37,11 +37,10 @@ function PurePlanGuidance({
   });
   const { historyCancel } = useHookFormPersist(getValues);
 
-
   return (
     <Form
       buttonGroup={
-        <Button data-cy='planGuidance-submit' type={'submit'} disabled={!isValid} fullLength>
+        <Button data-cy="planGuidance-submit" type={'submit'} disabled={!isValid} fullLength>
           {t('common:CONTINUE')}
         </Button>
       }

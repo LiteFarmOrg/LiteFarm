@@ -187,7 +187,7 @@ describe('Sign Up Tests', () => {
       const [user] = await mocks.usersFactory({
         ...mocks.fakeUser(),
         status_id: 1,
-        email: `${faker.random.uuid()}@pseudo.com`,
+        email: `${faker.datatype.uuid()}@pseudo.com`,
       });
       const [userFarm1] = await mocks.userFarmFactory({ promisedUser: [user] });
       getRequest({ email: user.email }, (err, res) => {

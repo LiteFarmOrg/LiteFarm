@@ -213,6 +213,25 @@ class TaskModel extends BaseModel {
       .where('task.task_id', taskId)
       .first();
   }
+
+  /**
+   * Gets the tasks that are due this week and are unassigned
+   * @param {number} taskIds - the IDs of the task.
+   * @static
+   * @async
+   * @returns {Object} - Object {task_type_id, task_id}
+   */
+  static async getUnassignedTasksDueThiWeekFromIds(taskIds) {
+    return await TaskModel.query().select('*').whereIn('task_id', taskIds).whereRaw(
+      `
+      task.assignee_user_id IS NULL
+      AND task.complete_date IS NULL
+      AND task.abandon_date IS NULL
+      AND task.due_date <= (now() + interval '1 week')::date
+      AND task.due_date >= now()::date
+      `,
+    );
+  }
 }
 
 module.exports = TaskModel;

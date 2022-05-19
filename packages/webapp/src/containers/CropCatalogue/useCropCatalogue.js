@@ -7,7 +7,15 @@ import { useSelector } from 'react-redux';
 import { cropCatalogueFilterDateSelector, cropCatalogueFilterSelector } from '../filterSlice';
 import { useMemo } from 'react';
 import useStringFilteredCrops from './useStringFilteredCrops';
-import { ACTIVE, COMPLETE, LOCATION, PLANNED, STATUS, SUPPLIERS } from '../Filter/constants';
+import {
+  ACTIVE,
+  COMPLETE,
+  LOCATION,
+  PLANNED,
+  STATUS,
+  SUPPLIERS,
+  NEEDS_PLAN,
+} from '../Filter/constants';
 import { useTranslation } from 'react-i18next';
 import useFilterNoPlan from './useFilterNoPlan';
 import useSortByCropTranslation from './useSortByCropTranslation';
@@ -23,6 +31,26 @@ export default function useCropCatalogue(filterString) {
     managementPlansWithCurrentLocation,
     filterString,
   );
+
+  const filteredCropVarietiesWithoutManagementPlanByCropVariety = useSortByCropTranslation(
+    useFilterNoPlan(filterString, false),
+  );
+
+  // aggregates all crop varieties by crop id and counts the 'Need plans' count value.
+  const filteredCropVarietiesWithoutManagementPlan =
+    filteredCropVarietiesWithoutManagementPlanByCropVariety.reduce((acc, cropVariety) => {
+      if (acc.length === 0) {
+        acc.push({ ...cropVariety, noPlansCount: 1 });
+      } else {
+        let cropFound = acc.find((crop) => crop.crop_id === cropVariety.crop_id);
+        if (!cropFound) {
+          acc.push({ ...cropVariety, noPlansCount: 1 });
+        } else {
+          cropFound.noPlansCount += 1;
+        }
+      }
+      return acc;
+    }, []);
 
   const managementPlansFilteredByLocations = useMemo(() => {
     const locationFilter = cropCatalogueFilter[LOCATION];
@@ -74,7 +102,26 @@ export default function useCropCatalogue(filterString) {
         managementPlansByCropId[managementPlan.crop_id][status].push(managementPlan);
       }
     }
-    return Object.values(managementPlansByCropId);
+    // calcluates the needs plans values from crop varieties without management plan
+    // and merges it with the crop with the management plan
+    const managementPlansByCropIdWithNoPlans = Object.values(managementPlansByCropId).reduce(
+      (acc, currentValue) => {
+        const noPlanFoundCrop = filteredCropVarietiesWithoutManagementPlanByCropVariety.filter(
+          (np) => np.crop_id === currentValue.crop_id,
+        );
+        if (!noPlanFoundCrop) {
+          acc.push({ ...currentValue, noPlans: [] });
+        } else {
+          acc.push({
+            ...currentValue,
+            noPlans: noPlanFoundCrop.map((c) => ({ crop_variety_name: c.crop_variety_name })),
+          });
+        }
+        return acc;
+      },
+      [],
+    );
+    return managementPlansByCropIdWithNoPlans;
   }, [managementPlansFilteredBySuppliers, cropCatalogFilterDate]);
 
   const cropCatalogueFilteredByStatus = useMemo(() => {
@@ -89,24 +136,16 @@ export default function useCropCatalogue(filterString) {
       active: statusFilter[ACTIVE].active ? catalogue.active : [],
       planned: statusFilter[PLANNED].active ? catalogue.planned : [],
       past: statusFilter[COMPLETE].active ? catalogue.past : [],
+      noPlans: statusFilter[NEEDS_PLAN].active ? catalogue.noPlans : [],
     }));
     return newCropCatalogue.filter(
-      (catalog) => catalog.active.length || catalog.past.length || catalog.planned.length,
+      (catalog) =>
+        catalog.active.length ||
+        catalog.past.length ||
+        catalog.planned.length ||
+        catalog.noPlans.length,
     );
   }, [cropCatalogueFilter[STATUS], cropCatalogue]);
-
-  const cropCataloguesStatus = useMemo(() => {
-    const cropCataloguesStatus = { active: 0, planned: 0, past: 0 };
-    for (const managementPlansByStatus of cropCatalogueFilteredByStatus) {
-      for (const status in cropCataloguesStatus) {
-        cropCataloguesStatus[status] += managementPlansByStatus[status].length;
-      }
-    }
-    return {
-      ...cropCataloguesStatus,
-      sum: cropCataloguesStatus.active + cropCataloguesStatus.planned + cropCataloguesStatus.past,
-    };
-  }, [cropCatalogueFilteredByStatus]);
 
   const { t } = useTranslation();
   const onlyOneOfTwoNumberIsZero = (i, j) => i + j > 0 && i * j === 0;
@@ -129,10 +168,6 @@ export default function useCropCatalogue(filterString) {
     });
   }, [cropCatalogueFilteredByStatus]);
 
-  const filteredCropVarietiesWithoutManagementPlan = useSortByCropTranslation(
-    useFilterNoPlan(filterString),
-  );
-
   const filteredCropsWithoutManagementPlan = useMemo(() => {
     const cropIdsWithPlan = new Set(sortedCropCatalogue.map(({ crop_id }) => crop_id));
     return filteredCropVarietiesWithoutManagementPlan.filter(
@@ -149,6 +184,30 @@ export default function useCropCatalogue(filterString) {
       needsPlan: cropIdsWithoutPlan.has(crop.crop_id),
     }));
   }, [filteredCropVarietiesWithoutManagementPlan, sortedCropCatalogue]);
+
+  // this method is used to calculate the sum of active, planned, past, noPlans of all
+  // crop varieties for a particular crop.
+  // calculates the active, planned, past, noPlans for CropStatusInfoBox component.
+  const cropCataloguesStatus = useMemo(() => {
+    const cropCataloguesStatus = { active: 0, planned: 0, past: 0, noPlans: 0 };
+    for (const managementPlansByStatus of cropCatalogueFilteredByStatus) {
+      for (const status in cropCataloguesStatus) {
+        cropCataloguesStatus[status] += managementPlansByStatus[status].length;
+      }
+    }
+    cropCataloguesStatus.noPlans = filteredCropVarietiesWithoutManagementPlan.reduce((acc, c) => {
+      acc += c.noPlansCount;
+      return acc;
+    }, 0);
+    return {
+      ...cropCataloguesStatus,
+      sum:
+        cropCataloguesStatus.active +
+        cropCataloguesStatus.planned +
+        cropCataloguesStatus.past +
+        cropCataloguesStatus.noPlans,
+    };
+  }, [cropCatalogueFilteredByStatus, filteredCropVarietiesWithoutManagementPlan]);
 
   return {
     cropCatalogue: sortedCropCatalogueWithNeedsPlanProp,

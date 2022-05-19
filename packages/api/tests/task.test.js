@@ -974,10 +974,12 @@ describe('Task tests', () => {
               task_name: 'Transplant',
             },
           );
-          const [{ location_id }] = await mocks.fieldFactory({ promisedFarm: [userFarm] });
-          const [{ management_plan_id }] = await mocks.crop_management_planFactory({
-            promisedFarm: [userFarm],
-          });
+          const [
+            { location_id, management_plan_id },
+          ] = await mocks.planting_management_planFactory({ promisedFarm: [userFarm] });
+          const [
+            { planting_management_plan_id: prev_planting_management_plan_id },
+          ] = await mocks.planting_management_planFactory({ promisedFarm: [userFarm] });
           const transplant_task = {
             ...mocks.fakeTask(),
             task_type_id: transplantTaskType.task_type_id,
@@ -990,6 +992,7 @@ describe('Task tests', () => {
                 planting_method: planting_method.toUpperCase(),
                 [planting_method]: fakeMethodMap[planting_method](),
               },
+              prev_planting_management_plan_id,
             },
           };
 
@@ -2226,5 +2229,3 @@ describe('Task tests', () => {
     });
   });
 });
-
-/* global jest describe test xtest expect beforeEach afterAll */

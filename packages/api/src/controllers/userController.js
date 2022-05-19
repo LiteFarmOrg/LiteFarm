@@ -77,7 +77,7 @@ const userController = {
         };
         const sender = 'system@litefarm.org';
         if (userResult.email && template_path) {
-          sendEmail(template_path, replacements, userResult.email, { sender });
+          await sendEmail(template_path, replacements, userResult.email, { sender });
         }
       } catch (e) {
         console.log('Failed to send email: ', e);
@@ -148,13 +148,14 @@ const userController = {
       return res.status(400).send('Current app version only allows hourly wage');
     }
 
-    const isUserAlreadyCreated = await userModel.query().where('email', email).first();
+    console.log('Checking if user is created');
+    const isUserAlreadyCreated = await userModel.getUserByEmail(email);
     const created_user_id = isUserAlreadyCreated ? isUserAlreadyCreated.user_id : null;
-    const userExistOnThisFarm = await userFarmModel
-      .query()
-      .where('user_id', created_user_id)
-      .andWhere('farm_id', farm_id)
-      .first();
+    console.log('Checking if user is on farm');
+    const userExistOnThisFarm = await userFarmModel.checkIfUserExistsOnFarm(
+      created_user_id,
+      farm_id,
+    );
 
     if (userExistOnThisFarm) {
       res.status(400).send({ error: 'User already exists on this farm' });
@@ -198,21 +199,14 @@ const userController = {
         step_four: true,
         step_five: true,
       });
-      const userFarm = await userFarmModel
-        .query(trx)
-        .join('users', 'userFarm.user_id', '=', 'users.user_id')
-        .join('farm', 'farm.farm_id', '=', 'userFarm.farm_id')
-        .join('role', 'userFarm.role_id', '=', 'role.role_id')
-        .where({ 'users.email': email, 'userFarm.farm_id': farm_id })
-        .first()
-        .select('*');
+      const userFarm = await userFarmModel.getUserFarmByEmail(email, farm_id, trx);
       await trx.commit();
       res.status(201).send({ ...user, ...userFarm });
       try {
         const { language_preference } =
           isUserAlreadyCreated ?? (await userModel.query().findById(req.user.user_id));
 
-        await this.createTokenSendEmail(
+        await emailTokenModel.createTokenSendEmail(
           {
             email,
             first_name,
@@ -231,61 +225,6 @@ const userController = {
       await trx.rollback();
       return res.status(400).send(error);
     }
-  },
-
-  async createTokenSendEmail(user, userFarm, farm_name) {
-    let token;
-    const emailSent = await emailTokenModel
-      .query()
-      .where({
-        user_id: userFarm.user_id,
-        farm_id: userFarm.farm_id,
-      })
-      .first();
-    if (!emailSent || emailSent.times_sent < 3) {
-      const timesSent = emailSent && emailSent.times_sent ? ++emailSent.times_sent : 1;
-      if (timesSent === 1) {
-        const emailToken = await emailTokenModel
-          .query()
-          .insert({
-            user_id: userFarm.user_id,
-            farm_id: userFarm.farm_id,
-            times_sent: timesSent,
-          })
-          .returning('*');
-        token = await createToken('invite', {
-          ...user,
-          ...userFarm,
-          invitation_id: emailToken.invitation_id,
-        });
-      } else {
-        const [emailToken] = await emailTokenModel
-          .query()
-          .patch({ times_sent: timesSent })
-          .where({
-            user_id: user.user_id,
-            farm_id: userFarm.farm_id,
-          })
-          .returning('*');
-        token = await createToken('invite', {
-          ...user,
-          ...userFarm,
-          invitation_id: emailToken.invitation_id,
-        });
-      }
-      await this.sendTokenEmail(farm_name, user, token);
-    }
-  },
-
-  async sendTokenEmail(farm, user, token) {
-    const sender = 'system@litefarm.org';
-    const template_path = emails.INVITATION;
-    sendEmail(
-      template_path,
-      { first_name: user.first_name, farm, locale: user.language_preference, farm_name: farm },
-      user.email,
-      { sender, buttonLink: `/callback/?invite_token=${token}` },
-    );
   },
 
   async addPseudoUser(req, res) {
@@ -426,7 +365,7 @@ const userController = {
         //send email informing user their access revoked (unless user is no account worker - no email)
         try {
           if (rows[0].email) {
-            sendEmail(template_path, replacements, rows[0].email, { sender });
+            await sendEmail(template_path, replacements, rows[0].email, { sender });
           }
         } catch (e) {
           console.log(e);

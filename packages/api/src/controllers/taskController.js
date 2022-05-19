@@ -617,15 +617,15 @@ async function notifyAssignee(userId, taskId, taskTranslationKey, farmId) {
   if (!userId) return;
 
   const assigneeName = await User.getNameFromUserId(userId);
-  NotificationUser.notify(
+  await NotificationUser.notify(
     {
-      translation_key: 'TASK_ASSIGNED',
+      title: { translation_key: 'NOTIFICATION.TASK_ASSIGNED.TITLE' },
+      body: { translation_key: 'NOTIFICATION.TASK_ASSIGNED.BODY' },
       variables: [
         { name: 'taskType', value: `task:${taskTranslationKey}`, translate: true },
         { name: 'assignee', value: assigneeName, translate: false },
       ],
-      entity_type: TaskModel.tableName,
-      entity_id: String(taskId),
+      ref: { entity: { type: 'task', id: taskId } },
       context: { task_translation_key: taskTranslationKey },
       farm_id: farmId,
     },
@@ -648,3 +648,4 @@ function canCompleteTask(assigneeUserId, assigneeRoleId, userId, userRoleId) {
 }
 
 module.exports = taskController;
+module.exports.getTasksForFarm = getTasksForFarm;

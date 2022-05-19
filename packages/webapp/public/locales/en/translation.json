@@ -1061,6 +1061,10 @@
     "TASK_ASSIGNED": {
       "TITLE": "Assigned task",
       "BODY": "A {{taskType}} task has been assigned to {{assignee}}."
+    },
+    "WEEKLY_UNASSIGNED_TASKS": {
+      "TITLE": "Unassigned tasks",
+      "BODY": "You have unassigned tasks due this week."
     }
   },
   "OUTRO": {

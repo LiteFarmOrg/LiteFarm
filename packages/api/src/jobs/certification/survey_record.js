@@ -15,11 +15,11 @@ module.exports = async (submission, exportId) => {
     headers: { Authorization: '<user-email> <user-token>' },
   });
 
-  //   console.log('THIS IS THE SUBMISSION DATA: ', submissionData);
-  //   console.log(
-  //     'THIS IS THE WHOLE SURVEY INFORMATION: ',
-  //     survey.revisions[survey.revisions.length - 1].controls,
-  //   );
+  console.log('THIS IS THE SUBMISSION DATA: ', submissionData);
+  console.log(
+    'THIS IS THE WHOLE SURVEY INFORMATION: ',
+    survey.revisions[survey.revisions.length - 1].controls,
+  );
 
   const ignoredQuestions = [
     'geoJSON',
@@ -133,7 +133,7 @@ module.exports = async (submission, exportId) => {
 
   /**
    * Write multiple choice/checkbox type questions to the Excel Sheet.
-   * Option is in the left column and a 'X' is placed in the immediate right column if this option was selected
+   * Label is in the left column and a 'X' is placed in the immediate right column if this option was selected
    */
   const writeMultiOptionQs = (sheet, col, row, data) => {
     sheet.cell(`${col}${row}`).value(data['Question']).style(questionStyle);
@@ -149,13 +149,13 @@ module.exports = async (submission, exportId) => {
         .value(`Extra Info: ${data['MoreInfo']}`)
         .style({ ...defaultStyle, italic: true });
     }
-    const allChoices = data['Options']['source'];
-    for (const option of allChoices) {
+    const nonCustomAnswers = data['Options']['source'];
+    for (const ncAnswer of nonCustomAnswers) {
       sheet
         .cell(`${col}${(row += 1)}`)
-        .value(option['value'])
+        .value(ncAnswer['label'])
         .style(defaultStyle);
-      if (data['Answer'] && data['Answer'].includes(option['value'])) {
+      if (data['Answer'] != null && data['Answer'].includes(ncAnswer['value'])) {
         sheet
           .cell(`${String.fromCharCode(col.charCodeAt(0) + 1)}${row}`)
           .value('X')
@@ -166,10 +166,13 @@ module.exports = async (submission, exportId) => {
     // Get the difference between given answers and all non-custom answers.
     // If this list is non-empty, we know the user gave a custom answer
     const customEntry = data['Answer'].filter(
-      (a) => !data['Options']['source'].map((s) => s['value']).includes(a),
+      (answer) => !nonCustomAnswers.map((ncAnswer) => ncAnswer['value']).includes(answer),
     );
 
-    if (customEntry != []) {
+    console.log(`THIS IS THE CUSTOM LIST FOR ${data['Name']}: ${customEntry}`);
+    console.log(`THE CUSTOM LIST FOR ${data['Name']} has type ${typeof customEntry}`);
+
+    if (customEntry.length != 0) {
       sheet
         .cell(`${col}${(row += 1)}`)
         .value(customEntry[0])
@@ -268,7 +271,7 @@ module.exports = async (submission, exportId) => {
     group: writeCollection,
   };
 
-  //   console.log('THIS IS THE QUESTION & ANSWERS', questionAnswerMap);
+  console.log('THIS IS THE QUESTION & ANSWERS', questionAnswerMap);
 
   return XlsxPopulate.fromBlankAsync().then((workbook) => {
     // Populate the workbook.

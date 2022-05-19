@@ -238,7 +238,7 @@ const Unit = ({
     hookFormSetHiddenValue(hookFormValue, { shouldValidate: true, shouldDirty: false });
   }, []);
 
-  // disabled to unit conversion
+  // uncomment the code to enable the unit conversion feature.
   // useEffect(() => {
   //   if (hookFormUnit && hookFormValue !== undefined) {
   //     setVisibleInputValue(

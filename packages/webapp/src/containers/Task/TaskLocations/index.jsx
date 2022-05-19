@@ -57,6 +57,7 @@ function TaskActiveAndPlannedCropLocations({ history, location }) {
       onContinue={onContinue}
       onGoBack={onGoBack}
       readOnlyPinCoordinates={readOnlyPinCoordinates}
+      location={location}
     />
   );
 }
@@ -79,6 +80,7 @@ function TaskTransplantLocations({ history, location }) {
       title={t('TASK.TRANSPLANT_LOCATIONS')}
       onContinue={onContinue}
       onGoBack={onGoBack}
+      location={location}
     />
   );
 }
@@ -108,6 +110,7 @@ function TaskAllLocations({ history, location }) {
       onGoBack={onGoBack}
       onContinue={onContinue}
       readOnlyPinCoordinates={readOnlyPinCoordinates}
+      location={location}
     />
   );
 }
@@ -120,6 +123,7 @@ function TaskLocations({
   onContinue,
   onGoBack,
   readOnlyPinCoordinates,
+  location,
 }) {
   const { grid_points } = useSelector(userFarmSelector);
   const { maxZoomRef, getMaxZoom } = useMaxZoom();
@@ -135,6 +139,7 @@ function TaskLocations({
         readOnlyPinCoordinates={readOnlyPinCoordinates}
         maxZoomRef={maxZoomRef}
         getMaxZoom={getMaxZoom}
+        defaultLocation={location.state.location ?? null}
       />
     </HookFormPersistProvider>
   );

@@ -10,7 +10,6 @@ import { cropLocationsSelector } from '../../locationSlice';
 import { useIsTaskType } from '../useIsTaskType';
 
 export default function ManagementPlanSelector({ history, match, location }) {
-  console.log(location);
   const isTransplantTask = useIsTaskType('TRANSPLANT_TASK');
   return isTransplantTask ? (
     <TransplantManagementPlansSelector history={history} match={match} location={location} />
@@ -78,6 +77,7 @@ function TaskCrops({
         isMulti={!isTransplantTask}
         isRequired={isRequired}
         wildManagementPlanTiles={showWildCrops ? wildManagementPlanTiles : undefined}
+        defaultManagementPlanId={location.state.management_plan_id ?? null}
       />
     </HookFormPersistProvider>
   );

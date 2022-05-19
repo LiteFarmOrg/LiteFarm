@@ -4,9 +4,12 @@ import { managementPlanSelector } from '../../managementPlanSlice';
 import { isAdminSelector } from '../../userFarmSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import FirstManagementPlanSpotlight from './FirstManagementPlanSpotlight';
-import { pendingTasksByManagementPlanIdSelector } from '../../taskSlice';
+import {
+  pendingTasksByManagementPlanIdSelector,
+  tasksByManagementPlanIdSelector,
+} from '../../taskSlice';
 import TaskCard from '../../Task/TaskCard';
-import React from 'react';
+import React, { useMemo } from 'react';
 import { taskCardContentByManagementPlanSelector } from '../../Task/taskCardContentSelector';
 import { onAddTask } from '../../Task/onAddTask';
 
@@ -33,6 +36,7 @@ export default function ManagementTasks({ history, match, location }) {
 
   const pendingTasks = useSelector(pendingTasksByManagementPlanIdSelector(management_plan_id));
   const taskCardContents = useSelector(taskCardContentByManagementPlanSelector(management_plan_id));
+
   return (
     <>
       <PureManagementTasks
@@ -41,6 +45,7 @@ export default function ManagementTasks({ history, match, location }) {
         onAbandon={onAbandon}
         onAddTask={onAddTask(dispatch, history, {
           pathname: `/crop/${variety_id}/management_plan/${management_plan_id}/tasks`,
+          management_plan_id: management_plan_id,
         })}
         isAdmin={isAdmin}
         variety={variety}

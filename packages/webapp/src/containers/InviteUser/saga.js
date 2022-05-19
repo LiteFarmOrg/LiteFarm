@@ -14,6 +14,7 @@ export function* inviteUserToFarmSaga({ payload: user }) {
   const { user_id, farm_id } = yield select(loginSelector);
   const header = getHeader(user_id, farm_id);
   user.farm_id = farm_id;
+  console.log(user);
   const { inviteUserUrl } = apiConfig;
 
   try {

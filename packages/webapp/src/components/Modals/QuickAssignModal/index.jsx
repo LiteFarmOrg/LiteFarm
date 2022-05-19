@@ -83,7 +83,7 @@ export default function TaskQuickAssignModal({
           </Button>
 
           <Button
-          data-cy='quickAssign-update'
+            data-cy="quickAssign-update"
             onClick={onAssign}
             disabled={disabled}
             className={styles.button}

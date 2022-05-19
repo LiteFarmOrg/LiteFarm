@@ -682,12 +682,23 @@
       "INFO": "A biodiversidade é ótima para as pessoas e para o planeta. Contabilizamos a riqueza de espécies a partir de todos os registros conhecidos sobre a biodiversidade ao redor de sua fazenda. Você pode aumentar a contagem de espécies em sua fazenda utilizando o https://www.inaturalist.org/app.",
       "INSECTS": "Insetos",
       "PLANTS": "Plantas",
+      "MAMMALS": "MISSING",
       "SPECIES_COUNT": "{{count}} espécies",
       "SPECIES_COUNT_one": "MISSING",
       "SPECIES_COUNT_many": "MISSING",
       "SPECIES_COUNT_other": "MISSING",
       "SPECIES_COUNT_plural": "{{count}} espécies",
-      "TITLE": "Biodiversidade"
+      "TITLE": "Biodiversidade",
+      "LOADING": {
+        "PREVIEW": "MISSING",
+        "TITLE": "MISSING",
+        "BODY": "MISSING"
+      },
+      "ERROR": {
+        "PREVIEW": "MISSING",
+        "TITLE": "MISSING",
+        "BODY": "MISSING"
+      }
     },
     "CURRENT": "Atual",
     "INFO": "Os relatórios fornecem informações adicionais sobre o que está acontecendo em sua fazenda. Quanto mais dados você fornecer no aplicativo, mais relatórios serão gerados. Veja os relatórios individuais para mais informações.",
@@ -732,7 +743,7 @@
     },
     "PRICES": {
       "INFO": "Mostramos a trajetória comparativa entre seus preços de venda em relação aos preços de venda dos mesmos produtos encontrados a uma determinada distância de você, utilizando dados coletados na rede LiteFarm.",
-      "NEARBY_FARMS": "Vindo de {{count}} fazenda para dados de vendas",
+      "NEARBY_FARMS": "O preço do mercado é baseado em {{count}} fazendas em sua área local",
       "NEARBY_FARMS_one": "MISSING",
       "NEARBY_FARMS_many": "MISSING",
       "NEARBY_FARMS_other": "MISSING",

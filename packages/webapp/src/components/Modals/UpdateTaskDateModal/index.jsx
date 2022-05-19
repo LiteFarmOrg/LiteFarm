@@ -26,7 +26,7 @@ export default function DateQuickAssignModal({ dismissModal, due_date, onChangeT
           </Button>
 
           <Button
-          data-cy="dateAssign-update"
+            data-cy="dateAssign-update"
             onClick={() => {
               onChangeTaskDate(date);
               dismissModal();
@@ -43,7 +43,7 @@ export default function DateQuickAssignModal({ dismissModal, due_date, onChangeT
       icon={<CalendarIcon />}
     >
       <Input
-      data-cy="dateAssign-date"
+        data-cy="dateAssign-date"
         value={date}
         placeholder={t('TASK.SELECT')}
         min={getDateInputFormat(new Date())}

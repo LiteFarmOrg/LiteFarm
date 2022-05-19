@@ -1,69 +1,59 @@
 describe.only('Tasks flow tests', () => {
-    before(() => {
-        //Ensure test environment is setup(i.e. farm exists, user accounts exist, tasks exist)
-      
-      })
+  before(() => {
+    //Ensure test environment is setup(i.e. farm exists, user accounts exist, tasks exist)
+  });
 
-      it('farm worker tasks flow tests', () => {
-        //Unassigned tasks : Farm workers should be able to assign the task to themselves 
-        //(the farm worker and “Unassigned” should be the only quick assign options)
+  it('farm worker tasks flow tests', () => {
+    //Unassigned tasks : Farm workers should be able to assign the task to themselves
+    //(the farm worker and “Unassigned” should be the only quick assign options)
 
+    //Tasks assigned to the farm worker: Farm workers should be able to Unassign the task
+    // (the farm worker and “Unassigned” should be the only quick assign options)
 
-        //Tasks assigned to the farm worker: Farm workers should be able to Unassign the task
-        // (the farm worker and “Unassigned” should be the only quick assign options)
+    //Tasks assigned to other individuals on the farm: None! Task card should be read-only
 
-        //Tasks assigned to other individuals on the farm: None! Task card should be read-only
+    //No visual cue that the user can update due date
 
-        //No visual cue that the user can update due date
+    //clicking on a task should open the read_only view for said task
+    cy.url().should('include', '/read_only');
+    //Assignee input should exist and should be.disabled
+    //Due date input should exist and be disabled
+    //locations map should exist and display here said task will be carried out
+    //Task specific data should exist(e.g. cleaning agent and estimated water usage for a cleaning task)
+  });
 
-        //clicking on a task should open the read_only view for said task
-        cy.url().should('include', '/read_only');
-        //Assignee input should exist and should be.disabled
-        //Due date input should exist and be disabled
-        //locations map should exist and display here said task will be carried out
-        //Task specific data should exist(e.g. cleaning agent and estimated water usage for a cleaning task)
+  it('admin user tasks flow tests', () => {
+    //         //on tasks view click on the assignee link of a harvest task
 
-      });
+    //         //assign task to self and click update task
 
-      it('admin user tasks flow tests', () => {
+    //         //click on the task card for the above harvest task
 
-//         //on tasks view click on the assignee link of a harvest task 
+    //         //complete task completion flow and click save task
+    //         cy.url().should('include', '/tasks');
+    //         cy.contains('Tasks').should('exist');
 
-//         //assign task to self and click update task
+    //clicking on a task should open the read_only view for said task
+    cy.url().should('include', '/read_only');
+    //Assignee input should exist and should be.disabled
+    //Due date input should exist and be disabled
+    //locations map should exist and display here said task will be carried out
+    //Task specific data should exist(e.g. cleaning agent and estimated water usage for a cleaning task)
+  });
 
-//         //click on the task card for the above harvest task 
+  //       it('tasks filters tests', () => {
 
-//         //complete task completion flow and click save task
-//         cy.url().should('include', '/tasks');
-//         cy.contains('Tasks').should('exist');
+  //         //user clicks on the funnel icon on the tasks view to open the tasks filter view
 
-          
-        //clicking on a task should open the read_only view for said task
-        cy.url().should('include', '/read_only');
-        //Assignee input should exist and should be.disabled
-        //Due date input should exist and be disabled
-        //locations map should exist and display here said task will be carried out
-        //Task specific data should exist(e.g. cleaning agent and estimated water usage for a cleaning task)
+  //         //user clicks on the assignee input
 
-      });
+  //         //assert that all active users appear in the dropdown
 
+  //         //assert that the assignee input is searchable
 
-//       it('tasks filters tests', () => {
+  //         //user types a letter into the assignee input, assert that the filter workspace
 
-//         //user clicks on the funnel icon on the tasks view to open the tasks filter view
-  
-//         //user clicks on the assignee input
-  
-//         //assert that all active users appear in the dropdown
-  
-//         //assert that the assignee input is searchable
-  
-//         //user types a letter into the assignee input, assert that the filter workspace
-  
-//         //user clicks on one of the users, assert that a pill is generated for said user
-  
-  
-//       });
+  //         //user clicks on one of the users, assert that a pill is generated for said user
 
-
+  //       });
 });

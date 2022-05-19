@@ -43,6 +43,23 @@ module.exports = async (submission, exportId) => {
     fontSize: 18,
     horizontalAlignment: 'center',
   };
+
+  const getGroupBorder = (direction) => {
+    return {
+      [`${direction}Border`]: {
+        color: '000000',
+        style: 'thin',
+      },
+      leftBorder: {
+        color: '000000',
+        style: 'thin',
+      },
+      rightBorder: {
+        color: '000000',
+        style: 'thin',
+      },
+    };
+  };
   const defaultStyle = {
     fontFamily: 'Calibri',
     fontSize: 12,
@@ -53,6 +70,7 @@ module.exports = async (submission, exportId) => {
     fontSize: 20,
     bold: true,
     horizontalAlignment: 'center',
+    border: { color: '000000', style: 'thick' },
   };
 
   const getQuestionInfo = (questionAnswerList, groupName = null) => {
@@ -85,7 +103,7 @@ module.exports = async (submission, exportId) => {
       .cell(`${col}${(row += 1)}`)
       .value(data['Answer'])
       .style(defaultStyle);
-    return [col, row + 1, 1];
+    return [col, row, 1];
   };
 
   /**
@@ -102,7 +120,7 @@ module.exports = async (submission, exportId) => {
           .style(defaultStyle);
       }
     }
-    return [col, row + 1, 1];
+    return [col, row, 1];
   };
 
   /**
@@ -117,7 +135,7 @@ module.exports = async (submission, exportId) => {
         .value(date)
         .style(defaultStyle);
     }
-    return [col, row + 1, 1];
+    return [col, row, 1];
   };
 
   /**
@@ -129,7 +147,7 @@ module.exports = async (submission, exportId) => {
       .cell(`${col}${row}`)
       .value(instructions)
       .style({ ...defaultStyle, italic: true });
-    return [col, row + 1, 1];
+    return [col, row, 1];
   };
 
   /**
@@ -182,7 +200,7 @@ module.exports = async (submission, exportId) => {
         .style(defaultStyle);
     }
 
-    return [col, row + 1, 2];
+    return [col, row, 2];
   };
 
   /**
@@ -237,7 +255,7 @@ module.exports = async (submission, exportId) => {
         }
       }
     }
-    return [col, row + 1, categories.length];
+    return [col, row, categories.length];
   };
 
   /**
@@ -247,16 +265,16 @@ module.exports = async (submission, exportId) => {
     sheet
       .cell(`${col}${row}`)
       .value(data['Question'])
-      .style({ ...groupHeaderStyle, topBorder: { color: '000000', style: 'thin' } });
+      .style({ ...groupHeaderStyle, ...getGroupBorder('top') });
     const childInfo = getQuestionInfo(data['Children'], data['Name']);
     var [currentFarthestCol, farthestCol] = [1, 1];
     for (const child of childInfo) {
       [col, row, currentFarthestCol] = typeToFuncMap[child['Type']](sheet, col, row + 1, child);
       farthestCol = Math.max(currentFarthestCol, farthestCol);
     }
-    sheet.cell(`${col}${row}`).style({ bottomBorder: { color: '000000', style: 'thin' } });
+    sheet.cell(`${col}${row}`).style(getGroupBorder('bottom'));
 
-    return [col, row + 1, farthestCol];
+    return [col, row, farthestCol];
   };
 
   const typeToFuncMap = {
@@ -280,6 +298,8 @@ module.exports = async (submission, exportId) => {
     const mainSheet = workbook.sheet(0);
     const surveyName = survey['name'];
     var [currentCol, currentRow, farthestCol, currentFarthestCol] = ['A', 1, 1, 1];
+
+    // Write the title
     mainSheet.cell(`A${currentRow}`).value(surveyName).style(titleStyle);
     currentRow += 1;
     for (const qa of questionAnswerMap) {
@@ -289,7 +309,7 @@ module.exports = async (submission, exportId) => {
         currentRow,
         qa,
       );
-      currentRow += 1;
+      currentRow += 2;
       farthestCol = Math.max(currentFarthestCol, farthestCol);
     }
     // Resize cells

@@ -20,41 +20,47 @@ const endPoints = require('../endPoints');
 // exports.averagePeopleFedMeals = (data) => {
 //   let finalAverage = 0;
 //   data.forEach((data) => {
-//     finalAverage += data['val']
+//     finalAverage += data['val'];
 //   });
 
 //   return Math.round((finalAverage / data.length) * 100) / 100;
 // };
 
 // exports.getNutritionalData = (cropNutritionData) => {
-// // @TODO, a simpler way to do this???
+//   // @TODO, a simpler way to do this???
 //   // generates the data for displaying a chart
 //   // cal, prot, fats, vitc, vita
 //   // returns an array with the values to easy-map
 //   // expected intak for each nutrtion is referenced in the doc
 //   const MEALS_PER_DAY = 3;
 //   const data = {
-//     'Calories': { label: 'Calories', val: 0, percentage: 0 },
-//     'Protein': { label: 'Protein', val: 0, percentage: 0 },
-//     'Fat': { label: 'Fat', val: 0, percentage: 0 },
+//     Calories: { label: 'Calories', val: 0, percentage: 0 },
+//     Protein: { label: 'Protein', val: 0, percentage: 0 },
+//     Fat: { label: 'Fat', val: 0, percentage: 0 },
 //     'Vitamin C': { label: 'Vitamin C', val: 0, percentage: 0 },
 //     'Vitamin A': { label: 'Vitamin A', val: 0, percentage: 0 },
 //   };
-//   const expectedDailyIntake = { 'Calories': 2500, 'Protein': 52, 'Fat': 75, 'Vitamin C': 90, 'Vitamin A': 900 };
+//   const expectedDailyIntake = {
+//     Calories: 2500,
+//     Protein: 52,
+//     Fat: 75,
+//     'Vitamin C': 90,
+//     'Vitamin A': 900,
+//   };
 
 //   cropNutritionData.map((item) => {
 //     const percentRefuse = item.percentrefuse || 0;
-//     const percentLeft = 1 - (percentRefuse * 0.01);
-//     data['Calories']['val'] += (item.energy * 10) * item.quantity_kg * percentLeft; // kcal/lb
-//     data['Protein']['val'] += (item.protein * 10) * item.quantity_kg * percentLeft; // g/100g
-//     data['Fat']['val'] += (item.lipid * 10) * item.quantity_kg * percentLeft; // g/100g
-//     data['Vitamin C']['val'] += (item.vitc * 10) * item.quantity_kg * percentLeft; // mg/
-//     data['Vitamin A']['val'] += (item.vita_rae * 10) * item.quantity_kg * percentLeft;
+//     const percentLeft = 1 - percentRefuse * 0.01;
+//     data['Calories']['val'] += item.energy * 10 * item.quantity_kg * percentLeft; // kcal/lb
+//     data['Protein']['val'] += item.protein * 10 * item.quantity_kg * percentLeft; // g/100g
+//     data['Fat']['val'] += item.lipid * 10 * item.quantity_kg * percentLeft; // g/100g
+//     data['Vitamin C']['val'] += item.vitc * 10 * item.quantity_kg * percentLeft; // mg/
+//     data['Vitamin A']['val'] += item.vita_rae * 10 * item.quantity_kg * percentLeft;
 //   });
 
 //   // now normalize the data values
 //   for (const key in data) {
-//     if (data.hasOwnProperty(key)) {
+//     if (data.hasOwn(key)) {
 //       data[key]['val'] = Math.round(data[key]['val'] / (expectedDailyIntake[key] / MEALS_PER_DAY));
 //     }
 //   }
@@ -62,7 +68,7 @@ const endPoints = require('../endPoints');
 //   // now find the highest value for progress-bar to go off of
 //   let maxVal = 0;
 //   for (const key in data) {
-//     if (data.hasOwnProperty(key)) {
+//     if (data.hasOwn(key)) {
 //       maxVal = maxVal > data[key]['val'] ? maxVal : data[key]['val'];
 //     }
 //   }
@@ -70,7 +76,7 @@ const endPoints = require('../endPoints');
 //   // now set the percentages for the progress-bar based off of the maxVal
 
 //   for (const key in data) {
-//     if (data.hasOwnProperty(key)) {
+//     if (data.hasOwn(key)) {
 //       data[key]['percentage'] = Math.round((data[key]['val'] / maxVal) * 100);
 //     }
 //   }
@@ -78,11 +84,11 @@ const endPoints = require('../endPoints');
 
 //   const returnArray = [];
 //   for (const key in data) {
-//     if (data.hasOwnProperty(key)) {
-//       returnArray.push(data[key])
+//     if (data.hasOwn(key)) {
+//       returnArray.push(data[key]);
 //     }
 //   }
-//   return returnArray
+//   return returnArray;
 // };
 
 // helpers for Soil OM
@@ -262,6 +268,40 @@ exports.getLabourHappiness = (data) => {
   return returnValue;
 };
 
+const findCentroid = (points) => {
+  let x = 0;
+  let y = 0;
+  points.forEach((p) => {
+    x += p.lng;
+    y += p.lat;
+  });
+  return { lng: x / points.length, lat: y / points.length };
+};
+
+const latlngCounterClockwiseLessThan = (a, b, center) => {
+  // compute the cross product of vectors (center -> a) x (center -> b)
+  // From right-hand rule this is +ve if a comes before b in ccw direction, -ve is a comes after b in ccw direction
+  const det =
+    (a.lng - center.lng) * (b.lat - center.lat) - (b.lng - center.lng) * (a.lat - center.lat);
+  if (det < 0) {
+    return 1;
+  } else if (det > 0) {
+    return -1;
+  }
+  // if we get here points are on the same line from the centre, so we want to return the point which is closest to the centre
+  const distanceA = Math.pow(a.lng - center.lng, 2) + Math.pow(a.lat - center.lat, 2);
+  const distanceB = Math.pow(b.lng - center.lng, 2) + Math.pow(b.lat - center.lat, 2);
+  return distanceA < distanceB ? 1 : -1;
+};
+
+const makePolygon = (points) => {
+  let polygonString = 'POLYGON((';
+  points.forEach((p) => {
+    polygonString = polygonString.concat(`${p.lng} ${p.lat},`);
+  });
+  return polygonString.concat(`${points[0].lng} ${points[0].lat}))`);
+};
+
 exports.getBiodiversityAPI = async (pointData, countData) => {
   const resultData = {
     preview: 0,
@@ -273,6 +313,7 @@ exports.getBiodiversityAPI = async (pointData, countData) => {
     Insecta: 'Insects',
     Plantae: 'Plants',
     Amphibia: 'Amphibians',
+    Mammalia: 'Mammals',
   };
 
   const speciesCount = {
@@ -281,101 +322,92 @@ exports.getBiodiversityAPI = async (pointData, countData) => {
     Plants: 0,
     Amphibians: 0,
     CropVarieties: 0,
+    Mammals: 0,
   };
-
-  const sortLats = new Array(pointData.length);
-  const sortLngs = new Array(pointData.length);
-  for (let i = 0; i < pointData.length; i++) {
-    if (pointData[i]['grid_points'] != null) {
-      pointData[i]['grid_points'].map((grid_point) => {
-        if (Array.isArray(sortLats[i])) {
-          sortLats[i].push(Math.round(grid_point['lat'] * 10000) / 10000);
-          sortLngs[i].push(Math.round(grid_point['lng'] * 10000) / 10000);
-        } else {
-          sortLats[i] = [Math.round(grid_point['lat'] * 10000) / 10000];
-          sortLngs[i] = [Math.round(grid_point['lng'] * 10000) / 10000];
-        }
-      });
-    }
-  }
-  const fieldPoints = new Array(pointData.length);
-
-  for (let i = 0; i < pointData.length; i++) {
-    fieldPoints[i] = [
-      [Math.min(...sortLats[i]), Math.max(...sortLats[i])],
-      [Math.min(...sortLngs[i]), Math.max(...sortLngs[i])],
-    ];
-  }
   speciesCount['CropVarieties'] = parseInt(countData);
-  const apiCalls = [];
 
-  fieldPoints.forEach((fieldPoint) => {
-    // TODO: figure out how to fetch past limit. ST-46
-    const options = {
-      uri: endPoints.gbifAPI,
-      qs: {
-        decimalLatitude: fieldPoint[0][0] + ',' + fieldPoint[0][1], //minLat maxLat
-        decimalLongitude: fieldPoint[1][0] + ',' + fieldPoint[1][1], //minLong maxLong
-      },
-    };
-    apiCalls.push(
-      new Promise((resolve, reject) => {
-        rp(options)
-          .then((data) => {
-            const jsonfied = JSON.parse(data);
-            const results = jsonfied['results'];
-            const infoFiltered = results.map((currentSpecies) => ({
-              key: currentSpecies['key'],
-              identificationID: currentSpecies['identificationID'],
-              kingdom: currentSpecies['kingdom'],
-              class: currentSpecies['class'],
-            }));
-            resolve(infoFiltered);
-          })
-          .catch((error) => {
-            reject(error);
-          });
-      }),
-    );
+  const polygons = pointData.map((points) => {
+    const centroid = findCentroid(points.grid_points);
+    const compareLatLong = (a, b) => latlngCounterClockwiseLessThan(a, b, centroid);
+    return makePolygon(points.grid_points.sort(compareLatLong));
   });
-  return await Promise.all(apiCalls)
-    .then((apiResult) => {
-      const mergedResults = mergeSpeciesObjects(apiResult);
-      mergedResults.map((currentSpecies) => {
-        if (currentSpecies['kingdom'] in dictionary) {
-          speciesCount[dictionary[currentSpecies['kingdom']]]++;
-        } else if (currentSpecies['class'] in dictionary) {
-          speciesCount[dictionary[currentSpecies['class']]]++;
-        }
-      });
-      let runningTotal = 0;
-      let maxSpecies = 0;
-      for (const key in speciesCount) {
-        runningTotal += speciesCount[key];
-        maxSpecies = Math.max(speciesCount[key], maxSpecies);
-        resultData['data'].push({ name: key, count: speciesCount[key], percentage: 0 });
-      }
-      resultData['data'].map((curr) => {
-        curr['percentage'] = (curr['count'] / maxSpecies) * 100;
-      });
-      resultData['preview'] = runningTotal;
-      return resultData;
-    })
-    .catch((error) => {
-      return error;
-    });
-};
 
-const mergeSpeciesObjects = (objects) => {
-  if (objects.length === 0) {
-    return [];
+  const apiData = [];
+  const apiCalls = [];
+  console.time('First requests');
+  const counts = await Promise.all(
+    polygons.map(async (polygon) => {
+      const firstRequestOptions = {
+        uri: endPoints.gbifAPI,
+        qs: {
+          geometry: polygon,
+          // Max limit for api
+          limit: 300,
+          offset: 0,
+          // year: `${year - 5},${year}`,
+        },
+      };
+      const data = await rp(firstRequestOptions);
+      const { count, results } = JSON.parse(data);
+      apiData.push(...results);
+      return count;
+    }),
+  );
+  console.timeEnd('First requests');
+  console.time('generate');
+  counts.forEach((count, index) => {
+    for (let i = 300; i < count; i += 300) {
+      apiCalls.push(
+        new Promise((resolve, reject) => {
+          const a = i;
+          rp({
+            uri: endPoints.gbifAPI,
+            qs: {
+              geometry: polygons[index],
+              limit: 300,
+              offset: i,
+            },
+          })
+            .then((data) => {
+              const parsedData = JSON.parse(data);
+              apiData.push(...parsedData.results);
+              resolve();
+            })
+            .catch((error) => {
+              console.log(`Rejecting error on offset: ${a}`);
+              reject(error);
+            });
+        }),
+      );
+    }
+  });
+  console.timeEnd('generate');
+  console.time('Api calls');
+  await Promise.allSettled(apiCalls);
+  console.timeEnd('Api calls');
+  console.time('Filter');
+  const filteredData = apiData.reduce((filtered, current) => {
+    if (!filtered.includes(current['speciesKey'])) {
+      filtered.push(current['speciesKey']);
+      if (current['kingdom'] in dictionary) {
+        speciesCount[dictionary[current['kingdom']]]++;
+      }
+      if (current['class'] in dictionary) {
+        speciesCount[dictionary[current['class']]]++;
+      }
+    }
+    return filtered;
+  }, []);
+  console.timeEnd('Filter');
+  for (const species in speciesCount) {
+    resultData['data'].push({
+      name: species,
+      count: speciesCount[species],
+      percent: (speciesCount[species] / filteredData.length) * 100,
+    });
   }
-  let merged = objects[0];
-  for (let i = 1; i < objects.length; i++) {
-    const keys = new Set(merged.map((item) => item.key));
-    merged = [...merged, ...objects[i].filter((item) => !keys.has(item.key))];
-  }
-  return merged;
+  resultData.preview = filteredData.length;
+  return resultData;
 };
 
 exports.formatPricesData = (data) => {
@@ -542,7 +574,10 @@ exports.formatPricesNearbyData = (myFarmID, data) => {
 //   let runningTotal = 0;
 //   dataPoints.forEach((crop) => {
 //     const fieldKeyName = crop['field_id'] + ' ' + crop['field_name'];
-//     const cropObject = { crop: crop['crop_common_name'], plantAvailableWater: crop['plant_available_water'] };
+//     const cropObject = {
+//       crop: crop['crop_common_name'],
+//       plantAvailableWater: crop['plant_available_water'],
+//     };
 //     runningTotal += crop['plant_available_water'];
 //     if (Array.isArray(cropsByField[fieldKeyName])) {
 //       cropsByField[fieldKeyName].push(cropObject);
@@ -551,11 +586,11 @@ exports.formatPricesNearbyData = (myFarmID, data) => {
 //     }
 //   });
 //   for (const key in cropsByField) {
-//     returnData['data'].push({ [key]: cropsByField[key] })
+//     returnData['data'].push({ [key]: cropsByField[key] });
 //   }
 //   returnData['preview'] = Math.round((runningTotal / amountOfCrops) * 100) / 100;
 
-//   return returnData
+//   return returnData;
 // };
 
 // exports.formatNitrogenBalanceData = async (dataPoints) => {
@@ -567,16 +602,17 @@ exports.formatPricesNearbyData = (myFarmID, data) => {
 //   if (dataPoints.length === 0) return returnData;
 //   dataPoints.forEach((row) => {
 //     runningTotal += row['nitrogen_value'];
-//     returnData['data'].push({ [row['field_id'] + ' ' + row['field_name']]: Math.round(row['nitrogen_value'] * 100) / 100 })
+//     returnData['data'].push({
+//       [row['field_id'] + ' ' + row['field_name']]: Math.round(row['nitrogen_value'] * 100) / 100,
+//     });
 //   });
-//   returnData['preview'] = Math.round(runningTotal / dataPoints.length * 100) / 100;
-//   return returnData
+//   returnData['preview'] = Math.round((runningTotal / dataPoints.length) * 100) / 100;
+//   return returnData;
 // };
 
 // exports.formatPreviousDate = (date, mode) => {
 //   const d = new Date(date);
-//   let
-//     year = d.getFullYear(),
+//   let year = d.getFullYear(),
 //     month = '' + (d.getMonth() + 1),
 //     day = '' + d.getDate();
 

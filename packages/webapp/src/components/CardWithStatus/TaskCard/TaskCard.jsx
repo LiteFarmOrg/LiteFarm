@@ -62,22 +62,6 @@ export const PureTaskCard = ({
     onClickCompleteOrDueDate?.();
   };
 
-  let trueDate = completeOrDueDate;
-  if (status == 'abandoned') {
-    let [day, month, date, year] = new Date(props['abandonDate']).toDateString().split(' ');
-    trueDate = `${month} ${date}, ${year}`;
-  }
-
-  const iconStyle = {
-    iconTextContainer: {
-      display: 'flex',
-      flexDirection: 'row',
-      alignItems: 'center',
-      gap: '3px',
-      borderBottom: !isAdmin && !isAssignee ? 'none' : '1px solid var(--teal700)',
-      cursor: isAdmin || isAssignee ? 'pointer' : 'default',
-    },
-  };
   return (
     <CardWithStatus
       data-cy="taskCard"
@@ -111,7 +95,7 @@ export const PureTaskCard = ({
         <div data-cy="taskCard-dueDate" onClick={onAssignDate} className={styles.dateUserContainer}>
           <div
             className={
-              status === 'completed' || status === 'abandoned'
+              status === 'completed' || status === 'abandoned' || (!isAssignee && !isAdmin)
                 ? styles.iconTextContainerNoUnderline
                 : styles.iconTextContainer
             }
@@ -122,7 +106,7 @@ export const PureTaskCard = ({
           {assignee ? (
             <div
               className={
-                status === 'completed' || status === 'abandoned'
+                status === 'completed' || status === 'abandoned' || (!isAdmin && !isAssignee)
                   ? styles.iconTextContainerNoUnderline
                   : styles.iconTextContainer
               }

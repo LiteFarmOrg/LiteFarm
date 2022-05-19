@@ -28,6 +28,16 @@ const labourHappinessSelector = createSelector(
 
 const biodiversitySelector = createSelector(insightSelector, (state) => state.biodiversityData);
 
+const biodiversityLoadingSelector = createSelector(
+  insightSelector,
+  (state) => state.biodiversityLoading,
+);
+
+const biodiversityErrorSelector = createSelector(
+  insightSelector,
+  (state) => state.biodiversityError,
+);
+
 const pricesSelector = createSelector(insightSelector, (state) => state.pricesData);
 
 const pricesDistanceSelector = createSelector(insightSelector, (state) => state.pricesDistance);
@@ -54,6 +64,8 @@ export {
   soilOMSelector,
   labourHappinessSelector,
   biodiversitySelector,
+  biodiversityLoadingSelector,
+  biodiversityErrorSelector,
   pricesSelector,
   pricesDistanceSelector,
   // waterBalanceSelector,

@@ -19,6 +19,8 @@ import {
   setBiodiversityData,
   // setCropsSoldNutritionInState,
   // setFrequencyNitrogenBalance,
+  setBiodiversityError,
+  setBiodiversityLoading,
   setLabourHappinessData,
   // setNitrogenBalanceData,
   setPricesData,
@@ -43,6 +45,7 @@ import {
 } from './constants';
 import { loginSelector } from '../userFarmSlice';
 import { axios, getHeader } from '../saga';
+// import { biodiversitySelector } from './selectors';
 
 // export function* getCropsSoldNutrition() {
 //   const { insightUrl } = apiConfig;
@@ -91,16 +94,28 @@ export function* getLabourHappinessData() {
 }
 
 export function* getBiodiversityData() {
+  console.log('Getting biodiversity data');
+  yield put(setBiodiversityLoading(true));
+  yield put(setBiodiversityError(false));
   const { insightUrl } = apiConfig;
   let { user_id, farm_id } = yield select(loginSelector);
-  const header = getHeader(user_id, farm_id);
+  const defaultHeader = getHeader(user_id, farm_id);
+  const header = {
+    ...defaultHeader,
+    headers: { Connection: 'Keep-Alive', 'Keep-Alive': 'timeout=60', ...defaultHeader.headers },
+  };
 
   try {
     const result = yield call(axios.get, insightUrl + '/biodiversity/' + farm_id, header);
     if (result) {
+      console.log(result);
+      yield put(setBiodiversityLoading(false));
       yield put(setBiodiversityData(result.data));
     }
   } catch (e) {
+    console.log(e);
+    yield put(setBiodiversityLoading(false));
+    yield put(setBiodiversityError(true, Date.now()));
     console.log('failed to fetch biodiversity data from db');
   }
 }

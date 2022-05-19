@@ -18,12 +18,14 @@ import {
   SET_SOLD_OM_DATA,
   SET_LABOUR_HAPPINESS_DATA,
   SET_BIODIVERSITY_DATA,
+  SET_BIODIVERSITY_LOADING,
   SET_PRICES_DATA,
   SET_PRICES_DISTANCE,
   // SET_WATER_BALANCE_DATA,
   // SET_NITROGEN_BALANCE_DATA,
   // SET_FREQUENCY_NITROGEN_BALANCE,
   // SET_FREQUENCY_WATER_BALANCE,
+  SET_BIODIVERSITY_ERROR,
 } from './constants';
 
 const initialState = {
@@ -31,6 +33,8 @@ const initialState = {
   soilOMData: { preview: 0, data: [] },
   labourHappinessData: { preview: 0, data: [] },
   biodiversityData: { preview: 0, data: [] },
+  biodiversityLoading: false,
+  biodiversityError: false,
   pricesData: { preview: 0, amountOfFarms: 0, data: [] },
   // waterBalanceData: { preview: 0, data: [] },
   // waterBalanceSchedule: {},
@@ -61,6 +65,20 @@ function insightReducer(state = initialState, action) {
         biodiversityData: action.biodiversityData,
       });
 
+    case SET_BIODIVERSITY_LOADING:
+      return Object.assign({}, state, {
+        biodiversityLoading: action.biodiversityLoading,
+      });
+
+    case SET_BIODIVERSITY_ERROR:
+      return Object.assign({}, state, {
+        biodiversityError: action.biodiversityError,
+        biodiversityData: {
+          ...state.biodiversityData,
+          timeFetched: action.timeFailed,
+        },
+      });
+
     case SET_PRICES_DATA:
       return Object.assign({}, state, {
         pricesData: action.pricesData,
@@ -86,6 +104,7 @@ function insightReducer(state = initialState, action) {
       return Object.assign({}, state, {
         pricesDistance: action.distance,
       });
+
     default:
       return state;
   }

@@ -10,7 +10,6 @@ import { cropLocationsSelector } from '../../locationSlice';
 import { useIsTaskType } from '../useIsTaskType';
 
 export default function ManagementPlanSelector({ history, match, location }) {
-  console.log(location);
   const isTransplantTask = useIsTaskType('TRANSPLANT_TASK');
   return isTransplantTask ? (
     <TransplantManagementPlansSelector history={history} match={match} location={location} />

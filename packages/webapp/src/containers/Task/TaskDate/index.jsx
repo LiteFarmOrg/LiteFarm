@@ -15,8 +15,6 @@ function TaskDate({ history, match, location }) {
     );
   };
 
-  console.log(location);
-
   return (
     <HookFormPersistProvider>
       <PureTaskDate onGoBack={onGoBack} onContinue={onContinue} />

@@ -5,14 +5,11 @@ import { HookFormPersistProvider } from '../../../hooks/useHookFormPersist/HookF
 import { useMemo } from 'react';
 import { getBedGuidancePaths } from '../../../../components/Crop/getAddManagementPlanPath';
 
-export default function BedPlan({ history, match }) {
+export default function BedPlan({ history, match, location }) {
   const variety_id = match.params.variety_id;
   const system = useSelector(measurementSelector);
   const isFinalPage = match?.path === '/crop/:variety_id/add_management_plan/bed_guidance';
-  const { submitPath } = useMemo(
-    () => getBedGuidancePaths(variety_id, isFinalPage),
-    [],
-  );
+  const { submitPath } = useMemo(() => getBedGuidancePaths(variety_id, isFinalPage), []);
   return (
     <HookFormPersistProvider>
       <PurePlanGuidance
@@ -22,6 +19,7 @@ export default function BedPlan({ history, match }) {
         variety_id={variety_id}
         isFinalPage={isFinalPage}
         submitPath={submitPath}
+        location={location}
       />
     </HookFormPersistProvider>
   );

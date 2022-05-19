@@ -14,7 +14,7 @@ import {
 } from '../TaskCrops/useManagementPlanTilesByLocationIds';
 import { useIsTaskType } from '../useIsTaskType';
 
-function TaskDetails({ history, match }) {
+function TaskDetails({ history, match, location }) {
   const continuePath = '/add_task/task_assignment';
   const goBackPath = '/add_task/task_locations';
 
@@ -46,7 +46,7 @@ function TaskDetails({ history, match }) {
   };
 
   const onSubmit = () => {
-    history.push('/add_task/task_assignment');
+    history.push('/add_task/task_assignment', location.state);
   };
 
   const onError = () => {};

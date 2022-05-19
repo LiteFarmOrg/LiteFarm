@@ -32,8 +32,6 @@ export function PureTaskPlantingMethod({
   const PLANTING_METHOD = `transplant_task.planting_management_plan.planting_method`;
   const planting_method = watch(PLANTING_METHOD);
 
-  console.log(location);
-
   useHookFormPersist(getValues);
 
   const onError = () => {};

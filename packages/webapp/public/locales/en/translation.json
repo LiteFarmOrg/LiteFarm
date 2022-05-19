@@ -352,6 +352,10 @@
     "ARCHIVE_DOCUMENT": "Archive document?",
     "ARCHIVE_DOCUMENT_TEXT": "Archiving this document will move it to the archived section of your documents, but not delete it. Archived documents will not be exported for your certifications. Do you want to proceed?",
     "ARCHIVED": "Archived",
+    "UNARCHIVE": "Unarchive",
+    "UNARCHIVE_DOCUMENT": "Unarchive document?",
+    "UNARCHIVE_DOCUMENT_TEXT": "Unarchiving this document will return it to your list of currently valid documents. Valid documents will be exported for your certifications. Do you want to proceed?",
+    "UNARCHIVED": "Unarchived",
     "CANCEL": "Cancel",
     "COMPLIANCE_DOCUMENTS_AND_CERTIFICATION": "Compliance documents and your certification",
     "DOCUMENTS": "Documents",
@@ -639,7 +643,7 @@
     "DATE": "Date",
     "ESTIMATED_REVENUE": {
       "ESTIMATED_ANNUAL_REVENUE": "Estimated annual revenue",
-      "ESTIMATED_ANNUAL_YIELD": "Estimated annual yield",
+      "ESTIMATED_ANNUAL_YIELD": "Estimated annual harvest",
       "ESTIMATED_PRICE_PER_UNIT": "Estimated price per unit",
       "TITLE": "Estimated Revenue"
     },
@@ -908,6 +912,7 @@
       },
       "WHAT_HAPPENED": "What happened?"
     },
+    "COMPLETION_NOTES": "Completion notes",
     "CONTAINER": "Container",
     "CONTAINER_OR_IN_GROUND": "Are you planting in a container or in ground?",
     "CONTAINER_TYPE": "Type of container",
@@ -924,7 +929,7 @@
     "DURATION_TOOLTIP": "These are suggested values. Please adjust for your local conditions.",
     "EDITING_PLAN_WILL_NOT_MODIFY": "Editing this plan will not modify tasks assigned to it.",
     "ESTIMATED_SEED": "Estimated seed required",
-    "ESTIMATED_YIELD": "Estimated annual yield",
+    "ESTIMATED_YIELD": "Estimated annual harvest",
     "FIRST_MP_SPOTLIGHT": {
       "BODY_PART1": "LiteFarm has generated a few tasks based on your plan. You can add more tasks or assign them on this screen.",
       "BODY_PART2": "Your plan will become active once you complete a task.",
@@ -966,6 +971,7 @@
     "PLANTING_NOTE": "Planting notes",
     "PLANTING_SOIL": "Planting soil to be used",
     "PLANTS_PER_CONTAINER": "# of plants/container",
+    "RATE_THIS_MANAGEMENT_PLAN": "Rate this management plan",
     "REMOVE_PIN": "Remove pin",
     "ROW_METHOD": {
       "HISTORICAL_SAME_LENGTH": "Were the rows all the same length?",

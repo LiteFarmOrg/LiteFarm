@@ -352,6 +352,10 @@
     "ARCHIVE_DOCUMENT": "Document d'archive\u00a0?",
     "ARCHIVE_DOCUMENT_TEXT": "L'archivage de ce document le déplacera vers la section archivée de vos documents, mais ne le supprimera pas. Les documents archivés ne seront pas exportés pour vos certifications. Voulez-vous continuer\u00a0?",
     "ARCHIVED": "MISSING",
+    "UNARCHIVE": "MISSING",
+    "UNARCHIVE_DOCUMENT": "MISSING",
+    "UNARCHIVE_DOCUMENT_TEXT": "MISSING",
+    "UNARCHIVED": "MISSING",
     "CANCEL": "MISSING",
     "COMPLIANCE_DOCUMENTS_AND_CERTIFICATION": "Documents de conformité et votre certification",
     "DOCUMENTS": "Documents",
@@ -912,6 +916,7 @@
       },
       "WHAT_HAPPENED": "Quest-ce qui est arrivé ?"
     },
+    "COMPLETION_NOTES": "MISSING",
     "CONTAINER": "Conteneur",
     "CONTAINER_OR_IN_GROUND": "Plantez-vous dans un conteneur ou en pleine terre\u00a0?",
     "CONTAINER_TYPE": "Type de conteneur",
@@ -928,7 +933,7 @@
     "DURATION_TOOLTIP": "Ce sont des valeurs suggérées. Veuillez les ajuster en fonction de vos conditions locales.",
     "EDITING_PLAN_WILL_NOT_MODIFY": "MISSING",
     "ESTIMATED_SEED": "Semence estimée requise",
-    "ESTIMATED_YIELD": "Rendement estimé",
+    "ESTIMATED_YIELD": "MISSING",
     "FIRST_MP_SPOTLIGHT": {
       "BODY_PART1": "MISSING",
       "BODY_PART2": "MISSING",
@@ -970,6 +975,7 @@
     "PLANTING_NOTE": "Notes de plantation",
     "PLANTING_SOIL": "Terre de plantation à utiliser",
     "PLANTS_PER_CONTAINER": "# de plantes/conteneur",
+    "RATE_THIS_MANAGEMENT_PLAN": "MISSING",
     "REMOVE_PIN": "Supprimer l'épingle",
     "ROW_METHOD": {
       "HISTORICAL_SAME_LENGTH": "Les lignes étaient-elles toutes de la même longueur\u00a0?",

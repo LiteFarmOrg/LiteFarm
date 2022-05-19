@@ -46,6 +46,8 @@ export const PureTaskCard = ({
   selected,
   happiness,
   classes = { card: {} },
+  isAdmin,
+  isAssignee,
   ...props
 }) => {
   const { t } = useTranslation();
@@ -59,8 +61,10 @@ export const PureTaskCard = ({
     e.stopPropagation();
     onClickCompleteOrDueDate?.();
   };
+
   return (
     <CardWithStatus
+      data-cy="taskCard"
       color={selected ? activeCardColorMap[status] : statusColorMap[status]}
       style={style}
       status={status}
@@ -88,26 +92,25 @@ export const PureTaskCard = ({
           {locationName || t('TASK.CARD.MULTIPLE_LOCATIONS')}
           {cropVarietyName && ` | ${cropVarietyName}`}
         </div>
-        <div onClick={onAssignDate} className={styles.dateUserContainer}>
+        <div data-cy="taskCard-dueDate" onClick={onAssignDate} className={styles.dateUserContainer}>
           <div
             className={
-              status === 'completed' || status === 'abandoned'
+              status === 'completed' || status === 'abandoned' || (!isAssignee && !isAdmin)
                 ? styles.iconTextContainerNoUnderline
                 : styles.iconTextContainer
             }
           >
             <CalendarIcon />
-            <div>{completeOrDueDate}</div>
+            <div>{trueDate}</div>
           </div>
           {assignee ? (
             <div
               className={
-                status === 'completed' || status === 'abandoned'
+                status === 'completed' || status === 'abandoned' || (!isAdmin && !isAssignee)
                   ? styles.iconTextContainerNoUnderline
                   : styles.iconTextContainer
               }
               onClick={onAssignTask}
-              style={{ cursor: onClickAssignee ? 'pointer' : 'default' }}
             >
               <div className={clsx(styles.firstInitial, styles.icon)}>
                 {assignee.first_name.toUpperCase().charAt(0)}
@@ -116,6 +119,7 @@ export const PureTaskCard = ({
             </div>
           ) : (
             <div
+              data-cy="taskCard-assignee"
               className={clsx(styles.iconTextContainer, styles.unassigned)}
               onClick={onAssignTask}
               style={{ cursor: onClickAssignee ? 'pointer' : 'default' }}

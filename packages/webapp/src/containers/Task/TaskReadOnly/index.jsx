@@ -31,7 +31,7 @@ import { harvestUseTypesSelector } from '../../harvestUseTypeSlice';
 import { useReadonlyTask } from './useReadonlyTask';
 import { isTaskType } from '../useIsTaskType';
 import { useMaxZoom } from '../../Map/useMaxZoom';
-import { assignTask, assignTasksOnDate } from '../saga';
+import { assignTask, assignTasksOnDate, changeTaskDate } from '../saga';
 
 function TaskReadOnly({ history, match }) {
   const task_id = match.params.task_id;
@@ -80,6 +80,7 @@ function TaskReadOnly({ history, match }) {
   };
   const { maxZoomRef, getMaxZoom } = useMaxZoom();
 
+  const onChangeTaskDate = (date) => dispatch(changeTaskDate({ task_id, due_date: date }));
   const onAssignTasksOnDate = (task) => dispatch(assignTasksOnDate(task));
   const onAssignTask = (task) => dispatch(assignTask(task));
   return (
@@ -102,6 +103,7 @@ function TaskReadOnly({ history, match }) {
         getMaxZoom={getMaxZoom}
         onAssignTasksOnDate={onAssignTasksOnDate}
         onAssignTask={onAssignTask}
+        onChangeTaskDate={onChangeTaskDate}
       />
     </>
   );

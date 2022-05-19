@@ -59,7 +59,12 @@ export default function PureCropManagement({
           isSearchBar
         />
       )}
-      {isAdmin && <AddLink onClick={onAddManagementPlan}> {t('CROP_DETAIL.ADD_PLAN')}</AddLink>}
+      {isAdmin && (
+        <AddLink data-cy="crop-addPlan" onClick={onAddManagementPlan}>
+          {' '}
+          {t('CROP_DETAIL.ADD_PLAN')}
+        </AddLink>
+      )}
       {managementPlanCardContents && (
         <CardWithStatusContainer style={{ paddingTop: '16px' }}>
           {filteredManagementPlanCardContents.map((managementPlan, index) => (

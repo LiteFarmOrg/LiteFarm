@@ -8,7 +8,7 @@ jest.mock('jsdom');
 jest.mock('../src/middleware/acl/checkJwt');
 const mocks = require('./mock.factories');
 const { figureMapping, promiseMapper } = require('./../src/middleware/validation/location');
-const faker = require('faker');
+const { faker } = require('@faker-js/faker');
 
 const locations = {
   BARN: 'barn',
@@ -147,7 +147,7 @@ describe('Location tests', () => {
   describe('GET /location by farm', () => {
     let user, farm;
     beforeEach(async () => {
-      let [{ user_id, farm_id }] = await mocks.userFarmFactory(
+      const [{ user_id, farm_id }] = await mocks.userFarmFactory(
         {},
         { status: 'Active', role_id: 1 },
       );
@@ -276,7 +276,7 @@ describe('Location tests', () => {
     };
 
     test('should delete field', async (done) => {
-      let [{ user_id, farm_id }] = await mocks.userFarmFactory(
+      const [{ user_id, farm_id }] = await mocks.userFarmFactory(
         {},
         { status: 'Active', role_id: 1 },
       );
@@ -292,7 +292,7 @@ describe('Location tests', () => {
     });
 
     test('Delete should return 400 when field is referenced by managementPlan (incomplete plant task)', async (done) => {
-      let [{ user_id, farm_id }] = await mocks.userFarmFactory(
+      const [{ user_id, farm_id }] = await mocks.userFarmFactory(
         {},
         { status: 'Active', role_id: 1 },
       );
@@ -314,7 +314,7 @@ describe('Location tests', () => {
     });
 
     test('Delete should return 400 when field is referenced by managementPlan (wild crop location)', async (done) => {
-      let [{ user_id, farm_id }] = await mocks.userFarmFactory(
+      const [{ user_id, farm_id }] = await mocks.userFarmFactory(
         {},
         { status: 'Active', role_id: 1 },
       );
@@ -335,7 +335,7 @@ describe('Location tests', () => {
     });
 
     test('Delete should return 400 when field is referenced by managementPlan (completed transplant task)', async (done) => {
-      let [{ user_id, farm_id }] = await mocks.userFarmFactory(
+      const [{ user_id, farm_id }] = await mocks.userFarmFactory(
         {},
         { status: 'Active', role_id: 1 },
       );
@@ -365,7 +365,7 @@ describe('Location tests', () => {
     });
 
     test('should delete field when crop is transplanted to different field', async (done) => {
-      let [{ user_id, farm_id }] = await mocks.userFarmFactory(
+      const [{ user_id, farm_id }] = await mocks.userFarmFactory(
         {},
         { status: 'Active', role_id: 1 },
       );
@@ -394,7 +394,7 @@ describe('Location tests', () => {
     });
 
     test('should delete field when all tasks are completed or abandoned and crop is transplanted to different field', async (done) => {
-      let [{ user_id, farm_id }] = await mocks.userFarmFactory(
+      const [{ user_id, farm_id }] = await mocks.userFarmFactory(
         {},
         { status: 'Active', role_id: 1 },
       );
@@ -428,7 +428,7 @@ describe('Location tests', () => {
     });
 
     test('should return 400 when field is referenced by incomplete plant task', async (done) => {
-      let [{ user_id, farm_id }] = await mocks.userFarmFactory(
+      const [{ user_id, farm_id }] = await mocks.userFarmFactory(
         {},
         { status: 'Active', role_id: 1 },
       );
@@ -450,7 +450,7 @@ describe('Location tests', () => {
     });
 
     test('should return 400 when field is referenced by incomplete transplant task', async (done) => {
-      let [{ user_id, farm_id }] = await mocks.userFarmFactory(
+      const [{ user_id, farm_id }] = await mocks.userFarmFactory(
         {},
         { status: 'Active', role_id: 1 },
       );
@@ -473,7 +473,7 @@ describe('Location tests', () => {
     });
 
     test('should return 400 when field is referenced by incomplete location task', async (done) => {
-      let [{ user_id, farm_id }] = await mocks.userFarmFactory(
+      const [{ user_id, farm_id }] = await mocks.userFarmFactory(
         {},
         { status: 'Active', role_id: 1 },
       );
@@ -497,7 +497,7 @@ describe('Location tests', () => {
     });
 
     test('should return 400 when field is referenced by incomplete management task', async (done) => {
-      let [{ user_id, farm_id }] = await mocks.userFarmFactory(
+      const [{ user_id, farm_id }] = await mocks.userFarmFactory(
         {},
         { status: 'Active', role_id: 1 },
       );
@@ -528,7 +528,7 @@ describe('Location tests', () => {
     let user, farm;
 
     beforeEach(async () => {
-      let [{ user_id, farm_id }] = await mocks.userFarmFactory(
+      const [{ user_id, farm_id }] = await mocks.userFarmFactory(
         {},
         { status: 'Active', role_id: 1 },
       );
@@ -557,7 +557,7 @@ describe('Location tests', () => {
     describe('Authorization', () => {
       Object.keys(figureMapping).map((asset) => {
         test(`should allow owner to create a ${asset}`, async (done) => {
-          let [{ user_id, farm_id }] = await mocks.userFarmFactory(
+          const [{ user_id, farm_id }] = await mocks.userFarmFactory(
             {},
             { status: 'Active', role_id: 1 },
           );
@@ -572,7 +572,7 @@ describe('Location tests', () => {
         });
 
         test(`should allow manager to create a ${asset}`, async (done) => {
-          let [{ user_id, farm_id }] = await mocks.userFarmFactory(
+          const [{ user_id, farm_id }] = await mocks.userFarmFactory(
             {},
             { status: 'Active', role_id: 2 },
           );
@@ -587,7 +587,7 @@ describe('Location tests', () => {
         });
 
         test(`should allow EO to create a ${asset}`, async (done) => {
-          let [{ user_id, farm_id }] = await mocks.userFarmFactory(
+          const [{ user_id, farm_id }] = await mocks.userFarmFactory(
             {},
             { status: 'Active', role_id: 5 },
           );
@@ -602,7 +602,7 @@ describe('Location tests', () => {
         });
 
         test(`should NOT allow worker to create a ${asset}`, async (done) => {
-          let [{ user_id, farm_id }] = await mocks.userFarmFactory(
+          const [{ user_id, farm_id }] = await mocks.userFarmFactory(
             {},
             { status: 'Active', role_id: 3 },
           );
@@ -805,7 +805,7 @@ describe('Location tests', () => {
     let user, farm;
 
     beforeEach(async () => {
-      let [{ user_id, farm_id }] = await mocks.userFarmFactory(
+      const [{ user_id, farm_id }] = await mocks.userFarmFactory(
         {},
         { status: 'Active', role_id: 1 },
       );
@@ -840,7 +840,7 @@ describe('Location tests', () => {
             ...locationData,
             name: 'Test Name323',
             figure: {
-              location_id: location_id,
+              location_id,
               figure_id: figure[0].figure_id,
               [typeOfFigure]: {
                 ...newFigureData,
@@ -886,7 +886,7 @@ describe('Location tests', () => {
         name: 'Test Name323',
         figure: {
           type: locations.FIELD,
-          location_id: location_id,
+          location_id,
           figure_id: area[0].figure_id,
           area: area[0],
         },
@@ -930,7 +930,7 @@ describe('Location tests', () => {
         name: 'Test Name323',
         figure: {
           type: locations.GARDEN,
-          location_id: location_id,
+          location_id,
           figure_id: area[0].figure_id,
           area: area[0],
         },

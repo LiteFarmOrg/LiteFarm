@@ -54,7 +54,6 @@ export default function PureInviteUser({ onInvite, onGoBack, roleOptions = [] })
 
   const disabled = !isValid || !isDirty;
   const onSubmit = (data) => {
-    console.log(data);
     data[GENDER] = data?.[GENDER]?.value || 'PREFER_NOT_TO_SAY';
     data[ROLE] = data?.[ROLE]?.value;
     data[LANGUAGE] = data?.[LANGUAGE]?.value || t('INVITE_USER.DEFAULT_LANGUAGE_VALUE');

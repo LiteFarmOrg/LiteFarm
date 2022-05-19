@@ -15,12 +15,6 @@ module.exports = async (submission, exportId) => {
     headers: { Authorization: '<user-email> <user-token>' },
   });
 
-  //   console.log('THIS IS THE SUBMISSION DATA: ', submissionData);
-  //   console.log(
-  //     'THIS IS THE WHOLE SURVEY INFORMATION: ',
-  //     survey.revisions[survey.revisions.length - 1].controls,
-  //   );
-
   const ignoredQuestions = [
     'geoJSON',
     'script',
@@ -168,36 +162,40 @@ module.exports = async (submission, exportId) => {
         .value(`Extra Info: ${data['MoreInfo']}`)
         .style({ ...defaultStyle, italic: true });
     }
-    const nonCustomAnswers = data['Options']['source'];
-    for (const ncAnswer of nonCustomAnswers) {
-      sheet
-        .cell(`${col}${(row += 1)}`)
-        .value(ncAnswer['label'])
-        .style(defaultStyle);
-      if (data['Answer'] != null && data['Answer'].includes(ncAnswer['value'])) {
+
+    if (data['Answer'] != null) {
+      const nonCustomAnswers = data['Options']['source'];
+      for (const ncAnswer of nonCustomAnswers) {
+        sheet
+          .cell(`${col}${(row += 1)}`)
+          .value(ncAnswer['label'])
+          .style(defaultStyle);
+        if (data['Answer'].includes(ncAnswer['value'])) {
+          sheet
+            .cell(`${String.fromCharCode(col.charCodeAt(0) + 1)}${row}`)
+            .value('X')
+            .style(defaultStyle); // Write 'X' to the right column
+        }
+      }
+
+      // Get the difference between given answers and all non-custom answers.
+      // If this list is non-empty, we know the user gave a custom answer
+
+      const customEntry = data['Answer'].filter(
+        (answer) => !nonCustomAnswers.map((ncAnswer) => ncAnswer['value']).includes(answer),
+      );
+
+      if (customEntry.length != 0) {
+        sheet
+          .cell(`${col}${(row += 1)}`)
+          .value(customEntry[0])
+          .style(defaultStyle);
+
         sheet
           .cell(`${String.fromCharCode(col.charCodeAt(0) + 1)}${row}`)
           .value('X')
-          .style(defaultStyle); // Write 'X' to the right column
+          .style(defaultStyle);
       }
-    }
-
-    // Get the difference between given answers and all non-custom answers.
-    // If this list is non-empty, we know the user gave a custom answer
-    const customEntry = data['Answer'].filter(
-      (answer) => !nonCustomAnswers.map((ncAnswer) => ncAnswer['value']).includes(answer),
-    );
-
-    if (customEntry.length != 0) {
-      sheet
-        .cell(`${col}${(row += 1)}`)
-        .value(customEntry[0])
-        .style(defaultStyle);
-
-      sheet
-        .cell(`${String.fromCharCode(col.charCodeAt(0) + 1)}${row}`)
-        .value('X')
-        .style(defaultStyle);
     }
 
     return [col, row, 2];
@@ -302,8 +300,6 @@ module.exports = async (submission, exportId) => {
     page: writeCollection,
     group: writeCollection,
   };
-
-  console.log('THIS IS THE QUESTION & ANSWERS', questionAnswerMap);
 
   return XlsxPopulate.fromBlankAsync().then((workbook) => {
     // Populate the workbook.

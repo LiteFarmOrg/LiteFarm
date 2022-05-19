@@ -13,21 +13,5 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const jwt = require('express-jwt');
-
-const checkJwt = jwt({
-  secret: process.env.JWT_SECRET,
-  algorithms: ['HS256'],
-}).unless({
-  path: [
-    '/user',
-    '/login',
-    '/password_reset',
-    '/user/accept_invitation',
-    '/user_farm/accept_invitation',
-    '/notification_user/subscribe',
-    /\/time_notification\//i,
-  ],
-});
-
-module.exports = checkJwt;
+// Notification Types:
+export const WEEKLY_UNASSIGNED_TASKS = 'WEEKLY_UNASSIGNED_TASKS';

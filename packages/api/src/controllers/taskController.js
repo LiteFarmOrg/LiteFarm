@@ -725,3 +725,4 @@ function canCompleteTask(assigneeUserId, assigneeRoleId, userId, userRoleId) {
 }
 
 module.exports = taskController;
+module.exports.getTasksForFarm = getTasksForFarm;

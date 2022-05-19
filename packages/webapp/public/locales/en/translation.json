@@ -1069,6 +1069,10 @@
     "TASK_COMPLETED_BY_OTHER_USER": {
       "TITLE": "Task completed",
       "BODY": "A {{taskType}} task assigned to you has been marked completed by {{assigner}}"
+    },
+    "WEEKLY_UNASSIGNED_TASKS": {
+      "TITLE": "Unassigned tasks",
+      "BODY": "You have unassigned tasks due this week."
     }
   },
   "OUTRO": {

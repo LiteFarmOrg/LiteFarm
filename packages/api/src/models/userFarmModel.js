@@ -169,10 +169,11 @@ class userFarm extends Model {
       .where({ 'users.email': email, 'userFarm.farm_id': farm_id })
       .first()
       .select('*');
-    if (!trx) {
+    if (trx === null || trx === undefined) {
       await transaction.commit();
     }
     return result;
+  }
   /**
    * Gets the userIds of FM/FO/EO from the farm with the given farmId
    * @param {uuid} farmId - The specified user.

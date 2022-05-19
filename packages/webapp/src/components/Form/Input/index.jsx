@@ -193,6 +193,11 @@ export default Input;
 
 export const numberOnKeyDown = (e) => ['e', 'E', '+', '-'].includes(e.key) && e.preventDefault();
 export const integerOnKeyDown = (e) => /[^0-9]/.test(e.key) && e.preventDefault();
+export const validateWage = (e) => {
+  console.log(e.target.value);
+  // new RegExp('(^\d)(^\.?)(^[\b])').test(e.target.value) && e.preventDefault();
+  new RegExp('[^0-9]^.?').test(e.key) && e.preventDefault();
+};
 export const preventNumberScrolling = (e) => e.target.blur();
 
 export const getInputErrors = (errors, name) => {

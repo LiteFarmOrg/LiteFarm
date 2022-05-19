@@ -177,9 +177,13 @@ class NotificationUser extends baseModel {
     const { notification_id } = await Notification.query()
       .insert(notification)
       .context({ user_id: '1' });
-    userIds.forEach(async (user_id) => {
-      await NotificationUser.query().insert({ user_id, notification_id }).context({ user_id: '1' });
-    });
+    await Promise.all(
+      userIds.map(async (user_id) => {
+        await NotificationUser.query()
+          .insert({ user_id, notification_id })
+          .context({ user_id: '1' });
+      }),
+    );
     NotificationUser.alert(notification.farm_id, userIds);
   }
 

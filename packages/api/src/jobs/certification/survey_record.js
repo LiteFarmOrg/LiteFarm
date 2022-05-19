@@ -55,12 +55,15 @@ module.exports = async (submission, exportId) => {
     horizontalAlignment: 'center',
   };
 
-  const getQuestionInfo = (questionAnswerList) => {
+  const getQuestionInfo = (questionAnswerList, groupName = null) => {
     return questionAnswerList
       .map(({ label, name, type, hint, options, moreInfo, children }) => ({
         Question: label,
         Name: name,
-        Answer: submissionData.data[name].value,
+        Answer:
+          groupName == null
+            ? submissionData.data[name].value
+            : submissionData.data[groupName][name].value,
         Type: type,
         Hint: hint,
         Options: options,
@@ -85,6 +88,9 @@ module.exports = async (submission, exportId) => {
     return [col, row];
   };
 
+  /**
+   * Write all the selected options from the dropdown question as subsequent rows
+   */
   const writeDropdownQs = (sheet, col, row, data) => {
     sheet.cell(`${col}${row}`).value(data['Question']).style(questionStyle);
 
@@ -98,19 +104,24 @@ module.exports = async (submission, exportId) => {
     }
     return [col, row];
   };
-
+  /**
+   * Write date questions in the full format
+   */
   const writeDateQs = (sheet, col, row, data) => {
     sheet.cell(`${col}${row}`).value(data['Question']).style(questionStyle);
-
-    const date = new Date(data['Answer']).toDateString();
-    sheet
-      .cell(`${col}${(row += 1)}`)
-      .value(date)
-      .style(defaultStyle);
+    if (data['Answer'] != null) {
+      const date = new Date(data['Answer']).toDateString();
+      sheet
+        .cell(`${col}${(row += 1)}`)
+        .value(date)
+        .style(defaultStyle);
+    }
     return [col, row];
   };
 
-  // Write instructions in italics
+  /**
+   * Write instructions in italics
+   */
   const writeInstructions = (sheet, col, row, data) => {
     const instructions = data['Options']['source'].replace(/<p>|<\/p>/g, '');
     sheet
@@ -120,8 +131,10 @@ module.exports = async (submission, exportId) => {
     return [col, row + 1];
   };
 
-  // Write multiple choice/checkbox type questions to the Excel Sheet.
-  // Option is in the left column and a 'X' is placed in the immediate right column if this option was selected
+  /**
+   * Write multiple choice/checkbox type questions to the Excel Sheet.
+   * Option is in the left column and a 'X' is placed in the immediate right column if this option was selected
+   */
   const writeMultiOptionQs = (sheet, col, row, data) => {
     sheet.cell(`${col}${row}`).value(data['Question']).style(questionStyle);
     if (data['Hint'] != null) {
@@ -230,24 +243,12 @@ module.exports = async (submission, exportId) => {
       .cell(`${col}${row}`)
       .value(data['Question'])
       .style({ ...groupHeaderStyle, topBorder: { color: '000000', style: 'thin' } });
-    const groupName = data['Name'];
-    const childInfo = data['Children']
-      .map(({ label, name, type, hint, options, moreInfo, children }) => ({
-        Question: label,
-        Answer: submissionData.data[groupName][name].value,
-        Type: type,
-        Hint: hint,
-        Options: options,
-        MoreInfo: moreInfo,
-        Children: ['group', 'page'].includes(type) ? children : null,
-      }))
-      .filter((entry) => !ignoredQuestions.includes(entry['Type']));
-    // console.log("THESE ARE THE CHILDREN: ", childInfo);
+    const childInfo = getQuestionInfo(data['Children'], data['Name']);
     for (const child of childInfo) {
       [col, row] = typeToFuncMap[child['Type']](sheet, col, row + 1, child);
     }
     sheet
-      .cell(`${col}${(row += 1)}`)
+      .cell(`${col}${row}`)
       .style({ ...groupHeaderStyle, bottomBorder: { color: '000000', style: 'thin' } });
 
     return [col, row + 1];

@@ -13,21 +13,18 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const jwt = require('express-jwt');
-
-const checkJwt = jwt({
-  secret: process.env.JWT_SECRET,
-  algorithms: ['HS256'],
-}).unless({
-  path: [
-    '/user',
-    '/login',
-    '/password_reset',
-    '/user/accept_invitation',
-    '/user_farm/accept_invitation',
-    '/notification_user/subscribe',
-    /\/time_notification\//i,
-  ],
-});
-
-module.exports = checkJwt;
+/**
+ * Middleware for checking whether or not the client is authorized to
+ * access timed notifications.
+ * @param {Request} req - The HTTP request object.
+ * @param {Response} res - The HTTP response object.
+ * @param {Function} next - Calls the next middleware in the stack
+ */
+const hasTimeNotificationsAccess = (req, res, next) => {
+  if (req.auth.requestTimedNotifications === true) {
+    next();
+  } else {
+    return res.status(403).send('Not authorized to access timed notifications');
+  }
+};
+module.exports = hasTimeNotificationsAccess;

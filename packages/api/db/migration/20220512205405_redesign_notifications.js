@@ -13,21 +13,20 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const jwt = require('express-jwt');
+exports.up = async function (knex) {
+  return knex.schema.alterTable('notification', (table) => {
+    table.dropColumns('translation_key', 'entity_id', 'entity_type');
+    table.jsonb('title');
+    table.jsonb('body');
+    table.jsonb('ref');
+  });
+};
 
-const checkJwt = jwt({
-  secret: process.env.JWT_SECRET,
-  algorithms: ['HS256'],
-}).unless({
-  path: [
-    '/user',
-    '/login',
-    '/password_reset',
-    '/user/accept_invitation',
-    '/user_farm/accept_invitation',
-    '/notification_user/subscribe',
-    /\/time_notification\//i,
-  ],
-});
-
-module.exports = checkJwt;
+exports.down = async function (knex) {
+  return knex.schema.alterTable('notification', (table) => {
+    table.dropColumns('title', 'body', 'ref');
+    table.string('translation_key');
+    table.string('entity_id');
+    table.string('entity_type');
+  });
+};

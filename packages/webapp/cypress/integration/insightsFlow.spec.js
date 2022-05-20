@@ -1,4 +1,4 @@
-describe.only('Documents flow tests', () => {
+describe.only('Insights flow tests', () => {
   before(() => {});
 
   it('Biodiversity insights', () => {

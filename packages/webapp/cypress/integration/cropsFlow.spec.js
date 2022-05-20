@@ -1,5 +1,12 @@
 describe.only('Crops flow tests', () => {
   before(() => {});
+
+  it('Crop catalogue view', () => {
+    //test for LF-2163
+    //Ensure  "needs plan "status key exists on crop catalogue page key section
+    // ensure new status is displayed on crop tile
+  });
+
   it('Create a new crop', () => {
     //Test for LF-2237
     cy.visit('/');

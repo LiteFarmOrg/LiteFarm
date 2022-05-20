@@ -234,23 +234,24 @@ class TaskModel extends BaseModel {
   }
 
   /**
-   * Gets the tasks that are due today for a given user
+   * Checks whether a given user in a given farm has tasks that are due today
    * @param {string} userId user id
    * @param {string} farmId farm id
    * @returns {Object}
    * @static
    * @async
+   * @returns {boolean} true if the user has tasks due today or false if not
    */
-  static async getTasksDueTodayForUserFromFarm(userId, farmId) {
-    return await TaskModel.query()
-      .select(
-        TaskModel.knex().raw('task.task_id, task_type.task_translation_key, task.assignee_user_id, uf.farm_id'),
-      )
-      .join('userFarm as uf', 'uf.user_id', 'task.assignee_user_id')
-      .join('task_type', 'task_type.task_type_id', 'task.task_type_id')
-      .where('uf.farm_id', farmId)
-      .andWhere('task.assignee_user_id', userId)
-      .andWhere('task.due_date', new Date())
+  static async hasTasksDueTodayForUserFromFarm(userId, farmId) {
+    const tasksDueToday = await TaskModel.query()
+    .select('*')
+    .join('userFarm as uf', 'uf.user_id', 'task.assignee_user_id')
+    .join('task_type', 'task_type.task_type_id', 'task.task_type_id')
+    .where('uf.farm_id', farmId)
+    .andWhere('task.assignee_user_id', userId)
+    .andWhere('task.due_date', new Date())
+
+    return tasksDueToday && tasksDueToday.length;
   }
 }
 

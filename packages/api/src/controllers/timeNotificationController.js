@@ -75,9 +75,9 @@ const timeNotificationController = {
       if (activeUsers && activeUsers.length) {
         const tasksDueTodayNotificationUsers = [];
         for (const { user_id } of activeUsers) {
-          const tasksDueToday = await TaskModel.getTasksDueTodayForUserFromFarm(user_id, farm_id);
+          const hasTasksDueToday = await TaskModel.hasTasksDueTodayForUserFromFarm(user_id, farm_id);
 
-          if (tasksDueToday && tasksDueToday.length) {
+          if (hasTasksDueToday) {
             await sendDailyDueTodayTaskNotification(
               farm_id,
               user_id,

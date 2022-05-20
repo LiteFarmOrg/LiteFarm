@@ -139,6 +139,7 @@ export default function PureInviteUser({ onInvite, onGoBack, roleOptions = [] })
               value: t('INVITE_USER.DEFAULT_LANGUAGE_VALUE'),
               label: t('INVITE_USER.DEFAULT_LANGUAGE'),
             }}
+            isDisabled={email === '' || email === undefined || email === null}
             {...field}
             required
           />

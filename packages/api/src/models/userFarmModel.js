@@ -165,8 +165,10 @@ class userFarm extends Model {
   static async getActiveUsersFromFarmId(farmId) {
     return await userFarm
       .query()
-      .select('user_id')
-      .where('userFarm.farm_id', farmId);
+      .select('userFarm.user_id')
+      .join('users', 'userFarm.user_id', 'users.user_id')
+      .where('userFarm.farm_id', farmId)
+      .andWhere('users.status_id', 1);
   }
 }
 

@@ -62,7 +62,7 @@ const timeNotificationController = {
   },
 
   /**
-   * Notifies a user of tasks due today
+   * Notifies all users of a specified farm of tasks due today
    * @param {Request} req request
    * @param {Response} res response
    * @async
@@ -72,12 +72,12 @@ const timeNotificationController = {
     try {
       const activeUsers = await UserFarmModel.getActiveUsersFromFarmId(farm_id);
 
-      if (activeUsers.length) {
+      if (activeUsers && activeUsers.length) {
         const tasksDueTodayNotificationUsers = [];
         for (const { user_id } of activeUsers) {
-          const { rows: tasksDueToday } = await TaskModel.getTasksDueTodayFromUserId(user_id);
+          const tasksDueToday = await TaskModel.getTasksDueTodayForUserFromFarm(user_id, farm_id);
 
-          if (tasksDueToday.length) {
+          if (tasksDueToday && tasksDueToday.length) {
             await sendDailyDueTodayTaskNotification(
               farm_id,
               user_id,

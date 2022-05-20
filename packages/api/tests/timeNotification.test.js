@@ -355,7 +355,7 @@ describe('Time Based Notification Tests', () => {
     });
   });
 
-  describe('Tasks Due Today Notification Test', async () => {
+  describe('Tasks Due Today Notification Test', () => {
     let farmWorker;
     beforeEach(async () => {
       [farmWorker] = await mocks.usersFactory();

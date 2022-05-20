@@ -17,7 +17,7 @@ describe.only('Documents flow tests', () => {
     //view a modal (using the standard modal pattern) with the following attributes:
     //Title: “Generating the latest biodiversity insights…”
     //Body: “We’re generating the latest biodiversity insights for your farm. This can take up to 60 seconds.
-    //”Button: “C((ancel”, Action click returns user to insights page
+    //”Button: “Cancel”, Action click returns user to insights page
 
     //If no results are returned within the time-out period (60 sec), replace the “Loading…” modal with the following modal:
     //Title: “<Hazard_symbol> There was a problem”

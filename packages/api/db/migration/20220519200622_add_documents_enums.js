@@ -6,7 +6,7 @@ exports.up = async function (knex) {
     CHECK (type IN (
       'CLEANING_PRODUCT', 'CROP_COMPLIANCE', 'FERTILIZING_PRODUCT',
       'PEST_CONTROL_PRODUCT', 'SOIL_AMENDMENT', 'SOIL_SAMPLE_RESULTS', 
-      'INVOICES', 'RECEIPTS', 'OTHER'
+      'WATER_SAMPLE_RESULTS', 'INVOICES', 'RECEIPTS', 'OTHER'
     ))
   `);
 };
@@ -19,7 +19,7 @@ exports.down = async function (knex) {
     CHECK (type IN (
       'CLEANING_PRODUCT', 'CROP_COMPLIANCE', 'FERTILIZING_PRODUCT',
       'PEST_CONTROL_PRODUCT', 'SOIL_AMENDMENT', 'SOIL_SAMPLE_RESULTS', 
-      'OTHER'
+      'WATER_SAMPLE_RESULTS', 'OTHER'
     ))
   `);
 };

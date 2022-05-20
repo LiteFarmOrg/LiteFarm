@@ -18,7 +18,9 @@
     "SOIL_AMENDMENT": "Amendement de Sol",
     "SOIL_SAMPLE_RESULTS": "MISSING",
     "WATER_SAMPLE_RESULTS": "MISSING",
-    "UNCATEGORIZED": "Non Classé"
+    "UNCATEGORIZED": "Non Classé",
+    "RECEIPTS": "MISSING",
+    "INVOICES": "MISSING"
   },
   "TASKS": {
     "ABANDONED": "Abandonné",

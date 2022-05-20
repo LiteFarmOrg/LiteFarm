@@ -31,4 +31,12 @@ describe.only('Notifications flow flow tests', () => {
     cy.get('[data-cy=home-notificationButton]').should('exist').and('not.be.disabled').click();
     cy.url().should('include', '/notifications');
   });
+
+  it.only('admin user notifications flow tests', () => {
+    //Test for LF-2386
+    //set system time to monday 630am
+    //login as farm manager
+    //check if there are any unassigned tasks due this week on this farm
+    //make sure notifications are generated for all unassigned tasks due this week on this farm
+  });
 });

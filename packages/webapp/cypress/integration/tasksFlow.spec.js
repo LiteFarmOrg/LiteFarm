@@ -200,4 +200,10 @@ describe.only('Tasks flow tests', () => {
     // Expect Plan notes
     // Expect Estimated annual yield
   });
+
+  it('Abandon task', () => {
+    //Test for LF-2391
+    //navigate to the read only view of an abandoned tasks
+    //expected due date label and input between abandonment date and location
+  });
 });

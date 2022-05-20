@@ -115,6 +115,10 @@ Cypress.Commands.add('selectDropdown', () => {
 Cypress.Commands.add('selectOptions', () => {
   cy.get('.css-1plh46m-MenuList2').should('exist');
 });
+
+Cypress.Commands.add('insights', () => {
+  cy.get('._infoTextLine_avdgi_23').should('exist');
+});
 //<div class=" css-14sfozv-menu" id="react-select-3-listbox"><div class=" css-1plh46m-MenuList2"><div class=" css-19hntng-option" aria-disabled="false" id="react-select-3-option-0" tabindex="-1">Test Worker</div><div class=" css-1n3x1m8-option" aria-disabled="false" id="react-select-3-option-1" tabindex="-1">Unassigned</div></div></div>
 Cypress.Commands.add('createTask', () => {
   //Create an unassigned cleaning task

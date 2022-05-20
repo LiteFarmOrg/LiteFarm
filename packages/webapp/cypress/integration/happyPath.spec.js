@@ -233,6 +233,7 @@ describe.only('LiteFarm end to end test', () => {
     cy.get('[data-cy=crop-cropName]').should('exist').type(testCrop);
     cy.contains('Select').should('exist').click({ force: true });
     cy.contains('Cereals').should('exist').click();
+    cy.get('[type="radio"]').first().check({ force: true });
     cy.get('[data-cy=crop-submit]').should('exist').and('not.be.disabled').click();
 
     cy.url().should('include', '/crop/new/add_crop_variety');
@@ -314,7 +315,7 @@ describe.only('LiteFarm end to end test', () => {
     cy.get('[data-cy=rowMethod-length]').should('exist').should('have.value', '').type('30');
     cy.get('[data-cy=rowMethod-spacing]').should('exist').should('have.value', '').type('15');
     cy.contains('row').click();
-    cy.get('[data-cy=rowMethod-yeild]').should('exist').should('have.value', '').type('1500');
+    cy.get('[data-cy=rowMethod-yield]').should('exist').should('have.value', '').type('1500');
     cy.contains('row').click();
 
     cy.get('[data-cy=rowMethod-submit]').should('exist').and('not.be.disabled').click();

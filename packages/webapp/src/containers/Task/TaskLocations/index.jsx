@@ -1,30 +1,37 @@
 import React from 'react';
-import { hookFormPersistSelector, setManagementPlansData } from '../../hooks/useHookFormPersist/hookFormPersistSlice';
+import {
+  hookFormPersistSelector,
+  setManagementPlansData,
+} from '../../hooks/useHookFormPersist/hookFormPersistSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import PureTaskLocations from '../../../components/Task/TaskLocations';
 import { taskTypeIdNoCropsSelector } from '../../taskTypeSlice';
 import { HookFormPersistProvider } from '../../hooks/useHookFormPersist/HookFormPersistProvider';
 import { userFarmSelector } from '../../userFarmSlice';
-import { cropLocationEntitiesSelector, cropLocationsSelector, locationsSelector } from '../../locationSlice';
+import {
+  cropLocationEntitiesSelector,
+  cropLocationsSelector,
+  locationsSelector,
+} from '../../locationSlice';
 import { useActiveAndCurrentManagementPlanTilesByLocationIds } from '../TaskCrops/useManagementPlanTilesByLocationIds';
 import { useIsTaskType } from '../useIsTaskType';
 import { useTranslation } from 'react-i18next';
 import { useReadOnlyPinCoordinates } from '../useReadOnlyPinCoordinates';
 import { useMaxZoom } from '../../Map/useMaxZoom';
 
-export default function TaskLocationsSwitch({ history, match }) {
+export default function TaskLocationsSwitch({ history, match, location }) {
   const isCropLocation = useIsTaskType('HARVEST_TASK');
   const isTransplantLocation = useIsTaskType('TRANSPLANT_TASK');
   if (isCropLocation) {
-    return <TaskActiveAndPlannedCropLocations history={history} />;
+    return <TaskActiveAndPlannedCropLocations history={history} location={location} />;
   } else if (isTransplantLocation) {
-    return <TaskTransplantLocations history={history} />;
+    return <TaskTransplantLocations history={history} location={location} />;
   } else {
-    return <TaskAllLocations history={history} />;
+    return <TaskAllLocations history={history} location={location} />;
   }
 }
 
-function TaskActiveAndPlannedCropLocations({ history }) {
+function TaskActiveAndPlannedCropLocations({ history, location }) {
   const cropLocations = useSelector(cropLocationsSelector);
   const cropLocationEntities = useSelector(cropLocationEntitiesSelector);
   const cropLocationsIds = cropLocations.map(({ location_id }) => ({ location_id }));
@@ -50,11 +57,12 @@ function TaskActiveAndPlannedCropLocations({ history }) {
       onContinue={onContinue}
       onGoBack={onGoBack}
       readOnlyPinCoordinates={readOnlyPinCoordinates}
+      location={location}
     />
   );
 }
 
-function TaskTransplantLocations({ history }) {
+function TaskTransplantLocations({ history, location }) {
   const { t } = useTranslation();
   const cropLocations = useSelector(cropLocationsSelector);
   const onContinue = () => {
@@ -72,11 +80,12 @@ function TaskTransplantLocations({ history }) {
       title={t('TASK.TRANSPLANT_LOCATIONS')}
       onContinue={onContinue}
       onGoBack={onGoBack}
+      location={location}
     />
   );
 }
 
-function TaskAllLocations({ history }) {
+function TaskAllLocations({ history, location }) {
   const dispatch = useDispatch();
   const locations = useSelector(locationsSelector);
   const persistedFormData = useSelector(hookFormPersistSelector);
@@ -101,6 +110,7 @@ function TaskAllLocations({ history }) {
       onGoBack={onGoBack}
       onContinue={onContinue}
       readOnlyPinCoordinates={readOnlyPinCoordinates}
+      location={location}
     />
   );
 }
@@ -113,8 +123,8 @@ function TaskLocations({
   onContinue,
   onGoBack,
   readOnlyPinCoordinates,
+  location,
 }) {
-
   const { grid_points } = useSelector(userFarmSelector);
   const { maxZoomRef, getMaxZoom } = useMaxZoom();
   return (
@@ -129,6 +139,7 @@ function TaskLocations({
         readOnlyPinCoordinates={readOnlyPinCoordinates}
         maxZoomRef={maxZoomRef}
         getMaxZoom={getMaxZoom}
+        defaultLocation={location.state.location ?? null}
       />
     </HookFormPersistProvider>
   );

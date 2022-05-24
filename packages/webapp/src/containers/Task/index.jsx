@@ -19,7 +19,6 @@ import PageTitle from '../../components/PageTitle/v2';
 import { AddLink, Semibold } from '../../components/Typography';
 import { useDispatch, useSelector } from 'react-redux';
 import React, { useEffect, useMemo, useState } from 'react';
-import styles from './styles.module.scss';
 
 import { isAdminSelector, userFarmSelector } from '../userFarmSlice';
 import { resetAndUnLockFormData } from '../hooks/useHookFormPersist/hookFormPersistSlice';
@@ -40,6 +39,7 @@ import produce from 'immer';
 import { IS_ASCENDING } from '../Filter/constants';
 import { WEEKLY_UNASSIGNED_TASKS } from '../Notification/constants';
 import { filteredTaskCardContentSelector } from './taskCardContentSelector';
+import TaskCount from '../../components/Task/TaskCount';
 
 export default function TaskPage({ history }) {
   const { t } = useTranslation();
@@ -127,12 +127,7 @@ export default function TaskPage({ history }) {
         onFilterOpen={onFilterOpen}
         isFilterActive={isFilterCurrentlyActive}
       />
-      <div className={styles.taskCountContainer}>
-        <div className={styles.taskCount}>
-          {t('TASK.TASKS_COUNT', { count: taskCardContents.length })}
-        </div>
-        <AddLink onClick={onAddTask(dispatch, history, `/tasks`)}>{t('TASK.ADD_TASK')}</AddLink>
-      </div>
+      <TaskCount count={taskCardContents.length} handleAddTask={onAddTask(dispatch, history, {})} />
 
       <MuiFullPagePopup open={isFilterOpen} onClose={onFilterClose}>
         <TasksFilterPage onGoBack={onFilterClose} />

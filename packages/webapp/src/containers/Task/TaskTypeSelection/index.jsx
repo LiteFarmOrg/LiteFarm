@@ -9,7 +9,7 @@ import { showedSpotlightSelector } from '../../showedSpotlightSlice';
 import { setSpotlightToShown } from '../../Map/saga';
 import { currentAndPlannedManagementPlansSelector } from '../../managementPlanSlice';
 
-function TaskTypeSelection({ history, match }) {
+function TaskTypeSelection({ history, match, location }) {
   const userFarm = useSelector(userFarmSelector);
   const dispatch = useDispatch();
   const taskTypes = useSelector(defaultTaskTypesSelector);
@@ -20,27 +20,26 @@ function TaskTypeSelection({ history, match }) {
   const { planting_task } = useSelector(showedSpotlightSelector);
   const isAdmin = useSelector(isAdminSelector);
 
-
   useEffect(() => {
     dispatch(getTaskTypes());
   }, []);
 
   const onCustomTask = () => {
-    history.push(customTaskPath);
+    history.push(customTaskPath, location.state);
   };
 
-  const onContinue = () => history.push(continuePath);
+  const onContinue = () => history.push(continuePath, location.state);
 
   const handleGoBack = () => {
     history.back();
   };
 
-  const onError = () => {
-  };
+  const onError = () => {};
 
   const updatePlantTaskSpotlight = () => dispatch(setSpotlightToShown('planting_task'));
 
-  const hasCurrentManagementPlans = useSelector(currentAndPlannedManagementPlansSelector)?.length > 0;
+  const hasCurrentManagementPlans =
+    useSelector(currentAndPlannedManagementPlansSelector)?.length > 0;
 
   return (
     <>

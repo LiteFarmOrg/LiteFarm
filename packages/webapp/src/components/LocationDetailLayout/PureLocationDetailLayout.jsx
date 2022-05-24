@@ -44,13 +44,10 @@ export function PureLocationDetailLayout({
     (isEditLocationPage && t(`FARM_MAP.${translationKey}.EDIT_TITLE`)) ||
     (isViewLocationPage && persistedFormData.name);
 
-  const routerTabs =
-    tabs &&
-    tabs.length > 1 &&
-    tabs.map((tab) => ({
-      label: t(`FARM_MAP.TAB.${tab.toUpperCase()}`),
-      path: `/${locationType}/${match.params.location_id}/${tab}`,
-    }));
+  const routerTabs = tabs.map((tab) => ({
+    label: t(`FARM_MAP.TAB.${tab.toUpperCase()}`),
+    path: `/${locationType}/${match.params.location_id}/${tab}`,
+  }));
 
   const details = useMemo(() => {
     if (locationCategory === 'area') {
@@ -119,7 +116,7 @@ export function PureLocationDetailLayout({
           match={match}
           onCancel={historyCancel}
         />
-        {isViewLocationPage && tabs && (
+        {isViewLocationPage && (
           <RouterTab
             classes={{ container: { margin: '6px 0 26px 0' } }}
             history={history}

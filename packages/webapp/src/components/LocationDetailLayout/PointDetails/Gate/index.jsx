@@ -52,7 +52,7 @@ export function PureGate({
       isAdmin={isAdmin}
       onSubmit={onSubmit}
       translationKey={'GATE'}
-      tabs={['details']}
+      tabs={['tasks', 'details']}
     />
   );
 }

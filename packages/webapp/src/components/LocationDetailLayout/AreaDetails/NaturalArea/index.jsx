@@ -62,7 +62,7 @@ export function PureNaturalArea({
       onSubmit={onSubmit}
       translationKey={'NATURAL_AREA'}
       showPerimeter={true}
-      tabs={['details']}
+      tabs={['tasks', 'details']}
     />
   );
 }

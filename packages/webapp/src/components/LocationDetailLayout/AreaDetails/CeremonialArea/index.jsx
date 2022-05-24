@@ -59,7 +59,7 @@ export function PureCeremonialArea({
       isAdmin={isAdmin}
       onSubmit={onSubmit}
       translationKey={'CEREMONIAL_AREA'}
-      tabs={['details']}
+      tabs={['tasks', 'details']}
       showPerimeter={true}
     />
   );

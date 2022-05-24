@@ -4,6 +4,7 @@ import { setPersistedPaths } from '../hooks/useHookFormPersist/hookFormPersistSl
  *
  * @param dispatch
  * @param history
+ * @param state
  * @return {(function(): void)|*}
  */
 export const onAddTask = (dispatch, history, state) => () => {

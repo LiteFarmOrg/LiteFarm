@@ -68,13 +68,12 @@ function TaskDate({ history, match, location }) {
         console.log(location.state);
       }
     }
+
     history.push(
       isTransplantTask ? '/add_task/task_crops' : '/add_task/task_locations',
       location.state,
     );
   };
-
-  console.log(location);
 
   return (
     <HookFormPersistProvider>

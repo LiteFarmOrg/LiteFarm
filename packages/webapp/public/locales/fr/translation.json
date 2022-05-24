@@ -572,7 +572,8 @@
     },
     "TAB": {
       "CROPS": "Récoltes",
-      "DETAILS": "Détails"
+      "DETAILS": "Détails",
+      "TASKS": "MISSING"
     },
     "TITLE": "Carte de la ferme",
     "TUTORIAL": {
@@ -1063,6 +1064,18 @@
     "PAGE_TITLE": "MISSING",
     "TAKE_ME_THERE": "MISSING",
     "TASK_ASSIGNED": {
+      "TITLE": "MISSING",
+      "BODY": "MISSING"
+    },
+    "TASK_REASSIGNED": {
+      "TITLE": "MISSING",
+      "BODY": "MISSING"
+    },
+    "TASK_COMPLETED_BY_OTHER_USER": {
+      "TITLE": "MISSING",
+      "BODY": "MISSING"
+    },
+    "WEEKLY_UNASSIGNED_TASKS": {
       "TITLE": "MISSING",
       "BODY": "MISSING"
     }

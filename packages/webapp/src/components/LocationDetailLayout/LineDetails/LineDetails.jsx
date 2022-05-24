@@ -1,27 +1,26 @@
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import Input from '../../Form/Input';
-import { gateEnum as pointEnum } from '../../../containers/constants';
+import { fenceEnum as lineEnum } from '../../../containers/constants';
 import PureWarningBox from '../../WarningBox';
 import { Label } from '../../Typography';
 import InputAutoSize from '../../Form/InputAutoSize';
+import { useFormContext } from 'react-hook-form';
 
-export default function PointDetailsLayout({
+export default function LineDetails({
   name,
-
-  children,
-  setValue,
-
   history,
-
-  register,
-  errors,
-
+  children,
   isCreateLocationPage,
   isViewLocationPage,
   isEditLocationPage,
 }) {
   const { t } = useTranslation();
+  const {
+    register,
+    setValue,
+    formState: { errors },
+  } = useFormContext();
   const [errorMessage, setErrorMessage] = useState();
 
   useEffect(() => {
@@ -36,7 +35,7 @@ export default function PointDetailsLayout({
   }, []);
 
   useEffect(() => {
-    if (history?.location?.state?.error) {
+    if (history?.location?.state?.error && !history?.location?.state?.error?.retire) {
       setErrorMessage(history?.location?.state?.error);
     }
   }, [history?.location?.state?.error]);
@@ -52,21 +51,21 @@ export default function PointDetailsLayout({
         label={name}
         type="text"
         style={{ marginBottom: '40px' }}
-        hookFormRegister={register(pointEnum.name, { required: true })}
-        errors={errors[pointEnum.name] && t('common:REQUIRED')}
+        hookFormRegister={register(lineEnum.name, { required: true })}
+        errors={errors[lineEnum.name] && t('common:REQUIRED')}
+        showCross={false}
         disabled={isViewLocationPage}
       />
-
       {children}
       <InputAutoSize
         label={t('common:NOTES')}
         style={{ marginBottom: '40px' }}
-        hookFormRegister={register(pointEnum.notes, {
+        hookFormRegister={register(lineEnum.notes, {
           maxLength: { value: 10000, message: t('FARM_MAP.NOTES_CHAR_LIMIT') },
         })}
         disabled={isViewLocationPage}
         optional
-        errors={errors[pointEnum.notes]?.message}
+        errors={errors[lineEnum.notes]?.message}
       />
     </>
   );

@@ -3,6 +3,7 @@ import React from 'react';
 import EditWatercourseDetailForm from '../containers/LocationDetails/LineDetails/WatercourseDetailForm/EditWatercourse';
 import { useSelector } from 'react-redux';
 import { isAdminSelector } from '../containers/userFarmSlice';
+import LocationTasks from '../containers/LocationDetails/LocationTasks';
 
 export default function WatercourseDetailsRoutes() {
   const isAdmin = useSelector(isAdminSelector);
@@ -12,6 +13,7 @@ export default function WatercourseDetailsRoutes() {
       {isAdmin && (
         <Route path="/watercourse/:location_id/edit" exact component={EditWatercourseDetailForm} />
       )}
+      <Route path="/watercourse/:location_id/tasks" exact component={LocationTasks} />
     </>
   );
 }

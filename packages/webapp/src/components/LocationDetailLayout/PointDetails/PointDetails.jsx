@@ -1,23 +1,26 @@
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import Input from '../../Form/Input';
-import { fenceEnum as lineEnum } from '../../../containers/constants';
+import { gateEnum as pointEnum } from '../../../containers/constants';
 import PureWarningBox from '../../WarningBox';
 import { Label } from '../../Typography';
 import InputAutoSize from '../../Form/InputAutoSize';
+import { useFormContext } from 'react-hook-form';
 
-export default function LineDetails({
+export default function PointDetails({
   name,
-  register,
-  setValue,
-  history,
   children,
-  errors,
+  history,
   isCreateLocationPage,
   isViewLocationPage,
   isEditLocationPage,
 }) {
   const { t } = useTranslation();
+  const {
+    register,
+    setValue,
+    formState: { errors },
+  } = useFormContext();
   const [errorMessage, setErrorMessage] = useState();
 
   useEffect(() => {
@@ -32,7 +35,7 @@ export default function LineDetails({
   }, []);
 
   useEffect(() => {
-    if (history?.location?.state?.error && !history?.location?.state?.error?.retire) {
+    if (history?.location?.state?.error) {
       setErrorMessage(history?.location?.state?.error);
     }
   }, [history?.location?.state?.error]);
@@ -48,21 +51,21 @@ export default function LineDetails({
         label={name}
         type="text"
         style={{ marginBottom: '40px' }}
-        hookFormRegister={register(lineEnum.name, { required: true })}
-        errors={errors[lineEnum.name] && t('common:REQUIRED')}
-        showCross={false}
+        hookFormRegister={register(pointEnum.name, { required: true })}
+        errors={errors[pointEnum.name] && t('common:REQUIRED')}
         disabled={isViewLocationPage}
       />
+
       {children}
       <InputAutoSize
         label={t('common:NOTES')}
         style={{ marginBottom: '40px' }}
-        hookFormRegister={register(lineEnum.notes, {
+        hookFormRegister={register(pointEnum.notes, {
           maxLength: { value: 10000, message: t('FARM_MAP.NOTES_CHAR_LIMIT') },
         })}
         disabled={isViewLocationPage}
         optional
-        errors={errors[lineEnum.notes]?.message}
+        errors={errors[pointEnum.notes]?.message}
       />
     </>
   );

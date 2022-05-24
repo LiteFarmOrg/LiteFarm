@@ -1,5 +1,5 @@
 import React from 'react';
-import AreaDetails from '../../../../components/LocationDetailLayout/AreaDetails';
+import AreaDetails from '../../../../components/LocationDetailLayout/AreaDetails/AreaDetails';
 import decorator from '../../config/Decorators';
 import { useForm } from 'react-hook-form';
 import { chromaticSmallScreen } from '../../config/chromatic';

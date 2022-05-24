@@ -206,4 +206,14 @@ describe.only('Tasks flow tests', () => {
     //navigate to the read only view of an abandoned tasks
     //expected due date label and input between abandonment date and location
   });
+
+  it('location tasks tab', () => {
+    //test for LF-2199
+    //navigate to maps view
+    //click on a location task
+    //tasks tab should be visible click on tasks tab
+    //task cards for selected location should be visible
+    //task count should be visible and correct
+    // create a task link should exist
+  });
 });

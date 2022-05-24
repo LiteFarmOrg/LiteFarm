@@ -194,8 +194,15 @@ export default Input;
 export const numberOnKeyDown = (e) => ['e', 'E', '+', '-'].includes(e.key) && e.preventDefault();
 export const integerOnKeyDown = (e) => /[^0-9]/.test(e.key) && e.preventDefault();
 export const validateWage = (e) => {
-  console.log(e.target.value);
-  new RegExp('[^0-9]^.?').test(e.key) && e.preventDefault();
+  // 1. First character should be a number
+  // 2. Following characters can be either a number or a period
+  //    a. If there is a period in the field already, it can only be a number
+  //    b. If not, it can be either one
+  if (e.target.value.length == 0 || /\./.test(e.target.value)) {
+    !/[0-9]/.test(e.key) && e.preventDefault();
+  } else {
+    !/[0-9]|\./.test(e.key) && e.preventDefault();
+  }
 };
 export const preventNumberScrolling = (e) => e.target.blur();
 

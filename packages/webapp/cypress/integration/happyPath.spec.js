@@ -233,6 +233,7 @@ describe.only('LiteFarm end to end test', () => {
     cy.get('[data-cy=crop-cropName]').should('exist').type(testCrop);
     cy.contains('Select').should('exist').click({ force: true });
     cy.contains('Cereals').should('exist').click();
+    cy.get('[type="radio"]').first().check({ force: true });
     cy.get('[data-cy=crop-submit]').should('exist').and('not.be.disabled').click();
 
     cy.url().should('include', '/crop/new/add_crop_variety');

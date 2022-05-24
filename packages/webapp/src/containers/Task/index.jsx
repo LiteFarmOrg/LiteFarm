@@ -127,12 +127,7 @@ export default function TaskPage({ history }) {
         onFilterOpen={onFilterOpen}
         isFilterActive={isFilterCurrentlyActive}
       />
-      <div className={styles.taskCountContainer}>
-        <div className={styles.taskCount}>
-          {t('TASK.TASKS_COUNT', { count: taskCardContents.length })}
-        </div>
-        <AddLink onClick={onAddTask(dispatch, history, {})}>{t('TASK.ADD_TASK')}</AddLink>
-      </div>
+      <TaskCount count={taskCardContents.length} handleAddTask={onAddTask(dispatch, history, {})} />
 
       <MuiFullPagePopup open={isFilterOpen} onClose={onFilterClose}>
         <TasksFilterPage onGoBack={onFilterClose} />

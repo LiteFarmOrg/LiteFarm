@@ -1,3 +1,18 @@
+/*
+ *  Copyright 2019, 2020, 2021, 2022 LiteFarm.org
+ *  This file is part of LiteFarm.
+ *
+ *  LiteFarm is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  LiteFarm is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ *  GNU General Public License for more details, see <<https://www.gnu.org/licenses/>.>
+ */
+
 const DocumentModel = require('../models/documentModel');
 const { v4: uuidv4 } = require('uuid');
 const {
@@ -44,14 +59,14 @@ const documentController = {
     };
   },
 
-  archiveDocument() {
+  patchDocumentArchive() {
     return async (req, res, next) => {
       const { document_id } = req.params;
       try {
         const result = await DocumentModel.query()
           .context(req.user)
           .findById(document_id)
-          .patch({ archived: true });
+          .patch({ archived: req.body.archived });
         return result ? res.sendStatus(200) : res.status(404).send('Document not found');
       } catch (error) {
         return res.status(400).json({ error });

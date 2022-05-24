@@ -1,3 +1,18 @@
+/*
+ *  Copyright 2019, 2020, 2021, 2022 LiteFarm.org
+ *  This file is part of LiteFarm.
+ *
+ *  LiteFarm is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  LiteFarm is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
+ */
+
 import { createSlice } from '@reduxjs/toolkit';
 import { createSelector } from 'reselect';
 import { getDateInputFormat } from '../util/moment';
@@ -82,6 +97,27 @@ const filterSliceReducer = createSlice({
     setTasksFilter: (state, { payload: tasksFilter }) => {
       Object.assign(state.tasks, tasksFilter);
     },
+    setTasksFilterUnassignedDueThisWeek: (state) => {
+      const today = new Date();
+      const oneWeekFromNow = new Date();
+      oneWeekFromNow.setDate(today.getDate() + 6);
+      state.tasks = {
+        ...intialTasksFilter,
+        ASSIGNEE: Object.keys(state.tasks.ASSIGNEE).reduce((assignees, assigneeUserId) => {
+          assignees[assigneeUserId] = {
+            active: false,
+            label: state.tasks.ASSIGNEE[assigneeUserId].label,
+          };
+          return assignees;
+        }, {}),
+        FROM_DATE: getDateInputFormat(today),
+        TO_DATE: getDateInputFormat(oneWeekFromNow),
+      };
+      state.tasks.ASSIGNEE['unassigned'] = {
+        active: true,
+        label: i18n.t('TASK.UNASSIGNED'),
+      };
+    },
   },
 });
 
@@ -98,6 +134,7 @@ export const {
   setDocumentsFilter,
   resetTasksFilter,
   setTasksFilter,
+  setTasksFilterUnassignedDueThisWeek,
 } = filterSliceReducer.actions;
 export default filterSliceReducer.reducer;
 

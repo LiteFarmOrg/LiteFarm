@@ -1,7 +1,6 @@
-import { getDateInputFormat} from '../../src/util/moment';
+import { getDateInputFormat } from '../../src/util/moment';
 
 describe.only('LiteFarm end to end test', () => {
-
   it('Happy path', { defaultCommandTimeout: 7000 }, () => {
     cy.visit('/');
     cy.get('[data-cy=email]').should('exist');
@@ -44,9 +43,9 @@ describe.only('LiteFarm end to end test', () => {
 
     // Enter new farm details and click continue which should be enabled
     cy.waitForGoogleApi().then(() => {
-    cy.get('[data-cy=addFarm-farmName]').type(farmName);
-    cy.get('[data-cy=addFarm-location]').type(location).wait(1000);
-    cy.get('[data-cy=addFarm-continue]').should('not.be.disabled').click();
+      cy.get('[data-cy=addFarm-farmName]').type(farmName);
+      cy.get('[data-cy=addFarm-location]').type(location).wait(1000);
+      cy.get('[data-cy=addFarm-continue]').should('not.be.disabled').click();
     });
 
     //role selection page
@@ -154,37 +153,37 @@ describe.only('LiteFarm end to end test', () => {
       .should('exist')
       .and('not.be.disabled')
       .click();
-    
+
     let initialWidth;
     let initialHeight;
 
     cy.waitForGoogleApi().then(() => {
       // here comes the code to execute after loading the google Apis
-  
-    cy.get('[data-cy=map-mapContainer]').then(($canvas) => {
-      initialWidth = $canvas.width();
-      initialHeight = $canvas.height();
-    });
-    cy.wait(1000);
-    cy.get('[data-cy=map-mapContainer]').click(558, 344);
-    cy.wait(500);
-    cy.get('[data-cy=map-mapContainer]').click(570, 321);
-    cy.wait(500);
-    cy.get('[data-cy=map-mapContainer]').click(631, 355);
-    cy.wait(500);
-    cy.get('[data-cy=map-mapContainer]').click(605, 374);
-    cy.wait(500);
-    cy.get('[data-cy=map-mapContainer]').click(558, 344);
-    cy.get('[data-cy=mapTutorial-continue]')
-      .contains('Got it')
-      .should('exist')
-      .and('not.be.disabled')
-      .click();
-    cy.get('[data-cy=map-drawCompleteContinue]')
-      .contains('Confirm')
-      .should('exist')
-      .and('not.be.disabled')
-      .click();
+
+      cy.get('[data-cy=map-mapContainer]').then(($canvas) => {
+        initialWidth = $canvas.width();
+        initialHeight = $canvas.height();
+      });
+      cy.wait(1000);
+      cy.get('[data-cy=map-mapContainer]').click(558, 344);
+      cy.wait(500);
+      cy.get('[data-cy=map-mapContainer]').click(570, 321);
+      cy.wait(500);
+      cy.get('[data-cy=map-mapContainer]').click(631, 355);
+      cy.wait(500);
+      cy.get('[data-cy=map-mapContainer]').click(605, 374);
+      cy.wait(500);
+      cy.get('[data-cy=map-mapContainer]').click(558, 344);
+      cy.get('[data-cy=mapTutorial-continue]')
+        .contains('Got it')
+        .should('exist')
+        .and('not.be.disabled')
+        .click();
+      cy.get('[data-cy=map-drawCompleteContinue]')
+        .contains('Confirm')
+        .should('exist')
+        .and('not.be.disabled')
+        .click();
     });
     //Add field view
     cy.get('[data-cy=createField-fieldName]').should('exist').type(fieldName);
@@ -234,6 +233,7 @@ describe.only('LiteFarm end to end test', () => {
     cy.get('[data-cy=crop-cropName]').should('exist').type(testCrop);
     cy.contains('Select').should('exist').click({ force: true });
     cy.contains('Cereals').should('exist').click();
+    cy.get('[type="radio"]').first().check({ force: true });
     cy.get('[data-cy=crop-submit]').should('exist').and('not.be.disabled').click();
 
     cy.url().should('include', '/crop/new/add_crop_variety');
@@ -290,7 +290,7 @@ describe.only('LiteFarm end to end test', () => {
       cy.get('[data-cy=map-selectLocation]').then(($canvas) => {
         const canvasWidth = $canvas.width();
         const canvasHeight = $canvas.height();
-  
+
         heightFactor = canvasHeight / initialHeight;
         widthFactor = canvasWidth / initialWidth;
         cy.contains(fieldName).should('exist');
@@ -299,8 +299,7 @@ describe.only('LiteFarm end to end test', () => {
           force: false,
         });
       });
-  });
-    
+    });
 
     cy.get('[data-cy=cropPlan-locationSubmit]').should('exist').and('not.be.disabled').click();
     cy.url().should('include', '/add_management_plan/final_planting_method');
@@ -311,7 +310,7 @@ describe.only('LiteFarm end to end test', () => {
     cy.url().should('include', '/add_management_plan/row_method');
 
     cy.get('[data-cy=rowMethod-equalLength]').eq(0).should('exist').check({ force: true });
-    
+
     cy.get('[data-cy=rowMethod-rows]').should('exist').should('have.value', '').type('10');
     cy.get('[data-cy=rowMethod-length]').should('exist').should('have.value', '').type('30');
     cy.get('[data-cy=rowMethod-spacing]').should('exist').should('have.value', '').type('15');
@@ -334,21 +333,36 @@ describe.only('LiteFarm end to end test', () => {
 
     date.setDate(date.getDate() + 30);
     const dueDate = getDateInputFormat(date);
-    
 
     cy.get('[data-cy=dateAssign-date]').should('exist').type(dueDate);
-    cy.get('[data-cy=dateAssign-update]').should('exist').and('not.be.disabled').click().then(()=>{
-      function reformatDateString(s) {
-        var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-        var parts = s.split('-');
-        return months[parts[1] - 1] + ' ' + Number(parts[2]) + ', ' + parts[0];
-      }
-  
-      const Date = reformatDateString(dueDate);
-      
-      cy.get('[data-cy=taskCard-dueDate]').eq(0).contains(Date).should('exist');
+    cy.get('[data-cy=dateAssign-update]')
+      .should('exist')
+      .and('not.be.disabled')
+      .click()
+      .then(() => {
+        function reformatDateString(s) {
+          var months = [
+            'Jan',
+            'Feb',
+            'Mar',
+            'Apr',
+            'May',
+            'Jun',
+            'Jul',
+            'Aug',
+            'Sep',
+            'Oct',
+            'Nov',
+            'Dec',
+          ];
+          var parts = s.split('-');
+          return months[parts[1] - 1] + ' ' + Number(parts[2]) + ', ' + parts[0];
+        }
 
-    });
+        const Date = reformatDateString(dueDate);
+
+        cy.get('[data-cy=taskCard-dueDate]').eq(0).contains(Date).should('exist');
+      });
 
     cy.get('[data-cy=taskCard-assignee]').eq(0).should('exist').and('not.be.disabled');
     cy.get('[data-cy=taskCard]').eq(1).should('exist').click('right');

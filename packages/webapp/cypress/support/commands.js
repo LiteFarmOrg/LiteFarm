@@ -34,36 +34,32 @@ Cypress.Commands.add('loginByGoogleApi', () => {
         },
       };
 
-      window.localStorage.setItem('id_token', userItem.token)
-
-      
-      
-      
+      window.localStorage.setItem('id_token', userItem.token);
     });
   });
 });
 
 Cypress.Commands.add('waitForGoogleApi', () => {
-  let mapWaitCount = 0
-  const mapWaitMax = 5
+  let mapWaitCount = 0;
+  const mapWaitMax = 5;
 
-  cyMapLoad()
+  cyMapLoad();
 
   function cyMapLoad() {
-    mapWaitCount++
+    mapWaitCount++;
 
-    cy.window().then(win => {
+    cy.window().then((win) => {
       if (typeof win.google != 'undefined') {
-        console.log(`Done at attempt #${mapWaitCount}:`, win)
-        return true
+        console.log(`Done at attempt #${mapWaitCount}:`, win);
+        return true;
       } else if (mapWaitCount <= mapWaitMax) {
-        console.log('Waiting attempt #' + mapWaitCount) // just log
-        cy.wait(2000)
-        cyMapLoad()
+        console.log('Waiting attempt #' + mapWaitCount); // just log
+        cy.wait(2000);
+        cyMapLoad();
       } else if (mapWaitCount > mapWaitMax) {
-        console.log('Failed to load google api')
-        return false
+        console.log('Failed to load google api');
+        return false;
       }
-    })
+    });
   }
 });

@@ -11,7 +11,7 @@ import {
 } from '../managementPlanSlice';
 import { cropVarietiesSelector } from '../cropVarietySlice';
 
-export default function useFilterNoPlan(filterString) {
+export default function useFilterNoPlan(filterString, isCropSpecific = true) {
   const managementPlans = useSelector(managementPlansSelector);
   const cropVarieties = useSelector(cropVarietiesSelector);
   const cropCatalogueFilter = useSelector(cropCatalogueFilterSelector);
@@ -37,7 +37,7 @@ export default function useFilterNoPlan(filterString) {
       varietiesFilteredByString.filter(
         (cropVariety) => !cropVarietyIds.has(cropVariety.crop_variety_id),
       ),
-      'crop_id',
+      isCropSpecific ? 'crop_id' : 'crop_variety_id',
     );
   }, [managementPlans, varietiesFilteredByString]);
 

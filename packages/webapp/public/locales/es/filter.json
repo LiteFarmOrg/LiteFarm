@@ -29,8 +29,8 @@
     "STATUS": "Estatus"
   },
   "FILTER": {
-    "VALID_ON": "MISSING",
-    "FROM_DATE": "MISSING",
-    "TO_DATE": "MISSING"
+    "VALID_ON": "Válido en",
+    "FROM_DATE": "Desde",
+    "TO_DATE": "Hasta"
   }
 }

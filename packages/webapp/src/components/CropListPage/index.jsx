@@ -34,7 +34,7 @@ export default function PureCropList({
 
   return (
     <Layout>
-      <PageTitle title={title} onGoBack={() => history.push('/map')} />
+      <PageTitle title={title} onGoBack={() => history.back()} />
       <RouterTab
         classes={{ container: { margin: '30px 0 26px 0' } }}
         history={history}

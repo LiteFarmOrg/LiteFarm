@@ -11,12 +11,12 @@ export default function useStringFilteredCrops(crops, filterString) {
       }
       return false;
     };
+    // These fields can be used in future.
+    // Hence, keeping it in the comments
+    // use it in the check function argument.
+    // crop?.crop_common_name,
     return crops.filter((crop) =>
-      check([
-        crop?.crop_common_name,
-        crop?.crop_variety_name,
-        t(`crop:${crop.crop_translation_key}`),
-      ]),
+      check([crop?.crop_variety_name, t(`crop:${crop.crop_translation_key}`)]),
     );
   }, [crops, filterString]);
 }

@@ -67,7 +67,7 @@ export default function PureAddCropVariety({
   return (
     <Form
       buttonGroup={
-        <Button data-cy='variety-submit' disabled={disabled} fullLength>
+        <Button data-cy="variety-submit" disabled={disabled} fullLength>
           {isSeekingCert ? t('common:CONTINUE') : t('common:SAVE')}
         </Button>
       }
@@ -112,7 +112,7 @@ export default function PureAddCropVariety({
       </div>
 
       <Input
-      data-cy='crop-variety'
+        data-cy="crop-variety"
         style={{ marginBottom: '40px' }}
         label={t('translation:FIELDS.EDIT_FIELD.VARIETY')}
         type="text"
@@ -121,7 +121,7 @@ export default function PureAddCropVariety({
       />
 
       <Input
-      data-cy='crop-supplier'
+        data-cy="crop-supplier"
         style={{ marginBottom: '40px' }}
         label={t('CROP_VARIETIES.SUPPLIER')}
         type="text"

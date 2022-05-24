@@ -29,6 +29,7 @@
   "MAX_ERROR": "Please enter a value less than {{value}}",
   "MIN_ERROR": "Please enter a value greater than {{value}}",
   "NAME": "Name",
+  "NEEDS_PLAN": "Needs plan",
   "NEXT": "Next",
   "NO": "No",
   "NOT_SURE": "Not sure",
@@ -52,5 +53,6 @@
   "UPDATE": "Update",
   "WORD_LIMIT_ERROR": "Only {{value}} characters can be displayed",
   "YEAR": "Year",
-  "YES": "Yes"
+  "YES": "Yes",
+  "OK": "OK"
 }

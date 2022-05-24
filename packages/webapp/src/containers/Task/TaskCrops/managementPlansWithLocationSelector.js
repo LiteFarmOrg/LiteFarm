@@ -58,7 +58,7 @@ export const managementPlansWithCurrentLocationSelector = createSelector(
               //In ground wild crop location and planting method
               const planting_management_plan = plantingManagementPlanByManagementPlanEntities[
                 management_plan_id
-                ]?.find(
+              ]?.find(
                 (planting_management_plan) =>
                   !transplantTasksByManagementPlanId[management_plan_id]?.find?.(
                     (transplantTask) =>
@@ -76,7 +76,6 @@ export const managementPlansWithCurrentLocationSelector = createSelector(
     } catch (e) {
       return [];
     }
-
   },
 );
 
@@ -171,4 +170,9 @@ export const currentAndPlannedManagementPlansByLocationIdSelector = (location_id
       ...plannedManagementPlans,
       ...currentManagementPlans,
     ],
+  );
+
+export const managementPlansWithCurrentLocationByCropIdSelector = (cropId) =>
+  createSelector([managementPlansWithCurrentLocationSelector], (managementPlans) =>
+    managementPlans.filter((m) => m.crop_id === cropId),
   );

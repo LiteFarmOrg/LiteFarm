@@ -58,7 +58,7 @@ export default function TaskQuickAssignModal({
   };
 
   const onAssign = () => {
-    assignAll && checkUnassignedTaskForSameDate()
+    assignAll && checkUnassignedTaskForSameDate() && selectedWorker.value !== null
       ? onAssignTasksOnDate({
           task_id: task_id,
           date: due_date,

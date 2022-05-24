@@ -1072,6 +1072,10 @@
     "WEEKLY_UNASSIGNED_TASKS": {
       "TITLE": "MISSING",
       "BODY": "MISSING"
+    },
+    "DAILY_TASKS_DUE_TODAY": {
+      "TITLE": "MISSING",
+      "BODY": "MISSING"
     }
   },
   "OUTRO": {

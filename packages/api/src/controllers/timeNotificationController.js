@@ -60,6 +60,40 @@ const timeNotificationController = {
       return res.status(400).send({ error });
     }
   },
+
+  /**
+   * Notifies all users of a specified farm of tasks due today
+   * @param {Request} req request
+   * @param {Response} res response
+   * @async
+   */
+  async postDailyDueTodayTasks(req, res) {
+    const { farm_id } = req.params;
+    try {
+      const activeUsers = await UserFarmModel.getActiveUsersFromFarmId(farm_id);
+
+      if (activeUsers && activeUsers.length) {
+        const tasksDueTodayNotificationUsers = [];
+        for (const { user_id } of activeUsers) {
+          const hasTasksDueToday = await TaskModel.hasTasksDueTodayForUserFromFarm(user_id, farm_id);
+
+          if (hasTasksDueToday) {
+            await sendDailyDueTodayTaskNotification(
+              farm_id,
+              user_id,
+            );
+            tasksDueTodayNotificationUsers.push(user_id);
+          }
+        }
+        return res.status(201).send({ tasksDueTodayNotificationUsers });
+      } else {
+        return res.status(200).send('No tasks due today for any users.');
+      }
+    } catch (error) {
+      console.log(error);
+      return res.status(400).send({ error });
+    }
+  },
 };
 
 /**
@@ -87,6 +121,32 @@ async function sendWeeklyUnassignedTaskNotifications(
       farm_id: farmId,
     },
     farmManagement,
+  );
+}
+
+/**
+ * Sends notification to a user of tasks due today
+ * @param {String} farmId
+ * @param {String} userId
+ * @async
+ */
+async function sendDailyDueTodayTaskNotification(
+  farmId,
+  userId,
+) {
+  await NotificationUser.notify(
+    {
+      title: { translation_key: 'NOTIFICATION.DAILY_TASKS_DUE_TODAY.TITLE' },
+      body: { translation_key: 'NOTIFICATION.DAILY_TASKS_DUE_TODAY.BODY' },
+      variables: [],
+      ref: { url: '/tasks' },
+      context: {
+        task_translation_key: 'FIELD_WORK_TASK',
+        notification_type: 'DAILY_TASKS_DUE_TODAY',
+      },
+      farm_id: farmId,
+    },
+    [userId],
   );
 }
 

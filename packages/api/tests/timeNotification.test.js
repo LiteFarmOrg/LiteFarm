@@ -129,6 +129,13 @@ describe('Time Based Notification Tests', () => {
       .end(callback);
   }
 
+  function postDailyDueTodayTasks(data, callback) {
+    const { farm_id } = data;
+    chai.request(server)
+      .post(`/time_notification/daily_due_today_tasks/${farm_id}`)
+      .end(callback);
+  }
+
   // Clean up after test finishes
   afterAll(async (done) => {
     await tableCleanup(knex);
@@ -342,6 +349,163 @@ describe('Time Based Notification Tests', () => {
           expect(res.body.unassignedTasks.length).toBe(1);
           const notifications = await knex('notification').where({ deleted: false });
           expect(notifications.length).toBe(1);
+          done();
+        });
+      });
+    });
+  });
+
+  describe('Tasks Due Today Notification Test', () => {
+    let farmWorker;
+    beforeEach(async () => {
+      [farmWorker] = await mocks.usersFactory();
+
+      await mocks.userFarmFactory(
+        {
+          promisedUser: [farmWorker],
+          promisedFarm: [farm],
+        },
+        mocks.fakeUserFarm({ role_id: 3 }),
+      );
+    });
+
+    describe('Notification sent tests', () => {
+      test('Farm worker should receive a due today notification', async (done) => {
+        await createFullTask({
+          due_date: new Date().toISOString().split('T')[0],
+          assignee_user_id: farmWorker.user_id,
+        });
+
+        postDailyDueTodayTasks({ farm_id: farm.farm_id }, async (err, res) => {
+          expect(res.status).toBe(201);
+          const notifications = await knex('notification')
+            .where({
+              'notification.farm_id': farm.farm_id,
+              'notification.deleted': false,
+            });
+          expect(notifications.length).toBe(1);
+          expect(notifications[0].title.translation_key).toBe('NOTIFICATION.DAILY_TASKS_DUE_TODAY.TITLE');
+          done();
+        });
+      });
+
+      test('Farm owner should receive a due today notification', async (done) => {
+        await createFullTask({
+          due_date: new Date().toISOString().split('T')[0],
+          assignee_user_id: farmOwner.user_id,
+        });
+
+        postDailyDueTodayTasks({ farm_id: farm.farm_id }, async (err, res) => {
+          expect(res.status).toBe(201);
+          const notifications = await knex('notification')
+            .where({
+              'notification.farm_id': farm.farm_id,
+              'notification.deleted': false,
+            });
+          expect(notifications.length).toBe(1);
+          expect(notifications[0].title.translation_key).toBe('NOTIFICATION.DAILY_TASKS_DUE_TODAY.TITLE');
+          done();
+        });
+      });
+
+      test('Multiple farm workers in the same farm should receive a due today notification', async (done) => {
+        await createFullTask({
+          due_date: new Date().toISOString().split('T')[0],
+          assignee_user_id: farmOwner.user_id,
+        });
+
+        await createFullTask({
+          due_date: new Date().toISOString().split('T')[0],
+          assignee_user_id: farmWorker.user_id,
+        });
+
+        postDailyDueTodayTasks({ farm_id: farm.farm_id }, async (err, res) => {
+          expect(res.status).toBe(201);
+          const notifications = await knex('notification')
+            .where({
+              'notification.farm_id': farm.farm_id,
+              'notification.deleted': false,
+            });
+          expect(notifications.length).toBe(2);
+          expect(notifications[0].title.translation_key).toBe('NOTIFICATION.DAILY_TASKS_DUE_TODAY.TITLE');
+          done();
+        });
+      });
+    });
+
+    describe('Notification not sent tests', () => {
+      test('Notification not sent if no active workers in a farm', async (done) => {
+        const [farm2] = await mocks.farmFactory();
+        await createFullTask({
+          due_date: faker.date.soon(2).toISOString().split('T')[0],
+          assignee_user_id: farmWorker.user_id,
+        });
+
+        postDailyDueTodayTasks({ farm_id: farm2.farm_id }, async (err, res) => {
+          expect(res.status).toBe(200);
+          const notifications = await knex('notification')
+            .where({
+              'notification.farm_id': farm2.farm_id,
+              'notification.deleted': false,
+            });
+          expect(notifications.length).toBe(0);
+          done();
+        });
+      });
+
+      test('Other farm worker should not receive a due today notification of another worker', async (done) => {
+        const [farmWorker2] = await mocks.usersFactory();
+        await mocks.userFarmFactory(
+          {
+            promisedUser: [farmWorker2],
+            promisedFarm: [farm],
+          },
+          mocks.fakeUserFarm({ role_id: 3 }),
+        );
+
+        await createFullTask({
+          due_date: new Date().toISOString().split('T')[0],
+          assignee_user_id: farmWorker.user_id,
+        });
+
+        postDailyDueTodayTasks({ farm_id: farm.farm_id }, async (err, res) => {
+          expect(res.status).toBe(201);
+          const notifications = await knex('notification_user')
+            .join(
+              'notification',
+              'notification.notification_id',
+              'notification_user.notification_id',
+            )
+            .where({
+              'notification_user.user_id': farmWorker2.user_id,
+              'notification_user.deleted': false,
+              'notification.deleted': false,
+            });
+          expect(notifications.length).toBe(0);
+          done();
+        });
+      });
+
+      test('Farm workers should not receive a due today notification of unassigned tasks', async (done) => {
+        await createFullTask({
+          due_date: new Date().toISOString().split('T')[0],
+          assignee_user_id: null,
+        });
+
+        postDailyDueTodayTasks({ farm_id: farm.farm_id }, async (err, res) => {
+          expect(res.status).toBe(201);
+          const notifications = await knex('notification_user')
+            .join(
+              'notification',
+              'notification.notification_id',
+              'notification_user.notification_id',
+            )
+            .where({
+              'notification_user.user_id': farmWorker.user_id,
+              'notification_user.deleted': false,
+              'notification.deleted': false,
+            });
+          expect(notifications.length).toBe(0);
           done();
         });
       });

@@ -21,7 +21,7 @@ jobs:
         ports:
           - "5432:5432"
         options: >-
-          --health-cmd 'pg_isready -U postgres'
+          --health-cmd pg_isready
           --health-interval 5s
           --health-timeout 5s
           --health-retries 5
@@ -44,7 +44,7 @@ jobs:
         run: cd packages/api && npm ci
       # Run migrations on the database
       - name: Setup database
-        run: npm run migrate:pipeline:db
+        run: cd packages/api && npm run migrate:pipeline:db
       # Run all the CI tests
       - name: Run tests
         run: npm run test-ci

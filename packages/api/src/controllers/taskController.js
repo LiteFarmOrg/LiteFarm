@@ -39,13 +39,10 @@ const taskController = {
     try {
       const { task_id } = req.params;
       const { farm_id } = req.headers;
+      const { user_id } = req.user;
       const { assignee_user_id } = req.body;
 
-      const checkTaskStatus = await TaskModel.query()
-        .leftOuterJoin('task_type', 'task.task_type_id', 'task_type.task_type_id')
-        .select('complete_date', 'abandon_date', 'assignee_user_id', 'task_translation_key')
-        .where({ task_id })
-        .first();
+      const checkTaskStatus = await getTaskStatus(task_id);
       if (checkTaskStatus.complete_date || checkTaskStatus.abandon_date) {
         return res.status(400).send('Task has already been completed or abandoned');
       }
@@ -69,9 +66,20 @@ const taskController = {
         .patch({ assignee_user_id });
       if (!result) return res.status(404).send('Task not found');
 
-      await notifyAssignee(
+      await sendTaskNotification(
         assignee_user_id,
+        null,
         task_id,
+        TaskNotificationTypes.TASK_ASSIGNED,
+        checkTaskStatus.task_translation_key,
+        farm_id,
+      );
+
+      await sendTaskNotification(
+        checkTaskStatus.assignee_user_id,
+        user_id,
+        task_id,
+        TaskNotificationTypes.TASK_REASSIGNED,
         checkTaskStatus.task_translation_key,
         farm_id,
       );
@@ -111,7 +119,14 @@ const taskController = {
         .whereIn('task_id', availableTaskIds);
       if (result) {
         available_tasks.forEach(async (task) => {
-          await notifyAssignee(assignee_user_id, task.task_id, task.task_translation_key, farm_id);
+          await sendTaskNotification(
+            assignee_user_id,
+            null,
+            task.task_id,
+            TaskNotificationTypes.TASK_ASSIGNED,
+            task.task_translation_key,
+            farm_id,
+          );
         });
         return res.status(200).send(available_tasks);
       }
@@ -161,6 +176,11 @@ const taskController = {
         abandon_date,
       } = req.body;
 
+      const checkTaskStatus = await getTaskStatus(task_id);
+      if (checkTaskStatus.complete_date || checkTaskStatus.abandon_date) {
+        return res.status(400).send('Task has already been completed or abandoned');
+      }
+
       const {
         owner_user_id,
         assignee_user_id,
@@ -207,7 +227,9 @@ const taskController = {
           wage_at_moment: override_hourly_wage ? wage_at_moment : wage.amount,
         })
         .returning('*');
-      return result ? res.status(200).send(result) : res.status(404).send('Task not found');
+      if (!result) return res.status(404).send('Task not found');
+
+      return res.status(200).send(result);
     } catch (error) {
       console.log(error);
       return res.status(400).json({ error });
@@ -245,9 +267,11 @@ const taskController = {
         });
         if (result.assignee_user_id) {
           const { assignee_user_id, task_id, taskType } = result;
-          await notifyAssignee(
+          await sendTaskNotification(
             assignee_user_id,
+            null,
             task_id,
+            TaskNotificationTypes.TASK_ASSIGNED,
             taskType.task_translation_key,
             req.headers.farm_id,
           );
@@ -380,6 +404,16 @@ const taskController = {
           return task;
         });
         if (result) {
+          const taskType = await TaskModel.getTaskType(task_id);
+          console.log(taskType);
+          await sendTaskNotification(
+            assignee_user_id,
+            user_id,
+            task_id,
+            TaskNotificationTypes.TASK_COMPLETED_BY_OTHER_USER,
+            taskType.task_translation_key,
+            farm_id,
+          );
           return res.status(200).send(result);
         } else {
           return res.status(404).send('Task not found');
@@ -400,6 +434,7 @@ const taskController = {
     try {
       const nonModifiable = getNonModifiable('harvest_task');
       const { user_id } = req.user;
+      const { farm_id } = req.headers;
       const task_id = parseInt(req.params.task_id);
       const { assignee_user_id, assignee_role_id } = await TaskModel.getTaskAssignee(task_id);
       const { role_id } = await userFarmModel.getUserRoleId(user_id);
@@ -433,6 +468,15 @@ const taskController = {
       });
 
       if (Object.keys(result).length > 0) {
+        const { task_translation_key } = await TaskModel.getTaskType(task_id);
+        await sendTaskNotification(
+          assignee_user_id,
+          user_id,
+          task_id,
+          TaskNotificationTypes.TASK_COMPLETED_BY_OTHER_USER,
+          task_translation_key,
+          farm_id,
+        );
         return res.status(200).send(result);
       } else {
         return res.status(404).send('Task not found');
@@ -613,23 +657,56 @@ async function patchManagementPlanStartDate(trx, req, typeOfTask, task = req.bod
   }
 }
 
-async function notifyAssignee(userId, taskId, taskTranslationKey, farmId) {
-  if (!userId) return;
+async function getTaskStatus(taskId) {
+  return await TaskModel.query()
+    .leftOuterJoin('task_type', 'task.task_type_id', 'task_type.task_type_id')
+    .select('complete_date', 'abandon_date', 'assignee_user_id', 'task_translation_key')
+    .where({ task_id: taskId })
+    .first();
+}
 
-  const assigneeName = await User.getNameFromUserId(userId);
+const TaskNotificationTypes = {
+  TASK_ASSIGNED: 'TASK_ASSIGNED',
+  TASK_REASSIGNED: 'TASK_REASSIGNED',
+  TASK_COMPLETED_BY_OTHER_USER: 'TASK_COMPLETED_BY_OTHER_USER',
+};
+
+const TaskNotificationUserTypes = {
+  TASK_ASSIGNED: 'assignee',
+  TASK_REASSIGNED: 'assigner',
+  TASK_COMPLETED_BY_OTHER_USER: 'assigner',
+};
+
+async function sendTaskNotification(
+  receiverId,
+  senderId,
+  taskId,
+  notifyTranslationKey,
+  taskTranslationKey,
+  farmId,
+) {
+  if (!receiverId) return;
+
+  const userName = await User.getNameFromUserId(senderId ? senderId : receiverId);
   await NotificationUser.notify(
     {
-      title: { translation_key: 'NOTIFICATION.TASK_ASSIGNED.TITLE' },
-      body: { translation_key: 'NOTIFICATION.TASK_ASSIGNED.BODY' },
+      title: {
+        translation_key: `NOTIFICATION.${TaskNotificationTypes[notifyTranslationKey]}.TITLE`,
+      },
+      body: { translation_key: `NOTIFICATION.${TaskNotificationTypes[notifyTranslationKey]}.BODY` },
       variables: [
         { name: 'taskType', value: `task:${taskTranslationKey}`, translate: true },
-        { name: 'assignee', value: assigneeName, translate: false },
+        {
+          name: TaskNotificationUserTypes[notifyTranslationKey],
+          value: userName,
+          translate: false,
+        },
       ],
       ref: { entity: { type: 'task', id: taskId } },
       context: { task_translation_key: taskTranslationKey },
       farm_id: farmId,
     },
-    [userId],
+    [receiverId],
   );
 }
 

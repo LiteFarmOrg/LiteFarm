@@ -64,11 +64,9 @@ const PureAbandonTask = ({ onSubmit, onError, onGoBack, hasAssignee }) => {
     >
       <PageTitle title={t('TASK.ABANDON.TITLE')} onGoBack={onGoBack} />
 
-
       <Info style={{ marginTop: '20px', marginBottom: '24px' }}>{t('TASK.ABANDON.INFO')}</Info>
 
       <Main style={{ marginBottom: '24px' }}>{t('TASK.ABANDON.WHEN')}</Main>
-
 
       <Input
         label={t('TASK.ABANDON.DATE')}
@@ -89,6 +87,7 @@ const PureAbandonTask = ({ onSubmit, onError, onGoBack, hasAssignee }) => {
             required={true}
             style={{ marginBottom: '24px' }}
             {...field}
+            placeholder={t(`common:SELECT`)}
           />
         )}
         rules={{ required: true }}

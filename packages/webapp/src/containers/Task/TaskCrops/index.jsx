@@ -9,16 +9,16 @@ import {
 import { cropLocationsSelector } from '../../locationSlice';
 import { useIsTaskType } from '../useIsTaskType';
 
-export default function ManagementPlanSelector({ history, match }) {
+export default function ManagementPlanSelector({ history, match, location }) {
   const isTransplantTask = useIsTaskType('TRANSPLANT_TASK');
   return isTransplantTask ? (
-    <TransplantManagementPlansSelector history={history} match={match} />
+    <TransplantManagementPlansSelector history={history} match={match} location={location} />
   ) : (
-    <TaskCrops history={history} match={match} />
+    <TaskCrops history={history} match={match} location={location} />
   );
 }
 
-function TransplantManagementPlansSelector({ history, match }) {
+function TransplantManagementPlansSelector({ history, match, location }) {
   const locations = useSelector(cropLocationsSelector);
   const onContinuePath = '/add_task/task_locations';
   const goBackPath = '/add_task/task_date';
@@ -30,6 +30,7 @@ function TransplantManagementPlansSelector({ history, match }) {
       history={history}
       match={match}
       isMulti={false}
+      location={location}
     />
   );
 }
@@ -40,16 +41,16 @@ function TaskCrops({
   goBackPath = '/add_task/task_locations',
   onContinuePath = '/add_task/task_details',
   locations,
+  location,
 }) {
   const persistedPaths = [goBackPath, onContinuePath];
-
 
   const handleGoBack = () => {
     history.back();
   };
 
   const onContinue = () => {
-    history.push(onContinuePath);
+    history.push(onContinuePath, location.state);
   };
   const onError = () => {};
   const persistedFormData = useSelector(hookFormPersistSelector);
@@ -57,11 +58,13 @@ function TaskCrops({
   const isHarvestTask = useIsTaskType('HARVEST_TASK');
   const showWildCrops = isTransplantTask || persistedFormData.show_wild_crop;
   const wildManagementPlanTiles = useCurrentWildManagementPlanTiles();
-  const activeAndCurrentManagementPlansByLocationIds = useActiveAndCurrentManagementPlanTilesByLocationIds(
-    locations || persistedFormData.locations,
-    showWildCrops,
-  );
-  const isRequired = isHarvestTask || isTransplantTask || (showWildCrops && !persistedFormData.locations?.length);
+  const activeAndCurrentManagementPlansByLocationIds =
+    useActiveAndCurrentManagementPlanTilesByLocationIds(
+      locations || persistedFormData.locations,
+      showWildCrops,
+    );
+  const isRequired =
+    isHarvestTask || isTransplantTask || (showWildCrops && !persistedFormData.locations?.length);
   return (
     <HookFormPersistProvider>
       <PureTaskCrops
@@ -74,6 +77,7 @@ function TaskCrops({
         isMulti={!isTransplantTask}
         isRequired={isRequired}
         wildManagementPlanTiles={showWildCrops ? wildManagementPlanTiles : undefined}
+        defaultManagementPlanId={location.state.management_plan_id ?? null}
       />
     </HookFormPersistProvider>
   );

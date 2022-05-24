@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import Form from '../../Form';
 import MultiStepPageTitle from '../../PageTitle/MultiStepPageTitle';
@@ -25,6 +25,7 @@ const PureTaskCrops = ({
   wildManagementPlanTiles,
   isMulti = true,
   isRequired,
+  defaultManagementPlanId,
 }) => {
   const { t } = useTranslation();
 
@@ -207,6 +208,10 @@ const PureTaskCrops = ({
   };
 
   const disabled = isRequired && !selectedManagementPlanIds?.length;
+
+  useEffect(() => {
+    defaultManagementPlanId && setSelectedManagementPlanIds([parseInt(defaultManagementPlanId)]);
+  }, []);
 
   return (
     <>

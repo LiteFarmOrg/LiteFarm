@@ -571,7 +571,8 @@
     },
     "TAB": {
       "CROPS": "Cultivo",
-      "DETAILS": "Detalles"
+      "DETAILS": "Detalles",
+      "TASKS": "MISSING"
     },
     "TITLE": "Mapa de granja",
     "TUTORIAL": {
@@ -1053,6 +1054,14 @@
     "TASK_ASSIGNED": {
       "TITLE": "Tarea asignada",
       "BODY": "Se ha asignado una tarea {{taskType}} a {{assignee}}."
+    },
+    "TASK_REASSIGNED": {
+      "TITLE": "MISSING",
+      "BODY": "MISSING"
+    },
+    "TASK_COMPLETED_BY_OTHER_USER": {
+      "TITLE": "MISSING",
+      "BODY": "MISSING"
     },
     "WEEKLY_UNASSIGNED_TASKS": {
       "TITLE": "MISSING",

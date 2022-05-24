@@ -572,7 +572,8 @@
     },
     "TAB": {
       "CROPS": "Crops",
-      "DETAILS": "Details"
+      "DETAILS": "Details",
+      "TASKS": "Tasks"
     },
     "TITLE": "Farm map",
     "TUTORIAL": {
@@ -1061,6 +1062,14 @@
     "TASK_ASSIGNED": {
       "TITLE": "Assigned task",
       "BODY": "A {{taskType}} task has been assigned to {{assignee}}."
+    },
+    "TASK_REASSIGNED": {
+      "TITLE": "Task re-assigned",
+      "BODY": "A {{taskType}} task previously assigned to you has been assigned to someone else by {{assigner}}."
+    },
+    "TASK_COMPLETED_BY_OTHER_USER": {
+      "TITLE": "Task completed",
+      "BODY": "A {{taskType}} task assigned to you has been marked completed by {{assigner}}"
     },
     "WEEKLY_UNASSIGNED_TASKS": {
       "TITLE": "Unassigned tasks",

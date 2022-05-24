@@ -1,9 +1,9 @@
 import { Route } from 'react-router-dom';
 import React from 'react';
-import EditSurfaceWaterDetailForm
-  from '../containers/LocationDetails/AreaDetails/SurfaceWaterDetailForm/EditSurfaceWater';
+import EditSurfaceWaterDetailForm from '../containers/LocationDetails/AreaDetails/SurfaceWaterDetailForm/EditSurfaceWater';
 import { useSelector } from 'react-redux';
 import { isAdminSelector } from '../containers/userFarmSlice';
+import LocationTasks from '../containers/LocationDetails/LocationTasks';
 
 export default function SurfaceWaterDetailsRoutes() {
   const isAdmin = useSelector(isAdminSelector);
@@ -21,6 +21,7 @@ export default function SurfaceWaterDetailsRoutes() {
           component={EditSurfaceWaterDetailForm}
         />
       )}
+      <Route path="/surface_water/:location_id/tasks" exact component={LocationTasks} />
     </>
   );
 }

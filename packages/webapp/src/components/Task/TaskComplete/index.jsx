@@ -18,7 +18,6 @@ export default function PureTaskComplete({
   onSave,
   onGoBack,
   persistedFormData,
-
   useHookFormPersist,
 }) {
   const DURATION = 'duration';

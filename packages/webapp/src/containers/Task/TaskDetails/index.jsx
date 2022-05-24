@@ -46,7 +46,7 @@ function TaskDetails({ history, match, location }) {
   };
 
   const onSubmit = () => {
-    history.push('/add_task/task_assignment', location.state);
+    history.push('/add_task/task_assignment', location?.state);
   };
 
   const onError = () => {};

@@ -111,13 +111,20 @@ export default function PureRowForm({
           ? t('MANAGEMENT_PLAN.ROW_METHOD.HISTORICAL_SAME_LENGTH')
           : t('MANAGEMENT_PLAN.ROW_METHOD.SAME_LENGTH')}
       </Main>
-      <RadioGroup hookFormControl={control} name={SAME_LENGTH} required disabled={disabled} />
+      <RadioGroup
+        data-cy="rowMethod-equalLength"
+        hookFormControl={control}
+        name={SAME_LENGTH}
+        required
+        disabled={disabled}
+      />
       {(same_length === true || same_length === false) && (
         <>
           {same_length && (
             <>
               <div className={styles.row}>
                 <Input
+                  data-cy="rowMethod-rows"
                   label={t('MANAGEMENT_PLAN.ROW_METHOD.NUMBER_OF_ROWS')}
                   hookFormRegister={register(NUMBER_OF_ROWS, {
                     required: true,
@@ -130,6 +137,7 @@ export default function PureRowForm({
                   disabled={disabled}
                 />
                 <Unit
+                  data-cy="rowMethod-length"
                   register={register}
                   label={t('MANAGEMENT_PLAN.ROW_METHOD.LENGTH_OF_ROW')}
                   name={LENGTH_OF_ROW}
@@ -168,6 +176,7 @@ export default function PureRowForm({
           )}
           <div className={clsx(styles.paddingBottom40)}>
             <Unit
+              data-cy="rowMethod-spacing"
               register={register}
               label={t('MANAGEMENT_PLAN.PLANT_SPACING')}
               name={PLANT_SPACING}
@@ -203,6 +212,7 @@ export default function PureRowForm({
                 />
                 {showEstimatedYield && (
                   <Unit
+                    data-cy="rowMethod-yeild"
                     register={register}
                     label={t('MANAGEMENT_PLAN.ESTIMATED_YIELD')}
                     name={ESTIMATED_YIELD}

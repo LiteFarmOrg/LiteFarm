@@ -39,6 +39,7 @@ const taskController = {
     try {
       const { task_id } = req.params;
       const { farm_id } = req.headers;
+      const { user_id } = req.user;
       const { assignee_user_id } = req.body;
 
       const checkTaskStatus = await getTaskStatus(task_id);
@@ -70,6 +71,15 @@ const taskController = {
         null,
         task_id,
         TaskNotificationTypes.TASK_ASSIGNED,
+        checkTaskStatus.task_translation_key,
+        farm_id,
+      );
+
+      await sendTaskNotification(
+        checkTaskStatus.assignee_user_id,
+        user_id,
+        task_id,
+        TaskNotificationTypes.TASK_REASSIGNED,
         checkTaskStatus.task_translation_key,
         farm_id,
       );
@@ -219,14 +229,6 @@ const taskController = {
         .returning('*');
       if (!result) return res.status(404).send('Task not found');
 
-      await sendTaskNotification(
-        assignee_user_id,
-        user_id,
-        task_id,
-        TaskNotificationTypes.TASK_ABANDONED,
-        checkTaskStatus.task_translation_key,
-        farm_id,
-      );
       return res.status(200).send(result);
     } catch (error) {
       console.log(error);
@@ -402,6 +404,16 @@ const taskController = {
           return task;
         });
         if (result) {
+          const taskType = await TaskModel.getTaskType(task_id);
+          console.log(taskType);
+          await sendTaskNotification(
+            assignee_user_id,
+            user_id,
+            task_id,
+            TaskNotificationTypes.TASK_COMPLETED_BY_OTHER_USER,
+            taskType.task_translation_key,
+            farm_id,
+          );
           return res.status(200).send(result);
         } else {
           return res.status(404).send('Task not found');
@@ -422,6 +434,7 @@ const taskController = {
     try {
       const nonModifiable = getNonModifiable('harvest_task');
       const { user_id } = req.user;
+      const { farm_id } = req.headers;
       const task_id = parseInt(req.params.task_id);
       const { assignee_user_id, assignee_role_id } = await TaskModel.getTaskAssignee(task_id);
       const { role_id } = await userFarmModel.getUserRoleId(user_id);
@@ -455,6 +468,15 @@ const taskController = {
       });
 
       if (Object.keys(result).length > 0) {
+        const { task_translation_key } = await TaskModel.getTaskType(task_id);
+        await sendTaskNotification(
+          assignee_user_id,
+          user_id,
+          task_id,
+          TaskNotificationTypes.TASK_COMPLETED_BY_OTHER_USER,
+          task_translation_key,
+          farm_id,
+        );
         return res.status(200).send(result);
       } else {
         return res.status(404).send('Task not found');
@@ -646,11 +668,15 @@ async function getTaskStatus(taskId) {
 const TaskNotificationTypes = {
   TASK_ASSIGNED: 'TASK_ASSIGNED',
   TASK_ABANDONED: 'TASK_ABANDONED',
+  TASK_REASSIGNED: 'TASK_REASSIGNED',
+  TASK_COMPLETED_BY_OTHER_USER: 'TASK_COMPLETED_BY_OTHER_USER',
 };
 
 const TaskNotificationUserTypes = {
   TASK_ASSIGNED: 'assignee',
   TASK_ABANDONED: 'abandoner',
+  TASK_REASSIGNED: 'assigner',
+  TASK_COMPLETED_BY_OTHER_USER: 'assigner',
 };
 
 async function sendTaskNotification(
@@ -701,3 +727,4 @@ function canCompleteTask(assigneeUserId, assigneeRoleId, userId, userRoleId) {
 }
 
 module.exports = taskController;
+module.exports.getTasksForFarm = getTasksForFarm;

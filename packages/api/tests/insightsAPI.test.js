@@ -16,9 +16,9 @@
 const chai = require('chai');
 const chaiHttp = require('chai-http');
 chai.use(chaiHttp);
-const chai_assert = chai.assert;    // Using Assert style
-const chai_expect = chai.expect;    // Using Expect style
-const chai_should = chai.should();  // Using Should style
+const chai_assert = chai.assert; // Using Assert style
+const chai_expect = chai.expect; // Using Expect style
+const chai_should = chai.should(); // Using Should style
 const knex = require('../src/util/knex');
 const server = require('./../src/server');
 const mocks = require('./mock.factories');
@@ -26,7 +26,7 @@ const { tableCleanup } = require('./testEnvironment');
 const insightHelpers = require('../src/controllers/insightHelpers.js');
 jest.mock('jsdom');
 jest.mock('../src/middleware/acl/checkJwt');
-let faker = require('faker');
+const { faker } = require('@faker-js/faker');
 const moment = require('moment');
 const insigntController = require('../src/controllers/insightController');
 
@@ -50,7 +50,6 @@ xdescribe('insights test', () => {
   });
 
   describe('People Fed', () => {
-
     async function generateSaleData(crop, quantity, user) {
       const [{ user_id, farm_id }] = user ? user : await createUserFarm(1);
       const [location] = await mocks.locationFactory({ promisedFarm: [{ farm_id }] });
@@ -64,11 +63,13 @@ xdescribe('insights test', () => {
         promisedCropVariety: [{ crop_variety_id }],
       });
       const [{ sale_id }] = await mocks.saleFactory({ promisedUserFarm: [{ user_id, farm_id }] });
-      const [{ crop_sale_id }] = await mocks.cropSaleFactory({
+      const [{ crop_sale_id }] = await mocks.cropSaleFactory(
+        {
           promisedCrop: [{ crop_id }],
           promisedSale: [{ sale_id }],
         },
-        { quantity_kg: quantity, sale_value: 3 });
+        { quantity_kg: quantity, sale_value: 3 },
+      );
       return { user_id, farm_id, management_plan_id };
     }
 
@@ -100,11 +101,15 @@ xdescribe('insights test', () => {
         await knex.raw('DELETE FROM "harvestUseType"');
       });
       test('Should get 9 meals in calories from a crop with 250 calories and 3kg sale', async (done) => {
-        const { user_id, farm_id } = await generateSaleData({
-          ...mocks.fakeCrop(),
-          percentrefuse: 0, ...emptyNutrients,
-          energy: 250,
-        }, 3);
+        const { user_id, farm_id } = await generateSaleData(
+          {
+            ...mocks.fakeCrop(),
+            percentrefuse: 0,
+            ...emptyNutrients,
+            energy: 250,
+          },
+          3,
+        );
         getInsight(farm_id, user_id, 'people_fed', (err, res) => {
           expect(res.status).toBe(200);
           expect(res.body.preview).toBeGreaterThan(0);
@@ -115,20 +120,29 @@ xdescribe('insights test', () => {
       });
 
       test('Should get 9 meals in calories from a crop with 250 calories and 1kg sale and 2 kg harvest log', async (done) => {
-        const { user_id, farm_id, management_plan_id } = await generateSaleData({
-          ...mocks.fakeCrop(),
-          percentrefuse: 0, ...emptyNutrients,
-          energy: 250,
-        }, 1);
-        const harvestUseType = await mocks.harvest_use_typeFactory({}, {
-          harvest_use_type_id: 2,
-          harvest_use_type_name: 'test',
-        });
-        await mocks.harvest_useFactory({
+        const { user_id, farm_id, management_plan_id } = await generateSaleData(
+          {
+            ...mocks.fakeCrop(),
+            percentrefuse: 0,
+            ...emptyNutrients,
+            energy: 250,
+          },
+          1,
+        );
+        const harvestUseType = await mocks.harvest_use_typeFactory(
+          {},
+          {
+            harvest_use_type_id: 2,
+            harvest_use_type_name: 'test',
+          },
+        );
+        await mocks.harvest_useFactory(
+          {
             promisedManagementPlan: [{ management_plan_id }],
             promisedHarvestUseType: harvestUseType,
           },
-          { quantity_kg: 2 });
+          { quantity_kg: 2 },
+        );
         getInsight(farm_id, user_id, 'people_fed', (err, res) => {
           expect(res.status).toBe(200);
           expect(res.body.preview).toBeGreaterThan(0);
@@ -139,20 +153,29 @@ xdescribe('insights test', () => {
       });
 
       test('Should get 9 meals in protein from a crop with 5.2g protein 1kg sale and 2 kg harvest log', async (done) => {
-        const { user_id, farm_id, management_plan_id } = await generateSaleData({
-          ...mocks.fakeCrop(),
-          percentrefuse: 0, ...emptyNutrients,
-          protein: 5.2,
-        }, 1);
-        const harvestUseType = await mocks.harvest_use_typeFactory({}, {
-          harvest_use_type_id: 2,
-          harvest_use_type_name: 'test',
-        });
-        await mocks.harvest_useFactory({
+        const { user_id, farm_id, management_plan_id } = await generateSaleData(
+          {
+            ...mocks.fakeCrop(),
+            percentrefuse: 0,
+            ...emptyNutrients,
+            protein: 5.2,
+          },
+          1,
+        );
+        const harvestUseType = await mocks.harvest_use_typeFactory(
+          {},
+          {
+            harvest_use_type_id: 2,
+            harvest_use_type_name: 'test',
+          },
+        );
+        await mocks.harvest_useFactory(
+          {
             promisedManagementPlan: [{ management_plan_id }],
             promisedHarvestUseType: harvestUseType,
           },
-          { quantity_kg: 2 });
+          { quantity_kg: 2 },
+        );
         getInsight(farm_id, user_id, 'people_fed', (err, res) => {
           expect(res.status).toBe(200);
           expect(res.body.preview).toBeGreaterThan(0);
@@ -163,20 +186,29 @@ xdescribe('insights test', () => {
       });
 
       test('Should get 9 meals in fat from a crop with 75g fat 1kg sale and 2 kg harvest log', async (done) => {
-        const { user_id, farm_id, management_plan_id } = await generateSaleData({
-          ...mocks.fakeCrop(),
-          percentrefuse: 0, ...emptyNutrients,
-          lipid: 75,
-        }, 1);
-        const harvestUseType = await mocks.harvest_use_typeFactory({}, {
-          harvest_use_type_id: 2,
-          harvest_use_type_name: 'test',
-        });
-        await mocks.harvest_useFactory({
+        const { user_id, farm_id, management_plan_id } = await generateSaleData(
+          {
+            ...mocks.fakeCrop(),
+            percentrefuse: 0,
+            ...emptyNutrients,
+            lipid: 75,
+          },
+          1,
+        );
+        const harvestUseType = await mocks.harvest_use_typeFactory(
+          {},
+          {
+            harvest_use_type_id: 2,
+            harvest_use_type_name: 'test',
+          },
+        );
+        await mocks.harvest_useFactory(
+          {
             promisedManagementPlan: [{ management_plan_id }],
             promisedHarvestUseType: harvestUseType,
           },
-          { quantity_kg: 2 });
+          { quantity_kg: 2 },
+        );
         getInsight(farm_id, user_id, 'people_fed', (err, res) => {
           expect(res.status).toBe(200);
           expect(res.body.preview).toBeGreaterThan(0);
@@ -187,20 +219,29 @@ xdescribe('insights test', () => {
       });
 
       test('Should get 9 meals in vitamin c from a crop with 9g vitamin c 1kg sale and 2 kg harvest log', async (done) => {
-        const { user_id, farm_id, management_plan_id } = await generateSaleData({
-          ...mocks.fakeCrop(),
-          percentrefuse: 0, ...emptyNutrients,
-          vitc: 9,
-        }, 1);
-        const harvestUseType = await mocks.harvest_use_typeFactory({}, {
-          harvest_use_type_id: 2,
-          harvest_use_type_name: 'test',
-        });
-        await mocks.harvest_useFactory({
+        const { user_id, farm_id, management_plan_id } = await generateSaleData(
+          {
+            ...mocks.fakeCrop(),
+            percentrefuse: 0,
+            ...emptyNutrients,
+            vitc: 9,
+          },
+          1,
+        );
+        const harvestUseType = await mocks.harvest_use_typeFactory(
+          {},
+          {
+            harvest_use_type_id: 2,
+            harvest_use_type_name: 'test',
+          },
+        );
+        await mocks.harvest_useFactory(
+          {
             promisedManagementPlan: [{ management_plan_id }],
             promisedHarvestUseType: harvestUseType,
           },
-          { quantity_kg: 2 });
+          { quantity_kg: 2 },
+        );
         getInsight(farm_id, user_id, 'people_fed', (err, res) => {
           expect(res.status).toBe(200);
           expect(res.body.preview).toBeGreaterThan(0);
@@ -211,20 +252,29 @@ xdescribe('insights test', () => {
       });
 
       test('Should get 9 meals in vitamin A from a crop with 90g vitamin a 1kg sale and 2 kg harvest log', async (done) => {
-        const { user_id, farm_id, management_plan_id } = await generateSaleData({
-          ...mocks.fakeCrop(),
-          percentrefuse: 0, ...emptyNutrients,
-          vita_rae: 90,
-        }, 1);
-        const harvestUseType = await mocks.harvest_use_typeFactory({}, {
-          harvest_use_type_id: 2,
-          harvest_use_type_name: 'test',
-        });
-        await mocks.harvest_useFactory({
+        const { user_id, farm_id, management_plan_id } = await generateSaleData(
+          {
+            ...mocks.fakeCrop(),
+            percentrefuse: 0,
+            ...emptyNutrients,
+            vita_rae: 90,
+          },
+          1,
+        );
+        const harvestUseType = await mocks.harvest_use_typeFactory(
+          {},
+          {
+            harvest_use_type_id: 2,
+            harvest_use_type_name: 'test',
+          },
+        );
+        await mocks.harvest_useFactory(
+          {
             promisedManagementPlan: [{ management_plan_id }],
             promisedHarvestUseType: harvestUseType,
           },
-          { quantity_kg: 2 });
+          { quantity_kg: 2 },
+        );
         getInsight(farm_id, user_id, 'people_fed', (err, res) => {
           expect(res.status).toBe(200);
           expect(res.body.preview).toBeGreaterThan(0);
@@ -235,36 +285,61 @@ xdescribe('insights test', () => {
       });
 
       test('Should get average of 9 meals with 3 kg sales of crops that generate 9 meals themselves', async (done) => {
-        const { user_id, farm_id } = await generateSaleData({
-          ...mocks.fakeCrop(),
-          percentrefuse: 0, ...emptyNutrients,
-          energy: 250,
-        }, 3);
-        await generateSaleData({
-          ...mocks.fakeCrop(),
-          percentrefuse: 0, ...emptyNutrients,
-          protein: 5.2,
-        }, 3, [{ user_id, farm_id }]);
-        await generateSaleData({ ...mocks.fakeCrop(), percentrefuse: 0, ...emptyNutrients, lipid: 75 }, 3, [{
-          user_id,
-          farm_id,
-        }]);
-        await generateSaleData({ ...mocks.fakeCrop(), percentrefuse: 0, ...emptyNutrients, vitc: 9 }, 3, [{
-          user_id,
-          farm_id,
-        }]);
-        await generateSaleData({
-          ...mocks.fakeCrop(),
-          percentrefuse: 0, ...emptyNutrients,
-          vita_rae: 90,
-        }, 3, [{ user_id, farm_id }]);
+        const { user_id, farm_id } = await generateSaleData(
+          {
+            ...mocks.fakeCrop(),
+            percentrefuse: 0,
+            ...emptyNutrients,
+            energy: 250,
+          },
+          3,
+        );
+        await generateSaleData(
+          {
+            ...mocks.fakeCrop(),
+            percentrefuse: 0,
+            ...emptyNutrients,
+            protein: 5.2,
+          },
+          3,
+          [{ user_id, farm_id }],
+        );
+        await generateSaleData(
+          { ...mocks.fakeCrop(), percentrefuse: 0, ...emptyNutrients, lipid: 75 },
+          3,
+          [
+            {
+              user_id,
+              farm_id,
+            },
+          ],
+        );
+        await generateSaleData(
+          { ...mocks.fakeCrop(), percentrefuse: 0, ...emptyNutrients, vitc: 9 },
+          3,
+          [
+            {
+              user_id,
+              farm_id,
+            },
+          ],
+        );
+        await generateSaleData(
+          {
+            ...mocks.fakeCrop(),
+            percentrefuse: 0,
+            ...emptyNutrients,
+            vita_rae: 90,
+          },
+          3,
+          [{ user_id, farm_id }],
+        );
         getInsight(farm_id, user_id, 'people_fed', (err, res) => {
           expect(res.status).toBe(200);
           expect(res.body.preview).toBe(9);
           done();
         });
       });
-
 
       test('Should get no meals in preview from a crop with no sales and no harvests', async (done) => {
         const [{ user_id, farm_id }] = await createUserFarm(1);
@@ -274,10 +349,7 @@ xdescribe('insights test', () => {
           done();
         });
       });
-
     });
-
-
   });
 
   describe('Soil Om', () => {
@@ -358,8 +430,12 @@ xdescribe('insights test', () => {
   describe('prices distance', () => {
     describe('Unit tests', () => {
       test('Distance between two coordinate test', async (done) => {
-        expect(insightHelpers.distance(62.990967, -71.463767, 52.990967, -91.463767) - 1612.09).toBeLessThan(0.5);
-        expect(insightHelpers.distance(-62.990967, 171.463767, -52.990967, 191.463767) - 1612.09).toBeLessThan(0.5);
+        expect(
+          insightHelpers.distance(62.990967, -71.463767, 52.990967, -91.463767) - 1612.09,
+        ).toBeLessThan(0.5);
+        expect(
+          insightHelpers.distance(-62.990967, 171.463767, -52.990967, 191.463767) - 1612.09,
+        ).toBeLessThan(0.5);
         expect(insightHelpers.distance(62.990967, -71.463767, 62.990967, -71.463767)).toBe(0);
         done();
       });
@@ -367,63 +443,63 @@ xdescribe('insights test', () => {
       test('FormatPricesNearByData Test', async (done) => {
         const salesByCropsFarmIdMonth = [
           {
-            'year_month': '2020-12',
-            'crop_common_name': 'quaerat rerum fugiat',
-            'crop_translation_key': 'quaerat rerum fugiat',
-            'sale_quant': 793,
-            'sale_value': 98,
-            'farm_id': '87827ed7-5c36-11eb-b3aa-9f566fe0899e',
-            'grid_points': {
-              'lat': 62.990967,
-              'lng': -71.463767,
+            year_month: '2020-12',
+            crop_common_name: 'quaerat rerum fugiat',
+            crop_translation_key: 'quaerat rerum fugiat',
+            sale_quant: 793,
+            sale_value: 98,
+            farm_id: '87827ed7-5c36-11eb-b3aa-9f566fe0899e',
+            grid_points: {
+              lat: 62.990967,
+              lng: -71.463767,
             },
           },
           {
-            'year_month': '2020-12',
-            'crop_common_name': 'quaerat rerum fugiat',
-            'crop_translation_key': 'quaerat rerum fugiat',
-            'sale_quant': 73,
-            'sale_value': 98,
-            'farm_id': '87827ed7-5c36-11eb-b3aa-9f566fe0899e',
-            'grid_points': {
-              'lat': 62.990967,
-              'lng': -71.463767,
+            year_month: '2020-12',
+            crop_common_name: 'quaerat rerum fugiat',
+            crop_translation_key: 'quaerat rerum fugiat',
+            sale_quant: 73,
+            sale_value: 98,
+            farm_id: '87827ed7-5c36-11eb-b3aa-9f566fe0899e',
+            grid_points: {
+              lat: 62.990967,
+              lng: -71.463767,
             },
           },
           {
-            'year_month': '2020-12',
-            'crop_common_name': 'quaerat rerum fugiat',
-            'crop_translation_key': 'quaerat rerum fugiat',
-            'sale_quant': 182,
-            'sale_value': 607,
-            'farm_id': '8788ef8b-5c36-11eb-b3aa-9f566fe0899e',
-            'grid_points': {
-              'lat': 62.990967,
-              'lng': -71.553767,
+            year_month: '2020-12',
+            crop_common_name: 'quaerat rerum fugiat',
+            crop_translation_key: 'quaerat rerum fugiat',
+            sale_quant: 182,
+            sale_value: 607,
+            farm_id: '8788ef8b-5c36-11eb-b3aa-9f566fe0899e',
+            grid_points: {
+              lat: 62.990967,
+              lng: -71.553767,
             },
           },
           {
-            'year_month': '2020-12',
-            'crop_common_name': 'ullam molestiae doloribus',
-            'crop_translation_key': 'ullam molestiae doloribus',
-            'sale_quant': 618,
-            'sale_value': 600,
-            'farm_id': '87827ed7-5c36-11eb-b3aa-9f566fe0899e',
-            'grid_points': {
-              'lat': 62.990967,
-              'lng': -71.463767,
+            year_month: '2020-12',
+            crop_common_name: 'ullam molestiae doloribus',
+            crop_translation_key: 'ullam molestiae doloribus',
+            sale_quant: 618,
+            sale_value: 600,
+            farm_id: '87827ed7-5c36-11eb-b3aa-9f566fe0899e',
+            grid_points: {
+              lat: 62.990967,
+              lng: -71.463767,
             },
           },
           {
-            'year_month': '2021-01',
-            'crop_common_name': 'quaerat rerum fugiat',
-            'crop_translation_key': 'quaerat rerum fugiat',
-            'sale_quant': 1258,
-            'sale_value': 770,
-            'farm_id': '8788ef8b-5c36-11eb-b3aa-9f566fe0899e',
-            'grid_points': {
-              'lat': 62.990967,
-              'lng': -71.553767,
+            year_month: '2021-01',
+            crop_common_name: 'quaerat rerum fugiat',
+            crop_translation_key: 'quaerat rerum fugiat',
+            sale_quant: 1258,
+            sale_value: 770,
+            farm_id: '8788ef8b-5c36-11eb-b3aa-9f566fe0899e',
+            grid_points: {
+              lat: 62.990967,
+              lng: -71.553767,
             },
           },
         ];
@@ -433,33 +509,33 @@ xdescribe('insights test', () => {
 
         const formatted1 = insightHelpers.formatPricesNearbyData(farm1_id, salesByCropsFarmIdMonth);
         const expected1 = {
-          'preview': 65,
-          'data': [
+          preview: 65,
+          data: [
             {
               'quaerat rerum fugiat': [
                 {
-                  'crop_date': '2020-12',
-                  'crop_price': 0.22632794457274827,
-                  'network_price': 0.7662213740458015,
+                  crop_date: '2020-12',
+                  crop_price: 0.22632794457274827,
+                  network_price: 0.7662213740458015,
                 },
                 {
-                  'crop_date': '2021-01',
-                  'crop_price': 0,
-                  'network_price': 0.6120826709062003,
+                  crop_date: '2021-01',
+                  crop_price: 0,
+                  network_price: 0.6120826709062003,
                 },
               ],
             },
             {
               'ullam molestiae doloribus': [
                 {
-                  'crop_date': '2020-12',
-                  'crop_price': 0.970873786407767,
-                  'network_price': 0.970873786407767,
+                  crop_date: '2020-12',
+                  crop_price: 0.970873786407767,
+                  network_price: 0.970873786407767,
                 },
               ],
             },
           ],
-          'amountOfFarms': 1,
+          amountOfFarms: 1,
         };
 
         expect(formatted1).toEqual(expected1);
@@ -467,33 +543,33 @@ xdescribe('insights test', () => {
         const formatted2 = insightHelpers.formatPricesNearbyData(farm2_id, salesByCropsFarmIdMonth);
 
         const expected2 = {
-          'preview': 268,
-          'data': [
+          preview: 268,
+          data: [
             {
               'quaerat rerum fugiat': [
                 {
-                  'crop_date': '2020-12',
-                  'crop_price': 3.335164835164835,
-                  'network_price': 0.7662213740458015,
+                  crop_date: '2020-12',
+                  crop_price: 3.335164835164835,
+                  network_price: 0.7662213740458015,
                 },
                 {
-                  'crop_date': '2021-01',
-                  'crop_price': 0.6120826709062003,
-                  'network_price': 0.6120826709062003,
+                  crop_date: '2021-01',
+                  crop_price: 0.6120826709062003,
+                  network_price: 0.6120826709062003,
                 },
               ],
             },
             {
               'ullam molestiae doloribus': [
                 {
-                  'crop_date': '2020-12',
-                  'crop_price': 0,
-                  'network_price': 0.970873786407767,
+                  crop_date: '2020-12',
+                  crop_price: 0,
+                  network_price: 0.970873786407767,
                 },
               ],
             },
           ],
-          'amountOfFarms': 1,
+          amountOfFarms: 1,
         };
 
         expect(formatted2).toEqual(expected2);
@@ -511,7 +587,16 @@ xdescribe('insights test', () => {
         const gridPoint30West = { lat: 62.990967, lng: -72.053767 };
         const gridPoint5East = { lat: 62.990967, lng: -71.373767 };
 
-        const gridPoints = [gridPoint0, gridPoint5West, gridPoint10West, gridPoint15West, gridPoint20West, gridPoint25West, gridPoint30West, gridPoint5East];
+        const gridPoints = [
+          gridPoint0,
+          gridPoint5West,
+          gridPoint10West,
+          gridPoint15West,
+          gridPoint20West,
+          gridPoint25West,
+          gridPoint30West,
+          gridPoint5East,
+        ];
         const crops = [];
         for (let i = 0; i < 3; i++) {
           const [crop] = await mocks.cropFactory();
@@ -534,10 +619,13 @@ xdescribe('insights test', () => {
           });
           const [cropSale] = await mocks.cropSaleFactory({
             promisedManagementPlan: [managementPlan],
-            promisedSale: mocks.saleFactory({ promisedFarm: [farm] }, {
-              ...mocks.fakeSale(),
-              sale_date: moment('2020-12-01').format(),
-            }),
+            promisedSale: mocks.saleFactory(
+              { promisedFarm: [farm] },
+              {
+                ...mocks.fakeSale(),
+                sale_date: moment('2020-12-01').format(),
+              },
+            ),
           });
           fields.push(field);
           farms.push(farm);
@@ -559,10 +647,13 @@ xdescribe('insights test', () => {
           });
           const [crop12Sale] = await mocks.cropSaleFactory({
             promisedManagementPlan: [managementPlan1],
-            promisedSale: mocks.saleFactory({ promisedFarm: [farms[i]] }, {
-              ...mocks.fakeSale(),
-              sale_date: moment('2020-12-01').format(),
-            }),
+            promisedSale: mocks.saleFactory(
+              { promisedFarm: [farms[i]] },
+              {
+                ...mocks.fakeSale(),
+                sale_date: moment('2020-12-01').format(),
+              },
+            ),
           });
           crop12020Sales.push(crop12Sale);
 
@@ -578,17 +669,24 @@ xdescribe('insights test', () => {
           });
           crop2Sales.push(crop2Sale);
         }
-        const [{
-          user_id,
-          farm_id,
-        }] = await mocks.userFarmFactory({ promisedFarm: [farms[0]] }, { ...mocks.fakeUserFarm(), role_id: 1 });
+        const [{ user_id, farm_id }] = await mocks.userFarmFactory(
+          { promisedFarm: [farms[0]] },
+          { ...mocks.fakeUserFarm(), role_id: 1 },
+        );
 
-        const { rows: salesOfAFarm2020 } = await insigntController.queryCropSalesNearByStartDateAndFarmId(startdate, farm_id);
+        const {
+          rows: salesOfAFarm2020,
+        } = await insigntController.queryCropSalesNearByStartDateAndFarmId(startdate, farm_id);
         expect(salesOfAFarm2020.length).toBe(14);
-        const { rows: salesOfAFarmCurrentYear } = await insigntController.queryCropSalesNearByStartDateAndFarmId(moment().format('YYYY-MM-DD'), farm_id);
+        const {
+          rows: salesOfAFarmCurrentYear,
+        } = await insigntController.queryCropSalesNearByStartDateAndFarmId(
+          moment().format('YYYY-MM-DD'),
+          farm_id,
+        );
         expect(salesOfAFarmCurrentYear.length).toBe(2);
         const getQuery = (distance) => ({
-          distance: distance,
+          distance,
           lat: gridPoint0.lat,
           long: gridPoint0.lng,
           startdate,
@@ -597,44 +695,93 @@ xdescribe('insights test', () => {
         getInsightWithQuery(farm_id, user_id, 'prices/distance', getQuery(5), (err, res) => {
           expect(res.status).toBe(200);
           const crop0CommonName = crops[0].crop_common_name;
-          const crop0TotalPrice = crop0Sales[0].sale_value + crop0Sales[1].sale_value + crop0Sales[7].sale_value;
-          const crop0TotalQuantity = crop0Sales[0].quantity_kg + crop0Sales[1].quantity_kg + crop0Sales[7].quantity_kg;
+          const crop0TotalPrice =
+            crop0Sales[0].sale_value + crop0Sales[1].sale_value + crop0Sales[7].sale_value;
+          const crop0TotalQuantity =
+            crop0Sales[0].quantity_kg + crop0Sales[1].quantity_kg + crop0Sales[7].quantity_kg;
 
           const crop1CommonName = crops[1].crop_common_name;
-          const crop1TotalPrice = crop1Sales[0].sale_value + crop1Sales[1].sale_value + crop1Sales[2].sale_value + crop1Sales[3].sale_value;
-          const crop1TotalQuantity = crop1Sales[0].quantity_kg + crop1Sales[1].quantity_kg + crop1Sales[2].quantity_kg + crop1Sales[3].quantity_kg;
+          const crop1TotalPrice =
+            crop1Sales[0].sale_value +
+            crop1Sales[1].sale_value +
+            crop1Sales[2].sale_value +
+            crop1Sales[3].sale_value;
+          const crop1TotalQuantity =
+            crop1Sales[0].quantity_kg +
+            crop1Sales[1].quantity_kg +
+            crop1Sales[2].quantity_kg +
+            crop1Sales[3].quantity_kg;
 
           const crop12020CommonName = crops[1].crop_common_name;
           const crop12020TotalPrice = crop12020Sales[0].sale_value + crop12020Sales[1].sale_value;
-          const crop12020TotalQuantity = crop12020Sales[0].quantity_kg + crop12020Sales[1].quantity_kg;
+          const crop12020TotalQuantity =
+            crop12020Sales[0].quantity_kg + crop12020Sales[1].quantity_kg;
           const data = res.body.data;
           for (const cropSaleRes of data) {
             if (cropSaleRes[crop0CommonName]) {
-              expect(cropSaleRes[crop0CommonName][0].crop_date).toBe(moment('2020-12-01').format('YYYY-MM'));
-              expect(cropSaleRes[crop0CommonName][0].crop_price - crop0Sales[0].sale_value / crop0Sales[0].quantity_kg).toBeLessThan(0.01);
-              expect(cropSaleRes[crop0CommonName][0].network_price - crop0TotalPrice / crop0TotalQuantity).toBeLessThan(0.01);
+              expect(cropSaleRes[crop0CommonName][0].crop_date).toBe(
+                moment('2020-12-01').format('YYYY-MM'),
+              );
+              expect(
+                cropSaleRes[crop0CommonName][0].crop_price -
+                  crop0Sales[0].sale_value / crop0Sales[0].quantity_kg,
+              ).toBeLessThan(0.01);
+              expect(
+                cropSaleRes[crop0CommonName][0].network_price -
+                  crop0TotalPrice / crop0TotalQuantity,
+              ).toBeLessThan(0.01);
             } else if (cropSaleRes[crop1CommonName]) {
-              expect(cropSaleRes[crop1CommonName][0].crop_date).toBe(moment('2020-12-01').format('YYYY-MM'));
-              expect(cropSaleRes[crop1CommonName][0].crop_price - crop12020Sales[0].sale_value / crop12020Sales[0].quantity_kg).toBeLessThan(0.01);
-              expect(cropSaleRes[crop1CommonName][0].network_price - crop12020TotalPrice / crop12020TotalQuantity).toBeLessThan(0.01);
+              expect(cropSaleRes[crop1CommonName][0].crop_date).toBe(
+                moment('2020-12-01').format('YYYY-MM'),
+              );
+              expect(
+                cropSaleRes[crop1CommonName][0].crop_price -
+                  crop12020Sales[0].sale_value / crop12020Sales[0].quantity_kg,
+              ).toBeLessThan(0.01);
+              expect(
+                cropSaleRes[crop1CommonName][0].network_price -
+                  crop12020TotalPrice / crop12020TotalQuantity,
+              ).toBeLessThan(0.01);
               expect(cropSaleRes[crop1CommonName][1].crop_date).toBe(moment().format('YYYY-MM'));
-              expect(cropSaleRes[crop1CommonName][1].crop_price - (crop1Sales[0].sale_value + crop1Sales[1].sale_value) / (crop1Sales[0].quantity_kg + crop1Sales[1].quantity_kg)).toBeLessThan(0.01);
-              expect(cropSaleRes[crop1CommonName][1].network_price - crop1TotalPrice / crop1TotalQuantity).toBeLessThan(0.01);
+              expect(
+                cropSaleRes[crop1CommonName][1].crop_price -
+                  (crop1Sales[0].sale_value + crop1Sales[1].sale_value) /
+                    (crop1Sales[0].quantity_kg + crop1Sales[1].quantity_kg),
+              ).toBeLessThan(0.01);
+              expect(
+                cropSaleRes[crop1CommonName][1].network_price -
+                  crop1TotalPrice / crop1TotalQuantity,
+              ).toBeLessThan(0.01);
             }
-
           }
 
           getInsightWithQuery(farm_id, user_id, 'prices/distance', getQuery(10), (err, res) => {
             expect(res.status).toBe(200);
             const crop0CommonName = crops[0].crop_common_name;
-            const crop0TotalPrice = crop0Sales[0].sale_value + crop0Sales[1].sale_value + crop0Sales[2].sale_value + crop0Sales[7].sale_value;
-            const crop0TotalQuantity = crop0Sales[0].quantity_kg + crop0Sales[1].quantity_kg + crop0Sales[2].quantity_kg + crop0Sales[7].quantity_kg;
+            const crop0TotalPrice =
+              crop0Sales[0].sale_value +
+              crop0Sales[1].sale_value +
+              crop0Sales[2].sale_value +
+              crop0Sales[7].sale_value;
+            const crop0TotalQuantity =
+              crop0Sales[0].quantity_kg +
+              crop0Sales[1].quantity_kg +
+              crop0Sales[2].quantity_kg +
+              crop0Sales[7].quantity_kg;
             const data = res.body.data;
             for (const cropSaleRes of data) {
               if (cropSaleRes[crop0CommonName]) {
-                expect(cropSaleRes[crop0CommonName][0].crop_date).toBe(moment('2020-12-01').format('YYYY-MM'));
-                expect(cropSaleRes[crop0CommonName][0].crop_price - crop0Sales[0].sale_value / crop0Sales[0].quantity_kg).toBeLessThan(0.01);
-                expect(cropSaleRes[crop0CommonName][0].network_price - crop0TotalPrice / crop0TotalQuantity).toBeLessThan(0.01);
+                expect(cropSaleRes[crop0CommonName][0].crop_date).toBe(
+                  moment('2020-12-01').format('YYYY-MM'),
+                );
+                expect(
+                  cropSaleRes[crop0CommonName][0].crop_price -
+                    crop0Sales[0].sale_value / crop0Sales[0].quantity_kg,
+                ).toBeLessThan(0.01);
+                expect(
+                  cropSaleRes[crop0CommonName][0].network_price -
+                    crop0TotalPrice / crop0TotalQuantity,
+                ).toBeLessThan(0.01);
               }
             }
             done();
@@ -642,7 +789,6 @@ xdescribe('insights test', () => {
         });
       });
     });
-
 
     test('Should get prices distance if Im on my farm as an owner', async (done) => {
       const [{ user_id, farm_id }] = await createUserFarm(1);
@@ -702,7 +848,9 @@ xdescribe('insights test', () => {
       test('should create a water balance if Im on my farm as an owner', async (done) => {
         const [{ user_id, farm_id }] = await createUserFarm(1);
         const [field] = await mocks.fieldFactory({ promisedFarm: [{ farm_id }] });
-        const [{ crop_id, location_id }] = await mocks.management_planFactory({ promisedField: [field] });
+        const [{ crop_id, location_id }] = await mocks.management_planFactory({
+          promisedField: [field],
+        });
         const waterBalance = { ...mocks.fakeWaterBalance(), crop_id, location_id };
         postWaterBalance(waterBalance, { farm_id, user_id }, (err, res) => {
           expect(res.status).toBe(201);
@@ -713,7 +861,9 @@ xdescribe('insights test', () => {
       test('should create a water balance if Im on my farm as a manager', async (done) => {
         const [{ user_id, farm_id }] = await createUserFarm(2);
         const [field] = await mocks.fieldFactory({ promisedFarm: [{ farm_id }] });
-        const [{ crop_id, location_id }] = await mocks.management_planFactory({ promisedField: [field] });
+        const [{ crop_id, location_id }] = await mocks.management_planFactory({
+          promisedField: [field],
+        });
         const waterBalance = { ...mocks.fakeWaterBalance(), crop_id, location_id };
         postWaterBalance(waterBalance, { farm_id, user_id }, (err, res) => {
           expect(res.status).toBe(201);
@@ -724,15 +874,15 @@ xdescribe('insights test', () => {
       test('should fail to create  a water balance if Im on my farm as a Worker', async (done) => {
         const [{ user_id, farm_id }] = await createUserFarm(3);
         const [field] = await mocks.fieldFactory({ promisedFarm: [{ farm_id }] });
-        const [{ crop_id, location_id }] = await mocks.management_planFactory({ promisedField: [field] });
+        const [{ crop_id, location_id }] = await mocks.management_planFactory({
+          promisedField: [field],
+        });
         const waterBalance = { ...mocks.fakeWaterBalance(), crop_id, location_id };
         postWaterBalance(waterBalance, { farm_id, user_id }, (err, res) => {
           expect(res.status).toBe(403);
           done();
         });
       });
-
-
     });
   });
 
@@ -787,7 +937,6 @@ xdescribe('insights test', () => {
           done();
         });
       });
-
     });
   });
 
@@ -870,8 +1019,6 @@ xdescribe('insights test', () => {
           done();
         });
       });
-
-
     });
 
     describe('DELETE', () => {
@@ -903,32 +1050,44 @@ xdescribe('insights test', () => {
       });
     });
   });
-
 });
 
 function createUserFarm(role) {
-  return mocks.userFarmFactory({
-    promisedFarm: mocks.farmFactory(),
-    promisedUser: mocks.usersFactory(),
-  }, { role_id: role, status: 'Active' });
+  return mocks.userFarmFactory(
+    {
+      promisedFarm: mocks.farmFactory(),
+      promisedUser: mocks.usersFactory(),
+    },
+    { role_id: role, status: 'Active' },
+  );
 }
 
 function getInsight(farmId, userId, route, callback) {
-  chai.request(server).get(`/insight/${route}/${farmId}`)
+  chai
+    .request(server)
+    .get(`/insight/${route}/${farmId}`)
     .set('farm_id', farmId)
     .set('user_id', userId)
     .end(callback);
 }
 
 function getInsightWithQuery(farmId, userId, route, query, callback) {
-  chai.request(server).get(`/insight/${route}/${farmId}?distance=${query.distance}&lat=${query.lat}&long=${query.long}&startdate=${query.startdate || '2020-1-1'}`)
+  chai
+    .request(server)
+    .get(
+      `/insight/${route}/${farmId}?distance=${query.distance}&lat=${query.lat}&long=${
+        query.long
+      }&startdate=${query.startdate || '2020-1-1'}`,
+    )
     .set('farm_id', farmId)
     .set('user_id', userId)
     .end(callback);
 }
 
 function postWaterBalance(data, { farm_id, user_id }, callback) {
-  chai.request(server).post(`/insight/waterbalance`)
+  chai
+    .request(server)
+    .post(`/insight/waterbalance`)
     .set('farm_id', farm_id)
     .set('user_id', user_id)
     .send(data)
@@ -936,7 +1095,9 @@ function postWaterBalance(data, { farm_id, user_id }, callback) {
 }
 
 function postNitrogenSchedule(data, { farm_id, user_id }, callback) {
-  chai.request(server).post('/insight/nitrogenbalance/schedule')
+  chai
+    .request(server)
+    .post('/insight/nitrogenbalance/schedule')
     .set('farm_id', farm_id)
     .set('user_id', user_id)
     .send(data)
@@ -944,7 +1105,9 @@ function postNitrogenSchedule(data, { farm_id, user_id }, callback) {
 }
 
 function postWaterBalanceSchedule({ farm_id, user_id }, callback) {
-  chai.request(server).post(`/insight/waterbalance/schedule`)
+  chai
+    .request(server)
+    .post(`/insight/waterbalance/schedule`)
     .set('farm_id', farm_id)
     .set('user_id', user_id)
     .send({ farm_id })
@@ -952,7 +1115,9 @@ function postWaterBalanceSchedule({ farm_id, user_id }, callback) {
 }
 
 function deleteNitrogenSchedule({ farm_id, user_id }, nitrogenId, callback) {
-  chai.request(server).delete(`/insight/nitrogenbalance/schedule/${nitrogenId}`)
+  chai
+    .request(server)
+    .delete(`/insight/nitrogenbalance/schedule/${nitrogenId}`)
     .set('farm_id', farm_id)
     .set('user_id', user_id)
     .end(callback);

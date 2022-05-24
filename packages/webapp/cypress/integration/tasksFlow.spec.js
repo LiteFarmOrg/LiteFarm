@@ -23,7 +23,6 @@ describe.only('Tasks flow tests', () => {
   });
 
   it('admin user tasks flow tests', () => {
-    // <<<<<<< LF-2365-augment-the-assignee-filter-on-task-filter-page
     //         //on tasks view click on the assignee link of a harvest task
 
     //         //assign task to self and click update task
@@ -33,8 +32,6 @@ describe.only('Tasks flow tests', () => {
     //         //complete task completion flow and click save task
     //         cy.url().should('include', '/tasks');
     //         cy.contains('Tasks').should('exist');
-    // =======
-    // >>>>>>> integration
 
     //clicking on a task should open the read_only view for said task
     cy.url().should('include', '/read_only');
@@ -44,7 +41,6 @@ describe.only('Tasks flow tests', () => {
     //Task specific data should exist(e.g. cleaning agent and estimated water usage for a cleaning task)
   });
 
-  // <<<<<<< LF-2365-augment-the-assignee-filter-on-task-filter-page
   //       it('tasks filters tests', () => {
 
   //         //user clicks on the funnel icon on the tasks view to open the tasks filter view
@@ -60,7 +56,4 @@ describe.only('Tasks flow tests', () => {
   //         //user clicks on one of the users, assert that a pill is generated for said user
 
   //       });
-
-  // =======
-  // >>>>>>> integration
 });

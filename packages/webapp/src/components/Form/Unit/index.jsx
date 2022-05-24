@@ -1,3 +1,18 @@
+/*
+ *  Copyright 2019, 2020, 2021, 2022 LiteFarm.org
+ *  This file is part of LiteFarm.
+ *
+ *  LiteFarm is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  LiteFarm is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ *  GNU General Public License for more details, see <<https://www.gnu.org/licenses/>.>
+ */
+
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import styles from './unit.module.scss';
 import clsx from 'clsx';
@@ -93,19 +108,17 @@ const useReactSelectStyles = (disabled, { reactSelectWidth = DEFAULT_REACT_SELEC
         ...provided,
         padding: '0',
         width: `${reactSelectWidth - 19}px`,
+        display: 'flex',
         justifyContent: 'center',
       }),
       singleValue: (provided, state) => ({
         fontSize: '16px',
         lineHeight: '24px',
-        color: state.isDisabled ? 'var(--grey600)' : 'var(--grey600)',
+        color: 'var(--grey600)',
         fontStyle: 'normal',
         fontWeight: 'normal',
         fontFamily: '"Open Sans", "SansSerif", serif',
-        width: `${reactSelectWidth - 19}px`,
         overflowX: 'hidden',
-        textAlign: 'center',
-        position: 'absolute',
       }),
       placeholder: () => ({
         display: 'none',
@@ -224,16 +237,6 @@ const Unit = ({
   useEffect(() => {
     hookFormSetHiddenValue(hookFormValue, { shouldValidate: true, shouldDirty: false });
   }, []);
-
-  useEffect(() => {
-    if (hookFormUnit && hookFormValue !== undefined) {
-      setVisibleInputValue(
-        roundToTwoDecimal(convert(hookFormValue).from(databaseUnit).to(hookFormUnit)),
-      );
-      //Trigger validation
-      (hookFormValue === 0 || hookFormValue > 0) && hookFormSetHiddenValue(hookFormValue);
-    }
-  }, [hookFormUnit]);
 
   const inputOnChange = (e) => {
     setVisibleInputValue(e.target.value);

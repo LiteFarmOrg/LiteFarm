@@ -26,6 +26,8 @@ const PureTaskCrops = ({
   isMulti = true,
   isRequired,
   defaultManagementPlanId,
+  history,
+  location
 }) => {
   const { t } = useTranslation();
 
@@ -50,6 +52,12 @@ const PureTaskCrops = ({
   };
 
   const locationIds = Object.keys(managementPlansByLocationIds);
+
+  if (!locationIds.length) {
+    history.replace('/add_task/task_locations', location.state);
+    onContinue();
+  }
+
   const filterManagementPlansByCropVarietyName = (mp) =>
     mp.crop_variety_name.toLowerCase().includes(filter?.toLowerCase()) ||
     mp.crop_common_name.toLowerCase().includes(filter?.toLowerCase());

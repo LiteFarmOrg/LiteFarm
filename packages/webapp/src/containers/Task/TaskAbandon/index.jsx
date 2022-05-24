@@ -5,7 +5,7 @@ import { taskSelector } from '../../taskSlice';
 import { isAdminSelector, loginSelector } from '../../userFarmSlice';
 import { abandonTask } from '../saga';
 
-function TaskAbandon({ history, match }) {
+function TaskAbandon({ history, match, location }) {
   const { task_id } = match.params;
   const task = useSelector(taskSelector(task_id));
   const { user_id } = useSelector(loginSelector);
@@ -17,7 +17,10 @@ function TaskAbandon({ history, match }) {
   useEffect(() => {
     // Redirect user to the task's read only view if task is abandoned
     // or if user is worker and not assigned to the task
-    if (task.abandon_date || (!isAdmin && task.assignee_user_id !== user_id && task.owner_user_id !== user_id)) {
+    if (
+      task.abandon_date ||
+      (!isAdmin && task.assignee_user_id !== user_id && task.owner_user_id !== user_id)
+    ) {
       history.back();
     }
   }, []);
@@ -34,7 +37,13 @@ function TaskAbandon({ history, match }) {
     if (patchData.abandonment_reason === 'OTHER') {
       patchData.other_abandonment_reason = data.other_abandonment_reason;
     }
-    dispatch(abandonTask({ task_id, patchData }));
+    dispatch(
+      abandonTask({
+        task_id,
+        patchData,
+        returnPath: location.state ? location.state.pathname : null,
+      }),
+    );
   };
 
   const onGoBack = () => {

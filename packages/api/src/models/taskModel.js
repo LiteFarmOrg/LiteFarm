@@ -215,6 +215,22 @@ class TaskModel extends BaseModel {
   }
 
   /**
+   * Gets the type of a task
+   * @param taskId {number} - id of the Task.
+   * @return {Promise<Object>}
+   * @static
+   * @async
+   */
+  static async getTaskType(taskId) {
+    return await TaskModel.query()
+      .join('task_type', 'task.task_type_id', 'task_type.task_type_id')
+      .whereNotDeleted()
+      .select('task_type.*')
+      .where('task.task_id', taskId)
+      .first();
+  }
+
+  /**
    * Gets the tasks that are due this week and are unassigned
    * @param {number} taskIds - the IDs of the task.
    * @static

@@ -20,7 +20,6 @@ const TaskCard = ({
   onClick = null,
   selected,
   happiness,
-  taskCardContents,
   classes = { card: {} },
   ...props
 }) => {
@@ -83,7 +82,6 @@ const TaskCard = ({
           onAssignTask={onAssignTask}
           users={users}
           user={user}
-          taskCardContents={taskCardContents}
           dismissModal={() => setShowTaskAssignModal(false)}
         />
       )}
@@ -113,7 +111,6 @@ TaskCard.propTypes = {
   onClickCompleteOrDueDate: PropTypes.func,
   selected: PropTypes.bool,
   task_id: PropTypes.number,
-  taskCardContents: PropTypes.array,
 };
 
 export default TaskCard;

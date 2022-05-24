@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useFormContext } from 'react-hook-form';
 import Input from '../../Form/Input';
 import PureWarningBox from '../../WarningBox';
 import { Label } from '../../Typography';
@@ -10,16 +11,9 @@ import InputAutoSize from '../../Form/InputAutoSize';
 
 export default function AreaDetails({
   name,
-  register,
   showPerimeter,
-  setValue,
-  getValues,
-  setError,
-  control,
-  watch,
   history,
   children,
-  errors,
   system,
   isCreateLocationPage,
   isViewLocationPage,
@@ -28,6 +22,14 @@ export default function AreaDetails({
   perimeter,
 }) {
   const { t } = useTranslation();
+  const {
+    register,
+    getValues,
+    setValue,
+    watch,
+    control,
+    formState: { errors },
+  } = useFormContext();
   const [errorMessage, setErrorMessage] = useState();
   useEffect(() => {
     const handleOffline = () => setErrorMessage(t('FARM_MAP.AREA_DETAILS.NETWORK'));
@@ -54,7 +56,7 @@ export default function AreaDetails({
         </PureWarningBox>
       )}
       <Input
-        data-cy='createField-fieldName'
+        data-cy="createField-fieldName"
         label={`${name}`}
         type="text"
         style={{ marginBottom: '40px' }}

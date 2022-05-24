@@ -573,7 +573,8 @@
     },
     "TAB": {
       "CROPS": "Cultivo",
-      "DETAILS": "Detalhes"
+      "DETAILS": "Detalhes",
+      "TASKS": "MISSING"
     },
     "TITLE": "Mapa do sítio/fazenda",
     "TUTORIAL": {
@@ -1065,6 +1066,14 @@
     "PAGE_TITLE": "MISSING",
     "TAKE_ME_THERE": "MISSING",
     "TASK_ASSIGNED": {
+      "TITLE": "MISSING",
+      "BODY": "MISSING"
+    },
+    "TASK_REASSIGNED": {
+      "TITLE": "MISSING",
+      "BODY": "MISSING"
+    },
+    "TASK_COMPLETED_BY_OTHER_USER": {
       "TITLE": "MISSING",
       "BODY": "MISSING"
     },

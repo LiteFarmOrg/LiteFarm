@@ -13,13 +13,13 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const userController = require('../controllers/userController');
 const userFarmModel = require('../models/userFarmModel');
 const userModel = require('../models/userModel');
 const userLogModel = require('../models/userLogModel');
 const passwordModel = require('../models/passwordModel');
 const roleModel = require('../models/roleModel');
 const shiftModel = require('../models/shiftModel');
+const emailModel = require('../models/emailTokenModel');
 const { transaction, Model } = require('objection');
 const { emails, sendEmail } = require('../templates/sendEmailTemplate');
 const { createToken } = require('../util/jwt');
@@ -593,7 +593,7 @@ const userFarmController = {
       }
       try {
         const { farm_name } = userFarm;
-        await userController.createTokenSendEmail(userFarm, userFarm, farm_name);
+        await emailModel.createTokenSendEmail(userFarm, userFarm, farm_name);
       } catch (e) {
         console.log(e);
       }

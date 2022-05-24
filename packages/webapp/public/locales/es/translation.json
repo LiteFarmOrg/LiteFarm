@@ -1057,6 +1057,10 @@
       "TITLE": "Tarea asignada",
       "BODY": "Se ha asignado una tarea {{taskType}} a {{assignee}}."
     },
+    "TASK_ABANDONED": {
+      "TITLE": "MISSING",
+      "BODY": "MISSING"
+    },
     "TASK_REASSIGNED": {
       "TITLE": "MISSING",
       "BODY": "MISSING"

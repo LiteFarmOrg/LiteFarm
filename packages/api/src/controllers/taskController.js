@@ -229,6 +229,15 @@ const taskController = {
         .returning('*');
       if (!result) return res.status(404).send('Task not found');
 
+      await sendTaskNotification(
+        assignee_user_id,
+        user_id,
+        task_id,
+        TaskNotificationTypes.TASK_ABANDONED,
+        checkTaskStatus.task_translation_key,
+        farm_id,
+      );
+
       return res.status(200).send(result);
     } catch (error) {
       console.log(error);
@@ -661,18 +670,21 @@ async function getTaskStatus(taskId) {
   return await TaskModel.query()
     .leftOuterJoin('task_type', 'task.task_type_id', 'task_type.task_type_id')
     .select('complete_date', 'abandon_date', 'assignee_user_id', 'task_translation_key')
-    .where({ task_id: taskId })
+    .where('task_id', taskId)
+    .andWhere('task.deleted', false)
     .first();
 }
 
 const TaskNotificationTypes = {
   TASK_ASSIGNED: 'TASK_ASSIGNED',
+  TASK_ABANDONED: 'TASK_ABANDONED',
   TASK_REASSIGNED: 'TASK_REASSIGNED',
   TASK_COMPLETED_BY_OTHER_USER: 'TASK_COMPLETED_BY_OTHER_USER',
 };
 
 const TaskNotificationUserTypes = {
   TASK_ASSIGNED: 'assignee',
+  TASK_ABANDONED: 'abandoner',
   TASK_REASSIGNED: 'assigner',
   TASK_COMPLETED_BY_OTHER_USER: 'assigner',
 };

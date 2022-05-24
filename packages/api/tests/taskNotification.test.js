@@ -94,6 +94,16 @@ describe('Task Notification Tests', () => {
       .end(callback);
   }
 
+  function patchAbandonTaskRequest({ user_id, farm_id }, data, task_id, callback) {
+    chai
+      .request(server)
+      .patch(`/task/abandon/${task_id}`)
+      .set('user_id', user_id)
+      .set('farm_id', farm_id)
+      .send(data)
+      .end(callback);
+  }
+
   describe('Task Reassignment Notification Tests', () => {
     test('Owner will receive a reassignment notification when task has been reassigned to them from a worker', async (done) => {
       const [{ task_type_id }] = await mocks.task_typeFactory({
@@ -217,6 +227,140 @@ describe('Task Notification Tests', () => {
             )
             .where({
               'notification_user.user_id': farmWorker2.user_id,
+              'notification_user.deleted': false,
+              'notification.deleted': false,
+            });
+          expect(notifications.length).toBe(0);
+          done();
+        },
+      );
+    });
+  });
+
+  describe('Task Abandonment Notification Tests', () => {
+    const abandonTaskRequest = { "abandonment_reason":"LABOUR_ISSUE", "abandonment_notes":"", "abandon_date":"2022-05-24" };
+
+    test('A worker should receive an abandonment notification when their task has been abandoned by owner', async (done) => {
+      const [{ task_type_id }] = await mocks.task_typeFactory({
+        promisedFarm: [{ farm_id: farm.farm_id }],
+      });
+      const [{ location_id }] = await mocks.locationFactory({
+        promisedFarm: [{ farm_id: farm.farm_id }],
+      });
+
+      const [{ task_id }] = await mocks.taskFactory(
+        { promisedUser: [{ user_id: farmOwner.user_id }], promisedTaskType: [{ task_type_id }] },
+        mocks.fakeTask({
+          assignee_user_id: farmWorker.user_id,
+        }),
+      );
+
+      await mocks.location_tasksFactory({
+        promisedTask: [{ task_id }],
+        promisedField: [{ location_id }],
+      });
+
+      patchAbandonTaskRequest(
+        { user_id: farmOwner.user_id, farm_id: farm.farm_id },
+        abandonTaskRequest,
+        task_id,
+        async (err, res) => {
+          expect(res.status).toBe(200);
+          const notifications = await knex('notification_user')
+            .join(
+              'notification',
+              'notification.notification_id',
+              'notification_user.notification_id',
+            )
+            .where({
+              'notification_user.user_id': farmWorker.user_id,
+              'notification_user.deleted': false,
+              'notification.deleted': false,
+            });
+          expect(notifications.length).toBe(1);
+          expect(notifications[0].title.translation_key).toBe('NOTIFICATION.TASK_ABANDONED.TITLE');
+          done();
+        },
+      );
+    });
+
+    test('Other workers should not receive an abandonment notification when a worker task has been abandoned by owner', async (done) => {
+      const [{ task_type_id }] = await mocks.task_typeFactory({
+        promisedFarm: [{ farm_id: farm.farm_id }],
+      });
+      const [{ location_id }] = await mocks.locationFactory({
+        promisedFarm: [{ farm_id: farm.farm_id }],
+      });
+
+      const [{ task_id }] = await mocks.taskFactory(
+        { promisedUser: [{ user_id: farmOwner.user_id }], promisedTaskType: [{ task_type_id }] },
+        mocks.fakeTask({
+          assignee_user_id: farmWorker.user_id,
+        }),
+      );
+
+      await mocks.location_tasksFactory({
+        promisedTask: [{ task_id }],
+        promisedField: [{ location_id }],
+      });
+
+      patchAbandonTaskRequest(
+        { user_id: farmOwner.user_id, farm_id: farm.farm_id },
+        abandonTaskRequest,
+        task_id,
+        async (err, res) => {
+          expect(res.status).toBe(200);
+          const notifications = await knex('notification_user')
+            .join(
+              'notification',
+              'notification.notification_id',
+              'notification_user.notification_id',
+            )
+            .where({
+              'notification_user.user_id': farmWorker2.user_id,
+              'notification_user.deleted': false,
+              'notification.deleted': false,
+            });
+          expect(notifications.length).toBe(0);
+          done();
+        },
+      );
+    });
+
+    test('No abandonment notification created when an unassigned task has been abandoned by owner', async (done) => {
+      const [{ task_type_id }] = await mocks.task_typeFactory({
+        promisedFarm: [{ farm_id: farm.farm_id }],
+      });
+      const [{ location_id }] = await mocks.locationFactory({
+        promisedFarm: [{ farm_id: farm.farm_id }],
+      });
+
+      const [{ task_id }] = await mocks.taskFactory(
+        { promisedUser: [{ user_id: farmOwner.user_id }], promisedTaskType: [{ task_type_id }] },
+        mocks.fakeTask({
+          assignee_user_id: null,
+        }),
+      );
+
+      await mocks.location_tasksFactory({
+        promisedTask: [{ task_id }],
+        promisedField: [{ location_id }],
+      });
+
+      patchAbandonTaskRequest(
+        { user_id: farmOwner.user_id, farm_id: farm.farm_id },
+        abandonTaskRequest,
+        task_id,
+        async (err, res) => {
+          expect(res.status).toBe(200);
+          const notifications = await knex('notification_user')
+            .join(
+              'notification',
+              'notification.notification_id',
+              'notification_user.notification_id',
+            )
+            .where({
+              'notification_user.user_id': farmWorker.user_id,
               'notification_user.deleted': false,
               'notification.deleted': false,
             });

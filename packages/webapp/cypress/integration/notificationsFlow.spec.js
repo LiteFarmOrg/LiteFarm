@@ -30,13 +30,23 @@ describe.only('Notifications flow flow tests', () => {
     //clicking on the notifications bell icon should open the notifications centre
     cy.get('[data-cy=home-notificationButton]').should('exist').and('not.be.disabled').click();
     cy.url().should('include', '/notifications');
-  });
 
-  it.only('admin user notifications flow tests', () => {
     //Test for LF-2386
     //set system time to monday 630am
     //login as farm manager
     //check if there are any unassigned tasks due this week on this farm
     //make sure notifications are generated for all unassigned tasks due this week on this farm
+  });
+
+  it('Re-assign notification flow', () => {
+    //Test for LF-2376
+    //Run happy path test
+    //login as an admin user
+    //Create a task
+    //Assign the task to self
+    //Change the assignee of the task to self
+    //check that notification bell has incremented by one
+    //Navigate to notifications view, assert that the newest notification is a reassignment notification for the task
+    //re-assigned task
   });
 });

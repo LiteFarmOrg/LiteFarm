@@ -40,7 +40,7 @@ describe.only('Notifications flow tests', () => {
     //login as farm manager
     cy.visit('/');
     cy.loginFarmOwner();
-    //Create a task
+    //Create unassigned tasks due this week
     cy.visit('/tasks');
     cy.createTask(); //sets the task due date to tomorrow
     //set the clock to monday this week
@@ -52,8 +52,9 @@ describe.only('Notifications flow tests', () => {
     cy.log(alertDateTime);
     cy.clock(alertDateTime);
     cy.wait(3 * 1000);
-    //check if there are any unassigned tasks due this week on this farm
-    //make sure notifications are generated for all unassigned tasks due this week on this farm
+
+    //check notifications are generated for all unassigned tasks due this week on this farm
+    cy.visit('/notifications');
   });
 
   it('Re-assign notification flow', () => {

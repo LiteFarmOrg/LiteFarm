@@ -147,7 +147,6 @@ export default function TaskPage({ history }) {
             key={task.task_id}
             onClick={() => history.push(`/tasks/${task.task_id}/read_only`)}
             style={{ marginBottom: '14px' }}
-            taskCardContents={taskCardContents}
             {...task}
           />
         ))

@@ -380,7 +380,9 @@
       "PEST_CONTROL_PRODUCT": "Produto de controle de pragas",
       "SOIL_AMENDMENT": "Adubação e correção do solo",
       "SOIL_SAMPLE_RESULTS": "Resultados da amostra de solo",
-      "WATER_SAMPLE_RESULTS": "Resultados da amostra de água"
+      "WATER_SAMPLE_RESULTS": "Resultados da amostra de água",
+      "RECEIPTS": "MISSING",
+      "INVOICES": "MISSING"
     },
     "VALID": "Válido"
   },

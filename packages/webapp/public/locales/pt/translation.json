@@ -1066,6 +1066,10 @@
       "TITLE": "MISSING",
       "BODY": "MISSING"
     },
+    "TASK_ABANDONED": {
+      "TITLE": "MISSING",
+      "BODY": "MISSING"
+    },
     "TASK_REASSIGNED": {
       "TITLE": "MISSING",
       "BODY": "MISSING"

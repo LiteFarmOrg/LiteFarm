@@ -183,7 +183,11 @@ export default function PureTaskReadOnly({
         )}
       </div>
 
-      {secondDate && <Input type={'date'} value={secondDate} label={secondDateLabel} disabled />}
+      {secondDate && (
+        <div className={styles.editableContainer}>
+          <Input type={'date'} value={secondDate} label={secondDateLabel} disabled />
+        </div>
+      )}
 
       <Semibold style={{ marginBottom: '12px' }}>{t('TASK.LOCATIONS')}</Semibold>
       {isTaskType(taskType, 'TRANSPLANT_TASK') && (

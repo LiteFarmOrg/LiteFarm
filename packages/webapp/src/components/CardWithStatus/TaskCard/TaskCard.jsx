@@ -95,7 +95,7 @@ export const PureTaskCard = ({
         <div data-cy="taskCard-dueDate" onClick={onAssignDate} className={styles.dateUserContainer}>
           <div
             className={
-              status === 'completed' || status === 'abandoned' || (!isAssignee && !isAdmin)
+              (status === 'completed' || status === 'abandoned') || !isAdmin
                 ? styles.iconTextContainerNoUnderline
                 : styles.iconTextContainer
             }

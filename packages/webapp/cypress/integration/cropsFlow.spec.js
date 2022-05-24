@@ -27,4 +27,15 @@ describe.only('Crops flow tests', () => {
     //Ensure status key section exists on crop variety page
     // ensure statuses are displayed on varietal tile
   });
+
+  it('Complete a crop plan', () => {
+    //test for LF-2178
+    //Complete a crop plan
+    //Open the crop plan's detail page
+    //Completed date should exist
+    //Plan rating should exist
+    //Completion notes should exist
+    //Plan notes should exist
+    //Estimated annual harvest should exist
+  });
 });

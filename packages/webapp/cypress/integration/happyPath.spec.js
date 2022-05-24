@@ -9,7 +9,7 @@ describe.only('LiteFarm end to end test', () => {
     cy.get('[data-cy=continueGoogle]').should('exist');
 
     //create test data
-    const emailOwner = 'test@example.com';
+    const emailOwner = 'mbolokonya@litefarm.org';
     const emailWorker = 'worker@example.com';
     const fullName = 'Test Farmer';
     const password = 'P@ssword123';
@@ -78,14 +78,14 @@ describe.only('LiteFarm end to end test', () => {
     cy.get('[type="radio"]').first().check({ force: true });
     cy.get('[data-cy=certificationSelection-continue]').should('not.be.disabled').click();
 
-    //who is your certifier(select the first option)
+    //who is your certifier(select BCARA)
     cy.contains('Who is your certifier').should('exist');
     cy.url().should('include', '/certification/certifier/selection');
     cy.get('[data-cy=certifierSelection-proceed]').should('exist').and('be.disabled');
-    cy.get('[data-cy=certifierSelection-item]').should('exist').first().click();
+    cy.get('[data-cy=certifierSelection-item]').should('exist').eq(1).click();
     let certifier;
     cy.get('[data-cy=certifierSelection-item]')
-      .first()
+      .eq(1)
       .then(function ($elem) {
         certifier = $elem.text();
         let end = certifier.indexOf('(');

@@ -141,6 +141,40 @@ class userFarm extends Model {
   }
 
   /**
+   * Checks if the user exists on a particular farm.
+   * @param user_id
+   * @param farm_id
+   * @return {Objection.QueryBuilder<userFarm, userFarm>}
+   * @static
+   * @async
+   */
+  static async checkIfUserExistsOnFarm(user_id, farm_id) {
+    return userFarm.query().where({ user_id, farm_id }).first();
+  }
+
+  /**
+   * Gets a userFarm record by email.
+   * @param email
+   * @param farm_id
+   * @param trx - optional transaction
+   * @return {Objection.QueryBuilder<userFarm, userFarm>}
+   */
+  static async getUserFarmByEmail(email, farm_id, trx) {
+    const transaction = trx ?? (await this.startTransaction());
+    const result = await userFarm
+      .query(transaction)
+      .join('users', 'userFarm.user_id', '=', 'users.user_id')
+      .join('farm', 'farm.farm_id', '=', 'userFarm.farm_id')
+      .join('role', 'userFarm.role_id', '=', 'role.role_id')
+      .where({ 'users.email': email, 'userFarm.farm_id': farm_id })
+      .first()
+      .select('*');
+    if (trx === null || trx === undefined) {
+      await transaction.commit();
+    }
+    return result;
+  }
+  /**
    * Gets the userIds of FM/FO/EO from the farm with the given farmId
    * @param {uuid} farmId - The specified user.
    * @static

@@ -1,6 +1,6 @@
 /*
- *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>
- *  This file (sendEmailTemplate.js) is part of LiteFarm.
+ *  Copyright 2019, 2020, 2021, 2022 LiteFarm.org
+ *  This file is part of LiteFarm.
  *
  *  LiteFarm is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -69,15 +69,18 @@ const emailTransporter = new EmailTemplates({
   },
 });
 
-function sendEmail(template_path, replacements, email_to, {
-  sender = 'system@litefarm.org',
-  buttonLink = null,
-  attachments = [],
-}) {
+function sendEmail(
+  template_path,
+  replacements,
+  email_to,
+  { sender = 'system@litefarm.org', buttonLink = null, attachments = [] },
+) {
   try {
     replacements.url = homeUrl();
     replacements.year = new Date().getFullYear();
-    replacements.buttonLink = buttonLink ? `${homeUrl()}${buttonLink}` : `${homeUrl()}/?email=${encodeURIComponent(email_to)}`;
+    replacements.buttonLink = buttonLink
+      ? `${homeUrl()}${buttonLink}`
+      : `${homeUrl()}/?email=${encodeURIComponent(email_to)}`;
     replacements.imgBaseUrl = homeUrl('https://beta.litefarm.org');
     const mailOptions = {
       message: {
@@ -90,8 +93,12 @@ function sendEmail(template_path, replacements, email_to, {
     if (template_path.path === emails.HELP_REQUEST_EMAIL.path) {
       mailOptions.message.cc = 'support@litefarm.org';
     }
-    if (attachments.length && attachments[0] && [emails.HELP_REQUEST_EMAIL.path, emails.MAP_EXPORT_EMAIL.path].includes(template_path.path)) {
-      mailOptions.message.attachments = attachments.map(file => ({
+    if (
+      attachments.length &&
+      attachments[0] &&
+      [emails.HELP_REQUEST_EMAIL.path, emails.MAP_EXPORT_EMAIL.path].includes(template_path.path)
+    ) {
+      mailOptions.message.attachments = attachments.map((file) => ({
         filename: file.originalname,
         content: file.buffer,
       }));
@@ -106,5 +113,3 @@ module.exports = {
   emails,
   sendEmail,
 };
-
-

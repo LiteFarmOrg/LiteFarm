@@ -65,7 +65,7 @@ Cypress.Commands.add('waitForGoogleApi', () => {
 });
 
 Cypress.Commands.add('loginFarmOwner', () => {
-  const emailOwner = 'test@example.com';
+  const emailOwner = 'mbolokonya@litefarm.org';
   const password = 'P@ssword123';
 
   //Enter password page

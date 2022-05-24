@@ -1,4 +1,6 @@
-describe.only('Notifications flow flow tests', () => {
+import { getDateInputFormat } from '../../src/util/moment';
+
+describe.only('Notifications flow tests', () => {
   before(() => {
     //Ensure test environment is setup(i.e. farm exists, user accounts exist, tasks exist)
   });
@@ -16,7 +18,7 @@ describe.only('Notifications flow flow tests', () => {
     cy.url().should('include', '/notifications');
   });
 
-  it.only('admin user notifications flow tests', () => {
+  it('admin user notifications flow tests', () => {
     //Below is the test script for LF-2187 run it after running the happyPath spec
     cy.visit('/');
     cy.loginFarmOwner();
@@ -30,10 +32,26 @@ describe.only('Notifications flow flow tests', () => {
     //clicking on the notifications bell icon should open the notifications centre
     cy.get('[data-cy=home-notificationButton]').should('exist').and('not.be.disabled').click();
     cy.url().should('include', '/notifications');
+  });
 
+  it.only('scheduled notifications', () => {
     //Test for LF-2386
     //set system time to monday 630am
     //login as farm manager
+    cy.visit('/');
+    cy.loginFarmOwner();
+    //Create a task
+    cy.visit('/tasks');
+    cy.createTask(); //sets the task due date to tomorrow
+    //set the clock to monday this week
+
+    const date = new Date();
+    let day = date.getDay();
+    date.setDate(date.getDate() - (day - 1));
+    const alertDateTime = date.setHours(6, 0, 0);
+    cy.log(alertDateTime);
+    cy.clock(alertDateTime);
+    cy.wait(3 * 1000);
     //check if there are any unassigned tasks due this week on this farm
     //make sure notifications are generated for all unassigned tasks due this week on this farm
   });
@@ -42,8 +60,12 @@ describe.only('Notifications flow flow tests', () => {
     //Test for LF-2376
     //Run happy path test
     //login as an admin user
+
     //Create a task
+    cy.visit('/tasks');
+    cy.createTask();
     //Assign the task to self
+    cy.get('[data-cy=taskCard]').eq(0).should('exist').contains('Test F.').click();
     //Change the assignee of the task to self
     //check that notification bell has incremented by one
     //Navigate to notifications view, assert that the newest notification is a reassignment notification for the task

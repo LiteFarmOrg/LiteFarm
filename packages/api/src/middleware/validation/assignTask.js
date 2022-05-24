@@ -14,6 +14,7 @@
  */
 
 const userFarmModel = require('../../models/userFarmModel');
+const TaskModel = require('../../models/taskModel');
 
 const adminRoles = [1, 2, 5];
 
@@ -43,4 +44,31 @@ async function validateAssigneeId(req, res, next) {
   return next();
 }
 
-module.exports = validateAssigneeId;
+async function checkTaskStatusForAssignment(req, res, next) {
+  const { task_id } = req.params;
+  const { assignee_user_id } = req.body;
+
+  const checkTaskStatus = await TaskModel.getTaskStatus(task_id);
+  if (checkTaskStatus.complete_date || checkTaskStatus.abandon_date) {
+    return res.status(400).send('Task has already been completed or abandoned');
+  }
+
+  if (
+    !adminRoles.includes(req.role) &&
+    checkTaskStatus.assignee_user_id != req.user.user_id &&
+    checkTaskStatus.assignee_user_id !== null
+  ) {
+    return res
+      .status(403)
+      .send('Farm workers are not allowed to reassign a task assigned to another worker');
+  }
+
+  // Avoid 1) making an empty update, and 2) sending a redundant notification.
+  if (checkTaskStatus.assignee_user_id === assignee_user_id) return res.sendStatus(200);
+
+  req.checkTaskStatus = checkTaskStatus;
+
+  next();
+}
+
+module.exports = { validateAssigneeId, checkTaskStatusForAssignment };

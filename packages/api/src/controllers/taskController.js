@@ -40,48 +40,20 @@ const taskController = {
       const { task_id } = req.params;
       const { farm_id } = req.headers;
       const { user_id } = req.user;
-      const { assignee_user_id } = req.body;
+      const { assignee_user_id: newAssigneeUserId } = req.body;
+      const { assignee_user_id: oldAssigneeUserId, task_translation_key } = req.checkTaskStatus;
 
-      const checkTaskStatus = await getTaskStatus(task_id);
-      if (checkTaskStatus.complete_date || checkTaskStatus.abandon_date) {
-        return res.status(400).send('Task has already been completed or abandoned');
-      }
+      const result = await TaskModel.assignTask(task_id, newAssigneeUserId, req.user);
 
-      if (
-        !adminRoles.includes(req.role) &&
-        checkTaskStatus.assignee_user_id != req.user.user_id &&
-        checkTaskStatus.assignee_user_id !== null
-      ) {
-        return res
-          .status(403)
-          .send('Farm workers are not allowed to reassign a task assigned to another worker');
-      }
-
-      // Avoid 1) making an empty update, and 2) sending a redundant notification.
-      if (checkTaskStatus.assignee_user_id === assignee_user_id) return res.sendStatus(200);
-
-      const result = await TaskModel.query()
-        .context(req.user)
-        .findById(task_id)
-        .patch({ assignee_user_id });
       if (!result) return res.status(404).send('Task not found');
 
-      await sendTaskNotification(
-        assignee_user_id,
-        null,
+      await sendTaskReassignedNotifications(
         task_id,
-        TaskNotificationTypes.TASK_ASSIGNED,
-        checkTaskStatus.task_translation_key,
+        newAssigneeUserId,
+        oldAssigneeUserId,
+        task_translation_key,
         farm_id,
-      );
-
-      await sendTaskNotification(
-        checkTaskStatus.assignee_user_id,
         user_id,
-        task_id,
-        TaskNotificationTypes.TASK_REASSIGNED,
-        checkTaskStatus.task_translation_key,
-        farm_id,
       );
 
       return res.sendStatus(200);
@@ -94,9 +66,37 @@ const taskController = {
   async assignAllTasksOnDate(req, res) {
     try {
       const { farm_id } = req.headers;
-      const { assignee_user_id, date } = req.body;
+      const { user_id } = req.user;
+      const { assignee_user_id: newAssigneeUserId, date } = req.body;
+      const {
+        assignee_user_id: oldAssigneeUserId,
+        task_translation_key: currentTaskTranslationKey,
+      } = req.checkTaskStatus;
+      const { task_id: current_task_id } = req.params;
       const tasks = await getTasksForFarm(farm_id);
       const taskIds = tasks.map(({ task_id }) => task_id);
+
+      // if the current task was not previously unassigned, assign the current task to newAssigneeUserId
+      if (oldAssigneeUserId !== null) {
+        const updatedTask = await TaskModel.assignTask(
+          current_task_id,
+          newAssigneeUserId,
+          req.user,
+        );
+
+        if (!updatedTask) return res.status(404).send('Task not found');
+
+        await sendTaskReassignedNotifications(
+          current_task_id,
+          newAssigneeUserId,
+          oldAssigneeUserId,
+          currentTaskTranslationKey,
+          farm_id,
+          user_id,
+        );
+      }
+
+      // assign all other unassigned tasks due on this day to newAssigneeUserId
       const available_tasks = await TaskModel.query()
         .leftOuterJoin('task_type', 'task.task_type_id', 'task_type.task_type_id')
         .context(req.user)
@@ -104,7 +104,7 @@ const taskController = {
         .where((builder) => {
           builder.where('due_date', date);
           builder.whereIn('task_id', taskIds);
-          if (assignee_user_id !== null) {
+          if (newAssigneeUserId !== null) {
             builder.where('assignee_user_id', null);
           }
           builder.where('complete_date', null);
@@ -114,20 +114,22 @@ const taskController = {
       const result = await TaskModel.query()
         .context(req.user)
         .patch({
-          assignee_user_id,
+          newAssigneeUserId,
         })
         .whereIn('task_id', availableTaskIds);
       if (result) {
-        available_tasks.forEach(async (task) => {
-          await sendTaskNotification(
-            assignee_user_id,
-            null,
-            task.task_id,
-            TaskNotificationTypes.TASK_ASSIGNED,
-            task.task_translation_key,
-            farm_id,
-          );
-        });
+        await Promise.all(
+          available_tasks.map(async (task) => {
+            await sendTaskNotification(
+              newAssigneeUserId,
+              null,
+              task.task_id,
+              TaskNotificationTypes.TASK_ASSIGNED,
+              task.task_translation_key,
+              farm_id,
+            );
+          }),
+        );
         return res.status(200).send(available_tasks);
       }
       return res.status(404).send('Tasks not found');
@@ -176,7 +178,7 @@ const taskController = {
         abandon_date,
       } = req.body;
 
-      const checkTaskStatus = await getTaskStatus(task_id);
+      const checkTaskStatus = await TaskModel.getTaskStatus(task_id);
       if (checkTaskStatus.complete_date || checkTaskStatus.abandon_date) {
         return res.status(400).send('Task has already been completed or abandoned');
       }
@@ -657,14 +659,6 @@ async function patchManagementPlanStartDate(trx, req, typeOfTask, task = req.bod
   }
 }
 
-async function getTaskStatus(taskId) {
-  return await TaskModel.query()
-    .leftOuterJoin('task_type', 'task.task_type_id', 'task_type.task_type_id')
-    .select('complete_date', 'abandon_date', 'assignee_user_id', 'task_translation_key')
-    .where({ task_id: taskId })
-    .first();
-}
-
 const TaskNotificationTypes = {
   TASK_ASSIGNED: 'TASK_ASSIGNED',
   TASK_REASSIGNED: 'TASK_REASSIGNED',
@@ -708,6 +702,43 @@ async function sendTaskNotification(
     },
     [receiverId],
   );
+}
+
+/**
+ * Sends notifications to the new assignee and old assignee of a task that was reassigned
+ * @param taskId {uuid} - uuid of the task
+ * @param newAssigneeUserId {uuid} - uuid of the user who is being assigned the task
+ * @param oldAssigneeUserId {uuid} - uuid of the user was previously assigned the task
+ * @param taskTranslationKey {String} - a key for translating languages
+ * @param farmId {uuid} - uuid of the farm
+ * @param assignerUserId - {uuid} uuid of the user who assigned the task
+ */
+async function sendTaskReassignedNotifications(
+  taskId,
+  newAssigneeUserId,
+  oldAssigneeUserId,
+  taskTranslationKey,
+  farmId,
+  assignerUserId,
+) {
+  await Promise.all([
+    sendTaskNotification(
+      newAssigneeUserId,
+      null,
+      taskId,
+      TaskNotificationTypes.TASK_ASSIGNED,
+      taskTranslationKey,
+      farmId,
+    ),
+    sendTaskNotification(
+      oldAssigneeUserId,
+      assignerUserId,
+      taskId,
+      TaskNotificationTypes.TASK_REASSIGNED,
+      taskTranslationKey,
+      farmId,
+    ),
+  ]);
 }
 
 /**

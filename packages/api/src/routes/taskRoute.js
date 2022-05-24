@@ -18,7 +18,10 @@ const router = express.Router();
 const hasFarmAccess = require('../middleware/acl/hasFarmAccess');
 const checkScope = require('../middleware/acl/checkScope');
 const { modelMapping, isWorkerToSelfOrAdmin } = require('../middleware/validation/task');
-const validateAssigneeId = require('../middleware/validation/assignTask');
+const {
+  validateAssigneeId,
+  checkTaskStatusForAssignment,
+} = require('../middleware/validation/assignTask');
 const taskController = require('../controllers/taskController');
 const { createOrPatchProduct } = require('../middleware/validation/product');
 
@@ -27,6 +30,7 @@ router.patch(
   hasFarmAccess({ params: 'task_id' }),
   checkScope(['edit:task']),
   validateAssigneeId,
+  checkTaskStatusForAssignment,
   taskController.assignTask,
 );
 
@@ -35,6 +39,7 @@ router.patch(
   hasFarmAccess({ params: 'task_id' }),
   checkScope(['edit:task']),
   validateAssigneeId,
+  checkTaskStatusForAssignment,
   taskController.assignAllTasksOnDate,
 );
 

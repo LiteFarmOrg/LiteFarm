@@ -248,6 +248,37 @@ class TaskModel extends BaseModel {
       `,
     );
   }
+
+  /**
+   * Gets the tasks that are due this week and are unassigned
+   * @param {uuid} taskId - the ID of the task whose status is being checked
+   * @static
+   * @async
+   * @returns {Object} - Object {complete_date, abandon_date, assignee_user_id, task_translation_key}
+   */
+  static async getTaskStatus(taskId) {
+    return await TaskModel.query()
+      .leftOuterJoin('task_type', 'task.task_type_id', 'task_type.task_type_id')
+      .select('complete_date', 'abandon_date', 'assignee_user_id', 'task_translation_key')
+      .where({ task_id: taskId })
+      .first();
+  }
+
+  /**
+   * Gets the tasks that are due this week and are unassigned
+   * @param {uuid} taskId - the ID of the task
+   * @param {uuid} assigneeUserId - the ID of user whose the task is being assigned too
+   * @param {Object} user - the user who requested this task assignment
+   * @static
+   * @async
+   * @returns {Object} - Task Object
+   */
+  static async assignTask(taskId, assigneeUserId, user) {
+    return await TaskModel.query()
+      .context(user)
+      .findById(taskId)
+      .patch({ assignee_user_id: assigneeUserId });
+  }
 }
 
 module.exports = TaskModel;

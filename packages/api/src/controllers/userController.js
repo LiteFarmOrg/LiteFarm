@@ -107,7 +107,7 @@ const userController = {
       gender,
       birth_year,
       phone_number,
-      language
+      language,
     } = req.body;
     let { first_name } = req.body;
     const { type: wageType, amount: wageAmount } = wage || {};
@@ -205,7 +205,7 @@ const userController = {
       res.status(201).send({ ...user, ...userFarm });
       try {
         const { language_preference } =
-          isUserAlreadyCreated ?? const { language_preference } = language
+          isUserAlreadyCreated ?? language
             ? { language_preference: language }
             : await userModel.query().findById(req.user.user_id);
 

@@ -78,6 +78,8 @@ function TaskCrops({
         isRequired={isRequired}
         wildManagementPlanTiles={showWildCrops ? wildManagementPlanTiles : undefined}
         defaultManagementPlanId={location.state.management_plan_id ?? null}
+        history={history}
+        location={location}
       />
     </HookFormPersistProvider>
   );

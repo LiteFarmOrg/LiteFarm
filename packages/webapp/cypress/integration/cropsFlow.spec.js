@@ -38,4 +38,16 @@ describe.only('Crops flow tests', () => {
     //Plan notes should exist
     //Estimated annual harvest should exist
   });
+
+  it('Abandon a task in a crop plan', () => {
+    //test for LF-2213
+    //Abandon a task in a crop plan
+    //Once the task in abandoned the displayed view should be the crop plan
+  });
+
+  it('Complete a task in a crop plan', () => {
+    //test for LF-2213
+    //Complete a task in a crop plan
+    //Once the task in completed the displayed view should be the crop plan
+  });
 });

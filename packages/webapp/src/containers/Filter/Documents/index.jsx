@@ -15,6 +15,8 @@ import {
   UNCATEGORIZED,
   VALID_ON,
   WATER_SAMPLE_RESULTS,
+  RECEIPTS,
+  INVOICES,
 } from '../constants';
 import { documentsFilterSelector, setDocumentsFilter } from '../../filterSlice';
 import { DATE } from '../../../components/Filter/filterTypes';
@@ -23,7 +25,9 @@ const types = [
   CLEANING_PRODUCT,
   CROP_COMPLIANCE,
   FERTILIZING_PRODUCT,
+  INVOICES,
   PEST_CONTROL_PRODUCT,
+  RECEIPTS,
   SOIL_AMENDMENT,
   SOIL_SAMPLE_RESULTS,
   WATER_SAMPLE_RESULTS,

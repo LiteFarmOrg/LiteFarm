@@ -243,6 +243,7 @@ export default function PureNavBar({
           <ClickAwayListener onClickAway={onClickAway}>
             <div className={classes.icons}>
               <IconButton
+                data-cy="home-notificationButton"
                 aria-label="notification icon"
                 color="inherit"
                 id="zerothStepNavBar"
@@ -280,7 +281,7 @@ export default function PureNavBar({
               </PureMyFarmFloater>
 
               <IconButton
-                data-cy="home-notificationButton"
+                data-cy="home-taskButton"
                 aria-label="notification icon"
                 color="inherit"
                 id="secondStepNavBar"

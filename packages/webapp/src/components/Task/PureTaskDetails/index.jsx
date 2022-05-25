@@ -106,7 +106,12 @@ export default function PureTaskDetails({
       <Form
         buttonGroup={
           <div style={{ display: 'flex', flexDirection: 'column', rowGap: '16px', flexGrow: 1 }}>
-            <Button color={'primary'} disabled={!isValid} fullLength>
+            <Button
+              data-cy="addTask-detailsContinue"
+              color={'primary'}
+              disabled={!isValid}
+              fullLength
+            >
               {t('common:CONTINUE')}
             </Button>
           </div>

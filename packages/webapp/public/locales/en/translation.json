@@ -65,7 +65,7 @@
     "HOW_MUCH_IS_HARVESTED": "How much is being harvested?",
     "HR": "/hr",
     "MANAGE_CUSTOM_TASKS": "Manage custom tasks",
-    "NEED_MANAGEMENT_PLAN": "You’ll need an active or planned crop plan before you can schedule a harvest task or transplant task. Go to the crop catalogue to create a plan now.",
+    "NEED_MANAGEMENT_PLAN": "You'll need an active or planned crop plan before you can schedule a harvest task or transplant task. Go to the crop catalogue to create a plan now.",
     "NO_MANAGEMENT_PLAN": "No eligible crop plans",
     "PEST_CONTROL_VIEW": {
       "BIOLOGICAL_CONTROL": "Biological control",
@@ -381,7 +381,9 @@
       "PEST_CONTROL_PRODUCT": "Pest control product",
       "SOIL_AMENDMENT": "Soil amendment",
       "SOIL_SAMPLE_RESULTS": "Soil sample results",
-      "WATER_SAMPLE_RESULTS": "Water sample results"
+      "WATER_SAMPLE_RESULTS": "Water sample results",
+      "RECEIPTS": "Receipts",
+      "INVOICES": "Invoices"
     },
     "VALID": "Valid"
   },
@@ -934,7 +936,7 @@
     "FIRST_MP_SPOTLIGHT": {
       "BODY_PART1": "LiteFarm has generated a few tasks based on your plan. You can add more tasks or assign them on this screen.",
       "BODY_PART2": "Your plan will become active once you complete a task.",
-      "TITLE": "Congrats! You’ve made your first crop plan!"
+      "TITLE": "Congrats! You've made your first crop plan!"
     },
     "FOR_HARVEST": "For harvest",
     "GERMINATION": "Germination",
@@ -1063,17 +1065,25 @@
       "TITLE": "Assigned task",
       "BODY": "A {{taskType}} task has been assigned to {{assignee}}."
     },
+    "TASK_ABANDONED": {
+      "TITLE": "Task abandoned",
+      "BODY": "A {{taskType}} task assigned to you has been abandoned by {{abandoner}}."
+    },
     "TASK_REASSIGNED": {
       "TITLE": "Task re-assigned",
       "BODY": "A {{taskType}} task previously assigned to you has been assigned to someone else by {{assigner}}."
     },
     "TASK_COMPLETED_BY_OTHER_USER": {
       "TITLE": "Task completed",
-      "BODY": "A {{taskType}} task assigned to you has been marked completed by {{assigner}}"
+      "BODY": "A {{taskType}} task assigned to you has been marked completed by {{assigner}}."
     },
     "WEEKLY_UNASSIGNED_TASKS": {
       "TITLE": "Unassigned tasks",
       "BODY": "You have unassigned tasks due this week."
+    },
+    "DAILY_TASKS_DUE_TODAY": {
+      "TITLE": "Tasks due today",
+      "BODY": "You have tasks due today."
     }
   },
   "OUTRO": {

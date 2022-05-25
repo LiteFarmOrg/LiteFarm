@@ -138,7 +138,12 @@ export default function PureTaskReadOnly({
         canCompleteTask &&
         isCurrent && (
           <>
-            <Button color={'primary'} onClick={onComplete} fullLength>
+            <Button
+              data-cy="taskReadOnly-complete"
+              color={'primary'}
+              onClick={onComplete}
+              fullLength
+            >
               {t('common:MARK_COMPLETE')}
             </Button>
           </>
@@ -178,7 +183,11 @@ export default function PureTaskReadOnly({
         )}
       </div>
 
-      {secondDate && <Input type={'date'} value={secondDate} label={secondDateLabel} disabled />}
+      {secondDate && (
+        <div className={styles.editableContainer}>
+          <Input type={'date'} value={secondDate} label={secondDateLabel} disabled />
+        </div>
+      )}
 
       <Semibold style={{ marginBottom: '12px' }}>{t('TASK.LOCATIONS')}</Semibold>
       {isTaskType(taskType, 'TRANSPLANT_TASK') && (

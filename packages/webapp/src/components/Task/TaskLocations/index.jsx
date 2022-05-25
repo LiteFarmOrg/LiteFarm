@@ -86,6 +86,7 @@ export default function PureTaskLocations({
         buttonGroup={
           <>
             <Button
+              data-cy="addTask-locationContinue"
               disabled={!selectedLocations?.length && !(showWildCropCheckBox && show_wild_crop)}
               onClick={onContinue}
               fullLength

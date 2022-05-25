@@ -102,6 +102,7 @@ export default function TaskQuickAssignModal({
       icon={<Person />}
     >
       <ReactSelect
+        data-cy="quickAssign-assignee"
         defaultValue={selectedWorker}
         label={t('ADD_TASK.ASSIGNEE')}
         options={options}
@@ -111,6 +112,7 @@ export default function TaskQuickAssignModal({
       />
       {/*TODO: properly fix checkbox label overflow ST-272*/}
       <Checkbox
+        data-cy="quickAssign-assignAll"
         style={{ paddingRight: '24px' }}
         label={t('ADD_TASK.ASSIGN_ALL_TO_PERSON')}
         onChange={onCheckedAll}

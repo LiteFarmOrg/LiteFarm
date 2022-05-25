@@ -203,8 +203,8 @@ class TaskModel extends BaseModel {
     return await TaskModel.query()
       .whereNotDeleted()
       .join('users', 'task.assignee_user_id', 'users.user_id')
-      .join('userFarm', 'users.user_id', 'userFarm.user_id')
-      .join('role', 'role.role_id', 'userFarm.role_id')
+      .join('userFarm as uf', 'users.user_id', 'uf.user_id')
+      .join('role', 'role.role_id', 'uf.role_id')
       .select(
         TaskModel.knex().raw(
           'users.user_id as assignee_user_id, role.role_id as assignee_role_id, task.wage_at_moment, task.override_hourly_wage',
@@ -260,7 +260,8 @@ class TaskModel extends BaseModel {
     return await TaskModel.query()
       .leftOuterJoin('task_type', 'task.task_type_id', 'task_type.task_type_id')
       .select('complete_date', 'abandon_date', 'assignee_user_id', 'task_translation_key')
-      .where({ task_id: taskId })
+      .where('task_id', taskId)
+      .andWhere('task.deleted', false)
       .first();
   }
 
@@ -277,6 +278,27 @@ class TaskModel extends BaseModel {
     return await TaskModel.query()
       .context(user)
       .patchAndFetchById(taskId, { assignee_user_id: assigneeUserId });
+  }
+
+  /**
+   * Checks whether a given user in a given farm has tasks that are due today
+   * @param {string} userId user id
+   * @param {string} farmId farm id
+   * @returns {Object}
+   * @static
+   * @async
+   * @returns {boolean} true if the user has tasks due today or false if not
+   */
+  static async hasTasksDueTodayForUserFromFarm(userId, farmId) {
+    const tasksDueToday = await TaskModel.query()
+      .select('*')
+      .join('userFarm as uf', 'uf.user_id', 'task.assignee_user_id')
+      .join('task_type', 'task_type.task_type_id', 'task.task_type_id')
+      .where('uf.farm_id', farmId)
+      .andWhere('task.assignee_user_id', userId)
+      .andWhere('task.due_date', new Date());
+
+    return tasksDueToday && tasksDueToday.length;
   }
 }
 

@@ -46,7 +46,6 @@ async function validateAssigneeId(req, res, next) {
 
 async function checkTaskStatusForAssignment(req, res, next) {
   const { task_id } = req.params;
-  const { assignee_user_id } = req.body;
 
   const checkTaskStatus = await TaskModel.getTaskStatus(task_id);
   if (checkTaskStatus.complete_date || checkTaskStatus.abandon_date) {
@@ -62,9 +61,6 @@ async function checkTaskStatusForAssignment(req, res, next) {
       .status(403)
       .send('Farm workers are not allowed to reassign a task assigned to another worker');
   }
-
-  // Avoid 1) making an empty update, and 2) sending a redundant notification.
-  if (checkTaskStatus.assignee_user_id === assignee_user_id) return res.sendStatus(200);
 
   req.checkTaskStatus = checkTaskStatus;
 

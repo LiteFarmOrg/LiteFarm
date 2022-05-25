@@ -43,6 +43,9 @@ const taskController = {
       const { assignee_user_id: newAssigneeUserId } = req.body;
       const { assignee_user_id: oldAssigneeUserId, task_translation_key } = req.checkTaskStatus;
 
+      // Avoid 1) making an empty update, and 2) sending a redundant notification.
+      if (oldAssigneeUserId === newAssigneeUserId) return res.sendStatus(200);
+
       const result = await TaskModel.assignTask(task_id, newAssigneeUserId, req.user);
 
       if (!result) return res.status(404).send('Task not found');
@@ -75,14 +78,12 @@ const taskController = {
       const { task_id: current_task_id } = req.params;
       const tasks = await getTasksForFarm(farm_id);
       const taskIds = tasks.map(({ task_id }) => task_id);
+      let updatedTask;
 
-      // if the current task was not previously unassigned, assign the current task to newAssigneeUserId
-      if (oldAssigneeUserId !== null) {
-        const updatedTask = await TaskModel.assignTask(
-          current_task_id,
-          newAssigneeUserId,
-          req.user,
-        );
+      // if the current task was not previously unassigned or assigned to the same user,
+      // assign the current task to newAssigneeUserId
+      if (oldAssigneeUserId !== null && oldAssigneeUserId !== newAssigneeUserId) {
+        updatedTask = await TaskModel.assignTask(current_task_id, newAssigneeUserId, req.user);
 
         if (!updatedTask) return res.status(404).send('Task not found');
 
@@ -114,7 +115,7 @@ const taskController = {
       const result = await TaskModel.query()
         .context(req.user)
         .patch({
-          newAssigneeUserId,
+          assignee_user_id: newAssigneeUserId,
         })
         .whereIn('task_id', availableTaskIds);
       if (result) {
@@ -130,7 +131,9 @@ const taskController = {
             );
           }),
         );
-        return res.status(200).send(available_tasks);
+        return res
+          .status(200)
+          .send(updatedTask ? [...available_tasks, updatedTask] : available_tasks);
       }
       return res.status(404).send('Tasks not found');
     } catch (error) {
@@ -407,7 +410,6 @@ const taskController = {
         });
         if (result) {
           const taskType = await TaskModel.getTaskType(task_id);
-          console.log(taskType);
           await sendTaskNotification(
             assignee_user_id,
             user_id,

@@ -678,6 +678,112 @@ describe('Task tests', () => {
         },
       );
     });
+
+    test('Farm owner should be able to reassign a task and assign all tasks on date', async (done) => {
+      const [{ user_id: ownerUserId, farm_id }] = await mocks.userFarmFactory({}, fakeUserFarm(1));
+      const [{ user_id: anotherUserId }] = await mocks.userFarmFactory(
+        { promisedFarm: [{ farm_id }] },
+        fakeUserFarm(2),
+      );
+
+      const date = faker.date.future().toISOString().split('T')[0];
+
+      const [assignedTask] = await mocks.taskFactory(
+        { promisedUser: [{ user_id: ownerUserId }] },
+        mocks.fakeTask({ due_date: date, assignee_user_id: ownerUserId }),
+      );
+      const [unassignedTask1] = await mocks.taskFactory(
+        { promisedUser: [{ user_id: ownerUserId }] },
+        mocks.fakeTask({ due_date: date, assignee_user_id: null }),
+      );
+      const [unassignedTask2] = await mocks.taskFactory(
+        { promisedUser: [{ user_id: ownerUserId }] },
+        mocks.fakeTask({ due_date: date, assignee_user_id: null }),
+      );
+
+      const [location_1] = await mocks.locationFactory({ promisedFarm: [{ farm_id }] });
+      await mocks.location_tasksFactory({
+        promisedTask: [assignedTask],
+        promisedField: [location_1],
+      });
+      await mocks.location_tasksFactory({
+        promisedTask: [unassignedTask1],
+        promisedField: [location_1],
+      });
+      await mocks.location_tasksFactory({
+        promisedTask: [unassignedTask2],
+        promisedField: [location_1],
+      });
+
+      assignAllTasksOnDateRequest(
+        { user_id: ownerUserId, farm_id },
+        { assignee_user_id: anotherUserId, date },
+        assignedTask.task_id,
+        async (err, res) => {
+          expect(res.status).toBe(200);
+          const reassignedTask = await getTask(assignedTask.task_id);
+          const updatedTask1 = await getTask(unassignedTask1.task_id);
+          const updatedTask2 = await getTask(unassignedTask2.task_id);
+          expect(reassignedTask.assignee_user_id).toBe(anotherUserId);
+          expect(updatedTask1.assignee_user_id).toBe(anotherUserId);
+          expect(updatedTask2.assignee_user_id).toBe(anotherUserId);
+          done();
+        },
+      );
+    });
+
+    test('Farm worker should not be able to reassign a task and assign all tasks on date', async (done) => {
+      const [{ user_id: ownerUserId, farm_id }] = await mocks.userFarmFactory({}, fakeUserFarm(1));
+      const [{ user_id: workerUserId }] = await mocks.userFarmFactory(
+        { promisedFarm: [{ farm_id }] },
+        fakeUserFarm(3),
+      );
+
+      const date = faker.date.future().toISOString().split('T')[0];
+
+      const [assignedTaskBefore] = await mocks.taskFactory(
+        { promisedUser: [{ user_id: ownerUserId }] },
+        mocks.fakeTask({ due_date: date, assignee_user_id: ownerUserId }),
+      );
+      const [unassignedTask1Before] = await mocks.taskFactory(
+        { promisedUser: [{ user_id: ownerUserId }] },
+        mocks.fakeTask({ due_date: date, assignee_user_id: null }),
+      );
+      const [unassignedTask2Before] = await mocks.taskFactory(
+        { promisedUser: [{ user_id: ownerUserId }] },
+        mocks.fakeTask({ due_date: date, assignee_user_id: null }),
+      );
+
+      const [location_1] = await mocks.locationFactory({ promisedFarm: [{ farm_id }] });
+      await mocks.location_tasksFactory({
+        promisedTask: [assignedTaskBefore],
+        promisedField: [location_1],
+      });
+      await mocks.location_tasksFactory({
+        promisedTask: [unassignedTask1Before],
+        promisedField: [location_1],
+      });
+      await mocks.location_tasksFactory({
+        promisedTask: [unassignedTask2Before],
+        promisedField: [location_1],
+      });
+
+      assignAllTasksOnDateRequest(
+        { user_id: workerUserId, farm_id },
+        { assignee_user_id: workerUserId, date },
+        assignedTaskBefore.task_id,
+        async (err, res) => {
+          expect(res.status).toBe(403);
+          const assignedTaskAfter = await getTask(assignedTaskBefore.task_id);
+          const unassignedTask1After = await getTask(unassignedTask1Before.task_id);
+          const unassignedTask2After = await getTask(unassignedTask2Before.task_id);
+          expect(assignedTaskAfter.assignee_user_id).toBe(ownerUserId);
+          expect(unassignedTask1After.assignee_user_id).toBe(null);
+          expect(unassignedTask2After.assignee_user_id).toBe(null);
+          done();
+        },
+      );
+    });
   });
 
   describe('GET harvest uses', () => {

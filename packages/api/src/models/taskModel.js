@@ -276,8 +276,8 @@ class TaskModel extends BaseModel {
   static async assignTask(taskId, assigneeUserId, user) {
     return await TaskModel.query()
       .context(user)
-      .findById(taskId)
-      .patch({ assignee_user_id: assigneeUserId });
+      // .findById(taskId)
+      .patchAndFetchById(taskId, { assignee_user_id: assigneeUserId });
   }
 }
 

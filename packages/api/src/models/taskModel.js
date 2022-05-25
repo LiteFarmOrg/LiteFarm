@@ -260,12 +260,12 @@ class TaskModel extends BaseModel {
    */
   static async hasTasksDueTodayForUserFromFarm(userId, farmId) {
     const tasksDueToday = await TaskModel.query()
-    .select('*')
-    .join('userFarm as uf', 'uf.user_id', 'task.assignee_user_id')
-    .join('task_type', 'task_type.task_type_id', 'task.task_type_id')
-    .where('uf.farm_id', farmId)
-    .andWhere('task.assignee_user_id', userId)
-    .andWhere('task.due_date', new Date())
+      .select('*')
+      .join('userFarm as uf', 'uf.user_id', 'task.assignee_user_id')
+      .join('task_type', 'task_type.task_type_id', 'task.task_type_id')
+      .where('uf.farm_id', farmId)
+      .andWhere('task.assignee_user_id', userId)
+      .andWhere('task.due_date', new Date());
 
     return tasksDueToday && tasksDueToday.length;
   }

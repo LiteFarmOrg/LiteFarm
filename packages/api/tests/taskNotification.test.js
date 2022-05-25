@@ -238,7 +238,11 @@ describe('Task Notification Tests', () => {
   });
 
   describe('Task Abandonment Notification Tests', () => {
-    const abandonTaskRequest = { "abandonment_reason":"LABOUR_ISSUE", "abandonment_notes":"", "abandon_date":"2022-05-24" };
+    const abandonTaskRequest = {
+      abandonment_reason: 'LABOUR_ISSUE',
+      abandonment_notes: '',
+      abandon_date: '2022-05-24',
+    };
 
     test('A worker should receive an abandonment notification when their task has been abandoned by owner', async (done) => {
       const [{ task_type_id }] = await mocks.task_typeFactory({

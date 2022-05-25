@@ -131,9 +131,7 @@ describe('Time Based Notification Tests', () => {
 
   function postDailyDueTodayTasks(data, callback) {
     const { farm_id } = data;
-    chai.request(server)
-      .post(`/time_notification/daily_due_today_tasks/${farm_id}`)
-      .end(callback);
+    chai.request(server).post(`/time_notification/daily_due_today_tasks/${farm_id}`).end(callback);
   }
 
   // Clean up after test finishes
@@ -378,13 +376,14 @@ describe('Time Based Notification Tests', () => {
 
         postDailyDueTodayTasks({ farm_id: farm.farm_id }, async (err, res) => {
           expect(res.status).toBe(201);
-          const notifications = await knex('notification')
-            .where({
-              'notification.farm_id': farm.farm_id,
-              'notification.deleted': false,
-            });
+          const notifications = await knex('notification').where({
+            'notification.farm_id': farm.farm_id,
+            'notification.deleted': false,
+          });
           expect(notifications.length).toBe(1);
-          expect(notifications[0].title.translation_key).toBe('NOTIFICATION.DAILY_TASKS_DUE_TODAY.TITLE');
+          expect(notifications[0].title.translation_key).toBe(
+            'NOTIFICATION.DAILY_TASKS_DUE_TODAY.TITLE',
+          );
           done();
         });
       });
@@ -397,13 +396,14 @@ describe('Time Based Notification Tests', () => {
 
         postDailyDueTodayTasks({ farm_id: farm.farm_id }, async (err, res) => {
           expect(res.status).toBe(201);
-          const notifications = await knex('notification')
-            .where({
-              'notification.farm_id': farm.farm_id,
-              'notification.deleted': false,
-            });
+          const notifications = await knex('notification').where({
+            'notification.farm_id': farm.farm_id,
+            'notification.deleted': false,
+          });
           expect(notifications.length).toBe(1);
-          expect(notifications[0].title.translation_key).toBe('NOTIFICATION.DAILY_TASKS_DUE_TODAY.TITLE');
+          expect(notifications[0].title.translation_key).toBe(
+            'NOTIFICATION.DAILY_TASKS_DUE_TODAY.TITLE',
+          );
           done();
         });
       });
@@ -421,13 +421,14 @@ describe('Time Based Notification Tests', () => {
 
         postDailyDueTodayTasks({ farm_id: farm.farm_id }, async (err, res) => {
           expect(res.status).toBe(201);
-          const notifications = await knex('notification')
-            .where({
-              'notification.farm_id': farm.farm_id,
-              'notification.deleted': false,
-            });
+          const notifications = await knex('notification').where({
+            'notification.farm_id': farm.farm_id,
+            'notification.deleted': false,
+          });
           expect(notifications.length).toBe(2);
-          expect(notifications[0].title.translation_key).toBe('NOTIFICATION.DAILY_TASKS_DUE_TODAY.TITLE');
+          expect(notifications[0].title.translation_key).toBe(
+            'NOTIFICATION.DAILY_TASKS_DUE_TODAY.TITLE',
+          );
           done();
         });
       });
@@ -443,11 +444,10 @@ describe('Time Based Notification Tests', () => {
 
         postDailyDueTodayTasks({ farm_id: farm2.farm_id }, async (err, res) => {
           expect(res.status).toBe(200);
-          const notifications = await knex('notification')
-            .where({
-              'notification.farm_id': farm2.farm_id,
-              'notification.deleted': false,
-            });
+          const notifications = await knex('notification').where({
+            'notification.farm_id': farm2.farm_id,
+            'notification.deleted': false,
+          });
           expect(notifications.length).toBe(0);
           done();
         });

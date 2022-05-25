@@ -65,7 +65,7 @@
     "HOW_MUCH_IS_HARVESTED": "How much is being harvested?",
     "HR": "/hr",
     "MANAGE_CUSTOM_TASKS": "Manage custom tasks",
-    "NEED_MANAGEMENT_PLAN": "You’ll need an active or planned crop plan before you can schedule a harvest task or transplant task. Go to the crop catalogue to create a plan now.",
+    "NEED_MANAGEMENT_PLAN": "You'll need an active or planned crop plan before you can schedule a harvest task or transplant task. Go to the crop catalogue to create a plan now.",
     "NO_MANAGEMENT_PLAN": "No eligible crop plans",
     "PEST_CONTROL_VIEW": {
       "BIOLOGICAL_CONTROL": "Biological control",
@@ -936,7 +936,7 @@
     "FIRST_MP_SPOTLIGHT": {
       "BODY_PART1": "LiteFarm has generated a few tasks based on your plan. You can add more tasks or assign them on this screen.",
       "BODY_PART2": "Your plan will become active once you complete a task.",
-      "TITLE": "Congrats! You’ve made your first crop plan!"
+      "TITLE": "Congrats! You've made your first crop plan!"
     },
     "FOR_HARVEST": "For harvest",
     "GERMINATION": "Germination",

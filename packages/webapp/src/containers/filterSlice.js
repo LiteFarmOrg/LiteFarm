@@ -135,7 +135,7 @@ const filterSliceReducer = createSlice({
       };
       state.tasks.ASSIGNEE[user_id].active = true;
       state.tasks.ASSIGNEE[user_id].label = `${first_name} ${last_name}`;
-    }
+    },
   },
 });
 

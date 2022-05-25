@@ -75,13 +75,13 @@ const timeNotificationController = {
       if (activeUsers && activeUsers.length) {
         const tasksDueTodayNotificationUsers = [];
         for (const { user_id } of activeUsers) {
-          const hasTasksDueToday = await TaskModel.hasTasksDueTodayForUserFromFarm(user_id, farm_id);
+          const hasTasksDueToday = await TaskModel.hasTasksDueTodayForUserFromFarm(
+            user_id,
+            farm_id,
+          );
 
           if (hasTasksDueToday) {
-            await sendDailyDueTodayTaskNotification(
-              farm_id,
-              user_id,
-            );
+            await sendDailyDueTodayTaskNotification(farm_id, user_id);
             tasksDueTodayNotificationUsers.push(user_id);
           }
         }
@@ -130,10 +130,7 @@ async function sendWeeklyUnassignedTaskNotifications(
  * @param {String} userId
  * @async
  */
-async function sendDailyDueTodayTaskNotification(
-  farmId,
-  userId,
-) {
+async function sendDailyDueTodayTaskNotification(farmId, userId) {
   await NotificationUser.notify(
     {
       title: { translation_key: 'NOTIFICATION.DAILY_TASKS_DUE_TODAY.TITLE' },

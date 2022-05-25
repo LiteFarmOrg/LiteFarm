@@ -1,7 +1,7 @@
 import { getDateInputFormat } from '../../src/util/moment';
 
 describe.only('LiteFarm end to end test', () => {
-  it('Happy path', { defaultCommandTimeout: 7000 }, () => {
+  it.only('Happy path', { defaultCommandTimeout: 7000 }, () => {
     cy.visit('/');
     cy.get('[data-cy=email]').should('exist');
     cy.get('[data-cy=continue]').should('exist');
@@ -9,7 +9,7 @@ describe.only('LiteFarm end to end test', () => {
     cy.get('[data-cy=continueGoogle]').should('exist');
 
     //create test data
-    const emailOwner = 'test@example.com';
+    const emailOwner = 'mbolokonya@litefarm.org';
     const emailWorker = 'worker@example.com';
     const fullName = 'Test Farmer';
     const password = 'P@ssword123';
@@ -78,14 +78,14 @@ describe.only('LiteFarm end to end test', () => {
     cy.get('[type="radio"]').first().check({ force: true });
     cy.get('[data-cy=certificationSelection-continue]').should('not.be.disabled').click();
 
-    //who is your certifier(select the first option)
+    //who is your certifier(select BCARA)
     cy.contains('Who is your certifier').should('exist');
     cy.url().should('include', '/certification/certifier/selection');
     cy.get('[data-cy=certifierSelection-proceed]').should('exist').and('be.disabled');
-    cy.get('[data-cy=certifierSelection-item]').should('exist').first().click();
+    cy.get('[data-cy=certifierSelection-item]').should('exist').eq(1).click();
     let certifier;
     cy.get('[data-cy=certifierSelection-item]')
-      .first()
+      .eq(1)
       .then(function ($elem) {
         certifier = $elem.text();
         let end = certifier.indexOf('(');
@@ -233,6 +233,7 @@ describe.only('LiteFarm end to end test', () => {
     cy.get('[data-cy=crop-cropName]').should('exist').type(testCrop);
     cy.contains('Select').should('exist').click({ force: true });
     cy.contains('Cereals').should('exist').click();
+    cy.get('[type="radio"]').first().check({ force: true });
     cy.get('[data-cy=crop-submit]').should('exist').and('not.be.disabled').click();
 
     cy.url().should('include', '/crop/new/add_crop_variety');
@@ -314,7 +315,7 @@ describe.only('LiteFarm end to end test', () => {
     cy.get('[data-cy=rowMethod-length]').should('exist').should('have.value', '').type('30');
     cy.get('[data-cy=rowMethod-spacing]').should('exist').should('have.value', '').type('15');
     cy.contains('row').click();
-    cy.get('[data-cy=rowMethod-yeild]').should('exist').should('have.value', '').type('1500');
+    cy.get('[data-cy=rowMethod-yield]').should('exist').should('have.value', '').type('1500');
     cy.contains('row').click();
 
     cy.get('[data-cy=rowMethod-submit]').should('exist').and('not.be.disabled').click();
@@ -371,5 +372,22 @@ describe.only('LiteFarm end to end test', () => {
     //logout
     //cy.get('[data-cy=home-profileButton]').should('exist').click();
     //cy.get('[data-cy=navbar-option]').contains('Log Out').should('exist').and('not.be.disabled').click();
+  });
+
+  it('Browser local detection', () => {
+    //Test for LF-2368
+    cy.visit('/', {
+      onBeforeLoad(win) {
+        // solution is here
+        Object.defineProperty(win.navigator, 'languages', {
+          value: ['fr-FR'],
+        });
+      },
+    });
+
+    cy.contains('CONTINUER AVEC GOOGLE').should('exist');
+    cy.get('[data-cy=email]').type('french@test.com');
+    cy.contains('Continue').should('exist').and('be.enabled').click();
+    cy.contains('Créer un nouveau compte utilisateur').should('exist');
   });
 });

@@ -18,6 +18,8 @@ export const WATER_SAMPLE_RESULTS = 'WATER_SAMPLE_RESULTS';
 export const OTHER = 'OTHER';
 export const VALID_ON = 'VALID_ON';
 export const UNCATEGORIZED = 'UNCATEGORIZED';
+export const RECEIPTS = 'RECEIPTS';
+export const INVOICES = 'INVOICES';
 
 export const CROP = 'CROP';
 export const ASSIGNEE = 'ASSIGNEE';

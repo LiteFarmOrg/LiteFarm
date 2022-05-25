@@ -61,6 +61,13 @@ export const taskCardContentSelector = createSelector(
   getTaskContents,
 );
 
+export const manualFilteredTaskCardContentSelector = (filter) =>
+  createSelector(
+    [tasksSelector, userFarmEntitiesSelector, loginSelector],
+    (tasks, userFarmEntities, userFarm) =>
+      getTaskContents(filter(tasks), userFarmEntities, userFarm),
+  );
+
 export const filteredTaskCardContentSelector = createSelector(
   [tasksSelector, tasksFilterSelector, userFarmEntitiesSelector, loginSelector],
   (tasks, filters, userFarmEntities, userFarm) =>
@@ -80,7 +87,7 @@ export const taskCardContentByManagementPlanSelector = (management_plan_id) =>
 export const getTaskStatus = (task) => {
   if (task.complete_date) return 'completed';
   if (task.abandon_date) return 'abandoned';
-  if (new Date(task.due_date) > Date.now()) return 'planned';
+  if (new Date(task.due_date) >= new Date().setHours(0, 0, 0, 0)) return 'planned';
   return 'late';
 };
 

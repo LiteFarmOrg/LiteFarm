@@ -1,6 +1,6 @@
 /*
- *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>
- *  This file (selectors.js) is part of LiteFarm.
+ *  Copyright 2019, 2020, 2021, 2022 LiteFarm.org
+ *  This file is part of LiteFarm.
  *
  *  LiteFarm is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -28,6 +28,16 @@ const labourHappinessSelector = createSelector(
 
 const biodiversitySelector = createSelector(insightSelector, (state) => state.biodiversityData);
 
+const biodiversityLoadingSelector = createSelector(
+  insightSelector,
+  (state) => state.biodiversityLoading,
+);
+
+const biodiversityErrorSelector = createSelector(
+  insightSelector,
+  (state) => state.biodiversityError,
+);
+
 const pricesSelector = createSelector(insightSelector, (state) => state.pricesData);
 
 const pricesDistanceSelector = createSelector(insightSelector, (state) => state.pricesDistance);
@@ -54,6 +64,8 @@ export {
   soilOMSelector,
   labourHappinessSelector,
   biodiversitySelector,
+  biodiversityLoadingSelector,
+  biodiversityErrorSelector,
   pricesSelector,
   pricesDistanceSelector,
   waterBalanceSelector,

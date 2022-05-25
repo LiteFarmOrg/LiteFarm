@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import Button from '../../Form/Button';
 import LocationPicker from '../../LocationPicker/SingleLocationPicker';
 import { useTranslation } from 'react-i18next';
@@ -22,6 +22,7 @@ export default function PureTaskLocations({
   title,
   maxZoomRef,
   getMaxZoom,
+  defaultLocation,
 }) {
   const { t } = useTranslation();
   const progress = 43;
@@ -60,6 +61,12 @@ export default function PureTaskLocations({
     );
   };
 
+  useEffect(() => {
+    defaultLocation &&
+      locations.some((location) => location.location_id === defaultLocation.location_id) &&
+      onSelectLocation(defaultLocation.location_id);
+  }, [defaultLocation]);
+
   const getSelectedLocations = (location_id, selectedLocations) => {
     const isSelected = selectedLocations
       .map((location) => location.location_id)
@@ -79,6 +86,7 @@ export default function PureTaskLocations({
         buttonGroup={
           <>
             <Button
+              data-cy="addTask-locationContinue"
               disabled={!selectedLocations?.length && !(showWildCropCheckBox && show_wild_crop)}
               onClick={onContinue}
               fullLength

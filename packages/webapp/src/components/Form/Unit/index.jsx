@@ -238,16 +238,6 @@ const Unit = ({
     hookFormSetHiddenValue(hookFormValue, { shouldValidate: true, shouldDirty: false });
   }, []);
 
-  useEffect(() => {
-    if (hookFormUnit && hookFormValue !== undefined) {
-      setVisibleInputValue(
-        roundToTwoDecimal(convert(hookFormValue).from(databaseUnit).to(hookFormUnit)),
-      );
-      //Trigger validation
-      (hookFormValue === 0 || hookFormValue > 0) && hookFormSetHiddenValue(hookFormValue);
-    }
-  }, [hookFormUnit]);
-
   const inputOnChange = (e) => {
     setVisibleInputValue(e.target.value);
     mode === 'onChange' && inputOnBlur(e);
@@ -369,6 +359,7 @@ const Unit = ({
           name={displayUnitName}
           render={({ field: { onChange, onBlur, value, name, ref } }) => (
             <Select
+              data-cy="unit-select"
               onBlur={onBlur}
               onChange={(e) => {
                 onChange(e);

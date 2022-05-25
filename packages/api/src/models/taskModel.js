@@ -203,8 +203,8 @@ class TaskModel extends BaseModel {
     return await TaskModel.query()
       .whereNotDeleted()
       .join('users', 'task.assignee_user_id', 'users.user_id')
-      .join('userFarm', 'users.user_id', 'userFarm.user_id')
-      .join('role', 'role.role_id', 'userFarm.role_id')
+      .join('userFarm as uf', 'users.user_id', 'uf.user_id')
+      .join('role', 'role.role_id', 'uf.role_id')
       .select(
         TaskModel.knex().raw(
           'users.user_id as assignee_user_id, role.role_id as assignee_role_id, task.wage_at_moment, task.override_hourly_wage',
@@ -212,6 +212,62 @@ class TaskModel extends BaseModel {
       )
       .where('task.task_id', taskId)
       .first();
+  }
+
+  /**
+   * Gets the type of a task
+   * @param taskId {number} - id of the Task.
+   * @return {Promise<Object>}
+   * @static
+   * @async
+   */
+  static async getTaskType(taskId) {
+    return await TaskModel.query()
+      .join('task_type', 'task.task_type_id', 'task_type.task_type_id')
+      .whereNotDeleted()
+      .select('task_type.*')
+      .where('task.task_id', taskId)
+      .first();
+  }
+
+  /**
+   * Gets the tasks that are due this week and are unassigned
+   * @param {number} taskIds - the IDs of the task.
+   * @static
+   * @async
+   * @returns {Object} - Object {task_type_id, task_id}
+   */
+  static async getUnassignedTasksDueThiWeekFromIds(taskIds) {
+    return await TaskModel.query().select('*').whereIn('task_id', taskIds).whereRaw(
+      `
+      task.assignee_user_id IS NULL
+      AND task.complete_date IS NULL
+      AND task.abandon_date IS NULL
+      AND task.due_date <= (now() + interval '1 week')::date
+      AND task.due_date >= now()::date
+      `,
+    );
+  }
+
+  /**
+   * Checks whether a given user in a given farm has tasks that are due today
+   * @param {string} userId user id
+   * @param {string} farmId farm id
+   * @returns {Object}
+   * @static
+   * @async
+   * @returns {boolean} true if the user has tasks due today or false if not
+   */
+  static async hasTasksDueTodayForUserFromFarm(userId, farmId) {
+    const tasksDueToday = await TaskModel.query()
+      .select('*')
+      .join('userFarm as uf', 'uf.user_id', 'task.assignee_user_id')
+      .join('task_type', 'task_type.task_type_id', 'task.task_type_id')
+      .where('uf.farm_id', farmId)
+      .andWhere('task.assignee_user_id', userId)
+      .andWhere('task.due_date', new Date());
+
+    return tasksDueToday && tasksDueToday.length;
   }
 }
 

@@ -106,6 +106,7 @@ export function PureCompleteManagementPlan({
                 }}
                 value={value}
                 style={{ marginBottom: '40px' }}
+                placeholder={t(`common:SELECT`)}
               />
             )}
           />

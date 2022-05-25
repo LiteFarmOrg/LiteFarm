@@ -1177,5 +1177,3 @@ describe('User Farm Tests', () => {
     });
   });
 });
-
-/* global jest describe test expect beforeEach afterAll */

@@ -124,6 +124,18 @@ class User extends Model {
     const user = await User.query().findById(userId).first();
     return `${user?.first_name} ${user?.last_name}`;
   }
+
+  /**
+   * Gets a user by their email.
+   * @param {string} email
+   * @return {Objection.QueryBuilder<User, User>}
+   * @static
+   * @async
+   */
+  static async getUserByEmail(email) {
+    console.log('Getting user by email');
+    return User.query().where('email', email).first();
+  }
 }
 
 module.exports = User;

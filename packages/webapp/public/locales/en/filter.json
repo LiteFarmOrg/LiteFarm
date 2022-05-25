@@ -18,7 +18,9 @@
     "SOIL_AMENDMENT": "Soil amendment",
     "SOIL_SAMPLE_RESULTS": "Soil sample results",
     "WATER_SAMPLE_RESULTS": "Water sample results",
-    "UNCATEGORIZED": "Uncategorized"
+    "UNCATEGORIZED": "Uncategorized",
+    "RECEIPTS": "Receipts",
+    "INVOICES": "Invoices"
   },
   "TASK": {
     "LOCATION": "Location",

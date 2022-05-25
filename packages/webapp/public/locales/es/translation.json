@@ -8,7 +8,7 @@
     "FARM_LOCATION": "Ubicación de la finca",
     "FARM_LOCATION_INPUT_INFO": "Dirección de la calle o usa latitud y longitud separadas con una coma (p. ej 49.250945, -123.238492)",
     "FARM_NAME": "Nombre de la finca",
-    "INVALID_FARM_LOCATION": "MISSING",
+    "INVALID_FARM_LOCATION": "Ningún país para esta ubicación",
     "LOCATING": "Localizando...",
     "NO_ADDRESS": "Ubicación no encontrada! Trate latitud y longitud",
     "TELL_US_ABOUT_YOUR_FARM": "Cuéntenos sobre su finca"
@@ -351,10 +351,10 @@
     "ARCHIVE_DOCUMENT": "Archivar documento",
     "ARCHIVE_DOCUMENT_TEXT": "Archivar este documento lo moverá a la sección de archivado de sus documentos, pero no lo eliminará. Los documentos archivados no se exportarán para sus certificaciones. Quiere proceder?",
     "ARCHIVED": "Archivado",
-    "UNARCHIVE": "MISSING",
-    "UNARCHIVE_DOCUMENT": "MISSING",
-    "UNARCHIVE_DOCUMENT_TEXT": "MISSING",
-    "UNARCHIVED": "MISSING",
+    "UNARCHIVE": "Desarchivar",
+    "UNARCHIVE_DOCUMENT": "¿Desarchivar documento?",
+    "UNARCHIVE_DOCUMENT_TEXT": "Desarchivar este documento lo devolverá a su lista de documentos actualmente válidos. Los documentos válidos se exportarán para sus certificaciones. Quiere proceder?",
+    "UNARCHIVED": "Desarchivado",
     "CANCEL": "Cancelar",
     "COMPLIANCE_DOCUMENTS_AND_CERTIFICATION": "Documentos de cumplimiento y su certificación",
     "DOCUMENTS": "Documentos",
@@ -380,7 +380,9 @@
       "PEST_CONTROL_PRODUCT": "Producto de control de plagas",
       "SOIL_AMENDMENT": "Fertilización y correción del suelo",
       "SOIL_SAMPLE_RESULTS": "Resultados de muestras del suelo",
-      "WATER_SAMPLE_RESULTS": "Resultados de la muestra de agua"
+      "WATER_SAMPLE_RESULTS": "Resultados de la muestra de agua",
+      "RECEIPTS": "MISSING",
+      "INVOICES": "MISSING"
     },
     "VALID": "Válido"
   },
@@ -571,7 +573,8 @@
     },
     "TAB": {
       "CROPS": "Cultivo",
-      "DETAILS": "Detalles"
+      "DETAILS": "Detalles",
+      "TASKS": "MISSING"
     },
     "TITLE": "Mapa de granja",
     "TUTORIAL": {
@@ -642,7 +645,7 @@
     "DATE": "Fecha",
     "ESTIMATED_REVENUE": {
       "ESTIMATED_ANNUAL_REVENUE": "Ingresos anuales estimados",
-      "ESTIMATED_ANNUAL_YIELD": "MISSING",
+      "ESTIMATED_ANNUAL_YIELD": "Cosecha anual estimada",
       "ESTIMATED_PRICE_PER_UNIT": "Precio estimado por unidad",
       "TITLE": "Ingresos estimados"
     },
@@ -680,11 +683,11 @@
       "INFO": "La biodiversidad es excelente para las personas y el planeta. Contamos la riqueza de especies de todos los registros conocidos de biodiversidad en su finca desde los límites de su finca. Puede aumentar la biodiversidad de los cultivos en su granja agregando cultivos adicionales. Puede aumentar el recuento de biodiversidad no agrícola en su granja registrando ubicaciones en https://www.inaturalist.org/app.",
       "INSECTS": "Insectos",
       "PLANTS": "Plantas",
-      "SPECIES_COUNT": "{{count}} Especies",
-      "SPECIES_COUNT_one": "MISSING",
-      "SPECIES_COUNT_many": "MISSING",
-      "SPECIES_COUNT_other": "MISSING",
-      "SPECIES_COUNT_plural": "{{count}} Especies",
+      "SPECIES_COUNT": "{{count}} especies",
+      "SPECIES_COUNT_one": "{{count}} especies",
+      "SPECIES_COUNT_many": "{{count}} especies",
+      "SPECIES_COUNT_other": "{{count}} especies",
+      "SPECIES_COUNT_plural": "{{count}} especies",
       "TITLE": "Biodiversidad"
     },
     "CURRENT": "Actual",
@@ -699,9 +702,9 @@
       "CHOOSE_A_FREQUENCY": "Escoja una frecuencia",
       "CHOOSE_FREQUENCY": "Escoja Frecuencia...",
       "COUNT_MONTHS": "{{count}} mese",
-      "COUNT_MONTHS_one": "MISSING",
-      "COUNT_MONTHS_many": "MISSING",
-      "COUNT_MONTHS_other": "MISSING",
+      "COUNT_MONTHS_one": "{{count}} mese",
+      "COUNT_MONTHS_many": "{{count}} meses",
+      "COUNT_MONTHS_other": "{{count}} meses",
       "COUNT_MONTHS_plural": "{{count}} meses",
       "CYCLE_INDICATOR": "Su balance de nitrogeno esta en {{frequency}} meses por ciclo y la data se vera en: {{refreshDate}}",
       "FIRST_TIME": "Parece que es la primera vez que corres esto! Por favor, selecciona una frecuencia para calcular su balance de nitrogeno",
@@ -718,9 +721,9 @@
       "HEADER": "Numero de comidas",
       "INFO": "Estimamos el numero de comidas potenciales provistas por su granja basandonos en los datos de sus ventas y la base de datos de la composicion de cultivos. Asumimos que los requerimientos diarios se dividen en partes iguales en 3 comidas al dia.",
       "MEAL_COUNT": "{{count}} comida",
-      "MEAL_COUNT_one": "MISSING",
-      "MEAL_COUNT_many": "MISSING",
-      "MEAL_COUNT_other": "MISSING",
+      "MEAL_COUNT_one": "{{count}} comida",
+      "MEAL_COUNT_many": "{{count}} comidas",
+      "MEAL_COUNT_other": "{{count}} comidas",
       "MEAL_COUNT_plural": "{{count}} comidas",
       "MEALS": "Comidas",
       "PROTEIN": "Proteina",
@@ -730,10 +733,10 @@
     },
     "PRICES": {
       "INFO": "Se mostramos la trayectoria de sus precios de venta contra el precio de venta de los mismos bienes en una distancia dada de su granja, recolectadas a traves de la red de Litefarm.",
-      "NEARBY_FARMS": "Buscando data de ventas de {{count}} granja",
-      "NEARBY_FARMS_one": "MISSING",
-      "NEARBY_FARMS_many": "MISSING",
-      "NEARBY_FARMS_other": "MISSING",
+      "NEARBY_FARMS": "El precio del mercado se basa en {{count}} granjas en su área local",
+      "NEARBY_FARMS_one": "El precio del mercado se basa en {{count}} granja en su área local",
+      "NEARBY_FARMS_many": "El precio del mercado se basa en {{count}} granjas en su área local",
+      "NEARBY_FARMS_other": "El precio del mercado se basa en {{count}} granjas en su área local",
       "NEARBY_FARMS_plural": "Buscando data de ventas de {{count}} granjas",
       "NETWORK_PRICE": "Precio de red",
       "NO_ADDRESS": "Actualmente no tienes una direccion en Litefarm. Por favor actualizala en su Perfil para obtener data de ventas cercanas.",
@@ -907,7 +910,7 @@
       },
       "WHAT_HAPPENED": "¿Qué sucedió?"
     },
-    "COMPLETION_NOTES": "MISSING",
+    "COMPLETION_NOTES": "Notas de conclusión",
     "CONTAINER": "Maceta",
     "CONTAINER_OR_IN_GROUND": "¿Está plantando en una maceta o en el suelo?",
     "CONTAINER_TYPE": "Tipo de maceta",
@@ -924,7 +927,7 @@
     "DURATION_TOOLTIP": "Estos son valores sugeridos. Ajústelo a las condiciones locales.",
     "EDITING_PLAN_WILL_NOT_MODIFY": "La edición de este plan no modificará las tareas asignadas.",
     "ESTIMATED_SEED": "Semilla estimada es obligatoria",
-    "ESTIMATED_YIELD": "MISSING",
+    "ESTIMATED_YIELD": "Cosecha anual estimada",
     "FIRST_MP_SPOTLIGHT": {
       "BODY_PART1": "LiteFarm ha generado algunas tareas basadas en su plan. Puede agregar más tareas o asignarlas en esta pantalla.",
       "BODY_PART2": "Su plan se activará una vez que complete una tarea.",
@@ -966,7 +969,7 @@
     "PLANTING_NOTE": "Notas de la siembra",
     "PLANTING_SOIL": "Suelo de siembra que se utilizará",
     "PLANTS_PER_CONTAINER": "# de plantas/maceta",
-    "RATE_THIS_MANAGEMENT_PLAN": "MISSING",
+    "RATE_THIS_MANAGEMENT_PLAN": "Valora este plan de manejo",
     "REMOVE_PIN": "Quitar el pin",
     "ROW_METHOD": {
       "HISTORICAL_SAME_LENGTH": "¿Tenían todas las filas la misma longitud?",
@@ -1049,11 +1052,31 @@
     }
   },
   "NOTIFICATION": {
-    "NONE_TO_DISPLAY": "MISSING",
+    "NONE_TO_DISPLAY": "No hay notificaciones para mostrar.",
     "NOTIFICATION_TEASER": "Proximamente!",
-    "PAGE_TITLE": "MISSING",
-    "TAKE_ME_THERE": "MISSING",
+    "PAGE_TITLE": "Notificaciones",
+    "TAKE_ME_THERE": "Llévame allí",
     "TASK_ASSIGNED": {
+      "TITLE": "Tarea asignada",
+      "BODY": "Se ha asignado una tarea {{taskType}} a {{assignee}}."
+    },
+    "TASK_ABANDONED": {
+      "TITLE": "MISSING",
+      "BODY": "MISSING"
+    },
+    "TASK_REASSIGNED": {
+      "TITLE": "MISSING",
+      "BODY": "MISSING"
+    },
+    "TASK_COMPLETED_BY_OTHER_USER": {
+      "TITLE": "MISSING",
+      "BODY": "MISSING"
+    },
+    "WEEKLY_UNASSIGNED_TASKS": {
+      "TITLE": "MISSING",
+      "BODY": "MISSING"
+    },
+    "DAILY_TASKS_DUE_TODAY": {
       "TITLE": "MISSING",
       "BODY": "MISSING"
     }
@@ -1088,7 +1111,7 @@
     "SPECIFY": "Especificar {{types}}",
     "SPECIFY_PLACEHOLDER": "Eje. {{types}} 1-4",
     "TOOLTIP": "Los primeros 40 caracteres de este campo se mostrarán en cualquier lugar donde esté visible su plan de cultivo.",
-    "WIDTH": "{{type}} la anchcho",
+    "WIDTH": "El ancho de {{type}} ",
     "WORD_LIMIT": "Solo se pueden mostrar {{limit}} caracteres"
   },
   "PREPARING_EXPORT": {
@@ -1317,14 +1340,14 @@
     "EMAIL_INVALID": "Correo invalido",
     "ENTER_EMAIL": "Ingresar Correo",
     "EXPIRED_ERROR": "Hemos actualizado nuestra infraestructura y deberá restablecer su contraseña. Revise su bandeja de entrada para continuar.",
-    "EXPIRED_INVITATION_LINK_ERROR": "MISSING",
+    "EXPIRED_INVITATION_LINK_ERROR": "La invitación no está válida o caducada",
     "GOOGLE_BUTTON": "Continúe con Google",
     "INVITED_ERROR": "Faltante",
     "LITEFARM_UPDATED": "¡Hemos actualizado LiteFarm!",
     "PASSWORD_ERROR": "Contraseña incorrecta",
     "SIGN_IN": "Registrarse",
     "SSO_ERROR": "Por favor inicie sesión haciendo clic el boton Google de arriba",
-    "USED_INVITATION_LINK_ERROR": "MISSING",
+    "USED_INVITATION_LINK_ERROR": "Esta invitación ya se ha utilizado, inicie sesión para acceder a esta granja",
     "WELCOME_BACK": "Bienvenido",
     "WRONG_BROWSER": "LiteFarm no es optimizada por este navegador.",
     "WRONG_BROWSER_BOTTOM": "Por favor inicie sesión usando Chrome."
@@ -1365,7 +1388,7 @@
   "TASK": {
     "ABANDON": {
       "ABANDON": "Abandonar",
-      "DATE": "MISSING",
+      "DATE": "Fecha de abandono",
       "INFO": "Abandonar esta tarea cambiará su estado a abandonada y la eliminará de todas las listas de ‘Tareas pendientes’ y ‘No asignadas’ de todos los usuarios.",
       "NOTES": "Notas de abandono de tarea",
       "NOTES_CHAR_LIMIT": "Las notas deben tener menos de 10,000 caracteres",
@@ -1381,7 +1404,7 @@
       "REASON_FOR_ABANDONMENT": "Razón para abandonar",
       "TITLE": "Abandonar tarea",
       "WHAT_HAPPENED": "¿Qué sucedió?",
-      "WHEN": "MISSING"
+      "WHEN": "¿Cuándo se abandonó la tarea?"
     },
     "ABANDON_TASK": "Abandonar esta tarea",
     "ABANDON_TASK_DURATION": "¿Se completó algún trabajo para esta tarea?",
@@ -1397,8 +1420,8 @@
       "MULTIPLE_LOCATIONS": "Múltiples ubicaciones"
     },
     "COMPLETE": {
-      "DATE": "MISSING",
-      "WHEN": "MISSING"
+      "DATE": "Fecha de completar",
+      "WHEN": "¿Cuándo se completó la tarea?"
     },
     "COMPLETE_HARVEST_QUANTITY": "¿Cuánto se cosechó?",
     "COMPLETE_TASK": "Completar tarea",
@@ -1416,21 +1439,21 @@
     "DUE_DATE": "Fecha de vencimiento",
     "DURATION": "Duración",
     "FILTER": {
-      "ASCENDING": "MISSING",
-      "ASSIGNEE": "MISSING",
-      "CROP": "MISSING",
-      "DATE_RANGE": "MISSING",
-      "DESCENDING": "MISSING",
-      "FROM": "MISSING",
-      "LOCATION": "MISSING",
-      "MY_TASK": "MISSING",
-      "SORT_BY": "MISSING",
-      "STATUS": "MISSING",
-      "TITLE": "MISSING",
-      "TO": "MISSING",
-      "TYPE": "MISSING",
-      "UNASSIGNED": "MISSING",
-      "VIEW": "MISSING"
+      "ASCENDING": "las más viejas primero",
+      "ASSIGNEE": "Responsable",
+      "CROP": "Cultivo",
+      "DATE_RANGE": "Filtrar por rango de fechas",
+      "DESCENDING": "Las más nuevas primero",
+      "FROM": "Desde",
+      "LOCATION": "Ubicación",
+      "MY_TASK": "Mis tareas",
+      "SORT_BY": "Ordenar por",
+      "STATUS": "Estatus",
+      "TITLE": "Filtro de tareas",
+      "TO": "Hasta",
+      "TYPE": "Tipo",
+      "UNASSIGNED": "Sin asignar",
+      "VIEW": "Vista"
     },
     "HARVEST_USE": "Usa de la cosecha?",
     "HARVEST_USE_ALREADY_EXISTS": "El uso de cosecha ya existe",
@@ -1456,9 +1479,9 @@
     },
     "TASK": "tarea",
     "TASKS_COUNT": "{{count}} tarea",
-    "TASKS_COUNT_one": "MISSING",
-    "TASKS_COUNT_many": "MISSING",
-    "TASKS_COUNT_other": "MISSING",
+    "TASKS_COUNT_one": "{{count}} tarea",
+    "TASKS_COUNT_many": "{{count}} tareas",
+    "TASKS_COUNT_other": "{{count}} tareas",
     "TASKS_COUNT_plural": "{{count}} tareas",
     "TODO": "Para hacer",
     "TRANSPLANT": "Trasplantar",

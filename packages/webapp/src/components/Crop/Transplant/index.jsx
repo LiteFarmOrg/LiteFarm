@@ -78,7 +78,12 @@ export default function PureTransplant({
         {t('MANAGEMENT_PLAN.IS_TRANSPLANT')}
       </Label>
 
-      <RadioGroup hookFormControl={control} name={TRANSPLANT} required />
+      <RadioGroup
+        data-cy="cropPlan-transplanted"
+        hookFormControl={control}
+        name={TRANSPLANT}
+        required
+      />
 
       {can_be_cover_crop && (
         <>

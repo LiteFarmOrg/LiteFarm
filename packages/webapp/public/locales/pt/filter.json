@@ -18,7 +18,9 @@
     "SOIL_AMENDMENT": "Correção de solo",
     "SOIL_SAMPLE_RESULTS": "Resultados da amostra de solo",
     "WATER_SAMPLE_RESULTS": "Resultados da amostra de água",
-    "UNCATEGORIZED": "Não categorizado"
+    "UNCATEGORIZED": "Não categorizado",
+    "RECEIPTS": "MISSING",
+    "INVOICES": "MISSING"
   },
   "TASKS": {
     "ABANDONED": "MISSING",

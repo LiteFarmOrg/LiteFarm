@@ -20,6 +20,7 @@ export default function PureTaskDate({
     register,
     handleSubmit,
     getValues,
+    watch,
     formState: { isValid, errors },
   } = useForm({
     mode: 'onChange',
@@ -32,17 +33,18 @@ export default function PureTaskDate({
   const { historyCancel } = useHookFormPersist(getValues);
 
   const DUE_DATE = 'due_date';
+  const date = watch(DUE_DATE);
 
   const disabled = !isValid;
 
   return (
     <Form
       buttonGroup={
-        <Button type={'submit'} disabled={disabled} fullLength>
+        <Button data-cy="addTask-continue" type={'submit'} disabled={disabled} fullLength>
           {t('common:CONTINUE')}
         </Button>
       }
-      onSubmit={handleSubmit(onContinue)}
+      onSubmit={handleSubmit(onContinue(date))}
     >
       <MultiStepPageTitle
         style={{ marginBottom: '24px' }}
@@ -56,6 +58,7 @@ export default function PureTaskDate({
       <Main style={{ marginBottom: '16px' }}>{t('TASK.SELECT_DATE')}</Main>
 
       <Input
+        data-cy="addTask-taskDate"
         type={'date'}
         label={t('common:DATE')}
         hookFormRegister={register(DUE_DATE, {

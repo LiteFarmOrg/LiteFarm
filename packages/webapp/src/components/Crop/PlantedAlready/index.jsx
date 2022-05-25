@@ -203,6 +203,7 @@ export default function PurePlantedAlready({
           </Label>
 
           <Unit
+            data-cy="cropPlan-age"
             register={register}
             label={t('MANAGEMENT_PLAN.AGE')}
             name={AGE}
@@ -222,7 +223,12 @@ export default function PurePlantedAlready({
           <Label className={styles.label} style={{ marginBottom: '18px' }}>
             {t('MANAGEMENT_PLAN.WILD_CROP')}
           </Label>
-          <RadioGroup hookFormControl={control} name={IS_WILD} required />
+          <RadioGroup
+            data-cy="cropPlan-wildCrop"
+            hookFormControl={control}
+            name={IS_WILD}
+            required
+          />
         </>
       )}
     </Form>

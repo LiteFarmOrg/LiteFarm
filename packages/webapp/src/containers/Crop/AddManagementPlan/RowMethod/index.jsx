@@ -7,7 +7,7 @@ import { useMemo } from 'react';
 import { getRowMethodPaths } from '../../../../components/Crop/getAddManagementPlanPath';
 import { hookFormPersistSelector } from '../../../hooks/useHookFormPersist/hookFormPersistSlice';
 
-export default function RowMethod({ history, match }) {
+export default function RowMethod({ history, match, location }) {
   const system = useSelector(measurementSelector);
   const variety_id = match.params.variety_id;
   const crop_variety = useSelector(cropVarietySelector(variety_id));
@@ -29,6 +29,7 @@ export default function RowMethod({ history, match }) {
         isHistoricalPage={isHistoricalPage}
         history={history}
         submitPath={submitPath}
+        location={location}
       />
     </HookFormPersistProvider>
   );

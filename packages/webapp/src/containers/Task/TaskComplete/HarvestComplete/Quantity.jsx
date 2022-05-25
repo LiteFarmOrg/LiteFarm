@@ -12,7 +12,7 @@ function HarvestCompleteQuantity({ history, match, location }) {
   const task = useSelector(taskWithProductSelector(task_id));
 
   const onContinue = (data) => {
-    history.push(`/tasks/${task_id}/harvest_uses`, location.state);
+    history.push(`/tasks/${task_id}/harvest_uses`, location?.state);
   };
 
   const onGoBack = () => {

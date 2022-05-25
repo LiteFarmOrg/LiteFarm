@@ -7,7 +7,7 @@ import { useMemo } from 'react';
 import { getContainerMethodPaths } from '../../../../components/Crop/getAddManagementPlanPath';
 import { hookFormPersistSelector } from '../../../hooks/useHookFormPersist/hookFormPersistSlice';
 
-export default function PlantInContainer({ history, match }) {
+export default function PlantInContainer({ history, match, location }) {
   const system = useSelector(measurementSelector);
   const crop_variety = useSelector(cropVarietySelector(match.params.variety_id));
   const isFinalPage = match?.path === '/crop/:variety_id/add_management_plan/container_method';
@@ -29,6 +29,7 @@ export default function PlantInContainer({ history, match }) {
         isFinalPage={isFinalPage}
         isHistorical={isHistorical}
         submitPath={submitPath}
+        location={location}
       />
     </HookFormPersistProvider>
   );

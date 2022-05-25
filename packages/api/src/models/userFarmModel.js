@@ -1,6 +1,6 @@
 /*
- *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>
- *  This file (userFarmModel.js) is part of LiteFarm.
+ *  Copyright 2019, 2020, 2021, 2022 LiteFarm.org
+ *  This file is part of LiteFarm.
  *
  *  LiteFarm is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -10,7 +10,7 @@
  *  LiteFarm is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
+ *  GNU General Public License for more details, see <<https://www.gnu.org/licenses/>.>
  */
 
 const Model = require('objection').Model;
@@ -21,11 +21,11 @@ class userFarm extends Model {
   }
 
   static get idColumn() {
-    return  ['user_id', 'farm_id'];
+    return ['user_id', 'farm_id'];
   }
 
   static get hidden() {
-    return ['created_at', 'created_by_user_id', 'updated_by_user_id', 'updated_at', 'deleted' ]
+    return ['created_at', 'created_by_user_id', 'updated_by_user_id', 'updated_at', 'deleted'];
   }
 
   static get hiddenFromOtherUsers() {
@@ -41,8 +41,8 @@ class userFarm extends Model {
         let fieldsToBeHidden = [];
         if (this.user_id === user_id) {
           fieldsToBeHidden = hidden;
-        }else{
-          fieldsToBeHidden = [...hidden, ...hiddenFromOtherUsers]
+        } else {
+          fieldsToBeHidden = [...hidden, ...hiddenFromOtherUsers];
         }
         for (const property of fieldsToBeHidden) {
           delete this[property];
@@ -97,8 +97,8 @@ class userFarm extends Model {
 
   static get relationMappings() {
     return {
-      user:{
-        modelClass:require('./userModel'),
+      user: {
+        modelClass: require('./userModel'),
         relation: Model.HasOneRelation,
         join: {
           from: 'userFarm.user_id',
@@ -106,23 +106,103 @@ class userFarm extends Model {
         },
       },
       farm: {
-        modelClass:require('./farmModel'),
+        modelClass: require('./farmModel'),
         relation: Model.HasOneRelation,
         join: {
           from: 'userFarm.farm_id',
           to: 'farm.farm_id',
         },
-
       },
       role: {
-        modelClass:require('./roleModel'),
+        modelClass: require('./roleModel'),
         relation: Model.HasOneRelation,
         join: {
           from: 'userFarm.role_id',
           to: 'role.role_id',
         },
       },
+    };
+  }
+
+  /**
+   * Retrieves role for a specified user.
+   * @param {uuid} userId - The specified user.
+   * @static
+   * @async
+   * @returns {number} Number corresponding to role_id.
+   */
+  static async getUserRoleId(userId) {
+    return userFarm
+      .query()
+      .join('role', 'userFarm.role_id', 'role.role_id')
+      .select('role.role_id')
+      .where('userFarm.user_id', userId)
+      .first();
+  }
+
+  /**
+   * Checks if the user exists on a particular farm.
+   * @param user_id
+   * @param farm_id
+   * @return {Objection.QueryBuilder<userFarm, userFarm>}
+   * @static
+   * @async
+   */
+  static async checkIfUserExistsOnFarm(user_id, farm_id) {
+    return userFarm.query().where({ user_id, farm_id }).first();
+  }
+
+  /**
+   * Gets a userFarm record by email.
+   * @param email
+   * @param farm_id
+   * @param trx - optional transaction
+   * @return {Objection.QueryBuilder<userFarm, userFarm>}
+   */
+  static async getUserFarmByEmail(email, farm_id, trx) {
+    const transaction = trx ?? (await this.startTransaction());
+    const result = await userFarm
+      .query(transaction)
+      .join('users', 'userFarm.user_id', '=', 'users.user_id')
+      .join('farm', 'farm.farm_id', '=', 'userFarm.farm_id')
+      .join('role', 'userFarm.role_id', '=', 'role.role_id')
+      .where({ 'users.email': email, 'userFarm.farm_id': farm_id })
+      .first()
+      .select('*');
+    if (trx === null || trx === undefined) {
+      await transaction.commit();
     }
+    return result;
+  }
+  /**
+   * Gets the userIds of FM/FO/EO from the farm with the given farmId
+   * @param {uuid} farmId - The specified user.
+   * @static
+   * @async
+   * @returns {Object} Object {userId} of FM/FO/EO
+   */
+  static async getFarmManagementByFarmId(farmId) {
+    return await userFarm
+      .query()
+      .select('user_id')
+      .whereIn('role_id', [1, 2, 5])
+      .where('userFarm.farm_id', farmId);
+  }
+
+  /**
+   * Gets the userIds of active users from a given farm
+   * @param {uuid} farmId farm id
+   * @static
+   * @async
+   * @returns {Array} Array [user_id]
+   */
+  static async getActiveUsersFromFarmId(farmId) {
+    return await userFarm
+      .query()
+      .select('userFarm.user_id')
+      .join('users', 'userFarm.user_id', 'users.user_id')
+      .where('userFarm.farm_id', farmId)
+      .andWhere('users.status_id', 1);
   }
 }
 

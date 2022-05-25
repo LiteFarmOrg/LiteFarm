@@ -29,6 +29,7 @@
   "MAX_ERROR": "Por favor, ingrese un valor menor que {{value}}",
   "MIN_ERROR": "Por favor, ingrese un valor mayor que {{value}}",
   "NAME": "Nombre",
+  "NEEDS_PLAN": "Necesita un plan",
   "NEXT": "Próximo",
   "NO": "No",
   "NOT_SURE": "No estoy seguro/a",
@@ -45,12 +46,13 @@
   "SAVE_CHANGES": "Guardar cambios",
   "SEARCH": "Buscar",
   "SELECT": "Seleccionar",
-  "SKIP": "MISSING",
+  "SKIP": "Omitir",
   "SORRY": "Disculpa",
   "SUBMIT": "Enviar",
   "SUBMITTING": "Submitting...",
   "UPDATE": "Actualizar",
   "WORD_LIMIT_ERROR": "Solo se pueden mostrar {{value}} caracteres",
-  "YEAR": "MISSING",
-  "YES": "Sí"
+  "YEAR": "Año",
+  "YES": "Sí",
+  "OK": "MISSING"
 }

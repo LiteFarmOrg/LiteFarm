@@ -1,3 +1,18 @@
+/*
+ *  Copyright 2019, 2020, 2021, 2022 LiteFarm.org
+ *  This file is part of LiteFarm.
+ *
+ *  LiteFarm is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  LiteFarm is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ *  GNU General Public License for more details, see <<https://www.gnu.org/licenses/>.>
+ */
+
 import Layout from '../../Layout';
 import Button from '../../Form/Button';
 import Input from '../../Form/Input';
@@ -6,8 +21,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import PageTitle from '../../PageTitle/v2';
 import Checkbox from '../../Form/Checkbox';
-import CertifierSelectionMenuItem
-  from '../../OrganicCertifierSurvey/CertifierSelection/CertifierSelectionMenu/CertiferSelectionMenuItem';
+import CertifierSelectionMenuItem from '../../OrganicCertifierSurvey/CertifierSelection/CertifierSelectionMenu/CertiferSelectionMenuItem';
 
 function MainDocumentView({ onRetire, onUpdate, onGoBack, document, imageComponent }) {
   const { t } = useTranslation();
@@ -18,7 +32,7 @@ function MainDocumentView({ onRetire, onUpdate, onGoBack, document, imageCompone
       buttonGroup={
         <>
           <Button color={'secondary'} onClick={onRetire} disabled={isArchived} fullLength>
-            {t('DOCUMENTS.ARCHIVE')}
+            {t(`DOCUMENTS.${document.archived ? 'UNARCHIVE' : 'ARCHIVE'}`)}
           </Button>
           <Button color={'primary'} onClick={onUpdate} fullLength>
             {t('common:EDIT')}

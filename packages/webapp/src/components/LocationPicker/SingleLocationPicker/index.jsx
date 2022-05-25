@@ -279,7 +279,7 @@ const LocationPicker = ({
   };
 
   return (
-    <div className={styles.mapContainer} style={style}>
+    <div data-cy="map-selectLocation" className={styles.mapContainer} style={style}>
       <GoogleMap
         style={{ flexGrow: 1 }}
         bootstrapURLKeys={{

@@ -12,6 +12,7 @@ import { ReactComponent as Leaf } from '../../../assets/images/signUp/leaf.svg';
 import Infoi from '../../Tooltip/Infoi';
 import { get } from 'react-hook-form';
 import i18n from '../../../locales/i18n';
+import { getLanguageFromLocalStorage } from '../../../util/getLanguageFromLocalStorage';
 
 const Input = ({
   disabled = false,
@@ -121,7 +122,7 @@ const Input = ({
         ref={mergeRefs(hookFormRegister?.ref, input)}
         type={inputType}
         min={inputType === 'date' ? min : undefined}
-        max={inputType === 'date' ? (max || '9999-12-31') : undefined}
+        max={inputType === 'date' ? max || '9999-12-31' : undefined}
         onKeyDown={onKeyDown}
         name={name}
         placeholder={(!disabled && placeholder) || (isSearchBar && t('common:SEARCH'))}
@@ -191,9 +192,25 @@ Input.propTypes = {
 
 export default Input;
 
-export const numberOnKeyDown = (e) => ['e', 'E', '+', '-'].includes(e.key) && e.preventDefault();
-export const integerOnKeyDown = (e) =>
-  ['e', 'E', '+', '-', '.'].includes(e.key) && e.preventDefault();
+/**
+ * Indicates if a keyboard event should be accepted for an integer form input.
+ * @param {KeyboardEvent} event
+ * @returns {boolean} true if the event is acceptable; false otherwise
+ */
+const isEventOkForIntegerInput = (event) => {
+  if (event.key.length > 1) return true; // Accept "Backspace", etc.
+  return /[0-9]/.test(event.key); // Accept a digit, but no other single character.
+};
+export const numberOnKeyDown = (event) => {
+  const decimalSeparator = '.'; // May want to support internationalization here.
+  if (event.key === decimalSeparator) return;
+  if (isEventOkForIntegerInput(event)) return;
+  event.preventDefault();
+};
+export const integerOnKeyDown = (event) => {
+  if (isEventOkForIntegerInput(event)) return;
+  event.preventDefault();
+};
 export const preventNumberScrolling = (e) => e.target.blur();
 
 export const getInputErrors = (errors, name) => {

@@ -18,8 +18,9 @@ function PurePlanGuidance({
   prefix = `crop_management_plan.planting_management_plans.${isFinalPage ? 'final' : 'initial'}`,
   history,
   submitPath,
+  location,
   onGoBack = () => history.back(),
-  onSubmit = () => history.push(submitPath),
+  onSubmit = () => history.push(submitPath, location.state),
 }) {
   const { t } = useTranslation(['translation']);
   const {
@@ -37,11 +38,10 @@ function PurePlanGuidance({
   });
   const { historyCancel } = useHookFormPersist(getValues);
 
-
   return (
     <Form
       buttonGroup={
-        <Button type={'submit'} disabled={!isValid} fullLength>
+        <Button data-cy="planGuidance-submit" type={'submit'} disabled={!isValid} fullLength>
           {t('common:CONTINUE')}
         </Button>
       }

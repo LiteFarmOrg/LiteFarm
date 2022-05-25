@@ -6,6 +6,8 @@ import Button from '../../Form/Button';
 import ReactSelect from '../../Form/ReactSelect';
 import Checkbox from '../../Form/Checkbox';
 import { ReactComponent as Person } from '../../../assets/images/task/Person.svg';
+import { tasksSelector } from '../../../containers/taskSlice';
+import { useSelector } from 'react-redux';
 
 export default function TaskQuickAssignModal({
   dismissModal,
@@ -16,7 +18,6 @@ export default function TaskQuickAssignModal({
   onAssignTask,
   users,
   user,
-  taskCardContents,
 }) {
   const { t } = useTranslation();
   const selfOption = { label: `${user.first_name} ${user.last_name}`, value: user.user_id };
@@ -36,14 +37,18 @@ export default function TaskQuickAssignModal({
   const [selectedWorker, setWorker] = useState(isAssigned ? unAssignedOption : selfOption);
   const [assignAll, setAssignAll] = useState(false);
 
+  const tasks = useSelector(tasksSelector);
+
   const checkUnassignedTaskForSameDate = () => {
-    const selectedTask = taskCardContents.find((t) => t.task_id == task_id);
+    console.log(tasks);
+    const selectedTask = tasks.find((t) => t.task_id == task_id);
     let isUnassignedTaskPresent = false;
-    for (let task of taskCardContents) {
+    for (let task of tasks) {
       if (
-        task.completeOrDueDate === selectedTask.completeOrDueDate &&
+        task.due_date === selectedTask.due_date &&
         !task.assignee &&
-        task.task_id !== task_id
+        task.task_id !== task_id &&
+        task.complete_date === null
       ) {
         isUnassignedTaskPresent = true;
         break;
@@ -53,7 +58,7 @@ export default function TaskQuickAssignModal({
   };
 
   const onAssign = () => {
-    assignAll && checkUnassignedTaskForSameDate()
+    assignAll && checkUnassignedTaskForSameDate() && selectedWorker.value !== null
       ? onAssignTasksOnDate({
           task_id: task_id,
           date: due_date,
@@ -83,6 +88,7 @@ export default function TaskQuickAssignModal({
           </Button>
 
           <Button
+            data-cy="quickAssign-update"
             onClick={onAssign}
             disabled={disabled}
             className={styles.button}

@@ -283,6 +283,11 @@ export const locationsSelector = createSelector(
   },
 );
 
+export const locationByIdSelector = (location_id) =>
+  createSelector(locationsSelector, (entities) =>
+    entities.find((entity) => entity.location_id === location_id),
+  );
+
 export const locationEntitiesSelector = createSelector(
   [
     barnEntitiesSelector,

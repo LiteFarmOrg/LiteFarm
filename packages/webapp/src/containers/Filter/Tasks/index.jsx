@@ -19,6 +19,7 @@ import React, { useMemo, useRef, useEffect } from 'react';
 
 import PureFilterPage from '../../../components/FilterPage';
 import { setTasksFilter, tasksFilterSelector } from '../../filterSlice';
+import { userFarmsByFarmSelector } from '../../userFarmSlice';
 import { getTaskTypes } from '../../Task/saga';
 import { defaultTaskTypesSelector, userCreatedTaskTypesSelector } from '../../taskTypeSlice';
 
@@ -47,6 +48,9 @@ const TasksFilterPage = ({ onGoBack }) => {
   const tasks = useSelector(tasksSelector);
   const dispatch = useDispatch();
   const locations = useSelector(locationsSelector);
+  const activeUsers = useSelector(userFarmsByFarmSelector).filter(
+    (user) => user.status != 'Inactive',
+  );
   const defaultTaskTypes = useSelector(defaultTaskTypesSelector);
   const customTaskTypes = useSelector(userCreatedTaskTypesSelector);
 
@@ -78,10 +82,12 @@ const TasksFilterPage = ({ onGoBack }) => {
       if (task.assignee !== undefined) {
         const { user_id, first_name, last_name } = task.assignee;
         assignees[user_id] = `${first_name} ${last_name}`;
-      } else {
-        assignees['unassigned'] = t('TASK.UNASSIGNED');
       }
     }
+    for (const user of activeUsers) {
+      assignees[user['user_id']] = `${user['first_name']} ${user['last_name']}`;
+    }
+    assignees['unassigned'] = t('TASK.UNASSIGNED');
     return { taskTypes, assignees };
   }, [tasks.length]);
 

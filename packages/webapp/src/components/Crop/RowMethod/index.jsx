@@ -19,6 +19,7 @@ export default function PureRowMethod({
   submitPath,
   onGoBack = () => history.back(),
   isHistoricalPage,
+  location,
 }) {
   const { t } = useTranslation();
   const {
@@ -37,12 +38,12 @@ export default function PureRowMethod({
 
   const { historyCancel } = useHookFormPersist(getValues);
 
-  const onSubmit = () => history.push(submitPath);
+  const onSubmit = () => history.push(submitPath, location.state);
 
   return (
     <Form
       buttonGroup={
-        <Button type={'submit'} disabled={!isValid} fullLength>
+        <Button data-cy="rowMethod-submit" type={'submit'} disabled={!isValid} fullLength>
           {t('common:CONTINUE')}
         </Button>
       }

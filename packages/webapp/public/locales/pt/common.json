@@ -29,6 +29,7 @@
   "MAX_ERROR": "Insira um valor menor que {{value}}",
   "MIN_ERROR": "Insira um valor maior que {{value}}",
   "NAME": "Nome",
+  "NEEDS_PLAN": "MISSING",
   "NEXT": "Próximo",
   "NO": "Não",
   "NOT_SURE": "Não tem certeza",
@@ -52,5 +53,6 @@
   "UPDATE": "Atualizar",
   "WORD_LIMIT_ERROR": "Somente {{value}} caractéres podem ser exibidos",
   "YEAR": "MISSING",
-  "YES": "Sim"
+  "YES": "Sim",
+  "OK": "MISSING"
 }

@@ -23,7 +23,7 @@ jest.mock('jsdom');
 jest.mock('../src/middleware/acl/checkJwt');
 jest.mock('../src/templates/sendEmailTemplate');
 const mocks = require('./mock.factories');
-const faker = require('faker');
+const { faker } = require('@faker-js/faker');
 const userFarmModel = require('../src/models/userFarmModel');
 const userModel = require('../src/models/userModel');
 
@@ -1177,5 +1177,3 @@ describe('User Farm Tests', () => {
     });
   });
 });
-
-/* global jest describe test expect beforeEach afterAll */

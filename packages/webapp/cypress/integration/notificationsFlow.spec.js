@@ -34,20 +34,39 @@ describe.only('Notifications flow tests', () => {
     cy.url().should('include', '/notifications');
   });
 
-  it.only('scheduled notifications', () => {
+  it('Weekly scheduled notifications', () => {
     //Test for LF-2386
-    //set system time to monday 630am
     //login as farm manager
     cy.visit('/');
     cy.loginFarmOwner();
     //Create unassigned tasks due this week
     cy.visit('/tasks');
-    cy.createTask(); //sets the task due date to tomorrow
+    cy.createTask(); //sets the task due date to today
     //set the clock to monday this week
 
     const date = new Date();
     let day = date.getDay();
     date.setDate(date.getDate() - (day - 1));
+    const alertDateTime = date.setHours(6, 0, 0);
+    cy.log(alertDateTime);
+    cy.clock(alertDateTime);
+    cy.wait(3 * 1000);
+
+    //check notifications are generated for all unassigned tasks due this week on this farm
+    cy.visit('/notifications');
+  });
+
+  it.only('Daily scheduled notifications', () => {
+    //Test for LF-2387
+    //login as farm manager
+    cy.visit('/');
+    cy.loginFarmOwner();
+    //Create unassigned tasks due this week
+    cy.visit('/tasks');
+    cy.createTaskToday(); //creates a task due date to today
+    //set the clock to  to 6am
+
+    const date = new Date();
     const alertDateTime = date.setHours(6, 0, 0);
     cy.log(alertDateTime);
     cy.clock(alertDateTime);

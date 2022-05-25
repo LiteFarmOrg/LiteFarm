@@ -40,6 +40,7 @@
     "globalSetup": "./jest-global-setup.js"
   },
   "dependencies": {
+    "@googlemaps/google-maps-services-js": "^3.3.14",
     "adm-zip": "^0.4.16",
     "async-file": "^2.0.2",
     "aws-sdk": "^2.931.0",

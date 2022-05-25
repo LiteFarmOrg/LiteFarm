@@ -61,7 +61,6 @@ export default function ManagementTasks({ history, match, location }) {
               history.push(`/tasks/${task.task_id}/read_only`, { pathname: location.pathname })
             }
             style={{ marginBottom: '14px' }}
-            taskCardContents={taskCardContents}
             {...task}
           />
         ))}

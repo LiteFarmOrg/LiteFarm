@@ -380,7 +380,9 @@
       "PEST_CONTROL_PRODUCT": "Producto de control de plagas",
       "SOIL_AMENDMENT": "Fertilización y correción del suelo",
       "SOIL_SAMPLE_RESULTS": "Resultados de muestras del suelo",
-      "WATER_SAMPLE_RESULTS": "Resultados de la muestra de agua"
+      "WATER_SAMPLE_RESULTS": "Resultados de la muestra de agua",
+      "RECEIPTS": "MISSING",
+      "INVOICES": "MISSING"
     },
     "VALID": "Válido"
   },
@@ -1055,6 +1057,10 @@
       "TITLE": "Tarea asignada",
       "BODY": "Se ha asignado una tarea {{taskType}} a {{assignee}}."
     },
+    "TASK_ABANDONED": {
+      "TITLE": "MISSING",
+      "BODY": "MISSING"
+    },
     "TASK_REASSIGNED": {
       "TITLE": "MISSING",
       "BODY": "MISSING"
@@ -1064,6 +1070,10 @@
       "BODY": "MISSING"
     },
     "WEEKLY_UNASSIGNED_TASKS": {
+      "TITLE": "MISSING",
+      "BODY": "MISSING"
+    },
+    "DAILY_TASKS_DUE_TODAY": {
       "TITLE": "MISSING",
       "BODY": "MISSING"
     }
@@ -1098,7 +1108,7 @@
     "SPECIFY": "Especificar {{types}}",
     "SPECIFY_PLACEHOLDER": "Eje. {{types}} 1-4",
     "TOOLTIP": "Los primeros 40 caracteres de este campo se mostrarán en cualquier lugar donde esté visible su plan de cultivo.",
-    "WIDTH": "{{type}} la anchcho",
+    "WIDTH": "El ancho de {{type}} ",
     "WORD_LIMIT": "Solo se pueden mostrar {{limit}} caracteres"
   },
   "PREPARING_EXPORT": {

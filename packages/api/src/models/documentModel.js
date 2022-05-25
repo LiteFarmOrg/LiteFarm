@@ -47,6 +47,8 @@ class Document extends baseModel {
             'SOIL_AMENDMENT',
             'SOIL_SAMPLE_RESULTS',
             'WATER_SAMPLE_RESULTS',
+            'INVOICES',
+            'RECEIPTS',
             'OTHER',
           ],
         },

@@ -56,7 +56,7 @@ export default function PureTaskComplete({
   return (
     <Form
       buttonGroup={
-        <Button type={'submit'} disabled={disabled} fullLength>
+        <Button data-cy="harvestComplete-save" type={'submit'} disabled={disabled} fullLength>
           {t('common:SAVE')}
         </Button>
       }
@@ -130,6 +130,7 @@ export default function PureTaskComplete({
       )}
 
       <Checkbox
+        data-cy="harvestComplete-rating"
         style={{ marginBottom: '42px' }}
         label={t('TASK.PREFER_NOT_TO_SAY')}
         hookFormRegister={register(PREFER_NOT_TO_SAY)}

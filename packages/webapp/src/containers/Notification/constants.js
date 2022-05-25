@@ -15,3 +15,4 @@
 
 // Notification Types:
 export const WEEKLY_UNASSIGNED_TASKS = 'WEEKLY_UNASSIGNED_TASKS';
+export const DAILY_TASKS_DUE_TODAY = 'DAILY_TASKS_DUE_TODAY';

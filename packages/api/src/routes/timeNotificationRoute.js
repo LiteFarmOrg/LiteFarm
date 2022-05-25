@@ -26,4 +26,11 @@ router.post(
   timeNotificationController.postWeeklyUnassignedTasks,
 );
 
+router.post(
+  '/daily_due_today_tasks/:farm_id',
+  checkSchedulerJwt,
+  hasTimeNotificationsAccess,
+  timeNotificationController.postDailyDueTodayTasks,
+);
+
 module.exports = router;

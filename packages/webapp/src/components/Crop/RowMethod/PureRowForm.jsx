@@ -158,6 +158,7 @@ export default function PureRowForm({
           {!same_length && (
             <div style={{ marginBottom: '40px' }}>
               <Unit
+                data-cy="rowMethod-length"
                 register={register}
                 label={t('MANAGEMENT_PLAN.ROW_METHOD.TOTAL_LENGTH')}
                 name={TOTAL_LENGTH}
@@ -212,7 +213,7 @@ export default function PureRowForm({
                 />
                 {showEstimatedYield && (
                   <Unit
-                    data-cy="rowMethod-yeild"
+                    data-cy="rowMethod-yield"
                     register={register}
                     label={t('MANAGEMENT_PLAN.ESTIMATED_YIELD')}
                     name={ESTIMATED_YIELD}

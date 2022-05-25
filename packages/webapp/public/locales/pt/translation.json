@@ -8,7 +8,7 @@
     "FARM_LOCATION": "Localização do sítio/fazenda",
     "FARM_LOCATION_INPUT_INFO": "Endereço ou latitude e longitude separados por vírgula (ex.: 49.250945, -123.238492)",
     "FARM_NAME": "Nome do sítio/fazenda",
-    "INVALID_FARM_LOCATION": "MISSING",
+    "INVALID_FARM_LOCATION": "Nenhum país para esta localização",
     "LOCATING": "Localizando...",
     "NO_ADDRESS": "Localização não encontrada. Tente inserir latitue e longitude",
     "TELL_US_ABOUT_YOUR_FARM": "Conte-nos sobre seu sítio/fazenda"
@@ -65,7 +65,7 @@
     "HOW_MUCH_IS_HARVESTED": "Quanto está sendo colhido?",
     "HR": "/hr",
     "MANAGE_CUSTOM_TASKS": "Gerenciar tarefas personalizadas",
-    "NEED_MANAGEMENT_PLAN": "Você precisará de um plano de cultivo de cultura ativo ou planejado antes de poder agendar uma tarefa de colheita ou tarefa de transplante. Vá para o catálogo de safras para criar um plano agora.",
+    "NEED_MANAGEMENT_PLAN": "Você precisará de um plano de cultivo ativo ou planejado antes de poder agendar uma tarefa de colheita ou tarefa de transplante. Vá para o catálogo de safras para criar um plano agora.",
     "NO_MANAGEMENT_PLAN": "Não há plano de cultivo de safra elegível",
     "PEST_CONTROL_VIEW": {
       "BIOLOGICAL_CONTROL": "Controle biológico",
@@ -276,21 +276,21 @@
     "CROP_CATALOGUE": "Catálogo de cultivo",
     "CROP_GROUP": "Grupo de cultivo",
     "CROP_GROUP_TOOL_TIP": "A seleção de um grupo de cultivo permite que a LiteFarm preencha várias informações sobre este cultivo, como estação de crescimento, valores nutricionais e produtividade estimada. Não se preocupe, você pode alterar os valores abaixo depois de selecionar um grupo de cultivo.",
-    "CROP_STATUS": "Status de cultivo ativo ",
+    "CROP_STATUS": "Situação de cultivo ativo ",
     "DOCUMENT_NECESSARY_INFO_FOR_ORGANIC_PRODUCTION": "Documente as informações necessárias para a produção orgânica",
     "FILTER": {
       "LOCATION": "Localização",
-      "STATUS": "Status",
+      "STATUS": "Situação",
       "SUPPLIERS": "Fornecedores",
       "TITLE": "Título"
     },
     "FILTER_TITLE": "Filtro de catálogo de cultivo",
     "HERE_YOU_CAN": "Aqui você pode:",
     "LETS_BEGIN": "Vamos começar!",
-    "NEW_CROP_NAME": "Nome novo da cultura",
+    "NEW_CROP_NAME": "Nome do cultivo",
     "NO_RESULTS_FOUND": "Nenhum resultado encontrado. Por favor, mude seus filtros.",
     "ON_YOUR_FARM": "Em sua fazenda",
-    "SELECT_A_CROP": "Selecione um cultivo para adicioná-lo à sua fazenda. Use a busca e os filtros para encontrar as culturas mais rapidamente."
+    "SELECT_A_CROP": "Selecione um cultivo para adicioná-lo à sua fazenda. Use a busca e os filtros para encontrar os cultivos mais rapidamente."
   },
   "CROP_DETAIL": {
     "ADD_PLAN": "Adicionar um plano",
@@ -305,7 +305,7 @@
     "MANAGEMENT_TAB": "Manejo",
     "ORGANIC": "A semente ou cultivo é orgânica certificada?",
     "PERENNIAL": "Perene",
-    "TREATED": "As sementes desta cultura foram tratadas?"
+    "TREATED": "As sementes deste cultivo foram tratadas?"
   },
   "CROP_MANAGEMENT": {
     "GERMINATE": "Germinar",
@@ -320,10 +320,10 @@
     "CROP_VARIETIES": "variedade",
     "NEEDS_PLAN": "Precisa de um plano",
     "RETIRE": {
-      "CONFIRMATION": "Retirar este cultivo irá removê-la e todos os seus planos de cultivo de seu catálogo de cultivos. Você quer prosseguir?",
-      "RETIRE_CROP_TITLE": "Retirar colheita?",
+      "CONFIRMATION": "Retirar este cultivo irá removê-la e todos os planos de cultivo de seu catálogo de cultivos. Você quer prosseguir?",
+      "RETIRE_CROP_TITLE": "Retirar cultivo?",
       "UNABLE_TO_RETIRE": "Você só pode retirar cultivos que não tenham um plano de cultivo ativos ou futuros. Você precisará concluir ou abandonar esses planos para retirar este cultivo",
-      "UNABLE_TO_RETIRE_TITLE": "Incapaz de se retirar"
+      "UNABLE_TO_RETIRE_TITLE": "Não foi possível retirar o cultivo"
     },
     "SUPPLIER": "Fornecedor"
   },
@@ -351,10 +351,10 @@
     "ARCHIVE_DOCUMENT": "Arquivar documento?",
     "ARCHIVE_DOCUMENT_TEXT": "Arquivar este documento o moverá para a seção arquivada de seus documentos, mas não o excluirá. Os documentos arquivados não serão exportados para suas certificações. Você quer prosseguir?",
     "ARCHIVED": "Arquivado",
-    "UNARCHIVE": "MISSING",
-    "UNARCHIVE_DOCUMENT": "MISSING",
-    "UNARCHIVE_DOCUMENT_TEXT": "MISSING",
-    "UNARCHIVED": "MISSING",
+    "UNARCHIVE": "Desarquivar",
+    "UNARCHIVE_DOCUMENT": "Documento desarquivado?",
+    "UNARCHIVE_DOCUMENT_TEXT": "Desarquivar este documento irá devolvê-lo à sua lista de documentos atualmente válidos. Os documentos válidos serão exportados para suas certificações. Você quer prosseguir?",
+    "UNARCHIVED": "Desarquivado",
     "CANCEL": "Cancelar",
     "COMPLIANCE_DOCUMENTS_AND_CERTIFICATION": "Documentos de conformidade e sua certificação",
     "DOCUMENTS": "Documentos",
@@ -601,7 +601,7 @@
       }
     },
     "UNABLE_TO_RETIRE": {
-      "BODY": "Você só pode retirar locais que não tenham culturas, tarefas ativas ou planejadas.",
+      "BODY": "Você só pode retirar locais que não tenham cultivos, tarefas ativas ou planejadas.",
       "TITLE": "Não é possível retirar"
     },
     "WATER_VALVE": {
@@ -645,7 +645,7 @@
     "DATE": "Data",
     "ESTIMATED_REVENUE": {
       "ESTIMATED_ANNUAL_REVENUE": "Receita anual estimada",
-      "ESTIMATED_ANNUAL_YIELD": "MISSING",
+      "ESTIMATED_ANNUAL_YIELD": "Colheita anual estimada",
       "ESTIMATED_PRICE_PER_UNIT": "Preço por unidade estimado",
       "TITLE": "Receita Estimada"
     },
@@ -684,10 +684,10 @@
       "INSECTS": "Insetos",
       "PLANTS": "Plantas",
       "MAMMALS": "MISSING",
-      "SPECIES_COUNT": "{{count}} espécies",
-      "SPECIES_COUNT_one": "MISSING",
-      "SPECIES_COUNT_many": "MISSING",
-      "SPECIES_COUNT_other": "MISSING",
+      "SPECIES_COUNT": "{{count}} espécie",
+      "SPECIES_COUNT_one": "{{count}} espécie",
+      "SPECIES_COUNT_many": "{{count}} espécies",
+      "SPECIES_COUNT_other": "{{count}} espécies",
       "SPECIES_COUNT_plural": "{{count}} espécies",
       "TITLE": "Biodiversidade",
       "LOADING": {
@@ -713,9 +713,9 @@
       "CHOOSE_A_FREQUENCY": "Escolha uma frequência",
       "CHOOSE_FREQUENCY": "Escolha uma frequência...",
       "COUNT_MONTHS": "{{count}} mês",
-      "COUNT_MONTHS_one": "MISSING",
-      "COUNT_MONTHS_many": "MISSING",
-      "COUNT_MONTHS_other": "MISSING",
+      "COUNT_MONTHS_one": "{{count}} mês",
+      "COUNT_MONTHS_many": "{{count}} meses",
+      "COUNT_MONTHS_other": "{{count}} meses",
       "COUNT_MONTHS_plural": "{{count}} meses",
       "CYCLE_INDICATOR": "Your Nitrogen Balance is on a {{frequency}} months cycle and data will show on: {{refreshDate}}",
       "FIRST_TIME": "Parece que esta é sua primeira vez executando isso! Por favor, selecione uma frequência para calcular o seu balanço de nitrogênio.",
@@ -731,10 +731,10 @@
       "FAT": "Gordura",
       "HEADER": "Número de refeições",
       "INFO": "Nós estimamos o número de refeições potencialmente fornecidas por sua fazenda com base nos dados de vendas e na composição nutricional dos cultivos. Assumimos que as necessidades nutricionais diárias são divididas igualmente em três refeições por dia",
-      "MEAL_COUNT": "{{count}} refeições",
-      "MEAL_COUNT_one": "MISSING",
-      "MEAL_COUNT_many": "MISSING",
-      "MEAL_COUNT_other": "MISSING",
+      "MEAL_COUNT": "{{count}} refeição",
+      "MEAL_COUNT_one": "{{count}} refeição",
+      "MEAL_COUNT_many": "{{count}} refeições",
+      "MEAL_COUNT_other": "{{count}} refeições",
       "MEAL_COUNT_plural": "{{count}} refeições",
       "MEALS": "refeições",
       "PROTEIN": "Proteínas",
@@ -744,13 +744,13 @@
     },
     "PRICES": {
       "INFO": "Mostramos a trajetória comparativa entre seus preços de venda em relação aos preços de venda dos mesmos produtos encontrados a uma determinada distância de você, utilizando dados coletados na rede LiteFarm.",
-      "NEARBY_FARMS": "O preço do mercado é baseado em {{count}} fazendas em sua área local",
-      "NEARBY_FARMS_one": "MISSING",
-      "NEARBY_FARMS_many": "MISSING",
-      "NEARBY_FARMS_other": "MISSING",
-      "NEARBY_FARMS_plural": "Vindo de {{count}} fazendas para dados de vendas",
-      "NETWORK_PRICE": "Preço de rede",
-      "NO_ADDRESS": "You currently do not have an address in LiteFarm. Please update it in your Profile to get nearby prices information!",
+      "NEARBY_FARMS": "O preço de mercado é baseado em {{count}} fazendas na sua região",
+      "NEARBY_FARMS_one": "O preço de mercado é baseado em {{count}} fazenda na sua região",
+      "NEARBY_FARMS_many": "O preço de mercado é baseado em {{count}} fazendas na sua região",
+      "NEARBY_FARMS_other": "O preço de mercado é baseado em {{count}} fazendas na sua região",
+      "NEARBY_FARMS_plural": "O preço de mercado é baseado em {{count}} fazendas na sua região",
+      "NETWORK_PRICE": "Preço de mercado",
+      "NO_ADDRESS": "Atualmente você não tem um endereço na LiteFarm. Atualize-o em seu perfil para obter informações de preços nas proximidades!",
       "OWN_PRICE": "Preço próprio",
       "PERCENT_OF_MARKET": "{{percentage}}% do mercado",
       "SALES_FROM_DISTANCE_AWAY": "Preço a partir de {{distance}} {{unit}} de distância",
@@ -769,7 +769,7 @@
       "FIRST_TIME": "Parece que esta é sua primeira vez executando isso! Para obter mais informações sobre o balanço hídrico, clique no botão de informações",
       "INFO_1": "O balanço hídrico informa se seus cultivos têm pouca ou muita água. Ele se baseia em dados meteorológicos e é atualizado pelos dados de irrigação e textura do solo de seus registros de análise de solo.",
       "INFO_2": "Este recurso não foi amplamente testado em fazendas com baixa densidade de estação meteorológica ao redor, portanto, use com cuidado. Agradecemos os comentários sobre o desempenho dele em sua fazenda.",
-      "NO_SCHEDULE_RUN": "Your scheduled water balance hasn't run yet, please check back in two days and ensure you have at least one soil analysis that records soil texture for a field to see water balance data for crops in that field. If the problem persists please contact LiteFarm.",
+      "NO_SCHEDULE_RUN": "Seu balanço hídrico programado ainda não foi executado. Verifique novamente em dois dias e certifique-se de ter pelo menos uma análise de solo que registre a textura do solo para um campo para ver os dados do balanço hídrico para os cultivos naquele campo. Se o problema persistir, entre em contato com a LiteFarm.",
       "REGISTER_FARM": "Registre Fazenda",
       "TITLE": "Balanço hídrico"
     }
@@ -889,7 +889,7 @@
     "ABANDON_PLAN": "Abandonar este plano de cultivo",
     "ADD_A_TASK": "Adicione uma tarefa",
     "DETAILS": "Detalhes",
-    "FAILED_CROP": "Colheita falhou?",
+    "FAILED_CROP": "O cultivo falhou?",
     "TASKS": "Tarefas"
   },
   "MANAGEMENT_PLAN": {
@@ -904,7 +904,7 @@
       "ABANDON_PLAN": "Abandonar plano",
       "ABANDON_REASON": "Razão do abandono",
       "COMPLETE_PLAN": "Plano completo",
-      "DATE_OF_CHANGE": "Data de mudança do status",
+      "DATE_OF_CHANGE": "Data de alteração da situação",
       "NOTES_CHAR_LIMIT": "As observações não podem exceder 10.000 caractéres",
       "RATING": "Avaliar este plano de cultivo",
       "REASON": {
@@ -918,11 +918,11 @@
       },
       "WHAT_HAPPENED": "O que aconteceu?"
     },
-    "COMPLETION_NOTES": "MISSING",
+    "COMPLETION_NOTES": "Notas de conclusão",
     "CONTAINER": "Recipiente",
     "CONTAINER_OR_IN_GROUND": "Você está plantando em um recipiente ou no solo?",
     "CONTAINER_TYPE": "Tipo de recipiente",
-    "COVER_INFO": "A seleção da cultura de cobertura criará uma tarefa de trabalho de campo para terminar o cultivo de cobertura no final da temporada. Selecionar para colheita criará uma tarefa de colheita em vez disso.",
+    "COVER_INFO": "A seleção da cultivo de cobertura criará uma tarefa de trabalho de campo para terminar o cultivo de cobertura no final da temporada. Selecionar para colheita criará uma tarefa de colheita em vez disso.",
     "COVER_OR_HARVEST": "Isso está sendo cultivado como um cultivo de cobertura ou para a colheita?",
     "DAYS_FROM_PLANTING": "Dias desde o plantio até:",
     "DAYS_FROM_SEEDING": "Dias desde a semente até:",
@@ -934,8 +934,8 @@
     "DROP_PIN": "Alfinetar",
     "DURATION_TOOLTIP": "Esses são valores sugeridos. Ajuste de acordo com as condições locais.",
     "EDITING_PLAN_WILL_NOT_MODIFY": "Editar este plano não irá modificar as tarefas atribuídas a ele.",
-    "ESTIMATED_SEED": "Semente estimada necessária",
-    "ESTIMATED_YIELD": "MISSING",
+    "ESTIMATED_SEED": "Estimativa de sementes necessárias",
+    "ESTIMATED_YIELD": "Colheita anual estimada",
     "FIRST_MP_SPOTLIGHT": {
       "BODY_PART1": "LiteFarm gerou algumas tarefas com base em seu plano. Você pode adicionar mais tarefas ou atribuí-las nesta tela.",
       "BODY_PART2": "Seu plano será ativado assim que você concluir uma tarefa.",
@@ -978,7 +978,7 @@
     "PLANTING_NOTE": "Notas de plantio",
     "PLANTING_SOIL": "Solo de plantio a ser usado",
     "PLANTS_PER_CONTAINER": "Nº de plantas /recipiente",
-    "RATE_THIS_MANAGEMENT_PLAN": "MISSING",
+    "RATE_THIS_MANAGEMENT_PLAN": "Avalie este plano de cultivo",
     "REMOVE_PIN": "Remover alfinete",
     "ROW_METHOD": {
       "HISTORICAL_SAME_LENGTH": "As linhas eram todas do mesmo comprimento?",
@@ -1061,13 +1061,13 @@
     }
   },
   "NOTIFICATION": {
-    "NONE_TO_DISPLAY": "MISSING",
+    "NONE_TO_DISPLAY": "Não há notificações para exibir.",
     "NOTIFICATION_TEASER": "Em breve!",
-    "PAGE_TITLE": "MISSING",
-    "TAKE_ME_THERE": "MISSING",
+    "PAGE_TITLE": "Notificações",
+    "TAKE_ME_THERE": "Me leve lá",
     "TASK_ASSIGNED": {
-      "TITLE": "MISSING",
-      "BODY": "MISSING"
+      "TITLE": "Tarefa atribuída",
+      "BODY": "A tarefa {{taskType}} foi atribuída a {{assignee}}. "
     },
     "TASK_ABANDONED": {
       "TITLE": "MISSING",
@@ -1120,7 +1120,7 @@
     "SPECIFY": "Especificar {{types}}",
     "SPECIFY_PLACEHOLDER": "Ex. {{types}} 1 - 4",
     "TOOLTIP": "Os 40 primeiros caracteres deste campo serão exibidos em qualquer lugar em que seu plano de cultivo esteja visível. ",
-    "WIDTH": "{{types}} Largura",
+    "WIDTH": "Largura de {{type}}",
     "WORD_LIMIT": "Somente {{limit}} caracteres podem ser exibidos"
   },
   "PREPARING_EXPORT": {
@@ -1173,10 +1173,10 @@
     },
     "PEOPLE_TAB": "Pessoas",
     "TABLE": {
-      "HEADER_EMAIL": "Emai",
+      "HEADER_EMAIL": "E-mail",
       "HEADER_NAME": "Nome",
-      "HEADER_ROLE": "Função no estabelecimento",
-      "HEADER_STATUS": "Status"
+      "HEADER_ROLE": "Função",
+      "HEADER_STATUS": "Situação"
     }
   },
   "PROFILE_FLOATER": {
@@ -1204,8 +1204,8 @@
   },
   "SALE": {
     "ADD_SALE": {
-      "CROP_PLACEHOLDER": "Selecione cultivo",
-      "CROP_REQUIRED": "Cultivo é necessário",
+      "CROP_PLACEHOLDER": "Selecione o cultivo",
+      "CROP_REQUIRED": "O cultivo é necessário",
       "CROP_VARIETY": "Variedade de cultivo",
       "CUSTOMER_NAME": "Nome do Cliente",
       "CUSTOMER_NAME_REQUIRED": "Nome do Cliente é necessário",
@@ -1308,7 +1308,7 @@
       "CROPS_LABEL": "Cultivos",
       "DID_NOT_PROVIDE_ANSWER": "Não forneceu resposta",
       "HAPPY": "Contente",
-      "INDIVIDUAL_CROPS": "Cultivos individuos",
+      "INDIVIDUAL_CROPS": "Cultivos individuais",
       "LOCATIONS": "Locais",
       "LOCATIONS_LABEL": "Locais",
       "MOOD": "Como você se sentiu durante este turno?",
@@ -1328,7 +1328,7 @@
     "MY_SHIFT": {
       "DELETE_CONFIRMATION": "Tem certeza que deseja deletar este turno?",
       "DURATION": "Duração",
-      "LOCATION_CROPS": "Locations/Crops",
+      "LOCATION_CROPS": "Localizações/Cultivos",
       "SUBMITTED_FOR": "Insira para",
       "TASK": "Tarefa",
       "TITLE": "Detalhes do turno"
@@ -1349,14 +1349,14 @@
     "EMAIL_INVALID": "Email é inválido",
     "ENTER_EMAIL": "Digite seu endereço de email",
     "EXPIRED_ERROR": "NÃO EXISTE",
-    "EXPIRED_INVITATION_LINK_ERROR": "MISSING",
+    "EXPIRED_INVITATION_LINK_ERROR": "Convite expirado ou inválido",
     "GOOGLE_BUTTON": "CONTINUE COM O GOOGLE",
     "INVITED_ERROR": "NÃO EXISTE",
     "LITEFARM_UPDATED": "Nós atualizamos o LiteFarm!",
     "PASSWORD_ERROR": "Senha incorreta",
     "SIGN_IN": "Conecte-se",
     "SSO_ERROR": "Faça login clicando no botão do Google acima",
-    "USED_INVITATION_LINK_ERROR": "MISSING",
+    "USED_INVITATION_LINK_ERROR": "Este convite já foi utilizado, por favor, faça o login para acessar essa fazenda",
     "WELCOME_BACK": "Bem-vindo de volta",
     "WRONG_BROWSER": "LiteFarm não é otimizado para este navegador.",
     "WRONG_BROWSER_BOTTOM": "Faça login usando o Chrome."
@@ -1397,7 +1397,7 @@
   "TASK": {
     "ABANDON": {
       "ABANDON": "Abandonar",
-      "DATE": "MISSING",
+      "DATE": "Data do abandono",
       "INFO": "Abandonar esta tarefa mudará seu estado para abandonado e a removerá das listas de 'Tarefas' e 'Não atribuídas' de todos os usuários.",
       "NOTES": "Observações de abandono de tarefa",
       "NOTES_CHAR_LIMIT": "Observações não devem exceder 10.000 caractéres",
@@ -1413,7 +1413,7 @@
       "REASON_FOR_ABANDONMENT": "Razão de abandono",
       "TITLE": "Abandonar tarefa",
       "WHAT_HAPPENED": "O que aconteceu?",
-      "WHEN": "MISSING"
+      "WHEN": "Quando a tarefa foi abandonada?"
     },
     "ABANDON_TASK": "Abandonar esta tarefa",
     "ABANDON_TASK_DURATION": "Algum trabalho foi concluído para esta tarefa?",
@@ -1429,8 +1429,8 @@
       "MULTIPLE_LOCATIONS": "Múltiplos locais"
     },
     "COMPLETE": {
-      "DATE": "MISSING",
-      "WHEN": "MISSING"
+      "DATE": "Data de conclusão",
+      "WHEN": "Quando a tarefa foi concluída?"
     },
     "COMPLETE_HARVEST_QUANTITY": "Quanto foi colhido?",
     "COMPLETE_TASK": "Completar tarefa",
@@ -1448,21 +1448,21 @@
     "DUE_DATE": "Data de finalização",
     "DURATION": "Duração",
     "FILTER": {
-      "ASCENDING": "MISSING",
-      "ASSIGNEE": "MISSING",
-      "CROP": "MISSING",
-      "DATE_RANGE": "MISSING",
-      "DESCENDING": "MISSING",
-      "FROM": "MISSING",
-      "LOCATION": "MISSING",
-      "MY_TASK": "MISSING",
-      "SORT_BY": "MISSING",
-      "STATUS": "MISSING",
-      "TITLE": "MISSING",
-      "TO": "MISSING",
-      "TYPE": "MISSING",
-      "UNASSIGNED": "MISSING",
-      "VIEW": "MISSING"
+      "ASCENDING": "mais antigo primeiro",
+      "ASSIGNEE": "Responsável",
+      "CROP": "Cultivo",
+      "DATE_RANGE": "Filtrar por intervalo de datas",
+      "DESCENDING": "mais recente primeito",
+      "FROM": "De",
+      "LOCATION": "Localização",
+      "MY_TASK": "Minhas tarefas",
+      "SORT_BY": "Ordenar por",
+      "STATUS": "Situação",
+      "TITLE": "Filtro das Tarefas",
+      "TO": "Até",
+      "TYPE": "Tipo",
+      "UNASSIGNED": "Não atribuída",
+      "VIEW": "Visualizar"
     },
     "HARVEST_USE": "Uso da colheita",
     "HARVEST_USE_ALREADY_EXISTS": "Uso de colheita já existe",
@@ -1488,9 +1488,9 @@
     },
     "TASK": "tarefa",
     "TASKS_COUNT": "{{count}} tarefa",
-    "TASKS_COUNT_one": "MISSING",
-    "TASKS_COUNT_many": "MISSING",
-    "TASKS_COUNT_other": "MISSING",
+    "TASKS_COUNT_one": "{{count}} tarefa",
+    "TASKS_COUNT_many": "{{count}} tarefas",
+    "TASKS_COUNT_other": "{{count}} tarefas",
     "TASKS_COUNT_plural": "{{count}} tarefas",
     "TODO": "A fazer",
     "TRANSPLANT": "Transplantar",

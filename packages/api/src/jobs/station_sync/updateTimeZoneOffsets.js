@@ -13,7 +13,7 @@ async function mapTimeZoneOffsetsToFarms(knex) {
       },
     });
     await knex('farm')
-      .update('utc_offset', Math.round(timeZone.data.rawOffset / 3600))
+      .update('utc_offset', Math.round(timeZone.data.rawOffset / 60))
       .where('farm_id', farm.farm_id);
   }
 }

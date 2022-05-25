@@ -54,6 +54,7 @@ describe.only('Notifications flow tests', () => {
 
     //check notifications are generated for all unassigned tasks due this week on this farm
     cy.visit('/notifications');
+    cy.url().should('include', '/notifications');
   });
 
   it.only('Daily scheduled notifications', () => {
@@ -74,6 +75,7 @@ describe.only('Notifications flow tests', () => {
 
     //check notifications are generated for all unassigned tasks due this week on this farm
     cy.visit('/notifications');
+    cy.url().should('include', '/notifications');
   });
 
   it('Re-assign notification flow', () => {

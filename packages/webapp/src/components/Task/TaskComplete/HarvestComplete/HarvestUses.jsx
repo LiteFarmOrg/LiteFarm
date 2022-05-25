@@ -90,7 +90,7 @@ export default function PureHarvestUses({
   return (
     <Form
       buttonGroup={
-        <Button type={'submit'} disabled={disabled} fullLength>
+        <Button data-cy="harvestUses-continue" type={'submit'} disabled={disabled} fullLength>
           {t('common:CONTINUE')}
         </Button>
       }
@@ -130,6 +130,7 @@ export default function PureHarvestUses({
               name={`harvest_uses.${index}.` + HARVEST_USE_TYPE}
               render={({ field }) => (
                 <ReactSelect
+                  data-cy="harvestUses-use"
                   options={harvest_uses_options}
                   label={t('TASK.HARVEST_USE')}
                   required={true}
@@ -139,6 +140,7 @@ export default function PureHarvestUses({
               rules={{ required: true }}
             />
             <Unit
+              data-cy="harvestUses-quantity"
               register={register}
               style={{ marginBottom: '14px', marginTop: '40px', zIndex: '0' }}
               label={t('ADD_TASK.QUANTITY')}

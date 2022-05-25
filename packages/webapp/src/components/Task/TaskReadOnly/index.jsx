@@ -138,7 +138,12 @@ export default function PureTaskReadOnly({
         canCompleteTask &&
         isCurrent && (
           <>
-            <Button color={'primary'} onClick={onComplete} fullLength>
+            <Button
+              data-cy="taskReadOnly-complete"
+              color={'primary'}
+              onClick={onComplete}
+              fullLength
+            >
               {t('common:MARK_COMPLETE')}
             </Button>
           </>

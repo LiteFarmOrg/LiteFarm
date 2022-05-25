@@ -32,7 +32,7 @@ export default function PureChooseFarmScreen({
               {t('common:BACK')}
             </Button>
           )}
-          <Button onClick={onProceed} fullLength disabled={disabled}>
+          <Button data-cy="chooseFarm-proceed" onClick={onProceed} fullLength disabled={disabled}>
             {t('common:PROCEED')}
           </Button>
         </>
@@ -63,6 +63,7 @@ export default function PureChooseFarmScreen({
       {farms.map((farm) => {
         return (
           <ChooseFarmMenuItem
+            data-cy="chooseFarm-ubc"
             style={{ marginBottom: '16px' }}
             farmName={farm.farmName}
             address={farm.address}

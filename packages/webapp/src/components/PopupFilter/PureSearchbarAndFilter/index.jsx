@@ -46,7 +46,7 @@ export default function PureSearchbarAndFilter({ onFilterOpen, value, onChange, 
           onChange={onChange}
         />
         {isFilterActive && <div className={classes.circle} />}
-        <FiFilter className={classes.filter} onClick={onFilterOpen} />
+        <FiFilter data-cy="tasks-filter" className={classes.filter} onClick={onFilterOpen} />
       </div>
     </>
   );

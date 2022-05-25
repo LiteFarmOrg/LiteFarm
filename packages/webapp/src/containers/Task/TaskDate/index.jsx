@@ -30,7 +30,7 @@ function TaskDate({ history, match, location }) {
             previous.plantingTask = current;
           } else if (
             current.complete_date !== null &&
-            (mostRecentlyCompleted === null ??
+            (previous.mostRecentlyCompleted === null ??
               Date.parse(current.complete_date) >
                 Date.parse(previous.mostRecentlyCompleted.complete_date))
           ) {
@@ -71,7 +71,7 @@ function TaskDate({ history, match, location }) {
 
     history.push(
       isTransplantTask ? '/add_task/task_crops' : '/add_task/task_locations',
-      location.state,
+      location?.state,
     );
   };
 

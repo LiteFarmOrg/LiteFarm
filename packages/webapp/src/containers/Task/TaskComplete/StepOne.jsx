@@ -16,7 +16,7 @@ function TaskCompleteStepOne({ history, match, location }) {
   const persistedPaths = [`/tasks/${task_id}/complete`];
 
   const onContinue = (data) => {
-    history.push(persistedPaths[0], location.state);
+    history.push(persistedPaths[0], location?.state);
   };
 
   const onGoBack = () => {

@@ -50,7 +50,7 @@ function TaskCrops({
   };
 
   const onContinue = () => {
-    history.push(onContinuePath, location.state);
+    history.push(onContinuePath, location?.state);
   };
   const onError = () => {};
   const persistedFormData = useSelector(hookFormPersistSelector);
@@ -77,7 +77,7 @@ function TaskCrops({
         isMulti={!isTransplantTask}
         isRequired={isRequired}
         wildManagementPlanTiles={showWildCrops ? wildManagementPlanTiles : undefined}
-        defaultManagementPlanId={location.state.management_plan_id ?? null}
+        defaultManagementPlanId={location?.state?.management_plan_id ?? null}
         history={history}
         location={location}
       />

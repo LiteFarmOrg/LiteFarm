@@ -26,6 +26,16 @@ export default function PureManagementDetail({
   const { t } = useTranslation();
 
   const title = plan.name;
+  const isValidDate =
+    getDateInputFormat(plan.abandon_date) !== 'Invalid date' ||
+    getDateInputFormat(plan.complete_date) !== 'Invalid date';
+  const isSomethingElse =
+    plan.abandon_reason !== 'CROP_FAILURE' &&
+    plan.abandon_reason !== 'LABOUR_ISSUE' &&
+    plan.abandon_reason !== 'MARKET_PROBLEM' &&
+    plan.abandon_reason !== 'WEATHER' &&
+    plan.abandon_reason !== 'MACHINERY_ISSUE' &&
+    plan.abandon_reason !== 'SCHEDULING_ISSUE';
 
   const {
     register,
@@ -37,9 +47,11 @@ export default function PureManagementDetail({
     formState: { errors, isValid },
   } = useForm({
     defaultValues: {
-      abandon_date: getDateInputFormat(plan.abandon_date),
-      abandon_reason: plan.abandon_reason,
-      complete_date: getDateInputFormat(plan.complete_date),
+      abandon_date: isValidDate ? getDateInputFormat(plan.abandon_date) : '',
+      abandon_reason: isSomethingElse
+        ? plan.abandon_reason
+        : t(`MANAGEMENT_PLAN.COMPLETE_PLAN.REASON.${plan.abandon_reason}`),
+      complete_date: isValidDate ? getDateInputFormat(plan.complete_date) : '',
       complete_notes: plan.complete_notes,
       notes: plan.notes,
       crop_management_plan: {
@@ -54,7 +66,7 @@ export default function PureManagementDetail({
   const isAbandoned = plan.abandon_date ? true : false;
   const DATE_OF_STATUS_CHANGE = isAbandoned ? 'abandon_date' : 'complete_date';
   const ABANDON_REASON = 'abandon_reason';
-  const COMPLETE_DATE = 'complete_date';
+  const DATE = isAbandoned ? 'DATE_OF_CHANGE' : 'COMPLETE_DATE';
   const COMPLETE_NOTES = 'complete_notes';
   const PLAN_NOTES = 'notes';
   const ESTIMATED_YIELD = `crop_management_plan.estimated_yield`;
@@ -79,6 +91,7 @@ export default function PureManagementDetail({
         )
       }
     >
+      {console.log(plan)}
       <CropHeader
         onBackClick={onBack}
         crop_translation_key={variety.crop_translation_key}
@@ -110,7 +123,7 @@ export default function PureManagementDetail({
 
       <InputAutoSize
         style={{ marginBottom: '40px' }}
-        label={t('MANAGEMENT_PLAN.COMPLETE_PLAN.DATE_OF_CHANGE')}
+        label={t(`MANAGEMENT_PLAN.COMPLETE_PLAN.${DATE}`)}
         hookFormRegister={register(DATE_OF_STATUS_CHANGE)}
         errors={errors[DATE_OF_STATUS_CHANGE]?.message}
         disabled

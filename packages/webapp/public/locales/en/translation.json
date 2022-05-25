@@ -887,6 +887,7 @@
       "ABANDON_PLAN": "Abandon plan",
       "ABANDON_NOTES": "Abandonment notes",
       "ABANDON_REASON": "Reason for abandoning",
+      "COMPLETE_DATE": "Completed date",
       "COMPLETE_PLAN": "Complete plan",
       "DATE_OF_CHANGE": "Date of status change",
       "NOTES_CHAR_LIMIT": "Notes must be less than 10,000 characters",
@@ -961,7 +962,7 @@
     "PLANTING_NOTE": "Planting notes",
     "PLANTING_SOIL": "Planting soil to be used",
     "PLANTS_PER_CONTAINER": "# of plants/container",
-    "RATE_THIS_MANAGEMENT_PLAN": "Rate this management plan",
+    "RATE_THIS_MANAGEMENT_PLAN": "Plan rating",
     "REMOVE_PIN": "Remove pin",
     "ROW_METHOD": {
       "HISTORICAL_SAME_LENGTH": "Were the rows all the same length?",

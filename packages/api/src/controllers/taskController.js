@@ -98,26 +98,9 @@ const taskController = {
       }
 
       // assign all other unassigned tasks due on this day to newAssigneeUserId
-      const available_tasks = await TaskModel.query()
-        .leftOuterJoin('task_type', 'task.task_type_id', 'task_type.task_type_id')
-        .context(req.user)
-        .select('task_id', 'task_translation_key')
-        .where((builder) => {
-          builder.where('due_date', date);
-          builder.whereIn('task_id', taskIds);
-          if (newAssigneeUserId !== null) {
-            builder.where('assignee_user_id', null);
-          }
-          builder.where('complete_date', null);
-          builder.where('abandon_date', null);
-        });
+      const available_tasks = await TaskModel.getAvailableTasksOnDate(taskIds, date, req.user);
       const availableTaskIds = available_tasks.map(({ task_id }) => task_id);
-      const result = await TaskModel.query()
-        .context(req.user)
-        .patch({
-          assignee_user_id: newAssigneeUserId,
-        })
-        .whereIn('task_id', availableTaskIds);
+      const result = await TaskModel.assignTasks(availableTaskIds, newAssigneeUserId, req.user);
       if (result) {
         await Promise.all(
           available_tasks.map(async (task) => {

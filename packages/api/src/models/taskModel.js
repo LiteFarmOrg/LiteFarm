@@ -266,7 +266,7 @@ class TaskModel extends BaseModel {
   }
 
   /**
-   * Gets the tasks that are due this week and are unassigned
+   * Assign the task to the user with the given assigneeUserId.
    * @param {uuid} taskId - the ID of the task
    * @param {uuid} assigneeUserId - the ID of user whose the task is being assigned too
    * @param {Object} user - the user who requested this task assignment
@@ -281,10 +281,27 @@ class TaskModel extends BaseModel {
   }
 
   /**
-   * Checks whether a given user in a given farm has tasks that are due today
+   * Assign tasks to the user with the given assigneeUserId.
+   * @param {uuid} taskIds - the IDs of the tasks
+   * @param {uuid} assigneeUserId - the ID of user whose the task is being assigned too
+   * @param {Object} user - the user who requested this task assignment
+   * @static
+   * @async
+   * @returns {Object} - Task Object
+   */
+  static async assignTasks(taskIds, assigneeUserId, user) {
+    return await TaskModel.query()
+      .context(user)
+      .patch({
+        assignee_user_id: assigneeUserId,
+      })
+      .whereIn('task_id', taskIds);
+  }
+
+  /**
+   * Checks whether a given user in a given farm has tasks that are due today.
    * @param {string} userId user id
    * @param {string} farmId farm id
-   * @returns {Object}
    * @static
    * @async
    * @returns {boolean} true if the user has tasks due today or false if not
@@ -299,6 +316,31 @@ class TaskModel extends BaseModel {
       .andWhere('task.due_date', new Date());
 
     return tasksDueToday && tasksDueToday.length;
+  }
+
+  /**
+   * Returns all available tasks on the given date from the given taskIds
+   * Available in this case means unassigned, incomplete, not abandoned, and not deleted
+   * @param {Array} taskIds - taskIds to search
+   * @param {string} date - the date to search
+   * @param {Object} user - the user who requested this task assignment
+   * @static
+   * @async
+   * @returns {Object} - Task Object.
+   */
+  static async getAvailableTasksOnDate(taskIds, date, user) {
+    return await TaskModel.query()
+      .leftOuterJoin('task_type', 'task.task_type_id', 'task_type.task_type_id')
+      .context(user)
+      .select('*')
+      .where((builder) => {
+        builder.where('task.due_date', date);
+        builder.whereIn('task.task_id', taskIds);
+        builder.where('task.assignee_user_id', null);
+        builder.where('task.complete_date', null);
+        builder.where('task.abandon_date', null);
+        builder.where('task.deleted', false);
+      });
   }
 }
 

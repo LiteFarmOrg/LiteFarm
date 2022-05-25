@@ -43,6 +43,8 @@ describe.only('Crops flow tests', () => {
     //test for LF-2213
     //Abandon a task in a crop plan
     //Once the task in abandoned the displayed view should be the crop plan
+    //Ensure an alert is created to notify the user the task was assigned to that the task was abandoned(test for LF-2383)
+    //Ensure the notification exists on the notifications page
   });
 
   it('Complete a task in a crop plan', () => {

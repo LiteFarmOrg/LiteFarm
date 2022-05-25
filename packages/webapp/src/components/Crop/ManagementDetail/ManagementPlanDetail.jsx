@@ -91,7 +91,6 @@ export default function PureManagementDetail({
         )
       }
     >
-      {console.log(plan)}
       <CropHeader
         onBackClick={onBack}
         crop_translation_key={variety.crop_translation_key}

@@ -380,7 +380,9 @@
       "PEST_CONTROL_PRODUCT": "Produto de controle de pragas",
       "SOIL_AMENDMENT": "Adubação e correção do solo",
       "SOIL_SAMPLE_RESULTS": "Resultados da amostra de solo",
-      "WATER_SAMPLE_RESULTS": "Resultados da amostra de água"
+      "WATER_SAMPLE_RESULTS": "Resultados da amostra de água",
+      "RECEIPTS": "MISSING",
+      "INVOICES": "MISSING"
     },
     "VALID": "Válido"
   },
@@ -571,7 +573,8 @@
     },
     "TAB": {
       "CROPS": "Cultivo",
-      "DETAILS": "Detalhes"
+      "DETAILS": "Detalhes",
+      "TASKS": "MISSING"
     },
     "TITLE": "Mapa do sítio/fazenda",
     "TUTORIAL": {
@@ -680,12 +683,23 @@
       "INFO": "A biodiversidade é ótima para as pessoas e para o planeta. Contabilizamos a riqueza de espécies a partir de todos os registros conhecidos sobre a biodiversidade ao redor de sua fazenda. Você pode aumentar a contagem de espécies em sua fazenda utilizando o https://www.inaturalist.org/app.",
       "INSECTS": "Insetos",
       "PLANTS": "Plantas",
+      "MAMMALS": "MISSING",
       "SPECIES_COUNT": "{{count}} espécie",
       "SPECIES_COUNT_one": "{{count}} espécie",
       "SPECIES_COUNT_many": "{{count}} espécies",
       "SPECIES_COUNT_other": "{{count}} espécies",
       "SPECIES_COUNT_plural": "{{count}} espécies",
-      "TITLE": "Biodiversidade"
+      "TITLE": "Biodiversidade",
+      "LOADING": {
+        "PREVIEW": "MISSING",
+        "TITLE": "MISSING",
+        "BODY": "MISSING"
+      },
+      "ERROR": {
+        "PREVIEW": "MISSING",
+        "TITLE": "MISSING",
+        "BODY": "MISSING"
+      }
     },
     "CURRENT": "Atual",
     "INFO": "Os relatórios fornecem informações adicionais sobre o que está acontecendo em sua fazenda. Quanto mais dados você fornecer no aplicativo, mais relatórios serão gerados. Veja os relatórios individuais para mais informações.",
@@ -1054,6 +1068,26 @@
     "TASK_ASSIGNED": {
       "TITLE": "Tarefa atribuída",
       "BODY": "A tarefa {{taskType}} foi atribuída a {{assignee}}. "
+    },
+    "TASK_ABANDONED": {
+      "TITLE": "MISSING",
+      "BODY": "MISSING"
+    },
+    "TASK_REASSIGNED": {
+      "TITLE": "MISSING",
+      "BODY": "MISSING"
+    },
+    "TASK_COMPLETED_BY_OTHER_USER": {
+      "TITLE": "MISSING",
+      "BODY": "MISSING"
+    },
+    "WEEKLY_UNASSIGNED_TASKS": {
+      "TITLE": "MISSING",
+      "BODY": "MISSING"
+    },
+    "DAILY_TASKS_DUE_TODAY": {
+      "TITLE": "MISSING",
+      "BODY": "MISSING"
     }
   },
   "OUTRO": {

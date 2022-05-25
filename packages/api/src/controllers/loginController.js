@@ -13,16 +13,15 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const baseController = require('../controllers/baseController');
 const userModel = require('../models/userModel');
 const passwordModel = require('../models/passwordModel');
 const userFarmModel = require('../models/userFarmModel');
 const showedSpotlightModel = require('../models/showedSpotlightModel');
 const bcrypt = require('bcryptjs');
-const userController = require('./userController');
-const { sendEmailTemplate, emails, sendEmail } = require('../templates/sendEmailTemplate');
+const { emails, sendEmail } = require('../templates/sendEmailTemplate');
 const parser = require('ua-parser-js');
 const userLogModel = require('../models/userLogModel');
+const emailModel = require('../models/emailTokenModel');
 
 const { createToken } = require('../util/jwt');
 
@@ -46,7 +45,11 @@ const loginController = {
 
       try {
         const userData = await userModel.query().select('*').where('email', email).first();
-        const pwData = await passwordModel.query().select('*').where('user_id', userData.user_id).first();
+        const pwData = await passwordModel
+          .query()
+          .select('*')
+          .where('user_id', userData.user_id)
+          .first();
         const isMatch = await bcrypt.compare(password, pwData.password_hash);
         userID = userData.user_id;
         if (!isMatch) {
@@ -66,7 +69,7 @@ const loginController = {
             reason_for_failure: 'password_mismatch',
           });
           return res.sendStatus(401);
-        };
+        }
 
         const id_token = await createToken('access', { user_id: userData.user_id });
         return res.status(200).send({
@@ -108,23 +111,26 @@ const loginController = {
         const isUserNew = !user;
         if (isUserNew) {
           const newUser = { user_id, email, first_name, last_name, language_preference };
-          await userModel.transaction(async trx => {
+          await userModel.transaction(async (trx) => {
             await userModel.query(trx).insert(newUser);
             await showedSpotlightModel.query(trx).insert({ user_id });
           });
         }
         const isPasswordNeeded = !ssoUser && passwordUser;
-        const id_token = isPasswordNeeded
-          ? ''
-          : await createToken('access', { user_id });
+        const id_token = isPasswordNeeded ? '' : await createToken('access', { user_id });
         return res.status(201).send({
           id_token,
           user: {
             user_id: isPasswordNeeded ? passwordUser.user_id : user_id,
             email,
             first_name: isPasswordNeeded ? passwordUser.first_name : first_name,
-            language_preference: ssoUser?.language_preference ?? passwordUser?.language_preference ?? language_preference,
-            full_name: isPasswordNeeded ? `${passwordUser.first_name} ${passwordUser.last_name}` : `${first_name} ${last_name}`
+            language_preference:
+              ssoUser?.language_preference ??
+              passwordUser?.language_preference ??
+              language_preference,
+            full_name: isPasswordNeeded
+              ? `${passwordUser.first_name} ${passwordUser.last_name}`
+              : `${first_name} ${last_name}`,
           },
           isSignUp: isUserNew,
         });
@@ -140,8 +146,12 @@ const loginController = {
     return async (req, res) => {
       const { email } = req.params;
       try {
-        const data = await userModel.query()
-          .select('user_id', 'first_name', 'email', 'language_preference', 'status_id').from('users').where('users.email', email).first();
+        const data = await userModel
+          .query()
+          .select('user_id', 'first_name', 'email', 'language_preference', 'status_id')
+          .from('users')
+          .where('users.email', email)
+          .first();
         if (!data) {
           res.status(200).send({
             first_name: null,
@@ -212,28 +222,40 @@ const loginController = {
 };
 
 async function sendMissingInvitations(user) {
-  const userFarms = await userFarmModel.query().select('users.*', 'farm.farm_name', 'farm.farm_id')
+  const userFarms = await userFarmModel
+    .query()
+    .select('users.*', 'farm.farm_name', 'farm.farm_id')
     .join('farm', 'userFarm.farm_id', 'farm.farm_id')
     .join('users', 'users.user_id', 'userFarm.user_id')
-    .where('users.user_id', user.user_id).andWhere('userFarm.status', 'Invited');
+    .where('users.user_id', user.user_id)
+    .andWhere('userFarm.status', 'Invited');
   if (userFarms) {
-    await Promise.all(userFarms.map((userFarm) => {
-      return userController.createTokenSendEmail(user, userFarm, userFarm.farm_name);
-    }));
+    await Promise.all(
+      userFarms.map((userFarm) => {
+        return emailModel.createTokenSendEmail(user, userFarm, userFarm.farm_name);
+      }),
+    );
   }
 }
 
 async function sendPasswordReset(data) {
   const created_at = new Date();
-  const wasEmailSent = await passwordModel.query()
-    .select('*').where({ user_id: data.user_id }).first();
-  const password = wasEmailSent ? wasEmailSent : await passwordModel.query()
-    .insert({
-      user_id: data.user_id,
-      reset_token_version: 1,
-      password_hash: `${Math.random()}`,
-      created_at: created_at.toISOString(),
-    }).returning('*');
+  const wasEmailSent = await passwordModel
+    .query()
+    .select('*')
+    .where({ user_id: data.user_id })
+    .first();
+  const password = wasEmailSent
+    ? wasEmailSent
+    : await passwordModel
+        .query()
+        .insert({
+          user_id: data.user_id,
+          reset_token_version: 1,
+          password_hash: `${Math.random()}`,
+          created_at: created_at.toISOString(),
+        })
+        .returning('*');
   const tokenPayload = {
     ...data,
     reset_token_version: 0,

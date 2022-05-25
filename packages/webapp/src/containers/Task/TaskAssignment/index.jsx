@@ -9,7 +9,7 @@ import { taskTypeSelector } from '../../taskTypeSlice';
 import { hookFormPersistSelector } from '../../hooks/useHookFormPersist/hookFormPersistSlice';
 import { createTask } from '../saga';
 
-export default function TaskManagement({ history, match }) {
+export default function TaskManagement({ history, match, location }) {
   const userFarms = useSelector(userFarmEntitiesSelector);
   const { farm_id } = useSelector(loginSelector);
   const userFarm = useSelector(userFarmSelector);
@@ -63,7 +63,11 @@ export default function TaskManagement({ history, match }) {
   }, []);
 
   const onSubmit = (data) => {
-    const postData = { ...persistedFormData, ...data };
+    const postData = {
+      ...persistedFormData,
+      ...data,
+      returnPath: location.state ? location.state.pathname : null,
+    };
     dispatch(createTask(postData));
   };
 

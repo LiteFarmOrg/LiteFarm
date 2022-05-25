@@ -6,7 +6,7 @@ import { cropVarietySelector } from '../../../cropVarietySlice';
 import { useMemo } from 'react';
 import { getBedMethodPaths } from '../../../../components/Crop/getAddManagementPlanPath';
 
-export default function BedPlan({ history, match }) {
+export default function BedPlan({ history, match, location }) {
   const system = useSelector(measurementSelector);
   const crop_variety = useSelector(cropVarietySelector(match.params.variety_id));
   const isFinalPage = match.path === '/crop/:variety_id/add_management_plan/bed_method';
@@ -23,6 +23,7 @@ export default function BedPlan({ history, match }) {
         crop_variety={crop_variety}
         isFinalPage={isFinalPage}
         submitPath={submitPath}
+        location={location}
       />
     </HookFormPersistProvider>
   );

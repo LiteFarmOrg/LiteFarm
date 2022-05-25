@@ -41,7 +41,7 @@ function fakeSSOUser(defaultData = {}) {
     first_name: faker.name.findName(),
     last_name: faker.name.lastName(),
     email: email.toLowerCase(),
-    user_id: faker.datatype.number(10),
+    user_id: faker.datatype.number({ min: 2, max: 10 }),
     phone_number: faker.phone.phoneNumber(),
     ...defaultData,
   };
@@ -2155,10 +2155,12 @@ function fakeNotification(defaultData = {}) {
   const notification_id = faker.datatype.uuid();
   return {
     notification_id,
-    translation_key: `translation_key of notification ${notification_id}`,
+    title: { translation_key: `title_translation_key of notification ${notification_id}` },
+    body: { translation_key: `body_translation_key of notification ${notification_id}` },
     variables: [],
-    entity_id: faker.datatype.uuid(),
-    entity_type: `entity_type of notification ${notification_id}`,
+    ref: {
+      entity: { id: faker.datatype.uuid(), type: `entity_type of notification ${notification_id}` },
+    },
     context: {},
     farm_id: faker.datatype.uuid(),
     created_at: faker.date.past(),

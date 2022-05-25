@@ -18,7 +18,9 @@
     "SOIL_AMENDMENT": "Aditivo de suelo",
     "SOIL_SAMPLE_RESULTS": "Resultados de muestras del suelo",
     "WATER_SAMPLE_RESULTS": "Resultados de la muestra de agua",
-    "UNCATEGORIZED": "Sin categorizar"
+    "UNCATEGORIZED": "Sin categorizar",
+    "RECEIPTS": "MISSING",
+    "INVOICES": "MISSING"
   },
   "TASKS": {
     "ABANDONED": "Abandonada",
@@ -29,8 +31,8 @@
     "STATUS": "Estatus"
   },
   "FILTER": {
-    "VALID_ON": "MISSING",
-    "FROM_DATE": "MISSING",
-    "TO_DATE": "MISSING"
+    "VALID_ON": "Válido en",
+    "FROM_DATE": "Desde",
+    "TO_DATE": "Hasta"
   }
 }

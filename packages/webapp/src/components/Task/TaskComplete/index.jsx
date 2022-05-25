@@ -18,8 +18,6 @@ export default function PureTaskComplete({
   onSave,
   onGoBack,
   persistedFormData,
-
-
   useHookFormPersist,
 }) {
   const DURATION = 'duration';
@@ -44,7 +42,6 @@ export default function PureTaskComplete({
   });
 
   const { historyCancel } = useHookFormPersist(getValues);
-
 
   const progress = 66;
 

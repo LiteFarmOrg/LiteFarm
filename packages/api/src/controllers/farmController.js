@@ -101,6 +101,23 @@ const farmController = {
     };
   },
 
+  async getFarmsByOffsetRange(req, res) {
+    try {
+      const [min, max] = [req.params.min, req.params.max];
+      const farms = await farmModel
+        .query()
+        .select('farm_id')
+        .where('utc_offset', '>=', min)
+        .where('utc_offset', '<=', max);
+
+      res.status(200).send(farms.map((farm) => farm['farm_id']));
+    } catch (error) {
+      res.status(400).json({
+        error,
+      });
+    }
+  },
+
   deleteFarm() {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());

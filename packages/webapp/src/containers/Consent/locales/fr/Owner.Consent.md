@@ -7,8 +7,8 @@
 &nbsp;
 
 Bienvenue à LiteFarm !
-Nous comprenons que la confidentialité et la protection de vos données sont importantes. Nous avons créé ce formulaire de consentement éclairé et cette politique de confidentialité pour vous aider à comprendre comment et quand nous collectons, utilisons, et partageons vos données et pour d'assurer que nous avons votre consentement pour le faire. Votre compréhension est essentielle pour le consentement.  
-Veuillez garder à l'esprit que vous devrez consentir aux protocoles décrits dans ce formulaire de consentement éclairé et cette politique de confidentialité pour chaque ferme à laquelle vous êtes associé avec par un compte sur l’application LiteFarm. Sans votre consentement vous ne pourrez pas utiliser l’application LiteFarm.
+Nous comprenons que la confidentialité et la protection de vos données sont importantes. Nous avons créé ce formulaire de consentement éclairé et la politique de confidentialité pour vous aider à comprendre comment et quand nous collectons, utilisons, et partageons vos données et pour d'assurer que nous avons votre consentement pour le faire. Votre compréhension est essentielle pour le consentement.  
+Veuillez garder à l'esprit que vous devrez consentir aux protocoles décrits dans ce formulaire de consentement éclairé et la politique de confidentialité pour chaque ferme à laquelle vous êtes associé avec par un compte sur l’application LiteFarm. Sans votre consentement vous ne pourrez pas utiliser l’application LiteFarm.
 
 &nbsp;
 
@@ -16,9 +16,9 @@ Veuillez garder à l'esprit que vous devrez consentir aux protocoles décrits da
 
 &nbsp;
 
-L’application LiteFarm est le produit d’un projet de science participative développé pour améliorer l'accès à la technologie agricole numérique pour les communautés agricoles. L’application LiteFarm vise à aider les agriculteurs à gérer leurs fermes de manière plus rentable et durable sur le plan environnemental et social.
+L’application LiteFarm est le produit d’un projet de science participative développé pour améliorer l'accès à la technologie agricole numérique pour les communautés agricoles. L’application LiteFarm vise à aider les agriculteurs à gérer leurs fermes de manière plus rentable et plus durables du point de vue écologique et social.
 
-Le code source pour LiteFarm est gratuit et « open source » (GPLv3) ce qui permet aux chercheurs, aux experts et aux développeurs à l'échelle mondiale de contribuer à améliorer les services offerts à la communauté agricole. LiteFarm est une entité non commerciale. Notre objectif est de servir la communauté agricole en améliorant les connaissances et les outils pour la gestion des fermes et la recherche à propos du système alimentaire.
+Le code source de l'application LiteFarm est gratuit et « open source » (GPLv3) afin que les chercheurs, experts, et développeurs à l'échelle mondiale peut contribuer à améliorer les services offerts à la communauté agricole. LiteFarm est une entité non commerciale. Notre objectif est de servir la communauté agricole en améliorant les connaissances et les outils pour la gestion des fermes et la recherche à propos du système alimentaire.
 
 &nbsp;
 
@@ -33,6 +33,7 @@ L'équipe LiteFarm est un groupe interdisciplinaire de scientifiques, de cherche
 #### Qui finance LiteFarm ?
 
 &nbsp;
+
 LiteFarm est financé par le Centre pour les systèmes alimentaires durable [Center for Sustainable Food Systems] à UBC et d'autres subventions. Pour une liste complète, veuillez visiter : https://www.litefarm.org/partners.
 
 Nos bailleurs de fonds n'ont pas leur mot à dire dans le fonctionnement et la gestion de LiteFarm et ne peuvent accéder à aucune des informations personnelles hébergées sur la plateforme. Présentement, les donateurs et bourses de recherche fournissent le financement pour le logiciel et l'équipe LiteFarm.
@@ -61,7 +62,7 @@ Selon les parties de l’application LiteFarm que vous utilisez, nous pouvons co
 
 &nbsp;
 
-« Informations personnelles » décrit toute information pouvant être utilisée pour vous identifier ou identifier vos employés. LiteFarm ne divulgue jamais d'informations personnelles à des tierce partie sans votre consentement.
+« Informations personnelles » décrit toute information qui peut être utilisée pour vous identifier ou identifier vos employés. LiteFarm ne divulgue jamais d'informations personnelles à des tiers parties sans votre consentement.
 
 Ceci comprend :
 

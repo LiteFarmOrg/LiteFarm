@@ -2,13 +2,13 @@
 
 &nbsp;
 
-#### Formulaire de consentement éclairé et politique de confidentialité (version pour ouvrières et ouvriers) 
+#### Formulaire de consentement éclairé et politique de confidentialité (version pour ouvrières et ouvriers)
 
 &nbsp;
 
-Bienvenue à LiteFarm ! 
-Nous comprenons que la confidentialité et la protection de vos données sont importantes. L’intention du Formulaire de consentement éclairé et politique de confidentialité est de vous aider à comprendre nos protocoles pour collectionner, à utiliser, et à partager vos données. Votre compréhension est essentielle pour le consentement.  
-Veuillez garder à l'esprit que vous devrez consentir aux protocoles décrits dans le Formulaire de consentement éclairé et politique de confidentialité pour chaque ferme à laquelle vous êtes associé avec un compte sur l’application LiteFarm. Sans votre consentement vous ne pourrez pas utiliser l’application LiteFarm.
+Bienvenue à LiteFarm !
+Nous comprenons que la confidentialité et la protection de vos données sont importantes. Nous avons créé ce formulaire de consentement éclairé et cette politique de confidentialité pour vous aider à comprendre comment et quand nous collectons, utilisons, et partageons vos données et pour d'assurer que nous avons votre consentement pour le faire. Votre compréhension est essentielle pour le consentement.  
+Veuillez garder à l'esprit que vous devrez consentir aux protocoles décrits dans ce formulaire de consentement éclairé et cette politique de confidentialité pour chaque ferme à laquelle vous êtes associé avec par un compte sur l’application LiteFarm. Sans votre consentement vous ne pourrez pas utiliser l’application LiteFarm.
 
 &nbsp;
 
@@ -16,7 +16,7 @@ Veuillez garder à l'esprit que vous devrez consentir aux protocoles décrits da
 
 &nbsp;
 
-L’application LiteFarm est le produit d’un projet de science participative développé pour améliorer l'accès à la technologie agricole numérique pour les communautés agricoles. L’application LiteFarm vise à aider les agriculteurs à gérer leurs fermes de manière plus rentable et durable sur le plan environnemental et social. 
+L’application LiteFarm est le produit d’un projet de science participative développé pour améliorer l'accès à la technologie agricole numérique pour les communautés agricoles. L’application LiteFarm vise à aider les agriculteurs à gérer leurs fermes de manière plus rentable et durable sur le plan environnemental et social.
 
 Le code source pour LiteFarm est gratuit et « open source » (GPLv3) ce qui permet aux chercheurs, aux experts et aux développeurs à l'échelle mondiale de contribuer à améliorer les services offerts à la communauté agricole. LiteFarm est une entité non commerciale. Notre objectif est de servir la communauté agricole en améliorant les connaissances et les outils pour la gestion des fermes et la recherche à propos du système alimentaire.
 
@@ -61,9 +61,9 @@ Selon les parties de l’application LiteFarm que vous utilisez, nous pouvons co
 
 &nbsp;
 
-« Informations personnelles » décrit toute information pouvant être utilisée pour vous identifier ou identifier vos employés. LiteFarm ne divulgue jamais d'informations personnelles à des tierce partie sans votre consentement. 
+« Informations personnelles » décrit toute information pouvant être utilisée pour vous identifier ou identifier vos employés. LiteFarm ne divulgue jamais d'informations personnelles à des tierce partie sans votre consentement.
 
-Ceci comprend : 
+Ceci comprend :
 
 - Les coordonnées (nom, adresse, numéro de téléphone, adresse courriel)
 
@@ -87,8 +87,8 @@ Ceci comprend :
 &nbsp;
 
 &nbsp;
-  
-LiteFarm utilise les informations de gestion que vous entrez dans l'application pour générer des informations sur les avantages ou les impacts financiers, environnementaux et sociaux de vos décisions de gestion. Nous avons rendu ces données anonymes pour mener des recherches universitaires non commerciales sur les systèmes alimentaires durables. Car ces données sont anonymisées lorsqu'elles sont utilisées dans nos recherches, elles ne peuvent pas être retracées jusqu'à vous ou votre ferme. 
+
+LiteFarm utilise les informations de gestion que vous entrez dans l'application pour générer des informations sur les avantages ou les impacts financiers, environnementaux et sociaux de vos décisions de gestion. Nous avons rendu ces données anonymes pour mener des recherches universitaires non commerciales sur les systèmes alimentaires durables. Car ces données sont anonymisées lorsqu'elles sont utilisées dans nos recherches, elles ne peuvent pas être retracées jusqu'à vous ou votre ferme.
 
 Ces données comprennent:
 
@@ -96,7 +96,7 @@ Ces données comprennent:
 
 - Les informations sur les cultures : type de culture, variété, fournisseur, noms communs, espèces, genre, groupe de cultures, statut de certification biologique et informations complémentaires;
 
--  Les informations sur la gestion des cultures : y compris les dates de début et de fin de la culture; méthode de plantation ; méthode de repiquage ; âge de la culture ; tâches associées au plan; prix estimé des cultures ; rendement estimé des cultures, etc.;
+- Les informations sur la gestion des cultures : y compris les dates de début et de fin de la culture; méthode de plantation ; méthode de repiquage ; âge de la culture ; tâches associées au plan; prix estimé des cultures ; rendement estimé des cultures, etc.;
 
 - Les informations sur les tâches effectuées sur la ferme : cessionnaire, créateur, durée, emplacement(s), culture(s) impactée(s), intrants, notes, dates, état d'achèvement, etc.;
 
@@ -126,8 +126,6 @@ Ces données comprennent:
 
 - Les détails spécifiques à la ferme : unités préférées (par exemple, métrique ou impériale) ; devise; si la ferme cherche à obtenir une certification ; certificateur ; attributs de lit ; attributs de rangées.
 
-
-
 **Données d'utilisation**
 &nbsp;
 
@@ -153,7 +151,6 @@ Nous utilisons vos données de trois manières principales :
 
 - Pour mener des recherches universitaires non commerciales sur les systèmes alimentaires durables : avec nos collaborateurs universitaires, nous utiliserons vos données anonymisées de gestion agricole (voir la section « Informations sur la gestion de la ferme » ci-dessus pour une liste complète) pour mener des recherches académiques sur les systèmes agronomiques, écologiques et alimentaires. Certaines de ces recherches seront menées par des doctorants dans le cadre de leurs exigences de diplôme. Nous évaluerons rigoureusement chaque proposition de projet pour nous assurer que vos données sont utilisées efficacement pour faire progresser les connaissances sur les systèmes alimentaires durables, aider les agriculteurs à prendre des décisions de gestion durable et avoir un impact sur les politiques publiques au profit des agriculteurs. Nous vous tiendrons au courant des projets de recherche par courriel (sauf si vous préférez vous désinscrire), et vous pouvez toujours nous contacter pour en savoir plus sur la recherche que vos données contribuent à rendre possible.
 
-
 **Que partageons-nous?**
 &nbsp;
 
@@ -161,7 +158,7 @@ Nous utilisons vos données de trois manières principales :
 
 Nous ne partagerons vos données avec des tierces personnes que si elles sont à la fois anonymisées (c'est-à-dire qu'elles ne contiennent aucune information personnelle) et nécessaires pour atteindre nos objectifs de recherche ou valider des découvertes scientifiques. Plus précisément, nous pouvons partager des données anonymisées à un moment donné dans le futur avec d'autres chercheurs à des fins de recherche universitaire non commerciale. Tout chercheur universitaire externe qui demande l'utilisation des données de LiteFarm sera soumis à un examen interne et sera évalué selon nos normes d'éthique et de sécurité existantes. En raison des normes de publication en matière de reproductibilité scientifique, les données anonymisées utilisées pour la recherche universitaire peuvent être déposées dans des référentiels publics.
 
-Des copies de diffusions non publiques de données anonymisées peuvent être partagées avec des chercheurs universitaires à des fins de recherche non commerciales, dans le cadre de licences à usage unique confidentielles et limitées dans le temps. Si une utilisation de recherche universitaire inclut l'utilisation de photos téléchargées sur LiteFarm, toutes les caractéristiques identifiables qui divulguent des informations personnelles (par exemple, les visages des personnes) seront estompées des photos avant qu'elles ne soient partagées. Nous ne partageons aucune information personnelle avec des services d'analyse tiers, tels que Google Analytics. Grâce à nos protocoles de sécurité, nous protégeons la vulnérabilité des informations personnelles sur le site web LiteFarm et nous utilisons des protocoles d'anonymisation IP pour empêcher l'identification et la géolocalisation par des tierces parties. 
+Des copies de diffusions non publiques de données anonymisées peuvent être partagées avec des chercheurs universitaires à des fins de recherche non commerciales, dans le cadre de licences à usage unique confidentielles et limitées dans le temps. Si une utilisation de recherche universitaire inclut l'utilisation de photos téléchargées sur LiteFarm, toutes les caractéristiques identifiables qui divulguent des informations personnelles (par exemple, les visages des personnes) seront estompées des photos avant qu'elles ne soient partagées. Nous ne partageons aucune information personnelle avec des services d'analyse tiers, tels que Google Analytics. Grâce à nos protocoles de sécurité, nous protégeons la vulnérabilité des informations personnelles sur le site web LiteFarm et nous utilisons des protocoles d'anonymisation IP pour empêcher l'identification et la géolocalisation par des tierces parties.
 
 LiteFarm ne louera ni ne vendra vos informations personnelles ou toute donnée collectée via le site web de LiteFarm à qui que ce soit sans votre consentement.
 
@@ -186,8 +183,8 @@ La plupart des navigateurs web acceptent automatiquement les cookies, mais vous 
 &nbsp;
 
 &nbsp;
- 
-Notre application est hébergée sur Digital Ocean pour servir rapidement et de manière fiable notre site web à un nombre imprévisible de personnes. Cela signifie que vos données seront potentiellement stockées dans plusieurs centres de données et emplacements au Canada et aux États-Unis d'Amérique. 
+
+Notre application est hébergée sur Digital Ocean pour servir rapidement et de manière fiable notre site web à un nombre imprévisible de personnes. Cela signifie que vos données seront potentiellement stockées dans plusieurs centres de données et emplacements au Canada et aux États-Unis d'Amérique.
 
 Bien que notre application ne soit pas commerciale, nous notons que Digital Ocean participe au programme « Privacy Shield » développé par le Département du commerce des États-Unis et l'Union Européenne (UE) et offre des services de conformité au Règlement général sur la protection des données (RGPD) de l'UE.
 
@@ -201,7 +198,7 @@ En plus de notre stockage en nuage, une copie locale de la base de données Lite
 
 &nbsp;
 
-Nous suivons les meilleures pratiques de l'industrie pour sécuriser les données des utilisateurs, et nous avons construit et continuons à maintenir notre application conformément à la norme de vérification de la sécurité des applications annotées de niveau 2 du projet Open Web Application Security. 
+Nous suivons les meilleures pratiques de l'industrie pour sécuriser les données des utilisateurs, et nous avons construit et continuons à maintenir notre application conformément à la norme de vérification de la sécurité des applications annotées de niveau 2 du projet Open Web Application Security.
 
 L'accès à la base de données est limité aux membres de l'équipe LiteFarm qui ont suivi une formation en éthique (Énoncé de politique des trois Conseils : Éthique de la recherche avec des êtres humains, EPTC2) et ont signé des ententes de confidentialité. Cependant, nous ne pouvons pas garantir que les données transmises sur Internet seront toujours sécurisées. Malgré le fait que nous nous efforçons de protéger vos informations personnelles, l’utilisation des applications et des données infonuagiques présente toujours une certaine mesure de risque de piratage.
 &nbsp;
@@ -212,8 +209,8 @@ L'accès à la base de données est limité aux membres de l'équipe LiteFarm qu
 &nbsp;
 
 &nbsp;
- 
-Nous avons fait tous les efforts raisonnables pour nous assurer que notre application est sécurisée et fournit des informations aussi précises que possible pour vous aider à gérer votre ferme. Cependant, nous reconnaissons que l'utilisation de l’application LiteFarm comporte des risques pour vous et votre ferme lors de l’entrée des données et peut résulter en erreurs ou inexactitudes du contenu.  Les risques associés peuvent contribuer à la perte potentielle de production, de revenus ou de bénéfices, l'interruption ou le retard des services, la perte, les dommages, la corruption ou la récupération de données, ou la violation de la sécurité des données ou du système, qui peuvent résulter de l'utilisation de l’application LiteFarm. 
+
+Nous avons fait tous les efforts raisonnables pour nous assurer que notre application est sécurisée et fournit des informations aussi précises que possible pour vous aider à gérer votre ferme. Cependant, nous reconnaissons que l'utilisation de l’application LiteFarm comporte des risques pour vous et votre ferme lors de l’entrée des données et peut résulter en erreurs ou inexactitudes du contenu. Les risques associés peuvent contribuer à la perte potentielle de production, de revenus ou de bénéfices, l'interruption ou le retard des services, la perte, les dommages, la corruption ou la récupération de données, ou la violation de la sécurité des données ou du système, qui peuvent résulter de l'utilisation de l’application LiteFarm.
 
 Nous déclinons toute responsabilité légale pour ces risques. Si vous avez des inquiétudes et que vous n'êtes pas en mesure de consentir à la possibilité que cela se produise, veuillez ne pas signer le formulaire de consentement à la fin de cette page ou ne vous inscrivez pas à ce produit. Dans les cas de risques imminents connus (tels que des dates connues de perte de services), nous ferons tout notre possible pour vous avertir en tant qu'utilisateur afin que vous puissiez prendre les précautions nécessaires pour atténuer le risque (par exemple, pour sauvegarder vos données).
 
@@ -235,8 +232,8 @@ Nous visons à conserver vos données indéfiniment dans un souci de reproductib
 &nbsp;
 
 &nbsp;
- 
-Vous avez le droit de savoir quelles données nous avons à propos de vous, d'en demander une copie, de mettre à jour et de corriger vos données, de demander que nous arrêtions de collecter vos données, de demander un transfert de vos données ou de poser des questions sur toute analyse utilisant vos données. Pour toute information ou demande de ce type, contactez data@litefarm.org. 
+
+Vous avez le droit de savoir quelles données nous avons à propos de vous, d'en demander une copie, de mettre à jour et de corriger vos données, de demander que nous arrêtions de collecter vos données, de demander un transfert de vos données ou de poser des questions sur toute analyse utilisant vos données. Pour toute information ou demande de ce type, contactez data@litefarm.org.
 
 Votre utilisation de LiteFarm est entièrement volontaire. Si vous décidez d'utiliser LiteFarm, vous pouvez choisir de désactiver votre compte à tout moment sans donner de raison et sans autre action de la part du chercheur. Si vous souhaitez supprimer toutes vos données de la base de données LiteFarm, vous pouvez le faire en envoyant un courriel à data@litefarm.org avec votre demande.
 &nbsp;
@@ -257,7 +254,7 @@ Si vous retirez votre consentement en envoyant un courriel à data@litefarm.org,
 
 &nbsp;
 
-Bien que la plupart des changements soient probablement mineurs, LiteFarm peut occasionnellement modifier sa politique de confidentialité. Nous publierons une version mise à jour et révisée de la politique de confidentialité sur le site web de LiteFarm (www.litefarm.org) et vous informerons via l'application lorsque nous apporterons des modifications. 
+Bien que la plupart des changements soient probablement mineurs, LiteFarm peut occasionnellement modifier sa politique de confidentialité. Nous publierons une version mise à jour et révisée de la politique de confidentialité sur le site web de LiteFarm (www.litefarm.org) et vous informerons via l'application lorsque nous apporterons des modifications.
 
 Vous devrez accepter le nouveau formulaire de consentement pour continuer à utiliser l’application. Si vous n'acceptez pas les modifications, vous pourrez télécharger vos données, mais vous ne pourrez pas saisir de nouvelles données dans l'application. Les révisions entrent en vigueur dès leur publication. Votre utilisation continue de ce site après toute modification de cette politique de confidentialité constitue votre acceptation de cette modification.
 &nbsp;
@@ -292,7 +289,7 @@ Concernant de la plateforme, merci de contacter :
 Concernant la recherche universitaire, merci de contacter :
 
 - Chercheure principale: Dr. Hannah Wittman (hannah.wittman@ubc.ca)
-&nbsp;
+  &nbsp;
 
 &nbsp;
 
@@ -301,7 +298,7 @@ Concernant la recherche universitaire, merci de contacter :
 
 &nbsp;
 
-Communiquez avec la ligne de plainte des participants à la recherche du Bureau d'éthique de la recherche de UBC au 604-822-8598 ou, en cas d'interurbain, envoyez un courriel à RSIL@ors.ubc.ca ou appelez sans frais le 1-877-822-8598. 
+Communiquez avec la ligne de plainte des participants à la recherche du Bureau d'éthique de la recherche de UBC au 604-822-8598 ou, en cas d'interurbain, envoyez un courriel à RSIL@ors.ubc.ca ou appelez sans frais le 1-877-822-8598.
 &nbsp;
 
 &nbsp;
@@ -312,7 +309,7 @@ Communiquez avec la ligne de plainte des participants à la recherche du Bureau 
 &nbsp;
 
 En appuyant sur « Accepter » ci-dessous, cela indique que vous avez téléchargé une copie de ce formulaire de consentement et de la politique de confidentialité pour vos propres dossiers et que vous consentez à participer à cette étude.
- 
+
 Éthique de l'étude à UBC - Identification de l’étude: H19-01482
 &nbsp;
 

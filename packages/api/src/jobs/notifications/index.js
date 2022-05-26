@@ -45,7 +45,7 @@ const sendOnSchedule = (queueConfig) => {
 */
 
   // At the top of every hour ...
-  driverQueue.process(() => {
+  driverQueue.process((_, done) => {
     // ... find the UTC offsets where it just became 6am ...
     const now = new Date();
     const utcHour = now.getUTCHours();
@@ -57,7 +57,7 @@ const sendOnSchedule = (queueConfig) => {
     if (timeZones[0] < -11) timeZones[0] += 24;
     if (timeZones[0] === -10 || timeZones[0] === -11) timeZones[1] = timeZones[0] + 24;
 
-    console.log(`UTC day ${utcDay}, ${utcHour}:00 - it's now 6am at UTC offset(s) ${timeZones}`);
+    console.log(`!UTC day ${utcDay}, ${utcHour}:00 - it's now 6am at UTC offset(s) ${timeZones}`);
 
     // ... and call the API to get farms for those offsets.
     for (const timeZone of timeZones) {
@@ -65,7 +65,7 @@ const sendOnSchedule = (queueConfig) => {
       const end = 3600 * (timeZone + 1);
       console.log(`  Get farms for UTC ${timeZone}: offsets of ${start} to ${end} seconds`);
       const req = http.request(
-        { ...apiCall, method: 'GET', path: `/farm/utc_offset/${start}/${end}` },
+        { ...apiCall, method: 'GET', path: `/farm/utc_offset_by_range/${start}/${end}` },
         (res) => {
           const farmIds = res.body;
 
@@ -86,12 +86,13 @@ const sendOnSchedule = (queueConfig) => {
         },
       );
     }
+    done();
   });
 
   // Create a recurring schedule.
-  driverQueue.add({}, { repeat: { every: 1000 } }); // TODO use top of every hour for real
+  driverQueue.add({}, { repeat: { cron: '0 * * * *' } });
 
-  apiQueue.process((job) => {
+  apiQueue.process((job, done) => {
     const req = http.request({ ...apiCall, ...job.data }, (res) => {
       console.log('    ', res.statusCode, res.statusMessage, job.data?.path);
     });
@@ -99,6 +100,7 @@ const sendOnSchedule = (queueConfig) => {
       console.error(`Problem with API request to ${job.data?.path}: ${err.message}`);
     });
     req.end();
+    done();
   });
 };
 

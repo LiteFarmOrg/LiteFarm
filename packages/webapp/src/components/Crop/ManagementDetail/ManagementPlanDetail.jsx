@@ -26,6 +26,16 @@ export default function PureManagementDetail({
   const { t } = useTranslation();
 
   const title = plan.name;
+  const isValidDate =
+    getDateInputFormat(plan.abandon_date) !== 'Invalid date' ||
+    getDateInputFormat(plan.complete_date) !== 'Invalid date';
+  const isSomethingElse =
+    plan.abandon_reason !== 'CROP_FAILURE' &&
+    plan.abandon_reason !== 'LABOUR_ISSUE' &&
+    plan.abandon_reason !== 'MARKET_PROBLEM' &&
+    plan.abandon_reason !== 'WEATHER' &&
+    plan.abandon_reason !== 'MACHINERY_ISSUE' &&
+    plan.abandon_reason !== 'SCHEDULING_ISSUE';
 
   const {
     register,
@@ -37,7 +47,11 @@ export default function PureManagementDetail({
     formState: { errors, isValid },
   } = useForm({
     defaultValues: {
-      complete_date: getDateInputFormat(plan.complete_date),
+      abandon_date: isValidDate ? getDateInputFormat(plan.abandon_date) : '',
+      abandon_reason: isSomethingElse
+        ? plan.abandon_reason
+        : t(`MANAGEMENT_PLAN.COMPLETE_PLAN.REASON.${plan.abandon_reason}`),
+      complete_date: isValidDate ? getDateInputFormat(plan.complete_date) : '',
       complete_notes: plan.complete_notes,
       notes: plan.notes,
       crop_management_plan: {
@@ -49,7 +63,10 @@ export default function PureManagementDetail({
     mode: 'onChange',
   });
 
-  const COMPLETE_DATE = 'complete_date';
+  const isAbandoned = plan.abandon_date ? true : false;
+  const DATE_OF_STATUS_CHANGE = isAbandoned ? 'abandon_date' : 'complete_date';
+  const ABANDON_REASON = 'abandon_reason';
+  const DATE = isAbandoned ? 'DATE_OF_CHANGE' : 'COMPLETE_DATE';
   const COMPLETE_NOTES = 'complete_notes';
   const PLAN_NOTES = 'notes';
   const ESTIMATED_YIELD = `crop_management_plan.estimated_yield`;
@@ -105,11 +122,24 @@ export default function PureManagementDetail({
 
       <InputAutoSize
         style={{ marginBottom: '40px' }}
-        label={t('MANAGEMENT_PLAN.COMPLETE_PLAN.DATE_OF_CHANGE')}
-        hookFormRegister={register(COMPLETE_DATE)}
-        errors={errors[COMPLETE_DATE]?.message}
+        label={t(`MANAGEMENT_PLAN.COMPLETE_PLAN.${DATE}`)}
+        hookFormRegister={register(DATE_OF_STATUS_CHANGE)}
+        errors={errors[DATE_OF_STATUS_CHANGE]?.message}
         disabled
       />
+
+      {isAbandoned && (
+        <InputAutoSize
+          style={{ marginBottom: '40px' }}
+          label={t('MANAGEMENT_PLAN.COMPLETE_PLAN.ABANDON_REASON')}
+          hookFormRegister={register(ABANDON_REASON, {
+            maxLength: { value: 10000, message: t('MANAGEMENT_PLAN.NOTES_CHAR_LIMIT') },
+          })}
+          errors={errors[ABANDON_REASON]?.message}
+          disabled
+        />
+      )}
+
       <Rating
         className={styles.rating}
         style={{ marginBottom: '34px' }}
@@ -120,7 +150,11 @@ export default function PureManagementDetail({
 
       <InputAutoSize
         style={{ marginBottom: '40px' }}
-        label={t('MANAGEMENT_PLAN.COMPLETION_NOTES')}
+        label={
+          isAbandoned
+            ? t('MANAGEMENT_PLAN.COMPLETE_PLAN.ABANDON_NOTES')
+            : t('MANAGEMENT_PLAN.COMPLETION_NOTES')
+        }
         hookFormRegister={register(COMPLETE_NOTES, {
           maxLength: { value: 10000, message: t('MANAGEMENT_PLAN.NOTES_CHAR_LIMIT') },
         })}
@@ -140,6 +174,7 @@ export default function PureManagementDetail({
       />
 
       <Unit
+        style={{ marginBottom: '46px' }}
         register={register}
         label={t('MANAGEMENT_PLAN.ESTIMATED_YIELD')}
         name={ESTIMATED_YIELD}

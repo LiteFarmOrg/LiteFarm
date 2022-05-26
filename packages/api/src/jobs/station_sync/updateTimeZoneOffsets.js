@@ -30,7 +30,7 @@ async function mapTimeZoneOffsetsToFarms(knex) {
               },
             });
             await knex('farm')
-              .update('utc_offset', Math.round(timeZone.data.rawOffset / 60))
+              .update('utc_offset', timeZone.data.rawOffset)
               .where('farm_id', farm.farm_id);
           } catch (e) {
             console.log(e);

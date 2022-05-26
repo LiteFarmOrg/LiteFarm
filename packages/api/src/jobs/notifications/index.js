@@ -13,23 +13,23 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-// const http = require('http');
+const http = require('http');
 const Queue = require('bull');
-// const { sign } = require('jsonwebtoken');
+const { sign } = require('jsonwebtoken');
 
 const sendOnSchedule = (queueConfig) => {
-  // const token = sign({ requestTimedNotifications: true }, process.env.JWT_SCHEDULER_SECRET, {
-  //   expiresIn: '1d',
-  //   algorithm: 'HS256',
-  // });
+  const token = sign({ requestTimedNotifications: true }, process.env.JWT_SCHEDULER_SECRET, {
+    expiresIn: '1d',
+    algorithm: 'HS256',
+  });
 
-  // const apiCall = {
-  //   method: 'POST',
-  //   hostname: 'localhost',
-  //   port: 5001,
-  //   headers: { 'Authorization': `Bearer ${token}` },
-  //   agent: false,  // Create a new agent just for this one request
-  // };
+  const apiCall = {
+    method: 'POST',
+    hostname: process.env.API_HOST || 'localhost',
+    port: process.env.PORT || 5001,
+    headers: { Authorization: `Bearer ${token}` },
+    agent: false, // Create a new agent just for this one request TODO research this
+  };
 
   const driverQueue = new Queue('Scheduled notifications', queueConfig);
   const apiQueue = new Queue('LiteFarm API requests', queueConfig);
@@ -44,14 +44,12 @@ const sendOnSchedule = (queueConfig) => {
 | Date offset    |  0,1   |  0,1   | 0   | 0   | 0   | 0   | 0   | 0   | 0   | 0   | 0   | 0   | 0   | 0   | 0   | 0   | 0   | 0   | 1   | 1   | 1   | 1   | 1   | 1   |
 */
 
-  let utcHour = 0;
-  let utcDay = 0;
   // At the top of every hour ...
   driverQueue.process(() => {
     // ... find the UTC offsets where it just became 6am ...
-    // const now = new Date();
-    // const utcHour = now.getUTCHours();
-    // const utcDay = now.getUTCDay();
+    const now = new Date();
+    const utcHour = now.getUTCHours();
+    const utcDay = now.getUTCDay();
     const SUNDAY = 0;
     const MONDAY = SUNDAY + 1;
 
@@ -66,43 +64,41 @@ const sendOnSchedule = (queueConfig) => {
       const start = 3600 * timeZone; // hours to seconds
       const end = 3600 * (timeZone + 1);
       console.log(`  Get farms for UTC ${timeZone}: offsets of ${start} to ${end} seconds`);
-      // const req = http.request({ ...apiCall, 'api url to get farms by utc'}, (res) => {
-      const farmIds = /* req.body */ ['0742f4b2-dc62-11ec-8b99-117de431eaf4'];
+      const req = http.request(
+        { ...apiCall, method: 'GET', path: `/farm/utc_offset/${start}/${end}` },
+        (res) => {
+          const farmIds = res.body;
 
-      // For each farm ...
-      for (const farmId of farmIds) {
-        // ... send daily 6am notifications ...
-        apiQueue.add({ path: `/time_notification/daily_due_today_tasks/${farmId}` });
-        console.log('  daily');
-        if ((utcDay === MONDAY && timeZone < 7) || (utcDay === SUNDAY && timeZone >= 7)) {
-          // ... and Monday 6am notifications if appropriate.
-          apiQueue.add({ path: `/time_notification/weekly_unassigned_tasks/${farmId}` });
-          console.log('  weekly');
-        }
-      }
-      //   });
-      //   req.on('error', (err) => {
-      //     console.error(`Problem getting farms by UTC: ${err.message}`);
-      //   });
-      //   req.end();
-      // });
+          // For each farm ...
+          for (const farmId of farmIds) {
+            // ... send daily 6am notifications ...
+            apiQueue.add({ path: `/time_notification/daily_due_today_tasks/${farmId}` });
+            if ((utcDay === MONDAY && timeZone < 7) || (utcDay === SUNDAY && timeZone >= 7)) {
+              // ... and Monday 6am notifications if appropriate.
+              apiQueue.add({ path: `/time_notification/weekly_unassigned_tasks/${farmId}` });
+            }
+          }
+          // });
+          req.on('error', (err) => {
+            console.error(`Problem getting farms by UTC: ${err.message}`);
+          });
+          req.end();
+        },
+      );
     }
-
-    utcHour = (utcHour + 1) % 24; // TODO remove for real
-    if (utcHour === 0) utcDay = ++utcDay % 7; // TODO remove for real
   });
 
   // Create a recurring schedule.
   driverQueue.add({}, { repeat: { every: 1000 } }); // TODO use top of every hour for real
 
-  apiQueue.process((/* job */) => {
-    //   const req = http.request({ ...apiCall, ...job.data }, (res) => {
-    //     console.log('    ', res.statusCode, res.statusMessage, job.data?.path)
-    //   });
-    //   req.on('error', (err) => {
-    //     console.error(`Problem with API request to ${job.data?.path}: ${err.message}`);
-    //   });
-    //   req.end();
+  apiQueue.process((job) => {
+    const req = http.request({ ...apiCall, ...job.data }, (res) => {
+      console.log('    ', res.statusCode, res.statusMessage, job.data?.path);
+    });
+    req.on('error', (err) => {
+      console.error(`Problem with API request to ${job.data?.path}: ${err.message}`);
+    });
+    req.end();
   });
 };
 

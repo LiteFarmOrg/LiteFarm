@@ -23,12 +23,15 @@
     "UNCATEGORIZED": "Non Classé"
   },
   "TASKS": {
+    "LOCATION": "MISSING",
     "ABANDONED": "Abandonné",
     "COMPLETED": "Terminé",
     "FOR_REVIEW": "Pour évaluer",
     "LATE": "Tard",
     "PLANNED": "Planifié",
-    "STATUS": "Statut"
+    "STATUS": "Statut",
+    "SUPPLIERS": "MISSING",
+    "ACTIVE": "MISSING"
   },
   "FILTER": {
     "VALID_ON": "Valable le",

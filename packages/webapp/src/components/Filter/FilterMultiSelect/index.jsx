@@ -2,6 +2,7 @@ import React, { useEffect, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 import ReactSelect from '../../Form/ReactSelect';
 import produce from 'immer';
+import { useTranslation } from 'react-i18next';
 
 export const FilterMultiSelect = ({
   subject,
@@ -12,6 +13,8 @@ export const FilterMultiSelect = ({
   options = [],
   onChange,
 }) => {
+  const { t } = useTranslation(['common']);
+
   const defaultValue = useMemo(() => {
     return options.filter((option) => option.default);
   }, []);
@@ -44,6 +47,7 @@ export const FilterMultiSelect = ({
   return (
     <ReactSelect
       style={style}
+      placeholder={`${t('common:SELECT')}...`}
       options={options}
       label={subject}
       value={value}

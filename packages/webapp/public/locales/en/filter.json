@@ -22,7 +22,7 @@
     "RECEIPTS": "Receipts",
     "INVOICES": "Invoices"
   },
-  "TASK": {
+  "TASKS": {
     "LOCATION": "Location",
     "STATUS": "Status",
     "SUPPLIERS": "Suppliers",
@@ -30,7 +30,8 @@
     "ABANDONED": "Abandoned",
     "COMPLETED": "Completed",
     "LATE": "Late",
-    "PLANNED": "Planned"
+    "PLANNED": "Planned",
+    "FOR_REVIEW": "For Review"
   },
   "FILTER": {
     "VALID_ON": "Valid on",

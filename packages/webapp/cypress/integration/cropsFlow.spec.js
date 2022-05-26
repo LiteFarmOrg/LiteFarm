@@ -28,6 +28,22 @@ describe.only('Crops flow tests', () => {
     // ensure statuses are displayed on varietal tile
   });
 
+  it('Add a task to a crop plan', () => {
+    //test for LF-2392
+    //navigate to crop catalogue
+    //select a crop with a planned management plan
+    //select the variety with the planned management plan
+    //select the planned plan
+    // click add a task
+    //select a cleaning task and click continue
+    //select a date and click continue
+    //Ensure the initiating location is pre-selected by checking if continue button is enabled and click continue
+    // Ensure the crop management plan where add task was initiated is preselected and click continue
+    //click continue
+    //click save
+    //Ensure you are back on the initiating plan view
+  });
+
   it('Complete a crop plan', () => {
     //test for LF-2178
     //Complete a crop plan

@@ -97,28 +97,21 @@ const farmController = {
     };
   },
 
-  getFarmsByOffsetRange() {
-    return async (req, res) => {
-      try {
-        const [min, max] = [req.params.min, req.params.max];
-        const farms = await farmModel
-          .query()
-          .select('farm_id')
-          .where('utc_offset', '>=', min)
-          .where('utc_offset', '<=', max);
+  async getFarmsByOffsetRange(req, res) {
+    try {
+      const [min, max] = [req.params.min, req.params.max];
+      const farms = await farmModel
+        .query()
+        .select('farm_id')
+        .where('utc_offset', '>=', min)
+        .where('utc_offset', '<=', max);
 
-        if (!farms) {
-          res.sendStatus(404);
-        } else {
-          console.log(farms);
-          res.status(200).send(farms);
-        }
-      } catch (error) {
-        res.status(400).json({
-          error,
-        });
-      }
-    };
+      res.status(200).send(farms.map((farm) => farm['farm_id']));
+    } catch (error) {
+      res.status(400).json({
+        error,
+      });
+    }
   },
 
   deleteFarm() {

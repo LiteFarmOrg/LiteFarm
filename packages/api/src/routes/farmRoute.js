@@ -67,7 +67,7 @@ router.get(
   '/utc_offset_by_range/:min/:max',
   checkSchedulerJwt,
   hasTimeNotificationsAccess,
-  farmController.getFarmsByOffsetRange(),
+  farmController.getFarmsByOffsetRange,
 );
 
 module.exports = router;

@@ -19,6 +19,8 @@ const userModel = require('../models/userModel');
 const userFarmModel = require('../models/userFarmModel');
 const { transaction, Model } = require('objection');
 const knex = Model.knex();
+const { Client } = require('@googlemaps/google-maps-services-js');
+const client = new Client({});
 
 const farmController = {
   addFarm() {
@@ -37,13 +39,15 @@ const farmController = {
           return res.status(400).send('No unit info for given country');
         }
 
+        const utc_offset = await this.getUTCOffsetFromGridPoints(req.body.grid_points);
+
         const infoBody = {
           farm_name: req.body.farm_name,
           address: req.body.address,
           grid_points: req.body.grid_points,
           units,
           country_id: id,
-          utc_offset: req.body.utc_offset,
+          utc_offset,
         };
         const result = await baseController.postWithResponse(farmModel, infoBody, req, { trx });
         // update user with new farm
@@ -226,6 +230,46 @@ const farmController = {
       .where('country_name', country)
       .first();
     return { currency: iso, measurement: unit.toLowerCase(), id };
+  },
+
+  async getUTCOffsetFromGridPoints(gridPoints) {
+    try {
+      const timeZone = await client.timezone({
+        params: {
+          location: gridPoints,
+          timestamp: new Date(Date.now()),
+          key: process.env.GOOGLE_MAPS_API_KEY,
+        },
+      });
+      return timeZone.data.rawOffset;
+    } catch (e) {
+      switch (e.response?.data?.status) {
+        case 'OVER_QUERY_LIMIT':
+          console.log('Hit query limit for timezones API: waiting for query limit to reset');
+          await new Promise((resolve) => setTimeout(resolve, 60000)); // Rate limit is on a per-minute basis
+          try {
+            const timeZone = await client.timezone({
+              params: {
+                location: gridPoints,
+                timestamp: new Date(Date.now()),
+                key: process.env.GOOGLE_MAPS_API_KEY,
+              },
+            });
+            return timeZone.data.rawOffset;
+          } catch (e) {
+            console.log(e);
+          }
+          break;
+        case 'OVER_DAILY_LIMIT':
+          console.log(
+            'Over the daily limit fot the timezones API. Please double check credentials are valid and try again tomorrow',
+          );
+          throw new Error('OVER_DAILY_LIMIT');
+        default:
+          console.log(`Unable to set a timezone for the farm`);
+          break;
+      }
+    }
   },
 };
 

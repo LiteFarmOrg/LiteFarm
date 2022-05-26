@@ -19,17 +19,15 @@ const farmController = require('../controllers/farmController');
 const authFarmId = require('../middleware/acl/authFarmId');
 const hasFarmAccess = require('../middleware/acl/hasFarmAccess');
 const checkScope = require('../middleware/acl/checkScope');
-const addUTCOffsetToFarm = require('../middleware/validation/addUTCOffsetToFarm');
 
 router.get('/:farm_id', authFarmId, farmController.getFarmByID());
 
-router.post('/', addUTCOffsetToFarm, farmController.addFarm());
+router.post('/', farmController.addFarm());
 
 router.patch(
   '/:farm_id',
   hasFarmAccess({ params: 'farm_id' }),
   checkScope(['edit:farms'], { checkConsent: false }),
-  addUTCOffsetToFarm,
   farmController.updateFarm(true),
 );
 

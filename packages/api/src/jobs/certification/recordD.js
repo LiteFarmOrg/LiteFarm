@@ -29,7 +29,7 @@ module.exports = (nextQueue, zipQueue, emailQueue) => (job) => {
         recordAGenerator(recordA, exportId, from_date, to_date, farm_name, measurement),
         recordIGeneration(recordICleaners, exportId, from_date, to_date, farm_name, measurement),
         readmeGeneration(exportId, language_preference),
-        surveyRecordGeneration(submission, exportId, organicCertifierSurvey),
+        surveyRecordGeneration(emailQueue, submission, exportId, organicCertifierSurvey),
       ]),
     )
     .then(() => {

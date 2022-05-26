@@ -2,7 +2,12 @@ const XlsxPopulate = require('xlsx-populate');
 const rp = require('request-promise');
 const surveyStackURL = 'https://app.surveystack.io/api/';
 
-module.exports = async (submission, exportId, organicCertifierSurvey) => {
+module.exports = async (emailQueue, submission, exportId, organicCertifierSurvey) => {
+  if (!submission) {
+    emailQueue.add({ fail: true });
+    return Promise.resolve();
+  }
+
   const submissionData = await rp({
     uri: `${surveyStackURL}/submissions/${submission}`,
     json: true,
@@ -80,7 +85,6 @@ module.exports = async (submission, exportId, organicCertifierSurvey) => {
   };
 
   const getQuestionInfo = (questionAnswerList, groupName = null, prevParentGroups = []) => {
-    console.log('PARENT GROUPS: ', prevParentGroups);
     return questionAnswerList
       .map(({ label, name, type, hint, options, moreInfo, children }) => ({
         Question: label,
@@ -276,7 +280,6 @@ module.exports = async (submission, exportId, organicCertifierSurvey) => {
       .value(data['Question'])
       .style({ ...groupHeaderStyle, ...getGroupBorder('top') });
     const childInfo = getQuestionInfo(data['Children'], data['Name'], data['ParentGroups']);
-    console.log('CHILDREN: ', childInfo);
     var [currentFarthestCol, farthestCol] = [1, 1];
     for (const child of childInfo) {
       [col, row, currentFarthestCol] = typeToFuncMap[child['Type']](sheet, col, row + 1, child);

@@ -158,7 +158,7 @@ const ReactSelect = React.forwardRef(
   ) => {
     const { t } = useTranslation();
     return (
-      <div data-cy='react-select' style={style}>
+      <div data-cy="react-select" style={style}>
         {(label || toolTipContent || icon) && (
           <div
             style={{

@@ -10,7 +10,7 @@ const Pill = ({ className, label, selected, removable, onRemovePill }) => {
       {label}
       {removable && (
         <BsX
-        data-cy='pill-close'
+          data-cy="pill-close"
           style={{
             fontSize: '18px',
             marginLeft: '4px',

@@ -27,7 +27,7 @@ const PureTaskCrops = ({
   isRequired,
   defaultManagementPlanId,
   history,
-  location
+  location,
 }) => {
   const { t } = useTranslation();
 

@@ -216,4 +216,17 @@ describe.only('Tasks flow tests', () => {
     //task count should be visible and correct
     // create a task link should exist
   });
+
+  it('Admin user must be able to unassign tasks', () => {
+    //Test for LF-2323
+    //login as a user with admin rights
+    //navigate to the tasks view
+    //create a task, ensure an assignee is selected
+    //back on the task view, change the assignee for the created task to unassigned and click update
+    //ensure task card is updated to reflect the new assignee status
+    //change the assignee to another user via quick assign modal
+    //click the task card to enter the task readonly view
+    //click the pencil next to assignee to open the quick assign modal and change the assignee to unassigned
+    //ensure the change to assignee persists for selected task
+  });
 });

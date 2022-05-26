@@ -202,9 +202,9 @@ const isEventOkForIntegerInput = (event) => {
   return /[0-9]/.test(event.key); // Accept a digit, but no other single character.
 };
 export const numberOnKeyDown = (event) => {
-  const decimalSeparator = '.'; // May want to support internationalization here.
-  if (event.key === decimalSeparator) return;
   if (isEventOkForIntegerInput(event)) return;
+  const decimalSeparator = '.'; // May want to support internationalization here.
+  if (event.key === decimalSeparator && !event.target.value.includes(decimalSeparator)) return;
   event.preventDefault();
 };
 export const integerOnKeyDown = (event) => {

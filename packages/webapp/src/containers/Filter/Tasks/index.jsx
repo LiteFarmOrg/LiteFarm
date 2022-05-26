@@ -112,6 +112,8 @@ const TasksFilterPage = ({ onGoBack }) => {
     onGoBack?.();
   };
 
+  console.log({ log: t(`filter:TASK.${statuses[0]}`) });
+
   const filters = [
     {
       subject: t('TASK.FILTER.STATUS'),
@@ -119,7 +121,7 @@ const TasksFilterPage = ({ onGoBack }) => {
       options: statuses.map((status) => ({
         value: status.toLowerCase(),
         default: tasksFilter[STATUS][status.toLowerCase()]?.active ?? false,
-        label: t(`filter:TASK.${status}`),
+        label: t(`filter:TASKS.${status}`),
       })),
     },
     {

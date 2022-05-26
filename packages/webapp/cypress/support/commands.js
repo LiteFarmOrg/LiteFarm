@@ -163,7 +163,8 @@ Cypress.Commands.add('createTaskToday', () => {
   cy.contains('Clean').should('exist').and('not.be.disabled').click({ force: true });
 
   const date = new Date();
-  const dueDate = getDateInputFormat(date);
+  const alertDateTime = date.setHours(23, 0, 0);
+  const dueDate = getDateInputFormat(alertDateTime);
 
   cy.get('[data-cy=addTask-taskDate]').should('exist').type(dueDate);
 
@@ -176,6 +177,10 @@ Cypress.Commands.add('createTaskToday', () => {
     force: false,
   });
   cy.get('[data-cy=addTask-locationContinue]')
+    .should('exist')
+    .and('not.be.disabled')
+    .click({ force: true });
+  cy.get('[data-cy="addTask-cropsContinue"]')
     .should('exist')
     .and('not.be.disabled')
     .click({ force: true });

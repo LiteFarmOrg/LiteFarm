@@ -204,11 +204,7 @@ const userController = {
       await trx.commit();
       res.status(201).send({ ...user, ...userFarm });
       try {
-        const { language_preference } =
-          isUserAlreadyCreated ?? language
-            ? { language_preference: language }
-            : await userModel.query().findById(req.user.user_id);
-
+        const { language_preference } = isUserAlreadyCreated ?? { language_preference: language };
         await emailTokenModel.createTokenSendEmail(
           {
             email,

@@ -129,8 +129,10 @@ const farmController = {
           throw new Error('Not allowed to modify address or gridPoints');
         } else if (req.body.country) {
           const { id, ...units } = await this.getCountry(req.body.country);
+          const utc_offset = await this.getUTCOffsetFromGridPoints(req.body.grid_points);
           req.body.units = units;
           req.body.country_id = id;
+          req.body.utc_offset = utc_offset;
           delete req.body.country;
         }
         const updated = await baseController.put(farmModel, req.params.farm_id, req.body, req, {

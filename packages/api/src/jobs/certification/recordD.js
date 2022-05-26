@@ -18,6 +18,7 @@ module.exports = (nextQueue, zipQueue, emailQueue) => (job) => {
     measurement,
     language_preference,
     submission,
+    organicCertifierSurvey,
   } = job.data;
   return i18n
     .changeLanguage(language_preference)
@@ -28,7 +29,7 @@ module.exports = (nextQueue, zipQueue, emailQueue) => (job) => {
         recordAGenerator(recordA, exportId, from_date, to_date, farm_name, measurement),
         recordIGeneration(recordICleaners, exportId, from_date, to_date, farm_name, measurement),
         readmeGeneration(exportId, language_preference),
-        surveyRecordGeneration(submission, exportId),
+        surveyRecordGeneration(submission, exportId, organicCertifierSurvey),
       ]),
     )
     .then(() => {

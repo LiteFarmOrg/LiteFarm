@@ -282,7 +282,7 @@ module.exports = async (emailQueue, submission, exportId, organicCertifierSurvey
     const childInfo = getQuestionInfo(data['Children'], data['Name'], data['ParentGroups']);
     var [currentFarthestCol, farthestCol] = [1, 1];
     for (const child of childInfo) {
-      [col, row, currentFarthestCol] = typeToFuncMap[child['Type']](sheet, col, row + 1, child);
+      [col, row, currentFarthestCol] = typeToFuncMap[child['Type']](sheet, col, row + 2, child);
       farthestCol = Math.max(currentFarthestCol, farthestCol);
     }
     sheet.cell(`${col}${row}`).style(getGroupBorder('bottom'));
@@ -337,7 +337,7 @@ module.exports = async (emailQueue, submission, exportId, organicCertifierSurvey
       .cell(`A${(currentRow += 1)}`)
       .value(surveyName)
       .style(titleStyle);
-    currentRow += 1;
+    currentRow += 2;
     for (const qa of questionAnswerMap) {
       [currentCol, currentRow, currentFarthestCol] = typeToFuncMap[qa['Type']](
         mainSheet,

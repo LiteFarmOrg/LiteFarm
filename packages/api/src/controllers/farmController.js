@@ -25,7 +25,6 @@ const farmController = {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
       try {
-
         const { country } = req.body;
         if (!country) {
           await trx.rollback();
@@ -44,8 +43,8 @@ const farmController = {
           grid_points: req.body.grid_points,
           units,
           country_id: id,
-        }
-        const user_id = req.user.user_id;
+          utc_offset: req.body.utc_offset,
+        };
         const result = await baseController.postWithResponse(farmModel, infoBody, req, { trx });
         // update user with new farm
         const new_user = await farmController.getUser(req, trx);
@@ -82,7 +81,6 @@ const farmController = {
   getFarmByID() {
     return async (req, res) => {
       try {
-
         const id = req.params.farm_id;
         const row = await baseController.getIndividual(farmModel, id);
         if (!row.length) {
@@ -126,13 +124,14 @@ const farmController = {
         if ((!!req.body.address || !!req.body.grid_points) && !mainPatch) {
           throw new Error('Not allowed to modify address or gridPoints');
         } else if (req.body.country) {
-          const  { id, ...units } = await this.getCountry(req.body.country)
+          const { id, ...units } = await this.getCountry(req.body.country);
           req.body.units = units;
           req.body.country_id = id;
           delete req.body.country;
         }
-        const user_id = req.user.user_id;
-        const updated = await baseController.put(farmModel, req.params.farm_id, req.body, req, { trx });
+        const updated = await baseController.put(farmModel, req.params.farm_id, req.body, req, {
+          trx,
+        });
 
         await trx.commit();
         if (!updated.length) {
@@ -140,14 +139,13 @@ const farmController = {
         } else {
           res.status(200).send(updated);
         }
-
       } catch (error) {
         await trx.rollback();
         res.status(400).json({
           error: error.message ? error.message : error,
         });
       }
-    }
+    };
   },
 
   patchDefaultInitialLocation() {
@@ -155,7 +153,12 @@ const farmController = {
       try {
         const { default_initial_location_id } = req.body;
         const user_id = req.user.user_id;
-        const updated = await farmModel.query().context({ user_id }).findById(req.params.farm_id).patch({ default_initial_location_id }).returning('*');
+        const updated = await farmModel
+          .query()
+          .context({ user_id })
+          .findById(req.params.farm_id)
+          .patch({ default_initial_location_id })
+          .returning('*');
         if (!updated) {
           return res.sendStatus(404);
         } else {
@@ -175,7 +178,12 @@ const farmController = {
       try {
         const { owner_operated } = req.body;
         const user_id = req.user.user_id;
-        const updated = await farmModel.query(trx).context({ user_id }).where({ farm_id: req.params.farm_id }).patch({ owner_operated }).returning('*');
+        const updated = await farmModel
+          .query(trx)
+          .context({ user_id })
+          .where({ farm_id: req.params.farm_id })
+          .patch({ owner_operated })
+          .returning('*');
         await trx.commit();
         if (!updated) {
           res.sendStatus(404);
@@ -188,13 +196,12 @@ const farmController = {
           error: e.message ? e.message : e,
         });
       }
-    }
+    };
   },
 
   async getUser(req, trx) {
     // check if a user is making this call
     if (req.user) {
-
       const uid = req.user.user_id;
 
       return await userModel.query(trx).where(userModel.idColumn, uid).returning('*');
@@ -202,18 +209,24 @@ const farmController = {
   },
 
   async insertUserFarm(user, farm_id, trx) {
-    return userFarmModel.query(trx).insert({
-      user_id: user.user_id,
-      farm_id,
-      role_id: 1,
-      status: 'Active',
-    }).returning('*');
+    return userFarmModel
+      .query(trx)
+      .insert({
+        user_id: user.user_id,
+        farm_id,
+        role_id: 1,
+        status: 'Active',
+      })
+      .returning('*');
   },
 
   async getCountry(country) {
-    const { iso, unit, id } = await knex('countries').select('*').where('country_name', country).first();
+    const { iso, unit, id } = await knex('countries')
+      .select('*')
+      .where('country_name', country)
+      .first();
     return { currency: iso, measurement: unit.toLowerCase(), id };
   },
-}
+};
 
 module.exports = farmController;

@@ -12,8 +12,6 @@ module.exports = async (submission, exportId, organicCertifierSurvey) => {
     uri: `${surveyStackURL}/surveys/${submissionData.meta.survey.id}`,
     json: true,
   });
-  console.log('SUBMISSION DATA: ', submissionData);
-  console.log('SURVEY DATA: ', survey);
 
   const ignoredQuestions = [
     'geoJSON',
@@ -67,6 +65,10 @@ module.exports = async (submission, exportId, organicCertifierSurvey) => {
     border: { color: '000000', style: 'thick' },
   };
 
+  /**
+   * Traverse down nested groups to get the answer of a question.
+   * If a question is not nested in a group, no traversing is done.
+   */
   const getNestedAnswer = (parentGroups, name) => {
     let answer = submissionData.data;
     for (const group of parentGroups) {
@@ -85,9 +87,6 @@ module.exports = async (submission, exportId, organicCertifierSurvey) => {
         Name: name,
         ParentGroups: [...prevParentGroups, groupName],
         Answer: getNestedAnswer([...prevParentGroups, groupName], name),
-        // groupName == null
-        //   ? submissionData.data[name]?.value
-        //   // : submissionData.data[groupName][name]?.value,
         Type: type,
         Hint: hint,
         Options: options,
@@ -313,8 +312,6 @@ module.exports = async (submission, exportId, organicCertifierSurvey) => {
     page: writeCollection,
     group: writeCollection,
   };
-
-  console.log('QUESTIONS AND ANSWERS: ', questionAnswerMap);
 
   return XlsxPopulate.fromBlankAsync().then((workbook) => {
     // Populate the workbook.

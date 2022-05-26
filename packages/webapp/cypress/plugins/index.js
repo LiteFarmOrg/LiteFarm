@@ -31,7 +31,7 @@ module.exports = (on, config) => {
   require('@cypress/code-coverage/task')(on, config);
 
   // starts the SMTP server at localhost:7777
-  const port = 7777;
+  const port = 465;
   const mailServer = ms.init(port);
   console.log('mail server at port %d', port);
 
@@ -39,6 +39,16 @@ module.exports = (on, config) => {
   mailServer.bind((addr, id, email) => {
     console.log('--- email ---');
     console.log(addr, id, email);
+  });
+
+  let lastEmail = {};
+
+  on('task', {
+    getLastEmail(email) {
+      // cy.task cannot return undefined
+      // thus we return null as a fallback
+      return lastEmail[email] || null;
+    },
   });
 
   return config;

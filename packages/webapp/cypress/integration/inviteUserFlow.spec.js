@@ -1,5 +1,3 @@
-/// <reference types="Cypress"/>
-
 describe.only('Invite user tests', () => {
   before(() => {});
   it('Invite a user with a different chosen langauge ', () => {
@@ -15,8 +13,11 @@ describe.only('Invite user tests', () => {
   it.only('Invite a user with a different chosen langauge ', () => {
     //Test for LF-2366
 
-    const userName = 'New User';
-    const userEmail = 'newuser@example.com';
+    const userName = 'NewUser';
+    const uuid = () => Cypress._.random(0, 1e6);
+    const id = uuid();
+    const userEmail = `${userName}${id}@example.com`;
+    let count = 1;
     //after running happy path test
     cy.visit('/');
     //login as an admin user
@@ -30,10 +31,14 @@ describe.only('Invite user tests', () => {
     cy.contains('Choose Role').should('exist').click({ force: true });
     cy.contains('Farm Worker').should('exist').click();
     cy.get('[data-cy=invite-email]').should('exist').type(userEmail);
+    count++;
     cy.contains('English').should('exist').click({ force: true });
     cy.contains('Spanish').should('exist').click();
-    cy.intercept('POST', '/user/invite').as('invite');
+    //cy.intercept('POST', '/user/invite').as('invite');
     cy.get('[data-cy=invite-submit]').should('exist').and('not.be.disabled').click();
     //Ensure invitation is in correct language
+    cy.task('getLastEmail', userEmail).then((email) => {
+      cy.log(email);
+    });
   });
 });

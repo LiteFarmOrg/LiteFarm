@@ -112,8 +112,6 @@ const TasksFilterPage = ({ onGoBack }) => {
     onGoBack?.();
   };
 
-  console.log({ log: t(`filter:TASK.${statuses[0]}`) });
-
   const filters = [
     {
       subject: t('TASK.FILTER.STATUS'),

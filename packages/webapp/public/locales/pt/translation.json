@@ -905,7 +905,9 @@
     "BROADCAST": "Semeadura a lanço ou com máquina semeadora",
     "COMPLETE_PLAN": {
       "ABANDON_PLAN": "Abandonar plano",
+      "ABANDON_NOTES": "MISSING",
       "ABANDON_REASON": "Razão do abandono",
+      "COMPLETE_DATE": "MISSING",
       "COMPLETE_PLAN": "Plano completo",
       "DATE_OF_CHANGE": "Data de alteração da situação",
       "NOTES_CHAR_LIMIT": "As observações não podem exceder 10.000 caractéres",

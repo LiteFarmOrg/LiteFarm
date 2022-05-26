@@ -894,7 +894,9 @@
     "BROADCAST": "Siembra a voleo o sembradora mecánica",
     "COMPLETE_PLAN": {
       "ABANDON_PLAN": "Abandonar plan",
+      "ABANDON_NOTES": "MISSING",
       "ABANDON_REASON": "Razón para abandonar",
+      "COMPLETE_DATE": "MISSING",
       "COMPLETE_PLAN": "Completar plan",
       "DATE_OF_CHANGE": "Fecha de cambio de estado",
       "NOTES_CHAR_LIMIT": "Las notas deben tener menos de 10,000 caracteres",

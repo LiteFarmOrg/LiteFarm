@@ -134,7 +134,7 @@ export function PureCompleteManagementPlan({
       />
       <InputAutoSize
         style={{ marginBottom: '40px' }}
-        label={t('MANAGEMENT_PLAN.PLAN_NOTES')}
+        label={t('MANAGEMENT_PLAN.COMPLETION_NOTES')}
         hookFormRegister={register(NOTES, {
           maxLength: { value: 10000, message: t('MANAGEMENT_PLAN.COMPLETE_PLAN.NOTES_CHAR_LIMIT') },
         })}

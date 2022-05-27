@@ -888,6 +888,7 @@
     "BEDS": "Lits",
     "BROADCAST": "Diffusion ou exercice",
     "COMPLETE_PLAN": {
+      "ABANDON_DATE": "MISSING",
       "ABANDON_PLAN": "Abandonner le plan",
       "ABANDON_NOTES": "MISSING",
       "ABANDON_REASON": "Raison de l'abandon",

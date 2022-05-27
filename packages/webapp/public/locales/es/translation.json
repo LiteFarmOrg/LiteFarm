@@ -887,6 +887,7 @@
     "BEDS": "Camas",
     "BROADCAST": "Siembra a voleo o sembradora mecánica",
     "COMPLETE_PLAN": {
+      "ABANDON_DATE": "MISSING",
       "ABANDON_PLAN": "Abandonar plan",
       "ABANDON_NOTES": "MISSING",
       "ABANDON_REASON": "Razón para abandonar",

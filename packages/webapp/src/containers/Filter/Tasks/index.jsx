@@ -119,7 +119,7 @@ const TasksFilterPage = ({ onGoBack }) => {
       options: statuses.map((status) => ({
         value: status.toLowerCase(),
         default: tasksFilter[STATUS][status.toLowerCase()]?.active ?? false,
-        label: t(`filter:TASK.${status}`),
+        label: t(`filter:TASKS.${status}`),
       })),
     },
     {

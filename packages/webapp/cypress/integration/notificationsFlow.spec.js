@@ -72,7 +72,6 @@ describe.only('Notifications flow tests', () => {
     cy.log(alertDateTime);
     cy.clock(alertDateTime);
     cy.wait(3 * 1000);
-
     //check notifications are generated for all unassigned tasks due this week on this farm
     cy.visit('/notifications');
     cy.url().should('include', '/notifications');

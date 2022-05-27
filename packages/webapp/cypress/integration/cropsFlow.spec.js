@@ -68,4 +68,14 @@ describe.only('Crops flow tests', () => {
     //Complete a task in a crop plan
     //Once the task in completed the displayed view should be the crop plan
   });
+
+  it('Abandon a crop plan', () => {
+    //test for LF-2177
+    //Complete all tasks in a crop plan
+    //abandon the crop plan
+    //click on the abandoned crop plan
+    //Click on the details tab
+    //Abandonment date, Rating, Abandonment reason If “Something else” is selected, should show “What happened?”
+    //as well Abandonment notes Plan notes Estimated annual yield should exist
+  });
 });

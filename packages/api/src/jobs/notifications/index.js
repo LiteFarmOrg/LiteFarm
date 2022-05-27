@@ -21,6 +21,7 @@ const apiUrl = process.env.API_URL || 'http://localhost:5001';
 const sendOnSchedule = (queueConfig) => {
   const driverQueue = new Queue('Scheduled notifications', queueConfig);
   const apiQueue = new Queue('LiteFarm API requests', queueConfig);
+  const completedQueue = new Queue('Completed LiteFarm API requests', queueConfig);
   /*
   The following table shows: 1) time zones as offsets from UTC, 2) UTC hour of local 6am standard time, and 3) local 6am ST date offset from UTC.
   Example: at 1600 Monday UTC, it is 0600 Tuesday in UTC+14.
@@ -33,7 +34,7 @@ const sendOnSchedule = (queueConfig) => {
 */
 
   // At the top of every hour ...
-  driverQueue.process((_, done) => {
+  driverQueue.process((job, done) => {
     // ... find the UTC offsets where it just became 6am ...
     const now = new Date();
     const utcHour = now.getUTCHours();
@@ -71,7 +72,7 @@ const sendOnSchedule = (queueConfig) => {
 
             // ... and Monday 6am notifications if appropriate.
             if ((utcDay === MONDAY && timeZone < 7) || (utcDay === SUNDAY && timeZone >= 7)) {
-              apiQueue.add({ farmId, type: 'Weekly', reqConfig });
+              apiQueue.add({ farmId, type: 'Weekly', reqConfig }, { jobId: `${farmId}-${now}` });
             }
           }
         });
@@ -88,10 +89,26 @@ const sendOnSchedule = (queueConfig) => {
       Daily: 'time_notification/daily_due_today_tasks',
       Weekly: 'time_notification/weekly_unassigned_tasks',
     };
-    axios.post(`${apiUrl}/${urls[type]}/${farmId}`, {}, reqConfig).then(function (res) {
-      console.log(`  ${type} notifications for farm ${farmId}: status ${res.status}, ${res.data}`);
+    // check if the job is already completed -> resolves to null if there is no existing job in the queue
+    completedQueue.getJob(job.id).then((completedJob) => {
+      if (completedJob !== null) {
+        axios.post(`${apiUrl}/${urls[type]}/${farmId}`, {}, reqConfig).then(function (res) {
+          if (![200, 201].includes(res.status)) {
+            // no notification was created, we should try again
+            job.retry();
+          } else {
+            // add the job to the completed queue, have it there for one day
+            completedQueue.add(job.data, { jobId: job.id, delay: 1000 * 60 * 60 * 24 });
+            console.log(
+              `  ${type} notifications for farm ${farmId}: status ${res.status}, ${res.data}`,
+            );
+            done();
+          }
+        });
+      } else {
+        done();
+      }
     });
-    done();
   });
 };
 

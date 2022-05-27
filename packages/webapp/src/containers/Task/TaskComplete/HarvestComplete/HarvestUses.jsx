@@ -21,7 +21,7 @@ function HarvestUses({ history, match, location }) {
   const [showAddHarvestTypeModal, setShowAddHarvestTypeModal] = useState(false);
 
   const onContinue = (data) => {
-    history.push(`/tasks/${task_id}/complete`, location.state);
+    history.push(`/tasks/${task_id}/complete`, location?.state);
   };
 
   const onGoBack = () => {

@@ -1,8 +1,13 @@
 const XlsxPopulate = require('xlsx-populate');
-
 const rp = require('request-promise');
 const surveyStackURL = 'https://app.surveystack.io/api/';
-module.exports = async (submission, exportId) => {
+
+module.exports = async (emailQueue, submission, exportId, organicCertifierSurvey) => {
+  if (!submission) {
+    emailQueue.add({ fail: true });
+    return Promise.resolve();
+  }
+
   const submissionData = await rp({
     uri: `${surveyStackURL}/submissions/${submission}`,
     json: true,
@@ -65,15 +70,27 @@ module.exports = async (submission, exportId) => {
     border: { color: '000000', style: 'thick' },
   };
 
-  const getQuestionInfo = (questionAnswerList, groupName = null) => {
+  /**
+   * Traverse down nested groups to get the answer of a question.
+   * If a question is not nested in a group, no traversing is done.
+   */
+  const getNestedAnswer = (parentGroups, name) => {
+    let answer = submissionData.data;
+    for (const group of parentGroups) {
+      if (group != null) {
+        answer = answer[group];
+      }
+    }
+    return answer[name]?.value;
+  };
+
+  const getQuestionInfo = (questionAnswerList, groupName = null, prevParentGroups = []) => {
     return questionAnswerList
       .map(({ label, name, type, hint, options, moreInfo, children }) => ({
         Question: label,
         Name: name,
-        Answer:
-          groupName == null
-            ? submissionData.data[name].value
-            : submissionData.data[groupName][name].value,
+        ParentGroups: [...prevParentGroups, groupName],
+        Answer: getNestedAnswer([...prevParentGroups, groupName], name),
         Type: type,
         Hint: hint,
         Options: options,
@@ -148,13 +165,13 @@ module.exports = async (submission, exportId) => {
    */
   const writeMultiOptionQs = (sheet, col, row, data) => {
     sheet.cell(`${col}${row}`).value(data['Question']).style(questionStyle);
-    if (data['Hint'] != null) {
+    if (![null, '', undefined].includes(data['Hint'])) {
       sheet
         .cell(`${col}${(row += 1)}`)
         .value(`Hint: ${data['Hint']}`)
         .style({ ...defaultStyle, italic: true });
     }
-    if (data['MoreInfo'] != null) {
+    if (![null, '', undefined].includes(data['MoreInfo'])) {
       sheet
         .cell(`${col}${(row += 1)}`)
         .value(`Extra Info: ${data['MoreInfo']}`)
@@ -205,14 +222,14 @@ module.exports = async (submission, exportId) => {
    */
   const writeMatrixQs = (sheet, col, row, data) => {
     sheet.cell(`${col}${row}`).value(data['Question']).style(questionStyle);
-    if (data['Hint'] != null) {
+    if (![null, '', undefined].includes(data['Hint'])) {
       sheet
         .cell(`${col}${(row += 1)}`)
         .value(`Hint: ${data['Hint']}`)
         .style({ ...defaultStyle, italic: true });
     }
 
-    if (data['MoreInfo'] != null) {
+    if (![null, '', undefined].includes(data['MoreInfo'])) {
       sheet
         .cell(`${col}${(row += 1)}`)
         .value(`Extra Info: ${data['MoreInfo']}`)
@@ -262,10 +279,10 @@ module.exports = async (submission, exportId) => {
       .cell(`${col}${row}`)
       .value(data['Question'])
       .style({ ...groupHeaderStyle, ...getGroupBorder('top') });
-    const childInfo = getQuestionInfo(data['Children'], data['Name']);
+    const childInfo = getQuestionInfo(data['Children'], data['Name'], data['ParentGroups']);
     var [currentFarthestCol, farthestCol] = [1, 1];
     for (const child of childInfo) {
-      [col, row, currentFarthestCol] = typeToFuncMap[child['Type']](sheet, col, row + 1, child);
+      [col, row, currentFarthestCol] = typeToFuncMap[child['Type']](sheet, col, row + 2, child);
       farthestCol = Math.max(currentFarthestCol, farthestCol);
     }
     sheet.cell(`${col}${row}`).style(getGroupBorder('bottom'));
@@ -305,9 +322,22 @@ module.exports = async (submission, exportId) => {
     const surveyName = survey['name'];
     var [currentCol, currentRow, farthestCol, currentFarthestCol] = ['A', 1, 1, 1];
 
+    // Write the survey_id and farm_id
+    mainSheet
+      .cell(`A${currentRow}`)
+      .value(`Survey ID: ${submissionData.meta.survey.id}`)
+      .style(defaultStyle);
+    mainSheet
+      .cell(`A${(currentRow += 1)}`)
+      .value(`Farm ID: ${organicCertifierSurvey.farm_id}`)
+      .style(defaultStyle);
+
     // Write the title
-    mainSheet.cell(`A${currentRow}`).value(surveyName).style(titleStyle);
-    currentRow += 1;
+    mainSheet
+      .cell(`A${(currentRow += 1)}`)
+      .value(surveyName)
+      .style(titleStyle);
+    currentRow += 2;
     for (const qa of questionAnswerMap) {
       [currentCol, currentRow, currentFarthestCol] = typeToFuncMap[qa['Type']](
         mainSheet,

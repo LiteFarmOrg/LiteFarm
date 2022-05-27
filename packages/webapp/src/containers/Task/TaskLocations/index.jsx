@@ -44,7 +44,7 @@ function TaskActiveAndPlannedCropLocations({ history, location }) {
   const readOnlyPinCoordinates = useReadOnlyPinCoordinates();
 
   const onContinue = () => {
-    history.push('/add_task/task_crops', location.state);
+    history.push('/add_task/task_crops', location?.state);
   };
 
   const onGoBack = () => {
@@ -95,9 +95,9 @@ function TaskAllLocations({ history, location }) {
   const onContinue = () => {
     if (taskTypesBypassCrops.includes(persistedFormData.task_type_id)) {
       dispatch(setManagementPlansData([]));
-      return history.push('/add_task/task_details', location.state);
+      return history.push('/add_task/task_details', location?.state);
     }
-    history.push('/add_task/task_crops', location.state);
+    history.push('/add_task/task_crops', location?.state);
   };
 
   const onGoBack = () => {

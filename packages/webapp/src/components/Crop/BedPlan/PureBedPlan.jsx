@@ -37,7 +37,7 @@ function PureBedPlan({
   });
   const { historyCancel } = useHookFormPersist(getValues);
 
-  const onSubmit = () => history.push(submitPath, location.state);
+  const onSubmit = () => history.push(submitPath, location?.state);
 
   return (
     <Form

@@ -7,14 +7,14 @@ import { cropLocationByIdSelector } from '../../../locationSlice';
 import { cropVarietySelector } from '../../../cropVarietySlice';
 import { HookFormPersistProvider } from '../../../hooks/useHookFormPersist/HookFormPersistProvider';
 
-function BroadcastPlan({ history, match }) {
+function BroadcastPlan({ history, match, location }) {
   const persistedFormData = useSelector(hookFormPersistSelector);
   const variety_id = match.params.variety_id;
   const cropVariety = useSelector(cropVarietySelector(variety_id));
   const yieldPerArea = cropVariety.yield_per_area || 0;
   const system = useSelector(measurementSelector);
   const isFinalPage = match?.path === '/crop/:variety_id/add_management_plan/broadcast_method';
-  const location = useSelector(
+  const planLocation = useSelector(
     cropLocationByIdSelector(
       persistedFormData.crop_management_plan.planting_management_plans[
         isFinalPage ? 'final' : 'initial'
@@ -29,8 +29,9 @@ function BroadcastPlan({ history, match }) {
         variety_id={variety_id}
         history={history}
         isFinalPage={isFinalPage}
-        locationSize={location.total_area}
+        locationSize={planLocation.total_area}
         yieldPerArea={yieldPerArea}
+        location={location}
       />
     </HookFormPersistProvider>
   );

@@ -20,6 +20,7 @@ function PureBroadcastPlan({
   yieldPerArea,
   isFinalPage,
   prefix = `crop_management_plan.planting_management_plans.${isFinalPage ? 'final' : 'initial'}`,
+  location,
 }) {
   const { t } = useTranslation(['translation']);
   const {
@@ -37,11 +38,8 @@ function PureBroadcastPlan({
   });
   const { historyCancel } = useHookFormPersist(getValues);
 
-  const { submitPath } = useMemo(
-    () => getBroadcastMethodPaths(variety_id, isFinalPage),
-    [],
-  );
-  const onSubmit = () => history.push(submitPath);
+  const { submitPath } = useMemo(() => getBroadcastMethodPaths(variety_id, isFinalPage), []);
+  const onSubmit = () => history.push(submitPath, location?.state);
   const onGoBack = () => history.back();
 
   const { already_in_ground, needs_transplant } = persistedFormData.crop_management_plan;

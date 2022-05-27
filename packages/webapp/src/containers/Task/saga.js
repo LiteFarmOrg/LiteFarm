@@ -301,7 +301,7 @@ const getPostTaskBody = (data, endpoint, managementPlanWithCurrentLocationEntiti
         delete data[key];
       }
       data.wage_at_moment = data.override_hourly_wage ? data.wage_at_moment : null;
-      data.managementPlans = data.managementPlans.map(({ management_plan_id }) => ({
+      data.managementPlans = data.managementPlans?.map(({ management_plan_id }) => ({
         planting_management_plan_id:
           managementPlanWithCurrentLocationEntities[management_plan_id].planting_management_plan
             .planting_management_plan_id,

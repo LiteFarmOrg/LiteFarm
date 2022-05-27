@@ -28,7 +28,7 @@ jest.mock('../src/middleware/acl/checkSchedulerJwt.js');
 describe('Time Based Notification Tests', () => {
   let farmOwner;
   let farm;
-  const utc_offset = 0;
+  const utc_offset = -14400;
 
   beforeEach(async () => {
     // Set up a farm with a farm owner
@@ -133,7 +133,11 @@ describe('Time Based Notification Tests', () => {
 
   function postDailyDueTodayTasks(data, callback) {
     const { farm_id } = data;
-    chai.request(server).post(`/time_notification/daily_due_today_tasks/${farm_id}`).end(callback);
+    chai
+      .request(server)
+      .post(`/time_notification/daily_due_today_tasks/${farm_id}`)
+      .send({ utc_offset })
+      .end(callback);
   }
 
   // Clean up after test finishes

@@ -309,13 +309,17 @@ class TaskModel extends BaseModel {
    * @async
    * @returns {boolean} true if the user has tasks due today or false if not
    */
-  static async hasTasksDueTodayForUserFromFarm(userId, taskIds) {
+  static async hasTasksDueTodayForUserFromFarm(userId, taskIds, utcOffset) {
+    const startIntervalStr = `"${utcOffset} SECONDS"`;
     const tasksDueToday = await TaskModel.query()
       .select('*')
       .whereIn('task_id', taskIds)
       .whereNotDeleted()
-      .andWhere('task.assignee_user_id', userId)
-      .andWhere('task.due_date', new Date());
+      .where('task.assignee_user_id', userId)
+      .whereRaw(
+        "task.due_date = ((NOW() AT TIME ZONE 'utc') + (?)::INTERVAL )::DATE",
+        startIntervalStr,
+      );
 
     return tasksDueToday && tasksDueToday.length;
   }

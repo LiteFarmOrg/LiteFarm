@@ -110,6 +110,11 @@ const sendOnSchedule = (queueConfig) => {
       }
     });
   });
+
+  completedQueue.process((_, done) => {
+    // clean up all jobs in the queue which have been processed i.e. those that are over a day old
+    completedQueue.clean().then(done());
+  });
 };
 
 module.exports = {

@@ -1,6 +1,6 @@
 describe.only('Invite user tests', () => {
   before(() => {});
-  it('Invite a user with a different chosen langauge ', () => {
+  it('Invite an existing user with a chosen langauge', () => {
     //Test for LF-2301
     //after running happy path test
     //create a user account with language set to Spanish
@@ -10,9 +10,8 @@ describe.only('Invite user tests', () => {
     //repeat for all languages
   });
 
-  it.only('Invite a user with a different chosen langauge ', () => {
+  it.only('Invite a new user and select invitation langauge', () => {
     //Test for LF-2366
-
     const userName = 'NewUser';
     const uuid = () => Cypress._.random(0, 1e6);
     const id = uuid();

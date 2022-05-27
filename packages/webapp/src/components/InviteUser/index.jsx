@@ -1,6 +1,6 @@
 import Form from '../Form';
 import Button from '../Form/Button';
-import Input, { getInputErrors, integerOnKeyDown } from '../Form/Input';
+import Input, { getInputErrors, integerOnKeyDown, numberOnKeyDown } from '../Form/Input';
 import React, { useEffect } from 'react';
 import { Title } from '../Typography';
 import PropTypes from 'prop-types';
@@ -168,7 +168,7 @@ export default function PureInviteUser({ onInvite, onGoBack, roleOptions = [] })
         label={t('INVITE_USER.WAGE')}
         step="0.01"
         type="number"
-        onKeyPress={integerOnKeyDown}
+        onKeyPress={numberOnKeyDown}
         hookFormRegister={register(WAGE, { min: 0, valueAsNumber: true })}
         style={{ marginBottom: '24px' }}
         errors={errors[WAGE] && (errors[WAGE].message || t('INVITE_USER.WAGE_ERROR'))}

@@ -9,7 +9,7 @@ function TaskComplete({ history, match, location }) {
   const task_id = match.params.task_id;
   const persistedPaths = [`/tasks/${task_id}/before_complete`, `/tasks/${task_id}/harvest_uses`];
 
-  const returnPath = location.state.pathname;
+  const returnPath = location?.state?.pathname ?? null;
 
   const onSave = (data) => {
     dispatch(completeTask({ task_id, data, returnPath }));

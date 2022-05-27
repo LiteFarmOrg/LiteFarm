@@ -65,9 +65,14 @@ const timeNotificationController = {
     try {
       let notificationsSent = 0;
       const activeUsers = await UserFarmModel.getActiveUsersFromFarmId(farm_id);
+      const tasksFromFarm = await getTasksForFarm(farm_id);
+      const taskIdsFromFarm = tasksFromFarm.map(({ task_id }) => task_id);
 
       for (const { user_id } of activeUsers) {
-        const hasTasksDueToday = await TaskModel.hasTasksDueTodayForUserFromFarm(user_id, farm_id);
+        const hasTasksDueToday = await TaskModel.hasTasksDueTodayForUserFromFarm(
+          user_id,
+          taskIdsFromFarm,
+        );
 
         if (hasTasksDueToday) {
           await sendDailyDueTodayTaskNotification(farm_id, user_id);

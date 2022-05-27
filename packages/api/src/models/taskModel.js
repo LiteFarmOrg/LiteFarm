@@ -301,17 +301,16 @@ class TaskModel extends BaseModel {
   /**
    * Checks whether a given user in a given farm has tasks that are due today.
    * @param {string} userId user id
-   * @param {string} farmId farm id
+   * @param {Array} taskIds task ids from a farm
    * @static
    * @async
    * @returns {boolean} true if the user has tasks due today or false if not
    */
-  static async hasTasksDueTodayForUserFromFarm(userId, farmId) {
+  static async hasTasksDueTodayForUserFromFarm(userId, taskIds) {
     const tasksDueToday = await TaskModel.query()
       .select('*')
-      .join('userFarm as uf', 'uf.user_id', 'task.assignee_user_id')
-      .join('task_type', 'task_type.task_type_id', 'task.task_type_id')
-      .where('uf.farm_id', farmId)
+      .whereIn('task_id', taskIds)
+      .whereNotDeleted()
       .andWhere('task.assignee_user_id', userId)
       .andWhere('task.due_date', new Date());
 

@@ -13,14 +13,11 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-require('dotenv').config();
-const redisConf = {
-  redis: {
-    host: process.env.REDIS_HOST,
-    port: process.env.REDIS_PORT,
-    password: process.env.REDIS_PASSWORD,
-  },
+const mapTimeZoneOffsetsToFarms = require('../../src/jobs/station_sync/updateTimeZoneOffsets');
+exports.up = async function (knex) {
+  await mapTimeZoneOffsetsToFarms(knex);
 };
 
-require('./certification').processExports(redisConf);
-require('./notifications').sendOnSchedule(redisConf);
+exports.down = async function (knex) {
+  await knex('farm').update('utc_offset', null);
+};

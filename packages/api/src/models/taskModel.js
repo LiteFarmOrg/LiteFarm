@@ -237,15 +237,18 @@ class TaskModel extends BaseModel {
    * @async
    * @returns {Object} - Object {task_type_id, task_id}
    */
-  static async getUnassignedTasksDueThiWeekFromIds(taskIds) {
+  static async getUnassignedTasksDueThiWeekFromIds(taskIds, utcOffset) {
+    const startIntervalStr = `"${utcOffset} SECONDS"`;
+    const endIntervalStr = `"1 WEEK ${utcOffset} SECONDS"`;
     return await TaskModel.query().select('*').whereIn('task_id', taskIds).whereRaw(
       `
       task.assignee_user_id IS NULL
       AND task.complete_date IS NULL
       AND task.abandon_date IS NULL
-      AND task.due_date <= (now() + interval '1 week')::date
-      AND task.due_date >= now()::date
+      AND task.due_date <= ((NOW() AT TIME ZONE 'utc') + (?)::INTERVAL )::DATE
+      AND task.due_date >= ((NOW() AT TIME ZONE 'utc') + (?)::INTERVAL )::DATE
       `,
+      [endIntervalStr, startIntervalStr],
     );
   }
 

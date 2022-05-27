@@ -27,13 +27,17 @@ const timeNotificationController = {
    */
   async postWeeklyUnassignedTasks(req, res) {
     const { farm_id } = req.params;
+    const { utc_offset } = req.body;
     try {
       // All unassigned tasks at the farm associated with farm_id due this week that are
       // not completed or abandoned
       const tasksFromFarm = await getTasksForFarm(farm_id);
       const taskIds = tasksFromFarm.map(({ task_id }) => task_id);
 
-      const unassignedTasks = await TaskModel.getUnassignedTasksDueThiWeekFromIds(taskIds);
+      const unassignedTasks = await TaskModel.getUnassignedTasksDueThiWeekFromIds(
+        taskIds,
+        utc_offset,
+      );
       const farmManagementObjs = await UserFarmModel.getFarmManagementByFarmId(farm_id);
 
       const farmManagement = farmManagementObjs.map(

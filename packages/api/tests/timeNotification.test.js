@@ -28,6 +28,7 @@ jest.mock('../src/middleware/acl/checkSchedulerJwt.js');
 describe('Time Based Notification Tests', () => {
   let farmOwner;
   let farm;
+  const utc_offset = 0;
 
   beforeEach(async () => {
     // Set up a farm with a farm owner
@@ -126,6 +127,7 @@ describe('Time Based Notification Tests', () => {
     chai
       .request(server)
       .post(`/time_notification/weekly_unassigned_tasks/${farm_id}`)
+      .send({ utc_offset })
       .end(callback);
   }
 
@@ -163,7 +165,6 @@ describe('Time Based Notification Tests', () => {
       test('Farm Owners Should Receive Notification', async (done) => {
         postWeeklyUnassignedTasksRequest({ farm_id: farm.farm_id }, async (err, res) => {
           expect(res.status).toBe(201);
-          // expect(res.body.farmManagement).toContain(farmOwner.user_id);
           const notifications = await knex('notification_user')
             .join(
               'notification',
@@ -195,7 +196,6 @@ describe('Time Based Notification Tests', () => {
 
         postWeeklyUnassignedTasksRequest({ farm_id: farm.farm_id }, async (err, res) => {
           expect(res.status).toBe(201);
-          // expect(res.body.farmManagement).toContain(farmManager.user_id);
           const notifications = await knex('notification_user')
             .join(
               'notification',
@@ -227,7 +227,6 @@ describe('Time Based Notification Tests', () => {
 
         postWeeklyUnassignedTasksRequest({ farm_id: farm.farm_id }, async (err, res) => {
           expect(res.status).toBe(201);
-          // expect(res.body.farmManagement).toContain(extensionOfficer.user_id);
           const notifications = await knex('notification_user')
             .join(
               'notification',
@@ -259,7 +258,6 @@ describe('Time Based Notification Tests', () => {
 
         postWeeklyUnassignedTasksRequest({ farm_id: farm.farm_id }, async (err, res) => {
           expect(res.status).toBe(201);
-          // expect(res.body.farmManagement).not.toContain(farmWorker.user_id);
           const notifications = await knex('notification_user').where({
             user_id: farmWorker.user_id,
             deleted: false,
@@ -282,7 +280,6 @@ describe('Time Based Notification Tests', () => {
 
         postWeeklyUnassignedTasksRequest({ farm_id: farm.farm_id }, async (err, res) => {
           expect(res.status).toBe(201);
-          // expect(res.body.farmManagement).not.toContain(otherFarmManager.user_id);
           const notifications = await knex('notification_user').where({
             user_id: otherFarmManager.user_id,
             deleted: false,
@@ -296,7 +293,6 @@ describe('Time Based Notification Tests', () => {
       test('Not Sent When There Are No Unassigned Tasks', (done) => {
         postWeeklyUnassignedTasksRequest({ farm_id: farm.farm_id }, async (err, res) => {
           expect(res.status).toBe(200);
-          // expect(res.body.unassignedTasks.length).toBe(0);
           const notifications = await knex('notification').where({ deleted: false });
           expect(notifications.length).toBe(0);
           done();
@@ -315,7 +311,6 @@ describe('Time Based Notification Tests', () => {
 
         postWeeklyUnassignedTasksRequest({ farm_id: farm.farm_id }, async (err, res) => {
           expect(res.status).toBe(200);
-          // expect(res.body.unassignedTasks.length).toBe(0);
           const notifications = await knex('notification').where({ deleted: false });
           expect(notifications.length).toBe(0);
           done();
@@ -330,7 +325,6 @@ describe('Time Based Notification Tests', () => {
 
         postWeeklyUnassignedTasksRequest({ farm_id: farm.farm_id }, async (err, res) => {
           expect(res.status).toBe(200);
-          // expect(res.body.unassignedTasks.length).toBe(0);
           const notifications = await knex('notification').where({ deleted: false });
           expect(notifications.length).toBe(0);
           done();
@@ -344,7 +338,6 @@ describe('Time Based Notification Tests', () => {
         });
         postWeeklyUnassignedTasksRequest({ farm_id: farm.farm_id }, async (err, res) => {
           expect(res.status).toBe(201);
-          // expect(res.body.unassignedTasks.length).toBe(1);
           const notifications = await knex('notification').where({ deleted: false });
           expect(notifications.length).toBe(1);
           done();

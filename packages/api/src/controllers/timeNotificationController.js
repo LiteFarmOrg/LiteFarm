@@ -68,22 +68,20 @@ const timeNotificationController = {
       const tasksFromFarm = await getTasksForFarm(farm_id);
       const taskIdsFromFarm = tasksFromFarm.map(({ task_id }) => task_id);
 
-      if (activeUsers && activeUsers.length) {
-        for (const { user_id } of activeUsers) {
-          const hasTasksDueToday = await TaskModel.hasTasksDueTodayForUserFromFarm(
-            user_id,
-            taskIdsFromFarm,
-          );
+      for (const { user_id } of activeUsers) {
+        const hasTasksDueToday = await TaskModel.hasTasksDueTodayForUserFromFarm(
+          user_id,
+          taskIdsFromFarm,
+        );
 
-          if (hasTasksDueToday) {
-            await sendDailyDueTodayTaskNotification(farm_id, user_id);
-            notificationsSent++;
-          }
+        if (hasTasksDueToday) {
+          await sendDailyDueTodayTaskNotification(farm_id, user_id);
+          notificationsSent++;
         }
-        return res
-          .status(notificationsSent ? 201 : 200)
-          .send(`${notificationsSent} notifications sent.`);
       }
+      return res
+        .status(notificationsSent ? 201 : 200)
+        .send(`${notificationsSent} notifications sent.`);
     } catch (error) {
       console.log(error);
       return res.status(400).send({ error });

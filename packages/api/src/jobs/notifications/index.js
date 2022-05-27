@@ -13,24 +13,12 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const http = require('http');
+const axios = require('axios');
 const Queue = require('bull');
 const { sign } = require('jsonwebtoken');
+const apiUrl = process.env.API_URL || 'http://localhost:5001';
 
 const sendOnSchedule = (queueConfig) => {
-  const token = sign({ requestTimedNotifications: true }, process.env.JWT_SCHEDULER_SECRET, {
-    expiresIn: '1d',
-    algorithm: 'HS256',
-  });
-
-  const apiCall = {
-    method: 'POST',
-    hostname: process.env.API_HOST || 'localhost',
-    port: process.env.PORT || 5001,
-    headers: { Authorization: `Bearer ${token}` },
-    agent: false, // Create a new agent just for this one request TODO research this
-  };
-
   const driverQueue = new Queue('Scheduled notifications', queueConfig);
   const apiQueue = new Queue('LiteFarm API requests', queueConfig);
   /*
@@ -57,34 +45,36 @@ const sendOnSchedule = (queueConfig) => {
     if (timeZones[0] < -11) timeZones[0] += 24;
     if (timeZones[0] === -10 || timeZones[0] === -11) timeZones[1] = timeZones[0] + 24;
 
-    console.log(`!UTC day ${utcDay}, ${utcHour}:00 - it's now 6am at UTC offset(s) ${timeZones}`);
+    console.log(
+      `Scheduled notifications: UTC day ${utcDay}, ${utcHour}:00. It's now 6am at UTC offset(s) ${timeZones}`,
+    );
 
     // ... and call the API to get farms for those offsets.
+    const token = sign({ requestTimedNotifications: true }, process.env.JWT_SCHEDULER_SECRET, {
+      expiresIn: '1d',
+      algorithm: 'HS256',
+    });
+
     for (const timeZone of timeZones) {
       const start = 3600 * timeZone; // hours to seconds
-      const end = 3600 * (timeZone + 1);
-      console.log(`  Get farms for UTC ${timeZone}: offsets of ${start} to ${end} seconds`);
-      const req = http.request(
-        { ...apiCall, method: 'GET', path: `/farm/utc_offset_by_range/${start}/${end}` },
-        (res) => {
-          const farmIds = res.body;
+      const end = 3600 * (timeZone + 1) - 1;
+      console.log(`  from ${start} to ${end}`);
 
+      const reqConfig = { headers: { Authorization: `Bearer ${token}` } };
+      axios
+        .get(`${apiUrl}/farm/utc_offset_by_range/${start}/${end}`, reqConfig)
+        .then(function (res) {
           // For each farm ...
-          for (const farmId of farmIds) {
+          for (const farmId of res.data) {
             // ... send daily 6am notifications ...
-            apiQueue.add({ path: `/time_notification/daily_due_today_tasks/${farmId}` });
+            apiQueue.add({ farmId, type: 'Daily', reqConfig });
+
+            // ... and Monday 6am notifications if appropriate.
             if ((utcDay === MONDAY && timeZone < 7) || (utcDay === SUNDAY && timeZone >= 7)) {
-              // ... and Monday 6am notifications if appropriate.
-              apiQueue.add({ path: `/time_notification/weekly_unassigned_tasks/${farmId}` });
+              apiQueue.add({ farmId, type: 'Weekly', reqConfig });
             }
           }
-          // });
-          req.on('error', (err) => {
-            console.error(`Problem getting farms by UTC: ${err.message}`);
-          });
-          req.end();
-        },
-      );
+        });
     }
     done();
   });
@@ -93,13 +83,14 @@ const sendOnSchedule = (queueConfig) => {
   driverQueue.add({}, { repeat: { cron: '0 * * * *' } });
 
   apiQueue.process((job, done) => {
-    const req = http.request({ ...apiCall, ...job.data }, (res) => {
-      console.log('    ', res.statusCode, res.statusMessage, job.data?.path);
+    const { type, farmId, reqConfig } = job.data;
+    const urls = {
+      Daily: 'time_notification/daily_due_today_tasks',
+      Weekly: 'time_notification/weekly_unassigned_tasks',
+    };
+    axios.post(`${apiUrl}/${urls[type]}/${farmId}`, {}, reqConfig).then(function (res) {
+      console.log(`  ${type} notifications for farm ${farmId}: status ${res.status}, ${res.data}`);
     });
-    req.on('error', (err) => {
-      console.error(`Problem with API request to ${job.data?.path}: ${err.message}`);
-    });
-    req.end();
     done();
   });
 };

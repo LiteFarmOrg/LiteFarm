@@ -28,7 +28,7 @@ jest.mock('../src/middleware/acl/checkSchedulerJwt.js');
 describe('Time Based Notification Tests', () => {
   let farmOwner;
   let farm;
-  const utc_offset = -14400;
+  const utc_offset = 0;
 
   beforeEach(async () => {
     // Set up a farm with a farm owner

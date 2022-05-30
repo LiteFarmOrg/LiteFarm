@@ -901,6 +901,7 @@
     "BEDS": "Beds",
     "BROADCAST": "Broadcast or drill",
     "COMPLETE_PLAN": {
+      "ABANDON_DATE": "Abandonment Date",
       "ABANDON_PLAN": "Abandon plan",
       "ABANDON_NOTES": "Abandonment notes",
       "ABANDON_REASON": "Reason for abandoning",

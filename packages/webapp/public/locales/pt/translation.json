@@ -904,6 +904,7 @@
     "BEDS": "Canteiros",
     "BROADCAST": "Semeadura a lanço ou com máquina semeadora",
     "COMPLETE_PLAN": {
+      "ABANDON_DATE": "MISSING",
       "ABANDON_PLAN": "Abandonar plano",
       "ABANDON_NOTES": "Notas de abandono",
       "ABANDON_REASON": "Razão do abandono",

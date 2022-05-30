@@ -23,15 +23,15 @@
     "INVOICES": "Facturas"
   },
   "TASKS": {
-    "LOCATION": "MISSING",
+    "LOCATION": "Ubicación",
     "ABANDONED": "Abandonada",
     "COMPLETED": "Completada",
     "FOR_REVIEW": "Para la revisión",
     "LATE": "Tarde",
     "PLANNED": "Planificada",
     "STATUS": "Estatus",
-    "SUPPLIERS": "MISSING",
-    "ACTIVE": "MISSING"
+    "SUPPLIERS": "Proveedores",
+    "ACTIVE": "Activo"
   },
   "FILTER": {
     "VALID_ON": "Válido en",

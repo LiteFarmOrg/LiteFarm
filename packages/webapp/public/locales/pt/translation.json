@@ -27,7 +27,7 @@
     "ASSIGN_ALL_TO_PERSON": "Atribuir todas as tarefas não atribuídas nesta data a esta pessoa",
     "ASSIGN_TASK": "Atribuir tarefa",
     "ASSIGNEE": "Responsável",
-    "ASSIGN_DATE": "Atribuir due date",
+    "ASSIGN_DATE": "Atribuir data de vencimento",
     "CANCEL": "criação de tarefa",
     "CLEANING_VIEW": {
       "ESTIMATED_WATER": "Uso estimado de água",
@@ -381,8 +381,8 @@
       "SOIL_AMENDMENT": "Adubação e correção do solo",
       "SOIL_SAMPLE_RESULTS": "Resultados da amostra de solo",
       "WATER_SAMPLE_RESULTS": "Resultados da amostra de água",
-      "RECEIPTS": "MISSING",
-      "INVOICES": "MISSING"
+      "RECEIPTS": "Recibos",
+      "INVOICES": "Faturas"
     },
     "VALID": "Válido"
   },
@@ -574,7 +574,7 @@
     "TAB": {
       "CROPS": "Cultivo",
       "DETAILS": "Detalhes",
-      "TASKS": "MISSING"
+      "TASKS": "Tarefas"
     },
     "TITLE": "Mapa do sítio/fazenda",
     "TUTORIAL": {
@@ -683,7 +683,7 @@
       "INFO": "A biodiversidade é ótima para as pessoas e para o planeta. Contabilizamos a riqueza de espécies a partir de todos os registros conhecidos sobre a biodiversidade ao redor de sua fazenda. Você pode aumentar a contagem de espécies em sua fazenda utilizando o https://www.inaturalist.org/app.",
       "INSECTS": "Insetos",
       "PLANTS": "Plantas",
-      "MAMMALS": "MISSING",
+      "MAMMALS": "Mamíferos",
       "SPECIES_COUNT": "{{count}} espécie",
       "SPECIES_COUNT_one": "{{count}} espécie",
       "SPECIES_COUNT_many": "{{count}} espécies",
@@ -691,14 +691,14 @@
       "SPECIES_COUNT_plural": "{{count}} espécies",
       "TITLE": "Biodiversidade",
       "LOADING": {
-        "PREVIEW": "MISSING",
-        "TITLE": "MISSING",
-        "BODY": "MISSING"
+        "PREVIEW": "Carregando...",
+        "TITLE": "Gerando os mais recentes insights sobre biodiversidade...",
+        "BODY": "Estamos gerando as informações mais recentes sobre biodiversidade para sua fazenda. Isso pode levar até 60 segundos."
       },
       "ERROR": {
-        "PREVIEW": "MISSING",
-        "TITLE": "MISSING",
-        "BODY": "MISSING"
+        "PREVIEW": "Indisponível",
+        "TITLE": "Tinha um problema",
+        "BODY": "A LiteFarm gera insights de biodiversidade com base em várias fontes e não conseguiu fazê-lo no momento. Tente novamente após {{minutos}} minutos, por favor."
       }
     },
     "CURRENT": "Atual",
@@ -1075,24 +1075,24 @@
       "BODY": "A tarefa {{taskType}} foi atribuída a {{assignee}}. "
     },
     "TASK_ABANDONED": {
-      "TITLE": "MISSING",
-      "BODY": "MISSING"
+      "TITLE": "Tarefa abandonada",
+      "BODY": "Uma tarefa {{taskType}} atribuída a você foi abandonada por {{abandoner}}."
     },
     "TASK_REASSIGNED": {
-      "TITLE": "MISSING",
-      "BODY": "MISSING"
+      "TITLE": "Tarefa reatribuída",
+      "BODY": "Uma tarefa {{taskType}} atribuída anteriormente a você foi atribuída a outra pessoa por {{assigner}}."
     },
     "TASK_COMPLETED_BY_OTHER_USER": {
-      "TITLE": "MISSING",
-      "BODY": "MISSING"
+      "TITLE": "Tarefa completa",
+      "BODY": "Uma tarefa {{taskType}} atribuída a você foi marcada como concluída por {{assigner}}."
     },
     "WEEKLY_UNASSIGNED_TASKS": {
-      "TITLE": "MISSING",
-      "BODY": "MISSING"
+      "TITLE": "Tarefas não atribuídas",
+      "BODY": "Você tem tarefas não atribuídas para esta semana."
     },
     "DAILY_TASKS_DUE_TODAY": {
-      "TITLE": "MISSING",
-      "BODY": "MISSING"
+      "TITLE": "Tarefas para hoje",
+      "BODY": "Você tem tarefas para vencer hoje."
     }
   },
   "OUTRO": {

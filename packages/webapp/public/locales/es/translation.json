@@ -27,7 +27,7 @@
     "ASSIGN_ALL_TO_PERSON": "Asignar todas las tareas no asignadas en esta fecha a esta persona",
     "ASSIGN_TASK": "Asignar tarea",
     "ASSIGNEE": "Responsable",
-    "ASSIGN_DATE": "Asignar due date",
+    "ASSIGN_DATE": "Asignar fecha de vencimiento",
     "CANCEL": "creación de la tarea",
     "CLEANING_VIEW": {
       "ESTIMATED_WATER": "Uso de agua estimado",
@@ -381,8 +381,8 @@
       "SOIL_AMENDMENT": "Fertilización y correción del suelo",
       "SOIL_SAMPLE_RESULTS": "Resultados de muestras del suelo",
       "WATER_SAMPLE_RESULTS": "Resultados de la muestra de agua",
-      "RECEIPTS": "MISSING",
-      "INVOICES": "MISSING"
+      "RECEIPTS": "Recibos",
+      "INVOICES": "Facturas"
     },
     "VALID": "Válido"
   },
@@ -574,7 +574,7 @@
     "TAB": {
       "CROPS": "Cultivo",
       "DETAILS": "Detalles",
-      "TASKS": "MISSING"
+      "TASKS": "Tareas"
     },
     "TITLE": "Mapa de granja",
     "TUTORIAL": {
@@ -1063,24 +1063,24 @@
       "BODY": "Se ha asignado una tarea {{taskType}} a {{assignee}}."
     },
     "TASK_ABANDONED": {
-      "TITLE": "MISSING",
-      "BODY": "MISSING"
+      "TITLE": "Tarea abandonada",
+      "BODY": "Una {{taskType}} tarea que se te asignó ha sido abandonada por {{abandoner}}."
     },
     "TASK_REASSIGNED": {
-      "TITLE": "MISSING",
-      "BODY": "MISSING"
+      "TITLE": "Tarea reasignada",
+      "BODY": "Una {{taskType}} tarea que te asignó previamente ha sido asignada a otra persona por {{assigner}}."
     },
     "TASK_COMPLETED_BY_OTHER_USER": {
-      "TITLE": "MISSING",
-      "BODY": "MISSING"
+      "TITLE": "Tarea completada",
+      "BODY": "Una tarea de {{taskType}} que se le asignó ha sido marcada como completada por {{assigner}}."
     },
     "WEEKLY_UNASSIGNED_TASKS": {
-      "TITLE": "MISSING",
-      "BODY": "MISSING"
+      "TITLE": "Tareas sin responables",
+      "BODY": "Tiene tareas sin asignar que vencen esta semana."
     },
     "DAILY_TASKS_DUE_TODAY": {
-      "TITLE": "MISSING",
-      "BODY": "MISSING"
+      "TITLE": "Tareas para hoy",
+      "BODY": "Tienes tareas para hoy."
     }
   },
   "OUTRO": {

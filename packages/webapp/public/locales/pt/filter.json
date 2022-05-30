@@ -19,23 +19,23 @@
     "SOIL_SAMPLE_RESULTS": "Resultados da amostra de solo",
     "WATER_SAMPLE_RESULTS": "Resultados da amostra de água",
     "UNCATEGORIZED": "Não categorizado",
-    "RECEIPTS": "MISSING",
-    "INVOICES": "MISSING"
+    "RECEIPTS": "Recibos",
+    "INVOICES": "Faturas"
   },
   "TASKS": {
-    "ABANDONED": "MISSING",
-    "COMPLETED": "MISSING",
-    "FOR_REVIEW": "MISSING",
-    "LATE": "MISSING",
-    "LOCATION": "MISSING",
-    "PLANNED": "MISSING",
-    "STATUS": "MISSING",
-    "SUPPLIERS": "MISSING",
-    "ACTIVE": "MISSING"
+    "ABANDONED": "Abandonada",
+    "ACTIVE": "MISSING",
+    "COMPLETED": "Completa",
+    "FOR REVIEW": "MISSING",
+    "LATE": "Atrasada",
+    "LOCATION": "Localização",
+    "PLANNED": "Planejada",
+    "STATUS": "Situação",
+    "SUPPLIERS": "MISSING"
   },
   "FILTER": {
-    "VALID_ON": "MISSING",
-    "FROM_DATE": "MISSING",
-    "TO_DATE": "MISSING"
+    "VALID_ON": "Válido em",
+    "FROM_DATE": "De",
+    "TO_DATE": "Até"
   }
 }

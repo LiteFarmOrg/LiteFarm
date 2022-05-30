@@ -44,7 +44,7 @@ SELECT * FROM notification ORDER BY created_at DESC LIMIT 1;
 -- "Send" notification to all users.
 -- TODO: Substitute your new notifications's id in the second line below.
 INSERT INTO notification_user (notification_id, user_id, alert, status, created_at, updated_at, created_by_user_id, updated_by_user_id)
-  SELECT '0305373f-5b51-4909-be82-4a2dc12a2498', user_id, TRUE, 'Unread', NOW(), NOW(), '1', '1' FROM users;
+  SELECT 'SUBSTITUTE NEW NOTIFICATION ID HERE', user_id, TRUE, 'Unread', NOW(), NOW(), '1', '1' FROM users;
 
 -- Last chance to ROLLBACK; This will finalize changes.
 COMMIT;

@@ -688,8 +688,18 @@
       "SPECIES_COUNT_many": "{{count}} especies",
       "SPECIES_COUNT_other": "{{count}} especies",
       "SPECIES_COUNT_plural": "{{count}} especies",
-      "TITLE": "Biodiversidad"
-    },
+      "TITLE": "Biodiversidad",
+      "LOADING": {
+        "PREVIEW": "Cargando...",
+        "TITLE": "Generando las reflexiones más recientes sobre biodiversidad...",
+        "BODY": "Estamos generando las últimas reflexiones sobre biodiversidad para su granja. Esto puede tardar hasta 60 segundos."
+      },
+      "ERROR": {
+        "PREVIEW": "Indisponible",
+        "TITLE": "Había un problema",
+        "BODY": "LiteFarm genera información sobre la biodiversidad basada en varias fuentes y no pudo hacerlo en este momento. Vuelva a intentarlo después de {{minutos}} minutos."
+    }
+  }, 
     "CURRENT": "Actual",
     "INFO": "Las reflexiones son caracteristicas de datos de que esta pasando en su granja. Mientras mas data proveas en la aplicacion mas reflexiones pueden ser generadas. Mira las reflexiones individuales para mas informacion.",
     "LABOUR_HAPPINESS": {
@@ -802,7 +812,7 @@
     "GENDER_TOOLTIP": "Información sobre el género es recolectada sólo por propósitos de estudio y sólo será compartida sin identificar personalmente a Ud.",
     "INVALID_EMAIL_ERROR": "Por favor ingrese una dirección de correo válida",
     "INVITE": "Invitar",
-    "LANGUAGE_OF_INVITE": "MISSING",
+    "LANGUAGE_OF_INVITE": "Idioma de la invitación",
     "PHONE": "Número de teléfono",
     "PHONE_ERROR": "Por favor ingrese un número de teléfono válido",
     "ROLE": "Rol",
@@ -894,9 +904,9 @@
     "BROADCAST": "Siembra a voleo o sembradora mecánica",
     "COMPLETE_PLAN": {
       "ABANDON_PLAN": "Abandonar plan",
-      "ABANDON_NOTES": "MISSING",
+      "ABANDON_NOTES": "Notas de abandono",
       "ABANDON_REASON": "Razón para abandonar",
-      "COMPLETE_DATE": "MISSING",
+      "COMPLETE_DATE": "Fecha completada",
       "COMPLETE_PLAN": "Completar plan",
       "DATE_OF_CHANGE": "Fecha de cambio de estado",
       "NOTES_CHAR_LIMIT": "Las notas deben tener menos de 10,000 caracteres",

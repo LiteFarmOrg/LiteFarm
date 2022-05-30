@@ -17,11 +17,18 @@ const axios = require('axios');
 const Queue = require('bull');
 const { sign } = require('jsonwebtoken');
 const apiUrl = process.env.API_URL || 'http://localhost:5001';
+const mockTimer = !!process.env.MOCK_TIMER;
 
-const sendOnSchedule = (queueConfig) => {
-  const driverQueue = new Queue('Scheduled notifications', queueConfig);
-  const apiQueue = new Queue('LiteFarm API requests', queueConfig);
-  /*
+// UTC day to send weeklies for zones < 7
+const WEEKLY_NOTIFICATION_DAY_EARLIER_ZONES = 0;
+// UTC day to send weeklies for zones >= 7
+const WEEKLY_NOTIFICATION_DAY_LATER_ZONES = (WEEKLY_NOTIFICATION_DAY_EARLIER_ZONES + 1) % 7;
+
+const ONE_DAY = mockTimer ? 1000 * 60 * 24 : 1000 * 60 * 60 * 24;
+let utcDay = mockTimer ? WEEKLY_NOTIFICATION_DAY_EARLIER_ZONES : undefined;
+let utcHour = mockTimer ? 5 : undefined; // mock starts 2 "hours" before day shifts
+
+/*
   The following table shows: 1) time zones as offsets from UTC, 2) UTC hour of local 6am standard time, and 3) local 6am ST date offset from UTC.
   Example: at 1600 Monday UTC, it is 0600 Tuesday in UTC+14.
 
@@ -32,15 +39,18 @@ const sendOnSchedule = (queueConfig) => {
 | Date offset    |  0,1   |  0,1   | 0   | 0   | 0   | 0   | 0   | 0   | 0   | 0   | 0   | 0   | 0   | 0   | 0   | 0   | 0   | 0   | 1   | 1   | 1   | 1   | 1   | 1   |
 */
 
-  // At the top of every hour ...
-  driverQueue.process((_, done) => {
-    // ... find the UTC offsets where it just became 6am ...
-    const now = new Date();
-    const utcHour = now.getUTCHours();
-    const utcDay = now.getUTCDay();
-    const SUNDAY = 0;
-    const MONDAY = SUNDAY + 1;
+const sendOnSchedule = (queueConfig) => {
+  const driverQueue = new Queue('Schedule driver ', queueConfig);
+  const apiQueue = new Queue('Notification API requests', queueConfig);
 
+  // At the top of every hour ...
+  driverQueue.process((job, done) => {
+    // ... find the UTC offsets where it just became 6am ...
+    if (!mockTimer) {
+      const now = new Date();
+      utcDay = now.getUTCDay();
+      utcHour = now.getUTCHours();
+    }
     const timeZones = [6 - utcHour];
     if (timeZones[0] < -11) timeZones[0] += 24;
     if (timeZones[0] === -10 || timeZones[0] === -11) timeZones[1] = timeZones[0] + 24;
@@ -58,7 +68,7 @@ const sendOnSchedule = (queueConfig) => {
     for (const timeZone of timeZones) {
       const start = 3600 * timeZone; // hours to seconds
       const end = 3600 * (timeZone + 1) - 1;
-      console.log(`  from ${start} to ${end}`);
+      console.log(`  offset range is ${start} to ${end} seconds`);
 
       const reqConfig = { headers: { Authorization: `Bearer ${token}` } };
       axios
@@ -67,21 +77,39 @@ const sendOnSchedule = (queueConfig) => {
           // For each farm ...
           for (const farmId of res.data) {
             // ... send daily 6am notifications ...
-            apiQueue.add({ farmId, type: 'Daily', reqConfig });
+            apiQueue.add(
+              { farmId, type: 'Daily', reqConfig },
+              { jobId: `${farmId}-Daily-${utcDay}-${utcHour}` },
+            );
 
             // ... and Monday 6am notifications if appropriate.
-            if ((utcDay === MONDAY && timeZone < 7) || (utcDay === SUNDAY && timeZone >= 7)) {
-              apiQueue.add({ farmId, type: 'Weekly', reqConfig });
+            if (
+              (utcDay === WEEKLY_NOTIFICATION_DAY_LATER_ZONES && timeZone < 7) ||
+              (utcDay === WEEKLY_NOTIFICATION_DAY_EARLIER_ZONES && timeZone >= 7)
+            ) {
+              apiQueue.add(
+                { farmId, type: 'Weekly', reqConfig },
+                { jobId: `${farmId}-Weekly-${utcDay}-${utcHour}` },
+              );
             }
           }
         });
     }
+    if (mockTimer && ++utcHour === 24) {
+      utcHour = 0;
+      utcDay = ++utcDay % 7;
+    }
+
+    // Clean completed and failed API requests that have been in queue for 1 day.
+    apiQueue.clean(ONE_DAY);
+    apiQueue.clean(ONE_DAY, 'failed');
     done();
   });
 
   // Create a recurring schedule.
-  driverQueue.add({}, { repeat: { cron: '0 * * * *' } });
+  driverQueue.add({}, { repeat: { cron: `${mockTimer ? '*' : '0'} * * * *` } });
 
+  // Process a job for each API request.
   apiQueue.process((job, done) => {
     const { type, farmId, reqConfig } = job.data;
     const urls = {
@@ -89,9 +117,16 @@ const sendOnSchedule = (queueConfig) => {
       Weekly: 'time_notification/weekly_unassigned_tasks',
     };
     axios.post(`${apiUrl}/${urls[type]}/${farmId}`, {}, reqConfig).then(function (res) {
-      console.log(`  ${type} notifications for farm ${farmId}: status ${res.status}, ${res.data}`);
+      if ([200, 201].includes(res.status)) {
+        console.log(
+          `  ${type} notifications for farm ${farmId}: status ${res.status}, ${res.data}`,
+        );
+        done();
+      } else {
+        console.log(`Retrying job ${job.jobId}`);
+        job.retry();
+      }
     });
-    done();
   });
 };
 

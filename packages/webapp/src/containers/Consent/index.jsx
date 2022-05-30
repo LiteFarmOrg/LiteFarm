@@ -8,6 +8,8 @@ import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 import EnglishOwnerConsent from './locales/en/Owner.Consent.md';
 import EnglishWorkerConsent from './locales/en/Worker.Consent.md';
+import FrenchOwnerConsent from './locales/fr/Owner.Consent.md';
+import FrenchWorkerConsent from './locales/fr/Worker.Consent.md';
 import PortugueseOwnerConsent from './locales/pt/Owner.Consent.md';
 import PortugueseWorkerConsent from './locales/pt/Worker.Consent.md';
 import SpanishOwnerConsent from './locales/es/Owner.Consent.md';
@@ -16,6 +18,7 @@ import { getLanguageFromLocalStorage } from '../../util/getLanguageFromLocalStor
 
 const languageConsent = {
   en: { worker: <EnglishWorkerConsent />, owner: <EnglishOwnerConsent /> },
+  fr: { worker: <FrenchWorkerConsent />, owner: <FrenchOwnerConsent /> },
   es: { worker: <SpanishWorkerConsent />, owner: <SpanishOwnerConsent /> },
   pt: { worker: <PortugueseWorkerConsent />, owner: <PortugueseOwnerConsent /> },
 };
@@ -40,7 +43,8 @@ function ConsentForm({
     formState: { errors },
   } = useForm();
   const [consentVersion] = useState('4.0');
-  const consent = role.role_id === 3 ? getLanguageConsent(language).worker : getLanguageConsent(language).owner;
+  const consent =
+    role.role_id === 3 ? getLanguageConsent(language).worker : getLanguageConsent(language).owner;
   const checkboxName = 'consentCheckbox';
   const hasConsent = watch(checkboxName, false);
   const checkBoxRegister = register(checkboxName, {

@@ -353,10 +353,10 @@
     "ARCHIVE_DOCUMENT_TEXT": "L'archivage de ce document le déplacera vers la section archivée de vos documents, mais ne le supprimera pas. Les documents archivés ne seront pas exportés pour vos certifications. Voulez-vous continuer\u00a0?",
     "ARCHIVED": "Archivé",
     "CANCEL": "Annuler",
-    "UNARCHIVE": "MISSING",
-    "UNARCHIVE_DOCUMENT": "MISSING",
-    "UNARCHIVE_DOCUMENT_TEXT": "MISSING",
-    "UNARCHIVED": "MISSING",
+    "UNARCHIVE": "Désarchivé",
+    "UNARCHIVE_DOCUMENT": "Désarchiver le document?",
+    "UNARCHIVE_DOCUMENT_TEXT": "L'annulation de l'archivage de ce document ramènera celui-ci à votre liste de documents valides. Les documents valides seront exportés pour vos certifications. Voulez-vous continuer\u00a0?",
+    "UNARCHIVED": "Désarchivés",
     "COMPLIANCE_DOCUMENTS_AND_CERTIFICATION": "Documents de conformité et votre certification",
     "DOCUMENTS": "Documents",
     "EDIT_DOCUMENT": "Modifier le document",
@@ -377,10 +377,10 @@
       "CLEANING_PRODUCT": "Produit de nettoyage",
       "CROP_COMPLIANCE": "Conformité des cultures",
       "FERTILIZING_PRODUCT": "Produit fertilisant",
-      "INVOICES": "MISSING",
+      "INVOICES": "Factures",
       "OTHER": "Autre",
       "PEST_CONTROL_PRODUCT": "Produit antiparasitaire",
-      "RECEIPTS": "MISSING",
+      "RECEIPTS": "Recettes",
       "SOIL_AMENDMENT": "Amendement du sol",
       "SOIL_SAMPLE_RESULTS": "Résultats des échantillons de sol",
       "WATER_SAMPLE_RESULTS": "Résultats des échantillons d'eau"
@@ -575,7 +575,7 @@
     "TAB": {
       "CROPS": "Récoltes",
       "DETAILS": "Détails",
-      "TASKS": "MISSING"
+      "TASKS": "Tâches"
     },
     "TITLE": "Carte de la ferme",
     "TUTORIAL": {
@@ -684,7 +684,7 @@
       "INFO": "La biodiversité est excellente pour les gens et la planète. Nous comptons la richesse en espèces de tous les enregistrements connus de la biodiversité sur votre ferme à partir des limites de vos champs. Vous pouvez augmenter le nombre de votre biodiversité sur votre ferme en utilisant le https:// www.inaturalist.org/app.",
       "INSECTS": "Insectes",
       "PLANTS": "Plantes",
-      "MAMMALS": "MISSING",
+      "MAMMALS": "Mammifères",
       "SPECIES_COUNT": "{{count}} espèces",
       "SPECIES_COUNT_one": "{{count}} espèce",
       "SPECIES_COUNT_many": "{{count}} espèces",
@@ -692,14 +692,14 @@
       "SPECIES_COUNT_plural": "{{count}} espèces",
       "TITLE": "Biodiversité",
       "LOADING": {
-        "PREVIEW": "MISSING",
-        "TITLE": "MISSING",
-        "BODY": "MISSING"
+        "PREVIEW": "En course de chargement...",
+        "TITLE": "Nous générons les données de biodiversité les plus récents...",
+        "BODY": "Nous générons les dernières données sur la biodiversité de votre ferme. Cela peut prendre jusqu’à 60 secondes."
       },
       "ERROR": {
-        "PREVIEW": "MISSING",
-        "TITLE": "MISSING",
-        "BODY": "MISSING"
+        "PREVIEW": "Indisponible",
+        "TITLE": "Il y avait un problème.",
+        "BODY": "LiteFarm génère des données sur la biodiversité à partir de plusieurs sources et était incapable de le faire à ce moment. Veuillez réessayer après {{minutes}} minutes."
       }
     },
     "CURRENT": "Courant",
@@ -814,7 +814,7 @@
     "GENDER_TOOLTIP": "Les informations sur le genre sont collectées à des fins de recherche uniquement et ne seront partagées qu'avec les informations d'identification personnelle supprimées",
     "INVALID_EMAIL_ERROR": "Veuillez saisir une adresse courriel valide",
     "INVITE": "Inviter",
-    "LANGUAGE_OF_INVITE": "MISSING",
+    "LANGUAGE_OF_INVITE": "Langue d'invitation",
     "PHONE": "Téléphone",
     "PHONE_ERROR": "Veuillez entrer un numéro de téléphone valide",
     "ROLE": "Rôle",
@@ -894,7 +894,7 @@
     "ADD_A_TASK": "Ajouter une tâche",
     "DETAILS": "Détails",
     "FAILED_CROP": "Echec du recadrage\u00a0?",
-    "TASKS": "Taches"
+    "TASKS": "Tâches"
   },
   "MANAGEMENT_PLAN": {
     "ABANDON_MANAGEMENT_PLAN_CONTENT": "Abandonner ce plan de gestion abandonnera toutes les tâches incomplètes qui lui sont associées et le supprimera de votre carte de ferme.",
@@ -906,9 +906,9 @@
     "BROADCAST": "Diffusion ou exercice",
     "COMPLETE_PLAN": {
       "ABANDON_PLAN": "Abandonner le plan",
-      "ABANDON_NOTES": "MISSING",
+      "ABANDON_NOTES": "Notes d'abandon",
       "ABANDON_REASON": "Raison de l'abandon",
-      "COMPLETE_DATE": "MISSING",
+      "COMPLETE_DATE": "Date d'achèvement",
       "COMPLETE_PLAN": "Plan complet",
       "DATE_OF_CHANGE": "Date de changement de statut",
       "NOTES_CHAR_LIMIT": "Les notes doivent comporter moins de 10 000 caractères",
@@ -924,7 +924,7 @@
       },
       "WHAT_HAPPENED": "Quest-ce qui est arrivé ?"
     },
-    "COMPLETION_NOTES": "MISSING",
+    "COMPLETION_NOTES": "Notes d'achèvement",
     "CONTAINER": "Conteneur",
     "CONTAINER_OR_IN_GROUND": "Plantez-vous dans un conteneur ou en pleine terre\u00a0?",
     "CONTAINER_TYPE": "Type de conteneur",
@@ -983,7 +983,7 @@
     "PLANTING_NOTE": "Notes de plantation",
     "PLANTING_SOIL": "Terre de plantation à utiliser",
     "PLANTS_PER_CONTAINER": "# de plantes/conteneur",
-    "RATE_THIS_MANAGEMENT_PLAN": "MISSING",
+    "RATE_THIS_MANAGEMENT_PLAN": "Notation du plan",
     "REMOVE_PIN": "Supprimer l'épingle",
     "ROW_METHOD": {
       "HISTORICAL_SAME_LENGTH": "Les lignes étaient-elles toutes de la même longueur\u00a0?",
@@ -1072,27 +1072,27 @@
     "TAKE_ME_THERE": "Emmenez-moi là-bas",
     "TASK_ASSIGNED": {
       "TITLE": "Tâche assignée",
-      "BODY": "Une tâche {{taskType}} a été attribuée à {{assignee}}."
+      "BODY": "Une tâche de {{taskType}} a été attribuée à {{assignee}}."
     },
     "TASK_ABANDONED": {
-      "TITLE": "MISSING",
-      "BODY": "MISSING"
+      "TITLE": "Tâche abandonnée",
+      "BODY": "Une tâche de {{taskType}} qui vous était assignée a été abandonnée par {{abandoner}}."
     },
     "TASK_REASSIGNED": {
-      "TITLE": "MISSING",
-      "BODY": "MISSING"
+      "TITLE": "Tâche réaatribuée",
+      "BODY": "Une tâche de {{taskType}} qui vous était assignée a été attribuée à {{assignee}}."
     },
     "TASK_COMPLETED_BY_OTHER_USER": {
-      "TITLE": "MISSING",
-      "BODY": "MISSING"
+      "TITLE": "Tâche accomplie",
+      "BODY": "Une tâche de {{taskType}} qui vous était assignée a été marquée comme achevée par {{assigner}}."
     },
     "WEEKLY_UNASSIGNED_TASKS": {
-      "TITLE": "MISSING",
-      "BODY": "MISSING"
+      "TITLE": "Tâches non attribuées",
+      "BODY": "Vous avez des tâches non attribuées à accomplir cette semaine."
     },
     "DAILY_TASKS_DUE_TODAY": {
-      "TITLE": "MISSING",
-      "BODY": "MISSING"
+      "TITLE": "Tâches à accomplir aujourd'hui",
+      "BODY": "Vous avez des tâches à accomplir aujourd'hui."
     }
   },
   "OUTRO": {

@@ -35,6 +35,7 @@ function InviteUser() {
       first_name,
       last_name,
       gender,
+      language,
       birth_year,
       phone_number,
     } = userInfo;
@@ -53,6 +54,7 @@ function InviteUser() {
           amount,
         },
         gender,
+        language,
         birth_year,
         phone_number,
       };
@@ -74,6 +76,7 @@ function InviteUser() {
         profile_picture: 'https://cdn.auth0.com/avatars/na.png',
         user_id: pseudoId,
         gender,
+        language,
         birth_year,
         phone_number,
       };

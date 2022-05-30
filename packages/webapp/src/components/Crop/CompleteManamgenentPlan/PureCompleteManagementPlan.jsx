@@ -13,7 +13,7 @@ import { getDateInputFormat } from '../../../util/moment';
 import AbandonManagementPlanModal from '../../Modals/AbandonManagementPlanModal';
 import i18n from '../../../locales/i18n';
 
-export const SOMETHING_ELSE = 'SOMETHING_ELSE';
+export const SOMETHING_ELSE = 'Something Else';
 export const defaultAbandonManagementPlanReasonOptions = [
   { label: i18n.t('MANAGEMENT_PLAN.COMPLETE_PLAN.REASON.CROP_FAILURE'), value: 'CROP_FAILURE' },
   { label: i18n.t('MANAGEMENT_PLAN.COMPLETE_PLAN.REASON.LABOUR_ISSUE'), value: 'LABOUR_ISSUE' },

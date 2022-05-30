@@ -24,12 +24,14 @@
   },
   "TASKS": {
     "ABANDONED": "Abandonada",
-    "COMPLETE": "Completa",
+    "ACTIVE": "MISSING",
+    "COMPLETED": "Completa",
     "FOR REVIEW": "MISSING",
     "LATE": "Atrasada",
     "LOCATION": "Localização",
     "PLANNED": "Planejada",
-    "STATUS": "Situação"
+    "STATUS": "Situação",
+    "SUPPLIERS": "MISSING"
   },
   "FILTER": {
     "VALID_ON": "Válido em",

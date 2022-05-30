@@ -107,6 +107,7 @@ const userController = {
       gender,
       birth_year,
       phone_number,
+      language,
     } = req.body;
     let { first_name } = req.body;
     const { type: wageType, amount: wageAmount } = wage || {};
@@ -203,9 +204,7 @@ const userController = {
       await trx.commit();
       res.status(201).send({ ...user, ...userFarm });
       try {
-        const { language_preference } =
-          isUserAlreadyCreated ?? (await userModel.query().findById(req.user.user_id));
-
+        const { language_preference } = isUserAlreadyCreated ?? { language_preference: language };
         await emailTokenModel.createTokenSendEmail(
           {
             email,
@@ -272,7 +271,6 @@ const userController = {
         return res.status(400).send('Current app version only allows hourly wage');
       }
       /* End of input validation */
-
       await baseController.post(userModel, req.body, req, { trx });
       await userFarmModel.query(trx).insert({
         user_id,

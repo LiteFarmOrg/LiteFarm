@@ -42,7 +42,7 @@
   },
   "REVOKE_ACCESS": {
     "ADMIN": "Il semble que l'un des administrateurs de",
-    "REVOKE": "a révoqué votre accès à sa ferme sur LiteFarm. Si cela vous surprend, vous devez contacter votre contact là-bas pour résoudre le problème."
+    "REVOKE": "a révoqué votre accès à sa ferme sur LiteFarm. Si cela vous surprend, vous devez contacter votre contact là-bas pour résoudre le problème.",
     "SUBJECT0": "Vous avez perdu l'accès à",
     "SUBJECT1": "sur LiteFarm!"
   },

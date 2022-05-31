@@ -36,7 +36,8 @@ export function* postNaturalAreaLocationSaga({ payload: data }) {
       setSuccessMessage([i18n.t('FARM_MAP.MAP_FILTER.NA'), i18n.t('message:MAP.SUCCESS_POST')]),
     );
     yield put(canShowSuccessHeader(true));
-    history.back();
+    // history.back();
+    history.push({ pathname: '/map' });
   } catch (e) {
     history.push(
       {

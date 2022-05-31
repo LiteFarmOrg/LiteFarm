@@ -35,7 +35,7 @@ const patchFarmUrl = (farm_id) => `${farmUrl}/owner_operated/${farm_id}`;
 const patchStepUrl = (farm_id, user_id) =>
   `${userFarmUrl}/onboarding/farm/${farm_id}/user/${user_id}`;
 export const postFarm = createAction('postFarmSaga');
-export function* postFarmSaga({ payload: farm }) {
+export function* postFarmSaga({ payload: { showFarmNameCharacterLimitExceededError, ...farm } }) {
   const { user_id } = yield select(loginSelector);
   yield put(setLoadingStart());
   let addFarmData = {
@@ -75,13 +75,21 @@ export function* postFarmSaga({ payload: farm }) {
     localStorage.setItem('farm_token', farm_token);
   } catch (e) {
     yield put(setLoadingEnd());
-    console.log(e);
-    yield put(enqueueErrorSnackbar(i18n.t('message:FARM.ERROR.ADD')));
+    const isFarmNameError =
+      e?.response?.status === 400 &&
+      e?.response?.data?.name === 'ValidationError' &&
+      !!e?.response?.data?.data?.farm_name?.length;
+    if (isFarmNameError) {
+      showFarmNameCharacterLimitExceededError();
+    } else {
+      console.log(e);
+      yield put(enqueueErrorSnackbar(i18n.t('message:FARM.ERROR.ADD')));
+    }
   }
 }
 
 export const patchFarm = createAction('patchFarmSaga');
-export function* patchFarmSaga({ payload: farm }) {
+export function* patchFarmSaga({ payload: { showFarmNameCharacterLimitExceededError, ...farm } }) {
   const { user_id, farm_id, step_one } = yield select(userFarmSelector);
   const header = getHeader(user_id, farm_id);
 
@@ -105,8 +113,17 @@ export function* patchFarmSaga({ payload: farm }) {
     yield put(patchFarmSuccess({ ...farm, user_id, step_one: true }));
     history.push('/role_selection');
   } catch (e) {
-    console.error(e);
-    yield put(enqueueErrorSnackbar(i18n.t('message:FARM.ERROR.ADD')));
+    const isFarmNameError =
+      e?.response?.status === 400 &&
+      typeof e?.response?.data?.error === 'string' &&
+      e?.response?.data?.error?.includes('farm_name:');
+
+    if (isFarmNameError) {
+      showFarmNameCharacterLimitExceededError();
+    } else {
+      console.error(e);
+      yield put(enqueueErrorSnackbar(i18n.t('message:FARM.ERROR.ADD')));
+    }
   }
 }
 

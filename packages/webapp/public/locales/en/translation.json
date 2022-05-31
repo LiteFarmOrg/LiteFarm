@@ -11,7 +11,8 @@
     "INVALID_FARM_LOCATION": "No country for this location",
     "LOCATING": "Locating...",
     "NO_ADDRESS": "No location found! Try latitude and longitude",
-    "TELL_US_ABOUT_YOUR_FARM": "Tell us about your farm"
+    "TELL_US_ABOUT_YOUR_FARM": "Tell us about your farm",
+    "FARM_NAME_ERROR": "Farm name character limit exceeded"
   },
   "ADD_PRODUCT": {
     "PRESS_ENTER": "Type and press enter to add...",

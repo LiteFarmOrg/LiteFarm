@@ -27,6 +27,7 @@ const checkJwt = jwt({
     '/user_farm/accept_invitation',
     '/notification_user/subscribe',
     /\/time_notification\//i,
+    /\/farm\/utc_offset_by_range\//i,
   ],
 });
 

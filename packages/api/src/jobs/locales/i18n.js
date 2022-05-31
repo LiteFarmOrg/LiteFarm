@@ -14,7 +14,6 @@ i18n.use(Backend).init(
   },
   (err) => {
     if (err) return console.error(err);
-    console.log('i18next is ready...');
   },
 );
 

@@ -84,8 +84,8 @@ const sendOnSchedule = (queueConfig) => {
           for (const farmId of res.data) {
             // ... send daily 6am notifications ...
             apiQueue.add(
-              { farmId, type: 'Daily', reqConfig },
-              { jobId: `${farmId}-Daily-${utcDay}-${utcHour}` },
+              { farmId, type: 'Daily', reqConfig, isDayLaterThanUtc: timeZone >= 7 },
+              { jobId: `Daily-${utcDay}-${utcHour}-${farmId}` },
             );
 
             // ... and weekly 6am notifications if appropriate.
@@ -94,8 +94,8 @@ const sendOnSchedule = (queueConfig) => {
               (utcDay === WEEKLY_NOTIFICATION_DAY_EARLIER_ZONES && timeZone >= 7)
             ) {
               apiQueue.add(
-                { farmId, type: 'Weekly', reqConfig },
-                { jobId: `${farmId}-Weekly-${utcDay}-${utcHour}` },
+                { farmId, type: 'Weekly', reqConfig, isDayLaterThanUtc: timeZone >= 7 },
+                { jobId: `Weekly-${utcDay}-${utcHour}-${farmId}` },
               );
             }
           }
@@ -115,22 +115,24 @@ const sendOnSchedule = (queueConfig) => {
 
   // Process a job for each API request.
   apiQueue.process((job, done) => {
-    const { type, farmId, reqConfig } = job.data;
+    const { type, farmId, reqConfig, isDayLaterThanUtc } = job.data;
     const urls = {
       Daily: 'time_notification/daily_due_today_tasks',
       Weekly: 'time_notification/weekly_unassigned_tasks',
     };
-    axios.post(`${apiUrl}/${urls[type]}/${farmId}`, {}, reqConfig).then(function (res) {
-      if ([200, 201].includes(res.status)) {
-        console.log(
-          `  ${type} notifications for farm ${farmId}: status ${res.status}, ${res.data}`,
-        );
-        done();
-      } else {
-        console.log(`Retrying job ${job.jobId}`);
-        job.retry();
-      }
-    });
+    axios
+      .post(`${apiUrl}/${urls[type]}/${farmId}`, { isDayLaterThanUtc }, reqConfig)
+      .then(function (res) {
+        if ([200, 201].includes(res.status)) {
+          console.log(
+            `  ${type} notifications for farm ${farmId}: status ${res.status}, ${res.data}`,
+          );
+          done();
+        } else {
+          console.log(`Retrying job ${job.jobId}`);
+          job.retry();
+        }
+      });
   });
 };
 

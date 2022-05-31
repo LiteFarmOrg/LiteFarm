@@ -39,7 +39,7 @@ export function* postResidenceLocationSaga({ payload: data }) {
       ]),
     );
     yield put(canShowSuccessHeader(true));
-    history.back();
+    history.push({ pathname: '/map' });
   } catch (e) {
     history.push(
       {

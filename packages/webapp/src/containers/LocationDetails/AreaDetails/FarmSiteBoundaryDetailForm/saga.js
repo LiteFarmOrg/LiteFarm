@@ -36,7 +36,7 @@ export function* postFarmSiteBoundaryLocationSaga({ payload: data }) {
       setSuccessMessage([i18n.t('FARM_MAP.MAP_FILTER.FSB'), i18n.t('message:MAP.SUCCESS_POST')]),
     );
     yield put(canShowSuccessHeader(true));
-    history.back();
+    history.push({ pathname: '/map' });
   } catch (e) {
     history.push(
       {

@@ -237,7 +237,7 @@ class TaskModel extends BaseModel {
    * @async
    * @returns {Object} - Object {task_type_id, task_id}
    */
-  static async getUnassignedTasksDueThiWeekFromIds(taskIds, isDayLaterThanUTC = false) {
+  static async getUnassignedTasksDueThisWeekFromIds(taskIds, isDayLaterThanUTC = false) {
     const dayLaterInterval = isDayLaterThanUTC ? '"1 day"' : '"0 days"';
     return await TaskModel.query().select('*').whereIn('task_id', taskIds).whereRaw(
       `

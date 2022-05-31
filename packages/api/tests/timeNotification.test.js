@@ -28,16 +28,16 @@ jest.mock('../src/middleware/acl/checkSchedulerJwt.js');
 describe('Time Based Notification Tests', () => {
   let farmOwner;
   let farm;
-  let isDayLaterThanUTC;
+  let isDayLaterThanUtc;
   let fakeToday;
 
   beforeEach(async () => {
     // Set up a farm with a farm owner
     [farmOwner] = await mocks.usersFactory();
     [farm] = await mocks.farmFactory();
-    isDayLaterThanUTC = faker.datatype.boolean();
+    isDayLaterThanUtc = faker.datatype.boolean();
     fakeToday = new Date();
-    if (isDayLaterThanUTC) fakeToday.setDate(fakeToday.getDate() + 1);
+    if (isDayLaterThanUtc) fakeToday.setDate(fakeToday.getDate() + 1);
 
     await mocks.userFarmFactory(
       {
@@ -131,7 +131,7 @@ describe('Time Based Notification Tests', () => {
     chai
       .request(server)
       .post(`/time_notification/weekly_unassigned_tasks/${farm_id}`)
-      .send({ is_day_later_than_utc: isDayLaterThanUTC })
+      .send({ isDayLaterThanUtc })
       .end(callback);
   }
 
@@ -140,7 +140,7 @@ describe('Time Based Notification Tests', () => {
     chai
       .request(server)
       .post(`/time_notification/daily_due_today_tasks/${farm_id}`)
-      .send({ is_day_later_than_utc: isDayLaterThanUTC })
+      .send({ isDayLaterThanUtc })
       .end(callback);
   }
 

@@ -27,7 +27,7 @@
     "ASSIGN_ALL_TO_PERSON": "Asignar todas las tareas no asignadas en esta fecha a esta persona",
     "ASSIGN_TASK": "Asignar tarea",
     "ASSIGNEE": "Responsable",
-    "ASSIGN_DATE": "Asignar due date",
+    "ASSIGN_DATE": "Asignar fecha de vencimiento",
     "CANCEL": "creación de la tarea",
     "CLEANING_VIEW": {
       "ESTIMATED_WATER": "Uso de agua estimado",
@@ -381,8 +381,8 @@
       "SOIL_AMENDMENT": "Fertilización y correción del suelo",
       "SOIL_SAMPLE_RESULTS": "Resultados de muestras del suelo",
       "WATER_SAMPLE_RESULTS": "Resultados de la muestra de agua",
-      "RECEIPTS": "MISSING",
-      "INVOICES": "MISSING"
+      "RECEIPTS": "Recibos",
+      "INVOICES": "Facturas"
     },
     "VALID": "Válido"
   },
@@ -574,7 +574,7 @@
     "TAB": {
       "CROPS": "Cultivo",
       "DETAILS": "Detalles",
-      "TASKS": "MISSING"
+      "TASKS": "Tareas"
     },
     "TITLE": "Mapa de granja",
     "TUTORIAL": {
@@ -688,8 +688,18 @@
       "SPECIES_COUNT_many": "{{count}} especies",
       "SPECIES_COUNT_other": "{{count}} especies",
       "SPECIES_COUNT_plural": "{{count}} especies",
-      "TITLE": "Biodiversidad"
-    },
+      "TITLE": "Biodiversidad",
+      "LOADING": {
+        "PREVIEW": "Cargando...",
+        "TITLE": "Generando las reflexiones más recientes sobre biodiversidad...",
+        "BODY": "Estamos generando las últimas reflexiones sobre biodiversidad para su granja. Esto puede tardar hasta 60 segundos."
+      },
+      "ERROR": {
+        "PREVIEW": "Indisponible",
+        "TITLE": "Había un problema",
+        "BODY": "LiteFarm genera información sobre la biodiversidad basada en varias fuentes y no pudo hacerlo en este momento. Vuelva a intentarlo después de {{minutos}} minutos."
+    }
+  }, 
     "CURRENT": "Actual",
     "INFO": "Las reflexiones son caracteristicas de datos de que esta pasando en su granja. Mientras mas data proveas en la aplicacion mas reflexiones pueden ser generadas. Mira las reflexiones individuales para mas informacion.",
     "LABOUR_HAPPINESS": {
@@ -802,7 +812,7 @@
     "GENDER_TOOLTIP": "Información sobre el género es recolectada sólo por propósitos de estudio y sólo será compartida sin identificar personalmente a Ud.",
     "INVALID_EMAIL_ERROR": "Por favor ingrese una dirección de correo válida",
     "INVITE": "Invitar",
-    "LANGUAGE_OF_INVITE": "MISSING",
+    "LANGUAGE_OF_INVITE": "Idioma de la invitación",
     "PHONE": "Número de teléfono",
     "PHONE_ERROR": "Por favor ingrese un número de teléfono válido",
     "ROLE": "Rol",
@@ -893,10 +903,11 @@
     "BEDS": "Camas",
     "BROADCAST": "Siembra a voleo o sembradora mecánica",
     "COMPLETE_PLAN": {
+      "ABANDON_DATE": "MISSING",
       "ABANDON_PLAN": "Abandonar plan",
-      "ABANDON_NOTES": "MISSING",
+      "ABANDON_NOTES": "Notas de abandono",
       "ABANDON_REASON": "Razón para abandonar",
-      "COMPLETE_DATE": "MISSING",
+      "COMPLETE_DATE": "Fecha completada",
       "COMPLETE_PLAN": "Completar plan",
       "DATE_OF_CHANGE": "Fecha de cambio de estado",
       "NOTES_CHAR_LIMIT": "Las notas deben tener menos de 10,000 caracteres",
@@ -1063,24 +1074,24 @@
       "BODY": "Se ha asignado una tarea {{taskType}} a {{assignee}}."
     },
     "TASK_ABANDONED": {
-      "TITLE": "MISSING",
-      "BODY": "MISSING"
+      "TITLE": "Tarea abandonada",
+      "BODY": "Una {{taskType}} tarea que se te asignó ha sido abandonada por {{abandoner}}."
     },
     "TASK_REASSIGNED": {
-      "TITLE": "MISSING",
-      "BODY": "MISSING"
+      "TITLE": "Tarea reasignada",
+      "BODY": "Una {{taskType}} tarea que te asignó previamente ha sido asignada a otra persona por {{assigner}}."
     },
     "TASK_COMPLETED_BY_OTHER_USER": {
-      "TITLE": "MISSING",
-      "BODY": "MISSING"
+      "TITLE": "Tarea completada",
+      "BODY": "Una tarea de {{taskType}} que se le asignó ha sido marcada como completada por {{assigner}}."
     },
     "WEEKLY_UNASSIGNED_TASKS": {
-      "TITLE": "MISSING",
-      "BODY": "MISSING"
+      "TITLE": "Tareas sin responables",
+      "BODY": "Tiene tareas sin asignar que vencen esta semana."
     },
     "DAILY_TASKS_DUE_TODAY": {
-      "TITLE": "MISSING",
-      "BODY": "MISSING"
+      "TITLE": "Tareas para hoy",
+      "BODY": "Tienes tareas para hoy."
     }
   },
   "OUTRO": {

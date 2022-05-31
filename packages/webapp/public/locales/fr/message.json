@@ -7,14 +7,14 @@
     "ERROR": {
       "CREATE": "N'a pas réussi à créer un document",
       "FAILED_ARCHIVE": "Impossible d'archiver le document",
-      "FAILED_UNARCHIVE": "MISSING",
+      "FAILED_UNARCHIVE": "N'a pas réussi à désarchiver le document",
       "FAILED_UPLOAD": "Le téléchargement des pièces jointes a échoué",
       "UPDATE": "La mise à jour a échouée"
     },
     "SUCCESS": {
       "ARCHIVE": "Document archivé avec succès",
       "CREATE": "Document créé avec succès",
-      "UNARCHIVE": "MISSING",
+      "UNARCHIVE": "Document désarchivé avec succès",
       "UPDATE": "Document mis à jour avec succès"
     }
   },

@@ -1,0 +1,99 @@
+{
+  "EXPORT_README_TITLE": "Comprendre votre export du certification",
+  "N": "N",
+  "N/A": "S.O",
+  "No": "Non",
+  "NOT_SURE": "Pas sûr",
+  "OPERATION_NAME": "NOM DE L'EXPLOITATION",
+  "RECORD_A": {
+    "ACRES": "Acres",
+    "AREA": "Zone",
+    "BUILDING": "(bâtiments, forêt, domaine de la biodiversité, allée)",
+    "CERTIFIED": "Certifié",
+    "CROPS_OR_ANIMALS": "Cultures ou types d'animaux par unité",
+    "CURRENT_STATUS": "Situation actuelle - marquer un par unité",
+    "HEADER": "DOSSIER A - IDENTIFICATION DES SITES",
+    "HECTARES": "Hectares",
+    "INDIVIDUAL_PRODUCTION_UNIT": "pour chaque unité de production individuelle (p. ex. site/terrain/serre/zone définie - comme approprié pour votre exploitation et indiquée sur votre carte)",
+    "NAME_IR_ID": "Nom ou numéro d'identification",
+    "NEW": "Nouveau",
+    "NEW_AREA": "Zone (Ajoutée cette année)",
+    "NON_ORGANIC": "Surface non-biologique en",
+    "NON_PRODUCING": "Inexploitées",
+    "OPERATION NAME": "NOM DE L'EXPLOITATION",
+    "ORGANIC_AREA": "Zone organique",
+    "PLEASE_VERIFY": "Prière de vérifier les détails et d'apporter tous les changements nécessaires sur un base annuelle. Si l'opération se déroule sur plusieurs sites, s'il vous plaît assurez-vous de décrire chaque site séparément. Veuillez vous reporter à l'onglet des exemples ci-dessous pour savoir comment remplir ce formulaire.",
+    "PRODUCTION": "production",
+    "REMOVED_FROM_PROGRAM": "Retiré du programme",
+    "REPORTING_PERIOD": "Période considérée",
+    "ROW_FT": "Rangée (pi)",
+    "ROW_M": "Rangée (m)",
+    "SIZE_IN_PREFERRED_UNIT": "Taille dans l'unité de mesure préférée",
+    "SPLIT": "Diviser/Parallèle",
+    "SQ_FT": "Pieds carrés",
+    "SQ_M": "Mètres carrés",
+    "TRANSITIONAL": "Transitoire",
+    "WHY_REMOVED": "Pourquoi enlevé ou d'autres notes"
+  },
+  "RECORD_D": {
+    "DATE_COMPLETED": "Date d'achèvement",
+    "From": "De",
+    "HEADER": "Dossier D - Semences et matériel de plantation",
+    "NOTE": {
+      "LIST_ALL": "Énumérez toutes les semences et matériels de plantation utilisées au cours de la période de déclaration.",
+      "ONE": "Assurez-vous que les reçus d'achat, les étiquettes, et les certifications biologiques pour toutes les semences/plantes soient disponibles pour examen pendant l'inspection.",
+      "TWO": {
+        "A": "Recherche de disponibilité commerciale selon COS 5.3 - (Document D1 ou l'équivalent)",
+        "B": "Documentation confirmant l'état non génétiquement manipulées",
+        "C": "Documentation confirmant que les traitements tels que les inoculums ou les enrobages des semences sont conformes à la liste des substances permises.",
+        "PART_1": "Où",
+        "PART_2": "semences et stocks non biologiques",
+        "PART_3": "est utilisé, les documents suivants doivent être disponibles pour examen."
+      }
+    },
+    "REPORTING_PERIOD": "Période de déclaration",
+    "TABLE_COLUMN": {
+      "IS_SEARCH_COMPLETED": "Si les semences ou stocks biologiques ne sont pa certifiés, une recherche a-t-elle été terminée? (O/N)",
+      "LIST_SEED_TREATMENTS": "Dressez la liste des traitements des semences (le cas échéant)",
+      "LOT_NUMBER": "Numéro de lot (le cas échéant)",
+      "NON_GE_DOCS_AVAILABLE": "Les documents non GM sont disponibles (O/N)",
+      "NOTES": "Notes/dattes vivaces/etc.",
+      "SEED_CROP_OR_PLANTING_STOCK": "Culture/variété de semences ou matériel de plantation",
+      "STATUS_CERTIFIED_ORGANIC": "Statut des semences/stocks = certifié biologique (O/N)",
+      "Supplier": "Source/fournisseur",
+      "TREATMENT_DOCS_AVAILABLE": "Les documents de traitement sont disponibles (O/N)"
+    },
+    "To": "À"
+  },
+  "RECORD_I": {
+    "CLEANERS": "Nettoyants",
+    "CROP_PRODUCTION_AIDS": "Auxiliaires pour la production végétale",
+    "HEADER": "Dossier I",
+    "INPUT_CATEGORY": "Catégorie du intrant",
+    "LOCATIONS": "Emplacement(s)",
+    "NOTE": {
+      "LIST_ALL": "Énumérez tous les intrants utilisées durant les 12 derniers mois ou depuis la présentation de votre dernier Dossier I. Vous pouvez choisir d'utiliser ce document pour tenir un registre des intrants utilisés tout au long de la saison.",
+      "LIVESTOCK_INPUTS": "Notez: intrants d'élevage: aliments, additifs alimentaires, compléments alimentaires, produits de santé, aides à la production, litières d'animaux, etc. doivent être inscrit au Dossier LI - Intrants de bétails.",
+      "ONE": {
+        "PART_1": "Amendments du sol, nutrition des cultures, auxiliaires et matières utilisés pour la production végétale:",
+        "PART_2": "p. ex. comme des paillis, des engrais, des pulvérisations foliaires, du compost, du lisier, des mélanges de sol à base de terreau, de la mousse de tourbe, des amendements du sol, etc."
+      },
+      "PLEASE_USE_SEPARATE_RECORD": "Veuillez utiliser un dossier distinct pour chaque catégorie d'intrant comme décrit ci-dessous et télécharger chacun à l'emplacement de téléchargement respectif dans la Section 99 - Télécharger:",
+      "PREP_INPUTS": "Notez: intrants de préparation: additifs alimentaires, autres ingrédients, auxiliaires technologiques doivent figurer sur la Dossier PM - liste des ingrédients-maîtres de transformation  es des auxiliaires de traitement.",
+      "TWO": "Nettoyants, désinfectants, assainisseurs, substances antiparasitaires."
+    },
+    "REPORTING_PERIOD": "Période de déclaration",
+    "TABLE_COLUMN": {
+      "CROP_FIELD_APPLIED_TO": "Culture/champ appliqué à ou unité de production utilisée dans",
+      "DATE_USED": "Date utilisée",
+      "LISTED_IN_PSL": "Figurant sur la liste des substances permises? (O/N)",
+      "Notes": "Notes",
+      "PRODUCT_NAME": "Nom du produit",
+      "QUANTITY": "Quantité ({{unit}})",
+      "SUPPLIER": "Nom commercial ou source/fournisseur"
+    },
+    "VARIETALS": "Variété(s)"
+  },
+  "Y": "O",
+  "Yes": "Oui"
+}

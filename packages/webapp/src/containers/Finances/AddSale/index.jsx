@@ -22,7 +22,7 @@ class AddSale extends Component {
       date: moment(),
       chosenOptions: [],
       quantity_unit: getUnit(this.props.farm, 'kg', 'lb'),
-      currencySymbol: grabCurrencySymbol(this.props.farm),
+      currencySymbol: grabCurrencySymbol(),
     };
     this.props.dispatch(actions.reset('financeReducer.forms.addSale'));
     this.handleSubmit = this.handleSubmit.bind(this);

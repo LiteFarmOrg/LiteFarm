@@ -27,7 +27,7 @@ class AddExpense extends Component {
       date: moment(),
       expenseDetail: {},
       expenseNames: {},
-      currencySymbol: grabCurrencySymbol(this.props.farm),
+      currencySymbol: grabCurrencySymbol(),
     };
     this.setDate = this.setDate.bind(this);
     this.getTypeName = this.getTypeName.bind(this);

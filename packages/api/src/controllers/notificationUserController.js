@@ -54,11 +54,12 @@ module.exports = {
     };
 
     // Periodically send a "heartbeat" to prevent browser from closing idle connection.
-    // Note: this works, but seems to be unnecessary because client code reconnects after idle timeout.
-    //   Keeping this in case it is needed in future. If reactivated, also reactivate clearInterval call onclose.
-    // const intervalId = setInterval(() => {
-    // sendAlert(0);
-    // }, 1000 * 30);
+    // Chrome appears to close connections that are idle for 1 minute.
+    // Note: there is client code to reconnect after idle timeout or other disconnect.
+    // But that causes scary error in browser console, plus brief outage in connectivity.
+    const intervalId = setInterval(() => {
+      sendAlert(0);
+    }, 1000 * 45);
 
     // Register a function to end the long-term HTTP response that handles server-sent events.
     const endHttpRes = () => {
@@ -75,7 +76,7 @@ module.exports = {
 
     // Cleans up subscription tracking when HTTP request closes.
     req.on('close', () => {
-      // clearInterval(intervalId); // See note regarding "heartbeat" above.
+      clearInterval(intervalId);
       const userSubs = subscriptions.get(user_id);
       if (!userSubs) {
         console.log(`Cannot close non-existent subscription: user ${user_id}`);

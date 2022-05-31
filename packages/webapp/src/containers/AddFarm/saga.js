@@ -117,7 +117,6 @@ export function* patchFarmSaga({ payload: { showFarmNameCharacterLimitExceededEr
       e?.response?.status === 400 &&
       typeof e?.response?.data?.error === 'string' &&
       e?.response?.data?.error?.includes('farm_name:');
-
     if (isFarmNameError) {
       showFarmNameCharacterLimitExceededError();
     } else {

@@ -18,6 +18,8 @@
 .headerTitleContainer {
   margin-top: 15px;
   padding-left: 25px;
+  white-space: nowrap;
+  overflow: hidden;
 }
 
 .headerAttributesContainer {

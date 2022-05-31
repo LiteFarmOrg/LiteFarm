@@ -121,7 +121,7 @@ Cypress.Commands.add('insights', () => {
 });
 //<div class=" css-14sfozv-menu" id="react-select-3-listbox"><div class=" css-1plh46m-MenuList2"><div class=" css-19hntng-option" aria-disabled="false" id="react-select-3-option-0" tabindex="-1">Test Worker</div><div class=" css-1n3x1m8-option" aria-disabled="false" id="react-select-3-option-1" tabindex="-1">Unassigned</div></div></div>
 Cypress.Commands.add('createTask', () => {
-  //Create an unassigned cleaning task
+  //Create an unassigned cleaning task due tomorrow
   cy.contains('Create').should('exist').and('not.be.disabled').click({ force: true });
   cy.contains('Clean').should('exist').and('not.be.disabled').click({ force: true });
 
@@ -144,6 +144,43 @@ Cypress.Commands.add('createTask', () => {
     .and('not.be.disabled')
     .click({ force: true });
   cy.get('[data-cy=addTask-cropsContinue]')
+    .should('exist')
+    .and('not.be.disabled')
+    .click({ force: true });
+  cy.get('[data-cy=addTask-detailsContinue]')
+    .should('exist')
+    .and('not.be.disabled')
+    .click({ force: true });
+  cy.get('[data-cy=addTask-assignmentSave]')
+    .should('exist')
+    .and('not.be.disabled')
+    .click({ force: true });
+});
+
+Cypress.Commands.add('createTaskToday', () => {
+  //Create an unassigned cleaning task due today
+  cy.contains('Create').should('exist').and('not.be.disabled').click({ force: true });
+  cy.contains('Clean').should('exist').and('not.be.disabled').click({ force: true });
+
+  const date = new Date();
+  const alertDateTime = date.setHours(23, 0, 0);
+  const dueDate = getDateInputFormat(alertDateTime);
+
+  cy.get('[data-cy=addTask-taskDate]').should('exist').type(dueDate);
+
+  cy.get('[data-cy=addTask-continue]')
+    .should('exist')
+    .and('not.be.disabled')
+    .click({ force: true });
+  cy.wait(2000);
+  cy.get('[data-cy=map-selectLocation]').click(540, 201, {
+    force: false,
+  });
+  cy.get('[data-cy=addTask-locationContinue]')
+    .should('exist')
+    .and('not.be.disabled')
+    .click({ force: true });
+  cy.get('[data-cy="addTask-cropsContinue"]')
     .should('exist')
     .and('not.be.disabled')
     .click({ force: true });

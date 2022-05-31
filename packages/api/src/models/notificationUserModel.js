@@ -123,7 +123,8 @@ class NotificationUser extends baseModel {
       .andWhere({ user_id })
       .andWhere({ 'notification.deleted': false })
       .orderBy('notification_user.created_at', 'desc')
-      .limit(100);
+      .limit(100)
+      .context({ showHidden: true });
   }
 
   /**

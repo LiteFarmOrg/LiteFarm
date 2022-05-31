@@ -51,7 +51,10 @@ function TaskAbandon({ history, match, location }) {
   };
 
   const checkIfAssigneeIsLoggedInUser = () =>
-    task.assignee_user_id !== null && task.assignee_user_id === user_id;
+    task?.assignee_user_id !== null &&
+    typeof task?.assignee_user_id === 'string' &&
+    typeof user_id === 'string' &&
+    task?.assignee_user_id === user_id;
 
   return (
     <PureAbandonTask

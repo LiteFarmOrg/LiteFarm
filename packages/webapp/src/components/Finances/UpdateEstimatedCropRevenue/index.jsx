@@ -11,6 +11,7 @@ import Unit from '../../Form/Unit';
 import { seedYield } from '../../../util/convert-units/unit';
 import { convert } from '../../../util/convert-units/convert';
 import { roundToTwoDecimal } from '../../../util';
+import grabCurrencySymbol from '../../../util/grabCurrencySymbol';
 
 function PureUpdateEstimatedCropRevenue({ system, managementPlan, onGoBack, onSubmit }) {
   const { t } = useTranslation();
@@ -142,7 +143,7 @@ function PureUpdateEstimatedCropRevenue({ system, managementPlan, onGoBack, onSu
           valueAsNumber: true,
         })}
         // todo: make currency variable
-        currency={'$'}
+        currency={grabCurrencySymbol()}
         errors={getInputErrors(errors, ESTIMATED_ANNUAL_REVENUE)}
         style={{ marginBottom: '40px' }}
       />

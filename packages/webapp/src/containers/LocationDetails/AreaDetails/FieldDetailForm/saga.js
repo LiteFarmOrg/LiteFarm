@@ -36,7 +36,6 @@ export function* postFieldLocationSaga({ payload: data }) {
       setSuccessMessage([i18n.t('FARM_MAP.MAP_FILTER.FIELD'), i18n.t('message:MAP.SUCCESS_POST')]),
     );
     yield put(canShowSuccessHeader(true));
-    // history.back();
     history.push({ pathname: '/map' });
   } catch (e) {
     history.push(

@@ -11,7 +11,8 @@
     "INVALID_FARM_LOCATION": "Ningún país para esta ubicación",
     "LOCATING": "Localizando...",
     "NO_ADDRESS": "Ubicación no encontrada! Trate latitud y longitud",
-    "TELL_US_ABOUT_YOUR_FARM": "Cuéntenos sobre su finca"
+    "TELL_US_ABOUT_YOUR_FARM": "Cuéntenos sobre su finca",
+    "FARM_NAME_ERROR": "MISSING"
   },
   "ADD_PRODUCT": {
     "PRESS_ENTER": "Escriba y presione enter para agregar...",
@@ -698,8 +699,8 @@
         "PREVIEW": "Indisponible",
         "TITLE": "Había un problema",
         "BODY": "LiteFarm genera información sobre la biodiversidad basada en varias fuentes y no pudo hacerlo en este momento. Vuelva a intentarlo después de {{minutos}} minutos."
-    }
-  }, 
+      }
+    },
     "CURRENT": "Actual",
     "INFO": "Las reflexiones son caracteristicas de datos de que esta pasando en su granja. Mientras mas data proveas en la aplicacion mas reflexiones pueden ser generadas. Mira las reflexiones individuales para mas informacion.",
     "LABOUR_HAPPINESS": {

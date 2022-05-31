@@ -19,9 +19,11 @@ const { sign } = require('jsonwebtoken');
 const apiUrl = process.env.API_URL || 'http://localhost:5001';
 const mockTimer = !!process.env.MOCK_TIMER;
 
-// UTC day to send weeklies for zones < 7
-const WEEKLY_NOTIFICATION_DAY_EARLIER_ZONES = 0;
 // UTC day to send weeklies for zones >= 7
+// (Zero is Sunday.)
+const WEEKLY_NOTIFICATION_DAY_EARLIER_ZONES =
+  process.env.WEEKLY_NOTIFICATION_DAY_EARLIER_ZONES || 0;
+// UTC day to send weeklies for zones < 7
 const WEEKLY_NOTIFICATION_DAY_LATER_ZONES = (WEEKLY_NOTIFICATION_DAY_EARLIER_ZONES + 1) % 7;
 
 const ONE_DAY = mockTimer ? 1000 * 60 * 24 : 1000 * 60 * 60 * 24;
@@ -45,6 +47,10 @@ const sendOnSchedule = (queueConfig) => {
 
   // At the top of every hour ...
   driverQueue.process((job, done) => {
+    // ... clean completed and failed API requests that have been in queue for 1 day ...
+    apiQueue.clean(ONE_DAY);
+    apiQueue.clean(ONE_DAY, 'failed');
+
     // ... find the UTC offsets where it just became 6am ...
     if (!mockTimer) {
       const now = new Date();
@@ -82,7 +88,7 @@ const sendOnSchedule = (queueConfig) => {
               { jobId: `${farmId}-Daily-${utcDay}-${utcHour}` },
             );
 
-            // ... and Monday 6am notifications if appropriate.
+            // ... and weekly 6am notifications if appropriate.
             if (
               (utcDay === WEEKLY_NOTIFICATION_DAY_LATER_ZONES && timeZone < 7) ||
               (utcDay === WEEKLY_NOTIFICATION_DAY_EARLIER_ZONES && timeZone >= 7)
@@ -100,13 +106,11 @@ const sendOnSchedule = (queueConfig) => {
       utcDay = ++utcDay % 7;
     }
 
-    // Clean completed and failed API requests that have been in queue for 1 day.
-    apiQueue.clean(ONE_DAY);
-    apiQueue.clean(ONE_DAY, 'failed');
     done();
   });
 
-  // Create a recurring schedule.
+  // Create a recurring schedule: top of each hour.
+  // (Mock timer treats one real minute as one simulated hour.)
   driverQueue.add({}, { repeat: { cron: `${mockTimer ? '*' : '0'} * * * *` } });
 
   // Process a job for each API request.

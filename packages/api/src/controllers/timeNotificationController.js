@@ -27,13 +27,18 @@ const timeNotificationController = {
    */
   async postWeeklyUnassignedTasks(req, res) {
     const { farm_id } = req.params;
+    const { isDayLaterThanUtc } = req.body;
+
     try {
       // All unassigned tasks at the farm associated with farm_id due this week that are
       // not completed or abandoned
       const tasksFromFarm = await getTasksForFarm(farm_id);
       const taskIds = tasksFromFarm.map(({ task_id }) => task_id);
 
-      const unassignedTasks = await TaskModel.getUnassignedTasksDueThiWeekFromIds(taskIds);
+      const unassignedTasks = await TaskModel.getUnassignedTasksDueThisWeekFromIds(
+        taskIds,
+        isDayLaterThanUtc,
+      );
       const farmManagementObjs = await UserFarmModel.getFarmManagementByFarmId(farm_id);
 
       const farmManagement = farmManagementObjs.map(
@@ -62,6 +67,7 @@ const timeNotificationController = {
    */
   async postDailyDueTodayTasks(req, res) {
     const { farm_id } = req.params;
+    const { isDayLaterThanUtc } = req.body;
     try {
       let notificationsSent = 0;
       const activeUsers = await UserFarmModel.getActiveUsersFromFarmId(farm_id);
@@ -72,6 +78,7 @@ const timeNotificationController = {
         const hasTasksDueToday = await TaskModel.hasTasksDueTodayForUserFromFarm(
           user_id,
           taskIdsFromFarm,
+          isDayLaterThanUtc,
         );
 
         if (hasTasksDueToday) {

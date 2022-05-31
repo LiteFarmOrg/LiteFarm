@@ -11,7 +11,8 @@
     "INVALID_FARM_LOCATION": "Nenhum país para esta localização",
     "LOCATING": "Localizando...",
     "NO_ADDRESS": "Localização não encontrada. Tente inserir latitue e longitude",
-    "TELL_US_ABOUT_YOUR_FARM": "Conte-nos sobre seu sítio/fazenda"
+    "TELL_US_ABOUT_YOUR_FARM": "Conte-nos sobre seu sítio/fazenda",
+    "FARM_NAME_ERROR": "MISSING"
   },
   "ADD_PRODUCT": {
     "PRESS_ENTER": "Digite e pressione enter para adicionar...",

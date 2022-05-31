@@ -237,15 +237,17 @@ class TaskModel extends BaseModel {
    * @async
    * @returns {Object} - Object {task_type_id, task_id}
    */
-  static async getUnassignedTasksDueThiWeekFromIds(taskIds) {
+  static async getUnassignedTasksDueThisWeekFromIds(taskIds, isDayLaterThanUTC = false) {
+    const dayLaterInterval = isDayLaterThanUTC ? '"1 day"' : '"0 days"';
     return await TaskModel.query().select('*').whereIn('task_id', taskIds).whereRaw(
       `
       task.assignee_user_id IS NULL
       AND task.complete_date IS NULL
       AND task.abandon_date IS NULL
-      AND task.due_date <= (now() + interval '1 week')::date
-      AND task.due_date >= now()::date
+      AND task.due_date <= (now() + ('1 week')::interval + (?)::interval)::date
+      AND task.due_date >= (now() + (?)::interval)::date
       `,
+      [dayLaterInterval, dayLaterInterval],
     );
   }
 
@@ -306,13 +308,15 @@ class TaskModel extends BaseModel {
    * @async
    * @returns {boolean} true if the user has tasks due today or false if not
    */
-  static async hasTasksDueTodayForUserFromFarm(userId, taskIds) {
+  static async hasTasksDueTodayForUserFromFarm(userId, taskIds, isDayLaterThanUTC = false) {
+    const today = new Date();
+    if (isDayLaterThanUTC) today.setDate(today.getDate() + 1);
     const tasksDueToday = await TaskModel.query()
       .select('*')
       .whereIn('task_id', taskIds)
       .whereNotDeleted()
       .andWhere('task.assignee_user_id', userId)
-      .andWhere('task.due_date', new Date());
+      .andWhere('task.due_date', today);
 
     return tasksDueToday && tasksDueToday.length;
   }

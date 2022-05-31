@@ -71,11 +71,19 @@ const AddFarm = () => {
     errors[COUNTRY]?.message ||
     errorMessage[errors[ADDRESS]?.type];
 
+  const showFarmNameCharacterLimitExceededError = () => {
+    setError(FARMNAME, {
+      type: 'manual',
+      message: t('ADD_FARM.FARM_NAME_ERROR'),
+    });
+  };
+
   const onSubmit = (data) => {
     const farmInfo = {
       ...data,
       gridPoints,
       farm_id: farm ? farm.farm_id : undefined,
+      showFarmNameCharacterLimitExceededError: showFarmNameCharacterLimitExceededError,
     };
     farm.farm_id ? dispatch(patchFarm(farmInfo)) : dispatch(postFarm(farmInfo));
   };

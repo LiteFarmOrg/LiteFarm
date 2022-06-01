@@ -52,7 +52,7 @@ export default function PureManagementTasks({
       }
     >
       <CropHeader
-        onBackClick={() => history.back()}
+        onBackClick={() => history.go(-1)}
         crop_translation_key={variety.crop_translation_key}
         crop_variety_name={variety.crop_variety_name}
         crop_variety_photo_url={variety.crop_variety_photo_url}

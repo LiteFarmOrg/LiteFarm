@@ -14,7 +14,13 @@ import Checkbox from '../../Form/Checkbox';
 import Rating from '../../Rating';
 import { getDateInputFormat } from '../../../util/moment';
 
-const PureAbandonTask = ({ onSubmit, onError, onGoBack, hasAssignee }) => {
+const PureAbandonTask = ({
+  onSubmit,
+  onError,
+  onGoBack,
+  hasAssignee,
+  isAssigneeTheLoggedInUser,
+}) => {
   const REASON_FOR_ABANDONMENT = 'reason_for_abandonment';
   const OTHER_REASON_FOR_ABANDONMENT = 'other_abandonment_reason';
   const ABANDON_DATE = 'abandon_date';
@@ -33,7 +39,10 @@ const PureAbandonTask = ({ onSubmit, onError, onGoBack, hasAssignee }) => {
     formState: { errors, isValid },
   } = useForm({
     mode: 'onChange',
-    defaultValues: { [ABANDON_DATE]: getDateInputFormat() },
+    defaultValues: {
+      [ABANDON_DATE]: getDateInputFormat(),
+      [PREFER_NOT_TO_SAY]: !isAssigneeTheLoggedInUser,
+    },
   });
 
   const reason_for_abandonment = watch(REASON_FOR_ABANDONMENT);
@@ -120,23 +129,25 @@ const PureAbandonTask = ({ onSubmit, onError, onGoBack, hasAssignee }) => {
             hookFormRegister={register(NO_WORK_COMPLETED)}
           />
 
-          <Main style={{ marginBottom: '24px' }}>{t('TASK.DID_YOU_ENJOY')}</Main>
-
-          {!prefer_not_to_say && (
-            <Rating
-              style={{ display: 'flex', marginBottom: '27px' }}
-              label={t('TASK.PROVIDE_RATING')}
-              disabled={prefer_not_to_say}
-              onRate={(value) => setValue(HAPPINESS, value)}
-            />
+          {isAssigneeTheLoggedInUser && (
+            <>
+              <Main style={{ marginBottom: '24px' }}>{t('TASK.DID_YOU_ENJOY')}</Main>
+              {!prefer_not_to_say && (
+                <Rating
+                  style={{ display: 'flex', marginBottom: '27px' }}
+                  label={t('TASK.PROVIDE_RATING')}
+                  disabled={prefer_not_to_say}
+                  onRate={(value) => setValue(HAPPINESS, value)}
+                />
+              )}
+              <Checkbox
+                style={{ marginBottom: '42px' }}
+                label={t('TASK.PREFER_NOT_TO_SAY')}
+                hookFormRegister={register(PREFER_NOT_TO_SAY)}
+                onChange={() => setValue(HAPPINESS, null)}
+              />
+            </>
           )}
-
-          <Checkbox
-            style={{ marginBottom: '42px' }}
-            label={t('TASK.PREFER_NOT_TO_SAY')}
-            hookFormRegister={register(PREFER_NOT_TO_SAY)}
-            onChange={() => setValue(HAPPINESS, null)}
-          />
         </>
       )}
 
@@ -158,6 +169,7 @@ PureAbandonTask.prototype = {
   subject: PropTypes.string,
   items: PropTypes.array,
   onGoBack: PropTypes.func,
+  isAssigneeTheLoggedInUser: PropTypes.bool,
 };
 
 export default PureAbandonTask;

@@ -11,7 +11,7 @@ import { AddLink, Semibold } from '../../../components/Typography';
 import DateRangePicker from '../../../components/Form/DateRangePicker';
 import ActualCropRevenue from '../ActualCropRevenue';
 import FinanceListHeader from '../../../components/Finances/FinanceListHeader';
-import { calcRevenue, filterSalesByDateRange } from '../util';
+import { calcActualRevenue, filterSalesByDateRange } from '../util';
 
 export default function ActualRevenue({ history, match }) {
   const { t } = useTranslation();
@@ -38,7 +38,7 @@ export default function ActualRevenue({ history, match }) {
   const fromDate = watch('from_date');
   const toDate = watch('to_date');
   const revenueForWholeFarm = useMemo(
-    () => calcRevenue(sales, fromDate, toDate),
+    () => calcActualRevenue(sales, fromDate, toDate),
     [sales, fromDate, toDate],
   );
   const filteredSales = useMemo(

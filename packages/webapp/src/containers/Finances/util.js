@@ -83,7 +83,7 @@ export function filterSalesByDateRange(sales, startDate, endDate) {
   return [];
 }
 
-export function calcRevenue(sales, startDate, endDate) {
+export function calcActualRevenue(sales, startDate, endDate) {
   let total = 0.0;
 
   if (sales && Array.isArray(sales)) {

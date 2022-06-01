@@ -20,7 +20,7 @@ import DescriptiveButton from '../../components/Inputs/DescriptiveButton';
 import history from '../../history';
 import { dateRangeSelector, expenseSelector, salesSelector, shiftSelector } from './selectors';
 import { getDefaultExpenseType, getExpense, getSales, setDateRange } from './actions';
-import { calcOtherExpense, calcTotalLabour, calcRevenue } from './util';
+import { calcOtherExpense, calcTotalLabour, calcActualRevenue } from './util';
 import Moment from 'moment';
 import { roundToTwoDecimal } from '../../util';
 import DateRangeSelector from '../../components/Finances/DateRangeSelector';
@@ -359,7 +359,11 @@ class Finances extends Component {
   }
 
   render() {
-    const totalRevenue = calcRevenue(this.props.sale, this.state.startDate, this.state.endDate);
+    const totalRevenue = calcActualRevenue(
+      this.props.sale,
+      this.state.startDate,
+      this.state.endDate,
+    );
     const estimatedRevenue = this.getEstimatedRevenue(this.props.managementPlans);
     const { tasks, expenses } = this.props;
     const { balanceByCrop, startDate, endDate, hasUnAllocated, showUnTip, unTipButton } =

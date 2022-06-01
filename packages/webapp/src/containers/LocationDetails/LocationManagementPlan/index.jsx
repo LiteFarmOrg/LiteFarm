@@ -45,14 +45,23 @@ function LocationManagementPlan({ history, match }) {
   );
 }
 
+const check = (name, filter) => {
+  return (
+    name?.toLowerCase().includes(filter) ||
+    name
+      ?.toLowerCase()
+      .normalize('NFD')
+      .replace(/\p{Diacritic}/gu, '')
+      .includes(filter)
+  );
+};
+
 const filteredManagementPlans = (filter, managementPlans, t) => {
   return filter
     ? managementPlans.filter(
         (managementPlan) =>
-          managementPlan?.crop_variety?.crop_variety_name?.toLowerCase()?.includes(filter) ||
-          t(`crop:${managementPlan?.crop_variety?.crop_translation_key}`)
-            .toLowerCase()
-            ?.includes(filter),
+          check(managementPlan?.crop_variety?.crop_variety_name, filter) ||
+          check(t(`crop:${managementPlan?.crop_variety?.crop_translation_key}`), filter),
       )
     : managementPlans;
 };

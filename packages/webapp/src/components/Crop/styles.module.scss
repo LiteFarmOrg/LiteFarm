@@ -7,14 +7,30 @@
   cursor: pointer;
 }
 
+@media only screen and (max-width: 650px) {
+  .headerTitle {
+    width: 55vw; 
+  }
+}
+
+@media only screen and (max-width: 450px) {
+  .headerTitle {
+    width: 40vw; 
+  }
+}
+
 .headerTitle {
   color: var(--teal900);
   font-weight: 600;
   font-size: 24px;
   line-height: 32px;
   display: inline-block;
-  margin-bottom: 14px
+  margin-bottom: 14px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
+
 .headerTitleContainer {
   margin-top: 15px;
   padding-left: 25px;

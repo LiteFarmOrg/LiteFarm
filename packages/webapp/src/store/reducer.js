@@ -75,6 +75,7 @@ import certificationReducer from '../containers/OrganicCertifierSurvey/certifica
 import certifierReducer from '../containers/OrganicCertifierSurvey/certifierSlice';
 import snackbarReducer from '../containers/Snackbar/snackbarSlice';
 import appSettingReducer from '../containers/appSettingSlice';
+import { ActionTypes } from './actionTypes';
 // all the initial state for the forms
 const initialFarmState = {
   farm_name: '',
@@ -152,7 +153,6 @@ const entitiesReducer = combineReducers({
   cropVarietyReducer,
   weatherReducer,
   alertReducer,
-  notificationReducer,
   barnReducer,
   ceremonialReducer,
   farmSiteBoundaryReducer,
@@ -191,6 +191,10 @@ const entitiesReducer = combineReducers({
   productReducer,
 });
 
+const farmStateReducer = combineReducers({
+  notificationReducer,
+});
+
 const persistedStateReducer = combineReducers({
   userLogReducer,
   chooseFarmFlowReducer,
@@ -222,6 +226,7 @@ const appReducer = combineReducers({
     'profileForms',
   ),
   entitiesReducer,
+  farmStateReducer,
   persistedStateReducer,
   tempStateReducer,
   baseReducer,
@@ -230,6 +235,11 @@ const appReducer = combineReducers({
 });
 
 const rootReducer = (state, action) => {
+  if (state && action.type === ActionTypes.SWITCH_FARMS) {
+    // selectively only reset farmStateReducer state when switching farms
+    const { farmStateReducer, ...otherReducers } = state;
+    state = otherReducers;
+  }
   if (action.type === PURGE) {
     // clear redux state
     state = undefined;

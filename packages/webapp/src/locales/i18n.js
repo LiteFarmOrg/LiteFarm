@@ -15,6 +15,7 @@ i18n
     locales: ['en', 'pt', 'es', 'fr'],
     debug: false,
     detection: {
+      order: ['localStorage', 'navigator', 'querystring'],
       lookupLocalStorage: 'litefarm_lang',
     },
 

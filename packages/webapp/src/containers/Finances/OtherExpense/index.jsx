@@ -43,7 +43,7 @@ class OtherExpense extends Component {
         width: '100%',
         marginBottom: '10px',
       },
-      currencySymbol: grabCurrencySymbol(this.props.farm),
+      currencySymbol: grabCurrencySymbol(),
     };
     this.computeTable = this.computeTable.bind(this);
     this.getExpenseType = this.getExpenseType.bind(this);

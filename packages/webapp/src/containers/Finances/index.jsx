@@ -57,7 +57,7 @@ class Finances extends Component {
       hasUnAllocated: false,
       showUnTip: 'none',
       unTipButton: this.props.t('SALE.FINANCES.UNALLOCATED_TIP'),
-      currencySymbol: grabCurrencySymbol(this.props.farm),
+      currencySymbol: grabCurrencySymbol(),
     };
     this.getRevenue = this.getRevenue.bind(this);
     this.getEstimatedRevenue = this.getEstimatedRevenue.bind(this);

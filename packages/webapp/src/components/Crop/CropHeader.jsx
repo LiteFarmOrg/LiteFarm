@@ -15,7 +15,7 @@ function CropHeader({
   return (
     <div className={styles.headerContainer}>
       <div className={styles.headerTitleContainer} onClick={onBackClick}>
-        <Back style={{ verticalAlign: 'text-bottom' }} />
+        <Back style={{ verticalAlign: 'text-bottom', marginBottom: '20px' }} />
         <Title className={styles.headerTitle}>{t(`crop:${crop_translation_key}`)}</Title>
       </div>
       <div className={styles.headerAttributesContainer}>

@@ -7,6 +7,17 @@
   cursor: pointer;
 }
 
+@media only screen and (max-width: 1000px) {
+  .headerTitle {
+    width: 75vw; 
+  }
+}
+
+@media only screen and (max-width: 850px) {
+  .headerTitle {
+    width: 65vw; 
+  }
+}
 @media only screen and (max-width: 650px) {
   .headerTitle {
     width: 55vw; 
@@ -29,6 +40,7 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  max-width: 800px;
 }
 
 .headerTitleContainer {

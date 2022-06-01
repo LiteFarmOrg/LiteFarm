@@ -105,7 +105,7 @@ export default function CropCatalogue({ history }) {
       )}
 
       <div ref={containerRef}>
-        {!!(sum + filteredCropsWithoutManagementPlan.length) ? (
+        {sum + filteredCropsWithoutManagementPlan.length ? (
           <>
             <PageBreak style={{ paddingBottom: '16px' }} label={t('CROP_CATALOGUE.ON_YOUR_FARM')} />
             <CropStatusInfoBox

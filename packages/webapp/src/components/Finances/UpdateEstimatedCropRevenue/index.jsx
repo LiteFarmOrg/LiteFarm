@@ -142,7 +142,6 @@ function PureUpdateEstimatedCropRevenue({ system, managementPlan, onGoBack, onSu
           required: true,
           valueAsNumber: true,
         })}
-        // todo: make currency variable
         currency={grabCurrencySymbol()}
         errors={getInputErrors(errors, ESTIMATED_ANNUAL_REVENUE)}
         style={{ marginBottom: '40px' }}

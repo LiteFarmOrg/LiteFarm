@@ -59,19 +59,11 @@ class Finances extends Component {
       unTipButton: this.props.t('SALE.FINANCES.UNALLOCATED_TIP'),
       currencySymbol: grabCurrencySymbol(),
     };
-    this.getRevenue = this.getRevenue.bind(this);
     this.getEstimatedRevenue = this.getEstimatedRevenue.bind(this);
     // this.calcBalanceByCrop = this.calcBalanceByCrop.bind(this);
     this.getShiftCropOnField = this.getShiftCropOnField.bind(this);
     this.toggleTip = this.toggleTip.bind(this);
     this.changeDate = this.changeDate.bind(this);
-  }
-
-  getRevenue() {
-    if (this.props.sales && Array.isArray(this.props.sales)) {
-      return calcRevenue(this.props.sales, this.state.startDate, this.state.endDate);
-    }
-    return 0;
   }
 
   componentDidMount() {
@@ -94,7 +86,6 @@ class Finances extends Component {
         }),
       );
     }
-    console.log(this.state);
     // this.calcBalanceByCrop();
   }
 
@@ -368,7 +359,7 @@ class Finances extends Component {
   }
 
   render() {
-    const totalRevenue = this.getRevenue();
+    const totalRevenue = calcRevenue(this.props.sale, this.state.startDate, this.state.endDate);
     const estimatedRevenue = this.getEstimatedRevenue(this.props.managementPlans);
     const { tasks, expenses } = this.props;
     const { balanceByCrop, startDate, endDate, hasUnAllocated, showUnTip, unTipButton } =

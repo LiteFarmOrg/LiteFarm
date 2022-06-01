@@ -11,6 +11,7 @@ import { AddLink, Semibold } from '../../../components/Typography';
 import DateRangePicker from '../../../components/Form/DateRangePicker';
 import ActualCropRevenue from '../ActualCropRevenue';
 import FinanceListHeader from '../../../components/Finances/FinanceListHeader';
+import { calcRevenue, filterSalesByDateRange } from '../util';
 
 export default function ActualRevenue({ history, match }) {
   const { t } = useTranslation();
@@ -36,22 +37,14 @@ export default function ActualRevenue({ history, match }) {
 
   const fromDate = watch('from_date');
   const toDate = watch('to_date');
-
-  const filteredSales = useMemo(() => {
-    return sales
-      .filter((sale) => {
-        const saleDate = moment(new Date(sale.sale_date)).utc().format('YYYY-MM-DD');
-        return new Date(saleDate) >= new Date(fromDate) && new Date(saleDate) <= new Date(toDate);
-      })
-      .sort((a, b) => {
-        return new Date(a.sale_date) - new Date(b.sale_date);
-      });
-  }, [sales, fromDate, toDate]);
-
-  const total = filteredSales.reduce((acc, sale) => {
-    const { crop_variety_sale } = sale;
-    return acc + crop_variety_sale.reduce((acc, cvs) => acc + cvs.sale_value, 0);
-  }, 0);
+  const revenueForWholeFarm = useMemo(
+    () => calcRevenue(sales, fromDate, toDate),
+    [sales, fromDate, toDate],
+  );
+  const filteredSales = useMemo(
+    () => filterSalesByDateRange(sales, fromDate, toDate),
+    [sales, fromDate, toDate],
+  );
 
   return (
     <Layout>
@@ -61,7 +54,7 @@ export default function ActualRevenue({ history, match }) {
         onGoBack={onGoBack}
       />
 
-      <WholeFarmRevenue amount={total} style={{ marginBottom: '14px' }} />
+      <WholeFarmRevenue amount={revenueForWholeFarm} style={{ marginBottom: '14px' }} />
       <AddLink onClick={onAddRevenue} style={{ marginBottom: '32px' }}>
         {t('FINANCES.ACTUAL_REVENUE.ADD_REVENUE')}
       </AddLink>

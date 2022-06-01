@@ -73,10 +73,20 @@ export function calcOtherExpense(expenses, startDate, endDate) {
   return total;
 }
 
+export function filterSalesByDateRange(sales, startDate, endDate) {
+  if (sales & Array.isArray(sales)) {
+    return sales.filter((s) => {
+      const saleDate = moment(s.sale_date);
+      return saleDate.isSameOrAfter(startDate, 'day') && saleDate.isSameOrBefore(endDate, 'day');
+    });
+  }
+  return [];
+}
+
 export function calcRevenue(sales, startDate, endDate) {
   let total = 0.0;
 
-  if (Array.isArray(sales)) {
+  if (sales && Array.isArray(sales)) {
     for (const s of sales) {
       const saleDate = moment(s.sale_date);
       if (saleDate.isSameOrAfter(startDate, 'day') && saleDate.isSameOrBefore(endDate, 'day')) {

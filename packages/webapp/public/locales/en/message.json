@@ -6,8 +6,8 @@
   "ATTACHMENTS": {
     "ERROR": {
       "CREATE": "Failed to create document",
-      "FAILED_UNARCHIVE": "Failed to unarchive document",
       "FAILED_ARCHIVE": "Failed to archive document",
+      "FAILED_UNARCHIVE": "Failed to unarchive document",
       "FAILED_UPLOAD": "Failed to upload attachments",
       "UPDATE": "Failed to update document"
     },

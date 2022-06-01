@@ -8,11 +8,11 @@
     "FARM_LOCATION": "Farm location",
     "FARM_LOCATION_INPUT_INFO": "Street address or comma separated latitude and longitude (e.g. 49.250945, -123.238492)",
     "FARM_NAME": "Farm name",
+    "FARM_NAME_ERROR": "Farm name character limit exceeded",
     "INVALID_FARM_LOCATION": "No country for this location",
     "LOCATING": "Locating...",
     "NO_ADDRESS": "No location found! Try latitude and longitude",
-    "TELL_US_ABOUT_YOUR_FARM": "Tell us about your farm",
-    "FARM_NAME_ERROR": "Farm name character limit exceeded"
+    "TELL_US_ABOUT_YOUR_FARM": "Tell us about your farm"
   },
   "ADD_PRODUCT": {
     "PRESS_ENTER": "Type and press enter to add...",
@@ -26,9 +26,9 @@
     "ADD_CUSTOM_TASK": "Add custom task",
     "AFFECT_PLANS": "Will this task affect any plans?",
     "ASSIGN_ALL_TO_PERSON": "Assign all unassigned tasks on this date to this person",
+    "ASSIGN_DATE": "Change task date",
     "ASSIGN_TASK": "Assign task",
     "ASSIGNEE": "Assignee",
-    "ASSIGN_DATE": "Change task date",
     "CANCEL": "task creation",
     "CLEANING_VIEW": {
       "ESTIMATED_WATER": "Estimated water usage",
@@ -353,10 +353,6 @@
     "ARCHIVE_DOCUMENT": "Archive document?",
     "ARCHIVE_DOCUMENT_TEXT": "Archiving this document will move it to the archived section of your documents, but not delete it. Archived documents will not be exported for your certifications. Do you want to proceed?",
     "ARCHIVED": "Archived",
-    "UNARCHIVE": "Unarchive",
-    "UNARCHIVE_DOCUMENT": "Unarchive document?",
-    "UNARCHIVE_DOCUMENT_TEXT": "Unarchiving this document will return it to your list of currently valid documents. Valid documents will be exported for your certifications. Do you want to proceed?",
-    "UNARCHIVED": "Unarchived",
     "CANCEL": "Cancel",
     "COMPLIANCE_DOCUMENTS_AND_CERTIFICATION": "Compliance documents and your certification",
     "DOCUMENTS": "Documents",
@@ -378,14 +374,18 @@
       "CLEANING_PRODUCT": "Cleaning product",
       "CROP_COMPLIANCE": "Crop compliance",
       "FERTILIZING_PRODUCT": "Fertilizing product",
+      "INVOICES": "Invoices",
       "OTHER": "Other",
       "PEST_CONTROL_PRODUCT": "Pest control product",
+      "RECEIPTS": "Receipts",
       "SOIL_AMENDMENT": "Soil amendment",
       "SOIL_SAMPLE_RESULTS": "Soil sample results",
-      "WATER_SAMPLE_RESULTS": "Water sample results",
-      "RECEIPTS": "Receipts",
-      "INVOICES": "Invoices"
+      "WATER_SAMPLE_RESULTS": "Water sample results"
     },
+    "UNARCHIVE": "Unarchive",
+    "UNARCHIVE_DOCUMENT": "Unarchive document?",
+    "UNARCHIVE_DOCUMENT_TEXT": "Unarchiving this document will return it to your list of currently valid documents. Valid documents will be exported for your certifications. Do you want to proceed?",
+    "UNARCHIVED": "Unarchived",
     "VALID": "Valid"
   },
   "ENTER_PASSWORD": {
@@ -681,26 +681,26 @@
       "AMPHIBIANS": "Amphibians",
       "BIRDS": "Birds",
       "CROP_VARIETIES": "Crop varieties",
+      "ERROR": {
+        "BODY": "LiteFarm generates biodiversity insights based on several sources and was unable to do so at this time. Please try again after {{minutes}} minutes.",
+        "PREVIEW": "Unavailable",
+        "TITLE": "There was a problem"
+      },
       "HEADER": "Number of species",
       "INFO": "Biodiversity is great for people and the planet. We count species richness from all known records of biodiversity within your farm boundary(ies). You can increase the crop biodiversity on your farm by planting new varieties. You can increase the non-crop biodiversity count on your farm by recording sightings on https://inaturalist.org/app",
       "INSECTS": "Insects",
-      "PLANTS": "Plants",
+      "LOADING": {
+        "BODY": "We're generating the latest biodiversity insights for your farm. This can take up to 60 seconds.",
+        "PREVIEW": "Loading...",
+        "TITLE": "Generating the latest biodiversity insights..."
+      },
       "MAMMALS": "Mammals",
+      "PLANTS": "Plants",
       "SPECIES_COUNT": "{{count}} species",
       "SPECIES_COUNT_one": "{{count}} species",
       "SPECIES_COUNT_other": "{{count}} species",
       "SPECIES_COUNT_plural": "{{count}} species",
-      "TITLE": "Biodiversity",
-      "LOADING": {
-        "PREVIEW": "Loading...",
-        "TITLE": "Generating the latest biodiversity insights...",
-        "BODY": "We're generating the latest biodiversity insights for your farm. This can take up to 60 seconds."
-      },
-      "ERROR": {
-        "PREVIEW": "Unavailable",
-        "TITLE": "There was a problem",
-        "BODY": "LiteFarm generates biodiversity insights based on several sources and was unable to do so at this time. Please try again after {{minutes}} minutes."
-      }
+      "TITLE": "Biodiversity"
     },
     "CURRENT": "Current",
     "INFO": "Insights provides added data insights into what is happening on your farm. The more data you provide in the application, the more insights can be generated. See individual insights for further information.",
@@ -903,8 +903,8 @@
     "BROADCAST": "Broadcast or drill",
     "COMPLETE_PLAN": {
       "ABANDON_DATE": "Abandonment Date",
-      "ABANDON_PLAN": "Abandon plan",
       "ABANDON_NOTES": "Abandonment notes",
+      "ABANDON_PLAN": "Abandon plan",
       "ABANDON_REASON": "Reason for abandoning",
       "COMPLETE_DATE": "Completed date",
       "COMPLETE_PLAN": "Complete plan",
@@ -1064,33 +1064,33 @@
     }
   },
   "NOTIFICATION": {
+    "DAILY_TASKS_DUE_TODAY": {
+      "BODY": "You have tasks due today.",
+      "TITLE": "Tasks due today"
+    },
     "NONE_TO_DISPLAY": "There are no notifications to display.",
     "NOTIFICATION_TEASER": "Coming Soon!",
     "PAGE_TITLE": "Notifications",
     "TAKE_ME_THERE": "Take me there",
-    "TASK_ASSIGNED": {
-      "TITLE": "Assigned task",
-      "BODY": "A {{taskType}} task has been assigned to {{assignee}}."
-    },
     "TASK_ABANDONED": {
-      "TITLE": "Task abandoned",
-      "BODY": "A {{taskType}} task assigned to you has been abandoned by {{abandoner}}."
+      "BODY": "A {{taskType}} task assigned to you has been abandoned by {{abandoner}}.",
+      "TITLE": "Task abandoned"
     },
-    "TASK_REASSIGNED": {
-      "TITLE": "Task re-assigned",
-      "BODY": "A {{taskType}} task previously assigned to you has been assigned to someone else by {{assigner}}."
+    "TASK_ASSIGNED": {
+      "BODY": "A {{taskType}} task has been assigned to {{assignee}}.",
+      "TITLE": "Assigned task"
     },
     "TASK_COMPLETED_BY_OTHER_USER": {
-      "TITLE": "Task completed",
-      "BODY": "A {{taskType}} task assigned to you has been marked completed by {{assigner}}."
+      "BODY": "A {{taskType}} task assigned to you has been marked completed by {{assigner}}.",
+      "TITLE": "Task completed"
+    },
+    "TASK_REASSIGNED": {
+      "BODY": "A {{taskType}} task previously assigned to you has been assigned to someone else by {{assigner}}.",
+      "TITLE": "Task re-assigned"
     },
     "WEEKLY_UNASSIGNED_TASKS": {
-      "TITLE": "Unassigned tasks",
-      "BODY": "You have unassigned tasks due this week."
-    },
-    "DAILY_TASKS_DUE_TODAY": {
-      "TITLE": "Tasks due today",
-      "BODY": "You have tasks due today."
+      "BODY": "You have unassigned tasks due this week.",
+      "TITLE": "Unassigned tasks"
     }
   },
   "OUTRO": {
@@ -1102,6 +1102,8 @@
     "BUTTON_SENDING": "Sending...",
     "DESCRIPTION_BOTTOM": "Please check your email.",
     "DESCRIPTION_TOP": "A link has been sent.",
+    "LABEL_EMAIL": "Email",
+    "LABEL_NEW_PASSWORD": "New Password",
     "NEW_ACCOUNT_BUTTON": "Update",
     "NEW_ACCOUNT_TITLE": "Set your new password",
     "TITLE": "Link Sent"
@@ -1479,6 +1481,7 @@
     "QUANTITY_CANNOT_EXCEED": "Harvest quantity used cannot exceed amount to allocate",
     "RATE_THIS_TASK": "Rate this task",
     "REMOVE_HARVEST_USE": "Remove",
+    "SELECT": "MISSING",
     "SELECT_DATE": "Select the task date",
     "SELECT_TASK_LOCATIONS": "Select the task location(s)",
     "SELECT_WILD_CROP": "This task targets a wild crop",

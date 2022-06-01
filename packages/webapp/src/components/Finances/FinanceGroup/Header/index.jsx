@@ -4,6 +4,7 @@ import styles from '../styles.module.scss';
 import clsx from 'clsx';
 import { BsChevronDown, BsChevronRight } from 'react-icons/bs';
 import { Semibold, Text } from '../../../Typography';
+import grabCurrencySymbol from '../../../../util/grabCurrencySymbol';
 
 const FinanceGroupHeader = ({
   title,
@@ -23,7 +24,9 @@ const FinanceGroupHeader = ({
         <Semibold sm>{title}</Semibold>
         {subtitle && <div className={clsx(styles.subtitle)}>{subtitle}</div>}
       </div>
-      <Text className={styles.gridItem}>{`$${currencyAmount.toFixed(2)}`}</Text>
+      <Text className={styles.gridItem}>{`${grabCurrencySymbol()}${currencyAmount.toFixed(
+        2,
+      )}`}</Text>
       {isDropDown ? (
         <BsChevronDown
           className={clsx(styles.headerChevron, styles.gridItem)}

@@ -34,7 +34,7 @@ class ExpenseDetail extends Component {
 
   componentDidMount() {
     const { farm, expense } = this.props;
-    this.setState({ currencySymbol: grabCurrencySymbol(farm) });
+    this.setState({ currencySymbol: grabCurrencySymbol() });
     const language = getLanguageFromLocalStorage();
     const date = moment(expense.expense_date).locale(language).format('MMM DD, YYYY');
     this.setState({

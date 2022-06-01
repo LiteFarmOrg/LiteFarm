@@ -67,7 +67,7 @@ class Labour extends Component {
     const i = 1;
     const { dropDownTitle, dButtonStyle } = this.state;
     const { farm } = this.props;
-    const symbol = grabCurrencySymbol(farm);
+    const symbol = grabCurrencySymbol();
     const options = [
       {
         text: this.props.t('SALE.LABOUR.EMPLOYEES'),

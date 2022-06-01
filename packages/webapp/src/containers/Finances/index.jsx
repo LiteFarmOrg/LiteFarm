@@ -20,7 +20,7 @@ import DescriptiveButton from '../../components/Inputs/DescriptiveButton';
 import history from '../../history';
 import { dateRangeSelector, expenseSelector, salesSelector, shiftSelector } from './selectors';
 import { getDefaultExpenseType, getExpense, getSales, setDateRange } from './actions';
-import { calcOtherExpense, calcTotalLabour, calcSales } from './util';
+import { calcOtherExpense, calcTotalLabour, calcRevenue } from './util';
 import Moment from 'moment';
 import { roundToTwoDecimal } from '../../util';
 import DateRangeSelector from '../../components/Finances/DateRangeSelector';
@@ -69,7 +69,7 @@ class Finances extends Component {
 
   getRevenue() {
     if (this.props.sales && Array.isArray(this.props.sales)) {
-      return calcSales(this.props.sales, this.state.startDate, this.state.endDate);
+      return calcRevenue(this.props.sales, this.state.startDate, this.state.endDate);
     }
     return 0;
   }

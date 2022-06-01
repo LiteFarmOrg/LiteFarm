@@ -73,7 +73,7 @@ export function calcOtherExpense(expenses, startDate, endDate) {
   return total;
 }
 
-export function calcSales(sales, startDate, endDate) {
+export function calcRevenue(sales, startDate, endDate) {
   let total = 0.0;
 
   if (Array.isArray(sales)) {

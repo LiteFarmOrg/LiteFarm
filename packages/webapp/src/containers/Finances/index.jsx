@@ -1,6 +1,6 @@
 /*
- *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>
- *  This file (index.js) is part of LiteFarm.
+ *  Copyright 2019, 2020, 2021, 2022 LiteFarm.org
+ *  This file is part of LiteFarm.
  *
  *  LiteFarm is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -20,7 +20,7 @@ import DescriptiveButton from '../../components/Inputs/DescriptiveButton';
 import history from '../../history';
 import { dateRangeSelector, expenseSelector, salesSelector, shiftSelector } from './selectors';
 import { getDefaultExpenseType, getExpense, getSales, setDateRange } from './actions';
-import { calcOtherExpense, calcTotalLabour, filterSalesByCurrentYear } from './util';
+import { calcOtherExpense, calcTotalLabour, calcSales } from './util';
 import Moment from 'moment';
 import { roundToTwoDecimal } from '../../util';
 import DateRangeSelector from '../../components/Finances/DateRangeSelector';
@@ -67,21 +67,11 @@ class Finances extends Component {
     this.changeDate = this.changeDate.bind(this);
   }
 
-  //TODO: filter revenue of cropSales for the current year?
   getRevenue() {
-    let cropVarietySale = [];
     if (this.props.sales && Array.isArray(this.props.sales)) {
-      filterSalesByCurrentYear(this.props.sales).map((s) => {
-        return s.crop_variety_sale.map((cvs) => {
-          return cropVarietySale.push(cvs);
-        });
-      });
+      return calcSales(this.props.sales, this.state.startDate, this.state.endDate);
     }
-    let totalRevenue = 0;
-    cropVarietySale.map((cvs) => {
-      return (totalRevenue += cvs.sale_value || 0);
-    });
-    return totalRevenue.toFixed(2);
+    return 0;
   }
 
   componentDidMount() {
@@ -104,6 +94,7 @@ class Finances extends Component {
         }),
       );
     }
+    console.log(this.state);
     // this.calcBalanceByCrop();
   }
 

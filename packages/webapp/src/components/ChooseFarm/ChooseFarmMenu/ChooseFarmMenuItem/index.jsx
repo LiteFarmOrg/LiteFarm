@@ -25,6 +25,8 @@ const ChooseFarmMenuItem = ({
         minHeight: '63px',
         justifyContent: 'space-between',
         cursor: color === 'secondary' ? 'pointer' : 'default',
+        wordBreak: 'break-word',
+        padding: '8px 0',
         ...style,
       }}
       {...props}

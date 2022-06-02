@@ -64,7 +64,7 @@ describe.only('Notifications flow tests', () => {
     cy.loginFarmOwner();
     //Create unassigned tasks due this week
     cy.visit('/tasks');
-    //cy.createTaskToday(); //creates a task due date to today
+    cy.createTaskToday(); //creates a task due date to today assigned to the logged in user
 
     //post request to the api to generate notifications
 
@@ -74,9 +74,9 @@ describe.only('Notifications flow tests', () => {
     cy.window()
       .its('store')
       .invoke('getState')
-      .its('entitiesReducer.userFarmReducer.farm_id')
-      .then((farm_id) => {
-        id = farm_id;
+      .its('entitiesReducer.userFarmReducer.user_id')
+      .then((user_id) => {
+        id = user_id;
         authorization =
           'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyZXF1ZXN0VGltZWROb3RpZmljYXRpb25zIjp0cnVlfQ.iadEd66S9ICLLEzZODAN3-gdoA2frUFra-DRGIu2gIc';
         cy.log(authorization);
@@ -91,7 +91,7 @@ describe.only('Notifications flow tests', () => {
             return response;
           })
           .its('status')
-          .should('eq', 200);
+          .should('eq', 201);
       });
   });
 

@@ -188,6 +188,8 @@ Cypress.Commands.add('createTaskToday', () => {
     .should('exist')
     .and('not.be.disabled')
     .click({ force: true });
+  cy.get('.css-ujecln-Input2').click();
+  cy.contains('Test Farmer').click({ force: true });
   cy.get('[data-cy=addTask-assignmentSave]')
     .should('exist')
     .and('not.be.disabled')

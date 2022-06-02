@@ -58,7 +58,7 @@ describe.only('Notifications flow tests', () => {
   });
 
   it.only('Daily scheduled notifications', () => {
-    //Test for LF-2387
+    //Test for LF-2387 run after happyPath
     //login as farm manager
     cy.visit('/');
     cy.loginFarmOwner();
@@ -77,7 +77,8 @@ describe.only('Notifications flow tests', () => {
       .its('entitiesReducer.userFarmReducer.farm_id')
       .then((farm_id) => {
         id = farm_id;
-        authorization = window.localStorage.getItem('id_token');
+        authorization =
+          'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyZXF1ZXN0VGltZWROb3RpZmljYXRpb25zIjp0cnVlfQ.iadEd66S9ICLLEzZODAN3-gdoA2frUFra-DRGIu2gIc';
         cy.log(authorization);
         cy.request({
           method: 'POST',
@@ -92,10 +93,6 @@ describe.only('Notifications flow tests', () => {
           .its('status')
           .should('eq', 200);
       });
-
-    //check notifications are generated for all unassigned tasks due this week on this farm
-    cy.visit('/notifications');
-    cy.url().should('include', '/notifications');
   });
 
   it('Re-assign notification flow', () => {

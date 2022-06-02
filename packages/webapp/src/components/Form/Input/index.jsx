@@ -201,12 +201,21 @@ const isEventOkForIntegerInput = (event) => {
   if (event.key.length > 1) return true; // Accept "Backspace", etc.
   return /[0-9]/.test(event.key); // Accept a digit, but no other single character.
 };
+
+/**
+ * Always accepts backspace, arrow keys, and numbers.
+ * Only accepts one period and only after 1 or more numbers.
+ */
 export const numberOnKeyDown = (event) => {
-  const decimalSeparator = '.'; // May want to support internationalization here.
-  if (event.key === decimalSeparator) return;
-  if (isEventOkForIntegerInput(event)) return;
-  event.preventDefault();
+  if (event.key.length == 1) {
+    if (event.target.value.length == 0 || /\./.test(event.target.value)) {
+      !/[0-9]/.test(event.key) && event.preventDefault();
+    } else {
+      !/[0-9]|\./.test(event.key) && event.preventDefault();
+    }
+  }
 };
+
 export const integerOnKeyDown = (event) => {
   if (isEventOkForIntegerInput(event)) return;
   event.preventDefault();

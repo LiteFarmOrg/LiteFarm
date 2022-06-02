@@ -207,7 +207,7 @@ const isEventOkForIntegerInput = (event) => {
  * Only accepts one period and only after 1 or more numbers.
  */
 export const numberOnKeyDown = (event) => {
-  if (!['Backspace', 'ArrowUp', 'ArrowDown', 'ArrowRight', 'ArrowLeft'].includes(event.code)) {
+  if (event.key.length == 1) {
     if (event.target.value.length == 0 || /\./.test(event.target.value)) {
       !/[0-9]/.test(event.key) && event.preventDefault();
     } else {

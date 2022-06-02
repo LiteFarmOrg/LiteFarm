@@ -22,7 +22,15 @@ export function useStringFilteredDocuments(documents, filterString) {
     const lowerCaseFilter = filterString?.toLowerCase() || '';
     const check = (names) => {
       for (const name of names) {
-        if (name?.toLowerCase().includes(lowerCaseFilter)) return true;
+        if (
+          name?.toLowerCase().includes(lowerCaseFilter) ||
+          name
+            ?.toLowerCase()
+            .normalize('NFD')
+            .replace(/\p{Diacritic}/gu, '')
+            .includes(lowerCaseFilter)
+        )
+          return true;
       }
       return false;
     };

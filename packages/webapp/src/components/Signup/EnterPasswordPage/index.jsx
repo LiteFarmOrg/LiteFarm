@@ -33,7 +33,7 @@ export default function PureEnterPasswordPage({
     validatePasswordWithErrors(password);
   const inputRegister = register(PASSWORD, { required: true });
   const [showErrors, setShowErrors] = useState(false);
-  const { t } = useTranslation(['translation', 'common']);
+  const { t } = useTranslation(['translation', 'common', 'message']);
   const showPasswordIncorrectError = () => {
     setError(PASSWORD, {
       type: 'manual',

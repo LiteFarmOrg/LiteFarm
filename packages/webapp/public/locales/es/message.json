@@ -6,15 +6,15 @@
   "ATTACHMENTS": {
     "ERROR": {
       "CREATE": "No se pudo crear el documento",
-      "FAILED_UNARCHIVE": "No se pudo desarchivar el documento",
       "FAILED_ARCHIVE": "No se pudo archivar el documento",
+      "FAILED_UNARCHIVE": "No se pudo desarchivar el documento",
       "FAILED_UPLOAD": "No se pudo subir los archivos adjuntos",
       "UPDATE": "No se pudo actualizar el documento"
     },
     "SUCCESS": {
-      "UNARCHIVE": "Documento desarchivado con éxito",
       "ARCHIVE": "Documento archivado exitosamente",
       "CREATE": "Documento creado exitosamente",
+      "UNARCHIVE": "Documento desarchivado con éxito",
       "UPDATE": "Documento actualizado exitosamente"
     }
   },

@@ -2,29 +2,29 @@
   "EXPORT_README_TITLE": "Comprendre votre export du certification",
   "N": "N",
   "N/A": "S.O",
-  "No": "Non",
+  "NO": "Non",
   "NOT_SURE": "Pas sûr",
   "OPERATION_NAME": "NOM DE L'EXPLOITATION",
   "RECORD_A": {
     "ACRES": "Acres",
     "AREA": "Zone",
     "BUILDING": "(bâtiments, forêt, domaine de la biodiversité, allée)",
-    "CERTIFIED": "Certifié",
+    "CERTIFIED": "certifié organique",
     "CROPS_OR_ANIMALS": "Cultures ou types d'animaux par unité",
     "CURRENT_STATUS": "Situation actuelle - marquer un par unité",
     "HEADER": "DOSSIER A - IDENTIFICATION DES SITES",
     "HECTARES": "Hectares",
     "INDIVIDUAL_PRODUCTION_UNIT": "pour chaque unité de production individuelle (p. ex. site/terrain/serre/zone définie - comme approprié pour votre exploitation et indiquée sur votre carte)",
-    "NAME_IR_ID": "Nom ou numéro d'identification",
-    "NEW": "Nouveau",
+    "NAME_OR_ID": "Nom ou numéro d'identification",
+    "NEW": "Nouvelle",
     "NEW_AREA": "Zone (Ajoutée cette année)",
     "NON_ORGANIC": "Surface non-biologique en",
     "NON_PRODUCING": "Inexploitées",
     "OPERATION NAME": "NOM DE L'EXPLOITATION",
-    "ORGANIC_AREA": "Zone organique",
-    "PLEASE_VERIFY": "Prière de vérifier les détails et d'apporter tous les changements nécessaires sur un base annuelle. Si l'opération se déroule sur plusieurs sites, s'il vous plaît assurez-vous de décrire chaque site séparément. Veuillez vous reporter à l'onglet des exemples ci-dessous pour savoir comment remplir ce formulaire.",
+    "ORGANIC_AREA": "Zone",
+    "PLEASE_VERIFY": "Veuillez vérifier les détails et apporter les modifications nécessaires chaque année. Si l’opération se déroule sur plusieurs sites, veuillez vous assurer de décrire chaque site séparément. Veuillez vous référer à l'exemple d'onglet ci-dessous pour savoir comment remplir ce formulaire.",
     "PRODUCTION": "production",
-    "REMOVED_FROM_PROGRAM": "Retiré du programme",
+    "REMOVED": "Retiré du programme",
     "REPORTING_PERIOD": "Période considérée",
     "ROW_FT": "Rangée (pi)",
     "ROW_M": "Rangée (m)",
@@ -32,12 +32,12 @@
     "SPLIT": "Diviser/Parallèle",
     "SQ_FT": "Pieds carrés",
     "SQ_M": "Mètres carrés",
-    "TRANSITIONAL": "Transitoire",
+    "TRANSITIONAL": "transitoire",
     "WHY_REMOVED": "Pourquoi enlevé ou d'autres notes"
   },
   "RECORD_D": {
     "DATE_COMPLETED": "Date d'achèvement",
-    "From": "De",
+    "FROM": "De",
     "HEADER": "Dossier D - Semences et matériel de plantation",
     "NOTE": {
       "LIST_ALL": "Énumérez toutes les semences et matériels de plantation utilisées au cours de la période de déclaration.",
@@ -60,10 +60,10 @@
       "NOTES": "Notes/dattes vivaces/etc.",
       "SEED_CROP_OR_PLANTING_STOCK": "Culture/variété de semences ou matériel de plantation",
       "STATUS_CERTIFIED_ORGANIC": "Statut des semences/stocks = certifié biologique (O/N)",
-      "Supplier": "Source/fournisseur",
+      "SUPPLIER": "Source/fournisseur",
       "TREATMENT_DOCS_AVAILABLE": "Les documents de traitement sont disponibles (O/N)"
     },
-    "To": "À"
+    "TO": "À"
   },
   "RECORD_I": {
     "CLEANERS": "Nettoyants",
@@ -95,5 +95,5 @@
     "VARIETALS": "Variété(s)"
   },
   "Y": "O",
-  "Yes": "Oui"
+  "YES": "Oui"
 }

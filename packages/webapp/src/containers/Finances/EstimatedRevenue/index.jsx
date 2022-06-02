@@ -91,6 +91,7 @@ export default function EstimatedRevenue({ history, match }) {
         control={control}
         getValues={getValues}
         style={{ marginBottom: '24px' }}
+        className={'Estimated Revenue Date Range'}
       />
 
       <FinanceListHeader

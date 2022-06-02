@@ -336,7 +336,9 @@
   "DATE_RANGE_PICKER": {
     "FROM": "Desde",
     "TO": "Hasta",
-    "TO_MUST_BE_AFTER_FROM": "La fecha 'Hasta' debe ser posterior a la fecha 'Desde'"
+    "TO_MUST_BE_AFTER_FROM": "La fecha 'Hasta' debe ser posterior a la fecha 'Desde'",
+    "REVENUE_HELP_TITLE": "Ayuda con el rango de fechas",
+    "REVENUE_HELP_BODY": "MISSING"
   },
   "DOCUMENTS": {
     "ADD": {

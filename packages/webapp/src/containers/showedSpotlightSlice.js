@@ -10,6 +10,7 @@ const initialState = {
   adjust_area: false,
   adjust_line: false,
   navigation: false,
+  notification: false,
   introduce_map: false,
   crop_catalog: false,
   documents: false,

@@ -12,7 +12,6 @@ import { ReactComponent as Leaf } from '../../../assets/images/signUp/leaf.svg';
 import Infoi from '../../Tooltip/Infoi';
 import { get } from 'react-hook-form';
 import i18n from '../../../locales/i18n';
-import { getLanguageFromLocalStorage } from '../../../util/getLanguageFromLocalStorage';
 
 const Input = ({
   disabled = false,
@@ -108,6 +107,7 @@ const Input = ({
       {currency && <div className={styles.currency}>{currency}</div>}
       <input
         disabled={disabled}
+        autoComplete={'off'}
         className={clsx(
           styles.input,
           showError && styles.inputError,

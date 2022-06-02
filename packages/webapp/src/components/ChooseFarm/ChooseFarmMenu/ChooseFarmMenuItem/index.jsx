@@ -25,12 +25,16 @@ const ChooseFarmMenuItem = ({
         minHeight: '63px',
         justifyContent: 'space-between',
         cursor: color === 'secondary' ? 'pointer' : 'default',
+        wordBreak: 'break-word',
+        padding: '8px 0',
         ...style,
       }}
       {...props}
     >
       <div className={clsx(styles.leftColumn, styles[color])}>
-        <h5 className={clsx(styles.farmName)}>{farmName}</h5>
+        <h5 className={clsx(styles.farmName)}>
+          {farmName.length > 77 ? `${farmName.substring(0, 77).trim()}...` : farmName}
+        </h5>
         {ownerName && <p className={clsx(styles.address)}>{ownerName}</p>}
       </div>
       <div className={clsx(styles.rightColumn, styles[color])}>

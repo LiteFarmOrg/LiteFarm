@@ -110,7 +110,7 @@ module.exports = (data, exportId, from_date, to_date, farm_name, measurement) =>
         ? new RichText()
             .add(t('RECORD_A.TRANSITIONAL'), { bold: true })
             .add(` ${t('RECORD_A.AREA')}`)
-        : new RichText.add(t('RECORD_A.AREA')).add(` ${t('RECORD_A.TRANSITIONAL')}`, {
+        : new RichText().add(t('RECORD_A.AREA')).add(` ${t('RECORD_A.TRANSITIONAL')}`, {
             bold: true,
           });
     sheet.cell('G5').value(g5Text);

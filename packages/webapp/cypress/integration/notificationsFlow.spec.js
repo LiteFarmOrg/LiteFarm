@@ -64,14 +64,35 @@ describe.only('Notifications flow tests', () => {
     cy.loginFarmOwner();
     //Create unassigned tasks due this week
     cy.visit('/tasks');
-    cy.createTaskToday(); //creates a task due date to today
-    //set the clock to  to 6am
+    //cy.createTaskToday(); //creates a task due date to today
 
-    const date = new Date();
-    const alertDateTime = date.setHours(6, 0, 0);
-    cy.log(alertDateTime);
-    cy.clock(alertDateTime);
-    cy.wait(3 * 1000);
+    //post request to the api to generate notifications
+
+    let id;
+    let authorization;
+
+    cy.window()
+      .its('store')
+      .invoke('getState')
+      .its('entitiesReducer.userFarmReducer.farm_id')
+      .then((farm_id) => {
+        id = farm_id;
+        authorization = window.localStorage.getItem('id_token');
+        cy.log(authorization);
+        cy.request({
+          method: 'POST',
+          url: `http://localhost:5001/time_notification/daily_due_today_tasks/${id}`,
+          headers: {
+            Authorization: `Bearer ${authorization}`,
+          },
+        })
+          .then((response) => {
+            return response;
+          })
+          .its('status')
+          .should('eq', 200);
+      });
+
     //check notifications are generated for all unassigned tasks due this week on this farm
     cy.visit('/notifications');
     cy.url().should('include', '/notifications');

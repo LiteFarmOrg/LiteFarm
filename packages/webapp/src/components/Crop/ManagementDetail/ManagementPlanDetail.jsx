@@ -66,7 +66,7 @@ export default function PureManagementDetail({
   const isAbandoned = plan.abandon_date ? true : false;
   const DATE_OF_STATUS_CHANGE = isAbandoned ? 'abandon_date' : 'complete_date';
   const ABANDON_REASON = 'abandon_reason';
-  const DATE = isAbandoned ? 'DATE_OF_CHANGE' : 'COMPLETE_DATE';
+  const DATE = isAbandoned ? 'ABANDON_DATE' : 'COMPLETE_DATE';
   const COMPLETE_NOTES = 'complete_notes';
   const PLAN_NOTES = 'notes';
   const ESTIMATED_YIELD = `crop_management_plan.estimated_yield`;
@@ -128,6 +128,14 @@ export default function PureManagementDetail({
         disabled
       />
 
+      <Rating
+        className={styles.rating}
+        style={{ marginBottom: '34px' }}
+        label={t('MANAGEMENT_PLAN.RATE_THIS_MANAGEMENT_PLAN')}
+        stars={plan.rating}
+        onRate={() => {}}
+      />
+
       {isAbandoned && (
         <InputAutoSize
           style={{ marginBottom: '40px' }}
@@ -139,14 +147,6 @@ export default function PureManagementDetail({
           disabled
         />
       )}
-
-      <Rating
-        className={styles.rating}
-        style={{ marginBottom: '34px' }}
-        label={t('MANAGEMENT_PLAN.RATE_THIS_MANAGEMENT_PLAN')}
-        stars={plan.rating}
-        onRate={() => {}}
-      />
 
       <InputAutoSize
         style={{ marginBottom: '40px' }}

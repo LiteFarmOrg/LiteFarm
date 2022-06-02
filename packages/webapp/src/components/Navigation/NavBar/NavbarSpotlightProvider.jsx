@@ -7,7 +7,7 @@ export function NavbarSpotlightProvider({ children, open, onFinish }) {
     <TourProviderWrapper
       steps={[
         {
-          selector: '#firstStepNavBar',
+          selector: '#zerothStepNavBar',
           title: t('NAVIGATION.SPOTLIGHT.NOTIFICATION_TITLE'),
           contents: [t('NAVIGATION.SPOTLIGHT.YOU_CAN')],
           list: [
@@ -19,7 +19,7 @@ export function NavbarSpotlightProvider({ children, open, onFinish }) {
           popoverStyles: { width: '240px' },
         },
         {
-          selector: '#secondStepNavBar',
+          selector: '#firstStepNavBar',
           title: t('NAVIGATION.SPOTLIGHT.FARM_TITLE'),
           contents: [t('NAVIGATION.SPOTLIGHT.YOU_CAN')],
           list: [
@@ -31,7 +31,7 @@ export function NavbarSpotlightProvider({ children, open, onFinish }) {
           popoverStyles: { width: '240px' },
         },
         {
-          selector: '#thirdStepNavBar',
+          selector: '#secondStepNavBar',
           title: t('NAVIGATION.SPOTLIGHT.TASK_TITLE'),
           contents: [t('NAVIGATION.SPOTLIGHT.YOU_CAN')],
           list: [
@@ -43,7 +43,7 @@ export function NavbarSpotlightProvider({ children, open, onFinish }) {
           popoverStyles: { width: '240px' },
         },
         {
-          selector: '#fourthStepNavBar',
+          selector: '#thirdStepNavBar',
           title: t('NAVIGATION.SPOTLIGHT.PROFILE_TITLE'),
           contents: [t('NAVIGATION.SPOTLIGHT.YOU_WILL_FIND')],
           list: [

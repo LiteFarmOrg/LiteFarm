@@ -26,7 +26,7 @@ import { useStartAddCropVarietyFlow } from './useStartAddCropVarietyFlow';
 import useCropVarietyCatalogue from './useCropVarietyCatalogue';
 import CropStatusInfoBox from '../../components/CropCatalogue/CropStatusInfoBox';
 
-export default function CropVarieties({ history, match }) {
+export default function CropVarieties({ history, match, location }) {
   const { t } = useTranslation();
   const isAdmin = useSelector(isAdminSelector);
   const dispatch = useDispatch();
@@ -71,7 +71,7 @@ export default function CropVarieties({ history, match }) {
   const onGoBack = () => history.push('/crop_catalogue');
 
   const goToVarietyManagement = (varietyId) => {
-    history.push(`/crop/${varietyId}/management`);
+    history.push(`/crop/${varietyId}/management`, { returnPath: location.pathname });
   };
 
   const { onAddCropVariety } = useStartAddCropVarietyFlow();

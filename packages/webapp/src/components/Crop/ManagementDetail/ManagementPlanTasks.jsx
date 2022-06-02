@@ -21,6 +21,7 @@ export default function PureManagementTasks({
   history,
   match,
   children,
+  location,
 }) {
   const { t } = useTranslation();
 
@@ -72,10 +73,12 @@ export default function PureManagementTasks({
           {
             label: t('MANAGEMENT_DETAIL.TASKS'),
             path: `/crop/${match.params.variety_id}/management_plan/${match.params.management_plan_id}/tasks`,
+            state: location?.state,
           },
           {
             label: t('MANAGEMENT_DETAIL.DETAILS'),
             path: `/crop/${match.params.variety_id}/management_plan/${match.params.management_plan_id}/details`,
+            state: location?.state,
           },
         ]}
       />

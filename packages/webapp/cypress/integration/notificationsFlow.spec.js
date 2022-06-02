@@ -34,7 +34,7 @@ describe.only('Notifications flow tests', () => {
     cy.url().should('include', '/notifications');
   });
 
-  it.only('Weekly scheduled notifications', () => {
+  it('Weekly scheduled notifications', () => {
     //Test for LF-2386
     //login as farm manager
     cy.visit('/');
@@ -92,7 +92,7 @@ describe.only('Notifications flow tests', () => {
       .should('exist');
   });
 
-  it('Daily scheduled notifications', () => {
+  it.only('Daily scheduled notifications', () => {
     //Test for LF-2387 run after happyPath
     //login as farm manager
     cy.visit('/');
@@ -109,9 +109,9 @@ describe.only('Notifications flow tests', () => {
     cy.window()
       .its('store')
       .invoke('getState')
-      .its('entitiesReducer.userFarmReducer.user_id')
-      .then((user_id) => {
-        id = user_id;
+      .its('entitiesReducer.userFarmReducer.farm_id')
+      .then((farm_id) => {
+        id = farm_id;
         authorization =
           'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyZXF1ZXN0VGltZWROb3RpZmljYXRpb25zIjp0cnVlfQ.iadEd66S9ICLLEzZODAN3-gdoA2frUFra-DRGIu2gIc';
         cy.log(authorization);
@@ -128,6 +128,14 @@ describe.only('Notifications flow tests', () => {
           .its('status')
           .should('eq', 201);
       });
+
+    cy.visit('/notifications');
+    cy.get(':nth-child(3) > :nth-child(2) > ._semibold_prr07_51')
+      .contains('Tasks due today')
+      .should('exist');
+
+    cy.get('._container_ik1f8_1 > :nth-child(3)').click();
+    cy.get('._btn_104r1_28').click();
   });
 
   it('Re-assign notification flow', () => {

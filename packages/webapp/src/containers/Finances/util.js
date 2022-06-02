@@ -74,7 +74,7 @@ export function calcOtherExpense(expenses, startDate, endDate) {
 }
 
 export function filterSalesByDateRange(sales, startDate, endDate) {
-  if (sales & Array.isArray(sales)) {
+  if (sales && Array.isArray(sales)) {
     return sales.filter((s) => {
       const saleDate = moment(s.sale_date);
       return saleDate.isSameOrAfter(startDate, 'day') && saleDate.isSameOrBefore(endDate, 'day');

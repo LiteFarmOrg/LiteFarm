@@ -360,10 +360,10 @@ class Finances extends Component {
 
   render() {
     const totalRevenue = calcActualRevenue(
-      this.props.sale,
+      this.props.sales,
       this.state.startDate,
       this.state.endDate,
-    );
+    ).toFixed(2);
     const estimatedRevenue = this.getEstimatedRevenue(this.props.managementPlans);
     const { tasks, expenses } = this.props;
     const { balanceByCrop, startDate, endDate, hasUnAllocated, showUnTip, unTipButton } =

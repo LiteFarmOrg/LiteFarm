@@ -34,7 +34,7 @@ export default function PureCropManagement({
 
   return (
     <Layout>
-      <CropHeader {...variety} onBackClick={() => history.back()} />
+      <CropHeader {...variety} onBackClick={onBack} />
       <RouterTab
         classes={{ container: { margin: '24px 0 26px 0' } }}
         history={history}

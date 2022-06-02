@@ -1,38 +1,55 @@
-import React from 'react';
+import React, { useRef, useEffect } from 'react';
+import AreaVideo from '../../../assets/videos/AreaDrawing.mp4';
+import LineVideo from '../../../assets/videos/LineDrawing.mp4';
+import PointVideo from '../../../assets/videos/AddingPoints.mp4';
 import styles from './styles.module.scss';
 import TitleLayout from '../../Layout/TitleLayout';
+const VIDEO_START_TIME = '#t=0.001';
 
 function PureVideoView({ history }) {
+  const areaVideoRef = useRef(null);
+  const lineVideoRef = useRef(null);
+  const pointVideoRef = useRef(null);
+
+  useEffect(() => {
+    areaVideoRef.current.src += VIDEO_START_TIME;
+    lineVideoRef.current.src += VIDEO_START_TIME;
+    pointVideoRef.current.src += VIDEO_START_TIME;
+  }, []);
+
   return (
     <TitleLayout title={'Map Tutorials'} onGoBack={() => history.push('/map')}>
       <div className={styles.videoFlex}>
         <div style={{ flex: '1' }}>
           <video
+            ref={areaVideoRef}
             controls
             style={{ width: '95%', height: 'auto' }}
             loop
             muted
-            src={'../../../src/assets/videos/AreaDrawing.mp4#t=0.001'}
+            src={AreaVideo}
           />
         </div>
         <div className={styles.videoSpace} />
         <div style={{ flex: '1' }}>
           <video
+            ref={lineVideoRef}
             controls
             style={{ width: '95%', height: 'auto' }}
             loop
             muted
-            src={'../../../src/assets/videos/LineDrawing.mp4#t=0.001'}
+            src={LineVideo}
           />
         </div>
         <div className={styles.videoSpace} />
         <div style={{ flex: '1' }}>
           <video
+            ref={pointVideoRef}
             controls
             style={{ width: '95%', height: 'auto' }}
             loop
             muted
-            src={'../../../src/assets/videos/AddingPoints.mp4#t=0.001'}
+            src={PointVideo}
           />
         </div>
       </div>

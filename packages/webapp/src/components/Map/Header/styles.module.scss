@@ -1,6 +1,6 @@
 .container {
   display: flex;
-  height: 48px;
+  min-height: 48px;
   flex-direction: row;
   align-items: center;
   justify-content: space-between;

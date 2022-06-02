@@ -8,11 +8,11 @@
     "FARM_LOCATION": "Endroit de la ferme",
     "FARM_LOCATION_INPUT_INFO": "Address civique ou latitude et longitude séparées par des virgules (e.g. 49.250945, -123.238492)",
     "FARM_NAME": "Nom de la ferme",
+    "FARM_NAME_ERROR": "MISSING",
     "INVALID_FARM_LOCATION": "Aucun pays pour cet emplacement",
     "LOCATING": "Localisation...",
     "NO_ADDRESS": "Emplacement entré n'a pas été trouvé! Veuillez essayer d'entrer la longitude et la latitude",
-    "TELL_US_ABOUT_YOUR_FARM": "Parlez-nous de votre ferme",
-    "FARM_NAME_ERROR": "MISSING"
+    "TELL_US_ABOUT_YOUR_FARM": "Parlez-nous de votre ferme"
   },
   "ADD_PRODUCT": {
     "PRESS_ENTER": "Tapez et appuyez sur Entrée pour ajouter...",
@@ -26,9 +26,9 @@
     "ADD_CUSTOM_TASK": "Ajouter une tâche personnalisée",
     "AFFECT_PLANS": "Cette tâche affectera-t-elle les plans\u00a0?",
     "ASSIGN_ALL_TO_PERSON": "Attribuez toutes les tâches non assignées à cette date à cette personne",
+    "ASSIGN_DATE": "Attribuer une date d'échéance",
     "ASSIGN_TASK": "Attribuer une tâche",
     "ASSIGNEE": "Destinataire",
-    "ASSIGN_DATE": "Attribuer une date d'échéance",
     "CANCEL": "création de tâches",
     "CLEANING_VIEW": {
       "ESTIMATED_WATER": "Consommation d'eau estimée",
@@ -354,10 +354,6 @@
     "ARCHIVE_DOCUMENT_TEXT": "L'archivage de ce document le déplacera vers la section archivée de vos documents, mais ne le supprimera pas. Les documents archivés ne seront pas exportés pour vos certifications. Voulez-vous continuer\u00a0?",
     "ARCHIVED": "Archivé",
     "CANCEL": "Annuler",
-    "UNARCHIVE": "Désarchivé",
-    "UNARCHIVE_DOCUMENT": "Désarchiver le document?",
-    "UNARCHIVE_DOCUMENT_TEXT": "L'annulation de l'archivage de ce document ramènera celui-ci à votre liste de documents valides. Les documents valides seront exportés pour vos certifications. Voulez-vous continuer\u00a0?",
-    "UNARCHIVED": "Désarchivés",
     "COMPLIANCE_DOCUMENTS_AND_CERTIFICATION": "Documents de conformité et votre certification",
     "DOCUMENTS": "Documents",
     "EDIT_DOCUMENT": "Modifier le document",
@@ -386,6 +382,10 @@
       "SOIL_SAMPLE_RESULTS": "Résultats des échantillons de sol",
       "WATER_SAMPLE_RESULTS": "Résultats des échantillons d'eau"
     },
+    "UNARCHIVE": "Désarchivé",
+    "UNARCHIVE_DOCUMENT": "Désarchiver le document?",
+    "UNARCHIVE_DOCUMENT_TEXT": "L'annulation de l'archivage de ce document ramènera celui-ci à votre liste de documents valides. Les documents valides seront exportés pour vos certifications. Voulez-vous continuer\u00a0?",
+    "UNARCHIVED": "Désarchivés",
     "VALID": "Valide"
   },
   "ENTER_PASSWORD": {
@@ -681,27 +681,27 @@
       "AMPHIBIANS": "Amphibiens",
       "BIRDS": "Oiseaux",
       "CROP_VARIETIES": "Variété de culture",
+      "ERROR": {
+        "BODY": "LiteFarm génère des données sur la biodiversité à partir de plusieurs sources et était incapable de le faire à ce moment. Veuillez réessayer après {{minutes}} minutes.",
+        "PREVIEW": "Indisponible",
+        "TITLE": "Il y avait un problème."
+      },
       "HEADER": "Nombre d'espèces",
       "INFO": "La biodiversité est excellente pour les gens et la planète. Nous comptons la richesse en espèces de tous les enregistrements connus de la biodiversité sur votre ferme à partir des limites de vos champs. Vous pouvez augmenter le nombre de votre biodiversité sur votre ferme en utilisant le https:// www.inaturalist.org/app.",
       "INSECTS": "Insectes",
-      "PLANTS": "Plantes",
+      "LOADING": {
+        "BODY": "Nous générons les dernières données sur la biodiversité de votre ferme. Cela peut prendre jusqu’à 60 secondes.",
+        "PREVIEW": "En course de chargement...",
+        "TITLE": "Nous générons les données de biodiversité les plus récents..."
+      },
       "MAMMALS": "Mammifères",
+      "PLANTS": "Plantes",
       "SPECIES_COUNT": "{{count}} espèces",
       "SPECIES_COUNT_one": "{{count}} espèce",
       "SPECIES_COUNT_many": "{{count}} espèces",
       "SPECIES_COUNT_other": "{{count}} espèces",
       "SPECIES_COUNT_plural": "{{count}} espèces",
-      "TITLE": "Biodiversité",
-      "LOADING": {
-        "PREVIEW": "En course de chargement...",
-        "TITLE": "Nous générons les données de biodiversité les plus récents...",
-        "BODY": "Nous générons les dernières données sur la biodiversité de votre ferme. Cela peut prendre jusqu’à 60 secondes."
-      },
-      "ERROR": {
-        "PREVIEW": "Indisponible",
-        "TITLE": "Il y avait un problème.",
-        "BODY": "LiteFarm génère des données sur la biodiversité à partir de plusieurs sources et était incapable de le faire à ce moment. Veuillez réessayer après {{minutes}} minutes."
-      }
+      "TITLE": "Biodiversité"
     },
     "CURRENT": "Courant",
     "INFO": "Les insights fournit des informations supplémentaires sur ce qui se passe sur votre ferme. Plus vous fournissez de données dans l'application, plus vous pouvez générer d'informations. Veuillez explorer les informations individuelles pour plus d'informations.",
@@ -907,8 +907,8 @@
     "BROADCAST": "Diffusion ou exercice",
     "COMPLETE_PLAN": {
       "ABANDON_DATE": "MISSING",
-      "ABANDON_PLAN": "Abandonner le plan",
       "ABANDON_NOTES": "Notes d'abandon",
+      "ABANDON_PLAN": "Abandonner le plan",
       "ABANDON_REASON": "Raison de l'abandon",
       "COMPLETE_DATE": "Date d'achèvement",
       "COMPLETE_PLAN": "Plan complet",
@@ -1068,33 +1068,33 @@
     }
   },
   "NOTIFICATION": {
+    "DAILY_TASKS_DUE_TODAY": {
+      "BODY": "Vous avez des tâches à accomplir aujourd'hui.",
+      "TITLE": "Tâches à accomplir aujourd'hui"
+    },
     "NONE_TO_DISPLAY": "Il n'y a aucune notification à afficher.",
     "NOTIFICATION_TEASER": "Bientôt disponible!",
     "PAGE_TITLE": "Notifications",
     "TAKE_ME_THERE": "Emmenez-moi là-bas",
-    "TASK_ASSIGNED": {
-      "TITLE": "Tâche assignée",
-      "BODY": "Une tâche de {{taskType}} a été attribuée à {{assignee}}."
-    },
     "TASK_ABANDONED": {
-      "TITLE": "Tâche abandonnée",
-      "BODY": "Une tâche de {{taskType}} qui vous était assignée a été abandonnée par {{abandoner}}."
+      "BODY": "Une tâche de {{taskType}} qui vous était assignée a été abandonnée par {{abandoner}}.",
+      "TITLE": "Tâche abandonnée"
     },
-    "TASK_REASSIGNED": {
-      "TITLE": "Tâche réaatribuée",
-      "BODY": "Une tâche de {{taskType}} qui vous était assignée a été attribuée à {{assignee}}."
+    "TASK_ASSIGNED": {
+      "BODY": "Une tâche de {{taskType}} a été attribuée à {{assignee}}.",
+      "TITLE": "Tâche assignée"
     },
     "TASK_COMPLETED_BY_OTHER_USER": {
-      "TITLE": "Tâche accomplie",
-      "BODY": "Une tâche de {{taskType}} qui vous était assignée a été marquée comme achevée par {{assigner}}."
+      "BODY": "Une tâche de {{taskType}} qui vous était assignée a été marquée comme achevée par {{assigner}}.",
+      "TITLE": "Tâche accomplie"
+    },
+    "TASK_REASSIGNED": {
+      "BODY": "Une tâche de {{taskType}} qui vous était assignée a été attribuée à {{assignee}}.",
+      "TITLE": "Tâche réaatribuée"
     },
     "WEEKLY_UNASSIGNED_TASKS": {
-      "TITLE": "Tâches non attribuées",
-      "BODY": "Vous avez des tâches non attribuées à accomplir cette semaine."
-    },
-    "DAILY_TASKS_DUE_TODAY": {
-      "TITLE": "Tâches à accomplir aujourd'hui",
-      "BODY": "Vous avez des tâches à accomplir aujourd'hui."
+      "BODY": "Vous avez des tâches non attribuées à accomplir cette semaine.",
+      "TITLE": "Tâches non attribuées"
     }
   },
   "OUTRO": {
@@ -1106,6 +1106,8 @@
     "BUTTON_SENDING": "Envoi...",
     "DESCRIPTION_BOTTOM": "Veuillez vérifier votre courrier électronique.",
     "DESCRIPTION_TOP": "Un lien a été envoyé.",
+    "LABEL_EMAIL": "MISSING",
+    "LABEL_NEW_PASSWORD": "MISSING",
     "NEW_ACCOUNT_BUTTON": "Mettre à jour",
     "NEW_ACCOUNT_TITLE": "Définir votre nouveau mot de passe",
     "TITLE": "Lien envoyé"
@@ -1483,6 +1485,7 @@
     "QUANTITY_CANNOT_EXCEED": "La quantité de récolte utilisée ne peut pas dépasser la quantité à allouer",
     "RATE_THIS_TASK": "Évaluez cette tâche",
     "REMOVE_HARVEST_USE": "Supprimer",
+    "SELECT": "MISSING",
     "SELECT_DATE": "Sélectionnez la date de la tâche",
     "SELECT_TASK_LOCATIONS": "Sélectionnez le(s) emplacement(s) de la tâche",
     "SELECT_WILD_CROP": "Cette tâche cible une culture sauvage",

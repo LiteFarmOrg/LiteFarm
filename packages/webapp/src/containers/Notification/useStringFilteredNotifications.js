@@ -13,7 +13,7 @@ export default function useStringFilteredNotifications(notifications, filterStri
     };
 
     return notifications.filter((notification) => {
-      const tOptions = notification.variables.reduce((optionsSoFar, currentOption) => {
+      const tOptions = notification.variables?.reduce((optionsSoFar, currentOption) => {
         let options = { ...optionsSoFar };
         options[currentOption.name] = currentOption.translate
           ? t(currentOption.value)

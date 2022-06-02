@@ -15,13 +15,8 @@ export default function PureResetPasswordAccount({ email, update }) {
   const password = watch(PASSWORD, undefined);
   const { t } = useTranslation();
   const title = t('PASSWORD_RESET.NEW_ACCOUNT_TITLE');
-  const {
-    isValid,
-    hasNoSymbol,
-    hasNoDigit,
-    hasNoUpperCase,
-    isTooShort,
-  } = validatePasswordWithErrors(password);
+  const { isValid, hasNoSymbol, hasNoDigit, hasNoUpperCase, isTooShort } =
+    validatePasswordWithErrors(password);
   const inputRegister = register(PASSWORD, { validate: () => isValid });
 
   const disabled = !isValid;
@@ -45,10 +40,15 @@ export default function PureResetPasswordAccount({ email, update }) {
       }
     >
       <Title style={{ marginBottom: '32px' }}>{title}</Title>
-      <Input style={{ marginBottom: '28px' }} label={'Email'} disabled defaultValue={email} />
       <Input
         style={{ marginBottom: '28px' }}
-        label={'New password'}
+        label={t('PASSWORD_RESET.LABEL_EMAIL')}
+        disabled
+        defaultValue={email}
+      />
+      <Input
+        style={{ marginBottom: '28px' }}
+        label={t('PASSWORD_RESET.LABEL_NEW_PASSWORD')}
         type={PASSWORD}
         hookFormRegister={inputRegister}
       />

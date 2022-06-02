@@ -8,11 +8,11 @@
     "FARM_LOCATION": "Ubicación de la finca",
     "FARM_LOCATION_INPUT_INFO": "Dirección de la calle o usa latitud y longitud separadas con una coma (p. ej 49.250945, -123.238492)",
     "FARM_NAME": "Nombre de la finca",
+    "FARM_NAME_ERROR": "MISSING",
     "INVALID_FARM_LOCATION": "Ningún país para esta ubicación",
     "LOCATING": "Localizando...",
     "NO_ADDRESS": "Ubicación no encontrada! Trate latitud y longitud",
-    "TELL_US_ABOUT_YOUR_FARM": "Cuéntenos sobre su finca",
-    "FARM_NAME_ERROR": "MISSING"
+    "TELL_US_ABOUT_YOUR_FARM": "Cuéntenos sobre su finca"
   },
   "ADD_PRODUCT": {
     "PRESS_ENTER": "Escriba y presione enter para agregar...",
@@ -26,9 +26,9 @@
     "ADD_CUSTOM_TASK": "Agregar tarea personalizada",
     "AFFECT_PLANS": "¿Esta tarea afectará algún plan?",
     "ASSIGN_ALL_TO_PERSON": "Asignar todas las tareas no asignadas en esta fecha a esta persona",
+    "ASSIGN_DATE": "Asignar fecha de vencimiento",
     "ASSIGN_TASK": "Asignar tarea",
     "ASSIGNEE": "Responsable",
-    "ASSIGN_DATE": "Asignar fecha de vencimiento",
     "CANCEL": "creación de la tarea",
     "CLEANING_VIEW": {
       "ESTIMATED_WATER": "Uso de agua estimado",
@@ -352,10 +352,6 @@
     "ARCHIVE_DOCUMENT": "Archivar documento",
     "ARCHIVE_DOCUMENT_TEXT": "Archivar este documento lo moverá a la sección de archivado de sus documentos, pero no lo eliminará. Los documentos archivados no se exportarán para sus certificaciones. Quiere proceder?",
     "ARCHIVED": "Archivado",
-    "UNARCHIVE": "Desarchivar",
-    "UNARCHIVE_DOCUMENT": "¿Desarchivar documento?",
-    "UNARCHIVE_DOCUMENT_TEXT": "Desarchivar este documento lo devolverá a su lista de documentos actualmente válidos. Los documentos válidos se exportarán para sus certificaciones. Quiere proceder?",
-    "UNARCHIVED": "Desarchivado",
     "CANCEL": "Cancelar",
     "COMPLIANCE_DOCUMENTS_AND_CERTIFICATION": "Documentos de cumplimiento y su certificación",
     "DOCUMENTS": "Documentos",
@@ -377,14 +373,18 @@
       "CLEANING_PRODUCT": "Producto de limpieza",
       "CROP_COMPLIANCE": "Cumplimiento de cultivos",
       "FERTILIZING_PRODUCT": "Producto fertilizante",
+      "INVOICES": "Facturas",
       "OTHER": "Otro",
       "PEST_CONTROL_PRODUCT": "Producto de control de plagas",
+      "RECEIPTS": "Recibos",
       "SOIL_AMENDMENT": "Fertilización y correción del suelo",
       "SOIL_SAMPLE_RESULTS": "Resultados de muestras del suelo",
-      "WATER_SAMPLE_RESULTS": "Resultados de la muestra de agua",
-      "RECEIPTS": "Recibos",
-      "INVOICES": "Facturas"
+      "WATER_SAMPLE_RESULTS": "Resultados de la muestra de agua"
     },
+    "UNARCHIVE": "Desarchivar",
+    "UNARCHIVE_DOCUMENT": "¿Desarchivar documento?",
+    "UNARCHIVE_DOCUMENT_TEXT": "Desarchivar este documento lo devolverá a su lista de documentos actualmente válidos. Los documentos válidos se exportarán para sus certificaciones. Quiere proceder?",
+    "UNARCHIVED": "Desarchivado",
     "VALID": "Válido"
   },
   "ENTER_PASSWORD": {
@@ -680,26 +680,27 @@
       "AMPHIBIANS": "Anfibio",
       "BIRDS": "Aves",
       "CROP_VARIETIES": "Variedades de cultivos",
+      "ERROR": {
+        "BODY": "LiteFarm genera información sobre la biodiversidad basada en varias fuentes y no pudo hacerlo en este momento. Vuelva a intentarlo después de {{minutos}} minutos.",
+        "PREVIEW": "Indisponible",
+        "TITLE": "Había un problema"
+      },
       "HEADER": "Numero de especies",
       "INFO": "La biodiversidad es excelente para las personas y el planeta. Contamos la riqueza de especies de todos los registros conocidos de biodiversidad en su finca desde los límites de su finca. Puede aumentar la biodiversidad de los cultivos en su granja agregando cultivos adicionales. Puede aumentar el recuento de biodiversidad no agrícola en su granja registrando ubicaciones en https://www.inaturalist.org/app.",
       "INSECTS": "Insectos",
+      "LOADING": {
+        "BODY": "Estamos generando las últimas reflexiones sobre biodiversidad para su granja. Esto puede tardar hasta 60 segundos.",
+        "PREVIEW": "Cargando...",
+        "TITLE": "Generando las reflexiones más recientes sobre biodiversidad..."
+      },
+      "MAMMALS": "MISSING",
       "PLANTS": "Plantas",
       "SPECIES_COUNT": "{{count}} especies",
       "SPECIES_COUNT_one": "{{count}} especies",
       "SPECIES_COUNT_many": "{{count}} especies",
       "SPECIES_COUNT_other": "{{count}} especies",
       "SPECIES_COUNT_plural": "{{count}} especies",
-      "TITLE": "Biodiversidad",
-      "LOADING": {
-        "PREVIEW": "Cargando...",
-        "TITLE": "Generando las reflexiones más recientes sobre biodiversidad...",
-        "BODY": "Estamos generando las últimas reflexiones sobre biodiversidad para su granja. Esto puede tardar hasta 60 segundos."
-      },
-      "ERROR": {
-        "PREVIEW": "Indisponible",
-        "TITLE": "Había un problema",
-        "BODY": "LiteFarm genera información sobre la biodiversidad basada en varias fuentes y no pudo hacerlo en este momento. Vuelva a intentarlo después de {{minutos}} minutos."
-      }
+      "TITLE": "Biodiversidad"
     },
     "CURRENT": "Actual",
     "INFO": "Las reflexiones son caracteristicas de datos de que esta pasando en su granja. Mientras mas data proveas en la aplicacion mas reflexiones pueden ser generadas. Mira las reflexiones individuales para mas informacion.",
@@ -905,8 +906,8 @@
     "BROADCAST": "Siembra a voleo o sembradora mecánica",
     "COMPLETE_PLAN": {
       "ABANDON_DATE": "MISSING",
-      "ABANDON_PLAN": "Abandonar plan",
       "ABANDON_NOTES": "Notas de abandono",
+      "ABANDON_PLAN": "Abandonar plan",
       "ABANDON_REASON": "Razón para abandonar",
       "COMPLETE_DATE": "Fecha completada",
       "COMPLETE_PLAN": "Completar plan",
@@ -1066,33 +1067,33 @@
     }
   },
   "NOTIFICATION": {
+    "DAILY_TASKS_DUE_TODAY": {
+      "BODY": "Tienes tareas para hoy.",
+      "TITLE": "Tareas para hoy"
+    },
     "NONE_TO_DISPLAY": "No hay notificaciones para mostrar.",
     "NOTIFICATION_TEASER": "Proximamente!",
     "PAGE_TITLE": "Notificaciones",
     "TAKE_ME_THERE": "Llévame allí",
-    "TASK_ASSIGNED": {
-      "TITLE": "Tarea asignada",
-      "BODY": "Se ha asignado una tarea {{taskType}} a {{assignee}}."
-    },
     "TASK_ABANDONED": {
-      "TITLE": "Tarea abandonada",
-      "BODY": "Una {{taskType}} tarea que se te asignó ha sido abandonada por {{abandoner}}."
+      "BODY": "Una {{taskType}} tarea que se te asignó ha sido abandonada por {{abandoner}}.",
+      "TITLE": "Tarea abandonada"
     },
-    "TASK_REASSIGNED": {
-      "TITLE": "Tarea reasignada",
-      "BODY": "Una {{taskType}} tarea que te asignó previamente ha sido asignada a otra persona por {{assigner}}."
+    "TASK_ASSIGNED": {
+      "BODY": "Se ha asignado una tarea {{taskType}} a {{assignee}}.",
+      "TITLE": "Tarea asignada"
     },
     "TASK_COMPLETED_BY_OTHER_USER": {
-      "TITLE": "Tarea completada",
-      "BODY": "Una tarea de {{taskType}} que se le asignó ha sido marcada como completada por {{assigner}}."
+      "BODY": "Una tarea de {{taskType}} que se le asignó ha sido marcada como completada por {{assigner}}.",
+      "TITLE": "Tarea completada"
+    },
+    "TASK_REASSIGNED": {
+      "BODY": "Una {{taskType}} tarea que te asignó previamente ha sido asignada a otra persona por {{assigner}}.",
+      "TITLE": "Tarea reasignada"
     },
     "WEEKLY_UNASSIGNED_TASKS": {
-      "TITLE": "Tareas sin responables",
-      "BODY": "Tiene tareas sin asignar que vencen esta semana."
-    },
-    "DAILY_TASKS_DUE_TODAY": {
-      "TITLE": "Tareas para hoy",
-      "BODY": "Tienes tareas para hoy."
+      "BODY": "Tiene tareas sin asignar que vencen esta semana.",
+      "TITLE": "Tareas sin responables"
     }
   },
   "OUTRO": {
@@ -1104,6 +1105,8 @@
     "BUTTON_SENDING": "Enviando...",
     "DESCRIPTION_BOTTOM": "Por favor revise su correo electrónico.",
     "DESCRIPTION_TOP": "Un enlace ha sido enviado.",
+    "LABEL_EMAIL": "Correo",
+    "LABEL_NEW_PASSWORD": "Nueva contraseña",
     "NEW_ACCOUNT_BUTTON": "Actualización",
     "NEW_ACCOUNT_TITLE": "Ajuste su nueva contraseña",
     "TITLE": "Enlace enviado"
@@ -1481,6 +1484,7 @@
     "QUANTITY_CANNOT_EXCEED": "La cantidad de cosecha utilizada no puede exceder la cantidad a asignar",
     "RATE_THIS_TASK": "Califica esta tarea",
     "REMOVE_HARVEST_USE": "Quitar",
+    "SELECT": "MISSING",
     "SELECT_DATE": "Seleccione la fecha de la tarea",
     "SELECT_TASK_LOCATIONS": "Seleccione la(s) ubicación(es) de la tarea",
     "SELECT_WILD_CROP": "Esta tarea se dirige a un cultivo silvestre",

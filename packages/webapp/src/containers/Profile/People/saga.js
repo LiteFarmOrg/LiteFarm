@@ -117,6 +117,7 @@ export function* invitePseudoUserSaga({ payload: user }) {
   const { user_id, farm_id } = yield select(loginSelector);
   const header = getHeader(user_id, farm_id);
   try {
+    history.back();
     delete user.user_id;
     const result = yield call(
       axios.post,
@@ -131,8 +132,8 @@ export function* invitePseudoUserSaga({ payload: user }) {
       }),
     );
     yield put(enqueueSuccessSnackbar(i18n.t('message:USER.SUCCESS.UPDATE')));
-    history.back();
   } catch (e) {
+    history.push(`/user/${target_user_id}`);
     yield put(enqueueErrorSnackbar(i18n.t('message:USER.ERROR.UPDATE')));
     console.error(e);
   }

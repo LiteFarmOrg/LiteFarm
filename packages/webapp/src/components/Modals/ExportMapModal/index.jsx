@@ -37,7 +37,6 @@ export function PureExportMapModal({
   }, [isEmailing]);
 
   useEffect(() => {
-    console.log(currentMap);
     setIsLoading(true);
     html2canvas(currentMap, { useCORS: true }).then((canvas) => {
       setLinkHref(canvas.toDataURL());

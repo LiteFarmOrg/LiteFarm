@@ -97,10 +97,9 @@ const filterSliceReducer = createSlice({
     setTasksFilter: (state, { payload: tasksFilter }) => {
       Object.assign(state.tasks, tasksFilter);
     },
-    setTasksFilterUnassignedDueThisWeek: (state) => {
-      const today = new Date();
-      const oneWeekFromNow = new Date();
-      oneWeekFromNow.setDate(today.getDate() + 6);
+    setTasksFilterUnassignedDueThisWeek: (state, { payload: { date = new Date() } }) => {
+      const oneWeekFromDate = new Date(date.valueOf());
+      oneWeekFromDate.setDate(date.getDate() + 6);
       state.tasks = {
         ...intialTasksFilter,
         ASSIGNEE: Object.keys(state.tasks.ASSIGNEE).reduce((assignees, assigneeUserId) => {
@@ -110,18 +109,20 @@ const filterSliceReducer = createSlice({
           };
           return assignees;
         }, {}),
-        FROM_DATE: getDateInputFormat(today),
-        TO_DATE: getDateInputFormat(oneWeekFromNow),
+        FROM_DATE: getDateInputFormat(date),
+        TO_DATE: getDateInputFormat(oneWeekFromDate),
       };
       state.tasks.ASSIGNEE['unassigned'] = {
         active: true,
         label: i18n.t('TASK.UNASSIGNED'),
       };
     },
-    setTasksFilterDueToday: (state, { payload: { user_id, first_name, last_name } }) => {
-      const today = new Date();
-      const yesterday = new Date();
-      yesterday.setDate(today.getDate() - 1);
+    setTasksFilterDueToday: (
+      state,
+      { payload: { user_id, first_name, last_name, date = new Date() } },
+    ) => {
+      const dayBefore = new Date(date.valueOf());
+      dayBefore.setDate(date.getDate() - 1);
       state.tasks = {
         ...intialTasksFilter,
         ASSIGNEE: Object.keys(state.tasks.ASSIGNEE).reduce((assignees, assigneeUserId) => {
@@ -130,8 +131,8 @@ const filterSliceReducer = createSlice({
           };
           return assignees;
         }, {}),
-        FROM_DATE: getDateInputFormat(yesterday),
-        TO_DATE: getDateInputFormat(today),
+        FROM_DATE: getDateInputFormat(dayBefore),
+        TO_DATE: getDateInputFormat(date),
       };
       state.tasks.ASSIGNEE[user_id].active = true;
       state.tasks.ASSIGNEE[user_id].label = `${first_name} ${last_name}`;

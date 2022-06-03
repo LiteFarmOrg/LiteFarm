@@ -214,16 +214,24 @@ const Unit = ({
 
   const hookFormUnitOption = hookFromWatch(displayUnitName);
   const hookFormUnit = hookFormUnitOption?.value;
+
   useEffect(() => {
     if (typeof hookFormUnitOption === 'string' && getUnitOptionMap()[hookFormUnitOption]) {
       hookFormSetValue(displayUnitName, getUnitOptionMap()[hookFormUnitOption]);
     }
   }, []);
+
   useEffect(() => {
     if (hookFormUnit && convert().describe(hookFormUnit)?.system !== system && measure !== 'time') {
       hookFormSetValue(displayUnitName, getUnitOptionMap()[displayUnit]);
     }
   }, [hookFormUnit]);
+
+  useEffect(() => {
+    if (hookFormUnit !== displayUnit) {
+      setVisibleInputValue(hookFormValue);
+    }
+  }, [displayUnit]);
 
   useEffect(() => {
     if (!hookFormGetValue(displayUnitName)) {

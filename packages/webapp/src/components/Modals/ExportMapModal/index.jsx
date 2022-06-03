@@ -61,7 +61,7 @@ export function PureExportMapModal({
           onClick={onClickDownload}
         >
           {isLoading ? (
-            'Loading...'
+            t('FARM_MAP.EXPORT_MODAL.LOADING')
           ) : (
             <>
               <DownloadIcon className={styles.downloadSvg} />

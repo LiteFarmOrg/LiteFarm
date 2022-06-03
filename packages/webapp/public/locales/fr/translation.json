@@ -338,7 +338,9 @@
   "DATE_RANGE_PICKER": {
     "FROM": "De",
     "TO": "À",
-    "TO_MUST_BE_AFTER_FROM": "La date 'De' doit précéder la date 'À'"
+    "TO_MUST_BE_AFTER_FROM": "La date 'De' doit précéder la date 'À'",
+    "REVENUE_HELP_TITLE": "Aide sur la plage de dates",
+    "REVENUE_HELP_BODY": "MISSING"
   },
   "DOCUMENTS": {
     "ADD": {

@@ -337,7 +337,9 @@
   "DATE_RANGE_PICKER": {
     "FROM": "De",
     "TO": "Até",
-    "TO_MUST_BE_AFTER_FROM": "A data 'Até' deve ser depois da data 'De'"
+    "TO_MUST_BE_AFTER_FROM": "A data 'Até' deve ser depois da data 'De'",
+    "REVENUE_HELP_TITLE": "Ajuda",
+    "REVENUE_HELP_BODY": "MISSING"
   },
   "DOCUMENTS": {
     "ADD": {

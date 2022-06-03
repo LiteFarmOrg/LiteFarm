@@ -332,7 +332,8 @@
   "DATE_RANGE": {
     "HELP_BODY": "Select the date range to create a financial report for your farm for a given time window.",
     "HELP_TITLE": "Date Range Help",
-    "TITLE": "Filter Report by Date"
+    "TITLE": "Filter Report by Date",
+    "INVALID_RANGE_MESSAGE": "End date must be after start date to return results"
   },
   "DATE_RANGE_PICKER": {
     "FROM": "From",

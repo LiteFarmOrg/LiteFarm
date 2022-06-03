@@ -331,7 +331,8 @@
   "DATE_RANGE": {
     "HELP_BODY": "Selecione as datas para criar um relatório financeiro para sua fazenda para um determinado intervalo de tempo.",
     "HELP_TITLE": "Ajuda",
-    "TITLE": "Filtrar relatório por data"
+    "TITLE": "Filtrar relatório por data",
+    "INVALID_RANGE_MESSAGE": "MISSING"
   },
   "DATE_RANGE_PICKER": {
     "FROM": "De",

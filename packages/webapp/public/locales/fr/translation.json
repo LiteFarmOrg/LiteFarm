@@ -332,7 +332,8 @@
   "DATE_RANGE": {
     "HELP_BODY": "Sélectionnez la plage de dates pour créer un rapport financier pour votre ferme pour une fenêtre de temps donnée.",
     "HELP_TITLE": "Aide sur la plage de dates",
-    "TITLE": "Filtrer le rapport par date"
+    "TITLE": "Filtrer le rapport par date",
+    "INVALID_RANGE_MESSAGE": "MISSING"
   },
   "DATE_RANGE_PICKER": {
     "FROM": "De",

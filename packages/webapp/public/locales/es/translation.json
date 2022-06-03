@@ -8,7 +8,7 @@
     "FARM_LOCATION": "Ubicación de la finca",
     "FARM_LOCATION_INPUT_INFO": "Dirección de la calle o usa latitud y longitud separadas con una coma (p. ej 49.250945, -123.238492)",
     "FARM_NAME": "Nombre de la finca",
-    "FARM_NAME_ERROR": "MISSING",
+    "FARM_NAME_ERROR": "Límite de caracteres del nombre de la granja excedido",
     "INVALID_FARM_LOCATION": "Ningún país para esta ubicación",
     "LOCATING": "Localizando...",
     "NO_ADDRESS": "Ubicación no encontrada! Trate latitud y longitud",
@@ -331,12 +331,15 @@
   "DATE_RANGE": {
     "HELP_BODY": "Selecciona el rango de fechas para crear un reporte financiero para su granja en ese rango.",
     "HELP_TITLE": "Ayuda con el rango de fechas",
-    "TITLE": "Filtrar reporte por fecha"
+    "TITLE": "Filtrar reporte por fecha",
+    "INVALID_RANGE_MESSAGE": "MISSING"
   },
   "DATE_RANGE_PICKER": {
     "FROM": "Desde",
     "TO": "Hasta",
-    "TO_MUST_BE_AFTER_FROM": "La fecha 'Hasta' debe ser posterior a la fecha 'Desde'"
+    "TO_MUST_BE_AFTER_FROM": "La fecha 'Hasta' debe ser posterior a la fecha 'Desde'",
+    "REVENUE_HELP_TITLE": "Ayuda con el rango de fechas",
+    "REVENUE_HELP_BODY": "MISSING"
   },
   "DOCUMENTS": {
     "ADD": {
@@ -693,7 +696,7 @@
         "PREVIEW": "Cargando...",
         "TITLE": "Generando las reflexiones más recientes sobre biodiversidad..."
       },
-      "MAMMALS": "MISSING",
+      "MAMMALS": "Mamíferos",
       "PLANTS": "Plantas",
       "SPECIES_COUNT": "{{count}} especies",
       "SPECIES_COUNT_one": "{{count}} especies",
@@ -905,7 +908,7 @@
     "BEDS": "Camas",
     "BROADCAST": "Siembra a voleo o sembradora mecánica",
     "COMPLETE_PLAN": {
-      "ABANDON_DATE": "MISSING",
+      "ABANDON_DATE": "Fecha de abandono",
       "ABANDON_NOTES": "Notas de abandono",
       "ABANDON_PLAN": "Abandonar plan",
       "ABANDON_REASON": "Razón para abandonar",
@@ -1107,7 +1110,7 @@
     "BUTTON_SENDING": "Enviando...",
     "DESCRIPTION_BOTTOM": "Por favor revise su correo electrónico.",
     "DESCRIPTION_TOP": "Un enlace ha sido enviado.",
-    "LABEL_EMAIL": "Correo",
+    "LABEL_EMAIL": "Correo electrónico",
     "LABEL_NEW_PASSWORD": "Nueva contraseña",
     "NEW_ACCOUNT_BUTTON": "Actualización",
     "NEW_ACCOUNT_TITLE": "Ajuste su nueva contraseña",
@@ -1486,7 +1489,6 @@
     "QUANTITY_CANNOT_EXCEED": "La cantidad de cosecha utilizada no puede exceder la cantidad a asignar",
     "RATE_THIS_TASK": "Califica esta tarea",
     "REMOVE_HARVEST_USE": "Quitar",
-    "SELECT": "MISSING",
     "SELECT_DATE": "Seleccione la fecha de la tarea",
     "SELECT_TASK_LOCATIONS": "Seleccione la(s) ubicación(es) de la tarea",
     "SELECT_WILD_CROP": "Esta tarea se dirige a un cultivo silvestre",

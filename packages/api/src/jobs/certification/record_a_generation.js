@@ -105,20 +105,36 @@ module.exports = (data, exportId, from_date, to_date, farm_name, measurement) =>
       .add(` ${t('RECORD_A.NEW_AREA')}`);
     sheet.cell('F5').value(f5Text);
 
-    const g5Text = new RichText()
-      .add(t('RECORD_A.TRANSITIONAL'), { bold: true })
-      .add(` ${t('RECORD_A.AREA')}`);
+    const g5Text =
+      i18n.language === 'en'
+        ? new RichText()
+            .add(t('RECORD_A.TRANSITIONAL'), { bold: true })
+            .add(` ${t('RECORD_A.AREA')}`)
+        : new RichText().add(t('RECORD_A.AREA')).add(` ${t('RECORD_A.TRANSITIONAL')}`, {
+            bold: true,
+          });
     sheet.cell('G5').value(g5Text);
 
-    const h5Text = new RichText()
-      .add(t('RECORD_A.CERTIFIED'), { bold: true })
-      .add(` ${t('RECORD_A.ORGANIC_AREA')}`);
+    const h5Text =
+      i18n.language === 'en'
+        ? new RichText()
+            .add(t('RECORD_A.CERTIFIED'), { bold: true })
+            .add(` ${t('RECORD_A.ORGANIC_AREA')}`)
+        : new RichText()
+            .add(t('RECORD_A.ORGANIC_AREA'))
+            .add(` ${t('RECORD_A.CERTIFIED')}`, { bold: true });
     sheet.cell('H5').value(h5Text);
 
-    const i5Text = new RichText()
-      .add(t('RECORD_A.NON_ORGANIC'))
-      .add(` ${t('RECORD_A.SPLIT')}`, { bold: true })
-      .add(` ${t('RECORD_A.PRODUCTION')}`);
+    const i5Text =
+      i18n.language === 'en'
+        ? new RichText()
+            .add(t('RECORD_A.NON_ORGANIC'))
+            .add(` ${t('RECORD_A.SPLIT')}`, { bold: true })
+            .add(` ${t('RECORD_A.PRODUCTION')}`)
+        : new RichText()
+            .add(t('RECORD_A.NON_ORGANIC'))
+            .add(` ${t('RECORD_A.PRODUCTION')}`)
+            .add(` ${t('RECORD_A.SPLIT')}`, { bold: true });
     sheet.cell('I5').value(i5Text);
 
     const j5Text = new RichText()

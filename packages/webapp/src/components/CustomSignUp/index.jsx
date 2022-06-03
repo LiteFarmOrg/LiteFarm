@@ -71,9 +71,10 @@ export default function PureCustomSignUp({
             }}
             type="submit"
             fullLength
-            children="Continue"
             data-cy="continue"
-          />
+          >
+            {t('common:CONTINUE')}
+          </Button>
         </div>
       </Footer>
     </form>

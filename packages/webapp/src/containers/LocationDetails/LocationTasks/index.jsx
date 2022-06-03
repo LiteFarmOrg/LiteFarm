@@ -40,8 +40,6 @@ export default function LocationTasks({ history, match, location: { pathname } }
         previous.count++;
         if (!Object.keys(previous.tasks).includes(current.date)) {
           previous.tasks[current.date] = [current];
-          console.log('updated previous');
-          console.log(previous);
         } else {
           previous.tasks[current.date].push(current);
         }

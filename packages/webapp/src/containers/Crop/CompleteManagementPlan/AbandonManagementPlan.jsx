@@ -8,7 +8,7 @@ import { abandonManagementPlan } from './saga';
 import { useAbandonReasonOptions } from './useAbandonReasonOptions';
 import { managementPlanSelector } from '../../managementPlanSlice';
 
-export default function AbandonManagementPlan({ match, history }) {
+export default function AbandonManagementPlan({ match, history, location }) {
   const management_plan_id = match.params.management_plan_id;
   const crop_variety_id = match.params.variety_id;
   const crop_variety = useSelector(cropVarietySelector(crop_variety_id));
@@ -17,7 +17,7 @@ export default function AbandonManagementPlan({ match, history }) {
   const reasonOptions = useAbandonReasonOptions();
 
   const onGoBack = () => {
-    history.push(`/crop/${crop_variety_id}/management_plan/${management_plan_id}/tasks`);
+    history.push(`/crop/${crop_variety_id}/management`, location?.state);
   };
   const onSubmit = (data) => {
     const reqBody = {

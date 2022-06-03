@@ -3,6 +3,7 @@ import Button from '../Form/Button';
 import { ReactComponent as SignupEnglish } from '../../assets/images/signUp/signup_english.svg';
 import { ReactComponent as SignupSpanish } from '../../assets/images/signUp/signup_spanish.svg';
 import { ReactComponent as SignupPortuguese } from '../../assets/images/signUp/signup_portuguese.svg';
+import { ReactComponent as SignupFrench } from '../../assets/images/signUp/signup_french.svg';
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
@@ -14,6 +15,7 @@ export default function PureWelcomeScreen({ onClick }) {
     en: <SignupEnglish />,
     es: <SignupSpanish />,
     pt: <SignupPortuguese />,
+    fr: <SignupFrench />,
   };
   const language = getLanguageFromLocalStorage();
   return (

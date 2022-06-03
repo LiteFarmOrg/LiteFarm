@@ -26,7 +26,7 @@ async function mapTimeZoneOffsetsToFarms(knex) {
         params: {
           location: farm.grid_points,
           timestamp: date,
-          key: process.env.GOOGLE_MAPS_API_KEY,
+          key: process.env.GOOGLE_API_KEY,
         },
       });
       await knex('farm')
@@ -42,7 +42,7 @@ async function mapTimeZoneOffsetsToFarms(knex) {
               params: {
                 location: farm.grid_points,
                 timestamp: new Date(Date.now()),
-                key: process.env.GOOGLE_MAPS_API_KEY,
+                key: process.env.GOOGLE_API_KEY,
               },
             });
             await knex('farm')

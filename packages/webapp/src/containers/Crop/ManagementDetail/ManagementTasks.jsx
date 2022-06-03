@@ -23,14 +23,20 @@ export default function ManagementTasks({ history, match, location }) {
   const isAdmin = useSelector(isAdminSelector);
 
   const onBack = () => {
-    history.push(`/crop/${variety_id}/management`);
+    history.push(`/crop/${variety_id}/management`, location?.state);
   };
 
   const onCompleted = () => {
-    history.push(`/crop/${variety_id}/${management_plan_id}/complete_management_plan`);
+    history.push(
+      `/crop/${variety_id}/${management_plan_id}/complete_management_plan`,
+      location?.state,
+    );
   };
   const onAbandon = () =>
-    history.push(`/crop/${variety_id}/${management_plan_id}/abandon_management_plan`);
+    history.push(
+      `/crop/${variety_id}/${management_plan_id}/abandon_management_plan`,
+      location?.state,
+    );
 
   const showSpotlight = history.location.state?.fromCreation;
 
@@ -53,6 +59,7 @@ export default function ManagementTasks({ history, match, location }) {
         hasPendingTasks={!!pendingTasks?.length}
         history={history}
         match={match}
+        location={location}
       >
         {taskCardContents.map((task) => (
           <TaskCard

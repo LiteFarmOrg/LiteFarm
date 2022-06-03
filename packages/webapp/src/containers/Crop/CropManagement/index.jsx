@@ -2,7 +2,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import PureCropManagement from '../../../components/Crop/Management';
 import { cropVarietySelector } from '../../cropVarietySlice';
 import CropVarietySpotlight from '../CropVarietySpotlight';
-import { setFormData, setPersistedPaths } from '../../hooks/useHookFormPersist/hookFormPersistSlice';
+import {
+  setFormData,
+  setPersistedPaths,
+} from '../../hooks/useHookFormPersist/hookFormPersistSlice';
 import {
   addManagementPlanNamePath,
   finalBedGuidancePath,
@@ -36,14 +39,14 @@ const seedingTypeIsSeedMap = {
   SEEDLING_OR_PLANTING_STOCK: false,
 };
 
-function CropManagement({ history, match }) {
+function CropManagement({ history, match, location }) {
   const dispatch = useDispatch();
   const variety_id = match.params.variety_id;
   const selectedVariety = useSelector(cropVarietySelector(variety_id));
 
   const managementPlanCardContents = useManagementPlanCardContents(variety_id);
   const goBack = () => {
-    history.push(`/crop_varieties/crop/${selectedVariety.crop_id}`);
+    history.push(location?.state?.returnPath ?? `/crop_varieties/crop/${selectedVariety.crop_id}`);
   };
   const onAddManagementPlan = () => {
     const estimated_seeds_unit = { value: 'kg', label: 'kg' };
@@ -118,6 +121,7 @@ function CropManagement({ history, match }) {
         onAddManagementPlan={onAddManagementPlan}
         managementPlanCardContents={managementPlanCardContents}
         isAdmin={isAdmin}
+        location={location}
       />
     </CropVarietySpotlight>
   );

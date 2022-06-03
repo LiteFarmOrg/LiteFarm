@@ -23,7 +23,9 @@ const useLanguageOptions = (language_preference) => {
 };
 
 export default function PureAccount({ userFarm, onSubmit, history, isAdmin }) {
-  const { languageOptions, languagePreferenceOptionRef } = useLanguageOptions(userFarm.language_preference);
+  const { languageOptions, languagePreferenceOptionRef } = useLanguageOptions(
+    userFarm.language_preference,
+  );
   const { t } = useTranslation();
   const {
     register,
@@ -58,11 +60,17 @@ export default function PureAccount({ userFarm, onSubmit, history, isAdmin }) {
     >
       <Input
         label={t('PROFILE.ACCOUNT.FIRST_NAME')}
-        hookFormRegister={register(userFarmEnum.first_name, { required: true })}
+        hookFormRegister={register(userFarmEnum.first_name, {
+          required: true,
+          pattern: /^[A-Za-zÀ-ÖØ-öø-ÿ]+/g,
+        })}
       />
       <Input
         label={t('PROFILE.ACCOUNT.LAST_NAME')}
-        hookFormRegister={register(userFarmEnum.last_name, { required: false })}
+        hookFormRegister={register(userFarmEnum.last_name, {
+          required: false,
+          pattern: /^[A-Za-zÀ-ÖØ-öø-ÿ]+/g,
+        })}
       />
       <Input
         label={t('PROFILE.ACCOUNT.EMAIL')}

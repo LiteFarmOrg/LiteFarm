@@ -14,7 +14,11 @@
     "TYPE_HEADER": "Type d'aide",
     "MESSAGE_HEADER": "Message",
     "CONTACT_METHOD_HEADER": "Méthode de contact préférée",
-    "SUBJECT": "Votre demande d'aide LiteFarm"
+    "SUBJECT": "Votre demande d'aide LiteFarm",
+    "REQUEST_INFORMATION": "MISSING",
+    "REPORT_A_BUG": "MISSING",
+    "REQUEST_A_FEATURE": "MISSING",
+    "OTHER": "MISSING"
   },
   "INVITE": {
     "GREAT_FOLK": "Les gens formidables de",
@@ -97,5 +101,6 @@
     "SUBJECT": "EXPORT.SUBJET",
     "PRIVACY": "EXPORT.CONFIDENTIALITÉ",
     "LANGUAGE_DELAY": "EXPORT.DÉLAIS.LANGUE"
-  }
+  },
+  "HELP_REQUESTREQUEST_INFORMATION": "HELP_REQUESTREQUEST_INFORMATION"
 }

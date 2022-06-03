@@ -116,7 +116,11 @@ export default function PureCropList({
                   managementPlan={fc}
                   status={'planned'}
                   style={{ width: `${cardWidth}px` }}
-                  onClick={() => history.push(`/crop/${fc.crop_variety_id}/management`)}
+                  onClick={() =>
+                    history.push(`/crop/${fc.crop_variety_id}/management`, {
+                      returnPath: location?.pathname,
+                    })
+                  }
                 />
               ))}
             </PureCropTileContainer>
@@ -135,7 +139,11 @@ export default function PureCropList({
                   key={fc.management_plan_id}
                   managementPlan={fc}
                   style={{ width: `${cardWidth}px` }}
-                  onClick={() => history.push(`/crop/${fc.crop_variety_id}/management`)}
+                  onClick={() =>
+                    history.push(`/crop/${fc.crop_variety_id}/management`, {
+                      returnPath: location?.pathname,
+                    })
+                  }
                 />
               ))}
             </PureCropTileContainer>

@@ -60,25 +60,51 @@ export default function TaskPage({ history }) {
     setIsFilterOpen(true);
   };
 
+  // useEffect(() => {
+  //   dispatch(getManagementPlansAndTasks());
+  // }, []);
+
+  // useEffect(() => {
+  //   dispatch(resetAndUnLockFormData());
+  // }, []);
+
   useEffect(() => {
     dispatch(getManagementPlansAndTasks());
-  }, []);
-
-  useEffect(() => {
     dispatch(resetAndUnLockFormData());
-  }, []);
 
-  useEffect(() => {
-    if (history.location.state?.notification_type === WEEKLY_UNASSIGNED_TASKS) {
-      dispatch(setTasksFilterUnassignedDueThisWeek());
+    const context = history.location?.state;
+
+    let notificationDate;
+    if (context?.notification_date) {
+      const tempDate = new Date(context?.notification_date);
+      notificationDate = new Date(
+        tempDate.getUTCFullYear(),
+        tempDate.getUTCMonth(),
+        tempDate.getUTCDate(),
+      );
+    } else {
+      notificationDate = new Date();
+    }
+
+    switch (context?.notification_type) {
+      case WEEKLY_UNASSIGNED_TASKS:
+        dispatch(setTasksFilterUnassignedDueThisWeek({ date: notificationDate }));
+        break;
+      case DAILY_TASKS_DUE_TODAY:
+        dispatch(
+          setTasksFilterDueToday({ user_id, first_name, last_name, date: notificationDate }),
+        );
+        break;
+      default:
+        break;
     }
   }, []);
 
-  useEffect(() => {
-    if (history.location.state?.notification_type === DAILY_TASKS_DUE_TODAY) {
-      dispatch(setTasksFilterDueToday({ user_id, first_name, last_name }));
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (history.location.state?.notification_type === DAILY_TASKS_DUE_TODAY) {
+  //     dispatch(setTasksFilterDueToday({ user_id, first_name, last_name, date: history.location.state.notification_date }));
+  //   }
+  // }, []);
 
   const assigneeValue = useMemo(() => {
     let unassigned;

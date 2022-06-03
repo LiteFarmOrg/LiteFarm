@@ -45,7 +45,7 @@ export function PureExportMapModal({
   }, []);
 
   const onClickDownload = () => {
-    dismissModal();
+    !isLoading && dismissModal();
   };
 
   return (

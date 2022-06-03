@@ -1,6 +1,6 @@
 /*
- *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>
- *  This file (showedSpotlightController.js) is part of LiteFarm.
+ *  Copyright 2019, 2020, 2021, 2022 LiteFarm.org
+ *  This file is part of LiteFarm.
  *
  *  LiteFarm is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -51,18 +51,15 @@ const showedSpotlightController = {
     };
   },
   updateSpotlightFlags() {
-    console.log('update called');
     return async (req, res) => {
       const { user_id } = req.user;
       try {
-        console.log(req);
         const isPatched = await baseController.updateIndividualById(
           showedSpotlightModel,
           user_id,
           req.body,
           req,
         );
-        console.log('endpoint', isPatched);
         if (isPatched) {
           return res.sendStatus(200);
         } else {

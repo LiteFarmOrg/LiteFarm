@@ -6,6 +6,7 @@ import { ReactComponent as NotificationIcon } from '../../../assets/images/notif
 import { ReactComponent as MyFarmIcon } from '../../../assets/images/my-farm.svg';
 import { ReactComponent as MyFarmIconSpan } from '../../../assets/images/my-farm-es.svg';
 import { ReactComponent as MyFarmIconPort } from '../../../assets/images/my-farm-pt.svg';
+import { ReactComponent as MyFarmIconFren } from '../../../assets/images/my-farm-fr.svg';
 import { ReactComponent as TaskIcon } from '../../../assets/images/task_icon.svg';
 // TODO: use profile picture stored in db
 import { ReactComponent as ProfilePicture } from '../../../assets/images/navbar/defaultpfp.svg';
@@ -87,6 +88,19 @@ const useStyles = makeStyles((theme) => ({
     zIndex: '1302 !important',
   },
 }));
+
+const getLanguageFarmIcon = (language) => {
+  switch (language) {
+    case 'pt':
+      return <MyFarmIconPort />;
+    case 'es':
+      return <MyFarmIconSpan />;
+    case 'fr':
+      return <MyFarmIconFren />;
+    default:
+      return <MyFarmIcon />;
+  }
+};
 
 export default function PureNavBar({
   showSpotLight,
@@ -270,13 +284,7 @@ export default function PureNavBar({
                   className={classes.iconButton}
                   onClick={farmButtonOnClick}
                 >
-                  {selectedLanguage === 'pt' ? (
-                    <MyFarmIconPort />
-                  ) : selectedLanguage === 'es' ? (
-                    <MyFarmIconSpan />
-                  ) : (
-                    <MyFarmIcon />
-                  )}
+                  {getLanguageFarmIcon(selectedLanguage)}
                 </IconButton>
               </PureMyFarmFloater>
 

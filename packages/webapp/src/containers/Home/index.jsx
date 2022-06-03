@@ -1,4 +1,4 @@
-import { React, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getSeason } from './utils/season';
 import WeatherBoard from '../../containers/WeatherBoard';

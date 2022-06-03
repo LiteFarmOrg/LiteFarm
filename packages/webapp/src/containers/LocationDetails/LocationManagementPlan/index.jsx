@@ -10,7 +10,7 @@ import {
 } from '../../Task/TaskCrops/managementPlansWithLocationSelector';
 import { useTranslation } from 'react-i18next';
 
-function LocationManagementPlan({ history, match }) {
+function LocationManagementPlan({ history, match, location }) {
   const [filter, setFilter] = useState();
   const isAdmin = useSelector(isAdminSelector);
   const { location_id } = match.params;
@@ -26,7 +26,7 @@ function LocationManagementPlan({ history, match }) {
   const onAddCrop = () => {
     history.push(`/crop_catalogue`);
   };
-  const location = useSelector(cropLocationByIdSelector(location_id));
+  const { name } = useSelector(cropLocationByIdSelector(location_id));
 
   return (
     <>
@@ -39,7 +39,8 @@ function LocationManagementPlan({ history, match }) {
         isAdmin={isAdmin}
         history={history}
         match={match}
-        title={location.name}
+        title={name}
+        location={location}
       />
     </>
   );

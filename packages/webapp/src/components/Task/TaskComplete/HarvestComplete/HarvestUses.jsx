@@ -18,7 +18,6 @@ export default function PureHarvestUses({
   onGoBack,
   system,
   persistedFormData,
-
   useHookFormPersist,
   amount,
   unit,

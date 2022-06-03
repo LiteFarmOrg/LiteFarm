@@ -4,15 +4,16 @@ import { useTranslation } from 'react-i18next';
 export default function useStringFilteredCrops(crops, filterString) {
   const { t } = useTranslation();
   return useMemo(() => {
-    const lowerCaseFilter = filterString?.toLowerCase() || '';
+    const lowerCaseFilter = filterString?.toLowerCase().replace(/\W/g, '').trim() || '';
     const check = (names) => {
       for (const name of names) {
         if (
-          name?.toLowerCase().includes(lowerCaseFilter) ||
           name
             ?.toLowerCase()
             .normalize('NFD')
             .replace(/\p{Diacritic}/gu, '')
+            .replace(/\W/g, '')
+            .trim()
             .includes(lowerCaseFilter)
         )
           return true;

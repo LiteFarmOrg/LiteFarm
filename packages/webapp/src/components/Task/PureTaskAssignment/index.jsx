@@ -23,6 +23,7 @@ const PureTaskAssignment = ({
   persistedFormData,
 }) => {
   const { t } = useTranslation();
+  console.log(userFarmOptions);
   const OVERRIDE_HOURLY_WAGE = 'override_hourly_wage';
   const ASSIGNEE = 'assignee_user_id';
   const WAGE_OVERRIDE = 'wage_at_moment';

@@ -13,14 +13,6 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-require('dotenv').config();
-const redisConf = {
-  redis: {
-    host: process.env.REDIS_HOST,
-    port: process.env.REDIS_PORT,
-    password: process.env.REDIS_PASSWORD,
-  },
+export const ActionTypes = {
+  SWITCH_FARMS: 'chooseFarmFlowReducer/startSwitchFarmModal',
 };
-
-require('./certification').processExports(redisConf);
-require('./notifications').sendOnSchedule(redisConf);

@@ -12,7 +12,7 @@ import { withTranslation } from 'react-i18next';
 class DateRangeSelector extends Component {
   constructor(props) {
     super(props);
-    let startDate, endDate;
+    let startDate, endDate, validRange;
     const { dateRange } = this.props;
     if (dateRange && dateRange.startDate && dateRange.endDate) {
       startDate = moment(dateRange.startDate);
@@ -21,16 +21,23 @@ class DateRangeSelector extends Component {
       startDate = moment().startOf('year');
       endDate = moment().endOf('year');
     }
+    startDate <= endDate ? (validRange = true) : (validRange = false);
 
     this.state = {
       startDate,
       endDate,
+      validRange,
     };
     this.changeStartDate.bind(this);
     this.changeEndDate.bind(this);
   }
 
   changeStartDate = (date) => {
+    if (date > this.state.endDate) {
+      this.setState({ validRange: false });
+      return;
+    }
+    this.setState({ validRange: true });
     this.setState({ startDate: date });
     const endDate = this.state.endDate;
     this.props.dispatch(setDateRange({ startDate: date, endDate }));
@@ -38,6 +45,11 @@ class DateRangeSelector extends Component {
   };
 
   changeEndDate = (date) => {
+    if (date < this.state.startDate) {
+      this.setState({ validRange: false });
+      return;
+    }
+    this.setState({ validRange: true });
     this.setState({ endDate: date });
     const startDate = this.state.startDate;
     this.props.dispatch(setDateRange({ startDate, endDate: date }));
@@ -69,6 +81,11 @@ class DateRangeSelector extends Component {
           endDate={this.state.endDate}
           startDate={this.state.startDate}
         />
+        {!this.state.validRange && (
+          <Semibold style={{ textAlign: 'center', color: 'red' }}>
+            {this.props.t('DATE_RANGE.INVALID_RANGE_MESSAGE')}
+          </Semibold>
+        )}
       </div>
     );
   }

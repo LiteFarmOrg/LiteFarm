@@ -8,6 +8,7 @@
     "FARM_LOCATION": "Localização do sítio/fazenda",
     "FARM_LOCATION_INPUT_INFO": "Endereço ou latitude e longitude separados por vírgula (ex.: 49.250945, -123.238492)",
     "FARM_NAME": "Nome do sítio/fazenda",
+    "FARM_NAME_ERROR": "Limite de caracteres do nome do farm excedido",
     "INVALID_FARM_LOCATION": "Nenhum país para esta localização",
     "LOCATING": "Localizando...",
     "NO_ADDRESS": "Localização não encontrada. Tente inserir latitue e longitude",
@@ -25,9 +26,9 @@
     "ADD_CUSTOM_TASK": "Adicionar tarefa personalizada",
     "AFFECT_PLANS": "Esta tarefa influenciará em algum plano",
     "ASSIGN_ALL_TO_PERSON": "Atribuir todas as tarefas não atribuídas nesta data a esta pessoa",
+    "ASSIGN_DATE": "Atribuir data de vencimento",
     "ASSIGN_TASK": "Atribuir tarefa",
     "ASSIGNEE": "Responsável",
-    "ASSIGN_DATE": "Atribuir data de vencimento",
     "CANCEL": "criação de tarefa",
     "CLEANING_VIEW": {
       "ESTIMATED_WATER": "Uso estimado de água",
@@ -330,12 +331,15 @@
   "DATE_RANGE": {
     "HELP_BODY": "Selecione as datas para criar um relatório financeiro para sua fazenda para um determinado intervalo de tempo.",
     "HELP_TITLE": "Ajuda",
-    "TITLE": "Filtrar relatório por data"
+    "TITLE": "Filtrar relatório por data",
+    "INVALID_RANGE_MESSAGE": "MISSING"
   },
   "DATE_RANGE_PICKER": {
     "FROM": "De",
     "TO": "Até",
-    "TO_MUST_BE_AFTER_FROM": "A data 'Até' deve ser depois da data 'De'"
+    "TO_MUST_BE_AFTER_FROM": "A data 'Até' deve ser depois da data 'De'",
+    "REVENUE_HELP_TITLE": "Ajuda",
+    "REVENUE_HELP_BODY": "MISSING"
   },
   "DOCUMENTS": {
     "ADD": {
@@ -351,10 +355,6 @@
     "ARCHIVE_DOCUMENT": "Arquivar documento?",
     "ARCHIVE_DOCUMENT_TEXT": "Arquivar este documento o moverá para a seção arquivada de seus documentos, mas não o excluirá. Os documentos arquivados não serão exportados para suas certificações. Você quer prosseguir?",
     "ARCHIVED": "Arquivado",
-    "UNARCHIVE": "Desarquivar",
-    "UNARCHIVE_DOCUMENT": "Documento desarquivado?",
-    "UNARCHIVE_DOCUMENT_TEXT": "Desarquivar este documento irá devolvê-lo à sua lista de documentos atualmente válidos. Os documentos válidos serão exportados para suas certificações. Você quer prosseguir?",
-    "UNARCHIVED": "Desarquivado",
     "CANCEL": "Cancelar",
     "COMPLIANCE_DOCUMENTS_AND_CERTIFICATION": "Documentos de conformidade e sua certificação",
     "DOCUMENTS": "Documentos",
@@ -376,14 +376,18 @@
       "CLEANING_PRODUCT": "Produto de limpeza",
       "CROP_COMPLIANCE": "Conformidade de cultivo",
       "FERTILIZING_PRODUCT": "Produto fertilizante",
+      "INVOICES": "Faturas",
       "OTHER": "Outro",
       "PEST_CONTROL_PRODUCT": "Produto de controle de pragas",
+      "RECEIPTS": "Recibos",
       "SOIL_AMENDMENT": "Adubação e correção do solo",
       "SOIL_SAMPLE_RESULTS": "Resultados da amostra de solo",
-      "WATER_SAMPLE_RESULTS": "Resultados da amostra de água",
-      "RECEIPTS": "Recibos",
-      "INVOICES": "Faturas"
+      "WATER_SAMPLE_RESULTS": "Resultados da amostra de água"
     },
+    "UNARCHIVE": "Desarquivar",
+    "UNARCHIVE_DOCUMENT": "Documento desarquivado?",
+    "UNARCHIVE_DOCUMENT_TEXT": "Desarquivar este documento irá devolvê-lo à sua lista de documentos atualmente válidos. Os documentos válidos serão exportados para suas certificações. Você quer prosseguir?",
+    "UNARCHIVED": "Desarquivado",
     "VALID": "Válido"
   },
   "ENTER_PASSWORD": {
@@ -679,27 +683,27 @@
       "AMPHIBIANS": "Anfíbios",
       "BIRDS": "Aves",
       "CROP_VARIETIES": "Variedades de cultivos",
+      "ERROR": {
+        "BODY": "A LiteFarm gera insights de biodiversidade com base em várias fontes e não conseguiu fazê-lo no momento. Tente novamente após {{minutos}} minutos, por favor.",
+        "PREVIEW": "Indisponível",
+        "TITLE": "Tinha um problema"
+      },
       "HEADER": "Número de espécies",
       "INFO": "A biodiversidade é ótima para as pessoas e para o planeta. Contabilizamos a riqueza de espécies a partir de todos os registros conhecidos sobre a biodiversidade ao redor de sua fazenda. Você pode aumentar a contagem de espécies em sua fazenda utilizando o https://www.inaturalist.org/app.",
       "INSECTS": "Insetos",
-      "PLANTS": "Plantas",
+      "LOADING": {
+        "BODY": "Estamos gerando as informações mais recentes sobre biodiversidade para sua fazenda. Isso pode levar até 60 segundos.",
+        "PREVIEW": "Carregando...",
+        "TITLE": "Gerando os mais recentes insights sobre biodiversidade..."
+      },
       "MAMMALS": "Mamíferos",
+      "PLANTS": "Plantas",
       "SPECIES_COUNT": "{{count}} espécie",
       "SPECIES_COUNT_one": "{{count}} espécie",
       "SPECIES_COUNT_many": "{{count}} espécies",
       "SPECIES_COUNT_other": "{{count}} espécies",
       "SPECIES_COUNT_plural": "{{count}} espécies",
-      "TITLE": "Biodiversidade",
-      "LOADING": {
-        "PREVIEW": "Carregando...",
-        "TITLE": "Gerando os mais recentes insights sobre biodiversidade...",
-        "BODY": "Estamos gerando as informações mais recentes sobre biodiversidade para sua fazenda. Isso pode levar até 60 segundos."
-      },
-      "ERROR": {
-        "PREVIEW": "Indisponível",
-        "TITLE": "Tinha um problema",
-        "BODY": "A LiteFarm gera insights de biodiversidade com base em várias fontes e não conseguiu fazê-lo no momento. Tente novamente após {{minutos}} minutos, por favor."
-      }
+      "TITLE": "Biodiversidade"
     },
     "CURRENT": "Atual",
     "INFO": "Os relatórios fornecem informações adicionais sobre o que está acontecendo em sua fazenda. Quanto mais dados você fornecer no aplicativo, mais relatórios serão gerados. Veja os relatórios individuais para mais informações.",
@@ -904,9 +908,9 @@
     "BEDS": "Canteiros",
     "BROADCAST": "Semeadura a lanço ou com máquina semeadora",
     "COMPLETE_PLAN": {
-      "ABANDON_DATE": "MISSING",
-      "ABANDON_PLAN": "Abandonar plano",
+      "ABANDON_DATE": "Data de abandono",
       "ABANDON_NOTES": "Notas de abandono",
+      "ABANDON_PLAN": "Abandonar plano",
       "ABANDON_REASON": "Razão do abandono",
       "COMPLETE_DATE": "Fecha completada",
       "COMPLETE_PLAN": "Plano completo",
@@ -1067,33 +1071,33 @@
     }
   },
   "NOTIFICATION": {
+    "DAILY_TASKS_DUE_TODAY": {
+      "BODY": "Você tem tarefas para vencer hoje.",
+      "TITLE": "Tarefas para hoje"
+    },
     "NONE_TO_DISPLAY": "Não há notificações para exibir.",
     "NOTIFICATION_TEASER": "Em breve!",
     "PAGE_TITLE": "Notificações",
     "TAKE_ME_THERE": "Me leve lá",
-    "TASK_ASSIGNED": {
-      "TITLE": "Tarefa atribuída",
-      "BODY": "A tarefa {{taskType}} foi atribuída a {{assignee}}. "
-    },
     "TASK_ABANDONED": {
-      "TITLE": "Tarefa abandonada",
-      "BODY": "Uma tarefa {{taskType}} atribuída a você foi abandonada por {{abandoner}}."
+      "BODY": "Uma tarefa {{taskType}} atribuída a você foi abandonada por {{abandoner}}.",
+      "TITLE": "Tarefa abandonada"
     },
-    "TASK_REASSIGNED": {
-      "TITLE": "Tarefa reatribuída",
-      "BODY": "Uma tarefa {{taskType}} atribuída anteriormente a você foi atribuída a outra pessoa por {{assigner}}."
+    "TASK_ASSIGNED": {
+      "BODY": "A tarefa {{taskType}} foi atribuída a {{assignee}}. ",
+      "TITLE": "Tarefa atribuída"
     },
     "TASK_COMPLETED_BY_OTHER_USER": {
-      "TITLE": "Tarefa completa",
-      "BODY": "Uma tarefa {{taskType}} atribuída a você foi marcada como concluída por {{assigner}}."
+      "BODY": "Uma tarefa {{taskType}} atribuída a você foi marcada como concluída por {{assigner}}.",
+      "TITLE": "Tarefa completa"
+    },
+    "TASK_REASSIGNED": {
+      "BODY": "Uma tarefa {{taskType}} atribuída anteriormente a você foi atribuída a outra pessoa por {{assigner}}.",
+      "TITLE": "Tarefa reatribuída"
     },
     "WEEKLY_UNASSIGNED_TASKS": {
-      "TITLE": "Tarefas não atribuídas",
-      "BODY": "Você tem tarefas não atribuídas para esta semana."
-    },
-    "DAILY_TASKS_DUE_TODAY": {
-      "TITLE": "Tarefas para hoje",
-      "BODY": "Você tem tarefas para vencer hoje."
+      "BODY": "Você tem tarefas não atribuídas para esta semana.",
+      "TITLE": "Tarefas não atribuídas"
     }
   },
   "OUTRO": {
@@ -1105,6 +1109,8 @@
     "BUTTON_SENDING": "Enviando...",
     "DESCRIPTION_BOTTOM": "Por favor verifique seu e-mail.",
     "DESCRIPTION_TOP": "Um link foi enviado.",
+    "LABEL_EMAIL": "Email",
+    "LABEL_NEW_PASSWORD": "Nova Senha",
     "NEW_ACCOUNT_BUTTON": "Atualizar",
     "NEW_ACCOUNT_TITLE": "Defina sua nova senha",
     "TITLE": "Link enviado"

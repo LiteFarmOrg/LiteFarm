@@ -1,6 +1,6 @@
 /*
- *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>
- *  This file (index.js) is part of LiteFarm.
+ *  Copyright 2019, 2020, 2021, 2022 LiteFarm.org
+ *  This file is part of LiteFarm.
  *
  *  LiteFarm is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -20,7 +20,7 @@ import DescriptiveButton from '../../components/Inputs/DescriptiveButton';
 import history from '../../history';
 import { dateRangeSelector, expenseSelector, salesSelector, shiftSelector } from './selectors';
 import { getDefaultExpenseType, getExpense, getSales, setDateRange } from './actions';
-import { calcOtherExpense, calcTotalLabour, filterSalesByCurrentYear } from './util';
+import { calcOtherExpense, calcTotalLabour, calcActualRevenue } from './util';
 import Moment from 'moment';
 import { roundToTwoDecimal } from '../../util';
 import DateRangeSelector from '../../components/Finances/DateRangeSelector';
@@ -57,31 +57,13 @@ class Finances extends Component {
       hasUnAllocated: false,
       showUnTip: 'none',
       unTipButton: this.props.t('SALE.FINANCES.UNALLOCATED_TIP'),
-      currencySymbol: grabCurrencySymbol(this.props.farm),
+      currencySymbol: grabCurrencySymbol(),
     };
-    this.getRevenue = this.getRevenue.bind(this);
     this.getEstimatedRevenue = this.getEstimatedRevenue.bind(this);
     // this.calcBalanceByCrop = this.calcBalanceByCrop.bind(this);
     this.getShiftCropOnField = this.getShiftCropOnField.bind(this);
     this.toggleTip = this.toggleTip.bind(this);
     this.changeDate = this.changeDate.bind(this);
-  }
-
-  //TODO: filter revenue of cropSales for the current year?
-  getRevenue() {
-    let cropVarietySale = [];
-    if (this.props.sales && Array.isArray(this.props.sales)) {
-      filterSalesByCurrentYear(this.props.sales).map((s) => {
-        return s.crop_variety_sale.map((cvs) => {
-          return cropVarietySale.push(cvs);
-        });
-      });
-    }
-    let totalRevenue = 0;
-    cropVarietySale.map((cvs) => {
-      return (totalRevenue += cvs.sale_value || 0);
-    });
-    return totalRevenue.toFixed(2);
   }
 
   componentDidMount() {
@@ -377,7 +359,11 @@ class Finances extends Component {
   }
 
   render() {
-    const totalRevenue = this.getRevenue();
+    const totalRevenue = calcActualRevenue(
+      this.props.sales,
+      this.state.startDate,
+      this.state.endDate,
+    ).toFixed(2);
     const estimatedRevenue = this.getEstimatedRevenue(this.props.managementPlans);
     const { tasks, expenses } = this.props;
     const { balanceByCrop, startDate, endDate, hasUnAllocated, showUnTip, unTipButton } =
@@ -445,9 +431,20 @@ class Finances extends Component {
           />
 
           <hr />
-          <Semibold style={{ marginBottom: '8px' }}>
-            {this.props.t('SALE.FINANCES.BALANCE_FOR_FARM')}
-          </Semibold>
+          <div>
+            <Semibold style={{ marginBottom: '8px', float: 'left' }}>
+              {this.props.t('SALE.FINANCES.BALANCE_FOR_FARM')}
+            </Semibold>
+            <InfoBoxComponent
+              customStyle={{
+                float: 'right',
+                fontSize: '80%',
+                position: 'relative',
+              }}
+              title={this.props.t('SALE.FINANCES.FINANCE_HELP')}
+              body={this.props.t('SALE.FINANCES.BALANCE_EXPLANATION')}
+            />
+          </div>
           <div className={styles.greyBox}>
             <div className={styles.balanceDetail}>
               <p>{this.props.t('SALE.FINANCES.REVENUE')}:</p>{' '}
@@ -466,16 +463,6 @@ class Finances extends Component {
             </div>
           </div>
 
-          <InfoBoxComponent
-            customStyle={{
-              float: 'right',
-              fontSize: '80%',
-              marginTop: '0.2em',
-              position: 'relative',
-            }}
-            title={this.props.t('SALE.FINANCES.FINANCE_HELP')}
-            body={this.props.t('SALE.FINANCES.BALANCE_EXPLANATION')}
-          />
           {/* <Semibold style={{ marginBottom: '8px', textAlign: 'left' }}>
             {this.props.t('SALE.FINANCES.BALANCE_BY_CROP')}
           </Semibold>

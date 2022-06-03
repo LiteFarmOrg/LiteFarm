@@ -13,14 +13,14 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-require('dotenv').config();
-const redisConf = {
-  redis: {
-    host: process.env.REDIS_HOST,
-    port: process.env.REDIS_PORT,
-    password: process.env.REDIS_PASSWORD,
-  },
+exports.up = async function (knex) {
+  return knex.schema.alterTable('farm', (table) => {
+    table.integer('utc_offset');
+  });
 };
 
-require('./certification').processExports(redisConf);
-require('./notifications').sendOnSchedule(redisConf);
+exports.down = async function (knex) {
+  return knex.schema.alterTable('farm', (table) => {
+    table.dropColumns('utc_offset');
+  });
+};

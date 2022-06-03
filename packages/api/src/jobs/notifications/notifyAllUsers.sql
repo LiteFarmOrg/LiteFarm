@@ -9,13 +9,32 @@
 BEGIN TRANSACTION;
 
 -- Create the notification record.
-INSERT INTO notification (title, body, farm_id, created_at, updated_at, created_by_user_id, updated_by_user_id)
+INSERT INTO notification (
+  title,
+  body,
+  farm_id,
+  created_at,
+  updated_at,
+  created_by_user_id,
+  updated_by_user_id,
+  variables,
+  context,
+  ref
+)
 VALUES (
 -- TODO: Fill in translated text from here ...
-  '{ "en": "English title", "es": "Spanish title", "pt": "Portuguese title", "fr": "French title" }',
-  '{ "en": "English body", "es": "Spanish body", "pt": "Portuguese body", "fr": "French body" }',
+  '{ "en": "English title", "es": "Spanish title", "pt": "Portuguese title", "fr": "French title" }', -- title
+  '{ "en": "English body", "es": "Spanish body", "pt": "Portuguese body", "fr": "French body" }', -- body
 -- ... to here.
-    NULL, NOW(), NOW(), '1', '1'
+    NULL, -- farm_id
+    NOW(), -- created_at
+    NOW(), -- updated_at
+    '1', -- created_by_user_id
+    '1', -- updated_by_user_id
+    '[]'::jsonb, -- variables
+    '{}'::jsonb, -- context
+-- TODO: add "Take Me There" url
+    '{ "url": "/" }'::jsonb -- ref, alt form: '{ "entity": { "type": "INSERT_ENTITY_TYPE", "id": "INSERT_ENTITY_ID" } }'
 );
 
 -- Get id of the new notification.

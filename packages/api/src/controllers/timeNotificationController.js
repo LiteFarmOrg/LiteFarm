@@ -14,7 +14,6 @@
  */
 
 const UserFarmModel = require('../models/userFarmModel');
-const TaskTypeModel = require('../models/taskTypeModel');
 const TaskModel = require('../models/taskModel');
 const NotificationUser = require('../models/notificationUserModel');
 const { getTasksForFarm } = require('./taskController');
@@ -28,33 +27,32 @@ const timeNotificationController = {
    */
   async postWeeklyUnassignedTasks(req, res) {
     const { farm_id } = req.params;
+    const { isDayLaterThanUtc } = req.body;
+
     try {
       // All unassigned tasks at the farm associated with farm_id due this week that are
       // not completed or abandoned
       const tasksFromFarm = await getTasksForFarm(farm_id);
       const taskIds = tasksFromFarm.map(({ task_id }) => task_id);
 
-      const unassignedTasks = await TaskModel.getUnassignedTasksDueThiWeekFromIds(taskIds);
+      const unassignedTasks = await TaskModel.getUnassignedTasksDueThisWeekFromIds(
+        taskIds,
+        isDayLaterThanUtc,
+      );
       const farmManagementObjs = await UserFarmModel.getFarmManagementByFarmId(farm_id);
 
       const farmManagement = farmManagementObjs.map(
         (farmManagementObj) => farmManagementObj.user_id,
       );
 
-      if (unassignedTasks.length > 0) {
-        const {
-          task_translation_key: firstTaskTranslationKey,
-        } = await TaskTypeModel.getTaskTranslationKeyById(unassignedTasks[0].task_type_id);
-
-        await sendWeeklyUnassignedTaskNotifications(
-          farm_id,
-          farmManagement,
-          firstTaskTranslationKey,
-        );
-        return res.status(201).send({ unassignedTasks, farmManagement });
-      } else {
-        return res.status(200).send({ unassignedTasks, farmManagement });
+      if (unassignedTasks.length > 0 && farmManagement.length > 0) {
+        await sendWeeklyUnassignedTaskNotifications(farm_id, farmManagement);
       }
+
+      const status = unassignedTasks.length > 0 && farmManagement.length > 0 ? 201 : 200;
+      return res
+        .status(status)
+        .send(`${status === 201 ? farmManagement.length : 0} notifications sent.`);
     } catch (error) {
       console.log(error);
       return res.status(400).send({ error });
@@ -69,26 +67,28 @@ const timeNotificationController = {
    */
   async postDailyDueTodayTasks(req, res) {
     const { farm_id } = req.params;
+    const { isDayLaterThanUtc } = req.body;
     try {
+      let notificationsSent = 0;
       const activeUsers = await UserFarmModel.getActiveUsersFromFarmId(farm_id);
+      const tasksFromFarm = await getTasksForFarm(farm_id);
+      const taskIdsFromFarm = tasksFromFarm.map(({ task_id }) => task_id);
 
-      if (activeUsers && activeUsers.length) {
-        const tasksDueTodayNotificationUsers = [];
-        for (const { user_id } of activeUsers) {
-          const hasTasksDueToday = await TaskModel.hasTasksDueTodayForUserFromFarm(
-            user_id,
-            farm_id,
-          );
+      for (const { user_id } of activeUsers) {
+        const hasTasksDueToday = await TaskModel.hasTasksDueTodayForUserFromFarm(
+          user_id,
+          taskIdsFromFarm,
+          isDayLaterThanUtc,
+        );
 
-          if (hasTasksDueToday) {
-            await sendDailyDueTodayTaskNotification(farm_id, user_id);
-            tasksDueTodayNotificationUsers.push(user_id);
-          }
+        if (hasTasksDueToday) {
+          await sendDailyDueTodayTaskNotification(farm_id, user_id);
+          notificationsSent++;
         }
-        return res.status(201).send({ tasksDueTodayNotificationUsers });
-      } else {
-        return res.status(200).send('No tasks due today for any users.');
       }
+      return res
+        .status(notificationsSent ? 201 : 200)
+        .send(`${notificationsSent} notifications sent.`);
     } catch (error) {
       console.log(error);
       return res.status(400).send({ error });
@@ -103,11 +103,7 @@ const timeNotificationController = {
  * @param {String} firstTaskTranslationKey - task translation key of the first unassigned task
  * @async
  */
-async function sendWeeklyUnassignedTaskNotifications(
-  farmId,
-  farmManagement,
-  firstTaskTranslationKey,
-) {
+async function sendWeeklyUnassignedTaskNotifications(farmId, farmManagement) {
   await NotificationUser.notify(
     {
       title: { translation_key: 'NOTIFICATION.WEEKLY_UNASSIGNED_TASKS.TITLE' },
@@ -115,7 +111,7 @@ async function sendWeeklyUnassignedTaskNotifications(
       variables: [],
       ref: { url: '/tasks' },
       context: {
-        task_translation_key: firstTaskTranslationKey,
+        task_translation_key: 'FIELD_WORK_TASK',
         notification_type: 'WEEKLY_UNASSIGNED_TASKS',
       },
       farm_id: farmId,

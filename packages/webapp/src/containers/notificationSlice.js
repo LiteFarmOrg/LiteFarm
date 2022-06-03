@@ -43,10 +43,11 @@ export const { onLoadingNotificationStart, onLoadingNotificationFail, getNotific
   notificationSlice.actions;
 export default notificationSlice.reducer;
 
-export const notificationReducerSelector = (state) => state.entitiesReducer[notificationSlice.name];
+export const notificationReducerSelector = (state) =>
+  state.farmStateReducer[notificationSlice.name];
 
 const notificationSelectors = notificationAdapter.getSelectors(
-  (state) => state.entitiesReducer[notificationSlice.name],
+  (state) => state.farmStateReducer[notificationSlice.name],
 );
 
 export const notificationEntitiesSelector = notificationSelectors.selectEntities;

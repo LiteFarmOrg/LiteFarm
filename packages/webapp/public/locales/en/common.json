@@ -34,6 +34,7 @@
   "NO": "No",
   "NOT_SURE": "Not sure",
   "NOTES": "Notes",
+  "OK": "OK",
   "OPTIONAL": "(optional)",
   "OTHER": "Other",
   "PAST": "Past",
@@ -53,6 +54,5 @@
   "UPDATE": "Update",
   "WORD_LIMIT_ERROR": "Only {{value}} characters can be displayed",
   "YEAR": "Year",
-  "YES": "Yes",
-  "OK": "OK"
+  "YES": "Yes"
 }

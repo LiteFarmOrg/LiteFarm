@@ -8,14 +8,16 @@ import {
   expiredManagementPlansByLocationIdSelector,
   plannedManagementPlansByLocationIdSelector,
 } from '../../Task/TaskCrops/managementPlansWithLocationSelector';
+import { useTranslation } from 'react-i18next';
 
-function LocationManagementPlan({ history, match }) {
+function LocationManagementPlan({ history, match, location }) {
   const [filter, setFilter] = useState();
   const isAdmin = useSelector(isAdminSelector);
   const { location_id } = match.params;
   const activeCrops = useSelector(currentManagementPlansByLocationIdSelector(location_id));
   const pastCrops = useSelector(expiredManagementPlansByLocationIdSelector(location_id));
   const plannedCrops = useSelector(plannedManagementPlansByLocationIdSelector(location_id));
+  const { t } = useTranslation();
 
   const onFilterChange = (e) => {
     setFilter(e.target.value.toLowerCase());
@@ -24,34 +26,45 @@ function LocationManagementPlan({ history, match }) {
   const onAddCrop = () => {
     history.push(`/crop_catalogue`);
   };
-  const location = useSelector(cropLocationByIdSelector(location_id));
+  const { name } = useSelector(cropLocationByIdSelector(location_id));
 
   return (
     <>
       <PureCropList
         onFilterChange={onFilterChange}
         onAddCrop={onAddCrop}
-        activeCrops={filteredManagementPlans(filter, activeCrops)}
-        pastCrops={filteredManagementPlans(filter, pastCrops)}
-        plannedCrops={filteredManagementPlans(filter, plannedCrops)}
+        activeCrops={filteredManagementPlans(filter, activeCrops, t)}
+        pastCrops={filteredManagementPlans(filter, pastCrops, t)}
+        plannedCrops={filteredManagementPlans(filter, plannedCrops, t)}
         isAdmin={isAdmin}
         history={history}
         match={match}
-        title={location.name}
+        title={name}
+        location={location}
       />
     </>
   );
 }
 
-const filteredManagementPlans = (filter, managementPlans) => {
-  const filtered = filter
+const check = (name, filter) => {
+  return (
+    name?.toLowerCase().includes(filter) ||
+    name
+      ?.toLowerCase()
+      .normalize('NFD')
+      .replace(/\p{Diacritic}/gu, '')
+      .includes(filter)
+  );
+};
+
+const filteredManagementPlans = (filter, managementPlans, t) => {
+  return filter
     ? managementPlans.filter(
         (managementPlan) =>
-          managementPlan?.crop_variety?.toLowerCase()?.includes(filter) ||
-          managementPlan?.crop_common_name?.toLowerCase()?.includes(filter),
+          check(managementPlan?.crop_variety?.crop_variety_name, filter) ||
+          check(t(`crop:${managementPlan?.crop_variety?.crop_translation_key}`), filter),
       )
     : managementPlans;
-  return filtered;
 };
 
 export default LocationManagementPlan;

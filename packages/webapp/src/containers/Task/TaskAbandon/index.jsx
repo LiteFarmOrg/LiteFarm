@@ -50,11 +50,18 @@ function TaskAbandon({ history, match, location }) {
     history.back();
   };
 
+  const checkIfAssigneeIsLoggedInUser = () =>
+    task?.assignee_user_id !== null &&
+    typeof task?.assignee_user_id === 'string' &&
+    typeof user_id === 'string' &&
+    task?.assignee_user_id === user_id;
+
   return (
     <PureAbandonTask
       onSubmit={onSubmit}
       onGoBack={onGoBack}
       hasAssignee={!!task.assignee_user_id}
+      isAssigneeTheLoggedInUser={checkIfAssigneeIsLoggedInUser()}
     />
   );
 }

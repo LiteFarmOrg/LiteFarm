@@ -21,6 +21,7 @@ function PureCropDetail({
   onRetire,
   onEdit,
   isAdmin,
+  location,
 }) {
   const { t } = useTranslation();
   const {
@@ -54,7 +55,7 @@ function PureCropDetail({
       }
     >
       <CropHeader
-        onBackClick={onBack}
+        onBackClick={() => history.back()}
         crop_translation_key={variety.crop_translation_key}
         crop_variety_name={variety.crop_variety_name}
         crop_variety_photo_url={variety.crop_variety_photo_url}
@@ -70,10 +71,12 @@ function PureCropDetail({
               {
                 label: t('CROP_DETAIL.MANAGEMENT_TAB'),
                 path: `/crop/${match.params.variety_id}/management`,
+                state: location?.state,
               },
               {
                 label: t('CROP_DETAIL.DETAIL_TAB'),
                 path: `/crop/${match.params.variety_id}/detail`,
+                state: location?.state,
               },
             ]}
           />

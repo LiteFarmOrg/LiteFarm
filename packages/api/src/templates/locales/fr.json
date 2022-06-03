@@ -25,7 +25,7 @@
   },
   "PASSWORD_RESET_REQUEST": {
     "DID_YOU_FORGET": "Avez-vous oublié votre mot de passe LiteFarm ? Pas de problème! Cliquez sur le bouton \"Réinitialiser\" ci-dessous et votre accès sera bientôt restauré.",
-    "RESET": "RRéinitialiser",
+    "RESET": "Réinitialiser",
     "IGNORE": "Si vous ne nous avez pas demandé de vous envoyer ce message, vous pouvez l'ignorer. Aucune modification n'a été apportée à votre compte.",
     "SUBJECT": "Demande de réinitialisation du mot de passe"
   },

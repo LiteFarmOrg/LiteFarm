@@ -21,6 +21,7 @@ function PureCropDetail({
   onRetire,
   onEdit,
   isAdmin,
+  location,
 }) {
   const { t } = useTranslation();
   const {
@@ -70,10 +71,12 @@ function PureCropDetail({
               {
                 label: t('CROP_DETAIL.MANAGEMENT_TAB'),
                 path: `/crop/${match.params.variety_id}/management`,
+                state: location?.state,
               },
               {
                 label: t('CROP_DETAIL.DETAIL_TAB'),
                 path: `/crop/${match.params.variety_id}/detail`,
+                state: location?.state,
               },
             ]}
           />

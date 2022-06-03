@@ -17,6 +17,7 @@ export default function PureCropManagement({
   onAddManagementPlan,
   managementPlanCardContents,
   isAdmin,
+  location,
 }) {
   const { t } = useTranslation();
   const [searchString, setSearchString] = useState('');
@@ -34,7 +35,7 @@ export default function PureCropManagement({
 
   return (
     <Layout>
-      <CropHeader {...variety} onBackClick={() => history.back()} />
+      <CropHeader {...variety} onBackClick={onBack} />
       <RouterTab
         classes={{ container: { margin: '24px 0 26px 0' } }}
         history={history}
@@ -43,10 +44,12 @@ export default function PureCropManagement({
           {
             label: t('CROP_DETAIL.MANAGEMENT_TAB'),
             path: `/crop/${match.params.variety_id}/management`,
+            state: location?.state,
           },
           {
             label: t('CROP_DETAIL.DETAIL_TAB'),
             path: `/crop/${match.params.variety_id}/detail`,
+            state: location?.state,
           },
         ]}
       />
@@ -72,6 +75,7 @@ export default function PureCropManagement({
               onClick={() =>
                 history.push(
                   `/crop/${variety.crop_variety_id}/management_plan/${managementPlan.management_plan_id}/tasks`,
+                  location.state,
                 )
               }
               {...managementPlan}

@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import { useTranslation } from 'react-i18next';
 import styles from './styles.module.scss';
 import GoogleMap from 'google-map-react';
+import { saveAs } from 'file-saver';
 import { DEFAULT_ZOOM, GMAPS_API_KEY, isArea, isLine, locationEnum } from './constants';
 import { useDispatch, useSelector } from 'react-redux';
 import { measurementSelector, userFarmSelector } from '../userFarmSlice';
@@ -308,10 +309,9 @@ export default function Map({ history }) {
 
   const handleDownload = () => {
     html2canvas(mapWrapperRef.current, { useCORS: true }).then((canvas) => {
-      const link = document.createElement('a');
-      link.download = `${farm_name}-export-${new Date().toISOString()}.png`;
-      link.href = canvas.toDataURL();
-      link.click();
+      canvas.toBlob((blob) => {
+        saveAs(blob, `${farm_name}-export-${new Date().toISOString()}.png`);
+      });
     });
   };
 

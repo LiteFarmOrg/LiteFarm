@@ -11,7 +11,9 @@ export default function PureMapHeader({ className, style, farmName, showVideo, i
   return (
     <div className={clsx(styles.container, className)} style={style}>
       <div className={styles.headerText}>
-        <span className={styles.farmName}>{farmName}</span>
+        <span className={styles.farmName}>
+          {farmName.length > 77 ? `${farmName.substring(0, 77).trim()}...` : farmName}
+        </span>
         {' | '}
         <span className={styles.farmMap}>{t('FARM_MAP.TITLE')}</span>
       </div>

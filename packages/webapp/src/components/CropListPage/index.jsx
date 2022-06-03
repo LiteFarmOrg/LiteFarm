@@ -21,6 +21,7 @@ export default function PureCropList({
   match,
   isAdmin,
   title,
+  location,
 }) {
   const isSearchable = true;
   const { t } = useTranslation();
@@ -31,10 +32,9 @@ export default function PureCropList({
     padding,
     cardWidth,
   } = useCropTileListGap([activeCrops?.length, plannedCrops?.length, pastCrops?.length]);
-
   return (
     <Layout>
-      <PageTitle title={title} onGoBack={() => history.back()} />
+      <PageTitle title={title} onGoBack={() => history.push('/map')} />
       <RouterTab
         classes={{ container: { margin: '30px 0 26px 0' } }}
         history={history}
@@ -92,7 +92,11 @@ export default function PureCropList({
                   managementPlan={fc}
                   status={'active'}
                   style={{ width: `${cardWidth}px` }}
-                  onClick={() => history.push(`/crop/${fc.crop_variety_id}/management`)}
+                  onClick={() =>
+                    history.push(`/crop/${fc.crop_variety_id}/management`, {
+                      returnPath: location?.pathname,
+                    })
+                  }
                 />
               ))}
             </PureCropTileContainer>
@@ -112,7 +116,11 @@ export default function PureCropList({
                   managementPlan={fc}
                   status={'planned'}
                   style={{ width: `${cardWidth}px` }}
-                  onClick={() => history.push(`/crop/${fc.crop_variety_id}/management`)}
+                  onClick={() =>
+                    history.push(`/crop/${fc.crop_variety_id}/management`, {
+                      returnPath: location?.pathname,
+                    })
+                  }
                 />
               ))}
             </PureCropTileContainer>
@@ -131,7 +139,11 @@ export default function PureCropList({
                   key={fc.management_plan_id}
                   managementPlan={fc}
                   style={{ width: `${cardWidth}px` }}
-                  onClick={() => history.push(`/crop/${fc.crop_variety_id}/management`)}
+                  onClick={() =>
+                    history.push(`/crop/${fc.crop_variety_id}/management`, {
+                      returnPath: location?.pathname,
+                    })
+                  }
                 />
               ))}
             </PureCropTileContainer>

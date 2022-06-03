@@ -15,7 +15,7 @@ import UnableToRetireCropModal from '../../../components/Modals/CropModals/Unabl
 import { deleteVarietal } from '../../AddCropVariety/saga';
 import { isAdminSelector } from '../../userFarmSlice';
 
-function CropDetail({ history, match }) {
+function CropDetail({ history, match, location }) {
   const { variety_id } = match.params;
   const dispatch = useDispatch();
   const selectedVariety = useSelector(cropVarietySelector(variety_id));
@@ -32,7 +32,7 @@ function CropDetail({ history, match }) {
   const hasNoManagementPlans = currentMPs.length < 1 && plannedMPs.length < 1;
 
   const goBack = () => {
-    history.push(`/crop_varieties/crop/${crop_id}`);
+    history.push(location?.state?.returnPath ?? `/crop_varieties/crop/${crop_id}`, location.state);
   };
 
   const warningModal = () => {
@@ -68,6 +68,7 @@ function CropDetail({ history, match }) {
         onRetire={() => warningModal()}
         onEdit={handleEdit}
         isAdmin={isAdmin}
+        location={location}
       />
       {showWarningBox && (
         <RetireCropWarning

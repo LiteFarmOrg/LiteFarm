@@ -464,7 +464,8 @@
       "DOWNLOAD": "Descargar",
       "EMAIL_TO_ME": "Enviar a mi correo",
       "EMAILING": "Enviando",
-      "TITLE": "Exporta su mapa"
+      "TITLE": "Exporta su mapa",
+      "LOADING": "Cargando..."
     },
     "FARM_SITE_BOUNDARY": {
       "EDIT_TITLE": "Editar limites de la granja",

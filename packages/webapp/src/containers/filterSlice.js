@@ -133,8 +133,10 @@ const filterSliceReducer = createSlice({
         FROM_DATE: getDateInputFormat(yesterday),
         TO_DATE: getDateInputFormat(today),
       };
-      state.tasks.ASSIGNEE[user_id].active = true;
-      state.tasks.ASSIGNEE[user_id].label = `${first_name} ${last_name}`;
+      state.tasks.ASSIGNEE[user_id] = {
+        active: true,
+        label: `${first_name} ${last_name}`,
+      };
     },
   },
 });

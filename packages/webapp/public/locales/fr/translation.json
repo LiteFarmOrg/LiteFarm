@@ -1094,8 +1094,8 @@
       "TITLE": "Tâche accomplie"
     },
     "TASK_REASSIGNED": {
-      "BODY": "Une tâche de {{taskType}} qui vous était assignée a été attribuée à {{assignee}}.",
-      "TITLE": "Tâche réaatribuée"
+      "BODY": "Une tâche de {{taskType}} qui vous était assignée a été attribuée à quelqu'un d'autre par {{assigner}}.",
+      "TITLE": "Tâche réattribuée"
     },
     "WEEKLY_UNASSIGNED_TASKS": {
       "BODY": "Vous avez des tâches non attribuées à accomplir cette semaine.",

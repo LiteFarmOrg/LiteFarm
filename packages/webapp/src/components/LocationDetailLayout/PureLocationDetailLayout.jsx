@@ -35,7 +35,8 @@ export function PureLocationDetailLayout({
     shouldUnregister: true,
     defaultValues: persistedFormData,
   });
-  const { historyCancel } = useHookFormPersist?.(formMethods.getValues) || {};
+  const historyCancel = () => history.push('/map');
+
   const onError = (data) => {};
   const disabled = !formMethods.formState.isValid;
 

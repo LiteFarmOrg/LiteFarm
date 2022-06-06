@@ -1,6 +1,6 @@
 /*
- *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>
- *  This file (checkScope.js) is part of LiteFarm.
+ *  Copyright 2019, 2020, 2021, 2022 LiteFarm.org
+ *  This file is part of LiteFarm.
  *
  *  LiteFarm is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -17,16 +17,21 @@ const userFarmModel = require('../../models/userFarmModel');
 
 const getScopes = async (user_id, farm_id, { checkConsent }) => {
   // essential to fetch the most updated userFarm info to know user's most updated granted access
-  const permissionQuery = userFarmModel
-    .query()
-    .distinct('permissions.name', 'userFarm.role_id')
-    .join('rolePermissions', 'userFarm.role_id', 'rolePermissions.role_id')
-    .join('permissions', 'permissions.permission_id', 'rolePermissions.permission_id')
-    .where('userFarm.farm_id', farm_id)
-    .where('userFarm.user_id', user_id)
-    .where('userFarm.status', 'Active');
+  try {
+    const permissionQuery = userFarmModel
+      .query()
+      .distinct('permissions.name', 'userFarm.role_id')
+      .join('rolePermissions', 'userFarm.role_id', 'rolePermissions.role_id')
+      .join('permissions', 'permissions.permission_id', 'rolePermissions.permission_id')
+      .where('userFarm.farm_id', farm_id)
+      .where('userFarm.user_id', user_id)
+      .where('userFarm.status', 'Active');
 
-  return checkConsent ? permissionQuery.where('userFarm.has_consent', true) : permissionQuery;
+    return checkConsent ? permissionQuery.where('userFarm.has_consent', true) : permissionQuery;
+  } catch (error) {
+    console.log('getScopes query error', error);
+    return [];
+  }
 };
 
 /**

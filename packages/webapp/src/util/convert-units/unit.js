@@ -173,7 +173,7 @@ export const soilAmounts = {
   metric: {
     units: ['g', 'kg', 'mt'],
     defaultUnit: 'kg',
-    breakpoints: [1000],
+    breakpoints: [1, 1000],
   },
   imperial: {
     units: ['oz', 'lb', 't'],
@@ -306,6 +306,7 @@ export const getDefaultUnit = (unitType = area_total_area, value, system, unit) 
     const defaultDisplayValue =
       defaultDisplayUnit === from ? value : convert(value).from(from).to(defaultDisplayUnit);
     let i = 0;
+    console.log(unitType[system]);
     for (; i < unitType[system].breakpoints.length; i++) {
       if (defaultDisplayValue < unitType[system].breakpoints[i]) {
         displayUnit = unitType[system].units[i];

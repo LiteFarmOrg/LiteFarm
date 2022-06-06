@@ -53,7 +53,7 @@ export default function NotificationPage() {
       {notifications.length > 0 ? (
         notifications
           .sort((a, b) => {
-            if (a.alert !== b.alert) return a.alert ? -1 : 1;
+            // if (a.alert !== b.alert) return a.alert ? -1 : 1;
             return new Date(a.created_at) - new Date(b.created_at);
           })
           .map((notification) => {

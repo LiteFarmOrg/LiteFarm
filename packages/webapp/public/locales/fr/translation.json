@@ -333,14 +333,14 @@
     "HELP_BODY": "Sélectionnez la plage de dates pour créer un rapport financier pour votre ferme pour une fenêtre de temps donnée.",
     "HELP_TITLE": "Aide sur la plage de dates",
     "TITLE": "Filtrer le rapport par date",
-    "INVALID_RANGE_MESSAGE": "MISSING"
+    "INVALID_RANGE_MESSAGE": "La date 'De' doit précéder la date 'À' pour retourner des résultats"
   },
   "DATE_RANGE_PICKER": {
     "FROM": "De",
     "TO": "À",
     "TO_MUST_BE_AFTER_FROM": "La date 'De' doit précéder la date 'À'",
     "REVENUE_HELP_TITLE": "Aide sur la plage de dates",
-    "REVENUE_HELP_BODY": "MISSING"
+    "REVENUE_HELP_BODY": "Seuls les plans pour lesquels une tâche est prévue ou terminée dans la plage de dates indiquée s'afficheront."
   },
   "DOCUMENTS": {
     "ADD": {

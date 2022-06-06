@@ -464,7 +464,8 @@
       "DOWNLOAD": "Download",
       "EMAIL_TO_ME": "Enviar email para mim",
       "EMAILING": "Enviando...",
-      "TITLE": "Exporte o mapa do seu sítio/fazenda"
+      "TITLE": "Exporte o mapa do seu sítio/fazenda",
+      "LOADING": "Carregando..."
     },
     "FARM_SITE_BOUNDARY": {
       "EDIT_TITLE": "Editar limites do sítio/fazenda",

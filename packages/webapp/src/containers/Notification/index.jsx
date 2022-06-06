@@ -53,8 +53,7 @@ export default function NotificationPage() {
       {notifications.length > 0 ? (
         notifications
           .sort((a, b) => {
-            // if (a.alert !== b.alert) return a.alert ? -1 : 1;
-            return new Date(a.created_at) - new Date(b.created_at);
+            return new Date(b.created_at) - new Date(a.created_at);
           })
           .map((notification) => {
             return (
@@ -66,7 +65,6 @@ export default function NotificationPage() {
               />
             );
           })
-          .reverse()
       ) : (
         <Semibold style={{ color: 'var(--teal700)', marginLeft: '24px' }}>
           {t('NOTIFICATION.NONE_TO_DISPLAY')}

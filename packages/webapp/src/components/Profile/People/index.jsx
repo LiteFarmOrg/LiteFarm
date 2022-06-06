@@ -61,7 +61,20 @@ export default function PurePeople({ users, history, isAdmin }) {
     };
 
     const filteredUsers = users.filter((user) => {
-      return getName(user).toLowerCase().includes(searchString.trim().toLowerCase());
+      return getName(user)
+        .normalize('NFD')
+        .replace(/\p{Diacritic}/gu, '')
+        .toLowerCase()
+        .replace(/\W/g, '')
+        .trim()
+        .includes(
+          searchString
+            .normalize('NFD')
+            .replace(/\p{Diacritic}/gu, '')
+            .toLowerCase()
+            .replace(/\W/g, '')
+            .trim(),
+        );
     });
     return filteredUsers.map((user) => ({
       name: getName(user),

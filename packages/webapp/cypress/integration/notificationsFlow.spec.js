@@ -40,6 +40,7 @@ describe.only('Notifications flow tests', () => {
     cy.visit('/');
     cy.loginFarmOwner();
     //Create unassigned tasks due this week
+    cy.wait(2000);
     cy.visit('/tasks');
     cy.createUnassignedTaskThisWeek(); //creates a task due date to today assigned to the logged in user
 
@@ -98,6 +99,7 @@ describe.only('Notifications flow tests', () => {
     cy.visit('/');
     cy.loginFarmOwner();
     //Create unassigned tasks due this week
+    cy.wait(2000);
     cy.visit('/tasks');
     cy.createTaskToday(); //creates a task due date to today assigned to the logged in user
 

@@ -207,7 +207,7 @@ describe.only('LiteFarm end to end test', () => {
     cy.get('[data-cy=invite-submit]').should('exist').and('not.be.disabled').click();
 
     cy.url().should('include', '/people');
-    cy.contains(workerName.toLowerCase()).should('exist');
+    cy.contains(workerName).should('exist');
 
     // Add a crop variety
     cy.get('[data-cy=navbar-hamburger]').should('exist').click();

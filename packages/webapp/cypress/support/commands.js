@@ -75,7 +75,7 @@ Cypress.Commands.add('loginFarmOwner', () => {
   cy.get('[data-cy=enterPassword-submit]').should('exist').and('be.enabled').click();
 
   cy.get('[data-cy=chooseFarm-ubc]').eq(0).should('exist').click('right');
-  cy.get('[data-cy=chooseFarm-proceed]').should('exist').and('be.enabled').click();
+  cy.get('[data-cy="chooseFarm-proceed"]').should('exist').and('be.enabled').click();
 });
 
 Cypress.Commands.add('loginFarmWorker', () => {
@@ -179,10 +179,6 @@ Cypress.Commands.add('createTaskToday', () => {
     .should('exist')
     .and('not.be.disabled')
     .click({ force: true });
-  cy.get('[data-cy="addTask-cropsContinue"]')
-    .should('exist')
-    .and('not.be.disabled')
-    .click({ force: true });
   cy.get('[data-cy=addTask-detailsContinue]')
     .should('exist')
     .and('not.be.disabled')
@@ -214,10 +210,6 @@ Cypress.Commands.add('createUnassignedTaskThisWeek', () => {
     force: false,
   });
   cy.get('[data-cy=addTask-locationContinue]')
-    .should('exist')
-    .and('not.be.disabled')
-    .click({ force: true });
-  cy.get('[data-cy="addTask-cropsContinue"]')
     .should('exist')
     .and('not.be.disabled')
     .click({ force: true });

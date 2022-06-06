@@ -7,7 +7,14 @@ export default function useStringFilteredNotifications(notifications, filterStri
     const lowerCaseFilter = filterString?.toLowerCase() || '';
     const check = (names) => {
       for (const name of names) {
-        if (name?.toLowerCase().includes(lowerCaseFilter)) return true;
+        if (
+          name
+            ?.toLowerCase()
+            .normalize('NFD')
+            .replace(/[\u0300-\u036f]/g, '')
+            .includes(lowerCaseFilter)
+        )
+          return true;
       }
       return false;
     };
@@ -21,8 +28,8 @@ export default function useStringFilteredNotifications(notifications, filterStri
         return options;
       }, {});
       return check([
-        t(`NOTIFICATION.${notification.translation_key}.TITLE`),
-        t(`NOTIFICATION.${notification.translation_key}.BODY`, tOptions),
+        t(notification.title.translation_key),
+        t(notification.body.translation_key, tOptions),
       ]);
     });
   }, [notifications, filterString]);

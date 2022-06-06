@@ -7,14 +7,12 @@
   padding: 4.44% 9.44%;
   width: 84%;
   display: grid;
-  grid-template-columns: 78fr 25fr 11fr 11fr 25fr 78fr;
-  grid-template-rows: 24fr 24fr 80fr 24fr;
-  gap: 0px 0px;
   grid-template-areas:
-    'city city city city city city'
-    'date date date date date date'
-    'temperature temperature temperature temperature . icon'
-    'wind wind wind humidity humidity humidity';
+    'city city'
+    'date date'
+    'temperature icon'
+    'wind humidity';
+  word-break: break-word;    
   background-color: var(--overlay);
   font-size: 3.88vw;
   line-height: 6.66vw;
@@ -39,6 +37,10 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  padding-top: 16px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .icon {
@@ -46,14 +48,18 @@
   display: flex;
   align-items: center;
   font-size: 15.55vw;
+  justify-content: center;
+  padding-top: 16px;
 }
 
 .wind {
   grid-area: wind;
+  padding-top: 16px;
 }
 
 .humidity {
   grid-area: humidity;
+  padding-top: 16px;
 }
 
 @media only screen and (min-width: 960px) {
@@ -73,9 +79,19 @@
   .temperature {
     font-size: 136.5px;
     line-height: 126px;
+    padding-top: 20px;
   }
 
   .icon {
     font-size: 144.375px;
+    padding-top: 20px;
+  }
+  
+  .wind {
+    padding-top: 20px;
+  }
+
+  .humidity {
+    padding-top: 20px;
   }
 }

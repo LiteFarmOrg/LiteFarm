@@ -91,9 +91,9 @@
   "MAP": {
     "FAIL_PATCH": "Fallo al actualizar",
     "FAIL_POST": "Fallo al crear",
-    "SUCCESS_DELETE": " se retiro exitosamente.",
-    "SUCCESS_PATCH": " se actualizo exitosamente.",
-    "SUCCESS_POST": " se creo exitosamente."
+    "SUCCESS_DELETE": " retirada/o con éxito",
+    "SUCCESS_PATCH": " actualizo/a con éxito.",
+    "SUCCESS_POST": " creo/a con éxito."
   },
   "ORGANIC_CERTIFIER_SURVEY": {
     "ERROR": {

@@ -1,17 +1,17 @@
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import Layout from '../../../components/Layout';
 import PageTitle from '../../../components/PageTitle/v2';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { useForm } from 'react-hook-form';
-import moment from 'moment';
-import { salesSelector } from '../selectors';
+import { dateRangeSelector, salesSelector } from '../selectors';
 import WholeFarmRevenue from '../../../components/Finances/WholeFarmRevenue';
 import { AddLink, Semibold } from '../../../components/Typography';
 import DateRangePicker from '../../../components/Form/DateRangePicker';
 import ActualCropRevenue from '../ActualCropRevenue';
 import FinanceListHeader from '../../../components/Finances/FinanceListHeader';
 import { calcActualRevenue, filterSalesByDateRange } from '../util';
+import { setDateRange } from '../actions';
 
 export default function ActualRevenue({ history, match }) {
   const { t } = useTranslation();
@@ -19,6 +19,8 @@ export default function ActualRevenue({ history, match }) {
   const onAddRevenue = () => history.push(`/add_sale`);
   // TODO: refactor sale data after finance reducer is remade
   const sales = useSelector(salesSelector);
+  const dateRange = useSelector(dateRangeSelector);
+  const dispatch = useDispatch();
 
   const {
     register,
@@ -30,8 +32,8 @@ export default function ActualRevenue({ history, match }) {
     mode: 'onBlur',
     shouldUnregister: true,
     defaultValues: {
-      from_date: moment().startOf('year').format('YYYY-MM-DD'),
-      to_date: moment().endOf('year').format('YYYY-MM-DD'),
+      from_date: new Date(dateRange.startDate).toISOString().split('T')[0],
+      to_date: new Date(dateRange.endDate).toISOString().split('T')[0],
     },
   });
 
@@ -45,6 +47,10 @@ export default function ActualRevenue({ history, match }) {
     () => filterSalesByDateRange(sales, fromDate, toDate),
     [sales, fromDate, toDate],
   );
+
+  useEffect(() => {
+    dispatch(setDateRange({ startDate: fromDate, endDate: toDate }));
+  }, [fromDate, toDate]);
 
   return (
     <Layout>

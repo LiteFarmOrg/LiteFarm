@@ -34,7 +34,7 @@
       "UPDATE": "Falha ao atualizar variedade de cultivo"
     },
     "SUCCESS": {
-      "ADD": "Variedade salvo com sucesso!",
+      "ADD": "Variedade salva com sucesso!",
       "DELETE": "Variedade de cultivo deletado",
       "UPDATE": "Variedade de cultivo atualizada com sucesso"
     }

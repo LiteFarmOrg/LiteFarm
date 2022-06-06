@@ -149,16 +149,16 @@
     },
     "CERTIFICATION_SELECTION": {
       "REQUEST_CERTIFICATION": "Solicite outro tipo de certificação",
-      "SUBTITLE_ONE": "Aqui está uma lista de certificadores de",
+      "SUBTITLE_ONE": "Aqui está uma lista de certificadoras de",
       "SUBTITLE_TWO": "com quem trabalhamos no seu país.",
       "TITLE": "Qual tipo de certificação?",
       "TOOLTIP": "Não vê a sua certificação? O LiteFarm é dedicado a apoiar a agricultura sustentável e certificações são uma grande parte disso. Solicite outro tipo de certificação aqui e faremos nosso melhor para incorporá-la ao aplicativo."
     },
     "CERTIFIER_SELECTION": {
-      "INFO": "Isso provavelmente significa que o LiteFarm atualmente não trabalha com o seu certificador. O LiteFarm, porém, produz formulários genéricos que são úteis na maioria dos casos.",
-      "NOT_FOUND": "Não vê o seu certificador?",
-      "REQUEST_CERTIFIER": "Solicite um certificador",
-      "TITLE": "Quem é seu certificador?"
+      "INFO": "Isso provavelmente significa que o LiteFarm atualmente não trabalha com o sua certificadora. O LiteFarm, porém, produz formulários genéricos que são úteis na maioria dos casos.",
+      "NOT_FOUND": "Não vê o sua certificadora?",
+      "REQUEST_CERTIFIER": "Solicite uma certificadora",
+      "TITLE": "Quem é sua certificadora?"
     },
     "INPUT_PLACEHOLDER": "Digite para buscar",
     "INTERESTED_IN_CERTIFICATION": {
@@ -167,16 +167,16 @@
       "WHY_ANSWER": "LiteFarm gera formulários necessários para certificação orgânica e/o agroecológica. Algumas informações serão obrigatórias."
     },
     "REQUEST_CERTIFIER": {
-      "LABEL": "Certificador solicitado",
-      "REQUEST": "Qual certificador gostaria de solicitar?",
-      "SORRY_ONE": "Desculpe - atualmente não trabalhamos com nenhum certificador",
+      "LABEL": "Certificadora solicitado",
+      "REQUEST": "Qual certificadora gostaria de solicitar?",
+      "SORRY_ONE": "Desculpe - atualmente não trabalhamos com nenhuma certificadora",
       "SORRY_THREE": "em seu país. Gostaria de solicitar um?",
       "SORRY_TWO": "Gostaria de solicitar um?",
-      "TITLE": "Solicite um certificador"
+      "TITLE": "Solicite uma certificadora"
     },
     "SUMMARY": {
       "BAD_NEWS": "LiteFarm atualmente não coleta as informações que você precisa para gerar seus documentos de certificação.",
-      "BAD_NEWS_INFO": "No entanto, podemos criar formulários genéricos que são úteis para a maioria dos certificadores. Nós vamos indicar estas informações através do aplicativo com um ícone de folha",
+      "BAD_NEWS_INFO": "No entanto, podemos criar formulários genéricos que são úteis para a maioria das certificadoras. Nós vamos indicar estas informações através do aplicativo com um ícone de folha",
       "CERTIFICATION": "certificação",
       "GOOD_NEWS": "Boas notícias! O LiteFarm pode documentar as informações que você precisa para gerar seus documentos de certificação!",
       "INFORMATION": "Nós indicaremos estas informações no aplicativo com um ícone de folha.",
@@ -207,11 +207,11 @@
   "CERTIFICATIONS_MODAL": {
     "MAYBE_LATER": "Talvez mais tarde",
     "STEP_ONE": {
-      "DESCRIPTION": "Adicionamos suporte para certificações e certificadores! Quer ver o que está disponível em sua área?",
+      "DESCRIPTION": "Adicionamos suporte para certificações e certificadoras! Quer ver o que está disponível em sua área?",
       "TITLE": "Novo recurso!"
     },
     "STEP_TWO": {
-      "DESCRIPTION": "Tudo bem! Você pode adicionar certificações e certificadores mais tarde, na opção “minha propriedade”.",
+      "DESCRIPTION": "Tudo bem! Você pode adicionar certificações e certificadoras mais tarde, na opção “minha propriedade”.",
       "TITLE": "Ver certificações"
     }
   },
@@ -257,9 +257,9 @@
     },
     "IS_GENETICALLY_ENGINEERED": "Este cultivo é geneticamente modificada?",
     "IS_ORGANIC": "A semente ou cultivo é orgânica certificada?",
-    "NEED_DOCUMENT_GENETICALLY_ENGINEERED": "Seu certificador pode solicitar documentação que comprove sua afirmação de que este cultivo não foi geneticamente modificada.",
-    "NEED_DOCUMENT_PERFORM_SEARCH": "Seu certificador pode solicitar documentação de suporte à sua busca.",
-    "NEED_DOCUMENT_TREATED": "Seu certificador pode solicitar documentação descrevendo quaisquer tratamentos.",
+    "NEED_DOCUMENT_GENETICALLY_ENGINEERED": "Sua certificadora pode solicitar documentação que comprove sua afirmação de que este cultivo não foi geneticamente modificado.",
+    "NEED_DOCUMENT_PERFORM_SEARCH": "Sua certificadora pode solicitar documentação de suporte à sua busca.",
+    "NEED_DOCUMENT_TREATED": "Sua certificadora pode solicitar documentação descrevendo quaisquer tratamentos.",
     "NUTRIENTS_IN_EDIBLE_PORTION": "Nutrientes da parte ingerida (por 100g)",
     "PERENNIAL": "Perene",
     "PERFORM_SEARCH": "Você fez uma busca de disponibilidade comercial?",
@@ -273,12 +273,12 @@
     "ADD_TO_YOUR_FARM": "Adicionar à sua fazenda",
     "CAN_NOT_FIND": "Não consegue encontrar o que está procurando?",
     "COVER_CROP": "Isso pode ser cultivado como uma cultivo de cobertura?",
-    "CREATE_MANAGEMENT_PLANS": "Crie un plano de cultivo",
+    "CREATE_MANAGEMENT_PLANS": "Criar um plano de cultivo",
     "CROP_CATALOGUE": "Catálogo de cultivo",
     "CROP_GROUP": "Grupo de cultivo",
     "CROP_GROUP_TOOL_TIP": "A seleção de um grupo de cultivo permite que a LiteFarm preencha várias informações sobre este cultivo, como estação de crescimento, valores nutricionais e produtividade estimada. Não se preocupe, você pode alterar os valores abaixo depois de selecionar um grupo de cultivo.",
     "CROP_STATUS": "Situação de cultivo ativo ",
-    "DOCUMENT_NECESSARY_INFO_FOR_ORGANIC_PRODUCTION": "Documente as informações necessárias para a produção orgânica",
+    "DOCUMENT_NECESSARY_INFO_FOR_ORGANIC_PRODUCTION": "Documentar as informações necessárias para a produção orgânica",
     "FILTER": {
       "LOCATION": "Localização",
       "STATUS": "Situação",
@@ -427,6 +427,7 @@
     "RESET_PASSWORD_LINK": "Enviar novo link de senha/password"
   },
   "FARM_MAP": {
+    "TUTORIALS": "MISSING",
     "AREA_DETAILS": {
       "NETWORK": "Problemas de conexão com a rede",
       "PERIMETER": "Perímetro",
@@ -464,7 +465,8 @@
       "DOWNLOAD": "Download",
       "EMAIL_TO_ME": "Enviar email para mim",
       "EMAILING": "Enviando...",
-      "TITLE": "Exporte o mapa do seu sítio/fazenda"
+      "TITLE": "Exporte o mapa do seu sítio/fazenda",
+      "LOADING": "Carregando..."
     },
     "FARM_SITE_BOUNDARY": {
       "EDIT_TITLE": "Editar limites do sítio/fazenda",
@@ -525,7 +527,7 @@
     },
     "LOCATION_CREATION_FLOW": "criação de localização",
     "MAP_FILTER": {
-      "ADD_TITLE": "Adicionar to your map",
+      "ADD_TITLE": "Adicionar ao seu mapa",
       "AREAS": "Áreas",
       "BARN": "Galpão",
       "BZ": "Zona de amortecimento/proteção",
@@ -563,7 +565,7 @@
     "SPOTLIGHT": {
       "ADD": "Adicionar locais ao seu mapa",
       "ADD_TITLE": "Adicionar  ao seu mapa",
-      "EXPORT": "Baixe ou compartilhe seu mapa",
+      "EXPORT": "Baixar ou compartilhar seu mapa",
       "EXPORT_TITLE": "Exportar o seu mapa",
       "FILTER": "Mudar quais locais você vê no seu mapa",
       "FILTER_TITLE": "Filtrar o seu mapa",
@@ -594,7 +596,7 @@
         "STEP_ONE": "Clique em qualquer lugar para começar a desenhar",
         "STEP_THREE": "Clique-e-arraste pontos para ajustar a área",
         "STEP_TWO": "Clique no ponto inicial para fechar a área",
-        "TITLE": "Desenha uma área"
+        "TITLE": "Desenhe uma área"
       },
       "LINE": {
         "STEP_FOUR": "(Para alguns tipos de linha) adicione uma largura",
@@ -817,7 +819,7 @@
     "GENDER_TOOLTIP": "As informações de gênero são coletadas apenas para fins de pesquisa e só serão utilizadas com as informações de identificação pessoal removidas",
     "INVALID_EMAIL_ERROR": "Por favor insira um email válido",
     "INVITE": "Convidar",
-    "LANGUAGE_OF_INVITE": "Idioma de la invitación",
+    "LANGUAGE_OF_INVITE": "Idioma do convite",
     "PHONE": "Número de telefone",
     "PHONE_ERROR": "Por favor entre um número de telefone válido",
     "ROLE": "Função",
@@ -964,8 +966,8 @@
     "KNOW_HOW_IS_CROP_PLANTED": "Você sabe como o cultivo foi plantado?",
     "LOCATION_SUBTEXT": "Apenas os locais que podem cultivar são mostrados.",
     "MANAGEMENT_PLAN_FLOW": "criação do plano de cultivo",
-    "MANAGEMENT_SPOTLIGHT_1": "Criar novos planos para esta cultivo",
-    "MANAGEMENT_SPOTLIGHT_2": "Visualizar e modifique os planos para este cultivo",
+    "MANAGEMENT_SPOTLIGHT_1": "Criar novos planos para este cultivo",
+    "MANAGEMENT_SPOTLIGHT_2": "Visualizar e modificar os planos para este cultivo",
     "MANAGEMENT_SPOTLIGHT_3": "Criar e atribuir tarefas",
     "MANAGEMENT_SPOTLIGHT_TITLE": "Manejo",
     "NEXT_HARVEST": "Quando será a próxima colheita?",

@@ -63,6 +63,11 @@ function TaskCrops({
       locations || persistedFormData.locations,
       showWildCrops,
     );
+
+  const bypass =
+    !Object.keys(activeAndCurrentManagementPlansByLocationIds).length &&
+    !persistedFormData.show_wild_crop;
+
   const isRequired =
     isHarvestTask || isTransplantTask || (showWildCrops && !persistedFormData.locations?.length);
   return (
@@ -80,6 +85,7 @@ function TaskCrops({
         defaultManagementPlanId={location?.state?.management_plan_id ?? null}
         history={history}
         location={location}
+        bypass={bypass}
       />
     </HookFormPersistProvider>
   );

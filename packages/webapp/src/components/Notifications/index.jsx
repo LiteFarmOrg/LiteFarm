@@ -35,6 +35,13 @@ function PureNotificationReadOnly({ onGoBack, notification }) {
     return options;
   }, {});
 
+  const hideTakeMeThere =
+    !notification.ref ||
+    (!notification.ref?.url &&
+      (!notification.ref?.entity ||
+        !notification.ref?.entity?.type ||
+        !notification.ref?.entity?.id));
+
   const onTakeMeThere = () => {
     const route =
       notification.ref.url ??
@@ -80,9 +87,11 @@ function PureNotificationReadOnly({ onGoBack, notification }) {
           ? t(notification.body.translation_key, tOptions)
           : notification.body[currentLang]}
       </Text>
-      <Button sm style={{ height: '32px', width: '150px' }} onClick={onTakeMeThere}>
-        {t('NOTIFICATION.TAKE_ME_THERE')}
-      </Button>
+      {!hideTakeMeThere && (
+        <Button sm style={{ height: '32px', width: '150px' }} onClick={onTakeMeThere}>
+          {t('NOTIFICATION.TAKE_ME_THERE')}
+        </Button>
+      )}
     </Layout>
   );
 }

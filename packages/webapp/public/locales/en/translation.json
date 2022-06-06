@@ -428,6 +428,7 @@
     "RESET_PASSWORD_LINK": "Send new password link."
   },
   "FARM_MAP": {
+    "TUTORIALS": "Map Tutorials",
     "AREA_DETAILS": {
       "NETWORK": "Network connectivity issues.",
       "PERIMETER": "Perimeter",
@@ -465,7 +466,8 @@
       "DOWNLOAD": "Download",
       "EMAIL_TO_ME": "Email to me",
       "EMAILING": "Emailing",
-      "TITLE": "Export your farm map"
+      "TITLE": "Export your farm map",
+      "LOADING": "Loading..."
     },
     "FARM_SITE_BOUNDARY": {
       "EDIT_TITLE": "Edit farm site boundary",

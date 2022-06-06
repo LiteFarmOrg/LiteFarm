@@ -19,7 +19,7 @@ const PureTaskCrops = ({
   onError,
   persistedFormData,
   onContinue,
-
+  bypass,
   useHookFormPersist,
   managementPlansByLocationIds,
   wildManagementPlanTiles,
@@ -53,7 +53,7 @@ const PureTaskCrops = ({
 
   const locationIds = Object.keys(managementPlansByLocationIds);
 
-  if (!locationIds.length) {
+  if (bypass) {
     history.replace('/add_task/task_locations', location.state);
     onContinue();
   }

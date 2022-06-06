@@ -55,13 +55,26 @@ export default function PurePeople({ users, history, isAdmin }) {
     };
 
     const getName = (user) => {
-      const firstName = user.first_name.toLowerCase();
-      const lastName = user.last_name.toLowerCase();
+      const firstName = user.first_name;
+      const lastName = user.last_name;
       return firstName.concat(' ', lastName);
     };
 
     const filteredUsers = users.filter((user) => {
-      return getName(user).includes(searchString.trim().toLowerCase());
+      return getName(user)
+        .normalize('NFD')
+        .replace(/\p{Diacritic}/gu, '')
+        .toLowerCase()
+        .replace(/\W/g, '')
+        .trim()
+        .includes(
+          searchString
+            .normalize('NFD')
+            .replace(/\p{Diacritic}/gu, '')
+            .toLowerCase()
+            .replace(/\W/g, '')
+            .trim(),
+        );
     });
     return filteredUsers.map((user) => ({
       name: getName(user),

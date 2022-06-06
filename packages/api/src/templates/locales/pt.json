@@ -14,7 +14,11 @@
     "TYPE_HEADER": "Tipo de suporte",
     "MESSAGE_HEADER": "Mensagem",
     "CONTACT_METHOD_HEADER": "Método de contato preferido",
-    "SUBJECT": "Seu pedido de ajuda da LiteFarm"
+    "SUBJECT": "Seu pedido de ajuda da LiteFarm",
+    "REQUEST_INFORMATION": "MISSING",
+    "REPORT_A_BUG": "MISSING",
+    "REQUEST_A_FEATURE": "MISSING",
+    "OTHER": "MISSING"
   },
   "INVITE": {
     "GREAT_FOLK": "O grande pessoal da",
@@ -83,10 +87,10 @@
     "MANAGER": "Gerente"
   },
   "EXPORT_MAP": {
-    "EXPORT": "Aqui está a exportação do mapa da fazenda para",
+    "EXPORT": "Aqui está a exportação do mapa de ",
     "REQUESTED": "que você solicitou do LiteFarm.",
     "GREETING": "Tenha um ótimo dia!",
-    "SUBJECT0": "Aqui está o mapa de sua fazenda para",
+    "SUBJECT0": "Aqui está o mapa de ",
     "SUBJECT1": "em LiteFarm"
   },
   "EXPORT": {

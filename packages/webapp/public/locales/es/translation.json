@@ -162,7 +162,7 @@
     },
     "INPUT_PLACEHOLDER": "Tipo de busqueda",
     "INTERESTED_IN_CERTIFICATION": {
-      "PARAGRAPH": "Planea conseguir o renovar certificación orgánica esta temporada?",
+      "PARAGRAPH": "Planea conseguir o renovar su certificación orgánica durante esta temporada?",
       "TITLE": "Está interesado(a) en certificaciones?",
       "WHY_ANSWER": "LiteFarm genera formularios requiridos para certificación orgánica. Parte de la información será obligatoria."
     },
@@ -178,8 +178,8 @@
       "BAD_NEWS": "LiteFarm no recopila actualmente la información que necesita para generar sus documentos de certificación - Lo sentimos!",
       "BAD_NEWS_INFO": "Sin embargo, podemos crear formularios genéricos que sean útiles para la mayoría de los certificadores. Indicaremos esta información en toda la aplicación con un icono de hoja.",
       "CERTIFICATION": "certificacion",
-      "GOOD_NEWS": "Buenas noticias! Litefarm puede recolectar la informacion que necesita para generar sus documentos de certificacion!",
-      "INFORMATION": "Indicaremos esta informacion a traves de la aplicacion con el icono de la hoja.",
+      "GOOD_NEWS": "Buenas noticias! Litefarm puede recolectar la información que necesita para generar sus documentos de certificacion!",
+      "INFORMATION": "Indicaremos esta información a traves de la aplicacion con el icono de la hoja.",
       "TITLE": "Está interesado(a) en aplicar para:",
       "YOUR_CERTIFICATION": "Su certificación"
     }
@@ -217,7 +217,7 @@
   },
   "CHOOSE_FARM": {
     "ADD_NEW": "Agregar otra finca",
-    "CHOOSE_TITLE": "Eliger otra finca",
+    "CHOOSE_TITLE": "Elegir otra finca",
     "INPUT_PLACEHOLDER": "Buscar",
     "SWITCH_TITLE": "Cambiar a otra finca"
   },
@@ -427,6 +427,7 @@
     "RESET_PASSWORD_LINK": "Envíar enlace para nueva contraseña."
   },
   "FARM_MAP": {
+    "TUTORIALS": "MISSING",
     "AREA_DETAILS": {
       "NETWORK": "Error de conexion.",
       "PERIMETER": "Perimetro",
@@ -464,7 +465,8 @@
       "DOWNLOAD": "Descargar",
       "EMAIL_TO_ME": "Enviar a mi correo",
       "EMAILING": "Enviando",
-      "TITLE": "Exporta su mapa"
+      "TITLE": "Exporta su mapa",
+      "LOADING": "Cargando..."
     },
     "FARM_SITE_BOUNDARY": {
       "EDIT_TITLE": "Editar limites de la granja",
@@ -561,11 +563,11 @@
       "TITLE": "Agregar residencia"
     },
     "SPOTLIGHT": {
-      "ADD": "Añade ubicaciones a su mapa",
-      "ADD_TITLE": "Añade a su mapa",
-      "EXPORT": "Descarga o comparte su mapa",
+      "ADD": "Añadir ubicaciones a su mapa",
+      "ADD_TITLE": "Añadir a su mapa",
+      "EXPORT": "Descargar o compartir su mapa",
       "EXPORT_TITLE": "Exporta su mapa",
-      "FILTER": "Cambia que se ve en el mapa",
+      "FILTER": "Cambiar que se ve en el mapa",
       "FILTER_TITLE": "Filtra su mapa",
       "HERE_YOU_CAN": "Aqui puede: "
     },
@@ -576,7 +578,7 @@
       "TITLE": "Agregar agua de superficie"
     },
     "TAB": {
-      "CROPS": "Cultivo",
+      "CROPS": "Cultivos",
       "DETAILS": "Detalles",
       "TASKS": "Tareas"
     },
@@ -706,7 +708,7 @@
       "TITLE": "Biodiversidad"
     },
     "CURRENT": "Actual",
-    "INFO": "Las reflexiones son caracteristicas de datos de que esta pasando en su granja. Mientras mas data proveas en la aplicacion mas reflexiones pueden ser generadas. Mira las reflexiones individuales para mas informacion.",
+    "INFO": "Las reflexiones son caracteristicas de datos de que esta pasando en su granja. Mientras mas data proveas en la aplicacion mas reflexiones pueden ser generadas. Mira las reflexiones individuales para mas información.",
     "LABOUR_HAPPINESS": {
       "HEADER": "Tareas",
       "INFO": "Estimamos el impacto de las diferentes tareas en la satisfaccion con el trabajo usando los puntajes de satisfaccion y las horas trabajadas en cada turno.",
@@ -770,7 +772,7 @@
     "TITLE": "Reflexiones",
     "UNAVAILABLE": "No Disponible",
     "WATER_BALANCE": {
-      "FIRST_TIME": "Parece que es la primera vez que llega aca! Para mas informacion en que hace esto, por favor cliquea el boton de informacion.",
+      "FIRST_TIME": "Parece que es la primera vez que llega aca! Para mas información en que hace esto, por favor cliquea el boton de información.",
       "INFO_1": "El balance de agua se dice si sus cultivos tienen deficiencia de agua o exceso. Depende de los datos meterologicos, y es actualizado por sus registros de riego .",
       "INFO_2": "Esta funcionalidad no ha sido probada ampliamente en las granjas con una baja densidad de estaciones metereologicas  alrededor de ellas asi que uselo con precaucion. Por favor, cuentanos como funciona en su granja",
       "NO_SCHEDULE_RUN": "Su balance de agua agendado aun no ha corrido, por favor, chequea en 2 dias y asegurate que tienes al menos un registro de textura de suelo para un campo para ver datos de balance de agua para cultivos en ese campo . Si el problema persiste, contacta a Litefarm.",
@@ -964,9 +966,9 @@
     "KNOW_HOW_IS_CROP_PLANTED": "¿Sabes cómo se plantó el cultivo?",
     "LOCATION_SUBTEXT": "Solo se muestran las ubicaciones que pueden producir cultivos.",
     "MANAGEMENT_PLAN_FLOW": "creación del plan de cultivo",
-    "MANAGEMENT_SPOTLIGHT_1": "Crea nuevos planes para este cultivo",
+    "MANAGEMENT_SPOTLIGHT_1": "Crear nuevos planes para este cultivo",
     "MANAGEMENT_SPOTLIGHT_2": "Ver y modificar planes para este cultivo",
-    "MANAGEMENT_SPOTLIGHT_3": "Crea y asigna tareas",
+    "MANAGEMENT_SPOTLIGHT_3": "Crear y asigna tareas",
     "MANAGEMENT_SPOTLIGHT_TITLE": "Manejo",
     "NEXT_HARVEST": "¿Cuándo espera su próxima cosecha?",
     "NOTES_CHAR_LIMIT": "Las notas deben tener menos de 10,000 caracteres",
@@ -1054,7 +1056,7 @@
       "EDIT_FARM_SETTING": "Editar las características de su finca",
       "FARM": "Aquí puede:, • Editar las características de su finca, • Recorre el mapa su finca, • Manejar sus trabajadores",
       "FARM_TITLE": "Este es el perfil de su finca",
-      "INFO": "Su informacion",
+      "INFO": "Su información",
       "LOG_OUT": "El botón para cerrar la sesión",
       "MANAGE_EMPLOYEE": "Manejar sus trabajadores",
       "MANAGE_TASK": "Manejar sus tareas",
@@ -1112,7 +1114,7 @@
     "DESCRIPTION_TOP": "Un enlace ha sido enviado.",
     "LABEL_EMAIL": "Correo electrónico",
     "LABEL_NEW_PASSWORD": "Nueva contraseña",
-    "NEW_ACCOUNT_BUTTON": "Actualización",
+    "NEW_ACCOUNT_BUTTON": "Actualizar",
     "NEW_ACCOUNT_TITLE": "Ajuste su nueva contraseña",
     "TITLE": "Enlace enviado"
   },
@@ -1150,7 +1152,7 @@
       "FRENCH": "Francés",
       "LANGUAGE": "Idioma",
       "LAST_NAME": "Apellido",
-      "PERSONAL_INFORMATION": "Mi informacion",
+      "PERSONAL_INFORMATION": "Mi información",
       "PHONE_NUMBER": "Número de teléfono",
       "PORTUGUESE": "Portugués",
       "SPANISH": "Español",
@@ -1399,9 +1401,9 @@
     "TITLE": "Cambiando de finca"
   },
   "TABLE": {
-    "LOADING_TEXT": "Loading...",
+    "LOADING_TEXT": "Cargando...",
     "NEXT_TEXT": "Siguiente",
-    "NO_DATA_TEXT": "No se encontro informacion",
+    "NO_DATA_TEXT": "No se encontro información",
     "OF_TEXT": "De",
     "PAGE_TEXT": "Pagina",
     "PREVIOUS_TEXT": "Previa",
@@ -1431,9 +1433,9 @@
     "ABANDON_TASK": "Abandonar esta tarea",
     "ABANDON_TASK_DURATION": "¿Se completó algún trabajo para esta tarea?",
     "ABANDONMENT_DETAILS": "Detalles del abandono de la tarea",
-    "ADD_CUSTOM_HARVEST_USE": "Crea un uso de cosecha personalizado ",
+    "ADD_CUSTOM_HARVEST_USE": "Crear un uso de cosecha personalizado ",
     "ADD_HARVEST_USE": "Agregar otro uso de la cosecha",
-    "ADD_TASK": "Crea una tarea",
+    "ADD_TASK": "Crear una tarea",
     "ADD_TASK_FLOW": "creación de tareas",
     "ALL": "Todas",
     "AMOUNT_TO_ALLOCATE": "Cantidad a asignar",
@@ -1453,7 +1455,7 @@
     "COMPLETION_DETAILS": "Detalles de finalización de la tarea",
     "COMPLETION_NOTES": "Notas de finalización de tarea",
     "COMPLETION_NOTES_CHAR_LIMIT": "Las notas deben tener menos de 10,000 caracteres",
-    "CREATE_CUSTOM_HARVEST_USE": "Crea un uso de cosecha personalizado",
+    "CREATE_CUSTOM_HARVEST_USE": "Crear un uso de cosecha personalizado",
     "CURRENT": "Actual",
     "DESCRIBE_HARVEST_USE": "Describe el uso de la cosecha",
     "DETAILS": "Detalles",

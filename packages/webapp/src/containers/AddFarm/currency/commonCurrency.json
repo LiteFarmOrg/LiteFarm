@@ -656,6 +656,15 @@
     "code": "MUR",
     "name_plural": "Mauritian rupees"
   },
+  "MWK": {
+    "symbol": "MK",
+    "name": "Malawian Kwacha",
+    "symbol_native": "MK",
+    "decimal_digits": 2,
+    "rounding": 0,
+    "code": "MWK",
+    "name_plural": "Malawian kwachas"
+  },
   "MXN": {
     "symbol": "MX$",
     "name": "Mexican Peso",

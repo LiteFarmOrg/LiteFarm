@@ -1,8 +1,9 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import ReactDOM from 'react-dom';
 import { useTranslation } from 'react-i18next';
 import styles from './styles.module.scss';
 import GoogleMap from 'google-map-react';
+import { saveAs } from 'file-saver';
 import { DEFAULT_ZOOM, GMAPS_API_KEY, isArea, isLine, locationEnum } from './constants';
 import { useDispatch, useSelector } from 'react-redux';
 import { measurementSelector, userFarmSelector } from '../userFarmSlice';
@@ -297,6 +298,10 @@ export default function Map({ history }) {
 
   const mapWrapperRef = useRef();
 
+  const currentMap = useMemo(() => {
+    return mapWrapperRef.current;
+  }, [mapWrapperRef.current]);
+
   const handleShowVideo = () => {
     history.push('/map/videos');
   };
@@ -304,15 +309,6 @@ export default function Map({ history }) {
   const handleCloseSuccessHeader = () => {
     dispatch(canShowSuccessHeader(false));
     setShowSuccessHeader(false);
-  };
-
-  const handleDownload = () => {
-    html2canvas(mapWrapperRef.current, { useCORS: true }).then((canvas) => {
-      const link = document.createElement('a');
-      link.download = `${farm_name}-export-${new Date().toISOString()}.png`;
-      link.href = canvas.toDataURL();
-      link.click();
-    });
   };
 
   const handleShare = () => {
@@ -430,9 +426,10 @@ export default function Map({ history }) {
         )}
         {showExportModal && (
           <ExportMapModal
-            onClickDownload={handleDownload}
             onClickShare={handleShare}
             dismissModal={() => setShowExportModal(false)}
+            currentMap={currentMap}
+            farmName={farm_name}
           />
         )}
         {showDrawAreaSpotlightModal && (

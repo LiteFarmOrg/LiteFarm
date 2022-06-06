@@ -431,9 +431,20 @@ class Finances extends Component {
           />
 
           <hr />
-          <Semibold style={{ marginBottom: '8px' }}>
-            {this.props.t('SALE.FINANCES.BALANCE_FOR_FARM')}
-          </Semibold>
+          <div>
+            <Semibold style={{ marginBottom: '8px', float: 'left' }}>
+              {this.props.t('SALE.FINANCES.BALANCE_FOR_FARM')}
+            </Semibold>
+            <InfoBoxComponent
+              customStyle={{
+                float: 'right',
+                fontSize: '80%',
+                position: 'relative',
+              }}
+              title={this.props.t('SALE.FINANCES.FINANCE_HELP')}
+              body={this.props.t('SALE.FINANCES.BALANCE_EXPLANATION')}
+            />
+          </div>
           <div className={styles.greyBox}>
             <div className={styles.balanceDetail}>
               <p>{this.props.t('SALE.FINANCES.REVENUE')}:</p>{' '}
@@ -452,16 +463,6 @@ class Finances extends Component {
             </div>
           </div>
 
-          <InfoBoxComponent
-            customStyle={{
-              float: 'right',
-              fontSize: '80%',
-              marginTop: '0.2em',
-              position: 'relative',
-            }}
-            title={this.props.t('SALE.FINANCES.FINANCE_HELP')}
-            body={this.props.t('SALE.FINANCES.BALANCE_EXPLANATION')}
-          />
           {/* <Semibold style={{ marginBottom: '8px', textAlign: 'left' }}>
             {this.props.t('SALE.FINANCES.BALANCE_BY_CROP')}
           </Semibold>

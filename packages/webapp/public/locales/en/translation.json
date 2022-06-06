@@ -338,7 +338,9 @@
   "DATE_RANGE_PICKER": {
     "FROM": "From",
     "TO": "To",
-    "TO_MUST_BE_AFTER_FROM": "'To' date must come after the 'From' date"
+    "TO_MUST_BE_AFTER_FROM": "'To' date must come after the 'From' date",
+    "REVENUE_HELP_TITLE": "Date Range Help",
+    "REVENUE_HELP_BODY": "Only plans that have a planned or completed harvest task within the indicated date range will be shown."
   },
   "DOCUMENTS": {
     "ADD": {
@@ -463,7 +465,8 @@
       "DOWNLOAD": "Download",
       "EMAIL_TO_ME": "Email to me",
       "EMAILING": "Emailing",
-      "TITLE": "Export your farm map"
+      "TITLE": "Export your farm map",
+      "LOADING": "Loading..."
     },
     "FARM_SITE_BOUNDARY": {
       "EDIT_TITLE": "Edit farm site boundary",

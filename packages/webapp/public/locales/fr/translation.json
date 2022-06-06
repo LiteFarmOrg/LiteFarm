@@ -28,7 +28,7 @@
     "ASSIGN_ALL_TO_PERSON": "Attribuez toutes les tâches non assignées à cette date à cette personne",
     "ASSIGN_DATE": "Attribuer une date d'échéance",
     "ASSIGN_TASK": "Attribuer une tâche",
-    "ASSIGNEE": "Destinataire",
+    "ASSIGNEE": "Personne responsable",
     "CANCEL": "création de tâches",
     "CLEANING_VIEW": {
       "ESTIMATED_WATER": "Consommation d'eau estimée",
@@ -138,8 +138,8 @@
       "CHANGE_CERTIFICATION_PREFERENCE": "modifier vos préférences de certification",
       "CHANGE_CERTIFICATION_PREFERENCE_CAPITAL": "Modifier vos préférences de certification",
       "NO_CERTIFICATIONS": "Vous ne poursuivez actuellement aucune certification.",
-      "NO_LONGER_WORKING": "Vous ne poursuivez plus cette certification ou ne travaillez plus avec ce certificateur\u00a0? Pas de problème\u00a0!",
-      "SUPPORTED_CERTIFICATION_ONE": "Vous poursuivez la cértification",
+      "NO_LONGER_WORKING": "Vous n'essayez plus d'obtenir cette certification, ou ne travailles plus avec cette organization\u00a0? Pas de problème\u00a0!",
+      "SUPPORTED_CERTIFICATION_ONE": "Vous êtes en train d'obtenir votre certification",
       "SUPPORTED_CERTIFICATION_TWO": "de\u00a0:",
       "UNSUPPORTED_CERTIFICATION_MESSAGE_ONE": "LiteFarm ne génère actuellement pas de documents pour ce certificateur. Cependant, nous pouvons exporter des formulaires génériques utiles pour la plupart des certificateurs. Vous pouvez sélectionner Exporter pour créer ces formulaires ou",
       "UNSUPPORTED_CERTIFICATION_MESSAGE_TWO": "tour voir s'il y a de nouveaux certificateurs disponibles dans votre région.",
@@ -149,21 +149,21 @@
     },
     "CERTIFICATION_SELECTION": {
       "REQUEST_CERTIFICATION": "Demander un autre type de certification",
-      "SUBTITLE_ONE": "Voici une liste de",
+      "SUBTITLE_ONE": "Voici une liste de certificateurs",
       "SUBTITLE_TWO": "les certificateurs avec lesquels nous travaillons dans votre pays.",
       "TITLE": "Quel type de certification\u00a0?",
       "TOOLTIP": "Vous ne voyez pas votre certification ? LiteFarm se consacre au soutien de l'agriculture durable et les certifications en sont une grande partie. Demandez une autre certification ici et nous ferons de notre mieux pour l'intégrer dans l'application."
     },
     "CERTIFIER_SELECTION": {
-      "INFO": "Cela signifie probablement que LiteFarm ne fonctionne pas actuellement avec votre certificateur - désolé! Pourtant, LiteFarm produit des formulaires génériques qui sont utiles dans la plupart des cas.",
+      "INFO": "Cela signifie probablement que LiteFarm ne fonctionne pas actuellement avec votre certificateur - désolé! Cependant, LiteFarm peut générer un formulaire générique qui est utile pour la certification dans la plupart des cas.",
       "NOT_FOUND": "Vous ne voyez pas votre certificateur\u00a0?",
       "REQUEST_CERTIFIER": "Demander un certificateur",
-      "TITLE": "Qui est votre certificateur\u00a0?"
+      "TITLE": "De quelle organization obtenez-vous votre certification\u00a0?"
     },
     "INPUT_PLACEHOLDER": "Tapez pour rechercher",
     "INTERESTED_IN_CERTIFICATION": {
-      "PARAGRAPH": "Prévoyez-vous de poursuivre ou de renouveler une certification cette saison\u00a0?",
-      "TITLE": "Intéressé par les certifications\u00a0?",
+      "PARAGRAPH": "Prévoyez-vous obtenir ou renouveler votre certification pour la saison\u00a0?",
+      "TITLE": "Préférences de certification",
       "WHY_ANSWER": "LiteFarm génère les documents requis pour la certification biologique. Certaines informations seront obligatoires."
     },
     "REQUEST_CERTIFIER": {
@@ -352,7 +352,7 @@
       "VALID_UNTIL": "Valable jusqu'au"
     },
     "ADD_DOCUMENT": "Ajouter un nouveau document",
-    "ARCHIVE": "Archive",
+    "ARCHIVE": "Archiver",
     "ARCHIVE_DOCUMENT": "Document d'archive\u00a0?",
     "ARCHIVE_DOCUMENT_TEXT": "L'archivage de ce document le déplacera vers la section archivée de vos documents, mais ne le supprimera pas. Les documents archivés ne seront pas exportés pour vos certifications. Voulez-vous continuer\u00a0?",
     "ARCHIVED": "Archivé",
@@ -407,7 +407,7 @@
       "TITLE_1": "Nouvelle dépense (1 sur 2)",
       "TITLE_2": "Nouvelle dépense (2 sur 2)"
     },
-    "ADD_MORE_ITEMS": "Ajouter autres articles",
+    "ADD_MORE_ITEMS": "Ajouter d'autres articles",
     "DETAILED_HISTORY": "Historique détaillé",
     "EDIT_EXPENSE": {
       "DATE_PLACEHOLDER": "Choisissez une date",
@@ -428,6 +428,7 @@
     "RESET_PASSWORD_LINK": "Envoyer un nouveau lien de mot de passe."
   },
   "FARM_MAP": {
+    "TUTORIALS": "Vidéos d'instructions",
     "AREA_DETAILS": {
       "NETWORK": "Problèmes de connectivité réseau.",
       "PERIMETER": "Périmètre",
@@ -461,11 +462,11 @@
       "ZERO_AREA_DETECTED": "Champ sans zone détectée. Veuillez ajouter plus de points au dessin actuel ou dessiner à nouveau."
     },
     "EXPORT_MODAL": {
-      "BODY": "Comment voulez-vous exporter votre carte de ferme\u00a0?",
+      "BODY": "Comment voulez-vous exporter la carte de votre ferme\u00a0?",
       "DOWNLOAD": "Télécharger",
       "EMAIL_TO_ME": "Envoyez-moi une courriel",
       "EMAILING": "Envoi en cours",
-      "TITLE": "Exportez votre carte de ferme"
+      "TITLE": "Exportez la carte de votre ferme"
     },
     "FARM_SITE_BOUNDARY": {
       "EDIT_TITLE": "Modifier les limites du site de la ferme",
@@ -531,7 +532,7 @@
       "BARN": "Granges",
       "BZ": "Zone tampon",
       "CA": "Espace de cérémonie",
-      "FENCE": "Cloture",
+      "FENCE": "Clôture",
       "FIELD": "Champ",
       "FSB": "Limite du site agricole",
       "GARDEN": "Jardin",
@@ -665,13 +666,13 @@
     "OPTIONS": {
       "OTHER": "Autre",
       "REPORT_BUG": "Signaler un bogue",
-      "REQUEST_FEATURE": "Suggérer une nouvelle fonctionalitée",
+      "REQUEST_FEATURE": "Suggérer une nouvelle fonctionnalité",
       "REQUEST_INFO": "Demander des informations"
     },
     "PREFERRED_CONTACT": "Méthode de contact préférée",
     "REQUIRED_LABEL": "Champ obligatoire",
     "TITLE": "Demander de l'aide",
-    "TYPE_SUPPORT_LABEL": "Type de prise en charge",
+    "TYPE_SUPPORT_LABEL": "Type de support",
     "TYPE_SUPPORT_PLACEHOLDER": "Choisissez le type de support",
     "WHATSAPP": "Whatsapp",
     "WHATSAPP_NUMBER_LABEL": "Numéro Whatsapp"
@@ -683,11 +684,11 @@
     "BIODIVERSITY": {
       "AMPHIBIANS": "Amphibiens",
       "BIRDS": "Oiseaux",
-      "CROP_VARIETIES": "Variété de culture",
+      "CROP_VARIETIES": "Variété de la culture",
       "ERROR": {
-        "BODY": "LiteFarm génère des données sur la biodiversité à partir de plusieurs sources et était incapable de le faire à ce moment. Veuillez réessayer après {{minutes}} minutes.",
+        "BODY": "LiteFarm génère des données sur la biodiversité à partir de plusieurs sources et est incapable de le faire en ce moment. Veuillez réessayer dans {{minutes}} minutes.",
         "PREVIEW": "Indisponible",
-        "TITLE": "Il y avait un problème."
+        "TITLE": "Il y a eu un problème."
       },
       "HEADER": "Nombre d'espèces",
       "INFO": "La biodiversité est excellente pour les gens et la planète. Nous comptons la richesse en espèces de tous les enregistrements connus de la biodiversité sur votre ferme à partir des limites de vos champs. Vous pouvez augmenter le nombre de votre biodiversité sur votre ferme en utilisant le https:// www.inaturalist.org/app.",
@@ -707,11 +708,11 @@
       "TITLE": "Biodiversité"
     },
     "CURRENT": "Courant",
-    "INFO": "Les insights fournit des informations supplémentaires sur ce qui se passe sur votre ferme. Plus vous fournissez de données dans l'application, plus vous pouvez générer d'informations. Veuillez explorer les informations individuelles pour plus d'informations.",
+    "INFO": "Ces mesures fournissent de l’information supplémentaire sur ce qui se passe sur votre ferme. Plus vous entrez de données dans l’application, plus d’information est générée. Veuillez explorer les différentes mesures pour plus de détails.",
     "LABOUR_HAPPINESS": {
       "HEADER": "Tâches",
-      "INFO": "Nous estimons l'impact de différentes tâches sur le bonheur au travail en utilisant les scores de satisfaction et les heures de travail consacrées à chaque tâche à partir des quarts de travail.",
-      "TITLE": "Bonheur au travail"
+      "INFO": "Nous estimons l'impact de différentes tâches sur le satisfaction au travail en utilisant les scores de satisfaction et les heures de travail consacrées à chaque tâche à partir des quarts de travail.",
+      "TITLE": "Satisfaction au travail"
     },
     "NITROGEN_BALANCE": {
       "ABANDON": "Abandonner l'horaire",
@@ -748,25 +749,25 @@
       "VITAMIN_C": "Vitamine C"
     },
     "PRICES": {
-      "INFO": "Nous vous montrons la trajectoire de vos prix de vente par rapport aux prix de vente des mêmes produits à une distance donnée de vous, collectés sur le réseau LiteFarm.",
-      "NEARBY_FARMS": "Le prix du réseau est basé sur {{count}} fermes dans votre région",
-      "NEARBY_FARMS_one": "Le prix du réseau est basé sur {{count}} ferme dans votre région",
-      "NEARBY_FARMS_many": "Le prix du réseau est basé sur {{count}} fermes dans votre région",
-      "NEARBY_FARMS_other": "Le prix du réseau est basé sur {{count}} fermes dans votre région",
-      "NEARBY_FARMS_plural": "Le prix du réseau est basé sur {{count}} fermes dans votre région",
-      "NETWORK_PRICE": "Prix du réseau",
+      "INFO": "Nous vous montrons la tendance de vos prix de vente pour chacun de vos produits, et la comparons aux prix de ventes des mêmes produits rapportés par d’autres fermes proches de vous qui font partie du réseau LiteFarm.",
+      "NEARBY_FARMS": "Le prix moyen du réseau est basé sur les prix de {{count}} autres fermes dans votre région",
+      "NEARBY_FARMS_one": "Le prix moyen du réseau est basé sur le prix de {{count}} autre ferme dans votre région",
+      "NEARBY_FARMS_many": "Le prix moyen du réseau est basé sur les prix de {{count}} autres fermes dans votre région",
+      "NEARBY_FARMS_other": "Le prix moyen du réseau est basé sur les prix de {{count}} autres fermes dans votre région",
+      "NEARBY_FARMS_plural": "Le prix moyen du réseau est basé sur les prix de {{count}} autres fermes dans votre région",
+      "NETWORK_PRICE": "Prix moyen du réseau",
       "NO_ADDRESS": "Vous n'avez actuellement pas d'adresse à LiteFarm. Veuillez la mettre à jour dans votre profil pour obtenir des informations sur les prix à proximité!",
-      "OWN_PRICE": "Prix propre",
+      "OWN_PRICE": "Votre prix",
       "PERCENT_OF_MARKET": "{{percentage}} % du marché",
-      "SALES_FROM_DISTANCE_AWAY": "Ventes à partir d'un rayon de {{distance}} {{unit}}",
+      "SALES_FROM_DISTANCE_AWAY": "Ventes sur un partir d'un rayon de {{distance}} {{unit}}",
       "TITLE": "Prix",
       "Y_TITLE": "Prix ({{currency}}/{{mass}})"
     },
     "SOIL_OM": {
-      "ALTERNATE_TITLE": "Teneur en Matière Organique du Sol",
-      "HEADER": "Matière Organique du Sol",
-      "INFO": "Matière organique du sol est requise pour maintenir un environement sain de sol pour votre récolte. Nous remplissons ces données à partir de vos journaux d'analyse de sol les plus récents. Si vous n'avez pas de données, nous prédisons la matière organique potentielle du sol pour votre emplacement dans le monde.",
-      "TITLE": "MO du Sol"
+      "ALTERNATE_TITLE": "Teneur en matière organique du sol",
+      "HEADER": "Matière organique du sol",
+      "INFO": "La matière organique du sol est essentielle pour maintenir un sol sain pour vos récoltes. La teneur en matière organique est calculée à partir de vos journaux d’analyse de sol les plus récents. Si vous n’avez pas de données sur votre sol, nous estimons la matière organique potentielle de votre sol en fonction de votre emplacement dans le monde.",
+      "TITLE": "Matière organique du Sol"
     },
     "TITLE": "Aperçus",
     "UNAVAILABLE": "Indisponible",
@@ -913,7 +914,7 @@
       "ABANDON_NOTES": "Notes d'abandon",
       "ABANDON_PLAN": "Abandonner le plan",
       "ABANDON_REASON": "Raison de l'abandon",
-      "COMPLETE_DATE": "Date d'achèvement",
+      "COMPLETE_DATE": "Date de fin",
       "COMPLETE_PLAN": "Plan complet",
       "DATE_OF_CHANGE": "Date de changement de statut",
       "NOTES_CHAR_LIMIT": "Les notes doivent comporter moins de 10 000 caractères",
@@ -1084,11 +1085,11 @@
       "TITLE": "Tâche abandonnée"
     },
     "TASK_ASSIGNED": {
-      "BODY": "Une tâche de {{taskType}} a été attribuée à {{assignee}}.",
+      "BODY": "Une tâche de {{taskType}} a été assignée à {{assignee}}.",
       "TITLE": "Tâche assignée"
     },
     "TASK_COMPLETED_BY_OTHER_USER": {
-      "BODY": "Une tâche de {{taskType}} qui vous était assignée a été marquée comme achevée par {{assigner}}.",
+      "BODY": "Une tâche de {{taskType}} qui vous était assignée a été marquée comme complétée par {{assigner}}.",
       "TITLE": "Tâche accomplie"
     },
     "TASK_REASSIGNED": {
@@ -1192,7 +1193,7 @@
     }
   },
   "PROFILE_FLOATER": {
-    "HELP": "À l'aide",
+    "HELP": "Support",
     "INFO": "Mes infos",
     "LOG_OUT": "Déconnexion",
     "SWITCH": "Changer de ferme",
@@ -1218,14 +1219,14 @@
     "ADD_SALE": {
       "CROP_PLACEHOLDER": "Selectionner une récolte",
       "CROP_REQUIRED": "Réponse requise",
-      "CROP_VARIETY": "Variété de culture",
-      "CUSTOMER_NAME": "Nom de Client",
+      "CROP_VARIETY": "Variété de la culture",
+      "CUSTOMER_NAME": "Nom du Client",
       "CUSTOMER_NAME_REQUIRED": "Réponse requise",
       "DATE": "Date",
       "TABLE_HEADERS": {
-        "CROP_VARIETIES": "Variété de culture",
+        "CROP_VARIETIES": "Variété de la culture",
         "QUANTITY": "Quantité",
-        "TOTAL": "Totale"
+        "TOTAL": "Total"
       },
       "TITLE": "Ajouter nouvelle vente"
     },
@@ -1283,7 +1284,7 @@
         "CROP": "Récolte",
         "DATE": "Date",
         "EMPLOYEE": "Personnels",
-        "EST_REVENUE": "Revenu extimé",
+        "EST_REVENUE": "Revenu estimé",
         "LABOUR_COST": "Coût de travail",
         "TASK": "Tâche",
         "TIME": "Temps",
@@ -1300,7 +1301,7 @@
       "SUBTOTAL": "Soutotal",
       "SUMMARY": "Résumé",
       "TITLE": "Ventes",
-      "TOTAL": "Totale",
+      "TOTAL": "Total",
       "TYPE": "Type",
       "VALUE": "Valeur"
     }
@@ -1374,11 +1375,11 @@
     "WRONG_BROWSER_BOTTOM": "Veuillez reconnecter avec Chrome."
   },
   "SLIDE_MENU": {
-    "CROPS": "Recoltes",
+    "CROPS": "Récoltes",
     "DOCUMENTS": "Documents",
     "FINANCES": "Finances",
-    "INSIGHTS": "Connaissances",
     "MANAGE": "Gestion",
+    "INSIGHTS": "Mesures additionnelles",
     "TASKS": "Tâches"
   },
   "STATUS": {
@@ -1449,8 +1450,8 @@
     "COMPLETE_TASK_CHANGES": "Avez-vous dû apporter des modifications à cette tâche\u00a0?",
     "COMPLETE_TASK_DURATION": "Combien de temps la tâche a-t-elle pris pour se terminer\u00a0?",
     "COMPLETE_TASK_FLOW": "achèvement de la tâche",
-    "COMPLETION_DETAILS": "Détails de l'achèvement de la tâche",
-    "COMPLETION_NOTES": "Notes de fin de tâche",
+    "COMPLETION_DETAILS": "Détails de la tâche",
+    "COMPLETION_NOTES": "Notes sur la tâche",
     "COMPLETION_NOTES_CHAR_LIMIT": "Les notes doivent comporter moins de 10 000 caractères",
     "CREATE_CUSTOM_HARVEST_USE": "Créer une utilisation de récolte personnalisée",
     "CURRENT": "Courant",

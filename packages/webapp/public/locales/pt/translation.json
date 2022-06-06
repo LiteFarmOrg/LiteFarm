@@ -427,6 +427,7 @@
     "RESET_PASSWORD_LINK": "Enviar novo link de senha/password"
   },
   "FARM_MAP": {
+    "TUTORIALS": "MISSING",
     "AREA_DETAILS": {
       "NETWORK": "Problemas de conexão com a rede",
       "PERIMETER": "Perímetro",

@@ -4,9 +4,11 @@ import LineVideo from '../../../assets/videos/LineDrawing.mp4';
 import PointVideo from '../../../assets/videos/AddingPoints.mp4';
 import styles from './styles.module.scss';
 import TitleLayout from '../../Layout/TitleLayout';
+import { useTranslation } from 'react-i18next';
 const VIDEO_START_TIME = '#t=0.001';
 
 function PureVideoView({ history }) {
+  const { t } = useTranslation();
   const areaVideoRef = useRef(null);
   const lineVideoRef = useRef(null);
   const pointVideoRef = useRef(null);
@@ -18,7 +20,7 @@ function PureVideoView({ history }) {
   }, []);
 
   return (
-    <TitleLayout title={'Map Tutorials'} onGoBack={() => history.push('/map')}>
+    <TitleLayout title={t('FARM_MAP.TUTORIALS')} onGoBack={() => history.push('/map')}>
       <div className={styles.videoFlex}>
         <div style={{ flex: '1' }}>
           <video

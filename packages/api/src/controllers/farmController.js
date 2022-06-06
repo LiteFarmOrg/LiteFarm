@@ -257,7 +257,7 @@ const farmController = {
         params: {
           location: gridPoints,
           timestamp: new Date(Date.now()),
-          key: process.env.GOOGLE_MAPS_API_KEY,
+          key: process.env.GOOGLE_API_KEY,
         },
       });
       return timeZone.data.rawOffset;
@@ -271,7 +271,7 @@ const farmController = {
               params: {
                 location: gridPoints,
                 timestamp: new Date(Date.now()),
-                key: process.env.GOOGLE_MAPS_API_KEY,
+                key: process.env.GOOGLE_API_KEY,
               },
             });
             return timeZone.data.rawOffset;

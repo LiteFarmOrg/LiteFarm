@@ -94,13 +94,12 @@
     "MANAGER": "Gestionnaire"
   },
   "EXPORT": {
-    "HI": "MISSING",
-    "SEASON": "MISSING",
-    "CERTIFICATION": "MISSING",
-    "GET_YOUR_EXPORT": "MISSING",
-    "SUBJECT": "MISSING",
-    "PRIVACY": "MISSING",
-    "LANGUAGE_DELAY": "MISSING"
-  },
-  "HELP_REQUESTREQUEST_INFORMATION": "HELP_REQUESTREQUEST_INFORMATION"
+    "HI": "Bonjour",
+    "SEASON": "Nous espérons que vous avez eu une saison fantastique à",
+    "CERTIFICATION": " Vous pouvez cliquer sur le lien ci-dessous pour télécharger un fichier zip de vos documents de certification et tous les documents à l'appui (photos d'emballages de semences, reçus d'entrée, etc.) pour votre période de déclaration.",
+    "GET_YOUR_EXPORT": "Obtenir vos documents",
+    "SUBJECT": "Export de documents de certification de LiteFarm",
+    "PRIVACY": "Chez LiteFarm, nous prenons votre vie privée au sérieux, donc vous devrez être connecté avant que vous puissiez accéder votre export. Désolée pour le dérangement. Bonne chance avec votre soumission et merci d'utiliser LiteFarm!",
+    "LANGUAGE_DELAY": "Les cultures et les intrants dans les documents sont en anglais, mais ils seront disponible en français très prochainement. Nous sommes sincèrement désolés pour tout inconvénient."
+  }
 }

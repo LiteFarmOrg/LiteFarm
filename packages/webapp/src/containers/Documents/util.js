@@ -19,15 +19,22 @@ export function useSortByName(documents) {
 
 export function useStringFilteredDocuments(documents, filterString) {
   return useMemo(() => {
-    const lowerCaseFilter = filterString?.toLowerCase() || '';
+    const lowerCaseFilter =
+      filterString
+        ?.toLowerCase()
+        .normalize('NFD')
+        .replace(/\p{Diacritic}/gu, '')
+        .replace(/\W/g, '')
+        .trim() || '';
     const check = (names) => {
       for (const name of names) {
         if (
-          name?.toLowerCase().includes(lowerCaseFilter) ||
           name
             ?.toLowerCase()
             .normalize('NFD')
             .replace(/\p{Diacritic}/gu, '')
+            .replace(/\W/g, '')
+            .trim()
             .includes(lowerCaseFilter)
         )
           return true;

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getSeason } from './utils/season';
 import WeatherBoard from '../../containers/WeatherBoard';
@@ -16,6 +16,7 @@ import {
 } from '../ChooseFarm/chooseFarmFlowSlice';
 
 import PreparingExportModal from '../../components/Modals/PreparingExportModal';
+import { getAlert } from '../Navigation/Alert/saga.js';
 
 export default function Home({ history }) {
   const { t } = useTranslation();
@@ -30,6 +31,9 @@ export default function Home({ history }) {
   const showHelpRequestModal = useSelector(showHelpRequestModalSelector);
   const showRequestConfirmationModalOnClick = () => dispatch(dismissHelpRequestModal());
 
+  useEffect(() => {
+    dispatch(getAlert());
+  }, []);
 
   return (
     <PureHome greeting={t('HOME.GREETING')} first_name={userFarm?.first_name} imgUrl={imgUrl}>
@@ -44,8 +48,6 @@ export default function Home({ history }) {
       )}
 
       {showExportModal && <PreparingExportModal dismissModal={() => dismissExportModal(false)} />}
-
-
     </PureHome>
   );
 }

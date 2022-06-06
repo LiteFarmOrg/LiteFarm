@@ -33,7 +33,7 @@
   },
   "PASSWORD_RESET_REQUEST": {
     "DID_YOU_FORGET": "Olvidó su clave en Litefarm? No se preocupe! Haga clic en el botón de Cambiar y su acceso será restaurado pronto.",
-    "RESET": "Cambiar Clave",
+    "RESET": "Cambiar contraseña",
     "IGNORE": "Si no solicitó que le enviaramos este correo, por favor ignórelo. No habrá cambios en su cuenta.",
     "SUBJECT": "Solicitud de recuperacion de clave"
   },

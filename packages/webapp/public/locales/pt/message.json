@@ -34,7 +34,7 @@
       "UPDATE": "Falha ao atualizar variedade de cultivo"
     },
     "SUCCESS": {
-      "ADD": "Variedade salvo com sucesso!",
+      "ADD": "Variedade salva com sucesso!",
       "DELETE": "Variedade de cultivo deletado",
       "UPDATE": "Variedade de cultivo atualizada com sucesso"
     }
@@ -90,10 +90,10 @@
   },
   "MAP": {
     "FAIL_PATCH": "Falha ao atualizar",
-    "FAIL_POST": "Falha ao adicionar novo",
-    "SUCCESS_DELETE": " retirado com sucesso",
-    "SUCCESS_PATCH": " atualizado com sucesso",
-    "SUCCESS_POST": " salvo com sucesso"
+    "FAIL_POST": "Falha ao adicionar novo/a",
+    "SUCCESS_DELETE": " retirado/a com sucesso",
+    "SUCCESS_PATCH": " atualizado/a com sucesso",
+    "SUCCESS_POST": " salvo/a com sucesso"
   },
   "ORGANIC_CERTIFIER_SURVEY": {
     "ERROR": {

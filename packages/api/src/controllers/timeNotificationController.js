@@ -46,7 +46,7 @@ const timeNotificationController = {
       );
 
       if (unassignedTasks.length > 0 && farmManagement.length > 0) {
-        await sendWeeklyUnassignedTaskNotifications(farm_id, farmManagement);
+        await sendWeeklyUnassignedTaskNotifications(farm_id, farmManagement, isDayLaterThanUtc);
       }
 
       const status = unassignedTasks.length > 0 && farmManagement.length > 0 ? 201 : 200;
@@ -103,7 +103,10 @@ const timeNotificationController = {
  * @param {String} firstTaskTranslationKey - task translation key of the first unassigned task
  * @async
  */
-async function sendWeeklyUnassignedTaskNotifications(farmId, farmManagement) {
+async function sendWeeklyUnassignedTaskNotifications(farmId, farmManagement, isDayLaterThanUtc) {
+  const today = new Date();
+  if (isDayLaterThanUtc) today.setDate(today.getDate() + 1);
+  const todayStr = today.toISOString().split('T')[0];
   await NotificationUser.notify(
     {
       title: { translation_key: 'NOTIFICATION.WEEKLY_UNASSIGNED_TASKS.TITLE' },
@@ -113,6 +116,7 @@ async function sendWeeklyUnassignedTaskNotifications(farmId, farmManagement) {
       context: {
         task_translation_key: 'FIELD_WORK_TASK',
         notification_type: 'WEEKLY_UNASSIGNED_TASKS',
+        notification_date: todayStr,
       },
       farm_id: farmId,
     },
@@ -126,7 +130,10 @@ async function sendWeeklyUnassignedTaskNotifications(farmId, farmManagement) {
  * @param {String} userId
  * @async
  */
-async function sendDailyDueTodayTaskNotification(farmId, userId) {
+async function sendDailyDueTodayTaskNotification(farmId, userId, isDayLaterThanUtc) {
+  const today = new Date();
+  if (isDayLaterThanUtc) today.setDate(today.getDate() + 1);
+  const todayStr = today.toISOString().split('T')[0];
   await NotificationUser.notify(
     {
       title: { translation_key: 'NOTIFICATION.DAILY_TASKS_DUE_TODAY.TITLE' },
@@ -136,6 +143,7 @@ async function sendDailyDueTodayTaskNotification(farmId, userId) {
       context: {
         task_translation_key: 'FIELD_WORK_TASK',
         notification_type: 'DAILY_TASKS_DUE_TODAY',
+        notification_date: todayStr,
       },
       farm_id: farmId,
     },

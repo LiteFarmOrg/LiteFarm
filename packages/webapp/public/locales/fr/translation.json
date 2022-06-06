@@ -466,7 +466,8 @@
       "DOWNLOAD": "Télécharger",
       "EMAIL_TO_ME": "Envoyez-moi une courriel",
       "EMAILING": "Envoi en cours",
-      "TITLE": "Exportez la carte de votre ferme"
+      "TITLE": "Exportez la carte de votre ferme",
+      "LOADING": "Chargement..."
     },
     "FARM_SITE_BOUNDARY": {
       "EDIT_TITLE": "Modifier les limites du site de la ferme",

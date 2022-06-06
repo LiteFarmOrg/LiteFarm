@@ -66,6 +66,7 @@ export default function NotificationPage() {
               />
             );
           })
+          .reverse()
       ) : (
         <Semibold style={{ color: 'var(--teal700)', marginLeft: '24px' }}>
           {t('NOTIFICATION.NONE_TO_DISPLAY')}

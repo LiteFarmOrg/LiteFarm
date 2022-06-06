@@ -93,7 +93,10 @@ function TaskAllLocations({ history, location }) {
   const readOnlyPinCoordinates = useReadOnlyPinCoordinates();
 
   const onContinue = () => {
-    if (taskTypesBypassCrops.includes(persistedFormData.task_type_id)) {
+    if (
+      taskTypesBypassCrops.includes(persistedFormData.task_type_id) &&
+      !readOnlyPinCoordinates?.length
+    ) {
       dispatch(setManagementPlansData([]));
       return history.push('/add_task/task_details', location?.state);
     }

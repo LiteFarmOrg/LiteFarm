@@ -4,7 +4,11 @@
     "TYPE_HEADER": "Tipo de soporte",
     "MESSAGE_HEADER": "Mensaje",
     "CONTACT_METHOD_HEADER": "Metodo de contacto preferido",
-    "SUBJECT": "Su solicitud de ayuda de LiteFarm"
+    "SUBJECT": "Su solicitud de ayuda de LiteFarm",
+    "REQUEST_INFORMATION": "Solicitar Información",
+    "REPORT_A_BUG": "MISSING",
+    "REQUEST_A_FEATURE": "MISSING",
+    "OTHER": "MISSING"
   },
   "TEMPLATE": {
     "DEAR": "Querido",
@@ -97,6 +101,6 @@
     "SUBJECT": "sus documentos de certificacion de Litefarm",
     "HI": "Hola",
     "GET_YOUR_EXPORT": "Obtener documentos",
-    "LANGUAGE_DELAY" : "Los cultivos e insumos en el reporte estan en Ingles, pero muy pronto estara disponible en Español. Pedimos disculpas por los inconvenientes."
+    "LANGUAGE_DELAY": "Los cultivos e insumos en el reporte estan en Ingles, pero muy pronto estara disponible en Español. Pedimos disculpas por los inconvenientes."
   }
 }

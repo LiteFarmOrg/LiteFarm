@@ -9,9 +9,10 @@ import {
   tasksByManagementPlanIdSelector,
 } from '../../taskSlice';
 import TaskCard from '../../Task/TaskCard';
-import React, { useMemo } from 'react';
+import React, { useEffect } from 'react';
 import { taskCardContentByManagementPlanSelector } from '../../Task/taskCardContentSelector';
 import { onAddTask } from '../../Task/onAddTask';
+import { getManagementPlansAndTasks } from '../../saga';
 
 export default function ManagementTasks({ history, match, location }) {
   const dispatch = useDispatch();
@@ -21,6 +22,10 @@ export default function ManagementTasks({ history, match, location }) {
   const management_plan_id = match.params.management_plan_id;
   const plan = useSelector(managementPlanSelector(management_plan_id));
   const isAdmin = useSelector(isAdminSelector);
+
+  useEffect(() => {
+    dispatch(getManagementPlansAndTasks());
+  }, []);
 
   const onBack = () => {
     history.push(`/crop/${variety_id}/management`, location?.state);

@@ -60,14 +60,6 @@ export default function TaskPage({ history }) {
     setIsFilterOpen(true);
   };
 
-  // useEffect(() => {
-  //   dispatch(getManagementPlansAndTasks());
-  // }, []);
-
-  // useEffect(() => {
-  //   dispatch(resetAndUnLockFormData());
-  // }, []);
-
   useEffect(() => {
     dispatch(getManagementPlansAndTasks());
     dispatch(resetAndUnLockFormData());
@@ -99,12 +91,6 @@ export default function TaskPage({ history }) {
         break;
     }
   }, []);
-
-  // useEffect(() => {
-  //   if (history.location.state?.notification_type === DAILY_TASKS_DUE_TODAY) {
-  //     dispatch(setTasksFilterDueToday({ user_id, first_name, last_name, date: history.location.state.notification_date }));
-  //   }
-  // }, []);
 
   const assigneeValue = useMemo(() => {
     let unassigned;

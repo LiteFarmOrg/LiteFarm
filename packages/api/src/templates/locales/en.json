@@ -101,6 +101,5 @@
     "MANAGER": "Manager",
     "WORKER": "Worker",
     "EXTENSION_OFFICER": "Extension Officer"
-  },
-  "HELP_REQUESTREQUEST_INFORMATION": "HELP_REQUESTREQUEST_INFORMATION"
+  }
 }

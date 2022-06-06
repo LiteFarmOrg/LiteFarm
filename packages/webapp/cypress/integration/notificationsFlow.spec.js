@@ -34,7 +34,7 @@ describe.only('Notifications flow tests', () => {
     cy.url().should('include', '/notifications');
   });
 
-  it('Weekly scheduled notifications', () => {
+  it.only('Weekly scheduled notifications', () => {
     //Test for LF-2386
     //login as farm manager
     cy.visit('/');
@@ -55,12 +55,11 @@ describe.only('Notifications flow tests', () => {
       .its('entitiesReducer.userFarmReducer.farm_id')
       .then((farm_id) => {
         id = farm_id;
-        authorization =
-          'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyZXF1ZXN0VGltZWROb3RpZmljYXRpb25zIjp0cnVlfQ.iadEd66S9ICLLEzZODAN3-gdoA2frUFra-DRGIu2gIc';
+        authorization = 'JWT TOKEN';
         cy.log(authorization);
         cy.request({
           method: 'POST',
-          url: `http://localhost:5001/time_notification/weekly_unassigned_tasks/${id}`,
+          url: `${Cypress.env('apiUrl')}/time_notification/weekly_unassigned_tasks/${id}`,
           headers: {
             Authorization: `Bearer ${authorization}`,
           },
@@ -73,16 +72,15 @@ describe.only('Notifications flow tests', () => {
       });
 
     cy.visit('/notifications');
-    cy.get(':nth-child(3) > :nth-child(2) > ._semibold_prr07_51')
-      .contains('Unassigned tasks')
-      .should('exist');
+    cy.get('[data-cy=notification-card]').eq(0).contains('Unassigned tasks').should('exist');
 
-    cy.get(':nth-child(3) > :nth-child(2) > ._text_prr07_119')
+    cy.get('[data-cy=notification-card]')
+      .eq(0)
       .contains('You have unassigned tasks due this week.')
       .should('exist');
 
-    cy.get('._container_ik1f8_1 > :nth-child(3)').click();
-    cy.get('._btn_104r1_28').click();
+    cy.get('[data-cy=notification-card]').eq(0).click();
+    cy.contains('Take me there').click();
 
     const today = new Date();
     const day = today.getDay();
@@ -93,7 +91,7 @@ describe.only('Notifications flow tests', () => {
       .should('exist');
   });
 
-  it.only('Daily scheduled notifications', () => {
+  it('Daily scheduled notifications', () => {
     //Test for LF-2387 run after happyPath
     //login as farm manager
     cy.visit('/');
@@ -114,12 +112,11 @@ describe.only('Notifications flow tests', () => {
       .its('entitiesReducer.userFarmReducer.farm_id')
       .then((farm_id) => {
         id = farm_id;
-        authorization =
-          'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyZXF1ZXN0VGltZWROb3RpZmljYXRpb25zIjp0cnVlfQ.iadEd66S9ICLLEzZODAN3-gdoA2frUFra-DRGIu2gIc';
+        authorization = 'JWT TOKEN';
         cy.log(authorization);
         cy.request({
           method: 'POST',
-          url: `http://localhost:5001/time_notification/daily_due_today_tasks/${id}`,
+          url: `${Cypress.env('apiUrl')}/time_notification/daily_due_today_tasks/${id}`,
           headers: {
             Authorization: `Bearer ${authorization}`,
           },
@@ -132,12 +129,10 @@ describe.only('Notifications flow tests', () => {
       });
 
     cy.visit('/notifications');
-    cy.get(':nth-child(3) > :nth-child(2) > ._semibold_prr07_51')
-      .contains('Tasks due today')
-      .should('exist');
+    cy.get('[data-cy=notification-card]').eq(0).contains('Tasks due today').should('exist');
 
-    cy.get('._container_ik1f8_1 > :nth-child(3)').click();
-    cy.get('._btn_104r1_28').click();
+    cy.get('[data-cy=notification-card]').eq(0).click();
+    cy.contains('Take me there').click();
   });
 
   it('Re-assign notification flow', () => {

@@ -18,6 +18,7 @@ import { useIsTaskType } from '../useIsTaskType';
 import { useTranslation } from 'react-i18next';
 import { useReadOnlyPinCoordinates } from '../useReadOnlyPinCoordinates';
 import { useMaxZoom } from '../../Map/useMaxZoom';
+import { managementPlanSelector } from '../../managementPlanSlice';
 
 export default function TaskLocationsSwitch({ history, match, location }) {
   const isCropLocation = useIsTaskType('HARVEST_TASK');
@@ -130,6 +131,9 @@ function TaskLocations({
 }) {
   const { grid_points } = useSelector(userFarmSelector);
   const { maxZoomRef, getMaxZoom } = useMaxZoom();
+  const managementPlan = location?.state?.management_plan_id
+    ? useSelector(managementPlanSelector(location.state.management_plan_id))
+    : null;
   return (
     <HookFormPersistProvider>
       <PureTaskLocations
@@ -143,6 +147,7 @@ function TaskLocations({
         maxZoomRef={maxZoomRef}
         getMaxZoom={getMaxZoom}
         defaultLocation={location.state.location ?? null}
+        targetsWildCrop={managementPlan?.crop_management_plan?.is_wild ?? false}
       />
     </HookFormPersistProvider>
   );

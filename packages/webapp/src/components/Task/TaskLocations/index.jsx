@@ -23,6 +23,7 @@ export default function PureTaskLocations({
   maxZoomRef,
   getMaxZoom,
   defaultLocation,
+  targetsWildCrop,
 }) {
   const { t } = useTranslation();
   const progress = 43;
@@ -66,6 +67,10 @@ export default function PureTaskLocations({
       locations.some((location) => location.location_id === defaultLocation.location_id) &&
       onSelectLocation(defaultLocation.location_id);
   }, [defaultLocation]);
+
+  useEffect(() => {
+    setValue(SHOW_WILD_CROP, targetsWildCrop);
+  }, []);
 
   const getSelectedLocations = (location_id, selectedLocations) => {
     const isSelected = selectedLocations

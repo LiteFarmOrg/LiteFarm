@@ -22,8 +22,6 @@ export default function ActualRevenue({ history, match }) {
   const dateRange = useSelector(dateRangeSelector);
   const dispatch = useDispatch();
 
-  console.log(dateRange);
-
   const year = new Date().getFullYear();
 
   const {

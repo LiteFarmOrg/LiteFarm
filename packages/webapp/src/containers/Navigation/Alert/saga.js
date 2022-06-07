@@ -1,5 +1,5 @@
 /*
- *  Copyright 2019-2022 LiteFarm.org
+ *  Copyright 2019, 2020, 2021, 2022 LiteFarm.org
  *  This file is part of LiteFarm.
  *
  *  LiteFarm is free software: you can redistribute it and/or modify
@@ -24,6 +24,9 @@ import {
   alertSelector,
 } from './alertSlice';
 import { notificationsUrl, alertsUrl } from '../../../apiConfig';
+import { v4 as uuidv4 } from 'uuid';
+
+let channel;
 
 function subscribeToChannel(sseUrl) {
   return eventChannel((emitter) => {
@@ -36,6 +39,7 @@ function subscribeToChannel(sseUrl) {
 
     const unsubscribe = () => {
       subscription.close();
+      channel = undefined;
     };
 
     return unsubscribe;
@@ -58,12 +62,20 @@ export function* getAlertSaga() {
     // Tell the store this saga is loading.
     yield put(onLoadingAlertStart(farm_id));
 
+    let subscriberId = localStorage.getItem('subscriberId');
+    if (!subscriberId) {
+      subscriberId = uuidv4();
+      localStorage.setItem('subscriberId', subscriberId);
+    }
+
     while (true) {
       // Set up subscription to server-sent events.
-      const channel = yield call(
-        subscribeToChannel,
-        `${alertsUrl}?user_id=${user_id}&farm_id=${farm_id}`,
-      );
+      if (!channel) {
+        channel = yield call(
+          subscribeToChannel,
+          `${alertsUrl}?user_id=${user_id}&farm_id=${farm_id}&subscriber_id=${subscriberId}`,
+        );
+      }
 
       // Call API to get notifications; count alerts and store result
       const notifications = yield call(getNotifications, user_id, farm_id);

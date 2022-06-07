@@ -400,6 +400,7 @@ const Unit = ({
           required: required && t('common:REQUIRED'),
           valueAsNumber: true,
           max: { value: getMax(), message: t('UNIT.VALID_VALUE') + max },
+          min: { value: 0, message: t('UNIT.VALID_VALUE') + max },
         })}
       />
       {info && !showError && <Info style={classes.info}>{info}</Info>}

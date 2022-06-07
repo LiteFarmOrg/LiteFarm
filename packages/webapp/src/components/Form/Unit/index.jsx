@@ -371,7 +371,7 @@ const Unit = ({
               styles={reactSelectStyles}
               isSearchable={false}
               options={options}
-              isDisabled={isSelectDisabled}
+              isDisabled={isSelectDisabled || disabled}
             />
           )}
         />

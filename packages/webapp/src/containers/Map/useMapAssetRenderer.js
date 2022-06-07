@@ -40,7 +40,8 @@ import { userFarmSelector } from '../userFarmSlice';
  *
  * Do not modify, copy or reuse
  */
-const useMapAssetRenderer = ({ isClickable }) => {
+const useMapAssetRenderer = ({ isClickable, drawingState }) => {
+  console.log(drawingState);
   const { handleSelection, dismissSelectionModal } = useSelectionHandler();
   const dispatch = useDispatch();
   const filterSettings = useSelector(mapFilterSettingSelector);
@@ -197,19 +198,13 @@ const useMapAssetRenderer = ({ isClickable }) => {
     );
     hasLocation = assetsWithLocations.length > 0;
 
-    if (!hasLocation) {
+    if (!hasLocation && !drawingState.isActive) {
       const locationMarker = new maps.Marker({
         icon: MapPin,
         position: grid_points,
         map: map,
         clickable: false,
         crossOnDrag: false,
-        label: {
-          text: farm_name,
-          color: 'white',
-          fontSize: '16px',
-          className: styles.farmPointLabel,
-        },
       });
       mapBounds.extend(grid_points);
     }

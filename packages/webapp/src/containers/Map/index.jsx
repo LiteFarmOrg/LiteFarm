@@ -156,7 +156,11 @@ export default function Map({ history }) {
       fullscreenControl: false,
     };
   };
-  const { drawAssets } = useMapAssetRenderer({ isClickable: !drawingState.type });
+  const { drawAssets } = useMapAssetRenderer({
+    isClickable: !drawingState.type,
+    drawingState: drawingState,
+    reconstructOverlay: reconstructOverlay,
+  });
   const { getMaxZoom } = useMaxZoom();
   const handleGoogleMapApi = (map, maps) => {
     getMaxZoom(maps);

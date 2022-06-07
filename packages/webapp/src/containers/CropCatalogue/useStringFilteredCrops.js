@@ -10,6 +10,7 @@ export default function useStringFilteredCrops(crops, filterString) {
         .normalize('NFD')
         .replace(/\p{Diacritic}/gu, '')
         .replace(/\W/g, '')
+        .replace(/_/g, '')
         .trim() || '';
     const check = (names) => {
       for (const name of names) {
@@ -19,6 +20,7 @@ export default function useStringFilteredCrops(crops, filterString) {
             .normalize('NFD')
             .replace(/\p{Diacritic}/gu, '')
             .replace(/\W/g, '')
+            .replace(/_/g, '')
             .trim()
             .includes(lowerCaseFilter)
         )

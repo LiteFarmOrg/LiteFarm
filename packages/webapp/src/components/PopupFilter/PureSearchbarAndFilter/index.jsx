@@ -67,4 +67,5 @@ PureSearchbarAndFilter.propTypes = {
   value: PropTypes.string,
   onChange: PropTypes.func,
   isFilterActive: PropTypes.bool,
+  disableFilter: PropTypes.bool,
 };

@@ -27,6 +27,7 @@ import { notificationsUrl, alertsUrl } from '../../../apiConfig';
 import { v4 as uuidv4 } from 'uuid';
 
 let channel;
+let subscribedFarmId;
 
 function subscribeToChannel(sseUrl) {
   return eventChannel((emitter) => {
@@ -57,20 +58,26 @@ function countAlerts(notifications) {
 export const getAlert = createAction('getAlertSaga');
 
 export function* getAlertSaga() {
-  const { farm_id, user_id } = yield select(userFarmSelector);
+  let subscriberId = localStorage.getItem('subscriberId');
+  if (!subscriberId) {
+    subscriberId = uuidv4();
+    localStorage.setItem('subscriberId', subscriberId);
+  }
+
+  let farm_id, user_id;
   try {
-    // Tell the store this saga is loading.
-    yield put(onLoadingAlertStart(farm_id));
-
-    let subscriberId = localStorage.getItem('subscriberId');
-    if (!subscriberId) {
-      subscriberId = uuidv4();
-      localStorage.setItem('subscriberId', subscriberId);
-    }
-
     while (true) {
+      const userFarm = yield select(userFarmSelector);
+      farm_id = userFarm.farm_id;
+      user_id = userFarm.user_id;
+
+      // Tell the store this saga is loading.
+      yield put(onLoadingAlertStart(farm_id));
+
       // Set up subscription to server-sent events.
-      if (!channel) {
+      if (!channel || farm_id !== subscribedFarmId) {
+        if (channel) channel.close();
+        subscribedFarmId = farm_id;
         channel = yield call(
           subscribeToChannel,
           `${alertsUrl}?user_id=${user_id}&farm_id=${farm_id}&subscriber_id=${subscriberId}`,

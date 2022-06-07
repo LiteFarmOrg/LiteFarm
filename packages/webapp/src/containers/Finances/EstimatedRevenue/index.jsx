@@ -24,6 +24,8 @@ export default function EstimatedRevenue({ history, match }) {
   const dateRange = useSelector(dateRangeSelector);
   const dispatch = useDispatch();
 
+  const year = new Date().getFullYear();
+
   const {
     register,
     getValues,
@@ -34,8 +36,12 @@ export default function EstimatedRevenue({ history, match }) {
     mode: 'onBlur',
     shouldUnregister: true,
     defaultValues: {
-      from_date: dateRange.startDate,
-      to_date: dateRange.endDate,
+      from_date: dateRange?.startDate
+        ? new Date(dateRange.startDate.split('T')[0] + 'T00:00:00.000Z').toISOString().split('T')[0]
+        : `${year}-01-01`,
+      to_date: dateRange?.endDate
+        ? new Date(dateRange.endDate.split('T')[0] + 'T00:00:00.000Z').toISOString().split('T')[0]
+        : `${year}-12-31`,
     },
   });
 

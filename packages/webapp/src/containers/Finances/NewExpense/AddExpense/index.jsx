@@ -89,11 +89,14 @@ class AddExpense extends Component {
     let keys = Object.keys(currentExpenseDetail);
     let farm_id = this.props.farm.farm_id;
     let date = this.state.date;
+    let missingText = false;
     for (let k of keys) {
       let values = currentExpenseDetail[k];
 
       for (let v of values) {
-        if (v.note !== '') {
+        if (v.note === '') {
+          missingText = true;
+        } else {
           let value = parseFloat(parseFloat(v.value).toFixed(2));
           let temp = {
             farm_id,
@@ -109,7 +112,11 @@ class AddExpense extends Component {
 
     // if (data.length < 1) {
     // alert(this.props.t('EXPENSE.ADD_EXPENSE.REQUIRED_ERROR'));
-    if (data.filter((d) => d.value <= 0 || isNaN(d.value)).length === 0) {
+    if (
+      !missingText &&
+      data.length &&
+      data.filter((d) => d.value <= 0 || isNaN(d.value)).length === 0
+    ) {
       this.props.dispatch(addExpenses(data));
       history.push('/finances');
     }

@@ -40,7 +40,7 @@ import { userFarmSelector } from '../userFarmSlice';
  *
  * Do not modify, copy or reuse
  */
-const useMapAssetRenderer = ({ isClickable }) => {
+const useMapAssetRenderer = ({ isClickable, showingConfirmButtons, drawingState }) => {
   const { handleSelection, dismissSelectionModal } = useSelectionHandler();
   const dispatch = useDispatch();
   const filterSettings = useSelector(mapFilterSettingSelector);
@@ -51,6 +51,9 @@ const useMapAssetRenderer = ({ isClickable }) => {
     }
     return nextAssetGeometries;
   };
+
+  const [farmLocationMarker, setFarmLocationMarker] = useState(null);
+  const [farmMap, setFarmMap] = useState();
 
   const [assetGeometries, setAssetGeometries] = useState(initAssetGeometriesState());
   //TODO get prev filter state from redux
@@ -96,7 +99,7 @@ const useMapAssetRenderer = ({ isClickable }) => {
   const areaAssets = useSelector(sortedAreaSelector);
   const lineAssets = useSelector(lineSelector);
   const pointAssets = useSelector(pointSelector);
-  const { grid_points, farm_name } = useSelector(userFarmSelector);
+  const { grid_points } = useSelector(userFarmSelector);
 
   const assetFunctionMap = (assetType) => {
     return isArea(assetType)
@@ -177,6 +180,18 @@ const useMapAssetRenderer = ({ isClickable }) => {
     markerClusterRef.current = markerCluster;
   };
 
+  useEffect(() => {
+    if (farmMap !== null) {
+      if (drawingState.isActive) {
+        farmLocationMarker?.setMap(null);
+      } else if (showingConfirmButtons) {
+        farmLocationMarker?.setMap(null);
+      } else {
+        farmLocationMarker?.setMap(farmMap);
+      }
+    }
+  }, [drawingState.isActive, showingConfirmButtons]);
+
   const drawAssets = (map, maps, mapBounds) => {
     maps.event.addListenerOnce(map, 'idle', function () {
       markerClusterRef?.current?.repaint();
@@ -198,19 +213,15 @@ const useMapAssetRenderer = ({ isClickable }) => {
     hasLocation = assetsWithLocations.length > 0;
 
     if (!hasLocation) {
+      setFarmMap(map);
       const locationMarker = new maps.Marker({
         icon: MapPin,
         position: grid_points,
         map: map,
         clickable: false,
         crossOnDrag: false,
-        label: {
-          text: farm_name,
-          color: 'white',
-          fontSize: '16px',
-          className: styles.farmPointLabel,
-        },
       });
+      setFarmLocationMarker(locationMarker);
       mapBounds.extend(grid_points);
     }
 

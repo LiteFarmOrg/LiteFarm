@@ -66,6 +66,8 @@ export default function Map({ history }) {
   const [showZeroAreaWarning, setZeroAreaWarning] = useState(false);
   const successMessage = useSelector(setSuccessMessageSelector);
 
+  const [showingConfirmButtons, setShowingConfirmButtons] = useState(false);
+
   const initialLineData = {
     [locationEnum.watercourse]: {
       width: 1,
@@ -156,7 +158,11 @@ export default function Map({ history }) {
       fullscreenControl: false,
     };
   };
-  const { drawAssets } = useMapAssetRenderer({ isClickable: !drawingState.type });
+  const { drawAssets } = useMapAssetRenderer({
+    isClickable: !drawingState.type,
+    drawingState: drawingState,
+    showingConfirmButtons: showingConfirmButtons,
+  });
   const { getMaxZoom } = useMaxZoom();
   const handleGoogleMapApi = (map, maps) => {
     getMaxZoom(maps);
@@ -208,6 +214,7 @@ export default function Map({ history }) {
       });
     });
     maps.event.addListener(drawingManagerInit, 'overlaycomplete', function (drawing) {
+      setShowingConfirmButtons(true);
       finishDrawing(drawing, maps, map);
       this.setDrawingMode();
     });
@@ -323,6 +330,7 @@ export default function Map({ history }) {
   };
 
   const handleConfirm = () => {
+    setShowingConfirmButtons(false);
     if (!isLineWithWidth()) {
       const locationData = getOverlayInfo();
       dispatch(upsertFormData(locationData));
@@ -331,6 +339,7 @@ export default function Map({ history }) {
   };
 
   const handleLineConfirm = (lineData) => {
+    setShowingConfirmButtons(false);
     const data = { ...getOverlayInfo(), ...lineData };
     dispatch(upsertFormData(data));
     history.push(`/create_location/${drawingState.type}`);
@@ -390,11 +399,13 @@ export default function Map({ history }) {
                   resetDrawing(true);
                   dispatch(resetAndUnLockFormData());
                   closeDrawer();
+                  setShowingConfirmButtons(false);
                 }}
                 onClickTryAgain={() => {
                   setZeroAreaWarning(false);
                   resetDrawing();
                   startDrawing(drawingState.type);
+                  setShowingConfirmButtons(false);
                 }}
                 onClickConfirm={handleConfirm}
                 showZeroAreaWarning={showZeroAreaWarning}

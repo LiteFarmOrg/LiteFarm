@@ -75,7 +75,7 @@ Cypress.Commands.add('loginFarmOwner', () => {
   cy.get('[data-cy=enterPassword-submit]').should('exist').and('be.enabled').click();
 
   cy.get('[data-cy=chooseFarm-ubc]').eq(0).should('exist').click('right');
-  cy.get('[data-cy=chooseFarm-proceed]').should('exist').and('be.enabled').click();
+  cy.get('[data-cy="chooseFarm-proceed"]').should('exist').and('be.enabled').click();
 });
 
 Cypress.Commands.add('loginFarmWorker', () => {
@@ -163,8 +163,45 @@ Cypress.Commands.add('createTaskToday', () => {
   cy.contains('Clean').should('exist').and('not.be.disabled').click({ force: true });
 
   const date = new Date();
-  const alertDateTime = date.setHours(23, 0, 0);
-  const dueDate = getDateInputFormat(alertDateTime);
+  const dueDate = getDateInputFormat(date);
+
+  cy.get('[data-cy=addTask-taskDate]').should('exist').type(dueDate);
+
+  cy.get('[data-cy=addTask-continue]')
+    .should('exist')
+    .and('not.be.disabled')
+    .click({ force: true });
+  cy.wait(2000);
+  cy.get('[data-cy=map-selectLocation]').click(540, 201, {
+    force: false,
+  });
+  cy.get('[data-cy=addTask-locationContinue]')
+    .should('exist')
+    .and('not.be.disabled')
+    .click({ force: true });
+  cy.get('[data-cy="addTask-cropsContinue"]')
+    .should('exist')
+    .and('not.be.disabled')
+    .click({ force: true });
+  cy.get('[data-cy=addTask-detailsContinue]')
+    .should('exist')
+    .and('not.be.disabled')
+    .click({ force: true });
+  cy.get('.css-ujecln-Input2').click();
+  cy.contains('Test Farmer').click({ force: true });
+  cy.get('[data-cy=addTask-assignmentSave]')
+    .should('exist')
+    .and('not.be.disabled')
+    .click({ force: true });
+});
+
+Cypress.Commands.add('createUnassignedTaskThisWeek', () => {
+  //Create an unassigned cleaning task due today
+  cy.contains('Create').should('exist').and('not.be.disabled').click({ force: true });
+  cy.contains('Clean').should('exist').and('not.be.disabled').click({ force: true });
+
+  const date = new Date();
+  const dueDate = getDateInputFormat(date);
 
   cy.get('[data-cy=addTask-taskDate]').should('exist').type(dueDate);
 

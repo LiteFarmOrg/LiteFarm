@@ -205,6 +205,10 @@ describe.only('Tasks flow tests', () => {
     //Test for LF-2391
     //navigate to the read only view of an abandoned tasks
     //expected due date label and input between abandonment date and location
+    //Test for F21-588
+    //Abandon a task assigned to another user
+    //Ensure user not asked to rate the task.
+    //Rating not shown on the abandoned task page and it should be assigned as “I prefer not to say”
   });
 
   it('location tasks tab', () => {

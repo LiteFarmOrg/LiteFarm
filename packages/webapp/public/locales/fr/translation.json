@@ -51,7 +51,7 @@
         "COVERING_SOIL": "Terre de couverture",
         "FENCING": "Cloturation",
         "OTHER": "Autre",
-        "PREPARING_BEDS_OR_ROWS": "Preparage des lits ou rangs",
+        "PREPARING_BEDS_OR_ROWS": "Preparage des plates-bandes ou rangs",
         "PRUNING": "Émondage",
         "SHADE_CLOTH": "Toile à ombrer",
         "TERMINATION": "Terminage",
@@ -113,9 +113,9 @@
     "WILD_CROP": "Cultures sauvages"
   },
   "BED_PLAN": {
-    "LENGTH_OF_BED": "Longueur des lits",
-    "NUMBER_0F_BEDS": "# de lits",
-    "NUMBER_OF_ROWS": "# de lignes dans le lit",
+    "LENGTH_OF_BED": "Longueur des plates-bandes",
+    "NUMBER_0F_BEDS": "# de plates-bandes",
+    "NUMBER_OF_ROWS": "# de lignes dans le plate-bande",
     "PLANT_SPACING": "Espacement des plantes",
     "PLANTING_DETAILS": "Veuillez spécifier les détails de la plantation"
   },

@@ -401,8 +401,8 @@
   },
   "EXPENSE": {
     "ADD_EXPENSE": {
-      "MIN_ERROR": "Please enter a value greater than ",
-      "REQUIRED_ERROR": "Expense is required",
+      "MIN_ERROR": "Por favor ingrese un valor mayor que ",
+      "REQUIRED_ERROR": "Se requiere gasto",
       "TITLE_1": "Nuevo gasto (1 de 2)",
       "TITLE_2": "Nuevo gasto (2 de 2)"
     },
@@ -1060,10 +1060,10 @@
       "LOG_OUT": "El botón para cerrar la sesión",
       "MANAGE_EMPLOYEE": "Manejar sus trabajadores",
       "MANAGE_TASK": "Manejar sus tareas",
-      "MAP_FARM": "Recorre el mapa su finca",
-      "SEE_UPDATES": "MISSING",
+      "MAP_FARM": "Mapear su granja",
+      "SEE_UPDATES": "Ver actualizaciones importantes",
       "NOTIFICATION": "Aqui puede:, • Manejar sus tareas, • Mira qué más está pasando, • Coordinar actividades de la finca",
-      "NOTIFICATION_TITLE": "MISSING",
+      "NOTIFICATION_TITLE": "Este es su centro de notificaciones",
       "PROFILE": "Aquí encontrará:, • Su informacion, • Datos útiles, • El botón para cerrar la sesión",
       "PROFILE_TITLE": "Este es su perfil",
       "SEE_TASK": "Mira qué más está pasando",

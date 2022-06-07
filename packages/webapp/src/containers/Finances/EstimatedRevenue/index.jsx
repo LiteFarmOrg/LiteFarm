@@ -34,8 +34,8 @@ export default function EstimatedRevenue({ history, match }) {
     mode: 'onBlur',
     shouldUnregister: true,
     defaultValues: {
-      from_date: new Date(dateRange.startDate).toISOString().split('T')[0],
-      to_date: new Date(dateRange.endDate).toISOString().split('T')[0],
+      from_date: dateRange.startDate,
+      to_date: dateRange.endDate,
     },
   });
 

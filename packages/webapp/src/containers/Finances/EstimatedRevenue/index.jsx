@@ -1,7 +1,7 @@
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import Layout from '../../../components/Layout';
 import PageTitle from '../../../components/PageTitle/v2';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { useForm } from 'react-hook-form';
 import moment from 'moment';
@@ -13,12 +13,16 @@ import FinanceListHeader from '../../../components/Finances/FinanceListHeader';
 import { managementPlansSelector } from '../../managementPlanSlice';
 import { taskEntitiesByManagementPlanIdSelector } from '../../taskSlice';
 import { isTaskType } from '../../Task/useIsTaskType';
+import { dateRangeSelector } from '../selectors';
+import { setDateRange } from '../actions';
 
 export default function EstimatedRevenue({ history, match }) {
   const { t } = useTranslation();
   const onGoBack = () => history.push(`/finances`);
   const managementPlans = useSelector(managementPlansSelector);
   const tasksByManagementPlanId = useSelector(taskEntitiesByManagementPlanIdSelector);
+  const dateRange = useSelector(dateRangeSelector);
+  const dispatch = useDispatch();
 
   const {
     register,
@@ -30,13 +34,17 @@ export default function EstimatedRevenue({ history, match }) {
     mode: 'onBlur',
     shouldUnregister: true,
     defaultValues: {
-      from_date: moment().startOf('year').format('YYYY-MM-DD'),
-      to_date: moment().endOf('year').format('YYYY-MM-DD'),
+      from_date: dateRange.startDate,
+      to_date: dateRange.endDate,
     },
   });
 
   const fromDate = watch('from_date');
   const toDate = watch('to_date');
+
+  useEffect(() => {
+    dispatch(setDateRange({ startDate: fromDate, endDate: toDate }));
+  }, [fromDate, toDate]);
 
   const estimatedRevenueItems = useMemo(() => {
     return managementPlans

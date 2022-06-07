@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import ReactDOM from 'react-dom';
 import { useTranslation } from 'react-i18next';
 import styles from './styles.module.scss';
@@ -298,10 +298,6 @@ export default function Map({ history }) {
 
   const mapWrapperRef = useRef();
 
-  const currentMap = useMemo(() => {
-    return mapWrapperRef.current;
-  }, [mapWrapperRef.current]);
-
   const handleShowVideo = () => {
     history.push('/map/videos');
   };
@@ -309,6 +305,14 @@ export default function Map({ history }) {
   const handleCloseSuccessHeader = () => {
     dispatch(canShowSuccessHeader(false));
     setShowSuccessHeader(false);
+  };
+
+  const handleDownload = () => {
+    html2canvas(mapWrapperRef.current, { useCORS: true }).then((canvas) => {
+      canvas.toBlob((blob) => {
+        saveAs(blob, `${farm_name}-export-${new Date().toISOString()}.png`);
+      });
+    });
   };
 
   const handleShare = () => {
@@ -426,10 +430,9 @@ export default function Map({ history }) {
         )}
         {showExportModal && (
           <ExportMapModal
+            onClickDownload={handleDownload}
             onClickShare={handleShare}
             dismissModal={() => setShowExportModal(false)}
-            currentMap={currentMap}
-            farmName={farm_name}
           />
         )}
         {showDrawAreaSpotlightModal && (

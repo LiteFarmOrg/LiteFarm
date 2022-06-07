@@ -50,7 +50,8 @@ export function filterTasks(tasks, filters) {
     .filter(
       (t) =>
         !activeLocations.size ||
-        t.locations.find(({ location_id }) => activeLocations.has(location_id)),
+        t.locations.find(({ location_id }) => activeLocations.has(location_id)) ||
+        !t.locations.length
     )
     .filter(
       (t) =>

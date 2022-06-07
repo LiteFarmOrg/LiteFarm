@@ -40,6 +40,7 @@ export function PureNotificationCard({
 
   return (
     <Card
+      data-cy="notification-card"
       className={clsx(status === 'Read' ? styles.notificationRead : styles.notificationUnread)}
       style={{
         display: 'flex',

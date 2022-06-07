@@ -34,47 +34,105 @@ describe.only('Notifications flow tests', () => {
     cy.url().should('include', '/notifications');
   });
 
-  it('Weekly scheduled notifications', () => {
+  it.only('Weekly scheduled notifications', () => {
     //Test for LF-2386
     //login as farm manager
     cy.visit('/');
     cy.loginFarmOwner();
     //Create unassigned tasks due this week
+    cy.wait(2000);
     cy.visit('/tasks');
-    cy.createTask(); //sets the task due date to today
-    //set the clock to monday this week
+    cy.createUnassignedTaskThisWeek(); //creates a task due date to today assigned to the logged in user
 
-    const date = new Date();
-    let day = date.getDay();
-    date.setDate(date.getDate() - (day - 1));
-    const alertDateTime = date.setHours(6, 0, 0);
-    cy.log(alertDateTime);
-    cy.clock(alertDateTime);
-    cy.wait(3 * 1000);
+    //post request to the api to generate notifications
 
-    //check notifications are generated for all unassigned tasks due this week on this farm
+    let id;
+    let authorization;
+
+    cy.window()
+      .its('store')
+      .invoke('getState')
+      .its('entitiesReducer.userFarmReducer.farm_id')
+      .then((farm_id) => {
+        id = farm_id;
+        authorization = 'JWT TOKEN';
+        cy.log(authorization);
+        cy.request({
+          method: 'POST',
+          url: `${Cypress.env('apiUrl')}/time_notification/weekly_unassigned_tasks/${id}`,
+          headers: {
+            Authorization: `Bearer ${authorization}`,
+          },
+        })
+          .then((response) => {
+            return response;
+          })
+          .its('status')
+          .should('eq', 201);
+      });
+
     cy.visit('/notifications');
-    cy.url().should('include', '/notifications');
+    cy.get('[data-cy=notification-card]').eq(0).contains('Unassigned tasks').should('exist');
+
+    cy.get('[data-cy=notification-card]')
+      .eq(0)
+      .contains('You have unassigned tasks due this week.')
+      .should('exist');
+
+    cy.get('[data-cy=notification-card]').eq(0).click();
+    cy.contains('Take me there').click();
+
+    const today = new Date();
+    const day = today.getDay();
+    const Monday = today.setDate(today.getDate() - (day - 1));
+    const dispMonday = getDateInputFormat(Monday);
+    cy.get('._pillContainer_70or9_15 > :nth-child(2)')
+      .contains(`From: ${dispMonday}`)
+      .should('exist');
   });
 
-  it.only('Daily scheduled notifications', () => {
-    //Test for LF-2387
+  it('Daily scheduled notifications', () => {
+    //Test for LF-2387 run after happyPath
     //login as farm manager
     cy.visit('/');
     cy.loginFarmOwner();
     //Create unassigned tasks due this week
+    cy.wait(2000);
     cy.visit('/tasks');
-    cy.createTaskToday(); //creates a task due date to today
-    //set the clock to  to 6am
+    cy.createTaskToday(); //creates a task due date to today assigned to the logged in user
 
-    const date = new Date();
-    const alertDateTime = date.setHours(6, 0, 0);
-    cy.log(alertDateTime);
-    cy.clock(alertDateTime);
-    cy.wait(3 * 1000);
-    //check notifications are generated for all unassigned tasks due this week on this farm
+    //post request to the api to generate notifications
+
+    let id;
+    let authorization;
+
+    cy.window()
+      .its('store')
+      .invoke('getState')
+      .its('entitiesReducer.userFarmReducer.farm_id')
+      .then((farm_id) => {
+        id = farm_id;
+        authorization = 'JWT TOKEN';
+        cy.log(authorization);
+        cy.request({
+          method: 'POST',
+          url: `${Cypress.env('apiUrl')}/time_notification/daily_due_today_tasks/${id}`,
+          headers: {
+            Authorization: `Bearer ${authorization}`,
+          },
+        })
+          .then((response) => {
+            return response;
+          })
+          .its('status')
+          .should('eq', 201);
+      });
+
     cy.visit('/notifications');
-    cy.url().should('include', '/notifications');
+    cy.get('[data-cy=notification-card]').eq(0).contains('Tasks due today').should('exist');
+
+    cy.get('[data-cy=notification-card]').eq(0).click();
+    cy.contains('Take me there').click();
   });
 
   it('Re-assign notification flow', () => {

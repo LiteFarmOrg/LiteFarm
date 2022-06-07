@@ -47,6 +47,7 @@ export default function NotificationPage() {
           value={filterString}
           onChange={filterStringOnChange}
           isFilterActive={false}
+          disableFilter={true}
         />
       </div>
 

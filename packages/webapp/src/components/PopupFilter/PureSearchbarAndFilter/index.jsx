@@ -34,7 +34,13 @@ const useStyles = makeStyles({
   },
 });
 
-export default function PureSearchbarAndFilter({ onFilterOpen, value, onChange, isFilterActive }) {
+export default function PureSearchbarAndFilter({
+  onFilterOpen,
+  value,
+  onChange,
+  isFilterActive,
+  disableFilter = false,
+}) {
   const classes = useStyles();
   return (
     <>
@@ -45,9 +51,11 @@ export default function PureSearchbarAndFilter({ onFilterOpen, value, onChange, 
           value={value}
           onChange={onChange}
         />
-        {isFilterActive && <div className={classes.circle} />}
-        {isFilterActive && (
-          <FiFilter data-cy="tasks-filter" className={classes.filter} onClick={onFilterOpen} />
+        {!disableFilter && (
+          <>
+            {isFilterActive && <div className={classes.circle} />}
+            <FiFilter data-cy="tasks-filter" className={classes.filter} onClick={onFilterOpen} />
+          </>
         )}
       </div>
     </>

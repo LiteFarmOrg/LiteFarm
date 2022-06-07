@@ -15,10 +15,10 @@
     "MESSAGE_HEADER": "Message",
     "CONTACT_METHOD_HEADER": "Méthode de contact préférée",
     "SUBJECT": "Votre demande d'aide LiteFarm",
-    "REQUEST_INFORMATION": "MISSING",
-    "REPORT_A_BUG": "MISSING",
-    "REQUEST_A_FEATURE": "MISSING",
-    "OTHER": "MISSING"
+    "REQUEST_INFORMATION": "Informations requises",
+    "REPORT_A_BUG": "Signaler un bogue",
+    "REQUEST_A_FEATURE": "Demander une fonctionnalité",
+    "OTHER": "Autre"
   },
   "INVITE": {
     "GREAT_FOLK": "Les gens formidables de",

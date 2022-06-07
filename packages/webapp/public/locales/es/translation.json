@@ -332,14 +332,14 @@
     "HELP_BODY": "Selecciona el rango de fechas para crear un reporte financiero para su granja en ese rango.",
     "HELP_TITLE": "Ayuda con el rango de fechas",
     "TITLE": "Filtrar reporte por fecha",
-    "INVALID_RANGE_MESSAGE": "MISSING"
+    "INVALID_RANGE_MESSAGE": "La fecha de finalización debe ser posterior a la fecha de inicio para obtener resultados"
   },
   "DATE_RANGE_PICKER": {
     "FROM": "Desde",
     "TO": "Hasta",
     "TO_MUST_BE_AFTER_FROM": "La fecha 'Hasta' debe ser posterior a la fecha 'Desde'",
     "REVENUE_HELP_TITLE": "Ayuda con el rango de fechas",
-    "REVENUE_HELP_BODY": "MISSING"
+    "REVENUE_HELP_BODY": "Solo se mostrarán los planes que tengan una tarea de cosecha planificada o completada dentro del rango de fechas indicado."
   },
   "DOCUMENTS": {
     "ADD": {
@@ -427,7 +427,7 @@
     "RESET_PASSWORD_LINK": "Envíar enlace para nueva contraseña."
   },
   "FARM_MAP": {
-    "TUTORIALS": "MISSING",
+    "TUTORIALS": "Tutoriales de mapas",
     "AREA_DETAILS": {
       "NETWORK": "Error de conexion.",
       "PERIMETER": "Perimetro",

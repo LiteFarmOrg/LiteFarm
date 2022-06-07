@@ -56,22 +56,28 @@ const checkScope = (expectedScopes, { checkConsent = true } = {}) => {
     const { user_id } = req.user;
     const { farm_id } = headers; // these are the minimum props needed for most endpoints' authorization
 
-    if (!user_id) return res.status(400).send('Missing user_id in headers');
-    if (!farm_id) return res.status(400).send('Missing farm_id in headers');
+    if (!user_id || user_id === 'undefined')
+      return res.status(400).send('Missing user_id in headers');
+    if (!farm_id || farm_id === 'undefined')
+      return res.status(400).send('Missing farm_id in headers');
+    try {
+      const scopes = await getScopes(user_id, farm_id, { checkConsent });
 
-    const scopes = await getScopes(user_id, farm_id, { checkConsent });
-
-    const allowed = expectedScopes.some(function (expectedScope) {
-      return scopes.find((permission) => permission.name === expectedScope);
-    });
-    if (scopes.length) {
-      req.role = scopes[0].role_id;
+      const allowed = expectedScopes.some(function (expectedScope) {
+        return scopes.find((permission) => permission.name === expectedScope);
+      });
+      if (scopes.length) {
+        req.role = scopes[0].role_id;
+      }
+      return allowed
+        ? next()
+        : res
+            .status(403)
+            .send(`User does not have the following permission(s): ${expectedScopes.join(', ')}`);
+    } catch (error) {
+      console.log('Error checking permissions', error);
+      return res.status(403).send('Error checking permissions');
     }
-    return allowed
-      ? next()
-      : res
-          .status(403)
-          .send(`User does not have the following permission(s): ${expectedScopes.join(', ')}`);
   };
 };
 

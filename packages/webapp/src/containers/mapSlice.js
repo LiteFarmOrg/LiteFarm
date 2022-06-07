@@ -14,7 +14,7 @@ const mapLocationReducer = createSlice({
   initialState,
   reducers: {
     setSuccessMessage: (state, { payload: [locationType, action] }) => {
-      state.successMessage = `${locationType}${action}`;
+      state.successMessage = `${locationType} ${action?.toString()?.toLowerCase()}`;
     },
     canShowSuccessHeader: (state, { payload: showHeader }) => {
       state.canShowSuccessHeader = showHeader;

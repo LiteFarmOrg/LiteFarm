@@ -159,10 +159,12 @@ class NotificationUser extends baseModel {
       .andWhere('alert', true)
       .context({ user_id: userId });
     const userSubs = NotificationUser.subscriptions.get(userId);
-    userSubs?.forEach((subscription) => {
-      if (farmId === subscription.farm_id) {
-        subscription.sendAlert(-count);
-      }
+    userSubs?.forEach((subscriber) => {
+      subscriber?.forEach((subscription) => {
+        if (farmId === subscription.farm_id) {
+          subscription.sendAlert(-count);
+        }
+      });
     });
   }
 
@@ -197,10 +199,12 @@ class NotificationUser extends baseModel {
   static alert(farm_id, userIds) {
     userIds.forEach((user_id) => {
       const userSubs = NotificationUser.subscriptions.get(user_id);
-      userSubs?.forEach((subscription) => {
-        if (farm_id === subscription.farm_id || farm_id === null) {
-          subscription.sendAlert();
-        }
+      userSubs?.forEach((subscriber) => {
+        subscriber?.forEach((subscription) => {
+          if (farm_id === subscription.farm_id || farm_id === null) {
+            subscription.sendAlert();
+          }
+        });
       });
     });
   }

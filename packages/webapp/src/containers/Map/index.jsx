@@ -66,7 +66,9 @@ export default function Map({ history }) {
   const [showZeroAreaWarning, setZeroAreaWarning] = useState(false);
   const successMessage = useSelector(setSuccessMessageSelector);
 
-  const [showingConfirmButtons, setShowingConfirmButtons] = useState(false);
+  const [showingConfirmButtons, setShowingConfirmButtons] = useState(
+    history?.location?.state?.hideLocationPin ?? false,
+  );
 
   const initialLineData = {
     [locationEnum.watercourse]: {

@@ -181,16 +181,14 @@ const useMapAssetRenderer = ({ isClickable, showingConfirmButtons, drawingState 
   };
 
   useEffect(() => {
-    if (farmMap !== null) {
-      if (drawingState.isActive) {
-        farmLocationMarker?.setMap(null);
-      } else if (showingConfirmButtons) {
-        farmLocationMarker?.setMap(null);
-      } else {
-        farmLocationMarker?.setMap(farmMap);
-      }
+    if (drawingState.isActive) {
+      farmLocationMarker?.setMap(null);
+    } else if (showingConfirmButtons) {
+      farmLocationMarker?.setMap(null);
+    } else {
+      farmLocationMarker?.setMap(farmMap ?? null);
     }
-  }, [drawingState.isActive, showingConfirmButtons]);
+  }, [drawingState.isActive, showingConfirmButtons, farmLocationMarker]);
 
   const drawAssets = (map, maps, mapBounds) => {
     maps.event.addListenerOnce(map, 'idle', function () {

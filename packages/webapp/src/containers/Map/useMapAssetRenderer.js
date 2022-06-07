@@ -186,7 +186,7 @@ const useMapAssetRenderer = ({ isClickable, showingConfirmButtons, drawingState 
     } else if (showingConfirmButtons) {
       farmLocationMarker?.setMap(null);
     } else {
-      farmLocationMarker?.setMap(farmMap);
+      farmLocationMarker?.setMap(farmMap ?? null);
     }
   }, [drawingState.isActive, showingConfirmButtons, farmLocationMarker]);
 

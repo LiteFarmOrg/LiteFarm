@@ -103,7 +103,6 @@ class AddExpense extends Component {
             expense_date: date,
           };
           data.push(temp);
-          console.log(temp);
         }
       }
     }

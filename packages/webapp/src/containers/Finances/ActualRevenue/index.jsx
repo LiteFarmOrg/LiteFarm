@@ -37,10 +37,22 @@ export default function ActualRevenue({ history, match }) {
     shouldUnregister: true,
     defaultValues: {
       from_date: dateRange?.startDate
-        ? new Date(dateRange.startDate.split('T')[0] + 'T00:00:00.000Z').toISOString().split('T')[0]
+        ? new Date(
+            typeof dateRange.startDate === 'string'
+              ? dateRange.startDate.split('T')[0] + 'T00:00:00.000Z'
+              : dateRange.startDate,
+          )
+            .toISOString()
+            .split('T')[0]
         : `${year}-01-01`,
       to_date: dateRange?.endDate
-        ? new Date(dateRange.endDate.split('T')[0] + 'T00:00:00.000Z').toISOString().split('T')[0]
+        ? new Date(
+            typeof dateRange.endDate === 'string'
+              ? dateRange.endDate.split('T')[0] + 'T00:00:00.000Z'
+              : dateRange.endDate,
+          )
+            .toISOString()
+            .split('T')[0]
         : `${year}-12-31`,
     },
   });

@@ -136,145 +136,148 @@ export const styles = {
   clearIndicator: () => ({}),
 };
 
-const ReactSelect = React.forwardRef(
-  (
-    {
-      label,
-      optional,
-      placeholder,
-      options,
-      toolTipContent,
-      icon,
-      style,
-      autoOpen,
-      components,
-      isSearchable,
-      defaultValue,
-      creatable = false,
-      isDisabled = false,
-      ...props
-    },
-    ref,
-  ) => {
-    const { t } = useTranslation();
-    return (
-      <div data-cy="react-select" style={style}>
-        {(label || toolTipContent || icon) && (
-          <div
-            style={{
-              display: 'flex',
-              justifyContent: 'space-between',
-              height: '20px',
-            }}
-          >
-            <Label>
-              {label}
-              {optional && (
-                <Label sm className={styles.sm} style={{ marginLeft: '4px' }}>
-                  {t('common:OPTIONAL')}
-                </Label>
-              )}
-            </Label>
-            {toolTipContent && (
-              <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-                <Infoi content={toolTipContent} autoOpen={autoOpen} />
-              </div>
-            )}
-            {icon && (
-              <span style={{ marginRight: 'auto', marginLeft: '8px' }} className={styles.icon}>
-                {icon}
-              </span>
-            )}
-          </div>
-        )}{' '}
-        {creatable && (
-          <CreatableSelect
-            customStyles
-            styles={{
-              ...styles,
-              singleValue: (provided, state) => ({
-                ...provided,
-                color: isDisabled ? 'var(--grey600)' : null,
-              }),
-              container: (provided, state) => ({
-                ...provided,
-                backgroundColor: isDisabled ? 'var(--inputDisabled)' : null,
-              }),
-            }}
-            placeholder={placeholder}
-            options={options}
-            components={{
-              ClearIndicator: ({ innerProps }) => (
-                <Underlined
-                  {...innerProps}
-                  style={{
-                    position: 'absolute',
-                    right: 0,
-                    bottom: '-20px',
-                    color: colors.brown700,
-                  }}
-                >
-                  {t('REACT_SELECT.CLEAR')}
-                </Underlined>
-              ),
-              ...components,
-            }}
-            isSearchable={options?.length > 8 || isSearchable}
-            ref={ref}
-            defaultValue={defaultValue}
-            isDisabled={isDisabled}
-            isClearable={true}
-            {...props}
-          />
-        )}
-        {!creatable && (
-          <Select
-            customStyles
-            styles={{
-              ...styles,
-              singleValue: (provided, state) => ({
-                ...provided,
-                color: isDisabled ? 'var(--grey600)' : null,
-              }),
-              container: (provided, state) => ({
-                ...provided,
-                backgroundColor: isDisabled ? 'var(--inputDisabled)' : null,
-              }),
-            }}
-            placeholder={placeholder}
-            options={options}
-            components={{
-              ClearIndicator: ({ innerProps }) => (
-                <Underlined
-                  {...innerProps}
-                  style={{
-                    position: 'absolute',
-                    right: 0,
-                    bottom: '-20px',
-                    color: colors.brown700,
-                  }}
-                >
-                  {t('REACT_SELECT.CLEAR_ALL')}
-                </Underlined>
-              ),
-              MultiValueRemove: ({ innerProps }) => (
-                <div {...innerProps}>
-                  <BsX />
-                </div>
-              ),
-              ...components,
-            }}
-            isSearchable={options?.length > 8 || isSearchable}
-            ref={ref}
-            defaultValue={defaultValue}
-            isDisabled={isDisabled}
-            {...props}
-          />
-        )}
-      </div>
-    );
+const ReactSelect = React.forwardRef(function ReactSelect(
+  {
+    label,
+    optional,
+    placeholder,
+    createPromptText,
+    options,
+    toolTipContent,
+    icon,
+    style,
+    autoOpen,
+    components,
+    isSearchable,
+    defaultValue,
+    creatable = false,
+    isDisabled = false,
+    ...props
   },
-);
+  ref,
+) {
+  const { t } = useTranslation();
+  if (!placeholder) placeholder = t('common:SELECT') + '...';
+  if (!createPromptText) createPromptText = t('common:CREATE');
+
+  return (
+    <div data-cy="react-select" style={style}>
+      {(label || toolTipContent || icon) && (
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            height: '20px',
+          }}
+        >
+          <Label>
+            {label}
+            {optional && (
+              <Label sm className={styles.sm} style={{ marginLeft: '4px' }}>
+                {t('common:OPTIONAL')}
+              </Label>
+            )}
+          </Label>
+          {toolTipContent && (
+            <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+              <Infoi content={toolTipContent} autoOpen={autoOpen} />
+            </div>
+          )}
+          {icon && (
+            <span style={{ marginRight: 'auto', marginLeft: '8px' }} className={styles.icon}>
+              {icon}
+            </span>
+          )}
+        </div>
+      )}{' '}
+      {creatable && (
+        <CreatableSelect
+          customStyles
+          formatCreateLabel={(userInput) => `${createPromptText} "${userInput}"`}
+          styles={{
+            ...styles,
+            singleValue: (provided, state) => ({
+              ...provided,
+              color: isDisabled ? 'var(--grey600)' : null,
+            }),
+            container: (provided, state) => ({
+              ...provided,
+              backgroundColor: isDisabled ? 'var(--inputDisabled)' : null,
+            }),
+          }}
+          placeholder={placeholder}
+          options={options}
+          components={{
+            ClearIndicator: ({ innerProps }) => (
+              <Underlined
+                {...innerProps}
+                style={{
+                  position: 'absolute',
+                  right: 0,
+                  bottom: '-20px',
+                  color: colors.brown700,
+                }}
+              >
+                {t('REACT_SELECT.CLEAR')}
+              </Underlined>
+            ),
+            ...components,
+          }}
+          isSearchable={options?.length > 8 || isSearchable}
+          ref={ref}
+          defaultValue={defaultValue}
+          isDisabled={isDisabled}
+          isClearable={true}
+          {...props}
+        />
+      )}
+      {!creatable && (
+        <Select
+          customStyles
+          styles={{
+            ...styles,
+            singleValue: (provided, state) => ({
+              ...provided,
+              color: isDisabled ? 'var(--grey600)' : null,
+            }),
+            container: (provided, state) => ({
+              ...provided,
+              backgroundColor: isDisabled ? 'var(--inputDisabled)' : null,
+            }),
+          }}
+          placeholder={placeholder}
+          options={options}
+          components={{
+            ClearIndicator: ({ innerProps }) => (
+              <Underlined
+                {...innerProps}
+                style={{
+                  position: 'absolute',
+                  right: 0,
+                  bottom: '-20px',
+                  color: colors.brown700,
+                }}
+              >
+                {t('REACT_SELECT.CLEAR_ALL')}
+              </Underlined>
+            ),
+            MultiValueRemove: ({ innerProps }) => (
+              <div {...innerProps}>
+                <BsX />
+              </div>
+            ),
+            ...components,
+          }}
+          isSearchable={options?.length > 8 || isSearchable}
+          ref={ref}
+          defaultValue={defaultValue}
+          isDisabled={isDisabled}
+          {...props}
+        />
+      )}
+    </div>
+  );
+});
 
 ReactSelect.propTypes = {
   label: PropTypes.string,

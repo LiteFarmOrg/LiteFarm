@@ -103,13 +103,14 @@ class AddExpense extends Component {
             expense_date: date,
           };
           data.push(temp);
+          console.log(temp);
         }
       }
     }
 
-    if (data.length < 1) {
-      alert(this.props.t('EXPENSE.ADD_EXPENSE.REQUIRED_ERROR'));
-    } else {
+    // if (data.length < 1) {
+    // alert(this.props.t('EXPENSE.ADD_EXPENSE.REQUIRED_ERROR'));
+    if (data.filter((d) => d.value <= 0 || isNaN(d.value)).length === 0) {
       this.props.dispatch(addExpenses(data));
       history.push('/finances');
     }
@@ -137,7 +138,9 @@ class AddExpense extends Component {
     return value ? undefined : this.props.t('EXPENSE.ADD_EXPENSE.REQUIRED_ERROR');
   }
   min(value) {
-    return value >= 0 ? undefined : this.props.t('EXPENSE.ADD_EXPENSE.MIN_ERROR') + '0';
+    return !isNaN(value) && value >= 0
+      ? undefined
+      : this.props.t('EXPENSE.ADD_EXPENSE.MIN_ERROR') + '0';
   }
 
   render() {

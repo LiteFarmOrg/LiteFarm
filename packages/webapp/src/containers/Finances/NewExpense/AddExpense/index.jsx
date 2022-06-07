@@ -109,6 +109,8 @@ class AddExpense extends Component {
 
     if (data.length < 1) {
       alert(this.props.t('EXPENSE.ADD_EXPENSE.REQUIRED_ERROR'));
+    } else if (data.filter((d) => d.value <= 0).length > 0) {
+      alert(this.props.t('EXPENSE.ADD_EXPENSE.MIN_ERROR') + '0');
     } else {
       this.props.dispatch(addExpenses(data));
       history.push('/finances');

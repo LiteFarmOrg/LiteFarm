@@ -401,6 +401,7 @@
   },
   "EXPENSE": {
     "ADD_EXPENSE": {
+      "ALL_FIELDS_REQUIRED": "Todos os campos são obrigatórios",
       "MIN_ERROR": "Insira um valor maior que ",
       "REQUIRED_ERROR": "Expense is required",
       "TITLE_1": "Despesa Nova (1 de 2)",

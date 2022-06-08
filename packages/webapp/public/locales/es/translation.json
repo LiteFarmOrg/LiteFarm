@@ -401,6 +401,7 @@
   },
   "EXPENSE": {
     "ADD_EXPENSE": {
+      "ALL_FIELDS_REQUIRED": "Todos los campos son obligatorios",
       "MIN_ERROR": "Por favor ingrese un valor mayor que ",
       "REQUIRED_ERROR": "Se requiere gasto",
       "TITLE_1": "Nuevo gasto (1 de 2)",

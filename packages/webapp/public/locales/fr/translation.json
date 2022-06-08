@@ -402,6 +402,7 @@
   },
   "EXPENSE": {
     "ADD_EXPENSE": {
+      "ALL_FIELDS_REQUIRED": "Tous les champs sont requis",
       "MIN_ERROR": "Veuillez saisir une valeur supérieure à ",
       "REQUIRED_ERROR": "Une dépense est requise",
       "TITLE_1": "Nouvelle dépense (1 sur 2)",

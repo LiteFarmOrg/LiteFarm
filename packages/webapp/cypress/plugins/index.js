@@ -19,7 +19,7 @@
  */
 // eslint-disable-next-line no-unused-vars
 const axios = require('axios');
-const makeEmailAccount = require('./email-account')
+const makeEmailAccount = require('./email-account');
 
 module.exports = (on, config) => {
   // `on` is used to hook into various events Cypress emits
@@ -30,18 +30,23 @@ module.exports = (on, config) => {
 
   require('@cypress/code-coverage/task')(on, config);
 
-  const emailAccount = makeEmailAccount()
+  return config;
+};
+
+module.exports = async (on) => {
+  const emailAccount = await makeEmailAccount();
 
   on('task', {
     getUserEmail() {
-      return emailAccount.email
+      return emailAccount.email;
+    },
+
+    getUserPassword() {
+      return emailAccount.password;
     },
 
     getLastEmail() {
-      return emailAccount.getLastEmail()
+      return emailAccount.getLastEmail();
     },
-  })
-
-
-  return config;
+  });
 };

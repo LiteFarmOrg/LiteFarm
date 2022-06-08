@@ -2,6 +2,7 @@ import { getDateInputFormat } from '../../src/util/moment';
 
 describe.only('LiteFarm end to end test', () => {
   let userEmail;
+  let userPassword;
 
   before(() => {
     // get and check the test email only once before the tests
@@ -9,12 +10,11 @@ describe.only('LiteFarm end to end test', () => {
       expect(email).to.be.a('string');
       userEmail = email;
     });
-  });
 
-
-
-  it.only('login with ethereal',()=>{
-    cy.log(userEmail);
+    cy.task('getUserPassword').then((password) => {
+      expect(password).to.be.a('string');
+      userPassword = password;
+    });
   });
 
   it('Happy path', { defaultCommandTimeout: 7000 }, () => {

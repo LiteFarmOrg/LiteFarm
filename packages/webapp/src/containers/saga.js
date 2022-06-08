@@ -200,9 +200,9 @@ export function* updateUserSaga({ payload: user }) {
   try {
     const result = yield call(axios.put, userUrl + '/' + user_id, data, header);
     yield put(putUserSuccess({ ...user, farm_id, user_id }));
-    i18n.changeLanguage(user.language_preference);
+    const t = yield call(i18n.changeLanguage, user.language_preference);
     localStorage.setItem('litefarm_lang', user.language_preference);
-    yield put(enqueueSuccessSnackbar(i18n.t('message:USER.SUCCESS.UPDATE')));
+    yield put(enqueueSuccessSnackbar(t('message:USER.SUCCESS.UPDATE')));
   } catch (e) {
     console.log(e);
     yield put(enqueueErrorSnackbar(i18n.t('message:USER.ERROR.UPDATE')));

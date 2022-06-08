@@ -221,6 +221,9 @@ class AddExpense extends Component {
                         )}
                       </div>
                     ))}
+                    <div style={{ float: 'right' }}>
+                      {this.props.t('EXPENSE.ADD_EXPENSE.ALL_FIELDS_REQUIRED')}
+                    </div>
                   </div>
                   <div className={styles.addContainer}>
                     <AddLink onClick={() => this.addSubExpense(k)}>

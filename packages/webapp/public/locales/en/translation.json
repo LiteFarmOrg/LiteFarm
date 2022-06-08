@@ -402,6 +402,7 @@
   },
   "EXPENSE": {
     "ADD_EXPENSE": {
+      "ALL_FIELDS_REQUIRED": "All fields are required",
       "MIN_ERROR": "Please enter a value greater than ",
       "REQUIRED_ERROR": "Expense is required",
       "TITLE_1": "New Expense (1 of 2)",

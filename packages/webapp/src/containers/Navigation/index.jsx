@@ -31,7 +31,7 @@ const NavBar = (props) => {
   const isFarmSelected =
     isAuthenticated() && farm && farm.has_consent && farm?.step_five === true && !isInvitationFlow;
   const resetSpotlight = () => {
-    dispatch(setSpotlightToShown(!navigation ? 'navigation' : 'notification'));
+    dispatch(setSpotlightToShown(['notification', 'navigation']));
   };
 
   return isFarmSelected ? (

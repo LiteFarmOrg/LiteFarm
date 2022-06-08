@@ -8,6 +8,10 @@ packages/api/.env
 packages/webapp/.env
 packages/webapp/cypress/videos
 packages/webapp/cypress/screenshots
+packages/webapp/.nyc_output
+packages/webapp/cypress.env.json
 .vscode
 .DS_Store
 .env
+packages/webapp/cypress/integration/1-getting-started
+packages/webapp/cypress/integration/2-advanced-examples

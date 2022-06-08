@@ -13,8 +13,20 @@
 }
 
 .pencil {
-  width: 15.06px;
-  height: 15.02px;
+  font-size: 24px;
+  transform: translateY(30px);
+  margin-left: 20px;
+  color: var(--grey600);
+  cursor: pointer;
+}
+
+.editableContainer {
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 40px;
+  div {
+    flex-grow: 1;
+  }
 }
 
 .rating {

@@ -36,16 +36,18 @@ export function* postCeremonialLocationSaga({ payload: data }) {
       setSuccessMessage([i18n.t('FARM_MAP.MAP_FILTER.CA'), i18n.t('message:MAP.SUCCESS_POST')]),
     );
     yield put(canShowSuccessHeader(true));
-    history.goBack();
+    history.push({ pathname: '/map' });
   } catch (e) {
-    history.push({
-      path: history.location.pathname,
-      state: {
+    history.push(
+      {
+        pathname: history.location.pathname,
+      },
+      {
         error: `${i18n.t('message:MAP.FAIL_POST')} ${i18n
           .t('FARM_MAP.MAP_FILTER.CA')
           .toLowerCase()}`,
       },
-    });
+    );
     console.log(e);
   }
 }
@@ -75,14 +77,16 @@ export function* editCeremonialLocationSaga({ payload: data }) {
     yield put(canShowSuccessHeader(true));
     history.push({ pathname: '/map' });
   } catch (e) {
-    history.push({
-      path: history.location.pathname,
-      state: {
+    history.push(
+      {
+        pathname: history.location.pathname,
+      },
+      {
         error: `${i18n.t('message:MAP.FAIL_PATCH')} ${i18n
           .t('FARM_MAP.MAP_FILTER.CA')
           .toLowerCase()}`,
       },
-    });
+    );
     console.log(e);
   }
 }
@@ -104,14 +108,16 @@ export function* deleteCeremonialLocationSaga({ payload: data }) {
     yield put(canShowSuccessHeader(true));
     history.push({ pathname: '/map' });
   } catch (e) {
-    history.push({
-      path: history.location.pathname,
-      state: {
+    history.push(
+      {
+        pathname: history.location.pathname,
+      },
+      {
         error: {
           retire: true,
         },
       },
-    });
+    );
     console.log(e);
   }
 }

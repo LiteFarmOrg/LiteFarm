@@ -6,7 +6,14 @@ import { getLanguageFromLocalStorage } from './getLanguageFromLocalStorage';
  * @param date
  * @return {string}
  */
-export const getDateInputFormat = (date) => moment(date).utc().format('YYYY-MM-DD');
+export const getDateInputFormat = (date) => moment(date).format('YYYY-MM-DD');
+
+/**
+ *
+ * @param date{string}
+ * @return {string}
+ */
+export const getDateFromDateTimeString = (date) => date.split('T')[0];
 
 /**
  *
@@ -45,18 +52,22 @@ export const addDaysToDate = (date, days, { toUTC = true } = {}) => {
  */
 export const getLocalizedDateString = (date, format = 'MMMM DD, YYYY') =>
   moment(date).locale(getLanguageFromLocalStorage()).format(format);
+
 /**
  *
  * @param date
  * @returns {string}
  */
 export const getManagementPlanCardDate = (date) =>
-  moment(date).locale(getLanguageFromLocalStorage()).utc().format(`MMM DD,'YY`);
+  moment(date).locale(getLanguageFromLocalStorage()).format(`MMM DD,'YY`);
 
 export const getManagementPlanTileDate = (date) =>
-  moment(date).locale(getLanguageFromLocalStorage()).utc().format(`MMM DD,'YY`);
+  moment(date).locale(getLanguageFromLocalStorage()).format(`MMM DD,'YY`);
 
 export const getTaskCardDate = (date) =>
-  moment(date).locale(getLanguageFromLocalStorage()).utc().format('MMM D, YYYY');
+  moment(date).locale(getLanguageFromLocalStorage()).format('MMM D, YYYY');
 
-export const getCurrentDateLong = (date) => moment().utc().format('L');
+export const getNotificationCardDate = (date) =>
+  moment(date).locale(getLanguageFromLocalStorage()).format('MM/DD/YY');
+
+export const getCurrentDateLong = (date) => moment().format('L');

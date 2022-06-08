@@ -10,10 +10,12 @@ i18n
   .use(I18nextBrowserLanguageDetector)
   .init({
     defaultNS: 'translation',
+    nsSeparator: ':',
     fallbackLng: 'en',
-    locales: ['en', 'pt', 'es'],
+    locales: ['en', 'pt', 'es', 'fr'],
     debug: false,
     detection: {
+      order: ['localStorage', 'navigator', 'querystring'],
       lookupLocalStorage: 'litefarm_lang',
     },
 

@@ -7,13 +7,23 @@
     "ERROR": {
       "CREATE": "No se pudo crear el documento",
       "FAILED_ARCHIVE": "No se pudo archivar el documento",
+      "FAILED_UNARCHIVE": "No se pudo desarchivar el documento",
       "FAILED_UPLOAD": "No se pudo subir los archivos adjuntos",
       "UPDATE": "No se pudo actualizar el documento"
     },
     "SUCCESS": {
       "ARCHIVE": "Documento archivado exitosamente",
       "CREATE": "Documento creado exitosamente",
+      "UNARCHIVE": "Documento desarchivado con éxito",
       "UPDATE": "Documento actualizado exitosamente"
+    }
+  },
+  "CROP": {
+    "ERROR": {
+      "DELETE": "No se pudo borrar campo de cultivo"
+    },
+    "SUCCESS": {
+      "DELETE": "Cultivo borrado exitosamente"
     }
   },
   "CROP_VARIETY": {
@@ -27,14 +37,6 @@
       "ADD": "¡Variedad guardada con éxito!",
       "DELETE": "Cultivo eliminado exitosamente",
       "UPDATE": "Cultivo actualizado exitosamente"
-    }
-  },
-  "CROP": {
-    "ERROR": {
-      "DELETE": "No se pudo borrar campo de cultivo"
-    },
-    "SUCCESS": {
-      "DELETE": "Cultivo borrado exitosamente"
     }
   },
   "EXPENSE": {
@@ -89,9 +91,9 @@
   "MAP": {
     "FAIL_PATCH": "Fallo al actualizar",
     "FAIL_POST": "Fallo al crear",
-    "SUCCESS_DELETE": " se retiro exitosamente.",
-    "SUCCESS_PATCH": " se actualizo exitosamente.",
-    "SUCCESS_POST": " se creo exitosamente."
+    "SUCCESS_DELETE": " retirada/o con éxito",
+    "SUCCESS_PATCH": " actualizo/a con éxito.",
+    "SUCCESS_POST": " creo/a con éxito."
   },
   "ORGANIC_CERTIFIER_SURVEY": {
     "ERROR": {
@@ -144,16 +146,6 @@
       "UPDATE": "Turno agregado exitosamente!"
     }
   },
-  "TASK_TYPE": {
-    "CREATE": {
-      "FAILED": "No se pudo crear la tarea personalizada",
-      "SUCCESS": "Tarea personalizada creada con éxito"
-    },
-    "DELETE": {
-      "FAILED": "No se pudo borrar la tarea personalizada",
-      "SUCCESS": "Tarea personalizada borrada con éxito"
-    }
-  },
   "TASK": {
     "ABANDON": {
       "FAILED": "No se pudo abandonar la tarea",
@@ -166,6 +158,16 @@
     "CREATE": {
       "FAILED": "No se pudo crear la tarea",
       "SUCCESS": "Tarea creada con éxito"
+    }
+  },
+  "TASK_TYPE": {
+    "CREATE": {
+      "FAILED": "No se pudo crear la tarea personalizada",
+      "SUCCESS": "Tarea personalizada creada con éxito"
+    },
+    "DELETE": {
+      "FAILED": "No se pudo borrar la tarea personalizada",
+      "SUCCESS": "Tarea personalizada borrada con éxito"
     }
   },
   "USER": {
@@ -185,7 +187,7 @@
       "ADD": "Usuario(a) de la finca agregado exitosamente!",
       "RESTORE": "Acceso de usuario(a) restaurado exitosamente",
       "REVOKE": "Acceso de usuario(a) revocado!",
-      "UPDATE": "Información del(a) usuario(a) actualizado exitosamente!"
+      "UPDATE": "Información del(a) usuario(a) actualizada exitosamente!"
     }
   }
 }

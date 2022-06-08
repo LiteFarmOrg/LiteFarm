@@ -57,8 +57,8 @@ class User extends Model {
         let fieldsToBeHidden = [];
         if (this.user_id === user_id) {
           fieldsToBeHidden = hidden;
-        }else{
-          fieldsToBeHidden = [...hidden, ...hiddenFromOtherUsers]
+        } else {
+          fieldsToBeHidden = [...hidden, ...hiddenFromOtherUsers];
         }
         for (const property of fieldsToBeHidden) {
           delete this[property];
@@ -80,12 +80,18 @@ class User extends Model {
         first_name: { type: 'string', minLength: 1, maxLength: 255 },
         last_name: { type: 'string', maxLength: 255 },
         profile_picture: { type: 'string' },
-        phone_number: { type: 'string' },
-        user_address: { type: 'string' },
+        phone_number: { type: ['string', null] },
+        user_address: { type: ['string', null] },
         email: { type: 'email' },
         notification_setting: {
           type: 'object',
-          required: ['alert_weather', 'alert_worker_finish', 'alert_action_after_scouting', 'alert_before_planned_date', 'alert_pest'],
+          required: [
+            'alert_weather',
+            'alert_worker_finish',
+            'alert_action_after_scouting',
+            'alert_before_planned_date',
+            'alert_pest',
+          ],
           properties: {
             alert_weather: { type: 'boolean' },
             alert_worker_finish: { type: 'boolean' },
@@ -100,13 +106,35 @@ class User extends Model {
           type: 'string',
           enum: ['OTHER', 'PREFER_NOT_TO_SAY', 'MALE', 'FEMALE'],
         },
-        birth_year: { type: ['number', null], multipleOf: 1.0, minimum: 1900, maximum: new Date().getFullYear() },
-        do_not_email: {type: 'boolean'},
+        birth_year: {
+          type: ['number', null],
+          multipleOf: 1.0,
+          minimum: 1900,
+          maximum: new Date().getFullYear(),
+        },
+        do_not_email: { type: 'boolean' },
         created_at: { type: 'date-time' },
         updated_at: { type: 'date-time' },
       },
       additionalProperties: false,
     };
+  }
+
+  static async getNameFromUserId(userId) {
+    const user = await User.query().findById(userId).first();
+    return `${user?.first_name} ${user?.last_name}`;
+  }
+
+  /**
+   * Gets a user by their email.
+   * @param {string} email
+   * @return {Objection.QueryBuilder<User, User>}
+   * @static
+   * @async
+   */
+  static async getUserByEmail(email) {
+    console.log('Getting user by email');
+    return User.query().where('email', email).first();
   }
 }
 

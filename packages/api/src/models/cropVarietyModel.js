@@ -127,7 +127,7 @@ class CropVariety extends BaseModel {
         harvest_days: { type: ['integer', null] },
         termination_days: { type: ['integer', null] },
         seeding_rate: { type: ['number', null] },
-        hs_code_id: { type: ['string', null] },
+        hs_code_id: { type: ['string', 'number', null] },
         ...this.baseProperties,
       },
       additionalProperties: false,

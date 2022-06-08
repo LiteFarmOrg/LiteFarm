@@ -48,11 +48,6 @@
   height: 100%;
 }
 
-.mapFooter {
-  order: 3;
-  z-index: 101;
-}
-
 :export {
   primaryColour: #349289;
   defaultColour: #ffffff;
@@ -141,3 +136,7 @@
   align-items: center;
 }
 
+.farmPointLabel {
+  position: relative;
+  margin-top: 50px;
+}

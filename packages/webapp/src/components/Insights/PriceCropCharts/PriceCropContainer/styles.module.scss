@@ -1,0 +1,66 @@
+.svg {
+  max-width: 100%;
+  font-family: 'Open Sans', 'SansSerif', serif;
+  -webkit-tap-highlight-color: transparent;
+  overflow: visible;
+  color: var(--grey900)
+}
+
+.xAxis {
+  text {
+    pointer-events: none;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
+}
+
+.yAxis {
+  text {
+    pointer-events: none;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
+}
+
+.lines {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.line {
+  cursor: default;
+  opacity: 0.8;
+  fill: transparent;
+}
+
+.circle {
+  cursor: pointer;
+  opacity: 0.9;
+}
+
+.tooltip {
+  pointer-events: none;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.title {
+  pointer-events: none;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}

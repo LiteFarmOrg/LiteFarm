@@ -99,7 +99,7 @@ export function* assignTaskSaga({ payload: { task_id, assignee_user_id } }) {
       { assignee_user_id: assignee_user_id },
       header,
     );
-    yield put(putTaskSuccess({ id: task_id, changes: { assignee_user_id } }));
+    yield put(putTaskSuccess({ assignee_user_id, task_id }));
     yield put(enqueueSuccessSnackbar(i18n.t('message:ASSIGN_TASK.SUCCESS')));
   } catch (e) {
     console.log(e);
@@ -123,11 +123,33 @@ export function* assignTaskOnDateSaga({ payload: { task_id, date, assignee_user_
     let modified_tasks = [];
     for (let i = 0; i < result.data.length; i++) {
       modified_tasks.push({
-        id: result.data[i],
+        id: result.data[i].task_id,
         changes: { assignee_user_id },
       });
     }
     yield put(putTasksSuccess(modified_tasks));
+    yield put(enqueueSuccessSnackbar(i18n.t('message:ASSIGN_TASK.SUCCESS')));
+  } catch (e) {
+    console.log(e);
+    yield put(enqueueErrorSnackbar(i18n.t('message:ASSIGN_TASK.ERROR')));
+  }
+}
+
+export const changeTaskDate = createAction('changeTaskDateSaga');
+
+export function* changeTaskDateSaga({ payload: { task_id, due_date } }) {
+  const { taskUrl } = apiConfig;
+  let { user_id, farm_id } = yield select(loginSelector);
+  const header = getHeader(user_id, farm_id);
+  try {
+    const result = yield call(
+      axios.patch,
+      `${taskUrl}/patch_due_date/${task_id}`,
+      { due_date },
+      header,
+    );
+
+    yield put(putTaskSuccess({ due_date, task_id }));
     yield put(enqueueSuccessSnackbar(i18n.t('message:ASSIGN_TASK.SUCCESS')));
   } catch (e) {
     console.log(e);
@@ -279,7 +301,7 @@ const getPostTaskBody = (data, endpoint, managementPlanWithCurrentLocationEntiti
         delete data[key];
       }
       data.wage_at_moment = data.override_hourly_wage ? data.wage_at_moment : null;
-      data.managementPlans = data.managementPlans.map(({ management_plan_id }) => ({
+      data.managementPlans = data.managementPlans?.map(({ management_plan_id }) => ({
         planting_management_plan_id:
           managementPlanWithCurrentLocationEntities[management_plan_id].planting_management_plan
             .planting_management_plan_id,
@@ -291,9 +313,15 @@ const getPostTaskBody = (data, endpoint, managementPlanWithCurrentLocationEntiti
 
 const getPostHarvestTaskBody = (data, endpoint, managementPlanWithCurrentLocationEntities) => {
   return data.harvest_tasks.map((harvest_task) => {
-    const [location_id, management_plan_id] = harvest_task.id.split('.');
+    const { location_id, management_plan_id } = harvest_task;
     return getObjectInnerValues({
-      harvest_task: { ...harvest_task, id: undefined, notes: undefined },
+      harvest_task: {
+        ...harvest_task,
+        location_id: undefined,
+        management_plan_id: undefined,
+        id: undefined,
+        notes: undefined,
+      },
       ...pick(
         data,
         Object.keys(data).filter(
@@ -363,7 +391,9 @@ const getPostTaskReqBody = (
 
 export const createTask = createAction('createTaskSaga');
 
-export function* createTaskSaga({ payload: data }) {
+export function* createTaskSaga({ payload }) {
+  const { returnPath, ...data } = payload;
+
   const { taskUrl } = apiConfig;
   let { user_id, farm_id } = yield select(loginSelector);
   const { task_translation_key, farm_id: task_farm_id } = yield select(
@@ -398,7 +428,7 @@ export function* createTaskSaga({ payload: data }) {
       yield call(getTasksSuccessSaga, { payload: isHarvest ? result.data : [result.data] });
       yield call(onReqSuccessSaga, {
         message: i18n.t('message:TASK.CREATE.SUCCESS'),
-        pathname: '/tasks',
+        pathname: returnPath ?? '/tasks',
       });
     }
   } catch (e) {
@@ -426,9 +456,8 @@ const getCompletePlantingTaskBody = (task_translation_key) => (data) => {
     const taskType = task_translation_key.toLowerCase();
     const planting_management_plan = data?.taskData?.[taskType]?.planting_management_plan;
     if (planting_management_plan) {
-      data.taskData[taskType].planting_management_plan = getPlantingMethodReqBody(
-        planting_management_plan,
-      );
+      data.taskData[taskType].planting_management_plan =
+        getPlantingMethodReqBody(planting_management_plan);
       data.taskData[taskType].planting_management_plan.planting_management_plan_id =
         data.taskData[taskType].planting_management_plan_id;
       delete data.taskData[taskType].planting_management_plan_id;
@@ -445,7 +474,7 @@ const taskTypeGetCompleteTaskBodyFunctionMap = {
 
 export const completeTask = createAction('completeTaskSaga');
 
-export function* completeTaskSaga({ payload: { task_id, data } }) {
+export function* completeTaskSaga({ payload: { task_id, data, returnPath } }) {
   const { taskUrl } = apiConfig;
   let { user_id, farm_id } = yield select(loginSelector);
   const { task_translation_key, isCustomTaskType } = data;
@@ -462,10 +491,10 @@ export function* completeTaskSaga({ payload: { task_id, data } }) {
       header,
     );
     if (result) {
-      yield put(putTaskSuccess({ id: task_id, changes: result.data }));
+      yield put(putTaskSuccess(result.data));
       yield call(onReqSuccessSaga, {
         message: i18n.t('message:TASK.COMPLETE.SUCCESS'),
-        pathname: '/tasks',
+        pathname: returnPath ?? '/tasks',
       });
     }
   } catch (e) {
@@ -477,16 +506,17 @@ export function* completeTaskSaga({ payload: { task_id, data } }) {
 export const abandonTask = createAction('abandonTaskSaga');
 
 export function* abandonTaskSaga({ payload: data }) {
+  console.log(data);
   const { taskUrl } = apiConfig;
   let { user_id, farm_id } = yield select(loginSelector);
-  const { task_id, patchData } = data;
+  const { task_id, patchData, returnPath } = data;
   const header = getHeader(user_id, farm_id);
   try {
     const result = yield call(axios.patch, `${taskUrl}/abandon/${task_id}`, patchData, header);
     if (result) {
-      yield put(putTaskSuccess({ id: task_id, changes: result.data }));
+      yield put(putTaskSuccess(result.data));
       yield put(enqueueSuccessSnackbar(i18n.t('message:TASK.ABANDON.SUCCESS')));
-      history.push('/tasks');
+      history.push(returnPath ?? '/tasks');
     }
   } catch (e) {
     console.log(e);
@@ -546,7 +576,7 @@ export function* deleteTaskTypeSaga({ payload: id }) {
     if (result) {
       yield put(deleteTaskTypeSuccess(id));
       yield put(enqueueSuccessSnackbar(i18n.t('message:TASK_TYPE.DELETE.SUCCESS')));
-      history.goBack();
+      history.back();
     }
   } catch (e) {
     yield put(enqueueErrorSnackbar(i18n.t('message:TASK_TYPE.DELETE.FAILED')));
@@ -601,6 +631,7 @@ export function* addCustomHarvestUseSaga({ payload: data }) {
 export default function* taskSaga() {
   yield takeLeading(addCustomTaskType.type, addTaskTypeSaga);
   yield takeLeading(assignTask.type, assignTaskSaga);
+  yield takeLeading(changeTaskDate.type, changeTaskDateSaga);
   yield takeLeading(createTask.type, createTaskSaga);
   yield takeLatest(getTaskTypes.type, getTaskTypesSaga);
   yield takeLeading(assignTasksOnDate.type, assignTaskOnDateSaga);

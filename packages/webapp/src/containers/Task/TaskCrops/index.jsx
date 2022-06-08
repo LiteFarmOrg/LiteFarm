@@ -1,0 +1,92 @@
+import PureTaskCrops from '../../../components/Task/PureTaskCrops';
+import { HookFormPersistProvider } from '../../hooks/useHookFormPersist/HookFormPersistProvider';
+import { useSelector } from 'react-redux';
+import { hookFormPersistSelector } from '../../hooks/useHookFormPersist/hookFormPersistSlice';
+import {
+  useActiveAndCurrentManagementPlanTilesByLocationIds,
+  useCurrentWildManagementPlanTiles,
+} from './useManagementPlanTilesByLocationIds';
+import { cropLocationsSelector } from '../../locationSlice';
+import { useIsTaskType } from '../useIsTaskType';
+
+export default function ManagementPlanSelector({ history, match, location }) {
+  const isTransplantTask = useIsTaskType('TRANSPLANT_TASK');
+  return isTransplantTask ? (
+    <TransplantManagementPlansSelector history={history} match={match} location={location} />
+  ) : (
+    <TaskCrops history={history} match={match} location={location} />
+  );
+}
+
+function TransplantManagementPlansSelector({ history, match, location }) {
+  const locations = useSelector(cropLocationsSelector);
+  const onContinuePath = '/add_task/task_locations';
+  const goBackPath = '/add_task/task_date';
+  return (
+    <TaskCrops
+      locations={locations}
+      onContinuePath={onContinuePath}
+      goBackPath={goBackPath}
+      history={history}
+      match={match}
+      isMulti={false}
+      location={location}
+    />
+  );
+}
+
+function TaskCrops({
+  history,
+  match,
+  goBackPath = '/add_task/task_locations',
+  onContinuePath = '/add_task/task_details',
+  locations,
+  location,
+}) {
+  const persistedPaths = [goBackPath, onContinuePath];
+
+  const handleGoBack = () => {
+    history.back();
+  };
+
+  const onContinue = () => {
+    history.push(onContinuePath, location?.state);
+  };
+  const onError = () => {};
+  const persistedFormData = useSelector(hookFormPersistSelector);
+  const isTransplantTask = useIsTaskType('TRANSPLANT_TASK');
+  const isHarvestTask = useIsTaskType('HARVEST_TASK');
+  const showWildCrops = isTransplantTask || persistedFormData.show_wild_crop;
+  const wildManagementPlanTiles = useCurrentWildManagementPlanTiles();
+  const activeAndCurrentManagementPlansByLocationIds =
+    useActiveAndCurrentManagementPlanTilesByLocationIds(
+      locations || persistedFormData.locations,
+      showWildCrops,
+    );
+
+  const bypass =
+    !Object.keys(activeAndCurrentManagementPlansByLocationIds).length &&
+    !persistedFormData.show_wild_crop;
+
+  const isRequired =
+    isHarvestTask || isTransplantTask || (showWildCrops && !persistedFormData.locations?.length);
+  return (
+    <HookFormPersistProvider>
+      <PureTaskCrops
+        handleGoBack={handleGoBack}
+        onError={onError}
+        onSubmit={onContinue}
+        persistedPaths={persistedPaths}
+        managementPlansByLocationIds={activeAndCurrentManagementPlansByLocationIds}
+        onContinue={onContinue}
+        isMulti={!isTransplantTask}
+        isRequired={isRequired}
+        wildManagementPlanTiles={showWildCrops ? wildManagementPlanTiles : undefined}
+        defaultManagementPlanId={location?.state?.management_plan_id ?? null}
+        history={history}
+        location={location}
+        bypass={bypass}
+      />
+    </HookFormPersistProvider>
+  );
+}

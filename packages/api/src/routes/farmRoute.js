@@ -16,10 +16,11 @@
 const express = require('express');
 const router = express.Router();
 const farmController = require('../controllers/farmController');
-const organicCertifierSurveyController = require('../controllers/organicCertifierSurveyController');
 const authFarmId = require('../middleware/acl/authFarmId');
 const hasFarmAccess = require('../middleware/acl/hasFarmAccess');
 const checkScope = require('../middleware/acl/checkScope');
+const checkSchedulerJwt = require('../middleware/acl/checkSchedulerJwt');
+const hasTimeNotificationsAccess = require('../middleware/acl/hasTimeNotificationsAccess');
 
 router.get('/:farm_id', authFarmId, farmController.getFarmByID());
 
@@ -43,7 +44,7 @@ router.patch(
 router.patch(
   '/owner_operated/:farm_id',
   hasFarmAccess({ params: 'farm_id' }),
-  checkScope(['edit:farms']),
+  checkScope(['edit:farms'], { checkConsent: false }),
   farmController.patchOwnerOperated(),
 );
 
@@ -60,6 +61,13 @@ router.delete(
   hasFarmAccess({ params: 'farm_id' }),
   checkScope(['delete:farms']),
   farmController.deleteFarm(),
+);
+
+router.get(
+  '/utc_offset_by_range/:min/:max',
+  checkSchedulerJwt,
+  hasTimeNotificationsAccess,
+  farmController.getFarmsByOffsetRange,
 );
 
 module.exports = router;

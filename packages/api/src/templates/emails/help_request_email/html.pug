@@ -7,7 +7,7 @@ block content
         .support-header
             span=`${t('HELP_REQUEST.TYPE_HEADER')}:`
         .support-content
-            | #{support_type}
+            p=`${t('HELP_REQUEST.' + support_type.toUpperCase().replace(/\s/g, '_'))}`
     .support-container
         .support-header
             span=`${t('HELP_REQUEST.MESSAGE_HEADER')}:`

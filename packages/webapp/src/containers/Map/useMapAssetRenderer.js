@@ -1,3 +1,18 @@
+/*
+ *  Copyright 2019, 2020, 2021, 2022 LiteFarm.org
+ *  This file is part of LiteFarm.
+ *
+ *  LiteFarm is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  LiteFarm is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
+ */
+
 import styles, { defaultColour } from './styles.module.scss';
 import { areaStyles, hoverIcons, icons, lineStyles } from './mapStyles';
 import { useEffect, useRef, useState } from 'react';
@@ -18,11 +33,14 @@ import useSelectionHandler from './useSelectionHandler';
 import MarkerClusterer from '@googlemaps/markerclustererplus';
 import { useMaxZoom } from './useMaxZoom';
 
+import MapPin from '../../assets/images/map/map_pin.svg';
+import { userFarmSelector } from '../userFarmSlice';
+
 /**
  *
  * Do not modify, copy or reuse
  */
-const useMapAssetRenderer = ({ isClickable }) => {
+const useMapAssetRenderer = ({ isClickable, showingConfirmButtons, drawingState }) => {
   const { handleSelection, dismissSelectionModal } = useSelectionHandler();
   const dispatch = useDispatch();
   const filterSettings = useSelector(mapFilterSettingSelector);
@@ -33,6 +51,9 @@ const useMapAssetRenderer = ({ isClickable }) => {
     }
     return nextAssetGeometries;
   };
+
+  const [farmLocationMarker, setFarmLocationMarker] = useState(null);
+  const [farmMap, setFarmMap] = useState();
 
   const [assetGeometries, setAssetGeometries] = useState(initAssetGeometriesState());
   //TODO get prev filter state from redux
@@ -78,13 +99,14 @@ const useMapAssetRenderer = ({ isClickable }) => {
   const areaAssets = useSelector(sortedAreaSelector);
   const lineAssets = useSelector(lineSelector);
   const pointAssets = useSelector(pointSelector);
+  const { grid_points } = useSelector(userFarmSelector);
 
   const assetFunctionMap = (assetType) => {
-    return !!isArea(assetType)
+    return isArea(assetType)
       ? isNoFillArea(assetType)
         ? drawNoFillArea
         : drawArea
-      : !!isLine(assetType)
+      : isLine(assetType)
       ? drawLine
       : drawPoint;
   };
@@ -158,6 +180,16 @@ const useMapAssetRenderer = ({ isClickable }) => {
     markerClusterRef.current = markerCluster;
   };
 
+  useEffect(() => {
+    if (drawingState.isActive) {
+      farmLocationMarker?.setMap(null);
+    } else if (showingConfirmButtons) {
+      farmLocationMarker?.setMap(null);
+    } else {
+      farmLocationMarker?.setMap(farmMap ?? null);
+    }
+  }, [drawingState.isActive, showingConfirmButtons, farmLocationMarker]);
+
   const drawAssets = (map, maps, mapBounds) => {
     maps.event.addListenerOnce(map, 'idle', function () {
       markerClusterRef?.current?.repaint();
@@ -177,6 +209,19 @@ const useMapAssetRenderer = ({ isClickable }) => {
         assets[type].length > 0,
     );
     hasLocation = assetsWithLocations.length > 0;
+
+    if (!hasLocation) {
+      setFarmMap(map);
+      const locationMarker = new maps.Marker({
+        icon: MapPin,
+        position: grid_points,
+        map: map,
+        clickable: false,
+        crossOnDrag: false,
+      });
+      setFarmLocationMarker(locationMarker);
+      mapBounds.extend(grid_points);
+    }
 
     assetsWithLocations.forEach((idx) => {
       const locationType = assets[idx].type !== undefined ? assets[idx].type : idx;

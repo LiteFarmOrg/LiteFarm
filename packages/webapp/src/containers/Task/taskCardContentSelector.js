@@ -5,72 +5,89 @@ import { isTaskType } from './useIsTaskType';
 import { getTaskCardDate } from '../../util/moment';
 import { loginSelector, userFarmEntitiesSelector } from '../userFarmSlice';
 import { getLocationName } from '../Crop/CropManagement/useManagementPlanCardContents';
+import { tasksFilterSelector } from '../filterSlice';
+import { filterTasks } from './tasksFilter';
+import { IS_ASCENDING } from '../Filter/constants';
 
 const getTaskContents = (tasks, userFarmEntities, { farm_id }) => {
-  return tasks
-    .sort((taskA, taskB) => {
-      if (
-        !taskA.completed_time &&
-        !taskA.abandoned_time &&
-        (taskB.completed_time || taskB.abandoned_time)
-      ) {
-        return -1;
-      }
-      if (
-        taskA.completed_time &&
-        !taskA.abandoned_time &&
-        !taskB.completed_time &&
-        taskB.abandoned_time
-      ) {
-        return -1;
-      }
-      if (
-        !taskA.completed_time &&
-        !taskA.abandoned_time &&
-        !taskB.completed_time &&
-        !taskB.abandoned_time
-      ) {
-        return new Date(taskA.due_date).getTime() - new Date(taskB.due_date).getTime();
-      }
-      if (taskA.completed_time && taskB.completed_time) {
-        return new Date(taskA.completed_time).getTime() - new Date(taskB.completed_time).getTime();
-      }
-      if (taskA.abandoned_time && taskB.abandoned_time) {
-        return new Date(taskA.abandoned_time).getTime() - new Date(taskB.abandoned_time).getTime();
-      }
-      return 1;
-    })
-    .map((task) => {
-      const managementPlans = task.managementPlans;
-      return {
-        task_id: task.task_id,
-        taskType: task.taskType,
-        status: getTaskStatus(task),
-        cropVarietyName: getCropVarietyName(managementPlans),
-        locationName: getLocationNameOfTask(managementPlans, task.locations, task.taskType),
-        completeOrDueDate: getTaskCardDate(task.completed_time || task.due_date),
-        assignee: userFarmEntities[farm_id][task.assignee_user_id],
-        happiness: task.happiness,
-        abandoned_time: task.abandoned_time,
-      };
-    });
+  return tasks.map((task) => {
+    const managementPlans = task.managementPlans;
+    return {
+      task_id: task.task_id,
+      taskType: task.taskType,
+      status: getTaskStatus(task),
+      cropVarietyName: getCropVarietyName(managementPlans),
+      locationName: getLocationNameOfTask(managementPlans, task.locations, task.taskType),
+      completeOrDueDate: getTaskCardDate(task.complete_date || task.due_date),
+      assignee: task.assignee,
+      happiness: task.happiness,
+      abandon_date: task.abandon_date,
+      date: task.abandon_date || task.complete_date || task.due_date,
+    };
+  });
 };
+
+export const sortTaskCardContent = (taskCardContents, isAscending = true) =>
+  taskCardContents.sort((taskA, taskB) => {
+    const order = isAscending ? 1 : -1;
+    const bottomTwoStatus = ['completed', 'abandoned'];
+    if (!bottomTwoStatus.includes(taskA.status) && bottomTwoStatus.includes(taskB.status)) {
+      return -1;
+    }
+    if (
+      taskA.status === 'completed' &&
+      taskB.status === 'abandoned' &&
+      taskA.status !== 'abandoned' &&
+      taskB.status !== 'completed'
+    ) {
+      return -1;
+    }
+    if (!bottomTwoStatus.includes(taskA.status) && !bottomTwoStatus.includes(taskB.status)) {
+      return (new Date(taskA.date).getTime() - new Date(taskB.date).getTime()) * order;
+    }
+    if (taskA.status === 'completed' && taskB.status === 'completed') {
+      return (new Date(taskA.date).getTime() - new Date(taskB.date).getTime()) * order;
+    }
+    if (taskA.status === 'abandoned' && taskB.status === 'abandoned') {
+      return (
+        (new Date(taskA.abandon_date).getTime() - new Date(taskB.abandon_date).getTime()) * order
+      );
+    }
+    return 1;
+  });
 
 export const taskCardContentSelector = createSelector(
   [tasksSelector, userFarmEntitiesSelector, loginSelector],
   getTaskContents,
 );
 
+export const manualFilteredTaskCardContentSelector = (filter) =>
+  createSelector(
+    [tasksSelector, userFarmEntitiesSelector, loginSelector],
+    (tasks, userFarmEntities, userFarm) =>
+      getTaskContents(filter(tasks), userFarmEntities, userFarm),
+  );
+
+export const filteredTaskCardContentSelector = createSelector(
+  [tasksSelector, tasksFilterSelector, userFarmEntitiesSelector, loginSelector],
+  (tasks, filters, userFarmEntities, userFarm) =>
+    sortTaskCardContent(
+      getTaskContents(filterTasks(tasks, filters), userFarmEntities, userFarm),
+      filters[IS_ASCENDING],
+    ),
+);
+
 export const taskCardContentByManagementPlanSelector = (management_plan_id) =>
   createSelector(
     [tasksByManagementPlanIdSelector(management_plan_id), userFarmEntitiesSelector, loginSelector],
-    getTaskContents,
+    (tasks, userFarmEntities, { farm_id }) =>
+      sortTaskCardContent(getTaskContents(tasks, userFarmEntities, { farm_id })),
   );
 
 export const getTaskStatus = (task) => {
-  if (task.completed_time) return 'completed';
-  if (task.abandoned_time) return 'abandoned';
-  if (new Date(task.due_date) > Date.now()) return 'planned';
+  if (task.complete_date) return 'completed';
+  if (task.abandon_date) return 'abandoned';
+  if (new Date(task.due_date) >= new Date().setHours(0, 0, 0, 0)) return 'planned';
   return 'late';
 };
 

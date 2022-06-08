@@ -1,6 +1,6 @@
 /*
- *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>
- *  This file (userRoute.js) is part of LiteFarm.
+ *  Copyright 2019, 2020, 2021, 2022 LiteFarm.org
+ *  This file is part of LiteFarm.
  *
  *  LiteFarm is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -25,18 +25,40 @@ const checkInvitationAndGoogleJwtContent = require('../middleware/acl/checkInvit
 const checkPasswordCreated = require('../middleware/acl/checkPasswordCreated');
 const checkGoogleJwt = require('../middleware/acl/checkGoogleJwt');
 
-router.post('/', userController.addUser());
+router.post('/', userController.addUser);
 
-router.post('/invite', hasFarmAccess({ body: 'farm_id' }), checkScope(['add:users']), userController.addInvitedUser());
+router.post(
+  '/invite',
+  hasFarmAccess({ body: 'farm_id' }),
+  checkScope(['add:users']),
+  userController.addInvitedUser,
+);
 
-router.post('/pseudo', hasFarmAccess({ body: 'farm_id' }), checkScope(['add:users']), userController.addPseudoUser());
+router.post(
+  '/pseudo',
+  hasFarmAccess({ body: 'farm_id' }),
+  checkScope(['add:users']),
+  userController.addPseudoUser,
+);
 
-router.post('/accept_invitation', checkInviteJwt, checkInvitationTokenContent, checkPasswordCreated, userController.acceptInvitationAndPostPassword());
+router.post(
+  '/accept_invitation',
+  checkInviteJwt,
+  checkInvitationTokenContent,
+  checkPasswordCreated,
+  userController.acceptInvitationAndPostPassword,
+);
 
-router.put('/accept_invitation', checkGoogleJwt, checkInvitationAndGoogleJwtContent, checkPasswordCreated, userController.acceptInvitationWithGoogleAccount());
+router.put(
+  '/accept_invitation',
+  checkGoogleJwt,
+  checkInvitationAndGoogleJwtContent,
+  checkPasswordCreated,
+  userController.acceptInvitationWithGoogleAccount,
+);
 
-router.get('/:user_id', isSelf, userController.getUserByID());
+router.get('/:user_id', isSelf, userController.getUserByID);
 
-router.put('/:user_id', isSelf, userController.updateUser());
+router.put('/:user_id', isSelf, userController.updateUser);
 
 module.exports = router;

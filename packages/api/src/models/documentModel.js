@@ -25,7 +25,6 @@ class Document extends baseModel {
     return 'document_id';
   }
 
-
   static get jsonSchema() {
     return {
       type: 'object',
@@ -40,10 +39,20 @@ class Document extends baseModel {
         no_expiration: { type: ['boolean', null] },
         type: {
           type: ['string', null],
-          enum: ['CLEANING_PRODUCT', 'CROP_COMPLIANCE', 'FERTILIZING_PRODUCT',
-            'PEST_CONTROL_PRODUCT', 'SOIL_AMENDMENT', 'SOIL_SAMPLE_RESULTS',
-            'WATER_SAMPLE_RESULTS', 'OTHER'],
+          enum: [
+            'CLEANING_PRODUCT',
+            'CROP_COMPLIANCE',
+            'FERTILIZING_PRODUCT',
+            'PEST_CONTROL_PRODUCT',
+            'SOIL_AMENDMENT',
+            'SOIL_SAMPLE_RESULTS',
+            'WATER_SAMPLE_RESULTS',
+            'INVOICES',
+            'RECEIPTS',
+            'OTHER',
+          ],
         },
+        archived: { type: 'boolean' },
         ...this.baseProperties,
       },
       additionalProperties: false,

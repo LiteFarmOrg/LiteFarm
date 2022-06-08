@@ -8,7 +8,7 @@ jest.mock('jsdom');
 jest.mock('../src/middleware/acl/checkJwt');
 const mocks = require('./mock.factories');
 const { figureMapping, promiseMapper } = require('./../src/middleware/validation/location');
-const faker = require('faker');
+const { faker } = require('@faker-js/faker');
 
 const locations = {
   BARN: 'barn',
@@ -94,6 +94,7 @@ describe('Location tests', () => {
       .send(data)
       .end(callback);
   }
+
   function postLocation(data, asset, { user_id, farm_id }, callback) {
     chai
       .request(server)
@@ -146,7 +147,7 @@ describe('Location tests', () => {
   describe('GET /location by farm', () => {
     let user, farm;
     beforeEach(async () => {
-      let [{ user_id, farm_id }] = await mocks.userFarmFactory(
+      const [{ user_id, farm_id }] = await mocks.userFarmFactory(
         {},
         { status: 'Active', role_id: 1 },
       );
@@ -209,8 +210,73 @@ describe('Location tests', () => {
   });
 
   describe('DELETE /location ', () => {
+    const createTask = async (user_id, options) => {
+      const fakeTask = mocks.fakeTask({
+        owner_user_id: user_id,
+        assignee_user_id: user_id,
+        due_date: faker.date.future(),
+        ...options,
+      });
+
+      const [{ task_id }] = await mocks.taskFactory(
+        {
+          promisedUser: [{ user_id }],
+        },
+        fakeTask,
+      );
+
+      return task_id;
+    };
+    const createManagementTask = async (user_id, planting_management_plan_id, options) => {
+      const newTaskId = await createTask(user_id, options);
+      await mocks.management_tasksFactory({
+        promisedTask: [{ task_id: newTaskId }],
+        promisedPlantingManagementPlan: [{ planting_management_plan_id }],
+      });
+    };
+
+    const createLocationTask = async (user_id, location_id, options) => {
+      const newTaskId = await createTask(user_id, options);
+      await mocks.location_tasksFactory({
+        promisedTask: [{ task_id: newTaskId }],
+        promisedField: [{ location_id }],
+      });
+    };
+
+    const createTransplantTask = async (
+      user_id,
+      farm_id,
+      location_id,
+      transplantTaskManagementPlanId,
+      options,
+    ) => {
+      const [transplantMgtPlan] = await knex('planting_management_plan')
+        .insert({
+          ...mocks.fakePlantingManagementPlan({
+            location_id,
+            management_plan_id: transplantTaskManagementPlanId,
+          }),
+        })
+        .returning('*');
+      const task_id = await createTask(user_id, options);
+      await mocks.transplant_taskFactory(
+        { promisedTask: [{ task_id }] },
+        { planting_management_plan_id: transplantMgtPlan.planting_management_plan_id },
+      );
+      const { management_plan_id } = transplantMgtPlan;
+      return { management_plan_id };
+    };
+
+    const createPlantTask = async (user_id, planting_management_plan_id, options) => {
+      const task_id = await createTask(user_id, options);
+      await mocks.plant_taskFactory(
+        { promisedTask: [{ task_id }] },
+        { planting_management_plan_id },
+      );
+    };
+
     test('should delete field', async (done) => {
-      let [{ user_id, farm_id }] = await mocks.userFarmFactory(
+      const [{ user_id, farm_id }] = await mocks.userFarmFactory(
         {},
         { status: 'Active', role_id: 1 },
       );
@@ -219,85 +285,238 @@ describe('Location tests', () => {
         expect(res.status).toBe(200);
         const location = await knex('location').where({ location_id: field1.location_id }).first();
         const location2 = await knex('location').where({ location_id: field2.location_id }).first();
-        console.log(location);
         expect(location.deleted).toBeTruthy();
         expect(location2.deleted).toBeFalsy();
         done();
       });
     });
 
-    test('Delete should return 400 when field is referenced by managementPlan', async (done) => {
-      let [{ user_id, farm_id }] = await mocks.userFarmFactory(
+    test('Delete should return 400 when field is referenced by managementPlan (incomplete plant task)', async (done) => {
+      const [{ user_id, farm_id }] = await mocks.userFarmFactory(
         {},
         { status: 'Active', role_id: 1 },
       );
       const [[field1], [field2]] = await appendFieldToFarm(farm_id, 2);
-      await mocks.crop_management_planFactory({ promisedField: [field1] });
+
+      const [
+        { planting_management_plan_id, management_plan_id },
+      ] = await mocks.planting_management_planFactory({
+        promisedFarm: [{ farm_id }],
+        promisedLocation: [field1],
+        promisedField: [field1],
+      });
+      await createPlantTask(user_id, planting_management_plan_id);
+
       deleteLocation({ user_id, farm_id }, field1.location_id, async (err, res) => {
         expect(res.status).toBe(400);
         done();
       });
     });
 
-    test('should delete field when field is referenced by expired managementPlans', async (done) => {
-      let [{ user_id, farm_id }] = await mocks.userFarmFactory(
+    test('Delete should return 400 when field is referenced by managementPlan (wild crop location)', async (done) => {
+      const [{ user_id, farm_id }] = await mocks.userFarmFactory(
         {},
         { status: 'Active', role_id: 1 },
       );
       const [[field1], [field2]] = await appendFieldToFarm(farm_id, 2);
-      const expiredManagementPlan = mocks.fakeManagementPlan();
-      expiredManagementPlan.complete_date = faker.date.past();
-      await mocks.crop_management_planFactory({
-        promisedManagementPlan: mocks.management_planFactory({}, expiredManagementPlan),
+
+      const [
+        { planting_management_plan_id, management_plan_id },
+      ] = await mocks.planting_management_planFactory({
+        promisedFarm: [{ farm_id }],
+        promisedLocation: [field1],
         promisedField: [field1],
       });
+
+      deleteLocation({ user_id, farm_id }, field1.location_id, async (err, res) => {
+        expect(res.status).toBe(400);
+        done();
+      });
+    });
+
+    test('Delete should return 400 when field is referenced by managementPlan (completed transplant task)', async (done) => {
+      const [{ user_id, farm_id }] = await mocks.userFarmFactory(
+        {},
+        { status: 'Active', role_id: 1 },
+      );
+      const [[field1], [field2]] = await appendFieldToFarm(farm_id, 2);
+
+      const [
+        { planting_management_plan_id, management_plan_id },
+      ] = await mocks.planting_management_planFactory({
+        promisedFarm: [{ farm_id }],
+        promisedLocation: [field2],
+        promisedField: [field2],
+      });
+      await createPlantTask(user_id, planting_management_plan_id, { complete_date: '2022-02-22' });
+      await createTransplantTask(user_id, farm_id, field2.location_id, management_plan_id, {
+        complete_date: '2022-02-23',
+      });
+      await createTransplantTask(user_id, farm_id, field2.location_id, management_plan_id);
+
+      await createTransplantTask(user_id, farm_id, field1.location_id, management_plan_id, {
+        complete_date: '2022-02-24',
+      });
+
+      deleteLocation({ user_id, farm_id }, field1.location_id, async (err, res) => {
+        expect(res.status).toBe(400);
+        done();
+      });
+    });
+
+    test('should delete field when crop is transplanted to different field', async (done) => {
+      const [{ user_id, farm_id }] = await mocks.userFarmFactory(
+        {},
+        { status: 'Active', role_id: 1 },
+      );
+      const [[field1], [field2]] = await appendFieldToFarm(farm_id, 2);
+
+      const [
+        { planting_management_plan_id, management_plan_id },
+      ] = await mocks.planting_management_planFactory({
+        promisedFarm: [{ farm_id }],
+        promisedLocation: [field1],
+        promisedField: [field1],
+      });
+      await createPlantTask(user_id, planting_management_plan_id, { complete_date: '2022-02-22' });
+      await createTransplantTask(user_id, farm_id, field1.location_id, management_plan_id, {
+        complete_date: '2022-02-23',
+      });
+
+      await createTransplantTask(user_id, farm_id, field2.location_id, management_plan_id, {
+        complete_date: '2022-02-24',
+      });
+
       deleteLocation({ user_id, farm_id }, field1.location_id, async (err, res) => {
         expect(res.status).toBe(200);
         done();
       });
     });
 
-    test('Delete should return 400 when field is referenced by task', async (done) => {
-      let [{ user_id, farm_id }] = await mocks.userFarmFactory(
+    test('should delete field when all tasks are completed or abandoned and crop is transplanted to different field', async (done) => {
+      const [{ user_id, farm_id }] = await mocks.userFarmFactory(
         {},
         { status: 'Active', role_id: 1 },
       );
       const [[field1], [field2]] = await appendFieldToFarm(farm_id, 2);
-      await mocks.location_tasksFactory({
-        promisedActivityLog: mocks.taskFactory({ user_id }),
+
+      const [
+        { planting_management_plan_id, management_plan_id },
+      ] = await mocks.planting_management_planFactory({
+        promisedFarm: [{ farm_id }],
+        promisedLocation: [field1],
         promisedField: [field1],
       });
+      await createPlantTask(user_id, planting_management_plan_id, { complete_date: '2022-02-22' });
+      await createTransplantTask(user_id, farm_id, field1.location_id, management_plan_id, {
+        complete_date: '2022-02-23',
+      });
+
+      await createTransplantTask(user_id, farm_id, field2.location_id, management_plan_id, {
+        complete_date: '2022-02-24',
+      });
+
+      await createManagementTask(user_id, planting_management_plan_id, {
+        abandon_date: '2022-02-22',
+      });
+      await createLocationTask(user_id, field1.location_id, { complete_date: '2022-02-22' });
+
+      deleteLocation({ user_id, farm_id }, field1.location_id, async (err, res) => {
+        expect(res.status).toBe(200);
+        done();
+      });
+    });
+
+    test('should return 400 when field is referenced by incomplete plant task', async (done) => {
+      const [{ user_id, farm_id }] = await mocks.userFarmFactory(
+        {},
+        { status: 'Active', role_id: 1 },
+      );
+      const [[field1], [field2]] = await appendFieldToFarm(farm_id, 2);
+
+      const [
+        { planting_management_plan_id, management_plan_id },
+      ] = await mocks.planting_management_planFactory({
+        promisedFarm: [{ farm_id }],
+        promisedLocation: [field1],
+        promisedField: [field1],
+      });
+      await createPlantTask(user_id, planting_management_plan_id);
+
       deleteLocation({ user_id, farm_id }, field1.location_id, async (err, res) => {
         expect(res.status).toBe(400);
         done();
       });
     });
 
-    test('should return 400 when expired managementPlan is referenced in task', async (done) => {
-      let [{ user_id, farm_id }] = await mocks.userFarmFactory(
+    test('should return 400 when field is referenced by incomplete transplant task', async (done) => {
+      const [{ user_id, farm_id }] = await mocks.userFarmFactory(
         {},
         { status: 'Active', role_id: 1 },
       );
       const [[field1], [field2]] = await appendFieldToFarm(farm_id, 2);
-      const fakeManagementPlan = mocks.fakeManagementPlan();
-      const [managementPlan1] = await mocks.crop_management_planFactory({
-        promisedManagementPlan: mocks.management_planFactory(
-          {},
-          {
-            ...fakeManagementPlan,
-          },
-        ),
+
+      const [
+        { planting_management_plan_id, management_plan_id },
+      ] = await mocks.planting_management_planFactory({
+        promisedFarm: [{ farm_id }],
+        promisedLocation: [field2],
+        promisedField: [field2],
+      });
+      await createPlantTask(user_id, planting_management_plan_id);
+      await createTransplantTask(user_id, farm_id, field1.location_id, management_plan_id);
+
+      deleteLocation({ user_id, farm_id }, field1.location_id, async (err, res) => {
+        expect(res.status).toBe(400);
+        done();
+      });
+    });
+
+    test('should return 400 when field is referenced by incomplete location task', async (done) => {
+      const [{ user_id, farm_id }] = await mocks.userFarmFactory(
+        {},
+        { status: 'Active', role_id: 1 },
+      );
+      const [[field1], [field2]] = await appendFieldToFarm(farm_id, 2);
+
+      const [
+        { planting_management_plan_id, management_plan_id },
+      ] = await mocks.planting_management_planFactory({
+        promisedFarm: [{ farm_id }],
+        promisedLocation: [field2],
+        promisedField: [field2],
+      });
+      await createPlantTask(user_id, planting_management_plan_id, { complete_date: '2022-02-23' });
+
+      await createLocationTask(user_id, field1.location_id);
+
+      deleteLocation({ user_id, farm_id }, field1.location_id, async (err, res) => {
+        expect(res.status).toBe(400);
+        done();
+      });
+    });
+
+    test('should return 400 when field is referenced by incomplete management task', async (done) => {
+      const [{ user_id, farm_id }] = await mocks.userFarmFactory(
+        {},
+        { status: 'Active', role_id: 1 },
+      );
+      const [[field1], [field2]] = await appendFieldToFarm(farm_id, 2);
+
+      const [
+        { planting_management_plan_id, management_plan_id },
+      ] = await mocks.planting_management_planFactory({
+        promisedFarm: [{ farm_id }],
+        promisedLocation: [field1],
         promisedField: [field1],
       });
-      const taskData = mocks.fakeTask();
-      const today = new Date();
-      today.setDate(today.getDate() + 1);
-      taskData.due_date = today;
-      const [task] = await mocks.taskFactory({ promisedUser: [{ user_id }] }, taskData);
-      await mocks.management_tasksFactory({
-        promisedManagementPlan: [managementPlan1],
-        promisedTask: [{ task_id: task.task_id }],
+      await createPlantTask(user_id, planting_management_plan_id, { complete_date: '2022-02-22' });
+      await createTransplantTask(user_id, farm_id, field2.location_id, management_plan_id, {
+        complete_date: '2022-02-23',
       });
+
+      await createManagementTask(user_id, planting_management_plan_id);
+
       deleteLocation({ user_id, farm_id }, field1.location_id, async (err, res) => {
         expect(res.status).toBe(400);
         done();
@@ -309,7 +528,7 @@ describe('Location tests', () => {
     let user, farm;
 
     beforeEach(async () => {
-      let [{ user_id, farm_id }] = await mocks.userFarmFactory(
+      const [{ user_id, farm_id }] = await mocks.userFarmFactory(
         {},
         { status: 'Active', role_id: 1 },
       );
@@ -338,7 +557,7 @@ describe('Location tests', () => {
     describe('Authorization', () => {
       Object.keys(figureMapping).map((asset) => {
         test(`should allow owner to create a ${asset}`, async (done) => {
-          let [{ user_id, farm_id }] = await mocks.userFarmFactory(
+          const [{ user_id, farm_id }] = await mocks.userFarmFactory(
             {},
             { status: 'Active', role_id: 1 },
           );
@@ -353,7 +572,7 @@ describe('Location tests', () => {
         });
 
         test(`should allow manager to create a ${asset}`, async (done) => {
-          let [{ user_id, farm_id }] = await mocks.userFarmFactory(
+          const [{ user_id, farm_id }] = await mocks.userFarmFactory(
             {},
             { status: 'Active', role_id: 2 },
           );
@@ -368,7 +587,7 @@ describe('Location tests', () => {
         });
 
         test(`should allow EO to create a ${asset}`, async (done) => {
-          let [{ user_id, farm_id }] = await mocks.userFarmFactory(
+          const [{ user_id, farm_id }] = await mocks.userFarmFactory(
             {},
             { status: 'Active', role_id: 5 },
           );
@@ -383,7 +602,7 @@ describe('Location tests', () => {
         });
 
         test(`should NOT allow worker to create a ${asset}`, async (done) => {
-          let [{ user_id, farm_id }] = await mocks.userFarmFactory(
+          const [{ user_id, farm_id }] = await mocks.userFarmFactory(
             {},
             { status: 'Active', role_id: 3 },
           );
@@ -586,7 +805,7 @@ describe('Location tests', () => {
     let user, farm;
 
     beforeEach(async () => {
-      let [{ user_id, farm_id }] = await mocks.userFarmFactory(
+      const [{ user_id, farm_id }] = await mocks.userFarmFactory(
         {},
         { status: 'Active', role_id: 1 },
       );
@@ -621,7 +840,7 @@ describe('Location tests', () => {
             ...locationData,
             name: 'Test Name323',
             figure: {
-              location_id: location_id,
+              location_id,
               figure_id: figure[0].figure_id,
               [typeOfFigure]: {
                 ...newFigureData,
@@ -667,7 +886,7 @@ describe('Location tests', () => {
         name: 'Test Name323',
         figure: {
           type: locations.FIELD,
-          location_id: location_id,
+          location_id,
           figure_id: area[0].figure_id,
           area: area[0],
         },
@@ -711,7 +930,7 @@ describe('Location tests', () => {
         name: 'Test Name323',
         figure: {
           type: locations.GARDEN,
-          location_id: location_id,
+          location_id,
           figure_id: area[0].figure_id,
           area: area[0],
         },

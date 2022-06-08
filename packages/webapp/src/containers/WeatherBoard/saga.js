@@ -1,6 +1,6 @@
 /*
- *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>
- *  This file (saga.js) is part of LiteFarm.
+ *  Copyright 2019, 2020, 2021, 2022 LiteFarm.org
+ *  This file is part of LiteFarm.
  *
  *  LiteFarm is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -44,8 +44,7 @@ export function* getWeatherSaga({ payload: args }) {
       measurement !== weather?.measurement
     ) {
       yield put(onLoadingWeatherStart(farm_id));
-      const apikey = process.env.REACT_APP_WEATHER_API_KEY;
-      const baseUri = 'https://cors-anywhere.litefarm.workers.dev/';
+      const apikey = import.meta.env.VITE_WEATHER_API_KEY;
       const params = {
         ...args,
         appid: apikey,
@@ -60,14 +59,7 @@ export function* getWeatherSaga({ payload: args }) {
       for (const key in params) {
         openWeatherUrl.searchParams.append(key, params[key]);
       }
-      const endPointToday = `${baseUri}?${openWeatherUrl.toString()}`;
-      const config = {
-        headers: {
-          Authorization: 'Bearer ' + localStorage.getItem('farm_token'),
-        },
-        method: 'GET',
-      };
-      const weatherRes = yield call(axios.get, endPointToday, config);
+      const weatherRes = yield call(axios.get, openWeatherUrl.toString());
       const weatherResData = weatherRes.data;
       const weatherPayload = {
         humidity: `${weatherResData.main?.humidity}%`,

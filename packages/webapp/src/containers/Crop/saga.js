@@ -16,7 +16,12 @@
 import { call, put, select, takeLatest, takeLeading } from 'redux-saga/effects';
 import apiConfig from '../../apiConfig';
 import { loginSelector, patchFarmSuccess } from '../userFarmSlice';
-import { axios, getHeader, getManagementPlanAndPlantingMethodSuccessSaga, onReqSuccessSaga } from '../saga';
+import {
+  axios,
+  getHeader,
+  getManagementPlanAndPlantingMethodSuccessSaga,
+  onReqSuccessSaga,
+} from '../saga';
 import { createAction } from '@reduxjs/toolkit';
 import {
   deleteManagementPlanSuccess,
@@ -85,8 +90,8 @@ export function* patchFarmDefaultInitialLocationSaga({ payload: farm }) {
       header,
     );
     yield put(patchFarmSuccess({ ...farm, farm_id, user_id }));
-  } catch (e) {
-  }
+    // eslint-disable-next-line no-empty
+  } catch (e) {}
 }
 
 export const patchManagementPlan = createAction(`patchManagementPlanSaga`);

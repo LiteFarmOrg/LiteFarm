@@ -25,7 +25,7 @@ export default function LocationPageHeader({
   const onGoBack = () => {
     dispatch(setZoomLevel(null));
     dispatch(setPosition(null));
-    isCreateLocationPage && history.replace('/map', { isStepBack: true });
+    isCreateLocationPage && history.replace('/map', { isStepBack: true, hideLocationPin: true });
     isViewLocationPage &&
       history.replace('/map', { cameraInfo: { zoom: currentZoomLevel, location: position } });
     isEditLocationPage && history.back();

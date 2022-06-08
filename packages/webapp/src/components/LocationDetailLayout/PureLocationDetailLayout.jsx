@@ -35,7 +35,9 @@ export function PureLocationDetailLayout({
     shouldUnregister: true,
     defaultValues: persistedFormData,
   });
-  const historyCancel = () => history.push('/map');
+  const historyCancel = () => {
+    history.push('/map', { hideLocationPin: true });
+  };
 
   const onError = (data) => {};
   const disabled = !formMethods.formState.isValid;

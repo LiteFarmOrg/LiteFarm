@@ -1,17 +1,17 @@
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import Layout from '../../../components/Layout';
 import PageTitle from '../../../components/PageTitle/v2';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { useForm } from 'react-hook-form';
-import moment from 'moment';
-import { salesSelector } from '../selectors';
+import { dateRangeSelector, salesSelector } from '../selectors';
 import WholeFarmRevenue from '../../../components/Finances/WholeFarmRevenue';
 import { AddLink, Semibold } from '../../../components/Typography';
 import DateRangePicker from '../../../components/Form/DateRangePicker';
 import ActualCropRevenue from '../ActualCropRevenue';
 import FinanceListHeader from '../../../components/Finances/FinanceListHeader';
 import { calcActualRevenue, filterSalesByDateRange } from '../util';
+import { setDateRange } from '../actions';
 
 export default function ActualRevenue({ history, match }) {
   const { t } = useTranslation();
@@ -19,6 +19,10 @@ export default function ActualRevenue({ history, match }) {
   const onAddRevenue = () => history.push(`/add_sale`);
   // TODO: refactor sale data after finance reducer is remade
   const sales = useSelector(salesSelector);
+  const dateRange = useSelector(dateRangeSelector);
+  const dispatch = useDispatch();
+
+  const year = new Date().getFullYear();
 
   const {
     register,
@@ -30,13 +34,30 @@ export default function ActualRevenue({ history, match }) {
     mode: 'onBlur',
     shouldUnregister: true,
     defaultValues: {
-      from_date: moment().startOf('year').format('YYYY-MM-DD'),
-      to_date: moment().endOf('year').format('YYYY-MM-DD'),
+      from_date: dateRange?.startDate
+        ? new Date(
+            typeof dateRange.startDate === 'string'
+              ? dateRange.startDate.split('T')[0] + 'T00:00:00.000Z'
+              : dateRange.startDate,
+          )
+            .toISOString()
+            .split('T')[0]
+        : `${year}-01-01`,
+      to_date: dateRange?.endDate
+        ? new Date(
+            typeof dateRange.endDate === 'string'
+              ? dateRange.endDate.split('T')[0] + 'T00:00:00.000Z'
+              : dateRange.endDate,
+          )
+            .toISOString()
+            .split('T')[0]
+        : `${year}-12-31`,
     },
   });
 
   const fromDate = watch('from_date');
   const toDate = watch('to_date');
+
   const revenueForWholeFarm = useMemo(
     () => calcActualRevenue(sales, fromDate, toDate),
     [sales, fromDate, toDate],
@@ -45,6 +66,10 @@ export default function ActualRevenue({ history, match }) {
     () => filterSalesByDateRange(sales, fromDate, toDate),
     [sales, fromDate, toDate],
   );
+
+  useEffect(() => {
+    dispatch(setDateRange({ startDate: fromDate, endDate: toDate }));
+  }, [fromDate, toDate]);
 
   return (
     <Layout>

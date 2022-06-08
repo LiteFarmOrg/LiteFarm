@@ -332,14 +332,14 @@
     "HELP_BODY": "Selecione as datas para criar um relatório financeiro para sua fazenda para um determinado intervalo de tempo.",
     "HELP_TITLE": "Ajuda",
     "TITLE": "Filtrar relatório por data",
-    "INVALID_RANGE_MESSAGE": "MISSING"
+    "INVALID_RANGE_MESSAGE": "A data de término deve ser posterior à data de início para retornar resultados"
   },
   "DATE_RANGE_PICKER": {
     "FROM": "De",
     "TO": "Até",
     "TO_MUST_BE_AFTER_FROM": "A data 'Até' deve ser depois da data 'De'",
     "REVENUE_HELP_TITLE": "Ajuda",
-    "REVENUE_HELP_BODY": "MISSING"
+    "REVENUE_HELP_BODY": "Somente os planos que possuem uma tarefa de colheita planejada ou concluída dentro do intervalo de datas indicado serão mostrados."
   },
   "DOCUMENTS": {
     "ADD": {
@@ -428,7 +428,7 @@
     "RESET_PASSWORD_LINK": "Enviar novo link de senha/password"
   },
   "FARM_MAP": {
-    "TUTORIALS": "MISSING",
+    "TUTORIALS": "Tutoriais de mapas",
     "AREA_DETAILS": {
       "NETWORK": "Problemas de conexão com a rede",
       "PERIMETER": "Perímetro",
@@ -1063,7 +1063,9 @@
       "MANAGE_EMPLOYEE": "Orientar seus funcionários",
       "MANAGE_TASK": "Administrar suas tarefas",
       "MAP_FARM": "Mapear sua fazenda",
+      "SEE_UPDATES": "Veja atualizações importantes",
       "NOTIFICATION": "Aqui você pode:, • Administrar suas tarefas, • Ver o que mais está acontecendo, • Coordenar as atividades da fazenda",
+      "NOTIFICATION_TITLE": "Este é o seu centro de notificações",
       "PROFILE": "Aqui você encontrará :, • Suas informações, • Dicas úteis, • O botão de logout",
       "PROFILE_TITLE": "Seu Perfil",
       "SEE_TASK": "Ver o que mais está acontecendo",

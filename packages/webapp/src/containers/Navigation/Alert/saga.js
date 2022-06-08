@@ -1,5 +1,5 @@
 /*
- *  Copyright 2019-2022 LiteFarm.org
+ *  Copyright 2019, 2020, 2021, 2022 LiteFarm.org
  *  This file is part of LiteFarm.
  *
  *  LiteFarm is free software: you can redistribute it and/or modify
@@ -24,6 +24,10 @@ import {
   alertSelector,
 } from './alertSlice';
 import { notificationsUrl, alertsUrl } from '../../../apiConfig';
+import { v4 as uuidv4 } from 'uuid';
+
+let channel;
+let subscribedFarmId;
 
 function subscribeToChannel(sseUrl) {
   return eventChannel((emitter) => {
@@ -36,6 +40,7 @@ function subscribeToChannel(sseUrl) {
 
     const unsubscribe = () => {
       subscription.close();
+      channel = undefined;
     };
 
     return unsubscribe;
@@ -53,17 +58,31 @@ function countAlerts(notifications) {
 export const getAlert = createAction('getAlertSaga');
 
 export function* getAlertSaga() {
-  const { farm_id, user_id } = yield select(userFarmSelector);
-  try {
-    // Tell the store this saga is loading.
-    yield put(onLoadingAlertStart(farm_id));
+  let subscriberId = localStorage.getItem('subscriberId');
+  if (!subscriberId) {
+    subscriberId = uuidv4();
+    localStorage.setItem('subscriberId', subscriberId);
+  }
 
+  let farm_id, user_id;
+  try {
     while (true) {
+      const userFarm = yield select(userFarmSelector);
+      farm_id = userFarm.farm_id;
+      user_id = userFarm.user_id;
+
+      // Tell the store this saga is loading.
+      yield put(onLoadingAlertStart(farm_id));
+
       // Set up subscription to server-sent events.
-      const channel = yield call(
-        subscribeToChannel,
-        `${alertsUrl}?user_id=${user_id}&farm_id=${farm_id}`,
-      );
+      if (!channel || farm_id !== subscribedFarmId) {
+        if (channel) channel.close();
+        subscribedFarmId = farm_id;
+        channel = yield call(
+          subscribeToChannel,
+          `${alertsUrl}?user_id=${user_id}&farm_id=${farm_id}&subscriber_id=${subscriberId}`,
+        );
+      }
 
       // Call API to get notifications; count alerts and store result
       const notifications = yield call(getNotifications, user_id, farm_id);

@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import ReactDOM from 'react-dom';
 import { useTranslation } from 'react-i18next';
 import styles from './styles.module.scss';
@@ -65,6 +65,10 @@ export default function Map({ history }) {
   const [showSuccessHeader, setShowSuccessHeader] = useState(false);
   const [showZeroAreaWarning, setZeroAreaWarning] = useState(false);
   const successMessage = useSelector(setSuccessMessageSelector);
+
+  const [showingConfirmButtons, setShowingConfirmButtons] = useState(
+    history?.location?.state?.hideLocationPin ?? false,
+  );
 
   const initialLineData = {
     [locationEnum.watercourse]: {
@@ -156,7 +160,11 @@ export default function Map({ history }) {
       fullscreenControl: false,
     };
   };
-  const { drawAssets } = useMapAssetRenderer({ isClickable: !drawingState.type });
+  const { drawAssets } = useMapAssetRenderer({
+    isClickable: !drawingState.type,
+    drawingState: drawingState,
+    showingConfirmButtons: showingConfirmButtons,
+  });
   const { getMaxZoom } = useMaxZoom();
   const handleGoogleMapApi = (map, maps) => {
     getMaxZoom(maps);
@@ -208,6 +216,7 @@ export default function Map({ history }) {
       });
     });
     maps.event.addListener(drawingManagerInit, 'overlaycomplete', function (drawing) {
+      setShowingConfirmButtons(true);
       finishDrawing(drawing, maps, map);
       this.setDrawingMode();
     });
@@ -298,10 +307,6 @@ export default function Map({ history }) {
 
   const mapWrapperRef = useRef();
 
-  const currentMap = useMemo(() => {
-    return mapWrapperRef.current;
-  }, [mapWrapperRef.current]);
-
   const handleShowVideo = () => {
     history.push('/map/videos');
   };
@@ -309,6 +314,14 @@ export default function Map({ history }) {
   const handleCloseSuccessHeader = () => {
     dispatch(canShowSuccessHeader(false));
     setShowSuccessHeader(false);
+  };
+
+  const handleDownload = () => {
+    html2canvas(mapWrapperRef.current, { useCORS: true }).then((canvas) => {
+      canvas.toBlob((blob) => {
+        saveAs(blob, `${farm_name}-export-${new Date().toISOString()}.png`);
+      });
+    });
   };
 
   const handleShare = () => {
@@ -319,6 +332,7 @@ export default function Map({ history }) {
   };
 
   const handleConfirm = () => {
+    setShowingConfirmButtons(false);
     if (!isLineWithWidth()) {
       const locationData = getOverlayInfo();
       dispatch(upsertFormData(locationData));
@@ -327,6 +341,7 @@ export default function Map({ history }) {
   };
 
   const handleLineConfirm = (lineData) => {
+    setShowingConfirmButtons(false);
     const data = { ...getOverlayInfo(), ...lineData };
     dispatch(upsertFormData(data));
     history.push(`/create_location/${drawingState.type}`);
@@ -386,11 +401,13 @@ export default function Map({ history }) {
                   resetDrawing(true);
                   dispatch(resetAndUnLockFormData());
                   closeDrawer();
+                  setShowingConfirmButtons(false);
                 }}
                 onClickTryAgain={() => {
                   setZeroAreaWarning(false);
                   resetDrawing();
                   startDrawing(drawingState.type);
+                  setShowingConfirmButtons(false);
                 }}
                 onClickConfirm={handleConfirm}
                 showZeroAreaWarning={showZeroAreaWarning}
@@ -426,10 +443,9 @@ export default function Map({ history }) {
         )}
         {showExportModal && (
           <ExportMapModal
+            onClickDownload={handleDownload}
             onClickShare={handleShare}
             dismissModal={() => setShowExportModal(false)}
-            currentMap={currentMap}
-            farmName={farm_name}
           />
         )}
         {showDrawAreaSpotlightModal && (

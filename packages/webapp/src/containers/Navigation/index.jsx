@@ -27,16 +27,18 @@ import { setSpotlightToShown } from '../Map/saga';
 const NavBar = (props) => {
   const { history, farm, farmState, dispatch, numberOfUserFarm, isAdmin, showedSpotlight } = props;
   const { isInvitationFlow } = farmState;
-  const { navigation } = showedSpotlight;
+  const { navigation, notification } = showedSpotlight;
   const isFarmSelected =
     isAuthenticated() && farm && farm.has_consent && farm?.step_five === true && !isInvitationFlow;
   const resetSpotlight = () => {
-    dispatch(setSpotlightToShown('navigation'));
+    dispatch(setSpotlightToShown(['notification', 'navigation']));
   };
+
   return isFarmSelected ? (
     <Suspense fallback={<NoFarmNavBar />}>
       <PureNavBar
         showSpotLight={!navigation}
+        showNotification={navigation && !notification}
         resetSpotlight={resetSpotlight}
         showSwitchFarm={numberOfUserFarm > 1}
         history={history}

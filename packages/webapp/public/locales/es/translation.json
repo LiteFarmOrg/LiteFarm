@@ -332,14 +332,14 @@
     "HELP_BODY": "Selecciona el rango de fechas para crear un reporte financiero para su granja en ese rango.",
     "HELP_TITLE": "Ayuda con el rango de fechas",
     "TITLE": "Filtrar reporte por fecha",
-    "INVALID_RANGE_MESSAGE": "MISSING"
+    "INVALID_RANGE_MESSAGE": "La fecha de finalización debe ser posterior a la fecha de inicio para obtener resultados"
   },
   "DATE_RANGE_PICKER": {
     "FROM": "Desde",
     "TO": "Hasta",
     "TO_MUST_BE_AFTER_FROM": "La fecha 'Hasta' debe ser posterior a la fecha 'Desde'",
     "REVENUE_HELP_TITLE": "Ayuda con el rango de fechas",
-    "REVENUE_HELP_BODY": "MISSING"
+    "REVENUE_HELP_BODY": "Solo se mostrarán los planes que tengan una tarea de cosecha planificada o completada dentro del rango de fechas indicado."
   },
   "DOCUMENTS": {
     "ADD": {
@@ -402,8 +402,8 @@
   "EXPENSE": {
     "ADD_EXPENSE": {
       "ALL_FIELDS_REQUIRED": "Todos los campos son obligatorios",
-      "MIN_ERROR": "Please enter a value greater than ",
-      "REQUIRED_ERROR": "Expense is required",
+      "MIN_ERROR": "Por favor ingrese un valor mayor que ",
+      "REQUIRED_ERROR": "Se requiere gasto",
       "TITLE_1": "Nuevo gasto (1 de 2)",
       "TITLE_2": "Nuevo gasto (2 de 2)"
     },
@@ -428,7 +428,7 @@
     "RESET_PASSWORD_LINK": "Envíar enlace para nueva contraseña."
   },
   "FARM_MAP": {
-    "TUTORIALS": "MISSING",
+    "TUTORIALS": "Tutoriales de mapas",
     "AREA_DETAILS": {
       "NETWORK": "Error de conexion.",
       "PERIMETER": "Perimetro",
@@ -1061,9 +1061,11 @@
       "LOG_OUT": "El botón para cerrar la sesión",
       "MANAGE_EMPLOYEE": "Manejar sus trabajadores",
       "MANAGE_TASK": "Manejar sus tareas",
-      "MAP_FARM": "Recorre el mapa su finca",
+      "MAP_FARM": "Mapear su granja",
+      "SEE_UPDATES": "Ver actualizaciones importantes",
       "NOTIFICATION": "Aqui puede:, • Manejar sus tareas, • Mira qué más está pasando, • Coordinar actividades de la finca",
-      "PROFILE": "Aquí encontrará:, • Su información, • Datos útiles, • El botón para cerrar la sesión",
+      "NOTIFICATION_TITLE": "Este es su centro de notificaciones",
+      "PROFILE": "Aquí encontrará:, • Su informacion, • Datos útiles, • El botón para cerrar la sesión",
       "PROFILE_TITLE": "Este es su perfil",
       "SEE_TASK": "Mira qué más está pasando",
       "TASK_TITLE": "Estas son sus tareas de la granja",

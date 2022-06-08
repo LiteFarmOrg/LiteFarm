@@ -51,7 +51,7 @@
         "COVERING_SOIL": "Terre de couverture",
         "FENCING": "Cloturation",
         "OTHER": "Autre",
-        "PREPARING_BEDS_OR_ROWS": "Preparage des lits ou rangs",
+        "PREPARING_BEDS_OR_ROWS": "Preparage des plates-bandes ou rangs",
         "PRUNING": "Émondage",
         "SHADE_CLOTH": "Toile à ombrer",
         "TERMINATION": "Terminage",
@@ -113,9 +113,9 @@
     "WILD_CROP": "Cultures sauvages"
   },
   "BED_PLAN": {
-    "LENGTH_OF_BED": "Longueur des lits",
-    "NUMBER_0F_BEDS": "# de lits",
-    "NUMBER_OF_ROWS": "# de lignes dans le lit",
+    "LENGTH_OF_BED": "Longueur des plates-bandes",
+    "NUMBER_0F_BEDS": "# de plates-bandes",
+    "NUMBER_OF_ROWS": "# de lignes dans le plate-bande",
     "PLANT_SPACING": "Espacement des plantes",
     "PLANTING_DETAILS": "Veuillez spécifier les détails de la plantation"
   },
@@ -176,7 +176,7 @@
     },
     "SUMMARY": {
       "BAD_NEWS": "LiteFarm ne collecte actuellement pas les informations dont vous avez besoin pour générer vos documents de certification - désolé!",
-      "BAD_NEWS_INFO": "Cependant, nous pouvons créer des formulaires génériques qui sont utiles pour la plupart des certificateurs. Nous indiquerons ces informations dans toute l'application avec une icône de la feuille.",
+      "BAD_NEWS_INFO": "Cependant, nous pouvons créer des formulaires génériques qui sont utiles pour la plupart des certificateurs. Nous indiquerons ces informations tout au long avec une icône de feuille.",
       "CERTIFICATION": "certification",
       "GOOD_NEWS": "Bonne nouvelle\u00a0! LiteFarm peut rassembler les informations dont vous avez besoin pour générer vos documents de certification\u00a0!",
       "INFORMATION": "Nous indiquerons ces informations tout au long avec une icône de feuille.",
@@ -246,14 +246,14 @@
   },
   "CROP": {
     "ADD_COMPLIANCE_FILE": "Lien vers un dossier de conformité",
-    "ADD_CROP": "Ajouter un recadrage",
+    "ADD_CROP": "Ajouter une culture",
     "ADD_IMAGE": "Ajouter une image personnalisée",
     "ANNUAL": "Annuelle",
     "ANNUAL_OR_PERENNIAL": "La culture est-elle annuelle ou vivace\u00a0?",
-    "EDIT_CROP": "Modifier le recadrage",
+    "EDIT_CROP": "Modifier la culture",
     "EDIT_MODAL": {
       "BODY": "La modification de cette culture ne modifiera aucun plan de gestion des cultures existant. Seuls les plans de gestion créés après vos modifications seront impactés. Procéder à la modification\u00a0?",
-      "TITLE": "Modifier le recadrage\u00a0?"
+      "TITLE": "Modifier la culture\u00a0?"
     },
     "IS_GENETICALLY_ENGINEERED": "La culture est-elle génétiquement modifiée\u00a0?",
     "IS_ORGANIC": "La semence ou la culture est-elle certifiée biologique ?",
@@ -417,8 +417,8 @@
       "TITLE_1": "Modifier les dépenses (1 sur 2)",
       "TITLE_2": "Modifier la dépense (2 sur 2)"
     },
-    "ITEM": "Article",
-    "NAME": "nom",
+    "ITEM": "Nom",
+    "NAME": "de l'article",
     "NO_EXPENSE": "Aucune dépense trouvée",
     "NO_EXPENSE_YEAR": "Vous n'avez enregistré aucune dépense pour cette année",
     "OTHER_EXPENSES_TITLE": "Autres dépenses",
@@ -543,7 +543,7 @@
       "HIDE_ALL": "Cacher tout",
       "LABEL": "Étiquettes",
       "LINES": "Lignes",
-      "NA": "Espaces naturel",
+      "NA": "Espace naturel",
       "POINTS": "Points",
       "RESIDENCE": "Résidence",
       "SATELLITE": "Image satellite",
@@ -759,7 +759,7 @@
       "NEARBY_FARMS_plural": "Le prix moyen du réseau est basé sur les prix de {{count}} autres fermes dans votre région",
       "NETWORK_PRICE": "Prix moyen du réseau",
       "NO_ADDRESS": "Vous n'avez actuellement pas d'adresse à LiteFarm. Veuillez la mettre à jour dans votre profil pour obtenir des informations sur les prix à proximité!",
-      "OWN_PRICE": "Votre prix",
+      "OWN_PRICE": "Votre propre prix",
       "PERCENT_OF_MARKET": "{{percentage}} % du marché",
       "SALES_FROM_DISTANCE_AWAY": "Ventes sur un partir d'un rayon de {{distance}} {{unit}}",
       "TITLE": "Prix",
@@ -771,7 +771,7 @@
       "INFO": "La matière organique du sol est essentielle pour maintenir un sol sain pour vos récoltes. La teneur en matière organique est calculée à partir de vos journaux d’analyse de sol les plus récents. Si vous n’avez pas de données sur votre sol, nous estimons la matière organique potentielle de votre sol en fonction de votre emplacement dans le monde.",
       "TITLE": "Matière organique du Sol"
     },
-    "TITLE": "Aperçus",
+    "TITLE": "Mesures additionnelles",
     "UNAVAILABLE": "Indisponible",
     "WATER_BALANCE": {
       "FIRST_TIME": "On dirait que c'est la première fois que vous exécutez cela\u00a0! Pour plus d'informations sur ce que cela fait, veuillez cliquer sur le bouton d'information pour voir.",
@@ -835,7 +835,7 @@
   },
   "LOCATION_CROPS": {
     "ACTIVE_CROPS": "Cultures actives",
-    "ADD_NEW": "Ajouter un recadrage",
+    "ADD_NEW": "Ajouter une nouvelle culture",
     "INPUT_PLACEHOLDER": "Tapez pour rechercher",
     "PAST_CROPS": "Cultures passées",
     "PLANNED_CROPS": "Cultures planifiées"
@@ -875,7 +875,7 @@
   "LOG_HARVEST": {
     "ADD_CUSTOM_HARVEST_USE": "Ajouter une utilisation de récolte personnalisée",
     "CROP": "Crop",
-    "CROP_PLACEHOLDER": "Sélectionnez un recadrage",
+    "CROP_PLACEHOLDER": "Sélectionnez une culture",
     "CUSTOM_HARVEST_USE": "Utilisations de récolte personnalisées",
     "DISEASE": "Maladie",
     "HARVEST": "Récolte",
@@ -900,7 +900,7 @@
     "ABANDON_PLAN": "Abandonner ce plan de gestion",
     "ADD_A_TASK": "Ajouter une tâche",
     "DETAILS": "Détails",
-    "FAILED_CROP": "Echec du recadrage\u00a0?",
+    "FAILED_CROP": "Echec de la culture\u00a0?",
     "TASKS": "Tâches"
   },
   "MANAGEMENT_PLAN": {
@@ -909,7 +909,7 @@
     "ADD_MANAGEMENT_PLAN": "Ajouter un plan de gestion",
     "AGE": "Âge",
     "AS_COVER_CROP": "Cultures de couverture",
-    "BEDS": "Lits",
+    "BEDS": "Plates-bandes",
     "BROADCAST": "Diffusion ou exercice",
     "COMPLETE_PLAN": {
       "ABANDON_DATE": "Date d'abandon",
@@ -1020,7 +1020,7 @@
       "PLANNED": "Plannifié"
     },
     "SUPPLIER": "Fournisseur",
-    "TERMINATION": "Récolte initiale",
+    "TERMINATION": "Terminaison",
     "TERMINATION_DATE": "Quand voulez vous terminer cette récolte ?",
     "TOTAL_PLANTS": "# de plantes",
     "TRANSPLANT": "Transplanter",
@@ -1063,7 +1063,9 @@
       "MANAGE_EMPLOYEE": "Gérer vos employés",
       "MANAGE_TASK": "Gérer vos tâches",
       "MAP_FARM": "Cartographier votre ferme",
-      "NOTIFICATION": "Ici vous pouvez:, • Gérer vos tâches, • Voir les mises à jour importantes, • Coordonner les activités de la ferme",
+      "SEE_UPDATES": "Voir les mises à jour importantes",
+      "NOTIFICATION": "Ici vous pouvez:, • Voir les mises à jour importantes, • Gérez vos tâches, • Coordonner les activités de la ferme",
+      "NOTIFICATION_TITLE": "Ceci est votre centre de notification",
       "PROFILE": "Vous trouverez ici :, • Vos informations, • Des conseils utiles, • Le bouton de déconnexion",
       "PROFILE_TITLE": "Ceci est votre profil",
       "SEE_TASK": "Voir les mises à jour importantes",

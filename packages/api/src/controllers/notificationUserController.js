@@ -25,7 +25,30 @@ module.exports = {
    * @param {Response} res - The HTTP response object.
    */
   subscribeToAlerts(req, res) {
-    const { user_id, farm_id } = req.query;
+    const { user_id, farm_id, subscriber_id } = req.query;
+
+    // Maintain subscriptions Map(key = user_id, value = Map(key = subscriber_id, value = Map(key = timestamp, value = res))).
+    // subscriber_id distinguishes the same user in different browsers.
+    const subscriptions = NotificationUser.subscriptions;
+
+    let userSubs = subscriptions.get(user_id);
+    if (!userSubs) {
+      userSubs = new Map();
+      subscriptions.set(user_id, userSubs);
+    }
+
+    let subscriberSubs = userSubs.get(subscriber_id);
+    if (!subscriberSubs) {
+      subscriberSubs = new Map();
+      userSubs.set(subscriber_id, subscriberSubs);
+    }
+
+    if (subscriberSubs.size >= 5) {
+      // Subscriptions are limited to 5 per browser.
+      // 204 No Content communicates (non)result while avoiding error status.
+      // Cannot send text because connection is event stream.
+      return res.sendStatus(204);
+    }
 
     // Use server-sent events.
     res.writeHead(200, {
@@ -38,15 +61,6 @@ module.exports = {
     res.write('\n');
 
     const opened = new Date().toISOString();
-
-    // Maintain subscriptions Map(key = user_id, value = Map(key = timestamp, value = res)).
-    const subscriptions = NotificationUser.subscriptions;
-
-    let userSubs = subscriptions.get(user_id);
-    if (!userSubs) {
-      userSubs = new Map();
-      subscriptions.set(user_id, userSubs);
-    }
 
     // Register a function to send alerts to sessions for the user, farm combination.
     const sendAlert = (delta = 1) => {
@@ -67,12 +81,15 @@ module.exports = {
     };
 
     // Record the subscription.
-    userSubs.set(opened, { farm_id, sendAlert, endHttpRes });
+    subscriberSubs.set(opened, { farm_id, sendAlert, endHttpRes });
     subscriptions.set('count', (subscriptions.get('count') || 0) + 1);
-    console.log(`Opening subscription: user ${user_id} at ${opened}`);
+    console.log(
+      `Opening subscription: user ${user_id} as subscriber ${subscriber_id} at ${opened}`,
+    );
     console.log(
       `  ${subscriptions.size - 1} users have ${subscriptions.get('count')} active subscriptions.`,
     );
+    // console.log('subscriptions', subscriptions)
 
     // Cleans up subscription tracking when HTTP request closes.
     req.on('close', () => {
@@ -83,9 +100,19 @@ module.exports = {
         return;
       }
 
-      const sub = userSubs.get(opened);
+      const subscriberSubs = userSubs.get(subscriber_id);
+      if (!subscriberSubs) {
+        console.log(
+          `Cannot close non-existent subscription: subscriber ${subscriber_id} as subscriber ${subscriber_id}`,
+        );
+        return;
+      }
+
+      const sub = subscriberSubs.get(opened);
       if (!sub) {
-        console.log(`Cannot close non-existent subscription: user ${user_id} opened at ${opened}`);
+        console.log(
+          `Cannot close non-existent subscription: user ${user_id} as subscriber ${subscriber_id} opened at ${opened}`,
+        );
         return;
       }
 
@@ -93,10 +120,13 @@ module.exports = {
       sub.endHttpRes();
 
       // Remove the subscription tracking.
-      userSubs.delete(opened);
+      subscriberSubs.delete(opened);
+      if (subscriberSubs.size === 0) userSubs.delete(subscriber_id);
       if (userSubs.size === 0) subscriptions.delete(user_id);
       subscriptions.set('count', subscriptions.get('count') - 1);
-      console.log(`Closed subscription: user ${user_id} opened at ${opened}`);
+      console.log(
+        `Closed subscription: user ${user_id} as subscriber ${subscriber_id} opened at ${opened}`,
+      );
       console.log(
         `  ${subscriptions.size - 1} users have ${subscriptions.get(
           'count',

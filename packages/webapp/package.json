@@ -63,6 +63,7 @@
     "immer": "^9.0.12",
     "moment": "^2.29.1",
     "moment-range": "^4.0.2",
+    "nodemailer": "^6.7.5",
     "notistack": "^1.0.9",
     "prop-types": "^15.7.2",
     "rc-year-calendar": "^1.0.2",

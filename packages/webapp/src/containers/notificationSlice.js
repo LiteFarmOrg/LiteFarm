@@ -1,4 +1,4 @@
-import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
+import { createEntityAdapter, createSlice, current } from '@reduxjs/toolkit';
 import { createSelector } from 'reselect';
 import { getNotificationCardDate } from '../util/moment';
 
@@ -74,4 +74,16 @@ export const notificationsSelector = createSelector(
 
 export const notificationSelector = (notification_id) => (state) => {
   return notificationSelectors.selectById(state, notification_id);
+};
+
+export const relatedNotificationSelector = (entity) => (state) => {
+  if (!entity) return [];
+  const { type, id } = entity;
+  if (!!type && !!id) {
+    return notificationSelectors.selectAll(state).filter((n) => {
+      return n.ref?.entity?.type === type && n.ref?.entity?.id === id;
+    });
+  } else {
+    return [];
+  }
 };

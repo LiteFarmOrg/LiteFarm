@@ -1075,7 +1075,16 @@
       "YOU_WILL_FIND": "Vous trouverez ici:"
     }
   },
+  "ENTITY_TYPES": {
+    "TASK": "tâche",
+    "location": "emplacement"
+  },
   "NOTIFICATION": {
+    "TIMELINE": {
+      "HEADING": "MISSING",
+      "VIEW_NOW": "MISSING",
+      "MORE_RECENT_NOTIFICATION": "MISSING"
+    },
     "DAILY_TASKS_DUE_TODAY": {
       "BODY": "Vous avez des tâches à accomplir aujourd'hui.",
       "TITLE": "Tâches à accomplir aujourd'hui"

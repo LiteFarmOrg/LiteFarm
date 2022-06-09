@@ -448,6 +448,12 @@
       "TITLE": "Adicionar zona de amortecimento/proteção",
       "WIDTH": "Largura da zona de amortecimento/proteção"
     },
+    "BULK_UPLOAD_SENSORS": {
+      "TITLE": "MISSING",
+      "UPLOAD_LINK_MESSAGE": "MISSING",
+      "UPLOAD_INSTRUCTION_MESSAGE": "MISSING",
+      "UPLOAD_PLACEHOLDER": "MISSING"
+    },
     "CEREMONIAL_AREA": {
       "EDIT_TITLE": "Editar área cerimonial",
       "NAME": "Área cerimonial",

@@ -43,7 +43,7 @@ export const isLine = (type) => {
 };
 
 export const isPoint = (type) => {
-  return [locationEnum.gate, locationEnum.water_valve].includes(type);
+  return [locationEnum.gate, locationEnum.water_valve, locationEnum.sensor].includes(type);
 };
 
 export const locationEnum = {
@@ -59,6 +59,7 @@ export const locationEnum = {
   fence: 'fence',
   gate: 'gate',
   water_valve: 'water_valve',
+  sensor: 'sensor',
   farm_site_boundary: 'farm_site_boundary',
   residence: 'residence',
 };

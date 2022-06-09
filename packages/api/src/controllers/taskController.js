@@ -64,7 +64,7 @@ const taskController = {
         const farmManagement = farmManagementObjs.map((obj) => obj.user_id);
         await sendTaskNotification(
           farmManagement,
-          oldAssigneeUserId,
+          user_id,
           task_id,
           TaskNotificationTypes.TASK_UNASSIGNED,
           task_translation_key,

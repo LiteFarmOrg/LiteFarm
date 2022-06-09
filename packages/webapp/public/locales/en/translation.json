@@ -1096,6 +1096,10 @@
       "BODY": "A {{taskType}} task previously assigned to you has been assigned to someone else by {{assigner}}.",
       "TITLE": "Task re-assigned"
     },
+    "TASK_UNASSIGNED": {
+      "BODY": "{{editor}} has marked a {{taskType}} task as unassigned.",
+      "TITLE": "Task unassigned"
+    },
     "WEEKLY_UNASSIGNED_TASKS": {
       "BODY": "You have unassigned tasks due this week.",
       "TITLE": "Unassigned tasks"

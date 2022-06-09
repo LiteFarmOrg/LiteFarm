@@ -69,4 +69,5 @@ export default NotificationTimeline;
 NotificationTimeline.prototype = {
   notificationId: PropTypes.string,
   relatedNotifications: PropTypes.arrayOf(PropTypes.object),
+  style: PropTypes.object,
 };

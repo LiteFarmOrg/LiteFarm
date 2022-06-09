@@ -1,4 +1,4 @@
-import { createEntityAdapter, createSlice, current } from '@reduxjs/toolkit';
+import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
 import { createSelector } from 'reselect';
 import { getNotificationCardDate } from '../util/moment';
 

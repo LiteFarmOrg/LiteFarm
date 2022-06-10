@@ -1,6 +1,5 @@
 import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
 import { createSelector } from 'reselect';
-import { getNotificationCardDate } from '../util/moment';
 
 /**
  * Generate action creators and action types that correspond to a specified initial state and a specified set of reducers.
@@ -66,7 +65,6 @@ export const notificationsSelector = createSelector(
       return {
         ...notification,
         ...notification.variables,
-        created_at: getNotificationCardDate(notification.created_at),
       };
     });
   },

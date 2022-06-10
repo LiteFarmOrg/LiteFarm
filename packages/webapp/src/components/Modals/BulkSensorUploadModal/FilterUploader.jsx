@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styles from './styles.module.scss';
-import { BsFileEarmarkPlus } from 'react-icons/bs';
+import { ReactComponent as UploadIcon } from '../../../assets/images/map/upload.svg';
 import { Label } from '../../Typography';
 
 export default function FileUploader({
@@ -16,7 +16,7 @@ export default function FileUploader({
   return (
     <>
       <div className={styles.uploadSelectInput} onClick={handleClick}>
-        <BsFileEarmarkPlus className={styles.uploadIconContainer} />
+        <UploadIcon className={styles.uploadIconContainer} />
         <Label className={styles.fileNameLabel}>{selectedFileName}</Label>
       </div>
       <input

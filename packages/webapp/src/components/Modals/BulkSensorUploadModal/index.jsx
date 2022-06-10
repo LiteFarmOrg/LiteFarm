@@ -39,7 +39,7 @@ export default function BulkSensorUploadModal({
           </div>
           <FileUploader
             handleSelectedFile={handleSelectedFile}
-            acceptFormat=".csv"
+            acceptedFormat=".csv"
             selectedFileName={selectedFileName}
             fileInputRef={fileInputRef}
           />

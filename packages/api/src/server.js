@@ -58,6 +58,7 @@ const rolesRoutes = require('./routes/rolesRoute');
 const organicCertifierSurveyRoutes = require('./routes/organicCertifierSurveyRoute');
 const passwordResetRoutes = require('./routes/passwordResetRoute.js');
 const showedSpotlightRoutes = require('./routes/showedSpotlightRoute.js');
+const sensorRoutes = require('./routes/sensorRoute');
 
 // const waterBalanceScheduler = require('./jobs/waterBalance/waterBalance');
 // const nitrogenBalanceScheduler = require('./jobs/nitrogenBalance/nitrogenBalance');
@@ -195,6 +196,7 @@ app
   .use('/product', productRoute)
   .use('/notification_user', notificationUserRoute)
   .use('/time_notification', timeNotificationRoute)
+  .use('/sensor', sensorRoutes)
   // handle errors
   .use((req, res, next) => {
     const error = new Error('Not found');

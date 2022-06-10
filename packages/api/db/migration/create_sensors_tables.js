@@ -16,7 +16,7 @@
 exports.up = function (knex) {
   return Promise.all([
     knex.schema.createTable('sensors', function (table) {
-      table.uuid('sensor_id').primary().notNullable();
+      table.integer('sensor_id').primary().notNullable();
       table.string('farm_id').notNullable();
       table.string('name').notNullable();
       table.float('latitude').notNullable();
@@ -41,7 +41,7 @@ exports.up = function (knex) {
     // }),
 
     knex.schema.createTable('sensor_readings', function (table) {
-      table.uuid('reading_id').primary().notNullable();
+      table.integer('reading_id').primary().notNullable();
       table.timestamp('read_time').defaultTo(knex.fn.now());
       table.timestamp('transmit_time').notNullable();
       table.integer('sensor_id').notNullable();

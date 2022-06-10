@@ -18,6 +18,7 @@ export default function BulkSensorUploadModal({
   handleSelectedFile,
   selectedFileName,
   fileInputRef,
+  errorCount,
 }) {
   const { t } = useTranslation();
 
@@ -42,6 +43,7 @@ export default function BulkSensorUploadModal({
             acceptedFormat=".csv"
             selectedFileName={selectedFileName}
             fileInputRef={fileInputRef}
+            isValid={!errorCount}
           />
           <Button
             className={styles.buttonUpload}
@@ -68,4 +70,5 @@ BulkSensorUploadModal.prototype = {
   handleSelectedFile: PropTypes.func,
   selectedFileName: PropTypes.string,
   fileInputRef: PropTypes.func,
+  errorCount: PropTypes.number,
 };

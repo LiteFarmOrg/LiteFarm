@@ -19,6 +19,8 @@ const validationFields = [
 export function useValidateBulkSensorData(onUpload) {
   const [disabled, setDisabled] = useState(true);
   const [selectedFileName, setSelectedFileName] = useState('');
+  const [sheetErrors, setSheetErrors] = useState([]);
+  const [errorCount, setErrorCount] = useState(0);
   const fileInputRef = useRef(null);
 
   const validateExcel = (rows) => {
@@ -41,40 +43,51 @@ export function useValidateBulkSensorData(onUpload) {
     return errors;
   };
 
-  const validateFileUpload = async (e) => {
+  const onUploadClicked = async (e) => {
     e.preventDefault();
     const file = fileInputRef.current.files[0];
     if (file) {
-      const data = await file.arrayBuffer();
-      const workBook = XLSX.read(data);
-      const sheetErrors = [];
-      let totalErrorCount = 0;
-      for (const singleSheet of workBook.SheetNames) {
-        const sheetError = {
-          sheetName: singleSheet,
-        };
-        const worksheet = workBook.Sheets[singleSheet];
-        const jsonData = XLSX.utils.sheet_to_json(worksheet, { defval: '' });
-        const errors = validateExcel(jsonData);
-        totalErrorCount += errors.length;
-        sheetError.errors = errors;
-        sheetErrors.push(sheetError);
-      }
-      console.log('totalErrorCount', totalErrorCount);
-      console.log('sheetErrors', sheetErrors);
-      if (!totalErrorCount) {
-        onUpload(file);
-      }
+      onUpload(file);
     }
   };
 
-  const handleSelectedFile = (e) => {
+  const handleSelectedFile = async (e) => {
     const file = e.target.files[0];
     if (file) {
-      setSelectedFileName(file?.name);
-      setDisabled(false);
+      try {
+        setSelectedFileName(file?.name);
+        const data = await file.arrayBuffer();
+        const workBook = XLSX.read(data);
+        const sheetErrorList = [];
+        let totalErrorCount = 0;
+        for (const singleSheet of workBook.SheetNames) {
+          const sheetError = {
+            sheetName: singleSheet,
+          };
+          const worksheet = workBook.Sheets[singleSheet];
+          const jsonData = XLSX.utils.sheet_to_json(worksheet, { defval: '' });
+          const errors = validateExcel(jsonData);
+          totalErrorCount += errors.length;
+          sheetError.errors = errors;
+          sheetErrorList.push(sheetError);
+        }
+        console.log('totalErrorCount', totalErrorCount);
+        console.log('sheetErrorList', sheetErrorList);
+        setErrorCount(totalErrorCount);
+        setSheetErrors(sheetErrorList);
+        setDisabled(!!totalErrorCount);
+      } catch (err) {
+        console.error(err);
+      }
     }
   };
 
-  return { validateFileUpload, handleSelectedFile, disabled, selectedFileName, fileInputRef };
+  return {
+    onUploadClicked,
+    handleSelectedFile,
+    disabled,
+    selectedFileName,
+    fileInputRef,
+    errorCount,
+  };
 }

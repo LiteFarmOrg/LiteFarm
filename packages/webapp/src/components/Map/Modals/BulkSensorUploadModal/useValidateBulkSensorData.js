@@ -7,14 +7,12 @@ const validationFields = [
     /* eslint-disable-next-line */
     mask: /^[a-zA-Z0-9 \.\-\/!@#$%^&*)(]{1,20}$/,
     columnName: 'ESID',
-    required: true,
   },
   {
     type: 'Sensor name invalid, must be between 1 and 100 characters.',
     /* eslint-disable-next-line */
     mask: /^[a-zA-Z0-9 \.\-\/!@#$%^&*)(]{1,100}$/,
     columnName: 'Name',
-    required: true,
   },
 ];
 
@@ -56,7 +54,7 @@ export function useValidateBulkSensorData(onUpload) {
           sheetName: singleSheet,
         };
         const worksheet = workBook.Sheets[singleSheet];
-        const jsonData = XLSX.utils.sheet_to_json(worksheet);
+        const jsonData = XLSX.utils.sheet_to_json(worksheet, { defval: '' });
         const errors = validateExcel(jsonData);
         totalErrorCount += errors.length;
         sheetError.errors = errors;

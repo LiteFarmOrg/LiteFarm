@@ -14,26 +14,15 @@
  */
 
 exports.up = async function (knex) {
-  await knex.schema.createTable('integratingPartners', (table) => {
-    table.increments('partner_id').primary();
-    table.string('partner_name').notNullable();
-    table.string('access_token');
-    table.string('refresh_token');
-    table.string('root_url');
-    table.boolean('deactivated').defaultTo(false);
+  await knex.schema.createTable('farmExternalIntegrations', (table) => {
+    table.primary(['farm_id', 'partner_id']);
+    table.uuid('farm_id').references('farm_id').inTable('farm');
+    table.integer('partner_id').references('partner_id').inTable('integratingPartners');
+    table.uuid('registration_uuid');
+    table.boolean('webhook');
   });
-
-  await knex("integratingPartners").insert([
-    {
-      partner_id: 1,
-      partner_name: 'Ensemble',
-      access_token: null,
-      refresh_token: null,
-      root_url: 'https://api.esci.io/',
-    },
-  ])
 };
 
 exports.down = async function (knex) {
-  await knex.schema.dropTable('integratingPartners');
+  await knex.schema.dropTable('farmExternalIntegrations');
 };

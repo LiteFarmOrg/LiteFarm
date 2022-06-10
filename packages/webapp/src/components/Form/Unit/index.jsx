@@ -226,6 +226,8 @@ const Unit = ({
   }, [hookFormUnit]);
 
   useEffect(() => {
+    !hookFormGetValue(displayUnitName) &&
+      hookFormSetValue(displayUnitName, getUnitOptionMap()[displayUnit]);
     if (hookFormGetValue(displayUnitName)) {
       hookFormSetValue(displayUnitName, getUnitOptionMap()[displayUnit]);
     }

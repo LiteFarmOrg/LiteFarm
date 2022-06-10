@@ -81,7 +81,7 @@ export const relatedNotificationSelector = (entity) => (state) => {
   const { type, id } = entity;
   if (!!type && !!id) {
     return notificationSelectors.selectAll(state).filter((n) => {
-      return n.ref?.entity?.type === type && n.ref?.entity?.id === id;
+      return n.ref?.entity?.type === type && n.ref?.entity?.id.toString() === id.toString();
     });
   } else {
     return [];

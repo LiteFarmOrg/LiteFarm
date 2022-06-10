@@ -4,11 +4,9 @@ import { Modal } from '..';
 import styles from './styles.module.scss';
 import { Semibold, Underlined, Label } from '../../Typography';
 import Button from '../../Form/Button';
-import Form from '../../Form';
+import { BsChevronLeft } from 'react-icons/bs';
 import PropTypes from 'prop-types';
-import clsx from 'clsx';
-import Input from '../../Form/Input';
-
+import FileUploader from './FilterUploader';
 export default function BulkSensorUploadModal({
   title,
   uploadLinkMessage,
@@ -16,37 +14,45 @@ export default function BulkSensorUploadModal({
   uploadPlaceholder,
   dismissModal,
   onUpload,
-  disabled = true,
-  validateFileUpload,
+  disabled,
+  handleSelectedFile,
+  selectedFileName,
+  fileInputRef,
 }) {
   const { t } = useTranslation();
 
   return (
     <Modal dismissModal={dismissModal}>
       <div className={styles.container}>
-        <Semibold className={styles.title}>{title}</Semibold>
+        <div className={styles.modalHeaderWrapper}>
+          <button type={'button'} className={styles.buttonContainer} onClick={dismissModal}>
+            <BsChevronLeft style={{ fontSize: '20px' }} />
+          </button>
+          <Semibold className={styles.title}>{title}</Semibold>
+        </div>
         <Label>
           <Underlined>{uploadLinkMessage}</Underlined>&nbsp;{uploadInstructionMessage}
         </Label>
-        <Form
-          onSubmit={onUpload}
-          buttonGroup={
-            <>
-              {onUpload && (
-                <Button type={'submit'} disabled={disabled} sm onClick={dismissModal}>
-                  {t('common:UPLOAD')}
-                </Button>
-              )}
-            </>
-          }
-        >
-          <Input
-            label={uploadPlaceholder}
-            type="file"
-            accept=".xls,.xlsx"
-            onChange={validateFileUpload}
+        <form onSubmit={onUpload}>
+          <div className={styles.uploadPlaceholder}>
+            <label>{uploadPlaceholder}</label>
+          </div>
+          <FileUploader
+            handleSelectedFile={handleSelectedFile}
+            acceptFormat=".csv"
+            selectedFileName={selectedFileName}
+            fileInputRef={fileInputRef}
           />
-        </Form>
+          <Button
+            className={styles.buttonUpload}
+            type="submit"
+            disabled={disabled}
+            sm
+            onClick={onUpload}
+          >
+            {t('common:UPLOAD')}
+          </Button>
+        </form>
       </div>
     </Modal>
   );
@@ -59,5 +65,7 @@ BulkSensorUploadModal.prototype = {
   dismissModal: PropTypes.func,
   disabled: PropTypes.bool,
   onUpload: PropTypes.func,
-  validateFileUpload: PropTypes.func,
+  handleSelectedFile: PropTypes.func,
+  selectedFileName: PropTypes.string,
+  fileInputRef: PropTypes.func,
 };

@@ -7,9 +7,8 @@ import PropTypes from 'prop-types';
 export default function BulkSensorUploadModal({ dismissModal, onUpload }) {
   const { t } = useTranslation();
 
-  const { validateFileUpload, disabled } = useValidateBulkSensorData();
-
-  console.log('disabled', disabled);
+  const { validateFileUpload, handleSelectedFile, disabled, selectedFileName, fileInputRef } =
+    useValidateBulkSensorData(onUpload);
 
   return (
     <PureBulkSensorUploadModal
@@ -18,12 +17,16 @@ export default function BulkSensorUploadModal({ dismissModal, onUpload }) {
       uploadInstructionMessage={t('FARM_MAP.BULK_UPLOAD_SENSORS.UPLOAD_INSTRUCTION_MESSAGE')}
       uploadPlaceholder={t('FARM_MAP.BULK_UPLOAD_SENSORS.UPLOAD_PLACEHOLDER')}
       dismissModal={dismissModal}
-      onUpload={onUpload}
-      validateFileUpload={validateFileUpload}
+      onUpload={validateFileUpload}
+      handleSelectedFile={handleSelectedFile}
+      selectedFileName={selectedFileName}
+      fileInputRef={fileInputRef}
+      disabled={disabled}
     />
   );
 }
 
 BulkSensorUploadModal.prototype = {
   dismissModal: PropTypes.func,
+  onUpload: PropTypes.func,
 };

@@ -6,7 +6,6 @@ const SENSOR_NAME = 'Name';
 const SENSOR_LATITUDE = 'Latitude';
 const SENSOR_LONGITUDE = 'Longitude';
 const SENSOR_READING_TYPES = 'Reading_types';
-const DEPTH = 'Depth';
 
 const SOIL_WATER_CONTENT = 'soil_water_content';
 const SOIL_WATER_POTENTIAL = 'soil_water_potential';
@@ -20,36 +19,35 @@ const requiredFields = [
   SENSOR_LATITUDE,
   SENSOR_LONGITUDE,
   SENSOR_READING_TYPES,
-  DEPTH,
 ];
 
 const validationFields = [
   {
-    type: 'Sensor id invalid, must be between 1 and 20 characters.',
+    type: 'Invalid external id, must be between 1 and 20 characters.',
     /* eslint-disable-next-line */
     mask: /^[a-zA-Z0-9 \.\-\/!@#$%^&*)(]{1,20}$/,
     columnName: SENSOR_EXTERNAL_ID,
   },
   {
-    type: 'Sensor name invalid, must be between 1 and 100 characters.',
+    type: 'Invalid sensor name, must be between 1 and 100 characters.',
     /* eslint-disable-next-line */
     mask: /^[a-zA-Z0-9 \.\-\/!@#$%^&*)(]{1,100}$/,
     columnName: SENSOR_NAME,
   },
   {
-    type: 'Invalid format for latitude',
+    type: 'Invalid latitude value, must be between -90 and 90. and fewer than 10 decimals.',
     /* eslint-disable-next-line */
     mask: /^(\+|-)?(?:90(?:(?:\.0{1,6})?)|(?:[0-9]|[1-8][0-9])(?:(?:\.[0-9]{1,30})?))$/,
     columnName: SENSOR_LATITUDE,
   },
   {
-    type: 'Invalid format for longitude',
+    type: 'Invalid longitude value, must be between -180 and 180. and fewer than 10 decimals.',
     /* eslint-disable-next-line */
     mask: /^(\+|-)?(?:180(?:(?:\.0{1,6})?)|(?:[0-9]|[1-9][0-9]|1[0-7][0-9])(?:(?:\.[0-9]{1,30})?))$/,
     columnName: SENSOR_LONGITUDE,
   },
   {
-    type: 'Invalid format for Reading_types',
+    type: 'Invalid reading type detected, valid values include: soil_moisture_content, water_potential, temperature.',
     /* eslint-disable-next-line */
     mask: /^\s*(?:\w+\s*,\s*){2,}(?:\w+\s*)$/,
     columnName: SENSOR_READING_TYPES,
@@ -71,12 +69,6 @@ const validationFields = [
         value: invalidReadingTypes,
       };
     },
-  },
-  {
-    type: 'Invalid depth, must be a decimal value between 0 and 500.',
-    /* eslint-disable-next-line */
-    mask: /^(\d{0,2}(\.\d{1,6})?|100(\.00?)?)$/,
-    columnName: DEPTH,
   },
 ];
 

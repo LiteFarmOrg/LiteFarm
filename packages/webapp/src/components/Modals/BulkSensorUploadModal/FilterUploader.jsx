@@ -33,7 +33,7 @@ export default function FileUploader({
       />
       {!isValid && (
         <div className={styles.csvErrorMessageWrapper}>
-          <label>The CSV file is not valid</label>
+          <label>We found some errors with your upload. You can view them here.</label>
         </div>
       )}
     </>

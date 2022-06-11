@@ -300,8 +300,10 @@ export default function Map({ history }) {
       setShowDrawAreaSpotlightModal(true);
     } else if (isLine(locationType) && !showedSpotlight.draw_line) {
       setShowDrawLineSpotlightModal(true);
-    } else if (locationEnum.sensor) {
+    } else if (locationType == locationEnum.sensor) {
+      setShowAddDrawer(!showAddDrawer);
       setShowBulkSensorUploadModal(true);
+      return;
     }
     isLineWithWidth(locationType) && dispatch(upsertFormData(initialLineData[locationType]));
     const submitPath = `/create_location/${locationType}`;

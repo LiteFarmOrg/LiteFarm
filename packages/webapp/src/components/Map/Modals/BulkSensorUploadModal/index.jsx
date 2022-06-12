@@ -10,6 +10,7 @@ export default function BulkSensorUploadModal({ dismissModal, onUpload }) {
   const {
     onUploadClicked,
     handleSelectedFile,
+    onShowErrorClick,
     disabled,
     selectedFileName,
     fileInputRef,
@@ -29,6 +30,7 @@ export default function BulkSensorUploadModal({ dismissModal, onUpload }) {
       fileInputRef={fileInputRef}
       disabled={disabled}
       errorCount={errorCount}
+      onShowErrorClick={onShowErrorClick}
     />
   );
 }

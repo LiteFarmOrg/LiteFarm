@@ -23,31 +23,33 @@ const requiredFields = [
 
 const validationFields = [
   {
-    type: 'Invalid external id, must be between 1 and 20 characters.',
+    errorMessage: 'Invalid external id, must be between 1 and 20 characters.',
     /* eslint-disable-next-line */
     mask: /^[a-zA-Z0-9 \.\-\/!@#$%^&*)(]{1,20}$/,
     columnName: SENSOR_EXTERNAL_ID,
   },
   {
-    type: 'Invalid sensor name, must be between 1 and 100 characters.',
+    errorMessage: 'Invalid sensor name, must be between 1 and 100 characters.',
     /* eslint-disable-next-line */
     mask: /^[a-zA-Z0-9 \.\-\/!@#$%^&*)(]{1,100}$/,
     columnName: SENSOR_NAME,
   },
   {
-    type: 'Invalid latitude value, must be between -90 and 90. and fewer than 10 decimals.',
+    errorMessage: 'Invalid latitude value, must be between -90 and 90. and fewer than 10 decimals.',
     /* eslint-disable-next-line */
     mask: /^(\+|-)?(?:90(?:(?:\.0{1,6})?)|(?:[0-9]|[1-8][0-9])(?:(?:\.[0-9]{1,30})?))$/,
     columnName: SENSOR_LATITUDE,
   },
   {
-    type: 'Invalid longitude value, must be between -180 and 180. and fewer than 10 decimals.',
+    errorMessage:
+      'Invalid longitude value, must be between -180 and 180. and fewer than 10 decimals.',
     /* eslint-disable-next-line */
     mask: /^(\+|-)?(?:180(?:(?:\.0{1,6})?)|(?:[0-9]|[1-9][0-9]|1[0-7][0-9])(?:(?:\.[0-9]{1,30})?))$/,
     columnName: SENSOR_LONGITUDE,
   },
   {
-    type: 'Invalid reading type detected, valid values include: soil_moisture_content, water_potential, temperature.',
+    errorMessage:
+      'Invalid reading type detected, valid values include: soil_moisture_content, water_potential, temperature.',
     /* eslint-disable-next-line */
     mask: /^\s*(?:\w+\s*,\s*){2,}(?:\w+\s*)$/,
     columnName: SENSOR_READING_TYPES,
@@ -65,8 +67,8 @@ const validationFields = [
       return {
         row: rowNumber,
         column: columnName,
-        type: 'The reading types contains invalid values',
-        value: invalidReadingTypes,
+        errorMessage: 'The reading types contains invalid values',
+        value: invalidReadingTypes.join(','),
       };
     },
   },
@@ -90,7 +92,7 @@ export function useValidateBulkSensorData(onUpload) {
           errors.push({
             row: i + 2,
             column: COLUMN,
-            type: validationField.type,
+            errorMessage: validationField.type,
             value: element[COLUMN],
           });
         } else {
@@ -123,8 +125,8 @@ export function useValidateBulkSensorData(onUpload) {
       ? [
           {
             row: 1,
-            column: missingColumns,
-            type: 'Columns are required/missing',
+            column: missingColumns.join(','),
+            errorMessage: 'Columns are required/missing',
             value: '',
           },
         ]
@@ -166,9 +168,34 @@ export function useValidateBulkSensorData(onUpload) {
     }
   };
 
+  const generateADownload = (s) => {
+    var buf = new ArrayBuffer(s.length);
+    var view = new Uint8Array(buf);
+    for (var i = 0; i != s.length; ++i) view[i] = s.charCodeAt(i) & 0xff;
+    return buf;
+  };
+
+  const onShowErrorClick = (e) => {
+    const inputfFile = fileInputRef.current.files[0];
+    if (inputfFile) {
+      const element = document.createElement('a');
+      const worksheet = XLSX.utils.json_to_sheet(sheetErrors[0].errors);
+      var csv = XLSX.utils.sheet_to_csv(worksheet);
+
+      const file = new Blob([generateADownload(csv)], {
+        type: 'text/plain',
+      });
+      element.href = URL.createObjectURL(file);
+      element.download = 'validation-errors.txt';
+      document.body.appendChild(element);
+      element.click();
+    }
+  };
+
   return {
     onUploadClicked,
     handleSelectedFile,
+    onShowErrorClick,
     disabled,
     selectedFileName,
     fileInputRef,

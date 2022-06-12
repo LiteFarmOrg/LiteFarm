@@ -6,7 +6,7 @@ import { Semibold, Underlined, Label } from '../../Typography';
 import Button from '../../Form/Button';
 import { BsChevronLeft } from 'react-icons/bs';
 import PropTypes from 'prop-types';
-import FileUploader from './FilterUploader';
+import FileUploader from './FileUploader';
 export default function BulkSensorUploadModal({
   title,
   uploadLinkMessage,
@@ -19,6 +19,7 @@ export default function BulkSensorUploadModal({
   selectedFileName,
   fileInputRef,
   errorCount,
+  onShowErrorClick,
 }) {
   const { t } = useTranslation();
 
@@ -44,6 +45,7 @@ export default function BulkSensorUploadModal({
             selectedFileName={selectedFileName}
             fileInputRef={fileInputRef}
             isValid={!errorCount}
+            onShowErrorClick={onShowErrorClick}
           />
           <Button
             className={styles.buttonUpload}
@@ -71,4 +73,5 @@ BulkSensorUploadModal.prototype = {
   selectedFileName: PropTypes.string,
   fileInputRef: PropTypes.func,
   errorCount: PropTypes.number,
+  onShowErrorClick: PropTypes.func,
 };

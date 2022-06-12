@@ -107,3 +107,10 @@
   color: var(--red700); 
   margin-top: 8px;
 }
+
+.errorMessage{
+  text-decoration: underline;
+  font-size: 12px;
+  color: var(--red700); 
+  cursor: pointer;
+}

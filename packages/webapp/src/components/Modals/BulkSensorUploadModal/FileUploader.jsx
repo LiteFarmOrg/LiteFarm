@@ -35,8 +35,11 @@ export default function FileUploader({
       {!isValid && (
         <div className={styles.csvErrorMessageWrapper}>
           <label>
-            We found some errors with your upload. You can view them
-            <Underlined onClick={onShowErrorClick}>here.</Underlined>
+            We found some errors with your upload. You can view them&nbsp;
+            <span className={styles.errorMessage} onClick={onShowErrorClick}>
+              here
+            </span>
+            <span>.</span>
           </label>
         </div>
       )}

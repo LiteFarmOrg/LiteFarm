@@ -26,7 +26,7 @@ exports.up = async function (knex) {
   await knex("integratingPartners").insert([
     {
       partner_id: 1,
-      partner_name: 'Ensemble',
+      partner_name: 'Ensemble Scientific',
       access_token: null,
       refresh_token: null,
       root_url: 'https://api.esci.io/',

@@ -18,8 +18,8 @@ exports.up = async function (knex) {
     table.primary(['farm_id', 'partner_id']);
     table.uuid('farm_id').references('farm_id').inTable('farm');
     table.integer('partner_id').references('partner_id').inTable('integratingPartners');
-    table.uuid('registration_uuid');
-    table.boolean('webhook');
+    table.uuid('organization_uuid');
+    table.string('webhook_address');
   });
 };
 

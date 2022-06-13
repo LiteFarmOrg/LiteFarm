@@ -15,7 +15,7 @@
 
 const baseController = require('../controllers/baseController');
 const sensorModel = require('../models/sensorModel');
-// const { transaction, Model } = require('objection');
+const { transaction, Model } = require('objection');
 // const knex = Model.knex();
 
 const sensorController = {
@@ -34,8 +34,15 @@ const sensorController = {
 
   deleteSensor() {
     return async (req, res) => {
+      const trx = await transaction.start(Model.knex());
       try {
-        res.status(200).send('OK');
+        const isDeleted = await baseController.delete(sensorModel, '2', req, { trx });
+        await trx.commit();
+        if (isDeleted) {
+          res.sendStatus(200);
+        } else {
+          res.sendStatus(404);
+        }
       } catch (error) {
         //handle more exceptions
         res.status(400).json({
@@ -61,8 +68,12 @@ const sensorController = {
   getSensorsByFarmId() {
     return async (req, res) => {
       try {
-        const farm_id = req.body.farm_id;
-        const data = await baseController.getByFieldId(sensorModel, 'farm_id', farm_id);
+        // TODO: Add this back
+        // const { farm_id } = req.body.farm_id;
+        // if (!farm_id){
+        //     return res.status(400).send('No country selected');
+        // }
+        const data = await baseController.getByFieldId(sensorModel, 'farm_id', 'Testing');
         res.status(200).send(data);
       } catch (error) {
         //handle exceptions

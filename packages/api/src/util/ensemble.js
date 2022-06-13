@@ -16,16 +16,19 @@
 const axios = require('axios');
 const { ensembleAPI } = require('../endPoints');
 
+const REFRESH_REQUIRED = 'REFRESH_REQUIRED';
+const REFRESH =
+  'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTY1NTczNzUxNCwiaWF0IjoxNjU1MTMyNzE0LCJqdGkiOiJjZTU3NjcwMDA5NGI0MDY4YjdlZDI4YWJiNzk0MDBmOCIsInVzZXJfaWQiOjE1fQ.3li2gjEpRH_3GUX-voL3v-fcWs03O9nC7uAQbNXBlWo';
+
 /**
  * Sends a request to the Ensemble API for an organization to claim sensors
- * @param {Response} res - The HTTP response object.
+ * @param {String} accessToken - a JWT token for accessing the Ensemble API
  * @param {uuid} organizationId - a uuid for an Ensemble organization
  * @param {Array} esids - an array of ids for Ensemble devices
- * @param {String} accessToken - a JWT token for accessing the Ensemble API
  * @returns {Object} - the response from the Ensemble API
  * @async
  */
-async function bulkSensorClaim(organizationId, esids, accessToken) {
+async function bulkSensorClaim(accessToken, organizationId, esids) {
   try {
     const response = await axios.post(
       `${ensembleAPI}/organizations/${organizationId}/devices/bulkclaim/`,
@@ -34,7 +37,9 @@ async function bulkSensorClaim(organizationId, esids, accessToken) {
     );
     return { ...response.data, status: response.status };
   } catch (error) {
-    if (error.response?.data && error.response?.status) {
+    if (isAuthError(error)) {
+      throw Error(REFRESH_REQUIRED);
+    } else if (error.response?.data && error.response?.status) {
       return { ...error.response.data, status: error.response.status };
     } else {
       return { status: 500, detail: 'Failed to claim sensors.' };
@@ -50,6 +55,43 @@ function getHeaders(accessToken) {
   return { 'Content-Type': 'application/json', Authorization: 'Bearer ' + accessToken };
 }
 
+function isAuthError(error) {
+  return (
+    error.response?.data?.code === 'token_not_valid' ||
+    error.response?.data?.detail === 'Authentication credentials were not provided.'
+  );
+}
+
+async function fetchAndRefreshTokens() {
+  const refreshToken = REFRESH; // TODO: get refresh token from database
+  return refreshTokens(refreshToken);
+}
+
+async function refreshTokens(refreshToken) {
+  try {
+    const response = await axios.post(`${ensembleAPI}/token/refresh`, { refresh: refreshToken });
+    // TODO: save new refresh and access token to database
+    return response.data;
+  } catch (error) {
+    return { status: 500, detail: 'Failed to authenticate.' };
+  }
+}
+
+async function callWithRetry(retries, ensembleAPIFunc, accessToken, ...args) {
+  try {
+    return ensembleAPIFunc(accessToken, ...args);
+  } catch (error) {
+    if (error.message === REFRESH_REQUIRED && retries > 0) {
+      const result = fetchAndRefreshTokens();
+      if (!result?.access || !result?.refresh) return result;
+      return callWithRetry(retries - 1, ensembleAPIFunc, result.access, ...args);
+    } else {
+      return { status: 500, detail: 'Failed to authenticate.' };
+    }
+  }
+}
+
 module.exports = {
   bulkSensorClaim,
+  callWithRetry,
 };

@@ -23,6 +23,11 @@ const upload = multer({ storage });
 
 const router = express.Router();
 
-router.post('/bulk_upload', upload.single('sensors'), SensorController.bulkUploadSensors);
+router.get('/get_sensors', SensorController.getSensorsByFarmId());
+router.post('/add_sensors', upload.single('sensors'), SensorController.addSensors);
+router.delete('/delete_sensor', SensorController.deleteSensor());
+router.post('/edit_sensor', SensorController.editSensor());
+router.post('/add_reading', SensorController.addReading());
+router.get('/get_readings', SensorController.getAllReadingsBySensorId());
 
 module.exports = router;

@@ -13,8 +13,12 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const SensorController = {
-  async bulkUploadSensors(req, res) {
+const baseController = require('../controllers/baseController');
+const sensorModel = require('../models/sensorModel');
+const { transaction, Model } = require('objection');
+
+const sensorController = {
+  async addSensors(req, res) {
     const { data, errors } = parseCsvString(req.file.buffer.toString(), {
       Test1: {
         key: 'firstValue',
@@ -35,6 +39,84 @@ const SensorController = {
       console.log(data);
       res.status(200).send('Successfully uploaded!');
     }
+  },
+
+  deleteSensor() {
+    return async (req, res) => {
+      const trx = await transaction.start(Model.knex());
+      try {
+        const isDeleted = await baseController.delete(sensorModel, '2', req, { trx });
+        await trx.commit();
+        if (isDeleted) {
+          res.sendStatus(200);
+        } else {
+          res.sendStatus(404);
+        }
+      } catch (error) {
+        //handle more exceptions
+        res.status(400).json({
+          error,
+        });
+      }
+    };
+  },
+
+  editSensor() {
+    return async (req, res) => {
+      try {
+        res.status(200).send('OK');
+      } catch (error) {
+        //handle more exceptions
+        res.status(400).json({
+          error,
+        });
+      }
+    };
+  },
+
+  getSensorsByFarmId() {
+    return async (req, res) => {
+      try {
+        // TODO: Add this back
+        // const { farm_id } = req.body.farm_id;
+        // if (!farm_id){
+        //     return res.status(400).send('No country selected');
+        // }
+        const data = await baseController.getByFieldId(sensorModel, 'farm_id', 'Testing');
+        res.status(200).send(data);
+      } catch (error) {
+        //handle exceptions
+        res.status(400).json({
+          error,
+        });
+      }
+    };
+  },
+
+  addReading() {
+    return async (req, res) => {
+      try {
+        res.status(200).send('OK');
+      } catch (error) {
+        //handle more exceptions
+        res.status(400).json({
+          error,
+        });
+      }
+    };
+  },
+
+  getAllReadingsBySensorId() {
+    return async (req, res) => {
+      try {
+        res.status(200).send('OK');
+      } catch (error) {
+        //handle more exceptions
+        res.status(400).json({
+          error,
+        });
+      }
+    };
   },
 };
 
@@ -75,4 +157,4 @@ const parseCsvString = (csvString, mapping, delimiter = ',') => {
   return { data, errors };
 };
 
-module.exports = SensorController;
+module.exports = sensorController;

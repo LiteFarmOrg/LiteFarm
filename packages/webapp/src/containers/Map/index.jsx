@@ -265,18 +265,21 @@ export default function Map({ history }) {
     setShowExportModal(false);
     setShowMapFilter(false);
     setShowAddDrawer(!showAddDrawer);
+    setShowBulkSensorUploadModal(false);
   };
 
   const handleClickExport = () => {
     setShowExportModal(!showExportModal);
     setShowMapFilter(false);
     setShowAddDrawer(false);
+    setShowBulkSensorUploadModal(false);
   };
 
   const handleClickFilter = () => {
     setShowExportModal(false);
     setShowAddDrawer(false);
     setShowMapFilter(!showMapFilter);
+    setShowBulkSensorUploadModal(false);
   };
 
   const handleFilterMenuClick = (locationType) => {
@@ -300,8 +303,10 @@ export default function Map({ history }) {
       setShowDrawAreaSpotlightModal(true);
     } else if (isLine(locationType) && !showedSpotlight.draw_line) {
       setShowDrawLineSpotlightModal(true);
-    } else if (locationEnum.sensor) {
+    } else if (locationType === locationEnum.sensor) {
       setShowBulkSensorUploadModal(true);
+      setShowAddDrawer(false);
+      return;
     }
     isLineWithWidth(locationType) && dispatch(upsertFormData(initialLineData[locationType]));
     const submitPath = `/create_location/${locationType}`;
@@ -488,7 +493,7 @@ export default function Map({ history }) {
           <BulkSensorUploadModal
             dismissModal={() => {
               setShowBulkSensorUploadModal(false);
-              handleClickAdd();
+              setShowAddDrawer(true);
             }}
             onUpload={(file) => {
               console.log('file', file);

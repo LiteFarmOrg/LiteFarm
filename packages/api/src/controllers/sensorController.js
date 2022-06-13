@@ -15,6 +15,7 @@
 
 const baseController = require('../controllers/baseController');
 const sensorModel = require('../models/sensorModel');
+const sensorReadingModel = require('../models/sensorReadingModel');
 const { transaction, Model } = require('objection');
 // const knex = Model.knex();
 
@@ -34,9 +35,12 @@ const sensorController = {
 
   deleteSensor() {
     return async (req, res) => {
+      console.log(req);
       const trx = await transaction.start(Model.knex());
       try {
-        const isDeleted = await baseController.delete(sensorModel, '2', req, { trx });
+        const isDeleted = await baseController.delete(sensorModel, req.params.sensor_id, req, {
+          trx,
+        });
         await trx.commit();
         if (isDeleted) {
           res.sendStatus(200);
@@ -51,7 +55,7 @@ const sensorController = {
       }
     };
   },
-
+  // TODO
   editSensor() {
     return async (req, res) => {
       try {
@@ -68,12 +72,11 @@ const sensorController = {
   getSensorsByFarmId() {
     return async (req, res) => {
       try {
-        // TODO: Add this back
-        // const { farm_id } = req.body.farm_id;
-        // if (!farm_id){
-        //     return res.status(400).send('No country selected');
-        // }
-        const data = await baseController.getByFieldId(sensorModel, 'farm_id', 'Testing');
+        const { farm_id } = req.body;
+        if (!farm_id) {
+          return res.status(400).send('No farm selected');
+        }
+        const data = await baseController.getByFieldId(sensorModel, 'farm_id', farm_id);
         res.status(200).send(data);
       } catch (error) {
         //handle exceptions
@@ -83,7 +86,7 @@ const sensorController = {
       }
     };
   },
-
+  // TODO
   addReading() {
     return async (req, res) => {
       try {
@@ -96,11 +99,15 @@ const sensorController = {
       }
     };
   },
-
   getAllReadingsBySensorId() {
     return async (req, res) => {
       try {
-        res.status(200).send('OK');
+        const { sensor_id } = req.body;
+        if (!sensor_id) {
+          return res.status(400).send('No sensor selected');
+        }
+        const data = await baseController.getByFieldId(sensorReadingModel, 'sensor_id', sensor_id);
+        res.status(200).send(data);
       } catch (error) {
         //handle more exceptions
         res.status(400).json({

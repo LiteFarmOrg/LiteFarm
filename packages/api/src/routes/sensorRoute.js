@@ -17,11 +17,11 @@ const express = require('express');
 const router = express.Router();
 const sensor_controller = require('../controllers/sensorController');
 
-router.get('/get_sensors', sensor_controller.getSensorsByFarmId());
+router.post('/get_sensors/', sensor_controller.getSensorsByFarmId());
 router.post('/add_sensors', sensor_controller.addSensors());
-router.delete('/delete_sensor', sensor_controller.deleteSensor());
+router.delete('/delete_sensor/:sensor_id', sensor_controller.deleteSensor());
 router.post('/edit_sensor', sensor_controller.editSensor());
 router.post('/add_reading', sensor_controller.addReading());
-router.get('/get_readings', sensor_controller.getAllReadingsBySensorId());
+router.post('/get_readings', sensor_controller.getAllReadingsBySensorId());
 
 module.exports = router;

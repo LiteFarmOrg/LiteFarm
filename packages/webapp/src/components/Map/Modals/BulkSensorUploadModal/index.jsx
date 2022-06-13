@@ -15,6 +15,7 @@ export default function BulkSensorUploadModal({ dismissModal, onUpload }) {
     selectedFileName,
     fileInputRef,
     errorCount,
+    onTemplateDownloadClick,
   } = useValidateBulkSensorData(onUpload);
 
   return (
@@ -31,6 +32,7 @@ export default function BulkSensorUploadModal({ dismissModal, onUpload }) {
       disabled={disabled}
       errorCount={errorCount}
       onShowErrorClick={onShowErrorClick}
+      onTemplateDownloadClick={onTemplateDownloadClick}
     />
   );
 }

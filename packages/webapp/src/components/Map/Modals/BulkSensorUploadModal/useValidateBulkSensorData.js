@@ -157,8 +157,8 @@ export function useValidateBulkSensorData(onUpload) {
             sheetErrorList.push(sheetError);
           }
         }
-        console.log('totalErrorCount', totalErrorCount);
-        console.log('sheetErrorList', sheetErrorList);
+        // console.log('totalErrorCount', totalErrorCount);
+        // console.log('sheetErrorList', sheetErrorList);
         setErrorCount(totalErrorCount);
         setSheetErrors(sheetErrorList);
         setDisabled(!!totalErrorCount);
@@ -192,10 +192,22 @@ export function useValidateBulkSensorData(onUpload) {
     }
   };
 
+  const onTemplateDownloadClick = () => {
+    const element = document.createElement('a');
+    const file = new Blob([requiredFields.join(',')], {
+      type: 'text/plain',
+    });
+    element.href = URL.createObjectURL(file);
+    element.download = 'bulk-sensor-upload-template.csv';
+    document.body.appendChild(element);
+    element.click();
+  };
+
   return {
     onUploadClicked,
     handleSelectedFile,
     onShowErrorClick,
+    onTemplateDownloadClick,
     disabled,
     selectedFileName,
     fileInputRef,

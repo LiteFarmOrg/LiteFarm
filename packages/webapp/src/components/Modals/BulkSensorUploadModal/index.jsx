@@ -20,6 +20,7 @@ export default function BulkSensorUploadModal({
   fileInputRef,
   errorCount,
   onShowErrorClick,
+  onTemplateDownloadClick,
 }) {
   const { t } = useTranslation();
 
@@ -33,7 +34,8 @@ export default function BulkSensorUploadModal({
           <Semibold className={styles.title}>{title}</Semibold>
         </div>
         <Label>
-          <Underlined>{uploadLinkMessage}</Underlined>&nbsp;{uploadInstructionMessage}
+          <Underlined onClick={onTemplateDownloadClick}>{uploadLinkMessage}</Underlined>&nbsp;
+          {uploadInstructionMessage}
         </Label>
         <form onSubmit={onUpload}>
           <div className={styles.uploadPlaceholder}>
@@ -74,4 +76,5 @@ BulkSensorUploadModal.prototype = {
   fileInputRef: PropTypes.func,
   errorCount: PropTypes.number,
   onShowErrorClick: PropTypes.func,
+  onTemplateDownloadClick: PropTypes.func,
 };

@@ -52,11 +52,11 @@ export default function BulkSensorUploadModal({
           <Button
             className={styles.buttonUpload}
             type="submit"
-            disabled={disabled}
+            disabled={disabled === 0 || disabled === -1}
             sm
             onClick={onUpload}
           >
-            {t('common:UPLOAD')}
+            {t(disabled !== -1 ? 'common:UPLOAD' : 'common:UPLOADING')}
           </Button>
         </form>
       </div>

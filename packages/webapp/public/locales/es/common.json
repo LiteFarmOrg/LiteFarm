@@ -54,6 +54,7 @@
   "SUBMITTING": "Submitting...",
   "UPDATE": "Actualizar",
   "UPLOAD": "MISSING",
+  "UPLOADING": "MISSING",
   "WORD_LIMIT_ERROR": "Solo se pueden mostrar {{value}} caracteres",
   "YEAR": "Año",
   "YES": "Sí"

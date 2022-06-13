@@ -15,7 +15,7 @@
 
 import { createAction } from '@reduxjs/toolkit';
 import { call, put, select, takeLeading } from 'redux-saga/effects';
-import { url } from '../../apiConfig';
+import { url, sensorUrl } from '../../apiConfig';
 import i18n from '../../locales/i18n';
 import { axios, getHeader } from '../saga';
 import { loginSelector, userFarmSelector } from '../userFarmSlice';
@@ -24,11 +24,17 @@ import {
   patchSpotlightFlagsSuccess,
   spotlightLoading,
 } from '../showedSpotlightSlice';
+import {
+  bulkSensorsUploadFailure,
+  bulkSensorsUploadSuccess,
+  bulkSensorsUploadLoading,
+} from '../bulkSensorUploadSlice';
+
 import { enqueueErrorSnackbar } from '../Snackbar/snackbarSlice';
 
 const sendMapToEmailUrl = (farm_id) => `${url}/export/map/farm/${farm_id}`;
 const showedSpotlightUrl = () => `${url}/showed_spotlight`;
-const bulkUploadSensorsInfoUrl = () => `${url}/showed_spotlight`;
+const bulkUploadSensorsInfoUrl = () => `${sensorUrl}/add_sensors`;
 
 export const sendMapToEmail = createAction(`sendMapToEmailSaga`);
 
@@ -79,17 +85,26 @@ export const bulkUploadSensorsInfoFile = createAction(`bulkUploadSensorsInfoFile
 
 export function* bulkUploadSensorsInfoFileSaga({ payload: file }) {
   try {
-    console.log('file', file);
-    // const formData = new FormData();
-    // formData.append('_file_', file);
-    // const { farm_id } = yield select(userFarmSelector);
-    // yield call(axios.post, bulkUploadSensorsInfoUrl(farm_id), formData, {
-    //   headers: {
-    //     'Content-Type': 'multipart/form-data',
-    //     Authorization: 'Bearer ' + localStorage.getItem('id_token'),
-    //   },
-    // });
+    yield put(bulkSensorsUploadLoading());
+    const { farm_id } = yield select(userFarmSelector);
+    const formData = new FormData();
+    formData.append('sensors', file);
+    const fileUploadResponse = yield call(axios.post, bulkUploadSensorsInfoUrl(), formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+        Authorization: 'Bearer ' + localStorage.getItem('id_token'),
+        farm_id: farm_id,
+      },
+    });
+
+    if (fileUploadResponse.status == 200) {
+      fileUploadResponse.data;
+      yield put(bulkSensorsUploadSuccess());
+      return;
+    }
+    yield put(bulkSensorsUploadFailure());
   } catch (e) {
+    yield put(bulkSensorsUploadFailure());
     yield put(enqueueErrorSnackbar(i18n.t('message:ATTACHMENTS.ERROR.FAILED_UPLOAD')));
     console.log(e);
   }

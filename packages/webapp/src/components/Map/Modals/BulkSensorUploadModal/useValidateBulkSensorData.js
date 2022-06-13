@@ -1,5 +1,7 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import * as XLSX from 'xlsx';
+import { useSelector } from 'react-redux';
+import { bulkSensorsUploadSliceSelector } from '../../../../containers/bulkSensorUploadSlice';
 
 const SENSOR_EXTERNAL_ID = 'External_ID';
 const SENSOR_NAME = 'Name';
@@ -75,11 +77,16 @@ const validationFields = [
 ];
 
 export function useValidateBulkSensorData(onUpload) {
-  const [disabled, setDisabled] = useState(true);
+  const bulkSensorsUploadResponse = useSelector(bulkSensorsUploadSliceSelector);
+  const [disabled, setDisabled] = useState(0);
   const [selectedFileName, setSelectedFileName] = useState('');
   const [sheetErrors, setSheetErrors] = useState([]);
   const [errorCount, setErrorCount] = useState(0);
   const fileInputRef = useRef(null);
+
+  useEffect(() => {
+    setDisabled(bulkSensorsUploadResponse.loading ? -1 : 1);
+  }, [bulkSensorsUploadResponse?.loading]);
 
   const validateExcel = (rows) => {
     let errors = [];
@@ -96,7 +103,7 @@ export function useValidateBulkSensorData(onUpload) {
             value: element[COLUMN],
           });
         } else {
-          // find for other errors
+          // find for other errors after regex check.
           if (validationField.hasOwnProperty('validate')) {
             const validationError = validationField.validate(i + 2, COLUMN, element[COLUMN]);
             if (validationError) {
@@ -117,7 +124,7 @@ export function useValidateBulkSensorData(onUpload) {
     }
   };
 
-  const checkRequiredColumnsArePresent = (sensorObject) => {
+  const checkRequiredColumnsArePresent = (sensorObject = {}) => {
     const missingColumns = requiredFields.filter(
       (fieldName) => !Object.keys(sensorObject).includes(fieldName),
     );
@@ -126,7 +133,7 @@ export function useValidateBulkSensorData(onUpload) {
           {
             row: 1,
             column: missingColumns.join(','),
-            errorMessage: 'Columns are required/missing',
+            errorMessage: 'Columns are required/missing.',
             value: '',
           },
         ]
@@ -147,21 +154,18 @@ export function useValidateBulkSensorData(onUpload) {
             sheetName: singleSheet,
           };
           const worksheet = workBook.Sheets[singleSheet];
+          // sheet_to_json always return array.
           const jsonData = XLSX.utils.sheet_to_json(worksheet, { defval: '' });
           let errors = [];
-          if (jsonData?.length) {
-            const missingColumnsErrors = checkRequiredColumnsArePresent(jsonData[0]);
-            errors = missingColumnsErrors.length ? missingColumnsErrors : validateExcel(jsonData);
-            totalErrorCount += errors.length;
-            sheetError.errors = errors;
-            sheetErrorList.push(sheetError);
-          }
+          const missingColumnsErrors = checkRequiredColumnsArePresent(jsonData[0]);
+          errors = missingColumnsErrors.length ? missingColumnsErrors : validateExcel(jsonData);
+          totalErrorCount += errors.length;
+          sheetError.errors = errors;
+          sheetErrorList.push(sheetError);
         }
-        // console.log('totalErrorCount', totalErrorCount);
-        // console.log('sheetErrorList', sheetErrorList);
         setErrorCount(totalErrorCount);
         setSheetErrors(sheetErrorList);
-        setDisabled(!!totalErrorCount);
+        setDisabled(() => (totalErrorCount === 0 ? ++totalErrorCount : --totalErrorCount));
       } catch (err) {
         console.error(err);
       }

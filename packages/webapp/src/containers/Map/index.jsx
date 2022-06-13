@@ -496,7 +496,6 @@ export default function Map({ history }) {
               setShowAddDrawer(true);
             }}
             onUpload={(file) => {
-              console.log('file', file);
               dispatch(bulkUploadSensorsInfoFile(file));
             }}
           />

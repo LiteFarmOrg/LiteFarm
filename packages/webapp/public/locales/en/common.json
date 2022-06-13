@@ -54,6 +54,7 @@
   "SUBMITTING": "Submitting...",
   "UPDATE": "Update",
   "UPLOAD": "Upload",
+  "UPLOADING": "Uploading...",
   "WORD_LIMIT_ERROR": "Only {{value}} characters can be displayed",
   "YEAR": "Year",
   "YES": "Yes"

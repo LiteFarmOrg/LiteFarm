@@ -24,6 +24,8 @@ export default function BulkSensorUploadModal({ dismissModal, onUpload }) {
       uploadLinkMessage={t('FARM_MAP.BULK_UPLOAD_SENSORS.UPLOAD_LINK_MESSAGE')}
       uploadInstructionMessage={t('FARM_MAP.BULK_UPLOAD_SENSORS.UPLOAD_INSTRUCTION_MESSAGE')}
       uploadPlaceholder={t('FARM_MAP.BULK_UPLOAD_SENSORS.UPLOAD_PLACEHOLDER')}
+      uploadErrorMessage={t('FARM_MAP.BULK_UPLOAD_SENSORS.UPLOAD_ERROR_MESSAGE')}
+      uploadErrorLink={t('FARM_MAP.BULK_UPLOAD_SENSORS.UPLOAD_ERROR_LINK')}
       dismissModal={dismissModal}
       onUpload={onUploadClicked}
       handleSelectedFile={handleSelectedFile}

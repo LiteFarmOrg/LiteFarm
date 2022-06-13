@@ -12,6 +12,8 @@ export default function FileUploader({
   fileInputRef,
   isValid,
   onShowErrorClick,
+  uploadErrorLink,
+  uploadErrorMessage,
 }) {
   const handleClick = (event) => fileInputRef.current.click();
   const handleChange = (event) => handleSelectedFile(event);
@@ -35,9 +37,9 @@ export default function FileUploader({
       {!isValid && (
         <div className={styles.csvErrorMessageWrapper}>
           <label>
-            We found some errors with your upload. You can view them{' '}
+            {uploadErrorMessage}{' '}
             <span className={styles.errorMessage} onClick={onShowErrorClick}>
-              here.
+              {uploadErrorLink}
             </span>
           </label>
         </div>
@@ -52,4 +54,6 @@ FileUploader.prototype = {
   acceptedFormat: PropTypes.string,
   isValid: PropTypes.bool,
   onShowErrorClick: PropTypes.func,
+  uploadErrorLink: PropTypes.string,
+  uploadErrorMessage: PropTypes.string,
 };

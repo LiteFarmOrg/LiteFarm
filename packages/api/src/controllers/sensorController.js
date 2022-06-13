@@ -20,17 +20,62 @@ const { transaction, Model } = require('objection');
 const sensorController = {
   async addSensors(req, res) {
     const { data, errors } = parseCsvString(req.file.buffer.toString(), {
-      Test1: {
-        key: 'firstValue',
-        validator: () => true,
+      Name: {
+        key: 'name',
+        parseFunction: (val) => val.trim(),
+        validator: (val) => 1 <= val.length && val.length <= 100,
+        required: true,
       },
-      test2: {
-        key: 'secondValue',
-        validator: () => true,
+      External_ID: {
+        key: 'external_id',
+        parseFunction: (val) => val.trim(),
+        validator: (val) => 1 <= val.length && val.length <= 20,
+        required: false,
       },
-      test3: {
-        key: 'thirdValue',
-        validator: () => true,
+      Latitude: {
+        key: 'latitude',
+        parseFunction: (val) => parseFloat(val),
+        validator: (val) => -90 <= val && val <= 90,
+        required: true,
+      },
+      Longitude: {
+        key: 'longitude',
+        parseFunction: (val) => parseFloat(val),
+        validator: (val) => -180 <= val && val <= 180,
+        required: true,
+      },
+      Reading_types: {
+        key: 'reading_types',
+        parseFunction: (val) => val.replaceAll(' ', '').split(','),
+        validator: (val) =>
+          val.includes('soil_moisture_content') ||
+          val.includes('water_potential') ||
+          val.includes('temperature'),
+        required: true,
+      },
+      Depth: {
+        key: 'depth',
+        parseFunction: (val) => parseFloat(val),
+        validator: (val) => 0 <= val && val <= 1000,
+        required: false,
+      },
+      Brand: {
+        key: 'brand',
+        parseFunction: (val) => val.trim(),
+        validator: (val) => val.length <= 100,
+        required: false,
+      },
+      Model: {
+        key: 'model',
+        parseFunction: (val) => val.trim(),
+        validator: (val) => val.length <= 100,
+        required: false,
+      },
+      Hardware_version: {
+        key: 'hardware_version',
+        parseFunction: (val) => val.trim(),
+        validator: (val) => val.length <= 100,
+        required: false,
       },
     });
     if (errors.length > 0) {
@@ -141,10 +186,13 @@ const parseCsvString = (csvString, mapping, delimiter = ',') => {
         const values = row.split(regex);
         const parsedRow = headers.reduce((previousObj, current, index) => {
           if (allowedHeaders.includes(current)) {
-            if (mapping[current].validator(values[index])) {
-              previousObj[mapping[current].key] = values[index];
+            const val = mapping[current].parseFunction(
+              values[index].replace(/^(["'])(.*)\1$/, '$2'),
+            ); // removes any surrounding quotation marks
+            if (mapping[current].validator(val)) {
+              previousObj[mapping[current].key] = val;
             } else {
-              previous.errors.push({ line: rowIndex + 2, errorMessage: 'Something went wrong!' });
+              previous.errors.push({ line: rowIndex + 2, errorColumn: current }); //TODO: add better error messages
             }
           }
           return previousObj;

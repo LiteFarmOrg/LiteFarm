@@ -5,7 +5,7 @@ exports.up = function (knex) {
       table.string('farm_id').notNullable();
       table.string('name').notNullable();
       table.float('latitude').notNullable();
-      table.float('longtidue').notNullable();
+      table.float('longitude').notNullable();
       table.integer('type').notNullable();
       table.float('depth');
       table.float('elevation');

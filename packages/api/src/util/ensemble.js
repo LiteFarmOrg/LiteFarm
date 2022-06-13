@@ -27,14 +27,15 @@ const { ensembleAPI } = require('../endPoints');
  */
 async function bulkSensorClaim(organizationId, esids, accessToken) {
   try {
-    return await axios.post(
+    const response = await axios.post(
       `${ensembleAPI}/organizations/${organizationId}/devices/bulkclaim/`,
       { esids },
       { headers: getHeaders(accessToken) },
     );
+    return { ...response.data, status: response.status };
   } catch (error) {
     if (error.response?.data && error.response?.status) {
-      return error.response;
+      return { ...error.response.data, status: error.response.status };
     } else {
       return { status: 500, detail: 'Failed to claim sensors.' };
     }

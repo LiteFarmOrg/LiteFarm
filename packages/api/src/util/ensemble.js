@@ -25,7 +25,7 @@ const { ensembleAPI } = require('../endPoints');
  * @returns {Object} - the response from the Ensemble API
  * @async
  */
-async function bulkSensorClaim(res, organizationId, esids, accessToken) {
+async function bulkSensorClaim(organizationId, esids, accessToken) {
   try {
     return await axios.post(
       `${ensembleAPI}/organizations/${organizationId}/devices/bulkclaim/`,
@@ -33,7 +33,11 @@ async function bulkSensorClaim(res, organizationId, esids, accessToken) {
       { headers: getHeaders(accessToken) },
     );
   } catch (error) {
-    res.sendStatus(error.response.status || 500).send(error.response.data || error);
+    if (error.response?.data && error.response?.status) {
+      return error.response;
+    } else {
+      return { status: 500, detail: 'Failed to claim sensors.' };
+    }
   }
 }
 

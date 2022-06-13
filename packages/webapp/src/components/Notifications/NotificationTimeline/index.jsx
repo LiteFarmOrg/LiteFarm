@@ -40,8 +40,8 @@ function NotificationTimeline({ activeNotificationId, relatedNotifications, styl
       </header>
       {mostRecentNotification && (
         <MoreRecentNotificationWarning
-          notificationId={mostRecentNotification?.notification_id}
-          entityType={mostRecentNotification?.ref?.entity?.type}
+          notificationId={mostRecentNotification.notification_id}
+          entityType={mostRecentNotification.ref?.entity?.type}
         />
       )}
       <ul className={styles.timeline}>

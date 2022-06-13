@@ -1073,7 +1073,7 @@
   },
   "ENTITY_TYPES": {
     "TASK": "task",
-    "location": "location"
+    "LOCATION": "location"
   },
   "NOTIFICATION": {
     "TIMELINE": {

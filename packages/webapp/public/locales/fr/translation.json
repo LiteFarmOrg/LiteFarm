@@ -1077,7 +1077,7 @@
   },
   "ENTITY_TYPES": {
     "TASK": "tâche",
-    "location": "emplacement"
+    "LOCATION": "emplacement"
   },
   "NOTIFICATION": {
     "TIMELINE": {

@@ -265,21 +265,18 @@ export default function Map({ history }) {
     setShowExportModal(false);
     setShowMapFilter(false);
     setShowAddDrawer(!showAddDrawer);
-    setShowBulkSensorUploadModal(false);
   };
 
   const handleClickExport = () => {
     setShowExportModal(!showExportModal);
     setShowMapFilter(false);
     setShowAddDrawer(false);
-    setShowBulkSensorUploadModal(false);
   };
 
   const handleClickFilter = () => {
     setShowExportModal(false);
     setShowAddDrawer(false);
     setShowMapFilter(!showMapFilter);
-    setShowBulkSensorUploadModal(false);
   };
 
   const handleFilterMenuClick = (locationType) => {

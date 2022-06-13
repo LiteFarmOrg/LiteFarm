@@ -46,9 +46,9 @@ class FarmExternalIntegrations extends Model {
       type: 'object',
       properties: {
         farm_id: { type: 'string' },
-        partner_id: { type: 'string' },
-        registration_uuid: { type: 'string' },
-        webhook: { type: 'boolean' },
+        partner_id: { type: 'integer' },
+        organization_uuid: { type: 'string' },
+        webhook: { type: 'string' },
       },
       additionalProperties: false,
     };

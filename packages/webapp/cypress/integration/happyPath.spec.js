@@ -51,7 +51,11 @@ describe.only('LiteFarm end to end test', () => {
       .then((html) => {
         cy.document({ log: false }).invoke({ log: false }, 'write', html);
       });
-    cy.get('[data-cy=button-logIn]').click();
+    cy.get('[data-cy=button-logIn]')
+      .invoke('attr', 'href')
+      .then((href) => {
+        cy.visit(href);
+      });
     //Get Started page
     cy.contains('started').should('exist');
     cy.get('[data-cy=getStarted]').should('exist');

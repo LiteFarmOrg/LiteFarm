@@ -39,6 +39,7 @@ class Sensor extends Model {
         latitude: { type: 'float' },
         longitude: { type: 'float' },
         type: { type: 'string' },
+        external_id: { type: 'string', minLength: 1, maxLength: 255 },
         depth: { type: 'float' },
         elevation: { type: 'float' },
       },

@@ -17,7 +17,7 @@ describe.only('LiteFarm end to end test', () => {
     });
   });
 
-  it('Happy path', { defaultCommandTimeout: 7000 }, () => {
+  it.only('Happy path', { defaultCommandTimeout: 7000 }, () => {
     cy.visit('/');
     cy.get('[data-cy=email]').should('exist');
     cy.get('[data-cy=continue]').should('exist');
@@ -25,10 +25,10 @@ describe.only('LiteFarm end to end test', () => {
     cy.get('[data-cy=continueGoogle]').should('exist');
 
     //create test data
-    const emailOwner = 'mbolokonya@litefarm.org';
-    const emailWorker = 'worker@example.com';
+    const emailOwner = userEmail;
+    let emailWorker;
     const fullName = 'Test Farmer';
-    const password = 'P@ssword123';
+    const password = `${userPassword}+@`;
     const farmName = 'UBC FARM';
     const location = '49.250833,-123.2410777';
     const fieldName = 'Test Field';
@@ -45,6 +45,13 @@ describe.only('LiteFarm end to end test', () => {
     cy.get('[data-cy=createUser-password]').type(password);
     cy.contains('Create Account').should('exist').and('be.enabled').click();
 
+    cy.wait(10 * 1000);
+    cy.task('getLastEmail')
+      .its('html')
+      .then((html) => {
+        cy.document({ log: false }).invoke({ log: false }, 'write', html);
+      });
+    cy.get('[data-cy=button-logIn]').click();
     //Get Started page
     cy.contains('started').should('exist');
     cy.get('[data-cy=getStarted]').should('exist');

@@ -30,10 +30,10 @@ async function bulkSensorClaim(res, organizationId, esids, accessToken) {
     return await axios.post(
       `${ensembleAPI}/organizations/${organizationId}/devices/bulkclaim/`,
       { esids },
-      { header: getHeaders(accessToken) },
+      { headers: getHeaders(accessToken) },
     );
   } catch (error) {
-    res.sendStatus(error.status || 500).send({ message: 'Failed to claim sensors' });
+    res.sendStatus(error.response.status || 500).send(error.response.data || error);
   }
 }
 

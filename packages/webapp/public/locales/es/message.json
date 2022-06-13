@@ -98,7 +98,8 @@
     "FAIL_POST": "Fallo al crear",
     "SUCCESS_DELETE": " retirada/o con éxito",
     "SUCCESS_PATCH": " actualizo/a con éxito.",
-    "SUCCESS_POST": " creo/a con éxito."
+    "SUCCESS_POST": " creo/a con éxito.",
+    "SUCCESS_UPLOAD": "MISSING"
   },
   "ORGANIC_CERTIFIER_SURVEY": {
     "ERROR": {

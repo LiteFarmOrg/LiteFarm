@@ -19,6 +19,7 @@ import { url, sensorUrl } from '../../apiConfig';
 import i18n from '../../locales/i18n';
 import { axios, getHeader } from '../saga';
 import { loginSelector, userFarmSelector } from '../userFarmSlice';
+import { canShowSuccessHeader, setSuccessMessage } from '../../containers/mapSlice';
 import {
   patchSpotlightFlagsFailure,
   patchSpotlightFlagsSuccess,
@@ -103,6 +104,13 @@ export function* bulkUploadSensorsInfoFileSaga({
       fileUploadResponse.data;
       yield put(bulkSensorsUploadSuccess());
       dismissBulkSensorsUploadModal();
+      yield put(
+        setSuccessMessage([
+          i18n.t('FARM_MAP.MAP_FILTER.SENSOR'),
+          i18n.t('message:MAP.SUCCESS_UPLOAD'),
+        ]),
+      );
+      yield put(canShowSuccessHeader(true));
       return;
     }
     yield put(bulkSensorsUploadFailure());

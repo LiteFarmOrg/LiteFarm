@@ -684,7 +684,7 @@ const TaskNotificationUserTypes = {
 
 /**
  * Sends a notification to the specified receivers about a task
- * @param {Array<String>} receiverIds
+ * @param {Array<uuid>} receiverIds
  * @param {String} senderId
  * @param {String} taskId
  * @param {String} notifyTranslationKey
@@ -701,9 +701,10 @@ async function sendTaskNotification(
   taskTranslationKey,
   farmId,
 ) {
-  if (receiverIds.includes(null) || receiverIds.includes(undefined)) return;
+  const filteredReceiverIds = receiverIds.filter((id) => id !== null && id !== undefined);
+  if (filteredReceiverIds.length === 0) return;
 
-  const userName = await User.getNameFromUserId(senderId ? senderId : receiverIds[0]);
+  const userName = await User.getNameFromUserId(senderId ?? receiverIds[0]);
   await NotificationUser.notify(
     {
       title: {
@@ -722,7 +723,7 @@ async function sendTaskNotification(
       context: { task_translation_key: taskTranslationKey },
       farm_id: farmId,
     },
-    receiverIds,
+    filteredReceiverIds,
   );
 }
 

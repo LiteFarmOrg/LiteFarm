@@ -37,9 +37,8 @@ export default function FileUploader({
           <label>
             We found some errors with your upload. You can view them&nbsp;
             <span className={styles.errorMessage} onClick={onShowErrorClick}>
-              here
+              here.
             </span>
-            <span>.</span>
           </label>
         </div>
       )}

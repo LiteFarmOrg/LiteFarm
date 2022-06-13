@@ -28,6 +28,7 @@ import { enqueueErrorSnackbar } from '../Snackbar/snackbarSlice';
 
 const sendMapToEmailUrl = (farm_id) => `${url}/export/map/farm/${farm_id}`;
 const showedSpotlightUrl = () => `${url}/showed_spotlight`;
+const bulkUploadSensorsInfoUrl = () => `${url}/showed_spotlight`;
 
 export const sendMapToEmail = createAction(`sendMapToEmailSaga`);
 
@@ -74,7 +75,28 @@ export function* setSpotlightToShownSaga({ payload: spotlights }) {
   }
 }
 
+export const bulkUploadSensorsInfoFile = createAction(`bulkUploadSensorsInfoFileSaga`);
+
+export function* bulkUploadSensorsInfoFileSaga({ payload: file }) {
+  try {
+    console.log('file', file);
+    // const formData = new FormData();
+    // formData.append('_file_', file);
+    // const { farm_id } = yield select(userFarmSelector);
+    // yield call(axios.post, bulkUploadSensorsInfoUrl(farm_id), formData, {
+    //   headers: {
+    //     'Content-Type': 'multipart/form-data',
+    //     Authorization: 'Bearer ' + localStorage.getItem('id_token'),
+    //   },
+    // });
+  } catch (e) {
+    yield put(enqueueErrorSnackbar(i18n.t('message:ATTACHMENTS.ERROR.FAILED_UPLOAD')));
+    console.log(e);
+  }
+}
+
 export default function* supportSaga() {
   yield takeLeading(sendMapToEmail.type, sendMapToEmailSaga);
   yield takeLeading(setSpotlightToShown.type, setSpotlightToShownSaga);
+  yield takeLeading(bulkUploadSensorsInfoFile.type, bulkUploadSensorsInfoFileSaga);
 }

@@ -360,6 +360,11 @@ export default function Map({ history }) {
     return lineTypesWithWidth.includes(type);
   };
 
+  const dismissBulkSensorsUploadModal = () => {
+    setShowBulkSensorUploadModal(false);
+    setShowAddDrawer(true);
+  };
+
   const { showAdjustAreaSpotlightModal, showAdjustLineSpotlightModal } = drawingState;
   return (
     <>
@@ -491,12 +496,15 @@ export default function Map({ history }) {
         )}
         {showBulkSensorUploadModal && (
           <BulkSensorUploadModal
-            dismissModal={() => {
-              setShowBulkSensorUploadModal(false);
-              setShowAddDrawer(true);
-            }}
+            dismissModal={dismissBulkSensorsUploadModal}
             onUpload={(file) => {
-              dispatch(bulkUploadSensorsInfoFile(file));
+              const payload = {
+                file,
+                dismissBulkSensorsUploadModal: () => {
+                  setShowBulkSensorUploadModal(false);
+                },
+              };
+              dispatch(bulkUploadSensorsInfoFile(payload));
             }}
           />
         )}

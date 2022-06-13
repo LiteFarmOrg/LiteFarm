@@ -18,6 +18,11 @@
       "UPDATE": "Document mis à jour avec succès"
     }
   },
+  "BULK_UPLOAD": {
+    "ERROR": {
+      "UPLOAD": "MISSING"
+    }
+  },
   "CROP": {
     "ERROR": {
       "DELETE": "N'a pas réussi à supprimer la grande culture"

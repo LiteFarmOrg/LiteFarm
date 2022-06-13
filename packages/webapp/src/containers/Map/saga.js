@@ -83,7 +83,9 @@ export function* setSpotlightToShownSaga({ payload: spotlights }) {
 
 export const bulkUploadSensorsInfoFile = createAction(`bulkUploadSensorsInfoFileSaga`);
 
-export function* bulkUploadSensorsInfoFileSaga({ payload: file }) {
+export function* bulkUploadSensorsInfoFileSaga({
+  payload: { file, dismissBulkSensorsUploadModal },
+}) {
   try {
     yield put(bulkSensorsUploadLoading());
     const { farm_id } = yield select(userFarmSelector);
@@ -97,15 +99,17 @@ export function* bulkUploadSensorsInfoFileSaga({ payload: file }) {
       },
     });
 
-    if (fileUploadResponse.status == 200) {
+    if (fileUploadResponse.status === 200) {
       fileUploadResponse.data;
       yield put(bulkSensorsUploadSuccess());
+      dismissBulkSensorsUploadModal();
       return;
     }
     yield put(bulkSensorsUploadFailure());
+    yield put(enqueueErrorSnackbar(i18n.t('message:BULK_UPLOAD.ERROR.UPLOAD')));
   } catch (e) {
     yield put(bulkSensorsUploadFailure());
-    yield put(enqueueErrorSnackbar(i18n.t('message:ATTACHMENTS.ERROR.FAILED_UPLOAD')));
+    yield put(enqueueErrorSnackbar(i18n.t('message:BULK_UPLOAD.ERROR.UPLOAD')));
     console.log(e);
   }
 }

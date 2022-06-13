@@ -18,6 +18,11 @@
       "UPDATE": "Documento actualizado exitosamente"
     }
   },
+  "BULK_UPLOAD": {
+    "ERROR": {
+      "UPLOAD": "MISSING"
+    }
+  },
   "CROP": {
     "ERROR": {
       "DELETE": "No se pudo borrar campo de cultivo"

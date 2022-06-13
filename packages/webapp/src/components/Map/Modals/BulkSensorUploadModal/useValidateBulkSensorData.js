@@ -23,69 +23,68 @@ const requiredFields = [
   SENSOR_READING_TYPES,
 ];
 
-const validationFields = [
-  {
-    errorMessage: 'Invalid external id, must be between 1 and 20 characters.',
-    /* eslint-disable-next-line */
-    mask: /^[a-zA-Z0-9 \.\-\/!@#$%^&*)(]{1,20}$/,
-    columnName: SENSOR_EXTERNAL_ID,
-  },
-  {
-    errorMessage: 'Invalid sensor name, must be between 1 and 100 characters.',
-    /* eslint-disable-next-line */
-    mask: /^[a-zA-Z0-9 \.\-\/!@#$%^&*)(]{1,100}$/,
-    columnName: SENSOR_NAME,
-  },
-  {
-    errorMessage: 'Invalid latitude value, must be between -90 and 90. and fewer than 10 decimals.',
-    /* eslint-disable-next-line */
-    mask: /^(\+|-)?(?:90(?:(?:\.0{1,6})?)|(?:[0-9]|[1-8][0-9])(?:(?:\.[0-9]{1,30})?))$/,
-    columnName: SENSOR_LATITUDE,
-  },
-  {
-    errorMessage:
-      'Invalid longitude value, must be between -180 and 180. and fewer than 10 decimals.',
-    /* eslint-disable-next-line */
-    mask: /^(\+|-)?(?:180(?:(?:\.0{1,6})?)|(?:[0-9]|[1-9][0-9]|1[0-7][0-9])(?:(?:\.[0-9]{1,30})?))$/,
-    columnName: SENSOR_LONGITUDE,
-  },
-  {
-    errorMessage:
-      'Invalid reading type detected, valid values include: soil_moisture_content, water_potential, temperature.',
-    /* eslint-disable-next-line */
-    mask: /^\s*(?:\w+\s*,\s*){2,}(?:\w+\s*)$/,
-    columnName: SENSOR_READING_TYPES,
-    validate(rowNumber, columnName, value) {
-      if (typeof value !== 'string') return;
-      const inputReadingTypes = value.split(',');
-      if (!inputReadingTypes.length) return;
-      const invalidReadingTypes = inputReadingTypes.reduce((acc, fieldName) => {
-        if (!requiredReadingTypes.includes(fieldName.trim())) {
-          acc.push(fieldName.trim());
-        }
-        return acc;
-      }, []);
-      if (!invalidReadingTypes.length) return;
-      return {
-        row: rowNumber,
-        column: columnName,
-        errorMessage: 'The reading types contains invalid values',
-        value: invalidReadingTypes.join(','),
-      };
-    },
-  },
-];
-
-export function useValidateBulkSensorData(onUpload) {
+export function useValidateBulkSensorData(onUpload, t) {
   const bulkSensorsUploadResponse = useSelector(bulkSensorsUploadSliceSelector);
-  const [disabled, setDisabled] = useState(0);
+  const [disabled, setDisabled] = useState(null);
   const [selectedFileName, setSelectedFileName] = useState('');
   const [sheetErrors, setSheetErrors] = useState([]);
   const [errorCount, setErrorCount] = useState(0);
   const fileInputRef = useRef(null);
 
+  const validationFields = [
+    {
+      errorMessage: t('FARM_MAP.BULK_UPLOAD_SENSORS.VALIDATION.EXTERNAL_ID'),
+      /* eslint-disable-next-line */
+      mask: /^[a-zA-Z0-9 \.\-\/!@#$%^&*)(]{1,20}$/,
+      columnName: SENSOR_EXTERNAL_ID,
+    },
+    {
+      errorMessage: t('FARM_MAP.BULK_UPLOAD_SENSORS.VALIDATION.SENSOR_NAME'),
+      /* eslint-disable-next-line */
+      mask: /^[a-zA-Z0-9 \.\-\/!@#$%^&*)(]{1,100}$/,
+      columnName: SENSOR_NAME,
+    },
+    {
+      errorMessage: t('FARM_MAP.BULK_UPLOAD_SENSORS.VALIDATION.SENSOR_LATITUDE'),
+      /* eslint-disable-next-line */
+      mask: /^(\+|-)?(?:90(?:(?:\.0{1,6})?)|(?:[0-9]|[1-8][0-9])(?:(?:\.[0-9]{1,30})?))$/,
+      columnName: SENSOR_LATITUDE,
+    },
+    {
+      errorMessage: t('FARM_MAP.BULK_UPLOAD_SENSORS.VALIDATION.SENSOR_LONGITUDE'),
+      /* eslint-disable-next-line */
+      mask: /^(\+|-)?(?:180(?:(?:\.0{1,6})?)|(?:[0-9]|[1-9][0-9]|1[0-7][0-9])(?:(?:\.[0-9]{1,30})?))$/,
+      columnName: SENSOR_LONGITUDE,
+    },
+    {
+      errorMessage: t('FARM_MAP.BULK_UPLOAD_SENSORS.VALIDATION.SENSOR_READING_TYPES'),
+      /* eslint-disable-next-line */
+      mask: /^\s*(?:\w+\s*,\s*){2,}(?:\w+\s*)$/,
+      columnName: SENSOR_READING_TYPES,
+      validate(rowNumber, columnName, value) {
+        if (typeof value !== 'string') return;
+        const inputReadingTypes = value.split(',');
+        if (!inputReadingTypes.length) return;
+        const invalidReadingTypes = inputReadingTypes.reduce((acc, fieldName) => {
+          if (!requiredReadingTypes.includes(fieldName.trim())) {
+            acc.push(fieldName.trim());
+          }
+          return acc;
+        }, []);
+        if (!invalidReadingTypes.length) return;
+        return {
+          row: rowNumber,
+          column: columnName,
+          errorMessage: t('FARM_MAP.BULK_UPLOAD_SENSORS.VALIDATION.SENSOR_READING_TYPES'),
+          value: invalidReadingTypes.join(','),
+        };
+      },
+    },
+  ];
+
   useEffect(() => {
-    setDisabled(bulkSensorsUploadResponse.loading ? -1 : 1);
+    if (!disabled) setDisabled(0);
+    else setDisabled(bulkSensorsUploadResponse.loading ? -1 : 1);
   }, [bulkSensorsUploadResponse?.loading]);
 
   const validateExcel = (rows) => {
@@ -133,7 +132,7 @@ export function useValidateBulkSensorData(onUpload) {
           {
             row: 1,
             column: missingColumns.join(','),
-            errorMessage: 'Columns are required/missing.',
+            errorMessage: t('FARM_MAP.BULK_UPLOAD_SENSORS.VALIDATION.MISSING_COLUMNS'),
             value: '',
           },
         ]
@@ -190,7 +189,7 @@ export function useValidateBulkSensorData(onUpload) {
         type: 'text/plain',
       });
       element.href = URL.createObjectURL(file);
-      element.download = 'validation-errors.txt';
+      element.download = `${inputfFile.name.replace(/.csv/, '')}_errors.txt`;
       document.body.appendChild(element);
       element.click();
     }
@@ -202,7 +201,7 @@ export function useValidateBulkSensorData(onUpload) {
       type: 'text/plain',
     });
     element.href = URL.createObjectURL(file);
-    element.download = 'bulk-sensor-upload-template.csv';
+    element.download = 'Add-sensors-to-LiteFarm.csv';
     document.body.appendChild(element);
     element.click();
   };

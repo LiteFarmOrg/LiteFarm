@@ -18,6 +18,11 @@
       "UPDATE": "Successfully updated document"
     }
   },
+  "BULK_UPLOAD": {
+    "ERROR": {
+      "UPLOAD": "Failed to upload the CSV file."
+    }
+  },
   "CROP": {
     "ERROR": {
       "DELETE": "Failed To Delete Field Crop"

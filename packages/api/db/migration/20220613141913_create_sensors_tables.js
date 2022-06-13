@@ -19,6 +19,7 @@ exports.up = function (knex) {
       table.integer('sensor_id').notNullable();
       table.string('reading_type').notNullable();
       table.float('value').notNullable();
+      table.string('unit').notNullable();
     }),
   ]);
 };

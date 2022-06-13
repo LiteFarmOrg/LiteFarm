@@ -21,6 +21,7 @@ const checkJwt = jwt({
 }).unless({
   path: [
     '/user',
+    '/sensors/add_sensors', //TODO: remove this, this is only here for development purposes
     '/login',
     '/password_reset',
     '/user/accept_invitation',

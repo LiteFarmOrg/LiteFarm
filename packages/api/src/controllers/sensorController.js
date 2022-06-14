@@ -82,7 +82,7 @@ const sensorController = {
         const infoBody = {
           reading_id: req.body.reading_id,
           read_time: req.body.read_time,
-          transmit_time: req.body.transmit_time,
+          //   transmit_time: req.body.transmit_time,
           sensor_id: req.body.sensor_id,
           reading_type: req.body.reading_type,
           value: req.body.value,
@@ -105,6 +105,7 @@ const sensorController = {
       }
     };
   },
+
   getAllReadingsBySensorId() {
     return async (req, res) => {
       try {

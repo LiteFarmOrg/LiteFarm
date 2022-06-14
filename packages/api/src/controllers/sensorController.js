@@ -17,85 +17,95 @@ const baseController = require('../controllers/baseController');
 const sensorModel = require('../models/sensorModel');
 const sensorReadingModel = require('../models/sensorReadingModel');
 const { transaction, Model } = require('objection');
-const { createOrganization } = require('../util/ensemble');
+const { createOrganization, registerOrganizationWebhook } = require('../util/ensemble');
 
 const sensorController = {
   async addSensors(req, res) {
-    const { farm_id } = req.headers;
-    const accessToken = getAccessToken();
-    const { data, errors } = parseCsvString(req.file.buffer.toString(), {
-      Name: {
-        key: 'name',
-        parseFunction: (val) => val.trim(),
-        validator: (val) => 1 <= val.length && val.length <= 100,
-        required: true,
-      },
-      External_ID: {
-        key: 'external_id',
-        parseFunction: (val) => val.trim(),
-        validator: (val) => 1 <= val.length && val.length <= 20,
-        required: false,
-      },
-      Latitude: {
-        key: 'latitude',
-        parseFunction: (val) => parseFloat(val),
-        validator: (val) => -90 <= val && val <= 90,
-        required: true,
-      },
-      Longitude: {
-        key: 'longitude',
-        parseFunction: (val) => parseFloat(val),
-        validator: (val) => -180 <= val && val <= 180,
-        required: true,
-      },
-      Reading_types: {
-        key: 'reading_types',
-        parseFunction: (val) => val.replaceAll(' ', '').split(','),
-        validator: (val) =>
-          val.includes('soil_moisture_content') ||
-          val.includes('water_potential') ||
-          val.includes('temperature'),
-        required: true,
-      },
-      Depth: {
-        key: 'depth',
-        parseFunction: (val) => parseFloat(val),
-        validator: (val) => 0 <= val && val <= 1000,
-        required: false,
-      },
-      Brand: {
-        key: 'brand',
-        parseFunction: (val) => val.trim(),
-        validator: (val) => val.length <= 100,
-        required: false,
-      },
-      Model: {
-        key: 'model',
-        parseFunction: (val) => val.trim(),
-        validator: (val) => val.length <= 100,
-        required: false,
-      },
-      Hardware_version: {
-        key: 'hardware_version',
-        parseFunction: (val) => val.trim(),
-        validator: (val) => val.length <= 100,
-        required: false,
-      },
-    });
-    if (errors.length > 0) {
-      res.status(400).send({ errors });
-    } else {
-      console.log(data);
-      const organization = await createOrganization(farm_id, accessToken);
-      console.log(organization);
-      const esids = data.reduce((previous, current) => {
-        if (current.brand === 'Ensemble Scientific' && current.external_id) {
-          previous.push(current.external_id);
-        }
-        return previous;
-      }, []);
-      console.log(esids);
-      res.status(200).send('Successfully uploaded!');
+    try {
+      const { farm_id } = req.headers;
+      const accessToken = getAccessToken();
+      const { data, errors } = parseCsvString(req.file.buffer.toString(), {
+        Name: {
+          key: 'name',
+          parseFunction: (val) => val.trim(),
+          validator: (val) => 1 <= val.length && val.length <= 100,
+          required: true,
+        },
+        External_ID: {
+          key: 'external_id',
+          parseFunction: (val) => val.trim(),
+          validator: (val) => 1 <= val.length && val.length <= 20,
+          required: false,
+        },
+        Latitude: {
+          key: 'latitude',
+          parseFunction: (val) => parseFloat(val),
+          validator: (val) => -90 <= val && val <= 90,
+          required: true,
+        },
+        Longitude: {
+          key: 'longitude',
+          parseFunction: (val) => parseFloat(val),
+          validator: (val) => -180 <= val && val <= 180,
+          required: true,
+        },
+        Reading_types: {
+          key: 'reading_types',
+          parseFunction: (val) => val.replaceAll(' ', '').split(','),
+          validator: (val) =>
+            val.includes('soil_moisture_content') ||
+            val.includes('water_potential') ||
+            val.includes('temperature'),
+          required: true,
+        },
+        Depth: {
+          key: 'depth',
+          parseFunction: (val) => parseFloat(val),
+          validator: (val) => 0 <= val && val <= 1000,
+          required: false,
+        },
+        Brand: {
+          key: 'brand',
+          parseFunction: (val) => val.trim(),
+          validator: (val) => val.length <= 100,
+          required: false,
+        },
+        Model: {
+          key: 'model',
+          parseFunction: (val) => val.trim(),
+          validator: (val) => val.length <= 100,
+          required: false,
+        },
+        Hardware_version: {
+          key: 'hardware_version',
+          parseFunction: (val) => val.trim(),
+          validator: (val) => val.length <= 100,
+          required: false,
+        },
+      });
+      if (errors.length > 0) {
+        res.status(400).send({ errors });
+      } else {
+        console.log(data);
+        const organization = await createOrganization(farm_id, accessToken);
+        console.log(organization);
+        const esids = data.reduce((previous, current) => {
+          if (current.brand === 'Ensemble Scientific' && current.external_id) {
+            previous.push(current.external_id);
+          }
+          return previous;
+        }, []);
+        const webhookResult = await registerOrganizationWebhook(
+          farm_id,
+          organization.organization_uuid,
+          accessToken,
+        );
+        console.log(webhookResult);
+        console.log(esids);
+        res.status(200).send({ message: 'Successfully uploaded!' });
+      }
+    } catch (e) {
+      res.status(500).send(e.message);
     }
   },
 

@@ -41,42 +41,51 @@ async function bulkSensorClaim(accessToken, organizationId, esids) {
     if (error.response?.data && error.response?.status) {
       return { ...error.response.data, status: error.response.status };
     } else {
-      return { status: 500, detail: 'Failed to claim sensors.' };
+      throw new Error('Failed to claim sensors');
     }
   };
 
   const onResponse = (response) => {
-    return { ...response.data, status: response.status };
+    return {
+      success: esids,
+      does_not_exist: [],
+      already_owned: [],
+      occupied: [],
+      detail: response.data.detail,
+    };
   };
   return await ensembleAPICall(accessToken, axiosObject, onError, onResponse);
 }
 
 /**
  * Sends a request to the Ensemble API to register a webhook to an organization
+ * @param {uuid} farmId - the uid for the farm the user is on
  * @param {uuid} organizationId - a uuid for the organization registered with Ensemble
  * @param {String} accessToken - a JWT token for accessing the Ensemble API
  * @returns {Object} - the response from the Ensemble API
  * @async
  */
 
-async function registerOrganizationWebhook(organizationId, accessToken) {
+async function registerOrganizationWebhook(farmId, organizationId, accessToken) {
   const axiosObject = {
     method: 'post',
     url: `${ensembleAPI}/organizations/${organizationId}/webhooks/`,
     data: {
-      url: 'ADD Beta.litefarm or URL provided by pipedream.com',
+      url: 'https://eoller4vc2ssvg7.m.pipedream.net',
       frequency: 15,
     },
   };
   const onError = (error) => {
-    if (error.response?.data && error.response?.status) {
-      return { ...error.response.data, status: error.response.status };
-    } else {
-      throw new Error('Failed to claim sensors');
-    }
+    console.log(error);
+    throw new Error('Failed to register webhook with ESCI');
   };
 
-  const onResponse = (response) => {
+  const onResponse = async (response) => {
+    await FarmExternalIntegrationsModel.updateWebhookAddress(
+      farmId,
+      'https://eoller4vc2ssvg7.m.pipedream.net',
+      response.data.id,
+    );
     return { ...response.data, status: response.status };
   };
 
@@ -109,7 +118,7 @@ async function createOrganization(farmId, accessToken) {
         throw new Error('Unable to create ESCI organization');
       };
 
-      const response = ensembleAPICall(accessToken, axiosObject, onError);
+      const response = await ensembleAPICall(accessToken, axiosObject, onError);
 
       return await FarmExternalIntegrationsModel.query().insert({
         farm_id: farmId,
@@ -120,6 +129,7 @@ async function createOrganization(farmId, accessToken) {
       return existingIntegration;
     }
   } catch (e) {
+    console.log(e);
     throw new Error('Unable to create ESCI organization');
   }
 }

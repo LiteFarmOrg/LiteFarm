@@ -448,6 +448,12 @@
       "TITLE": "Agregar zona delimitante",
       "WIDTH": "Ancho de la zona delimitante"
     },
+    "BULK_UPLOAD_SENSORS": {
+      "TITLE": "MISSING",
+      "UPLOAD_LINK_MESSAGE": "MISSING",
+      "UPLOAD_INSTRUCTION_MESSAGE": "MISSING",
+      "UPLOAD_PLACEHOLDER": "MISSING"
+    },
     "CEREMONIAL_AREA": {
       "EDIT_TITLE": "Editar area ceremonial",
       "NAME": "Nombre de area ceremonial",

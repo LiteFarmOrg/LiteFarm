@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { PureNotificationCard } from '../../../components/Card/NotificationCard/NotificationCard';
+import { getNotificationCardDate } from '../../../util/moment';
 
 const NotificationCard = ({
   alert,
@@ -23,7 +24,7 @@ const NotificationCard = ({
         body={body}
         variables={variables}
         context={context}
-        created_at={created_at}
+        created_at={getNotificationCardDate(created_at)}
         onClick={onClick}
       />
     </>

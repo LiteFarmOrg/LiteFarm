@@ -275,6 +275,21 @@ class Farm extends baseModel {
       },
     };
   }
+
+  /**
+   * Returns a farm and country object by farm id.
+   * @param {uuid} farmId
+   * @static
+   * @async
+   * @return {Promise<*>}
+   */
+  static async getFarmById(farmId) {
+    return Farm.query()
+      .join('countries', 'farm.country_id', 'countries.id')
+      .select(['farm.*', 'countries.*'])
+      .where('farm_id', farmId)
+      .first();
+  }
 }
 
 module.exports = Farm;

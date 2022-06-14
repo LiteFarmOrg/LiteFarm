@@ -17,7 +17,7 @@ const Model = require('objection').Model;
 
 class Sensor extends Model {
   static get tableName() {
-    return 'sensors';
+    return 'sensor';
   }
 
   static get idColumn() {
@@ -30,16 +30,15 @@ class Sensor extends Model {
   static get jsonSchema() {
     return {
       type: 'object',
-      required: ['sensor_id', 'farm_id', 'name', 'latitude', 'longitude', 'type'],
+      required: ['farm_id', 'name', 'grid_points'],
 
       properties: {
         sensor_id: { type: 'string' },
         farm_id: { type: 'string', minLength: 1, maxLength: 255 },
         name: { type: 'string', minLength: 1, maxLength: 255 },
-        latitude: { type: 'float' },
-        longitude: { type: 'float' },
-        type: { type: 'string' },
+        grid_points: { type: 'object' },
         external_id: { type: 'string', minLength: 1, maxLength: 255 },
+        partner_id: { type: 'integer' },
         depth: { type: 'float' },
         elevation: { type: 'float' },
       },

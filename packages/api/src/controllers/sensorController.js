@@ -16,8 +16,14 @@
 const baseController = require('../controllers/baseController');
 const sensorModel = require('../models/sensorModel');
 const sensorReadingModel = require('../models/sensorReadingModel');
+const SensorReadingTypeModel = require('../models/SensorReadingTypeModel');
 const { transaction, Model } = require('objection');
-const { createOrganization, registerOrganizationWebhook } = require('../util/ensemble');
+const {
+  createOrganization,
+  registerOrganizationWebhook,
+  bulkSensorClaim,
+} = require('../util/ensemble');
+const PartnerReadingTypeModel = require('../models/PartnerReadingTypeModel');
 
 const sensorController = {
   async addSensors(req, res) {
@@ -95,16 +101,52 @@ const sensorController = {
           }
           return previous;
         }, []);
-        const webhookResult = await registerOrganizationWebhook(
-          farm_id,
-          organization.organization_uuid,
+        await registerOrganizationWebhook(farm_id, organization.organization_uuid, accessToken);
+        const registeredSensors = await bulkSensorClaim(
           accessToken,
+          organization.organization_uuid,
+          esids,
         );
-        console.log(webhookResult);
-        console.log(esids);
+        console.log(registeredSensors);
+        for (const sensor of data) {
+          if (registeredSensors.success.includes(sensor.external_id)) {
+            const savedSensor = await sensorModel.query().insert({
+              farm_id,
+              name: sensor.name,
+              grid_points: {
+                lat: sensor.latitude,
+                lng: sensor.longitude,
+              },
+              partner_id: 1,
+              depth: sensor.depth,
+              external_id: sensor.external_id,
+            });
+            const readingTypes = await Promise.all(
+              sensor.reading_types.map((r) => {
+                return PartnerReadingTypeModel.getReadingTypeByReadableValue(r);
+              }),
+            );
+            console.log(readingTypes);
+            await SensorReadingTypeModel.query().insert(
+              readingTypes.map((readingType) => {
+                return {
+                  partner_reading_type_id: readingType.partner_reading_type_id,
+                  sensor_id: savedSensor.sensor_id,
+                };
+              }),
+            );
+          }
+        }
+        if (registeredSensors.success.length < esids.length) {
+          res.status(500).send({
+            message: 'Unable to register some or all of the provided sensors',
+            registeredSensors,
+          });
+        }
         res.status(200).send({ message: 'Successfully uploaded!' });
       }
     } catch (e) {
+      console.log(e);
       res.status(500).send(e.message);
     }
   },

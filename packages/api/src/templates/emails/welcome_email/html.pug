@@ -5,5 +5,5 @@ block content
         a(href='https://litefarm.org') litefarm.org
     p=`${t('CREATE_ACCOUNT_CONFIRMATION.CLICK_BELOW')}:`
     .button-aligner
-        a#email-button(href=`${buttonLink}` target='_blank')
+        a#email-button(href=`${buttonLink}` target='_blank' data-cy='button-logIn')
             button.button=`${t('COMMON.LOG_IN')}`

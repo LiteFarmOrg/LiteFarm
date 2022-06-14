@@ -14,13 +14,13 @@
  */
 
 const axios = require('axios');
+const path = require('path');
+require('dotenv').config({ path: path.resolve(__dirname, '..', '..', '.env') });
 
 const FarmModel = require('../models/farmModel');
 const FarmExternalIntegrationsModel = require('../models/farmExternalIntegrationsModel');
 const IntegratingPartners = require('../models/integratingPartnersModel');
 const { ensembleAPI } = require('../endPoints');
-const path = require('path');
-require('dotenv').config({ path: path.resolve(__dirname, '..', '..', '.env') });
 
 /**
  * Sends a request to the Ensemble API for an organization to claim sensors
@@ -30,7 +30,7 @@ require('dotenv').config({ path: path.resolve(__dirname, '..', '..', '.env') });
  * @returns {Object} - the response from the Ensemble API
  * @async
  */
-async function bulkSensorClaim(accessToken, organizationId, esids, retries = 1) {
+async function bulkSensorClaim(accessToken, organizationId, esids) {
   const axiosObject = {
     method: 'post',
     url: `${ensembleAPI}/organizations/${organizationId}/devices/bulkclaim/`,
@@ -45,7 +45,10 @@ async function bulkSensorClaim(accessToken, organizationId, esids, retries = 1) 
     }
   };
 
-  return await ensembleAPICall(accessToken, axiosObject, onError, retries);
+  const onResponse = (response) => {
+    return { ...response.data, status: response.status };
+  };
+  return await ensembleAPICall(accessToken, axiosObject, onError, onResponse);
 }
 
 /**
@@ -62,16 +65,20 @@ async function createOrganization(farmId, accessToken) {
       .where({ farm_id: farmId, partner_id: 1 })
       .first();
     if (!existingIntegration) {
-      const response = await axios.post(
-        `${ensembleAPI}/organizations/`,
-        {
+      const axiosObject = {
+        method: 'post',
+        url: `${ensembleAPI}/organizations/`,
+        data: {
           name: data.farm_name,
           phone: data.farm_phone_number,
         },
-        {
-          headers: getHeaders(accessToken),
-        },
-      );
+      };
+      const onError = () => {
+        throw new Error('Unable to create ESCI organization');
+      };
+
+      const response = ensembleAPICall(accessToken, axiosObject, onError);
+
       return await FarmExternalIntegrationsModel.query().insert({
         farm_id: farmId,
         partner_id: 1,
@@ -94,13 +101,20 @@ async function createOrganization(farmId, accessToken) {
  * @returns {Object} - the response from the Ensemble API
  * @async
  */
-async function ensembleAPICall(accessToken, axiosObject, onError, retries = 1) {
+async function ensembleAPICall(
+  accessToken,
+  axiosObject,
+  onError,
+  onResponse = (r) => r,
+  retries = 1,
+) {
   const axiosObjWithHeaders = { headers: getHeaders(accessToken), ...axiosObject };
   try {
-    return await axios(axiosObjWithHeaders);
+    const response = await axios(axiosObjWithHeaders);
+    return onResponse(response);
   } catch (error) {
     if (isAuthError(error) && retries > 0) {
-      return refreshAndRecall(axiosObject, onError, retries);
+      return refreshAndRecall(axiosObject, onError, onResponse, retries);
     } else {
       return onError(error);
     }
@@ -115,10 +129,10 @@ async function ensembleAPICall(accessToken, axiosObject, onError, retries = 1) {
  * @returns {Object} - the response from the Ensemble API
  * @async
  */
-async function refreshAndRecall(axiosObject, onError, retries) {
+async function refreshAndRecall(axiosObject, onError, onResponse, retries) {
   const result = await refreshTokens();
   if (!result?.access || !result?.refresh) return result;
-  return ensembleAPICall(result.access, axiosObject, onError, retries - 1);
+  return ensembleAPICall(result.access, axiosObject, onError, onResponse, retries - 1);
 }
 
 /**

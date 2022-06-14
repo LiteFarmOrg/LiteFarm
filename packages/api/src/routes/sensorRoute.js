@@ -25,9 +25,9 @@ const router = express.Router();
 
 router.get('/get_sensors', SensorController.getSensorsByFarmId());
 router.post('/add_sensors', upload.single('sensors'), SensorController.addSensors);
-router.delete('/delete_sensor', SensorController.deleteSensor());
-router.post('/edit_sensor', SensorController.editSensor());
+router.delete('/delete_sensor/:sensor_id', SensorController.deleteSensor());
 router.post('/add_reading', SensorController.addReading());
 router.get('/get_readings', SensorController.getAllReadingsBySensorId());
+router.post('/invalidate_readings', SensorController.invalidateReadings());
 
 module.exports = router;

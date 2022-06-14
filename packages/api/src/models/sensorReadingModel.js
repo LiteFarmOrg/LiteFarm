@@ -15,13 +15,13 @@
 
 const Model = require('objection').Model;
 
-class Sensor extends Model {
+class SensorReading extends Model {
   static get tableName() {
-    return 'sensors';
+    return 'sensor_readings';
   }
 
   static get idColumn() {
-    return 'sensor_id';
+    return 'reading_id';
   }
 
   // Optional JSON schema. This is not the database schema! Nothing is generated
@@ -30,24 +30,22 @@ class Sensor extends Model {
   static get jsonSchema() {
     return {
       type: 'object',
-      required: ['sensor_id', 'farm_id', 'name', 'latitude', 'longitude', 'type'],
-
+      required: ['reading_id', 'read_time', 'sensor_id', 'reading_type', 'value'],
       properties: {
-        sensor_id: { type: 'string' },
-        farm_id: { type: 'string', minLength: 1, maxLength: 255 },
-        name: { type: 'string', minLength: 1, maxLength: 255 },
-        latitude: { type: 'float' },
-        longitude: { type: 'float' },
-        type: { type: 'string' },
-        external_id: { type: 'string', minLength: 1, maxLength: 255 },
-        depth: { type: 'float' },
-        elevation: { type: 'float' },
+        reading_id: { type: 'integer' },
+        read_time: { type: 'timestamp' },
+        transmit_time: { type: 'timestamp' },
+        sensor_id: { type: 'integer' },
+        reading_type: { type: 'string', minLength: 1, maxLength: 255 },
+        value: { type: 'float' },
+        unit: { type: 'string', minLength: 1, maxLength: 255 },
+        valid: { type: 'boolean' },
       },
       additionalProperties: false,
     };
   }
 }
 
-// TODO: Create relationships with reading model
+// TODO: Create relationships with sensor model
 
-module.exports = Sensor;
+module.exports = SensorReading;

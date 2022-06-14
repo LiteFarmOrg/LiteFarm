@@ -7,7 +7,6 @@ exports.up = function (knex) {
       // table.float('latitude').notNullable();
       // table.float('longitude').notNullable();
       table.jsonb('grid_points').notNullable();
-      table.integer('type').notNullable();
       table.float('depth');
       table.float('elevation');
       table.integer('partner_id');

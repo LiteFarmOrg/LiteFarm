@@ -79,15 +79,29 @@ const sensorController = {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
       try {
-        const infoBody = {
-          read_time: req.body.read_time,
-          sensor_id: req.body.sensor_id,
-          reading_type: req.body.reading_type,
-          value: req.body.value,
-          unit: req.body.unit,
-        };
+        // const infoBody = {
+        //   read_time: req.body.read_time,
+        //   sensor_id: req.body.sensor_id,
+        //   reading_type: req.body.reading_type,
+        //   value: req.body.value,
+        //   unit: req.body.unit,
+        // };
+        const infoBody = [];
+        for (const sensor of req.body) {
+          for (let i = 0; i < sensor.value.length; i++) {
+            const row = {
+              read_time: sensor.time[i],
+              sensor_id: sensor.sensor_esid,
+              reading_type: sensor.parameter_number,
+              value: sensor.value[i],
+              unit: sensor.unit,
+            };
+            infoBody.push(row);
+          }
+        }
 
-        if (!Object.values(infoBody).every((value) => value)) {
+        // Check if each field in each entry of infoBody populated
+        if (infoBody.every((entry) => !Object.values(entry).every((value) => value))) {
           res.status(400).send('Invalid reading');
         }
         const result = await baseController.postWithResponse(sensorReadingModel, infoBody, req, {

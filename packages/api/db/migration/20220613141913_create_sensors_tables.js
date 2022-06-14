@@ -17,7 +17,7 @@ exports.up = function (knex) {
     knex.schema.createTable('sensor_reading', function (table) {
       table.uuid('reading_id').primary().notNullable().defaultTo(knex.raw('uuid_generate_v1()'));
       table.timestamp('read_time').notNullable();
-      table.timestamp('transmit_time').notNullable().defaultTo(knex.fn.now());
+      table.timestamp('created_at').notNullable().defaultTo(knex.fn.now());
       table.integer('sensor_id').notNullable();
       table.string('reading_type').notNullable();
       table.float('value').notNullable();

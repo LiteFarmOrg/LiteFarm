@@ -30,14 +30,19 @@ class Sensor extends Model {
   static get jsonSchema() {
     return {
       type: 'object',
-      required: ['sensor_id', 'farm_id', 'name', 'latitude', 'longitude', 'type'],
+      required: ['sensor_id', 'farm_id', 'name', 'grid_points', 'type'],
 
       properties: {
         sensor_id: { type: 'string' },
         farm_id: { type: 'string', minLength: 1, maxLength: 255 },
         name: { type: 'string', minLength: 1, maxLength: 255 },
-        latitude: { type: 'float' },
-        longitude: { type: 'float' },
+        grid_points: {
+          type: 'object',
+          properties: {
+            lat: { type: 'number' },
+            lng: { type: 'number' },
+          },
+        },
         type: { type: 'string' },
         external_id: { type: 'string', minLength: 1, maxLength: 255 },
         depth: { type: 'float' },

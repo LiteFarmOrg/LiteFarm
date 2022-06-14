@@ -30,12 +30,12 @@ class SensorReading extends Model {
   static get jsonSchema() {
     return {
       type: 'object',
-      required: ['reading_id', 'read_time', 'sensor_id', 'reading_type', 'value'],
+      required: ['read_time', 'sensor_id', 'reading_type', 'value', 'unit'],
       properties: {
-        reading_id: { type: 'integer' },
+        reading_id: { type: 'string' },
         read_time: { type: 'timestamp' },
-        transmit_time: { type: 'timestamp' },
-        sensor_id: { type: 'integer' },
+        created_at: { type: 'timestamp' },
+        sensor_id: { type: 'string' },
         reading_type: { type: 'string', minLength: 1, maxLength: 255 },
         value: { type: 'float' },
         unit: { type: 'string', minLength: 1, maxLength: 255 },

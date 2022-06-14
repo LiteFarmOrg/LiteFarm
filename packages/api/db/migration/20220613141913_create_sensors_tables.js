@@ -13,6 +13,7 @@ exports.up = function (knex) {
     }),
 
     knex.schema.createTable('sensor_readings', function (table) {
+      // Should this be auto generated?
       table.integer('reading_id').primary().notNullable();
       table.timestamp('read_time').defaultTo(knex.fn.now());
       table.timestamp('transmit_time').notNullable();
@@ -20,6 +21,7 @@ exports.up = function (knex) {
       table.string('reading_type').notNullable();
       table.float('value').notNullable();
       table.string('unit').notNullable();
+      table.boolean('valid').notNullable().defaultTo(true);
     }),
   ]);
 };

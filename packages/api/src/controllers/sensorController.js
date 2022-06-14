@@ -55,19 +55,6 @@ const sensorController = {
       }
     };
   },
-  // TODO
-  editSensor() {
-    return async (req, res) => {
-      try {
-        res.status(200).send('OK');
-      } catch (error) {
-        //handle more exceptions
-        res.status(400).json({
-          error,
-        });
-      }
-    };
-  },
 
   getSensorsByFarmId() {
     return async (req, res) => {
@@ -86,11 +73,29 @@ const sensorController = {
       }
     };
   },
+
   // TODO
   addReading() {
     return async (req, res) => {
+      const trx = await transaction.start(Model.knex());
       try {
-        res.status(200).send('OK');
+        // const { reading_id, reading_time, transmit_time, sensor_id, reading_type, value, unit } = req.body;
+        const infoBody = {
+          reading_id: req.body.reading_id,
+          read_time: req.body.read_time,
+          transmit_time: req.body.transmit_time,
+          sensor_id: req.body.sensor_id,
+          reading_type: req.body.reading_type,
+          value: req.body.value,
+          unit: req.body.unit,
+        };
+
+        if (!Object.values(infoBody).every((value) => value)) {
+          res.status(400).send('Invalid reading');
+        }
+        await baseController.postWithResponse(sensorReadingModel, infoBody, req, { trx });
+        await trx.commit();
+        res.status(200);
       } catch (error) {
         //handle more exceptions
         res.status(400).json({
@@ -107,7 +112,8 @@ const sensorController = {
           return res.status(400).send('No sensor selected');
         }
         const data = await baseController.getByFieldId(sensorReadingModel, 'sensor_id', sensor_id);
-        res.status(200).send(data);
+        const validReadings = data.filter((datapoint) => datapoint.valid);
+        res.status(200).send(validReadings);
       } catch (error) {
         //handle more exceptions
         res.status(400).json({
@@ -116,6 +122,17 @@ const sensorController = {
       }
     };
   },
+
+  // invalidateReading() {
+  //     return async (req, res) => {
+  //         try {
+
+  //         }
+  //         catch {
+
+  //         }
+  //     }
+  // }
 };
 
 module.exports = sensorController;

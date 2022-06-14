@@ -550,7 +550,8 @@
       "SURFACE_WATER": "Agua de superficie",
       "TITLE": "Filtra su mapa",
       "WATERCOURSE": "Arroyo",
-      "WV": "Valvula de agua"
+      "WV": "Valvula de agua",
+      "SENSOR": "MISSING"
     },
     "NATURAL_AREA": {
       "EDIT_TITLE": "Editar area natural",
@@ -1074,7 +1075,16 @@
       "YOU_WILL_FIND": "Aquí encontrará:"
     }
   },
+  "ENTITY_TYPES": {
+    "TASK": "tarea",
+    "LOCATION": "ubicación"
+  },
   "NOTIFICATION": {
+    "TIMELINE": {
+      "HEADING": "MISSING",
+      "VIEW_NOW": "MISSING",
+      "MORE_RECENT_NOTIFICATION": "MISSING"
+    },
     "DAILY_TASKS_DUE_TODAY": {
       "BODY": "Tienes tareas para hoy.",
       "TITLE": "Tareas para hoy"

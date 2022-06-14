@@ -550,7 +550,8 @@
       "SURFACE_WATER": "Água superficial",
       "TITLE": "Filtre o seu mapa",
       "WATERCOURSE": "Curso d'água",
-      "WV": "Ponto de bombeamento"
+      "WV": "Ponto de bombeamento",
+      "SENSOR": "MISSING"
     },
     "NATURAL_AREA": {
       "EDIT_TITLE": "Editar área natural",
@@ -1075,7 +1076,16 @@
       "YOU_WILL_FIND": "Aqui você encontrará:"
     }
   },
+  "ENTITY_TYPES": {
+    "TASK": "tarefa",
+    "LOCATION": "localização"
+  },
   "NOTIFICATION": {
+    "TIMELINE": {
+      "HEADING": "MISSING",
+      "VIEW_NOW": "MISSING",
+      "MORE_RECENT_NOTIFICATION": "MISSING"
+    },
     "DAILY_TASKS_DUE_TODAY": {
       "BODY": "Você tem tarefas para vencer hoje.",
       "TITLE": "Tarefas para hoje"

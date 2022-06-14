@@ -16,9 +16,12 @@
 const baseController = require('../controllers/baseController');
 const sensorModel = require('../models/sensorModel');
 const { transaction, Model } = require('objection');
+const { createOrganization } = require('../util/ensemble');
 
 const sensorController = {
   async addSensors(req, res) {
+    const { farm_id } = req.headers;
+    const accessToken = getAccessToken();
     const { data, errors } = parseCsvString(req.file.buffer.toString(), {
       Name: {
         key: 'name',
@@ -82,6 +85,15 @@ const sensorController = {
       res.status(400).send({ errors });
     } else {
       console.log(data);
+      const organization = await createOrganization(farm_id, accessToken);
+      console.log(organization);
+      const esids = data.reduce((previous, current) => {
+        if (current.brand === 'Ensemble Scientific' && current.external_id) {
+          previous.push(current.external_id);
+        }
+        return previous;
+      }, []);
+      console.log(esids);
       res.status(200).send('Successfully uploaded!');
     }
   },
@@ -204,5 +216,8 @@ const parseCsvString = (csvString, mapping, delimiter = ',') => {
     );
   return { data, errors };
 };
+
+const getAccessToken = () =>
+  'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjU1MzAxMzg5LCJpYXQiOjE2NTUyMTQ5ODksImp0aSI6ImI0OTA3OWQ0OTJmODRmMDRhNzA3MTk4ZjQyM2QwMWY2IiwidXNlcl9pZCI6MTV9.EeuCvLqw7e3YjmlGFrTE9L3GuNdjKVbBmlNxlfNj0AQ';
 
 module.exports = sensorController;

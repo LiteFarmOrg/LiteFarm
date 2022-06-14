@@ -79,6 +79,18 @@ class FarmExternalIntegrations extends Model {
       },
     };
   }
+
+  /**
+   * Updates the webhook address for a farm.
+   * @param farmId
+   * @param webhookAddress
+   * @return {Promise<*>}
+   */
+  static async updateWebhookAddress(farmId, webhookAddress) {
+    return FarmExternalIntegrations.query()
+      .patch({ webhook_address: webhookAddress })
+      .where('farm_id', farmId);
+  }
 }
 
 module.exports = FarmExternalIntegrations;

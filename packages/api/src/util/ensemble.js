@@ -61,23 +61,27 @@ async function bulkSensorClaim(accessToken, organizationId, esids) {
  */
 
 async function registerOrganizationWebhook(organizationId, accessToken) {
-  try {
-    const response = await axios.post(
-      `${ensembleAPI}/organizations/${organizationId}/webhooks/`,
-      {
-        url: 'ADD Beta.litefarm or URL provided by pipedream.com',
-        frequency: 15,
-      },
-      { headers: getHeaders(accessToken) },
-    );
-    return { ...response.data, status: response.status };
-  } catch (error) {
+  const axiosObject = {
+    method: 'post',
+    url: `${ensembleAPI}/organizations/${organizationId}/webhooks/`,
+    data: {
+      url: 'ADD Beta.litefarm or URL provided by pipedream.com',
+      frequency: 15,
+    },
+  };
+  const onError = (error) => {
     if (error.response?.data && error.response?.status) {
       return { ...error.response.data, status: error.response.status };
     } else {
       return { status: 500, detail: 'Lite Farm failed to register organization webhook.' };
     }
-  }
+  };
+
+  const onResponse = (response) => {
+    return { ...response.data, status: response.status };
+  };
+
+  return await ensembleAPICall(accessToken, axiosObject, onError, onResponse);
 }
 
 /**

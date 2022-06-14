@@ -104,7 +104,7 @@ export default function PureInviteUser({ onInvite, onGoBack, roleOptions = [] })
         hookFormRegister={register(EMAIL, {
           required: selectedRoleId !== 3,
           pattern: {
-            value: /^$|^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
+            value: /^$|^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/,
             message: t('INVITE_USER.INVALID_EMAIL_ERROR'),
           },
         })}

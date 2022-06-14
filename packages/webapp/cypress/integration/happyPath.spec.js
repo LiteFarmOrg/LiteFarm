@@ -26,7 +26,8 @@ describe.only('LiteFarm end to end test', () => {
 
     //create test data
     const emailOwner = userEmail;
-    let emailWorker;
+    const usrname = emailOwner.indexOf('@');
+    const emailWorker = emailOwner.slice(0,usrname)+'+1'+emailOwner.slice(usrname);
     const fullName = 'Test Farmer';
     const password = `${userPassword}+@`;
     const farmName = 'UBC FARM';
@@ -133,7 +134,24 @@ describe.only('LiteFarm end to end test', () => {
     cy.url().should('include', '/outro');
     cy.get('[data-cy=outro-finish]').should('exist').and('not.be.disabled').click();
 
+    cy.wait(10 * 1000);
+    cy.task('getLastEmail')
+      .its('html')
+      .then((html) => {
+        cy.document({ log: false }).invoke({ log: false }, 'write', html);
+      });
+    
+      cy.get('[data-cy=congrats-email-logIn]')
+      .invoke('attr', 'href')
+      .then((href) => {
+        cy.visit(href);
+      });
     //farm home page
+    cy.get('[data-cy=spotlight-next]')
+      .contains('Next')
+      .should('exist')
+      .and('not.be.disabled')
+      .click();
     cy.get('[data-cy=spotlight-next]')
       .contains('Next')
       .should('exist')
@@ -222,7 +240,7 @@ describe.only('LiteFarm end to end test', () => {
       .contains('People')
       .should('exist')
       .and('not.be.disabled')
-      .click();
+      .click({force: true});
     cy.url().should('include', '/people');
     cy.get('[data-cy=people-inviteUser]').should('exist').and('not.be.disabled').click();
 
@@ -235,6 +253,24 @@ describe.only('LiteFarm end to end test', () => {
 
     cy.url().should('include', '/people');
     cy.contains(workerName).should('exist');
+
+  //logout
+    cy.get('[data-cy=home-profileButton]').should('exist').click();
+    cy.get('[data-cy=navbar-option]').contains('Log Out').should('exist').and('not.be.disabled').click();
+
+    cy.task('getLastEmail')
+      .its('html')
+      .then((html) => {
+        cy.document({ log: false }).invoke({ log: false }, 'write', html);
+      });
+    
+cy.get('[data-cy=invite-joinButton]')
+      .invoke('attr', 'href')
+      .then((href) => {
+        cy.visit(href);
+      });
+
+      
 
     // Add a crop variety
     cy.get('[data-cy=navbar-hamburger]').should('exist').click();
@@ -396,9 +432,7 @@ describe.only('LiteFarm end to end test', () => {
     cy.get('[data-cy=taskReadOnly-pencil]').should('exist').click();
     cy.get('[data-cy=quickAssign-update]').should('exist').and('not.be.disabled').click();
 
-    //logout
-    //cy.get('[data-cy=home-profileButton]').should('exist').click();
-    //cy.get('[data-cy=navbar-option]').contains('Log Out').should('exist').and('not.be.disabled').click();
+    
   });
 
   it('Browser local detection', () => {

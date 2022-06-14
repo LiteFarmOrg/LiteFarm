@@ -1,8 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-  loaded: false,
   loading: false,
+  isBulkUploadSuccessful: false,
 };
 
 const bulkSensorsUploadSlice = createSlice({
@@ -11,34 +11,23 @@ const bulkSensorsUploadSlice = createSlice({
   reducers: {
     bulkSensorsUploadLoading: (state, action) => {
       state.loading = true;
+      state.isBulkUploadSuccessful = false;
     },
     bulkSensorsUploadSuccess: (state, { payload }) => {
       if (state.loading) {
         state.loading = false;
-        state.loaded = true;
+        state.isBulkUploadSuccessful = true;
         Object.assign(state, payload);
       }
     },
     bulkSensorsUploadFailure: (state, action) => {
       state.loading = false;
-      state.loaded = true;
-    },
-    patchBulkSensorsUploadSuccess: (state, { payload }) => {
-      state.loading = false;
-      Object.assign(state, payload);
-    },
-    patchBulkSensorsUploadFailure: (state, action) => {
-      state.loading = false;
+      state.isBulkUploadSuccessful = false;
     },
   },
 });
-export const {
-  bulkSensorsUploadLoading,
-  bulkSensorsUploadSuccess,
-  bulkSensorsUploadFailure,
-  patchBulkSensorsUploadSuccess,
-  patchBulkSensorsUploadFailure,
-} = bulkSensorsUploadSlice.actions;
+export const { bulkSensorsUploadLoading, bulkSensorsUploadSuccess, bulkSensorsUploadFailure } =
+  bulkSensorsUploadSlice.actions;
 export default bulkSensorsUploadSlice.reducer;
 export const bulkSensorsUploadSliceSelector = (state) =>
   state?.entitiesReducer[bulkSensorsUploadSlice.name];

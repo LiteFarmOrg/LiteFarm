@@ -84,9 +84,7 @@ export function* setSpotlightToShownSaga({ payload: spotlights }) {
 
 export const bulkUploadSensorsInfoFile = createAction(`bulkUploadSensorsInfoFileSaga`);
 
-export function* bulkUploadSensorsInfoFileSaga({
-  payload: { file, dismissBulkSensorsUploadModal },
-}) {
+export function* bulkUploadSensorsInfoFileSaga({ payload: { file } }) {
   try {
     yield put(bulkSensorsUploadLoading());
     const { farm_id } = yield select(userFarmSelector);
@@ -103,7 +101,6 @@ export function* bulkUploadSensorsInfoFileSaga({
     if (fileUploadResponse.status === 200) {
       fileUploadResponse.data;
       yield put(bulkSensorsUploadSuccess());
-      dismissBulkSensorsUploadModal();
       yield put(
         setSuccessMessage([
           i18n.t('FARM_MAP.MAP_FILTER.SENSOR'),

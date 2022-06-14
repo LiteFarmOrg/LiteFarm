@@ -47,6 +47,7 @@ import {
   setPersistedPaths,
   upsertFormData,
 } from '../hooks/useHookFormPersist/hookFormPersistSlice';
+import { bulkSensorsUploadSliceSelector } from '../../containers/bulkSensorUploadSlice';
 import LocationSelectionModal from './LocationSelectionModal';
 import { useMaxZoom } from './useMaxZoom';
 
@@ -59,6 +60,7 @@ export default function Map({ history }) {
   const dispatch = useDispatch();
   const system = useSelector(measurementSelector);
   const overlayData = useSelector(hookFormPersistSelector);
+  const bulkSensorsUploadResponse = useSelector(bulkSensorsUploadSliceSelector);
 
   const lineTypesWithWidth = [locationEnum.buffer_zone, locationEnum.watercourse];
   const { t } = useTranslation();
@@ -96,6 +98,13 @@ export default function Map({ history }) {
       dispatch(canShowSuccessHeader(false));
     };
   }, []);
+
+  useEffect(() => {
+    if (bulkSensorsUploadResponse?.isBulkUploadSuccessful) {
+      console.log('loading', bulkSensorsUploadResponse?.isBulkUploadSuccessful);
+      setShowBulkSensorUploadModal(false);
+    }
+  }, [bulkSensorsUploadResponse?.isBulkUploadSuccessful]);
 
   const [
     drawingState,
@@ -495,12 +504,7 @@ export default function Map({ history }) {
           <BulkSensorUploadModal
             dismissModal={dismissBulkSensorsUploadModal}
             onUpload={(file) => {
-              const payload = {
-                file,
-                dismissBulkSensorsUploadModal: () => {
-                  setShowBulkSensorUploadModal(false);
-                },
-              };
+              const payload = { file };
               dispatch(bulkUploadSensorsInfoFile(payload));
             }}
           />

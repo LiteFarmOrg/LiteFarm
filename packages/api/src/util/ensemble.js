@@ -15,6 +15,9 @@
 
 const axios = require('axios');
 const { ensembleAPI } = require('../endPoints');
+const IntegratingPartners = require('../models/integratingPartnersModel');
+const path = require('path');
+require('dotenv').config({ path: path.resolve(__dirname, '..', '..', '.env') });
 
 /**
  * Sends a request to the Ensemble API for an organization to claim sensors
@@ -25,22 +28,57 @@ const { ensembleAPI } = require('../endPoints');
  * @async
  */
 async function bulkSensorClaim(accessToken, organizationId, esids, retries = 1) {
-  try {
-    const response = await axios.post(
-      `${ensembleAPI}/organizations/${organizationId}/devices/bulkclaim/`,
-      { esids },
-      { headers: getHeaders(accessToken) },
-    );
-    return { ...response.data, status: response.status };
-  } catch (error) {
-    if (isAuthError(error) && retries > 0) {
-      return refreshAndRecall(bulkSensorClaim, accessToken, organizationId, esids, retries - 1);
-    } else if (error.response?.data && error.response?.status) {
+  const axiosObject = {
+    method: 'post',
+    url: `${ensembleAPI}/organizations/${organizationId}/devices/bulkclaim/`,
+    data: { esids },
+  };
+
+  const onError = (error) => {
+    if (error.response?.data && error.response?.status) {
       return { ...error.response.data, status: error.response.status };
     } else {
       return { status: 500, detail: 'Failed to claim sensors.' };
     }
+  };
+
+  return await ensembleAPICall(accessToken, axiosObject, onError, retries);
+}
+
+/**
+ * Sends a request to the Ensemble API. On error, refreshes API tokens and retries the request.
+ * @param {String} accessToken - a JWT token for accessing the Ensemble API
+ * @param {uuid} axiosObject - the axios request config (see https://axios-http.com/docs/req_config)
+ * @param {Array} onError - a function for handling errors with the api call
+ * @param {number} retries - number of times the api call can be retried
+ * @returns {Object} - the response from the Ensemble API
+ * @async
+ */
+async function ensembleAPICall(accessToken, axiosObject, onError, retries = 1) {
+  const axiosObjWithHeaders = { headers: getHeaders(accessToken), ...axiosObject };
+  try {
+    return await axios(axiosObjWithHeaders);
+  } catch (error) {
+    if (isAuthError(error) && retries > 0) {
+      return refreshAndRecall(axiosObject, onError, retries);
+    } else {
+      return onError(error);
+    }
   }
+}
+
+/**
+ * Refreshes ensemble API tokens and retries the request.
+ * @param {uuid} axiosObject - the axios request config (see https://axios-http.com/docs/req_config)
+ * @param {Array} onError - a function for handling errors with the api call
+ * @param {number} retries - number of times the api call can be retried
+ * @returns {Object} - the response from the Ensemble API
+ * @async
+ */
+async function refreshAndRecall(axiosObject, onError, retries) {
+  const result = await refreshTokens();
+  if (!result?.access || !result?.refresh) return result;
+  return ensembleAPICall(result.access, axiosObject, onError, retries - 1);
 }
 
 /**
@@ -51,25 +89,37 @@ function getHeaders(accessToken) {
   return { 'Content-Type': 'application/json', Authorization: 'Bearer ' + accessToken };
 }
 
+/**
+ * Returns whether the error is an authentication/authorization error
+ * @param {String} error - error object
+ */
 function isAuthError(error) {
   return (
-    error.response.status === 403 ||
-    error.response.status === 401 ||
+    error.response?.status === 403 ||
+    error.response?.status === 401 ||
     error.response?.data?.code === 'token_not_valid' ||
-    error.response?.data?.detail === 'Authentication credentials were not provided.' ||
-    error.response?.data?.code === 'bad_authorization_header'
+    error.response?.data?.code === 'bad_authorization_header' ||
+    error.response?.data?.refresh ||
+    error.response?.data?.access
   );
 }
 
-async function fetchAndRefreshTokens() {
-  const refreshToken = null; // TODO: get refresh token from database
-  return await refreshTokens(refreshToken);
-}
-
-async function refreshTokens(refreshToken) {
+/**
+ * Refreshes tokens for the Ensemble API and stores them in the database.
+ * @returns The access and refresh tokens.
+ * @async
+ */
+async function refreshTokens() {
   try {
-    const response = await axios.post(ensembleAPI + '/token/refresh/', { refresh: refreshToken });
-    // TODO: save new refresh and access token to database
+    const { refresh_token } = await IntegratingPartners.getAccessAndRefreshTokens(
+      'Ensemble Scientific',
+    );
+    const response = await axios.post(ensembleAPI + '/token/refresh/', { refresh: refresh_token });
+    await IntegratingPartners.patchAccessAndRefreshTokens(
+      'Ensemble Scientific',
+      response.data?.access,
+      response.data?.access,
+    );
     return response.data;
   } catch (error) {
     if (isAuthError(error)) {
@@ -80,26 +130,27 @@ async function refreshTokens(refreshToken) {
   }
 }
 
+/**
+ * Re-authenticates with the Ensemble API. Stores the new access and refresh
+ * tokens them in the database.
+ * @returns The access and refresh tokens.
+ * @async
+ */
 async function authenticateToGetTokens() {
   try {
-    // TODO: get username and password from database
-    const username = null;
-    const password = null;
-    const response = await axios.post(ensembleAPI + '/token/refresh/', { username, password });
+    const username = process.env.ENSEMBLE_USERNAME;
+    const password = process.env.ENSEMBLE_PASSWORD;
+    const response = await axios.post(ensembleAPI + '/token/', { username, password });
+    await IntegratingPartners.patchAccessAndRefreshTokens(
+      'Ensemble Scientific',
+      response.data?.access,
+      response.data?.access,
+    );
     return response.data;
   } catch (error) {
     return { status: 500, detail: 'Failed to authenticate with Ensemble.' };
   }
 }
-
-async function refreshAndRecall(ensembleAPIFunc, ...args) {
-  const result = await fetchAndRefreshTokens();
-  if (!result?.access || !result?.refresh) return result;
-  args[0] = result.access;
-  return ensembleAPIFunc(...args);
-}
-
-bulkSensorClaim('invalid token', 'fb52d24c-8929-4e8f-a9c2-607ff65d25eb', ['123']);
 
 module.exports = {
   bulkSensorClaim,

@@ -79,7 +79,6 @@ const sensorController = {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
       try {
-        // const { reading_id, reading_time, transmit_time, sensor_id, reading_type, value, unit } = req.body;
         const infoBody = {
           reading_id: req.body.reading_id,
           read_time: req.body.read_time,
@@ -93,9 +92,11 @@ const sensorController = {
         if (!Object.values(infoBody).every((value) => value)) {
           res.status(400).send('Invalid reading');
         }
-        await baseController.postWithResponse(sensorReadingModel, infoBody, req, { trx });
+        const result = await baseController.postWithResponse(sensorReadingModel, infoBody, req, {
+          trx,
+        });
         await trx.commit();
-        res.status(200);
+        res.status(200).send(result);
       } catch (error) {
         //handle more exceptions
         res.status(400).json({
@@ -123,16 +124,23 @@ const sensorController = {
     };
   },
 
-  // invalidateReading() {
-  //     return async (req, res) => {
-  //         try {
-
-  //         }
-  //         catch {
-
-  //         }
-  //     }
-  // }
+  invalidateReadings() {
+    return async (req, res) => {
+      try {
+        const { start_time, end_time } = req.body;
+        const result = await sensorReadingModel
+          .query()
+          .patch({ valid: false })
+          .where('read_time', '>=', start_time)
+          .where('read_time', '<=', end_time);
+        res.status(200).send(`${result} entries invalidated`);
+      } catch (error) {
+        res.status(400).json({
+          error,
+        });
+      }
+    };
+  },
 };
 
 module.exports = sensorController;

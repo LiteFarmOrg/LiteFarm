@@ -23,6 +23,6 @@ router.delete('/delete_sensor/:sensor_id', sensor_controller.deleteSensor());
 // router.post('/edit_sensor', sensor_controller.editSensor());
 router.post('/add_reading', sensor_controller.addReading());
 router.post('/get_readings', sensor_controller.getAllReadingsBySensorId());
-// router.post('/invalidate_reading'. sensor_controller.invalidate_reading());
+router.post('/invalidate_readings', sensor_controller.invalidateReadings());
 
 module.exports = router;

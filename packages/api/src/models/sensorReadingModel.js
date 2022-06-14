@@ -38,6 +38,8 @@ class SensorReading extends Model {
         sensor_id: { type: 'integer' },
         reading_type: { type: 'string', minLength: 1, maxLength: 255 },
         value: { type: 'float' },
+        unit: { type: 'string', minLength: 1, maxLength: 255 },
+        valid: { type: 'boolean' },
       },
       additionalProperties: false,
     };

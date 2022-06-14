@@ -497,7 +497,7 @@ const userFarmController = {
     };
   },
 
-  patchPseudoUserEmail() {
+  upgradePseudoUser() {
     return async (req, res) => {
       const { user_id, farm_id } = req.params;
       const { email, gender, birth_year, language, phone_number } = req.body;

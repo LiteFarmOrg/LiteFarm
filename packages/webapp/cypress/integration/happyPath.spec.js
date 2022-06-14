@@ -27,7 +27,7 @@ describe.only('LiteFarm end to end test', () => {
     //create test data
     const emailOwner = userEmail;
     const usrname = emailOwner.indexOf('@');
-    const emailWorker = emailOwner.slice(0,usrname)+'+1'+emailOwner.slice(usrname);
+    const emailWorker = emailOwner.slice(0, usrname) + '+1' + emailOwner.slice(usrname);
     const fullName = 'Test Farmer';
     const password = `${userPassword}+@`;
     const farmName = 'UBC FARM';
@@ -140,8 +140,8 @@ describe.only('LiteFarm end to end test', () => {
       .then((html) => {
         cy.document({ log: false }).invoke({ log: false }, 'write', html);
       });
-    
-      cy.get('[data-cy=congrats-email-logIn]')
+
+    cy.get('[data-cy=congrats-email-logIn]')
       .invoke('attr', 'href')
       .then((href) => {
         cy.visit(href);
@@ -233,14 +233,18 @@ describe.only('LiteFarm end to end test', () => {
     //Add field view
     cy.get('[data-cy=createField-fieldName]').should('exist').type(fieldName);
     cy.get('[data-cy=createField-save]').should('exist').and('not.be.disabled').click();
-
+    cy.wait(2000);
     //Add a farm worker to the farm
-    cy.get('[data-cy=home-farmButton]').should('exist').and('not.be.disabled').click();
+    cy.get('[data-cy=home-farmButton]')
+      .should('exist')
+      .and('not.be.disabled')
+      .click({ force: true });
     cy.get('[data-cy=navbar-option]')
+      .eq(2)
       .contains('People')
       .should('exist')
       .and('not.be.disabled')
-      .click({force: true});
+      .click({ force: true });
     cy.url().should('include', '/people');
     cy.get('[data-cy=people-inviteUser]').should('exist').and('not.be.disabled').click();
 
@@ -254,23 +258,55 @@ describe.only('LiteFarm end to end test', () => {
     cy.url().should('include', '/people');
     cy.contains(workerName).should('exist');
 
-  //logout
+    //logout
     cy.get('[data-cy=home-profileButton]').should('exist').click();
-    cy.get('[data-cy=navbar-option]').contains('Log Out').should('exist').and('not.be.disabled').click();
+    cy.get('[data-cy=navbar-option]')
+      .contains('Log Out')
+      .should('exist')
+      .and('not.be.disabled')
+      .click();
+
+    //login as farm worker, create account and join farm
+    cy.task('getLastEmail')
+      .its('html')
+      .then((html) => {
+        cy.document({ log: false }).invoke({ log: false }, 'write', html);
+      });
+
+    cy.get('[data-cy=invite-joinButton]')
+      .invoke('attr', 'href')
+      .then((href) => {
+        cy.visit(href);
+      });
+
+    cy.get('[data-cy=invited-createAccount]').click();
+
+    cy.get('[data-cy=invitedUser-proceed]').click();
+
+    cy.get('[data-cy=invited-password]').type(password);
+
+    cy.get('[data-cy=invited-createAccount]').click();
+
+    //Consent page
+    cy.contains('Our Data Policy').should('exist');
+    cy.url().should('include', '/consent');
+    cy.get('[data-cy=consent-continue]').should('exist').and('be.disabled');
+    cy.get('[data-cy=consent-agree]').should('exist').check({ force: true });
+    cy.get('[data-cy=consent-continue]').should('not.be.disabled').click();
 
     cy.task('getLastEmail')
       .its('html')
       .then((html) => {
         cy.document({ log: false }).invoke({ log: false }, 'write', html);
       });
-    
-cy.get('[data-cy=invite-joinButton]')
+
+    cy.get('[data-cy=congrats-email-logIn]')
       .invoke('attr', 'href')
       .then((href) => {
         cy.visit(href);
       });
 
-      
+    cy.wait(12000);
 
     // Add a crop variety
     cy.get('[data-cy=navbar-hamburger]').should('exist').click();
@@ -431,8 +467,6 @@ cy.get('[data-cy=invite-joinButton]')
     cy.get('[data-cy=taskCard]').eq(1).should('exist').click('right');
     cy.get('[data-cy=taskReadOnly-pencil]').should('exist').click();
     cy.get('[data-cy=quickAssign-update]').should('exist').and('not.be.disabled').click();
-
-    
   });
 
   it('Browser local detection', () => {

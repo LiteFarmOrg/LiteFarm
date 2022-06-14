@@ -119,7 +119,7 @@ const taskController = {
           available_tasks.map(async (task) => {
             await sendTaskNotification(
               [newAssigneeUserId],
-              null,
+              newAssigneeUserId,
               task.task_id,
               TaskNotificationTypes.TASK_ASSIGNED,
               task.task_translation_key,
@@ -279,7 +279,7 @@ const taskController = {
           const { assignee_user_id, task_id, taskType } = result;
           await sendTaskNotification(
             [assignee_user_id],
-            null,
+            assignee_user_id,
             task_id,
             TaskNotificationTypes.TASK_ASSIGNED,
             taskType.task_translation_key,
@@ -704,7 +704,7 @@ async function sendTaskNotification(
   const filteredReceiverIds = receiverIds.filter((id) => id !== null && id !== undefined);
   if (filteredReceiverIds.length === 0) return;
 
-  const userName = await User.getNameFromUserId(senderId ?? receiverIds[0]);
+  const userName = await User.getNameFromUserId(senderId);
   await NotificationUser.notify(
     {
       title: {
@@ -747,7 +747,7 @@ async function sendTaskReassignedNotifications(
   await Promise.all([
     sendTaskNotification(
       [newAssigneeUserId],
-      null,
+      newAssigneeUserId,
       taskId,
       TaskNotificationTypes.TASK_ASSIGNED,
       taskTranslationKey,

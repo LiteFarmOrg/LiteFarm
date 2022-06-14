@@ -43,6 +43,35 @@ async function bulkSensorClaim(organizationId, esids, accessToken) {
 }
 
 /**
+ * Sends a request to the Ensemble API to register a webhook to an organization
+ * @param {Response} res - The HTTP response object.
+ * @param {uuid} organizationId - a uuid for the organization registered with Ensemble
+ * @param {String} accessToken - a JWT token for accessing the Ensemble API
+ * @returns {Object} - the response from the Ensemble API
+ * @async
+ */
+
+async function registerOrganizationWebhook(organizationId, accessToken) {
+  try {
+    const response = await axios.post(
+      `${ensembleAPI}/organizations/${organizationId}/webhooks/`,
+      {
+        url: 'ADD Beta.litefarm or URL provided by pipedream.com',
+        frequency: 15,
+      },
+      { headers: getHeaders(accessToken) },
+    );
+    return { ...response.data, status: response.status };
+  } catch (error) {
+    if (error.response?.data && error.response?.status) {
+      return { ...error.response.data, status: error.response.status };
+    } else {
+      return { status: 500, detail: 'Lite Farm failed to register organization webhook.' };
+    }
+  }
+}
+
+/**
  * Returns the headers for an Ensemble API call
  * @param {String} accessToken - a JWT token for accessing the Ensemble API
  */
@@ -52,4 +81,5 @@ function getHeaders(accessToken) {
 
 module.exports = {
   bulkSensorClaim,
+  registerOrganizationWebhook,
 };

@@ -53,6 +53,19 @@ class IntegratingPartners extends Model {
       additionalProperties: false,
     };
   }
+
+  static async getAccessAndRefreshTokens(partner_name) {
+    return await IntegratingPartners.query()
+      .select('access_token', 'refresh_token')
+      .where({ partner_name, deactivated: false })
+      .first();
+  }
+
+  static async patchAccessAndRefreshTokens(partner_name, access_token, refresh_token) {
+    return await IntegratingPartners.query()
+      .patch({ access_token, refresh_token })
+      .where({ partner_name, deactivated: false });
+  }
 }
 
 module.exports = IntegratingPartners;

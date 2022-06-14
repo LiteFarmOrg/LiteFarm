@@ -279,7 +279,7 @@ describe.only('LiteFarm end to end test', () => {
         cy.visit(href);
       });
 
-    cy.get('[data-cy=invited-createAccount]').click();
+    cy.get('[data-cy=invitedCard-createAccount]').click();
 
     cy.get('[data-cy=invitedUser-proceed]').click();
 
@@ -306,7 +306,7 @@ describe.only('LiteFarm end to end test', () => {
         cy.visit(href);
       });
 
-    cy.wait(12000);
+    cy.pause();
 
     // Add a crop variety
     cy.get('[data-cy=navbar-hamburger]').should('exist').click();

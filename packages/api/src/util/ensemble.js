@@ -51,7 +51,7 @@ async function bulkSensorClaim(accessToken, organizationId, esids) {
   return await ensembleAPICall(accessToken, axiosObject, onError, onResponse);
 }
 
-/*
+/**
  * Sends a request to the Ensemble API to register a webhook to an organization
  * @param {Response} res - The HTTP response object.
  * @param {uuid} organizationId - a uuid for the organization registered with Ensemble
@@ -80,7 +80,7 @@ async function registerOrganizationWebhook(organizationId, accessToken) {
   }
 }
 
-/*
+/**
  * Creates a new ESCI organization if one does not already exist.
  * @param farmId
  * @param accessToken

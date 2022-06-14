@@ -1082,9 +1082,9 @@
   },
   "NOTIFICATION": {
     "TIMELINE": {
-      "HEADING": "MISSING",
-      "VIEW_NOW": "MISSING",
-      "MORE_RECENT_NOTIFICATION": "MISSING"
+      "HEADING": "Cronograma de notificação",
+      "VIEW_NOW": "Veja agora",
+      "MORE_RECENT_NOTIFICATION": "Existem notificações mais recentes sobre este/a {{entityType}}."
     },
     "DAILY_TASKS_DUE_TODAY": {
       "BODY": "Você tem tarefas para vencer hoje.",

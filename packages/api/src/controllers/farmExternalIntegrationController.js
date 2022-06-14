@@ -13,10 +13,9 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-
-const baseController = require('./baseController');
-const farmExternalIntegrationsModel = require('../models/farmExternalIntegrationsModel');
-const integratingPartnersModel = require('../models/integratingPartnersModel');
+// const baseController = require('./baseController');
+// const farmExternalIntegrationsModel = require('../models/farmExternalIntegrationsModel');
+// const integratingPartnersModel = require('../models/integratingPartnersModel');
 
 const farmExternalIntegrationController = {
   getAccessToken() {
@@ -34,26 +33,28 @@ const farmExternalIntegrationController = {
           res.status(400).json(e);
         }
       }
-    }
+    };
   },
 
   addIntegratingPartner() {
-    return async(req, res) => {
+    return async (req, res) => {
       try {
         res.status(200).send('OK');
       } catch (e) {
         res.status(400).json(e);
       }
-    }
+    };
   },
 
   deactivateIntegratingPartner() {
-    return async(req, res) => {
+    return async (req, res) => {
       try {
         res.status(200).send('OK');
       } catch (e) {
         res.status(400).json(e);
       }
-    }
+    };
   },
-}
+};
+
+module.exports = farmExternalIntegrationController;

@@ -72,7 +72,7 @@ async function createOrganization(farmId, accessToken) {
       return await FarmExternalIntegrationsModel.query().insert({
         farm_id: farmId,
         partner_id: 1,
-        registration_uuid: response.data.uuid,
+        organization_uuid: response.data.uuid,
       });
     } else {
       return existingIntegration;

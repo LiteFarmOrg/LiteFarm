@@ -635,7 +635,8 @@
   },
   "FIELDS": {
     "EDIT_FIELD": {
-      "VARIETY": "Variedade"
+      "VARIETY": "Variedade",
+      "SUPPLIER": "MISSING"
     }
   },
   "FILE_SIZE_MODAL": {

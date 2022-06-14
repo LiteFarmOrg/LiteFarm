@@ -19,7 +19,7 @@
  */
 // eslint-disable-next-line no-unused-vars
 const axios = require('axios');
-const ms = require('smtp-tester');
+const makeEmailAccount = require('./email-account');
 
 module.exports = (on, config) => {
   // `on` is used to hook into various events Cypress emits
@@ -30,26 +30,23 @@ module.exports = (on, config) => {
 
   require('@cypress/code-coverage/task')(on, config);
 
-  // starts the SMTP server at localhost:7777
-  const port = 465;
-  const mailServer = ms.init(port);
-  console.log('mail server at port %d', port);
+  return config;
+};
 
-  // process all emails
-  mailServer.bind((addr, id, email) => {
-    console.log('--- email ---');
-    console.log(addr, id, email);
-  });
-
-  let lastEmail = {};
+module.exports = async (on) => {
+  const emailAccount = await makeEmailAccount();
 
   on('task', {
-    getLastEmail(email) {
-      // cy.task cannot return undefined
-      // thus we return null as a fallback
-      return lastEmail[email] || null;
+    getUserEmail() {
+      return emailAccount.email;
+    },
+
+    getUserPassword() {
+      return emailAccount.password;
+    },
+
+    getLastEmail() {
+      return emailAccount.getLastEmail();
     },
   });
-
-  return config;
 };

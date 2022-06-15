@@ -4,8 +4,6 @@ exports.up = function (knex) {
       table.uuid('sensor_id').primary().notNullable().defaultTo(knex.raw('uuid_generate_v1()'));
       table.string('farm_id').notNullable();
       table.string('name').notNullable();
-      // table.float('latitude').notNullable();
-      // table.float('longitude').notNullable();
       table.jsonb('grid_points').notNullable();
       table.float('depth');
       table.float('elevation');
@@ -17,7 +15,7 @@ exports.up = function (knex) {
       table.uuid('reading_id').primary().notNullable().defaultTo(knex.raw('uuid_generate_v1()'));
       table.timestamp('read_time').notNullable();
       table.timestamp('created_at').notNullable().defaultTo(knex.fn.now());
-      table.integer('sensor_id').notNullable();
+      table.integer('sensor_id').references('sensor_id').inTable('sensor').notNullable();
       table.string('reading_type').notNullable();
       table.float('value').notNullable();
       table.string('unit').notNullable();

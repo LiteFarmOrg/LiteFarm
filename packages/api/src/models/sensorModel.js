@@ -44,14 +44,25 @@ class Sensor extends Model {
           },
         },
         external_id: { type: 'string', minLength: 1, maxLength: 255 },
+        partner_id: { type: 'integer' },
         depth: { type: 'float' },
         elevation: { type: 'float' },
       },
       additionalProperties: false,
     };
   }
+  static get relationMappings() {
+    return {
+      sensor_id: {
+        relation: Model.HasManyRelation,
+        modelClass: require('./sensorReadingModel'),
+        join: {
+          from: 'sensor_reading',
+          to: 'sensor.sensor_id',
+        },
+      },
+    };
+  }
 }
-
-// TODO: Create relationships with reading model
 
 module.exports = Sensor;

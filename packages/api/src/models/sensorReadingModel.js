@@ -44,8 +44,18 @@ class SensorReading extends Model {
       additionalProperties: false,
     };
   }
+  static get relationMappings() {
+    return {
+      sensor_id: {
+        relation: Model.HasManyRelation,
+        modelClass: require('./sensorModel'),
+        join: {
+          from: 'sensor.sensor_id',
+          to: 'sensor_reading.sensor_id',
+        },
+      },
+    };
+  }
 }
-
-// TODO: Create relationships with sensor model
 
 module.exports = SensorReading;

@@ -17,7 +17,6 @@ const baseController = require('../controllers/baseController');
 const sensorModel = require('../models/sensorModel');
 const sensorReadingModel = require('../models/sensorReadingModel');
 const { transaction, Model } = require('objection');
-// const knex = Model.knex();
 
 const sensorController = {
   addSensors() {
@@ -48,7 +47,6 @@ const sensorController = {
           res.sendStatus(404);
         }
       } catch (error) {
-        //handle more exceptions
         res.status(400).json({
           error,
         });
@@ -66,7 +64,6 @@ const sensorController = {
         const data = await baseController.getByFieldId(sensorModel, 'farm_id', farm_id);
         res.status(200).send(data);
       } catch (error) {
-        //handle exceptions
         res.status(400).json({
           error,
         });
@@ -74,43 +71,39 @@ const sensorController = {
     };
   },
 
-  // TODO
   addReading() {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
       try {
-        // const infoBody = {
-        //   read_time: req.body.read_time,
-        //   sensor_id: req.body.sensor_id,
-        //   reading_type: req.body.reading_type,
-        //   value: req.body.value,
-        //   unit: req.body.unit,
-        // };
         const infoBody = [];
         for (const sensor of req.body) {
+          const corresponding_sensor = await sensorModel
+            .query()
+            .select('sensor_id')
+            .where('external_id', sensor.sensor_esid)
+            .where('partner_id', req.params.partner_id);
+          console.log(corresponding_sensor[0].sensor_id);
           for (let i = 0; i < sensor.value.length; i++) {
             const row = {
               read_time: sensor.time[i],
-              sensor_id: sensor.sensor_esid,
+              sensor_id: corresponding_sensor[0].sensor_id,
               reading_type: sensor.parameter_number,
               value: sensor.value[i],
               unit: sensor.unit,
             };
-            infoBody.push(row);
+            // Only include this entry if all required values are poulated
+            if (Object.values(row).every((value) => value)) {
+              infoBody.push(row);
+            }
           }
         }
 
-        // Check if each field in each entry of infoBody populated
-        if (infoBody.every((entry) => !Object.values(entry).every((value) => value))) {
-          res.status(400).send('Invalid reading');
-        }
         const result = await baseController.postWithResponse(sensorReadingModel, infoBody, req, {
           trx,
         });
         await trx.commit();
         res.status(200).send(result);
       } catch (error) {
-        //handle more exceptions
         res.status(400).json({
           error,
         });
@@ -129,7 +122,6 @@ const sensorController = {
         const validReadings = data.filter((datapoint) => datapoint.valid);
         res.status(200).send(validReadings);
       } catch (error) {
-        //handle more exceptions
         res.status(400).json({
           error,
         });

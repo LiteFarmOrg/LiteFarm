@@ -1078,7 +1078,16 @@
       "YOU_WILL_FIND": "Here you will find:"
     }
   },
+  "ENTITY_TYPES": {
+    "TASK": "task",
+    "LOCATION": "location"
+  },
   "NOTIFICATION": {
+    "TIMELINE": {
+      "HEADING": "Notification timeline",
+      "VIEW_NOW": "View now",
+      "MORE_RECENT_NOTIFICATION": "There are more recent notifications about this {{entityType}}."
+    },
     "DAILY_TASKS_DUE_TODAY": {
       "BODY": "You have tasks due today.",
       "TITLE": "Tasks due today"

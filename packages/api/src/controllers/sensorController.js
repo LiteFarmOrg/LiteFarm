@@ -15,82 +15,154 @@
 
 const baseController = require('../controllers/baseController');
 const sensorModel = require('../models/sensorModel');
+const sensorReadingModel = require('../models/sensorReadingModel');
+const SensorReadingTypeModel = require('../models/SensorReadingTypeModel');
+const IntegratingPartnersModel = require('../models/integratingPartnersModel');
 const { transaction, Model } = require('objection');
+const {
+  createOrganization,
+  registerOrganizationWebhook,
+  bulkSensorClaim,
+} = require('../util/ensemble');
+const PartnerReadingTypeModel = require('../models/PartnerReadingTypeModel');
 
 const sensorController = {
   async addSensors(req, res) {
-    const { data, errors } = parseCsvString(req.file.buffer.toString(), {
-      Name: {
-        key: 'name',
-        parseFunction: (val) => val.trim(),
-        validator: (val) => 1 <= val.length && val.length <= 100,
-        required: true,
-      },
-      External_ID: {
-        key: 'external_id',
-        parseFunction: (val) => val.trim(),
-        validator: (val) => 1 <= val.length && val.length <= 20,
-        required: false,
-      },
-      Latitude: {
-        key: 'latitude',
-        parseFunction: (val) => parseFloat(val),
-        validator: (val) => -90 <= val && val <= 90,
-        required: true,
-      },
-      Longitude: {
-        key: 'longitude',
-        parseFunction: (val) => parseFloat(val),
-        validator: (val) => -180 <= val && val <= 180,
-        required: true,
-      },
-      Reading_types: {
-        key: 'reading_types',
-        parseFunction: (val) => val.replaceAll(' ', '').split(','),
-        validator: (val) =>
-          val.includes('soil_moisture_content') ||
-          val.includes('water_potential') ||
-          val.includes('temperature'),
-        required: true,
-      },
-      Depth: {
-        key: 'depth',
-        parseFunction: (val) => parseFloat(val),
-        validator: (val) => 0 <= val && val <= 1000,
-        required: false,
-      },
-      Brand: {
-        key: 'brand',
-        parseFunction: (val) => val.trim(),
-        validator: (val) => val.length <= 100,
-        required: false,
-      },
-      Model: {
-        key: 'model',
-        parseFunction: (val) => val.trim(),
-        validator: (val) => val.length <= 100,
-        required: false,
-      },
-      Hardware_version: {
-        key: 'hardware_version',
-        parseFunction: (val) => val.trim(),
-        validator: (val) => val.length <= 100,
-        required: false,
-      },
-    });
-    if (errors.length > 0) {
-      res.status(400).send({ errors });
-    } else {
-      console.log(data);
-      res.status(200).send('Successfully uploaded!');
+    try {
+      const { farm_id } = req.headers;
+      const { access_token } = await IntegratingPartnersModel.getAccessAndRefreshTokens(
+        'Ensemble Scientific',
+      );
+      const { data, errors } = parseCsvString(req.file.buffer.toString(), {
+        Name: {
+          key: 'name',
+          parseFunction: (val) => val.trim(),
+          validator: (val) => 1 <= val.length && val.length <= 100,
+          required: true,
+        },
+        External_ID: {
+          key: 'external_id',
+          parseFunction: (val) => val.trim(),
+          validator: (val) => 1 <= val.length && val.length <= 20,
+          required: false,
+        },
+        Latitude: {
+          key: 'latitude',
+          parseFunction: (val) => parseFloat(val),
+          validator: (val) => -90 <= val && val <= 90,
+          required: true,
+        },
+        Longitude: {
+          key: 'longitude',
+          parseFunction: (val) => parseFloat(val),
+          validator: (val) => -180 <= val && val <= 180,
+          required: true,
+        },
+        Reading_types: {
+          key: 'reading_types',
+          parseFunction: (val) => val.replaceAll(' ', '').split(','),
+          validator: (val) =>
+            val.includes('soil_moisture_content') ||
+            val.includes('water_potential') ||
+            val.includes('temperature'),
+          required: true,
+        },
+        Depth: {
+          key: 'depth',
+          parseFunction: (val) => parseFloat(val),
+          validator: (val) => 0 <= val && val <= 1000,
+          required: false,
+        },
+        Brand: {
+          key: 'brand',
+          parseFunction: (val) => val.trim(),
+          validator: (val) => val.length <= 100,
+          required: false,
+        },
+        Model: {
+          key: 'model',
+          parseFunction: (val) => val.trim(),
+          validator: (val) => val.length <= 100,
+          required: false,
+        },
+        Hardware_version: {
+          key: 'hardware_version',
+          parseFunction: (val) => val.trim(),
+          validator: (val) => val.length <= 100,
+          required: false,
+        },
+      });
+      if (errors.length > 0) {
+        res.status(400).send({ errors });
+      } else {
+        console.log(data);
+        const organization = await createOrganization(farm_id, access_token);
+        console.log(organization);
+        const esids = data.reduce((previous, current) => {
+          if (current.brand === 'Ensemble Scientific' && current.external_id) {
+            previous.push(current.external_id);
+          }
+          return previous;
+        }, []);
+        await registerOrganizationWebhook(farm_id, organization.organization_uuid, access_token);
+        const registeredSensors = await bulkSensorClaim(
+          access_token,
+          organization.organization_uuid,
+          esids,
+        );
+        console.log(registeredSensors);
+        for (const sensor of data) {
+          if (registeredSensors.success.includes(sensor.external_id)) {
+            const savedSensor = await sensorModel.query().insert({
+              farm_id,
+              name: sensor.name,
+              grid_points: {
+                lat: sensor.latitude,
+                lng: sensor.longitude,
+              },
+              partner_id: 1,
+              depth: sensor.depth,
+              external_id: sensor.external_id,
+            });
+            const readingTypes = await Promise.all(
+              sensor.reading_types.map((r) => {
+                return PartnerReadingTypeModel.getReadingTypeByReadableValue(r);
+              }),
+            );
+            console.log(readingTypes);
+            await SensorReadingTypeModel.query().insert(
+              readingTypes.map((readingType) => {
+                return {
+                  partner_reading_type_id: readingType.partner_reading_type_id,
+                  sensor_id: savedSensor.sensor_id,
+                };
+              }),
+            );
+          }
+        }
+        if (registeredSensors.success.length < esids.length) {
+          res.status(500).send({
+            message: 'Unable to register some or all of the provided sensors',
+            registeredSensors,
+          });
+        } else {
+          res.status(200).send({ message: 'Successfully uploaded!' });
+        }
+      }
+    } catch (e) {
+      console.log(e);
+      res.status(500).send(e.message);
     }
   },
 
   deleteSensor() {
     return async (req, res) => {
+      console.log(req);
       const trx = await transaction.start(Model.knex());
       try {
-        const isDeleted = await baseController.delete(sensorModel, '2', req, { trx });
+        const isDeleted = await baseController.delete(sensorModel, req.params.sensor_id, req, {
+          trx,
+        });
         await trx.commit();
         if (isDeleted) {
           res.sendStatus(200);
@@ -106,28 +178,14 @@ const sensorController = {
     };
   },
 
-  editSensor() {
-    return async (req, res) => {
-      try {
-        res.status(200).send('OK');
-      } catch (error) {
-        //handle more exceptions
-        res.status(400).json({
-          error,
-        });
-      }
-    };
-  },
-
   getSensorsByFarmId() {
     return async (req, res) => {
       try {
-        // TODO: Add this back
-        // const { farm_id } = req.body.farm_id;
-        // if (!farm_id){
-        //     return res.status(400).send('No country selected');
-        // }
-        const data = await baseController.getByFieldId(sensorModel, 'farm_id', 'Testing');
+        const { farm_id } = req.body;
+        if (!farm_id) {
+          return res.status(400).send('No farm selected');
+        }
+        const data = await baseController.getByFieldId(sensorModel, 'farm_id', farm_id);
         res.status(200).send(data);
       } catch (error) {
         //handle exceptions
@@ -138,10 +196,30 @@ const sensorController = {
     };
   },
 
+  // TODO
   addReading() {
     return async (req, res) => {
+      // const trx = await transaction.start(Model.knex());
       try {
-        res.status(200).send('OK');
+        // const infoBody = {
+        //   reading_id: req.body.reading_id,
+        //   read_time: req.body.read_time,
+        //   //   transmit_time: req.body.transmit_time,
+        //   sensor_id: req.body.sensor_id,
+        //   reading_type: req.body.reading_type,
+        //   value: req.body.value,
+        //   unit: req.body.unit,
+        // };
+
+        // if (!Object.values(infoBody).every((value) => value)) {
+        //   res.status(400).send('Invalid reading');
+        // }
+        // const result = await baseController.postWithResponse(sensorReadingModel, infoBody, req, {
+        //   trx,
+        // });
+        // await trx.commit();
+        // res.status(200).send(result);
+        res.sendStatus(200);
       } catch (error) {
         //handle more exceptions
         res.status(400).json({
@@ -154,9 +232,33 @@ const sensorController = {
   getAllReadingsBySensorId() {
     return async (req, res) => {
       try {
-        res.status(200).send('OK');
+        const { sensor_id } = req.body;
+        if (!sensor_id) {
+          return res.status(400).send('No sensor selected');
+        }
+        const data = await baseController.getByFieldId(sensorReadingModel, 'sensor_id', sensor_id);
+        const validReadings = data.filter((datapoint) => datapoint.valid);
+        res.status(200).send(validReadings);
       } catch (error) {
         //handle more exceptions
+        res.status(400).json({
+          error,
+        });
+      }
+    };
+  },
+
+  invalidateReadings() {
+    return async (req, res) => {
+      try {
+        const { start_time, end_time } = req.body;
+        const result = await sensorReadingModel
+          .query()
+          .patch({ valid: false })
+          .where('read_time', '>=', start_time)
+          .where('read_time', '<=', end_time);
+        res.status(200).send(`${result} entries invalidated`);
+      } catch (error) {
         res.status(400).json({
           error,
         });

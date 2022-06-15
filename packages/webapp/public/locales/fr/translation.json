@@ -1092,7 +1092,16 @@
       "YOU_WILL_FIND": "Vous trouverez ici:"
     }
   },
+  "ENTITY_TYPES": {
+    "TASK": "tâche",
+    "LOCATION": "emplacement"
+  },
   "NOTIFICATION": {
+    "TIMELINE": {
+      "HEADING": "Chronologie de notifications",
+      "VIEW_NOW": "Afficher maintenant",
+      "MORE_RECENT_NOTIFICATION": "Il y a des notifications plus récentes au sujet de cette {{entityType}}."
+    },
     "DAILY_TASKS_DUE_TODAY": {
       "BODY": "Vous avez des tâches à accomplir aujourd'hui.",
       "TITLE": "Tâches à accomplir aujourd'hui"

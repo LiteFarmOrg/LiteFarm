@@ -13,23 +13,16 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const jwt = require('express-jwt');
+exports.up = async function (knex) {
+  await knex.schema.createTable('farmExternalIntegrations', (table) => {
+    table.primary(['farm_id', 'partner_id']);
+    table.uuid('farm_id').references('farm_id').inTable('farm');
+    table.integer('partner_id').references('partner_id').inTable('integratingPartners');
+    table.uuid('organization_uuid');
+    table.string('webhook_address');
+  });
+};
 
-const checkJwt = jwt({
-  secret: process.env.JWT_SECRET,
-  algorithms: ['HS256'],
-}).unless({
-  path: [
-    '/user',
-    '/login',
-    '/password_reset',
-    '/user/accept_invitation',
-    '/user_farm/accept_invitation',
-    '/notification_user/subscribe',
-    /\/time_notification\//i,
-    /\/farm\/utc_offset_by_range\//i,
-    /\/sensors\/add_reading[/]?/,
-  ],
-});
-
-module.exports = checkJwt;
+exports.down = async function (knex) {
+  await knex.schema.dropTable('farmExternalIntegrations');
+};

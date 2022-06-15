@@ -1091,7 +1091,16 @@
       "YOU_WILL_FIND": "Aquí encontrará:"
     }
   },
+  "ENTITY_TYPES": {
+    "TASK": "tarea",
+    "LOCATION": "ubicación"
+  },
   "NOTIFICATION": {
+    "TIMELINE": {
+      "HEADING": "Cronología de notificaciones",
+      "VIEW_NOW": "Ver ahora",
+      "MORE_RECENT_NOTIFICATION": "Hay notificaciones más recientes sobre este/a {{entityType}}."
+    },
     "DAILY_TASKS_DUE_TODAY": {
       "BODY": "Tienes tareas para hoy.",
       "TITLE": "Tareas para hoy"

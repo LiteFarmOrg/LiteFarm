@@ -140,7 +140,10 @@ const sensorController = {
             );
           }
         }
-        if (registeredSensors.success.length < esids.length) {
+        if (
+          registeredSensors.success.length + registeredSensors.already_owned.length <
+          esids.length
+        ) {
           res.status(500).send({
             message: 'Unable to register some or all of the provided sensors',
             registeredSensors,

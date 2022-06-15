@@ -5,8 +5,8 @@ import { VscWarning } from 'react-icons/all';
 
 export default function PureWarningBox({ children, className, iconClassName, ...props }) {
   return (
-    <div className={clsx(styles.warningBox, className)} {...props}>
-      <VscWarning className={clsx(styles.icon, iconClassName)} />
+    <div className={clsx(className, styles.warningBox)} {...props}>
+      <VscWarning className={clsx(iconClassName, styles.icon)} />
       {children}
     </div>
   );

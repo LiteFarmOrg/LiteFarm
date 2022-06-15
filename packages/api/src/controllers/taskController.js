@@ -685,7 +685,7 @@ const TaskNotificationUserTypes = {
 /**
  * Sends a notification to the specified receivers about a task
  * @param {Array<uuid>} receiverIds
- * @param {String} senderId
+ * @param {String} usernameVariableId
  * @param {String} taskId
  * @param {String} notifyTranslationKey
  * @param {String} taskTranslationKey
@@ -695,7 +695,7 @@ const TaskNotificationUserTypes = {
 
 async function sendTaskNotification(
   receiverIds,
-  senderId,
+  usernameVariableId,
   taskId,
   notifyTranslationKey,
   taskTranslationKey,
@@ -704,7 +704,7 @@ async function sendTaskNotification(
   const filteredReceiverIds = receiverIds.filter((id) => id !== null && id !== undefined);
   if (filteredReceiverIds.length === 0) return;
 
-  const userName = await User.getNameFromUserId(senderId);
+  const userName = await User.getNameFromUserId(usernameVariableId);
   await NotificationUser.notify(
     {
       title: {

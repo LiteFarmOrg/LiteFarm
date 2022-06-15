@@ -28,7 +28,9 @@ if (process.env.NODE_ENV === 'integration') {
 } else if (process.env.NODE_ENV === 'production') {
   baseUrl = 'https://api.app.litefarm.org';
 } else {
-  baseUrl = 'http://localhost:3000';
+  // NOTE: for testing out the webhook, you may need to ngrok or some other
+  // tool to make the endpoint available to Ensemble
+  baseUrl = 'http://localhost:5001';
 }
 
 /**
@@ -80,7 +82,7 @@ async function registerOrganizationWebhook(farmId, organizationId, accessToken) 
     method: 'post',
     url: `${ensembleAPI}/organizations/${organizationId}/webhooks/`,
     data: {
-      url: `${baseUrl}/sensors/add_readings/`,
+      url: `${baseUrl}/sensors/add_reading/`,
       frequency: 15,
     },
   };
@@ -92,7 +94,7 @@ async function registerOrganizationWebhook(farmId, organizationId, accessToken) 
   const onResponse = async (response) => {
     await FarmExternalIntegrationsModel.updateWebhookAddress(
       farmId,
-      `${baseUrl}/sensors/add_readings/`,
+      `${baseUrl}/sensors/add_reading/`,
       response.data.id,
     );
     return { ...response.data, status: response.status };

@@ -199,26 +199,27 @@ const sensorController = {
   // TODO
   addReading() {
     return async (req, res) => {
-      const trx = await transaction.start(Model.knex());
+      // const trx = await transaction.start(Model.knex());
       try {
-        const infoBody = {
-          reading_id: req.body.reading_id,
-          read_time: req.body.read_time,
-          //   transmit_time: req.body.transmit_time,
-          sensor_id: req.body.sensor_id,
-          reading_type: req.body.reading_type,
-          value: req.body.value,
-          unit: req.body.unit,
-        };
+        // const infoBody = {
+        //   reading_id: req.body.reading_id,
+        //   read_time: req.body.read_time,
+        //   //   transmit_time: req.body.transmit_time,
+        //   sensor_id: req.body.sensor_id,
+        //   reading_type: req.body.reading_type,
+        //   value: req.body.value,
+        //   unit: req.body.unit,
+        // };
 
-        if (!Object.values(infoBody).every((value) => value)) {
-          res.status(400).send('Invalid reading');
-        }
-        const result = await baseController.postWithResponse(sensorReadingModel, infoBody, req, {
-          trx,
-        });
-        await trx.commit();
-        res.status(200).send(result);
+        // if (!Object.values(infoBody).every((value) => value)) {
+        //   res.status(400).send('Invalid reading');
+        // }
+        // const result = await baseController.postWithResponse(sensorReadingModel, infoBody, req, {
+        //   trx,
+        // });
+        // await trx.commit();
+        // res.status(200).send(result);
+        res.sendStatus(200);
       } catch (error) {
         //handle more exceptions
         res.status(400).json({

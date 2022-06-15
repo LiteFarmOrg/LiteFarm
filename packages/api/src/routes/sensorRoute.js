@@ -20,7 +20,6 @@ const sensor_controller = require('../controllers/sensorController');
 router.post('/get_sensors/', sensor_controller.getSensorsByFarmId());
 router.post('/add_sensors', sensor_controller.addSensors());
 router.delete('/delete_sensor/:sensor_id', sensor_controller.deleteSensor());
-// router.post('/edit_sensor', sensor_controller.editSensor());
 router.post('/add_reading/:partner_id', sensor_controller.addReading());
 router.post('/get_readings', sensor_controller.getAllReadingsBySensorId());
 router.post('/invalidate_readings', sensor_controller.invalidateReadings());

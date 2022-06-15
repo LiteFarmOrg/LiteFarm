@@ -82,7 +82,6 @@ const sensorController = {
             .select('sensor_id')
             .where('external_id', sensor.sensor_esid)
             .where('partner_id', req.params.partner_id);
-          console.log(corresponding_sensor[0].sensor_id);
           for (let i = 0; i < sensor.value.length; i++) {
             const row = {
               read_time: sensor.time[i],
@@ -91,7 +90,6 @@ const sensorController = {
               value: sensor.value[i],
               unit: sensor.unit,
             };
-            console.log(row);
             // Only include this entry if all required values are poulated
             if (Object.values(row).every((value) => value)) {
               infoBody.push(row);

@@ -17,6 +17,7 @@ const baseController = require('../controllers/baseController');
 const sensorModel = require('../models/sensorModel');
 const sensorReadingModel = require('../models/sensorReadingModel');
 const SensorReadingTypeModel = require('../models/SensorReadingTypeModel');
+const IntegratingPartnersModel = require('../models/integratingPartnersModel');
 const { transaction, Model } = require('objection');
 const {
   createOrganization,
@@ -29,7 +30,9 @@ const sensorController = {
   async addSensors(req, res) {
     try {
       const { farm_id } = req.headers;
-      const accessToken = getAccessToken();
+      const { access_token } = await IntegratingPartnersModel.getAccessAndRefreshTokens(
+        'Ensemble Scientific',
+      );
       const { data, errors } = parseCsvString(req.file.buffer.toString(), {
         Name: {
           key: 'name',
@@ -93,7 +96,7 @@ const sensorController = {
         res.status(400).send({ errors });
       } else {
         console.log(data);
-        const organization = await createOrganization(farm_id, accessToken);
+        const organization = await createOrganization(farm_id, access_token);
         console.log(organization);
         const esids = data.reduce((previous, current) => {
           if (current.brand === 'Ensemble Scientific' && current.external_id) {
@@ -101,9 +104,9 @@ const sensorController = {
           }
           return previous;
         }, []);
-        await registerOrganizationWebhook(farm_id, organization.organization_uuid, accessToken);
+        await registerOrganizationWebhook(farm_id, organization.organization_uuid, access_token);
         const registeredSensors = await bulkSensorClaim(
-          accessToken,
+          access_token,
           organization.organization_uuid,
           esids,
         );
@@ -142,8 +145,9 @@ const sensorController = {
             message: 'Unable to register some or all of the provided sensors',
             registeredSensors,
           });
+        } else {
+          res.status(200).send({ message: 'Successfully uploaded!' });
         }
-        res.status(200).send({ message: 'Successfully uploaded!' });
       }
     } catch (e) {
       console.log(e);
@@ -301,8 +305,5 @@ const parseCsvString = (csvString, mapping, delimiter = ',') => {
     );
   return { data, errors };
 };
-
-const getAccessToken = () =>
-  'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjU1MzAxMzg5LCJpYXQiOjE2NTUyMTQ5ODksImp0aSI6ImI0OTA3OWQ0OTJmODRmMDRhNzA3MTk4ZjQyM2QwMWY2IiwidXNlcl9pZCI6MTV9.EeuCvLqw7e3YjmlGFrTE9L3GuNdjKVbBmlNxlfNj0AQ';
 
 module.exports = sensorController;

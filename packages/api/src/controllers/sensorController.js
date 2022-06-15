@@ -144,7 +144,7 @@ const sensorController = {
           registeredSensors.success.length + registeredSensors.already_owned.length <
           esids.length
         ) {
-          res.status(500).send({
+          res.status(400).send({
             message: 'Unable to register some or all of the provided sensors',
             registeredSensors,
           });

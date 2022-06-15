@@ -51,6 +51,32 @@ export default function PureEditUser({
   }));
   const roleOption = { value: userFarm.role_id, label: dropDownMap[userFarm.role_id] };
 
+  const getDefaultGender = () => {
+    switch (userFarm.gender) {
+      case 'MALE':
+        return genderOptions[0];
+      case 'FEMALE':
+        return genderOptions[1];
+      case 'OTHER':
+        return genderOptions[2];
+      case 'PREFER_NOT_TO_SAY':
+        return genderOptions[3];
+    }
+  }
+
+  const getDefaultLanguage = () => {
+    switch (userFarm.language_preference) {
+      case 'en':
+        return languageOptions[0];
+      case 'es':
+        return languageOptions[1];
+      case 'pt':
+        return languageOptions[2];
+      case 'fr':
+        return languageOptions[3];
+    }
+  }
+
   const {
     register,
     handleSubmit,
@@ -175,8 +201,9 @@ export default function PureEditUser({
               options={genderOptions}
               toolTipContent={t('INVITE_USER.GENDER_TOOLTIP')}
               style={{ marginBottom: '24px' }}
-              defaultValue={genderOptions[3]}
+              defaultValue={getDefaultGender()}
               {...field}
+              optional
             />
           )}
         />
@@ -190,10 +217,7 @@ export default function PureEditUser({
               label={t('INVITE_USER.LANGUAGE_OF_INVITE')}
               options={languageOptions}
               style={{ marginBottom: '24px' }}
-              defaultValue={{
-                value: t('INVITE_USER.DEFAULT_LANGUAGE_VALUE'),
-                label: t('INVITE_USER.DEFAULT_LANGUAGE'),
-              }}
+              defaultValue={getDefaultLanguage()}
               {...field}
               required
             />

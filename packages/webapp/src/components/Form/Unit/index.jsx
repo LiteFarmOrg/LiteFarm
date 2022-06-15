@@ -213,7 +213,7 @@ const Unit = ({
   const reactSelectStyles = useReactSelectStyles(disabled, { reactSelectWidth });
 
   const hookFormUnitOption = hookFromWatch(displayUnitName);
-  const hookFormUnit = hookFormUnitOption?.value;
+  const hookFormUnit = databaseUnit;
   useEffect(() => {
     if (typeof hookFormUnitOption === 'string' && getUnitOptionMap()[hookFormUnitOption]) {
       hookFormSetValue(displayUnitName, getUnitOptionMap()[hookFormUnitOption]);
@@ -228,9 +228,6 @@ const Unit = ({
   useEffect(() => {
     !hookFormGetValue(displayUnitName) &&
       hookFormSetValue(displayUnitName, getUnitOptionMap()[displayUnit]);
-    if (hookFormGetValue(displayUnitName)) {
-      hookFormSetValue(displayUnitName, getUnitOptionMap()[displayUnit]);
-    }
   }, []);
 
   const [visibleInputValue, setVisibleInputValue] = useState(displayValue);
@@ -241,9 +238,6 @@ const Unit = ({
   }, []);
 
   useEffect(() => {
-    console.log(`Hookform Value: ${hookFormValue}`);
-    console.log(`Hook form Unit: ${hookFormUnit}`);
-    console.log(`Database Unit: ${databaseUnit}`);
     if (hookFormUnit && hookFormValue !== undefined) {
       setVisibleInputValue(
         roundToTwoDecimal(convert(hookFormValue).from(databaseUnit).to(hookFormUnit)),
@@ -251,7 +245,7 @@ const Unit = ({
       //Trigger validation
       (hookFormValue === 0 || hookFormValue > 0) && hookFormSetHiddenValue(hookFormValue);
     }
-  }, []);
+  }, [hookFormUnit]);
 
   const inputOnChange = (e) => {
     setVisibleInputValue(e.target.value);

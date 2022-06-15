@@ -598,7 +598,16 @@ const userFarmController = {
       }
       try {
         const { farm_name } = userFarm;
-        await emailModel.createTokenSendEmail(userFarm, userFarm, farm_name);
+        await emailModel.createTokenSendEmail(
+          {
+            email,
+            gender,
+            birth_year,
+            language,
+          },
+          userFarm,
+          farm_name,
+        );
       } catch (e) {
         console.log(e);
       }

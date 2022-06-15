@@ -22,6 +22,15 @@ const FarmExternalIntegrationsModel = require('../models/farmExternalIntegration
 const IntegratingPartners = require('../models/integratingPartnersModel');
 const { ensembleAPI } = require('../endPoints');
 
+let baseUrl;
+if (process.env.NODE_ENV === 'integration') {
+  baseUrl = 'https://api.beta.litefarm.org';
+} else if (process.env.NODE_ENV === 'production') {
+  baseUrl = 'https://api.app.litefarm.org';
+} else {
+  baseUrl = 'http://localhost:3000';
+}
+
 /**
  * Sends a request to the Ensemble API for an organization to claim sensors
  * @param {String} accessToken - a JWT token for accessing the Ensemble API
@@ -71,7 +80,7 @@ async function registerOrganizationWebhook(farmId, organizationId, accessToken) 
     method: 'post',
     url: `${ensembleAPI}/organizations/${organizationId}/webhooks/`,
     data: {
-      url: 'https://eoller4vc2ssvg7.m.pipedream.net',
+      url: `${baseUrl}/sensors/add_readings/`,
       frequency: 15,
     },
   };
@@ -83,7 +92,7 @@ async function registerOrganizationWebhook(farmId, organizationId, accessToken) 
   const onResponse = async (response) => {
     await FarmExternalIntegrationsModel.updateWebhookAddress(
       farmId,
-      'https://eoller4vc2ssvg7.m.pipedream.net',
+      `${baseUrl}/sensors/add_readings/`,
       response.data.id,
     );
     return { ...response.data, status: response.status };

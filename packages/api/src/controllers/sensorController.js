@@ -91,6 +91,7 @@ const sensorController = {
               value: sensor.value[i],
               unit: sensor.unit,
             };
+            console.log(row);
             // Only include this entry if all required values are poulated
             if (Object.values(row).every((value) => value)) {
               infoBody.push(row);

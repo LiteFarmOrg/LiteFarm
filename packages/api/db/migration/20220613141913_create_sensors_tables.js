@@ -15,7 +15,7 @@ exports.up = function (knex) {
       table.uuid('reading_id').primary().notNullable().defaultTo(knex.raw('uuid_generate_v1()'));
       table.timestamp('read_time').notNullable();
       table.timestamp('created_at').notNullable().defaultTo(knex.fn.now());
-      table.integer('sensor_id').references('sensor_id').inTable('sensor').notNullable();
+      table.uuid('sensor_id').references('sensor_id').inTable('sensor').notNullable();
       table.string('reading_type').notNullable();
       table.float('value').notNullable();
       table.string('unit').notNullable();

@@ -17,7 +17,7 @@ const Model = require('objection').Model;
 
 class SensorReading extends Model {
   static get tableName() {
-    return 'sensor_readings';
+    return 'sensor_reading';
   }
 
   static get idColumn() {

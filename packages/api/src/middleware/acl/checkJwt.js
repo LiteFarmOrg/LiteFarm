@@ -28,6 +28,7 @@ const checkJwt = jwt({
     '/notification_user/subscribe',
     /\/time_notification\//i,
     /\/farm\/utc_offset_by_range\//i,
+    /\/sensors\/add_reading[/]?/,
   ],
 });
 

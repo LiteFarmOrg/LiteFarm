@@ -13,18 +13,18 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
+const BaseModel = require('./baseModel');
 const Model = require('objection').Model;
 const IntegratingPartners = require('./integratingPartnersModel');
-const Farm = require('./farmModel');
 
-class FarmExternalIntegrations extends Model {
+class PartnerReadingTypeModel extends BaseModel {
   /**
    * Identifies the database table for this Model.
    * @static
    * @returns {string} Names of the database table.
    */
   static get tableName() {
-    return 'farmExternalIntegrations';
+    return 'partner_reading_type';
   }
 
   /**
@@ -33,7 +33,7 @@ class FarmExternalIntegrations extends Model {
    * @returns {string[]} Names of the primary key fields.
    */
   static get idColumn() {
-    return ['farm_id', 'partner_id'];
+    return ['partner_reading_type_id'];
   }
 
   /**
@@ -45,13 +45,11 @@ class FarmExternalIntegrations extends Model {
     return {
       type: 'object',
       properties: {
-        farm_id: { type: 'string' },
+        partner_reading_type_id: { type: 'string' },
         partner_id: { type: 'integer' },
-        organization_uuid: { type: 'string' },
-        webhook_address: { type: 'string' },
-        webhook_id: { type: 'integer' },
+        raw_value: { type: 'integer' },
+        readable_value: { type: 'string' },
       },
-      additionalProperties: false,
     };
   }
 
@@ -62,36 +60,20 @@ class FarmExternalIntegrations extends Model {
    */
   static get relationMappings() {
     return {
-      farm: {
-        modelClass: Farm,
-        relation: Model.HasOneRelation,
-        join: {
-          from: 'farmExternalIntegrations.farm_id',
-          to: 'farm.farm_id',
-        },
-      },
       partner: {
         modelClass: IntegratingPartners,
         relation: Model.HasOneRelation,
         join: {
-          from: 'farmExternalIntegrations.partner_id',
+          from: 'partner_reading_type.partner_id',
           to: 'integratingPartners.partner_id',
         },
       },
     };
   }
 
-  /**
-   * Updates the webhook address for a farm.
-   * @param farmId
-   * @param webhookAddress
-   * @return {Promise<*>}
-   */
-  static async updateWebhookAddress(farmId, webhookAddress, webhookId) {
-    return FarmExternalIntegrations.query()
-      .patch({ webhook_address: webhookAddress, webhook_id: webhookId })
-      .where('farm_id', farmId);
+  static async getReadingTypeByReadableValue(readableValue) {
+    return PartnerReadingTypeModel.query().where('readable_value', readableValue);
   }
 }
 
-module.exports = FarmExternalIntegrations;
+module.exports = PartnerReadingTypeModel;

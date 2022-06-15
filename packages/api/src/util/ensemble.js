@@ -22,6 +22,17 @@ const FarmExternalIntegrationsModel = require('../models/farmExternalIntegration
 const IntegratingPartners = require('../models/integratingPartnersModel');
 const { ensembleAPI } = require('../endPoints');
 
+let baseUrl;
+if (process.env.NODE_ENV === 'integration') {
+  baseUrl = 'https://api.beta.litefarm.org';
+} else if (process.env.NODE_ENV === 'production') {
+  baseUrl = 'https://api.app.litefarm.org';
+} else {
+  // NOTE: for testing out the webhook, you may need to ngrok or some other
+  // tool to make the endpoint available to Ensemble
+  baseUrl = 'http://localhost:5001';
+}
+
 /**
  * Sends a request to the Ensemble API for an organization to claim sensors
  * @param {String} accessToken - a JWT token for accessing the Ensemble API
@@ -41,43 +52,51 @@ async function bulkSensorClaim(accessToken, organizationId, esids) {
     if (error.response?.data && error.response?.status) {
       return { ...error.response.data, status: error.response.status };
     } else {
-      return { status: 500, detail: 'Failed to claim sensors.' };
+      throw new Error('Failed to claim sensors');
     }
   };
 
   const onResponse = (response) => {
-    return { ...response.data, status: response.status };
+    return {
+      success: esids,
+      does_not_exist: [],
+      already_owned: [],
+      occupied: [],
+      detail: response.data.detail,
+    };
   };
   return await ensembleAPICall(accessToken, axiosObject, onError, onResponse);
 }
 
 /**
  * Sends a request to the Ensemble API to register a webhook to an organization
- * @param {Response} res - The HTTP response object.
+ * @param {uuid} farmId - the uid for the farm the user is on
  * @param {uuid} organizationId - a uuid for the organization registered with Ensemble
  * @param {String} accessToken - a JWT token for accessing the Ensemble API
  * @returns {Object} - the response from the Ensemble API
  * @async
  */
 
-async function registerOrganizationWebhook(organizationId, accessToken) {
+async function registerOrganizationWebhook(farmId, organizationId, accessToken) {
   const axiosObject = {
     method: 'post',
     url: `${ensembleAPI}/organizations/${organizationId}/webhooks/`,
     data: {
-      url: 'ADD Beta.litefarm or URL provided by pipedream.com',
+      url: `${baseUrl}/sensors/add_reading/`,
       frequency: 15,
     },
   };
   const onError = (error) => {
-    if (error.response?.data && error.response?.status) {
-      return { ...error.response.data, status: error.response.status };
-    } else {
-      return { status: 500, detail: 'Lite Farm failed to register organization webhook.' };
-    }
+    console.log(error);
+    throw new Error('Failed to register webhook with ESCI');
   };
 
-  const onResponse = (response) => {
+  const onResponse = async (response) => {
+    await FarmExternalIntegrationsModel.updateWebhookAddress(
+      farmId,
+      `${baseUrl}/sensors/add_reading/`,
+      response.data.id,
+    );
     return { ...response.data, status: response.status };
   };
 
@@ -110,7 +129,7 @@ async function createOrganization(farmId, accessToken) {
         throw new Error('Unable to create ESCI organization');
       };
 
-      const response = ensembleAPICall(accessToken, axiosObject, onError);
+      const response = await ensembleAPICall(accessToken, axiosObject, onError);
 
       return await FarmExternalIntegrationsModel.query().insert({
         farm_id: farmId,
@@ -121,6 +140,7 @@ async function createOrganization(farmId, accessToken) {
       return existingIntegration;
     }
   } catch (e) {
+    console.log(e);
     throw new Error('Unable to create ESCI organization');
   }
 }
@@ -128,8 +148,9 @@ async function createOrganization(farmId, accessToken) {
 /**
  * Sends a request to the Ensemble API. On error, refreshes API tokens and retries the request.
  * @param {String} accessToken - a JWT token for accessing the Ensemble API
- * @param {uuid} axiosObject - the axios request config (see https://axios-http.com/docs/req_config)
- * @param {Array} onError - a function for handling errors with the api call
+ * @param {Object} axiosObject - the axios request config (see https://axios-http.com/docs/req_config)
+ * @param {Function} onError - a function for handling errors with the api call
+ * @param {Function} onResponse -  a function to determine how to handle the response of the api call
  * @param {number} retries - number of times the api call can be retried
  * @returns {Object} - the response from the Ensemble API
  * @async

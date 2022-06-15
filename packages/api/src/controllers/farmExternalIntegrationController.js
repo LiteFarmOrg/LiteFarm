@@ -13,10 +13,6 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-// const baseController = require('./baseController');
-// const farmExternalIntegrationsModel = require('../models/farmExternalIntegrationsModel');
-// const integratingPartnersModel = require('../models/integratingPartnersModel');
-
 const farmExternalIntegrationController = {
   getAccessToken() {
     return async (req, res) => {

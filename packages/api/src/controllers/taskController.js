@@ -119,7 +119,7 @@ const taskController = {
           available_tasks.map(async (task) => {
             await sendTaskNotification(
               [newAssigneeUserId],
-              newAssigneeUserId,
+              user_id,
               task.task_id,
               TaskNotificationTypes.TASK_ASSIGNED,
               task.task_translation_key,
@@ -279,7 +279,7 @@ const taskController = {
           const { assignee_user_id, task_id, taskType } = result;
           await sendTaskNotification(
             [assignee_user_id],
-            assignee_user_id,
+            user_id,
             task_id,
             TaskNotificationTypes.TASK_ASSIGNED,
             taskType.task_translation_key,
@@ -685,7 +685,7 @@ const TaskNotificationUserTypes = {
 /**
  * Sends a notification to the specified receivers about a task
  * @param {Array<uuid>} receiverIds
- * @param {String} usernameVariableId
+ * @param {String} senderId
  * @param {String} taskId
  * @param {String} notifyTranslationKey
  * @param {String} taskTranslationKey
@@ -695,7 +695,7 @@ const TaskNotificationUserTypes = {
 
 async function sendTaskNotification(
   receiverIds,
-  usernameVariableId,
+  senderId,
   taskId,
   notifyTranslationKey,
   taskTranslationKey,
@@ -704,21 +704,24 @@ async function sendTaskNotification(
   const filteredReceiverIds = receiverIds.filter((id) => id !== null && id !== undefined);
   if (filteredReceiverIds.length === 0) return;
 
-  const userName = await User.getNameFromUserId(usernameVariableId);
+  const variables = [{ name: 'taskType', value: `task:${taskTranslationKey}`, translate: true }];
+
+  // Sometimes there is a user "sender", sometimes not.
+  if (senderId) {
+    variables.push({
+      name: TaskNotificationUserTypes[notifyTranslationKey],
+      value: await User.getNameFromUserId(senderId),
+      translate: false,
+    });
+  }
+
   await NotificationUser.notify(
     {
       title: {
         translation_key: `NOTIFICATION.${TaskNotificationTypes[notifyTranslationKey]}.TITLE`,
       },
       body: { translation_key: `NOTIFICATION.${TaskNotificationTypes[notifyTranslationKey]}.BODY` },
-      variables: [
-        { name: 'taskType', value: `task:${taskTranslationKey}`, translate: true },
-        {
-          name: TaskNotificationUserTypes[notifyTranslationKey],
-          value: userName,
-          translate: false,
-        },
-      ],
+      variables,
       ref: { entity: { type: 'task', id: taskId } },
       context: { task_translation_key: taskTranslationKey },
       farm_id: farmId,
@@ -747,7 +750,7 @@ async function sendTaskReassignedNotifications(
   await Promise.all([
     sendTaskNotification(
       [newAssigneeUserId],
-      newAssigneeUserId,
+      assignerUserId,
       taskId,
       TaskNotificationTypes.TASK_ASSIGNED,
       taskTranslationKey,

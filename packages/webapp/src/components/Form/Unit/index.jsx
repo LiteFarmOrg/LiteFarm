@@ -240,6 +240,19 @@ const Unit = ({
     hookFormSetHiddenValue(hookFormValue, { shouldValidate: true, shouldDirty: false });
   }, []);
 
+  useEffect(() => {
+    console.log(`Hookform Value: ${hookFormValue}`);
+    console.log(`Hook form Unit: ${hookFormUnit}`);
+    console.log(`Database Unit: ${databaseUnit}`);
+    if (hookFormUnit && hookFormValue !== undefined) {
+      setVisibleInputValue(
+        roundToTwoDecimal(convert(hookFormValue).from(databaseUnit).to(hookFormUnit)),
+      );
+      //Trigger validation
+      (hookFormValue === 0 || hookFormValue > 0) && hookFormSetHiddenValue(hookFormValue);
+    }
+  }, []);
+
   const inputOnChange = (e) => {
     setVisibleInputValue(e.target.value);
     mode === 'onChange' && inputOnBlur(e);

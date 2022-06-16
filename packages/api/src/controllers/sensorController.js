@@ -93,7 +93,7 @@ const sensorController = {
         },
       });
       if (errors.length > 0) {
-        res.status(400).send({ errors });
+        res.status(400).send({ error_type: 'validation_failure', errors });
       } else {
         console.log(data);
         const organization = await createOrganization(farm_id, access_token);
@@ -140,9 +140,12 @@ const sensorController = {
             );
           }
         }
-        if (registeredSensors.success.length < esids.length) {
-          res.status(500).send({
-            message: 'Unable to register some or all of the provided sensors',
+        if (
+          registeredSensors.success.length + registeredSensors.already_owned.length <
+          esids.length
+        ) {
+          res.status(400).send({
+            error_type: 'unable_to_claim_all_sensors',
             registeredSensors,
           });
         } else {

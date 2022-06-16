@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styles from './styles.module.scss';
 import { ReactComponent as UploadIcon } from '../../../assets/images/map/upload.svg';
-import { Label } from '../../Typography';
+import { Label, Underlined } from '../../Typography';
 import clsx from 'clsx';
 
 export default function FileUploader({
@@ -11,6 +11,9 @@ export default function FileUploader({
   selectedFileName,
   fileInputRef,
   isValid,
+  onShowErrorClick,
+  uploadErrorLink,
+  uploadErrorMessage,
 }) {
   const handleClick = (event) => fileInputRef.current.click();
   const handleChange = (event) => handleSelectedFile(event);
@@ -33,7 +36,12 @@ export default function FileUploader({
       />
       {!isValid && (
         <div className={styles.csvErrorMessageWrapper}>
-          <label>We found some errors with your upload. You can view them here.</label>
+          <label>
+            {uploadErrorMessage}{' '}
+            <span className={styles.errorMessage} onClick={onShowErrorClick}>
+              {uploadErrorLink}
+            </span>
+          </label>
         </div>
       )}
     </>
@@ -45,4 +53,7 @@ FileUploader.prototype = {
   selectedFileName: PropTypes.string,
   acceptedFormat: PropTypes.string,
   isValid: PropTypes.bool,
+  onShowErrorClick: PropTypes.func,
+  uploadErrorLink: PropTypes.string,
+  uploadErrorMessage: PropTypes.string,
 };

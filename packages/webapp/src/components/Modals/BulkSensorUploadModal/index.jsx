@@ -6,7 +6,7 @@ import { Semibold, Underlined, Label } from '../../Typography';
 import Button from '../../Form/Button';
 import { BsChevronLeft } from 'react-icons/bs';
 import PropTypes from 'prop-types';
-import FileUploader from './FilterUploader';
+import FileUploader from './FileUploader';
 export default function BulkSensorUploadModal({
   title,
   uploadLinkMessage,
@@ -19,6 +19,10 @@ export default function BulkSensorUploadModal({
   selectedFileName,
   fileInputRef,
   errorCount,
+  onShowErrorClick,
+  onTemplateDownloadClick,
+  uploadErrorMessage,
+  uploadErrorLink,
 }) {
   const { t } = useTranslation();
 
@@ -32,7 +36,8 @@ export default function BulkSensorUploadModal({
           <Semibold className={styles.title}>{title}</Semibold>
         </div>
         <Label>
-          <Underlined>{uploadLinkMessage}</Underlined>&nbsp;{uploadInstructionMessage}
+          <Underlined onClick={onTemplateDownloadClick}>{uploadLinkMessage}</Underlined>{' '}
+          {uploadInstructionMessage}
         </Label>
         <form onSubmit={onUpload}>
           <div className={styles.uploadPlaceholder}>
@@ -44,15 +49,18 @@ export default function BulkSensorUploadModal({
             selectedFileName={selectedFileName}
             fileInputRef={fileInputRef}
             isValid={!errorCount}
+            onShowErrorClick={onShowErrorClick}
+            uploadErrorMessage={uploadErrorMessage}
+            uploadErrorLink={uploadErrorLink}
           />
           <Button
             className={styles.buttonUpload}
             type="submit"
-            disabled={disabled}
+            disabled={disabled === 0 || disabled === -1}
             sm
             onClick={onUpload}
           >
-            {t('common:UPLOAD')}
+            {t(disabled !== -1 ? 'common:UPLOAD' : 'common:UPLOADING')}
           </Button>
         </form>
       </div>
@@ -71,4 +79,8 @@ BulkSensorUploadModal.prototype = {
   selectedFileName: PropTypes.string,
   fileInputRef: PropTypes.func,
   errorCount: PropTypes.number,
+  onShowErrorClick: PropTypes.func,
+  onTemplateDownloadClick: PropTypes.func,
+  uploadErrorMessage: PropTypes.string,
+  uploadErrorLink: PropTypes.string,
 };

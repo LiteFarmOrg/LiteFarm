@@ -1,12 +1,13 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import * as XLSX from 'xlsx';
+import { useSelector } from 'react-redux';
+import { bulkSensorsUploadSliceSelector } from '../../../../containers/bulkSensorUploadSlice';
 
 const SENSOR_EXTERNAL_ID = 'External_ID';
 const SENSOR_NAME = 'Name';
 const SENSOR_LATITUDE = 'Latitude';
 const SENSOR_LONGITUDE = 'Longitude';
 const SENSOR_READING_TYPES = 'Reading_types';
-const DEPTH = 'Depth';
 
 const SOIL_WATER_CONTENT = 'soil_water_content';
 const SOIL_WATER_POTENTIAL = 'soil_water_potential';
@@ -20,72 +21,71 @@ const requiredFields = [
   SENSOR_LATITUDE,
   SENSOR_LONGITUDE,
   SENSOR_READING_TYPES,
-  DEPTH,
 ];
 
-const validationFields = [
-  {
-    type: 'Sensor id invalid, must be between 1 and 20 characters.',
-    /* eslint-disable-next-line */
-    mask: /^[a-zA-Z0-9 \.\-\/!@#$%^&*)(]{1,20}$/,
-    columnName: SENSOR_EXTERNAL_ID,
-  },
-  {
-    type: 'Sensor name invalid, must be between 1 and 100 characters.',
-    /* eslint-disable-next-line */
-    mask: /^[a-zA-Z0-9 \.\-\/!@#$%^&*)(]{1,100}$/,
-    columnName: SENSOR_NAME,
-  },
-  {
-    type: 'Invalid format for latitude',
-    /* eslint-disable-next-line */
-    mask: /^(\+|-)?(?:90(?:(?:\.0{1,6})?)|(?:[0-9]|[1-8][0-9])(?:(?:\.[0-9]{1,30})?))$/,
-    columnName: SENSOR_LATITUDE,
-  },
-  {
-    type: 'Invalid format for longitude',
-    /* eslint-disable-next-line */
-    mask: /^(\+|-)?(?:180(?:(?:\.0{1,6})?)|(?:[0-9]|[1-9][0-9]|1[0-7][0-9])(?:(?:\.[0-9]{1,30})?))$/,
-    columnName: SENSOR_LONGITUDE,
-  },
-  {
-    type: 'Invalid format for Reading_types',
-    /* eslint-disable-next-line */
-    mask: /^\s*(?:\w+\s*,\s*){2,}(?:\w+\s*)$/,
-    columnName: SENSOR_READING_TYPES,
-    validate(rowNumber, columnName, value) {
-      if (typeof value !== 'string') return;
-      const inputReadingTypes = value.split(',');
-      if (!inputReadingTypes.length) return;
-      const invalidReadingTypes = inputReadingTypes.reduce((acc, fieldName) => {
-        if (!requiredReadingTypes.includes(fieldName.trim())) {
-          acc.push(fieldName.trim());
-        }
-        return acc;
-      }, []);
-      if (!invalidReadingTypes.length) return;
-      return {
-        row: rowNumber,
-        column: columnName,
-        type: 'The reading types contains invalid values',
-        value: invalidReadingTypes,
-      };
-    },
-  },
-  {
-    type: 'Invalid depth, must be a decimal value between 0 and 500.',
-    /* eslint-disable-next-line */
-    mask: /^(\d{0,2}(\.\d{1,6})?|100(\.00?)?)$/,
-    columnName: DEPTH,
-  },
-];
-
-export function useValidateBulkSensorData(onUpload) {
-  const [disabled, setDisabled] = useState(true);
+export function useValidateBulkSensorData(onUpload, t) {
+  const bulkSensorsUploadResponse = useSelector(bulkSensorsUploadSliceSelector);
+  const [disabled, setDisabled] = useState(null);
   const [selectedFileName, setSelectedFileName] = useState('');
   const [sheetErrors, setSheetErrors] = useState([]);
   const [errorCount, setErrorCount] = useState(0);
   const fileInputRef = useRef(null);
+
+  const validationFields = [
+    {
+      errorMessage: t('FARM_MAP.BULK_UPLOAD_SENSORS.VALIDATION.EXTERNAL_ID'),
+      /* eslint-disable-next-line */
+      mask: /^[a-zA-Z0-9 \.\-\/!@#$%^&*)(]{1,20}$/,
+      columnName: SENSOR_EXTERNAL_ID,
+    },
+    {
+      errorMessage: t('FARM_MAP.BULK_UPLOAD_SENSORS.VALIDATION.SENSOR_NAME'),
+      /* eslint-disable-next-line */
+      mask: /^[a-zA-Z0-9 \.\-\/!@#$%^&*)(]{1,100}$/,
+      columnName: SENSOR_NAME,
+    },
+    {
+      errorMessage: t('FARM_MAP.BULK_UPLOAD_SENSORS.VALIDATION.SENSOR_LATITUDE'),
+      /* eslint-disable-next-line */
+      mask: /^(\+|-)?(?:90(?:(?:\.0{1,6})?)|(?:[0-9]|[1-8][0-9])(?:(?:\.[0-9]{1,30})?))$/,
+      columnName: SENSOR_LATITUDE,
+    },
+    {
+      errorMessage: t('FARM_MAP.BULK_UPLOAD_SENSORS.VALIDATION.SENSOR_LONGITUDE'),
+      /* eslint-disable-next-line */
+      mask: /^(\+|-)?(?:180(?:(?:\.0{1,6})?)|(?:[0-9]|[1-9][0-9]|1[0-7][0-9])(?:(?:\.[0-9]{1,30})?))$/,
+      columnName: SENSOR_LONGITUDE,
+    },
+    {
+      errorMessage: t('FARM_MAP.BULK_UPLOAD_SENSORS.VALIDATION.SENSOR_READING_TYPES'),
+      /* eslint-disable-next-line */
+      mask: /^\s*(?:\w+\s*,\s*){2,}(?:\w+\s*)$/,
+      columnName: SENSOR_READING_TYPES,
+      validate(rowNumber, columnName, value) {
+        if (typeof value !== 'string') return;
+        const inputReadingTypes = value.split(',');
+        if (!inputReadingTypes.length) return;
+        const invalidReadingTypes = inputReadingTypes.reduce((acc, fieldName) => {
+          if (!requiredReadingTypes.includes(fieldName.trim())) {
+            acc.push(fieldName.trim());
+          }
+          return acc;
+        }, []);
+        if (!invalidReadingTypes.length) return;
+        return {
+          row: rowNumber,
+          column: columnName,
+          errorMessage: t('FARM_MAP.BULK_UPLOAD_SENSORS.VALIDATION.SENSOR_READING_TYPES'),
+          value: invalidReadingTypes.join(','),
+        };
+      },
+    },
+  ];
+
+  useEffect(() => {
+    if (!disabled) setDisabled(0);
+    else setDisabled(bulkSensorsUploadResponse.loading ? -1 : 1);
+  }, [bulkSensorsUploadResponse?.loading]);
 
   const validateExcel = (rows) => {
     let errors = [];
@@ -98,11 +98,11 @@ export function useValidateBulkSensorData(onUpload) {
           errors.push({
             row: i + 2,
             column: COLUMN,
-            type: validationField.type,
+            errorMessage: validationField.type,
             value: element[COLUMN],
           });
         } else {
-          // find for other errors
+          // find for other errors after regex check.
           if (validationField.hasOwnProperty('validate')) {
             const validationError = validationField.validate(i + 2, COLUMN, element[COLUMN]);
             if (validationError) {
@@ -123,7 +123,7 @@ export function useValidateBulkSensorData(onUpload) {
     }
   };
 
-  const checkRequiredColumnsArePresent = (sensorObject) => {
+  const checkRequiredColumnsArePresent = (sensorObject = {}) => {
     const missingColumns = requiredFields.filter(
       (fieldName) => !Object.keys(sensorObject).includes(fieldName),
     );
@@ -131,8 +131,8 @@ export function useValidateBulkSensorData(onUpload) {
       ? [
           {
             row: 1,
-            column: missingColumns,
-            type: 'Columns are required/missing',
+            column: missingColumns.join(','),
+            errorMessage: t('FARM_MAP.BULK_UPLOAD_SENSORS.VALIDATION.MISSING_COLUMNS'),
             value: '',
           },
         ]
@@ -153,30 +153,64 @@ export function useValidateBulkSensorData(onUpload) {
             sheetName: singleSheet,
           };
           const worksheet = workBook.Sheets[singleSheet];
+          // sheet_to_json always return array.
           const jsonData = XLSX.utils.sheet_to_json(worksheet, { defval: '' });
           let errors = [];
-          if (jsonData?.length) {
-            const missingColumnsErrors = checkRequiredColumnsArePresent(jsonData[0]);
-            errors = missingColumnsErrors.length ? missingColumnsErrors : validateExcel(jsonData);
-            totalErrorCount += errors.length;
-            sheetError.errors = errors;
-            sheetErrorList.push(sheetError);
-          }
+          const missingColumnsErrors = checkRequiredColumnsArePresent(jsonData[0]);
+          errors = missingColumnsErrors.length ? missingColumnsErrors : validateExcel(jsonData);
+          totalErrorCount += errors.length;
+          sheetError.errors = errors;
+          sheetErrorList.push(sheetError);
         }
-        console.log('totalErrorCount', totalErrorCount);
-        console.log('sheetErrorList', sheetErrorList);
         setErrorCount(totalErrorCount);
         setSheetErrors(sheetErrorList);
-        setDisabled(!!totalErrorCount);
+        setDisabled(() => (totalErrorCount === 0 ? ++totalErrorCount : --totalErrorCount));
       } catch (err) {
         console.error(err);
       }
     }
   };
 
+  const generateADownload = (s) => {
+    var buf = new ArrayBuffer(s.length);
+    var view = new Uint8Array(buf);
+    for (var i = 0; i != s.length; ++i) view[i] = s.charCodeAt(i) & 0xff;
+    return buf;
+  };
+
+  const onShowErrorClick = (e) => {
+    const inputfFile = fileInputRef.current.files[0];
+    if (inputfFile) {
+      const element = document.createElement('a');
+      const worksheet = XLSX.utils.json_to_sheet(sheetErrors[0].errors);
+      var csv = XLSX.utils.sheet_to_csv(worksheet);
+
+      const file = new Blob([generateADownload(csv)], {
+        type: 'text/plain',
+      });
+      element.href = URL.createObjectURL(file);
+      element.download = `${inputfFile.name.replace(/.csv/, '')}_errors.txt`;
+      document.body.appendChild(element);
+      element.click();
+    }
+  };
+
+  const onTemplateDownloadClick = () => {
+    const element = document.createElement('a');
+    const file = new Blob([requiredFields.join(',')], {
+      type: 'text/plain',
+    });
+    element.href = URL.createObjectURL(file);
+    element.download = 'Add-sensors-to-LiteFarm.csv';
+    document.body.appendChild(element);
+    element.click();
+  };
+
   return {
     onUploadClicked,
     handleSelectedFile,
+    onShowErrorClick,
+    onTemplateDownloadClick,
     disabled,
     selectedFileName,
     fileInputRef,

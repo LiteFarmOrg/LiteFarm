@@ -8,7 +8,7 @@ import { DEFAULT_ZOOM, GMAPS_API_KEY, isArea, isLine, locationEnum } from './con
 import { useDispatch, useSelector } from 'react-redux';
 import { measurementSelector, userFarmSelector } from '../userFarmSlice';
 import html2canvas from 'html2canvas';
-import { sendMapToEmail, setSpotlightToShown } from './saga';
+import { sendMapToEmail, setSpotlightToShown, bulkUploadSensorsInfoFile } from './saga';
 import {
   canShowSuccessHeader,
   setShowSuccessHeaderSelector,
@@ -47,6 +47,7 @@ import {
   setPersistedPaths,
   upsertFormData,
 } from '../hooks/useHookFormPersist/hookFormPersistSlice';
+import { bulkSensorsUploadSliceSelector } from '../../containers/bulkSensorUploadSlice';
 import LocationSelectionModal from './LocationSelectionModal';
 import { useMaxZoom } from './useMaxZoom';
 
@@ -59,6 +60,7 @@ export default function Map({ history }) {
   const dispatch = useDispatch();
   const system = useSelector(measurementSelector);
   const overlayData = useSelector(hookFormPersistSelector);
+  const bulkSensorsUploadResponse = useSelector(bulkSensorsUploadSliceSelector);
 
   const lineTypesWithWidth = [locationEnum.buffer_zone, locationEnum.watercourse];
   const { t } = useTranslation();
@@ -96,6 +98,13 @@ export default function Map({ history }) {
       dispatch(canShowSuccessHeader(false));
     };
   }, []);
+
+  useEffect(() => {
+    if (bulkSensorsUploadResponse?.isBulkUploadSuccessful) {
+      console.log('loading', bulkSensorsUploadResponse?.isBulkUploadSuccessful);
+      setShowBulkSensorUploadModal(false);
+    }
+  }, [bulkSensorsUploadResponse?.isBulkUploadSuccessful]);
 
   const [
     drawingState,
@@ -300,7 +309,7 @@ export default function Map({ history }) {
       setShowDrawAreaSpotlightModal(true);
     } else if (isLine(locationType) && !showedSpotlight.draw_line) {
       setShowDrawLineSpotlightModal(true);
-    } else if (locationType == locationEnum.sensor) {
+    } else if (locationType === locationEnum.sensor) {
       setShowAddDrawer(!showAddDrawer);
       setShowBulkSensorUploadModal(true);
       return;
@@ -355,6 +364,11 @@ export default function Map({ history }) {
 
   const isLineWithWidth = (type = drawingState.type) => {
     return lineTypesWithWidth.includes(type);
+  };
+
+  const dismissBulkSensorsUploadModal = () => {
+    setShowBulkSensorUploadModal(false);
+    setShowAddDrawer(true);
   };
 
   const { showAdjustAreaSpotlightModal, showAdjustLineSpotlightModal } = drawingState;
@@ -488,13 +502,10 @@ export default function Map({ history }) {
         )}
         {showBulkSensorUploadModal && (
           <BulkSensorUploadModal
-            dismissModal={() => {
-              setShowBulkSensorUploadModal(false);
-              handleClickAdd();
-            }}
+            dismissModal={dismissBulkSensorsUploadModal}
             onUpload={(file) => {
-              console.log('file', file);
-              // call saga function here
+              const payload = { file };
+              dispatch(bulkUploadSensorsInfoFile(payload));
             }}
           />
         )}

@@ -24,6 +24,7 @@ export default function PureCreateUserAccount({ onSignUp, email, onGoBack }) {
   });
   const NAME = 'name';
   const GENDER = 'gender';
+  const LANGUAGE = 'language';
   const BIRTHYEAR = 'birth_year';
   const PASSWORD = 'password';
   const password = watch(PASSWORD, undefined);
@@ -42,11 +43,18 @@ export default function PureCreateUserAccount({ onSignUp, email, onGoBack }) {
     { value: 'OTHER', label: t('gender:OTHER') },
     { value: 'PREFER_NOT_TO_SAY', label: t('gender:PREFER_NOT_TO_SAY') },
   ];
+  const languageOptions = [
+    { value: 'en', label: t('PROFILE.ACCOUNT.ENGLISH') },
+    { value: 'es', label: t('PROFILE.ACCOUNT.SPANISH') },
+    { value: 'pt', label: t('PROFILE.ACCOUNT.PORTUGUESE') },
+    { value: 'fr', label: t('PROFILE.ACCOUNT.FRENCH') },
+  ];
 
   const disabled = !isDirty || !isValid || !isPasswordValid;
 
   const onSubmit = (data) => {
     data[GENDER] = data?.[GENDER]?.value || 'PREFER_NOT_TO_SAY';
+    data[LANGUAGE] = data?.[LANGUAGE]?.value || t('INVITE_USER.DEFAULT_LANGUAGE_VALUE');
     onSignUp({ ...data, email });
   };
   const onError = (data) => {};
@@ -59,7 +67,7 @@ export default function PureCreateUserAccount({ onSignUp, email, onGoBack }) {
           <Button onClick={onGoBack} color={'secondary'} type={'button'} fullLength>
             {t('common:BACK')}
           </Button>
-          <Button data-cy="createUser-create"  disabled={disabled} type={'submit'} fullLength>
+          <Button data-cy="createUser-create" disabled={disabled} type={'submit'} fullLength>
             {t('CREATE_USER.CREATE_BUTTON')}
           </Button>
         </>
@@ -94,6 +102,23 @@ export default function PureCreateUserAccount({ onSignUp, email, onGoBack }) {
           />
         )}
       />
+      <Controller
+        control={control}
+        name={LANGUAGE}
+        render={({ field: { onChange, onBlur, value } }) => (
+          <ReactSelect
+            label={t('CREATE_USER.LANGUAGE_PREFERENCE')}
+            options={languageOptions}
+            onChange={onChange}
+            value={value}
+            style={{ marginBottom: '28px' }}
+            defaultValue={{
+              value: t('CREATE_USER.DEFAULT_LANGUAGE_VALUE'),
+              label: t('CREATE_USER.DEFAULT_LANGUAGE'),
+            }}
+          />
+        )}
+      />
       <Input
         label={t('CREATE_USER.BIRTH_YEAR')}
         type="number"
@@ -112,7 +137,7 @@ export default function PureCreateUserAccount({ onSignUp, email, onGoBack }) {
         optional
       />
       <Input
-      data-cy="createUser-password"
+        data-cy="createUser-password"
         style={{ marginBottom: '28px' }}
         label={t('CREATE_USER.PASSWORD')}
         type={PASSWORD}

@@ -45,11 +45,14 @@ export default function PureEditUser({
     { value: 'pt', label: t('PROFILE.ACCOUNT.PORTUGUESE') },
     { value: 'fr', label: t('PROFILE.ACCOUNT.FRENCH') },
   ];
+  const isPseudoUser = userFarm.role_id === 4;
   const roleOptions = Object.keys(dropDownMap).map((role_id) => ({
     value: role_id,
     label: dropDownMap[role_id],
   }));
-  const roleOption = { value: userFarm.role_id, label: dropDownMap[userFarm.role_id] };
+  const roleOption = isPseudoUser
+    ? { value: 3, label: dropDownMap[3] }
+    : { value: userFarm.role_id, label: dropDownMap[userFarm.role_id] };
 
   const getDefaultGender = () => {
     switch (userFarm.gender) {
@@ -62,7 +65,7 @@ export default function PureEditUser({
       case 'PREFER_NOT_TO_SAY':
         return genderOptions[3];
     }
-  }
+  };
 
   const getDefaultLanguage = () => {
     switch (userFarm.language_preference) {
@@ -75,7 +78,7 @@ export default function PureEditUser({
       case 'fr':
         return languageOptions[3];
     }
-  }
+  };
 
   const {
     register,
@@ -87,12 +90,11 @@ export default function PureEditUser({
     formState: { isValid, isDirty, errors },
   } = useForm({
     mode: 'onChange',
-    defaultValues: { ...userFarm, role_id: roleOption },
+    defaultValues: { ...userFarm, role_id: roleOption, gender: getDefaultGender() },
     shouldUnregister: true,
   });
 
   const [showRevokeUserAccessModal, setShowRevokeUserAccessModal] = useState();
-  const isPseudoUser = userFarm.role_id === 4;
   const [shouldInvitePseudoUser, setShouldInvitePseudoUser] = useState(false);
   const onInviteUserCheckboxClick = () => {
     setValue(EMAIL, shouldInvitePseudoUser ? userFarm.email : '');
@@ -201,7 +203,7 @@ export default function PureEditUser({
               options={genderOptions}
               toolTipContent={t('INVITE_USER.GENDER_TOOLTIP')}
               style={{ marginBottom: '24px' }}
-              defaultValue={getDefaultGender()}
+              defaultValue={genderOptions[3]}
               {...field}
               optional
             />
@@ -217,7 +219,10 @@ export default function PureEditUser({
               label={t('INVITE_USER.LANGUAGE_OF_INVITE')}
               options={languageOptions}
               style={{ marginBottom: '24px' }}
-              defaultValue={getDefaultLanguage()}
+              defaultValue={{
+                value: t('INVITE_USER.DEFAULT_LANGUAGE_VALUE'),
+                label: t('INVITE_USER.DEFAULT_LANGUAGE'),
+              }}
               {...field}
               required
             />

@@ -448,6 +448,12 @@
       "TITLE": "Agregar zona delimitante",
       "WIDTH": "Ancho de la zona delimitante"
     },
+    "BULK_UPLOAD_SENSORS": {
+      "TITLE": "MISSING",
+      "UPLOAD_LINK_MESSAGE": "MISSING",
+      "UPLOAD_INSTRUCTION_MESSAGE": "MISSING",
+      "UPLOAD_PLACEHOLDER": "MISSING"
+    },
     "CEREMONIAL_AREA": {
       "EDIT_TITLE": "Editar area ceremonial",
       "NAME": "Nombre de area ceremonial",
@@ -550,7 +556,8 @@
       "SURFACE_WATER": "Agua de superficie",
       "TITLE": "Filtra su mapa",
       "WATERCOURSE": "Arroyo",
-      "WV": "Valvula de agua"
+      "WV": "Valvula de agua",
+      "SENSOR": "MISSING"
     },
     "NATURAL_AREA": {
       "EDIT_TITLE": "Editar area natural",
@@ -1074,7 +1081,16 @@
       "YOU_WILL_FIND": "Aquí encontrará:"
     }
   },
+  "ENTITY_TYPES": {
+    "TASK": "tarea",
+    "LOCATION": "ubicación"
+  },
   "NOTIFICATION": {
+    "TIMELINE": {
+      "HEADING": "Cronología de notificaciones",
+      "VIEW_NOW": "Ver ahora",
+      "MORE_RECENT_NOTIFICATION": "Hay notificaciones más recientes sobre este/a {{entityType}}."
+    },
     "DAILY_TASKS_DUE_TODAY": {
       "BODY": "Tienes tareas para hoy.",
       "TITLE": "Tareas para hoy"

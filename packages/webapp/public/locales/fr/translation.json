@@ -449,6 +449,12 @@
       "TITLE": "Ajouter une zone tampon",
       "WIDTH": "Largeur de la zone tampon"
     },
+    "BULK_UPLOAD_SENSORS": {
+      "TITLE": "MISSING",
+      "UPLOAD_LINK_MESSAGE": "MISSING",
+      "UPLOAD_INSTRUCTION_MESSAGE": "MISSING",
+      "UPLOAD_PLACEHOLDER": "MISSING"
+    },
     "CEREMONIAL_AREA": {
       "EDIT_TITLE": "Modifier la zone de cérémonie",
       "NAME": "Nom de la zone de cérémonie",
@@ -551,7 +557,8 @@
       "SURFACE_WATER": "Eaux de surface",
       "TITLE": "Filtrer votre carte",
       "WATERCOURSE": "Flux d'eau",
-      "WV": "Vanne à eau"
+      "WV": "Vanne à eau",
+      "SENSOR": "MISSING"
     },
     "NATURAL_AREA": {
       "EDIT_TITLE": "Modifier l'espace naturel",
@@ -1075,7 +1082,16 @@
       "YOU_WILL_FIND": "Vous trouverez ici:"
     }
   },
+  "ENTITY_TYPES": {
+    "TASK": "tâche",
+    "LOCATION": "emplacement"
+  },
   "NOTIFICATION": {
+    "TIMELINE": {
+      "HEADING": "Chronologie de notifications",
+      "VIEW_NOW": "Afficher maintenant",
+      "MORE_RECENT_NOTIFICATION": "Il y a des notifications plus récentes au sujet de cette {{entityType}}."
+    },
     "DAILY_TASKS_DUE_TODAY": {
       "BODY": "Vous avez des tâches à accomplir aujourd'hui.",
       "TITLE": "Tâches à accomplir aujourd'hui"

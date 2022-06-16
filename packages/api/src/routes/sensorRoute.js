@@ -1,6 +1,6 @@
 /*
- *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>
- *  This file (userFarmRoute.js) is part of LiteFarm.
+ *  Copyright 2019, 2020, 2021, 2022 LiteFarm.org
+ *  This file is part of LiteFarm.
  *
  *  LiteFarm is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -14,11 +14,23 @@
  */
 
 const express = require('express');
+const multer = require('multer');
+const checkScope = require('../middleware/acl/checkScope');
+
+const SensorController = require('../controllers/sensorController');
+
+const storage = multer.memoryStorage();
+const upload = multer({ storage });
+
 const router = express.Router();
-const sensor_controller = require('../controllers/sensorController');
 
 router.post('/get_sensors/', sensor_controller.getSensorsByFarmId());
-router.post('/add_sensors', sensor_controller.addSensors());
+router.post(
+  '/add_sensors/',
+  checkScope(['add:sensors']),
+  upload.single('sensors'),
+  SensorController.addSensors,
+);
 router.delete('/delete_sensor/:sensor_id', sensor_controller.deleteSensor());
 router.post('/add_reading/:partner_id', sensor_controller.addReading());
 router.post('/get_readings', sensor_controller.getAllReadingsBySensorId());

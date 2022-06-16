@@ -7,7 +7,7 @@ exports.up = function (knex) {
       table.jsonb('grid_points').notNullable();
       table.float('depth');
       table.float('elevation');
-      table.integer('partner_id');
+      table.integer('partner_id').references('partner_id').inTable('integratingPartners');
       table.string('external_id');
     }),
 
@@ -26,8 +26,8 @@ exports.up = function (knex) {
 
 exports.down = function (knex) {
   return Promise.all([
-    knex.schema.dropTable('sensors'),
+    knex.schema.dropTable('sensor'),
     //   knex.schema.dropTable('sensor_parameter'),
-    knex.schema.dropTable('sensor_readings'),
+    knex.schema.dropTable('sensor_reading'),
   ]);
 };

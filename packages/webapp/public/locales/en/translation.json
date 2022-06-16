@@ -449,6 +449,12 @@
       "TITLE": "Add buffer zone",
       "WIDTH": "Buffer zone width"
     },
+    "BULK_UPLOAD_SENSORS": {
+      "TITLE": "Add sensors to map",
+      "UPLOAD_LINK_MESSAGE": "Download this template",
+      "UPLOAD_INSTRUCTION_MESSAGE": "for correct formatting.",
+      "UPLOAD_PLACEHOLDER": "Upload CSV file"
+    },
     "CEREMONIAL_AREA": {
       "EDIT_TITLE": "Edit ceremonial area",
       "NAME": "Ceremonial area name",
@@ -551,7 +557,8 @@
       "SURFACE_WATER": "Surface water",
       "TITLE": "Filter your map",
       "WATERCOURSE": "Watercourse",
-      "WV": "Water valve"
+      "WV": "Water valve",
+      "SENSOR": "Sensor"
     },
     "NATURAL_AREA": {
       "EDIT_TITLE": "Edit natural area",
@@ -1071,7 +1078,16 @@
       "YOU_WILL_FIND": "Here you will find:"
     }
   },
+  "ENTITY_TYPES": {
+    "TASK": "task",
+    "LOCATION": "location"
+  },
   "NOTIFICATION": {
+    "TIMELINE": {
+      "HEADING": "Notification timeline",
+      "VIEW_NOW": "View now",
+      "MORE_RECENT_NOTIFICATION": "There are more recent notifications about this {{entityType}}."
+    },
     "DAILY_TASKS_DUE_TODAY": {
       "BODY": "You have tasks due today.",
       "TITLE": "Tasks due today"

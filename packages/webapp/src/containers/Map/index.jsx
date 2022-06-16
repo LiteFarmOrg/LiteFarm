@@ -24,6 +24,7 @@ import DrawAreaModal from '../../components/Map/Modals/DrawArea';
 import DrawLineModal from '../../components/Map/Modals/DrawLine';
 import AdjustAreaModal from '../../components/Map/Modals/AdjustArea';
 import AdjustLineModal from '../../components/Map/Modals/AdjustLine';
+import BulkSensorUploadModal from '../../components/Map/Modals/BulkSensorUploadModal';
 import CustomZoom from '../../components/Map/CustomZoom';
 import CustomCompass from '../../components/Map/CustomCompass';
 import DrawingManager from '../../components/Map/DrawingManager';
@@ -125,6 +126,7 @@ export default function Map({ history }) {
   const [showExportModal, setShowExportModal] = useState(false);
   const [showDrawAreaSpotlightModal, setShowDrawAreaSpotlightModal] = useState(false);
   const [showDrawLineSpotlightModal, setShowDrawLineSpotlightModal] = useState(false);
+  const [showBulkSensorUploadModal, setShowBulkSensorUploadModal] = useState(false);
 
   const getMapOptions = (maps) => {
     return {
@@ -298,6 +300,10 @@ export default function Map({ history }) {
       setShowDrawAreaSpotlightModal(true);
     } else if (isLine(locationType) && !showedSpotlight.draw_line) {
       setShowDrawLineSpotlightModal(true);
+    } else if (locationType == locationEnum.sensor) {
+      setShowAddDrawer(!showAddDrawer);
+      setShowBulkSensorUploadModal(true);
+      return;
     }
     isLineWithWidth(locationType) && dispatch(upsertFormData(initialLineData[locationType]));
     const submitPath = `/create_location/${locationType}`;
@@ -477,6 +483,18 @@ export default function Map({ history }) {
             dismissModal={() => {
               setShowAdjustLineSpotlightModal(false);
               dispatch(setSpotlightToShown('adjust_line'));
+            }}
+          />
+        )}
+        {showBulkSensorUploadModal && (
+          <BulkSensorUploadModal
+            dismissModal={() => {
+              setShowBulkSensorUploadModal(false);
+              handleClickAdd();
+            }}
+            onUpload={(file) => {
+              console.log('file', file);
+              // call saga function here
             }}
           />
         )}

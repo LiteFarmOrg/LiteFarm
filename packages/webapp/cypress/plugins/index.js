@@ -1,4 +1,6 @@
 /// <reference types="cypress" />
+// cypress/plugins/index.js
+
 // ***********************************************************
 // This example plugins/index.js can be used to load plugins
 //
@@ -17,6 +19,7 @@
  */
 // eslint-disable-next-line no-unused-vars
 const axios = require('axios');
+const makeEmailAccount = require('./email-account');
 
 module.exports = (on, config) => {
   // `on` is used to hook into various events Cypress emits
@@ -26,24 +29,24 @@ module.exports = (on, config) => {
   config.env.googleClientSecret = process.env.REACT_APP_GOOGLE_CLIENT_SECRET;
 
   require('@cypress/code-coverage/task')(on, config);
-  // plugins code ...
-  const testDataApiEndpoint = `${config.env.apiUrl}/testData`;
-
-  on('task', {
-    async 'db:tableCleanup'() {
-      // clean up the database tables
-      const { data } = await axios.post(`${testDataApiEndpoint}/tableCleanup`);
-      return data;
-    },
-  });
-
-  on('task', {
-    async 'db:migrations'() {
-      // run migration and seed the database tables
-      const { data } = await axios.post(`${testDataApiEndpoint}/runMigrations`);
-      return data;
-    },
-  });
 
   return config;
+};
+
+module.exports = async (on) => {
+  const emailAccount = await makeEmailAccount();
+
+  on('task', {
+    getUserEmail() {
+      return emailAccount.email;
+    },
+
+    getUserPassword() {
+      return emailAccount.password;
+    },
+
+    getLastEmail() {
+      return emailAccount.getLastEmail();
+    },
+  });
 };

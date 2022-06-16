@@ -6,5 +6,6 @@
   "FUEL": "Carburant",
   "LAND": "Terrain",
   "SEEDS": "Graines",
-  "OTHER": "Autre"
+  "OTHER": "Autre",
+  "SOIL_AMENDMENT": "Amendement de sol"
 }

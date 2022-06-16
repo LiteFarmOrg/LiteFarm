@@ -20,6 +20,7 @@ export default function PurePlantedAlready({
   persistedFormData,
   system,
   cropVariety,
+  location,
 }) {
   const { t } = useTranslation();
 
@@ -98,7 +99,7 @@ export default function PurePlantedAlready({
     } else if (!cropVariety.can_be_cover_crop) {
       setValue(FOR_COVER, false);
     }
-    history.push(submitPath);
+    history.push(submitPath, location?.state);
   };
   const onGoBack = () => history.back();
 
@@ -203,6 +204,7 @@ export default function PurePlantedAlready({
           </Label>
 
           <Unit
+            data-cy="cropPlan-age"
             register={register}
             label={t('MANAGEMENT_PLAN.AGE')}
             name={AGE}
@@ -222,7 +224,12 @@ export default function PurePlantedAlready({
           <Label className={styles.label} style={{ marginBottom: '18px' }}>
             {t('MANAGEMENT_PLAN.WILD_CROP')}
           </Label>
-          <RadioGroup hookFormControl={control} name={IS_WILD} required />
+          <RadioGroup
+            data-cy="cropPlan-wildCrop"
+            hookFormControl={control}
+            name={IS_WILD}
+            required
+          />
         </>
       )}
     </Form>

@@ -61,6 +61,13 @@ export const taskCardContentSelector = createSelector(
   getTaskContents,
 );
 
+export const manualFilteredTaskCardContentSelector = (filter) =>
+  createSelector(
+    [tasksSelector, userFarmEntitiesSelector, loginSelector],
+    (tasks, userFarmEntities, userFarm) =>
+      getTaskContents(filter(tasks), userFarmEntities, userFarm),
+  );
+
 export const filteredTaskCardContentSelector = createSelector(
   [tasksSelector, tasksFilterSelector, userFarmEntitiesSelector, loginSelector],
   (tasks, filters, userFarmEntities, userFarm) =>

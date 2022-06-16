@@ -29,16 +29,11 @@ export default function PureEnterPasswordPage({
   } = useForm();
   const PASSWORD = 'password';
   const password = watch(PASSWORD);
-  const {
-    isValid,
-    hasNoSymbol,
-    hasNoDigit,
-    hasNoUpperCase,
-    isTooShort,
-  } = validatePasswordWithErrors(password);
+  const { isValid, hasNoSymbol, hasNoDigit, hasNoUpperCase, isTooShort } =
+    validatePasswordWithErrors(password);
   const inputRegister = register(PASSWORD, { required: true });
   const [showErrors, setShowErrors] = useState(false);
-  const { t } = useTranslation(['translation', 'common']);
+  const { t } = useTranslation(['translation', 'common', 'message']);
   const showPasswordIncorrectError = () => {
     setError(PASSWORD, {
       type: 'manual',
@@ -69,7 +64,12 @@ export default function PureEnterPasswordPage({
           <Button color={'secondary'} type={'button'} fullLength onClick={onGoBack}>
             {t('common:BACK')}
           </Button>
-          <Button type={'submit'} fullLength disabled={errors[PASSWORD] || !password}>
+          <Button
+            data-cy="enterPassword-submit"
+            type={'submit'}
+            fullLength
+            disabled={errors[PASSWORD] || !password}
+          >
             {t('SIGNUP.SIGN_IN')}
           </Button>
         </>
@@ -84,6 +84,7 @@ export default function PureEnterPasswordPage({
         </div>
       )}
       <Input
+        data-cy="enterPassword-password"
         style={{ marginBottom: '28px' }}
         label={t('ENTER_PASSWORD.LABEL')}
         type={PASSWORD}

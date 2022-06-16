@@ -5,14 +5,11 @@ import { HookFormPersistProvider } from '../../../hooks/useHookFormPersist/HookF
 import { useMemo } from 'react';
 import { getRowGuidancePaths } from '../../../../components/Crop/getAddManagementPlanPath';
 
-export default function RowGuidance({ history, match }) {
+export default function RowGuidance({ history, match, location }) {
   const variety_id = match.params.variety_id;
   const system = useSelector(measurementSelector);
   const isFinalPage = match?.path === '/crop/:variety_id/add_management_plan/row_guidance';
-  const { submitPath } = useMemo(
-    () => getRowGuidancePaths(variety_id, isFinalPage),
-    [],
-  );
+  const { submitPath } = useMemo(() => getRowGuidancePaths(variety_id, isFinalPage), []);
   return (
     <HookFormPersistProvider>
       <PurePlanGuidance
@@ -22,6 +19,7 @@ export default function RowGuidance({ history, match }) {
         isFinalPage={isFinalPage}
         variety_id={variety_id}
         submitPath={submitPath}
+        location={location}
       />
     </HookFormPersistProvider>
   );

@@ -1,5 +1,5 @@
 import React from 'react';
-import PointDetails from '../../../../components/LocationDetailLayout/PointDetails';
+import PointDetails from '../../../../components/LocationDetailLayout/PointDetails/PointDetails';
 import decorator from '../../config/Decorators';
 import { chromaticSmallScreen } from '../../config/chromatic';
 

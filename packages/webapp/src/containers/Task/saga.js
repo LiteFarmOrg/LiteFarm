@@ -301,7 +301,7 @@ const getPostTaskBody = (data, endpoint, managementPlanWithCurrentLocationEntiti
         delete data[key];
       }
       data.wage_at_moment = data.override_hourly_wage ? data.wage_at_moment : null;
-      data.managementPlans = data.managementPlans.map(({ management_plan_id }) => ({
+      data.managementPlans = data.managementPlans?.map(({ management_plan_id }) => ({
         planting_management_plan_id:
           managementPlanWithCurrentLocationEntities[management_plan_id].planting_management_plan
             .planting_management_plan_id,
@@ -391,7 +391,9 @@ const getPostTaskReqBody = (
 
 export const createTask = createAction('createTaskSaga');
 
-export function* createTaskSaga({ payload: data }) {
+export function* createTaskSaga({ payload }) {
+  const { returnPath, ...data } = payload;
+
   const { taskUrl } = apiConfig;
   let { user_id, farm_id } = yield select(loginSelector);
   const { task_translation_key, farm_id: task_farm_id } = yield select(
@@ -426,7 +428,7 @@ export function* createTaskSaga({ payload: data }) {
       yield call(getTasksSuccessSaga, { payload: isHarvest ? result.data : [result.data] });
       yield call(onReqSuccessSaga, {
         message: i18n.t('message:TASK.CREATE.SUCCESS'),
-        pathname: '/tasks',
+        pathname: returnPath ?? '/tasks',
       });
     }
   } catch (e) {
@@ -472,7 +474,7 @@ const taskTypeGetCompleteTaskBodyFunctionMap = {
 
 export const completeTask = createAction('completeTaskSaga');
 
-export function* completeTaskSaga({ payload: { task_id, data } }) {
+export function* completeTaskSaga({ payload: { task_id, data, returnPath } }) {
   const { taskUrl } = apiConfig;
   let { user_id, farm_id } = yield select(loginSelector);
   const { task_translation_key, isCustomTaskType } = data;
@@ -492,7 +494,7 @@ export function* completeTaskSaga({ payload: { task_id, data } }) {
       yield put(putTaskSuccess(result.data));
       yield call(onReqSuccessSaga, {
         message: i18n.t('message:TASK.COMPLETE.SUCCESS'),
-        pathname: '/tasks',
+        pathname: returnPath ?? '/tasks',
       });
     }
   } catch (e) {
@@ -504,16 +506,17 @@ export function* completeTaskSaga({ payload: { task_id, data } }) {
 export const abandonTask = createAction('abandonTaskSaga');
 
 export function* abandonTaskSaga({ payload: data }) {
+  console.log(data);
   const { taskUrl } = apiConfig;
   let { user_id, farm_id } = yield select(loginSelector);
-  const { task_id, patchData } = data;
+  const { task_id, patchData, returnPath } = data;
   const header = getHeader(user_id, farm_id);
   try {
     const result = yield call(axios.patch, `${taskUrl}/abandon/${task_id}`, patchData, header);
     if (result) {
       yield put(putTaskSuccess(result.data));
       yield put(enqueueSuccessSnackbar(i18n.t('message:TASK.ABANDON.SUCCESS')));
-      history.push('/tasks');
+      history.push(returnPath ?? '/tasks');
     }
   } catch (e) {
     console.log(e);

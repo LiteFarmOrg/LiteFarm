@@ -21,6 +21,7 @@ export default function PureManagementTasks({
   history,
   match,
   children,
+  location,
 }) {
   const { t } = useTranslation();
 
@@ -52,7 +53,7 @@ export default function PureManagementTasks({
       }
     >
       <CropHeader
-        onBackClick={onBack}
+        onBackClick={() => history.go(-1)}
         crop_translation_key={variety.crop_translation_key}
         crop_variety_name={variety.crop_variety_name}
         crop_variety_photo_url={variety.crop_variety_photo_url}
@@ -72,10 +73,12 @@ export default function PureManagementTasks({
           {
             label: t('MANAGEMENT_DETAIL.TASKS'),
             path: `/crop/${match.params.variety_id}/management_plan/${match.params.management_plan_id}/tasks`,
+            state: location?.state,
           },
           {
             label: t('MANAGEMENT_DETAIL.DETAILS'),
             path: `/crop/${match.params.variety_id}/management_plan/${match.params.management_plan_id}/details`,
+            state: location?.state,
           },
         ]}
       />

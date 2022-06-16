@@ -6,15 +6,15 @@
   "ATTACHMENTS": {
     "ERROR": {
       "CREATE": "No se pudo crear el documento",
-      "FAILED_UNARCHIVE": "No se pudo desarchivar el documento",
       "FAILED_ARCHIVE": "No se pudo archivar el documento",
+      "FAILED_UNARCHIVE": "No se pudo desarchivar el documento",
       "FAILED_UPLOAD": "No se pudo subir los archivos adjuntos",
       "UPDATE": "No se pudo actualizar el documento"
     },
     "SUCCESS": {
-      "UNARCHIVE": "Documento desarchivado con éxito",
       "ARCHIVE": "Documento archivado exitosamente",
       "CREATE": "Documento creado exitosamente",
+      "UNARCHIVE": "Documento desarchivado con éxito",
       "UPDATE": "Documento actualizado exitosamente"
     }
   },
@@ -91,9 +91,9 @@
   "MAP": {
     "FAIL_PATCH": "Fallo al actualizar",
     "FAIL_POST": "Fallo al crear",
-    "SUCCESS_DELETE": " se retiro exitosamente.",
-    "SUCCESS_PATCH": " se actualizo exitosamente.",
-    "SUCCESS_POST": " se creo exitosamente."
+    "SUCCESS_DELETE": " retirada/o con éxito",
+    "SUCCESS_PATCH": " actualizo/a con éxito.",
+    "SUCCESS_POST": " creo/a con éxito."
   },
   "ORGANIC_CERTIFIER_SURVEY": {
     "ERROR": {
@@ -187,7 +187,7 @@
       "ADD": "Usuario(a) de la finca agregado exitosamente!",
       "RESTORE": "Acceso de usuario(a) restaurado exitosamente",
       "REVOKE": "Acceso de usuario(a) revocado!",
-      "UPDATE": "Información del(a) usuario(a) actualizado exitosamente!"
+      "UPDATE": "Información del(a) usuario(a) actualizada exitosamente!"
     }
   }
 }

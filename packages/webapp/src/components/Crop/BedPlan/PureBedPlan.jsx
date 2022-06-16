@@ -19,6 +19,7 @@ function PureBedPlan({
   prefix = `crop_management_plan.planting_management_plans.${isFinalPage ? 'final' : 'initial'}`,
   submitPath,
   onGoBack = () => history.back(),
+  location,
 }) {
   const { t } = useTranslation();
   const {
@@ -36,7 +37,7 @@ function PureBedPlan({
   });
   const { historyCancel } = useHookFormPersist(getValues);
 
-  const onSubmit = () => history.push(submitPath);
+  const onSubmit = () => history.push(submitPath, location?.state);
 
   return (
     <Form

@@ -173,7 +173,7 @@ export const soilAmounts = {
   metric: {
     units: ['g', 'kg', 'mt'],
     defaultUnit: 'kg',
-    breakpoints: [1000],
+    breakpoints: [1, 1000],
   },
   imperial: {
     units: ['oz', 'lb', 't'],

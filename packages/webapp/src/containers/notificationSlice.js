@@ -1,6 +1,5 @@
 import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
 import { createSelector } from 'reselect';
-import { getNotificationCardDate } from '../util/moment';
 
 /**
  * Generate action creators and action types that correspond to a specified initial state and a specified set of reducers.
@@ -43,10 +42,11 @@ export const { onLoadingNotificationStart, onLoadingNotificationFail, getNotific
   notificationSlice.actions;
 export default notificationSlice.reducer;
 
-export const notificationReducerSelector = (state) => state.entitiesReducer[notificationSlice.name];
+export const notificationReducerSelector = (state) =>
+  state.farmStateReducer[notificationSlice.name];
 
 const notificationSelectors = notificationAdapter.getSelectors(
-  (state) => state.entitiesReducer[notificationSlice.name],
+  (state) => state.farmStateReducer[notificationSlice.name],
 );
 
 export const notificationEntitiesSelector = notificationSelectors.selectEntities;
@@ -65,7 +65,6 @@ export const notificationsSelector = createSelector(
       return {
         ...notification,
         ...notification.variables,
-        created_at: getNotificationCardDate(notification.created_at),
       };
     });
   },
@@ -73,4 +72,16 @@ export const notificationsSelector = createSelector(
 
 export const notificationSelector = (notification_id) => (state) => {
   return notificationSelectors.selectById(state, notification_id);
+};
+
+export const relatedNotificationSelector = (entity) => (state) => {
+  if (!entity) return [];
+  const { type, id } = entity;
+  if (!!type && !!id) {
+    return notificationSelectors.selectAll(state).filter((n) => {
+      return n.ref?.entity?.type === type && n.ref?.entity?.id.toString() === id.toString();
+    });
+  } else {
+    return [];
+  }
 };

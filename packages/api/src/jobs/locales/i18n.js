@@ -4,7 +4,7 @@ const Backend = require('i18next-fs-backend');
 i18n.use(Backend).init(
   {
     fallbackLng: 'en',
-    preload: ['en', 'es', 'pt'],
+    preload: ['en', 'es', 'pt', 'fr'],
     ns: ['translation', 'crop'],
     defaultNS: 'translation',
     nsSeparator: ':',
@@ -14,7 +14,6 @@ i18n.use(Backend).init(
   },
   (err) => {
     if (err) return console.error(err);
-    console.log('i18next is ready...');
   },
 );
 

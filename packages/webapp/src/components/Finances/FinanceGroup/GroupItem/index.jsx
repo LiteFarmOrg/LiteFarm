@@ -5,6 +5,7 @@ import clsx from 'clsx';
 import { BsChevronRight } from 'react-icons/bs';
 import { Text } from '../../../Typography';
 import { ReactComponent as CalendarIcon } from '../../../../assets/images/managementPlans/calendar.svg';
+import grabCurrencySymbol from '../../../../util/grabCurrencySymbol';
 
 const FinanceItem = ({ title, subtitle, amount, isPlan, onClickForward }) => {
   return (
@@ -22,7 +23,7 @@ const FinanceItem = ({ title, subtitle, amount, isPlan, onClickForward }) => {
           </div>
         )}
       </div>
-      <Text className={styles.gridItem}>{`$${amount.toFixed(2)}`}</Text>
+      <Text className={styles.gridItem}>{`${grabCurrencySymbol()}${amount.toFixed(2)}`}</Text>
       {onClickForward && (
         <BsChevronRight
           className={clsx(styles.itemChevron, styles.rightChevron, styles.gridItem)}

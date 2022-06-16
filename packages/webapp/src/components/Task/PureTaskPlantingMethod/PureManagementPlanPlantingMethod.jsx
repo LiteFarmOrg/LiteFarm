@@ -8,7 +8,13 @@ import MultiStepPageTitle from '../../PageTitle/MultiStepPageTitle';
 import { cloneObject } from '../../../util';
 import { PurePlantingMethod } from '../../Crop/PlantingMethod/PurePlantingMethod';
 
-export function PureTaskPlantingMethod({ useHookFormPersist, persistedFormData, history, entryPath}) {
+export function PureTaskPlantingMethod({
+  useHookFormPersist,
+  persistedFormData,
+  history,
+  entryPath,
+  location,
+}) {
   const { t } = useTranslation();
 
   const {
@@ -30,9 +36,9 @@ export function PureTaskPlantingMethod({ useHookFormPersist, persistedFormData, 
 
   const onError = () => {};
 
-  const onSubmit = () => history.push(`/add_task/${planting_method.toLowerCase()}`);
+  const onSubmit = () => history.push(`/add_task/${planting_method.toLowerCase()}`, location.state);
   const onGoBack = () => history.back();
-  const onCancel = () => history.push(entryPath);
+  const { historyCancel } = useHookFormPersist(getValues);
 
   const disabled = !isValid;
 
@@ -47,7 +53,7 @@ export function PureTaskPlantingMethod({ useHookFormPersist, persistedFormData, 
     >
       <MultiStepPageTitle
         onGoBack={onGoBack}
-        onCancel={onCancel}
+        onCancel={historyCancel}
         cancelModalTitle={t('ADD_TASK.CANCEL')}
         title={t('ADD_TASK.ADD_A_TASK')}
         value={62.5}

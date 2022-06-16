@@ -7,7 +7,13 @@ import { Info, Main, Semibold } from '../../Typography';
 import { colors } from '../../../assets/theme';
 import { ReactComponent as PostSurveySplash } from '../../../assets/images/certification/CompleteSurveySplash.svg';
 
-const RegisteredCertifierQuestionsSurvey = ({ certiferAcronym, surveyId, submissionId, isSurveySkipped, email }) => {
+const RegisteredCertifierQuestionsSurvey = ({
+  certiferAcronym,
+  surveyId,
+  submissionId,
+  isSurveySkipped,
+  email,
+}) => {
   const { t } = useTranslation();
 
   return (
@@ -30,7 +36,11 @@ const RegisteredCertifierQuestionsSurvey = ({ certiferAcronym, surveyId, submiss
 
       <Info style={{ marginBottom: '24px' }}>{t('CERTIFICATIONS.NOTE_CANNOT_RESUBMIT')}</Info>
 
-      {submissionId || isSurveySkipped ? <PostSurveyBody email={email} /> : <PreSurveyBody surveyId={surveyId} />}
+      {submissionId || isSurveySkipped ? (
+        <PostSurveyBody email={email} />
+      ) : (
+        <PreSurveyBody surveyId={surveyId} />
+      )}
     </>
   );
 };
@@ -41,6 +51,7 @@ const PreSurveyBody = ({ surveyId }) => {
       title="temp iframe title"
       src={`https://app.surveystack.io/surveys/${surveyId}?minimal_ui=true`}
       className={styles.surveyFrame}
+      allow="geolocation"
     />
   );
 };

@@ -20,14 +20,15 @@ const TaskCard = ({
   onClick = null,
   selected,
   happiness,
-  taskCardContents,
   classes = { card: {} },
   ...props
 }) => {
   const [showTaskAssignModal, setShowTaskAssignModal] = useState();
   const [showDateAssignModal, setShowDateAssignModal] = useState();
   const dispatch = useDispatch();
-  const onChangeTaskDate = (date) => dispatch(changeTaskDate({ task_id, due_date: date }));
+  const onChangeTaskDate = (date) => {
+    dispatch(changeTaskDate({ task_id, due_date: date + 'T00:00:00.000' }));
+  };
   const onAssignTasksOnDate = (task) => dispatch(assignTasksOnDate(task));
   const onAssignTask = (task) => dispatch(assignTask(task));
   const users = useSelector(userFarmsByFarmSelector).filter((user) => user.status !== 'Inactive');
@@ -83,7 +84,6 @@ const TaskCard = ({
           onAssignTask={onAssignTask}
           users={users}
           user={user}
-          taskCardContents={taskCardContents}
           dismissModal={() => setShowTaskAssignModal(false)}
         />
       )}
@@ -113,7 +113,6 @@ TaskCard.propTypes = {
   onClickCompleteOrDueDate: PropTypes.func,
   selected: PropTypes.bool,
   task_id: PropTypes.number,
-  taskCardContents: PropTypes.array,
 };
 
 export default TaskCard;

@@ -1,6 +1,6 @@
 {
   "name": "litefarm-api",
-  "version": "3.1.1",
+  "version": "3.2.1",
   "description": "LiteFarm API server",
   "main": "./api/src/server.js",
   "scripts": {
@@ -40,6 +40,9 @@
     "globalSetup": "./jest-global-setup.js"
   },
   "dependencies": {
+    "@googlemaps/google-maps-services-js": "^3.3.14",
+    "adm-zip": "^0.4.16",
+    "async-file": "^2.0.2",
     "aws-sdk": "^2.931.0",
     "axios": "^0.21.4",
     "bcryptjs": "^2.4.3",

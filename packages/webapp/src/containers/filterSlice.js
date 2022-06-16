@@ -1,3 +1,18 @@
+/*
+ *  Copyright 2019, 2020, 2021, 2022 LiteFarm.org
+ *  This file is part of LiteFarm.
+ *
+ *  LiteFarm is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  LiteFarm is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
+ */
+
 import { createSlice } from '@reduxjs/toolkit';
 import { createSelector } from 'reselect';
 import { getDateInputFormat } from '../util/moment';
@@ -82,6 +97,48 @@ const filterSliceReducer = createSlice({
     setTasksFilter: (state, { payload: tasksFilter }) => {
       Object.assign(state.tasks, tasksFilter);
     },
+    setTasksFilterUnassignedDueThisWeek: (state, { payload: { date = new Date() } }) => {
+      const oneWeekFromDate = new Date(date.valueOf());
+      oneWeekFromDate.setDate(date.getDate() + 6);
+      state.tasks = {
+        ...intialTasksFilter,
+        ASSIGNEE: Object.keys(state.tasks.ASSIGNEE).reduce((assignees, assigneeUserId) => {
+          assignees[assigneeUserId] = {
+            active: false,
+            label: state.tasks.ASSIGNEE[assigneeUserId].label,
+          };
+          return assignees;
+        }, {}),
+        FROM_DATE: getDateInputFormat(date),
+        TO_DATE: getDateInputFormat(oneWeekFromDate),
+      };
+      state.tasks.ASSIGNEE['unassigned'] = {
+        active: true,
+        label: i18n.t('TASK.UNASSIGNED'),
+      };
+    },
+    setTasksFilterDueToday: (
+      state,
+      { payload: { user_id, first_name, last_name, date = new Date() } },
+    ) => {
+      const dayBefore = new Date(date.valueOf());
+      dayBefore.setDate(date.getDate() - 1);
+      state.tasks = {
+        ...intialTasksFilter,
+        ASSIGNEE: Object.keys(state.tasks.ASSIGNEE).reduce((assignees, assigneeUserId) => {
+          assignees[assigneeUserId] = {
+            active: false,
+          };
+          return assignees;
+        }, {}),
+        FROM_DATE: getDateInputFormat(dayBefore),
+        TO_DATE: getDateInputFormat(date),
+      };
+      state.tasks.ASSIGNEE[user_id] = {
+        active: true,
+        label: `${first_name} ${last_name}`,
+      };
+    },
   },
 });
 
@@ -98,6 +155,8 @@ export const {
   setDocumentsFilter,
   resetTasksFilter,
   setTasksFilter,
+  setTasksFilterUnassignedDueThisWeek,
+  setTasksFilterDueToday,
 } = filterSliceReducer.actions;
 export default filterSliceReducer.reducer;
 

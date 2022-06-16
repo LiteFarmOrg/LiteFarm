@@ -33,7 +33,7 @@ import { isTaskType } from '../useIsTaskType';
 import { useMaxZoom } from '../../Map/useMaxZoom';
 import { assignTask, assignTasksOnDate, changeTaskDate } from '../saga';
 
-function TaskReadOnly({ history, match }) {
+function TaskReadOnly({ history, match, location }) {
   const task_id = match.params.task_id;
   const dispatch = useDispatch();
   const system = useSelector(measurementSelector);
@@ -62,12 +62,12 @@ function TaskReadOnly({ history, match }) {
       ]),
     );
     if (isHarvest) {
-      history.push(`/tasks/${task_id}/complete_harvest_quantity`);
+      history.push(`/tasks/${task_id}/complete_harvest_quantity`, location?.state);
     } else if (isTaskTypeCustom) {
       dispatch(setFormData({ task_id, taskType: task.taskType }));
-      history.push(`/tasks/${task_id}/complete`);
+      history.push(`/tasks/${task_id}/complete`, location?.state);
     } else {
-      history.push(`/tasks/${task_id}/before_complete`);
+      history.push(`/tasks/${task_id}/before_complete`, location?.state);
     }
   };
 
@@ -76,11 +76,12 @@ function TaskReadOnly({ history, match }) {
   };
 
   const onAbandon = () => {
-    history.push(`/tasks/${task_id}/abandon`);
+    history.push(`/tasks/${task_id}/abandon`, location?.state);
   };
   const { maxZoomRef, getMaxZoom } = useMaxZoom();
 
-  const onChangeTaskDate = (date) => dispatch(changeTaskDate({ task_id, due_date: date }));
+  const onChangeTaskDate = (date) =>
+    dispatch(changeTaskDate({ task_id, due_date: date + 'T00:00:00.000' }));
   const onAssignTasksOnDate = (task) => dispatch(assignTasksOnDate(task));
   const onAssignTask = (task) => dispatch(assignTask(task));
   return (

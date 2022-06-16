@@ -42,7 +42,7 @@ class EditSale extends Component {
       date: moment.utc(sale && sale.sale_date),
       quantity_unit,
       chosenOptions,
-      currencySymbol: grabCurrencySymbol(this.props.farm),
+      currencySymbol: grabCurrencySymbol(),
     };
     sale?.crop_variety_sale.forEach((cvs) => {
       const { crop_variety_name, crop_id } = this.props.cropVarietyEntities[cvs.crop_variety_id];

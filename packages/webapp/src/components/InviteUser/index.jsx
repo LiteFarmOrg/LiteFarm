@@ -1,6 +1,6 @@
 import Form from '../Form';
 import Button from '../Form/Button';
-import Input, { getInputErrors, integerOnKeyDown } from '../Form/Input';
+import Input, { getInputErrors, integerOnKeyDown, numberOnKeyDown } from '../Form/Input';
 import React, { useEffect } from 'react';
 import { Title } from '../Typography';
 import PropTypes from 'prop-types';
@@ -26,6 +26,7 @@ export default function PureInviteUser({ onInvite, onGoBack, roleOptions = [] })
   const ROLE = 'role';
   const EMAIL = 'email';
   const GENDER = 'gender';
+  const LANGUAGE = 'language';
   const BIRTHYEAR = 'birth_year';
   const WAGE = 'wage';
   const PHONE = 'phone_number';
@@ -44,11 +45,18 @@ export default function PureInviteUser({ onInvite, onGoBack, roleOptions = [] })
     { value: 'OTHER', label: t('gender:OTHER') },
     { value: 'PREFER_NOT_TO_SAY', label: t('gender:PREFER_NOT_TO_SAY') },
   ];
+  const languageOptions = [
+    { value: 'en', label: t('PROFILE.ACCOUNT.ENGLISH') },
+    { value: 'es', label: t('PROFILE.ACCOUNT.SPANISH') },
+    { value: 'pt', label: t('PROFILE.ACCOUNT.PORTUGUESE') },
+    { value: 'fr', label: t('PROFILE.ACCOUNT.FRENCH') },
+  ];
 
   const disabled = !isValid || !isDirty;
   const onSubmit = (data) => {
     data[GENDER] = data?.[GENDER]?.value || 'PREFER_NOT_TO_SAY';
     data[ROLE] = data?.[ROLE]?.value;
+    data[LANGUAGE] = data?.[LANGUAGE]?.value || t('INVITE_USER.DEFAULT_LANGUAGE_VALUE');
     const { first_name, last_name } = getFirstNameLastName(data.name);
     onInvite({ ...data, email, first_name, last_name });
   };
@@ -119,6 +127,24 @@ export default function PureInviteUser({ onInvite, onGoBack, roleOptions = [] })
           />
         )}
       />
+      <Controller
+        control={control}
+        name={LANGUAGE}
+        render={({ field }) => (
+          <ReactSelect
+            label={t('INVITE_USER.LANGUAGE_OF_INVITE')}
+            options={languageOptions}
+            style={{ marginBottom: '24px' }}
+            defaultValue={{
+              value: t('INVITE_USER.DEFAULT_LANGUAGE_VALUE'),
+              label: t('INVITE_USER.DEFAULT_LANGUAGE'),
+            }}
+            isDisabled={email === '' || email === undefined || email === null}
+            {...field}
+            required
+          />
+        )}
+      />
       <Input
         label={t('INVITE_USER.BIRTH_YEAR')}
         type="number"
@@ -142,7 +168,7 @@ export default function PureInviteUser({ onInvite, onGoBack, roleOptions = [] })
         label={t('INVITE_USER.WAGE')}
         step="0.01"
         type="number"
-        onKeyPress={integerOnKeyDown}
+        onKeyPress={numberOnKeyDown}
         hookFormRegister={register(WAGE, { min: 0, valueAsNumber: true })}
         style={{ marginBottom: '24px' }}
         errors={errors[WAGE] && (errors[WAGE].message || t('INVITE_USER.WAGE_ERROR'))}

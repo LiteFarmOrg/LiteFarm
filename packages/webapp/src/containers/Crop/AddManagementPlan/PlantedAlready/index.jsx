@@ -5,14 +5,19 @@ import { HookFormPersistProvider } from '../../../hooks/useHookFormPersist/HookF
 import { measurementSelector } from '../../../userFarmSlice';
 import { cropVarietySelector } from '../../../cropVarietySlice';
 
-function PlantedAlready({ history, match }) {
+function PlantedAlready({ history, match, location }) {
   const system = useSelector(measurementSelector);
   const variety_id = match?.params?.variety_id;
   const cropVariety = useSelector(cropVarietySelector(variety_id));
 
   return (
     <HookFormPersistProvider>
-      <PurePlantedAlready system={system} cropVariety={cropVariety} history={history} />
+      <PurePlantedAlready
+        system={system}
+        cropVariety={cropVariety}
+        history={history}
+        location={location}
+      />
     </HookFormPersistProvider>
   );
 }

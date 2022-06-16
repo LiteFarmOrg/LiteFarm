@@ -5,6 +5,7 @@ import clsx from 'clsx';
 import { gridContainer, gridItem } from '../FinanceGroup/styles.module.scss';
 import { useTranslation } from 'react-i18next';
 import { Semibold } from '../../Typography';
+import grabCurrencySymbol from '../../../util/grabCurrencySymbol';
 
 const WholeFarmRevenue = ({ amount, className, ...props }) => {
   const { t } = useTranslation();
@@ -15,7 +16,7 @@ const WholeFarmRevenue = ({ amount, className, ...props }) => {
         {t('FINANCES.WHOLE_FARM_REVENUE')}
       </Semibold>
       <Semibold className={clsx(gridItem, styles.textColor)} sm>
-        {`$${amount.toFixed(2)}`}
+        {`${grabCurrencySymbol()}${amount.toFixed(2)}`}
       </Semibold>
     </div>
   );

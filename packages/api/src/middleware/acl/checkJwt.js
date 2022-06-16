@@ -1,5 +1,5 @@
 /*
- *  Copyright 2019-2022 LiteFarm.org
+ *  Copyright 2019, 2020, 2021, 2022 LiteFarm.org
  *  This file is part of LiteFarm.
  *
  *  LiteFarm is free software: you can redistribute it and/or modify
@@ -26,6 +26,8 @@ const checkJwt = jwt({
     '/user/accept_invitation',
     '/user_farm/accept_invitation',
     '/notification_user/subscribe',
+    /\/time_notification\//i,
+    /\/farm\/utc_offset_by_range\//i,
   ],
 });
 

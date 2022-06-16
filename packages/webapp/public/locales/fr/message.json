@@ -1,193 +1,193 @@
 {
   "ASSIGN_TASK": {
-    "ERROR": "MISSING",
-    "SUCCESS": "MISSING"
+    "ERROR": "N'a pas réussi à attribuer les tâches",
+    "SUCCESS": "Tâches attribuées avec succès"
   },
   "ATTACHMENTS": {
     "ERROR": {
-      "CREATE": "MISSING",
-      "FAILED_UNARCHIVE": "MISSING",
-      "FAILED_ARCHIVE": "MISSING",
-      "FAILED_UPLOAD": "MISSING",
-      "UPDATE": "MISSING"
+      "CREATE": "N'a pas réussi à créer un document",
+      "FAILED_ARCHIVE": "Impossible d'archiver le document",
+      "FAILED_UNARCHIVE": "N'a pas réussi à désarchiver le document",
+      "FAILED_UPLOAD": "Le téléchargement des pièces jointes a échoué",
+      "UPDATE": "La mise à jour a échouée"
     },
     "SUCCESS": {
-      "UNARCHIVE": "MISSING",
-      "ARCHIVE": "MISSING",
-      "CREATE": "MISSING",
-      "UPDATE": "MISSING"
+      "ARCHIVE": "Document archivé avec succès",
+      "CREATE": "Document créé avec succès",
+      "UNARCHIVE": "Document désarchivé avec succès",
+      "UPDATE": "Document mis à jour avec succès"
     }
   },
   "CROP": {
     "ERROR": {
-      "DELETE": "MISSING"
+      "DELETE": "N'a pas réussi à supprimer la grande culture"
     },
     "SUCCESS": {
-      "DELETE": "MISSING"
+      "DELETE": "Culture supprimée avec succès"
     }
   },
   "CROP_VARIETY": {
     "ERROR": {
-      "ADD": "MISSING",
-      "ADD_ALREADY_EXISTS": "MISSING",
-      "DELETE": "MISSING",
-      "UPDATE": "MISSING"
+      "ADD": "Erreur : échec de l'ajout de la variété à la base de données",
+      "ADD_ALREADY_EXISTS": "Erreur : la variété existe déjà",
+      "DELETE": "Échec de la suppression de la variété de culture",
+      "UPDATE": "Échec de la mise à jour de la variété de culture"
     },
     "SUCCESS": {
-      "ADD": "MISSING",
-      "DELETE": "MISSING",
-      "UPDATE": "MISSING"
+      "ADD": "Variété de culture sauvegardée avec succès !",
+      "DELETE": "Variété de culture supprimée",
+      "UPDATE": "Variété de culture mise à jour avec succès"
     }
   },
   "EXPENSE": {
     "ERROR": {
-      "ADD": "MISSING",
-      "DELETE": "MISSING",
-      "UPDATE": "MISSING"
+      "ADD": "Impossible d'ajouter de nouvelles dépenses",
+      "DELETE": "Impossible de supprimer les dépenses",
+      "UPDATE": "Impossible de mettre à jour les dépenses"
     },
     "SUCCESS": {
-      "ADD": "MISSING",
-      "DELETE": "MISSING",
-      "UPDATE": "MISSING"
+      "ADD": "Nouvelles dépenses ajoutées avec succès !",
+      "DELETE": "Dépenses supprimées avec succès !",
+      "UPDATE": "Dépenses mises à jour avec succès !"
     }
   },
   "FARM": {
     "ERROR": {
-      "ADD": "MISSING",
-      "FETCH": "MISSING",
-      "UPDATE": "MISSING"
+      "ADD": "Impossible d'ajouter une ferme. Veuillez contacter LiteFarm pour obtenir de l'aide",
+      "FETCH": "Impossible de récupérer la ferme à partir de la base de données",
+      "UPDATE": "Impossible de mettre à jour les informations de la ferme"
     },
     "SUCCESS": {
-      "UPDATE": "MISSING"
+      "UPDATE": "Informations sur la ferme mises à jour !"
     }
   },
   "LOG_HARVEST": {
     "ERROR": {
-      "ADD_USE_TYPE": "Failed to add custom harvest use type",
-      "AMOUNT_TOTAL": "MISSING",
-      "GET_TYPES": "MISSING"
+      "ADD_USE_TYPE": "Impossible d'ajouter un type d'utilisation de récolte personnalisé",
+      "AMOUNT_TOTAL": "Le total n'est pas égal au montant à allouer",
+      "GET_TYPES": "Impossible de récupérer les types d'utilisation de récolte"
     },
     "SUCCESS": {
-      "ADD_USE_TYPE": "Successfully added custom harvest use type"
+      "ADD_USE_TYPE": "Type d'utilisation de récolte personnalisé ajouté avec succès"
     }
   },
   "LOGIN": {
     "ERROR": {
-      "LOGIN_FAIL": "MISSING"
+      "LOGIN_FAIL": "Impossible de se connecter aux informations de l'utilisateur"
     }
   },
   "MANAGEMENT_PLAN": {
     "ERROR": {
-      "ABANDON": "MISSING",
-      "COMPLETE": "MISSING",
-      "POST": "MISSING"
+      "ABANDON": "Le plan de culture n'est pas abandonné !",
+      "COMPLETE": "Impossible de terminer le plan de culture !",
+      "POST": "Le plan de culture n'est pas ajouté !"
     },
     "SUCCESS": {
-      "ABANDON": "MISSING",
-      "COMPLETE": "MISSING",
-      "POST": "MISSING"
+      "ABANDON": "Plan de culture abandonné avec succès !",
+      "COMPLETE": "Plan de culture terminé avec succès !",
+      "POST": "Plan de culture ajouté avec succès !"
     }
   },
   "MAP": {
-    "FAIL_PATCH": "MISSING",
-    "FAIL_POST": "MISSING",
-    "SUCCESS_DELETE": "MISSING",
-    "SUCCESS_PATCH": "MISSING",
-    "SUCCESS_POST": "MISSING"
+    "FAIL_PATCH": "Impossible de mettre à jour",
+    "FAIL_POST": "Impossible d'ajouter",
+    "SUCCESS_DELETE": "Supprimé avec succès",
+    "SUCCESS_PATCH": "Mise à jour réussie",
+    "SUCCESS_POST": "Enregistré avec succès"
   },
   "ORGANIC_CERTIFIER_SURVEY": {
     "ERROR": {
-      "CREATE": "MISSING",
-      "UPDATE": "MISSING"
+      "CREATE": "Impossible de créer la certification",
+      "UPDATE": "Impossible de mettre à jour la certification"
     }
   },
   "PLAN": {
     "ERROR": {
-      "EDIT": "MISSING"
+      "EDIT": "Impossible de mettre à jour le plan de culture"
     },
     "SUCCESS": {
-      "EDIT": "MISSING"
+      "EDIT": "Plan de culture mis à jour avec succès"
     }
   },
   "REVENUE": {
     "ERROR": {
-      "EDIT": "MISSING"
+      "EDIT": "Impossible de mettre à jour le chiffre d'affaires"
     },
     "SUCCESS": {
-      "EDIT": "MISSING"
+      "EDIT": "Chiffre d'affaires mis à jour avec succès"
     }
   },
   "SALE": {
     "ERROR": {
-      "ADD": "MISSING",
-      "DELETE": "MISSING",
-      "UPDATE": "MISSING"
+      "ADD": "Impossible d'ajouter la vente",
+      "DELETE": "Impossible de supprimer la vente",
+      "UPDATE": "Impossible de mettre à jour la vente"
     },
     "SUCCESS": {
-      "ADD": "MISSING",
-      "DELETE": "MISSING",
-      "UPDATE": "MISSING"
+      "ADD": "Vente ajoutée avec succès",
+      "DELETE": "Vente supprimée avec succès",
+      "UPDATE": "Vente mise à jour avec succès"
     }
   },
   "SHIFT": {
     "ERROR": {
-      "ADD": "MISSING",
-      "CROP_FIELDS_EACH": "MISSING",
-      "DELETE": "MISSING",
-      "DURATION_FOR_CROPS": "MISSING",
-      "ONLY_INTEGERS_DURATIONS": "MISSING",
-      "REQUIRED_TASK": "MISSING",
-      "SUBMIT_SHIFT": "MISSING",
-      "UPDATE": "MISSING"
+      "ADD": "Incapable d'ajouter un nouveau quart de travail",
+      "CROP_FIELDS_EACH": "Veuillez attribuer des cultures ou des champs pour chaque tâche",
+      "DELETE": "Impossible de supprimer le quart de travail",
+      "DURATION_FOR_CROPS": "Veuillez attribuer une durée pour chaque culture",
+      "ONLY_INTEGERS_DURATIONS": "Veuillez n'attribuer des numéros qu'aux durées",
+      "REQUIRED_TASK": "Un nom de tâche est requis",
+      "SUBMIT_SHIFT": "La soumission du quart de travail a échoué; c'est le problème de LiteFarm.",
+      "UPDATE": "Le quart de travail n'est pas mis à jour"
     },
     "SUCCESS": {
-      "ADD": "MISSING",
-      "DELETE": "MISSING",
-      "UPDATE": "MISSING"
+      "ADD": "Quart de travail ajouté avec succès !",
+      "DELETE": "Quart de travail supprimé avec succès !",
+      "UPDATE": "Quart de travail mis à jour avec succès "
     }
   },
   "TASK": {
     "ABANDON": {
-      "FAILED": "MISSING",
-      "SUCCESS": "MISSING"
+      "FAILED": "Impossible d'abandonner une tâche",
+      "SUCCESS": "Tâche abandonnée avec succès"
     },
     "COMPLETE": {
-      "FAILED": "MISSING",
-      "SUCCESS": "MISSING"
+      "FAILED": "Impossible de compléter une tâche",
+      "SUCCESS": "Tâche complétée avec succès "
     },
     "CREATE": {
-      "FAILED": "MISSING",
-      "SUCCESS": "MISSING"
+      "FAILED": "Impossible de créer une tâche",
+      "SUCCESS": "Tâche créée avec succès"
     }
   },
   "TASK_TYPE": {
     "CREATE": {
-      "FAILED": "MISSING",
-      "SUCCESS": "MISSING"
+      "FAILED": "Impossible de créer une tâche personnalisée",
+      "SUCCESS": "Tâche personnalisée créée avec succès"
     },
     "DELETE": {
-      "FAILED": "MISSING",
-      "SUCCESS": "MISSING"
+      "FAILED": "Impossible de supprimer une tâche personnalisée",
+      "SUCCESS": "Tâche personnalisée supprimée avec succès"
     }
   },
   "USER": {
     "ERROR": {
-      "ADD": "MISSING",
-      "AGREEMENT": "MISSING",
-      "EXISTS": "MISSING",
-      "INVITE": "MISSING",
-      "NOTHING_CHANGED": "MISSING",
-      "RESET_PASSWORD": "MISSING",
-      "RESTORE": "MISSING",
-      "REVOKE": "MISSING",
-      "SIGNUP_UNKNOWN": "MISSING",
-      "UPDATE": "MISSING"
+      "ADD": "Impossible d'ajouter l'utilisateur",
+      "AGREEMENT": "Impossible de mettre à jour le contrat d'utilisation",
+      "EXISTS": "L'utilisateur existe déjà dans le réseau LiteFarm",
+      "INVITE": "Erreur lors de la création du compte utilisateur; veuillez contacter LiteFarm pour obtenir de l'aide",
+      "NOTHING_CHANGED": "Aucune donnée n'a changé",
+      "RESET_PASSWORD": "Il y a un problème avec la réinitialisation du mot de passe par courriel; veuillez contacter LiteFarm pour obtenir de l'aide.",
+      "RESTORE": "Une erreur s'est produite lors de la restauration de l'accès",
+      "REVOKE": "Une erreur s'est produite lors de la révocation de l'accès",
+      "SIGNUP_UNKNOWN": "Problème inconnu ! Réessayez plus tard.",
+      "UPDATE": "Impossible de mettre à jour les informations utilisateur"
     },
     "SUCCESS": {
-      "ADD": "MISSING",
-      "RESTORE": "MISSING",
-      "REVOKE": "MISSING",
-      "UPDATE": "MISSING"
+      "ADD": "L'utilisateur a bien été ajouté à la ferme !",
+      "RESTORE": "Accès utilisateur restauré",
+      "REVOKE": "Accès utilisateur révoqué",
+      "UPDATE": "Informations de l'utilisateur mises à jour avec succès !"
     }
   }
 }

@@ -1,4 +1,18 @@
-const Queue = require('bull');
+/*
+ *  Copyright 2019, 2020, 2021, 2022 LiteFarm.org
+ *  This file is part of LiteFarm.
+ *
+ *  LiteFarm is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  LiteFarm is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
+ */
+
 require('dotenv').config();
 const redisConf = {
   redis: {
@@ -6,36 +20,7 @@ const redisConf = {
     port: process.env.REDIS_PORT,
     password: process.env.REDIS_PASSWORD,
   },
-}
-const retrieveQueue = new Queue('retrieve', redisConf);
-const excelQueue = new Queue('excel', redisConf);
-const zipQueue = new Queue('zip', redisConf);
-const pdfQueue = new Queue('pdf', redisConf);
-const emailQueue = new Queue('email', redisConf);
-const uploadQueue = new Queue('upload', redisConf);
-const retrieveFn = require('./certification/do_retrieve');
-const uploadFn = require('./certification/upload');
-const excelFn = require('./certification/recordD');
-const zipFn = require('./certification/zip');
-const pdfFn = require('./certification/pdf');
-const emailFn = require('./certification/email');
+};
 
-retrieveQueue.process(retrieveFn(excelQueue, emailQueue));
-excelQueue.process(excelFn(pdfQueue, zipQueue, emailQueue));
-pdfQueue.process(pdfFn(zipQueue, emailQueue));
-zipQueue.process(zipFn(uploadQueue, emailQueue));
-uploadQueue.process(uploadFn(emailQueue));
-emailQueue.process(emailFn);
-
-
-retrieveQueue.on('error', (e) => console.error(e));
-excelQueue.on('error', (e) => console.error(e));
-pdfQueue.on('error', (e) => console.error(e));
-emailQueue.on('error', (e) => console.error(e));
-uploadQueue.on('error', (e) => console.error(e));
-zipQueue.on('error', (e) => console.error(e));
-
-
-module.exports = {
-  zipQueue, emailQueue, excelQueue, pdfQueue,
-}
+require('./certification').processExports(redisConf);
+require('./notifications').sendOnSchedule(redisConf);

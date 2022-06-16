@@ -78,8 +78,8 @@ export const PureHavestTaskCompleted = ({
 
   return (
     <>
-      {harvest_uses.map((use, index) => (
-        <div>
+      {harvest_uses?.map((use, index) => (
+        <div key={`harvestUse-${index}`}>
           <ReactSelect
             style={{ marginBottom: '40px' }}
             label={t('TASK.HARVEST_USE')}
@@ -97,6 +97,7 @@ export const PureHavestTaskCompleted = ({
             displayUnitName={`harvest_uses.${index}.quantity_unit`}
             unitType={harvestAmounts}
             system={system}
+            defaultValue={use.quantity}
             hookFormSetValue={setValue}
             hookFormGetValue={getValues}
             hookFromWatch={watch}

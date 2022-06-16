@@ -13,24 +13,29 @@
     "CLEANING_PRODUCT": "Produit Nettoyant",
     "CROP_COMPLIANCE": "Conformité de Récolte",
     "FERTILIZING_PRODUCT": "Produits Fertilisants",
+    "INVOICES": "Factures",
     "OTHER": "Autre",
     "PEST_CONTROL_PRODUCT": "Produits Antiparasitaires",
+    "RECEIPTS": "Recettes",
     "SOIL_AMENDMENT": "Amendement de Sol",
-    "SOIL_SAMPLE_RESULTS": "MISSING",
-    "WATER_SAMPLE_RESULTS": "MISSING",
+    "SOIL_SAMPLE_RESULTS": "Résultat de l'échantillon de sol",
+    "WATER_SAMPLE_RESULTS": "Résultat de l'échantillon d'eau",
     "UNCATEGORIZED": "Non Classé"
   },
   "TASKS": {
+    "LOCATION": "Lieu",
     "ABANDONED": "Abandonné",
     "COMPLETED": "Terminé",
     "FOR_REVIEW": "Pour évaluer",
     "LATE": "Tard",
     "PLANNED": "Planifié",
-    "STATUS": "MISSING"
+    "STATUS": "Statut",
+    "SUPPLIERS": "Fournisseurs",
+    "ACTIVE": "Actif"
   },
   "FILTER": {
-    "VALID_ON": "MISSING",
-    "FROM_DATE": "MISSING",
-    "TO_DATE": "MISSING"
+    "VALID_ON": "Valable le",
+    "FROM_DATE": "De",
+    "TO_DATE": "À"
   }
 }

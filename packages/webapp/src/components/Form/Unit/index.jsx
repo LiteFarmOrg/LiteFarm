@@ -226,7 +226,9 @@ const Unit = ({
   }, [hookFormUnit]);
 
   useEffect(() => {
-    if (!hookFormGetValue(displayUnitName)) {
+    !hookFormGetValue(displayUnitName) &&
+      hookFormSetValue(displayUnitName, getUnitOptionMap()[displayUnit]);
+    if (hookFormGetValue(displayUnitName)) {
       hookFormSetValue(displayUnitName, getUnitOptionMap()[displayUnit]);
     }
   }, []);
@@ -237,16 +239,6 @@ const Unit = ({
   useEffect(() => {
     hookFormSetHiddenValue(hookFormValue, { shouldValidate: true, shouldDirty: false });
   }, []);
-
-  useEffect(() => {
-    if (hookFormUnit && hookFormValue !== undefined) {
-      setVisibleInputValue(
-        roundToTwoDecimal(convert(hookFormValue).from(databaseUnit).to(hookFormUnit)),
-      );
-      //Trigger validation
-      (hookFormValue === 0 || hookFormValue > 0) && hookFormSetHiddenValue(hookFormValue);
-    }
-  }, [hookFormUnit]);
 
   const inputOnChange = (e) => {
     setVisibleInputValue(e.target.value);
@@ -369,6 +361,7 @@ const Unit = ({
           name={displayUnitName}
           render={({ field: { onChange, onBlur, value, name, ref } }) => (
             <Select
+              data-cy="unit-select"
               onBlur={onBlur}
               onChange={(e) => {
                 onChange(e);
@@ -380,7 +373,7 @@ const Unit = ({
               styles={reactSelectStyles}
               isSearchable={false}
               options={options}
-              isDisabled={isSelectDisabled}
+              isDisabled={isSelectDisabled || disabled}
             />
           )}
         />
@@ -409,6 +402,7 @@ const Unit = ({
           required: required && t('common:REQUIRED'),
           valueAsNumber: true,
           max: { value: getMax(), message: t('UNIT.VALID_VALUE') + max },
+          min: { value: 0, message: t('UNIT.VALID_VALUE') + max },
         })}
       />
       {info && !showError && <Info style={classes.info}>{info}</Info>}

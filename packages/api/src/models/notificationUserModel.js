@@ -99,26 +99,32 @@ class NotificationUser extends baseModel {
    * @param {uuid} user_id - The specified user.
    * @static
    * @async
-   * @returns {Object[]} An array of data objects.
+   * @returns {Promise<Object[]>} An array of data objects.
    */
   static async getNotificationsForFarmUser(farm_id, user_id) {
-    return (
-      await NotificationUser.knex().raw(
-        `
-      SELECT notification.notification_id, user_id, alert, status, translation_key, variables, 
-        entity_type, entity_id, context, notification_user.created_at
-      FROM notification JOIN notification_user
-      ON notification.notification_id = notification_user.notification_id
-      WHERE notification.deleted = false 
-        AND notification_user.deleted = false 
-        AND user_id = ? 
-        AND (farm_id IS NULL OR farm_id = ?)
-      ORDER BY notification_user.created_at DESC
-      LIMIT 100;
-      `,
-        [user_id, farm_id],
+    return NotificationUser.query()
+      .join('notification', 'notification_user.notification_id', 'notification.notification_id')
+      .select(
+        'notification.notification_id',
+        'user_id',
+        'alert',
+        'status',
+        'title',
+        'body',
+        'variables',
+        'ref',
+        'context',
+        'notification_user.created_at',
       )
-    ).rows;
+      .whereNotDeleted()
+      .where((builder) => {
+        builder.whereNull('farm_id').orWhere({ farm_id });
+      })
+      .andWhere({ user_id })
+      .andWhere({ 'notification.deleted': false })
+      .orderBy('notification_user.created_at', 'desc')
+      .limit(100)
+      .context({ showHidden: true });
   }
 
   /**
@@ -153,10 +159,12 @@ class NotificationUser extends baseModel {
       .andWhere('alert', true)
       .context({ user_id: userId });
     const userSubs = NotificationUser.subscriptions.get(userId);
-    userSubs?.forEach((subscription) => {
-      if (farmId === subscription.farm_id) {
-        subscription.sendAlert(-count);
-      }
+    userSubs?.forEach((subscriber) => {
+      subscriber?.forEach((subscription) => {
+        if (farmId === subscription.farm_id) {
+          subscription.sendAlert(-count);
+        }
+      });
     });
   }
 
@@ -172,9 +180,13 @@ class NotificationUser extends baseModel {
     const { notification_id } = await Notification.query()
       .insert(notification)
       .context({ user_id: '1' });
-    userIds.forEach(async (user_id) => {
-      await NotificationUser.query().insert({ user_id, notification_id }).context({ user_id: '1' });
-    });
+    await Promise.all(
+      userIds.map(async (user_id) => {
+        await NotificationUser.query()
+          .insert({ user_id, notification_id })
+          .context({ user_id: '1' });
+      }),
+    );
     NotificationUser.alert(notification.farm_id, userIds);
   }
 
@@ -187,10 +199,12 @@ class NotificationUser extends baseModel {
   static alert(farm_id, userIds) {
     userIds.forEach((user_id) => {
       const userSubs = NotificationUser.subscriptions.get(user_id);
-      userSubs?.forEach((subscription) => {
-        if (farm_id === subscription.farm_id || farm_id === null) {
-          subscription.sendAlert();
-        }
+      userSubs?.forEach((subscriber) => {
+        subscriber?.forEach((subscription) => {
+          if (farm_id === subscription.farm_id || farm_id === null) {
+            subscription.sendAlert();
+          }
+        });
       });
     });
   }

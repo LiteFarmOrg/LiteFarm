@@ -18,8 +18,6 @@ export default function PureTaskComplete({
   onSave,
   onGoBack,
   persistedFormData,
-
-
   useHookFormPersist,
 }) {
   const DURATION = 'duration';
@@ -45,7 +43,6 @@ export default function PureTaskComplete({
 
   const { historyCancel } = useHookFormPersist(getValues);
 
-
   const progress = 66;
 
   const duration = watch(DURATION);
@@ -59,7 +56,7 @@ export default function PureTaskComplete({
   return (
     <Form
       buttonGroup={
-        <Button type={'submit'} disabled={disabled} fullLength>
+        <Button data-cy="harvestComplete-save" type={'submit'} disabled={disabled} fullLength>
           {t('common:SAVE')}
         </Button>
       }
@@ -133,6 +130,7 @@ export default function PureTaskComplete({
       )}
 
       <Checkbox
+        data-cy="harvestComplete-rating"
         style={{ marginBottom: '42px' }}
         label={t('TASK.PREFER_NOT_TO_SAY')}
         hookFormRegister={register(PREFER_NOT_TO_SAY)}

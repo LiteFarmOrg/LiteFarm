@@ -8,10 +8,12 @@ import { HookFormPersistProvider } from '../../hooks/useHookFormPersist/HookForm
 import { taskTypeSelector } from '../../taskTypeSlice';
 import { hookFormPersistSelector } from '../../hooks/useHookFormPersist/hookFormPersistSlice';
 import { createTask } from '../saga';
+import { useTranslation } from 'react-i18next';
 
-export default function TaskManagement({ history, match }) {
+export default function TaskManagement({ history, match, location }) {
   const userFarms = useSelector(userFarmEntitiesSelector);
   const { farm_id } = useSelector(loginSelector);
+  const { t } = useTranslation();
   const userFarm = useSelector(userFarmSelector);
   const dispatch = useDispatch();
   const users = userFarms[farm_id];
@@ -19,7 +21,7 @@ export default function TaskManagement({ history, match }) {
   const persistedFormData = useSelector(hookFormPersistSelector);
   const selectedTaskType = useSelector(taskTypeSelector(persistedFormData.task_type_id));
   const isCustomType = !!selectedTaskType.farm_id;
-  const [options, setOptions] = useState([{ label: 'Unassigned', value: null }]);
+  const [options, setOptions] = useState([{ label: t('TASK.UNASSIGNED'), value: null }]);
   const [wageData, setWageData] = useState([
     { 0: { currency: null, hourly_wage: null, currencySymbol: null } },
   ]);
@@ -63,7 +65,11 @@ export default function TaskManagement({ history, match }) {
   }, []);
 
   const onSubmit = (data) => {
-    const postData = { ...persistedFormData, ...data };
+    const postData = {
+      ...persistedFormData,
+      ...data,
+      returnPath: location.state ? location.state.pathname : null,
+    };
     dispatch(createTask(postData));
   };
 

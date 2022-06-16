@@ -21,16 +21,17 @@ export default function PureCropList({
   match,
   isAdmin,
   title,
+  location,
 }) {
   const isSearchable = true;
   const { t } = useTranslation();
 
-  const { ref: containerRef, gap, padding, cardWidth } = useCropTileListGap([
-    activeCrops?.length,
-    plannedCrops?.length,
-    pastCrops?.length,
-  ]);
-
+  const {
+    ref: containerRef,
+    gap,
+    padding,
+    cardWidth,
+  } = useCropTileListGap([activeCrops?.length, plannedCrops?.length, pastCrops?.length]);
   return (
     <Layout>
       <PageTitle title={title} onGoBack={() => history.push('/map')} />
@@ -42,6 +43,10 @@ export default function PureCropList({
           {
             label: t('FARM_MAP.TAB.CROPS'),
             path: match.url,
+          },
+          {
+            label: t('FARM_MAP.TAB.TASKS'),
+            path: match.url.replace('crops', 'tasks'),
           },
           {
             label: t('FARM_MAP.TAB.DETAILS'),
@@ -87,7 +92,11 @@ export default function PureCropList({
                   managementPlan={fc}
                   status={'active'}
                   style={{ width: `${cardWidth}px` }}
-                  onClick={() => history.push(`/crop/${fc.crop_variety_id}/management`)}
+                  onClick={() =>
+                    history.push(`/crop/${fc.crop_variety_id}/management`, {
+                      returnPath: location?.pathname,
+                    })
+                  }
                 />
               ))}
             </PureCropTileContainer>
@@ -107,7 +116,11 @@ export default function PureCropList({
                   managementPlan={fc}
                   status={'planned'}
                   style={{ width: `${cardWidth}px` }}
-                  onClick={() => history.push(`/crop/${fc.crop_variety_id}/management`)}
+                  onClick={() =>
+                    history.push(`/crop/${fc.crop_variety_id}/management`, {
+                      returnPath: location?.pathname,
+                    })
+                  }
                 />
               ))}
             </PureCropTileContainer>
@@ -126,7 +139,11 @@ export default function PureCropList({
                   key={fc.management_plan_id}
                   managementPlan={fc}
                   style={{ width: `${cardWidth}px` }}
-                  onClick={() => history.push(`/crop/${fc.crop_variety_id}/management`)}
+                  onClick={() =>
+                    history.push(`/crop/${fc.crop_variety_id}/management`, {
+                      returnPath: location?.pathname,
+                    })
+                  }
                 />
               ))}
             </PureCropTileContainer>

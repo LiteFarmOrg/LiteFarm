@@ -6,6 +6,7 @@ import { ReactComponent as NotificationIcon } from '../../../assets/images/notif
 import { ReactComponent as MyFarmIcon } from '../../../assets/images/my-farm.svg';
 import { ReactComponent as MyFarmIconSpan } from '../../../assets/images/my-farm-es.svg';
 import { ReactComponent as MyFarmIconPort } from '../../../assets/images/my-farm-pt.svg';
+import { ReactComponent as MyFarmIconFren } from '../../../assets/images/my-farm-fr.svg';
 import { ReactComponent as TaskIcon } from '../../../assets/images/task_icon.svg';
 // TODO: use profile picture stored in db
 import { ReactComponent as ProfilePicture } from '../../../assets/images/navbar/defaultpfp.svg';
@@ -24,7 +25,10 @@ import SlideMenu from './slideMenu';
 import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
 import { getLanguageFromLocalStorage } from '../../../util/getLanguageFromLocalStorage';
-import { NavbarSpotlightProvider } from './NavbarSpotlightProvider';
+import {
+  NavbarSpotlightProvider,
+  NavBarNotificationSpotlightProvider,
+} from './NavbarSpotlightProvider';
 import Alert from '../../../containers/Navigation/Alert';
 
 const useStyles = makeStyles((theme) => ({
@@ -90,6 +94,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function PureNavBar({
   showSpotLight,
+  showNotification,
   resetSpotlight,
   history,
   showFinances,
@@ -135,6 +140,7 @@ export default function PureNavBar({
   };
   const farmButtonOnClick = () => setOpenFloater(isFarmFloaterOpen ? null : FARM);
   const notificationIconClick = () => {
+    closeFloater();
     const url = '/notifications';
     if (history.location.pathname === url) {
       // TODO click should update contents; is there better way than full page refresh?
@@ -144,6 +150,7 @@ export default function PureNavBar({
     }
   };
   const taskIconClick = () => {
+    closeFloater();
     history.push('/tasks');
   };
   const profileButtonOnClick = () => setOpenFloater(isProfileFloaterOpen ? null : PROFILE);
@@ -209,6 +216,19 @@ export default function PureNavBar({
     closeFloater();
   };
 
+  const getLanguageFarmIcon = (language) => {
+    switch (language) {
+      case 'pt':
+        return <MyFarmIconPort />;
+      case 'es':
+        return <MyFarmIconSpan />;
+      case 'fr':
+        return <MyFarmIconFren />;
+      default:
+        return <MyFarmIcon />;
+    }
+  };
+
   return (
     <AppBar position="sticky" className={classes.appBar}>
       <Toolbar className={classes.toolbar}>
@@ -239,82 +259,80 @@ export default function PureNavBar({
           />
         </SwipeableDrawer>
         <Logo history={history} />
-        <NavbarSpotlightProvider open={showSpotLight} onFinish={resetSpotlight}>
-          <ClickAwayListener onClickAway={onClickAway}>
-            <div className={classes.icons}>
+        {showNotification ? (
+          <NavBarNotificationSpotlightProvider open={showNotification} onFinish={resetSpotlight} />
+        ) : (
+          <NavbarSpotlightProvider open={showSpotLight} onFinish={resetSpotlight} />
+        )}
+        <ClickAwayListener onClickAway={onClickAway}>
+          <div className={classes.icons}>
+            <IconButton
+              data-cy="home-notificationButton"
+              aria-label="notification icon"
+              color="inherit"
+              id="zerothStepNavBar"
+              onClick={notificationIconClick}
+              className={classes.iconButton}
+              classes={{ root: classes.notificationButton }}
+            >
+              <NotificationIcon />
+              <Alert />
+            </IconButton>
+
+            <PureMyFarmFloater
+              openProfile={isFarmFloaterOpen}
+              farmInfoClick={farmInfoClick}
+              farmMapClick={farmMapClick}
+              peopleClick={peopleClick}
+              certificationClick={certificationClick}
+            >
               <IconButton
-                aria-label="notification icon"
+                data-cy="home-farmButton"
+                aria-label="farm-icon"
                 color="inherit"
-                id="zerothStepNavBar"
-                onClick={notificationIconClick}
+                id="firstStepNavBar"
                 className={classes.iconButton}
-                classes={{ root: classes.notificationButton }}
+                onClick={farmButtonOnClick}
               >
-                <NotificationIcon />
-                <Alert />
+                {getLanguageFarmIcon(selectedLanguage)}
               </IconButton>
+            </PureMyFarmFloater>
 
-              <PureMyFarmFloater
-                openProfile={isFarmFloaterOpen}
-                farmInfoClick={farmInfoClick}
-                farmMapClick={farmMapClick}
-                peopleClick={peopleClick}
-                certificationClick={certificationClick}
-              >
-                <IconButton
-                  data-cy="home-farmButton"
-                  aria-label="farm-icon"
-                  color="inherit"
-                  id="firstStepNavBar"
-                  className={classes.iconButton}
-                  onClick={farmButtonOnClick}
-                >
-                  {selectedLanguage === 'pt' ? (
-                    <MyFarmIconPort />
-                  ) : selectedLanguage === 'es' ? (
-                    <MyFarmIconSpan />
-                  ) : (
-                    <MyFarmIcon />
-                  )}
-                </IconButton>
-              </PureMyFarmFloater>
+            <IconButton
+              data-cy="home-taskButton"
+              aria-label="notification icon"
+              color="inherit"
+              id="secondStepNavBar"
+              onClick={taskIconClick}
+              className={classes.iconButton}
+              classes={{ root: classes.notificationButton }}
+            >
+              <TaskIcon />
+            </IconButton>
 
+            <PureProfileFloater
+              openProfile={isProfileFloaterOpen}
+              helpClick={helpClick}
+              tutorialsClick={openTutorialsClick}
+              myInfoClick={myInfoClick}
+              logOutClick={logOutClick}
+              switchFarmClick={switchFarmClick}
+            >
               <IconButton
-                data-cy="home-notificationButton"
-                aria-label="notification icon"
+                data-cy="home-profileButton"
+                edge="end"
+                aria-label="profile icon"
                 color="inherit"
-                id="secondStepNavBar"
-                onClick={taskIconClick}
+                onClick={profileButtonOnClick}
+                id="thirdStepNavBar"
                 className={classes.iconButton}
-                classes={{ root: classes.notificationButton }}
+                classes={{ root: classes.profileButton }}
               >
-                <TaskIcon />
+                <ProfilePicture />
               </IconButton>
-
-              <PureProfileFloater
-                openProfile={isProfileFloaterOpen}
-                helpClick={helpClick}
-                tutorialsClick={openTutorialsClick}
-                myInfoClick={myInfoClick}
-                logOutClick={logOutClick}
-                switchFarmClick={switchFarmClick}
-              >
-                <IconButton
-                  data-cy="home-profileButton"
-                  edge="end"
-                  aria-label="profile icon"
-                  color="inherit"
-                  onClick={profileButtonOnClick}
-                  id="thirdStepNavBar"
-                  className={classes.iconButton}
-                  classes={{ root: classes.profileButton }}
-                >
-                  <ProfilePicture />
-                </IconButton>
-              </PureProfileFloater>
-            </div>
-          </ClickAwayListener>
-        </NavbarSpotlightProvider>
+            </PureProfileFloater>
+          </div>
+        </ClickAwayListener>
       </Toolbar>
     </AppBar>
   );

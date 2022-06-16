@@ -15,7 +15,6 @@ export default function PureHarvestCompleteQuantity({
   task,
   persistedFormData,
 
-
   useHookFormPersist,
 }) {
   const { t } = useTranslation();
@@ -39,7 +38,6 @@ export default function PureHarvestCompleteQuantity({
 
   const { historyCancel } = useHookFormPersist(getValues);
 
-
   const progress = 25;
 
   const ACTUAL_HARVEST_QUANTITY = 'actual_quantity';
@@ -50,7 +48,7 @@ export default function PureHarvestCompleteQuantity({
   return (
     <Form
       buttonGroup={
-        <Button type={'submit'} disabled={disabled} fullLength>
+        <Button data-cy="harvestQuantity-continue" type={'submit'} disabled={disabled} fullLength>
           {t('common:CONTINUE')}
         </Button>
       }
@@ -68,6 +66,7 @@ export default function PureHarvestCompleteQuantity({
       <Main style={{ marginBottom: '24px' }}>{t('TASK.COMPLETE_HARVEST_QUANTITY')}</Main>
 
       <Unit
+        data-cy="harvestQuantity-quantity"
         register={register}
         label={t('ADD_TASK.QUANTITY')}
         name={ACTUAL_HARVEST_QUANTITY}

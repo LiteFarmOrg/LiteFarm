@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import Form from '../../Form';
 import MultiStepPageTitle from '../../PageTitle/MultiStepPageTitle';
@@ -19,13 +19,15 @@ const PureTaskCrops = ({
   onError,
   persistedFormData,
   onContinue,
-
-
+  bypass,
   useHookFormPersist,
   managementPlansByLocationIds,
   wildManagementPlanTiles,
   isMulti = true,
   isRequired,
+  defaultManagementPlanId,
+  history,
+  location,
 }) => {
   const { t } = useTranslation();
 
@@ -50,6 +52,12 @@ const PureTaskCrops = ({
   };
 
   const locationIds = Object.keys(managementPlansByLocationIds);
+
+  if (bypass) {
+    history.replace('/add_task/task_locations', location.state);
+    onContinue();
+  }
+
   const filterManagementPlansByCropVarietyName = (mp) =>
     mp.crop_variety_name.toLowerCase().includes(filter?.toLowerCase()) ||
     mp.crop_common_name.toLowerCase().includes(filter?.toLowerCase());
@@ -209,12 +217,21 @@ const PureTaskCrops = ({
 
   const disabled = isRequired && !selectedManagementPlanIds?.length;
 
+  useEffect(() => {
+    defaultManagementPlanId && setSelectedManagementPlanIds([parseInt(defaultManagementPlanId)]);
+  }, []);
+
   return (
     <>
       <Form
         buttonGroup={
           <div style={{ display: 'flex', flexDirection: 'column', rowGap: '16px', flexGrow: 1 }}>
-            <Button disabled={disabled} color={'primary'} fullLength>
+            <Button
+              data-cy="addTask-cropsContinue"
+              disabled={disabled}
+              color={'primary'}
+              fullLength
+            >
               {t('common:CONTINUE')}
             </Button>
           </div>

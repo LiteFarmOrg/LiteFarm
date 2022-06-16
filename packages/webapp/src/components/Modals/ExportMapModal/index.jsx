@@ -7,13 +7,22 @@ import styles from './styles.module.scss';
 import { Main, Title } from '../../Typography';
 import Button from '../../Form/Button';
 
+const isiOS = () => {
+  return (
+    ['iPad Simulator', 'iPhone Simulator', 'iPod Simulator', 'iPad', 'iPhone', 'iPod'].includes(
+      navigator.platform,
+    ) ||
+    (navigator.userAgent.includes('Mac') && 'ontouchend' in document)
+  );
+};
+
 export function PureExportMapModal({
   onClickDownload: download,
   onClickShare: share,
   dismissModal,
 }) {
   const { t } = useTranslation();
-  const [isEmailing, setEmailing] = useState();
+  const [isEmailing, setEmailing] = useState(false);
   const onClickEmail = () => {
     share();
     setEmailing(true);
@@ -39,11 +48,15 @@ export function PureExportMapModal({
   return (
     <div className={styles.container}>
       <Title>{t('FARM_MAP.EXPORT_MODAL.TITLE')}</Title>
-      <Main>{t('FARM_MAP.EXPORT_MODAL.BODY')}</Main>
-      <Button color="secondary" className={styles.button} onClick={onClickDownload}>
-        <DownloadIcon className={styles.downloadSvg} />
-        <div>{t('FARM_MAP.EXPORT_MODAL.DOWNLOAD')}</div>
-      </Button>
+      {!isiOS() && (
+        <>
+          <Main>{t('FARM_MAP.EXPORT_MODAL.BODY')}</Main>
+          <Button color="secondary" className={styles.button} onClick={onClickDownload}>
+            <DownloadIcon className={styles.downloadSvg} />
+            <div>{t('FARM_MAP.EXPORT_MODAL.DOWNLOAD')}</div>
+          </Button>
+        </>
+      )}
       <Button
         color="secondary"
         disabled={isEmailing}
@@ -65,9 +78,9 @@ export default function ExportMapModal({ onClickDownload, onClickShare, dismissM
   return (
     <Modal dismissModal={dismissModal}>
       <PureExportMapModal
-        onClickDownload={onClickDownload}
         onClickShare={onClickShare}
         dismissModal={dismissModal}
+        onClickDownload={onClickDownload}
       />
     </Modal>
   );

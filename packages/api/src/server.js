@@ -70,6 +70,7 @@ const documentRoute = require('./routes/documentRoute');
 const taskRoute = require('./routes/taskRoute');
 const productRoute = require('./routes/productRoute');
 const notificationUserRoute = require('./routes/notificationUserRoute');
+const timeNotificationRoute = require('./routes/timeNotificationRoute');
 
 // register API
 const router = promiseRouter();
@@ -188,6 +189,7 @@ app
   .use('/task', taskRoute)
   .use('/product', productRoute)
   .use('/notification_user', notificationUserRoute)
+  .use('/time_notification', timeNotificationRoute)
   // handle errors
   .use((req, res, next) => {
     const error = new Error('Not found');

@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { Error } from '../../Typography';
 import Input from '../Input';
 import { useWatch } from 'react-hook-form';
+import InfoBoxComponent from '../../InfoBoxComponent';
 
 const FROM_DATE = 'from_date';
 const TO_DATE = 'to_date';
@@ -33,8 +34,17 @@ const DateRangePicker = ({
     },
   });
 
+  const pickersWithToolTips = ['Estimated Revenue Date Range'];
+
   return (
     <div className={className} {...props}>
+      {pickersWithToolTips.includes(className) && (
+        <InfoBoxComponent
+          customStyle={{ float: 'right' }}
+          title={t('DATE_RANGE_PICKER.REVENUE_HELP_TITLE')}
+          body={t('DATE_RANGE_PICKER.REVENUE_HELP_BODY')}
+        />
+      )}
       <div className={styles.dateContainer}>
         <Input
           label={t('DATE_RANGE_PICKER.FROM')}

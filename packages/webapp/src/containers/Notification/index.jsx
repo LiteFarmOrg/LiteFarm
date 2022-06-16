@@ -47,24 +47,25 @@ export default function NotificationPage() {
           value={filterString}
           onChange={filterStringOnChange}
           isFilterActive={false}
+          disableFilter={true}
         />
       </div>
 
       {notifications.length > 0 ? (
         notifications
           .sort((a, b) => {
-            if (a.alert !== b.alert) return a.alert ? -1 : 1;
-            return new Date(a.created_at) - new Date(b.created_at);
+            return new Date(b.created_at) - new Date(a.created_at);
           })
-          .map((notification) => (
-            <NotificationCard
-              key={notification.notification_id}
-              variables={notification.variables}
-              onClick={() => dispatch(readNotification(notification.notification_id))}
-              translation_key={notification.translation_key}
-              {...notification}
-            />
-          ))
+          .map((notification) => {
+            return (
+              <NotificationCard
+                key={notification.notification_id}
+                variables={notification.variables}
+                onClick={() => dispatch(readNotification(notification.notification_id))}
+                {...notification}
+              />
+            );
+          })
       ) : (
         <Semibold style={{ color: 'var(--teal700)', marginLeft: '24px' }}>
           {t('NOTIFICATION.NONE_TO_DISPLAY')}

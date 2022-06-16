@@ -13,7 +13,7 @@ import { getDateInputFormat } from '../../../util/moment';
 import AbandonManagementPlanModal from '../../Modals/AbandonManagementPlanModal';
 import i18n from '../../../locales/i18n';
 
-export const SOMETHING_ELSE = 'SOMETHING_ELSE';
+export const SOMETHING_ELSE = 'Something Else';
 export const defaultAbandonManagementPlanReasonOptions = [
   { label: i18n.t('MANAGEMENT_PLAN.COMPLETE_PLAN.REASON.CROP_FAILURE'), value: 'CROP_FAILURE' },
   { label: i18n.t('MANAGEMENT_PLAN.COMPLETE_PLAN.REASON.LABOUR_ISSUE'), value: 'LABOUR_ISSUE' },
@@ -106,6 +106,7 @@ export function PureCompleteManagementPlan({
                 }}
                 value={value}
                 style={{ marginBottom: '40px' }}
+                placeholder={t(`common:SELECT`)}
               />
             )}
           />
@@ -134,7 +135,7 @@ export function PureCompleteManagementPlan({
       />
       <InputAutoSize
         style={{ marginBottom: '40px' }}
-        label={t('MANAGEMENT_PLAN.PLAN_NOTES')}
+        label={t('MANAGEMENT_PLAN.COMPLETION_NOTES')}
         hookFormRegister={register(NOTES, {
           maxLength: { value: 10000, message: t('MANAGEMENT_PLAN.COMPLETE_PLAN.NOTES_CHAR_LIMIT') },
         })}

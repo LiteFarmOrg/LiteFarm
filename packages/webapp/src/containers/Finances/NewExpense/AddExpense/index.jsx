@@ -12,7 +12,7 @@ import {
 } from '../../selectors';
 import history from '../../../../history';
 import DateContainer from '../../../../components/Inputs/DateContainer';
-import { actions, Control, Field, Form } from 'react-redux-form';
+import { actions, Control, Field, Form, Errors } from 'react-redux-form';
 import footerStyles from '../../../../components/LogFooter/styles.module.scss';
 import { addExpenses } from '../../actions';
 import { userFarmSelector } from '../../../userFarmSlice';
@@ -27,7 +27,7 @@ class AddExpense extends Component {
       date: moment(),
       expenseDetail: {},
       expenseNames: {},
-      currencySymbol: grabCurrencySymbol(this.props.farm),
+      currencySymbol: grabCurrencySymbol(),
     };
     this.setDate = this.setDate.bind(this);
     this.getTypeName = this.getTypeName.bind(this);
@@ -89,11 +89,14 @@ class AddExpense extends Component {
     let keys = Object.keys(currentExpenseDetail);
     let farm_id = this.props.farm.farm_id;
     let date = this.state.date;
+    let missingText = false;
     for (let k of keys) {
       let values = currentExpenseDetail[k];
 
       for (let v of values) {
-        if (v.note !== '' && !isNaN(v.value) && v.value >= 0) {
+        if (v.note === '') {
+          missingText = true;
+        } else {
           let value = parseFloat(parseFloat(v.value).toFixed(2));
           let temp = {
             farm_id,
@@ -107,9 +110,13 @@ class AddExpense extends Component {
       }
     }
 
-    if (data.length < 1) {
-      alert(this.props.t('EXPENSE.ADD_EXPENSE.REQUIRED_ERROR'));
-    } else {
+    // if (data.length < 1) {
+    // alert(this.props.t('EXPENSE.ADD_EXPENSE.REQUIRED_ERROR'));
+    if (
+      !missingText &&
+      data.length &&
+      data.filter((d) => d.value <= 0 || isNaN(d.value)).length === 0
+    ) {
       this.props.dispatch(addExpenses(data));
       history.push('/finances');
     }
@@ -137,7 +144,9 @@ class AddExpense extends Component {
     return value ? undefined : this.props.t('EXPENSE.ADD_EXPENSE.REQUIRED_ERROR');
   }
   min(value) {
-    return value >= 0 ? undefined : this.props.t('EXPENSE.ADD_EXPENSE.MIN_ERROR') + '0';
+    return !isNaN(value) && value >= 0
+      ? undefined
+      : this.props.t('EXPENSE.ADD_EXPENSE.MIN_ERROR') + '0';
   }
 
   render() {
@@ -180,6 +189,7 @@ class AddExpense extends Component {
                               maxLength="25"
                             />
                           </div>
+
                           <div className={styles.labelInput}>
                             <label>
                               {this.props.t('EXPENSE.VALUE')} ({this.state.currencySymbol})
@@ -188,11 +198,19 @@ class AddExpense extends Component {
                               type="number"
                               onKeyDown={numberOnKeyDown}
                               model={`.expenseDetail[${k}][${i}].value`}
-                              validators={{ required: this.required, min: this.min }}
+                              validators={{ min: (val) => val > 0 }}
                               min="0.01"
                               step="0.01"
                             />
                           </div>
+                          <Errors
+                            className="required"
+                            model={`.expenseDetail[${k}][${i}].value`}
+                            show={{ touched: true, focus: false }}
+                            messages={{
+                              min: this.props.t('EXPENSE.ADD_EXPENSE.MIN_ERROR') + '0',
+                            }}
+                          />
                         </Field>
                         {i !== 0 && (
                           <div className={styles.removeButton}>
@@ -203,6 +221,9 @@ class AddExpense extends Component {
                         )}
                       </div>
                     ))}
+                    <div style={{ float: 'right' }}>
+                      {this.props.t('EXPENSE.ADD_EXPENSE.ALL_FIELDS_REQUIRED')}
+                    </div>
                   </div>
                   <div className={styles.addContainer}>
                     <AddLink onClick={() => this.addSubExpense(k)}>

@@ -67,19 +67,6 @@ export default function PureEditUser({
     }
   };
 
-  const getDefaultLanguage = () => {
-    switch (userFarm.language_preference) {
-      case 'en':
-        return languageOptions[0];
-      case 'es':
-        return languageOptions[1];
-      case 'pt':
-        return languageOptions[2];
-      case 'fr':
-        return languageOptions[3];
-    }
-  };
-
   const {
     register,
     handleSubmit,

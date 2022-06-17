@@ -23,13 +23,7 @@ export default function PureCreateUserAccount({ onSignUp, email, onGoBack }) {
   } = useForm({
     mode: 'onTouched',
   });
-  const browser_langauge = navigator.language.includes('-')
-    ? navigator.language.split('-')[0]
-    : navigator.language;
-  const [language, setLanguage] = useState(browser_langauge);
-  useEffect(() => {
-    i18n.changeLanguage(language), localStorage.setItem('litefarm_lang', language);
-  }, [language]);
+
   const NAME = 'name';
   const GENDER = 'gender';
   const LANGUAGE = 'language';
@@ -38,6 +32,7 @@ export default function PureCreateUserAccount({ onSignUp, email, onGoBack }) {
   const password = watch(PASSWORD, undefined);
   const { t } = useTranslation(['translation', 'common', 'gender']);
   const title = t('CREATE_USER.TITLE');
+
   const {
     isValid: isPasswordValid,
     hasNoSymbol,
@@ -45,18 +40,46 @@ export default function PureCreateUserAccount({ onSignUp, email, onGoBack }) {
     hasNoUpperCase,
     isTooShort,
   } = validatePasswordWithErrors(password);
+
   const genderOptions = [
     { value: 'MALE', label: t('gender:MALE') },
     { value: 'FEMALE', label: t('gender:FEMALE') },
     { value: 'OTHER', label: t('gender:OTHER') },
     { value: 'PREFER_NOT_TO_SAY', label: t('gender:PREFER_NOT_TO_SAY') },
   ];
+
   const languageOptions = [
     { value: 'en', label: t('PROFILE.ACCOUNT.ENGLISH') },
     { value: 'es', label: t('PROFILE.ACCOUNT.SPANISH') },
     { value: 'pt', label: t('PROFILE.ACCOUNT.PORTUGUESE') },
     { value: 'fr', label: t('PROFILE.ACCOUNT.FRENCH') },
   ];
+
+  const getLanguageOption = (language) => {
+    switch (language) {
+      case 'en':
+        return 0;
+      case 'es':
+        return 1;
+      case 'pt':
+        return 2;
+      case 'fr':
+        return 3;
+    }
+  };
+
+  const browser_langauge = navigator.language.includes('-')
+    ? navigator.language.split('-')[0]
+    : navigator.language;
+
+  const [language, setLanguage] = useState(browser_langauge);
+  const [languageOption, setLanguageOption] = useState(getLanguageOption(language));
+
+  useEffect(() => {
+    setLanguageOption(getLanguageOption(language));
+    i18n.changeLanguage(language);
+    localStorage.setItem('litefarm_lang', language);
+  }, [language]);
 
   const disabled = !isDirty || !isValid || !isPasswordValid;
 
@@ -103,7 +126,7 @@ export default function PureCreateUserAccount({ onSignUp, email, onGoBack }) {
             label={t('CREATE_USER.GENDER')}
             options={genderOptions}
             onChange={onChange}
-            value={value}
+            value={genderOptions[languageOption]}
             toolTipContent={t('CREATE_USER.GENDER_TOOLTIP')}
             style={{ marginBottom: '28px' }}
             defaultValue={genderOptions[3]}
@@ -120,7 +143,7 @@ export default function PureCreateUserAccount({ onSignUp, email, onGoBack }) {
               label={t('CREATE_USER.LANGUAGE_PREFERENCE')}
               options={languageOptions}
               onChange={onChange}
-              value={value}
+              value={languageOptions[languageOption]}
               style={{ marginBottom: '28px' }}
               defaultValue={{
                 value: t('CREATE_USER.DEFAULT_LANGUAGE_VALUE'),

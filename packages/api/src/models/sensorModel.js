@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const Model = require('objection').Model;
+const { transaction, Model } = require('objection');
 
 class Sensor extends Model {
   static get tableName() {
@@ -30,7 +30,7 @@ class Sensor extends Model {
   static get jsonSchema() {
     return {
       type: 'object',
-      required: ['farm_id', 'name', 'grid_points'],
+      required: ['farm_id', 'name', 'grid_points', 'location_id'],
 
       properties: {
         sensor_id: { type: 'string' },
@@ -41,12 +41,50 @@ class Sensor extends Model {
         partner_id: { type: 'integer' },
         depth: { type: 'float' },
         elevation: { type: 'float' },
+        location_id: { type: 'string' },
       },
       additionalProperties: false,
     };
   }
+
+  static async createSensor(farm_id, sensor, context) {
+    const LocationModel = require('./locationModel');
+    const SensorReadingTypeModel = require('../models/SensorReadingTypeModel');
+    const PartnerReadingTypeModel = require('../models/PartnerReadingTypeModel');
+
+    const trx = await transaction.start(Model.knex());
+
+    const locationData = {};
+    const sensorLocation = LocationModel.createLocation('sensor', context, locationData, trx);
+
+    const savedSensor = await Sensor.query(trx).insert({
+      farm_id,
+      name: sensor.name,
+      grid_points: {
+        lat: sensor.latitude,
+        lng: sensor.longitude,
+      },
+      partner_id: 1,
+      depth: sensor.depth,
+      external_id: sensor.external_id,
+      location_id: sensorLocation.location_id,
+    });
+    const readingTypes = await Promise.all(
+      sensor.reading_types.map((r) => {
+        return PartnerReadingTypeModel.getReadingTypeByReadableValue(r);
+      }),
+    );
+
+    await SensorReadingTypeModel.query(trx).insert(
+      readingTypes.map((readingType) => {
+        return {
+          partner_reading_type_id: readingType.partner_reading_type_id,
+          sensor_id: savedSensor.sensor_id,
+        };
+      }),
+    );
+  }
 }
 
 // TODO: Create relationships with reading model
-
 module.exports = Sensor;

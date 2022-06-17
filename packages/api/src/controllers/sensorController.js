@@ -196,7 +196,7 @@ const sensorController = {
 
   addReading() {
     return async (req, res) => {
-      // const trx = await transaction.start(Model.knex());
+      const trx = await transaction.start(Model.knex());
       try {
         const infoBody = [];
         for (const sensor of req.body) {
@@ -219,12 +219,15 @@ const sensorController = {
             }
           }
         }
-
-        const result = await baseController.postWithResponse(sensorReadingModel, infoBody, req, {
-          trx,
-        });
-        await trx.commit();
-        res.status(200).send(result);
+        if (infoBody.length == 0) {
+          res.status(200).send(infoBody);
+        } else {
+          const result = await baseController.postWithResponse(sensorReadingModel, infoBody, req, {
+            trx,
+          });
+          await trx.commit();
+          res.status(200).send(result);
+        }
       } catch (error) {
         res.status(400).json({
           error,

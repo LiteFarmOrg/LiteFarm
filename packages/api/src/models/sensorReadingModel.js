@@ -30,7 +30,17 @@ class SensorReading extends Model {
   static get jsonSchema() {
     return {
       type: 'object',
-      required: ['read_time', 'sensor_id', 'reading_type', 'value', 'unit'],
+      required: [
+        'read_time',
+        'sensor_id',
+        'reading_type',
+        'value',
+        'unit',
+        'read_time',
+        'reading_type',
+        'value',
+        'unit',
+      ],
       properties: {
         reading_id: { type: 'string' },
         read_time: { type: 'timestamp' },

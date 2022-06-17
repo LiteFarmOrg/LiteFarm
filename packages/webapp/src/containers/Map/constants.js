@@ -64,6 +64,11 @@ export const locationEnum = {
   residence: 'residence',
 };
 
+export const bulkSenorUploadErrorTypeEnum = {
+  unable_to_claim_all_sensors: 'unable_to_claim_all_sensors',
+  validation_failure: 'validation_failure',
+};
+
 export const polygonPath = (path, width, maps) => {
   const { leftPoints, rightPoints } = path.reduce(linePathPolygonConstructor, {
     leftPoints: [],

@@ -87,26 +87,50 @@ export function useValidateBulkSensorData(onUpload, t) {
     else setDisabled(bulkSensorsUploadResponse.loading ? -1 : 1);
   }, [bulkSensorsUploadResponse?.loading]);
 
+  useEffect(() => {
+    let validationErrorsResponseList = bulkSensorsUploadResponse?.validationErrors || [];
+    const sheetErrorResponse = {
+      sheetName: 'API_ERROR_SHEET',
+      errors: [],
+    };
+    let errorsResponseList = [];
+    if (validationErrorsResponseList.length) {
+      errorsResponseList = validationErrorsResponseList.reduce((acc, validationError) => {
+        acc.push({
+          column: validationError?.errorColumn ?? '',
+          errorMessage: '',
+          row: validationError?.line ?? '',
+          value: '',
+        });
+        return acc;
+      }, []);
+    }
+    sheetErrorResponse.errors = errorsResponseList;
+    setSheetErrors([sheetErrorResponse]);
+  }, [bulkSensorsUploadResponse?.validationErrors]);
+
   const validateExcel = (rows) => {
     let errors = [];
     for (let i = 0; i < rows.length; i++) {
       let element = rows[i];
       for (const validationField of validationFields) {
         const COLUMN = validationField.columnName;
-        const validColumn = validationField.mask.test(element[COLUMN]);
-        if (!validColumn) {
-          errors.push({
-            row: i + 2,
-            column: COLUMN,
-            errorMessage: validationField.type,
-            value: element[COLUMN],
-          });
-        } else {
-          // find for other errors after regex check.
-          if (validationField.hasOwnProperty('validate')) {
-            const validationError = validationField.validate(i + 2, COLUMN, element[COLUMN]);
-            if (validationError) {
-              errors.push(validationError);
+        if (COLUMN.length) {
+          const validColumn = validationField.mask.test(element[COLUMN]);
+          if (!validColumn) {
+            errors.push({
+              row: i + 2,
+              column: COLUMN,
+              errorMessage: validationField.type,
+              value: element[COLUMN],
+            });
+          } else {
+            // find for other errors after regex check.
+            if (validationField.hasOwnProperty('validate')) {
+              const validationError = validationField.validate(i + 2, COLUMN, element[COLUMN]);
+              if (validationError) {
+                errors.push(validationError);
+              }
             }
           }
         }

@@ -1,7 +1,7 @@
 import Form from '../Form';
 import Button from '../Form/Button';
 import Input from '../Form/Input';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Title } from '../Typography';
 import PropTypes from 'prop-types';
 import { Controller, useForm } from 'react-hook-form';
@@ -9,6 +9,7 @@ import { validatePasswordWithErrors } from '../Signup/utils';
 import { PasswordError } from '../Form/Errors';
 import ReactSelect from '../Form/ReactSelect';
 import { useTranslation } from 'react-i18next';
+import i18n from '../../locales/i18n';
 
 export default function PureCreateUserAccount({ onSignUp, email, onGoBack }) {
   const {
@@ -22,6 +23,13 @@ export default function PureCreateUserAccount({ onSignUp, email, onGoBack }) {
   } = useForm({
     mode: 'onTouched',
   });
+  const browser_langauge = navigator.language.includes('-')
+    ? navigator.language.split('-')[0]
+    : navigator.language;
+  const [language, setLanguage] = useState(browser_langauge);
+  useEffect(() => {
+    i18n.changeLanguage(language), localStorage.setItem('litefarm_lang', language);
+  }, [language]);
   const NAME = 'name';
   const GENDER = 'gender';
   const LANGUAGE = 'language';
@@ -106,17 +114,20 @@ export default function PureCreateUserAccount({ onSignUp, email, onGoBack }) {
         control={control}
         name={LANGUAGE}
         render={({ field: { onChange, onBlur, value } }) => (
-          <ReactSelect
-            label={t('CREATE_USER.LANGUAGE_PREFERENCE')}
-            options={languageOptions}
-            onChange={onChange}
-            value={value}
-            style={{ marginBottom: '28px' }}
-            defaultValue={{
-              value: t('CREATE_USER.DEFAULT_LANGUAGE_VALUE'),
-              label: t('CREATE_USER.DEFAULT_LANGUAGE'),
-            }}
-          />
+          value && setLanguage(value.value),
+          (
+            <ReactSelect
+              label={t('CREATE_USER.LANGUAGE_PREFERENCE')}
+              options={languageOptions}
+              onChange={onChange}
+              value={value}
+              style={{ marginBottom: '28px' }}
+              defaultValue={{
+                value: t('CREATE_USER.DEFAULT_LANGUAGE_VALUE'),
+                label: t('CREATE_USER.DEFAULT_LANGUAGE'),
+              }}
+            />
+          )
         )}
       />
       <Input

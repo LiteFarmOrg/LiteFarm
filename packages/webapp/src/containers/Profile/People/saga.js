@@ -125,6 +125,7 @@ export function* invitePseudoUserSaga({ payload: user }) {
       user,
       header,
     );
+    localStorage.setItem('litefarm_lang', user.language);
     yield put(
       invitePseudoUserSuccess({
         newUserFarm: result.data,

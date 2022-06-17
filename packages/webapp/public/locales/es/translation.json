@@ -1093,7 +1093,7 @@
       "TITLE": "Tarea abandonada"
     },
     "TASK_ASSIGNED": {
-      "BODY": "Se ha asignado una tarea {{taskType}} a MISSING {{assigner}}.",
+      "BODY": "Una tarea {{taskType}} fue asignado para ti por {{assigner}}.",
       "TITLE": "Tarea asignada"
     },
     "TASK_COMPLETED_BY_OTHER_USER": {

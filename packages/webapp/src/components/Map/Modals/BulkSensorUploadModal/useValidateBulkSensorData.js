@@ -121,7 +121,7 @@ export function useValidateBulkSensorData(onUpload, t) {
             errors.push({
               row: i + 2,
               column: COLUMN,
-              errorMessage: validationField.type,
+              errorMessage: validationField.errorMessage,
               value: element[COLUMN],
             });
           } else {
@@ -202,14 +202,20 @@ export function useValidateBulkSensorData(onUpload, t) {
     return buf;
   };
 
+  const generateErrorFormat = (errors) =>
+    errors.reduce((acc, e) => {
+      acc += `[Row: ${e?.row ?? ''}][Column: ${e?.column ?? ''}] ${e?.errorMessage ?? ''} ${
+        e?.value ?? ''
+      }\n`;
+      return acc;
+    }, '');
+
   const onShowErrorClick = (e) => {
     const inputfFile = fileInputRef.current.files[0];
     if (inputfFile) {
       const element = document.createElement('a');
-      const worksheet = XLSX.utils.json_to_sheet(sheetErrors[0].errors);
-      var csv = XLSX.utils.sheet_to_csv(worksheet);
-
-      const file = new Blob([generateADownload(csv)], {
+      const formattedError = generateErrorFormat(sheetErrors[0].errors);
+      const file = new Blob([formattedError], {
         type: 'text/plain',
       });
       element.href = URL.createObjectURL(file);

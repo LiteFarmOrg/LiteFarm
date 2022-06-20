@@ -9,9 +9,6 @@ const formatAlterTableEnumSql = (tableName, columnName, enums) => {
 };
 
 exports.up = async function (knex) {
-  await knex.schema.alterTable('sensor', (t) => {
-    t.uuid('location_id').references('location_id').inTable('location').onDelete('CASCADE');
-  });
   await knex.raw(
     formatAlterTableEnumSql('figure', 'type', [
       'field',
@@ -35,9 +32,6 @@ exports.up = async function (knex) {
 };
 
 exports.down = async function (knex) {
-  await knex.schema.alterTable('sensor', (t) => {
-    t.dropForeign('location_id');
-  });
   await knex.raw(
     formatAlterTableEnumSql('figure', 'type', [
       'field',

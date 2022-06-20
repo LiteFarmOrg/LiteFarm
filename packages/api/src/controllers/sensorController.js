@@ -18,6 +18,7 @@ const SensorModel = require('../models/sensorModel');
 const SensorReadingModel = require('../models/sensorReadingModel');
 const IntegratingPartnersModel = require('../models/integratingPartnersModel');
 const { transaction, Model } = require('objection');
+
 const {
   createOrganization,
   registerOrganizationWebhook,
@@ -155,7 +156,6 @@ const sensorController = {
           res.sendStatus(404);
         }
       } catch (error) {
-        //handle more exceptions
         res.status(400).json({
           error,
         });
@@ -173,7 +173,6 @@ const sensorController = {
         const data = await baseController.getByFieldId(SensorModel, 'farm_id', farm_id);
         res.status(200).send(data);
       } catch (error) {
-        //handle exceptions
         res.status(400).json({
           error,
         });
@@ -181,32 +180,40 @@ const sensorController = {
     };
   },
 
-  // TODO
   addReading() {
     return async (req, res) => {
-      // const trx = await transaction.start(Model.knex());
+      const trx = await transaction.start(Model.knex());
       try {
-        // const infoBody = {
-        //   reading_id: req.body.reading_id,
-        //   read_time: req.body.read_time,
-        //   //   transmit_time: req.body.transmit_time,
-        //   sensor_id: req.body.sensor_id,
-        //   reading_type: req.body.reading_type,
-        //   value: req.body.value,
-        //   unit: req.body.unit,
-        // };
-
-        // if (!Object.values(infoBody).every((value) => value)) {
-        //   res.status(400).send('Invalid reading');
-        // }
-        // const result = await baseController.postWithResponse(SensorReadingModel, infoBody, req, {
-        //   trx,
-        // });
-        // await trx.commit();
-        // res.status(200).send(result);
-        res.sendStatus(200);
+        const infoBody = [];
+        for (const sensor of req.body) {
+          const corresponding_sensor = await SensorModel.query()
+            .select('sensor_id')
+            .where('external_id', sensor.sensor_esid)
+            .where('partner_id', req.params.partner_id);
+          for (let i = 0; i < sensor.value.length; i++) {
+            const row = {
+              read_time: sensor.time[i],
+              sensor_id: corresponding_sensor[0].sensor_id,
+              reading_type: sensor.parameter_number,
+              value: sensor.value[i],
+              unit: sensor.unit,
+            };
+            // Only include this entry if all required values are poulated
+            if (Object.values(row).every((value) => value)) {
+              infoBody.push(row);
+            }
+          }
+        }
+        if (infoBody.length == 0) {
+          res.status(200).send(infoBody);
+        } else {
+          const result = await baseController.postWithResponse(SensorReadingModel, infoBody, req, {
+            trx,
+          });
+          await trx.commit();
+          res.status(200).send(result);
+        }
       } catch (error) {
-        //handle more exceptions
         res.status(400).json({
           error,
         });
@@ -225,7 +232,6 @@ const sensorController = {
         const validReadings = data.filter((datapoint) => datapoint.valid);
         res.status(200).send(validReadings);
       } catch (error) {
-        //handle more exceptions
         res.status(400).json({
           error,
         });

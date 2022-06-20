@@ -426,7 +426,7 @@ export default function Map({ history }) {
           <PureMapFooter
             isAdmin={is_admin}
             showSpotlight={!showedSpotlight.map}
-            resetSpotlight={() => dispatch(setSpotlightToShown(['map']))}
+            resetSpotlight={() => dispatch(setSpotlightToShown('map'))}
             onClickAdd={handleClickAdd}
             onClickExport={handleClickExport}
             showModal={showExportModal}

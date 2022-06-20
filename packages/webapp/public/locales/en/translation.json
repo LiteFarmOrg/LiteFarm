@@ -1319,6 +1319,11 @@
     "DETAIL": {
       "RETIRE": "RETIRE",
       "EDIT": "EDIT"
+    },
+    "VIEW_HEADER": {
+      "READINGS": "Readings",
+      "TASKS": "Tasks",
+      "DETAILS": "Details"
     }
   },
   "SHIFT": {

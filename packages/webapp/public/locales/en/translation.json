@@ -1315,6 +1315,12 @@
       "VALUE": "Value"
     }
   },
+  "SENSOR": {
+    "DETAIL": {
+      "RETIRE": "RETIRE",
+      "EDIT": "EDIT"
+    }
+  },
   "SHIFT": {
     "ACTION": "Action",
     "ADD_NEW": "Add New Shift",

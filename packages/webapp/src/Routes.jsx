@@ -29,6 +29,11 @@ import { chooseFarmFlowSelector } from './containers/ChooseFarm/chooseFarmFlowSl
 import useScrollToTop from './containers/hooks/useScrollToTop';
 import { useReduxSnackbar } from './containers/Snackbar/useReduxSnackbar';
 
+const SensorDetail = React.lazy(() => import('./containers/Sensor/Detail/index'));
+{
+  /* Move the above line into appropriate place */
+}
+
 //dynamic imports
 const Home = React.lazy(() => import('./containers/Home'));
 const HelpRequest = React.lazy(() => import('./containers/Help'));
@@ -351,6 +356,9 @@ const Routes = () => {
       return (
         <Suspense fallback={<Spinner />}>
           <Switch>
+            <Route path="/sensor/:sensor_id/details" exact component={SensorDetail} />
+            {/* Move the above line into appropriate place */}
+
             <Route path="/" exact component={Home} />
             <Route path="/home" exact component={Home} />
             <Route path="/profile" exact component={Account} />

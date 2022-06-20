@@ -1125,6 +1125,10 @@
     "WEEKLY_UNASSIGNED_TASKS": {
       "BODY": "You have unassigned tasks due this week.",
       "TITLE": "Unassigned tasks"
+    },
+    "SENSOR_BULK_UPLOAD": {
+      "BODY": "Your sensor upload has completed successfully.",
+      "TITLE": "Sensor upload completed"
     }
   },
   "OUTRO": {

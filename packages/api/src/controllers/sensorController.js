@@ -18,6 +18,7 @@ const sensorModel = require('../models/sensorModel');
 const sensorReadingModel = require('../models/sensorReadingModel');
 const SensorReadingTypeModel = require('../models/SensorReadingTypeModel');
 const IntegratingPartnersModel = require('../models/integratingPartnersModel');
+const NotificationUser = require('../models/notificationUserModel');
 const { transaction, Model } = require('objection');
 const {
   createOrganization,
@@ -30,6 +31,7 @@ const sensorController = {
   async addSensors(req, res) {
     try {
       const { farm_id } = req.headers;
+      const { user_id } = req.user;
       const { access_token } = await IntegratingPartnersModel.getAccessAndRefreshTokens(
         'Ensemble Scientific',
       );
@@ -149,6 +151,7 @@ const sensorController = {
             registeredSensors,
           });
         } else {
+          sendSensorNotification(user_id, farm_id, SensorNotificationTypes.SENSOR_BULK_UPLOAD);
           res.status(200).send({ message: 'Successfully uploaded!' });
         }
       }
@@ -309,5 +312,36 @@ const parseCsvString = (csvString, mapping, delimiter = ',') => {
     );
   return { data, errors };
 };
+
+const SensorNotificationTypes = {
+  SENSOR_BULK_UPLOAD: 'SENSOR_BULK_UPLOAD',
+};
+
+/**
+ * Creates a notification for sensor
+ * @param {string} receiverId target notification user id
+ * @param {string} farmId farm id
+ * @param {string} notifyTranslationKey notification translation key
+ * @async
+ */
+async function sendSensorNotification(receiverId, farmId, notifyTranslationKey) {
+  if (!receiverId) return;
+
+  await NotificationUser.notify(
+    {
+      title: {
+        translation_key: `NOTIFICATION.${SensorNotificationTypes[notifyTranslationKey]}.TITLE`,
+      },
+      body: {
+        translation_key: `NOTIFICATION.${SensorNotificationTypes[notifyTranslationKey]}.BODY`,
+      },
+      variables: [],
+      ref: { url: '/map' },
+      context: { icon_translation_key: 'SENSOR' },
+      farm_id: farmId,
+    },
+    [receiverId],
+  );
+}
 
 module.exports = sensorController;

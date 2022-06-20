@@ -61,6 +61,9 @@ export function* setSpotlightToShownSaga({ payload: spotlights }) {
     const { user_id } = yield select(loginSelector);
     const header = getHeader(user_id);
     let patchContent = {};
+    if (typeof spotlights == 'string') {
+      spotlights = [spotlights];
+    }
     for (const spotlight of spotlights) {
       patchContent[spotlight] = true;
       patchContent[`${spotlight}_end`] = new Date().toISOString();

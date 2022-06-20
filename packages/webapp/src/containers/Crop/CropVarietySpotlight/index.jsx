@@ -9,7 +9,7 @@ export default function CropVarietySpotlight({ children }) {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const { crop_variety_detail } = useSelector(showedSpotlightSelector);
-  const onFinish = () => dispatch(setSpotlightToShown(['crop_variety_detail']));
+  const onFinish = () => dispatch(setSpotlightToShown('crop_variety_detail'));
   const managementId = `#${t('CROP_DETAIL.MANAGEMENT_TAB')}0`;
   const detailId = `#${t('CROP_DETAIL.DETAIL_TAB')}1`;
 

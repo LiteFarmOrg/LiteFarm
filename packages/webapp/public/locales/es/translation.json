@@ -947,7 +947,7 @@
     "DROP_PIN": "Suelta un pin",
     "DURATION_TOOLTIP": "Estos son valores sugeridos. Ajústelo a las condiciones locales.",
     "EDITING_PLAN_WILL_NOT_MODIFY": "La edición de este plan no modificará las tareas asignadas.",
-    "ESTIMATED_SEED": "Semilla estimada es obligatoria",
+    "ESTIMATED_SEED": "Semilla requerida estimada",
     "ESTIMATED_YIELD": "Cosecha anual estimada",
     "FIRST_MP_SPOTLIGHT": {
       "BODY_PART1": "LiteFarm ha generado algunas tareas basadas en su plan. Puede agregar más tareas o asignarlas en esta pantalla.",

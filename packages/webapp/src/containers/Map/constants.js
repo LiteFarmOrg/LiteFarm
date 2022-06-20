@@ -67,6 +67,7 @@ export const locationEnum = {
 export const bulkSenorUploadErrorTypeEnum = {
   unable_to_claim_all_sensors: 'unable_to_claim_all_sensors',
   validation_failure: 'validation_failure',
+  timeout_and_show_transition_modal: 'timeout',
 };
 
 export const polygonPath = (path, width, maps) => {

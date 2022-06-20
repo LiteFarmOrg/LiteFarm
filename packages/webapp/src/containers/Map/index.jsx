@@ -8,7 +8,12 @@ import { DEFAULT_ZOOM, GMAPS_API_KEY, isArea, isLine, locationEnum } from './con
 import { useDispatch, useSelector } from 'react-redux';
 import { measurementSelector, userFarmSelector } from '../userFarmSlice';
 import html2canvas from 'html2canvas';
-import { sendMapToEmail, setSpotlightToShown, bulkUploadSensorsInfoFile } from './saga';
+import {
+  sendMapToEmail,
+  setSpotlightToShown,
+  bulkUploadSensorsInfoFile,
+  resetBulkUploadSensorsInfoFile,
+} from './saga';
 import {
   canShowSuccessHeader,
   setShowSuccessHeaderSelector,
@@ -312,6 +317,7 @@ export default function Map({ history }) {
     } else if (locationType === locationEnum.sensor) {
       setShowAddDrawer(!showAddDrawer);
       setShowBulkSensorUploadModal(true);
+      dispatch(resetBulkUploadSensorsInfoFile());
       return;
     }
     isLineWithWidth(locationType) && dispatch(upsertFormData(initialLineData[locationType]));

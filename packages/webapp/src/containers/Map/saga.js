@@ -30,6 +30,7 @@ import {
   bulkSensorsUploadSuccess,
   bulkSensorsUploadLoading,
   bulkSensorsUploadValidationFailure,
+  resetSensorsBulkUploadStates,
 } from '../bulkSensorUploadSlice';
 import { bulkSenorUploadErrorTypeEnum } from './constants';
 
@@ -85,6 +86,11 @@ export function* setSpotlightToShownSaga({ payload: spotlights }) {
 }
 
 export const bulkUploadSensorsInfoFile = createAction(`bulkUploadSensorsInfoFileSaga`);
+export const resetBulkUploadSensorsInfoFile = createAction(`resetBulkUploadSensorsInfoFileSaga`);
+
+export function* resetBulkUploadSensorsInfoFileSaga() {
+  yield put(resetSensorsBulkUploadStates());
+}
 
 export function* bulkUploadSensorsInfoFileSaga({ payload: { file } }) {
   try {
@@ -98,6 +104,7 @@ export function* bulkUploadSensorsInfoFileSaga({ payload: { file } }) {
         Authorization: 'Bearer ' + localStorage.getItem('id_token'),
         farm_id: farm_id,
       },
+      timeout: 3000,
     });
 
     if (fileUploadResponse.status === 200) {
@@ -114,29 +121,33 @@ export function* bulkUploadSensorsInfoFileSaga({ payload: { file } }) {
     yield put(bulkSensorsUploadFailure());
     yield put(enqueueErrorSnackbar(i18n.t('message:BULK_UPLOAD.ERROR.UPLOAD')));
   } catch (error) {
-    switch (error?.response?.status) {
-      case 400: {
-        const errorType = error?.response?.data?.error_type || '';
-        switch (errorType) {
-          case bulkSenorUploadErrorTypeEnum?.unable_to_claim_all_sensors: {
-            const registeredSensors = error?.response?.data?.registeredSensors ?? {};
-            break;
+    if (error?.message.includes(bulkSenorUploadErrorTypeEnum?.timeout_and_show_transition_modal)) {
+      // TODO: show transition modal
+    } else {
+      switch (error?.response?.status) {
+        case 400: {
+          const errorType = error?.response?.data?.error_type || '';
+          switch (errorType) {
+            case bulkSenorUploadErrorTypeEnum?.unable_to_claim_all_sensors: {
+              const registeredSensors = error?.response?.data?.registeredSensors ?? {};
+              break;
+            }
+            case bulkSenorUploadErrorTypeEnum?.validation_failure:
+            default: {
+              const validationErrors = error?.response?.data?.errors ?? [];
+              yield put(bulkSensorsUploadValidationFailure(validationErrors));
+              break;
+            }
           }
-          case bulkSenorUploadErrorTypeEnum?.validation_failure:
-          default: {
-            const validationErrors = error?.response?.data?.errors ?? [];
-            yield put(bulkSensorsUploadValidationFailure(validationErrors));
-            break;
-          }
+          break;
         }
-        break;
-      }
-      case 500:
-      default: {
-        yield put(bulkSensorsUploadFailure());
-        yield put(enqueueErrorSnackbar(i18n.t('message:BULK_UPLOAD.ERROR.UPLOAD')));
-        console.log(error);
-        break;
+        case 500:
+        default: {
+          yield put(bulkSensorsUploadFailure());
+          yield put(enqueueErrorSnackbar(i18n.t('message:BULK_UPLOAD.ERROR.UPLOAD')));
+          console.log(error);
+          break;
+        }
       }
     }
   }
@@ -146,4 +157,5 @@ export default function* supportSaga() {
   yield takeLeading(sendMapToEmail.type, sendMapToEmailSaga);
   yield takeLeading(setSpotlightToShown.type, setSpotlightToShownSaga);
   yield takeLeading(bulkUploadSensorsInfoFile.type, bulkUploadSensorsInfoFileSaga);
+  yield takeLeading(resetBulkUploadSensorsInfoFile.type, resetBulkUploadSensorsInfoFileSaga);
 }

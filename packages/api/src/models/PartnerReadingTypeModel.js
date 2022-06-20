@@ -72,7 +72,7 @@ class PartnerReadingTypeModel extends BaseModel {
   }
 
   static async getReadingTypeByReadableValue(readableValue) {
-    return PartnerReadingTypeModel.query().where('readable_value', readableValue);
+    return PartnerReadingTypeModel.query().where('readable_value', readableValue).first();
   }
 }
 

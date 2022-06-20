@@ -198,6 +198,7 @@ const drawNoFillArea = (map, maps, mapBounds, area) => {
 
 const drawPoint = (map, maps, mapBounds, location) => {
   const { point: grid_point, name, type } = location;
+  console.log(type);
   mapBounds.extend(grid_point);
 
   const marker = new maps.Marker({

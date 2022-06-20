@@ -14,9 +14,8 @@
  */
 
 const baseController = require('../controllers/baseController');
-const sensorModel = require('../models/sensorModel');
-const sensorReadingModel = require('../models/sensorReadingModel');
-const SensorReadingTypeModel = require('../models/SensorReadingTypeModel');
+const SensorModel = require('../models/sensorModel');
+const SensorReadingModel = require('../models/sensorReadingModel');
 const IntegratingPartnersModel = require('../models/integratingPartnersModel');
 const { transaction, Model } = require('objection');
 const {
@@ -24,12 +23,12 @@ const {
   registerOrganizationWebhook,
   bulkSensorClaim,
 } = require('../util/ensemble');
-const PartnerReadingTypeModel = require('../models/PartnerReadingTypeModel');
 
 const sensorController = {
   async addSensors(req, res) {
     try {
       const { farm_id } = req.headers;
+      const { user_id } = req.user;
       const { access_token } = await IntegratingPartnersModel.getAccessAndRefreshTokens(
         'Ensemble Scientific',
       );
@@ -95,61 +94,44 @@ const sensorController = {
       if (errors.length > 0) {
         res.status(400).send({ error_type: 'validation_failure', errors });
       } else {
-        console.log(data);
+        // register organization
         const organization = await createOrganization(farm_id, access_token);
-        console.log(organization);
+
+        // register webhook for sensor readings
+        await registerOrganizationWebhook(farm_id, organization.organization_uuid, access_token);
+
+        // Get esids (Ensemble Scientific IDs)
         const esids = data.reduce((previous, current) => {
           if (current.brand === 'Ensemble Scientific' && current.external_id) {
             previous.push(current.external_id);
           }
           return previous;
         }, []);
-        await registerOrganizationWebhook(farm_id, organization.organization_uuid, access_token);
-        const registeredSensors = await bulkSensorClaim(
+
+        // Register sensors with Ensemble
+        const { success, already_owned } = await bulkSensorClaim(
           access_token,
           organization.organization_uuid,
           esids,
         );
-        console.log(registeredSensors);
-        for (const sensor of data) {
-          if (registeredSensors.success.includes(sensor.external_id)) {
-            const savedSensor = await sensorModel.query().insert({
-              farm_id,
-              name: sensor.name,
-              grid_points: {
-                lat: sensor.latitude,
-                lng: sensor.longitude,
-              },
-              partner_id: 1,
-              depth: sensor.depth,
-              external_id: sensor.external_id,
-            });
-            const readingTypes = await Promise.all(
-              sensor.reading_types.map((r) => {
-                return PartnerReadingTypeModel.getReadingTypeByReadableValue(r);
-              }),
-            );
-            console.log(readingTypes);
-            await SensorReadingTypeModel.query().insert(
-              readingTypes.map((readingType) => {
-                return {
-                  partner_reading_type_id: readingType.partner_reading_type_id,
-                  sensor_id: savedSensor.sensor_id,
-                };
-              }),
-            );
-          }
-        }
-        if (
-          registeredSensors.success.length + registeredSensors.already_owned.length <
-          esids.length
-        ) {
+
+        // Filter sensors by those successfully registered
+        const registeredSensors = data.filter((sensor) => success.includes(sensor.external_id));
+
+        // Save sensors in database
+        const sensorLocations = await Promise.all(
+          registeredSensors.map(async (sensor) => {
+            return await SensorModel.createSensor(sensor, farm_id, user_id);
+          }),
+        );
+
+        if (success.length + already_owned.length < esids.length) {
           res.status(400).send({
             error_type: 'unable_to_claim_all_sensors',
             registeredSensors,
           });
         } else {
-          res.status(200).send({ message: 'Successfully uploaded!' });
+          res.status(200).send({ message: 'Successfully uploaded!', sensors: sensorLocations });
         }
       }
     } catch (e) {
@@ -163,7 +145,7 @@ const sensorController = {
       console.log(req);
       const trx = await transaction.start(Model.knex());
       try {
-        const isDeleted = await baseController.delete(sensorModel, req.params.sensor_id, req, {
+        const isDeleted = await baseController.delete(SensorModel, req.params.sensor_id, req, {
           trx,
         });
         await trx.commit();
@@ -188,7 +170,7 @@ const sensorController = {
         if (!farm_id) {
           return res.status(400).send('No farm selected');
         }
-        const data = await baseController.getByFieldId(sensorModel, 'farm_id', farm_id);
+        const data = await baseController.getByFieldId(SensorModel, 'farm_id', farm_id);
         res.status(200).send(data);
       } catch (error) {
         //handle exceptions
@@ -217,7 +199,7 @@ const sensorController = {
         // if (!Object.values(infoBody).every((value) => value)) {
         //   res.status(400).send('Invalid reading');
         // }
-        // const result = await baseController.postWithResponse(sensorReadingModel, infoBody, req, {
+        // const result = await baseController.postWithResponse(SensorReadingModel, infoBody, req, {
         //   trx,
         // });
         // await trx.commit();
@@ -239,7 +221,7 @@ const sensorController = {
         if (!sensor_id) {
           return res.status(400).send('No sensor selected');
         }
-        const data = await baseController.getByFieldId(sensorReadingModel, 'sensor_id', sensor_id);
+        const data = await baseController.getByFieldId(SensorReadingModel, 'sensor_id', sensor_id);
         const validReadings = data.filter((datapoint) => datapoint.valid);
         res.status(200).send(validReadings);
       } catch (error) {
@@ -255,8 +237,7 @@ const sensorController = {
     return async (req, res) => {
       try {
         const { start_time, end_time } = req.body;
-        const result = await sensorReadingModel
-          .query()
+        const result = await SensorReadingModel.query()
           .patch({ valid: false })
           .where('read_time', '>=', start_time)
           .where('read_time', '<=', end_time);

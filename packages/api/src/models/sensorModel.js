@@ -14,6 +14,8 @@
  */
 
 const { transaction, Model } = require('objection');
+const LocationModel = require('./locationModel');
+const PartnerReadingTypeModel = require('../models/PartnerReadingTypeModel');
 
 class Sensor extends Model {
   static get tableName() {
@@ -47,44 +49,61 @@ class Sensor extends Model {
     };
   }
 
-  static async createSensor(farm_id, sensor, context) {
-    const LocationModel = require('./locationModel');
-    const SensorReadingTypeModel = require('../models/SensorReadingTypeModel');
-    const PartnerReadingTypeModel = require('../models/PartnerReadingTypeModel');
+  static get relationMappings() {
+    return {
+      sensor_reading_type: {
+        modelClass: require('./sensorReadingTypeModel'),
+        relation: Model.HasManyRelation,
+        join: {
+          from: 'sensor.sensor_id',
+          to: 'sensor_reading_type.sensor_id',
+        },
+      },
+    };
+  }
 
+  static async createSensor(sensor, farm_id, user_id) {
     const trx = await transaction.start(Model.knex());
 
-    const locationData = {};
-    const sensorLocation = LocationModel.createLocation('sensor', context, locationData, trx);
-
-    const savedSensor = await Sensor.query(trx).insert({
-      farm_id,
-      name: sensor.name,
-      grid_points: {
-        lat: sensor.latitude,
-        lng: sensor.longitude,
-      },
-      partner_id: 1,
-      depth: sensor.depth,
-      external_id: sensor.external_id,
-      location_id: sensorLocation.location_id,
-    });
     const readingTypes = await Promise.all(
-      sensor.reading_types.map((r) => {
-        return PartnerReadingTypeModel.getReadingTypeByReadableValue(r);
+      sensor.reading_types.map(async (r) => {
+        return await PartnerReadingTypeModel.getReadingTypeByReadableValue(r);
       }),
     );
 
-    await SensorReadingTypeModel.query(trx).insert(
-      readingTypes.map((readingType) => {
-        return {
-          partner_reading_type_id: readingType.partner_reading_type_id,
-          sensor_id: savedSensor.sensor_id,
-        };
-      }),
+    const data = {
+      farm_id,
+      figure: {
+        point: { point: { lat: sensor.latitude, lng: sensor.longitude } },
+        type: 'sensor',
+      },
+      name: sensor.name,
+      notes: '',
+      sensor: {
+        farm_id,
+        name: sensor.name,
+        grid_points: {
+          lat: sensor.latitude,
+          lng: sensor.longitude,
+        },
+        partner_id: 1,
+        depth: sensor.depth,
+        external_id: sensor.external_id,
+        sensor_reading_type: readingTypes.map((readingType) => {
+          return { partner_reading_type_id: readingType.partner_reading_type_id };
+        }),
+      },
+    };
+
+    const sensorLocationWithGraph = await LocationModel.createLocation(
+      'sensor',
+      { user_id },
+      data,
+      trx,
     );
+    await trx.commit();
+    return sensorLocationWithGraph;
   }
 }
 
-// TODO: Create relationships with reading model
 module.exports = Sensor;

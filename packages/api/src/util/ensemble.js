@@ -30,7 +30,7 @@ if (process.env.NODE_ENV === 'integration') {
 } else {
   // NOTE: for testing out the webhook, you may need to ngrok or some other
   // tool to make the endpoint available to Ensemble
-  baseUrl = 'http://localhost:5001';
+  baseUrl = 'https://f520-2607-fea8-a764-1700-44c5-683d-dcbc-9caa.ngrok.io';
 }
 
 /**

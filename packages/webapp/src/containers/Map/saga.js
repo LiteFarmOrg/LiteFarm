@@ -30,6 +30,7 @@ import {
   bulkSensorsUploadSuccess,
   bulkSensorsUploadLoading,
 } from '../bulkSensorUploadSlice';
+import { postManySensorsSuccess } from '../sensorSlice';
 
 import { enqueueErrorSnackbar } from '../Snackbar/snackbarSlice';
 
@@ -99,7 +100,6 @@ export function* bulkUploadSensorsInfoFileSaga({ payload: { file } }) {
     });
 
     if (fileUploadResponse.status === 200) {
-      fileUploadResponse.data;
       yield put(bulkSensorsUploadSuccess());
       yield put(
         setSuccessMessage([
@@ -107,6 +107,7 @@ export function* bulkUploadSensorsInfoFileSaga({ payload: { file } }) {
           i18n.t('message:MAP.SUCCESS_UPLOAD'),
         ]),
       );
+      yield put(postManySensorsSuccess(fileUploadResponse.data.sensors));
       yield put(canShowSuccessHeader(true));
       return;
     }

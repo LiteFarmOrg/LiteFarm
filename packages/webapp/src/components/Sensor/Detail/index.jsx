@@ -1,15 +1,25 @@
 import Button from '../../Form/Button';
 import { useTranslation } from 'react-i18next';
 import RouterTab from '../../RouterTab';
-import Layout from '../../Layout';
 import PageTitle from '../../PageTitle/v2';
 import Input from '../../Form/Input';
+import ReactSelect from '../../Form/ReactSelect';
+import DropdownButton from '../../Form/DropDownButton';
+import Unit from '../../Inputs/Unit';
+import { container_planting_depth } from '../../../util/convert-units/unit';
 import FilterPillSelect from '../../Filter/FilterPillSelect';
 
 export default function PureSensorDetail({ history, user, match }) {
   const isAdmin = user || true;
   const sensorName = match.params.sensor_id;
   const { t } = useTranslation();
+  const brand_names = [
+    {
+      label: 'Ensemble Scientific',
+      value: 'Ensemble',
+      onClick: () => console.log('Reroute'),
+    },
+  ];
   const styles = {
     buttonContainer: {
       display: 'flex',
@@ -82,7 +92,15 @@ export default function PureSensorDetail({ history, user, match }) {
 
       {/* TODO: Multi select pill reading types */}
       {/* TODO: Depth with unit conversion */}
-      {/* TODO: Dropdown brand selection with help text */}
+
+      <ReactSelect
+        label={t('SENSOR.DETAIL.BRAND')}
+        defaultValue={'Ensemble Scientific'}
+        isDisabled={true}
+        options={brand_names}
+        style={{ paddingBottom: '32px' }}
+        toolTipContent={t('SENSOR.DETAIL.BRAND_TOOLTIP')}
+      />
 
       <Input
         label={t('SENSOR.DETAIL.MODEL')}
@@ -97,7 +115,7 @@ export default function PureSensorDetail({ history, user, match }) {
         style={{ paddingBottom: '32px' }}
         disabled={true}
         optional={true}
-        toolTipContent={t('SENSOR.DETAIL.TOOL_TIP')}
+        toolTipContent={t('SENSOR.DETAIL.EXTERNAL_ID_TOOLTIP')}
         value={'CHANGE'}
       />
       <Input
@@ -114,34 +132,35 @@ export default function PureSensorDetail({ history, user, match }) {
         optional={true}
         value={'CHANGE'}
       />
-
-      <div
-        className={'buttonGroup'}
-        style={{
-          flexDirection: 'row',
-          display: 'inline-flex',
-          paddingBottom: '40px',
-          width: '100%',
-          gap: '16px',
-        }}
-      >
-        <Button
-          type={'submit'}
-          onClick={() => history.push('/retire_sensor')} // Change accordingly
-          color={'secondary'}
-          classes={{ container: { flexGrow: 1 } }}
+      {isAdmin && (
+        <div
+          className={'buttonGroup'}
+          style={{
+            flexDirection: 'row',
+            display: 'inline-flex',
+            paddingBottom: '40px',
+            width: '100%',
+            gap: '16px',
+          }}
         >
-          {t(`SENSOR.DETAIL.RETIRE`)}
-        </Button>
+          <Button
+            type={'submit'}
+            onClick={() => history.push('/retire_sensor')} // Change accordingly
+            color={'secondary'}
+            classes={{ container: { flexGrow: 1 } }}
+          >
+            {t(`SENSOR.DETAIL.RETIRE`)}
+          </Button>
 
-        <Button
-          type={'submit'}
-          onClick={() => history.push('/edit_sensor')} // Change accordingly
-          classes={{ container: { flexGrow: 1 } }}
-        >
-          {t(`SENSOR.DETAIL.EDIT`)}
-        </Button>
-      </div>
+          <Button
+            type={'submit'}
+            onClick={() => history.push('/edit_sensor')} // Change accordingly
+            classes={{ container: { flexGrow: 1 } }}
+          >
+            {t(`SENSOR.DETAIL.EDIT`)}
+          </Button>
+        </div>
+      )}
 
       {/* <Layout
         buttonGroup={

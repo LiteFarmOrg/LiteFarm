@@ -1325,8 +1325,11 @@
       "MODEL": "Model",
       "PART_NUMBER": "Part Number",
       "HARDWARE_VERSION": "Hardware Version",
-      "TOOL_TIP": "This id is used to uniquely identify this sensor in other, integrated systems and cannot be changed. If it is no longer being used, try retiring this sensor and adding a new one.",
-      "EXTERNAL_IDENTIFIER": "External Identifier"
+      "EXTERNAL_ID_TOOLTIP": "This id is used to uniquely identify this sensor in other, integrated systems and cannot be changed. If it is no longer being used, try retiring this sensor and adding a new one.",
+      "EXTERNAL_IDENTIFIER": "External Identifier",
+      "DEPTH": "Depth",
+      "BRAND": "Brand",
+      "BRAND_TOOLTIP": "Brands that LiteFarm can integrate with are shown below. If you would no longer like to use this sensor brand, try retiring this sensor instead."
     },
     "VIEW_HEADER": {
       "READINGS": "Readings",

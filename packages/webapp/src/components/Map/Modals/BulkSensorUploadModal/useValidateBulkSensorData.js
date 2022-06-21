@@ -162,6 +162,18 @@ export function useValidateBulkSensorData(onUpload, t) {
       : [];
   };
 
+  const checkCSVFileRowLimit = (sensorList = []) =>
+    sensorList.length > 100
+      ? [
+          {
+            row: 1,
+            column: 'N/A',
+            errorMessage: t('FARM_MAP.BULK_UPLOAD_SENSORS.VALIDATION.FILE_ROW_LIMIT_EXCEEDED'),
+            value: '',
+          },
+        ]
+      : [];
+
   const handleSelectedFile = async (e) => {
     const file = e.target.files[0];
     if (!file) return;
@@ -178,9 +190,16 @@ export function useValidateBulkSensorData(onUpload, t) {
         const worksheet = workBook.Sheets[singleSheet];
         // sheet_to_json always return array.
         const jsonData = XLSX.utils.sheet_to_json(worksheet, { defval: '' });
+
         let errors = [];
-        const missingColumnsErrors = checkRequiredColumnsArePresent(jsonData[0]);
-        errors = missingColumnsErrors.length ? missingColumnsErrors : validateExcel(jsonData);
+        errors = checkRequiredColumnsArePresent(jsonData[0]);
+        if (!errors.length) {
+          errors = checkCSVFileRowLimit(jsonData);
+        }
+        if (!errors.length) {
+          errors = validateExcel(jsonData);
+        }
+
         totalErrorCount += errors.length;
         sheetError.errors = errors;
         sheetErrorList.push(sheetError);

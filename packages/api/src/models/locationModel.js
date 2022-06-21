@@ -204,7 +204,7 @@ class Location extends baseModel {
     const nonModifiable = getNonModifiable(asset);
     return await Location.query(trx)
       .context(context)
-      .upsertGraph(locationData, { noUpdate: true, noDelete: true, noInsert: nonModifiable });
+      .insertGraph(locationData, { noUpdate: true, noDelete: true, noInsert: nonModifiable });
   }
 }
 

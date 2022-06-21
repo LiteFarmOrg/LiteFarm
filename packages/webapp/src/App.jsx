@@ -21,6 +21,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
 import { SnackbarProvider } from 'notistack';
 import { NotistackSnackbar } from './containers/Snackbar/NotistackSnackbar';
+import ReadingsLineChart from './components/ReadingsLineChart';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -47,6 +48,7 @@ function App() {
   return (
     <>
       <div className={clsx(classes.container, classes.defaultHeight, classes.webkitHeight)}>
+        {/* <ReadingsLineChart/> */}
         <NavBar history={history} />
         <div
           className="app"

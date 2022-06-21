@@ -1318,7 +1318,10 @@
   "SENSOR": {
     "DETAIL": {
       "RETIRE": "RETIRE",
-      "EDIT": "EDIT"
+      "EDIT": "EDIT",
+      "NAME": "Sensor Name",
+      "LATITUDE": "Latitude",
+      "LONGITUDE": "Longitude"
     },
     "VIEW_HEADER": {
       "READINGS": "Readings",

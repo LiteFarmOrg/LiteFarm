@@ -101,7 +101,6 @@ export default function Map({ history }) {
 
   useEffect(() => {
     if (bulkSensorsUploadResponse?.isBulkUploadSuccessful) {
-      console.log('loading', bulkSensorsUploadResponse?.isBulkUploadSuccessful);
       setShowBulkSensorUploadModal(false);
     }
   }, [bulkSensorsUploadResponse?.isBulkUploadSuccessful]);

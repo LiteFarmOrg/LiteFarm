@@ -56,16 +56,9 @@ exports.up = async function (knex) {
       .inTable('partner_reading_type');
     table.uuid('sensor_id').references('sensor_id').inTable('sensor');
   });
-
-  await knex.schema.alterTable('sensor', function (table) {
-    table.dropColumns('type');
-  });
 };
 
 exports.down = async function (knex) {
   await knex.schema.dropTable('sensor_reading_type');
   await knex.schema.dropTable('partner_reading_type');
-  await knex.schema.alterTable('sensor', function (table) {
-    table.integer('type');
-  });
 };

@@ -1321,7 +1321,12 @@
       "EDIT": "EDIT",
       "NAME": "Sensor Name",
       "LATITUDE": "Latitude",
-      "LONGITUDE": "Longitude"
+      "LONGITUDE": "Longitude",
+      "MODEL": "Model",
+      "PART_NUMBER": "Part Number",
+      "HARDWARE_VERSION": "Hardware Version",
+      "TOOL_TIP": "This id is used to uniquely identify this sensor in other, integrated systems and cannot be changed. If it is no longer being used, try retiring this sensor and adding a new one.",
+      "EXTERNAL_IDENTIFIER": "External Identifier"
     },
     "VIEW_HEADER": {
       "READINGS": "Readings",

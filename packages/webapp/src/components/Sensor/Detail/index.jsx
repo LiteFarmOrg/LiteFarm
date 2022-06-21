@@ -61,7 +61,7 @@ export default function PureSensorDetail({ history, user, match }) {
         style={{
           flexDirection: 'row',
           display: 'inline-flex',
-          paddingBottom: '40px',
+          paddingBottom: '32px',
           width: '100%',
           gap: '16px',
         }}
@@ -79,6 +79,41 @@ export default function PureSensorDetail({ history, user, match }) {
           classes={{ container: { flexGrow: 1 } }}
         />
       </div>
+
+      {/* TODO: Multi select pill reading types */}
+      {/* TODO: Depth with unit conversion */}
+      {/* TODO: Dropdown brand selection with help text */}
+
+      <Input
+        label={t('SENSOR.DETAIL.MODEL')}
+        style={{ paddingBottom: '32px' }}
+        disabled={true}
+        optional={true}
+        value={'CHANGE'}
+      />
+
+      <Input
+        label={t('SENSOR.DETAIL.EXTERNAL_IDENTIFIER')}
+        style={{ paddingBottom: '32px' }}
+        disabled={true}
+        optional={true}
+        toolTipContent={t('SENSOR.DETAIL.TOOL_TIP')}
+        value={'CHANGE'}
+      />
+      <Input
+        label={t('SENSOR.DETAIL.PART_NUMBER')}
+        style={{ paddingBottom: '32px' }}
+        disabled={true}
+        optional={true}
+        value={'CHANGE'}
+      />
+      <Input
+        label={t('SENSOR.DETAIL.HARDWARE_VERSION')}
+        style={{ paddingBottom: '32px' }}
+        disabled={true}
+        optional={true}
+        value={'CHANGE'}
+      />
 
       <div
         className={'buttonGroup'}
@@ -128,9 +163,9 @@ export default function PureSensorDetail({ history, user, match }) {
                     </Button>
                 </>
             )
-        } */}
+        }
 
-      {/* /> */}
+      /> */}
     </div>
   );
 }

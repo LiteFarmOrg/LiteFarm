@@ -104,7 +104,7 @@ export function* bulkUploadSensorsInfoFileSaga({ payload: { file } }) {
         Authorization: 'Bearer ' + localStorage.getItem('id_token'),
         farm_id: farm_id,
       },
-      timeout: 3000,
+      timeout: 5000,
     });
 
     if (fileUploadResponse.status === 200) {

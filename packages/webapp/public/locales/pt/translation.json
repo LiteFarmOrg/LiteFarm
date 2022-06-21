@@ -1119,7 +1119,7 @@
       "TITLE": "Tarefa abandonada"
     },
     "TASK_ASSIGNED": {
-      "BODY": "A tarefa {{taskType}} foi atribuída a {{assignee}}. ",
+      "BODY": "A tarefa {{taskType}} atribuída a você por {{assigner}}.",
       "TITLE": "Tarefa atribuída"
     },
     "TASK_COMPLETED_BY_OTHER_USER": {

@@ -13,6 +13,7 @@ import {
   setSpotlightToShown,
   bulkUploadSensorsInfoFile,
   resetBulkUploadSensorsInfoFile,
+  resetShowTransitionModalState,
 } from './saga';
 import {
   canShowSuccessHeader,
@@ -30,6 +31,7 @@ import DrawLineModal from '../../components/Map/Modals/DrawLine';
 import AdjustAreaModal from '../../components/Map/Modals/AdjustArea';
 import AdjustLineModal from '../../components/Map/Modals/AdjustLine';
 import BulkSensorUploadModal from '../../components/Map/Modals/BulkSensorUploadModal';
+import BulkUploadTransitionModal from '../../components/Modals/BulkUploadTransitionModal';
 import CustomZoom from '../../components/Map/CustomZoom';
 import CustomCompass from '../../components/Map/CustomCompass';
 import DrawingManager from '../../components/Map/DrawingManager';
@@ -106,10 +108,13 @@ export default function Map({ history }) {
 
   useEffect(() => {
     if (bulkSensorsUploadResponse?.isBulkUploadSuccessful) {
-      console.log('loading', bulkSensorsUploadResponse?.isBulkUploadSuccessful);
       setShowBulkSensorUploadModal(false);
     }
   }, [bulkSensorsUploadResponse?.isBulkUploadSuccessful]);
+
+  useEffect(() => {
+    setShowBulkSensorUploadModal(false);
+  }, [bulkSensorsUploadResponse?.showTransitionModal]);
 
   const [
     drawingState,
@@ -512,6 +517,13 @@ export default function Map({ history }) {
             onUpload={(file) => {
               const payload = { file };
               dispatch(bulkUploadSensorsInfoFile(payload));
+            }}
+          />
+        )}
+        {(bulkSensorsUploadResponse?.showTransitionModal ?? false) && (
+          <BulkUploadTransitionModal
+            dismissModal={() => {
+              dispatch(resetShowTransitionModalState());
             }}
           />
         )}

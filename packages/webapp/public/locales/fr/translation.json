@@ -465,6 +465,10 @@
         "SENSOR_READING_TYPES": "MISSING"
       }
     },
+    "BULK_UPLOAD_TRANSITION": {
+      "TITLE": "MISSING",
+      "BODY": "MISSING"
+    },
     "CEREMONIAL_AREA": {
       "EDIT_TITLE": "Modifier la zone de cérémonie",
       "NAME": "Nom de la zone de cérémonie",

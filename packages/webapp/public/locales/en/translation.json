@@ -465,6 +465,10 @@
         "SENSOR_READING_TYPES": "Invalid reading type detected, valid values include: soil_moisture_content, water_potential, temperature."
       }
     },
+    "BULK_UPLOAD_TRANSITION": {
+      "TITLE": "This is taking longer than expected...",
+      "BODY": "We’ll notify you once your upload is complete and your sensors have been created. Feel free to navigate away from this window."
+    },
     "CEREMONIAL_AREA": {
       "EDIT_TITLE": "Edit ceremonial area",
       "NAME": "Ceremonial area name",

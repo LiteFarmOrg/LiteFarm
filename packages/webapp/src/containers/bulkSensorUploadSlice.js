@@ -16,6 +16,7 @@ const bulkSensorsUploadSlice = createSlice({
         loading: false,
         isBulkUploadSuccessful: false,
         validationErrors: [],
+        showTransitionModal: false,
       });
     },
     bulkSensorsUploadLoading: (state, action) => {
@@ -39,8 +40,15 @@ const bulkSensorsUploadSlice = createSlice({
     bulkSensorsUploadValidationFailure: (state, { payload }) => {
       state.loading = false;
       state.isBulkUploadSuccessful = false;
-      console.log('payload', payload);
       Object.assign(state, { validationErrors: payload });
+    },
+    changeTransitionModalStateForAsyncProcessingOfSensorsUpload: (state, { payload }) => {
+      Object.assign(state, {
+        loading: false,
+        isBulkUploadSuccessful: false,
+        showTransitionModal: payload,
+        validationErrors: [],
+      });
     },
   },
 });
@@ -50,6 +58,7 @@ export const {
   bulkSensorsUploadSuccess,
   bulkSensorsUploadFailure,
   bulkSensorsUploadValidationFailure,
+  changeTransitionModalStateForAsyncProcessingOfSensorsUpload,
 } = bulkSensorsUploadSlice.actions;
 export default bulkSensorsUploadSlice.reducer;
 export const bulkSensorsUploadSliceSelector = (state) =>

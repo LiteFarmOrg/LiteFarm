@@ -464,6 +464,10 @@
         "SENSOR_READING_TYPES": "MISSING"
       }
     },
+    "BULK_UPLOAD_TRANSITION": {
+      "TITLE": "MISSING",
+      "BODY": "MISSING"
+    },
     "CEREMONIAL_AREA": {
       "EDIT_TITLE": "Editar area ceremonial",
       "NAME": "Nombre de area ceremonial",

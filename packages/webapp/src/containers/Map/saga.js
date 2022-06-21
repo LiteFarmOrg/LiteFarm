@@ -32,6 +32,7 @@ import {
 } from '../bulkSensorUploadSlice';
 
 import { enqueueErrorSnackbar } from '../Snackbar/snackbarSlice';
+import { getSensorReadingSuccess, onLoadingSensorReadingStart } from './mapSensorSlice';
 
 const sendMapToEmailUrl = (farm_id) => `${url}/export/map/farm/${farm_id}`;
 const showedSpotlightUrl = () => `${url}/showed_spotlight`;
@@ -122,8 +123,25 @@ export function* bulkUploadSensorsInfoFileSaga({ payload: { file } }) {
   }
 }
 
+export const getSensorReadings = createAction('getSensorReadingsSaga');
+
+export function* getSensorReadingsSaga() {
+  const { user_id, farm_id } = yield select(userFarmSelector);
+  const header = getHeader(user_id, farm_id);
+  const formData = new FormData();
+  //todo get sensor_id and send it as the body
+  try {
+    yield put(onLoadingSensorReadingStart(user_id, farm_id));
+    const result = yield call(axios.post, sensorUrl + '/get_readings', formData, header);
+    yield put(getSensorReadingSuccess(result.data));
+  } catch (e) {
+    console.error(e);
+  }
+}
+
 export default function* supportSaga() {
   yield takeLeading(sendMapToEmail.type, sendMapToEmailSaga);
   yield takeLeading(setSpotlightToShown.type, setSpotlightToShownSaga);
   yield takeLeading(bulkUploadSensorsInfoFile.type, bulkUploadSensorsInfoFileSaga);
+  yield takeLeading(getSensorReadings.type, getSensorReadingsSaga);
 }

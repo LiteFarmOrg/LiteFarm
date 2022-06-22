@@ -7,7 +7,7 @@ exports.up = function (knex) {
       table
         .integer('partner_id')
         .references('partner_id')
-        .inTable('integratingPartners')
+        .inTable('integrating_partner')
         .notNullable();
       table.string('external_id').notNullable();
       table.uuid('location_id').references('location_id').inTable('location').notNullable();

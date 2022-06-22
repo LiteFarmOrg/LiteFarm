@@ -65,7 +65,7 @@ class PartnerReadingTypeModel extends BaseModel {
         relation: Model.HasOneRelation,
         join: {
           from: 'partner_reading_type.partner_id',
-          to: 'integratingPartners.partner_id',
+          to: 'integrating_partner.partner_id',
         },
       },
     };

@@ -51,7 +51,7 @@ class Sensor extends Model {
   static get relationMappings() {
     return {
       sensor_reading_type: {
-        modelClass: require('./sensorReadingTypeModel'),
+        modelClass: require('./SensorReadingTypeModel'),
         relation: Model.HasManyRelation,
         join: {
           from: 'sensor.sensor_id',

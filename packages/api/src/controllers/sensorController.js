@@ -157,7 +157,6 @@ const sensorController = {
 
   deleteSensor() {
     return async (req, res) => {
-      console.log(req);
       const trx = await transaction.start(Model.knex());
       try {
         const isDeleted = await baseController.delete(sensorModel, req.params.sensor_id, req, {
@@ -219,7 +218,7 @@ const sensorController = {
             }
           }
         }
-        if (infoBody.length == 0) {
+        if (infoBody.length === 0) {
           res.status(200).send(infoBody);
         } else {
           const result = await baseController.postWithResponse(sensorReadingModel, infoBody, req, {

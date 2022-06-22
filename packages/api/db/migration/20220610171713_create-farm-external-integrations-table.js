@@ -14,7 +14,7 @@
  */
 
 exports.up = async function (knex) {
-  await knex.schema.createTable('farmExternalIntegrations', (table) => {
+  await knex.schema.createTable('farm_external_integration', (table) => {
     table.primary(['farm_id', 'partner_id']);
     table.uuid('farm_id').references('farm_id').inTable('farm');
     table.integer('partner_id').references('partner_id').inTable('integratingPartners');
@@ -24,5 +24,5 @@ exports.up = async function (knex) {
 };
 
 exports.down = async function (knex) {
-  await knex.schema.dropTable('farmExternalIntegrations');
+  await knex.schema.dropTable('farm_external_integration');
 };

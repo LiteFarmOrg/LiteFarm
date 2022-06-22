@@ -127,6 +127,7 @@ export default function PureSensorDetail({ history, user }) {
 
       <ReactSelect
         label={t('SENSOR.DETAIL.BRAND')}
+        placeholder={'Ensemble Scientific'}
         defaultValue={'Ensemble Scientific'}
         placeholder={'CHANGE'}
         isDisabled={true}

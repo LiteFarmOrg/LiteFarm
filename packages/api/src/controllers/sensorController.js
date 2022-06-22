@@ -31,7 +31,6 @@ const sensorController = {
   async addSensors(req, res) {
     try {
       const { farm_id } = req.headers;
-      const { user_id } = req.user;
       const { access_token } = await IntegratingPartnersModel.getAccessAndRefreshTokens(
         'Ensemble Scientific',
       );
@@ -151,7 +150,6 @@ const sensorController = {
             registeredSensors,
           });
         } else {
-          sendSensorNotification(user_id, farm_id, SensorNotificationTypes.SENSOR_BULK_UPLOAD);
           res.status(200).send({ message: 'Successfully uploaded!' });
         }
       }
@@ -319,6 +317,7 @@ const SensorNotificationTypes = {
  * @param {string} notifyTranslationKey notification translation key
  * @async
  */
+// eslint-disable-next-line no-unused-vars
 async function sendSensorNotification(receiverId, farmId, notifyTranslationKey) {
   if (!receiverId) return;
 

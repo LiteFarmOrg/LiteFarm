@@ -20,13 +20,13 @@ const SensorReadingTypeModel = require('../models/SensorReadingTypeModel');
 const IntegratingPartnersModel = require('../models/integratingPartnersModel');
 const NotificationUser = require('../models/notificationUserModel');
 const { transaction, Model } = require('objection');
+
 const {
   createOrganization,
   registerOrganizationWebhook,
   bulkSensorClaim,
 } = require('../util/ensemble');
 const PartnerReadingTypeModel = require('../models/PartnerReadingTypeModel');
-
 const sensorController = {
   async addSensors(req, res) {
     try {
@@ -161,115 +161,110 @@ const sensorController = {
     }
   },
 
-  deleteSensor() {
-    return async (req, res) => {
-      console.log(req);
+  async deleteSensor(req, res) {
+    try {
       const trx = await transaction.start(Model.knex());
-      try {
-        const isDeleted = await baseController.delete(sensorModel, req.params.sensor_id, req, {
+      const isDeleted = await baseController.delete(sensorModel, req.params.sensor_id, req, {
+        trx,
+      });
+      await trx.commit();
+      if (isDeleted) {
+        res.sendStatus(200);
+      } else {
+        res.sendStatus(404);
+      }
+    } catch (error) {
+      res.status(400).json({
+        error,
+      });
+    }
+  },
+
+  async getSensorsByFarmId(req, res) {
+    try {
+      const { farm_id } = req.body;
+      if (!farm_id) {
+        return res.status(400).send('No farm selected');
+      }
+      const data = await baseController.getByFieldId(sensorModel, 'farm_id', farm_id);
+      res.status(200).send(data);
+    } catch (error) {
+      res.status(400).json({
+        error,
+      });
+    }
+  },
+
+  async addReading(req, res) {
+    const trx = await transaction.start(Model.knex());
+    try {
+      const infoBody = [];
+      for (const sensor of req.body) {
+        const corresponding_sensor = await sensorModel
+          .query()
+          .select('sensor_id')
+          .where('external_id', sensor.sensor_esid)
+          .where('partner_id', req.params.partner_id);
+        for (let i = 0; i < sensor.value.length; i++) {
+          const row = {
+            read_time: sensor.time[i],
+            sensor_id: corresponding_sensor[0].sensor_id,
+            reading_type: sensor.parameter_number,
+            value: sensor.value[i],
+            unit: sensor.unit,
+          };
+          // Only include this entry if all required values are poulated
+          if (Object.values(row).every((value) => value)) {
+            infoBody.push(row);
+          }
+        }
+      }
+      if (infoBody.length === 0) {
+        res.status(200).send(infoBody);
+      } else {
+        const result = await baseController.postWithResponse(sensorReadingModel, infoBody, req, {
           trx,
         });
         await trx.commit();
-        if (isDeleted) {
-          res.sendStatus(200);
-        } else {
-          res.sendStatus(404);
-        }
-      } catch (error) {
-        //handle more exceptions
-        res.status(400).json({
-          error,
-        });
+        res.status(200).send(result);
       }
-    };
+    } catch (error) {
+      res.status(400).json({
+        error,
+      });
+    }
   },
 
-  getSensorsByFarmId() {
-    return async (req, res) => {
-      try {
-        const { farm_id } = req.body;
-        if (!farm_id) {
-          return res.status(400).send('No farm selected');
-        }
-        const data = await baseController.getByFieldId(sensorModel, 'farm_id', farm_id);
-        res.status(200).send(data);
-      } catch (error) {
-        //handle exceptions
-        res.status(400).json({
-          error,
-        });
+  async getAllReadingsBySensorId(req, res) {
+    try {
+      const { sensor_id } = req.body;
+      if (!sensor_id) {
+        res.status(400).send('No sensor selected');
       }
-    };
+      const data = await baseController.getByFieldId(sensorReadingModel, 'sensor_id', sensor_id);
+      const validReadings = data.filter((datapoint) => datapoint.valid);
+      res.status(200).send(validReadings);
+    } catch (error) {
+      res.status(400).json({
+        error,
+      });
+    }
   },
 
-  // TODO
-  addReading() {
-    return async (req, res) => {
-      // const trx = await transaction.start(Model.knex());
-      try {
-        // const infoBody = {
-        //   reading_id: req.body.reading_id,
-        //   read_time: req.body.read_time,
-        //   //   transmit_time: req.body.transmit_time,
-        //   sensor_id: req.body.sensor_id,
-        //   reading_type: req.body.reading_type,
-        //   value: req.body.value,
-        //   unit: req.body.unit,
-        // };
-
-        // if (!Object.values(infoBody).every((value) => value)) {
-        //   res.status(400).send('Invalid reading');
-        // }
-        // const result = await baseController.postWithResponse(sensorReadingModel, infoBody, req, {
-        //   trx,
-        // });
-        // await trx.commit();
-        // res.status(200).send(result);
-        res.sendStatus(200);
-      } catch (error) {
-        //handle more exceptions
-        res.status(400).json({
-          error,
-        });
-      }
-    };
-  },
-
-  getAllReadingsBySensorId() {
-    return async (req, res) => {
-      try {
-        const { sensor_id } = req.body;
-        if (!sensor_id) {
-          return res.status(400).send('No sensor selected');
-        }
-        const data = await baseController.getByFieldId(sensorReadingModel, 'sensor_id', sensor_id);
-        const validReadings = data.filter((datapoint) => datapoint.valid);
-        res.status(200).send(validReadings);
-      } catch (error) {
-        //handle more exceptions
-        res.status(400).json({
-          error,
-        });
-      }
-    };
-  },
-
-  invalidateReadings() {
-    return async (req, res) => {
-      try {
-        const { start_time, end_time } = req.body;
-        const result = await sensorReadingModel
-          .query()
-          .patch({ valid: false })
-          .where('read_time', '>=', start_time)
-          .where('read_time', '<=', end_time);
-        res.status(200).send(`${result} entries invalidated`);
-      } catch (error) {
-        res.status(400).json({
-          error,
-        });
-      }
-    };
+  async invalidateReadings(req, res) {
+    try {
+      const { start_time, end_time } = req.body;
+      const result = await sensorReadingModel
+        .query()
+        .patch({ valid: false })
+        .where('read_time', '>=', start_time)
+        .where('read_time', '<=', end_time);
+      res.status(200).send(`${result} entries invalidated`);
+    } catch (error) {
+      res.status(400).json({
+        error,
+      });
+    }
   },
 };
 

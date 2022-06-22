@@ -106,7 +106,7 @@ const taskController = {
           available_tasks.map(async (task) => {
             await sendTaskNotification(
               newAssigneeUserId,
-              null,
+              user_id,
               task.task_id,
               TaskNotificationTypes.TASK_ASSIGNED,
               task.task_translation_key,
@@ -266,7 +266,7 @@ const taskController = {
           const { assignee_user_id, task_id, taskType } = result;
           await sendTaskNotification(
             assignee_user_id,
-            null,
+            user_id,
             task_id,
             TaskNotificationTypes.TASK_ASSIGNED,
             taskType.task_translation_key,
@@ -661,7 +661,7 @@ const TaskNotificationTypes = {
 };
 
 const TaskNotificationUserTypes = {
-  TASK_ASSIGNED: 'assignee',
+  TASK_ASSIGNED: 'assigner',
   TASK_ABANDONED: 'abandoner',
   TASK_REASSIGNED: 'assigner',
   TASK_COMPLETED_BY_OTHER_USER: 'assigner',
@@ -720,7 +720,7 @@ async function sendTaskReassignedNotifications(
   await Promise.all([
     sendTaskNotification(
       newAssigneeUserId,
-      null,
+      assignerUserId,
       taskId,
       TaskNotificationTypes.TASK_ASSIGNED,
       taskTranslationKey,

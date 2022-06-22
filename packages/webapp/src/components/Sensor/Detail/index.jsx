@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import Button from '../../Form/Button';
 import { useTranslation } from 'react-i18next';
 import RouterTab from '../../RouterTab';
@@ -11,6 +12,7 @@ import FilterPillSelect from '../../Filter/FilterPillSelect';
 
 export default function PureSensorDetail({ history, user, match }) {
   const isAdmin = user || true;
+  const [showRetireModal, setShowRetireModal] = useState(false);
   const sensorName = match.params.sensor_id;
   const { t } = useTranslation();
   const brand_names = [
@@ -145,7 +147,7 @@ export default function PureSensorDetail({ history, user, match }) {
         >
           <Button
             type={'submit'}
-            onClick={() => history.push('/retire_sensor')} // Change accordingly
+            onClick={setShowArchiveModal(true)} // Change accordingly
             color={'secondary'}
             classes={{ container: { flexGrow: 1 } }}
           >
@@ -159,6 +161,7 @@ export default function PureSensorDetail({ history, user, match }) {
           >
             {t(`SENSOR.DETAIL.EDIT`)}
           </Button>
+          {showArchiveModal && <RetireSensorModal dismissModal={setShowArchiveModal(false)} />}
         </div>
       )}
 

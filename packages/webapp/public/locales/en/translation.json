@@ -1335,6 +1335,12 @@
       "READINGS": "Readings",
       "TASKS": "Tasks",
       "DETAILS": "Details"
+    },
+    "RETIRE MODAL": {
+      "TITLE": "Retire sensor?",
+      "RETIRE": "RETIRE",
+      "CANCEL": "CANCEL",
+      "BODY": "Retiring this sensor will remove it and any readings associated with it from your farm as well as closing any connections with the sensor provider. Do you want to proceed?"
     }
   },
   "SHIFT": {

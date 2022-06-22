@@ -5,10 +5,7 @@ import RouterTab from '../../RouterTab';
 import PageTitle from '../../PageTitle/v2';
 import Input from '../../Form/Input';
 import ReactSelect from '../../Form/ReactSelect';
-import DropdownButton from '../../Form/DropDownButton';
-import Unit from '../../Inputs/Unit';
-import { container_planting_depth } from '../../../util/convert-units/unit';
-import FilterPillSelect from '../../Filter/FilterPillSelect';
+import RetireSensorModal from '../../Modals/RetireSensor';
 
 export default function PureSensorDetail({ history, user, match }) {
   const isAdmin = user || true;
@@ -147,7 +144,7 @@ export default function PureSensorDetail({ history, user, match }) {
         >
           <Button
             type={'submit'}
-            onClick={setShowArchiveModal(true)} // Change accordingly
+            onClick={() => setShowRetireModal(true)} // Change accordingly
             color={'secondary'}
             classes={{ container: { flexGrow: 1 } }}
           >
@@ -161,33 +158,9 @@ export default function PureSensorDetail({ history, user, match }) {
           >
             {t(`SENSOR.DETAIL.EDIT`)}
           </Button>
-          {showArchiveModal && <RetireSensorModal dismissModal={setShowArchiveModal(false)} />}
         </div>
       )}
-
-      {/* <Layout
-        buttonGroup={
-            isAdmin && (
-                <>
-                    <Button
-                    type={'submit'}
-                    onClick={() => history.push('/retire_sensor')} // Change accordingly
-                    color={'secondary'}
-                    >
-                    {t(`SENSOR.DETAIL.RETIRE`)}
-                    </Button>
-
-                    <Button
-                    type={'submit'}
-                    onClick={() => history.push('/edit_sensor')} // Change accordingly
-                    >
-                    {t(`SENSOR.DETAIL.EDIT`)}
-                    </Button>
-                </>
-            )
-        }
-
-      /> */}
+      {showRetireModal && <RetireSensorModal dismissModal={() => setShowRetireModal(false)} />}
     </div>
   );
 }

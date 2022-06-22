@@ -11,7 +11,6 @@ exports.up = function (knex) {
         .notNullable();
       table.string('external_id').notNullable();
       table.uuid('location_id').references('location_id').inTable('location').notNullable();
-      table.jsonb('grid_points').notNullable();
       table.float('depth');
       table.float('elevation');
     }),

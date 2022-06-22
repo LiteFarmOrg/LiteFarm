@@ -20,7 +20,7 @@ import { ReactComponent as SensorIcon } from '../../assets/images/farmMapFilter/
  * @param {string} key - A translation key that specifies a notification type.
  * @returns {ReactComponent | undefined} The icon for the specified notification type.
  */
-export default function getTaskTypeIcon(key) {
+export default function getNotificationTypeIcon(key) {
   const iconDict = {
     SENSOR: SensorIcon,
   };

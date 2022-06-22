@@ -34,31 +34,31 @@ export function useValidateBulkSensorData(onUpload, t) {
   const validationFields = [
     {
       errorMessage: t('FARM_MAP.BULK_UPLOAD_SENSORS.VALIDATION.EXTERNAL_ID'),
-      /* eslint-disable-next-line */
+      /* eslint-disable no-useless-escape */
       mask: /^[a-zA-Z0-9 \.\-\/!@#$%^&*)(]{1,20}$/,
       columnName: SENSOR_EXTERNAL_ID,
     },
     {
       errorMessage: t('FARM_MAP.BULK_UPLOAD_SENSORS.VALIDATION.SENSOR_NAME'),
-      /* eslint-disable-next-line */
+      /* eslint-disable no-useless-escape */
       mask: /^[a-zA-Z0-9 \.\-\/!@#$%^&*)(]{1,100}$/,
       columnName: SENSOR_NAME,
     },
     {
       errorMessage: t('FARM_MAP.BULK_UPLOAD_SENSORS.VALIDATION.SENSOR_LATITUDE'),
-      /* eslint-disable-next-line */
+      /* eslint-disable no-useless-escape */
       mask: /^(\+|-)?(?:90(?:(?:\.0{1,6})?)|(?:[0-9]|[1-8][0-9])(?:(?:\.[0-9]{1,30})?))$/,
       columnName: SENSOR_LATITUDE,
     },
     {
       errorMessage: t('FARM_MAP.BULK_UPLOAD_SENSORS.VALIDATION.SENSOR_LONGITUDE'),
-      /* eslint-disable-next-line */
+      /* eslint-disable no-useless-escape */
       mask: /^(\+|-)?(?:180(?:(?:\.0{1,6})?)|(?:[0-9]|[1-9][0-9]|1[0-7][0-9])(?:(?:\.[0-9]{1,30})?))$/,
       columnName: SENSOR_LONGITUDE,
     },
     {
       errorMessage: t('FARM_MAP.BULK_UPLOAD_SENSORS.VALIDATION.SENSOR_READING_TYPES'),
-      /* eslint-disable-next-line */
+      /* eslint-disable no-useless-escape */
       mask: /^\s*(?:\w+\s*,\s*){2,}(?:\w+\s*)$/,
       columnName: SENSOR_READING_TYPES,
       validate(rowNumber, columnName, value) {
@@ -118,9 +118,8 @@ export function useValidateBulkSensorData(onUpload, t) {
   const onUploadClicked = async (e) => {
     e.preventDefault();
     const file = fileInputRef.current.files[0];
-    if (file) {
-      onUpload(file);
-    }
+    if (!file) return;
+    onUpload(file);
   };
 
   const checkRequiredColumnsArePresent = (sensorObject = {}) => {
@@ -141,33 +140,32 @@ export function useValidateBulkSensorData(onUpload, t) {
 
   const handleSelectedFile = async (e) => {
     const file = e.target.files[0];
-    if (file) {
-      try {
-        setSelectedFileName(file?.name);
-        const data = await file.arrayBuffer();
-        const workBook = XLSX.read(data);
-        const sheetErrorList = [];
-        let totalErrorCount = 0;
-        for (const singleSheet of workBook.SheetNames) {
-          const sheetError = {
-            sheetName: singleSheet,
-          };
-          const worksheet = workBook.Sheets[singleSheet];
-          // sheet_to_json always return array.
-          const jsonData = XLSX.utils.sheet_to_json(worksheet, { defval: '' });
-          let errors = [];
-          const missingColumnsErrors = checkRequiredColumnsArePresent(jsonData[0]);
-          errors = missingColumnsErrors.length ? missingColumnsErrors : validateExcel(jsonData);
-          totalErrorCount += errors.length;
-          sheetError.errors = errors;
-          sheetErrorList.push(sheetError);
-        }
-        setErrorCount(totalErrorCount);
-        setSheetErrors(sheetErrorList);
-        setDisabled(() => (totalErrorCount === 0 ? ++totalErrorCount : --totalErrorCount));
-      } catch (err) {
-        console.error(err);
+    if (!file) return;
+    try {
+      setSelectedFileName(file?.name);
+      const data = await file.arrayBuffer();
+      const workBook = XLSX.read(data);
+      const sheetErrorList = [];
+      let totalErrorCount = 0;
+      for (const singleSheet of workBook.SheetNames) {
+        const sheetError = {
+          sheetName: singleSheet,
+        };
+        const worksheet = workBook.Sheets[singleSheet];
+        // sheet_to_json always return array.
+        const jsonData = XLSX.utils.sheet_to_json(worksheet, { defval: '' });
+        let errors = [];
+        const missingColumnsErrors = checkRequiredColumnsArePresent(jsonData[0]);
+        errors = missingColumnsErrors.length ? missingColumnsErrors : validateExcel(jsonData);
+        totalErrorCount += errors.length;
+        sheetError.errors = errors;
+        sheetErrorList.push(sheetError);
       }
+      setErrorCount(totalErrorCount);
+      setSheetErrors(sheetErrorList);
+      setDisabled(() => (totalErrorCount === 0 ? ++totalErrorCount : --totalErrorCount));
+    } catch (err) {
+      console.error(err);
     }
   };
 

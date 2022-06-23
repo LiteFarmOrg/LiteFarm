@@ -12,69 +12,17 @@ import {
   Label,
 } from 'recharts';
 
-const data = [
-  {
-    date: '12/12/12',
-    name: 'Page A',
-    uv: 4000,
-    pv: 2400,
-    av: 1000,
-    amt: 2400,
-  },
-  {
-    date: '12/12/12',
-    name: 'Page B',
-    uv: 3000,
-    pv: 1398,
-    av: 1000,
-    amt: 2210,
-  },
-  {
-    date: '12/12/12',
-    name: 'Page C',
-    uv: 2000,
-    pv: 9800,
-    av: 1000,
-    amt: 2290,
-  },
-  {
-    date: '12/12/12',
-    name: 'Page D',
-    uv: 2780,
-    pv: 3908,
-    av: 1000,
-    amt: 2000,
-  },
-  {
-    date: '12/12/12',
-    name: 'Page E',
-    uv: 1890,
-    pv: 4800,
-    av: 1000,
-    amt: 2181,
-  },
-  {
-    date: '12/12/12',
-    name: 'Page F',
-    uv: 2390,
-    pv: 3800,
-    av: 1000,
-    amt: 2500,
-  },
-  {
-    date: '12/12/12',
-    name: 'Page G',
-    uv: 3490,
-    pv: 4300,
-    av: 1000,
-    amt: 2100,
-  },
-];
-
-const ReadingsLineCart = ({ yAxisDataKeys = [], chartData = [], xAxisDataKey = '' }) => {
+const ReadingsLineCart = ({
+  yAxisDataKeys = [],
+  chartData = [],
+  xAxisDataKey = '',
+  lineColors = [],
+}) => {
   return (
-    <ResponsiveContainer width="100%" height="100%">
+    <ResponsiveContainer width="100%" height="50%">
       <LineChart
+        width={1000}
+        height={500}
         data={chartData}
         margin={{
           top: 20,
@@ -99,8 +47,14 @@ const ReadingsLineCart = ({ yAxisDataKeys = [], chartData = [], xAxisDataKey = '
           />
         )}
         {yAxisDataKeys.length &&
-          yAxisDataKeys.map((attribute) => (
-            <Line dataKey={attribute} stroke="#8884d8" activeDot={{ r: 8 }} />
+          yAxisDataKeys.map((attribute, idx) => (
+            <Line
+              key={idx}
+              strokeWidth={2}
+              dataKey={attribute}
+              stroke={lineColors[idx % lineColors.length]}
+              activeDot={{ r: 8 }}
+            />
           ))}
       </LineChart>
     </ResponsiveContainer>

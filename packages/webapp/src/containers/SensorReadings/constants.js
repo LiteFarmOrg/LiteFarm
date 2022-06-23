@@ -5,3 +5,4 @@ export const DEFAULT_CENTER = {
 export const DEFAULT_ZOOM = 15;
 export const GMAPS_API_KEY = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
 export const ENVIRONMENT = import.meta.env.NODE_ENV;
+export const colors = ['#3ea992', '#8f26f0', '#f58282', '#fed450', '#ffa73f', '#AA5F04'];

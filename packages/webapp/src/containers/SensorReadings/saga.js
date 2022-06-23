@@ -105,12 +105,12 @@ export function* getSensorsTempratureReadingsSaga({ payload: sensorsList }) {
             ...accP[_d?.dt],
             [sensorName]: _d?.main?.temp,
             timestamp: _d?.dt,
+            current_date_time: `${current_date_time.split(':00:00')[0]}:00`,
           };
         }
       }
       return accP;
     }, {});
-
     yield put(bulkSensorReadingsSuccess(Object.values(sensorsReadingForLineChart)));
   } catch (error) {
     // yield put(onLoadingWeatherFail({ error, farm_id }));

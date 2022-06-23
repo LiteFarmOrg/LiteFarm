@@ -9,6 +9,7 @@ import { useTranslation } from 'react-i18next';
 import { getSensorsTempratureReadings } from './saga';
 import ReadingsLineChart from '../../components/ReadingsLineChart';
 import { bulkSensorsReadingsSliceSelector } from '../../containers/bulkSensorReadingsSlice';
+import { colors } from './constants';
 
 function SensorReadings({
   sensorsList = [
@@ -51,12 +52,12 @@ function SensorReadings({
   console.log('bulkSensorsReadingsSliceSelectorData', bulkSensorsReadingsSliceSelectorData);
   return (
     <>
-      <h1>Hello all</h1>
       {bulkSensorsReadingsSliceSelectorData?.sensorsReadingsOfTemperature?.length && (
         <ReadingsLineChart
           yAxisDataKeys={sensorsList.map((s) => s.sensor_name)}
           chartData={bulkSensorsReadingsSliceSelectorData?.sensorsReadingsOfTemperature}
-          xAxisDataKey="timestamp"
+          xAxisDataKey="current_date_time"
+          lineColors={colors}
         />
       )}
     </>

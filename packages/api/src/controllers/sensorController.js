@@ -18,6 +18,7 @@ const sensorModel = require('../models/sensorModel');
 const sensorReadingModel = require('../models/sensorReadingModel');
 const SensorReadingTypeModel = require('../models/SensorReadingTypeModel');
 const IntegratingPartnersModel = require('../models/integratingPartnersModel');
+const NotificationUser = require('../models/notificationUserModel');
 const { transaction, Model } = require('objection');
 
 const {
@@ -304,5 +305,40 @@ const parseCsvString = (csvString, mapping, delimiter = ',') => {
     );
   return { data, errors };
 };
+
+const SensorNotificationTypes = {
+  SENSOR_BULK_UPLOAD: 'SENSOR_BULK_UPLOAD',
+};
+
+/**
+ * Creates a notification for sensor
+ * @param {string} receiverId target notification user id
+ * @param {string} farmId farm id
+ * @param {string} notifyTranslationKey notification translation key
+ * @async
+ */
+// eslint-disable-next-line no-unused-vars
+async function sendSensorNotification(receiverId, farmId, notifyTranslationKey) {
+  if (!receiverId) return;
+
+  await NotificationUser.notify(
+    {
+      title: {
+        translation_key: `NOTIFICATION.${SensorNotificationTypes[notifyTranslationKey]}.TITLE`,
+      },
+      body: {
+        translation_key: `NOTIFICATION.${SensorNotificationTypes[notifyTranslationKey]}.BODY`,
+      },
+      variables: [],
+      ref: { url: '/map' },
+      context: {
+        icon_translation_key: 'SENSOR',
+        notification_type: SensorNotificationTypes[notifyTranslationKey],
+      },
+      farm_id: farmId,
+    },
+    [receiverId],
+  );
+}
 
 module.exports = sensorController;

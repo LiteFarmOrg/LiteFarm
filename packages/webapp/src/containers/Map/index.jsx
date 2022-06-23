@@ -4,7 +4,14 @@ import { useTranslation } from 'react-i18next';
 import styles from './styles.module.scss';
 import GoogleMap from 'google-map-react';
 import { saveAs } from 'file-saver';
-import { DEFAULT_ZOOM, GMAPS_API_KEY, isArea, isLine, locationEnum } from './constants';
+import {
+  DEFAULT_ZOOM,
+  GMAPS_API_KEY,
+  isArea,
+  isLine,
+  locationEnum,
+  SENSOR_BULK_UPLOAD,
+} from './constants';
 import { useDispatch, useSelector } from 'react-redux';
 import { measurementSelector, userFarmSelector } from '../userFarmSlice';
 import html2canvas from 'html2canvas';
@@ -104,6 +111,12 @@ export default function Map({ history }) {
       setShowBulkSensorUploadModal(false);
     }
   }, [bulkSensorsUploadResponse?.isBulkUploadSuccessful]);
+
+  useEffect(() => {
+    if (history.location.state?.notification_type === SENSOR_BULK_UPLOAD) {
+      dispatch(setMapFilterShowAll(farm_id));
+    }
+  }, []);
 
   const [
     drawingState,

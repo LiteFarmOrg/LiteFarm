@@ -62,7 +62,7 @@ export function* getSensorsTempratureReadingsSaga({ payload: sensorsList }) {
     yield put(bulkSensorReadingsLoading());
     const apikey = import.meta.env.VITE_WEATHER_API_KEY;
     let params = {
-      appid: '96ed495d24b25c8a0cb967a4ebc6a32e',
+      appid: apikey,
       lang: lang,
       units: measurement,
       type: 'hour',

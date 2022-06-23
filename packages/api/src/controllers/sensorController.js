@@ -273,9 +273,9 @@ const sensorController = {
         'Ensemble Scientific',
       );
       const response = await unclaimSensor(org_id, external_id, access_token);
-      res.send(response);
+      res.status(200).send(response.data.detail);
+      // TODO: Delete sensor from DB
     } catch (error) {
-      console.log(error);
       res.status(400).json({
         error,
       });

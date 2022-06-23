@@ -22,7 +22,7 @@ import PropTypes from 'prop-types';
 
 export default function RetireSensorModal({ dismissModal }) {
   const { t } = useTranslation();
-  const retireAndUnclaimSensor = () => console.log('hi');
+  function retireAndUnclaimSensor() {}
 
   return (
     <ModalComponent

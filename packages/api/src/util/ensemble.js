@@ -260,6 +260,10 @@ async function authenticateToGetTokens() {
   }
 }
 
+/**
+ * Communicate with Ensemble API and unclaim a sensor from the litefarm organization
+ * @returns Response from Ensemble API
+ */
 async function unclaimSensor(org_id, external_id, access_token) {
   try {
     const axiosObject = {
@@ -268,7 +272,6 @@ async function unclaimSensor(org_id, external_id, access_token) {
       data: { esid: external_id },
     };
 
-    // return({org_id, external_id, access_token, axiosObject})
     const onError = () => {
       throw new Error('Unable to unclaim sensor');
     };

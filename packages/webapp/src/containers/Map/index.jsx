@@ -8,7 +8,7 @@ import { DEFAULT_ZOOM, GMAPS_API_KEY, isArea, isLine, locationEnum } from './con
 import { useDispatch, useSelector } from 'react-redux';
 import { measurementSelector, userFarmSelector } from '../userFarmSlice';
 import html2canvas from 'html2canvas';
-import { sendMapToEmail, setSpotlightToShown } from './saga';
+import { sendMapToEmail, setSpotlightToShown, bulkUploadSensorsInfoFile } from './saga';
 import {
   canShowSuccessHeader,
   setShowSuccessHeaderSelector,
@@ -24,6 +24,7 @@ import DrawAreaModal from '../../components/Map/Modals/DrawArea';
 import DrawLineModal from '../../components/Map/Modals/DrawLine';
 import AdjustAreaModal from '../../components/Map/Modals/AdjustArea';
 import AdjustLineModal from '../../components/Map/Modals/AdjustLine';
+import BulkSensorUploadModal from '../../components/Map/Modals/BulkSensorUploadModal';
 import CustomZoom from '../../components/Map/CustomZoom';
 import CustomCompass from '../../components/Map/CustomCompass';
 import DrawingManager from '../../components/Map/DrawingManager';
@@ -46,6 +47,7 @@ import {
   setPersistedPaths,
   upsertFormData,
 } from '../hooks/useHookFormPersist/hookFormPersistSlice';
+import { bulkSensorsUploadSliceSelector } from '../../containers/bulkSensorUploadSlice';
 import LocationSelectionModal from './LocationSelectionModal';
 import { useMaxZoom } from './useMaxZoom';
 
@@ -58,6 +60,7 @@ export default function Map({ history }) {
   const dispatch = useDispatch();
   const system = useSelector(measurementSelector);
   const overlayData = useSelector(hookFormPersistSelector);
+  const bulkSensorsUploadResponse = useSelector(bulkSensorsUploadSliceSelector);
 
   const lineTypesWithWidth = [locationEnum.buffer_zone, locationEnum.watercourse];
   const { t } = useTranslation();
@@ -96,6 +99,12 @@ export default function Map({ history }) {
     };
   }, []);
 
+  useEffect(() => {
+    if (bulkSensorsUploadResponse?.isBulkUploadSuccessful) {
+      setShowBulkSensorUploadModal(false);
+    }
+  }, [bulkSensorsUploadResponse?.isBulkUploadSuccessful]);
+
   const [
     drawingState,
     {
@@ -125,6 +134,7 @@ export default function Map({ history }) {
   const [showExportModal, setShowExportModal] = useState(false);
   const [showDrawAreaSpotlightModal, setShowDrawAreaSpotlightModal] = useState(false);
   const [showDrawLineSpotlightModal, setShowDrawLineSpotlightModal] = useState(false);
+  const [showBulkSensorUploadModal, setShowBulkSensorUploadModal] = useState(false);
 
   const getMapOptions = (maps) => {
     return {
@@ -298,6 +308,10 @@ export default function Map({ history }) {
       setShowDrawAreaSpotlightModal(true);
     } else if (isLine(locationType) && !showedSpotlight.draw_line) {
       setShowDrawLineSpotlightModal(true);
+    } else if (locationType === locationEnum.sensor) {
+      setShowAddDrawer(!showAddDrawer);
+      setShowBulkSensorUploadModal(true);
+      return;
     }
     isLineWithWidth(locationType) && dispatch(upsertFormData(initialLineData[locationType]));
     const submitPath = `/create_location/${locationType}`;
@@ -349,6 +363,11 @@ export default function Map({ history }) {
 
   const isLineWithWidth = (type = drawingState.type) => {
     return lineTypesWithWidth.includes(type);
+  };
+
+  const dismissBulkSensorsUploadModal = () => {
+    setShowBulkSensorUploadModal(false);
+    setShowAddDrawer(true);
   };
 
   const { showAdjustAreaSpotlightModal, showAdjustLineSpotlightModal } = drawingState;
@@ -477,6 +496,15 @@ export default function Map({ history }) {
             dismissModal={() => {
               setShowAdjustLineSpotlightModal(false);
               dispatch(setSpotlightToShown('adjust_line'));
+            }}
+          />
+        )}
+        {showBulkSensorUploadModal && (
+          <BulkSensorUploadModal
+            dismissModal={dismissBulkSensorsUploadModal}
+            onUpload={(file) => {
+              const payload = { file };
+              dispatch(bulkUploadSensorsInfoFile(payload));
             }}
           />
         )}

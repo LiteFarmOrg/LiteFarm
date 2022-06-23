@@ -448,6 +448,22 @@
       "TITLE": "Adicionar zona de amortecimento/proteção",
       "WIDTH": "Largura da zona de amortecimento/proteção"
     },
+    "BULK_UPLOAD_SENSORS": {
+      "TITLE": "MISSING",
+      "UPLOAD_LINK_MESSAGE": "MISSING",
+      "UPLOAD_INSTRUCTION_MESSAGE": "MISSING",
+      "UPLOAD_PLACEHOLDER": "MISSING",
+      "UPLOAD_ERROR_MESSAGE": "MISSING",
+      "UPLOAD_ERROR_LINK": "MISSING",
+      "VALIDATION": {
+        "MISSING_COLUMNS": "MISSING",
+        "EXTERNAL_ID": "MISSING",
+        "SENSOR_NAME": "MISSING",
+        "SENSOR_LATITUDE": "MISSING",
+        "SENSOR_LONGITUDE": "MISSING",
+        "SENSOR_READING_TYPES": "MISSING"
+      }
+    },
     "CEREMONIAL_AREA": {
       "EDIT_TITLE": "Editar área cerimonial",
       "NAME": "Área cerimonial",
@@ -550,7 +566,8 @@
       "SURFACE_WATER": "Água superficial",
       "TITLE": "Filtre o seu mapa",
       "WATERCOURSE": "Curso d'água",
-      "WV": "Ponto de bombeamento"
+      "WV": "Ponto de bombeamento",
+      "SENSOR": "MISSING"
     },
     "NATURAL_AREA": {
       "EDIT_TITLE": "Editar área natural",

@@ -15,19 +15,27 @@
 
 import { createAction } from '@reduxjs/toolkit';
 import { call, put, select, takeLeading } from 'redux-saga/effects';
-import { url } from '../../apiConfig';
+import { url, sensorUrl } from '../../apiConfig';
 import i18n from '../../locales/i18n';
 import { axios, getHeader } from '../saga';
 import { loginSelector, userFarmSelector } from '../userFarmSlice';
+import { canShowSuccessHeader, setSuccessMessage } from '../../containers/mapSlice';
 import {
   patchSpotlightFlagsFailure,
   patchSpotlightFlagsSuccess,
   spotlightLoading,
 } from '../showedSpotlightSlice';
+import {
+  bulkSensorsUploadFailure,
+  bulkSensorsUploadSuccess,
+  bulkSensorsUploadLoading,
+} from '../bulkSensorUploadSlice';
+
 import { enqueueErrorSnackbar } from '../Snackbar/snackbarSlice';
 
 const sendMapToEmailUrl = (farm_id) => `${url}/export/map/farm/${farm_id}`;
 const showedSpotlightUrl = () => `${url}/showed_spotlight`;
+const bulkUploadSensorsInfoUrl = () => `${sensorUrl}/add_sensors`;
 
 export const sendMapToEmail = createAction(`sendMapToEmailSaga`);
 
@@ -61,6 +69,9 @@ export function* setSpotlightToShownSaga({ payload: spotlights }) {
     const { user_id } = yield select(loginSelector);
     const header = getHeader(user_id);
     let patchContent = {};
+    if (typeof spotlights == 'string') {
+      spotlights = [spotlights];
+    }
     for (const spotlight of spotlights) {
       patchContent[spotlight] = true;
       patchContent[`${spotlight}_end`] = new Date().toISOString();
@@ -74,7 +85,45 @@ export function* setSpotlightToShownSaga({ payload: spotlights }) {
   }
 }
 
+export const bulkUploadSensorsInfoFile = createAction(`bulkUploadSensorsInfoFileSaga`);
+
+export function* bulkUploadSensorsInfoFileSaga({ payload: { file } }) {
+  try {
+    yield put(bulkSensorsUploadLoading());
+    const { farm_id } = yield select(userFarmSelector);
+    const formData = new FormData();
+    formData.append('sensors', file);
+    const fileUploadResponse = yield call(axios.post, bulkUploadSensorsInfoUrl(), formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+        Authorization: 'Bearer ' + localStorage.getItem('id_token'),
+        farm_id: farm_id,
+      },
+    });
+
+    if (fileUploadResponse.status === 200) {
+      fileUploadResponse.data;
+      yield put(bulkSensorsUploadSuccess());
+      yield put(
+        setSuccessMessage([
+          i18n.t('FARM_MAP.MAP_FILTER.SENSOR'),
+          i18n.t('message:MAP.SUCCESS_UPLOAD'),
+        ]),
+      );
+      yield put(canShowSuccessHeader(true));
+      return;
+    }
+    yield put(bulkSensorsUploadFailure());
+    yield put(enqueueErrorSnackbar(i18n.t('message:BULK_UPLOAD.ERROR.UPLOAD')));
+  } catch (e) {
+    yield put(bulkSensorsUploadFailure());
+    yield put(enqueueErrorSnackbar(i18n.t('message:BULK_UPLOAD.ERROR.UPLOAD')));
+    console.log(e);
+  }
+}
+
 export default function* supportSaga() {
   yield takeLeading(sendMapToEmail.type, sendMapToEmailSaga);
   yield takeLeading(setSpotlightToShown.type, setSpotlightToShownSaga);
+  yield takeLeading(bulkUploadSensorsInfoFile.type, bulkUploadSensorsInfoFileSaga);
 }

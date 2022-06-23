@@ -331,7 +331,10 @@ async function sendSensorNotification(receiverId, farmId, notifyTranslationKey) 
       },
       variables: [],
       ref: { url: '/map' },
-      context: { icon_translation_key: 'SENSOR' },
+      context: {
+        icon_translation_key: 'SENSOR',
+        notification_type: SensorNotificationTypes[notifyTranslationKey],
+      },
       farm_id: farmId,
     },
     [receiverId],

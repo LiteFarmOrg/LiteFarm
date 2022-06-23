@@ -248,6 +248,24 @@ const sensorController = {
     }
   },
 
+  async getReadingsByFarmId(req, res) {
+    try {
+      const { farm_id } = req.params;
+      if (!farm_id) {
+        res.status(400).send('Invalid farm id');
+      }
+      const result = await sensorReadingModel
+        .query()
+        .join('sensor', 'sensor_reading.sensor_id', 'sensor.sensor_id')
+        .where('farm_id', farm_id);
+      res.status(200).send(result);
+    } catch (error) {
+      res.status(400).json({
+        error,
+      });
+    }
+  },
+
   async invalidateReadings(req, res) {
     try {
       const { start_time, end_time } = req.body;

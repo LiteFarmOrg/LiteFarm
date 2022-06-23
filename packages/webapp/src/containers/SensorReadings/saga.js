@@ -15,25 +15,14 @@
 
 import { createAction } from '@reduxjs/toolkit';
 import { call, put, select, takeLeading, all } from 'redux-saga/effects';
-import { url, sensorUrl } from '../../apiConfig';
-import i18n from '../../locales/i18n';
-import { axios, getHeader } from '../saga';
+import { axios } from '../saga';
 import { userFarmSelector } from '../userFarmSlice';
-import { weatherSelector } from '../WeatherBoard/weatherSlice';
-
+import { GRAPH_TIMESTAMPS, OPEN_WEATHER_API_URL_FOR_SENSORS, HOUR } from './constants';
 import {
-  resetBulkSensorReadingsStates,
   bulkSensorReadingsLoading,
   bulkSensorReadingsSuccess,
   bulkSensorReadingsFailure,
 } from '../bulkSensorReadingsSlice';
-// import { bulkSenorUploadErrorTypeEnum } from './constants';
-
-import { enqueueErrorSnackbar } from '../Snackbar/snackbarSlice';
-
-const sendMapToEmailUrl = (farm_id) => `${url}/export/map/farm/${farm_id}`;
-const showedSpotlightUrl = () => `${url}/showed_spotlight`;
-const bulkUploadSensorsInfoUrl = () => `${sensorUrl}/add_sensors`;
 
 export const getSensorsTempratureReadings = createAction(`getSensorsTempratureReadingsSaga`);
 
@@ -46,15 +35,6 @@ export function* getSensorsTempratureReadingsSaga({ payload: sensorsList }) {
     grid_points: { lat, lng: lon },
   } = yield select(userFarmSelector);
   try {
-    console.log('farm_id', farm_id);
-    console.log('measurement', measurement);
-    console.log('lang', lang);
-    console.log('lat', lat);
-    console.log('lon', lon);
-    const weather = yield select(weatherSelector);
-    const { lastActiveDatetime } = weather || {};
-    const twoHour = 2000 * 3600;
-    const currentDateTime = new Date().getTime();
     const start = parseInt(+new Date().setDate(new Date().getDate() - 3) / 1000);
     const end = parseInt(+new Date() / 1000);
 
@@ -65,7 +45,7 @@ export function* getSensorsTempratureReadingsSaga({ payload: sensorsList }) {
       appid: apikey,
       lang: lang,
       units: measurement,
-      type: 'hour',
+      type: HOUR,
       start,
       end,
     };
@@ -75,11 +55,11 @@ export function* getSensorsTempratureReadingsSaga({ payload: sensorsList }) {
         lat: sensor?.lat ?? lat,
         lon: sensor?.lon ?? lon,
       };
-      const openWeatherUrl = new URL('https://history.openweathermap.org/data/2.5/history/city');
+      const openWeatherUrl = new URL(OPEN_WEATHER_API_URL_FOR_SENSORS);
       for (const key in params) {
         openWeatherUrl.searchParams.append(key, params[key]);
       }
-      sensorsListAPIPromise.push(call(axios.get, openWeatherUrl.toString()));
+      sensorsListAPIPromise.push(call(axios.get, openWeatherUrl?.toString()));
     }
 
     const weatherResData = yield all(sensorsListAPIPromise);
@@ -90,30 +70,28 @@ export function* getSensorsTempratureReadingsSaga({ payload: sensorsList }) {
       return;
     }
 
-    const sensorsReadingForLineChart = weatherResData.reduce((accP, cv, index) => {
-      const sensorName = sensorsList[index].sensor_name;
-      for (let _d of cv.data.list) {
-        let current_date_time = new Date(_d?.dt * 1000).toString();
-        const isCorrectTimestamp =
-          current_date_time.includes('02:00:00') ||
-          current_date_time.includes('08:00:00') ||
-          current_date_time.includes('14:00:00') ||
-          current_date_time.includes('20:00:00');
-        if (isCorrectTimestamp) {
-          if (!accP[_d?.dt]) accP[_d?.dt] = {};
-          accP[_d?.dt] = {
-            ...accP[_d?.dt],
-            [sensorName]: _d?.main?.temp,
-            timestamp: _d?.dt,
-            current_date_time: `${current_date_time.split(':00:00')[0]}:00`,
-          };
+    const sensorsReadingForLineChart = weatherResData?.reduce((acc, singleAPIResponse, index) => {
+      const sensorName = sensorsList[index]?.sensor_name;
+      if (singleAPIResponse?.data?.list.length) {
+        for (let tempInfo of singleAPIResponse.data.list) {
+          let dateAndTimeInfo = new Date(tempInfo?.dt * 1000).toString();
+          const isCorrectTimestamp = GRAPH_TIMESTAMPS?.find((g) => dateAndTimeInfo?.includes(g));
+          if (isCorrectTimestamp) {
+            if (!acc[tempInfo?.dt]) acc[tempInfo?.dt] = {};
+            acc[tempInfo?.dt] = {
+              ...acc[tempInfo?.dt],
+              [sensorName]: tempInfo?.main?.temp,
+              timestamp: tempInfo?.dt,
+              dateAndTimeInfo: `${dateAndTimeInfo?.split(':00:00')[0]}:00`,
+            };
+          }
         }
       }
-      return accP;
+      return acc;
     }, {});
     yield put(bulkSensorReadingsSuccess(Object.values(sensorsReadingForLineChart)));
   } catch (error) {
-    // yield put(onLoadingWeatherFail({ error, farm_id }));
+    yield put(bulkSensorReadingsFailure());
     console.log(error);
   }
 }

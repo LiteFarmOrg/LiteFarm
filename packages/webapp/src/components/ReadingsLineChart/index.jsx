@@ -71,11 +71,11 @@ const data = [
   },
 ];
 
-const ReadingsLineCart = ({ yAxisDataKeys = ['pv', 'av'] }) => {
+const ReadingsLineCart = ({ yAxisDataKeys = [], chartData = [], xAxisDataKey = '' }) => {
   return (
-    <ResponsiveContainer width="50%" height="50%">
+    <ResponsiveContainer width="100%" height="100%">
       <LineChart
-        data={data}
+        data={chartData}
         margin={{
           top: 20,
           right: 30,
@@ -84,7 +84,10 @@ const ReadingsLineCart = ({ yAxisDataKeys = ['pv', 'av'] }) => {
         }}
       >
         <CartesianGrid strokeDasharray="1 1" />
-        <XAxis label={{ value: 'Pages', position: 'insideBottom', offset: -10 }} dataKey="date" />
+        <XAxis
+          label={{ value: 'Pages', position: 'insideBottom', offset: -10 }}
+          dataKey={xAxisDataKey}
+        />
         <YAxis label={{ value: 'Index', angle: -90, position: 'insideLeft' }} />
         <Tooltip />
         {yAxisDataKeys.length > 1 && (

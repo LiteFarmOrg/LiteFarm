@@ -39,7 +39,6 @@ const bulkSensorsUploadSlice = createSlice({
     bulkSensorsUploadValidationFailure: (state, { payload }) => {
       state.loading = false;
       state.isBulkUploadSuccessful = false;
-      console.log('payload', payload);
       Object.assign(state, { validationErrors: payload });
     },
   },

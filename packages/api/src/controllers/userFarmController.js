@@ -603,7 +603,7 @@ const userFarmController = {
             email,
             gender,
             birth_year,
-            language,
+            language_preference: language,
           },
           userFarm,
           farm_name,

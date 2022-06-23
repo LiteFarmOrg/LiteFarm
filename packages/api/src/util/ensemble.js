@@ -30,7 +30,7 @@ if (process.env.NODE_ENV === 'integration') {
 } else {
   // NOTE: for testing out the webhook, you may need to ngrok or some other
   // tool to make the endpoint available to Ensemble
-  baseUrl = 'http://localhost:5001';
+  baseUrl = 'https://e89c-2607-fea8-4ea3-ab00-91d3-1321-fc98-acee.ngrok.io';
 }
 
 /**
@@ -260,8 +260,28 @@ async function authenticateToGetTokens() {
   }
 }
 
+async function unclaimSensor(org_id, external_id, access_token) {
+  try {
+    const axiosObject = {
+      method: 'post',
+      url: `${ensembleAPI}/organizations/${org_id}/devices/unclaim/`,
+      data: { esid: external_id },
+    };
+
+    // return({org_id, external_id, access_token, axiosObject})
+    const onError = () => {
+      throw new Error('Unable to unclaim sensor');
+    };
+    const response = await ensembleAPICall(access_token, axiosObject, onError);
+    return response;
+  } catch (error) {
+    return { status: 400, error };
+  }
+}
+
 module.exports = {
   bulkSensorClaim,
   registerOrganizationWebhook,
   createOrganization,
+  unclaimSensor,
 };

@@ -19,6 +19,7 @@ const sensorReadingModel = require('../models/sensorReadingModel');
 const SensorReadingTypeModel = require('../models/SensorReadingTypeModel');
 const IntegratingPartnersModel = require('../models/integratingPartnersModel');
 const { transaction, Model } = require('objection');
+const { unclaimSensor } = require('../util/ensemble.js');
 
 const {
   createOrganization,
@@ -258,6 +259,23 @@ const sensorController = {
         .where('read_time', '<=', end_time);
       res.status(200).send(`${result} entries invalidated`);
     } catch (error) {
+      res.status(400).json({
+        error,
+      });
+    }
+  },
+
+  async retireSensor(req, res) {
+    try {
+      const org_id = req.body.org_id;
+      const external_id = req.body.external_id;
+      const { access_token } = await IntegratingPartnersModel.getAccessAndRefreshTokens(
+        'Ensemble Scientific',
+      );
+      const response = await unclaimSensor(org_id, external_id, access_token);
+      res.send(response);
+    } catch (error) {
+      console.log(error);
       res.status(400).json({
         error,
       });

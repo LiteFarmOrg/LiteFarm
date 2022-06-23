@@ -12,11 +12,25 @@ import {
   Label,
 } from 'recharts';
 
+const AxisLabel = ({ axisType, x, y, width, height, stroke, children }) => {
+  const isVert = axisType === 'yAxis';
+  const cx = isVert ? x : x + width / 2;
+  const cy = isVert ? height / 2 + y : y + height + 10;
+  const rot = isVert ? `270 ${cx} ${cy}` : 0;
+  return (
+    <text x={cx} y={cy} transform={`rotate(${rot})`} textAnchor="middle" stroke={stroke}>
+      {children}
+    </text>
+  );
+};
+
 const ReadingsLineCart = ({
   yAxisDataKeys = [],
   chartData = [],
   xAxisDataKey = '',
   lineColors = [],
+  xAxisLabel = '',
+  yAxisLabel = '',
 }) => {
   return (
     <ResponsiveContainer width="100%" height="50%">
@@ -33,10 +47,17 @@ const ReadingsLineCart = ({
       >
         <CartesianGrid strokeDasharray="1 1" />
         <XAxis
-          label={{ value: 'Pages', position: 'insideBottom', offset: -10 }}
+          label={{ value: xAxisLabel, position: 'insideBottom' }}
           dataKey={xAxisDataKey}
+          tick={false}
         />
-        <YAxis label={{ value: 'Index', angle: -90, position: 'insideLeft' }} />
+        <YAxis
+          label={
+            <AxisLabel axisType="yAxis" x={25} y={165} width={0} height={0}>
+              {yAxisLabel}
+            </AxisLabel>
+          }
+        />
         <Tooltip />
         {yAxisDataKeys.length > 1 && (
           <Legend
@@ -53,7 +74,7 @@ const ReadingsLineCart = ({
               strokeWidth={2}
               dataKey={attribute}
               stroke={lineColors[idx % lineColors.length]}
-              activeDot={{ r: 8 }}
+              activeDot={{ r: 6 }}
             />
           ))}
       </LineChart>

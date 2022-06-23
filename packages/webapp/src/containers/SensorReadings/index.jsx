@@ -28,6 +28,11 @@ function SensorReadings({
       lat: 25.08053964037619,
       lon: 55.18902959316284,
     },
+    {
+      sensor_name: 'dd',
+      lat: 43.75393524446394,
+      lon: -79.28392852434554,
+    },
   ],
 }) {
   const { t } = useTranslation();
@@ -58,6 +63,8 @@ function SensorReadings({
           chartData={bulkSensorsReadingsSliceSelectorData?.sensorsReadingsOfTemperature}
           xAxisDataKey="current_date_time"
           lineColors={colors}
+          xAxisLabel="Time"
+          yAxisLabel="Temperature"
         />
       )}
     </>

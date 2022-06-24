@@ -54,7 +54,10 @@ import {
   setPersistedPaths,
   upsertFormData,
 } from '../hooks/useHookFormPersist/hookFormPersistSlice';
-import { bulkSensorsUploadSliceSelector } from '../../containers/bulkSensorUploadSlice';
+import {
+  bulkSensorsUploadSliceSelector,
+  bulkSensorsUploadReInit,
+} from '../../containers/bulkSensorUploadSlice';
 import LocationSelectionModal from './LocationSelectionModal';
 import { useMaxZoom } from './useMaxZoom';
 
@@ -341,6 +344,10 @@ export default function Map({ history }) {
   const handleCloseSuccessHeader = () => {
     dispatch(canShowSuccessHeader(false));
     setShowSuccessHeader(false);
+    if (bulkSensorsUploadResponse?.isBulkUploadSuccessful) {
+      dispatch(bulkSensorsUploadReInit());
+      history.go(0);
+    }
   };
 
   const handleDownload = () => {

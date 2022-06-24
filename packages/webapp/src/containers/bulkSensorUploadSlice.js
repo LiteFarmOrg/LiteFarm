@@ -24,10 +24,18 @@ const bulkSensorsUploadSlice = createSlice({
       state.loading = false;
       state.isBulkUploadSuccessful = false;
     },
+    bulkSensorsUploadReInit: (state, action) => {
+      state.loading = false;
+      state.isBulkUploadSuccessful = false;
+    },
   },
 });
-export const { bulkSensorsUploadLoading, bulkSensorsUploadSuccess, bulkSensorsUploadFailure } =
-  bulkSensorsUploadSlice.actions;
+export const {
+  bulkSensorsUploadLoading,
+  bulkSensorsUploadSuccess,
+  bulkSensorsUploadFailure,
+  bulkSensorsUploadReInit,
+} = bulkSensorsUploadSlice.actions;
 export default bulkSensorsUploadSlice.reducer;
 export const bulkSensorsUploadSliceSelector = (state) =>
   state?.entitiesReducer[bulkSensorsUploadSlice.name];

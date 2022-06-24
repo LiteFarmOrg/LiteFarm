@@ -23,7 +23,7 @@ exports.up = async function (knex) {
     table
       .integer('partner_id')
       .references('partner_id')
-      .inTable('integratingPartners')
+      .inTable('integrating_partner')
       .notNullable();
     table.integer('raw_value');
     table.string('readable_value');

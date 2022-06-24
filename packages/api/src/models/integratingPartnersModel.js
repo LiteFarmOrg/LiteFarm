@@ -22,7 +22,7 @@ class IntegratingPartners extends Model {
    * @returns {string} Names of the database table.
    */
   static get tableName() {
-    return 'integratingPartners';
+    return 'integrating_partner';
   }
 
   /**

@@ -2,16 +2,15 @@ exports.up = function (knex) {
   return Promise.all([
     knex.schema.createTable('sensor', function (table) {
       table.uuid('sensor_id').primary().notNullable().defaultTo(knex.raw('uuid_generate_v1()'));
-      table.string('farm_id').notNullable();
+      table.uuid('farm_id').notNullable();
       table.string('name').notNullable();
       table
         .integer('partner_id')
         .references('partner_id')
-        .inTable('integratingPartners')
+        .inTable('integrating_partner')
         .notNullable();
       table.string('external_id').notNullable();
       table.uuid('location_id').references('location_id').inTable('location').notNullable();
-      table.jsonb('grid_points').notNullable();
       table.float('depth');
       table.float('elevation');
     }),

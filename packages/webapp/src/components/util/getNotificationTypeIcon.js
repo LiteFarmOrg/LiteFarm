@@ -13,16 +13,17 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-exports.up = async function (knex) {
-  await knex.schema.createTable('farm_external_integration', (table) => {
-    table.primary(['farm_id', 'partner_id']);
-    table.uuid('farm_id').references('farm_id').inTable('farm');
-    table.integer('partner_id').references('partner_id').inTable('integrating_partner');
-    table.uuid('organization_uuid');
-    table.string('webhook_address');
-  });
-};
+import { ReactComponent as SensorIcon } from '../../assets/images/farmMapFilter/Sensor.svg';
 
-exports.down = async function (knex) {
-  await knex.schema.dropTable('farm_external_integration');
-};
+/**
+ * Provides the appropriate icon for a specified notification type.
+ * @param {string} key - A translation key that specifies a notification type.
+ * @returns {ReactComponent | undefined} The icon for the specified notification type.
+ */
+export default function getNotificationTypeIcon(key) {
+  const iconDict = {
+    SENSOR: SensorIcon,
+  };
+
+  return iconDict[key];
+}

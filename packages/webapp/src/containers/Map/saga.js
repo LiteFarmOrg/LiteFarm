@@ -31,6 +31,7 @@ import {
   bulkSensorsUploadLoading,
   bulkSensorsUploadValidationFailure,
   resetSensorsBulkUploadStates,
+  switchToAsyncSensorUpload,
 } from '../bulkSensorUploadSlice';
 import { bulkSenorUploadErrorTypeEnum } from './constants';
 
@@ -72,6 +73,9 @@ export function* setSpotlightToShownSaga({ payload: spotlights }) {
     const { user_id } = yield select(loginSelector);
     const header = getHeader(user_id);
     let patchContent = {};
+    if (typeof spotlights == 'string') {
+      spotlights = [spotlights];
+    }
     for (const spotlight of spotlights) {
       patchContent[spotlight] = true;
       patchContent[`${spotlight}_end`] = new Date().toISOString();
@@ -87,9 +91,14 @@ export function* setSpotlightToShownSaga({ payload: spotlights }) {
 
 export const bulkUploadSensorsInfoFile = createAction(`bulkUploadSensorsInfoFileSaga`);
 export const resetBulkUploadSensorsInfoFile = createAction(`resetBulkUploadSensorsInfoFileSaga`);
+export const resetShowTransitionModalState = createAction(`resetShowTransitionModalStateSaga`);
 
 export function* resetBulkUploadSensorsInfoFileSaga() {
   yield put(resetSensorsBulkUploadStates());
+}
+
+export function* resetShowTransitionModalStateSaga() {
+  yield put(switchToAsyncSensorUpload(false));
 }
 
 export function* bulkUploadSensorsInfoFileSaga({ payload: { file } }) {
@@ -104,7 +113,7 @@ export function* bulkUploadSensorsInfoFileSaga({ payload: { file } }) {
         Authorization: 'Bearer ' + localStorage.getItem('id_token'),
         farm_id: farm_id,
       },
-      timeout: 3000,
+      timeout: 5000,
     });
 
     if (fileUploadResponse.status === 200) {
@@ -122,7 +131,7 @@ export function* bulkUploadSensorsInfoFileSaga({ payload: { file } }) {
     yield put(enqueueErrorSnackbar(i18n.t('message:BULK_UPLOAD.ERROR.UPLOAD')));
   } catch (error) {
     if (error?.message.includes(bulkSenorUploadErrorTypeEnum?.timeout_and_show_transition_modal)) {
-      // TODO: show transition modal
+      yield put(switchToAsyncSensorUpload(true));
     } else {
       switch (error?.response?.status) {
         case 400: {
@@ -158,4 +167,5 @@ export default function* supportSaga() {
   yield takeLeading(setSpotlightToShown.type, setSpotlightToShownSaga);
   yield takeLeading(bulkUploadSensorsInfoFile.type, bulkUploadSensorsInfoFileSaga);
   yield takeLeading(resetBulkUploadSensorsInfoFile.type, resetBulkUploadSensorsInfoFileSaga);
+  yield takeLeading(resetShowTransitionModalState.type, resetShowTransitionModalStateSaga);
 }

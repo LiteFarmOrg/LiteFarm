@@ -83,6 +83,7 @@ async function registerOrganizationWebhook(farmId, organizationId, accessToken) 
     url: `${ensembleAPI}/organizations/${organizationId}/webhooks/`,
     data: {
       url: `${baseUrl}/sensors/add_reading/1`,
+      authorization_header: process.env.SENSOR_SECRET,
       frequency: 15,
     },
   };

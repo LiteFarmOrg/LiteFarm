@@ -1,7 +1,7 @@
 /**
  * The util function is used to generate validation errors related the the sensors.
  * @param {Object} errors
- * should contain row, column and value.
+ * should contain row, column, errorMessage and value.
  */
 export const generateErrorFormatForSensors = (errors) =>
   errors.reduce((acc, e) => {

@@ -13,6 +13,7 @@ import {
 } from '../../../../containers/Snackbar/snackbarSlice';
 import axios from 'axios';
 import { getAccessToken } from '../../../../util/jwt';
+import { sensorUrl } from '../../../../apiConfig';
 
 export default function PureSensorDetail({ history, user }) {
   const isAdmin = user || true;
@@ -42,7 +43,7 @@ export default function PureSensorDetail({ history, user }) {
   function onRetire() {
     axios
       .post(
-        'http://localhost:5001/sensors/unclaim_sensor',
+        `${sensorUrl}/unclaim_sensor`,
         {
           org_id: '?',
           external_id: '?',

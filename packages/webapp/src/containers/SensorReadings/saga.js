@@ -27,7 +27,6 @@ import {
 export const getSensorsTempratureReadings = createAction(`getSensorsTempratureReadingsSaga`);
 
 export function* getSensorsTempratureReadingsSaga({ payload: sensorsList }) {
-  console.log('action called');
   const {
     farm_id,
     units: { measurement },

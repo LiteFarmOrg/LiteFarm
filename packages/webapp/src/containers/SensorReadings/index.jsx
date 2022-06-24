@@ -10,46 +10,35 @@ import { getSensorsTempratureReadings } from './saga';
 import ReadingsLineChart from '../../components/ReadingsLineChart';
 import { bulkSensorsReadingsSliceSelector } from '../../containers/bulkSensorReadingsSlice';
 import { colors } from './constants';
+import { findCenter } from './utils';
+import { useState } from 'react';
 
 function SensorReadings({
   sensorsList = [
     {
       sensor_name: 'aa',
-      lat: 48.4413361,
-      lon: -123.2946138,
-    },
-    {
-      sensor_name: 'bbb',
-      lat: 19.10743185484748,
-      lon: 72.90937162305781,
-    },
-    {
-      sensor_name: 'cc',
-      lat: 25.08053964037619,
-      lon: 55.18902959316284,
-    },
-    {
-      sensor_name: 'dd',
-      lat: 43.75393524446394,
-      lon: -79.28392852434554,
+      lat: 49.24260553263377,
+      lon: -123.10153961830565,
     },
   ],
 }) {
   const { t } = useTranslation();
-  // const { role, owner_operated } = useSelector(userFarmSelector);
   const dispatch = useDispatch();
 
-  // const onSubmit = ({ role, owner_operated }) => {
-  //   const callback = () => history.push('/consent');
-  //   dispatch(patchRole({ role, owner_operated, role_id: roleToId[role], callback }));
-  // };
+  const [sensorsInfoList, setSensorsInfoList] = useState(sensorsList);
 
-  const onGoBack = () => {
-    history.push('/add_farm');
+  const addAmbientTemperatureInfo = () => {
+    const centerLatAndLong = findCenter(sensorsInfoList.map((s) => ({ lat: s.lat, lng: s.lon })));
+    sensorsInfoList.push({
+      sensor_name: 'Ambient temperature',
+      lat: centerLatAndLong.lat,
+      lon: centerLatAndLong.lng,
+    });
+    setSensorsInfoList(sensorsInfoList);
   };
 
   useEffect(() => {
-    console.log('this is called in useEffect');
+    addAmbientTemperatureInfo();
     dispatch(getSensorsTempratureReadings(sensorsList));
   }, []);
 
@@ -59,7 +48,7 @@ function SensorReadings({
     <>
       {bulkSensorsReadingsSliceSelectorData?.sensorsReadingsOfTemperature?.length && (
         <ReadingsLineChart
-          yAxisDataKeys={sensorsList.map((s) => s.sensor_name)}
+          yAxisDataKeys={sensorsInfoList.map((s) => s.sensor_name)}
           chartData={bulkSensorsReadingsSliceSelectorData?.sensorsReadingsOfTemperature}
           xAxisDataKey="current_date_time"
           lineColors={colors}

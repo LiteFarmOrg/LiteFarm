@@ -307,7 +307,8 @@ const parseCsvString = (csvString, mapping, delimiter = ',') => {
 };
 
 const SensorNotificationTypes = {
-  SENSOR_BULK_UPLOAD: 'SENSOR_BULK_UPLOAD',
+  SENSOR_BULK_UPLOAD_SUCCESS: 'SENSOR_BULK_UPLOAD_SUCCESS',
+  SENSOR_BULK_UPLOAD_FAIL: 'SENSOR_UPLOAD_FAIL',
 };
 
 /**
@@ -318,7 +319,12 @@ const SensorNotificationTypes = {
  * @async
  */
 // eslint-disable-next-line no-unused-vars
-async function sendSensorNotification(receiverId, farmId, notifyTranslationKey) {
+async function sendSensorNotification(
+  receiverId,
+  farmId,
+  notifyTranslationKey,
+  ref = { url: '/map' },
+) {
   if (!receiverId) return;
 
   await NotificationUser.notify(
@@ -330,7 +336,7 @@ async function sendSensorNotification(receiverId, farmId, notifyTranslationKey) 
         translation_key: `NOTIFICATION.${SensorNotificationTypes[notifyTranslationKey]}.BODY`,
       },
       variables: [],
-      ref: { url: '/map' },
+      ref,
       context: {
         icon_translation_key: 'SENSOR',
         notification_type: SensorNotificationTypes[notifyTranslationKey],

@@ -1558,5 +1558,17 @@
   },
   "YEAR_SELECTOR": {
     "TITLE": "Selectionnez une année"
+  },
+  "SENSOR": {
+    "SENSOR_NAME": "MISSING",
+    "LATITUDE": "MISSING",
+    "LONGTITUDE": "MISSING",
+    "READING_TYPES": "MISSING",
+    "DEPTH": "MISSING",
+    "BRAND": "MISSING",
+    "MODEL": "MISSING",
+    "EXTERNAL_IDENTIFIER": "MISSING",
+    "PART_NUMBER": "MISSING",
+    "HARDWARE_VERSION": "MISSING"
   }
 }

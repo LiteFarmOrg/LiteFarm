@@ -75,6 +75,8 @@ export const polygonPath = (path, width, maps) => {
   return leftPoints.concat(rightPoints.reverse());
 };
 
+export const SENSOR_BULK_UPLOAD = 'SENSOR_BULK_UPLOAD';
+
 const linePathPolygonConstructor = (innerState, point, i, path) => {
   const { bearings, leftPoints, rightPoints, width, maps } = innerState;
   const {

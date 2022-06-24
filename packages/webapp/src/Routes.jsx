@@ -29,7 +29,9 @@ import { chooseFarmFlowSelector } from './containers/ChooseFarm/chooseFarmFlowSl
 import useScrollToTop from './containers/hooks/useScrollToTop';
 import { useReduxSnackbar } from './containers/Snackbar/useReduxSnackbar';
 
-const SensorDetail = React.lazy(() => import('./containers/Sensor/Detail/index'));
+const SensorDetail = React.lazy(() =>
+  import('./containers/LocationDetails/PointDetails/SensorDetail/index'),
+);
 {
   /* TODO: Move the above line into appropriate place */
 }

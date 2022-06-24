@@ -1,16 +1,22 @@
 import { useState } from 'react';
-import Button from '../../Form/Button';
+import Button from '../../../Form/Button';
 import { useTranslation } from 'react-i18next';
-import RouterTab from '../../RouterTab';
-import PageTitle from '../../PageTitle/v2';
-import Input from '../../Form/Input';
-import ReactSelect from '../../Form/ReactSelect';
-import RetireSensorModal from '../../Modals/RetireSensor';
+import RouterTab from '../../../RouterTab';
+import PageTitle from '../../../PageTitle/v2';
+import Input from '../../../Form/Input';
+import ReactSelect from '../../../Form/ReactSelect';
+import RetireSensorModal from '../../../Modals/RetireSensor';
+import {
+  enqueueErrorSnackbar,
+  enqueueSuccessSnackbar,
+} from '../../../../containers/Snackbar/snackbarSlice';
+import { loginSelector } from '../../../../containers/userFarmSlice';
+import { put, select, call } from 'redux-saga/effects';
+import axios from 'axios';
 
 export default function PureSensorDetail({ history, user, match }) {
   const isAdmin = user || true;
   const [showRetireModal, setShowRetireModal] = useState(false);
-  const sensorName = match.params.sensor_id;
   const { t } = useTranslation();
   const brand_names = [
     {
@@ -30,6 +36,10 @@ export default function PureSensorDetail({ history, user, match }) {
       float: 'right',
     },
   };
+
+  function onRetire() {
+    axios({}).then().catch();
+  }
 
   return (
     <div>
@@ -161,7 +171,9 @@ export default function PureSensorDetail({ history, user, match }) {
           </Button>
         </div>
       )}
-      {showRetireModal && <RetireSensorModal dismissModal={() => setShowRetireModal(false)} />}
+      {showRetireModal && (
+        <RetireSensorModal dismissModal={() => setShowRetireModal(false)} onRetire={onRetire} />
+      )}
     </div>
   );
 }

@@ -20,9 +20,8 @@ import styles from './styles.module.scss';
 import Button from '../../Form/Button';
 import PropTypes from 'prop-types';
 
-export default function RetireSensorModal({ dismissModal }) {
+export default function RetireSensorModal({ dismissModal, onRetire }) {
   const { t } = useTranslation();
-  function retireAndUnclaimSensor() {}
 
   return (
     <ModalComponent
@@ -34,7 +33,7 @@ export default function RetireSensorModal({ dismissModal }) {
             {t('SENSOR.RETIRE_MODAL.CANCEL')}
           </Button>
 
-          <Button onClick={retireAndUnclaimSensor} className={styles.button} color="primary" sm>
+          <Button onClick={onRetire} className={styles.button} color="primary" sm>
             {t(`SENSOR.RETIRE_MODAL.RETIRE`)}
           </Button>
         </>

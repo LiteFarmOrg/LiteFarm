@@ -6,6 +6,7 @@ import PageTitle from '../../../PageTitle/v2';
 import Input from '../../../Form/Input';
 import ReactSelect from '../../../Form/ReactSelect';
 import RetireSensorModal from '../../../Modals/RetireSensor';
+import { useDispatch } from 'react-redux';
 import {
   enqueueErrorSnackbar,
   enqueueSuccessSnackbar,
@@ -18,6 +19,7 @@ export default function PureSensorDetail({ history, user, match }) {
   const isAdmin = user || true;
   const [showRetireModal, setShowRetireModal] = useState(false);
   const { t } = useTranslation();
+  const dispatch = useDispatch();
   const brand_names = [
     {
       label: 'Ensemble Scientific',
@@ -38,7 +40,26 @@ export default function PureSensorDetail({ history, user, match }) {
   };
 
   function onRetire() {
-    axios({}).then().catch();
+    axios
+      .post(
+        'http://localhost:5001/sensors/unclaim_sensor',
+        {
+          org_id: '?',
+          external_id: '?',
+        },
+        { headers: { Authorization: `?` } },
+      )
+      .then(function (res) {
+        console.log('success', res);
+        dispatch(enqueueSuccessSnackbar(t('SENSOR.RETIRE_MODAL.RETIRE_SUCCESS')));
+      })
+      .catch(function (error) {
+        console.log('failure', error);
+        dispatch(enqueueErrorSnackbar(t('SENSOR.RETIRE_MODAL.RETIRE_FAILURE')));
+      })
+      .then(function () {
+        history.push('/map');
+      });
   }
 
   return (

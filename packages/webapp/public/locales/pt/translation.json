@@ -1134,6 +1134,10 @@
     "WEEKLY_UNASSIGNED_TASKS": {
       "BODY": "Você tem tarefas não atribuídas para esta semana.",
       "TITLE": "Tarefas não atribuídas"
+    },
+    "SENSOR_BULK_UPLOAD": {
+      "BODY": "MISSING",
+      "TITLE": "MISSING"
     }
   },
   "OUTRO": {

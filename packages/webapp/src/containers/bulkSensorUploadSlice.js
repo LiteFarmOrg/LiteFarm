@@ -50,6 +50,10 @@ const bulkSensorsUploadSlice = createSlice({
         validationErrors: [],
       });
     },
+    bulkSensorsUploadReInit: (state, action) => {
+      state.loading = false;
+      state.isBulkUploadSuccessful = false;
+    },
   },
 });
 export const {
@@ -59,6 +63,7 @@ export const {
   bulkSensorsUploadFailure,
   bulkSensorsUploadValidationFailure,
   switchToAsyncSensorUpload,
+  bulkSensorsUploadReInit,
 } = bulkSensorsUploadSlice.actions;
 export default bulkSensorsUploadSlice.reducer;
 export const bulkSensorsUploadSliceSelector = (state) =>

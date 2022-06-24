@@ -4,7 +4,14 @@ import { useTranslation } from 'react-i18next';
 import styles from './styles.module.scss';
 import GoogleMap from 'google-map-react';
 import { saveAs } from 'file-saver';
-import { DEFAULT_ZOOM, GMAPS_API_KEY, isArea, isLine, locationEnum } from './constants';
+import {
+  DEFAULT_ZOOM,
+  GMAPS_API_KEY,
+  isArea,
+  isLine,
+  locationEnum,
+  SENSOR_BULK_UPLOAD,
+} from './constants';
 import { useDispatch, useSelector } from 'react-redux';
 import { measurementSelector, userFarmSelector } from '../userFarmSlice';
 import html2canvas from 'html2canvas';
@@ -54,7 +61,10 @@ import {
   setPersistedPaths,
   upsertFormData,
 } from '../hooks/useHookFormPersist/hookFormPersistSlice';
-import { bulkSensorsUploadSliceSelector } from '../../containers/bulkSensorUploadSlice';
+import {
+  bulkSensorsUploadSliceSelector,
+  bulkSensorsUploadReInit,
+} from '../../containers/bulkSensorUploadSlice';
 import LocationSelectionModal from './LocationSelectionModal';
 import { useMaxZoom } from './useMaxZoom';
 
@@ -115,6 +125,12 @@ export default function Map({ history }) {
   useEffect(() => {
     setShowBulkSensorUploadModal(false);
   }, [bulkSensorsUploadResponse?.showTransitionModal]);
+
+  useEffect(() => {
+    if (history.location.state?.notification_type === SENSOR_BULK_UPLOAD) {
+      dispatch(setMapFilterShowAll(farm_id));
+    }
+  }, []);
 
   const [
     drawingState,
@@ -340,6 +356,10 @@ export default function Map({ history }) {
   const handleCloseSuccessHeader = () => {
     dispatch(canShowSuccessHeader(false));
     setShowSuccessHeader(false);
+    if (bulkSensorsUploadResponse?.isBulkUploadSuccessful) {
+      dispatch(bulkSensorsUploadReInit());
+      history.go(0);
+    }
   };
 
   const handleDownload = () => {

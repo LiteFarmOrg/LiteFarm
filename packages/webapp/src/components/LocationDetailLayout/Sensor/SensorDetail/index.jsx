@@ -11,11 +11,10 @@ import {
   enqueueErrorSnackbar,
   enqueueSuccessSnackbar,
 } from '../../../../containers/Snackbar/snackbarSlice';
-import { loginSelector } from '../../../../containers/userFarmSlice';
-import { put, select, call } from 'redux-saga/effects';
 import axios from 'axios';
+import { getAccessToken } from '../../../../util/jwt';
 
-export default function PureSensorDetail({ history, user, match }) {
+export default function PureSensorDetail({ history, user }) {
   const isAdmin = user || true;
   const [showRetireModal, setShowRetireModal] = useState(false);
   const { t } = useTranslation();
@@ -39,6 +38,7 @@ export default function PureSensorDetail({ history, user, match }) {
     },
   };
 
+  // TODO: Use non-hardcoded values
   function onRetire() {
     axios
       .post(
@@ -47,15 +47,15 @@ export default function PureSensorDetail({ history, user, match }) {
           org_id: '?',
           external_id: '?',
         },
-        { headers: { Authorization: `?` } },
+        { headers: { Authorization: `Bearer ${getAccessToken()}` } },
       )
       .then(function (res) {
-        console.log('success', res);
-        dispatch(enqueueSuccessSnackbar(t('SENSOR.RETIRE_MODAL.RETIRE_SUCCESS')));
+        console.log('success\n', res);
+        dispatch(enqueueSuccessSnackbar(t('SENSOR.RETIRE.RETIRE_SUCCESS')));
       })
       .catch(function (error) {
-        console.log('failure', error);
-        dispatch(enqueueErrorSnackbar(t('SENSOR.RETIRE_MODAL.RETIRE_FAILURE')));
+        console.log('failure\n', error);
+        dispatch(enqueueErrorSnackbar(t('SENSOR.RETIRE.RETIRE_FAILURE')));
       })
       .then(function () {
         history.push('/map');
@@ -121,6 +121,7 @@ export default function PureSensorDetail({ history, user, match }) {
       </div>
 
       {/* TODO: Multi select pill reading types */}
+
       {/* TODO: Depth with unit conversion */}
 
       <ReactSelect

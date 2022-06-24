@@ -26,20 +26,20 @@ export default function RetireSensorModal({ dismissModal, onRetire }) {
   return (
     <ModalComponent
       dismissModal={dismissModal}
-      title={t(`SENSOR.RETIRE_MODAL.TITLE`)}
+      title={t(`SENSOR.RETIRE.TITLE`)}
       buttonGroup={
         <>
           <Button onClick={dismissModal} className={styles.button} color="secondary" sm>
-            {t('SENSOR.RETIRE_MODAL.CANCEL')}
+            {t('SENSOR.RETIRE.CANCEL')}
           </Button>
 
           <Button onClick={onRetire} className={styles.button} color="primary" sm>
-            {t(`SENSOR.RETIRE_MODAL.RETIRE`)}
+            {t(`SENSOR.RETIRE.RETIRE`)}
           </Button>
         </>
       }
     >
-      <div className={styles.stepList}>{t(`SENSOR.RETIRE_MODAL.BODY`)}</div>
+      <div className={styles.stepList}>{t(`SENSOR.RETIRE.BODY`)}</div>
     </ModalComponent>
   );
 }

@@ -1353,7 +1353,7 @@
       "TASKS": "Tasks",
       "DETAILS": "Details"
     },
-    "RETIRE_MODAL": {
+    "RETIRE": {
       "TITLE": "Retire sensor?",
       "RETIRE": "RETIRE",
       "CANCEL": "CANCEL",

@@ -31,7 +31,7 @@ import {
   bulkSensorsUploadLoading,
   bulkSensorsUploadValidationFailure,
   resetSensorsBulkUploadStates,
-  changeTransitionModalStateForAsyncProcessingOfSensorsUpload,
+  switchToAsyncSensorUpload,
 } from '../bulkSensorUploadSlice';
 import { bulkSenorUploadErrorTypeEnum } from './constants';
 
@@ -98,7 +98,7 @@ export function* resetBulkUploadSensorsInfoFileSaga() {
 }
 
 export function* resetShowTransitionModalStateSaga() {
-  yield put(changeTransitionModalStateForAsyncProcessingOfSensorsUpload(false));
+  yield put(switchToAsyncSensorUpload(false));
 }
 
 export function* bulkUploadSensorsInfoFileSaga({ payload: { file } }) {
@@ -131,7 +131,7 @@ export function* bulkUploadSensorsInfoFileSaga({ payload: { file } }) {
     yield put(enqueueErrorSnackbar(i18n.t('message:BULK_UPLOAD.ERROR.UPLOAD')));
   } catch (error) {
     if (error?.message.includes(bulkSenorUploadErrorTypeEnum?.timeout_and_show_transition_modal)) {
-      yield put(changeTransitionModalStateForAsyncProcessingOfSensorsUpload(true));
+      yield put(switchToAsyncSensorUpload(true));
     } else {
       switch (error?.response?.status) {
         case 400: {

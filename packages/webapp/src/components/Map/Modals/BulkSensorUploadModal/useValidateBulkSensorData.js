@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import * as XLSX from 'xlsx';
 import { useSelector } from 'react-redux';
 import { bulkSensorsUploadSliceSelector } from '../../../../containers/bulkSensorUploadSlice';
+import { generateErrorFormatForSensors } from '../../../../util/generateErrorFormatForSensors';
 
 const SENSOR_EXTERNAL_ID = 'External_ID';
 const SENSOR_NAME = 'Name';
@@ -206,25 +207,17 @@ export function useValidateBulkSensorData(onUpload, t) {
       }
       setErrorCount(totalErrorCount);
       setSheetErrors(sheetErrorList);
-      setDisabled(() => (totalErrorCount === 0 ? ++totalErrorCount : --totalErrorCount));
+      setDisabled(() => (totalErrorCount === 0 ? 1 : 0));
     } catch (err) {
       console.error(err);
     }
   };
 
-  const generateErrorFormat = (errors) =>
-    errors.reduce((acc, e) => {
-      acc += `[Row: ${e?.row ?? ''}][Column: ${e?.column ?? ''}] ${e?.errorMessage ?? ''} ${
-        e?.value ?? ''
-      }\n`;
-      return acc;
-    }, '');
-
   const onShowErrorClick = (e) => {
     const inputfFile = fileInputRef.current.files[0];
     if (inputfFile) {
       const element = document.createElement('a');
-      const formattedError = generateErrorFormat(sheetErrors[0].errors);
+      const formattedError = generateErrorFormatForSensors(sheetErrors[0].errors);
       const file = new Blob([formattedError], {
         type: 'text/plain',
       });

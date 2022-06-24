@@ -1346,7 +1346,8 @@
       "EXTERNAL_IDENTIFIER": "External Identifier",
       "DEPTH": "Depth",
       "BRAND": "Brand",
-      "BRAND_TOOLTIP": "Brands that LiteFarm can integrate with are shown below. If you would no longer like to use this sensor brand, try retiring this sensor instead."
+      "BRAND_TOOLTIP": "Brands that LiteFarm can integrate with are shown below. If you would no longer like to use this sensor brand, try retiring this sensor instead.",
+      "READING_TYPES": "Reading types"
     },
     "VIEW_HEADER": {
       "READINGS": "Readings",

@@ -48,6 +48,8 @@ export function* getSensorsTempratureReadingsSaga({ payload: sensorsList }) {
       start,
       end,
     };
+
+    console.log('measurement', measurement);
     for (const sensor of sensorsList) {
       params = {
         ...params,

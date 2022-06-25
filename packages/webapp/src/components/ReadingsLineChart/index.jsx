@@ -11,6 +11,7 @@ import {
   ResponsiveContainer,
 } from 'recharts';
 import { Label, Semibold } from '../Typography';
+import PropTypes from 'prop-types';
 
 const AxisLabel = ({ axisType, x, y, width, height, stroke, children }) => {
   const isVert = axisType === 'yAxis';
@@ -53,7 +54,7 @@ const ReadingsLineChart = ({
           margin={{
             top: 20,
             right: 30,
-            left: 20,
+            left: 5,
             bottom: 20,
           }}
         >
@@ -65,6 +66,7 @@ const ReadingsLineChart = ({
           />
           <YAxis
             label={
+              // <AxisLabel axisType="yAxis" x={25} y={165} width={0} height={0}>
               <AxisLabel axisType="yAxis" x={25} y={165} width={0} height={0}>
                 {yAxisLabel}
               </AxisLabel>

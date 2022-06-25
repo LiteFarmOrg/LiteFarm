@@ -1,5 +1,5 @@
 /**
- * The util function is used to generate validation errors related the the sensors.
+ * The util function is used to generate validation errors related the sensors.
  * @param {Object} errors
  * should contain row, column, errorMessage and value.
  */

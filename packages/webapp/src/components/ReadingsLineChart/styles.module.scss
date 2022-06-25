@@ -1,26 +1,21 @@
-.empty {
-  fill: var(--grey400);
-  stroke: var(--grey500);
+.title {
+  font-style: normal;
+  font-weight: normal;
+  color: var(--green);
+  font-size: 20px;
+  line-height: 24px;
+  font-family: 'Open Sans', 'SansSerif', serif;
+  margin-top: 24px;
+  margin-left: 12px;
 }
 
-.filled {
-  fill: var(--yellow700);
-  stroke: var(--grey900);
-}
-
-button {
-  background-color: transparent;
-  border: none;
-  outline: none;
-  cursor: pointer;
-}
-
-.labelContainer {
-  display: flex;
-  gap: 8px;
-}
-
-.gap8px {
-  display: flex;
-  gap: 8px
+.subTitle{
+  font-style: normal;
+  font-weight: normal;
+  color: var(--grey900);
+  font-size: 16px;
+  line-height: 24px;
+  font-family: 'Open Sans', 'SansSerif', serif;
+  margin-left: 12px;
+  margin-top: 8px;
 }

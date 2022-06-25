@@ -10,7 +10,7 @@ import {
   Legend,
   ResponsiveContainer,
 } from 'recharts';
-import { Label } from '../Typography';
+import { Label, Semibold } from '../Typography';
 
 const AxisLabel = ({ axisType, x, y, width, height, stroke, children }) => {
   const isVert = axisType === 'yAxis';
@@ -24,8 +24,9 @@ const AxisLabel = ({ axisType, x, y, width, height, stroke, children }) => {
   );
 };
 
-const ReadingsLineCart = ({
+const ReadingsLineChart = ({
   title = '',
+  subTitle = '',
   yAxisDataKeys = [],
   chartData = [],
   xAxisDataKey = '',
@@ -33,13 +34,21 @@ const ReadingsLineCart = ({
   xAxisLabel = '',
   yAxisLabel = '',
 }) => {
+  const [selectedLine, setSelectedLine] = useState(null);
+
+  const selectLine = (event) => {
+    let sl = selectedLine === event.dataKey ? null : event.dataKey.trim();
+    setSelectedLine(sl);
+  };
+
   return (
     <>
-      <Label>{title}</Label>
+      <label>
+        <Semibold className={styles.title}>{title}</Semibold>
+      </label>
+      <Label className={styles.subTitle}>{subTitle}</Label>
       <ResponsiveContainer width="100%" height="50%">
         <LineChart
-          width={1000}
-          height={500}
           data={chartData}
           margin={{
             top: 20,
@@ -68,6 +77,7 @@ const ReadingsLineCart = ({
               verticalAlign="top"
               align="center"
               wrapperStyle={{ top: 10, left: 50 }}
+              onClick={selectLine}
             />
           )}
           {yAxisDataKeys.length &&
@@ -75,7 +85,9 @@ const ReadingsLineCart = ({
               <Line
                 key={idx}
                 strokeWidth={2}
-                dataKey={attribute}
+                dataKey={
+                  selectedLine === null || selectedLine === attribute ? attribute : `${attribute} `
+                }
                 stroke={lineColors[idx % lineColors.length]}
                 activeDot={{ r: 6 }}
               />
@@ -86,6 +98,15 @@ const ReadingsLineCart = ({
   );
 };
 
-ReadingsLineCart.propTypes = {};
+ReadingsLineChart.propTypes = {
+  title: PropTypes.string,
+  subTitle: PropTypes.string,
+  yAxisDataKeys: PropTypes.array,
+  chartData: PropTypes.array,
+  xAxisDataKey: PropTypes.string,
+  lineColors: PropTypes.array,
+  xAxisLabel: PropTypes.string,
+  yAxisLabel: PropTypes.string,
+};
 
-export default ReadingsLineCart;
+export default ReadingsLineChart;

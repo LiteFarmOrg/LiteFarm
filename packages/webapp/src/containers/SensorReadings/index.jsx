@@ -12,13 +12,19 @@ import { bulkSensorsReadingsSliceSelector } from '../../containers/bulkSensorRea
 import { colors } from './constants';
 import { findCenter } from './utils';
 import { useState } from 'react';
+import styles from './styles.module.scss';
 
 function SensorReadings({
   sensorsList = [
     {
-      sensor_name: 'aa',
+      sensor_name: 'vancouver',
       lat: 49.24260553263377,
       lon: -123.10153961830565,
+    },
+    {
+      sensor_name: 'mumbai',
+      lat: 19.10743185484748,
+      lon: 72.90937162305781,
     },
   ],
 }) {
@@ -38,7 +44,7 @@ function SensorReadings({
   };
 
   useEffect(() => {
-    addAmbientTemperatureInfo();
+    // addAmbientTemperatureInfo();
     dispatch(getSensorsTempratureReadings(sensorsList));
   }, []);
 
@@ -48,6 +54,8 @@ function SensorReadings({
     <>
       {bulkSensorsReadingsSliceSelectorData?.sensorsReadingsOfTemperature?.length && (
         <ReadingsLineChart
+          title="Soil temperature"
+          subTitle="Today’s ambient high and low temperature: {high}° {unit} / {low}° {unit}"
           yAxisDataKeys={sensorsInfoList.map((s) => s.sensor_name)}
           chartData={bulkSensorsReadingsSliceSelectorData?.sensorsReadingsOfTemperature}
           xAxisDataKey="current_date_time"

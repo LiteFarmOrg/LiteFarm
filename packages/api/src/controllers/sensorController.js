@@ -250,14 +250,20 @@ const sensorController = {
 
   async getReadingsByFarmId(req, res) {
     try {
-      const { farm_id } = req.params;
+      const { farm_id, days } = req.params;
       if (!farm_id) {
         res.status(400).send('Invalid farm id');
       }
+      if (!days) {
+        res.status(400).send('Invalid days');
+      }
+      const pastDate = new Date();
+      pastDate.setDate(pastDate.getDate() - days);
       const result = await sensorReadingModel
         .query()
         .join('sensor', 'sensor_reading.sensor_id', 'sensor.sensor_id')
-        .where('farm_id', farm_id);
+        .where('farm_id', farm_id)
+        .andWhere('created_at', '>=', pastDate);
       res.status(200).send(result);
     } catch (error) {
       res.status(400).json({

@@ -22,7 +22,7 @@ const addManySensorReadings = (state, { payload: sensorReadings }) => {
 };
 
 const mapSensorAdapter = createEntityAdapter({
-  selectId: (farmState) => farmState.farm_id,
+  selectId: (sensorReading) => sensorReading.sensor_id,
 });
 
 const mapSensorSlice = createSlice({
@@ -50,25 +50,19 @@ const mapSensorSlice = createSlice({
   },
 });
 
-export const {
-  onLoadingSensorReadingStart,
-  onLoadingSensorReadingFail,
-  getSensorReadingSuccess,
-} = mapSensorSlice.actions;
+export const { onLoadingSensorReadingStart, onLoadingSensorReadingFail, getSensorReadingSuccess } =
+  mapSensorSlice.actions;
 export default mapSensorSlice.reducer;
 
-export const mapSensorReducerSelector = (state) =>
-  state.persistedStateReducer[mapSensorSlice.name];
+export const mapSensorReducerSelector = (state) => state.persistedStateReducer[mapSensorSlice.name];
 
 const mapSensorSelectors = mapSensorAdapter.getSelectors(
   (state) => state.persistedStateReducer[mapSensorSlice.name],
 );
 
 export const mapSensorSelector = createSelector(
-  [mapSensorSelectors.selectEntities, loginSelector],
-  (mapSensorEntities, { farm_id }) => {
-    return mapSensorEntities[farm_id];
+  [mapSensorSelectors.selectEntities],
+  (mapSensorEntities) => {
+    return mapSensorEntities;
   },
 );
-
-

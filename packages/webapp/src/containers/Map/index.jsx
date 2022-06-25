@@ -8,7 +8,12 @@ import { DEFAULT_ZOOM, GMAPS_API_KEY, isArea, isLine, locationEnum } from './con
 import { useDispatch, useSelector } from 'react-redux';
 import { measurementSelector, userFarmSelector } from '../userFarmSlice';
 import html2canvas from 'html2canvas';
-import { sendMapToEmail, setSpotlightToShown, bulkUploadSensorsInfoFile, getSensorReadings } from './saga';
+import {
+  sendMapToEmail,
+  setSpotlightToShown,
+  bulkUploadSensorsInfoFile,
+  getSensorReadings,
+} from './saga';
 import {
   canShowSuccessHeader,
   setShowSuccessHeaderSelector,
@@ -40,9 +45,7 @@ import {
   setMapFilterSetting,
   setMapFilterShowAll,
 } from './mapFilterSettingSlice';
-import {
-  mapSensorSelector
-} from './mapSensorSlice';
+import { mapSensorSelector } from './mapSensorSlice';
 import {
   hookFormPersistedPathsSetSelector,
   hookFormPersistSelector,
@@ -306,9 +309,9 @@ export default function Map({ history }) {
   const availableFilterSettings = useSelector(availableFilterSettingsSelector);
   const mapSensorReadings = useSelector(mapSensorSelector);
 
-  // useEffect(() => {
-  //   dispatch(getSensorReadings()); //todo need to pass in sensor_id
-  // }, []);
+  useEffect(() => {
+    dispatch(getSensorReadings());
+  }, []);
 
   const handleAddMenuClick = (locationType) => {
     setZeroAreaWarning(false);
@@ -397,7 +400,7 @@ export default function Map({ history }) {
         />
       )}
       <div
-         data-cy="map-selection"
+        data-cy="map-selection"
         className={styles.pageWrapper}
         style={{ height: windowInnerHeight }}
       >

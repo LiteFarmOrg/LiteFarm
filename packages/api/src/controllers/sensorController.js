@@ -254,16 +254,21 @@ const sensorController = {
       if (!farm_id) {
         res.status(400).send('Invalid farm id');
       }
+      let result;
       if (!days) {
-        res.status(400).send('Invalid days');
+        result = await sensorReadingModel
+          .query()
+          .join('sensor', 'sensor_reading.sensor_id', 'sensor.sensor_id')
+          .where('farm_id', farm_id);
+      } else {
+        const pastDate = new Date();
+        pastDate.setDate(pastDate.getDate() - days);
+        result = await sensorReadingModel
+          .query()
+          .join('sensor', 'sensor_reading.sensor_id', 'sensor.sensor_id')
+          .where('farm_id', farm_id)
+          .andWhere('created_at', '>=', pastDate);
       }
-      const pastDate = new Date();
-      pastDate.setDate(pastDate.getDate() - days);
-      const result = await sensorReadingModel
-        .query()
-        .join('sensor', 'sensor_reading.sensor_id', 'sensor.sensor_id')
-        .where('farm_id', farm_id)
-        .andWhere('created_at', '>=', pastDate);
       res.status(200).send(result);
     } catch (error) {
       res.status(400).json({

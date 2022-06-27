@@ -463,7 +463,11 @@
         "SENSOR_NAME": "Invalid sensor name, must be between 1 and 100 characters.",
         "SENSOR_LATITUDE": "Invalid latitude value, must be between -90 and 90. and fewer than 10 decimals.",
         "SENSOR_LONGITUDE": "Invalid longitude value, must be between -180 and 180. and fewer than 10 decimals.",
-        "SENSOR_READING_TYPES": "Invalid reading type detected, valid values include: soil_moisture_content, water_potential, temperature."
+        "SENSOR_READING_TYPES": "Invalid reading type detected, valid values include: soil_moisture_content, water_potential, temperature.",
+        "SENSOR_DEPTH": "Invalid depth value, must be between 0 and 1000.",
+        "SENSOR_BRAND": "Invalid brand name, must be between 1 and 100 characters.",
+        "SENSOR_MODEL": "Invalid model name, must be between 1 and 100 characters.",
+        "SENSOR_HARDWARE_VERSION": "Invalid hardware version name, must be between 1 and 100 characters."
       }
     },
     "BULK_UPLOAD_TRANSITION": {
@@ -1131,9 +1135,13 @@
       "BODY": "You have unassigned tasks due this week.",
       "TITLE": "Unassigned tasks"
     },
-    "SENSOR_BULK_UPLOAD": {
+    "SENSOR_BULK_UPLOAD_SUCCESS": {
       "BODY": "Your sensor upload has completed successfully.",
       "TITLE": "Sensor upload completed"
+    },
+    "SENSOR_BULK_UPLOAD_FAIL": {
+      "BODY": "Your sensor upload has failed. Click “Take me there” to view the details.",
+      "TITLE": "Sensor upload failed"
     }
   },
   "OUTRO": {

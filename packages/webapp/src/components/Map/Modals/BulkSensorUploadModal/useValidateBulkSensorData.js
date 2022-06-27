@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import * as XLSX from 'xlsx';
 import { useSelector } from 'react-redux';
 import { bulkSensorsUploadSliceSelector } from '../../../../containers/bulkSensorUploadSlice';
-import { generateErrorFormatForSensors } from '../../../../util/generateErrorFormatForSensors';
+import { createSensorErrorDownload } from '../../../../util/sensor';
 
 const SENSOR_EXTERNAL_ID = 'External_ID';
 const SENSOR_NAME = 'Name';
@@ -216,15 +216,8 @@ export function useValidateBulkSensorData(onUpload, t) {
   const onShowErrorClick = (e) => {
     const inputfFile = fileInputRef.current.files[0];
     if (inputfFile) {
-      const element = document.createElement('a');
-      const formattedError = generateErrorFormatForSensors(sheetErrors[0].errors);
-      const file = new Blob([formattedError], {
-        type: 'text/plain',
-      });
-      element.href = URL.createObjectURL(file);
-      element.download = `${inputfFile.name.replace(/.csv/, '')}_errors.txt`;
-      document.body.appendChild(element);
-      element.click();
+      const downloadFileName = `${inputfFile.name.replace(/.csv/, '')}_errors.txt`;
+      createSensorErrorDownload(downloadFileName, sheetErrors[0].errors);
     }
   };
 

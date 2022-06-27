@@ -22,14 +22,27 @@ const { transaction, Model } = require('objection');
 
 const {
   createOrganization,
-  registerOrganizationWebhook,
+  // registerOrganizationWebhook,
   bulkSensorClaim,
 } = require('../util/ensemble');
 
 const sensorErrors = require('../util/sensorErrors');
 
+// TODO: make function which returns a sendReturn() function that depending on the timer status sends the appropriate response
+
 const sensorController = {
   async addSensors(req, res) {
+    let hasTimedOut = false;
+    const timer = setTimeout(() => {
+      hasTimedOut = true;
+      res
+        .status(202)
+        .send({
+          message:
+            'Processing your upload is taking longer than expected. We will send you a notification when this finished processing.',
+        });
+      console.log('timedOut');
+    }, 5000);
     try {
       const { farm_id } = req.headers;
       const { user_id } = req.user;
@@ -105,13 +118,21 @@ const sensorController = {
         },
       });
       if (errors.length > 0) {
-        res.status(400).send({ error_type: 'validation_failure', errors });
+        return hasTimedOut
+          ? await sendSensorNotification(
+              user_id,
+              farm_id,
+              SensorNotificationTypes.SENSOR_BULK_UPLOAD_FAIL,
+              { error_download: { errors, file_name: 'sensor-upload-outcomes.txt' } }, //TODO: update to have proper file name
+            )
+          : res.status(400).send({ error_type: 'validation_failure', errors }) &&
+              clearTimeout(timer);
       } else {
         // register organization
         const organization = await createOrganization(farm_id, access_token);
 
         // register webhook for sensor readings
-        await registerOrganizationWebhook(farm_id, organization.organization_uuid, access_token);
+        // await registerOrganizationWebhook(farm_id, organization.organization_uuid, access_token);
 
         // Get esids (Ensemble Scientific IDs)
         const esids = data.reduce((previous, current) => {
@@ -139,17 +160,42 @@ const sensorController = {
         );
 
         if (success.length + already_owned.length < esids.length) {
-          res.status(400).send({
-            error_type: 'unable_to_claim_all_sensors',
-            registeredSensors,
-          });
+          console.log('Unable to claim all', hasTimedOut);
+          return hasTimedOut
+            ? await sendSensorNotification(
+                user_id,
+                farm_id,
+                SensorNotificationTypes.SENSOR_BULK_UPLOAD_FAIL,
+                { error_download: {} },
+              )
+            : res.status(400).send({
+                error_type: 'unable_to_claim_all_sensors',
+                registeredSensors,
+              }) && clearTimeout(timer);
         } else {
-          res.status(200).send({ message: 'Successfully uploaded!', sensors: sensorLocations });
+          return hasTimedOut
+            ? await sendSensorNotification(
+                user_id,
+                farm_id,
+                SensorNotificationTypes.SENSOR_BULK_UPLOAD_SUCCESS,
+              )
+            : res
+                .status(200)
+                .send({ message: 'Successfully uploaded!', sensors: sensorLocations }) &&
+                clearTimeout(timer);
         }
       }
     } catch (e) {
       console.log(e);
-      res.status(500).send(e.message);
+      const { user_id } = req.user;
+      const { farm_id } = req.headers;
+      return hasTimedOut
+        ? await sendSensorNotification(
+            user_id,
+            farm_id,
+            SensorNotificationTypes.SENSOR_BULK_UPLOAD_FAIL,
+          )
+        : res.status(500).send(e.message) && clearTimeout(timer);
     }
   },
 

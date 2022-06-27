@@ -14,8 +14,21 @@ import {
 import axios from 'axios';
 import { getAccessToken } from '../../../../util/jwt';
 import { sensorUrl } from '../../../../apiConfig';
+import FilterPillSelect from '../../../Filter/FilterPillSelect';
+import { container_planting_depth } from '../../../../util/convert-units/unit';
+import Unit from '../../../Inputs/Unit';
+import { useForm } from 'react-hook-form';
 
-export default function PureSensorDetail({ history, user }) {
+export default function PureSensorDetail({
+  history,
+  user,
+  match,
+  plan,
+  system,
+  filter,
+  filterRef,
+  tasksFilter,
+}) {
   const isAdmin = user || true;
   const [showRetireModal, setShowRetireModal] = useState(false);
   const { t } = useTranslation();
@@ -38,6 +51,18 @@ export default function PureSensorDetail({ history, user }) {
       float: 'right',
     },
   };
+  const { control } = useForm({
+    defaultValues: {
+      brand: 'ensemble_scientific',
+      sensor_name: 'Input container data',
+      latitude: '1',
+      longtitude: '2',
+      reading_types: '',
+      external_identifier: 'Get container value',
+    },
+    shouldUnregister: false,
+    mode: 'onChange',
+  });
 
   // TODO: Use non-hardcoded values
   function onRetire() {
@@ -121,7 +146,18 @@ export default function PureSensorDetail({ history, user }) {
         />
       </div>
 
-      {/* TODO: Multi select pill reading types */}
+      {/* TODO: Show selected options properly */}
+      <div>
+        <label>{t('SENSOR.DETAIL.READING_TYPES')}</label>
+        <FilterPillSelect
+          subject={filter.subject}
+          options={filter.options}
+          filterKey={filter.filterKey}
+          style={{ marginBottom: '32px' }}
+          filterRef={filterRef}
+          key={filter.filterKey}
+        />
+      </div>
 
       {/* TODO: Depth with unit conversion */}
 
@@ -129,7 +165,6 @@ export default function PureSensorDetail({ history, user }) {
         label={t('SENSOR.DETAIL.BRAND')}
         placeholder={'Ensemble Scientific'}
         defaultValue={'Ensemble Scientific'}
-        placeholder={'CHANGE'}
         isDisabled={true}
         options={brand_names}
         style={{ paddingBottom: '32px' }}

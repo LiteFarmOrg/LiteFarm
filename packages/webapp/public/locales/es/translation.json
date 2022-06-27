@@ -456,6 +456,7 @@
       "UPLOAD_ERROR_MESSAGE": "MISSING",
       "UPLOAD_ERROR_LINK": "MISSING",
       "VALIDATION": {
+        "FILE_ROW_LIMIT_EXCEEDED": "MISSING",
         "MISSING_COLUMNS": "MISSING",
         "EXTERNAL_ID": "MISSING",
         "SENSOR_NAME": "MISSING",
@@ -463,6 +464,10 @@
         "SENSOR_LONGITUDE": "MISSING",
         "SENSOR_READING_TYPES": "MISSING"
       }
+    },
+    "BULK_UPLOAD_TRANSITION": {
+      "TITLE": "MISSING",
+      "BODY": "MISSING"
     },
     "CEREMONIAL_AREA": {
       "EDIT_TITLE": "Editar area ceremonial",

@@ -249,7 +249,11 @@ const useMapAssetRenderer = ({ isClickable, showingConfirmButtons, drawingState 
     });
     setAssetGeometries(newState);
     // Create marker clusters
-    const pointsArray = [...assetGeometries.gate, ...assetGeometries.water_valve];
+    const pointsArray = [
+      ...assetGeometries.gate,
+      ...assetGeometries.water_valve,
+      ...assetGeometries.sensor,
+    ];
 
     createMarkerClusters(maps, map, pointsArray);
     // TODO: only fitBounds if there is at least one location in the farm

@@ -15,7 +15,13 @@ import {
 import { useDispatch, useSelector } from 'react-redux';
 import { measurementSelector, userFarmSelector } from '../userFarmSlice';
 import html2canvas from 'html2canvas';
-import { sendMapToEmail, setSpotlightToShown, bulkUploadSensorsInfoFile } from './saga';
+import {
+  sendMapToEmail,
+  setSpotlightToShown,
+  bulkUploadSensorsInfoFile,
+  resetBulkUploadSensorsInfoFile,
+  resetShowTransitionModalState,
+} from './saga';
 import {
   canShowSuccessHeader,
   setShowSuccessHeaderSelector,
@@ -32,6 +38,7 @@ import DrawLineModal from '../../components/Map/Modals/DrawLine';
 import AdjustAreaModal from '../../components/Map/Modals/AdjustArea';
 import AdjustLineModal from '../../components/Map/Modals/AdjustLine';
 import BulkSensorUploadModal from '../../components/Map/Modals/BulkSensorUploadModal';
+import BulkUploadTransitionModal from '../../components/Modals/BulkUploadTransitionModal';
 import CustomZoom from '../../components/Map/CustomZoom';
 import CustomCompass from '../../components/Map/CustomCompass';
 import DrawingManager from '../../components/Map/DrawingManager';
@@ -54,7 +61,10 @@ import {
   setPersistedPaths,
   upsertFormData,
 } from '../hooks/useHookFormPersist/hookFormPersistSlice';
-import { bulkSensorsUploadSliceSelector } from '../../containers/bulkSensorUploadSlice';
+import {
+  bulkSensorsUploadSliceSelector,
+  bulkSensorsUploadReInit,
+} from '../../containers/bulkSensorUploadSlice';
 import LocationSelectionModal from './LocationSelectionModal';
 import { useMaxZoom } from './useMaxZoom';
 
@@ -111,6 +121,10 @@ export default function Map({ history }) {
       setShowBulkSensorUploadModal(false);
     }
   }, [bulkSensorsUploadResponse?.isBulkUploadSuccessful]);
+
+  useEffect(() => {
+    setShowBulkSensorUploadModal(false);
+  }, [bulkSensorsUploadResponse?.showTransitionModal]);
 
   useEffect(() => {
     if (history.location.state?.notification_type === SENSOR_BULK_UPLOAD) {
@@ -324,6 +338,7 @@ export default function Map({ history }) {
     } else if (locationType === locationEnum.sensor) {
       setShowAddDrawer(!showAddDrawer);
       setShowBulkSensorUploadModal(true);
+      dispatch(resetBulkUploadSensorsInfoFile());
       return;
     }
     isLineWithWidth(locationType) && dispatch(upsertFormData(initialLineData[locationType]));
@@ -341,6 +356,10 @@ export default function Map({ history }) {
   const handleCloseSuccessHeader = () => {
     dispatch(canShowSuccessHeader(false));
     setShowSuccessHeader(false);
+    if (bulkSensorsUploadResponse?.isBulkUploadSuccessful) {
+      dispatch(bulkSensorsUploadReInit());
+      history.go(0);
+    }
   };
 
   const handleDownload = () => {
@@ -518,6 +537,13 @@ export default function Map({ history }) {
             onUpload={(file) => {
               const payload = { file };
               dispatch(bulkUploadSensorsInfoFile(payload));
+            }}
+          />
+        )}
+        {(bulkSensorsUploadResponse?.showTransitionModal ?? false) && (
+          <BulkUploadTransitionModal
+            dismissModal={() => {
+              dispatch(resetShowTransitionModalState());
             }}
           />
         )}

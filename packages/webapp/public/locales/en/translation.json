@@ -457,6 +457,7 @@
       "UPLOAD_ERROR_MESSAGE": "We found some errors with your upload. You can view them",
       "UPLOAD_ERROR_LINK": "here.",
       "VALIDATION": {
+        "FILE_ROW_LIMIT_EXCEEDED": "File row limit exceeded. The max number of sensors that can be uploaded from a file is 100.",
         "MISSING_COLUMNS": "Columns are required/missing.",
         "EXTERNAL_ID": "Invalid external id, must be between 1 and 20 characters.",
         "SENSOR_NAME": "Invalid sensor name, must be between 1 and 100 characters.",
@@ -464,6 +465,10 @@
         "SENSOR_LONGITUDE": "Invalid longitude value, must be between -180 and 180. and fewer than 10 decimals.",
         "SENSOR_READING_TYPES": "Invalid reading type detected, valid values include: soil_moisture_content, water_potential, temperature."
       }
+    },
+    "BULK_UPLOAD_TRANSITION": {
+      "TITLE": "This is taking longer than expected...",
+      "BODY": "We’ll notify you once your upload is complete and your sensors have been created. Feel free to navigate away from this window."
     },
     "CEREMONIAL_AREA": {
       "EDIT_TITLE": "Edit ceremonial area",

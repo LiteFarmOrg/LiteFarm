@@ -89,7 +89,7 @@ export default function PureSensorDetail({
   }
 
   return (
-    <div>
+    <div style={{ padding: '24px 16px 24px 16px' }}>
       <PageTitle
         title={'CHANGE'}
         onGoBack={() => history.onGoBack}

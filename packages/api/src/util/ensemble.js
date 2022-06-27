@@ -30,7 +30,7 @@ if (process.env.NODE_ENV === 'integration') {
 } else {
   // NOTE: for testing out the webhook, you may need to ngrok or some other
   // tool to make the endpoint available to Ensemble
-  baseUrl = 'https://e89c-2607-fea8-4ea3-ab00-91d3-1321-fc98-acee.ngrok.io';
+  baseUrl = 'http://localhost:5001';
 }
 
 /**
@@ -83,6 +83,7 @@ async function registerOrganizationWebhook(farmId, organizationId, accessToken) 
     url: `${ensembleAPI}/organizations/${organizationId}/webhooks/`,
     data: {
       url: `${baseUrl}/sensors/add_reading/1`,
+      authorization_header: process.env.SENSOR_SECRET,
       frequency: 15,
     },
   };

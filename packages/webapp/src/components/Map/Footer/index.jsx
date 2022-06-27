@@ -40,7 +40,7 @@ export default function PureMapFooter({
       locationEnum.residence,
     ],
     line: [locationEnum.buffer_zone, locationEnum.watercourse, locationEnum.fence],
-    point: [locationEnum.gate, locationEnum.water_valve],
+    point: [locationEnum.gate, locationEnum.water_valve, locationEnum.sensor],
   },
 }) {
   const { t } = useTranslation();
@@ -78,7 +78,7 @@ export default function PureMapFooter({
     >
       <div className={clsx(container)} style={style}>
         {isAdmin && (
-          <button 
+          <button
             data-cy="map-addFeature"
             className={clsx(button, (stepSpotlighted === 0 || showAddDrawer) && spotlighted)}
             id="mapFirstStep"

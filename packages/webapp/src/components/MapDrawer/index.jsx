@@ -210,7 +210,9 @@ export default function MapDrawer({
         },
         {
           name: t('FARM_MAP.MAP_FILTER.SENSOR'),
-          icon: () => <Sensor className={classes.icon} />,
+          icon: () => (
+            <Sensor className={classes.icon} style={{ transform: 'translate(-5px, 5px)' }} />
+          ),
           key: locationEnum.sensor,
         },
       ]

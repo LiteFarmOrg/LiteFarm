@@ -16,7 +16,6 @@ import { getAccessToken } from '../../../../util/jwt';
 import { sensorUrl } from '../../../../apiConfig';
 import FilterPillSelect from '../../../Filter/FilterPillSelect';
 import { container_planting_depth } from '../../../../util/convert-units/unit';
-// import Unit from '../../../Inputs/Unit';
 import Unit from '../../../Form/Unit';
 import { useForm } from 'react-hook-form';
 

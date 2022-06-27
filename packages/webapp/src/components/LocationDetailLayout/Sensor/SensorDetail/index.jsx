@@ -6,7 +6,7 @@ import PageTitle from '../../../PageTitle/v2';
 import Input from '../../../Form/Input';
 import ReactSelect from '../../../Form/ReactSelect';
 import RetireSensorModal from '../../../Modals/RetireSensor';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   enqueueErrorSnackbar,
   enqueueSuccessSnackbar,
@@ -18,39 +18,29 @@ import FilterPillSelect from '../../../Filter/FilterPillSelect';
 import { container_planting_depth } from '../../../../util/convert-units/unit';
 import Unit from '../../../Form/Unit';
 import { useForm } from 'react-hook-form';
+import { sensorsSelector } from '../../../../containers/sensorSlice';
 
 export default function PureSensorDetail({
   history,
-  user,
-  match,
-  plan,
+  isAdmin,
   system,
   filter,
   filterRef,
-  tasksFilter,
+  sensorInfo,
 }) {
-  const isAdmin = user || true;
   const [showRetireModal, setShowRetireModal] = useState(false);
   const { t } = useTranslation();
   const dispatch = useDispatch();
-  const brand_names = [
-    {
-      label: 'Ensemble Scientific',
-      value: 'Ensemble',
-      onClick: () => console.log('Reroute'),
-    },
-  ];
-  const BRAND = 'Ensemble Scientific';
-  const DEPTH = 'CHANGE';
-  const DEPTH_UNIT = 'CHANGE';
-  const EXTERNAL_IDENTIFIER = 'CHANGE';
+
+  const SENSOR_NAME = sensorInfo.name;
+  const BRAND = 'CHANGE';
+  const DEPTH = sensorInfo.depth;
+  const EXTERNAL_IDENTIFIER = sensorInfo.external_id;
   const HARDWARE_VERSION = 'CHANGE';
   const MODEL = 'CHANGE';
   const PART_NUMBER = 'CHANGE';
-  const SENSOR_NAME = 'CHANGE';
-  const LATITUDE = 'CHANGE';
-  const LONGTITUDE = 'CHANGE';
-  const READING_TYPES = 'CHANGE';
+  const LATITUDE = sensorInfo.point.lat;
+  const LONGTITUDE = sensorInfo.point.lng;
   const {
     register,
     handleSubmit,
@@ -71,7 +61,6 @@ export default function PureSensorDetail({
     shouldUnregister: false,
     mode: 'onChange',
   });
-  console.log(setValue);
 
   // TODO: Use non-hardcoded values
   function onRetire() {
@@ -100,9 +89,9 @@ export default function PureSensorDetail({
   return (
     <div style={{ padding: '24px 16px 24px 16px' }}>
       <PageTitle
-        title={'CHANGE'}
-        onGoBack={() => history.onGoBack()}
-        style={{ marginBottom: '24px', marginTop: '24px' }}
+        title={SENSOR_NAME}
+        onGoBack={() => history.push('/map')}
+        style={{ marginBottom: '24px' }}
       />
       <RouterTab
         classes={{ container: { margin: '24px 0 24px 0' } }}
@@ -129,7 +118,7 @@ export default function PureSensorDetail({
         label={t('SENSOR.DETAIL.NAME')}
         style={{ paddingBottom: '32px', paddingTop: '24px' }}
         disabled={true}
-        value={'CHANGE'}
+        value={SENSOR_NAME}
       />
       <div
         className={'latLong'}
@@ -174,13 +163,12 @@ export default function PureSensorDetail({
         hookFormSetValue={setValue}
         hookFormGetValue={getValues}
         hookFromWatch={watch}
-        name={'DEPTH'}
-        displayUnitName={'DEPTH_UNIT'}
+        name={t('SENSOR.DETAIL.DEPTH')}
         unitType={container_planting_depth}
         max={10000}
         system={system}
         control={control}
-        style={{ marginBottom: '40px' }}
+        style={{ paddingBottom: '32px' }}
         disabled={true}
       />
 
@@ -189,7 +177,6 @@ export default function PureSensorDetail({
         placeholder={BRAND}
         defaultValue={BRAND}
         isDisabled={true}
-        options={brand_names}
         style={{ paddingBottom: '32px' }}
         toolTipContent={t('SENSOR.DETAIL.BRAND_TOOLTIP')}
       />

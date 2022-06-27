@@ -358,7 +358,7 @@ const Routes = () => {
       return (
         <Suspense fallback={<Spinner />}>
           <Switch>
-            <Route path="/sensor/:sensor_id/details" exact component={SensorDetail} />
+            <Route path="/sensor/:location_id/details" exact component={SensorDetail} />
             {/* TODO: Move the above line into appropriate place */}
 
             <Route path="/" exact component={Home} />

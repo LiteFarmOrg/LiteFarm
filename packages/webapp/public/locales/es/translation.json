@@ -462,7 +462,11 @@
         "SENSOR_NAME": "MISSING",
         "SENSOR_LATITUDE": "MISSING",
         "SENSOR_LONGITUDE": "MISSING",
-        "SENSOR_READING_TYPES": "MISSING"
+        "SENSOR_READING_TYPES": "MISSING",
+        "SENSOR_DEPTH": "MISSING",
+        "SENSOR_BRAND": "MISSING",
+        "SENSOR_MODEL": "MISSING",
+        "SENSOR_HARDWARE_VERSION": "MISSING"
       }
     },
     "BULK_UPLOAD_TRANSITION": {
@@ -1134,7 +1138,11 @@
       "BODY": "Tiene tareas sin asignar que vencen esta semana.",
       "TITLE": "Tareas sin responables"
     },
-    "SENSOR_BULK_UPLOAD": {
+    "SENSOR_BULK_UPLOAD_SUCCESS": {
+      "BODY": "MISSING",
+      "TITLE": "MISSING"
+    },
+    "SENSOR_BULK_UPLOAD_FAIL": {
       "BODY": "MISSING",
       "TITLE": "MISSING"
     }

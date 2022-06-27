@@ -62,7 +62,6 @@ export default function PureManagementDetail({
     shouldUnregister: false,
     mode: 'onChange',
   });
-  console.log(plan);
 
   const isAbandoned = plan.abandon_date ? true : false;
   const isCompleted = plan.complete_date ? true : false;

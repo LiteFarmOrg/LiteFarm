@@ -21,17 +21,9 @@ import Form from '../Form';
 import ReactSelect from '../Form/ReactSelect';
 import { Error } from '../Typography';
 import { FormHelperText } from '@material-ui/core';
+import UpdateSensorModal from '../Modals/UpdateSensorModal';
 
-export default function UpdateSensor({
-  history,
-  match,
-  onBack,
-  disabled,
-  onSubmit,
-  system,
-  filter,
-  filterRef,
-}) {
+export default function UpdateSensor({ onBack, disabled, onSubmit, system, filter, filterRef }) {
   const { t } = useTranslation();
 
   const {
@@ -48,7 +40,6 @@ export default function UpdateSensor({
       sensor_name: 'Input container data',
       latitude: '1',
       longtitude: '2',
-      reading_types: '',
       external_identifier: 'Get container value',
     },
     shouldUnregister: false,
@@ -69,27 +60,34 @@ export default function UpdateSensor({
   const LONGTITUDE = 'longtitude';
   const READING_TYPES = 'reading_types';
 
-  const [isDirty, setIsDirty] = useState(true);
-  const firstUpdate = useRef(true);
+  const [isDirty, setIsDirty] = useState(false);
+  const [filterState, setFilterState] = useState([]);
+  const [isFilterValid, setIsFilterValid] = useState(false);
 
   const onChange = () => {
-    console.log(getValues(READING_TYPES));
-    console.log('onChange fired');
+    setFilterState(filterRef.current);
     setIsDirty(!isDirty);
-    setValue(READING_TYPES, filterRef.current);
-    console.log(getValues(READING_TYPES));
   };
 
-  // useLayoutEffect(() => {
-  //   if (firstUpdate.current) {
-  //     console.log('True ran')
-  //     firstUpdate.current = false;
-  //   } else {
-  //     console.log('False ran')
-  //     setValue(READING_TYPES, filterRef.current);
-  //   }
+  useEffect(() => {
+    setValue(READING_TYPES, filterState);
+    const e = Object.entries(filterState);
+    if (e.length > 0) {
+      let count = 0;
+      for (let i = 0; i < 3; i++) {
+        const f = Object.entries(e[0][1]);
+        const g = Object.entries(f[i][1]);
+        const h = g[0][1];
+        if (h === true) {
+          setIsFilterValid(true);
+          count++;
+        }
+      }
+      count == 0 ? setIsFilterValid(false) : {};
+    }
+  }, [filterState, isDirty]);
 
-  // }, [watch(READING_TYPES)])
+  const [showAbandonModal, setShowAbandonModal] = useState(false);
 
   return (
     <>
@@ -102,11 +100,11 @@ export default function UpdateSensor({
       </Layout>
 
       <Form
-        onSubmit={handleSubmit(onSubmit)}
+        onSubmit={handleSubmit(() => setShowAbandonModal(true))}
         buttonGroup={
           <>
             {
-              <Button disabled={!isValid} fullLength type={'submit'}>
+              <Button disabled={!isValid || !isFilterValid} fullLength type={'submit'}>
                 {t('common:UPDATE')}
               </Button>
             }
@@ -147,11 +145,11 @@ export default function UpdateSensor({
             style={{ minWidth: '100px' }}
             hookFormRegister={register(LONGTITUDE, {
               max: {
-                value: 120,
+                value: 180,
                 message: t('SENSOR.VALIDATION.SENSOR_LONGITUDE'),
               },
               min: {
-                value: -120,
+                value: -180,
                 message: t('SENSOR.VALIDATION.SENSOR_LONGITUDE'),
               },
               required: true,
@@ -161,9 +159,6 @@ export default function UpdateSensor({
           />
         </div>
         <FilterPillSelect
-          hookFormRegister={register(READING_TYPES, {
-            required: true,
-          })}
           subject={filter.subject}
           options={filter.options}
           filterKey={filter.filterKey}
@@ -201,8 +196,9 @@ export default function UpdateSensor({
                 required={true}
                 isDisabled
                 defaultValue={integrating_partners[0]}
+                toolTipContent={t('SENSOR.BRAND_HELPTEXT')}
+                style={{ marginBottom: '24px' }}
               />
-              <Info style={{ marginBottom: '24px' }}>{t('SENSOR.BRAND_HELPTEXT')}</Info>
             </>
           )}
         />
@@ -219,7 +215,7 @@ export default function UpdateSensor({
           label={t('SENSOR.EXTERNAL_IDENTIFIER')}
           style={{ paddingBottom: '40px' }}
           disabled
-          info={t('SENSOR.MODEL_HELPTEXT')}
+          toolTipContent={t('SENSOR.MODEL_HELPTEXT')}
           defaultValue={EXTERNAL_IDENTIFIER}
         />
 
@@ -236,6 +232,13 @@ export default function UpdateSensor({
           style={{ paddingBottom: '40px' }}
           optional
         />
+
+        {showAbandonModal && (
+          <UpdateSensorModal
+            dismissModal={() => setShowAbandonModal(false)}
+            onChange={() => onSubmit(getValues())}
+          />
+        )}
       </Form>
     </>
   );
@@ -243,9 +246,8 @@ export default function UpdateSensor({
 
 UpdateSensor.prototype = {
   onBack: PropTypes.func,
-  variety: PropTypes.object,
-  plan: PropTypes.object,
-  isAdmin: PropTypes.bool,
+  disabled: PropTypes.bool,
+  onSubmit: PropTypes.func,
   history: PropTypes.object,
   match: PropTypes.object,
   system: PropTypes.oneOf(['imperial', 'metric']).isRequired,

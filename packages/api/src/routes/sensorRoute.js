@@ -35,5 +35,6 @@ router.delete('/delete_sensor/:sensor_id', SensorController.deleteSensor());
 router.post('/add_reading', SensorController.addReading());
 router.get('/get_readings', SensorController.getAllReadingsBySensorId());
 router.post('/invalidate_readings', SensorController.invalidateReadings());
+// router.patch('/:sensor_esid', SensorController.updateSensorbyID());
 
 module.exports = router;

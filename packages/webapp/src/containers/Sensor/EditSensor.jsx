@@ -21,9 +21,9 @@ export default function UpdateSensor({ history, match }) {
 
   const { t } = useTranslation();
 
-  const SOIL_WATER_CONTENT = 'Soil water content';
-  const SOIL_WATER_POTENTIAL = 'Soil water potential';
-  const TEMPERATURE = 'Temperature';
+  const SOIL_WATER_CONTENT = 'SOIL_WATER_CONTENT';
+  const SOIL_WATER_POTENTIAL = 'SOIL_WATER_POTENTIAL';
+  const TEMPERATURE = 'TEMPERATURE';
 
   const statuses = [SOIL_WATER_CONTENT, SOIL_WATER_POTENTIAL, TEMPERATURE];
 
@@ -31,17 +31,18 @@ export default function UpdateSensor({ history, match }) {
   const filterRef = useRef({});
 
   const filter = {
-    subject: t('Reading types'),
+    subject: t('SENSOR.READING.TYPES'),
     filterKey: STATUS,
     options: statuses.map((status) => ({
       value: status.toLowerCase(),
       default: tasksFilter[STATUS][status.toLowerCase()]?.active ?? false,
-      label: status,
+      label: t(`SENSOR.READING.${status}`),
     })),
   };
 
   const onSubmit = (data) => {
     console.log(data);
+    // history.push(`/map`);
   };
 
   return (
@@ -55,7 +56,6 @@ export default function UpdateSensor({ history, match }) {
         system={system}
         filter={filter}
         filterRef={filterRef}
-        tasksFilter={tasksFilter}
       />
     </>
   );

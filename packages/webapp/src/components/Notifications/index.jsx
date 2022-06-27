@@ -22,18 +22,12 @@ import Button from '../../components/Form/Button';
 import { Semibold, Text } from '../Typography';
 import { getNotificationCardDate } from '../../util/moment.js';
 import history from '../../history';
-import { getLanguageFromLocalStorage } from '../../util/getLanguageFromLocalStorage';
+import useTranslationUtil from '../../util/useTranslationUtil';
+import NotificationTimeline from './NotificationTimeline';
 
-function PureNotificationReadOnly({ onGoBack, notification }) {
+function PureNotificationReadOnly({ onGoBack, notification, relatedNotifications }) {
   const { t } = useTranslation();
-  const currentLang = getLanguageFromLocalStorage();
-  const tOptions = notification.variables.reduce((optionsSoFar, currentOption) => {
-    let options = { ...optionsSoFar };
-    options[currentOption.name] = currentOption.translate
-      ? t(currentOption.value)
-      : currentOption.value;
-    return options;
-  }, {});
+  const { getNotificationTitle, getNotificationBody } = useTranslationUtil();
 
   const hideTakeMeThere =
     !notification.ref ||
@@ -78,19 +72,22 @@ function PureNotificationReadOnly({ onGoBack, notification }) {
       </div>
 
       <Semibold style={{ color: colors.teal700, marginBottom: '16px' }}>
-        {notification.title.translation_key
-          ? t(notification.title.translation_key)
-          : notification.title[currentLang]}
+        {getNotificationTitle(notification.title)}
       </Semibold>
       <Text style={{ fontSize: '16px', marginBottom: '16px' }}>
-        {notification.body.translation_key
-          ? t(notification.body.translation_key, tOptions)
-          : notification.body[currentLang]}
+        {getNotificationBody(notification.body, notification.variables)}
       </Text>
       {!hideTakeMeThere && (
         <Button sm style={{ height: '32px', width: '150px' }} onClick={onTakeMeThere}>
           {t('NOTIFICATION.TAKE_ME_THERE')}
         </Button>
+      )}
+      {relatedNotifications?.length > 1 && (
+        <NotificationTimeline
+          style={{ marginTop: '30px' }}
+          activeNotificationId={notification.notification_id}
+          relatedNotifications={relatedNotifications}
+        />
       )}
     </Layout>
   );

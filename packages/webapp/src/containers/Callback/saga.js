@@ -49,7 +49,8 @@ export function* validateResetTokenSaga({ payload: { reset_token } }) {
 
 export const patchUserFarmStatus = createAction('patchUserFarmStatusSaga');
 
-export function* patchUserFarmStatusSaga({ payload: invite_token }) {
+export function* patchUserFarmStatusSaga({ payload }) {
+  const { invite_token, language } = payload;
   try {
     const language_preference = getLanguageFromLocalStorage();
     const result = yield call(
@@ -73,6 +74,8 @@ export function* patchUserFarmStatusSaga({ payload: invite_token }) {
     if (e?.response?.status === 404) {
       // and message === 'user does not exist
       console.log(e);
+      localStorage.setItem('litefarm_lang', language);
+      i18n.changeLanguage(language);
       history.push('/accept_invitation/sign_up', invite_token);
     } else if (e?.response?.status === 401) {
       const { email: currentEmail } = yield select(userFarmSelector);

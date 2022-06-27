@@ -51,7 +51,15 @@ export default function PureSensorDetail({
       float: 'right',
     },
   };
-  const { control } = useForm({
+  const {
+    register,
+    handleSubmit,
+    getValues,
+    watch,
+    control,
+    setValue,
+    formState: { errors, isValid },
+  } = useForm({
     defaultValues: {
       brand: 'ensemble_scientific',
       sensor_name: 'Input container data',
@@ -63,6 +71,7 @@ export default function PureSensorDetail({
     shouldUnregister: false,
     mode: 'onChange',
   });
+  console.log(setValue);
 
   // TODO: Use non-hardcoded values
   function onRetire() {
@@ -90,11 +99,6 @@ export default function PureSensorDetail({
 
   return (
     <div style={{ padding: '24px 16px 24px 16px' }}>
-      <PageTitle
-        title={'CHANGE'}
-        onGoBack={() => history.onGoBack}
-        style={{ marginBottom: '24px', marginTop: '24px' }}
-      />
       <RouterTab
         classes={{ container: { margin: '24px 0 24px 0' } }}
         history={history}
@@ -155,10 +159,26 @@ export default function PureSensorDetail({
           style={{ marginBottom: '32px' }}
           filterRef={filterRef}
           key={filter.filterKey}
+          isDisabled={true}
         />
       </div>
 
       {/* TODO: Depth with unit conversion */}
+      <Unit
+        register={register}
+        label={t('SENSOR.DETAIL.DEPTH')}
+        hookFormSetValue={setValue}
+        hookFormGetValue={getValues}
+        hookFromWatch={watch}
+        name={'DEPTH'}
+        displayUnitName={'DEPTH_UNIT'}
+        unitType={container_planting_depth}
+        max={10000}
+        system={system}
+        control={control}
+        style={{ marginBottom: '40px' }}
+        optional
+      />
 
       <ReactSelect
         label={t('SENSOR.DETAIL.BRAND')}

@@ -158,48 +158,57 @@ const sensorController = {
     }
   },
 
-  // updateSensorbyID() {
-  //   return async (req, res) => {
-  //     try {
-  //       const management_plan_id = req.params.management_plan_id;
-  //       const { name, notes } = req.body;
-  //       const {
-  //         estimated_yield,
-  //         estimated_yield_unit,
-  //         estimated_revenue,
-  //         estimated_price_per_mass,
-  //         estimated_price_per_mass_unit,
-  //       } = req.body?.crop_management_plan || {};
-  //       const crop_management_plan = {
-  //         estimated_yield,
-  //         estimated_yield_unit,
-  //         estimated_revenue,
-  //         estimated_price_per_mass,
-  //         estimated_price_per_mass_unit,
-  //       };
-  //       const management_plan = { name, notes };
-  //       const result = await managementPlanModel.transaction(async trx => {
-  //         const managementPlan = await managementPlanModel.query(trx)
-  //           .context({ user_id: req.user.user_id })
-  //           .findById(management_plan_id)
-  //           .patch(management_plan).returning('*');
-  //         return await cropManagementPlanModel.query(trx).context(req.user).findById(management_plan_id).patch(crop_management_plan).returning('*');
-  //       });
-  //       if (result) {
-  //         return res.sendStatus(200);
-  //       } else {
-  //         return res.sendStatus(404);
-  //       }
+  updateSensorbyID() {
+    return async (req, res) => {
+      try {
+        // const sensor_esid = req.params.sensor_esid;
+        // const {
+        //   brand,
+        //   sensor_name,
+        //   latitude,
+        //   longtitude,
+        //   model,
+        //   part_number,
+        //   hardware_version,
+        //   depth,
+        //   depth_unit,
+        //   reading_types } = req.body;
+        //   // data is formatted in nested object values, these 5 const's are accessing reading types by using
+        //   //  Object.entries and accessing each values via array indexing
+        //   const x = Object.entries(reading_types)
+        //   const y = Object.entries(x[0][1])
+        //   const isSoilWaterContentActive = Object.entries(y[0])[1][1].active
+        //   const isSoilWaterPotentialActive = Object.entries(y[1])[1][1].active
+        //   const isTemperatureActive = Object.entries(y[2])[1][1].active
+        // // const sensor_data = {
+        // //   estimated_yield,
+        // //   estimated_yield_unit,
+        // //   estimated_revenue,
+        // //   estimated_price_per_mass,
+        // //   estimated_price_per_mass_unit,
+        // // };
+        // const sensor_properties = { name: sensor_name, depth };
+        // const result = await sensorModel.transaction(async trx => {
+        //   // const sensor = await sensorModel.query(trx)
+        //   //   .context({ farm_id: req.body.farm_id })
+        //   //   .findById('6b2df550-f646-11ec-b719-acde48001122')
+        //   //   .patch(sensor_properties).returning('*');
+        //   return await sensorModel.query(trx).context({ farm_id: req.body.farm_id }).findById(sensor_esid).patch(sensor_properties).returning('*');
+        // });
+        // if (result) {
+        //   return res.sendStatus(200);
+        // } else {
+        //   return res.sendStatus(404);
+        // }
+      } catch (error) {
+        console.log(error);
 
-  //     } catch (error) {
-  //       console.log(error);
-
-  //       return res.status(400).json({
-  //         error,
-  //       });
-  //     }
-  //   };
-  // },
+        return res.status(400).json({
+          error,
+        });
+      }
+    };
+  },
 
   deleteSensor() {
     return async (req, res) => {

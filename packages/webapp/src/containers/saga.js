@@ -75,6 +75,7 @@ import {
   onLoadingWaterValveFail,
   onLoadingWaterValveStart,
 } from './waterValveSlice';
+import { getSensorSuccess, onLoadingSensorFail, onLoadingSensorStart } from './sensorSlice';
 import { getGatesSuccess, onLoadingGateFail, onLoadingGateStart } from './gateSlice';
 import { getAllCropsSuccess, onLoadingCropFail, onLoadingCropStart } from './cropSlice';
 import {
@@ -320,6 +321,7 @@ export function* onLoadingLocationStartSaga() {
   yield put(onLoadingFenceStart());
   yield put(onLoadingGateStart());
   yield put(onLoadingWaterValveStart());
+  yield put(onLoadingSensorStart());
 }
 
 export const getLocations = createAction('getLocationsSaga');
@@ -371,6 +373,7 @@ const figureTypeActionMap = {
   fence: { success: getFencesSuccess, fail: onLoadingFenceFail },
   gate: { success: getGatesSuccess, fail: onLoadingGateFail },
   water_valve: { success: getWaterValvesSuccess, fail: onLoadingWaterValveFail },
+  sensor: { success: getSensorSuccess, fail: onLoadingSensorFail },
 };
 
 export function* onLoadingManagementPlanAndPlantingMethodStartSaga() {

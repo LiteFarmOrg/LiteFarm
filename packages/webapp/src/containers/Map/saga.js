@@ -29,7 +29,11 @@ import {
   bulkSensorsUploadFailure,
   bulkSensorsUploadSuccess,
   bulkSensorsUploadLoading,
+  bulkSensorsUploadValidationFailure,
+  resetSensorsBulkUploadStates,
+  switchToAsyncSensorUpload,
 } from '../bulkSensorUploadSlice';
+import { bulkSenorUploadErrorTypeEnum } from './constants';
 
 import { enqueueErrorSnackbar } from '../Snackbar/snackbarSlice';
 import { getSensorReadingSuccess, onLoadingSensorReadingStart } from './mapSensorSlice';
@@ -87,6 +91,16 @@ export function* setSpotlightToShownSaga({ payload: spotlights }) {
 }
 
 export const bulkUploadSensorsInfoFile = createAction(`bulkUploadSensorsInfoFileSaga`);
+export const resetBulkUploadSensorsInfoFile = createAction(`resetBulkUploadSensorsInfoFileSaga`);
+export const resetShowTransitionModalState = createAction(`resetShowTransitionModalStateSaga`);
+
+export function* resetBulkUploadSensorsInfoFileSaga() {
+  yield put(resetSensorsBulkUploadStates());
+}
+
+export function* resetShowTransitionModalStateSaga() {
+  yield put(switchToAsyncSensorUpload(false));
+}
 
 export function* bulkUploadSensorsInfoFileSaga({ payload: { file } }) {
   try {
@@ -100,10 +114,10 @@ export function* bulkUploadSensorsInfoFileSaga({ payload: { file } }) {
         Authorization: 'Bearer ' + localStorage.getItem('id_token'),
         farm_id: farm_id,
       },
+      timeout: 5000,
     });
 
     if (fileUploadResponse.status === 200) {
-      fileUploadResponse.data;
       yield put(bulkSensorsUploadSuccess());
       yield put(
         setSuccessMessage([
@@ -116,10 +130,36 @@ export function* bulkUploadSensorsInfoFileSaga({ payload: { file } }) {
     }
     yield put(bulkSensorsUploadFailure());
     yield put(enqueueErrorSnackbar(i18n.t('message:BULK_UPLOAD.ERROR.UPLOAD')));
-  } catch (e) {
-    yield put(bulkSensorsUploadFailure());
-    yield put(enqueueErrorSnackbar(i18n.t('message:BULK_UPLOAD.ERROR.UPLOAD')));
-    console.log(e);
+  } catch (error) {
+    if (error?.message.includes(bulkSenorUploadErrorTypeEnum?.timeout_and_show_transition_modal)) {
+      yield put(switchToAsyncSensorUpload(true));
+    } else {
+      switch (error?.response?.status) {
+        case 400: {
+          const errorType = error?.response?.data?.error_type || '';
+          switch (errorType) {
+            case bulkSenorUploadErrorTypeEnum?.unable_to_claim_all_sensors: {
+              const registeredSensors = error?.response?.data?.registeredSensors ?? {};
+              break;
+            }
+            case bulkSenorUploadErrorTypeEnum?.validation_failure:
+            default: {
+              const validationErrors = error?.response?.data?.errors ?? [];
+              yield put(bulkSensorsUploadValidationFailure(validationErrors));
+              break;
+            }
+          }
+          break;
+        }
+        case 500:
+        default: {
+          yield put(bulkSensorsUploadFailure());
+          yield put(enqueueErrorSnackbar(i18n.t('message:BULK_UPLOAD.ERROR.UPLOAD')));
+          console.log(error);
+          break;
+        }
+      }
+    }
   }
 }
 
@@ -142,4 +182,6 @@ export default function* supportSaga() {
   yield takeLeading(setSpotlightToShown.type, setSpotlightToShownSaga);
   yield takeLeading(bulkUploadSensorsInfoFile.type, bulkUploadSensorsInfoFileSaga);
   yield takeLeading(getSensorReadings.type, getSensorReadingsSaga);
+  yield takeLeading(resetBulkUploadSensorsInfoFile.type, resetBulkUploadSensorsInfoFileSaga);
+  yield takeLeading(resetShowTransitionModalState.type, resetShowTransitionModalStateSaga);
 }

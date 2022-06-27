@@ -258,14 +258,14 @@ const sensorController = {
       if (!days) {
         result = await sensorReadingModel
           .query()
-          .join('sensor', 'sensor_reading.sensor_id', 'sensor.sensor_id')
-          .where('farm_id', farm_id);
+          .joinRaw('JOIN sensor ON sensor_reading.sensor_id::uuid = sensor.sensor_id')
+          .where('farm_id', farm_id).debug();
       } else {
         const pastDate = new Date();
         pastDate.setDate(pastDate.getDate() - days);
         result = await sensorReadingModel
           .query()
-          .join('sensor', 'sensor_reading.sensor_id', 'sensor.sensor_id')
+          .joinRaw('JOIN sensor ON sensor_reading.sensor_id::uuid = sensor.sensor_id')
           .where('farm_id', farm_id)
           .andWhere('created_at', '>=', pastDate);
       }

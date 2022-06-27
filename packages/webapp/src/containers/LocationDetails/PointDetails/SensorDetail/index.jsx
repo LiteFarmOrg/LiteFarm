@@ -27,7 +27,7 @@ export default function Detail({ history, user, match }) {
   const filterRef = useRef({});
 
   const filter = {
-    subject: t(''),
+    subject: t('SENSOR.DETAIL.READING_TYPES'),
     filterKey: STATUS,
     options: statuses.map((status) => ({
       value: status.toLowerCase(),

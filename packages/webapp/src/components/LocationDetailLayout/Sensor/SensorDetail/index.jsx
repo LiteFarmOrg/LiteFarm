@@ -148,7 +148,6 @@ export default function PureSensorDetail({
 
       {/* TODO: Show selected options properly */}
       <div>
-        <label>{t('SENSOR.DETAIL.READING_TYPES')}</label>
         <FilterPillSelect
           subject={filter.subject}
           options={filter.options}

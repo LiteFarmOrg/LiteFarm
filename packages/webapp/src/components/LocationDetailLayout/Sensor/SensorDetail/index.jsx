@@ -194,7 +194,7 @@ export default function PureSensorDetail({
         toolTipContent={t('SENSOR.DETAIL.EXTERNAL_ID_TOOLTIP')}
         value={EXTERNAL_IDENTIFIER}
       />
-      <Input
+      {/* <Input
         label={t('SENSOR.DETAIL.PART_NUMBER')}
         style={{ paddingBottom: '32px' }}
         disabled={true}
@@ -207,7 +207,7 @@ export default function PureSensorDetail({
         disabled={true}
         optional={true}
         value={HARDWARE_VERSION}
-      />
+      /> */}
       {isAdmin && (
         <div
           // className={'buttonGroup'}

@@ -28,8 +28,6 @@ const {
 
 const sensorErrors = require('../util/sensorErrors');
 
-// TODO: make function which returns a sendReturn() function that depending on the timer status sends the appropriate response
-
 const sensorController = {
   async addSensors(req, res) {
     let hasTimedOut = false;
@@ -120,7 +118,7 @@ const sensorController = {
               user_id,
               farm_id,
               SensorNotificationTypes.SENSOR_BULK_UPLOAD_FAIL,
-              { error_download: { errors, file_name: 'sensor-upload-outcomes.txt' } }, //TODO: update to have proper file name
+              { error_download: { errors, file_name: 'sensor-upload-outcomes.txt' } },
             )
           : res
               .status(400)

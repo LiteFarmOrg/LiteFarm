@@ -38,9 +38,9 @@ const sensorController = {
           'Processing your upload is taking longer than expected. We will send you a notification when this finished processing.',
       });
     }, 5000);
+    const { farm_id } = req.headers;
+    const { user_id } = req.user;
     try {
-      const { farm_id } = req.headers;
-      const { user_id } = req.user;
       const { access_token } = await IntegratingPartnersModel.getAccessAndRefreshTokens(
         'Ensemble Scientific',
       );
@@ -213,8 +213,6 @@ const sensorController = {
       }
     } catch (e) {
       console.log(e);
-      const { user_id } = req.user;
-      const { farm_id } = req.headers;
       return hasTimedOut
         ? await sendSensorNotification(
             user_id,

@@ -114,50 +114,57 @@ export function* bulkUploadSensorsInfoFileSaga({ payload: { file } }) {
         Authorization: 'Bearer ' + localStorage.getItem('id_token'),
         farm_id: farm_id,
       },
-      timeout: 5000,
     });
 
-    if (fileUploadResponse.status === 200) {
-      yield put(bulkSensorsUploadSuccess());
-      yield put(
-        setSuccessMessage([
-          i18n.t('FARM_MAP.MAP_FILTER.SENSOR'),
-          i18n.t('message:MAP.SUCCESS_UPLOAD'),
-        ]),
-      );
-      yield put(canShowSuccessHeader(true));
-      return;
+    switch (fileUploadResponse.status) {
+      case 200: {
+        yield put(bulkSensorsUploadSuccess());
+        yield put(
+          setSuccessMessage([
+            i18n.t('FARM_MAP.MAP_FILTER.SENSOR'),
+            i18n.t('message:MAP.SUCCESS_UPLOAD'),
+          ]),
+        );
+        yield put(canShowSuccessHeader(true));
+        break;
+      }
+      case 202: {
+        yield put(switchToAsyncSensorUpload(true));
+        break;
+      }
+      default: {
+        yield put(bulkSensorsUploadFailure());
+        yield put(enqueueErrorSnackbar(i18n.t('message:BULK_UPLOAD.ERROR.UPLOAD')));
+      }
     }
-    yield put(bulkSensorsUploadFailure());
-    yield put(enqueueErrorSnackbar(i18n.t('message:BULK_UPLOAD.ERROR.UPLOAD')));
   } catch (error) {
-    if (error?.message.includes(bulkSenorUploadErrorTypeEnum?.timeout_and_show_transition_modal)) {
-      yield put(switchToAsyncSensorUpload(true));
-    } else {
-      switch (error?.response?.status) {
-        case 400: {
-          const errorType = error?.response?.data?.error_type || '';
-          switch (errorType) {
-            case bulkSenorUploadErrorTypeEnum?.unable_to_claim_all_sensors: {
-              const registeredSensors = error?.response?.data?.registeredSensors ?? {};
-              break;
-            }
-            case bulkSenorUploadErrorTypeEnum?.validation_failure:
-            default: {
-              const validationErrors = error?.response?.data?.errors ?? [];
-              yield put(bulkSensorsUploadValidationFailure(validationErrors));
-              break;
-            }
+    switch (error?.response?.status) {
+      case 400: {
+        const errorType = error?.response?.data?.error_type || '';
+        switch (errorType) {
+          case bulkSenorUploadErrorTypeEnum?.unable_to_claim_all_sensors: {
+            const { success, errorSensors } = error?.response?.data ?? {
+              success: {},
+              errorSensors: {},
+            };
+            yield put(bulkSensorsUploadFailure({ success, errorSensors }));
+            break;
           }
-          break;
+          case bulkSenorUploadErrorTypeEnum?.validation_failure:
+          default: {
+            const validationErrors = error?.response?.data?.errors ?? [];
+            yield put(bulkSensorsUploadValidationFailure(validationErrors));
+            break;
+          }
         }
-        case 500:
-        default: {
-          yield put(bulkSensorsUploadFailure());
-          yield put(enqueueErrorSnackbar(i18n.t('message:BULK_UPLOAD.ERROR.UPLOAD')));
-          console.log(error);
-          break;
-        }
+        break;
+      }
+      case 500:
+      default: {
+        yield put(bulkSensorsUploadFailure());
+        yield put(enqueueErrorSnackbar(i18n.t('message:BULK_UPLOAD.ERROR.UPLOAD')));
+        console.log(error);
+        break;
       }
     }
   }

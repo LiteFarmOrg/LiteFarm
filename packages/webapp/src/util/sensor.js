@@ -63,6 +63,7 @@ export const createSensorErrorDownload = (
   isValidationError,
   success = [],
 ) => {
+  console.table(errors);
   const element = document.createElement('a');
   const formattedError = isValidationError
     ? generateErrorFormatForSensors(errors)

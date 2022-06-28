@@ -34,6 +34,7 @@ router.post(
 router.delete('/delete_sensor/:sensor_id', SensorController.deleteSensor);
 router.post('/add_reading/:partner_id', SensorController.addReading);
 router.post('/get_readings', SensorController.getAllReadingsBySensorId);
+router.get('/sensor_readings/:farm_id/:days', SensorController.getReadingsByFarmId);
 router.post('/invalidate_readings', SensorController.invalidateReadings);
 
 module.exports = router;

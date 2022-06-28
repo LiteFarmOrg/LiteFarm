@@ -1,3 +1,18 @@
+/*
+ *  Copyright 2019, 2020, 2021, 2022 LiteFarm.org
+ *  This file is part of LiteFarm.
+ *
+ *  LiteFarm is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  LiteFarm is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
+ */
+
 import { useEffect, useRef, useState } from 'react';
 import * as XLSX from 'xlsx';
 import { useSelector } from 'react-redux';
@@ -24,6 +39,7 @@ export function useValidateBulkSensorData(onUpload, t) {
   const [sheetErrors, setSheetErrors] = useState([]);
   const [errorCount, setErrorCount] = useState(0);
   const fileInputRef = useRef(null);
+  const [translatedUploadErrors, setTranslatedUploadErrors] = useState([]);
 
   const validationFields = [
     {
@@ -96,6 +112,21 @@ export function useValidateBulkSensorData(onUpload, t) {
     sheetErrorResponse.errors = errorsResponseList;
     setSheetErrors([sheetErrorResponse]);
   }, [bulkSensorsUploadResponse?.validationErrors]);
+
+  useEffect(() => {
+    if (bulkSensorsUploadResponse?.errorSensors.length > 0) {
+      setErrorCount((curr) => curr + bulkSensorsUploadResponse.errorSensors.length);
+    }
+    const translatedErrors = bulkSensorsUploadResponse?.errorSensors.map((e) => {
+      return {
+        row: e.row,
+        column: e.column,
+        errorMessage: e.variables ? t(e.translation_key, e.variables) : t(e.translation_key),
+      };
+    });
+
+    setTranslatedUploadErrors(translatedErrors);
+  }, [bulkSensorsUploadResponse?.errorSensors]);
 
   const validateExcel = (rows) => {
     let errors = [];
@@ -201,10 +232,19 @@ export function useValidateBulkSensorData(onUpload, t) {
   };
 
   const onShowErrorClick = (e) => {
-    const inputfFile = fileInputRef.current.files[0];
-    if (inputfFile) {
-      const downloadFileName = `${inputfFile.name.replace(/.csv/, '')}_errors.txt`;
-      createSensorErrorDownload(downloadFileName, sheetErrors[0].errors);
+    if (bulkSensorsUploadResponse?.validationErrors.length > 0) {
+      const inputFile = fileInputRef.current.files[0];
+      if (inputFile) {
+        const downloadFileName = `${inputFile.name.replace(/.csv/, '')}_errors.txt`;
+        createSensorErrorDownload(downloadFileName, sheetErrors[0].errors, true);
+      }
+    } else {
+      createSensorErrorDownload(
+        'sensor-upload-outcomes.txt',
+        translatedUploadErrors,
+        false,
+        bulkSensorsUploadResponse?.success,
+      );
     }
   };
 

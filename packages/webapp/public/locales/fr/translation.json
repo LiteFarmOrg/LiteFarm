@@ -242,7 +242,10 @@
     "GENDER": "Genre",
     "GENDER_TOOLTIP": "Les informations sur le genre sont collectées à des fins de recherche uniquement et ne seront partagées qu'avec les informations d'identification personnelle supprimées",
     "PASSWORD": "Mot de passe",
-    "TITLE": "Créer un nouveau compte utilisateur"
+    "TITLE": "Créer un nouveau compte utilisateur",
+    "LANGUAGE_PREFERENCE": "MISSING",
+    "DEFAULT_LANGUAGE": "Français",
+    "DEFAULT_LANGUAGE_VALUE": "fr"
   },
   "CROP": {
     "ADD_COMPLIANCE_FILE": "Lien vers un dossier de conformité",
@@ -468,6 +471,10 @@
         "SENSOR_BRAND": "MISSING",
         "SENSOR_MODEL": "MISSING",
         "SENSOR_HARDWARE_VERSION": "MISSING"
+      },
+      "SENSOR_CLAIM_ERROR": {
+        "ALREADY_OCCUPIED": "MISSING",
+        "DOES_NOT_EXIST": "MISSING"
       }
     },
     "BULK_UPLOAD_TRANSITION": {
@@ -1134,6 +1141,10 @@
     "TASK_REASSIGNED": {
       "BODY": "Une tâche de {{taskType}} qui vous était assignée a été attribuée à quelqu'un d'autre par {{assigner}}.",
       "TITLE": "Tâche réattribuée"
+    },
+    "TASK_UNASSIGNED": {
+      "BODY": "{{editor}} a marqué une tâche de {{taskType}} comme non attribuée.",
+      "TITLE": "Tâche non attribuée"
     },
     "WEEKLY_UNASSIGNED_TASKS": {
       "BODY": "Vous avez des tâches non attribuées à accomplir cette semaine.",

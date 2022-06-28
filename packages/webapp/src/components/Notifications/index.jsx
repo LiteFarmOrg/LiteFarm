@@ -51,9 +51,18 @@ function PureNotificationReadOnly({ onGoBack, notification, relatedNotifications
       notification.context.notification_type === SENSOR_BULK_UPLOAD_FAIL
     ) {
       const translatedErrors = notification.ref.error_download.errors.map((e) => {
-        return { row: e.row, column: e.column, errorMessage: t(e.translation_key) };
+        return {
+          row: e.row,
+          column: e.column,
+          errorMessage: e.variables ? t(e.translation_key, e.variables) : t(e.translation_key),
+        };
       });
-      createSensorErrorDownload(notification.ref.error_download.file_name, translatedErrors);
+      createSensorErrorDownload(
+        notification.ref.error_download.file_name,
+        translatedErrors,
+        notification.ref.error_download.is_validation_error,
+        notification.ref.error_download.success ?? [],
+      );
     } else {
       route = '/';
     }

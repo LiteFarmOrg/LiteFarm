@@ -242,7 +242,10 @@
     "GENDER": "Gênero",
     "GENDER_TOOLTIP": "Informação sobre gênero é coletada para propósitos de pesquisa acadêmica e apenas será compartilhada sem outras informações pessoais",
     "PASSWORD": "Senha",
-    "TITLE": "Criar uma nova conta de usuário"
+    "TITLE": "Criar uma nova conta de usuário",
+    "LANGUAGE_PREFERENCE": "MISSING",
+    "DEFAULT_LANGUAGE": "Português",
+    "DEFAULT_LANGUAGE_VALUE": "pt"
   },
   "CROP": {
     "ADD_COMPLIANCE_FILE": "Link para um arquivo de conformidade",
@@ -467,6 +470,10 @@
         "SENSOR_BRAND": "MISSING",
         "SENSOR_MODEL": "MISSING",
         "SENSOR_HARDWARE_VERSION": "MISSING"
+      },
+      "SENSOR_CLAIM_ERROR": {
+        "ALREADY_OCCUPIED": "MISSING",
+        "DOES_NOT_EXIST": "MISSING"
       }
     },
     "BULK_UPLOAD_TRANSITION": {
@@ -1134,6 +1141,10 @@
     "TASK_REASSIGNED": {
       "BODY": "Uma tarefa {{taskType}} atribuída anteriormente a você foi atribuída a outra pessoa por {{assigner}}.",
       "TITLE": "Tarefa reatribuída"
+    },
+    "TASK_UNASSIGNED": {
+      "BODY": "MISSING",
+      "TITLE": "MISSING"
     },
     "WEEKLY_UNASSIGNED_TASKS": {
       "BODY": "Você tem tarefas não atribuídas para esta semana.",

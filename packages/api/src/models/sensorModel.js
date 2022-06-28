@@ -99,6 +99,17 @@ class Sensor extends Model {
     await trx.commit();
     return sensorLocationWithGraph;
   }
+  static async getSensorReadingTypes(sensorId) {
+    Sensor.query().whereRaw(
+      `
+      SELECT prt.readable_value FROM sensor as s 
+      JOIN sensor_reading_type as srt ON srt.sensor_id = s.sensor_id 
+      JOIN partner_reading_type as prt ON srt.partner_reading_type_id = prt.partner_reading_type_id 
+      WHERE s.sensor_id = ?;
+    `,
+      sensorId,
+    );
+  }
 }
 
 module.exports = Sensor;

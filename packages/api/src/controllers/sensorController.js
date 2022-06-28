@@ -29,6 +29,15 @@ const {
 const sensorErrors = require('../util/sensorErrors');
 
 const sensorController = {
+  async getSensorReadingTypes(req, res) {
+    const { sensor_id } = req.params;
+    try {
+      const sensorReadingTypes = SensorModel.getSensorReadingTypes(sensor_id);
+      res.status(200).send(sensorReadingTypes);
+    } catch (e) {
+      res.status(404).send('Sensor not found');
+    }
+  },
   async addSensors(req, res) {
     try {
       const { farm_id } = req.headers;

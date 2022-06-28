@@ -22,7 +22,7 @@ const { transaction, Model } = require('objection');
 
 const {
   createOrganization,
-  // registerOrganizationWebhook,
+  registerOrganizationWebhook,
   bulkSensorClaim,
 } = require('../util/ensemble');
 
@@ -35,13 +35,10 @@ const sensorController = {
     let hasTimedOut = false;
     const timer = setTimeout(() => {
       hasTimedOut = true;
-      res
-        .status(202)
-        .send({
-          message:
-            'Processing your upload is taking longer than expected. We will send you a notification when this finished processing.',
-        });
-      console.log('timedOut');
+      res.status(202).send({
+        message:
+          'Processing your upload is taking longer than expected. We will send you a notification when this finished processing.',
+      });
     }, 5000);
     try {
       const { farm_id } = req.headers;
@@ -125,14 +122,16 @@ const sensorController = {
               SensorNotificationTypes.SENSOR_BULK_UPLOAD_FAIL,
               { error_download: { errors, file_name: 'sensor-upload-outcomes.txt' } }, //TODO: update to have proper file name
             )
-          : res.status(400).send({ error_type: 'validation_failure', errors }) &&
+          : res
+              .status(400)
+              .send({ error_type: 'validation_failure', errors, is_validation_error: true }) &&
               clearTimeout(timer);
       } else {
         // register organization
         const organization = await createOrganization(farm_id, access_token);
 
         // register webhook for sensor readings
-        // await registerOrganizationWebhook(farm_id, organization.organization_uuid, access_token);
+        await registerOrganizationWebhook(farm_id, organization.organization_uuid, access_token);
 
         // Get esids (Ensemble Scientific IDs)
         const esids = data.reduce((previous, current) => {
@@ -143,14 +142,36 @@ const sensorController = {
         }, []);
 
         // Register sensors with Ensemble
-        const { success, already_owned } = await bulkSensorClaim(
+        const { success, already_owned, does_not_exist, occupied } = await bulkSensorClaim(
           access_token,
           organization.organization_uuid,
           esids,
         );
 
-        // Filter sensors by those successfully registered
-        const registeredSensors = data.filter((sensor) => success.includes(sensor.external_id));
+        // Filter sensors by those successfully registered and those with errors
+        const { registeredSensors, errorSensors } = data.reduce(
+          (prev, curr, idx) => {
+            if (success.includes(curr.external_id)) {
+              prev.registeredSensors.push(curr);
+            } else if (does_not_exist.includes(curr.external_id)) {
+              prev.errorSensors.push({
+                row: idx + 2,
+                column: 'External_ID',
+                translation_key: sensorErrors.SENSOR_DOES_NOT_EXIST,
+                variables: { sensorId: curr.external_id },
+              });
+            } else if (occupied.includes(curr.external_id)) {
+              prev.errorSensors.push({
+                row: idx + 2,
+                column: 'External_ID',
+                translation_key: sensorErrors.SENSOR_ALREADY_OCCUPIED,
+                variables: { sensorId: curr.external_id },
+              });
+            }
+            return prev;
+          },
+          { registeredSensors: [], errorSensors: [] },
+        );
 
         // Save sensors in database
         const sensorLocations = await Promise.all(
@@ -160,13 +181,19 @@ const sensorController = {
         );
 
         if (success.length + already_owned.length < esids.length) {
-          console.log('Unable to claim all', hasTimedOut);
           return hasTimedOut
             ? await sendSensorNotification(
                 user_id,
                 farm_id,
                 SensorNotificationTypes.SENSOR_BULK_UPLOAD_FAIL,
-                { error_download: {} },
+                {
+                  error_download: {
+                    errors: errorSensors,
+                    file_name: 'sensor-upload-outcomes.txt',
+                    is_validation_error: false,
+                    success,
+                  },
+                },
               )
             : res.status(400).send({
                 error_type: 'unable_to_claim_all_sensors',

@@ -61,19 +61,13 @@ class SensorReading extends Model {
    * @param {number} days number of days of sensor readings
    * @returns {Object} Sensor Reading Object
    */
-  static async getSensorReadingsByFarmId(farmId, days) {
-    if (!days) {
-      return await SensorReading.query()
-        .joinRaw('JOIN sensor ON sensor_reading.sensor_id::uuid = sensor.sensor_id')
-        .where('farm_id', farmId);
-    } else {
-      const pastDate = new Date();
-      pastDate.setDate(pastDate.getDate() - days);
-      return await SensorReading.query()
-        .joinRaw('JOIN sensor ON sensor_reading.sensor_id::uuid = sensor.sensor_id')
-        .where('farm_id', farmId)
-        .andWhere('created_at', '>=', pastDate);
-    }
+  static async getSensorReadingsInDaysByFarmId(farmId, days) {
+    const pastDate = new Date();
+    pastDate.setDate(pastDate.getDate() - days);
+    return await SensorReading.query()
+      .joinRaw('JOIN sensor ON sensor_reading.sensor_id::uuid = sensor.sensor_id')
+      .where('farm_id', farmId)
+      .andWhere('created_at', '>=', pastDate);
   }
 }
 

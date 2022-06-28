@@ -237,7 +237,7 @@ const sensorController = {
       if (!farm_id) {
         return res.status(400).send('Invalid farm id');
       }
-      const result = await SensorReadingModel.getSensorReadingsByFarmId(farm_id, days);
+      const result = await SensorReadingModel.getSensorReadingsInDaysByFarmId(farm_id, days);
       res.status(200).send(result);
     } catch (error) {
       res.status(400).send(error);

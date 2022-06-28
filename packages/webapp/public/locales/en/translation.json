@@ -1593,5 +1593,32 @@
   },
   "YEAR_SELECTOR": {
     "TITLE": "Select Year"
+  },
+  "SENSOR": {
+    "SENSOR_NAME": "Sensor name",
+    "LATITUDE": "Latitude",
+    "LONGTITUDE": "Longtitude",
+    "READING": {
+      "TYPES": "Reading types",
+      "SOIL_WATER_CONTENT": "Soil water content",
+      "SOIL_WATER_POTENTIAL": "Soil water potential",
+      "TEMPERATURE": "Temperature"
+    },
+    "DEPTH": "Depth",
+    "BRAND": "Brand",
+    "VALIDATION": {
+      "SENSOR_LATITUDE": "Invalid latitude value, must be between -90 and 90. and fewer than 10 decimals.",
+      "SENSOR_LONGITUDE": "Invalid longitude value, must be between -180 and 180. and fewer than 10 decimals."
+    },
+    "MODAL": {
+      "TITLE": "Change reading types?",
+      "BODY": "Changing the reading types for this sensor will modify what readings LiteFarm can show. Do you want to proceed?"
+    },
+    "BRAND_HELPTEXT": "Brands that LiteFarm can integrate with are shown below. If you would no longer like to use this sensor brand, try retiring this sensor instead.",
+    "MODEL": "Model",
+    "MODEL_HELPTEXT": "This id is used to uniquely identify this sensor in other, integrated systems and cannot be changed. If it is no longer being used, try retiring this sensor and adding a new one.",
+    "EXTERNAL_IDENTIFIER": "External identifier",
+    "PART_NUMBER": "Part Number",
+    "HARDWARE_VERSION": "Hardware version"
   }
 }

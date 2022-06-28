@@ -291,6 +291,7 @@ const Notification = React.lazy(() => import('./containers/Notification'));
 const NotificationReadOnly = React.lazy(() =>
   import('./containers/Notification/NotificationReadOnly'),
 );
+const EditSensor = React.lazy(() => import('./containers/Sensor/EditSensor'));
 const Forbidden = React.lazy(() => import('./containers/ErrorHandler/Forbidden/Forbidden'));
 
 const Routes = () => {
@@ -381,6 +382,7 @@ const Routes = () => {
               exact
               component={Transplant}
             />
+            <Route path="/sensor/edit" exact component={EditSensor} />
             <Route
               path="/crop/:variety_id/add_management_plan/plant_date"
               exact

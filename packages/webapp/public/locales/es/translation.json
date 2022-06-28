@@ -1566,5 +1566,32 @@
   },
   "YEAR_SELECTOR": {
     "TITLE": "Seleccionar año"
+  },
+  "SENSOR": {
+    "SENSOR_NAME": "MISSING",
+    "LATITUDE": "MISSING",
+    "LONGTITUDE": "MISSING",
+    "READING": {
+      "TYPES": "MISSING",
+      "SOIL_WATER_CONTENT": "MISSING",
+      "SOIL_WATER_POTENTIAL": "MISSING",
+      "TEMPERATURE": "MISSING"
+    },
+    "DEPTH": "MISSING",
+    "BRAND": "MISSING",
+    "VALIDATION": {
+      "SENSOR_LATITUDE": "MISSING",
+      "SENSOR_LONGITUDE": "MISSING"
+    },
+    "MODAL": {
+      "TITLE": "MISSING",
+      "BODY": "MISSING"
+    },
+    "BRAND_HELPTEXT": "MISSING",
+    "MODEL": "MISSING",
+    "MODEL_HELPTEXT": "MISSING",
+    "EXTERNAL_IDENTIFIER": "MISSING",
+    "PART_NUMBER": "MISSING",
+    "HARDWARE_VERSION": "MISSING"
   }
 }

@@ -31,7 +31,9 @@ router.post(
   upload.single('sensors'),
   SensorController.addSensors,
 );
-router.delete('/delete_sensor/:sensor_id', SensorController.deleteSensor);
+
+router.delete('/delete_sensor/:sensor_id', SensorController.deleteSensor());
+router.patch('/:sensor_esid', SensorController.updateSensorbyID());
 router.post('/add_reading/:partner_id', SensorController.addReading);
 router.post('/get_readings', SensorController.getAllReadingsBySensorId);
 router.post('/invalidate_readings', SensorController.invalidateReadings);

@@ -948,7 +948,7 @@
     "DROP_PIN": "Suelta un pin",
     "DURATION_TOOLTIP": "Estos son valores sugeridos. Ajústelo a las condiciones locales.",
     "EDITING_PLAN_WILL_NOT_MODIFY": "La edición de este plan no modificará las tareas asignadas.",
-    "ESTIMATED_SEED": "Semilla estimada es obligatoria",
+    "ESTIMATED_SEED": "Semilla requerida estimada",
     "ESTIMATED_YIELD": "Cosecha anual estimada",
     "FIRST_MP_SPOTLIGHT": {
       "BODY_PART1": "LiteFarm ha generado algunas tareas basadas en su plan. Puede agregar más tareas o asignarlas en esta pantalla.",
@@ -1098,7 +1098,7 @@
       "TITLE": "Tarea abandonada"
     },
     "TASK_ASSIGNED": {
-      "BODY": "Se ha asignado una tarea {{taskType}} a {{assignee}}.",
+      "BODY": "Una tarea {{taskType}} fue asignado para ti por {{assigner}}.",
       "TITLE": "Tarea asignada"
     },
     "TASK_COMPLETED_BY_OTHER_USER": {
@@ -1108,6 +1108,10 @@
     "TASK_REASSIGNED": {
       "BODY": "Una {{taskType}} tarea que te asignó previamente ha sido asignada a otra persona por {{assigner}}.",
       "TITLE": "Tarea reasignada"
+    },
+    "TASK_UNASSIGNED": {
+      "BODY": "MISSING",
+      "TITLE": "MISSING"
     },
     "WEEKLY_UNASSIGNED_TASKS": {
       "BODY": "Tiene tareas sin asignar que vencen esta semana.",

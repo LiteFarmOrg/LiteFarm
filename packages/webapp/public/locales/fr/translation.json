@@ -1099,7 +1099,7 @@
       "TITLE": "Tâche abandonnée"
     },
     "TASK_ASSIGNED": {
-      "BODY": "Une tâche de {{taskType}} a été assignée à {{assignee}}.",
+      "BODY": "Une tâche de {{taskType}} a été assignée à vous par {{assigner}}.",
       "TITLE": "Tâche assignée"
     },
     "TASK_COMPLETED_BY_OTHER_USER": {
@@ -1109,6 +1109,10 @@
     "TASK_REASSIGNED": {
       "BODY": "Une tâche de {{taskType}} qui vous était assignée a été attribuée à quelqu'un d'autre par {{assigner}}.",
       "TITLE": "Tâche réattribuée"
+    },
+    "TASK_UNASSIGNED": {
+      "BODY": "{{editor}} a marqué une tâche de {{taskType}} comme non attribuée.",
+      "TITLE": "Tâche non attribuée"
     },
     "WEEKLY_UNASSIGNED_TASKS": {
       "BODY": "Vous avez des tâches non attribuées à accomplir cette semaine.",

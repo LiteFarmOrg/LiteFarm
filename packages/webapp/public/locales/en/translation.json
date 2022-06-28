@@ -452,6 +452,35 @@
       "TITLE": "Add buffer zone",
       "WIDTH": "Buffer zone width"
     },
+    "BULK_UPLOAD_SENSORS": {
+      "TITLE": "Add sensors to map",
+      "UPLOAD_LINK_MESSAGE": "Download this template",
+      "UPLOAD_INSTRUCTION_MESSAGE": "for correct formatting.",
+      "UPLOAD_PLACEHOLDER": "Upload CSV file",
+      "UPLOAD_ERROR_MESSAGE": "We found some errors with your upload. You can view them",
+      "UPLOAD_ERROR_LINK": "here.",
+      "VALIDATION": {
+        "FILE_ROW_LIMIT_EXCEEDED": "File row limit exceeded. The max number of sensors that can be uploaded from a file is 100.",
+        "MISSING_COLUMNS": "Columns are required/missing.",
+        "EXTERNAL_ID": "Invalid external id, must be between 1 and 20 characters.",
+        "SENSOR_NAME": "Invalid sensor name, must be between 1 and 100 characters.",
+        "SENSOR_LATITUDE": "Invalid latitude value, must be between -90 and 90. and fewer than 10 decimals.",
+        "SENSOR_LONGITUDE": "Invalid longitude value, must be between -180 and 180. and fewer than 10 decimals.",
+        "SENSOR_READING_TYPES": "Invalid reading type detected, valid values include: soil_moisture_content, water_potential, temperature.",
+        "SENSOR_DEPTH": "Invalid depth value, must be between 0 and 1000.",
+        "SENSOR_BRAND": "Invalid brand name, must be between 1 and 100 characters.",
+        "SENSOR_MODEL": "Invalid model name, must be between 1 and 100 characters.",
+        "SENSOR_HARDWARE_VERSION": "Invalid hardware version name, must be between 1 and 100 characters."
+      },
+      "SENSOR_CLAIM_ERROR": {
+        "ALREADY_OCCUPIED": "Sensor \"{{ sensorId }}\" already registered to another organization, please contact Ensemble support at support@esci.io to troubleshoot.",
+        "DOES_NOT_EXIST": "Sensor \"{{ sensorId }}\" does not exist in the Ensemble database. Please ensure that you have spelled the External_ID properly for this entry, and that the sensor is an Ensemble sensor."
+      }
+    },
+    "BULK_UPLOAD_TRANSITION": {
+      "TITLE": "This is taking longer than expected...",
+      "BODY": "We’ll notify you once your upload is complete and your sensors have been created. Feel free to navigate away from this window."
+    },
     "CEREMONIAL_AREA": {
       "EDIT_TITLE": "Edit ceremonial area",
       "NAME": "Ceremonial area name",
@@ -1116,6 +1145,14 @@
     "WEEKLY_UNASSIGNED_TASKS": {
       "BODY": "You have unassigned tasks due this week.",
       "TITLE": "Unassigned tasks"
+    },
+    "SENSOR_BULK_UPLOAD_SUCCESS": {
+      "BODY": "Your sensor upload has completed successfully.",
+      "TITLE": "Sensor upload completed"
+    },
+    "SENSOR_BULK_UPLOAD_FAIL": {
+      "BODY": "Your sensor upload has failed. Click “Take me there” to view the details.",
+      "TITLE": "Sensor upload failed"
     }
   },
   "OUTRO": {

@@ -64,6 +64,12 @@ export const locationEnum = {
   residence: 'residence',
 };
 
+export const bulkSenorUploadErrorTypeEnum = {
+  unable_to_claim_all_sensors: 'unable_to_claim_all_sensors',
+  validation_failure: 'validation_failure',
+  timeout_and_show_transition_modal: 'timeout',
+};
+
 export const polygonPath = (path, width, maps) => {
   const { leftPoints, rightPoints } = path.reduce(linePathPolygonConstructor, {
     leftPoints: [],
@@ -74,6 +80,8 @@ export const polygonPath = (path, width, maps) => {
   });
   return leftPoints.concat(rightPoints.reverse());
 };
+
+export const SENSOR_BULK_UPLOAD_SUCCESS = 'SENSOR_BULK_UPLOAD_SUCCESS';
 
 const linePathPolygonConstructor = (innerState, point, i, path) => {
   const { bearings, leftPoints, rightPoints, width, maps } = innerState;

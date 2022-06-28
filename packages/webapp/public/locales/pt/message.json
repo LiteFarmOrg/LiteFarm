@@ -18,6 +18,11 @@
       "UPDATE": "Documento atualizado com sucesso"
     }
   },
+  "BULK_UPLOAD": {
+    "ERROR": {
+      "UPLOAD": "MISSING"
+    }
+  },
   "CROP": {
     "ERROR": {
       "DELETE": "Falha na exclusão do cultivo de campo"
@@ -93,7 +98,8 @@
     "FAIL_POST": "Falha ao adicionar novo/a",
     "SUCCESS_DELETE": " retirado/a com sucesso",
     "SUCCESS_PATCH": " atualizado/a com sucesso",
-    "SUCCESS_POST": " salvo/a com sucesso"
+    "SUCCESS_POST": " salvo/a com sucesso",
+    "SUCCESS_UPLOAD": "MISSING"
   },
   "ORGANIC_CERTIFIER_SURVEY": {
     "ERROR": {

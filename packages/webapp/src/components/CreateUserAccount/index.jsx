@@ -56,7 +56,7 @@ export default function PureCreateUserAccount({ onSignUp, email, onGoBack }) {
   ];
 
   const getLanguageOption = (language) => {
-    return languageOptions.findIndex(object => object.value === language);
+    return languageOptions.findIndex((object) => object.value === language);
   };
 
   const browser_langauge = navigator.language.includes('-')

@@ -452,6 +452,35 @@
       "TITLE": "Ajouter une zone tampon",
       "WIDTH": "Largeur de la zone tampon"
     },
+    "BULK_UPLOAD_SENSORS": {
+      "TITLE": "MISSING",
+      "UPLOAD_LINK_MESSAGE": "MISSING",
+      "UPLOAD_INSTRUCTION_MESSAGE": "MISSING",
+      "UPLOAD_PLACEHOLDER": "MISSING",
+      "UPLOAD_ERROR_MESSAGE": "MISSING",
+      "UPLOAD_ERROR_LINK": "MISSING",
+      "VALIDATION": {
+        "FILE_ROW_LIMIT_EXCEEDED": "MISSING",
+        "MISSING_COLUMNS": "MISSING",
+        "EXTERNAL_ID": "MISSING",
+        "SENSOR_NAME": "MISSING",
+        "SENSOR_LATITUDE": "MISSING",
+        "SENSOR_LONGITUDE": "MISSING",
+        "SENSOR_READING_TYPES": "MISSING",
+        "SENSOR_DEPTH": "MISSING",
+        "SENSOR_BRAND": "MISSING",
+        "SENSOR_MODEL": "MISSING",
+        "SENSOR_HARDWARE_VERSION": "MISSING"
+      },
+      "SENSOR_CLAIM_ERROR": {
+        "ALREADY_OCCUPIED": "MISSING",
+        "DOES_NOT_EXIST": "MISSING"
+      }
+    },
+    "BULK_UPLOAD_TRANSITION": {
+      "TITLE": "MISSING",
+      "BODY": "MISSING"
+    },
     "CEREMONIAL_AREA": {
       "EDIT_TITLE": "Modifier la zone de cérémonie",
       "NAME": "Nom de la zone de cérémonie",
@@ -1120,6 +1149,14 @@
     "WEEKLY_UNASSIGNED_TASKS": {
       "BODY": "Vous avez des tâches non attribuées à accomplir cette semaine.",
       "TITLE": "Tâches non attribuées"
+    },
+    "SENSOR_BULK_UPLOAD_SUCCESS": {
+      "BODY": "MISSING",
+      "TITLE": "MISSING"
+    },
+    "SENSOR_BULK_UPLOAD_FAIL": {
+      "BODY": "MISSING",
+      "TITLE": "MISSING"
     }
   },
   "OUTRO": {

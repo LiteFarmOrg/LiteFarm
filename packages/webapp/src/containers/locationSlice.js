@@ -49,6 +49,7 @@ import {
   waterValvesSelector,
   waterValveStatusSelector,
 } from './waterValveSlice';
+import { sensorEntitiesSelector, sensorSelector, sensorStatusSelector } from './sensorSlice';
 import { gardenEntitiesSelector, gardensSelector, gardenStatusSelector } from './gardenSlice';
 
 export const sortedAreaSelector = createSelector(
@@ -201,21 +202,22 @@ export const lineStatusSelector = createSelector(
 );
 
 export const pointSelector = createSelector(
-  [gatesSelector, waterValvesSelector],
-  (gates, waterValves) => {
+  [gatesSelector, waterValvesSelector, sensorSelector],
+  (gates, waterValves, sensor) => {
     const result = {};
     result[locationEnum.gate] = gates;
     result[locationEnum.water_valve] = waterValves;
+    result[locationEnum.sensor] = sensor;
     return result;
   },
 );
 export const pointStatusSelector = createSelector(
-  [gateStatusSelector, waterValveStatusSelector],
-  (gateStatus, waterValveStatus) => {
+  [gateStatusSelector, waterValveStatusSelector, sensorStatusSelector],
+  (gateStatus, waterValveStatus, sensorStatus) => {
     return {
-      loading: gateStatus.loading || waterValveStatus.loading,
-      loaded: gateStatus.loaded && waterValveStatus.loaded,
-      error: gateStatus.error || waterValveStatus.error,
+      loading: gateStatus.loading || waterValveStatus.loading || sensorStatus.loading,
+      loaded: gateStatus.loaded && waterValveStatus.loaded && sensorStatus.loaded,
+      error: gateStatus.error || waterValveStatus.error || sensorStatus.error,
     };
   },
 );
@@ -304,6 +306,7 @@ export const locationEntitiesSelector = createSelector(
     fenceEntitiesSelector,
     gateEntitiesSelector,
     waterValveEntitiesSelector,
+    sensorEntitiesSelector,
   ],
   (...args) => {
     return args.reduce(

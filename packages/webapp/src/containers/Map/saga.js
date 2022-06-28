@@ -143,6 +143,7 @@ export function* bulkUploadSensorsInfoFileSaga({ payload: { file } }) {
         switch (errorType) {
           case bulkSenorUploadErrorTypeEnum?.unable_to_claim_all_sensors: {
             const registeredSensors = error?.response?.data?.registeredSensors ?? {};
+
             break;
           }
           case bulkSenorUploadErrorTypeEnum?.validation_failure:

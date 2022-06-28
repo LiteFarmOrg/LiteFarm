@@ -15,7 +15,6 @@
 
 import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
 import { createSelector } from 'reselect';
-import { loginSelector } from '../userFarmSlice';
 
 const addManySensorReadings = (state, { payload: sensorReadings }) => {
   mapSensorAdapter.upsertMany(state, sensorReadings);

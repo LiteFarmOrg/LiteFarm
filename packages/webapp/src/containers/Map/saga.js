@@ -36,7 +36,7 @@ import {
 import { bulkSenorUploadErrorTypeEnum } from './constants';
 
 import { enqueueErrorSnackbar } from '../Snackbar/snackbarSlice';
-import { getSensorReadingSuccess, onLoadingSensorReadingStart } from './mapSensorSlice';
+import { getSensorReadingSuccess, onLoadingSensorReadingStart, onLoadingSensorReadingFail } from './mapSensorSlice';
 
 const sendMapToEmailUrl = (farm_id) => `${url}/export/map/farm/${farm_id}`;
 const showedSpotlightUrl = () => `${url}/showed_spotlight`;
@@ -171,8 +171,10 @@ export function* getSensorReadingsSaga() {
   try {
     yield put(onLoadingSensorReadingStart(user_id, farm_id));
     const result = yield call(axios.get, `${sensorUrl}/sensor_readings/${farm_id}/7`, header);
-    yield put(getSensorReadingSuccess(result.data));
+    if (result.status === 200) yield put(getSensorReadingSuccess(result.data));
+    yield put(onLoadingSensorReadingFail(result.error));
   } catch (e) {
+    yield put(onLoadingSensorReadingFail(e));
     console.error(e);
   }
 }

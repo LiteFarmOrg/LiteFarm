@@ -12,6 +12,7 @@ const sensorProperties = [
   'location_id',
   'sensor_id',
   'partner_id',
+  'model',
 ];
 
 const getSensorFromLocationObject = (location) => {

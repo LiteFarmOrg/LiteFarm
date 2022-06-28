@@ -9,10 +9,10 @@ export const getSeason = (lat) => {
   const isNorth = lat > 0;
   const now = new Date();
   const year = now.getFullYear();
-  const autumnStartDate = new Date(year, 9, 1);
-  const springStartDate = new Date(year, 3, 1);
-  const summerStartDate = new Date(year, 6, 1);
-  const winterStartDate = new Date(year, 12, 1);
+  const autumnStartDate = new Date(year, 8, 1);
+  const springStartDate = new Date(year, 2, 1);
+  const summerStartDate = new Date(year, 5, 1);
+  const winterStartDate = new Date(year, 11, 1);
 
   if (now < springStartDate) {
     return isNorth ? winter : summer;

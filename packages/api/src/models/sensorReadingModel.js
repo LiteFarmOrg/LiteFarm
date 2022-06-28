@@ -54,6 +54,27 @@ class SensorReading extends Model {
       additionalProperties: false,
     };
   }
+
+  /**
+   * Returns sensor readings for a farm for the past given number of days
+   * @param {uuid} farmId farm id
+   * @param {number} days number of days of sensor readings
+   * @returns {Object} Sensor Reading Object
+   */
+  static async getSensorReadingsByFarmId(farmId, days) {
+    if (!days) {
+      return await SensorReading.query()
+        .joinRaw('JOIN sensor ON sensor_reading.sensor_id::uuid = sensor.sensor_id')
+        .where('farm_id', farmId);
+    } else {
+      const pastDate = new Date();
+      pastDate.setDate(pastDate.getDate() - days);
+      return await SensorReading.query()
+        .joinRaw('JOIN sensor ON sensor_reading.sensor_id::uuid = sensor.sensor_id')
+        .where('farm_id', farmId)
+        .andWhere('created_at', '>=', pastDate);
+    }
+  }
 }
 
 module.exports = SensorReading;

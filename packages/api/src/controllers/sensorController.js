@@ -237,19 +237,7 @@ const sensorController = {
       if (!farm_id) {
         return res.status(400).send('Invalid farm id');
       }
-      let result;
-      if (!days) {
-        result = await SensorReadingModel.query()
-          .joinRaw('JOIN sensor ON sensor_reading.sensor_id::uuid = sensor.sensor_id')
-          .where('farm_id', farm_id);
-      } else {
-        const pastDate = new Date();
-        pastDate.setDate(pastDate.getDate() - days);
-        result = await SensorReadingModel.query()
-          .joinRaw('JOIN sensor ON sensor_reading.sensor_id::uuid = sensor.sensor_id')
-          .where('farm_id', farm_id)
-          .andWhere('created_at', '>=', pastDate);
-      }
+      const result = await SensorReadingModel.getSensorReadingsByFarmId(farm_id, days);
       res.status(200).send(result);
     } catch (error) {
       res.status(400).send(error);

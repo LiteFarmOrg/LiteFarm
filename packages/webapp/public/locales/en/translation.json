@@ -242,7 +242,10 @@
     "GENDER": "Gender",
     "GENDER_TOOLTIP": "Gender information is collected for research purposes only and will only be shared with  personally identifying information removed",
     "PASSWORD": "Password",
-    "TITLE": "Create new user account"
+    "TITLE": "Create new user account",
+    "LANGUAGE_PREFERENCE": "Language preference",
+    "DEFAULT_LANGUAGE": "English",
+    "DEFAULT_LANGUAGE_VALUE": "en"
   },
   "CROP": {
     "ADD_COMPLIANCE_FILE": "Link to a compliance file",
@@ -463,7 +466,15 @@
         "SENSOR_NAME": "Invalid sensor name, must be between 1 and 100 characters.",
         "SENSOR_LATITUDE": "Invalid latitude value, must be between -90 and 90. and fewer than 10 decimals.",
         "SENSOR_LONGITUDE": "Invalid longitude value, must be between -180 and 180. and fewer than 10 decimals.",
-        "SENSOR_READING_TYPES": "Invalid reading type detected, valid values include: soil_moisture_content, water_potential, temperature."
+        "SENSOR_READING_TYPES": "Invalid reading type detected, valid values include: soil_moisture_content, water_potential, temperature.",
+        "SENSOR_DEPTH": "Invalid depth value, must be between 0 and 1000.",
+        "SENSOR_BRAND": "Invalid brand name, must be between 1 and 100 characters.",
+        "SENSOR_MODEL": "Invalid model name, must be between 1 and 100 characters.",
+        "SENSOR_HARDWARE_VERSION": "Invalid hardware version name, must be between 1 and 100 characters."
+      },
+      "SENSOR_CLAIM_ERROR": {
+        "ALREADY_OCCUPIED": "Sensor \"{{ sensorId }}\" already registered to another organization, please contact Ensemble support at support@esci.io to troubleshoot.",
+        "DOES_NOT_EXIST": "Sensor \"{{ sensorId }}\" does not exist in the Ensemble database. Please ensure that you have spelled the External_ID properly for this entry, and that the sensor is an Ensemble sensor."
       }
     },
     "BULK_UPLOAD_TRANSITION": {
@@ -1127,13 +1138,21 @@
       "BODY": "A {{taskType}} task previously assigned to you has been assigned to someone else by {{assigner}}.",
       "TITLE": "Task re-assigned"
     },
+    "TASK_UNASSIGNED": {
+      "BODY": "{{editor}} has marked a {{taskType}} task as unassigned.",
+      "TITLE": "Task unassigned"
+    },
     "WEEKLY_UNASSIGNED_TASKS": {
       "BODY": "You have unassigned tasks due this week.",
       "TITLE": "Unassigned tasks"
     },
-    "SENSOR_BULK_UPLOAD": {
+    "SENSOR_BULK_UPLOAD_SUCCESS": {
       "BODY": "Your sensor upload has completed successfully.",
       "TITLE": "Sensor upload completed"
+    },
+    "SENSOR_BULK_UPLOAD_FAIL": {
+      "BODY": "Your sensor upload has failed. Click “Take me there” to view the details.",
+      "TITLE": "Sensor upload failed"
     }
   },
   "OUTRO": {

@@ -116,7 +116,7 @@ const useMapAssetRenderer = ({ isClickable, showingConfirmButtons, drawingState 
   useEffect(() => {
     dismissSelectionModal();
     markerClusterRef?.current?.repaint();
-  }, [filterSettings?.gate, filterSettings?.water_valve]);
+  }, [filterSettings?.gate, filterSettings?.water_valve, filterSettings?.sensor]);
   useEffect(() => {
     markerClusterRef?.current?.setOptions({ zoomOnClick: isClickable });
   }, [isClickable]);

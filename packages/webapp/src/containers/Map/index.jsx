@@ -10,7 +10,7 @@ import {
   isArea,
   isLine,
   locationEnum,
-  SENSOR_BULK_UPLOAD,
+  SENSOR_BULK_UPLOAD_SUCCESS,
 } from './constants';
 import { useDispatch, useSelector } from 'react-redux';
 import { measurementSelector, userFarmSelector } from '../userFarmSlice';
@@ -19,6 +19,7 @@ import {
   sendMapToEmail,
   setSpotlightToShown,
   bulkUploadSensorsInfoFile,
+  getSensorReadings,
   resetBulkUploadSensorsInfoFile,
   resetShowTransitionModalState,
 } from './saga';
@@ -54,6 +55,7 @@ import {
   setMapFilterSetting,
   setMapFilterShowAll,
 } from './mapFilterSettingSlice';
+import { mapSensorSelector } from './mapSensorSlice';
 import {
   hookFormPersistedPathsSetSelector,
   hookFormPersistSelector,
@@ -127,7 +129,7 @@ export default function Map({ history }) {
   }, [bulkSensorsUploadResponse?.showTransitionModal]);
 
   useEffect(() => {
-    if (history.location.state?.notification_type === SENSOR_BULK_UPLOAD) {
+    if (history.location.state?.notification_type === SENSOR_BULK_UPLOAD_SUCCESS) {
       dispatch(setMapFilterShowAll(farm_id));
     }
   }, []);
@@ -328,6 +330,11 @@ export default function Map({ history }) {
   };
 
   const availableFilterSettings = useSelector(availableFilterSettingsSelector);
+  const mapSensorReadings = useSelector(mapSensorSelector);
+
+  useEffect(() => {
+    dispatch(getSensorReadings());
+  }, []);
 
   const handleAddMenuClick = (locationType) => {
     setZeroAreaWarning(false);

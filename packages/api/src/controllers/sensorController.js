@@ -26,11 +26,21 @@ const {
   bulkSensorClaim,
 } = require('../util/ensemble');
 
+const sensorErrors = require('../util/sensorErrors');
+
 const sensorController = {
   async addSensors(req, res) {
+    let hasTimedOut = false;
+    const timer = setTimeout(() => {
+      hasTimedOut = true;
+      res.status(202).send({
+        message:
+          'Processing your upload is taking longer than expected. We will send you a notification when this finished processing.',
+      });
+    }, 5000);
+    const { farm_id } = req.headers;
+    const { user_id } = req.user;
     try {
-      const { farm_id } = req.headers;
-      const { user_id } = req.user;
       const { access_token } = await IntegratingPartnersModel.getAccessAndRefreshTokens(
         'Ensemble Scientific',
       );
@@ -40,24 +50,28 @@ const sensorController = {
           parseFunction: (val) => val.trim(),
           validator: (val) => 1 <= val.length && val.length <= 100,
           required: true,
+          errorTranslationKey: sensorErrors.SENSOR_NAME,
         },
         External_ID: {
           key: 'external_id',
           parseFunction: (val) => val.trim(),
           validator: (val) => 1 <= val.length && val.length <= 20,
           required: false,
+          errorTranslationKey: sensorErrors.EXTERNAL_ID,
         },
         Latitude: {
           key: 'latitude',
           parseFunction: (val) => parseFloat(val),
           validator: (val) => -90 <= val && val <= 90,
           required: true,
+          errorTranslationKey: sensorErrors.SENSOR_LATITUDE,
         },
         Longitude: {
           key: 'longitude',
           parseFunction: (val) => parseFloat(val),
           validator: (val) => -180 <= val && val <= 180,
           required: true,
+          errorTranslationKey: sensorErrors.SENSOR_LONGITUDE,
         },
         Reading_types: {
           key: 'reading_types',
@@ -67,34 +81,49 @@ const sensorController = {
             val.includes('water_potential') ||
             val.includes('temperature'),
           required: true,
+          errorTranslationKey: sensorErrors.SENSOR_READING_TYPES,
         },
         Depth: {
           key: 'depth',
           parseFunction: (val) => parseFloat(val),
           validator: (val) => 0 <= val && val <= 1000,
           required: false,
+          errorTranslationKey: sensorErrors.SENSOR_DEPTH,
         },
         Brand: {
           key: 'brand',
           parseFunction: (val) => val.trim(),
           validator: (val) => val.length <= 100,
           required: false,
+          errorTranslationKey: sensorErrors.SENSOR_BRAND,
         },
         Model: {
           key: 'model',
           parseFunction: (val) => val.trim(),
           validator: (val) => val.length <= 100,
           required: false,
+          errorTranslationKey: sensorErrors.SENSOR_MODEL,
         },
         Hardware_version: {
           key: 'hardware_version',
           parseFunction: (val) => val.trim(),
           validator: (val) => val.length <= 100,
           required: false,
+          errorTranslationKey: sensorErrors.SENSOR_HARDWARE_VERSION,
         },
       });
       if (errors.length > 0) {
-        res.status(400).send({ error_type: 'validation_failure', errors });
+        return hasTimedOut
+          ? await sendSensorNotification(
+              user_id,
+              farm_id,
+              SensorNotificationTypes.SENSOR_BULK_UPLOAD_FAIL,
+              { error_download: { errors, file_name: 'sensor-upload-outcomes.txt' } },
+            )
+          : res
+              .status(400)
+              .send({ error_type: 'validation_failure', errors, is_validation_error: true }) &&
+              clearTimeout(timer);
       } else {
         // register organization
         const organization = await createOrganization(farm_id, access_token);
@@ -111,14 +140,36 @@ const sensorController = {
         }, []);
 
         // Register sensors with Ensemble
-        const { success, already_owned } = await bulkSensorClaim(
+        const { success, already_owned, does_not_exist, occupied } = await bulkSensorClaim(
           access_token,
           organization.organization_uuid,
           esids,
         );
 
-        // Filter sensors by those successfully registered
-        const registeredSensors = data.filter((sensor) => success.includes(sensor.external_id));
+        // Filter sensors by those successfully registered and those with errors
+        const { registeredSensors, errorSensors } = data.reduce(
+          (prev, curr, idx) => {
+            if (success.includes(curr.external_id)) {
+              prev.registeredSensors.push(curr);
+            } else if (does_not_exist.includes(curr.external_id)) {
+              prev.errorSensors.push({
+                row: idx + 2,
+                column: 'External_ID',
+                translation_key: sensorErrors.SENSOR_DOES_NOT_EXIST,
+                variables: { sensorId: curr.external_id },
+              });
+            } else if (occupied.includes(curr.external_id)) {
+              prev.errorSensors.push({
+                row: idx + 2,
+                column: 'External_ID',
+                translation_key: sensorErrors.SENSOR_ALREADY_OCCUPIED,
+                variables: { sensorId: curr.external_id },
+              });
+            }
+            return prev;
+          },
+          { registeredSensors: [], errorSensors: [] },
+        );
 
         // Save sensors in database
         const sensorLocations = await Promise.all(
@@ -128,17 +179,47 @@ const sensorController = {
         );
 
         if (success.length + already_owned.length < esids.length) {
-          res.status(400).send({
-            error_type: 'unable_to_claim_all_sensors',
-            registeredSensors,
-          });
+          return hasTimedOut
+            ? await sendSensorNotification(
+                user_id,
+                farm_id,
+                SensorNotificationTypes.SENSOR_BULK_UPLOAD_FAIL,
+                {
+                  error_download: {
+                    errors: errorSensors,
+                    file_name: 'sensor-upload-outcomes.txt',
+                    is_validation_error: false,
+                    success,
+                  },
+                },
+              )
+            : res.status(400).send({
+                error_type: 'unable_to_claim_all_sensors',
+                success,
+                errorSensors,
+              }) && clearTimeout(timer);
         } else {
-          res.status(200).send({ message: 'Successfully uploaded!', sensors: sensorLocations });
+          return hasTimedOut
+            ? await sendSensorNotification(
+                user_id,
+                farm_id,
+                SensorNotificationTypes.SENSOR_BULK_UPLOAD_SUCCESS,
+              )
+            : res
+                .status(200)
+                .send({ message: 'Successfully uploaded!', sensors: sensorLocations }) &&
+                clearTimeout(timer);
         }
       }
     } catch (e) {
       console.log(e);
-      res.status(500).send(e.message);
+      return hasTimedOut
+        ? await sendSensorNotification(
+            user_id,
+            farm_id,
+            SensorNotificationTypes.SENSOR_BULK_UPLOAD_FAIL,
+          )
+        : res.status(500).send(e.message) && clearTimeout(timer);
     }
   },
 
@@ -231,6 +312,19 @@ const sensorController = {
     }
   },
 
+  async getReadingsByFarmId(req, res) {
+    try {
+      const { farm_id, days } = req.params;
+      if (!farm_id) {
+        return res.status(400).send('Invalid farm id');
+      }
+      const result = await SensorReadingModel.getSensorReadingsInDaysByFarmId(farm_id, days);
+      res.status(200).send(result);
+    } catch (error) {
+      res.status(400).send(error);
+    }
+  },
+
   async invalidateReadings(req, res) {
     try {
       const { start_time, end_time } = req.body;
@@ -274,7 +368,11 @@ const parseCsvString = (csvString, mapping, delimiter = ',') => {
             if (mapping[current].validator(val)) {
               previousObj[mapping[current].key] = val;
             } else {
-              previous.errors.push({ line: rowIndex + 2, errorColumn: current }); //TODO: add better error messages
+              previous.errors.push({
+                row: rowIndex + 2,
+                column: current,
+                translation_key: mapping[current].errorTranslationKey,
+              });
             }
           }
           return previousObj;
@@ -288,7 +386,8 @@ const parseCsvString = (csvString, mapping, delimiter = ',') => {
 };
 
 const SensorNotificationTypes = {
-  SENSOR_BULK_UPLOAD: 'SENSOR_BULK_UPLOAD',
+  SENSOR_BULK_UPLOAD_SUCCESS: 'SENSOR_BULK_UPLOAD_SUCCESS',
+  SENSOR_BULK_UPLOAD_FAIL: 'SENSOR_BULK_UPLOAD_FAIL',
 };
 
 /**
@@ -296,10 +395,17 @@ const SensorNotificationTypes = {
  * @param {string} receiverId target notification user id
  * @param {string} farmId farm id
  * @param {string} notifyTranslationKey notification translation key
+ * @param {Object} ref can be one of three types: { url: string }, { entity: { id: string,
+ * type: string } }, or { error_download: { errors: array[string], file_name: string } }
  * @async
  */
 // eslint-disable-next-line no-unused-vars
-async function sendSensorNotification(receiverId, farmId, notifyTranslationKey) {
+async function sendSensorNotification(
+  receiverId,
+  farmId,
+  notifyTranslationKey,
+  ref = { url: '/map' },
+) {
   if (!receiverId) return;
 
   await NotificationUser.notify(
@@ -311,7 +417,7 @@ async function sendSensorNotification(receiverId, farmId, notifyTranslationKey) 
         translation_key: `NOTIFICATION.${SensorNotificationTypes[notifyTranslationKey]}.BODY`,
       },
       variables: [],
-      ref: { url: '/map' },
+      ref,
       context: {
         icon_translation_key: 'SENSOR',
         notification_type: SensorNotificationTypes[notifyTranslationKey],

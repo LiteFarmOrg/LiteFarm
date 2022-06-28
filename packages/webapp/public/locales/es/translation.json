@@ -242,7 +242,10 @@
     "GENDER": "Género",
     "GENDER_TOOLTIP": "La información de género es recolectada sólo por propósitos de estudio y sólo será compartida sin identificarlo(la) personalmente a Ud.",
     "PASSWORD": "Contraseña",
-    "TITLE": "Crear nueva cuenta de usuario"
+    "TITLE": "Crear nueva cuenta de usuario",
+    "LANGUAGE_PREFERENCE": "MISSING",
+    "DEFAULT_LANGUAGE": "Español",
+    "DEFAULT_LANGUAGE_VALUE": "es"
   },
   "CROP": {
     "ADD_COMPLIANCE_FILE": "Enlace a un archivo de cumplimiento",
@@ -462,7 +465,15 @@
         "SENSOR_NAME": "MISSING",
         "SENSOR_LATITUDE": "MISSING",
         "SENSOR_LONGITUDE": "MISSING",
-        "SENSOR_READING_TYPES": "MISSING"
+        "SENSOR_READING_TYPES": "MISSING",
+        "SENSOR_DEPTH": "MISSING",
+        "SENSOR_BRAND": "MISSING",
+        "SENSOR_MODEL": "MISSING",
+        "SENSOR_HARDWARE_VERSION": "MISSING"
+      },
+      "SENSOR_CLAIM_ERROR": {
+        "ALREADY_OCCUPIED": "MISSING",
+        "DOES_NOT_EXIST": "MISSING"
       }
     },
     "BULK_UPLOAD_TRANSITION": {
@@ -1130,11 +1141,19 @@
       "BODY": "Una {{taskType}} tarea que te asignó previamente ha sido asignada a otra persona por {{assigner}}.",
       "TITLE": "Tarea reasignada"
     },
+    "TASK_UNASSIGNED": {
+      "BODY": "MISSING",
+      "TITLE": "MISSING"
+    },
     "WEEKLY_UNASSIGNED_TASKS": {
       "BODY": "Tiene tareas sin asignar que vencen esta semana.",
       "TITLE": "Tareas sin responables"
     },
-    "SENSOR_BULK_UPLOAD": {
+    "SENSOR_BULK_UPLOAD_SUCCESS": {
+      "BODY": "MISSING",
+      "TITLE": "MISSING"
+    },
+    "SENSOR_BULK_UPLOAD_FAIL": {
       "BODY": "MISSING",
       "TITLE": "MISSING"
     }

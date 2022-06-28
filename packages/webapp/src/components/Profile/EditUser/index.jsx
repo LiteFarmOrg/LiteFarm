@@ -242,7 +242,7 @@ export default function PureEditUser({
         step="0.01"
         type="number"
         hookFormRegister={register(WAGE, { min: 0, valueAsNumber: true })}
-        style={{ marginBottom: '40px' }}
+        style={{ marginBottom: '24px' }}
         errors={errors[WAGE] && (errors[WAGE].message || t('INVITE_USER.WAGE_ERROR'))}
         optional
       />

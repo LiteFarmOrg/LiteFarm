@@ -298,6 +298,8 @@ export default function Map({ history }) {
       setShowDrawAreaSpotlightModal(true);
     } else if (isLine(locationType) && !showedSpotlight.draw_line) {
       setShowDrawLineSpotlightModal(true);
+    } else if (locationEnum.sensor) {
+      //handle show bulk upload modal
     }
     isLineWithWidth(locationType) && dispatch(upsertFormData(initialLineData[locationType]));
     const submitPath = `/create_location/${locationType}`;

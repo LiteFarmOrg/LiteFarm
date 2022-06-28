@@ -553,7 +553,8 @@
       "SURFACE_WATER": "Agua de superficie",
       "TITLE": "Filtra su mapa",
       "WATERCOURSE": "Arroyo",
-      "WV": "Valvula de agua"
+      "WV": "Valvula de agua",
+      "SENSOR": "MISSING"
     },
     "NATURAL_AREA": {
       "EDIT_TITLE": "Editar area natural",

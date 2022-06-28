@@ -554,7 +554,8 @@
       "SURFACE_WATER": "Surface water",
       "TITLE": "Filter your map",
       "WATERCOURSE": "Watercourse",
-      "WV": "Water valve"
+      "WV": "Water valve",
+      "SENSOR": "Sensor"
     },
     "NATURAL_AREA": {
       "EDIT_TITLE": "Edit natural area",

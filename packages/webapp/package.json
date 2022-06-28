@@ -109,6 +109,7 @@
     "i18next-parser": "^5.4.0",
     "imap-simple": "^5.1.0",
     "lint-staged": "^12.3.3",
+    "mailparser": "^3.5.0",
     "nodemailer": "^6.7.5",
     "sass": "^1.49.7",
     "storybook-builder-vite": "^0.1.15",

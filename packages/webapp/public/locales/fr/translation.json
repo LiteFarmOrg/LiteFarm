@@ -554,7 +554,8 @@
       "SURFACE_WATER": "Eaux de surface",
       "TITLE": "Filtrer votre carte",
       "WATERCOURSE": "Flux d'eau",
-      "WV": "Vanne à eau"
+      "WV": "Vanne à eau",
+      "SENSOR": "MISSING"
     },
     "NATURAL_AREA": {
       "EDIT_TITLE": "Modifier l'espace naturel",

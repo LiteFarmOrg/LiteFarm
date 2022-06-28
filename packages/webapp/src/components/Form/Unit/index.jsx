@@ -213,7 +213,7 @@ const Unit = ({
   const reactSelectStyles = useReactSelectStyles(disabled, { reactSelectWidth });
 
   const hookFormUnitOption = hookFromWatch(displayUnitName);
-  const hookFormUnit = hookFormUnitOption?.value;
+  const hookFormUnit = databaseUnit;
   useEffect(() => {
     if (typeof hookFormUnitOption === 'string' && getUnitOptionMap()[hookFormUnitOption]) {
       hookFormSetValue(displayUnitName, getUnitOptionMap()[hookFormUnitOption]);
@@ -228,9 +228,6 @@ const Unit = ({
   useEffect(() => {
     !hookFormGetValue(displayUnitName) &&
       hookFormSetValue(displayUnitName, getUnitOptionMap()[displayUnit]);
-    if (hookFormGetValue(displayUnitName)) {
-      hookFormSetValue(displayUnitName, getUnitOptionMap()[displayUnit]);
-    }
   }, []);
 
   const [visibleInputValue, setVisibleInputValue] = useState(displayValue);

@@ -1,26 +1,18 @@
-import React, { useEffect, useState, useLayoutEffect, useRef } from 'react';
-import CropHeader from '../Crop/CropHeader.jsx';
+import React, { useEffect, useState, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import Button from '../Form/Button';
-import { Label, Info } from '../Typography';
 import Layout from '../Layout';
 import PropTypes from 'prop-types';
 import PageTitle from '../PageTitle/v2';
 import styles from './styles.module.scss';
-import RouterTab from '../RouterTab';
 import { useForm, Controller } from 'react-hook-form';
 import { container_planting_depth } from '../../util/convert-units/unit';
-import { getDateInputFormat } from '../../util/moment';
 import Unit from '../Form/Unit';
 import InputAutoSize from '../Form/InputAutoSize';
-import Input, { getInputErrors, numberOnKeyDown } from '../Form/Input';
-import Rating from '../Rating';
-import { integerOnKeyDown } from '../Form/Input';
+import Input, { getInputErrors } from '../Form/Input';
 import FilterPillSelect from '../Filter/FilterPillSelect';
 import Form from '../Form';
 import ReactSelect from '../Form/ReactSelect';
-import { Error } from '../Typography';
-import { FormHelperText } from '@material-ui/core';
 import UpdateSensorModal from '../Modals/UpdateSensorModal';
 
 export default function UpdateSensor({ onBack, disabled, onSubmit, system, filter, filterRef }) {
@@ -52,9 +44,7 @@ export default function UpdateSensor({ onBack, disabled, onSubmit, system, filte
   const DEPTH = 'depth';
   const DEPTH_UNIT = 'depth_unit';
   const EXTERNAL_IDENTIFIER = 'external_identifier';
-  const HARDWARE_VERSION = 'hardware_version';
   const MODEL = 'model';
-  const PART_NUMBER = 'part_number';
   const SENSOR_NAME = 'sensor_name';
   const LATITUDE = 'latitude';
   const LONGTITUDE = 'longtitude';
@@ -207,7 +197,7 @@ export default function UpdateSensor({ onBack, disabled, onSubmit, system, filte
           hookFormRegister={register(MODEL, {})}
           label={t('SENSOR.MODEL')}
           style={{ paddingBottom: '40px' }}
-          optional
+          disabled
         />
 
         <Input
@@ -217,20 +207,6 @@ export default function UpdateSensor({ onBack, disabled, onSubmit, system, filte
           disabled
           toolTipContent={t('SENSOR.MODEL_HELPTEXT')}
           defaultValue={EXTERNAL_IDENTIFIER}
-        />
-
-        <InputAutoSize
-          hookFormRegister={register(PART_NUMBER, {})}
-          label={t('SENSOR.PART_NUMBER')}
-          style={{ paddingBottom: '40px' }}
-          optional
-        />
-
-        <InputAutoSize
-          hookFormRegister={register(HARDWARE_VERSION, {})}
-          label={t('SENSOR.HARDWARE_VERSION')}
-          style={{ paddingBottom: '40px' }}
-          optional
         />
 
         {showAbandonModal && (

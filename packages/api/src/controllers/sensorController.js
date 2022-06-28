@@ -312,6 +312,19 @@ const sensorController = {
     }
   },
 
+  async getReadingsByFarmId(req, res) {
+    try {
+      const { farm_id, days } = req.params;
+      if (!farm_id) {
+        return res.status(400).send('Invalid farm id');
+      }
+      const result = await SensorReadingModel.getSensorReadingsInDaysByFarmId(farm_id, days);
+      res.status(200).send(result);
+    } catch (error) {
+      res.status(400).send(error);
+    }
+  },
+
   async invalidateReadings(req, res) {
     try {
       const { start_time, end_time } = req.body;

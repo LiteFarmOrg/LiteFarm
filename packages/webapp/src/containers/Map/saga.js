@@ -36,6 +36,7 @@ import {
 import { bulkSenorUploadErrorTypeEnum } from './constants';
 
 import { enqueueErrorSnackbar } from '../Snackbar/snackbarSlice';
+import { getSensorReadingSuccess, onLoadingSensorReadingStart, onLoadingSensorReadingFail } from './mapSensorSlice';
 
 const sendMapToEmailUrl = (farm_id) => `${url}/export/map/farm/${farm_id}`;
 const showedSpotlightUrl = () => `${url}/showed_spotlight`;
@@ -162,10 +163,27 @@ export function* bulkUploadSensorsInfoFileSaga({ payload: { file } }) {
   }
 }
 
+export const getSensorReadings = createAction('getSensorReadingsSaga');
+
+export function* getSensorReadingsSaga() {
+  const { user_id, farm_id } = yield select(userFarmSelector);
+  const header = getHeader(user_id, farm_id);
+  try {
+    yield put(onLoadingSensorReadingStart(user_id, farm_id));
+    const result = yield call(axios.get, `${sensorUrl}/sensor_readings/${farm_id}/7`, header);
+    if (result.status === 200) yield put(getSensorReadingSuccess(result.data));
+    yield put(onLoadingSensorReadingFail(result.error));
+  } catch (e) {
+    yield put(onLoadingSensorReadingFail(e));
+    console.error(e);
+  }
+}
+
 export default function* supportSaga() {
   yield takeLeading(sendMapToEmail.type, sendMapToEmailSaga);
   yield takeLeading(setSpotlightToShown.type, setSpotlightToShownSaga);
   yield takeLeading(bulkUploadSensorsInfoFile.type, bulkUploadSensorsInfoFileSaga);
+  yield takeLeading(getSensorReadings.type, getSensorReadingsSaga);
   yield takeLeading(resetBulkUploadSensorsInfoFile.type, resetBulkUploadSensorsInfoFileSaga);
   yield takeLeading(resetShowTransitionModalState.type, resetShowTransitionModalStateSaga);
 }

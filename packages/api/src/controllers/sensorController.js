@@ -247,16 +247,19 @@ const sensorController = {
 
   async retireSensor(req, res) {
     try {
-      const org_id = req.body.org_id;
-      const external_id = req.body.external_id;
+      const org_id = '?';
+      const external_id = req.body.sensorInfo.external_id;
+      const sensor_id = req.body.sensorInfo.sensor_id;
       const { access_token } = await IntegratingPartnersModel.getAccessAndRefreshTokens(
         'Ensemble Scientific',
       );
       const unclaimResponse = await unclaimSensor(org_id, external_id, access_token);
-      // TODO: Delete sensor from DB
-      const deleteResponse = await this.deleteSensor(req, res);
+      const deleteResponse = await SensorModel.query()
+        .patch({ deleted: true })
+        .where('sensor_id', sensor_id);
       res.status(200).send({ unclaimResponse, deleteResponse });
     } catch (error) {
+      console.log(error);
       res.status(400).json({
         error,
       });

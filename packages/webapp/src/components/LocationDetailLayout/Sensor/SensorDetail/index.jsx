@@ -63,16 +63,11 @@ export default function PureSensorDetail({
     mode: 'onChange',
   });
 
-  // TODO: Use non-hardcoded values
   function onRetire() {
     axios
       .post(
         `${sensorUrl}/unclaim_sensor`,
-        {
-          org_id: '?',
-          external_id: EXTERNAL_IDENTIFIER,
-          sensor_id: SENSOR_ID,
-        },
+        { sensorInfo },
         { headers: { Authorization: `Bearer ${getAccessToken()}` } },
       )
       .then(function (res) {

@@ -43,7 +43,7 @@ const softDeleteSensor = (state, { payload: location_id }) => {
   sensorAdapter.updateOne(state, { id: location_id, changes: { deleted: true } });
 };
 
-const upsertSensorReadingTypes = (state, { payload: location_id, sensor_reading_types }) => {
+const upsertSensorReadingTypes = (state, { payload: { location_id, sensor_reading_types } }) => {
   sensorAdapter.updateOne(state, { id: location_id, changes: { sensor_reading_types } });
 };
 

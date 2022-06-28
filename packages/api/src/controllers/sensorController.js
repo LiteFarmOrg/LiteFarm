@@ -197,7 +197,8 @@ const sensorController = {
               )
             : res.status(400).send({
                 error_type: 'unable_to_claim_all_sensors',
-                registeredSensors,
+                success,
+                errorSensors,
               }) && clearTimeout(timer);
         } else {
           return hasTimedOut

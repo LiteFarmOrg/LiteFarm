@@ -4,7 +4,6 @@ import { useSelector } from 'react-redux';
 import { bulkSensorsUploadSliceSelector } from '../../../../containers/bulkSensorUploadSlice';
 import { createSensorErrorDownload } from '../../../../util/sensor';
 
-const SENSOR_EXTERNAL_ID = 'External_ID';
 const SENSOR_NAME = 'Name';
 const SENSOR_LATITUDE = 'Latitude';
 const SENSOR_LONGITUDE = 'Longitude';
@@ -16,13 +15,7 @@ const TEMPERATURE = 'temperature';
 
 const requiredReadingTypes = [SOIL_WATER_CONTENT, SOIL_WATER_POTENTIAL, TEMPERATURE];
 
-const requiredFields = [
-  SENSOR_EXTERNAL_ID,
-  SENSOR_NAME,
-  SENSOR_LATITUDE,
-  SENSOR_LONGITUDE,
-  SENSOR_READING_TYPES,
-];
+const requiredFields = [SENSOR_NAME, SENSOR_LATITUDE, SENSOR_LONGITUDE, SENSOR_READING_TYPES];
 
 export function useValidateBulkSensorData(onUpload, t) {
   const bulkSensorsUploadResponse = useSelector(bulkSensorsUploadSliceSelector);
@@ -33,12 +26,6 @@ export function useValidateBulkSensorData(onUpload, t) {
   const fileInputRef = useRef(null);
 
   const validationFields = [
-    {
-      errorMessage: t('FARM_MAP.BULK_UPLOAD_SENSORS.VALIDATION.EXTERNAL_ID'),
-      /* eslint-disable no-useless-escape */
-      mask: /^[a-zA-Z0-9 \.\-\/!@#$%^&*)(]{1,20}$/,
-      columnName: SENSOR_EXTERNAL_ID,
-    },
     {
       errorMessage: t('FARM_MAP.BULK_UPLOAD_SENSORS.VALIDATION.SENSOR_NAME'),
       /* eslint-disable no-useless-escape */

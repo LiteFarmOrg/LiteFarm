@@ -161,33 +161,42 @@ const sensorController = {
   updateSensorbyID() {
     return async (req, res) => {
       try {
-        // const sensor_esid = req.params.sensor_esid;
-        // const {
-        //   brand,
-        //   sensor_name,
-        //   latitude,
-        //   longtitude,
-        //   model,
-        //   part_number,
-        //   hardware_version,
-        //   depth,
-        //   depth_unit,
-        //   reading_types } = req.body;
-        //   // data is formatted in nested object values, these 5 const's are accessing reading types by using
-        //   //  Object.entries and accessing each values via array indexing
-        //   const x = Object.entries(reading_types)
-        //   const y = Object.entries(x[0][1])
-        //   const isSoilWaterContentActive = Object.entries(y[0])[1][1].active
-        //   const isSoilWaterPotentialActive = Object.entries(y[1])[1][1].active
-        //   const isTemperatureActive = Object.entries(y[2])[1][1].active
-        // // const sensor_data = {
-        // //   estimated_yield,
-        // //   estimated_yield_unit,
-        // //   estimated_revenue,
-        // //   estimated_price_per_mass,
-        // //   estimated_price_per_mass_unit,
-        // // };
-        // const sensor_properties = { name: sensor_name, depth };
+        //const sensor_esid = req.params.sensor_esid;
+        const {
+          //brand,
+          sensor_name,
+          latitude,
+          longtitude,
+          sensor_id,
+          model,
+          part_number,
+          hardware_version,
+          depth,
+          //depth_unit,
+          // reading_types
+        } = req.body;
+        // data is formatted in nested object values, these 5 const's are accessing reading types by using
+        //  Object.entries and accessing each values via array indexing
+        // const x = Object.entries(reading_types)
+        //const y = Object.entries(x[0][1])
+        // const isSoilWaterContentActive = Object.entries(y[0])[1][1].active
+        // const isSoilWaterPotentialActive = Object.entries(y[1])[1][1].active
+        // const isTemperatureActive = Object.entries(y[2])[1][1].active
+
+        const sensor_properties = {
+          name: sensor_name,
+          depth,
+          grid_points: { lat: latitude, lng: longtitude },
+          model,
+          part_number,
+          hardware_version,
+        };
+
+        await sensorModel
+          .query()
+          .patch(sensor_properties)
+          .where('partner_id', 1)
+          .where('sensor_id', sensor_id);
         // const result = await sensorModel.transaction(async trx => {
         //   // const sensor = await sensorModel.query(trx)
         //   //   .context({ farm_id: req.body.farm_id })
@@ -200,6 +209,7 @@ const sensorController = {
         // } else {
         //   return res.sendStatus(404);
         // }
+        return res.sendStatus(200);
       } catch (error) {
         console.log(error);
 

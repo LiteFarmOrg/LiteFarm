@@ -41,8 +41,13 @@ export default function UpdateSensor({ history, match }) {
   };
 
   const onSubmit = (data) => {
-    console.log(data);
-    // history.push(`/map`);
+    // const sensorData = produce(data, (data) => {
+    //   data.management_plan_id = management_plan_id;
+    //   data.crop_management_plan &&
+    //     (data.crop_management_plan.management_plan_id = management_plan_id);
+    //   data.crop_variety_id = variety_id;
+    // });
+    // dispatch(patchSensor(getProcessedFormData(sensorData)));
   };
 
   return (

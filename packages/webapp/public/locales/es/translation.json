@@ -242,7 +242,10 @@
     "GENDER": "Género",
     "GENDER_TOOLTIP": "La información de género es recolectada sólo por propósitos de estudio y sólo será compartida sin identificarlo(la) personalmente a Ud.",
     "PASSWORD": "Contraseña",
-    "TITLE": "Crear nueva cuenta de usuario"
+    "TITLE": "Crear nueva cuenta de usuario",
+    "LANGUAGE_PREFERENCE": "MISSING",
+    "DEFAULT_LANGUAGE": "Español",
+    "DEFAULT_LANGUAGE_VALUE": "es"
   },
   "CROP": {
     "ADD_COMPLIANCE_FILE": "Enlace a un archivo de cumplimiento",

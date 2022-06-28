@@ -457,6 +457,7 @@
       "UPLOAD_ERROR_MESSAGE": "We found some errors with your upload. You can view them",
       "UPLOAD_ERROR_LINK": "here.",
       "VALIDATION": {
+        "FILE_ROW_LIMIT_EXCEEDED": "File row limit exceeded. The max number of sensors that can be uploaded from a file is 100.",
         "MISSING_COLUMNS": "Columns are required/missing.",
         "EXTERNAL_ID": "Invalid external id, must be between 1 and 20 characters.",
         "SENSOR_NAME": "Invalid sensor name, must be between 1 and 100 characters.",
@@ -464,6 +465,10 @@
         "SENSOR_LONGITUDE": "Invalid longitude value, must be between -180 and 180. and fewer than 10 decimals.",
         "SENSOR_READING_TYPES": "Invalid reading type detected, valid values include: soil_moisture_content, water_potential, temperature."
       }
+    },
+    "BULK_UPLOAD_TRANSITION": {
+      "TITLE": "This is taking longer than expected...",
+      "BODY": "We’ll notify you once your upload is complete and your sensors have been created. Feel free to navigate away from this window."
     },
     "CEREMONIAL_AREA": {
       "EDIT_TITLE": "Edit ceremonial area",
@@ -1111,7 +1116,7 @@
       "TITLE": "Task abandoned"
     },
     "TASK_ASSIGNED": {
-      "BODY": "A {{taskType}} task has been assigned to {{assignee}}.",
+      "BODY": "A {{taskType}} task has been assigned to you by {{assigner}}.",
       "TITLE": "Assigned task"
     },
     "TASK_COMPLETED_BY_OTHER_USER": {
@@ -1125,6 +1130,10 @@
     "WEEKLY_UNASSIGNED_TASKS": {
       "BODY": "You have unassigned tasks due this week.",
       "TITLE": "Unassigned tasks"
+    },
+    "SENSOR_BULK_UPLOAD": {
+      "BODY": "Your sensor upload has completed successfully.",
+      "TITLE": "Sensor upload completed"
     }
   },
   "OUTRO": {
@@ -1330,6 +1339,37 @@
       "TOTAL": "Total",
       "TYPE": "Type",
       "VALUE": "Value"
+    }
+  },
+  "SENSOR": {
+    "DETAIL": {
+      "RETIRE": "RETIRE",
+      "EDIT": "EDIT",
+      "NAME": "Sensor Name",
+      "LATITUDE": "Latitude",
+      "LONGITUDE": "Longitude",
+      "MODEL": "Model",
+      "PART_NUMBER": "Part Number",
+      "HARDWARE_VERSION": "Hardware Version",
+      "EXTERNAL_ID_TOOLTIP": "This id is used to uniquely identify this sensor in other, integrated systems and cannot be changed. If it is no longer being used, try retiring this sensor and adding a new one.",
+      "EXTERNAL_IDENTIFIER": "External Identifier",
+      "DEPTH": "Depth",
+      "BRAND": "Brand",
+      "BRAND_TOOLTIP": "Brands that LiteFarm can integrate with are shown below. If you would no longer like to use this sensor brand, try retiring this sensor instead.",
+      "READING_TYPES": "Reading types"
+    },
+    "VIEW_HEADER": {
+      "READINGS": "Readings",
+      "TASKS": "Tasks",
+      "DETAILS": "Details"
+    },
+    "RETIRE": {
+      "TITLE": "Retire sensor?",
+      "RETIRE": "RETIRE",
+      "CANCEL": "CANCEL",
+      "BODY": "Retiring this sensor will remove it and any readings associated with it from your farm as well as closing any connections with the sensor provider. Do you want to proceed?",
+      "RETIRE_SUCCESS": "Successfully retired sensor",
+      "RETIRE_FAILURE": "There was an error retiring this sensor"
     }
   },
   "SHIFT": {

@@ -1,5 +1,6 @@
 <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
     <g filter="url(#filter0_d_480_23398)">
+    <circle cx="16" cy="12" r="12" fill="#e3f8ec" stroke="#028577" stroke-width="1.5"/>
     <path d="M16.2869 13.5069C17.2139 13.5069 17.9654 12.7554 17.9654 11.8284C17.9654 10.9014 17.2139 10.1499 16.2869 10.1499C15.3599 10.1499 14.6084 10.9014 14.6084 11.8284C14.6084 12.7554 15.3599 13.5069 16.2869 13.5069Z" stroke="#028577" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
     <path d="M10.4054 6C8.86325 7.54753 7.99814 9.64374 8 11.8285C8.00001 12.9174 8.21481 13.9957 8.6321 15.0015C9.04939 16.0073 9.66098 16.9209 10.4318 17.69" stroke="#028577" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
     <path d="M22.1484 17.6834C22.9197 16.9159 23.5316 16.0036 23.9489 14.9987C24.3663 13.9939 24.5808 12.9165 24.5803 11.8285C24.5874 9.64657 23.7296 7.55076 22.1947 6" stroke="#028577" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>

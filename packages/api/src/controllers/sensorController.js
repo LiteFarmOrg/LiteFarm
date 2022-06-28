@@ -14,22 +14,22 @@
  */
 
 const baseController = require('../controllers/baseController');
-const sensorModel = require('../models/sensorModel');
-const sensorReadingModel = require('../models/sensorReadingModel');
-const SensorReadingTypeModel = require('../models/SensorReadingTypeModel');
+const SensorModel = require('../models/sensorModel');
+const SensorReadingModel = require('../models/sensorReadingModel');
 const IntegratingPartnersModel = require('../models/integratingPartnersModel');
+const NotificationUser = require('../models/notificationUserModel');
 const { transaction, Model } = require('objection');
 const {
   createOrganization,
   registerOrganizationWebhook,
   bulkSensorClaim,
+  unclaimSensor,
 } = require('../util/ensemble');
-const PartnerReadingTypeModel = require('../models/PartnerReadingTypeModel');
-
 const sensorController = {
   async addSensors(req, res) {
     try {
       const { farm_id } = req.headers;
+      const { user_id } = req.user;
       const { access_token } = await IntegratingPartnersModel.getAccessAndRefreshTokens(
         'Ensemble Scientific',
       );
@@ -95,61 +95,44 @@ const sensorController = {
       if (errors.length > 0) {
         res.status(400).send({ error_type: 'validation_failure', errors });
       } else {
-        console.log(data);
+        // register organization
         const organization = await createOrganization(farm_id, access_token);
-        console.log(organization);
+
+        // register webhook for sensor readings
+        await registerOrganizationWebhook(farm_id, organization.organization_uuid, access_token);
+
+        // Get esids (Ensemble Scientific IDs)
         const esids = data.reduce((previous, current) => {
           if (current.brand === 'Ensemble Scientific' && current.external_id) {
             previous.push(current.external_id);
           }
           return previous;
         }, []);
-        await registerOrganizationWebhook(farm_id, organization.organization_uuid, access_token);
-        const registeredSensors = await bulkSensorClaim(
+
+        // Register sensors with Ensemble
+        const { success, already_owned } = await bulkSensorClaim(
           access_token,
           organization.organization_uuid,
           esids,
         );
-        console.log(registeredSensors);
-        for (const sensor of data) {
-          if (registeredSensors.success.includes(sensor.external_id)) {
-            const savedSensor = await sensorModel.query().insert({
-              farm_id,
-              name: sensor.name,
-              grid_points: {
-                lat: sensor.latitude,
-                lng: sensor.longitude,
-              },
-              partner_id: 1,
-              depth: sensor.depth,
-              external_id: sensor.external_id,
-            });
-            const readingTypes = await Promise.all(
-              sensor.reading_types.map((r) => {
-                return PartnerReadingTypeModel.getReadingTypeByReadableValue(r);
-              }),
-            );
-            console.log(readingTypes);
-            await SensorReadingTypeModel.query().insert(
-              readingTypes.map((readingType) => {
-                return {
-                  partner_reading_type_id: readingType.partner_reading_type_id,
-                  sensor_id: savedSensor.sensor_id,
-                };
-              }),
-            );
-          }
-        }
-        if (
-          registeredSensors.success.length + registeredSensors.already_owned.length <
-          esids.length
-        ) {
+
+        // Filter sensors by those successfully registered
+        const registeredSensors = data.filter((sensor) => success.includes(sensor.external_id));
+
+        // Save sensors in database
+        const sensorLocations = await Promise.all(
+          registeredSensors.map(async (sensor) => {
+            return await SensorModel.createSensor(sensor, farm_id, user_id);
+          }),
+        );
+
+        if (success.length + already_owned.length < esids.length) {
           res.status(400).send({
             error_type: 'unable_to_claim_all_sensors',
             registeredSensors,
           });
         } else {
-          res.status(200).send({ message: 'Successfully uploaded!' });
+          res.status(200).send({ message: 'Successfully uploaded!', sensors: sensorLocations });
         }
       }
     } catch (e) {
@@ -220,115 +203,129 @@ const sensorController = {
     };
   },
 
-  deleteSensor() {
-    return async (req, res) => {
-      console.log(req);
+  async deleteSensor(req, res) {
+    try {
       const trx = await transaction.start(Model.knex());
-      try {
-        const isDeleted = await baseController.delete(sensorModel, req.params.sensor_id, req, {
+      const isDeleted = await baseController.delete(SensorModel, req.params.sensor_id, req, {
+        trx,
+      });
+      await trx.commit();
+      if (isDeleted) {
+        res.sendStatus(200);
+      } else {
+        res.sendStatus(404);
+      }
+    } catch (error) {
+      res.status(400).json({
+        error,
+      });
+    }
+  },
+
+  async getSensorsByFarmId(req, res) {
+    try {
+      const { farm_id } = req.body;
+      if (!farm_id) {
+        return res.status(400).send('No farm selected');
+      }
+      const data = await baseController.getByFieldId(SensorModel, 'farm_id', farm_id);
+      res.status(200).send(data);
+    } catch (error) {
+      res.status(400).json({
+        error,
+      });
+    }
+  },
+
+  async addReading(req, res) {
+    const trx = await transaction.start(Model.knex());
+    try {
+      const infoBody = [];
+      for (const sensor of req.body) {
+        const corresponding_sensor = await SensorModel.query()
+          .select('sensor_id')
+          .where('external_id', sensor.sensor_esid)
+          .where('partner_id', req.params.partner_id);
+        for (let i = 0; i < sensor.value.length; i++) {
+          const row = {
+            read_time: sensor.time[i],
+            sensor_id: corresponding_sensor[0].sensor_id,
+            reading_type: sensor.parameter_number,
+            value: sensor.value[i],
+            unit: sensor.unit,
+          };
+          // Only include this entry if all required values are poulated
+          if (Object.values(row).every((value) => value)) {
+            infoBody.push(row);
+          }
+        }
+      }
+      if (infoBody.length === 0) {
+        res.status(200).send(infoBody);
+      } else {
+        const result = await baseController.postWithResponse(SensorReadingModel, infoBody, req, {
           trx,
         });
         await trx.commit();
-        if (isDeleted) {
-          res.sendStatus(200);
-        } else {
-          res.sendStatus(404);
-        }
-      } catch (error) {
-        //handle more exceptions
-        res.status(400).json({
-          error,
-        });
+        res.status(200).send(result);
       }
-    };
+    } catch (error) {
+      res.status(400).json({
+        error,
+      });
+    }
   },
 
-  getSensorsByFarmId() {
-    return async (req, res) => {
-      try {
-        const { farm_id } = req.body;
-        if (!farm_id) {
-          return res.status(400).send('No farm selected');
-        }
-        const data = await baseController.getByFieldId(sensorModel, 'farm_id', farm_id);
-        res.status(200).send(data);
-      } catch (error) {
-        //handle exceptions
-        res.status(400).json({
-          error,
-        });
+  async getAllReadingsBySensorId(req, res) {
+    try {
+      const { sensor_id } = req.body;
+      if (!sensor_id) {
+        res.status(400).send('No sensor selected');
       }
-    };
+      const data = await baseController.getByFieldId(SensorReadingModel, 'sensor_id', sensor_id);
+      const validReadings = data.filter((datapoint) => datapoint.valid);
+      res.status(200).send(validReadings);
+    } catch (error) {
+      res.status(400).json({
+        error,
+      });
+    }
   },
 
-  // TODO
-  addReading() {
-    return async (req, res) => {
-      // const trx = await transaction.start(Model.knex());
-      try {
-        // const infoBody = {
-        //   reading_id: req.body.reading_id,
-        //   read_time: req.body.read_time,
-        //   //   transmit_time: req.body.transmit_time,
-        //   sensor_id: req.body.sensor_id,
-        //   reading_type: req.body.reading_type,
-        //   value: req.body.value,
-        //   unit: req.body.unit,
-        // };
-
-        // if (!Object.values(infoBody).every((value) => value)) {
-        //   res.status(400).send('Invalid reading');
-        // }
-        // const result = await baseController.postWithResponse(sensorReadingModel, infoBody, req, {
-        //   trx,
-        // });
-        // await trx.commit();
-        // res.status(200).send(result);
-        res.sendStatus(200);
-      } catch (error) {
-        //handle more exceptions
-        res.status(400).json({
-          error,
-        });
-      }
-    };
+  async invalidateReadings(req, res) {
+    try {
+      const { start_time, end_time } = req.body;
+      const result = await SensorReadingModel.query()
+        .patch({ valid: false })
+        .where('read_time', '>=', start_time)
+        .where('read_time', '<=', end_time);
+      res.status(200).send(`${result} entries invalidated`);
+    } catch (error) {
+      res.status(400).json({
+        error,
+      });
+    }
   },
 
-  getAllReadingsBySensorId() {
-    return async (req, res) => {
-      try {
-        const { sensor_id } = req.body;
-        if (!sensor_id) {
-          return res.status(400).send('No sensor selected');
-        }
-        const data = await baseController.getByFieldId(sensorReadingModel, 'sensor_id', sensor_id);
-        const validReadings = data.filter((datapoint) => datapoint.valid);
-        res.status(200).send(validReadings);
-      } catch (error) {
-        //handle more exceptions
-        res.status(400).json({
-          error,
-        });
-      }
-    };
-  },
-
-  invalidateReadings() {
-    return async (req, res) => {
-      try {
-        const { start_time, end_time } = req.body;
-        const result = await sensorReadingModel
-          .query()
-          .patch({ valid: false })
-          .where('read_time', '>=', start_time)
-          .where('read_time', '<=', end_time);
-        res.status(200).send(`${result} entries invalidated`);
-      } catch (error) {
-        res.status(400).json({
-          error,
-        });
-      }
-    };
+  async retireSensor(req, res) {
+    try {
+      const org_id = '?';
+      const external_id = req.body.sensorInfo.external_id;
+      const sensor_id = req.body.sensorInfo.sensor_id;
+      const { access_token } = await IntegratingPartnersModel.getAccessAndRefreshTokens(
+        'Ensemble Scientific',
+      );
+      const unclaimResponse = await unclaimSensor(org_id, external_id, access_token);
+      const deleteResponse = await SensorModel.query()
+        .patch({ deleted: true })
+        .where('sensor_id', sensor_id);
+      res.status(200).send({ unclaimResponse, deleteResponse });
+    } catch (error) {
+      console.log(error);
+      res.status(400).json({
+        error,
+      });
+    }
   },
 };
 
@@ -371,5 +368,40 @@ const parseCsvString = (csvString, mapping, delimiter = ',') => {
     );
   return { data, errors };
 };
+
+const SensorNotificationTypes = {
+  SENSOR_BULK_UPLOAD: 'SENSOR_BULK_UPLOAD',
+};
+
+/**
+ * Creates a notification for sensor
+ * @param {string} receiverId target notification user id
+ * @param {string} farmId farm id
+ * @param {string} notifyTranslationKey notification translation key
+ * @async
+ */
+// eslint-disable-next-line no-unused-vars
+async function sendSensorNotification(receiverId, farmId, notifyTranslationKey) {
+  if (!receiverId) return;
+
+  await NotificationUser.notify(
+    {
+      title: {
+        translation_key: `NOTIFICATION.${SensorNotificationTypes[notifyTranslationKey]}.TITLE`,
+      },
+      body: {
+        translation_key: `NOTIFICATION.${SensorNotificationTypes[notifyTranslationKey]}.BODY`,
+      },
+      variables: [],
+      ref: { url: '/map' },
+      context: {
+        icon_translation_key: 'SENSOR',
+        notification_type: SensorNotificationTypes[notifyTranslationKey],
+      },
+      farm_id: farmId,
+    },
+    [receiverId],
+  );
+}
 
 module.exports = sensorController;

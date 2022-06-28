@@ -13,7 +13,9 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const Model = require('objection').Model;
+const { transaction, Model } = require('objection');
+const LocationModel = require('./locationModel');
+const PartnerReadingTypeModel = require('../models/PartnerReadingTypeModel');
 
 class Sensor extends Model {
   static get tableName() {
@@ -30,7 +32,7 @@ class Sensor extends Model {
   static get jsonSchema() {
     return {
       type: 'object',
-      required: ['farm_id', 'name', 'grid_points'],
+      required: ['farm_id', 'name', 'partner_id', 'external_id', 'location_id'],
 
       properties: {
         sensor_id: { type: 'string' },
@@ -41,14 +43,66 @@ class Sensor extends Model {
         model: { type: 'string', minLength: 1, maxLength: 255 },
         isDeleted: { type: 'boolean' },
         partner_id: { type: 'integer' },
+        external_id: { type: 'string', minLength: 1, maxLength: 255 },
+        location_id: { type: 'string' },
         depth: { type: 'float' },
         elevation: { type: 'float' },
       },
       additionalProperties: false,
     };
   }
-}
 
-// TODO: Create relationships with reading model
+  static get relationMappings() {
+    return {
+      sensor_reading_type: {
+        modelClass: require('./SensorReadingTypeModel'),
+        relation: Model.HasManyRelation,
+        join: {
+          from: 'sensor.sensor_id',
+          to: 'sensor_reading_type.sensor_id',
+        },
+      },
+    };
+  }
+
+  static async createSensor(sensor, farm_id, user_id) {
+    const trx = await transaction.start(Model.knex());
+
+    const readingTypes = await Promise.all(
+      sensor.reading_types.map(async (r) => {
+        return await PartnerReadingTypeModel.getReadingTypeByReadableValue(r);
+      }),
+    );
+
+    const data = {
+      farm_id,
+      figure: {
+        point: { point: { lat: sensor.latitude, lng: sensor.longitude } },
+        type: 'sensor',
+      },
+      name: sensor.name,
+      notes: '',
+      sensor: {
+        farm_id,
+        name: sensor.name,
+        partner_id: 1,
+        depth: sensor.depth,
+        external_id: sensor.external_id,
+        sensor_reading_type: readingTypes.map((readingType) => {
+          return { partner_reading_type_id: readingType.partner_reading_type_id };
+        }),
+      },
+    };
+
+    const sensorLocationWithGraph = await LocationModel.createLocation(
+      'sensor',
+      { user_id },
+      data,
+      trx,
+    );
+    await trx.commit();
+    return sensorLocationWithGraph;
+  }
+}
 
 module.exports = Sensor;

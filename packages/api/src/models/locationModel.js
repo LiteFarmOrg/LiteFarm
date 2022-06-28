@@ -15,6 +15,7 @@
 
 const Model = require('objection').Model;
 const baseModel = require('./baseModel');
+const { getNonModifiable } = require('../middleware/validation/location');
 
 class Location extends baseModel {
   static get tableName() {
@@ -188,7 +189,22 @@ class Location extends baseModel {
           },
         },
       },
+      sensor: {
+        modelClass: require('./sensorModel'),
+        relation: Model.HasOneRelation,
+        join: {
+          from: 'location.location_id',
+          to: 'sensor.location_id',
+        },
+      },
     };
+  }
+
+  static async createLocation(asset, context, locationData, trx) {
+    const nonModifiable = getNonModifiable(asset);
+    return await Location.query(trx)
+      .context(context)
+      .insertGraph(locationData, { noUpdate: true, noDelete: true, noInsert: nonModifiable });
   }
 }
 

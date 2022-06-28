@@ -24,7 +24,7 @@ class FarmExternalIntegrations extends Model {
    * @returns {string} Names of the database table.
    */
   static get tableName() {
-    return 'farmExternalIntegrations';
+    return 'farm_external_integration';
   }
 
   /**
@@ -66,7 +66,7 @@ class FarmExternalIntegrations extends Model {
         modelClass: Farm,
         relation: Model.HasOneRelation,
         join: {
-          from: 'farmExternalIntegrations.farm_id',
+          from: 'farm_external_integration.farm_id',
           to: 'farm.farm_id',
         },
       },
@@ -74,8 +74,8 @@ class FarmExternalIntegrations extends Model {
         modelClass: IntegratingPartners,
         relation: Model.HasOneRelation,
         join: {
-          from: 'farmExternalIntegrations.partner_id',
-          to: 'integratingPartners.partner_id',
+          from: 'farm_external_integration.partner_id',
+          to: 'integrating_partner.partner_id',
         },
       },
     };

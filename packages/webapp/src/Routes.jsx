@@ -102,6 +102,9 @@ const PostWaterValveForm = React.lazy(() =>
   import('./containers/LocationDetails/PointDetails/WaterValveDetailForm/PostWaterValve'),
 );
 const WaterValveDetails = React.lazy(() => import('./routes/WaterValveDetailsRoutes'));
+const SensorDetail = React.lazy(() =>
+  import('./containers/LocationDetails/PointDetails/SensorDetail/index'),
+);
 
 const PostBarnForm = React.lazy(() =>
   import('./containers/LocationDetails/AreaDetails/BarnDetailForm/PostBarn'),
@@ -546,6 +549,7 @@ const Routes = () => {
             <Route path="/fence/:location_id" component={FenceDetails} />
             <Route path="/buffer_zone/:location_id" component={BufferZoneDetails} />
             <Route path="/watercourse/:location_id" component={WatercourseDetails} />
+            <Route path="/sensor/:location_id/details" exact component={SensorDetail} />
 
             <Route path="/finances" exact component={Finances} />
             <Route path="/insights" exact component={Insights} />

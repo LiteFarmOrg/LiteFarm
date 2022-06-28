@@ -14,7 +14,7 @@
  */
 
 exports.up = async function (knex) {
-  await knex.schema.createTable('integratingPartners', (table) => {
+  await knex.schema.createTable('integrating_partner', (table) => {
     table.increments('partner_id').primary();
     table.string('partner_name').notNullable();
     table.string('access_token');
@@ -23,7 +23,7 @@ exports.up = async function (knex) {
     table.boolean('deactivated').defaultTo(false);
   });
 
-  await knex('integratingPartners').insert([
+  await knex('integrating_partner').insert([
     {
       partner_id: 1,
       partner_name: 'Ensemble Scientific',
@@ -35,5 +35,5 @@ exports.up = async function (knex) {
 };
 
 exports.down = async function (knex) {
-  await knex.schema.dropTable('integratingPartners');
+  await knex.schema.dropTable('integrating_partner');
 };

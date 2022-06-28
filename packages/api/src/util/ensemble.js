@@ -82,7 +82,8 @@ async function registerOrganizationWebhook(farmId, organizationId, accessToken) 
     method: 'post',
     url: `${ensembleAPI}/organizations/${organizationId}/webhooks/`,
     data: {
-      url: `${baseUrl}/sensors/add_reading/`,
+      url: `${baseUrl}/sensors/add_reading/1`,
+      authorization_header: process.env.SENSOR_SECRET,
       frequency: 15,
     },
   };
@@ -94,7 +95,7 @@ async function registerOrganizationWebhook(farmId, organizationId, accessToken) 
   const onResponse = async (response) => {
     await FarmExternalIntegrationsModel.updateWebhookAddress(
       farmId,
-      `${baseUrl}/sensors/add_reading/`,
+      `${baseUrl}/sensors/add_reading/1`,
       response.data.id,
     );
     return { ...response.data, status: response.status };
@@ -260,8 +261,31 @@ async function authenticateToGetTokens() {
   }
 }
 
+/**
+ * Communicate with Ensemble API and unclaim a sensor from the litefarm organization
+ * @returns Response from Ensemble API
+ */
+async function unclaimSensor(org_id, external_id, access_token) {
+  try {
+    const axiosObject = {
+      method: 'post',
+      url: `${ensembleAPI}/organizations/${org_id}/devices/unclaim/`,
+      data: { esid: external_id },
+    };
+
+    const onError = () => {
+      throw new Error('Unable to unclaim sensor');
+    };
+    const response = await ensembleAPICall(access_token, axiosObject, onError);
+    return response;
+  } catch (error) {
+    return { status: 400, error };
+  }
+}
+
 module.exports = {
   bulkSensorClaim,
   registerOrganizationWebhook,
   createOrganization,
+  unclaimSensor,
 };

@@ -456,6 +456,7 @@
       "UPLOAD_ERROR_MESSAGE": "MISSING",
       "UPLOAD_ERROR_LINK": "MISSING",
       "VALIDATION": {
+        "FILE_ROW_LIMIT_EXCEEDED": "MISSING",
         "MISSING_COLUMNS": "MISSING",
         "EXTERNAL_ID": "MISSING",
         "SENSOR_NAME": "MISSING",
@@ -463,6 +464,10 @@
         "SENSOR_LONGITUDE": "MISSING",
         "SENSOR_READING_TYPES": "MISSING"
       }
+    },
+    "BULK_UPLOAD_TRANSITION": {
+      "TITLE": "MISSING",
+      "BODY": "MISSING"
     },
     "CEREMONIAL_AREA": {
       "EDIT_TITLE": "Editar área cerimonial",
@@ -1115,7 +1120,7 @@
       "TITLE": "Tarefa abandonada"
     },
     "TASK_ASSIGNED": {
-      "BODY": "A tarefa {{taskType}} foi atribuída a {{assignee}}. ",
+      "BODY": "A tarefa {{taskType}} atribuída a você por {{assigner}}.",
       "TITLE": "Tarefa atribuída"
     },
     "TASK_COMPLETED_BY_OTHER_USER": {
@@ -1129,6 +1134,10 @@
     "WEEKLY_UNASSIGNED_TASKS": {
       "BODY": "Você tem tarefas não atribuídas para esta semana.",
       "TITLE": "Tarefas não atribuídas"
+    },
+    "SENSOR_BULK_UPLOAD": {
+      "BODY": "MISSING",
+      "TITLE": "MISSING"
     }
   },
   "OUTRO": {

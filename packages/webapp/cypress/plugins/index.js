@@ -21,20 +21,13 @@
 const axios = require('axios');
 const makeEmailAccount = require('./email-account');
 
-module.exports = (on, config) => {
-  // `on` is used to hook into various events Cypress emits
-  // `config` is the resolved Cypress config
+module.exports = async (on, config) => {
   config.env.googleRefreshToken = process.env.GOOGLE_REFRESH_TOKEN;
   config.env.googleClientId = process.env.REACT_APP_GOOGLE_CLIENTID;
   config.env.googleClientSecret = process.env.REACT_APP_GOOGLE_CLIENT_SECRET;
 
-  require('@cypress/code-coverage/task')(on, config);
-
-  return config;
-};
-
-module.exports = async (on) => {
   const emailAccount = await makeEmailAccount();
+  require('@cypress/code-coverage/task')(on, config);
 
   on('task', {
     getUserEmail() {
@@ -49,4 +42,6 @@ module.exports = async (on) => {
       return emailAccount.getLastEmail();
     },
   });
+
+  return config;
 };

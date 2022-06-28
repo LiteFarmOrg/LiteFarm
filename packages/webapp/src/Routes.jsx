@@ -105,6 +105,7 @@ const WaterValveDetails = React.lazy(() => import('./routes/WaterValveDetailsRou
 const SensorDetail = React.lazy(() =>
   import('./containers/LocationDetails/PointDetails/SensorDetail/index'),
 );
+const EditSensor = React.lazy(() => import('./containers/Sensor/EditSensor'));
 
 const PostBarnForm = React.lazy(() =>
   import('./containers/LocationDetails/AreaDetails/BarnDetailForm/PostBarn'),
@@ -291,7 +292,6 @@ const Notification = React.lazy(() => import('./containers/Notification'));
 const NotificationReadOnly = React.lazy(() =>
   import('./containers/Notification/NotificationReadOnly'),
 );
-const EditSensor = React.lazy(() => import('./containers/Sensor/EditSensor'));
 const Forbidden = React.lazy(() => import('./containers/ErrorHandler/Forbidden/Forbidden'));
 
 const Routes = () => {
@@ -382,7 +382,6 @@ const Routes = () => {
               exact
               component={Transplant}
             />
-            <Route path="/sensor/:location_id/edit" exact component={EditSensor} />
             <Route
               path="/crop/:variety_id/add_management_plan/plant_date"
               exact
@@ -550,7 +549,7 @@ const Routes = () => {
             <Route path="/buffer_zone/:location_id" component={BufferZoneDetails} />
             <Route path="/watercourse/:location_id" component={WatercourseDetails} />
             <Route path="/sensor/:location_id/details" exact component={SensorDetail} />
-
+            <Route path="/sensor/:location_id/edit" exact component={EditSensor} />
             <Route path="/finances" exact component={Finances} />
             <Route path="/insights" exact component={Insights} />
             <Route path="/insights/peoplefed" exact component={PeopleFed} />

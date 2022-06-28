@@ -35,5 +35,6 @@ router.delete('/delete_sensor/:sensor_id', SensorController.deleteSensor);
 router.post('/add_reading/:partner_id', SensorController.addReading);
 router.post('/get_readings', SensorController.getAllReadingsBySensorId);
 router.post('/invalidate_readings', SensorController.invalidateReadings);
+router.get('/reading_type/:sensor_id', SensorController.getSensorReadingTypes);
 
 module.exports = router;

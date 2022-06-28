@@ -382,7 +382,7 @@ const Routes = () => {
               exact
               component={Transplant}
             />
-            <Route path="/sensor/edit" exact component={EditSensor} />
+            <Route path="/sensor/:location_id/edit" exact component={EditSensor} />
             <Route
               path="/crop/:variety_id/add_management_plan/plant_date"
               exact

@@ -15,7 +15,15 @@ import Form from '../Form';
 import ReactSelect from '../Form/ReactSelect';
 import UpdateSensorModal from '../Modals/UpdateSensorModal';
 
-export default function UpdateSensor({ onBack, disabled, onSubmit, system, filter, filterRef }) {
+export default function UpdateSensor({
+  onBack,
+  disabled,
+  onSubmit,
+  system,
+  filter,
+  filterRef,
+  sensorInfo,
+}) {
   const { t } = useTranslation();
 
   const {
@@ -29,10 +37,11 @@ export default function UpdateSensor({ onBack, disabled, onSubmit, system, filte
   } = useForm({
     defaultValues: {
       brand: 'ensemble_scientific',
-      sensor_name: 'Input container data',
-      latitude: '1',
-      longtitude: '2',
-      external_identifier: 'Get container value',
+      sensor_name: sensorInfo.name,
+      latitude: sensorInfo.point.lat,
+      longtitude: sensorInfo.point.lng,
+      external_identifier: sensorInfo.external_id,
+      depth: sensorInfo.depth,
     },
     shouldUnregister: false,
     mode: 'onChange',
@@ -82,11 +91,7 @@ export default function UpdateSensor({ onBack, disabled, onSubmit, system, filte
   return (
     <>
       <Layout>
-        <PageTitle
-          title={`Sensor Name - Use Selector Sensor name`}
-          style={{ paddingBottom: '20px' }}
-          onGoBack={onBack}
-        />
+        <PageTitle title={sensorInfo.name} style={{ paddingBottom: '20px' }} onGoBack={onBack} />
       </Layout>
 
       <Form

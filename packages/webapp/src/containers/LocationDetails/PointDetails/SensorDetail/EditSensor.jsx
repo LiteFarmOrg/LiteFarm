@@ -2,21 +2,28 @@ import EditSensor from '../../../../components/Sensor/EditSensor';
 import { managementPlanSelector } from '../../../managementPlanSlice';
 import { measurementSelector } from '../../../userFarmSlice';
 import { useTranslation } from 'react-i18next';
+import { sensorsSelector } from '../../../sensorSlice';
 import { tasksFilterSelector } from '../../../filterSlice';
 import { useRef } from 'react';
+import produce from 'immer';
+import { patchSensor } from './saga';
+import { getProcessedFormData } from '../../../hooks/useHookFormPersist/utils';
 
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 
 export default function UpdateSensor({ history, match }) {
-  const management_plan_id = match.params.location_id;
+  const dispatch = useDispatch();
+  const location_id = match.params.location_id;
 
-  // const plan = useSelector(managementPlanSelector(management_plan_id));
   const tasksFilter = useSelector(tasksFilterSelector);
+
+  const sensorInfo = useSelector(sensorsSelector(location_id));
+  console.log(sensorInfo);
 
   const system = useSelector(measurementSelector);
 
   const onBack = () => {
-    history.push(`/`);
+    history.push(`/sensor/${location_id}/details`);
   };
 
   const { t } = useTranslation();
@@ -41,13 +48,13 @@ export default function UpdateSensor({ history, match }) {
   };
 
   const onSubmit = (data) => {
-    // const sensorData = produce(data, (data) => {
-    //   data.management_plan_id = management_plan_id;
-    //   data.crop_management_plan &&
-    //     (data.crop_management_plan.management_plan_id = management_plan_id);
-    //   data.crop_variety_id = variety_id;
-    // });
-    // dispatch(patchSensor(getProcessedFormData(sensorData)));
+    const sensorData = produce(data, (data) => {
+      data.sensor_id = sensorInfo.sensor_id;
+      data.farm_id = sensorInfo.farm_id;
+      data.location_id = sensorInfo.location_id;
+    });
+    dispatch(patchSensor(getProcessedFormData(sensorData)));
+    console.log(sensorData);
   };
 
   return (
@@ -57,10 +64,10 @@ export default function UpdateSensor({ history, match }) {
         onBack={onBack}
         history={history}
         match={match}
-        // plan={plan}
         system={system}
         filter={filter}
         filterRef={filterRef}
+        sensorInfo={sensorInfo}
       />
     </>
   );

@@ -105,7 +105,9 @@ const WaterValveDetails = React.lazy(() => import('./routes/WaterValveDetailsRou
 const SensorDetail = React.lazy(() =>
   import('./containers/LocationDetails/PointDetails/SensorDetail/index'),
 );
-const EditSensor = React.lazy(() => import('./containers/Sensor/EditSensor'));
+const EditSensor = React.lazy(() =>
+  import('./containers/LocationDetails/PointDetails/SensorDetail/EditSensor'),
+);
 
 const PostBarnForm = React.lazy(() =>
   import('./containers/LocationDetails/AreaDetails/BarnDetailForm/PostBarn'),

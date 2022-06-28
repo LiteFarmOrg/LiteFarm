@@ -6,12 +6,12 @@ import { pick } from '../util/pick';
 
 const sensorProperties = [
   'depth',
-  'elevation',
   'external_id',
   'name',
   'location_id',
   'sensor_id',
   'partner_id',
+  'model',
 ];
 
 const getSensorFromLocationObject = (location) => {

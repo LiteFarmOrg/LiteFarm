@@ -252,9 +252,10 @@ const sensorController = {
       const { access_token } = await IntegratingPartnersModel.getAccessAndRefreshTokens(
         'Ensemble Scientific',
       );
-      const response = await unclaimSensor(org_id, external_id, access_token);
-      res.status(200).send(response.data.detail);
+      const unclaimResponse = await unclaimSensor(org_id, external_id, access_token);
       // TODO: Delete sensor from DB
+      const deleteResponse = await this.deleteSensor(req, res);
+      res.status(200).send({ unclaimResponse, deleteResponse });
     } catch (error) {
       res.status(400).json({
         error,

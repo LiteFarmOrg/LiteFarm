@@ -6,7 +6,7 @@ import PageTitle from '../../../PageTitle/v2';
 import Input from '../../../Form/Input';
 import ReactSelect from '../../../Form/ReactSelect';
 import RetireSensorModal from '../../../Modals/RetireSensor';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import {
   enqueueErrorSnackbar,
   enqueueSuccessSnackbar,
@@ -18,7 +18,6 @@ import FilterPillSelect from '../../../Filter/FilterPillSelect';
 import { container_planting_depth } from '../../../../util/convert-units/unit';
 import Unit from '../../../Form/Unit';
 import { useForm } from 'react-hook-form';
-import { sensorsSelector } from '../../../../containers/sensorSlice';
 
 export default function PureSensorDetail({
   history,
@@ -32,6 +31,8 @@ export default function PureSensorDetail({
   const { t } = useTranslation();
   const dispatch = useDispatch();
 
+  const SENSOR_ID = sensorInfo.sensor_id;
+  const LOCAITON_ID = sensorInfo.location_id;
   const SENSOR_NAME = sensorInfo.name;
   const BRAND = 'CHANGE';
   const DEPTH = sensorInfo.depth;
@@ -69,7 +70,8 @@ export default function PureSensorDetail({
         `${sensorUrl}/unclaim_sensor`,
         {
           org_id: '?',
-          external_id: '?',
+          external_id: EXTERNAL_IDENTIFIER,
+          sensor_id: SENSOR_ID,
         },
         { headers: { Authorization: `Bearer ${getAccessToken()}` } },
       )
@@ -213,12 +215,12 @@ export default function PureSensorDetail({
       />
       {isAdmin && (
         <div
-          className={'buttonGroup'}
+          // className={'buttonGroup'}
           style={{
+            display: 'flex',
             flexDirection: 'row',
-            display: 'inline-flex',
-            paddingBottom: '40px',
-            width: '100%',
+            alignItems: 'center',
+            justifyContent: 'center',
             gap: '16px',
           }}
         >
@@ -226,15 +228,15 @@ export default function PureSensorDetail({
             type={'submit'}
             onClick={() => setShowRetireModal(true)} // Change accordingly
             color={'secondary'}
-            classes={{ container: { flexGrow: 1 } }}
+            style={{ width: '50%' }}
           >
             {t(`SENSOR.DETAIL.RETIRE`)}
           </Button>
 
           <Button
             type={'submit'}
-            onClick={() => history.push('/edit_sensor')} // Change accordingly
-            classes={{ container: { flexGrow: 1 } }}
+            onClick={() => history.push(`/sensor/${LOCAITON_ID}/edit`)} // Change accordingly
+            style={{ width: '50%' }}
           >
             {t(`SENSOR.DETAIL.EDIT`)}
           </Button>

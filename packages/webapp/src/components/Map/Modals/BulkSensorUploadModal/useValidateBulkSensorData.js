@@ -44,8 +44,7 @@ export function useValidateBulkSensorData(onUpload, t) {
   const validationFields = [
     {
       errorMessage: t('FARM_MAP.BULK_UPLOAD_SENSORS.VALIDATION.SENSOR_NAME'),
-      /* eslint-disable-next-line no-useless-escape */
-      mask: /^[a-zA-Z0-9 \.\-\/!@#$%^&*)(]{1,100}$/,
+      mask: /^[a-zA-Z0-9 .-/!@#$%^&*)(]{1,100}$/,
       columnName: SENSOR_NAME,
     },
     {

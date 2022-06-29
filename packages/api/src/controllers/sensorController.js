@@ -26,7 +26,19 @@ const {
   bulkSensorClaim,
   unclaimSensor,
 } = require('../util/ensemble');
+
+const sensorErrors = require('../util/sensorErrors');
+
 const sensorController = {
+  async getSensorReadingTypes(req, res) {
+    const { sensor_id } = req.params;
+    try {
+      const sensorReadingTypes = SensorModel.getSensorReadingTypes(sensor_id);
+      res.status(200).send(sensorReadingTypes);
+    } catch (e) {
+      res.status(404).send('Sensor not found');
+    }
+  },
   async addSensors(req, res) {
     try {
       const { farm_id } = req.headers;
@@ -40,24 +52,28 @@ const sensorController = {
           parseFunction: (val) => val.trim(),
           validator: (val) => 1 <= val.length && val.length <= 100,
           required: true,
+          errorTranslationKey: sensorErrors.SENSOR_NAME,
         },
         External_ID: {
           key: 'external_id',
           parseFunction: (val) => val.trim(),
           validator: (val) => 1 <= val.length && val.length <= 20,
           required: false,
+          errorTranslationKey: sensorErrors.EXTERNAL_ID,
         },
         Latitude: {
           key: 'latitude',
           parseFunction: (val) => parseFloat(val),
           validator: (val) => -90 <= val && val <= 90,
           required: true,
+          errorTranslationKey: sensorErrors.SENSOR_LATITUDE,
         },
         Longitude: {
           key: 'longitude',
           parseFunction: (val) => parseFloat(val),
           validator: (val) => -180 <= val && val <= 180,
           required: true,
+          errorTranslationKey: sensorErrors.SENSOR_LONGITUDE,
         },
         Reading_types: {
           key: 'reading_types',
@@ -67,30 +83,35 @@ const sensorController = {
             val.includes('water_potential') ||
             val.includes('temperature'),
           required: true,
+          errorTranslationKey: sensorErrors.SENSOR_READING_TYPES,
         },
         Depth: {
           key: 'depth',
           parseFunction: (val) => parseFloat(val),
           validator: (val) => 0 <= val && val <= 1000,
           required: false,
+          errorTranslationKey: sensorErrors.SENSOR_DEPTH,
         },
         Brand: {
           key: 'brand',
           parseFunction: (val) => val.trim(),
           validator: (val) => val.length <= 100,
           required: false,
+          errorTranslationKey: sensorErrors.SENSOR_BRAND,
         },
         Model: {
           key: 'model',
           parseFunction: (val) => val.trim(),
           validator: (val) => val.length <= 100,
           required: false,
+          errorTranslationKey: sensorErrors.SENSOR_MODEL,
         },
         Hardware_version: {
           key: 'hardware_version',
           parseFunction: (val) => val.trim(),
           validator: (val) => val.length <= 100,
           required: false,
+          errorTranslationKey: sensorErrors.SENSOR_HARDWARE_VERSION,
         },
       });
       if (errors.length > 0) {
@@ -357,7 +378,11 @@ const parseCsvString = (csvString, mapping, delimiter = ',') => {
             if (mapping[current].validator(val)) {
               previousObj[mapping[current].key] = val;
             } else {
-              previous.errors.push({ line: rowIndex + 2, errorColumn: current }); //TODO: add better error messages
+              previous.errors.push({
+                row: rowIndex + 2,
+                column: current,
+                translation_key: mapping[current].errorTranslationKey,
+              });
             }
           }
           return previousObj;
@@ -371,7 +396,8 @@ const parseCsvString = (csvString, mapping, delimiter = ',') => {
 };
 
 const SensorNotificationTypes = {
-  SENSOR_BULK_UPLOAD: 'SENSOR_BULK_UPLOAD',
+  SENSOR_BULK_UPLOAD_SUCCESS: 'SENSOR_BULK_UPLOAD_SUCCESS',
+  SENSOR_BULK_UPLOAD_FAIL: 'SENSOR_BULK_UPLOAD_FAIL',
 };
 
 /**
@@ -379,10 +405,17 @@ const SensorNotificationTypes = {
  * @param {string} receiverId target notification user id
  * @param {string} farmId farm id
  * @param {string} notifyTranslationKey notification translation key
+ * @param {Object} ref can be one of three types: { url: string }, { entity: { id: string,
+ * type: string } }, or { error_download: { errors: array[string], file_name: string } }
  * @async
  */
 // eslint-disable-next-line no-unused-vars
-async function sendSensorNotification(receiverId, farmId, notifyTranslationKey) {
+async function sendSensorNotification(
+  receiverId,
+  farmId,
+  notifyTranslationKey,
+  ref = { url: '/map' },
+) {
   if (!receiverId) return;
 
   await NotificationUser.notify(
@@ -394,7 +427,7 @@ async function sendSensorNotification(receiverId, farmId, notifyTranslationKey) 
         translation_key: `NOTIFICATION.${SensorNotificationTypes[notifyTranslationKey]}.BODY`,
       },
       variables: [],
-      ref: { url: '/map' },
+      ref,
       context: {
         icon_translation_key: 'SENSOR',
         notification_type: SensorNotificationTypes[notifyTranslationKey],

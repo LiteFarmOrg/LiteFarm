@@ -39,7 +39,6 @@ class Sensor extends Model {
         farm_id: { type: 'string', minLength: 1, maxLength: 255 },
         name: { type: 'string', minLength: 1, maxLength: 255 },
         grid_points: { type: 'object' },
-        external_id: { type: 'string', minLength: 1, maxLength: 255 },
         model: { type: 'string', minLength: 1, maxLength: 255 },
         isDeleted: { type: 'boolean' },
         partner_id: { type: 'integer' },
@@ -102,6 +101,17 @@ class Sensor extends Model {
     );
     await trx.commit();
     return sensorLocationWithGraph;
+  }
+  static async getSensorReadingTypes(sensorId) {
+    Sensor.query().whereRaw(
+      `
+      SELECT prt.readable_value FROM sensor as s 
+      JOIN sensor_reading_type as srt ON srt.sensor_id = s.sensor_id 
+      JOIN partner_reading_type as prt ON srt.partner_reading_type_id = prt.partner_reading_type_id 
+      WHERE s.sensor_id = ?;
+    `,
+      sensorId,
+    );
   }
 }
 

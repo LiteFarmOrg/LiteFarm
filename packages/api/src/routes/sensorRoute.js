@@ -38,5 +38,6 @@ router.post('/add_reading/:partner_id', SensorController.addReading);
 router.post('/get_readings', SensorController.getAllReadingsBySensorId);
 router.post('/invalidate_readings', SensorController.invalidateReadings);
 router.post('/unclaim_sensor', SensorController.retireSensor);
+router.get('/reading_type/:sensor_id', SensorController.getSensorReadingTypes);
 
 module.exports = router;

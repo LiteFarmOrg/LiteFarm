@@ -10,7 +10,7 @@ import {
   isArea,
   isLine,
   locationEnum,
-  SENSOR_BULK_UPLOAD,
+  SENSOR_BULK_UPLOAD_SUCCESS,
 } from './constants';
 import { useDispatch, useSelector } from 'react-redux';
 import { measurementSelector, userFarmSelector } from '../userFarmSlice';
@@ -127,7 +127,7 @@ export default function Map({ history }) {
   }, [bulkSensorsUploadResponse?.showTransitionModal]);
 
   useEffect(() => {
-    if (history.location.state?.notification_type === SENSOR_BULK_UPLOAD) {
+    if (history.location.state?.notification_type === SENSOR_BULK_UPLOAD_SUCCESS) {
       dispatch(setMapFilterShowAll(farm_id));
     }
   }, []);

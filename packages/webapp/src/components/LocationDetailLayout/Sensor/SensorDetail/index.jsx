@@ -27,7 +27,6 @@ export default function PureSensorDetail({
   filterRef,
   sensorInfo,
 }) {
-  console.log(sensorInfo);
   const [showRetireModal, setShowRetireModal] = useState(false);
   const { t } = useTranslation();
   const dispatch = useDispatch();

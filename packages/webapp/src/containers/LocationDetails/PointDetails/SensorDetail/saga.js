@@ -14,19 +14,20 @@
  */
 
 import { call, put, select, takeLatest, takeLeading } from 'redux-saga/effects';
-import apiConfig from '../../../../apiConfig';
+import { sensorUrl } from '../../../../apiConfig';
 import { loginSelector, patchFarmSuccess } from '../../../userFarmSlice';
 import { axios, getHeader } from '../../../saga';
 import { createAction } from '@reduxjs/toolkit';
 import i18n from '../../../../locales/i18n';
 import history from '../../../../history';
 import { enqueueErrorSnackbar, enqueueSuccessSnackbar } from '../../../Snackbar/snackbarSlice';
+import { onLoadingSensorFail, onSensorReadingTypesSuccess } from '../../../sensorSlice';
 
 export const patchSensor = createAction(`patchSensorSaga`);
 export const getSensorReadingTypes = createAction('getSensorReadingTypesSaga');
 
 export function* patchSensorSaga({ payload: sensorData }) {
-  const { sensorUrl } = apiConfig;
+  // const { sensorUrl } = apiConfig;
   let { user_id, farm_id } = yield select(loginSelector);
   const header = getHeader(user_id, farm_id);
 
@@ -46,16 +47,16 @@ export function* patchSensorSaga({ payload: sensorData }) {
   }
 }
 
-// export function* getSensorReadingTypesSaga({ payload: { location_id, sensor_id } }) {
-//   try {
-//     const sensor_reading_types = yield call(axios.get, `/sensor/reading_type/${sensor_id}`);
-//     yield put(onSensorReadingTypesSuccess({sensor_reading_types, location_id}));
-//   } catch(e) {
-//     yield put(onLoadingSensorFail());
-//   }
-// }
+export function* getSensorReadingTypesSaga({ payload: { location_id, sensor_id } }) {
+  try {
+    const sensor_reading_types = yield call(axios.get, `${sensorUrl}/reading_type/${sensor_id}`);
+    yield put(onSensorReadingTypesSuccess({ sensor_reading_types, location_id }));
+  } catch (e) {
+    yield put(onLoadingSensorFail());
+  }
+}
 
 export default function* sensorDetailSaga() {
   yield takeLeading(patchSensor.type, patchSensorSaga);
-  // yield takeLeading(getSensorReadingTypes.type, getSensorReadingTypesSaga)
+  yield takeLeading(getSensorReadingTypes.type, getSensorReadingTypesSaga);
 }

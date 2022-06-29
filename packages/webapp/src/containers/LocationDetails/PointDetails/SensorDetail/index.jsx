@@ -13,9 +13,9 @@ export default function Detail({ history, user, match }) {
   const location_id = match.params.location_id;
   const sensorInfo = useSelector(sensorsSelector(location_id));
 
-  const { partner_id } = sensorInfo;
+  const { sensor_id } = sensorInfo;
   useEffect(() => {
-    dispatch(getSensorReadingTypes(location_id, partner_id));
+    dispatch(getSensorReadingTypes({ location_id, sensor_id }));
   });
 
   const tasksFilter = useSelector(tasksFilterSelector);

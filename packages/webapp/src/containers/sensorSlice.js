@@ -78,6 +78,7 @@ export const {
   onLoadingSensorFail,
   deleteSensorSuccess,
   postManySensorsSuccess,
+  onSensorReadingTypesSuccess,
 } = sensorSlice.actions;
 export default sensorSlice.reducer;
 

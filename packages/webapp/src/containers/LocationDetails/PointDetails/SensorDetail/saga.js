@@ -23,6 +23,7 @@ import history from '../../../../history';
 import { enqueueErrorSnackbar, enqueueSuccessSnackbar } from '../../../Snackbar/snackbarSlice';
 
 export const patchSensor = createAction(`patchSensorSaga`);
+export const getSensorReadingTypes = createAction('getSensorReadingTypesSaga');
 
 export function* patchSensorSaga({ payload: sensorData }) {
   const { sensorUrl } = apiConfig;
@@ -45,6 +46,16 @@ export function* patchSensorSaga({ payload: sensorData }) {
   }
 }
 
-export default function* managementPlanSaga() {
+// export function* getSensorReadingTypesSaga({ payload: { location_id, sensor_id } }) {
+//   try {
+//     const sensor_reading_types = yield call(axios.get, `/sensor/reading_type/${sensor_id}`);
+//     yield put(onSensorReadingTypesSuccess({sensor_reading_types, location_id}));
+//   } catch(e) {
+//     yield put(onLoadingSensorFail());
+//   }
+// }
+
+export default function* sensorDetailSaga() {
   yield takeLeading(patchSensor.type, patchSensorSaga);
+  // yield takeLeading(getSensorReadingTypes.type, getSensorReadingTypesSaga)
 }

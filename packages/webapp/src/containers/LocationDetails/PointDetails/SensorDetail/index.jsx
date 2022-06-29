@@ -1,15 +1,22 @@
 import PureSensorDetail from '../../../../components/LocationDetailLayout/Sensor/SensorDetail/index';
 import { measurementSelector } from '../../../userFarmSlice';
 import { tasksFilterSelector } from '../../../filterSlice';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-import { useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { sensorsSelector } from '../../../sensorSlice';
 import { isAdminSelector } from '../../../userFarmSlice';
+import { getSensorReadingTypes } from './saga';
 
 export default function Detail({ history, user, match }) {
+  const dispatch = useDispatch();
   const location_id = match.params.location_id;
   const sensorInfo = useSelector(sensorsSelector(location_id));
+
+  const { partner_id } = sensorInfo;
+  useEffect(() => {
+    dispatch(getSensorReadingTypes(location_id, partner_id));
+  });
 
   const tasksFilter = useSelector(tasksFilterSelector);
 

@@ -31,15 +31,18 @@ export default function PureSensorDetail({
   const [showRetireModal, setShowRetireModal] = useState(false);
   const { t } = useTranslation();
   const dispatch = useDispatch();
+  console.log(sensorInfo);
 
-  const LOCAITON_ID = sensorInfo.location_id;
-  const SENSOR_NAME = sensorInfo.name;
-  const BRAND = 'CHANGE';
-  const DEPTH = sensorInfo.depth;
-  const EXTERNAL_IDENTIFIER = sensorInfo.external_id;
-  const MODEL = 'CHANGE';
-  const LATITUDE = sensorInfo.point.lat;
-  const LONGTITUDE = sensorInfo.point.lng;
+  const { location_id, name, brand, depth, external_id, model, point } = sensorInfo;
+
+  // const LOCAITON_ID = sensorInfo.location_id;
+  // const SENSOR_NAME = sensorInfo.name;
+  // const BRAND = 'CHANGE';
+  // const DEPTH = sensorInfo.depth;
+  // const EXTERNAL_IDENTIFIER = sensorInfo.external_id;
+  // const MODEL = 'CHANGE';
+  // const LATITUDE = sensorInfo.point.lat;
+  // const LONGTITUDE = sensorInfo.point.lng;
   const {
     register,
     handleSubmit,
@@ -84,7 +87,7 @@ export default function PureSensorDetail({
   return (
     <div style={{ padding: '24px 16px 24px 16px' }}>
       <PageTitle
-        title={SENSOR_NAME}
+        title={name}
         onGoBack={() => history.push('/map')}
         style={{ marginBottom: '24px' }}
       />
@@ -113,7 +116,7 @@ export default function PureSensorDetail({
         label={t('SENSOR.DETAIL.NAME')}
         style={{ paddingBottom: '32px', paddingTop: '24px' }}
         disabled={true}
-        value={SENSOR_NAME}
+        value={name}
       />
       <div
         className={'latLong'}
@@ -128,13 +131,13 @@ export default function PureSensorDetail({
         <Input
           label={t('SENSOR.DETAIL.LATITUDE')}
           disabled={true}
-          value={LATITUDE}
+          value={point.lat}
           classes={{ container: { flexGrow: 1 } }}
         />
         <Input
           label={t('SENSOR.DETAIL.LONGITUDE')}
           disabled={true}
-          value={LONGTITUDE}
+          value={point.lng}
           classes={{ container: { flexGrow: 1 } }}
         />
       </div>
@@ -153,7 +156,7 @@ export default function PureSensorDetail({
 
       <Unit
         register={register}
-        defaultValue={DEPTH}
+        defaultValue={depth}
         label={t('SENSOR.DETAIL.DEPTH')}
         hookFormSetValue={setValue}
         hookFormGetValue={getValues}
@@ -169,8 +172,8 @@ export default function PureSensorDetail({
 
       <ReactSelect
         label={t('SENSOR.DETAIL.BRAND')}
-        placeholder={BRAND}
-        defaultValue={BRAND}
+        placeholder={brand}
+        defaultValue={brand}
         isDisabled={true}
         style={{ paddingBottom: '32px' }}
         toolTipContent={t('SENSOR.DETAIL.BRAND_TOOLTIP')}
@@ -181,7 +184,7 @@ export default function PureSensorDetail({
         style={{ paddingBottom: '32px' }}
         disabled={true}
         optional={true}
-        value={MODEL}
+        value={model}
       />
 
       <Input
@@ -190,7 +193,7 @@ export default function PureSensorDetail({
         disabled={true}
         optional={true}
         toolTipContent={t('SENSOR.DETAIL.EXTERNAL_ID_TOOLTIP')}
-        value={EXTERNAL_IDENTIFIER}
+        value={external_id}
       />
       {/* <Input
         label={t('SENSOR.DETAIL.PART_NUMBER')}
@@ -227,7 +230,7 @@ export default function PureSensorDetail({
 
           <Button
             type={'submit'}
-            onClick={() => history.push(`/sensor/${LOCAITON_ID}/edit`)} // Change accordingly
+            onClick={() => history.push(`/sensor/${location_id}/edit`)} // Change accordingly
             style={{ width: '50%' }}
           >
             {t(`SENSOR.DETAIL.EDIT`)}

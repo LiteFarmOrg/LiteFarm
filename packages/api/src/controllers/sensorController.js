@@ -33,8 +33,11 @@ const sensorController = {
   async getSensorReadingTypes(req, res) {
     const { sensor_id } = req.params;
     try {
-      const sensorReadingTypes = SensorModel.getSensorReadingTypes(sensor_id);
-      res.status(200).send(sensorReadingTypes);
+      const sensorReadingTypesResponse = await SensorModel.getSensorReadingTypes(sensor_id);
+      const readingTypes = sensorReadingTypesResponse.rows.map(
+        (datapoint) => datapoint.readable_value,
+      );
+      res.status(200).send(readingTypes);
     } catch (e) {
       res.status(404).send('Sensor not found');
     }

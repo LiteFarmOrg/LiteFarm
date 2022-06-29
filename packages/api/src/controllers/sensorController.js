@@ -311,10 +311,10 @@ const sensorController = {
       const { access_token } = await IntegratingPartnersModel.getAccessAndRefreshTokens(
         'Ensemble Scientific',
       );
-      const external_integrations_response = await FarmExternalIntegrationsModel.query()
-        .select('organization_uuid')
-        .where('farm_id', farm_id)
-        .where('partner_id', partner_id);
+      const external_integrations_response = await FarmExternalIntegrationsModel.getOrganizationId(
+        farm_id,
+        partner_id,
+      );
       const org_id = external_integrations_response[0].organization_uuid;
       const unclaimResponse = await unclaimSensor(org_id, external_id, access_token);
       const deleteResponse = await SensorModel.query()

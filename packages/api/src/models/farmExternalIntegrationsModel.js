@@ -92,6 +92,13 @@ class FarmExternalIntegrations extends Model {
       .patch({ webhook_address: webhookAddress, webhook_id: webhookId })
       .where('farm_id', farmId);
   }
+
+  static async getOrganizationId(farmId, partnerId) {
+    return FarmExternalIntegrations.query()
+      .select('organization_uuid')
+      .where('farm_id', farmId)
+      .where('partner_id', partnerId);
+  }
 }
 
 module.exports = FarmExternalIntegrations;

@@ -18,6 +18,7 @@ const SensorModel = require('../models/sensorModel');
 const SensorReadingModel = require('../models/sensorReadingModel');
 const IntegratingPartnersModel = require('../models/integratingPartnersModel');
 const NotificationUser = require('../models/notificationUserModel');
+const FarmExternalIntegrationsModel = require('../models/farmExternalIntegrationsModel');
 const { transaction, Model } = require('objection');
 const {
   createOrganization,
@@ -306,12 +307,15 @@ const sensorController = {
 
   async retireSensor(req, res) {
     try {
-      const org_id = '?';
-      const external_id = req.body.sensorInfo.external_id;
-      const sensor_id = req.body.sensorInfo.sensor_id;
+      const { external_id, sensor_id, farm_id, partner_id } = req.body.sensorInfo;
       const { access_token } = await IntegratingPartnersModel.getAccessAndRefreshTokens(
         'Ensemble Scientific',
       );
+      const external_integrations_response = await FarmExternalIntegrationsModel.query()
+        .select('organization_uuid')
+        .where('farm_id', farm_id)
+        .where('partner_id', partner_id);
+      const org_id = external_integrations_response[0].organization_uuid;
       const unclaimResponse = await unclaimSensor(org_id, external_id, access_token);
       const deleteResponse = await SensorModel.query()
         .patch({ deleted: true })

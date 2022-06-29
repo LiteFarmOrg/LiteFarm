@@ -27,19 +27,17 @@ export default function PureSensorDetail({
   filterRef,
   sensorInfo,
 }) {
+  console.log(sensorInfo);
   const [showRetireModal, setShowRetireModal] = useState(false);
   const { t } = useTranslation();
   const dispatch = useDispatch();
 
-  const SENSOR_ID = sensorInfo.sensor_id;
   const LOCAITON_ID = sensorInfo.location_id;
   const SENSOR_NAME = sensorInfo.name;
   const BRAND = 'CHANGE';
   const DEPTH = sensorInfo.depth;
   const EXTERNAL_IDENTIFIER = sensorInfo.external_id;
-  const HARDWARE_VERSION = 'CHANGE';
   const MODEL = 'CHANGE';
-  const PART_NUMBER = 'CHANGE';
   const LATITUDE = sensorInfo.point.lat;
   const LONGTITUDE = sensorInfo.point.lng;
   const {
@@ -210,7 +208,6 @@ export default function PureSensorDetail({
       /> */}
       {isAdmin && (
         <div
-          // className={'buttonGroup'}
           style={{
             display: 'flex',
             flexDirection: 'row',

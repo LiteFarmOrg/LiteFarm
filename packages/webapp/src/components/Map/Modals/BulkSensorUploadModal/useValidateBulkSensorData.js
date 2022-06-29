@@ -44,25 +44,25 @@ export function useValidateBulkSensorData(onUpload, t) {
   const validationFields = [
     {
       errorMessage: t('FARM_MAP.BULK_UPLOAD_SENSORS.VALIDATION.SENSOR_NAME'),
-      /* eslint-disable no-useless-escape */
+      /* eslint-disable-next-line no-useless-escape */
       mask: /^[a-zA-Z0-9 \.\-\/!@#$%^&*)(]{1,100}$/,
       columnName: SENSOR_NAME,
     },
     {
       errorMessage: t('FARM_MAP.BULK_UPLOAD_SENSORS.VALIDATION.SENSOR_LATITUDE'),
-      /* eslint-disable no-useless-escape */
+      /* eslint-disable-next-line no-useless-escape */
       mask: /^(\+|-)?(?:90(?:(?:\.0{1,6})?)|(?:[0-9]|[1-8][0-9])(?:(?:\.[0-9]{1,30})?))$/,
       columnName: SENSOR_LATITUDE,
     },
     {
       errorMessage: t('FARM_MAP.BULK_UPLOAD_SENSORS.VALIDATION.SENSOR_LONGITUDE'),
-      /* eslint-disable no-useless-escape */
+      /* eslint-disable-next-line no-useless-escape */
       mask: /^(\+|-)?(?:180(?:(?:\.0{1,6})?)|(?:[0-9]|[1-9][0-9]|1[0-7][0-9])(?:(?:\.[0-9]{1,30})?))$/,
       columnName: SENSOR_LONGITUDE,
     },
     {
       errorMessage: t('FARM_MAP.BULK_UPLOAD_SENSORS.VALIDATION.SENSOR_READING_TYPES'),
-      /* eslint-disable no-useless-escape */
+      /* eslint-disable-next-line no-useless-escape */
       mask: /^\s*(?:\w+\s*,\s*){2,}(?:\w+\s*)$/,
       columnName: SENSOR_READING_TYPES,
       validate(rowNumber, columnName, value) {

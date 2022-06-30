@@ -425,13 +425,11 @@ const userFarmController = {
     return async (req, res) => {
       let result;
       const { user_id, farm_id } = req.user;
-      const { language_preference } = req.body;
       if (!/^\d+$/.test(user_id)) {
         const user = await userModel
           .query()
           .findById(user_id)
-          .patch({ language_preference })
-          .returning('*');
+          .select('*');
         const passwordRow = await passwordModel.query().findById(user_id);
         if (!passwordRow || user.status_id === 2) {
           return res.status(404).send('User does not exist');

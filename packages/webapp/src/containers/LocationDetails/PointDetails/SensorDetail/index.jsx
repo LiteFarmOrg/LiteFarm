@@ -29,17 +29,19 @@ export default function Detail({ history, user, match }) {
   const TEMPERATURE = 'Temperature';
 
   const statuses = [SOIL_WATER_CONTENT, SOIL_WATER_POTENTIAL, TEMPERATURE];
+  const reading_types = sensorInfo.sensor_reading_types;
 
+  const READING_TYPE = 'READING_TYPE';
   const STATUS = 'STATUS';
   const filterRef = useRef({});
 
   const filter = {
     subject: t('SENSOR.DETAIL.READING_TYPES'),
     filterKey: STATUS,
-    options: statuses.map((status) => ({
-      value: status.toLowerCase(),
-      default: tasksFilter[STATUS][status.toLowerCase()]?.active ?? true,
-      label: status,
+    options: reading_types.map((type) => ({
+      value: type.toLowerCase(),
+      default: tasksFilter[STATUS][type.toLowerCase()]?.active ?? true,
+      label: t(`SENSOR.READING.${type.toUpperCase()}`),
     })),
   };
 

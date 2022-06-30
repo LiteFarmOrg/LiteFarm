@@ -49,8 +49,15 @@ export function* patchSensorSaga({ payload: sensorData }) {
 
 export function* getSensorReadingTypesSaga({ payload: { location_id, sensor_id } }) {
   try {
-    const sensor_reading_types = yield call(axios.get, `${sensorUrl}/reading_type/${sensor_id}`);
-    yield put(onSensorReadingTypesSuccess({ sensor_reading_types, location_id }));
+    let { user_id, farm_id } = yield select(loginSelector);
+    const header = getHeader(user_id, farm_id);
+    const sensor_reading_types_response = yield call(
+      axios.get,
+      `${sensorUrl}/reading_type/${sensor_id}`,
+      header,
+    );
+    const sensor_reading_types = sensor_reading_types_response.data;
+    yield put(onSensorReadingTypesSuccess({ location_id, sensor_reading_types }));
   } catch (e) {
     yield put(onLoadingSensorFail());
   }

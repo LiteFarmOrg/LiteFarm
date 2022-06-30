@@ -30,18 +30,8 @@ export default function PureSensorDetail({
   const [showRetireModal, setShowRetireModal] = useState(false);
   const { t } = useTranslation();
   const dispatch = useDispatch();
-  console.log(sensorInfo);
 
   const { location_id, name, brand, depth, external_id, model, point } = sensorInfo;
-
-  // const LOCAITON_ID = sensorInfo.location_id;
-  // const SENSOR_NAME = sensorInfo.name;
-  // const BRAND = 'CHANGE';
-  // const DEPTH = sensorInfo.depth;
-  // const EXTERNAL_IDENTIFIER = sensorInfo.external_id;
-  // const MODEL = 'CHANGE';
-  // const LATITUDE = sensorInfo.point.lat;
-  // const LONGTITUDE = sensorInfo.point.lng;
   const {
     register,
     handleSubmit,

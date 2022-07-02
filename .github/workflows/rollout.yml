@@ -1,0 +1,20 @@
+name: 'Roll out'
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - integration
+jobs:
+  rollout:
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Execute SSH commmands on remote server
+        uses: JimCronqvist/action-ssh@master
+        with:
+          hosts: 'avocado.litefarm.org'
+          privateKey: ${{ secrets.PRIVATE_KEY }}
+          command: |
+            su litefarm
+            cd ~/LiteFarm
+            git pull
+            docker-compose -f docker-compose.beta.yml up --build -d

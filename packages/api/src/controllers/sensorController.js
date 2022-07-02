@@ -32,8 +32,8 @@ const sensorController = {
   async addSensors(req, res) {
     let timeLimit = 5000;
     const testTimerOverride = Number(req.query?.sensorUploadTimer);
-    if (!isNaN(testTimerOverride)) {
-      // For testing, query string can set timer limit.
+    // For testing, query string can set timer limit, 0 to 30 seconds.
+    if (!isNaN(testTimerOverride) && testTimerOverride >= 0 && testTimerOverride <= 30000) {
       timeLimit = testTimerOverride;
       console.log(`Custom time limit for sensor upload: ${timeLimit} ms`);
     }

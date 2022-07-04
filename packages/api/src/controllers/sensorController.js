@@ -55,7 +55,7 @@ const sensorController = {
         External_ID: {
           key: 'external_id',
           parseFunction: (val) => val.trim(),
-          validator: (val) => 1 <= val.length && val.length <= 20,
+          validator: (val) => val.length <= 20,
           required: false,
           errorTranslationKey: sensorErrors.EXTERNAL_ID,
         },
@@ -151,6 +151,8 @@ const sensorController = {
           (prev, curr, idx) => {
             if (success.includes(curr.external_id)) {
               prev.registeredSensors.push(curr);
+            } else if (curr.brand !== 'Ensemble Scientific') {
+              prev.registeredSensors.push(curr);
             } else if (does_not_exist.includes(curr.external_id)) {
               prev.errorSensors.push({
                 row: idx + 2,
@@ -174,7 +176,12 @@ const sensorController = {
         // Save sensors in database
         const sensorLocations = await Promise.all(
           registeredSensors.map(async (sensor) => {
-            return await SensorModel.createSensor(sensor, farm_id, user_id);
+            return await SensorModel.createSensor(
+              sensor,
+              farm_id,
+              user_id,
+              esids.includes(sensor.external_id) ? 1 : 0,
+            );
           }),
         );
 

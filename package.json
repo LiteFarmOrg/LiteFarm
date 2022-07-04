@@ -9,7 +9,8 @@
     "lint": "lerna run lint",
     "start": "lerna run start",
     "bootstrap": "lerna bootstrap",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "ngrok": "ngrok start --config=./ngrok.yml --all"
   },
   "jest": {
     "testPathIgnorePatterns": [

@@ -19,7 +19,6 @@ import { useSelector } from 'react-redux';
 import { bulkSensorsUploadSliceSelector } from '../../../../containers/bulkSensorUploadSlice';
 import { createSensorErrorDownload } from '../../../../util/sensor';
 
-const SENSOR_EXTERNAL_ID = 'External_ID';
 const SENSOR_NAME = 'Name';
 const SENSOR_LATITUDE = 'Latitude';
 const SENSOR_LONGITUDE = 'Longitude';
@@ -31,13 +30,7 @@ const TEMPERATURE = 'temperature';
 
 const requiredReadingTypes = [SOIL_WATER_CONTENT, SOIL_WATER_POTENTIAL, TEMPERATURE];
 
-const requiredFields = [
-  SENSOR_EXTERNAL_ID,
-  SENSOR_NAME,
-  SENSOR_LATITUDE,
-  SENSOR_LONGITUDE,
-  SENSOR_READING_TYPES,
-];
+const requiredFields = [SENSOR_NAME, SENSOR_LATITUDE, SENSOR_LONGITUDE, SENSOR_READING_TYPES];
 
 export function useValidateBulkSensorData(onUpload, t) {
   const bulkSensorsUploadResponse = useSelector(bulkSensorsUploadSliceSelector);
@@ -50,32 +43,22 @@ export function useValidateBulkSensorData(onUpload, t) {
 
   const validationFields = [
     {
-      errorMessage: t('FARM_MAP.BULK_UPLOAD_SENSORS.VALIDATION.EXTERNAL_ID'),
-      /* eslint-disable no-useless-escape */
-      mask: /^[a-zA-Z0-9 \.\-\/!@#$%^&*)(]{1,20}$/,
-      columnName: SENSOR_EXTERNAL_ID,
-    },
-    {
       errorMessage: t('FARM_MAP.BULK_UPLOAD_SENSORS.VALIDATION.SENSOR_NAME'),
-      /* eslint-disable no-useless-escape */
-      mask: /^[a-zA-Z0-9 \.\-\/!@#$%^&*)(]{1,100}$/,
+      mask: /^[a-zA-Z0-9 .-/!@#$%^&*)(]{1,100}$/,
       columnName: SENSOR_NAME,
     },
     {
       errorMessage: t('FARM_MAP.BULK_UPLOAD_SENSORS.VALIDATION.SENSOR_LATITUDE'),
-      /* eslint-disable no-useless-escape */
-      mask: /^(\+|-)?(?:90(?:(?:\.0{1,6})?)|(?:[0-9]|[1-8][0-9])(?:(?:\.[0-9]{1,30})?))$/,
+      mask: /^(\+|-)?(?:90(?:(?:.0{1,6})?)|(?:[0-9]|[1-8][0-9])(?:(?:.[0-9]{1,30})?))$/,
       columnName: SENSOR_LATITUDE,
     },
     {
       errorMessage: t('FARM_MAP.BULK_UPLOAD_SENSORS.VALIDATION.SENSOR_LONGITUDE'),
-      /* eslint-disable no-useless-escape */
-      mask: /^(\+|-)?(?:180(?:(?:\.0{1,6})?)|(?:[0-9]|[1-9][0-9]|1[0-7][0-9])(?:(?:\.[0-9]{1,30})?))$/,
+      mask: /^(\+|-)?(?:180(?:(?:.0{1,6})?)|(?:[0-9]|[1-9][0-9]|1[0-7][0-9])(?:(?:.[0-9]{1,30})?))$/,
       columnName: SENSOR_LONGITUDE,
     },
     {
       errorMessage: t('FARM_MAP.BULK_UPLOAD_SENSORS.VALIDATION.SENSOR_READING_TYPES'),
-      /* eslint-disable no-useless-escape */
       mask: /^\s*(?:\w+\s*,\s*){2,}(?:\w+\s*)$/,
       columnName: SENSOR_READING_TYPES,
       validate(rowNumber, columnName, value) {

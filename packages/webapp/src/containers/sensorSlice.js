@@ -5,13 +5,13 @@ import { createSelector } from 'reselect';
 import { pick } from '../util/pick';
 
 const sensorProperties = [
+  'model',
   'depth',
   'external_id',
   'name',
   'location_id',
   'sensor_id',
   'partner_id',
-  'model',
 ];
 
 const getSensorFromLocationObject = (location) => {
@@ -23,7 +23,6 @@ const getSensorFromLocationObject = (location) => {
     sensor_reading_types: [],
     brand_name: '',
   };
-  console.log(result);
   return result;
 };
 

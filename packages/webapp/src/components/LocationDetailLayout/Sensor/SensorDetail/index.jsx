@@ -131,7 +131,7 @@ export default function PureSensorDetail({
         />
       </div>
 
-      {/* <div>
+      <div>
         <FilterPillSelect
           subject={filter.subject}
           options={filter.options}
@@ -141,7 +141,7 @@ export default function PureSensorDetail({
           key={filter.filterKey}
           isDisabled={true}
         />
-      </div> */}
+      </div>
 
       <Unit
         register={register}

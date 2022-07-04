@@ -38,11 +38,12 @@ export default function Detail({ history, user, match }) {
 
   const filter = {
     subject: t('SENSOR.DETAIL.READING_TYPES'),
-    filterKey: STATUS,
+    filterKey: READING_TYPE,
     options: reading_types.map((type) => ({
       value: type.toLowerCase(),
       default: true,
       label: t(`SENSOR.READING.${type.toUpperCase()}`),
+      active: true,
     })),
   };
 

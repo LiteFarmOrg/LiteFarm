@@ -90,6 +90,7 @@ class Sensor extends Model {
         sensor_reading_type: readingTypes.map((readingType) => {
           return { partner_reading_type_id: readingType.partner_reading_type_id };
         }),
+        model: sensor.model,
       },
     };
 

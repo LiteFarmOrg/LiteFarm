@@ -21,6 +21,7 @@ const getSensorFromLocationObject = (location) => {
     ...pick(location.figure.point, pointProperties),
     ...pick(location.sensor, sensorProperties),
     sensor_reading_types: [],
+    brand_name: '',
   };
   console.log(result);
   return result;
@@ -47,6 +48,10 @@ const upsertSensorReadingTypes = (state, { payload: { location_id, sensor_readin
   sensorAdapter.updateOne(state, { id: location_id, changes: { sensor_reading_types } });
 };
 
+const upsertSensorBrand = (state, { payload: { location_id, brand_name } }) => {
+  sensorAdapter.updateOne(state, { id: location_id, changes: { brand_name } });
+};
+
 const sensorAdapter = createEntityAdapter({
   selectId: (sensor) => sensor.location_id,
 });
@@ -68,6 +73,7 @@ const sensorSlice = createSlice({
     editSensorSuccess: upsertOneSensorWithLocation,
     deleteSensorSuccess: softDeleteSensor,
     onSensorReadingTypesSuccess: upsertSensorReadingTypes,
+    onSensorBrandSuccess: upsertSensorBrand,
   },
 });
 export const {
@@ -79,6 +85,7 @@ export const {
   deleteSensorSuccess,
   postManySensorsSuccess,
   onSensorReadingTypesSuccess,
+  onSensorBrandSuccess,
 } = sensorSlice.actions;
 export default sensorSlice.reducer;
 

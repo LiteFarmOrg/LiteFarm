@@ -31,7 +31,7 @@ export default function PureSensorDetail({
   const { t } = useTranslation();
   const dispatch = useDispatch();
 
-  const { location_id, name, brand, depth, external_id, model, point } = sensorInfo;
+  const { location_id, name, brand_name, depth, external_id, model, point } = sensorInfo;
   const {
     register,
     handleSubmit,
@@ -42,7 +42,7 @@ export default function PureSensorDetail({
     formState: { errors, isValid },
   } = useForm({
     defaultValues: {
-      brand: 'ensemble_scientific',
+      brand_name: 'ensemble_scientific',
       sensor_name: 'Input container data',
       latitude: '1',
       longtitude: '2',
@@ -131,7 +131,7 @@ export default function PureSensorDetail({
         />
       </div>
 
-      <div>
+      {/* <div>
         <FilterPillSelect
           subject={filter.subject}
           options={filter.options}
@@ -141,7 +141,7 @@ export default function PureSensorDetail({
           key={filter.filterKey}
           isDisabled={true}
         />
-      </div>
+      </div> */}
 
       <Unit
         register={register}
@@ -161,8 +161,8 @@ export default function PureSensorDetail({
 
       <ReactSelect
         label={t('SENSOR.DETAIL.BRAND')}
-        placeholder={brand}
-        defaultValue={brand}
+        placeholder={brand_name}
+        defaultValue={brand_name}
         isDisabled={true}
         style={{ paddingBottom: '32px' }}
         toolTipContent={t('SENSOR.DETAIL.BRAND_TOOLTIP')}

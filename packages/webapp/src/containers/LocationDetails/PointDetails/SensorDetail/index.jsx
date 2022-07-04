@@ -6,16 +6,17 @@ import { useTranslation } from 'react-i18next';
 import { useEffect, useRef } from 'react';
 import { sensorsSelector } from '../../../sensorSlice';
 import { isAdminSelector } from '../../../userFarmSlice';
-import { getSensorReadingTypes } from './saga';
+import { getSensorReadingTypes, getSensorBrand } from './saga';
 
 export default function Detail({ history, user, match }) {
   const dispatch = useDispatch();
   const location_id = match.params.location_id;
   const sensorInfo = useSelector(sensorsSelector(location_id));
 
-  const { sensor_id } = sensorInfo;
+  const { sensor_id, partner_id } = sensorInfo;
   useEffect(() => {
     dispatch(getSensorReadingTypes({ location_id, sensor_id }));
+    dispatch(getSensorBrand({ location_id, partner_id }));
   });
 
   const tasksFilter = useSelector(tasksFilterSelector);
@@ -40,7 +41,7 @@ export default function Detail({ history, user, match }) {
     filterKey: STATUS,
     options: reading_types.map((type) => ({
       value: type.toLowerCase(),
-      default: tasksFilter[STATUS][type.toLowerCase()]?.active ?? true,
+      default: true,
       label: t(`SENSOR.READING.${type.toUpperCase()}`),
     })),
   };

@@ -21,10 +21,15 @@ import { createAction } from '@reduxjs/toolkit';
 import i18n from '../../../../locales/i18n';
 import history from '../../../../history';
 import { enqueueErrorSnackbar, enqueueSuccessSnackbar } from '../../../Snackbar/snackbarSlice';
-import { onLoadingSensorFail, onSensorReadingTypesSuccess } from '../../../sensorSlice';
+import {
+  onLoadingSensorFail,
+  onSensorReadingTypesSuccess,
+  onSensorBrandSuccess,
+} from '../../../sensorSlice';
 
 export const patchSensor = createAction(`patchSensorSaga`);
 export const getSensorReadingTypes = createAction('getSensorReadingTypesSaga');
+export const getSensorBrand = createAction('getSensorBrandSaga');
 
 export function* patchSensorSaga({ payload: sensorData }) {
   // const { sensorUrl } = apiConfig;
@@ -58,7 +63,23 @@ export function* getSensorReadingTypesSaga({ payload: { location_id, sensor_id }
     );
     const sensor_reading_types = sensor_reading_types_response.data;
     yield put(onSensorReadingTypesSuccess({ location_id, sensor_reading_types }));
-  } catch (e) {
+  } catch (error) {
+    yield put(onLoadingSensorFail());
+  }
+}
+
+export function* getSensorBrandSaga({ payload: { location_id, partner_id } }) {
+  try {
+    let { user_id, farm_id } = yield select(loginSelector);
+    const header = getHeader(user_id, farm_id);
+    const brand_name_response = yield call(
+      axios.get,
+      `${sensorUrl}/brand_name/${partner_id}`,
+      header,
+    );
+    const brand_name = brand_name_response.data;
+    yield put(onSensorBrandSuccess({ location_id, brand_name }));
+  } catch (error) {
     yield put(onLoadingSensorFail());
   }
 }
@@ -66,4 +87,5 @@ export function* getSensorReadingTypesSaga({ payload: { location_id, sensor_id }
 export default function* sensorDetailSaga() {
   yield takeLeading(patchSensor.type, patchSensorSaga);
   yield takeLeading(getSensorReadingTypes.type, getSensorReadingTypesSaga);
+  yield takeLeading(getSensorBrand.type, getSensorBrandSaga);
 }

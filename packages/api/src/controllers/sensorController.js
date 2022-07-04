@@ -38,8 +38,17 @@ const sensorController = {
         (datapoint) => datapoint.readable_value,
       );
       res.status(200).send(readingTypes);
-    } catch (e) {
+    } catch (error) {
       res.status(404).send('Sensor not found');
+    }
+  },
+  async getBrandName(req, res) {
+    try {
+      const { partner_id } = req.params;
+      const brand_name_response = await IntegratingPartnersModel.getBrandName(partner_id);
+      res.status(200).send(brand_name_response[0].partner_name);
+    } catch (error) {
+      res.status(404).send('Partner not found');
     }
   },
   async addSensors(req, res) {

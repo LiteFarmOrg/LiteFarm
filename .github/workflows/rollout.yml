@@ -15,6 +15,6 @@ jobs:
           privateKey: ${{ secrets.PRIVATE_KEY }}
           command: |
             su litefarm
-            cd ~/LiteFarm
+            cd /home/litefarm/LiteFarm
             git pull
             docker-compose -f docker-compose.beta.yml up --build -d

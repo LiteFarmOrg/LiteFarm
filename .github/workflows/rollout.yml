@@ -11,7 +11,7 @@ jobs:
       - name: Execute SSH commmands on remote server
         uses: JimCronqvist/action-ssh@master
         with:
-          hosts: 'avocado.litefarm.org'
+          hosts: 'root@avocado.litefarm.org'
           privateKey: ${{ secrets.PRIVATE_KEY }}
           command: |
             whoami

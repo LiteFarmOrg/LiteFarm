@@ -30,7 +30,6 @@ export default function PureSensorDetail({ history, isAdmin, system, sensorInfo 
     sensorInfo;
   const {
     register,
-    handleSubmit,
     getValues,
     watch,
     control,
@@ -82,18 +81,18 @@ export default function PureSensorDetail({ history, isAdmin, system, sensorInfo 
         tabs={[
           {
             label: t('SENSOR.VIEW_HEADER.READINGS'),
-            path: `/`,
-            state: location?.state,
+            path: `/sensor/${location_id}/readings`, // May need to be changed
+            // state: location?.state,
           },
           {
             label: t('SENSOR.VIEW_HEADER.TASKS'),
-            path: `/`,
-            state: location?.state,
+            path: `/sensor/${location_id}/tasks`, // May need to be changed
+            // state: location?.state,
           },
           {
             label: t('SENSOR.VIEW_HEADER.DETAILS'),
-            path: `/`,
-            state: location?.state,
+            path: `/sensor/${location_id}/details`,
+            // state: location?.state,
           },
         ]}
       />

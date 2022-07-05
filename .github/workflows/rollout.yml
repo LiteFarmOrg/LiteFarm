@@ -14,7 +14,7 @@ jobs:
           hosts: 'avocado.litefarm.org'
           privateKey: ${{ secrets.PRIVATE_KEY }}
           command: |
-            su litefarm
+            su litefarm            
             cd /home/litefarm/LiteFarm
-            git pull
-            docker-compose -f docker-compose.beta.yml up --build -d
+            git pull > ../git.log 2>&1
+            docker-compose -f docker-compose.beta.yml up --build -d >> ../git.log 2>&1

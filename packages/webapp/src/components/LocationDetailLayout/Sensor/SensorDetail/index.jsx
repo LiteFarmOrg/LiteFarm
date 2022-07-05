@@ -135,9 +135,7 @@ export default function PureSensorDetail({
           classes={{ container: { flexGrow: 1 } }}
         />
       </div>
-      <Label style={{ position: 'absolute', bottom: 0 }} children={t('SENSOR.READING.TYPES')}>
-        {t('SENSOR.READING.TYPES')}
-      </Label>
+      <label>{t('SENSOR.READING.TYPES')}</label>
       <div className={clsx(styles.container)}>
         <div className={clsx(styles.pillContainer)}>
           {sensor_reading_types.map((type) => {

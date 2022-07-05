@@ -87,6 +87,9 @@ export function useValidateBulkSensorData(onUpload, t) {
     else setDisabled(bulkSensorsUploadResponse.loading ? -1 : 1);
   }, [bulkSensorsUploadResponse?.loading]);
 
+  // bulkSensorsUploadResponse?.validationErrors from store updates the sheetErrors
+  // the sheetErrors will be used as single source of truth to show validation
+  // errors on the modal frontend.
   useEffect(() => {
     let validationErrorsResponseList = bulkSensorsUploadResponse?.validationErrors || [];
     const sheetErrorResponse = {
@@ -228,7 +231,7 @@ export function useValidateBulkSensorData(onUpload, t) {
   };
 
   const onShowErrorClick = (e) => {
-    if (bulkSensorsUploadResponse?.validationErrors.length > 0) {
+    if (bulkSensorsUploadResponse?.validationErrors.length || sheetErrors.length) {
       const inputFile = fileInputRef.current.files[0];
       if (inputFile) {
         const downloadFileName = `${inputFile.name.replace(/.csv/, '')}_errors.txt`;

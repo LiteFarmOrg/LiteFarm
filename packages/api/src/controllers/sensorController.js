@@ -112,6 +112,15 @@ const sensorController = {
           errorTranslationKey: sensorErrors.SENSOR_HARDWARE_VERSION,
         },
       });
+      if (!data.length > 0) {
+        return hasTimedOut
+          ? await sendSensorNotification(
+              user_id,
+              farm_id,
+              SensorNotificationTypes.SENSOR_BULK_UPLOAD_FAIL,
+            )
+          : res.status(400).send({ error_type: 'empty_file' }) && clearTimeout(timer);
+      }
       if (errors.length > 0) {
         return hasTimedOut
           ? await sendSensorNotification(

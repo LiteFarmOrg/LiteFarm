@@ -129,7 +129,7 @@ export default function PureSensorDetail({ history, isAdmin, system, sensorInfo 
             return (
               <Pill
                 key={type}
-                label={type}
+                label={t(`SENSOR.READING.${type.toUpperCase()}`)}
                 removable={false}
                 className={'activePill'}
                 selected={true}

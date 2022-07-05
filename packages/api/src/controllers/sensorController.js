@@ -352,9 +352,6 @@ const sensorController = {
       );
       const org_id = external_integrations_response[0].organization_uuid;
       const unclaimResponse = await unclaimSensor(org_id, external_id, access_token);
-      // const deleteResponse = await SensorModel.query()
-      //   .patch({ deleted: true })
-      //   .where('sensor_id', sensor_id);
       const deleteResponse = await LocationModel.deleteLocation(location_id, { user_id });
       res.status(200).send({ unclaimResponse, deleteResponse });
     } catch (error) {

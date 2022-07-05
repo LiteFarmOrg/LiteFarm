@@ -82,17 +82,14 @@ export default function PureSensorDetail({ history, isAdmin, system, sensorInfo 
           {
             label: t('SENSOR.VIEW_HEADER.READINGS'),
             path: `/sensor/${location_id}/readings`, // May need to be changed
-            // state: location?.state,
           },
           {
             label: t('SENSOR.VIEW_HEADER.TASKS'),
             path: `/sensor/${location_id}/tasks`, // May need to be changed
-            // state: location?.state,
           },
           {
             label: t('SENSOR.VIEW_HEADER.DETAILS'),
             path: `/sensor/${location_id}/details`,
-            // state: location?.state,
           },
         ]}
       />

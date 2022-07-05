@@ -19,6 +19,7 @@ const SensorReadingModel = require('../models/sensorReadingModel');
 const IntegratingPartnersModel = require('../models/integratingPartnersModel');
 const NotificationUser = require('../models/notificationUserModel');
 const FarmExternalIntegrationsModel = require('../models/farmExternalIntegrationsModel');
+const LocationModel = require('../models/locationModel');
 const { transaction, Model } = require('objection');
 const {
   createOrganization,
@@ -340,7 +341,8 @@ const sensorController = {
 
   async retireSensor(req, res) {
     try {
-      const { external_id, sensor_id, farm_id, partner_id } = req.body.sensorInfo;
+      const { external_id, location_id, farm_id, partner_id } = req.body.sensorInfo;
+      const user_id = req.user.user_id;
       const { access_token } = await IntegratingPartnersModel.getAccessAndRefreshTokens(
         'Ensemble Scientific',
       );
@@ -350,9 +352,10 @@ const sensorController = {
       );
       const org_id = external_integrations_response[0].organization_uuid;
       const unclaimResponse = await unclaimSensor(org_id, external_id, access_token);
-      const deleteResponse = await SensorModel.query()
-        .patch({ deleted: true })
-        .where('sensor_id', sensor_id);
+      // const deleteResponse = await SensorModel.query()
+      //   .patch({ deleted: true })
+      //   .where('sensor_id', sensor_id);
+      const deleteResponse = await LocationModel.deleteLocation(location_id, { user_id });
       res.status(200).send({ unclaimResponse, deleteResponse });
     } catch (error) {
       console.log(error);

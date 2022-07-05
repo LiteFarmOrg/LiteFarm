@@ -30,6 +30,13 @@ const sensorErrors = require('../util/sensorErrors');
 
 const sensorController = {
   async addSensors(req, res) {
+    let timeLimit = 5000;
+    const testTimerOverride = Number(req.query?.sensorUploadTimer);
+    // For testing, query string can set timer limit, 0 to 30 seconds.
+    if (!isNaN(testTimerOverride) && testTimerOverride >= 0 && testTimerOverride <= 30000) {
+      timeLimit = testTimerOverride;
+      console.log(`Custom time limit for sensor upload: ${timeLimit} ms`);
+    }
     let hasTimedOut = false;
     const timer = setTimeout(() => {
       hasTimedOut = true;
@@ -37,7 +44,7 @@ const sensorController = {
         message:
           'Processing your upload is taking longer than expected. We will send you a notification when this finished processing.',
       });
-    }, 5000);
+    }, timeLimit);
     const { farm_id } = req.headers;
     const { user_id } = req.user;
     try {

@@ -1,0 +1,34 @@
+.container {
+  background: var(--grey100);
+  border: 1px solid var(--grey400);
+  box-sizing: border-box;
+  border-radius: 4px;
+  padding: 8px;
+  display: flex;
+  margin-bottom: 24px;
+}
+
+.closedContainer {
+  height: 44px;
+  overflow-y: hidden;
+}
+
+.pillContainer {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.test {
+  margin-left: auto;
+  border: 0;
+  background-color: transparent;
+  display: flex;
+  align-items: center;
+
+
+  color: var(--teal700);
+  font-size: 16px;
+  font-weight: 700;
+  
+}

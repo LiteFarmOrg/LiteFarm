@@ -18,6 +18,10 @@ import FilterPillSelect from '../../../Filter/FilterPillSelect';
 import { container_planting_depth } from '../../../../util/convert-units/unit';
 import Unit from '../../../Form/Unit';
 import { useForm } from 'react-hook-form';
+import Pill from '../../../Filter/Pill';
+import styles from './styles.module.scss';
+import clsx from 'clsx';
+import { Label } from '../../../Typography';
 
 export default function PureSensorDetail({
   history,
@@ -31,7 +35,8 @@ export default function PureSensorDetail({
   const { t } = useTranslation();
   const dispatch = useDispatch();
 
-  const { location_id, name, brand_name, depth, external_id, model, point } = sensorInfo;
+  const { location_id, name, brand_name, depth, external_id, model, point, sensor_reading_types } =
+    sensorInfo;
   const {
     register,
     handleSubmit,
@@ -130,17 +135,23 @@ export default function PureSensorDetail({
           classes={{ container: { flexGrow: 1 } }}
         />
       </div>
-
-      <div>
-        <FilterPillSelect
-          subject={filter.subject}
-          options={filter.options}
-          filterKey={filter.filterKey}
-          style={{ marginBottom: '32px' }}
-          filterRef={filterRef}
-          key={filter.filterKey}
-          isDisabled={true}
-        />
+      <Label style={{ position: 'absolute', bottom: 0 }} children={t('SENSOR.READING.TYPES')}>
+        {t('SENSOR.READING.TYPES')}
+      </Label>
+      <div className={clsx(styles.container)}>
+        <div className={clsx(styles.pillContainer)}>
+          {sensor_reading_types.map((type) => {
+            return (
+              <Pill
+                key={type}
+                label={type}
+                removable={false}
+                className={'activePill'}
+                selected={true}
+              />
+            );
+          })}
+        </div>
       </div>
 
       <Unit

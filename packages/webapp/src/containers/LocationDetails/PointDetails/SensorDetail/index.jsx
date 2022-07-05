@@ -19,46 +19,13 @@ export default function Detail({ history, user, match }) {
     dispatch(getSensorBrand({ location_id, partner_id }));
   });
 
-  const tasksFilter = useSelector(tasksFilterSelector);
-
   const system = useSelector(measurementSelector);
 
   const { t } = useTranslation();
 
-  const SOIL_WATER_CONTENT = 'Soil water content';
-  const SOIL_WATER_POTENTIAL = 'Soil water potential';
-  const TEMPERATURE = 'Temperature';
-
-  const statuses = [SOIL_WATER_CONTENT, SOIL_WATER_POTENTIAL, TEMPERATURE];
-  const reading_types = sensorInfo.sensor_reading_types;
-
-  const READING_TYPE = 'READING_TYPE';
-  const STATUS = 'STATUS';
-  const filterRef = useRef({});
-
-  const filter = {
-    subject: t('SENSOR.DETAIL.READING_TYPES'),
-    filterKey: READING_TYPE,
-    options: reading_types.map((type) => ({
-      value: type.toLowerCase(),
-      default: true,
-      label: t(`SENSOR.READING.${type.toUpperCase()}`),
-      active: true,
-    })),
-  };
-
   const isAdmin = useSelector(isAdminSelector);
 
   return (
-    <PureSensorDetail
-      history={history}
-      isAdmin={isAdmin}
-      match={match}
-      system={system}
-      filter={filter}
-      filterRef={filterRef}
-      tasksFilter={tasksFilter}
-      sensorInfo={sensorInfo}
-    />
+    <PureSensorDetail history={history} isAdmin={isAdmin} system={system} sensorInfo={sensorInfo} />
   );
 }

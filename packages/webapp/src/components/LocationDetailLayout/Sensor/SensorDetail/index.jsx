@@ -14,23 +14,14 @@ import {
 import axios from 'axios';
 import { getAccessToken } from '../../../../util/jwt';
 import { sensorUrl } from '../../../../apiConfig';
-import FilterPillSelect from '../../../Filter/FilterPillSelect';
 import { container_planting_depth } from '../../../../util/convert-units/unit';
 import Unit from '../../../Form/Unit';
 import { useForm } from 'react-hook-form';
 import Pill from '../../../Filter/Pill';
 import styles from './styles.module.scss';
 import clsx from 'clsx';
-import { Label } from '../../../Typography';
 
-export default function PureSensorDetail({
-  history,
-  isAdmin,
-  system,
-  filter,
-  filterRef,
-  sensorInfo,
-}) {
+export default function PureSensorDetail({ history, isAdmin, system, sensorInfo }) {
   const [showRetireModal, setShowRetireModal] = useState(false);
   const { t } = useTranslation();
   const dispatch = useDispatch();

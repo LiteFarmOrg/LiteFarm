@@ -19,7 +19,8 @@ if (import.meta.env.VITE_API_URL?.length) {
   URI = import.meta.env.VITE_API_URL;
 } else {
   if (VITE_ENV === 'development') {
-    URI = window.location.href.replace(/3000.*/, '5000');
+    const ngrokURL = import.meta.env.NGROK_API_URL;
+    URI = ngrokURL || window.location.href.replace(/3000.*/, '5000');
   } else if (VITE_ENV === 'production') {
     URI = 'https://api.app.litefarm.org';
   } else if (VITE_ENV === 'integration') {

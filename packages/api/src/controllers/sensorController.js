@@ -149,7 +149,7 @@ const sensorController = {
         // Filter sensors by those successfully registered and those with errors
         const { registeredSensors, errorSensors } = data.reduce(
           (prev, curr, idx) => {
-            if (success.includes(curr.external_id)) {
+            if (success.includes(curr.external_id) || already_owned.includes(curr.external_id)) {
               prev.registeredSensors.push(curr);
             } else if (curr.brand !== 'Ensemble Scientific') {
               prev.registeredSensors.push(curr);
@@ -174,7 +174,7 @@ const sensorController = {
         );
 
         // Save sensors in database
-        const sensorLocations = await Promise.all(
+        const sensorLocations = await Promise.allSettled(
           registeredSensors.map(async (sensor) => {
             return await SensorModel.createSensor(
               sensor,
@@ -185,7 +185,21 @@ const sensorController = {
           }),
         );
 
-        if (success.length + already_owned.length < esids.length) {
+        const successSensors = sensorLocations.reduce((prev, curr) => {
+          if (curr.status === 'fulfilled') {
+            prev.push(curr.value.sensor.external_id);
+          } else {
+            errorSensors.push({
+              row: data.findIndex((elem) => elem === curr.value.sensor.external_id) + 2,
+              column: 'External_ID',
+              translation_key: sensorErrors.INTERNAL_ERROR,
+              variables: { sensorId: curr.value.sensor.external_id },
+            });
+          }
+          return prev;
+        }, []);
+
+        if (successSensors.length < esids.length) {
           return hasTimedOut
             ? await sendSensorNotification(
                 user_id,
@@ -196,13 +210,13 @@ const sensorController = {
                     errors: errorSensors,
                     file_name: 'sensor-upload-outcomes.txt',
                     is_validation_error: false,
-                    success,
+                    success: successSensors,
                   },
                 },
               )
             : res.status(400).send({
                 error_type: 'unable_to_claim_all_sensors',
-                success,
+                success: successSensors,
                 errorSensors,
               }) && clearTimeout(timer);
         } else {

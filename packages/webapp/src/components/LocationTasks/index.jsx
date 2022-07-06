@@ -11,7 +11,15 @@ import { getLanguageFromLocalStorage } from '../../util/getLanguageFromLocalStor
 import { onAddTask } from '../../containers/Task/onAddTask';
 import { useDispatch } from 'react-redux';
 
-export default function PureLocationTasks({ location, history, match, hasCrops, tasks, count }) {
+export default function PureLocationTasks({
+  location,
+  history,
+  match,
+  hasCrops,
+  tasks,
+  count,
+  hasReadings,
+}) {
   const language = getLanguageFromLocalStorage();
   const { t } = useTranslation();
   const dispatch = useDispatch();
@@ -49,31 +57,28 @@ export default function PureLocationTasks({ location, history, match, hasCrops, 
       .map((key) => renderTasksForDay(key, tasks[key]));
   };
 
-  const routerTabs = hasCrops
-    ? [
-        {
-          label: t('FARM_MAP.TAB.CROPS'),
-          path: match.url.replace('tasks', 'crops'),
-        },
-        {
-          label: t('FARM_MAP.TAB.TASKS'),
-          path: match.url,
-        },
-        {
-          label: t('FARM_MAP.TAB.DETAILS'),
-          path: match.url.replace('tasks', 'details'),
-        },
-      ]
-    : [
-        {
-          label: t('FARM_MAP.TAB.TASKS'),
-          path: match.url,
-        },
-        {
-          label: t('FARM_MAP.TAB.DETAILS'),
-          path: match.url.replace('tasks', 'details'),
-        },
-      ];
+  const routerTabs = [
+    {
+      label: t('FARM_MAP.TAB.TASKS'),
+      path: match.url,
+    },
+    {
+      label: t('FARM_MAP.TAB.DETAILS'),
+      path: match.url.replace('tasks', 'details'),
+    },
+  ];
+
+  if (hasCrops) {
+    routerTabs.splice(0, 0, {
+      label: t('FARM_MAP.TAB.CROPS'),
+      path: match.url.replace('tasks', 'crops'),
+    });
+  } else if (hasReadings) {
+    routerTabs.splice(0, 0, {
+      label: t('FARM_MAP.TAB.READINGS'),
+      path: match.url.replace('tasks', 'readings'),
+    });
+  }
 
   return (
     <Layout>

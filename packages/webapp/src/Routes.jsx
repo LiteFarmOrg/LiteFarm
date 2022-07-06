@@ -151,6 +151,8 @@ const PostWatercourseForm = React.lazy(() =>
 );
 const WatercourseDetails = React.lazy(() => import('./routes/WatercourseDetailsRoutes'));
 
+const SensorDetails = React.lazy(() => import('./routes/SensorDetailsRoutes'));
+
 const CropCatalogue = React.lazy(() => import('./containers/CropCatalogue'));
 const CropVarieties = React.lazy(() => import('./containers/CropVarieties'));
 const AddCrop = React.lazy(() => import('./containers/AddCropVariety/AddCropVariety'));
@@ -544,6 +546,7 @@ const Routes = () => {
             <Route path="/fence/:location_id" component={FenceDetails} />
             <Route path="/buffer_zone/:location_id" component={BufferZoneDetails} />
             <Route path="/watercourse/:location_id" component={WatercourseDetails} />
+            <Route path="/sensor/:location_id" component={SensorDetails} />
 
             <Route path="/finances" exact component={Finances} />
             <Route path="/insights" exact component={Insights} />

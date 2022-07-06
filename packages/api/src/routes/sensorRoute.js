@@ -36,5 +36,6 @@ router.post('/add_reading/:partner_id', SensorController.addReading);
 router.post('/get_readings', SensorController.getAllReadingsBySensorId);
 router.get('/sensor_readings/:farm_id/:days', SensorController.getReadingsByFarmId);
 router.post('/invalidate_readings', SensorController.invalidateReadings);
+router.post('/get_sensor_readings_for_visualization', SensorController.getAllReadingsBySensorIds);
 
 module.exports = router;

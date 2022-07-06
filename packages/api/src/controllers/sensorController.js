@@ -339,6 +339,41 @@ const sensorController = {
       });
     }
   },
+
+  async getAllReadingsBySensorIds(req, res) {
+    try {
+      const { sensorIds = [], reading_type = '', endDate = '' } = req.body;
+
+      if (!sensorIds.length || !Array.isArray(sensorIds)) {
+        return res.status(400).send('No sensor ids are present');
+      }
+
+      if (!sensorIds.every((i) => typeof i === 'string')) {
+        return res.status(400).send('Invalid sensor ids are present');
+      }
+
+      if (!reading_type.length) {
+        return res.status(400).send('No read type is present');
+      }
+
+      if (!endDate.length) {
+        return res.status(400).send('No end date is present');
+      }
+
+      const result = await SensorReadingModel.getSensorReadingsBySensorIds(
+        new Date(endDate),
+        sensorIds,
+        reading_type,
+      );
+
+      const sensorsPoints = await SensorModel.getSensorLocationBySensorIds(sensorIds);
+      res
+        .status(200)
+        .send({ length: result.length, sensorReading: result, sensorsPoints: sensorsPoints.rows });
+    } catch (error) {
+      res.status(400).send(error);
+    }
+  },
 };
 
 /**

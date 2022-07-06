@@ -69,6 +69,31 @@ class SensorReading extends Model {
       .where('farm_id', farmId)
       .andWhere('created_at', '>=', pastDate);
   }
+
+  /**
+   * Returns sensor readings for the list of sensor ids, reading_type and endDate
+   * @param {Date} endDate end date
+   * @param {Array} sensorIds sensor ids
+   * @param {string} reading_type end date
+   * @returns {Object} reading_type Reading Object
+   */
+  static async getSensorReadingsBySensorIds(
+    endDate = new Date(),
+    sensorIds = [],
+    reading_type = '',
+  ) {
+    const startDate = new Date(endDate);
+    startDate.setDate(endDate.getDate() - 3);
+    return await SensorReading.query()
+      .select('*')
+      .joinRaw('JOIN sensor ON sensor_reading.sensor_id::uuid = sensor.sensor_id')
+      .whereIn('sensor_reading.sensor_id', sensorIds)
+      .andWhere('reading_type', '=', reading_type)
+      .andWhere('valid', '=', true)
+      .andWhere('read_time', '>=', startDate)
+      .andWhere('read_time', '<', endDate)
+      .orderBy([{ column: 'sensor_reading.sensor_id' }, { column: 'sensor_reading.read_time' }]);
+  }
 }
 
 module.exports = SensorReading;

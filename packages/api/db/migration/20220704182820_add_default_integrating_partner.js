@@ -26,5 +26,9 @@ exports.up = async function (knex) {
 };
 
 exports.down = async function (knex) {
+  await knex.raw(
+    `DELETE FROM sensor_reading_type WHERE sensor_id IN (SELECT sensor_id FROM sensor WHERE partner_id = 0);`,
+  );
+  await knex.raw(`DELETE FROM sensor WHERE partner_id = 0;`);
   await knex('integrating_partner').where('partner_id', 0).del();
 };

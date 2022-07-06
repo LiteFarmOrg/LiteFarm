@@ -1,6 +1,6 @@
-import React, { Suspense, useEffect, useState } from 'react';
+import React, { Suspense, useEffect, useState, useLayoutEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import PureCustomSignUp from '../../components/CustomSignUp';
 import { customCreateUser, customLoginWithPassword, customSignUp, sendResetPasswordEmail } from './saga';
 import history from '../../history';
@@ -10,6 +10,7 @@ import GoogleLoginButton from '../GoogleLoginButton';
 import { CREATE_USER_ACCOUNT, CUSTOM_SIGN_UP, ENTER_PASSWORD_PAGE, inlineErrors } from './constants';
 import { isChrome } from '../../util';
 import { getLanguageFromLocalStorage } from '../../util/getLanguageFromLocalStorage';
+import { customSignUpErrorKeySelector, setCustomSignUpErrorKey } from '../customSignUpSlice';
 
 const ResetPassword = React.lazy(() => import('../ResetPassword'));
 const PureEnterPasswordPage = React.lazy(() => import('../../components/Signup/EnterPasswordPage'));
@@ -37,7 +38,6 @@ function CustomSignUp() {
     watch,
     setValue,
     setError,
-
     formState: { errors },
   } = useForm({
     mode: 'onTouched',
@@ -54,6 +54,8 @@ function CustomSignUp() {
   const showPureCreateUserAccount = componentToShow === CREATE_USER_ACCOUNT;
   const showPureCustomSignUp = !showPureCreateUserAccount && !showPureEnterPasswordPage;
   const { t, i18n, ready } = useTranslation(['translation', 'common'], { useSuspense: false });
+
+  const customSignUpErrorKey = useSelector(customSignUpErrorKeySelector);
 
   const forgotPassword = () => {
     dispatch(sendResetPasswordEmail(email));
@@ -76,27 +78,31 @@ function CustomSignUp() {
     }
   }, [componentToShow]);
 
-  const showSSOErrorAndRedirect = (error) => {
-    //OC: Dynamically setting the error is not an option because of the need to reflect the key on the translation file
-    const allMessages = {
-      sso: t('SIGNUP.SSO_ERROR'),
-      expired: t('SIGNUP.EXPIRED_ERROR'),
-      invited: t('SIGNUP.INVITED_ERROR'),
-    };
-    const message = allMessages[error];
+  useLayoutEffect(() => {
+    dispatch(setCustomSignUpErrorKey({ key: null }));
+  }, []);
+
+  useEffect(() => {
+    if (!customSignUpErrorKey) return;
+    const message = t(customSignUpErrorKey);
+
+    console.log(errors);
+
     setError(EMAIL, {
       type: 'manual',
       message,
     });
-    if (error === inlineErrors.sso) {
+
+    if (customSignUpErrorKey === inlineErrors.sso) {
       // TODO: Create custom google login button pass in React google login along with ref
       const googleLoginButton = document.getElementsByClassName('google-login-button')[0];
       googleLoginButton.click();
     }
-  };
+  }, [customSignUpErrorKey, errors]);
+
   const onSubmit = (data) => {
     const { email } = data;
-    dispatch(customSignUp({ email: email?.toLowerCase(), showSSOError: showSSOErrorAndRedirect }));
+    dispatch(customSignUp({ email: email?.toLowerCase() }));
   };
 
   const onSignUp = (user) => {
@@ -161,6 +167,7 @@ function CustomSignUp() {
               label: t('SIGNUP.ENTER_EMAIL'),
               hookFormRegister: emailRegister,
               errors: errors[EMAIL] && (errors[EMAIL].message || t('SIGNUP.EMAIL_INVALID')),
+              onChange: () => dispatch(setCustomSignUpErrorKey({ key: null })),
             },
           ]}
         />

@@ -8,12 +8,11 @@ jobs:
   rollout:
     runs-on: ubuntu-20.04
     steps:
-      - name: Execute SSH commmands on remote server
-        uses: JimCronqvist/action-ssh@master
+      - name: Docker deploy 
+        uses: wshihadeh/docker-deployment-action@v1
         with:
-          hosts: 'root@avocado.litefarm.org'
-          privateKey: ${{ secrets.PRIVATE_KEY }}
-          command: |
-            whoami
-            pwd
-            ls
+          remote_docker_host: root@avocado.litefarm.org
+          ssh_private_key: ${{ secrets.PRIVATE_KEY }}
+          ssh_public_key: ${{ secrets.PUBLIC_KEY }}
+          copy_stack_file: true
+          stack_file_name: docker-compose.beta.yml

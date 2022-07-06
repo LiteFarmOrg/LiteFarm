@@ -16,3 +16,4 @@ jobs:
           ssh_public_key: ${{ secrets.PUBLIC_KEY }}
           copy_stack_file: true
           stack_file_name: docker-compose.beta.yml
+          args: lfargs

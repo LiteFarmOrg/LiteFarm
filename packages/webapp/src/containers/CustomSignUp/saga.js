@@ -24,6 +24,7 @@ import { getFirstNameLastName } from '../../util';
 import { axios } from '../saga';
 import { enqueueErrorSnackbar } from '../Snackbar/snackbarSlice';
 import { getLanguageFromLocalStorage } from '../../util/getLanguageFromLocalStorage';
+import { setCustomSignUpErrorKey } from '../customSignUpSlice';
 
 const loginUrl = (email) => `${url}/login/user/${email}`;
 const loginWithPasswordUrl = () => `${url}/login`;
@@ -32,7 +33,7 @@ const resetPasswordUrl = () => `${url}/password_reset/send_email`;
 
 export const customSignUp = createAction(`customSignUpSaga`);
 
-export function* customSignUpSaga({ payload: { email, showSSOError } }) {
+export function* customSignUpSaga({ payload: { email } }) {
   try {
     const result = yield call(axios.get, loginUrl(email));
     if (result.data.exists && !result.data.sso) {
@@ -50,9 +51,9 @@ export function* customSignUpSaga({ payload: { email, showSSOError } }) {
         },
       );
     } else if (result.data.invited) {
-      showSSOError(inlineErrors.invited);
+      yield put(setCustomSignUpErrorKey({ key: inlineErrors.invited }));
     } else if (result.data.expired) {
-      showSSOError(inlineErrors.expired);
+      yield put(setCustomSignUpErrorKey({ key: inlineErrors.expired }));
     } else if (!result.data.exists && !result.data.sso) {
       history.push(
         {
@@ -64,7 +65,7 @@ export function* customSignUpSaga({ payload: { email, showSSOError } }) {
         },
       );
     } else if (result.data.sso) {
-      showSSOError(inlineErrors.sso);
+      yield put(setCustomSignUpErrorKey({ key: inlineErrors.sso }));
     }
   } catch (e) {
     console.log(e);

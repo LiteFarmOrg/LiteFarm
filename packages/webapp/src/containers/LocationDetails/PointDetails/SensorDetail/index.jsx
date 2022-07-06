@@ -22,7 +22,7 @@ import { sensorsSelector } from '../../../sensorSlice';
 import { isAdminSelector } from '../../../userFarmSlice';
 import { getSensorReadingTypes, getSensorBrand } from './saga';
 
-export default function Detail({ history, user, match }) {
+export default function SensorDetail({ history, user, match }) {
   const dispatch = useDispatch();
   const location_id = match.params.location_id;
   const sensorInfo = useSelector(sensorsSelector(location_id));

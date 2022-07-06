@@ -16,6 +16,8 @@
 const express = require('express');
 const multer = require('multer');
 const checkScope = require('../middleware/acl/checkScope');
+const path = require('path');
+require('dotenv').config({ path: path.resolve(__dirname, '..', '..', '..', '.env') });
 
 const SensorController = require('../controllers/sensorController');
 
@@ -32,9 +34,20 @@ router.post(
   SensorController.addSensors,
 );
 router.delete('/delete_sensor/:sensor_id', SensorController.deleteSensor);
-router.post('/add_reading/:partner_id', SensorController.addReading);
+router.post('/add_reading/:partner_id/:farm_id', validateRequest, SensorController.addReading);
 router.post('/get_readings', SensorController.getAllReadingsBySensorId);
 router.get('/sensor_readings/:farm_id/:days', SensorController.getReadingsByFarmId);
 router.post('/invalidate_readings', SensorController.invalidateReadings);
+
+function validateRequest(req, res, next) {
+  const farmId = req.params.farm_id;
+  const authKey = `${farmId}${process.env.SENSOR_SECRET}`;
+  if (req.headers.authorization === authKey) {
+    next();
+  } else {
+    console.error('forbidden');
+    res.status(403);
+  }
+}
 
 module.exports = router;

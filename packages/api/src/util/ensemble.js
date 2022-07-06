@@ -78,12 +78,13 @@ async function bulkSensorClaim(accessToken, organizationId, esids) {
  */
 
 async function registerOrganizationWebhook(farmId, organizationId, accessToken) {
+  const authHeader = `${farmId}${process.env.SENSOR_SECRET}`;
   const axiosObject = {
     method: 'post',
     url: `${ensembleAPI}/organizations/${organizationId}/webhooks/`,
     data: {
-      url: `${baseUrl}/sensors/add_reading/1`,
-      authorization_header: process.env.SENSOR_SECRET,
+      url: `${baseUrl}/sensors/add_reading/1/${farmId}`,
+      authorization_header: authHeader,
       frequency: 15,
     },
   };

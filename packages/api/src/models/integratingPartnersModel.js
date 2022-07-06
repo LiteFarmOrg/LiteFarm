@@ -67,7 +67,10 @@ class IntegratingPartners extends Model {
       .where({ partner_name, deactivated: false });
   }
   static async getBrandName(partner_id) {
-    return await IntegratingPartners.query().select('partner_name').where('partner_id', partner_id);
+    return await IntegratingPartners.query()
+      .select('partner_name')
+      .where('partner_id', partner_id)
+      .first();
   }
 }
 

@@ -47,7 +47,7 @@ const sensorController = {
     try {
       const { partner_id } = req.params;
       const brand_name_response = await IntegratingPartnersModel.getBrandName(partner_id);
-      res.status(200).send(brand_name_response[0].partner_name);
+      res.status(200).send(brand_name_response.partner_name);
     } catch (error) {
       res.status(404).send('Partner not found');
     }
@@ -350,7 +350,7 @@ const sensorController = {
         farm_id,
         partner_id,
       );
-      const org_id = external_integrations_response[0].organization_uuid;
+      const org_id = external_integrations_response.organization_uuid;
       const unclaimResponse = await unclaimSensor(org_id, external_id, access_token);
       const deleteResponse = await LocationModel.deleteLocation(location_id, { user_id });
       res.status(200).send({ unclaimResponse, deleteResponse });

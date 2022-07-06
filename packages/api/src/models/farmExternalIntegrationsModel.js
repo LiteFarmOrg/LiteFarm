@@ -97,7 +97,8 @@ class FarmExternalIntegrations extends Model {
     return FarmExternalIntegrations.query()
       .select('organization_uuid')
       .where('farm_id', farmId)
-      .where('partner_id', partnerId);
+      .where('partner_id', partnerId)
+      .first();
   }
 }
 

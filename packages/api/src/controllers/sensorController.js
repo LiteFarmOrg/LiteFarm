@@ -368,36 +368,33 @@ const sensorController = {
 const parseCsvString = (csvString, mapping, delimiter = ',') => {
   // regex checks for delimiters that are not contained within quotation marks
   const regex = new RegExp(`(?!\\B"[^"]*)${delimiter}(?![^"]*"\\B)`);
-  const headers = csvString.substring(0, csvString.indexOf('\n')).split(regex);
+  const rows = csvString.split(/\r\n|\r|\n/).filter((elem) => elem !== '');
+  const headers = rows[0].split(regex);
   const allowedHeaders = Object.keys(mapping);
-  const { data, errors } = csvString
-    .substring(csvString.indexOf('\n') + 1)
-    .split('\n')
-    .reduce(
-      (previous, row, rowIndex) => {
-        const values = row.split(regex);
-        const parsedRow = headers.reduce((previousObj, current, index) => {
-          if (allowedHeaders.includes(current)) {
-            const val = mapping[current].parseFunction(
-              values[index].replace(/^(["'])(.*)\1$/, '$2'),
-            ); // removes any surrounding quotation marks
-            if (mapping[current].validator(val)) {
-              previousObj[mapping[current].key] = val;
-            } else {
-              previous.errors.push({
-                row: rowIndex + 2,
-                column: current,
-                translation_key: mapping[current].errorTranslationKey,
-              });
-            }
+  const dataRows = rows.slice(1);
+  const { data, errors } = dataRows.reduce(
+    (previous, row, rowIndex) => {
+      const values = row.split(regex);
+      const parsedRow = headers.reduce((previousObj, current, index) => {
+        if (allowedHeaders.includes(current)) {
+          const val = mapping[current].parseFunction(values[index].replace(/^(["'])(.*)\1$/, '$2')); // removes any surrounding quotation marks
+          if (mapping[current].validator(val)) {
+            previousObj[mapping[current].key] = val;
+          } else {
+            previous.errors.push({
+              row: rowIndex + 2,
+              column: current,
+              translation_key: mapping[current].errorTranslationKey,
+            });
           }
-          return previousObj;
-        }, {});
-        previous.data.push(parsedRow);
-        return previous;
-      },
-      { data: [], errors: [] },
-    );
+        }
+        return previousObj;
+      }, {});
+      previous.data.push(parsedRow);
+      return previous;
+    },
+    { data: [], errors: [] },
+  );
   return { data, errors };
 };
 

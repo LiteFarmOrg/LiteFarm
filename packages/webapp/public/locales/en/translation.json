@@ -492,7 +492,8 @@
     },
     "DRAWING_MANAGER": {
       "REDRAW": "Redraw",
-      "ZERO_AREA_DETECTED": "Field with no area detected. Please add more points to current drawing or draw again."
+      "ZERO_AREA_DETECTED": "Field with no area detected. Please add more points to current drawing or draw again.",
+      "ZERO_LENGTH_DETECTED": "Line with no length detected. Please add more points to current drawing or draw again."
     },
     "EXPORT_MODAL": {
       "BODY": "How do you want to export your farm map?",

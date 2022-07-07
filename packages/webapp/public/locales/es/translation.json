@@ -1364,6 +1364,13 @@
       "VALUE": "Valor"
     }
   },
+  "SENSOR": {
+    "VIEW_HEADER": {
+      "READINGS": "MISSING",
+      "TASKS": "MISSING",
+      "DETAILS": "MISSING"
+    }
+  },
   "SHIFT": {
     "ACTION": "Acción",
     "ADD_NEW": "Agregar nuevo turno",

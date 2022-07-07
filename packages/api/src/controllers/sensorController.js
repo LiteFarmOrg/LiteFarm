@@ -364,7 +364,7 @@ const sensorController = {
         return res.status(400).send('No location ids are present');
       }
 
-      if (!locationIds.every((i) => typeof i === 'string')) {
+      if (!locationIds.every((i) => typeof i === 'string' && i.length === 36)) {
         return res.status(400).send('Invalid location ids are present');
       }
 

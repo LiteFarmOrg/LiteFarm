@@ -1365,6 +1365,13 @@
       "VALUE": "Valeur"
     }
   },
+  "SENSOR": {
+    "VIEW_HEADER": {
+      "READINGS": "MISSING",
+      "TASKS": "MISSING",
+      "DETAILS": "MISSING"
+    }
+  },
   "SHIFT": {
     "ACTION": "Action",
     "ADD_NEW": "Ajouter nouveau poste de travail",

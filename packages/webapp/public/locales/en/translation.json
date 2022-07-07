@@ -1361,6 +1361,13 @@
       "VALUE": "Value"
     }
   },
+  "SENSOR": {
+    "VIEW_HEADER": {
+      "READINGS": "Readings",
+      "TASKS": "Tasks",
+      "DETAILS": "Details"
+    }
+  },
   "SHIFT": {
     "ACTION": "Action",
     "ADD_NEW": "Add New Shift",

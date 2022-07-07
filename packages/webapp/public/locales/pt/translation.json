@@ -1365,6 +1365,13 @@
       "VALUE": "Valor"
     }
   },
+  "SENSOR": {
+    "VIEW_HEADER": {
+      "READINGS": "MISSING",
+      "TASKS": "MISSING",
+      "DETAILS": "MISSING"
+    }
+  },
   "SHIFT": {
     "ACTION": "Açao",
     "ADD_NEW": "Adicionar Novo Turno",

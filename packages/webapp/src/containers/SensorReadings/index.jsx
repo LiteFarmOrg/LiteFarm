@@ -2,25 +2,47 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import ReadingsLineChart from '../../components/ReadingsLineChart';
 import { CURRENT_DATE_TIME } from './constants';
+import PageTitle from '../../components/PageTitle/v2';
+import RouterTab from '../../components/RouterTab';
 
-function SensorReadings() {
+function SensorReadings({ history, match }) {
   const { t } = useTranslation();
+
+  const { location_id = '' } = match?.params;
+
   return (
-    <>
+    <div style={{ padding: '24px 16px', height: '100%' }}>
+      <PageTitle
+        title={'Sensor Readings'}
+        onGoBack={() => history.push('/map')}
+        style={{ marginBottom: '24px' }}
+      />
+      <RouterTab
+        classes={{ container: { margin: '24px 0 24px 0' } }}
+        history={history}
+        tabs={[
+          {
+            label: t('SENSOR.VIEW_HEADER.READINGS'),
+            path: `/sensor/${location_id}/readings`,
+          },
+          {
+            label: t('SENSOR.VIEW_HEADER.TASKS'),
+            path: `/sensor/${location_id}/tasks`,
+          },
+          {
+            label: t('SENSOR.VIEW_HEADER.DETAILS'),
+            path: `/sensor/${location_id}/details`,
+          },
+        ]}
+      />
       <ReadingsLineChart
         title="Soil temperature"
         subTitle={`Today’s ambient high and low temperature: {high}° {tempUnit} / {low}° {tempUnit}`}
         xAxisDataKey={CURRENT_DATE_TIME}
         yAxisLabel={`Temperature in {tempUnit}`}
-        locationIds={[
-          '1a8f428d-3a9c-481d-b9bf-10b3ed651c38',
-          '85aa1462-40ee-4aa2-a3c6-dfd8505646b2',
-          'adcf083e-4cd9-48f9-b411-22ed07b9e5c9',
-          'e90e143e-4066-4d47-8de5-d12d1fc216dc',
-          'c84b01f0-5708-4b0b-8182-22970059d83f',
-        ]}
+        locationIds={[location_id]}
       />
-    </>
+    </div>
   );
 }
 

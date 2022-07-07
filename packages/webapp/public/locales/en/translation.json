@@ -668,7 +668,8 @@
   },
   "FIELDS": {
     "EDIT_FIELD": {
-      "VARIETY": "Variety"
+      "VARIETY": "Variety",
+      "SUPPLIER": "Supplier"
     }
   },
   "FILE_SIZE_MODAL": {

@@ -19,11 +19,19 @@ import { useSelector } from 'react-redux';
 import { bulkSensorsUploadSliceSelector } from '../../../../containers/bulkSensorUploadSlice';
 import { createSensorErrorDownload } from '../../../../util/sensor';
 
-const SENSOR_EXTERNAL_ID = 'External_ID';
+// Required Fields
 const SENSOR_NAME = 'Name';
 const SENSOR_LATITUDE = 'Latitude';
 const SENSOR_LONGITUDE = 'Longitude';
 const SENSOR_READING_TYPES = 'Reading_types';
+
+// Optional Fields
+const SENSOR_EXTERNAL_ID = 'External_ID';
+const SENSOR_DEPTH = 'Depth';
+const SENSOR_BRAND = 'Brand';
+const SENSOR_MODEL = 'Model';
+const SENSOR_PART_NUMBER = 'Part_number';
+const SENSOR_HARDWARE_VERSION = 'hardware_version';
 
 const SOIL_WATER_CONTENT = 'soil_water_content';
 const SOIL_WATER_POTENTIAL = 'soil_water_potential';
@@ -31,12 +39,15 @@ const TEMPERATURE = 'temperature';
 
 const requiredReadingTypes = [SOIL_WATER_CONTENT, SOIL_WATER_POTENTIAL, TEMPERATURE];
 
-const requiredFields = [
+const requiredFields = [SENSOR_NAME, SENSOR_LATITUDE, SENSOR_LONGITUDE, SENSOR_READING_TYPES];
+const templateFields = [
+  ...requiredFields,
   SENSOR_EXTERNAL_ID,
-  SENSOR_NAME,
-  SENSOR_LATITUDE,
-  SENSOR_LONGITUDE,
-  SENSOR_READING_TYPES,
+  SENSOR_DEPTH,
+  SENSOR_BRAND,
+  SENSOR_MODEL,
+  SENSOR_PART_NUMBER,
+  SENSOR_HARDWARE_VERSION,
 ];
 
 export function useValidateBulkSensorData(onUpload, t) {
@@ -50,32 +61,22 @@ export function useValidateBulkSensorData(onUpload, t) {
 
   const validationFields = [
     {
-      errorMessage: t('FARM_MAP.BULK_UPLOAD_SENSORS.VALIDATION.EXTERNAL_ID'),
-      /* eslint-disable no-useless-escape */
-      mask: /^[a-zA-Z0-9 \.\-\/!@#$%^&*)(]{1,20}$/,
-      columnName: SENSOR_EXTERNAL_ID,
-    },
-    {
       errorMessage: t('FARM_MAP.BULK_UPLOAD_SENSORS.VALIDATION.SENSOR_NAME'),
-      /* eslint-disable no-useless-escape */
-      mask: /^[a-zA-Z0-9 \.\-\/!@#$%^&*)(]{1,100}$/,
+      mask: /^[a-zA-Z0-9 .-/!@#$%^&*)(]{1,100}$/,
       columnName: SENSOR_NAME,
     },
     {
       errorMessage: t('FARM_MAP.BULK_UPLOAD_SENSORS.VALIDATION.SENSOR_LATITUDE'),
-      /* eslint-disable no-useless-escape */
-      mask: /^(\+|-)?(?:90(?:(?:\.0{1,6})?)|(?:[0-9]|[1-8][0-9])(?:(?:\.[0-9]{1,30})?))$/,
+      mask: /^(\+|-)?(?:90(?:(?:.0{1,6})?)|(?:[0-9]|[1-8][0-9])(?:(?:.[0-9]{1,30})?))$/,
       columnName: SENSOR_LATITUDE,
     },
     {
       errorMessage: t('FARM_MAP.BULK_UPLOAD_SENSORS.VALIDATION.SENSOR_LONGITUDE'),
-      /* eslint-disable no-useless-escape */
-      mask: /^(\+|-)?(?:180(?:(?:\.0{1,6})?)|(?:[0-9]|[1-9][0-9]|1[0-7][0-9])(?:(?:\.[0-9]{1,30})?))$/,
+      mask: /^(\+|-)?(?:180(?:(?:.0{1,6})?)|(?:[0-9]|[1-9][0-9]|1[0-7][0-9])(?:(?:.[0-9]{1,30})?))$/,
       columnName: SENSOR_LONGITUDE,
     },
     {
       errorMessage: t('FARM_MAP.BULK_UPLOAD_SENSORS.VALIDATION.SENSOR_READING_TYPES'),
-      /* eslint-disable no-useless-escape */
       mask: /^\s*(?:\w+\s*,\s*){2,}(?:\w+\s*)$/,
       columnName: SENSOR_READING_TYPES,
       validate(rowNumber, columnName, value) {
@@ -104,6 +105,9 @@ export function useValidateBulkSensorData(onUpload, t) {
     else setDisabled(bulkSensorsUploadResponse.loading ? -1 : 1);
   }, [bulkSensorsUploadResponse?.loading]);
 
+  // bulkSensorsUploadResponse?.validationErrors from store updates the sheetErrors
+  // the sheetErrors will be used as single source of truth to show validation
+  // errors on the modal frontend.
   useEffect(() => {
     let validationErrorsResponseList = bulkSensorsUploadResponse?.validationErrors || [];
     const sheetErrorResponse = {
@@ -245,7 +249,7 @@ export function useValidateBulkSensorData(onUpload, t) {
   };
 
   const onShowErrorClick = (e) => {
-    if (bulkSensorsUploadResponse?.validationErrors.length > 0) {
+    if (bulkSensorsUploadResponse?.validationErrors.length || sheetErrors.length) {
       const inputFile = fileInputRef.current.files[0];
       if (inputFile) {
         const downloadFileName = `${inputFile.name.replace(/.csv/, '')}_errors.txt`;
@@ -263,7 +267,7 @@ export function useValidateBulkSensorData(onUpload, t) {
 
   const onTemplateDownloadClick = () => {
     const element = document.createElement('a');
-    const file = new Blob([requiredFields.join(',')], {
+    const file = new Blob([templateFields.join(',')], {
       type: 'text/plain',
     });
     element.href = URL.createObjectURL(file);

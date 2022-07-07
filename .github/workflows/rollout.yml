@@ -1,0 +1,18 @@
+name: 'Roll out'
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - integration
+jobs:
+  rollout:
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Docker deploy 
+        uses: TapTap21/docker-remote-deployment-action@v1.0
+        with:
+          remote_docker_host: root@avocado.litefarm.org
+          ssh_private_key: ${{ secrets.PRIVATE_KEY }}
+          ssh_public_key: ${{ secrets.PUBLIC_KEY }}
+          stack_file_name: docker-compose.beta.yml
+          args: up --build -d

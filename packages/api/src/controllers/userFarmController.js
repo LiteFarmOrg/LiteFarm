@@ -426,10 +426,7 @@ const userFarmController = {
       let result;
       const { user_id, farm_id } = req.user;
       if (!/^\d+$/.test(user_id)) {
-        const user = await userModel
-          .query()
-          .findById(user_id)
-          .select('*');
+        const user = await userModel.query().findById(user_id).select('*');
         const passwordRow = await passwordModel.query().findById(user_id);
         if (!passwordRow || user.status_id === 2) {
           return res.status(404).send('User does not exist');
@@ -596,12 +593,13 @@ const userFarmController = {
       }
       try {
         const { farm_name } = userFarm;
+        const user = await userModel.query().where({ email }).first();
         await emailModel.createTokenSendEmail(
           {
             email,
             gender,
             birth_year,
-            language_preference: language,
+            language_preference: user ? user.language_preference : language,
           },
           userFarm,
           farm_name,

@@ -11,8 +11,11 @@ const SensorReadingsLineChart = ({
   yAxisLabel = '',
   locationIds = [],
 }) => {
-  const { sensorsReadingsOfTemperature, yAxisDataKeys, lineColors } =
-    useReadingsLineChat(locationIds);
+  const {
+    sensorsReadingsOfTemperature = [],
+    yAxisDataKeys = [],
+    lineColors = [],
+  } = useReadingsLineChat(locationIds);
   return (
     <PureSensorReadingsLineChart
       title={title}

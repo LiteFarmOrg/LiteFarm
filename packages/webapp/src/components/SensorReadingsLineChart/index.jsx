@@ -92,8 +92,11 @@ PureSensorReadingsLineChart.propTypes = {
   title: PropTypes.string.isRequired,
   subTitle: PropTypes.string.isRequired,
   xAxisDataKey: PropTypes.string.isRequired,
+  yAxisDataKeys: PropTypes.array.isRequired,
+  lineColors: PropTypes.array.isRequired,
   xAxisLabel: PropTypes.string,
   yAxisLabel: PropTypes.string.isRequired,
+  chartData: PropTypes.array.isRequired,
 };
 
 export default PureSensorReadingsLineChart;

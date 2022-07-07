@@ -13,6 +13,12 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
+/**
+ * This has an internal timer and returns a function which will send the appropriate response based on the timer.
+ * @param {Object} res - the response object for the route.
+ * @param {Number} time - the number of milliseconds before it switches to the async response.
+ * @return {{sendResponse: ((function(function, function): Promise<*>)|*)}}
+ */
 const syncAsyncResponse = (res, time = 5000) => {
   let hasTimedOut = false;
   const timer = setTimeout(() => {

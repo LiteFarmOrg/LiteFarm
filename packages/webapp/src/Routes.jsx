@@ -834,6 +834,7 @@ const Routes = () => {
             <Route path="/fence/:location_id" component={FenceDetails} />
             <Route path="/buffer_zone/:location_id" component={BufferZoneDetails} />
             <Route path="/watercourse/:location_id" component={WatercourseDetails} />
+            <Route path="/sensor/:location_id" component={SensorDetails} />
 
             <Route path="/finances" exact component={Finances} />
             {/* <Route path="/sales_summary" exact component={SalesSummary} /> */}
@@ -979,6 +980,7 @@ const Routes = () => {
             <Route path="/fence/:location_id" component={FenceDetails} />
             <Route path="/buffer_zone/:location_id" component={BufferZoneDetails} />
             <Route path="/watercourse/:location_id" component={WatercourseDetails} />
+            <Route path="/sensor/:location_id" component={SensorDetails} />
 
             <Route path="/farm_selection" exact component={ChooseFarm} />
             <Route path="/insights" exact component={Insights} />

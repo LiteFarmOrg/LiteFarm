@@ -17,7 +17,7 @@
  * This has an internal timer and returns a function which will send the appropriate response based on the timer.
  * @param {Object} res - the response object for the route.
  * @param {Number} time - the number of milliseconds before it switches to the async response.
- * @return {{sendResponse: ((function(function, function): Promise<*>)|*)}}
+ * @return {{sendResponse: ((function(syncCallback: function, asyncCallback: function): Promise<*>)|*)}}
  */
 const syncAsyncResponse = (res, time = 5000) => {
   let hasTimedOut = false;
@@ -28,6 +28,12 @@ const syncAsyncResponse = (res, time = 5000) => {
         'Processing is taking longer than expected. We will send a notification when this is finished.',
     });
   }, time);
+  /**
+   * Calls either the synchronous or asynchronous callback function.
+   * @param syncCallback
+   * @param asyncCallback
+   * @return {Promise<*>}
+   */
   const sendResponse = async (syncCallback, asyncCallback) => {
     if (hasTimedOut) {
       return await asyncCallback();

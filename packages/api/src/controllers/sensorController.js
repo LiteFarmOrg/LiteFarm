@@ -56,7 +56,7 @@ const sensorController = {
         External_ID: {
           key: 'external_id',
           parseFunction: (val) => val.trim(),
-          validator: (val) => 1 <= val.length && val.length <= 20,
+          validator: (val) => val.length <= 20,
           required: false,
           errorTranslationKey: sensorErrors.EXTERNAL_ID,
         },
@@ -168,7 +168,9 @@ const sensorController = {
         // Filter sensors by those successfully registered and those with errors
         const { registeredSensors, errorSensors } = data.reduce(
           (prev, curr, idx) => {
-            if (success.includes(curr.external_id)) {
+            if (success.includes(curr.external_id) || already_owned.includes(curr.external_id)) {
+              prev.registeredSensors.push(curr);
+            } else if (curr.brand !== 'Ensemble Scientific') {
               prev.registeredSensors.push(curr);
             } else if (does_not_exist.includes(curr.external_id)) {
               prev.errorSensors.push({
@@ -191,18 +193,37 @@ const sensorController = {
         );
 
         // Save sensors in database
-        const sensorLocations = await Promise.all(
+        const sensorLocations = await Promise.allSettled(
           registeredSensors.map(async (sensor) => {
-            return await SensorModel.createSensor(sensor, farm_id, user_id);
+            return await SensorModel.createSensor(
+              sensor,
+              farm_id,
+              user_id,
+              esids.includes(sensor.external_id) ? 1 : 0,
+            );
           }),
         );
 
-        if (success.length + already_owned.length < esids.length) {
+        const successSensors = sensorLocations.reduce((prev, curr, idx) => {
+          if (curr.status === 'fulfilled') {
+            prev.push(registeredSensors[idx].external_id);
+          } else {
+            errorSensors.push({
+              row: data.findIndex((elem) => elem === registeredSensors[idx]) + 2,
+              column: 'External_ID',
+              translation_key: sensorErrors.INTERNAL_ERROR,
+              variables: { sensorId: registeredSensors[idx] },
+            });
+          }
+          return prev;
+        }, []);
+
+        if (successSensors.length < esids.length) {
           return sendResponse(
             () => {
               return res.status(400).send({
                 error_type: 'unable_to_claim_all_sensors',
-                success: [...success, ...already_owned],
+                success: successSensors,
                 errorSensors,
               });
             },
@@ -216,7 +237,7 @@ const sensorController = {
                     errors: errorSensors,
                     file_name: 'sensor-upload-outcomes.txt',
                     is_validation_error: false,
-                    success,
+                    success: successSensors,
                   },
                 },
               );

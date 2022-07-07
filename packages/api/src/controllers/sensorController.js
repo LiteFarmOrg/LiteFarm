@@ -27,17 +27,18 @@ const {
 } = require('../util/ensemble');
 
 const sensorErrors = require('../util/sensorErrors');
+const syncAsyncResponse = require('../util/syncAsyncResponse');
 
 const sensorController = {
   async addSensors(req, res) {
-    let hasTimedOut = false;
-    const timer = setTimeout(() => {
-      hasTimedOut = true;
-      res.status(202).send({
-        message:
-          'Processing your upload is taking longer than expected. We will send you a notification when this finished processing.',
-      });
-    }, 5000);
+    let timeLimit = 5000;
+    const testTimerOverride = Number(req.query?.sensorUploadTimer);
+    // For testing, query string can set timer limit, 0 to 30 seconds.
+    if (!isNaN(testTimerOverride) && testTimerOverride >= 0 && testTimerOverride <= 30000) {
+      timeLimit = testTimerOverride;
+      console.log(`Custom time limit for sensor upload: ${timeLimit} ms`);
+    }
+    const { sendResponse } = syncAsyncResponse(res, timeLimit);
     const { farm_id } = req.headers;
     const { user_id } = req.user;
     try {
@@ -112,18 +113,36 @@ const sensorController = {
           errorTranslationKey: sensorErrors.SENSOR_HARDWARE_VERSION,
         },
       });
+      if (!data.length > 0) {
+        return await sendResponse(
+          () => {
+            return res.status(400).send({ error_type: 'emtpy_file' });
+          },
+          async () => {
+            return await sendSensorNotification(
+              user_id,
+              farm_id,
+              SensorNotificationTypes.SENSOR_BULK_UPLOAD_FAIL,
+            );
+          },
+        );
+      }
       if (errors.length > 0) {
-        return hasTimedOut
-          ? await sendSensorNotification(
+        return await sendResponse(
+          () => {
+            return res
+              .status(400)
+              .send({ error_type: 'validation_failure', errors, is_validation_error: true });
+          },
+          async () => {
+            return await sendSensorNotification(
               user_id,
               farm_id,
               SensorNotificationTypes.SENSOR_BULK_UPLOAD_FAIL,
               { error_download: { errors, file_name: 'sensor-upload-outcomes.txt' } },
-            )
-          : res
-              .status(400)
-              .send({ error_type: 'validation_failure', errors, is_validation_error: true }) &&
-              clearTimeout(timer);
+            );
+          },
+        );
       } else {
         // register organization
         const organization = await createOrganization(farm_id, access_token);
@@ -200,8 +219,16 @@ const sensorController = {
         }, []);
 
         if (successSensors.length < esids.length) {
-          return hasTimedOut
-            ? await sendSensorNotification(
+          return sendResponse(
+            () => {
+              return res.status(400).send({
+                error_type: 'unable_to_claim_all_sensors',
+                success: successSensors,
+                errorSensors,
+              });
+            },
+            async () => {
+              return await sendSensorNotification(
                 user_id,
                 farm_id,
                 SensorNotificationTypes.SENSOR_BULK_UPLOAD_FAIL,
@@ -213,34 +240,40 @@ const sensorController = {
                     success: successSensors,
                   },
                 },
-              )
-            : res.status(400).send({
-                error_type: 'unable_to_claim_all_sensors',
-                success: successSensors,
-                errorSensors,
-              }) && clearTimeout(timer);
+              );
+            },
+          );
         } else {
-          return hasTimedOut
-            ? await sendSensorNotification(
+          return sendResponse(
+            () => {
+              return res
+                .status(200)
+                .send({ message: 'Successfully uploaded!', sensors: sensorLocations });
+            },
+            async () => {
+              return await sendSensorNotification(
                 user_id,
                 farm_id,
                 SensorNotificationTypes.SENSOR_BULK_UPLOAD_SUCCESS,
-              )
-            : res
-                .status(200)
-                .send({ message: 'Successfully uploaded!', sensors: sensorLocations }) &&
-                clearTimeout(timer);
+              );
+            },
+          );
         }
       }
     } catch (e) {
       console.log(e);
-      return hasTimedOut
-        ? await sendSensorNotification(
+      return sendResponse(
+        () => {
+          return res.status(500).send({ message: e.message });
+        },
+        async () => {
+          return await sendSensorNotification(
             user_id,
             farm_id,
             SensorNotificationTypes.SENSOR_BULK_UPLOAD_FAIL,
-          )
-        : res.status(500).send(e.message) && clearTimeout(timer);
+          );
+        },
+      );
     }
   },
 

@@ -110,13 +110,12 @@ export function useValidateBulkSensorData(onUpload, t) {
   // errors on the modal frontend.
   useEffect(() => {
     let validationErrorsResponseList = bulkSensorsUploadResponse?.validationErrors || [];
-    const sheetErrorResponse = {
-      sheetName: 'API_ERROR_SHEET',
-      errors: [],
-    };
-    let errorsResponseList = [];
     if (validationErrorsResponseList.length) {
-      errorsResponseList = validationErrorsResponseList.reduce((acc, validationError) => {
+      const sheetErrorResponse = {
+        sheetName: 'API_ERROR_SHEET',
+        errors: [],
+      };
+      sheetErrorResponse.errors = validationErrorsResponseList.reduce((acc, validationError) => {
         acc.push({
           column: validationError?.errorColumn ?? '',
           errorMessage: '',
@@ -125,9 +124,8 @@ export function useValidateBulkSensorData(onUpload, t) {
         });
         return acc;
       }, []);
+      setSheetErrors([sheetErrorResponse]);
     }
-    sheetErrorResponse.errors = errorsResponseList;
-    setSheetErrors([sheetErrorResponse]);
   }, [bulkSensorsUploadResponse?.validationErrors]);
 
   useEffect(() => {
@@ -238,7 +236,7 @@ export function useValidateBulkSensorData(onUpload, t) {
 
         totalErrorCount += errors.length;
         sheetError.errors = errors;
-        sheetErrorList.push(sheetError);
+        sheetError.errors.length && sheetErrorList.push(sheetError);
       }
       setErrorCount(totalErrorCount);
       setSheetErrors(sheetErrorList);

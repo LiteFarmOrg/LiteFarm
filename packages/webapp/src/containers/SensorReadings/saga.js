@@ -64,7 +64,7 @@ export function* getSensorsTempratureReadingsSaga({ payload: locationIds = [] })
       endDate: '06-26-2022',
     };
     const result = yield call(axios.post, sensorReadingsUrl(), postData, header);
-    const centerPoint = findCenter(result.data.sensorsPoints.map((s) => s.point));
+    const centerPoint = findCenter(result?.data?.sensorsPoints.map((s) => s?.point));
 
     params = {
       ...params,
@@ -103,7 +103,17 @@ export function* getSensorsTempratureReadingsSaga({ payload: locationIds = [] })
       return acc;
     }, ambientData);
 
-    yield put(bulkSensorReadingsSuccess(Object.values(ambientDataWithSensorsReadings)));
+    let selectedSensorName = '';
+    if (result?.data?.sensorsPoints) {
+      selectedSensorName = result?.data?.sensorsPoints[0]?.name;
+    }
+
+    yield put(
+      bulkSensorReadingsSuccess({
+        sensorReadings: Object.values(ambientDataWithSensorsReadings),
+        selectedSensorName,
+      }),
+    );
   } catch (error) {
     yield put(bulkSensorReadingsFailure());
     console.log(error);

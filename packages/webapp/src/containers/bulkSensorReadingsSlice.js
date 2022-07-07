@@ -3,6 +3,7 @@ import { createSlice } from '@reduxjs/toolkit';
 const initialState = {
   loading: false,
   sensorsReadingsOfTemperature: [],
+  selectedSensorName: '',
 };
 
 const bulkSensorsReadingsSlice = createSlice({
@@ -13,25 +14,29 @@ const bulkSensorsReadingsSlice = createSlice({
       Object.assign(state, {
         loading: false,
         sensorsReadingsOfTemperature: [],
+        selectedSensorName: '',
       });
     },
     bulkSensorReadingsLoading: (state, action) => {
       Object.assign(state, {
         loading: true,
         sensorsReadingsOfTemperature: [],
+        selectedSensorName: '',
       });
     },
     bulkSensorReadingsSuccess: (state, { payload }) => {
       if (state.loading) {
         Object.assign(state, {
           loading: false,
-          sensorsReadingsOfTemperature: payload,
+          sensorsReadingsOfTemperature: payload?.sensorReadings,
+          selectedSensorName: payload?.selectedSensorName,
         });
       }
     },
     bulkSensorReadingsFailure: (state, action) => {
       state.loading = true;
       state.sensorsReadingsOfTemperature = [];
+      state.selectedSensorName = '';
     },
   },
 });

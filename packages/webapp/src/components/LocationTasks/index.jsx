@@ -25,7 +25,7 @@ export default function PureLocationTasks({
   const dispatch = useDispatch();
 
   const renderTasksForDay = (dateString, tasksForDate) => (
-    <>
+    <div key={`tasks-${dateString}`}>
       <PageBreak
         style={{ paddingBottom: '22px' }}
         label={new Intl.DateTimeFormat(language).format(Date.parse(dateString))}
@@ -38,7 +38,7 @@ export default function PureLocationTasks({
           {...t}
         />
       ))}
-    </>
+    </div>
   );
 
   const renderTasksByDay = (tasks) => {

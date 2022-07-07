@@ -185,15 +185,15 @@ const sensorController = {
           }),
         );
 
-        const successSensors = sensorLocations.reduce((prev, curr) => {
+        const successSensors = sensorLocations.reduce((prev, curr, idx) => {
           if (curr.status === 'fulfilled') {
-            prev.push(curr.value.sensor.external_id);
+            prev.push(registeredSensors[idx].external_id);
           } else {
             errorSensors.push({
-              row: data.findIndex((elem) => elem === curr.value.sensor.external_id) + 2,
+              row: data.findIndex((elem) => elem === registeredSensors[idx]) + 2,
               column: 'External_ID',
               translation_key: sensorErrors.INTERNAL_ERROR,
-              variables: { sensorId: curr.value.sensor.external_id },
+              variables: { sensorId: registeredSensors[idx] },
             });
           }
           return prev;

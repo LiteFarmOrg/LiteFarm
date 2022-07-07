@@ -23,21 +23,27 @@ import {
   bulkSensorReadingsSuccess,
   bulkSensorReadingsFailure,
 } from '../bulkSensorReadingsSlice';
+import { sensorUrl } from '../../apiConfig';
+import { getHeader } from '../../containers/saga';
+import { findCenter } from './utils';
+import { AMBIENT_TEMPERATURE, CURRENT_DATE_TIME } from './constants';
+
+const sensorReadingsUrl = () => `${sensorUrl}/get_sensor_readings_for_visualization`;
 
 export const getSensorsTempratureReadings = createAction(`getSensorsTempratureReadingsSaga`);
 
-export function* getSensorsTempratureReadingsSaga({ payload: sensorsList }) {
+export function* getSensorsTempratureReadingsSaga({ payload: locationIds = [] }) {
   const {
     farm_id,
     units: { measurement },
     language_preference: lang,
-    grid_points: { lat, lng: lon },
+    grid_points: { lat, lng },
   } = yield select(userFarmSelector);
   try {
-    const start = parseInt(+new Date().setDate(new Date().getDate() - 3) / 1000);
-    const end = parseInt(+new Date() / 1000);
-
-    const sensorsListAPIPromise = [];
+    const start = parseInt(
+      +new Date('06-25-2022').setDate(new Date('06-25-2022').getDate() - 3) / 1000,
+    );
+    const end = parseInt(+new Date('06-25-2022') / 1000);
     yield put(bulkSensorReadingsLoading());
     const apikey = import.meta.env.VITE_WEATHER_API_KEY;
     let params = {
@@ -49,48 +55,55 @@ export function* getSensorsTempratureReadingsSaga({ payload: sensorsList }) {
       end,
     };
 
-    console.log('measurement', measurement);
-    for (const sensor of sensorsList) {
-      params = {
-        ...params,
-        lat: sensor?.lat ?? lat,
-        lon: sensor?.lon ?? lon,
-      };
-      const openWeatherUrl = new URL(OPEN_WEATHER_API_URL_FOR_SENSORS);
-      for (const key in params) {
-        openWeatherUrl.searchParams.append(key, params[key]);
-      }
-      sensorsListAPIPromise.push(call(axios.get, openWeatherUrl?.toString()));
+    const header = getHeader(farm_id);
+
+    const postData = {
+      farm_id,
+      locationIds,
+      reading_type: 'temperature',
+      endDate: '06-26-2022',
+    };
+    const result = yield call(axios.post, sensorReadingsUrl(), postData, header);
+    const centerPoint = findCenter(result.data.sensorsPoints.map((s) => s.point));
+
+    params = {
+      ...params,
+      lat: centerPoint?.lat ?? lat,
+      lon: centerPoint?.lng ?? lng,
+    };
+
+    const openWeatherUrl = new URL(OPEN_WEATHER_API_URL_FOR_SENSORS);
+
+    for (const key in params) {
+      openWeatherUrl.searchParams.append(key, params[key]);
     }
 
-    const weatherResData = yield all(sensorsListAPIPromise);
-    const status = weatherResData.every((wd) => wd?.status === 200 && wd?.statusText === 'OK');
+    const openWeatherResponse = yield call(axios.get, openWeatherUrl?.toString());
+    const weatherResData = openWeatherResponse.data.list;
 
-    if (!status) {
-      yield put(bulkSensorReadingsFailure());
-      return;
-    }
-
-    const sensorsReadingForLineChart = weatherResData?.reduce((acc, singleAPIResponse, index) => {
-      const sensorName = sensorsList[index]?.sensor_name;
-      if (singleAPIResponse?.data?.list.length) {
-        for (let tempInfo of singleAPIResponse.data.list) {
-          let dateAndTimeInfo = new Date(tempInfo?.dt * 1000).toString();
-          const isCorrectTimestamp = GRAPH_TIMESTAMPS?.find((g) => dateAndTimeInfo?.includes(g));
-          if (isCorrectTimestamp) {
-            if (!acc[tempInfo?.dt]) acc[tempInfo?.dt] = {};
-            acc[tempInfo?.dt] = {
-              ...acc[tempInfo?.dt],
-              [sensorName]: tempInfo?.main?.temp,
-              timestamp: tempInfo?.dt,
-              dateAndTimeInfo: `${dateAndTimeInfo?.split(':00:00')[0]}:00`,
-            };
-          }
-        }
+    const ambientData = weatherResData.reduce((acc, tempInfo) => {
+      let dateAndTimeInfo = new Date(tempInfo?.dt * 1000).toString();
+      const isCorrectTimestamp = GRAPH_TIMESTAMPS?.find((g) => dateAndTimeInfo?.includes(g));
+      if (isCorrectTimestamp) {
+        if (!acc[tempInfo?.dt]) acc[tempInfo?.dt] = {};
+        acc[tempInfo?.dt] = {
+          ...acc[tempInfo?.dt],
+          [AMBIENT_TEMPERATURE]: tempInfo?.main?.temp,
+          [CURRENT_DATE_TIME]: `${dateAndTimeInfo?.split(':00:00')[0]}:00`,
+        };
       }
       return acc;
     }, {});
-    yield put(bulkSensorReadingsSuccess(Object.values(sensorsReadingForLineChart)));
+
+    const ambientDataWithSensorsReadings = result.data.sensorReading.reduce((acc, cv) => {
+      const dt = new Date(cv.read_time).valueOf() / 1000;
+      if (acc[dt]) {
+        acc[dt][cv.name] = cv.value;
+      }
+      return acc;
+    }, ambientData);
+
+    yield put(bulkSensorReadingsSuccess(Object.values(ambientDataWithSensorsReadings)));
   } catch (error) {
     yield put(bulkSensorReadingsFailure());
     console.log(error);

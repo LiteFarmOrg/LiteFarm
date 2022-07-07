@@ -105,7 +105,7 @@ class Sensor extends Model {
    * @param {Array} sensorIds sensor ids
    * @returns {Object} reading_type Reading Object
    */
-  static async getSensorLocationBySensorIds(sensorIds = []) {
+  static async getSensorLocationBySensorIds(locationIds = []) {
     return await knex.raw(
       `SELECT 
       s.sensor_id, 
@@ -126,10 +126,10 @@ class Sensor extends Model {
         ON l.location_id::uuid = a.location_id 
       ) b 
       ON s.location_id::uuid = b.location_id
-      WHERE s.sensor_id = ANY(?)
+      WHERE s.location_id = ANY(?)
       ORDER BY s.name ASC;
       `,
-      [sensorIds],
+      [locationIds],
     );
   }
 }

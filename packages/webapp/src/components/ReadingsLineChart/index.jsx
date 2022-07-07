@@ -12,6 +12,7 @@ import {
 } from 'recharts';
 import { Label, Semibold } from '../Typography';
 import PropTypes from 'prop-types';
+import { useReadingsLineChat } from './useReadingsLineChat';
 
 const AxisLabel = ({ axisType, x, y, width, height, stroke, children }) => {
   const isVert = axisType === 'yAxis';
@@ -28,14 +29,14 @@ const AxisLabel = ({ axisType, x, y, width, height, stroke, children }) => {
 const ReadingsLineChart = ({
   title = '',
   subTitle = '',
-  yAxisDataKeys = [],
-  chartData = [],
   xAxisDataKey = '',
-  lineColors = [],
   xAxisLabel = '',
   yAxisLabel = '',
+  locationIds = [],
 }) => {
   const [selectedLine, setSelectedLine] = useState(null);
+  const { sensorsReadingsOfTemperature, yAxisDataKeys, lineColors } =
+    useReadingsLineChat(locationIds);
 
   const selectLine = (event) => {
     let sl = selectedLine === event.dataKey ? null : event.dataKey.trim();
@@ -50,7 +51,7 @@ const ReadingsLineChart = ({
       <Label className={styles.subTitle}>{subTitle}</Label>
       <ResponsiveContainer width="100%" height="50%">
         <LineChart
-          data={chartData}
+          data={sensorsReadingsOfTemperature}
           margin={{
             top: 20,
             right: 30,
@@ -66,7 +67,6 @@ const ReadingsLineChart = ({
           />
           <YAxis
             label={
-              // <AxisLabel axisType="yAxis" x={25} y={165} width={0} height={0}>
               <AxisLabel axisType="yAxis" x={25} y={165} width={0} height={0}>
                 {yAxisLabel}
               </AxisLabel>
@@ -101,14 +101,12 @@ const ReadingsLineChart = ({
 };
 
 ReadingsLineChart.propTypes = {
-  title: PropTypes.string,
-  subTitle: PropTypes.string,
-  yAxisDataKeys: PropTypes.array,
-  chartData: PropTypes.array,
-  xAxisDataKey: PropTypes.string,
-  lineColors: PropTypes.array,
+  title: PropTypes.string.isRequired,
+  subTitle: PropTypes.string.isRequired,
+  xAxisDataKey: PropTypes.string.isRequired,
   xAxisLabel: PropTypes.string,
-  yAxisLabel: PropTypes.string,
+  yAxisLabel: PropTypes.string.isRequired,
+  locationIds: PropTypes.array.isRequired,
 };
 
 export default ReadingsLineChart;

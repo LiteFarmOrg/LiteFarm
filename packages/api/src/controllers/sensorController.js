@@ -342,14 +342,14 @@ const sensorController = {
 
   async getAllReadingsBySensorIds(req, res) {
     try {
-      const { sensorIds = [], reading_type = '', endDate = '' } = req.body;
+      const { locationIds = [], reading_type = '', endDate = '' } = req.body;
 
-      if (!sensorIds.length || !Array.isArray(sensorIds)) {
-        return res.status(400).send('No sensor ids are present');
+      if (!locationIds.length || !Array.isArray(locationIds)) {
+        return res.status(400).send('No location ids are present');
       }
 
-      if (!sensorIds.every((i) => typeof i === 'string')) {
-        return res.status(400).send('Invalid sensor ids are present');
+      if (!locationIds.every((i) => typeof i === 'string')) {
+        return res.status(400).send('Invalid location ids are present');
       }
 
       if (!reading_type.length) {
@@ -362,11 +362,11 @@ const sensorController = {
 
       const result = await SensorReadingModel.getSensorReadingsBySensorIds(
         new Date(endDate),
-        sensorIds,
+        locationIds,
         reading_type,
       );
 
-      const sensorsPoints = await SensorModel.getSensorLocationBySensorIds(sensorIds);
+      const sensorsPoints = await SensorModel.getSensorLocationBySensorIds(locationIds);
       res
         .status(200)
         .send({ length: result.length, sensorReading: result, sensorsPoints: sensorsPoints.rows });

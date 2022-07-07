@@ -208,13 +208,17 @@ class Location extends baseModel {
   }
 
   static async deleteLocation(location_id, context) {
-    const trx = await transaction.start(Model.knex());
-    const deleteResponse = await Location.query(trx)
-      .context(context)
-      .patch({ deleted: true })
-      .where('location_id', location_id);
-    await trx.commit();
-    return deleteResponse;
+    try {
+      const trx = await transaction.start(Model.knex());
+      const deleteResponse = await Location.query(trx)
+        .context(context)
+        .patch({ deleted: true })
+        .where('location_id', location_id);
+      await trx.commit();
+      return deleteResponse;
+    } catch (error) {
+      return error;
+    }
   }
 }
 

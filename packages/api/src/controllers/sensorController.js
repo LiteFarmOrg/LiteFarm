@@ -340,6 +340,7 @@ const sensorController = {
   },
 
   async retireSensor(req, res) {
+    const trx = await transaction.start(Model.knex());
     try {
       const { external_id, location_id, farm_id, partner_id } = req.body.sensorInfo;
       const user_id = req.user.user_id;
@@ -352,11 +353,19 @@ const sensorController = {
       );
       const org_id = external_integrations_response.organization_uuid;
       const unclaimResponse = await unclaimSensor(org_id, external_id, access_token);
-      const deleteResponse = await LocationModel.deleteLocation(location_id, { user_id });
-      res.status(200).send({ unclaimResponse, deleteResponse });
+      const deleteResponse = await LocationModel.deleteLocation(location_id, { user_id }, { trx });
+      console.log(unclaimResponse, deleteResponse);
+      if (unclaimResponse.status == 200 && deleteResponse == 1) {
+        await trx.commit();
+        return res.status(200).send({ unclaimResponse, deleteResponse });
+      } else {
+        await trx.rollback();
+        return res.status(500);
+      }
     } catch (error) {
       console.log(error);
-      res.status(400).json({
+      await trx.rollback();
+      return res.status(400).json({
         error,
       });
     }

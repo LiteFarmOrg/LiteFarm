@@ -52,11 +52,10 @@ export const patchUserFarmStatus = createAction('patchUserFarmStatusSaga');
 export function* patchUserFarmStatusSaga({ payload }) {
   const { invite_token, language } = payload;
   try {
-    const language_preference = getLanguageFromLocalStorage();
     const result = yield call(
       axios.patch,
       patchUserFarmStatusUrl(),
-      { language_preference },
+      {},
       {
         headers: {
           Authorization: `Bearer ${invite_token}`,
@@ -66,6 +65,7 @@ export function* patchUserFarmStatusSaga({ payload }) {
     const { user: userFarm, id_token } = result.data;
     localStorage.setItem('id_token', id_token);
     localStorage.setItem('litefarm_lang', userFarm.language_preference);
+    i18n.changeLanguage(userFarm.language_preference);
     purgeState();
     yield put(acceptInvitationSuccess(userFarm));
     yield put(startInvitationFlow(userFarm.farm_id));

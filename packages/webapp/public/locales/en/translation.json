@@ -1376,8 +1376,8 @@
     "PART_NUMBER": "Part Number",
     "HARDWARE_VERSION": "Hardware version",
     "DETAIL": {
-      "RETIRE": "RETIRE",
-      "EDIT": "EDIT",
+      "RETIRE": "Retire",
+      "EDIT": "Edit",
       "NAME": "Sensor Name",
       "LATITUDE": "Latitude",
       "LONGITUDE": "Longitude",
@@ -1398,8 +1398,8 @@
     },
     "RETIRE": {
       "TITLE": "Retire sensor?",
-      "RETIRE": "RETIRE",
-      "CANCEL": "CANCEL",
+      "RETIRE": "Retire",
+      "CANCEL": "Cancel",
       "BODY": "Retiring this sensor will remove it and any readings associated with it from your farm as well as closing any connections with the sensor provider. Do you want to proceed?",
       "RETIRE_SUCCESS": "Successfully retired sensor",
       "RETIRE_FAILURE": "There was an error retiring this sensor"

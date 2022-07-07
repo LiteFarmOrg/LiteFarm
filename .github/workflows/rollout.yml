@@ -17,6 +17,5 @@ jobs:
           stack_file_name: docker-compose.beta.yml
           args: up --build -d
           deployment_mode: docker-compose
-          copy_stack_file: true
           docker_prune: 'false'
           pull_images_first: 'false'

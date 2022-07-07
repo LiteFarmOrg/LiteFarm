@@ -1369,6 +1369,11 @@
       "READINGS": "MISSING",
       "TASKS": "MISSING",
       "DETAILS": "MISSING"
+    },
+    "TEMPERATURE_READINGS_OF_SENSOR": {
+      "TITLE": "MISSING",
+      "SUBTITLE": "MISSING",
+      "Y_AXIS_LABEL": "MISSING"
     }
   },
   "SHIFT": {

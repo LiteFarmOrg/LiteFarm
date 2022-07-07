@@ -21,7 +21,6 @@ import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
 import { SnackbarProvider } from 'notistack';
 import { NotistackSnackbar } from './containers/Snackbar/NotistackSnackbar';
-import ReadingsLineChart from './components/ReadingsLineChart';
 
 const useStyles = makeStyles((theme) => ({
   container: {

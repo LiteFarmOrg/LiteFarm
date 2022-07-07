@@ -355,7 +355,7 @@ const Routes = () => {
             <Route path="/" exact component={Home} />
             <Route path="/home" exact component={Home} />
             <Route path="/profile" exact component={Account} />
-            <Route path="/sensors_reading" exact component={SensorReadings} />
+            <Route path="/sensor/:location_id/readings" exact component={SensorReadings} />
             <Route path="/people" exact component={People} />
             <Route path="/farm" exact component={Farm} />
             <Route path="/user/:user_id" exact component={EditUser} />
@@ -645,7 +645,7 @@ const Routes = () => {
             <Route path="/" exact component={Home} />
             <Route path="/home" exact component={Home} />
             <Route path="/profile" exact component={Account} />
-            <Route path="/sensors_reading" exact component={SensorReadings} />
+            <Route path="/sensor/:location_id/readings" exact component={SensorReadings} />
             <Route path="/people" exact component={People} />
             <Route path="/user/:user_id" exact component={EditUser} />
 
@@ -941,7 +941,7 @@ const Routes = () => {
             <Route path="/" exact component={Home} />
             <Route path="/home" exact component={Home} />
             <Route path="/profile" exact component={Account} />
-            <Route path="/sensors_reading" exact component={SensorReadings} />
+            <Route path="/sensor/:location_id/readings" exact component={SensorReadings} />
             <Route path="/people" exact component={People} />
             <Route path="/farm" exact component={Farm} />
             <Route path="/consent" exact component={ConsentForm} />

@@ -1,6 +1,6 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import ReadingsLineChart from '../../components/ReadingsLineChart';
+import SensorReadingsLineChart from '../SensorReadingsLineChart';
 import { CURRENT_DATE_TIME } from './constants';
 import PageTitle from '../../components/PageTitle/v2';
 import RouterTab from '../../components/RouterTab';
@@ -18,7 +18,7 @@ function SensorReadings({ history, match }) {
         style={{ marginBottom: '24px' }}
       />
       <RouterTab
-        classes={{ container: { margin: '24px 0 24px 0' } }}
+        classes={{ container: { margin: '24px 0' } }}
         history={history}
         tabs={[
           {
@@ -35,11 +35,11 @@ function SensorReadings({ history, match }) {
           },
         ]}
       />
-      <ReadingsLineChart
-        title="Soil temperature"
-        subTitle={`Today’s ambient high and low temperature: {high}° {tempUnit} / {low}° {tempUnit}`}
+      <SensorReadingsLineChart
+        title={t('SENSOR.TEMPERATURE_READINGS_OF_SENSOR.TITLE')}
+        subTitle={t('SENSOR.TEMPERATURE_READINGS_OF_SENSOR.SUBTITLE')}
         xAxisDataKey={CURRENT_DATE_TIME}
-        yAxisLabel={`Temperature in {tempUnit}`}
+        yAxisLabel={t('SENSOR.TEMPERATURE_READINGS_OF_SENSOR.Y_AXIS_LABEL')}
         locationIds={[location_id]}
       />
     </div>

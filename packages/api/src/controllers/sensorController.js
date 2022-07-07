@@ -357,7 +357,7 @@ const sensorController = {
       console.log(unclaimResponse, deleteResponse);
       if (unclaimResponse.status == 200 && deleteResponse == 1) {
         await trx.commit();
-        return res.status(200).send(unclaimResponse);
+        return res.status(200).send(unclaimResponse.data);
       } else {
         await trx.rollback();
         return res.status(500);

@@ -14,6 +14,5 @@ jobs:
           remote_docker_host: root@avocado.litefarm.org
           ssh_private_key: ${{ secrets.PRIVATE_KEY }}
           ssh_public_key: ${{ secrets.PUBLIC_KEY }}
-          copy_stack_file: true
           stack_file_name: docker-compose.beta.yml
-          args: lfargs
+          args: up --build -d

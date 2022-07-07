@@ -18,17 +18,40 @@ const SensorModel = require('../models/sensorModel');
 const SensorReadingModel = require('../models/sensorReadingModel');
 const IntegratingPartnersModel = require('../models/integratingPartnersModel');
 const NotificationUser = require('../models/notificationUserModel');
+const FarmExternalIntegrationsModel = require('../models/farmExternalIntegrationsModel');
+const LocationModel = require('../models/locationModel');
 const { transaction, Model } = require('objection');
-
 const {
   createOrganization,
   registerOrganizationWebhook,
   bulkSensorClaim,
+  unclaimSensor,
 } = require('../util/ensemble');
 
 const sensorErrors = require('../util/sensorErrors');
 
 const sensorController = {
+  async getSensorReadingTypes(req, res) {
+    const { sensor_id } = req.params;
+    try {
+      const sensorReadingTypesResponse = await SensorModel.getSensorReadingTypes(sensor_id);
+      const readingTypes = sensorReadingTypesResponse.rows.map(
+        (datapoint) => datapoint.readable_value,
+      );
+      res.status(200).send(readingTypes);
+    } catch (error) {
+      res.status(404).send('Sensor not found');
+    }
+  },
+  async getBrandName(req, res) {
+    try {
+      const { partner_id } = req.params;
+      const brand_name_response = await IntegratingPartnersModel.getBrandName(partner_id);
+      res.status(200).send(brand_name_response.partner_name);
+    } catch (error) {
+      res.status(404).send('Partner not found');
+    }
+  },
   async addSensors(req, res) {
     let hasTimedOut = false;
     const timer = setTimeout(() => {
@@ -223,6 +246,65 @@ const sensorController = {
     }
   },
 
+  async updateSensorbyID(req, res) {
+    try {
+      //const sensor_esid = req.params.sensor_esid;
+      const {
+        //brand,
+        sensor_name,
+        latitude,
+        longtitude,
+        sensor_id,
+        model,
+        part_number,
+        hardware_version,
+        depth,
+        //depth_unit,
+        // reading_types
+      } = req.body;
+      // data is formatted in nested object values, these 5 const's are accessing reading types by using
+      //  Object.entries and accessing each values via array indexing
+      // const x = Object.entries(reading_types)
+      //const y = Object.entries(x[0][1])
+      // const isSoilWaterContentActive = Object.entries(y[0])[1][1].active
+      // const isSoilWaterPotentialActive = Object.entries(y[1])[1][1].active
+      // const isTemperatureActive = Object.entries(y[2])[1][1].active
+
+      const sensor_properties = {
+        name: sensor_name,
+        depth,
+        grid_points: { lat: latitude, lng: longtitude },
+        model,
+        part_number,
+        hardware_version,
+      };
+
+      await SensorModel.query()
+        .patch(sensor_properties)
+        .where('partner_id', 1)
+        .where('sensor_id', sensor_id);
+      // const result = await sensorModel.transaction(async trx => {
+      //   // const sensor = await sensorModel.query(trx)
+      //   //   .context({ farm_id: req.body.farm_id })
+      //   //   .findById('6b2df550-f646-11ec-b719-acde48001122')
+      //   //   .patch(sensor_properties).returning('*');
+      //   return await sensorModel.query(trx).context({ farm_id: req.body.farm_id }).findById(sensor_esid).patch(sensor_properties).returning('*');
+      // });
+      // if (result) {
+      //   return res.sendStatus(200);
+      // } else {
+      //   return res.sendStatus(404);
+      // }
+      return res.sendStatus(200);
+    } catch (error) {
+      console.log(error);
+
+      return res.status(400).json({
+        error,
+      });
+    }
+  },
+
   async deleteSensor(req, res) {
     try {
       const trx = await transaction.start(Model.knex());
@@ -335,6 +417,38 @@ const sensorController = {
       res.status(200).send(`${result} entries invalidated`);
     } catch (error) {
       res.status(400).json({
+        error,
+      });
+    }
+  },
+
+  async retireSensor(req, res) {
+    const trx = await transaction.start(Model.knex());
+    try {
+      const { external_id, location_id, farm_id, partner_id } = req.body.sensorInfo;
+      const user_id = req.user.user_id;
+      const { access_token } = await IntegratingPartnersModel.getAccessAndRefreshTokens(
+        'Ensemble Scientific',
+      );
+      const external_integrations_response = await FarmExternalIntegrationsModel.getOrganizationId(
+        farm_id,
+        partner_id,
+      );
+      const org_id = external_integrations_response.organization_uuid;
+      const unclaimResponse = await unclaimSensor(org_id, external_id, access_token);
+      const deleteResponse = await LocationModel.deleteLocation(location_id, { user_id }, { trx });
+      console.log(unclaimResponse, deleteResponse);
+      if (unclaimResponse.status == 200 && deleteResponse == 1) {
+        await trx.commit();
+        return res.status(200).send(unclaimResponse.data);
+      } else {
+        await trx.rollback();
+        return res.status(500);
+      }
+    } catch (error) {
+      console.log(error);
+      await trx.rollback();
+      return res.status(400).json({
         error,
       });
     }

@@ -38,6 +38,9 @@ class Sensor extends Model {
         sensor_id: { type: 'string' },
         farm_id: { type: 'string', minLength: 1, maxLength: 255 },
         name: { type: 'string', minLength: 1, maxLength: 255 },
+        grid_points: { type: 'object' },
+        model: { type: 'string', minLength: 1, maxLength: 255 },
+        isDeleted: { type: 'boolean' },
         partner_id: { type: 'integer' },
         external_id: { type: 'string', minLength: 1, maxLength: 255 },
         location_id: { type: 'string' },
@@ -87,6 +90,7 @@ class Sensor extends Model {
         sensor_reading_type: readingTypes.map((readingType) => {
           return { partner_reading_type_id: readingType.partner_reading_type_id };
         }),
+        model: sensor.model,
       },
     };
 
@@ -98,6 +102,17 @@ class Sensor extends Model {
     );
     await trx.commit();
     return sensorLocationWithGraph;
+  }
+  static async getSensorReadingTypes(sensorId) {
+    return Model.knex().raw(
+      `
+        SELECT prt.readable_value FROM sensor as s 
+        JOIN sensor_reading_type as srt ON srt.sensor_id = s.sensor_id 
+        JOIN partner_reading_type as prt ON srt.partner_reading_type_id = prt.partner_reading_type_id 
+        WHERE s.sensor_id = ?;
+        `,
+      sensorId,
+    );
   }
 }
 

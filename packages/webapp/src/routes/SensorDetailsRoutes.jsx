@@ -1,0 +1,19 @@
+import { Route } from 'react-router-dom';
+import React from 'react';
+import SensorDetail from '../containers/LocationDetails/PointDetails/SensorDetail';
+import UpdateSensor from '../containers/LocationDetails/PointDetails/SensorDetail/EditSensor';
+import { isAdminSelector } from '../containers/userFarmSlice';
+import { useSelector } from 'react-redux';
+// import SensorReadings from '...'
+
+export default function SensorDetailsRoutes() {
+  const isAdmin = useSelector(isAdminSelector);
+  return (
+    <>
+      {/* <Route path="/sensor/:location_id/tasks" exact component={LocationTasks} /> */}
+      {/* <Route path=“/sensor/:location_id/readings” exact component={SensorReadings} /> */}
+      <Route path="/sensor/:location_id/details" exact component={SensorDetail} />
+      {isAdmin && <Route path="/sensor/:location_id/edit" exact component={UpdateSensor} />}
+    </>
+  );
+}

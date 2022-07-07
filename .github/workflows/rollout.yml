@@ -9,13 +9,10 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
       - name: Docker deploy 
-        uses: wshihadeh/docker-deployment-action@v1
+        uses: TapTap21/docker-remote-deployment-action@v1.0
         with:
           remote_docker_host: root@avocado.litefarm.org
           ssh_private_key: ${{ secrets.PRIVATE_KEY }}
           ssh_public_key: ${{ secrets.PUBLIC_KEY }}
           stack_file_name: docker-compose.beta.yml
           args: up --build -d
-          deployment_mode: docker-compose
-          docker_prune: 'false'
-          pull_images_first: 'false'

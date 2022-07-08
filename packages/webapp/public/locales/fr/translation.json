@@ -616,7 +616,8 @@
     "TAB": {
       "CROPS": "Récoltes",
       "DETAILS": "Détails",
-      "TASKS": "Tâches"
+      "TASKS": "Tâches",
+      "READINGS": "Lectures"
     },
     "TITLE": "Carte de la ferme",
     "TUTORIAL": {
@@ -1366,18 +1367,6 @@
       "VALUE": "Valeur"
     }
   },
-  "SENSOR": {
-    "VIEW_HEADER": {
-      "READINGS": "MISSING",
-      "TASKS": "MISSING",
-      "DETAILS": "MISSING"
-    },
-    "TEMPERATURE_READINGS_OF_SENSOR": {
-      "TITLE": "MISSING",
-      "SUBTITLE": "MISSING",
-      "Y_AXIS_LABEL": "MISSING"
-    }
-  },
   "SHIFT": {
     "ACTION": "Action",
     "ADD_NEW": "Ajouter nouveau poste de travail",
@@ -1600,5 +1589,66 @@
   },
   "YEAR_SELECTOR": {
     "TITLE": "Selectionnez une année"
+  },
+  "SENSOR": {
+    "SENSOR_NAME": "MISSING",
+    "LATITUDE": "MISSING",
+    "LONGTITUDE": "MISSING",
+    "READING": {
+      "TYPES": "MISSING",
+      "SOIL_WATER_CONTENT": "MISSING",
+      "SOIL_WATER_POTENTIAL": "MISSING",
+      "TEMPERATURE": "MISSING"
+    },
+    "DEPTH": "MISSING",
+    "BRAND": "MISSING",
+    "VALIDATION": {
+      "SENSOR_LATITUDE": "MISSING",
+      "SENSOR_LONGITUDE": "MISSING"
+    },
+    "MODAL": {
+      "TITLE": "MISSING",
+      "BODY": "MISSING"
+    },
+    "BRAND_HELPTEXT": "MISSING",
+    "MODEL": "MISSING",
+    "MODEL_HELPTEXT": "MISSING",
+    "EXTERNAL_IDENTIFIER": "MISSING",
+    "PART_NUMBER": "MISSING",
+    "HARDWARE_VERSION": "MISSING",
+    "DETAIL": {
+      "RETIRE": "MISSING",
+      "EDIT": "MISSING",
+      "NAME": "MISSING",
+      "LATITUDE": "MISSING",
+      "LONGITUDE": "MISSING",
+      "MODEL": "MISSING",
+      "PART_NUMBER": "MISSING",
+      "HARDWARE_VERSION": "MISSING",
+      "EXTERNAL_ID_TOOLTIP": "MISSING",
+      "EXTERNAL_IDENTIFIER": "MISSING",
+      "DEPTH": "MISSING",
+      "BRAND": "MISSING",
+      "BRAND_TOOLTIP": "MISSING",
+      "READING_TYPES": "MISSING"
+    },
+    "VIEW_HEADER": {
+      "READINGS": "MISSING",
+      "TASKS": "MISSING",
+      "DETAILS": "MISSING"
+    },
+    "RETIRE": {
+      "TITLE": "MISSING",
+      "RETIRE": "MISSING",
+      "CANCEL": "MISSING",
+      "BODY": "MISSING",
+      "RETIRE_SUCCESS": "MISSING",
+      "RETIRE_FAILURE": "MISSING"
+    },
+    "TEMPERATURE_READINGS_OF_SENSOR": {
+      "TITLE": "MISSING",
+      "SUBTITLE": "MISSING",
+      "Y_AXIS_LABEL": "MISSING"
+    }
   }
 }

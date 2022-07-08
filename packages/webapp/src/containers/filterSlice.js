@@ -143,7 +143,6 @@ const filterSliceReducer = createSlice({
       state.tasks = {
         ...state.tasks,
         ASSIGNEE: {
-          unassigned: { active: false, label: t('TASK.UNASSIGNED') },
           ...activeUsers.reduce((prev, curr) => {
             prev[curr.user_id] = {
               active: false,
@@ -193,6 +192,7 @@ export const {
   setTasksFilter,
   setTasksFilterUnassignedDueThisWeek,
   setTasksFilterDueToday,
+  updateTasksFilterObjects,
 } = filterSliceReducer.actions;
 export default filterSliceReducer.reducer;
 

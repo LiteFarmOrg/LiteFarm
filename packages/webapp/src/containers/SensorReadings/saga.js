@@ -108,10 +108,20 @@ export function* getSensorsTempratureReadingsSaga({ payload: locationIds = [] })
       selectedSensorName = result?.data?.sensorsPoints[0]?.name;
     }
 
+    const latestWeatherData = weatherResData?.at(-1);
+    let latestTemperatureReadings = {};
+    if (latestWeatherData) {
+      latestTemperatureReadings = {
+        tempMin: latestWeatherData?.main?.temp_min,
+        tempMax: latestWeatherData?.main?.temp_max,
+      };
+    }
+
     yield put(
       bulkSensorReadingsSuccess({
         sensorReadings: Object.values(ambientDataWithSensorsReadings),
         selectedSensorName,
+        latestTemperatureReadings,
       }),
     );
   } catch (error) {

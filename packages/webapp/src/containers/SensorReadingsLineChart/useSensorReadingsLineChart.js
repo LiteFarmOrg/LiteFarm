@@ -1,17 +1,13 @@
 import { useEffect, useRef, useState } from 'react';
-import { bulkSensorsReadingsSliceSelector } from '../../containers/bulkSensorReadingsSlice';
+import { bulkSensorsReadingsSliceSelector } from '../bulkSensorReadingsSlice';
 import { useDispatch, useSelector } from 'react-redux';
-import { weatherSelector } from '../../containers/WeatherBoard/weatherSlice';
-import utils from '../../containers/WeatherBoard/utils';
-import { getSensorsTempratureReadings } from '../../containers/SensorReadings/saga';
+import { weatherSelector } from '../WeatherBoard/weatherSlice';
+import utils from '../WeatherBoard/utils';
+import { getSensorsTempratureReadings } from '../SensorReadings/saga';
 
-import {
-  AMBIENT_TEMPERATURE,
-  colors,
-  CURRENT_DATE_TIME,
-} from '../../containers/SensorReadings/constants';
+import { AMBIENT_TEMPERATURE, colors, CURRENT_DATE_TIME } from '../SensorReadings/constants';
 
-export function useReadingsLineChat(locationIds) {
+export function useSensorReadingsLineChart(locationIds) {
   const bulkSensorsReadingsSliceSelectorData = useSelector(bulkSensorsReadingsSliceSelector);
 
   const { measurement } = useSelector(weatherSelector);

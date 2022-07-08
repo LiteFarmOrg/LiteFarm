@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { useReadingsLineChat } from './useReadingsLineChat';
+import { useSensorReadingsLineChart } from './useSensorReadingsLineChart';
 import PureSensorReadingsLineChart from '../../components/SensorReadingsLineChart';
 
 const SensorReadingsLineChart = ({
@@ -15,7 +15,7 @@ const SensorReadingsLineChart = ({
     sensorsReadingsOfTemperature = [],
     yAxisDataKeys = [],
     lineColors = [],
-  } = useReadingsLineChat(locationIds);
+  } = useSensorReadingsLineChart(locationIds);
   return (
     <PureSensorReadingsLineChart
       title={title}

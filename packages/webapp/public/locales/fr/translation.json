@@ -476,6 +476,13 @@
         "ALREADY_OCCUPIED": "MISSING",
         "DOES_NOT_EXIST": "MISSING",
         "INTERNAL_ERROR": "MISSING"
+      },
+      "DOWNLOAD_FILE": {
+        "ROW": "MISSING",
+        "PARTIAL_SUCCESS_TOP_TEXT": "MISSING",
+        "PARTIAL_SUCCESS_BOTTOM_TEXT": "MISSING",
+        "SOME_ERRORS": "MISSING",
+        "DEFAULT": "MISSING"
       }
     },
     "BULK_UPLOAD_TRANSITION": {

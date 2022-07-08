@@ -143,6 +143,12 @@ export function useValidateBulkSensorData(onUpload, t) {
     setTranslatedUploadErrors(translatedErrors);
   }, [bulkSensorsUploadResponse?.errorSensors]);
 
+  useEffect(() => {
+    if (bulkSensorsUploadResponse?.defaultFailure) {
+      setErrorCount(1);
+    }
+  }, [bulkSensorsUploadResponse?.defaultFailure]);
+
   const validateExcel = (rows) => {
     let errors = [];
     for (let i = 0; i < rows.length; i++) {
@@ -251,13 +257,16 @@ export function useValidateBulkSensorData(onUpload, t) {
       const inputFile = fileInputRef.current.files[0];
       if (inputFile) {
         const downloadFileName = `${inputFile.name.replace(/.csv/, '')}_errors.txt`;
-        createSensorErrorDownload(downloadFileName, sheetErrors[0].errors, true);
+        createSensorErrorDownload(downloadFileName, sheetErrors[0].errors, 'validation', t);
       }
+    } else if (bulkSensorsUploadResponse?.defaultFailure) {
+      createSensorErrorDownload('sensor-upload-outcomes.txt', null, 'generic', t);
     } else {
       createSensorErrorDownload(
         'sensor-upload-outcomes.txt',
         translatedUploadErrors,
-        false,
+        'claim',
+        t,
         bulkSensorsUploadResponse?.success,
       );
     }

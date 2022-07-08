@@ -7,6 +7,7 @@ const initialState = {
   success: [],
   errorSensors: [],
   showTransitionModal: false,
+  defaultFailure: false,
 };
 
 const bulkSensorsUploadSlice = createSlice({
@@ -21,6 +22,7 @@ const bulkSensorsUploadSlice = createSlice({
         success: [],
         errorSensors: [],
         showTransitionModal: false,
+        defaultFailure: false,
       });
     },
     bulkSensorsUploadLoading: (state, action) => {
@@ -33,6 +35,8 @@ const bulkSensorsUploadSlice = createSlice({
         state.loading = false;
         state.isBulkUploadSuccessful = true;
         state.validationErrors = [];
+        state.errorSensors = [];
+        state.defaultFailure = false;
         Object.assign(state, payload);
       }
     },
@@ -42,6 +46,7 @@ const bulkSensorsUploadSlice = createSlice({
       state.success = payload?.success ?? [];
       state.errorSensors = payload?.errorSensors ?? [];
       state.validationErrors = [];
+      state.defaultFailure = payload?.defaultFailure ?? false;
     },
     bulkSensorsUploadValidationFailure: (state, { payload }) => {
       state.loading = false;

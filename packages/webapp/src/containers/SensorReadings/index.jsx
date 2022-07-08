@@ -8,6 +8,7 @@ import RouterTab from '../../components/RouterTab';
 import { bulkSensorsReadingsSliceSelector } from '../bulkSensorReadingsSlice';
 import { weatherSelector } from '../WeatherBoard/weatherSlice';
 import utils from '../WeatherBoard/utils';
+import { TEMPERATURE } from './constants';
 
 function SensorReadings({ history, match }) {
   const { t } = useTranslation();
@@ -58,6 +59,7 @@ function SensorReadings({ history, match }) {
           tempUnit: tempUnit ?? 'C',
         })}
         locationIds={[location_id]}
+        reading_type={TEMPERATURE}
       />
     </div>
   );

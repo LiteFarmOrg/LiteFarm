@@ -30,9 +30,12 @@ import { AMBIENT_TEMPERATURE, CURRENT_DATE_TIME } from './constants';
 
 const sensorReadingsUrl = () => `${sensorUrl}/get_sensor_readings_for_visualization`;
 
-export const getSensorsTempratureReadings = createAction(`getSensorsTempratureReadingsSaga`);
+export const getSensorsReadings = createAction(`getSensorsReadingsSaga`);
 
-export function* getSensorsTempratureReadingsSaga({ payload: locationIds = [] }) {
+export function* getSensorsReadingsSaga({
+  payload: locationIds = [],
+  reading_type = 'temperature',
+}) {
   const {
     farm_id,
     units: { measurement },
@@ -41,9 +44,9 @@ export function* getSensorsTempratureReadingsSaga({ payload: locationIds = [] })
   } = yield select(userFarmSelector);
   try {
     const start = parseInt(
-      +new Date('06-25-2022').setDate(new Date('06-25-2022').getDate() - 3) / 1000,
+      +new Date('06-26-2022').setDate(new Date('06-26-2022').getDate() - 4) / 1000,
     );
-    const end = parseInt(+new Date('06-25-2022') / 1000);
+    const end = parseInt(+new Date('06-26-2022') / 1000);
     yield put(bulkSensorReadingsLoading());
     const apikey = import.meta.env.VITE_WEATHER_API_KEY;
     let params = {
@@ -60,8 +63,8 @@ export function* getSensorsTempratureReadingsSaga({ payload: locationIds = [] })
     const postData = {
       farm_id,
       locationIds,
-      reading_type: 'temperature',
-      endDate: '06-26-2022',
+      reading_type,
+      endDate: '06-27-2022',
     };
     const result = yield call(axios.post, sensorReadingsUrl(), postData, header);
     const centerPoint = findCenter(result?.data?.sensorsPoints.map((s) => s?.point));
@@ -131,5 +134,5 @@ export function* getSensorsTempratureReadingsSaga({ payload: locationIds = [] })
 }
 
 export default function* supportSaga() {
-  yield takeLeading(getSensorsTempratureReadings.type, getSensorsTempratureReadingsSaga);
+  yield takeLeading(getSensorsReadings.type, getSensorsReadingsSaga);
 }

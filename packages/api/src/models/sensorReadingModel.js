@@ -83,7 +83,7 @@ class SensorReading extends Model {
     reading_type = '',
   ) {
     const startDate = new Date(endDate);
-    startDate.setDate(endDate.getDate() - 4);
+    startDate.setDate(endDate.getDate() - 5);
     return await SensorReading.query()
       .select('*')
       .joinRaw('JOIN sensor ON sensor_reading.sensor_id::uuid = sensor.sensor_id')

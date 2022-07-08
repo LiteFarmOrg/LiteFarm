@@ -3,11 +3,11 @@ import { bulkSensorsReadingsSliceSelector } from '../bulkSensorReadingsSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { weatherSelector } from '../WeatherBoard/weatherSlice';
 import utils from '../WeatherBoard/utils';
-import { getSensorsTempratureReadings } from '../SensorReadings/saga';
+import { getSensorsReadings } from '../SensorReadings/saga';
 
 import { AMBIENT_TEMPERATURE, colors, CURRENT_DATE_TIME } from '../SensorReadings/constants';
 
-export function useSensorReadingsLineChart(locationIds) {
+export function useSensorReadingsLineChart(locationIds, reading_type) {
   const bulkSensorsReadingsSliceSelectorData = useSelector(bulkSensorsReadingsSliceSelector);
 
   const { measurement } = useSelector(weatherSelector);
@@ -15,7 +15,7 @@ export function useSensorReadingsLineChart(locationIds) {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getSensorsTempratureReadings(locationIds));
+    dispatch(getSensorsReadings(locationIds, reading_type));
   }, []);
 
   const getYAxisDataKeys = () => {

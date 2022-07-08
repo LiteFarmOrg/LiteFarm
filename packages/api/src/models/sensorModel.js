@@ -107,7 +107,7 @@ class Sensor extends Model {
     }
   }
   /**
-   * Returns sensor grid points for the list of sensor ids
+   * Returns sensor grid points for the list of location ids
    * @param {Array} sensorIds sensor ids
    * @returns {Object} reading_type Reading Object
    */

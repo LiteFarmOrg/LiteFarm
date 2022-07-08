@@ -71,16 +71,16 @@ class SensorReading extends Model {
   }
 
   /**
-   * Returns sensor readings for the list of sensor ids, reading_type and endDate
+   * Returns sensor readings for the list of location ids, readingType and endDate
    * @param {Date} endDate end date
-   * @param {Array} sensorIds sensor ids
-   * @param {string} reading_type end date
-   * @returns {Object} reading_type Reading Object
+   * @param {Array} locationIds sensor ids
+   * @param {string} readingType reading type e.g temperature
+   * @returns {Object} list of sensor readings
    */
   static async getSensorReadingsBySensorIds(
     endDate = new Date(),
     locationIds = [],
-    reading_type = '',
+    readingType = '',
   ) {
     const startDate = new Date(endDate);
     startDate.setDate(endDate.getDate() - 5);
@@ -88,7 +88,7 @@ class SensorReading extends Model {
       .select('*')
       .joinRaw('JOIN sensor ON sensor_reading.sensor_id::uuid = sensor.sensor_id')
       .whereIn('sensor.location_id', locationIds)
-      .andWhere('reading_type', '=', reading_type)
+      .andWhere('reading_type', '=', readingType)
       .andWhere('valid', '=', true)
       .andWhere('read_time', '>=', startDate)
       .andWhere('read_time', '<', endDate)

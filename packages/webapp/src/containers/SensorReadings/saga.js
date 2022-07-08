@@ -34,7 +34,7 @@ export const getSensorsReadings = createAction(`getSensorsReadingsSaga`);
 
 export function* getSensorsReadingsSaga({
   payload: locationIds = [],
-  reading_type = 'temperature',
+  readingType = 'temperature',
 }) {
   const {
     farm_id,
@@ -63,7 +63,7 @@ export function* getSensorsReadingsSaga({
     const postData = {
       farm_id,
       locationIds,
-      reading_type,
+      readingType,
       endDate: '06-27-2022',
     };
     const result = yield call(axios.post, sensorReadingsUrl(), postData, header);

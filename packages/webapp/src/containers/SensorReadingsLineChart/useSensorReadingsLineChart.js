@@ -7,7 +7,7 @@ import { getSensorsReadings } from '../SensorReadings/saga';
 
 import { AMBIENT_TEMPERATURE, colors, CURRENT_DATE_TIME } from '../SensorReadings/constants';
 
-export function useSensorReadingsLineChart(locationIds, reading_type) {
+export function useSensorReadingsLineChart(locationIds, readingType) {
   const bulkSensorsReadingsSliceSelectorData = useSelector(bulkSensorsReadingsSliceSelector);
 
   const { measurement } = useSelector(weatherSelector);
@@ -15,7 +15,7 @@ export function useSensorReadingsLineChart(locationIds, reading_type) {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getSensorsReadings(locationIds, reading_type));
+    dispatch(getSensorsReadings(locationIds, readingType));
   }, []);
 
   const getYAxisDataKeys = () => {

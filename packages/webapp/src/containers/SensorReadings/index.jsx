@@ -59,7 +59,7 @@ function SensorReadings({ history, match }) {
           tempUnit: tempUnit ?? 'C',
         })}
         locationIds={[location_id]}
-        reading_type={TEMPERATURE}
+        readingType={TEMPERATURE}
       />
     </div>
   );

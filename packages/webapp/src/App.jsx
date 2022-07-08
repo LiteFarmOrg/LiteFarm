@@ -47,7 +47,6 @@ function App() {
   return (
     <>
       <div className={clsx(classes.container, classes.defaultHeight, classes.webkitHeight)}>
-        {/* <ReadingsLineChart/> */}
         <NavBar history={history} />
         <div
           className="app"

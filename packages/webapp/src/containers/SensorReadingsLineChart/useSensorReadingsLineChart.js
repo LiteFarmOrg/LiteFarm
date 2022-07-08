@@ -1,11 +1,15 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect } from 'react';
 import { bulkSensorsReadingsSliceSelector } from '../bulkSensorReadingsSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { weatherSelector } from '../WeatherBoard/weatherSlice';
 import utils from '../WeatherBoard/utils';
 import { getSensorsReadings } from '../SensorReadings/saga';
 
-import { AMBIENT_TEMPERATURE, colors, CURRENT_DATE_TIME } from '../SensorReadings/constants';
+import {
+  AMBIENT_TEMPERATURE,
+  CHART_LINE_COLORS,
+  CURRENT_DATE_TIME,
+} from '../SensorReadings/constants';
 
 export function useSensorReadingsLineChart(locationIds, readingType) {
   const bulkSensorsReadingsSliceSelectorData = useSelector(bulkSensorsReadingsSliceSelector);
@@ -35,7 +39,7 @@ export function useSensorReadingsLineChart(locationIds, readingType) {
     sensorsReadingsOfTemperature:
       bulkSensorsReadingsSliceSelectorData?.sensorsReadingsOfTemperature,
     yAxisDataKeys: getYAxisDataKeys(),
-    lineColors: colors,
+    lineColors: CHART_LINE_COLORS,
     tempUnit,
   };
 }

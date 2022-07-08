@@ -206,6 +206,13 @@ class Location extends baseModel {
       .context(context)
       .insertGraph(locationData, { noUpdate: true, noDelete: true, noInsert: nonModifiable });
   }
+
+  static async createOrUpdateLocation(asset, context, locationData, trx) {
+    const nonModifiable = getNonModifiable(asset);
+    return await Location.query(trx)
+      .context(context)
+      .upsertGraph(locationData, { noUpdate: false, noDelete: true, noInsert: nonModifiable });
+  }
 }
 
 module.exports = Location;

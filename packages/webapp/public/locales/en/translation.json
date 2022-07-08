@@ -474,7 +474,8 @@
       },
       "SENSOR_CLAIM_ERROR": {
         "ALREADY_OCCUPIED": "Sensor \"{{ sensorId }}\" already registered to another organization, please contact Ensemble support at support@esci.io to troubleshoot.",
-        "DOES_NOT_EXIST": "Sensor \"{{ sensorId }}\" does not exist in the Ensemble database. Please ensure that you have spelled the External_ID properly for this entry, and that the sensor is an Ensemble sensor."
+        "DOES_NOT_EXIST": "Sensor \"{{ sensorId }}\" does not exist in the Ensemble database. Please ensure that you have spelled the External_ID properly for this entry, and that the sensor is an Ensemble sensor.",
+        "INTERNAL_ERROR": "Sensor \"{{ sensorId }}\" failed to upload successfully, please reach out to LiteFarm support at support@litefarm.org to troubleshoot."
       }
     },
     "BULK_UPLOAD_TRANSITION": {
@@ -669,7 +670,8 @@
   },
   "FIELDS": {
     "EDIT_FIELD": {
-      "VARIETY": "Variety"
+      "VARIETY": "Variety",
+      "SUPPLIER": "Supplier"
     }
   },
   "FILE_SIZE_MODAL": {

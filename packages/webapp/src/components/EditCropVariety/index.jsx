@@ -139,7 +139,7 @@ export default function PureEditCropVariety({
 
       <Input
         style={{ marginBottom: '40px' }}
-        label={'Supplier'}
+        label={t('translation:FIELDS.EDIT_FIELD.SUPPLIER')}
         type="text"
         hookFormRegister={supplierRegister}
         hasLeaf={true}

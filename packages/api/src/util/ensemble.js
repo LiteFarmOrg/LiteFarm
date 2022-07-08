@@ -78,30 +78,35 @@ async function bulkSensorClaim(accessToken, organizationId, esids) {
  */
 
 async function registerOrganizationWebhook(farmId, organizationId, accessToken) {
-  const axiosObject = {
-    method: 'post',
-    url: `${ensembleAPI}/organizations/${organizationId}/webhooks/`,
-    data: {
-      url: `${baseUrl}/sensors/add_reading/1`,
-      authorization_header: process.env.SENSOR_SECRET,
-      frequency: 15,
-    },
-  };
-  const onError = (error) => {
-    console.log(error);
-    throw new Error('Failed to register webhook with ESCI');
-  };
-
-  const onResponse = async (response) => {
-    await FarmExternalIntegrationsModel.updateWebhookAddress(
-      farmId,
-      `${baseUrl}/sensors/add_reading/1`,
-      response.data.id,
-    );
-    return { ...response.data, status: response.status };
-  };
-
-  return await ensembleAPICall(accessToken, axiosObject, onError, onResponse);
+  const existingIntegration = await FarmExternalIntegrationsModel.query()
+    .where({ farm_id: farmId, partner_id: 1 })
+    .first();
+  if (existingIntegration?.webhook_address) {
+    return existingIntegration.webhook_address;
+  } else {
+    const axiosObject = {
+      method: 'post',
+      url: `${ensembleAPI}/organizations/${organizationId}/webhooks/`,
+      data: {
+        url: `${baseUrl}/sensors/add_reading/1`,
+        authorization_header: process.env.SENSOR_SECRET,
+        frequency: 15,
+      },
+    };
+    const onError = (error) => {
+      console.log(error);
+      throw new Error('Failed to register webhook with ESCI');
+    };
+    const onResponse = async (response) => {
+      await FarmExternalIntegrationsModel.updateWebhookAddress(
+        farmId,
+        `${baseUrl}/sensors/add_reading/1`,
+        response.data.id,
+      );
+      return { ...response.data, status: response.status };
+    };
+    return await ensembleAPICall(accessToken, axiosObject, onError, onResponse);
+  }
 }
 
 /**

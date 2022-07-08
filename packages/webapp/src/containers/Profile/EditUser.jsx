@@ -12,7 +12,7 @@ export default function EditUser({ history, match }) {
   const userFarm = userFarmsEntities[farm_id]?.[user_id];
 
   const getReqBody = (data) => {
-    const role_id = Number(data.role_id);
+    const role_id = parseInt(data.role_id.value);
     const reqBody = {
       ...data,
       user_id,

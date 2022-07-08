@@ -152,6 +152,7 @@ const useMapAssetRenderer = ({ isClickable, showingConfirmButtons, drawingState 
         const pointAssets = {
           gate: [],
           water_valve: [],
+          sensor: [],
         };
         cluster.markers_.map((point) => {
           pointAssets[point.type].push({

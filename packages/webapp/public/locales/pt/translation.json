@@ -1076,6 +1076,11 @@
     }
   },
   "NOTIFICATION": {
+    "TIMELINE": {
+      "HEADING": "Cronograma de notificação",
+      "VIEW_NOW": "Veja agora",
+      "MORE_RECENT_NOTIFICATION": "Existem notificações mais recentes sobre este/a {{entityType}}."
+    },
     "DAILY_TASKS_DUE_TODAY": {
       "BODY": "Você tem tarefas para vencer hoje.",
       "TITLE": "Tarefas para hoje"
@@ -1089,7 +1094,7 @@
       "TITLE": "Tarefa abandonada"
     },
     "TASK_ASSIGNED": {
-      "BODY": "A tarefa {{taskType}} foi atribuída a {{assignee}}. ",
+      "BODY": "A tarefa {{taskType}} atribuída a você por {{assigner}}.",
       "TITLE": "Tarefa atribuída"
     },
     "TASK_COMPLETED_BY_OTHER_USER": {

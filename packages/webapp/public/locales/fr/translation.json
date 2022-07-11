@@ -1076,6 +1076,11 @@
     }
   },
   "NOTIFICATION": {
+    "TIMELINE": {
+      "HEADING": "Chronologie de notifications",
+      "VIEW_NOW": "Afficher maintenant",
+      "MORE_RECENT_NOTIFICATION": "Il y a des notifications plus récentes au sujet de cette {{entityType}}."
+    },
     "DAILY_TASKS_DUE_TODAY": {
       "BODY": "Vous avez des tâches à accomplir aujourd'hui.",
       "TITLE": "Tâches à accomplir aujourd'hui"
@@ -1089,7 +1094,7 @@
       "TITLE": "Tâche abandonnée"
     },
     "TASK_ASSIGNED": {
-      "BODY": "Une tâche de {{taskType}} a été assignée à {{assignee}}.",
+      "BODY": "Une tâche de {{taskType}} a été assignée à vous par {{assigner}}.",
       "TITLE": "Tâche assignée"
     },
     "TASK_COMPLETED_BY_OTHER_USER": {

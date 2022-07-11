@@ -213,6 +213,15 @@ class Location extends baseModel {
       .context(context)
       .upsertGraph(locationData, { noUpdate: false, noDelete: true, noInsert: nonModifiable });
   }
+
+  static async getSensorLocation(farm_id, partner_id, external_id, trx) {
+    return Location.query(trx)
+      .withGraphJoined('sensor')
+      .where('sensor.farm_id', farm_id)
+      .andWhere('sensor.partner_id', partner_id)
+      .andWhere('sensor.external_id', external_id)
+      .first();
+  }
 }
 
 module.exports = Location;

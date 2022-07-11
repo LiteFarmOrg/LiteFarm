@@ -15,7 +15,7 @@
 
 import { call, put, select, takeLatest, takeLeading } from 'redux-saga/effects';
 import { sensorUrl } from '../../../../apiConfig';
-import { loginSelector, patchFarmSuccess } from '../../../userFarmSlice';
+import { loginSelector } from '../../../userFarmSlice';
 import { axios, getHeader } from '../../../saga';
 import { createAction } from '@reduxjs/toolkit';
 import i18n from '../../../../locales/i18n';
@@ -32,7 +32,6 @@ export const getSensorReadingTypes = createAction('getSensorReadingTypesSaga');
 export const getSensorBrand = createAction('getSensorBrandSaga');
 
 export function* patchSensorSaga({ payload: sensorData }) {
-  // const { sensorUrl } = apiConfig;
   let { user_id, farm_id } = yield select(loginSelector);
   const header = getHeader(user_id, farm_id);
 
@@ -43,12 +42,11 @@ export function* patchSensorSaga({ payload: sensorData }) {
       sensorData,
       header,
     );
-    // yield call(getManagementPlanAndPlantingMethodSuccessSaga, { payload: [sensorData] });
-    yield put(enqueueSuccessSnackbar(i18n.t('Succesfully updated sensor')));
+    yield put(enqueueSuccessSnackbar(i18n.t('message:SENSOR.SUCCESSFUL_UPDATE')));
     history.push(`/map`);
   } catch (e) {
-    console.log('Failed to update sensor details to database');
-    yield put(enqueueErrorSnackbar(i18n.t('message:PLAN.ERROR.EDIT')));
+    console.log('Failed to update sensor to database');
+    yield put(enqueueErrorSnackbar(i18n.t('message:SENSOR.ERROR_UPDATE')));
   }
 }
 

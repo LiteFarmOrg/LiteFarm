@@ -30,6 +30,7 @@ import fieldLocationSaga from './containers/LocationDetails/AreaDetails/FieldDet
 import sensorDetailSaga from './containers/LocationDetails/PointDetails/SensorDetail/saga';
 import documentSaga from './containers/Documents/saga';
 import managementPlanSaga from './containers/Crop/saga';
+import sensorSaga from './containers/LocationDetails/PointDetails/SensorDetail/saga';
 import gardenSaga from './containers/LocationDetails/AreaDetails/GardenDetailForm/saga';
 import gateSaga from './containers/LocationDetails/PointDetails/GateDetailForm/saga';
 import waterValveSaga from './containers/LocationDetails/PointDetails/WaterValveDetailForm/saga';

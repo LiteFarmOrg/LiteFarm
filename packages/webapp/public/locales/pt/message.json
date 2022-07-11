@@ -195,5 +195,9 @@
       "REVOKE": "Acesso do usuário revogado!",
       "UPDATE": "Informações do usuário atualizadas com sucesso!"
     }
+  },
+  "SENSOR": {
+    "SUCCESSFUL_UPDATE": "MISSING",
+    "ERROR_UPDATE": "MISSING"
   }
 }

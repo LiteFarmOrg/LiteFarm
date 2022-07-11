@@ -66,7 +66,6 @@ export default function PureLineBox({
       (widthValue ? (widthValue <= maxValue ? widthValue : maxValue) : 0) +
         (bufferWidthValue ? (bufferWidthValue <= maxValue ? bufferWidthValue : maxValue) : 0),
     );
-    // updateWidth((widthValue || 0) + (bufferWidthValue || 0));
   }, [widthValue, bufferWidthValue]);
 
   return (

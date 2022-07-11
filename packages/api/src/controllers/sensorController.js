@@ -475,7 +475,7 @@ const sensorController = {
       });
     }
   },
-  async getAllReadingsBySensorIds(req, res) {
+  async getAllSensorReadingsByLocationIds(req, res) {
     try {
       const { locationIds = [], readingType = '', endDate = '' } = req.body;
 
@@ -495,7 +495,7 @@ const sensorController = {
         return res.status(400).send('No end date is present');
       }
 
-      const result = await SensorReadingModel.getSensorReadingsBySensorIds(
+      const result = await SensorReadingModel.getSensorReadingsByLocationIds(
         new Date(endDate),
         locationIds,
         readingType,

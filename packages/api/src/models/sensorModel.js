@@ -121,13 +121,13 @@ class Sensor extends Model {
       s.sensor_id, 
       s.name, 
       s.external_id,
-      b.point
-      FROM
-      "sensor" s 
+      b.point 
+      FROM "sensor" s 
       JOIN (
         SELECT 
         l.location_id, 
-        a.point FROM "location" l JOIN
+        a.point 
+        FROM "location" l JOIN
         (
           SELECT * FROM "figure" f
           JOIN "point" p 

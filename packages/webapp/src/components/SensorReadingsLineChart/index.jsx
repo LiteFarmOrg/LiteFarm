@@ -13,6 +13,7 @@ import {
 import { Label, Semibold } from '../Typography';
 import PropTypes from 'prop-types';
 import AxisLabel from './AxisLabel';
+import { NO_DATA } from '../../containers/SensorReadings/constants';
 
 const PureSensorReadingsLineChart = ({
   title,
@@ -27,6 +28,7 @@ const PureSensorReadingsLineChart = ({
   const [selectedLine, setSelectedLine] = useState(null);
 
   const selectLine = (event) => {
+    if (event.dataKey.includes(NO_DATA)) return;
     let sl = selectedLine === event.dataKey ? null : event.dataKey.trim();
     setSelectedLine(sl);
   };

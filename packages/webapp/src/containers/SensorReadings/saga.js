@@ -17,7 +17,7 @@ import { createAction } from '@reduxjs/toolkit';
 import { call, put, select, takeLeading, all } from 'redux-saga/effects';
 import { axios } from '../saga';
 import { userFarmSelector } from '../userFarmSlice';
-import { GRAPH_TIMESTAMPS, OPEN_WEATHER_API_URL_FOR_SENSORS, HOUR } from './constants';
+import { GRAPH_TIMESTAMPS, OPEN_WEATHER_API_URL_FOR_SENSORS, HOUR, NO_DATA } from './constants';
 import {
   bulkSensorReadingsLoading,
   bulkSensorReadingsSuccess,
@@ -67,6 +67,7 @@ export function* getSensorsReadingsSaga({
       endDate: '06-27-2022',
     };
     const result = yield call(axios.post, sensorReadingsUrl(), postData, header);
+    const allSensorNames = result?.data?.sensorsPoints.map((s) => s.name);
     const centerPoint = findCenter(result?.data?.sensorsPoints.map((s) => s?.point));
 
     params = {
@@ -94,17 +95,33 @@ export function* getSensorsReadingsSaga({
           [AMBIENT_TEMPERATURE]: tempInfo?.main?.temp,
           [CURRENT_DATE_TIME]: `${dateAndTimeInfo?.split(':00:00')[0]}:00`,
         };
+        for (const s of allSensorNames) {
+          acc[tempInfo?.dt][s] = null;
+        }
       }
       return acc;
     }, {});
 
-    const ambientDataWithSensorsReadings = result.data.sensorReading.reduce((acc, cv) => {
+    let ambientDataWithSensorsReadings = result?.data?.sensorReading.reduce((acc, cv) => {
       const dt = new Date(cv.read_time).valueOf() / 1000;
       if (acc[dt]) {
         acc[dt][cv.name] = cv.value;
       }
       return acc;
     }, ambientData);
+
+    ambientDataWithSensorsReadings = allSensorNames.reduce((acc, cv) => {
+      if (Object.values(acc).every((ambientDataReading) => ambientDataReading[cv] === null)) {
+        acc = Object.values(acc).map((ambientDataReading) => {
+          delete ambientDataReading[cv];
+          return {
+            ...ambientDataReading,
+            [`${cv} ${NO_DATA}`]: null,
+          };
+        });
+      }
+      return acc;
+    }, ambientDataWithSensorsReadings);
 
     let selectedSensorName = '';
     if (result?.data?.sensorsPoints) {

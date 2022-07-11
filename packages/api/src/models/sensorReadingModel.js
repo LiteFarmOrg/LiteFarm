@@ -77,7 +77,7 @@ class SensorReading extends Model {
    * @param {string} readingType reading type e.g temperature
    * @returns {Object} list of sensor readings
    */
-  static async getSensorReadingsBySensorIds(
+  static async getSensorReadingsByLocationIds(
     endDate = new Date(),
     locationIds = [],
     readingType = '',

@@ -492,7 +492,7 @@
     "DRAWING_MANAGER": {
       "REDRAW": "Repintar",
       "ZERO_AREA_DETECTED": "Campo sin area detectado. Por favor, agrega mas puntos o comienza de nuevo.",
-      "ZERO_LENGTH_DETECTED": "Linea sin medida. Por favor, agrega más puntos o comienza de nuevo."
+      "ZERO_LENGTH_DETECTED": "Linea sin medida. Por favor, comienza de nuevo."
     },
     "EXPORT_MODAL": {
       "BODY": "Como quieres exportar el mapa?",

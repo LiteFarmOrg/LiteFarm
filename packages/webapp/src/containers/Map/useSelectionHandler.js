@@ -58,7 +58,10 @@ const useSelectionHandler = () => {
         );
       } else {
         if (overlappedLocations.point.length === 1) {
-          if (overlappedLocations.point[0].type === 'sensor') {
+          if (
+            overlappedLocations.point[0].type === 'sensor' &&
+            overlappedLocations.point[0].preview
+          ) {
             const locationArray = [];
             overlappedLocations.point.forEach((point) => {
               if (locationArray.length < 4) locationArray.push(point);
@@ -144,6 +147,7 @@ const useSelectionHandler = () => {
                 name: point.location_name,
                 asset: point.asset,
                 type: point.type,
+                preview: true,
               });
             });
           } else {

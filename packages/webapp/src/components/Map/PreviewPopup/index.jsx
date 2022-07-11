@@ -41,16 +41,16 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function PurePreviewPopup({ location, history }) {
+export default function PurePreviewPopup({ location, history, styleOverride }) {
   const classes = useStyles();
 
   const loadEditView = (location) => {
-    // TODO history push the sensor detailed page
+    history.push(`/${location.type}/${location.id}/details`);
   };
 
   return (
     <div onClick={() => loadEditView(location)} className={classes.container}>
-      <div className={classes.tooltip}>
+      <div className={classes.tooltip} style={styleOverride}>
         <div className={classes.arrow} />
         <div className={classes.body}>preview body</div>
       </div>

@@ -207,6 +207,13 @@ class Location extends baseModel {
       .insertGraph(locationData, { noUpdate: true, noDelete: true, noInsert: nonModifiable });
   }
 
+  static async createOrUpdateLocation(asset, context, locationData, trx) {
+    const nonModifiable = getNonModifiable(asset);
+    return await Location.query(trx)
+      .context(context)
+      .upsertGraph(locationData, { noUpdate: false, noDelete: true, noInsert: nonModifiable });
+  }
+
   static async deleteLocation(location_id, context) {
     try {
       const trx = await transaction.start(Model.knex());

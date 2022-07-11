@@ -474,7 +474,8 @@
       },
       "SENSOR_CLAIM_ERROR": {
         "ALREADY_OCCUPIED": "MISSING",
-        "DOES_NOT_EXIST": "MISSING"
+        "DOES_NOT_EXIST": "MISSING",
+        "INTERNAL_ERROR": "MISSING"
       }
     },
     "BULK_UPLOAD_TRANSITION": {
@@ -615,7 +616,8 @@
     "TAB": {
       "CROPS": "Récoltes",
       "DETAILS": "Détails",
-      "TASKS": "Tâches"
+      "TASKS": "Tâches",
+      "READINGS": "Lectures"
     },
     "TITLE": "Carte de la ferme",
     "TUTORIAL": {
@@ -668,7 +670,8 @@
   },
   "FIELDS": {
     "EDIT_FIELD": {
-      "VARIETY": "Variété"
+      "VARIETY": "Variété",
+      "SUPPLIER": "MISSING"
     }
   },
   "FILE_SIZE_MODAL": {

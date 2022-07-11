@@ -473,7 +473,8 @@
       },
       "SENSOR_CLAIM_ERROR": {
         "ALREADY_OCCUPIED": "MISSING",
-        "DOES_NOT_EXIST": "MISSING"
+        "DOES_NOT_EXIST": "MISSING",
+        "INTERNAL_ERROR": "MISSING"
       }
     },
     "BULK_UPLOAD_TRANSITION": {
@@ -614,7 +615,8 @@
     "TAB": {
       "CROPS": "Cultivo",
       "DETAILS": "Detalhes",
-      "TASKS": "Tarefas"
+      "TASKS": "Tarefas",
+      "READINGS": "MISSING"
     },
     "TITLE": "Mapa do sítio/fazenda",
     "TUTORIAL": {
@@ -667,7 +669,8 @@
   },
   "FIELDS": {
     "EDIT_FIELD": {
-      "VARIETY": "Variedade"
+      "VARIETY": "Variedade",
+      "SUPPLIER": "MISSING"
     }
   },
   "FILE_SIZE_MODAL": {

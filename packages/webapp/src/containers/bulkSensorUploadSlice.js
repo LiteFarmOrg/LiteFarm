@@ -37,11 +37,10 @@ const bulkSensorsUploadSlice = createSlice({
       }
     },
     bulkSensorsUploadFailure: (state, { payload }) => {
-      const { success, errorSensors } = payload;
       state.loading = false;
       state.isBulkUploadSuccessful = false;
-      state.success = success;
-      state.errorSensors = errorSensors;
+      state.success = payload?.success ?? [];
+      state.errorSensors = payload?.errorSensors ?? [];
       state.validationErrors = [];
     },
     bulkSensorsUploadValidationFailure: (state, { payload }) => {

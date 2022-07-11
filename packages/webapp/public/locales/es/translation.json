@@ -473,7 +473,8 @@
       },
       "SENSOR_CLAIM_ERROR": {
         "ALREADY_OCCUPIED": "MISSING",
-        "DOES_NOT_EXIST": "MISSING"
+        "DOES_NOT_EXIST": "MISSING",
+        "INTERNAL_ERROR": "MISSING"
       }
     },
     "BULK_UPLOAD_TRANSITION": {
@@ -614,7 +615,8 @@
     "TAB": {
       "CROPS": "Cultivos",
       "DETAILS": "Detalles",
-      "TASKS": "Tareas"
+      "TASKS": "Tareas",
+      "READINGS": "MISSING"
     },
     "TITLE": "Mapa de granja",
     "TUTORIAL": {
@@ -667,7 +669,8 @@
   },
   "FIELDS": {
     "EDIT_FIELD": {
-      "VARIETY": "Variedad"
+      "VARIETY": "Variedad",
+      "SUPPLIER": "MISSING"
     }
   },
   "FILE_SIZE_MODAL": {

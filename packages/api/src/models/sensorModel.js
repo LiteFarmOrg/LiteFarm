@@ -71,7 +71,6 @@ class Sensor extends Model {
         sensor.external_id,
         trx,
       );
-      console.log(existingSensor);
       if (existingSensor) {
         await trx.commit();
         return existingSensor;

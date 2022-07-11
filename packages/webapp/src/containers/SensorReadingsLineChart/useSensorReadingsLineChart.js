@@ -24,12 +24,12 @@ export function useSensorReadingsLineChart(locationIds, readingType) {
 
   const getYAxisDataKeys = () => {
     if (bulkSensorsReadingsSliceSelectorData?.sensorsReadingsOfTemperature.length) {
-      const yAxisFields = Object.keys(
-        bulkSensorsReadingsSliceSelectorData?.sensorsReadingsOfTemperature[0],
-      )
-        .filter((f) => f !== CURRENT_DATE_TIME && f !== AMBIENT_TEMPERATURE)
+      const readingsObj = bulkSensorsReadingsSliceSelectorData?.sensorsReadingsOfTemperature[0];
+      const yAxisFields = Object.keys(readingsObj)
+        .filter((f) => f !== CURRENT_DATE_TIME && !f.includes(AMBIENT_TEMPERATURE))
         .sort();
-      return [...yAxisFields, AMBIENT_TEMPERATURE];
+      const ambientKey = Object.keys(readingsObj).find((f) => f.includes(AMBIENT_TEMPERATURE));
+      return [...yAxisFields, ambientKey];
     } else {
       return [];
     }

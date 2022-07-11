@@ -75,14 +75,17 @@ export function* getSensorsReadingsSaga({
       lat: centerPoint?.lat ?? lat,
       lon: centerPoint?.lng ?? lng,
     };
-
-    const openWeatherUrl = new URL(OPEN_WEATHER_API_URL_FOR_SENSORS);
-
-    for (const key in params) {
-      openWeatherUrl.searchParams.append(key, params[key]);
+    const openWeatherPromiseList = [];
+    for (const weatherURL of OPEN_WEATHER_API_URL_FOR_SENSORS) {
+      const openWeatherUrl = new URL(weatherURL);
+      for (const key in params) {
+        openWeatherUrl.searchParams.append(key, params[key]);
+      }
+      openWeatherPromiseList.push(call(axios.get, openWeatherUrl?.toString()));
     }
 
-    const openWeatherResponse = yield call(axios.get, openWeatherUrl?.toString());
+    const [currentDayWeatherResponse, openWeatherResponse] = yield all(openWeatherPromiseList);
+    const stationName = currentDayWeatherResponse?.data?.name;
     const weatherResData = openWeatherResponse.data.list;
 
     const ambientData = weatherResData.reduce((acc, tempInfo) => {
@@ -92,7 +95,7 @@ export function* getSensorsReadingsSaga({
         if (!acc[tempInfo?.dt]) acc[tempInfo?.dt] = {};
         acc[tempInfo?.dt] = {
           ...acc[tempInfo?.dt],
-          [AMBIENT_TEMPERATURE]: tempInfo?.main?.temp,
+          [`${AMBIENT_TEMPERATURE} for ${stationName}`]: tempInfo?.main?.temp,
           [CURRENT_DATE_TIME]: `${dateAndTimeInfo?.split(':00:00')[0]}:00`,
         };
         for (const s of allSensorNames) {
@@ -123,18 +126,13 @@ export function* getSensorsReadingsSaga({
       return acc;
     }, ambientDataWithSensorsReadings);
 
+    const latestTemperatureReadings = {
+      tempMin: currentDayWeatherResponse?.data?.main?.temp_min,
+      tempMax: currentDayWeatherResponse?.data?.main?.temp_max,
+    };
     let selectedSensorName = '';
     if (result?.data?.sensorsPoints) {
       selectedSensorName = result?.data?.sensorsPoints[0]?.name;
-    }
-
-    const latestWeatherData = weatherResData?.at(-1);
-    let latestTemperatureReadings = {};
-    if (latestWeatherData) {
-      latestTemperatureReadings = {
-        tempMin: latestWeatherData?.main?.temp_min,
-        tempMax: latestWeatherData?.main?.temp_max,
-      };
     }
 
     yield put(

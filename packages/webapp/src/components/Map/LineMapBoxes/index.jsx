@@ -99,7 +99,7 @@ export default function PureLineBox({
             control={control}
             required
             mode={'onChange'}
-            max={measurmentUnit == 'metric' ? 1600 : 5280}
+            max={maxValue}
           />
         </div>
         {typeOfLine === locationEnum.watercourse && (
@@ -119,7 +119,7 @@ export default function PureLineBox({
               control={control}
               required
               mode={'onChange'}
-              max={measurmentUnit == 'metric' ? 1600 : 5280}
+              max={maxValue}
             />
           </div>
         )}

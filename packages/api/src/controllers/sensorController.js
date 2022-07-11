@@ -168,18 +168,18 @@ const sensorController = {
         // Filter sensors by those successfully registered and those with errors
         const { registeredSensors, errorSensors } = data.reduce(
           (prev, curr, idx) => {
-            if (success.includes(curr.external_id) || already_owned.includes(curr.external_id)) {
+            if (success?.includes(curr.external_id) || already_owned?.includes(curr.external_id)) {
               prev.registeredSensors.push(curr);
             } else if (curr.brand !== 'Ensemble Scientific') {
               prev.registeredSensors.push(curr);
-            } else if (does_not_exist.includes(curr.external_id)) {
+            } else if (does_not_exist?.includes(curr.external_id)) {
               prev.errorSensors.push({
                 row: idx + 2,
                 column: 'External_ID',
                 translation_key: sensorErrors.SENSOR_DOES_NOT_EXIST,
                 variables: { sensorId: curr.external_id },
               });
-            } else if (occupied.includes(curr.external_id)) {
+            } else if (occupied?.includes(curr.external_id)) {
               prev.errorSensors.push({
                 row: idx + 2,
                 column: 'External_ID',

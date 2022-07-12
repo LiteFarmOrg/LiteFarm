@@ -8,15 +8,19 @@ import PurePreviewPopup from '../PreviewPopup';
 
 const useStyles = makeStyles((theme) => ({
   container: {
+    left: 100,
     '&:hover': {
       backgroundColor: colors.green100,
     },
     backgroundColor: 'white',
     marginBottom: '5px',
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    maxWidth: 160,
   },
 }));
 
-export default function PureSelectionHandler({ locations, history }) {
+export default function PureSelectionHandler({ locations, history, sensorReadings }) {
   const classes = useStyles();
   const imgMapping = (assetType, locationType) => {
     let icon = null;
@@ -70,13 +74,14 @@ export default function PureSelectionHandler({ locations, history }) {
       >
         <div className={classes.container}>
           <div style={{ float: 'left', paddingTop: '8px', paddingLeft: '20px' }}> {icon} </div>
-          <div style={{ padding: '12px 20px 10px 55px' }}>{name}</div>
+          <div style={{ padding: '12px 20px 10px 55px', lineBreak: 'auto' }}>{name}</div>
         </div>
         {isSensor && sensorIdx === idx && (
           <PurePreviewPopup
             location={location}
             history={history}
-            styleOverride={{ marginTop: 12, marginBottom: 10 }}
+            sensorReadings={sensorReadings}
+            styleOverride={{ marginTop: 12, marginBottom: 10, position: 'relative', left: 0 }}
           />
         )}
       </div>

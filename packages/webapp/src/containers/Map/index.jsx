@@ -501,7 +501,7 @@ export default function Map({ history }) {
             </div>
           )}
         </div>
-        <LocationSelectionModal history={history} />
+        <LocationSelectionModal history={history} sensorReadings={mapSensorReadings} />
 
         {!drawingState.type && (
           <PureMapFooter

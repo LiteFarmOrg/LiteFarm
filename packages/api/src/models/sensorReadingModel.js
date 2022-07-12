@@ -65,6 +65,7 @@ class SensorReading extends Model {
     const pastDate = new Date();
     pastDate.setDate(pastDate.getDate() - days);
     return await SensorReading.query()
+      .select('*')
       .joinRaw('JOIN sensor ON sensor_reading.sensor_id::uuid = sensor.sensor_id')
       .where('farm_id', farmId)
       .andWhere('created_at', '>=', pastDate);

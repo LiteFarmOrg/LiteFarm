@@ -31,11 +31,11 @@ const SENSOR_DEPTH = 'Depth';
 const SENSOR_BRAND = 'Brand';
 const SENSOR_MODEL = 'Model';
 
-const SOIL_WATER_CONTENT = 'soil_water_content';
-const SOIL_WATER_POTENTIAL = 'soil_water_potential';
+const SOIL_MOISTURE_CONTENT = 'soil_moisture_content';
+const WATER_POTENTIAL = 'water_potential';
 const TEMPERATURE = 'temperature';
 
-const requiredReadingTypes = [SOIL_WATER_CONTENT, SOIL_WATER_POTENTIAL, TEMPERATURE];
+const requiredReadingTypes = [SOIL_MOISTURE_CONTENT, WATER_POTENTIAL, TEMPERATURE];
 
 const requiredFields = [SENSOR_NAME, SENSOR_LATITUDE, SENSOR_LONGITUDE, SENSOR_READING_TYPES];
 const templateFields = [
@@ -73,11 +73,10 @@ export function useValidateBulkSensorData(onUpload, t) {
     },
     {
       errorMessage: t('FARM_MAP.BULK_UPLOAD_SENSORS.VALIDATION.SENSOR_READING_TYPES'),
-      mask: /^\s*(?:\w+\s*,\s*){2,}(?:\w+\s*)$/,
       columnName: SENSOR_READING_TYPES,
       validate(rowNumber, columnName, value) {
         if (typeof value !== 'string') return;
-        const inputReadingTypes = value.split(',');
+        const inputReadingTypes = value.trim().split(',');
         if (!inputReadingTypes.length) return;
         const invalidReadingTypes = inputReadingTypes.reduce((acc, fieldName) => {
           if (!requiredReadingTypes.includes(fieldName.trim())) {
@@ -152,7 +151,10 @@ export function useValidateBulkSensorData(onUpload, t) {
       for (const validationField of validationFields) {
         const COLUMN = validationField.columnName;
         if (COLUMN.length) {
-          const validColumn = validationField.mask.test(element[COLUMN]);
+          let validColumn = true;
+          if (validationField.hasOwnProperty('mask')) {
+            validColumn = validationField.mask.test(element[COLUMN]);
+          }
           if (!validColumn) {
             errors.push({
               row: i + 2,

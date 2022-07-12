@@ -38,7 +38,7 @@ router.post(
 
 router.delete('/delete_sensor/:sensor_id', SensorController.deleteSensor);
 router.patch('/:sensor_esid', SensorController.updateSensorbyID);
-router.post('/add_reading/:partner_id', validateRequest, SensorController.addReading);
+router.post('/add_reading/:partner_id/:farm_id', validateRequest, SensorController.addReading);
 router.post('/get_readings', SensorController.getAllReadingsBySensorId);
 router.get('/sensor_readings/:farm_id/:days', SensorController.getReadingsByFarmId);
 router.post('/invalidate_readings', SensorController.invalidateReadings);

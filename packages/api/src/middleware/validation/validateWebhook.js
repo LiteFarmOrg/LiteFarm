@@ -1,5 +1,5 @@
 async function validateRequest(req, res, next) {
-  const partnerId = req.params.partner_id;
+  const partnerId = parseInt(req.params.partner_id);
   if (partnerId !== 1) {
     next();
   } else {

@@ -48,14 +48,23 @@ export default function PurePreviewPopup({ location, history, sensorReadings, st
     history.push(`/${location.type}/${location.id}/details`);
   };
   if (sensorReadings.length) {
+    const temperatureData = sensorReadings.filter(
+      (sensorReading) => sensorReading.reading_type === 'temperature',
+    );
+
     return (
       <div onClick={() => loadEditView(location)} className={classes.container}>
         <div className={classes.tooltip} style={styleOverride}>
           <div className={classes.arrow} />
           <div className={classes.body}>
-            {sensorReadings.map((sensorReading, idx) => (
-              <CompactPreview key={idx} sensorReading={sensorReading} history={history} />
-            ))}
+            {temperatureData.length && (
+              <CompactPreview
+                title={'Temperature'}
+                value={temperatureData[0].value}
+                unit={temperatureData[0].unit}
+              />
+            )}
+            {/*other compact views*/}
           </div>
         </div>
       </div>

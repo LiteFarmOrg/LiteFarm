@@ -16,17 +16,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const capitalize = (string) => {
-  return string[0].toUpperCase() + string.slice(1);
-};
-
-export default function CompactPreview({ sensorReading, history }) {
+export default function CompactPreview({ title, value, unit }) {
   const classes = useStyles();
-  const { reading_type, value, unit } = sensorReading;
 
   return (
     <div className={classes.container}>
-      <div className={classes.title}>{capitalize(reading_type)}:</div>
+      <div className={classes.title}>{title}:</div>
       <div className={classes.value}>
         {value}
         {unit}

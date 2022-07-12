@@ -8,6 +8,8 @@ import { axios } from '../saga';
 import { ENTER_PASSWORD_PAGE } from '../CustomSignUp/constants';
 import { enqueueErrorSnackbar } from '../Snackbar/snackbarSlice';
 import { getLanguageFromLocalStorage } from '../../util/getLanguageFromLocalStorage';
+import { setCustomSignUpErrorKey } from '../customSignUpSlice';
+import { inlineErrors } from '../CustomSignUp/constants';
 
 const loginUrl = () => `${url}/google`;
 
@@ -28,10 +30,12 @@ export function* loginWithGoogleSaga({ payload: google_id_token }) {
       { language_preference: getLanguageFromLocalStorage() },
       header,
     );
-    const { id_token, user, isSignUp } = result.data;
+    const { id_token, user, isSignUp, isInvited } = result.data;
     localStorage.setItem('id_token', id_token);
     localStorage.setItem('litefarm_lang', user.language_preference);
-    if (id_token === '') {
+    if (isInvited) {
+      yield put(setCustomSignUpErrorKey({ key: inlineErrors.invited }));
+    } else if (id_token === '') {
       history.push(
         {
           pathname: '/',

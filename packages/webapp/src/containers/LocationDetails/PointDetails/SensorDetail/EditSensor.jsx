@@ -73,8 +73,8 @@ export default function UpdateSensor({ history, match }) {
   const onSubmit = (data) => {
     const sensorData = produce(data, (data) => {
       data.user_id = user.user_id;
-      data.latitude = parseInt(data.latitude);
-      data.longtitude = parseInt(data.longtitude);
+      data.latitude = parseFloat(data.latitude);
+      data.longtitude = parseFloat(data.longtitude);
       data.sensor_id = sensorInfo.sensor_id;
       data.farm_id = sensorInfo.farm_id;
       data.location_id = sensorInfo.location_id;

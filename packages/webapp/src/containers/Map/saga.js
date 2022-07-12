@@ -36,11 +36,20 @@ import {
 import { bulkSenorUploadErrorTypeEnum } from './constants';
 
 import { enqueueErrorSnackbar } from '../Snackbar/snackbarSlice';
-import { getSensorReadingSuccess, onLoadingSensorReadingStart, onLoadingSensorReadingFail } from './mapSensorSlice';
+import {
+  getSensorReadingSuccess,
+  onLoadingSensorReadingStart,
+  onLoadingSensorReadingFail,
+} from './mapSensorSlice';
 
 const sendMapToEmailUrl = (farm_id) => `${url}/export/map/farm/${farm_id}`;
 const showedSpotlightUrl = () => `${url}/showed_spotlight`;
-const bulkUploadSensorsInfoUrl = () => `${sensorUrl}/add_sensors`;
+const bulkUploadSensorsInfoUrl = () => {
+  let url = `${sensorUrl}/add_sensors`;
+  const testTimer = localStorage.getItem('sensorUploadTimer');
+  if (testTimer) url += `?sensorUploadTimer=${testTimer}`;
+  return url;
+};
 
 export const sendMapToEmail = createAction(`sendMapToEmailSaga`);
 
@@ -161,8 +170,7 @@ export function* bulkUploadSensorsInfoFileSaga({ payload: { file } }) {
       }
       case 500:
       default: {
-        yield put(bulkSensorsUploadFailure());
-        yield put(enqueueErrorSnackbar(i18n.t('message:BULK_UPLOAD.ERROR.UPLOAD')));
+        yield put(bulkSensorsUploadFailure({ defaultFailure: true }));
         console.log(error);
         break;
       }

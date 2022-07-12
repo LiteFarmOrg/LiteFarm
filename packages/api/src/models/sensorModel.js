@@ -39,7 +39,7 @@ class Sensor extends Model {
         farm_id: { type: 'string', minLength: 1, maxLength: 255 },
         name: { type: 'string', minLength: 1, maxLength: 255 },
         partner_id: { type: 'integer' },
-        external_id: { type: 'string', minLength: 1, maxLength: 255 },
+        external_id: { type: 'string', maxLength: 255 },
         location_id: { type: 'string' },
         depth: { type: 'float' },
         elevation: { type: 'float' },
@@ -61,10 +61,20 @@ class Sensor extends Model {
     };
   }
 
-  static async createSensor(sensor, farm_id, user_id) {
+  static async createSensor(sensor, farm_id, user_id, partner_id) {
     const trx = await transaction.start(Model.knex());
 
     try {
+      const existingSensor = await LocationModel.getSensorLocation(
+        farm_id,
+        partner_id,
+        sensor.external_id,
+        trx,
+      );
+      if (existingSensor) {
+        await trx.commit();
+        return existingSensor;
+      }
       const readingTypes = await Promise.all(
         sensor.reading_types.map(async (r) => {
           return await PartnerReadingTypeModel.getReadingTypeByReadableValue(r);
@@ -82,7 +92,7 @@ class Sensor extends Model {
         sensor: {
           farm_id,
           name: sensor.name,
-          partner_id: 1,
+          partner_id,
           depth: sensor.depth,
           external_id: sensor.external_id,
           sensor_reading_type: readingTypes.map((readingType) => {
@@ -91,7 +101,7 @@ class Sensor extends Model {
         },
       };
 
-      const sensorLocationWithGraph = await LocationModel.createLocation(
+      const sensorLocationWithGraph = await LocationModel.createOrUpdateLocation(
         'sensor',
         { user_id },
         data,

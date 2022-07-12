@@ -474,7 +474,15 @@
       },
       "SENSOR_CLAIM_ERROR": {
         "ALREADY_OCCUPIED": "Sensor \"{{ sensorId }}\" already registered to another organization, please contact Ensemble support at support@esci.io to troubleshoot.",
-        "DOES_NOT_EXIST": "Sensor \"{{ sensorId }}\" does not exist in the Ensemble database. Please ensure that you have spelled the External_ID properly for this entry, and that the sensor is an Ensemble sensor."
+        "DOES_NOT_EXIST": "Sensor \"{{ sensorId }}\" does not exist in the Ensemble database. Please ensure that you have spelled the External_ID properly for this entry, and that the sensor is an Ensemble sensor.",
+        "INTERNAL_ERROR": "Sensor \"{{ sensorId }}\" failed to upload successfully, please reach out to LiteFarm support at support@litefarm.org to troubleshoot."
+      },
+      "DOWNLOAD_FILE": {
+        "ROW": "[Row: {{ row }}][Column: {{ column }}] {{- errorMessage }} {{ value }}\n",
+        "PARTIAL_SUCCESS_TOP_TEXT": "The following sensors in your file uploaded successfully or already exist on your farm:\n\n",
+        "PARTIAL_SUCCESS_BOTTOM_TEXT": "They should now be visible on your farm map. These sensors will be ignored in future uploads\n\n",
+        "SOME_ERRORS": "Unfortunately, there were some errors with your upload:\n\n",
+        "DEFAULT": "Something went wrong. Please contact support@litefarm.org for assistance."
       }
     },
     "BULK_UPLOAD_TRANSITION": {
@@ -492,7 +500,8 @@
     },
     "DRAWING_MANAGER": {
       "REDRAW": "Redraw",
-      "ZERO_AREA_DETECTED": "Field with no area detected. Please add more points to current drawing or draw again."
+      "ZERO_AREA_DETECTED": "Field with no area detected. Please add more points to current drawing or draw again.",
+      "ZERO_LENGTH_DETECTED": "Line with no length detected. Please draw again."
     },
     "EXPORT_MODAL": {
       "BODY": "How do you want to export your farm map?",

@@ -152,6 +152,7 @@ const useMapAssetRenderer = ({ isClickable, showingConfirmButtons, drawingState 
         const pointAssets = {
           gate: [],
           water_valve: [],
+          sensor: [],
         };
         cluster.markers_.map((point) => {
           pointAssets[point.type].push({
@@ -478,12 +479,44 @@ const useMapAssetRenderer = ({ isClickable, showingConfirmButtons, drawingState 
       this.setOptions({ icon: icons[type] });
     });
 
+    let longPressed, longPressTimeout, longPressActive;
+
+    maps.event.addListener(marker, 'mousedown', function (event) {
+      longPressActive = true;
+      longPressed = false;
+      longPressTimeout = setTimeout(function () {
+        if (longPressActive === true) {
+          longPressed = true;
+        }
+      }, 200);
+    });
+
+    maps.event.addListener(marker, 'mouseup', function (event) {
+      clearTimeout(longPressTimeout);
+      longPressActive = false;
+    });
+
     // Event listener for point click
     maps.event.addListener(marker, 'click', function (mapsMouseEvent) {
       const latlng = map.getCenter().toJSON();
       dispatch(setPosition(latlng));
       dispatch(setZoomLevel(map.getZoom()));
-      handleSelection(mapsMouseEvent.latLng, assetGeometries, maps, true);
+      if (point.type === 'sensor' && longPressed) {
+        map.setCenter(grid_point);
+        const index = assetGeometries.sensor.findIndex(
+          (sensor) => sensor.location_id == point.location_id,
+        );
+        handleSelection(
+          MouseEvent.latLng,
+          { sensor: [assetGeometries.sensor[index]] },
+          maps,
+          true,
+          false,
+          true,
+        );
+      } else {
+        handleSelection(mapsMouseEvent.latLng, assetGeometries, maps, true);
+      }
     });
 
     marker.setOptions({ visible: isVisible });

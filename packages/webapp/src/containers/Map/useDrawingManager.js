@@ -42,7 +42,8 @@ export default function useDrawingManager() {
     if (
       drawingToCheck?.type === 'polyline' &&
       [locationEnum.watercourse, locationEnum.buffer_zone].includes(drawLocationType) &&
-      !!lineWidth
+      !!lineWidth &&
+      drawingToCheck.overlay.getPath().getArray().length > 1
     ) {
       const { overlay } = drawingToCheck;
       const path = overlay.getPath().getArray();

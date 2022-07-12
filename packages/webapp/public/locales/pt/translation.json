@@ -473,7 +473,15 @@
       },
       "SENSOR_CLAIM_ERROR": {
         "ALREADY_OCCUPIED": "MISSING",
-        "DOES_NOT_EXIST": "MISSING"
+        "DOES_NOT_EXIST": "MISSING",
+        "INTERNAL_ERROR": "MISSING"
+      },
+      "DOWNLOAD_FILE": {
+        "ROW": "MISSING",
+        "PARTIAL_SUCCESS_TOP_TEXT": "MISSING",
+        "PARTIAL_SUCCESS_BOTTOM_TEXT": "MISSING",
+        "SOME_ERRORS": "MISSING",
+        "DEFAULT": "MISSING"
       }
     },
     "BULK_UPLOAD_TRANSITION": {
@@ -491,7 +499,8 @@
     },
     "DRAWING_MANAGER": {
       "REDRAW": "Redesenhar",
-      "ZERO_AREA_DETECTED": "Campo sem área detectado. Por favor adicione  mais pontos ao desenho atual ou desenhe novamente."
+      "ZERO_AREA_DETECTED": "Campo sem área detectado. Por favor adicione  mais pontos ao desenho atual ou desenhe novamente.",
+      "ZERO_LENGTH_DETECTED": "MISSING"
     },
     "EXPORT_MODAL": {
       "BODY": "Como você quer exportar o seu mapa?",

@@ -49,16 +49,35 @@ export default function PureSelectionHandler({ locations, history, sensorReading
   const [isSensor, setIsSensor] = useState(false);
   const [sensorIdx, setSensorIdx] = useState(null);
 
+  let longPressed, longPressTimeout, longPressActive;
+
+  const handleMouseDown = () => {
+    longPressActive = true;
+    longPressed = false;
+    longPressTimeout = setTimeout(function () {
+      if (longPressActive === true) {
+        longPressed = true;
+      }
+    }, 200);
+  };
+
+  const handleMouseUp = () => {
+    clearTimeout(longPressTimeout);
+    longPressActive = false;
+  };
+
   const loadEditView = (location) => {
     containsCrops(location.type)
       ? history.push(`/${location.type}/${location.id}/crops`)
       : history.push(`/${location.type}/${location.id}/details`);
   };
 
-  const handleRightClick = (location, idx) => {
-    if (location.type === 'sensor') {
+  const handleClick = (location, idx) => {
+    if (location.type === 'sensor' && longPressed) {
       setIsSensor(true);
       setSensorIdx(idx);
+    } else {
+      loadEditView(location);
     }
   };
 
@@ -69,8 +88,12 @@ export default function PureSelectionHandler({ locations, history, sensorReading
     return (
       <div
         key={idx}
-        onClick={() => loadEditView(location)}
-        onContextMenu={() => handleRightClick(location, idx)}
+        onMouseDown={handleMouseDown}
+        onMouseUp={handleMouseUp}
+        onClick={(e) => {
+          e.stopPropagation();
+          handleClick(location, idx);
+        }}
       >
         <div className={classes.container}>
           <div style={{ float: 'left', paddingTop: '8px', paddingLeft: '20px' }}> {icon} </div>

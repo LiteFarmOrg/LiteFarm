@@ -8,7 +8,6 @@ async function validateRequest(req, res, next) {
     if (req.headers.authorization === authKey) {
       next();
     } else {
-      console.error('forbidden');
       res.status(403).send('Not authorized to add readings');
     }
   }

@@ -211,10 +211,9 @@ export const documentsFilterSelector = createSelector(
   [filterReducerSelector],
   (filterReducer) => filterReducer.documents,
 );
-export const tasksFilterSelector = createSelector(
-  [filterReducerSelector],
-  (filterReducer) => filterReducer.tasks,
-);
+export const tasksFilterSelector = createSelector([filterReducerSelector], (filterReducer) => {
+  return filterReducer.tasks;
+});
 export const cropCatalogueFilterDateSelector = createSelector(
   [cropCatalogueFilterSelector],
   (cropCatalogueFilter) => cropCatalogueFilter.date || getDateInputFormat(new Date()),

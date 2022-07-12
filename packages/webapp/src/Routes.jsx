@@ -552,7 +552,7 @@ const Routes = () => {
             <Route path="/buffer_zone/:location_id" component={BufferZoneDetails} />
             <Route path="/watercourse/:location_id" component={WatercourseDetails} />
             <Route path="/sensor/:location_id" component={SensorDetails} />
-
+            <Route path="/sensor/:location_id/edit" exact component={EditSensor} />
             <Route path="/finances" exact component={Finances} />
             <Route path="/insights" exact component={Insights} />
             <Route path="/insights/peoplefed" exact component={PeopleFed} />

@@ -56,6 +56,8 @@ export default function UpdateSensor({
       longtitude: sensorInfo.point.lng,
       external_identifier: sensorInfo.external_id,
       depth: sensorInfo.depth,
+      model: sensorInfo.model,
+      reading_types: [],
     },
     shouldUnregister: false,
     mode: 'onChange',
@@ -109,11 +111,17 @@ export default function UpdateSensor({
       </Layout>
 
       <Form
-        onSubmit={handleSubmit(() => setShowAbandonModal(true))}
+        onSubmit={handleSubmit(() => {
+          if (isFilterValid) {
+            setShowAbandonModal(true);
+          } else {
+            onSubmit(getValues());
+          }
+        })}
         buttonGroup={
           <>
             {
-              <Button disabled={!isValid || !isFilterValid} fullLength type={'submit'}>
+              <Button disabled={!isValid} fullLength type={'submit'}>
                 {t('common:UPDATE')}
               </Button>
             }
@@ -136,16 +144,13 @@ export default function UpdateSensor({
             style={{ minWidth: '100px' }}
             label={t('SENSOR.LATITUDE')}
             hookFormRegister={register(LATITUDE, {
-              max: {
-                value: 90,
-                message: t('SENSOR.VALIDATION.SENSOR_LATITUDE'),
-              },
-              min: {
-                value: -90,
+              // check if latitude is within -90 - +90 and within 10 decimal places
+              pattern: {
+                value:
+                  /^(\+|-)?(?:90(?:(?:\.0{1,10})?)|(?:[0-9]|[1-8][0-9])(?:(?:\.[0-9]{1,10})?))$/,
                 message: t('SENSOR.VALIDATION.SENSOR_LATITUDE'),
               },
               required: true,
-              valueAsNumber: true,
             })}
             errors={getInputErrors(errors, LATITUDE)}
           />
@@ -153,16 +158,13 @@ export default function UpdateSensor({
             label={t('SENSOR.LONGTITUDE')}
             style={{ minWidth: '100px' }}
             hookFormRegister={register(LONGTITUDE, {
-              max: {
-                value: 180,
-                message: t('SENSOR.VALIDATION.SENSOR_LONGITUDE'),
-              },
-              min: {
-                value: -180,
+              // check if longtitude is within -180 - +180 and within 10 decimal places
+              pattern: {
+                value:
+                  /^(\+|-)?(?:180(?:(?:\.0{1,10})?)|(?:[0-9]|[1-9][0-9]|1[0-7][0-9])(?:(?:\.[0-9]{1,10})?))$/,
                 message: t('SENSOR.VALIDATION.SENSOR_LONGITUDE'),
               },
               required: true,
-              valueAsNumber: true,
             })}
             errors={getInputErrors(errors, LONGTITUDE)}
           />

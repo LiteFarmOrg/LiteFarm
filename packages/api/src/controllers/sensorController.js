@@ -20,6 +20,8 @@ const IntegratingPartnersModel = require('../models/integratingPartnersModel');
 const NotificationUser = require('../models/notificationUserModel');
 const FarmExternalIntegrationsModel = require('../models/farmExternalIntegrationsModel');
 const LocationModel = require('../models/locationModel');
+const PointModel = require('../models/pointModel');
+const FigureModel = require('../models/figureModel');
 const { transaction, Model } = require('objection');
 const {
   createOrganization,
@@ -310,49 +312,69 @@ const sensorController = {
         longtitude,
         sensor_id,
         model,
-        part_number,
-        hardware_version,
         depth,
-        //depth_unit,
-        // reading_types
+        reading_types,
+        location_id,
+        user_id,
       } = req.body;
-      // data is formatted in nested object values, these 5 const's are accessing reading types by using
-      //  Object.entries and accessing each values via array indexing
-      // const x = Object.entries(reading_types)
-      //const y = Object.entries(x[0][1])
-      // const isSoilWaterContentActive = Object.entries(y[0])[1][1].active
-      // const isSoilWaterPotentialActive = Object.entries(y[1])[1][1].active
-      // const isTemperatureActive = Object.entries(y[2])[1][1].active
+
+      // Data is formatted in nested object values, these 5 const's are accessing reading types by using
+      // Object.entries and accessing each values via array indexing
+
+      if (reading_types.length !== 0) {
+        const status = reading_types['STATUS'];
+
+        const isSoilWaterContentActive = {
+          name: 'soil_water_content',
+          active: status['soil_water_content'].active,
+        };
+        const isSoilWaterPotentialActive = {
+          name: 'soil_water_potential',
+          active: status['soil_water_potential'].active,
+        };
+        const isTemperatureActive = {
+          name: 'temperature',
+          active: status['temperature'].active,
+        };
+        console.log(isSoilWaterContentActive);
+        console.log(isSoilWaterPotentialActive);
+        console.log(isTemperatureActive);
+
+        const readingTypes = {
+          soilWaterContent: isSoilWaterContentActive,
+          soilWaterPotential: isSoilWaterPotentialActive,
+          temperature: isTemperatureActive,
+        };
+        await SensorModel.patchSensorReadingTypes(sensor_id, readingTypes);
+      }
 
       const sensor_properties = {
         name: sensor_name,
         depth,
-        grid_points: { lat: latitude, lng: longtitude },
         model,
-        part_number,
-        hardware_version,
       };
+
+      const figureID = await FigureModel.query()
+        .select('figure_id')
+        .where('location_id', location_id);
+
+      const sensorLocation = { point: { lat: latitude, lng: longtitude } };
+
+      await PointModel.query().patch(sensorLocation).where('figure_id', figureID[0].figure_id);
+
+      await LocationModel.query()
+        .context({ user_id })
+        .patch({ name: sensor_name })
+        .where('location_id', location_id);
 
       await SensorModel.query()
         .patch(sensor_properties)
         .where('partner_id', 1)
         .where('sensor_id', sensor_id);
-      // const result = await sensorModel.transaction(async trx => {
-      //   // const sensor = await sensorModel.query(trx)
-      //   //   .context({ farm_id: req.body.farm_id })
-      //   //   .findById('6b2df550-f646-11ec-b719-acde48001122')
-      //   //   .patch(sensor_properties).returning('*');
-      //   return await sensorModel.query(trx).context({ farm_id: req.body.farm_id }).findById(sensor_esid).patch(sensor_properties).returning('*');
-      // });
-      // if (result) {
-      //   return res.sendStatus(200);
-      // } else {
-      //   return res.sendStatus(404);
-      // }
-      return res.sendStatus(200);
+
+      return res.status(200).send('Success');
     } catch (error) {
       console.log(error);
-
       return res.status(400).json({
         error,
       });

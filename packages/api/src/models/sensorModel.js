@@ -154,6 +154,52 @@ class Sensor extends Model {
       sensorId,
     );
   }
+
+  static async patchSensorReadingTypes(sensorId, readingTypes) {
+    try {
+      for (const readingTypeKey in readingTypes) {
+        if (readingTypes[readingTypeKey].active) {
+          // if the reading is active we want to insert into the table
+          // but first check if it already exists in the table then do nothing
+          const result = await Model.knex().raw(
+            `
+            SELECT prt.readable_value FROM sensor as s 
+            JOIN sensor_reading_type as srt ON srt.sensor_id = s.sensor_id 
+            JOIN partner_reading_type as prt ON srt.partner_reading_type_id = prt.partner_reading_type_id 
+            WHERE s.sensor_id = ? AND prt.readable_value = ?;
+            `,
+            [sensorId, readingTypes[readingTypeKey].name],
+          );
+          // here it checks if there already exists if not then insert the reading type into the database
+          if (result.rows.length === 0) {
+            await Model.knex().raw(
+              `
+              INSERT INTO sensor_reading_type (partner_reading_type_id, sensor_id)
+              SELECT prt.partner_reading_type_id, sensor_id FROM sensor as s 
+              JOIN partner_reading_type as prt ON prt.partner_id = s.partner_id 
+              WHERE s.sensor_id = ? AND prt.readable_value = ?;
+              `,
+              [sensorId, readingTypes[readingTypeKey].name],
+            );
+          }
+        } else {
+          // delete the reading type if false
+          await Model.knex().raw(
+            `
+            DELETE FROM sensor_reading_type
+            WHERE sensor_reading_type_id IN
+            (SELECT sensor_reading_type_id FROM sensor_reading_type
+            JOIN partner_reading_type as prt ON prt.partner_reading_type_id = sensor_reading_type.partner_reading_type_id 
+            WHERE sensor_reading_type.sensor_id = ? AND prt.readable_value = ?);
+            `,
+            [sensorId, readingTypes[readingTypeKey].name],
+          );
+        }
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
 }
 
 module.exports = Sensor;

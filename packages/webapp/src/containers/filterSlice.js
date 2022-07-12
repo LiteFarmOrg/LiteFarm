@@ -212,7 +212,6 @@ export const documentsFilterSelector = createSelector(
   (filterReducer) => filterReducer.documents,
 );
 export const tasksFilterSelector = createSelector([filterReducerSelector], (filterReducer) => {
-  console.log(filterReducer);
   return filterReducer.tasks;
 });
 export const cropCatalogueFilterDateSelector = createSelector(

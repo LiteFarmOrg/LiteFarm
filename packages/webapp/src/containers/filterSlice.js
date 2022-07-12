@@ -139,6 +139,42 @@ const filterSliceReducer = createSlice({
         label: `${first_name} ${last_name}`,
       };
     },
+    updateTasksFilterObjects: (state, { payload: { activeUsers, taskTypes, locations, t } }) => {
+      state.tasks = {
+        ...state.tasks,
+        ASSIGNEE: {
+          unassigned: { active: false, label: t('TASK.UNASSIGNED') },
+          ...activeUsers.reduce((prev, curr) => {
+            prev[curr.user_id] = {
+              active: false,
+              label: `${curr.first_name} ${curr.last_name}`,
+            };
+            return prev;
+          }, {}),
+          ...state.tasks.ASSIGNEE,
+        },
+        TYPE: {
+          ...taskTypes.reduce((prev, curr) => {
+            prev[curr.task_type_id] = {
+              active: false,
+              label: t(`task:${curr.task_translation_key}`),
+            };
+            return prev;
+          }, {}),
+          ...state.tasks.TYPE,
+        },
+        LOCATION: {
+          ...locations.reduce((prev, curr) => {
+            prev[curr.location_id] = {
+              active: false,
+              label: curr.name,
+            };
+            return prev;
+          }, {}),
+          ...state.tasks.LOCATION,
+        },
+      };
+    },
   },
 });
 

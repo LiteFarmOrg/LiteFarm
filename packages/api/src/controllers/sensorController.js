@@ -315,6 +315,7 @@ const sensorController = {
         depth,
         reading_types,
         location_id,
+        user_id,
       } = req.body;
 
       // Data is formatted in nested object values, these 5 const's are accessing reading types by using
@@ -360,6 +361,11 @@ const sensorController = {
       const sensorLocation = { point: { lat: latitude, lng: longtitude } };
 
       await PointModel.query().patch(sensorLocation).where('figure_id', figureID[0].figure_id);
+
+      await LocationModel.query()
+        .context({ user_id })
+        .patch({ name: sensor_name })
+        .where('location_id', location_id);
 
       await SensorModel.query()
         .patch(sensor_properties)

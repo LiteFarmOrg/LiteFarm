@@ -13,14 +13,13 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 import EditSensor from '../../../../components/Sensor/EditSensor';
-import { measurementSelector } from '../../../userFarmSlice';
+import { measurementSelector, userFarmSelector } from '../../../userFarmSlice';
 import { useTranslation } from 'react-i18next';
 import { sensorsSelector } from '../../../sensorSlice';
 import { useRef } from 'react';
 import produce from 'immer';
 import { patchSensor } from './saga';
 import { getProcessedFormData } from '../../../hooks/useHookFormPersist/utils';
-
 import { useSelector, useDispatch } from 'react-redux';
 
 export default function UpdateSensor({ history, match }) {
@@ -28,6 +27,7 @@ export default function UpdateSensor({ history, match }) {
   const location_id = match.params.location_id;
   const sensorInfo = useSelector(sensorsSelector(location_id));
   const system = useSelector(measurementSelector);
+  const user = useSelector(userFarmSelector);
 
   const { t } = useTranslation();
   const filterRef = useRef({});
@@ -72,6 +72,7 @@ export default function UpdateSensor({ history, match }) {
 
   const onSubmit = (data) => {
     const sensorData = produce(data, (data) => {
+      data.user_id = user.user_id;
       data.latitude = parseInt(data.latitude);
       data.longtitude = parseInt(data.longtitude);
       data.sensor_id = sensorInfo.sensor_id;

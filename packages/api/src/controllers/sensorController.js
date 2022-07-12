@@ -321,20 +321,23 @@ const sensorController = {
       // Object.entries and accessing each values via array indexing
 
       if (reading_types.length !== 0) {
-        const x = Object.entries(reading_types);
-        const y = Object.entries(x[0][1]);
+        const status = reading_types['STATUS'];
+
         const isSoilWaterContentActive = {
           name: 'soil_water_content',
-          active: Object.entries(y[0])[1][1].active,
+          active: status['soil_water_content'].active,
         };
         const isSoilWaterPotentialActive = {
           name: 'soil_water_potential',
-          active: Object.entries(y[1])[1][1].active,
+          active: status['soil_water_potential'].active,
         };
         const isTemperatureActive = {
           name: 'temperature',
-          active: Object.entries(y[2])[1][1].active,
+          active: status['temperature'].active,
         };
+        console.log(isSoilWaterContentActive);
+        console.log(isSoilWaterPotentialActive);
+        console.log(isTemperatureActive);
 
         const readingTypes = {
           soilWaterContent: isSoilWaterContentActive,

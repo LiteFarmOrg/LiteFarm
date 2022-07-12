@@ -144,6 +144,7 @@ export default function UpdateSensor({
             style={{ minWidth: '100px' }}
             label={t('SENSOR.LATITUDE')}
             hookFormRegister={register(LATITUDE, {
+              // check if latitude is within -90 - +90 and within 10 decimal places
               pattern: {
                 value:
                   /^(\+|-)?(?:90(?:(?:\.0{1,10})?)|(?:[0-9]|[1-8][0-9])(?:(?:\.[0-9]{1,10})?))$/,
@@ -157,6 +158,7 @@ export default function UpdateSensor({
             label={t('SENSOR.LONGTITUDE')}
             style={{ minWidth: '100px' }}
             hookFormRegister={register(LONGTITUDE, {
+              // check if longtitude is within -180 - +180 and within 10 decimal places
               pattern: {
                 value:
                   /^(\+|-)?(?:180(?:(?:\.0{1,10})?)|(?:[0-9]|[1-9][0-9]|1[0-7][0-9])(?:(?:\.[0-9]{1,10})?))$/,

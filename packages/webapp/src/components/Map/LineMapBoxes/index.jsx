@@ -13,6 +13,7 @@ import { line_width } from '../../../util/convert-units/unit';
 import { cloneObject } from '../../../util';
 import { useSelector } from 'react-redux';
 import { measurementSelector } from '../../../containers/userFarmSlice';
+import { useMemo } from 'react';
 
 export default function PureLineBox({
   typeOfLine,
@@ -41,8 +42,8 @@ export default function PureLineBox({
   });
 
   const { t } = useTranslation();
-  const measurmentUnit = useSelector(measurementSelector);
-  const maxValue = measurmentUnit == 'metric' ? 1600 : 5280;
+  const measurementUnit = useSelector(measurementSelector);
+  const maxValue = useMemo(() => (measurementUnit === 'metric' ? 1600 : 5280), [measurementUnit]);
 
   const widthLabel =
     typeOfLine === locationEnum.watercourse

@@ -53,13 +53,17 @@ export default function PureMapFooter({
       open={showSpotlight}
       onFinish={resetSpotlight}
       steps={[
-        {
-          selector: '#mapFirstStep',
-          title: t('FARM_MAP.SPOTLIGHT.ADD_TITLE'),
-          contents: [t('FARM_MAP.SPOTLIGHT.HERE_YOU_CAN')],
-          list: [t('FARM_MAP.SPOTLIGHT.ADD')],
-          position: 'center',
-        },
+        ...(isAdmin
+          ? [
+              {
+                selector: '#mapFirstStep',
+                title: t('FARM_MAP.SPOTLIGHT.ADD_TITLE'),
+                contents: [t('FARM_MAP.SPOTLIGHT.HERE_YOU_CAN')],
+                list: [t('FARM_MAP.SPOTLIGHT.ADD')],
+                position: 'center',
+              },
+            ]
+          : []),
         {
           selector: '#mapSecondStep',
           title: t('FARM_MAP.SPOTLIGHT.FILTER_TITLE'),

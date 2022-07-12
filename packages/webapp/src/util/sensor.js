@@ -14,10 +14,11 @@
  */
 
 /**
- * The util function is used to generate validation errors related the the sensors.
+ * The util function is used to generate validation errors related to the sensors.
  * @param {Object} errors
  * @param {Function} t
  * should contain row, column, errorMessage and value.
+ * Outputs '[Row: {row}][Column: {column}] {Error message} {Optional value}'
  */
 export const generateErrorFormatForSensors = (errors, t) =>
   errors.reduce((acc, e) => {
@@ -27,9 +28,6 @@ export const generateErrorFormatForSensors = (errors, t) =>
       errorMessage: e?.errorMessage ?? '',
       value: e?.value ?? '',
     });
-    // acc += `[Row: ${e?.row ?? ''}][Column: ${e?.column ?? ''}] ${e?.errorMessage ?? ''} ${
-    //   e?.value ?? ''
-    // }\n`;
     return acc;
   }, '');
 

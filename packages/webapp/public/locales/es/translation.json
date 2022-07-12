@@ -1643,6 +1643,11 @@
       "BODY": "MISSING",
       "RETIRE_SUCCESS": "MISSING",
       "RETIRE_FAILURE": "MISSING"
+    },
+    "TEMPERATURE_READINGS_OF_SENSOR": {
+      "TITLE": "MISSING",
+      "SUBTITLE": "MISSING",
+      "Y_AXIS_LABEL": "MISSING"
     }
   }
 }

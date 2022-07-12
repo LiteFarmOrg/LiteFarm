@@ -475,7 +475,40 @@ const sensorController = {
       });
     }
   },
+  async getAllSensorReadingsByLocationIds(req, res) {
+    try {
+      const { locationIds = [], readingType = '', endDate = '' } = req.body;
 
+      if (!locationIds.length || !Array.isArray(locationIds)) {
+        return res.status(400).send('No location ids are present');
+      }
+
+      if (!locationIds.every((i) => typeof i === 'string' && i.length === 36)) {
+        return res.status(400).send('Invalid location ids are present');
+      }
+
+      if (!readingType.length) {
+        return res.status(400).send('No read type is present');
+      }
+
+      if (!endDate.length) {
+        return res.status(400).send('No end date is present');
+      }
+
+      const result = await SensorReadingModel.getSensorReadingsByLocationIds(
+        new Date(endDate),
+        locationIds,
+        readingType,
+      );
+
+      const sensorsPoints = await SensorModel.getSensorLocationBySensorIds(locationIds);
+      res
+        .status(200)
+        .send({ length: result.length, sensorReading: result, sensorsPoints: sensorsPoints.rows });
+    } catch (error) {
+      res.status(400).send(error);
+    }
+  },
   async retireSensor(req, res) {
     const trx = await transaction.start(Model.knex());
     try {

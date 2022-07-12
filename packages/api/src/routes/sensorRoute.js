@@ -18,9 +18,6 @@ const multer = require('multer');
 const checkScope = require('../middleware/acl/checkScope');
 const validateRequest = require('../middleware/validation/validateWebhook');
 
-const path = require('path');
-require('dotenv').config({ path: path.resolve(__dirname, '..', '..', '..', '.env') });
-
 const SensorController = require('../controllers/sensorController');
 
 const storage = multer.memoryStorage();

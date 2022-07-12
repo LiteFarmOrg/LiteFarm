@@ -1,6 +1,6 @@
 /*
- *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>
- *  This file (farmModel.js) is part of LiteFarm.
+ *  Copyright 2019, 2020, 2021, 2022 LiteFarm.org
+ *  This file is part of LiteFarm.
  *
  *  LiteFarm is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -16,6 +16,7 @@
 const { transaction, Model } = require('objection');
 const LocationModel = require('./locationModel');
 const PartnerReadingTypeModel = require('../models/PartnerReadingTypeModel');
+const knex = Model.knex();
 
 class Sensor extends Model {
   static get tableName() {
@@ -38,8 +39,11 @@ class Sensor extends Model {
         sensor_id: { type: 'string' },
         farm_id: { type: 'string', minLength: 1, maxLength: 255 },
         name: { type: 'string', minLength: 1, maxLength: 255 },
+        grid_points: { type: 'object' },
+        model: { type: 'string', minLength: 1, maxLength: 255 },
+        isDeleted: { type: 'boolean' },
         partner_id: { type: 'integer' },
-        external_id: { type: 'string', minLength: 1, maxLength: 255 },
+        external_id: { type: 'string', maxLength: 255 },
         location_id: { type: 'string' },
         depth: { type: 'float' },
         elevation: { type: 'float' },
@@ -61,43 +65,94 @@ class Sensor extends Model {
     };
   }
 
-  static async createSensor(sensor, farm_id, user_id) {
+  static async createSensor(sensor, farm_id, user_id, partnerId) {
     const trx = await transaction.start(Model.knex());
 
-    const readingTypes = await Promise.all(
-      sensor.reading_types.map(async (r) => {
-        return await PartnerReadingTypeModel.getReadingTypeByReadableValue(r);
-      }),
-    );
-
-    const data = {
-      farm_id,
-      figure: {
-        point: { point: { lat: sensor.latitude, lng: sensor.longitude } },
-        type: 'sensor',
-      },
-      name: sensor.name,
-      notes: '',
-      sensor: {
-        farm_id,
-        name: sensor.name,
-        partner_id: 1,
-        depth: sensor.depth,
-        external_id: sensor.external_id,
-        sensor_reading_type: readingTypes.map((readingType) => {
-          return { partner_reading_type_id: readingType.partner_reading_type_id };
+    try {
+      const readingTypes = await Promise.all(
+        sensor.reading_types.map(async (r) => {
+          return await PartnerReadingTypeModel.getReadingTypeByReadableValue(r);
         }),
-      },
-    };
+      );
 
-    const sensorLocationWithGraph = await LocationModel.createLocation(
-      'sensor',
-      { user_id },
-      data,
-      trx,
+      const data = {
+        farm_id,
+        figure: {
+          point: { point: { lat: sensor.latitude, lng: sensor.longitude } },
+          type: 'sensor',
+        },
+        name: sensor.name,
+        notes: '',
+        sensor: {
+          farm_id,
+          name: sensor.name,
+          partner_id: partnerId,
+          depth: sensor.depth,
+          external_id: sensor.external_id,
+          sensor_reading_type: readingTypes.map((readingType) => {
+            return { partner_reading_type_id: readingType.partner_reading_type_id };
+          }),
+        },
+      };
+
+      const sensorLocationWithGraph = await LocationModel.createOrUpdateLocation(
+        'sensor',
+        { user_id },
+        data,
+        trx,
+      );
+      await trx.commit();
+      return sensorLocationWithGraph;
+    } catch (error) {
+      console.log(error);
+      await trx.rollback();
+      return null;
+    }
+  }
+
+  /**
+   * Returns sensor grid points for the list of location ids
+   * @param {Array} sensorIds sensor ids
+   * @returns {Object} reading_type Reading Object
+   */
+  static async getSensorLocationBySensorIds(locationIds = []) {
+    return await knex.raw(
+      `SELECT 
+      s.sensor_id, 
+      s.name, 
+      s.external_id,
+      b.point 
+      FROM "sensor" s 
+      JOIN (
+        SELECT 
+        l.location_id, 
+        a.point 
+        FROM "location" l JOIN
+        (
+          SELECT * FROM "figure" f
+          JOIN "point" p 
+          ON f.figure_id::uuid = p.figure_id
+        ) a
+        ON l.location_id::uuid = a.location_id 
+      ) b 
+      ON s.location_id::uuid = b.location_id
+      WHERE s.location_id = ANY(?)
+      ORDER BY s.name ASC;
+      `,
+      [locationIds],
     );
-    await trx.commit();
-    return sensorLocationWithGraph;
+  }
+
+  static async getSensorReadingTypes(sensorId) {
+    return Model.knex().raw(
+      `
+        SELECT prt.readable_value FROM sensor as s 
+        JOIN sensor_reading_type as srt ON srt.sensor_id = s.sensor_id 
+        JOIN partner_reading_type as prt ON srt.partner_reading_type_id = prt.partner_reading_type_id 
+        WHERE s.sensor_id = ?;
+        `,
+      sensorId,
+    );
   }
 }
 

@@ -33,21 +33,18 @@ router.post(
   upload.single('sensors'),
   SensorController.addSensors,
 );
+
 router.delete('/delete_sensor/:sensor_id', SensorController.deleteSensor);
-router.post('/add_reading/:partner_id/:farm_id', validateRequest, SensorController.addReading);
+router.patch('/:sensor_esid', SensorController.updateSensorbyID);
+router.post('/add_reading/:partner_id', SensorController.addReading);
 router.post('/get_readings', SensorController.getAllReadingsBySensorId);
 router.get('/sensor_readings/:farm_id/:days', SensorController.getReadingsByFarmId);
 router.post('/invalidate_readings', SensorController.invalidateReadings);
-
-function validateRequest(req, res, next) {
-  const farmId = req.params.farm_id;
-  const authKey = `${farmId}${process.env.SENSOR_SECRET}`;
-  if (req.headers.authorization === authKey) {
-    next();
-  } else {
-    console.error('forbidden');
-    res.status(403);
-  }
-}
-
+router.post('/unclaim_sensor', SensorController.retireSensor);
+router.get('/reading_type/:sensor_id', SensorController.getSensorReadingTypes);
+router.get('/brand_name/:partner_id', SensorController.getBrandName);
+router.post(
+  '/get_sensor_readings_for_visualization',
+  SensorController.getAllSensorReadingsByLocationIds,
+);
 module.exports = router;

@@ -473,7 +473,8 @@
       },
       "SENSOR_CLAIM_ERROR": {
         "ALREADY_OCCUPIED": "MISSING",
-        "DOES_NOT_EXIST": "MISSING"
+        "DOES_NOT_EXIST": "MISSING",
+        "INTERNAL_ERROR": "MISSING"
       }
     },
     "BULK_UPLOAD_TRANSITION": {
@@ -614,7 +615,8 @@
     "TAB": {
       "CROPS": "Cultivos",
       "DETAILS": "Detalles",
-      "TASKS": "Tareas"
+      "TASKS": "Tareas",
+      "READINGS": "MISSING"
     },
     "TITLE": "Mapa de granja",
     "TUTORIAL": {
@@ -667,7 +669,8 @@
   },
   "FIELDS": {
     "EDIT_FIELD": {
-      "VARIETY": "Variedad"
+      "VARIETY": "Variedad",
+      "SUPPLIER": "MISSING"
     }
   },
   "FILE_SIZE_MODAL": {
@@ -1585,5 +1588,66 @@
   },
   "YEAR_SELECTOR": {
     "TITLE": "Seleccionar año"
+  },
+  "SENSOR": {
+    "SENSOR_NAME": "MISSING",
+    "LATITUDE": "MISSING",
+    "LONGTITUDE": "MISSING",
+    "READING": {
+      "TYPES": "MISSING",
+      "SOIL_WATER_CONTENT": "MISSING",
+      "SOIL_WATER_POTENTIAL": "MISSING",
+      "TEMPERATURE": "MISSING"
+    },
+    "DEPTH": "MISSING",
+    "BRAND": "MISSING",
+    "VALIDATION": {
+      "SENSOR_LATITUDE": "MISSING",
+      "SENSOR_LONGITUDE": "MISSING"
+    },
+    "MODAL": {
+      "TITLE": "MISSING",
+      "BODY": "MISSING"
+    },
+    "BRAND_HELPTEXT": "MISSING",
+    "MODEL": "MISSING",
+    "MODEL_HELPTEXT": "MISSING",
+    "EXTERNAL_IDENTIFIER": "MISSING",
+    "PART_NUMBER": "MISSING",
+    "HARDWARE_VERSION": "MISSING",
+    "DETAIL": {
+      "RETIRE": "MISSING",
+      "EDIT": "MISSING",
+      "NAME": "MISSING",
+      "LATITUDE": "MISSING",
+      "LONGITUDE": "MISSING",
+      "MODEL": "MISSING",
+      "PART_NUMBER": "MISSING",
+      "HARDWARE_VERSION": "MISSING",
+      "EXTERNAL_ID_TOOLTIP": "MISSING",
+      "EXTERNAL_IDENTIFIER": "MISSING",
+      "DEPTH": "MISSING",
+      "BRAND": "MISSING",
+      "BRAND_TOOLTIP": "MISSING",
+      "READING_TYPES": "MISSING"
+    },
+    "VIEW_HEADER": {
+      "READINGS": "MISSING",
+      "TASKS": "MISSING",
+      "DETAILS": "MISSING"
+    },
+    "RETIRE": {
+      "TITLE": "MISSING",
+      "RETIRE": "MISSING",
+      "CANCEL": "MISSING",
+      "BODY": "MISSING",
+      "RETIRE_SUCCESS": "MISSING",
+      "RETIRE_FAILURE": "MISSING"
+    },
+    "TEMPERATURE_READINGS_OF_SENSOR": {
+      "TITLE": "MISSING",
+      "SUBTITLE": "MISSING",
+      "Y_AXIS_LABEL": "MISSING"
+    }
   }
 }

@@ -18,26 +18,50 @@ const SensorModel = require('../models/sensorModel');
 const SensorReadingModel = require('../models/sensorReadingModel');
 const IntegratingPartnersModel = require('../models/integratingPartnersModel');
 const NotificationUser = require('../models/notificationUserModel');
+const FarmExternalIntegrationsModel = require('../models/farmExternalIntegrationsModel');
+const LocationModel = require('../models/locationModel');
 const { transaction, Model } = require('objection');
-
 const {
   createOrganization,
   registerOrganizationWebhook,
   bulkSensorClaim,
+  unclaimSensor,
 } = require('../util/ensemble');
 
 const sensorErrors = require('../util/sensorErrors');
+const syncAsyncResponse = require('../util/syncAsyncResponse');
 
 const sensorController = {
+  async getSensorReadingTypes(req, res) {
+    const { sensor_id } = req.params;
+    try {
+      const sensorReadingTypesResponse = await SensorModel.getSensorReadingTypes(sensor_id);
+      const readingTypes = sensorReadingTypesResponse.rows.map(
+        (datapoint) => datapoint.readable_value,
+      );
+      res.status(200).send(readingTypes);
+    } catch (error) {
+      res.status(404).send('Sensor not found');
+    }
+  },
+  async getBrandName(req, res) {
+    try {
+      const { partner_id } = req.params;
+      const brand_name_response = await IntegratingPartnersModel.getBrandName(partner_id);
+      res.status(200).send(brand_name_response.partner_name);
+    } catch (error) {
+      res.status(404).send('Partner not found');
+    }
+  },
   async addSensors(req, res) {
-    let hasTimedOut = false;
-    const timer = setTimeout(() => {
-      hasTimedOut = true;
-      res.status(202).send({
-        message:
-          'Processing your upload is taking longer than expected. We will send you a notification when this finished processing.',
-      });
-    }, 5000);
+    let timeLimit = 5000;
+    const testTimerOverride = Number(req.query?.sensorUploadTimer);
+    // For testing, query string can set timer limit, 0 to 30 seconds.
+    if (!isNaN(testTimerOverride) && testTimerOverride >= 0 && testTimerOverride <= 30000) {
+      timeLimit = testTimerOverride;
+      console.log(`Custom time limit for sensor upload: ${timeLimit} ms`);
+    }
+    const { sendResponse } = syncAsyncResponse(res, timeLimit);
     const { farm_id } = req.headers;
     const { user_id } = req.user;
     try {
@@ -55,7 +79,7 @@ const sensorController = {
         External_ID: {
           key: 'external_id',
           parseFunction: (val) => val.trim(),
-          validator: (val) => 1 <= val.length && val.length <= 20,
+          validator: (val) => val.length <= 20,
           required: false,
           errorTranslationKey: sensorErrors.EXTERNAL_ID,
         },
@@ -112,18 +136,36 @@ const sensorController = {
           errorTranslationKey: sensorErrors.SENSOR_HARDWARE_VERSION,
         },
       });
+      if (!data.length > 0) {
+        return await sendResponse(
+          () => {
+            return res.status(400).send({ error_type: 'emtpy_file' });
+          },
+          async () => {
+            return await sendSensorNotification(
+              user_id,
+              farm_id,
+              SensorNotificationTypes.SENSOR_BULK_UPLOAD_FAIL,
+            );
+          },
+        );
+      }
       if (errors.length > 0) {
-        return hasTimedOut
-          ? await sendSensorNotification(
+        return await sendResponse(
+          () => {
+            return res
+              .status(400)
+              .send({ error_type: 'validation_failure', errors, is_validation_error: true });
+          },
+          async () => {
+            return await sendSensorNotification(
               user_id,
               farm_id,
               SensorNotificationTypes.SENSOR_BULK_UPLOAD_FAIL,
               { error_download: { errors, file_name: 'sensor-upload-outcomes.txt' } },
-            )
-          : res
-              .status(400)
-              .send({ error_type: 'validation_failure', errors, is_validation_error: true }) &&
-              clearTimeout(timer);
+            );
+          },
+        );
       } else {
         // register organization
         const organization = await createOrganization(farm_id, access_token);
@@ -149,7 +191,9 @@ const sensorController = {
         // Filter sensors by those successfully registered and those with errors
         const { registeredSensors, errorSensors } = data.reduce(
           (prev, curr, idx) => {
-            if (success.includes(curr.external_id)) {
+            if (success.includes(curr.external_id) || already_owned.includes(curr.external_id)) {
+              prev.registeredSensors.push(curr);
+            } else if (curr.brand !== 'Ensemble Scientific') {
               prev.registeredSensors.push(curr);
             } else if (does_not_exist.includes(curr.external_id)) {
               prev.errorSensors.push({
@@ -172,15 +216,42 @@ const sensorController = {
         );
 
         // Save sensors in database
-        const sensorLocations = await Promise.all(
+        const sensorLocations = await Promise.allSettled(
           registeredSensors.map(async (sensor) => {
-            return await SensorModel.createSensor(sensor, farm_id, user_id);
+            return await SensorModel.createSensor(
+              sensor,
+              farm_id,
+              user_id,
+              esids.includes(sensor.external_id) ? 1 : 0,
+            );
           }),
         );
 
-        if (success.length + already_owned.length < esids.length) {
-          return hasTimedOut
-            ? await sendSensorNotification(
+        const successSensors = sensorLocations.reduce((prev, curr, idx) => {
+          if (curr.status === 'fulfilled') {
+            prev.push(registeredSensors[idx].external_id);
+          } else {
+            errorSensors.push({
+              row: data.findIndex((elem) => elem === registeredSensors[idx]) + 2,
+              column: 'External_ID',
+              translation_key: sensorErrors.INTERNAL_ERROR,
+              variables: { sensorId: registeredSensors[idx] },
+            });
+          }
+          return prev;
+        }, []);
+
+        if (successSensors.length < esids.length) {
+          return sendResponse(
+            () => {
+              return res.status(400).send({
+                error_type: 'unable_to_claim_all_sensors',
+                success: successSensors,
+                errorSensors,
+              });
+            },
+            async () => {
+              return await sendSensorNotification(
                 user_id,
                 farm_id,
                 SensorNotificationTypes.SENSOR_BULK_UPLOAD_FAIL,
@@ -189,37 +260,102 @@ const sensorController = {
                     errors: errorSensors,
                     file_name: 'sensor-upload-outcomes.txt',
                     is_validation_error: false,
-                    success,
+                    success: successSensors,
                   },
                 },
-              )
-            : res.status(400).send({
-                error_type: 'unable_to_claim_all_sensors',
-                success,
-                errorSensors,
-              }) && clearTimeout(timer);
+              );
+            },
+          );
         } else {
-          return hasTimedOut
-            ? await sendSensorNotification(
+          return sendResponse(
+            () => {
+              return res
+                .status(200)
+                .send({ message: 'Successfully uploaded!', sensors: sensorLocations });
+            },
+            async () => {
+              return await sendSensorNotification(
                 user_id,
                 farm_id,
                 SensorNotificationTypes.SENSOR_BULK_UPLOAD_SUCCESS,
-              )
-            : res
-                .status(200)
-                .send({ message: 'Successfully uploaded!', sensors: sensorLocations }) &&
-                clearTimeout(timer);
+              );
+            },
+          );
         }
       }
     } catch (e) {
       console.log(e);
-      return hasTimedOut
-        ? await sendSensorNotification(
+      return sendResponse(
+        () => {
+          return res.status(500).send({ message: e.message });
+        },
+        async () => {
+          return await sendSensorNotification(
             user_id,
             farm_id,
             SensorNotificationTypes.SENSOR_BULK_UPLOAD_FAIL,
-          )
-        : res.status(500).send(e.message) && clearTimeout(timer);
+          );
+        },
+      );
+    }
+  },
+
+  async updateSensorbyID(req, res) {
+    try {
+      //const sensor_esid = req.params.sensor_esid;
+      const {
+        //brand,
+        sensor_name,
+        latitude,
+        longtitude,
+        sensor_id,
+        model,
+        part_number,
+        hardware_version,
+        depth,
+        //depth_unit,
+        // reading_types
+      } = req.body;
+      // data is formatted in nested object values, these 5 const's are accessing reading types by using
+      //  Object.entries and accessing each values via array indexing
+      // const x = Object.entries(reading_types)
+      //const y = Object.entries(x[0][1])
+      // const isSoilWaterContentActive = Object.entries(y[0])[1][1].active
+      // const isSoilWaterPotentialActive = Object.entries(y[1])[1][1].active
+      // const isTemperatureActive = Object.entries(y[2])[1][1].active
+
+      const sensor_properties = {
+        name: sensor_name,
+        depth,
+        grid_points: { lat: latitude, lng: longtitude },
+        model,
+        part_number,
+        hardware_version,
+      };
+
+      await SensorModel.query()
+        .patch(sensor_properties)
+        .where('partner_id', 1)
+        .where('sensor_id', sensor_id);
+      // const result = await sensorModel.transaction(async trx => {
+      //   // const sensor = await sensorModel.query(trx)
+      //   //   .context({ farm_id: req.body.farm_id })
+      //   //   .findById('6b2df550-f646-11ec-b719-acde48001122')
+      //   //   .patch(sensor_properties).returning('*');
+      //   return await sensorModel.query(trx).context({ farm_id: req.body.farm_id }).findById(sensor_esid).patch(sensor_properties).returning('*');
+      // });
+      // if (result) {
+      //   return res.sendStatus(200);
+      // } else {
+      //   return res.sendStatus(404);
+      // }
+      return res.sendStatus(200);
+    } catch (error) {
+      console.log(error);
+
+      return res.status(400).json({
+        error,
+      });
     }
   },
 
@@ -339,6 +475,71 @@ const sensorController = {
       });
     }
   },
+  async getAllSensorReadingsByLocationIds(req, res) {
+    try {
+      const { locationIds = [], readingType = '', endDate = '' } = req.body;
+
+      if (!locationIds.length || !Array.isArray(locationIds)) {
+        return res.status(400).send('No location ids are present');
+      }
+
+      if (!locationIds.every((i) => typeof i === 'string' && i.length === 36)) {
+        return res.status(400).send('Invalid location ids are present');
+      }
+
+      if (!readingType.length) {
+        return res.status(400).send('No read type is present');
+      }
+
+      if (!endDate.length) {
+        return res.status(400).send('No end date is present');
+      }
+
+      const result = await SensorReadingModel.getSensorReadingsByLocationIds(
+        new Date(endDate),
+        locationIds,
+        readingType,
+      );
+
+      const sensorsPoints = await SensorModel.getSensorLocationBySensorIds(locationIds);
+      res
+        .status(200)
+        .send({ length: result.length, sensorReading: result, sensorsPoints: sensorsPoints.rows });
+    } catch (error) {
+      res.status(400).send(error);
+    }
+  },
+  async retireSensor(req, res) {
+    const trx = await transaction.start(Model.knex());
+    try {
+      const { external_id, location_id, farm_id, partner_id } = req.body.sensorInfo;
+      const user_id = req.user.user_id;
+      const { access_token } = await IntegratingPartnersModel.getAccessAndRefreshTokens(
+        'Ensemble Scientific',
+      );
+      const external_integrations_response = await FarmExternalIntegrationsModel.getOrganizationId(
+        farm_id,
+        partner_id,
+      );
+      const org_id = external_integrations_response.organization_uuid;
+      const unclaimResponse = await unclaimSensor(org_id, external_id, access_token);
+      const deleteResponse = await LocationModel.deleteLocation(location_id, { user_id }, { trx });
+      console.log(unclaimResponse, deleteResponse);
+      if (unclaimResponse.status == 200 && deleteResponse == 1) {
+        await trx.commit();
+        return res.status(200).send(unclaimResponse.data);
+      } else {
+        await trx.rollback();
+        return res.status(500);
+      }
+    } catch (error) {
+      console.log(error);
+      await trx.rollback();
+      return res.status(400).json({
+        error,
+      });
+    }
+  },
 };
 
 /**
@@ -352,36 +553,33 @@ const sensorController = {
 const parseCsvString = (csvString, mapping, delimiter = ',') => {
   // regex checks for delimiters that are not contained within quotation marks
   const regex = new RegExp(`(?!\\B"[^"]*)${delimiter}(?![^"]*"\\B)`);
-  const headers = csvString.substring(0, csvString.indexOf('\n')).split(regex);
+  const rows = csvString.split(/\r\n|\r|\n/).filter((elem) => elem !== '');
+  const headers = rows[0].split(regex);
   const allowedHeaders = Object.keys(mapping);
-  const { data, errors } = csvString
-    .substring(csvString.indexOf('\n') + 1)
-    .split('\n')
-    .reduce(
-      (previous, row, rowIndex) => {
-        const values = row.split(regex);
-        const parsedRow = headers.reduce((previousObj, current, index) => {
-          if (allowedHeaders.includes(current)) {
-            const val = mapping[current].parseFunction(
-              values[index].replace(/^(["'])(.*)\1$/, '$2'),
-            ); // removes any surrounding quotation marks
-            if (mapping[current].validator(val)) {
-              previousObj[mapping[current].key] = val;
-            } else {
-              previous.errors.push({
-                row: rowIndex + 2,
-                column: current,
-                translation_key: mapping[current].errorTranslationKey,
-              });
-            }
+  const dataRows = rows.slice(1);
+  const { data, errors } = dataRows.reduce(
+    (previous, row, rowIndex) => {
+      const values = row.split(regex);
+      const parsedRow = headers.reduce((previousObj, current, index) => {
+        if (allowedHeaders.includes(current)) {
+          const val = mapping[current].parseFunction(values[index].replace(/^(["'])(.*)\1$/, '$2')); // removes any surrounding quotation marks
+          if (mapping[current].validator(val)) {
+            previousObj[mapping[current].key] = val;
+          } else {
+            previous.errors.push({
+              row: rowIndex + 2,
+              column: current,
+              translation_key: mapping[current].errorTranslationKey,
+            });
           }
-          return previousObj;
-        }, {});
-        previous.data.push(parsedRow);
-        return previous;
-      },
-      { data: [], errors: [] },
-    );
+        }
+        return previousObj;
+      }, {});
+      previous.data.push(parsedRow);
+      return previous;
+    },
+    { data: [], errors: [] },
+  );
   return { data, errors };
 };
 

@@ -2,14 +2,19 @@ import PureEditUser from '../../components/Profile/EditUser';
 import { useDispatch, useSelector } from 'react-redux';
 import { isAdminSelector, userFarmEntitiesSelector, userFarmSelector } from '../userFarmSlice';
 import { deactivateUser, invitePseudoUser, reactivateUser, updateUserFarm } from './People/saga';
+import { useMemo } from 'react';
 
 export default function EditUser({ history, match }) {
-  const { farm_id } = useSelector(userFarmSelector);
+  const { farm_id, user_id: currentUserId } = useSelector(userFarmSelector);
   const isAdmin = useSelector(isAdminSelector);
   const dispatch = useDispatch();
   const userFarmsEntities = useSelector(userFarmEntitiesSelector);
   const { user_id } = match.params;
   const userFarm = userFarmsEntities[farm_id]?.[user_id];
+
+  const isCurrentUser = useMemo(() => {
+    return user_id === currentUserId;
+  }, [user_id, currentUserId]);
 
   const getReqBody = (data) => {
     const role_id = parseInt(data.role_id.value);
@@ -45,6 +50,7 @@ export default function EditUser({ history, match }) {
       onRevoke={onRevoke}
       history={history}
       onInvite={onInvite}
+      isCurrentUser={isCurrentUser}
     />
   );
 }

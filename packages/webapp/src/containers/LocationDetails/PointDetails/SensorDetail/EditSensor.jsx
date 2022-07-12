@@ -13,11 +13,9 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 import EditSensor from '../../../../components/Sensor/EditSensor';
-import { managementPlanSelector } from '../../../managementPlanSlice';
 import { measurementSelector } from '../../../userFarmSlice';
 import { useTranslation } from 'react-i18next';
 import { sensorsSelector } from '../../../sensorSlice';
-import { tasksFilterSelector } from '../../../filterSlice';
 import { useRef } from 'react';
 import produce from 'immer';
 import { patchSensor } from './saga';
@@ -28,47 +26,64 @@ import { useSelector, useDispatch } from 'react-redux';
 export default function UpdateSensor({ history, match }) {
   const dispatch = useDispatch();
   const location_id = match.params.location_id;
-
-  const tasksFilter = useSelector(tasksFilterSelector);
-
   const sensorInfo = useSelector(sensorsSelector(location_id));
-  console.log(sensorInfo);
-
   const system = useSelector(measurementSelector);
 
-  const onBack = () => {
-    history.push(`/sensor/${location_id}/details`);
-  };
-
   const { t } = useTranslation();
+  const filterRef = useRef({});
 
   const SOIL_WATER_CONTENT = 'SOIL_WATER_CONTENT';
   const SOIL_WATER_POTENTIAL = 'SOIL_WATER_POTENTIAL';
   const TEMPERATURE = 'TEMPERATURE';
+  const STATUS = 'STATUS';
 
   const statuses = [SOIL_WATER_CONTENT, SOIL_WATER_POTENTIAL, TEMPERATURE];
 
-  const STATUS = 'STATUS';
-  const filterRef = useRef({});
+  const initialReadingTypes = sensorInfo.sensor_reading_types;
+  const contains_soil_water_content = initialReadingTypes.includes(SOIL_WATER_CONTENT.toLowerCase())
+    ? true
+    : false;
+  const contains_soil_water_potential = initialReadingTypes.includes(
+    SOIL_WATER_POTENTIAL.toLowerCase(),
+  )
+    ? true
+    : false;
+  const contains_temperature = initialReadingTypes.includes(TEMPERATURE.toLowerCase())
+    ? true
+    : false;
+
+  const defaultReadings = {
+    STATUS: {
+      SOIL_WATER_CONTENT: { active: contains_soil_water_content },
+      SOIL_WATER_POTENTIAL: { active: contains_soil_water_potential },
+      TEMPERATURE: { active: contains_temperature },
+    },
+  };
 
   const filter = {
     subject: t('SENSOR.READING.TYPES'),
     filterKey: STATUS,
     options: statuses.map((status) => ({
       value: status.toLowerCase(),
-      default: tasksFilter[STATUS][status.toLowerCase()]?.active ?? false,
+      default: defaultReadings[STATUS][status].active,
       label: t(`SENSOR.READING.${status}`),
     })),
   };
 
   const onSubmit = (data) => {
     const sensorData = produce(data, (data) => {
+      data.latitude = parseInt(data.latitude);
+      data.longtitude = parseInt(data.longtitude);
       data.sensor_id = sensorInfo.sensor_id;
       data.farm_id = sensorInfo.farm_id;
       data.location_id = sensorInfo.location_id;
     });
-    dispatch(patchSensor(getProcessedFormData(sensorData)));
     console.log(sensorData);
+    dispatch(patchSensor(getProcessedFormData(sensorData)));
+  };
+
+  const onBack = () => {
+    history.push(`/sensor/${location_id}/details`);
   };
 
   return (

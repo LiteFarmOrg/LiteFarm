@@ -30,8 +30,6 @@ const SENSOR_EXTERNAL_ID = 'External_ID';
 const SENSOR_DEPTH = 'Depth';
 const SENSOR_BRAND = 'Brand';
 const SENSOR_MODEL = 'Model';
-const SENSOR_PART_NUMBER = 'Part_number';
-const SENSOR_HARDWARE_VERSION = 'hardware_version';
 
 const SOIL_WATER_CONTENT = 'soil_water_content';
 const SOIL_WATER_POTENTIAL = 'soil_water_potential';
@@ -46,8 +44,6 @@ const templateFields = [
   SENSOR_DEPTH,
   SENSOR_BRAND,
   SENSOR_MODEL,
-  SENSOR_PART_NUMBER,
-  SENSOR_HARDWARE_VERSION,
 ];
 
 export function useValidateBulkSensorData(onUpload, t) {

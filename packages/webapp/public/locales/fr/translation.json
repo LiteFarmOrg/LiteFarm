@@ -476,6 +476,13 @@
         "ALREADY_OCCUPIED": "MISSING",
         "DOES_NOT_EXIST": "MISSING",
         "INTERNAL_ERROR": "MISSING"
+      },
+      "DOWNLOAD_FILE": {
+        "ROW": "MISSING",
+        "PARTIAL_SUCCESS_TOP_TEXT": "MISSING",
+        "PARTIAL_SUCCESS_BOTTOM_TEXT": "MISSING",
+        "SOME_ERRORS": "MISSING",
+        "DEFAULT": "MISSING"
       }
     },
     "BULK_UPLOAD_TRANSITION": {
@@ -493,7 +500,8 @@
     },
     "DRAWING_MANAGER": {
       "REDRAW": "Redessiner",
-      "ZERO_AREA_DETECTED": "Champ sans zone détectée. Veuillez ajouter plus de points au dessin actuel ou dessiner à nouveau."
+      "ZERO_AREA_DETECTED": "Champ sans zone détectée. Veuillez ajouter plus de points au dessin actuel ou dessiner à nouveau.",
+      "ZERO_LENGTH_DETECTED": "Ligne sans longueur détectée. Veuillez dessiner à nouveau."
     },
     "EXPORT_MODAL": {
       "BODY": "Comment voulez-vous exporter la carte de votre ferme\u00a0?",

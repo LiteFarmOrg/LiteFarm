@@ -65,10 +65,20 @@ class Sensor extends Model {
     };
   }
 
-  static async createSensor(sensor, farm_id, user_id, partnerId) {
+  static async createSensor(sensor, farm_id, user_id, partner_id) {
     const trx = await transaction.start(Model.knex());
 
     try {
+      const existingSensor = await LocationModel.getSensorLocation(
+        farm_id,
+        partner_id,
+        sensor.external_id,
+        trx,
+      );
+      if (existingSensor) {
+        await trx.commit();
+        return existingSensor;
+      }
       const readingTypes = await Promise.all(
         sensor.reading_types.map(async (r) => {
           return await PartnerReadingTypeModel.getReadingTypeByReadableValue(r);
@@ -86,7 +96,7 @@ class Sensor extends Model {
         sensor: {
           farm_id,
           name: sensor.name,
-          partner_id: partnerId,
+          partner_id,
           depth: sensor.depth,
           external_id: sensor.external_id,
           sensor_reading_type: readingTypes.map((readingType) => {

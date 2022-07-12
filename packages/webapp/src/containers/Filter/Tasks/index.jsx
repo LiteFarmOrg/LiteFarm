@@ -41,6 +41,7 @@ import { DATE_RANGE, SEARCHABLE_MULTI_SELECT } from '../../../components/Filter/
 import { tasksSelector } from '../../taskSlice';
 import { locationsSelector } from '../../locationSlice';
 import { getSupportedTaskTypesSet } from '../../../components/Task/getSupportedTaskTypesSet';
+import { getAllUserFarmsByFarmId } from '../../Profile/People/saga';
 
 const TasksFilterPage = ({ onGoBack }) => {
   const { t } = useTranslation(['translation', 'filter', 'task']);
@@ -49,7 +50,7 @@ const TasksFilterPage = ({ onGoBack }) => {
   const dispatch = useDispatch();
   const locations = useSelector(locationsSelector);
   const activeUsers = useSelector(userFarmsByFarmSelector).filter(
-    (user) => user.status != 'Inactive',
+    (user) => user.status !== 'Inactive',
   );
   const defaultTaskTypes = useSelector(defaultTaskTypesSelector);
   const customTaskTypes = useSelector(userCreatedTaskTypesSelector);
@@ -89,7 +90,7 @@ const TasksFilterPage = ({ onGoBack }) => {
     }
     assignees['unassigned'] = t('TASK.UNASSIGNED');
     return { taskTypes, assignees };
-  }, [tasks.length]);
+  }, [tasks.length, activeUsers]);
 
   const cropVarietyEntities = useMemo(() => {
     return tasks.reduce((cropVarietyEntities, { managementPlans }) => {

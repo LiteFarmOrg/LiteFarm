@@ -118,6 +118,9 @@ const loginController = {
         }
         const isPasswordNeeded = !ssoUser && passwordUser;
         const id_token = isPasswordNeeded ? '' : await createToken('access', { user_id });
+        if (user?.status_id === 2) {
+          await sendMissingInvitations(user);
+        }
         return res.status(201).send({
           id_token,
           user: {
@@ -133,6 +136,7 @@ const loginController = {
               : `${first_name} ${last_name}`,
           },
           isSignUp: isUserNew,
+          isInvited: user?.status_id === 2,
         });
       } catch (err) {
         return res.status(400).json({

@@ -19,9 +19,8 @@ const VITE_ENV = import.meta.env.VITE_ENV || 'development';
 // handling ngrok
 const hostNameSplit = window.location.host.split('.');
 if (hostNameSplit && hostNameSplit.length > 1 && hostNameSplit[1] === 'ngrok') {
-  import('../../../ngrok/ngrok-tunnels.json').then((ngrokTunnels) => {
+  import('./ngrok-tunnels.json').then((ngrokTunnels) => {
     URI = ngrokTunnels.api;
-    console.log(URI);
   });
 }
 

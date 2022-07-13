@@ -66,6 +66,12 @@ class IntegratingPartners extends Model {
       .patch({ access_token, refresh_token })
       .where({ partner_name, deactivated: false });
   }
+  static async getBrandName(partner_id) {
+    return await IntegratingPartners.query()
+      .select('partner_name')
+      .where('partner_id', partner_id)
+      .first();
+  }
 }
 
 module.exports = IntegratingPartners;

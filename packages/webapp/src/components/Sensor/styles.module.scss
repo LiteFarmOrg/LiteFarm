@@ -12,36 +12,19 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
-const Model = require('objection').Model;
-
-class Point extends Model {
-  static get tableName() {
-    return 'point';
-  }
-
-  static get idColumn() {
-    return 'figure_id';
-  }
-
-  static get jsonSchema() {
-    return {
-      type: 'object',
-      required: ['point'],
-
-      properties: {
-        figure_id: { type: 'string' },
-        point: {
-          type: 'object',
-          required: true,
-          properties: {
-            lat: { type: 'number' },
-            lng: { type: 'number' },
-          },
-        },
-      },
-      additionalProperties: false,
-    };
-  }
+.row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 16px;
+    padding-bottom: 40px;
+    width: 100%;
 }
 
-module.exports = Point;
+.inline {
+    padding-inline: 20px;
+}
+
+
+.paddingBottom40 {
+    padding-bottom: 40px;
+}

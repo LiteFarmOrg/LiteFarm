@@ -18,18 +18,43 @@ const SensorModel = require('../models/sensorModel');
 const SensorReadingModel = require('../models/sensorReadingModel');
 const IntegratingPartnersModel = require('../models/integratingPartnersModel');
 const NotificationUser = require('../models/notificationUserModel');
+const FarmExternalIntegrationsModel = require('../models/farmExternalIntegrationsModel');
+const LocationModel = require('../models/locationModel');
+const PointModel = require('../models/pointModel');
+const FigureModel = require('../models/figureModel');
 const { transaction, Model } = require('objection');
-
 const {
   createOrganization,
   registerOrganizationWebhook,
   bulkSensorClaim,
+  unclaimSensor,
 } = require('../util/ensemble');
 
 const sensorErrors = require('../util/sensorErrors');
 const syncAsyncResponse = require('../util/syncAsyncResponse');
 
 const sensorController = {
+  async getSensorReadingTypes(req, res) {
+    const { sensor_id } = req.params;
+    try {
+      const sensorReadingTypesResponse = await SensorModel.getSensorReadingTypes(sensor_id);
+      const readingTypes = sensorReadingTypesResponse.rows.map(
+        (datapoint) => datapoint.readable_value,
+      );
+      res.status(200).send(readingTypes);
+    } catch (error) {
+      res.status(404).send('Sensor not found');
+    }
+  },
+  async getBrandName(req, res) {
+    try {
+      const { partner_id } = req.params;
+      const brand_name_response = await IntegratingPartnersModel.getBrandName(partner_id);
+      res.status(200).send(brand_name_response.partner_name);
+    } catch (error) {
+      res.status(404).send('Partner not found');
+    }
+  },
   async addSensors(req, res) {
     let timeLimit = 5000;
     const testTimerOverride = Number(req.query?.sensorUploadTimer);
@@ -277,6 +302,85 @@ const sensorController = {
     }
   },
 
+  async updateSensorbyID(req, res) {
+    try {
+      //const sensor_esid = req.params.sensor_esid;
+      const {
+        //brand,
+        sensor_name,
+        latitude,
+        longtitude,
+        sensor_id,
+        model,
+        depth,
+        reading_types,
+        location_id,
+        user_id,
+      } = req.body;
+
+      // Data is formatted in nested object values, these 5 const's are accessing reading types by using
+      // Object.entries and accessing each values via array indexing
+
+      if (reading_types.length !== 0) {
+        const status = reading_types['STATUS'];
+
+        const isSoilWaterContentActive = {
+          name: 'soil_water_content',
+          active: status['soil_water_content'].active,
+        };
+        const isSoilWaterPotentialActive = {
+          name: 'soil_water_potential',
+          active: status['soil_water_potential'].active,
+        };
+        const isTemperatureActive = {
+          name: 'temperature',
+          active: status['temperature'].active,
+        };
+        console.log(isSoilWaterContentActive);
+        console.log(isSoilWaterPotentialActive);
+        console.log(isTemperatureActive);
+
+        const readingTypes = {
+          soilWaterContent: isSoilWaterContentActive,
+          soilWaterPotential: isSoilWaterPotentialActive,
+          temperature: isTemperatureActive,
+        };
+        await SensorModel.patchSensorReadingTypes(sensor_id, readingTypes);
+      }
+
+      const sensor_properties = {
+        name: sensor_name,
+        depth,
+        model,
+      };
+
+      const figureID = await FigureModel.query()
+        .select('figure_id')
+        .where('location_id', location_id);
+
+      const sensorLocation = { point: { lat: latitude, lng: longtitude } };
+
+      await PointModel.query().patch(sensorLocation).where('figure_id', figureID[0].figure_id);
+
+      await LocationModel.query()
+        .context({ user_id })
+        .patch({ name: sensor_name })
+        .where('location_id', location_id);
+
+      await SensorModel.query()
+        .patch(sensor_properties)
+        .where('partner_id', 1)
+        .where('sensor_id', sensor_id);
+
+      return res.status(200).send('Success');
+    } catch (error) {
+      console.log(error);
+      return res.status(400).json({
+        error,
+      });
+    }
+  },
+
   async deleteSensor(req, res) {
     try {
       const trx = await transaction.start(Model.knex());
@@ -393,6 +497,71 @@ const sensorController = {
       });
     }
   },
+  async getAllSensorReadingsByLocationIds(req, res) {
+    try {
+      const { locationIds = [], readingType = '', endDate = '' } = req.body;
+
+      if (!locationIds.length || !Array.isArray(locationIds)) {
+        return res.status(400).send('No location ids are present');
+      }
+
+      if (!locationIds.every((i) => typeof i === 'string' && i.length === 36)) {
+        return res.status(400).send('Invalid location ids are present');
+      }
+
+      if (!readingType.length) {
+        return res.status(400).send('No read type is present');
+      }
+
+      if (!endDate.length) {
+        return res.status(400).send('No end date is present');
+      }
+
+      const result = await SensorReadingModel.getSensorReadingsByLocationIds(
+        new Date(endDate),
+        locationIds,
+        readingType,
+      );
+
+      const sensorsPoints = await SensorModel.getSensorLocationBySensorIds(locationIds);
+      res
+        .status(200)
+        .send({ length: result.length, sensorReading: result, sensorsPoints: sensorsPoints.rows });
+    } catch (error) {
+      res.status(400).send(error);
+    }
+  },
+  async retireSensor(req, res) {
+    const trx = await transaction.start(Model.knex());
+    try {
+      const { external_id, location_id, farm_id, partner_id } = req.body.sensorInfo;
+      const user_id = req.user.user_id;
+      const { access_token } = await IntegratingPartnersModel.getAccessAndRefreshTokens(
+        'Ensemble Scientific',
+      );
+      const external_integrations_response = await FarmExternalIntegrationsModel.getOrganizationId(
+        farm_id,
+        partner_id,
+      );
+      const org_id = external_integrations_response.organization_uuid;
+      const unclaimResponse = await unclaimSensor(org_id, external_id, access_token);
+      const deleteResponse = await LocationModel.deleteLocation(location_id, { user_id }, { trx });
+      console.log(unclaimResponse, deleteResponse);
+      if (unclaimResponse.status == 200 && deleteResponse == 1) {
+        await trx.commit();
+        return res.status(200).send(unclaimResponse.data);
+      } else {
+        await trx.rollback();
+        return res.status(500);
+      }
+    } catch (error) {
+      console.log(error);
+      await trx.rollback();
+      return res.status(400).json({
+        error,
+      });
+    }
+  },
 };
 
 /**
@@ -406,8 +575,21 @@ const sensorController = {
 const parseCsvString = (csvString, mapping, delimiter = ',') => {
   // regex checks for delimiters that are not contained within quotation marks
   const regex = new RegExp(`(?!\\B"[^"]*)${delimiter}(?![^"]*"\\B)`);
+  if (csvString.length === 0 || !/\r\b|\r|\n/.test(csvString)) {
+    return { data: [] };
+  }
   const rows = csvString.split(/\r\n|\r|\n/).filter((elem) => elem !== '');
   const headers = rows[0].split(regex);
+  const requiredHeaders = Object.keys(mapping).filter((m) => mapping[m].required);
+  const headerErrors = [];
+  requiredHeaders.forEach((header) => {
+    if (!headers.includes(header)) {
+      headerErrors.push({ row: 1, column: header, translation_key: sensorErrors.MISSING_COLUMNS });
+    }
+  });
+  if (headerErrors.length > 0) {
+    return { data: [], errors: headerErrors };
+  }
   const allowedHeaders = Object.keys(mapping);
   const dataRows = rows.slice(1);
   const { data, errors } = dataRows.reduce(

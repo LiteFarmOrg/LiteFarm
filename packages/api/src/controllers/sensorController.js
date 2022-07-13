@@ -575,6 +575,9 @@ const sensorController = {
 const parseCsvString = (csvString, mapping, delimiter = ',') => {
   // regex checks for delimiters that are not contained within quotation marks
   const regex = new RegExp(`(?!\\B"[^"]*)${delimiter}(?![^"]*"\\B)`);
+  if (csvString.length === 0 || !/\r\b|\r|\n/.test(csvString)) {
+    return { data: [] };
+  }
   const rows = csvString.split(/\r\n|\r|\n/).filter((elem) => elem !== '');
   const headers = rows[0].split(regex);
   const requiredHeaders = Object.keys(mapping).filter((m) => mapping[m].required);

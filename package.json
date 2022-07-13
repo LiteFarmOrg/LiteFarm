@@ -10,7 +10,10 @@
     "start": "lerna run start",
     "bootstrap": "lerna bootstrap",
     "prepare": "husky install",
-    "ngrok": "ngrok start --config=./ngrok.yml --all"
+    "ngrok": "ngrok start --config=./ngrok/ngrok.yml --all",
+    "ngrok:setup": "python3 ./ngrok/ngrok-setup.py > ./ngrok/ngrok-tunnels.json",
+    "ngrok:api": "ngrok start --config=./ngrok/ngrok.yml api",
+    "ngrok:webapp": "ngrok start --config=./ngrok/ngrok.yml webapp"
   },
   "jest": {
     "testPathIgnorePatterns": [

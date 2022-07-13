@@ -15,12 +15,21 @@
 
 let URI;
 const VITE_ENV = import.meta.env.VITE_ENV || 'development';
-if (import.meta.env.VITE_API_URL?.length) {
+
+// handling ngrok
+const hostNameSplit = window.location.host.split('.');
+if (hostNameSplit && hostNameSplit.length > 1 && hostNameSplit[1] === 'ngrok') {
+  import('../../../ngrok/ngrok-tunnels.json').then((ngrokTunnels) => {
+    URI = ngrokTunnels.api;
+    console.log(URI);
+  });
+}
+
+if (import.meta.env.VITE_API_URL?.length && !URI) {
   URI = import.meta.env.VITE_API_URL;
-} else {
+} else if (!URI) {
   if (VITE_ENV === 'development') {
-    const ngrokURL = import.meta.env.NGROK_API_URL;
-    URI = ngrokURL || window.location.href.replace(/3000.*/, '5000');
+    URI = window.location.href.replace(/3000.*/, '5000');
   } else if (VITE_ENV === 'production') {
     URI = 'https://api.app.litefarm.org';
   } else if (VITE_ENV === 'integration') {

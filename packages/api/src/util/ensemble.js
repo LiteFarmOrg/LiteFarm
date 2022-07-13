@@ -28,9 +28,13 @@ if (process.env.NODE_ENV === 'integration') {
 } else if (process.env.NODE_ENV === 'production') {
   baseUrl = 'https://api.app.litefarm.org';
 } else {
-  // NOTE: for testing out the webhook, run ngrok start 5001 and add the url
-  // to the api .env as NGROK_API_URL
-  baseUrl = process.env.NGROK_API_URL;
+  /*
+   * NOTE: for testing out the webhook run the following:
+   * - 'npm run ngrok:api' (or 'npm run ngrok' for both frontend and backend forwarding)
+   * - 'npm run ngrok:setup'
+   */
+  const ngrokTunnels = require('../../../../ngrok/ngrok-tunnels.json');
+  baseUrl = ngrokTunnels.api;
 }
 
 /**

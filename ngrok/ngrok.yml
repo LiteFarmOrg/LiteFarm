@@ -5,9 +5,6 @@ tunnels:
     api:
         addr: 5001
         proto: http
-    db: 
-        addr: 5432
-        proto: http
 version: "2"
 region: us
 authtoken: ?

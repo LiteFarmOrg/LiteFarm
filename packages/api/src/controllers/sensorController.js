@@ -577,6 +577,16 @@ const parseCsvString = (csvString, mapping, delimiter = ',') => {
   const regex = new RegExp(`(?!\\B"[^"]*)${delimiter}(?![^"]*"\\B)`);
   const rows = csvString.split(/\r\n|\r|\n/).filter((elem) => elem !== '');
   const headers = rows[0].split(regex);
+  const requiredHeaders = Object.keys(mapping).filter((m) => mapping[m].required);
+  const headerErrors = [];
+  requiredHeaders.forEach((header) => {
+    if (!headers.includes(header)) {
+      headerErrors.push({ row: 1, column: header, translation_key: sensorErrors.MISSING_COLUMNS });
+    }
+  });
+  if (headerErrors.length > 0) {
+    return { data: [], errors: headerErrors };
+  }
   const allowedHeaders = Object.keys(mapping);
   const dataRows = rows.slice(1);
   const { data, errors } = dataRows.reduce(

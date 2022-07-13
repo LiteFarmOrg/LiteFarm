@@ -1162,8 +1162,8 @@
       "TITLE": "Sensor upload completed"
     },
     "SENSOR_BULK_UPLOAD_FAIL": {
-      "BODY": "Your sensor upload has failed. Click “Take me there” to view the details.",
-      "TITLE": "Sensor upload failed"
+      "BODY": "Your sensor upload has some errors. Click “Take me there” to view the details.",
+      "TITLE": "Sensor upload errors"
     }
   },
   "OUTRO": {

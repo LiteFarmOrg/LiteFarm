@@ -141,13 +141,20 @@ const sensorController = {
       if (!data.length > 0) {
         return await sendResponse(
           () => {
-            return res.status(400).send({ error_type: 'emtpy_file' });
+            return res.status(400).send({ error_type: 'empty_file' });
           },
           async () => {
             return await sendSensorNotification(
               user_id,
               farm_id,
               SensorNotificationTypes.SENSOR_BULK_UPLOAD_FAIL,
+              {
+                error_download: {
+                  errors: [],
+                  file_name: 'sensor-upload-outcomes.txt',
+                  error_type: 'generic',
+                },
+              },
             );
           },
         );
@@ -155,16 +162,20 @@ const sensorController = {
       if (errors.length > 0) {
         return await sendResponse(
           () => {
-            return res
-              .status(400)
-              .send({ error_type: 'validation_failure', errors, is_validation_error: true });
+            return res.status(400).send({ error_type: 'validation_failure', errors });
           },
           async () => {
             return await sendSensorNotification(
               user_id,
               farm_id,
               SensorNotificationTypes.SENSOR_BULK_UPLOAD_FAIL,
-              { error_download: { errors, file_name: 'sensor-upload-outcomes.txt' } },
+              {
+                error_download: {
+                  errors,
+                  file_name: 'sensor-upload-outcomes.txt',
+                  error_type: 'validation',
+                },
+              },
             );
           },
         );
@@ -261,8 +272,8 @@ const sensorController = {
                   error_download: {
                     errors: errorSensors,
                     file_name: 'sensor-upload-outcomes.txt',
-                    is_validation_error: false,
                     success: successSensors,
+                    error_type: 'claim',
                   },
                 },
               );
@@ -296,6 +307,13 @@ const sensorController = {
             user_id,
             farm_id,
             SensorNotificationTypes.SENSOR_BULK_UPLOAD_FAIL,
+            {
+              error_download: {
+                errors: [],
+                file_name: 'sensor-upload-outcomes.txt',
+                error_type: 'generic',
+              },
+            },
           );
         },
       );

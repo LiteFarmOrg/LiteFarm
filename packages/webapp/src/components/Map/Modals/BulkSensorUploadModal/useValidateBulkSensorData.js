@@ -255,16 +255,15 @@ export function useValidateBulkSensorData(onUpload, t) {
       const inputFile = fileInputRef.current.files[0];
       if (inputFile) {
         const downloadFileName = `${inputFile.name.replace(/.csv/, '')}_errors.txt`;
-        createSensorErrorDownload(downloadFileName, sheetErrors[0].errors, 'validation', t);
+        createSensorErrorDownload(downloadFileName, sheetErrors[0].errors, 'validation');
       }
     } else if (bulkSensorsUploadResponse?.defaultFailure) {
-      createSensorErrorDownload('sensor-upload-outcomes.txt', null, 'generic', t);
+      createSensorErrorDownload('sensor-upload-outcomes.txt', null, 'generic');
     } else {
       createSensorErrorDownload(
         'sensor-upload-outcomes.txt',
         translatedUploadErrors,
         'claim',
-        t,
         bulkSensorsUploadResponse?.success,
       );
     }

@@ -102,10 +102,23 @@ const sensorController = {
         Reading_types: {
           key: 'reading_types',
           parseFunction: (val) => val.replaceAll(' ', '').split(','),
-          validator: (val) =>
-            val.includes('soil_moisture_content') ||
-            val.includes('water_potential') ||
-            val.includes('temperature'),
+          validator: (val) => {
+            if (!val.length) {
+              return false;
+            }
+            const allowedReadingTypes = [
+              'soil_water_content',
+              'soil_water_potential',
+              'temperature',
+            ];
+            let isValid = true;
+            val.forEach((readingType) => {
+              if (!allowedReadingTypes.includes(readingType)) {
+                isValid = false;
+              }
+            });
+            return isValid;
+          },
           required: true,
           errorTranslationKey: sensorErrors.SENSOR_READING_TYPES,
         },

@@ -100,7 +100,6 @@ export default function PureEditUser({
       Number(role?.value) === userFarm.role_id &&
       (wage || 0) === Number(userFarm.wage?.amount)) ||
     (!shouldInvitePseudoUser && isPseudoUser && (wage || 0) === Number(userFarm.wage?.amount));
-
   const onSubmit = (data) => {
     data[GENDER] = data?.[GENDER]?.value || 'PREFER_NOT_TO_SAY';
     data[ROLE] = data?.[ROLE]?.value;

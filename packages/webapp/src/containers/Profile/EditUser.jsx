@@ -17,14 +17,14 @@ export default function EditUser({ history, match }) {
   }, [user_id, currentUserId]);
 
   const getReqBody = (data) => {
-    const role_id = parseInt(data.role_id.value);
+    const role_id = data.role_id ? parseInt(data.role_id.value) : null;
     const reqBody = {
       ...data,
       user_id,
       role_id,
       wage: { amount: data.wage.amount, type: userFarm.wage?.type || 'hourly' },
     };
-    if (role_id === userFarm.role_id) delete reqBody.role_id;
+    if (role_id === userFarm.role_id || !role_id) delete reqBody.role_id;
     if (data.wage?.amount === userFarm.wage?.amount) delete reqBody.wage;
     return reqBody;
   };

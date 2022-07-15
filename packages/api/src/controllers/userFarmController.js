@@ -520,24 +520,7 @@ const userFarmController = {
             ? !!(await userFarmModel.query(trx).findById([user.user_id, farm_id]))
             : false;
           if (isUserAMemberOfFarm) {
-            const { user_id: newUserId } = user;
-            await userFarmModel
-              .query(trx)
-              .findById([user.user_id, farm_id])
-              .patch({
-                status: 'Invited',
-                step_three: false,
-                has_consent: false,
-                ...roleIdAndWage,
-              });
-            await shiftModel
-              .query(trx)
-              .context({ user_id: newUserId })
-              .where({ user_id })
-              .patch({ user_id: newUserId });
-            await userFarmModel.query(trx).where({ user_id }).delete();
-            await userLogModel.query(trx).where({ user_id }).delete();
-            await userModel.query(trx).findById(user_id).delete();
+            throw new Error('A user with that email already has access to this farm');
           } else if (isExistingAccount) {
             const { user_id: newUserId } = user;
             await userFarmModel.query(trx).insert({

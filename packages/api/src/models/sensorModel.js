@@ -24,7 +24,7 @@ class Sensor extends Model {
   }
 
   static get idColumn() {
-    return 'sensor_id';
+    return 'location_id';
   }
 
   // Optional JSON schema. This is not the database schema! Nothing is generated
@@ -33,10 +33,10 @@ class Sensor extends Model {
   static get jsonSchema() {
     return {
       type: 'object',
-      required: ['farm_id', 'name', 'partner_id', 'external_id', 'location_id'],
+      required: ['farm_id', 'name', 'partner_id', 'external_id'],
 
       properties: {
-        sensor_id: { type: 'string' },
+        location_id: { type: 'string' },
         farm_id: { type: 'string', minLength: 1, maxLength: 255 },
         name: { type: 'string', minLength: 1, maxLength: 255 },
         grid_points: { type: 'object' },
@@ -44,7 +44,6 @@ class Sensor extends Model {
         isDeleted: { type: 'boolean' },
         partner_id: { type: 'integer' },
         external_id: { type: 'string', maxLength: 255 },
-        location_id: { type: 'string' },
         depth: { type: 'float' },
         elevation: { type: 'float' },
       },
@@ -58,8 +57,8 @@ class Sensor extends Model {
         modelClass: require('./SensorReadingTypeModel'),
         relation: Model.HasManyRelation,
         join: {
-          from: 'sensor.sensor_id',
-          to: 'sensor_reading_type.sensor_id',
+          from: 'sensor.location_id',
+          to: 'sensor_reading_type.location_id',
         },
       },
     };

@@ -32,7 +32,7 @@ class SensorReading extends Model {
       type: 'object',
       required: [
         'read_time',
-        'sensor_id',
+        'location_id',
         'reading_type',
         'value',
         'unit',
@@ -45,7 +45,7 @@ class SensorReading extends Model {
         reading_id: { type: 'string' },
         read_time: { type: 'timestamp' },
         created_at: { type: 'timestamp' },
-        sensor_id: { type: 'string' },
+        location_id: { type: 'string' },
         reading_type: { type: 'string', minLength: 1, maxLength: 255 },
         value: { type: 'float' },
         unit: { type: 'string', minLength: 1, maxLength: 255 },

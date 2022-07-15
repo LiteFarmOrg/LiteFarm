@@ -1,3 +1,5 @@
+# Create a copy of this file called "ngrok.yml" and fill in all ? characters with 
+# the appropriate tokens, api keys, etc 
 tunnels:
     webapp:
         addr: 3000

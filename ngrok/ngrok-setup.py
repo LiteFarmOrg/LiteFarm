@@ -1,7 +1,7 @@
 import requests
 from os import path
 
-def getURLDict() -> dict[str, str]:
+def getURLDict() -> dict:
   """
   Returns a dictionary containing the ngrok URLs that are forwarding 
   requests to localhost ports.
@@ -15,7 +15,7 @@ def getURLDict() -> dict[str, str]:
 
   return ngrokURLs
 
-def addURLsToEnv(ngrokURLs: dict[str, str], envPath: str, prefix: str): 
+def addURLsToEnv(ngrokURLs: dict, envPath: str, prefix: str): 
   """
   Adds the given ngrokURLs to the environment variables in envPath
   - Each variable is prefixed with the given prefix

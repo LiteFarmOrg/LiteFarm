@@ -31,8 +31,8 @@ const SENSOR_DEPTH = 'Depth';
 const SENSOR_BRAND = 'Brand';
 const SENSOR_MODEL = 'Model';
 
-const SOIL_MOISTURE_CONTENT = 'soil_moisture_content';
-const WATER_POTENTIAL = 'water_potential';
+const SOIL_MOISTURE_CONTENT = 'soil_water_content';
+const WATER_POTENTIAL = 'soil_water_potential';
 const TEMPERATURE = 'temperature';
 
 const requiredReadingTypes = [SOIL_MOISTURE_CONTENT, WATER_POTENTIAL, TEMPERATURE];

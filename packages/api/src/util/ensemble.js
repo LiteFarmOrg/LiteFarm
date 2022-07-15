@@ -33,8 +33,7 @@ if (process.env.NODE_ENV === 'integration') {
    * - 'npm run ngrok:api' (or 'npm run ngrok' for both frontend and backend forwarding)
    * - 'npm run ngrok:setup'
    */
-  const ngrokTunnels = require('../ngrok-tunnels.json');
-  baseUrl = ngrokTunnels.api;
+  baseUrl = process.env.NGROK_API;
 } else {
   baseUrl = 'http://localhost:5001';
 }

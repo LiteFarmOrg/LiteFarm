@@ -116,7 +116,7 @@ class Sensor extends Model {
     } catch (error) {
       console.log(error);
       await trx.rollback();
-      return null;
+      throw error;
     }
   }
 

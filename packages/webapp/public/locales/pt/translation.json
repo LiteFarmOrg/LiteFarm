@@ -819,6 +819,7 @@
     "GENDER": "Gênero",
     "GENDER_TOOLTIP": "As informações de gênero são coletadas apenas para fins de pesquisa e só serão utilizadas com as informações de identificação pessoal removidas",
     "INVALID_EMAIL_ERROR": "Por favor insira um email válido",
+    "ALREADY_EXISTING_EMAIL_ERROR": "MISSING",
     "INVITE": "Convidar",
     "LANGUAGE_OF_INVITE": "Idioma do convite",
     "PHONE": "Número de telefone",

@@ -10,8 +10,9 @@ export default function EditUser({ history, match }) {
   const userFarmsEntities = useSelector(userFarmEntitiesSelector);
   const { user_id } = match.params;
   const userFarm = userFarmsEntities[farm_id]?.[user_id];
+  const userFarmEmails = Object.values(userFarmsEntities[farm_id]).map((user) => user.email);
 
-  const getReqBody = data => {
+  const getReqBody = (data) => {
     const role_id = Number(data.role_id?.value);
     const reqBody = {
       ...data,
@@ -24,10 +25,10 @@ export default function EditUser({ history, match }) {
     return reqBody;
   };
 
-  const onUpdate = data => {
+  const onUpdate = (data) => {
     dispatch(updateUserFarm(getReqBody(data)));
   };
-  const onInvite = data => {
+  const onInvite = (data) => {
     dispatch(invitePseudoUser(getReqBody(data)));
   };
   const onRevoke = () => {
@@ -36,6 +37,16 @@ export default function EditUser({ history, match }) {
   const onActivate = () => {
     dispatch(reactivateUser(user_id));
   };
-  return <PureEditUser onActivate={onActivate} userFarm={userFarm} isAdmin={isAdmin} onUpdate={onUpdate}
-                       onRevoke={onRevoke} history={history} onInvite={onInvite} />;
+  return (
+    <PureEditUser
+      onActivate={onActivate}
+      userFarm={userFarm}
+      isAdmin={isAdmin}
+      onUpdate={onUpdate}
+      onRevoke={onRevoke}
+      history={history}
+      onInvite={onInvite}
+      userFarmEmails={userFarmEmails}
+    />
+  );
 }

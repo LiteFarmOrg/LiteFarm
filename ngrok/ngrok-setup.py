@@ -17,12 +17,14 @@ def getURLDict() -> dict[str, str]:
 
 def addURLsToEnv(ngrokURLs: dict[str, str], envPath: str, prefix: str): 
   """
-  Adds the given ngrokURLs to packages/webapp/.env
+  Adds the given ngrokURLs to the environment variables in envPath
+  - Each variable is prefixed with the given prefix
   """
   readEnv = open(envPath, 'r')
   lines = readEnv.readlines()
   keysAddedToEnv = []
 
+  # if the variables already exist in the .env file, update them
   for i in range(0, len(lines)):
     for key in ngrokURLs: 
       if key not in keysAddedToEnv and lines[i].startswith(prefix + key.upper()):
@@ -37,9 +39,11 @@ def addURLsToEnv(ngrokURLs: dict[str, str], envPath: str, prefix: str):
 
   appendEnv = open(envPath, 'a')
 
+  # make sure the file ends with a new line character
   if not lines[-1].endswith('\n'):
     appendEnv.write('\n')
 
+  # if the variables don't exist in the .env file, add them
   for key in ngrokURLs:
     if key not in keysAddedToEnv:
       appendEnv.write(prefix + key.upper() + '=' + ngrokURLs[key])

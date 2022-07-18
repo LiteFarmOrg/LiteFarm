@@ -117,7 +117,7 @@ export default function PureCreateUserAccount({ onSignUp, email, onGoBack }) {
             label={t('CREATE_USER.GENDER')}
             options={genderOptions}
             onChange={onChange}
-            value={genderOptions[languageOption]}
+            value={value}
             toolTipContent={t('CREATE_USER.GENDER_TOOLTIP')}
             style={{ marginBottom: '28px' }}
             defaultValue={genderOptions[3]}

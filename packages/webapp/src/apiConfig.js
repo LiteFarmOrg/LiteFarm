@@ -15,7 +15,13 @@
 
 let URI;
 const VITE_ENV = import.meta.env.VITE_ENV || 'development';
-if (import.meta.env.VITE_API_URL?.length) {
+const VITE_NGROK_API = import.meta.env.VITE_NGROK_API;
+const ENV = import.meta.env;
+// handling ngrok
+const hostNameSplit = window.location.host.split('.');
+if (VITE_NGROK_API && hostNameSplit && hostNameSplit.length > 1 && hostNameSplit[1] === 'ngrok') {
+  URI = VITE_NGROK_API;
+} else if (import.meta.env.VITE_API_URL?.length) {
   URI = import.meta.env.VITE_API_URL;
 } else {
   if (VITE_ENV === 'development') {
@@ -26,6 +32,7 @@ if (import.meta.env.VITE_API_URL?.length) {
     URI = 'https://api.beta.litefarm.org';
   }
 }
+console.table({ URI, VITE_NGROK_API, ENV });
 
 export const userUrl = `${URI}/user`;
 export const pseudoUserUrl = `${URI}/user/pseudo`;

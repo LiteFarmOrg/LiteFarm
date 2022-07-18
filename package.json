@@ -11,7 +11,7 @@
     "bootstrap": "lerna bootstrap",
     "prepare": "husky install",
     "ngrok": "ngrok start --config=./ngrok/ngrok.yml --all",
-    "ngrok:setup": "python3 ./ngrok/ngrok-setup.py",
+    "ngrok:setup": "node ./ngrok/ngrok-setup.js",
     "ngrok:api": "ngrok start --config=./ngrok/ngrok.yml api",
     "ngrok:webapp": "ngrok start --config=./ngrok/ngrok.yml webapp"
   },

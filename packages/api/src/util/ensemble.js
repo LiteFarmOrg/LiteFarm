@@ -35,7 +35,7 @@ if (process.env.NODE_ENV === 'integration') {
    */
   baseUrl = process.env.NGROK_API;
 } else {
-  baseUrl = 'http://localhost:5001';
+  baseUrl = 'http://localhost:' + process.env.PORT;
 }
 
 /**

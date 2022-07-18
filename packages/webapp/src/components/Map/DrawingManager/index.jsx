@@ -19,6 +19,7 @@ export default function PureDrawingManager({
   onClickTryAgain,
   onClickConfirm,
   showZeroAreaWarning,
+  showZeroLengthWarning,
   showLineModal,
   confirmLine,
   updateLineWidth,
@@ -27,7 +28,8 @@ export default function PureDrawingManager({
   lineData,
 }) {
   const { t } = useTranslation();
-  const showConfirmButtons = !showZeroAreaWarning && !showLineModal && !isDrawing;
+  const showConfirmButtons =
+    !showZeroAreaWarning && !showZeroLengthWarning && !showLineModal && !isDrawing;
   // ASSUMING AREA CANNOT IMPLEMENT UNDO (reset drawing)
   return (
     <div className={clsx(styles.container, className)} style={style}>
@@ -38,37 +40,44 @@ export default function PureDrawingManager({
       )}
       {!isDrawing && (
         <>
-          {showZeroAreaWarning && (
-            <PureWarningBox
-              className={styles.warningBox}
-              style={{ border: '1px solid var(--red700)' }}
-            >
-              <Label style={{ marginBottom: '12px' }}>
-                {t('FARM_MAP.DRAWING_MANAGER.ZERO_AREA_DETECTED')}
-              </Label>
-              <Button
-                onClick={onClickTryAgain}
-                className={styles.drawingButton}
-                color={'primary'}
-                sm
+          {showZeroAreaWarning ||
+            (showZeroLengthWarning && (
+              <PureWarningBox
+                className={styles.warningBox}
+                style={{ border: '1px solid var(--red700)' }}
               >
-                {t('FARM_MAP.DRAWING_MANAGER.REDRAW')}
-              </Button>
-            </PureWarningBox>
-          )}
-          {showLineModal && lineData?.hasOwnProperty(watercourseEnum.width) && (
-            <>
-              <PureLineBox
-                system={system}
-                confirmLine={confirmLine}
-                updateWidth={updateLineWidth}
-                locationData={lineData}
-                onClickTryAgain={onClickTryAgain}
-                onClickBack={onClickBack}
-                typeOfLine={typeOfLine}
-              />
-            </>
-          )}
+                <Label style={{ marginBottom: '12px' }}>
+                  {t(
+                    showZeroAreaWarning
+                      ? 'FARM_MAP.DRAWING_MANAGER.ZERO_AREA_DETECTED'
+                      : 'FARM_MAP.DRAWING_MANAGER.ZERO_LENGTH_DETECTED',
+                  )}
+                </Label>
+                <Button
+                  onClick={onClickTryAgain}
+                  className={styles.drawingButton}
+                  color={'primary'}
+                  sm
+                >
+                  {t('FARM_MAP.DRAWING_MANAGER.REDRAW')}
+                </Button>
+              </PureWarningBox>
+            ))}
+          {showLineModal &&
+            !showZeroLengthWarning &&
+            lineData?.hasOwnProperty(watercourseEnum.width) && (
+              <>
+                <PureLineBox
+                  system={system}
+                  confirmLine={confirmLine}
+                  updateWidth={updateLineWidth}
+                  locationData={lineData}
+                  onClickTryAgain={onClickTryAgain}
+                  onClickBack={onClickBack}
+                  typeOfLine={typeOfLine}
+                />
+              </>
+            )}
         </>
       )}
       {showConfirmButtons && (
@@ -76,7 +85,13 @@ export default function PureDrawingManager({
           <Button onClick={onClickTryAgain} className={styles.drawingButton} color={'secondary'} sm>
             {t('FARM_MAP.DRAWING_MANAGER.REDRAW')}
           </Button>
-          <Button data-cy='map-drawCompleteContinue' onClick={onClickConfirm} className={styles.drawingButton} color={'primary'} sm>
+          <Button
+            data-cy="map-drawCompleteContinue"
+            onClick={onClickConfirm}
+            className={styles.drawingButton}
+            color={'primary'}
+            sm
+          >
             {t('common:CONFIRM')}
           </Button>
         </div>

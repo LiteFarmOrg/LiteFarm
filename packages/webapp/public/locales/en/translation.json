@@ -457,8 +457,8 @@
       "UPLOAD_LINK_MESSAGE": "Download this template",
       "UPLOAD_INSTRUCTION_MESSAGE": "for correct formatting.",
       "UPLOAD_PLACEHOLDER": "Upload CSV file",
-      "UPLOAD_ERROR_MESSAGE": "We found some errors with your upload. You can view them",
-      "UPLOAD_ERROR_LINK": "here.",
+      "UPLOAD_ERROR_MESSAGE": "We found some errors with your upload. ",
+      "UPLOAD_ERROR_LINK": "Click here to view them.",
       "VALIDATION": {
         "FILE_ROW_LIMIT_EXCEEDED": "File row limit exceeded. The max number of sensors that can be uploaded from a file is 100.",
         "MISSING_COLUMNS": "Columns are required/missing.",

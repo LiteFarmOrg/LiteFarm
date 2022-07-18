@@ -27,7 +27,7 @@ function getRequest(url) {
 }
 
 /**
- * Returns a dictionary containing the ngrok URLs that are forwarding 
+ * Returns an object containing the ngrok URLs that are forwarding 
  * requests to localhost ports.
  */
 async function getURLObj() {

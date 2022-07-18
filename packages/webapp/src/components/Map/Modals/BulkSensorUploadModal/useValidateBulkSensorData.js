@@ -54,6 +54,8 @@ export function useValidateBulkSensorData(onUpload, t) {
   const [errorCount, setErrorCount] = useState(0);
   const fileInputRef = useRef(null);
   const [translatedUploadErrors, setTranslatedUploadErrors] = useState([]);
+  const [uploadErrorMessage, setUploadErrorMessage] = useState('');
+  const [errorTypeCode, setErrorTypeCode] = useState(-1);
 
   const validationFields = [
     {
@@ -221,6 +223,7 @@ export function useValidateBulkSensorData(onUpload, t) {
       const workBook = XLSX.read(data);
       const sheetErrorList = [];
       let totalErrorCount = 0;
+      let isEmptyFile = false;
       for (const singleSheet of workBook.SheetNames) {
         const sheetError = {
           sheetName: singleSheet,
@@ -228,7 +231,7 @@ export function useValidateBulkSensorData(onUpload, t) {
         const worksheet = workBook.Sheets[singleSheet];
         // sheet_to_json always return array.
         const jsonData = XLSX.utils.sheet_to_json(worksheet, { defval: '' });
-
+        isEmptyFile = !jsonData.length;
         let errors = [];
         errors = checkRequiredColumnsArePresent(jsonData[0]);
         if (!errors.length) {
@@ -241,6 +244,13 @@ export function useValidateBulkSensorData(onUpload, t) {
         totalErrorCount += errors.length;
         sheetError.errors = errors;
         sheetError.errors.length && sheetErrorList.push(sheetError);
+      }
+      if (isEmptyFile) {
+        setErrorTypeCode(1);
+        setUploadErrorMessage(t('FARM_MAP.BULK_UPLOAD_SENSORS.EMPTY_FILE_UPLOAD_ERROR_MESSAGE'));
+      } else {
+        setErrorTypeCode(0);
+        setUploadErrorMessage(t('FARM_MAP.BULK_UPLOAD_SENSORS.UPLOAD_ERROR_MESSAGE'));
       }
       setErrorCount(totalErrorCount);
       setSheetErrors(sheetErrorList);
@@ -289,5 +299,7 @@ export function useValidateBulkSensorData(onUpload, t) {
     selectedFileName,
     fileInputRef,
     errorCount,
+    uploadErrorMessage,
+    errorTypeCode,
   };
 }

@@ -28,6 +28,7 @@ import FilterPillSelect from '../Filter/FilterPillSelect';
 import Form from '../Form';
 import ReactSelect from '../Form/ReactSelect';
 import UpdateSensorModal from '../Modals/UpdateSensorModal';
+import { Error } from '../Typography';
 
 export default function UpdateSensor({
   onBack,
@@ -77,7 +78,7 @@ export default function UpdateSensor({
 
   const [isDirty, setIsDirty] = useState(false);
   const [filterState, setFilterState] = useState([]);
-  const [isFilterValid, setIsFilterValid] = useState(false);
+  const [isFilterValid, setIsFilterValid] = useState(true);
 
   const onChange = () => {
     setFilterState(filterRef.current);
@@ -121,7 +122,7 @@ export default function UpdateSensor({
         buttonGroup={
           <>
             {
-              <Button disabled={!isValid} fullLength type={'submit'}>
+              <Button disabled={!isValid || !isFilterValid} fullLength type={'submit'}>
                 {t('common:UPDATE')}
               </Button>
             }
@@ -131,12 +132,15 @@ export default function UpdateSensor({
         <InputAutoSize
           label={t('SENSOR.SENSOR_NAME')}
           hookFormRegister={register(SENSOR_NAME, {
+            pattern: {
+              value: /^[ A-Za-z0-9_-]{1,100}$/,
+              message: t('SENSOR.VALIDATION.NAME'),
+            },
             required: true,
           })}
-          errors={errors[SENSOR_NAME]?.message}
+          errors={getInputErrors(errors, SENSOR_NAME)}
           style={{ paddingBottom: '40px' }}
           disabled={disabled}
-          required
         />
 
         <div className={styles.row}>
@@ -173,12 +177,15 @@ export default function UpdateSensor({
           subject={filter.subject}
           options={filter.options}
           filterKey={filter.filterKey}
-          style={{ marginBottom: '32px' }}
+          style={{ marginBottom: !isFilterValid ? '0' : '32px' }}
           filterRef={filterRef}
           key={filter.filterKey}
           // shouldReset={shouldReset}
           onChange={onChange}
         />
+        {!isFilterValid && (
+          <Error style={{ marginBottom: '32px' }}>{t(`SENSOR.VALIDATION.READING_TYPES`)}</Error>
+        )}
 
         <Unit
           register={register}
@@ -189,7 +196,7 @@ export default function UpdateSensor({
           name={DEPTH}
           displayUnitName={DEPTH_UNIT}
           unitType={container_planting_depth}
-          max={10000}
+          max={1000}
           system={system}
           control={control}
           style={{ marginBottom: '40px' }}

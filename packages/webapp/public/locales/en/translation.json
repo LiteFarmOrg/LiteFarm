@@ -1385,7 +1385,9 @@
     "BRAND": "Brand",
     "VALIDATION": {
       "SENSOR_LATITUDE": "Invalid latitude value, must be between -90 and 90. and fewer than 10 decimals.",
-      "SENSOR_LONGITUDE": "Invalid longitude value, must be between -180 and 180. and fewer than 10 decimals."
+      "SENSOR_LONGITUDE": "Invalid longitude value, must be between -180 and 180. and fewer than 10 decimals.",
+      "NAME": "Invalid sensor name, must be between 1 and 100 characters",
+      "READING_TYPES": "Sensor reading types are required"
     },
     "MODAL": {
       "TITLE": "Change reading types?",

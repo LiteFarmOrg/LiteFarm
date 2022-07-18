@@ -98,7 +98,7 @@ Since this is a mobile web application, webapp should be viewed in a mobile view
 
 # ngrok
 
-# Use cases for ngrok
+## Use cases for ngrok
 
 Please see https://ngrok.com/ for more general information about ngrok. 
 
@@ -106,14 +106,14 @@ Use cases in which we currently utilize ngrok at LiteFarm include:
 - Testing local changes on phones or different devices
 - Testing local changes when working with other APIs and integrations
 
-# Set up
+## Set up
 
 - Go to https://ngrok.com/ and sign up for an account
 - Create a copy of `ngrok/ngrok.default.yml` and call it `ngrok.yml`. Make sure this file is in the `ngrok` folder at the root of the repo
 - Login to your ngrok account and go to https://dashboard.ngrok.com/get-started/your-authtoken
 - Add the auth token from there in `ngrok.yml` by replacing the `?`
 
-# Commands
+## Commands
 These commands can be run from the root of the repo.
 - `npm run ngrok` to forward both backend and frontend ports with ngrok
 - `npm run ngrok:setup` to add the ngrok urls to the file .env files (always run after forwarding a port to ngrok)

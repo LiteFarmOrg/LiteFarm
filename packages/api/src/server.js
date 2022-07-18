@@ -19,6 +19,48 @@ require('dotenv').config({ path: path.resolve(process.cwd(), '.env.local') });
 const express = require('express');
 const bodyParser = require('body-parser');
 const app = express();
+const expressOasGenerator = require('express-oas-generator');
+expressOasGenerator.handleResponses(
+  app,
+  // expressOasGenerator.init(app,
+  {},
+  './oas.json',
+  0,
+  'api-docs',
+  [],
+  [
+    'contact',
+    'crop',
+    'farm',
+    'users',
+    'userFarm',
+    'disease',
+    'expense',
+    'fertilizer',
+    'fieldCrop',
+    'field',
+    'insight',
+    'log',
+    'pesticide',
+    'price',
+    'roles',
+    'sale',
+    'shift',
+    'signup',
+    'taskType',
+    'userFarmData',
+    'yield',
+    'location',
+  ],
+  ['production'],
+  undefined,
+  'PRESERVE',
+  {},
+);
+
+//     function (spec) { return spec; },
+//  './test_spec.json', 1000, 'api-docs', [], ['farm', 'task'], ['production'], 'PRESERVE');
+
 const environment = process.env.NODE_ENV || 'development';
 const promiseRouter = require('express-promise-router');
 const { Model } = require('objection');
@@ -198,11 +240,11 @@ app
   .use('/time_notification', timeNotificationRoute)
   .use('/sensors', sensorRoute)
   // handle errors
-  .use((req, res, next) => {
-    const error = new Error('Not found');
-    error.status = 404;
-    next(error);
-  })
+  // .use((req, res, next) => {
+  //   const error = new Error('Not found');
+  //   error.status = 404;
+  //   next(error);
+  // })
 
   .use((error, req, res, next) => {
     res.status(error.status || 500);
@@ -220,6 +262,7 @@ if (
   environment === 'integration'
 ) {
   app.listen(port, () => {
+    expressOasGenerator.handleRequests();
     // eslint-disable-next-line no-console
     console.log('LiteFarm Backend listening on port ' + port + '!');
   });

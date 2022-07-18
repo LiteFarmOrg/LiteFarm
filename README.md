@@ -108,7 +108,6 @@ Use cases in which we currently utilize ngrok at LiteFarm include:
 
 # Set up
 
-- Install the latest stable version of python (3.9.1 or above): https://www.python.org/downloads/
 - Go to https://ngrok.com/ and sign up for an account
 - Create a copy of `ngrok/ngrok.default.yml` and call it `ngrok.yml`. Make sure this file is in the `ngrok` folder at the root of the repo
 - Login to your ngrok account and go to https://dashboard.ngrok.com/get-started/your-authtoken

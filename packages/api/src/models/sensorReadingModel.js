@@ -86,13 +86,13 @@ class SensorReading extends Model {
     startDate.setDate(endDate.getDate() - 5);
     return await SensorReading.query()
       .select('*')
-      .joinRaw('JOIN sensor ON sensor_reading.sensor_id::uuid = sensor.sensor_id')
+      .joinRaw('JOIN sensor ON sensor_reading.location_id::uuid = sensor.location_id')
       .whereIn('sensor.location_id', locationIds)
       .andWhere('reading_type', '=', readingType)
       .andWhere('valid', '=', true)
       .andWhere('read_time', '>=', startDate)
       .andWhere('read_time', '<', endDate)
-      .orderBy([{ column: 'sensor_reading.sensor_id' }, { column: 'sensor_reading.read_time' }]);
+      .orderBy([{ column: 'sensor_reading.location_id' }, { column: 'sensor_reading.read_time' }]);
   }
 }
 

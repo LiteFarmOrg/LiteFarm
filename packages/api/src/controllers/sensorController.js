@@ -553,7 +553,7 @@ const sensorController = {
         readingType,
       );
 
-      const sensorsPoints = await SensorModel.getSensorLocationBySensorIds(locationIds);
+      const sensorsPoints = await SensorModel.getSensorLocationByLocationIds(locationIds);
       res
         .status(200)
         .send({ length: result.length, sensorReading: result, sensorsPoints: sensorsPoints.rows });

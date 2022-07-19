@@ -122,10 +122,10 @@ class Sensor extends Model {
    * @param {Array} sensorIds sensor ids
    * @returns {Object} reading_type Reading Object
    */
-  static async getSensorLocationBySensorIds(locationIds = []) {
+  static async getSensorLocationByLocationIds(locationIds = []) {
     return await knex.raw(
       `SELECT 
-      s.sensor_id, 
+      s.location_id, 
       s.name, 
       s.external_id,
       b.point 

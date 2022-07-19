@@ -18,6 +18,7 @@ import * as XLSX from 'xlsx';
 import { useSelector } from 'react-redux';
 import { bulkSensorsUploadSliceSelector } from '../../../../containers/bulkSensorUploadSlice';
 import { createSensorErrorDownload } from '../../../../util/sensor';
+import { ErrorTypes, requiredReadingTypes } from './constants';
 
 // Required Fields
 const SENSOR_NAME = 'Name';
@@ -30,12 +31,6 @@ const SENSOR_EXTERNAL_ID = 'External_ID';
 const SENSOR_DEPTH = 'Depth';
 const SENSOR_BRAND = 'Brand';
 const SENSOR_MODEL = 'Model';
-
-const SOIL_MOISTURE_CONTENT = 'soil_water_content';
-const WATER_POTENTIAL = 'soil_water_potential';
-const TEMPERATURE = 'temperature';
-
-const requiredReadingTypes = [SOIL_MOISTURE_CONTENT, WATER_POTENTIAL, TEMPERATURE];
 
 const requiredFields = [SENSOR_NAME, SENSOR_LATITUDE, SENSOR_LONGITUDE, SENSOR_READING_TYPES];
 const templateFields = [
@@ -55,7 +50,7 @@ export function useValidateBulkSensorData(onUpload, t) {
   const fileInputRef = useRef(null);
   const [translatedUploadErrors, setTranslatedUploadErrors] = useState([]);
   const [uploadErrorMessage, setUploadErrorMessage] = useState('');
-  const [errorTypeCode, setErrorTypeCode] = useState(-1);
+  const [errorTypeCode, setErrorTypeCode] = useState(ErrorTypes.DEFAULT);
 
   const validationFields = [
     {
@@ -246,10 +241,10 @@ export function useValidateBulkSensorData(onUpload, t) {
         sheetError.errors.length && sheetErrorList.push(sheetError);
       }
       if (isEmptyFile) {
-        setErrorTypeCode(1);
+        setErrorTypeCode(ErrorTypes.EMPTY_FILE);
         setUploadErrorMessage(t('FARM_MAP.BULK_UPLOAD_SENSORS.EMPTY_FILE_UPLOAD_ERROR_MESSAGE'));
       } else {
-        setErrorTypeCode(0);
+        setErrorTypeCode(ErrorTypes.INVALID_CSV);
         setUploadErrorMessage(t('FARM_MAP.BULK_UPLOAD_SENSORS.UPLOAD_ERROR_MESSAGE'));
       }
       setErrorCount(totalErrorCount);

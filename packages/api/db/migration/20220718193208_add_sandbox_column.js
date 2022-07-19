@@ -14,9 +14,10 @@
  */
 
 exports.up = async function (knex) {
-  return knex.schema.alterTable('users', (table) => {
+  await knex.schema.alterTable('users', (table) => {
     table.boolean('sandbox_user').defaultTo(false);
   });
+  return knex('users').update({ sandbox_user: false });
 };
 
 exports.down = async function (knex) {

@@ -19,49 +19,64 @@ require('dotenv').config({ path: path.resolve(process.cwd(), '.env.local') });
 const express = require('express');
 const bodyParser = require('body-parser');
 const app = express();
-const expressOasGenerator = require('express-oas-generator');
-expressOasGenerator.handleResponses(
-  app,
-  // expressOasGenerator.init(app,
-  {},
-  './oas.json',
-  0,
-  'api-docs',
-  [],
-  [
+const environment = process.env.NODE_ENV || 'development';
+let expressOasGenerator;
+
+/*
+ When the env var is defined (any value), the OpenAPI files will be overwritten.
+ They are generated from an analysis of the code and from network traffic handled by the API.
+ Run the Cypress tests to generate API calls that populate documentation examples.
+ (Jest tests don't do as much because they mock network requests.)
+
+ For fuller documentation, we need to refactor all middleware and route handlers to call next().
+ See https://github.com/mpashkovskiy/express-oas-generator#troubleshooting
+
+ Documentation is always publicly available on this server at /api-docs
+ */
+if (process.env.GENERATE_OAS) {
+  expressOasGenerator = require('express-oas-generator');
+  const tags = [
     'contact',
     'crop',
-    'farm',
-    'users',
-    'userFarm',
     'disease',
+    'document',
     'expense',
+    'farm',
     'fertilizer',
-    'fieldCrop',
     'field',
+    'fieldCrop',
     'insight',
+    'location',
     'log',
+    'management_plan',
+    'notification',
+    'organic_certifier_survey',
+    'password',
     'pesticide',
     'price',
+    'product',
     'roles',
     'sale',
+    'sensors',
     'shift',
     'signup',
-    'taskType',
+    'spotlight',
+    'support',
+    'task',
+    'task_type',
+    'user',
+    'userFarm',
     'userFarmData',
     'yield',
-    'location',
-  ],
-  ['production'],
-  undefined,
-  'PRESERVE',
-  {},
-);
+  ];
 
-//     function (spec) { return spec; },
-//  './test_spec.json', 1000, 'api-docs', [], ['farm', 'task'], ['production'], 'PRESERVE');
-
-const environment = process.env.NODE_ENV || 'development';
+  // This activates some middleware that should come first.
+  expressOasGenerator.handleResponses(app, {
+    tags,
+    specOutputPath: './oas.json',
+    alwaysServeDocs: true,
+  });
+}
 const promiseRouter = require('express-promise-router');
 const { Model } = require('objection');
 const checkJwt = require('./middleware/acl/checkJwt');
@@ -262,9 +277,12 @@ if (
   environment === 'integration'
 ) {
   app.listen(port, () => {
-    expressOasGenerator.handleRequests();
+    if (process.env.GENERATE_OAS) {
+      // This activates some middleware that should come last.
+      expressOasGenerator.handleRequests();
+    }
     // eslint-disable-next-line no-console
-    console.log('LiteFarm Backend listening on port ' + port + '!');
+    console.log('LiteFarm Backend listening on port ' + port);
   });
   // waterBalanceScheduler.registerHourlyJob();
   // waterBalanceScheduler.registerDailyJob();
@@ -273,7 +291,7 @@ if (
 
   // farmDataScheduler.registerJob();
   // eslint-disable-next-line no-console
-  console.log('LiteFarm Water Balance Scheduler Enabled');
+  // console.log('LiteFarm Water Balance Scheduler Enabled');
 }
 
 app.on('close', () => {

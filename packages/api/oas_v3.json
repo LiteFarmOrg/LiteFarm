@@ -1,0 +1,6255 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "litefarm-api",
+    "version": "3.2.1",
+    "description": "Specification JSONs: [v2](/api-spec/v2), [v3](/api-spec/v3).\n\nLiteFarm API server"
+  },
+  "paths": {
+    "/": {
+      "get": {
+        "summary": "/",
+        "responses": {},
+        "tags": []
+      }
+    },
+    "/login/google": {
+      "post": {
+        "summary": "/login/google",
+        "responses": {},
+        "tags": [
+          "log"
+        ]
+      }
+    },
+    "/login": {
+      "post": {
+        "summary": "/login",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id_token": {
+                      "type": "string",
+                      "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiY2FhNzI3OTItMDc4ZC0xMWVkLTllMjUtMDk2ZjE1N2I2OTUxIiwiaWF0IjoxNjU4MjU0MjE0LCJleHAiOjE2NTg4NTkwMTR9.gVBPgb3QotxMiJJ6kvVN6bjAxn-nEmslmR8xTwAzI9w"
+                    },
+                    "user": {
+                      "type": "object",
+                      "properties": {
+                        "user_id": {
+                          "type": "string",
+                          "example": "caa72792-078d-11ed-9e25-096f157b6951"
+                        },
+                        "first_name": {
+                          "type": "string",
+                          "example": "Test"
+                        },
+                        "last_name": {
+                          "type": "string",
+                          "example": "Farmer"
+                        },
+                        "profile_picture": {
+                          "example": null,
+                          "nullable": true
+                        },
+                        "email": {
+                          "type": "string",
+                          "example": "uueokhidvk2nhcor@ethereal.email"
+                        },
+                        "phone_number": {
+                          "example": null,
+                          "nullable": true
+                        },
+                        "user_address": {
+                          "example": null,
+                          "nullable": true
+                        },
+                        "language_preference": {
+                          "type": "string",
+                          "example": "en"
+                        },
+                        "status_id": {
+                          "type": "number",
+                          "example": 1
+                        },
+                        "do_not_email": {
+                          "type": "boolean",
+                          "example": false
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "log"
+        ]
+      }
+    },
+    "/login/user/{email}": {
+      "get": {
+        "summary": "/login/user/{email}",
+        "parameters": [
+          {
+            "name": "email",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "first_name": {
+                      "example": null,
+                      "nullable": true
+                    },
+                    "email": {
+                      "example": null,
+                      "nullable": true
+                    },
+                    "exists": {
+                      "type": "boolean",
+                      "example": false
+                    },
+                    "sso": {
+                      "type": "boolean",
+                      "example": false
+                    },
+                    "invited": {
+                      "type": "boolean",
+                      "example": false
+                    },
+                    "expired": {
+                      "type": "boolean",
+                      "example": false
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "log",
+          "user"
+        ]
+      }
+    },
+    "/password_reset/send_email": {
+      "post": {
+        "summary": "/password_reset/send_email",
+        "responses": {},
+        "tags": [
+          "password"
+        ]
+      }
+    },
+    "/password_reset/validate": {
+      "get": {
+        "summary": "/password_reset/validate",
+        "responses": {},
+        "tags": [
+          "password"
+        ]
+      }
+    },
+    "/password_reset": {
+      "put": {
+        "summary": "/password_reset",
+        "responses": {},
+        "tags": [
+          "password"
+        ]
+      }
+    },
+    "/location/farm/{farm_id}": {
+      "get": {
+        "summary": "/location/farm/{farm_id}",
+        "parameters": [
+          {
+            "name": "farm_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {}
+                }
+              }
+            }
+          },
+          "304": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "farm",
+          "location"
+        ]
+      }
+    },
+    "/location/{location_id}": {
+      "delete": {
+        "summary": "/location/{location_id}",
+        "parameters": [
+          {
+            "name": "location_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {},
+        "tags": [
+          "location"
+        ]
+      }
+    },
+    "/location/check_delete/{location_id}": {
+      "get": {
+        "summary": "/location/check_delete/{location_id}",
+        "parameters": [
+          {
+            "name": "location_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {},
+        "tags": [
+          "location"
+        ]
+      }
+    },
+    "/location/{location_id}/organic_history": {
+      "get": {
+        "summary": "/location/{location_id}/organic_history",
+        "parameters": [
+          {
+            "name": "location_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {},
+        "tags": [
+          "location"
+        ]
+      }
+    },
+    "/location/gate": {
+      "post": {
+        "summary": "/location/gate",
+        "responses": {},
+        "tags": [
+          "location"
+        ]
+      }
+    },
+    "/location/water_valve": {
+      "post": {
+        "summary": "/location/water_valve",
+        "responses": {},
+        "tags": [
+          "location"
+        ]
+      }
+    },
+    "/location/buffer_zone": {
+      "post": {
+        "summary": "/location/buffer_zone",
+        "responses": {},
+        "tags": [
+          "location"
+        ]
+      }
+    },
+    "/location/watercourse": {
+      "post": {
+        "summary": "/location/watercourse",
+        "responses": {},
+        "tags": [
+          "location"
+        ]
+      }
+    },
+    "/location/fence": {
+      "post": {
+        "summary": "/location/fence",
+        "responses": {},
+        "tags": [
+          "location"
+        ]
+      }
+    },
+    "/location/ceremonial_area": {
+      "post": {
+        "summary": "/location/ceremonial_area",
+        "responses": {},
+        "tags": [
+          "location"
+        ]
+      }
+    },
+    "/location/residence": {
+      "post": {
+        "summary": "/location/residence",
+        "responses": {},
+        "tags": [
+          "location"
+        ]
+      }
+    },
+    "/location/surface_water": {
+      "post": {
+        "summary": "/location/surface_water",
+        "responses": {},
+        "tags": [
+          "location"
+        ]
+      }
+    },
+    "/location/natural_area": {
+      "post": {
+        "summary": "/location/natural_area",
+        "responses": {},
+        "tags": [
+          "location"
+        ]
+      }
+    },
+    "/location/greenhouse": {
+      "post": {
+        "summary": "/location/greenhouse",
+        "responses": {},
+        "tags": [
+          "location"
+        ]
+      }
+    },
+    "/location/barn": {
+      "post": {
+        "summary": "/location/barn",
+        "responses": {},
+        "tags": [
+          "location"
+        ]
+      }
+    },
+    "/location/field": {
+      "post": {
+        "summary": "/location/field",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "figure": {
+                      "type": "object",
+                      "properties": {
+                        "type": {
+                          "type": "string",
+                          "example": "field"
+                        },
+                        "area": {
+                          "type": "object",
+                          "properties": {
+                            "total_area": {
+                              "type": "number",
+                              "example": 16941
+                            },
+                            "total_area_unit": {
+                              "type": "string",
+                              "example": "ha"
+                            },
+                            "grid_points": {
+                              "type": "array",
+                              "items": {
+                                "type": "object",
+                                "properties": {
+                                  "lat": {
+                                    "type": "number"
+                                  },
+                                  "lng": {
+                                    "type": "number"
+                                  }
+                                },
+                                "required": [
+                                  "lat",
+                                  "lng"
+                                ]
+                              },
+                              "example": [
+                                {
+                                  "lat": 49.24968445623051,
+                                  "lng": -123.23858861003418
+                                }
+                              ]
+                            },
+                            "perimeter": {
+                              "type": "number",
+                              "example": 573
+                            },
+                            "perimeter_unit": {
+                              "type": "string",
+                              "example": "m"
+                            },
+                            "figure_id": {
+                              "type": "string",
+                              "example": "f0c5d005-078d-11ed-9e25-096f157b6951"
+                            }
+                          }
+                        },
+                        "location_id": {
+                          "type": "string",
+                          "example": "f0c5d004-078d-11ed-9e25-096f157b6951"
+                        },
+                        "figure_id": {
+                          "type": "string",
+                          "example": "f0c5d005-078d-11ed-9e25-096f157b6951"
+                        }
+                      }
+                    },
+                    "field": {
+                      "type": "object",
+                      "properties": {
+                        "organic_status": {
+                          "type": "string",
+                          "example": "Non-Organic"
+                        },
+                        "organic_history": {
+                          "type": "object",
+                          "properties": {
+                            "effective_date": {
+                              "type": "string",
+                              "example": "2022-07-19T00:00:00.000"
+                            },
+                            "organic_status": {
+                              "type": "string",
+                              "example": "Non-Organic"
+                            },
+                            "location_id": {
+                              "type": "string",
+                              "example": "f0c5d004-078d-11ed-9e25-096f157b6951"
+                            },
+                            "created_by_user_id": {
+                              "type": "string",
+                              "example": "caa72792-078d-11ed-9e25-096f157b6951"
+                            },
+                            "updated_by_user_id": {
+                              "type": "string",
+                              "example": "caa72792-078d-11ed-9e25-096f157b6951"
+                            },
+                            "created_at": {
+                              "type": "string",
+                              "example": "2022-07-19T18:09:32.980Z"
+                            },
+                            "updated_at": {
+                              "type": "string",
+                              "example": "2022-07-19T18:09:32.980Z"
+                            },
+                            "organic_history_id": {
+                              "type": "string",
+                              "example": "f0c5d006-078d-11ed-9e25-096f157b6951"
+                            }
+                          }
+                        },
+                        "location_id": {
+                          "type": "string",
+                          "example": "f0c5d004-078d-11ed-9e25-096f157b6951"
+                        }
+                      }
+                    },
+                    "farm_id": {
+                      "type": "string",
+                      "example": "d83cc42a-078d-11ed-9e25-096f157b6951"
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "Test Field"
+                    },
+                    "notes": {
+                      "type": "string",
+                      "example": ""
+                    },
+                    "location_id": {
+                      "type": "string",
+                      "example": "f0c5d004-078d-11ed-9e25-096f157b6951"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "field",
+          "location"
+        ]
+      }
+    },
+    "/location/garden": {
+      "post": {
+        "summary": "/location/garden",
+        "responses": {},
+        "tags": [
+          "location"
+        ]
+      }
+    },
+    "/location/farm_site_boundary": {
+      "post": {
+        "summary": "/location/farm_site_boundary",
+        "responses": {},
+        "tags": [
+          "farm",
+          "location"
+        ]
+      }
+    },
+    "/location/organic_history": {
+      "post": {
+        "summary": "/location/organic_history",
+        "responses": {},
+        "tags": [
+          "location"
+        ]
+      }
+    },
+    "/location/field/{location_id}": {
+      "put": {
+        "summary": "/location/field/{location_id}",
+        "parameters": [
+          {
+            "name": "location_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {},
+        "tags": [
+          "field",
+          "location"
+        ]
+      }
+    },
+    "/location/garden/{location_id}": {
+      "put": {
+        "summary": "/location/garden/{location_id}",
+        "parameters": [
+          {
+            "name": "location_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {},
+        "tags": [
+          "location"
+        ]
+      }
+    },
+    "/location/barn/{location_id}": {
+      "put": {
+        "summary": "/location/barn/{location_id}",
+        "parameters": [
+          {
+            "name": "location_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {},
+        "tags": [
+          "location"
+        ]
+      }
+    },
+    "/location/gate/{location_id}": {
+      "put": {
+        "summary": "/location/gate/{location_id}",
+        "parameters": [
+          {
+            "name": "location_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {},
+        "tags": [
+          "location"
+        ]
+      }
+    },
+    "/location/water_valve/{location_id}": {
+      "put": {
+        "summary": "/location/water_valve/{location_id}",
+        "parameters": [
+          {
+            "name": "location_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {},
+        "tags": [
+          "location"
+        ]
+      }
+    },
+    "/location/buffer_zone/{location_id}": {
+      "put": {
+        "summary": "/location/buffer_zone/{location_id}",
+        "parameters": [
+          {
+            "name": "location_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {},
+        "tags": [
+          "location"
+        ]
+      }
+    },
+    "/location/watercourse/{location_id}": {
+      "put": {
+        "summary": "/location/watercourse/{location_id}",
+        "parameters": [
+          {
+            "name": "location_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {},
+        "tags": [
+          "location"
+        ]
+      }
+    },
+    "/location/fence/{location_id}": {
+      "put": {
+        "summary": "/location/fence/{location_id}",
+        "parameters": [
+          {
+            "name": "location_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {},
+        "tags": [
+          "location"
+        ]
+      }
+    },
+    "/location/ceremonial_area/{location_id}": {
+      "put": {
+        "summary": "/location/ceremonial_area/{location_id}",
+        "parameters": [
+          {
+            "name": "location_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {},
+        "tags": [
+          "location"
+        ]
+      }
+    },
+    "/location/residence/{location_id}": {
+      "put": {
+        "summary": "/location/residence/{location_id}",
+        "parameters": [
+          {
+            "name": "location_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {},
+        "tags": [
+          "location"
+        ]
+      }
+    },
+    "/location/surface_water/{location_id}": {
+      "put": {
+        "summary": "/location/surface_water/{location_id}",
+        "parameters": [
+          {
+            "name": "location_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {},
+        "tags": [
+          "location"
+        ]
+      }
+    },
+    "/location/natural_area/{location_id}": {
+      "put": {
+        "summary": "/location/natural_area/{location_id}",
+        "parameters": [
+          {
+            "name": "location_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {},
+        "tags": [
+          "location"
+        ]
+      }
+    },
+    "/location/greenhouse/{location_id}": {
+      "put": {
+        "summary": "/location/greenhouse/{location_id}",
+        "parameters": [
+          {
+            "name": "location_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {},
+        "tags": [
+          "location"
+        ]
+      }
+    },
+    "/location/farm_site_boundary/{location_id}": {
+      "put": {
+        "summary": "/location/farm_site_boundary/{location_id}",
+        "parameters": [
+          {
+            "name": "location_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {},
+        "tags": [
+          "farm",
+          "location"
+        ]
+      }
+    },
+    "/userLog": {
+      "post": {
+        "summary": "/userLog",
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "ua": {
+                      "type": "object",
+                      "properties": {
+                        "ua": {
+                          "type": "string",
+                          "example": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Cypress/9.5.2 Chrome/94.0.4606.81 Electron/15.3.4 Safari/537.36"
+                        },
+                        "browser": {
+                          "type": "object",
+                          "properties": {
+                            "name": {
+                              "type": "string",
+                              "example": "Electron"
+                            },
+                            "version": {
+                              "type": "string",
+                              "example": "15.3.4"
+                            },
+                            "major": {
+                              "type": "string",
+                              "example": "15"
+                            }
+                          }
+                        },
+                        "engine": {
+                          "type": "object",
+                          "properties": {
+                            "name": {
+                              "type": "string",
+                              "example": "Blink"
+                            },
+                            "version": {
+                              "type": "string",
+                              "example": "94.0.4606.81"
+                            }
+                          }
+                        },
+                        "os": {
+                          "type": "object",
+                          "properties": {
+                            "name": {
+                              "type": "string",
+                              "example": "Linux"
+                            },
+                            "version": {
+                              "type": "string",
+                              "example": "x86_64"
+                            }
+                          }
+                        },
+                        "device": {
+                          "type": "object",
+                          "properties": {}
+                        },
+                        "cpu": {
+                          "type": "object",
+                          "properties": {
+                            "architecture": {
+                              "type": "string",
+                              "example": "amd64"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "log",
+          "user"
+        ]
+      }
+    },
+    "/crop/{crop_id}": {
+      "get": {
+        "summary": "/crop/{crop_id}",
+        "parameters": [
+          {
+            "name": "crop_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {},
+        "tags": [
+          "crop"
+        ]
+      },
+      "put": {
+        "summary": "/crop/{crop_id}",
+        "parameters": [
+          {
+            "name": "crop_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {},
+        "tags": [
+          "crop"
+        ]
+      },
+      "delete": {
+        "summary": "/crop/{crop_id}",
+        "parameters": [
+          {
+            "name": "crop_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {},
+        "tags": [
+          "crop"
+        ]
+      }
+    },
+    "/crop/farm/{farm_id}": {
+      "get": {
+        "summary": "/crop/farm/{farm_id}",
+        "parameters": [
+          {
+            "name": "farm_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "crop_id": {
+                        "type": "number"
+                      },
+                      "crop_common_name": {
+                        "type": "string"
+                      },
+                      "crop_genus": {
+                        "type": "string"
+                      },
+                      "crop_specie": {
+                        "type": "string"
+                      },
+                      "crop_group": {
+                        "type": "string"
+                      },
+                      "crop_subgroup": {
+                        "type": "string"
+                      },
+                      "farm_id": {
+                        "nullable": true
+                      },
+                      "crop_translation_key": {
+                        "type": "string"
+                      },
+                      "crop_photo_url": {
+                        "type": "string"
+                      },
+                      "can_be_cover_crop": {
+                        "nullable": true,
+                        "type": "boolean"
+                      },
+                      "planting_depth": {
+                        "nullable": true,
+                        "type": "number"
+                      },
+                      "yield_per_area": {
+                        "nullable": true,
+                        "type": "number"
+                      },
+                      "average_seed_weight": {
+                        "nullable": true,
+                        "type": "number"
+                      },
+                      "yield_per_plant": {
+                        "nullable": true,
+                        "type": "number"
+                      },
+                      "lifecycle": {
+                        "type": "string"
+                      },
+                      "seeding_type": {
+                        "type": "string"
+                      },
+                      "needs_transplant": {
+                        "type": "boolean"
+                      },
+                      "germination_days": {
+                        "nullable": true,
+                        "type": "number"
+                      },
+                      "transplant_days": {
+                        "nullable": true,
+                        "type": "number"
+                      },
+                      "harvest_days": {
+                        "nullable": true,
+                        "type": "number"
+                      },
+                      "termination_days": {
+                        "nullable": true,
+                        "type": "number"
+                      },
+                      "planting_method": {
+                        "nullable": true,
+                        "type": "string"
+                      },
+                      "plant_spacing": {
+                        "nullable": true,
+                        "type": "number"
+                      },
+                      "seeding_rate": {
+                        "nullable": true,
+                        "type": "number"
+                      },
+                      "hs_code_id": {
+                        "nullable": true,
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "crop_id",
+                      "crop_common_name",
+                      "crop_genus",
+                      "crop_specie",
+                      "crop_group",
+                      "crop_subgroup",
+                      "farm_id",
+                      "crop_translation_key",
+                      "crop_photo_url",
+                      "can_be_cover_crop",
+                      "planting_depth",
+                      "yield_per_area",
+                      "average_seed_weight",
+                      "yield_per_plant",
+                      "lifecycle",
+                      "seeding_type",
+                      "needs_transplant",
+                      "germination_days",
+                      "transplant_days",
+                      "harvest_days",
+                      "termination_days",
+                      "planting_method",
+                      "plant_spacing",
+                      "seeding_rate",
+                      "hs_code_id"
+                    ]
+                  }
+                }
+              }
+            }
+          },
+          "304": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "crop",
+          "farm"
+        ]
+      }
+    },
+    "/crop": {
+      "post": {
+        "summary": "/crop",
+        "responses": {},
+        "tags": [
+          "crop"
+        ]
+      }
+    },
+    "/crop/crop_variety": {
+      "post": {
+        "summary": "/crop/crop_variety",
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "crop": {
+                      "type": "object",
+                      "properties": {
+                        "farm_id": {
+                          "type": "string",
+                          "example": "d83cc42a-078d-11ed-9e25-096f157b6951"
+                        },
+                        "crop_common_name": {
+                          "type": "string",
+                          "example": "New Crop"
+                        },
+                        "crop_group": {
+                          "type": "string",
+                          "example": "Cereals"
+                        },
+                        "user_added": {
+                          "type": "boolean",
+                          "example": true
+                        },
+                        "crop_translation_key": {
+                          "type": "string",
+                          "example": "New Crop"
+                        },
+                        "crop_photo_url": {
+                          "type": "string",
+                          "example": "https://litefarm.nyc3.digitaloceanspaces.com/default_crop/v2/default.webp"
+                        },
+                        "can_be_cover_crop": {
+                          "type": "boolean",
+                          "example": true
+                        },
+                        "created_by_user_id": {
+                          "type": "string",
+                          "example": "caa72792-078d-11ed-9e25-096f157b6951"
+                        },
+                        "updated_by_user_id": {
+                          "type": "string",
+                          "example": "caa72792-078d-11ed-9e25-096f157b6951"
+                        },
+                        "created_at": {
+                          "type": "string",
+                          "example": "2022-07-19T18:10:39.109Z"
+                        },
+                        "updated_at": {
+                          "type": "string",
+                          "example": "2022-07-19T18:10:39.109Z"
+                        },
+                        "crop_id": {
+                          "type": "number",
+                          "example": 394
+                        },
+                        "crop_genus": {
+                          "example": null,
+                          "nullable": true
+                        },
+                        "crop_specie": {
+                          "example": null,
+                          "nullable": true
+                        },
+                        "crop_subgroup": {
+                          "example": null,
+                          "nullable": true
+                        },
+                        "max_rooting_depth": {
+                          "example": null,
+                          "nullable": true
+                        },
+                        "depletion_fraction": {
+                          "example": null,
+                          "nullable": true
+                        },
+                        "is_avg_depth": {
+                          "example": null,
+                          "nullable": true
+                        },
+                        "initial_kc": {
+                          "example": null,
+                          "nullable": true
+                        },
+                        "mid_kc": {
+                          "example": null,
+                          "nullable": true
+                        },
+                        "end_kc": {
+                          "example": null,
+                          "nullable": true
+                        },
+                        "max_height": {
+                          "example": null,
+                          "nullable": true
+                        },
+                        "is_avg_kc": {
+                          "example": null,
+                          "nullable": true
+                        },
+                        "nutrient_notes": {
+                          "example": null,
+                          "nullable": true
+                        },
+                        "percentrefuse": {
+                          "example": null,
+                          "nullable": true
+                        },
+                        "refuse": {
+                          "example": null,
+                          "nullable": true
+                        },
+                        "protein": {
+                          "example": null,
+                          "nullable": true
+                        },
+                        "lipid": {
+                          "example": null,
+                          "nullable": true
+                        },
+                        "energy": {
+                          "example": null,
+                          "nullable": true
+                        },
+                        "ca": {
+                          "example": null,
+                          "nullable": true
+                        },
+                        "fe": {
+                          "example": null,
+                          "nullable": true
+                        },
+                        "mg": {
+                          "example": null,
+                          "nullable": true
+                        },
+                        "ph": {
+                          "example": null,
+                          "nullable": true
+                        },
+                        "k": {
+                          "example": null,
+                          "nullable": true
+                        },
+                        "na": {
+                          "example": null,
+                          "nullable": true
+                        },
+                        "zn": {
+                          "example": null,
+                          "nullable": true
+                        },
+                        "cu": {
+                          "example": null,
+                          "nullable": true
+                        },
+                        "fl": {
+                          "example": null,
+                          "nullable": true
+                        },
+                        "mn": {
+                          "example": null,
+                          "nullable": true
+                        },
+                        "se": {
+                          "example": null,
+                          "nullable": true
+                        },
+                        "vita_rae": {
+                          "example": null,
+                          "nullable": true
+                        },
+                        "vite": {
+                          "example": null,
+                          "nullable": true
+                        },
+                        "vitc": {
+                          "example": null,
+                          "nullable": true
+                        },
+                        "thiamin": {
+                          "example": null,
+                          "nullable": true
+                        },
+                        "riboflavin": {
+                          "example": null,
+                          "nullable": true
+                        },
+                        "niacin": {
+                          "example": null,
+                          "nullable": true
+                        },
+                        "pantothenic": {
+                          "example": null,
+                          "nullable": true
+                        },
+                        "vitb6": {
+                          "example": null,
+                          "nullable": true
+                        },
+                        "folate": {
+                          "example": null,
+                          "nullable": true
+                        },
+                        "vitb12": {
+                          "example": null,
+                          "nullable": true
+                        },
+                        "vitk": {
+                          "example": null,
+                          "nullable": true
+                        },
+                        "is_avg_nutrient": {
+                          "example": null,
+                          "nullable": true
+                        },
+                        "deleted": {
+                          "type": "boolean",
+                          "example": false
+                        },
+                        "nutrient_credits": {
+                          "example": null,
+                          "nullable": true
+                        },
+                        "reviewed": {
+                          "type": "boolean",
+                          "example": false
+                        },
+                        "planting_depth": {
+                          "example": null,
+                          "nullable": true
+                        },
+                        "yield_per_area": {
+                          "example": null,
+                          "nullable": true
+                        },
+                        "average_seed_weight": {
+                          "example": null,
+                          "nullable": true
+                        },
+                        "yield_per_plant": {
+                          "example": null,
+                          "nullable": true
+                        },
+                        "lifecycle": {
+                          "type": "string",
+                          "example": "ANNUAL"
+                        },
+                        "seeding_type": {
+                          "type": "string",
+                          "example": "SEED"
+                        },
+                        "needs_transplant": {
+                          "type": "boolean",
+                          "example": false
+                        },
+                        "germination_days": {
+                          "example": null,
+                          "nullable": true
+                        },
+                        "transplant_days": {
+                          "example": null,
+                          "nullable": true
+                        },
+                        "harvest_days": {
+                          "example": null,
+                          "nullable": true
+                        },
+                        "termination_days": {
+                          "example": null,
+                          "nullable": true
+                        },
+                        "planting_method": {
+                          "example": null,
+                          "nullable": true
+                        },
+                        "plant_spacing": {
+                          "example": null,
+                          "nullable": true
+                        },
+                        "seeding_rate": {
+                          "example": null,
+                          "nullable": true
+                        },
+                        "hs_code_id": {
+                          "example": null,
+                          "nullable": true
+                        }
+                      }
+                    },
+                    "variety": {
+                      "type": "object",
+                      "properties": {
+                        "crop_id": {
+                          "type": "number",
+                          "example": 394
+                        },
+                        "farm_id": {
+                          "type": "string",
+                          "example": "d83cc42a-078d-11ed-9e25-096f157b6951"
+                        },
+                        "crop_variety_name": {
+                          "type": "string",
+                          "example": "New Variety"
+                        },
+                        "supplier": {
+                          "type": "string",
+                          "example": "New Supplier"
+                        },
+                        "seeding_type": {
+                          "type": "string",
+                          "example": "SEED"
+                        },
+                        "lifecycle": {
+                          "type": "string",
+                          "example": "ANNUAL"
+                        },
+                        "compliance_file_url": {
+                          "type": "string",
+                          "example": ""
+                        },
+                        "organic": {
+                          "type": "boolean",
+                          "example": false
+                        },
+                        "treated": {
+                          "type": "string",
+                          "example": "NOT_SURE"
+                        },
+                        "genetically_engineered": {
+                          "type": "boolean",
+                          "example": true
+                        },
+                        "searched": {
+                          "type": "boolean",
+                          "example": false
+                        },
+                        "protein": {
+                          "example": null,
+                          "nullable": true
+                        },
+                        "lipid": {
+                          "example": null,
+                          "nullable": true
+                        },
+                        "ph": {
+                          "example": null,
+                          "nullable": true
+                        },
+                        "energy": {
+                          "example": null,
+                          "nullable": true
+                        },
+                        "ca": {
+                          "example": null,
+                          "nullable": true
+                        },
+                        "fe": {
+                          "example": null,
+                          "nullable": true
+                        },
+                        "mg": {
+                          "example": null,
+                          "nullable": true
+                        },
+                        "k": {
+                          "example": null,
+                          "nullable": true
+                        },
+                        "na": {
+                          "example": null,
+                          "nullable": true
+                        },
+                        "zn": {
+                          "example": null,
+                          "nullable": true
+                        },
+                        "cu": {
+                          "example": null,
+                          "nullable": true
+                        },
+                        "mn": {
+                          "example": null,
+                          "nullable": true
+                        },
+                        "vita_rae": {
+                          "example": null,
+                          "nullable": true
+                        },
+                        "vitc": {
+                          "example": null,
+                          "nullable": true
+                        },
+                        "thiamin": {
+                          "example": null,
+                          "nullable": true
+                        },
+                        "riboflavin": {
+                          "example": null,
+                          "nullable": true
+                        },
+                        "niacin": {
+                          "example": null,
+                          "nullable": true
+                        },
+                        "vitb6": {
+                          "example": null,
+                          "nullable": true
+                        },
+                        "folate": {
+                          "example": null,
+                          "nullable": true
+                        },
+                        "vitb12": {
+                          "example": null,
+                          "nullable": true
+                        },
+                        "nutrient_credits": {
+                          "example": null,
+                          "nullable": true
+                        },
+                        "crop_variety_photo_url": {
+                          "type": "string",
+                          "example": "https://litefarm.nyc3.digitaloceanspaces.com/default_crop/v2/default.webp"
+                        },
+                        "planting_method": {
+                          "example": null,
+                          "nullable": true
+                        },
+                        "can_be_cover_crop": {
+                          "type": "boolean",
+                          "example": true
+                        },
+                        "planting_depth": {
+                          "example": null,
+                          "nullable": true
+                        },
+                        "yield_per_area": {
+                          "example": null,
+                          "nullable": true
+                        },
+                        "average_seed_weight": {
+                          "example": null,
+                          "nullable": true
+                        },
+                        "yield_per_plant": {
+                          "example": null,
+                          "nullable": true
+                        },
+                        "plant_spacing": {
+                          "example": null,
+                          "nullable": true
+                        },
+                        "needs_transplant": {
+                          "type": "boolean",
+                          "example": false
+                        },
+                        "germination_days": {
+                          "example": null,
+                          "nullable": true
+                        },
+                        "transplant_days": {
+                          "example": null,
+                          "nullable": true
+                        },
+                        "harvest_days": {
+                          "example": null,
+                          "nullable": true
+                        },
+                        "termination_days": {
+                          "example": null,
+                          "nullable": true
+                        },
+                        "seeding_rate": {
+                          "example": null,
+                          "nullable": true
+                        },
+                        "hs_code_id": {
+                          "example": null,
+                          "nullable": true
+                        },
+                        "created_by_user_id": {
+                          "type": "string",
+                          "example": "caa72792-078d-11ed-9e25-096f157b6951"
+                        },
+                        "updated_by_user_id": {
+                          "type": "string",
+                          "example": "caa72792-078d-11ed-9e25-096f157b6951"
+                        },
+                        "created_at": {
+                          "type": "string",
+                          "example": "2022-07-19T18:10:39.119Z"
+                        },
+                        "updated_at": {
+                          "type": "string",
+                          "example": "2022-07-19T18:10:39.119Z"
+                        },
+                        "deleted": {
+                          "type": "boolean",
+                          "example": false
+                        },
+                        "crop_variety_id": {
+                          "type": "string",
+                          "example": "1834a30e-078e-11ed-9e25-096f157b6951"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "crop"
+        ]
+      }
+    },
+    "/crop_variety/{crop_variety_id}": {
+      "get": {
+        "summary": "/crop_variety/{crop_variety_id}",
+        "parameters": [
+          {
+            "name": "crop_variety_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {},
+        "tags": [
+          "crop"
+        ]
+      },
+      "put": {
+        "summary": "/crop_variety/{crop_variety_id}",
+        "parameters": [
+          {
+            "name": "crop_variety_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {},
+        "tags": [
+          "crop"
+        ]
+      },
+      "delete": {
+        "summary": "/crop_variety/{crop_variety_id}",
+        "parameters": [
+          {
+            "name": "crop_variety_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {},
+        "tags": [
+          "crop"
+        ]
+      },
+      "patch": {
+        "summary": "/crop_variety/{crop_variety_id}",
+        "parameters": [
+          {
+            "name": "crop_variety_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {},
+        "tags": [
+          "crop"
+        ]
+      }
+    },
+    "/crop_variety/farm/{farm_id}": {
+      "get": {
+        "summary": "/crop_variety/farm/{farm_id}",
+        "parameters": [
+          {
+            "name": "farm_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/html": {
+                "schema": {
+                  "type": "array",
+                  "items": {}
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {}
+                }
+              }
+            }
+          },
+          "304": {
+            "description": ""
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/html": {
+                "schema": {
+                  "type": "string",
+                  "example": "Missing farm_id in headers"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "string",
+                  "example": "Missing farm_id in headers"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "crop",
+          "farm"
+        ]
+      }
+    },
+    "/crop_variety": {
+      "post": {
+        "summary": "/crop_variety",
+        "responses": {},
+        "tags": [
+          "crop"
+        ]
+      }
+    },
+    "/crop_variety/upload/farm/{farm_id}": {
+      "post": {
+        "summary": "/crop_variety/upload/farm/{farm_id}",
+        "parameters": [
+          {
+            "name": "farm_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {},
+        "tags": [
+          "crop",
+          "farm"
+        ]
+      }
+    },
+    "/field/farm/{farm_id}": {
+      "get": {
+        "summary": "/field/farm/{farm_id}",
+        "parameters": [
+          {
+            "name": "farm_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {},
+        "tags": [
+          "farm",
+          "field"
+        ]
+      }
+    },
+    "/field": {
+      "post": {
+        "summary": "/field",
+        "responses": {},
+        "tags": [
+          "field"
+        ]
+      }
+    },
+    "/field/{field_id}": {
+      "put": {
+        "summary": "/field/{field_id}",
+        "parameters": [
+          {
+            "name": "field_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {},
+        "tags": [
+          "field"
+        ]
+      },
+      "delete": {
+        "summary": "/field/{field_id}",
+        "parameters": [
+          {
+            "name": "field_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {},
+        "tags": [
+          "field"
+        ]
+      }
+    },
+    "/sale": {
+      "post": {
+        "summary": "/sale",
+        "responses": {},
+        "tags": [
+          "sale"
+        ]
+      }
+    },
+    "/sale/{farm_id}": {
+      "get": {
+        "summary": "/sale/{farm_id}",
+        "parameters": [
+          {
+            "name": "farm_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {}
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "farm",
+          "sale"
+        ]
+      }
+    },
+    "/sale/{sale_id}": {
+      "delete": {
+        "summary": "/sale/{sale_id}",
+        "parameters": [
+          {
+            "name": "sale_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {},
+        "tags": [
+          "sale"
+        ]
+      },
+      "patch": {
+        "summary": "/sale/{sale_id}",
+        "parameters": [
+          {
+            "name": "sale_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {},
+        "tags": [
+          "sale"
+        ]
+      }
+    },
+    "/task_type": {
+      "post": {
+        "summary": "/task_type",
+        "responses": {},
+        "tags": [
+          "task",
+          "task_type"
+        ]
+      }
+    },
+    "/task_type/farm/{farm_id}": {
+      "get": {
+        "summary": "/task_type/farm/{farm_id}",
+        "parameters": [
+          {
+            "name": "farm_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "task_type_id": {
+                        "type": "number"
+                      },
+                      "task_name": {
+                        "type": "string"
+                      },
+                      "farm_id": {
+                        "nullable": true
+                      },
+                      "deleted": {
+                        "type": "boolean"
+                      },
+                      "task_translation_key": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "task_type_id",
+                      "task_name",
+                      "farm_id",
+                      "deleted",
+                      "task_translation_key"
+                    ]
+                  }
+                }
+              }
+            }
+          },
+          "304": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "farm",
+          "task",
+          "task_type"
+        ]
+      }
+    },
+    "/task_type/{task_type_id}": {
+      "get": {
+        "summary": "/task_type/{task_type_id}",
+        "parameters": [
+          {
+            "name": "task_type_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {},
+        "tags": [
+          "task",
+          "task_type"
+        ]
+      },
+      "delete": {
+        "summary": "/task_type/{task_type_id}",
+        "parameters": [
+          {
+            "name": "task_type_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {},
+        "tags": [
+          "task",
+          "task_type"
+        ]
+      }
+    },
+    "/user": {
+      "post": {
+        "summary": "/user",
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id_token": {
+                      "type": "string",
+                      "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiY2FhNzI3OTItMDc4ZC0xMWVkLTllMjUtMDk2ZjE1N2I2OTUxIiwiaWF0IjoxNjU4MjU0MTA5LCJleHAiOjE2NTg4NTg5MDl9.8jmSw8vviSTyJO89KXIpzGm2Pas_7m9q8Ns-N2o5I9E"
+                    },
+                    "user": {
+                      "type": "object",
+                      "properties": {
+                        "first_name": {
+                          "type": "string",
+                          "example": "Test"
+                        },
+                        "last_name": {
+                          "type": "string",
+                          "example": "Farmer"
+                        },
+                        "email": {
+                          "type": "string",
+                          "example": "uueokhidvk2nhcor@ethereal.email"
+                        },
+                        "language_preference": {
+                          "type": "string",
+                          "example": "en"
+                        },
+                        "gender": {
+                          "type": "string",
+                          "example": "PREFER_NOT_TO_SAY"
+                        },
+                        "user_id": {
+                          "type": "string",
+                          "example": "caa72792-078d-11ed-9e25-096f157b6951"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "user"
+        ]
+      }
+    },
+    "/user/invite": {
+      "post": {
+        "summary": "/user/invite",
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "first_name": {
+                      "type": "string",
+                      "example": "Test"
+                    },
+                    "last_name": {
+                      "type": "string",
+                      "example": "Worker"
+                    },
+                    "phone_number": {
+                      "example": null,
+                      "nullable": true
+                    },
+                    "email": {
+                      "type": "string",
+                      "example": "uueokhidvk2nhcor+1@ethereal.email"
+                    },
+                    "status_id": {
+                      "type": "number",
+                      "example": 2
+                    },
+                    "gender": {
+                      "type": "string",
+                      "example": "PREFER_NOT_TO_SAY"
+                    },
+                    "user_id": {
+                      "type": "string",
+                      "example": "f574b840-078d-11ed-9e25-096f157b6951"
+                    },
+                    "farm_id": {
+                      "type": "string",
+                      "example": "d83cc42a-078d-11ed-9e25-096f157b6951"
+                    },
+                    "role_id": {
+                      "type": "number",
+                      "example": 3
+                    },
+                    "has_consent": {
+                      "type": "boolean",
+                      "example": false
+                    },
+                    "status": {
+                      "type": "string",
+                      "example": "Invited"
+                    },
+                    "consent_version": {
+                      "type": "string",
+                      "example": "1.0"
+                    },
+                    "wage": {
+                      "type": "object",
+                      "properties": {
+                        "type": {
+                          "type": "string",
+                          "example": "hourly"
+                        },
+                        "amount": {
+                          "type": "number",
+                          "example": 0
+                        }
+                      }
+                    },
+                    "step_one": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "step_one_end": {
+                      "example": null,
+                      "nullable": true
+                    },
+                    "step_two": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "step_two_end": {
+                      "example": null,
+                      "nullable": true
+                    },
+                    "step_three": {
+                      "type": "boolean",
+                      "example": false
+                    },
+                    "step_three_end": {
+                      "example": null,
+                      "nullable": true
+                    },
+                    "step_four": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "step_four_end": {
+                      "example": null,
+                      "nullable": true
+                    },
+                    "step_five": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "step_five_end": {
+                      "example": null,
+                      "nullable": true
+                    },
+                    "profile_picture": {
+                      "example": null,
+                      "nullable": true
+                    },
+                    "user_address": {
+                      "example": null,
+                      "nullable": true
+                    },
+                    "language_preference": {
+                      "type": "string",
+                      "example": "en"
+                    },
+                    "do_not_email": {
+                      "type": "boolean",
+                      "example": false
+                    },
+                    "farm_name": {
+                      "type": "string",
+                      "example": "UBC FARM"
+                    },
+                    "address": {
+                      "type": "string",
+                      "example": "49.250833,-123.2410777"
+                    },
+                    "units": {
+                      "type": "object",
+                      "properties": {
+                        "currency": {
+                          "type": "string",
+                          "example": "CAD"
+                        },
+                        "measurement": {
+                          "type": "string",
+                          "example": "metric"
+                        }
+                      }
+                    },
+                    "grid_points": {
+                      "type": "object",
+                      "properties": {
+                        "lat": {
+                          "type": "number",
+                          "example": 49.250833
+                        },
+                        "lng": {
+                          "type": "number",
+                          "example": -123.2410777
+                        }
+                      }
+                    },
+                    "farm_phone_number": {
+                      "example": null,
+                      "nullable": true
+                    },
+                    "sandbox_farm": {
+                      "type": "boolean",
+                      "example": false
+                    },
+                    "country_id": {
+                      "type": "number",
+                      "example": 37
+                    },
+                    "owner_operated": {
+                      "example": null,
+                      "nullable": true
+                    },
+                    "default_initial_location_id": {
+                      "example": null,
+                      "nullable": true
+                    },
+                    "utc_offset": {
+                      "type": "number",
+                      "example": -28800
+                    },
+                    "role": {
+                      "type": "string",
+                      "example": "Worker"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "user"
+        ]
+      }
+    },
+    "/user/pseudo": {
+      "post": {
+        "summary": "/user/pseudo",
+        "responses": {},
+        "tags": [
+          "user"
+        ]
+      }
+    },
+    "/user/accept_invitation": {
+      "post": {
+        "summary": "/user/accept_invitation",
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id_token": {
+                      "type": "string",
+                      "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiZjU3NGI4NDAtMDc4ZC0xMWVkLTllMjUtMDk2ZjE1N2I2OTUxIiwiaWF0IjoxNjU4MjU0MTkzLCJleHAiOjE2NTg4NTg5OTN9.IixxllFS0sBYurNfAVHbgtbjNeyT2CkdzxokHq9Abog"
+                    },
+                    "user": {
+                      "type": "object",
+                      "properties": {
+                        "user_id": {
+                          "type": "string",
+                          "example": "f574b840-078d-11ed-9e25-096f157b6951"
+                        },
+                        "first_name": {
+                          "type": "string",
+                          "example": "Test"
+                        },
+                        "last_name": {
+                          "type": "string",
+                          "example": "Worker"
+                        },
+                        "profile_picture": {
+                          "example": null,
+                          "nullable": true
+                        },
+                        "email": {
+                          "type": "string",
+                          "example": "uueokhidvk2nhcor+1@ethereal.email"
+                        },
+                        "phone_number": {
+                          "example": null,
+                          "nullable": true
+                        },
+                        "user_address": {
+                          "example": null,
+                          "nullable": true
+                        },
+                        "language_preference": {
+                          "type": "string",
+                          "example": "en"
+                        },
+                        "status_id": {
+                          "type": "number",
+                          "example": 1
+                        },
+                        "do_not_email": {
+                          "type": "boolean",
+                          "example": false
+                        },
+                        "farm_id": {
+                          "type": "string",
+                          "example": "d83cc42a-078d-11ed-9e25-096f157b6951"
+                        },
+                        "role_id": {
+                          "type": "number",
+                          "example": 3
+                        },
+                        "has_consent": {
+                          "type": "boolean",
+                          "example": false
+                        },
+                        "status": {
+                          "type": "string",
+                          "example": "Active"
+                        },
+                        "consent_version": {
+                          "type": "string",
+                          "example": "1.0"
+                        },
+                        "wage": {
+                          "type": "object",
+                          "properties": {
+                            "type": {
+                              "type": "string",
+                              "example": "hourly"
+                            },
+                            "amount": {
+                              "type": "number",
+                              "example": 0
+                            }
+                          }
+                        },
+                        "step_one": {
+                          "type": "boolean",
+                          "example": true
+                        },
+                        "step_one_end": {
+                          "example": null,
+                          "nullable": true
+                        },
+                        "step_two": {
+                          "type": "boolean",
+                          "example": true
+                        },
+                        "step_two_end": {
+                          "example": null,
+                          "nullable": true
+                        },
+                        "step_three": {
+                          "type": "boolean",
+                          "example": false
+                        },
+                        "step_three_end": {
+                          "example": null,
+                          "nullable": true
+                        },
+                        "step_four": {
+                          "type": "boolean",
+                          "example": true
+                        },
+                        "step_four_end": {
+                          "example": null,
+                          "nullable": true
+                        },
+                        "step_five": {
+                          "type": "boolean",
+                          "example": true
+                        },
+                        "step_five_end": {
+                          "example": null,
+                          "nullable": true
+                        },
+                        "farm_name": {
+                          "type": "string",
+                          "example": "UBC FARM"
+                        },
+                        "address": {
+                          "type": "string",
+                          "example": "49.250833,-123.2410777"
+                        },
+                        "units": {
+                          "type": "object",
+                          "properties": {
+                            "currency": {
+                              "type": "string",
+                              "example": "CAD"
+                            },
+                            "measurement": {
+                              "type": "string",
+                              "example": "metric"
+                            }
+                          }
+                        },
+                        "grid_points": {
+                          "type": "object",
+                          "properties": {
+                            "lat": {
+                              "type": "number",
+                              "example": 49.250833
+                            },
+                            "lng": {
+                              "type": "number",
+                              "example": -123.2410777
+                            }
+                          }
+                        },
+                        "farm_phone_number": {
+                          "example": null,
+                          "nullable": true
+                        },
+                        "country_id": {
+                          "type": "number",
+                          "example": 37
+                        },
+                        "owner_operated": {
+                          "example": null,
+                          "nullable": true
+                        },
+                        "default_initial_location_id": {
+                          "example": null,
+                          "nullable": true
+                        },
+                        "utc_offset": {
+                          "type": "number",
+                          "example": -28800
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "user"
+        ]
+      },
+      "put": {
+        "summary": "/user/accept_invitation",
+        "responses": {},
+        "tags": [
+          "user"
+        ]
+      }
+    },
+    "/user/{user_id}": {
+      "get": {
+        "summary": "/user/{user_id}",
+        "parameters": [
+          {
+            "name": "user_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "first_name": {
+                      "type": "string",
+                      "example": "Test"
+                    },
+                    "last_name": {
+                      "type": "string",
+                      "example": "Farmer"
+                    },
+                    "profile_picture": {
+                      "example": null,
+                      "nullable": true
+                    },
+                    "email": {
+                      "type": "string",
+                      "example": "uueokhidvk2nhcor@ethereal.email"
+                    },
+                    "phone_number": {
+                      "example": null,
+                      "nullable": true
+                    },
+                    "user_id": {
+                      "type": "string",
+                      "example": "caa72792-078d-11ed-9e25-096f157b6951"
+                    },
+                    "gender": {
+                      "type": "string",
+                      "example": "PREFER_NOT_TO_SAY"
+                    },
+                    "birth_year": {
+                      "example": null,
+                      "nullable": true
+                    }
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "first_name": {
+                      "type": "string",
+                      "example": "Test"
+                    },
+                    "last_name": {
+                      "type": "string",
+                      "example": "Farmer"
+                    },
+                    "profile_picture": {
+                      "example": null,
+                      "nullable": true
+                    },
+                    "email": {
+                      "type": "string",
+                      "example": "uueokhidvk2nhcor@ethereal.email"
+                    },
+                    "phone_number": {
+                      "example": null,
+                      "nullable": true
+                    },
+                    "user_id": {
+                      "type": "string",
+                      "example": "caa72792-078d-11ed-9e25-096f157b6951"
+                    },
+                    "gender": {
+                      "type": "string",
+                      "example": "PREFER_NOT_TO_SAY"
+                    },
+                    "birth_year": {
+                      "example": null,
+                      "nullable": true
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "304": {
+            "description": ""
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string",
+                  "example": "Not Found"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "string",
+                  "example": "Not Found"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "user"
+        ]
+      },
+      "put": {
+        "summary": "/user/{user_id}",
+        "parameters": [
+          {
+            "name": "user_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {},
+        "tags": [
+          "user"
+        ]
+      }
+    },
+    "/expense/farm/{farm_id}": {
+      "get": {
+        "summary": "/expense/farm/{farm_id}",
+        "parameters": [
+          {
+            "name": "farm_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string",
+                  "example": "Not Found"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "expense",
+          "farm"
+        ]
+      },
+      "post": {
+        "summary": "/expense/farm/{farm_id}",
+        "parameters": [
+          {
+            "name": "farm_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {},
+        "tags": [
+          "expense",
+          "farm"
+        ]
+      }
+    },
+    "/expense/{farm_expense_id}": {
+      "patch": {
+        "summary": "/expense/{farm_expense_id}",
+        "parameters": [
+          {
+            "name": "farm_expense_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {},
+        "tags": [
+          "expense",
+          "farm"
+        ]
+      },
+      "delete": {
+        "summary": "/expense/{farm_expense_id}",
+        "parameters": [
+          {
+            "name": "farm_expense_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {},
+        "tags": [
+          "expense",
+          "farm"
+        ]
+      }
+    },
+    "/expense_type": {
+      "post": {
+        "summary": "/expense_type",
+        "responses": {},
+        "tags": [
+          "expense"
+        ]
+      },
+      "get": {
+        "summary": "/expense_type",
+        "responses": {},
+        "tags": [
+          "expense"
+        ]
+      }
+    },
+    "/expense_type/farm/{farm_id}": {
+      "get": {
+        "summary": "/expense_type/farm/{farm_id}",
+        "parameters": [
+          {
+            "name": "farm_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {},
+        "tags": [
+          "expense",
+          "farm"
+        ]
+      }
+    },
+    "/expense_type/{expense_type_id}": {
+      "delete": {
+        "summary": "/expense_type/{expense_type_id}",
+        "parameters": [
+          {
+            "name": "expense_type_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {},
+        "tags": [
+          "expense"
+        ]
+      }
+    },
+    "/farm/{farm_id}": {
+      "get": {
+        "summary": "/farm/{farm_id}",
+        "parameters": [
+          {
+            "name": "farm_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "farm_token": {
+                      "type": "string",
+                      "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiY2FhNzI3OTItMDc4ZC0xMWVkLTllMjUtMDk2ZjE1N2I2OTUxIiwiZmFybV9pZCI6ImQ4M2NjNDJhLTA3OGQtMTFlZC05ZTI1LTA5NmYxNTdiNjk1MSIsInJvbGVfaWQiOjEsImlhdCI6MTY1ODI1NDEzMiwiZXhwIjoxNjU4ODU4OTMyfQ.FrwqXUkNgqCHtWsZwVTk8etWiaw-cTfkoWV_zJm6q-A"
+                    }
+                  }
+                }
+              },
+              "text/html": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "farm_token": {
+                      "type": "string",
+                      "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiY2FhNzI3OTItMDc4ZC0xMWVkLTllMjUtMDk2ZjE1N2I2OTUxIiwiZmFybV9pZCI6ImQ4M2NjNDJhLTA3OGQtMTFlZC05ZTI1LTA5NmYxNTdiNjk1MSIsInJvbGVfaWQiOjEsImlhdCI6MTY1ODI1NDEzMiwiZXhwIjoxNjU4ODU4OTMyfQ.FrwqXUkNgqCHtWsZwVTk8etWiaw-cTfkoWV_zJm6q-A"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "304": {
+            "description": ""
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string",
+                  "example": "Missing farm_id in headers"
+                }
+              },
+              "text/html": {
+                "schema": {
+                  "type": "string",
+                  "example": "Missing farm_id in headers"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string",
+                  "example": "Field crop not found"
+                }
+              },
+              "text/html": {
+                "schema": {
+                  "type": "string",
+                  "example": "Field crop not found"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "farm"
+        ]
+      },
+      "patch": {
+        "summary": "/farm/{farm_id}",
+        "parameters": [
+          {
+            "name": "farm_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {},
+        "tags": [
+          "farm"
+        ]
+      },
+      "put": {
+        "summary": "/farm/{farm_id}",
+        "parameters": [
+          {
+            "name": "farm_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {},
+        "tags": [
+          "farm"
+        ]
+      },
+      "delete": {
+        "summary": "/farm/{farm_id}",
+        "parameters": [
+          {
+            "name": "farm_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {},
+        "tags": [
+          "farm"
+        ]
+      }
+    },
+    "/farm": {
+      "post": {
+        "summary": "/farm",
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "farm_name": {
+                      "type": "string",
+                      "example": "UBC FARM"
+                    },
+                    "address": {
+                      "type": "string",
+                      "example": "49.250833,-123.2410777"
+                    },
+                    "grid_points": {
+                      "type": "object",
+                      "properties": {
+                        "lat": {
+                          "type": "number",
+                          "example": 49.250833
+                        },
+                        "lng": {
+                          "type": "number",
+                          "example": -123.2410777
+                        }
+                      }
+                    },
+                    "country_id": {
+                      "type": "number",
+                      "example": 37
+                    },
+                    "units": {
+                      "type": "object",
+                      "properties": {
+                        "currency": {
+                          "type": "string",
+                          "example": "CAD"
+                        },
+                        "measurement": {
+                          "type": "string",
+                          "example": "metric"
+                        }
+                      }
+                    },
+                    "utc_offset": {
+                      "type": "number",
+                      "example": -28800
+                    },
+                    "created_by_user_id": {
+                      "type": "string",
+                      "example": "caa72792-078d-11ed-9e25-096f157b6951"
+                    },
+                    "updated_by_user_id": {
+                      "type": "string",
+                      "example": "caa72792-078d-11ed-9e25-096f157b6951"
+                    },
+                    "created_at": {
+                      "type": "string",
+                      "example": "2022-07-19T18:08:51.388Z"
+                    },
+                    "updated_at": {
+                      "type": "string",
+                      "example": "2022-07-19T18:08:51.797Z"
+                    },
+                    "farm_id": {
+                      "type": "string",
+                      "example": "d83cc42a-078d-11ed-9e25-096f157b6951"
+                    },
+                    "deleted": {
+                      "type": "boolean",
+                      "example": false
+                    },
+                    "farm_phone_number": {
+                      "example": null,
+                      "nullable": true
+                    },
+                    "sandbox_farm": {
+                      "type": "boolean",
+                      "example": false
+                    },
+                    "owner_operated": {
+                      "example": null,
+                      "nullable": true
+                    },
+                    "default_initial_location_id": {
+                      "example": null,
+                      "nullable": true
+                    },
+                    "user_id": {
+                      "type": "string",
+                      "example": "caa72792-078d-11ed-9e25-096f157b6951"
+                    },
+                    "role_id": {
+                      "type": "number",
+                      "example": 1
+                    },
+                    "status": {
+                      "type": "string",
+                      "example": "Active"
+                    },
+                    "has_consent": {
+                      "example": null,
+                      "nullable": true
+                    },
+                    "consent_version": {
+                      "type": "string",
+                      "example": "1.0"
+                    },
+                    "wage": {
+                      "type": "object",
+                      "properties": {
+                        "type": {
+                          "type": "string",
+                          "example": "hourly"
+                        },
+                        "amount": {
+                          "type": "number",
+                          "example": 0
+                        }
+                      }
+                    },
+                    "step_one": {
+                      "type": "boolean",
+                      "example": false
+                    },
+                    "step_one_end": {
+                      "example": null,
+                      "nullable": true
+                    },
+                    "step_two": {
+                      "type": "boolean",
+                      "example": false
+                    },
+                    "step_two_end": {
+                      "example": null,
+                      "nullable": true
+                    },
+                    "step_three": {
+                      "type": "boolean",
+                      "example": false
+                    },
+                    "step_three_end": {
+                      "example": null,
+                      "nullable": true
+                    },
+                    "step_four": {
+                      "type": "boolean",
+                      "example": false
+                    },
+                    "step_four_end": {
+                      "example": null,
+                      "nullable": true
+                    },
+                    "step_five": {
+                      "type": "boolean",
+                      "example": false
+                    },
+                    "step_five_end": {
+                      "example": null,
+                      "nullable": true
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "farm"
+        ]
+      }
+    },
+    "/farm/{farm_id}/default_initial_location": {
+      "patch": {
+        "summary": "/farm/{farm_id}/default_initial_location",
+        "parameters": [
+          {
+            "name": "farm_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {},
+        "tags": [
+          "farm",
+          "location"
+        ]
+      }
+    },
+    "/farm/owner_operated/{farm_id}": {
+      "patch": {
+        "summary": "/farm/owner_operated/{farm_id}",
+        "parameters": [
+          {
+            "name": "farm_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {},
+        "tags": [
+          "farm"
+        ]
+      }
+    },
+    "/farm/utc_offset_by_range/{min}/{max}": {
+      "get": {
+        "summary": "/farm/utc_offset_by_range/{min}/{max}",
+        "parameters": [
+          {
+            "name": "min",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "max",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {},
+        "tags": [
+          "farm"
+        ]
+      }
+    },
+    "/log": {
+      "post": {
+        "summary": "/log",
+        "responses": {},
+        "tags": [
+          "log"
+        ]
+      }
+    },
+    "/log/{activity_id}": {
+      "get": {
+        "summary": "/log/{activity_id}",
+        "parameters": [
+          {
+            "name": "activity_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {},
+        "tags": [
+          "log"
+        ]
+      },
+      "put": {
+        "summary": "/log/{activity_id}",
+        "parameters": [
+          {
+            "name": "activity_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {},
+        "tags": [
+          "log"
+        ]
+      },
+      "delete": {
+        "summary": "/log/{activity_id}",
+        "parameters": [
+          {
+            "name": "activity_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {},
+        "tags": [
+          "log"
+        ]
+      }
+    },
+    "/log/farm/{farm_id}": {
+      "get": {
+        "summary": "/log/farm/{farm_id}",
+        "parameters": [
+          {
+            "name": "farm_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {},
+        "tags": [
+          "farm",
+          "log"
+        ]
+      }
+    },
+    "/log/harvest_use_types/farm/{farm_id}": {
+      "get": {
+        "summary": "/log/harvest_use_types/farm/{farm_id}",
+        "parameters": [
+          {
+            "name": "farm_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {},
+        "tags": [
+          "farm",
+          "log"
+        ]
+      },
+      "post": {
+        "summary": "/log/harvest_use_types/farm/{farm_id}",
+        "parameters": [
+          {
+            "name": "farm_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {},
+        "tags": [
+          "farm",
+          "log"
+        ]
+      }
+    },
+    "/shift": {
+      "post": {
+        "summary": "/shift",
+        "responses": {},
+        "tags": [
+          "shift"
+        ]
+      }
+    },
+    "/shift/{shift_id}": {
+      "delete": {
+        "summary": "/shift/{shift_id}",
+        "parameters": [
+          {
+            "name": "shift_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {},
+        "tags": [
+          "shift"
+        ]
+      },
+      "get": {
+        "summary": "/shift/{shift_id}",
+        "parameters": [
+          {
+            "name": "shift_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {},
+        "tags": [
+          "shift"
+        ]
+      }
+    },
+    "/shift/user/{user_id}": {
+      "get": {
+        "summary": "/shift/user/{user_id}",
+        "parameters": [
+          {
+            "name": "user_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {},
+        "tags": [
+          "shift",
+          "user"
+        ]
+      }
+    },
+    "/shift/farm/{farm_id}": {
+      "get": {
+        "summary": "/shift/farm/{farm_id}",
+        "parameters": [
+          {
+            "name": "farm_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {},
+        "tags": [
+          "farm",
+          "shift"
+        ]
+      }
+    },
+    "/shift/userFarm/{farm_id}": {
+      "get": {
+        "summary": "/shift/userFarm/{farm_id}",
+        "parameters": [
+          {
+            "name": "farm_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {},
+        "tags": [
+          "farm",
+          "shift",
+          "user",
+          "userFarm"
+        ]
+      }
+    },
+    "/management_plan/{management_plan_id}": {
+      "get": {
+        "summary": "/management_plan/{management_plan_id}",
+        "parameters": [
+          {
+            "name": "management_plan_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {},
+        "tags": [
+          "management_plan"
+        ]
+      },
+      "patch": {
+        "summary": "/management_plan/{management_plan_id}",
+        "parameters": [
+          {
+            "name": "management_plan_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {},
+        "tags": [
+          "management_plan"
+        ]
+      },
+      "delete": {
+        "summary": "/management_plan/{management_plan_id}",
+        "parameters": [
+          {
+            "name": "management_plan_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {},
+        "tags": [
+          "management_plan"
+        ]
+      }
+    },
+    "/management_plan/farm/{farm_id}": {
+      "get": {
+        "summary": "/management_plan/farm/{farm_id}",
+        "parameters": [
+          {
+            "name": "farm_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {},
+        "tags": [
+          "farm",
+          "management_plan"
+        ]
+      }
+    },
+    "/management_plan/farm/date/{farm_id}/{date}": {
+      "get": {
+        "summary": "/management_plan/farm/date/{farm_id}/{date}",
+        "parameters": [
+          {
+            "name": "farm_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "date",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {},
+        "tags": [
+          "farm",
+          "management_plan"
+        ]
+      }
+    },
+    "/management_plan/expired/farm/{farm_id}": {
+      "get": {
+        "summary": "/management_plan/expired/farm/{farm_id}",
+        "parameters": [
+          {
+            "name": "farm_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {},
+        "tags": [
+          "farm",
+          "management_plan"
+        ]
+      }
+    },
+    "/management_plan": {
+      "post": {
+        "summary": "/management_plan",
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "management_plan": {
+                      "type": "object",
+                      "properties": {
+                        "crop_management_plan": {
+                          "type": "object",
+                          "properties": {
+                            "needs_transplant": {
+                              "type": "boolean",
+                              "example": false
+                            },
+                            "for_cover": {
+                              "type": "boolean",
+                              "example": true
+                            },
+                            "already_in_ground": {
+                              "type": "boolean",
+                              "example": false
+                            },
+                            "is_seed": {
+                              "type": "boolean",
+                              "example": true
+                            },
+                            "seed_date": {
+                              "type": "string",
+                              "example": "2022-07-26T00:00:00.000"
+                            },
+                            "germination_date": {
+                              "type": "string",
+                              "example": "2022-08-02T00:00:00.000"
+                            },
+                            "termination_date": {
+                              "type": "string",
+                              "example": "2023-02-11T00:00:00.000"
+                            },
+                            "planting_management_plans": {
+                              "type": "array",
+                              "items": {
+                                "type": "object",
+                                "properties": {
+                                  "row_method": {
+                                    "type": "object",
+                                    "properties": {
+                                      "same_length": {
+                                        "type": "boolean"
+                                      },
+                                      "number_of_rows": {
+                                        "type": "number"
+                                      },
+                                      "row_length": {
+                                        "type": "number"
+                                      },
+                                      "row_length_unit": {
+                                        "type": "string"
+                                      },
+                                      "plant_spacing": {
+                                        "type": "number"
+                                      },
+                                      "plant_spacing_unit": {
+                                        "type": "string"
+                                      },
+                                      "planting_depth_unit": {
+                                        "type": "string"
+                                      },
+                                      "row_width_unit": {
+                                        "type": "string"
+                                      },
+                                      "row_spacing_unit": {
+                                        "type": "string"
+                                      },
+                                      "planting_management_plan_id": {
+                                        "type": "string"
+                                      }
+                                    }
+                                  },
+                                  "planting_method": {
+                                    "type": "string"
+                                  },
+                                  "location_id": {
+                                    "type": "string"
+                                  },
+                                  "estimated_seeds_unit": {
+                                    "type": "string"
+                                  },
+                                  "is_final_planting_management_plan": {
+                                    "type": "boolean"
+                                  },
+                                  "planting_task_type": {
+                                    "type": "string"
+                                  },
+                                  "management_plan_id": {
+                                    "type": "number"
+                                  },
+                                  "planting_management_plan_id": {
+                                    "type": "string"
+                                  }
+                                }
+                              },
+                              "example": [
+                                {
+                                  "row_method": {
+                                    "same_length": true,
+                                    "number_of_rows": 10,
+                                    "row_length": 30,
+                                    "row_length_unit": "m",
+                                    "plant_spacing": 15,
+                                    "plant_spacing_unit": "cm",
+                                    "planting_depth_unit": "cm",
+                                    "row_width_unit": "cm",
+                                    "row_spacing_unit": "cm",
+                                    "planting_management_plan_id": "2b558a76-acd7-49a0-a3bb-5cbcb748bcd3"
+                                  },
+                                  "planting_method": "ROW_METHOD",
+                                  "location_id": "f0c5d004-078d-11ed-9e25-096f157b6951",
+                                  "estimated_seeds_unit": "kg",
+                                  "is_final_planting_management_plan": true,
+                                  "planting_task_type": "PLANT_TASK",
+                                  "management_plan_id": 1,
+                                  "planting_management_plan_id": "2b558a76-acd7-49a0-a3bb-5cbcb748bcd3"
+                                }
+                              ]
+                            },
+                            "management_plan_id": {
+                              "type": "number",
+                              "example": 1
+                            }
+                          }
+                        },
+                        "crop_variety_id": {
+                          "type": "string",
+                          "example": "1834a30e-078e-11ed-9e25-096f157b6951"
+                        },
+                        "notes": {
+                          "type": "string",
+                          "example": ""
+                        },
+                        "name": {
+                          "type": "string",
+                          "example": "Plan 1"
+                        },
+                        "management_plan_id": {
+                          "type": "number",
+                          "example": 1
+                        }
+                      }
+                    },
+                    "tasks": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "due_date": {
+                            "type": "string"
+                          },
+                          "task_type_id": {
+                            "type": "number"
+                          },
+                          "owner_user_id": {
+                            "type": "string"
+                          },
+                          "plant_task": {
+                            "type": "object",
+                            "properties": {
+                              "planting_management_plan_id": {
+                                "type": "string"
+                              },
+                              "task_id": {
+                                "type": "number"
+                              }
+                            }
+                          },
+                          "task_id": {
+                            "type": "number"
+                          },
+                          "field_work_task": {
+                            "type": "object",
+                            "properties": {
+                              "type": {
+                                "type": "string"
+                              },
+                              "task_id": {
+                                "type": "number"
+                              }
+                            }
+                          },
+                          "locations": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "location_id": {
+                                  "type": "string"
+                                }
+                              }
+                            }
+                          },
+                          "managementPlans": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "planting_management_plan_id": {
+                                  "type": "string"
+                                }
+                              }
+                            }
+                          }
+                        },
+                        "required": [
+                          "due_date",
+                          "task_type_id",
+                          "owner_user_id",
+                          "task_id"
+                        ]
+                      },
+                      "example": [
+                        {
+                          "due_date": "2022-07-26T00:00:00.000",
+                          "task_type_id": 5,
+                          "owner_user_id": "caa72792-078d-11ed-9e25-096f157b6951",
+                          "plant_task": {
+                            "planting_management_plan_id": "2b558a76-acd7-49a0-a3bb-5cbcb748bcd3",
+                            "task_id": 1
+                          },
+                          "task_id": 1
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "management_plan"
+        ]
+      }
+    },
+    "/management_plan/{management_plan_id}/complete": {
+      "patch": {
+        "summary": "/management_plan/{management_plan_id}/complete",
+        "parameters": [
+          {
+            "name": "management_plan_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {},
+        "tags": [
+          "management_plan"
+        ]
+      }
+    },
+    "/management_plan/{management_plan_id}/abandon": {
+      "patch": {
+        "summary": "/management_plan/{management_plan_id}/abandon",
+        "parameters": [
+          {
+            "name": "management_plan_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {},
+        "tags": [
+          "management_plan"
+        ]
+      }
+    },
+    "/fertilizer/farm/{farm_id}": {
+      "get": {
+        "summary": "/fertilizer/farm/{farm_id}",
+        "parameters": [
+          {
+            "name": "farm_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {},
+        "tags": [
+          "farm",
+          "fertilizer"
+        ]
+      },
+      "post": {
+        "summary": "/fertilizer/farm/{farm_id}",
+        "parameters": [
+          {
+            "name": "farm_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {},
+        "tags": [
+          "farm",
+          "fertilizer"
+        ]
+      }
+    },
+    "/fertilizer/{fertilizer_id}": {
+      "delete": {
+        "summary": "/fertilizer/{fertilizer_id}",
+        "parameters": [
+          {
+            "name": "fertilizer_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {},
+        "tags": [
+          "fertilizer"
+        ]
+      }
+    },
+    "/disease/farm/{farm_id}": {
+      "get": {
+        "summary": "/disease/farm/{farm_id}",
+        "parameters": [
+          {
+            "name": "farm_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {},
+        "tags": [
+          "disease",
+          "farm"
+        ]
+      }
+    },
+    "/disease": {
+      "post": {
+        "summary": "/disease",
+        "responses": {},
+        "tags": [
+          "disease"
+        ]
+      }
+    },
+    "/disease/{disease_id}": {
+      "delete": {
+        "summary": "/disease/{disease_id}",
+        "parameters": [
+          {
+            "name": "disease_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {},
+        "tags": [
+          "disease"
+        ]
+      }
+    },
+    "/pesticide/farm/{farm_id}": {
+      "get": {
+        "summary": "/pesticide/farm/{farm_id}",
+        "parameters": [
+          {
+            "name": "farm_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {},
+        "tags": [
+          "farm",
+          "pesticide"
+        ]
+      }
+    },
+    "/pesticide": {
+      "post": {
+        "summary": "/pesticide",
+        "responses": {},
+        "tags": [
+          "pesticide"
+        ]
+      }
+    },
+    "/pesticide/{pesticide_id}": {
+      "delete": {
+        "summary": "/pesticide/{pesticide_id}",
+        "parameters": [
+          {
+            "name": "pesticide_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {},
+        "tags": [
+          "pesticide"
+        ]
+      }
+    },
+    "/yield/farm/{farm_id}": {
+      "get": {
+        "summary": "/yield/farm/{farm_id}",
+        "parameters": [
+          {
+            "name": "farm_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {},
+        "tags": [
+          "farm",
+          "yield"
+        ]
+      }
+    },
+    "/yield": {
+      "post": {
+        "summary": "/yield",
+        "responses": {},
+        "tags": [
+          "yield"
+        ]
+      }
+    },
+    "/yield/{id}": {
+      "put": {
+        "summary": "/yield/{id}",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {},
+        "tags": [
+          "yield"
+        ]
+      }
+    },
+    "/yield/{yield_id}": {
+      "delete": {
+        "summary": "/yield/{yield_id}",
+        "parameters": [
+          {
+            "name": "yield_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {},
+        "tags": [
+          "yield"
+        ]
+      }
+    },
+    "/price/farm/{farm_id}": {
+      "get": {
+        "summary": "/price/farm/{farm_id}",
+        "parameters": [
+          {
+            "name": "farm_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {},
+        "tags": [
+          "farm",
+          "price"
+        ]
+      }
+    },
+    "/price": {
+      "post": {
+        "summary": "/price",
+        "responses": {},
+        "tags": [
+          "price"
+        ]
+      }
+    },
+    "/price/{id}": {
+      "put": {
+        "summary": "/price/{id}",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {},
+        "tags": [
+          "price"
+        ]
+      }
+    },
+    "/price/{price_id}": {
+      "delete": {
+        "summary": "/price/{price_id}",
+        "parameters": [
+          {
+            "name": "price_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {},
+        "tags": [
+          "price"
+        ]
+      }
+    },
+    "/insight/people_fed/{farm_id}": {
+      "get": {
+        "summary": "/insight/people_fed/{farm_id}",
+        "parameters": [
+          {
+            "name": "farm_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {},
+        "tags": [
+          "farm",
+          "insight"
+        ]
+      }
+    },
+    "/insight/soil_om/{farm_id}": {
+      "get": {
+        "summary": "/insight/soil_om/{farm_id}",
+        "parameters": [
+          {
+            "name": "farm_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {},
+        "tags": [
+          "farm",
+          "insight"
+        ]
+      }
+    },
+    "/insight/labour_happiness/{farm_id}": {
+      "get": {
+        "summary": "/insight/labour_happiness/{farm_id}",
+        "parameters": [
+          {
+            "name": "farm_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {},
+        "tags": [
+          "farm",
+          "insight"
+        ]
+      }
+    },
+    "/insight/biodiversity/{farm_id}": {
+      "get": {
+        "summary": "/insight/biodiversity/{farm_id}",
+        "parameters": [
+          {
+            "name": "farm_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {},
+        "tags": [
+          "farm",
+          "insight"
+        ]
+      }
+    },
+    "/insight/prices/distance/{farm_id}": {
+      "get": {
+        "summary": "/insight/prices/distance/{farm_id}",
+        "parameters": [
+          {
+            "name": "farm_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {},
+        "tags": [
+          "farm",
+          "insight",
+          "price"
+        ]
+      }
+    },
+    "/insight/waterbalance/{farm_id}": {
+      "get": {
+        "summary": "/insight/waterbalance/{farm_id}",
+        "parameters": [
+          {
+            "name": "farm_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {},
+        "tags": [
+          "farm",
+          "insight"
+        ]
+      }
+    },
+    "/insight/waterbalance/schedule/{farm_id}": {
+      "get": {
+        "summary": "/insight/waterbalance/schedule/{farm_id}",
+        "parameters": [
+          {
+            "name": "farm_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {},
+        "tags": [
+          "farm",
+          "insight"
+        ]
+      }
+    },
+    "/insight/nitrogenbalance/{farm_id}": {
+      "get": {
+        "summary": "/insight/nitrogenbalance/{farm_id}",
+        "parameters": [
+          {
+            "name": "farm_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {},
+        "tags": [
+          "farm",
+          "insight"
+        ]
+      }
+    },
+    "/insight/nitrogenbalance/schedule/{farm_id}": {
+      "get": {
+        "summary": "/insight/nitrogenbalance/schedule/{farm_id}",
+        "parameters": [
+          {
+            "name": "farm_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {},
+        "tags": [
+          "farm",
+          "insight"
+        ]
+      }
+    },
+    "/insight/waterbalance": {
+      "post": {
+        "summary": "/insight/waterbalance",
+        "responses": {},
+        "tags": [
+          "insight"
+        ]
+      }
+    },
+    "/insight/waterbalance/schedule": {
+      "post": {
+        "summary": "/insight/waterbalance/schedule",
+        "responses": {},
+        "tags": [
+          "insight"
+        ]
+      }
+    },
+    "/insight/nitrogenbalance/schedule": {
+      "post": {
+        "summary": "/insight/nitrogenbalance/schedule",
+        "responses": {},
+        "tags": [
+          "insight"
+        ]
+      }
+    },
+    "/insight/nitrogenbalance/schedule/{nitrogen_schedule_id}": {
+      "delete": {
+        "summary": "/insight/nitrogenbalance/schedule/{nitrogen_schedule_id}",
+        "parameters": [
+          {
+            "name": "nitrogen_schedule_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {},
+        "tags": [
+          "insight"
+        ]
+      }
+    },
+    "/farmdata": {
+      "post": {
+        "summary": "/farmdata",
+        "responses": {},
+        "tags": [
+          "farm"
+        ]
+      }
+    },
+    "/farmdata/{farm_id}": {
+      "get": {
+        "summary": "/farmdata/{farm_id}",
+        "parameters": [
+          {
+            "name": "farm_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {},
+        "tags": [
+          "farm"
+        ]
+      }
+    },
+    "/user_farm/user/{user_id}": {
+      "get": {
+        "summary": "/user_farm/user/{user_id}",
+        "parameters": [
+          {
+            "name": "user_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {},
+        "tags": [
+          "farm",
+          "user"
+        ]
+      }
+    },
+    "/user_farm/farm/{farm_id}": {
+      "get": {
+        "summary": "/user_farm/farm/{farm_id}",
+        "parameters": [
+          {
+            "name": "farm_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {},
+        "tags": [
+          "farm",
+          "user"
+        ]
+      }
+    },
+    "/user_farm/active/farm/{farm_id}": {
+      "get": {
+        "summary": "/user_farm/active/farm/{farm_id}",
+        "parameters": [
+          {
+            "name": "farm_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {},
+        "tags": [
+          "farm",
+          "user"
+        ]
+      }
+    },
+    "/user_farm/consent/farm/{farm_id}/user/{user_id}": {
+      "patch": {
+        "summary": "/user_farm/consent/farm/{farm_id}/user/{user_id}",
+        "parameters": [
+          {
+            "name": "farm_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "user_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {},
+        "tags": [
+          "farm",
+          "user"
+        ]
+      }
+    },
+    "/user_farm/role/farm/{farm_id}/user/{user_id}": {
+      "patch": {
+        "summary": "/user_farm/role/farm/{farm_id}/user/{user_id}",
+        "parameters": [
+          {
+            "name": "farm_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "user_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {},
+        "tags": [
+          "farm",
+          "user"
+        ]
+      }
+    },
+    "/user_farm/status/farm/{farm_id}/user/{user_id}": {
+      "patch": {
+        "summary": "/user_farm/status/farm/{farm_id}/user/{user_id}",
+        "parameters": [
+          {
+            "name": "farm_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "user_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {},
+        "tags": [
+          "farm",
+          "user"
+        ]
+      }
+    },
+    "/user_farm/accept_invitation": {
+      "patch": {
+        "summary": "/user_farm/accept_invitation",
+        "responses": {
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "text/html": {
+                "schema": {
+                  "type": "string",
+                  "example": "User does not exist"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "farm",
+          "user"
+        ]
+      }
+    },
+    "/user_farm/accept_invitation/farm/{farm_id}": {
+      "patch": {
+        "summary": "/user_farm/accept_invitation/farm/{farm_id}",
+        "parameters": [
+          {
+            "name": "farm_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {},
+        "tags": [
+          "farm",
+          "user"
+        ]
+      }
+    },
+    "/user_farm/farm/{farm_id}/user/{user_id}": {
+      "get": {
+        "summary": "/user_farm/farm/{farm_id}/user/{user_id}",
+        "parameters": [
+          {
+            "name": "farm_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "user_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {},
+        "tags": [
+          "farm",
+          "user"
+        ]
+      }
+    },
+    "/user_farm/invite/farm/{farm_id}/user/{user_id}": {
+      "post": {
+        "summary": "/user_farm/invite/farm/{farm_id}/user/{user_id}",
+        "parameters": [
+          {
+            "name": "farm_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "user_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {},
+        "tags": [
+          "farm",
+          "user"
+        ]
+      }
+    },
+    "/user_farm/wage/farm/{farm_id}/user/{user_id}": {
+      "patch": {
+        "summary": "/user_farm/wage/farm/{farm_id}/user/{user_id}",
+        "parameters": [
+          {
+            "name": "farm_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "user_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {},
+        "tags": [
+          "farm",
+          "user"
+        ]
+      }
+    },
+    "/user_farm/onboarding/farm/{farm_id}/user/{user_id}": {
+      "patch": {
+        "summary": "/user_farm/onboarding/farm/{farm_id}/user/{user_id}",
+        "parameters": [
+          {
+            "name": "farm_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "user_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {},
+        "tags": [
+          "farm",
+          "user"
+        ]
+      }
+    },
+    "/roles": {
+      "get": {
+        "summary": "/roles",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "role_id": {
+                        "type": "number"
+                      },
+                      "role": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "role_id",
+                      "role"
+                    ]
+                  }
+                }
+              }
+            }
+          },
+          "304": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "roles"
+        ]
+      }
+    },
+    "/organic_certifier_survey/{farm_id}": {
+      "get": {
+        "summary": "/organic_certifier_survey/{farm_id}",
+        "parameters": [
+          {
+            "name": "farm_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "survey_id": {
+                      "type": "string",
+                      "example": "dbb9aeba-078d-11ed-9e25-096f157b6951"
+                    },
+                    "farm_id": {
+                      "type": "string",
+                      "example": "d83cc42a-078d-11ed-9e25-096f157b6951"
+                    },
+                    "interested": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "requested_certification": {
+                      "example": null,
+                      "nullable": true
+                    },
+                    "requested_certifier": {
+                      "example": null,
+                      "nullable": true
+                    },
+                    "certifier_id": {
+                      "type": "number",
+                      "example": 4
+                    },
+                    "certification_id": {
+                      "type": "number",
+                      "example": 1
+                    }
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "survey_id": {
+                      "type": "string",
+                      "example": "dbb9aeba-078d-11ed-9e25-096f157b6951"
+                    },
+                    "farm_id": {
+                      "type": "string",
+                      "example": "d83cc42a-078d-11ed-9e25-096f157b6951"
+                    },
+                    "interested": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "requested_certification": {
+                      "example": null,
+                      "nullable": true
+                    },
+                    "requested_certifier": {
+                      "example": null,
+                      "nullable": true
+                    },
+                    "certifier_id": {
+                      "type": "number",
+                      "example": 4
+                    },
+                    "certification_id": {
+                      "type": "number",
+                      "example": 1
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string",
+                  "example": "Not Found"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "string",
+                  "example": "Not Found"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "farm",
+          "organic_certifier_survey"
+        ]
+      }
+    },
+    "/organic_certifier_survey/{farm_id}/supported_certifications": {
+      "get": {
+        "summary": "/organic_certifier_survey/{farm_id}/supported_certifications",
+        "parameters": [
+          {
+            "name": "farm_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "certification_id": {
+                        "type": "number"
+                      },
+                      "certification_type": {
+                        "type": "string"
+                      },
+                      "certification_translation_key": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "certification_id",
+                      "certification_type",
+                      "certification_translation_key"
+                    ]
+                  }
+                }
+              }
+            }
+          },
+          "304": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "farm",
+          "organic_certifier_survey",
+          "support"
+        ]
+      }
+    },
+    "/organic_certifier_survey/{farm_id}/supported_certifiers": {
+      "get": {
+        "summary": "/organic_certifier_survey/{farm_id}/supported_certifiers",
+        "parameters": [
+          {
+            "name": "farm_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "certifier_id": {
+                        "type": "number"
+                      },
+                      "certification_id": {
+                        "type": "number"
+                      },
+                      "certifier_name": {
+                        "type": "string"
+                      },
+                      "certifier_acronym": {
+                        "type": "string"
+                      },
+                      "survey_id": {
+                        "nullable": true
+                      },
+                      "country_id": {
+                        "type": "number"
+                      },
+                      "certifier_country_id": {
+                        "type": "number"
+                      }
+                    },
+                    "required": [
+                      "certifier_id",
+                      "certification_id",
+                      "certifier_name",
+                      "certifier_acronym",
+                      "survey_id",
+                      "country_id",
+                      "certifier_country_id"
+                    ]
+                  }
+                }
+              }
+            }
+          },
+          "304": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "farm",
+          "organic_certifier_survey",
+          "support"
+        ]
+      }
+    },
+    "/organic_certifier_survey": {
+      "post": {
+        "summary": "/organic_certifier_survey",
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "certification_id": {
+                      "type": "number",
+                      "example": 1
+                    },
+                    "certifier_id": {
+                      "type": "number",
+                      "example": 4
+                    },
+                    "interested": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "requested_certification": {
+                      "example": null,
+                      "nullable": true
+                    },
+                    "requested_certifier": {
+                      "example": null,
+                      "nullable": true
+                    },
+                    "farm_id": {
+                      "type": "string",
+                      "example": "d83cc42a-078d-11ed-9e25-096f157b6951"
+                    },
+                    "created_by_user_id": {
+                      "type": "string",
+                      "example": "caa72792-078d-11ed-9e25-096f157b6951"
+                    },
+                    "updated_by_user_id": {
+                      "type": "string",
+                      "example": "caa72792-078d-11ed-9e25-096f157b6951"
+                    },
+                    "created_at": {
+                      "type": "string",
+                      "example": "2022-07-19T18:08:57.650Z"
+                    },
+                    "updated_at": {
+                      "type": "string",
+                      "example": "2022-07-19T18:08:57.650Z"
+                    },
+                    "survey_id": {
+                      "type": "string",
+                      "example": "dbb9aeba-078d-11ed-9e25-096f157b6951"
+                    },
+                    "deleted": {
+                      "type": "boolean",
+                      "example": false
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "organic_certifier_survey"
+        ]
+      },
+      "put": {
+        "summary": "/organic_certifier_survey",
+        "responses": {},
+        "tags": [
+          "organic_certifier_survey"
+        ]
+      }
+    },
+    "/organic_certifier_survey/{survey_id}": {
+      "delete": {
+        "summary": "/organic_certifier_survey/{survey_id}",
+        "parameters": [
+          {
+            "name": "survey_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {},
+        "tags": [
+          "organic_certifier_survey"
+        ]
+      }
+    },
+    "/organic_certifier_survey/request_export": {
+      "post": {
+        "summary": "/organic_certifier_survey/request_export",
+        "responses": {},
+        "tags": [
+          "organic_certifier_survey"
+        ]
+      }
+    },
+    "/support_ticket": {
+      "post": {
+        "summary": "/support_ticket",
+        "responses": {},
+        "tags": [
+          "support"
+        ]
+      }
+    },
+    "/export/map/farm/{farm_id}": {
+      "post": {
+        "summary": "/export/map/farm/{farm_id}",
+        "parameters": [
+          {
+            "name": "farm_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {},
+        "tags": [
+          "farm"
+        ]
+      }
+    },
+    "/showed_spotlight": {
+      "get": {
+        "summary": "/showed_spotlight",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "map": {
+                      "type": "boolean",
+                      "example": false
+                    },
+                    "draw_area": {
+                      "type": "boolean",
+                      "example": false
+                    },
+                    "draw_line": {
+                      "type": "boolean",
+                      "example": false
+                    },
+                    "drop_point": {
+                      "type": "boolean",
+                      "example": false
+                    },
+                    "adjust_area": {
+                      "type": "boolean",
+                      "example": false
+                    },
+                    "adjust_line": {
+                      "type": "boolean",
+                      "example": false
+                    },
+                    "navigation": {
+                      "type": "boolean",
+                      "example": false
+                    },
+                    "notification": {
+                      "type": "boolean",
+                      "example": false
+                    },
+                    "introduce_map": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "crop_catalog": {
+                      "type": "boolean",
+                      "example": false
+                    },
+                    "crop_variety_detail": {
+                      "type": "boolean",
+                      "example": false
+                    },
+                    "documents": {
+                      "type": "boolean",
+                      "example": false
+                    },
+                    "compliance_docs_and_certification": {
+                      "type": "boolean",
+                      "example": false
+                    },
+                    "transplant": {
+                      "type": "boolean",
+                      "example": false
+                    },
+                    "management_plan_creation": {
+                      "type": "boolean",
+                      "example": false
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "304": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "spotlight"
+        ]
+      },
+      "patch": {
+        "summary": "/showed_spotlight",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string",
+                  "example": "OK"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "spotlight"
+        ]
+      }
+    },
+    "/farm_token/farm/{farm_id}": {
+      "get": {
+        "summary": "/farm_token/farm/{farm_id}",
+        "parameters": [
+          {
+            "name": "farm_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {},
+        "tags": [
+          "farm"
+        ]
+      }
+    },
+    "/document/farm/{farm_id}": {
+      "get": {
+        "summary": "/document/farm/{farm_id}",
+        "parameters": [
+          {
+            "name": "farm_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {},
+        "tags": [
+          "document",
+          "farm"
+        ]
+      },
+      "post": {
+        "summary": "/document/farm/{farm_id}",
+        "parameters": [
+          {
+            "name": "farm_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {},
+        "tags": [
+          "document",
+          "farm"
+        ]
+      }
+    },
+    "/document/upload/farm/{farm_id}": {
+      "post": {
+        "summary": "/document/upload/farm/{farm_id}",
+        "parameters": [
+          {
+            "name": "farm_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {},
+        "tags": [
+          "document",
+          "farm"
+        ]
+      }
+    },
+    "/document/archive/{document_id}": {
+      "patch": {
+        "summary": "/document/archive/{document_id}",
+        "parameters": [
+          {
+            "name": "document_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {},
+        "tags": [
+          "document"
+        ]
+      }
+    },
+    "/document/{document_id}": {
+      "put": {
+        "summary": "/document/{document_id}",
+        "parameters": [
+          {
+            "name": "document_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {},
+        "tags": [
+          "document"
+        ]
+      }
+    },
+    "/task/assign/{task_id}": {
+      "patch": {
+        "summary": "/task/assign/{task_id}",
+        "parameters": [
+          {
+            "name": "task_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string",
+                  "example": "OK"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "task"
+        ]
+      }
+    },
+    "/task/assign_all_tasks_on_date/{task_id}": {
+      "patch": {
+        "summary": "/task/assign_all_tasks_on_date/{task_id}",
+        "parameters": [
+          {
+            "name": "task_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {},
+        "tags": [
+          "task"
+        ]
+      }
+    },
+    "/task/patch_due_date/{task_id}": {
+      "patch": {
+        "summary": "/task/patch_due_date/{task_id}",
+        "parameters": [
+          {
+            "name": "task_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string",
+                  "example": "OK"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "task"
+        ]
+      }
+    },
+    "/task/abandon/{task_id}": {
+      "patch": {
+        "summary": "/task/abandon/{task_id}",
+        "parameters": [
+          {
+            "name": "task_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {},
+        "tags": [
+          "task"
+        ]
+      }
+    },
+    "/task/{farm_id}": {
+      "get": {
+        "summary": "/task/{farm_id}",
+        "parameters": [
+          {
+            "name": "farm_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {}
+                }
+              }
+            }
+          },
+          "304": {
+            "description": ""
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "object",
+                      "properties": {
+                        "name": {
+                          "type": "string",
+                          "example": "DataError"
+                        },
+                        "nativeError": {
+                          "type": "object",
+                          "properties": {
+                            "length": {
+                              "type": "number",
+                              "example": 141
+                            },
+                            "name": {
+                              "type": "string",
+                              "example": "error"
+                            },
+                            "severity": {
+                              "type": "string",
+                              "example": "ERROR"
+                            },
+                            "code": {
+                              "type": "string",
+                              "example": "22P02"
+                            },
+                            "where": {
+                              "type": "string",
+                              "example": "unnamed portal parameter $2 = '...'"
+                            },
+                            "file": {
+                              "type": "string",
+                              "example": "uuid.c"
+                            },
+                            "line": {
+                              "type": "string",
+                              "example": "134"
+                            },
+                            "routine": {
+                              "type": "string",
+                              "example": "string_to_uuid"
+                            }
+                          }
+                        },
+                        "client": {
+                          "type": "string",
+                          "example": "postgres"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "farm",
+          "task"
+        ]
+      }
+    },
+    "/task/harvest_tasks": {
+      "post": {
+        "summary": "/task/harvest_tasks",
+        "responses": {},
+        "tags": [
+          "task"
+        ]
+      }
+    },
+    "/task/soil_amendment_task": {
+      "post": {
+        "summary": "/task/soil_amendment_task",
+        "responses": {},
+        "tags": [
+          "task"
+        ]
+      }
+    },
+    "/task/cleaning_task": {
+      "post": {
+        "summary": "/task/cleaning_task",
+        "responses": {},
+        "tags": [
+          "task"
+        ]
+      }
+    },
+    "/task/pest_control_task": {
+      "post": {
+        "summary": "/task/pest_control_task",
+        "responses": {},
+        "tags": [
+          "task"
+        ]
+      }
+    },
+    "/task/irrigation_task": {
+      "post": {
+        "summary": "/task/irrigation_task",
+        "responses": {},
+        "tags": [
+          "task"
+        ]
+      }
+    },
+    "/task/scouting_task": {
+      "post": {
+        "summary": "/task/scouting_task",
+        "responses": {},
+        "tags": [
+          "task"
+        ]
+      }
+    },
+    "/task/soil_task": {
+      "post": {
+        "summary": "/task/soil_task",
+        "responses": {},
+        "tags": [
+          "task"
+        ]
+      }
+    },
+    "/task/field_work_task": {
+      "post": {
+        "summary": "/task/field_work_task",
+        "responses": {},
+        "tags": [
+          "field",
+          "task"
+        ]
+      }
+    },
+    "/task/harvest_task": {
+      "post": {
+        "summary": "/task/harvest_task",
+        "responses": {},
+        "tags": [
+          "task"
+        ]
+      }
+    },
+    "/task/transplant_task": {
+      "post": {
+        "summary": "/task/transplant_task",
+        "responses": {},
+        "tags": [
+          "task"
+        ]
+      }
+    },
+    "/task/custom_task": {
+      "post": {
+        "summary": "/task/custom_task",
+        "responses": {},
+        "tags": [
+          "task"
+        ]
+      }
+    },
+    "/task/complete/soil_amendment_task/{task_id}": {
+      "patch": {
+        "summary": "/task/complete/soil_amendment_task/{task_id}",
+        "parameters": [
+          {
+            "name": "task_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {},
+        "tags": [
+          "task"
+        ]
+      }
+    },
+    "/task/complete/cleaning_task/{task_id}": {
+      "patch": {
+        "summary": "/task/complete/cleaning_task/{task_id}",
+        "parameters": [
+          {
+            "name": "task_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {},
+        "tags": [
+          "task"
+        ]
+      }
+    },
+    "/task/complete/pest_control_task/{task_id}": {
+      "patch": {
+        "summary": "/task/complete/pest_control_task/{task_id}",
+        "parameters": [
+          {
+            "name": "task_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {},
+        "tags": [
+          "task"
+        ]
+      }
+    },
+    "/task/complete/irrigation_task/{task_id}": {
+      "patch": {
+        "summary": "/task/complete/irrigation_task/{task_id}",
+        "parameters": [
+          {
+            "name": "task_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {},
+        "tags": [
+          "task"
+        ]
+      }
+    },
+    "/task/complete/scouting_task/{task_id}": {
+      "patch": {
+        "summary": "/task/complete/scouting_task/{task_id}",
+        "parameters": [
+          {
+            "name": "task_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {},
+        "tags": [
+          "task"
+        ]
+      }
+    },
+    "/task/complete/soil_task/{task_id}": {
+      "patch": {
+        "summary": "/task/complete/soil_task/{task_id}",
+        "parameters": [
+          {
+            "name": "task_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {},
+        "tags": [
+          "task"
+        ]
+      }
+    },
+    "/task/complete/field_work_task/{task_id}": {
+      "patch": {
+        "summary": "/task/complete/field_work_task/{task_id}",
+        "parameters": [
+          {
+            "name": "task_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {},
+        "tags": [
+          "field",
+          "task"
+        ]
+      }
+    },
+    "/task/complete/harvest_task/{task_id}": {
+      "patch": {
+        "summary": "/task/complete/harvest_task/{task_id}",
+        "parameters": [
+          {
+            "name": "task_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {},
+        "tags": [
+          "task"
+        ]
+      }
+    },
+    "/task/complete/plant_task/{task_id}": {
+      "patch": {
+        "summary": "/task/complete/plant_task/{task_id}",
+        "parameters": [
+          {
+            "name": "task_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {},
+        "tags": [
+          "task"
+        ]
+      }
+    },
+    "/task/complete/transplant_task/{task_id}": {
+      "patch": {
+        "summary": "/task/complete/transplant_task/{task_id}",
+        "parameters": [
+          {
+            "name": "task_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {},
+        "tags": [
+          "task"
+        ]
+      }
+    },
+    "/task/complete/custom_task/{task_id}": {
+      "patch": {
+        "summary": "/task/complete/custom_task/{task_id}",
+        "parameters": [
+          {
+            "name": "task_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {},
+        "tags": [
+          "task"
+        ]
+      }
+    },
+    "/task/harvest_uses/farm/{farm_id}": {
+      "get": {
+        "summary": "/task/harvest_uses/farm/{farm_id}",
+        "parameters": [
+          {
+            "name": "farm_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {},
+        "tags": [
+          "farm",
+          "task"
+        ]
+      }
+    },
+    "/product/farm/{farm_id}": {
+      "get": {
+        "summary": "/product/farm/{farm_id}",
+        "parameters": [
+          {
+            "name": "farm_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {},
+        "tags": [
+          "farm",
+          "product"
+        ]
+      }
+    },
+    "/product": {
+      "post": {
+        "summary": "/product",
+        "responses": {},
+        "tags": [
+          "product"
+        ]
+      }
+    },
+    "/notification_user/subscribe": {
+      "get": {
+        "summary": "/notification_user/subscribe",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/event-stream": {
+                "schema": {
+                  "type": "integer",
+                  "example": 0
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "notification",
+          "user"
+        ]
+      }
+    },
+    "/notification_user": {
+      "get": {
+        "summary": "/notification_user",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {}
+                }
+              }
+            }
+          },
+          "304": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "notification",
+          "user"
+        ]
+      },
+      "patch": {
+        "summary": "/notification_user",
+        "responses": {},
+        "tags": [
+          "notification",
+          "user"
+        ]
+      }
+    },
+    "/notification_user/clear_alerts": {
+      "patch": {
+        "summary": "/notification_user/clear_alerts",
+        "responses": {},
+        "tags": [
+          "notification",
+          "user"
+        ]
+      }
+    },
+    "/time_notification/weekly_unassigned_tasks/{farm_id}": {
+      "post": {
+        "summary": "/time_notification/weekly_unassigned_tasks/{farm_id}",
+        "parameters": [
+          {
+            "name": "farm_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {},
+        "tags": [
+          "farm",
+          "notification",
+          "task"
+        ]
+      }
+    },
+    "/time_notification/daily_due_today_tasks/{farm_id}": {
+      "post": {
+        "summary": "/time_notification/daily_due_today_tasks/{farm_id}",
+        "parameters": [
+          {
+            "name": "farm_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {},
+        "tags": [
+          "farm",
+          "notification",
+          "task"
+        ]
+      }
+    },
+    "/sensors/get_sensors/": {
+      "post": {
+        "summary": "/sensors/get_sensors/",
+        "responses": {},
+        "tags": [
+          "sensors"
+        ]
+      }
+    },
+    "/sensors/add_sensors/": {
+      "post": {
+        "summary": "/sensors/add_sensors/",
+        "responses": {},
+        "tags": [
+          "sensors"
+        ]
+      }
+    },
+    "/sensors/delete_sensor/{sensor_id}": {
+      "delete": {
+        "summary": "/sensors/delete_sensor/{sensor_id}",
+        "parameters": [
+          {
+            "name": "sensor_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {},
+        "tags": [
+          "sensors"
+        ]
+      }
+    },
+    "/sensors/{sensor_esid}": {
+      "patch": {
+        "summary": "/sensors/{sensor_esid}",
+        "parameters": [
+          {
+            "name": "sensor_esid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {},
+        "tags": [
+          "sensors"
+        ]
+      }
+    },
+    "/sensors/add_reading/{partner_id}/{farm_id}": {
+      "post": {
+        "summary": "/sensors/add_reading/{partner_id}/{farm_id}",
+        "parameters": [
+          {
+            "name": "partner_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "farm_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {},
+        "tags": [
+          "farm",
+          "sensors"
+        ]
+      }
+    },
+    "/sensors/get_readings": {
+      "post": {
+        "summary": "/sensors/get_readings",
+        "responses": {},
+        "tags": [
+          "sensors"
+        ]
+      }
+    },
+    "/sensors/sensor_readings/{farm_id}/{days}": {
+      "get": {
+        "summary": "/sensors/sensor_readings/{farm_id}/{days}",
+        "parameters": [
+          {
+            "name": "farm_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "days",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {}
+                }
+              }
+            }
+          },
+          "304": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "farm",
+          "sensors"
+        ]
+      }
+    },
+    "/sensors/invalidate_readings": {
+      "post": {
+        "summary": "/sensors/invalidate_readings",
+        "responses": {},
+        "tags": [
+          "sensors"
+        ]
+      }
+    },
+    "/sensors/unclaim_sensor": {
+      "post": {
+        "summary": "/sensors/unclaim_sensor",
+        "responses": {},
+        "tags": [
+          "sensors"
+        ]
+      }
+    },
+    "/sensors/reading_type/{sensor_id}": {
+      "get": {
+        "summary": "/sensors/reading_type/{sensor_id}",
+        "parameters": [
+          {
+            "name": "sensor_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {},
+        "tags": [
+          "sensors"
+        ]
+      }
+    },
+    "/sensors/brand_name/{partner_id}": {
+      "get": {
+        "summary": "/sensors/brand_name/{partner_id}",
+        "parameters": [
+          {
+            "name": "partner_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {},
+        "tags": [
+          "sensors"
+        ]
+      }
+    },
+    "/sensors/get_sensor_readings_for_visualization": {
+      "post": {
+        "summary": "/sensors/get_sensor_readings_for_visualization",
+        "responses": {},
+        "tags": [
+          "sensors"
+        ]
+      }
+    }
+  },
+  "tags": [
+    {
+      "name": "contact"
+    },
+    {
+      "name": "crop"
+    },
+    {
+      "name": "disease"
+    },
+    {
+      "name": "document"
+    },
+    {
+      "name": "expense"
+    },
+    {
+      "name": "farm"
+    },
+    {
+      "name": "fertilizer"
+    },
+    {
+      "name": "field"
+    },
+    {
+      "name": "fieldCrop"
+    },
+    {
+      "name": "insight"
+    },
+    {
+      "name": "location"
+    },
+    {
+      "name": "log"
+    },
+    {
+      "name": "management_plan"
+    },
+    {
+      "name": "notification"
+    },
+    {
+      "name": "organic_certifier_survey"
+    },
+    {
+      "name": "password"
+    },
+    {
+      "name": "pesticide"
+    },
+    {
+      "name": "price"
+    },
+    {
+      "name": "product"
+    },
+    {
+      "name": "roles"
+    },
+    {
+      "name": "sale"
+    },
+    {
+      "name": "sensors"
+    },
+    {
+      "name": "shift"
+    },
+    {
+      "name": "signup"
+    },
+    {
+      "name": "spotlight"
+    },
+    {
+      "name": "support"
+    },
+    {
+      "name": "task"
+    },
+    {
+      "name": "task_type"
+    },
+    {
+      "name": "user"
+    },
+    {
+      "name": "userFarm"
+    },
+    {
+      "name": "userFarmData"
+    },
+    {
+      "name": "yield"
+    }
+  ]
+}

@@ -9,7 +9,6 @@ exports.up = async function (knex) {
       .references('location_id')
       .inTable('location')
       .onDelete('CASCADE');
-    table.uuid('farm_id').notNullable();
     table.string('name').notNullable();
     table
       .integer('partner_id')
@@ -19,6 +18,7 @@ exports.up = async function (knex) {
     table.string('external_id').notNullable();
     table.float('depth');
     table.float('elevation');
+    table.string('model');
   });
 
   await knex.schema.createTable('sensor_reading', function (table) {

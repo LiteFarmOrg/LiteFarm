@@ -1,21 +1,20 @@
 async function deleteSensorData(knex) {
-  const sensorLocationIdObjs = await knex('sensor').select('location_id');
-  const sensorLocationIds = sensorLocationIdObjs.map((s) => s.location_id);
+  await knex.transaction(async () => {
+    const sensorLocationIdObjs = await knex('sensor').select('location_id');
+    const sensorLocationIds = sensorLocationIdObjs.map((s) => s.location_id);
+    if (sensorLocationIds.length > 0) {
+      const tasksWithSensorLocationsObjs = await knex.raw(
+        `
+              SELECT DISTINCT lt.task_id,
+                              lt.location_id
+              FROM location_tasks lt
+                      JOIN task t on t.task_id = lt.task_id
+              WHERE lt.location_id = ANY(?);
+          `,
+        [sensorLocationIds],
+      );
 
-  if (sensorLocationIds.length > 0) {
-    const tasksWithSensorLocationsObjs = await knex.raw(
-      `
-            SELECT DISTINCT lt.task_id,
-                            lt.location_id
-            FROM location_tasks lt
-                     JOIN task t on t.task_id = lt.task_id
-            WHERE lt.location_id = ANY(?);
-        `,
-      [sensorLocationIds],
-    );
-
-    const tasksWithSensorLocations = tasksWithSensorLocationsObjs.rows.map((t) => t.task_id);
-    await knex.transaction(async () => {
+      const tasksWithSensorLocations = tasksWithSensorLocationsObjs.rows.map((t) => t.task_id);
       await knex.raw(
         `
             DELETE FROM point p WHERE p.figure_id IN
@@ -34,11 +33,9 @@ async function deleteSensorData(knex) {
       ]);
       await knex.raw(`DELETE FROM sale_task WHERE task_id = ANY(?);`, [tasksWithSensorLocations]);
       await knex.raw(`DELETE FROM social_task WHERE task_id = ANY(?);`, [tasksWithSensorLocations]);
-      await knex.raw(`DELETE FROM sale_task WHERE task_id = ANY(?);`, [tasksWithSensorLocations]);
       await knex.raw(`DELETE FROM transplant_task WHERE task_id = ANY(?);`, [
         tasksWithSensorLocations,
       ]);
-      await knex.raw(`DELETE FROM sale_task WHERE task_id = ANY(?);`, [tasksWithSensorLocations]);
       await knex.raw(`DELETE FROM transport_task WHERE task_id = ANY(?);`, [
         tasksWithSensorLocations,
       ]);
@@ -54,8 +51,7 @@ async function deleteSensorData(knex) {
                 DROP TABLE sensor;
             `,
       );
-    });
-  } else {
+    }
     await knex.raw(
       `
           DROP TABLE sensor_reading;
@@ -63,7 +59,7 @@ async function deleteSensorData(knex) {
           DROP TABLE sensor;
         `,
     );
-  }
+  });
 }
 
 module.exports = deleteSensorData;

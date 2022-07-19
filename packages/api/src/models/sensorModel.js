@@ -41,7 +41,7 @@ class Sensor extends Model {
         name: { type: 'string', minLength: 1, maxLength: 255 },
         grid_points: { type: 'object' },
         model: { type: 'string', minLength: 1, maxLength: 255 },
-        isDeleted: { type: 'boolean' },
+        deleted: { type: 'boolean' },
         partner_id: { type: 'integer' },
         external_id: { type: 'string', maxLength: 255 },
         depth: { type: 'float' },

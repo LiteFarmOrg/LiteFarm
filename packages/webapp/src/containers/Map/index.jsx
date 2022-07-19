@@ -64,6 +64,7 @@ export default function Map({ history }) {
   const showHeader = useSelector(setShowSuccessHeaderSelector);
   const [showSuccessHeader, setShowSuccessHeader] = useState(false);
   const [showZeroAreaWarning, setZeroAreaWarning] = useState(false);
+  const [showZeroLengthWarning, setShowZeroLengthWarning] = useState(false);
   const successMessage = useSelector(setSuccessMessageSelector);
 
   const [showingConfirmButtons, setShowingConfirmButtons] = useState(
@@ -215,6 +216,23 @@ export default function Map({ history }) {
         polygonAreaCheck(this);
       });
     });
+    maps.event.addListener(drawingManagerInit, 'polylinecomplete', function (polyline) {
+      const polylineLengthCheck = (path) => {
+        if (Math.round(maps.geometry.spherical.computeLength(path)) === 0) {
+          setShowZeroLengthWarning(true);
+        } else {
+          setShowZeroLengthWarning(false);
+        }
+      };
+      const path = polyline.getPath();
+      polylineLengthCheck(path);
+      maps.event.addListener(path, 'set_at', function () {
+        polylineLengthCheck(this);
+      });
+      maps.event.addListener(path, 'insert_at', function () {
+        polylineLengthCheck(this);
+      });
+    });
     maps.event.addListener(drawingManagerInit, 'overlaycomplete', function (drawing) {
       setShowingConfirmButtons(true);
       finishDrawing(drawing, maps, map);
@@ -294,6 +312,7 @@ export default function Map({ history }) {
 
   const handleAddMenuClick = (locationType) => {
     setZeroAreaWarning(false);
+    setShowZeroLengthWarning(false);
     if (isArea(locationType) && !showedSpotlight.draw_area) {
       setShowDrawAreaSpotlightModal(true);
     } else if (isLine(locationType) && !showedSpotlight.draw_line) {
@@ -398,6 +417,7 @@ export default function Map({ history }) {
                 showLineModal={isLineWithWidth() && !drawingState.isActive}
                 onClickBack={() => {
                   setZeroAreaWarning(false);
+                  setShowZeroLengthWarning(false);
                   resetDrawing(true);
                   dispatch(resetAndUnLockFormData());
                   closeDrawer();
@@ -405,12 +425,14 @@ export default function Map({ history }) {
                 }}
                 onClickTryAgain={() => {
                   setZeroAreaWarning(false);
+                  setShowZeroLengthWarning(false);
                   resetDrawing();
                   startDrawing(drawingState.type);
                   setShowingConfirmButtons(false);
                 }}
                 onClickConfirm={handleConfirm}
                 showZeroAreaWarning={showZeroAreaWarning}
+                showZeroLengthWarning={showZeroLengthWarning}
                 confirmLine={handleLineConfirm}
                 updateLineWidth={setLineWidth}
                 system={system}

@@ -8,6 +8,7 @@ exports.up = async function (knex) {
       .notNullable()
       .references('location_id')
       .inTable('location')
+      .unique()
       .onDelete('CASCADE');
     table.string('name').notNullable();
     table

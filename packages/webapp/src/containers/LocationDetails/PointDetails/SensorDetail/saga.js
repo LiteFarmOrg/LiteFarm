@@ -38,7 +38,7 @@ export function* patchSensorSaga({ payload: sensorData }) {
   try {
     const result = yield call(
       axios.patch,
-      sensorUrl + `/${sensorData.sensor_id}`,
+      sensorUrl + `/${sensorData.location_id}`,
       sensorData,
       header,
     );
@@ -50,13 +50,13 @@ export function* patchSensorSaga({ payload: sensorData }) {
   }
 }
 
-export function* getSensorReadingTypesSaga({ payload: { location_id, sensor_id } }) {
+export function* getSensorReadingTypesSaga({ payload: { location_id } }) {
   try {
     let { user_id, farm_id } = yield select(loginSelector);
     const header = getHeader(user_id, farm_id);
     const sensor_reading_types_response = yield call(
       axios.get,
-      `${sensorUrl}/reading_type/${sensor_id}`,
+      `${sensorUrl}/reading_type/${location_id}`,
       header,
     );
     const sensor_reading_types = sensor_reading_types_response.data;

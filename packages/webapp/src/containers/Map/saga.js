@@ -45,7 +45,7 @@ import {
 const sendMapToEmailUrl = (farm_id) => `${url}/export/map/farm/${farm_id}`;
 const showedSpotlightUrl = () => `${url}/showed_spotlight`;
 const bulkUploadSensorsInfoUrl = () => {
-  let url = `${sensorUrl}/add_sensors`;
+  let url = sensorUrl;
   const testTimer = localStorage.getItem('sensorUploadTimer');
   if (testTimer) url += `?sensorUploadTimer=${testTimer}`;
   return url;

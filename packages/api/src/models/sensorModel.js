@@ -37,7 +37,6 @@ class Sensor extends Model {
 
       properties: {
         location_id: { type: 'string' },
-        farm_id: { type: 'string', minLength: 1, maxLength: 255 },
         name: { type: 'string', minLength: 1, maxLength: 255 },
         grid_points: { type: 'object' },
         model: { type: 'string', minLength: 1, maxLength: 255 },

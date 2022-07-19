@@ -23,6 +23,7 @@ export default function BulkSensorUploadModal({
   onTemplateDownloadClick,
   uploadErrorMessage,
   uploadErrorLink,
+  errorTypeCode,
 }) {
   const { t } = useTranslation();
 
@@ -52,6 +53,7 @@ export default function BulkSensorUploadModal({
             onShowErrorClick={onShowErrorClick}
             uploadErrorMessage={uploadErrorMessage}
             uploadErrorLink={uploadErrorLink}
+            errorTypeCode={errorTypeCode}
           />
           <Button
             className={styles.buttonUpload}
@@ -83,4 +85,5 @@ BulkSensorUploadModal.prototype = {
   onTemplateDownloadClick: PropTypes.func,
   uploadErrorMessage: PropTypes.string,
   uploadErrorLink: PropTypes.string,
+  errorTypeCode: PropTypes.number,
 };

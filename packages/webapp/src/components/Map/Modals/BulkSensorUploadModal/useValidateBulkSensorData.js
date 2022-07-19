@@ -18,6 +18,7 @@ import * as XLSX from 'xlsx';
 import { useSelector } from 'react-redux';
 import { bulkSensorsUploadSliceSelector } from '../../../../containers/bulkSensorUploadSlice';
 import { createSensorErrorDownload } from '../../../../util/sensor';
+import { ErrorTypes, requiredReadingTypes } from './constants';
 
 // Required Fields
 const SENSOR_NAME = 'Name';
@@ -30,12 +31,6 @@ const SENSOR_EXTERNAL_ID = 'External_ID';
 const SENSOR_DEPTH = 'Depth';
 const SENSOR_BRAND = 'Brand';
 const SENSOR_MODEL = 'Model';
-
-const SOIL_MOISTURE_CONTENT = 'soil_water_content';
-const WATER_POTENTIAL = 'soil_water_potential';
-const TEMPERATURE = 'temperature';
-
-const requiredReadingTypes = [SOIL_MOISTURE_CONTENT, WATER_POTENTIAL, TEMPERATURE];
 
 const requiredFields = [SENSOR_NAME, SENSOR_LATITUDE, SENSOR_LONGITUDE, SENSOR_READING_TYPES];
 const templateFields = [
@@ -54,6 +49,8 @@ export function useValidateBulkSensorData(onUpload, t) {
   const [errorCount, setErrorCount] = useState(0);
   const fileInputRef = useRef(null);
   const [translatedUploadErrors, setTranslatedUploadErrors] = useState([]);
+  const [uploadErrorMessage, setUploadErrorMessage] = useState('');
+  const [errorTypeCode, setErrorTypeCode] = useState(ErrorTypes.DEFAULT);
 
   const validationFields = [
     {
@@ -221,6 +218,7 @@ export function useValidateBulkSensorData(onUpload, t) {
       const workBook = XLSX.read(data);
       const sheetErrorList = [];
       let totalErrorCount = 0;
+      let isEmptyFile = false;
       for (const singleSheet of workBook.SheetNames) {
         const sheetError = {
           sheetName: singleSheet,
@@ -228,7 +226,7 @@ export function useValidateBulkSensorData(onUpload, t) {
         const worksheet = workBook.Sheets[singleSheet];
         // sheet_to_json always return array.
         const jsonData = XLSX.utils.sheet_to_json(worksheet, { defval: '' });
-
+        isEmptyFile = !jsonData.length;
         let errors = [];
         errors = checkRequiredColumnsArePresent(jsonData[0]);
         if (!errors.length) {
@@ -241,6 +239,13 @@ export function useValidateBulkSensorData(onUpload, t) {
         totalErrorCount += errors.length;
         sheetError.errors = errors;
         sheetError.errors.length && sheetErrorList.push(sheetError);
+      }
+      if (isEmptyFile) {
+        setErrorTypeCode(ErrorTypes.EMPTY_FILE);
+        setUploadErrorMessage(t('FARM_MAP.BULK_UPLOAD_SENSORS.EMPTY_FILE_UPLOAD_ERROR_MESSAGE'));
+      } else {
+        setErrorTypeCode(ErrorTypes.INVALID_CSV);
+        setUploadErrorMessage(t('FARM_MAP.BULK_UPLOAD_SENSORS.UPLOAD_ERROR_MESSAGE'));
       }
       setErrorCount(totalErrorCount);
       setSheetErrors(sheetErrorList);
@@ -289,5 +294,7 @@ export function useValidateBulkSensorData(onUpload, t) {
     selectedFileName,
     fileInputRef,
     errorCount,
+    uploadErrorMessage,
+    errorTypeCode,
   };
 }

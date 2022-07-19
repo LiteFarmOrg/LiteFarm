@@ -92,7 +92,6 @@ class Sensor extends Model {
         name: sensor.name,
         notes: '',
         sensor: {
-          farm_id,
           name: sensor.name,
           partner_id,
           depth: sensor.depth,

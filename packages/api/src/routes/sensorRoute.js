@@ -27,7 +27,7 @@ const router = express.Router();
 
 router.post('/get_sensors/', SensorController.getSensorsByFarmId);
 router.post(
-  '/add_sensors/',
+  '/',
   checkScope(['add:sensors']),
   upload.single('sensors'),
   SensorController.addSensors,

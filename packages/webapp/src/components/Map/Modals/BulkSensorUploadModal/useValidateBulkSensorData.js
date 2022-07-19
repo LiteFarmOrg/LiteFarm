@@ -18,28 +18,7 @@ import * as XLSX from 'xlsx';
 import { useSelector } from 'react-redux';
 import { bulkSensorsUploadSliceSelector } from '../../../../containers/bulkSensorUploadSlice';
 import { createSensorErrorDownload } from '../../../../util/sensor';
-import { ErrorTypes, requiredReadingTypes } from './constants';
-
-// Required Fields
-const SENSOR_NAME = 'Name';
-const SENSOR_LATITUDE = 'Latitude';
-const SENSOR_LONGITUDE = 'Longitude';
-const SENSOR_READING_TYPES = 'Reading_types';
-
-// Optional Fields
-const SENSOR_EXTERNAL_ID = 'External_ID';
-const SENSOR_DEPTH = 'Depth';
-const SENSOR_BRAND = 'Brand';
-const SENSOR_MODEL = 'Model';
-
-const requiredFields = [SENSOR_NAME, SENSOR_LATITUDE, SENSOR_LONGITUDE, SENSOR_READING_TYPES];
-const templateFields = [
-  ...requiredFields,
-  SENSOR_EXTERNAL_ID,
-  SENSOR_DEPTH,
-  SENSOR_BRAND,
-  SENSOR_MODEL,
-];
+import { ErrorTypes } from './constants';
 
 export function useValidateBulkSensorData(onUpload, t) {
   const bulkSensorsUploadResponse = useSelector(bulkSensorsUploadSliceSelector);
@@ -51,6 +30,37 @@ export function useValidateBulkSensorData(onUpload, t) {
   const [translatedUploadErrors, setTranslatedUploadErrors] = useState([]);
   const [uploadErrorMessage, setUploadErrorMessage] = useState('');
   const [errorTypeCode, setErrorTypeCode] = useState(ErrorTypes.DEFAULT);
+
+  // Required Fields
+  const SENSOR_NAME = t('FARM_MAP.BULK_UPLOAD_SENSORS.SENSOR_FIELDS.NAME');
+  const SENSOR_LATITUDE = t('FARM_MAP.BULK_UPLOAD_SENSORS.SENSOR_FIELDS.LATITUDE');
+  const SENSOR_LONGITUDE = t('FARM_MAP.BULK_UPLOAD_SENSORS.SENSOR_FIELDS.LONGITUDE');
+  const SENSOR_READING_TYPES = t('FARM_MAP.BULK_UPLOAD_SENSORS.SENSOR_FIELDS.READING_TYPES');
+
+  // Optional Fields
+  const SENSOR_EXTERNAL_ID = t('FARM_MAP.BULK_UPLOAD_SENSORS.SENSOR_FIELDS.SENSOR_EXTERNAL_ID');
+  const SENSOR_DEPTH = t('FARM_MAP.BULK_UPLOAD_SENSORS.SENSOR_FIELDS.DEPTH');
+  const SENSOR_BRAND = t('FARM_MAP.BULK_UPLOAD_SENSORS.SENSOR_FIELDS.BRAND');
+  const SENSOR_MODEL = t('FARM_MAP.BULK_UPLOAD_SENSORS.SENSOR_FIELDS.MODEL');
+
+  const SOIL_MOISTURE_CONTENT = t(
+    'FARM_MAP.BULK_UPLOAD_SENSORS.SENSOR_READING_TYPES.SOIL_MOISTURE_CONTENT',
+  );
+  const SOIL_WATER_POTENTIAL = t(
+    'FARM_MAP.BULK_UPLOAD_SENSORS.SENSOR_READING_TYPES.SOIL_WATER_POTENTIAL',
+  );
+  const TEMPERATURE = t('FARM_MAP.BULK_UPLOAD_SENSORS.SENSOR_READING_TYPES.TEMPERATURE');
+
+  const requiredReadingTypes = [SOIL_MOISTURE_CONTENT, SOIL_WATER_POTENTIAL, TEMPERATURE];
+
+  const requiredFields = [SENSOR_NAME, SENSOR_LATITUDE, SENSOR_LONGITUDE, SENSOR_READING_TYPES];
+  const templateFields = [
+    ...requiredFields,
+    SENSOR_EXTERNAL_ID,
+    SENSOR_DEPTH,
+    SENSOR_BRAND,
+    SENSOR_MODEL,
+  ];
 
   const validationFields = [
     {

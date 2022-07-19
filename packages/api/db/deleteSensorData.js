@@ -15,7 +15,7 @@ async function deleteSensorData(knex) {
     );
 
     const tasksWithSensorLocations = tasksWithSensorLocationsObjs.rows.map((t) => t.task_id);
-    knex.transaction(async (trx) => {
+    await knex.transaction(async (trx) => {
       try {
         await knex.raw(
           `

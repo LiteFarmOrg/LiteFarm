@@ -458,6 +458,7 @@
       "UPLOAD_INSTRUCTION_MESSAGE": "for correct formatting.",
       "UPLOAD_PLACEHOLDER": "Upload CSV file",
       "UPLOAD_ERROR_MESSAGE": "We found some errors with your upload. You can view them",
+      "EMPTY_FILE_UPLOAD_ERROR_MESSAGE": "No sensors found, please check your upload and try again.",
       "UPLOAD_ERROR_LINK": "here.",
       "VALIDATION": {
         "FILE_ROW_LIMIT_EXCEEDED": "File row limit exceeded. The max number of sensors that can be uploaded from a file is 100.",
@@ -466,7 +467,7 @@
         "SENSOR_NAME": "Invalid sensor name, must be between 1 and 100 characters.",
         "SENSOR_LATITUDE": "Invalid latitude value, must be between -90 and 90. and fewer than 10 decimals.",
         "SENSOR_LONGITUDE": "Invalid longitude value, must be between -180 and 180. and fewer than 10 decimals.",
-        "SENSOR_READING_TYPES": "Invalid reading type detected, valid values include: soil_moisture_content, water_potential, temperature.",
+        "SENSOR_READING_TYPES": "Invalid reading type detected, valid values include: soil_water_content, soil_water_potential, temperature.",
         "SENSOR_DEPTH": "Invalid depth value, must be between 0 and 1000.",
         "SENSOR_BRAND": "Invalid brand name, must be between 1 and 100 characters.",
         "SENSOR_MODEL": "Invalid model name, must be between 1 and 100 characters.",

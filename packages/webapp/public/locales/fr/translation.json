@@ -473,7 +473,7 @@
       "SENSOR_READING_TYPES": {
         "SOIL_MOISTURE_CONTENT": "teneur_en_eau_du_sol",
         "SOIL_WATER_POTENTIAL": "potential_hydrique_du_sol",
-        "TEMPERATURE": "temperatura"
+        "TEMPERATURE": "température"
       },
       "VALIDATION": {
         "FILE_ROW_LIMIT_EXCEEDED": "MISSING",

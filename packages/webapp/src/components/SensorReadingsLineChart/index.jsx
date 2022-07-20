@@ -26,48 +26,42 @@ const PureSensorReadingsLineChart = ({
   yAxisLabel,
   chartData,
 }) => {
-  const [disabledLegends, setDisabledLegends] = useState({});
-  const [activeLegends, setActiveLegends] = useState({});
-  const [isActive, setIsActive] = useState(false);
-  const [legendsList, setLegendsList] = useState(() =>
-    yAxisDataKeys.reduce((acc, cv, idx) => {
-      acc[cv] = {
-        id: cv,
-        value: cv,
-        type: 'square',
-        color: lineColors[idx % lineColors.length],
-      };
-      return acc;
-    }, {}),
-  );
+  const [legendsList, setLegendsList] = useState({});
 
   useEffect(() => {
-    const activeLegends = Object.keys(legendsList).reduce((acc, cv) => {
-      if (!Object.keys(disabledLegends).includes(cv)) {
-        acc[cv] = legendsList[cv];
-      }
-      return acc;
-    }, {});
-    setActiveLegends(activeLegends);
-  }, [disabledLegends, legendsList, isActive]);
+    if (yAxisDataKeys.length) {
+      setLegendsList(
+        yAxisDataKeys.reduce((acc, cv, idx) => {
+          acc[cv] = {
+            id: cv,
+            value: cv,
+            color: lineColors[idx % lineColors.length],
+            isActive: true,
+          };
+          return acc;
+        }, {}),
+      );
+    }
+  }, [yAxisDataKeys]);
 
   const handleLabelClick = (entry) => {
-    setDisabledLegends((dis) => {
-      if (dis.hasOwnProperty(entry.value)) delete dis[entry.value];
-      else dis[entry.value] = entry;
-      return dis;
+    setLegendsList((legends) => {
+      const activeCount = Object.values(legends).filter((l) => l.isActive).length;
+      const isActive = legends[entry.value].isActive;
+      if ((activeCount > 1 && isActive) || (activeCount >= 1 && !isActive)) {
+        legends[entry.value].isActive = !isActive;
+      }
+      return { ...legends };
     });
-    setIsActive((isA) => !isA);
   };
 
   const renderCusomizedLegend = ({ payload }) => {
     return (
       <div className={styles.legendWrapper}>
-        {Object.values(payload).map((entry, idx) => {
-          const { value = '', color = '' } = entry;
-          const active = Object.keys(disabledLegends).includes(value);
+        {payload.map((entry, idx) => {
+          const { value = '', color = '', isActive = true } = entry;
           const style = {
-            color: active ? '#AAA' : '#000',
+            color: !isActive ? '#AAA' : '#000',
             display: 'flex',
             alignItems: 'center',
           };
@@ -80,7 +74,7 @@ const PureSensorReadingsLineChart = ({
             >
               <Surface style={{ marginTop: '2px' }} width={10} height={10}>
                 <Symbols cx={5} cy={5} type="circle" size={50} fill={color} />
-                {active && <Symbols cx={5} cy={5} type="circle" size={25} fill={'#FFF'} />}
+                {!isActive && <Symbols cx={5} cy={5} type="circle" size={25} fill={'#FFF'} />}
               </Surface>
               <span style={{ marginLeft: '4px' }}>{value}</span>
             </div>
@@ -131,16 +125,18 @@ const PureSensorReadingsLineChart = ({
             />
           )}
           {yAxisDataKeys.length &&
-            Object.values(activeLegends).map((attribute, idx) => (
-              <Line
-                key={idx}
-                strokeWidth={2}
-                dataKey={attribute.value}
-                stroke={attribute.color}
-                activeDot={{ r: 6 }}
-                isAnimationActive={false}
-              />
-            ))}
+            Object.values(legendsList)
+              .filter((l) => l.isActive)
+              .map((attribute, idx) => (
+                <Line
+                  key={idx}
+                  strokeWidth={2}
+                  dataKey={attribute.value}
+                  stroke={attribute.color}
+                  activeDot={{ r: 6 }}
+                  isAnimationActive={false}
+                />
+              ))}
         </LineChart>
       </ResponsiveContainer>
     </>

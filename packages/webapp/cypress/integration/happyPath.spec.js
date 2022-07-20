@@ -5,14 +5,11 @@ describe.only('LiteFarm end to end test', () => {
   let userPassword;
 
   before(() => {
-    // get and check the test email only once before the tests
-    cy.task('getUserEmail').then((email) => {
-      expect(email).to.be.a('string');
+    cy.getEmail().then((email) => {
       userEmail = email;
     });
 
-    cy.task('getUserPassword').then((password) => {
-      expect(password).to.be.a('string');
+    cy.getPassword().then((password) => {
       userPassword = password;
     });
   });
@@ -36,15 +33,11 @@ describe.only('LiteFarm end to end test', () => {
     const workerName = 'Test Worker';
     const testCrop = 'New Crop';
 
-    //Login page
-    cy.get('[data-cy=email]').type(emailOwner);
-    cy.contains('Continue').should('exist').and('be.enabled').click();
+    //Login as a new user
+    cy.newUserLogin(emailOwner);
 
-    //check you are on the create user account page
-    cy.contains('Create new user account').should('exist');
-    cy.get('[data-cy=createUser-fullName]').type(fullName);
-    cy.get('[data-cy=createUser-password]').type(password);
-    cy.contains('Create Account').should('exist').and('be.enabled').click();
+    //invite the new user
+    cy.inviteNewUser(emailOwner, fullName, null, null, null, password);
 
     cy.wait(10 * 1000);
     cy.task('getLastEmail')

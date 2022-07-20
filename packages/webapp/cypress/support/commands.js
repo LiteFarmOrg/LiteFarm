@@ -230,3 +230,32 @@ Cypress.Commands.add('createUnassignedTaskThisWeek', () => {
     .and('not.be.disabled')
     .click({ force: true });
 });
+
+Cypress.Commands.add('getEmail', () => {
+  // get and check the test email only once before the tests
+  cy.task('getUserEmail').then((email) => {
+    expect(email).to.be.a('string');
+    return email;
+  });
+}) /
+  Cypress.Commands.add('getPassword', () => {
+    // get and check the test password only once before the tests
+    cy.task('getUserPassword').then((password) => {
+      expect(password).to.be.a('string');
+      return password;
+    });
+  });
+
+Cypress.Commands.add('newUserLogin', (email) => {
+  //Login page
+  cy.get('[data-cy=email]').type(email);
+  cy.contains('Continue').should('exist').and('be.enabled').click();
+});
+
+Cypress.Commands.add('inviteNewUser', (email, fullName, gender, language, birthYear, password) => {
+  //cy.contains('Create new user account').should('exist');
+  cy.get('[data-cy=createUser-email]').should('eq', email);
+  cy.get('[data-cy=createUser-fullName]').type(fullName);
+  cy.get('[data-cy=createUser-password]').type(password);
+  cy.contains('Create Account').should('exist').and('be.enabled').click();
+});

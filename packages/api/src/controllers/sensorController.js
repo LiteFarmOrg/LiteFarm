@@ -35,9 +35,9 @@ const syncAsyncResponse = require('../util/syncAsyncResponse');
 
 const sensorController = {
   async getSensorReadingTypes(req, res) {
-    const { sensor_id } = req.params;
+    const { location_id } = req.params;
     try {
-      const sensorReadingTypesResponse = await SensorModel.getSensorReadingTypes(sensor_id);
+      const sensorReadingTypesResponse = await SensorModel.getSensorReadingTypes(location_id);
       const readingTypes = sensorReadingTypesResponse.rows.map(
         (datapoint) => datapoint.readable_value,
       );
@@ -340,16 +340,12 @@ const sensorController = {
         sensor_name,
         latitude,
         longtitude,
-        sensor_id,
         model,
         depth,
         reading_types,
         location_id,
         user_id,
       } = req.body;
-
-      // Data is formatted in nested object values, these 5 const's are accessing reading types by using
-      // Object.entries and accessing each values via array indexing
 
       if (reading_types.length !== 0) {
         const status = reading_types['STATUS'];
@@ -375,7 +371,7 @@ const sensorController = {
           soilWaterPotential: isSoilWaterPotentialActive,
           temperature: isTemperatureActive,
         };
-        await SensorModel.patchSensorReadingTypes(sensor_id, readingTypes);
+        await SensorModel.patchSensorReadingTypes(location_id, readingTypes);
       }
 
       const sensor_properties = {
@@ -400,7 +396,7 @@ const sensorController = {
       await SensorModel.query()
         .patch(sensor_properties)
         .where('partner_id', 1)
-        .where('sensor_id', sensor_id);
+        .where('location_id', location_id);
 
       return res.status(200).send('Success');
     } catch (error) {

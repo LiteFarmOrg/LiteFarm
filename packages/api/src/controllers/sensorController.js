@@ -552,22 +552,29 @@ const sensorController = {
   async retireSensor(req, res) {
     const trx = await transaction.start(Model.knex());
     try {
-      const { external_id, location_id, farm_id, partner_id } = req.body.sensorInfo;
+      const { external_id, location_id, farm_id, partner_id, brand_name } = req.body.sensorInfo;
+      console.log(req.body.sensorInfo);
       const user_id = req.user.user_id;
       const { access_token } = await IntegratingPartnersModel.getAccessAndRefreshTokens(
         'Ensemble Scientific',
       );
-      const external_integrations_response = await FarmExternalIntegrationsModel.getOrganizationId(
-        farm_id,
-        partner_id,
-      );
-      const org_id = external_integrations_response.organization_uuid;
-      const unclaimResponse = await unclaimSensor(org_id, external_id, access_token);
+      let unclaimResponse;
+      if (brand_name != 'No Integrating Partner' && external_id != '') {
+        const external_integrations_response = await FarmExternalIntegrationsModel.getOrganizationId(
+          farm_id,
+          partner_id,
+        );
+        const org_id = external_integrations_response.organization_uuid;
+        unclaimResponse = await unclaimSensor(org_id, external_id, access_token);
+        if (unclaimResponse != 200) {
+          await trx.rollback();
+          return res.status(500);
+        }
+      }
       const deleteResponse = await LocationModel.deleteLocation(location_id, { user_id }, { trx });
-      console.log(unclaimResponse, deleteResponse);
-      if (unclaimResponse.status == 200 && deleteResponse == 1) {
+      if (deleteResponse == 1) {
         await trx.commit();
-        return res.status(200).send(unclaimResponse.data);
+        return res.status(200).send(unclaimResponse?.data);
       } else {
         await trx.rollback();
         return res.status(500);

@@ -1,5 +1,9 @@
 {
   "definitions": {},
+  "host": [
+    "api.app.litefarm.org",
+    "api.beta.litefarm.org"
+  ],
   "info": {
     "title": "litefarm-api",
     "version": "3.2.1",
@@ -6784,7 +6788,34 @@
         "consumes": [
           "application/json"
         ],
-        "parameters": [],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "farm_name": {
+                  "type": "string",
+                  "example": ""
+                },
+                "address": {
+                  "type": "string",
+                  "example": ""
+                },
+                "grid_points": {
+                  "type": "object",
+                  "properties": {}
+                },
+                "country": {
+                  "type": "string",
+                  "example": ""
+                }
+              }
+            }
+          }
+        ],
         "responses": {
           "201": {
             "description": "Created",
@@ -6955,6 +6986,9 @@
               "type": "string",
               "example": "No country selected"
             }
+          },
+          "401": {
+            "description": "Unauthorized"
           }
         },
         "tags": [
@@ -6963,6 +6997,11 @@
         "produces": [
           "text/html",
           "application/json"
+        ],
+        "security": [
+          {
+            "authorization": []
+          }
         ]
       }
     },
@@ -13960,6 +13999,9 @@
       }
     }
   },
+  "schemes": [
+    "http"
+  ],
   "swagger": "2.0",
   "tags": [
     {
@@ -14058,5 +14100,12 @@
     {
       "name": "yield"
     }
-  ]
+  ],
+  "securityDefinitions": {
+    "authorization": {
+      "name": "authorization",
+      "in": "header",
+      "type": "apiKey"
+    }
+  }
 }

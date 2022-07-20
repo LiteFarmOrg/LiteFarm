@@ -11242,6 +11242,34 @@
     "/farm": {
       "post": {
         "summary": "/farm",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "farm_name": {
+                    "type": "string",
+                    "example": ""
+                  },
+                  "address": {
+                    "type": "string",
+                    "example": ""
+                  },
+                  "grid_points": {
+                    "type": "object",
+                    "properties": {}
+                  },
+                  "country": {
+                    "type": "string",
+                    "example": ""
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
         "responses": {
           "201": {
             "description": "Created",
@@ -11588,10 +11616,18 @@
                 }
               }
             }
+          },
+          "401": {
+            "description": "Unauthorized"
           }
         },
         "tags": [
           "farm"
+        ],
+        "security": [
+          {
+            "authorization": []
+          }
         ]
       }
     },
@@ -20127,5 +20163,22 @@
     {
       "name": "yield"
     }
-  ]
+  ],
+  "servers": [
+    {
+      "url": "https://api.app.litefarm.org"
+    },
+    {
+      "url": "https://api.beta.litefarm.org"
+    }
+  ],
+  "components": {
+    "securitySchemes": {
+      "authorization": {
+        "name": "authorization",
+        "in": "header",
+        "type": "apiKey"
+      }
+    }
+  }
 }

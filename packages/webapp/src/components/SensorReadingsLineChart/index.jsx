@@ -44,7 +44,7 @@ const PureSensorReadingsLineChart = ({
     }
   }, [yAxisDataKeys]);
 
-  const handleLabelClick = (entry) => {
+  const handleLegendClick = (entry) => {
     setLegendsList((legends) => {
       const activeCount = Object.values(legends).filter((l) => l.isActive).length;
       const isActive = legends[entry.value].isActive;
@@ -69,7 +69,7 @@ const PureSensorReadingsLineChart = ({
             <div
               style={style}
               key={idx}
-              onClick={() => handleLabelClick(entry)}
+              onClick={() => handleLegendClick(entry)}
               className={styles.legendContainer}
             >
               <Surface style={{ marginTop: '2px' }} width={10} height={10}>

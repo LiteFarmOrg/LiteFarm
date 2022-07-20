@@ -37,10 +37,7 @@ class Sensor extends Model {
 
       properties: {
         location_id: { type: 'string' },
-        name: { type: 'string', minLength: 1, maxLength: 255 },
-        grid_points: { type: 'object' },
         model: { type: 'string', minLength: 1, maxLength: 255 },
-        deleted: { type: 'boolean' },
         partner_id: { type: 'integer' },
         external_id: { type: 'string', maxLength: 255 },
         depth: { type: 'float' },
@@ -92,7 +89,7 @@ class Sensor extends Model {
         name: sensor.name,
         notes: '',
         sensor: {
-          name: sensor.name,
+          model: sensor.model,
           partner_id,
           depth: sensor.depth,
           external_id: sensor.external_id,
@@ -122,16 +119,17 @@ class Sensor extends Model {
    * @param {Array} sensorIds sensor ids
    * @returns {Object} reading_type Reading Object
    */
-  static async getSensorLocationBySensorIds(locationIds = []) {
+  static async getSensorLocationByLocationIds(locationIds = []) {
     return await knex.raw(
       `SELECT 
       s.location_id, 
-      s.name, 
       s.external_id,
-      b.point 
+      b.point,
+      b.name
       FROM "sensor" s 
       JOIN (
         SELECT 
+        l.name,
         l.location_id, 
         a.point 
         FROM "location" l JOIN
@@ -144,7 +142,7 @@ class Sensor extends Model {
       ) b 
       ON s.location_id::uuid = b.location_id
       WHERE s.location_id = ANY(?)
-      ORDER BY s.name ASC;
+      ORDER BY b.name ASC;
       `,
       [locationIds],
     );

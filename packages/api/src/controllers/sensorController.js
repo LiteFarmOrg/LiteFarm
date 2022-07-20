@@ -362,9 +362,6 @@ const sensorController = {
           name: 'temperature',
           active: status['temperature'].active,
         };
-        console.log(isSoilWaterContentActive);
-        console.log(isSoilWaterPotentialActive);
-        console.log(isTemperatureActive);
 
         const readingTypes = {
           soilWaterContent: isSoilWaterContentActive,
@@ -375,7 +372,6 @@ const sensorController = {
       }
 
       const sensor_properties = {
-        name: sensor_name,
         depth,
         model,
       };
@@ -549,7 +545,7 @@ const sensorController = {
         readingType,
       );
 
-      const sensorsPoints = await SensorModel.getSensorLocationBySensorIds(locationIds);
+      const sensorsPoints = await SensorModel.getSensorLocationByLocationIds(locationIds);
       res
         .status(200)
         .send({ length: result.length, sensorReading: result, sensorsPoints: sensorsPoints.rows });

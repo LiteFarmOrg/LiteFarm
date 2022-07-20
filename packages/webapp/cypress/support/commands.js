@@ -119,7 +119,17 @@ Cypress.Commands.add('selectOptions', () => {
 Cypress.Commands.add('insights', () => {
   cy.get('._infoTextLine_avdgi_23').should('exist');
 });
-//<div class=" css-14sfozv-menu" id="react-select-3-listbox"><div class=" css-1plh46m-MenuList2"><div class=" css-19hntng-option" aria-disabled="false" id="react-select-3-option-0" tabindex="-1">Test Worker</div><div class=" css-1n3x1m8-option" aria-disabled="false" id="react-select-3-option-1" tabindex="-1">Unassigned</div></div></div>
+
+Cypress.Commands.add('createUserGender', () => {
+  cy.get(
+    ':nth-child(4) > .css-1e28hxc-container > .css-oi28ju-Control2 > .css-1pfr3d8-IndicatorsContainer2 > .css-1rtg9lh-indicatorContainer > .css-tj5bde-Svg',
+  );
+});
+
+Cypress.Commands.add('createUserGenderOptions', () => {
+  cy.get('#react-select-2-listbox');
+});
+
 Cypress.Commands.add('createTask', () => {
   //Create an unassigned cleaning task due tomorrow
   cy.contains('Create').should('exist').and('not.be.disabled').click({ force: true });
@@ -253,9 +263,11 @@ Cypress.Commands.add('newUserLogin', (email) => {
 });
 
 Cypress.Commands.add('inviteNewUser', (email, fullName, gender, language, birthYear, password) => {
-  //cy.contains('Create new user account').should('exist');
-  cy.get('[data-cy=createUser-email]').should('eq', email);
+  cy.contains('Create new user account').should('exist');
+  //cy.get('[data-cy=createUser-email]').should('eq', email);
   cy.get('[data-cy=createUser-fullName]').type(fullName);
   cy.get('[data-cy=createUser-password]').type(password);
+  //cy.createUserGender().click();
+  //cy.createUserGenderOptions().eq(1).contains(gender).click();
   cy.contains('Create Account').should('exist').and('be.enabled').click();
 });

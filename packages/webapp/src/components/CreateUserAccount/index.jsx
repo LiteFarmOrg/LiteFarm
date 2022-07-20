@@ -111,11 +111,11 @@ export default function PureCreateUserAccount({ onSignUp, email, onGoBack }) {
         hookFormRegister={register(NAME, { required: true })}
       />
       <Controller
-        data-cy="createUser-gender"
         control={control}
         name={GENDER}
         render={({ field: { onChange, onBlur, value } }) => (
           <ReactSelect
+            data-cy="createUser-gender"
             label={t('CREATE_USER.GENDER')}
             options={genderOptions}
             onChange={onChange}

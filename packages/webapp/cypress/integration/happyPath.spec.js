@@ -25,6 +25,7 @@ describe.only('LiteFarm end to end test', () => {
     const emailOwner = userEmail;
     const usrname = emailOwner.indexOf('@');
     const emailWorker = emailOwner.slice(0, usrname) + '+1' + emailOwner.slice(usrname);
+    const gender = 'Male';
     const fullName = 'Test Farmer';
     const password = `${userPassword}+@`;
     const farmName = 'UBC FARM';
@@ -37,8 +38,9 @@ describe.only('LiteFarm end to end test', () => {
     cy.newUserLogin(emailOwner);
 
     //invite the new user
-    cy.inviteNewUser(emailOwner, fullName, null, null, null, password);
+    cy.inviteNewUser(emailOwner, fullName, gender, null, null, password);
 
+    //confirm user creation email
     cy.wait(10 * 1000);
     cy.task('getLastEmail')
       .its('html')
@@ -57,15 +59,12 @@ describe.only('LiteFarm end to end test', () => {
 
     //Add farm page
     cy.url().should('include', '/add_farm');
-    cy.get('[data-cy=addFarm-continue]').should('exist');
-    cy.get('[data-cy=addFarm-continue]').should('be.disabled');
-    cy.get('[data-cy=addFarm-farmName]').should('exist');
-    cy.get('[data-cy=addFarm-location]').should('exist');
+    cy.get('[data-cy=addFarm-continue]').should('exist').should('be.disabled');
 
     // Enter new farm details and click continue which should be enabled
     cy.waitForGoogleApi().then(() => {
-      cy.get('[data-cy=addFarm-farmName]').type(farmName);
-      cy.get('[data-cy=addFarm-location]').type(location).wait(1000);
+      cy.get('[data-cy=addFarm-farmName]').should('exist').type(farmName);
+      cy.get('[data-cy=addFarm-location]').should('exist').type(location).wait(1000);
       cy.get('[data-cy=addFarm-continue]').should('not.be.disabled').click();
     });
 

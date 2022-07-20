@@ -414,7 +414,7 @@ const sensorController = {
   async deleteSensor(req, res) {
     try {
       const trx = await transaction.start(Model.knex());
-      const isDeleted = await baseController.delete(SensorModel, req.params.sensor_id, req, {
+      const isDeleted = await baseController.delete(SensorModel, req.params.location_id, req, {
         trx,
       });
       await trx.commit();
@@ -451,18 +451,18 @@ const sensorController = {
       const infoBody = [];
       for (const sensor of req.body) {
         const corresponding_sensor = await SensorModel.query()
-          .select('sensor_id')
+          .select('location_id')
           .where('external_id', sensor.sensor_esid)
           .where('partner_id', req.params.partner_id);
         for (let i = 0; i < sensor.value.length; i++) {
           const row = {
             read_time: sensor.time[i],
-            sensor_id: corresponding_sensor[0].sensor_id,
+            location_id: corresponding_sensor[0].location_id,
             reading_type: sensor.parameter_number,
             value: sensor.value[i],
             unit: sensor.unit,
           };
-          // Only include this entry if all required values are poulated
+          // Only include this entry if all required values are populated
           if (Object.values(row).every((value) => value)) {
             infoBody.push(row);
           }
@@ -484,13 +484,17 @@ const sensorController = {
     }
   },
 
-  async getAllReadingsBySensorId(req, res) {
+  async getAllReadingsByLocationId(req, res) {
     try {
-      const { sensor_id } = req.body;
-      if (!sensor_id) {
+      const { location_id } = req.params;
+      if (!location_id) {
         res.status(400).send('No sensor selected');
       }
-      const data = await baseController.getByFieldId(SensorReadingModel, 'sensor_id', sensor_id);
+      const data = await baseController.getByFieldId(
+        SensorReadingModel,
+        'location_id',
+        location_id,
+      );
       const validReadings = data.filter((datapoint) => datapoint.valid);
       res.status(200).send(validReadings);
     } catch (error) {

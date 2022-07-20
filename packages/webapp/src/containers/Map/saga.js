@@ -185,7 +185,7 @@ export function* getSensorReadingsSaga() {
   const header = getHeader(user_id, farm_id);
   try {
     yield put(onLoadingSensorReadingStart(user_id, farm_id));
-    const result = yield call(axios.get, `${sensorUrl}/sensor_readings/${farm_id}/7`, header);
+    const result = yield call(axios.get, `${sensorUrl}/readings/${farm_id}/7`, header);
     if (result.status === 200) yield put(getSensorReadingSuccess(result.data));
     yield put(onLoadingSensorReadingFail(result.error));
   } catch (e) {

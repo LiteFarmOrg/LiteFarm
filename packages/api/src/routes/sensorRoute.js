@@ -33,13 +33,13 @@ router.post(
   SensorController.addSensors,
 );
 
-router.delete('/delete_sensor/:sensor_id', SensorController.deleteSensor);
+router.delete('/:sensor_id', SensorController.deleteSensor);
 router.patch('/:sensor_esid', SensorController.updateSensorbyID);
-router.post('/add_reading/:partner_id/:farm_id', validateRequest, SensorController.addReading);
-router.post('/get_readings', SensorController.getAllReadingsBySensorId);
-router.get('/sensor_readings/:farm_id/:days', SensorController.getReadingsByFarmId);
+router.post('/readings/:partner_id/:farm_id', validateRequest, SensorController.addReading);
+router.get('/readings/:location_id', SensorController.getAllReadingsByLocationId);
+router.get('/readings/:farm_id/:days', SensorController.getReadingsByFarmId);
 router.post('/invalidate_readings', SensorController.invalidateReadings);
-router.post('/unclaim_sensor', SensorController.retireSensor);
+router.post('/unclaim', SensorController.retireSensor);
 router.get('/reading_type/:sensor_id', SensorController.getSensorReadingTypes);
 router.get('/brand_name/:partner_id', SensorController.getBrandName);
 router.post(

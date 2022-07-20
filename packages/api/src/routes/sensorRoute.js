@@ -42,8 +42,5 @@ router.post('/invalidate_readings', SensorController.invalidateReadings);
 router.post('/unclaim_sensor', SensorController.retireSensor);
 router.get('/reading_type/:sensor_id', SensorController.getSensorReadingTypes);
 router.get('/brand_name/:partner_id', SensorController.getBrandName);
-router.post(
-  '/get_sensor_readings_for_visualization',
-  SensorController.getAllSensorReadingsByLocationIds,
-);
+router.post('/reading/visualization', SensorController.getAllSensorReadingsByLocationIds);
 module.exports = router;

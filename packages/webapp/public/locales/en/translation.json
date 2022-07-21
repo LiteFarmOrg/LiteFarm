@@ -460,6 +460,21 @@
       "UPLOAD_ERROR_MESSAGE": "We found some errors with your upload. ",
       "UPLOAD_ERROR_LINK": "Click here to view them.",
       "EMPTY_FILE_UPLOAD_ERROR_MESSAGE": "No sensors found, please check your upload and try again.",
+      "SENSOR_FIELDS": {
+        "NAME": "Name",
+        "LATITUDE": "Latitude",
+        "LONGITUDE": "Longitude",
+        "READING_TYPES": "Reading_types",
+        "SENSOR_EXTERNAL_ID": "External_ID",
+        "DEPTH": "Depth",
+        "BRAND": "Brand",
+        "MODEL": "Model"
+      },
+      "SENSOR_READING_TYPES": {
+        "SOIL_MOISTURE_CONTENT": "soil_water_content",
+        "SOIL_WATER_POTENTIAL": "soil_water_potential",
+        "TEMPERATURE": "temperature"
+      },
       "VALIDATION": {
         "FILE_ROW_LIMIT_EXCEEDED": "File row limit exceeded. The max number of sensors that can be uploaded from a file is 100.",
         "MISSING_COLUMNS": "Columns are required/missing.",

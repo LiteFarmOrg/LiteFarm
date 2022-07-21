@@ -15,13 +15,7 @@
 
 let URI;
 const VITE_ENV = import.meta.env.VITE_ENV || 'development';
-const VITE_NGROK_API = import.meta.env.VITE_NGROK_API;
-const ENV = import.meta.env;
-// handling ngrok
-const hostNameSplit = window.location.host.split('.');
-if (VITE_NGROK_API && hostNameSplit && hostNameSplit.length > 1 && hostNameSplit[1] === 'ngrok') {
-  URI = VITE_NGROK_API;
-} else if (import.meta.env.VITE_API_URL?.length) {
+if (import.meta.env.VITE_API_URL?.length) {
   URI = import.meta.env.VITE_API_URL;
 } else {
   if (VITE_ENV === 'development') {
@@ -72,7 +66,6 @@ export const productsUrl = `${URI}/product`;
 export const alertsUrl = `${URI}/notification_user/subscribe`;
 export const notificationsUrl = `${URI}/notification_user`;
 export const clearAlertsUrl = `${URI}/notification_user/clear_alerts`;
-export const sensorUrl = `${URI}/sensors`;
 export const url = URI;
 
 export default {
@@ -114,6 +107,5 @@ export default {
   productsUrl,
   alertsUrl,
   notificationsUrl,
-  sensorUrl,
   url,
 };

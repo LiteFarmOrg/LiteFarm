@@ -74,7 +74,7 @@ export default function PureInvitedUserCreateAccountPage({
       onSubmit={handleSubmit(onHandleSubmit, onError)}
       buttonGroup={
         <>
-          <Button type={'submit'} disabled={disabled} fullLength data-cy="invited-createAccount">
+          <Button type={'submit'} disabled={disabled} fullLength>
             {buttonText}
           </Button>
         </>
@@ -134,7 +134,6 @@ export default function PureInvitedUserCreateAccountPage({
       {isNotSSO && (
         <>
           <Input
-            data-cy="invited-password"
             style={{ marginBottom: '28px' }}
             label={t('INVITATION.PASSWORD')}
             type={PASSWORD}

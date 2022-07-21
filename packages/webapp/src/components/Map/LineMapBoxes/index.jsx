@@ -11,9 +11,6 @@ import { watercourseEnum } from '../../../containers/constants';
 import Unit from '../../Form/Unit';
 import { line_width } from '../../../util/convert-units/unit';
 import { cloneObject } from '../../../util';
-import { useSelector } from 'react-redux';
-import { measurementSelector } from '../../../containers/userFarmSlice';
-import { useMemo } from 'react';
 
 export default function PureLineBox({
   typeOfLine,
@@ -42,8 +39,6 @@ export default function PureLineBox({
   });
 
   const { t } = useTranslation();
-  const measurementUnit = useSelector(measurementSelector);
-  const maxValue = useMemo(() => (measurementUnit === 'metric' ? 1600 : 5280), [measurementUnit]);
 
   const widthLabel =
     typeOfLine === locationEnum.watercourse
@@ -63,10 +58,7 @@ export default function PureLineBox({
 
   useEffect(() => {
     trigger();
-    updateWidth(
-      (widthValue ? (widthValue <= maxValue ? widthValue : maxValue) : 0) +
-        (bufferWidthValue ? (bufferWidthValue <= maxValue ? bufferWidthValue : maxValue) : 0),
-    );
+    updateWidth((widthValue || 0) + (bufferWidthValue || 0));
   }, [widthValue, bufferWidthValue]);
 
   return (
@@ -100,7 +92,6 @@ export default function PureLineBox({
             control={control}
             required
             mode={'onChange'}
-            max={maxValue}
           />
         </div>
         {typeOfLine === locationEnum.watercourse && (
@@ -120,7 +111,6 @@ export default function PureLineBox({
               control={control}
               required
               mode={'onChange'}
-              max={maxValue}
             />
           </div>
         )}

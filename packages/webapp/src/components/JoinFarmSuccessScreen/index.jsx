@@ -11,7 +11,7 @@ export default function PureJoinFarmSuccessScreen({ onClick, farm_name, showSpot
   return (
     <Layout
       buttonGroup={
-        <Button data-cy="joinFarm-successContinue" onClick={onClick} fullLength>
+        <Button onClick={onClick} fullLength>
           {t('common:CONTINUE')}
         </Button>
       }

@@ -18,11 +18,6 @@
       "UPDATE": "Successfully updated document"
     }
   },
-  "BULK_UPLOAD": {
-    "ERROR": {
-      "UPLOAD": "Failed to upload the CSV file"
-    }
-  },
   "CROP": {
     "ERROR": {
       "DELETE": "Failed To Delete Field Crop"
@@ -98,8 +93,7 @@
     "FAIL_POST": "Failed to add new",
     "SUCCESS_DELETE": "Successfully retired",
     "SUCCESS_PATCH": "Successfully updated",
-    "SUCCESS_POST": "Successfully saved",
-    "SUCCESS_UPLOAD": "Successfully uploaded"
+    "SUCCESS_POST": "Successfully saved"
   },
   "ORGANIC_CERTIFIER_SURVEY": {
     "ERROR": {
@@ -195,9 +189,5 @@
       "REVOKE": "User access revoked!",
       "UPDATE": "Successfully updated user info!"
     }
-  },
-  "SENSOR": {
-    "SUCCESSFUL_UPDATE": "Sensor successfully updated",
-    "ERROR_UPDATE": "Error updating sensor"
   }
 }

@@ -40,28 +40,29 @@ export default function PureDrawingManager({
       )}
       {!isDrawing && (
         <>
-          {(showZeroAreaWarning || showZeroLengthWarning) && (
-            <PureWarningBox
-              className={styles.warningBox}
-              style={{ border: '1px solid var(--red700)' }}
-            >
-              <Label style={{ marginBottom: '12px' }}>
-                {t(
-                  showZeroAreaWarning
-                    ? 'FARM_MAP.DRAWING_MANAGER.ZERO_AREA_DETECTED'
-                    : 'FARM_MAP.DRAWING_MANAGER.ZERO_LENGTH_DETECTED',
-                )}
-              </Label>
-              <Button
-                onClick={onClickTryAgain}
-                className={styles.drawingButton}
-                color={'primary'}
-                sm
+          {showZeroAreaWarning ||
+            (showZeroLengthWarning && (
+              <PureWarningBox
+                className={styles.warningBox}
+                style={{ border: '1px solid var(--red700)' }}
               >
-                {t('FARM_MAP.DRAWING_MANAGER.REDRAW')}
-              </Button>
-            </PureWarningBox>
-          )}
+                <Label style={{ marginBottom: '12px' }}>
+                  {t(
+                    showZeroAreaWarning
+                      ? 'FARM_MAP.DRAWING_MANAGER.ZERO_AREA_DETECTED'
+                      : 'FARM_MAP.DRAWING_MANAGER.ZERO_LENGTH_DETECTED',
+                  )}
+                </Label>
+                <Button
+                  onClick={onClickTryAgain}
+                  className={styles.drawingButton}
+                  color={'primary'}
+                  sm
+                >
+                  {t('FARM_MAP.DRAWING_MANAGER.REDRAW')}
+                </Button>
+              </PureWarningBox>
+            ))}
           {showLineModal &&
             !showZeroLengthWarning &&
             lineData?.hasOwnProperty(watercourseEnum.width) && (

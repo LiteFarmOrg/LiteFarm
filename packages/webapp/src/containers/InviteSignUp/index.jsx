@@ -77,7 +77,6 @@ function InviteSignUp({ history }) {
           <GoogleLogin
             render={(renderProps) => (
               <Button
-                data-cy="invitedUser-proceed"
                 onClick={onClickGoogle(renderProps)}
                 disabled={(selectedKey === GOOGLE && renderProps.disabled) || !selectedKey}
                 fullLength

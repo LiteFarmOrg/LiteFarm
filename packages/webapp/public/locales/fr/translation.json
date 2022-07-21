@@ -242,10 +242,7 @@
     "GENDER": "Genre",
     "GENDER_TOOLTIP": "Les informations sur le genre sont collectées à des fins de recherche uniquement et ne seront partagées qu'avec les informations d'identification personnelle supprimées",
     "PASSWORD": "Mot de passe",
-    "TITLE": "Créer un nouveau compte utilisateur",
-    "LANGUAGE_PREFERENCE": "MISSING",
-    "DEFAULT_LANGUAGE": "Français",
-    "DEFAULT_LANGUAGE_VALUE": "fr"
+    "TITLE": "Créer un nouveau compte utilisateur"
   },
   "CROP": {
     "ADD_COMPLIANCE_FILE": "Lien vers un dossier de conformité",
@@ -452,44 +449,6 @@
       "TITLE": "Ajouter une zone tampon",
       "WIDTH": "Largeur de la zone tampon"
     },
-    "BULK_UPLOAD_SENSORS": {
-      "TITLE": "MISSING",
-      "UPLOAD_LINK_MESSAGE": "MISSING",
-      "UPLOAD_INSTRUCTION_MESSAGE": "MISSING",
-      "UPLOAD_PLACEHOLDER": "MISSING",
-      "UPLOAD_ERROR_MESSAGE": "MISSING",
-      "EMPTY_FILE_UPLOAD_ERROR_MESSAGE": "MISSING",
-      "UPLOAD_ERROR_LINK": "MISSING",
-      "VALIDATION": {
-        "FILE_ROW_LIMIT_EXCEEDED": "MISSING",
-        "MISSING_COLUMNS": "MISSING",
-        "EXTERNAL_ID": "MISSING",
-        "SENSOR_NAME": "MISSING",
-        "SENSOR_LATITUDE": "MISSING",
-        "SENSOR_LONGITUDE": "MISSING",
-        "SENSOR_READING_TYPES": "MISSING",
-        "SENSOR_DEPTH": "MISSING",
-        "SENSOR_BRAND": "MISSING",
-        "SENSOR_MODEL": "MISSING",
-        "SENSOR_HARDWARE_VERSION": "MISSING"
-      },
-      "SENSOR_CLAIM_ERROR": {
-        "ALREADY_OCCUPIED": "MISSING",
-        "DOES_NOT_EXIST": "MISSING",
-        "INTERNAL_ERROR": "MISSING"
-      },
-      "DOWNLOAD_FILE": {
-        "ROW": "MISSING",
-        "PARTIAL_SUCCESS_TOP_TEXT": "MISSING",
-        "PARTIAL_SUCCESS_BOTTOM_TEXT": "MISSING",
-        "SOME_ERRORS": "MISSING",
-        "DEFAULT": "MISSING"
-      }
-    },
-    "BULK_UPLOAD_TRANSITION": {
-      "TITLE": "MISSING",
-      "BODY": "MISSING"
-    },
     "CEREMONIAL_AREA": {
       "EDIT_TITLE": "Modifier la zone de cérémonie",
       "NAME": "Nom de la zone de cérémonie",
@@ -502,7 +461,7 @@
     "DRAWING_MANAGER": {
       "REDRAW": "Redessiner",
       "ZERO_AREA_DETECTED": "Champ sans zone détectée. Veuillez ajouter plus de points au dessin actuel ou dessiner à nouveau.",
-      "ZERO_LENGTH_DETECTED": "Ligne sans longueur détectée. Veuillez dessiner à nouveau."
+      "ZERO_LENGTH_DETECTED": "Ligne sans longeur détectée. Veuillez dessiner à nouveau."
     },
     "EXPORT_MODAL": {
       "BODY": "Comment voulez-vous exporter la carte de votre ferme\u00a0?",
@@ -593,8 +552,7 @@
       "SURFACE_WATER": "Eaux de surface",
       "TITLE": "Filtrer votre carte",
       "WATERCOURSE": "Flux d'eau",
-      "WV": "Vanne à eau",
-      "SENSOR": "MISSING"
+      "WV": "Vanne à eau"
     },
     "NATURAL_AREA": {
       "EDIT_TITLE": "Modifier l'espace naturel",
@@ -625,8 +583,7 @@
     "TAB": {
       "CROPS": "Récoltes",
       "DETAILS": "Détails",
-      "TASKS": "Tâches",
-      "READINGS": "Lectures"
+      "TASKS": "Tâches"
     },
     "TITLE": "Carte de la ferme",
     "TUTORIAL": {
@@ -679,8 +636,7 @@
   },
   "FIELDS": {
     "EDIT_FIELD": {
-      "VARIETY": "Variété",
-      "SUPPLIER": "MISSING"
+      "VARIETY": "Variété"
     }
   },
   "FILE_SIZE_MODAL": {
@@ -1120,10 +1076,6 @@
       "YOU_WILL_FIND": "Vous trouverez ici:"
     }
   },
-  "ENTITY_TYPES": {
-    "TASK": "tâche",
-    "LOCATION": "emplacement"
-  },
   "NOTIFICATION": {
     "TIMELINE": {
       "HEADING": "Chronologie de notifications",
@@ -1154,21 +1106,9 @@
       "BODY": "Une tâche de {{taskType}} qui vous était assignée a été attribuée à quelqu'un d'autre par {{assigner}}.",
       "TITLE": "Tâche réattribuée"
     },
-    "TASK_UNASSIGNED": {
-      "BODY": "{{editor}} a marqué une tâche de {{taskType}} comme non attribuée.",
-      "TITLE": "Tâche non attribuée"
-    },
     "WEEKLY_UNASSIGNED_TASKS": {
       "BODY": "Vous avez des tâches non attribuées à accomplir cette semaine.",
       "TITLE": "Tâches non attribuées"
-    },
-    "SENSOR_BULK_UPLOAD_SUCCESS": {
-      "BODY": "MISSING",
-      "TITLE": "MISSING"
-    },
-    "SENSOR_BULK_UPLOAD_FAIL": {
-      "BODY": "MISSING",
-      "TITLE": "MISSING"
     }
   },
   "OUTRO": {
@@ -1598,66 +1538,5 @@
   },
   "YEAR_SELECTOR": {
     "TITLE": "Selectionnez une année"
-  },
-  "SENSOR": {
-    "SENSOR_NAME": "MISSING",
-    "LATITUDE": "MISSING",
-    "LONGTITUDE": "MISSING",
-    "READING": {
-      "TYPES": "MISSING",
-      "SOIL_WATER_CONTENT": "MISSING",
-      "SOIL_WATER_POTENTIAL": "MISSING",
-      "TEMPERATURE": "MISSING"
-    },
-    "DEPTH": "MISSING",
-    "BRAND": "MISSING",
-    "VALIDATION": {
-      "SENSOR_LATITUDE": "MISSING",
-      "SENSOR_LONGITUDE": "MISSING"
-    },
-    "MODAL": {
-      "TITLE": "MISSING",
-      "BODY": "MISSING"
-    },
-    "BRAND_HELPTEXT": "MISSING",
-    "MODEL": "MISSING",
-    "MODEL_HELPTEXT": "MISSING",
-    "EXTERNAL_IDENTIFIER": "MISSING",
-    "PART_NUMBER": "MISSING",
-    "HARDWARE_VERSION": "MISSING",
-    "DETAIL": {
-      "RETIRE": "MISSING",
-      "EDIT": "MISSING",
-      "NAME": "MISSING",
-      "LATITUDE": "MISSING",
-      "LONGITUDE": "MISSING",
-      "MODEL": "MISSING",
-      "PART_NUMBER": "MISSING",
-      "HARDWARE_VERSION": "MISSING",
-      "EXTERNAL_ID_TOOLTIP": "MISSING",
-      "EXTERNAL_IDENTIFIER": "MISSING",
-      "DEPTH": "MISSING",
-      "BRAND": "MISSING",
-      "BRAND_TOOLTIP": "MISSING",
-      "READING_TYPES": "MISSING"
-    },
-    "VIEW_HEADER": {
-      "READINGS": "MISSING",
-      "TASKS": "MISSING",
-      "DETAILS": "MISSING"
-    },
-    "RETIRE": {
-      "TITLE": "MISSING",
-      "RETIRE": "MISSING",
-      "CANCEL": "MISSING",
-      "BODY": "MISSING",
-      "RETIRE_SUCCESS": "MISSING",
-      "RETIRE_FAILURE": "MISSING"
-    },
-    "TEMPERATURE_READINGS_OF_SENSOR": {
-      "TITLE": "MISSING",
-      "SUBTITLE": "MISSING",
-      "Y_AXIS_LABEL": "MISSING"
-    }
   }
 }

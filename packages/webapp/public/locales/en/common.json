@@ -8,7 +8,6 @@
   "CANCEL": "Cancel",
   "CLEAR_ALL_FILTERS": "Clear all filters",
   "CLOSE": "Close",
-  "CHANGE": "Change",
   "CONFIRM": "Confirm",
   "CONTINUE": "Continue",
   "DATE": "Date",
@@ -54,8 +53,6 @@
   "SUBMIT": "Submit",
   "SUBMITTING": "Submitting...",
   "UPDATE": "Update",
-  "UPLOAD": "Upload",
-  "UPLOADING": "Uploading...",
   "WORD_LIMIT_ERROR": "Only {{value}} characters can be displayed",
   "YEAR": "Year",
   "YES": "Yes"

@@ -43,7 +43,7 @@ export const isLine = (type) => {
 };
 
 export const isPoint = (type) => {
-  return [locationEnum.gate, locationEnum.water_valve, locationEnum.sensor].includes(type);
+  return [locationEnum.gate, locationEnum.water_valve].includes(type);
 };
 
 export const locationEnum = {
@@ -59,15 +59,8 @@ export const locationEnum = {
   fence: 'fence',
   gate: 'gate',
   water_valve: 'water_valve',
-  sensor: 'sensor',
   farm_site_boundary: 'farm_site_boundary',
   residence: 'residence',
-};
-
-export const bulkSenorUploadErrorTypeEnum = {
-  unable_to_claim_all_sensors: 'unable_to_claim_all_sensors',
-  validation_failure: 'validation_failure',
-  timeout_and_show_transition_modal: 'timeout',
 };
 
 export const polygonPath = (path, width, maps) => {
@@ -80,8 +73,6 @@ export const polygonPath = (path, width, maps) => {
   });
   return leftPoints.concat(rightPoints.reverse());
 };
-
-export const SENSOR_BULK_UPLOAD_SUCCESS = 'SENSOR_BULK_UPLOAD_SUCCESS';
 
 const linePathPolygonConstructor = (innerState, point, i, path) => {
   const { bearings, leftPoints, rightPoints, width, maps } = innerState;

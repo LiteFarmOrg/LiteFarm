@@ -514,7 +514,7 @@ const userFarmController = {
             // TODO: move validation
             throw new Error('User already has an account');
           }
-          const user = await userModel.query(trx).where({ email }).first();
+          const user = await userModel.getUserByEmail(email);
           const isExistingAccount = !!user;
           const isUserAMemberOfFarm = isExistingAccount
             ? !!(await userFarmModel.query(trx).findById([user.user_id, farm_id]))
@@ -571,14 +571,15 @@ const userFarmController = {
           .first()
           .select('*');
         res.status(201).send(userFarm);
-      } catch (e) {
-        res.status(400).send(e);
-      }
-      try {
-        const { farm_name } = userFarm;
-        await emailModel.createTokenSendEmail(userFarm, userFarm, farm_name);
+        try {
+          const { farm_name } = userFarm;
+          await emailModel.createTokenSendEmail(userFarm, userFarm, farm_name);
+        } catch (e) {
+          console.log(e);
+        }
       } catch (e) {
         console.log(e);
+        res.status(400).send({ message: e.message });
       }
     };
   },

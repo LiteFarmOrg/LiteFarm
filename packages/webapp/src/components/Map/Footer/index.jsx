@@ -53,13 +53,17 @@ export default function PureMapFooter({
       open={showSpotlight}
       onFinish={resetSpotlight}
       steps={[
-        {
-          selector: '#mapFirstStep',
-          title: t('FARM_MAP.SPOTLIGHT.ADD_TITLE'),
-          contents: [t('FARM_MAP.SPOTLIGHT.HERE_YOU_CAN')],
-          list: [t('FARM_MAP.SPOTLIGHT.ADD')],
-          position: 'center',
-        },
+        ...(isAdmin
+          ? [
+              {
+                selector: '#mapFirstStep',
+                title: t('FARM_MAP.SPOTLIGHT.ADD_TITLE'),
+                contents: [t('FARM_MAP.SPOTLIGHT.HERE_YOU_CAN')],
+                list: [t('FARM_MAP.SPOTLIGHT.ADD')],
+                position: 'center',
+              },
+            ]
+          : []),
         {
           selector: '#mapSecondStep',
           title: t('FARM_MAP.SPOTLIGHT.FILTER_TITLE'),
@@ -78,7 +82,7 @@ export default function PureMapFooter({
     >
       <div className={clsx(container)} style={style}>
         {isAdmin && (
-          <button 
+          <button
             data-cy="map-addFeature"
             className={clsx(button, (stepSpotlighted === 0 || showAddDrawer) && spotlighted)}
             id="mapFirstStep"

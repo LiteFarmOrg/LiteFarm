@@ -459,6 +459,21 @@
       "UPLOAD_ERROR_MESSAGE": "MISSING",
       "EMPTY_FILE_UPLOAD_ERROR_MESSAGE": "MISSING",
       "UPLOAD_ERROR_LINK": "MISSING",
+      "SENSOR_FIELDS": {
+        "NAME": "Nombre",
+        "LATITUDE": "Latitud",
+        "LONGITUDE": "Longitud",
+        "READING_TYPES": "tipos_de_medición",
+        "SENSOR_EXTERNAL_ID": "ID_externo",
+        "DEPTH": "Profundidad",
+        "BRAND": "Marca",
+        "MODEL": "Modelo"
+      },
+      "SENSOR_READING_TYPES": {
+        "SOIL_MOISTURE_CONTENT": "contenido_de_agua_ en_el_suelo",
+        "SOIL_WATER_POTENTIAL": "potencial_hídrico_del_suelo",
+        "TEMPERATURE": "temperatura"
+      },
       "VALIDATION": {
         "FILE_ROW_LIMIT_EXCEEDED": "MISSING",
         "MISSING_COLUMNS": "MISSING",
@@ -501,7 +516,7 @@
     "DRAWING_MANAGER": {
       "REDRAW": "Repintar",
       "ZERO_AREA_DETECTED": "Campo sin area detectado. Por favor, agrega mas puntos o comienza de nuevo.",
-      "ZERO_LENGTH_DETECTED": "Linea sin medida. Por favor, comienza de nuevo."
+      "ZERO_LENGTH_DETECTED": "Línea sin longitud detectada. Por favor dibuja de nuevo."
     },
     "EXPORT_MODAL": {
       "BODY": "Como quieres exportar el mapa?",

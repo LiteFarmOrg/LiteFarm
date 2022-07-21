@@ -236,6 +236,13 @@ class Location extends baseModel {
       .andWhere('sensor.external_id', external_id)
       .first();
   }
+
+  static async unDeleteLocation(user_id, location_id, trx) {
+    return Location.query(trx)
+      .context({ user_id })
+      .where({ location_id })
+      .patch({ deleted: false });
+  }
 }
 
 module.exports = Location;

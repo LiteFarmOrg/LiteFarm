@@ -425,8 +425,13 @@ const userFarmController = {
     return async (req, res) => {
       let result;
       const { user_id, farm_id } = req.user;
+      const { language_preference } = req.body;
       if (!/^\d+$/.test(user_id)) {
-        const user = await userModel.query().findById(user_id).select('*');
+        const user = await userModel
+          .query()
+          .findById(user_id)
+          .patch({ language_preference })
+          .returning('*');
         const passwordRow = await passwordModel.query().findById(user_id);
         if (!passwordRow || user.status_id === 2) {
           return res.status(404).send('User does not exist');
@@ -492,10 +497,10 @@ const userFarmController = {
     };
   },
 
-  upgradePseudoUser() {
+  patchPseudoUserEmail() {
     return async (req, res) => {
       const { user_id, farm_id } = req.params;
-      const { email, gender, birth_year, language, phone_number } = req.body;
+      const { email } = req.body;
       const roleIdAndWage = {};
       roleIdAndWage.role_id = !req.body.role_id || req.body.role_id === 4 ? 3 : req.body.role_id;
       if (req.body.wage) {
@@ -560,10 +565,6 @@ const userFarmController = {
               .patch({
                 email,
                 status_id: 2,
-                phone_number,
-                language_preference: language,
-                gender,
-                birth_year,
               })
               .returning('*');
             await userFarmModel
@@ -588,22 +589,11 @@ const userFarmController = {
           .select('*');
         res.status(201).send(userFarm);
       } catch (e) {
-        console.log(e);
         res.status(400).send(e);
       }
       try {
         const { farm_name } = userFarm;
-        const user = await userModel.query().where({ email }).first();
-        await emailModel.createTokenSendEmail(
-          {
-            email,
-            gender,
-            birth_year,
-            language_preference: user ? user.language_preference : language,
-          },
-          userFarm,
-          farm_name,
-        );
+        await emailModel.createTokenSendEmail(userFarm, userFarm, farm_name);
       } catch (e) {
         console.log(e);
       }

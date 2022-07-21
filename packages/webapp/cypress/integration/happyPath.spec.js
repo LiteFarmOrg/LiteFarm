@@ -1,22 +1,6 @@
 import { getDateInputFormat } from '../../src/util/moment';
 
 describe.only('LiteFarm end to end test', () => {
-  let userEmail;
-  let userPassword;
-
-  before(() => {
-    // get and check the test email only once before the tests
-    cy.task('getUserEmail').then((email) => {
-      expect(email).to.be.a('string');
-      userEmail = email;
-    });
-
-    cy.task('getUserPassword').then((password) => {
-      expect(password).to.be.a('string');
-      userPassword = password;
-    });
-  });
-
   it.only('Happy path', { defaultCommandTimeout: 7000 }, () => {
     cy.visit('/');
     cy.get('[data-cy=email]').should('exist');
@@ -25,11 +9,10 @@ describe.only('LiteFarm end to end test', () => {
     cy.get('[data-cy=continueGoogle]').should('exist');
 
     //create test data
-    const emailOwner = userEmail;
-    const usrname = emailOwner.indexOf('@');
-    const emailWorker = emailOwner.slice(0, usrname) + '+1' + emailOwner.slice(usrname);
+    const emailOwner = 'mbolokonya@litefarm.org';
+    const emailWorker = 'worker@example.com';
     const fullName = 'Test Farmer';
-    const password = `${userPassword}+@`;
+    const password = 'P@ssword123';
     const farmName = 'UBC FARM';
     const location = '49.250833,-123.2410777';
     const fieldName = 'Test Field';
@@ -46,17 +29,6 @@ describe.only('LiteFarm end to end test', () => {
     cy.get('[data-cy=createUser-password]').type(password);
     cy.contains('Create Account').should('exist').and('be.enabled').click();
 
-    cy.wait(10 * 1000);
-    cy.task('getLastEmail')
-      .its('html')
-      .then((html) => {
-        cy.document({ log: false }).invoke({ log: false }, 'write', html);
-      });
-    cy.get('[data-cy=button-logIn]')
-      .invoke('attr', 'href')
-      .then((href) => {
-        cy.visit(href);
-      });
     //Get Started page
     cy.contains('started').should('exist');
     cy.get('[data-cy=getStarted]').should('exist');
@@ -124,7 +96,7 @@ describe.only('LiteFarm end to end test', () => {
         cy.contains(result).should('exist');
       });
 
-    //certification summary
+    //certifacation summary
     cy.get('[data-cy=certificationSummary-continue]')
       .should('exist')
       .and('not.be.disabled')
@@ -134,24 +106,7 @@ describe.only('LiteFarm end to end test', () => {
     cy.url().should('include', '/outro');
     cy.get('[data-cy=outro-finish]').should('exist').and('not.be.disabled').click();
 
-    cy.wait(10 * 1000);
-    cy.task('getLastEmail')
-      .its('html')
-      .then((html) => {
-        cy.document({ log: false }).invoke({ log: false }, 'write', html);
-      });
-
-    cy.get('[data-cy=congrats-email-logIn]')
-      .invoke('attr', 'href')
-      .then((href) => {
-        cy.visit(href);
-      });
     //farm home page
-    cy.get('[data-cy=spotlight-next]')
-      .contains('Next')
-      .should('exist')
-      .and('not.be.disabled')
-      .click();
     cy.get('[data-cy=spotlight-next]')
       .contains('Next')
       .should('exist')
@@ -233,18 +188,14 @@ describe.only('LiteFarm end to end test', () => {
     //Add field view
     cy.get('[data-cy=createField-fieldName]').should('exist').type(fieldName);
     cy.get('[data-cy=createField-save]').should('exist').and('not.be.disabled').click();
-    cy.wait(2000);
+
     //Add a farm worker to the farm
-    cy.get('[data-cy=home-farmButton]')
-      .should('exist')
-      .and('not.be.disabled')
-      .click({ force: true });
+    cy.get('[data-cy=home-farmButton]').should('exist').and('not.be.disabled').click();
     cy.get('[data-cy=navbar-option]')
-      .eq(2)
       .contains('People')
       .should('exist')
       .and('not.be.disabled')
-      .click({ force: true });
+      .click();
     cy.url().should('include', '/people');
     cy.get('[data-cy=people-inviteUser]').should('exist').and('not.be.disabled').click();
 
@@ -257,84 +208,6 @@ describe.only('LiteFarm end to end test', () => {
 
     cy.url().should('include', '/people');
     cy.contains(workerName).should('exist');
-
-    //logout
-    cy.get('[data-cy=home-profileButton]').should('exist').click();
-    cy.get('[data-cy=navbar-option]')
-      .contains('Log Out')
-      .should('exist')
-      .and('not.be.disabled')
-      .click();
-
-    //login as farm worker, create account and join farm
-    cy.task('getLastEmail')
-      .its('html')
-      .then((html) => {
-        cy.document({ log: false }).invoke({ log: false }, 'write', html);
-      });
-
-    cy.get('[data-cy=invite-joinButton]')
-      .invoke('attr', 'href')
-      .then((href) => {
-        cy.visit(href);
-      });
-
-    cy.get('[data-cy=invitedCard-createAccount]').click();
-
-    cy.get('[data-cy=invitedUser-proceed]').click();
-
-    cy.get('[data-cy=invited-password]').type(password);
-
-    cy.get('[data-cy=invited-createAccount]').click();
-
-    //Consent page
-    cy.contains('Our Data Policy').should('exist');
-    cy.url().should('include', '/consent');
-    cy.get('[data-cy=consent-continue]').should('exist').and('be.disabled');
-    cy.get('[data-cy=consent-agree]').should('exist').check({ force: true });
-    cy.get('[data-cy=consent-continue]').should('not.be.disabled').click();
-
-    cy.get('[data-cy=joinFarm-successContinue]').should('not.be.disabled').click();
-
-    cy.get('[data-cy=chooseFarm-proceed]').should('not.be.disabled').click();
-
-    //farm home page
-    cy.get('[data-cy=spotlight-next]')
-      .contains('Next')
-      .should('exist')
-      .and('not.be.disabled')
-      .click();
-    cy.get('[data-cy=spotlight-next]')
-      .contains('Next')
-      .should('exist')
-      .and('not.be.disabled')
-      .click();
-    cy.get('[data-cy=spotlight-next]')
-      .contains('Next')
-      .should('exist')
-      .and('not.be.disabled')
-      .click();
-    cy.get('[data-cy=spotlight-next]')
-      .contains('Got it')
-      .should('exist')
-      .and('not.be.disabled')
-      .click();
-
-    //logout
-    cy.get('[data-cy=home-profileButton]').should('exist').click();
-    cy.get('[data-cy=navbar-option]')
-      .contains('Log Out')
-      .should('exist')
-      .and('not.be.disabled')
-      .click();
-
-    //Login as farm owner
-    cy.get('[data-cy=email]').type(emailOwner);
-    cy.contains('Continue').should('exist').and('be.enabled').click();
-    cy.get('[data-cy=enterPassword-password]').type(password);
-    cy.get('[data-cy=enterPassword-submit]').should('exist').and('be.enabled').click();
-
-    cy.get('[data-cy=chooseFarm-proceed]').should('exist').and('be.enabled').click();
 
     // Add a crop variety
     cy.get('[data-cy=navbar-hamburger]').should('exist').click();
@@ -412,7 +285,6 @@ describe.only('LiteFarm end to end test', () => {
     cy.get('[data-cy=map-selectLocation]').should('exist');
     let heightFactor;
     let widthFactor;
-    cy.wait(10 * 1000);
     cy.waitForGoogleApi().then(() => {
       // here comes the code to execute after loading the google Apis
       cy.get('[data-cy=map-selectLocation]').then(($canvas) => {
@@ -496,6 +368,10 @@ describe.only('LiteFarm end to end test', () => {
     cy.get('[data-cy=taskCard]').eq(1).should('exist').click('right');
     cy.get('[data-cy=taskReadOnly-pencil]').should('exist').click();
     cy.get('[data-cy=quickAssign-update]').should('exist').and('not.be.disabled').click();
+
+    //logout
+    //cy.get('[data-cy=home-profileButton]').should('exist').click();
+    //cy.get('[data-cy=navbar-option]').contains('Log Out').should('exist').and('not.be.disabled').click();
   });
 
   it('Browser local detection', () => {

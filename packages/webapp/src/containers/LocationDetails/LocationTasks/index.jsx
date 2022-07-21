@@ -20,10 +20,8 @@ export default function LocationTasks({ history, match, location: { pathname } }
   const location = useSelector(locationByIdSelector(location_id));
 
   const areCropEnabled = ['field', 'garden', 'greenhouse', 'buffer_zone'];
-  const areReadingEnabled = ['sensor'];
 
   const hasCrops = areCropEnabled.includes(pathname.split('/')[1]);
-  const hasReadings = areReadingEnabled.includes(pathname.split('/')[1]);
 
   const filter = (taskList) => {
     const activeStatus = ['planned', 'late'];
@@ -61,7 +59,6 @@ export default function LocationTasks({ history, match, location: { pathname } }
         tasks={tasks}
         count={count}
         hasCrops={hasCrops}
-        hasReadings={hasReadings}
       />
     </>
   );

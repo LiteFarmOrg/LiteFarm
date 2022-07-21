@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 import styles from './styles.module.scss';
 import clsx from 'clsx';
 
-const CheckBoxPill = ({ label, value, checked, updateFilterState, isDisabled = false }) => {
+const CheckBoxPill = ({ label, value, checked, updateFilterState }) => {
   const handleChange = (e) => {
-    !isDisabled && updateFilterState(value);
+    updateFilterState(value);
   };
 
   return (

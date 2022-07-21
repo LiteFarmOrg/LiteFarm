@@ -98,7 +98,7 @@ router.post(
   '/invite/farm/:farm_id/user/:user_id',
   hasFarmAccess({ params: 'farm_id' }),
   checkScope(['edit:users']),
-  userFarmController.upgradePseudoUser(),
+  userFarmController.patchPseudoUserEmail(),
 );
 
 // Update wage of userFarm

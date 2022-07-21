@@ -6,7 +6,6 @@ import clsx from 'clsx';
 import { colors } from '../../../assets/theme';
 import { ReactComponent as AlertIcon } from '../../../assets/images/alert.svg';
 import getTaskTypeIcon from '../../util/getTaskTypeIcon';
-import getNotificationTypeIcon from '../../util/getNotificationTypeIcon';
 import { getLanguageFromLocalStorage } from '../../../util/getLanguageFromLocalStorage';
 
 /**
@@ -38,7 +37,6 @@ export function PureNotificationCard({
   let Icon;
   // The "context" can indicate that a particular type of task icon is appropriate.
   if (context?.task_translation_key) Icon = getTaskTypeIcon(context.task_translation_key);
-  if (context?.icon_translation_key) Icon = getNotificationTypeIcon(context.icon_translation_key);
 
   return (
     <Card

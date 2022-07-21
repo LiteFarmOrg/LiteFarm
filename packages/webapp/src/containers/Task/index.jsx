@@ -20,12 +20,7 @@ import { AddLink, Semibold } from '../../components/Typography';
 import { useDispatch, useSelector } from 'react-redux';
 import React, { useEffect, useMemo, useState } from 'react';
 
-import {
-  isAdminSelector,
-  userFarmEntitiesSelector,
-  userFarmsByFarmSelector,
-  userFarmSelector,
-} from '../userFarmSlice';
+import { isAdminSelector, userFarmSelector } from '../userFarmSlice';
 import { resetAndUnLockFormData } from '../hooks/useHookFormPersist/hookFormPersistSlice';
 import { getManagementPlansAndTasks } from '../saga';
 import TaskCard from './TaskCard';
@@ -38,8 +33,6 @@ import {
   tasksFilterSelector,
   setTasksFilterUnassignedDueThisWeek,
   setTasksFilterDueToday,
-  resetTasksFilter,
-  updateTasksFilterObjects,
 } from '../filterSlice';
 import ActiveFilterBox from '../../components/ActiveFilterBox';
 import PureTaskDropdownFilter from '../../components/PopupFilter/PureTaskDropdownFilter';
@@ -48,11 +41,6 @@ import { IS_ASCENDING } from '../Filter/constants';
 import { WEEKLY_UNASSIGNED_TASKS, DAILY_TASKS_DUE_TODAY } from '../Notification/constants';
 import { filteredTaskCardContentSelector } from './taskCardContentSelector';
 import TaskCount from '../../components/Task/TaskCount';
-import { getTaskTypes } from './saga';
-import { getAllUserFarmsByFarmId } from '../Profile/People/saga';
-import { defaultTaskTypesSelector, userCreatedTaskTypesSelector } from '../taskTypeSlice';
-import { getSupportedTaskTypesSet } from '../../components/Task/getSupportedTaskTypesSet';
-import { locationsSelector } from '../locationSlice';
 
 export default function TaskPage({ history }) {
   const { t } = useTranslation();
@@ -60,12 +48,6 @@ export default function TaskPage({ history }) {
   const { user_id, farm_id, first_name, last_name } = useSelector(userFarmSelector);
   const taskCardContents = useSelector(filteredTaskCardContentSelector);
   const dispatch = useDispatch();
-  const activeUsers = useSelector(userFarmsByFarmSelector).filter(
-    (user) => user.status !== 'Inactive',
-  );
-  const defaultTaskTypes = useSelector(defaultTaskTypesSelector);
-  const customTaskTypes = useSelector(userCreatedTaskTypesSelector);
-  const locations = useSelector(locationsSelector);
 
   const tasksFilter = useSelector(tasksFilterSelector);
   const isFilterCurrentlyActive = useSelector(isFilterCurrentlyActiveSelector('tasks'));
@@ -78,29 +60,7 @@ export default function TaskPage({ history }) {
     setIsFilterOpen(true);
   };
 
-  const taskTypes = useMemo(() => {
-    const supportedTaskTypes = getSupportedTaskTypesSet(true);
-    const taskTypes = [];
-    for (const type of defaultTaskTypes) {
-      if (type.deleted === false && supportedTaskTypes.has(type.task_translation_key)) {
-        taskTypes.push(type);
-      }
-    }
-    for (const type of customTaskTypes) {
-      if (type.deleted === false) {
-        taskTypes.push(type);
-      }
-    }
-    return taskTypes;
-  }, [defaultTaskTypes, customTaskTypes]);
-
   useEffect(() => {
-    dispatch(updateTasksFilterObjects({ activeUsers, taskTypes, locations, t }));
-  }, [activeUsers.length, taskTypes.length]);
-
-  useEffect(() => {
-    dispatch(getTaskTypes());
-    dispatch(getAllUserFarmsByFarmId());
     dispatch(getManagementPlansAndTasks());
     dispatch(resetAndUnLockFormData());
 

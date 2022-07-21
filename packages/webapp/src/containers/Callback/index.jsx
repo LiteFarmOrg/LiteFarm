@@ -12,12 +12,7 @@ function Callback({ history }) {
     if (isResetLink) {
       dispatch(validateResetToken({ reset_token: params.get('reset_token') }));
     } else if (isInviteLink) {
-      dispatch(
-        patchUserFarmStatus({
-          invite_token: params.get('invite_token'),
-          language: params.get('language'),
-        }),
-      );
+      dispatch(patchUserFarmStatus(params.get('invite_token')));
     } else {
       history.push('/');
     }

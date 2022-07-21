@@ -24,21 +24,19 @@ const client = new Client({});
 
 const farmController = {
   addFarm() {
-    return async (req, res, next) => {
+    return async (req, res) => {
       const trx = await transaction.start(Model.knex());
       try {
         const { country } = req.body;
         if (!country) {
           await trx.rollback();
-          res.status(400).send('No country selected');
-          return next();
+          return res.status(400).send('No country selected');
         }
 
         const { id, ...units } = await this.getCountry(country);
         if (!units) {
           await trx.rollback();
-          res.status(400).send('No unit info for given country');
-          return next();
+          return res.status(400).send('No unit info for given country');
         }
 
         const utc_offset = await this.getUTCOffsetFromGridPoints(req.body.grid_points);
@@ -56,14 +54,12 @@ const farmController = {
         const new_user = await farmController.getUser(req, trx);
         const userFarm = await farmController.insertUserFarm(new_user[0], result.farm_id, trx);
         await trx.commit();
-        res.status(201).send(Object.assign({}, result, userFarm));
-        return next();
+        return res.status(201).send(Object.assign({}, result, userFarm));
       } catch (error) {
         //handle more exceptions
         console.log(error);
         await trx.rollback();
-        res.status(400).send(error);
-        return next();
+        return res.status(400).send(error);
       }
     };
   },

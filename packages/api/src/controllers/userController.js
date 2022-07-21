@@ -135,7 +135,7 @@ const userController = {
       return res.status(400).send(errorMessage);
     }
 
-    const validEmailRegex = RegExp(/^$|^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,6}$/i);
+    const validEmailRegex = RegExp(/^$|^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i);
     if (!validEmailRegex.test(email)) {
       return res.status(400).send('Invalid email');
     }
@@ -271,7 +271,7 @@ const userController = {
         return res.status(400).send('Current app version only allows hourly wage');
       }
       /* End of input validation */
-      const user = await baseController.post(userModel, req.body, req, { trx });
+      await baseController.post(userModel, req.body, req, { trx });
       await userFarmModel.query(trx).insert({
         user_id,
         farm_id,
@@ -294,7 +294,7 @@ const userController = {
         .first()
         .select('*');
       await trx.commit();
-      res.status(201).send({ ...user, ...userFarm });
+      res.status(201).send(userFarm);
     } catch (error) {
       // handle more exceptions
       await trx.rollback();

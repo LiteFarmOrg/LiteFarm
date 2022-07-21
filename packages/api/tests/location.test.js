@@ -7,17 +7,8 @@ const { tableCleanup } = require('./testEnvironment');
 jest.mock('jsdom');
 jest.mock('../src/middleware/acl/checkJwt');
 const mocks = require('./mock.factories');
-const {
-  figureMapping: origFigureMapping,
-  promiseMapper,
-} = require('./../src/middleware/validation/location');
+const { figureMapping, promiseMapper } = require('./../src/middleware/validation/location');
 const { faker } = require('@faker-js/faker');
-
-const figureMapping = Object.keys(origFigureMapping)
-  .filter((t) => t !== 'sensor')
-  .reduce((prev, currElement) => {
-    return { ...prev, [currElement]: origFigureMapping[currElement] };
-  }, {});
 
 const locations = {
   BARN: 'barn',

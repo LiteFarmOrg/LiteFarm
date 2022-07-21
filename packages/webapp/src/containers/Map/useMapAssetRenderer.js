@@ -116,7 +116,7 @@ const useMapAssetRenderer = ({ isClickable, showingConfirmButtons, drawingState 
   useEffect(() => {
     dismissSelectionModal();
     markerClusterRef?.current?.repaint();
-  }, [filterSettings?.gate, filterSettings?.water_valve, filterSettings?.sensor]);
+  }, [filterSettings?.gate, filterSettings?.water_valve]);
   useEffect(() => {
     markerClusterRef?.current?.setOptions({ zoomOnClick: isClickable });
   }, [isClickable]);
@@ -152,7 +152,6 @@ const useMapAssetRenderer = ({ isClickable, showingConfirmButtons, drawingState 
         const pointAssets = {
           gate: [],
           water_valve: [],
-          sensor: [],
         };
         cluster.markers_.map((point) => {
           pointAssets[point.type].push({
@@ -250,11 +249,7 @@ const useMapAssetRenderer = ({ isClickable, showingConfirmButtons, drawingState 
     });
     setAssetGeometries(newState);
     // Create marker clusters
-    const pointsArray = [
-      ...assetGeometries.gate,
-      ...assetGeometries.water_valve,
-      ...assetGeometries.sensor,
-    ];
+    const pointsArray = [...assetGeometries.gate, ...assetGeometries.water_valve];
 
     createMarkerClusters(maps, map, pointsArray);
     // TODO: only fitBounds if there is at least one location in the farm
@@ -479,44 +474,12 @@ const useMapAssetRenderer = ({ isClickable, showingConfirmButtons, drawingState 
       this.setOptions({ icon: icons[type] });
     });
 
-    let longPressed, longPressTimeout, longPressActive;
-
-    maps.event.addListener(marker, 'mousedown', function (event) {
-      longPressActive = true;
-      longPressed = false;
-      longPressTimeout = setTimeout(function () {
-        if (longPressActive === true) {
-          longPressed = true;
-        }
-      }, 200);
-    });
-
-    maps.event.addListener(marker, 'mouseup', function (event) {
-      clearTimeout(longPressTimeout);
-      longPressActive = false;
-    });
-
     // Event listener for point click
     maps.event.addListener(marker, 'click', function (mapsMouseEvent) {
       const latlng = map.getCenter().toJSON();
       dispatch(setPosition(latlng));
       dispatch(setZoomLevel(map.getZoom()));
-      if (point.type === 'sensor' && longPressed) {
-        map.setCenter(grid_point);
-        const index = assetGeometries.sensor.findIndex(
-          (sensor) => sensor.location_id == point.location_id,
-        );
-        handleSelection(
-          MouseEvent.latLng,
-          { sensor: [assetGeometries.sensor[index]] },
-          maps,
-          true,
-          false,
-          true,
-        );
-      } else {
-        handleSelection(mapsMouseEvent.latLng, assetGeometries, maps, true);
-      }
+      handleSelection(mapsMouseEvent.latLng, assetGeometries, maps, true);
     });
 
     marker.setOptions({ visible: isVisible });

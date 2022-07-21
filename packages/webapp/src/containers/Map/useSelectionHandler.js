@@ -58,9 +58,21 @@ const useSelectionHandler = () => {
         );
       } else {
         if (overlappedLocations.point.length === 1) {
-          history.push(
-            `/${overlappedLocations.point[0].type}/${overlappedLocations.point[0].id}/details`,
-          );
+          if (
+            overlappedLocations.point[0].type === 'sensor' &&
+            overlappedLocations.point[0].preview
+          ) {
+            const locationArray = [];
+            overlappedLocations.point.forEach((point) => {
+              if (locationArray.length < 4) locationArray.push(point);
+            });
+            dispatch(canShowSelection(true));
+            dispatch(locations(locationArray));
+          } else {
+            history.push(
+              `/${overlappedLocations.point[0].type}/${overlappedLocations.point[0].id}/details`,
+            );
+          }
         } else {
           const locationArray = [];
           overlappedLocations.point.forEach((point) => {
@@ -79,7 +91,14 @@ const useSelectionHandler = () => {
     }
   }, [overlappedLocations, dismissSelection]);
 
-  const handleSelection = (latLng, locationAssets, maps, isLocationAsset, isLocationCluster) => {
+  const handleSelection = (
+    latLng,
+    locationAssets,
+    maps,
+    isLocationAsset,
+    isLocationCluster,
+    isSensor,
+  ) => {
     let overlappedLocationsCopy = cloneObject(initOverlappedLocations);
     if (isLocationAsset) {
       Object.keys(locationAssets).map((locationType) => {
@@ -119,6 +138,16 @@ const useSelectionHandler = () => {
                 name: point.location_name,
                 asset: point.asset,
                 type: point.type,
+              });
+            });
+          } else if (isSensor) {
+            locationAssets[locationType].forEach((point) => {
+              overlappedLocationsCopy.point.push({
+                id: point.location_id,
+                name: point.location_name,
+                asset: point.asset,
+                type: point.type,
+                preview: true,
               });
             });
           } else {

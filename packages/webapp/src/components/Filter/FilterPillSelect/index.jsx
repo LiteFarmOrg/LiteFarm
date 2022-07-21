@@ -14,6 +14,7 @@ const FilterPillSelect = ({
   shouldReset,
   options = [],
   onChange,
+  isDisabled = false,
 }) => {
   const [open, setOpen] = useState(false);
   const defaultFilterState = useMemo(() => {
@@ -80,6 +81,7 @@ const FilterPillSelect = ({
               checked={filterState[option.value].active}
               updateFilterState={updateFilterState}
               key={option.value}
+              isDisabled={isDisabled}
             />
           );
         })}

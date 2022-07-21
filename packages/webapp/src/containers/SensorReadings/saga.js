@@ -28,7 +28,7 @@ import { getHeader } from '../../containers/saga';
 import { findCenter } from './utils';
 import { AMBIENT_TEMPERATURE, CURRENT_DATE_TIME } from './constants';
 
-const sensorReadingsUrl = () => `${sensorUrl}/get_sensor_readings_for_visualization`;
+const sensorReadingsUrl = () => `${sensorUrl}/reading/visualization`;
 
 export const getSensorsReadings = createAction(`getSensorsReadingsSaga`);
 

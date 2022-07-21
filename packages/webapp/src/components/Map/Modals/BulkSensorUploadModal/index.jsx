@@ -16,6 +16,8 @@ export default function BulkSensorUploadModal({ dismissModal, onUpload }) {
     fileInputRef,
     errorCount,
     onTemplateDownloadClick,
+    uploadErrorMessage,
+    errorTypeCode,
   } = useValidateBulkSensorData(onUpload, t);
 
   return (
@@ -24,7 +26,7 @@ export default function BulkSensorUploadModal({ dismissModal, onUpload }) {
       uploadLinkMessage={t('FARM_MAP.BULK_UPLOAD_SENSORS.UPLOAD_LINK_MESSAGE')}
       uploadInstructionMessage={t('FARM_MAP.BULK_UPLOAD_SENSORS.UPLOAD_INSTRUCTION_MESSAGE')}
       uploadPlaceholder={t('FARM_MAP.BULK_UPLOAD_SENSORS.UPLOAD_PLACEHOLDER')}
-      uploadErrorMessage={t('FARM_MAP.BULK_UPLOAD_SENSORS.UPLOAD_ERROR_MESSAGE')}
+      uploadErrorMessage={uploadErrorMessage}
       uploadErrorLink={t('FARM_MAP.BULK_UPLOAD_SENSORS.UPLOAD_ERROR_LINK')}
       dismissModal={dismissModal}
       onUpload={onUploadClicked}
@@ -35,6 +37,7 @@ export default function BulkSensorUploadModal({ dismissModal, onUpload }) {
       errorCount={errorCount}
       onShowErrorClick={onShowErrorClick}
       onTemplateDownloadClick={onTemplateDownloadClick}
+      errorTypeCode={errorTypeCode}
     />
   );
 }

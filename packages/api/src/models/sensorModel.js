@@ -33,15 +33,11 @@ class Sensor extends Model {
   static get jsonSchema() {
     return {
       type: 'object',
-      required: ['farm_id', 'name', 'partner_id', 'external_id'],
+      required: ['name', 'partner_id', 'external_id'],
 
       properties: {
         location_id: { type: 'string' },
-        farm_id: { type: 'string', minLength: 1, maxLength: 255 },
-        name: { type: 'string', minLength: 1, maxLength: 255 },
-        grid_points: { type: 'object' },
         model: { type: 'string', minLength: 1, maxLength: 255 },
-        isDeleted: { type: 'boolean' },
         partner_id: { type: 'integer' },
         external_id: { type: 'string', maxLength: 255 },
         depth: { type: 'float' },
@@ -75,6 +71,9 @@ class Sensor extends Model {
         trx,
       );
       if (existingSensor) {
+        if (existingSensor.deleted) {
+          await LocationModel.unDeleteLocation(user_id, existingSensor.location_id, trx);
+        }
         await trx.commit();
         return existingSensor;
       }
@@ -93,8 +92,7 @@ class Sensor extends Model {
         name: sensor.name,
         notes: '',
         sensor: {
-          farm_id,
-          name: sensor.name,
+          model: sensor.model,
           partner_id,
           depth: sensor.depth,
           external_id: sensor.external_id,
@@ -124,16 +122,17 @@ class Sensor extends Model {
    * @param {Array} sensorIds sensor ids
    * @returns {Object} reading_type Reading Object
    */
-  static async getSensorLocationBySensorIds(locationIds = []) {
+  static async getSensorLocationByLocationIds(locationIds = []) {
     return await knex.raw(
       `SELECT 
-      s.sensor_id, 
-      s.name, 
+      s.location_id, 
       s.external_id,
-      b.point 
+      b.point,
+      b.name
       FROM "sensor" s 
       JOIN (
         SELECT 
+        l.name,
         l.location_id, 
         a.point 
         FROM "location" l JOIN
@@ -146,25 +145,25 @@ class Sensor extends Model {
       ) b 
       ON s.location_id::uuid = b.location_id
       WHERE s.location_id = ANY(?)
-      ORDER BY s.name ASC;
+      ORDER BY b.name ASC;
       `,
       [locationIds],
     );
   }
 
-  static async getSensorReadingTypes(sensorId) {
+  static async getSensorReadingTypes(location_id) {
     return Model.knex().raw(
       `
         SELECT prt.readable_value FROM sensor as s 
-        JOIN sensor_reading_type as srt ON srt.sensor_id = s.sensor_id 
+        JOIN sensor_reading_type as srt ON srt.location_id = s.location_id 
         JOIN partner_reading_type as prt ON srt.partner_reading_type_id = prt.partner_reading_type_id 
-        WHERE s.sensor_id = ?;
+        WHERE s.location_id = ?;
         `,
-      sensorId,
+      location_id,
     );
   }
 
-  static async patchSensorReadingTypes(sensorId, readingTypes) {
+  static async patchSensorReadingTypes(location_id, readingTypes) {
     try {
       for (const readingTypeKey in readingTypes) {
         if (readingTypes[readingTypeKey].active) {
@@ -173,22 +172,22 @@ class Sensor extends Model {
           const result = await Model.knex().raw(
             `
             SELECT prt.readable_value FROM sensor as s 
-            JOIN sensor_reading_type as srt ON srt.sensor_id = s.sensor_id 
+            JOIN sensor_reading_type as srt ON srt.location_id = s.location_id 
             JOIN partner_reading_type as prt ON srt.partner_reading_type_id = prt.partner_reading_type_id 
-            WHERE s.sensor_id = ? AND prt.readable_value = ?;
+            WHERE s.location_id = ? AND prt.readable_value = ?;
             `,
-            [sensorId, readingTypes[readingTypeKey].name],
+            [location_id, readingTypes[readingTypeKey].name],
           );
           // here it checks if there already exists if not then insert the reading type into the database
           if (result.rows.length === 0) {
             await Model.knex().raw(
               `
-              INSERT INTO sensor_reading_type (partner_reading_type_id, sensor_id)
-              SELECT prt.partner_reading_type_id, sensor_id FROM sensor as s 
+              INSERT INTO sensor_reading_type (partner_reading_type_id, location_id)
+              SELECT prt.partner_reading_type_id, location_id FROM sensor as s 
               JOIN partner_reading_type as prt ON prt.partner_id = s.partner_id 
-              WHERE s.sensor_id = ? AND prt.readable_value = ?;
+              WHERE s.location_id = ? AND prt.readable_value = ?;
               `,
-              [sensorId, readingTypes[readingTypeKey].name],
+              [location_id, readingTypes[readingTypeKey].name],
             );
           }
         } else {
@@ -199,9 +198,9 @@ class Sensor extends Model {
             WHERE sensor_reading_type_id IN
             (SELECT sensor_reading_type_id FROM sensor_reading_type
             JOIN partner_reading_type as prt ON prt.partner_reading_type_id = sensor_reading_type.partner_reading_type_id 
-            WHERE sensor_reading_type.sensor_id = ? AND prt.readable_value = ?);
+            WHERE sensor_reading_type.location_id = ? AND prt.readable_value = ?);
             `,
-            [sensorId, readingTypes[readingTypeKey].name],
+            [location_id, readingTypes[readingTypeKey].name],
           );
         }
       }

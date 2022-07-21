@@ -27,10 +27,15 @@ if (process.env.NODE_ENV === 'integration') {
   baseUrl = 'https://api.beta.litefarm.org';
 } else if (process.env.NODE_ENV === 'production') {
   baseUrl = 'https://api.app.litefarm.org';
+} else if (process.env.NODE_ENV === 'development') {
+  /*
+   * NOTE: for testing out the webhook run the following:
+   * - 'npm run ngrok:api' (or 'npm run ngrok' for both frontend and backend forwarding)
+   * - 'npm run ngrok:setup'
+   */
+  baseUrl = process.env.NGROK_API;
 } else {
-  // NOTE: for testing out the webhook, you may need to ngrok or some other
-  // tool to make the endpoint available to Ensemble
-  baseUrl = 'http://localhost:5001';
+  baseUrl = 'http://localhost:' + process.env.PORT;
 }
 
 /**

@@ -27,23 +27,20 @@ const router = express.Router();
 
 router.post('/get_sensors/', SensorController.getSensorsByFarmId);
 router.post(
-  '/add_sensors/',
+  '/',
   checkScope(['add:sensors']),
   upload.single('sensors'),
   SensorController.addSensors,
 );
 
 router.delete('/:sensor_id', SensorController.deleteSensor);
-router.patch('/:sensor_esid', SensorController.updateSensorbyID);
+router.patch('/:location_id', SensorController.updateSensorbyID);
 router.post('/readings/:partner_id/:farm_id', validateRequest, SensorController.addReading);
 router.get('/readings/:location_id', SensorController.getAllReadingsByLocationId);
 router.get('/readings/:farm_id/:days', SensorController.getReadingsByFarmId);
-router.post('/invalidate_readings', SensorController.invalidateReadings);
+router.post('/reading/invalidate', SensorController.invalidateReadings);
 router.post('/unclaim', SensorController.retireSensor);
-router.get('/reading_type/:sensor_id', SensorController.getSensorReadingTypes);
+router.get('/reading_type/:location_id', SensorController.getSensorReadingTypes);
 router.get('/brand_name/:partner_id', SensorController.getBrandName);
-router.post(
-  '/get_sensor_readings_for_visualization',
-  SensorController.getAllSensorReadingsByLocationIds,
-);
+router.post('/reading/visualization', SensorController.getAllSensorReadingsByLocationIds);
 module.exports = router;

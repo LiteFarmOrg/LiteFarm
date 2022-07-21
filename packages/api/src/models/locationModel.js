@@ -231,10 +231,17 @@ class Location extends baseModel {
   static async getSensorLocation(farm_id, partner_id, external_id, trx) {
     return Location.query(trx)
       .withGraphJoined('sensor')
-      .where('sensor.farm_id', farm_id)
+      .where('location.farm_id', farm_id)
       .andWhere('sensor.partner_id', partner_id)
       .andWhere('sensor.external_id', external_id)
       .first();
+  }
+
+  static async unDeleteLocation(user_id, location_id, trx) {
+    return Location.query(trx)
+      .context({ user_id })
+      .where({ location_id })
+      .patch({ deleted: false });
   }
 }
 

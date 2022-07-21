@@ -6,7 +6,9 @@ import { getLanguageFromLocalStorage } from './getLanguageFromLocalStorage';
  * @param date
  * @return {string}
  */
-export const getDateInputFormat = (date) => moment(date).format('YYYY-MM-DD');
+export const getDateInputFormat = (date) => {
+  return new Date(Date.parse(date)).toISOString().split('T')[0];
+};
 
 /**
  *

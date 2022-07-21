@@ -64,8 +64,16 @@ export const getManagementPlanCardDate = (date) =>
 export const getManagementPlanTileDate = (date) =>
   moment(date).locale(getLanguageFromLocalStorage()).format(`MMM DD,'YY`);
 
-export const getTaskCardDate = (date) =>
-  moment(date).locale(getLanguageFromLocalStorage()).format('MMM D, YYYY');
+export const getTaskCardDate = (date) => {
+  const language = getLanguageFromLocalStorage();
+  return new Intl.DateTimeFormat(language, {
+    month: 'short',
+    year: 'numeric',
+    day: 'numeric',
+    timeZone: 'UTC',
+  }).format(Date.parse(date));
+};
+// moment(date).locale(getLanguageFromLocalStorage()).format('MMM D, YYYY');
 
 export const getNotificationCardDate = (date) =>
   moment(date).locale(getLanguageFromLocalStorage()).format('MM/DD/YY');

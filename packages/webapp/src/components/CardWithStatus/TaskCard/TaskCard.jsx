@@ -63,7 +63,7 @@ export const PureTaskCard = ({
   };
 
   let trueDate = completeOrDueDate;
-  if (status == 'abandoned') {
+  if (status === 'abandoned') {
     let [day, month, date, year] = new Date(props['abandonDate']).toDateString().split(' ');
     trueDate = `${month} ${date}, ${year}`;
   }

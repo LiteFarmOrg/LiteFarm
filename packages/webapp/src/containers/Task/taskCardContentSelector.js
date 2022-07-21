@@ -87,7 +87,7 @@ export const taskCardContentByManagementPlanSelector = (management_plan_id) =>
 export const getTaskStatus = (task) => {
   if (task.complete_date) return 'completed';
   if (task.abandon_date) return 'abandoned';
-  if (new Date(task.due_date) >= new Date().setHours(0, 0, 0, 0)) return 'planned';
+  if (new Date(task.due_date) >= new Date().setUTCHours(0, 0, 0, 0)) return 'planned';
   return 'late';
 };
 

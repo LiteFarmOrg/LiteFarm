@@ -32,7 +32,7 @@ export default function SensorDetail({ history, user, match }) {
   useEffect(() => {
     dispatch(getSensorReadingTypes({ location_id, sensor_id }));
     dispatch(getSensorBrand({ location_id, partner_id }));
-  });
+  }, []);
 
   return (
     <PureSensorDetail history={history} isAdmin={isAdmin} system={system} sensorInfo={sensorInfo} />

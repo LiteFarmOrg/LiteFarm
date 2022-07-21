@@ -95,3 +95,33 @@ While the tests do attempt to clean up after themselves, it's a good idea to per
 To run [ESLint](https://eslint.org/) checks execute `pnpm lint`
 
 Since this is a mobile web application, webapp should be viewed in a mobile view in the browser.
+
+# ngrok
+
+## Use cases for ngrok
+
+Please see https://ngrok.com/ for more general information about ngrok. 
+
+Use cases in which we currently utilize ngrok at LiteFarm include:
+- Testing local changes on phones or different devices
+- Testing local changes when working with other APIs and integrations
+
+## Set up
+
+- Go to https://ngrok.com/ and sign up for an account
+- Create a copy of `ngrok/ngrok.default.yml` and call it `ngrok.yml`. Make sure this file is in the `ngrok` folder at the root of the repo
+- Login to your ngrok account and go to https://dashboard.ngrok.com/get-started/your-authtoken
+- Add the auth token from there in `ngrok.yml` by replacing the `?`
+
+## Commands
+These commands can be run from the root of the repo.
+- `npm run ngrok` to forward both backend and frontend ports with ngrok
+- `npm run ngrok:setup` to add the ngrok urls to the file .env files (always run after forwarding a port to ngrok)
+- `npm run ngrok:api` to forward the backend port with ngrok
+- `npm run ngrok:webapp` to forward the frontend port with ngrok
+
+_Note: Please make sure to run the commands in the following order:_
+-  `npm run ngrok` or `npm run ngrok:api` or `npm run ngrok:webapp`
+- `npm run ngrok:setup` (in a new terminal)
+- `pnpm dev` (in a new terminal from the `packages/webapp` folder)
+- `npm run nodemon` (in a new terminal from the `packages/api` folder)

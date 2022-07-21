@@ -83,6 +83,7 @@ class User extends Model {
         phone_number: { type: ['string', null] },
         user_address: { type: ['string', null] },
         email: { type: 'email' },
+        sandbox_user: { type: 'boolean' },
         notification_setting: {
           type: 'object',
           required: [

@@ -2,9 +2,10 @@ import PureEditUser from '../../components/Profile/EditUser';
 import { useDispatch, useSelector } from 'react-redux';
 import { isAdminSelector, userFarmEntitiesSelector, userFarmSelector } from '../userFarmSlice';
 import { deactivateUser, invitePseudoUser, reactivateUser, updateUserFarm } from './People/saga';
+import { useMemo } from 'react';
 
 export default function EditUser({ history, match }) {
-  const { farm_id } = useSelector(userFarmSelector);
+  const { farm_id, user_id: currentUserId } = useSelector(userFarmSelector);
   const isAdmin = useSelector(isAdminSelector);
   const dispatch = useDispatch();
   const userFarmsEntities = useSelector(userFarmEntitiesSelector);
@@ -12,15 +13,19 @@ export default function EditUser({ history, match }) {
   const userFarm = userFarmsEntities[farm_id]?.[user_id];
   const userFarmEmails = Object.values(userFarmsEntities[farm_id]).map((user) => user.email);
 
+  const isCurrentUser = useMemo(() => {
+    return user_id === currentUserId;
+  }, [user_id, currentUserId]);
+
   const getReqBody = (data) => {
-    const role_id = Number(data.role_id?.value);
+    const role_id = data.role_id ? parseInt(data.role_id?.value) : null;
     const reqBody = {
       ...data,
       user_id,
       role_id,
       wage: { amount: data.wage.amount, type: userFarm.wage?.type || 'hourly' },
     };
-    if (role_id === userFarm.role_id) delete reqBody.role_id;
+    if (role_id === userFarm.role_id || !role_id) delete reqBody.role_id;
     if (data.wage?.amount === userFarm.wage?.amount) delete reqBody.wage;
     return reqBody;
   };
@@ -47,6 +52,7 @@ export default function EditUser({ history, match }) {
       history={history}
       onInvite={onInvite}
       userFarmEmails={userFarmEmails}
+      isCurrentUser={isCurrentUser}
     />
   );
 }

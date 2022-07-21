@@ -19,6 +19,7 @@ export default function PureEditUser({
   onRevoke,
   onInvite,
   userFarmEmails,
+  isCurrentUser,
 }) {
   const { t } = useTranslation();
   const ROLE = 'role_id';
@@ -139,6 +140,7 @@ export default function PureEditUser({
           render={({ field }) => (
             <ReactSelect
               {...field}
+              isDisabled={!isAdmin || isCurrentUser}
               label={t('INVITE_USER.ROLE')}
               options={roleOptions}
               style={{ marginBottom: '24px' }}
@@ -146,6 +148,7 @@ export default function PureEditUser({
             />
           )}
           rules={{ required: true }}
+          disabled={!isAdmin || isCurrentUser}
         />
       )}
       <Input

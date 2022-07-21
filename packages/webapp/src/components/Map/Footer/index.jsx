@@ -82,7 +82,7 @@ export default function PureMapFooter({
     >
       <div className={clsx(container)} style={style}>
         {isAdmin && (
-          <button 
+          <button
             data-cy="map-addFeature"
             className={clsx(button, (stepSpotlighted === 0 || showAddDrawer) && spotlighted)}
             id="mapFirstStep"

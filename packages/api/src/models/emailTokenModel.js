@@ -83,7 +83,10 @@ class emailTokenModel extends Model {
       template_path,
       { first_name: user.first_name, farm, locale: user.language_preference, farm_name: farm },
       user.email,
-      { sender, buttonLink: `/callback/?invite_token=${token}` },
+      {
+        sender,
+        buttonLink: `/callback/?invite_token=${token}&language=${user.language_preference}`,
+      },
     );
   }
 }

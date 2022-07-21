@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { areaImgDict, lineImgDict, pointImgDict } from '../LocationMapping';
 import { containsCrops } from '../../../containers/Map/constants';
 import { makeStyles } from '@material-ui/core/styles';
 import { colors } from '../../../assets/theme';
+import PurePreviewPopup from '../PreviewPopup';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -41,10 +42,20 @@ export default function PureSelectionHandler({ locations, history }) {
     return icon;
   };
 
+  const [isSensor, setIsSensor] = useState(false);
+  const [sensorIdx, setSensorIdx] = useState(null);
+
   const loadEditView = (location) => {
     containsCrops(location.type)
       ? history.push(`/${location.type}/${location.id}/crops`)
       : history.push(`/${location.type}/${location.id}/details`);
+  };
+
+  const handleRightClick = (location, idx) => {
+    if (location.type === 'sensor') {
+      setIsSensor(true);
+      setSensorIdx(idx);
+    }
   };
 
   return locations.map((location, idx) => {
@@ -52,9 +63,22 @@ export default function PureSelectionHandler({ locations, history }) {
     let icon = imgMapping(asset, type);
 
     return (
-      <div key={idx} onClick={() => loadEditView(location)} className={classes.container}>
-        <div style={{ float: 'left', paddingTop: '8px', paddingLeft: '20px' }}> {icon} </div>
-        <div style={{ padding: '12px 20px 10px 55px' }}>{name}</div>
+      <div
+        key={idx}
+        onClick={() => loadEditView(location)}
+        onContextMenu={() => handleRightClick(location, idx)}
+      >
+        <div className={classes.container}>
+          <div style={{ float: 'left', paddingTop: '8px', paddingLeft: '20px' }}> {icon} </div>
+          <div style={{ padding: '12px 20px 10px 55px' }}>{name}</div>
+        </div>
+        {isSensor && sensorIdx === idx && (
+          <PurePreviewPopup
+            location={location}
+            history={history}
+            styleOverride={{ marginTop: 12, marginBottom: 10 }}
+          />
+        )}
       </div>
     );
   });

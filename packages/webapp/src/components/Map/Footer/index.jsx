@@ -40,7 +40,7 @@ export default function PureMapFooter({
       locationEnum.residence,
     ],
     line: [locationEnum.buffer_zone, locationEnum.watercourse, locationEnum.fence],
-    point: [locationEnum.gate, locationEnum.water_valve],
+    point: [locationEnum.gate, locationEnum.water_valve, locationEnum.sensor],
   },
 }) {
   const { t } = useTranslation();

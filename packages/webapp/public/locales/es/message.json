@@ -18,6 +18,11 @@
       "UPDATE": "Documento actualizado exitosamente"
     }
   },
+  "BULK_UPLOAD": {
+    "ERROR": {
+      "UPLOAD": "MISSING"
+    }
+  },
   "CROP": {
     "ERROR": {
       "DELETE": "No se pudo borrar campo de cultivo"
@@ -93,7 +98,8 @@
     "FAIL_POST": "Fallo al crear",
     "SUCCESS_DELETE": " retirada/o con éxito",
     "SUCCESS_PATCH": " actualizo/a con éxito.",
-    "SUCCESS_POST": " creo/a con éxito."
+    "SUCCESS_POST": " creo/a con éxito.",
+    "SUCCESS_UPLOAD": "MISSING"
   },
   "ORGANIC_CERTIFIER_SURVEY": {
     "ERROR": {
@@ -189,5 +195,9 @@
       "REVOKE": "Acceso de usuario(a) revocado!",
       "UPDATE": "Información del(a) usuario(a) actualizada exitosamente!"
     }
+  },
+  "SENSOR": {
+    "SUCCESSFUL_UPDATE": "MISSING",
+    "ERROR_UPDATE": "MISSING"
   }
 }

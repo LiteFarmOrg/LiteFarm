@@ -1,4 +1,3 @@
-import moment from 'moment';
 import { DO_CDN_URL } from '../../../util/constants';
 
 const autumn = `${DO_CDN_URL}/home/fall.webp`;
@@ -8,19 +7,20 @@ const summer = `${DO_CDN_URL}/home/summer.webp`;
 
 export const getSeason = (lat) => {
   const isNorth = lat > 0;
-  const now = moment();
-  const year = now.get('year');
-  const autumnStartDate = moment(`${year}-9-1`);
-  const springStartDate = moment(`${year}-3-1`);
-  const summerStartDate = moment(`${year}-6-1`);
-  const winterStartDate = moment(`${year}-12-1`);
-  if (now.isBefore(springStartDate)) {
+  const now = new Date();
+  const year = now.getFullYear();
+  const autumnStartDate = new Date(year, 8, 1);
+  const springStartDate = new Date(year, 2, 1);
+  const summerStartDate = new Date(year, 5, 1);
+  const winterStartDate = new Date(year, 11, 1);
+
+  if (now < springStartDate) {
     return isNorth ? winter : summer;
-  } else if (now.isBefore(summerStartDate)) {
+  } else if (now < summerStartDate) {
     return isNorth ? spring : autumn;
-  } else if (now.isBefore(autumnStartDate)) {
+  } else if (now < autumnStartDate) {
     return isNorth ? summer : winter;
-  } else if (now.isBefore(winterStartDate)) {
+  } else if (now < winterStartDate) {
     return isNorth ? autumn : spring;
   } else return isNorth ? winter : summer;
 };

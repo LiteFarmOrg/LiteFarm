@@ -42,6 +42,7 @@ import watercourseReducer from '../containers/watercourseSlice';
 import fenceReducer from '../containers/fenceSlice';
 import gateReducer from '../containers/gateSlice';
 import waterValveReducer from '../containers/waterValveSlice';
+import sensorReducer from '../containers/sensorSlice';
 
 import cropReducer from '../containers/cropSlice';
 import cropVarietyReducer from '../containers/cropVarietySlice';
@@ -60,7 +61,10 @@ import homeReducer from '../containers/Home/homeSlice';
 import mapLocationReducer from '../containers/mapSlice';
 import mapFilterSettingReducer from '../containers/Map/mapFilterSettingSlice';
 import mapCacheReducer from '../containers/Map/mapCacheSlice';
+import mapSensorReducer from '../containers/Map/mapSensorSlice';
 import showedSpotlightReducer from '../containers/showedSpotlightSlice';
+import bulkSensorsUploadReducer from '../containers/bulkSensorUploadSlice';
+import bulkSensorsReadingsReducer from '../containers/bulkSensorReadingsSlice';
 import hookFormPersistReducer from '../containers/hooks/useHookFormPersist/hookFormPersistSlice';
 import filterReducer from '../containers/filterSlice';
 import managementPlanReducer from '../containers/managementPlanSlice';
@@ -169,7 +173,10 @@ const entitiesReducer = combineReducers({
   fenceReducer,
   gateReducer,
   waterValveReducer,
+  sensorReducer,
   showedSpotlightReducer,
+  bulkSensorsUploadReducer,
+  bulkSensorsReadingsReducer,
   managementPlanReducer,
   cropManagementPlanReducer,
   plantingManagementPlanReducer,
@@ -202,6 +209,7 @@ const persistedStateReducer = combineReducers({
   chooseFarmFlowReducer,
   mapFilterSettingReducer,
   mapCacheReducer,
+  mapSensorReducer,
   appSettingReducer,
 });
 

@@ -15,19 +15,41 @@
 
 import { createAction } from '@reduxjs/toolkit';
 import { call, put, select, takeLeading } from 'redux-saga/effects';
-import { url } from '../../apiConfig';
+import { url, sensorUrl } from '../../apiConfig';
 import i18n from '../../locales/i18n';
 import { axios, getHeader } from '../saga';
 import { loginSelector, userFarmSelector } from '../userFarmSlice';
+import { canShowSuccessHeader, setSuccessMessage } from '../../containers/mapSlice';
 import {
   patchSpotlightFlagsFailure,
   patchSpotlightFlagsSuccess,
   spotlightLoading,
 } from '../showedSpotlightSlice';
+import {
+  bulkSensorsUploadFailure,
+  bulkSensorsUploadSuccess,
+  bulkSensorsUploadLoading,
+  bulkSensorsUploadValidationFailure,
+  resetSensorsBulkUploadStates,
+  switchToAsyncSensorUpload,
+} from '../bulkSensorUploadSlice';
+import { bulkSenorUploadErrorTypeEnum } from './constants';
+
 import { enqueueErrorSnackbar } from '../Snackbar/snackbarSlice';
+import {
+  getSensorReadingSuccess,
+  onLoadingSensorReadingStart,
+  onLoadingSensorReadingFail,
+} from './mapSensorSlice';
 
 const sendMapToEmailUrl = (farm_id) => `${url}/export/map/farm/${farm_id}`;
 const showedSpotlightUrl = () => `${url}/showed_spotlight`;
+const bulkUploadSensorsInfoUrl = () => {
+  let url = `${sensorUrl}/add_sensors`;
+  const testTimer = localStorage.getItem('sensorUploadTimer');
+  if (testTimer) url += `?sensorUploadTimer=${testTimer}`;
+  return url;
+};
 
 export const sendMapToEmail = createAction(`sendMapToEmailSaga`);
 
@@ -77,7 +99,106 @@ export function* setSpotlightToShownSaga({ payload: spotlights }) {
   }
 }
 
+export const bulkUploadSensorsInfoFile = createAction(`bulkUploadSensorsInfoFileSaga`);
+export const resetBulkUploadSensorsInfoFile = createAction(`resetBulkUploadSensorsInfoFileSaga`);
+export const resetShowTransitionModalState = createAction(`resetShowTransitionModalStateSaga`);
+
+export function* resetBulkUploadSensorsInfoFileSaga() {
+  yield put(resetSensorsBulkUploadStates());
+}
+
+export function* resetShowTransitionModalStateSaga() {
+  yield put(switchToAsyncSensorUpload(false));
+}
+
+export function* bulkUploadSensorsInfoFileSaga({ payload: { file } }) {
+  try {
+    yield put(bulkSensorsUploadLoading());
+    const { farm_id } = yield select(userFarmSelector);
+    const formData = new FormData();
+    formData.append('sensors', file);
+    const fileUploadResponse = yield call(axios.post, bulkUploadSensorsInfoUrl(), formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+        Authorization: 'Bearer ' + localStorage.getItem('id_token'),
+        farm_id: farm_id,
+      },
+    });
+
+    switch (fileUploadResponse.status) {
+      case 200: {
+        yield put(bulkSensorsUploadSuccess());
+        yield put(
+          setSuccessMessage([
+            i18n.t('FARM_MAP.MAP_FILTER.SENSOR'),
+            i18n.t('message:MAP.SUCCESS_UPLOAD'),
+          ]),
+        );
+        yield put(canShowSuccessHeader(true));
+        break;
+      }
+      case 202: {
+        yield put(switchToAsyncSensorUpload(true));
+        break;
+      }
+      default: {
+        yield put(bulkSensorsUploadFailure());
+        yield put(enqueueErrorSnackbar(i18n.t('message:BULK_UPLOAD.ERROR.UPLOAD')));
+      }
+    }
+  } catch (error) {
+    switch (error?.response?.status) {
+      case 400: {
+        const errorType = error?.response?.data?.error_type || '';
+        switch (errorType) {
+          case bulkSenorUploadErrorTypeEnum?.unable_to_claim_all_sensors: {
+            const { success, errorSensors } = error?.response?.data ?? {
+              success: {},
+              errorSensors: {},
+            };
+            yield put(bulkSensorsUploadFailure({ success, errorSensors }));
+            break;
+          }
+          case bulkSenorUploadErrorTypeEnum?.validation_failure:
+          default: {
+            const validationErrors = error?.response?.data?.errors ?? [];
+            yield put(bulkSensorsUploadValidationFailure(validationErrors));
+            break;
+          }
+        }
+        break;
+      }
+      case 500:
+      default: {
+        yield put(bulkSensorsUploadFailure({ defaultFailure: true }));
+        console.log(error);
+        break;
+      }
+    }
+  }
+}
+
+export const getSensorReadings = createAction('getSensorReadingsSaga');
+
+export function* getSensorReadingsSaga() {
+  const { user_id, farm_id } = yield select(userFarmSelector);
+  const header = getHeader(user_id, farm_id);
+  try {
+    yield put(onLoadingSensorReadingStart(user_id, farm_id));
+    const result = yield call(axios.get, `${sensorUrl}/sensor_readings/${farm_id}/7`, header);
+    if (result.status === 200) yield put(getSensorReadingSuccess(result.data));
+    yield put(onLoadingSensorReadingFail(result.error));
+  } catch (e) {
+    yield put(onLoadingSensorReadingFail(e));
+    console.error(e);
+  }
+}
+
 export default function* supportSaga() {
   yield takeLeading(sendMapToEmail.type, sendMapToEmailSaga);
   yield takeLeading(setSpotlightToShown.type, setSpotlightToShownSaga);
+  yield takeLeading(bulkUploadSensorsInfoFile.type, bulkUploadSensorsInfoFileSaga);
+  yield takeLeading(getSensorReadings.type, getSensorReadingsSaga);
+  yield takeLeading(resetBulkUploadSensorsInfoFile.type, resetBulkUploadSensorsInfoFileSaga);
+  yield takeLeading(resetShowTransitionModalState.type, resetShowTransitionModalStateSaga);
 }

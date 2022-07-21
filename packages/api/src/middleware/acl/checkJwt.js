@@ -29,6 +29,8 @@ const checkJwt = jwt({
     /\/time_notification\//i,
     /\/farm\/utc_offset_by_range\//i,
     /\/sensors\/add_reading[/]?/,
+    /\/api-docs\/*/,
+    /\/api-spec\/*/,
   ],
 });
 

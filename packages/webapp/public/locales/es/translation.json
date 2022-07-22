@@ -820,7 +820,7 @@
     "GENDER": "Género",
     "GENDER_TOOLTIP": "Información sobre el género es recolectada sólo por propósitos de estudio y sólo será compartida sin identificar personalmente a Ud.",
     "INVALID_EMAIL_ERROR": "Por favor ingrese una dirección de correo válida",
-    "ALREADY_EXISTING_EMAIL_ERROR": "MISSING",
+    "ALREADY_EXISTING_EMAIL_ERROR": "Un usuario con ese correo electrónico ya tiene acceso a esta granja",
     "INVITE": "Invitar",
     "LANGUAGE_OF_INVITE": "Idioma de la invitación",
     "PHONE": "Número de teléfono",

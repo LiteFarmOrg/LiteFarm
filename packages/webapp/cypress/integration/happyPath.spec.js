@@ -33,138 +33,42 @@ describe.only('LiteFarm end to end test', () => {
     const fieldName = 'Test Field';
     const workerName = 'Test Worker';
     const testCrop = 'New Crop';
+    const role = 'Manager';
 
     //Login as a new user
     cy.newUserLogin(emailOwner);
 
-    //invite the new user
-    cy.inviteNewUser(emailOwner, fullName, gender, null, null, password);
+    //create account
+    cy.createAccount(emailOwner, fullName, gender, null, null, password);
 
     //confirm user creation email
-    cy.wait(10 * 1000);
-    cy.task('getLastEmail')
-      .its('html')
-      .then((html) => {
-        cy.document({ log: false }).invoke({ log: false }, 'write', html);
-      });
-    cy.get('[data-cy=button-logIn]')
-      .invoke('attr', 'href')
-      .then((href) => {
-        cy.visit(href);
-      });
+    cy.userCreationEmail();
+
     //Get Started page
-    cy.contains('started').should('exist');
-    cy.get('[data-cy=getStarted]').should('exist');
-    cy.get('[data-cy=getStarted]').click();
+    cy.getStarted();
 
     //Add farm page
-    cy.url().should('include', '/add_farm');
-    cy.get('[data-cy=addFarm-continue]').should('exist').should('be.disabled');
-
-    // Enter new farm details and click continue which should be enabled
-    cy.waitForGoogleApi().then(() => {
-      cy.get('[data-cy=addFarm-farmName]').should('exist').type(farmName);
-      cy.get('[data-cy=addFarm-location]').should('exist').type(location).wait(1000);
-      cy.get('[data-cy=addFarm-continue]').should('not.be.disabled').click();
-    });
+    cy.addFarm(farmName, location);
 
     //role selection page
-    cy.contains('What is your role on the farm').should('exist');
-    cy.url().should('include', '/role_selection');
-    cy.get('[data-cy=roleSelection-continue]').should('exist').and('be.disabled');
-    cy.get('[data-cy=roleSelection-role]').should('exist').check('Manager', { force: true });
-    cy.get('[data-cy=roleSelection-continue]').should('not.be.disabled').click();
+    cy.roleSelection(role);
 
     //Consent page
-    cy.contains('Our Data Policy').should('exist');
-    cy.url().should('include', '/consent');
-    cy.get('[data-cy=consent-continue]').should('exist').and('be.disabled');
-    cy.get('[data-cy=consent-agree]').should('exist').check({ force: true });
-    cy.get('[data-cy=consent-continue]').should('not.be.disabled').click();
+    cy.giveConsent();
 
     //interested in organic
-    cy.contains('Interested in certifications').should('exist');
-    cy.url().should('include', '/certification/interested_in_organic');
-    cy.get('[data-cy=interestedInOrganic-continue]').should('exist').and('be.disabled');
-    cy.get('[data-cy=interestedInOrganic-select]').should('exist');
-    cy.get('[type="radio"]').first().check({ force: true });
-    cy.get('[data-cy=interestedInOrganic-continue]').should('not.be.disabled').click();
-
-    //what type of certification(select organic)
-    cy.contains('What type of certification').should('exist');
-    cy.url().should('include', '/certification/selection');
-    cy.get('[data-cy=certificationSelection-continue]').should('exist').and('be.disabled');
-    cy.get('[data-cy=certificationSelection-type]').should('exist');
-    cy.get('[type="radio"]').first().check({ force: true });
-    cy.get('[data-cy=certificationSelection-continue]').should('not.be.disabled').click();
+    cy.interestedInOrganic();
 
     //who is your certifier(select BCARA)
-    cy.contains('Who is your certifier').should('exist');
-    cy.url().should('include', '/certification/certifier/selection');
-    cy.get('[data-cy=certifierSelection-proceed]').should('exist').and('be.disabled');
-    cy.get('[data-cy=certifierSelection-item]').should('exist').eq(1).click();
-    let certifier;
-    cy.get('[data-cy=certifierSelection-item]')
-      .eq(1)
-      .then(function ($elem) {
-        certifier = $elem.text();
-        let end = certifier.indexOf('(');
-        let result = certifier.substring(1, end);
-        //click the proceed button and ensure test is on the certification summary view and the certification selected is displayed
-        cy.get('[data-cy=certifierSelection-proceed]').should('not.be.disabled').click();
-        cy.url().should('include', '/certification/summary');
-        cy.contains(result).should('exist');
-      });
-
-    //certification summary
-    cy.get('[data-cy=certificationSummary-continue]')
-      .should('exist')
-      .and('not.be.disabled')
-      .click();
+    cy.selectCertifier();
 
     //onboarding outro
-    cy.url().should('include', '/outro');
-    cy.get('[data-cy=outro-finish]').should('exist').and('not.be.disabled').click();
+    cy.onboardingOutro();
 
-    cy.wait(10 * 1000);
-    cy.task('getLastEmail')
-      .its('html')
-      .then((html) => {
-        cy.document({ log: false }).invoke({ log: false }, 'write', html);
-      });
+    cy.confirmationEmail();
 
-    cy.get('[data-cy=congrats-email-logIn]')
-      .invoke('attr', 'href')
-      .then((href) => {
-        cy.visit(href);
-      });
     //farm home page
-    cy.get('[data-cy=spotlight-next]')
-      .contains('Next')
-      .should('exist')
-      .and('not.be.disabled')
-      .click();
-    cy.get('[data-cy=spotlight-next]')
-      .contains('Next')
-      .should('exist')
-      .and('not.be.disabled')
-      .click();
-    cy.get('[data-cy=spotlight-next]')
-      .contains('Next')
-      .should('exist')
-      .and('not.be.disabled')
-      .click();
-    cy.get('[data-cy=spotlight-next]')
-      .contains('Got it')
-      .should('exist')
-      .and('not.be.disabled')
-      .click();
-    cy.get('[data-cy=home-farmButton]').should('exist').and('not.be.disabled').click();
-    cy.get('[data-cy=navbar-option]')
-      .contains('Farm map')
-      .should('exist')
-      .and('not.be.disabled')
-      .click();
+    cy.homePageSpotlights();
 
     //arrive at farm map page and draw a field
     cy.url().should('include', '/map');
@@ -227,49 +131,18 @@ describe.only('LiteFarm end to end test', () => {
     cy.get('[data-cy=createField-save]').should('exist').and('not.be.disabled').click();
     cy.wait(2000);
     //Add a farm worker to the farm
-    cy.get('[data-cy=home-farmButton]')
-      .should('exist')
-      .and('not.be.disabled')
-      .click({ force: true });
-    cy.get('[data-cy=navbar-option]')
-      .eq(2)
-      .contains('People')
-      .should('exist')
-      .and('not.be.disabled')
-      .click({ force: true });
-    cy.url().should('include', '/people');
-    cy.get('[data-cy=people-inviteUser]').should('exist').and('not.be.disabled').click();
+    cy.goToPeopleView();
 
-    cy.url().should('include', '/invite_user');
-    cy.get('[data-cy=invite-fullName]').should('exist').type(workerName);
-    cy.contains('Choose Role').should('exist').click({ force: true });
-    cy.contains('Farm Worker').should('exist').click();
-    cy.get('[data-cy=invite-email]').should('exist').type(emailWorker);
-    cy.get('[data-cy=invite-submit]').should('exist').and('not.be.disabled').click();
+    cy.inviteUser('Farm Worker', workerName, emailWorker, null, null, null, null, null);
 
     cy.url().should('include', '/people');
     cy.contains(workerName).should('exist');
 
     //logout
-    cy.get('[data-cy=home-profileButton]').should('exist').click();
-    cy.get('[data-cy=navbar-option]')
-      .contains('Log Out')
-      .should('exist')
-      .and('not.be.disabled')
-      .click();
+    cy.logOut();
 
     //login as farm worker, create account and join farm
-    cy.task('getLastEmail')
-      .its('html')
-      .then((html) => {
-        cy.document({ log: false }).invoke({ log: false }, 'write', html);
-      });
-
-    cy.get('[data-cy=invite-joinButton]')
-      .invoke('attr', 'href')
-      .then((href) => {
-        cy.visit(href);
-      });
+    cy.acceptInviteEmail();
 
     cy.get('[data-cy=invitedCard-createAccount]').click();
 

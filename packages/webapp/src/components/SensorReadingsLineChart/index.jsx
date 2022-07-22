@@ -89,9 +89,9 @@ const PureSensorReadingsLineChart = ({
   const renderDateOnXAxis = (tickProps) => {
     const { x, y, payload, index } = tickProps;
     const { value, offset } = payload;
-    const monthName = moment(value).format('ddd, MMM DD');
+    const displayDate = moment(value).format('ddd, MMM DD');
     if (index % 4 == 2) {
-      return <text x={x} y={y - 16} textAnchor="middle">{`${monthName}`}</text>;
+      return <text x={x} y={y - 16} textAnchor="middle">{`${displayDate}`}</text>;
     }
     if (index % 4 === 0 && index !== 0) {
       const pathX = Math.floor(x + offset) + 0.5;

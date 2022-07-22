@@ -1671,7 +1671,8 @@
     "TEMPERATURE_READINGS_OF_SENSOR": {
       "TITLE": "MISSING",
       "SUBTITLE": "MISSING",
-      "Y_AXIS_LABEL": "MISSING"
+      "Y_AXIS_LABEL": "MISSING",
+      "WEATHER_STATION": "MISSING"
     }
   }
 }

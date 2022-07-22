@@ -15,6 +15,7 @@ import {
 import { Label, Semibold } from '../Typography';
 import PropTypes from 'prop-types';
 import AxisLabel from './AxisLabel';
+import moment from 'moment';
 
 const PureSensorReadingsLineChart = ({
   title,
@@ -25,6 +26,7 @@ const PureSensorReadingsLineChart = ({
   xAxisLabel,
   yAxisLabel,
   chartData,
+  weatherStationName,
 }) => {
   const [legendsList, setLegendsList] = useState({});
 
@@ -84,12 +86,34 @@ const PureSensorReadingsLineChart = ({
     );
   };
 
+  const renderDateOnXAxis = (tickProps) => {
+    const { x, y, payload, index } = tickProps;
+    const { value, offset } = payload;
+    const monthName = moment(value).format('ddd, MMM DD');
+    if (index % 4 == 2) {
+      return <text x={x} y={y - 16} textAnchor="middle">{`${monthName}`}</text>;
+    }
+    if (index % 4 === 0 && index !== 0) {
+      const pathX = Math.floor(x + offset) + 0.5;
+      return <path d={`M${pathX},${y - 22}v${-16}`} stroke="black" />;
+    }
+    return null;
+  };
+
+  const dateTickFormatter = (tick) => {
+    const newTick = new String(tick);
+    let tickArr = newTick.split(' ');
+    tickArr = tickArr.slice(0, -1);
+    return tickArr.join(' ');
+  };
+
   return (
     <>
       <label>
         <Semibold className={styles.title}>{title}</Semibold>
       </label>
       <Label className={styles.subTitle}>{subTitle}</Label>
+      <Label className={styles.subTitle}>{weatherStationName}</Label>
       <ResponsiveContainer width="100%" height="50%">
         <LineChart
           data={chartData}
@@ -102,9 +126,21 @@ const PureSensorReadingsLineChart = ({
         >
           <CartesianGrid strokeDasharray="1 1" />
           <XAxis
-            label={{ value: xAxisLabel, position: 'insideBottom' }}
+            label={{ value: '', position: 'insideBottom' }}
             dataKey={xAxisDataKey}
             tick={false}
+            tickFormatter={dateTickFormatter}
+          />
+          <XAxis
+            label={{ value: xAxisLabel, position: 'insideBottom' }}
+            dataKey={xAxisDataKey}
+            axisLine={false}
+            tickLine={false}
+            interval={0}
+            tick={renderDateOnXAxis}
+            height={1}
+            scale="band"
+            xAxisId="quarter"
           />
           <YAxis
             label={
@@ -152,6 +188,7 @@ PureSensorReadingsLineChart.propTypes = {
   xAxisLabel: PropTypes.string,
   yAxisLabel: PropTypes.string.isRequired,
   chartData: PropTypes.array.isRequired,
+  weatherStationName: PropTypes.string.isRequired,
 };
 
 export default PureSensorReadingsLineChart;

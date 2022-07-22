@@ -16,12 +16,13 @@ function SensorReadings({ history, match }) {
 
   const { location_id = '' } = match?.params;
   const sensorInfo = useSelector(sensorsSelector(location_id));
-  const { latestMinTemperature = '', latestMaxTemperature = '' } = useSelector(
-    bulkSensorsReadingsSliceSelector,
-  );
+  const {
+    latestMinTemperature = '',
+    latestMaxTemperature = '',
+    nearestStationName = '',
+  } = useSelector(bulkSensorsReadingsSliceSelector);
   const measurementUnit = useSelector(measurementSelector);
   const { tempUnit } = utils.getUnits(measurementUnit);
-
   return (
     <div style={{ padding: '24px 16px', height: '100%' }}>
       <PageTitle
@@ -53,6 +54,9 @@ function SensorReadings({ history, match }) {
           high: latestMaxTemperature,
           low: latestMinTemperature,
           tempUnit: tempUnit ?? 'C',
+        })}
+        weatherStationName={t('SENSOR.TEMPERATURE_READINGS_OF_SENSOR.WEATHER_STATION', {
+          weatherStationLocation: nearestStationName,
         })}
         xAxisDataKey={CURRENT_DATE_TIME}
         yAxisLabel={t('SENSOR.TEMPERATURE_READINGS_OF_SENSOR.Y_AXIS_LABEL', {

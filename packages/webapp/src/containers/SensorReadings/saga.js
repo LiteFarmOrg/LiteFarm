@@ -140,6 +140,7 @@ export function* getSensorsReadingsSaga({
         sensorReadings: Object.values(ambientDataWithSensorsReadings),
         selectedSensorName,
         latestTemperatureReadings,
+        nearestStationName: stationName,
       }),
     );
   } catch (error) {

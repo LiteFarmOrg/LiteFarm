@@ -126,7 +126,7 @@ const PureSensorReadingsLineChart = ({
         >
           <CartesianGrid strokeDasharray="1 1" />
           <XAxis
-            label={{ value: '', position: 'insideBottom' }}
+            label={{ value: xAxisLabel, position: 'insideBottom' }}
             dataKey={xAxisDataKey}
             tick={false}
             tickFormatter={dateTickFormatter}

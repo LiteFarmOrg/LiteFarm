@@ -80,8 +80,7 @@ function TaskReadOnly({ history, match, location }) {
   };
   const { maxZoomRef, getMaxZoom } = useMaxZoom();
 
-  const onChangeTaskDate = (date) =>
-    dispatch(changeTaskDate({ task_id, due_date: date + 'T00:00:00.000' }));
+  const onChangeTaskDate = (date) => dispatch(changeTaskDate({ task_id, due_date: date }));
   const onAssignTasksOnDate = (task) => dispatch(assignTasksOnDate(task));
   const onAssignTask = (task) => dispatch(assignTask(task));
   return (

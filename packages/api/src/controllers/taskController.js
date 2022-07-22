@@ -26,10 +26,17 @@ const User = require('../models/userModel');
 const { typesOfTask } = require('./../middleware/validation/task');
 const adminRoles = [1, 2, 5];
 const isDateInPast = (date) => {
-  const today = new Date();
-  const newDate = new Date(date);
-  if (newDate.setUTCHours(0, 0, 0, 0) < today.setUTCHours(0, 0, 0, 0)) {
-    return true;
+  // Date is sent with local midnight timestamp; compute end-of-day for date.
+  const startOfDay = new Date(date);
+  const endOfDay = new Date(startOfDay.valueOf() + 1000 * 60 * 60 * 24 - 1);
+  const now = new Date();
+  // Compare UTC year, month, date for end-of-day vs. now.
+  if (endOfDay.getUTCFullYear() < now.getUTCFullYear()) return true;
+  if (endOfDay.getUTCFullYear() === now.getUTCFullYear()) {
+    if (endOfDay.getUTCMonth() < now.getUTCMonth()) return true;
+    if (endOfDay.getUTCMonth() === now.getUTCMonth()) {
+      if (endOfDay.getUTCDate() < now.getUTCDate()) return true;
+    }
   }
   return false;
 };

@@ -142,10 +142,15 @@ export function* changeTaskDateSaga({ payload: { task_id, due_date } }) {
   let { user_id, farm_id } = yield select(loginSelector);
   const header = getHeader(user_id, farm_id);
   try {
+    // Send due date with timestamp of midnight, local timezone
+    const offset = (new Date().getTimezoneOffset() / 60) * -1;
+    const offsetString = `${offset < 0 ? '-' : '+'}${Math.abs(offset) < 10 ? '0' : ''}${Math.abs(
+      offset,
+    )}:00`;
     const result = yield call(
       axios.patch,
       `${taskUrl}/patch_due_date/${task_id}`,
-      { due_date },
+      { due_date: `${due_date}T00:00:00.000${offsetString}` },
       header,
     );
 

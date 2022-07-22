@@ -274,6 +274,7 @@ Cypress.Commands.add('createAccount', (email, fullName, gender, language, birthY
   //cy.createUserGender().click();
   //cy.createUserGenderOptions().eq(1).contains(gender).click();
   cy.contains('Create Account').should('exist').and('be.enabled').click();
+  cy.wait(3000);
 });
 
 Cypress.Commands.add('userCreationEmail', () => {
@@ -433,6 +434,9 @@ Cypress.Commands.add(
     cy.contains('Choose Role').should('exist').click({ force: true });
     cy.contains(role).should('exist').click();
     cy.get('[data-cy=invite-email]').should('exist').type(email);
+    cy.contains('English').should('exist').click({ force: true });
+    cy.contains(language).should('exist').click({ force: true });
+
     cy.get('[data-cy=invite-submit]').should('exist').and('not.be.disabled').click();
   },
 );

@@ -23,12 +23,11 @@ describe.only('Invite user tests', () => {
   });
 
   it.only('Invite farm worker', () => {
-    cy.visit('/');
-
     //create test data
-    const emailOwner = userEmail;
-    const usrname = emailOwner.indexOf('@');
-    const emailWorker = emailOwner.slice(0, usrname) + '+1' + emailOwner.slice(usrname);
+    let count = 0;
+    let emailOwner;
+    let emailUser;
+
     const gender = 'Male';
     const fullName = 'Test Farmer';
     const password = `${userPassword}+@`;
@@ -40,60 +39,109 @@ describe.only('Invite user tests', () => {
     const role = 'Manager';
     const inviteeRole = 'Farm Worker';
 
-    //Login as a new user
-    cy.newUserLogin(emailOwner);
+    //worker details
+    const language = ['English', 'French', 'Portuguese', 'Spanish'];
+    const wage = 12;
+    const number = 120012432;
+    const birthYear = 1987;
 
-    //create account
-    cy.createAccount(emailOwner, fullName, gender, null, null, password);
+    cy.visit('/');
 
-    cy.wait(2000);
-    //Get Started page
-    cy.getStarted();
+    language.forEach((lang, idx) => {
+      let usrname = userEmail.indexOf('@');
+      emailOwner = userEmail.slice(0, usrname) + '+' + idx + userEmail.slice(usrname);
+      emailUser = userEmail.slice(0, usrname) + '+' + idx + '0' + userEmail.slice(usrname);
 
-    //Add farm page
-    cy.addFarm(farmName, location);
+      //Login as a new user
+      cy.newUserLogin(emailOwner);
 
-    //role selection page
-    cy.roleSelection(role);
+      //create account
 
-    //Consent page
-    cy.giveConsent();
+      cy.createAccount(emailOwner, fullName, gender, null, null, password);
 
-    //interested in organic
-    cy.interestedInOrganic();
+      cy.wait(2000);
+      //Get Started page
+      cy.getStarted();
 
-    //who is your certifier(select BCARA)
-    cy.selectCertifier();
+      //Add farm page
+      cy.addFarm(farmName, location);
 
-    //onboarding outro
-    cy.onboardingOutro();
+      //role selection page
+      cy.roleSelection(role);
 
-    //farm home page
-    cy.homePageSpotlights();
+      //Consent page
+      cy.giveConsent();
 
-    //Add a farm worker to the farm
-    cy.goToPeopleView();
+      //interested in organic
+      cy.interestedInOrganic();
 
-    cy.inviteUser(inviteeRole, workerName, emailWorker, null, null, null, null, null);
+      //who is your certifier(select BCARA)
+      cy.selectCertifier();
 
-    cy.url().should('include', '/people');
-    cy.contains(workerName).should('exist');
+      //onboarding outro
+      cy.onboardingOutro();
 
-    //logout
-    cy.logOut();
+      //farm home page
+      cy.homePageSpotlights();
 
-    //login as farm worker, create account and join farm
-    cy.acceptInviteEmail();
+      //Add a farm worker to the farm
+      cy.goToPeopleView();
 
-    cy.get('[data-cy=invitedCard-createAccount]').click();
-    cy.get('[data-cy=invitedUser-proceed]').click();
+      cy.inviteUser(inviteeRole, workerName, emailUser, gender, lang, wage, birthYear, number);
 
-    //create account
-    cy.get('[data-cy=invited-password]').type(password);
-    cy.get('[data-cy=invited-createAccount]').click();
+      cy.url().should('include', '/people');
+      cy.contains(workerName).should('exist');
 
-    //Consent page
-    cy.giveConsent();
+      //logout
+      cy.logOut();
+
+      //login as farm worker, create account and join farm
+      cy.acceptInviteEmail();
+
+      cy.get('[data-cy=invitedCard-createAccount]').click();
+      cy.get('[data-cy=invitedUser-proceed]').click();
+
+      //create account
+      cy.get('[data-cy=invited-password]').type(password);
+      cy.get('[data-cy=invited-createAccount]').click();
+
+      //Consent page
+      cy.giveConsent();
+
+      cy.get('[data-cy=joinFarm-successContinue]').should('not.be.disabled').click();
+
+      cy.get('[data-cy=chooseFarm-proceed]').should('not.be.disabled').click();
+
+      //farm home page
+      cy.get('[data-cy=spotlight-next]')
+        .contains('Next')
+        .should('exist')
+        .and('not.be.disabled')
+        .click();
+      cy.get('[data-cy=spotlight-next]')
+        .contains('Next')
+        .should('exist')
+        .and('not.be.disabled')
+        .click();
+      cy.get('[data-cy=spotlight-next]')
+        .contains('Next')
+        .should('exist')
+        .and('not.be.disabled')
+        .click();
+      cy.get('[data-cy=spotlight-next]')
+        .contains('Got it')
+        .should('exist')
+        .and('not.be.disabled')
+        .click();
+
+      //logout
+      cy.get('[data-cy=home-profileButton]').should('exist').click();
+      cy.get('[data-cy=navbar-option]')
+        .contains('Log Out')
+        .should('exist')
+        .and('not.be.disabled')
+        .click();
+    });
   });
 
   it('Invite a new user and select invitation langauge', () => {

@@ -25,7 +25,7 @@ const upload = multer({ storage });
 
 const router = express.Router();
 
-router.post('/get_sensors/', SensorController.getSensorsByFarmId);
+router.get('/:farm_id', SensorController.getSensorsByFarmId);
 router.post(
   '/',
   checkScope(['add:sensors']),
@@ -33,14 +33,18 @@ router.post(
   SensorController.addSensors,
 );
 
-router.delete('/:sensor_id', SensorController.deleteSensor);
+router.delete('/:location_id', SensorController.deleteSensor);
 router.patch('/:location_id', SensorController.updateSensorbyID);
-router.post('/readings/:partner_id/:farm_id', validateRequest, SensorController.addReading);
-router.get('/readings/:location_id', SensorController.getAllReadingsByLocationId);
-router.get('/readings/:farm_id/:days', SensorController.getReadingsByFarmId);
+router.post(
+  '/reading/partner/:partner_id/farm/:farm_id',
+  validateRequest,
+  SensorController.addReading,
+);
+router.get('/:location_id/reading', SensorController.getAllReadingsByLocationId);
+router.get('/reading/farm/:farm_id', SensorController.getReadingsByFarmId);
 router.post('/reading/invalidate', SensorController.invalidateReadings);
 router.post('/unclaim', SensorController.retireSensor);
-router.get('/reading_type/:location_id', SensorController.getSensorReadingTypes);
-router.get('/brand_name/:partner_id', SensorController.getBrandName);
+router.get('/:location_id/reading_type', SensorController.getSensorReadingTypes);
+router.get('/partner/:partner_id/brand_name', SensorController.getBrandName);
 router.post('/reading/visualization', SensorController.getAllSensorReadingsByLocationIds);
 module.exports = router;

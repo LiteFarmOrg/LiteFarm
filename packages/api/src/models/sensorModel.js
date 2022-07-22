@@ -33,7 +33,7 @@ class Sensor extends Model {
   static get jsonSchema() {
     return {
       type: 'object',
-      required: ['name', 'partner_id', 'external_id'],
+      required: ['partner_id', 'external_id'],
 
       properties: {
         location_id: { type: 'string' },

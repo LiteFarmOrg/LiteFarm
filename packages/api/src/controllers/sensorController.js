@@ -424,7 +424,7 @@ const sensorController = {
 
   async getSensorsByFarmId(req, res) {
     try {
-      const { farm_id } = req.body;
+      const { farm_id } = req.params;
       if (!farm_id) {
         return res.status(400).send('No farm selected');
       }
@@ -498,7 +498,8 @@ const sensorController = {
 
   async getReadingsByFarmId(req, res) {
     try {
-      const { farm_id, days } = req.params;
+      const { farm_id } = req.params;
+      const { days = 7 } = req.query;
       if (!farm_id) {
         return res.status(400).send('Invalid farm id');
       }

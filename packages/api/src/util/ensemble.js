@@ -94,7 +94,7 @@ async function registerOrganizationWebhook(farmId, organizationId, accessToken) 
       method: 'post',
       url: `${ensembleAPI}/organizations/${organizationId}/webhooks/`,
       data: {
-        url: `${baseUrl}/sensors/readings/1/${farmId}`,
+        url: `${baseUrl}/sensor/reading/partner/1/farm/${farmId}`,
         authorization_header: authHeader,
         frequency: 15,
       },
@@ -106,7 +106,7 @@ async function registerOrganizationWebhook(farmId, organizationId, accessToken) 
     const onResponse = async (response) => {
       await FarmExternalIntegrationsModel.updateWebhookAddress(
         farmId,
-        `${baseUrl}/sensors/readings/1`,
+        `${baseUrl}/sensor/reading/partner/1/farm/${farmId}`,
         response.data.id,
       );
       return { ...response.data, status: response.status };

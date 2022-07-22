@@ -10,7 +10,6 @@ exports.up = async function (knex) {
       .inTable('location')
       .unique()
       .onDelete('CASCADE');
-    table.string('name').notNullable();
     table
       .integer('partner_id')
       .references('partner_id')

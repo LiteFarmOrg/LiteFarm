@@ -91,7 +91,11 @@ const PureSensorReadingsLineChart = ({
     const { value, offset } = payload;
     const displayDate = moment(value).format('ddd, MMM DD');
     if (index % 4 == 2) {
-      return <text x={x} y={y - 16} textAnchor="middle">{`${displayDate}`}</text>;
+      return (
+        <text x={x} y={y - 16} textAnchor="middle">
+          {displayDate}
+        </text>
+      );
     }
     if (index % 4 === 0 && index !== 0) {
       const pathX = Math.floor(x + offset) + 0.5;

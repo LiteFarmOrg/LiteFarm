@@ -10,7 +10,16 @@ import PageTitle from '../../PageTitle/v2';
 import RevokeUserAccessModal from '../../Modals/RevokeUserAccessModal';
 import Checkbox from '../../Form/Checkbox';
 
-export default function PureEditUser({ userFarm, onUpdate, history, isAdmin, onActivate, onRevoke, onInvite }) {
+export default function PureEditUser({
+  userFarm,
+  onUpdate,
+  history,
+  isAdmin,
+  onActivate,
+  onRevoke,
+  onInvite,
+  isCurrentUser,
+}) {
   const { t } = useTranslation();
   const ROLE = 'role_id';
   const WAGE = 'wage.amount';
@@ -21,7 +30,10 @@ export default function PureEditUser({ userFarm, onUpdate, history, isAdmin, onA
     3: t('role:WORKER'),
     5: t('role:EXTENSION_OFFICER'),
   };
-  const roleOptions = Object.keys(dropDownMap).map(role_id => ({ value: role_id, label: dropDownMap[role_id] }));
+  const roleOptions = Object.keys(dropDownMap).map((role_id) => ({
+    value: role_id,
+    label: dropDownMap[role_id],
+  }));
   const roleOption = { value: userFarm.role_id, label: dropDownMap[userFarm.role_id] };
 
   const {
@@ -38,40 +50,58 @@ export default function PureEditUser({ userFarm, onUpdate, history, isAdmin, onA
     shouldUnregister: true,
   });
 
-
   const [showRevokeUserAccessModal, setShowRevokeUserAccessModal] = useState();
   const isPseudoUser = userFarm.role_id === 4;
   const [shouldInvitePseudoUser, setShouldInvitePseudoUser] = useState(false);
   const onInviteUserCheckboxClick = () => {
     setValue(EMAIL, shouldInvitePseudoUser ? userFarm.email : '');
-    setShouldInvitePseudoUser(shouldInvitePseudoUser => !shouldInvitePseudoUser);
+    setShouldInvitePseudoUser((shouldInvitePseudoUser) => !shouldInvitePseudoUser);
     clearErrors(EMAIL);
   };
   const email = watch(EMAIL);
   const role = watch(ROLE);
   const wage = watch(WAGE);
-  const disabled = !isValid || (shouldInvitePseudoUser && (!email || !role?.label)) || (!shouldInvitePseudoUser && !isPseudoUser && Number(role?.value) === userFarm.role_id && (wage || 0) === Number(userFarm.wage?.amount))
-    || (!shouldInvitePseudoUser && isPseudoUser && (wage || 0) === Number(userFarm.wage?.amount));
+  const disabled =
+    !isValid ||
+    (shouldInvitePseudoUser && (!email || !role?.label)) ||
+    (!shouldInvitePseudoUser &&
+      !isPseudoUser &&
+      Number(role?.value) === userFarm.role_id &&
+      (wage || 0) === Number(userFarm.wage?.amount)) ||
+    (!shouldInvitePseudoUser && isPseudoUser && (wage || 0) === Number(userFarm.wage?.amount));
 
   return (
     <Form
       onSubmit={handleSubmit(shouldInvitePseudoUser ? onInvite : onUpdate)}
-      buttonGroup={<>
-        {
-          userFarm.status === 'Inactive' ?
-            <Button type={'button'} onClick={onActivate} fullLength
-                    color={'success'}>{t('PROFILE.PEOPLE.RESTORE_ACCESS')}</Button>
-            : <Button type={'button'} onClick={() => {
-              setShowRevokeUserAccessModal(true);
-            }} fullLength color={'secondary'}>{t('PROFILE.PEOPLE.REVOKE_ACCESS')}</Button>}
-        <Button fullLength type={'submit'} disabled={disabled}>
-          {shouldInvitePseudoUser ? t('INVITE_USER.INVITE') : t('common:SAVE')}
-        </Button>
-      </>
+      buttonGroup={
+        <>
+          {userFarm.status === 'Inactive' ? (
+            <Button type={'button'} onClick={onActivate} fullLength color={'success'}>
+              {t('PROFILE.PEOPLE.RESTORE_ACCESS')}
+            </Button>
+          ) : (
+            <Button
+              type={'button'}
+              onClick={() => {
+                setShowRevokeUserAccessModal(true);
+              }}
+              fullLength
+              color={'secondary'}
+            >
+              {t('PROFILE.PEOPLE.REVOKE_ACCESS')}
+            </Button>
+          )}
+          <Button fullLength type={'submit'} disabled={disabled}>
+            {shouldInvitePseudoUser ? t('INVITE_USER.INVITE') : t('common:SAVE')}
+          </Button>
+        </>
       }
     >
-      <PageTitle style={{ marginBottom: '32px' }} onGoBack={() => history.back()}
-                 title={t('PROFILE.ACCOUNT.EDIT_USER')} />
+      <PageTitle
+        style={{ marginBottom: '32px' }}
+        onGoBack={() => history.back()}
+        title={t('PROFILE.ACCOUNT.EDIT_USER')}
+      />
       <Input
         label={t('PROFILE.ACCOUNT.FIRST_NAME')}
         value={userFarm.first_name}
@@ -97,34 +127,48 @@ export default function PureEditUser({ userFarm, onUpdate, history, isAdmin, onA
         disabled={!shouldInvitePseudoUser}
         style={{ marginBottom: '24px' }}
       />
-      {(!isPseudoUser || shouldInvitePseudoUser) && <Controller
-        control={control}
-        name={ROLE}
-        render={({ field }) => (
-          <ReactSelect
-            {...field}
-            label={t('INVITE_USER.ROLE')}
-            options={roleOptions}
-            style={{ marginBottom: '24px' }}
-            placeholder={t('INVITE_USER.CHOOSE_ROLE')}
-          />
-        )}
-        rules={{ required: true }}
-      />}
+      {(!isPseudoUser || shouldInvitePseudoUser) && (
+        <Controller
+          control={control}
+          name={ROLE}
+          render={({ field }) => (
+            <ReactSelect
+              {...field}
+              isDisabled={!isAdmin || isCurrentUser}
+              label={t('INVITE_USER.ROLE')}
+              options={roleOptions}
+              style={{ marginBottom: '24px' }}
+              placeholder={t('INVITE_USER.CHOOSE_ROLE')}
+            />
+          )}
+          rules={{ required: true }}
+          disabled={!isAdmin || isCurrentUser}
+        />
+      )}
       <Input
         label={t('INVITE_USER.WAGE')}
-        step='0.01'
-        type='number'
+        step="0.01"
+        type="number"
         hookFormRegister={register(WAGE, { min: 0, valueAsNumber: true })}
         style={{ marginBottom: '40px' }}
         errors={errors[WAGE] && (errors[WAGE].message || t('INVITE_USER.WAGE_ERROR'))}
         optional
       />
-      {isPseudoUser && <Checkbox label={t('PROFILE.ACCOUNT.CONVERT_TO_HAVE_ACCOUNT')} value={shouldInvitePseudoUser}
-                                 onChange={onInviteUserCheckboxClick} />}
-      {showRevokeUserAccessModal && <RevokeUserAccessModal dismissModal={() => {
-        setShowRevokeUserAccessModal(false);
-      }} onRevoke={onRevoke} />}
+      {isPseudoUser && (
+        <Checkbox
+          label={t('PROFILE.ACCOUNT.CONVERT_TO_HAVE_ACCOUNT')}
+          value={shouldInvitePseudoUser}
+          onChange={onInviteUserCheckboxClick}
+        />
+      )}
+      {showRevokeUserAccessModal && (
+        <RevokeUserAccessModal
+          dismissModal={() => {
+            setShowRevokeUserAccessModal(false);
+          }}
+          onRevoke={onRevoke}
+        />
+      )}
     </Form>
   );
 }

@@ -44,13 +44,6 @@ async function deleteSensorData(knex) {
       ]);
       await knex.raw(`DELETE FROM task WHERE task_id = ANY(?);`, [tasksWithSensorLocations]);
       await knex.raw(`DELETE FROM location WHERE location_id = ANY(?);`, [sensorLocationIds]);
-      await knex.raw(
-        `
-                DROP TABLE sensor_reading;
-                DROP TABLE sensor_reading_type;
-                DROP TABLE sensor;
-            `,
-      );
     }
     await knex.raw(
       `

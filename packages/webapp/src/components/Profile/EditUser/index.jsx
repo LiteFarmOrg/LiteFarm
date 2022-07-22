@@ -18,6 +18,7 @@ export default function PureEditUser({
   onActivate,
   onRevoke,
   onInvite,
+  userFarmEmails,
   isCurrentUser,
 }) {
   const { t } = useTranslation();
@@ -121,6 +122,11 @@ export default function PureEditUser({
           pattern: {
             value: /^$|^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
             message: t('INVITE_USER.INVALID_EMAIL_ERROR'),
+          },
+          validate: {
+            existing: (value) =>
+              (value && !userFarmEmails.includes(value)) ||
+              t('INVITE_USER.ALREADY_EXISTING_EMAIL_ERROR'),
           },
         })}
         errors={getInputErrors(errors, EMAIL)}

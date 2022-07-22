@@ -514,30 +514,13 @@ const userFarmController = {
             // TODO: move validation
             throw new Error('User already has an account');
           }
-          const user = await userModel.query(trx).where({ email }).first();
+          const user = await userModel.getUserByEmail(email);
           const isExistingAccount = !!user;
           const isUserAMemberOfFarm = isExistingAccount
             ? !!(await userFarmModel.query(trx).findById([user.user_id, farm_id]))
             : false;
           if (isUserAMemberOfFarm) {
-            const { user_id: newUserId } = user;
-            await userFarmModel
-              .query(trx)
-              .findById([user.user_id, farm_id])
-              .patch({
-                status: 'Invited',
-                step_three: false,
-                has_consent: false,
-                ...roleIdAndWage,
-              });
-            await shiftModel
-              .query(trx)
-              .context({ user_id: newUserId })
-              .where({ user_id })
-              .patch({ user_id: newUserId });
-            await userFarmModel.query(trx).where({ user_id }).delete();
-            await userLogModel.query(trx).where({ user_id }).delete();
-            await userModel.query(trx).findById(user_id).delete();
+            throw new Error('A user with that email already has access to this farm');
           } else if (isExistingAccount) {
             const { user_id: newUserId } = user;
             await userFarmModel.query(trx).insert({
@@ -588,14 +571,15 @@ const userFarmController = {
           .first()
           .select('*');
         res.status(201).send(userFarm);
-      } catch (e) {
-        res.status(400).send(e);
-      }
-      try {
-        const { farm_name } = userFarm;
-        await emailModel.createTokenSendEmail(userFarm, userFarm, farm_name);
+        try {
+          const { farm_name } = userFarm;
+          await emailModel.createTokenSendEmail(userFarm, userFarm, farm_name);
+        } catch (e) {
+          console.log(e);
+        }
       } catch (e) {
         console.log(e);
+        res.status(400).send({ message: e.message });
       }
     };
   },

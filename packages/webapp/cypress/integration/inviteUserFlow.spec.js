@@ -30,7 +30,7 @@ describe.only('Invite user tests', () => {
 
     const gender = 'Male';
     const fullName = 'Test Farmer';
-    const password = `${userPassword}+@`;
+    const password = `${userPassword}+1@`;
     const farmName = 'UBC FARM';
     const location = '49.250833,-123.2410777';
     const fieldName = 'Test Field';
@@ -96,7 +96,7 @@ describe.only('Invite user tests', () => {
       cy.logOut();
 
       //login as farm worker, create account and join farm
-      cy.acceptInviteEmail();
+      cy.acceptInviteEmail(lang);
 
       cy.get('[data-cy=invitedCard-createAccount]').click();
       cy.get('[data-cy=invitedUser-proceed]').click();
@@ -113,34 +113,14 @@ describe.only('Invite user tests', () => {
       cy.get('[data-cy=chooseFarm-proceed]').should('not.be.disabled').click();
 
       //farm home page
-      cy.get('[data-cy=spotlight-next]')
-        .contains('Next')
-        .should('exist')
-        .and('not.be.disabled')
-        .click();
-      cy.get('[data-cy=spotlight-next]')
-        .contains('Next')
-        .should('exist')
-        .and('not.be.disabled')
-        .click();
-      cy.get('[data-cy=spotlight-next]')
-        .contains('Next')
-        .should('exist')
-        .and('not.be.disabled')
-        .click();
-      cy.get('[data-cy=spotlight-next]')
-        .contains('Got it')
-        .should('exist')
-        .and('not.be.disabled')
-        .click();
+      cy.get('[data-cy=spotlight-next]').should('exist').and('not.be.disabled').click();
+      cy.get('[data-cy=spotlight-next]').should('exist').and('not.be.disabled').click();
+      cy.get('[data-cy=spotlight-next]').should('exist').and('not.be.disabled').click();
+      cy.get('[data-cy=spotlight-next]').should('exist').and('not.be.disabled').click();
 
       //logout
       cy.get('[data-cy=home-profileButton]').should('exist').click();
-      cy.get('[data-cy=navbar-option]')
-        .contains('Log Out')
-        .should('exist')
-        .and('not.be.disabled')
-        .click();
+      cy.get('[data-cy=navbar-option]').eq(4).should('exist').and('not.be.disabled').click();
     });
   });
 

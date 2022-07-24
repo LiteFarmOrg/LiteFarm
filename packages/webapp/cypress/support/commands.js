@@ -317,7 +317,7 @@ Cypress.Commands.add('roleSelection', (role) => {
 });
 
 Cypress.Commands.add('giveConsent', () => {
-  cy.contains('Our Data Policy').should('exist');
+  //cy.contains('Our Data Policy').should('exist');
   cy.url().should('include', '/consent');
   cy.get('[data-cy=consent-continue]').should('exist').and('be.disabled');
   cy.get('[data-cy=consent-agree]').should('exist').check({ force: true });
@@ -450,16 +450,40 @@ Cypress.Commands.add('logOut', () => {
     .click();
 });
 
-Cypress.Commands.add('acceptInviteEmail', () => {
+Cypress.Commands.add('acceptInviteEmail', (lang) => {
   cy.task('getLastEmail')
     .its('html')
     .then((html) => {
       cy.document({ log: false }).invoke({ log: false }, 'write', html);
     });
 
-  cy.get('[data-cy=invite-joinButton]')
-    .invoke('attr', 'href')
-    .then((href) => {
-      cy.visit(href);
-    });
+  if (lang == 'English') {
+    cy.get('[data-cy=invite-joinButton]').contains('Join');
+    cy.get('[data-cy=invite-joinButton]')
+      .invoke('attr', 'href')
+      .then((href) => {
+        cy.visit(href);
+      });
+  } else if (lang == 'French') {
+    cy.get('[data-cy=invite-joinButton]').contains('Rejoindre');
+    cy.get('[data-cy=invite-joinButton]')
+      .invoke('attr', 'href')
+      .then((href) => {
+        cy.visit(href);
+      });
+  } else if (lang == 'Spanish') {
+    cy.get('[data-cy=invite-joinButton]').contains('Unete');
+    cy.get('[data-cy=invite-joinButton]')
+      .invoke('attr', 'href')
+      .then((href) => {
+        cy.visit(href);
+      });
+  } else if (lang == 'Portuguese') {
+    cy.get('[data-cy=invite-joinButton]').contains('Junte');
+    cy.get('[data-cy=invite-joinButton]')
+      .invoke('attr', 'href')
+      .then((href) => {
+        cy.visit(href);
+      });
+  }
 });

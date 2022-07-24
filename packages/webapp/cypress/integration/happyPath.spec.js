@@ -27,13 +27,14 @@ describe.only('LiteFarm end to end test', () => {
     const emailWorker = emailOwner.slice(0, usrname) + '+1' + emailOwner.slice(usrname);
     const gender = 'Male';
     const fullName = 'Test Farmer';
-    const password = `${userPassword}+@`;
+    const password = `${userPassword}+1@`;
     const farmName = 'UBC FARM';
     const location = '49.250833,-123.2410777';
     const fieldName = 'Test Field';
     const workerName = 'Test Worker';
     const testCrop = 'New Crop';
     const role = 'Manager';
+    const lang = 'English';
 
     //Login as a new user
     cy.newUserLogin(emailOwner);
@@ -133,7 +134,7 @@ describe.only('LiteFarm end to end test', () => {
     //Add a farm worker to the farm
     cy.goToPeopleView();
 
-    cy.inviteUser('Farm Worker', workerName, emailWorker, null, null, null, null, null);
+    cy.inviteUser('Farm Worker', workerName, emailWorker, null, lang, null, null, null);
 
     cy.url().should('include', '/people');
     cy.contains(workerName).should('exist');
@@ -142,7 +143,7 @@ describe.only('LiteFarm end to end test', () => {
     cy.logOut();
 
     //login as farm worker, create account and join farm
-    cy.acceptInviteEmail();
+    cy.acceptInviteEmail(lang);
 
     cy.get('[data-cy=invitedCard-createAccount]').click();
 
@@ -367,7 +368,6 @@ describe.only('LiteFarm end to end test', () => {
     //Test for LF-2368
     cy.visit('/', {
       onBeforeLoad(win) {
-        // solution is here
         Object.defineProperty(win.navigator, 'languages', {
           value: ['fr-FR'],
         });

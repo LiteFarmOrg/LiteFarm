@@ -1446,7 +1446,9 @@
       "TITLE": "Soil temperature",
       "SUBTITLE": "Today’s ambient high and low temperature: {{high}}{{tempUnit}} / {{low}}{{tempUnit}}",
       "Y_AXIS_LABEL": "Temperature in {{tempUnit}}",
-      "WEATHER_STATION": "Weather station: {{weatherStationLocation}}"
+      "WEATHER_STATION": "Weather station: {{weatherStationLocation}}",
+      "NO_DATA": "(no data)",
+      "AMBIENT_TEMPERATURE_FOR": "Ambient temperature for"
     }
   },
   "SHIFT": {

@@ -64,6 +64,8 @@ function SensorReadings({ history, match }) {
         })}
         locationIds={[location_id]}
         readingType={TEMPERATURE}
+        noDataText={t('SENSOR.TEMPERATURE_READINGS_OF_SENSOR.NO_DATA')}
+        ambientTempFor={t('SENSOR.TEMPERATURE_READINGS_OF_SENSOR.AMBIENT_TEMPERATURE_FOR')}
       />
     </div>
   );

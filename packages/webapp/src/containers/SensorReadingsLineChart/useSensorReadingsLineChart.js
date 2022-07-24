@@ -11,7 +11,7 @@ import {
   CURRENT_DATE_TIME,
 } from '../SensorReadings/constants';
 
-export function useSensorReadingsLineChart(locationIds, readingType) {
+export function useSensorReadingsLineChart(locationIds, readingType, noDataText, ambientTempFor) {
   const bulkSensorsReadingsSliceSelectorData = useSelector(bulkSensorsReadingsSliceSelector);
 
   const { measurement } = useSelector(weatherSelector);
@@ -19,7 +19,7 @@ export function useSensorReadingsLineChart(locationIds, readingType) {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getSensorsReadings(locationIds, readingType));
+    dispatch(getSensorsReadings({ locationIds, readingType, noDataText, ambientTempFor }));
   }, []);
 
   const getYAxisDataKeys = () => {

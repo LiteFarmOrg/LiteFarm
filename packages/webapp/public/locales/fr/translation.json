@@ -1673,7 +1673,9 @@
       "TITLE": "MISSING",
       "SUBTITLE": "MISSING",
       "Y_AXIS_LABEL": "MISSING",
-      "WEATHER_STATION": "MISSING"
+      "WEATHER_STATION": "MISSING",
+      "NO_DATA": "MISSING",
+      "AMBIENT_TEMPERATURE_FOR": "MISSING"
     }
   }
 }

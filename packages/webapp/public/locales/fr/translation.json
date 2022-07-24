@@ -458,7 +458,23 @@
       "UPLOAD_INSTRUCTION_MESSAGE": "MISSING",
       "UPLOAD_PLACEHOLDER": "MISSING",
       "UPLOAD_ERROR_MESSAGE": "MISSING",
+      "EMPTY_FILE_UPLOAD_ERROR_MESSAGE": "MISSING",
       "UPLOAD_ERROR_LINK": "MISSING",
+      "SENSOR_FIELDS": {
+        "NAME": "Nom",
+        "LATITUDE": "Latitude",
+        "LONGITUDE": "Longitude",
+        "READING_TYPES": "types_à_relevé",
+        "SENSOR_EXTERNAL_ID": "ID_externe",
+        "DEPTH": "Profondeur",
+        "BRAND": "Marque",
+        "MODEL": "Modèle"
+      },
+      "SENSOR_READING_TYPES": {
+        "SOIL_MOISTURE_CONTENT": "teneur_en_eau_du_sol",
+        "SOIL_WATER_POTENTIAL": "potential_hydrique_du_sol",
+        "TEMPERATURE": "température"
+      },
       "VALIDATION": {
         "FILE_ROW_LIMIT_EXCEEDED": "MISSING",
         "MISSING_COLUMNS": "MISSING",

@@ -14,10 +14,10 @@ export default function FileUploader({
   onShowErrorClick,
   uploadErrorLink,
   uploadErrorMessage,
+  errorTypeCode,
 }) {
   const handleClick = (event) => fileInputRef.current.click();
   const handleChange = (event) => handleSelectedFile(event);
-
   return (
     <>
       <div
@@ -38,9 +38,11 @@ export default function FileUploader({
         <div className={styles.csvErrorMessageWrapper}>
           <label>
             {uploadErrorMessage}{' '}
-            <span className={styles.errorMessage} onClick={onShowErrorClick}>
-              {uploadErrorLink}
-            </span>
+            {!errorTypeCode && (
+              <span className={styles.errorMessage} onClick={onShowErrorClick}>
+                {uploadErrorLink}
+              </span>
+            )}
           </label>
         </div>
       )}
@@ -56,4 +58,5 @@ FileUploader.prototype = {
   onShowErrorClick: PropTypes.func,
   uploadErrorLink: PropTypes.string,
   uploadErrorMessage: PropTypes.string,
+  errorTypeCode: PropTypes.number,
 };

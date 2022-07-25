@@ -258,7 +258,6 @@ export default function Map({ history }) {
     maps.event.addListener(drawingManagerInit, 'polylinecomplete', function (polyline) {
       const polylineLengthCheck = (path) => {
         if (Math.round(maps.geometry.spherical.computeLength(path)) === 0) {
-          console.log('Zero length!');
           setShowZeroLengthWarning(true);
         } else {
           setShowZeroLengthWarning(false);

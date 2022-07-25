@@ -18,6 +18,7 @@ export default function PureEditUser({
   onActivate,
   onRevoke,
   onInvite,
+  isCurrentUser,
 }) {
   const { t } = useTranslation();
   const ROLE = 'role_id';
@@ -33,6 +34,7 @@ export default function PureEditUser({
     3: t('role:WORKER'),
     5: t('role:EXTENSION_OFFICER'),
   };
+
   const genderOptions = [
     { value: 'MALE', label: t('gender:MALE') },
     { value: 'FEMALE', label: t('gender:FEMALE') },
@@ -50,6 +52,7 @@ export default function PureEditUser({
     value: role_id,
     label: dropDownMap[role_id],
   }));
+
   const roleOption = isPseudoUser
     ? { value: 3, label: dropDownMap[3] }
     : { value: userFarm.role_id, label: dropDownMap[userFarm.role_id] };
@@ -171,6 +174,7 @@ export default function PureEditUser({
           render={({ field }) => (
             <ReactSelect
               {...field}
+              isDisabled={!isAdmin || isCurrentUser}
               label={t('INVITE_USER.ROLE')}
               options={roleOptions}
               style={{ marginBottom: '24px' }}
@@ -178,6 +182,7 @@ export default function PureEditUser({
             />
           )}
           rules={{ required: true }}
+          disabled={!isAdmin || isCurrentUser}
         />
       )}
       {isPseudoUser && shouldInvitePseudoUser && (

@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const Model = require('objection').Model;
+const { transaction, Model } = require('objection');
 const baseModel = require('./baseModel');
 const { getNonModifiable } = require('../middleware/validation/location');
 
@@ -214,6 +214,20 @@ class Location extends baseModel {
       .upsertGraph(locationData, { noUpdate: false, noDelete: true, noInsert: nonModifiable });
   }
 
+  static async deleteLocation(location_id, context) {
+    try {
+      const trx = await transaction.start(Model.knex());
+      const deleteResponse = await Location.query(trx)
+        .context(context)
+        .patch({ deleted: true })
+        .where('location_id', location_id);
+      await trx.commit();
+      return deleteResponse;
+    } catch (error) {
+      return error;
+    }
+  }
+
   static async getSensorLocation(farm_id, partner_id, external_id, trx) {
     return Location.query(trx)
       .withGraphJoined('sensor')
@@ -221,6 +235,13 @@ class Location extends baseModel {
       .andWhere('sensor.partner_id', partner_id)
       .andWhere('sensor.external_id', external_id)
       .first();
+  }
+
+  static async unDeleteLocation(user_id, location_id, trx) {
+    return Location.query(trx)
+      .context({ user_id })
+      .where({ location_id })
+      .patch({ deleted: false });
   }
 }
 

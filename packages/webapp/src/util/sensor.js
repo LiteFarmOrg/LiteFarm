@@ -13,16 +13,22 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
+import i18n from '../locales/i18n';
+
 /**
- * The util function is used to generate validation errors related the the sensors.
+ * The util function is used to generate validation errors related to the sensors.
  * @param {Object} errors
  * should contain row, column, errorMessage and value.
+ * Outputs '[Row: {row}][Column: {column}] {Error message} {Optional value}'
  */
 export const generateErrorFormatForSensors = (errors) =>
   errors.reduce((acc, e) => {
-    acc += `[Row: ${e?.row ?? ''}][Column: ${e?.column ?? ''}] ${e?.errorMessage ?? ''} ${
-      e?.value ?? ''
-    }\n`;
+    acc += i18n.t('FARM_MAP.BULK_UPLOAD_SENSORS.DOWNLOAD_FILE.ROW', {
+      row: e?.row ?? '',
+      column: e?.column ?? '',
+      errorMessage: e?.errorMessage ?? '',
+      value: e?.value ?? '',
+    });
     return acc;
   }, '');
 
@@ -35,17 +41,15 @@ export const generateErrorFormatForSensors = (errors) =>
 export const generateClaimSensorErrorFile = (errors, success) => {
   let errorText = '';
   if (success.length > 0) {
-    errorText +=
-      'The following sensors in your file uploaded successfully or already exist on your farm:\n\n';
+    errorText += i18n.t('FARM_MAP.BULK_UPLOAD_SENSORS.DOWNLOAD_FILE.PARTIAL_SUCCESS_TOP_TEXT');
     errorText += success.reduce((acc, e, i) => {
       const ending = i === success.length - 1 ? '\n\n' : ', ';
       acc += e + ending;
       return acc;
     }, '');
-    errorText +=
-      'They should now be visible on your farm map. These sensors will be ignored in future uploads.\n\n';
+    errorText += i18n.t('FARM_MAP.BULK_UPLOAD_SENSORS.DOWNLOAD_FILE.PARTIAL_SUCCESS_BOTTOM_TEXT');
   }
-  errorText += 'Unfortunately, there were some errors with your upload:\n\n';
+  errorText += i18n.t('FARM_MAP.BULK_UPLOAD_SENSORS.DOWNLOAD_FILE.SOME_ERRORS');
   errorText += generateErrorFormatForSensors(errors);
   return errorText;
 };
@@ -54,20 +58,25 @@ export const generateClaimSensorErrorFile = (errors, success) => {
  * Creates and downloads the file for sensors upload errors.
  * @param {String} downloadFileName
  * @param {Array<Object>} errors
- * @param {Boolean} isValidationError
+ * @param {("validation"|"claim"|"generic")} errorType
  * @param {Array<String>} success
  */
-export const createSensorErrorDownload = (
-  downloadFileName,
-  errors,
-  isValidationError,
-  success = [],
-) => {
-  console.table(errors);
+export const createSensorErrorDownload = (downloadFileName, errors, errorType, success = []) => {
   const element = document.createElement('a');
-  const formattedError = isValidationError
-    ? generateErrorFormatForSensors(errors)
-    : generateClaimSensorErrorFile(errors, success);
+  let formattedError;
+  switch (errorType) {
+    case 'validation':
+      formattedError = generateErrorFormatForSensors(errors);
+      break;
+    case 'claim':
+      formattedError = generateClaimSensorErrorFile(errors, success);
+      break;
+    case 'generic':
+      formattedError = i18n.t('FARM_MAP.BULK_UPLOAD_SENSORS.DOWNLOAD_FILE.DEFAULT');
+      break;
+    default:
+      formattedError = i18n.t('FARM_MAP.BULK_UPLOAD_SENSORS.DOWNLOAD_FILE.DEFAULT');
+  }
   const file = new Blob([formattedError], {
     type: 'text/plain',
   });

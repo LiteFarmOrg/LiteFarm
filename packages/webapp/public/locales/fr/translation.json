@@ -458,7 +458,23 @@
       "UPLOAD_INSTRUCTION_MESSAGE": "MISSING",
       "UPLOAD_PLACEHOLDER": "MISSING",
       "UPLOAD_ERROR_MESSAGE": "MISSING",
+      "EMPTY_FILE_UPLOAD_ERROR_MESSAGE": "MISSING",
       "UPLOAD_ERROR_LINK": "MISSING",
+      "SENSOR_FIELDS": {
+        "NAME": "Nom",
+        "LATITUDE": "Latitude",
+        "LONGITUDE": "Longitude",
+        "READING_TYPES": "types_à_relevé",
+        "SENSOR_EXTERNAL_ID": "ID_externe",
+        "DEPTH": "Profondeur",
+        "BRAND": "Marque",
+        "MODEL": "Modèle"
+      },
+      "SENSOR_READING_TYPES": {
+        "SOIL_MOISTURE_CONTENT": "teneur_en_eau_du_sol",
+        "SOIL_WATER_POTENTIAL": "potential_hydrique_du_sol",
+        "TEMPERATURE": "température"
+      },
       "VALIDATION": {
         "FILE_ROW_LIMIT_EXCEEDED": "MISSING",
         "MISSING_COLUMNS": "MISSING",
@@ -476,6 +492,13 @@
         "ALREADY_OCCUPIED": "MISSING",
         "DOES_NOT_EXIST": "MISSING",
         "INTERNAL_ERROR": "MISSING"
+      },
+      "DOWNLOAD_FILE": {
+        "ROW": "MISSING",
+        "PARTIAL_SUCCESS_TOP_TEXT": "MISSING",
+        "PARTIAL_SUCCESS_BOTTOM_TEXT": "MISSING",
+        "SOME_ERRORS": "MISSING",
+        "DEFAULT": "MISSING"
       }
     },
     "BULK_UPLOAD_TRANSITION": {
@@ -617,7 +640,8 @@
     "TAB": {
       "CROPS": "Récoltes",
       "DETAILS": "Détails",
-      "TASKS": "Tâches"
+      "TASKS": "Tâches",
+      "READINGS": "Lectures"
     },
     "TITLE": "Carte de la ferme",
     "TUTORIAL": {
@@ -1589,5 +1613,66 @@
   },
   "YEAR_SELECTOR": {
     "TITLE": "Selectionnez une année"
+  },
+  "SENSOR": {
+    "SENSOR_NAME": "MISSING",
+    "LATITUDE": "MISSING",
+    "LONGTITUDE": "MISSING",
+    "READING": {
+      "TYPES": "MISSING",
+      "SOIL_WATER_CONTENT": "MISSING",
+      "SOIL_WATER_POTENTIAL": "MISSING",
+      "TEMPERATURE": "MISSING"
+    },
+    "DEPTH": "MISSING",
+    "BRAND": "MISSING",
+    "VALIDATION": {
+      "SENSOR_LATITUDE": "MISSING",
+      "SENSOR_LONGITUDE": "MISSING"
+    },
+    "MODAL": {
+      "TITLE": "MISSING",
+      "BODY": "MISSING"
+    },
+    "BRAND_HELPTEXT": "MISSING",
+    "MODEL": "MISSING",
+    "MODEL_HELPTEXT": "MISSING",
+    "EXTERNAL_IDENTIFIER": "MISSING",
+    "PART_NUMBER": "MISSING",
+    "HARDWARE_VERSION": "MISSING",
+    "DETAIL": {
+      "RETIRE": "MISSING",
+      "EDIT": "MISSING",
+      "NAME": "MISSING",
+      "LATITUDE": "MISSING",
+      "LONGITUDE": "MISSING",
+      "MODEL": "MISSING",
+      "PART_NUMBER": "MISSING",
+      "HARDWARE_VERSION": "MISSING",
+      "EXTERNAL_ID_TOOLTIP": "MISSING",
+      "EXTERNAL_IDENTIFIER": "MISSING",
+      "DEPTH": "MISSING",
+      "BRAND": "MISSING",
+      "BRAND_TOOLTIP": "MISSING",
+      "READING_TYPES": "MISSING"
+    },
+    "VIEW_HEADER": {
+      "READINGS": "MISSING",
+      "TASKS": "MISSING",
+      "DETAILS": "MISSING"
+    },
+    "RETIRE": {
+      "TITLE": "MISSING",
+      "RETIRE": "MISSING",
+      "CANCEL": "MISSING",
+      "BODY": "MISSING",
+      "RETIRE_SUCCESS": "MISSING",
+      "RETIRE_FAILURE": "MISSING"
+    },
+    "TEMPERATURE_READINGS_OF_SENSOR": {
+      "TITLE": "MISSING",
+      "SUBTITLE": "MISSING",
+      "Y_AXIS_LABEL": "MISSING"
+    }
   }
 }

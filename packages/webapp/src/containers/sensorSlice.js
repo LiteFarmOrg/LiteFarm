@@ -5,8 +5,8 @@ import { createSelector } from 'reselect';
 import { pick } from '../util/pick';
 
 const sensorProperties = [
+  'model',
   'depth',
-  'elevation',
   'external_id',
   'name',
   'location_id',
@@ -15,12 +15,15 @@ const sensorProperties = [
 ];
 
 const getSensorFromLocationObject = (location) => {
-  return {
+  const result = {
     ...pick(location, locationProperties),
     ...pick(location.figure, figureProperties),
     ...pick(location.figure.point, pointProperties),
     ...pick(location.sensor, sensorProperties),
+    sensor_reading_types: [],
+    brand_name: '',
   };
+  return result;
 };
 
 const upsertOneSensorWithLocation = (state, { payload: location }) => {
@@ -40,8 +43,16 @@ const softDeleteSensor = (state, { payload: location_id }) => {
   sensorAdapter.updateOne(state, { id: location_id, changes: { deleted: true } });
 };
 
+const upsertSensorReadingTypes = (state, { payload: { location_id, sensor_reading_types } }) => {
+  sensorAdapter.updateOne(state, { id: location_id, changes: { sensor_reading_types } });
+};
+
+const upsertSensorBrand = (state, { payload: { location_id, brand_name } }) => {
+  sensorAdapter.updateOne(state, { id: location_id, changes: { brand_name } });
+};
+
 const sensorAdapter = createEntityAdapter({
-  selectId: (Sensor) => Sensor.location_id,
+  selectId: (sensor) => sensor.location_id,
 });
 
 const sensorSlice = createSlice({
@@ -60,6 +71,8 @@ const sensorSlice = createSlice({
     postSensorSuccess: upsertOneSensorWithLocation,
     editSensorSuccess: upsertOneSensorWithLocation,
     deleteSensorSuccess: softDeleteSensor,
+    onSensorReadingTypesSuccess: upsertSensorReadingTypes,
+    onSensorBrandSuccess: upsertSensorBrand,
   },
 });
 export const {
@@ -70,6 +83,8 @@ export const {
   onLoadingSensorFail,
   deleteSensorSuccess,
   postManySensorsSuccess,
+  onSensorReadingTypesSuccess,
+  onSensorBrandSuccess,
 } = sensorSlice.actions;
 export default sensorSlice.reducer;
 

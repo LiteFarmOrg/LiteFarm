@@ -16,6 +16,7 @@
 const { transaction, Model } = require('objection');
 const LocationModel = require('./locationModel');
 const PartnerReadingTypeModel = require('../models/PartnerReadingTypeModel');
+const knex = Model.knex();
 
 class Sensor extends Model {
   static get tableName() {
@@ -38,6 +39,9 @@ class Sensor extends Model {
         sensor_id: { type: 'string' },
         farm_id: { type: 'string', minLength: 1, maxLength: 255 },
         name: { type: 'string', minLength: 1, maxLength: 255 },
+        grid_points: { type: 'object' },
+        model: { type: 'string', minLength: 1, maxLength: 255 },
+        isDeleted: { type: 'boolean' },
         partner_id: { type: 'integer' },
         external_id: { type: 'string', maxLength: 255 },
         location_id: { type: 'string' },
@@ -72,6 +76,9 @@ class Sensor extends Model {
         trx,
       );
       if (existingSensor) {
+        if (existingSensor.deleted) {
+          await LocationModel.unDeleteLocation(user_id, existingSensor.location_id, trx);
+        }
         await trx.commit();
         return existingSensor;
       }
@@ -112,7 +119,98 @@ class Sensor extends Model {
     } catch (error) {
       console.log(error);
       await trx.rollback();
-      return null;
+      throw error;
+    }
+  }
+
+  /**
+   * Returns sensor grid points for the list of location ids
+   * @param {Array} sensorIds sensor ids
+   * @returns {Object} reading_type Reading Object
+   */
+  static async getSensorLocationBySensorIds(locationIds = []) {
+    return await knex.raw(
+      `SELECT 
+      s.sensor_id, 
+      s.name, 
+      s.external_id,
+      b.point 
+      FROM "sensor" s 
+      JOIN (
+        SELECT 
+        l.location_id, 
+        a.point 
+        FROM "location" l JOIN
+        (
+          SELECT * FROM "figure" f
+          JOIN "point" p 
+          ON f.figure_id::uuid = p.figure_id
+        ) a
+        ON l.location_id::uuid = a.location_id 
+      ) b 
+      ON s.location_id::uuid = b.location_id
+      WHERE s.location_id = ANY(?)
+      ORDER BY s.name ASC;
+      `,
+      [locationIds],
+    );
+  }
+
+  static async getSensorReadingTypes(sensorId) {
+    return Model.knex().raw(
+      `
+        SELECT prt.readable_value FROM sensor as s 
+        JOIN sensor_reading_type as srt ON srt.sensor_id = s.sensor_id 
+        JOIN partner_reading_type as prt ON srt.partner_reading_type_id = prt.partner_reading_type_id 
+        WHERE s.sensor_id = ?;
+        `,
+      sensorId,
+    );
+  }
+
+  static async patchSensorReadingTypes(sensorId, readingTypes) {
+    try {
+      for (const readingTypeKey in readingTypes) {
+        if (readingTypes[readingTypeKey].active) {
+          // if the reading is active we want to insert into the table
+          // but first check if it already exists in the table then do nothing
+          const result = await Model.knex().raw(
+            `
+            SELECT prt.readable_value FROM sensor as s 
+            JOIN sensor_reading_type as srt ON srt.sensor_id = s.sensor_id 
+            JOIN partner_reading_type as prt ON srt.partner_reading_type_id = prt.partner_reading_type_id 
+            WHERE s.sensor_id = ? AND prt.readable_value = ?;
+            `,
+            [sensorId, readingTypes[readingTypeKey].name],
+          );
+          // here it checks if there already exists if not then insert the reading type into the database
+          if (result.rows.length === 0) {
+            await Model.knex().raw(
+              `
+              INSERT INTO sensor_reading_type (partner_reading_type_id, sensor_id)
+              SELECT prt.partner_reading_type_id, sensor_id FROM sensor as s 
+              JOIN partner_reading_type as prt ON prt.partner_id = s.partner_id 
+              WHERE s.sensor_id = ? AND prt.readable_value = ?;
+              `,
+              [sensorId, readingTypes[readingTypeKey].name],
+            );
+          }
+        } else {
+          // delete the reading type if false
+          await Model.knex().raw(
+            `
+            DELETE FROM sensor_reading_type
+            WHERE sensor_reading_type_id IN
+            (SELECT sensor_reading_type_id FROM sensor_reading_type
+            JOIN partner_reading_type as prt ON prt.partner_reading_type_id = sensor_reading_type.partner_reading_type_id 
+            WHERE sensor_reading_type.sensor_id = ? AND prt.readable_value = ?);
+            `,
+            [sensorId, readingTypes[readingTypeKey].name],
+          );
+        }
+      }
+    } catch (error) {
+      console.log(error);
     }
   }
 }

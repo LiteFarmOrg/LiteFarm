@@ -457,8 +457,24 @@
       "UPLOAD_LINK_MESSAGE": "Download this template",
       "UPLOAD_INSTRUCTION_MESSAGE": "for correct formatting.",
       "UPLOAD_PLACEHOLDER": "Upload CSV file",
-      "UPLOAD_ERROR_MESSAGE": "We found some errors with your upload. You can view them",
-      "UPLOAD_ERROR_LINK": "here.",
+      "UPLOAD_ERROR_MESSAGE": "We found some errors with your upload. ",
+      "UPLOAD_ERROR_LINK": "Click here to view them.",
+      "EMPTY_FILE_UPLOAD_ERROR_MESSAGE": "No sensors found, please check your upload and try again.",
+      "SENSOR_FIELDS": {
+        "NAME": "Name",
+        "LATITUDE": "Latitude",
+        "LONGITUDE": "Longitude",
+        "READING_TYPES": "Reading_types",
+        "SENSOR_EXTERNAL_ID": "External_ID",
+        "DEPTH": "Depth",
+        "BRAND": "Brand",
+        "MODEL": "Model"
+      },
+      "SENSOR_READING_TYPES": {
+        "SOIL_MOISTURE_CONTENT": "soil_water_content",
+        "SOIL_WATER_POTENTIAL": "soil_water_potential",
+        "TEMPERATURE": "temperature"
+      },
       "VALIDATION": {
         "FILE_ROW_LIMIT_EXCEEDED": "File row limit exceeded. The max number of sensors that can be uploaded from a file is 100.",
         "MISSING_COLUMNS": "Columns are required/missing.",
@@ -466,7 +482,7 @@
         "SENSOR_NAME": "Invalid sensor name, must be between 1 and 100 characters.",
         "SENSOR_LATITUDE": "Invalid latitude value, must be between -90 and 90. and fewer than 10 decimals.",
         "SENSOR_LONGITUDE": "Invalid longitude value, must be between -180 and 180. and fewer than 10 decimals.",
-        "SENSOR_READING_TYPES": "Invalid reading type detected, valid values include: soil_moisture_content, water_potential, temperature.",
+        "SENSOR_READING_TYPES": "Invalid reading type detected, valid values include: soil_water_content, soil_water_potential, temperature.",
         "SENSOR_DEPTH": "Invalid depth value, must be between 0 and 1000.",
         "SENSOR_BRAND": "Invalid brand name, must be between 1 and 100 characters.",
         "SENSOR_MODEL": "Invalid model name, must be between 1 and 100 characters.",
@@ -476,6 +492,13 @@
         "ALREADY_OCCUPIED": "Sensor \"{{ sensorId }}\" already registered to another organization, please contact Ensemble support at support@esci.io to troubleshoot.",
         "DOES_NOT_EXIST": "Sensor \"{{ sensorId }}\" does not exist in the Ensemble database. Please ensure that you have spelled the External_ID properly for this entry, and that the sensor is an Ensemble sensor.",
         "INTERNAL_ERROR": "Sensor \"{{ sensorId }}\" failed to upload successfully, please reach out to LiteFarm support at support@litefarm.org to troubleshoot."
+      },
+      "DOWNLOAD_FILE": {
+        "ROW": "[Row: {{ row }}][Column: {{ column }}] {{- errorMessage }} {{ value }}\n",
+        "PARTIAL_SUCCESS_TOP_TEXT": "The following sensors in your file uploaded successfully or already exist on your farm:\n\n",
+        "PARTIAL_SUCCESS_BOTTOM_TEXT": "They should now be visible on your farm map. These sensors will be ignored in future uploads\n\n",
+        "SOME_ERRORS": "Unfortunately, there were some errors with your upload:\n\n",
+        "DEFAULT": "Something went wrong. Please contact support@litefarm.org for assistance."
       }
     },
     "BULK_UPLOAD_TRANSITION": {
@@ -617,7 +640,8 @@
     "TAB": {
       "CROPS": "Crops",
       "DETAILS": "Details",
-      "TASKS": "Tasks"
+      "TASKS": "Tasks",
+      "READINGS": "Readings"
     },
     "TITLE": "Farm map",
     "TUTORIAL": {
@@ -1154,8 +1178,8 @@
       "TITLE": "Sensor upload completed"
     },
     "SENSOR_BULK_UPLOAD_FAIL": {
-      "BODY": "Your sensor upload has failed. Click “Take me there” to view the details.",
-      "TITLE": "Sensor upload failed"
+      "BODY": "Your sensor upload has some errors. Click “Take me there” to view the details.",
+      "TITLE": "Sensor upload errors"
     }
   },
   "OUTRO": {
@@ -1361,6 +1385,67 @@
       "TOTAL": "Total",
       "TYPE": "Type",
       "VALUE": "Value"
+    }
+  },
+  "SENSOR": {
+    "SENSOR_NAME": "Sensor name",
+    "LATITUDE": "Latitude",
+    "LONGTITUDE": "Longtitude",
+    "READING": {
+      "TYPES": "Reading types",
+      "SOIL_WATER_CONTENT": "Soil water content",
+      "SOIL_WATER_POTENTIAL": "Soil water potential",
+      "TEMPERATURE": "Temperature"
+    },
+    "DEPTH": "Depth",
+    "BRAND": "Brand",
+    "VALIDATION": {
+      "SENSOR_LATITUDE": "Invalid latitude value, must be between -90 and 90. and fewer than 10 decimals.",
+      "SENSOR_LONGITUDE": "Invalid longitude value, must be between -180 and 180. and fewer than 10 decimals."
+    },
+    "MODAL": {
+      "TITLE": "Change reading types?",
+      "BODY": "Changing the reading types for this sensor will modify what readings LiteFarm can show. Do you want to proceed?"
+    },
+    "BRAND_HELPTEXT": "Brands that LiteFarm can integrate with are shown below. If you would no longer like to use this sensor brand, try retiring this sensor instead.",
+    "MODEL": "Model",
+    "MODEL_HELPTEXT": "This id is used to uniquely identify this sensor in other, integrated systems and cannot be changed. If it is no longer being used, try retiring this sensor and adding a new one.",
+    "EXTERNAL_IDENTIFIER": "External identifier",
+    "PART_NUMBER": "Part Number",
+    "HARDWARE_VERSION": "Hardware version",
+    "DETAIL": {
+      "RETIRE": "Retire",
+      "EDIT": "Edit",
+      "NAME": "Sensor Name",
+      "LATITUDE": "Latitude",
+      "LONGITUDE": "Longitude",
+      "MODEL": "Model",
+      "PART_NUMBER": "Part Number",
+      "HARDWARE_VERSION": "Hardware Version",
+      "EXTERNAL_ID_TOOLTIP": "This id is used to uniquely identify this sensor in other, integrated systems and cannot be changed. If it is no longer being used, try retiring this sensor and adding a new one.",
+      "EXTERNAL_IDENTIFIER": "External Identifier",
+      "DEPTH": "Depth",
+      "BRAND": "Brand",
+      "BRAND_TOOLTIP": "Brands that LiteFarm can integrate with are shown below. If you would no longer like to use this sensor brand, try retiring this sensor instead.",
+      "READING_TYPES": "Reading types"
+    },
+    "VIEW_HEADER": {
+      "READINGS": "Readings",
+      "TASKS": "Tasks",
+      "DETAILS": "Details"
+    },
+    "RETIRE": {
+      "TITLE": "Retire sensor?",
+      "RETIRE": "Retire",
+      "CANCEL": "Cancel",
+      "BODY": "Retiring this sensor will remove it and any readings associated with it from your farm as well as closing any connections with the sensor provider. Do you want to proceed?",
+      "RETIRE_SUCCESS": "Successfully retired sensor",
+      "RETIRE_FAILURE": "There was an error retiring this sensor"
+    },
+    "TEMPERATURE_READINGS_OF_SENSOR": {
+      "TITLE": "Soil temperature",
+      "SUBTITLE": "Today’s ambient high and low temperature: {{high}}{{tempUnit}} / {{low}}{{tempUnit}}",
+      "Y_AXIS_LABEL": "Temperature in {{tempUnit}}"
     }
   },
   "SHIFT": {

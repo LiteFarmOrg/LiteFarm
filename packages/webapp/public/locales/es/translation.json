@@ -457,7 +457,23 @@
       "UPLOAD_INSTRUCTION_MESSAGE": "MISSING",
       "UPLOAD_PLACEHOLDER": "MISSING",
       "UPLOAD_ERROR_MESSAGE": "MISSING",
+      "EMPTY_FILE_UPLOAD_ERROR_MESSAGE": "MISSING",
       "UPLOAD_ERROR_LINK": "MISSING",
+      "SENSOR_FIELDS": {
+        "NAME": "Nombre",
+        "LATITUDE": "Latitud",
+        "LONGITUDE": "Longitud",
+        "READING_TYPES": "tipos_de_medición",
+        "SENSOR_EXTERNAL_ID": "ID_externo",
+        "DEPTH": "Profundidad",
+        "BRAND": "Marca",
+        "MODEL": "Modelo"
+      },
+      "SENSOR_READING_TYPES": {
+        "SOIL_MOISTURE_CONTENT": "contenido_de_agua_ en_el_suelo",
+        "SOIL_WATER_POTENTIAL": "potencial_hídrico_del_suelo",
+        "TEMPERATURE": "temperatura"
+      },
       "VALIDATION": {
         "FILE_ROW_LIMIT_EXCEEDED": "MISSING",
         "MISSING_COLUMNS": "MISSING",
@@ -475,6 +491,13 @@
         "ALREADY_OCCUPIED": "MISSING",
         "DOES_NOT_EXIST": "MISSING",
         "INTERNAL_ERROR": "MISSING"
+      },
+      "DOWNLOAD_FILE": {
+        "ROW": "MISSING",
+        "PARTIAL_SUCCESS_TOP_TEXT": "MISSING",
+        "PARTIAL_SUCCESS_BOTTOM_TEXT": "MISSING",
+        "SOME_ERRORS": "MISSING",
+        "DEFAULT": "MISSING"
       }
     },
     "BULK_UPLOAD_TRANSITION": {
@@ -493,7 +516,7 @@
     "DRAWING_MANAGER": {
       "REDRAW": "Repintar",
       "ZERO_AREA_DETECTED": "Campo sin area detectado. Por favor, agrega mas puntos o comienza de nuevo.",
-      "ZERO_LENGTH_DETECTED": "Linea sin medida. Por favor, comienza de nuevo."
+      "ZERO_LENGTH_DETECTED": "Línea sin longitud detectada. Por favor dibuja de nuevo."
     },
     "EXPORT_MODAL": {
       "BODY": "Como quieres exportar el mapa?",
@@ -616,7 +639,8 @@
     "TAB": {
       "CROPS": "Cultivos",
       "DETAILS": "Detalles",
-      "TASKS": "Tareas"
+      "TASKS": "Tareas",
+      "READINGS": "MISSING"
     },
     "TITLE": "Mapa de granja",
     "TUTORIAL": {
@@ -1588,5 +1612,66 @@
   },
   "YEAR_SELECTOR": {
     "TITLE": "Seleccionar año"
+  },
+  "SENSOR": {
+    "SENSOR_NAME": "MISSING",
+    "LATITUDE": "MISSING",
+    "LONGTITUDE": "MISSING",
+    "READING": {
+      "TYPES": "MISSING",
+      "SOIL_WATER_CONTENT": "MISSING",
+      "SOIL_WATER_POTENTIAL": "MISSING",
+      "TEMPERATURE": "MISSING"
+    },
+    "DEPTH": "MISSING",
+    "BRAND": "MISSING",
+    "VALIDATION": {
+      "SENSOR_LATITUDE": "MISSING",
+      "SENSOR_LONGITUDE": "MISSING"
+    },
+    "MODAL": {
+      "TITLE": "MISSING",
+      "BODY": "MISSING"
+    },
+    "BRAND_HELPTEXT": "MISSING",
+    "MODEL": "MISSING",
+    "MODEL_HELPTEXT": "MISSING",
+    "EXTERNAL_IDENTIFIER": "MISSING",
+    "PART_NUMBER": "MISSING",
+    "HARDWARE_VERSION": "MISSING",
+    "DETAIL": {
+      "RETIRE": "MISSING",
+      "EDIT": "MISSING",
+      "NAME": "MISSING",
+      "LATITUDE": "MISSING",
+      "LONGITUDE": "MISSING",
+      "MODEL": "MISSING",
+      "PART_NUMBER": "MISSING",
+      "HARDWARE_VERSION": "MISSING",
+      "EXTERNAL_ID_TOOLTIP": "MISSING",
+      "EXTERNAL_IDENTIFIER": "MISSING",
+      "DEPTH": "MISSING",
+      "BRAND": "MISSING",
+      "BRAND_TOOLTIP": "MISSING",
+      "READING_TYPES": "MISSING"
+    },
+    "VIEW_HEADER": {
+      "READINGS": "MISSING",
+      "TASKS": "MISSING",
+      "DETAILS": "MISSING"
+    },
+    "RETIRE": {
+      "TITLE": "MISSING",
+      "RETIRE": "MISSING",
+      "CANCEL": "MISSING",
+      "BODY": "MISSING",
+      "RETIRE_SUCCESS": "MISSING",
+      "RETIRE_FAILURE": "MISSING"
+    },
+    "TEMPERATURE_READINGS_OF_SENSOR": {
+      "TITLE": "MISSING",
+      "SUBTITLE": "MISSING",
+      "Y_AXIS_LABEL": "MISSING"
+    }
   }
 }

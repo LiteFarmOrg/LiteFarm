@@ -18,37 +18,7 @@ import * as XLSX from 'xlsx';
 import { useSelector } from 'react-redux';
 import { bulkSensorsUploadSliceSelector } from '../../../../containers/bulkSensorUploadSlice';
 import { createSensorErrorDownload } from '../../../../util/sensor';
-
-// Required Fields
-const SENSOR_NAME = 'Name';
-const SENSOR_LATITUDE = 'Latitude';
-const SENSOR_LONGITUDE = 'Longitude';
-const SENSOR_READING_TYPES = 'Reading_types';
-
-// Optional Fields
-const SENSOR_EXTERNAL_ID = 'External_ID';
-const SENSOR_DEPTH = 'Depth';
-const SENSOR_BRAND = 'Brand';
-const SENSOR_MODEL = 'Model';
-const SENSOR_PART_NUMBER = 'Part_number';
-const SENSOR_HARDWARE_VERSION = 'hardware_version';
-
-const SOIL_WATER_CONTENT = 'soil_water_content';
-const SOIL_WATER_POTENTIAL = 'soil_water_potential';
-const TEMPERATURE = 'temperature';
-
-const requiredReadingTypes = [SOIL_WATER_CONTENT, SOIL_WATER_POTENTIAL, TEMPERATURE];
-
-const requiredFields = [SENSOR_NAME, SENSOR_LATITUDE, SENSOR_LONGITUDE, SENSOR_READING_TYPES];
-const templateFields = [
-  ...requiredFields,
-  SENSOR_EXTERNAL_ID,
-  SENSOR_DEPTH,
-  SENSOR_BRAND,
-  SENSOR_MODEL,
-  SENSOR_PART_NUMBER,
-  SENSOR_HARDWARE_VERSION,
-];
+import { ErrorTypes } from './constants';
 
 export function useValidateBulkSensorData(onUpload, t) {
   const bulkSensorsUploadResponse = useSelector(bulkSensorsUploadSliceSelector);
@@ -58,6 +28,39 @@ export function useValidateBulkSensorData(onUpload, t) {
   const [errorCount, setErrorCount] = useState(0);
   const fileInputRef = useRef(null);
   const [translatedUploadErrors, setTranslatedUploadErrors] = useState([]);
+  const [uploadErrorMessage, setUploadErrorMessage] = useState('');
+  const [errorTypeCode, setErrorTypeCode] = useState(ErrorTypes.DEFAULT);
+
+  // Required Fields
+  const SENSOR_NAME = t('FARM_MAP.BULK_UPLOAD_SENSORS.SENSOR_FIELDS.NAME');
+  const SENSOR_LATITUDE = t('FARM_MAP.BULK_UPLOAD_SENSORS.SENSOR_FIELDS.LATITUDE');
+  const SENSOR_LONGITUDE = t('FARM_MAP.BULK_UPLOAD_SENSORS.SENSOR_FIELDS.LONGITUDE');
+  const SENSOR_READING_TYPES = t('FARM_MAP.BULK_UPLOAD_SENSORS.SENSOR_FIELDS.READING_TYPES');
+
+  // Optional Fields
+  const SENSOR_EXTERNAL_ID = t('FARM_MAP.BULK_UPLOAD_SENSORS.SENSOR_FIELDS.SENSOR_EXTERNAL_ID');
+  const SENSOR_DEPTH = t('FARM_MAP.BULK_UPLOAD_SENSORS.SENSOR_FIELDS.DEPTH');
+  const SENSOR_BRAND = t('FARM_MAP.BULK_UPLOAD_SENSORS.SENSOR_FIELDS.BRAND');
+  const SENSOR_MODEL = t('FARM_MAP.BULK_UPLOAD_SENSORS.SENSOR_FIELDS.MODEL');
+
+  const SOIL_MOISTURE_CONTENT = t(
+    'FARM_MAP.BULK_UPLOAD_SENSORS.SENSOR_READING_TYPES.SOIL_MOISTURE_CONTENT',
+  );
+  const SOIL_WATER_POTENTIAL = t(
+    'FARM_MAP.BULK_UPLOAD_SENSORS.SENSOR_READING_TYPES.SOIL_WATER_POTENTIAL',
+  );
+  const TEMPERATURE = t('FARM_MAP.BULK_UPLOAD_SENSORS.SENSOR_READING_TYPES.TEMPERATURE');
+
+  const requiredReadingTypes = [SOIL_MOISTURE_CONTENT, SOIL_WATER_POTENTIAL, TEMPERATURE];
+
+  const requiredFields = [SENSOR_NAME, SENSOR_LATITUDE, SENSOR_LONGITUDE, SENSOR_READING_TYPES];
+  const templateFields = [
+    ...requiredFields,
+    SENSOR_EXTERNAL_ID,
+    SENSOR_DEPTH,
+    SENSOR_BRAND,
+    SENSOR_MODEL,
+  ];
 
   const validationFields = [
     {
@@ -77,11 +80,10 @@ export function useValidateBulkSensorData(onUpload, t) {
     },
     {
       errorMessage: t('FARM_MAP.BULK_UPLOAD_SENSORS.VALIDATION.SENSOR_READING_TYPES'),
-      mask: /^\s*(?:\w+\s*,\s*){2,}(?:\w+\s*)$/,
       columnName: SENSOR_READING_TYPES,
       validate(rowNumber, columnName, value) {
         if (typeof value !== 'string') return;
-        const inputReadingTypes = value.split(',');
+        const inputReadingTypes = value.trim().split(',');
         if (!inputReadingTypes.length) return;
         const invalidReadingTypes = inputReadingTypes.reduce((acc, fieldName) => {
           if (!requiredReadingTypes.includes(fieldName.trim())) {
@@ -143,6 +145,12 @@ export function useValidateBulkSensorData(onUpload, t) {
     setTranslatedUploadErrors(translatedErrors);
   }, [bulkSensorsUploadResponse?.errorSensors]);
 
+  useEffect(() => {
+    if (bulkSensorsUploadResponse?.defaultFailure) {
+      setErrorCount(1);
+    }
+  }, [bulkSensorsUploadResponse?.defaultFailure]);
+
   const validateExcel = (rows) => {
     let errors = [];
     for (let i = 0; i < rows.length; i++) {
@@ -150,7 +158,10 @@ export function useValidateBulkSensorData(onUpload, t) {
       for (const validationField of validationFields) {
         const COLUMN = validationField.columnName;
         if (COLUMN.length) {
-          const validColumn = validationField.mask.test(element[COLUMN]);
+          let validColumn = true;
+          if (validationField.hasOwnProperty('mask')) {
+            validColumn = validationField.mask.test(element[COLUMN]);
+          }
           if (!validColumn) {
             errors.push({
               row: i + 2,
@@ -217,6 +228,7 @@ export function useValidateBulkSensorData(onUpload, t) {
       const workBook = XLSX.read(data);
       const sheetErrorList = [];
       let totalErrorCount = 0;
+      let isEmptyFile = false;
       for (const singleSheet of workBook.SheetNames) {
         const sheetError = {
           sheetName: singleSheet,
@@ -224,7 +236,7 @@ export function useValidateBulkSensorData(onUpload, t) {
         const worksheet = workBook.Sheets[singleSheet];
         // sheet_to_json always return array.
         const jsonData = XLSX.utils.sheet_to_json(worksheet, { defval: '' });
-
+        isEmptyFile = !jsonData.length;
         let errors = [];
         errors = checkRequiredColumnsArePresent(jsonData[0]);
         if (!errors.length) {
@@ -237,6 +249,13 @@ export function useValidateBulkSensorData(onUpload, t) {
         totalErrorCount += errors.length;
         sheetError.errors = errors;
         sheetError.errors.length && sheetErrorList.push(sheetError);
+      }
+      if (isEmptyFile) {
+        setErrorTypeCode(ErrorTypes.EMPTY_FILE);
+        setUploadErrorMessage(t('FARM_MAP.BULK_UPLOAD_SENSORS.EMPTY_FILE_UPLOAD_ERROR_MESSAGE'));
+      } else {
+        setErrorTypeCode(ErrorTypes.INVALID_CSV);
+        setUploadErrorMessage(t('FARM_MAP.BULK_UPLOAD_SENSORS.UPLOAD_ERROR_MESSAGE'));
       }
       setErrorCount(totalErrorCount);
       setSheetErrors(sheetErrorList);
@@ -251,13 +270,15 @@ export function useValidateBulkSensorData(onUpload, t) {
       const inputFile = fileInputRef.current.files[0];
       if (inputFile) {
         const downloadFileName = `${inputFile.name.replace(/.csv/, '')}_errors.txt`;
-        createSensorErrorDownload(downloadFileName, sheetErrors[0].errors, true);
+        createSensorErrorDownload(downloadFileName, sheetErrors[0].errors, 'validation');
       }
+    } else if (bulkSensorsUploadResponse?.defaultFailure) {
+      createSensorErrorDownload('sensor-upload-outcomes.txt', null, 'generic');
     } else {
       createSensorErrorDownload(
         'sensor-upload-outcomes.txt',
         translatedUploadErrors,
-        false,
+        'claim',
         bulkSensorsUploadResponse?.success,
       );
     }
@@ -283,5 +304,7 @@ export function useValidateBulkSensorData(onUpload, t) {
     selectedFileName,
     fileInputRef,
     errorCount,
+    uploadErrorMessage,
+    errorTypeCode,
   };
 }

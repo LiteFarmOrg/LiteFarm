@@ -60,7 +60,7 @@ function PureNotificationReadOnly({ onGoBack, notification, relatedNotifications
       createSensorErrorDownload(
         notification.ref.error_download.file_name,
         translatedErrors,
-        notification.ref.error_download.is_validation_error,
+        notification.ref.error_download.error_type,
         notification.ref.error_download.success ?? [],
       );
     } else {

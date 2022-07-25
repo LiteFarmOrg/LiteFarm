@@ -170,8 +170,7 @@ export function* bulkUploadSensorsInfoFileSaga({ payload: { file } }) {
       }
       case 500:
       default: {
-        yield put(bulkSensorsUploadFailure());
-        yield put(enqueueErrorSnackbar(i18n.t('message:BULK_UPLOAD.ERROR.UPLOAD')));
+        yield put(bulkSensorsUploadFailure({ defaultFailure: true }));
         console.log(error);
         break;
       }

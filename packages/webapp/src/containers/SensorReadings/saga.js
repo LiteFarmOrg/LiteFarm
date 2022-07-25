@@ -28,7 +28,7 @@ import { getHeader } from '../../containers/saga';
 import { findCenter } from './utils';
 import { AMBIENT_TEMPERATURE, CURRENT_DATE_TIME } from './constants';
 
-const sensorReadingsUrl = () => `${sensorUrl}/get_sensor_readings_for_visualization`;
+const sensorReadingsUrl = () => `${sensorUrl}/reading/visualization`;
 
 export const getSensorsReadings = createAction(`getSensorsReadingsSaga`);
 
@@ -66,7 +66,7 @@ export function* getSensorsReadingsSaga({
       readingType,
       endDate: '06-27-2022',
     };
-    const result = yield call(axios.post, sensorReadingsUrl(), postData, header);
+    const result = yield call(axios.get, sensorReadingsUrl(), postData, header);
     const allSensorNames = result?.data?.sensorsPoints.map((s) => s.name);
     const centerPoint = findCenter(result?.data?.sensorsPoints.map((s) => s?.point));
 

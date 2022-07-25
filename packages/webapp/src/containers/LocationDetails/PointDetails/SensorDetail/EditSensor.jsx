@@ -75,7 +75,6 @@ export default function UpdateSensor({ history, match }) {
       data.user_id = user.user_id;
       data.latitude = parseFloat(data.latitude);
       data.longtitude = parseFloat(data.longtitude);
-      data.sensor_id = sensorInfo.sensor_id;
       data.farm_id = sensorInfo.farm_id;
       data.location_id = sensorInfo.location_id;
     });

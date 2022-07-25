@@ -4,15 +4,7 @@ import { loginSelector, onLoadingFail, onLoadingStart, onLoadingSuccess } from '
 import { createSelector } from 'reselect';
 import { pick } from '../util/pick';
 
-const sensorProperties = [
-  'model',
-  'depth',
-  'external_id',
-  'name',
-  'location_id',
-  'sensor_id',
-  'partner_id',
-];
+const sensorProperties = ['model', 'depth', 'external_id', 'location_id', 'partner_id'];
 
 const getSensorFromLocationObject = (location) => {
   const result = {

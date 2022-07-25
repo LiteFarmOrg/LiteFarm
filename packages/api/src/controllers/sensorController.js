@@ -234,6 +234,14 @@ const sensorController = {
                 translation_key: sensorErrors.SENSOR_ALREADY_OCCUPIED,
                 variables: { sensorId: curr.external_id },
               });
+            } else {
+              // we know that it is an ESID but for some reason it was not returned in the expected format from the API
+              prev.errorSensors.push({
+                row: idx + 2,
+                column: 'External_ID',
+                translation_key: sensorErrors.INTERNAL_ERROR,
+                variables: { sensorId: curr.external_id },
+              });
             }
             return prev;
           },

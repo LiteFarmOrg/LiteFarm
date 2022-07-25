@@ -5,7 +5,7 @@ import { useValidateBulkSensorData } from './useValidateBulkSensorData';
 import PropTypes from 'prop-types';
 
 export default function BulkSensorUploadModal({ dismissModal, onUpload }) {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
 
   const {
     onUploadClicked,
@@ -18,7 +18,7 @@ export default function BulkSensorUploadModal({ dismissModal, onUpload }) {
     onTemplateDownloadClick,
     uploadErrorMessage,
     errorTypeCode,
-  } = useValidateBulkSensorData(onUpload, t);
+  } = useValidateBulkSensorData(onUpload, t, i18n.language);
 
   return (
     <PureBulkSensorUploadModal

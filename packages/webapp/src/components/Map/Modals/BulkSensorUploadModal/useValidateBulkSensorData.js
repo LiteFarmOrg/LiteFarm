@@ -17,10 +17,13 @@ import { useEffect, useRef, useState } from 'react';
 import * as XLSX from 'xlsx';
 import { useSelector } from 'react-redux';
 import { bulkSensorsUploadSliceSelector } from '../../../../containers/bulkSensorUploadSlice';
-import { createSensorErrorDownload } from '../../../../util/sensor';
+import {
+  createSensorErrorDownload,
+  handleLangaugeKeywordExecptions,
+} from '../../../../util/sensor';
 import { ErrorTypes } from './constants';
 
-export function useValidateBulkSensorData(onUpload, t) {
+export function useValidateBulkSensorData(onUpload, t, language) {
   const bulkSensorsUploadResponse = useSelector(bulkSensorsUploadSliceSelector);
   const [disabled, setDisabled] = useState(null);
   const [selectedFileName, setSelectedFileName] = useState('');
@@ -83,8 +86,9 @@ export function useValidateBulkSensorData(onUpload, t) {
       columnName: SENSOR_READING_TYPES,
       validate(rowNumber, columnName, value) {
         if (typeof value !== 'string') return;
-        const inputReadingTypes = value.trim().split(',');
+        let inputReadingTypes = value.trim().split(',');
         if (!inputReadingTypes.length) return;
+        inputReadingTypes = handleLangaugeKeywordExecptions(inputReadingTypes, language);
         const invalidReadingTypes = inputReadingTypes.reduce((acc, fieldName) => {
           if (!requiredReadingTypes.includes(fieldName.trim())) {
             acc.push(fieldName.trim());
@@ -235,7 +239,13 @@ export function useValidateBulkSensorData(onUpload, t) {
         };
         const worksheet = workBook.Sheets[singleSheet];
         // sheet_to_json always return array.
-        const jsonData = XLSX.utils.sheet_to_json(worksheet, { defval: '' });
+        let columnsArray = XLSX.utils.sheet_to_json(worksheet, { header: 1 })[0];
+        columnsArray = handleLangaugeKeywordExecptions(columnsArray, language);
+        const jsonData = XLSX.utils.sheet_to_json(worksheet, {
+          defval: '',
+          header: columnsArray,
+          range: 1,
+        });
         isEmptyFile = !jsonData.length;
         let errors = [];
         errors = checkRequiredColumnsArePresent(jsonData[0]);

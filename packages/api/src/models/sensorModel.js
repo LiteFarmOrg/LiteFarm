@@ -46,6 +46,7 @@ class Sensor extends Model {
         external_id: { type: 'string', maxLength: 255 },
         location_id: { type: 'string' },
         depth: { type: 'float' },
+        depth_unit: { type: 'string', enum: ['cm', 'm', 'in', 'ft'] },
         elevation: { type: 'float' },
       },
       additionalProperties: false,

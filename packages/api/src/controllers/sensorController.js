@@ -343,6 +343,7 @@ const sensorController = {
         sensor_id,
         model,
         depth,
+        depth_unit,
         reading_types,
         location_id,
         user_id,
@@ -377,10 +378,10 @@ const sensorController = {
         };
         await SensorModel.patchSensorReadingTypes(sensor_id, readingTypes);
       }
-
       const sensor_properties = {
         name: sensor_name,
         depth,
+        depth_unit,
         model,
       };
 

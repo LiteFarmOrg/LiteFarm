@@ -57,6 +57,7 @@ export default function UpdateSensor({
       longtitude: sensorInfo.point.lng,
       external_identifier: sensorInfo.external_id,
       depth: sensorInfo.depth,
+      depth_unit: sensorInfo.depth_unit,
       model: sensorInfo.model,
       reading_types: [],
     },
@@ -79,6 +80,7 @@ export default function UpdateSensor({
   const [isDirty, setIsDirty] = useState(false);
   const [filterState, setFilterState] = useState([]);
   const [isFilterValid, setIsFilterValid] = useState(true);
+  const [readingTypesChanged, setIsReadingTypesChanged] = useState(false);
 
   const onChange = () => {
     setFilterState(filterRef.current);
@@ -96,6 +98,7 @@ export default function UpdateSensor({
         const h = g[0][1];
         if (h === true) {
           setIsFilterValid(true);
+          setIsReadingTypesChanged(true);
           count++;
         }
       }
@@ -113,7 +116,7 @@ export default function UpdateSensor({
 
       <Form
         onSubmit={handleSubmit(() => {
-          if (isFilterValid) {
+          if (readingTypesChanged) {
             setShowAbandonModal(true);
           } else {
             onSubmit(getValues());
@@ -134,7 +137,7 @@ export default function UpdateSensor({
           hookFormRegister={register(SENSOR_NAME, {
             pattern: {
               value: /^[ A-Za-z0-9_-]{1,100}$/,
-              message: t('SENSOR.VALIDATION.NAME'),
+              message: t('FARM_MAP.BULK_UPLOAD_SENSORS.VALIDATION.SENSOR_NAME'),
             },
             required: true,
           })}
@@ -152,7 +155,7 @@ export default function UpdateSensor({
               pattern: {
                 value:
                   /^(\+|-)?(?:90(?:(?:\.0{1,10})?)|(?:[0-9]|[1-8][0-9])(?:(?:\.[0-9]{1,10})?))$/,
-                message: t('SENSOR.VALIDATION.SENSOR_LATITUDE'),
+                message: t('FARM_MAP.BULK_UPLOAD_SENSORS.VALIDATION.SENSOR_LATITUDE'),
               },
               required: true,
             })}
@@ -166,7 +169,7 @@ export default function UpdateSensor({
               pattern: {
                 value:
                   /^(\+|-)?(?:180(?:(?:\.0{1,10})?)|(?:[0-9]|[1-9][0-9]|1[0-7][0-9])(?:(?:\.[0-9]{1,10})?))$/,
-                message: t('SENSOR.VALIDATION.SENSOR_LONGITUDE'),
+                message: t('FARM_MAP.BULK_UPLOAD_SENSORS.VALIDATION.SENSOR_LONGITUDE'),
               },
               required: true,
             })}

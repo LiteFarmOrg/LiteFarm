@@ -7,6 +7,7 @@ import { pick } from '../util/pick';
 const sensorProperties = [
   'model',
   'depth',
+  'depth_unit',
   'external_id',
   'name',
   'location_id',

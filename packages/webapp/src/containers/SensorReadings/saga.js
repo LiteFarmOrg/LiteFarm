@@ -66,7 +66,7 @@ export function* getSensorsReadingsSaga({
       readingType,
       endDate: '06-27-2022',
     };
-    const result = yield call(axios.post, sensorReadingsUrl(), postData, header);
+    const result = yield call(axios.get, sensorReadingsUrl(), postData, header);
     const allSensorNames = result?.data?.sensorsPoints.map((s) => s.name);
     const centerPoint = findCenter(result?.data?.sensorsPoints.map((s) => s?.point));
 

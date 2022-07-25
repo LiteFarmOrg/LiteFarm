@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { useTranslation } from 'react-i18next';
 import { makeStyles } from '@material-ui/core/styles';
 import { colors } from '../../../assets/theme';
 import CompactPreview from './CompactPreview';
@@ -43,6 +44,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function PurePreviewPopup({ location, history, sensorReadings, styleOverride }) {
   const classes = useStyles();
+  const { t } = useTranslation();
 
   const loadEditView = (location) => {
     history.push(`/${location.type}/${location.id}/details`);
@@ -65,7 +67,7 @@ export default function PurePreviewPopup({ location, history, sensorReadings, st
         <div className={classes.arrow} />
         <div className={classes.body}>
           <CompactPreview
-            title={'Temperature'}
+            title={t('SENSOR.READING.TEMPERATURE')}
             value={temperatureData.length ? temperatureData[0].value : null}
             unit={temperatureData.length ? temperatureData[0].unit : null}
           />

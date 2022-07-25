@@ -1,5 +1,5 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import { useTranslation } from 'react-i18next';
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme) => ({
@@ -15,18 +15,19 @@ const useStyles = makeStyles((theme) => ({
     fontWeight: 'bold',
   },
   error: {
-    color: 'red',
+    color: 'var(--red700)',
   },
 }));
 
 export default function CompactPreview({ title, value, unit }) {
   const classes = useStyles();
+  const { t } = useTranslation();
 
   return (
     <div className={classes.container}>
       <div className={classes.title}>{title}:</div>
       <div className={value ? classes.value : classes.error}>
-        {value ? value : 'Unknown'}
+        {value ? value : t('SENSOR.READING.UNKNOWN')}
         {unit}
       </div>
     </div>

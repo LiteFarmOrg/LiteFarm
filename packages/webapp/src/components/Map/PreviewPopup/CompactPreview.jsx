@@ -14,6 +14,9 @@ const useStyles = makeStyles((theme) => ({
   value: {
     fontWeight: 'bold',
   },
+  error: {
+    color: 'red',
+  },
 }));
 
 export default function CompactPreview({ title, value, unit }) {
@@ -22,8 +25,8 @@ export default function CompactPreview({ title, value, unit }) {
   return (
     <div className={classes.container}>
       <div className={classes.title}>{title}:</div>
-      <div className={classes.value}>
-        {value}
+      <div className={value ? classes.value : classes.error}>
+        {value ? value : 'Unknown'}
         {unit}
       </div>
     </div>

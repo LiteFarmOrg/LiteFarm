@@ -11,7 +11,7 @@ export default function LocationSelectionModal({ history, sensorReadings, select
   const showSelection = useSelector(canShowSelectionSelector);
   const locations = useSelector(mapLocationsSelector);
   const locationSensorReadings = Object.values(sensorReadings).filter(
-    (reading) => reading.location_id === locations[0].id,
+    (reading) => reading.location_id === locations[0]?.id,
   );
   if (showSelection && locations.length === 1 && locations[0].type === 'sensor') {
     return (

@@ -68,8 +68,8 @@ class SensorReading extends Model {
       .select('*')
       .joinRaw('JOIN sensor ON sensor_reading.sensor_id::uuid = sensor.sensor_id')
       .where('farm_id', farmId)
-      .andWhere('created_at', '>=', pastDate)
-      .orderBy('created_at', 'desc');
+      .andWhere('read_time', '>=', pastDate)
+      .orderBy('read_time', 'desc');
   }
 
   /**

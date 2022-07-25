@@ -47,31 +47,33 @@ export default function PurePreviewPopup({ location, history, sensorReadings, st
   const loadEditView = (location) => {
     history.push(`/${location.type}/${location.id}/details`);
   };
-  if (sensorReadings.length) {
-    const temperatureData = sensorReadings.filter(
-      (sensorReading) => sensorReading.reading_type === 'temperature',
-    );
 
-    return (
-      <div onClick={() => loadEditView(location)} className={classes.container}>
-        <div className={classes.tooltip} style={styleOverride}>
-          <div className={classes.arrow} />
-          <div className={classes.body}>
-            {temperatureData.length && (
-              <CompactPreview
-                title={'Temperature'}
-                value={temperatureData[0].value}
-                unit={temperatureData[0].unit}
-              />
-            )}
-            {/*other compact views*/}
-          </div>
+  let temperatureData = [];
+  let sixHoursBefore = new Date();
+  sixHoursBefore.setHours(sixHoursBefore.getHours() - 6);
+
+  if (sensorReadings.length) {
+    temperatureData = sensorReadings.filter(
+      (sensorReading) =>
+        sensorReading.reading_type === 'temperature' && sensorReading.read_time > sixHoursBefore,
+    );
+  }
+
+  return (
+    <div onClick={() => loadEditView(location)} className={classes.container}>
+      <div className={classes.tooltip} style={styleOverride}>
+        <div className={classes.arrow} />
+        <div className={classes.body}>
+          <CompactPreview
+            title={'Temperature'}
+            value={temperatureData.length ? temperatureData[0].value : null}
+            unit={temperatureData.length ? temperatureData[0].unit : null}
+          />
+          {/*other compact views*/}
         </div>
       </div>
-    );
-  } else {
-    return <></>;
-  }
+    </div>
+  );
 }
 
 PurePreviewPopup.prototype = {

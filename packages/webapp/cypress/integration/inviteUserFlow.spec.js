@@ -85,25 +85,59 @@ describe.only('Invite user tests', () => {
       cy.homePageSpotlights();
 
       //Add a farm worker to the farm
-      cy.goToPeopleView();
+      cy.goToPeopleView('English');
+      cy.url().should('include', '/people');
+      cy.get('[data-cy=people-inviteUser]').should('exist').and('not.be.disabled').click();
 
       cy.inviteUser(inviteeRole, workerName, emailUser, gender, lang, wage, birthYear, number);
 
+      const Status = 'Invited';
+      cy.get('[data-cy=snackBar]').contains('Successfully added user to farm!').should('exist');
       cy.url().should('include', '/people');
-      cy.contains(workerName).should('exist');
+      cy.get('*[class^="rt-tr-group"]').eq(0).contains(workerName).should('exist');
+      cy.get('*[class^="rt-tr-group"]').eq(0).contains(emailUser).should('exist');
+      cy.get('*[class^="rt-tr-group"]').eq(0).contains(inviteeRole).should('exist');
+      cy.get('*[class^="rt-tr-group"]').eq(0).contains(Status).should('exist');
+      //cy.get('.ReactTable').getTable().should(tableData => {
+      //  expected.forEach(item => expect(tableData).to.deep.include(item))
+      //})
 
+      cy.contains(workerName).should('exist');
       //logout
       cy.logOut();
 
       //login as farm worker, create account and join farm
       cy.acceptInviteEmail(lang);
 
-      cy.get('[data-cy=invitedCard-createAccount]').click();
-      cy.get('[data-cy=invitedUser-proceed]').click();
+      if (lang == 'English') {
+        cy.get('[data-cy=invitedCard-createAccount]').contains('Create a LiteFarm account').click();
+        cy.get('[data-cy=invitedUser-proceed]').click();
 
-      //create account
-      cy.get('[data-cy=invited-password]').type(password);
-      cy.get('[data-cy=invited-createAccount]').click();
+        //create account
+        cy.get('[data-cy=invited-password]').type(password);
+        cy.get('[data-cy=invited-createAccount]').click();
+      } else if (lang == 'French') {
+        cy.get('[data-cy=invitedCard-createAccount]').contains('Créer un compte LiteFarm').click();
+        cy.get('[data-cy=invitedUser-proceed]').click();
+
+        //create account
+        cy.get('[data-cy=invited-password]').type(password);
+        cy.get('[data-cy=invited-createAccount]').click();
+      } else if (lang == 'Portuguese') {
+        cy.get('[data-cy=invitedCard-createAccount]').contains('Crie uma conta LiteFarm').click();
+        cy.get('[data-cy=invitedUser-proceed]').click();
+
+        //create account
+        cy.get('[data-cy=invited-password]').type(password);
+        cy.get('[data-cy=invited-createAccount]').click();
+      } else if (lang == 'Spanish') {
+        cy.get('[data-cy=invitedCard-createAccount]').contains('Crear cuenta LiteFarm').click();
+        cy.get('[data-cy=invitedUser-proceed]').click();
+
+        //create account
+        cy.get('[data-cy=invited-password]').type(password);
+        cy.get('[data-cy=invited-createAccount]').click();
+      }
 
       //Consent page
       cy.giveConsent();
@@ -118,6 +152,20 @@ describe.only('Invite user tests', () => {
       cy.get('[data-cy=spotlight-next]').should('exist').and('not.be.disabled').click();
       cy.get('[data-cy=spotlight-next]').should('exist').and('not.be.disabled').click();
 
+      cy.goToPeopleView(lang);
+      cy.url().should('include', '/people');
+      cy.get('*[class^="rt-tr-group"]').eq(0).contains(emailUser).should('exist');
+      if (lang == 'English') {
+        cy.get('*[class^="rt-tr-group"]').eq(0).contains('Active').should('exist');
+      } else if (lang == 'French') {
+        cy.get('*[class^="rt-tr-group"]').eq(0).contains('Actif').should('exist');
+      } else if (lang == 'Portuguese') {
+        cy.get('*[class^="rt-tr-group"]').eq(0).contains('Ativo').should('exist');
+      } else if (lang == 'Spanish') {
+        cy.get('*[class^="rt-tr-group"]').eq(0).contains('Activo').should('exist');
+      }
+
+      cy.get('[data-cy=people-inviteUser]').should('not.exist');
       //logout
       cy.get('[data-cy=home-profileButton]').should('exist').click();
       cy.get('[data-cy=navbar-option]').eq(4).should('exist').and('not.be.disabled').click();

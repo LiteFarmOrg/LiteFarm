@@ -274,7 +274,9 @@ Cypress.Commands.add('createAccount', (email, fullName, gender, language, birthY
   //cy.createUserGender().click();
   //cy.createUserGenderOptions().eq(1).contains(gender).click();
   cy.contains('Create Account').should('exist').and('be.enabled').click();
-  cy.wait(3000);
+  cy.intercept('POST', '**/user').as('createUser');
+  //cy.wait('@createUser');
+  cy.wait(5000);
 });
 
 Cypress.Commands.add('userCreationEmail', () => {
@@ -411,23 +413,62 @@ Cypress.Commands.add('homePageSpotlights', () => {
     .click();
 });
 
-Cypress.Commands.add('goToPeopleView', () => {
-  cy.get('[data-cy=home-farmButton]').should('exist').and('not.be.disabled').click({ force: true });
-  cy.get('[data-cy=navbar-option]')
-    .eq(2)
-    .contains('People')
-    .should('exist')
-    .and('not.be.disabled')
-    .click({ force: true });
-  cy.url().should('include', '/people');
+Cypress.Commands.add('goToPeopleView', (lang) => {
+  if (lang == 'English') {
+    cy.get('[data-cy=home-farmButton]')
+      .should('exist')
+      .and('not.be.disabled')
+      .click({ force: true });
+    cy.get('[data-cy=navbar-option]')
+      .eq(2)
+      .contains('People')
+      .should('exist')
+      .and('not.be.disabled')
+      .click({ force: true });
+    cy.url().should('include', '/people');
+  } else if (lang == 'French') {
+    cy.get('[data-cy=home-farmButton]')
+      .should('exist')
+      .and('not.be.disabled')
+      .click({ force: true });
+    cy.get('[data-cy=navbar-option]')
+      .eq(2)
+      .contains('Personnes')
+      .should('exist')
+      .and('not.be.disabled')
+      .click({ force: true });
+    cy.url().should('include', '/people');
+  } else if (lang == 'Spanish') {
+    cy.get('[data-cy=home-farmButton]')
+      .should('exist')
+      .and('not.be.disabled')
+      .click({ force: true });
+    cy.get('[data-cy=navbar-option]')
+      .eq(2)
+      .contains('Personas')
+      .should('exist')
+      .and('not.be.disabled')
+      .click({ force: true });
+    cy.url().should('include', '/people');
+  } else if (lang == 'Portuguese') {
+    cy.get('[data-cy=home-farmButton]')
+      .should('exist')
+      .and('not.be.disabled')
+      .click({ force: true });
+    cy.get('[data-cy=navbar-option]')
+      .eq(2)
+      .contains('Pessoas')
+      .should('exist')
+      .and('not.be.disabled')
+      .click({ force: true });
+    cy.url().should('include', '/people');
+  }
 });
 
 Cypress.Commands.add(
   'inviteUser',
   (role, fullName, email, gender, language, wage, birthYear, phoneNumber) => {
     //from people view
-    cy.url().should('include', '/people');
-    cy.get('[data-cy=people-inviteUser]').should('exist').and('not.be.disabled').click();
 
     cy.url().should('include', '/invite_user');
     cy.get('[data-cy=invite-fullName]').should('exist').type(fullName);

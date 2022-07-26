@@ -264,7 +264,7 @@ const sensorController = {
               row: data.findIndex((elem) => elem === registeredSensors[idx]) + 2,
               column: 'External_ID',
               translation_key: sensorErrors.INTERNAL_ERROR,
-              variables: { sensorId: registeredSensors[idx] },
+              variables: { sensorId: registeredSensors[idx].external_id },
             });
           }
           return prev;

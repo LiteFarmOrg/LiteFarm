@@ -2,7 +2,7 @@ import Input, { getInputErrors } from '../../Form/Input';
 import { Controller, useForm } from 'react-hook-form';
 import ReactSelect from '../../Form/ReactSelect';
 import { useTranslation } from 'react-i18next';
-import React, { useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import Button from '../../Form/Button';
 import PropTypes from 'prop-types';
 import Form from '../../Form';
@@ -35,7 +35,10 @@ export default function PureEditUser({
     value: role_id,
     label: dropDownMap[role_id],
   }));
-  const roleOption = { value: userFarm.role_id, label: dropDownMap[userFarm.role_id] };
+  const roleOption =
+    userFarm.role_id !== 4
+      ? { value: userFarm.role_id, label: dropDownMap[userFarm.role_id] }
+      : { value: 3, label: dropDownMap[3] };
 
   const {
     register,
@@ -62,14 +65,17 @@ export default function PureEditUser({
   const email = watch(EMAIL);
   const role = watch(ROLE);
   const wage = watch(WAGE);
-  const disabled =
-    !isValid ||
-    (shouldInvitePseudoUser && (!email || !role?.label)) ||
-    (!shouldInvitePseudoUser &&
-      !isPseudoUser &&
-      Number(role?.value) === userFarm.role_id &&
-      (wage || 0) === Number(userFarm.wage?.amount)) ||
-    (!shouldInvitePseudoUser && isPseudoUser && (wage || 0) === Number(userFarm.wage?.amount));
+  const disabled = useMemo(
+    () =>
+      !isValid ||
+      (shouldInvitePseudoUser && (!email || !role?.label)) ||
+      (!shouldInvitePseudoUser &&
+        !isPseudoUser &&
+        Number(role?.value) === userFarm.role_id &&
+        (wage || 0) === Number(userFarm.wage?.amount)) ||
+      (!shouldInvitePseudoUser && isPseudoUser && (wage || 0) === Number(userFarm.wage?.amount)),
+    [isValid, shouldInvitePseudoUser, email, role, userFarm.wage?.amount, wage],
+  );
 
   return (
     <Form

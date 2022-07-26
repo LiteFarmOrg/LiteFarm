@@ -1627,7 +1627,9 @@
     "BRAND": "MISSING",
     "VALIDATION": {
       "SENSOR_LATITUDE": "MISSING",
-      "SENSOR_LONGITUDE": "MISSING"
+      "SENSOR_LONGITUDE": "MISSING",
+      "NAME": "MISSING",
+      "READING_TYPES": "Sensor reading types are required"
     },
     "MODAL": {
       "TITLE": "MISSING",

@@ -87,14 +87,14 @@ export default function PureSensorDetail({ history, isAdmin, system, sensorInfo 
   }
 
   return (
-    <div style={{ padding: '24px 16px 24px 16px' }}>
+    <div style={{ padding: '24px 16px 24px 24px' }}>
       <PageTitle
         title={name}
         onGoBack={() => history.push('/map')}
         style={{ marginBottom: '24px' }}
       />
       <RouterTab
-        classes={{ container: { margin: '24px 0 24px 0' } }}
+        classes={{ container: { margin: '30px 8px 26px 0px' } }}
         history={history}
         tabs={[
           {

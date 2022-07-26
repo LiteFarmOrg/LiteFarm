@@ -20,7 +20,7 @@ import { bulkSensorsUploadSliceSelector } from '../../../../containers/bulkSenso
 import { createSensorErrorDownload } from '../../../../util/sensor';
 import { ErrorTypes } from './constants';
 
-export function useValidateBulkSensorData(onUpload, t, language) {
+export function useValidateBulkSensorData(onUpload, t) {
   const bulkSensorsUploadResponse = useSelector(bulkSensorsUploadSliceSelector);
   const [disabled, setDisabled] = useState(null);
   const [selectedFileName, setSelectedFileName] = useState('');
@@ -83,9 +83,8 @@ export function useValidateBulkSensorData(onUpload, t, language) {
       columnName: SENSOR_READING_TYPES,
       validate(rowNumber, columnName, value) {
         if (typeof value !== 'string') return;
-        let inputReadingTypes = value.trim().split(',');
+        const inputReadingTypes = value.trim().split(',');
         if (!inputReadingTypes.length) return;
-        // inputReadingTypes = handleLangaugeKeywordExecptions(inputReadingTypes, language);
         const invalidReadingTypes = inputReadingTypes.reduce((acc, fieldName) => {
           if (!requiredReadingTypes.includes(fieldName.trim())) {
             acc.push(fieldName.trim());
@@ -239,6 +238,7 @@ export function useValidateBulkSensorData(onUpload, t, language) {
           sheetName: singleSheet,
         };
         const worksheet = workBook.Sheets[singleSheet];
+        // sheet_to_json always return array.
         const jsonData = XLSX.utils.sheet_to_json(worksheet, { defval: '' });
         isEmptyFile = !jsonData.length;
         let errors = [];

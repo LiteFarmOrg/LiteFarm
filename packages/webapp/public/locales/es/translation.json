@@ -470,7 +470,7 @@
         "MODEL": "Modelo"
       },
       "SENSOR_READING_TYPES": {
-        "SOIL_MOISTURE_CONTENT": "contenido_de_agua_en_el_suelo",
+        "SOIL_MOISTURE_CONTENT": "contenido_de_agua_ en_el_suelo",
         "SOIL_WATER_POTENTIAL": "potencial_hídrico_del_suelo",
         "TEMPERATURE": "temperatura"
       },

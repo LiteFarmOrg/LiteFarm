@@ -278,16 +278,28 @@ async function authenticateToGetTokens() {
  */
 async function unclaimSensor(org_id, external_id, access_token) {
   try {
-    const axiosObject = {
+    const onError = () => {
+      throw new Error('Unable to unclaim sensor');
+    };
+
+    const getDeviceAxiosObject = {
+      method: 'get',
+      url: `${ensembleAPI}/devices/${external_id}`,
+    };
+
+    const currentDeviceData = await ensembleAPICall(access_token, getDeviceAxiosObject, onError);
+
+    if (currentDeviceData?.owner_organization?.uuid !== org_id) {
+      return { status: 200, data: { detail: 'Device not currently owned by this organization' } };
+    }
+
+    const unclaimAxiosObject = {
       method: 'post',
       url: `${ensembleAPI}/organizations/${org_id}/devices/unclaim/`,
       data: { esid: external_id },
     };
 
-    const onError = () => {
-      throw new Error('Unable to unclaim sensor');
-    };
-    const response = await ensembleAPICall(access_token, axiosObject, onError);
+    const response = await ensembleAPICall(access_token, unclaimAxiosObject, onError);
     return response;
   } catch (error) {
     return { status: 400, error };

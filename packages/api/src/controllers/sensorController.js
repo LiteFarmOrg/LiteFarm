@@ -264,7 +264,7 @@ const sensorController = {
               row: data.findIndex((elem) => elem === registeredSensors[idx]) + 2,
               column: 'External_ID',
               translation_key: sensorErrors.INTERNAL_ERROR,
-              variables: { sensorId: registeredSensors[idx] },
+              variables: { sensorId: registeredSensors[idx].external_id },
             });
           }
           return prev;
@@ -346,6 +346,7 @@ const sensorController = {
         longtitude,
         model,
         depth,
+        depth_unit,
         reading_types,
         location_id,
         user_id,
@@ -374,9 +375,9 @@ const sensorController = {
         };
         await SensorModel.patchSensorReadingTypes(location_id, readingTypes);
       }
-
       const sensor_properties = {
         depth,
+        depth_unit,
         model,
       };
 

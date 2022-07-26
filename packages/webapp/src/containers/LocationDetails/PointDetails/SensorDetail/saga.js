@@ -38,7 +38,7 @@ export function* patchSensorSaga({ payload: sensorData }) {
   try {
     const result = yield call(
       axios.patch,
-      sensorUrl + `/${sensorData.sensor_id}`,
+      sensorUrl + `/${sensorData.location_id}`,
       sensorData,
       header,
     );
@@ -50,13 +50,13 @@ export function* patchSensorSaga({ payload: sensorData }) {
   }
 }
 
-export function* getSensorReadingTypesSaga({ payload: { location_id, sensor_id } }) {
+export function* getSensorReadingTypesSaga({ payload: { location_id } }) {
   try {
     let { user_id, farm_id } = yield select(loginSelector);
     const header = getHeader(user_id, farm_id);
     const sensor_reading_types_response = yield call(
       axios.get,
-      `${sensorUrl}/reading_type/${sensor_id}`,
+      `${sensorUrl}/${location_id}/reading_type`,
       header,
     );
     const sensor_reading_types = sensor_reading_types_response.data;
@@ -72,7 +72,7 @@ export function* getSensorBrandSaga({ payload: { location_id, partner_id } }) {
     const header = getHeader(user_id, farm_id);
     const brand_name_response = yield call(
       axios.get,
-      `${sensorUrl}/brand_name/${partner_id}`,
+      `${sensorUrl}/partner/${partner_id}/brand_name`,
       header,
     );
     const brand_name = brand_name_response.data;

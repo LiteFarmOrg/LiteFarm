@@ -31,7 +31,7 @@ class SensorReadingTypeModel extends Model {
       properties: {
         sensor_reading_type_id: { type: 'string' },
         partner_reading_type_id: { type: 'string' },
-        sensor_id: { type: 'string' },
+        location_id: { type: 'string' },
       },
     };
   }

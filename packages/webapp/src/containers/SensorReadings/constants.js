@@ -15,6 +15,4 @@ export const OPEN_WEATHER_API_URL_FOR_SENSORS = [
   'https://history.openweathermap.org/data/2.5/history/city',
 ];
 export const HOUR = 'hour';
-
 export const TEMPERATURE = 'temperature';
-export const NO_DATA = '(no data)';

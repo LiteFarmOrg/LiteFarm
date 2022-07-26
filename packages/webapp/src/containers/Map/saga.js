@@ -45,7 +45,7 @@ import {
 const sendMapToEmailUrl = (farm_id) => `${url}/export/map/farm/${farm_id}`;
 const showedSpotlightUrl = () => `${url}/showed_spotlight`;
 const bulkUploadSensorsInfoUrl = () => {
-  let url = `${sensorUrl}/add_sensors`;
+  let url = sensorUrl;
   const testTimer = localStorage.getItem('sensorUploadTimer');
   if (testTimer) url += `?sensorUploadTimer=${testTimer}`;
   return url;
@@ -185,7 +185,7 @@ export function* getSensorReadingsSaga() {
   const header = getHeader(user_id, farm_id);
   try {
     yield put(onLoadingSensorReadingStart(user_id, farm_id));
-    const result = yield call(axios.get, `${sensorUrl}/sensor_readings/${farm_id}/7`, header);
+    const result = yield call(axios.get, `${sensorUrl}/reading/farm/${farm_id}?days=7`, header);
     if (result.status === 200) yield put(getSensorReadingSuccess(result.data));
     yield put(onLoadingSensorReadingFail(result.error));
   } catch (e) {

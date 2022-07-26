@@ -13,25 +13,15 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const jwt = require('express-jwt');
+exports.up = async function (knex) {
+  await knex.schema.alterTable('users', (table) => {
+    table.boolean('sandbox_user').defaultTo(false);
+  });
+  return knex('users').update({ sandbox_user: false });
+};
 
-const checkJwt = jwt({
-  secret: process.env.JWT_SECRET,
-  algorithms: ['HS256'],
-}).unless({
-  path: [
-    '/user',
-    '/login',
-    '/password_reset',
-    '/user/accept_invitation',
-    '/user_farm/accept_invitation',
-    '/notification_user/subscribe',
-    /\/time_notification\//i,
-    /\/farm\/utc_offset_by_range\//i,
-    /\/sensor\/reading\/partner\/\d+\/farm\/*/,
-    /\/api-docs\/*/,
-    /\/api-spec\/*/,
-  ],
-});
-
-module.exports = checkJwt;
+exports.down = async function (knex) {
+  return knex.schema.alterTable('users', (table) => {
+    table.dropColumns('sandbox_user');
+  });
+};

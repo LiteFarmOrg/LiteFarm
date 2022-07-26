@@ -182,9 +182,7 @@ const organicCertifierSurveyController = {
         .query()
         .withGraphJoined('files')
         .where((builder) => {
-          builder
-            .whereBetween('valid_until', [from_date, to_date])
-            .orWhere({ no_expiration: true });
+          builder.where('valid_until', '>=', from_date).orWhere({ no_expiration: true });
         })
         .where({ archived: false })
         .andWhere({ farm_id });

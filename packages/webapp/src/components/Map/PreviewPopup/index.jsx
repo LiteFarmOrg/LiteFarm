@@ -30,6 +30,7 @@ const useStyles = makeStyles((theme) => ({
     padding: 0,
     borderRadius: '4px',
     maxWidth: '264px',
+    marginTop: 5,
     userSelect: 'none',
     color: colors.grey900,
     fontStyle: 'normal',

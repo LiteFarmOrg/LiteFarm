@@ -1,18 +1,3 @@
-/*
- *  Copyright 2019-2022 LiteFarm.org
- *  This file is part of LiteFarm.
- *
- *  LiteFarm is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
- *
- *  LiteFarm is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
- */
-
 import Input, { getInputErrors } from '../../Form/Input';
 import { Controller, useForm } from 'react-hook-form';
 import ReactSelect from '../../Form/ReactSelect';
@@ -89,12 +74,20 @@ export default function PureEditUser({
         Number(role?.value) === userFarm.role_id &&
         (wage || 0) === Number(userFarm.wage?.amount)) ||
       (!shouldInvitePseudoUser && isPseudoUser && (wage || 0) === Number(userFarm.wage?.amount)),
-    [isValid, shouldInvitePseudoUser, email, role, userFarm.wage?.amount, wage],
+    [
+      isValid,
+      shouldInvitePseudoUser,
+      email,
+      role,
+      userFarm.wage?.amount,
+      wage,
+      Object.keys(errors).length,
+    ],
   );
 
   return (
     <Form
-      onSubmit={handleSubmit(shouldInvitePseudoUser ? onInvite : onUpdate)}
+      onSubmit={handleSubmit(shouldInvitePseudoUser ? onInvite : onUpdate, (e) => console.log(e))}
       buttonGroup={
         <>
           {userFarm.status === 'Inactive' ? (
@@ -145,9 +138,16 @@ export default function PureEditUser({
             message: t('INVITE_USER.INVALID_EMAIL_ERROR'),
           },
           validate: {
-            existing: (value) =>
-              (value && !userFarmEmails.includes(value)) ||
-              t('INVITE_USER.ALREADY_EXISTING_EMAIL_ERROR'),
+            existing: (value) => {
+              if (!shouldInvitePseudoUser) {
+                return true;
+              } else {
+                return (
+                  (value && !userFarmEmails.includes(value)) ||
+                  t('INVITE_USER.ALREADY_EXISTING_EMAIL_ERROR')
+                );
+              }
+            },
           },
         })}
         errors={getInputErrors(errors, EMAIL)}

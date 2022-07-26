@@ -254,7 +254,7 @@ app
   .use('/product', productRoute)
   .use('/notification_user', notificationUserRoute)
   .use('/time_notification', timeNotificationRoute)
-  .use('/sensors', sensorRoute);
+  .use('/sensor', sensorRoute);
 
 expressOasGenerator.handleRequests();
 

@@ -65,7 +65,7 @@ export default function PureSensorDetail({ history, isAdmin, system, sensorInfo 
   function onRetire() {
     axios
       .post(
-        `${sensorUrl}/unclaim_sensor`,
+        `${sensorUrl}/unclaim`,
         { sensorInfo },
         { headers: { Authorization: `Bearer ${getAccessToken()}` } },
       )

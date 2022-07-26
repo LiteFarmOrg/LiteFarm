@@ -1145,7 +1145,7 @@
     "SPECIFY_PLACEHOLDER": "E.g. {{types}} 1 - 4",
     "TOOLTIP": "Les 40 premiers caractères de ce champ s'afficheront partout où votre plan de gestion est visible.",
     "WIDTH": "Largeur {{type}}",
-    "WORD_LIMIT": "MISSING"
+    "WORD_LIMIT": "Seulement {{limit}} caractères peuvent être montrés."
   },
   "PREPARING_EXPORT": {
     "MESSAGE": "LiteFarm rassemble vos documents de certification en arrière-plan et vous recevrez un courriel lorsque nous aurons terminé - cela peut prendre quelques minutes... Vous pouvez cliquer en dehors de cette case pour continuer à utiliser LiteFarm sans interrompre le processus.",

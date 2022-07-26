@@ -67,7 +67,7 @@ class SensorReading extends Model {
     return await SensorReading.query()
       .joinRaw('JOIN sensor ON sensor_reading.location_id::uuid = sensor.location_id')
       .where('farm_id', farmId)
-      .andWhere('created_at', '>=', pastDate);
+      .andWhere('read_time', '>=', pastDate);
   }
 
   /**

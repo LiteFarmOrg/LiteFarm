@@ -86,38 +86,4 @@ export const createSensorErrorDownload = (downloadFileName, errors, errorType, s
   element.click();
 };
 
-const columnExpections = {
-  fr: {
-    'types_Ã_relevÃ©': 'types_à_relevé',
-    'tempÃ©rature': 'température',
-  },
-  pt: {
-    'tipos_de_mediÃ§Ã£o': 'tipos_de_medição',
-    'teor_de_Ã¡gua_no_solo': 'teor_de_água_no_solo',
-    'potencial_de_Ã¡gua_do_solo': 'potencial_de_água_do_solo',
-  },
-  es: {
-    'tipos_de_mediciÃ³n': 'tipos_de_medición',
-    'potencial_hÃ­drico_del_suelo': 'potencial_hídrico_del_suelo',
-  },
-};
-
-/**
- * Creates a new array with corrected langauge values
- * @param {Array<String>} downloadFileName
- */
-export const handleLangaugeKeywordExecptions = (keyArr, language) => {
-  return (
-    (columnExpections[language] &&
-      keyArr.reduce((acc, cv) => {
-        cv = cv.replace(/\s/g, '').trim();
-        const isPresent = Object.keys(columnExpections[language]).some((key) => key === cv);
-        if (isPresent) acc.push(columnExpections[language][cv]);
-        else acc.push(cv);
-        return acc;
-      }, [])) ??
-    keyArr
-  );
-};
-
 export const SENSOR_BULK_UPLOAD_FAIL = 'SENSOR_BULK_UPLOAD_FAIL';

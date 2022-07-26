@@ -17,10 +17,7 @@ import { useEffect, useRef, useState } from 'react';
 import * as XLSX from 'xlsx';
 import { useSelector } from 'react-redux';
 import { bulkSensorsUploadSliceSelector } from '../../../../containers/bulkSensorUploadSlice';
-import {
-  createSensorErrorDownload,
-  handleLangaugeKeywordExecptions,
-} from '../../../../util/sensor';
+import { createSensorErrorDownload } from '../../../../util/sensor';
 import { ErrorTypes } from './constants';
 
 export function useValidateBulkSensorData(onUpload, t, language) {
@@ -88,7 +85,7 @@ export function useValidateBulkSensorData(onUpload, t, language) {
         if (typeof value !== 'string') return;
         let inputReadingTypes = value.trim().split(',');
         if (!inputReadingTypes.length) return;
-        inputReadingTypes = handleLangaugeKeywordExecptions(inputReadingTypes, language);
+        // inputReadingTypes = handleLangaugeKeywordExecptions(inputReadingTypes, language);
         const invalidReadingTypes = inputReadingTypes.reduce((acc, fieldName) => {
           if (!requiredReadingTypes.includes(fieldName.trim())) {
             acc.push(fieldName.trim());
@@ -228,8 +225,12 @@ export function useValidateBulkSensorData(onUpload, t, language) {
     if (!file) return;
     try {
       setSelectedFileName(file?.name);
-      const data = await file.arrayBuffer();
-      const workBook = XLSX.read(data);
+      const arrBuffer = await file.arrayBuffer();
+      const uint8Array = new Uint8Array(arrBuffer);
+      const readAsUTF8 = new TextDecoder().decode(uint8Array);
+      const workBook = XLSX.read(readAsUTF8, {
+        type: 'string',
+      });
       const sheetErrorList = [];
       let totalErrorCount = 0;
       let isEmptyFile = false;
@@ -238,14 +239,7 @@ export function useValidateBulkSensorData(onUpload, t, language) {
           sheetName: singleSheet,
         };
         const worksheet = workBook.Sheets[singleSheet];
-        // sheet_to_json always return array.
-        let columnsArray = XLSX.utils.sheet_to_json(worksheet, { header: 1 })[0];
-        columnsArray = handleLangaugeKeywordExecptions(columnsArray, language);
-        const jsonData = XLSX.utils.sheet_to_json(worksheet, {
-          defval: '',
-          header: columnsArray,
-          range: 1,
-        });
+        const jsonData = XLSX.utils.sheet_to_json(worksheet, { defval: '' });
         isEmptyFile = !jsonData.length;
         let errors = [];
         errors = checkRequiredColumnsArePresent(jsonData[0]);
@@ -296,7 +290,7 @@ export function useValidateBulkSensorData(onUpload, t, language) {
 
   const onTemplateDownloadClick = () => {
     const element = document.createElement('a');
-    const file = new Blob([templateFields.join(',')], {
+    const file = new Blob([`${'\ufeff'}${templateFields.join(',')}`], {
       type: 'text/plain',
     });
     element.href = URL.createObjectURL(file);

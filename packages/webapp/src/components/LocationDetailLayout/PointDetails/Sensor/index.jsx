@@ -62,26 +62,6 @@ export default function PureSensorDetail({ history, isAdmin, system, sensorInfo,
     mode: 'onChange',
   });
 
-  // function onRetire() {
-  //   axios
-  //     .post(
-  //       `${sensorUrl}/unclaim`,
-  //       { sensorInfo },
-  //       { headers: { Authorization: `Bearer ${getAccessToken()}` } },
-  //     )
-  //     .then(function (res) {
-  //       console.log('success\n', res);
-  //       dispatch(enqueueSuccessSnackbar(t('SENSOR.RETIRE.RETIRE_SUCCESS')));
-  //     })
-  //     .catch(function (error) {
-  //       console.log('failure\n', error);
-  //       dispatch(enqueueErrorSnackbar(t('SENSOR.RETIRE.RETIRE_FAILURE')));
-  //     })
-  //     .then(function () {
-  //       history.push('/map');
-  //     });
-  // }
-
   return (
     <div style={{ padding: '24px 16px 24px 16px' }}>
       <PageTitle

@@ -19,7 +19,7 @@ import { useTranslation } from 'react-i18next';
 import { useEffect } from 'react';
 import { sensorsSelector } from '../../../sensorSlice';
 import { isAdminSelector } from '../../../userFarmSlice';
-import { getSensorReadingTypes, getSensorBrand } from './saga';
+import { getSensorReadingTypes, getSensorBrand, retireSensor } from './saga';
 
 export default function SensorDetail({ history, user, match }) {
   const dispatch = useDispatch();
@@ -34,7 +34,17 @@ export default function SensorDetail({ history, user, match }) {
     dispatch(getSensorBrand({ location_id, partner_id }));
   }, []);
 
+  const confirmRetire = () => {
+    dispatch(retireSensor({ location_id }));
+  };
+
   return (
-    <PureSensorDetail history={history} isAdmin={isAdmin} system={system} sensorInfo={sensorInfo} />
+    <PureSensorDetail
+      history={history}
+      isAdmin={isAdmin}
+      system={system}
+      sensorInfo={sensorInfo}
+      handleRetire={confirmRetire}
+    />
   );
 }

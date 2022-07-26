@@ -565,7 +565,7 @@ const sensorController = {
   async retireSensor(req, res) {
     const trx = await transaction.start(Model.knex());
     try {
-      const { external_id, location_id, farm_id, partner_id, brand_name } = req.body.sensorInfo;
+      const { external_id, location_id, farm_id, partner_id, brand_name } = req.body;
       const user_id = req.user.user_id;
       const { access_token } = await IntegratingPartnersModel.getAccessAndRefreshTokens(
         'Ensemble Scientific',

@@ -16,8 +16,10 @@
 import { call, put, select, takeLatest, takeLeading } from 'redux-saga/effects';
 import { sensorUrl } from '../../../../apiConfig';
 import { loginSelector } from '../../../userFarmSlice';
+import { canShowSuccessHeader, setSuccessMessage } from '../../../mapSlice';
 import { axios, getHeader } from '../../../saga';
 import { createAction } from '@reduxjs/toolkit';
+import { useSelector } from 'react-redux';
 import i18n from '../../../../locales/i18n';
 import history from '../../../../history';
 import { enqueueErrorSnackbar, enqueueSuccessSnackbar } from '../../../Snackbar/snackbarSlice';
@@ -25,11 +27,14 @@ import {
   onLoadingSensorFail,
   onSensorReadingTypesSuccess,
   onSensorBrandSuccess,
+  deleteSensorSuccess,
+  sensorsSelector,
 } from '../../../sensorSlice';
 
 export const patchSensor = createAction(`patchSensorSaga`);
 export const getSensorReadingTypes = createAction('getSensorReadingTypesSaga');
 export const getSensorBrand = createAction('getSensorBrandSaga');
+export const retireSensor = createAction('retireSensorSaga');
 
 export function* patchSensorSaga({ payload: sensorData }) {
   let { user_id, farm_id } = yield select(loginSelector);
@@ -82,8 +87,37 @@ export function* getSensorBrandSaga({ payload: { location_id, partner_id } }) {
   }
 }
 
+export function* retireSensorSaga({ payload: { location_id } }) {
+  try {
+    const sensorInfo = useSelector(sensorsSelector(location_id));
+    let { user_id, farm_id } = yield select(loginSelector);
+    const header = getHeader(user_id, farm_id);
+
+    const result = yield call(axios.post(`${sensorUrl}/unclaim`), { ...sensorInfo }, header);
+    yield put(deleteSensorSuccess(location_id));
+    yield put(
+      setSuccessMessage([i18n.t('FARM_MAP.MAP_FILTER.BARN'), i18n.t('message:MAP.SUCCESS_DELETE')]),
+    );
+    yield put(canShowSuccessHeader(true));
+    history.push({ pathname: '/map' });
+  } catch (error) {
+    history.push(
+      {
+        pathname: '/map',
+      },
+      {
+        error: {
+          retire: true,
+        },
+      },
+    );
+    console.log(error);
+  }
+}
+
 export default function* sensorDetailSaga() {
   yield takeLeading(patchSensor.type, patchSensorSaga);
   yield takeLeading(getSensorReadingTypes.type, getSensorReadingTypesSaga);
   yield takeLeading(getSensorBrand.type, getSensorBrandSaga);
+  yield takeLeading(retireSensor.type, retireSensorSaga);
 }

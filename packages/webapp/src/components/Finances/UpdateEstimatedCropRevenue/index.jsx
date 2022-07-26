@@ -96,7 +96,7 @@ function PureUpdateEstimatedCropRevenue({ system, managementPlan, onGoBack, onSu
       }
     >
       <PageTitle
-        title={'Estimated crop revenue'}
+        title={t('FINANCES.ESTIMATED_REVENUE.ESTIMATED_CROP_REVENUE')}
         onGoBack={onGoBack}
         style={{ marginBottom: '24px' }}
       />

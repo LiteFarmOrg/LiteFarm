@@ -655,7 +655,8 @@
       "ESTIMATED_ANNUAL_REVENUE": "Ingresos anuales estimados",
       "ESTIMATED_ANNUAL_YIELD": "Cosecha anual estimada",
       "ESTIMATED_PRICE_PER_UNIT": "Precio estimado por unidad",
-      "TITLE": "Ingresos estimados"
+      "TITLE": "Ingresos estimados",
+      "ESTIMATED_CROP_REVENUE": "Ingreso estimado del cultivo"
     },
     "REVENUE": "Ingresos",
     "VIEW_WITHIN_DATE_RANGE": "Ver ingresos dentro de este intervalo de fechas",

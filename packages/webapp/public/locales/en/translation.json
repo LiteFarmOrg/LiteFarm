@@ -656,7 +656,8 @@
       "ESTIMATED_ANNUAL_REVENUE": "Estimated annual revenue",
       "ESTIMATED_ANNUAL_YIELD": "Estimated annual harvest",
       "ESTIMATED_PRICE_PER_UNIT": "Estimated price per unit",
-      "TITLE": "Estimated Revenue"
+      "TITLE": "Estimated Revenue",
+      "ESTIMATED_CROP_REVENUE": "Estimated crop revenue"
     },
     "REVENUE": "Revenue",
     "VIEW_WITHIN_DATE_RANGE": "View revenue within this date range",

@@ -4,9 +4,11 @@ import { loginSelector, onLoadingFail, onLoadingStart, onLoadingSuccess } from '
 import { createSelector } from 'reselect';
 import { pick } from '../util/pick';
 
+
 const sensorProperties = [
   'model',
   'depth',
+  'depth_unit',
   'external_id',
   'name',
   'location_id',

@@ -32,7 +32,7 @@ class SensorReading extends Model {
       type: 'object',
       required: [
         'read_time',
-        'sensor_id',
+        'location_id',
         'reading_type',
         'value',
         'unit',
@@ -45,7 +45,7 @@ class SensorReading extends Model {
         reading_id: { type: 'string' },
         read_time: { type: 'timestamp' },
         created_at: { type: 'timestamp' },
-        sensor_id: { type: 'string' },
+        location_id: { type: 'string' },
         reading_type: { type: 'string', minLength: 1, maxLength: 255 },
         value: { type: 'float' },
         unit: { type: 'string', minLength: 1, maxLength: 255 },
@@ -65,7 +65,7 @@ class SensorReading extends Model {
     const pastDate = new Date();
     pastDate.setDate(pastDate.getDate() - days);
     return await SensorReading.query()
-      .joinRaw('JOIN sensor ON sensor_reading.sensor_id::uuid = sensor.sensor_id')
+      .joinRaw('JOIN sensor ON sensor_reading.location_id::uuid = sensor.location_id')
       .where('farm_id', farmId)
       .andWhere('read_time', '>=', pastDate);
   }
@@ -86,13 +86,13 @@ class SensorReading extends Model {
     startDate.setDate(endDate.getDate() - 5);
     return await SensorReading.query()
       .select('*')
-      .joinRaw('JOIN sensor ON sensor_reading.sensor_id::uuid = sensor.sensor_id')
+      .joinRaw('JOIN sensor ON sensor_reading.location_id::uuid = sensor.location_id')
       .whereIn('sensor.location_id', locationIds)
       .andWhere('reading_type', '=', readingType)
       .andWhere('valid', '=', true)
       .andWhere('read_time', '>=', startDate)
       .andWhere('read_time', '<', endDate)
-      .orderBy([{ column: 'sensor_reading.sensor_id' }, { column: 'sensor_reading.read_time' }]);
+      .orderBy([{ column: 'sensor_reading.location_id' }, { column: 'sensor_reading.read_time' }]);
   }
 }
 

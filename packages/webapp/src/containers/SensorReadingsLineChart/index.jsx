@@ -11,12 +11,15 @@ const SensorReadingsLineChart = ({
   yAxisLabel = '',
   locationIds = [],
   readingType = '',
+  weatherStationName = '',
+  noDataText = '',
+  ambientTempFor = '',
 }) => {
   const {
     sensorsReadingsOfTemperature = [],
     yAxisDataKeys = [],
     lineColors = [],
-  } = useSensorReadingsLineChart(locationIds, readingType);
+  } = useSensorReadingsLineChart(locationIds, readingType, noDataText, ambientTempFor);
   return (
     <PureSensorReadingsLineChart
       title={title}
@@ -27,6 +30,7 @@ const SensorReadingsLineChart = ({
       xAxisLabel={xAxisLabel}
       yAxisLabel={yAxisLabel}
       chartData={sensorsReadingsOfTemperature}
+      weatherStationName={weatherStationName}
     />
   );
 };
@@ -39,6 +43,9 @@ SensorReadingsLineChart.propTypes = {
   yAxisLabel: PropTypes.string.isRequired,
   locationIds: PropTypes.array.isRequired,
   readingType: PropTypes.string.isRequired,
+  weatherStationName: PropTypes.string.isRequired,
+  noDataText: PropTypes.string.isRequired,
+  ambientTempFor: PropTypes.string.isRequired,
 };
 
 export default SensorReadingsLineChart;

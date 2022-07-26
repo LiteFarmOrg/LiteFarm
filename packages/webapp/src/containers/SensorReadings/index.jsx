@@ -6,31 +6,32 @@ import { CURRENT_DATE_TIME } from './constants';
 import PageTitle from '../../components/PageTitle/v2';
 import RouterTab from '../../components/RouterTab';
 import { bulkSensorsReadingsSliceSelector } from '../bulkSensorReadingsSlice';
-import { weatherSelector } from '../WeatherBoard/weatherSlice';
 import { sensorsSelector } from '../sensorSlice';
 import utils from '../WeatherBoard/utils';
 import { TEMPERATURE } from './constants';
+import { measurementSelector } from '../../containers/userFarmSlice';
 
 function SensorReadings({ history, match }) {
   const { t } = useTranslation();
 
   const { location_id = '' } = match?.params;
   const sensorInfo = useSelector(sensorsSelector(location_id));
-  const { latestMinTemperature = '', latestMaxTemperature = '' } = useSelector(
-    bulkSensorsReadingsSliceSelector,
-  );
-  const { measurement } = useSelector(weatherSelector);
-  const { tempUnit } = utils.getUnits(measurement);
-
+  const {
+    latestMinTemperature = '',
+    latestMaxTemperature = '',
+    nearestStationName = '',
+  } = useSelector(bulkSensorsReadingsSliceSelector);
+  const measurementUnit = useSelector(measurementSelector);
+  const { tempUnit } = utils.getUnits(measurementUnit);
   return (
-    <div style={{ padding: '24px 16px', height: '100%' }}>
+    <div style={{ padding: '24px 16px 24px 24px', height: '100%' }}>
       <PageTitle
         title={sensorInfo.name}
         onGoBack={() => history.push('/map')}
         style={{ marginBottom: '24px' }}
       />
       <RouterTab
-        classes={{ container: { margin: '24px 0' } }}
+        classes={{ container: { margin: '30px 8px 26px 0px' } }}
         history={history}
         tabs={[
           {
@@ -54,12 +55,17 @@ function SensorReadings({ history, match }) {
           low: latestMinTemperature,
           tempUnit: tempUnit ?? 'C',
         })}
+        weatherStationName={t('SENSOR.TEMPERATURE_READINGS_OF_SENSOR.WEATHER_STATION', {
+          weatherStationLocation: nearestStationName,
+        })}
         xAxisDataKey={CURRENT_DATE_TIME}
         yAxisLabel={t('SENSOR.TEMPERATURE_READINGS_OF_SENSOR.Y_AXIS_LABEL', {
           tempUnit: tempUnit ?? 'C',
         })}
         locationIds={[location_id]}
         readingType={TEMPERATURE}
+        noDataText={t('SENSOR.TEMPERATURE_READINGS_OF_SENSOR.NO_DATA')}
+        ambientTempFor={t('SENSOR.TEMPERATURE_READINGS_OF_SENSOR.AMBIENT_TEMPERATURE_FOR')}
       />
     </div>
   );

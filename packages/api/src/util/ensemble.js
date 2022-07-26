@@ -94,7 +94,7 @@ async function registerOrganizationWebhook(farmId, organizationId, accessToken) 
       method: 'post',
       url: `${ensembleAPI}/organizations/${organizationId}/webhooks/`,
       data: {
-        url: `${baseUrl}/sensors/add_reading/1/${farmId}`,
+        url: `${baseUrl}/sensor/reading/partner/1/farm/${farmId}`,
         authorization_header: authHeader,
         frequency: 15,
       },

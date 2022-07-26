@@ -21,7 +21,7 @@ const addManySensorReadings = (state, { payload: sensorReadings }) => {
 };
 
 const mapSensorAdapter = createEntityAdapter({
-  selectId: (sensorReading) => sensorReading.sensor_id,
+  selectId: (sensorReading) => sensorReading.location_id,
 });
 
 const mapSensorSlice = createSlice({

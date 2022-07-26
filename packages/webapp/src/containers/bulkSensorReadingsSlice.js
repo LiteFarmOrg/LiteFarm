@@ -6,6 +6,7 @@ const initialState = {
   selectedSensorName: '',
   latestMinTemperature: null,
   latestMaxTemperature: null,
+  nearestStationName: '',
 };
 
 const bulkSensorsReadingsSlice = createSlice({
@@ -19,6 +20,7 @@ const bulkSensorsReadingsSlice = createSlice({
         selectedSensorName: '',
         latestMinTemperature: null,
         latestMaxTemperature: null,
+        nearestStationName: '',
       });
     },
     bulkSensorReadingsLoading: (state, action) => {
@@ -28,6 +30,7 @@ const bulkSensorsReadingsSlice = createSlice({
         selectedSensorName: '',
         latestMinTemperature: null,
         latestMaxTemperature: null,
+        nearestStationName: '',
       });
     },
     bulkSensorReadingsSuccess: (state, { payload }) => {
@@ -38,6 +41,7 @@ const bulkSensorsReadingsSlice = createSlice({
           selectedSensorName: payload?.selectedSensorName,
           latestMinTemperature: payload?.latestTemperatureReadings?.tempMin,
           latestMaxTemperature: payload?.latestTemperatureReadings?.tempMax,
+          nearestStationName: payload?.nearestStationName,
         });
       }
     },
@@ -45,6 +49,7 @@ const bulkSensorsReadingsSlice = createSlice({
       state.loading = true;
       state.sensorsReadingsOfTemperature = [];
       state.selectedSensorName = '';
+      state.nearestStationName = '';
       (state.latestMinTemperature = null), (state.latestMaxTemperature = null);
     },
   },

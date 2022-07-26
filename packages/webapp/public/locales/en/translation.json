@@ -1400,8 +1400,7 @@
     "DEPTH": "Depth",
     "BRAND": "Brand",
     "VALIDATION": {
-      "SENSOR_LATITUDE": "Invalid latitude value, must be between -90 and 90. and fewer than 10 decimals.",
-      "SENSOR_LONGITUDE": "Invalid longitude value, must be between -180 and 180. and fewer than 10 decimals."
+      "READING_TYPES": "Sensor reading types are required"
     },
     "MODAL": {
       "TITLE": "Change reading types?",
@@ -1445,7 +1444,10 @@
     "TEMPERATURE_READINGS_OF_SENSOR": {
       "TITLE": "Soil temperature",
       "SUBTITLE": "Today’s ambient high and low temperature: {{high}}{{tempUnit}} / {{low}}{{tempUnit}}",
-      "Y_AXIS_LABEL": "Temperature in {{tempUnit}}"
+      "Y_AXIS_LABEL": "Temperature in {{tempUnit}}",
+      "WEATHER_STATION": "Weather station: {{weatherStationLocation}}",
+      "NO_DATA": "(no data)",
+      "AMBIENT_TEMPERATURE_FOR": "Ambient temperature for"
     }
   },
   "SHIFT": {

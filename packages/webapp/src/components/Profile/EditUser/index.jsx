@@ -34,6 +34,7 @@ export default function PureEditUser({
     3: t('role:WORKER'),
     5: t('role:EXTENSION_OFFICER'),
   };
+
   const genderOptions = [
     { value: 'MALE', label: t('gender:MALE') },
     { value: 'FEMALE', label: t('gender:FEMALE') },
@@ -51,6 +52,7 @@ export default function PureEditUser({
     value: role_id,
     label: dropDownMap[role_id],
   }));
+
   const roleOption = isPseudoUser
     ? { value: 3, label: dropDownMap[3] }
     : { value: userFarm.role_id, label: dropDownMap[userFarm.role_id] };

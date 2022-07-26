@@ -32,7 +32,6 @@ if (VITE_NGROK_API && hostNameSplit && hostNameSplit.length > 1 && hostNameSplit
     URI = 'https://api.beta.litefarm.org';
   }
 }
-console.table({ URI, VITE_NGROK_API, ENV });
 
 export const userUrl = `${URI}/user`;
 export const pseudoUserUrl = `${URI}/user/pseudo`;
@@ -73,7 +72,7 @@ export const productsUrl = `${URI}/product`;
 export const alertsUrl = `${URI}/notification_user/subscribe`;
 export const notificationsUrl = `${URI}/notification_user`;
 export const clearAlertsUrl = `${URI}/notification_user/clear_alerts`;
-export const sensorUrl = `${URI}/sensors`;
+export const sensorUrl = `${URI}/sensor`;
 export const url = URI;
 
 export default {

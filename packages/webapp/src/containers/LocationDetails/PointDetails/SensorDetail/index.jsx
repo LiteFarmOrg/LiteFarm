@@ -35,7 +35,7 @@ export default function SensorDetail({ history, user, match }) {
   }, []);
 
   const confirmRetire = () => {
-    dispatch(retireSensor({ location_id }));
+    dispatch(retireSensor({ sensorInfo }));
   };
 
   return (

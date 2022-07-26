@@ -87,32 +87,19 @@ export function* getSensorBrandSaga({ payload: { location_id, partner_id } }) {
   }
 }
 
-export function* retireSensorSaga({ payload: { location_id } }) {
+export function* retireSensorSaga({ payload: { sensorInfo } }) {
+  let { user_id, farm_id } = yield select(loginSelector);
+  const header = getHeader(user_id, farm_id);
+  const { location_id } = sensorInfo;
   try {
-    const sensorInfo = useSelector(sensorsSelector(location_id));
-    let { user_id, farm_id } = yield select(loginSelector);
-    const header = getHeader(user_id, farm_id);
-
-    const result = yield call(axios.post(`${sensorUrl}/unclaim`), { ...sensorInfo }, header);
+    yield call(axios.post, `${sensorUrl}/unclaim`, sensorInfo, header);
     yield put(deleteSensorSuccess(location_id));
-    yield put(
-      setSuccessMessage([i18n.t('FARM_MAP.MAP_FILTER.BARN'), i18n.t('message:MAP.SUCCESS_DELETE')]),
-    );
-    yield put(canShowSuccessHeader(true));
-    history.push({ pathname: '/map' });
+    yield put(enqueueSuccessSnackbar(i18n.t('SENSOR.RETIRE.RETIRE_SUCCESS')));
   } catch (error) {
-    history.push(
-      {
-        pathname: '/map',
-      },
-      {
-        error: {
-          retire: true,
-        },
-      },
-    );
+    yield put(enqueueErrorSnackbar(i18n.t('SENSOR.RETIRE.RETIRE_FAILURE')));
     console.log(error);
   }
+  history.push({ pathname: '/map' });
 }
 
 export default function* sensorDetailSaga() {

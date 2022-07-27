@@ -87,6 +87,7 @@ class SensorReading extends Model {
     return await SensorReading.query()
       .select('*')
       .joinRaw('JOIN sensor ON sensor_reading.location_id::uuid = sensor.location_id')
+      .joinRaw('JOIN location ON location.location_id::uuid = sensor.location_id::uuid')
       .whereIn('sensor.location_id', locationIds)
       .andWhere('reading_type', '=', readingType)
       .andWhere('valid', '=', true)

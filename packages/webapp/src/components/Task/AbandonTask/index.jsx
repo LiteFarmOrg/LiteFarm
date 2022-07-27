@@ -126,7 +126,7 @@ const PureAbandonTask = ({
                   display: 'inline-block',
                 }}
               >
-                {<Infoi style={{ marginLeft: '8px' }} content={t('TASK.ABANDON_TASK_HELPTEXT')} />}
+                {<Infoi content={t('TASK.ABANDON_TASK_HELPTEXT')} />}
               </Label>
             </div>
           </div>

@@ -58,7 +58,7 @@ export default function PurePreviewPopup({ location, history, sensorReadings, st
   if (sensorReadings.length) {
     temperatureData = sensorReadings.filter(
       (sensorReading) =>
-        sensorReading.reading_type === 'temperature' && sensorReading.read_time > sixHoursBefore,
+        sensorReading.reading_type === 'temperature' && new Date(sensorReading.read_time) > sixHoursBefore,
     );
   }
 

@@ -224,8 +224,12 @@ export function useValidateBulkSensorData(onUpload, t) {
     if (!file) return;
     try {
       setSelectedFileName(file?.name);
-      const data = await file.arrayBuffer();
-      const workBook = XLSX.read(data);
+      const arrBuffer = await file.arrayBuffer();
+      const uint8Array = new Uint8Array(arrBuffer);
+      const readAsUTF8 = new TextDecoder().decode(uint8Array);
+      const workBook = XLSX.read(readAsUTF8, {
+        type: 'string',
+      });
       const sheetErrorList = [];
       let totalErrorCount = 0;
       let isEmptyFile = false;
@@ -286,7 +290,7 @@ export function useValidateBulkSensorData(onUpload, t) {
 
   const onTemplateDownloadClick = () => {
     const element = document.createElement('a');
-    const file = new Blob([templateFields.join(',')], {
+    const file = new Blob([`${'\ufeff'}${templateFields.join(',')}`], {
       type: 'text/plain',
     });
     element.href = URL.createObjectURL(file);

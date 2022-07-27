@@ -92,7 +92,7 @@ export function* retireSensorSaga({ payload: { sensorInfo } }) {
   const header = getHeader(user_id, farm_id);
   const { location_id } = sensorInfo;
   try {
-    yield call(axios.post, `${sensorUrl}/unclaim`, sensorInfo, header);
+    yield call(axios.post, `${sensorUrl}/unclaim`, { location_id }, header);
     yield put(deleteSensorSuccess(location_id));
     yield put(enqueueSuccessSnackbar(i18n.t('SENSOR.RETIRE.RETIRE_SUCCESS')));
   } catch (error) {

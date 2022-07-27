@@ -565,13 +565,27 @@ const sensorController = {
   async retireSensor(req, res) {
     const trx = await transaction.start(Model.knex());
     try {
-      const { external_id, location_id, farm_id, partner_id, brand_name } = req.body;
+      const { location_id } = req.body;
+
+      const location = await baseController.getByFieldId(LocationModel, 'location_id', location_id);
+      const { farm_id } = location[0];
+
+      const sensor = await baseController.getByFieldId(SensorModel, 'location_id', location_id);
+      const { external_id, partner_id } = sensor[0];
+
+      const brand = await baseController.getByFieldId(
+        IntegratingPartnersModel,
+        'partner_id',
+        partner_id,
+      );
+      const { partner_name } = brand[0];
+
       const user_id = req.user.user_id;
       const { access_token } = await IntegratingPartnersModel.getAccessAndRefreshTokens(
         'Ensemble Scientific',
       );
       let unclaimResponse;
-      if (brand_name != 'No Integrating Partner' && external_id != '') {
+      if (partner_name != 'No Integrating Partner' && external_id != '') {
         const external_integrations_response = await FarmExternalIntegrationsModel.getOrganizationId(
           farm_id,
           partner_id,

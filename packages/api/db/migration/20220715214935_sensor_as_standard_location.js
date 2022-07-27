@@ -17,6 +17,7 @@ exports.up = async function (knex) {
       .notNullable();
     table.string('external_id').notNullable();
     table.float('depth');
+    table.enu('depth_unit', ['cm', 'm', 'in', 'ft']).defaultTo('cm');
     table.float('elevation');
     table.string('model');
   });

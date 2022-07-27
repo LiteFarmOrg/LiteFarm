@@ -6,7 +6,6 @@ import { Info, Main } from '../../Typography';
 import { useTranslation } from 'react-i18next';
 import Button from '../../Form/Button';
 import ReactSelect from '../../Form/ReactSelect';
-import { BsInfoCircleFill } from 'react-icons/bs';
 import { Controller, useForm } from 'react-hook-form';
 import InputAutoSize from '../../Form/InputAutoSize';
 import Input from '../../Form/Input';
@@ -14,8 +13,8 @@ import TimeSlider from '../../Form/Slider/TimeSlider';
 import Checkbox from '../../Form/Checkbox';
 import Rating from '../../Rating';
 import { getDateInputFormat } from '../../../util/moment';
-import InfoBoxComponent from '../../InfoBoxComponent';
-import { Tooltip } from '@material-ui/core';
+import Infoi from '../../Tooltip/Infoi';
+import { Label } from '../../Typography';
 
 const PureAbandonTask = ({
   onSubmit,
@@ -118,15 +117,18 @@ const PureAbandonTask = ({
         <>
           <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
             <Main style={{ marginBottom: '24px' }}>{t('TASK.ABANDON_TASK_DURATION')}</Main>
-            <InfoBoxComponent
-              customStyle={{
-                float: 'right',
-                fontSize: '80%',
-                position: 'relative',
-              }}
-              title={t('TASK.ABANDON_TASK_DURATION')}
-              body={t('TASK.ABANDON_TASK_HELPTEXT')}
-            />
+            <div style={{ marginBottom: '16px' }}>
+              <Label
+                style={{
+                  paddingRight: '10px',
+                  fontSize: '16px',
+                  lineHeight: '20px',
+                  display: 'inline-block',
+                }}
+              >
+                {<Infoi style={{ marginLeft: '8px' }} content={t('TASK.ABANDON_TASK_HELPTEXT')} />}
+              </Label>
+            </div>
           </div>
 
           {!no_work_completed && (

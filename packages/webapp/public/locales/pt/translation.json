@@ -1515,6 +1515,7 @@
     },
     "ABANDON_TASK": "Abandonar esta tarefa",
     "ABANDON_TASK_DURATION": "Algum trabalho foi concluído para esta tarefa?",
+    "ABANDON_TASK_HELPTEXT": "MISSING",
     "ABANDONMENT_DETAILS": "Detalhes do abandono da tarefa",
     "ADD_CUSTOM_HARVEST_USE": "Crie um uso de colheita personalizado",
     "ADD_HARVEST_USE": "Adicionar outro uso para a colheita",

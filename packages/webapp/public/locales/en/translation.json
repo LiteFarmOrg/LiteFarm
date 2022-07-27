@@ -1574,6 +1574,7 @@
     },
     "ABANDON_TASK": "Abandon this task",
     "ABANDON_TASK_DURATION": "Was any work completed for this task?",
+    "ABANDON_TASK_HELPTEXT": "Work completed on this abandoned task will be incorporated into labour costs. If no work was completed, please select that instead.",
     "ABANDONMENT_DETAILS": "Task abandonment details",
     "ADD_CUSTOM_HARVEST_USE": "Create a custom harvest use",
     "ADD_HARVEST_USE": "Add another harvest use",

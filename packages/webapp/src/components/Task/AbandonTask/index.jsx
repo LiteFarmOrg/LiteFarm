@@ -6,6 +6,7 @@ import { Info, Main } from '../../Typography';
 import { useTranslation } from 'react-i18next';
 import Button from '../../Form/Button';
 import ReactSelect from '../../Form/ReactSelect';
+import { BsInfoCircleFill } from 'react-icons/bs';
 import { Controller, useForm } from 'react-hook-form';
 import InputAutoSize from '../../Form/InputAutoSize';
 import Input from '../../Form/Input';
@@ -13,6 +14,8 @@ import TimeSlider from '../../Form/Slider/TimeSlider';
 import Checkbox from '../../Form/Checkbox';
 import Rating from '../../Rating';
 import { getDateInputFormat } from '../../../util/moment';
+import InfoBoxComponent from '../../InfoBoxComponent';
+import { Tooltip } from '@material-ui/core';
 
 const PureAbandonTask = ({
   onSubmit,
@@ -113,7 +116,18 @@ const PureAbandonTask = ({
 
       {hasAssignee && (
         <>
-          <Main style={{ marginBottom: '24px' }}>{t('TASK.ABANDON_TASK_DURATION')}</Main>
+          <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
+            <Main style={{ marginBottom: '24px' }}>{t('TASK.ABANDON_TASK_DURATION')}</Main>
+            <InfoBoxComponent
+              customStyle={{
+                float: 'right',
+                fontSize: '80%',
+                position: 'relative',
+              }}
+              title={t('TASK.ABANDON_TASK_DURATION')}
+              body={t('TASK.ABANDON_TASK_HELPTEXT')}
+            />
+          </div>
 
           {!no_work_completed && (
             <TimeSlider

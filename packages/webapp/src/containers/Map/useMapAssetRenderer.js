@@ -228,15 +228,16 @@ const useMapAssetRenderer = ({ isClickable, showingConfirmButtons, drawingState 
       const locationType = assets[idx].type !== undefined ? assets[idx].type : idx;
       assets[idx].type === undefined
         ? assets[locationType].forEach((location) => {
-            newState[locationType]?.push(
-              assetFunctionMap(locationType)(
-                map,
-                maps,
-                mapBounds,
-                location,
-                filterSettings?.[locationType],
-              ),
-            );
+            !newState[locationType].find((l) => l.location_id === location.location_id) &&
+              newState[locationType]?.push(
+                assetFunctionMap(locationType)(
+                  map,
+                  maps,
+                  mapBounds,
+                  location,
+                  filterSettings?.[locationType],
+                ),
+              );
           })
         : newState[locationType]?.push(
             assetFunctionMap(locationType)(
@@ -259,6 +260,7 @@ const useMapAssetRenderer = ({ isClickable, showingConfirmButtons, drawingState 
     createMarkerClusters(maps, map, pointsArray);
     // TODO: only fitBounds if there is at least one location in the farm
     hasLocation && map.fitBounds(mapBounds);
+    return mapBounds;
   };
 
   // Draw an area

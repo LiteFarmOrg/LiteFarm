@@ -80,6 +80,9 @@ export default function Map({ history }) {
   const system = useSelector(measurementSelector);
   const overlayData = useSelector(hookFormPersistSelector);
   const bulkSensorsUploadResponse = useSelector(bulkSensorsUploadSliceSelector);
+  const [gMap, setGMap] = useState(null);
+  const [gMaps, setGMaps] = useState(null);
+  const [gMapBounds, setGMapBounds] = useState(null);
 
   const lineTypesWithWidth = [locationEnum.buffer_zone, locationEnum.watercourse];
   const { t } = useTranslation();
@@ -301,7 +304,7 @@ export default function Map({ history }) {
 
     // Drawing locations on map
     let mapBounds = new maps.LatLngBounds();
-    drawAssets(map, maps, mapBounds);
+    const bounds = drawAssets(map, maps, mapBounds);
 
     if (history.location.state?.isStepBack) {
       reconstructOverlay();
@@ -314,6 +317,9 @@ export default function Map({ history }) {
         map.setCenter(location);
       }
     }
+    setGMap(map);
+    setGMaps(maps);
+    setGMapBounds(bounds);
   };
 
   const handleClickAdd = () => {
@@ -384,9 +390,12 @@ export default function Map({ history }) {
     setShowSuccessHeader(false);
     if (bulkSensorsUploadResponse?.isBulkUploadSuccessful) {
       dispatch(bulkSensorsUploadReInit());
-      history.go(0);
     }
   };
+
+  useEffect(() => {
+    gMap && gMaps && gMapBounds && drawAssets(gMap, gMaps, gMapBounds);
+  }, [bulkSensorsUploadResponse?.success?.length]);
 
   const handleDownload = () => {
     html2canvas(mapWrapperRef.current, { useCORS: true }).then((canvas) => {

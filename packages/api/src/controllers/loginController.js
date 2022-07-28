@@ -31,6 +31,11 @@ const loginController = {
       // uses email to identify which user is attempting to log in, can also use user_id for this
       const { email, password } = req.body.user;
       const { screen_width, screen_height } = req.body.screenSize;
+      if (!screen_height || !screen_width) {
+        return res
+          .status(400)
+          .send({ message: 'Missing screen_height and screen_width in request body.' });
+      }
       const ua = parser(req.headers['user-agent']);
       const languages = req.acceptsLanguages();
       let userID;
@@ -45,6 +50,24 @@ const loginController = {
 
       try {
         const userData = await userModel.query().select('*').where('email', email).first();
+        if (!userData || !userData?.user_id) {
+          await userLogModel.query().insert({
+            user_id: null,
+            ip,
+            languages,
+            browser: ua.browser.name,
+            browser_version: ua.browser.version,
+            os: ua.os.name,
+            os_version: ua.os.version,
+            device_vendor: ua.device.vendor,
+            device_model: ua.device.model,
+            device_type: ua.device.type,
+            screen_width,
+            screen_height,
+            reason_for_failure: 'missing_user',
+          });
+          return res.sendStatus(403);
+        }
         userID = userData.user_id;
         const pwData = await passwordModel.query().select('*').where('user_id', userID).first();
         const isMatch = await bcrypt.compare(password, pwData?.password_hash);

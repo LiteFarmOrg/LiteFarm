@@ -45,13 +45,9 @@ const loginController = {
 
       try {
         const userData = await userModel.query().select('*').where('email', email).first();
-        const pwData = await passwordModel
-          .query()
-          .select('*')
-          .where('user_id', userData.user_id)
-          .first();
-        const isMatch = await bcrypt.compare(password, pwData.password_hash);
         userID = userData.user_id;
+        const pwData = await passwordModel.query().select('*').where('user_id', userID).first();
+        const isMatch = await bcrypt.compare(password, pwData?.password_hash);
         if (!isMatch) {
           await userLogModel.query().insert({
             user_id: userID,

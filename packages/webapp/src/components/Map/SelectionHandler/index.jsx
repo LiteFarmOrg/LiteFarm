@@ -5,6 +5,7 @@ import { containsCrops } from '../../../containers/Map/constants';
 import { makeStyles } from '@material-ui/core/styles';
 import { colors } from '../../../assets/theme';
 import PurePreviewPopup from '../PreviewPopup';
+import { SENSOR } from '../../../containers/SensorReadings/constants';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -73,7 +74,7 @@ export default function PureSelectionHandler({ locations, history, sensorReading
   };
 
   const handleClick = (location, idx) => {
-    if (location.type === 'sensor' && longPressed) {
+    if (location.type === SENSOR && longPressed) {
       setIsSensor(true);
       setSensorIdx(idx);
     } else {

@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { makeStyles } from '@material-ui/core/styles';
 import { colors } from '../../../assets/theme';
 import CompactPreview from './CompactPreview';
+import { TEMPERATURE } from '../../../containers/SensorReadings/constants';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -58,7 +59,8 @@ export default function PurePreviewPopup({ location, history, sensorReadings, st
   if (sensorReadings.length) {
     temperatureData = sensorReadings.filter(
       (sensorReading) =>
-        sensorReading.reading_type === 'temperature' && new Date(sensorReading.read_time) > sixHoursBefore,
+        sensorReading.reading_type === TEMPERATURE &&
+        new Date(sensorReading.read_time) > sixHoursBefore,
     );
   }
 

@@ -11,7 +11,9 @@ export default function EditUser({ history, match }) {
   const userFarmsEntities = useSelector(userFarmEntitiesSelector);
   const { user_id } = match.params;
   const userFarm = userFarmsEntities[farm_id]?.[user_id];
-  const userFarmEmails = Object.values(userFarmsEntities[farm_id]).map((user) => user.email);
+  const userFarmEmails = Object.values(userFarmsEntities[farm_id]).map((user) =>
+    user.email.toLowerCase(),
+  );
 
   const isCurrentUser = useMemo(() => {
     return user_id === currentUserId;

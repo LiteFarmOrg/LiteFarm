@@ -222,6 +222,8 @@ const useMapAssetRenderer = ({ isClickable, showingConfirmButtons, drawingState 
       });
       setFarmLocationMarker(locationMarker);
       mapBounds.extend(grid_points);
+    } else if (farmLocationMarker) {
+      farmLocationMarker?.setMap(null);
     }
 
     assetsWithLocations.forEach((idx) => {

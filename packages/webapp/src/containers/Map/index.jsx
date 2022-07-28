@@ -69,6 +69,7 @@ import {
 } from '../../containers/bulkSensorUploadSlice';
 import LocationSelectionModal from './LocationSelectionModal';
 import { useMaxZoom } from './useMaxZoom';
+import { sensorSelector } from '../sensorSlice';
 
 export default function Map({ history }) {
   const windowInnerHeight = useWindowInnerHeight();
@@ -80,6 +81,7 @@ export default function Map({ history }) {
   const system = useSelector(measurementSelector);
   const overlayData = useSelector(hookFormPersistSelector);
   const bulkSensorsUploadResponse = useSelector(bulkSensorsUploadSliceSelector);
+  const sensors = useSelector(sensorSelector);
   const [gMap, setGMap] = useState(null);
   const [gMaps, setGMaps] = useState(null);
   const [gMapBounds, setGMapBounds] = useState(null);
@@ -394,8 +396,11 @@ export default function Map({ history }) {
   };
 
   useEffect(() => {
-    gMap && gMaps && gMapBounds && drawAssets(gMap, gMaps, gMapBounds);
-  }, [bulkSensorsUploadResponse?.success?.length]);
+    if (gMap && gMaps && gMapBounds) {
+      const newBounds = drawAssets(gMap, gMaps, gMapBounds);
+      setGMapBounds(newBounds);
+    }
+  }, [sensors]);
 
   const handleDownload = () => {
     html2canvas(mapWrapperRef.current, { useCORS: true }).then((canvas) => {

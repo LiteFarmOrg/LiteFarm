@@ -98,7 +98,7 @@ describe.only('Invite user tests', () => {
       cy.get('*[class^="rt-tr-group"]').eq(0).contains(emailUser).should('exist');
       cy.get('*[class^="rt-tr-group"]').eq(0).contains(inviteeRole).should('exist');
       cy.get('*[class^="rt-tr-group"]').eq(0).contains(Status).should('exist');
-      cy.pause();
+      //cy.pause();
       //cy.get('.ReactTable').getTable().should(tableData => {
       //  expected.forEach(item => expect(tableData).to.deep.include(item))
       //})

@@ -271,7 +271,7 @@ const userController = {
         return res.status(400).send('Current app version only allows hourly wage');
       }
       /* End of input validation */
-      await baseController.post(userModel, req.body, req, { trx });
+      const user = await baseController.post(userModel, req.body, req, { trx });
       await userFarmModel.query(trx).insert({
         user_id,
         farm_id,
@@ -294,7 +294,7 @@ const userController = {
         .first()
         .select('*');
       await trx.commit();
-      res.status(201).send(userFarm);
+      res.status(201).send({ ...user, ...userFarm });
     } catch (error) {
       // handle more exceptions
       await trx.rollback();

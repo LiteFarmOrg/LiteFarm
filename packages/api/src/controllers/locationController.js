@@ -6,7 +6,8 @@ const LocationController = {
   getLocationsByFarm() {
     return async (req, res, next) => {
       const { farm_id } = req.params;
-      const locations = await LocationModel.query().where({ farm_id }).withGraphJoined(`[
+      const locations = await LocationModel.query().where({ 'location.farm_id': farm_id })
+        .withGraphJoined(`[
           figure.[area, line, point], 
           gate, water_valve, field, garden, buffer_zone, watercourse, fence, 
           ceremonial_area, residence, surface_water, natural_area,

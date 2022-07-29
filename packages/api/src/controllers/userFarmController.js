@@ -500,7 +500,7 @@ const userFarmController = {
   patchPseudoUserEmail() {
     return async (req, res) => {
       const { user_id, farm_id } = req.params;
-      const { email } = req.body;
+      const { email, gender, birth_year, language, phone_number } = req.body;
       const roleIdAndWage = {};
       roleIdAndWage.role_id = !req.body.role_id || req.body.role_id === 4 ? 3 : req.body.role_id;
       if (req.body.wage) {
@@ -548,6 +548,10 @@ const userFarmController = {
               .patch({
                 email,
                 status_id: 2,
+                phone_number,
+                language_preference: language,
+                gender,
+                birth_year,
               })
               .returning('*');
             await userFarmModel
@@ -573,7 +577,12 @@ const userFarmController = {
         res.status(201).send(userFarm);
         try {
           const { farm_name } = userFarm;
-          await emailModel.createTokenSendEmail(userFarm, userFarm, farm_name);
+          const user = await userModel.getUserByEmail(email);
+          await emailModel.createTokenSendEmail(
+            { email, gender, birth_year, language: user ? user.language_preference : language },
+            userFarm,
+            farm_name,
+          );
         } catch (e) {
           console.log(e);
         }

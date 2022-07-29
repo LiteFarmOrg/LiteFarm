@@ -1,6 +1,6 @@
 /*
- *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>
- *  This file (harvestLogModel.js) is part of LiteFarm.
+ *  Copyright 2019, 2020, 2021, 2022 LiteFarm.org
+ *  This file is part of LiteFarm.
  *
  *  LiteFarm is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by

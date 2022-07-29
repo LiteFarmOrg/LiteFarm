@@ -13,8 +13,9 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const Model = require('objection').Model;
+const { transaction, Model } = require('objection');
 const baseModel = require('./baseModel');
+const { getNonModifiable } = require('../middleware/validation/location');
 
 class Location extends baseModel {
   static get tableName() {
@@ -186,6 +187,14 @@ class Location extends baseModel {
             },
             to: 'task.task_id',
           },
+        },
+      },
+      sensor: {
+        modelClass: require('./sensorModel'),
+        relation: Model.HasOneRelation,
+        join: {
+          from: 'location.location_id',
+          to: 'sensor.location_id',
         },
       },
     };

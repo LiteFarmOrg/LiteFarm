@@ -32,24 +32,8 @@ class Figure extends Model {
       properties: {
         type: {
           type: 'string',
-          enum: [
-            'gate',
-            'water_valve',
-            'farm_site_boundary',
-            'field',
-            'garden',
-            'buffer_zone',
-            'watercourse',
-            'fence',
-            'ceremonial_area',
-            'residence',
-            'surface_water',
-            'natural_area',
-            'greenhouse',
-            'barn',
-            'pin',
-            'sensor',
-          ],
+          enum: ['gate', 'water_valve', 'farm_site_boundary', 'field', 'garden', 'buffer_zone', 'watercourse', 'fence', 'ceremonial_area',
+            'residence', 'surface_water', 'natural_area', 'greenhouse', 'barn', 'pin'],
         },
         location_id: { type: 'string' },
         figure_id: { type: 'string' },
@@ -86,6 +70,7 @@ class Figure extends Model {
           to: 'line.figure_id',
         },
       },
+
     };
   }
 }

@@ -182,7 +182,7 @@ class userFarm extends Model {
    * @returns {Object} Object {userId} of FM/FO/EO
    */
   static async getFarmManagementByFarmId(farmId) {
-    return userFarm
+    return await userFarm
       .query()
       .select('user_id')
       .whereIn('role_id', [1, 2, 5])
@@ -197,7 +197,7 @@ class userFarm extends Model {
    * @returns {Array} Array [user_id]
    */
   static async getActiveUsersFromFarmId(farmId) {
-    return userFarm
+    return await userFarm
       .query()
       .select('userFarm.user_id')
       .join('users', 'userFarm.user_id', 'users.user_id')

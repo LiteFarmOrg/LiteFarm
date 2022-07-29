@@ -25,14 +25,14 @@ const User = require('../models/userModel');
 
 const { typesOfTask } = require('./../middleware/validation/task');
 const adminRoles = [1, 2, 5];
-const isDateInPast = (date) => {
-  const today = new Date();
-  const newDate = new Date(date);
-  if (newDate.setUTCHours(0, 0, 0, 0) < today.setUTCHours(0, 0, 0, 0)) {
-    return true;
-  }
-  return false;
-};
+// const isDateInPast = (date) => {
+//   const today = new Date();
+//   const newDate = new Date(date);
+//   if (newDate.setUTCHours(0, 0, 0, 0) < today.setUTCHours(0, 0, 0, 0)) {
+//     return true;
+//   }
+//   return false;
+// };
 
 const taskController = {
   async assignTask(req, res) {
@@ -58,19 +58,6 @@ const taskController = {
         farm_id,
         user_id,
       );
-
-      if (newAssigneeUserId === null) {
-        const farmManagementObjs = await userFarmModel.getFarmManagementByFarmId(farm_id);
-        const farmManagement = farmManagementObjs.map((obj) => obj.user_id);
-        await sendTaskNotification(
-          farmManagement,
-          user_id,
-          task_id,
-          TaskNotificationTypes.TASK_UNASSIGNED,
-          task_translation_key,
-          farm_id,
-        );
-      }
 
       return res.sendStatus(200);
     } catch (error) {
@@ -118,7 +105,7 @@ const taskController = {
         await Promise.all(
           available_tasks.map(async (task) => {
             await sendTaskNotification(
-              [newAssigneeUserId],
+              newAssigneeUserId,
               user_id,
               task.task_id,
               TaskNotificationTypes.TASK_ASSIGNED,
@@ -143,10 +130,10 @@ const taskController = {
       const { due_date } = req.body;
 
       //Ensure the task due date is not in the past
-      const isPast = await isDateInPast(due_date);
-      if (isPast) {
-        return res.status(400).send('Task due date must be today or in the future');
-      }
+      // const isPast = await isDateInPast(due_date);
+      // if (isPast) {
+      //   return res.status(400).send('Task due date must be today or in the future');
+      // }
 
       //Ensure only adminRoles can modify task due date
       if (!adminRoles.includes(req.role)) {
@@ -231,7 +218,7 @@ const taskController = {
       if (!result) return res.status(404).send('Task not found');
 
       await sendTaskNotification(
-        [assignee_user_id],
+        assignee_user_id,
         user_id,
         task_id,
         TaskNotificationTypes.TASK_ABANDONED,
@@ -278,7 +265,7 @@ const taskController = {
         if (result.assignee_user_id) {
           const { assignee_user_id, task_id, taskType } = result;
           await sendTaskNotification(
-            [assignee_user_id],
+            assignee_user_id,
             user_id,
             task_id,
             TaskNotificationTypes.TASK_ASSIGNED,
@@ -416,7 +403,7 @@ const taskController = {
         if (result) {
           const taskType = await TaskModel.getTaskType(task_id);
           await sendTaskNotification(
-            [assignee_user_id],
+            assignee_user_id,
             user_id,
             task_id,
             TaskNotificationTypes.TASK_COMPLETED_BY_OTHER_USER,
@@ -479,7 +466,7 @@ const taskController = {
       if (Object.keys(result).length > 0) {
         const { task_translation_key } = await TaskModel.getTaskType(task_id);
         await sendTaskNotification(
-          [assignee_user_id],
+          assignee_user_id,
           user_id,
           task_id,
           TaskNotificationTypes.TASK_COMPLETED_BY_OTHER_USER,
@@ -671,7 +658,6 @@ const TaskNotificationTypes = {
   TASK_ABANDONED: 'TASK_ABANDONED',
   TASK_REASSIGNED: 'TASK_REASSIGNED',
   TASK_COMPLETED_BY_OTHER_USER: 'TASK_COMPLETED_BY_OTHER_USER',
-  TASK_UNASSIGNED: 'TASK_UNASSIGNED',
 };
 
 const TaskNotificationUserTypes = {
@@ -679,32 +665,19 @@ const TaskNotificationUserTypes = {
   TASK_ABANDONED: 'abandoner',
   TASK_REASSIGNED: 'assigner',
   TASK_COMPLETED_BY_OTHER_USER: 'assigner',
-  TASK_UNASSIGNED: 'editor',
 };
 
-/**
- * Sends a notification to the specified receivers about a task
- * @param {Array<uuid>} receiverIds
- * @param {String} usernameVariableId
- * @param {String} taskId
- * @param {String} notifyTranslationKey
- * @param {String} taskTranslationKey
- * @param {String} farmId
- * @return {Promise<void>}
- */
-
 async function sendTaskNotification(
-  receiverIds,
-  usernameVariableId,
+  receiverId,
+  senderId,
   taskId,
   notifyTranslationKey,
   taskTranslationKey,
   farmId,
 ) {
-  const filteredReceiverIds = receiverIds.filter((id) => id !== null && id !== undefined);
-  if (filteredReceiverIds.length === 0) return;
+  if (!receiverId) return;
 
-  const userName = await User.getNameFromUserId(usernameVariableId);
+  const userName = await User.getNameFromUserId(senderId ? senderId : receiverId);
   await NotificationUser.notify(
     {
       title: {
@@ -723,7 +696,7 @@ async function sendTaskNotification(
       context: { task_translation_key: taskTranslationKey },
       farm_id: farmId,
     },
-    filteredReceiverIds,
+    [receiverId],
   );
 }
 
@@ -746,7 +719,7 @@ async function sendTaskReassignedNotifications(
 ) {
   await Promise.all([
     sendTaskNotification(
-      [newAssigneeUserId],
+      newAssigneeUserId,
       assignerUserId,
       taskId,
       TaskNotificationTypes.TASK_ASSIGNED,
@@ -754,7 +727,7 @@ async function sendTaskReassignedNotifications(
       farmId,
     ),
     sendTaskNotification(
-      [oldAssigneeUserId],
+      oldAssigneeUserId,
       assignerUserId,
       taskId,
       TaskNotificationTypes.TASK_REASSIGNED,

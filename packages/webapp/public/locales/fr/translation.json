@@ -242,10 +242,7 @@
     "GENDER": "Genre",
     "GENDER_TOOLTIP": "Les informations sur le genre sont collectées à des fins de recherche uniquement et ne seront partagées qu'avec les informations d'identification personnelle supprimées",
     "PASSWORD": "Mot de passe",
-    "TITLE": "Créer un nouveau compte utilisateur",
-    "LANGUAGE_PREFERENCE": "MISSING",
-    "DEFAULT_LANGUAGE": "Français",
-    "DEFAULT_LANGUAGE_VALUE": "fr"
+    "TITLE": "Créer un nouveau compte utilisateur"
   },
   "CROP": {
     "ADD_COMPLIANCE_FILE": "Lien vers un dossier de conformité",
@@ -517,7 +514,7 @@
     "DRAWING_MANAGER": {
       "REDRAW": "Redessiner",
       "ZERO_AREA_DETECTED": "Champ sans zone détectée. Veuillez ajouter plus de points au dessin actuel ou dessiner à nouveau.",
-      "ZERO_LENGTH_DETECTED": "Ligne sans longueur détectée. Veuillez dessiner à nouveau."
+      "ZERO_LENGTH_DETECTED": "Ligne sans longeur détectée. Veuillez dessiner à nouveau."
     },
     "EXPORT_MODAL": {
       "BODY": "Comment voulez-vous exporter la carte de votre ferme\u00a0?",
@@ -608,8 +605,7 @@
       "SURFACE_WATER": "Eaux de surface",
       "TITLE": "Filtrer votre carte",
       "WATERCOURSE": "Flux d'eau",
-      "WV": "Vanne à eau",
-      "SENSOR": "MISSING"
+      "WV": "Vanne à eau"
     },
     "NATURAL_AREA": {
       "EDIT_TITLE": "Modifier l'espace naturel",
@@ -640,8 +636,7 @@
     "TAB": {
       "CROPS": "Récoltes",
       "DETAILS": "Détails",
-      "TASKS": "Tâches",
-      "READINGS": "Lectures"
+      "TASKS": "Tâches"
     },
     "TITLE": "Carte de la ferme",
     "TUTORIAL": {
@@ -694,8 +689,7 @@
   },
   "FIELDS": {
     "EDIT_FIELD": {
-      "VARIETY": "Variété",
-      "SUPPLIER": "MISSING"
+      "VARIETY": "Variété"
     }
   },
   "FILE_SIZE_MODAL": {
@@ -715,7 +709,8 @@
       "ESTIMATED_ANNUAL_REVENUE": "Revenu annuel estimé",
       "ESTIMATED_ANNUAL_YIELD": "Récolte annuelle estimée",
       "ESTIMATED_PRICE_PER_UNIT": "Estimation du prix unitaire",
-      "TITLE": "Chiffre d'affaires estimé"
+      "TITLE": "Chiffre d'affaires estimé",
+      "ESTIMATED_CROP_REVENUE": "Estimation des revenus tirés des cultures"
     },
     "REVENUE": "Revenu",
     "VIEW_WITHIN_DATE_RANGE": "Voir les revenus dans cette plage de dates",
@@ -880,6 +875,7 @@
     "GENDER": "Genre",
     "GENDER_TOOLTIP": "Les informations sur le genre sont collectées à des fins de recherche uniquement et ne seront partagées qu'avec les informations d'identification personnelle supprimées",
     "INVALID_EMAIL_ERROR": "Veuillez saisir une adresse courriel valide",
+    "ALREADY_EXISTING_EMAIL_ERROR": "Un utilisateur avec ceci adresse courriel a déjà accès à cette ferme",
     "INVITE": "Inviter",
     "LANGUAGE_OF_INVITE": "Langue d'invitation",
     "PHONE": "Téléphone",
@@ -1135,10 +1131,6 @@
       "YOU_WILL_FIND": "Vous trouverez ici:"
     }
   },
-  "ENTITY_TYPES": {
-    "TASK": "tâche",
-    "LOCATION": "emplacement"
-  },
   "NOTIFICATION": {
     "TIMELINE": {
       "HEADING": "Chronologie de notifications",
@@ -1169,21 +1161,9 @@
       "BODY": "Une tâche de {{taskType}} qui vous était assignée a été attribuée à quelqu'un d'autre par {{assigner}}.",
       "TITLE": "Tâche réattribuée"
     },
-    "TASK_UNASSIGNED": {
-      "BODY": "{{editor}} a marqué une tâche de {{taskType}} comme non attribuée.",
-      "TITLE": "Tâche non attribuée"
-    },
     "WEEKLY_UNASSIGNED_TASKS": {
       "BODY": "Vous avez des tâches non attribuées à accomplir cette semaine.",
       "TITLE": "Tâches non attribuées"
-    },
-    "SENSOR_BULK_UPLOAD_SUCCESS": {
-      "BODY": "MISSING",
-      "TITLE": "MISSING"
-    },
-    "SENSOR_BULK_UPLOAD_FAIL": {
-      "BODY": "MISSING",
-      "TITLE": "MISSING"
     }
   },
   "OUTRO": {
@@ -1219,7 +1199,7 @@
     "SPECIFY_PLACEHOLDER": "E.g. {{types}} 1 - 4",
     "TOOLTIP": "Les 40 premiers caractères de ce champ s'afficheront partout où votre plan de gestion est visible.",
     "WIDTH": "Largeur {{type}}",
-    "WORD_LIMIT": "Only {{limit}} characters can be displayed"
+    "WORD_LIMIT": "Seulement {{limit}} caractères peuvent être montrés."
   },
   "PREPARING_EXPORT": {
     "MESSAGE": "LiteFarm rassemble vos documents de certification en arrière-plan et vous recevrez un courriel lorsque nous aurons terminé - cela peut prendre quelques minutes... Vous pouvez cliquer en dehors de cette case pour continuer à utiliser LiteFarm sans interrompre le processus.",

@@ -102,12 +102,6 @@ const PostWaterValveForm = React.lazy(() =>
   import('./containers/LocationDetails/PointDetails/WaterValveDetailForm/PostWaterValve'),
 );
 const WaterValveDetails = React.lazy(() => import('./routes/WaterValveDetailsRoutes'));
-const SensorDetail = React.lazy(() =>
-  import('./containers/LocationDetails/PointDetails/SensorDetail/index'),
-);
-const EditSensor = React.lazy(() =>
-  import('./containers/LocationDetails/PointDetails/SensorDetail/EditSensor'),
-);
 
 const PostBarnForm = React.lazy(() =>
   import('./containers/LocationDetails/AreaDetails/BarnDetailForm/PostBarn'),
@@ -156,7 +150,6 @@ const PostWatercourseForm = React.lazy(() =>
   import('./containers/LocationDetails/LineDetails/WatercourseDetailForm/PostWatercourse'),
 );
 const WatercourseDetails = React.lazy(() => import('./routes/WatercourseDetailsRoutes'));
-const SensorDetails = React.lazy(() => import('./routes/SensorDetailsRoutes'));
 
 const CropCatalogue = React.lazy(() => import('./containers/CropCatalogue'));
 const CropVarieties = React.lazy(() => import('./containers/CropVarieties'));
@@ -551,8 +544,7 @@ const Routes = () => {
             <Route path="/fence/:location_id" component={FenceDetails} />
             <Route path="/buffer_zone/:location_id" component={BufferZoneDetails} />
             <Route path="/watercourse/:location_id" component={WatercourseDetails} />
-            <Route path="/sensor/:location_id" component={SensorDetails} />
-            <Route path="/sensor/:location_id/edit" exact component={EditSensor} />
+
             <Route path="/finances" exact component={Finances} />
             <Route path="/insights" exact component={Insights} />
             <Route path="/insights/peoplefed" exact component={PeopleFed} />
@@ -833,7 +825,6 @@ const Routes = () => {
             <Route path="/fence/:location_id" component={FenceDetails} />
             <Route path="/buffer_zone/:location_id" component={BufferZoneDetails} />
             <Route path="/watercourse/:location_id" component={WatercourseDetails} />
-            <Route path="/sensor/:location_id" component={SensorDetails} />
 
             <Route path="/finances" exact component={Finances} />
             {/* <Route path="/sales_summary" exact component={SalesSummary} /> */}
@@ -979,7 +970,6 @@ const Routes = () => {
             <Route path="/fence/:location_id" component={FenceDetails} />
             <Route path="/buffer_zone/:location_id" component={BufferZoneDetails} />
             <Route path="/watercourse/:location_id" component={WatercourseDetails} />
-            <Route path="/sensor/:location_id" component={SensorDetails} />
 
             <Route path="/farm_selection" exact component={ChooseFarm} />
             <Route path="/insights" exact component={Insights} />

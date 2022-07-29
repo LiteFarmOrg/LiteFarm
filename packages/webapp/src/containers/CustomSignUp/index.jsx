@@ -2,22 +2,12 @@ import React, { Suspense, useEffect, useState, useLayoutEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import PureCustomSignUp from '../../components/CustomSignUp';
-import {
-  customCreateUser,
-  customLoginWithPassword,
-  customSignUp,
-  sendResetPasswordEmail,
-} from './saga';
+import { customCreateUser, customLoginWithPassword, customSignUp, sendResetPasswordEmail } from './saga';
 import history from '../../history';
 import Spinner from '../../components/Spinner';
 import { useTranslation } from 'react-i18next';
 import GoogleLoginButton from '../GoogleLoginButton';
-import {
-  CREATE_USER_ACCOUNT,
-  CUSTOM_SIGN_UP,
-  ENTER_PASSWORD_PAGE,
-  inlineErrors,
-} from './constants';
+import { CREATE_USER_ACCOUNT, CUSTOM_SIGN_UP, ENTER_PASSWORD_PAGE, inlineErrors } from './constants';
 import { isChrome } from '../../util';
 import { getLanguageFromLocalStorage } from '../../util/getLanguageFromLocalStorage';
 import { customSignUpErrorKeySelector, setCustomSignUpErrorKey } from '../customSignUpSlice';
@@ -53,7 +43,7 @@ function CustomSignUp() {
     mode: 'onTouched',
   });
   const { user, component: componentToShow } = history.location?.state || {};
-  const validEmailRegex = RegExp(/^$|^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,6}$/i);
+  const validEmailRegex = RegExp(/^$|^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i);
   const EMAIL = 'email';
   const emailRegister = register(EMAIL, { pattern: validEmailRegex });
   const dispatch = useDispatch();
@@ -124,23 +114,20 @@ function CustomSignUp() {
   };
 
   const enterPasswordOnGoBack = () => {
-    history.push(
-      {
-        pathname: '/',
-      },
-      { user: { email }, component: CUSTOM_SIGN_UP },
-    );
+    history.push({
+      pathname: '/',
+
+
+    }, { user: { email }, component: CUSTOM_SIGN_UP });
   };
   const createUserAccountOnGoBack = () => {
-    history.push(
-      {
-        pathname: '/',
-      },
-      {
-        component: CUSTOM_SIGN_UP,
-        user: { email },
-      },
-    );
+    history.push({
+      pathname: '/',
+
+    }, {
+      component: CUSTOM_SIGN_UP,
+      user: { email },
+    });
   };
 
   const errorMessage = history.location.state?.error;

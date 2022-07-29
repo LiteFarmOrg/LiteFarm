@@ -242,10 +242,7 @@
     "GENDER": "Género",
     "GENDER_TOOLTIP": "La información de género es recolectada sólo por propósitos de estudio y sólo será compartida sin identificarlo(la) personalmente a Ud.",
     "PASSWORD": "Contraseña",
-    "TITLE": "Crear nueva cuenta de usuario",
-    "LANGUAGE_PREFERENCE": "MISSING",
-    "DEFAULT_LANGUAGE": "Español",
-    "DEFAULT_LANGUAGE_VALUE": "es"
+    "TITLE": "Crear nueva cuenta de usuario"
   },
   "CROP": {
     "ADD_COMPLIANCE_FILE": "Enlace a un archivo de cumplimiento",
@@ -607,8 +604,7 @@
       "SURFACE_WATER": "Agua de superficie",
       "TITLE": "Filtra su mapa",
       "WATERCOURSE": "Arroyo",
-      "WV": "Valvula de agua",
-      "SENSOR": "MISSING"
+      "WV": "Valvula de agua"
     },
     "NATURAL_AREA": {
       "EDIT_TITLE": "Editar area natural",
@@ -639,8 +635,7 @@
     "TAB": {
       "CROPS": "Cultivos",
       "DETAILS": "Detalles",
-      "TASKS": "Tareas",
-      "READINGS": "MISSING"
+      "TASKS": "Tareas"
     },
     "TITLE": "Mapa de granja",
     "TUTORIAL": {
@@ -693,8 +688,7 @@
   },
   "FIELDS": {
     "EDIT_FIELD": {
-      "VARIETY": "Variedad",
-      "SUPPLIER": "MISSING"
+      "VARIETY": "Variedad"
     }
   },
   "FILE_SIZE_MODAL": {
@@ -714,7 +708,8 @@
       "ESTIMATED_ANNUAL_REVENUE": "Ingresos anuales estimados",
       "ESTIMATED_ANNUAL_YIELD": "Cosecha anual estimada",
       "ESTIMATED_PRICE_PER_UNIT": "Precio estimado por unidad",
-      "TITLE": "Ingresos estimados"
+      "TITLE": "Ingresos estimados",
+      "ESTIMATED_CROP_REVENUE": "Ingreso estimado del cultivo"
     },
     "REVENUE": "Ingresos",
     "VIEW_WITHIN_DATE_RANGE": "Ver ingresos dentro de este intervalo de fechas",
@@ -879,6 +874,7 @@
     "GENDER": "Género",
     "GENDER_TOOLTIP": "Información sobre el género es recolectada sólo por propósitos de estudio y sólo será compartida sin identificar personalmente a Ud.",
     "INVALID_EMAIL_ERROR": "Por favor ingrese una dirección de correo válida",
+    "ALREADY_EXISTING_EMAIL_ERROR": "Un usuario con ese correo electrónico ya tiene acceso a esta granja",
     "INVITE": "Invitar",
     "LANGUAGE_OF_INVITE": "Idioma de la invitación",
     "PHONE": "Número de teléfono",
@@ -1134,10 +1130,6 @@
       "YOU_WILL_FIND": "Aquí encontrará:"
     }
   },
-  "ENTITY_TYPES": {
-    "TASK": "tarea",
-    "LOCATION": "ubicación"
-  },
   "NOTIFICATION": {
     "TIMELINE": {
       "HEADING": "Cronología de notificaciones",
@@ -1168,21 +1160,9 @@
       "BODY": "Una {{taskType}} tarea que te asignó previamente ha sido asignada a otra persona por {{assigner}}.",
       "TITLE": "Tarea reasignada"
     },
-    "TASK_UNASSIGNED": {
-      "BODY": "MISSING",
-      "TITLE": "MISSING"
-    },
     "WEEKLY_UNASSIGNED_TASKS": {
       "BODY": "Tiene tareas sin asignar que vencen esta semana.",
       "TITLE": "Tareas sin responables"
-    },
-    "SENSOR_BULK_UPLOAD_SUCCESS": {
-      "BODY": "MISSING",
-      "TITLE": "MISSING"
-    },
-    "SENSOR_BULK_UPLOAD_FAIL": {
-      "BODY": "MISSING",
-      "TITLE": "MISSING"
     }
   },
   "OUTRO": {

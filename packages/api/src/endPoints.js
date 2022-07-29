@@ -20,7 +20,6 @@ const endPoints = {
   openMapsAPI: 'https://nominatim.openstreetmap.org/reverse', // to reverse geocode
   soilGridsAPI: 'https://rest.isric.org/soilgrids/v2.0/properties/query', // for grabbing soil organic matter when no soil analysis is present
   gbifAPI: 'http://api.gbif.org/v1/occurrence/search', // for grabbing species in biodiversity
-  ensembleAPI: 'https://api.esci.io', // for sensor readings
 };
 
 module.exports = endPoints;

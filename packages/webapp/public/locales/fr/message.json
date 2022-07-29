@@ -18,11 +18,6 @@
       "UPDATE": "Document mis à jour avec succès"
     }
   },
-  "BULK_UPLOAD": {
-    "ERROR": {
-      "UPLOAD": "MISSING"
-    }
-  },
   "CROP": {
     "ERROR": {
       "DELETE": "N'a pas réussi à supprimer la grande culture"
@@ -98,8 +93,7 @@
     "FAIL_POST": "Impossible d'ajouter",
     "SUCCESS_DELETE": "Supprimé avec succès",
     "SUCCESS_PATCH": "Mise à jour réussie",
-    "SUCCESS_POST": "Enregistré avec succès",
-    "SUCCESS_UPLOAD": "MISSING"
+    "SUCCESS_POST": "Enregistré avec succès"
   },
   "ORGANIC_CERTIFIER_SURVEY": {
     "ERROR": {
@@ -195,9 +189,5 @@
       "REVOKE": "Accès utilisateur révoqué",
       "UPDATE": "Informations de l'utilisateur mises à jour avec succès !"
     }
-  },
-  "SENSOR": {
-    "SUCCESSFUL_UPDATE": "MISSING",
-    "ERROR_UPDATE": "MISSING"
   }
 }

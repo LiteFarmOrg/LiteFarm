@@ -1,6 +1,6 @@
 {
   "name": "litefarm-api",
-  "version": "3.2.3",
+  "version": "3.2.4",
   "description": "LiteFarm API server",
   "main": "./api/src/server.js",
   "scripts": {
@@ -58,7 +58,6 @@
     "express": "^4.17.1",
     "express-jwt": "^6.0.0",
     "express-jwt-authz": "^2.4.1",
-    "express-oas-generator": "^1.0.44",
     "express-promise-router": "^4.0.1",
     "form-data": "^4.0.0",
     "fs-extra": "^9.0.1",

@@ -1467,12 +1467,6 @@ export default {
       loading: false,
       loaded: false,
     },
-    sensorReducer: {
-      ids: [],
-      entities: {},
-      loading: false,
-      loaded: false,
-    },
     showedSpotlightReducer: {
       loaded: true,
       loading: false,

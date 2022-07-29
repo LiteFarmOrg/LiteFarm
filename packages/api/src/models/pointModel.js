@@ -1,6 +1,6 @@
 /*
- *  Copyright 2019, 2020, 2021, 2022 LiteFarm.org
- *  This file is part of LiteFarm.
+ *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>
+ *  This file (harvestLogModel.js) is part of LiteFarm.
  *
  *  LiteFarm is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -12,6 +12,7 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
+
 const Model = require('objection').Model;
 
 class Point extends Model {

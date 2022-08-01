@@ -159,7 +159,7 @@ export default function PureSensorDetail({ history, isAdmin, system, sensorInfo 
 
       <Unit
         register={register}
-        defaultValue={depth}
+        value={depth}
         displayUnitName={DEPTH_UNIT}
         label={t('SENSOR.DETAIL.DEPTH')}
         hookFormSetValue={setValue}

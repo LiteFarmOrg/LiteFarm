@@ -69,6 +69,7 @@ import {
 } from '../../containers/bulkSensorUploadSlice';
 import LocationSelectionModal from './LocationSelectionModal';
 import { useMaxZoom } from './useMaxZoom';
+import { sensorSelector } from '../sensorSlice';
 
 export default function Map({ history }) {
   const windowInnerHeight = useWindowInnerHeight();
@@ -80,6 +81,10 @@ export default function Map({ history }) {
   const system = useSelector(measurementSelector);
   const overlayData = useSelector(hookFormPersistSelector);
   const bulkSensorsUploadResponse = useSelector(bulkSensorsUploadSliceSelector);
+  const sensors = useSelector(sensorSelector);
+  const [gMap, setGMap] = useState(null);
+  const [gMaps, setGMaps] = useState(null);
+  const [gMapBounds, setGMapBounds] = useState(null);
 
   const lineTypesWithWidth = [locationEnum.buffer_zone, locationEnum.watercourse];
   const { t } = useTranslation();
@@ -301,7 +306,7 @@ export default function Map({ history }) {
 
     // Drawing locations on map
     let mapBounds = new maps.LatLngBounds();
-    drawAssets(map, maps, mapBounds);
+    const bounds = drawAssets(map, maps, mapBounds);
 
     if (history.location.state?.isStepBack) {
       reconstructOverlay();
@@ -314,6 +319,9 @@ export default function Map({ history }) {
         map.setCenter(location);
       }
     }
+    setGMap(map);
+    setGMaps(maps);
+    setGMapBounds(bounds);
   };
 
   const handleClickAdd = () => {
@@ -384,9 +392,15 @@ export default function Map({ history }) {
     setShowSuccessHeader(false);
     if (bulkSensorsUploadResponse?.isBulkUploadSuccessful) {
       dispatch(bulkSensorsUploadReInit());
-      history.go(0);
     }
   };
+
+  useEffect(() => {
+    if (gMap && gMaps && gMapBounds) {
+      const newBounds = drawAssets(gMap, gMaps, gMapBounds);
+      setGMapBounds(newBounds);
+    }
+  }, [sensors]);
 
   const handleDownload = () => {
     html2canvas(mapWrapperRef.current, { useCORS: true }).then((canvas) => {

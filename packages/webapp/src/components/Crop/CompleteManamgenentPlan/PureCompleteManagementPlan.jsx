@@ -66,7 +66,9 @@ export function PureCompleteManagementPlan({
 
   useEffect(() => {
     watch((value) => {
-      setInvalidDate(new Date(value?.abandon_date) > new Date());
+      setInvalidDate(
+        new Date(value?.abandon_date) > new Date() || new Date(value?.complete_date) > new Date(),
+      );
     });
   }, [invalidDate]);
 

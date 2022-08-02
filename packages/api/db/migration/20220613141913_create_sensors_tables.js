@@ -12,6 +12,7 @@ exports.up = function (knex) {
       table.string('external_id').notNullable();
       table.uuid('location_id').references('location_id').inTable('location').notNullable();
       table.float('depth');
+      table.enu('depth_unit', ['cm', 'm', 'in', 'ft']).defaultTo('cm');
       table.float('elevation');
     }),
 

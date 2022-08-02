@@ -457,7 +457,7 @@
       "UPLOAD_LINK_MESSAGE": "Download this template",
       "UPLOAD_INSTRUCTION_MESSAGE": "for correct formatting.",
       "UPLOAD_PLACEHOLDER": "Upload CSV file",
-      "UPLOAD_ERROR_MESSAGE": "We found some errors with your upload. ",
+      "UPLOAD_ERROR_MESSAGE": "There were some issues with your upload. ",
       "UPLOAD_ERROR_LINK": "Click here to view them.",
       "EMPTY_FILE_UPLOAD_ERROR_MESSAGE": "No sensors found, please check your upload and try again.",
       "SENSOR_FIELDS": {
@@ -1400,8 +1400,7 @@
     "DEPTH": "Depth",
     "BRAND": "Brand",
     "VALIDATION": {
-      "SENSOR_LATITUDE": "Invalid latitude value, must be between -90 and 90. and fewer than 10 decimals.",
-      "SENSOR_LONGITUDE": "Invalid longitude value, must be between -180 and 180. and fewer than 10 decimals."
+      "READING_TYPES": "Sensor reading types are required"
     },
     "MODAL": {
       "TITLE": "Change reading types?",

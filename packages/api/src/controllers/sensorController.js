@@ -258,24 +258,24 @@ const sensorController = {
 
         const successSensors = sensorLocations.reduce((prev, curr, idx) => {
           if (curr.status === 'fulfilled') {
-            prev.push(registeredSensors[idx].external_id);
+            prev.push(curr.value);
           } else {
             errorSensors.push({
               row: data.findIndex((elem) => elem === registeredSensors[idx]) + 2,
               column: 'External_ID',
               translation_key: sensorErrors.INTERNAL_ERROR,
-              variables: { sensorId: registeredSensors[idx] },
+              variables: { sensorId: registeredSensors[idx].external_id },
             });
           }
           return prev;
         }, []);
 
-        if (successSensors.length < esids.length) {
+        if (successSensors.length < data.length) {
           return sendResponse(
             () => {
               return res.status(400).send({
                 error_type: 'unable_to_claim_all_sensors',
-                success: successSensors,
+                success: successSensors, // We need the full sensor objects to update the redux store
                 errorSensors,
               });
             },
@@ -288,7 +288,7 @@ const sensorController = {
                   error_download: {
                     errors: errorSensors,
                     file_name: 'sensor-upload-outcomes.txt',
-                    success: successSensors,
+                    success: successSensors.map((s) => s.sensor?.external_id), // Notification download needs an array of only ESIDs
                     error_type: 'claim',
                   },
                 },
@@ -300,7 +300,7 @@ const sensorController = {
             () => {
               return res
                 .status(200)
-                .send({ message: 'Successfully uploaded!', sensors: sensorLocations });
+                .send({ message: 'Successfully uploaded!', sensors: successSensors });
             },
             async () => {
               return await sendSensorNotification(
@@ -346,6 +346,7 @@ const sensorController = {
         longtitude,
         model,
         depth,
+        depth_unit,
         reading_types,
         location_id,
         user_id,
@@ -374,9 +375,9 @@ const sensorController = {
         };
         await SensorModel.patchSensorReadingTypes(location_id, readingTypes);
       }
-
       const sensor_properties = {
         depth,
+        depth_unit,
         model,
       };
 

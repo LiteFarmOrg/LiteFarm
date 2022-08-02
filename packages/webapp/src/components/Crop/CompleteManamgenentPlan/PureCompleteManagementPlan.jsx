@@ -1,6 +1,6 @@
 import Form from '../../Form';
 import CropHeader from '../CropHeader';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import Button from '../../Form/Button';
 import { useTranslation } from 'react-i18next';
@@ -60,12 +60,20 @@ export function PureCompleteManagementPlan({
   const CREATED_ABANDON_REASON = 'created_abandon_reason';
 
   const [showAbandonModal, setShowAbandonModal] = useState(false);
+  const [invalidDate, setInvalidDate] = useState(false);
 
   const disabled = !isValid;
+
+  useEffect(() => {
+    watch((value) => {
+      setInvalidDate(new Date(value?.abandon_date) > new Date());
+    });
+  }, [invalidDate]);
+
   return (
     <Form
       buttonGroup={
-        <Button disabled={disabled} fullLength>
+        <Button disabled={disabled || invalidDate} fullLength>
           {isAbandonPage ? t('common:MARK_ABANDON') : t('common:MARK_COMPLETE')}
         </Button>
       }
@@ -82,15 +90,21 @@ export function PureCompleteManagementPlan({
           ? t('MANAGEMENT_PLAN.COMPLETE_PLAN.ABANDON_PLAN')
           : t('MANAGEMENT_PLAN.COMPLETE_PLAN.COMPLETE_PLAN')}
       </Title>
-      <Input
-        style={{ marginBottom: '40px' }}
-        label={t('MANAGEMENT_PLAN.COMPLETE_PLAN.DATE_OF_CHANGE')}
-        hookFormRegister={register(DATE)}
-        type={'date'}
-        max={getDateInputFormat()}
-        min={start_date}
-        required
-      />
+      <div style={{ marginBottom: '40px' }}>
+        <Input
+          label={t('MANAGEMENT_PLAN.COMPLETE_PLAN.DATE_OF_CHANGE')}
+          hookFormRegister={register(DATE)}
+          type={'date'}
+          max={getDateInputFormat()}
+          min={start_date}
+          required
+        />
+        {invalidDate && (
+          <p style={{ marginTop: '4px', color: 'var(--error)' }}>
+            {t('MANAGEMENT_PLAN.COMPLETE_PLAN.FUTURE_DATE_INVALID')}
+          </p>
+        )}
+      </div>
       {isAbandonPage && (
         <>
           <Controller

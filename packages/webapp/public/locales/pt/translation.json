@@ -979,6 +979,7 @@
       "COMPLETE_PLAN": "Plano completo",
       "DATE_OF_CHANGE": "Data de alteração da situação",
       "NOTES_CHAR_LIMIT": "As observações não podem exceder 10.000 caractéres",
+      "FUTURE_DATE_INVALID": "MISSING",
       "RATING": "Avaliar este plano de cultivo",
       "REASON": {
         "CROP_FAILURE": "Quebra de safra",

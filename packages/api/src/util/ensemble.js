@@ -87,14 +87,14 @@ async function registerOrganizationWebhook(farmId, organizationId, accessToken) 
   const existingIntegration = await FarmExternalIntegrationsModel.query()
     .where({ farm_id: farmId, partner_id: 1 })
     .first();
-  if (existingIntegration?.webhook_address) {
-    return existingIntegration.webhook_address;
+  if (existingIntegration?.webhook_id) {
+    return existingIntegration.webhook_id;
   } else {
     const axiosObject = {
       method: 'post',
       url: `${ensembleAPI}/organizations/${organizationId}/webhooks/`,
       data: {
-        url: `${baseUrl}/sensors/add_reading/1/${farmId}`,
+        url: `${baseUrl}/sensor/reading/partner/1/farm/${farmId}`,
         authorization_header: authHeader,
         frequency: 15,
       },
@@ -104,11 +104,7 @@ async function registerOrganizationWebhook(farmId, organizationId, accessToken) 
       throw new Error('Failed to register webhook with ESCI');
     };
     const onResponse = async (response) => {
-      await FarmExternalIntegrationsModel.updateWebhookAddress(
-        farmId,
-        `${baseUrl}/sensors/add_reading/1`,
-        response.data.id,
-      );
+      await FarmExternalIntegrationsModel.updateWebhookId(farmId, response.data.id);
       return { ...response.data, status: response.status };
     };
     return await ensembleAPICall(accessToken, axiosObject, onError, onResponse);

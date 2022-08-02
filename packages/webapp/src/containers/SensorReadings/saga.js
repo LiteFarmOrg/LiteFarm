@@ -17,7 +17,7 @@ import { createAction } from '@reduxjs/toolkit';
 import { call, put, select, takeLeading, all } from 'redux-saga/effects';
 import { axios } from '../saga';
 import { userFarmSelector } from '../userFarmSlice';
-import { GRAPH_TIMESTAMPS, OPEN_WEATHER_API_URL_FOR_SENSORS, HOUR, NO_DATA } from './constants';
+import { GRAPH_TIMESTAMPS, OPEN_WEATHER_API_URL_FOR_SENSORS, HOUR } from './constants';
 import {
   bulkSensorReadingsLoading,
   bulkSensorReadingsSuccess,
@@ -28,14 +28,17 @@ import { getHeader } from '../../containers/saga';
 import { findCenter } from './utils';
 import { AMBIENT_TEMPERATURE, CURRENT_DATE_TIME } from './constants';
 
-const sensorReadingsUrl = () => `${sensorUrl}/get_sensor_readings_for_visualization`;
+const sensorReadingsUrl = () => `${sensorUrl}/reading/visualization`;
 
 export const getSensorsReadings = createAction(`getSensorsReadingsSaga`);
 
-export function* getSensorsReadingsSaga({
-  payload: locationIds = [],
-  readingType = 'temperature',
-}) {
+export function* getSensorsReadingsSaga({ payload }) {
+  const {
+    locationIds = [],
+    readingType = 'temperature',
+    noDataText = '',
+    ambientTempFor = '',
+  } = payload;
   const {
     farm_id,
     units: { measurement },
@@ -66,7 +69,7 @@ export function* getSensorsReadingsSaga({
       readingType,
       endDate: '06-27-2022',
     };
-    const result = yield call(axios.post, sensorReadingsUrl(), postData, header);
+    const result = yield call(axios.get, sensorReadingsUrl(), postData, header);
     const allSensorNames = result?.data?.sensorsPoints.map((s) => s.name);
     const centerPoint = findCenter(result?.data?.sensorsPoints.map((s) => s?.point));
 
@@ -95,7 +98,7 @@ export function* getSensorsReadingsSaga({
         if (!acc[tempInfo?.dt]) acc[tempInfo?.dt] = {};
         acc[tempInfo?.dt] = {
           ...acc[tempInfo?.dt],
-          [`${AMBIENT_TEMPERATURE} for ${stationName}`]: tempInfo?.main?.temp,
+          [`${ambientTempFor} ${stationName}`]: tempInfo?.main?.temp,
           [CURRENT_DATE_TIME]: `${dateAndTimeInfo?.split(':00:00')[0]}:00`,
         };
         for (const s of allSensorNames) {
@@ -119,7 +122,7 @@ export function* getSensorsReadingsSaga({
           delete ambientDataReading[cv];
           return {
             ...ambientDataReading,
-            [`${cv} ${NO_DATA}`]: null,
+            [`${cv} ${noDataText}`]: null,
           };
         });
       }
@@ -140,6 +143,7 @@ export function* getSensorsReadingsSaga({
         sensorReadings: Object.values(ambientDataWithSensorsReadings),
         selectedSensorName,
         latestTemperatureReadings,
+        nearestStationName: stationName,
       }),
     );
   } catch (error) {

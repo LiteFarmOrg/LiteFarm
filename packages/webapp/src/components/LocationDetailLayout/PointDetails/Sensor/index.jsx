@@ -57,15 +57,19 @@ export default function PureSensorDetail({ history, isAdmin, system, sensorInfo 
       longtitude: '2',
       reading_types: '',
       external_identifier: 'Get container value',
+      depth_unit: sensorInfo.depth_unit,
     },
     shouldUnregister: false,
     mode: 'onChange',
   });
 
+  const DEPTH = 'depth';
+  const DEPTH_UNIT = 'depth_unit';
+
   function onRetire() {
     axios
       .post(
-        `${sensorUrl}/unclaim_sensor`,
+        `${sensorUrl}/unclaim`,
         { sensorInfo },
         { headers: { Authorization: `Bearer ${getAccessToken()}` } },
       )
@@ -83,14 +87,14 @@ export default function PureSensorDetail({ history, isAdmin, system, sensorInfo 
   }
 
   return (
-    <div style={{ padding: '24px 16px 24px 16px' }}>
+    <div style={{ padding: '24px 16px 24px 24px' }}>
       <PageTitle
         title={name}
         onGoBack={() => history.push('/map')}
         style={{ marginBottom: '24px' }}
       />
       <RouterTab
-        classes={{ container: { margin: '24px 0 24px 0' } }}
+        classes={{ container: { margin: '30px 8px 26px 0px' } }}
         history={history}
         tabs={[
           {
@@ -156,11 +160,12 @@ export default function PureSensorDetail({ history, isAdmin, system, sensorInfo 
       <Unit
         register={register}
         defaultValue={depth}
+        displayUnitName={DEPTH_UNIT}
         label={t('SENSOR.DETAIL.DEPTH')}
         hookFormSetValue={setValue}
         hookFormGetValue={getValues}
         hookFromWatch={watch}
-        name={t('SENSOR.DETAIL.DEPTH')}
+        name={DEPTH}
         unitType={container_planting_depth}
         max={10000}
         system={system}

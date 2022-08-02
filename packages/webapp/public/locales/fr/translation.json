@@ -1628,7 +1628,9 @@
     "BRAND": "MISSING",
     "VALIDATION": {
       "SENSOR_LATITUDE": "MISSING",
-      "SENSOR_LONGITUDE": "MISSING"
+      "SENSOR_LONGITUDE": "MISSING",
+      "NAME": "MISSING",
+      "READING_TYPES": "Sensor reading types are required"
     },
     "MODAL": {
       "TITLE": "MISSING",
@@ -1672,7 +1674,10 @@
     "TEMPERATURE_READINGS_OF_SENSOR": {
       "TITLE": "MISSING",
       "SUBTITLE": "MISSING",
-      "Y_AXIS_LABEL": "MISSING"
+      "Y_AXIS_LABEL": "MISSING",
+      "WEATHER_STATION": "MISSING",
+      "NO_DATA": "MISSING",
+      "AMBIENT_TEMPERATURE_FOR": "MISSING"
     }
   }
 }

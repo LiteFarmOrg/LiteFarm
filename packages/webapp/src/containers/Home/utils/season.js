@@ -1,4 +1,3 @@
-import moment from 'moment';
 import { DO_CDN_URL } from '../../../util/constants';
 
 const autumn = `${DO_CDN_URL}/home/fall.webp`;

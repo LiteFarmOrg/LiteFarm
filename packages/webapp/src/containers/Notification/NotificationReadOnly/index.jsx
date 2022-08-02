@@ -13,12 +13,10 @@ export default function NotificationReadOnly({ history, match }) {
   };
 
   return (
-    <>
-      <PureNotificationReadOnly
-        onGoBack={onGoBack}
-        notification={notification}
-        relatedNotifications={relatedNotifications}
-      />
-    </>
+    <PureNotificationReadOnly
+      onGoBack={onGoBack}
+      notification={notification}
+      relatedNotifications={relatedNotifications}
+    />
   );
 }

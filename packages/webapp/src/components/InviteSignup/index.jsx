@@ -54,7 +54,7 @@ export default function PureInviteSignup({
         </Semibold>
       </Card>
       <Card
-        data-cy="inviteCard-createAccount"
+        data-cy="invitedCard-createAccount"
         key={2}
         onClick={() => onClick(2)}
         color={selectedKey === 2 ? 'active' : 'secondary'}

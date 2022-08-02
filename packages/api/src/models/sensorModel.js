@@ -37,10 +37,11 @@ class Sensor extends Model {
 
       properties: {
         location_id: { type: 'string' },
-        model: { type: 'string', minLength: 1, maxLength: 255 },
+        model: { type: 'string', maxLength: 255 },
         partner_id: { type: 'integer' },
         external_id: { type: 'string', maxLength: 255 },
         depth: { type: 'float' },
+        depth_unit: { type: 'string', enum: ['cm', 'm', 'in', 'ft'] },
         elevation: { type: 'float' },
       },
       additionalProperties: false,

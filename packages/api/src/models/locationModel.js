@@ -228,7 +228,7 @@ class Location extends baseModel {
 
   static async getSensorLocation(farm_id, partner_id, external_id, trx) {
     return Location.query(trx)
-      .withGraphJoined('sensor')
+      .withGraphJoined('[figure.point, sensor]')
       .where('location.farm_id', farm_id)
       .andWhere('sensor.partner_id', partner_id)
       .andWhere('sensor.external_id', external_id)

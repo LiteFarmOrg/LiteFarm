@@ -41,6 +41,7 @@ import {
   onLoadingSensorReadingStart,
   onLoadingSensorReadingFail,
 } from './mapSensorSlice';
+import { postManySensorsSuccess } from '../sensorSlice';
 
 const sendMapToEmailUrl = (farm_id) => `${url}/export/map/farm/${farm_id}`;
 const showedSpotlightUrl = () => `${url}/showed_spotlight`;
@@ -128,6 +129,7 @@ export function* bulkUploadSensorsInfoFileSaga({ payload: { file } }) {
     switch (fileUploadResponse.status) {
       case 200: {
         yield put(bulkSensorsUploadSuccess());
+        yield put(postManySensorsSuccess(fileUploadResponse?.data?.sensors));
         yield put(
           setSuccessMessage([
             i18n.t('FARM_MAP.MAP_FILTER.SENSOR'),
@@ -153,10 +155,18 @@ export function* bulkUploadSensorsInfoFileSaga({ payload: { file } }) {
         switch (errorType) {
           case bulkSenorUploadErrorTypeEnum?.unable_to_claim_all_sensors: {
             const { success, errorSensors } = error?.response?.data ?? {
-              success: {},
-              errorSensors: {},
+              success: [],
+              errorSensors: [],
             };
-            yield put(bulkSensorsUploadFailure({ success, errorSensors }));
+            if (success.length > 0) {
+              yield put(postManySensorsSuccess(success));
+            }
+            yield put(
+              bulkSensorsUploadFailure({
+                success: success.map((s) => s?.sensor?.external_id),
+                errorSensors,
+              }),
+            );
             break;
           }
           case bulkSenorUploadErrorTypeEnum?.validation_failure:
@@ -186,8 +196,11 @@ export function* getSensorReadingsSaga() {
   try {
     yield put(onLoadingSensorReadingStart(user_id, farm_id));
     const result = yield call(axios.get, `${sensorUrl}/reading/farm/${farm_id}?days=7`, header);
-    if (result.status === 200) yield put(getSensorReadingSuccess(result.data));
-    yield put(onLoadingSensorReadingFail(result.error));
+    if (result.status === 200) {
+      yield put(getSensorReadingSuccess(result.data));
+    } else {
+      yield put(onLoadingSensorReadingFail(result.error));
+    }
   } catch (e) {
     yield put(onLoadingSensorReadingFail(e));
     console.error(e);

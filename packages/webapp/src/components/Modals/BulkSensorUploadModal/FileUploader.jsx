@@ -16,7 +16,13 @@ export default function FileUploader({
   uploadErrorMessage,
   errorTypeCode,
 }) {
-  const handleClick = (event) => fileInputRef.current.click();
+  const handleClick = (event) => {
+    if (fileInputRef.current) {
+      fileInputRef.current.value = null;
+    }
+    fileInputRef.current.click();
+  };
+
   const handleChange = (event) => handleSelectedFile(event);
   return (
     <>

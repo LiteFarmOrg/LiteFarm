@@ -13,8 +13,6 @@ import TimeSlider from '../../Form/Slider/TimeSlider';
 import Checkbox from '../../Form/Checkbox';
 import Rating from '../../Rating';
 import { getDateInputFormat } from '../../../util/moment';
-import Infoi from '../../Tooltip/Infoi';
-import { Label } from '../../Typography';
 
 const PureAbandonTask = ({
   onSubmit,
@@ -115,21 +113,9 @@ const PureAbandonTask = ({
 
       {hasAssignee && (
         <>
-          <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
-            <Main style={{ marginBottom: '24px' }}>{t('TASK.ABANDON_TASK_DURATION')}</Main>
-            <div style={{ marginBottom: '16px' }}>
-              <Label
-                style={{
-                  paddingRight: '10px',
-                  fontSize: '16px',
-                  lineHeight: '20px',
-                  display: 'inline-block',
-                }}
-              >
-                {<Infoi content={t('TASK.ABANDON_TASK_HELPTEXT')} />}
-              </Label>
-            </div>
-          </div>
+          <Main style={{ marginBottom: '24px' }} tooltipContent={t('TASK.ABANDON_TASK_HELPTEXT')}>
+            {t('TASK.ABANDON_TASK_DURATION')}
+          </Main>
 
           {!no_work_completed && (
             <TimeSlider

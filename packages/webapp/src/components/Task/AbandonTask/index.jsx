@@ -113,7 +113,9 @@ const PureAbandonTask = ({
 
       {hasAssignee && (
         <>
-          <Main style={{ marginBottom: '24px' }}>{t('TASK.ABANDON_TASK_DURATION')}</Main>
+          <Main style={{ marginBottom: '24px' }} tooltipContent={t('TASK.ABANDON_TASK_HELPTEXT')}>
+            {t('TASK.ABANDON_TASK_DURATION')}
+          </Main>
 
           {!no_work_completed && (
             <TimeSlider

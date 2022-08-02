@@ -1,6 +1,7 @@
 import { locationEnum } from '../../../containers/Map/constants';
 import { ReactComponent as Gate } from '../../../assets/images/farmMapFilter/Gate.svg';
 import { ReactComponent as WaterValve } from '../../../assets/images/farmMapFilter/WaterValve.svg';
+import { ReactComponent as Sensor } from '../../../assets/images/farmMapFilter/Sensor.svg';
 import { ReactComponent as BufferZone } from '../../../assets/images/farmMapFilter/BufferZone.svg';
 import { ReactComponent as Watercourse } from '../../../assets/images/farmMapFilter/Creek.svg';
 import { ReactComponent as Fence } from '../../../assets/images/farmMapFilter/Fence.svg';
@@ -22,6 +23,10 @@ export const pointImgDict = [
   {
     icon: <WaterValve />,
     key: locationEnum.water_valve,
+  },
+  {
+    icon: <Sensor />,
+    key: locationEnum.sensor,
   },
 ];
 
@@ -82,6 +87,7 @@ export const areaImgDict = [
 export const locationImgMap = {
   [locationEnum.gate]: <Gate />,
   [locationEnum.water_valve]: <WaterValve />,
+  [locationEnum.sensor]: <Sensor />,
   [locationEnum.barn]: <Barn />,
   [locationEnum.ceremonial_area]: <CeremonialArea />,
   [locationEnum.farm_site_boundary]: <FarmSiteBoundary />,

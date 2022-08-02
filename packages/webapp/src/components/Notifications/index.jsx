@@ -22,30 +22,51 @@ import Button from '../../components/Form/Button';
 import { Semibold, Text } from '../Typography';
 import { getNotificationCardDate } from '../../util/moment.js';
 import history from '../../history';
-import { getLanguageFromLocalStorage } from '../../util/getLanguageFromLocalStorage';
+import useTranslationUtil from '../../util/useTranslationUtil';
+import NotificationTimeline from './NotificationTimeline';
+import { createSensorErrorDownload, SENSOR_BULK_UPLOAD_FAIL } from '../../util/sensor';
 
-function PureNotificationReadOnly({ onGoBack, notification }) {
+function PureNotificationReadOnly({ onGoBack, notification, relatedNotifications }) {
   const { t } = useTranslation();
-  const currentLang = getLanguageFromLocalStorage();
-  const tOptions = notification.variables.reduce((optionsSoFar, currentOption) => {
-    let options = { ...optionsSoFar };
-    options[currentOption.name] = currentOption.translate
-      ? t(currentOption.value)
-      : currentOption.value;
-    return options;
-  }, {});
+  const { getNotificationTitle, getNotificationBody } = useTranslationUtil();
 
   const hideTakeMeThere =
     !notification.ref ||
     (!notification.ref?.url &&
       (!notification.ref?.entity ||
         !notification.ref?.entity?.type ||
-        !notification.ref?.entity?.id));
+        !notification.ref?.entity?.id) &&
+      (!notification.ref?.error_download ||
+        !notification.ref?.error_download?.errors ||
+        !notification.ref?.error_download?.file_name));
 
   const onTakeMeThere = () => {
-    const route =
-      notification.ref.url ??
-      `/${notification.ref.entity.type}s/${notification.ref.entity.id}/read_only`;
+    let route;
+    if (notification.ref.url) {
+      route = notification.ref.url;
+    } else if (notification.ref.entity) {
+      route = `/${notification.ref.entity.type}s/${notification.ref.entity.id}/read_only`;
+    } else if (
+      notification.ref.error_download &&
+      notification.context.notification_type === SENSOR_BULK_UPLOAD_FAIL
+    ) {
+      const translatedErrors = notification.ref.error_download.errors.map((e) => {
+        return {
+          row: e.row,
+          column: e.column,
+          errorMessage: e.variables ? t(e.translation_key, e.variables) : t(e.translation_key),
+        };
+      });
+      createSensorErrorDownload(
+        notification.ref.error_download.file_name,
+        translatedErrors,
+        notification.ref.error_download.error_type,
+        notification.ref.error_download.success ?? [],
+      );
+    } else {
+      route = '/';
+    }
+
     history.push(route, notification.context);
   };
 
@@ -78,19 +99,22 @@ function PureNotificationReadOnly({ onGoBack, notification }) {
       </div>
 
       <Semibold style={{ color: colors.teal700, marginBottom: '16px' }}>
-        {notification.title.translation_key
-          ? t(notification.title.translation_key)
-          : notification.title[currentLang]}
+        {getNotificationTitle(notification.title)}
       </Semibold>
       <Text style={{ fontSize: '16px', marginBottom: '16px' }}>
-        {notification.body.translation_key
-          ? t(notification.body.translation_key, tOptions)
-          : notification.body[currentLang]}
+        {getNotificationBody(notification.body, notification.variables)}
       </Text>
       {!hideTakeMeThere && (
         <Button sm style={{ height: '32px', width: '150px' }} onClick={onTakeMeThere}>
           {t('NOTIFICATION.TAKE_ME_THERE')}
         </Button>
+      )}
+      {relatedNotifications?.length > 1 && (
+        <NotificationTimeline
+          style={{ marginTop: '30px' }}
+          activeNotificationId={notification.notification_id}
+          relatedNotifications={relatedNotifications}
+        />
       )}
     </Layout>
   );

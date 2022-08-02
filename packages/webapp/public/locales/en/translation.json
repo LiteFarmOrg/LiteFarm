@@ -640,7 +640,8 @@
     "TAB": {
       "CROPS": "Crops",
       "DETAILS": "Details",
-      "TASKS": "Tasks"
+      "TASKS": "Tasks",
+      "READINGS": "Readings"
     },
     "TITLE": "Farm map",
     "TUTORIAL": {
@@ -693,7 +694,8 @@
   },
   "FIELDS": {
     "EDIT_FIELD": {
-      "VARIETY": "Variety"
+      "VARIETY": "Variety",
+      "SUPPLIER": "Supplier"
     }
   },
   "FILE_SIZE_MODAL": {
@@ -1131,7 +1133,16 @@
       "YOU_WILL_FIND": "Here you will find:"
     }
   },
+  "ENTITY_TYPES": {
+    "TASK": "Task",
+    "LOCATION": "Location"
+  },
   "NOTIFICATION": {
+    "TIMELINE": {
+      "HEADING": "Notification timeline",
+      "VIEW_NOW": "View now",
+      "MORE_RECENT_NOTIFICATION": "There are more recent notifications about this {{entityType}}."
+    },
     "DAILY_TASKS_DUE_TODAY": {
       "BODY": "You have tasks due today.",
       "TITLE": "Tasks due today"
@@ -1156,9 +1167,21 @@
       "BODY": "A {{taskType}} task previously assigned to you has been assigned to someone else by {{assigner}}.",
       "TITLE": "Task re-assigned"
     },
+    "TASK_UNASSIGNED": {
+      "BODY": "{{editor}} has marked a {{taskType}} task as unassigned.",
+      "TITLE": "Task unassigned"
+    },
     "WEEKLY_UNASSIGNED_TASKS": {
       "BODY": "You have unassigned tasks due this week.",
       "TITLE": "Unassigned tasks"
+    },
+    "SENSOR_BULK_UPLOAD_SUCCESS": {
+      "BODY": "Your sensor upload has completed successfully.",
+      "TITLE": "Sensor upload completed"
+    },
+    "SENSOR_BULK_UPLOAD_FAIL": {
+      "BODY": "Your sensor upload has some errors. Click “Take me there” to view the details.",
+      "TITLE": "Sensor upload errors"
     }
   },
   "OUTRO": {

@@ -242,7 +242,10 @@
     "GENDER": "Género",
     "GENDER_TOOLTIP": "La información de género es recolectada sólo por propósitos de estudio y sólo será compartida sin identificarlo(la) personalmente a Ud.",
     "PASSWORD": "Contraseña",
-    "TITLE": "Crear nueva cuenta de usuario"
+    "TITLE": "Crear nueva cuenta de usuario",
+    "LANGUAGE_PREFERENCE": "MISSING",
+    "DEFAULT_LANGUAGE": "Español",
+    "DEFAULT_LANGUAGE_VALUE": "es"
   },
   "CROP": {
     "ADD_COMPLIANCE_FILE": "Enlace a un archivo de cumplimiento",
@@ -604,7 +607,8 @@
       "SURFACE_WATER": "Agua de superficie",
       "TITLE": "Filtra su mapa",
       "WATERCOURSE": "Arroyo",
-      "WV": "Valvula de agua"
+      "WV": "Valvula de agua",
+      "SENSOR": "MISSING"
     },
     "NATURAL_AREA": {
       "EDIT_TITLE": "Editar area natural",
@@ -635,7 +639,8 @@
     "TAB": {
       "CROPS": "Cultivos",
       "DETAILS": "Detalles",
-      "TASKS": "Tareas"
+      "TASKS": "Tareas",
+      "READINGS": "MISSING"
     },
     "TITLE": "Mapa de granja",
     "TUTORIAL": {
@@ -688,7 +693,8 @@
   },
   "FIELDS": {
     "EDIT_FIELD": {
-      "VARIETY": "Variedad"
+      "VARIETY": "Variedad",
+      "SUPPLIER": "MISSING"
     }
   },
   "FILE_SIZE_MODAL": {
@@ -1130,6 +1136,10 @@
       "YOU_WILL_FIND": "Aquí encontrará:"
     }
   },
+  "ENTITY_TYPES": {
+    "TASK": "tarea",
+    "LOCATION": "ubicación"
+  },
   "NOTIFICATION": {
     "TIMELINE": {
       "HEADING": "Cronología de notificaciones",
@@ -1160,9 +1170,21 @@
       "BODY": "Una {{taskType}} tarea que te asignó previamente ha sido asignada a otra persona por {{assigner}}.",
       "TITLE": "Tarea reasignada"
     },
+    "TASK_UNASSIGNED": {
+      "BODY": "MISSING",
+      "TITLE": "MISSING"
+    },
     "WEEKLY_UNASSIGNED_TASKS": {
       "BODY": "Tiene tareas sin asignar que vencen esta semana.",
       "TITLE": "Tareas sin responables"
+    },
+    "SENSOR_BULK_UPLOAD_SUCCESS": {
+      "BODY": "MISSING",
+      "TITLE": "MISSING"
+    },
+    "SENSOR_BULK_UPLOAD_FAIL": {
+      "BODY": "MISSING",
+      "TITLE": "MISSING"
     }
   },
   "OUTRO": {

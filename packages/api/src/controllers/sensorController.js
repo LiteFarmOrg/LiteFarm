@@ -579,7 +579,7 @@ const sensorController = {
         );
         const org_id = external_integrations_response.organization_uuid;
         unclaimResponse = await unclaimSensor(org_id, external_id, access_token);
-        console.log(unclaimResponse);
+
         if (unclaimResponse?.status != 200) {
           await trx.rollback();
           return res.status(500).send('Unable to unclaim ESCI sensor');

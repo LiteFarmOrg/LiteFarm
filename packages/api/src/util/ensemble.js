@@ -283,7 +283,11 @@ async function unclaimSensor(org_id, external_id, access_token) {
       url: `${ensembleAPI}/devices/${external_id}`,
     };
 
-    const currentDeviceData = await ensembleAPICall(access_token, getDeviceAxiosObject, onError);
+    const { data: currentDeviceData } = await ensembleAPICall(
+      access_token,
+      getDeviceAxiosObject,
+      onError,
+    );
 
     if (currentDeviceData?.owner_organization?.uuid !== org_id) {
       return { status: 200, data: { detail: 'Device not currently owned by this organization' } };

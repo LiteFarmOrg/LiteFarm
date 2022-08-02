@@ -242,7 +242,10 @@
     "GENDER": "Gender",
     "GENDER_TOOLTIP": "Gender information is collected for research purposes only and will only be shared with  personally identifying information removed",
     "PASSWORD": "Password",
-    "TITLE": "Create new user account"
+    "TITLE": "Create new user account",
+    "LANGUAGE_PREFERENCE": "Language preference",
+    "DEFAULT_LANGUAGE": "English",
+    "DEFAULT_LANGUAGE_VALUE": "en"
   },
   "CROP": {
     "ADD_COMPLIANCE_FILE": "Link to a compliance file",
@@ -605,7 +608,8 @@
       "SURFACE_WATER": "Surface water",
       "TITLE": "Filter your map",
       "WATERCOURSE": "Watercourse",
-      "WV": "Water valve"
+      "WV": "Water valve",
+      "SENSOR": "Sensor"
     },
     "NATURAL_AREA": {
       "EDIT_TITLE": "Edit natural area",

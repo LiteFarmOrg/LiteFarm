@@ -13,10 +13,10 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const baseController = require('../controllers/baseController');
+// const baseController = require('../controllers/baseController');
 const supportTicketModel = require('../models/supportTicketModel');
 const userModel = require('../models/userModel');
-const { sendEmailTemplate, emails, sendEmail } = require('../templates/sendEmailTemplate');
+const { emails, sendEmail } = require('../templates/sendEmailTemplate');
 
 const supportTicketController = {
   // Disabled
@@ -46,7 +46,11 @@ const supportTicketController = {
         data.attachments = [];
         const user_id = req.user.user_id;
         const user = await userModel.query().findById(user_id);
-        const result = await supportTicketModel.query().context({ user_id }).insert(data).returning('*');
+        const result = await supportTicketModel
+          .query()
+          .context({ user_id })
+          .insert(data)
+          .returning('*');
         const replacements = {
           first_name: user.first_name,
           support_type: result.support_type,
@@ -56,14 +60,17 @@ const supportTicketController = {
           locale: user.language_preference,
         };
         const email = data.contact_method === 'email' && data.email;
-        sendEmail(emails.HELP_REQUEST_EMAIL, replacements, user.email, {
-          sender: 'system@litefarm.org',
-          attachments: [req.file],
-        });
-        email && email !== user.email && sendEmail(emails.HELP_REQUEST_EMAIL, replacements, email, {
-          sender: 'system@litefarm.org',
-          attachments: [req.file],
-        });
+        if (email && email !== user.email) {
+          await sendEmail(emails.HELP_REQUEST_EMAIL, replacements, email, {
+            sender: 'system@litefarm.org',
+            attachments: [req.file],
+          });
+        } else {
+          await sendEmail(emails.HELP_REQUEST_EMAIL, replacements, user.email, {
+            sender: 'system@litefarm.org',
+            attachments: [req.file],
+          });
+        }
         res.status(201).send(result);
       } catch (error) {
         console.log(error);
@@ -81,7 +88,11 @@ const supportTicketController = {
       try {
         const user_id = req.user.user_id;
         const status = req.body.status;
-        const result = await supportTicketModel.query().context({ user_id }).findById(support_ticket_id).patch({ status });
+        await supportTicketModel
+          .query()
+          .context({ user_id })
+          .findById(support_ticket_id)
+          .patch({ status });
         res.sendStatus(200);
       } catch (error) {
         res.status(400).json({
@@ -92,7 +103,7 @@ const supportTicketController = {
   },
 };
 
-const capitalize = string => {
+const capitalize = (string) => {
   return string[0].toUpperCase() + string.slice(1);
 };
 

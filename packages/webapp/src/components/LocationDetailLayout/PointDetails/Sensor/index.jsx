@@ -62,6 +62,8 @@ export default function PureSensorDetail({ history, isAdmin, system, sensorInfo,
     shouldUnregister: false,
     mode: 'onChange',
   });
+  const DEPTH = 'depth';
+  const DEPTH_UNIT = 'depth_unit';
 
   return (
     <div style={{ padding: '24px 16px 24px 24px' }}>

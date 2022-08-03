@@ -61,14 +61,13 @@ export function PureCompleteManagementPlan({
   const CREATED_ABANDON_REASON = 'created_abandon_reason';
 
   const [showAbandonModal, setShowAbandonModal] = useState(false);
-  const [invalidDate, setInvalidDate] = useState(false);
 
   const disabled = !isValid;
 
   return (
     <Form
       buttonGroup={
-        <Button disabled={disabled || invalidDate} fullLength>
+        <Button disabled={disabled} fullLength>
           {isAbandonPage ? t('common:MARK_ABANDON') : t('common:MARK_COMPLETE')}
         </Button>
       }
@@ -85,25 +84,19 @@ export function PureCompleteManagementPlan({
           ? t('MANAGEMENT_PLAN.COMPLETE_PLAN.ABANDON_PLAN')
           : t('MANAGEMENT_PLAN.COMPLETE_PLAN.COMPLETE_PLAN')}
       </Title>
-      <div style={{ marginBottom: '40px' }}>
-        <Input
-          label={t('MANAGEMENT_PLAN.COMPLETE_PLAN.DATE_OF_CHANGE')}
-          hookFormRegister={register(DATE, {
-            required: true,
-            validate: isNotInFuture,
-          })}
-          errors={errors[DATE] ? isNotInFuture() : null}
-          type={'date'}
-          max={getDateInputFormat()}
-          min={start_date}
-          required
-        />
-        {invalidDate && (
-          <p style={{ marginTop: '4px', color: 'var(--error)' }}>
-            {t('MANAGEMENT_PLAN.COMPLETE_PLAN.FUTURE_DATE_INVALID')}
-          </p>
-        )}
-      </div>
+      <Input
+        style={{ marginBottom: '40px' }}
+        label={t('MANAGEMENT_PLAN.COMPLETE_PLAN.DATE_OF_CHANGE')}
+        hookFormRegister={register(DATE, {
+          required: true,
+          validate: isNotInFuture,
+        })}
+        errors={errors[DATE] ? isNotInFuture() : null}
+        type={'date'}
+        max={getDateInputFormat()}
+        min={start_date}
+        required
+      />
       {isAbandonPage && (
         <>
           <Controller

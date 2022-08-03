@@ -425,8 +425,13 @@ const userFarmController = {
     return async (req, res) => {
       let result;
       const { user_id, farm_id } = req.user;
+      const { language_preference } = req.body;
       if (!/^\d+$/.test(user_id)) {
-        const user = await userModel.query().findById(user_id).select('*');
+        const user = await userModel
+          .query()
+          .findById(user_id)
+          .patch({ language_preference })
+          .returning('*');
         const passwordRow = await passwordModel.query().findById(user_id);
         if (!passwordRow || user.status_id === 2) {
           return res.status(404).send('User does not exist');
@@ -509,30 +514,13 @@ const userFarmController = {
             // TODO: move validation
             throw new Error('User already has an account');
           }
-          const user = await userModel.query(trx).where({ email }).first();
+          const user = await userModel.getUserByEmail(email);
           const isExistingAccount = !!user;
           const isUserAMemberOfFarm = isExistingAccount
             ? !!(await userFarmModel.query(trx).findById([user.user_id, farm_id]))
             : false;
           if (isUserAMemberOfFarm) {
-            const { user_id: newUserId } = user;
-            await userFarmModel
-              .query(trx)
-              .findById([user.user_id, farm_id])
-              .patch({
-                status: 'Invited',
-                step_three: false,
-                has_consent: false,
-                ...roleIdAndWage,
-              });
-            await shiftModel
-              .query(trx)
-              .context({ user_id: newUserId })
-              .where({ user_id })
-              .patch({ user_id: newUserId });
-            await userFarmModel.query(trx).where({ user_id }).delete();
-            await userLogModel.query(trx).where({ user_id }).delete();
-            await userModel.query(trx).findById(user_id).delete();
+            throw new Error('A user with that email already has access to this farm');
           } else if (isExistingAccount) {
             const { user_id: newUserId } = user;
             await userFarmModel.query(trx).insert({
@@ -587,25 +575,25 @@ const userFarmController = {
           .first()
           .select('*');
         res.status(201).send(userFarm);
+        try {
+          const { farm_name } = userFarm;
+          const user = await userModel.getUserByEmail(email);
+          await emailModel.createTokenSendEmail(
+            {
+              email,
+              gender,
+              birth_year,
+              language_preference: user ? user.language_preference : language,
+            },
+            userFarm,
+            farm_name,
+          );
+        } catch (e) {
+          console.log(e);
+        }
       } catch (e) {
         console.log(e);
-        res.status(400).send(e);
-      }
-      try {
-        const { farm_name } = userFarm;
-        const user = await userModel.query().where({ email }).first();
-        await emailModel.createTokenSendEmail(
-          {
-            email,
-            gender,
-            birth_year,
-            language_preference: user ? user.language_preference : language,
-          },
-          userFarm,
-          farm_name,
-        );
-      } catch (e) {
-        console.log(e);
+        res.status(400).send({ message: e.message });
       }
     };
   },

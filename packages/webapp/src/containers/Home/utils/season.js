@@ -13,7 +13,6 @@ export const getSeason = (lat) => {
   const springStartDate = new Date(year, 2, 1);
   const summerStartDate = new Date(year, 5, 1);
   const winterStartDate = new Date(year, 11, 1);
-
   if (now < springStartDate) {
     return isNorth ? winter : summer;
   } else if (now < summerStartDate) {

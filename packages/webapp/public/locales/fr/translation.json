@@ -715,7 +715,8 @@
       "ESTIMATED_ANNUAL_REVENUE": "Revenu annuel estimé",
       "ESTIMATED_ANNUAL_YIELD": "Récolte annuelle estimée",
       "ESTIMATED_PRICE_PER_UNIT": "Estimation du prix unitaire",
-      "TITLE": "Chiffre d'affaires estimé"
+      "TITLE": "Chiffre d'affaires estimé",
+      "ESTIMATED_CROP_REVENUE": "Estimation des revenus tirés des cultures"
     },
     "REVENUE": "Revenu",
     "VIEW_WITHIN_DATE_RANGE": "Voir les revenus dans cette plage de dates",
@@ -880,6 +881,7 @@
     "GENDER": "Genre",
     "GENDER_TOOLTIP": "Les informations sur le genre sont collectées à des fins de recherche uniquement et ne seront partagées qu'avec les informations d'identification personnelle supprimées",
     "INVALID_EMAIL_ERROR": "Veuillez saisir une adresse courriel valide",
+    "ALREADY_EXISTING_EMAIL_ERROR": "Un utilisateur avec ceci adresse courriel a déjà accès à cette ferme",
     "INVITE": "Inviter",
     "LANGUAGE_OF_INVITE": "Langue d'invitation",
     "PHONE": "Téléphone",
@@ -1219,7 +1221,7 @@
     "SPECIFY_PLACEHOLDER": "E.g. {{types}} 1 - 4",
     "TOOLTIP": "Les 40 premiers caractères de ce champ s'afficheront partout où votre plan de gestion est visible.",
     "WIDTH": "Largeur {{type}}",
-    "WORD_LIMIT": "Only {{limit}} characters can be displayed"
+    "WORD_LIMIT": "Seulement {{limit}} caractères peuvent être montrés."
   },
   "PREPARING_EXPORT": {
     "MESSAGE": "LiteFarm rassemble vos documents de certification en arrière-plan et vous recevrez un courriel lorsque nous aurons terminé - cela peut prendre quelques minutes... Vous pouvez cliquer en dehors de cette case pour continuer à utiliser LiteFarm sans interrompre le processus.",

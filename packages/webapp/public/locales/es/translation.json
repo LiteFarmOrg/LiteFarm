@@ -714,7 +714,8 @@
       "ESTIMATED_ANNUAL_REVENUE": "Ingresos anuales estimados",
       "ESTIMATED_ANNUAL_YIELD": "Cosecha anual estimada",
       "ESTIMATED_PRICE_PER_UNIT": "Precio estimado por unidad",
-      "TITLE": "Ingresos estimados"
+      "TITLE": "Ingresos estimados",
+      "ESTIMATED_CROP_REVENUE": "Ingreso estimado del cultivo"
     },
     "REVENUE": "Ingresos",
     "VIEW_WITHIN_DATE_RANGE": "Ver ingresos dentro de este intervalo de fechas",
@@ -879,6 +880,7 @@
     "GENDER": "Género",
     "GENDER_TOOLTIP": "Información sobre el género es recolectada sólo por propósitos de estudio y sólo será compartida sin identificar personalmente a Ud.",
     "INVALID_EMAIL_ERROR": "Por favor ingrese una dirección de correo válida",
+    "ALREADY_EXISTING_EMAIL_ERROR": "Un usuario con ese correo electrónico ya tiene acceso a esta granja",
     "INVITE": "Invitar",
     "LANGUAGE_OF_INVITE": "Idioma de la invitación",
     "PHONE": "Número de teléfono",

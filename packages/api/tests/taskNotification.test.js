@@ -235,7 +235,6 @@ describe('Task Notification Tests', () => {
         },
       );
     });
-
     test('Owner will receive a notification when a task in unassigned', async (done) => {
       const [{ task_type_id }] = await mocks.task_typeFactory({
         promisedFarm: [{ farm_id: farm.farm_id }],

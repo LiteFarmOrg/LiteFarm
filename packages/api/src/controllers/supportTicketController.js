@@ -20,24 +20,24 @@ const { emails, sendEmail } = require('../templates/sendEmailTemplate');
 
 const supportTicketController = {
   // Disabled
-  getSupportTicketsByFarmId() {
-    return async (req, res) => {
-      try {
-        const farm_id = req.params.farm_id;
-        const result = await supportTicketModel.query().whereNotDeleted().where({ farm_id });
-        if (!result) {
-          res.sendStatus(404);
-        } else {
-          res.status(200).send(result);
-        }
-      } catch (error) {
-        //handle more exceptions
-        res.status(400).json({
-          error,
-        });
-      }
-    };
-  },
+  // getSupportTicketsByFarmId() {
+  //   return async (req, res) => {
+  //     try {
+  //       const farm_id = req.params.farm_id;
+  //       const result = await supportTicketModel.query().whereNotDeleted().where({ farm_id });
+  //       if (!result) {
+  //         res.sendStatus(404);
+  //       } else {
+  //         res.status(200).send(result);
+  //       }
+  //     } catch (error) {
+  //       //handle more exceptions
+  //       res.status(400).json({
+  //         error,
+  //       });
+  //     }
+  //   };
+  // },
 
   addSupportTicket() {
     return async (req, res) => {
@@ -82,25 +82,25 @@ const supportTicketController = {
   },
 
   // Disabled
-  patchStatus() {
-    return async (req, res) => {
-      const support_ticket_id = req.params.support_ticket_id;
-      try {
-        const user_id = req.user.user_id;
-        const status = req.body.status;
-        await supportTicketModel
-          .query()
-          .context({ user_id })
-          .findById(support_ticket_id)
-          .patch({ status });
-        res.sendStatus(200);
-      } catch (error) {
-        res.status(400).json({
-          error,
-        });
-      }
-    };
-  },
+  // patchStatus() {
+  //   return async (req, res) => {
+  //     const support_ticket_id = req.params.support_ticket_id;
+  //     try {
+  //       const user_id = req.user.user_id;
+  //       const status = req.body.status;
+  //       await supportTicketModel
+  //         .query()
+  //         .context({ user_id })
+  //         .findById(support_ticket_id)
+  //         .patch({ status });
+  //       res.sendStatus(200);
+  //     } catch (error) {
+  //       res.status(400).json({
+  //         error,
+  //       });
+  //     }
+  //   };
+  // },
 };
 
 const capitalize = (string) => {

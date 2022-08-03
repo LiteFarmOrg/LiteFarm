@@ -508,7 +508,7 @@ const useMapAssetRenderer = ({ isClickable, showingConfirmButtons, drawingState 
       if (point.type === 'sensor' && longPressed) {
         map.setCenter(grid_point);
         const index = assetGeometries.sensor.findIndex(
-          (sensor) => sensor.location_id == point.location_id,
+          (sensor) => sensor.location_id === point.location_id,
         );
         handleSelection(
           MouseEvent.latLng,

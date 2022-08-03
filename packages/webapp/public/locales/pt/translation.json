@@ -506,12 +506,12 @@
     },
     "CEREMONIAL_AREA": {
       "EDIT_TITLE": "Editar área cerimonial",
-      "NAME": "Área cerimonial",
+      "NAME": "Nome da área cerimonial",
       "TITLE": "Adicionar área cerimonial"
     },
     "CONFIRM_RETIRE": {
-      "BODY": "Remover este local fará com que seja retirado do mapa do sítio/fazenda.",
-      "TITLE": "Remover local?"
+      "BODY": "Remover esta área fará com que seja retirado do mapa do sítio/fazenda.",
+      "TITLE": "Remover área?"
     },
     "DRAWING_MANAGER": {
       "REDRAW": "Redesenhar",
@@ -528,7 +528,7 @@
     },
     "FARM_SITE_BOUNDARY": {
       "EDIT_TITLE": "Editar limites do sítio/fazenda",
-      "NAME": "Nome da area desenhada",
+      "NAME": "Nome de limites do sítio/fazenda",
       "TITLE": "Adicionar limites do sítio/fazenda"
     },
     "FENCE": {
@@ -645,16 +645,16 @@
     "TITLE": "Mapa do sítio/fazenda",
     "TUTORIAL": {
       "ADJUST_AREA": {
-        "TEXT": "Clique-e-arraste pontos para ajustar a área",
+        "TEXT": "Clique e arraste pontos para ajustar a área",
         "TITLE": "Ajustar área"
       },
       "ADJUST_LINE": {
-        "TEXT": "Clique-e-arraste pontos para ajustar a linha",
+        "TEXT": "Clique e arraste pontos para ajustar a linha",
         "TITLE": "Ajustar linha"
       },
       "AREA": {
         "STEP_ONE": "Clique em qualquer lugar para começar a desenhar",
-        "STEP_THREE": "Clique-e-arraste pontos para ajustar a área",
+        "STEP_THREE": "Clique e arraste pontos para ajustar a área",
         "STEP_TWO": "Clique no ponto inicial para fechar a área",
         "TITLE": "Desenhe uma área"
       },
@@ -675,7 +675,7 @@
       "GROUNDWATER": "Água subterrânea",
       "MAX_FLOW_RATE": "Taxa máxima de fluxo",
       "MUNICIPAL_WATER": "Água municipal",
-      "NAME": "Nome da ponto de bombeamento",
+      "NAME": "Nome do ponto de bombeamento",
       "RAIN_WATER": "Água de chuva",
       "SURFACE_WATER": "Água superficial",
       "TITLE": "Adicionar ponto de bombeamento",
@@ -711,10 +711,11 @@
     },
     "DATE": "Data",
     "ESTIMATED_REVENUE": {
-      "ESTIMATED_ANNUAL_REVENUE": "Receita anual estimada",
+      "ESTIMATED_ANNUAL_REVENUE": "Rendimento anual estimada",
       "ESTIMATED_ANNUAL_YIELD": "Colheita anual estimada",
       "ESTIMATED_PRICE_PER_UNIT": "Preço por unidade estimado",
-      "TITLE": "Receita Estimada"
+      "TITLE": "Receita Estimada",
+      "ESTIMATED_CROP_REVENUE": "Rendimento estimada do cultivo"
     },
     "REVENUE": "Receita",
     "VIEW_WITHIN_DATE_RANGE": "Veja a receita neste intervalo de datas",
@@ -879,6 +880,7 @@
     "GENDER": "Gênero",
     "GENDER_TOOLTIP": "As informações de gênero são coletadas apenas para fins de pesquisa e só serão utilizadas com as informações de identificação pessoal removidas",
     "INVALID_EMAIL_ERROR": "Por favor insira um email válido",
+    "ALREADY_EXISTING_EMAIL_ERROR": "Um usuário com esse e-mail já tem acesso a esta fazenda",
     "INVITE": "Convidar",
     "LANGUAGE_OF_INVITE": "Idioma do convite",
     "PHONE": "Número de telefone",
@@ -976,7 +978,7 @@
       "ABANDON_PLAN": "Abandonar plano",
       "ABANDON_REASON": "Razão do abandono",
       "COMPLETE_DATE": "Fecha completada",
-      "COMPLETE_PLAN": "Plano completo",
+      "COMPLETE_PLAN": "Completar plano",
       "DATE_OF_CHANGE": "Data de alteração da situação",
       "NOTES_CHAR_LIMIT": "As observações não podem exceder 10.000 caractéres",
       "RATING": "Avaliar este plano de cultivo",
@@ -1547,7 +1549,7 @@
     "DUE_DATE": "Data de finalização",
     "DURATION": "Duração",
     "FILTER": {
-      "ASCENDING": "mais antigo primeiro",
+      "ASCENDING": "mais antiga primeiro",
       "ASSIGNEE": "Responsável",
       "CROP": "Cultivo",
       "DATE_RANGE": "Filtrar por intervalo de datas",

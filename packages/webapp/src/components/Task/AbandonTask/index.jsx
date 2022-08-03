@@ -13,6 +13,7 @@ import TimeSlider from '../../Form/Slider/TimeSlider';
 import Checkbox from '../../Form/Checkbox';
 import Rating from '../../Rating';
 import { getDateInputFormat } from '../../../util/moment';
+import { isNotInFuture } from '../../Form/Input/utils';
 
 const PureAbandonTask = ({
   onSubmit,
@@ -51,7 +52,9 @@ const PureAbandonTask = ({
   const happiness = watch(HAPPINESS);
 
   const disabled = !isValid || (hasAssignee && !happiness && !prefer_not_to_say);
-
+  // const isNotInFuture = (data) => {
+  //   return new Date(data) <= new Date() ? true : t('MANAGEMENT_PLAN.COMPLETE_PLAN.FUTURE_DATE_INVALID');
+  // }
   // TODO: bring the options up to the smart component (eventually will be an api call + selector)
   const abandonmentReasonOptions = [
     { label: t('TASK.ABANDON.REASON.CROP_FAILURE'), value: 'CROP_FAILURE' },
@@ -79,7 +82,11 @@ const PureAbandonTask = ({
 
       <Input
         label={t('TASK.ABANDON.DATE')}
-        hookFormRegister={register(ABANDON_DATE, { required: true })}
+        hookFormRegister={register(ABANDON_DATE, {
+          required: true,
+          validate: isNotInFuture,
+        })}
+        errors={errors[ABANDON_DATE] ? isNotInFuture() : null}
         style={{ marginBottom: '24px' }}
         type={'date'}
         max={getDateInputFormat()}

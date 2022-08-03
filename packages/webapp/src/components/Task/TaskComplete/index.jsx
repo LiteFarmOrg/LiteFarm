@@ -13,6 +13,7 @@ import styles from './styles.module.scss';
 import { getObjectInnerValues } from '../../../util';
 import Input from '../../Form/Input';
 import { getDateInputFormat } from '../../../util/moment';
+import { isNotInFuture } from '../../Form/Input/utils';
 
 export default function PureTaskComplete({
   onSave,
@@ -100,7 +101,11 @@ export default function PureTaskComplete({
 
       <Input
         label={t('TASK.COMPLETE.DATE')}
-        hookFormRegister={register(COMPLETE_DATE, { required: true })}
+        hookFormRegister={register(COMPLETE_DATE, {
+          required: true,
+          validate: isNotInFuture,
+        })}
+        errors={errors[COMPLETE_DATE] ? isNotInFuture() : null}
         style={{ marginBottom: '24px' }}
         type={'date'}
         max={getDateInputFormat()}

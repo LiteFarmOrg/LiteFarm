@@ -394,10 +394,7 @@ const sensorController = {
         .patch({ name: sensor_name })
         .where('location_id', location_id);
 
-      await SensorModel.query()
-        .patch(sensor_properties)
-        .where('partner_id', 1)
-        .where('location_id', location_id);
+      await SensorModel.query().patch(sensor_properties).where('location_id', location_id);
 
       return res.status(200).send('Success');
     } catch (error) {

@@ -51,7 +51,6 @@ export default function UpdateSensor({
     formState: { errors, isValid },
   } = useForm({
     defaultValues: {
-      brand: 'ensemble_scientific',
       sensor_name: sensorInfo.name,
       latitude: sensorInfo.point.lat,
       longtitude: sensorInfo.point.lng,
@@ -65,7 +64,7 @@ export default function UpdateSensor({
     mode: 'onChange',
   });
 
-  const integrating_partners = [{ value: 'ensemble_scientific', label: t('Ensemble Scientific') }];
+  const { brand_name } = sensorInfo;
 
   const BRAND = 'brand';
   const DEPTH = 'depth';
@@ -212,11 +211,11 @@ export default function UpdateSensor({
           render={() => (
             <>
               <ReactSelect
-                options={integrating_partners}
                 label={t('SENSOR.BRAND')}
                 required={true}
                 isDisabled
-                defaultValue={integrating_partners[0]}
+                placeholder={brand_name}
+                defaultValue={brand_name}
                 toolTipContent={t('SENSOR.BRAND_HELPTEXT')}
                 style={{ marginBottom: '24px' }}
               />

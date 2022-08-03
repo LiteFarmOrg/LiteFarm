@@ -1,6 +1,6 @@
 import Form from '../../Form';
 import CropHeader from '../CropHeader';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import Button from '../../Form/Button';
 import { useTranslation } from 'react-i18next';

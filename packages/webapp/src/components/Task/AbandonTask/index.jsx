@@ -52,9 +52,7 @@ const PureAbandonTask = ({
   const happiness = watch(HAPPINESS);
 
   const disabled = !isValid || (hasAssignee && !happiness && !prefer_not_to_say);
-  // const isNotInFuture = (data) => {
-  //   return new Date(data) <= new Date() ? true : t('MANAGEMENT_PLAN.COMPLETE_PLAN.FUTURE_DATE_INVALID');
-  // }
+
   // TODO: bring the options up to the smart component (eventually will be an api call + selector)
   const abandonmentReasonOptions = [
     { label: t('TASK.ABANDON.REASON.CROP_FAILURE'), value: 'CROP_FAILURE' },

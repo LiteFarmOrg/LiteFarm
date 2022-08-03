@@ -199,7 +199,7 @@ export default function UpdateSensor({
           name={DEPTH}
           displayUnitName={DEPTH_UNIT}
           unitType={container_planting_depth}
-          max={1000}
+          max={10000}
           system={system}
           control={control}
           style={{ marginBottom: '40px' }}

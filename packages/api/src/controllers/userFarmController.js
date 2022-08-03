@@ -497,7 +497,7 @@ const userFarmController = {
     };
   },
 
-  patchPseudoUserEmail() {
+  upgradePseudoUser() {
     return async (req, res) => {
       const { user_id, farm_id } = req.params;
       const { email, gender, birth_year, language, phone_number } = req.body;
@@ -579,7 +579,12 @@ const userFarmController = {
           const { farm_name } = userFarm;
           const user = await userModel.getUserByEmail(email);
           await emailModel.createTokenSendEmail(
-            { email, gender, birth_year, language: user ? user.language_preference : language },
+            {
+              email,
+              gender,
+              birth_year,
+              language_preference: user ? user.language_preference : language,
+            },
             userFarm,
             farm_name,
           );

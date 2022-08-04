@@ -30,7 +30,7 @@ import {
   polygonPath,
 } from './constants';
 import useSelectionHandler from './useSelectionHandler';
-import MarkerClusterer from '@googlemaps/markerclustererplus';
+import { MarkerClusterer, SuperClusterAlgorithm } from '@googlemaps/markerclusterer';
 import { useMaxZoom } from './useMaxZoom';
 
 import MapPin from '../../assets/images/map/map_pin.svg';
@@ -115,13 +115,15 @@ const useMapAssetRenderer = ({ isClickable, showingConfirmButtons, drawingState 
   const markerClusterRef = useRef();
   useEffect(() => {
     dismissSelectionModal();
-    markerClusterRef?.current?.repaint();
+    console.log(markerClusterRef?.current);
   }, [filterSettings?.gate, filterSettings?.water_valve, filterSettings?.sensor]);
   useEffect(() => {
     markerClusterRef?.current?.setOptions({ zoomOnClick: isClickable });
   }, [isClickable]);
   const createMarkerClusters = (maps, map, points) => {
     const markers = [];
+
+    console.log(points);
 
     points.forEach((point) => {
       point.marker.id = point.location_id;
@@ -141,14 +143,26 @@ const useMapAssetRenderer = ({ isClickable, showingConfirmButtons, drawingState 
     };
     const clusterStyles = [clusterStyle, clusterStyle, clusterStyle, clusterStyle, clusterStyle];
 
-    const markerCluster = new MarkerClusterer(map, markers, {
-      ignoreHidden: true,
-      styles: clusterStyles,
+    const markerCluster = new MarkerClusterer({
+      map,
+      markers,
+      algorithm: new SuperClusterAlgorithm({ maxZoom: 19, radius: 30 }),
+      renderer: ({ count, position }) => {
+        new maps.Marker({
+          label: { text: String(count), color: 'white', fontSize: '20px' },
+        });
+      },
     });
+
+    // console.log(markerCluster)
 
     markerCluster.addMarkers(markers, true);
     maps.event.addListener(markerCluster, 'click', (cluster) => {
+      console.log('Click!');
+      console.log(map.getZoom());
+      console.log('Max zoom', maxZoomRef?.current);
       if (map.getZoom() >= (maxZoomRef?.current || 20) && cluster.markers_.length > 1) {
+        console.log('Running');
         const pointAssets = {
           gate: [],
           water_valve: [],
@@ -193,7 +207,7 @@ const useMapAssetRenderer = ({ isClickable, showingConfirmButtons, drawingState 
 
   const drawAssets = (map, maps, mapBounds) => {
     maps.event.addListenerOnce(map, 'idle', function () {
-      markerClusterRef?.current?.repaint();
+      // markerClusterRef?.current?.repaint();
     });
 
     // Event listener for general map click

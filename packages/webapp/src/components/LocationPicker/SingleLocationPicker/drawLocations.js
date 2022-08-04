@@ -14,7 +14,7 @@ import {
   selectedIcons,
 } from '../../../containers/Map/mapStyles';
 import styles, { defaultColour } from '../../../containers/Map/styles.module.scss';
-import MarkerClusterer from '@googlemaps/markerclustererplus';
+import { MarkerClusterer } from '@googlemaps/markerclusterer';
 import clsx from 'clsx';
 
 export const SELECTED_POLYGON_OPACITY = 1.0;
@@ -245,10 +245,7 @@ export const createMarkerClusters = (maps, map, points) => {
   };
   const clusterStyles = [clusterStyle, selectedClusterStyle];
 
-  const markerCluster = new MarkerClusterer(map, markers, {
-    ignoreHidden: true,
-    styles: clusterStyles,
-  });
+  const markerCluster = new MarkerClusterer({ map, markers });
 
   markerCluster.addMarkers(markers, true);
 

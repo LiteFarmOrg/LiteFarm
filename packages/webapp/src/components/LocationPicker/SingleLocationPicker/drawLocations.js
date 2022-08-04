@@ -221,13 +221,14 @@ const drawPoint = (map, maps, mapBounds, location) => {
   };
 };
 
-export const createMarkerClusters = (maps, map, points) => {
+export const createMarkerClusters = (maps, map, points, selectedLocationsRef, markerClusterRef) => {
   const markers = points.map((point) => {
     point.marker.location_id = point.location.location_id;
     point.marker.name = point.location.name;
     point.marker.type = point.location.type;
     return point.marker;
   });
+  console.table(selectedLocationsRef);
 
   // maps.event.addListener(marker, 'mouseover', function (c) {
   //   console.log('mouseover')
@@ -240,10 +241,17 @@ export const createMarkerClusters = (maps, map, points) => {
   //   //     .trim();
   // });
 
-  return MarkerCluster(map, maps, markers, [
-    {
-      event: 'mouseover',
-      callbackFunction: () => console.log("I'm a callback!"),
-    },
-  ]);
+  return MarkerCluster(
+    map,
+    maps,
+    markers,
+    [
+      {
+        event: 'mouseover',
+        callbackFunction: () => console.log("I'm a callback!"),
+      },
+    ],
+    selectedLocationsRef,
+    markerClusterRef,
+  );
 };

@@ -30,14 +30,11 @@ import {
   polygonPath,
 } from './constants';
 import useSelectionHandler from './useSelectionHandler';
-import { MarkerClusterer, SuperClusterAlgorithm } from '@googlemaps/markerclusterer';
 import { useMaxZoom } from './useMaxZoom';
 
 import MapPin from '../../assets/images/map/map_pin.svg';
 import { userFarmSelector } from '../userFarmSlice';
 import MarkerCluster from '../../components/Map/MarkerCluster';
-
-const cluterRenderer = {};
 
 /**
  *

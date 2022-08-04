@@ -5,8 +5,6 @@
   font-size: 20px;
   line-height: 24px;
   font-family: 'Open Sans', 'SansSerif', serif;
-  margin-top: 24px;
-  margin-left: 12px;
 }
 
 .subTitle{
@@ -29,4 +27,21 @@
 .legendContainer{
   margin-right: 10px;
   cursor: pointer;
+}
+
+.titleLastUpdated {
+  font-style: normal;
+  font-weight: normal;
+  color: var(--grey600);
+  font-size: 14px;
+  line-height: 24px;
+  font-family: 'Open Sans', 'SansSerif', serif;
+}
+
+.titleWrapper{
+  margin: 24px 24px 0 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  flex-wrap: wrap;
 }

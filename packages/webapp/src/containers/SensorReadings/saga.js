@@ -15,6 +15,7 @@
 
 import { createAction } from '@reduxjs/toolkit';
 import { call, put, select, takeLeading, all } from 'redux-saga/effects';
+import moment from 'moment';
 import { axios } from '../saga';
 import { userFarmSelector } from '../userFarmSlice';
 import { GRAPH_TIMESTAMPS, OPEN_WEATHER_API_URL_FOR_SENSORS, HOUR } from './constants';
@@ -137,6 +138,10 @@ export function* getSensorsReadingsSaga({ payload }) {
     if (result?.data?.sensorsPoints) {
       selectedSensorName = result?.data?.sensorsPoints[0]?.name;
     }
+    const lastUpdated = new Date(
+      Math.max(...Object.keys(ambientDataWithSensorsReadings).map((e) => new Date(+e * 1000))),
+    );
+    const lastUpdatedReadingsTime = moment(lastUpdated).startOf('day').fromNow();
 
     yield put(
       bulkSensorReadingsSuccess({
@@ -144,6 +149,7 @@ export function* getSensorsReadingsSaga({ payload }) {
         selectedSensorName,
         latestTemperatureReadings,
         nearestStationName: stationName,
+        lastUpdatedReadingsTime,
       }),
     );
   } catch (error) {

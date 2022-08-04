@@ -75,7 +75,7 @@ export default function PureEditUser({
     }
   };
 
-  const isUserLastManager = () => {
+  const isUserLastAdmin = () => {
     let adminCount = 0;
     userFarms.forEach((user) => {
       if (adminRoles.includes(user.role_id)) adminCount++;
@@ -149,7 +149,7 @@ export default function PureEditUser({
             <Button
               type={'button'}
               onClick={() => {
-                isUserLastManager()
+                isUserLastAdmin()
                   ? setShowInvalidRevokeUserAccessModal(true)
                   : setShowRevokeUserAccessModal(true);
               }}

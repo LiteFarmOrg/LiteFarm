@@ -982,6 +982,7 @@
       "COMPLETE_PLAN": "Plan complet",
       "DATE_OF_CHANGE": "Date de changement de statut",
       "NOTES_CHAR_LIMIT": "Les notes doivent comporter moins de 10 000 caractères",
+      "FUTURE_DATE_INVALID": "MISSING",
       "RATING": "Évaluez ce plan de gestion",
       "REASON": {
         "CROP_FAILURE": "Échec de la récolte",

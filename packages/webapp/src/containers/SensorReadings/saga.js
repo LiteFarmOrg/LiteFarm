@@ -47,10 +47,8 @@ export function* getSensorsReadingsSaga({ payload }) {
     grid_points: { lat, lng },
   } = yield select(userFarmSelector);
   try {
-    const start = parseInt(
-      +new Date('06-26-2022').setDate(new Date('06-26-2022').getDate() - 4) / 1000,
-    );
-    const end = parseInt(+new Date('06-26-2022') / 1000);
+    const start = parseInt(+new Date().setDate(new Date().getDate() - 4) / 1000);
+    const end = parseInt(+new Date() / 1000);
     yield put(bulkSensorReadingsLoading());
     const apikey = import.meta.env.VITE_WEATHER_API_KEY;
     let params = {
@@ -63,12 +61,12 @@ export function* getSensorsReadingsSaga({ payload }) {
     };
 
     const header = getHeader(farm_id);
-
+    const endDate = moment(new Date().setDate(new Date().getDate() + 1)).format('MM-DD-YYYY');
     const postData = {
       farm_id,
       locationIds,
       readingType,
-      endDate: '06-27-2022',
+      endDate: endDate,
     };
     const result = yield call(axios.post, sensorReadingsUrl(), postData, header);
     const allSensorNames = result?.data?.sensorsPoints.map((s) => s.name);

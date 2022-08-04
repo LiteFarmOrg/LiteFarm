@@ -13,9 +13,8 @@ import {
   lineStyles,
   selectedIcons,
 } from '../../../containers/Map/mapStyles';
-import styles, { defaultColour } from '../../../containers/Map/styles.module.scss';
-import { MarkerClusterer } from '@googlemaps/markerclusterer';
-import clsx from 'clsx';
+import { defaultColour } from '../../../containers/Map/styles.module.scss';
+import MarkerCluster from '../../Map/MarkerCluster';
 
 export const SELECTED_POLYGON_OPACITY = 1.0;
 export const DEFAULT_POLYGON_OPACITY = 0.5;
@@ -206,6 +205,7 @@ const drawPoint = (map, maps, mapBounds, location) => {
   });
 
   maps.event.addListener(marker, 'mouseover', function () {
+    console.log('clicked!');
     this.clickable &&
       marker.icon !== selectedIcons[type] &&
       this.setOptions({ icon: hoverIcons[type] });
@@ -229,35 +229,21 @@ export const createMarkerClusters = (maps, map, points) => {
     return point.marker;
   });
 
-  const clusterStyle = {
-    textSize: 20,
-    textLineHeight: 20,
-    height: 28,
-    width: 28,
-    className: styles.clusterIcon,
-  };
-  const selectedClusterStyle = {
-    textSize: 20,
-    textLineHeight: 20,
-    height: 28,
-    width: 28,
-    className: styles.selectedClusterIcon,
-  };
-  const clusterStyles = [clusterStyle, selectedClusterStyle];
+  // maps.event.addListener(marker, 'mouseover', function (c) {
+  //   console.log('mouseover')
+  //   // c.clusterIcon_.div_.className = clsx(c.clusterIcon_.div_.className, styles.hoveredClusterIcon);
+  // });
+  //
+  // maps.event.addListener(marker, 'mouseout', function (c) {
+  //   // c.clusterIcon_.div_.className = c.clusterIcon_.div_.className
+  //   //     .replace(styles.hoveredClusterIcon, '')
+  //   //     .trim();
+  // });
 
-  const markerCluster = new MarkerClusterer({ map, markers });
-
-  markerCluster.addMarkers(markers, true);
-
-  maps.event.addListener(markerCluster, 'mouseover', function (c) {
-    c.clusterIcon_.div_.className = clsx(c.clusterIcon_.div_.className, styles.hoveredClusterIcon);
-  });
-
-  maps.event.addListener(markerCluster, 'mouseout', function (c) {
-    c.clusterIcon_.div_.className = c.clusterIcon_.div_.className
-      .replace(styles.hoveredClusterIcon, '')
-      .trim();
-  });
-
-  return markerCluster;
+  return MarkerCluster(map, maps, markers, [
+    {
+      event: 'mouseover',
+      callbackFunction: () => console.log("I'm a callback!"),
+    },
+  ]);
 };

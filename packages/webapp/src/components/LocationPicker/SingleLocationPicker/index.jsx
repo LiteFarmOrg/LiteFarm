@@ -64,6 +64,7 @@ const LocationPicker = ({
   const prevSelectedLocationIdsRef = useRef([]);
   useEffect(() => {
     for (const location_id of selectedLocationIds) {
+      console.log(location_id);
       if (
         geometriesRef.current[location_id] &&
         !prevSelectedLocationIdsRef.current?.includes(location_id)
@@ -140,9 +141,9 @@ const LocationPicker = ({
       Object.values(geometriesRef.current).filter(({ location: { type } }) => isPoint(type)),
     );
     maps.event.addListener(markerClusterRef.current, 'click', (cluster) => {
-      if (map.getZoom() >= (maxZoomRef?.current || 20) && cluster.markers_.length > 1) {
+      if (map.getZoom() >= (maxZoomRef?.current || 20) && cluster.markers.length > 1) {
         setOverlappedPositions(
-          cluster.markers_.map((marker) => ({
+          cluster.markers.map((marker) => ({
             location_id: marker.location_id,
             name: marker.name,
             type: marker.type,
@@ -150,15 +151,16 @@ const LocationPicker = ({
         );
       }
     });
-    markerClusterRef.current.setCalculator(function (markers, numStyles) {
-      const isSelected = !!markers.find(({ location_id }) =>
-        prevSelectedLocationIdsRef.current.includes(location_id),
-      );
-      return {
-        text: markers.length,
-        index: isSelected ? 2 : 1,
-      };
-    });
+    console.log(markerClusterRef.current);
+    // markerClusterRef.current.setCalculator(function (markers, numStyles) {
+    //   const isSelected = !!markers.find(({ location_id }) =>
+    //     prevSelectedLocationIdsRef.current.includes(location_id),
+    //   );
+    //   return {
+    //     text: markers.length,
+    //     index: isSelected ? 2 : 1,
+    //   };
+    // });
   };
 
   const setSelectedGeometryStyle = (assetGeometry) => {

@@ -35,6 +35,9 @@ import { useMaxZoom } from './useMaxZoom';
 
 import MapPin from '../../assets/images/map/map_pin.svg';
 import { userFarmSelector } from '../userFarmSlice';
+import MarkerCluster from '../../components/Map/MarkerCluster';
+
+const cluterRenderer = {};
 
 /**
  *
@@ -123,8 +126,6 @@ const useMapAssetRenderer = ({ isClickable, showingConfirmButtons, drawingState 
   const createMarkerClusters = (maps, map, points) => {
     const markers = [];
 
-    console.log(points);
-
     points.forEach((point) => {
       point.marker.id = point.location_id;
       point.marker.name = point.location_name;
@@ -133,42 +134,17 @@ const useMapAssetRenderer = ({ isClickable, showingConfirmButtons, drawingState 
       markers.push(point.marker);
     });
 
-    const clusterStyle = {
-      textColor: 'white',
-      textSize: 20,
-      textLineHeight: 20,
-      height: 28,
-      width: 28,
-      className: styles.selectedClusterIcon,
-    };
-    const clusterStyles = [clusterStyle, clusterStyle, clusterStyle, clusterStyle, clusterStyle];
-
-    const markerCluster = new MarkerClusterer({
-      map,
-      markers,
-      algorithm: new SuperClusterAlgorithm({ maxZoom: 19, radius: 30 }),
-      renderer: ({ count, position }) => {
-        new maps.Marker({
-          label: { text: String(count), color: 'white', fontSize: '20px' },
-        });
-      },
-    });
-
-    // console.log(markerCluster)
+    const markerCluster = MarkerCluster(map, maps, markers);
 
     markerCluster.addMarkers(markers, true);
     maps.event.addListener(markerCluster, 'click', (cluster) => {
-      console.log('Click!');
-      console.log(map.getZoom());
-      console.log('Max zoom', maxZoomRef?.current);
-      if (map.getZoom() >= (maxZoomRef?.current || 20) && cluster.markers_.length > 1) {
-        console.log('Running');
+      if (map.getZoom() >= (maxZoomRef?.current || 20) && cluster.markers.length > 1) {
         const pointAssets = {
           gate: [],
           water_valve: [],
           sensor: [],
         };
-        cluster.markers_.map((point) => {
+        cluster.markers.map((point) => {
           pointAssets[point.type].push({
             asset: point.asset,
             location_id: point.id,

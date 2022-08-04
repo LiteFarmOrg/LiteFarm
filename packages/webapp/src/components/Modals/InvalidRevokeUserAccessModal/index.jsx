@@ -7,8 +7,8 @@ export default function InvalidRevokeUserAccessModal({ dismissModal }) {
   const { t } = useTranslation();
   return (
     <ModalComponent
-      title={t(`PROFILE.PEOPLE.REVOKE_ACCESS`)}
-      contents={[t('PROFILE.PEOPLE.DO_YOU_WANT_TO_REMOVE'), t('PROFILE.PEOPLE.THIS_WILL_REMOVE')]}
+      title={t(`PROFILE.PEOPLE.INVALID_REVOKE_ACCESS`)}
+      contents={[t('PROFILE.PEOPLE.LAST_ADMIN_ERROR')]}
       dismissModal={dismissModal}
       buttonGroup={
         <>

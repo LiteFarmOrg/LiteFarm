@@ -64,8 +64,9 @@ const LocationPicker = ({
 
   useEffect(() => {
     if (markerClusterRef?.current?.markers?.length > 0) {
-      const markers = markerClusterRef?.current?.markers;
-      console.table(markers);
+      const markers = [...markerClusterRef.current.markers];
+      markerClusterRef?.current?.clearMarkers();
+      markerClusterRef?.current?.addMarkers(markers);
     }
   }, [selectedLocationIds]);
 

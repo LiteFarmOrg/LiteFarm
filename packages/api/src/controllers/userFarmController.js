@@ -387,12 +387,12 @@ const userFarmController = {
           return;
         }
 
-        const managers = await userFarmModel.getFarmManagementByFarmId(farm_id);
+        const admins = await userFarmModel.getFarmManagementByFarmId(farm_id);
 
         // check if access is revoked or restored: update email info based on this
         if (currentStatus === 'Active' || currentStatus === 'Invited') {
-          if (managers.length <= 1) {
-            return res.status(400).send("You cannot revoke the last manager's access on this farm");
+          if (admins.length <= 1) {
+            return res.status(400).send("You cannot revoke the last admin's access on this farm");
           }
           template_path = emails.ACCESS_REVOKE;
         } else if (currentStatus === 'Inactive') {

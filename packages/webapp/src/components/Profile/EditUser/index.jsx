@@ -8,7 +8,10 @@ import PropTypes from 'prop-types';
 import Form from '../../Form';
 import PageTitle from '../../PageTitle/v2';
 import RevokeUserAccessModal from '../../Modals/RevokeUserAccessModal';
+import InvalidRevokeUserAccessModal from '../../Modals/InvalidRevokeUserAccessModal';
 import Checkbox from '../../Form/Checkbox';
+import { useSelector } from 'react-redux';
+import { userFarmsByFarmSelector } from '../../../containers/userFarmSlice';
 
 export default function PureEditUser({
   userFarm,
@@ -35,6 +38,8 @@ export default function PureEditUser({
     3: t('role:WORKER'),
     5: t('role:EXTENSION_OFFICER'),
   };
+  const userFarms = useSelector(userFarmsByFarmSelector);
+  const adminRoles = [1, 2, 5];
 
   const genderOptions = [
     { value: 'MALE', label: t('gender:MALE') },
@@ -70,6 +75,15 @@ export default function PureEditUser({
     }
   };
 
+  const isUserLastManager = () => {
+    let adminCount = 0;
+    userFarms.forEach((user) => {
+      if (adminRoles.includes(user.role_id)) adminCount++;
+    });
+
+    return adminCount === 1 && adminRoles.includes(userFarm.role_id);
+  };
+
   const {
     register,
     handleSubmit,
@@ -85,6 +99,7 @@ export default function PureEditUser({
   });
 
   const [showRevokeUserAccessModal, setShowRevokeUserAccessModal] = useState();
+  const [showInvalidRevokeUserAccessModal, setShowInvalidRevokeUserAccessModal] = useState(false);
   const [shouldInvitePseudoUser, setShouldInvitePseudoUser] = useState(false);
   const onInviteUserCheckboxClick = () => {
     setValue(EMAIL, shouldInvitePseudoUser ? userFarm.email : '');
@@ -134,7 +149,9 @@ export default function PureEditUser({
             <Button
               type={'button'}
               onClick={() => {
-                setShowRevokeUserAccessModal(true);
+                isUserLastManager()
+                  ? setShowInvalidRevokeUserAccessModal(true)
+                  : setShowRevokeUserAccessModal(true);
               }}
               fullLength
               color={'secondary'}
@@ -298,6 +315,13 @@ export default function PureEditUser({
             setShowRevokeUserAccessModal(false);
           }}
           onRevoke={onRevoke}
+        />
+      )}
+      {showInvalidRevokeUserAccessModal && (
+        <InvalidRevokeUserAccessModal
+          dismissModal={() => {
+            setShowInvalidRevokeUserAccessModal(false);
+          }}
         />
       )}
     </Form>

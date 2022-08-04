@@ -1262,6 +1262,8 @@
       "PAY": "Pay",
       "RESTORE_ACCESS": "Restore User Access",
       "REVOKE_ACCESS": "Revoke User Access",
+      "INVALID_REVOKE_ACCESS": "Cannot revoke access",
+      "LAST_ADMIN_ERROR": "We’re unable to revoke access to this user because they are the last manager at this farm. If you would like to delete your farm, create a ticket by clicking <1>here</1> instead.",
       "ROLE": "Role",
       "ROLE_CHANGE_ALERT": "Role change will take full effect upon next login. Workers cannot set themselves to Admins.",
       "SEARCH": "Search",

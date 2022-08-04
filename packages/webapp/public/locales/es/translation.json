@@ -1265,6 +1265,8 @@
       "PAY": "Pago",
       "RESTORE_ACCESS": "Restaurar acceso de usuario",
       "REVOKE_ACCESS": "Revocar acceso de usuario",
+      "INVALID_REVOKE_ACCESS": "MISSING",
+      "LAST_ADMIN_ERROR": "MISSING",
       "ROLE": "Rol",
       "ROLE_CHANGE_ALERT": "Cambio de rol se reflejará completamente en la siguiente sesión. Trabajadores no pueden configurarse como Administradores.",
       "SEARCH": "Buscar",

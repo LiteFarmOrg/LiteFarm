@@ -48,7 +48,6 @@ class FarmExternalIntegrations extends Model {
         farm_id: { type: 'string' },
         partner_id: { type: 'integer' },
         organization_uuid: { type: 'string' },
-        webhook_address: { type: 'string' },
         webhook_id: { type: 'integer' },
       },
       additionalProperties: false,
@@ -84,12 +83,12 @@ class FarmExternalIntegrations extends Model {
   /**
    * Updates the webhook address for a farm.
    * @param farmId
-   * @param webhookAddress
+   * @param webhookId
    * @return {Promise<*>}
    */
-  static async updateWebhookAddress(farmId, webhookAddress, webhookId) {
+  static async updateWebhookId(farmId, webhookId) {
     return FarmExternalIntegrations.query()
-      .patch({ webhook_address: webhookAddress, webhook_id: webhookId })
+      .patch({ webhook_id: webhookId })
       .where('farm_id', farmId);
   }
 

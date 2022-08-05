@@ -87,8 +87,8 @@ async function registerOrganizationWebhook(farmId, organizationId, accessToken) 
   const existingIntegration = await FarmExternalIntegrationsModel.query()
     .where({ farm_id: farmId, partner_id: 1 })
     .first();
-  if (existingIntegration?.webhook_address) {
-    return existingIntegration.webhook_address;
+  if (existingIntegration?.webhook_id) {
+    return existingIntegration.webhook_id;
   } else {
     const axiosObject = {
       method: 'post',
@@ -104,11 +104,7 @@ async function registerOrganizationWebhook(farmId, organizationId, accessToken) 
       throw new Error('Failed to register webhook with ESCI');
     };
     const onResponse = async (response) => {
-      await FarmExternalIntegrationsModel.updateWebhookAddress(
-        farmId,
-        `${baseUrl}/sensor/reading/partner/1/farm/${farmId}`,
-        response.data.id,
-      );
+      await FarmExternalIntegrationsModel.updateWebhookId(farmId, response.data.id);
       return { ...response.data, status: response.status };
     };
     return await ensembleAPICall(accessToken, axiosObject, onError, onResponse);
@@ -278,16 +274,32 @@ async function authenticateToGetTokens() {
  */
 async function unclaimSensor(org_id, external_id, access_token) {
   try {
-    const axiosObject = {
+    const onError = () => {
+      throw new Error('Unable to unclaim sensor');
+    };
+
+    const getDeviceAxiosObject = {
+      method: 'get',
+      url: `${ensembleAPI}/devices/${external_id}`,
+    };
+
+    const { data: currentDeviceData } = await ensembleAPICall(
+      access_token,
+      getDeviceAxiosObject,
+      onError,
+    );
+
+    if (currentDeviceData?.owner_organization?.uuid !== org_id) {
+      return { status: 200, data: { detail: 'Device not currently owned by this organization' } };
+    }
+
+    const unclaimAxiosObject = {
       method: 'post',
       url: `${ensembleAPI}/organizations/${org_id}/devices/unclaim/`,
       data: { esid: external_id },
     };
 
-    const onError = () => {
-      throw new Error('Unable to unclaim sensor');
-    };
-    const response = await ensembleAPICall(access_token, axiosObject, onError);
+    const response = await ensembleAPICall(access_token, unclaimAxiosObject, onError);
     return response;
   } catch (error) {
     return { status: 400, error };

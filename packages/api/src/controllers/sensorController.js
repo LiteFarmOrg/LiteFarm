@@ -258,7 +258,7 @@ const sensorController = {
 
         const successSensors = sensorLocations.reduce((prev, curr, idx) => {
           if (curr.status === 'fulfilled') {
-            prev.push(registeredSensors[idx].external_id);
+            prev.push(curr.value);
           } else {
             errorSensors.push({
               row: data.findIndex((elem) => elem === registeredSensors[idx]) + 2,
@@ -270,12 +270,12 @@ const sensorController = {
           return prev;
         }, []);
 
-        if (successSensors.length < esids.length) {
+        if (successSensors.length < data.length) {
           return sendResponse(
             () => {
               return res.status(400).send({
                 error_type: 'unable_to_claim_all_sensors',
-                success: successSensors,
+                success: successSensors, // We need the full sensor objects to update the redux store
                 errorSensors,
               });
             },
@@ -288,7 +288,7 @@ const sensorController = {
                   error_download: {
                     errors: errorSensors,
                     file_name: 'sensor-upload-outcomes.txt',
-                    success: successSensors,
+                    success: successSensors.map((s) => s.sensor?.external_id), // Notification download needs an array of only ESIDs
                     error_type: 'claim',
                   },
                 },
@@ -300,7 +300,7 @@ const sensorController = {
             () => {
               return res
                 .status(200)
-                .send({ message: 'Successfully uploaded!', sensors: sensorLocations });
+                .send({ message: 'Successfully uploaded!', sensors: successSensors });
             },
             async () => {
               return await sendSensorNotification(
@@ -394,10 +394,7 @@ const sensorController = {
         .patch({ name: sensor_name })
         .where('location_id', location_id);
 
-      await SensorModel.query()
-        .patch(sensor_properties)
-        .where('partner_id', 1)
-        .where('location_id', location_id);
+      await SensorModel.query().patch(sensor_properties).where('location_id', location_id);
 
       return res.status(200).send('Success');
     } catch (error) {
@@ -579,23 +576,24 @@ const sensorController = {
         );
         const org_id = external_integrations_response.organization_uuid;
         unclaimResponse = await unclaimSensor(org_id, external_id, access_token);
-        if (unclaimResponse != 200) {
+
+        if (unclaimResponse?.status != 200) {
           await trx.rollback();
-          return res.status(500);
+          return res.status(500).send('Unable to unclaim ESCI sensor');
         }
       }
-      const deleteResponse = await LocationModel.deleteLocation(location_id, { user_id }, { trx });
+      const deleteResponse = await LocationModel.deleteLocation(trx, location_id, { user_id });
       if (deleteResponse == 1) {
         await trx.commit();
         return res.status(200).send(unclaimResponse?.data);
       } else {
         await trx.rollback();
-        return res.status(500);
+        return res.status(500).send('Delete Sensor Failed');
       }
     } catch (error) {
       console.log(error);
       await trx.rollback();
-      return res.status(400).json({
+      return res.status(400).send({
         error,
       });
     }

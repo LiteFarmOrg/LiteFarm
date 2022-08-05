@@ -1091,7 +1091,7 @@ describe('User Farm Tests', () => {
         );
       });
 
-      test('Should merge a pseudo user to existing userFarm when user is already member of the farm', async (done) => {
+      test('Should return 400 on attempt to convert pseudo user with email already in use', async (done) => {
         const { user: owner, farm } = await setupUserFarm({ role_id: 1 });
         const [psedoUserFarm] = await mocks.userFarmFactory(
           { promisedFarm: [farm] },
@@ -1126,25 +1126,7 @@ describe('User Farm Tests', () => {
           { user_id: owner.user_id, farm_id: farm.farm_id, params_user_id: psedoUserFarm.user_id },
           async (err, res) => {
             expect(err).toEqual(null);
-            expect(res.status).toBe(201);
-            const oldUserFarm = await userFarmModel
-              .query()
-              .findById([psedoUserFarm.user_id, psedoUserFarm.farm_id]);
-            const oldUser = await userModel.query().findById(psedoUserFarm.user_id);
-            expect(oldUser).toBeUndefined();
-            expect(oldUserFarm).toBeUndefined();
-            const updatedUserFarm = await userModel
-              .query()
-              .join('userFarm', 'userFarm.user_id', 'users.user_id')
-              .where({ 'users.user_id': existingUser.user_id, 'userFarm.farm_id': farm.farm_id })
-              .first()
-              .select('*');
-            expect(updatedUserFarm.email).toBe(email);
-            expect(updatedUserFarm.status_id).toBe(1);
-            expect(updatedUserFarm.wage).toEqual(wage);
-            expect(updatedUserFarm.role_id).toBe(role_id);
-            const updatedShifts = await knex('shift').where({ user_id: existingUser.user_id });
-            expect(updatedShifts.length).toBe(3);
+            expect(res.status).toBe(400);
             done();
           },
         );

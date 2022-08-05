@@ -89,7 +89,8 @@ class SensorReading extends Model {
     startDate.setDate(endDate.getDate() - 5);
     return await SensorReading.query()
       .select('*')
-      .joinRaw('JOIN sensor ON sensor_reading.location_id::uuid = sensor.location_id')
+      .joinRaw('JOIN sensor ON sensor_reading.location_id = sensor.location_id')
+      .joinRaw('JOIN location ON location.location_id = sensor.location_id')
       .whereIn('sensor.location_id', locationIds)
       .andWhere('reading_type', '=', readingType)
       .andWhere('valid', '=', true)

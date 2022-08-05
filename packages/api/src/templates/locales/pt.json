@@ -14,7 +14,7 @@
     "TYPE_HEADER": "Tipo de suporte",
     "MESSAGE_HEADER": "Mensagem",
     "CONTACT_METHOD_HEADER": "Método de contato preferido",
-    "SUBJECT": "Seu pedido de ajuda da LiteFarm",
+    "SUBJECT": "MISSING",
     "REQUEST_INFORMATION": "Pedir informação",
     "REPORT_A_BUG": "Reportar um erro",
     "REQUEST_A_FEATURE": "Solicite um recurso",
@@ -79,7 +79,7 @@
     "SUBJECT": "Você não concordou com a política de privacidade da LiteFarm - aqui estão suas opções"
   },
   "COMMON": {
-    "JOIN": "Junte",
+    "JOIN": "Junte-se",
     "LOG_IN": "Conecte-se",
     "OWNER": "Proprietário(a)",
     "EXTENSION_OFFICER": "Técnico(a) de Extensão",

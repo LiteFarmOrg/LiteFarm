@@ -13,6 +13,7 @@ import TimeSlider from '../../Form/Slider/TimeSlider';
 import Checkbox from '../../Form/Checkbox';
 import Rating from '../../Rating';
 import { getDateInputFormat } from '../../../util/moment';
+import { isNotInFuture } from '../../Form/Input/utils';
 
 const PureAbandonTask = ({
   onSubmit,
@@ -79,7 +80,11 @@ const PureAbandonTask = ({
 
       <Input
         label={t('TASK.ABANDON.DATE')}
-        hookFormRegister={register(ABANDON_DATE, { required: true })}
+        hookFormRegister={register(ABANDON_DATE, {
+          required: true,
+          validate: isNotInFuture,
+        })}
+        errors={errors[ABANDON_DATE] ? isNotInFuture() : null}
         style={{ marginBottom: '24px' }}
         type={'date'}
         max={getDateInputFormat()}
@@ -113,7 +118,9 @@ const PureAbandonTask = ({
 
       {hasAssignee && (
         <>
-          <Main style={{ marginBottom: '24px' }}>{t('TASK.ABANDON_TASK_DURATION')}</Main>
+          <Main style={{ marginBottom: '24px' }} tooltipContent={t('TASK.ABANDON_TASK_HELPTEXT')}>
+            {t('TASK.ABANDON_TASK_DURATION')}
+          </Main>
 
           {!no_work_completed && (
             <TimeSlider

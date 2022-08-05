@@ -78,6 +78,7 @@ function sendEmail(
   try {
     replacements.url = homeUrl();
     replacements.year = new Date().getFullYear();
+    replacements.dateTime = new Date().toISOString().replace('T', ' ');
     replacements.buttonLink = buttonLink
       ? `${homeUrl()}${buttonLink}`
       : `${homeUrl()}/?email=${encodeURIComponent(email_to)}`;

@@ -1,27 +1,30 @@
 import useSelectionHandler from '../useSelectionHandler';
 import styles from '../styles.module.scss';
 import PureSelectionHandler from '../../../components/Map/SelectionHandler';
-import React from 'react';
+import React, { useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import { canShowSelectionSelector, mapLocationsSelector } from '../../mapSlice';
 import PurePreviewPopup from '../../../components/Map/PreviewPopup';
 import { SENSOR } from '../../SensorReadings/constants';
+import { sensorReadingsByLocationSelector } from '../mapSensorSlice';
 
-export default function LocationSelectionModal({ history, sensorReadings, selectingOnly }) {
+export default function LocationSelectionModal({ history, selectingOnly }) {
   const { dismissSelectionModal } = useSelectionHandler();
   const showSelection = useSelector(canShowSelectionSelector);
   const locations = useSelector(mapLocationsSelector);
-  const locationSensorReadings = Object.values(sensorReadings).filter(
-    (reading) => reading.location_id === locations[0]?.id,
+  const selectedLocation = locations[0];
+  const sensorReadingsByLocation = useSelector(
+    sensorReadingsByLocationSelector(selectedLocation?.id),
   );
-  if (showSelection && locations.length === 1 && locations[0].type === SENSOR) {
+
+  if (showSelection && locations.length === 1 && selectedLocation.type === SENSOR) {
     return (
       <div className={styles.selectionModal} onClick={dismissSelectionModal}>
         <div className={styles.selectionContainer}>
           <PurePreviewPopup
-            location={locations[0]}
+            location={selectedLocation}
             history={history}
-            sensorReadings={locationSensorReadings}
+            sensorReadings={sensorReadingsByLocation}
           />
         </div>
       </div>
@@ -35,7 +38,7 @@ export default function LocationSelectionModal({ history, sensorReadings, select
               <PureSelectionHandler
                 locations={locations}
                 history={history}
-                sensorReadings={locationSensorReadings}
+                sensorReadings={sensorReadingsByLocation}
                 selectingOnly={selectingOnly}
               />
             </div>

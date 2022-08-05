@@ -5,6 +5,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { colors } from '../../../assets/theme';
 import CompactPreview from './CompactPreview';
 import { TEMPERATURE } from '../../../containers/SensorReadings/constants';
+import { getTemperatureUnit } from './utils';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -64,6 +65,8 @@ export default function PurePreviewPopup({ location, history, sensorReadings, st
     );
   }
 
+  const latestTemperatureData = temperatureData[0];
+
   return (
     <div onClick={() => loadEditView(location)} className={classes.container}>
       <div className={classes.tooltip} style={styleOverride}>
@@ -71,8 +74,8 @@ export default function PurePreviewPopup({ location, history, sensorReadings, st
         <div className={classes.body}>
           <CompactPreview
             title={t('SENSOR.READING.TEMPERATURE')}
-            value={temperatureData.length ? temperatureData[0].value : null}
-            unit={temperatureData.length ? temperatureData[0].unit : null}
+            value={temperatureData.length ? latestTemperatureData.value : null}
+            unit={temperatureData.length ? getTemperatureUnit(latestTemperatureData.unit) : null}
           />
           {/*other compact views*/}
         </div>

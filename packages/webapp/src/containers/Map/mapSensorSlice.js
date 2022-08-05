@@ -65,3 +65,11 @@ export const mapSensorSelector = createSelector(
     return mapSensorEntities;
   },
 );
+
+export const sensorReadingsByLocationSelector = (locationId) => {
+  return createSelector([mapSensorSelectors.selectEntities], (mapSensorEntities) => {
+    return Object.values(mapSensorEntities).filter(
+      (sensorReading) => sensorReading.location_id === locationId,
+    );
+  });
+};

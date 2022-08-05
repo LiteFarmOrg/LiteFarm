@@ -55,7 +55,6 @@ import {
   setMapFilterSetting,
   setMapFilterShowAll,
 } from './mapFilterSettingSlice';
-import { mapSensorSelector } from './mapSensorSlice';
 import {
   hookFormPersistedPathsSetSelector,
   hookFormPersistSelector,
@@ -356,7 +355,6 @@ export default function Map({ history }) {
   };
 
   const availableFilterSettings = useSelector(availableFilterSettingsSelector);
-  const mapSensorReadings = useSelector(mapSensorSelector);
 
   useEffect(() => {
     dispatch(getSensorReadings());
@@ -514,7 +512,7 @@ export default function Map({ history }) {
             </div>
           )}
         </div>
-        <LocationSelectionModal history={history} sensorReadings={mapSensorReadings} />
+        <LocationSelectionModal history={history} />
 
         {!drawingState.type && (
           <PureMapFooter

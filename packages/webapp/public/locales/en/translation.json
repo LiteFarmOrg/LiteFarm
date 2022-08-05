@@ -1450,7 +1450,8 @@
       "Y_AXIS_LABEL": "Temperature in {{tempUnit}}",
       "WEATHER_STATION": "Weather station: {{weatherStationLocation}}",
       "NO_DATA": "(no data)",
-      "AMBIENT_TEMPERATURE_FOR": "Ambient temperature for"
+      "AMBIENT_TEMPERATURE_FOR": "Ambient temperature for",
+      "LAST_UPDATED_TEMPERATURE_READINGS": "Last updated {{latestReadingUpdate}}"
     }
   },
   "SHIFT": {

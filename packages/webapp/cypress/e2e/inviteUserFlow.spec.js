@@ -196,7 +196,7 @@ describe.only('Invite user tests', () => {
     count++;
     cy.contains('English').should('exist').click({ force: true });
     cy.contains('Spanish').should('exist').click();
-    //cy.intercept('POST', '/user/invite').as('invite');
+    cy.intercept('POST', '/user/invite').as('invite');
     cy.get('[data-cy=invite-submit]').should('exist').and('not.be.disabled').click();
     //Ensure invitation is in correct language
     cy.task('getLastEmail', userEmail).then((email) => {

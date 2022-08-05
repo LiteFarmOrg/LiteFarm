@@ -128,6 +128,7 @@ describe.only('LiteFarm end to end test', () => {
         .click();
     });
     //Add field view
+
     cy.get('[data-cy=createField-fieldName]').should('exist').type(fieldName);
     cy.get('[data-cy=createField-save]').should('exist').and('not.be.disabled').click();
     cy.wait(2000);

@@ -468,6 +468,7 @@ export default function Map({ history }) {
         <div className={styles.mapContainer}>
           <div data-cy="map-mapContainer" ref={mapWrapperRef} className={styles.mapContainer}>
             <GoogleMap
+              data-cy="google-map"
               style={{ flexGrow: 1 }}
               bootstrapURLKeys={{
                 key: GMAPS_API_KEY,

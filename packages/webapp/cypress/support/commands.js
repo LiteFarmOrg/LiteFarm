@@ -276,7 +276,7 @@ Cypress.Commands.add('createAccount', (email, fullName, gender, language, birthY
   cy.contains('Create Account').should('exist').and('be.enabled').click();
   cy.intercept('POST', '**/user').as('createUser');
   //cy.wait('@createUser');
-  cy.wait(5000);
+  cy.wait(7000);
 });
 
 Cypress.Commands.add('userCreationEmail', () => {

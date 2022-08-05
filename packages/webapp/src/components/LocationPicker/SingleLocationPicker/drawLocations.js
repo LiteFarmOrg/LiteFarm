@@ -14,7 +14,7 @@ import {
   selectedIcons,
 } from '../../../containers/Map/mapStyles';
 import { defaultColour } from '../../../containers/Map/styles.module.scss';
-import MarkerCluster from '../../Map/MarkerCluster';
+import CreateMarkerCluster, { markerSVG } from '../../Map/MarkerCluster';
 
 export const SELECTED_POLYGON_OPACITY = 1.0;
 export const DEFAULT_POLYGON_OPACITY = 0.5;
@@ -205,7 +205,6 @@ const drawPoint = (map, maps, mapBounds, location) => {
   });
 
   maps.event.addListener(marker, 'mouseover', function () {
-    console.log('clicked!');
     this.clickable &&
       marker.icon !== selectedIcons[type] &&
       this.setOptions({ icon: hoverIcons[type] });
@@ -228,30 +227,28 @@ export const createMarkerClusters = (maps, map, points, selectedLocationsRef, ma
     point.marker.type = point.location.type;
     return point.marker;
   });
-  console.table(selectedLocationsRef);
 
-  // maps.event.addListener(marker, 'mouseover', function (c) {
-  //   console.log('mouseover')
-  //   // c.clusterIcon_.div_.className = clsx(c.clusterIcon_.div_.className, styles.hoveredClusterIcon);
-  // });
-  //
-  // maps.event.addListener(marker, 'mouseout', function (c) {
-  //   // c.clusterIcon_.div_.className = c.clusterIcon_.div_.className
-  //   //     .replace(styles.hoveredClusterIcon, '')
-  //   //     .trim();
-  // });
-
-  return MarkerCluster(
+  return CreateMarkerCluster(
     map,
     maps,
     markers,
     [
       {
         event: 'mouseover',
-        callbackFunction: () => console.log("I'm a callback!"),
+        callbackFunction: (marker) => () => {
+          const svg = markerSVG('#028577', '#E3F8EC');
+          marker.setIcon({ url: `data:image/svg+xml;base64,${svg}` });
+        },
+      },
+      {
+        event: 'mouseout',
+        callbackFunction: (marker) => () => {
+          const svg = markerSVG('#028577', '#ffffff');
+          marker.setIcon({ url: `data:image/svg+xml;base64,${svg}` });
+        },
       },
     ],
-    selectedLocationsRef,
     markerClusterRef,
+    selectedLocationsRef,
   );
 };

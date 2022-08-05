@@ -7,21 +7,24 @@ export const markerSVG = (stroke, fill) =>
       `<path d="M0.5 4C0.5 2.067 2.067 0.5 4 0.5H24C25.933 0.5 27.5 2.067 27.5 4V24C27.5 25.933 25.933 27.5 24 27.5H4C2.067 27.5 0.5 25.933 0.5 24V4Z" fill="${fill}" stroke="${stroke}"/>\n` +
       '</svg>\n',
   );
-const MarkerCluster = (map, maps, markers, eventListeners, selectedLocationsRef, clustererRef) => {
+const CreateMarkerCluster = (
+  map,
+  maps,
+  markers,
+  eventListeners,
+  clustererRef,
+  selectedLocationsRef = null,
+) => {
   // return clusterer and marker
   clustererRef.current = new MarkerClusterer({
     map,
     markers,
-    algorithm: new SuperClusterAlgorithm({ maxZoom: 20, radius: 45 }),
+    algorithm: new SuperClusterAlgorithm({ maxZoom: 20, radius: 45.5 }),
     renderer: {
       render: ({ count, position, markers }) => {
-        let fill = '#ffffff';
-        let stroke = '#028577';
+        let fill = selectedLocationsRef?.current ? '#ffffff' : '#028577';
+        let stroke = selectedLocationsRef?.current ? '#028577' : '#ffffff';
         selectedLocationsRef?.current?.some((location_id) => {
-          console.log(
-            'match',
-            markers.some((m) => m.location_id === location_id),
-          );
           if (markers.some((m) => m.location_id === location_id)) {
             fill = '#028577';
             stroke = '#ffffff';
@@ -41,7 +44,7 @@ const MarkerCluster = (map, maps, markers, eventListeners, selectedLocationsRef,
           },
         });
         eventListeners.forEach((e) => {
-          maps.event.addListener(m, e.event, e.callbackFunction);
+          m.addListener(e.event, e.callbackFunction(m));
         });
         return m;
       },
@@ -49,4 +52,4 @@ const MarkerCluster = (map, maps, markers, eventListeners, selectedLocationsRef,
   });
 };
 
-export default MarkerCluster;
+export default CreateMarkerCluster;

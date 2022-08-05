@@ -64,7 +64,9 @@ const LocationPicker = ({
 
   useEffect(() => {
     if (markerClusterRef?.current?.markers?.length > 0) {
+      // hack to get around weird shallow copy caused by the readonly typescript definition
       const markers = [...markerClusterRef.current.markers];
+      // this forces the clusters to rerender, so that the colours update
       markerClusterRef?.current?.clearMarkers();
       markerClusterRef?.current?.addMarkers(markers);
     }
@@ -73,7 +75,6 @@ const LocationPicker = ({
   const prevSelectedLocationIdsRef = useRef([]);
   useEffect(() => {
     for (const location_id of selectedLocationIds) {
-      console.log(location_id);
       if (
         geometriesRef.current[location_id] &&
         !prevSelectedLocationIdsRef.current?.includes(location_id)
@@ -151,7 +152,6 @@ const LocationPicker = ({
       selectedLocationIdsRef,
       markerClusterRef,
     );
-    console.log('markerCluster', markerClusterRef);
     maps.event.addListener(markerClusterRef.current, 'click', (cluster) => {
       if (map.getZoom() >= (maxZoomRef?.current || 20) && cluster.markers.length > 1) {
         setOverlappedPositions(
@@ -163,7 +163,6 @@ const LocationPicker = ({
         );
       }
     });
-    console.log(markerClusterRef.current);
     // markerClusterRef.current.setCalculator(function (markers, numStyles) {
     //   const isSelected = !!markers.find(({ location_id }) =>
     //     prevSelectedLocationIdsRef.current.includes(location_id),

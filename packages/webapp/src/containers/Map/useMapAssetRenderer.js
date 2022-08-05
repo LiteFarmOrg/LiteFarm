@@ -34,7 +34,8 @@ import { useMaxZoom } from './useMaxZoom';
 
 import MapPin from '../../assets/images/map/map_pin.svg';
 import { userFarmSelector } from '../userFarmSlice';
-import MarkerCluster from '../../components/Map/MarkerCluster';
+import CreateMarkerCluster from '../../components/Map/MarkerCluster';
+import { usePropRef } from '../../components/LocationPicker/SingleLocationPicker/usePropRef';
 
 /**
  *
@@ -42,6 +43,7 @@ import MarkerCluster from '../../components/Map/MarkerCluster';
  */
 const useMapAssetRenderer = ({ isClickable, showingConfirmButtons, drawingState }) => {
   const { handleSelection, dismissSelectionModal } = useSelectionHandler();
+  const locationsRef = usePropRef([]);
   const dispatch = useDispatch();
   const filterSettings = useSelector(mapFilterSettingSelector);
   const initAssetGeometriesState = () => {
@@ -115,7 +117,6 @@ const useMapAssetRenderer = ({ isClickable, showingConfirmButtons, drawingState 
   const markerClusterRef = useRef();
   useEffect(() => {
     dismissSelectionModal();
-    console.log(markerClusterRef?.current);
   }, [filterSettings?.gate, filterSettings?.water_valve, filterSettings?.sensor]);
   useEffect(() => {
     markerClusterRef?.current?.setOptions({ zoomOnClick: isClickable });
@@ -131,10 +132,10 @@ const useMapAssetRenderer = ({ isClickable, showingConfirmButtons, drawingState 
       markers.push(point.marker);
     });
 
-    const markerCluster = MarkerCluster(map, maps, markers);
+    CreateMarkerCluster(map, maps, markers, [], markerClusterRef);
 
-    markerCluster.addMarkers(markers, true);
-    maps.event.addListener(markerCluster, 'click', (cluster) => {
+    markerClusterRef.current.addMarkers(markers, true);
+    maps.event.addListener(markerClusterRef.current, 'click', (cluster) => {
       if (map.getZoom() >= (maxZoomRef?.current || 20) && cluster.markers.length > 1) {
         const pointAssets = {
           gate: [],
@@ -165,7 +166,6 @@ const useMapAssetRenderer = ({ isClickable, showingConfirmButtons, drawingState 
         handleSelection(getFirstMarkerPosition(pointAssets), pointAssets, maps, true, true);
       }
     });
-    markerClusterRef.current = markerCluster;
   };
 
   useEffect(() => {
@@ -197,6 +197,10 @@ const useMapAssetRenderer = ({ isClickable, showingConfirmButtons, drawingState 
         assets[type].length > 0,
     );
     hasLocation = assetsWithLocations.length > 0;
+
+    locationsRef.current = assetsWithLocations.reduce((prev, curr) => {
+      return [...prev, ...assets[curr].map((l) => l.location_id)];
+    }, []);
 
     if (!hasLocation) {
       setFarmMap(map);

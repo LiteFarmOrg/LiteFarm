@@ -394,10 +394,7 @@ const sensorController = {
         .patch({ name: sensor_name })
         .where('location_id', location_id);
 
-      await SensorModel.query()
-        .patch(sensor_properties)
-        .where('partner_id', 1)
-        .where('location_id', location_id);
+      await SensorModel.query().patch(sensor_properties).where('location_id', location_id);
 
       return res.status(200).send('Success');
     } catch (error) {
@@ -593,23 +590,24 @@ const sensorController = {
         );
         const org_id = external_integrations_response.organization_uuid;
         unclaimResponse = await unclaimSensor(org_id, external_id, access_token);
-        if (unclaimResponse != 200) {
+
+        if (unclaimResponse?.status != 200) {
           await trx.rollback();
-          return res.status(500);
+          return res.status(500).send('Unable to unclaim ESCI sensor');
         }
       }
-      const deleteResponse = await LocationModel.deleteLocation(location_id, { user_id }, { trx });
+      const deleteResponse = await LocationModel.deleteLocation(trx, location_id, { user_id });
       if (deleteResponse == 1) {
         await trx.commit();
         return res.status(200).send(unclaimResponse?.data);
       } else {
         await trx.rollback();
-        return res.status(500);
+        return res.status(500).send('Delete Sensor Failed');
       }
     } catch (error) {
       console.log(error);
       await trx.rollback();
-      return res.status(400).json({
+      return res.status(400).send({
         error,
       });
     }

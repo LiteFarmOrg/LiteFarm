@@ -2,7 +2,7 @@ import Input, { getInputErrors, integerOnKeyDown } from '../../Form/Input';
 import { Controller, useForm } from 'react-hook-form';
 import ReactSelect from '../../Form/ReactSelect';
 import { useTranslation } from 'react-i18next';
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import Button from '../../Form/Button';
 import PropTypes from 'prop-types';
 import Form from '../../Form';
@@ -18,6 +18,7 @@ export default function PureEditUser({
   onActivate,
   onRevoke,
   onInvite,
+  userFarmEmails,
   isCurrentUser,
 }) {
   const { t } = useTranslation();
@@ -52,7 +53,6 @@ export default function PureEditUser({
     value: role_id,
     label: dropDownMap[role_id],
   }));
-
   const roleOption = isPseudoUser
     ? { value: 3, label: dropDownMap[3] }
     : { value: userFarm.role_id, label: dropDownMap[userFarm.role_id] };
@@ -94,14 +94,25 @@ export default function PureEditUser({
   const email = watch(EMAIL);
   const role = watch(ROLE);
   const wage = watch(WAGE);
-  const disabled =
-    !isValid ||
-    (shouldInvitePseudoUser && (!email || !role?.label)) ||
-    (!shouldInvitePseudoUser &&
-      !isPseudoUser &&
-      Number(role?.value) === userFarm.role_id &&
-      (wage || 0) === Number(userFarm.wage?.amount)) ||
-    (!shouldInvitePseudoUser && isPseudoUser && (wage || 0) === Number(userFarm.wage?.amount));
+  const disabled = useMemo(
+    () =>
+      !isValid ||
+      (shouldInvitePseudoUser && (!email || !role?.label)) ||
+      (!shouldInvitePseudoUser &&
+        !isPseudoUser &&
+        Number(role?.value) === userFarm.role_id &&
+        (wage || 0) === Number(userFarm.wage?.amount)) ||
+      (!shouldInvitePseudoUser && isPseudoUser && (wage || 0) === Number(userFarm.wage?.amount)),
+    [
+      isValid,
+      shouldInvitePseudoUser,
+      email,
+      role,
+      userFarm.wage?.amount,
+      wage,
+      Object.keys(errors).length,
+    ],
+  );
 
   const onSubmit = (data) => {
     data[GENDER] = data?.[GENDER]?.value || 'PREFER_NOT_TO_SAY';
@@ -112,7 +123,7 @@ export default function PureEditUser({
 
   return (
     <Form
-      onSubmit={handleSubmit(shouldInvitePseudoUser ? onSubmit : onUpdate)}
+      onSubmit={handleSubmit(shouldInvitePseudoUser ? onSubmit : onUpdate, (e) => console.log(e))}
       buttonGroup={
         <>
           {userFarm.status === 'Inactive' ? (
@@ -161,6 +172,18 @@ export default function PureEditUser({
           pattern: {
             value: /^$|^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
             message: t('INVITE_USER.INVALID_EMAIL_ERROR'),
+          },
+          validate: {
+            existing: (value) => {
+              if (!shouldInvitePseudoUser) {
+                return true;
+              } else {
+                return (
+                  (value && !userFarmEmails.includes(value.toLowerCase())) ||
+                  t('INVITE_USER.ALREADY_EXISTING_EMAIL_ERROR')
+                );
+              }
+            },
           },
         })}
         errors={getInputErrors(errors, EMAIL)}

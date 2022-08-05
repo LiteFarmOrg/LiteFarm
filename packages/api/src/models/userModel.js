@@ -129,13 +129,13 @@ class User extends Model {
   /**
    * Gets a user by their email.
    * @param {string} email
+   * @param trx
    * @return {Objection.QueryBuilder<User, User>}
    * @static
    * @async
    */
-  static async getUserByEmail(email) {
-    console.log('Getting user by email');
-    return User.query().where('email', email).first();
+  static async getUserByEmail(email, trx = null) {
+    return User.query(trx).where('email', email).first();
   }
 }
 

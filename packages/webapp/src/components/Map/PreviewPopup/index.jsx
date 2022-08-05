@@ -5,7 +5,9 @@ import { makeStyles } from '@material-ui/core/styles';
 import { colors } from '../../../assets/theme';
 import CompactPreview from './CompactPreview';
 import { TEMPERATURE } from '../../../containers/SensorReadings/constants';
-import { getTemperatureUnit } from './utils';
+import { getTemperatureUnit, getTemperatureValue } from './utils';
+import { userFarmSelector } from '../../../containers/userFarmSlice';
+import { useSelector } from 'react-redux';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -48,6 +50,7 @@ const useStyles = makeStyles((theme) => ({
 export default function PurePreviewPopup({ location, history, sensorReadings, styleOverride }) {
   const classes = useStyles();
   const { t } = useTranslation();
+  const { units } = useSelector(userFarmSelector);
 
   const loadEditView = (location) => {
     history.push(`/${location.type}/${location.id}/details`);
@@ -74,8 +77,12 @@ export default function PurePreviewPopup({ location, history, sensorReadings, st
         <div className={classes.body}>
           <CompactPreview
             title={t('SENSOR.READING.TEMPERATURE')}
-            value={temperatureData.length ? latestTemperatureData.value : null}
-            unit={temperatureData.length ? getTemperatureUnit(latestTemperatureData.unit) : null}
+            value={
+              temperatureData.length
+                ? getTemperatureValue(latestTemperatureData.value, units.measurement)
+                : null
+            }
+            unit={temperatureData.length ? getTemperatureUnit(units.measurement) : null}
           />
           {/*other compact views*/}
         </div>

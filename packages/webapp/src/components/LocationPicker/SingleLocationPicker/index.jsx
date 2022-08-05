@@ -163,15 +163,6 @@ const LocationPicker = ({
         );
       }
     });
-    // markerClusterRef.current.setCalculator(function (markers, numStyles) {
-    //   const isSelected = !!markers.find(({ location_id }) =>
-    //     prevSelectedLocationIdsRef.current.includes(location_id),
-    //   );
-    //   return {
-    //     text: markers.length,
-    //     index: isSelected ? 2 : 1,
-    //   };
-    // });
   };
 
   const setSelectedGeometryStyle = (assetGeometry) => {

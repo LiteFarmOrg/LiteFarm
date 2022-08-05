@@ -16,8 +16,10 @@
 import { call, put, select, takeLatest, takeLeading } from 'redux-saga/effects';
 import { sensorUrl } from '../../../../apiConfig';
 import { loginSelector } from '../../../userFarmSlice';
+import { canShowSuccessHeader, setSuccessMessage } from '../../../mapSlice';
 import { axios, getHeader } from '../../../saga';
 import { createAction } from '@reduxjs/toolkit';
+import { useSelector } from 'react-redux';
 import i18n from '../../../../locales/i18n';
 import history from '../../../../history';
 import { enqueueErrorSnackbar, enqueueSuccessSnackbar } from '../../../Snackbar/snackbarSlice';
@@ -25,11 +27,14 @@ import {
   onLoadingSensorFail,
   onSensorReadingTypesSuccess,
   onSensorBrandSuccess,
+  deleteSensorSuccess,
+  sensorsSelector,
 } from '../../../sensorSlice';
 
 export const patchSensor = createAction(`patchSensorSaga`);
 export const getSensorReadingTypes = createAction('getSensorReadingTypesSaga');
 export const getSensorBrand = createAction('getSensorBrandSaga');
+export const retireSensor = createAction('retireSensorSaga');
 
 export function* patchSensorSaga({ payload: sensorData }) {
   let { user_id, farm_id } = yield select(loginSelector);
@@ -82,8 +87,24 @@ export function* getSensorBrandSaga({ payload: { location_id, partner_id } }) {
   }
 }
 
+export function* retireSensorSaga({ payload: { sensorInfo } }) {
+  let { user_id, farm_id } = yield select(loginSelector);
+  const header = getHeader(user_id, farm_id);
+  const { location_id } = sensorInfo;
+  try {
+    yield call(axios.post, `${sensorUrl}/unclaim`, { location_id }, header);
+    yield put(deleteSensorSuccess(location_id));
+    yield put(enqueueSuccessSnackbar(i18n.t('SENSOR.RETIRE.RETIRE_SUCCESS')));
+  } catch (error) {
+    yield put(enqueueErrorSnackbar(i18n.t('SENSOR.RETIRE.RETIRE_FAILURE')));
+    console.log(error);
+  }
+  history.push({ pathname: '/map' });
+}
+
 export default function* sensorDetailSaga() {
   yield takeLeading(patchSensor.type, patchSensorSaga);
   yield takeLeading(getSensorReadingTypes.type, getSensorReadingTypesSaga);
   yield takeLeading(getSensorBrand.type, getSensorBrandSaga);
+  yield takeLeading(retireSensor.type, retireSensorSaga);
 }

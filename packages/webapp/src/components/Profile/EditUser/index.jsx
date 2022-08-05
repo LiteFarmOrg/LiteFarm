@@ -76,6 +76,8 @@ export default function PureEditUser({
   };
 
   const isUserLastAdmin = () => {
+    if (userFarm.status === 'Invited') return false;
+
     let adminCount = 0;
     userFarms.forEach((user) => {
       if (adminRoles.includes(user.role_id) && user.status === 'Active') adminCount++;

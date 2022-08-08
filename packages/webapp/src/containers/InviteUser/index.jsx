@@ -5,7 +5,7 @@ import { addPseudoWorker, getRoles, inviteUserToFarm } from './saga';
 import history from '../../history';
 import PureInviteUser from '../../components/InviteUser';
 import { rolesSelector } from '../Profile/People/slice';
-import { loginSelector } from '../userFarmSlice';
+import { loginSelector, userFarmEntitiesSelector } from '../userFarmSlice';
 import { useTranslation } from 'react-i18next';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -26,6 +26,10 @@ function InviteUser() {
       pathname: '/people',
     });
   };
+  const userFarmEntities = useSelector(userFarmEntitiesSelector);
+  const userFarmEmails = Object.values(userFarmEntities[farm_id]).map((user) => {
+    return user.email.toLowerCase();
+  });
 
   const onInvite = (userInfo) => {
     const {
@@ -95,7 +99,14 @@ function InviteUser() {
     dispatch(getRoles());
   }, []);
 
-  return <PureInviteUser onGoBack={onGoBack} onInvite={onInvite} roleOptions={roleOptions} />;
+  return (
+    <PureInviteUser
+      onGoBack={onGoBack}
+      onInvite={onInvite}
+      roleOptions={roleOptions}
+      userFarmEmails={userFarmEmails}
+    />
+  );
 }
 
 export default InviteUser;

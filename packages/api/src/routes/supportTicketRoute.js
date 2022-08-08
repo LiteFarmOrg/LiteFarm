@@ -18,7 +18,6 @@ const router = express.Router();
 const supportTicketController = require('../controllers/supportTicketController');
 const multerDiskUpload = require('../util/fileUpload');
 
-router.post('/', multerDiskUpload, supportTicketController.addSupportTicket());
-
+router.post('/', multerDiskUpload, supportTicketController.addSupportTicket);
 
 module.exports = router;

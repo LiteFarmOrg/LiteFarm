@@ -25,14 +25,14 @@ const User = require('../models/userModel');
 
 const { typesOfTask } = require('./../middleware/validation/task');
 const adminRoles = [1, 2, 5];
-const isDateInPast = (date) => {
-  const today = new Date();
-  const newDate = new Date(date);
-  if (newDate.setUTCHours(0, 0, 0, 0) < today.setUTCHours(0, 0, 0, 0)) {
-    return true;
-  }
-  return false;
-};
+// const isDateInPast = (date) => {
+//   const today = new Date();
+//   const newDate = new Date(date);
+//   if (newDate.setUTCHours(0, 0, 0, 0) < today.setUTCHours(0, 0, 0, 0)) {
+//     return true;
+//   }
+//   return false;
+// };
 
 const taskController = {
   async assignTask(req, res) {
@@ -143,10 +143,10 @@ const taskController = {
       const { due_date } = req.body;
 
       //Ensure the task due date is not in the past
-      const isPast = await isDateInPast(due_date);
-      if (isPast) {
-        return res.status(400).send('Task due date must be today or in the future');
-      }
+      // const isPast = await isDateInPast(due_date);
+      // if (isPast) {
+      //   return res.status(400).send('Task due date must be today or in the future');
+      // }
 
       //Ensure only adminRoles can modify task due date
       if (!adminRoles.includes(req.role)) {
@@ -692,7 +692,6 @@ const TaskNotificationUserTypes = {
  * @param {String} farmId
  * @return {Promise<void>}
  */
-
 async function sendTaskNotification(
   receiverIds,
   usernameVariableId,

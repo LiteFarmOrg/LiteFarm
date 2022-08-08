@@ -20,6 +20,7 @@ function SensorReadings({ history, match }) {
     latestMinTemperature = '',
     latestMaxTemperature = '',
     nearestStationName = '',
+    lastUpdatedReadingsTime = '',
   } = useSelector(bulkSensorsReadingsSliceSelector);
   const measurementUnit = useSelector(measurementSelector);
   const { tempUnit } = utils.getUnits(measurementUnit);
@@ -66,6 +67,12 @@ function SensorReadings({ history, match }) {
         readingType={TEMPERATURE}
         noDataText={t('SENSOR.TEMPERATURE_READINGS_OF_SENSOR.NO_DATA')}
         ambientTempFor={t('SENSOR.TEMPERATURE_READINGS_OF_SENSOR.AMBIENT_TEMPERATURE_FOR')}
+        lastUpdatedTemperatureReadings={t(
+          'SENSOR.TEMPERATURE_READINGS_OF_SENSOR.LAST_UPDATED_TEMPERATURE_READINGS',
+          {
+            latestReadingUpdate: lastUpdatedReadingsTime ?? '',
+          },
+        )}
       />
     </div>
   );

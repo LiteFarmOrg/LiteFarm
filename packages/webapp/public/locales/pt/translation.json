@@ -452,13 +452,13 @@
       "WIDTH": "Largura da zona de amortecimento/proteção"
     },
     "BULK_UPLOAD_SENSORS": {
-      "TITLE": "MISSING",
-      "UPLOAD_LINK_MESSAGE": "MISSING",
-      "UPLOAD_INSTRUCTION_MESSAGE": "MISSING",
-      "UPLOAD_PLACEHOLDER": "MISSING",
-      "UPLOAD_ERROR_MESSAGE": "MISSING",
-      "EMPTY_FILE_UPLOAD_ERROR_MESSAGE": "MISSING",
-      "UPLOAD_ERROR_LINK": "MISSING",
+      "TITLE": "MISSING - Pt - Add sensors to map",
+      "UPLOAD_LINK_MESSAGE": "MISSING - Pt - Download this template",
+      "UPLOAD_INSTRUCTION_MESSAGE": "MISSING - Pt - for correct formatting.",
+      "UPLOAD_PLACEHOLDER": "MISSING - Pt - Upload CSV file",
+      "UPLOAD_ERROR_MESSAGE": "MISSING - Pt - There were some issues with your upload. ",
+      "UPLOAD_ERROR_LINK": "MISSING - Pt - Click here to view them.",
+      "EMPTY_FILE_UPLOAD_ERROR_MESSAGE": "MISSING - Pt - No sensors found, please check your upload and try again.",
       "SENSOR_FIELDS": {
         "NAME": "Nome",
         "LATITUDE": "Latitude",
@@ -475,29 +475,29 @@
         "TEMPERATURE": "temperatura"
       },
       "VALIDATION": {
-        "FILE_ROW_LIMIT_EXCEEDED": "MISSING",
-        "MISSING_COLUMNS": "MISSING",
-        "EXTERNAL_ID": "MISSING",
-        "SENSOR_NAME": "MISSING",
-        "SENSOR_LATITUDE": "MISSING",
-        "SENSOR_LONGITUDE": "MISSING",
-        "SENSOR_READING_TYPES": "MISSING",
-        "SENSOR_DEPTH": "MISSING",
-        "SENSOR_BRAND": "MISSING",
-        "SENSOR_MODEL": "MISSING",
-        "SENSOR_HARDWARE_VERSION": "MISSING"
+        "FILE_ROW_LIMIT_EXCEEDED": "MISSING - Pt - File row limit exceeded. The max number of sensors that can be uploaded from a file is 100.",
+        "MISSING_COLUMNS": "MISSING - Pt - Columns are required/missing.",
+        "EXTERNAL_ID": "MISSING - Pt - Invalid external id, must be between 1 and 20 characters.",
+        "SENSOR_NAME": "MISSING - Pt - Invalid sensor name, must be between 1 and 100 characters.",
+        "SENSOR_LATITUDE": "MISSING - Pt - Invalid latitude value, must be between -90 and 90. and fewer than 10 decimals.",
+        "SENSOR_LONGITUDE": "MISSING - Pt - Invalid longitude value, must be between -180 and 180. and fewer than 10 decimals.",
+        "SENSOR_READING_TYPES": "MISSING - Pt - Invalid reading type detected, valid values include: soil_water_content, soil_water_potential, temperature.",
+        "SENSOR_DEPTH": "MISSING - Pt - Invalid depth value, must be between 0 and 1000.",
+        "SENSOR_BRAND": "MISSING - Pt - Invalid brand name, must be between 1 and 100 characters.",
+        "SENSOR_MODEL": "MISSING - Pt - Invalid model name, must be between 1 and 100 characters.",
+        "SENSOR_HARDWARE_VERSION": "MISSING - Pt - Invalid hardware version name, must be between 1 and 100 characters."
       },
       "SENSOR_CLAIM_ERROR": {
-        "ALREADY_OCCUPIED": "MISSING",
-        "DOES_NOT_EXIST": "MISSING",
-        "INTERNAL_ERROR": "MISSING"
+        "ALREADY_OCCUPIED": "MISSING - Pt - Sensor \"{{ sensorId }}\" already registered to another organization, please contact Ensemble support at support@esci.io to troubleshoot.",
+        "DOES_NOT_EXIST": "MISSING - Pt - Sensor \"{{ sensorId }}\" does not exist in the Ensemble database. Please ensure that you have spelled the External_ID properly for this entry, and that the sensor is an Ensemble sensor.",
+        "INTERNAL_ERROR": "MISSING - Pt - Sensor \"{{ sensorId }}\" failed to upload successfully, please reach out to LiteFarm support at support@litefarm.org to troubleshoot."
       },
       "DOWNLOAD_FILE": {
-        "ROW": "MISSING",
-        "PARTIAL_SUCCESS_TOP_TEXT": "MISSING",
-        "PARTIAL_SUCCESS_BOTTOM_TEXT": "MISSING",
-        "SOME_ERRORS": "MISSING",
-        "DEFAULT": "MISSING"
+        "ROW": "MISSING - Pt - [Row: {{ row }}][Column: {{ column }}] {{- errorMessage }} {{ value }}\n",
+        "PARTIAL_SUCCESS_TOP_TEXT": "MISSING - Pt - The following sensors in your file uploaded successfully or already exist on your farm:\n\n",
+        "PARTIAL_SUCCESS_BOTTOM_TEXT": "MISSING - Pt - They should now be visible on your farm map. These sensors will be ignored in future uploads\n\n",
+        "SOME_ERRORS": "MISSING - Pt - Unfortunately, there were some errors with your upload:\n\n",
+        "DEFAULT": "MISSING - Pt - Something went wrong. Please contact support@litefarm.org for assistance."
       }
     },
     "BULK_UPLOAD_TRANSITION": {
@@ -506,12 +506,12 @@
     },
     "CEREMONIAL_AREA": {
       "EDIT_TITLE": "Editar área cerimonial",
-      "NAME": "Área cerimonial",
+      "NAME": "Nome da área cerimonial",
       "TITLE": "Adicionar área cerimonial"
     },
     "CONFIRM_RETIRE": {
-      "BODY": "Remover este local fará com que seja retirado do mapa do sítio/fazenda.",
-      "TITLE": "Remover local?"
+      "BODY": "Remover esta área fará com que seja retirado do mapa do sítio/fazenda.",
+      "TITLE": "Remover área?"
     },
     "DRAWING_MANAGER": {
       "REDRAW": "Redesenhar",
@@ -528,7 +528,7 @@
     },
     "FARM_SITE_BOUNDARY": {
       "EDIT_TITLE": "Editar limites do sítio/fazenda",
-      "NAME": "Nome da area desenhada",
+      "NAME": "Nome de limites do sítio/fazenda",
       "TITLE": "Adicionar limites do sítio/fazenda"
     },
     "FENCE": {
@@ -645,16 +645,16 @@
     "TITLE": "Mapa do sítio/fazenda",
     "TUTORIAL": {
       "ADJUST_AREA": {
-        "TEXT": "Clique-e-arraste pontos para ajustar a área",
+        "TEXT": "Clique e arraste pontos para ajustar a área",
         "TITLE": "Ajustar área"
       },
       "ADJUST_LINE": {
-        "TEXT": "Clique-e-arraste pontos para ajustar a linha",
+        "TEXT": "Clique e arraste pontos para ajustar a linha",
         "TITLE": "Ajustar linha"
       },
       "AREA": {
         "STEP_ONE": "Clique em qualquer lugar para começar a desenhar",
-        "STEP_THREE": "Clique-e-arraste pontos para ajustar a área",
+        "STEP_THREE": "Clique e arraste pontos para ajustar a área",
         "STEP_TWO": "Clique no ponto inicial para fechar a área",
         "TITLE": "Desenhe uma área"
       },
@@ -675,7 +675,7 @@
       "GROUNDWATER": "Água subterrânea",
       "MAX_FLOW_RATE": "Taxa máxima de fluxo",
       "MUNICIPAL_WATER": "Água municipal",
-      "NAME": "Nome da ponto de bombeamento",
+      "NAME": "Nome do ponto de bombeamento",
       "RAIN_WATER": "Água de chuva",
       "SURFACE_WATER": "Água superficial",
       "TITLE": "Adicionar ponto de bombeamento",
@@ -711,10 +711,11 @@
     },
     "DATE": "Data",
     "ESTIMATED_REVENUE": {
-      "ESTIMATED_ANNUAL_REVENUE": "Receita anual estimada",
+      "ESTIMATED_ANNUAL_REVENUE": "Rendimento anual estimada",
       "ESTIMATED_ANNUAL_YIELD": "Colheita anual estimada",
       "ESTIMATED_PRICE_PER_UNIT": "Preço por unidade estimado",
-      "TITLE": "Receita Estimada"
+      "TITLE": "Receita Estimada",
+      "ESTIMATED_CROP_REVENUE": "Rendimento estimada do cultivo"
     },
     "REVENUE": "Receita",
     "VIEW_WITHIN_DATE_RANGE": "Veja a receita neste intervalo de datas",
@@ -879,6 +880,7 @@
     "GENDER": "Gênero",
     "GENDER_TOOLTIP": "As informações de gênero são coletadas apenas para fins de pesquisa e só serão utilizadas com as informações de identificação pessoal removidas",
     "INVALID_EMAIL_ERROR": "Por favor insira um email válido",
+    "ALREADY_EXISTING_EMAIL_ERROR": "Um usuário com esse e-mail já tem acesso a esta fazenda",
     "INVITE": "Convidar",
     "LANGUAGE_OF_INVITE": "Idioma do convite",
     "PHONE": "Número de telefone",
@@ -976,9 +978,10 @@
       "ABANDON_PLAN": "Abandonar plano",
       "ABANDON_REASON": "Razão do abandono",
       "COMPLETE_DATE": "Fecha completada",
-      "COMPLETE_PLAN": "Plano completo",
+      "COMPLETE_PLAN": "Completar plano",
       "DATE_OF_CHANGE": "Data de alteração da situação",
       "NOTES_CHAR_LIMIT": "As observações não podem exceder 10.000 caractéres",
+      "FUTURE_DATE_INVALID": "MISSING",
       "RATING": "Avaliar este plano de cultivo",
       "REASON": {
         "CROP_FAILURE": "Quebra de safra",
@@ -1515,6 +1518,7 @@
     },
     "ABANDON_TASK": "Abandonar esta tarefa",
     "ABANDON_TASK_DURATION": "Algum trabalho foi concluído para esta tarefa?",
+    "ABANDON_TASK_HELPTEXT": "MISSING",
     "ABANDONMENT_DETAILS": "Detalhes do abandono da tarefa",
     "ADD_CUSTOM_HARVEST_USE": "Crie um uso de colheita personalizado",
     "ADD_HARVEST_USE": "Adicionar outro uso para a colheita",
@@ -1546,7 +1550,7 @@
     "DUE_DATE": "Data de finalização",
     "DURATION": "Duração",
     "FILTER": {
-      "ASCENDING": "mais antigo primeiro",
+      "ASCENDING": "mais antiga primeiro",
       "ASSIGNEE": "Responsável",
       "CROP": "Cultivo",
       "DATE_RANGE": "Filtrar por intervalo de datas",
@@ -1622,7 +1626,8 @@
       "TYPES": "MISSING",
       "SOIL_WATER_CONTENT": "MISSING",
       "SOIL_WATER_POTENTIAL": "MISSING",
-      "TEMPERATURE": "MISSING"
+      "TEMPERATURE": "MISSING",
+      "UNKNOWN": "MISSING"
     },
     "DEPTH": "MISSING",
     "BRAND": "MISSING",
@@ -1677,7 +1682,8 @@
       "Y_AXIS_LABEL": "MISSING",
       "WEATHER_STATION": "MISSING",
       "NO_DATA": "MISSING",
-      "AMBIENT_TEMPERATURE_FOR": "MISSING"
+      "AMBIENT_TEMPERATURE_FOR": "MISSING",
+      "LAST_UPDATED_TEMPERATURE_READINGS": "MISSING"
     }
   }
 }

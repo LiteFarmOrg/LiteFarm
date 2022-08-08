@@ -715,7 +715,8 @@
       "ESTIMATED_ANNUAL_REVENUE": "Estimated annual revenue",
       "ESTIMATED_ANNUAL_YIELD": "Estimated annual harvest",
       "ESTIMATED_PRICE_PER_UNIT": "Estimated price per unit",
-      "TITLE": "Estimated Revenue"
+      "TITLE": "Estimated Revenue",
+      "ESTIMATED_CROP_REVENUE": "Estimated crop revenue"
     },
     "REVENUE": "Revenue",
     "VIEW_WITHIN_DATE_RANGE": "View revenue within this date range",
@@ -876,6 +877,7 @@
     "GENDER": "Gender",
     "GENDER_TOOLTIP": "Gender information is collected for research purposes only and will only be shared with personally identifying information removed",
     "INVALID_EMAIL_ERROR": "Please enter a valid email",
+    "ALREADY_EXISTING_EMAIL_ERROR": "A user with that email already has access to this farm",
     "INVITE": "Invite",
     "LANGUAGE_OF_INVITE": "Language of invitation",
     "PHONE": "Phone",
@@ -976,6 +978,7 @@
       "COMPLETE_PLAN": "Complete plan",
       "DATE_OF_CHANGE": "Date of status change",
       "NOTES_CHAR_LIMIT": "Notes must be less than 10,000 characters",
+      "FUTURE_DATE_INVALID": "May not be in the future",
       "RATING": "Rate this crop plan",
       "REASON": {
         "CROP_FAILURE": "Crop failure",
@@ -1132,8 +1135,8 @@
     }
   },
   "ENTITY_TYPES": {
-    "TASK": "task",
-    "LOCATION": "location"
+    "TASK": "Task",
+    "LOCATION": "Location"
   },
   "NOTIFICATION": {
     "TIMELINE": {
@@ -1395,7 +1398,8 @@
       "TYPES": "Reading types",
       "SOIL_WATER_CONTENT": "Soil water content",
       "SOIL_WATER_POTENTIAL": "Soil water potential",
-      "TEMPERATURE": "Temperature"
+      "TEMPERATURE": "Temperature",
+      "UNKNOWN": "Unknown"
     },
     "DEPTH": "Depth",
     "BRAND": "Brand",
@@ -1447,7 +1451,8 @@
       "Y_AXIS_LABEL": "Temperature in {{tempUnit}}",
       "WEATHER_STATION": "Weather station: {{weatherStationLocation}}",
       "NO_DATA": "(no data)",
-      "AMBIENT_TEMPERATURE_FOR": "Ambient temperature for"
+      "AMBIENT_TEMPERATURE_FOR": "Ambient temperature for",
+      "LAST_UPDATED_TEMPERATURE_READINGS": "Last updated {{latestReadingUpdate}}"
     }
   },
   "SHIFT": {
@@ -1574,6 +1579,7 @@
     },
     "ABANDON_TASK": "Abandon this task",
     "ABANDON_TASK_DURATION": "Was any work completed for this task?",
+    "ABANDON_TASK_HELPTEXT": "Work completed on this abandoned task will be incorporated into labour costs. If no work was completed, please select that instead.",
     "ABANDONMENT_DETAILS": "Task abandonment details",
     "ADD_CUSTOM_HARVEST_USE": "Create a custom harvest use",
     "ADD_HARVEST_USE": "Add another harvest use",

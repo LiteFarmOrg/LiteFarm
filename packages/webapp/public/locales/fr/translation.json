@@ -453,13 +453,13 @@
       "WIDTH": "Largeur de la zone tampon"
     },
     "BULK_UPLOAD_SENSORS": {
-      "TITLE": "MISSING",
-      "UPLOAD_LINK_MESSAGE": "MISSING",
-      "UPLOAD_INSTRUCTION_MESSAGE": "MISSING",
-      "UPLOAD_PLACEHOLDER": "MISSING",
-      "UPLOAD_ERROR_MESSAGE": "MISSING",
-      "EMPTY_FILE_UPLOAD_ERROR_MESSAGE": "MISSING",
-      "UPLOAD_ERROR_LINK": "MISSING",
+      "TITLE": "MISSING - Fr - Add sensors to map",
+      "UPLOAD_LINK_MESSAGE": "MISSING - Fr - Download this template",
+      "UPLOAD_INSTRUCTION_MESSAGE": "MISSING - Fr - for correct formatting.",
+      "UPLOAD_PLACEHOLDER": "MISSING - Fr - Upload CSV file",
+      "UPLOAD_ERROR_MESSAGE": "MISSING - Fr - There were some issues with your upload. ",
+      "UPLOAD_ERROR_LINK": "MISSING - Fr - Click here to view them.",
+      "EMPTY_FILE_UPLOAD_ERROR_MESSAGE": "MISSING - Fr - No sensors found, please check your upload and try again.",
       "SENSOR_FIELDS": {
         "NAME": "Nom",
         "LATITUDE": "Latitude",
@@ -476,29 +476,29 @@
         "TEMPERATURE": "température"
       },
       "VALIDATION": {
-        "FILE_ROW_LIMIT_EXCEEDED": "MISSING",
-        "MISSING_COLUMNS": "MISSING",
-        "EXTERNAL_ID": "MISSING",
-        "SENSOR_NAME": "MISSING",
-        "SENSOR_LATITUDE": "MISSING",
-        "SENSOR_LONGITUDE": "MISSING",
-        "SENSOR_READING_TYPES": "MISSING",
-        "SENSOR_DEPTH": "MISSING",
-        "SENSOR_BRAND": "MISSING",
-        "SENSOR_MODEL": "MISSING",
-        "SENSOR_HARDWARE_VERSION": "MISSING"
+        "FILE_ROW_LIMIT_EXCEEDED": "MISSING - Fr - File row limit exceeded. The max number of sensors that can be uploaded from a file is 100.",
+        "MISSING_COLUMNS": "MISSING - Fr - Columns are required/missing.",
+        "EXTERNAL_ID": "MISSING - Fr - Invalid external id, must be between 1 and 20 characters.",
+        "SENSOR_NAME": "MISSING - Fr - Invalid sensor name, must be between 1 and 100 characters.",
+        "SENSOR_LATITUDE": "MISSING - Fr - Invalid latitude value, must be between -90 and 90. and fewer than 10 decimals.",
+        "SENSOR_LONGITUDE": "MISSING - Fr - Invalid longitude value, must be between -180 and 180. and fewer than 10 decimals.",
+        "SENSOR_READING_TYPES": "MISSING - Fr - Invalid reading type detected, valid values include: soil_water_content, soil_water_potential, temperature.",
+        "SENSOR_DEPTH": "MISSING - Fr - Invalid depth value, must be between 0 and 1000.",
+        "SENSOR_BRAND": "MISSING - Fr - Invalid brand name, must be between 1 and 100 characters.",
+        "SENSOR_MODEL": "MISSING - Fr - Invalid model name, must be between 1 and 100 characters.",
+        "SENSOR_HARDWARE_VERSION": "MISSING - Fr - Invalid hardware version name, must be between 1 and 100 characters."
       },
       "SENSOR_CLAIM_ERROR": {
-        "ALREADY_OCCUPIED": "MISSING",
-        "DOES_NOT_EXIST": "MISSING",
-        "INTERNAL_ERROR": "MISSING"
+        "ALREADY_OCCUPIED": "MISSING - Fr - Sensor \"{{ sensorId }}\" already registered to another organization, please contact Ensemble support at support@esci.io to troubleshoot.",
+        "DOES_NOT_EXIST": "MISSING - Fr - Sensor \"{{ sensorId }}\" does not exist in the Ensemble database. Please ensure that you have spelled the External_ID properly for this entry, and that the sensor is an Ensemble sensor.",
+        "INTERNAL_ERROR": "MISSING - Fr - Sensor \"{{ sensorId }}\" failed to upload successfully, please reach out to LiteFarm support at support@litefarm.org to troubleshoot."
       },
       "DOWNLOAD_FILE": {
-        "ROW": "MISSING",
-        "PARTIAL_SUCCESS_TOP_TEXT": "MISSING",
-        "PARTIAL_SUCCESS_BOTTOM_TEXT": "MISSING",
-        "SOME_ERRORS": "MISSING",
-        "DEFAULT": "MISSING"
+        "ROW": "MISSING - Fr - [Row: {{ row }}][Column: {{ column }}] {{- errorMessage }} {{ value }}\n",
+        "PARTIAL_SUCCESS_TOP_TEXT": "MISSING - Fr - The following sensors in your file uploaded successfully or already exist on your farm:\n\n",
+        "PARTIAL_SUCCESS_BOTTOM_TEXT": "MISSING - Fr - They should now be visible on your farm map. These sensors will be ignored in future uploads\n\n",
+        "SOME_ERRORS": "MISSING - Fr - Unfortunately, there were some errors with your upload:\n\n",
+        "DEFAULT": "MISSING - Fr - Something went wrong. Please contact support@litefarm.org for assistance."
       }
     },
     "BULK_UPLOAD_TRANSITION": {
@@ -715,7 +715,8 @@
       "ESTIMATED_ANNUAL_REVENUE": "Revenu annuel estimé",
       "ESTIMATED_ANNUAL_YIELD": "Récolte annuelle estimée",
       "ESTIMATED_PRICE_PER_UNIT": "Estimation du prix unitaire",
-      "TITLE": "Chiffre d'affaires estimé"
+      "TITLE": "Chiffre d'affaires estimé",
+      "ESTIMATED_CROP_REVENUE": "Estimation des revenus tirés des cultures"
     },
     "REVENUE": "Revenu",
     "VIEW_WITHIN_DATE_RANGE": "Voir les revenus dans cette plage de dates",
@@ -880,6 +881,7 @@
     "GENDER": "Genre",
     "GENDER_TOOLTIP": "Les informations sur le genre sont collectées à des fins de recherche uniquement et ne seront partagées qu'avec les informations d'identification personnelle supprimées",
     "INVALID_EMAIL_ERROR": "Veuillez saisir une adresse courriel valide",
+    "ALREADY_EXISTING_EMAIL_ERROR": "Un utilisateur avec ceci adresse courriel a déjà accès à cette ferme",
     "INVITE": "Inviter",
     "LANGUAGE_OF_INVITE": "Langue d'invitation",
     "PHONE": "Téléphone",
@@ -980,6 +982,7 @@
       "COMPLETE_PLAN": "Plan complet",
       "DATE_OF_CHANGE": "Date de changement de statut",
       "NOTES_CHAR_LIMIT": "Les notes doivent comporter moins de 10 000 caractères",
+      "FUTURE_DATE_INVALID": "MISSING",
       "RATING": "Évaluez ce plan de gestion",
       "REASON": {
         "CROP_FAILURE": "Échec de la récolte",
@@ -1219,7 +1222,7 @@
     "SPECIFY_PLACEHOLDER": "E.g. {{types}} 1 - 4",
     "TOOLTIP": "Les 40 premiers caractères de ce champ s'afficheront partout où votre plan de gestion est visible.",
     "WIDTH": "Largeur {{type}}",
-    "WORD_LIMIT": "Only {{limit}} characters can be displayed"
+    "WORD_LIMIT": "Seulement {{limit}} caractères peuvent être montrés."
   },
   "PREPARING_EXPORT": {
     "MESSAGE": "LiteFarm rassemble vos documents de certification en arrière-plan et vous recevrez un courriel lorsque nous aurons terminé - cela peut prendre quelques minutes... Vous pouvez cliquer en dehors de cette case pour continuer à utiliser LiteFarm sans interrompre le processus.",
@@ -1515,6 +1518,7 @@
     },
     "ABANDON_TASK": "Laisser cette tâche",
     "ABANDON_TASK_DURATION": "Des travaux ont-ils été réalisés pour cette tâche ?",
+    "ABANDON_TASK_HELPTEXT": "MISSING",
     "ABANDONMENT_DETAILS": "Détails de l'abandon de tâche",
     "ADD_CUSTOM_HARVEST_USE": "Créer une utilisation de récolte personnalisée",
     "ADD_HARVEST_USE": "Ajouter une autre utilisation de récolte",
@@ -1622,7 +1626,8 @@
       "TYPES": "MISSING",
       "SOIL_WATER_CONTENT": "MISSING",
       "SOIL_WATER_POTENTIAL": "MISSING",
-      "TEMPERATURE": "MISSING"
+      "TEMPERATURE": "MISSING",
+      "UNKNOWN": "MISSING"
     },
     "DEPTH": "MISSING",
     "BRAND": "MISSING",
@@ -1677,7 +1682,8 @@
       "Y_AXIS_LABEL": "MISSING",
       "WEATHER_STATION": "MISSING",
       "NO_DATA": "MISSING",
-      "AMBIENT_TEMPERATURE_FOR": "MISSING"
+      "AMBIENT_TEMPERATURE_FOR": "MISSING",
+      "LAST_UPDATED_TEMPERATURE_READINGS": "MISSING"
     }
   }
 }

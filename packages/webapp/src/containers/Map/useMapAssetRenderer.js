@@ -30,11 +30,12 @@ import {
   polygonPath,
 } from './constants';
 import useSelectionHandler from './useSelectionHandler';
-import MarkerClusterer from '@googlemaps/markerclustererplus';
 import { useMaxZoom } from './useMaxZoom';
 
 import MapPin from '../../assets/images/map/map_pin.svg';
 import { userFarmSelector } from '../userFarmSlice';
+import CreateMarkerCluster from '../../components/Map/MarkerCluster';
+import { usePropRef } from '../../components/LocationPicker/SingleLocationPicker/usePropRef';
 
 /**
  *
@@ -42,6 +43,7 @@ import { userFarmSelector } from '../userFarmSlice';
  */
 const useMapAssetRenderer = ({ isClickable, showingConfirmButtons, drawingState }) => {
   const { handleSelection, dismissSelectionModal } = useSelectionHandler();
+  const locationsRef = usePropRef([]);
   const dispatch = useDispatch();
   const filterSettings = useSelector(mapFilterSettingSelector);
   const initAssetGeometriesState = () => {
@@ -115,7 +117,6 @@ const useMapAssetRenderer = ({ isClickable, showingConfirmButtons, drawingState 
   const markerClusterRef = useRef();
   useEffect(() => {
     dismissSelectionModal();
-    markerClusterRef?.current?.repaint();
   }, [filterSettings?.gate, filterSettings?.water_valve, filterSettings?.sensor]);
   useEffect(() => {
     markerClusterRef?.current?.setOptions({ zoomOnClick: isClickable });
@@ -131,30 +132,17 @@ const useMapAssetRenderer = ({ isClickable, showingConfirmButtons, drawingState 
       markers.push(point.marker);
     });
 
-    const clusterStyle = {
-      textColor: 'white',
-      textSize: 20,
-      textLineHeight: 20,
-      height: 28,
-      width: 28,
-      className: styles.selectedClusterIcon,
-    };
-    const clusterStyles = [clusterStyle, clusterStyle, clusterStyle, clusterStyle, clusterStyle];
+    CreateMarkerCluster(map, maps, markers, [], markerClusterRef);
 
-    const markerCluster = new MarkerClusterer(map, markers, {
-      ignoreHidden: true,
-      styles: clusterStyles,
-    });
-
-    markerCluster.addMarkers(markers, true);
-    maps.event.addListener(markerCluster, 'click', (cluster) => {
-      if (map.getZoom() >= (maxZoomRef?.current || 20) && cluster.markers_.length > 1) {
+    markerClusterRef.current.addMarkers(markers, true);
+    maps.event.addListener(markerClusterRef.current, 'click', (cluster) => {
+      if (map.getZoom() >= (maxZoomRef?.current || 20) && cluster.markers.length > 1) {
         const pointAssets = {
           gate: [],
           water_valve: [],
           sensor: [],
         };
-        cluster.markers_.map((point) => {
+        cluster.markers.map((point) => {
           pointAssets[point.type].push({
             asset: point.asset,
             location_id: point.id,
@@ -178,7 +166,6 @@ const useMapAssetRenderer = ({ isClickable, showingConfirmButtons, drawingState 
         handleSelection(getFirstMarkerPosition(pointAssets), pointAssets, maps, true, true);
       }
     });
-    markerClusterRef.current = markerCluster;
   };
 
   useEffect(() => {
@@ -193,7 +180,7 @@ const useMapAssetRenderer = ({ isClickable, showingConfirmButtons, drawingState 
 
   const drawAssets = (map, maps, mapBounds) => {
     maps.event.addListenerOnce(map, 'idle', function () {
-      markerClusterRef?.current?.repaint();
+      // markerClusterRef?.current?.repaint();
     });
 
     // Event listener for general map click
@@ -210,6 +197,10 @@ const useMapAssetRenderer = ({ isClickable, showingConfirmButtons, drawingState 
         assets[type].length > 0,
     );
     hasLocation = assetsWithLocations.length > 0;
+
+    locationsRef.current = assetsWithLocations.reduce((prev, curr) => {
+      return [...prev, ...assets[curr].map((l) => l.location_id)];
+    }, []);
 
     if (!hasLocation) {
       setFarmMap(map);
@@ -508,7 +499,7 @@ const useMapAssetRenderer = ({ isClickable, showingConfirmButtons, drawingState 
       if (point.type === 'sensor' && longPressed) {
         map.setCenter(grid_point);
         const index = assetGeometries.sensor.findIndex(
-          (sensor) => sensor.location_id == point.location_id,
+          (sensor) => sensor.location_id === point.location_id,
         );
         handleSelection(
           MouseEvent.latLng,

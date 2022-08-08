@@ -2185,7 +2185,7 @@ describe('Task tests', () => {
       });
     });
 
-    test('Farm owner must not be able to patch task due date to a date in the past', async (done) => {
+    test('Farm owner should be able to patch task due date to a date in the past', async (done) => {
       const past = faker.date.past();
       const due_date = past.toISOString().split('T')[0];
       const patchTaskDateBody = { due_date };
@@ -2198,7 +2198,7 @@ describe('Task tests', () => {
       });
 
       patchTaskDateRequest({ user_id, farm_id }, patchTaskDateBody, task_id, async (err, res) => {
-        expect(res.status).toBe(400);
+        expect(res.status).toBe(200);
         done();
       });
     });
@@ -2242,7 +2242,7 @@ describe('Task tests', () => {
       });
     });
 
-    test('EO must not be able to patch task due date to a date in the past', async (done) => {
+    test('EO should be able to patch task due date to a date in the past', async (done) => {
       const past = faker.date.past();
       const due_date = past.toISOString().split('T')[0];
       const patchTaskDateBody = { due_date };
@@ -2255,7 +2255,7 @@ describe('Task tests', () => {
       });
 
       patchTaskDateRequest({ user_id, farm_id }, patchTaskDateBody, task_id, async (err, res) => {
-        expect(res.status).toBe(400);
+        expect(res.status).toBe(200);
         done();
       });
     });
@@ -2299,7 +2299,7 @@ describe('Task tests', () => {
       });
     });
 
-    test('Managers must not be able to patch task due date to a date in the past', async (done) => {
+    test('Managers should be able to patch task due date to a date in the past', async (done) => {
       const past = faker.date.past();
       const due_date = past.toISOString().split('T')[0];
       const patchTaskDateBody = { due_date };
@@ -2312,7 +2312,7 @@ describe('Task tests', () => {
       });
 
       patchTaskDateRequest({ user_id, farm_id }, patchTaskDateBody, task_id, async (err, res) => {
-        expect(res.status).toBe(400);
+        expect(res.status).toBe(200);
         done();
       });
     });

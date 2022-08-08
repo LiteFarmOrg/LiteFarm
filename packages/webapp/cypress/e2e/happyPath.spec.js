@@ -132,6 +132,7 @@ describe.only('LiteFarm end to end test', () => {
     cy.get('[data-cy=createField-fieldName]').should('exist').type(fieldName);
     cy.get('[data-cy=createField-save]').should('exist').and('not.be.disabled').click();
     cy.wait(2000);
+
     //Add a farm worker to the farm
     cy.goToPeopleView('English');
     cy.url().should('include', '/people');
@@ -365,6 +366,10 @@ describe.only('LiteFarm end to end test', () => {
     cy.get('[data-cy=taskCard]').eq(1).should('exist').click('right');
     cy.get('[data-cy=taskReadOnly-pencil]').should('exist').click();
     cy.get('[data-cy=quickAssign-update]').should('exist').and('not.be.disabled').click();
+
+    //logout
+    //cy.get('[data-cy=home-profileButton]').should('exist').click();
+    //cy.get('[data-cy=navbar-option]').contains('Log Out').should('exist').and('not.be.disabled').click();
   });
 
   it('Browser local detection', () => {

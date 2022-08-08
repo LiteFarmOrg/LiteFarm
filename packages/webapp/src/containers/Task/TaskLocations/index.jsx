@@ -146,7 +146,7 @@ function TaskLocations({
         readOnlyPinCoordinates={readOnlyPinCoordinates}
         maxZoomRef={maxZoomRef}
         getMaxZoom={getMaxZoom}
-        defaultLocation={location.state.location ?? null}
+        defaultLocation={location?.state?.location ?? null}
         targetsWildCrop={managementPlan?.crop_management_plan?.is_wild ?? false}
       />
     </HookFormPersistProvider>

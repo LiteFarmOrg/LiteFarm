@@ -238,6 +238,14 @@ const sensorController = {
                 translation_key: sensorErrors.SENSOR_ALREADY_OCCUPIED,
                 variables: { sensorId: curr.external_id },
               });
+            } else {
+              // we know that it is an ESID but for some reason it was not returned in the expected format from the API
+              prev.errorSensors.push({
+                row: idx + 2,
+                column: 'External_ID',
+                translation_key: sensorErrors.INTERNAL_ERROR,
+                variables: { sensorId: curr.external_id },
+              });
             }
             return prev;
           },
@@ -394,10 +402,7 @@ const sensorController = {
         .patch({ name: sensor_name })
         .where('location_id', location_id);
 
-      await SensorModel.query()
-        .patch(sensor_properties)
-        .where('partner_id', 1)
-        .where('location_id', location_id);
+      await SensorModel.query().patch(sensor_properties).where('location_id', location_id);
 
       return res.status(200).send('Success');
     } catch (error) {
@@ -566,36 +571,51 @@ const sensorController = {
   async retireSensor(req, res) {
     const trx = await transaction.start(Model.knex());
     try {
-      const { external_id, location_id, farm_id, partner_id, brand_name } = req.body.sensorInfo;
+      const { location_id } = req.body;
+
+      const location = await baseController.getByFieldId(LocationModel, 'location_id', location_id);
+      const { farm_id } = location[0];
+
+      const sensor = await baseController.getByFieldId(SensorModel, 'location_id', location_id);
+      const { external_id, partner_id } = sensor[0];
+
+      const brand = await baseController.getByFieldId(
+        IntegratingPartnersModel,
+        'partner_id',
+        partner_id,
+      );
+      const { partner_name } = brand[0];
+
       const user_id = req.user.user_id;
       const { access_token } = await IntegratingPartnersModel.getAccessAndRefreshTokens(
         'Ensemble Scientific',
       );
       let unclaimResponse;
-      if (brand_name != 'No Integrating Partner' && external_id != '') {
+      if (partner_name != 'No Integrating Partner' && external_id != '') {
         const external_integrations_response = await FarmExternalIntegrationsModel.getOrganizationId(
           farm_id,
           partner_id,
         );
         const org_id = external_integrations_response.organization_uuid;
         unclaimResponse = await unclaimSensor(org_id, external_id, access_token);
-        if (unclaimResponse != 200) {
+
+        if (unclaimResponse?.status != 200) {
           await trx.rollback();
-          return res.status(500);
+          return res.status(500).send('Unable to unclaim ESCI sensor');
         }
       }
-      const deleteResponse = await LocationModel.deleteLocation(location_id, { user_id }, { trx });
+      const deleteResponse = await LocationModel.deleteLocation(trx, location_id, { user_id });
       if (deleteResponse == 1) {
         await trx.commit();
         return res.status(200).send(unclaimResponse?.data);
       } else {
         await trx.rollback();
-        return res.status(500);
+        return res.status(500).send('Delete Sensor Failed');
       }
     } catch (error) {
       console.log(error);
       await trx.rollback();
-      return res.status(400).json({
+      return res.status(400).send({
         error,
       });
     }

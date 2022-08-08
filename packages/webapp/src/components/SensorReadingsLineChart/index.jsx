@@ -27,6 +27,7 @@ const PureSensorReadingsLineChart = ({
   yAxisLabel,
   chartData,
   weatherStationName,
+  lastUpdatedTemperatureReadings,
 }) => {
   const [legendsList, setLegendsList] = useState({});
 
@@ -113,9 +114,14 @@ const PureSensorReadingsLineChart = ({
 
   return (
     <>
-      <label>
-        <Semibold className={styles.title}>{title}</Semibold>
-      </label>
+      <div className={styles.titleWrapper}>
+        <Label>
+          <Semibold className={styles.title}>{title}</Semibold>
+        </Label>
+        <Label>
+          <Semibold className={styles.titleLastUpdated}>{lastUpdatedTemperatureReadings}</Semibold>
+        </Label>
+      </div>
       <Label className={styles.subTitle}>{subTitle}</Label>
       <Label className={styles.subTitle}>{weatherStationName}</Label>
       <ResponsiveContainer width="100%" height="50%">
@@ -193,6 +199,7 @@ PureSensorReadingsLineChart.propTypes = {
   yAxisLabel: PropTypes.string.isRequired,
   chartData: PropTypes.array.isRequired,
   weatherStationName: PropTypes.string.isRequired,
+  lastUpdatedTemperatureReadings: PropTypes.string.isRequired,
 };
 
 export default PureSensorReadingsLineChart;

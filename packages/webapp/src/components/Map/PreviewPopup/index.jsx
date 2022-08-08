@@ -1,7 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { useTranslation } from 'react-i18next';
 import { makeStyles } from '@material-ui/core/styles';
 import { colors } from '../../../assets/theme';
+import CompactPreview from './CompactPreview';
+import { TEMPERATURE } from '../../../containers/SensorReadings/constants';
+import { getTemperatureUnit, getTemperatureValue } from './utils';
+import { userFarmSelector } from '../../../containers/userFarmSlice';
+import { useSelector } from 'react-redux';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -14,21 +20,21 @@ const useStyles = makeStyles((theme) => ({
     borderColor: 'transparent',
     borderRightColor: 'transparent',
     borderStyle: 'solid',
-    top: '35%',
-    left: '40%',
-    marginTop: -30,
+    left: '45%',
+    marginTop: -20,
     borderWidth: '10px 10px 10px 10px',
     borderBottomColor: 'white',
   },
   tooltip: {
-    marginTop: 30,
+    position: 'absolute',
+    left: -105,
     pointerEvents: 'initial',
     backgroundColor: 'white',
     boxShadow: '2px 6px 12px rgba(102, 115, 138, 0.2)',
     padding: 0,
     borderRadius: '4px',
     maxWidth: '264px',
-    textAlign: 'left',
+    marginTop: 5,
     userSelect: 'none',
     color: colors.grey900,
     fontStyle: 'normal',
@@ -41,18 +47,47 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function PurePreviewPopup({ location, history, styleOverride }) {
+export default function PurePreviewPopup({ location, history, sensorReadings, styleOverride }) {
   const classes = useStyles();
+  const { t } = useTranslation();
+  const { units } = useSelector(userFarmSelector);
 
-  const loadEditView = (location) => {
-    history.push(`/${location.type}/${location.id}/details`);
+  const loadReadingView = () => {
+    history.push(`/${location.type}/${location.id}/readings`);
   };
 
+  let temperatureData = [];
+  let sixHoursBefore = new Date();
+  sixHoursBefore.setHours(sixHoursBefore.getHours() - 6);
+
+  if (sensorReadings.length) {
+    temperatureData = sensorReadings.filter(
+      (sensorReading) =>
+        sensorReading.reading_type === TEMPERATURE &&
+        sensorReading.location_id === location.id &&
+        new Date(sensorReading.read_time) > sixHoursBefore,
+    );
+  }
+
+  const latestTemperatureData = temperatureData[0];
+
   return (
-    <div onClick={() => loadEditView(location)} className={classes.container}>
+    <div className={classes.container}>
       <div className={classes.tooltip} style={styleOverride}>
         <div className={classes.arrow} />
-        <div className={classes.body}>preview body</div>
+        <div className={classes.body}>
+          <CompactPreview
+            title={t('SENSOR.READING.TEMPERATURE')}
+            value={
+              temperatureData.length
+                ? getTemperatureValue(latestTemperatureData.value, units.measurement)
+                : null
+            }
+            unit={temperatureData.length ? getTemperatureUnit(units.measurement) : null}
+            loadReadingView={loadReadingView}
+          />
+          {/*other compact views*/}
+        </div>
       </div>
     </div>
   );

@@ -16,3 +16,4 @@ export const OPEN_WEATHER_API_URL_FOR_SENSORS = [
 ];
 export const HOUR = 'hour';
 export const TEMPERATURE = 'temperature';
+export const SENSOR = 'sensor';

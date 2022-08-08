@@ -187,7 +187,7 @@ describe('LiteFarm end to end test', () => {
           //calculate distance in meters
           perimeter = Math.round(perimeter * 1000);
 
-          cy.log(perimeter);
+          expect(entities[0][1].perimeter_unit).to.equal('m');
           expect(entities[0][1].perimeter).to.equal(perimeter + 1);
 
           var latLngs = points.map(function (point) {
@@ -197,6 +197,7 @@ describe('LiteFarm end to end test', () => {
           //Calculate area in hectares
           area = computeArea(latLngs) / 10000;
 
+          expect(entities[0][1].total_area_unit).to.equal('ha');
           //need to fix truncation to rounding to 2 decimal places
           expect(entities[0][1].total_area).to.equal(parseFloat(area).toFixed(2));
         });

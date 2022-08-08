@@ -39,7 +39,7 @@
   },
   "dependencies": {
     "@emotion/react": "^11.7.1",
-    "@googlemaps/markerclustererplus": "^1.1.0",
+    "@googlemaps/markerclusterer": "^2.0.10",
     "@material-ui/core": "^4.11.3",
     "@material-ui/icons": "^4.11.2",
     "@reactour/tour": "^2.9.0",

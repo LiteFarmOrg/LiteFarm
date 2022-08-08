@@ -184,20 +184,26 @@ describe('LiteFarm end to end test', () => {
             }
           }
 
-          //calculate distance in meters
-          perimeter = Math.round(perimeter * 1000);
+          let perimeter_unit = entities[0][1].perimeter_unit;
 
-          expect(entities[0][1].perimeter_unit).to.equal('m');
-          expect(entities[0][1].perimeter).to.equal(perimeter + 1);
+          if (perimeter_unit == 'm') {
+            //calculate distance in meters
+            perimeter = Math.round(perimeter * 1000);
+            expect(entities[0][1].perimeter).to.equal(perimeter + 1);
+          } else if (perimeter_unit == 'km') {
+            perimeter = Math.round(perimeter);
+            expect(entities[0][1].perimeter).to.equal(perimeter);
+          }
 
           var latLngs = points.map(function (point) {
             return new LatLng(point.lat, point.lng);
           });
 
+          let total_area_unit = entities[0][1].total_area_unit;
+
           //Calculate area in hectares
           area = computeArea(latLngs) / 10000;
-
-          expect(entities[0][1].total_area_unit).to.equal('ha');
+          expect(total_area_unit).to.equal('ha');
           //need to fix truncation to rounding to 2 decimal places
           expect(entities[0][1].total_area).to.equal(parseFloat(area).toFixed(2));
         });

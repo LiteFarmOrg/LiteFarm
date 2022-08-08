@@ -6,7 +6,7 @@ import { useSelector } from 'react-redux';
 import { canShowSelectionSelector, mapLocationsSelector } from '../../mapSlice';
 import PurePreviewPopup from '../../../components/Map/PreviewPopup';
 import { SENSOR } from '../../SensorReadings/constants';
-import { sensorReadingsByLocationSelector } from '../mapSensorSlice';
+import { mapSensorSelector, sensorReadingsByLocationSelector } from '../mapSensorSlice';
 
 export default function LocationSelectionModal({ history, selectingOnly }) {
   const { dismissSelectionModal } = useSelectionHandler();
@@ -16,6 +16,7 @@ export default function LocationSelectionModal({ history, selectingOnly }) {
   const sensorReadingsByLocation = useSelector(
     sensorReadingsByLocationSelector(selectedLocation?.id),
   );
+  const sensorReadings = useSelector(mapSensorSelector);
 
   if (showSelection && locations.length === 1 && selectedLocation.type === SENSOR) {
     return (
@@ -38,7 +39,7 @@ export default function LocationSelectionModal({ history, selectingOnly }) {
               <PureSelectionHandler
                 locations={locations}
                 history={history}
-                sensorReadings={sensorReadingsByLocation}
+                sensorReadings={sensorReadings}
                 selectingOnly={selectingOnly}
               />
             </div>

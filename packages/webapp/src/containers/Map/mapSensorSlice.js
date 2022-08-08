@@ -62,7 +62,7 @@ const mapSensorSelectors = mapSensorAdapter.getSelectors(
 export const mapSensorSelector = createSelector(
   [mapSensorSelectors.selectEntities],
   (mapSensorEntities) => {
-    return mapSensorEntities;
+    return Object.values(mapSensorEntities);
   },
 );
 

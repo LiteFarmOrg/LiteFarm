@@ -5,18 +5,23 @@ import { containsCrops } from '../../../containers/Map/constants';
 import { makeStyles } from '@material-ui/core/styles';
 import { colors } from '../../../assets/theme';
 import PurePreviewPopup from '../PreviewPopup';
+import { SENSOR } from '../../../containers/SensorReadings/constants';
 
 const useStyles = makeStyles((theme) => ({
   container: {
+    left: 100,
     '&:hover': {
       backgroundColor: colors.green100,
     },
     backgroundColor: 'white',
     marginBottom: '5px',
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    maxWidth: 160,
   },
 }));
 
-export default function PureSelectionHandler({ locations, history }) {
+export default function PureSelectionHandler({ locations, history, sensorReadings }) {
   const classes = useStyles();
   const imgMapping = (assetType, locationType) => {
     let icon = null;
@@ -45,16 +50,35 @@ export default function PureSelectionHandler({ locations, history }) {
   const [isSensor, setIsSensor] = useState(false);
   const [sensorIdx, setSensorIdx] = useState(null);
 
+  let longPressed, longPressTimeout, longPressActive;
+
+  const handleMouseDown = () => {
+    longPressActive = true;
+    longPressed = false;
+    longPressTimeout = setTimeout(function () {
+      if (longPressActive === true) {
+        longPressed = true;
+      }
+    }, 200);
+  };
+
+  const handleMouseUp = () => {
+    clearTimeout(longPressTimeout);
+    longPressActive = false;
+  };
+
   const loadEditView = (location) => {
     containsCrops(location.type)
       ? history.push(`/${location.type}/${location.id}/crops`)
       : history.push(`/${location.type}/${location.id}/details`);
   };
 
-  const handleRightClick = (location, idx) => {
-    if (location.type === 'sensor') {
+  const handleClick = (location, idx) => {
+    if (location.type === SENSOR && longPressed) {
       setIsSensor(true);
       setSensorIdx(idx);
+    } else {
+      loadEditView(location);
     }
   };
 
@@ -65,18 +89,23 @@ export default function PureSelectionHandler({ locations, history }) {
     return (
       <div
         key={idx}
-        onClick={() => loadEditView(location)}
-        onContextMenu={() => handleRightClick(location, idx)}
+        onMouseDown={handleMouseDown}
+        onMouseUp={handleMouseUp}
+        onClick={(e) => {
+          e.stopPropagation();
+          handleClick(location, idx);
+        }}
       >
         <div className={classes.container}>
           <div style={{ float: 'left', paddingTop: '8px', paddingLeft: '20px' }}> {icon} </div>
-          <div style={{ padding: '12px 20px 10px 55px' }}>{name}</div>
+          <div style={{ padding: '12px 20px 10px 55px', lineBreak: 'auto' }}>{name}</div>
         </div>
         {isSensor && sensorIdx === idx && (
           <PurePreviewPopup
             location={location}
             history={history}
-            styleOverride={{ marginTop: 12, marginBottom: 10 }}
+            sensorReadings={sensorReadings}
+            styleOverride={{ marginTop: 12, marginBottom: 10, position: 'relative', left: 0 }}
           />
         )}
       </div>

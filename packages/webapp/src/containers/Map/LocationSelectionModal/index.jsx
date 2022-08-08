@@ -1,20 +1,32 @@
 import useSelectionHandler from '../useSelectionHandler';
 import styles from '../styles.module.scss';
 import PureSelectionHandler from '../../../components/Map/SelectionHandler';
-import React from 'react';
+import React, { useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import { canShowSelectionSelector, mapLocationsSelector } from '../../mapSlice';
 import PurePreviewPopup from '../../../components/Map/PreviewPopup';
+import { SENSOR } from '../../SensorReadings/constants';
+import { mapSensorSelector, sensorReadingsByLocationSelector } from '../mapSensorSlice';
 
 export default function LocationSelectionModal({ history, selectingOnly }) {
   const { dismissSelectionModal } = useSelectionHandler();
   const showSelection = useSelector(canShowSelectionSelector);
   const locations = useSelector(mapLocationsSelector);
-  if (showSelection && locations.length === 1 && locations[0].type === 'sensor') {
+  const selectedLocation = locations[0];
+  const sensorReadingsByLocation = useSelector(
+    sensorReadingsByLocationSelector(selectedLocation?.id),
+  );
+  const sensorReadings = useSelector(mapSensorSelector);
+
+  if (showSelection && locations.length === 1 && selectedLocation.type === SENSOR) {
     return (
       <div className={styles.selectionModal} onClick={dismissSelectionModal}>
         <div className={styles.selectionContainer}>
-          <PurePreviewPopup location={locations[0]} history={history} />
+          <PurePreviewPopup
+            location={selectedLocation}
+            history={history}
+            sensorReadings={sensorReadingsByLocation}
+          />
         </div>
       </div>
     );
@@ -27,6 +39,7 @@ export default function LocationSelectionModal({ history, selectingOnly }) {
               <PureSelectionHandler
                 locations={locations}
                 history={history}
+                sensorReadings={sensorReadings}
                 selectingOnly={selectingOnly}
               />
             </div>

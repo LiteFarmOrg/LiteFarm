@@ -65,9 +65,12 @@ class SensorReading extends Model {
     const pastDate = new Date();
     pastDate.setDate(pastDate.getDate() - days);
     return await SensorReading.query()
-      .joinRaw('JOIN sensor ON sensor_reading.location_id::uuid = sensor.location_id')
+      .select('*')
+      .join('sensor', 'sensor_reading.location_id', 'sensor.location_id')
+      .join('location', 'sensor_reading.location_id', 'location.location_id')
       .where('farm_id', farmId)
-      .andWhere('read_time', '>=', pastDate);
+      .andWhere('read_time', '>=', pastDate)
+      .orderBy('read_time', 'desc');
   }
 
   /**

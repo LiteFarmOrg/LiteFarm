@@ -1398,7 +1398,8 @@
       "TYPES": "Reading types",
       "SOIL_WATER_CONTENT": "Soil water content",
       "SOIL_WATER_POTENTIAL": "Soil water potential",
-      "TEMPERATURE": "Temperature"
+      "TEMPERATURE": "Temperature",
+      "UNKNOWN": "Unknown"
     },
     "DEPTH": "Depth",
     "BRAND": "Brand",

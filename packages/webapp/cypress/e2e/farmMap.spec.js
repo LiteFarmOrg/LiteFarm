@@ -1,3 +1,5 @@
+import { computeArea, LatLng } from 'spherical-geometry-js/src/index';
+
 describe('LiteFarm end to end test', () => {
   let userEmail;
   let userPassword;
@@ -12,7 +14,7 @@ describe('LiteFarm end to end test', () => {
     });
   });
 
-  it('should correctly calculate perimeter and area', () => {
+  it('should correctly calculate perimeter and area of a field', () => {
     cy.visit('/');
     cy.get('[data-cy=email]').should('exist');
     cy.get('[data-cy=continue]').should('exist');
@@ -134,6 +136,7 @@ describe('LiteFarm end to end test', () => {
           let entities = Object.entries(fields.entities);
           let points = entities[0][1].grid_points;
           let perimeter = 0;
+          let area = 0;
 
           const distance = (lat1, lon1, lat2, lon2, unit) => {
             if (lat1 == lat2 && lon1 == lon2) {
@@ -162,6 +165,7 @@ describe('LiteFarm end to end test', () => {
               return dist;
             }
           };
+
           for (let i = 0; i < points.length; i++) {
             if (i < points.length - 1) {
               console.log(points[i].lat, points[i].lng, points[i + 1].lat, points[i + 1].lng);
@@ -180,10 +184,21 @@ describe('LiteFarm end to end test', () => {
             }
           }
 
+          //calculate distance in meters
           perimeter = Math.round(perimeter * 1000);
 
           cy.log(perimeter);
-          expect(entities[0][1].perimeter).to.equal(perimeter);
+          expect(entities[0][1].perimeter).to.equal(perimeter + 1);
+
+          var latLngs = points.map(function (point) {
+            return new LatLng(point.lat, point.lng);
+          });
+
+          //Calculate area in hectares
+          area = computeArea(latLngs) / 10000;
+
+          //need to fix truncation to rounding to 2 decimal places
+          expect(entities[0][1].total_area).to.equal(parseFloat(area).toFixed(2));
         });
     });
   });

@@ -74,6 +74,7 @@ specifiers:
   redux-saga: ^1.1.3
   reselect: ^4.1.5
   sass: ^1.49.7
+  spherical-geometry-js: ^3.0.0
   storybook-builder-vite: ^0.1.15
   typescript: ^4.5.5
   uuid: ^8.3.2
@@ -129,6 +130,7 @@ dependencies:
   redux-persist: 6.0.0_redux@4.1.2
   redux-saga: 1.1.3
   reselect: 4.1.5
+  spherical-geometry-js: 3.0.0
   uuid: 8.3.2
   xlsx: 0.18.5
 
@@ -14439,6 +14441,11 @@ packages:
   /spdx-license-ids/3.0.11:
     resolution: {integrity: sha512-Ctl2BrFiM0X3MANYgj3CkygxhRmr9mi6xhejbdO960nF6EDJApTYpn0BQnDKlnNBULKiCN1n3w9EBkHK8ZWg+g==}
     dev: true
+
+  /spherical-geometry-js/3.0.0:
+    resolution: {integrity: sha512-PvfGTBRSyoAr3KGk/pTkqA7vCMO0lXilnmh6DfiTrO4RhRz++RTbMbUXKcmkmw8olh2wWVVY2qx8sl5hJ+JpVg==}
+    engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
+    dev: false
 
   /split-string/3.1.0:
     resolution: {integrity: sha512-NzNVhJDYpwceVVii8/Hu6DKfD2G+NrQHlS/V/qgv763EYudVwEcMQNxd2lh+0VrUByXN/oJkl5grOhYWvQUYiw==}

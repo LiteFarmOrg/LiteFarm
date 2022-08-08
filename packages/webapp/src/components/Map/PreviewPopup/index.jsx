@@ -77,7 +77,7 @@ export default function PurePreviewPopup({ location, history, sensorReadings, st
         <div className={classes.arrow} />
         <div className={classes.body}>
           <CompactPreview
-            title={t('SENSOR.READING.TEMPERATURE')}
+            title={t('SENSOR.READINGS_PREVIEW.TEMPERATURE')}
             value={
               temperatureData.length
                 ? getTemperatureValue(latestTemperatureData.value, units.measurement)

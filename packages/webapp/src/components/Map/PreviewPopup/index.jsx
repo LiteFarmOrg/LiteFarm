@@ -52,8 +52,8 @@ export default function PurePreviewPopup({ location, history, sensorReadings, st
   const { t } = useTranslation();
   const { units } = useSelector(userFarmSelector);
 
-  const loadEditView = (location) => {
-    history.push(`/${location.type}/${location.id}/details`);
+  const loadReadingView = () => {
+    history.push(`/${location.type}/${location.id}/readings`);
   };
 
   let temperatureData = [];
@@ -71,7 +71,7 @@ export default function PurePreviewPopup({ location, history, sensorReadings, st
   const latestTemperatureData = temperatureData[0];
 
   return (
-    <div onClick={() => loadEditView(location)} className={classes.container}>
+    <div className={classes.container}>
       <div className={classes.tooltip} style={styleOverride}>
         <div className={classes.arrow} />
         <div className={classes.body}>
@@ -83,6 +83,7 @@ export default function PurePreviewPopup({ location, history, sensorReadings, st
                 : null
             }
             unit={temperatureData.length ? getTemperatureUnit(units.measurement) : null}
+            loadReadingView={loadReadingView}
           />
           {/*other compact views*/}
         </div>

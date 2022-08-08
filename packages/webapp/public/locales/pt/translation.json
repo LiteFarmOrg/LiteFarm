@@ -1266,6 +1266,8 @@
       "PAY": "Salário",
       "RESTORE_ACCESS": "Restaurar o acesso do usuário",
       "REVOKE_ACCESS": "Revogar o acesso do usuário",
+      "INVALID_REVOKE_ACCESS": "MISSING",
+      "LAST_ADMIN_ERROR": "MISSING",
       "ROLE": "Papel",
       "ROLE_CHANGE_ALERT": "A mudança de papel terá efeito no próximo login. Os trabalhadores não podem se definir como administradores.",
       "SEARCH": "Pesquisar",

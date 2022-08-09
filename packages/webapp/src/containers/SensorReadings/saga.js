@@ -50,9 +50,9 @@ export function* getSensorsReadingsSaga({ payload }) {
     let currentDate = new Date();
     currentDate.setHours(0, 0, 0, 0);
 
-    let tomorrowsDate = new Date().setDate(currentDate.getDate() + 1);
-    tomorrowsDate = new Date(tomorrowsDate).setHours(0, 0, 0, 0);
-    tomorrowsDate = tomorrowsDate / 1000;
+    let predictedEndDate = new Date().setDate(currentDate.getDate() + 2);
+    predictedEndDate = new Date(predictedEndDate).setHours(0, 0, 0, 0);
+    predictedEndDate = predictedEndDate / 1000;
 
     let startDate = new Date().setDate(currentDate.getDate() - 3);
     startDate = new Date(startDate).setHours(0, 0, 0, 0);
@@ -67,7 +67,7 @@ export function* getSensorsReadingsSaga({ payload }) {
       units: measurement,
       type: HOUR,
       start: start,
-      end: tomorrowsDate,
+      end: predictedEndDate,
     };
 
     const header = getHeader(farm_id);
@@ -112,7 +112,7 @@ export function* getSensorsReadingsSaga({ payload }) {
     const ambientData = weatherResData.reduce((acc, tempInfo) => {
       let dateAndTimeInfo = new Date(tempInfo?.dt * 1000).toString();
       const isCorrectTimestamp = GRAPH_TIMESTAMPS?.find((g) => dateAndTimeInfo?.includes(g));
-      if (isCorrectTimestamp && startDate < tempInfo?.dt && tempInfo?.dt < tomorrowsDate) {
+      if (isCorrectTimestamp && startDate < tempInfo?.dt && tempInfo?.dt < predictedEndDate) {
         const currentDateTime = `${dateAndTimeInfo?.split(':00:00')[0]}:00`;
         if (!isFound && currentDT < tempInfo?.dt) {
           isFound = true;

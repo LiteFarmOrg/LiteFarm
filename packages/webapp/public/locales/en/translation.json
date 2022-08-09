@@ -1455,6 +1455,9 @@
       "NO_DATA": "(no data)",
       "AMBIENT_TEMPERATURE_FOR": "Ambient temperature for",
       "LAST_UPDATED_TEMPERATURE_READINGS": "Last updated {{latestReadingUpdate}}"
+    },
+    "READINGS_PREVIEW": {
+      "TEMPERATURE": "Current soil temp"
     }
   },
   "SHIFT": {

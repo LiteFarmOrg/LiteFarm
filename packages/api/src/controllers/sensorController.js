@@ -402,20 +402,30 @@ const sensorController = {
   async addReading(req, res) {
     const trx = await transaction.start(Model.knex());
     try {
+      const external_id = Object.keys(req.body)[0];
+      const partner_id = req.params.partner_id;
+      const data = req.body[external_id].data;
+      const corresponding_sensor = await SensorModel.query()
+        .select('location_id')
+        .where('external_id', external_id)
+        .where('partner_id', partner_id)
+        .first();
+
       const infoBody = [];
-      for (const sensor of req.body) {
-        const corresponding_sensor = await SensorModel.query()
-          .select('location_id')
-          .where('external_id', sensor.sensor_esid)
-          .where('partner_id', req.params.partner_id);
-        for (let i = 0; i < sensor.value.length; i++) {
+      for (const dataPoint of data) {
+        const reading_type = dataPoint.parameter_category;
+        const unit = dataPoint.unit;
+        for (let i = 0; i < dataPoint.values.length; i++) {
           const row = {
-            read_time: sensor.time[i],
-            location_id: corresponding_sensor[0].location_id,
-            reading_type: sensor.parameter_number,
-            value: sensor.value[i],
-            unit: sensor.unit,
+            location_id: corresponding_sensor.location_id,
+            read_time: new Date(),
+            created_at: dataPoint.timestamps[i],
+            reading_type,
+            value: dataPoint.values[i],
+            unit,
+            valid: true,
           };
+          console.log(row);
           // Only include this entry if all required values are populated
           if (Object.values(row).every((value) => value)) {
             infoBody.push(row);

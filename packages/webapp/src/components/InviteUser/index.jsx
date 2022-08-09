@@ -109,10 +109,14 @@ export default function PureInviteUser({ onInvite, onGoBack, userFarmEmails, rol
           },
           validate: {
             existing: (value) => {
-              return (
-                (value && !userFarmEmails.includes(value.toLowerCase())) ||
-                t('INVITE_USER.ALREADY_EXISTING_EMAIL_ERROR')
-              );
+              if (role.value === 3 && !value) {
+                return true;
+              } else {
+                return (
+                  (value && !userFarmEmails.includes(value.toLowerCase())) ||
+                  t('INVITE_USER.ALREADY_EXISTING_EMAIL_ERROR')
+                );
+              }
             },
           },
         })}

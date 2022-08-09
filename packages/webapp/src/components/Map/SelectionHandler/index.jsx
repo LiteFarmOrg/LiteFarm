@@ -92,8 +92,6 @@ export default function PureSelectionHandler({ locations, history, sensorReading
       }
     : {};
 
-  console.log('isTouchDevice', isTouchDevice());
-
   const longPressHandlers = isTouchDevice()
     ? {
         onTouchStart: handleMouseDown,

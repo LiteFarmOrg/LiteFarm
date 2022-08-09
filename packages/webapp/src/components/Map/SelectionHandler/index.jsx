@@ -6,6 +6,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { colors } from '../../../assets/theme';
 import PurePreviewPopup from '../PreviewPopup';
 import { SENSOR } from '../../../containers/SensorReadings/constants';
+import { isTouchDevice } from '../../../util/device';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -82,6 +83,27 @@ export default function PureSelectionHandler({ locations, history, sensorReading
     }
   };
 
+  const removeTextHighlight = isTouchDevice()
+    ? {
+        userSelect: 'none',
+        WebkitUserSelect: 'none',
+        msUserSelect: 'none',
+        MozUserSelect: 'none',
+      }
+    : {};
+
+  console.log('isTouchDevice', isTouchDevice());
+
+  const longPressHandlers = isTouchDevice()
+    ? {
+        onTouchStart: handleMouseDown,
+        onTouchEnd: handleMouseUp,
+      }
+    : {
+        onMouseDown: handleMouseDown,
+        onMouseUp: handleMouseUp,
+      };
+
   return locations.map((location, idx) => {
     const { type, asset, name } = { ...location };
     let icon = imgMapping(asset, type);
@@ -89,8 +111,7 @@ export default function PureSelectionHandler({ locations, history, sensorReading
     return (
       <div
         key={idx}
-        onMouseDown={handleMouseDown}
-        onMouseUp={handleMouseUp}
+        {...longPressHandlers}
         onClick={(e) => {
           e.stopPropagation();
           handleClick(location, idx);
@@ -98,7 +119,11 @@ export default function PureSelectionHandler({ locations, history, sensorReading
       >
         <div className={classes.container}>
           <div style={{ float: 'left', paddingTop: '8px', paddingLeft: '20px' }}> {icon} </div>
-          <div style={{ padding: '12px 20px 10px 55px', lineBreak: 'auto' }}>{name}</div>
+          <div
+            style={{ padding: '12px 20px 10px 55px', lineBreak: 'auto', ...removeTextHighlight }}
+          >
+            {name}
+          </div>
         </div>
         {isSensor && sensorIdx === idx && (
           <PurePreviewPopup

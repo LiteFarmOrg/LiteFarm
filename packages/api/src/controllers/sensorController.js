@@ -103,7 +103,7 @@ const sensorController = {
           key: 'reading_types',
           parseFunction: (val) => val.replaceAll(' ', '').split(','),
           validator: (val) => {
-            if (!val.length) {
+            if (!val.length || (val.length === 1 && val[0] === '')) {
               return false;
             }
             const allowedReadingTypes = [
@@ -632,7 +632,9 @@ const sensorController = {
 
 const parseCsvString = (csvString, mapping, delimiter = ',') => {
   // regex checks for delimiters that are not contained within quotation marks
-  const regex = new RegExp(`(?!\\B"[^"]*)${delimiter}(?![^"]*"\\B)`);
+  const regex = new RegExp(
+    `(?:${delimiter}|\\n|^)("(?:(?:"")*[^"]*)*"|[^"${delimiter}\\n]*|(?:\\n|$))`,
+  );
   if (csvString.length === 0 || !/\r\b|\r|\n/.test(csvString)) {
     return { data: [] };
   }

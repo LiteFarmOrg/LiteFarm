@@ -47,8 +47,18 @@ export function* getSensorsReadingsSaga({ payload }) {
     grid_points: { lat, lng },
   } = yield select(userFarmSelector);
   try {
+    let currentDate = new Date();
+    currentDate.setHours(0, 0, 0, 0);
+
+    let predictedEndDate = new Date().setDate(currentDate.getDate() + 2);
+    predictedEndDate = new Date(predictedEndDate).setHours(0, 0, 0, 0);
+    predictedEndDate = predictedEndDate / 1000;
+
+    let startDate = new Date().setDate(currentDate.getDate() - 3);
+    startDate = new Date(startDate).setHours(0, 0, 0, 0);
+    startDate = parseInt(+startDate / 1000);
+
     const start = parseInt(+new Date().setDate(new Date().getDate() - 4) / 1000);
-    const end = parseInt(+new Date() / 1000);
     yield put(bulkSensorReadingsLoading());
     const apikey = import.meta.env.VITE_WEATHER_API_KEY;
     let params = {
@@ -56,8 +66,8 @@ export function* getSensorsReadingsSaga({ payload }) {
       lang: lang,
       units: measurement,
       type: HOUR,
-      start,
-      end,
+      start: start,
+      end: predictedEndDate,
     };
 
     const header = getHeader(farm_id);
@@ -86,19 +96,33 @@ export function* getSensorsReadingsSaga({ payload }) {
       openWeatherPromiseList.push(call(axios.get, openWeatherUrl?.toString()));
     }
 
-    const [currentDayWeatherResponse, openWeatherResponse] = yield all(openWeatherPromiseList);
+    const [currentDayWeatherResponse, openWeatherResponse, predictedWeatherResponse] = yield all(
+      openWeatherPromiseList,
+    );
     const stationName = currentDayWeatherResponse?.data?.name;
-    const weatherResData = openWeatherResponse.data.list;
+    const weatherResData = [
+      ...openWeatherResponse.data.list,
+      ...predictedWeatherResponse.data.list,
+    ];
+
+    const currentDT = parseInt(+new Date() / 1000);
+    let isFound = false;
+    let predictedXAxisLabel = '';
 
     const ambientData = weatherResData.reduce((acc, tempInfo) => {
       let dateAndTimeInfo = new Date(tempInfo?.dt * 1000).toString();
       const isCorrectTimestamp = GRAPH_TIMESTAMPS?.find((g) => dateAndTimeInfo?.includes(g));
-      if (isCorrectTimestamp) {
+      if (isCorrectTimestamp && startDate < tempInfo?.dt && tempInfo?.dt < predictedEndDate) {
+        const currentDateTime = `${dateAndTimeInfo?.split(':00:00')[0]}:00`;
+        if (!isFound && currentDT < tempInfo?.dt) {
+          isFound = true;
+          predictedXAxisLabel = acc[Object.keys(acc).at(-1)][CURRENT_DATE_TIME];
+        }
         if (!acc[tempInfo?.dt]) acc[tempInfo?.dt] = {};
         acc[tempInfo?.dt] = {
           ...acc[tempInfo?.dt],
           [`${ambientTempFor} ${stationName}`]: tempInfo?.main?.temp,
-          [CURRENT_DATE_TIME]: `${dateAndTimeInfo?.split(':00:00')[0]}:00`,
+          [CURRENT_DATE_TIME]: currentDateTime,
         };
         for (const s of allSensorNames) {
           acc[tempInfo?.dt][s] = null;
@@ -109,7 +133,7 @@ export function* getSensorsReadingsSaga({ payload }) {
 
     let ambientDataWithSensorsReadings = result?.data?.sensorReading.reduce((acc, cv) => {
       const dt = new Date(cv.read_time).valueOf() / 1000;
-      if (acc[dt]) {
+      if (acc[dt] && dt < currentDT) {
         acc[dt][cv.name] = cv.value;
       }
       return acc;
@@ -148,6 +172,7 @@ export function* getSensorsReadingsSaga({ payload }) {
         latestTemperatureReadings,
         nearestStationName: stationName,
         lastUpdatedReadingsTime,
+        predictedXAxisLabel,
       }),
     );
   } catch (error) {

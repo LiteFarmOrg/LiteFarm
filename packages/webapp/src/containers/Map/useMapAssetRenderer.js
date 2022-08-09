@@ -18,7 +18,7 @@ import { areaStyles, hoverIcons, icons, lineStyles } from './mapStyles';
 import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { mapFilterSettingSelector } from './mapFilterSettingSlice';
-import { lineSelector, pointSelector, sortedAreaSelector } from '../locationSlice';
+import { areaSelector, lineSelector, pointSelector, sortedAreaSelector } from '../locationSlice';
 import { setPosition, setZoomLevel } from '../mapSlice';
 import {
   getAreaLocationTypes,
@@ -56,6 +56,7 @@ const useMapAssetRenderer = ({ isClickable, showingConfirmButtons, drawingState 
 
   const [farmLocationMarker, setFarmLocationMarker] = useState(null);
   const [farmMap, setFarmMap] = useState();
+  const [points, setPoints] = useState({});
 
   const [assetGeometries, setAssetGeometries] = useState(initAssetGeometriesState());
   //TODO get prev filter state from redux
@@ -98,10 +99,22 @@ const useMapAssetRenderer = ({ isClickable, showingConfirmButtons, drawingState 
     }
   }, [isClickable]);
 
-  const areaAssets = useSelector(sortedAreaSelector);
+  const areaAssets = useSelector(areaSelector);
   const lineAssets = useSelector(lineSelector);
   const pointAssets = useSelector(pointSelector);
   const { grid_points } = useSelector(userFarmSelector);
+
+  useEffect(() => {
+    markerClusterRef?.current?.clearMarkers();
+    markerClusterRef?.current?.addMarkers(
+      Object.keys(points).reduce((prev, curr) => {
+        if (points[curr].isVisible) {
+          prev.push(points[curr].marker);
+        }
+        return prev;
+      }, []),
+    );
+  }, [Object.values(points)]);
 
   const assetFunctionMap = (assetType) => {
     return isArea(assetType)
@@ -515,6 +528,18 @@ const useMapAssetRenderer = ({ isClickable, showingConfirmButtons, drawingState 
     });
 
     marker.setOptions({ visible: isVisible });
+
+    maps.event.addListener(marker, 'visible_changed', function () {
+      setPoints((prev) => {
+        prev[point.location_id].isVisible = !prev[point.location_id].isVisible;
+        return prev;
+      });
+    });
+
+    setPoints((prev) => {
+      prev[point.location_id] = { marker, isVisible };
+      return prev;
+    });
     return {
       marker,
       location_id: point.location_id,

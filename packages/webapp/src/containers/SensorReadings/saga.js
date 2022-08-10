@@ -161,7 +161,11 @@ export function* getSensorsReadingsSaga({ payload }) {
       selectedSensorName = result?.data?.sensorsPoints[0]?.name;
     }
     const lastUpdated = new Date(
-      Math.max(...Object.keys(ambientDataWithSensorsReadings).map((e) => new Date(+e * 1000))),
+      Math.max(
+        ...Object.keys(ambientDataWithSensorsReadings)
+          .filter((e) => e < currentDT)
+          .map((e) => new Date(+e * 1000)),
+      ),
     );
     const lastUpdatedReadingsTime = moment(lastUpdated).startOf('day').fromNow();
 

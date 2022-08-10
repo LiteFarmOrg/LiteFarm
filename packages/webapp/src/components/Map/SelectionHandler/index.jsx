@@ -83,7 +83,7 @@ export default function PureSelectionHandler({ locations, history, sensorReading
     }
   };
 
-  const removeTextHighlight = isTouchDevice()
+  const removeSelect = isTouchDevice()
     ? {
         userSelect: 'none',
         WebkitUserSelect: 'none',
@@ -116,10 +116,11 @@ export default function PureSelectionHandler({ locations, history, sensorReading
         }}
       >
         <div className={classes.container}>
-          <div style={{ float: 'left', paddingTop: '8px', paddingLeft: '20px' }}> {icon} </div>
-          <div
-            style={{ padding: '12px 20px 10px 55px', lineBreak: 'auto', ...removeTextHighlight }}
-          >
+          <div style={{ float: 'left', paddingTop: '8px', paddingLeft: '20px', ...removeSelect }}>
+            {' '}
+            {icon}{' '}
+          </div>
+          <div style={{ padding: '12px 20px 10px 55px', lineBreak: 'auto', ...removeSelect }}>
             {name}
           </div>
         </div>

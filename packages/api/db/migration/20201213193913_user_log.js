@@ -1,5 +1,4 @@
-
-exports.up = function(knex) {
+export const up = function (knex) {
   return Promise.all([
     knex.schema.createTable('userLog', function (table) {
       table.uuid('user_log_id').primary().defaultTo(knex.raw('uuid_generate_v4()'));
@@ -17,9 +16,9 @@ exports.up = function(knex) {
       table.integer('screen_width').notNullable();
       table.integer('screen_height').notNullable();
     }),
-  ])
+  ]);
 };
 
-exports.down = function(knex) {
+export const down = function (knex) {
   return Promise.all([knex.schema.dropTable('userLog')]);
 };

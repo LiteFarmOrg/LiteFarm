@@ -1,4 +1,4 @@
-exports.up = function (knex) {
+export const up = function (knex) {
   return Promise.all([
     knex('task_type').insert({
       task_name: 'Cleaning',
@@ -19,9 +19,9 @@ exports.up = function (knex) {
   ]);
 };
 
-exports.down = function (knex) {
+export const down = function (knex) {
   return Promise.all([
     knex.dropTable('cleaning_task'),
-    knex('task_type').where({ task_translation_key: 'CLEANING' }).del()
+    knex('task_type').where({ task_translation_key: 'CLEANING' }).del(),
   ])
 };

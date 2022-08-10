@@ -13,8 +13,9 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const { Model } = require('objection');
-const managementPlanModel = require('../../models/managementPlanModel');
+import { Model } from 'objection';
+
+import managementPlanModel from '../../models/managementPlanModel';
 
 async function validateLocationDependency(req, res, next) {
   const location_id = req?.params?.location_id;
@@ -108,4 +109,4 @@ async function validateLocationDependency(req, res, next) {
   return next();
 }
 
-module.exports = validateLocationDependency;
+export default validateLocationDependency;

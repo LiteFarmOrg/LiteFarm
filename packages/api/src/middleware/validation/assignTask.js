@@ -13,8 +13,9 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const userFarmModel = require('../../models/userFarmModel');
-const TaskModel = require('../../models/taskModel');
+import userFarmModel from '../../models/userFarmModel';
+
+import TaskModel from '../../models/taskModel';
 
 const adminRoles = [1, 2, 5];
 
@@ -67,4 +68,4 @@ async function checkTaskStatusForAssignment(req, res, next) {
   next();
 }
 
-module.exports = { validateAssigneeId, checkTaskStatusForAssignment };
+export { validateAssigneeId, checkTaskStatusForAssignment };

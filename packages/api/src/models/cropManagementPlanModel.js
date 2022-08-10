@@ -13,8 +13,8 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const Model = require('objection').Model;
-
+import { Model } from 'objection';
+import plantingManagementPlanModel from './plantingManagementPlanModel.js';
 
 class CropManagementPlanModel extends Model {
   static get tableName() {
@@ -56,7 +56,7 @@ class CropManagementPlanModel extends Model {
   static get relationMappings() {
     return {
       planting_management_plans: {
-        modelClass: require('./plantingManagementPlanModel'),
+        modelClass: plantingManagementPlanModel,
         relation: Model.HasManyRelation,
         join: {
           from: 'crop_management_plan.management_plan_id',
@@ -67,4 +67,4 @@ class CropManagementPlanModel extends Model {
   }
 }
 
-module.exports = CropManagementPlanModel;
+export default CropManagementPlanModel;

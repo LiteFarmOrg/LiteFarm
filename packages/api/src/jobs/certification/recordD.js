@@ -1,10 +1,11 @@
-const recordDGenerator = require('./record_d_generation');
-const recordAGenerator = require('./record_a_generation');
-const recordIGeneration = require('./record_i_generation');
-const readmeGeneration = require('./readmeGeneration');
-const surveyRecordGeneration = require('./survey_record');
-const i18n = require('../locales/i18n');
-module.exports = (nextQueue, zipQueue, emailQueue) => (job) => {
+import recordDGenerator from './record_d_generation';
+import recordAGenerator from './record_a_generation';
+import recordIGeneration from './record_i_generation';
+import readmeGeneration from './readmeGeneration';
+import surveyRecordGeneration from './survey_record';
+import i18n from '../locales/i18n';
+
+export default (nextQueue, zipQueue, emailQueue) => (job) => {
   console.log('STEP 2 > EXCEL GENERATE', job.id);
   const {
     recordD,

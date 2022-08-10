@@ -1,5 +1,5 @@
-const Model = require('objection').Model;
-const softDelete = require('objection-soft-delete');
+import { Model } from 'objection';
+import softDelete from 'objection-soft-delete';
 
 class BaseModel extends softDelete({ columnName: 'deleted' })(Model) {
   async $beforeInsert(context) {
@@ -55,18 +55,15 @@ class BaseModel extends softDelete({ columnName: 'deleted' })(Model) {
     }
   }
 
-
   static get baseProperties() {
-    return ({
+    return {
       created_by_user_id: { type: 'string' },
       updated_by_user_id: { type: 'string' },
       created_at: { type: 'date-time' },
       updated_at: { type: 'date-time' },
       deleted: { type: 'boolean' },
-    });
+    };
   }
-
 }
 
-
-module.exports = BaseModel;
+export default BaseModel;

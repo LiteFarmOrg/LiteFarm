@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-exports.up = async function (knex) {
+export const up = async function (knex) {
   await knex.schema.createTable('integrating_partner', (table) => {
     table.increments('partner_id').primary();
     table.string('partner_name').notNullable();
@@ -34,6 +34,6 @@ exports.up = async function (knex) {
   ]);
 };
 
-exports.down = async function (knex) {
+export const down = async function (knex) {
   await knex.schema.dropTable('integrating_partner');
 };

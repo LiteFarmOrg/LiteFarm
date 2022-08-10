@@ -13,13 +13,14 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const { transaction, Model } = require('objection');
-const waterBalanceModel = require('../models/waterBalanceModel');
-const nitrogenScheduleModel = require('../models/nitrogenScheduleModel');
-const baseController = require('../controllers/baseController');
+import { transaction, Model } from 'objection';
+
+import waterBalanceModel from '../models/waterBalanceModel';
+import nitrogenScheduleModel from '../models/nitrogenScheduleModel';
+import baseController from '../controllers/baseController';
 const knex = Model.knex();
-const insightHelpers = require('../controllers/insightHelpers');
-const waterBalanceScheduler = require('../jobs/waterBalance/waterBalance');
+import * as insightHelpers from '../controllers/insightHelpers';
+import waterBalanceScheduler from '../jobs/waterBalance/waterBalance';
 // TODO: put nitrogen scheduler here for when we want to put it back
 
 const insightController = {
@@ -502,4 +503,4 @@ const insightController = {
   },
 };
 
-module.exports = insightController;
+export default insightController;

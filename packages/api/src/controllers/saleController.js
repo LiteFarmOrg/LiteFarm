@@ -13,17 +13,18 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const baseController = require('../controllers/baseController');
-const saleModel = require('../models/saleModel');
-const cropVarietySaleModel = require('../models/cropVarietySaleModel');
-const { transaction, Model } = require('objection');
+import baseController from '../controllers/baseController.js';
+
+import saleModel from '../models/saleModel.js';
+import cropVarietySaleModel from '../models/cropVarietySaleModel.js';
+import { transaction, Model } from 'objection';
 
 const SaleController = {
   // this messed the update up as field Crop id is the same and it will change for all sales with the same field crop id!
   addOrUpdateSale() {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
-      const { user_id } = req.user;
+      // const { user_id } = req.user;
       try {
         // post to sale and crop sale table
         const result = await baseController.upsertGraph(saleModel, req.body, req, { trx });
@@ -52,13 +53,21 @@ const SaleController = {
 
       const trx = await transaction.start(Model.knex());
       try {
-        const saleResult = await saleModel.query(trx).context(req.user).where('sale_id', sale_id).patch(saleData).returning('*');
+        const saleResult = await saleModel
+          .query(trx)
+          .context(req.user)
+          .where('sale_id', sale_id)
+          .patch(saleData)
+          .returning('*');
         if (!saleResult) {
           await trx.rollback();
           return res.status(400).send('failed to patch data');
         }
 
-        const deletedExistingCropVarietySale = await cropVarietySaleModel.query(trx).where('sale_id', sale_id).delete();
+        const deletedExistingCropVarietySale = await cropVarietySaleModel
+          .query(trx)
+          .where('sale_id', sale_id)
+          .delete();
         if (!deletedExistingCropVarietySale) {
           await trx.rollback();
           return res.status(400).send('failed to delete existing crop variety sales');
@@ -91,7 +100,10 @@ const SaleController = {
     return async (req, res) => {
       try {
         const { farm_id } = req.params;
-        const sales = await saleModel.query().whereNotDeleted().where({ farm_id })
+        const sales = await saleModel
+          .query()
+          .whereNotDeleted()
+          .where({ farm_id })
           .withGraphFetched('crop_variety_sale');
         if (!sales.length) {
           // Craig: I think this should return 200 otherwise we get an error in Finances front end, i changed it xD
@@ -119,7 +131,7 @@ const SaleController = {
 
   delSale() {
     return async (req, res) => {
-      const { user_id } = req.user;
+      // const { user_id } = req.user;
       const trx = await transaction.start(Model.knex());
       try {
         const isDeleted = await baseController.delete(saleModel, req.params.sale_id, req, { trx });
@@ -140,7 +152,9 @@ const SaleController = {
 
   async getSalesOfFarm(farm_id) {
     return await saleModel
-      .query().context({ showHidden: true }).whereNotDeleted()
+      .query()
+      .context({ showHidden: true })
+      .whereNotDeleted()
       .distinct('sale.sale_id', 'sale.customer_name', 'sale.sale_date', 'sale.created_by_user_id')
       .join('cropSale', 'cropSale.sale_id', '=', 'sale.sale_id')
       //.join('management_plan', 'management_plan.management_plan_id', '=', 'cropSale.management_plan_id')
@@ -148,6 +162,6 @@ const SaleController = {
       //.join('field', 'field.field_id', '=', 'management_plan.field_id')
       .where('sale.farm_id', farm_id);
   },
-}
+};
 
-module.exports = SaleController;
+export default SaleController;

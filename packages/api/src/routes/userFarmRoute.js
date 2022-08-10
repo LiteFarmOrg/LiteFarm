@@ -13,15 +13,16 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const express = require('express');
+import express from 'express';
+
 const router = express.Router();
-const userFarmController = require('../controllers/userFarmController');
-const hasFarmAccess = require('../middleware/acl/hasFarmAccess');
-const checkScope = require('../middleware/acl/checkScope');
-const isSelf = require('../middleware/acl/isSelf');
-const checkInviteJwt = require('../middleware/acl/checkInviteJwt');
-const checkInvitationTokenContent = require('../middleware/acl/checkInviteTokenContent');
-const checkUserFarmStatus = require('../middleware/acl/checkUserFarmStatus');
+import userFarmController from '../controllers/userFarmController';
+import hasFarmAccess from '../middleware/acl/hasFarmAccess';
+import checkScope from '../middleware/acl/checkScope';
+import isSelf from '../middleware/acl/isSelf';
+import checkInviteJwt from '../middleware/acl/checkInviteJwt';
+import checkInvitationTokenContent from '../middleware/acl/checkInviteTokenContent';
+import checkUserFarmStatus from '../middleware/acl/checkUserFarmStatus';
 
 // Get all userFarms for a specified user
 // no permission limits
@@ -112,4 +113,4 @@ router.patch(
 // Update step_one
 router.patch('/onboarding/farm/:farm_id/user/:user_id', userFarmController.updateOnboardingFlags());
 
-module.exports = router;
+export default router;

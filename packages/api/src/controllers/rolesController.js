@@ -1,6 +1,4 @@
-const baseController = require('../controllers/baseController');
-const roleModel = require('../models/roleModel')
-
+import roleModel from '../models/roleModel.js';
 
 const rolesController = {
   getRoles() {
@@ -14,8 +12,8 @@ const rolesController = {
       } catch (error) {
         res.status(400).send(error);
       }
-    }
+    };
   },
-}
+};
 
-module.exports = rolesController;
+export default rolesController;

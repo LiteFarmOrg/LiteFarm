@@ -14,42 +14,42 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const fs = require('async-file');
-const fieldModel = require('../../models/fieldModel');
-const ManagementPlanController = require('../../controllers/managementPlanController');
-const logController = require('../../controllers/logController');
-const logServices = logController.logServices;
-const farmExpenseModel = require('../../models/farmExpenseModel');
-const SaleController = require('../../controllers/saleController');
-const farmModel = require('../../models/farmModel');
-const fertilizerModel = require('../../models/fertilizerModel');
-const pesticideModel = require('../../models/pesiticideModel');
-const harvModel = require('../../models/harvestLogModel');
-const seedModel = require('../../models/seedLogModel');
-const fieldWorkModel = require('../../models/fieldWorkLogModel');
-const soilDataModel = require('../../models/soilDataLogModel');
-const irriModel = require('../../models/irrigationLogModel');
-const scoutModel = require('../../models/scoutingLogModel');
-const { Model } = require('objection');
+import fs from 'async-file';
+
+import fieldModel from '../../models/fieldModel';
+import ManagementPlanController from '../../controllers/managementPlanController';
+import { logServices } from '../../controllers/logController';
+import farmExpenseModel from '../../models/farmExpenseModel';
+import SaleController from '../../controllers/saleController';
+import farmModel from '../../models/farmModel';
+import fertilizerModel from '../../models/fertilizerModel';
+import pesticideModel from '../../models/pesiticideModel';
+import harvModel from '../../models/harvestTaskModel.js';
+import seedModel from '../../models/plantTaskModel.js';
+import fieldWorkModel from '../../models/fieldWorkTaskModel';
+import soilDataModel from '../../models/soilTaskModel.js';
+import irriModel from '../../models/irrigationTaskModel.js';
+import scoutModel from '../../models/scoutingTaskModel.js';
+import { Model } from 'objection';
 const knex = Model.knex();
-const credentials = require('../../credentials');
-const scheduler = require('node-schedule');
-const baseController = require('../../controllers/baseController');
-const nodemailer = require('nodemailer');
-const converter = require('json-2-csv');
-const fse = require('fs-extra');
-const fs_regular = require('fs');
-const AdmZip = require('adm-zip');
+import credentials from '../../credentials';
+import scheduler from 'node-schedule';
+import baseController from '../../controllers/baseController';
+import nodemailer from 'nodemailer';
+import converter from 'json-2-csv';
+import fse from 'fs-extra';
+import fs_regular from 'fs';
+import AdmZip from 'adm-zip';
 
 const TEMPLATE = {
-  'farm': [],
-  'users': [],
-  'fields': [],
-  'management_plans': [],
-  'shifts': [],
-  'logs': [],
-  'expenses': [],
-  'sales': [],
+  farm: [],
+  users: [],
+  fields: [],
+  management_plans: [],
+  shifts: [],
+  logs: [],
+  expenses: [],
+  sales: [],
 };
 
 class sendUserFarmDataScheduler {
@@ -60,7 +60,6 @@ class sendUserFarmDataScheduler {
     } else {
       rule.second = new scheduler.Range(0, 59, 15);
     }
-
 
     scheduler.scheduleJob(rule, () => {
       let request_id;
@@ -81,8 +80,7 @@ class sendUserFarmDataScheduler {
           let obj; // a farm
           if (currFarms.length > 0) {
             obj = currFarms[0];
-          }
-          else {
+          } else {
             return;
           }
           if (!fs_regular.existsSync(__dirname + '/temp_files')) {
@@ -106,7 +104,8 @@ class sendUserFarmDataScheduler {
           "users" u
           ON uf.user_id = u.user_id
           WHERE uf.farm_id = ?
-          `, [farm_id]
+          `,
+            [farm_id],
           );
           template.users = user_data.rows;
           template.fields = await baseController.getByForeignKey(fieldModel, 'farm_id', farm_id);
@@ -125,11 +124,16 @@ class sendUserFarmDataScheduler {
           "shift" s, "users" u, "taskType" tp, "userFarm" uf
           WHERE s.shift_id = t.shift_id AND s.user_id = u.user_id  AND uf.user_id = u.user_id AND uf.farm_id = ?
           AND t.task_id = tp.task_id
-          `, [farm_id]
+          `,
+            [farm_id],
           );
           template.shifts = get_shifts.rows;
 
-          template.expenses = await baseController.getByForeignKey(farmExpenseModel, 'farm_id', farm_id);
+          template.expenses = await baseController.getByForeignKey(
+            farmExpenseModel,
+            'farm_id',
+            farm_id,
+          );
 
           template.sales = await SaleController.getSalesOfFarm(farm_id);
           for (const sale of template.sales) {
@@ -143,19 +147,49 @@ class sendUserFarmDataScheduler {
 
           await processLogs(farm_id);
 
-
           await saveJson(template.farm, 'farm');
-          delete (template.users.notification_setting);
+          delete template.users.notification_setting;
           await saveJson(template.users, 'users');
           await saveJson(template.fields, 'fields');
-          delete (template.management_plans.crop);
-          await saveJson(template.management_plans, 'management_plans', ['farm_id', 'field_id', 'field_name', 'grid_points.lat', 'grid_points.lng', 'crop_id', 'management_plan_id', 'crop_common_name', 'crop_genus', 'crop_specie', 'crop_group', 'crop_subgroup', 'start_date',
-            'end_date', 'area_used', 'estimated_production', 'estimated_revenue', 'is_by_bed', 'bed_config', 'field_name', 'deleted', 'yield.quantity_kg/m2', 'price.value_$/kg',
+          delete template.management_plans.crop;
+          await saveJson(template.management_plans, 'management_plans', [
+            'farm_id',
+            'field_id',
+            'field_name',
+            'grid_points.lat',
+            'grid_points.lng',
+            'crop_id',
+            'management_plan_id',
+            'crop_common_name',
+            'crop_genus',
+            'crop_specie',
+            'crop_group',
+            'crop_subgroup',
+            'start_date',
+            'end_date',
+            'area_used',
+            'estimated_production',
+            'estimated_revenue',
+            'is_by_bed',
+            'bed_config',
+            'field_name',
+            'deleted',
+            'yield.quantity_kg/m2',
+            'price.value_$/kg',
           ]);
 
           await saveJson(template.shifts, 'shifts', null);
           await processSale(template.sales);
-          await saveJson(template.expenses, 'expenses', ['farm_id', 'expense_date', 'picture', 'expense_type_id', 'expense_type', 'note', 'farm_expense_id', 'value']);
+          await saveJson(template.expenses, 'expenses', [
+            'farm_id',
+            'expense_date',
+            'picture',
+            'expense_type_id',
+            'expense_type',
+            'note',
+            'farm_expense_id',
+            'value',
+          ]);
 
           let zip = new AdmZip();
 
@@ -221,15 +255,13 @@ class sendUserFarmDataScheduler {
 
             try {
               await knex('farmDataSchedule')
-                .where({request_number})
-                .update({is_processed: true}, ['request_number', 'is_processed'])
-            }
-            catch (error) {
+                .where({ request_number })
+                .update({ is_processed: true }, ['request_number', 'is_processed']);
+            } catch (error) {
               await setHasFailed(request_number);
               console.log('FarmDataScheduler: failed to update process status', error);
             }
-          }
-          catch (error) {
+          } catch (error) {
             await setHasFailed(request_number);
             console.log('FarmDataScheduler: failed to send file\n', error);
           }
@@ -244,14 +276,12 @@ class sendUserFarmDataScheduler {
 const setHasFailed = async (request_number) => {
   try {
     await knex('farmDataSchedule')
-      .where({request_number})
-      .update({has_failed: true}, ['request_number', 'has_failed'])
-  }
-  catch (error) {
+      .where({ request_number })
+      .update({ has_failed: true }, ['request_number', 'has_failed']);
+  } catch (error) {
     console.log('FarmDataScheduler: failed to update failed status', error);
   }
 };
-
 
 const SALE = {
   sale_id: null,
@@ -529,7 +559,6 @@ const processFert = async (log) => {
 
       processed.push(logObj);
     }
-
   } else if (crop_length > 0) {
     // has crop so we ignore fields
 
@@ -568,7 +597,6 @@ const processFert = async (log) => {
   }
 
   return processed;
-
 };
 
 const processPest = async (log) => {
@@ -603,7 +631,6 @@ const processPest = async (log) => {
       logObj.pest_concentration = pesticideDetail[0].concentration;
       processed.push(logObj);
     }
-
   } else if (crop_length > 0) {
     // has crop so we ignore fields
 
@@ -638,7 +665,6 @@ const processPest = async (log) => {
   }
 
   return processed;
-
 };
 
 const processHarv = async (log) => {
@@ -751,11 +777,9 @@ const processFieldWork = async (log) => {
       logObj.field_work_type = fieldWorkDetail[0].type;
       processed.push(logObj);
     }
-
   }
 
   return processed;
-
 };
 
 const processSoil = async (log) => {
@@ -807,7 +831,6 @@ const processSoil = async (log) => {
   }
 
   return processed;
-
 };
 
 const processIrri = async (log) => {
@@ -842,7 +865,6 @@ const processIrri = async (log) => {
 
       processed.push(logObj);
     }
-
   } else if (crop_length > 0) {
     // has crop so we ignore fields
 
@@ -876,7 +898,6 @@ const processIrri = async (log) => {
   }
 
   return processed;
-
 };
 
 const processScout = async (log) => {
@@ -908,7 +929,6 @@ const processScout = async (log) => {
 
       processed.push(logObj);
     }
-
   } else if (crop_length > 0) {
     // has crop so we ignore fields
 
@@ -939,7 +959,6 @@ const processScout = async (log) => {
   }
 
   return processed;
-
 };
 
 const processOther = async (log) => {
@@ -966,7 +985,6 @@ const processOther = async (log) => {
 
       processed.push(logObj);
     }
-
   } else if (crop_length > 0) {
     // has crop so we ignore fields
 
@@ -995,50 +1013,48 @@ const processOther = async (log) => {
   }
 
   return processed;
-
 };
 
 const processLogs = async (farm_id) => {
   try {
     let allLogs = await logServices.getLogByFarm(farm_id);
     //console.log(JSON.stringify(allLogs));
-    let fertLogs = [], pestLogs = [], harvLogs = [], seedLogs = [], fieldLogs = [], soilLogs = [], irriLogs = [],
-      scoutLogs = [], otherLogs = [];
+    let fertLogs = [],
+      pestLogs = [],
+      harvLogs = [],
+      seedLogs = [],
+      fieldLogs = [],
+      soilLogs = [],
+      irriLogs = [],
+      scoutLogs = [],
+      otherLogs = [];
 
     for (let log of allLogs) {
       if (log.activity_kind === 'fertilizing') {
         let processed = await processFert(log);
         fertLogs = fertLogs.concat(processed);
-      }
-      else if (log.activity_kind === 'pestControl') {
+      } else if (log.activity_kind === 'pestControl') {
         let processed = await processPest(log);
         pestLogs = pestLogs.concat(processed);
-      }
-      else if (log.activity_kind === 'harvest') {
+      } else if (log.activity_kind === 'harvest') {
         let processed = await processHarv(log);
         harvLogs = harvLogs.concat(processed);
-      }
-      else if (log.activity_kind === 'seeding') {
+      } else if (log.activity_kind === 'seeding') {
         let processed = await processSeed(log);
         seedLogs = seedLogs.concat(processed);
-      }
-      else if (log.activity_kind === 'fieldWork') {
+      } else if (log.activity_kind === 'fieldWork') {
         let processed = await processFieldWork(log);
         fieldLogs = fieldLogs.concat(processed);
-      }
-      else if (log.activity_kind === 'soilData') {
+      } else if (log.activity_kind === 'soilData') {
         let processed = await processSoil(log);
         soilLogs = soilLogs.concat(processed);
-      }
-      else if (log.activity_kind === 'irrigation') {
+      } else if (log.activity_kind === 'irrigation') {
         let processed = await processIrri(log);
         irriLogs = irriLogs.concat(processed);
-      }
-      else if (log.activity_kind === 'scouting') {
+      } else if (log.activity_kind === 'scouting') {
         let processed = await processScout(log);
         scoutLogs = scoutLogs.concat(processed);
-      }
-      else if (log.activity_kind === 'other') {
+      } else if (log.activity_kind === 'other') {
         let processed = await processOther(log);
         otherLogs = otherLogs.concat(processed);
       }
@@ -1053,10 +1069,7 @@ const processLogs = async (farm_id) => {
     await saveJson(irriLogs, 'irrigation_logs', Object.keys(IRRI));
     await saveJson(scoutLogs, 'scouting_logs', Object.keys(SCOUT));
     await saveJson(otherLogs, 'other_logs', Object.keys(OTHER));
-
-
-  }
-  catch (err) {
+  } catch (err) {
     throw err;
   }
 };
@@ -1064,11 +1077,10 @@ const processLogs = async (farm_id) => {
 const saveJson = async (jsonContent, fileName, keys) => {
   let csv;
   try {
-    csv = await converter.json2csvAsync(jsonContent, {'expandArrayObjects': true, keys});
+    csv = await converter.json2csvAsync(jsonContent, { expandArrayObjects: true, keys });
     await fs.writeFile(__dirname + `/temp_files/${fileName}.csv`, csv, 'utf8');
     // console.log(`Saved file ${fileName}`);
-  }
-  catch (error) {
+  } catch (error) {
     console.log(error);
     throw error;
   }
@@ -1079,14 +1091,17 @@ const grabFarmIDsToRun = async () => {
   FROM "farmDataSchedule" f
   WHERE f.is_processed = FALSE AND f.has_failed = FALSE
   `);
-  return data.rows
+  return data.rows;
 };
 
 const getUserEmail = async (user_id) => {
-  const data = await knex.raw(`SELECT u.email
+  const data = await knex.raw(
+    `SELECT u.email
   FROM "users" u
   WHERE u.user_id = ?
-  `,[user_id]);
+  `,
+    [user_id],
+  );
   return data.rows[0].email;
 };
 
@@ -1100,5 +1115,4 @@ const cleanFiles = async () => {
   }
 };
 
-module.exports = sendUserFarmDataScheduler;
-
+export default sendUserFarmDataScheduler;

@@ -13,18 +13,19 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const { from } = require('rxjs');
-const { delay, concatMap } = require('rxjs/operators');
-const { Model } = require('objection');
+import { from } from 'rxjs';
+
+import { delay, concatMap } from 'rxjs/operators';
+import { Model } from 'objection';
 const knex = Model.knex();
-const rp = require('request-promise');
-const credentials = require('../../credentials');
-const endPoints = require('../../endPoints');
-const scheduler = require('node-schedule');
-const waterBalanceModel = require('../../models/waterBalanceModel');
-const waterBalanceScheduleModel = require('../../models/waterBalanceSchedule');
-const weatherModel = require('../../models/weatherModel');
-const weatherHourlyModel = require('../../models/weatherHourlyModel');
+import rp from 'request-promise';
+import credentials from '../../credentials';
+import endPoints from '../../endPoints';
+import scheduler from 'node-schedule';
+import waterBalanceModel from '../../models/waterBalanceModel';
+import waterBalanceScheduleModel from '../../models/waterBalanceSchedule';
+import weatherModel from '../../models/weatherModel';
+import weatherHourlyModel from '../../models/weatherHourlyModel';
 
 /* eslint-disable no-console */
 
@@ -185,37 +186,37 @@ const compareWeatherData = (existingWeatherData, newWeatherData) => {
 
   for (const key in existingWeatherData) {
     switch (key) {
-    case 'min_degrees':
-      returningWeatherData[key] = Math.min(existingWeatherData[key], newWeatherData[key]);
-      break;
-    case 'max_degrees':
-      returningWeatherData[key] = Math.max(existingWeatherData[key], newWeatherData[key]);
-      break;
-    case 'precipitation':
-      returningWeatherData[key] = existingWeatherData[key] + newWeatherData[key];
-      break;
-    case 'min_humidity':
-      returningWeatherData[key] = Math.min(
-        existingWeatherData[key],
-        newWeatherData['min_humidity'],
-      );
-      break;
-    case 'max_humidity':
-      returningWeatherData[key] = Math.max(
-        existingWeatherData[key],
-        newWeatherData['max_humidity'],
-      );
-      break;
-    case 'wind_speed':
-      returningWeatherData[key] = existingWeatherData[key] + newWeatherData[key];
-      break;
-    case 'location_id':
-      returningWeatherData[key] = existingWeatherData[key];
-      break;
-    case 'data_points':
-      returningWeatherData[key] = existingWeatherData[key] + 1;
-      break;
-    default:
+      case 'min_degrees':
+        returningWeatherData[key] = Math.min(existingWeatherData[key], newWeatherData[key]);
+        break;
+      case 'max_degrees':
+        returningWeatherData[key] = Math.max(existingWeatherData[key], newWeatherData[key]);
+        break;
+      case 'precipitation':
+        returningWeatherData[key] = existingWeatherData[key] + newWeatherData[key];
+        break;
+      case 'min_humidity':
+        returningWeatherData[key] = Math.min(
+          existingWeatherData[key],
+          newWeatherData['min_humidity'],
+        );
+        break;
+      case 'max_humidity':
+        returningWeatherData[key] = Math.max(
+          existingWeatherData[key],
+          newWeatherData['max_humidity'],
+        );
+        break;
+      case 'wind_speed':
+        returningWeatherData[key] = existingWeatherData[key] + newWeatherData[key];
+        break;
+      case 'location_id':
+        returningWeatherData[key] = existingWeatherData[key];
+        break;
+      case 'data_points':
+        returningWeatherData[key] = existingWeatherData[key] + 1;
+        break;
+      default:
       // should be no default case
     }
   }
@@ -629,4 +630,4 @@ const formatDate = (date, prevDay) => {
   return [year, month, day].join('-');
 };
 
-module.exports = waterBalanceScheduler;
+export default waterBalanceScheduler;

@@ -13,18 +13,19 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const baseController = require('../controllers/baseController');
-const userModel = require('../models/userModel');
-const userFarmModel = require('../models/userFarmModel');
-const passwordModel = require('../models/passwordModel');
-const emailTokenModel = require('../models/emailTokenModel');
-const shiftModel = require('../models/shiftModel');
-const farmModel = require('../models/farmModel');
-const { transaction, Model } = require('objection');
-const bcrypt = require('bcryptjs');
-const { createToken } = require('../util/jwt');
-const { emails, sendEmail } = require('../templates/sendEmailTemplate');
-const showedSpotlightModel = require('../models/showedSpotlightModel');
+import baseController from '../controllers/baseController';
+
+import userModel from '../models/userModel';
+import userFarmModel from '../models/userFarmModel';
+import passwordModel from '../models/passwordModel';
+import emailTokenModel from '../models/emailTokenModel';
+import shiftModel from '../models/shiftModel';
+import farmModel from '../models/farmModel';
+import { transaction, Model } from 'objection';
+import bcrypt from 'bcryptjs';
+import { createToken } from '../util/jwt';
+import { emails, sendEmail } from '../templates/sendEmailTemplate';
+import showedSpotlightModel from '../models/showedSpotlightModel';
 
 const userController = {
   async addUser(req, res) {
@@ -540,4 +541,4 @@ const userController = {
   },
 };
 
-module.exports = userController;
+export default userController;

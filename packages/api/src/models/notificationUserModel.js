@@ -13,9 +13,10 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const Model = require('objection').Model;
-const baseModel = require('./baseModel');
-const Notification = require('./notificationModel');
+import { Model } from 'objection';
+
+import baseModel from './baseModel.js';
+import Notification from './notificationModel';
 
 /**
  * Models data persistence for users' notifications.
@@ -210,4 +211,4 @@ class NotificationUser extends baseModel {
   }
 }
 
-module.exports = NotificationUser;
+export default NotificationUser;

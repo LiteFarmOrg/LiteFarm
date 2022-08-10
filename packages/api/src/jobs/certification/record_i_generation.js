@@ -1,5 +1,5 @@
-const XlsxPopulate = require('xlsx-populate');
-const { i18n, t, tCrop } = require('../locales/i18nt');
+import XlsxPopulate from 'xlsx-populate';
+import { i18n, t, tCrop } from '../locales/i18nt';
 const dataToCellMapping = {
   name: 'A',
   supplier: 'B',
@@ -31,7 +31,7 @@ const dataTransformsMapping = {
 const getQuantity = (quantity, measurement, isInputs) =>
   (quantity * (measurement === 'imperial' ? (isInputs ? 2.20462 : 0.264172) : 1)).toFixed(2);
 
-module.exports = (data, exportId, from_date, to_date, farm_name, measurement, isInputs) => {
+export default (data, exportId, from_date, to_date, farm_name, measurement, isInputs) => {
   return XlsxPopulate.fromBlankAsync().then((workbook) => {
     const defaultStyles = {
       verticalAlignment: 'center',
@@ -218,7 +218,9 @@ module.exports = (data, exportId, from_date, to_date, farm_name, measurement, is
           workbook.sheet(0).cell(cell).value(value);
         });
     });
-    return workbook.toFileAsync(`${process.env.EXPORT_WD}/temp/${exportId}/Record I - ${title}.xlsx`);
+    return workbook.toFileAsync(
+      `${process.env.EXPORT_WD}/temp/${exportId}/Record I - ${title}.xlsx`,
+    );
   });
 };
 

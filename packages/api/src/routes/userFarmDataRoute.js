@@ -13,13 +13,24 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const express = require('express');
+import express from 'express';
+
 const router = express.Router();
-const userFarmDataController = require('../controllers/userFarmDataController');
-const checkScope = require('../middleware/acl/checkScope');
-const hasFarmAccess = require('../middleware/acl/hasFarmAccess');
+import userFarmDataController from '../controllers/userFarmDataController';
+import checkScope from '../middleware/acl/checkScope';
+import hasFarmAccess from '../middleware/acl/hasFarmAccess';
 
-router.post('/', hasFarmAccess({ body: 'farm_id' }), checkScope(['add:farm_schedules']), userFarmDataController.registerFarm());
-router.get('/:farm_id', hasFarmAccess({ params: 'farm_id' }), checkScope(['get:farm_schedules']), userFarmDataController.getSchedule());
+router.post(
+  '/',
+  hasFarmAccess({ body: 'farm_id' }),
+  checkScope(['add:farm_schedules']),
+  userFarmDataController.registerFarm(),
+);
+router.get(
+  '/:farm_id',
+  hasFarmAccess({ params: 'farm_id' }),
+  checkScope(['get:farm_schedules']),
+  userFarmDataController.getSchedule(),
+);
 
-module.exports = router;
+export default router;

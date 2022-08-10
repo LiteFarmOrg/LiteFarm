@@ -13,8 +13,11 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const Model = require('objection').Model;
-const BaseModel = require('./baseModel');
+import { Model } from 'objection';
+
+import BaseModel from './baseModel.js';
+import yieldModel from './yieldModel.js';
+import priceModel from './priceModel.js';
 
 class Crop extends BaseModel {
   static get tableName() {
@@ -216,7 +219,7 @@ class Crop extends BaseModel {
         // The related model. This can be either a Model
         // subclass constructor or an absolute file path
         // to a module that exports one.
-        modelClass: require('./yieldModel'),
+        modelClass: yieldModel,
         join: {
           from: 'crop.crop_id',
           to: 'yield.crop_id',
@@ -227,7 +230,7 @@ class Crop extends BaseModel {
         // The related model. This can be either a Model
         // subclass constructor or an absolute file path
         // to a module that exports one.
-        modelClass: require('./priceModel'),
+        modelClass: priceModel,
         join: {
           from: 'crop.crop_id',
           to: 'price.crop_id',
@@ -237,4 +240,4 @@ class Crop extends BaseModel {
   }
 }
 
-module.exports = Crop;
+export default Crop;

@@ -13,12 +13,12 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const baseController = require('../controllers/baseController');
-const farmExpenseModel = require('../models/farmExpenseModel');
-const { transaction, Model } = require('objection');
+import baseController from '../controllers/baseController';
+
+import farmExpenseModel from '../models/farmExpenseModel';
+import { transaction, Model } from 'objection';
 
 const farmExpenseController = {
-
   addFarmExpense() {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
@@ -63,7 +63,12 @@ const farmExpenseController = {
   },
 
   async getByForeignKey(farm_id) {
-    const expenses = await farmExpenseModel.query().select('*').from('farmExpense').where('farmExpense.farm_id', farm_id).whereNotDeleted();
+    const expenses = await farmExpenseModel
+      .query()
+      .select('*')
+      .from('farmExpense')
+      .where('farmExpense.farm_id', farm_id)
+      .whereNotDeleted();
     return expenses;
   },
 
@@ -75,7 +80,12 @@ const farmExpenseController = {
 
       const trx = await transaction.start(Model.knex());
       try {
-        const result = await farmExpenseModel.query(trx).context({ user_id }).where('farm_expense_id', farm_expense_id).patch(data).returning('*');
+        const result = await farmExpenseModel
+          .query(trx)
+          .context({ user_id })
+          .where('farm_expense_id', farm_expense_id)
+          .patch(data)
+          .returning('*');
         if (!result) {
           await trx.rollback();
           return res.status(400).send('failed to patch data');
@@ -90,14 +100,19 @@ const farmExpenseController = {
           error,
         });
       }
-    }
+    };
   },
 
   delFarmExpense() {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
       try {
-        const isDeleted = await baseController.delete(farmExpenseModel, req.params.farm_expense_id, req, { trx });
+        const isDeleted = await baseController.delete(
+          farmExpenseModel,
+          req.params.farm_expense_id,
+          req,
+          { trx },
+        );
         await trx.commit();
         if (isDeleted) {
           res.sendStatus(200);
@@ -110,8 +125,8 @@ const farmExpenseController = {
           error,
         });
       }
-    }
+    };
   },
-}
+};
 
-module.exports = farmExpenseController;
+export default farmExpenseController;

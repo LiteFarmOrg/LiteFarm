@@ -13,20 +13,17 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const baseController = require('../controllers/baseController');
-const parser = require('ua-parser-js');
-const userLogModel = require('../models/userLogModel');
+import parser from 'ua-parser-js';
+import userLogModel from '../models/userLogModel.js';
 
 const userLogController = {
-
   addUserLog() {
     return async (req, res) => {
       // uses email to identify which user is attempting to log in, can also use user_id for this
       const { user_id } = req.user;
       const { screen_width, screen_height, farm_id } = req.body;
       try {
-        const ip = req.headers['x-forwarded-for']?.split(',').shift()
-          || req.socket?.remoteAddress;
+        const ip = req.headers['x-forwarded-for']?.split(',').shift() || req.socket?.remoteAddress;
         const ua = parser(req.headers['user-agent']);
         const languages = req.acceptsLanguages();
         await userLogModel.query().insert({
@@ -55,7 +52,6 @@ const userLogController = {
       }
     };
   },
+};
 
-}
-
-module.exports = userLogController;
+export default userLogController;

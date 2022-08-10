@@ -13,14 +13,11 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
+import userFarmModel from '../models/userFarmModel';
 
-const userFarmModel = require('../models/userFarmModel');
-
-const { createToken } = require('../util/jwt');
-
+import { createToken } from '../util/jwt';
 
 const farmTokenController = {
-
   getFarmToken() {
     return async (req, res) => {
       const { farm_id } = req.params;
@@ -33,4 +30,4 @@ const farmTokenController = {
   },
 };
 
-module.exports = farmTokenController;
+export default farmTokenController;

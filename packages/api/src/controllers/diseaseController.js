@@ -13,12 +13,12 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const baseController = require('../controllers/baseController');
-const diseaseModel = require('../models/diseaseModel');
-const { transaction, Model } = require('objection');
+import baseController from '../controllers/baseController.js';
+
+import diseaseModel from '../models/diseaseModel.js';
+import { transaction, Model } from 'objection';
 
 const diseaseController = {
-
   getDisease() {
     return async (req, res) => {
       try {
@@ -37,7 +37,7 @@ const diseaseController = {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
       try {
-        const user_id = req.user.user_id;
+        // const user_id = req.user.user_id;
         const data = req.body;
         data.disease_name_translation_key = data.disease_common_name;
         data.disease_group_translation_key = data.disease_group;
@@ -58,7 +58,9 @@ const diseaseController = {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
       try {
-        const isDeleted = await baseController.delete(diseaseModel, req.params.disease_id, req, { trx });
+        const isDeleted = await baseController.delete(diseaseModel, req.params.disease_id, req, {
+          trx,
+        });
         await trx.commit();
         if (isDeleted) {
           res.sendStatus(200);
@@ -77,8 +79,12 @@ const diseaseController = {
 
   async get(farm_id) {
     //return await baseController.get(FertilizerModel);
-    return await diseaseModel.query().whereNotDeleted().where('farm_id', null).orWhere({ farm_id, deleted: false });
+    return await diseaseModel
+      .query()
+      .whereNotDeleted()
+      .where('farm_id', null)
+      .orWhere({ farm_id, deleted: false });
   },
 };
 
-module.exports = diseaseController;
+export default diseaseController;

@@ -45,4 +45,4 @@ const syncAsyncResponse = (res, time = 5000) => {
   return { sendResponse };
 };
 
-module.exports = syncAsyncResponse;
+export default syncAsyncResponse;

@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-exports.up = async function (knex) {
+export const up = async function (knex) {
   await knex.schema.createTable('password', function (table) {
     table.string('user_id').primary().references('user_id').inTable('users');
     table.string('password_hash').notNullable();
@@ -21,7 +21,7 @@ exports.up = async function (knex) {
     table.integer('reset_token_version').defaultTo(0).notNullable();
     table.dateTime('created_at').defaultTo(new Date('2000/1/1').toISOString()).notNullable();
   });
-  
+
   const users = await knex.select('user_id', 'password_hash').from('users');
   for (const user of users) {
     if (user.password_hash)
@@ -36,7 +36,7 @@ exports.up = async function (knex) {
   });
 };
 
-exports.down = async function (knex) {
+export const down = async function (knex) {
   await knex.schema.alterTable('users', function (table) {
     table.string('password_hash');
   });
@@ -44,7 +44,7 @@ exports.down = async function (knex) {
   const passwords = await knex.select('user_id', 'password_hash').from('password');
   for (const password of passwords) {
     await knex('users').where('user_id', password.user_id).update({
-      password_hash: password.password_hash
+      password_hash: password.password_hash,
     });
   }
 

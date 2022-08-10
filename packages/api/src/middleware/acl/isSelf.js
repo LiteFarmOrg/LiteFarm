@@ -16,15 +16,15 @@
 async function isSelf(req, res, next) {
   // console.log(req);
   const user_id = req.user.user_id;
-  if(req.body.user_id && req.body.user_id !== user_id){
+  if (req.body.user_id && req.body.user_id !== user_id) {
     return res.status(403).send('User is not authorized to access user info');
-  }else if(req.params.user_id && user_id !== req.params.user_id){
+  } else if (req.params.user_id && user_id !== req.params.user_id) {
     return res.status(403).send('User is not authorized to access user info');
-  }else if(req.headers.user_id && user_id !== req.headers.user_id){
+  } else if (req.headers.user_id && user_id !== req.headers.user_id) {
     return res.status(403).send('User is not authorized to access user info');
-  }else{
+  } else {
     return next();
   }
 }
 
-module.exports = isSelf;
+export default isSelf;

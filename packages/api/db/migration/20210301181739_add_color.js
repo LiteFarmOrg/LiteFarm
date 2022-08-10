@@ -1,12 +1,28 @@
-const newEnum = ['gate', 'water_valve', 'field', 'buffer_zone', 'creek', 'fence', 'ceremonial_area',
-  'residence', 'ground_water', 'natural_area', 'greenhouse', 'barn', 'custom_line', 'custom_point', 'custom_area'];
-exports.up = function (knex) {
+const newEnum = [
+  'gate',
+  'water_valve',
+  'field',
+  'buffer_zone',
+  'creek',
+  'fence',
+  'ceremonial_area',
+  'residence',
+  'ground_water',
+  'natural_area',
+  'greenhouse',
+  'barn',
+  'custom_line',
+  'custom_point',
+  'custom_area',
+];
+
+export const up = function (knex) {
   return Promise.all([
     knex.raw(`ALTER TABLE figure DROP CONSTRAINT figure_type_check;
               ALTER TABLE figure ADD CONSTRAINT figure_type_check 
               CHECK (type = ANY (ARRAY['${newEnum.join(`'::text,'`)}'::text]))`),
     knex.schema.createTable('custom_location', (t) => {
-      t.uuid('location_id').primary().references('location_id').inTable('location')
+      t.uuid('location_id').primary().references('location_id').inTable('location');
     }),
     knex.schema.alterTable('figure', (t) => {
       t.string('main_color', 6);
@@ -16,7 +32,7 @@ exports.up = function (knex) {
   ]);
 };
 
-exports.down = function (knex) {
+export const down = function (knex) {
   return Promise.all([
     knex.raw(`ALTER TABLE figure DROP CONSTRAINT figure_type_check;
               ALTER TABLE figure ADD CONSTRAINT figure_type_check  

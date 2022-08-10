@@ -13,10 +13,10 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const baseController = require('../controllers/baseController');
-const priceModel = require('../models/priceModel');
-const { transaction, Model } = require('objection');
+import baseController from '../controllers/baseController';
 
+import priceModel from '../models/priceModel';
+import { transaction, Model } from 'objection';
 
 const PriceController = {
   addPrice() {
@@ -40,7 +40,9 @@ const PriceController = {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
       try {
-        const isDeleted = await baseController.delete(priceModel, req.params.price_id, req, { trx });
+        const isDeleted = await baseController.delete(priceModel, req.params.price_id, req, {
+          trx,
+        });
         await trx.commit();
         if (isDeleted) {
           res.sendStatus(200);
@@ -53,7 +55,7 @@ const PriceController = {
           error,
         });
       }
-    }
+    };
   },
 
   updatePrice() {
@@ -67,14 +69,13 @@ const PriceController = {
         } else {
           res.status(200).send(updated);
         }
-
       } catch (error) {
         await trx.rollback();
         res.status(400).json({
           error,
         });
       }
-    }
+    };
   },
 
   getPriceByFarmId() {
@@ -97,11 +98,15 @@ const PriceController = {
   },
 
   async getByForeignKey(farm_id) {
-    const prices = await priceModel.query().select('*').from('price').where('price.farm_id', farm_id).whereNotDeleted();
+    const prices = await priceModel
+      .query()
+      .select('*')
+      .from('price')
+      .where('price.farm_id', farm_id)
+      .whereNotDeleted();
 
     return prices;
   },
+};
 
-}
-
-module.exports = PriceController;
+export default PriceController;

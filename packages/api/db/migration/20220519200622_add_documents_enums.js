@@ -1,4 +1,4 @@
-exports.up = async function (knex) {
+export const up = async function (knex) {
   return knex.schema.raw(`
     ALTER TABLE "document"
     DROP CONSTRAINT "document_type_check",
@@ -11,7 +11,7 @@ exports.up = async function (knex) {
   `);
 };
 
-exports.down = async function (knex) {
+export const down = async function (knex) {
   return knex.schema.raw(`
     ALTER TABLE "document"
     DROP CONSTRAINT "document_type_check",

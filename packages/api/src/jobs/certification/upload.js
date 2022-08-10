@@ -1,9 +1,9 @@
-const { spawn } = require('child_process');
-const fs = require('fs');
-const path = require('path');
-const { getPrivateS3BucketName } = require('../../util/digitalOceanSpaces');
+import { spawn } from 'child_process';
+import fs from 'fs';
+import path from 'path';
+import { getPrivateS3BucketName } from '../../util/digitalOceanSpaces';
 
-module.exports = (emailQueue) => (job, done) => {
+export default (emailQueue) => (job, done) => {
   console.log('STEP 5 > Upload', job.id);
   const { exportId, farm_id, email } = job.data;
   const dateIdentifier = Date.now();

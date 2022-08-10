@@ -13,25 +13,27 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const baseController = require('../controllers/baseController');
-const SensorModel = require('../models/sensorModel');
-const SensorReadingModel = require('../models/sensorReadingModel');
-const IntegratingPartnersModel = require('../models/integratingPartnersModel');
-const NotificationUser = require('../models/notificationUserModel');
-const FarmExternalIntegrationsModel = require('../models/farmExternalIntegrationsModel');
-const LocationModel = require('../models/locationModel');
-const PointModel = require('../models/pointModel');
-const FigureModel = require('../models/figureModel');
-const { transaction, Model } = require('objection');
-const {
+import baseController from '../controllers/baseController';
+
+import SensorModel from '../models/sensorModel';
+import SensorReadingModel from '../models/sensorReadingModel';
+import IntegratingPartnersModel from '../models/integratingPartnersModel';
+import NotificationUser from '../models/notificationUserModel';
+import FarmExternalIntegrationsModel from '../models/farmExternalIntegrationsModel';
+import LocationModel from '../models/locationModel';
+import PointModel from '../models/pointModel';
+import FigureModel from '../models/figureModel';
+import { transaction, Model } from 'objection';
+
+import {
   createOrganization,
   registerOrganizationWebhook,
   bulkSensorClaim,
   unclaimSensor,
-} = require('../util/ensemble');
+} from '../util/ensemble';
 
-const sensorErrors = require('../util/sensorErrors');
-const syncAsyncResponse = require('../util/syncAsyncResponse');
+import sensorErrors from '../util/sensorErrors';
+import syncAsyncResponse from '../util/syncAsyncResponse';
 
 const sensorController = {
   async getSensorReadingTypes(req, res) {
@@ -721,4 +723,4 @@ async function sendSensorNotification(
   );
 }
 
-module.exports = sensorController;
+export default sensorController;

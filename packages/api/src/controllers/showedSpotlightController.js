@@ -13,8 +13,9 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const baseController = require('../controllers/baseController');
-const showedSpotlightModel = require('../models/showedSpotlightModel');
+import baseController from '../controllers/baseController';
+
+import showedSpotlightModel from '../models/showedSpotlightModel';
 
 const showedSpotlightController = {
   getSpotlightFlags() {
@@ -72,4 +73,4 @@ const showedSpotlightController = {
   },
 };
 
-module.exports = showedSpotlightController;
+export default showedSpotlightController;

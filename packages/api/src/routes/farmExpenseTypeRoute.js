@@ -13,18 +13,34 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const express = require('express');
+import express from 'express';
+
 const router = express.Router();
-const farmExpenseTypeController = require('../controllers/farmExpenseTypeController');
-const checkScope = require('../middleware/acl/checkScope');
-const hasFarmAccess = require('../middleware/acl/hasFarmAccess');
+import farmExpenseTypeController from '../controllers/farmExpenseTypeController';
+import checkScope from '../middleware/acl/checkScope';
+import hasFarmAccess from '../middleware/acl/hasFarmAccess';
 
-router.post('/', hasFarmAccess({ body: 'farm_id' }), checkScope(['add:expense_types']), farmExpenseTypeController.addFarmExpenseType());
+router.post(
+  '/',
+  hasFarmAccess({ body: 'farm_id' }),
+  checkScope(['add:expense_types']),
+  farmExpenseTypeController.addFarmExpenseType(),
+);
 
-router.get('/farm/:farm_id', hasFarmAccess({ params: 'farm_id' }), checkScope(['get:expense_types']), farmExpenseTypeController.getFarmExpenseType());
+router.get(
+  '/farm/:farm_id',
+  hasFarmAccess({ params: 'farm_id' }),
+  checkScope(['get:expense_types']),
+  farmExpenseTypeController.getFarmExpenseType(),
+);
 
 router.get('/', checkScope(['get:expense_types']), farmExpenseTypeController.getDefaultTypes());
 
-router.delete('/:expense_type_id', hasFarmAccess({ params: 'expense_type_id' }), checkScope(['delete:expense_types']), farmExpenseTypeController.delFarmExpenseType());
+router.delete(
+  '/:expense_type_id',
+  hasFarmAccess({ params: 'expense_type_id' }),
+  checkScope(['delete:expense_types']),
+  farmExpenseTypeController.delFarmExpenseType(),
+);
 
-module.exports = router;
+export default router;

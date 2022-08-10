@@ -13,11 +13,9 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
+import organicHistoryModel from '../models/organicHistoryModel';
 
-const organicHistoryModel = require('../models/organicHistoryModel');
-
-module.exports = {
-
+export default {
   addOrganicHistory() {
     return async (req, res) => {
       try {
@@ -31,11 +29,15 @@ module.exports = {
 
   async getOrganicHistory(req, res) {
     try {
-      const result = await organicHistoryModel.query().whereNotDeleted().where({ location_id: req.params.location_id });
-      return result?.length ? res.status(200).send(result) : res.status(404).send('Organic history not found');
+      const result = await organicHistoryModel
+        .query()
+        .whereNotDeleted()
+        .where({ location_id: req.params.location_id });
+      return result?.length
+        ? res.status(200).send(result)
+        : res.status(404).send('Organic history not found');
     } catch (error) {
       return res.status(400).json({ error });
     }
   },
-
 };

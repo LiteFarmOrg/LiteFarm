@@ -13,11 +13,12 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const express = require('express');
+import express from 'express';
+
 const router = express.Router();
-const farmTokenController = require('../controllers/farmTokenController');
-const hasFarmAccess = require('../middleware/acl/hasFarmAccess');
-const checkScope = require('../middleware/acl/checkScope');
+import farmTokenController from '../controllers/farmTokenController';
+import hasFarmAccess from '../middleware/acl/hasFarmAccess';
+import checkScope from '../middleware/acl/checkScope';
 
 router.get(
   '/farm/:farm_id',
@@ -26,4 +27,4 @@ router.get(
   farmTokenController.getFarmToken(),
 );
 
-module.exports = router;
+export default router;

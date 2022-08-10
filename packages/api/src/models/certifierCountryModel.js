@@ -13,7 +13,9 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const Model = require('objection').Model;
+import { Model } from 'objection';
+import certifierModel from './certifierModel.js';
+import countryModel from './countryModel.js';
 
 class Certification extends Model {
   static get tableName() {
@@ -31,7 +33,7 @@ class Certification extends Model {
       properties: {
         certifier_country_id: { type: 'integer' },
         certifier_id: { type: 'integer' },
-        country_id: { type: 'integer' }
+        country_id: { type: 'integer' },
       },
       additionalProperties: false,
     };
@@ -40,24 +42,24 @@ class Certification extends Model {
   static get relationMappings() {
     // Import models here to prevent require loops.
     return {
-        certifiers: {
-            modelClass: require('./certifierModel'),
-            relation: Model.BelongsToOneRelation,
-            join: {
-                from: 'certifierCountryModel.certifier_country_id',
-                to: 'certifierModel.certifier_id',
-              },
+      certifiers: {
+        modelClass: certifierModel,
+        relation: Model.BelongsToOneRelation,
+        join: {
+          from: 'certifierCountryModel.certifier_country_id',
+          to: 'certifierModel.certifier_id',
         },
-        countries: {
-            modelClass: require('./countryModel'),
-            relation: Model.BelongsToOneRelation,
-            join: {
-                from: 'certifierCountryModel.certifier_country_id',
-                to: 'countryModel.id',
-              },
-        }
+      },
+      countries: {
+        modelClass: countryModel,
+        relation: Model.BelongsToOneRelation,
+        join: {
+          from: 'certifierCountryModel.certifier_country_id',
+          to: 'countryModel.id',
+        },
+      },
     };
   }
 }
 
-module.exports = Certification;
+export default Certification;

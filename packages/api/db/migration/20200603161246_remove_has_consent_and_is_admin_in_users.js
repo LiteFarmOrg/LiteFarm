@@ -13,20 +13,20 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-exports.up = function(knex) {
+export const up = function (knex) {
   return Promise.all([
     knex.schema.table('users', (table) => {
       table.dropColumn('is_admin');
       table.dropColumn('has_consent');
     }),
-  ])
+  ]);
 };
 
-exports.down = function(knex) {
+export const down = function (knex) {
   return Promise.all([
     knex.schema.table('users', (table) => {
       table.boolean('has_consent').defaultTo(false);
     }),
     // can't go back with is_admin
-  ])
+  ]);
 };

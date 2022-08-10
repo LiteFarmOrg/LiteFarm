@@ -13,15 +13,17 @@
  *  GNU General Public License for more details, see <<https://www.gnu.org/licenses/>.>
  */
 
-const DocumentModel = require('../models/documentModel');
-const { v4: uuidv4 } = require('uuid');
-const {
+import DocumentModel from '../models/documentModel';
+
+import { v4 as uuidv4 } from 'uuid';
+
+import {
   getPrivateS3BucketName,
   s3,
   imaginaryPost,
   getRandomFileName,
   getPrivateS3Url,
-} = require('../util/digitalOceanSpaces');
+} from '../util/digitalOceanSpaces';
 
 const documentController = {
   getDocumentsByFarmId() {
@@ -160,4 +162,4 @@ const documentController = {
   },
 };
 
-module.exports = documentController;
+export default documentController;

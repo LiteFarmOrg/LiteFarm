@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const baseModel = require('./baseModel');
+import baseModel from './baseModel.js';
 
 class ExpenseType extends baseModel {
   static get tableName() {
@@ -44,4 +44,4 @@ class ExpenseType extends baseModel {
   }
 }
 
-module.exports = ExpenseType;
+export default ExpenseType;

@@ -13,9 +13,10 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const baseController = require('../controllers/baseController');
-const productModel = require('../models/productModel');
-const { transaction, Model } = require('objection');
+import baseController from '../controllers/baseController';
+
+import productModel from '../models/productModel';
+import { transaction, Model } from 'objection';
 
 const productController = {
   getProductsByFarm() {
@@ -59,4 +60,4 @@ const productController = {
   },
 };
 
-module.exports = productController;
+export default productController;

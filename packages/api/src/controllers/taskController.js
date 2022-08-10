@@ -13,17 +13,17 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const TaskModel = require('../models/taskModel');
-const userFarmModel = require('../models/userFarmModel');
-const managementPlanModel = require('../models/managementPlanModel');
-const managementTasksModel = require('../models/managementTasksModel');
-const transplantTaskModel = require('../models/transplantTaskModel');
-const plantTaskModel = require('../models/plantTaskModel');
-const HarvestUse = require('../models/harvestUseModel');
-const NotificationUser = require('../models/notificationUserModel');
-const User = require('../models/userModel');
+import TaskModel from '../models/taskModel';
 
-const { typesOfTask } = require('./../middleware/validation/task');
+import userFarmModel from '../models/userFarmModel';
+import managementPlanModel from '../models/managementPlanModel';
+import managementTasksModel from '../models/managementTasksModel';
+import transplantTaskModel from '../models/transplantTaskModel';
+import plantTaskModel from '../models/plantTaskModel';
+import HarvestUse from '../models/harvestUseModel';
+import NotificationUser from '../models/notificationUserModel';
+import User from '../models/userModel';
+import { typesOfTask } from './../middleware/validation/task';
 const adminRoles = [1, 2, 5];
 // const isDateInPast = (date) => {
 //   const today = new Date();
@@ -777,5 +777,6 @@ function canCompleteTask(assigneeUserId, assigneeRoleId, userId, userRoleId) {
   return assigneeUserId === userId || (assigneeRoleId === 4 && isAdmin);
 }
 
-module.exports = taskController;
-module.exports.getTasksForFarm = getTasksForFarm;
+export default taskController;
+
+export { getTasksForFarm };

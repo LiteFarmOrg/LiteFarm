@@ -1,6 +1,6 @@
-const { createToken } = require('../util/jwt');
-const { emails, sendEmail } = require('../templates/sendEmailTemplate');
-const Model = require('objection').Model;
+import { createToken } from '../util/jwt';
+import { emails, sendEmail } from '../templates/sendEmailTemplate';
+import { Model } from 'objection';
 
 class emailTokenModel extends Model {
   static get tableName() {
@@ -91,4 +91,4 @@ class emailTokenModel extends Model {
   }
 }
 
-module.exports = emailTokenModel;
+export default emailTokenModel;

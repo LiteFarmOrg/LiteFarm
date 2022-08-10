@@ -13,17 +13,18 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const express = require('express');
+import express from 'express';
+
 const router = express.Router();
-const hasFarmAccess = require('../middleware/acl/hasFarmAccess');
-const checkScope = require('../middleware/acl/checkScope');
-const { modelMapping, isWorkerToSelfOrAdmin } = require('../middleware/validation/task');
-const {
+import hasFarmAccess from '../middleware/acl/hasFarmAccess';
+import checkScope from '../middleware/acl/checkScope';
+import { modelMapping, isWorkerToSelfOrAdmin } from '../middleware/validation/task';
+import {
   validateAssigneeId,
   checkTaskStatusForAssignment,
-} = require('../middleware/validation/assignTask');
-const taskController = require('../controllers/taskController');
-const { createOrPatchProduct } = require('../middleware/validation/product');
+} from '../middleware/validation/assignTask';
+import taskController from '../controllers/taskController';
+import { createOrPatchProduct } from '../middleware/validation/product';
 
 router.patch(
   '/assign/:task_id',
@@ -249,4 +250,4 @@ router.get(
   taskController.getHarvestUsesByFarmId,
 );
 
-module.exports = router;
+export default router;

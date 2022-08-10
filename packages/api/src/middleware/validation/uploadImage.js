@@ -1,4 +1,4 @@
-const path = require('path');
+import path from 'path';
 
 async function validateFileExtension(req, res, next) {
   const { file } = req;
@@ -13,4 +13,4 @@ function isImage(file) {
   return /^image\/.*/.test(file.mimetype);
 }
 
-module.exports = validateFileExtension;
+export default validateFileExtension;

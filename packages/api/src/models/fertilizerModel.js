@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const baseModel = require('./baseModel');
+import baseModel from './baseModel.js';
 
 class Fertilizer extends baseModel {
   static get tableName() {
@@ -56,4 +56,4 @@ class Fertilizer extends baseModel {
   }
 }
 
-module.exports = Fertilizer;
+export default Fertilizer;

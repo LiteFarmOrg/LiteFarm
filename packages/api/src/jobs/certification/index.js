@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const Queue = require('bull');
+import Queue from 'bull';
 
 const processExports = (queueConfig) => {
   const retrieveQueue = new Queue('retrieve', queueConfig);
@@ -44,6 +44,4 @@ const processExports = (queueConfig) => {
   zipQueue.on('error', (e) => console.error(e));
 };
 
-module.exports = {
-  processExports,
-};
+export default processExports;

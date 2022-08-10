@@ -13,17 +13,17 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const userModel = require('../models/userModel');
-const passwordModel = require('../models/passwordModel');
-const userFarmModel = require('../models/userFarmModel');
-const showedSpotlightModel = require('../models/showedSpotlightModel');
-const bcrypt = require('bcryptjs');
-const { emails, sendEmail } = require('../templates/sendEmailTemplate');
-const parser = require('ua-parser-js');
-const userLogModel = require('../models/userLogModel');
-const emailModel = require('../models/emailTokenModel');
+import userModel from '../models/userModel';
 
-const { createToken } = require('../util/jwt');
+import passwordModel from '../models/passwordModel';
+import userFarmModel from '../models/userFarmModel';
+import showedSpotlightModel from '../models/showedSpotlightModel';
+import bcrypt from 'bcryptjs';
+import { emails, sendEmail } from '../templates/sendEmailTemplate';
+import parser from 'ua-parser-js';
+import userLogModel from '../models/userLogModel';
+import emailModel from '../models/emailTokenModel';
+import { createToken } from '../util/jwt';
 
 const loginController = {
   authenticateUser() {
@@ -297,4 +297,4 @@ async function sendPasswordReset(data) {
   });
 }
 
-module.exports = loginController;
+export default loginController;

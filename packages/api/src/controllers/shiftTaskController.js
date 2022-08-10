@@ -13,16 +13,19 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const baseController = require('../controllers/baseController');
-const shiftTaskModel = require('../models/shiftTaskModel');
-const { transaction, Model } = require('objection');
+import baseController from '../controllers/baseController';
+
+import shiftTaskModel from '../models/shiftTaskModel';
+import { transaction, Model } from 'objection';
 
 const shiftTaskController = {
   addShiftTask() {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
       try {
-        const result = await baseController.postWithResponse(shiftTaskModel, req.body, req, { trx });
+        const result = await baseController.postWithResponse(shiftTaskModel, req.body, req, {
+          trx,
+        });
         await trx.commit();
         res.status(201).send(result);
       } catch (error) {
@@ -52,9 +55,8 @@ const shiftTaskController = {
           error,
         });
       }
-    }
+    };
   },
+};
 
-}
-
-module.exports = shiftTaskController;
+export default shiftTaskController;

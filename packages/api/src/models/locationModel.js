@@ -13,9 +13,28 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const { Model } = require('objection');
-const baseModel = require('./baseModel');
-const { getNonModifiable } = require('../middleware/validation/location');
+import { Model } from 'objection';
+
+import baseModel from './baseModel.js';
+import { getNonModifiable } from '../middleware/validation/location.js';
+import figureModel from './figureModel.js';
+import fileModel from './fileModel.js';
+import gardenModel from './gardenModel.js';
+import barnModel from './barnModel.js';
+import bufferZoneModel from './bufferZoneModel.js';
+import ceremonialAreaModel from './ceremonialAreaModel.js';
+import watercourseModel from './watercourseModel.js';
+import fenceModel from './fenceModel.js';
+import gateModel from './gateModel.js';
+import greenhouseModel from './greenhouseModel.js';
+import farmSiteBoundary from './farmSiteBoundary.js';
+import surfaceWaterModel from './surfaceWaterModel.js';
+import naturalAreaModel from './naturalAreaModel.js';
+import residenceModel from './residenceModel.js';
+import waterValveModel from './waterValveModel.js';
+import taskModel from './taskModel.js';
+import locationTasksModel from './locationTasksModel.js';
+import sensorModel from './sensorModel.js';
 
 class Location extends baseModel {
   static get tableName() {
@@ -49,7 +68,7 @@ class Location extends baseModel {
     // Import models here to prevent require loops.
     return {
       figure: {
-        modelClass: require('./figureModel'),
+        modelClass: figureModel,
         relation: Model.HasOneRelation,
         join: {
           from: 'location.location_id',
@@ -57,7 +76,7 @@ class Location extends baseModel {
         },
       },
       field: {
-        modelClass: require('./fieldModel'),
+        modelClass: fileModel,
         relation: Model.HasOneRelation,
         join: {
           from: 'location.location_id',
@@ -65,7 +84,7 @@ class Location extends baseModel {
         },
       },
       garden: {
-        modelClass: require('./gardenModel'),
+        modelClass: gardenModel,
         relation: Model.HasOneRelation,
         join: {
           from: 'location.location_id',
@@ -73,7 +92,7 @@ class Location extends baseModel {
         },
       },
       barn: {
-        modelClass: require('./barnModel'),
+        modelClass: barnModel,
         relation: Model.HasOneRelation,
         join: {
           from: 'location.location_id',
@@ -81,7 +100,7 @@ class Location extends baseModel {
         },
       },
       buffer_zone: {
-        modelClass: require('./bufferZoneModel'),
+        modelClass: bufferZoneModel,
         relation: Model.HasOneRelation,
         join: {
           from: 'location.location_id',
@@ -89,7 +108,7 @@ class Location extends baseModel {
         },
       },
       ceremonial_area: {
-        modelClass: require('./ceremonialAreaModel'),
+        modelClass: ceremonialAreaModel,
         relation: Model.HasOneRelation,
         join: {
           from: 'location.location_id',
@@ -97,7 +116,7 @@ class Location extends baseModel {
         },
       },
       watercourse: {
-        modelClass: require('./watercourseModel'),
+        modelClass: watercourseModel,
         relation: Model.HasOneRelation,
         join: {
           from: 'location.location_id',
@@ -105,7 +124,7 @@ class Location extends baseModel {
         },
       },
       fence: {
-        modelClass: require('./fenceModel'),
+        modelClass: fenceModel,
         relation: Model.HasOneRelation,
         join: {
           from: 'location.location_id',
@@ -113,7 +132,7 @@ class Location extends baseModel {
         },
       },
       gate: {
-        modelClass: require('./gateModel'),
+        modelClass: gateModel,
         relation: Model.HasOneRelation,
         join: {
           from: 'location.location_id',
@@ -121,7 +140,7 @@ class Location extends baseModel {
         },
       },
       greenhouse: {
-        modelClass: require('./greenhouseModel'),
+        modelClass: greenhouseModel,
         relation: Model.HasOneRelation,
         join: {
           from: 'location.location_id',
@@ -129,7 +148,7 @@ class Location extends baseModel {
         },
       },
       farm_site_boundary: {
-        modelClass: require('./farmSiteBoundary'),
+        modelClass: farmSiteBoundary,
         relation: Model.HasOneRelation,
         join: {
           from: 'location.location_id',
@@ -137,7 +156,7 @@ class Location extends baseModel {
         },
       },
       surface_water: {
-        modelClass: require('./surfaceWaterModel'),
+        modelClass: surfaceWaterModel,
         relation: Model.HasOneRelation,
         join: {
           from: 'location.location_id',
@@ -145,7 +164,7 @@ class Location extends baseModel {
         },
       },
       natural_area: {
-        modelClass: require('./naturalAreaModel'),
+        modelClass: naturalAreaModel,
         relation: Model.HasOneRelation,
         join: {
           from: 'location.location_id',
@@ -153,7 +172,7 @@ class Location extends baseModel {
         },
       },
       residence: {
-        modelClass: require('./residenceModel'),
+        modelClass: residenceModel,
         relation: Model.HasOneRelation,
         join: {
           from: 'location.location_id',
@@ -169,19 +188,19 @@ class Location extends baseModel {
         },
       },
       water_valve: {
-        modelClass: require('./waterValveModel'),
+        modelClass: waterValveModel,
         relation: Model.HasOneRelation,
         join: {
           from: 'location.location_id',
           to: 'water_valve.location_id',
         },
         task: {
-          modelClass: require('./taskModel'),
+          modelClass: taskModel,
           relation: Model.ManyToManyRelation,
           join: {
             from: 'location.location_id',
             through: {
-              modelClass: require('./locationTasksModel'),
+              modelClass: locationTasksModel,
               from: 'location_tasks.task_id',
               to: 'location_tasks.location_id',
             },
@@ -190,7 +209,7 @@ class Location extends baseModel {
         },
       },
       sensor: {
-        modelClass: require('./sensorModel'),
+        modelClass: sensorModel,
         relation: Model.HasOneRelation,
         join: {
           from: 'location.location_id',
@@ -243,4 +262,4 @@ class Location extends baseModel {
   }
 }
 
-module.exports = Location;
+export default Location;

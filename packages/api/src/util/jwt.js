@@ -1,4 +1,4 @@
-const { sign } = require('jsonwebtoken');
+import { sign } from 'jsonwebtoken';
 
 const ACCESS_TOKEN_EXPIRES_IN = '7d';
 const RESET_PASSWORD_TOKEN_EXPIRES_IN = '1d';
@@ -26,8 +26,4 @@ function createToken(type, payload) {
   });
 }
 
-module.exports = {
-  createToken,
-  expireTime,
-  tokenType,
-};
+export { createToken, expireTime, tokenType };

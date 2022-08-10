@@ -13,38 +13,38 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-exports.up = async function(knex) {
+export const up = async function(knex) {
   await knex.raw(
     `
     ALTER TABLE "activityLog"
     ADD CONSTRAINT user_id foreign key(user_id) references users(user_id) ON UPDATE CASCADE
-    `
+    `,
   );
 
   await knex.raw(
     `
     ALTER TABLE "shift"
     ADD CONSTRAINT user_id foreign key(user_id) references users(user_id) ON UPDATE CASCADE
-    `
+    `,
   );
 
   await knex.raw(
     `
     ALTER TABLE "farmDataSchedule"
     ADD CONSTRAINT user_id foreign key(user_id) references users(user_id) ON UPDATE CASCADE
-    `
+    `,
   );
 
   await knex.raw(
     `
     ALTER TABLE "userFarm"
     ADD CONSTRAINT user_id foreign key(user_id) references users(user_id) ON UPDATE CASCADE
-    `
+    `,
   );
 
 };
 
-exports.down = function(knex) {
+export const down = function(knex) {
   return Promise.all([
     knex.schema.table('shift', (table) => {
       table.dropForeign('user_id', 'user_id')

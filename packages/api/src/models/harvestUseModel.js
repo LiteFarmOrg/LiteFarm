@@ -13,7 +13,8 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const Model = require('objection').Model;
+import { Model } from 'objection';
+import harvestUseTypeModel from './harvestUseTypeModel.js';
 
 class HarvestUse extends Model {
   static get tableName() {
@@ -46,14 +47,14 @@ class HarvestUse extends Model {
     return {
       harvest_use_type: {
         relation: Model.HasOneRelation,
-        modelClass: require('./harvestUseTypeModel'),
+        modelClass: harvestUseTypeModel,
         join: {
           from: 'harvest_use.harvest_use_type_id',
           to: 'harvest_use_type.harvest_use_type_id',
         },
       },
-    }
+    };
   }
 }
 
-module.exports = HarvestUse;
+export default HarvestUse;

@@ -1,13 +1,13 @@
-exports.up = function(knex) {
+export const up = function (knex) {
   return knex.schema.alterTable('management_plan', (t) => {
     t.enu('status', ['ACTIVE', 'PLANNED', 'COMPLETED', 'ABANDONED']).defaultTo('PLANNED');
     t.date('abandoned_date');
     t.date('completed_date');
     t.date('start_date');
-  })
+  });
 };
 
-exports.down = function(knex) {
+export const down = function (knex) {
   return knex.schema.alterTable('management_plan', (t) => {
     t.dropColumn('status');
     t.dropColumn('abandoned_date');

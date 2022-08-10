@@ -13,13 +13,13 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const baseController = require('../controllers/baseController');
-const cropModel = require('../models/cropModel');
-const cropVarietyModel = require('../models/cropVarietyModel');
-const { transaction, Model, UniqueViolationError } = require('objection');
+import baseController from '../controllers/baseController.js';
+
+import cropModel from '../models/cropModel.js';
+import cropVarietyModel from '../models/cropVarietyModel.js';
+import { transaction, Model, UniqueViolationError } from 'objection';
 
 const cropController = {
-
   addCropWithFarmID() {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
@@ -40,7 +40,6 @@ const cropController = {
             error,
             violationError,
           });
-
         }
 
         //handle more exceptions
@@ -51,7 +50,6 @@ const cropController = {
             violationError,
           });
         }
-
       }
     };
   },
@@ -64,7 +62,12 @@ const cropController = {
         crop.user_added = true;
         crop.crop_translation_key = crop.crop_common_name;
         const newCrop = await baseController.postWithResponse(cropModel, crop, req, { trx });
-        const newVariety = await baseController.postWithResponse(cropVarietyModel, { ...newCrop, ...variety }, req, { trx });
+        const newVariety = await baseController.postWithResponse(
+          cropVarietyModel,
+          { ...newCrop, ...variety },
+          req,
+          { trx },
+        );
         await trx.commit();
         res.status(201).send({ crop: newCrop, variety: newVariety });
       } catch (error) {
@@ -76,7 +79,6 @@ const cropController = {
             error,
             violationError,
           });
-
         }
 
         //handle more exceptions
@@ -87,7 +89,6 @@ const cropController = {
             violationError,
           });
         }
-
       }
     };
   },
@@ -96,11 +97,13 @@ const cropController = {
     return async (req, res) => {
       try {
         const farm_id = req.params.farm_id;
-        const rows = req.query?.fetch_all === 'false' ? await cropModel.query().whereNotDeleted().where({
-            farm_id,
-          })
-          : await cropController.get(farm_id);
-          return res.status(200).send(rows);
+        const rows =
+          req.query?.fetch_all === 'false'
+            ? await cropModel.query().whereNotDeleted().where({
+                farm_id,
+              })
+            : await cropController.get(farm_id);
+        return res.status(200).send(rows);
       } catch (error) {
         //handle more exceptions
         return res.status(400).json({
@@ -154,7 +157,7 @@ const cropController = {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
       try {
-        const user_id = req.user.user_id;
+        // const user_id = req.user.user_id;
         const data = req.body;
         data.crop_translation_key = data.crop_common_name;
         const updated = await baseController.put(cropModel, req.params.crop_id, data, req, { trx });
@@ -164,7 +167,6 @@ const cropController = {
         } else {
           res.status(200).send(updated);
         }
-
       } catch (error) {
         console.log(error);
         await trx.rollback();
@@ -177,14 +179,23 @@ const cropController = {
 
   async get(farm_id) {
     //TODO fix user added flag
-    return await cropModel.query().whereNotDeleted().where('reviewed', true).orWhere({ farm_id, deleted: false });
+    return await cropModel
+      .query()
+      .whereNotDeleted()
+      .where('reviewed', true)
+      .orWhere({ farm_id, deleted: false });
   },
 
   async del(req, trx) {
     const id = req.params.crop_id;
     const table_id = cropModel.idColumn;
-    return await cropModel.query(trx).context({ user_id: req.user.user_id }).where(table_id, id).andWhere('user_added', true).delete();
+    return await cropModel
+      .query(trx)
+      .context({ user_id: req.user.user_id })
+      .where(table_id, id)
+      .andWhere('user_added', true)
+      .delete();
   },
 };
 
-module.exports = cropController;
+export default cropController;

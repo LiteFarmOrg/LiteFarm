@@ -13,18 +13,18 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const organicCertifierSurveyModel = require('../models/organicCertifierSurveyModel');
-const certificationModel = require('../models/certificationModel');
-const certifierModel = require('../models/certifierModel');
-const userModel = require('../models/userModel');
-const farmModel = require('../models/farmModel');
-const managementPlanModel = require('../models/managementPlanModel');
-const locationModel = require('../models/locationModel');
+import organicCertifierSurveyModel from '../models/organicCertifierSurveyModel';
 
-const documentModel = require('../models/documentModel');
-const Queue = require('bull');
-const { Model } = require('objection');
-const { v4: uuidv4 } = require('uuid');
+import certificationModel from '../models/certificationModel';
+import certifierModel from '../models/certifierModel';
+import userModel from '../models/userModel';
+import farmModel from '../models/farmModel';
+import managementPlanModel from '../models/managementPlanModel';
+import locationModel from '../models/locationModel';
+import documentModel from '../models/documentModel';
+import Queue from 'bull';
+import { Model } from 'objection';
+import { v4 as uuidv4 } from 'uuid';
 const knex = Model.knex();
 const redisConf = {
   redis: {
@@ -734,4 +734,4 @@ const organicCertifierSurveyController = {
   },
 };
 
-module.exports = organicCertifierSurveyController;
+export default organicCertifierSurveyController;

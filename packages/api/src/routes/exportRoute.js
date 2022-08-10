@@ -13,12 +13,12 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const express = require('express');
+import express from 'express';
+
 const router = express.Router();
-const exportController = require('../controllers/exportController');
-const multerDiskUpload = require('../util/fileUpload');
+import exportController from '../controllers/exportController';
+import multerDiskUpload from '../util/fileUpload';
 
 router.post('/map/farm/:farm_id', multerDiskUpload, exportController.sendMapToEmail());
 
-
-module.exports = router;
+export default router;

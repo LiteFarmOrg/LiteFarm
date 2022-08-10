@@ -1,4 +1,4 @@
-exports.up = function(knex) {
+export const up = function (knex) {
   return Promise.all([
     knex('permissions').insert([
       { permission_id: 117, name: 'get:crop_variety', description: 'Get a crop variety' },
@@ -24,7 +24,7 @@ exports.up = function(knex) {
   ]);
 };
 
-exports.down = function(knex) {
+export const down = function (knex) {
   const permissions = [117, 118, 119, 120];
   return Promise.all([
     knex('rolePermissions').whereIn('permission_id', permissions).del(),

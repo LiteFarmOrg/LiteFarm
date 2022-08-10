@@ -1,6 +1,6 @@
-const LocationModel = require('../models/locationModel');
-const baseController = require('./baseController');
-const { assets, figures, getNonModifiable } = require('../middleware/validation/location');
+import LocationModel from '../models/locationModel';
+import baseController from './baseController';
+import { assets, figures, getNonModifiable } from '../middleware/validation/location';
 
 const LocationController = {
   getLocationsByFarm() {
@@ -84,4 +84,4 @@ const LocationController = {
   },
 };
 
-module.exports = LocationController;
+export default LocationController;

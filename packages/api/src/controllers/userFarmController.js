@@ -13,16 +13,17 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const userFarmModel = require('../models/userFarmModel');
-const userModel = require('../models/userModel');
-const userLogModel = require('../models/userLogModel');
-const passwordModel = require('../models/passwordModel');
-const roleModel = require('../models/roleModel');
-const shiftModel = require('../models/shiftModel');
-const emailModel = require('../models/emailTokenModel');
-const { transaction, Model } = require('objection');
-const { emails, sendEmail } = require('../templates/sendEmailTemplate');
-const { createToken } = require('../util/jwt');
+import userFarmModel from '../models/userFarmModel';
+
+import userModel from '../models/userModel';
+import userLogModel from '../models/userLogModel';
+import passwordModel from '../models/passwordModel';
+import roleModel from '../models/roleModel';
+import shiftModel from '../models/shiftModel';
+import emailModel from '../models/emailTokenModel';
+import { transaction, Model } from 'objection';
+import { emails, sendEmail } from '../templates/sendEmailTemplate';
+import { createToken } from '../util/jwt';
 
 const validStatusChanges = {
   Active: ['Inactive'],
@@ -606,7 +607,7 @@ const userFarmController = {
   },
 };
 
-module.exports = userFarmController;
+export default userFarmController;
 
 async function appendOwners(userFarms) {
   const farm_ids = userFarms.map((userFarm) => userFarm.farm_id);

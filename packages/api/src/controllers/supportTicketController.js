@@ -14,9 +14,10 @@
  */
 
 // const baseController = require('../controllers/baseController');
-const supportTicketModel = require('../models/supportTicketModel');
-const userModel = require('../models/userModel');
-const { emails, sendEmail } = require('../templates/sendEmailTemplate');
+import supportTicketModel from '../models/supportTicketModel';
+
+import userModel from '../models/userModel';
+import { emails, sendEmail } from '../templates/sendEmailTemplate';
 
 const supportTicketController = {
   // Disabled
@@ -105,4 +106,4 @@ const capitalize = (string) => {
   return string[0].toUpperCase() + string.slice(1);
 };
 
-module.exports = supportTicketController;
+export default supportTicketController;

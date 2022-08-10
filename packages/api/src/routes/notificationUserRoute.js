@@ -13,9 +13,10 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const NotificationUserController = require('../controllers/notificationUserController');
-const checkUserFarmStatus = require('../middleware/acl/checkUserFarmStatus');
-const express = require('express');
+import NotificationUserController from '../controllers/notificationUserController';
+
+import checkUserFarmStatus from '../middleware/acl/checkUserFarmStatus';
+import express from 'express';
 const router = express.Router();
 
 router.get('/subscribe', NotificationUserController.subscribeToAlerts);
@@ -23,4 +24,4 @@ router.get('/', checkUserFarmStatus(), NotificationUserController.getNotificatio
 router.patch('/', checkUserFarmStatus(), NotificationUserController.patchNotifications);
 router.patch('/clear_alerts', checkUserFarmStatus(), NotificationUserController.clearAlerts);
 
-module.exports = router;
+export default router;

@@ -1,4 +1,4 @@
-exports.up = function(knex) {
+export const up = function (knex) {
   return Promise.all([
     knex.schema.alterTable('area', (t) => {
       t.decimal('total_area', 36, 12).notNullable().alter();
@@ -17,7 +17,7 @@ exports.up = function(knex) {
   ]);
 };
 
-exports.down = function(knex) {
+export const down = function (knex) {
   return Promise.all([
     knex.schema.alterTable('area', (t) => {
       t.decimal('total_area', 24, 2).notNullable().alter();

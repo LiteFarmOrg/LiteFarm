@@ -13,42 +13,109 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const express = require('express');
+import express from 'express';
+
 const router = express.Router();
-const insightController = require('../controllers/insightController');
-const checkOwnership = require('../middleware/acl/checkOwnership');
-const checkScope = require('../middleware/acl/checkScope');
-const hasFarmAccess = require('../middleware/acl/hasFarmAccess');
+import insightController from '../controllers/insightController';
+import checkOwnership from '../middleware/acl/checkOwnership';
+import checkScope from '../middleware/acl/checkScope';
+import hasFarmAccess from '../middleware/acl/hasFarmAccess';
 // people fed specific stuff
 // get all the nutritional data that is displayed as a view on People Fed Module
-router.get('/people_fed/:farm_id', hasFarmAccess({ params: 'farm_id' }), checkScope(['get:insights']), insightController.getPeopleFedData());
+router.get(
+  '/people_fed/:farm_id',
+  hasFarmAccess({ params: 'farm_id' }),
+  checkScope(['get:insights']),
+  insightController.getPeopleFedData(),
+);
 // get one single number for generating meals page on the main insight page
 
 // soil om submodule
 // grabs soil data logs based on user_id
 // sorted by field_id so its easy to use in the soil_om submodule
-router.get('/soil_om/:farm_id', hasFarmAccess({ params: 'farm_id' }), checkScope(['get:insights']), insightController.getSoilDataByFarmID());
+router.get(
+  '/soil_om/:farm_id',
+  hasFarmAccess({ params: 'farm_id' }),
+  checkScope(['get:insights']),
+  insightController.getSoilDataByFarmID(),
+);
 
-router.get('/labour_happiness/:farm_id', hasFarmAccess({ params: 'farm_id' }), checkScope(['get:insights']), insightController.getLabourHappinessByFarmID());
+router.get(
+  '/labour_happiness/:farm_id',
+  hasFarmAccess({ params: 'farm_id' }),
+  checkScope(['get:insights']),
+  insightController.getLabourHappinessByFarmID(),
+);
 
-router.get('/biodiversity/:farm_id', hasFarmAccess({ params: 'farm_id' }), checkScope(['get:insights']), insightController.getBiodiversityByFarmID());
+router.get(
+  '/biodiversity/:farm_id',
+  hasFarmAccess({ params: 'farm_id' }),
+  checkScope(['get:insights']),
+  insightController.getBiodiversityByFarmID(),
+);
 
-router.get('/prices/distance/:farm_id', hasFarmAccess({ params: 'farm_id' }), checkScope(['get:insights']), insightController.getPricesNearbyByFarmID());
+router.get(
+  '/prices/distance/:farm_id',
+  hasFarmAccess({ params: 'farm_id' }),
+  checkScope(['get:insights']),
+  insightController.getPricesNearbyByFarmID(),
+);
 
-router.get('/waterbalance/:farm_id', hasFarmAccess({ params: 'farm_id' }), checkScope(['get:insights']), insightController.getWaterBalance());
+router.get(
+  '/waterbalance/:farm_id',
+  hasFarmAccess({ params: 'farm_id' }),
+  checkScope(['get:insights']),
+  insightController.getWaterBalance(),
+);
 
-router.get('/waterbalance/schedule/:farm_id', hasFarmAccess({ params: 'farm_id' }), checkScope(['get:insights']), insightController.getWaterSchedule());
+router.get(
+  '/waterbalance/schedule/:farm_id',
+  hasFarmAccess({ params: 'farm_id' }),
+  checkScope(['get:insights']),
+  insightController.getWaterSchedule(),
+);
 
-router.get('/nitrogenbalance/:farm_id', hasFarmAccess({ params: 'farm_id' }), checkScope(['get:insights']), insightController.getNitrogenBalance());
+router.get(
+  '/nitrogenbalance/:farm_id',
+  hasFarmAccess({ params: 'farm_id' }),
+  checkScope(['get:insights']),
+  insightController.getNitrogenBalance(),
+);
 
-router.get('/nitrogenbalance/schedule/:farm_id', hasFarmAccess({ params: 'farm_id' }), checkScope(['get:insights']), insightController.getNitrogenSchedule());
+router.get(
+  '/nitrogenbalance/schedule/:farm_id',
+  hasFarmAccess({ params: 'farm_id' }),
+  checkScope(['get:insights']),
+  insightController.getNitrogenSchedule(),
+);
 
 // add calls
-router.post('/waterbalance', hasFarmAccess({ body: 'location_id' }), checkScope(['add:insights']), insightController.addWaterBalance());
-router.post('/waterbalance/schedule', hasFarmAccess({ body: 'farm_id' }), checkScope(['add:insights']), insightController.addWaterBalanceSchedule());
-router.post('/nitrogenbalance/schedule', hasFarmAccess({ body: 'farm_id' }), checkScope(['add:insights']), insightController.addNitrogenSchedule());
+router.post(
+  '/waterbalance',
+  hasFarmAccess({ body: 'location_id' }),
+  checkScope(['add:insights']),
+  insightController.addWaterBalance(),
+);
+router.post(
+  '/waterbalance/schedule',
+  hasFarmAccess({ body: 'farm_id' }),
+  checkScope(['add:insights']),
+  insightController.addWaterBalanceSchedule(),
+);
+router.post(
+  '/nitrogenbalance/schedule',
+  hasFarmAccess({ body: 'farm_id' }),
+  checkScope(['add:insights']),
+  insightController.addNitrogenSchedule(),
+);
 
 // delete calls
-router.delete('/nitrogenbalance/schedule/:nitrogen_schedule_id', hasFarmAccess({ params: 'nitrogen_schedule_id' }),  checkOwnership('nitrogenSchedule'), checkScope(['delete:insights']), insightController.delNitrogenSchedule());
+router.delete(
+  '/nitrogenbalance/schedule/:nitrogen_schedule_id',
+  hasFarmAccess({ params: 'nitrogen_schedule_id' }),
+  checkOwnership('nitrogenSchedule'),
+  checkScope(['delete:insights']),
+  insightController.delNitrogenSchedule(),
+);
 
-module.exports = router;
+export default router;

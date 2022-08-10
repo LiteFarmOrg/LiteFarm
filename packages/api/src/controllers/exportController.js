@@ -13,9 +13,10 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const userModel = require('../models/userModel');
-const { emails, sendEmail } = require('../templates/sendEmailTemplate');
-const farmModel = require('../models/farmModel');
+import userModel from '../models/userModel';
+
+import { emails, sendEmail } from '../templates/sendEmailTemplate';
+import farmModel from '../models/farmModel';
 
 const exportController = {
   sendMapToEmail() {
@@ -46,4 +47,4 @@ const exportController = {
   },
 };
 
-module.exports = exportController;
+export default exportController;

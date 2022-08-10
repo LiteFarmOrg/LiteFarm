@@ -13,10 +13,11 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const baseController = require('../controllers/baseController');
-const { transaction, Model } = require('objection');
-const shiftModel = require('../models/shiftModel');
-const shiftTaskModel = require('../models/shiftTaskModel');
+import baseController from '../controllers/baseController.js';
+
+import { transaction, Model } from 'objection';
+import shiftModel from '../models/shiftModel.js';
+import shiftTaskModel from '../models/shiftTaskModel.js';
 const knex = Model.knex();
 
 const shiftController = {
@@ -58,13 +59,13 @@ const shiftController = {
         }
         const tasks = body.tasks;
         const shiftUsers = body.shift_users;
-        for (let sUser of shiftUsers) {
+        for (const sUser of shiftUsers) {
           // eslint-disable-line
           const temp = body;
           temp.user_id = sUser.value;
           temp.wage_at_moment = sUser.wage;
           temp.mood = sUser.mood;
-          const user_id = req.user.user_id;
+          // const user_id = req.user.user_id;
           const shift_result = await baseController.postWithResponse(shiftModel, temp, req, {
             trx,
           });
@@ -216,8 +217,8 @@ const shiftController = {
     return async (req, res) => {
       try {
         const farm_id = req.params.farm_id;
-        const { user_id } = req.headers;
-        const role = req.role;
+        // const { user_id } = req.headers;
+        // const role = req.role;
         const data = await knex
           .select([
             'task_type.task_name',
@@ -381,4 +382,4 @@ const shiftController = {
   },
 };
 
-module.exports = shiftController;
+export default shiftController;

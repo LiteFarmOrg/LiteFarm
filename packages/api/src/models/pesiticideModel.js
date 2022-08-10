@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const baseModel = require('./baseModel');
+import baseModel from './baseModel.js';
 
 class Pesticide extends baseModel {
   static get tableName() {
@@ -44,4 +44,4 @@ class Pesticide extends baseModel {
   }
 }
 
-module.exports = Pesticide;
+export default Pesticide;

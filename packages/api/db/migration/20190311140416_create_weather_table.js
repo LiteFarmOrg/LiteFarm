@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-exports.up = function(knex) {
+export const up = function (knex) {
   return Promise.all([
     knex.schema.createTable('weather', (table) => {
       table.increments('weather_id');
@@ -26,11 +26,9 @@ exports.up = function(knex) {
       table.float('wind_speed');
       table.uuid('field_id').references('field_id').inTable('field').notNullable();
     }),
-  ])
+  ]);
 };
 
-exports.down = function(knex) {
-  return Promise.all([
-    knex.schema.dropTable('weather'),
-  ])
+export const down = function (knex) {
+  return Promise.all([knex.schema.dropTable('weather')]);
 };

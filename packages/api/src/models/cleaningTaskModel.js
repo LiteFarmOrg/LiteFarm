@@ -13,7 +13,8 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const Model = require('objection').Model;
+import { Model } from 'objection';
+import taskModel from './taskModel.js';
 
 class CleaningTaskModel extends Model {
   static get tableName() {
@@ -40,7 +41,7 @@ class CleaningTaskModel extends Model {
         water_usage: { type: 'number' },
         water_usage_unit: { type: 'string', enum: ['ml', 'l', 'gal', 'fl-oz'] },
         product_quantity: { type: ['number', null] },
-        product_quantity_unit: {  type: 'string', enum: ['ml', 'l', 'gal', 'fl-oz']  },
+        product_quantity_unit: { type: 'string', enum: ['ml', 'l', 'gal', 'fl-oz'] },
       },
       additionalProperties: false,
     };
@@ -54,16 +55,14 @@ class CleaningTaskModel extends Model {
         // The related model. This can be either a Model
         // subclass constructor or an absolute file path
         // to a module that exports one.
-        modelClass: require('./taskModel'),
+        modelClass: taskModel,
         join: {
           from: 'cleaning_task.task_id',
           to: 'task.task_id',
         },
-
       },
-
     };
   }
 }
 
-module.exports = CleaningTaskModel;
+export default CleaningTaskModel;

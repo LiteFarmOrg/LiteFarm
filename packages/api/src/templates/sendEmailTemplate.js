@@ -13,9 +13,10 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const credentials = require('../credentials');
-const path = require('path');
-const EmailTemplates = require('email-templates');
+import credentials from '../credentials';
+
+import path from 'path';
+import EmailTemplates from 'email-templates';
 
 const emails = {
   INVITATION: { path: 'invitation_to_farm_email' },
@@ -110,7 +111,4 @@ function sendEmail(
   }
 }
 
-module.exports = {
-  emails,
-  sendEmail,
-};
+export { emails, sendEmail };

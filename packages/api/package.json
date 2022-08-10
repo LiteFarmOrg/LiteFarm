@@ -3,6 +3,7 @@
   "version": "3.2.5",
   "description": "LiteFarm API server",
   "main": "./api/src/server.js",
+  "type": "module",
   "scripts": {
     "test": "jest --runInBand",
     "test-ci": "NODE_ENV=pipeline jest --runInBand --forceExit",
@@ -92,6 +93,7 @@
     "@babel/core": "^7.12.10",
     "@babel/eslint-parser": "^7.12.1",
     "@babel/plugin-proposal-optional-chaining": "^7.13.8",
+    "@babel/plugin-syntax-import-assertions": "^7.18.6",
     "@faker-js/faker": "^6.3.1",
     "eslint": "^7.18.0",
     "eslint-config-prettier": "^7.0.0",

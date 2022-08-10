@@ -13,13 +13,14 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const baseController = require('../controllers/baseController');
-const farmModel = require('../models/farmModel');
-const userModel = require('../models/userModel');
-const userFarmModel = require('../models/userFarmModel');
-const { transaction, Model } = require('objection');
+import baseController from '../controllers/baseController';
+
+import farmModel from '../models/farmModel';
+import userModel from '../models/userModel';
+import userFarmModel from '../models/userFarmModel';
+import { transaction, Model } from 'objection';
 const knex = Model.knex();
-const { Client } = require('@googlemaps/google-maps-services-js');
+import { Client } from '@googlemaps/google-maps-services-js';
 const client = new Client({});
 
 const farmController = {
@@ -296,4 +297,4 @@ const farmController = {
   },
 };
 
-module.exports = farmController;
+export default farmController;

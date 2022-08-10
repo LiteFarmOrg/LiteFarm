@@ -13,15 +13,16 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const passwordModel = require('./../../models/passwordModel');
+import passwordModel from './../../models/passwordModel';
+
 async function checkResetPasswordTokenContent(req, res, next) {
   const { user_id, created_at } = req.user;
   const result = await passwordModel.query().select('created_at').where('user_id', user_id).first();
-  if(result.created_at.getTime() <= created_at) {
+  if (result.created_at.getTime() <= created_at) {
     next();
-  }  else {
+  } else {
     res.status(401).send('date error');
   }
 }
 
-module.exports = checkResetPasswordTokenContent;
+export default checkResetPasswordTokenContent;

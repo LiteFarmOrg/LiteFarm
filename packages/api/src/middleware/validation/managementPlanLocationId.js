@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const locationModel = require('../../models/locationModel');
+import locationModel from '../../models/locationModel';
 
 async function validateLocationId(req, res, next) {
   const location = await locationModel.query().whereNotDeleted().findById(req.body.location_id)
@@ -25,8 +25,10 @@ async function validateLocationId(req, res, next) {
   if (location?.field || location?.garden || location?.buffer_zone || location?.greenhouse) {
     return next();
   } else {
-    return res.status(400).send('Location must be type of field, garden, buffer_zone, or greenhouse');
+    return res
+      .status(400)
+      .send('Location must be type of field, garden, buffer_zone, or greenhouse');
   }
 }
 
-module.exports = validateLocationId;
+export default validateLocationId;

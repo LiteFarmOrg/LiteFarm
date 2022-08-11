@@ -109,7 +109,7 @@ Use cases in which we currently utilize ngrok at LiteFarm include:
 ## Set up
 
 - Go to https://ngrok.com/ and sign up for an account
-- Download the ngrok CLI
+- Install the ngrok CLI (on the [Getting Started](https://dashboard.ngrok.com/get-started/setup) page after signing up)
 - Create a copy of `ngrok/ngrok.default.yml` and call it `ngrok.yml`. Make sure this file is in the `ngrok` folder at the root of the repo
 - Login to your ngrok account and go to https://dashboard.ngrok.com/get-started/your-authtoken
 - Add the auth token from there in `ngrok.yml` by replacing the `?`

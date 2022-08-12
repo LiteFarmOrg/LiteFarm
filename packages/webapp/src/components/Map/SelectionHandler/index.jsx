@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { areaImgDict, lineImgDict, pointImgDict } from '../LocationMapping';
 import { containsCrops } from '../../../containers/Map/constants';
@@ -50,37 +50,29 @@ export default function PureSelectionHandler({ locations, history, sensorReading
 
   const [isSensor, setIsSensor] = useState(false);
   const [sensorIdx, setSensorIdx] = useState(null);
+  const longPressed = useRef(false);
 
-  let longPressed, longPressTimeout, longPressActive;
-
-  const handleMouseDown = () => {
-    longPressActive = true;
-    longPressed = false;
-    longPressTimeout = setTimeout(function () {
-      if (longPressActive === true) {
-        longPressed = true;
+  const handleMouseDown = (location, idx) => {
+    longPressed.current = false;
+    setTimeout(function () {
+      longPressed.current = true;
+      if (location.type === SENSOR && longPressed.current) {
+        setIsSensor(true);
+        setSensorIdx(idx);
       }
-    }, 200);
+    }, 1000);
   };
 
-  const handleMouseUp = () => {
-    clearTimeout(longPressTimeout);
-    longPressActive = false;
+  const handleMouseUp = (location) => {
+    if (!longPressed.current) {
+      loadEditView(location);
+    }
   };
 
   const loadEditView = (location) => {
     containsCrops(location.type)
       ? history.push(`/${location.type}/${location.id}/crops`)
       : history.push(`/${location.type}/${location.id}/details`);
-  };
-
-  const handleClick = (location, idx) => {
-    if (location.type === SENSOR && longPressed) {
-      setIsSensor(true);
-      setSensorIdx(idx);
-    } else {
-      loadEditView(location);
-    }
   };
 
   const removeSelect = isTouchDevice()
@@ -109,11 +101,16 @@ export default function PureSelectionHandler({ locations, history, sensorReading
     return (
       <div
         key={idx}
-        {...longPressHandlers}
-        onClick={(e) => {
+        onMouseDown={(e) => {
           e.stopPropagation();
-          handleClick(location, idx);
+          handleMouseDown(location, idx);
         }}
+        onMouseUp={() => handleMouseUp(location)}
+        onTouchStart={(e) => {
+          e.stopPropagation();
+          handleMouseDown(location, idx);
+        }}
+        onTouchEnd={() => handleMouseUp(location)}
       >
         <div className={classes.container}>
           <div style={{ float: 'left', paddingTop: '8px', paddingLeft: '20px', ...removeSelect }}>

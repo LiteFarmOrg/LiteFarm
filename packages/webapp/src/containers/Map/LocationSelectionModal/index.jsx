@@ -34,7 +34,7 @@ export default function LocationSelectionModal({ history, selectingOnly }) {
     return (
       <>
         {showSelection && (
-          <div className={styles.selectionModal} onClick={dismissSelectionModal}>
+          <div className={styles.selectionModal} onMouseDown={dismissSelectionModal}>
             <div className={styles.selectionContainer}>
               <PureSelectionHandler
                 locations={locations}

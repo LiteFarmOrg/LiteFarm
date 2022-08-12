@@ -60,7 +60,7 @@ export default function PureSelectionHandler({ locations, history, sensorReading
         setIsSensor(true);
         setSensorIdx(idx);
       }
-    }, 1000);
+    }, 800);
   };
 
   const handleMouseUp = (location) => {
@@ -84,16 +84,6 @@ export default function PureSelectionHandler({ locations, history, sensorReading
       }
     : {};
 
-  const longPressHandlers = isTouchDevice()
-    ? {
-        onTouchStart: handleMouseDown,
-        onTouchEnd: handleMouseUp,
-      }
-    : {
-        onMouseDown: handleMouseDown,
-        onMouseUp: handleMouseUp,
-      };
-
   return locations.map((location, idx) => {
     const { type, asset, name } = { ...location };
     let icon = imgMapping(asset, type);
@@ -101,16 +91,21 @@ export default function PureSelectionHandler({ locations, history, sensorReading
     return (
       <div
         key={idx}
-        onMouseDown={(e) => {
-          e.stopPropagation();
-          handleMouseDown(location, idx);
-        }}
-        onMouseUp={() => handleMouseUp(location)}
-        onTouchStart={(e) => {
-          e.stopPropagation();
-          handleMouseDown(location, idx);
-        }}
-        onTouchEnd={() => handleMouseUp(location)}
+        {...(isTouchDevice()
+          ? {
+              onTouchStart: (e) => {
+                e.stopPropagation();
+                handleMouseDown(location, idx);
+              },
+              onTouchEnd: () => handleMouseUp(location),
+            }
+          : {
+              onMouseDown: (e) => {
+                e.stopPropagation();
+                handleMouseDown(location, idx);
+              },
+              onMouseUp: () => handleMouseUp(location),
+            })}
       >
         <div className={classes.container}>
           <div style={{ float: 'left', paddingTop: '8px', paddingLeft: '20px', ...removeSelect }}>

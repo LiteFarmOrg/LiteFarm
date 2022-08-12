@@ -7,6 +7,7 @@ import { canShowSelectionSelector, mapLocationsSelector } from '../../mapSlice';
 import PurePreviewPopup from '../../../components/Map/PreviewPopup';
 import { SENSOR } from '../../SensorReadings/constants';
 import { mapSensorSelector, sensorReadingsByLocationSelector } from '../mapSensorSlice';
+import { isTouchDevice } from '../../../util/device';
 
 export default function LocationSelectionModal({ history, selectingOnly }) {
   const { dismissSelectionModal } = useSelectionHandler();
@@ -34,7 +35,12 @@ export default function LocationSelectionModal({ history, selectingOnly }) {
     return (
       <>
         {showSelection && (
-          <div className={styles.selectionModal} onMouseDown={dismissSelectionModal}>
+          <div
+            className={styles.selectionModal}
+            {...(isTouchDevice()
+              ? { onTouchStart: dismissSelectionModal }
+              : { onMouseDown: dismissSelectionModal })}
+          >
             <div className={styles.selectionContainer}>
               <PureSelectionHandler
                 locations={locations}

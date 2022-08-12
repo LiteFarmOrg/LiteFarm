@@ -16,7 +16,7 @@
 import express from 'express';
 
 const router = express.Router();
-import showedSpotlightController from '../controllers/showedSpotlightController';
+import showedSpotlightController from '../controllers/showedSpotlightController.js';
 
 router.get('/', showedSpotlightController.getSpotlightFlags());
 

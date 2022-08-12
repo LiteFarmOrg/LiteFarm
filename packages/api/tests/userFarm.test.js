@@ -22,7 +22,7 @@ const { tableCleanup } = require('./testEnvironment');
 jest.mock('jsdom');
 jest.mock('../src/middleware/acl/checkJwt');
 jest.mock('../src/templates/sendEmailTemplate');
-const mocks = require('./mock.factories');
+const mocks = require('./mock.factories.js');
 const { faker } = require('@faker-js/faker');
 const userFarmModel = require('../src/models/userFarmModel');
 const userModel = require('../src/models/userModel');

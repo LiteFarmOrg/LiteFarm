@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import NotificationUser from '../models/notificationUserModel';
+import NotificationUser from '../models/notificationUserModel.js';
 
 /**
  * Controls requests related to the user's notifications.

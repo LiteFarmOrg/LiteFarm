@@ -13,10 +13,13 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import credentials from '../credentials';
+import credentials from '../credentials.js';
+
+const dir = path.dirname(fileURLToPath(import.meta.url));
 
 import path from 'path';
 import EmailTemplates from 'email-templates';
+import { fileURLToPath } from 'url';
 
 const emails = {
   INVITATION: { path: 'invitation_to_farm_email' },
@@ -45,11 +48,11 @@ function homeUrl(defaultUrl = 'http://localhost:3000') {
 
 const emailTransporter = new EmailTemplates({
   views: {
-    root: path.join(__dirname, 'emails'),
+    root: path.join(dir, 'emails'),
   },
   i18n: {
     locales: ['en', 'es', 'fr', 'pt'],
-    directory: path.join(__dirname, 'locales'),
+    directory: path.join(dir, 'locales'),
     objectNotation: true,
   },
   send: true,

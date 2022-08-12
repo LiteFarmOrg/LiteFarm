@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import locationModel from '../../models/locationModel';
+import locationModel from '../../models/locationModel.js';
 
 async function validateLocationId(req, res, next) {
   const location = await locationModel.query().whereNotDeleted().findById(req.body.location_id)

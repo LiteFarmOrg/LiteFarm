@@ -28,7 +28,7 @@ const {
   recordAQuery,
   getActiveManagementPlans,
 } = require('../src/controllers/organicCertifierSurveyController');
-const mocks = require('./mock.factories');
+const mocks = require('./mock.factories.js');
 const emailTemplate = require('../src/templates/sendEmailTemplate');
 jest.mock('../src/templates/sendEmailTemplate');
 

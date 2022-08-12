@@ -13,9 +13,9 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import locationModel from '../../models/locationModel';
+import locationModel from '../../models/locationModel.js';
 
-import { managementPlanEnabledLocations } from './location';
+import { managementPlanEnabledLocations } from './location.js';
 
 async function validateLogLocationId(req, res, next) {
   req.body.locations = req.body.locations.map((location) => ({

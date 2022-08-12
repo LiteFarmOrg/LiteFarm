@@ -16,9 +16,9 @@
 import express from 'express';
 
 const router = express.Router();
-import TaskTypeController from '../controllers/taskTypeController';
-import checkScope from '../middleware/acl/checkScope';
-import hasFarmAccess from '../middleware/acl/hasFarmAccess';
+import TaskTypeController from '../controllers/taskTypeController.js';
+import checkScope from '../middleware/acl/checkScope.js';
+import hasFarmAccess from '../middleware/acl/hasFarmAccess.js';
 
 router.post(
   '/',

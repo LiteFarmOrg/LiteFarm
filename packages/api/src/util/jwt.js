@@ -1,4 +1,5 @@
-import { sign } from 'jsonwebtoken';
+import * as jwt from 'jsonwebtoken';
+const { sign } = jwt;
 
 const ACCESS_TOKEN_EXPIRES_IN = '7d';
 const RESET_PASSWORD_TOKEN_EXPIRES_IN = '1d';

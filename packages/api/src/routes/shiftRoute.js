@@ -13,22 +13,22 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import ShiftController from '../controllers/shiftController';
+import ShiftController from '../controllers/shiftController.js';
 
 import express from 'express';
 const router = express.Router();
 
 // const checkOwnership = require('../middleware/acl/checkOwnership');
-import checkScope from '../middleware/acl/checkScope';
+import checkScope from '../middleware/acl/checkScope.js';
 
-import conditionallyApplyMiddleware from '../middleware/acl/conditionally.apply';
+import conditionallyApplyMiddleware from '../middleware/acl/conditionally.apply.js';
 import {
   isShiftOwnerOrIsAdmin,
   isOwnerOrAssignee,
   isAdmin,
-} from '../middleware/acl/isOwnerOrAssigne';
-import isCreator from '../middleware/acl/isCreator';
-import hasFarmAccess from '../middleware/acl/hasFarmAccess';
+} from '../middleware/acl/isOwnerOrAssigne.js';
+import isCreator from '../middleware/acl/isCreator.js';
+import hasFarmAccess from '../middleware/acl/hasFarmAccess.js';
 
 router.post(
   '/',

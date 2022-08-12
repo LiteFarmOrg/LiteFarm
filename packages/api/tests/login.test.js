@@ -24,7 +24,7 @@ jest.mock('jsdom');
 jest.mock('../src/middleware/acl/checkJwt');
 jest.mock('../src/jobs/station_sync/mapping');
 jest.mock('../src/templates/sendEmailTemplate');
-const mocks = require('./mock.factories');
+const mocks = require('./mock.factories.js');
 const { faker } = require('@faker-js/faker');
 
 describe('Sign Up Tests', () => {

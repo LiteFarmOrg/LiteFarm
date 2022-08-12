@@ -16,7 +16,7 @@
 import { Model } from 'objection';
 
 import baseModel from './baseModel.js';
-import Notification from './notificationModel';
+import Notification from './notificationModel.js';
 
 /**
  * Models data persistence for users' notifications.

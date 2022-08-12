@@ -13,15 +13,15 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import logController from '../controllers/logController';
+import logController from '../controllers/logController.js';
 
 import express from 'express';
 const router = express.Router();
-import checkScope from '../middleware/acl/checkScope';
-import hasFarmAccess from '../middleware/acl/hasFarmAccess';
-import isCreator from '../middleware/acl/isCreator';
-import conditionallyApplyMiddleware from '../middleware/acl/conditionally.apply';
-import validateLogLocationId from '../middleware/validation/logLocationId';
+import checkScope from '../middleware/acl/checkScope.js';
+import hasFarmAccess from '../middleware/acl/hasFarmAccess.js';
+import isCreator from '../middleware/acl/isCreator.js';
+import conditionallyApplyMiddleware from '../middleware/acl/conditionally.apply.js';
+import validateLogLocationId from '../middleware/validation/logLocationId.js';
 
 router.post(
   '/',

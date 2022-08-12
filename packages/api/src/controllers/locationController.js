@@ -1,6 +1,6 @@
-import LocationModel from '../models/locationModel';
-import baseController from './baseController';
-import { assets, figures, getNonModifiable } from '../middleware/validation/location';
+import LocationModel from '../models/locationModel.js';
+import baseController from './baseController.js';
+import { assets, figures, getNonModifiable } from '../middleware/validation/location.js';
 
 const LocationController = {
   getLocationsByFarm() {

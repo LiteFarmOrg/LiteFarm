@@ -13,17 +13,16 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import baseController from '../controllers/baseController';
+import baseController from '../controllers/baseController.js';
 
-import showedSpotlightModel from '../models/showedSpotlightModel';
+import ShowedSpotlightModel from '../models/showedSpotlightModel.js';
 
 const showedSpotlightController = {
   getSpotlightFlags() {
     return async (req, res) => {
       try {
         const { user_id } = req.user;
-        const data = await showedSpotlightModel
-          .query()
+        const data = await ShowedSpotlightModel.query()
           .select(
             'map',
             'draw_area',
@@ -56,7 +55,7 @@ const showedSpotlightController = {
       const { user_id } = req.user;
       try {
         const isPatched = await baseController.updateIndividualById(
-          showedSpotlightModel,
+          ShowedSpotlightModel,
           user_id,
           req.body,
           req,

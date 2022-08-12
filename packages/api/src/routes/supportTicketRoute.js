@@ -16,8 +16,8 @@
 import express from 'express';
 
 const router = express.Router();
-import supportTicketController from '../controllers/supportTicketController';
-import multerDiskUpload from '../util/fileUpload';
+import supportTicketController from '../controllers/supportTicketController.js';
+import multerDiskUpload from '../util/fileUpload.js';
 
 router.post('/', multerDiskUpload, supportTicketController.addSupportTicket);
 

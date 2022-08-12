@@ -1,7 +1,7 @@
 import fs from 'fs';
 const folderPath = 'local/folderPath';
 const saveFolderPath = 'local/saveFolderPath';
-import { imaginaryPost } from '../../util/digitalOceanSpaces';
+import { imaginaryPost } from '../../util/digitalOceanSpaces.js';
 require('dotenv').config();
 
 export function compressImage() {

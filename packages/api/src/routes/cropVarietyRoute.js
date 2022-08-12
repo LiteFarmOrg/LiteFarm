@@ -13,16 +13,16 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import cropVarietyController from '../controllers/cropVarietyController';
+import cropVarietyController from '../controllers/cropVarietyController.js';
 
 import express from 'express';
 const router = express.Router();
-import hasFarmAccess from '../middleware/acl/hasFarmAccess';
-import checkScope from '../middleware/acl/checkScope';
-import organicCertifierCheck from '../middleware/validation/organicCertifierCheck';
-import activeManagementPlanCheck from '../middleware/validation/activeManagementPlanCheck';
-import multerDiskUpload from '../util/fileUpload';
-import validateFileExtension from '../middleware/validation/uploadImage';
+import hasFarmAccess from '../middleware/acl/hasFarmAccess.js';
+import checkScope from '../middleware/acl/checkScope.js';
+import organicCertifierCheck from '../middleware/validation/organicCertifierCheck.js';
+import activeManagementPlanCheck from '../middleware/validation/activeManagementPlanCheck.js';
+import multerDiskUpload from '../util/fileUpload.js';
+import validateFileExtension from '../middleware/validation/uploadImage.js';
 
 router.get(
   '/:crop_variety_id',

@@ -1,9 +1,9 @@
 import { from } from 'rxjs';
-import { delay, concatMap, mergeMap, catchError } from 'rxjs/operators';
+import { delay, concatMap, mergeMap, catchError } from 'rxjs/operators/index.js';
 import rp from 'request-promise';
-import knex from './../../util/knex';
-import endPoints from '../../endPoints';
-import credentials from '../../credentials';
+import knex from './../../util/knex.js';
+import endPoints from '../../endPoints.js';
+import credentials from '../../credentials.js';
 const { OPEN_WEATHER_APP_ID } = credentials;
 
 function mapFieldsToStationId(fieldsToSet) {

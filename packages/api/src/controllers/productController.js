@@ -13,9 +13,9 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import baseController from '../controllers/baseController';
+import baseController from '../controllers/baseController.js';
 
-import productModel from '../models/productModel';
+import ProductModel from '../models/productModel.js';
 import { transaction, Model } from 'objection';
 
 const productController = {
@@ -23,8 +23,7 @@ const productController = {
     return async (req, res) => {
       try {
         const farm_id = req.params.farm_id;
-        const rows = await productModel
-          .query()
+        const rows = await ProductModel.query()
           .context({ user_id: req.user.user_id })
           .whereNotDeleted()
           .where({
@@ -46,7 +45,7 @@ const productController = {
       try {
         const data = req.body;
         data.product_translation_key = data.name;
-        const result = await baseController.postWithResponse(productModel, data, req, { trx });
+        const result = await baseController.postWithResponse(ProductModel, data, req, { trx });
         await trx.commit();
         res.status(201).send(result);
       } catch (error) {

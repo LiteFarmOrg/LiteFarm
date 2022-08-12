@@ -14,7 +14,7 @@
  */
 
 import parser from 'ua-parser-js';
-import userLogModel from '../models/userLogModel.js';
+import UserLogModel from '../models/userLogModel.js';
 
 const userLogController = {
   addUserLog() {
@@ -26,7 +26,7 @@ const userLogController = {
         const ip = req.headers['x-forwarded-for']?.split(',').shift() || req.socket?.remoteAddress;
         const ua = parser(req.headers['user-agent']);
         const languages = req.acceptsLanguages();
-        await userLogModel.query().insert({
+        await UserLogModel.query().insert({
           user_id,
           ip,
           languages,

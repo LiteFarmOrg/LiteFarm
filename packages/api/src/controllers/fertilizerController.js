@@ -15,7 +15,7 @@
 
 import baseController from '../controllers/baseController.js';
 
-import fertilizerModel from '../models/fertilizerModel.js';
+import FertilizerModel from '../models/fertilizerModel.js';
 import { transaction, Model } from 'objection';
 
 const fertilizerController = {
@@ -23,8 +23,7 @@ const fertilizerController = {
     return async (req, res) => {
       try {
         const farm_id = req.params.farm_id;
-        const rows = await fertilizerModel
-          .query()
+        const rows = await FertilizerModel.query()
           .context({ user_id: req.user.user_id })
           .whereNotDeleted()
           .where('farm_id', null)
@@ -58,7 +57,7 @@ const fertilizerController = {
           res.status(400).send({ error: 'farm_id does not match in params and body' });
         }
         // const user_id = req.user.user_id;
-        const result = await baseController.postWithResponse(fertilizerModel, data, req, { trx });
+        const result = await baseController.postWithResponse(FertilizerModel, data, req, { trx });
         await trx.commit();
         res.status(201).send(result);
       } catch (error) {
@@ -76,7 +75,7 @@ const fertilizerController = {
       const trx = await transaction.start(Model.knex());
       try {
         const isDeleted = await baseController.delete(
-          fertilizerModel,
+          FertilizerModel,
           req.params.fertilizer_id,
           req,
           { trx },

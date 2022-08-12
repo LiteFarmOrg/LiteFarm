@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <<https://www.gnu.org/licenses/>.>
  */
 
-import DocumentModel from '../models/documentModel';
+import DocumentModel from '../models/documentModel.js';
 
 import { v4 as uuidv4 } from 'uuid';
 
@@ -23,7 +23,7 @@ import {
   imaginaryPost,
   getRandomFileName,
   getPrivateS3Url,
-} from '../util/digitalOceanSpaces';
+} from '../util/digitalOceanSpaces.js';
 
 const documentController = {
   getDocumentsByFarmId() {

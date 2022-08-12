@@ -1,4 +1,4 @@
-import managementPlanModel from '../../models/managementPlanModel';
+import managementPlanModel from '../../models/managementPlanModel.js';
 
 async function activeManagementPlanCheck(req, res, next) {
   const { params } = req;
@@ -9,11 +9,9 @@ async function activeManagementPlanCheck(req, res, next) {
       .whereNull('abandon_date')
       .whereNull('complete_date');
     if (cropVarietalManagementPlanResults.length > 0) {
-      return res
-        .status(400)
-        .send({
-          message: 'Cannot delete! Active or future crop management plans exist for this varietal',
-        });
+      return res.status(400).send({
+        message: 'Cannot delete! Active or future crop management plans exist for this varietal',
+      });
     }
   } else {
     // crop variety not received

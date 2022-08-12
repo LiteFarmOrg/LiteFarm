@@ -15,12 +15,12 @@
 
 import { transaction, Model } from 'objection';
 
-import waterBalanceModel from '../models/waterBalanceModel';
-import nitrogenScheduleModel from '../models/nitrogenScheduleModel';
-import baseController from '../controllers/baseController';
+import WaterBalanceModel from '../models/waterBalanceModel.js';
+import NitrogenScheduleModel from '../models/nitrogenScheduleModel.js';
+import baseController from '../controllers/baseController.js';
 const knex = Model.knex();
-import * as insightHelpers from '../controllers/insightHelpers';
-import waterBalanceScheduler from '../jobs/waterBalance/waterBalance';
+import * as insightHelpers from '../controllers/insightHelpers.js';
+import waterBalanceScheduler from '../jobs/waterBalance/waterBalance.js';
 // TODO: put nitrogen scheduler here for when we want to put it back
 
 const insightController = {
@@ -441,7 +441,7 @@ const insightController = {
       trx = await transaction.start(Model.knex());
       try {
         const waterBalanceResult = await baseController.postWithResponse(
-          waterBalanceModel,
+          WaterBalanceModel,
           body,
           req,
           { trx },
@@ -462,7 +462,7 @@ const insightController = {
       trx = await transaction.start(Model.knex());
       try {
         const nitrogenScheduleResult = await baseController.postWithResponse(
-          nitrogenScheduleModel,
+          NitrogenScheduleModel,
           body,
           req,
           { trx },
@@ -482,7 +482,7 @@ const insightController = {
       const { nitrogen_schedule_id } = req.params;
       try {
         const isDeleted = await baseController.delete(
-          nitrogenScheduleModel,
+          NitrogenScheduleModel,
           nitrogen_schedule_id,
           req,
           { trx },

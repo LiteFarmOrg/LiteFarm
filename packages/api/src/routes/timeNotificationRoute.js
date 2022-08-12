@@ -13,11 +13,11 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import timeNotificationController from '../controllers/timeNotificationController';
+import timeNotificationController from '../controllers/timeNotificationController.js';
 
 import express from 'express';
-import checkSchedulerJwt from '../middleware/acl/checkSchedulerJwt';
-import hasTimeNotificationsAccess from '../middleware/acl/hasTimeNotificationsAccess';
+import checkSchedulerJwt from '../middleware/acl/checkSchedulerJwt.js';
+import hasTimeNotificationsAccess from '../middleware/acl/hasTimeNotificationsAccess.js';
 const router = express.Router();
 
 router.post(

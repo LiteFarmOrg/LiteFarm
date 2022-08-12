@@ -22,7 +22,7 @@ const knex = require('../src/util/knex');
 const { tableCleanup } = require('./testEnvironment');
 jest.mock('jsdom');
 jest.mock('../src/middleware/acl/checkJwt');
-const mocks = require('./mock.factories');
+const mocks = require('./mock.factories.js');
 const { faker } = require('@faker-js/faker');
 const lodash = require('lodash');
 

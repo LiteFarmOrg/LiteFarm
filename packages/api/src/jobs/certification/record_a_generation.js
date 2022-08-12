@@ -1,5 +1,5 @@
 import XlsxPopulate from 'xlsx-populate';
-import { i18n, t, tCrop } from '../locales/i18nt';
+import { i18n, t, tCrop } from '../locales/i18nt.js';
 
 export default (data, exportId, from_date, to_date, farm_name, measurement) => {
   return XlsxPopulate.fromBlankAsync().then((workbook) => {

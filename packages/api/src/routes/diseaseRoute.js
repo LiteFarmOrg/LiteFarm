@@ -16,9 +16,9 @@
 import express from 'express';
 
 const router = express.Router();
-import diseaseController from '../controllers/diseaseController';
-import hasFarmAccess from '../middleware/acl/hasFarmAccess';
-import checkScope from '../middleware/acl/checkScope';
+import diseaseController from '../controllers/diseaseController.js';
+import hasFarmAccess from '../middleware/acl/hasFarmAccess.js';
+import checkScope from '../middleware/acl/checkScope.js';
 
 router.get(
   '/farm/:farm_id',

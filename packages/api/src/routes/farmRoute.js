@@ -16,12 +16,12 @@
 import express from 'express';
 
 const router = express.Router();
-import farmController from '../controllers/farmController';
-import authFarmId from '../middleware/acl/authFarmId';
-import hasFarmAccess from '../middleware/acl/hasFarmAccess';
-import checkScope from '../middleware/acl/checkScope';
-import checkSchedulerJwt from '../middleware/acl/checkSchedulerJwt';
-import hasTimeNotificationsAccess from '../middleware/acl/hasTimeNotificationsAccess';
+import farmController from '../controllers/farmController.js';
+import authFarmId from '../middleware/acl/authFarmId.js';
+import hasFarmAccess from '../middleware/acl/hasFarmAccess.js';
+import checkScope from '../middleware/acl/checkScope.js';
+import checkSchedulerJwt from '../middleware/acl/checkSchedulerJwt.js';
+import hasTimeNotificationsAccess from '../middleware/acl/hasTimeNotificationsAccess.js';
 
 router.get('/:farm_id', authFarmId, farmController.getFarmByID());
 

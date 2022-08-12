@@ -21,7 +21,7 @@ const knex = require('../src/util/knex');
 const { tableCleanup } = require('./testEnvironment');
 jest.mock('jsdom');
 jest.mock('../src/middleware/acl/checkJwt');
-const mocks = require('./mock.factories');
+const mocks = require('./mock.factories.js');
 
 describe('Notification tests', () => {
   function getRequest(url, { user_id = user.user_id, farm_id = farm.farm_id }, callback) {

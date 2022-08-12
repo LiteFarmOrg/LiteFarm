@@ -1,5 +1,5 @@
 import XlsxPopulate from 'xlsx-populate';
-import { i18n, t, tCrop } from '../locales/i18nt';
+import { i18n, t, tCrop } from '../locales/i18nt.js';
 const boolToStringTransformation = (bool) =>
   bool ? i18n.t('Y') : bool !== null ? i18n.t('N') : i18n.t('N/A');
 const blankTransformation = () => '';

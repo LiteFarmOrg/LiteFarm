@@ -13,13 +13,13 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import managementPlanModel from '../models/managementPlanModel.js';
-import cropManagementPlanModel from '../models/cropManagementPlanModel.js';
-import managementTasksModel from '../models/managementTasksModel.js';
-import taskModel from '../models/taskModel.js';
-import taskTypeModel from '../models/taskTypeModel.js';
-import transplantTaskModel from '../models/transplantTaskModel.js';
-import plantTaskModel from '../models/plantTaskModel.js';
+import ManagementPlanModel from '../models/managementPlanModel.js';
+import CropManagementPlanModel from '../models/cropManagementPlanModel.js';
+import ManagementTasksModel from '../models/managementTasksModel.js';
+import TaskModel from '../models/taskModel.js';
+import TaskTypeModel from '../models/taskTypeModel.js';
+import TransplantTaskModel from '../models/transplantTaskModel.js';
+import PlantTaskModel from '../models/plantTaskModel.js';
 import { raw } from 'objection';
 import lodash from 'lodash';
 
@@ -28,9 +28,8 @@ const managementPlanController = {
     return async (req, res) => {
       try {
         //TODO: add none getNonModifiable
-        const result = await managementPlanModel.transaction(async (trx) => {
-          const management_plan = await managementPlanModel
-            .query(trx)
+        const result = await ManagementPlanModel.transaction(async (trx) => {
+          const management_plan = await ManagementPlanModel.query(trx)
             .context({ user_id: req.user.user_id })
             .upsertGraph(req.body, {
               noUpdate: true,
@@ -57,15 +56,13 @@ const managementPlanController = {
                 planting_management_plan.planting_task_type === 'PLANT_TASK',
             );
 
-            const plantTaskType = await taskTypeModel
-              .query(trx)
+            const plantTaskType = await TaskTypeModel.query(trx)
               .where({
                 farm_id: null,
                 task_translation_key: 'PLANT_TASK',
               })
               .first();
-            const plantTask = await taskModel
-              .query(trx)
+            const plantTask = await TaskModel.query(trx)
               .context(req.user)
               .upsertGraph(
                 getTask(due_date, plantTaskType.task_type_id, {
@@ -90,15 +87,13 @@ const managementPlanController = {
                 planting_management_plan.is_final_planting_management_plan === false,
             );
             //TODO: move get task_type_id to frontend LF-1965
-            const transplantTaskType = await taskTypeModel
-              .query(trx)
+            const transplantTaskType = await TaskTypeModel.query(trx)
               .where({
                 farm_id: null,
                 task_translation_key: 'TRANSPLANT_TASK',
               })
               .first();
-            const transplantTask = await taskModel
-              .query(trx)
+            const transplantTask = await TaskModel.query(trx)
               .context(req.user)
               .upsertGraph(
                 getTask(due_date, transplantTaskType.task_type_id, {
@@ -124,15 +119,13 @@ const managementPlanController = {
           };
           if (!req.body.crop_management_plan.for_cover) {
             const due_date = req.body.crop_management_plan.harvest_date;
-            const harvestTaskType = await taskTypeModel
-              .query(trx)
+            const harvestTaskType = await TaskTypeModel.query(trx)
               .where({
                 farm_id: null,
                 task_translation_key: 'HARVEST_TASK',
               })
               .first();
-            const harvestTask = await taskModel
-              .query(trx)
+            const harvestTask = await TaskModel.query(trx)
               .context(req.user)
               .upsertGraph(
                 getTask(due_date, harvestTaskType.task_type_id, {
@@ -146,15 +139,13 @@ const managementPlanController = {
             tasks.push(harvestTask);
           } else {
             const due_date = req.body.crop_management_plan.termination_date;
-            const fieldWorkTaskType = await taskTypeModel
-              .query(trx)
+            const fieldWorkTaskType = await TaskTypeModel.query(trx)
               .where({
                 farm_id: null,
                 task_translation_key: 'FIELD_WORK_TASK',
               })
               .first();
-            const fieldWorkTask = await taskModel
-              .query(trx)
+            const fieldWorkTask = await TaskModel.query(trx)
               .context(req.user)
               .upsertGraph(
                 getTask(due_date, fieldWorkTaskType.task_type_id, {
@@ -183,8 +174,7 @@ const managementPlanController = {
   delManagementPlan() {
     return async (req, res) => {
       try {
-        const isDeleted = await managementPlanModel
-          .query()
+        const isDeleted = await ManagementPlanModel.query()
           .context(req.user)
           .where({ management_plan_id: req.params.management_plan_id })
           .delete();
@@ -205,8 +195,7 @@ const managementPlanController = {
   completeManagementPlan() {
     return async (req, res) => {
       try {
-        const result = await managementPlanModel
-          .query()
+        const result = await ManagementPlanModel.query()
           .context(req.user)
           .where({ management_plan_id: req.params.management_plan_id })
           .patch(lodash.pick(req.body, ['complete_date', 'complete_notes', 'rating']));
@@ -228,13 +217,12 @@ const managementPlanController = {
     return async (req, res) => {
       try {
         const { management_plan_id } = req.params;
-        const result = await managementPlanModel.transaction(async (trx) => {
+        const result = await ManagementPlanModel.transaction(async (trx) => {
           /**
            * Get all related task_ids and number of related management plans of each task_id
            * @type {{task_id: string, count: string}[]}
            */
-          const tasksWithManagementPlanCount = await managementTasksModel
-            .query()
+          const tasksWithManagementPlanCount = await ManagementTasksModel.query()
             .select('*')
             .join(
               'planting_management_plan',
@@ -244,8 +232,7 @@ const managementPlanController = {
             .where('planting_management_plan.management_plan_id', management_plan_id)
             .distinct('task_id')
             .then((tasks) =>
-              managementTasksModel
-                .query()
+              ManagementTasksModel.query()
                 .join(
                   'planting_management_plan',
                   'planting_management_plan.planting_management_plan_id',
@@ -262,8 +249,7 @@ const managementPlanController = {
                 .select('management_tasks.task_id'),
             );
 
-          const transplantTasks = await transplantTaskModel
-            .query()
+          const transplantTasks = await TransplantTaskModel.query()
             .select('*')
             .join(
               'planting_management_plan',
@@ -274,8 +260,7 @@ const managementPlanController = {
             .whereNull('task.complete_date')
             .where('planting_management_plan.management_plan_id', management_plan_id);
 
-          const plantTasks = await plantTaskModel
-            .query()
+          const plantTasks = await PlantTaskModel.query()
             .select('*')
             .join(
               'planting_management_plan',
@@ -291,8 +276,7 @@ const managementPlanController = {
             ...transplantTasks,
             ...plantTasks,
           ].map(({ task_id }) => task_id);
-          await taskModel
-            .query(trx)
+          await TaskModel.query(trx)
             .context(req.user)
             .whereIn('task_id', taskIdsRelatedToOneManagementPlan)
             .patch({
@@ -309,8 +293,7 @@ const managementPlanController = {
               'delete from "management_tasks" using "planting_management_plan" where "planting_management_plan"."planting_management_plan_id" = "management_tasks"."planting_management_plan_id" and "planting_management_plan"."management_plan_id" = ? and "management_tasks"."task_id" = ANY(?)',
               [management_plan_id, taskIdsRelatedToManyManagementPlans],
             ));
-          return await managementPlanModel
-            .query()
+          return await ManagementPlanModel.query()
             .context(req.user)
             .where({ management_plan_id })
             .patch(
@@ -352,15 +335,13 @@ const managementPlanController = {
           estimated_price_per_mass_unit,
         };
         const management_plan = { name, notes };
-        const result = await managementPlanModel.transaction(async (trx) => {
-          await managementPlanModel
-            .query(trx)
+        const result = await ManagementPlanModel.transaction(async (trx) => {
+          await ManagementPlanModel.query(trx)
             .context({ user_id: req.user.user_id })
             .findById(management_plan_id)
             .patch(management_plan)
             .returning('*');
-          return await cropManagementPlanModel
-            .query(trx)
+          return await CropManagementPlanModel.query(trx)
             .context(req.user)
             .findById(management_plan_id)
             .patch(crop_management_plan)
@@ -385,8 +366,7 @@ const managementPlanController = {
     return async (req, res) => {
       try {
         const management_plan_id = req.params.management_plan_id;
-        const managementPlan = await managementPlanModel
-          .query()
+        const managementPlan = await ManagementPlanModel.query()
           .whereNotDeleted()
           .findById(management_plan_id)
           .withGraphFetched(planGraphFetchedQueryString, graphJoinedOptions);
@@ -406,8 +386,7 @@ const managementPlanController = {
     return async (req, res) => {
       try {
         const farm_id = req.params.farm_id;
-        const managementPlans = await managementPlanModel
-          .query()
+        const managementPlans = await ManagementPlanModel.query()
           .whereNotDeleted()
           .withGraphJoined(planGraphFetchedQueryString, graphJoinedOptions)
           .where('crop_variety.farm_id', farm_id);
@@ -428,8 +407,7 @@ const managementPlanController = {
       try {
         const farm_id = req.params.farm_id;
         const date = req.params.date;
-        const managementPlans = await managementPlanModel
-          .query()
+        const managementPlans = await ManagementPlanModel.query()
           .whereNotDeleted()
           .withGraphJoined(planGraphFetchedQueryString, graphJoinedOptions)
           .where('crop_variety.farm_id', farm_id)
@@ -449,8 +427,7 @@ const managementPlanController = {
     return async (req, res) => {
       try {
         const farm_id = req.params.farm_id;
-        const managementPlans = await managementPlanModel
-          .query()
+        const managementPlans = await ManagementPlanModel.query()
           .whereNotDeleted()
           .withGraphJoined(planGraphFetchedQueryString, graphJoinedOptions)
           .where('crop_variety.farm_id', farm_id)

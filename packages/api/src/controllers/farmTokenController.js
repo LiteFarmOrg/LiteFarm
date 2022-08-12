@@ -13,16 +13,16 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import userFarmModel from '../models/userFarmModel';
+import UserFarmModel from '../models/userFarmModel.js';
 
-import { createToken } from '../util/jwt';
+import { createToken } from '../util/jwt.js';
 
 const farmTokenController = {
   getFarmToken() {
     return async (req, res) => {
       const { farm_id } = req.params;
       const { user_id } = req.user;
-      const userFarm = await userFarmModel.query().findById([user_id, farm_id]);
+      const userFarm = await UserFarmModel.query().findById([user_id, farm_id]);
       if (!userFarm) return res.sendStatus(404);
       const farm_token = createToken('farm', { user_id, farm_id, role_id: userFarm?.role_id });
       return res.status(200).send({ farm_token });

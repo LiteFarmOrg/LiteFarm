@@ -1,9 +1,9 @@
-import recordDGenerator from './record_d_generation';
-import recordAGenerator from './record_a_generation';
-import recordIGeneration from './record_i_generation';
-import readmeGeneration from './readmeGeneration';
-import surveyRecordGeneration from './survey_record';
-import i18n from '../locales/i18n';
+import recordDGenerator from './record_d_generation.js';
+import recordAGenerator from './record_a_generation.js';
+import recordIGeneration from './record_i_generation.js';
+import readmeGeneration from './readmeGeneration.js';
+import surveyRecordGeneration from './survey_record.js';
+import i18n from '../locales/i18n.js';
 
 export default (nextQueue, zipQueue, emailQueue) => (job) => {
   console.log('STEP 2 > EXCEL GENERATE', job.id);

@@ -16,10 +16,10 @@
 import express from 'express';
 
 const router = express.Router();
-import organicCertifierSurveyController from '../controllers/organicCertifierSurveyController';
-import hasFarmAccess from '../middleware/acl/hasFarmAccess';
-import checkScope from '../middleware/acl/checkScope';
-import validateOrganicSurvey from '../middleware/validation/addAndPutOrganicSurvey';
+import organicCertifierSurveyController from '../controllers/organicCertifierSurveyController.js';
+import hasFarmAccess from '../middleware/acl/hasFarmAccess.js';
+import checkScope from '../middleware/acl/checkScope.js';
+import validateOrganicSurvey from '../middleware/validation/addAndPutOrganicSurvey.js';
 
 router.get(
   '/:farm_id',

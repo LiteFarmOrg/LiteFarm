@@ -12,7 +12,7 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
-import userFarmModel from '../../models/userFarmModel';
+import userFarmModel from '../../models/userFarmModel.js';
 
 const checkUserFarmStatus = (status = 'Active') => async (req, res, next) => {
   const { user_id, farm_id } = req.headers;

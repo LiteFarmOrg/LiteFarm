@@ -1,4 +1,4 @@
-import organicCertifierModel from '../../models/organicCertifierSurveyModel';
+import organicCertifierModel from '../../models/organicCertifierSurveyModel.js';
 
 async function organicCertifierCheck(req, res, next) {
   const { body } = req;
@@ -20,11 +20,9 @@ async function organicCertifierCheck(req, res, next) {
     }
     if (!isFarmInterestedInOrganic.interested) {
       if (body.organic !== null || body.searched !== null || body.genetically_engineered !== null) {
-        return res
-          .status(400)
-          .send({
-            message: 'This farm is not interested in organic certification, data should be null',
-          });
+        return res.status(400).send({
+          message: 'This farm is not interested in organic certification, data should be null',
+        });
       }
     }
   } else {

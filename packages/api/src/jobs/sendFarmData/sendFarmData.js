@@ -16,25 +16,25 @@
 
 import fs from 'async-file';
 
-import fieldModel from '../../models/fieldModel';
-import ManagementPlanController from '../../controllers/managementPlanController';
-import { logServices } from '../../controllers/logController';
-import farmExpenseModel from '../../models/farmExpenseModel';
-import SaleController from '../../controllers/saleController';
-import farmModel from '../../models/farmModel';
-import fertilizerModel from '../../models/fertilizerModel';
-import pesticideModel from '../../models/pesiticideModel';
+import fieldModel from '../../models/fieldModel.js';
+import ManagementPlanController from '../../controllers/managementPlanController.js';
+import { logServices } from '../../controllers/logController.js';
+import farmExpenseModel from '../../models/farmExpenseModel.js';
+import SaleController from '../../controllers/saleController.js';
+import farmModel from '../../models/farmModel.js';
+import fertilizerModel from '../../models/fertilizerModel.js';
+import pesticideModel from '../../models/pesiticideModel.js';
 import harvModel from '../../models/harvestTaskModel.js';
 import seedModel from '../../models/plantTaskModel.js';
-import fieldWorkModel from '../../models/fieldWorkTaskModel';
+import fieldWorkModel from '../../models/fieldWorkTaskModel.js';
 import soilDataModel from '../../models/soilTaskModel.js';
 import irriModel from '../../models/irrigationTaskModel.js';
 import scoutModel from '../../models/scoutingTaskModel.js';
 import { Model } from 'objection';
 const knex = Model.knex();
-import credentials from '../../credentials';
+import credentials from '../../credentials.js';
 import scheduler from 'node-schedule';
-import baseController from '../../controllers/baseController';
+import baseController from '../../controllers/baseController.js';
 import nodemailer from 'nodemailer';
 import converter from 'json-2-csv';
 import fse from 'fs-extra';

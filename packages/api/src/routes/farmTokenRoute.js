@@ -16,9 +16,9 @@
 import express from 'express';
 
 const router = express.Router();
-import farmTokenController from '../controllers/farmTokenController';
-import hasFarmAccess from '../middleware/acl/hasFarmAccess';
-import checkScope from '../middleware/acl/checkScope';
+import farmTokenController from '../controllers/farmTokenController.js';
+import hasFarmAccess from '../middleware/acl/hasFarmAccess.js';
+import checkScope from '../middleware/acl/checkScope.js';
 
 router.get(
   '/farm/:farm_id',

@@ -13,9 +13,9 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import baseController from '../controllers/baseController';
+import baseController from '../controllers/baseController.js';
 
-import farmDataScheduleModel from '../models/farmDataScheduleModel';
+import FarmDataScheduleModel from '../models/farmDataScheduleModel.js';
 
 /* eslint-disable no-console */
 
@@ -26,8 +26,8 @@ const userFarmDataController = {
         const farm_id = req.body.farm_id;
         const user_id = req.body.user_id;
         const data = { farm_id, user_id };
-        await farmDataScheduleModel.transaction(async (trx) => {
-          await baseController.post(farmDataScheduleModel, data, req, { trx });
+        await FarmDataScheduleModel.transaction(async (trx) => {
+          await baseController.post(FarmDataScheduleModel, data, req, { trx });
         });
         res.sendStatus(200);
       } catch (error) {
@@ -41,8 +41,7 @@ const userFarmDataController = {
     return async (req, res) => {
       try {
         const farm_id = req.params.farm_id;
-        const data = await farmDataScheduleModel
-          .query()
+        const data = await FarmDataScheduleModel.query()
           .where({ farm_id, is_processed: false })
           .returning('*');
         if (!data.length) {

@@ -16,9 +16,9 @@
 import express from 'express';
 
 const router = express.Router();
-import fertilizerController from '../controllers/fertilizerController';
-import hasFarmAccess from '../middleware/acl/hasFarmAccess';
-import checkScope from '../middleware/acl/checkScope';
+import fertilizerController from '../controllers/fertilizerController.js';
+import hasFarmAccess from '../middleware/acl/hasFarmAccess.js';
+import checkScope from '../middleware/acl/checkScope.js';
 
 //router.get('/', fertilizerController.getFertilizers());
 router.get(

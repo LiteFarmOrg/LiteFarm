@@ -15,7 +15,7 @@
 
 import baseController from '../controllers/baseController.js';
 
-import diseaseModel from '../models/diseaseModel.js';
+import DiseaseModel from '../models/diseaseModel.js';
 import { transaction, Model } from 'objection';
 
 const diseaseController = {
@@ -41,7 +41,7 @@ const diseaseController = {
         const data = req.body;
         data.disease_name_translation_key = data.disease_common_name;
         data.disease_group_translation_key = data.disease_group;
-        const result = await baseController.postWithResponse(diseaseModel, data, req, { trx });
+        const result = await baseController.postWithResponse(DiseaseModel, data, req, { trx });
         await trx.commit();
         res.status(201).send(result);
       } catch (error) {
@@ -58,7 +58,7 @@ const diseaseController = {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
       try {
-        const isDeleted = await baseController.delete(diseaseModel, req.params.disease_id, req, {
+        const isDeleted = await baseController.delete(DiseaseModel, req.params.disease_id, req, {
           trx,
         });
         await trx.commit();
@@ -79,8 +79,7 @@ const diseaseController = {
 
   async get(farm_id) {
     //return await baseController.get(FertilizerModel);
-    return await diseaseModel
-      .query()
+    return await DiseaseModel.query()
       .whereNotDeleted()
       .where('farm_id', null)
       .orWhere({ farm_id, deleted: false });

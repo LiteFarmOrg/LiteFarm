@@ -16,9 +16,9 @@
 import express from 'express';
 
 const router = express.Router();
-import passwordResetController from '../controllers/passwordResetController';
-import checkResetPasswordJwt from '../middleware/acl/checkResetPasswordJwt';
-import checkResetPasswordTokenContent from '../middleware/acl/checkResetPasswordTokenContent';
+import passwordResetController from '../controllers/passwordResetController.js';
+import checkResetPasswordJwt from '../middleware/acl/checkResetPasswordJwt.js';
+import checkResetPasswordTokenContent from '../middleware/acl/checkResetPasswordTokenContent.js';
 
 router.post('/send_email', passwordResetController.sendResetEmail());
 

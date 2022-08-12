@@ -1,5 +1,5 @@
 import { promises as fs } from 'fs';
-import { t } from '../locales/i18nt';
+import { t } from '../locales/i18nt.js';
 
 /**
  * Adds an instructions file in a specified language to a specified export.

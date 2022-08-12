@@ -13,7 +13,6 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-
 const chai = require('chai');
 const chaiHttp = require('chai-http');
 chai.use(chaiHttp);
@@ -21,7 +20,7 @@ const server = require('./../src/server');
 const knex = require('../src/util/knex');
 jest.mock('jsdom');
 jest.mock('../src/middleware/acl/checkJwt');
-const mocks = require('./mock.factories');
+const mocks = require('./mock.factories.js');
 const { tableCleanup } = require('./testEnvironment');
 
 const fertilizerLogModel = require('../src/models/soilAmendmentTaskModel');
@@ -42,7 +41,6 @@ const pesticideModel = require('../src/models/pesiticideModel');
 const diseaseModel = require('../src/models/diseaseModel');
 const harvestUseModel = require('../src/models/harvestUseModel');
 
-
 xdescribe('Log Tests', () => {
   let middleware;
   let owner;
@@ -53,7 +51,9 @@ xdescribe('Log Tests', () => {
   });
 
   function postRequest(data, { user_id = owner.user_id, farm_id = farm.farm_id }, callback) {
-    chai.request(server).post(`/log`)
+    chai
+      .request(server)
+      .post(`/log`)
       .set('Content-Type', 'application/json')
       .set('user_id', user_id)
       .set('farm_id', farm_id)
@@ -61,52 +61,69 @@ xdescribe('Log Tests', () => {
       .end(callback);
   }
 
-  function getRequest({
-    user_id = owner.user_id,
-    farm_id = farm.farm_id,
-    url = `/log/farm/${farm.farm_id}`,
-  }, callback) {
-    chai.request(server).get(url)
-      .set('user_id', user_id)
-      .set('farm_id', farm_id)
-      .end(callback);
+  function getRequest(
+    { user_id = owner.user_id, farm_id = farm.farm_id, url = `/log/farm/${farm.farm_id}` },
+    callback,
+  ) {
+    chai.request(server).get(url).set('user_id', user_id).set('farm_id', farm_id).end(callback);
   }
 
-  function getRequestWithBody({
-    user_id = owner.user_id,
-    farm_id = farm.farm_id,
-    url = `/log/farm/${farm.farm_id}`,
-    body = { farm_id: farm.farm_id },
-  }, callback) {
-    chai.request(server).get(url)
-      .set('user_id', user_id)
-      .set('farm_id', farm_id)
-      .send(body)
-      .end(callback);
-  }
-
-  function deleteRequest({ user_id = owner.user_id, farm_id = farm.farm_id, activity_id: activity_id }, callback) {
-    chai.request(server).delete(`/log/${activity_id}`)
-      .set('user_id', user_id)
-      .set('farm_id', farm_id)
-      .end(callback);
-  }
-
-  function deleteRequestWithBody({
-    user_id = owner.user_id,
-    farm_id = farm.farm_id,
-    activity_id: activity_id,
-    body = { farm_id: farm.farm_id },
-  }, callback) {
-    chai.request(server).delete(`/log/${activity_id}`)
+  function getRequestWithBody(
+    {
+      user_id = owner.user_id,
+      farm_id = farm.farm_id,
+      url = `/log/farm/${farm.farm_id}`,
+      body = { farm_id: farm.farm_id },
+    },
+    callback,
+  ) {
+    chai
+      .request(server)
+      .get(url)
       .set('user_id', user_id)
       .set('farm_id', farm_id)
       .send(body)
       .end(callback);
   }
 
-  function putRequest(data, { user_id = owner.user_id, farm_id = farm.farm_id, activity_id }, callback) {
-    chai.request(server).put(`/log/${activity_id ? activity_id : data.activity_id}`)
+  function deleteRequest(
+    { user_id = owner.user_id, farm_id = farm.farm_id, activity_id: activity_id },
+    callback,
+  ) {
+    chai
+      .request(server)
+      .delete(`/log/${activity_id}`)
+      .set('user_id', user_id)
+      .set('farm_id', farm_id)
+      .end(callback);
+  }
+
+  function deleteRequestWithBody(
+    {
+      user_id = owner.user_id,
+      farm_id = farm.farm_id,
+      activity_id: activity_id,
+      body = { farm_id: farm.farm_id },
+    },
+    callback,
+  ) {
+    chai
+      .request(server)
+      .delete(`/log/${activity_id}`)
+      .set('user_id', user_id)
+      .set('farm_id', farm_id)
+      .send(body)
+      .end(callback);
+  }
+
+  function putRequest(
+    data,
+    { user_id = owner.user_id, farm_id = farm.farm_id, activity_id },
+    callback,
+  ) {
+    chai
+      .request(server)
+      .put(`/log/${activity_id ? activity_id : data.activity_id}`)
       .set('farm_id', farm_id)
       .set('user_id', user_id)
       .send(data)
@@ -114,19 +131,22 @@ xdescribe('Log Tests', () => {
   }
 
   function fakeUserFarm(role = 1) {
-    return ({ ...mocks.fakeUserFarm(), role_id: role });
+    return { ...mocks.fakeUserFarm(), role_id: role };
   }
 
   function newFakeActivityLog(activity_kind, user_id = owner.user_id) {
     const activityLog = mocks.fakeActivityLog();
-    return ({ ...activityLog, user_id, activity_kind });
+    return { ...activityLog, user_id, activity_kind };
   }
 
   beforeEach(async () => {
     [owner] = await mocks.usersFactory();
     [farm] = await mocks.farmFactory();
     const [ownerFarm2] = await mocks.userFarmFactory({ promisedUser: [owner] }, fakeUserFarm(1));
-    const [ownerFarm] = await mocks.userFarmFactory({ promisedUser: [owner], promisedFarm: [farm] }, fakeUserFarm(1));
+    const [ownerFarm] = await mocks.userFarmFactory(
+      { promisedUser: [owner], promisedFarm: [farm] },
+      fakeUserFarm(1),
+    );
 
     middleware = require('../src/middleware/acl/checkJwt');
     middleware.mockImplementation((req, res, next) => {
@@ -143,7 +163,6 @@ xdescribe('Log Tests', () => {
   });
 
   describe('Get && delete && put logs tests', () => {
-
     describe('FertilizerLog tests', () => {
       let fertilizerLog;
       let task;
@@ -158,15 +177,24 @@ xdescribe('Log Tests', () => {
         [fertilizer] = await mocks.fertilizerFactory({ promisedFarm: [farm] });
         [crop] = await mocks.cropFactory({ promisedFarm: [farm] });
         let [weatherStation] = await mocks.weather_stationFactory();
-        [field] = await mocks.fieldFactory({ promisedFarm: [farm], promisedStation: [weatherStation] });
-        [cropVariety] = await mocks.crop_varietyFactory({ promisedFarm: [farm], promisedCrop: [crop] });
+        [field] = await mocks.fieldFactory({
+          promisedFarm: [farm],
+          promisedStation: [weatherStation],
+        });
+        [cropVariety] = await mocks.crop_varietyFactory({
+          promisedFarm: [farm],
+          promisedCrop: [crop],
+        });
         [managementPlan] = await mocks.management_planFactory({
           promisedCropVariety: [cropVariety],
           promisedField: [field],
         });
-        [task] = await mocks.taskFactory({ promisedUser: [owner] }, {
-          ...mocks.fakeTask(),
-        });
+        [task] = await mocks.taskFactory(
+          { promisedUser: [owner] },
+          {
+            ...mocks.fakeTask(),
+          },
+        );
         [fertilizerLog] = await mocks.fertilizer_taskFactory({
           promisedTask: [task],
           promisedFertilizer: [fertilizer],
@@ -181,34 +209,45 @@ xdescribe('Log Tests', () => {
         });
       });
 
-
       describe('Get fertilizerLog tests', () => {
-
-
         test('Get by activity_id by test', async (done) => {
-          getRequest({ user_id: owner.user_id, url: `/log/${activityLog.activity_id}` }, (err, res) => {
-            expect(res.status).toBe(200);
-            expect(res.body.fertilizerLog.fertilizer_id).toBe(fertilizer.fertilizer_id);
-            done();
-          });
+          getRequest(
+            { user_id: owner.user_id, url: `/log/${activityLog.activity_id}` },
+            (err, res) => {
+              expect(res.status).toBe(200);
+              expect(res.body.fertilizerLog.fertilizer_id).toBe(fertilizer.fertilizer_id);
+              done();
+            },
+          );
         });
 
         test('Should get status 404 if activity_log is deleted', async (done) => {
-          await activityLogModel.query().context({
-            showHidden: true,
-            user_id: owner.user_id,
-          }).findById(activityLog.activity_id).delete();
-          getRequest({ user_id: owner.user_id, url: `/log/${activityLog.activity_id}` }, (err, res) => {
-            expect(res.status).toBe(404);
-            done();
-          });
+          await activityLogModel
+            .query()
+            .context({
+              showHidden: true,
+              user_id: owner.user_id,
+            })
+            .findById(activityLog.activity_id)
+            .delete();
+          getRequest(
+            { user_id: owner.user_id, url: `/log/${activityLog.activity_id}` },
+            (err, res) => {
+              expect(res.status).toBe(404);
+              done();
+            },
+          );
         });
 
         test('Get by farm_id should filter out deleted activity logs', async (done) => {
-          await activityLogModel.query().context({
-            showHidden: true,
-            user_id: owner.user_id,
-          }).findById(activityLog.activity_id).delete();
+          await activityLogModel
+            .query()
+            .context({
+              showHidden: true,
+              user_id: owner.user_id,
+            })
+            .findById(activityLog.activity_id)
+            .delete();
           getRequest({ user_id: owner.user_id }, (err, res) => {
             expect(res.status).toBe(200);
             expect(res.body.length).toBe(0);
@@ -217,10 +256,13 @@ xdescribe('Log Tests', () => {
         });
 
         test('Get by farm_id', async (done) => {
-          let [activityLog1] = await mocks.activityLogFactory({ promisedUser: [owner] }, {
-            ...mocks.fakeActivityLog(),
-            activity_kind: 'fertilizing',
-          });
+          let [activityLog1] = await mocks.activityLogFactory(
+            { promisedUser: [owner] },
+            {
+              ...mocks.fakeActivityLog(),
+              activity_kind: 'fertilizing',
+            },
+          );
           let [fertilizerLog1] = await mocks.fertilizerLogFactory({
             promisedActivityLog: [activityLog1],
             promisedFertilizer: [fertilizer],
@@ -244,10 +286,13 @@ xdescribe('Log Tests', () => {
         });
 
         test('Get by farm_id should filter out logs from another farm', async (done) => {
-          let [activityLog1] = await mocks.activityLogFactory({ promisedUser: [owner] }, {
-            ...mocks.fakeActivityLog(),
-            activity_kind: 'fertilizing',
-          });
+          let [activityLog1] = await mocks.activityLogFactory(
+            { promisedUser: [owner] },
+            {
+              ...mocks.fakeActivityLog(),
+              activity_kind: 'fertilizing',
+            },
+          );
           let [fertilizerLog1] = await mocks.fertilizerLogFactory({
             promisedActivityLog: [activityLog1],
             promisedFertilizer: [fertilizer],
@@ -261,22 +306,28 @@ xdescribe('Log Tests', () => {
             promisedField: [field],
           });
           let [newUserFarm] = await mocks.userFarmFactory({ promisedUser: [owner] });
-          getRequest({
-            user_id: owner.user_id,
-            farm_id: newUserFarm.farm_id,
-            url: `/log/farm/${newUserFarm.farm_id}`,
-          }, (err, res) => {
-            expect(res.status).toBe(200);
-            expect(res.body.length).toBe(0);
-            done();
-          });
+          getRequest(
+            {
+              user_id: owner.user_id,
+              farm_id: newUserFarm.farm_id,
+              url: `/log/farm/${newUserFarm.farm_id}`,
+            },
+            (err, res) => {
+              expect(res.status).toBe(200);
+              expect(res.body.length).toBe(0);
+              done();
+            },
+          );
         });
 
         test('Should get managementPlan/fertilizer/field through fertilizingLog even if those items are deleted', async (done) => {
-          let [activityLog1] = await mocks.activityLogFactory({ promisedUser: [owner] }, {
-            ...mocks.fakeActivityLog(),
-            activity_kind: 'fertilizing',
-          });
+          let [activityLog1] = await mocks.activityLogFactory(
+            { promisedUser: [owner] },
+            {
+              ...mocks.fakeActivityLog(),
+              activity_kind: 'fertilizing',
+            },
+          );
           let [fertilizerLog1] = await mocks.fertilizerLogFactory({
             promisedActivityLog: [activityLog1],
             promisedFertilizer: [fertilizer],
@@ -289,18 +340,30 @@ xdescribe('Log Tests', () => {
             promisedActivityLog: [activityLog1],
             promisedField: [field],
           });
-          await fertilizerModel.query().context({
-            showHidden: true,
-            user_id: owner.user_id,
-          }).findById(fertilizer.fertilizer_id).delete();
-          await managementPlanModel.query().context({
-            showHidden: true,
-            user_id: owner.user_id,
-          }).findById(managementPlan.field_crop_id).delete();
-          await fieldModel.query().context({
-            showHidden: true,
-            user_id: owner.user_id,
-          }).findById(field.location_id).delete();
+          await fertilizerModel
+            .query()
+            .context({
+              showHidden: true,
+              user_id: owner.user_id,
+            })
+            .findById(fertilizer.fertilizer_id)
+            .delete();
+          await managementPlanModel
+            .query()
+            .context({
+              showHidden: true,
+              user_id: owner.user_id,
+            })
+            .findById(managementPlan.field_crop_id)
+            .delete();
+          await fieldModel
+            .query()
+            .context({
+              showHidden: true,
+              user_id: owner.user_id,
+            })
+            .findById(field.location_id)
+            .delete();
           getRequest({ user_id: owner.user_id }, (err, res) => {
             expect(res.status).toBe(200);
             expect(res.body.length).toBe(2);
@@ -319,32 +382,41 @@ xdescribe('Log Tests', () => {
 
           beforeEach(async () => {
             [worker] = await mocks.usersFactory();
-            const [workerFarm] = await mocks.userFarmFactory({
-              promisedUser: [worker],
-              promisedFarm: [farm],
-            }, fakeUserFarm(3));
+            const [workerFarm] = await mocks.userFarmFactory(
+              {
+                promisedUser: [worker],
+                promisedFarm: [farm],
+              },
+              fakeUserFarm(3),
+            );
             [manager] = await mocks.usersFactory();
-            const [managerFarm] = await mocks.userFarmFactory({
-              promisedUser: [manager],
-              promisedFarm: [farm],
-            }, fakeUserFarm(2));
-
+            const [managerFarm] = await mocks.userFarmFactory(
+              {
+                promisedUser: [manager],
+                promisedFarm: [farm],
+              },
+              fakeUserFarm(2),
+            );
 
             [unAuthorizedUser] = await mocks.usersFactory();
             [farmunAuthorizedUser] = await mocks.farmFactory();
-            const [ownerFarmunAuthorizedUser] = await mocks.userFarmFactory({
-              promisedUser: [unAuthorizedUser],
-              promisedFarm: [farmunAuthorizedUser],
-            }, fakeUserFarm(1));
+            const [ownerFarmunAuthorizedUser] = await mocks.userFarmFactory(
+              {
+                promisedUser: [unAuthorizedUser],
+                promisedFarm: [farmunAuthorizedUser],
+              },
+              fakeUserFarm(1),
+            );
           });
-
 
           test('Owner should get by farm_id', async (done) => {
             getRequest({ user_id: worker.user_id }, (err, res) => {
               expect(res.status).toBe(200);
               expect(res.body.length).toBe(1);
               expect(res.body[0].fertilizerLog.fertilizer_id).toBe(fertilizer.fertilizer_id);
-              expect(res.body[0].managementPlan[0].field_crop_id).toBe(managementPlan.field_crop_id);
+              expect(res.body[0].managementPlan[0].field_crop_id).toBe(
+                managementPlan.field_crop_id,
+              );
               expect(res.body[0].location[0].location_id).toBe(field.location_id);
               done();
             });
@@ -355,7 +427,9 @@ xdescribe('Log Tests', () => {
               expect(res.status).toBe(200);
               expect(res.body.length).toBe(1);
               expect(res.body[0].fertilizerLog.fertilizer_id).toBe(fertilizer.fertilizer_id);
-              expect(res.body[0].managementPlan[0].field_crop_id).toBe(managementPlan.field_crop_id);
+              expect(res.body[0].managementPlan[0].field_crop_id).toBe(
+                managementPlan.field_crop_id,
+              );
               expect(res.body[0].location[0].location_id).toBe(field.location_id);
               done();
             });
@@ -366,7 +440,9 @@ xdescribe('Log Tests', () => {
               expect(res.status).toBe(200);
               expect(res.body.length).toBe(1);
               expect(res.body[0].fertilizerLog.fertilizer_id).toBe(fertilizer.fertilizer_id);
-              expect(res.body[0].managementPlan[0].field_crop_id).toBe(managementPlan.field_crop_id);
+              expect(res.body[0].managementPlan[0].field_crop_id).toBe(
+                managementPlan.field_crop_id,
+              );
               expect(res.body[0].location[0].location_id).toBe(field.location_id);
               done();
             });
@@ -380,58 +456,69 @@ xdescribe('Log Tests', () => {
           });
 
           test('Circumvent authorization by modifying farm_id', async (done) => {
-            getRequest({ user_id: unAuthorizedUser.user_id, farm_id: farmunAuthorizedUser.farm_id }, (err, res) => {
-              expect(res.status).toBe(403);
-              done();
-            });
+            getRequest(
+              { user_id: unAuthorizedUser.user_id, farm_id: farmunAuthorizedUser.farm_id },
+              (err, res) => {
+                expect(res.status).toBe(403);
+                done();
+              },
+            );
           });
 
           test('Circumvent authorization by modifying farm_id in body', async (done) => {
-            getRequestWithBody({
-              user_id: unAuthorizedUser.user_id,
-              farm_id: farmunAuthorizedUser.farm_id,
-              body: { farm_id: farmunAuthorizedUser.farm_id },
-            }, (err, res) => {
-              expect(res.status).toBe(400);
-              done();
-            });
+            getRequestWithBody(
+              {
+                user_id: unAuthorizedUser.user_id,
+                farm_id: farmunAuthorizedUser.farm_id,
+                body: { farm_id: farmunAuthorizedUser.farm_id },
+              },
+              (err, res) => {
+                expect(res.status).toBe(400);
+                done();
+              },
+            );
           });
 
           test('Should get status 403 when unauthorized user try to get log by activity_id', async (done) => {
-            getRequest({ user_id: unAuthorizedUser.user_id, url: `/log/${activityLog.activity_id}` }, (err, res) => {
-              expect(res.status).toBe(403);
-              done();
-            });
+            getRequest(
+              { user_id: unAuthorizedUser.user_id, url: `/log/${activityLog.activity_id}` },
+              (err, res) => {
+                expect(res.status).toBe(403);
+                done();
+              },
+            );
           });
 
           test('Circumvent authorization by modifying activity_id in header', async (done) => {
-            getRequest({
-              user_id: unAuthorizedUser.user_id,
-              farm_id: farmunAuthorizedUser.farm_id,
-              url: `/log/${activityLog.activity_id}`,
-            }, (err, res) => {
-              expect(res.status).toBe(403);
-              done();
-            });
+            getRequest(
+              {
+                user_id: unAuthorizedUser.user_id,
+                farm_id: farmunAuthorizedUser.farm_id,
+                url: `/log/${activityLog.activity_id}`,
+              },
+              (err, res) => {
+                expect(res.status).toBe(403);
+                done();
+              },
+            );
           });
 
           test('Circumvent authorization by modifying activity_id in body', async (done) => {
-            getRequestWithBody({
-              user_id: unAuthorizedUser.user_id,
-              farm_id: farmunAuthorizedUser.farm_id,
-              url: `/log/${activityLog.activity_id}`,
-              body: { farm_id: farmunAuthorizedUser.farm_id },
-            }, (err, res) => {
-              expect(res.status).toBe(400);
-              done();
-            });
+            getRequestWithBody(
+              {
+                user_id: unAuthorizedUser.user_id,
+                farm_id: farmunAuthorizedUser.farm_id,
+                url: `/log/${activityLog.activity_id}`,
+                body: { farm_id: farmunAuthorizedUser.farm_id },
+              },
+              (err, res) => {
+                expect(res.status).toBe(400);
+                done();
+              },
+            );
           });
-
         });
-
-
       });
-
 
       describe('Delete fertilizerLog tests', () => {
         describe('Delete activityLog authorization tests', () => {
@@ -442,32 +529,43 @@ xdescribe('Log Tests', () => {
 
           beforeEach(async () => {
             [newWorker] = await mocks.usersFactory();
-            const [workerFarm] = await mocks.userFarmFactory({
-              promisedUser: [newWorker],
-              promisedFarm: [farm],
-            }, fakeUserFarm(3));
+            const [workerFarm] = await mocks.userFarmFactory(
+              {
+                promisedUser: [newWorker],
+                promisedFarm: [farm],
+              },
+              fakeUserFarm(3),
+            );
             [manager] = await mocks.usersFactory();
-            const [managerFarm] = await mocks.userFarmFactory({
-              promisedUser: [manager],
-              promisedFarm: [farm],
-            }, fakeUserFarm(2));
-
+            const [managerFarm] = await mocks.userFarmFactory(
+              {
+                promisedUser: [manager],
+                promisedFarm: [farm],
+              },
+              fakeUserFarm(2),
+            );
 
             [unAuthorizedUser] = await mocks.usersFactory();
             [farmunAuthorizedUser] = await mocks.farmFactory();
-            const [ownerFarmunAuthorizedUser] = await mocks.userFarmFactory({
-              promisedUser: [unAuthorizedUser],
-              promisedFarm: [farmunAuthorizedUser],
-            }, fakeUserFarm(1));
+            const [ownerFarmunAuthorizedUser] = await mocks.userFarmFactory(
+              {
+                promisedUser: [unAuthorizedUser],
+                promisedFarm: [farmunAuthorizedUser],
+              },
+              fakeUserFarm(1),
+            );
           });
 
           test('Owner should delete a activityLog', async (done) => {
             deleteRequest({ activity_id: activityLog.activity_id }, async (err, res) => {
               expect(res.status).toBe(200);
-              const activityLogRes = await activityLogModel.query().context({
-                showHidden: true,
-                user_id: owner.user_id,
-              }).where('activity_id', activityLog.activity_id);
+              const activityLogRes = await activityLogModel
+                .query()
+                .context({
+                  showHidden: true,
+                  user_id: owner.user_id,
+                })
+                .where('activity_id', activityLog.activity_id);
               expect(activityLogRes.length).toBe(1);
               expect(activityLogRes[0].deleted).toBe(true);
               done();
@@ -475,83 +573,107 @@ xdescribe('Log Tests', () => {
           });
 
           test('Manager should delete a activityLog', async (done) => {
-            deleteRequest({ user_id: manager.user_id, activity_id: activityLog.activity_id }, async (err, res) => {
-              expect(res.status).toBe(200);
-              const activityLogRes = await activityLogModel.query().context({
-                showHidden: true,
-                user_id: owner.user_id,
-              }).where('activity_id', activityLog.activity_id);
-              expect(activityLogRes.length).toBe(1);
-              expect(activityLogRes[0].deleted).toBe(true);
-              done();
-            });
+            deleteRequest(
+              { user_id: manager.user_id, activity_id: activityLog.activity_id },
+              async (err, res) => {
+                expect(res.status).toBe(200);
+                const activityLogRes = await activityLogModel
+                  .query()
+                  .context({
+                    showHidden: true,
+                    user_id: owner.user_id,
+                  })
+                  .where('activity_id', activityLog.activity_id);
+                expect(activityLogRes.length).toBe(1);
+                expect(activityLogRes[0].deleted).toBe(true);
+                done();
+              },
+            );
           });
 
           test('should return 403 if an unauthorized user tries to delete a activityLog', async (done) => {
-            deleteRequest({
-              user_id: unAuthorizedUser.user_id,
-              activity_id: activityLog.activity_id,
-            }, async (err, res) => {
-              expect(res.status).toBe(403);
-              done();
-            });
+            deleteRequest(
+              {
+                user_id: unAuthorizedUser.user_id,
+                activity_id: activityLog.activity_id,
+              },
+              async (err, res) => {
+                expect(res.status).toBe(403);
+                done();
+              },
+            );
           });
 
           test('should return 403 if a worker tries to delete an activityLog not owned by him', async (done) => {
-            deleteRequest({ user_id: newWorker.user_id, activity_id: activityLog.activity_id }, async (err, res) => {
-              expect(res.status).toBe(403);
-              done();
-            });
+            deleteRequest(
+              { user_id: newWorker.user_id, activity_id: activityLog.activity_id },
+              async (err, res) => {
+                expect(res.status).toBe(403);
+                done();
+              },
+            );
           });
 
           test('Worker should delete activity owned by him', async (done) => {
-            const [workerActivity] = await mocks.activityLogFactory({ promisedUser: [newWorker] }, {
-              ...mocks.fakeActivityLog(),
-              activity_kind: 'fertilizing',
-            });
+            const [workerActivity] = await mocks.activityLogFactory(
+              { promisedUser: [newWorker] },
+              {
+                ...mocks.fakeActivityLog(),
+                activity_kind: 'fertilizing',
+              },
+            );
             await mocks.activityFieldsFactory({
               promisedField: [field],
               promisedActivityLog: [workerActivity],
             });
-            deleteRequest({ user_id: newWorker.user_id, activity_id: workerActivity.activity_id }, async (err, res) => {
-              expect(res.status).toBe(200);
-              const activityLogRes = await activityLogModel.query().context({
-                showHidden: true,
-                user_id: newWorker.user_id,
-              }).where('activity_id', workerActivity.activity_id);
-              expect(activityLogRes.length).toBe(1);
-              expect(activityLogRes[0].deleted).toBe(true);
-              done();
-            });
+            deleteRequest(
+              { user_id: newWorker.user_id, activity_id: workerActivity.activity_id },
+              async (err, res) => {
+                expect(res.status).toBe(200);
+                const activityLogRes = await activityLogModel
+                  .query()
+                  .context({
+                    showHidden: true,
+                    user_id: newWorker.user_id,
+                  })
+                  .where('activity_id', workerActivity.activity_id);
+                expect(activityLogRes.length).toBe(1);
+                expect(activityLogRes[0].deleted).toBe(true);
+                done();
+              },
+            );
           });
 
           test('Circumvent authorization by modifying farm_id', async (done) => {
-            deleteRequest({
-              user_id: unAuthorizedUser.user_id,
-              farm_id: farmunAuthorizedUser.farm_id,
-              activity_id: activityLog.activity_id,
-            }, async (err, res) => {
-              expect(res.status).toBe(403);
-              done();
-            });
+            deleteRequest(
+              {
+                user_id: unAuthorizedUser.user_id,
+                farm_id: farmunAuthorizedUser.farm_id,
+                activity_id: activityLog.activity_id,
+              },
+              async (err, res) => {
+                expect(res.status).toBe(403);
+                done();
+              },
+            );
           });
 
           test('Circumvent authorization by modifying farm_id in body', async (done) => {
-            deleteRequestWithBody({
-              user_id: unAuthorizedUser.user_id,
-              farm_id: farmunAuthorizedUser.farm_id,
-              activity_id: activityLog.activity_id,
-              body: { farm_id: farmunAuthorizedUser.farm_id },
-            }, async (err, res) => {
-              expect(res.status).toBe(400);
-              done();
-            });
+            deleteRequestWithBody(
+              {
+                user_id: unAuthorizedUser.user_id,
+                farm_id: farmunAuthorizedUser.farm_id,
+                activity_id: activityLog.activity_id,
+                body: { farm_id: farmunAuthorizedUser.farm_id },
+              },
+              async (err, res) => {
+                expect(res.status).toBe(400);
+                done();
+              },
+            );
           });
         });
-
-
       });
-
 
       describe('Put fertilizerLog tests', () => {
         let sampleRequestBody;
@@ -590,25 +712,35 @@ xdescribe('Log Tests', () => {
 
           beforeEach(async () => {
             [worker] = await mocks.usersFactory();
-            const [workerFarm] = await mocks.userFarmFactory({
-              promisedUser: [worker],
-              promisedFarm: [farm],
-            }, fakeUserFarm(3));
+            const [workerFarm] = await mocks.userFarmFactory(
+              {
+                promisedUser: [worker],
+                promisedFarm: [farm],
+              },
+              fakeUserFarm(3),
+            );
             [manager] = await mocks.usersFactory();
-            const [managerFarm] = await mocks.userFarmFactory({
-              promisedUser: [manager],
-              promisedFarm: [farm],
-            }, fakeUserFarm(2));
-
+            const [managerFarm] = await mocks.userFarmFactory(
+              {
+                promisedUser: [manager],
+                promisedFarm: [farm],
+              },
+              fakeUserFarm(2),
+            );
 
             [unAuthorizedUser] = await mocks.usersFactory();
             [farmunAuthorizedUser] = await mocks.farmFactory();
-            const [ownerFarmunAuthorizedUser] = await mocks.userFarmFactory({
-              promisedUser: [unAuthorizedUser],
-              promisedFarm: [farmunAuthorizedUser],
-            }, fakeUserFarm(1));
+            const [ownerFarmunAuthorizedUser] = await mocks.userFarmFactory(
+              {
+                promisedUser: [unAuthorizedUser],
+                promisedFarm: [farmunAuthorizedUser],
+              },
+              fakeUserFarm(1),
+            );
 
-            [unauthorizedFertilizer] = await mocks.fertilizerFactory({ promisedFarm: [farmunAuthorizedUser] });
+            [unauthorizedFertilizer] = await mocks.fertilizerFactory({
+              promisedFarm: [farmunAuthorizedUser],
+            });
             [unauthorizedCrop] = await mocks.cropFactory({ promisedFarm: [farmunAuthorizedUser] });
             let [weatherStation] = await mocks.weather_stationFactory();
             [unauthorizedField] = await mocks.fieldFactory({
@@ -619,10 +751,13 @@ xdescribe('Log Tests', () => {
               promisedCrop: [unauthorizedCrop],
               promisedField: [unauthorizedField],
             });
-            [unauthorizedActivityLog] = await mocks.activityLogFactory({ promisedUser: [unAuthorizedUser] }, {
-              ...mocks.fakeActivityLog(),
-              activity_kind: 'fertilizing',
-            });
+            [unauthorizedActivityLog] = await mocks.activityLogFactory(
+              { promisedUser: [unAuthorizedUser] },
+              {
+                ...mocks.fakeActivityLog(),
+                activity_kind: 'fertilizing',
+              },
+            );
             [unauthorizedFertilizerLog] = await mocks.fertilizerLogFactory({
               promisedActivityLog: [unauthorizedActivityLog],
               promisedFertilizer: [unauthorizedFertilizer],
@@ -635,22 +770,27 @@ xdescribe('Log Tests', () => {
               promisedActivityLog: [unauthorizedActivityLog],
               promisedField: [unauthorizedField],
             });
-
           });
 
           test('Owner should edit a fertilizerLog', async (done) => {
             putRequest(sampleRequestBody, { user_id: owner.user_id }, async (err, res) => {
               expect(res.status).toBe(200);
-              const activityLog = await activityLogModel.query().context({
-                showHidden: true,
-                user_id: owner.user_id,
-              }).where('user_id', owner.user_id);
+              const activityLog = await activityLogModel
+                .query()
+                .context({
+                  showHidden: true,
+                  user_id: owner.user_id,
+                })
+                .where('user_id', owner.user_id);
               expect(activityLog.length).toBe(1);
               expect(activityLog[0].notes).toBe(fakeActivityLog.notes);
-              const fertilizerLog = await fertilizerLogModel.query().context({
-                showHidden: true,
-                user_id: owner.user_id,
-              }).where('activity_id', activityLog[0].activity_id);
+              const fertilizerLog = await fertilizerLogModel
+                .query()
+                .context({
+                  showHidden: true,
+                  user_id: owner.user_id,
+                })
+                .where('activity_id', activityLog[0].activity_id);
               expect(fertilizerLog.length).toBe(1);
               expect(fertilizerLog[0].fertilizer_id).toBe(fertilizer.fertilizer_id);
               done();
@@ -661,16 +801,22 @@ xdescribe('Log Tests', () => {
             sampleRequestBody.user_id = manager.user_id;
             putRequest(sampleRequestBody, { user_id: manager.user_id }, async (err, res) => {
               expect(res.status).toBe(200);
-              const activityLog = await activityLogModel.query().context({
-                showHidden: true,
-                user_id: owner.user_id,
-              }).where('user_id', manager.user_id);
+              const activityLog = await activityLogModel
+                .query()
+                .context({
+                  showHidden: true,
+                  user_id: owner.user_id,
+                })
+                .where('user_id', manager.user_id);
               expect(activityLog.length).toBe(1);
               expect(activityLog[0].notes).toBe(fakeActivityLog.notes);
-              const fertilizerLog = await fertilizerLogModel.query().context({
-                showHidden: true,
-                user_id: owner.user_id,
-              }).where('activity_id', activityLog[0].activity_id);
+              const fertilizerLog = await fertilizerLogModel
+                .query()
+                .context({
+                  showHidden: true,
+                  user_id: owner.user_id,
+                })
+                .where('activity_id', activityLog[0].activity_id);
               expect(fertilizerLog.length).toBe(1);
               expect(fertilizerLog[0].fertilizer_id).toBe(fertilizer.fertilizer_id);
               done();
@@ -678,32 +824,45 @@ xdescribe('Log Tests', () => {
           });
 
           test('Worker should edit a fertilizerLog owned by the worker', async (done) => {
-            const [workerActivity] = await mocks.activityLogFactory({ promisedUser: [worker] }, {
-              ...mocks.fakeActivityLog(),
-              activity_kind: 'fertilizing',
-            });
+            const [workerActivity] = await mocks.activityLogFactory(
+              { promisedUser: [worker] },
+              {
+                ...mocks.fakeActivityLog(),
+                activity_kind: 'fertilizing',
+              },
+            );
             await mocks.activityFieldsFactory({
               promisedField: [field],
               promisedActivityLog: [workerActivity],
             });
             sampleRequestBody.activity_id = workerActivity.activity_id;
             sampleRequestBody.user_id = worker.user_id;
-            putRequest(sampleRequestBody, {
-              user_id: worker.user_id,
-              activity_id: workerActivity.activity_id,
-            }, async (err, res) => {
-              expect(res.status).toBe(200);
-              const activityLog = await activityLogModel.query().context({
-                showHidden: true,
-              }).where('user_id', worker.user_id);
-              expect(activityLog.length).toBe(1);
-              expect(activityLog[0].notes).toBe(fakeActivityLog.notes);
-              const fertilizerLog = await fertilizerLogModel.query().context({
-                showHidden: true,
-                user_id: owner.user_id,
-              }).where('activity_id', activityLog[0].activity_id);
-              done();
-            });
+            putRequest(
+              sampleRequestBody,
+              {
+                user_id: worker.user_id,
+                activity_id: workerActivity.activity_id,
+              },
+              async (err, res) => {
+                expect(res.status).toBe(200);
+                const activityLog = await activityLogModel
+                  .query()
+                  .context({
+                    showHidden: true,
+                  })
+                  .where('user_id', worker.user_id);
+                expect(activityLog.length).toBe(1);
+                expect(activityLog[0].notes).toBe(fakeActivityLog.notes);
+                const fertilizerLog = await fertilizerLogModel
+                  .query()
+                  .context({
+                    showHidden: true,
+                    user_id: owner.user_id,
+                  })
+                  .where('activity_id', activityLog[0].activity_id);
+                done();
+              },
+            );
           });
 
           test('Should return 403 if a worker tries to edit a fertilizerLog not owned by the worker', async (done) => {
@@ -725,61 +884,81 @@ xdescribe('Log Tests', () => {
 
           test('should return 403 if an unauthorized user tries to edit a fertilizingLog', async (done) => {
             sampleRequestBody.user_id = unAuthorizedUser.user_id;
-            putRequest(sampleRequestBody, { user_id: unAuthorizedUser.user_id }, async (err, res) => {
-              expect(res.status).toBe(403);
-              done();
-            });
+            putRequest(
+              sampleRequestBody,
+              { user_id: unAuthorizedUser.user_id },
+              async (err, res) => {
+                expect(res.status).toBe(403);
+                done();
+              },
+            );
           });
 
           test('Circumvent authorization by modifying farm_id in header', async (done) => {
             sampleRequestBody.user_id = unAuthorizedUser.user_id;
-            putRequest(sampleRequestBody, {
-              user_id: unAuthorizedUser.user_id,
-              farm_id: farmunAuthorizedUser.farm_id,
-              activity_id: activityLog.activity_id,
-            }, async (err, res) => {
-              expect(res.status).toBe(403);
-              done();
-            });
+            putRequest(
+              sampleRequestBody,
+              {
+                user_id: unAuthorizedUser.user_id,
+                farm_id: farmunAuthorizedUser.farm_id,
+                activity_id: activityLog.activity_id,
+              },
+              async (err, res) => {
+                expect(res.status).toBe(403);
+                done();
+              },
+            );
           });
 
           test('Circumvent authorization by modifying farm_id in body and header', async (done) => {
             sampleRequestBody.user_id = unAuthorizedUser.user_id;
             sampleRequestBody.farm_id = farmunAuthorizedUser.farm_id;
-            putRequest(sampleRequestBody, {
-              user_id: unAuthorizedUser.user_id,
-              farm_id: farmunAuthorizedUser.farm_id,
-              activity_id: activityLog.activity_id,
-            }, async (err, res) => {
-              expect(res.status).toBe(403);
-              done();
-            });
+            putRequest(
+              sampleRequestBody,
+              {
+                user_id: unAuthorizedUser.user_id,
+                farm_id: farmunAuthorizedUser.farm_id,
+                activity_id: activityLog.activity_id,
+              },
+              async (err, res) => {
+                expect(res.status).toBe(403);
+                done();
+              },
+            );
           });
 
           test('Circumvent authorization by modifying farm_id, location_id, field_crop_id in body', async (done) => {
             sampleRequestBody.user_id = unAuthorizedUser.user_id;
             sampleRequestBody.farm_id = farmunAuthorizedUser.farm_id;
-            putRequest(sampleRequestBody, {
-              user_id: unAuthorizedUser.user_id,
-              farm_id: farmunAuthorizedUser.farm_id,
-              activity_id: activityLog.activity_id,
-            }, async (err, res) => {
-              expect(res.status).toBe(403);
-              done();
-            });
+            putRequest(
+              sampleRequestBody,
+              {
+                user_id: unAuthorizedUser.user_id,
+                farm_id: farmunAuthorizedUser.farm_id,
+                activity_id: activityLog.activity_id,
+              },
+              async (err, res) => {
+                expect(res.status).toBe(403);
+                done();
+              },
+            );
           });
 
           test('Circumvent authorization by modifying activity_id in body', async (done) => {
             sampleRequestBody.user_id = unAuthorizedUser.user_id;
             sampleRequestBody.activity_id = unauthorizedActivityLog.activity_id;
-            putRequest(sampleRequestBody, {
-              user_id: unAuthorizedUser.user_id,
-              farm_id: farmunAuthorizedUser.farm_id,
-              activity_id: activityLog.activity_id,
-            }, async (err, res) => {
-              expect(res.status).toBe(403);
-              done();
-            });
+            putRequest(
+              sampleRequestBody,
+              {
+                user_id: unAuthorizedUser.user_id,
+                farm_id: farmunAuthorizedUser.farm_id,
+                activity_id: activityLog.activity_id,
+              },
+              async (err, res) => {
+                expect(res.status).toBe(403);
+                done();
+              },
+            );
           });
 
           test('Circumvent authorization by modifying activity_id/field_crop_id/location_id/fertilizer_id in body', async (done) => {
@@ -788,45 +967,55 @@ xdescribe('Log Tests', () => {
             sampleRequestBody.locations = [{ location_id: unauthorizedField.location_id }];
             sampleRequestBody.crops = [{ field_crop_id: unauthorizedManagementPlan.field_crop_id }];
             sampleRequestBody.fertilizer_id = unauthorizedFertilizer.fertilizer_id;
-            putRequest(sampleRequestBody, {
-              user_id: unAuthorizedUser.user_id,
-              farm_id: farmunAuthorizedUser.farm_id,
-              activity_id: activityLog.activity_id,
-            }, async (err, res) => {
-              expect(res.status).toBe(403);
-              done();
-            });
+            putRequest(
+              sampleRequestBody,
+              {
+                user_id: unAuthorizedUser.user_id,
+                farm_id: farmunAuthorizedUser.farm_id,
+                activity_id: activityLog.activity_id,
+              },
+              async (err, res) => {
+                expect(res.status).toBe(403);
+                done();
+              },
+            );
           });
 
           test('Should return 400 if locations, managementPlans, and fertilizer reference a farm that the user does not have access to', async (done) => {
             sampleRequestBody.user_id = unAuthorizedUser.user_id;
             sampleRequestBody.activity_id = unauthorizedActivityLog.activity_id;
-            putRequest(sampleRequestBody, {
-              user_id: unAuthorizedUser.user_id,
-              farm_id: farmunAuthorizedUser.farm_id,
-              activity_id: unauthorizedActivityLog.activity_id,
-            }, async (err, res) => {
-              expect(res.status).toBe(403);
-              done();
-            });
+            putRequest(
+              sampleRequestBody,
+              {
+                user_id: unAuthorizedUser.user_id,
+                farm_id: farmunAuthorizedUser.farm_id,
+                activity_id: unauthorizedActivityLog.activity_id,
+              },
+              async (err, res) => {
+                expect(res.status).toBe(403);
+                done();
+              },
+            );
           });
 
           test('Should return 400 if activity_id is set to an id that already exists', async (done) => {
             sampleRequestBody.user_id = unAuthorizedUser.user_id;
             sampleRequestBody.activity_id = activityLog.activity_id;
-            putRequest(sampleRequestBody, {
-              user_id: unAuthorizedUser.user_id,
-              farm_id: farmunAuthorizedUser.farm_id,
-              activity_id: unauthorizedActivityLog.activity_id,
-            }, async (err, res) => {
-              //TODO should return 400
-              expect(res.status).toBe(403);
-              done();
-            });
+            putRequest(
+              sampleRequestBody,
+              {
+                user_id: unAuthorizedUser.user_id,
+                farm_id: farmunAuthorizedUser.farm_id,
+                activity_id: unauthorizedActivityLog.activity_id,
+              },
+              async (err, res) => {
+                //TODO should return 400
+                expect(res.status).toBe(403);
+                done();
+              },
+            );
           });
-
         });
-
 
         describe('Put fertilizerLog tests with fertilizer/field/field_crop referencing different farms', () => {
           let fakefertilizingLog;
@@ -840,14 +1029,23 @@ xdescribe('Log Tests', () => {
           let newUserFarm;
           beforeEach(async () => {
             [newFarm] = await mocks.farmFactory();
-            [newUserFarm] = await mocks.userFarmFactory({ promisedUser: [owner], promisedFarm: [newFarm] });
+            [newUserFarm] = await mocks.userFarmFactory({
+              promisedUser: [owner],
+              promisedFarm: [newFarm],
+            });
             fakeActivityLog = newFakeActivityLog('fertilizing');
             fakefertilizingLog = mocks.fakeFertilizerLog();
             [fertilizer1] = await mocks.fertilizerFactory({ promisedFarm: [newFarm] });
             [crop1] = await mocks.cropFactory({ promisedFarm: [newFarm] });
             let [weatherStation] = await mocks.weather_stationFactory();
-            [field1] = await mocks.fieldFactory({ promisedFarm: [newFarm], promisedStation: [weatherStation] });
-            [managementPlan1] = await mocks.management_planFactory({ promisedCrop: [crop1], promisedField: [field1] });
+            [field1] = await mocks.fieldFactory({
+              promisedFarm: [newFarm],
+              promisedStation: [weatherStation],
+            });
+            [managementPlan1] = await mocks.management_planFactory({
+              promisedCrop: [crop1],
+              promisedField: [field1],
+            });
 
             sampleRequestBody = {
               activity_id: activityLog.activity_id,
@@ -864,7 +1062,10 @@ xdescribe('Log Tests', () => {
 
           //TODO fail
           xtest('Should return 403 if field references a new farm', async (done) => {
-            sampleRequestBody.locations = [sampleRequestBody.locations[0], { location_id: field1.location_id }];
+            sampleRequestBody.locations = [
+              sampleRequestBody.locations[0],
+              { location_id: field1.location_id },
+            ];
             putRequest(sampleRequestBody, { user_id: owner.user_id }, async (err, res) => {
               expect(res.status).toBe(403);
               done();
@@ -882,8 +1083,14 @@ xdescribe('Log Tests', () => {
           });
 
           test('Should return 403 if field and managementPlan reference 2 farms', async (done) => {
-            sampleRequestBody.crops = [sampleRequestBody.crops[0], { field_crop_id: managementPlan1.field_crop_id }];
-            sampleRequestBody.locations = [sampleRequestBody.locations[0], { location_id: field1.location_id }];
+            sampleRequestBody.crops = [
+              sampleRequestBody.crops[0],
+              { field_crop_id: managementPlan1.field_crop_id },
+            ];
+            sampleRequestBody.locations = [
+              sampleRequestBody.locations[0],
+              { location_id: field1.location_id },
+            ];
             putRequest(sampleRequestBody, { user_id: owner.user_id }, async (err, res) => {
               expect(res.status).toBe(403);
               done();
@@ -900,13 +1107,15 @@ xdescribe('Log Tests', () => {
           });
 
           test('Should return 403 if field_crop references a new farm', async (done) => {
-            sampleRequestBody.crops = [sampleRequestBody.crops[0], { field_crop_id: managementPlan1.field_crop_id }];
+            sampleRequestBody.crops = [
+              sampleRequestBody.crops[0],
+              { field_crop_id: managementPlan1.field_crop_id },
+            ];
             putRequest(sampleRequestBody, { user_id: owner.user_id }, async (err, res) => {
               expect(res.status).toBe(403);
               done();
             });
           });
-
         });
 
         describe('Put fertilizerLog tests with multiple field_crop and field', () => {
@@ -923,8 +1132,14 @@ xdescribe('Log Tests', () => {
             [fertilizer1] = await mocks.fertilizerFactory({ promisedFarm: [farm] });
             [crop1] = await mocks.cropFactory({ promisedFarm: [farm] });
             let [weatherStation] = await mocks.weather_stationFactory();
-            [field1] = await mocks.fieldFactory({ promisedFarm: [farm], promisedStation: [weatherStation] });
-            [managementPlan1] = await mocks.management_planFactory({ promisedCrop: [crop1], promisedField: [field1] });
+            [field1] = await mocks.fieldFactory({
+              promisedFarm: [farm],
+              promisedStation: [weatherStation],
+            });
+            [managementPlan1] = await mocks.management_planFactory({
+              promisedCrop: [crop1],
+              promisedField: [field1],
+            });
 
             sampleRequestBody = {
               activity_id: activityLog.activity_id,
@@ -933,7 +1148,10 @@ xdescribe('Log Tests', () => {
               user_id: owner.user_id,
               notes: fakeActivityLog1.notes,
               quantity_kg: fakefertilizingLog.quantity_kg,
-              crops: [{ field_crop_id: managementPlan.field_crop_id }, { field_crop_id: managementPlan1.field_crop_id }],
+              crops: [
+                { field_crop_id: managementPlan.field_crop_id },
+                { field_crop_id: managementPlan1.field_crop_id },
+              ],
               locations: [{ location_id: field.location_id }, { location_id: field1.location_id }],
               fertilizer_id: fertilizer1.fertilizer_id,
             };
@@ -942,22 +1160,27 @@ xdescribe('Log Tests', () => {
           test('Owner should put fertilizing log for a field', async (done) => {
             putRequest(sampleRequestBody, {}, async (err, res) => {
               expect(res.status).toBe(200);
-              const activityLog = await activityLogModel.query().context({
-                showHidden: true,
-                user_id: owner.user_id,
-              }).where('user_id', owner.user_id);
+              const activityLog = await activityLogModel
+                .query()
+                .context({
+                  showHidden: true,
+                  user_id: owner.user_id,
+                })
+                .where('user_id', owner.user_id);
               expect(activityLog.length).toBe(1);
               expect(activityLog[0].notes).toBe(fakeActivityLog1.notes);
-              const fertilizerLog = await fertilizerLogModel.query().context({
-                showHidden: true,
-                user_id: owner.user_id,
-              }).where('activity_id', activityLog[0].activity_id);
+              const fertilizerLog = await fertilizerLogModel
+                .query()
+                .context({
+                  showHidden: true,
+                  user_id: owner.user_id,
+                })
+                .where('activity_id', activityLog[0].activity_id);
               expect(fertilizerLog.length).toBe(1);
               expect(fertilizerLog[0].fertilizer_id).toBe(fertilizer1.fertilizer_id);
               done();
             });
           });
-
 
           test('Owner should put fertilizing log for a garden', async (done) => {
             const [garden] = await mocks.gardenFactory({ promisedFarm: [farm] });
@@ -965,16 +1188,22 @@ xdescribe('Log Tests', () => {
             sampleRequestBody.locations.push(garden);
             putRequest(sampleRequestBody, {}, async (err, res) => {
               expect(res.status).toBe(200);
-              const activityLog = await activityLogModel.query().context({
-                showHidden: true,
-                user_id: owner.user_id,
-              }).where('user_id', owner.user_id);
+              const activityLog = await activityLogModel
+                .query()
+                .context({
+                  showHidden: true,
+                  user_id: owner.user_id,
+                })
+                .where('user_id', owner.user_id);
               expect(activityLog.length).toBe(1);
               expect(activityLog[0].notes).toBe(fakeActivityLog1.notes);
-              const fertilizerLog = await fertilizerLogModel.query().context({
-                showHidden: true,
-                user_id: owner.user_id,
-              }).where('activity_id', activityLog[0].activity_id);
+              const fertilizerLog = await fertilizerLogModel
+                .query()
+                .context({
+                  showHidden: true,
+                  user_id: owner.user_id,
+                })
+                .where('activity_id', activityLog[0].activity_id);
               expect(fertilizerLog.length).toBe(1);
               expect(fertilizerLog[0].fertilizer_id).toBe(fertilizer1.fertilizer_id);
               done();
@@ -987,16 +1216,22 @@ xdescribe('Log Tests', () => {
             sampleRequestBody.locations.push(bufferZone);
             putRequest(sampleRequestBody, {}, async (err, res) => {
               expect(res.status).toBe(200);
-              const activityLog = await activityLogModel.query().context({
-                showHidden: true,
-                user_id: owner.user_id,
-              }).where('user_id', owner.user_id);
+              const activityLog = await activityLogModel
+                .query()
+                .context({
+                  showHidden: true,
+                  user_id: owner.user_id,
+                })
+                .where('user_id', owner.user_id);
               expect(activityLog.length).toBe(1);
               expect(activityLog[0].notes).toBe(fakeActivityLog1.notes);
-              const fertilizerLog = await fertilizerLogModel.query().context({
-                showHidden: true,
-                user_id: owner.user_id,
-              }).where('activity_id', activityLog[0].activity_id);
+              const fertilizerLog = await fertilizerLogModel
+                .query()
+                .context({
+                  showHidden: true,
+                  user_id: owner.user_id,
+                })
+                .where('activity_id', activityLog[0].activity_id);
               expect(fertilizerLog.length).toBe(1);
               expect(fertilizerLog[0].fertilizer_id).toBe(fertilizer1.fertilizer_id);
               done();
@@ -1009,16 +1244,22 @@ xdescribe('Log Tests', () => {
             sampleRequestBody.locations.push(greenhouse);
             putRequest(sampleRequestBody, {}, async (err, res) => {
               expect(res.status).toBe(200);
-              const activityLog = await activityLogModel.query().context({
-                showHidden: true,
-                user_id: owner.user_id,
-              }).where('user_id', owner.user_id);
+              const activityLog = await activityLogModel
+                .query()
+                .context({
+                  showHidden: true,
+                  user_id: owner.user_id,
+                })
+                .where('user_id', owner.user_id);
               expect(activityLog.length).toBe(1);
               expect(activityLog[0].notes).toBe(fakeActivityLog1.notes);
-              const fertilizerLog = await fertilizerLogModel.query().context({
-                showHidden: true,
-                user_id: owner.user_id,
-              }).where('activity_id', activityLog[0].activity_id);
+              const fertilizerLog = await fertilizerLogModel
+                .query()
+                .context({
+                  showHidden: true,
+                  user_id: owner.user_id,
+                })
+                .where('activity_id', activityLog[0].activity_id);
               expect(fertilizerLog.length).toBe(1);
               expect(fertilizerLog[0].fertilizer_id).toBe(fertilizer1.fertilizer_id);
               done();
@@ -1034,16 +1275,22 @@ xdescribe('Log Tests', () => {
             sampleRequestBody.locations.push(bufferZone);
             putRequest(sampleRequestBody, {}, async (err, res) => {
               expect(res.status).toBe(200);
-              const activityLog = await activityLogModel.query().context({
-                showHidden: true,
-                user_id: owner.user_id,
-              }).where('user_id', owner.user_id);
+              const activityLog = await activityLogModel
+                .query()
+                .context({
+                  showHidden: true,
+                  user_id: owner.user_id,
+                })
+                .where('user_id', owner.user_id);
               expect(activityLog.length).toBe(1);
               expect(activityLog[0].notes).toBe(fakeActivityLog1.notes);
-              const fertilizerLog = await fertilizerLogModel.query().context({
-                showHidden: true,
-                user_id: owner.user_id,
-              }).where('activity_id', activityLog[0].activity_id);
+              const fertilizerLog = await fertilizerLogModel
+                .query()
+                .context({
+                  showHidden: true,
+                  user_id: owner.user_id,
+                })
+                .where('activity_id', activityLog[0].activity_id);
               expect(fertilizerLog.length).toBe(1);
               expect(fertilizerLog[0].fertilizer_id).toBe(fertilizer1.fertilizer_id);
               done();
@@ -1068,7 +1315,9 @@ xdescribe('Log Tests', () => {
             });
           });
           test('Should return 400 if log reference a farm_site_boundary', async (done) => {
-            const [farm_site_boundary] = await mocks.farm_site_boundaryFactory({ promisedFarm: [farm] });
+            const [farm_site_boundary] = await mocks.farm_site_boundaryFactory({
+              promisedFarm: [farm],
+            });
             sampleRequestBody.locations.push(farm_site_boundary);
             putRequest(sampleRequestBody, {}, async (err, res) => {
               expect(res.status).toBe(400);
@@ -1137,28 +1386,40 @@ xdescribe('Log Tests', () => {
             sampleRequestBody.crops = [{ field_crop_id: managementPlan1.field_crop_id }];
             putRequest(sampleRequestBody, { user_id: owner.user_id }, async (err, res) => {
               expect(res.status).toBe(200);
-              const activityLog = await activityLogModel.query().context({
-                showHidden: true,
-                user_id: owner.user_id,
-              }).where('user_id', owner.user_id);
+              const activityLog = await activityLogModel
+                .query()
+                .context({
+                  showHidden: true,
+                  user_id: owner.user_id,
+                })
+                .where('user_id', owner.user_id);
               expect(activityLog.length).toBe(1);
               expect(activityLog[0].notes).toBe(fakeActivityLog1.notes);
-              const fertilizerLog = await fertilizerLogModel.query().context({
-                showHidden: true,
-                user_id: owner.user_id,
-              }).where('activity_id', activityLog[0].activity_id);
+              const fertilizerLog = await fertilizerLogModel
+                .query()
+                .context({
+                  showHidden: true,
+                  user_id: owner.user_id,
+                })
+                .where('activity_id', activityLog[0].activity_id);
               expect(fertilizerLog.length).toBe(1);
               expect(fertilizerLog[0].fertilizer_id).toBe(fertilizer1.fertilizer_id);
-              const activityFieldLog = await activityFieldsModel.query().context({
-                showHidden: true,
-                user_id: owner.user_id,
-              }).where('activity_id', activityLog[0].activity_id);
+              const activityFieldLog = await activityFieldsModel
+                .query()
+                .context({
+                  showHidden: true,
+                  user_id: owner.user_id,
+                })
+                .where('activity_id', activityLog[0].activity_id);
               expect(activityFieldLog.length).toBe(1);
               expect(activityFieldLog[0].location_id).toBe(field1.location_id);
-              const activityCrops = await activityCropsModel.query().context({
-                showHidden: true,
-                user_id: owner.user_id,
-              }).where('activity_id', activityLog[0].activity_id);
+              const activityCrops = await activityCropsModel
+                .query()
+                .context({
+                  showHidden: true,
+                  user_id: owner.user_id,
+                })
+                .where('activity_id', activityLog[0].activity_id);
               expect(activityCrops.length).toBe(1);
               expect(activityCrops[0].field_crop_id).toBe(managementPlan1.field_crop_id);
               done();
@@ -1166,33 +1427,50 @@ xdescribe('Log Tests', () => {
           });
 
           test('Owner should change fertilizerLog to a different field with 2 managementPlans', async (done) => {
-            const [managementPlan2] = await mocks.management_planFactory({ promisedField: [field1] });
+            const [managementPlan2] = await mocks.management_planFactory({
+              promisedField: [field1],
+            });
             sampleRequestBody.locations = [{ location_id: field1.location_id }];
-            sampleRequestBody.crops = [{ field_crop_id: managementPlan1.field_crop_id }, { field_crop_id: managementPlan2.field_crop_id }];
+            sampleRequestBody.crops = [
+              { field_crop_id: managementPlan1.field_crop_id },
+              { field_crop_id: managementPlan2.field_crop_id },
+            ];
             putRequest(sampleRequestBody, { user_id: owner.user_id }, async (err, res) => {
               expect(res.status).toBe(200);
-              const activityLog = await activityLogModel.query().context({
-                showHidden: true,
-                user_id: owner.user_id,
-              }).where('user_id', owner.user_id);
+              const activityLog = await activityLogModel
+                .query()
+                .context({
+                  showHidden: true,
+                  user_id: owner.user_id,
+                })
+                .where('user_id', owner.user_id);
               expect(activityLog.length).toBe(1);
               expect(activityLog[0].notes).toBe(fakeActivityLog1.notes);
-              const fertilizerLog = await fertilizerLogModel.query().context({
-                showHidden: true,
-                user_id: owner.user_id,
-              }).where('activity_id', activityLog[0].activity_id);
+              const fertilizerLog = await fertilizerLogModel
+                .query()
+                .context({
+                  showHidden: true,
+                  user_id: owner.user_id,
+                })
+                .where('activity_id', activityLog[0].activity_id);
               expect(fertilizerLog.length).toBe(1);
               expect(fertilizerLog[0].fertilizer_id).toBe(fertilizer1.fertilizer_id);
-              const activityFieldLog = await activityFieldsModel.query().context({
-                showHidden: true,
-                user_id: owner.user_id,
-              }).where('activity_id', activityLog[0].activity_id);
+              const activityFieldLog = await activityFieldsModel
+                .query()
+                .context({
+                  showHidden: true,
+                  user_id: owner.user_id,
+                })
+                .where('activity_id', activityLog[0].activity_id);
               expect(activityFieldLog.length).toBe(1);
               expect(activityFieldLog[0].location_id).toBe(field1.location_id);
-              const activityCrops = await activityCropsModel.query().context({
-                showHidden: true,
-                user_id: owner.user_id,
-              }).where('activity_id', activityLog[0].activity_id);
+              const activityCrops = await activityCropsModel
+                .query()
+                .context({
+                  showHidden: true,
+                  user_id: owner.user_id,
+                })
+                .where('activity_id', activityLog[0].activity_id);
               expect(activityCrops.length).toBe(2);
               expect(activityCrops[0].field_crop_id).toBe(managementPlan1.field_crop_id);
               done();
@@ -1202,28 +1480,40 @@ xdescribe('Log Tests', () => {
           test('Owner should put fertilizerLog tests with multiple field_crop and field', async (done) => {
             putRequest(sampleRequestBody, { user_id: owner.user_id }, async (err, res) => {
               expect(res.status).toBe(200);
-              const activityLog = await activityLogModel.query().context({
-                showHidden: true,
-                user_id: owner.user_id,
-              }).where('user_id', owner.user_id);
+              const activityLog = await activityLogModel
+                .query()
+                .context({
+                  showHidden: true,
+                  user_id: owner.user_id,
+                })
+                .where('user_id', owner.user_id);
               expect(activityLog.length).toBe(1);
               expect(activityLog[0].notes).toBe(fakeActivityLog1.notes);
-              const fertilizerLog = await fertilizerLogModel.query().context({
-                showHidden: true,
-                user_id: owner.user_id,
-              }).where('activity_id', activityLog[0].activity_id);
+              const fertilizerLog = await fertilizerLogModel
+                .query()
+                .context({
+                  showHidden: true,
+                  user_id: owner.user_id,
+                })
+                .where('activity_id', activityLog[0].activity_id);
               expect(fertilizerLog.length).toBe(1);
               expect(fertilizerLog[0].fertilizer_id).toBe(fertilizer1.fertilizer_id);
-              const activityFieldLog = await activityFieldsModel.query().context({
-                showHidden: true,
-                user_id: owner.user_id,
-              }).where('activity_id', activityLog[0].activity_id);
+              const activityFieldLog = await activityFieldsModel
+                .query()
+                .context({
+                  showHidden: true,
+                  user_id: owner.user_id,
+                })
+                .where('activity_id', activityLog[0].activity_id);
               expect(activityFieldLog.length).toBe(2);
               expect(activityFieldLog[1].location_id).toBe(field1.location_id);
-              const activityCrops = await activityCropsModel.query().context({
-                showHidden: true,
-                user_id: owner.user_id,
-              }).where('activity_id', activityLog[0].activity_id);
+              const activityCrops = await activityCropsModel
+                .query()
+                .context({
+                  showHidden: true,
+                  user_id: owner.user_id,
+                })
+                .where('activity_id', activityLog[0].activity_id);
               expect(activityCrops.length).toBe(2);
               expect(activityCrops[1].field_crop_id).toBe(managementPlan1.field_crop_id);
               done();
@@ -1308,12 +1598,8 @@ xdescribe('Log Tests', () => {
               done();
             });
           });
-
         });
-
-
       });
-
     });
 
     describe('pestControlLog tests', () => {
@@ -1331,12 +1617,21 @@ xdescribe('Log Tests', () => {
         [disease] = await mocks.diseaseFactory({ promisedFarm: [farm] });
         [crop] = await mocks.cropFactory({ promisedFarm: [farm] });
         let [weatherStation] = await mocks.weather_stationFactory();
-        [field] = await mocks.fieldFactory({ promisedFarm: [farm], promisedStation: [weatherStation] });
-        [managementPlan] = await mocks.management_planFactory({ promisedCrop: [crop], promisedField: [field] });
-        [activityLog] = await mocks.activityLogFactory({ promisedUser: [owner] }, {
-          ...mocks.fakeActivityLog(),
-          activity_kind: 'pestControl',
+        [field] = await mocks.fieldFactory({
+          promisedFarm: [farm],
+          promisedStation: [weatherStation],
         });
+        [managementPlan] = await mocks.management_planFactory({
+          promisedCrop: [crop],
+          promisedField: [field],
+        });
+        [activityLog] = await mocks.activityLogFactory(
+          { promisedUser: [owner] },
+          {
+            ...mocks.fakeActivityLog(),
+            activity_kind: 'pestControl',
+          },
+        );
         [pestControlLog] = await mocks.pestControlLogFactory({
           promisedActivity: [activityLog],
           promisedPesticide: [pesticide],
@@ -1352,25 +1647,27 @@ xdescribe('Log Tests', () => {
         });
       });
 
-
       describe('Get pestControlLog tests', () => {
-
-
         test('Get by activity_id test', async (done) => {
-          getRequest({ user_id: owner.user_id, url: `/log/${activityLog.activity_id}` }, (err, res) => {
-            expect(res.status).toBe(200);
+          getRequest(
+            { user_id: owner.user_id, url: `/log/${activityLog.activity_id}` },
+            (err, res) => {
+              expect(res.status).toBe(200);
 
-            expect(res.body.pestControlLog.pesticide_id).toBe(pesticide.pesticide_id);
-            done();
-          });
+              expect(res.body.pestControlLog.pesticide_id).toBe(pesticide.pesticide_id);
+              done();
+            },
+          );
         });
 
-
         test('Get by farm_id', async (done) => {
-          let [activityLog1] = await mocks.activityLogFactory({ promisedUser: [owner] }, {
-            ...mocks.fakeActivityLog(),
-            activity_kind: 'pestControl',
-          });
+          let [activityLog1] = await mocks.activityLogFactory(
+            { promisedUser: [owner] },
+            {
+              ...mocks.fakeActivityLog(),
+              activity_kind: 'pestControl',
+            },
+          );
           let [pesticideLog1] = await mocks.pestControlLogFactory({
             promisedActivityLog: [activityLog1],
             promisedPesticide: [pesticide],
@@ -1395,10 +1692,13 @@ xdescribe('Log Tests', () => {
         });
 
         test('Should get managementPlan/pesticide/disease/field through pestControlLog even if those items are deleted', async (done) => {
-          let [activityLog1] = await mocks.activityLogFactory({ promisedUser: [owner] }, {
-            ...mocks.fakeActivityLog(),
-            activity_kind: 'pestControl',
-          });
+          let [activityLog1] = await mocks.activityLogFactory(
+            { promisedUser: [owner] },
+            {
+              ...mocks.fakeActivityLog(),
+              activity_kind: 'pestControl',
+            },
+          );
           let [pesticideLog1] = await mocks.pestControlLogFactory({
             promisedActivityLog: [activityLog1],
             promisedPesticide: [pesticide],
@@ -1412,22 +1712,38 @@ xdescribe('Log Tests', () => {
             promisedActivityLog: [activityLog1],
             promisedField: [field],
           });
-          await pesticideModel.query().context({
-            showHidden: true,
-            user_id: owner.user_id,
-          }).findById(pesticide.pesticide_id).delete();
-          await diseaseModel.query().context({
-            showHidden: true,
-            user_id: owner.user_id,
-          }).findById(disease.disease_id).delete();
-          await managementPlanModel.query().context({
-            showHidden: true,
-            user_id: owner.user_id,
-          }).findById(managementPlan.field_crop_id).delete();
-          await fieldModel.query().context({
-            showHidden: true,
-            user_id: owner.user_id,
-          }).findById(field.location_id).delete();
+          await pesticideModel
+            .query()
+            .context({
+              showHidden: true,
+              user_id: owner.user_id,
+            })
+            .findById(pesticide.pesticide_id)
+            .delete();
+          await diseaseModel
+            .query()
+            .context({
+              showHidden: true,
+              user_id: owner.user_id,
+            })
+            .findById(disease.disease_id)
+            .delete();
+          await managementPlanModel
+            .query()
+            .context({
+              showHidden: true,
+              user_id: owner.user_id,
+            })
+            .findById(managementPlan.field_crop_id)
+            .delete();
+          await fieldModel
+            .query()
+            .context({
+              showHidden: true,
+              user_id: owner.user_id,
+            })
+            .findById(field.location_id)
+            .delete();
           getRequest({ user_id: owner.user_id }, (err, res) => {
             expect(res.status).toBe(200);
             expect(res.body.length).toBe(2);
@@ -1438,10 +1754,7 @@ xdescribe('Log Tests', () => {
             done();
           });
         });
-
-
       });
-
 
       describe('Put pestControlLog tests', () => {
         let pesticide1;
@@ -1457,8 +1770,14 @@ xdescribe('Log Tests', () => {
           [pesticide1] = await mocks.pesticideFactory({ promisedFarm: [farm] });
           [crop1] = await mocks.cropFactory({ promisedFarm: [farm] });
           let [weatherStation] = await mocks.weather_stationFactory();
-          [field1] = await mocks.fieldFactory({ promisedFarm: [farm], promisedStation: [weatherStation] });
-          [managementPlan1] = await mocks.management_planFactory({ promisedCrop: [crop1], promisedField: [field1] });
+          [field1] = await mocks.fieldFactory({
+            promisedFarm: [farm],
+            promisedStation: [weatherStation],
+          });
+          [managementPlan1] = await mocks.management_planFactory({
+            promisedCrop: [crop1],
+            promisedField: [field1],
+          });
 
           sampleRequestBody = {
             activity_id: activityLog.activity_id,
@@ -1466,48 +1785,59 @@ xdescribe('Log Tests', () => {
             date: fakeActivityLog.date,
             user_id: owner.user_id,
             notes: fakeActivityLog.notes,
-            crops: [{ field_crop_id: managementPlan.field_crop_id }, { field_crop_id: managementPlan1.field_crop_id }],
+            crops: [
+              { field_crop_id: managementPlan.field_crop_id },
+              { field_crop_id: managementPlan1.field_crop_id },
+            ],
             locations: [{ location_id: field.location_id }, { location_id: field1.location_id }],
             pesticide_id: pesticide1.pesticide_id,
             ...fakePesticideControlLog,
-
           };
         });
 
         test('Owner should put pestControlLog tests with multiple field_crop and field', async (done) => {
           putRequest(sampleRequestBody, { user_id: owner.user_id }, async (err, res) => {
             expect(res.status).toBe(200);
-            const activityLog = await activityLogModel.query().context({
-              showHidden: true,
-              user_id: owner.user_id,
-            }).where('user_id', owner.user_id);
+            const activityLog = await activityLogModel
+              .query()
+              .context({
+                showHidden: true,
+                user_id: owner.user_id,
+              })
+              .where('user_id', owner.user_id);
             expect(activityLog.length).toBe(1);
             expect(activityLog[0].notes).toBe(fakeActivityLog.notes);
-            const pestControlLog = await pestControlLogModel.query().context({
-              showHidden: true,
-              user_id: owner.user_id,
-            }).where('activity_id', activityLog[0].activity_id);
+            const pestControlLog = await pestControlLogModel
+              .query()
+              .context({
+                showHidden: true,
+                user_id: owner.user_id,
+              })
+              .where('activity_id', activityLog[0].activity_id);
             expect(pestControlLog.length).toBe(1);
             expect(pestControlLog[0].pesticide_id).toBe(pesticide1.pesticide_id);
-            const activityFieldLog = await activityFieldsModel.query().context({
-              showHidden: true,
-              user_id: owner.user_id,
-            }).where('activity_id', activityLog[0].activity_id);
+            const activityFieldLog = await activityFieldsModel
+              .query()
+              .context({
+                showHidden: true,
+                user_id: owner.user_id,
+              })
+              .where('activity_id', activityLog[0].activity_id);
             expect(activityFieldLog.length).toBe(2);
             expect(activityFieldLog[1].location_id).toBe(field1.location_id);
-            const activityCrops = await activityCropsModel.query().context({
-              showHidden: true,
-              user_id: owner.user_id,
-            }).where('activity_id', activityLog[0].activity_id);
+            const activityCrops = await activityCropsModel
+              .query()
+              .context({
+                showHidden: true,
+                user_id: owner.user_id,
+              })
+              .where('activity_id', activityLog[0].activity_id);
             expect(activityCrops.length).toBe(2);
             expect(activityCrops[1].field_crop_id).toBe(managementPlan1.field_crop_id);
             done();
           });
         });
-
-
       });
-
     });
 
     describe('harvestLog tests', () => {
@@ -1521,12 +1851,21 @@ xdescribe('Log Tests', () => {
       beforeEach(async () => {
         [crop] = await mocks.cropFactory({ promisedFarm: [farm] });
         let [weatherStation] = await mocks.weather_stationFactory();
-        [field] = await mocks.fieldFactory({ promisedFarm: [farm], promisedStation: [weatherStation] });
-        [managementPlan] = await mocks.management_planFactory({ promisedCrop: [crop], promisedField: [field] });
-        [activityLog] = await mocks.activityLogFactory({ promisedUser: [owner] }, {
-          ...mocks.fakeActivityLog(),
-          activity_kind: 'harvest',
+        [field] = await mocks.fieldFactory({
+          promisedFarm: [farm],
+          promisedStation: [weatherStation],
         });
+        [managementPlan] = await mocks.management_planFactory({
+          promisedCrop: [crop],
+          promisedField: [field],
+        });
+        [activityLog] = await mocks.activityLogFactory(
+          { promisedUser: [owner] },
+          {
+            ...mocks.fakeActivityLog(),
+            activity_kind: 'harvest',
+          },
+        );
         [harvestLog] = await mocks.harvestLogFactory({
           promisedActivity: [activityLog],
         });
@@ -1540,25 +1879,27 @@ xdescribe('Log Tests', () => {
         });
       });
 
-
       describe('Get harvestLog tests', () => {
-
-
         test('Get by activity_id test', async (done) => {
-          getRequest({ user_id: owner.user_id, url: `/log/${activityLog.activity_id}` }, (err, res) => {
-            expect(res.status).toBe(200);
+          getRequest(
+            { user_id: owner.user_id, url: `/log/${activityLog.activity_id}` },
+            (err, res) => {
+              expect(res.status).toBe(200);
 
-            expect(res.body.notes).toBe(activityLog.notes);
-            done();
-          });
+              expect(res.body.notes).toBe(activityLog.notes);
+              done();
+            },
+          );
         });
 
-
         test('Get by farm_id', async (done) => {
-          let [activityLog1] = await mocks.activityLogFactory({ promisedUser: [owner] }, {
-            ...mocks.fakeActivityLog(),
-            activity_kind: 'harvest',
-          });
+          let [activityLog1] = await mocks.activityLogFactory(
+            { promisedUser: [owner] },
+            {
+              ...mocks.fakeActivityLog(),
+              activity_kind: 'harvest',
+            },
+          );
           let [harvestLog1] = await mocks.harvestLogFactory({
             promisedActivityLog: [activityLog1],
           });
@@ -1581,7 +1922,6 @@ xdescribe('Log Tests', () => {
         });
       });
 
-
       describe('Put harvestLog tests', () => {
         // TODO update single locations tests
         let crop1;
@@ -1595,8 +1935,14 @@ xdescribe('Log Tests', () => {
           fakeHarvestLog = mocks.fakeHarvestLog();
           [crop1] = await mocks.cropFactory({ promisedFarm: [farm] });
           let [weatherStation] = await mocks.weather_stationFactory();
-          [field1] = await mocks.fieldFactory({ promisedFarm: [farm], promisedStation: [weatherStation] });
-          [managementPlan1] = await mocks.management_planFactory({ promisedCrop: [crop1], promisedField: [field1] });
+          [field1] = await mocks.fieldFactory({
+            promisedFarm: [farm],
+            promisedStation: [weatherStation],
+          });
+          [managementPlan1] = await mocks.management_planFactory({
+            promisedCrop: [crop1],
+            promisedField: [field1],
+          });
 
           sampleRequestBody = {
             activity_id: activityLog.activity_id,
@@ -1605,47 +1951,58 @@ xdescribe('Log Tests', () => {
             user_id: owner.user_id,
             notes: fakeActivityLog.notes,
             selectedUseTypes: [],
-            crops: [{ field_crop_id: managementPlan.field_crop_id }, { field_crop_id: managementPlan1.field_crop_id }],
+            crops: [
+              { field_crop_id: managementPlan.field_crop_id },
+              { field_crop_id: managementPlan1.field_crop_id },
+            ],
             locations: [{ location_id: field.location_id }, { location_id: field1.location_id }],
             ...fakeHarvestLog,
-
           };
         });
 
         test('Owner should put harvestLog tests with multiple field_crop and field', async (done) => {
           putRequest(sampleRequestBody, { user_id: owner.user_id }, async (err, res) => {
             expect(res.status).toBe(200);
-            const activityLog = await activityLogModel.query().context({
-              showHidden: true,
-              user_id: owner.user_id,
-            }).where('user_id', owner.user_id);
+            const activityLog = await activityLogModel
+              .query()
+              .context({
+                showHidden: true,
+                user_id: owner.user_id,
+              })
+              .where('user_id', owner.user_id);
             expect(activityLog.length).toBe(1);
             expect(activityLog[0].notes).toBe(fakeActivityLog.notes);
-            const harvestLog = await harvestLogModel.query().context({
-              showHidden: true,
-              user_id: owner.user_id,
-            }).where('activity_id', activityLog[0].activity_id);
+            const harvestLog = await harvestLogModel
+              .query()
+              .context({
+                showHidden: true,
+                user_id: owner.user_id,
+              })
+              .where('activity_id', activityLog[0].activity_id);
             expect(harvestLog.length).toBe(1);
             expect(harvestLog[0].quantity_kg).toBe(fakeHarvestLog.quantity_kg);
-            const activityFieldLog = await activityFieldsModel.query().context({
-              showHidden: true,
-              user_id: owner.user_id,
-            }).where('activity_id', activityLog[0].activity_id);
+            const activityFieldLog = await activityFieldsModel
+              .query()
+              .context({
+                showHidden: true,
+                user_id: owner.user_id,
+              })
+              .where('activity_id', activityLog[0].activity_id);
             expect(activityFieldLog.length).toBe(2);
             expect(activityFieldLog[1].location_id).toBe(field1.location_id);
-            const activityCrops = await activityCropsModel.query().context({
-              showHidden: true,
-              user_id: owner.user_id,
-            }).where('activity_id', activityLog[0].activity_id);
+            const activityCrops = await activityCropsModel
+              .query()
+              .context({
+                showHidden: true,
+                user_id: owner.user_id,
+              })
+              .where('activity_id', activityLog[0].activity_id);
             expect(activityCrops.length).toBe(2);
             expect(activityCrops[1].field_crop_id).toBe(managementPlan1.field_crop_id);
             done();
           });
         });
-
-
       });
-
     });
 
     describe('seedLog tests', () => {
@@ -1659,12 +2016,21 @@ xdescribe('Log Tests', () => {
       beforeEach(async () => {
         [crop] = await mocks.cropFactory({ promisedFarm: [farm] });
         let [weatherStation] = await mocks.weather_stationFactory();
-        [field] = await mocks.fieldFactory({ promisedFarm: [farm], promisedStation: [weatherStation] });
-        [managementPlan] = await mocks.management_planFactory({ promisedCrop: [crop], promisedField: [field] });
-        [activityLog] = await mocks.activityLogFactory({ promisedUser: [owner] }, {
-          ...mocks.fakeActivityLog(),
-          activity_kind: 'seeding',
+        [field] = await mocks.fieldFactory({
+          promisedFarm: [farm],
+          promisedStation: [weatherStation],
         });
+        [managementPlan] = await mocks.management_planFactory({
+          promisedCrop: [crop],
+          promisedField: [field],
+        });
+        [activityLog] = await mocks.activityLogFactory(
+          { promisedUser: [owner] },
+          {
+            ...mocks.fakeActivityLog(),
+            activity_kind: 'seeding',
+          },
+        );
         [seedLog] = await mocks.seedLogFactory({
           promisedActivity: [activityLog],
         });
@@ -1678,25 +2044,27 @@ xdescribe('Log Tests', () => {
         });
       });
 
-
       describe('Get seedLog tests', () => {
-
-
         test('Get by activity_id test', async (done) => {
-          getRequest({ user_id: owner.user_id, url: `/log/${activityLog.activity_id}` }, (err, res) => {
-            expect(res.status).toBe(200);
+          getRequest(
+            { user_id: owner.user_id, url: `/log/${activityLog.activity_id}` },
+            (err, res) => {
+              expect(res.status).toBe(200);
 
-            expect(res.body.notes).toBe(activityLog.notes);
-            done();
-          });
+              expect(res.body.notes).toBe(activityLog.notes);
+              done();
+            },
+          );
         });
 
-
         test('Get by farm_id', async (done) => {
-          let [activityLog1] = await mocks.activityLogFactory({ promisedUser: [owner] }, {
-            ...mocks.fakeActivityLog(),
-            activity_kind: 'seeding',
-          });
+          let [activityLog1] = await mocks.activityLogFactory(
+            { promisedUser: [owner] },
+            {
+              ...mocks.fakeActivityLog(),
+              activity_kind: 'seeding',
+            },
+          );
           let [seedLog1] = await mocks.seedLogFactory({
             promisedActivityLog: [activityLog1],
           });
@@ -1719,7 +2087,6 @@ xdescribe('Log Tests', () => {
         });
       });
 
-
       describe('Put seedLog tests', () => {
         // TODO update single locations tests
         let crop1;
@@ -1733,8 +2100,14 @@ xdescribe('Log Tests', () => {
           fakeseedLog = mocks.fakeSeedLog();
           [crop1] = await mocks.cropFactory({ promisedFarm: [farm] });
           let [weatherStation] = await mocks.weather_stationFactory();
-          [field1] = await mocks.fieldFactory({ promisedFarm: [farm], promisedStation: [weatherStation] });
-          [managementPlan1] = await mocks.management_planFactory({ promisedCrop: [crop1], promisedField: [field1] });
+          [field1] = await mocks.fieldFactory({
+            promisedFarm: [farm],
+            promisedStation: [weatherStation],
+          });
+          [managementPlan1] = await mocks.management_planFactory({
+            promisedCrop: [crop1],
+            promisedField: [field1],
+          });
 
           sampleRequestBody = {
             activity_id: activityLog.activity_id,
@@ -1742,47 +2115,58 @@ xdescribe('Log Tests', () => {
             date: fakeActivityLog.date,
             user_id: owner.user_id,
             notes: fakeActivityLog.notes,
-            crops: [{ field_crop_id: managementPlan.field_crop_id }, { field_crop_id: managementPlan1.field_crop_id }],
+            crops: [
+              { field_crop_id: managementPlan.field_crop_id },
+              { field_crop_id: managementPlan1.field_crop_id },
+            ],
             locations: [{ location_id: field.location_id }, { location_id: field1.location_id }],
             ...fakeseedLog,
-
           };
         });
 
         test('Owner should put seedLog tests with multiple field_crop and field', async (done) => {
           putRequest(sampleRequestBody, { user_id: owner.user_id }, async (err, res) => {
             expect(res.status).toBe(200);
-            const activityLog = await activityLogModel.query().context({
-              showHidden: true,
-              user_id: owner.user_id,
-            }).where('user_id', owner.user_id);
+            const activityLog = await activityLogModel
+              .query()
+              .context({
+                showHidden: true,
+                user_id: owner.user_id,
+              })
+              .where('user_id', owner.user_id);
             expect(activityLog.length).toBe(1);
             expect(activityLog[0].notes).toBe(fakeActivityLog.notes);
-            const seedLog = await seedLogModel.query().context({
-              showHidden: true,
-              user_id: owner.user_id,
-            }).where('activity_id', activityLog[0].activity_id);
+            const seedLog = await seedLogModel
+              .query()
+              .context({
+                showHidden: true,
+                user_id: owner.user_id,
+              })
+              .where('activity_id', activityLog[0].activity_id);
             expect(seedLog.length).toBe(1);
             expect(seedLog[0].quantity_kg).toBe(fakeseedLog.quantity_kg);
-            const activityFieldLog = await activityFieldsModel.query().context({
-              showHidden: true,
-              user_id: owner.user_id,
-            }).where('activity_id', activityLog[0].activity_id);
+            const activityFieldLog = await activityFieldsModel
+              .query()
+              .context({
+                showHidden: true,
+                user_id: owner.user_id,
+              })
+              .where('activity_id', activityLog[0].activity_id);
             expect(activityFieldLog.length).toBe(2);
             expect(activityFieldLog[1].location_id).toBe(field1.location_id);
-            const activityCrops = await activityCropsModel.query().context({
-              showHidden: true,
-              user_id: owner.user_id,
-            }).where('activity_id', activityLog[0].activity_id);
+            const activityCrops = await activityCropsModel
+              .query()
+              .context({
+                showHidden: true,
+                user_id: owner.user_id,
+              })
+              .where('activity_id', activityLog[0].activity_id);
             expect(activityCrops.length).toBe(2);
             expect(activityCrops[1].field_crop_id).toBe(managementPlan1.field_crop_id);
             done();
           });
         });
-
-
       });
-
     });
 
     describe('fieldWorkLog tests', () => {
@@ -1796,12 +2180,21 @@ xdescribe('Log Tests', () => {
       beforeEach(async () => {
         [crop] = await mocks.cropFactory({ promisedFarm: [farm] });
         let [weatherStation] = await mocks.weather_stationFactory();
-        [field] = await mocks.fieldFactory({ promisedFarm: [farm], promisedStation: [weatherStation] });
-        [managementPlan] = await mocks.management_planFactory({ promisedCrop: [crop], promisedField: [field] });
-        [activityLog] = await mocks.activityLogFactory({ promisedUser: [owner] }, {
-          ...mocks.fakeActivityLog(),
-          activity_kind: 'fieldWork',
+        [field] = await mocks.fieldFactory({
+          promisedFarm: [farm],
+          promisedStation: [weatherStation],
         });
+        [managementPlan] = await mocks.management_planFactory({
+          promisedCrop: [crop],
+          promisedField: [field],
+        });
+        [activityLog] = await mocks.activityLogFactory(
+          { promisedUser: [owner] },
+          {
+            ...mocks.fakeActivityLog(),
+            activity_kind: 'fieldWork',
+          },
+        );
         [fieldWorkLog] = await mocks.fieldWorkLogFactory({
           promisedActivity: [activityLog],
         });
@@ -1811,25 +2204,27 @@ xdescribe('Log Tests', () => {
         });
       });
 
-
       describe('Get fieldWorkLog tests', () => {
-
-
         test('Get by activity_id test', async (done) => {
-          getRequest({ user_id: owner.user_id, url: `/log/${activityLog.activity_id}` }, (err, res) => {
-            expect(res.status).toBe(200);
+          getRequest(
+            { user_id: owner.user_id, url: `/log/${activityLog.activity_id}` },
+            (err, res) => {
+              expect(res.status).toBe(200);
 
-            expect(res.body.notes).toBe(activityLog.notes);
-            done();
-          });
+              expect(res.body.notes).toBe(activityLog.notes);
+              done();
+            },
+          );
         });
 
-
         test('Get by farm_id', async (done) => {
-          let [activityLog1] = await mocks.activityLogFactory({ promisedUser: [owner] }, {
-            ...mocks.fakeActivityLog(),
-            activity_kind: 'fieldWork',
-          });
+          let [activityLog1] = await mocks.activityLogFactory(
+            { promisedUser: [owner] },
+            {
+              ...mocks.fakeActivityLog(),
+              activity_kind: 'fieldWork',
+            },
+          );
           let [fieldWorkLog1] = await mocks.fieldWorkLogFactory({
             promisedActivityLog: [activityLog1],
           });
@@ -1852,7 +2247,6 @@ xdescribe('Log Tests', () => {
         });
       });
 
-
       describe('Put fieldWorkLog tests', () => {
         // TODO update single locations tests
         let crop1;
@@ -1866,8 +2260,14 @@ xdescribe('Log Tests', () => {
           fakefieldWorkLog = mocks.fakeFieldWorkLog();
           [crop1] = await mocks.cropFactory({ promisedFarm: [farm] });
           let [weatherStation] = await mocks.weather_stationFactory();
-          [field1] = await mocks.fieldFactory({ promisedFarm: [farm], promisedStation: [weatherStation] });
-          [managementPlan1] = await mocks.management_planFactory({ promisedCrop: [crop1], promisedField: [field1] });
+          [field1] = await mocks.fieldFactory({
+            promisedFarm: [farm],
+            promisedStation: [weatherStation],
+          });
+          [managementPlan1] = await mocks.management_planFactory({
+            promisedCrop: [crop1],
+            promisedField: [field1],
+          });
 
           sampleRequestBody = {
             activity_id: activityLog.activity_id,
@@ -1875,10 +2275,12 @@ xdescribe('Log Tests', () => {
             date: fakeActivityLog.date,
             user_id: owner.user_id,
             notes: fakeActivityLog.notes,
-            crops: [{ field_crop_id: managementPlan.field_crop_id }, { field_crop_id: managementPlan1.field_crop_id }],
+            crops: [
+              { field_crop_id: managementPlan.field_crop_id },
+              { field_crop_id: managementPlan1.field_crop_id },
+            ],
             locations: [{ location_id: field.location_id }, { location_id: field1.location_id }],
             ...fakefieldWorkLog,
-
           };
         });
 
@@ -1886,28 +2288,40 @@ xdescribe('Log Tests', () => {
           sampleRequestBody.crops = [];
           putRequest(sampleRequestBody, { user_id: owner.user_id }, async (err, res) => {
             expect(res.status).toBe(200);
-            const activityLog = await activityLogModel.query().context({
-              showHidden: true,
-              user_id: owner.user_id,
-            }).where('user_id', owner.user_id);
+            const activityLog = await activityLogModel
+              .query()
+              .context({
+                showHidden: true,
+                user_id: owner.user_id,
+              })
+              .where('user_id', owner.user_id);
             expect(activityLog.length).toBe(1);
             expect(activityLog[0].notes).toBe(fakeActivityLog.notes);
-            const fieldWorkLog = await fieldWorkLogModel.query().context({
-              showHidden: true,
-              user_id: owner.user_id,
-            }).where('activity_id', activityLog[0].activity_id);
+            const fieldWorkLog = await fieldWorkLogModel
+              .query()
+              .context({
+                showHidden: true,
+                user_id: owner.user_id,
+              })
+              .where('activity_id', activityLog[0].activity_id);
             expect(fieldWorkLog.length).toBe(1);
             expect(fieldWorkLog[0].quantity_kg).toBe(fakefieldWorkLog.quantity_kg);
-            const activityFieldLog = await activityFieldsModel.query().context({
-              showHidden: true,
-              user_id: owner.user_id,
-            }).where('activity_id', activityLog[0].activity_id);
+            const activityFieldLog = await activityFieldsModel
+              .query()
+              .context({
+                showHidden: true,
+                user_id: owner.user_id,
+              })
+              .where('activity_id', activityLog[0].activity_id);
             expect(activityFieldLog.length).toBe(2);
             expect(activityFieldLog[1].location_id).toBe(field1.location_id);
-            const activityCrops = await activityCropsModel.query().context({
-              showHidden: true,
-              user_id: owner.user_id,
-            }).where('activity_id', activityLog[0].activity_id);
+            const activityCrops = await activityCropsModel
+              .query()
+              .context({
+                showHidden: true,
+                user_id: owner.user_id,
+              })
+              .where('activity_id', activityLog[0].activity_id);
             expect(activityCrops.length).toBe(0);
             done();
           });
@@ -1919,28 +2333,40 @@ xdescribe('Log Tests', () => {
           sampleRequestBody.crops = [];
           putRequest(sampleRequestBody, { user_id: owner.user_id }, async (err, res) => {
             expect(res.status).toBe(200);
-            const activityLog = await activityLogModel.query().context({
-              showHidden: true,
-              user_id: owner.user_id,
-            }).where('user_id', owner.user_id);
+            const activityLog = await activityLogModel
+              .query()
+              .context({
+                showHidden: true,
+                user_id: owner.user_id,
+              })
+              .where('user_id', owner.user_id);
             expect(activityLog.length).toBe(1);
             expect(activityLog[0].notes).toBe(fakeActivityLog.notes);
-            const fieldWorkLog = await fieldWorkLogModel.query().context({
-              showHidden: true,
-              user_id: owner.user_id,
-            }).where('activity_id', activityLog[0].activity_id);
+            const fieldWorkLog = await fieldWorkLogModel
+              .query()
+              .context({
+                showHidden: true,
+                user_id: owner.user_id,
+              })
+              .where('activity_id', activityLog[0].activity_id);
             expect(fieldWorkLog.length).toBe(1);
             expect(fieldWorkLog[0].quantity_kg).toBe(fakefieldWorkLog.quantity_kg);
-            const activityFieldLog = await activityFieldsModel.query().context({
-              showHidden: true,
-              user_id: owner.user_id,
-            }).where('activity_id', activityLog[0].activity_id);
+            const activityFieldLog = await activityFieldsModel
+              .query()
+              .context({
+                showHidden: true,
+                user_id: owner.user_id,
+              })
+              .where('activity_id', activityLog[0].activity_id);
             expect(activityFieldLog.length).toBe(1);
             expect(activityFieldLog[0].location_id).toBe(emptyField.location_id);
-            const activityCrops = await activityCropsModel.query().context({
-              showHidden: true,
-              user_id: owner.user_id,
-            }).where('activity_id', activityLog[0].activity_id);
+            const activityCrops = await activityCropsModel
+              .query()
+              .context({
+                showHidden: true,
+                user_id: owner.user_id,
+              })
+              .where('activity_id', activityLog[0].activity_id);
             expect(activityCrops.length).toBe(0);
             done();
           });
@@ -1953,10 +2379,7 @@ xdescribe('Log Tests', () => {
             done();
           });
         });
-
-
       });
-
     });
 
     describe('soilDataLog tests', () => {
@@ -1970,12 +2393,21 @@ xdescribe('Log Tests', () => {
       beforeEach(async () => {
         [crop] = await mocks.cropFactory({ promisedFarm: [farm] });
         let [weatherStation] = await mocks.weather_stationFactory();
-        [field] = await mocks.fieldFactory({ promisedFarm: [farm], promisedStation: [weatherStation] });
-        [managementPlan] = await mocks.management_planFactory({ promisedCrop: [crop], promisedField: [field] });
-        [activityLog] = await mocks.activityLogFactory({ promisedUser: [owner] }, {
-          ...mocks.fakeActivityLog(),
-          activity_kind: 'soilData',
+        [field] = await mocks.fieldFactory({
+          promisedFarm: [farm],
+          promisedStation: [weatherStation],
         });
+        [managementPlan] = await mocks.management_planFactory({
+          promisedCrop: [crop],
+          promisedField: [field],
+        });
+        [activityLog] = await mocks.activityLogFactory(
+          { promisedUser: [owner] },
+          {
+            ...mocks.fakeActivityLog(),
+            activity_kind: 'soilData',
+          },
+        );
         [soilDataLog] = await mocks.soilDataLogFactory({
           promisedActivity: [activityLog],
         });
@@ -1985,25 +2417,27 @@ xdescribe('Log Tests', () => {
         });
       });
 
-
       describe('Get soilDataLog tests', () => {
-
-
         test('Get by activity_id test', async (done) => {
-          getRequest({ user_id: owner.user_id, url: `/log/${activityLog.activity_id}` }, (err, res) => {
-            expect(res.status).toBe(200);
+          getRequest(
+            { user_id: owner.user_id, url: `/log/${activityLog.activity_id}` },
+            (err, res) => {
+              expect(res.status).toBe(200);
 
-            expect(res.body.notes).toBe(activityLog.notes);
-            done();
-          });
+              expect(res.body.notes).toBe(activityLog.notes);
+              done();
+            },
+          );
         });
 
-
         test('Get by farm_id', async (done) => {
-          let [activityLog1] = await mocks.activityLogFactory({ promisedUser: [owner] }, {
-            ...mocks.fakeActivityLog(),
-            activity_kind: 'soilData',
-          });
+          let [activityLog1] = await mocks.activityLogFactory(
+            { promisedUser: [owner] },
+            {
+              ...mocks.fakeActivityLog(),
+              activity_kind: 'soilData',
+            },
+          );
           let [soilDataLog1] = await mocks.soilDataLogFactory({
             promisedActivityLog: [activityLog1],
           });
@@ -2026,7 +2460,6 @@ xdescribe('Log Tests', () => {
         });
       });
 
-
       describe('Put soilDataLog tests', () => {
         // TODO update single locations tests
         let crop1;
@@ -2040,8 +2473,14 @@ xdescribe('Log Tests', () => {
           fakeSoilDataLog = mocks.fakeSoilDataLog();
           [crop1] = await mocks.cropFactory({ promisedFarm: [farm] });
           let [weatherStation] = await mocks.weather_stationFactory();
-          [field1] = await mocks.fieldFactory({ promisedFarm: [farm], promisedStation: [weatherStation] });
-          [managementPlan1] = await mocks.management_planFactory({ promisedCrop: [crop1], promisedField: [field1] });
+          [field1] = await mocks.fieldFactory({
+            promisedFarm: [farm],
+            promisedStation: [weatherStation],
+          });
+          [managementPlan1] = await mocks.management_planFactory({
+            promisedCrop: [crop1],
+            promisedField: [field1],
+          });
 
           sampleRequestBody = {
             activity_id: activityLog.activity_id,
@@ -2049,10 +2488,12 @@ xdescribe('Log Tests', () => {
             date: fakeActivityLog.date,
             user_id: owner.user_id,
             notes: fakeActivityLog.notes,
-            crops: [{ field_crop_id: managementPlan.field_crop_id }, { field_crop_id: managementPlan1.field_crop_id }],
+            crops: [
+              { field_crop_id: managementPlan.field_crop_id },
+              { field_crop_id: managementPlan1.field_crop_id },
+            ],
             locations: [{ location_id: field.location_id }, { location_id: field1.location_id }],
             ...fakeSoilDataLog,
-
           };
         });
 
@@ -2060,28 +2501,40 @@ xdescribe('Log Tests', () => {
           sampleRequestBody.crops = [];
           putRequest(sampleRequestBody, { user_id: owner.user_id }, async (err, res) => {
             expect(res.status).toBe(200);
-            const activityLog = await activityLogModel.query().context({
-              showHidden: true,
-              user_id: owner.user_id,
-            }).where('user_id', owner.user_id);
+            const activityLog = await activityLogModel
+              .query()
+              .context({
+                showHidden: true,
+                user_id: owner.user_id,
+              })
+              .where('user_id', owner.user_id);
             expect(activityLog.length).toBe(1);
             expect(activityLog[0].notes).toBe(fakeActivityLog.notes);
-            const soilDataLog = await soilDataLogModel.query().context({
-              showHidden: true,
-              user_id: owner.user_id,
-            }).where('activity_id', activityLog[0].activity_id);
+            const soilDataLog = await soilDataLogModel
+              .query()
+              .context({
+                showHidden: true,
+                user_id: owner.user_id,
+              })
+              .where('activity_id', activityLog[0].activity_id);
             expect(soilDataLog.length).toBe(1);
             expect(soilDataLog[0].quantity_kg).toBe(fakeSoilDataLog.quantity_kg);
-            const activityFieldLog = await activityFieldsModel.query().context({
-              showHidden: true,
-              user_id: owner.user_id,
-            }).where('activity_id', activityLog[0].activity_id);
+            const activityFieldLog = await activityFieldsModel
+              .query()
+              .context({
+                showHidden: true,
+                user_id: owner.user_id,
+              })
+              .where('activity_id', activityLog[0].activity_id);
             expect(activityFieldLog.length).toBe(2);
             expect(activityFieldLog[1].location_id).toBe(field1.location_id);
-            const activityCrops = await activityCropsModel.query().context({
-              showHidden: true,
-              user_id: owner.user_id,
-            }).where('activity_id', activityLog[0].activity_id);
+            const activityCrops = await activityCropsModel
+              .query()
+              .context({
+                showHidden: true,
+                user_id: owner.user_id,
+              })
+              .where('activity_id', activityLog[0].activity_id);
             expect(activityCrops.length).toBe(0);
             done();
           });
@@ -2094,12 +2547,8 @@ xdescribe('Log Tests', () => {
             done();
           });
         });
-
-
       });
-
     });
-
 
     describe('irrigationLog tests', () => {
       let irrigationLog;
@@ -2112,12 +2561,21 @@ xdescribe('Log Tests', () => {
       beforeEach(async () => {
         [crop] = await mocks.cropFactory({ promisedFarm: [farm] });
         let [weatherStation] = await mocks.weather_stationFactory();
-        [field] = await mocks.fieldFactory({ promisedFarm: [farm], promisedStation: [weatherStation] });
-        [managementPlan] = await mocks.management_planFactory({ promisedCrop: [crop], promisedField: [field] });
-        [activityLog] = await mocks.activityLogFactory({ promisedUser: [owner] }, {
-          ...mocks.fakeActivityLog(),
-          activity_kind: 'irrigation',
+        [field] = await mocks.fieldFactory({
+          promisedFarm: [farm],
+          promisedStation: [weatherStation],
         });
+        [managementPlan] = await mocks.management_planFactory({
+          promisedCrop: [crop],
+          promisedField: [field],
+        });
+        [activityLog] = await mocks.activityLogFactory(
+          { promisedUser: [owner] },
+          {
+            ...mocks.fakeActivityLog(),
+            activity_kind: 'irrigation',
+          },
+        );
         [irrigationLog] = await mocks.irrigationLogFactory({
           promisedActivity: [activityLog],
         });
@@ -2131,25 +2589,27 @@ xdescribe('Log Tests', () => {
         });
       });
 
-
       describe('Get irrigationLog tests', () => {
-
-
         test('Get by activity_id test', async (done) => {
-          getRequest({ user_id: owner.user_id, url: `/log/${activityLog.activity_id}` }, (err, res) => {
-            expect(res.status).toBe(200);
+          getRequest(
+            { user_id: owner.user_id, url: `/log/${activityLog.activity_id}` },
+            (err, res) => {
+              expect(res.status).toBe(200);
 
-            expect(res.body.notes).toBe(activityLog.notes);
-            done();
-          });
+              expect(res.body.notes).toBe(activityLog.notes);
+              done();
+            },
+          );
         });
 
-
         test('Get by farm_id', async (done) => {
-          let [activityLog1] = await mocks.activityLogFactory({ promisedUser: [owner] }, {
-            ...mocks.fakeActivityLog(),
-            activity_kind: 'irrigation',
-          });
+          let [activityLog1] = await mocks.activityLogFactory(
+            { promisedUser: [owner] },
+            {
+              ...mocks.fakeActivityLog(),
+              activity_kind: 'irrigation',
+            },
+          );
           let [irrigationLog1] = await mocks.irrigationLogFactory({
             promisedActivityLog: [activityLog1],
           });
@@ -2164,14 +2624,16 @@ xdescribe('Log Tests', () => {
           getRequest({ user_id: owner.user_id }, (err, res) => {
             expect(res.status).toBe(200);
             expect(res.body.length).toBe(2);
-            expect(res.body.map(activityLog => activityLog.activity_id)).toEqual([activityLog.activity_id, activityLog1.activity_id]);
+            expect(res.body.map((activityLog) => activityLog.activity_id)).toEqual([
+              activityLog.activity_id,
+              activityLog1.activity_id,
+            ]);
             expect(res.body[0].managementPlan[0].field_crop_id).toBe(managementPlan.field_crop_id);
             expect(res.body[0].location[0].location_id).toBe(field.location_id);
             done();
           });
         });
       });
-
 
       describe('Put irrigationLog tests', () => {
         // TODO update single locations tests
@@ -2186,8 +2648,14 @@ xdescribe('Log Tests', () => {
           fakeIrrigationLog = mocks.fakeIrrigationLog();
           [crop1] = await mocks.cropFactory({ promisedFarm: [farm] });
           let [weatherStation] = await mocks.weather_stationFactory();
-          [field1] = await mocks.fieldFactory({ promisedFarm: [farm], promisedStation: [weatherStation] });
-          [managementPlan1] = await mocks.management_planFactory({ promisedCrop: [crop1], promisedField: [field1] });
+          [field1] = await mocks.fieldFactory({
+            promisedFarm: [farm],
+            promisedStation: [weatherStation],
+          });
+          [managementPlan1] = await mocks.management_planFactory({
+            promisedCrop: [crop1],
+            promisedField: [field1],
+          });
 
           sampleRequestBody = {
             activity_id: activityLog.activity_id,
@@ -2195,47 +2663,58 @@ xdescribe('Log Tests', () => {
             date: fakeActivityLog.date,
             user_id: owner.user_id,
             notes: fakeActivityLog.notes,
-            crops: [{ field_crop_id: managementPlan.field_crop_id }, { field_crop_id: managementPlan1.field_crop_id }],
+            crops: [
+              { field_crop_id: managementPlan.field_crop_id },
+              { field_crop_id: managementPlan1.field_crop_id },
+            ],
             locations: [{ location_id: field.location_id }, { location_id: field1.location_id }],
             ...fakeIrrigationLog,
-
           };
         });
 
         test('Owner should put irrigationLog tests with multiple field_crop and field', async (done) => {
           putRequest(sampleRequestBody, { user_id: owner.user_id }, async (err, res) => {
             expect(res.status).toBe(200);
-            const activityLog = await activityLogModel.query().context({
-              showHidden: true,
-              user_id: owner.user_id,
-            }).where('user_id', owner.user_id);
+            const activityLog = await activityLogModel
+              .query()
+              .context({
+                showHidden: true,
+                user_id: owner.user_id,
+              })
+              .where('user_id', owner.user_id);
             expect(activityLog.length).toBe(1);
             expect(activityLog[0].notes).toBe(fakeActivityLog.notes);
-            const irrigationLog = await irrigationLogModel.query().context({
-              showHidden: true,
-              user_id: owner.user_id,
-            }).where('activity_id', activityLog[0].activity_id);
+            const irrigationLog = await irrigationLogModel
+              .query()
+              .context({
+                showHidden: true,
+                user_id: owner.user_id,
+              })
+              .where('activity_id', activityLog[0].activity_id);
             expect(irrigationLog.length).toBe(1);
             expect(irrigationLog[0].quantity_kg).toBe(fakeIrrigationLog.quantity_kg);
-            const activityFieldLog = await activityFieldsModel.query().context({
-              showHidden: true,
-              user_id: owner.user_id,
-            }).where('activity_id', activityLog[0].activity_id);
+            const activityFieldLog = await activityFieldsModel
+              .query()
+              .context({
+                showHidden: true,
+                user_id: owner.user_id,
+              })
+              .where('activity_id', activityLog[0].activity_id);
             expect(activityFieldLog.length).toBe(2);
             expect(activityFieldLog[1].location_id).toBe(field1.location_id);
-            const activityCrops = await activityCropsModel.query().context({
-              showHidden: true,
-              user_id: owner.user_id,
-            }).where('activity_id', activityLog[0].activity_id);
+            const activityCrops = await activityCropsModel
+              .query()
+              .context({
+                showHidden: true,
+                user_id: owner.user_id,
+              })
+              .where('activity_id', activityLog[0].activity_id);
             expect(activityCrops.length).toBe(2);
             expect(activityCrops[1].field_crop_id).toBe(managementPlan1.field_crop_id);
             done();
           });
         });
-
-
       });
-
     });
 
     describe('scoutingLog tests', () => {
@@ -2249,12 +2728,21 @@ xdescribe('Log Tests', () => {
       beforeEach(async () => {
         [crop] = await mocks.cropFactory({ promisedFarm: [farm] });
         let [weatherStation] = await mocks.weather_stationFactory();
-        [field] = await mocks.fieldFactory({ promisedFarm: [farm], promisedStation: [weatherStation] });
-        [managementPlan] = await mocks.management_planFactory({ promisedCrop: [crop], promisedField: [field] });
-        [activityLog] = await mocks.activityLogFactory({ promisedUser: [owner] }, {
-          ...mocks.fakeActivityLog(),
-          activity_kind: 'scouting',
+        [field] = await mocks.fieldFactory({
+          promisedFarm: [farm],
+          promisedStation: [weatherStation],
         });
+        [managementPlan] = await mocks.management_planFactory({
+          promisedCrop: [crop],
+          promisedField: [field],
+        });
+        [activityLog] = await mocks.activityLogFactory(
+          { promisedUser: [owner] },
+          {
+            ...mocks.fakeActivityLog(),
+            activity_kind: 'scouting',
+          },
+        );
         [scoutingLog] = await mocks.scoutingLogFactory({
           promisedActivity: [activityLog],
         });
@@ -2268,25 +2756,27 @@ xdescribe('Log Tests', () => {
         });
       });
 
-
       describe('Get scoutingLog tests', () => {
-
-
         test('Get by activity_id test', async (done) => {
-          getRequest({ user_id: owner.user_id, url: `/log/${activityLog.activity_id}` }, (err, res) => {
-            expect(res.status).toBe(200);
+          getRequest(
+            { user_id: owner.user_id, url: `/log/${activityLog.activity_id}` },
+            (err, res) => {
+              expect(res.status).toBe(200);
 
-            expect(res.body.notes).toBe(activityLog.notes);
-            done();
-          });
+              expect(res.body.notes).toBe(activityLog.notes);
+              done();
+            },
+          );
         });
 
-
         test('Get by farm_id', async (done) => {
-          let [activityLog1] = await mocks.activityLogFactory({ promisedUser: [owner] }, {
-            ...mocks.fakeActivityLog(),
-            activity_kind: 'scouting',
-          });
+          let [activityLog1] = await mocks.activityLogFactory(
+            { promisedUser: [owner] },
+            {
+              ...mocks.fakeActivityLog(),
+              activity_kind: 'scouting',
+            },
+          );
           let [scoutingLog1] = await mocks.scoutingLogFactory({
             promisedActivityLog: [activityLog1],
           });
@@ -2309,7 +2799,6 @@ xdescribe('Log Tests', () => {
         });
       });
 
-
       describe('Put scoutingLog tests', () => {
         // TODO update single locations tests
         let crop1;
@@ -2323,8 +2812,14 @@ xdescribe('Log Tests', () => {
           fakeScoutingLog = mocks.fakeScoutingLog();
           [crop1] = await mocks.cropFactory({ promisedFarm: [farm] });
           let [weatherStation] = await mocks.weather_stationFactory();
-          [field1] = await mocks.fieldFactory({ promisedFarm: [farm], promisedStation: [weatherStation] });
-          [managementPlan1] = await mocks.management_planFactory({ promisedCrop: [crop1], promisedField: [field1] });
+          [field1] = await mocks.fieldFactory({
+            promisedFarm: [farm],
+            promisedStation: [weatherStation],
+          });
+          [managementPlan1] = await mocks.management_planFactory({
+            promisedCrop: [crop1],
+            promisedField: [field1],
+          });
 
           sampleRequestBody = {
             activity_id: activityLog.activity_id,
@@ -2332,47 +2827,58 @@ xdescribe('Log Tests', () => {
             date: fakeActivityLog.date,
             user_id: owner.user_id,
             notes: fakeActivityLog.notes,
-            crops: [{ field_crop_id: managementPlan.field_crop_id }, { field_crop_id: managementPlan1.field_crop_id }],
+            crops: [
+              { field_crop_id: managementPlan.field_crop_id },
+              { field_crop_id: managementPlan1.field_crop_id },
+            ],
             locations: [{ location_id: field.location_id }, { location_id: field1.location_id }],
             ...fakeScoutingLog,
-
           };
         });
 
         test('Owner should put scoutingLog tests with multiple field_crop and field', async (done) => {
           putRequest(sampleRequestBody, { user_id: owner.user_id }, async (err, res) => {
             expect(res.status).toBe(200);
-            const activityLog = await activityLogModel.query().context({
-              showHidden: true,
-              user_id: owner.user_id,
-            }).where('user_id', owner.user_id);
+            const activityLog = await activityLogModel
+              .query()
+              .context({
+                showHidden: true,
+                user_id: owner.user_id,
+              })
+              .where('user_id', owner.user_id);
             expect(activityLog.length).toBe(1);
             expect(activityLog[0].notes).toBe(fakeActivityLog.notes);
-            const scoutingLog = await scoutingLogModel.query().context({
-              showHidden: true,
-              user_id: owner.user_id,
-            }).where('activity_id', activityLog[0].activity_id);
+            const scoutingLog = await scoutingLogModel
+              .query()
+              .context({
+                showHidden: true,
+                user_id: owner.user_id,
+              })
+              .where('activity_id', activityLog[0].activity_id);
             expect(scoutingLog.length).toBe(1);
             expect(scoutingLog[0].quantity_kg).toBe(fakeScoutingLog.quantity_kg);
-            const activityFieldLog = await activityFieldsModel.query().context({
-              showHidden: true,
-              user_id: owner.user_id,
-            }).where('activity_id', activityLog[0].activity_id);
+            const activityFieldLog = await activityFieldsModel
+              .query()
+              .context({
+                showHidden: true,
+                user_id: owner.user_id,
+              })
+              .where('activity_id', activityLog[0].activity_id);
             expect(activityFieldLog.length).toBe(2);
             expect(activityFieldLog[1].location_id).toBe(field1.location_id);
-            const activityCrops = await activityCropsModel.query().context({
-              showHidden: true,
-              user_id: owner.user_id,
-            }).where('activity_id', activityLog[0].activity_id);
+            const activityCrops = await activityCropsModel
+              .query()
+              .context({
+                showHidden: true,
+                user_id: owner.user_id,
+              })
+              .where('activity_id', activityLog[0].activity_id);
             expect(activityCrops.length).toBe(2);
             expect(activityCrops[1].field_crop_id).toBe(managementPlan1.field_crop_id);
             done();
           });
         });
-
-
       });
-
     });
 
     describe('otherLog tests', () => {
@@ -2385,12 +2891,21 @@ xdescribe('Log Tests', () => {
       beforeEach(async () => {
         [crop] = await mocks.cropFactory({ promisedFarm: [farm] });
         let [weatherStation] = await mocks.weather_stationFactory();
-        [field] = await mocks.fieldFactory({ promisedFarm: [farm], promisedStation: [weatherStation] });
-        [managementPlan] = await mocks.management_planFactory({ promisedCrop: [crop], promisedField: [field] });
-        [activityLog] = await mocks.activityLogFactory({ promisedUser: [owner] }, {
-          ...mocks.fakeActivityLog(),
-          activity_kind: 'other',
+        [field] = await mocks.fieldFactory({
+          promisedFarm: [farm],
+          promisedStation: [weatherStation],
         });
+        [managementPlan] = await mocks.management_planFactory({
+          promisedCrop: [crop],
+          promisedField: [field],
+        });
+        [activityLog] = await mocks.activityLogFactory(
+          { promisedUser: [owner] },
+          {
+            ...mocks.fakeActivityLog(),
+            activity_kind: 'other',
+          },
+        );
         [activityCropLog] = await mocks.activityCropsFactory({
           promisedActivityLog: [activityLog],
           promisedManagementPlan: [managementPlan],
@@ -2401,25 +2916,27 @@ xdescribe('Log Tests', () => {
         });
       });
 
-
       describe('Get otherLog tests', () => {
-
-
         test('Get by activity_id test', async (done) => {
-          getRequest({ user_id: owner.user_id, url: `/log/${activityLog.activity_id}` }, (err, res) => {
-            expect(res.status).toBe(200);
+          getRequest(
+            { user_id: owner.user_id, url: `/log/${activityLog.activity_id}` },
+            (err, res) => {
+              expect(res.status).toBe(200);
 
-            expect(res.body.notes).toBe(activityLog.notes);
-            done();
-          });
+              expect(res.body.notes).toBe(activityLog.notes);
+              done();
+            },
+          );
         });
 
-
         test('Get by farm_id', async (done) => {
-          let [activityLog1] = await mocks.activityLogFactory({ promisedUser: [owner] }, {
-            ...mocks.fakeActivityLog(),
-            activity_kind: 'other',
-          });
+          let [activityLog1] = await mocks.activityLogFactory(
+            { promisedUser: [owner] },
+            {
+              ...mocks.fakeActivityLog(),
+              activity_kind: 'other',
+            },
+          );
           let [activityCropLog1] = await mocks.activityCropsFactory({
             promisedActivityLog: [activityLog1],
             promisedManagementPlan: [managementPlan],
@@ -2439,7 +2956,6 @@ xdescribe('Log Tests', () => {
         });
       });
 
-
       describe('Put otherLog tests', () => {
         // TODO update single locations tests
         let crop1;
@@ -2451,8 +2967,14 @@ xdescribe('Log Tests', () => {
           fakeActivityLog = mocks.fakeActivityLog();
           [crop1] = await mocks.cropFactory({ promisedFarm: [farm] });
           let [weatherStation] = await mocks.weather_stationFactory();
-          [field1] = await mocks.fieldFactory({ promisedFarm: [farm], promisedStation: [weatherStation] });
-          [managementPlan1] = await mocks.management_planFactory({ promisedCrop: [crop1], promisedField: [field1] });
+          [field1] = await mocks.fieldFactory({
+            promisedFarm: [farm],
+            promisedStation: [weatherStation],
+          });
+          [managementPlan1] = await mocks.management_planFactory({
+            promisedCrop: [crop1],
+            promisedField: [field1],
+          });
 
           sampleRequestBody = {
             activity_id: activityLog.activity_id,
@@ -2460,49 +2982,52 @@ xdescribe('Log Tests', () => {
             date: fakeActivityLog.date,
             user_id: owner.user_id,
             notes: fakeActivityLog.notes,
-            crops: [{ field_crop_id: managementPlan.field_crop_id }, { field_crop_id: managementPlan1.field_crop_id }],
+            crops: [
+              { field_crop_id: managementPlan.field_crop_id },
+              { field_crop_id: managementPlan1.field_crop_id },
+            ],
             locations: [{ location_id: field.location_id }, { location_id: field1.location_id }],
-
-
           };
         });
 
         test('Owner should put otherLog tests with multiple field_crop and field', async (done) => {
           putRequest(sampleRequestBody, { user_id: owner.user_id }, async (err, res) => {
             expect(res.status).toBe(200);
-            const activityLog = await activityLogModel.query().context({
-              showHidden: true,
-              user_id: owner.user_id,
-            }).where('user_id', owner.user_id);
+            const activityLog = await activityLogModel
+              .query()
+              .context({
+                showHidden: true,
+                user_id: owner.user_id,
+              })
+              .where('user_id', owner.user_id);
             expect(activityLog.length).toBe(1);
             expect(activityLog[0].notes).toBe(fakeActivityLog.notes);
-            const activityFieldLog = await activityFieldsModel.query().context({
-              showHidden: true,
-              user_id: owner.user_id,
-            }).where('activity_id', activityLog[0].activity_id);
+            const activityFieldLog = await activityFieldsModel
+              .query()
+              .context({
+                showHidden: true,
+                user_id: owner.user_id,
+              })
+              .where('activity_id', activityLog[0].activity_id);
             expect(activityFieldLog.length).toBe(2);
             expect(activityFieldLog[1].location_id).toBe(field1.location_id);
-            const activityCrops = await activityCropsModel.query().context({
-              showHidden: true,
-              user_id: owner.user_id,
-            }).where('activity_id', activityLog[0].activity_id);
+            const activityCrops = await activityCropsModel
+              .query()
+              .context({
+                showHidden: true,
+                user_id: owner.user_id,
+              })
+              .where('activity_id', activityLog[0].activity_id);
             expect(activityCrops.length).toBe(2);
             expect(activityCrops[1].field_crop_id).toBe(managementPlan1.field_crop_id);
             done();
           });
         });
-
-
       });
-
     });
-
-
   });
 
-
   describe('Post log', () => {
-
     describe('Post fertilizerLog', () => {
       let fakefertilizingLog;
       let fakeActivityLog;
@@ -2517,8 +3042,14 @@ xdescribe('Log Tests', () => {
         [fertilizer] = await mocks.fertilizerFactory({ promisedFarm: [farm] });
         [crop1] = await mocks.cropFactory({ promisedFarm: [farm] });
         let [weatherStation] = await mocks.weather_stationFactory();
-        [field1] = await mocks.fieldFactory({ promisedFarm: [farm], promisedStation: [weatherStation] });
-        [managementPlan1] = await mocks.management_planFactory({ promisedCrop: [crop1], promisedField: [field1] });
+        [field1] = await mocks.fieldFactory({
+          promisedFarm: [farm],
+          promisedStation: [weatherStation],
+        });
+        [managementPlan1] = await mocks.management_planFactory({
+          promisedCrop: [crop1],
+          promisedField: [field1],
+        });
 
         sampleRequestBody = {
           activity_kind: fakeActivityLog.activity_kind,
@@ -2585,7 +3116,10 @@ xdescribe('Log Tests', () => {
       //TODO fail
       xtest('Should return 403 when 1 of the 2 locations references a farm that the user does have access to', async (done) => {
         const [newField] = await mocks.fieldFactory();
-        sampleRequestBody.locations = [{ location_id: newField.location_id }, sampleRequestBody.locations[0]];
+        sampleRequestBody.locations = [
+          { location_id: newField.location_id },
+          sampleRequestBody.locations[0],
+        ];
         postRequest(sampleRequestBody, {}, async (err, res) => {
           //     //TODO should return 400
           expect(res.status).toBe(403);
@@ -2604,8 +3138,13 @@ xdescribe('Log Tests', () => {
 
       //TODO fail
       xtest('Should return 400 when 1 managementPlan references a field that is not in body.locations', async (done) => {
-        const [newManagementPlan] = await mocks.management_planFactory({ promisedField: mocks.fieldFactory({ promisedFarm: [farm] }) });
-        sampleRequestBody.crops = [{ field_crop_id: newManagementPlan.field_crop_id }, sampleRequestBody.crops[0]];
+        const [newManagementPlan] = await mocks.management_planFactory({
+          promisedField: mocks.fieldFactory({ promisedFarm: [farm] }),
+        });
+        sampleRequestBody.crops = [
+          { field_crop_id: newManagementPlan.field_crop_id },
+          sampleRequestBody.crops[0],
+        ];
         postRequest(sampleRequestBody, {}, async (err, res) => {
           expect(res.status).toBe(400);
           done();
@@ -2614,7 +3153,10 @@ xdescribe('Log Tests', () => {
 
       xtest('Should return 403 when 1 managementPlan references a field that user does not have access to', async (done) => {
         const [newManagementPlan] = await mocks.management_planFactory();
-        sampleRequestBody.crops = [{ field_crop_id: newManagementPlan.field_crop_id }, sampleRequestBody.crops[0]];
+        sampleRequestBody.crops = [
+          { field_crop_id: newManagementPlan.field_crop_id },
+          sampleRequestBody.crops[0],
+        ];
         postRequest(sampleRequestBody, {}, async (err, res) => {
           expect(res.status).toBe(403);
           done();
@@ -2633,22 +3175,27 @@ xdescribe('Log Tests', () => {
       test('Owner should post fertilizing log for a field', async (done) => {
         postRequest(sampleRequestBody, {}, async (err, res) => {
           expect(res.status).toBe(200);
-          const activityLog = await activityLogModel.query().context({
-            showHidden: true,
-            user_id: owner.user_id,
-          }).where('user_id', owner.user_id);
+          const activityLog = await activityLogModel
+            .query()
+            .context({
+              showHidden: true,
+              user_id: owner.user_id,
+            })
+            .where('user_id', owner.user_id);
           expect(activityLog.length).toBe(1);
           expect(activityLog[0].notes).toBe(fakeActivityLog.notes);
-          const fertilizerLog = await fertilizerLogModel.query().context({
-            showHidden: true,
-            user_id: owner.user_id,
-          }).where('activity_id', activityLog[0].activity_id);
+          const fertilizerLog = await fertilizerLogModel
+            .query()
+            .context({
+              showHidden: true,
+              user_id: owner.user_id,
+            })
+            .where('activity_id', activityLog[0].activity_id);
           expect(fertilizerLog.length).toBe(1);
           expect(fertilizerLog[0].fertilizer_id).toBe(fertilizer.fertilizer_id);
           done();
         });
       });
-
 
       test('Owner should post fertilizing log for a garden', async (done) => {
         const [garden] = await mocks.gardenFactory({ promisedFarm: [farm] });
@@ -2656,16 +3203,22 @@ xdescribe('Log Tests', () => {
         sampleRequestBody.locations.push(garden);
         postRequest(sampleRequestBody, {}, async (err, res) => {
           expect(res.status).toBe(200);
-          const activityLog = await activityLogModel.query().context({
-            showHidden: true,
-            user_id: owner.user_id,
-          }).where('user_id', owner.user_id);
+          const activityLog = await activityLogModel
+            .query()
+            .context({
+              showHidden: true,
+              user_id: owner.user_id,
+            })
+            .where('user_id', owner.user_id);
           expect(activityLog.length).toBe(1);
           expect(activityLog[0].notes).toBe(fakeActivityLog.notes);
-          const fertilizerLog = await fertilizerLogModel.query().context({
-            showHidden: true,
-            user_id: owner.user_id,
-          }).where('activity_id', activityLog[0].activity_id);
+          const fertilizerLog = await fertilizerLogModel
+            .query()
+            .context({
+              showHidden: true,
+              user_id: owner.user_id,
+            })
+            .where('activity_id', activityLog[0].activity_id);
           expect(fertilizerLog.length).toBe(1);
           expect(fertilizerLog[0].fertilizer_id).toBe(fertilizer.fertilizer_id);
           done();
@@ -2678,16 +3231,22 @@ xdescribe('Log Tests', () => {
         sampleRequestBody.locations.push(bufferZone);
         postRequest(sampleRequestBody, {}, async (err, res) => {
           expect(res.status).toBe(200);
-          const activityLog = await activityLogModel.query().context({
-            showHidden: true,
-            user_id: owner.user_id,
-          }).where('user_id', owner.user_id);
+          const activityLog = await activityLogModel
+            .query()
+            .context({
+              showHidden: true,
+              user_id: owner.user_id,
+            })
+            .where('user_id', owner.user_id);
           expect(activityLog.length).toBe(1);
           expect(activityLog[0].notes).toBe(fakeActivityLog.notes);
-          const fertilizerLog = await fertilizerLogModel.query().context({
-            showHidden: true,
-            user_id: owner.user_id,
-          }).where('activity_id', activityLog[0].activity_id);
+          const fertilizerLog = await fertilizerLogModel
+            .query()
+            .context({
+              showHidden: true,
+              user_id: owner.user_id,
+            })
+            .where('activity_id', activityLog[0].activity_id);
           expect(fertilizerLog.length).toBe(1);
           expect(fertilizerLog[0].fertilizer_id).toBe(fertilizer.fertilizer_id);
           done();
@@ -2700,16 +3259,22 @@ xdescribe('Log Tests', () => {
         sampleRequestBody.locations.push(greenhouse);
         postRequest(sampleRequestBody, {}, async (err, res) => {
           expect(res.status).toBe(200);
-          const activityLog = await activityLogModel.query().context({
-            showHidden: true,
-            user_id: owner.user_id,
-          }).where('user_id', owner.user_id);
+          const activityLog = await activityLogModel
+            .query()
+            .context({
+              showHidden: true,
+              user_id: owner.user_id,
+            })
+            .where('user_id', owner.user_id);
           expect(activityLog.length).toBe(1);
           expect(activityLog[0].notes).toBe(fakeActivityLog.notes);
-          const fertilizerLog = await fertilizerLogModel.query().context({
-            showHidden: true,
-            user_id: owner.user_id,
-          }).where('activity_id', activityLog[0].activity_id);
+          const fertilizerLog = await fertilizerLogModel
+            .query()
+            .context({
+              showHidden: true,
+              user_id: owner.user_id,
+            })
+            .where('activity_id', activityLog[0].activity_id);
           expect(fertilizerLog.length).toBe(1);
           expect(fertilizerLog[0].fertilizer_id).toBe(fertilizer.fertilizer_id);
           done();
@@ -2725,16 +3290,22 @@ xdescribe('Log Tests', () => {
         sampleRequestBody.locations.push(bufferZone);
         postRequest(sampleRequestBody, {}, async (err, res) => {
           expect(res.status).toBe(200);
-          const activityLog = await activityLogModel.query().context({
-            showHidden: true,
-            user_id: owner.user_id,
-          }).where('user_id', owner.user_id);
+          const activityLog = await activityLogModel
+            .query()
+            .context({
+              showHidden: true,
+              user_id: owner.user_id,
+            })
+            .where('user_id', owner.user_id);
           expect(activityLog.length).toBe(1);
           expect(activityLog[0].notes).toBe(fakeActivityLog.notes);
-          const fertilizerLog = await fertilizerLogModel.query().context({
-            showHidden: true,
-            user_id: owner.user_id,
-          }).where('activity_id', activityLog[0].activity_id);
+          const fertilizerLog = await fertilizerLogModel
+            .query()
+            .context({
+              showHidden: true,
+              user_id: owner.user_id,
+            })
+            .where('activity_id', activityLog[0].activity_id);
           expect(fertilizerLog.length).toBe(1);
           expect(fertilizerLog[0].fertilizer_id).toBe(fertilizer.fertilizer_id);
           done();
@@ -2759,7 +3330,9 @@ xdescribe('Log Tests', () => {
         });
       });
       test('Should return 400 if log reference a farm_site_boundary', async (done) => {
-        const [farm_site_boundary] = await mocks.farm_site_boundaryFactory({ promisedFarm: [farm] });
+        const [farm_site_boundary] = await mocks.farm_site_boundaryFactory({
+          promisedFarm: [farm],
+        });
         sampleRequestBody.locations.push(farm_site_boundary);
         postRequest(sampleRequestBody, {}, async (err, res) => {
           expect(res.status).toBe(400);
@@ -2826,35 +3399,63 @@ xdescribe('Log Tests', () => {
       test('Owner should post and get many valid fertilizingLogs', async (done) => {
         let [crop2] = await mocks.cropFactory({ promisedFarm: [farm] });
         let [weatherStation] = await mocks.weather_stationFactory();
-        let [field2] = await mocks.fieldFactory({ promisedFarm: [farm], promisedStation: [weatherStation] });
-        let [managementPlan2] = await mocks.management_planFactory({ promisedCrop: [crop2], promisedField: [field1] });
-        let [managementPlan3] = await mocks.management_planFactory({ promisedCrop: [crop2], promisedField: [field2] });
-        sampleRequestBody.locations = [{ location_id: field1.location_id }, { location_id: field2.location_id }];
-        sampleRequestBody.crops = [{ field_crop_id: managementPlan1.field_crop_id }, { field_crop_id: managementPlan2.field_crop_id }, { field_crop_id: managementPlan3.field_crop_id }];
+        let [field2] = await mocks.fieldFactory({
+          promisedFarm: [farm],
+          promisedStation: [weatherStation],
+        });
+        let [managementPlan2] = await mocks.management_planFactory({
+          promisedCrop: [crop2],
+          promisedField: [field1],
+        });
+        let [managementPlan3] = await mocks.management_planFactory({
+          promisedCrop: [crop2],
+          promisedField: [field2],
+        });
+        sampleRequestBody.locations = [
+          { location_id: field1.location_id },
+          { location_id: field2.location_id },
+        ];
+        sampleRequestBody.crops = [
+          { field_crop_id: managementPlan1.field_crop_id },
+          { field_crop_id: managementPlan2.field_crop_id },
+          { field_crop_id: managementPlan3.field_crop_id },
+        ];
         postRequest(sampleRequestBody, {}, async (err, res) => {
           expect(res.status).toBe(200);
-          const activityLog = await activityLogModel.query().context({
-            showHidden: true,
-            user_id: owner.user_id,
-          }).where('user_id', owner.user_id);
+          const activityLog = await activityLogModel
+            .query()
+            .context({
+              showHidden: true,
+              user_id: owner.user_id,
+            })
+            .where('user_id', owner.user_id);
           expect(activityLog.length).toBe(1);
           expect(activityLog[0].notes).toBe(fakeActivityLog.notes);
-          const fertilizerLog = await fertilizerLogModel.query().context({
-            showHidden: true,
-            user_id: owner.user_id,
-          }).where('activity_id', activityLog[0].activity_id);
+          const fertilizerLog = await fertilizerLogModel
+            .query()
+            .context({
+              showHidden: true,
+              user_id: owner.user_id,
+            })
+            .where('activity_id', activityLog[0].activity_id);
           expect(fertilizerLog.length).toBe(1);
           expect(fertilizerLog[0].fertilizer_id).toBe(fertilizer.fertilizer_id);
-          const activityFields = await activityFieldsModel.query().context({
-            showHidden: true,
-            user_id: owner.user_id,
-          }).where('activity_id', activityLog[0].activity_id);
+          const activityFields = await activityFieldsModel
+            .query()
+            .context({
+              showHidden: true,
+              user_id: owner.user_id,
+            })
+            .where('activity_id', activityLog[0].activity_id);
           expect(activityFields.length).toBe(2);
           expect(activityFields[1].location_id).toBe(field2.location_id);
-          const activityCropss = await activityCropsModel.query().context({
-            showHidden: true,
-            user_id: owner.user_id,
-          }).where('activity_id', activityLog[0].activity_id);
+          const activityCropss = await activityCropsModel
+            .query()
+            .context({
+              showHidden: true,
+              user_id: owner.user_id,
+            })
+            .where('activity_id', activityLog[0].activity_id);
           expect(activityCropss.length).toBe(3);
           expect(activityCropss[1].field_crop_id).toBe(managementPlan2.field_crop_id);
           done();
@@ -2862,7 +3463,6 @@ xdescribe('Log Tests', () => {
       });
 
       describe('Post log authorization tests', () => {
-
         let workder;
         let manager;
         let unAuthorizedUser;
@@ -2870,39 +3470,53 @@ xdescribe('Log Tests', () => {
 
         beforeEach(async () => {
           [workder] = await mocks.usersFactory();
-          const [workerFarm] = await mocks.userFarmFactory({
-            promisedUser: [workder],
-            promisedFarm: [farm],
-          }, fakeUserFarm(3));
+          const [workerFarm] = await mocks.userFarmFactory(
+            {
+              promisedUser: [workder],
+              promisedFarm: [farm],
+            },
+            fakeUserFarm(3),
+          );
           [manager] = await mocks.usersFactory();
-          const [managerFarm] = await mocks.userFarmFactory({
-            promisedUser: [manager],
-            promisedFarm: [farm],
-          }, fakeUserFarm(2));
-
+          const [managerFarm] = await mocks.userFarmFactory(
+            {
+              promisedUser: [manager],
+              promisedFarm: [farm],
+            },
+            fakeUserFarm(2),
+          );
 
           [unAuthorizedUser] = await mocks.usersFactory();
           [farmunAuthorizedUser] = await mocks.farmFactory();
-          const [ownerFarmunAuthorizedUser] = await mocks.userFarmFactory({
-            promisedUser: [unAuthorizedUser],
-            promisedFarm: [farmunAuthorizedUser],
-          }, fakeUserFarm(1));
+          const [ownerFarmunAuthorizedUser] = await mocks.userFarmFactory(
+            {
+              promisedUser: [unAuthorizedUser],
+              promisedFarm: [farmunAuthorizedUser],
+            },
+            fakeUserFarm(1),
+          );
         });
 
         test('Manager should post and get a valid fertilizingLog', async (done) => {
           sampleRequestBody.user_id = manager.user_id;
           postRequest(sampleRequestBody, { user_id: manager.user_id }, async (err, res) => {
             expect(res.status).toBe(200);
-            const activityLog = await activityLogModel.query().context({
-              showHidden: true,
-              user_id: owner.user_id,
-            }).where('user_id', manager.user_id);
+            const activityLog = await activityLogModel
+              .query()
+              .context({
+                showHidden: true,
+                user_id: owner.user_id,
+              })
+              .where('user_id', manager.user_id);
             expect(activityLog.length).toBe(1);
             expect(activityLog[0].notes).toBe(fakeActivityLog.notes);
-            const fertilizerLog = await fertilizerLogModel.query().context({
-              showHidden: true,
-              user_id: owner.user_id,
-            }).where('activity_id', activityLog[0].activity_id);
+            const fertilizerLog = await fertilizerLogModel
+              .query()
+              .context({
+                showHidden: true,
+                user_id: owner.user_id,
+              })
+              .where('activity_id', activityLog[0].activity_id);
             expect(fertilizerLog.length).toBe(1);
             expect(fertilizerLog[0].fertilizer_id).toBe(fertilizer.fertilizer_id);
             done();
@@ -2913,16 +3527,22 @@ xdescribe('Log Tests', () => {
           sampleRequestBody.user_id = workder.user_id;
           postRequest(sampleRequestBody, { user_id: workder.user_id }, async (err, res) => {
             expect(res.status).toBe(200);
-            const activityLog = await activityLogModel.query().context({
-              showHidden: true,
-              user_id: owner.user_id,
-            }).where('user_id', workder.user_id);
+            const activityLog = await activityLogModel
+              .query()
+              .context({
+                showHidden: true,
+                user_id: owner.user_id,
+              })
+              .where('user_id', workder.user_id);
             expect(activityLog.length).toBe(1);
             expect(activityLog[0].notes).toBe(fakeActivityLog.notes);
-            const fertilizerLog = await fertilizerLogModel.query().context({
-              showHidden: true,
-              user_id: owner.user_id,
-            }).where('activity_id', activityLog[0].activity_id);
+            const fertilizerLog = await fertilizerLogModel
+              .query()
+              .context({
+                showHidden: true,
+                user_id: owner.user_id,
+              })
+              .where('activity_id', activityLog[0].activity_id);
             expect(fertilizerLog.length).toBe(1);
             expect(fertilizerLog[0].fertilizer_id).toBe(fertilizer.fertilizer_id);
             done();
@@ -2940,40 +3560,48 @@ xdescribe('Log Tests', () => {
 
         test('should return 403 status if fertilizingLog is posted by unauthorized user', async (done) => {
           sampleRequestBody.user_id = unAuthorizedUser.user_id;
-          postRequest(sampleRequestBody, { user_id: unAuthorizedUser.user_id }, async (err, res) => {
-            expect(res.status).toBe(403);
-            done();
-          });
+          postRequest(
+            sampleRequestBody,
+            { user_id: unAuthorizedUser.user_id },
+            async (err, res) => {
+              expect(res.status).toBe(403);
+              done();
+            },
+          );
         });
 
         test('Circumvent authorization by modifying farm_id', async (done) => {
           sampleRequestBody.user_id = unAuthorizedUser.user_id;
-          postRequest(sampleRequestBody, {
-            user_id: workder.user_id,
-            farm_id: farmunAuthorizedUser.farm_id,
-          }, async (err, res) => {
-            expect(res.status).toBe(403);
-            done();
-          });
+          postRequest(
+            sampleRequestBody,
+            {
+              user_id: workder.user_id,
+              farm_id: farmunAuthorizedUser.farm_id,
+            },
+            async (err, res) => {
+              expect(res.status).toBe(403);
+              done();
+            },
+          );
         });
 
         test('Circumvent authorization by modifying farm_id in body', async (done) => {
           sampleRequestBody.user_id = unAuthorizedUser.user_id;
           sampleRequestBody.farm_id = farmunAuthorizedUser.farm_id;
-          postRequest(sampleRequestBody, {
-            user_id: workder.user_id,
-            farm_id: farmunAuthorizedUser.farm_id,
-          }, async (err, res) => {
-            expect(res.status).toBe(403);
-            done();
-          });
+          postRequest(
+            sampleRequestBody,
+            {
+              user_id: workder.user_id,
+              farm_id: farmunAuthorizedUser.farm_id,
+            },
+            async (err, res) => {
+              expect(res.status).toBe(403);
+              done();
+            },
+          );
         });
-
       });
-
-
     });
-
 
     describe('Post pestControlLog', () => {
       let fakePestControlLog;
@@ -2990,8 +3618,14 @@ xdescribe('Log Tests', () => {
         [pesticide] = await mocks.pesticideFactory({ promisedFarm: [farm] });
         [crop1] = await mocks.cropFactory({ promisedFarm: [farm] });
         let [weatherStation] = await mocks.weather_stationFactory();
-        [field1] = await mocks.fieldFactory({ promisedFarm: [farm], promisedStation: [weatherStation] });
-        [managementPlan1] = await mocks.management_planFactory({ promisedCrop: [crop1], promisedField: [field1] });
+        [field1] = await mocks.fieldFactory({
+          promisedFarm: [farm],
+          promisedStation: [weatherStation],
+        });
+        [managementPlan1] = await mocks.management_planFactory({
+          promisedCrop: [crop1],
+          promisedField: [field1],
+        });
         [disease] = await mocks.diseaseFactory({ promisedFarm: [farm] });
         sampleRequestBody = {
           activity_kind: fakeActivityLog.activity_kind,
@@ -3005,22 +3639,27 @@ xdescribe('Log Tests', () => {
           pesticide_id: pesticide.pesticide_id,
           target_disease_id: disease.disease_id,
         };
-
       });
 
       test('Owner should post and get a valid pestControlLog', async (done) => {
         postRequest(sampleRequestBody, {}, async (err, res) => {
           expect(res.status).toBe(200);
-          const activityLog = await activityLogModel.query().context({
-            showHidden: true,
-            user_id: owner.user_id,
-          }).where('user_id', owner.user_id);
+          const activityLog = await activityLogModel
+            .query()
+            .context({
+              showHidden: true,
+              user_id: owner.user_id,
+            })
+            .where('user_id', owner.user_id);
           expect(activityLog.length).toBe(1);
           expect(activityLog[0].notes).toBe(fakeActivityLog.notes);
-          const pestControlLog = await pestControlLogModel.query().context({
-            showHidden: true,
-            user_id: owner.user_id,
-          }).where('activity_id', activityLog[0].activity_id);
+          const pestControlLog = await pestControlLogModel
+            .query()
+            .context({
+              showHidden: true,
+              user_id: owner.user_id,
+            })
+            .where('activity_id', activityLog[0].activity_id);
           expect(pestControlLog.length).toBe(1);
           expect(pestControlLog[0].pesticide_id).toBe(pesticide.pesticide_id);
           done();
@@ -3030,35 +3669,63 @@ xdescribe('Log Tests', () => {
       test('Owner should post and get many valid pestControlLogs', async (done) => {
         let [crop2] = await mocks.cropFactory({ promisedFarm: [farm] });
         let [weatherStation] = await mocks.weather_stationFactory();
-        let [field2] = await mocks.fieldFactory({ promisedFarm: [farm], promisedStation: [weatherStation] });
-        let [managementPlan2] = await mocks.management_planFactory({ promisedCrop: [crop2], promisedField: [field1] });
-        let [managementPlan3] = await mocks.management_planFactory({ promisedCrop: [crop2], promisedField: [field2] });
-        sampleRequestBody.locations = [{ location_id: field1.location_id }, { location_id: field2.location_id }];
-        sampleRequestBody.crops = [{ field_crop_id: managementPlan1.field_crop_id }, { field_crop_id: managementPlan2.field_crop_id }, { field_crop_id: managementPlan3.field_crop_id }];
+        let [field2] = await mocks.fieldFactory({
+          promisedFarm: [farm],
+          promisedStation: [weatherStation],
+        });
+        let [managementPlan2] = await mocks.management_planFactory({
+          promisedCrop: [crop2],
+          promisedField: [field1],
+        });
+        let [managementPlan3] = await mocks.management_planFactory({
+          promisedCrop: [crop2],
+          promisedField: [field2],
+        });
+        sampleRequestBody.locations = [
+          { location_id: field1.location_id },
+          { location_id: field2.location_id },
+        ];
+        sampleRequestBody.crops = [
+          { field_crop_id: managementPlan1.field_crop_id },
+          { field_crop_id: managementPlan2.field_crop_id },
+          { field_crop_id: managementPlan3.field_crop_id },
+        ];
         postRequest(sampleRequestBody, {}, async (err, res) => {
           expect(res.status).toBe(200);
-          const activityLog = await activityLogModel.query().context({
-            showHidden: true,
-            user_id: owner.user_id,
-          }).where('user_id', owner.user_id);
+          const activityLog = await activityLogModel
+            .query()
+            .context({
+              showHidden: true,
+              user_id: owner.user_id,
+            })
+            .where('user_id', owner.user_id);
           expect(activityLog.length).toBe(1);
           expect(activityLog[0].notes).toBe(fakeActivityLog.notes);
-          const pestControlLog = await pestControlLogModel.query().context({
-            showHidden: true,
-            user_id: owner.user_id,
-          }).where('activity_id', activityLog[0].activity_id);
+          const pestControlLog = await pestControlLogModel
+            .query()
+            .context({
+              showHidden: true,
+              user_id: owner.user_id,
+            })
+            .where('activity_id', activityLog[0].activity_id);
           expect(pestControlLog.length).toBe(1);
           expect(pestControlLog[0].pesticide_id).toBe(pesticide.pesticide_id);
-          const activityFields = await activityFieldsModel.query().context({
-            showHidden: true,
-            user_id: owner.user_id,
-          }).where('activity_id', activityLog[0].activity_id);
+          const activityFields = await activityFieldsModel
+            .query()
+            .context({
+              showHidden: true,
+              user_id: owner.user_id,
+            })
+            .where('activity_id', activityLog[0].activity_id);
           expect(activityFields.length).toBe(2);
           expect(activityFields[1].location_id).toBe(field2.location_id);
-          const activityCropss = await activityCropsModel.query().context({
-            showHidden: true,
-            user_id: owner.user_id,
-          }).where('activity_id', activityLog[0].activity_id);
+          const activityCropss = await activityCropsModel
+            .query()
+            .context({
+              showHidden: true,
+              user_id: owner.user_id,
+            })
+            .where('activity_id', activityLog[0].activity_id);
           expect(activityCropss.length).toBe(3);
           expect(activityCropss[1].field_crop_id).toBe(managementPlan2.field_crop_id);
           done();
@@ -3066,7 +3733,6 @@ xdescribe('Log Tests', () => {
       });
 
       describe('Post log authorization tests', () => {
-
         let worker;
         let manager;
         let unAuthorizedUser;
@@ -3074,39 +3740,53 @@ xdescribe('Log Tests', () => {
 
         beforeEach(async () => {
           [worker] = await mocks.usersFactory();
-          const [workerFarm] = await mocks.userFarmFactory({
-            promisedUser: [worker],
-            promisedFarm: [farm],
-          }, fakeUserFarm(3));
+          const [workerFarm] = await mocks.userFarmFactory(
+            {
+              promisedUser: [worker],
+              promisedFarm: [farm],
+            },
+            fakeUserFarm(3),
+          );
           [manager] = await mocks.usersFactory();
-          const [managerFarm] = await mocks.userFarmFactory({
-            promisedUser: [manager],
-            promisedFarm: [farm],
-          }, fakeUserFarm(2));
-
+          const [managerFarm] = await mocks.userFarmFactory(
+            {
+              promisedUser: [manager],
+              promisedFarm: [farm],
+            },
+            fakeUserFarm(2),
+          );
 
           [unAuthorizedUser] = await mocks.usersFactory();
           [farmunAuthorizedUser] = await mocks.farmFactory();
-          const [ownerFarmunAuthorizedUser] = await mocks.userFarmFactory({
-            promisedUser: [unAuthorizedUser],
-            promisedFarm: [farmunAuthorizedUser],
-          }, fakeUserFarm(1));
+          const [ownerFarmunAuthorizedUser] = await mocks.userFarmFactory(
+            {
+              promisedUser: [unAuthorizedUser],
+              promisedFarm: [farmunAuthorizedUser],
+            },
+            fakeUserFarm(1),
+          );
         });
 
         test('Manager should post and get a valid pestControlLog', async (done) => {
           sampleRequestBody.user_id = manager.user_id;
           postRequest(sampleRequestBody, { user_id: manager.user_id }, async (err, res) => {
             expect(res.status).toBe(200);
-            const activityLog = await activityLogModel.query().context({
-              showHidden: true,
-              user_id: owner.user_id,
-            }).where('user_id', manager.user_id);
+            const activityLog = await activityLogModel
+              .query()
+              .context({
+                showHidden: true,
+                user_id: owner.user_id,
+              })
+              .where('user_id', manager.user_id);
             expect(activityLog.length).toBe(1);
             expect(activityLog[0].notes).toBe(fakeActivityLog.notes);
-            const pestControlLog = await pestControlLogModel.query().context({
-              showHidden: true,
-              user_id: owner.user_id,
-            }).where('activity_id', activityLog[0].activity_id);
+            const pestControlLog = await pestControlLogModel
+              .query()
+              .context({
+                showHidden: true,
+                user_id: owner.user_id,
+              })
+              .where('activity_id', activityLog[0].activity_id);
             expect(pestControlLog.length).toBe(1);
             expect(pestControlLog[0].pesticide_id).toBe(pesticide.pesticide_id);
             done();
@@ -3117,16 +3797,22 @@ xdescribe('Log Tests', () => {
           sampleRequestBody.user_id = worker.user_id;
           postRequest(sampleRequestBody, { user_id: worker.user_id }, async (err, res) => {
             expect(res.status).toBe(200);
-            const activityLog = await activityLogModel.query().context({
-              showHidden: true,
-              user_id: owner.user_id,
-            }).where('user_id', worker.user_id);
+            const activityLog = await activityLogModel
+              .query()
+              .context({
+                showHidden: true,
+                user_id: owner.user_id,
+              })
+              .where('user_id', worker.user_id);
             expect(activityLog.length).toBe(1);
             expect(activityLog[0].notes).toBe(fakeActivityLog.notes);
-            const pestControlLog = await pestControlLogModel.query().context({
-              showHidden: true,
-              user_id: owner.user_id,
-            }).where('activity_id', activityLog[0].activity_id);
+            const pestControlLog = await pestControlLogModel
+              .query()
+              .context({
+                showHidden: true,
+                user_id: owner.user_id,
+              })
+              .where('activity_id', activityLog[0].activity_id);
             expect(pestControlLog.length).toBe(1);
             expect(pestControlLog[0].pesticide_id).toBe(pesticide.pesticide_id);
             done();
@@ -3135,40 +3821,48 @@ xdescribe('Log Tests', () => {
 
         test('should return 403 status if pestControlLog is posted by unauthorized user', async (done) => {
           sampleRequestBody.user_id = unAuthorizedUser.user_id;
-          postRequest(sampleRequestBody, { user_id: unAuthorizedUser.user_id }, async (err, res) => {
-            expect(res.status).toBe(403);
-            done();
-          });
+          postRequest(
+            sampleRequestBody,
+            { user_id: unAuthorizedUser.user_id },
+            async (err, res) => {
+              expect(res.status).toBe(403);
+              done();
+            },
+          );
         });
 
         test('Circumvent authorization by modifying farm_id', async (done) => {
           sampleRequestBody.user_id = unAuthorizedUser.user_id;
-          postRequest(sampleRequestBody, {
-            user_id: worker.user_id,
-            farm_id: farmunAuthorizedUser.farm_id,
-          }, async (err, res) => {
-            expect(res.status).toBe(403);
-            done();
-          });
+          postRequest(
+            sampleRequestBody,
+            {
+              user_id: worker.user_id,
+              farm_id: farmunAuthorizedUser.farm_id,
+            },
+            async (err, res) => {
+              expect(res.status).toBe(403);
+              done();
+            },
+          );
         });
 
         test('Circumvent authorization by modifying farm_id in body', async (done) => {
           sampleRequestBody.user_id = unAuthorizedUser.user_id;
           sampleRequestBody.farm_id = farmunAuthorizedUser.farm_id;
-          postRequest(sampleRequestBody, {
-            user_id: worker.user_id,
-            farm_id: farmunAuthorizedUser.farm_id,
-          }, async (err, res) => {
-            expect(res.status).toBe(403);
-            done();
-          });
+          postRequest(
+            sampleRequestBody,
+            {
+              user_id: worker.user_id,
+              farm_id: farmunAuthorizedUser.farm_id,
+            },
+            async (err, res) => {
+              expect(res.status).toBe(403);
+              done();
+            },
+          );
         });
-
       });
-
-
     });
-
 
     describe('Post harvestLog', () => {
       let fakeHarvestLog;
@@ -3184,8 +3878,14 @@ xdescribe('Log Tests', () => {
         fakeHarvestLog = mocks.fakeHarvestLog();
         [crop1] = await mocks.cropFactory({ promisedFarm: [farm] });
         let [weatherStation] = await mocks.weather_stationFactory();
-        [field1] = await mocks.fieldFactory({ promisedFarm: [farm], promisedStation: [weatherStation] });
-        [managementPlan1] = await mocks.management_planFactory({ promisedCrop: [crop1], promisedField: [field1] });
+        [field1] = await mocks.fieldFactory({
+          promisedFarm: [farm],
+          promisedStation: [weatherStation],
+        });
+        [managementPlan1] = await mocks.management_planFactory({
+          promisedCrop: [crop1],
+          promisedField: [field1],
+        });
         [fakeHarvestUseType] = await mocks.harvestUseTypeFactory({ promisedFarm: [farm] });
         fakeHarvestUse = mocks.fakeHarvestUse();
         fakeHarvestUseType.quantity_kg = fakeHarvestUse.quantity_kg;
@@ -3198,33 +3898,38 @@ xdescribe('Log Tests', () => {
           quantity_kg: fakeHarvestLog.quantity_kg,
           crops: [{ field_crop_id: managementPlan1.field_crop_id }],
           locations: [{ location_id: field1.location_id }],
-          selectedUseTypes: [
-            fakeHarvestUseType,
-          ],
+          selectedUseTypes: [fakeHarvestUseType],
         };
-
-
       });
 
       test('Owner should post and get a valid harvestLog', async (done) => {
         postRequest(sampleRequestBody, {}, async (err, res) => {
           expect(res.status).toBe(200);
-          const activityLog = await activityLogModel.query().context({
-            showHidden: true,
-            user_id: owner.user_id,
-          }).where('user_id', owner.user_id);
+          const activityLog = await activityLogModel
+            .query()
+            .context({
+              showHidden: true,
+              user_id: owner.user_id,
+            })
+            .where('user_id', owner.user_id);
           expect(activityLog.length).toBe(1);
           expect(activityLog[0].notes).toBe(fakeActivityLog.notes);
-          const harvestLog = await harvestLogModel.query().context({
-            showHidden: true,
-            user_id: owner.user_id,
-          }).where('activity_id', activityLog[0].activity_id);
+          const harvestLog = await harvestLogModel
+            .query()
+            .context({
+              showHidden: true,
+              user_id: owner.user_id,
+            })
+            .where('activity_id', activityLog[0].activity_id);
           expect(harvestLog.length).toBe(1);
           expect(harvestLog[0].quantity_kg).toBe(fakeHarvestLog.quantity_kg);
-          const harvestUse = await harvestUseModel.query().context({
-            showHidden: true,
-            user_id: owner.user_id,
-          }).where('harvest_use_type_id', fakeHarvestUseType.harvest_use_type_id);
+          const harvestUse = await harvestUseModel
+            .query()
+            .context({
+              showHidden: true,
+              user_id: owner.user_id,
+            })
+            .where('harvest_use_type_id', fakeHarvestUseType.harvest_use_type_id);
           expect(harvestLog.length).toBe(1);
           expect(harvestUse[0].quantity_kg).toBe(fakeHarvestUseType.quantity_kg);
           done();
@@ -3234,41 +3939,72 @@ xdescribe('Log Tests', () => {
       test('Owner should post and get many valid harvestLogs', async (done) => {
         let [crop2] = await mocks.cropFactory({ promisedFarm: [farm] });
         let [weatherStation] = await mocks.weather_stationFactory();
-        let [field2] = await mocks.fieldFactory({ promisedFarm: [farm], promisedStation: [weatherStation] });
-        let [managementPlan2] = await mocks.management_planFactory({ promisedCrop: [crop2], promisedField: [field1] });
-        let [managementPlan3] = await mocks.management_planFactory({ promisedCrop: [crop2], promisedField: [field2] });
-        sampleRequestBody.locations = [{ location_id: field1.location_id }, { location_id: field2.location_id }];
-        sampleRequestBody.crops = [{ field_crop_id: managementPlan1.field_crop_id }, { field_crop_id: managementPlan2.field_crop_id }, { field_crop_id: managementPlan3.field_crop_id }];
+        let [field2] = await mocks.fieldFactory({
+          promisedFarm: [farm],
+          promisedStation: [weatherStation],
+        });
+        let [managementPlan2] = await mocks.management_planFactory({
+          promisedCrop: [crop2],
+          promisedField: [field1],
+        });
+        let [managementPlan3] = await mocks.management_planFactory({
+          promisedCrop: [crop2],
+          promisedField: [field2],
+        });
+        sampleRequestBody.locations = [
+          { location_id: field1.location_id },
+          { location_id: field2.location_id },
+        ];
+        sampleRequestBody.crops = [
+          { field_crop_id: managementPlan1.field_crop_id },
+          { field_crop_id: managementPlan2.field_crop_id },
+          { field_crop_id: managementPlan3.field_crop_id },
+        ];
         postRequest(sampleRequestBody, {}, async (err, res) => {
           expect(res.status).toBe(200);
-          const activityLog = await activityLogModel.query().context({
-            showHidden: true,
-            user_id: owner.user_id,
-          }).where('user_id', owner.user_id);
+          const activityLog = await activityLogModel
+            .query()
+            .context({
+              showHidden: true,
+              user_id: owner.user_id,
+            })
+            .where('user_id', owner.user_id);
           expect(activityLog.length).toBe(1);
           expect(activityLog[0].notes).toBe(fakeActivityLog.notes);
-          const harvestLog = await harvestLogModel.query().context({
-            showHidden: true,
-            user_id: owner.user_id,
-          }).where('activity_id', activityLog[0].activity_id);
+          const harvestLog = await harvestLogModel
+            .query()
+            .context({
+              showHidden: true,
+              user_id: owner.user_id,
+            })
+            .where('activity_id', activityLog[0].activity_id);
           expect(harvestLog.length).toBe(1);
           expect(harvestLog[0].quantity_kg).toBe(fakeHarvestLog.quantity_kg);
-          const activityFields = await activityFieldsModel.query().context({
-            showHidden: true,
-            user_id: owner.user_id,
-          }).where('activity_id', activityLog[0].activity_id);
+          const activityFields = await activityFieldsModel
+            .query()
+            .context({
+              showHidden: true,
+              user_id: owner.user_id,
+            })
+            .where('activity_id', activityLog[0].activity_id);
           expect(activityFields.length).toBe(2);
           expect(activityFields[1].location_id).toBe(field2.location_id);
-          const activityCropss = await activityCropsModel.query().context({
-            showHidden: true,
-            user_id: owner.user_id,
-          }).where('activity_id', activityLog[0].activity_id);
+          const activityCropss = await activityCropsModel
+            .query()
+            .context({
+              showHidden: true,
+              user_id: owner.user_id,
+            })
+            .where('activity_id', activityLog[0].activity_id);
           expect(activityCropss.length).toBe(3);
           expect(activityCropss[1].field_crop_id).toBe(managementPlan2.field_crop_id);
-          const harvestUse = await harvestUseModel.query().context({
-            showHidden: true,
-            user_id: owner.user_id,
-          }).where('harvest_use_type_id', fakeHarvestUseType.harvest_use_type_id);
+          const harvestUse = await harvestUseModel
+            .query()
+            .context({
+              showHidden: true,
+              user_id: owner.user_id,
+            })
+            .where('harvest_use_type_id', fakeHarvestUseType.harvest_use_type_id);
           expect(harvestLog.length).toBe(1);
           expect(harvestUse[0].quantity_kg).toBe(fakeHarvestUseType.quantity_kg);
           done();
@@ -3276,7 +4012,6 @@ xdescribe('Log Tests', () => {
       });
 
       describe('Post log authorization tests', () => {
-
         let worker;
         let manager;
         let unAuthorizedUser;
@@ -3284,45 +4019,62 @@ xdescribe('Log Tests', () => {
 
         beforeEach(async () => {
           [worker] = await mocks.usersFactory();
-          const [workerFarm] = await mocks.userFarmFactory({
-            promisedUser: [worker],
-            promisedFarm: [farm],
-          }, fakeUserFarm(3));
+          const [workerFarm] = await mocks.userFarmFactory(
+            {
+              promisedUser: [worker],
+              promisedFarm: [farm],
+            },
+            fakeUserFarm(3),
+          );
           [manager] = await mocks.usersFactory();
-          const [managerFarm] = await mocks.userFarmFactory({
-            promisedUser: [manager],
-            promisedFarm: [farm],
-          }, fakeUserFarm(2));
-
+          const [managerFarm] = await mocks.userFarmFactory(
+            {
+              promisedUser: [manager],
+              promisedFarm: [farm],
+            },
+            fakeUserFarm(2),
+          );
 
           [unAuthorizedUser] = await mocks.usersFactory();
           [farmunAuthorizedUser] = await mocks.farmFactory();
-          const [ownerFarmunAuthorizedUser] = await mocks.userFarmFactory({
-            promisedUser: [unAuthorizedUser],
-            promisedFarm: [farmunAuthorizedUser],
-          }, fakeUserFarm(1));
+          const [ownerFarmunAuthorizedUser] = await mocks.userFarmFactory(
+            {
+              promisedUser: [unAuthorizedUser],
+              promisedFarm: [farmunAuthorizedUser],
+            },
+            fakeUserFarm(1),
+          );
         });
 
         test('Manager should post and get a valid harvestLog', async (done) => {
           sampleRequestBody.user_id = manager.user_id;
           postRequest(sampleRequestBody, { user_id: manager.user_id }, async (err, res) => {
             expect(res.status).toBe(200);
-            const activityLog = await activityLogModel.query().context({
-              showHidden: true,
-              user_id: owner.user_id,
-            }).where('user_id', manager.user_id);
+            const activityLog = await activityLogModel
+              .query()
+              .context({
+                showHidden: true,
+                user_id: owner.user_id,
+              })
+              .where('user_id', manager.user_id);
             expect(activityLog.length).toBe(1);
             expect(activityLog[0].notes).toBe(fakeActivityLog.notes);
-            const harvestLog = await harvestLogModel.query().context({
-              showHidden: true,
-              user_id: owner.user_id,
-            }).where('activity_id', activityLog[0].activity_id);
+            const harvestLog = await harvestLogModel
+              .query()
+              .context({
+                showHidden: true,
+                user_id: owner.user_id,
+              })
+              .where('activity_id', activityLog[0].activity_id);
             expect(harvestLog.length).toBe(1);
             expect(harvestLog[0].quantity_kg).toBe(fakeHarvestLog.quantity_kg);
-            const harvestUse = await harvestUseModel.query().context({
-              showHidden: true,
-              user_id: owner.user_id,
-            }).where('harvest_use_type_id', fakeHarvestUseType.harvest_use_type_id);
+            const harvestUse = await harvestUseModel
+              .query()
+              .context({
+                showHidden: true,
+                user_id: owner.user_id,
+              })
+              .where('harvest_use_type_id', fakeHarvestUseType.harvest_use_type_id);
             expect(harvestLog.length).toBe(1);
             expect(harvestUse[0].quantity_kg).toBe(fakeHarvestUseType.quantity_kg);
             done();
@@ -3333,22 +4085,31 @@ xdescribe('Log Tests', () => {
           sampleRequestBody.user_id = worker.user_id;
           postRequest(sampleRequestBody, { user_id: worker.user_id }, async (err, res) => {
             expect(res.status).toBe(200);
-            const activityLog = await activityLogModel.query().context({
-              showHidden: true,
-              user_id: owner.user_id,
-            }).where('user_id', worker.user_id);
+            const activityLog = await activityLogModel
+              .query()
+              .context({
+                showHidden: true,
+                user_id: owner.user_id,
+              })
+              .where('user_id', worker.user_id);
             expect(activityLog.length).toBe(1);
             expect(activityLog[0].notes).toBe(fakeActivityLog.notes);
-            const harvestLog = await harvestLogModel.query().context({
-              showHidden: true,
-              user_id: owner.user_id,
-            }).where('activity_id', activityLog[0].activity_id);
+            const harvestLog = await harvestLogModel
+              .query()
+              .context({
+                showHidden: true,
+                user_id: owner.user_id,
+              })
+              .where('activity_id', activityLog[0].activity_id);
             expect(harvestLog.length).toBe(1);
             expect(harvestLog[0].quantity_kg).toBe(fakeHarvestLog.quantity_kg);
-            const harvestUse = await harvestUseModel.query().context({
-              showHidden: true,
-              user_id: owner.user_id,
-            }).where('harvest_use_type_id', fakeHarvestUseType.harvest_use_type_id);
+            const harvestUse = await harvestUseModel
+              .query()
+              .context({
+                showHidden: true,
+                user_id: owner.user_id,
+              })
+              .where('harvest_use_type_id', fakeHarvestUseType.harvest_use_type_id);
             expect(harvestLog.length).toBe(1);
             expect(harvestUse[0].quantity_kg).toBe(fakeHarvestUseType.quantity_kg);
             done();
@@ -3356,38 +4117,46 @@ xdescribe('Log Tests', () => {
         });
 
         test('should return 403 status if harvestLog is posted by unauthorized user', async (done) => {
-          postRequest(sampleRequestBody, { user_id: unAuthorizedUser.user_id }, async (err, res) => {
-            expect(res.status).toBe(403);
-            done();
-          });
+          postRequest(
+            sampleRequestBody,
+            { user_id: unAuthorizedUser.user_id },
+            async (err, res) => {
+              expect(res.status).toBe(403);
+              done();
+            },
+          );
         });
 
         test('Circumvent authorization by modifying farm_id', async (done) => {
-          postRequest(sampleRequestBody, {
-            user_id: worker.user_id,
-            farm_id: farmunAuthorizedUser.farm_id,
-          }, async (err, res) => {
-            expect(res.status).toBe(403);
-            done();
-          });
+          postRequest(
+            sampleRequestBody,
+            {
+              user_id: worker.user_id,
+              farm_id: farmunAuthorizedUser.farm_id,
+            },
+            async (err, res) => {
+              expect(res.status).toBe(403);
+              done();
+            },
+          );
         });
 
         test('Circumvent authorization by modifying farm_id in body', async (done) => {
           sampleRequestBody.user_id = farmunAuthorizedUser.user_id;
-          postRequest(sampleRequestBody, {
-            user_id: worker.user_id,
-            farm_id: farmunAuthorizedUser.farm_id,
-          }, async (err, res) => {
-            expect(res.status).toBe(403);
-            done();
-          });
+          postRequest(
+            sampleRequestBody,
+            {
+              user_id: worker.user_id,
+              farm_id: farmunAuthorizedUser.farm_id,
+            },
+            async (err, res) => {
+              expect(res.status).toBe(403);
+              done();
+            },
+          );
         });
-
       });
-
-
     });
-
 
     describe('Post seedLog', () => {
       let fakeSeedLog;
@@ -3401,8 +4170,14 @@ xdescribe('Log Tests', () => {
         fakeSeedLog = mocks.fakeSeedLog();
         [crop1] = await mocks.cropFactory({ promisedFarm: [farm] });
         let [weatherStation] = await mocks.weather_stationFactory();
-        [field1] = await mocks.fieldFactory({ promisedFarm: [farm], promisedStation: [weatherStation] });
-        [managementPlan1] = await mocks.management_planFactory({ promisedCrop: [crop1], promisedField: [field1] });
+        [field1] = await mocks.fieldFactory({
+          promisedFarm: [farm],
+          promisedStation: [weatherStation],
+        });
+        [managementPlan1] = await mocks.management_planFactory({
+          promisedCrop: [crop1],
+          promisedField: [field1],
+        });
 
         sampleRequestBody = {
           activity_kind: fakeActivityLog.activity_kind,
@@ -3416,22 +4191,27 @@ xdescribe('Log Tests', () => {
           crops: [{ field_crop_id: managementPlan1.field_crop_id }],
           locations: [{ location_id: field1.location_id }],
         };
-
       });
 
       test('Owner should post and get a valid seedLog', async (done) => {
         postRequest(sampleRequestBody, {}, async (err, res) => {
           expect(res.status).toBe(200);
-          const activityLog = await activityLogModel.query().context({
-            showHidden: true,
-            user_id: owner.user_id,
-          }).where('user_id', owner.user_id);
+          const activityLog = await activityLogModel
+            .query()
+            .context({
+              showHidden: true,
+              user_id: owner.user_id,
+            })
+            .where('user_id', owner.user_id);
           expect(activityLog.length).toBe(1);
           expect(activityLog[0].notes).toBe(fakeActivityLog.notes);
-          const seedLog = await seedLogModel.query().context({
-            showHidden: true,
-            user_id: owner.user_id,
-          }).where('activity_id', activityLog[0].activity_id);
+          const seedLog = await seedLogModel
+            .query()
+            .context({
+              showHidden: true,
+              user_id: owner.user_id,
+            })
+            .where('activity_id', activityLog[0].activity_id);
           expect(seedLog.length).toBe(1);
           expect(seedLog[0].space_depth_cm).toBe(fakeSeedLog.space_depth_cm);
           done();
@@ -3441,35 +4221,63 @@ xdescribe('Log Tests', () => {
       test('Owner should post and get many valid seedLogs', async (done) => {
         let [crop2] = await mocks.cropFactory({ promisedFarm: [farm] });
         let [weatherStation] = await mocks.weather_stationFactory();
-        let [field2] = await mocks.fieldFactory({ promisedFarm: [farm], promisedStation: [weatherStation] });
-        let [managementPlan2] = await mocks.management_planFactory({ promisedCrop: [crop2], promisedField: [field1] });
-        let [managementPlan3] = await mocks.management_planFactory({ promisedCrop: [crop2], promisedField: [field2] });
-        sampleRequestBody.locations = [{ location_id: field1.location_id }, { location_id: field2.location_id }];
-        sampleRequestBody.crops = [{ field_crop_id: managementPlan1.field_crop_id }, { field_crop_id: managementPlan2.field_crop_id }, { field_crop_id: managementPlan3.field_crop_id }];
+        let [field2] = await mocks.fieldFactory({
+          promisedFarm: [farm],
+          promisedStation: [weatherStation],
+        });
+        let [managementPlan2] = await mocks.management_planFactory({
+          promisedCrop: [crop2],
+          promisedField: [field1],
+        });
+        let [managementPlan3] = await mocks.management_planFactory({
+          promisedCrop: [crop2],
+          promisedField: [field2],
+        });
+        sampleRequestBody.locations = [
+          { location_id: field1.location_id },
+          { location_id: field2.location_id },
+        ];
+        sampleRequestBody.crops = [
+          { field_crop_id: managementPlan1.field_crop_id },
+          { field_crop_id: managementPlan2.field_crop_id },
+          { field_crop_id: managementPlan3.field_crop_id },
+        ];
         postRequest(sampleRequestBody, {}, async (err, res) => {
           expect(res.status).toBe(200);
-          const activityLog = await activityLogModel.query().context({
-            showHidden: true,
-            user_id: owner.user_id,
-          }).where('user_id', owner.user_id);
+          const activityLog = await activityLogModel
+            .query()
+            .context({
+              showHidden: true,
+              user_id: owner.user_id,
+            })
+            .where('user_id', owner.user_id);
           expect(activityLog.length).toBe(1);
           expect(activityLog[0].notes).toBe(fakeActivityLog.notes);
-          const seedLog = await seedLogModel.query().context({
-            showHidden: true,
-            user_id: owner.user_id,
-          }).where('activity_id', activityLog[0].activity_id);
+          const seedLog = await seedLogModel
+            .query()
+            .context({
+              showHidden: true,
+              user_id: owner.user_id,
+            })
+            .where('activity_id', activityLog[0].activity_id);
           expect(seedLog.length).toBe(1);
           expect(seedLog[0].space_depth_cm).toBe(fakeSeedLog.space_depth_cm);
-          const activityFields = await activityFieldsModel.query().context({
-            showHidden: true,
-            user_id: owner.user_id,
-          }).where('activity_id', activityLog[0].activity_id);
+          const activityFields = await activityFieldsModel
+            .query()
+            .context({
+              showHidden: true,
+              user_id: owner.user_id,
+            })
+            .where('activity_id', activityLog[0].activity_id);
           expect(activityFields.length).toBe(2);
           expect(activityFields[1].location_id).toBe(field2.location_id);
-          const activityCropss = await activityCropsModel.query().context({
-            showHidden: true,
-            user_id: owner.user_id,
-          }).where('activity_id', activityLog[0].activity_id);
+          const activityCropss = await activityCropsModel
+            .query()
+            .context({
+              showHidden: true,
+              user_id: owner.user_id,
+            })
+            .where('activity_id', activityLog[0].activity_id);
           expect(activityCropss.length).toBe(3);
           expect(activityCropss[1].field_crop_id).toBe(managementPlan2.field_crop_id);
           done();
@@ -3477,7 +4285,6 @@ xdescribe('Log Tests', () => {
       });
 
       describe('Post log authorization tests', () => {
-
         let worker;
         let manager;
         let unAuthorizedUser;
@@ -3485,39 +4292,53 @@ xdescribe('Log Tests', () => {
 
         beforeEach(async () => {
           [worker] = await mocks.usersFactory();
-          const [workerFarm] = await mocks.userFarmFactory({
-            promisedUser: [worker],
-            promisedFarm: [farm],
-          }, fakeUserFarm(3));
+          const [workerFarm] = await mocks.userFarmFactory(
+            {
+              promisedUser: [worker],
+              promisedFarm: [farm],
+            },
+            fakeUserFarm(3),
+          );
           [manager] = await mocks.usersFactory();
-          const [managerFarm] = await mocks.userFarmFactory({
-            promisedUser: [manager],
-            promisedFarm: [farm],
-          }, fakeUserFarm(2));
-
+          const [managerFarm] = await mocks.userFarmFactory(
+            {
+              promisedUser: [manager],
+              promisedFarm: [farm],
+            },
+            fakeUserFarm(2),
+          );
 
           [unAuthorizedUser] = await mocks.usersFactory();
           [farmunAuthorizedUser] = await mocks.farmFactory();
-          const [ownerFarmunAuthorizedUser] = await mocks.userFarmFactory({
-            promisedUser: [unAuthorizedUser],
-            promisedFarm: [farmunAuthorizedUser],
-          }, fakeUserFarm(1));
+          const [ownerFarmunAuthorizedUser] = await mocks.userFarmFactory(
+            {
+              promisedUser: [unAuthorizedUser],
+              promisedFarm: [farmunAuthorizedUser],
+            },
+            fakeUserFarm(1),
+          );
         });
 
         test('Manager should post and get a valid seedLog', async (done) => {
           sampleRequestBody.user_id = manager.user_id;
           postRequest(sampleRequestBody, { user_id: manager.user_id }, async (err, res) => {
             expect(res.status).toBe(200);
-            const activityLog = await activityLogModel.query().context({
-              showHidden: true,
-              user_id: owner.user_id,
-            }).where('user_id', manager.user_id);
+            const activityLog = await activityLogModel
+              .query()
+              .context({
+                showHidden: true,
+                user_id: owner.user_id,
+              })
+              .where('user_id', manager.user_id);
             expect(activityLog.length).toBe(1);
             expect(activityLog[0].notes).toBe(fakeActivityLog.notes);
-            const seedLog = await seedLogModel.query().context({
-              showHidden: true,
-              user_id: owner.user_id,
-            }).where('activity_id', activityLog[0].activity_id);
+            const seedLog = await seedLogModel
+              .query()
+              .context({
+                showHidden: true,
+                user_id: owner.user_id,
+              })
+              .where('activity_id', activityLog[0].activity_id);
             expect(seedLog.length).toBe(1);
             expect(seedLog[0].space_depth_cm).toBe(fakeSeedLog.space_depth_cm);
             done();
@@ -3528,16 +4349,22 @@ xdescribe('Log Tests', () => {
           sampleRequestBody.user_id = worker.user_id;
           postRequest(sampleRequestBody, { user_id: worker.user_id }, async (err, res) => {
             expect(res.status).toBe(200);
-            const activityLog = await activityLogModel.query().context({
-              showHidden: true,
-              user_id: owner.user_id,
-            }).where('user_id', worker.user_id);
+            const activityLog = await activityLogModel
+              .query()
+              .context({
+                showHidden: true,
+                user_id: owner.user_id,
+              })
+              .where('user_id', worker.user_id);
             expect(activityLog.length).toBe(1);
             expect(activityLog[0].notes).toBe(fakeActivityLog.notes);
-            const seedLog = await seedLogModel.query().context({
-              showHidden: true,
-              user_id: owner.user_id,
-            }).where('activity_id', activityLog[0].activity_id);
+            const seedLog = await seedLogModel
+              .query()
+              .context({
+                showHidden: true,
+                user_id: owner.user_id,
+              })
+              .where('activity_id', activityLog[0].activity_id);
             expect(seedLog.length).toBe(1);
             expect(seedLog[0].space_depth_cm).toBe(fakeSeedLog.space_depth_cm);
             done();
@@ -3545,38 +4372,46 @@ xdescribe('Log Tests', () => {
         });
 
         test('should return 403 status if seedLog is posted by unauthorized user', async (done) => {
-          postRequest(sampleRequestBody, { user_id: unAuthorizedUser.user_id }, async (err, res) => {
-            expect(res.status).toBe(403);
-            done();
-          });
+          postRequest(
+            sampleRequestBody,
+            { user_id: unAuthorizedUser.user_id },
+            async (err, res) => {
+              expect(res.status).toBe(403);
+              done();
+            },
+          );
         });
 
         test('Circumvent authorization by modifying farm_id', async (done) => {
-          postRequest(sampleRequestBody, {
-            user_id: worker.user_id,
-            farm_id: farmunAuthorizedUser.farm_id,
-          }, async (err, res) => {
-            expect(res.status).toBe(403);
-            done();
-          });
+          postRequest(
+            sampleRequestBody,
+            {
+              user_id: worker.user_id,
+              farm_id: farmunAuthorizedUser.farm_id,
+            },
+            async (err, res) => {
+              expect(res.status).toBe(403);
+              done();
+            },
+          );
         });
 
         test('Circumvent authorization by modifying farm_id in body', async (done) => {
           sampleRequestBody.user_id = farmunAuthorizedUser.user_id;
-          postRequest(sampleRequestBody, {
-            user_id: worker.user_id,
-            farm_id: farmunAuthorizedUser.farm_id,
-          }, async (err, res) => {
-            expect(res.status).toBe(403);
-            done();
-          });
+          postRequest(
+            sampleRequestBody,
+            {
+              user_id: worker.user_id,
+              farm_id: farmunAuthorizedUser.farm_id,
+            },
+            async (err, res) => {
+              expect(res.status).toBe(403);
+              done();
+            },
+          );
         });
-
       });
-
-
     });
-
 
     describe('Post fieldWorkLog', () => {
       let fakeFieldWorkLog;
@@ -3590,8 +4425,14 @@ xdescribe('Log Tests', () => {
         fakeFieldWorkLog = mocks.fakeFieldWorkLog();
         [crop1] = await mocks.cropFactory({ promisedFarm: [farm] });
         let [weatherStation] = await mocks.weather_stationFactory();
-        [field1] = await mocks.fieldFactory({ promisedFarm: [farm], promisedStation: [weatherStation] });
-        [managementPlan1] = await mocks.management_planFactory({ promisedCrop: [crop1], promisedField: [field1] });
+        [field1] = await mocks.fieldFactory({
+          promisedFarm: [farm],
+          promisedStation: [weatherStation],
+        });
+        [managementPlan1] = await mocks.management_planFactory({
+          promisedCrop: [crop1],
+          promisedField: [field1],
+        });
 
         sampleRequestBody = {
           activity_kind: fakeActivityLog.activity_kind,
@@ -3602,22 +4443,27 @@ xdescribe('Log Tests', () => {
           crops: [], //TODO validate crops is empty
           locations: [{ location_id: field1.location_id }],
         };
-
       });
 
       test('Owner should post and get a valid fieldWorkLog', async (done) => {
         postRequest(sampleRequestBody, {}, async (err, res) => {
           expect(res.status).toBe(200);
-          const activityLog = await activityLogModel.query().context({
-            showHidden: true,
-            user_id: owner.user_id,
-          }).where('user_id', owner.user_id);
+          const activityLog = await activityLogModel
+            .query()
+            .context({
+              showHidden: true,
+              user_id: owner.user_id,
+            })
+            .where('user_id', owner.user_id);
           expect(activityLog.length).toBe(1);
           expect(activityLog[0].notes).toBe(fakeActivityLog.notes);
-          const fieldWorkLog = await fieldWorkLogModel.query().context({
-            showHidden: true,
-            user_id: owner.user_id,
-          }).where('activity_id', activityLog[0].activity_id);
+          const fieldWorkLog = await fieldWorkLogModel
+            .query()
+            .context({
+              showHidden: true,
+              user_id: owner.user_id,
+            })
+            .where('activity_id', activityLog[0].activity_id);
           expect(fieldWorkLog.length).toBe(1);
           expect(fieldWorkLog[0].type).toBe(fakeFieldWorkLog.type);
           done();
@@ -3627,29 +4473,54 @@ xdescribe('Log Tests', () => {
       test('Owner should post and get many valid fieldWorkLogs', async (done) => {
         let [crop2] = await mocks.cropFactory({ promisedFarm: [farm] });
         let [weatherStation] = await mocks.weather_stationFactory();
-        let [field2] = await mocks.fieldFactory({ promisedFarm: [farm], promisedStation: [weatherStation] });
-        let [managementPlan2] = await mocks.management_planFactory({ promisedCrop: [crop2], promisedField: [field1] });
-        let [managementPlan3] = await mocks.management_planFactory({ promisedCrop: [crop2], promisedField: [field2] });
-        sampleRequestBody.locations = [{ location_id: field1.location_id }, { location_id: field2.location_id }];
-        sampleRequestBody.crops = [{ field_crop_id: managementPlan1.field_crop_id }, { field_crop_id: managementPlan2.field_crop_id }, { field_crop_id: managementPlan3.field_crop_id }];
+        let [field2] = await mocks.fieldFactory({
+          promisedFarm: [farm],
+          promisedStation: [weatherStation],
+        });
+        let [managementPlan2] = await mocks.management_planFactory({
+          promisedCrop: [crop2],
+          promisedField: [field1],
+        });
+        let [managementPlan3] = await mocks.management_planFactory({
+          promisedCrop: [crop2],
+          promisedField: [field2],
+        });
+        sampleRequestBody.locations = [
+          { location_id: field1.location_id },
+          { location_id: field2.location_id },
+        ];
+        sampleRequestBody.crops = [
+          { field_crop_id: managementPlan1.field_crop_id },
+          { field_crop_id: managementPlan2.field_crop_id },
+          { field_crop_id: managementPlan3.field_crop_id },
+        ];
         postRequest(sampleRequestBody, {}, async (err, res) => {
           expect(res.status).toBe(200);
-          const activityLog = await activityLogModel.query().context({
-            showHidden: true,
-            user_id: owner.user_id,
-          }).where('user_id', owner.user_id);
+          const activityLog = await activityLogModel
+            .query()
+            .context({
+              showHidden: true,
+              user_id: owner.user_id,
+            })
+            .where('user_id', owner.user_id);
           expect(activityLog.length).toBe(1);
           expect(activityLog[0].notes).toBe(fakeActivityLog.notes);
-          const fieldWorkLog = await fieldWorkLogModel.query().context({
-            showHidden: true,
-            user_id: owner.user_id,
-          }).where('activity_id', activityLog[0].activity_id);
+          const fieldWorkLog = await fieldWorkLogModel
+            .query()
+            .context({
+              showHidden: true,
+              user_id: owner.user_id,
+            })
+            .where('activity_id', activityLog[0].activity_id);
           expect(fieldWorkLog.length).toBe(1);
           expect(fieldWorkLog[0].type).toBe(fakeFieldWorkLog.type);
-          const activityFields = await activityFieldsModel.query().context({
-            showHidden: true,
-            user_id: owner.user_id,
-          }).where('activity_id', activityLog[0].activity_id);
+          const activityFields = await activityFieldsModel
+            .query()
+            .context({
+              showHidden: true,
+              user_id: owner.user_id,
+            })
+            .where('activity_id', activityLog[0].activity_id);
           expect(activityFields.length).toBe(2);
           expect(activityFields[1].location_id).toBe(field2.location_id);
           done();
@@ -3657,7 +4528,6 @@ xdescribe('Log Tests', () => {
       });
 
       describe('Post log authorization tests', () => {
-
         let worker;
         let manager;
         let unAuthorizedUser;
@@ -3665,39 +4535,53 @@ xdescribe('Log Tests', () => {
 
         beforeEach(async () => {
           [worker] = await mocks.usersFactory();
-          const [workerFarm] = await mocks.userFarmFactory({
-            promisedUser: [worker],
-            promisedFarm: [farm],
-          }, fakeUserFarm(3));
+          const [workerFarm] = await mocks.userFarmFactory(
+            {
+              promisedUser: [worker],
+              promisedFarm: [farm],
+            },
+            fakeUserFarm(3),
+          );
           [manager] = await mocks.usersFactory();
-          const [managerFarm] = await mocks.userFarmFactory({
-            promisedUser: [manager],
-            promisedFarm: [farm],
-          }, fakeUserFarm(2));
-
+          const [managerFarm] = await mocks.userFarmFactory(
+            {
+              promisedUser: [manager],
+              promisedFarm: [farm],
+            },
+            fakeUserFarm(2),
+          );
 
           [unAuthorizedUser] = await mocks.usersFactory();
           [farmunAuthorizedUser] = await mocks.farmFactory();
-          const [ownerFarmunAuthorizedUser] = await mocks.userFarmFactory({
-            promisedUser: [unAuthorizedUser],
-            promisedFarm: [farmunAuthorizedUser],
-          }, fakeUserFarm(1));
+          const [ownerFarmunAuthorizedUser] = await mocks.userFarmFactory(
+            {
+              promisedUser: [unAuthorizedUser],
+              promisedFarm: [farmunAuthorizedUser],
+            },
+            fakeUserFarm(1),
+          );
         });
 
         test('Manager should post and get a valid fieldWorkLog', async (done) => {
           sampleRequestBody.user_id = manager.user_id;
           postRequest(sampleRequestBody, { user_id: manager.user_id }, async (err, res) => {
             expect(res.status).toBe(200);
-            const activityLog = await activityLogModel.query().context({
-              showHidden: true,
-              user_id: owner.user_id,
-            }).where('user_id', manager.user_id);
+            const activityLog = await activityLogModel
+              .query()
+              .context({
+                showHidden: true,
+                user_id: owner.user_id,
+              })
+              .where('user_id', manager.user_id);
             expect(activityLog.length).toBe(1);
             expect(activityLog[0].notes).toBe(fakeActivityLog.notes);
-            const fieldWorkLog = await fieldWorkLogModel.query().context({
-              showHidden: true,
-              user_id: owner.user_id,
-            }).where('activity_id', activityLog[0].activity_id);
+            const fieldWorkLog = await fieldWorkLogModel
+              .query()
+              .context({
+                showHidden: true,
+                user_id: owner.user_id,
+              })
+              .where('activity_id', activityLog[0].activity_id);
             expect(fieldWorkLog.length).toBe(1);
             expect(fieldWorkLog[0].type).toBe(fakeFieldWorkLog.type);
             done();
@@ -3708,16 +4592,22 @@ xdescribe('Log Tests', () => {
           sampleRequestBody.user_id = worker.user_id;
           postRequest(sampleRequestBody, { user_id: worker.user_id }, async (err, res) => {
             expect(res.status).toBe(200);
-            const activityLog = await activityLogModel.query().context({
-              showHidden: true,
-              user_id: owner.user_id,
-            }).where('user_id', worker.user_id);
+            const activityLog = await activityLogModel
+              .query()
+              .context({
+                showHidden: true,
+                user_id: owner.user_id,
+              })
+              .where('user_id', worker.user_id);
             expect(activityLog.length).toBe(1);
             expect(activityLog[0].notes).toBe(fakeActivityLog.notes);
-            const fieldWorkLog = await fieldWorkLogModel.query().context({
-              showHidden: true,
-              user_id: owner.user_id,
-            }).where('activity_id', activityLog[0].activity_id);
+            const fieldWorkLog = await fieldWorkLogModel
+              .query()
+              .context({
+                showHidden: true,
+                user_id: owner.user_id,
+              })
+              .where('activity_id', activityLog[0].activity_id);
             expect(fieldWorkLog.length).toBe(1);
             expect(fieldWorkLog[0].type).toBe(fakeFieldWorkLog.type);
             done();
@@ -3726,40 +4616,48 @@ xdescribe('Log Tests', () => {
 
         test('should return 403 status if fieldWorkLog is posted by unauthorized user', async (done) => {
           sampleRequestBody.user_id = farmunAuthorizedUser.user_id;
-          postRequest(sampleRequestBody, { user_id: unAuthorizedUser.user_id }, async (err, res) => {
-            expect(res.status).toBe(403);
-            done();
-          });
+          postRequest(
+            sampleRequestBody,
+            { user_id: unAuthorizedUser.user_id },
+            async (err, res) => {
+              expect(res.status).toBe(403);
+              done();
+            },
+          );
         });
 
         test('Circumvent authorization by modifying farm_id', async (done) => {
           sampleRequestBody.user_id = farmunAuthorizedUser.user_id;
-          postRequest(sampleRequestBody, {
-            user_id: worker.user_id,
-            farm_id: farmunAuthorizedUser.farm_id,
-          }, async (err, res) => {
-            expect(res.status).toBe(403);
-            done();
-          });
+          postRequest(
+            sampleRequestBody,
+            {
+              user_id: worker.user_id,
+              farm_id: farmunAuthorizedUser.farm_id,
+            },
+            async (err, res) => {
+              expect(res.status).toBe(403);
+              done();
+            },
+          );
         });
 
         test('Circumvent authorization by modifying farm_id in body', async (done) => {
           sampleRequestBody.user_id = farmunAuthorizedUser.user_id;
           sampleRequestBody.farm_id = farmunAuthorizedUser.farm_id;
-          postRequest(sampleRequestBody, {
-            user_id: worker.user_id,
-            farm_id: farmunAuthorizedUser.farm_id,
-          }, async (err, res) => {
-            expect(res.status).toBe(403);
-            done();
-          });
+          postRequest(
+            sampleRequestBody,
+            {
+              user_id: worker.user_id,
+              farm_id: farmunAuthorizedUser.farm_id,
+            },
+            async (err, res) => {
+              expect(res.status).toBe(403);
+              done();
+            },
+          );
         });
-
       });
-
-
     });
-
 
     describe('Post soilAnalysis', () => {
       let fakeSoilDataLog;
@@ -3773,8 +4671,14 @@ xdescribe('Log Tests', () => {
         fakeSoilDataLog = mocks.fakeSoilDataLog();
         [crop1] = await mocks.cropFactory({ promisedFarm: [farm] });
         let [weatherStation] = await mocks.weather_stationFactory();
-        [field1] = await mocks.fieldFactory({ promisedFarm: [farm], promisedStation: [weatherStation] });
-        [managementPlan1] = await mocks.management_planFactory({ promisedCrop: [crop1], promisedField: [field1] });
+        [field1] = await mocks.fieldFactory({
+          promisedFarm: [farm],
+          promisedStation: [weatherStation],
+        });
+        [managementPlan1] = await mocks.management_planFactory({
+          promisedCrop: [crop1],
+          promisedField: [field1],
+        });
         sampleRequestBody = {
           activity_kind: fakeActivityLog.activity_kind,
           date: fakeActivityLog.date,
@@ -3789,16 +4693,22 @@ xdescribe('Log Tests', () => {
       test('Owner should post and get a valid soilDataLog', async (done) => {
         postRequest(sampleRequestBody, {}, async (err, res) => {
           expect(res.status).toBe(200);
-          const activityLog = await activityLogModel.query().context({
-            showHidden: true,
-            user_id: owner.user_id,
-          }).where('user_id', owner.user_id);
+          const activityLog = await activityLogModel
+            .query()
+            .context({
+              showHidden: true,
+              user_id: owner.user_id,
+            })
+            .where('user_id', owner.user_id);
           expect(activityLog.length).toBe(1);
           expect(activityLog[0].notes).toBe(fakeActivityLog.notes);
-          const soilDataLog = await soilDataLogModel.query().context({
-            showHidden: true,
-            user_id: owner.user_id,
-          }).where('activity_id', activityLog[0].activity_id);
+          const soilDataLog = await soilDataLogModel
+            .query()
+            .context({
+              showHidden: true,
+              user_id: owner.user_id,
+            })
+            .where('activity_id', activityLog[0].activity_id);
           expect(soilDataLog.length).toBe(1);
           expect(soilDataLog[0].inorganic_carbon).toBe(fakeSoilDataLog.inorganic_carbon);
           done();
@@ -3808,29 +4718,54 @@ xdescribe('Log Tests', () => {
       test('Owner should post and get many valid soilDataLogs', async (done) => {
         let [crop2] = await mocks.cropFactory({ promisedFarm: [farm] });
         let [weatherStation] = await mocks.weather_stationFactory();
-        let [field2] = await mocks.fieldFactory({ promisedFarm: [farm], promisedStation: [weatherStation] });
-        let [managementPlan2] = await mocks.management_planFactory({ promisedCrop: [crop2], promisedField: [field1] });
-        let [managementPlan3] = await mocks.management_planFactory({ promisedCrop: [crop2], promisedField: [field2] });
-        sampleRequestBody.locations = [{ location_id: field1.location_id }, { location_id: field2.location_id }];
-        sampleRequestBody.crops = [{ field_crop_id: managementPlan1.field_crop_id }, { field_crop_id: managementPlan2.field_crop_id }, { field_crop_id: managementPlan3.field_crop_id }];
+        let [field2] = await mocks.fieldFactory({
+          promisedFarm: [farm],
+          promisedStation: [weatherStation],
+        });
+        let [managementPlan2] = await mocks.management_planFactory({
+          promisedCrop: [crop2],
+          promisedField: [field1],
+        });
+        let [managementPlan3] = await mocks.management_planFactory({
+          promisedCrop: [crop2],
+          promisedField: [field2],
+        });
+        sampleRequestBody.locations = [
+          { location_id: field1.location_id },
+          { location_id: field2.location_id },
+        ];
+        sampleRequestBody.crops = [
+          { field_crop_id: managementPlan1.field_crop_id },
+          { field_crop_id: managementPlan2.field_crop_id },
+          { field_crop_id: managementPlan3.field_crop_id },
+        ];
         postRequest(sampleRequestBody, {}, async (err, res) => {
           expect(res.status).toBe(200);
-          const activityLog = await activityLogModel.query().context({
-            showHidden: true,
-            user_id: owner.user_id,
-          }).where('user_id', owner.user_id);
+          const activityLog = await activityLogModel
+            .query()
+            .context({
+              showHidden: true,
+              user_id: owner.user_id,
+            })
+            .where('user_id', owner.user_id);
           expect(activityLog.length).toBe(1);
           expect(activityLog[0].notes).toBe(fakeActivityLog.notes);
-          const soilDataLog = await soilDataLogModel.query().context({
-            showHidden: true,
-            user_id: owner.user_id,
-          }).where('activity_id', activityLog[0].activity_id);
+          const soilDataLog = await soilDataLogModel
+            .query()
+            .context({
+              showHidden: true,
+              user_id: owner.user_id,
+            })
+            .where('activity_id', activityLog[0].activity_id);
           expect(soilDataLog.length).toBe(1);
           expect(soilDataLog[0].inorganic_carbon).toBe(fakeSoilDataLog.inorganic_carbon);
-          const activityFields = await activityFieldsModel.query().context({
-            showHidden: true,
-            user_id: owner.user_id,
-          }).where('activity_id', activityLog[0].activity_id);
+          const activityFields = await activityFieldsModel
+            .query()
+            .context({
+              showHidden: true,
+              user_id: owner.user_id,
+            })
+            .where('activity_id', activityLog[0].activity_id);
           expect(activityFields.length).toBe(2);
           expect(activityFields[1].location_id).toBe(field2.location_id);
           done();
@@ -3838,7 +4773,6 @@ xdescribe('Log Tests', () => {
       });
 
       describe('Post log authorization tests', () => {
-
         let worker;
         let manager;
         let unAuthorizedUser;
@@ -3846,39 +4780,53 @@ xdescribe('Log Tests', () => {
 
         beforeEach(async () => {
           [worker] = await mocks.usersFactory();
-          const [workerFarm] = await mocks.userFarmFactory({
-            promisedUser: [worker],
-            promisedFarm: [farm],
-          }, fakeUserFarm(3));
+          const [workerFarm] = await mocks.userFarmFactory(
+            {
+              promisedUser: [worker],
+              promisedFarm: [farm],
+            },
+            fakeUserFarm(3),
+          );
           [manager] = await mocks.usersFactory();
-          const [managerFarm] = await mocks.userFarmFactory({
-            promisedUser: [manager],
-            promisedFarm: [farm],
-          }, fakeUserFarm(2));
-
+          const [managerFarm] = await mocks.userFarmFactory(
+            {
+              promisedUser: [manager],
+              promisedFarm: [farm],
+            },
+            fakeUserFarm(2),
+          );
 
           [unAuthorizedUser] = await mocks.usersFactory();
           [farmunAuthorizedUser] = await mocks.farmFactory();
-          const [ownerFarmunAuthorizedUser] = await mocks.userFarmFactory({
-            promisedUser: [unAuthorizedUser],
-            promisedFarm: [farmunAuthorizedUser],
-          }, fakeUserFarm(1));
+          const [ownerFarmunAuthorizedUser] = await mocks.userFarmFactory(
+            {
+              promisedUser: [unAuthorizedUser],
+              promisedFarm: [farmunAuthorizedUser],
+            },
+            fakeUserFarm(1),
+          );
         });
 
         test('Manager should post and get a valid soilDataLog', async (done) => {
           sampleRequestBody.user_id = manager.user_id;
           postRequest(sampleRequestBody, { user_id: manager.user_id }, async (err, res) => {
             expect(res.status).toBe(200);
-            const activityLog = await activityLogModel.query().context({
-              showHidden: true,
-              user_id: owner.user_id,
-            }).where('user_id', manager.user_id);
+            const activityLog = await activityLogModel
+              .query()
+              .context({
+                showHidden: true,
+                user_id: owner.user_id,
+              })
+              .where('user_id', manager.user_id);
             expect(activityLog.length).toBe(1);
             expect(activityLog[0].notes).toBe(fakeActivityLog.notes);
-            const soilDataLog = await soilDataLogModel.query().context({
-              showHidden: true,
-              user_id: owner.user_id,
-            }).where('activity_id', activityLog[0].activity_id);
+            const soilDataLog = await soilDataLogModel
+              .query()
+              .context({
+                showHidden: true,
+                user_id: owner.user_id,
+              })
+              .where('activity_id', activityLog[0].activity_id);
             expect(soilDataLog.length).toBe(1);
             expect(soilDataLog[0].inorganic_carbon).toBe(fakeSoilDataLog.inorganic_carbon);
             done();
@@ -3889,16 +4837,22 @@ xdescribe('Log Tests', () => {
           sampleRequestBody.user_id = worker.user_id;
           postRequest(sampleRequestBody, { user_id: worker.user_id }, async (err, res) => {
             expect(res.status).toBe(200);
-            const activityLog = await activityLogModel.query().context({
-              showHidden: true,
-              user_id: owner.user_id,
-            }).where('user_id', worker.user_id);
+            const activityLog = await activityLogModel
+              .query()
+              .context({
+                showHidden: true,
+                user_id: owner.user_id,
+              })
+              .where('user_id', worker.user_id);
             expect(activityLog.length).toBe(1);
             expect(activityLog[0].notes).toBe(fakeActivityLog.notes);
-            const soilDataLog = await soilDataLogModel.query().context({
-              showHidden: true,
-              user_id: owner.user_id,
-            }).where('activity_id', activityLog[0].activity_id);
+            const soilDataLog = await soilDataLogModel
+              .query()
+              .context({
+                showHidden: true,
+                user_id: owner.user_id,
+              })
+              .where('activity_id', activityLog[0].activity_id);
             expect(soilDataLog.length).toBe(1);
             expect(soilDataLog[0].inorganic_carbon).toBe(fakeSoilDataLog.inorganic_carbon);
             done();
@@ -3907,40 +4861,48 @@ xdescribe('Log Tests', () => {
 
         test('should return 403 status if soilDataLog is posted by unauthorized user', async (done) => {
           sampleRequestBody.user_id = farmunAuthorizedUser.user_id;
-          postRequest(sampleRequestBody, { user_id: unAuthorizedUser.user_id }, async (err, res) => {
-            expect(res.status).toBe(403);
-            done();
-          });
+          postRequest(
+            sampleRequestBody,
+            { user_id: unAuthorizedUser.user_id },
+            async (err, res) => {
+              expect(res.status).toBe(403);
+              done();
+            },
+          );
         });
 
         test('Circumvent authorization by modifying farm_id', async (done) => {
           sampleRequestBody.user_id = farmunAuthorizedUser.user_id;
-          postRequest(sampleRequestBody, {
-            user_id: worker.user_id,
-            farm_id: farmunAuthorizedUser.farm_id,
-          }, async (err, res) => {
-            expect(res.status).toBe(403);
-            done();
-          });
+          postRequest(
+            sampleRequestBody,
+            {
+              user_id: worker.user_id,
+              farm_id: farmunAuthorizedUser.farm_id,
+            },
+            async (err, res) => {
+              expect(res.status).toBe(403);
+              done();
+            },
+          );
         });
 
         test('Circumvent authorization by modifying farm_id in body', async (done) => {
           sampleRequestBody.user_id = farmunAuthorizedUser.user_id;
           sampleRequestBody.farm_id = farmunAuthorizedUser.farm_id;
-          postRequest(sampleRequestBody, {
-            user_id: worker.user_id,
-            farm_id: farmunAuthorizedUser.farm_id,
-          }, async (err, res) => {
-            expect(res.status).toBe(403);
-            done();
-          });
+          postRequest(
+            sampleRequestBody,
+            {
+              user_id: worker.user_id,
+              farm_id: farmunAuthorizedUser.farm_id,
+            },
+            async (err, res) => {
+              expect(res.status).toBe(403);
+              done();
+            },
+          );
         });
-
       });
-
-
     });
-
 
     describe('Post irrigationLog', () => {
       let fakeIrrigationLog;
@@ -3954,8 +4916,14 @@ xdescribe('Log Tests', () => {
         fakeIrrigationLog = mocks.fakeIrrigationLog();
         [crop1] = await mocks.cropFactory({ promisedFarm: [farm] });
         let [weatherStation] = await mocks.weather_stationFactory();
-        [field1] = await mocks.fieldFactory({ promisedFarm: [farm], promisedStation: [weatherStation] });
-        [managementPlan1] = await mocks.management_planFactory({ promisedCrop: [crop1], promisedField: [field1] });
+        [field1] = await mocks.fieldFactory({
+          promisedFarm: [farm],
+          promisedStation: [weatherStation],
+        });
+        [managementPlan1] = await mocks.management_planFactory({
+          promisedCrop: [crop1],
+          promisedField: [field1],
+        });
 
         sampleRequestBody = {
           activity_kind: fakeActivityLog.activity_kind,
@@ -3971,16 +4939,22 @@ xdescribe('Log Tests', () => {
       test('Owner should post and get a valid irrigationLog', async (done) => {
         postRequest(sampleRequestBody, {}, async (err, res) => {
           expect(res.status).toBe(200);
-          const activityLog = await activityLogModel.query().context({
-            showHidden: true,
-            user_id: owner.user_id,
-          }).where('user_id', owner.user_id);
+          const activityLog = await activityLogModel
+            .query()
+            .context({
+              showHidden: true,
+              user_id: owner.user_id,
+            })
+            .where('user_id', owner.user_id);
           expect(activityLog.length).toBe(1);
           expect(activityLog[0].notes).toBe(fakeActivityLog.notes);
-          const irrigationLog = await irrigationLogModel.query().context({
-            showHidden: true,
-            user_id: owner.user_id,
-          }).where('activity_id', activityLog[0].activity_id);
+          const irrigationLog = await irrigationLogModel
+            .query()
+            .context({
+              showHidden: true,
+              user_id: owner.user_id,
+            })
+            .where('activity_id', activityLog[0].activity_id);
           expect(irrigationLog.length).toBe(1);
           expect(irrigationLog[0].hours).toBe(fakeIrrigationLog.hours);
           done();
@@ -3991,35 +4965,63 @@ xdescribe('Log Tests', () => {
       test('Owner should post and get many valid irrigationLogs', async (done) => {
         let [crop2] = await mocks.cropFactory({ promisedFarm: [farm] });
         let [weatherStation] = await mocks.weather_stationFactory();
-        let [field2] = await mocks.fieldFactory({ promisedFarm: [farm], promisedStation: [weatherStation] });
-        let [managementPlan2] = await mocks.management_planFactory({ promisedCrop: [crop2], promisedField: [field1] });
-        let [managementPlan3] = await mocks.management_planFactory({ promisedCrop: [crop2], promisedField: [field2] });
-        sampleRequestBody.locations = [{ location_id: field1.location_id }, { location_id: field2.location_id }];
-        sampleRequestBody.crops = [{ field_crop_id: managementPlan1.field_crop_id }, { field_crop_id: managementPlan2.field_crop_id }, { field_crop_id: managementPlan3.field_crop_id }];
+        let [field2] = await mocks.fieldFactory({
+          promisedFarm: [farm],
+          promisedStation: [weatherStation],
+        });
+        let [managementPlan2] = await mocks.management_planFactory({
+          promisedCrop: [crop2],
+          promisedField: [field1],
+        });
+        let [managementPlan3] = await mocks.management_planFactory({
+          promisedCrop: [crop2],
+          promisedField: [field2],
+        });
+        sampleRequestBody.locations = [
+          { location_id: field1.location_id },
+          { location_id: field2.location_id },
+        ];
+        sampleRequestBody.crops = [
+          { field_crop_id: managementPlan1.field_crop_id },
+          { field_crop_id: managementPlan2.field_crop_id },
+          { field_crop_id: managementPlan3.field_crop_id },
+        ];
         postRequest(sampleRequestBody, {}, async (err, res) => {
           expect(res.status).toBe(200);
-          const activityLog = await activityLogModel.query().context({
-            showHidden: true,
-            user_id: owner.user_id,
-          }).where('user_id', owner.user_id);
+          const activityLog = await activityLogModel
+            .query()
+            .context({
+              showHidden: true,
+              user_id: owner.user_id,
+            })
+            .where('user_id', owner.user_id);
           expect(activityLog.length).toBe(1);
           expect(activityLog[0].notes).toBe(fakeActivityLog.notes);
-          const irrigationLog = await irrigationLogModel.query().context({
-            showHidden: true,
-            user_id: owner.user_id,
-          }).where('activity_id', activityLog[0].activity_id);
+          const irrigationLog = await irrigationLogModel
+            .query()
+            .context({
+              showHidden: true,
+              user_id: owner.user_id,
+            })
+            .where('activity_id', activityLog[0].activity_id);
           expect(irrigationLog.length).toBe(1);
           expect(irrigationLog[0].hours).toBe(fakeIrrigationLog.hours);
-          const activityFields = await activityFieldsModel.query().context({
-            showHidden: true,
-            user_id: owner.user_id,
-          }).where('activity_id', activityLog[0].activity_id);
+          const activityFields = await activityFieldsModel
+            .query()
+            .context({
+              showHidden: true,
+              user_id: owner.user_id,
+            })
+            .where('activity_id', activityLog[0].activity_id);
           expect(activityFields.length).toBe(2);
           expect(activityFields[1].location_id).toBe(field2.location_id);
-          const activityCropss = await activityCropsModel.query().context({
-            showHidden: true,
-            user_id: owner.user_id,
-          }).where('activity_id', activityLog[0].activity_id);
+          const activityCropss = await activityCropsModel
+            .query()
+            .context({
+              showHidden: true,
+              user_id: owner.user_id,
+            })
+            .where('activity_id', activityLog[0].activity_id);
           expect(activityCropss.length).toBe(3);
           expect(activityCropss[1].field_crop_id).toBe(managementPlan2.field_crop_id);
           done();
@@ -4027,7 +5029,6 @@ xdescribe('Log Tests', () => {
       });
 
       describe('Post log authorization tests', () => {
-
         let worker;
         let manager;
         let unAuthorizedUser;
@@ -4035,39 +5036,53 @@ xdescribe('Log Tests', () => {
 
         beforeEach(async () => {
           [worker] = await mocks.usersFactory();
-          const [workerFarm] = await mocks.userFarmFactory({
-            promisedUser: [worker],
-            promisedFarm: [farm],
-          }, fakeUserFarm(3));
+          const [workerFarm] = await mocks.userFarmFactory(
+            {
+              promisedUser: [worker],
+              promisedFarm: [farm],
+            },
+            fakeUserFarm(3),
+          );
           [manager] = await mocks.usersFactory();
-          const [managerFarm] = await mocks.userFarmFactory({
-            promisedUser: [manager],
-            promisedFarm: [farm],
-          }, fakeUserFarm(2));
-
+          const [managerFarm] = await mocks.userFarmFactory(
+            {
+              promisedUser: [manager],
+              promisedFarm: [farm],
+            },
+            fakeUserFarm(2),
+          );
 
           [unAuthorizedUser] = await mocks.usersFactory();
           [farmunAuthorizedUser] = await mocks.farmFactory();
-          const [ownerFarmunAuthorizedUser] = await mocks.userFarmFactory({
-            promisedUser: [unAuthorizedUser],
-            promisedFarm: [farmunAuthorizedUser],
-          }, fakeUserFarm(1));
+          const [ownerFarmunAuthorizedUser] = await mocks.userFarmFactory(
+            {
+              promisedUser: [unAuthorizedUser],
+              promisedFarm: [farmunAuthorizedUser],
+            },
+            fakeUserFarm(1),
+          );
         });
 
         test('Manager should post and get a valid irrigationLog', async (done) => {
           sampleRequestBody.user_id = manager.user_id;
           postRequest(sampleRequestBody, { user_id: manager.user_id }, async (err, res) => {
             expect(res.status).toBe(200);
-            const activityLog = await activityLogModel.query().context({
-              showHidden: true,
-              user_id: owner.user_id,
-            }).where('user_id', manager.user_id);
+            const activityLog = await activityLogModel
+              .query()
+              .context({
+                showHidden: true,
+                user_id: owner.user_id,
+              })
+              .where('user_id', manager.user_id);
             expect(activityLog.length).toBe(1);
             expect(activityLog[0].notes).toBe(fakeActivityLog.notes);
-            const irrigationLog = await irrigationLogModel.query().context({
-              showHidden: true,
-              user_id: owner.user_id,
-            }).where('activity_id', activityLog[0].activity_id);
+            const irrigationLog = await irrigationLogModel
+              .query()
+              .context({
+                showHidden: true,
+                user_id: owner.user_id,
+              })
+              .where('activity_id', activityLog[0].activity_id);
             expect(irrigationLog.length).toBe(1);
             expect(irrigationLog[0].hours).toBe(fakeIrrigationLog.hours);
             done();
@@ -4078,16 +5093,22 @@ xdescribe('Log Tests', () => {
           sampleRequestBody.user_id = worker.user_id;
           postRequest(sampleRequestBody, { user_id: worker.user_id }, async (err, res) => {
             expect(res.status).toBe(200);
-            const activityLog = await activityLogModel.query().context({
-              showHidden: true,
-              user_id: owner.user_id,
-            }).where('user_id', worker.user_id);
+            const activityLog = await activityLogModel
+              .query()
+              .context({
+                showHidden: true,
+                user_id: owner.user_id,
+              })
+              .where('user_id', worker.user_id);
             expect(activityLog.length).toBe(1);
             expect(activityLog[0].notes).toBe(fakeActivityLog.notes);
-            const irrigationLog = await irrigationLogModel.query().context({
-              showHidden: true,
-              user_id: owner.user_id,
-            }).where('activity_id', activityLog[0].activity_id);
+            const irrigationLog = await irrigationLogModel
+              .query()
+              .context({
+                showHidden: true,
+                user_id: owner.user_id,
+              })
+              .where('activity_id', activityLog[0].activity_id);
             expect(irrigationLog.length).toBe(1);
             expect(irrigationLog[0].hours).toBe(fakeIrrigationLog.hours);
             done();
@@ -4096,40 +5117,48 @@ xdescribe('Log Tests', () => {
 
         test('should return 403 status if irrigationLog is posted by unauthorized user', async (done) => {
           sampleRequestBody.user_id = farmunAuthorizedUser.user_id;
-          postRequest(sampleRequestBody, { user_id: unAuthorizedUser.user_id }, async (err, res) => {
-            expect(res.status).toBe(403);
-            done();
-          });
+          postRequest(
+            sampleRequestBody,
+            { user_id: unAuthorizedUser.user_id },
+            async (err, res) => {
+              expect(res.status).toBe(403);
+              done();
+            },
+          );
         });
 
         test('Circumvent authorization by modifying farm_id', async (done) => {
           sampleRequestBody.user_id = farmunAuthorizedUser.user_id;
-          postRequest(sampleRequestBody, {
-            user_id: worker.user_id,
-            farm_id: farmunAuthorizedUser.farm_id,
-          }, async (err, res) => {
-            expect(res.status).toBe(403);
-            done();
-          });
+          postRequest(
+            sampleRequestBody,
+            {
+              user_id: worker.user_id,
+              farm_id: farmunAuthorizedUser.farm_id,
+            },
+            async (err, res) => {
+              expect(res.status).toBe(403);
+              done();
+            },
+          );
         });
 
         test('Circumvent authorization by modifying farm_id in body', async (done) => {
           sampleRequestBody.user_id = farmunAuthorizedUser.user_id;
           sampleRequestBody.farm_id = farmunAuthorizedUser.farm_id;
-          postRequest(sampleRequestBody, {
-            user_id: worker.user_id,
-            farm_id: farmunAuthorizedUser.farm_id,
-          }, async (err, res) => {
-            expect(res.status).toBe(403);
-            done();
-          });
+          postRequest(
+            sampleRequestBody,
+            {
+              user_id: worker.user_id,
+              farm_id: farmunAuthorizedUser.farm_id,
+            },
+            async (err, res) => {
+              expect(res.status).toBe(403);
+              done();
+            },
+          );
         });
-
       });
-
-
     });
-
 
     describe('Post scoutingLog', () => {
       let fakeScoutingLog;
@@ -4143,8 +5172,14 @@ xdescribe('Log Tests', () => {
         fakeScoutingLog = mocks.fakeScoutingLog();
         [crop1] = await mocks.cropFactory({ promisedFarm: [farm] });
         let [weatherStation] = await mocks.weather_stationFactory();
-        [field1] = await mocks.fieldFactory({ promisedFarm: [farm], promisedStation: [weatherStation] });
-        [managementPlan1] = await mocks.management_planFactory({ promisedCrop: [crop1], promisedField: [field1] });
+        [field1] = await mocks.fieldFactory({
+          promisedFarm: [farm],
+          promisedStation: [weatherStation],
+        });
+        [managementPlan1] = await mocks.management_planFactory({
+          promisedCrop: [crop1],
+          promisedField: [field1],
+        });
 
         sampleRequestBody = {
           activity_kind: fakeActivityLog.activity_kind,
@@ -4155,22 +5190,27 @@ xdescribe('Log Tests', () => {
           locations: [{ location_id: field1.location_id }],
           ...fakeScoutingLog,
         };
-
       });
 
       test('Owner should post and get a valid scoutingLog', async (done) => {
         postRequest(sampleRequestBody, {}, async (err, res) => {
           expect(res.status).toBe(200);
-          const activityLog = await activityLogModel.query().context({
-            showHidden: true,
-            user_id: owner.user_id,
-          }).where('user_id', owner.user_id);
+          const activityLog = await activityLogModel
+            .query()
+            .context({
+              showHidden: true,
+              user_id: owner.user_id,
+            })
+            .where('user_id', owner.user_id);
           expect(activityLog.length).toBe(1);
           expect(activityLog[0].notes).toBe(fakeActivityLog.notes);
-          const scoutingLog = await scoutingLogModel.query().context({
-            showHidden: true,
-            user_id: owner.user_id,
-          }).where('activity_id', activityLog[0].activity_id);
+          const scoutingLog = await scoutingLogModel
+            .query()
+            .context({
+              showHidden: true,
+              user_id: owner.user_id,
+            })
+            .where('activity_id', activityLog[0].activity_id);
           expect(scoutingLog.length).toBe(1);
           expect(scoutingLog[0].type).toBe(fakeScoutingLog.type);
           done();
@@ -4180,35 +5220,63 @@ xdescribe('Log Tests', () => {
       test('Owner should post and get many valid scoutingLogs', async (done) => {
         let [crop2] = await mocks.cropFactory({ promisedFarm: [farm] });
         let [weatherStation] = await mocks.weather_stationFactory();
-        let [field2] = await mocks.fieldFactory({ promisedFarm: [farm], promisedStation: [weatherStation] });
-        let [managementPlan2] = await mocks.management_planFactory({ promisedCrop: [crop2], promisedField: [field1] });
-        let [managementPlan3] = await mocks.management_planFactory({ promisedCrop: [crop2], promisedField: [field2] });
-        sampleRequestBody.locations = [{ location_id: field1.location_id }, { location_id: field2.location_id }];
-        sampleRequestBody.crops = [{ field_crop_id: managementPlan1.field_crop_id }, { field_crop_id: managementPlan2.field_crop_id }, { field_crop_id: managementPlan3.field_crop_id }];
+        let [field2] = await mocks.fieldFactory({
+          promisedFarm: [farm],
+          promisedStation: [weatherStation],
+        });
+        let [managementPlan2] = await mocks.management_planFactory({
+          promisedCrop: [crop2],
+          promisedField: [field1],
+        });
+        let [managementPlan3] = await mocks.management_planFactory({
+          promisedCrop: [crop2],
+          promisedField: [field2],
+        });
+        sampleRequestBody.locations = [
+          { location_id: field1.location_id },
+          { location_id: field2.location_id },
+        ];
+        sampleRequestBody.crops = [
+          { field_crop_id: managementPlan1.field_crop_id },
+          { field_crop_id: managementPlan2.field_crop_id },
+          { field_crop_id: managementPlan3.field_crop_id },
+        ];
         postRequest(sampleRequestBody, {}, async (err, res) => {
           expect(res.status).toBe(200);
-          const activityLog = await activityLogModel.query().context({
-            showHidden: true,
-            user_id: owner.user_id,
-          }).where('user_id', owner.user_id);
+          const activityLog = await activityLogModel
+            .query()
+            .context({
+              showHidden: true,
+              user_id: owner.user_id,
+            })
+            .where('user_id', owner.user_id);
           expect(activityLog.length).toBe(1);
           expect(activityLog[0].notes).toBe(fakeActivityLog.notes);
-          const scoutingLog = await scoutingLogModel.query().context({
-            showHidden: true,
-            user_id: owner.user_id,
-          }).where('activity_id', activityLog[0].activity_id);
+          const scoutingLog = await scoutingLogModel
+            .query()
+            .context({
+              showHidden: true,
+              user_id: owner.user_id,
+            })
+            .where('activity_id', activityLog[0].activity_id);
           expect(scoutingLog.length).toBe(1);
           expect(scoutingLog[0].type).toBe(fakeScoutingLog.type);
-          const activityFields = await activityFieldsModel.query().context({
-            showHidden: true,
-            user_id: owner.user_id,
-          }).where('activity_id', activityLog[0].activity_id);
+          const activityFields = await activityFieldsModel
+            .query()
+            .context({
+              showHidden: true,
+              user_id: owner.user_id,
+            })
+            .where('activity_id', activityLog[0].activity_id);
           expect(activityFields.length).toBe(2);
           expect(activityFields[1].location_id).toBe(field2.location_id);
-          const activityCropss = await activityCropsModel.query().context({
-            showHidden: true,
-            user_id: owner.user_id,
-          }).where('activity_id', activityLog[0].activity_id);
+          const activityCropss = await activityCropsModel
+            .query()
+            .context({
+              showHidden: true,
+              user_id: owner.user_id,
+            })
+            .where('activity_id', activityLog[0].activity_id);
           expect(activityCropss.length).toBe(3);
           expect(activityCropss[1].field_crop_id).toBe(managementPlan2.field_crop_id);
           done();
@@ -4216,7 +5284,6 @@ xdescribe('Log Tests', () => {
       });
 
       describe('Post log authorization tests', () => {
-
         let worker;
         let manager;
         let unAuthorizedUser;
@@ -4224,39 +5291,53 @@ xdescribe('Log Tests', () => {
 
         beforeEach(async () => {
           [worker] = await mocks.usersFactory();
-          const [workerFarm] = await mocks.userFarmFactory({
-            promisedUser: [worker],
-            promisedFarm: [farm],
-          }, fakeUserFarm(3));
+          const [workerFarm] = await mocks.userFarmFactory(
+            {
+              promisedUser: [worker],
+              promisedFarm: [farm],
+            },
+            fakeUserFarm(3),
+          );
           [manager] = await mocks.usersFactory();
-          const [managerFarm] = await mocks.userFarmFactory({
-            promisedUser: [manager],
-            promisedFarm: [farm],
-          }, fakeUserFarm(2));
-
+          const [managerFarm] = await mocks.userFarmFactory(
+            {
+              promisedUser: [manager],
+              promisedFarm: [farm],
+            },
+            fakeUserFarm(2),
+          );
 
           [unAuthorizedUser] = await mocks.usersFactory();
           [farmunAuthorizedUser] = await mocks.farmFactory();
-          const [ownerFarmunAuthorizedUser] = await mocks.userFarmFactory({
-            promisedUser: [unAuthorizedUser],
-            promisedFarm: [farmunAuthorizedUser],
-          }, fakeUserFarm(1));
+          const [ownerFarmunAuthorizedUser] = await mocks.userFarmFactory(
+            {
+              promisedUser: [unAuthorizedUser],
+              promisedFarm: [farmunAuthorizedUser],
+            },
+            fakeUserFarm(1),
+          );
         });
 
         test('Manager should post and get a valid scoutingLog', async (done) => {
           sampleRequestBody.user_id = manager.user_id;
           postRequest(sampleRequestBody, { user_id: manager.user_id }, async (err, res) => {
             expect(res.status).toBe(200);
-            const activityLog = await activityLogModel.query().context({
-              showHidden: true,
-              user_id: owner.user_id,
-            }).where('user_id', manager.user_id);
+            const activityLog = await activityLogModel
+              .query()
+              .context({
+                showHidden: true,
+                user_id: owner.user_id,
+              })
+              .where('user_id', manager.user_id);
             expect(activityLog.length).toBe(1);
             expect(activityLog[0].notes).toBe(fakeActivityLog.notes);
-            const scoutingLog = await scoutingLogModel.query().context({
-              showHidden: true,
-              user_id: owner.user_id,
-            }).where('activity_id', activityLog[0].activity_id);
+            const scoutingLog = await scoutingLogModel
+              .query()
+              .context({
+                showHidden: true,
+                user_id: owner.user_id,
+              })
+              .where('activity_id', activityLog[0].activity_id);
             expect(scoutingLog.length).toBe(1);
             expect(scoutingLog[0].type).toBe(fakeScoutingLog.type);
             done();
@@ -4267,16 +5348,22 @@ xdescribe('Log Tests', () => {
           sampleRequestBody.user_id = worker.user_id;
           postRequest(sampleRequestBody, { user_id: worker.user_id }, async (err, res) => {
             expect(res.status).toBe(200);
-            const activityLog = await activityLogModel.query().context({
-              showHidden: true,
-              user_id: owner.user_id,
-            }).where('user_id', worker.user_id);
+            const activityLog = await activityLogModel
+              .query()
+              .context({
+                showHidden: true,
+                user_id: owner.user_id,
+              })
+              .where('user_id', worker.user_id);
             expect(activityLog.length).toBe(1);
             expect(activityLog[0].notes).toBe(fakeActivityLog.notes);
-            const scoutingLog = await scoutingLogModel.query().context({
-              showHidden: true,
-              user_id: owner.user_id,
-            }).where('activity_id', activityLog[0].activity_id);
+            const scoutingLog = await scoutingLogModel
+              .query()
+              .context({
+                showHidden: true,
+                user_id: owner.user_id,
+              })
+              .where('activity_id', activityLog[0].activity_id);
             expect(scoutingLog.length).toBe(1);
             expect(scoutingLog[0].type).toBe(fakeScoutingLog.type);
             done();
@@ -4285,40 +5372,48 @@ xdescribe('Log Tests', () => {
 
         test('should return 403 status if scoutingLog is posted by unauthorized user', async (done) => {
           sampleRequestBody.user_id = farmunAuthorizedUser.user_id;
-          postRequest(sampleRequestBody, { user_id: unAuthorizedUser.user_id }, async (err, res) => {
-            expect(res.status).toBe(403);
-            done();
-          });
+          postRequest(
+            sampleRequestBody,
+            { user_id: unAuthorizedUser.user_id },
+            async (err, res) => {
+              expect(res.status).toBe(403);
+              done();
+            },
+          );
         });
 
         test('Circumvent authorization by modifying farm_id', async (done) => {
           sampleRequestBody.user_id = farmunAuthorizedUser.user_id;
-          postRequest(sampleRequestBody, {
-            user_id: worker.user_id,
-            farm_id: farmunAuthorizedUser.farm_id,
-          }, async (err, res) => {
-            expect(res.status).toBe(403);
-            done();
-          });
+          postRequest(
+            sampleRequestBody,
+            {
+              user_id: worker.user_id,
+              farm_id: farmunAuthorizedUser.farm_id,
+            },
+            async (err, res) => {
+              expect(res.status).toBe(403);
+              done();
+            },
+          );
         });
 
         test('Circumvent authorization by modifying farm_id in body', async (done) => {
           sampleRequestBody.user_id = farmunAuthorizedUser.user_id;
           sampleRequestBody.farm_id = farmunAuthorizedUser.farm_id;
-          postRequest(sampleRequestBody, {
-            user_id: worker.user_id,
-            farm_id: farmunAuthorizedUser.farm_id,
-          }, async (err, res) => {
-            expect(res.status).toBe(403);
-            done();
-          });
+          postRequest(
+            sampleRequestBody,
+            {
+              user_id: worker.user_id,
+              farm_id: farmunAuthorizedUser.farm_id,
+            },
+            async (err, res) => {
+              expect(res.status).toBe(403);
+              done();
+            },
+          );
         });
-
       });
-
-
     });
-
 
     describe('Post otherLog', () => {
       let fakeActivityLog;
@@ -4330,8 +5425,14 @@ xdescribe('Log Tests', () => {
         fakeActivityLog = newFakeActivityLog('other');
         [crop1] = await mocks.cropFactory({ promisedFarm: [farm] });
         let [weatherStation] = await mocks.weather_stationFactory();
-        [field1] = await mocks.fieldFactory({ promisedFarm: [farm], promisedStation: [weatherStation] });
-        [managementPlan1] = await mocks.management_planFactory({ promisedCrop: [crop1], promisedField: [field1] });
+        [field1] = await mocks.fieldFactory({
+          promisedFarm: [farm],
+          promisedStation: [weatherStation],
+        });
+        [managementPlan1] = await mocks.management_planFactory({
+          promisedCrop: [crop1],
+          promisedField: [field1],
+        });
 
         sampleRequestBody = {
           activity_kind: fakeActivityLog.activity_kind,
@@ -4346,10 +5447,13 @@ xdescribe('Log Tests', () => {
       test('Owner should post and get a valid otherLog', async (done) => {
         postRequest(sampleRequestBody, {}, async (err, res) => {
           expect(res.status).toBe(200);
-          const activityLog = await activityLogModel.query().context({
-            showHidden: true,
-            user_id: owner.user_id,
-          }).where('user_id', owner.user_id);
+          const activityLog = await activityLogModel
+            .query()
+            .context({
+              showHidden: true,
+              user_id: owner.user_id,
+            })
+            .where('user_id', owner.user_id);
           expect(activityLog.length).toBe(1);
           expect(activityLog[0].notes).toBe(fakeActivityLog.notes);
           done();
@@ -4359,29 +5463,54 @@ xdescribe('Log Tests', () => {
       test('Owner should post and get many valid otherLogs', async (done) => {
         let [crop2] = await mocks.cropFactory({ promisedFarm: [farm] });
         let [weatherStation] = await mocks.weather_stationFactory();
-        let [field2] = await mocks.fieldFactory({ promisedFarm: [farm], promisedStation: [weatherStation] });
-        let [managementPlan2] = await mocks.management_planFactory({ promisedCrop: [crop2], promisedField: [field1] });
-        let [managementPlan3] = await mocks.management_planFactory({ promisedCrop: [crop2], promisedField: [field2] });
-        sampleRequestBody.locations = [{ location_id: field1.location_id }, { location_id: field2.location_id }];
-        sampleRequestBody.crops = [{ field_crop_id: managementPlan1.field_crop_id }, { field_crop_id: managementPlan2.field_crop_id }, { field_crop_id: managementPlan3.field_crop_id }];
+        let [field2] = await mocks.fieldFactory({
+          promisedFarm: [farm],
+          promisedStation: [weatherStation],
+        });
+        let [managementPlan2] = await mocks.management_planFactory({
+          promisedCrop: [crop2],
+          promisedField: [field1],
+        });
+        let [managementPlan3] = await mocks.management_planFactory({
+          promisedCrop: [crop2],
+          promisedField: [field2],
+        });
+        sampleRequestBody.locations = [
+          { location_id: field1.location_id },
+          { location_id: field2.location_id },
+        ];
+        sampleRequestBody.crops = [
+          { field_crop_id: managementPlan1.field_crop_id },
+          { field_crop_id: managementPlan2.field_crop_id },
+          { field_crop_id: managementPlan3.field_crop_id },
+        ];
         postRequest(sampleRequestBody, {}, async (err, res) => {
           expect(res.status).toBe(200);
-          const activityLog = await activityLogModel.query().context({
-            showHidden: true,
-            user_id: owner.user_id,
-          }).where('user_id', owner.user_id);
+          const activityLog = await activityLogModel
+            .query()
+            .context({
+              showHidden: true,
+              user_id: owner.user_id,
+            })
+            .where('user_id', owner.user_id);
           expect(activityLog.length).toBe(1);
           expect(activityLog[0].notes).toBe(fakeActivityLog.notes);
-          const activityFields = await activityFieldsModel.query().context({
-            showHidden: true,
-            user_id: owner.user_id,
-          }).where('activity_id', activityLog[0].activity_id);
+          const activityFields = await activityFieldsModel
+            .query()
+            .context({
+              showHidden: true,
+              user_id: owner.user_id,
+            })
+            .where('activity_id', activityLog[0].activity_id);
           expect(activityFields.length).toBe(2);
           expect(activityFields[1].location_id).toBe(field2.location_id);
-          const activityCropss = await activityCropsModel.query().context({
-            showHidden: true,
-            user_id: owner.user_id,
-          }).where('activity_id', activityLog[0].activity_id);
+          const activityCropss = await activityCropsModel
+            .query()
+            .context({
+              showHidden: true,
+              user_id: owner.user_id,
+            })
+            .where('activity_id', activityLog[0].activity_id);
           expect(activityCropss.length).toBe(3);
           expect(activityCropss[1].field_crop_id).toBe(managementPlan2.field_crop_id);
           done();
@@ -4389,7 +5518,6 @@ xdescribe('Log Tests', () => {
       });
 
       describe('Post log authorization tests', () => {
-
         let worker;
         let manager;
         let unAuthorizedUser;
@@ -4397,33 +5525,44 @@ xdescribe('Log Tests', () => {
 
         beforeEach(async () => {
           [worker] = await mocks.usersFactory();
-          const [workerFarm] = await mocks.userFarmFactory({
-            promisedUser: [worker],
-            promisedFarm: [farm],
-          }, fakeUserFarm(3));
+          const [workerFarm] = await mocks.userFarmFactory(
+            {
+              promisedUser: [worker],
+              promisedFarm: [farm],
+            },
+            fakeUserFarm(3),
+          );
           [manager] = await mocks.usersFactory();
-          const [managerFarm] = await mocks.userFarmFactory({
-            promisedUser: [manager],
-            promisedFarm: [farm],
-          }, fakeUserFarm(2));
-
+          const [managerFarm] = await mocks.userFarmFactory(
+            {
+              promisedUser: [manager],
+              promisedFarm: [farm],
+            },
+            fakeUserFarm(2),
+          );
 
           [unAuthorizedUser] = await mocks.usersFactory();
           [farmunAuthorizedUser] = await mocks.farmFactory();
-          const [ownerFarmunAuthorizedUser] = await mocks.userFarmFactory({
-            promisedUser: [unAuthorizedUser],
-            promisedFarm: [farmunAuthorizedUser],
-          }, fakeUserFarm(1));
+          const [ownerFarmunAuthorizedUser] = await mocks.userFarmFactory(
+            {
+              promisedUser: [unAuthorizedUser],
+              promisedFarm: [farmunAuthorizedUser],
+            },
+            fakeUserFarm(1),
+          );
         });
 
         test('Manager should post and get a valid otherLog', async (done) => {
           sampleRequestBody.user_id = manager.user_id;
           postRequest(sampleRequestBody, { user_id: manager.user_id }, async (err, res) => {
             expect(res.status).toBe(200);
-            const activityLog = await activityLogModel.query().context({
-              showHidden: true,
-              user_id: owner.user_id,
-            }).where('user_id', manager.user_id);
+            const activityLog = await activityLogModel
+              .query()
+              .context({
+                showHidden: true,
+                user_id: owner.user_id,
+              })
+              .where('user_id', manager.user_id);
             expect(activityLog.length).toBe(1);
             expect(activityLog[0].notes).toBe(fakeActivityLog.notes);
             done();
@@ -4434,10 +5573,13 @@ xdescribe('Log Tests', () => {
           sampleRequestBody.user_id = worker.user_id;
           postRequest(sampleRequestBody, { user_id: worker.user_id }, async (err, res) => {
             expect(res.status).toBe(200);
-            const activityLog = await activityLogModel.query().context({
-              showHidden: true,
-              user_id: owner.user_id,
-            }).where('user_id', worker.user_id);
+            const activityLog = await activityLogModel
+              .query()
+              .context({
+                showHidden: true,
+                user_id: owner.user_id,
+              })
+              .where('user_id', worker.user_id);
             expect(activityLog.length).toBe(1);
             expect(activityLog[0].notes).toBe(fakeActivityLog.notes);
             done();
@@ -4446,38 +5588,47 @@ xdescribe('Log Tests', () => {
 
         test('should return 403 status if otherLog is posted by unauthorized user', async (done) => {
           sampleRequestBody.user_id = farmunAuthorizedUser.user_id;
-          postRequest(sampleRequestBody, { user_id: unAuthorizedUser.user_id }, async (err, res) => {
-            expect(res.status).toBe(403);
-            done();
-          });
+          postRequest(
+            sampleRequestBody,
+            { user_id: unAuthorizedUser.user_id },
+            async (err, res) => {
+              expect(res.status).toBe(403);
+              done();
+            },
+          );
         });
 
         test('Circumvent authorization by modifying farm_id', async (done) => {
           sampleRequestBody.user_id = farmunAuthorizedUser.user_id;
-          postRequest(sampleRequestBody, {
-            user_id: worker.user_id,
-            farm_id: farmunAuthorizedUser.farm_id,
-          }, async (err, res) => {
-            expect(res.status).toBe(403);
-            done();
-          });
+          postRequest(
+            sampleRequestBody,
+            {
+              user_id: worker.user_id,
+              farm_id: farmunAuthorizedUser.farm_id,
+            },
+            async (err, res) => {
+              expect(res.status).toBe(403);
+              done();
+            },
+          );
         });
 
         test('Circumvent authorization by modifying farm_id in body', async (done) => {
           sampleRequestBody.user_id = farmunAuthorizedUser.user_id;
           sampleRequestBody.farm_id = farmunAuthorizedUser.farm_id;
-          postRequest(sampleRequestBody, {
-            user_id: worker.user_id,
-            farm_id: farmunAuthorizedUser.farm_id,
-          }, async (err, res) => {
-            expect(res.status).toBe(403);
-            done();
-          });
+          postRequest(
+            sampleRequestBody,
+            {
+              user_id: worker.user_id,
+              farm_id: farmunAuthorizedUser.farm_id,
+            },
+            async (err, res) => {
+              expect(res.status).toBe(403);
+              done();
+            },
+          );
         });
-
       });
-
-
     });
   });
 });

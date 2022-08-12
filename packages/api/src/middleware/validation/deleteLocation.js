@@ -15,7 +15,7 @@
 
 import { Model } from 'objection';
 
-import managementPlanModel from '../../models/managementPlanModel';
+import managementPlanModel from '../../models/managementPlanModel.js';
 
 async function validateLocationDependency(req, res, next) {
   const location_id = req?.params?.location_id;

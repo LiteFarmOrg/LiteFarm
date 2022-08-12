@@ -13,9 +13,9 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import passwordModel from '../../models/passwordModel';
+import passwordModel from '../../models/passwordModel.js';
 
-import userModel from '../../models/userModel';
+import userModel from '../../models/userModel.js';
 
 async function checkPasswordCreated(req, res, next) {
   const passwordRows = await passwordModel

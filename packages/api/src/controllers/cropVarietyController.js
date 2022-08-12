@@ -1,5 +1,5 @@
 import CropVarietyModel from '../models/cropVarietyModel.js';
-import managementPlanModel from '../models/managementPlanModel.js';
+import ManagementPlanModel from '../models/managementPlanModel.js';
 import CropModel from '../models/cropModel.js';
 import {
   getPublicS3BucketName,
@@ -8,7 +8,8 @@ import {
   getPublicS3Url,
 } from '../util/digitalOceanSpaces.js';
 import { v4 as uuidv4 } from 'uuid';
-import { post } from './baseController.js';
+import baseController from './baseController.js';
+const { post } = baseController;
 
 const cropVarietyController = {
   getCropVarietiesByFarmId() {
@@ -40,8 +41,7 @@ const cropVarietyController = {
       const { crop_variety_id } = req.params;
       try {
         const result = await CropVarietyModel.transaction(async (trx) => {
-          const deletedManagementPlans = await managementPlanModel
-            .query(trx)
+          const deletedManagementPlans = await ManagementPlanModel.query(trx)
             .context(req.user)
             .where({ crop_variety_id })
             .delete()

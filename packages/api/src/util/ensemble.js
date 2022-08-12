@@ -17,12 +17,17 @@ import axios from 'axios';
 
 import path from 'path';
 import * as dotenv from 'dotenv';
+const __filename = fileURLToPath(import.meta.url);
+
+const __dirname = path.dirname(__filename);
+
 dotenv.config({ path: path.resolve(__dirname, '..', '..', '.env') });
 
-import FarmModel from '../models/farmModel';
-import FarmExternalIntegrationsModel from '../models/farmExternalIntegrationsModel';
-import IntegratingPartners from '../models/integratingPartnersModel';
-import endPoints from '../endPoints';
+import FarmModel from '../models/farmModel.js';
+import FarmExternalIntegrationsModel from '../models/farmExternalIntegrationsModel.js';
+import IntegratingPartners from '../models/integratingPartnersModel.js';
+import endPoints from '../endPoints.js';
+import { fileURLToPath } from 'url';
 const { ensembleAPI } = endPoints;
 
 let baseUrl;

@@ -16,15 +16,15 @@
 import express from 'express';
 
 const router = express.Router();
-import userController from '../controllers/userController';
-import checkScope from '../middleware/acl/checkScope';
-import isSelf from '../middleware/acl/isSelf';
-import hasFarmAccess from '../middleware/acl/hasFarmAccess';
-import checkInviteJwt from '../middleware/acl/checkInviteJwt';
-import checkInvitationTokenContent from '../middleware/acl/checkInviteTokenContent';
-import checkInvitationAndGoogleJwtContent from '../middleware/acl/checkInviteAndGoogleJwtContent';
-import checkPasswordCreated from '../middleware/acl/checkPasswordCreated';
-import checkGoogleJwt from '../middleware/acl/checkGoogleJwt';
+import userController from '../controllers/userController.js';
+import checkScope from '../middleware/acl/checkScope.js';
+import isSelf from '../middleware/acl/isSelf.js';
+import hasFarmAccess from '../middleware/acl/hasFarmAccess.js';
+import checkInviteJwt from '../middleware/acl/checkInviteJwt.js';
+import checkInvitationTokenContent from '../middleware/acl/checkInviteTokenContent.js';
+import checkInvitationAndGoogleJwtContent from '../middleware/acl/checkInviteAndGoogleJwtContent.js';
+import checkPasswordCreated from '../middleware/acl/checkPasswordCreated.js';
+import checkGoogleJwt from '../middleware/acl/checkGoogleJwt.js';
 
 router.post('/', userController.addUser);
 

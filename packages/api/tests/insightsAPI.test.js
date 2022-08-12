@@ -21,7 +21,7 @@ const chai_expect = chai.expect; // Using Expect style
 const chai_should = chai.should(); // Using Should style
 const knex = require('../src/util/knex');
 const server = require('./../src/server');
-const mocks = require('./mock.factories');
+const mocks = require('./mock.factories.js');
 const { tableCleanup } = require('./testEnvironment');
 const insightHelpers = require('../src/controllers/insightHelpers.js');
 jest.mock('jsdom');

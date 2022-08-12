@@ -16,12 +16,12 @@
 import express from 'express';
 
 const router = express.Router();
-import checkScope from '../middleware/acl/checkScope';
-import hasFarmAccess from '../middleware/acl/hasFarmAccess';
-import validateFilesLength from '../middleware/validation/createDocument';
-import validateFileExtension from '../middleware/validation/uploadDocument';
-import documentController from '../controllers/documentController';
-import multerDiskUpload from '../util/fileUpload';
+import checkScope from '../middleware/acl/checkScope.js';
+import hasFarmAccess from '../middleware/acl/hasFarmAccess.js';
+import validateFilesLength from '../middleware/validation/createDocument.js';
+import validateFileExtension from '../middleware/validation/uploadDocument.js';
+import documentController from '../controllers/documentController.js';
+import multerDiskUpload from '../util/fileUpload.js';
 
 router.get(
   '/farm/:farm_id',

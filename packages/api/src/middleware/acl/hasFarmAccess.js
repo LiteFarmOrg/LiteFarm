@@ -29,7 +29,7 @@ const entitiesGetters = {
   task_id: fromTaskId,
   taskManagementPlanAndLocation: fromTaskManagementPlanAndLocation,
 };
-import userFarmModel from '../../models/userFarmModel';
+import userFarmModel from '../../models/userFarmModel.js';
 
 export default ({ params = null, body = null, mixed = null }) => async (req, res, next) => {
   let id_name;

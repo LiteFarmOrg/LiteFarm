@@ -15,17 +15,17 @@
 
 import { from } from 'rxjs';
 
-import { delay, concatMap } from 'rxjs/operators';
+import { delay, concatMap } from 'rxjs/operators/index.js';
 import { Model } from 'objection';
 const knex = Model.knex();
 import rp from 'request-promise';
-import credentials from '../../credentials';
-import endPoints from '../../endPoints';
+import credentials from '../../credentials.js';
+import endPoints from '../../endPoints.js';
 import scheduler from 'node-schedule';
-import waterBalanceModel from '../../models/waterBalanceModel';
-import waterBalanceScheduleModel from '../../models/waterBalanceSchedule';
-import weatherModel from '../../models/weatherModel';
-import weatherHourlyModel from '../../models/weatherHourlyModel';
+import waterBalanceModel from '../../models/waterBalanceModel.js';
+import waterBalanceScheduleModel from '../../models/waterBalanceSchedule.js';
+import weatherModel from '../../models/weatherModel.js';
+import weatherHourlyModel from '../../models/weatherHourlyModel.js';
 
 /* eslint-disable no-console */
 

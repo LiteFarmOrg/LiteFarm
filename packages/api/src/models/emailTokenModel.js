@@ -1,5 +1,5 @@
-import { createToken } from '../util/jwt';
-import { emails, sendEmail } from '../templates/sendEmailTemplate';
+import { createToken } from '../util/jwt.js';
+import { emails, sendEmail } from '../templates/sendEmailTemplate.js';
 import { Model } from 'objection';
 
 class emailTokenModel extends Model {

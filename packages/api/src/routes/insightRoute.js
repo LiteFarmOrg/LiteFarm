@@ -16,10 +16,10 @@
 import express from 'express';
 
 const router = express.Router();
-import insightController from '../controllers/insightController';
-import checkOwnership from '../middleware/acl/checkOwnership';
-import checkScope from '../middleware/acl/checkScope';
-import hasFarmAccess from '../middleware/acl/hasFarmAccess';
+import insightController from '../controllers/insightController.js';
+import checkOwnership from '../middleware/acl/checkOwnership.js';
+import checkScope from '../middleware/acl/checkScope.js';
+import hasFarmAccess from '../middleware/acl/hasFarmAccess.js';
 // people fed specific stuff
 // get all the nutritional data that is displayed as a view on People Fed Module
 router.get(

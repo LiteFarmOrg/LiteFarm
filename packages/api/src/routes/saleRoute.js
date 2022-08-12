@@ -13,15 +13,15 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import SaleController from '../controllers/saleController';
+import SaleController from '../controllers/saleController.js';
 
 import express from 'express';
 const router = express.Router();
-import checkScope from '../middleware/acl/checkScope';
-import hasFarmAccess from '../middleware/acl/hasFarmAccess';
-import validateSale from '../middleware/validation/sale';
-import conditionallyApplyMiddleware from '../middleware/acl/conditionally.apply';
-import isCreator from '../middleware/acl/isCreator';
+import checkScope from '../middleware/acl/checkScope.js';
+import hasFarmAccess from '../middleware/acl/hasFarmAccess.js';
+import validateSale from '../middleware/validation/sale.js';
+import conditionallyApplyMiddleware from '../middleware/acl/conditionally.apply.js';
+import isCreator from '../middleware/acl/isCreator.js';
 
 //TODO fix URL
 router.post(

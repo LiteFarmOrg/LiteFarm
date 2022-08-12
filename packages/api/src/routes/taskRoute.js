@@ -16,15 +16,15 @@
 import express from 'express';
 
 const router = express.Router();
-import hasFarmAccess from '../middleware/acl/hasFarmAccess';
-import checkScope from '../middleware/acl/checkScope';
-import { modelMapping, isWorkerToSelfOrAdmin } from '../middleware/validation/task';
+import hasFarmAccess from '../middleware/acl/hasFarmAccess.js';
+import checkScope from '../middleware/acl/checkScope.js';
+import { modelMapping, isWorkerToSelfOrAdmin } from '../middleware/validation/task.js';
 import {
   validateAssigneeId,
   checkTaskStatusForAssignment,
-} from '../middleware/validation/assignTask';
-import taskController from '../controllers/taskController';
-import { createOrPatchProduct } from '../middleware/validation/product';
+} from '../middleware/validation/assignTask.js';
+import taskController from '../controllers/taskController.js';
+import { createOrPatchProduct } from '../middleware/validation/product.js';
 
 router.patch(
   '/assign/:task_id',

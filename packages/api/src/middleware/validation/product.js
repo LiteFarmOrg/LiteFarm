@@ -1,4 +1,4 @@
-import productModel from '../../models/productModel';
+import productModel from '../../models/productModel.js';
 function createOrPatchProduct(taskType) {
   return async (req, res, next) => {
     const { user_id } = req.user;

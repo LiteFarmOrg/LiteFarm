@@ -16,8 +16,8 @@
 import express from 'express';
 
 const router = express.Router();
-import exportController from '../controllers/exportController';
-import multerDiskUpload from '../util/fileUpload';
+import exportController from '../controllers/exportController.js';
+import multerDiskUpload from '../util/fileUpload.js';
 
 router.post('/map/farm/:farm_id', multerDiskUpload, exportController.sendMapToEmail());
 

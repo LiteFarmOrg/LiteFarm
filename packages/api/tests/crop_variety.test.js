@@ -20,7 +20,7 @@ const server = require('./../src/server');
 const knex = require('../src/util/knex');
 jest.mock('jsdom');
 jest.mock('../src/middleware/acl/checkJwt');
-const mocks = require('./mock.factories');
+const mocks = require('./mock.factories.js');
 const { faker } = require('@faker-js/faker');
 const { tableCleanup } = require('./testEnvironment');
 const cropVarietyModel = require('../src/models/cropVarietyModel');

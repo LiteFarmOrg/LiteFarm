@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import userFarmModel from '../../models/userFarmModel';
+import userFarmModel from '../../models/userFarmModel.js';
 
 const getScopes = async (user_id, farm_id, { checkConsent }) => {
   // essential to fetch the most updated userFarm info to know user's most updated granted access

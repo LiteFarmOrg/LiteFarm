@@ -16,11 +16,11 @@
 import express from 'express';
 
 const router = express.Router();
-import farmExpenseController from '../controllers/farmExpenseController';
-import checkScope from '../middleware/acl/checkScope';
-import hasFarmAccess from '../middleware/acl/hasFarmAccess';
-import conditionallyApplyMiddleware from '../middleware/acl/conditionally.apply';
-import isCreator from '../middleware/acl/isCreator';
+import farmExpenseController from '../controllers/farmExpenseController.js';
+import checkScope from '../middleware/acl/checkScope.js';
+import hasFarmAccess from '../middleware/acl/hasFarmAccess.js';
+import conditionallyApplyMiddleware from '../middleware/acl/conditionally.apply.js';
+import isCreator from '../middleware/acl/isCreator.js';
 
 router.get(
   '/farm/:farm_id',

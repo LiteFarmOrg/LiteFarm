@@ -13,15 +13,15 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import organicCertifierSurveyModel from '../models/organicCertifierSurveyModel';
+import OrganicCertifierSurveyModel from '../models/organicCertifierSurveyModel.js';
 
-import certificationModel from '../models/certificationModel';
-import certifierModel from '../models/certifierModel';
-import userModel from '../models/userModel';
-import farmModel from '../models/farmModel';
-import managementPlanModel from '../models/managementPlanModel';
-import locationModel from '../models/locationModel';
-import documentModel from '../models/documentModel';
+import CertificationModel from '../models/certificationModel.js';
+import CertifierModel from '../models/certifierModel.js';
+import UserModel from '../models/userModel.js';
+import FarmModel from '../models/farmModel.js';
+import ManagementPlanModel from '../models/managementPlanModel.js';
+import LocationModel from '../models/locationModel.js';
+import DocumentModel from '../models/documentModel.js';
 import Queue from 'bull';
 import { Model } from 'objection';
 import { v4 as uuidv4 } from 'uuid';
@@ -39,8 +39,7 @@ const organicCertifierSurveyController = {
     return async (req, res) => {
       try {
         const farm_id = req.params.farm_id;
-        const result = await organicCertifierSurveyModel
-          .query()
+        const result = await OrganicCertifierSurveyModel.query()
           .whereNotDeleted()
           .where({ farm_id })
           .first();
@@ -62,7 +61,7 @@ const organicCertifierSurveyController = {
   getAllSupportedCertifications() {
     return async (req, res) => {
       try {
-        const result = await certificationModel.query().select('*');
+        const result = await CertificationModel.query().select('*');
         if (!result) {
           res.sendStatus(404);
         } else {
@@ -82,8 +81,7 @@ const organicCertifierSurveyController = {
     return async (req, res) => {
       try {
         const { farm_id } = req.params;
-        const result = await certifierModel
-          .query()
+        const result = await CertifierModel.query()
           .select(
             'certifiers.certifier_id',
             'certifiers.certification_id',
@@ -121,8 +119,7 @@ const organicCertifierSurveyController = {
     return async (req, res) => {
       try {
         const user_id = req.user.user_id;
-        const result = await organicCertifierSurveyModel
-          .query()
+        const result = await OrganicCertifierSurveyModel.query()
           .context({ user_id })
           .insert(req.body)
           .returning('*');
@@ -139,8 +136,7 @@ const organicCertifierSurveyController = {
     return async (req, res) => {
       try {
         const user_id = req.user.user_id;
-        const result = await organicCertifierSurveyModel
-          .query()
+        const result = await OrganicCertifierSurveyModel.query()
           .context({ user_id })
           .findById(req.body.survey_id)
           .update(req.body)
@@ -178,8 +174,7 @@ const organicCertifierSurveyController = {
             .where({ certifier_id: organicCertifierSurvey.certifier_id })
             .first()
         : undefined;
-      const documents = await documentModel
-        .query()
+      const documents = await DocumentModel.query()
         .withGraphJoined('files')
         .where((builder) => {
           builder.where('valid_until', '>=', from_date).orWhere({ no_expiration: true });
@@ -196,14 +191,13 @@ const organicCertifierSurveyController = {
           })),
         )
         .reduce((a, b) => a.concat(b), []);
-      const { first_name, email, language_preference } = await userModel
-        .query()
+      const { first_name, email, language_preference } = await UserModel.query()
         .where({ user_id })
         .first();
       const {
         farm_name,
         units: { measurement },
-      } = await farmModel.query().where({ farm_id }).first();
+      } = await FarmModel.query().where({ farm_id }).first();
       const data = await this.getRecords(to_date, from_date, farm_id);
       const extraInfo = { ...data };
       const body = {
@@ -445,8 +439,7 @@ const organicCertifierSurveyController = {
       return locationIdCropMap;
     }, {});
 
-    const locations = await locationModel
-      .query()
+    const locations = await LocationModel.query()
       .context({ showHidden: true })
       .whereNotDeleted()
       .where({ farm_id }).withGraphFetched(`[
@@ -523,8 +516,7 @@ const organicCertifierSurveyController = {
   async getActiveManagementPlans(to_date, from_date, farm_id) {
     const startOfFromDate = new Date(`${from_date}T00:00:00`);
     const endOfEndDate = new Date(`${to_date}T23:59:59`);
-    const managementPlans = await managementPlanModel
-      .query()
+    const managementPlans = await ManagementPlanModel.query()
       .whereNotDeleted()
       .withGraphJoined(
         '[crop_variety.[crop], crop_management_plan.[planting_management_plans.[transplant_task.[task], plant_task.[task], managementTasks.[task]]]]',
@@ -722,7 +714,7 @@ const organicCertifierSurveyController = {
       const survey_id = req.params.survey_id;
       try {
         const user_id = req.user.user_id;
-        await organicCertifierSurveyModel.query().context({ user_id }).findById(survey_id).delete();
+        await OrganicCertifierSurveyModel.query().context({ user_id }).findById(survey_id).delete();
         res.sendStatus(200);
       } catch (error) {
         console.error(error);

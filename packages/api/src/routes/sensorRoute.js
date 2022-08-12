@@ -16,9 +16,9 @@
 import express from 'express';
 
 import multer from 'multer';
-import checkScope from '../middleware/acl/checkScope';
-import validateRequest from '../middleware/validation/validateWebhook';
-import SensorController from '../controllers/sensorController';
+import checkScope from '../middleware/acl/checkScope.js';
+import validateRequest from '../middleware/validation/validateWebhook.js';
+import SensorController from '../controllers/sensorController.js';
 
 const storage = multer.memoryStorage();
 const upload = multer({ storage });

@@ -1,4 +1,4 @@
-import { sendEmail, emails } from './../../templates/sendEmailTemplate';
+import { sendEmail, emails } from './../../templates/sendEmailTemplate.js';
 
 export default (job) => {
   if (!job.data?.fail) {

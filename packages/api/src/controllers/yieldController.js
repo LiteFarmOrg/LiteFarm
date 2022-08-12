@@ -13,9 +13,9 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import baseController from '../controllers/baseController';
+import baseController from '../controllers/baseController.js';
 
-import yieldModel from '../models/yieldModel';
+import YieldModel from '../models/yieldModel.js';
 import { transaction, Model } from 'objection';
 
 const YieldController = {
@@ -23,7 +23,7 @@ const YieldController = {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
       try {
-        const result = await baseController.postWithResponse(yieldModel, req.body, req, { trx });
+        const result = await baseController.postWithResponse(YieldModel, req.body, req, { trx });
         await trx.commit();
         res.status(201).send(result);
       } catch (error) {
@@ -40,7 +40,7 @@ const YieldController = {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
       try {
-        const isDeleted = await baseController.delete(yieldModel, req.params.yield_id, req, {
+        const isDeleted = await baseController.delete(YieldModel, req.params.yield_id, req, {
           trx,
         });
         await trx.commit();
@@ -62,7 +62,7 @@ const YieldController = {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
       try {
-        const updated = await baseController.put(yieldModel, req.params.id, req.body, req, { trx });
+        const updated = await baseController.put(YieldModel, req.params.id, req.body, req, { trx });
         await trx.commit();
         if (!updated.length) {
           res.sendStatus(404);
@@ -99,8 +99,7 @@ const YieldController = {
   },
 
   async getByForeignKey(farm_id) {
-    const yields = await yieldModel
-      .query()
+    const yields = await YieldModel.query()
       .select('*')
       .from('yield')
       .where('yield.farm_id', farm_id)

@@ -13,12 +13,15 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import path from 'path';
+import './dotenvConfig.js';
 
-import * as dotenv from 'dotenv';
+// import path from 'path';
 
-dotenv.config();
-dotenv.config({ path: path.resolve(process.cwd(), '.env.local') });
+// import dotenv from 'dotenv';
+// console.log("Starting up")
+//
+// dotenv.config();
+// dotenv.config({ path: path.resolve(process.cwd(), '.env.local') });
 import express from 'express';
 import bodyParser from 'body-parser';
 const app = express();

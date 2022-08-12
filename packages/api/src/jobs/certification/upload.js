@@ -1,7 +1,7 @@
 import { spawn } from 'child_process';
 import fs from 'fs';
 import path from 'path';
-import { getPrivateS3BucketName } from '../../util/digitalOceanSpaces';
+import { getPrivateS3BucketName } from '../../util/digitalOceanSpaces.js';
 
 export default (emailQueue) => (job, done) => {
   console.log('STEP 5 > Upload', job.id);

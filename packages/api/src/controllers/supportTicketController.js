@@ -14,10 +14,10 @@
  */
 
 // const baseController = require('../controllers/baseController');
-import supportTicketModel from '../models/supportTicketModel';
+import SupportTicketModel from '../models/supportTicketModel.js';
 
-import userModel from '../models/userModel';
-import { emails, sendEmail } from '../templates/sendEmailTemplate';
+import UserModel from '../models/userModel.js';
+import { emails, sendEmail } from '../templates/sendEmailTemplate.js';
 
 const supportTicketController = {
   // Disabled
@@ -45,9 +45,8 @@ const supportTicketController = {
       const data = JSON.parse(req.body.data);
       data.attachments = [];
       const user_id = req.user.user_id;
-      const user = await userModel.query().findById(user_id);
-      const result = await supportTicketModel
-        .query()
+      const user = await UserModel.query().findById(user_id);
+      const result = await SupportTicketModel.query()
         .context({ user_id })
         .insert(data)
         .returning('*');

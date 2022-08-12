@@ -16,9 +16,9 @@
 import express from 'express';
 
 const router = express.Router();
-import userFarmDataController from '../controllers/userFarmDataController';
-import checkScope from '../middleware/acl/checkScope';
-import hasFarmAccess from '../middleware/acl/hasFarmAccess';
+import userFarmDataController from '../controllers/userFarmDataController.js';
+import checkScope from '../middleware/acl/checkScope.js';
+import hasFarmAccess from '../middleware/acl/hasFarmAccess.js';
 
 router.post(
   '/',

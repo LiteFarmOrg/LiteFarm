@@ -13,11 +13,11 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import UserFarmModel from '../models/userFarmModel';
+import UserFarmModel from '../models/userFarmModel.js';
 
-import TaskModel from '../models/taskModel';
-import NotificationUser from '../models/notificationUserModel';
-import { getTasksForFarm } from './taskController';
+import TaskModel from '../models/taskModel.js';
+import NotificationUser from '../models/notificationUserModel.js';
+import { getTasksForFarm } from './taskController.js';
 
 const timeNotificationController = {
   /**

@@ -13,9 +13,9 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import baseController from '../controllers/baseController';
+import baseController from '../controllers/baseController.js';
 
-import shiftTaskModel from '../models/shiftTaskModel';
+import ShiftTaskModel from '../models/shiftTaskModel.js';
 import { transaction, Model } from 'objection';
 
 const shiftTaskController = {
@@ -23,7 +23,7 @@ const shiftTaskController = {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
       try {
-        const result = await baseController.postWithResponse(shiftTaskModel, req.body, req, {
+        const result = await baseController.postWithResponse(ShiftTaskModel, req.body, req, {
           trx,
         });
         await trx.commit();
@@ -42,7 +42,7 @@ const shiftTaskController = {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
       try {
-        const isDeleted = await baseController.delete(shiftTaskModel, req, req, { trx });
+        const isDeleted = await baseController.delete(ShiftTaskModel, req, req, { trx });
         await trx.commit();
         if (isDeleted) {
           res.sendStatus(200);

@@ -15,8 +15,8 @@
 
 import baseController from '../controllers/baseController.js';
 
-import saleModel from '../models/saleModel.js';
-import cropVarietySaleModel from '../models/cropVarietySaleModel.js';
+import SaleModel from '../models/saleModel.js';
+import CropVarietySaleModel from '../models/cropVarietySaleModel.js';
 import { transaction, Model } from 'objection';
 
 const SaleController = {
@@ -27,7 +27,7 @@ const SaleController = {
       // const { user_id } = req.user;
       try {
         // post to sale and crop sale table
-        const result = await baseController.upsertGraph(saleModel, req.body, req, { trx });
+        const result = await baseController.upsertGraph(SaleModel, req.body, req, { trx });
         await trx.commit();
         res.status(201).send(result);
       } catch (error) {
@@ -53,8 +53,7 @@ const SaleController = {
 
       const trx = await transaction.start(Model.knex());
       try {
-        const saleResult = await saleModel
-          .query(trx)
+        const saleResult = await SaleModel.query(trx)
           .context(req.user)
           .where('sale_id', sale_id)
           .patch(saleData)
@@ -64,8 +63,7 @@ const SaleController = {
           return res.status(400).send('failed to patch data');
         }
 
-        const deletedExistingCropVarietySale = await cropVarietySaleModel
-          .query(trx)
+        const deletedExistingCropVarietySale = await CropVarietySaleModel.query(trx)
           .where('sale_id', sale_id)
           .delete();
         if (!deletedExistingCropVarietySale) {
@@ -80,7 +78,7 @@ const SaleController = {
         }
         for (const cvs of crop_variety_sale) {
           cvs.sale_id = parseInt(sale_id);
-          await cropVarietySaleModel.query(trx).context(req.user).insert(cvs);
+          await CropVarietySaleModel.query(trx).context(req.user).insert(cvs);
         }
 
         await trx.commit();
@@ -100,8 +98,7 @@ const SaleController = {
     return async (req, res) => {
       try {
         const { farm_id } = req.params;
-        const sales = await saleModel
-          .query()
+        const sales = await SaleModel.query()
           .whereNotDeleted()
           .where({ farm_id })
           .withGraphFetched('crop_variety_sale');
@@ -134,7 +131,7 @@ const SaleController = {
       // const { user_id } = req.user;
       const trx = await transaction.start(Model.knex());
       try {
-        const isDeleted = await baseController.delete(saleModel, req.params.sale_id, req, { trx });
+        const isDeleted = await baseController.delete(SaleModel, req.params.sale_id, req, { trx });
         await trx.commit();
         if (isDeleted) {
           res.sendStatus(200);
@@ -151,8 +148,7 @@ const SaleController = {
   },
 
   async getSalesOfFarm(farm_id) {
-    return await saleModel
-      .query()
+    return await SaleModel.query()
       .context({ showHidden: true })
       .whereNotDeleted()
       .distinct('sale.sale_id', 'sale.customer_name', 'sale.sale_date', 'sale.created_by_user_id')

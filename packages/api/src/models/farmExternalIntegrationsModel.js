@@ -15,8 +15,8 @@
 
 import { Model } from 'objection';
 
-import IntegratingPartners from './integratingPartnersModel';
-import Farm from './farmModel';
+import IntegratingPartners from './integratingPartnersModel.js';
+import Farm from './farmModel.js';
 
 class FarmExternalIntegrations extends Model {
   /**

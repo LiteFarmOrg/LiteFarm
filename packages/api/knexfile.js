@@ -12,32 +12,31 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
+// import path from 'path';
+// import { fileURLToPath } from 'url';
+
+import * as dotenv from 'dotenv';
 import path from 'path';
 import { fileURLToPath } from 'url';
 
-import * as dotenv from "dotenv"
+const dir = path.dirname(fileURLToPath(import.meta.url));
 
-const __filename = fileURLToPath(import.meta.url)
-
-const __dirname = path.dirname(__filename)
-
-dotenv.config({ path: path.resolve(__dirname, '.env') });
+dotenv.config(/*{ path: path.resolve(__dirname, '.env') }*/);
 
 export default {
-
   development: {
     client: 'postgresql',
     connection: {
       host: process.env.DEV_DATABASE_HOST,
       database: process.env.DEV_DATABASE,
-      user:     process.env.DEV_DATABASE_USER,
+      user: process.env.DEV_DATABASE_USER,
       password: process.env.DEV_DATABASE_PASSWORD,
     },
     migrations: {
-      directory: __dirname + '/db/migration',
+      directory: dir + '/db/migration',
     },
     seeds: {
-      directory: __dirname + '/db/seeds',
+      directory: dir + '/db/seeds',
     },
   },
 
@@ -50,10 +49,10 @@ export default {
       password: 'postgres',
     },
     migrations: {
-      directory: __dirname + '/db/migration',
+      directory: dir + '/db/migration',
     },
     seeds: {
-      directory: __dirname + '/db/seeds',
+      directory: dir + '/db/seeds',
     },
   },
 
@@ -63,15 +62,15 @@ export default {
     connection: {
       host: process.env.DEV_DATABASE_HOST,
       database: process.env.DEV_DATABASE,
-      user:     process.env.DEV_DATABASE_USER,
+      user: process.env.DEV_DATABASE_USER,
       password: process.env.DEV_DATABASE_PASSWORD,
       ssl: { rejectUnauthorized: false },
     },
     migrations: {
-      directory: __dirname + '/db/migration',
+      directory: dir + '/db/migration',
     },
     seeds: {
-      directory: __dirname + '/db/seeds',
+      directory: dir + '/db/seeds',
     },
   },
 
@@ -80,10 +79,10 @@ export default {
     debug: true,
     connection: process.env.DATABASE_URL,
     migrations: {
-      directory: __dirname + '/db/migration',
+      directory: dir + '/db/migration',
     },
     seeds: {
-      directory: __dirname + '/db/seeds',
+      directory: dir + '/db/seeds',
     },
     ssl: {
       rejectUnauthorized: false,
@@ -94,15 +93,15 @@ export default {
     connection: {
       host: process.env.TEST_DATABASE_HOST,
       database: process.env.TEST_DATABASE,
-      user:     process.env.TEST_DATABASE_USER,
+      user: process.env.TEST_DATABASE_USER,
       password: process.env.TEST_DATABASE_PASSWORD,
     },
     pool: { min: 0, max: 100 },
     migrations: {
-      directory: __dirname + '/db/migration',
+      directory: dir + '/db/migration',
     },
     seeds: {
-      directory: __dirname + '/db/seeds',
+      directory: dir + '/db/seeds',
     },
   },
   pipeline: {
@@ -116,10 +115,10 @@ export default {
     },
     pool: { min: 0, max: 100 },
     migrations: {
-      directory: __dirname + '/db/migration',
+      directory: dir + '/db/migration',
     },
     seeds: {
-      directory: __dirname + '/db/seeds',
+      directory: dir + '/db/seeds',
     },
   },
 };

@@ -1,5 +1,5 @@
 import XlsxPopulate from 'xlsx-populate';
-import { i18n, t, tCrop } from '../locales/i18nt';
+import { i18n, t, tCrop } from '../locales/i18nt.js';
 const dataToCellMapping = {
   name: 'A',
   supplier: 'B',

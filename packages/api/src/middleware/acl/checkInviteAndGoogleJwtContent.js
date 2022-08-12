@@ -15,9 +15,9 @@
 
 import jsonwebtoken from 'jsonwebtoken';
 
-import userFarmModel from '../../models/userFarmModel';
-import emailTokenModel from '../../models/emailTokenModel';
-import { tokenType } from '../../util/jwt';
+import userFarmModel from '../../models/userFarmModel.js';
+import emailTokenModel from '../../models/emailTokenModel.js';
+import { tokenType } from '../../util/jwt.js';
 
 async function checkInvitationTokenContent(req, res, next) {
   let invitation_token_content;

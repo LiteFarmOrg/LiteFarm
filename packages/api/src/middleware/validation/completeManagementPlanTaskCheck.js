@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import taskModel from '../../models/taskModel';
+import taskModel from '../../models/taskModel.js';
 
 const validateManagementPlanTasks = async (req, res, next) => {
   const tasks = await taskModel

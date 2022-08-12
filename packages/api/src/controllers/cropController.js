@@ -15,9 +15,10 @@
 
 import baseController from '../controllers/baseController.js';
 
-import cropModel from '../models/cropModel.js';
-import cropVarietyModel from '../models/cropVarietyModel.js';
-import { transaction, Model, UniqueViolationError } from 'objection';
+import CropModel from '../models/cropModel.js';
+import CropVarietyModel from '../models/cropVarietyModel.js';
+import objection from 'objection';
+const { transaction, Model, UniqueViolationError } = objection;
 
 const cropController = {
   addCropWithFarmID() {
@@ -27,7 +28,7 @@ const cropController = {
         const data = req.body;
         data.user_added = true;
         data.crop_translation_key = data.crop_common_name;
-        const result = await baseController.postWithResponse(cropModel, data, req, { trx });
+        const result = await baseController.postWithResponse(CropModel, data, req, { trx });
         await trx.commit();
         res.status(201).send(result);
       } catch (error) {
@@ -61,9 +62,9 @@ const cropController = {
         const { crop, variety } = req.body;
         crop.user_added = true;
         crop.crop_translation_key = crop.crop_common_name;
-        const newCrop = await baseController.postWithResponse(cropModel, crop, req, { trx });
+        const newCrop = await baseController.postWithResponse(CropModel, crop, req, { trx });
         const newVariety = await baseController.postWithResponse(
-          cropVarietyModel,
+          CropVarietyModel,
           { ...newCrop, ...variety },
           req,
           { trx },
@@ -99,7 +100,7 @@ const cropController = {
         const farm_id = req.params.farm_id;
         const rows =
           req.query?.fetch_all === 'false'
-            ? await cropModel.query().whereNotDeleted().where({
+            ? await CropModel.query().whereNotDeleted().where({
                 farm_id,
               })
             : await cropController.get(farm_id);
@@ -117,7 +118,7 @@ const cropController = {
     return async (req, res) => {
       try {
         const id = req.params.crop_id;
-        const row = await baseController.getIndividual(cropModel, id);
+        const row = await baseController.getIndividual(CropModel, id);
         if (!row.length) {
           res.sendStatus(404);
         } else {
@@ -160,7 +161,7 @@ const cropController = {
         // const user_id = req.user.user_id;
         const data = req.body;
         data.crop_translation_key = data.crop_common_name;
-        const updated = await baseController.put(cropModel, req.params.crop_id, data, req, { trx });
+        const updated = await baseController.put(CropModel, req.params.crop_id, data, req, { trx });
         await trx.commit();
         if (!updated.length) {
           res.sendStatus(404);
@@ -179,8 +180,7 @@ const cropController = {
 
   async get(farm_id) {
     //TODO fix user added flag
-    return await cropModel
-      .query()
+    return await CropModel.query()
       .whereNotDeleted()
       .where('reviewed', true)
       .orWhere({ farm_id, deleted: false });
@@ -188,9 +188,8 @@ const cropController = {
 
   async del(req, trx) {
     const id = req.params.crop_id;
-    const table_id = cropModel.idColumn;
-    return await cropModel
-      .query(trx)
+    const table_id = CropModel.idColumn;
+    return await CropModel.query(trx)
       .context({ user_id: req.user.user_id })
       .where(table_id, id)
       .andWhere('user_added', true)

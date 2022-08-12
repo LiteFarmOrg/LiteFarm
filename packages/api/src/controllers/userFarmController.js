@@ -13,17 +13,17 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import userFarmModel from '../models/userFarmModel';
+import UserFarmModel from '../models/userFarmModel.js';
 
-import userModel from '../models/userModel';
-import userLogModel from '../models/userLogModel';
-import passwordModel from '../models/passwordModel';
-import roleModel from '../models/roleModel';
-import shiftModel from '../models/shiftModel';
-import emailModel from '../models/emailTokenModel';
+import UserModel from '../models/userModel.js';
+import UserLogModel from '../models/userLogModel.js';
+import PasswordModel from '../models/passwordModel.js';
+import RoleModel from '../models/roleModel.js';
+import ShiftModel from '../models/shiftModel.js';
+import EmailModel from '../models/emailTokenModel.js';
 import { transaction, Model } from 'objection';
-import { emails, sendEmail } from '../templates/sendEmailTemplate';
-import { createToken } from '../util/jwt';
+import { emails, sendEmail } from '../templates/sendEmailTemplate.js';
+import { createToken } from '../util/jwt.js';
 
 const validStatusChanges = {
   Active: ['Inactive'],
@@ -36,8 +36,7 @@ const userFarmController = {
     return async (req, res) => {
       try {
         const user_id = req.params.user_id;
-        const rows = await userFarmModel
-          .query()
+        const rows = await UserFarmModel.query()
           .context({ user_id: req.user.user_id })
           .select('*')
           .where('userFarm.user_id', user_id)
@@ -64,15 +63,13 @@ const userFarmController = {
       try {
         const farm_id = req.params.farm_id;
         const user_id = req.headers.user_id;
-        const [userFarm] = await userFarmModel
-          .query()
+        const [userFarm] = await UserFarmModel.query()
           .select('role_id')
           .where('farm_id', farm_id)
           .andWhere('user_id', user_id);
         let rows;
         if (userFarm.role_id === 3) {
-          rows = await userFarmModel
-            .query()
+          rows = await UserFarmModel.query()
             .context({ user_id: req.user.user_id })
             .select(
               'users.first_name',
@@ -90,8 +87,7 @@ const userFarmController = {
             .leftJoin('role', 'userFarm.role_id', 'role.role_id')
             .leftJoin('users', 'userFarm.user_id', 'users.user_id');
         } else {
-          rows = await userFarmModel
-            .query()
+          rows = await UserFarmModel.query()
             .context({ user_id: req.user.user_id })
             .select('*')
             .where('userFarm.farm_id', farm_id)
@@ -111,15 +107,13 @@ const userFarmController = {
       try {
         const farm_id = req.params.farm_id;
         const user_id = req.headers.user_id;
-        const [userFarm] = await userFarmModel
-          .query()
+        const [userFarm] = await UserFarmModel.query()
           .select('role_id')
           .where('farm_id', farm_id)
           .andWhere('user_id', user_id);
         let rows;
         if (userFarm.role_id === 3) {
-          rows = await userFarmModel
-            .query()
+          rows = await UserFarmModel.query()
             .context({ user_id: req.user.user_id })
             .select(
               'users.first_name',
@@ -136,8 +130,7 @@ const userFarmController = {
             .leftJoin('role', 'userFarm.role_id', 'role.role_id')
             .leftJoin('users', 'userFarm.user_id', 'users.user_id');
         } else {
-          rows = await userFarmModel
-            .query()
+          rows = await UserFarmModel.query()
             .select('*')
             .where('userFarm.farm_id', farm_id)
             .andWhere('userFarm.status', 'Active')
@@ -157,15 +150,13 @@ const userFarmController = {
       try {
         const user_id = req.params.user_id;
         const farm_id = req.params.farm_id;
-        const [userFarm] = await userFarmModel
-          .query()
+        const [userFarm] = await UserFarmModel.query()
           .select('role_id')
           .where('farm_id', farm_id)
           .andWhere('user_id', user_id);
         let rows;
         if (userFarm.role_id === 3) {
-          rows = await userFarmModel
-            .query()
+          rows = await UserFarmModel.query()
             .context({ user_id: req.user.user_id })
             .select(
               'users.first_name',
@@ -184,8 +175,7 @@ const userFarmController = {
             .leftJoin('role', 'userFarm.role_id', 'role.role_id')
             .leftJoin('users', 'userFarm.user_id', 'users.user_id');
         } else {
-          rows = await userFarmModel
-            .query()
+          rows = await UserFarmModel.query()
             .context({ user_id: req.user.user_id })
             .select('*')
             .where('userFarm.user_id', user_id)
@@ -206,8 +196,7 @@ const userFarmController = {
       try {
         const { user_id, farm_id } = req.params;
         const { has_consent, consent_version } = req.body;
-        const userFarm = await userFarmModel
-          .query()
+        const userFarm = await UserFarmModel.query()
           .select('*')
           .where({
             'userFarm.user_id': user_id,
@@ -217,8 +206,7 @@ const userFarmController = {
           .leftJoin('users', 'userFarm.user_id', 'users.user_id')
           .leftJoin('farm', 'userFarm.farm_id', 'farm.farm_id')
           .first();
-        await userFarmModel
-          .query()
+        await UserFarmModel.query()
           .where({ user_id, farm_id })
           .patch({ has_consent, consent_version });
         res.sendStatus(200);
@@ -268,8 +256,7 @@ const userFarmController = {
       const step_five_end = req.body.step_five_end;
 
       try {
-        const isPatched = await userFarmModel
-          .query(trx)
+        const isPatched = await UserFarmModel.query(trx)
           .where('user_id', user_id)
           .andWhere('farm_id', farm_id)
           .patch({
@@ -308,7 +295,7 @@ const userFarmController = {
         const farm_id = req.params.farm_id;
         const user_id = req.params.user_id;
         const { role_id } = req.body;
-        const role = await roleModel.query().findById(role_id);
+        const role = await RoleModel.query().findById(role_id);
         if (!role) {
           return res.status(400).send('role_id not found');
         } else if (role_id === 4) {
@@ -317,8 +304,7 @@ const userFarmController = {
 
         // if admin is updating themselves to worker, check if they're the last admin of farm
         if (role_id === 3) {
-          const admins = await userFarmModel
-            .query()
+          const admins = await UserFarmModel.query()
             .where({
               role_id: 1,
               farm_id,
@@ -339,7 +325,7 @@ const userFarmController = {
           role_id,
           has_consent: false,
         };
-        const isPatched = await userFarmModel.query().where({ farm_id, user_id }).patch(updateData);
+        const isPatched = await UserFarmModel.query().where({ farm_id, user_id }).patch(updateData);
         return isPatched ? res.sendStatus(200) : res.status(404).send('User not found');
       } catch (error) {
         console.log(error);
@@ -358,8 +344,7 @@ const userFarmController = {
       let template_path;
 
       try {
-        const targetUser = await userFarmModel
-          .query()
+        const targetUser = await UserFarmModel.query()
           .select(
             'users.first_name',
             'users.last_name',
@@ -388,7 +373,7 @@ const userFarmController = {
           return;
         }
 
-        const admins = await userFarmModel.getFarmManagementByFarmId(farm_id);
+        const admins = await UserFarmModel.getFarmManagementByFarmId(farm_id);
 
         // check if access is revoked or restored: update email info based on this
         if (currentStatus === 'Active' || currentStatus === 'Invited') {
@@ -401,8 +386,7 @@ const userFarmController = {
         } else if (currentStatus === 'Inactive') {
           template_path = emails.ACCESS_RESTORE;
         }
-        const isPatched = await userFarmModel
-          .query()
+        const isPatched = await UserFarmModel.query()
           .where('farm_id', farm_id)
           .andWhere('user_id', user_id)
           .patch({
@@ -435,25 +419,22 @@ const userFarmController = {
       const { user_id, farm_id } = req.user;
       const { language_preference } = req.body;
       if (!/^\d+$/.test(user_id)) {
-        const user = await userModel
-          .query()
+        const user = await UserModel.query()
           .findById(user_id)
           .patch({ language_preference })
           .returning('*');
-        const passwordRow = await passwordModel.query().findById(user_id);
+        const passwordRow = await PasswordModel.query().findById(user_id);
         if (!passwordRow || user.status_id === 2) {
           return res.status(404).send('User does not exist');
         }
       }
-      await userFarmModel
-        .query()
+      await UserFarmModel.query()
         .where({
           user_id,
           farm_id,
         })
         .patch({ status: 'Active' });
-      result = await userFarmModel
-        .query()
+      result = await UserFarmModel.query()
         .withGraphFetched('[role, farm, user]')
         .findById([user_id, farm_id]);
       result = { ...result.user, ...result, ...result.role, ...result.farm };
@@ -481,8 +462,7 @@ const userFarmController = {
       const { wage } = req.body;
 
       try {
-        const isPatched = await userFarmModel
-          .query(trx)
+        const isPatched = await UserFarmModel.query(trx)
           .where('farm_id', farm_id)
           .andWhere('user_id', user_id)
           .patch({
@@ -516,22 +496,22 @@ const userFarmController = {
       }
       let userFarm;
       try {
-        await userFarmModel.transaction(async (trx) => {
-          userFarm = await userFarmModel.query(trx).findById([user_id, farm_id]);
+        await UserFarmModel.transaction(async (trx) => {
+          userFarm = await UserFarmModel.query(trx).findById([user_id, farm_id]);
           if (userFarm.role_id !== 4) {
             // TODO: move validation
             throw new Error('User already has an account');
           }
-          const user = await userModel.getUserByEmail(email);
+          const user = await UserModel.getUserByEmail(email);
           const isExistingAccount = !!user;
           const isUserAMemberOfFarm = isExistingAccount
-            ? !!(await userFarmModel.query(trx).findById([user.user_id, farm_id]))
+            ? !!(await UserFarmModel.query(trx).findById([user.user_id, farm_id]))
             : false;
           if (isUserAMemberOfFarm) {
             throw new Error('A user with that email already has access to this farm');
           } else if (isExistingAccount) {
             const { user_id: newUserId } = user;
-            await userFarmModel.query(trx).insert({
+            await UserFarmModel.query(trx).insert({
               ...userFarm,
               user_id: newUserId,
               status: 'Invited',
@@ -539,18 +519,16 @@ const userFarmController = {
               has_consent: false,
               ...roleIdAndWage,
             });
-            await shiftModel
-              .query(trx)
+            await ShiftModel.query(trx)
               .context({ user_id: newUserId })
               .where({ user_id })
               .patch({ user_id: newUserId });
-            await userFarmModel.query(trx).where({ user_id }).delete();
-            await userLogModel.query(trx).where({ user_id }).delete();
-            await userModel.query(trx).findById(user_id).delete();
+            await UserFarmModel.query(trx).where({ user_id }).delete();
+            await UserLogModel.query(trx).where({ user_id }).delete();
+            await UserModel.query(trx).findById(user_id).delete();
             return;
           } else {
-            await userModel
-              .query(trx)
+            await UserModel.query(trx)
               .context({ shouldUpdateEmail: true })
               .findById(user_id)
               .patch({
@@ -562,8 +540,7 @@ const userFarmController = {
                 birth_year,
               })
               .returning('*');
-            await userFarmModel
-              .query(trx)
+            await UserFarmModel.query(trx)
               .findById([user_id, farm_id])
               .patch({
                 status: 'Invited',
@@ -574,8 +551,7 @@ const userFarmController = {
             return;
           }
         });
-        userFarm = await userFarmModel
-          .query()
+        userFarm = await UserFarmModel.query()
           .join('users', 'userFarm.user_id', '=', 'users.user_id')
           .join('farm', 'farm.farm_id', '=', 'userFarm.farm_id')
           .join('role', 'userFarm.role_id', '=', 'role.role_id')
@@ -585,8 +561,8 @@ const userFarmController = {
         res.status(201).send(userFarm);
         try {
           const { farm_name } = userFarm;
-          const user = await userModel.getUserByEmail(email);
-          await emailModel.createTokenSendEmail(
+          const user = await UserModel.getUserByEmail(email);
+          await EmailModel.createTokenSendEmail(
             {
               email,
               gender,
@@ -611,8 +587,7 @@ export default userFarmController;
 
 async function appendOwners(userFarms) {
   const farm_ids = userFarms.map((userFarm) => userFarm.farm_id);
-  const owners = await userFarmModel
-    .query()
+  const owners = await UserFarmModel.query()
     .whereIn('userFarm.farm_id', farm_ids)
     .where('userFarm.role_id', 1)
     .leftJoin('users', 'userFarm.user_id', 'users.user_id')

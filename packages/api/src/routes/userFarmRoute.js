@@ -16,13 +16,13 @@
 import express from 'express';
 
 const router = express.Router();
-import userFarmController from '../controllers/userFarmController';
-import hasFarmAccess from '../middleware/acl/hasFarmAccess';
-import checkScope from '../middleware/acl/checkScope';
-import isSelf from '../middleware/acl/isSelf';
-import checkInviteJwt from '../middleware/acl/checkInviteJwt';
-import checkInvitationTokenContent from '../middleware/acl/checkInviteTokenContent';
-import checkUserFarmStatus from '../middleware/acl/checkUserFarmStatus';
+import userFarmController from '../controllers/userFarmController.js';
+import hasFarmAccess from '../middleware/acl/hasFarmAccess.js';
+import checkScope from '../middleware/acl/checkScope.js';
+import isSelf from '../middleware/acl/isSelf.js';
+import checkInviteJwt from '../middleware/acl/checkInviteJwt.js';
+import checkInvitationTokenContent from '../middleware/acl/checkInviteTokenContent.js';
+import checkUserFarmStatus from '../middleware/acl/checkUserFarmStatus.js';
 
 // Get all userFarms for a specified user
 // no permission limits

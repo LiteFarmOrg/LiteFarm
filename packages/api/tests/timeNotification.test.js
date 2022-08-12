@@ -16,7 +16,7 @@
 const chai = require('chai');
 const chaiHttp = require('chai-http');
 chai.use(chaiHttp);
-const mocks = require('./mock.factories');
+const mocks = require('./mock.factories.js');
 const server = require('./../src/server');
 const knex = require('../src/util/knex');
 const { tableCleanup } = require('./testEnvironment');

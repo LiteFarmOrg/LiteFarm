@@ -13,9 +13,9 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import userFarmModel from '../../models/userFarmModel';
+import userFarmModel from '../../models/userFarmModel.js';
 
-import emailTokenModel from '../../models/emailTokenModel';
+import emailTokenModel from '../../models/emailTokenModel.js';
 
 async function checkInvitationTokenContent(req, res, next) {
   const emailToken = await emailTokenModel.query().findById(req.user.invitation_id);

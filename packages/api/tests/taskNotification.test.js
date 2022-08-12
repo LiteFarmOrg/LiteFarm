@@ -20,7 +20,7 @@ const server = require('../src/server');
 const knex = require('../src/util/knex');
 jest.mock('jsdom');
 jest.mock('../src/middleware/acl/checkJwt');
-const mocks = require('./mock.factories');
+const mocks = require('./mock.factories.js');
 const { tableCleanup } = require('./testEnvironment');
 
 describe('Task Notification Tests', () => {

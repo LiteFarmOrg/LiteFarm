@@ -13,17 +13,17 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import TaskModel from '../models/taskModel';
+import TaskModel from '../models/taskModel.js';
 
-import userFarmModel from '../models/userFarmModel';
-import managementPlanModel from '../models/managementPlanModel';
-import managementTasksModel from '../models/managementTasksModel';
-import transplantTaskModel from '../models/transplantTaskModel';
-import plantTaskModel from '../models/plantTaskModel';
-import HarvestUse from '../models/harvestUseModel';
-import NotificationUser from '../models/notificationUserModel';
-import User from '../models/userModel';
-import { typesOfTask } from './../middleware/validation/task';
+import UserFarmModel from '../models/userFarmModel.js';
+import ManagementPlanModel from '../models/managementPlanModel.js';
+import ManagementTasksModel from '../models/managementTasksModel.js';
+import TransplantTaskModel from '../models/transplantTaskModel.js';
+import PlantTaskModel from '../models/plantTaskModel.js';
+import HarvestUse from '../models/harvestUseModel.js';
+import NotificationUser from '../models/notificationUserModel.js';
+import User from '../models/userModel.js';
+import { typesOfTask } from './../middleware/validation/task.js';
 const adminRoles = [1, 2, 5];
 // const isDateInPast = (date) => {
 //   const today = new Date();
@@ -60,7 +60,7 @@ const taskController = {
       );
 
       if (newAssigneeUserId === null) {
-        const farmManagementObjs = await userFarmModel.getFarmManagementByFarmId(farm_id);
+        const farmManagementObjs = await UserFarmModel.getFarmManagementByFarmId(farm_id);
         const farmManagement = farmManagementObjs.map((obj) => obj.user_id);
         await sendTaskNotification(
           farmManagement,
@@ -208,8 +208,7 @@ const taskController = {
 
       let wage = { amount: 0 };
       if (assignee_user_id) {
-        const assigneeUserFarm = await userFarmModel
-          .query()
+        const assigneeUserFarm = await UserFarmModel.query()
           .where({ user_id: assignee_user_id, farm_id })
           .first();
         wage = assigneeUserFarm.wage;
@@ -306,8 +305,7 @@ const taskController = {
         for (const harvest_task of harvest_tasks) {
           harvest_task.owner_user_id = user_id;
           if (harvest_task.assignee_user_id && !harvest_task.wage_at_moment) {
-            const { wage } = await userFarmModel
-              .query()
+            const { wage } = await UserFarmModel.query()
               .where({
                 user_id: harvest_task.assignee_user_id,
                 farm_id,
@@ -346,8 +344,7 @@ const taskController = {
       const result = await TaskModel.transaction(async (trx) => {
         transplant_task.owner_user_id = user_id;
         if (transplant_task.assignee_user_id && !transplant_task.wage_at_moment) {
-          const { wage } = await userFarmModel
-            .query()
+          const { wage } = await UserFarmModel.query()
             .where({
               user_id: transplant_task.assignee_user_id,
               farm_id,
@@ -386,12 +383,11 @@ const taskController = {
           wage_at_moment,
           override_hourly_wage,
         } = await TaskModel.getTaskAssignee(task_id);
-        const { role_id } = await userFarmModel.getUserRoleId(user_id);
+        const { role_id } = await UserFarmModel.getUserRoleId(user_id);
         if (!canCompleteTask(assignee_user_id, assignee_role_id, user_id, role_id)) {
           return res.status(403).send("Not authorized to complete other people's task");
         }
-        const { wage } = await userFarmModel
-          .query()
+        const { wage } = await UserFarmModel.query()
           .where({ user_id: assignee_user_id, farm_id })
           .first();
         const wagePatchData = override_hourly_wage
@@ -446,7 +442,7 @@ const taskController = {
       const { farm_id } = req.headers;
       const task_id = parseInt(req.params.task_id);
       const { assignee_user_id, assignee_role_id } = await TaskModel.getTaskAssignee(task_id);
-      const { role_id } = await userFarmModel.getUserRoleId(user_id);
+      const { role_id } = await UserFarmModel.getUserRoleId(user_id);
       if (!canCompleteTask(assignee_user_id, assignee_role_id, user_id, role_id)) {
         return res.status(403).send("Not authorized to complete other people's task");
       }
@@ -581,8 +577,7 @@ async function getTasksForFarm(farm_id) {
       .join('location_tasks', 'location_tasks.task_id', 'task.task_id')
       .join('location', 'location.location_id', 'location_tasks.location_id')
       .where('location.farm_id', farm_id),
-    plantTaskModel
-      .query()
+    PlantTaskModel.query()
       .select('plant_task.task_id')
       .join(
         'planting_management_plan',
@@ -596,8 +591,7 @@ async function getTasksForFarm(farm_id) {
       )
       .join('crop_variety', 'crop_variety.crop_variety_id', 'management_plan.crop_variety_id')
       .where('crop_variety.farm_id', farm_id),
-    transplantTaskModel
-      .query()
+    TransplantTaskModel.query()
       .select('transplant_task.task_id')
       .join(
         'planting_management_plan',
@@ -618,8 +612,7 @@ async function getTasksForFarm(farm_id) {
 async function getManagementPlans(task_id, typeOfTask) {
   switch (typeOfTask) {
     case 'plant_task':
-      return plantTaskModel
-        .query()
+      return PlantTaskModel.query()
         .join(
           'planting_management_plan',
           'plant_task.planting_management_plan_id',
@@ -629,8 +622,7 @@ async function getManagementPlans(task_id, typeOfTask) {
         .select('*');
 
     case 'transplant_task':
-      return transplantTaskModel
-        .query()
+      return TransplantTaskModel.query()
         .join(
           'planting_management_plan',
           'transplant_task.planting_management_plan_id',
@@ -639,8 +631,7 @@ async function getManagementPlans(task_id, typeOfTask) {
         .where({ task_id })
         .select('*');
     default:
-      return managementTasksModel
-        .query()
+      return ManagementTasksModel.query()
         .select('planting_management_plan.management_plan_id')
         .join(
           'planting_management_plan',
@@ -656,8 +647,7 @@ async function patchManagementPlanStartDate(trx, req, typeOfTask, task = req.bod
   const management_plans = await getManagementPlans(task_id, typeOfTask);
   const management_plan_ids = management_plans.map(({ management_plan_id }) => management_plan_id);
   if (management_plan_ids.length > 0) {
-    await managementPlanModel
-      .query(trx)
+    await ManagementPlanModel.query(trx)
       .context(req.user)
       .patch({ start_date: task.complete_date })
       .whereIn('management_plan_id', management_plan_ids)

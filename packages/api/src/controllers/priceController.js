@@ -13,9 +13,9 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import baseController from '../controllers/baseController';
+import baseController from '../controllers/baseController.js';
 
-import priceModel from '../models/priceModel';
+import PriceModel from '../models/priceModel.js';
 import { transaction, Model } from 'objection';
 
 const PriceController = {
@@ -23,7 +23,7 @@ const PriceController = {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
       try {
-        const result = await baseController.postWithResponse(priceModel, req.body, req, { trx });
+        const result = await baseController.postWithResponse(PriceModel, req.body, req, { trx });
         await trx.commit();
         res.status(201).send(result);
       } catch (error) {
@@ -40,7 +40,7 @@ const PriceController = {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
       try {
-        const isDeleted = await baseController.delete(priceModel, req.params.price_id, req, {
+        const isDeleted = await baseController.delete(PriceModel, req.params.price_id, req, {
           trx,
         });
         await trx.commit();
@@ -62,7 +62,7 @@ const PriceController = {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
       try {
-        const updated = await baseController.put(priceModel, req.params.id, req.body, req, { trx });
+        const updated = await baseController.put(PriceModel, req.params.id, req.body, req, { trx });
         await trx.commit();
         if (!updated.length) {
           res.sendStatus(404);
@@ -98,8 +98,7 @@ const PriceController = {
   },
 
   async getByForeignKey(farm_id) {
-    const prices = await priceModel
-      .query()
+    const prices = await PriceModel.query()
       .select('*')
       .from('price')
       .where('price.farm_id', farm_id)

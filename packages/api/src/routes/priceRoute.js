@@ -16,9 +16,9 @@
 import express from 'express';
 
 const router = express.Router();
-import priceController from '../controllers/priceController';
-import checkScope from '../middleware/acl/checkScope';
-import hasFarmAccess from '../middleware/acl/hasFarmAccess';
+import priceController from '../controllers/priceController.js';
+import checkScope from '../middleware/acl/checkScope.js';
+import hasFarmAccess from '../middleware/acl/hasFarmAccess.js';
 
 // Get the crop on a bed
 router.get(

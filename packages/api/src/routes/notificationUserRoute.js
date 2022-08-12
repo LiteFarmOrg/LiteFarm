@@ -13,9 +13,9 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import NotificationUserController from '../controllers/notificationUserController';
+import NotificationUserController from '../controllers/notificationUserController.js';
 
-import checkUserFarmStatus from '../middleware/acl/checkUserFarmStatus';
+import checkUserFarmStatus from '../middleware/acl/checkUserFarmStatus.js';
 import express from 'express';
 const router = express.Router();
 

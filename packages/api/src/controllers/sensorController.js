@@ -13,16 +13,16 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import baseController from '../controllers/baseController';
+import baseController from '../controllers/baseController.js';
 
-import SensorModel from '../models/sensorModel';
-import SensorReadingModel from '../models/sensorReadingModel';
-import IntegratingPartnersModel from '../models/integratingPartnersModel';
-import NotificationUser from '../models/notificationUserModel';
-import FarmExternalIntegrationsModel from '../models/farmExternalIntegrationsModel';
-import LocationModel from '../models/locationModel';
-import PointModel from '../models/pointModel';
-import FigureModel from '../models/figureModel';
+import SensorModel from '../models/sensorModel.js';
+import SensorReadingModel from '../models/sensorReadingModel.js';
+import IntegratingPartnersModel from '../models/integratingPartnersModel.js';
+import NotificationUser from '../models/notificationUserModel.js';
+import FarmExternalIntegrationsModel from '../models/farmExternalIntegrationsModel.js';
+import LocationModel from '../models/locationModel.js';
+import PointModel from '../models/pointModel.js';
+import FigureModel from '../models/figureModel.js';
 import { transaction, Model } from 'objection';
 
 import {
@@ -30,10 +30,10 @@ import {
   registerOrganizationWebhook,
   bulkSensorClaim,
   unclaimSensor,
-} from '../util/ensemble';
+} from '../util/ensemble.js';
 
-import sensorErrors from '../util/sensorErrors';
-import syncAsyncResponse from '../util/syncAsyncResponse';
+import sensorErrors from '../util/sensorErrors.js';
+import syncAsyncResponse from '../util/syncAsyncResponse.js';
 
 const sensorController = {
   async getSensorReadingTypes(req, res) {

@@ -13,9 +13,9 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import baseController from '../controllers/baseController';
+import baseController from '../controllers/baseController.js';
 
-import farmExpenseModel from '../models/farmExpenseModel';
+import FarmExpenseModel from '../models/farmExpenseModel.js';
 import { transaction, Model } from 'objection';
 
 const farmExpenseController = {
@@ -29,7 +29,7 @@ const farmExpenseController = {
         }
         const resultArray = [];
         for (const e of expenses) {
-          const result = await baseController.post(farmExpenseModel, e, req, { trx });
+          const result = await baseController.post(FarmExpenseModel, e, req, { trx });
           resultArray.push(result);
         }
         await trx.commit();
@@ -63,8 +63,7 @@ const farmExpenseController = {
   },
 
   async getByForeignKey(farm_id) {
-    const expenses = await farmExpenseModel
-      .query()
+    const expenses = await FarmExpenseModel.query()
       .select('*')
       .from('farmExpense')
       .where('farmExpense.farm_id', farm_id)
@@ -80,8 +79,7 @@ const farmExpenseController = {
 
       const trx = await transaction.start(Model.knex());
       try {
-        const result = await farmExpenseModel
-          .query(trx)
+        const result = await FarmExpenseModel.query(trx)
           .context({ user_id })
           .where('farm_expense_id', farm_expense_id)
           .patch(data)
@@ -108,7 +106,7 @@ const farmExpenseController = {
       const trx = await transaction.start(Model.knex());
       try {
         const isDeleted = await baseController.delete(
-          farmExpenseModel,
+          FarmExpenseModel,
           req.params.farm_expense_id,
           req,
           { trx },

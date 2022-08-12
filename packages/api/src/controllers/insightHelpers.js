@@ -15,7 +15,7 @@
 
 import rp from 'request-promise';
 
-import endPoints from '../endPoints';
+import endPoints from '../endPoints.js';
 
 // helper functions
 // people_fed helpers:

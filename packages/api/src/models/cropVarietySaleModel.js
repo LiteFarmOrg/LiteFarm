@@ -15,7 +15,7 @@
 
 import { Model } from 'objection';
 import saleModel from './saleModel.js';
-import cropVarietyModel from './cropVarietyModel';
+import cropVarietyModel from './cropVarietyModel.js';
 
 class CropVarietySale extends Model {
   static get tableName() {

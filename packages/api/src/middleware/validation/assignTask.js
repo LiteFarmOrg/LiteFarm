@@ -13,9 +13,9 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import userFarmModel from '../../models/userFarmModel';
+import userFarmModel from '../../models/userFarmModel.js';
 
-import TaskModel from '../../models/taskModel';
+import TaskModel from '../../models/taskModel.js';
 
 const adminRoles = [1, 2, 5];
 

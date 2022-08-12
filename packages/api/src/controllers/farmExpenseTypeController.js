@@ -15,7 +15,7 @@
 
 import baseController from '../controllers/baseController.js';
 
-import expenseTypeModel from '../models/expenseTypeModel.js';
+import ExpenseTypeModel from '../models/expenseTypeModel.js';
 import { transaction, Model } from 'objection';
 
 const farmExpenseTypeController = {
@@ -26,7 +26,7 @@ const farmExpenseTypeController = {
         // const user_id = req.user.user_id;
         const data = req.body;
         data.expense_translation_key = data.expense_name;
-        const result = await baseController.postWithResponse(expenseTypeModel, data, req, { trx });
+        const result = await baseController.postWithResponse(ExpenseTypeModel, data, req, { trx });
         await trx.commit();
         res.status(201).send(result);
       } catch (error) {
@@ -43,8 +43,7 @@ const farmExpenseTypeController = {
     return async (req, res) => {
       try {
         const farm_id = req.params.farm_id;
-        const result = await expenseTypeModel
-          .query()
+        const result = await ExpenseTypeModel.query()
           .where('farm_id', null)
           .orWhere('farm_id', farm_id)
           .whereNotDeleted();
@@ -60,8 +59,7 @@ const farmExpenseTypeController = {
   getDefaultTypes() {
     return async (req, res) => {
       try {
-        const result = await expenseTypeModel
-          .query()
+        const result = await ExpenseTypeModel.query()
           .where('farm_id', null)
           .whereNotDeleted()
           .orderBy('expense_type_id', 'asc');
@@ -82,7 +80,7 @@ const farmExpenseTypeController = {
       }
       try {
         const isDeleted = await baseController.delete(
-          expenseTypeModel,
+          ExpenseTypeModel,
           req.params.expense_type_id,
           req,
           { trx },

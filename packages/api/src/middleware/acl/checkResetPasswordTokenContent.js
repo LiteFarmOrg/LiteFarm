@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import passwordModel from './../../models/passwordModel';
+import passwordModel from './../../models/passwordModel.js';
 
 async function checkResetPasswordTokenContent(req, res, next) {
   const { user_id, created_at } = req.user;

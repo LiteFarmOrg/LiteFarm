@@ -1,4 +1,4 @@
-import locationModel from '../../models/locationModel';
+import locationModel from '../../models/locationModel.js';
 import moment from 'moment';
 const organicHistoryLocations = ['field', 'garden', 'greenhouse'];
 

@@ -13,11 +13,11 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import userModel from '../models/userModel';
-import passwordModel from '../models/passwordModel';
-import { emails, sendEmail } from '../templates/sendEmailTemplate';
+import UserModel from '../models/userModel.js';
+import PasswordModel from '../models/passwordModel.js';
+import { emails, sendEmail } from '../templates/sendEmailTemplate.js';
 import bcrypt from 'bcryptjs';
-import { createToken } from '../util/jwt';
+import { createToken } from '../util/jwt.js';
 
 const passwordResetController = {
   sendResetEmail() {
@@ -25,8 +25,7 @@ const passwordResetController = {
       const { email } = req.body;
 
       try {
-        const userData = await userModel
-          .query()
+        const userData = await UserModel.query()
           .select('user_id', 'first_name', 'language_preference')
           .where('email', email)
           .first();
@@ -35,8 +34,7 @@ const passwordResetController = {
           return res.status(404).send('Email is not registered in LiteFarm');
         }
 
-        const pwData = await passwordModel
-          .query()
+        const pwData = await PasswordModel.query()
           .select('*')
           .where('user_id', userData.user_id)
           .first();
@@ -58,7 +56,7 @@ const passwordResetController = {
           created_at: created_at.toISOString(),
         };
 
-        await passwordModel.query().findById(userData.user_id).patch(updateData);
+        await PasswordModel.query().findById(userData.user_id).patch(updateData);
 
         const tokenPayload = {
           ...userData,
@@ -106,7 +104,7 @@ const passwordResetController = {
           reset_token_version: 0,
           created_at: new Date().toISOString(),
         };
-        await passwordModel.query().findById(user_id).patch(pwData);
+        await PasswordModel.query().findById(user_id).patch(pwData);
 
         const id_token = await createToken('access', { user_id });
 
@@ -120,7 +118,7 @@ const passwordResetController = {
           sender,
           buttonLink: `/?email=${encodeURIComponent(email)}`,
         });
-        await userModel.query().findById(user_id).patch({ status_id: 1 });
+        await UserModel.query().findById(user_id).patch({ status_id: 1 });
 
         return res.status(200).send({ id_token });
       } catch (error) {

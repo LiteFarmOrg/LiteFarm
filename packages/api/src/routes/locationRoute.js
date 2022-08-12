@@ -17,19 +17,19 @@ import express from 'express';
 
 const router = express.Router();
 
-import LocationController from '../controllers/locationController';
+import LocationController from '../controllers/locationController.js';
 
-import checkScope from '../middleware/acl/checkScope';
-import hasFarmAccess from '../middleware/acl/hasFarmAccess';
-import { modelMapping } from '../middleware/validation/location';
-import validateLocationDependency from '../middleware/validation/deleteLocation';
-import organicHistoryController from '../controllers/organicHistoryController';
+import checkScope from '../middleware/acl/checkScope.js';
+import hasFarmAccess from '../middleware/acl/hasFarmAccess.js';
+import { modelMapping } from '../middleware/validation/location.js';
+import validateLocationDependency from '../middleware/validation/deleteLocation.js';
+import organicHistoryController from '../controllers/organicHistoryController.js';
 
 import {
   organicHistoryLocationCheckOnPost,
   organicHistoryCheckOnPut,
   organicHistoryCheckOnPost,
-} from '../middleware/validation/organicHistoryLocationCheck';
+} from '../middleware/validation/organicHistoryLocationCheck.js';
 
 router.get(
   '/farm/:farm_id',

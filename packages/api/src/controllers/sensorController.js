@@ -70,6 +70,7 @@ const sensorController = {
       const { access_token } = await IntegratingPartnersModel.getAccessAndRefreshTokens(
         'Ensemble Scientific',
       );
+      const invalidReadingTypes = [];
       const { data, errors } = parseCsvString(req.file.buffer.toString(), {
         Name: {
           key: 'name',
@@ -113,6 +114,7 @@ const sensorController = {
             ];
             val.forEach((readingType) => {
               if (!allowedReadingTypes.includes(readingType)) {
+                invalidReadingTypes.push(readingType);
                 return false;
               }
             });
@@ -120,6 +122,7 @@ const sensorController = {
           },
           required: true,
           errorTranslationKey: sensorErrors.SENSOR_READING_TYPES,
+          variables: { invalidReadingTypes },
         },
         Depth: {
           key: 'depth',

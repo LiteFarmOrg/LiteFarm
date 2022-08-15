@@ -1514,6 +1514,7 @@
         "WEATHER": "Clima"
       },
       "REASON_FOR_ABANDONMENT": "Razão de abandono",
+      "EXPLANATION": "MISSING",
       "TITLE": "Abandonar tarefa",
       "WHAT_HAPPENED": "O que aconteceu?",
       "WHEN": "Quando a tarefa foi abandonada?"

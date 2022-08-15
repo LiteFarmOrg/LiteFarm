@@ -78,6 +78,7 @@ export default function PurePlantInContainer({
         isFinalPage={isFinalPage}
         system={system}
         crop_variety={crop_variety}
+        persistedFormData={persistedFormData}
         {...{
           register,
           handleSubmit,

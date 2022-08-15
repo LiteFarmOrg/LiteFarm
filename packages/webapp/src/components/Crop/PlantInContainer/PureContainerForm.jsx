@@ -229,7 +229,7 @@ export default function PureContainerForm({
             <div
               className={clsx(
                 showEstimatedYield && styles.row,
-                isFinalPage === false && styles.paddingBottom40,
+                (isFinalPage !== undefined || !isTransplant) && styles.paddingBottom40,
               )}
             >
               {!isTransplant ? (

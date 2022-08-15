@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { areaImgDict, lineImgDict, pointImgDict } from '../LocationMapping';
-import { containsCrops } from '../../../containers/Map/constants';
+import { containsCrops, longPress } from '../../../containers/Map/constants';
 import { makeStyles } from '@material-ui/core/styles';
 import { colors } from '../../../assets/theme';
 import PurePreviewPopup from '../PreviewPopup';
@@ -60,7 +60,7 @@ export default function PureSelectionHandler({ locations, history, sensorReading
         setIsSensor(true);
         setSensorIdx(idx);
       }
-    }, 800);
+    }, longPress);
   };
 
   const handleMouseUp = (location) => {

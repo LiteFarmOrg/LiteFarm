@@ -28,6 +28,7 @@ import {
   isNoFillArea,
   locationEnum,
   polygonPath,
+  longPress,
 } from './constants';
 import useSelectionHandler from './useSelectionHandler';
 import { useMaxZoom } from './useMaxZoom';
@@ -507,9 +508,9 @@ const useMapAssetRenderer = ({ isClickable, showingConfirmButtons, drawingState 
               false,
               true,
             );
-          }, 400);
+          }, longPress / 2);
         }
-      }, 800);
+      }, longPress);
     });
 
     maps.event.addListener(marker, 'mouseup', function (mapsMouseEvent) {

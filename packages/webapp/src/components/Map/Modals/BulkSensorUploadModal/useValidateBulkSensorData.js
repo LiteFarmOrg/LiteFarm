@@ -95,8 +95,9 @@ export function useValidateBulkSensorData(onUpload, t) {
         return {
           row: rowNumber,
           column: columnName,
-          errorMessage: t('FARM_MAP.BULK_UPLOAD_SENSORS.VALIDATION.SENSOR_READING_TYPES'),
-          value: invalidReadingTypes.join(','),
+          errorMessage: t('FARM_MAP.BULK_UPLOAD_SENSORS.VALIDATION.SENSOR_READING_TYPES', {
+            invalidReadingTypes: invalidReadingTypes.join(', '),
+          }),
         };
       },
     },

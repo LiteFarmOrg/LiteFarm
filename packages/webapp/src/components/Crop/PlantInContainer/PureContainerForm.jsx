@@ -267,7 +267,6 @@ export default function PureContainerForm({
                   />
                 )
               )}
-
               {showEstimatedYield && (
                 <Unit
                   register={register}

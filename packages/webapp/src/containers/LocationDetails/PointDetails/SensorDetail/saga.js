@@ -67,6 +67,7 @@ export function* getSensorReadingTypesSaga({ payload: { location_id } }) {
     const sensor_reading_types = sensor_reading_types_response.data;
     yield put(onSensorReadingTypesSuccess({ location_id, sensor_reading_types }));
   } catch (error) {
+    console.log(error);
     yield put(onLoadingSensorFail());
   }
 }
@@ -83,6 +84,7 @@ export function* getSensorBrandSaga({ payload: { location_id, partner_id } }) {
     const brand_name = brand_name_response.data;
     yield put(onSensorBrandSuccess({ location_id, brand_name }));
   } catch (error) {
+    console.log(error);
     yield put(onLoadingSensorFail());
   }
 }

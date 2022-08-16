@@ -467,16 +467,32 @@ Cypress.Commands.add('goToPeopleView', (lang) => {
 
 Cypress.Commands.add(
   'inviteUser',
-  (role, fullName, email, gender, language, wage, birthYear, phoneNumber) => {
+  (role, fullName, email, existingUser, gender, language, wage, birthYear, phoneNumber) => {
     //from people view
-
+    const invalidEmail = 'Invalid email';
     cy.url().should('include', '/invite_user');
+    cy.get('[data-cy=invite-fullName]').click();
+    cy.contains('Full name').click();
+    cy.get('[data-cy=error]').contains('Required').should('exist');
+
     cy.get('[data-cy=invite-fullName]').should('exist').type(fullName);
     cy.contains('Choose Role').should('exist').click({ force: true });
     cy.contains(role).should('exist').click();
-    cy.get('[data-cy=invite-email]').should('exist').type(email);
+    cy.get('[data-cy=invite-email]').should('exist').type(invalidEmail);
+    cy.contains('Email').click();
+    cy.get('[data-cy=error]').contains('Please enter a valid email').should('exist');
+
+    cy.get('[data-cy=invite-email]').should('exist').clear().type(existingUser);
+    cy.contains('Email').click();
+    cy.get('[data-cy=error]').contains('Please enter a valid email').should('exist');
+    cy.pause();
+    cy.get('[data-cy=invite-email]').should('exist').clear().type(email);
+
     cy.contains('English').should('exist').click({ force: true });
     cy.contains(language).should('exist').click({ force: true });
+    cy.get('[data-cy=invite-wage]').should('exist').type(wage);
+    cy.get('[data-cy=invite-phoneNumber]').should('exist').type(phoneNumber);
+    cy.get('[data-cy=invite-birthYear]').should('exist').type(birthYear);
 
     cy.get('[data-cy=invite-submit]').should('exist').and('not.be.disabled').click();
   },

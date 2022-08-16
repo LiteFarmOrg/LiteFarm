@@ -89,7 +89,17 @@ describe.only('Invite user tests', () => {
       cy.url().should('include', '/people');
       cy.get('[data-cy=people-inviteUser]').should('exist').and('not.be.disabled').click();
 
-      cy.inviteUser(inviteeRole, workerName, emailUser, gender, lang, wage, birthYear, number);
+      cy.inviteUser(
+        inviteeRole,
+        workerName,
+        emailUser,
+        emailOwner,
+        gender,
+        lang,
+        wage,
+        birthYear,
+        number,
+      );
 
       const Status = 'Invited';
       cy.get('[data-cy=snackBar]').contains('Successfully added user to farm!').should('exist');
@@ -98,10 +108,6 @@ describe.only('Invite user tests', () => {
       cy.get('*[class^="rt-tr-group"]').eq(0).contains(emailUser).should('exist');
       cy.get('*[class^="rt-tr-group"]').eq(0).contains(inviteeRole).should('exist');
       cy.get('*[class^="rt-tr-group"]').eq(0).contains(Status).should('exist');
-      //cy.pause();
-      //cy.get('.ReactTable').getTable().should(tableData => {
-      //  expected.forEach(item => expect(tableData).to.deep.include(item))
-      //})
 
       cy.contains(workerName).should('exist');
       //logout

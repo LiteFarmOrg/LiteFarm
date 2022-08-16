@@ -169,6 +169,14 @@ export function* getSensorsReadingsSaga({ payload }) {
     );
     const lastUpdatedReadingsTime = moment(lastUpdated).startOf('day').fromNow();
 
+    let xAxisLabel = '';
+    if (Object.keys(ambientDataWithSensorsReadings).length) {
+      const startDateObj = new Date(+Object.keys(ambientDataWithSensorsReadings)[0] * 1000);
+      const endDateObj = new Date(+Object.keys(ambientDataWithSensorsReadings).at(-1) * 1000);
+      xAxisLabel = `${moment(startDateObj).format('MMM DD')} - ${moment(endDateObj).format(
+        'MMM DD',
+      )}`;
+    }
     yield put(
       bulkSensorReadingsSuccess({
         sensorReadings: Object.values(ambientDataWithSensorsReadings),
@@ -177,6 +185,7 @@ export function* getSensorsReadingsSaga({ payload }) {
         nearestStationName: stationName,
         lastUpdatedReadingsTime,
         predictedXAxisLabel,
+        xAxisLabel,
       }),
     );
   } catch (error) {

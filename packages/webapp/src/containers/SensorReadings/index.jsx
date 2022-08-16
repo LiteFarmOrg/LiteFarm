@@ -22,6 +22,7 @@ function SensorReadings({ history, match }) {
     nearestStationName = '',
     lastUpdatedReadingsTime = '',
     predictedXAxisLabel = '',
+    xAxisLabel = '',
   } = useSelector(bulkSensorsReadingsSliceSelector);
   const measurementUnit = useSelector(measurementSelector);
   const { tempUnit } = utils.getUnits(measurementUnit);
@@ -75,6 +76,7 @@ function SensorReadings({ history, match }) {
           },
         )}
         predictedXAxisLabel={predictedXAxisLabel}
+        xAxisLabel={xAxisLabel}
       />
     </div>
   );

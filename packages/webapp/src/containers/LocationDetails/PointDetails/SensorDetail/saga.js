@@ -67,7 +67,6 @@ export function* getSensorReadingTypesSaga({ payload: { location_id } }) {
     const sensor_reading_types = sensor_reading_types_response.data;
     yield put(onSensorReadingTypesSuccess({ location_id, sensor_reading_types }));
   } catch (error) {
-    console.log(error);
     yield put(onLoadingSensorFail());
   }
 }

@@ -2,6 +2,10 @@ name: 'Deploy'
 on:
   workflow_dispatch:
 
+  push:
+    branches:
+      - integration
+
 jobs:
   deploy:
     runs-on: ubuntu-20.04
@@ -11,5 +15,6 @@ jobs:
         with:
           host: ${{ secrets.BETA_SSH_HOST }}
           username: ${{ secrets.BETA_SSH_USER }}
-          password: ${{ secrets.BETA_SSH_PASS }}
+          passphrase: ${{ secrets.BETA_SSH_PASS }}
+          key: ${{ secrets.BETA_SSH_KEY }}
           script: ${{ secrets.DEPLOYMENT_SCRIPT }}

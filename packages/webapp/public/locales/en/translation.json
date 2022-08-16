@@ -1578,6 +1578,7 @@
         "WEATHER": "Weather"
       },
       "REASON_FOR_ABANDONMENT": "Reason for abandoning",
+      "EXPLANATION": "Explanation",
       "TITLE": "Abandon task",
       "WHAT_HAPPENED": "What happened?",
       "WHEN": "When was the task abandoned?"

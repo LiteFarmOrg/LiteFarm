@@ -97,8 +97,9 @@ const PureSensorReadingsLineChart = ({
   const renderDateOnXAxis = (tickProps) => {
     const { x, y, payload, index } = tickProps;
     const { value, offset } = payload;
-    const displayDate = dateFormat.format(new Date(value));
-    const displayDay = dayFormat.format(new Date(value));
+    const tickDate = new Date(value);
+    const displayDate = dateFormat.format(tickDate);
+    const displayDay = dayFormat.format(tickDate);
 
     if (index % 4 == 2) {
       return (

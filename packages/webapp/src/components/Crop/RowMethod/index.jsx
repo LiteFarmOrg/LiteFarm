@@ -64,6 +64,7 @@ export default function PureRowMethod({
         system={system}
         crop_variety={crop_variety}
         isHistoricalPage={isHistoricalPage}
+        persistedFormData={persistedFormData}
         {...{
           register,
           handleSubmit,

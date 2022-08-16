@@ -27,7 +27,9 @@ import {
 import { sensorUrl } from '../../apiConfig';
 import { getHeader } from '../../containers/saga';
 import { findCenter } from './utils';
-import { AMBIENT_TEMPERATURE, CURRENT_DATE_TIME } from './constants';
+import { CURRENT_DATE_TIME } from './constants';
+import { getTemperatureValue } from '../../components/Map/PreviewPopup/utils.js';
+import { TEMPERATURE } from './constants';
 
 const sensorReadingsUrl = () => `${sensorUrl}/reading/visualization`;
 
@@ -133,8 +135,12 @@ export function* getSensorsReadingsSaga({ payload }) {
 
     let ambientDataWithSensorsReadings = result?.data?.sensorReading.reduce((acc, cv) => {
       const dt = new Date(cv.read_time).valueOf() / 1000;
+      let value = 0;
+      if (readingType === TEMPERATURE) {
+        value = getTemperatureValue(cv.value, measurement);
+      }
       if (acc[dt] && dt < currentDT) {
-        acc[dt][cv.name] = cv.value;
+        acc[dt][cv.name] = value;
       }
       return acc;
     }, ambientData);

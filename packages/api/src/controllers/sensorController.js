@@ -81,7 +81,7 @@ const sensorController = {
         External_ID: {
           key: 'external_id',
           parseFunction: (val) => val.trim(),
-          validator: (val) => val.length <= 20,
+          validator: (val) => val.length <= 40,
           required: false,
           errorTranslationKey: sensorErrors.EXTERNAL_ID,
         },
@@ -123,8 +123,8 @@ const sensorController = {
         },
         Depth: {
           key: 'depth',
-          parseFunction: (val) => parseFloat(val),
-          validator: (val) => 0 <= val && val <= 1000,
+          parseFunction: (val) => parseFloat(val) / 100, // val is in cm, so divide by 100 to get val in m
+          validator: (val) => 0 <= val && val <= 10,
           required: false,
           errorTranslationKey: sensorErrors.SENSOR_DEPTH,
         },
@@ -651,7 +651,11 @@ const parseCsvString = (csvString, mapping, delimiter = ',') => {
     return { data: [], errors: headerErrors };
   }
   const allowedHeaders = Object.keys(mapping);
-  const dataRows = rows.slice(1);
+  // get all rows except the header and filter out any empty rows
+  const dataRows = rows.slice(1).filter((d) => !/^(,? ?\t?)+$/.test(d));
+  // Set to keep track of the unique keys of sensors - used to make sure only one sensor is uploaded
+  // if duplicates are in the file
+  const validSensorKeys = new Set();
   const { data, errors } = dataRows.reduce(
     (previous, row, rowIndex) => {
       const values = row.split(regex);
@@ -670,12 +674,20 @@ const parseCsvString = (csvString, mapping, delimiter = ',') => {
         }
         return previousObj;
       }, {});
-      previous.data.push(parsedRow);
+      const sensorKey = generateSensorKey(parsedRow);
+      if (!validSensorKeys.has(sensorKey)) {
+        previous.data.push(parsedRow);
+        validSensorKeys.add(sensorKey);
+      }
       return previous;
     },
     { data: [], errors: [] },
   );
   return { data, errors };
+};
+
+const generateSensorKey = (sensor) => {
+  return `${sensor.brand ?? ''}:${sensor.external_id ?? ''}`;
 };
 
 const SensorNotificationTypes = {

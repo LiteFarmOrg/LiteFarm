@@ -74,6 +74,7 @@ class Sensor extends Model {
       if (existingSensor) {
         if (existingSensor.deleted) {
           await LocationModel.unDeleteLocation(user_id, existingSensor.location_id, trx);
+          existingSensor.deleted = false;
         }
         await trx.commit();
         return existingSensor;

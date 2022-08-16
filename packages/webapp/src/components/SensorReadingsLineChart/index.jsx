@@ -11,10 +11,12 @@ import {
   ResponsiveContainer,
   Surface,
   Symbols,
+  ReferenceArea,
 } from 'recharts';
 import { Label, Semibold } from '../Typography';
 import PropTypes from 'prop-types';
 import AxisLabel from './AxisLabel';
+import PredictedRect from './PredictedRect';
 import moment from 'moment';
 
 const PureSensorReadingsLineChart = ({
@@ -28,6 +30,7 @@ const PureSensorReadingsLineChart = ({
   chartData,
   weatherStationName,
   lastUpdatedTemperatureReadings,
+  predictedXAxisLabel,
 }) => {
   const [legendsList, setLegendsList] = useState({});
 
@@ -115,12 +118,12 @@ const PureSensorReadingsLineChart = ({
   return (
     <>
       <div className={styles.titleWrapper}>
-        <Label>
+        <label>
           <Semibold className={styles.title}>{title}</Semibold>
-        </Label>
-        <Label>
+        </label>
+        <label>
           <Semibold className={styles.titleLastUpdated}>{lastUpdatedTemperatureReadings}</Semibold>
-        </Label>
+        </label>
       </div>
       <Label className={styles.subTitle}>{subTitle}</Label>
       <Label className={styles.subTitle}>{weatherStationName}</Label>
@@ -134,6 +137,18 @@ const PureSensorReadingsLineChart = ({
             bottom: 20,
           }}
         >
+          <pattern
+            id="pattern-stripe"
+            width="8"
+            height="4"
+            patternUnits="userSpaceOnUse"
+            patternTransform="rotate(45)"
+          >
+            <rect width="2" height="2" transform="translate(0,0)" fill="white"></rect>
+          </pattern>
+          <mask id="mask-stripe">
+            <rect x="0" y="0" width="100%" height="100%" fill="url(#pattern-stripe)" />
+          </mask>
           <CartesianGrid strokeDasharray="1 1" />
           <XAxis
             label={{ value: xAxisLabel, position: 'insideBottom' }}
@@ -183,6 +198,7 @@ const PureSensorReadingsLineChart = ({
                   isAnimationActive={false}
                 />
               ))}
+          <ReferenceArea fill={'#EBECED'} shape={<PredictedRect />} x1={predictedXAxisLabel} />
         </LineChart>
       </ResponsiveContainer>
     </>
@@ -200,6 +216,7 @@ PureSensorReadingsLineChart.propTypes = {
   chartData: PropTypes.array.isRequired,
   weatherStationName: PropTypes.string.isRequired,
   lastUpdatedTemperatureReadings: PropTypes.string.isRequired,
+  predictedXAxisLabel: PropTypes.string.isRequired,
 };
 
 export default PureSensorReadingsLineChart;

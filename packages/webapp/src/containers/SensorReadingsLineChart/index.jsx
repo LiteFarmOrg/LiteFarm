@@ -15,6 +15,7 @@ const SensorReadingsLineChart = ({
   noDataText = '',
   ambientTempFor = '',
   lastUpdatedTemperatureReadings = '',
+  predictedXAxisLabel = '',
 }) => {
   const {
     sensorsReadingsOfTemperature = [],
@@ -33,6 +34,7 @@ const SensorReadingsLineChart = ({
       chartData={sensorsReadingsOfTemperature}
       weatherStationName={weatherStationName}
       lastUpdatedTemperatureReadings={lastUpdatedTemperatureReadings}
+      predictedXAxisLabel={predictedXAxisLabel}
     />
   );
 };
@@ -49,6 +51,7 @@ SensorReadingsLineChart.propTypes = {
   noDataText: PropTypes.string.isRequired,
   ambientTempFor: PropTypes.string.isRequired,
   lastUpdatedTemperatureReadings: PropTypes.string.isRequired,
+  predictedXAxisLabel: PropTypes.string.isRequired,
 };
 
 export default SensorReadingsLineChart;

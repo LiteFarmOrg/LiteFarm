@@ -2,7 +2,11 @@ import React, { useEffect, useRef, useState } from 'react';
 import styles from './styles.module.scss';
 import { useTranslation } from 'react-i18next';
 import Input, { getInputErrors, integerOnKeyDown } from '../../Form/Input';
-import { container_planting_depth, length_of_bed_or_row, seedYield } from '../../../util/convert-units/unit';
+import {
+  container_planting_depth,
+  length_of_bed_or_row,
+  seedYield,
+} from '../../../util/convert-units/unit';
 import clsx from 'clsx';
 import Unit from '../../Form/Unit';
 import { isNonNegativeNumber } from '../../Form/validations';
@@ -20,6 +24,7 @@ export function PureBedForm({
   setValue,
   errors,
   disabled,
+  persistedFormData,
 }) {
   const { t } = useTranslation();
   const NUMBER_OF_BEDS = `${prefix}.bed_method.number_of_beds`;
@@ -33,11 +38,15 @@ export function PureBedForm({
   const ESTIMATED_SEED_UNIT = `${prefix}.estimated_seeds_unit`;
   const ESTIMATED_YIELD = `crop_management_plan.estimated_yield`;
   const ESTIMATED_YIELD_UNIT = `crop_management_plan.estimated_yield_unit`;
+  const TASK_TYPE = `taskType.task_translation_key`;
 
   const number_of_beds = watch(NUMBER_OF_BEDS);
   const number_of_rows_in_bed = watch(NUMBER_OF_ROWS_IN_BED);
   const bed_length = watch(BED_LENGTH);
   const plant_spacing = watch(PLANT_SPACING);
+  const task_type = watch(TASK_TYPE);
+  const isTransplant =
+    persistedFormData?.crop_management_plan?.needs_transplant || task_type === 'TRANSPLANT_TASK';
 
   const [showEstimatedValue, setShowEstimatedValue] = useState(false);
   const shouldSkipEstimatedValueCalculationRef = useRef(true);
@@ -132,21 +141,28 @@ export function PureBedForm({
       </div>
 
       {showEstimatedValue && (
-        <div className={clsx(showEstimatedYield && styles.row, styles.paddingBottom40)}>
-          <Unit
-            register={register}
-            label={t('MANAGEMENT_PLAN.ESTIMATED_SEED')}
-            name={ESTIMATED_SEED}
-            displayUnitName={ESTIMATED_SEED_UNIT}
-            unitType={seedYield}
-            system={system}
-            hookFormSetValue={setValue}
-            hookFormGetValue={getValues}
-            hookFromWatch={watch}
-            control={control}
-            required={false}
-            disabled={disabled}
-          />
+        <div
+          className={clsx(
+            showEstimatedYield && styles.row,
+            !isTransplant && styles.paddingBottom40,
+          )}
+        >
+          {!isTransplant && (
+            <Unit
+              register={register}
+              label={t('MANAGEMENT_PLAN.ESTIMATED_SEED')}
+              name={ESTIMATED_SEED}
+              displayUnitName={ESTIMATED_SEED_UNIT}
+              unitType={seedYield}
+              system={system}
+              hookFormSetValue={setValue}
+              hookFormGetValue={getValues}
+              hookFromWatch={watch}
+              control={control}
+              required={false}
+              disabled={disabled}
+            />
+          )}
           {showEstimatedYield && (
             <Unit
               register={register}

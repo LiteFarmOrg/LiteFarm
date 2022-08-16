@@ -26,6 +26,7 @@ export default function PureRowForm({
   setValue,
   errors,
   disabled,
+  persistedFormData,
 }) {
   const { t } = useTranslation(['translation']);
 
@@ -41,12 +42,16 @@ export default function PureRowForm({
   const ESTIMATED_SEED_UNIT = `${prefix}.estimated_seeds_unit`;
   const ESTIMATED_YIELD = `crop_management_plan.estimated_yield`;
   const ESTIMATED_YIELD_UNIT = `crop_management_plan.estimated_yield_unit`;
+  const TASK_TYPE = `taskType.task_translation_key`;
 
   const same_length = watch(SAME_LENGTH);
   const num_of_rows = watch(NUMBER_OF_ROWS);
   const length_of_row = watch(LENGTH_OF_ROW);
   const total_length = watch(TOTAL_LENGTH);
   const plant_spacing = watch(PLANT_SPACING);
+  const task_type = watch(TASK_TYPE);
+  const isTransplant =
+    persistedFormData?.crop_management_plan?.needs_transplant || task_type === 'TRANSPLANT_TASK';
 
   const IsValidNumberInput = (number) => number === 0 || number > 0;
 
@@ -195,22 +200,30 @@ export default function PureRowForm({
           </div>
           {showEstimatedValue && (
             <>
-              <div className={clsx(showEstimatedYield && styles.row, styles.paddingBottom40)}>
-                <Unit
-                  register={register}
-                  label={t('MANAGEMENT_PLAN.ESTIMATED_SEED')}
-                  name={ESTIMATED_SEED}
-                  displayUnitName={ESTIMATED_SEED_UNIT}
-                  errors={errors[ESTIMATED_SEED]}
-                  unitType={seedYield}
-                  system={system}
-                  hookFormSetValue={setValue}
-                  hookFormGetValue={getValues}
-                  hookFromWatch={watch}
-                  control={control}
-                  required={false}
-                  disabled={disabled}
-                />
+              <div
+                className={clsx(
+                  showEstimatedYield && styles.row,
+                  !isTransplant && styles.paddingBottom40,
+                )}
+              >
+                {!isTransplant && (
+                  <Unit
+                    register={register}
+                    label={t('MANAGEMENT_PLAN.ESTIMATED_SEED')}
+                    name={ESTIMATED_SEED}
+                    displayUnitName={ESTIMATED_SEED_UNIT}
+                    errors={errors[ESTIMATED_SEED]}
+                    unitType={seedYield}
+                    system={system}
+                    hookFormSetValue={setValue}
+                    hookFormGetValue={getValues}
+                    hookFromWatch={watch}
+                    control={control}
+                    required={false}
+                    disabled={disabled}
+                  />
+                )}
+
                 {showEstimatedYield && (
                   <Unit
                     data-cy="rowMethod-yield"

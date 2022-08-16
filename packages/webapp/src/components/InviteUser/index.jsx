@@ -9,7 +9,7 @@ import ReactSelect from '../Form/ReactSelect';
 import { useTranslation } from 'react-i18next';
 import { getFirstNameLastName } from '../../util';
 
-export default function PureInviteUser({ onInvite, onGoBack, roleOptions = [] }) {
+export default function PureInviteUser({ onInvite, onGoBack, userFarmEmails, roleOptions = [] }) {
   const {
     register,
     handleSubmit,
@@ -106,6 +106,18 @@ export default function PureInviteUser({ onInvite, onGoBack, roleOptions = [] })
           pattern: {
             value: /^$|^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/,
             message: t('INVITE_USER.INVALID_EMAIL_ERROR'),
+          },
+          validate: {
+            existing: (value) => {
+              if (role.value === 3 && !value) {
+                return true;
+              } else {
+                return (
+                  (value && !userFarmEmails.includes(value.toLowerCase())) ||
+                  t('INVITE_USER.ALREADY_EXISTING_EMAIL_ERROR')
+                );
+              }
+            },
           },
         })}
         errors={getInputErrors(errors, EMAIL)}

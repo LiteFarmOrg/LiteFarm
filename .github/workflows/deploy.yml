@@ -1,0 +1,15 @@
+name: 'Deploy'
+on:
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Deploy over SSH
+        uses: appleboy/ssh-action@v0.1.3
+        with:
+          host: ${{ secrets.BETA_SSH_HOST }}
+          username: ${{ secrets.BETA_SSH_USER }}
+          password: ${{ secrets.BETA_SSH_PASS }}
+          script: ${{ secrets.DEPLOYMENT_SCRIPT }}

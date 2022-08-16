@@ -1266,6 +1266,8 @@
       "PAY": "Payer",
       "RESTORE_ACCESS": "Restaurer l'accès utilisateur",
       "REVOKE_ACCESS": "Révoquer l'accès utilisateur",
+      "INVALID_REVOKE_ACCESS": "MISSING",
+      "LAST_ADMIN_ERROR": "MISSING",
       "ROLE": "Rôle",
       "ROLE_CHANGE_ALERT": "Le changement de rôle prendra pleinement effet lors de la prochaine connexion. Les travailleurs ne peuvent pas se définir comme administrateurs.",
       "SEARCH": "Chercher",
@@ -1512,6 +1514,7 @@
         "WEATHER": "Météo"
       },
       "REASON_FOR_ABANDONMENT": "Raison de l'abandon",
+      "EXPLANATION": "MISSING",
       "TITLE": "Abandonner la tâche",
       "WHAT_HAPPENED": "Que s'est-il passé\u00a0?",
       "WHEN": "Quand la tâche a-t-elle été abandonnée ?"
@@ -1684,6 +1687,9 @@
       "NO_DATA": "MISSING",
       "AMBIENT_TEMPERATURE_FOR": "MISSING",
       "LAST_UPDATED_TEMPERATURE_READINGS": "MISSING"
+    },
+    "READINGS_PREVIEW": {
+      "TEMPERATURE": "MISSING"
     }
   }
 }

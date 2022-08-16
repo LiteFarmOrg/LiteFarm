@@ -83,7 +83,6 @@ export function* getSensorBrandSaga({ payload: { location_id, partner_id } }) {
     const brand_name = brand_name_response.data;
     yield put(onSensorBrandSuccess({ location_id, brand_name }));
   } catch (error) {
-    console.log(error);
     yield put(onLoadingSensorFail());
   }
 }

@@ -17,7 +17,7 @@ import { Label, Semibold } from '../Typography';
 import PropTypes from 'prop-types';
 import AxisLabel from './AxisLabel';
 import PredictedRect from './PredictedRect';
-import moment from 'moment';
+import { getLanguageFromLocalStorage } from '../../util/getLanguageFromLocalStorage';
 
 const PureSensorReadingsLineChart = ({
   title,
@@ -33,6 +33,10 @@ const PureSensorReadingsLineChart = ({
   predictedXAxisLabel,
 }) => {
   const [legendsList, setLegendsList] = useState({});
+
+  const language = getLanguageFromLocalStorage();
+  const dateFormat = new Intl.DateTimeFormat(language, { day: '2-digit' });
+  const dayFormat = new Intl.DateTimeFormat(language, { weekday: 'short' });
 
   useEffect(() => {
     if (yAxisDataKeys.length) {
@@ -93,8 +97,9 @@ const PureSensorReadingsLineChart = ({
   const renderDateOnXAxis = (tickProps) => {
     const { x, y, payload, index } = tickProps;
     const { value, offset } = payload;
-    const displayDate = moment(value).format('DD');
-    const displayDay = moment(value).format('ddd');
+    const displayDate = dateFormat.format(new Date(value));
+    const displayDay = dayFormat.format(new Date(value));
+
     if (index % 4 == 2) {
       return (
         <>

@@ -4,7 +4,7 @@ import PageTitle from '../../components/PageTitle/v2';
 import PageBreak from '../../components/PageBreak';
 import PureSearchbarAndFilter from '../../components/PopupFilter/PureSearchbarAndFilter';
 import CropStatusInfoBox from '../../components/CropCatalogue/CropStatusInfoBox';
-import { AddLink, Semibold, Text } from '../../components/Typography';
+import { AddLink, Semibold, Text, Underlined } from '../../components/Typography';
 import { useDispatch, useSelector } from 'react-redux';
 import { cropsSelector } from '../cropSlice';
 import useCropTileListGap from '../../components/CropTile/useCropTileListGap';
@@ -19,6 +19,7 @@ import {
   cropCatalogueFilterSelector,
   isFilterCurrentlyActiveSelector,
   setCropCatalogueFilterDate,
+  resetCropCatalogueFilter,
 } from '../filterSlice';
 import { isAdminSelector } from '../userFarmSlice';
 import useCropCatalogue from './useCropCatalogue';
@@ -79,6 +80,8 @@ export default function CropCatalogue({ history }) {
     );
     history.push('/crop/new');
   };
+  const resetFilter = () => dispatch(resetCropCatalogueFilter());
+
   return (
     <Layout classes={{ container: { backgroundColor: 'white' } }}>
       <PageTitle title={t('CROP_CATALOGUE.CROP_CATALOGUE')} style={{ paddingBottom: '20px' }} />
@@ -97,11 +100,14 @@ export default function CropCatalogue({ history }) {
       </MuiFullPagePopup>
 
       {isFilterCurrentlyActive && (
-        <ActiveFilterBox
-          pageFilter={cropCatalogueFilter}
-          pageFilterKey={'cropCatalogue'}
-          style={{ marginBottom: '32px' }}
-        />
+        <div style={{ marginBottom: '32px' }}>
+          <ActiveFilterBox pageFilter={cropCatalogueFilter} pageFilterKey={'cropCatalogue'} />
+          <div style={{ marginTop: '12px' }}>
+            <Underlined style={{ color: '#AA5F04' }} onClick={resetFilter}>
+              {t('FILTER.CLEAR_ALL_FILTERS')}
+            </Underlined>
+          </div>
+        </div>
       )}
 
       <div ref={containerRef}>

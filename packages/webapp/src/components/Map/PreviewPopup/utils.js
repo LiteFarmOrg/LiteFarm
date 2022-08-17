@@ -7,8 +7,8 @@ export const getTemperatureValue = (value, unit) => {
 };
 
 export const getTemperatureUnit = (unit) => {
-  if (imperial.includes(unit.toLowerCase())) return 'ºF';
-  return 'ºC';
+  if (imperial.includes(unit.toLowerCase())) return 'º F';
+  return 'º C';
 };
 
 const convertCelsiusToFahrenheit = (temperature) => {

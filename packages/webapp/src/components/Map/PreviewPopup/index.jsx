@@ -8,7 +8,10 @@ import { TEMPERATURE } from '../../../containers/SensorReadings/constants';
 import { getTemperatureUnit, getTemperatureValue } from './utils';
 import { userFarmSelector } from '../../../containers/userFarmSlice';
 import { useSelector } from 'react-redux';
-import { sensorReadingTypesByLocationSelector } from '../../../containers/sensorReadingTypesSlice';
+import {
+  sensorReadingTypesByLocationSelector,
+  sensorReadingTypesSelector,
+} from '../../../containers/sensorReadingTypesSlice';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -83,16 +86,18 @@ export default function PurePreviewPopup({ location, history, sensorReadings, st
         <div className={classes.tooltip} style={styleOverride}>
           <div className={classes.arrow} />
           <div className={classes.body}>
-            <CompactPreview
-              title={t('SENSOR.READINGS_PREVIEW.TEMPERATURE')}
-              value={
-                temperatureData.length
-                  ? getTemperatureValue(latestTemperatureData.value, units.measurement)
-                  : null
-              }
-              unit={temperatureData.length ? getTemperatureUnit(units.measurement) : null}
-              loadReadingView={loadReadingView}
-            />
+            {reading_types.includes(TEMPERATURE) && (
+              <CompactPreview
+                title={t('SENSOR.READINGS_PREVIEW.TEMPERATURE')}
+                value={
+                  temperatureData.length
+                    ? getTemperatureValue(latestTemperatureData.value, units.measurement)
+                    : null
+                }
+                unit={temperatureData.length ? getTemperatureUnit(units.measurement) : null}
+                loadReadingView={loadReadingView}
+              />
+            )}
             {/*other compact views*/}
           </div>
         </div>

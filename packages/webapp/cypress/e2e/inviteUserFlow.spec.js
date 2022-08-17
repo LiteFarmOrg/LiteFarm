@@ -28,13 +28,15 @@ describe.only('Invite user tests', () => {
     let emailOwner;
     let emailUser;
 
+    const farmerName = 'Frank Phiri';
     const gender = 'Male';
-    const fullName = 'Test Farmer';
+    const firstName = 'john';
+    const lastName = 'Smith';
     const password = `${userPassword}+1@`;
     const farmName = 'UBC FARM';
     const location = '49.250833,-123.2410777';
     const fieldName = 'Test Field';
-    const workerName = 'Test Worker';
+    let workerName;
     const testCrop = 'New Crop';
     const role = 'Manager';
     const inviteeRole = 'Farm Worker';
@@ -51,13 +53,14 @@ describe.only('Invite user tests', () => {
       let usrname = userEmail.indexOf('@');
       emailOwner = userEmail.slice(0, usrname) + '+' + idx + userEmail.slice(usrname);
       emailUser = userEmail.slice(0, usrname) + '+' + idx + '0' + userEmail.slice(usrname);
+      workerName = firstName + ' ' + lastName;
 
       //Login as a new user
       cy.newUserLogin(emailOwner);
 
       //create account
 
-      cy.createAccount(emailOwner, fullName, gender, null, null, password);
+      cy.createAccount(emailOwner, farmerName, gender, null, null, password);
 
       cy.wait(2000);
       //Get Started page
@@ -104,12 +107,26 @@ describe.only('Invite user tests', () => {
       const Status = 'Invited';
       cy.get('[data-cy=snackBar]').contains('Successfully added user to farm!').should('exist');
       cy.url().should('include', '/people');
-      cy.get('*[class^="rt-tr-group"]').eq(0).contains(workerName).should('exist');
       cy.get('*[class^="rt-tr-group"]').eq(0).contains(emailUser).should('exist');
       cy.get('*[class^="rt-tr-group"]').eq(0).contains(inviteeRole).should('exist');
       cy.get('*[class^="rt-tr-group"]').eq(0).contains(Status).should('exist');
 
-      cy.contains(workerName).should('exist');
+      cy.get('*[class^="rt-tr-group"]').eq(0).contains(workerName).should('exist').click();
+
+      cy.get('[data-cy=editUser-firstName]')
+        .invoke('val')
+        .should('equal', firstName, { matchCase: false });
+      cy.get('[data-cy=editUser-lastName]')
+        .invoke('val')
+        .should('equal', lastName, { matchCase: false });
+      cy.get('[data-cy=editUser-email]')
+        .invoke('val')
+        .should('equal', emailUser, { matchCase: false });
+      cy.get('[data-cy=editUser-wage]')
+        .invoke('val')
+        .then(parseInt)
+        .should('be.a', 'number')
+        .should('equal', wage);
       //logout
       cy.logOut();
 

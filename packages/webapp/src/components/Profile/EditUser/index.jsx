@@ -173,18 +173,21 @@ export default function PureEditUser({
         title={t('PROFILE.ACCOUNT.EDIT_USER')}
       />
       <Input
+        data-cy="editUser-firstName"
         label={t('PROFILE.ACCOUNT.FIRST_NAME')}
         value={userFarm.first_name}
         style={{ marginBottom: '24px' }}
         disabled
       />
       <Input
+        data-cy="editUser-lastName"
         label={t('PROFILE.ACCOUNT.LAST_NAME')}
         value={userFarm.last_name}
         style={{ marginBottom: '24px' }}
         disabled
       />
       <Input
+        data-cy="editUser-email"
         label={t('INVITE_USER.EMAIL')}
         hookFormRegister={register(EMAIL, {
           required: true,
@@ -285,6 +288,7 @@ export default function PureEditUser({
         />
       )}
       <Input
+        data-cy="editUser-wage"
         label={t('INVITE_USER.WAGE')}
         step="0.01"
         type="number"

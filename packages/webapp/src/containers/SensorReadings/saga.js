@@ -27,9 +27,8 @@ import {
 import { sensorUrl } from '../../apiConfig';
 import { getHeader } from '../../containers/saga';
 import { findCenter } from './utils';
-import { CURRENT_DATE_TIME } from './constants';
+import { CURRENT_DATE_TIME, TEMPERATURE } from './constants';
 import { getTemperatureValue } from '../../components/Map/PreviewPopup/utils.js';
-import { TEMPERATURE } from './constants';
 
 const sensorReadingsUrl = () => `${sensorUrl}/reading/visualization`;
 

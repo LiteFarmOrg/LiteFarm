@@ -70,7 +70,6 @@ const sensorController = {
       const { access_token } = await IntegratingPartnersModel.getAccessAndRefreshTokens(
         'Ensemble Scientific',
       );
-      const invalidReadingTypes = [];
       const { data, errors } = parseCsvString(req.file.buffer.toString(), {
         Name: {
           key: 'name',
@@ -112,17 +111,15 @@ const sensorController = {
               'soil_water_potential',
               'temperature',
             ];
-            val.forEach((readingType) => {
+            for (const readingType of val) {
               if (!allowedReadingTypes.includes(readingType)) {
-                invalidReadingTypes.push(readingType);
                 return false;
               }
-            });
+            }
             return true;
           },
           required: true,
           errorTranslationKey: sensorErrors.SENSOR_READING_TYPES,
-          variables: { invalidReadingTypes },
         },
         Depth: {
           key: 'depth',
@@ -661,6 +658,7 @@ const parseCsvString = (csvString, mapping, delimiter = ',') => {
       const parsedRow = headers.reduce((previousObj, current, index) => {
         if (allowedHeaders.includes(current)) {
           const val = mapping[current].parseFunction(values[index].replace(/^(["'])(.*)\1$/, '$2')); // removes any surrounding quotation marks
+          console.log(val, mapping[current].validator(val));
           if (mapping[current].validator(val)) {
             previousObj[mapping[current].key] = val;
           } else {
@@ -668,6 +666,7 @@ const parseCsvString = (csvString, mapping, delimiter = ',') => {
               row: rowIndex + 2,
               column: current,
               translation_key: mapping[current].errorTranslationKey,
+              variables: { [mapping[current].key]: val },
             });
           }
         }

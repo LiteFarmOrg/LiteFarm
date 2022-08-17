@@ -165,6 +165,18 @@ class Sensor extends Model {
     );
   }
 
+  static async getAllSensorReadingTypes(farm_id) {
+    return Model.knex().raw(
+      `
+        SELECT prt.readable_value, l.location_id FROM location as l
+        JOIN sensor_reading_type as srt ON srt.location_id = l.location_id 
+        JOIN partner_reading_type as prt ON srt.partner_reading_type_id = prt.partner_reading_type_id 
+        WHERE l.farm_id = ?;
+      `,
+      farm_id,
+    );
+  }
+
   static async patchSensorReadingTypes(location_id, readingTypes) {
     try {
       for (const readingTypeKey in readingTypes) {

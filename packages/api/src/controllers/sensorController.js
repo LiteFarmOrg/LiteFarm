@@ -658,7 +658,6 @@ const parseCsvString = (csvString, mapping, delimiter = ',') => {
       const parsedRow = headers.reduce((previousObj, current, index) => {
         if (allowedHeaders.includes(current)) {
           const val = mapping[current].parseFunction(values[index].replace(/^(["'])(.*)\1$/, '$2')); // removes any surrounding quotation marks
-          console.log(val, mapping[current].validator(val));
           if (mapping[current].validator(val)) {
             previousObj[mapping[current].key] = val;
           } else {

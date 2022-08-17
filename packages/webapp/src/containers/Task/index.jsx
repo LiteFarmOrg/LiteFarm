@@ -16,7 +16,7 @@
 import Layout from '../../components/Layout';
 import { useTranslation } from 'react-i18next';
 import PageTitle from '../../components/PageTitle/v2';
-import { AddLink, Semibold } from '../../components/Typography';
+import { Semibold, Underlined } from '../../components/Typography';
 import { useDispatch, useSelector } from 'react-redux';
 import React, { useEffect, useMemo, useState } from 'react';
 
@@ -38,8 +38,8 @@ import {
   tasksFilterSelector,
   setTasksFilterUnassignedDueThisWeek,
   setTasksFilterDueToday,
-  resetTasksFilter,
   updateTasksFilterObjects,
+  clearTasksFilter,
 } from '../filterSlice';
 import ActiveFilterBox from '../../components/ActiveFilterBox';
 import PureTaskDropdownFilter from '../../components/PopupFilter/PureTaskDropdownFilter';
@@ -175,6 +175,7 @@ export default function TaskPage({ history }) {
       ),
     );
   };
+  const resetFilter = () => dispatch(clearTasksFilter());
   return (
     <Layout classes={{ container: { backgroundColor: 'white' } }}>
       <PageTitle title={t('TASK.PAGE_TITLE')} style={{ paddingBottom: '20px' }} />
@@ -191,13 +192,15 @@ export default function TaskPage({ history }) {
       <MuiFullPagePopup open={isFilterOpen} onClose={onFilterClose}>
         <TasksFilterPage onGoBack={onFilterClose} />
       </MuiFullPagePopup>
-
       {isFilterCurrentlyActive && (
-        <ActiveFilterBox
-          pageFilter={tasksFilter}
-          pageFilterKey={'tasks'}
-          style={{ marginBottom: '32px' }}
-        />
+        <div style={{ marginBottom: '32px' }}>
+          <ActiveFilterBox pageFilter={tasksFilter} pageFilterKey={'tasks'} />
+          <div style={{ marginTop: '12px' }}>
+            <Underlined style={{ color: '#AA5F04' }} onClick={resetFilter}>
+              {t('FILTER.CLEAR_ALL_FILTERS')}
+            </Underlined>
+          </div>
+        </div>
       )}
 
       {taskCardContents.length > 0 ? (

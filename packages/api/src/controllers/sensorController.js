@@ -50,7 +50,7 @@ const sensorController = {
     const { farm_id } = req.params;
     try {
       const allSensorReadingTypesResponse = await SensorModel.getAllSensorReadingTypes(farm_id);
-      const allReadingTypes = allSensorReadingTypesResponse.rows.reduce((obj, item) => {
+      const allReadingTypesObject = allSensorReadingTypesResponse.rows.reduce((obj, item) => {
         if (item.location_id in obj) {
           obj[item.location_id].push(item.readable_value);
         } else {
@@ -58,6 +58,11 @@ const sensorController = {
         }
         return obj;
       }, {});
+      const allReadingTypes = Object.keys(allReadingTypesObject).map(key => {
+        return {
+          location_id: key, reading_types: allReadingTypesObject[key],
+        }
+      });
       res.status(200).send(allReadingTypes);
     } catch (error) {
       res.status(404).send('No sensors found');

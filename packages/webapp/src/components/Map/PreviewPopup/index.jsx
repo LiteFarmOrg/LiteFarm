@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { makeStyles } from '@material-ui/core/styles';
@@ -7,9 +7,8 @@ import CompactPreview from './CompactPreview';
 import { TEMPERATURE } from '../../../containers/SensorReadings/constants';
 import { getTemperatureUnit, getTemperatureValue } from './utils';
 import { userFarmSelector } from '../../../containers/userFarmSlice';
-import { useSelector, useDispatch } from 'react-redux';
-import { sensorsSelector } from '../../../containers/sensorSlice';
-import { getSensorReadingTypes } from '../../../containers/LocationDetails/PointDetails/SensorDetail/saga';
+import { useSelector } from 'react-redux';
+import { sensorReadingTypesByLocationSelector } from '../../../containers/sensorReadingTypesSlice';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -50,15 +49,10 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function PurePreviewPopup({ location, history, sensorReadings, styleOverride }) {
-  const dispatch = useDispatch();
   const classes = useStyles();
   const { t } = useTranslation();
   const { units } = useSelector(userFarmSelector);
-  const { sensor_reading_types } = useSelector(sensorsSelector(location.id));
-
-  useEffect(() => {
-    dispatch(getSensorReadingTypes({ location_id: location.id }));
-  }, []);
+  const { reading_types } = useSelector(sensorReadingTypesByLocationSelector(location.id));
 
   const loadReadingView = () => {
     history.push(`/${location.type}/${location.id}/readings`);
@@ -83,7 +77,7 @@ export default function PurePreviewPopup({ location, history, sensorReadings, st
    * Add other reading types in the "includes" clause when other compact components are developed.
    * This will allow the PreviewPopup component to only render if a sensor has reading data matching its reading type.
    */
-  if (sensor_reading_types.includes(TEMPERATURE)) {
+  if (reading_types.includes(TEMPERATURE)) {
     return (
       <div className={classes.container}>
         <div className={classes.tooltip} style={styleOverride}>

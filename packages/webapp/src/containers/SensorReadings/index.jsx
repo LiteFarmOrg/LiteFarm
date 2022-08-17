@@ -2,13 +2,12 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import SensorReadingsLineChart from '../SensorReadingsLineChart';
-import { CURRENT_DATE_TIME } from './constants';
+import { CURRENT_DATE_TIME, TEMPERATURE } from './constants';
 import PageTitle from '../../components/PageTitle/v2';
 import RouterTab from '../../components/RouterTab';
 import { bulkSensorsReadingsSliceSelector } from '../bulkSensorReadingsSlice';
 import { sensorsSelector } from '../sensorSlice';
 import utils from '../WeatherBoard/utils';
-import { TEMPERATURE } from './constants';
 import { measurementSelector } from '../../containers/userFarmSlice';
 
 function SensorReadings({ history, match }) {

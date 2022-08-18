@@ -36,7 +36,7 @@ export default function LocationCreationModal({ title, body, dismissModal, locat
             {t('common:BACK')}
           </Button>
           <Button onClick={locationCreation} sm>
-            Create location
+            {t('LOCATION_CREATION.CREATE_BUTTON')}
           </Button>
         </div>
       </div>

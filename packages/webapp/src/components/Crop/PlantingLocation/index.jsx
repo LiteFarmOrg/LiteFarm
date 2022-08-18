@@ -192,10 +192,8 @@ export default function PurePlantingLocation({
         )}
         {createCropLocation && (
           <LocationCreationModal
-            title={'No locations found! (need translation)'}
-            body={
-              'You’ll need a Field, Garden, Greenhouse, or Buffer Zone before you can finish this crop plan. Do you want to create one now?'
-            }
+            title={t('LOCATION_CREATION.TITLE')}
+            body={t('LOCATION_CREATION.CROP_PLAN_BODY')}
             dismissModal={dismissLocationCreationModal}
             locationCreation={onCreateCropLocation}
           />

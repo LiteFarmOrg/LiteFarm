@@ -82,3 +82,8 @@ export const availableFilterSettingsSelector = createSelector(
     };
   },
 );
+export const isMapFilterSettingActiveSelector = createSelector(
+  [mapFilterSettingSelector],
+  (mapFilterSettingEntities) =>
+    !Object.keys(mapFilterSettingEntities).every((key) => mapFilterSettingEntities[key]),
+);

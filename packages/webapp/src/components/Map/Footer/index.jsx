@@ -42,6 +42,7 @@ export default function PureMapFooter({
     line: [locationEnum.buffer_zone, locationEnum.watercourse, locationEnum.fence],
     point: [locationEnum.gate, locationEnum.water_valve, locationEnum.sensor],
   },
+  isMapFilterSettingActive = false,
 }) {
   const { t } = useTranslation();
   const [stepSpotlighted, setStepSpotlighted] = useState(null);
@@ -96,6 +97,7 @@ export default function PureMapFooter({
           id="mapSecondStep"
           onClick={handleClickFilter}
         >
+          {isMapFilterSettingActive && <div className={styles.circle} />}
           <FilterLogo className={svg} />
         </button>
         <button
@@ -150,4 +152,5 @@ PureMapFooter.prototype = {
     point: PropTypes.array,
     line: PropTypes.array,
   }),
+  isMapFilterSettingActive: PropTypes.bool,
 };

@@ -56,3 +56,13 @@
 button:focus {
   outline: none;
 }
+
+.circle {
+  position: absolute;
+  bottom: 0;
+  transform: translate(0, -47px);
+  width: 4px;
+  height: 4px;
+  border-radius: 2px;
+  background-color: var(--teal700);
+}

@@ -45,7 +45,6 @@ export default function DateQuickAssignModal({ dismissModal, due_date, onChangeT
       <Input
         data-cy="dateAssign-date"
         value={date}
-        min={getDateInputFormat(new Date())}
         type={'date'}
         label={t('TASK.SELECT_DATE')}
         onChange={(e) => {

@@ -28,84 +28,23 @@
   color: var(--teal700);
   line-height: 24px;
   margin-bottom: 4px;
-  margin-left: 12px;
 }
 
-.buttonUpload{
-  margin-top: 20px;
-}
-
-.uploadSelectInput{
-  border: 1px solid var(--grey400);
-  box-sizing: border-box;
-  border-radius: 4px;
-  height: 48px;
-  padding-left: 8px;
-  font-size: 16px;
-  line-height: 24px;
-  color: var(--fontColor);
-  background-color: transparent;
-  background-position: calc(100% - 36px) 50%;
-  font-family: Open Sans,SansSerif,serif; 
-  display: flex;
-  align-items: center;
-  cursor: pointer;
-}
-
-.invalidateUploadSelectInput{
-  border: 1px solid var(--red700); 
-  box-sizing: border-box;
-  border-radius: 4px;
-  height: 48px;
-  padding-left: 8px;
-  font-size: 16px;
-  line-height: 24px;
-  color: var(--fontColor);
-  background-color: transparent;
-  background-position: calc(100% - 36px) 50%;
-  font-family: Open Sans,SansSerif,serif; 
-  display: flex;
-  align-items: center;
-  cursor: pointer;
-}
-
-.uploadPlaceholder{
-  margin-top: 24px;  
-  margin-bottom: 4px;
+.body {
+  color: var(grey600);
+  margin-bottom: 20px;
 }
 
 .buttonContainer {
-  background: none;
-  border: 0;
-  color: var(--buttonPrimary);
-  cursor: pointer;
-  max-height: 32px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 }
 
 .modalHeaderWrapper {
   display: flex;
   margin-bottom: 16px;
   align-items: center;
-}
-
-.fileNameLabel{
-  margin-bottom: 0;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.uploadIconContainer{
-  font-size: 20px;
-  color: var(--grey600); 
-  margin-right: 8px;
-  min-width: 20px;
-}
-
-.csvErrorMessageWrapper{
-  font-size: 12px;
-  color: var(--red700); 
-  margin-top: 8px;
 }
 
 .errorMessage{

@@ -102,6 +102,8 @@ export default function PurePlantingLocation({
     setCreateCropLocation(false);
   };
 
+  const onCreateCropLocation = () => {};
+
   const handlePinMode = () => {
     setPinToggle((pinToggle) => !pinToggle);
   };
@@ -189,7 +191,14 @@ export default function PurePlantingLocation({
           />
         )}
         {createCropLocation && (
-          <LocationCreationModal dismissModal={dismissLocationCreationModal} />
+          <LocationCreationModal
+            title={'No locations found! (need translation)'}
+            body={
+              'You’ll need a Field, Garden, Greenhouse, or Buffer Zone before you can finish this crop plan. Do you want to create one now?'
+            }
+            dismissModal={dismissLocationCreationModal}
+            locationCreation={onCreateCropLocation}
+          />
         )}
       </Layout>
     </>

@@ -21,8 +21,113 @@ describe.only('Invite user tests', () => {
     //Spanish user should receive an invitation email in spanish
     //repeat for all languages
   });
+  it('Invite farm worker without an account', () => {
+    //create test data
+    let count = 0;
+    let emailOwner;
+    let emailUser;
 
-  it.only('Invite farm worker', () => {
+    const farmerName = 'Frank Phiri';
+    const gender = 'Male';
+    const firstName = 'john';
+    const lastName = 'Smith';
+    const password = `${userPassword}+1@`;
+    const farmName = 'UBC FARM';
+    const location = '49.250833,-123.2410777';
+    const fieldName = 'Test Field';
+    let workerName;
+    const testCrop = 'New Crop';
+    const role = 'Manager';
+    const inviteeRole = 'Farm Worker';
+
+    //worker details
+    const language = ['English', 'French', 'Portuguese', 'Spanish'];
+    const wage = 12;
+    const number = 120012432;
+    const birthYear = 1987;
+
+    cy.visit('/');
+
+    let usrname = userEmail.indexOf('@');
+    emailOwner = userEmail.slice(0, usrname) + '+' + 1 + userEmail.slice(usrname);
+    emailUser = null;
+    workerName = firstName + ' ' + lastName;
+
+    //Login as a new user
+    cy.newUserLogin(emailOwner);
+
+    //create account
+
+    cy.createAccount(emailOwner, farmerName, gender, null, null, password);
+
+    cy.wait(2000);
+    //Get Started page
+    cy.getStarted();
+
+    //Add farm page
+    cy.addFarm(farmName, location);
+
+    //role selection page
+    cy.roleSelection(role);
+
+    //Consent page
+    cy.giveConsent();
+
+    //interested in organic
+    cy.interestedInOrganic();
+
+    //who is your certifier(select BCARA)
+    cy.selectCertifier();
+
+    //onboarding outro
+    cy.onboardingOutro();
+
+    //farm home page
+    cy.homePageSpotlights();
+
+    //Add a farm worker to the farm
+    cy.goToPeopleView('English');
+    cy.url().should('include', '/people');
+    cy.get('[data-cy=people-inviteUser]').should('exist').and('not.be.disabled').click();
+
+    cy.inviteUser(
+      inviteeRole,
+      workerName,
+      emailUser,
+      emailOwner,
+      gender,
+      language[0],
+      wage,
+      birthYear,
+      number,
+    );
+
+    const Status = 'Active';
+    cy.get('[data-cy=snackBar]').contains('Successfully added user to farm!').should('exist');
+    cy.url().should('include', '/people');
+    //cy.get('*[class^="rt-tr-group"]').eq(0).contains(emailUser).should('exist');
+    cy.get('*[class^="rt-tr-group"]').eq(0).contains('Worker Without Account').should('exist');
+    cy.get('*[class^="rt-tr-group"]').eq(0).contains(Status).should('exist');
+
+    cy.get('*[class^="rt-tr-group"]').eq(0).contains(workerName).should('exist').click();
+
+    cy.get('[data-cy=editUser-firstName]')
+      .invoke('val')
+      .should('equal', firstName, { matchCase: false });
+    cy.get('[data-cy=editUser-lastName]')
+      .invoke('val')
+      .should('equal', lastName, { matchCase: false });
+    // cy.get('[data-cy=editUser-email]')
+    //   .invoke('val')
+    //   .should('equal', emailUser, { matchCase: false });
+    cy.get('[data-cy=editUser-wage]')
+      .invoke('val')
+      .then(parseInt)
+      .should('be.a', 'number')
+      .should('equal', wage);
+  });
+
+  it('Invite farm worker', () => {
     //create test data
     let count = 0;
     let emailOwner;
@@ -190,6 +295,528 @@ describe.only('Invite user tests', () => {
       }
 
       cy.get('[data-cy=people-inviteUser]').should('not.exist');
+      //logout
+      cy.get('[data-cy=home-profileButton]').should('exist').click();
+      cy.get('[data-cy=navbar-option]').eq(4).should('exist').and('not.be.disabled').click();
+    });
+  });
+
+  it.only('Invite farm manager', () => {
+    //create test data
+    let count = 0;
+    let emailOwner;
+    let emailUser;
+
+    const farmerName = 'Frank Phiri';
+    const gender = 'Male';
+    const firstName = 'john';
+    const lastName = 'Smith';
+    const password = `${userPassword}+1@`;
+    const farmName = 'UBC FARM';
+    const location = '49.250833,-123.2410777';
+    const fieldName = 'Test Field';
+    let workerName;
+    const testCrop = 'New Crop';
+    const role = 'Manager';
+    const inviteeRole = 'Farm Manager';
+
+    //worker details
+    const language = ['English', 'French', 'Portuguese', 'Spanish'];
+    const wage = 12;
+    const number = 120012432;
+    const birthYear = 1987;
+
+    cy.visit('/');
+
+    language.forEach((lang, idx) => {
+      let usrname = userEmail.indexOf('@');
+      emailOwner = userEmail.slice(0, usrname) + '+' + idx + userEmail.slice(usrname);
+      emailUser = userEmail.slice(0, usrname) + '+' + idx + '0' + userEmail.slice(usrname);
+      workerName = firstName + ' ' + lastName;
+
+      //Login as a new user
+      cy.newUserLogin(emailOwner);
+
+      //create account
+
+      cy.createAccount(emailOwner, farmerName, gender, null, null, password);
+
+      cy.wait(2000);
+      //Get Started page
+      cy.getStarted();
+
+      //Add farm page
+      cy.addFarm(farmName, location);
+
+      //role selection page
+      cy.roleSelection(role);
+
+      //Consent page
+      cy.giveConsent();
+
+      //interested in organic
+      cy.interestedInOrganic();
+
+      //who is your certifier(select BCARA)
+      cy.selectCertifier();
+
+      //onboarding outro
+      cy.onboardingOutro();
+
+      //farm home page
+      cy.homePageSpotlights();
+
+      //Add a farm worker to the farm
+      cy.goToPeopleView('English');
+      cy.url().should('include', '/people');
+      cy.get('[data-cy=people-inviteUser]').should('exist').and('not.be.disabled').click();
+
+      cy.inviteUser(
+        inviteeRole,
+        workerName,
+        emailUser,
+        emailOwner,
+        gender,
+        lang,
+        wage,
+        birthYear,
+        number,
+      );
+
+      const Status = 'Invited';
+      cy.get('[data-cy=snackBar]').contains('Successfully added user to farm!').should('exist');
+      cy.url().should('include', '/people');
+      cy.get('*[class^="rt-tr-group"]').eq(0).contains(emailUser).should('exist');
+      cy.get('*[class^="rt-tr-group"]').eq(0).contains(inviteeRole).should('exist');
+      cy.get('*[class^="rt-tr-group"]').eq(0).contains(Status).should('exist');
+
+      cy.get('*[class^="rt-tr-group"]').eq(0).contains(workerName).should('exist').click();
+
+      cy.get('[data-cy=editUser-firstName]')
+        .invoke('val')
+        .should('equal', firstName, { matchCase: false });
+      cy.get('[data-cy=editUser-lastName]')
+        .invoke('val')
+        .should('equal', lastName, { matchCase: false });
+      cy.get('[data-cy=editUser-email]')
+        .invoke('val')
+        .should('equal', emailUser, { matchCase: false });
+      cy.get('[data-cy=editUser-wage]')
+        .invoke('val')
+        .then(parseInt)
+        .should('be.a', 'number')
+        .should('equal', wage);
+      //logout
+      cy.logOut();
+
+      //login as farm worker, create account and join farm
+      cy.acceptInviteEmail(lang);
+
+      if (lang == 'English') {
+        cy.get('[data-cy=invitedCard-createAccount]').contains('Create a LiteFarm account').click();
+        cy.get('[data-cy=invitedUser-proceed]').click();
+
+        //create account
+        cy.get('[data-cy=invited-password]').type(password);
+        cy.get('[data-cy=invited-createAccount]').click();
+      } else if (lang == 'French') {
+        cy.get('[data-cy=invitedCard-createAccount]').contains('Créer un compte LiteFarm').click();
+        cy.get('[data-cy=invitedUser-proceed]').click();
+
+        //create account
+        cy.get('[data-cy=invited-password]').type(password);
+        cy.get('[data-cy=invited-createAccount]').click();
+      } else if (lang == 'Portuguese') {
+        cy.get('[data-cy=invitedCard-createAccount]').contains('Crie uma conta LiteFarm').click();
+        cy.get('[data-cy=invitedUser-proceed]').click();
+
+        //create account
+        cy.get('[data-cy=invited-password]').type(password);
+        cy.get('[data-cy=invited-createAccount]').click();
+      } else if (lang == 'Spanish') {
+        cy.get('[data-cy=invitedCard-createAccount]').contains('Crear cuenta LiteFarm').click();
+        cy.get('[data-cy=invitedUser-proceed]').click();
+
+        //create account
+        cy.get('[data-cy=invited-password]').type(password);
+        cy.get('[data-cy=invited-createAccount]').click();
+      }
+
+      //Consent page
+      cy.giveConsent();
+
+      cy.get('[data-cy=joinFarm-successContinue]').should('not.be.disabled').click();
+
+      cy.get('[data-cy=chooseFarm-proceed]').should('not.be.disabled').click();
+
+      //farm home page
+      cy.get('[data-cy=spotlight-next]').should('exist').and('not.be.disabled').click();
+      cy.get('[data-cy=spotlight-next]').should('exist').and('not.be.disabled').click();
+      cy.get('[data-cy=spotlight-next]').should('exist').and('not.be.disabled').click();
+      cy.get('[data-cy=spotlight-next]').should('exist').and('not.be.disabled').click();
+
+      cy.goToPeopleView(lang);
+      cy.url().should('include', '/people');
+      cy.get('*[class^="rt-tr-group"]').eq(0).contains(emailUser).should('exist');
+      if (lang == 'English') {
+        cy.get('*[class^="rt-tr-group"]').eq(0).contains('Active').should('exist');
+      } else if (lang == 'French') {
+        cy.get('*[class^="rt-tr-group"]').eq(0).contains('Actif').should('exist');
+      } else if (lang == 'Portuguese') {
+        cy.get('*[class^="rt-tr-group"]').eq(0).contains('Ativo').should('exist');
+      } else if (lang == 'Spanish') {
+        cy.get('*[class^="rt-tr-group"]').eq(0).contains('Activo').should('exist');
+      }
+
+      cy.get('[data-cy=people-inviteUser]').should('exist');
+      //logout
+      cy.get('[data-cy=home-profileButton]').should('exist').click();
+      cy.get('[data-cy=navbar-option]').eq(4).should('exist').and('not.be.disabled').click();
+    });
+  });
+
+  it('Invite extension officer', () => {
+    //create test data
+    let count = 0;
+    let emailOwner;
+    let emailUser;
+
+    const farmerName = 'Frank Phiri';
+    const gender = 'Male';
+    const firstName = 'john';
+    const lastName = 'Smith';
+    const password = `${userPassword}+1@`;
+    const farmName = 'UBC FARM';
+    const location = '49.250833,-123.2410777';
+    const fieldName = 'Test Field';
+    let workerName;
+    const testCrop = 'New Crop';
+    const role = 'Manager';
+    const inviteeRole = 'Extension Officer';
+
+    //worker details
+    const language = ['English', 'French', 'Portuguese', 'Spanish'];
+    const wage = 12;
+    const number = 120012432;
+    const birthYear = 1987;
+
+    cy.visit('/');
+
+    language.forEach((lang, idx) => {
+      let usrname = userEmail.indexOf('@');
+      emailOwner = userEmail.slice(0, usrname) + '+' + idx + userEmail.slice(usrname);
+      emailUser = userEmail.slice(0, usrname) + '+' + idx + '0' + userEmail.slice(usrname);
+      workerName = firstName + ' ' + lastName;
+
+      //Login as a new user
+      cy.newUserLogin(emailOwner);
+
+      //create account
+
+      cy.createAccount(emailOwner, farmerName, gender, null, null, password);
+
+      cy.wait(2000);
+      //Get Started page
+      cy.getStarted();
+
+      //Add farm page
+      cy.addFarm(farmName, location);
+
+      //role selection page
+      cy.roleSelection(role);
+
+      //Consent page
+      cy.giveConsent();
+
+      //interested in organic
+      cy.interestedInOrganic();
+
+      //who is your certifier(select BCARA)
+      cy.selectCertifier();
+
+      //onboarding outro
+      cy.onboardingOutro();
+
+      //farm home page
+      cy.homePageSpotlights();
+
+      //Add a farm worker to the farm
+      cy.goToPeopleView('English');
+      cy.url().should('include', '/people');
+      cy.get('[data-cy=people-inviteUser]').should('exist').and('not.be.disabled').click();
+
+      cy.inviteUser(
+        inviteeRole,
+        workerName,
+        emailUser,
+        emailOwner,
+        gender,
+        lang,
+        wage,
+        birthYear,
+        number,
+      );
+
+      const Status = 'Invited';
+      cy.get('[data-cy=snackBar]').contains('Successfully added user to farm!').should('exist');
+      cy.url().should('include', '/people');
+      cy.get('*[class^="rt-tr-group"]').eq(0).contains(emailUser).should('exist');
+      cy.get('*[class^="rt-tr-group"]').eq(0).contains(inviteeRole).should('exist');
+      cy.get('*[class^="rt-tr-group"]').eq(0).contains(Status).should('exist');
+
+      cy.get('*[class^="rt-tr-group"]').eq(0).contains(workerName).should('exist').click();
+
+      cy.get('[data-cy=editUser-firstName]')
+        .invoke('val')
+        .should('equal', firstName, { matchCase: false });
+      cy.get('[data-cy=editUser-lastName]')
+        .invoke('val')
+        .should('equal', lastName, { matchCase: false });
+      cy.get('[data-cy=editUser-email]')
+        .invoke('val')
+        .should('equal', emailUser, { matchCase: false });
+      cy.get('[data-cy=editUser-wage]')
+        .invoke('val')
+        .then(parseInt)
+        .should('be.a', 'number')
+        .should('equal', wage);
+      //logout
+      cy.logOut();
+
+      //login as farm worker, create account and join farm
+      cy.acceptInviteEmail(lang);
+
+      if (lang == 'English') {
+        cy.get('[data-cy=invitedCard-createAccount]').contains('Create a LiteFarm account').click();
+        cy.get('[data-cy=invitedUser-proceed]').click();
+
+        //create account
+        cy.get('[data-cy=invited-password]').type(password);
+        cy.get('[data-cy=invited-createAccount]').click();
+      } else if (lang == 'French') {
+        cy.get('[data-cy=invitedCard-createAccount]').contains('Créer un compte LiteFarm').click();
+        cy.get('[data-cy=invitedUser-proceed]').click();
+
+        //create account
+        cy.get('[data-cy=invited-password]').type(password);
+        cy.get('[data-cy=invited-createAccount]').click();
+      } else if (lang == 'Portuguese') {
+        cy.get('[data-cy=invitedCard-createAccount]').contains('Crie uma conta LiteFarm').click();
+        cy.get('[data-cy=invitedUser-proceed]').click();
+
+        //create account
+        cy.get('[data-cy=invited-password]').type(password);
+        cy.get('[data-cy=invited-createAccount]').click();
+      } else if (lang == 'Spanish') {
+        cy.get('[data-cy=invitedCard-createAccount]').contains('Crear cuenta LiteFarm').click();
+        cy.get('[data-cy=invitedUser-proceed]').click();
+
+        //create account
+        cy.get('[data-cy=invited-password]').type(password);
+        cy.get('[data-cy=invited-createAccount]').click();
+      }
+
+      //Consent page
+      cy.giveConsent();
+
+      cy.get('[data-cy=joinFarm-successContinue]').should('not.be.disabled').click();
+
+      cy.get('[data-cy=chooseFarm-proceed]').should('not.be.disabled').click();
+
+      //farm home page
+      cy.get('[data-cy=spotlight-next]').should('exist').and('not.be.disabled').click();
+      cy.get('[data-cy=spotlight-next]').should('exist').and('not.be.disabled').click();
+      cy.get('[data-cy=spotlight-next]').should('exist').and('not.be.disabled').click();
+      cy.get('[data-cy=spotlight-next]').should('exist').and('not.be.disabled').click();
+
+      cy.goToPeopleView(lang);
+      cy.url().should('include', '/people');
+      cy.get('*[class^="rt-tr-group"]').eq(0).contains(emailUser).should('exist');
+      if (lang == 'English') {
+        cy.get('*[class^="rt-tr-group"]').eq(0).contains('Active').should('exist');
+      } else if (lang == 'French') {
+        cy.get('*[class^="rt-tr-group"]').eq(0).contains('Actif').should('exist');
+      } else if (lang == 'Portuguese') {
+        cy.get('*[class^="rt-tr-group"]').eq(0).contains('Ativo').should('exist');
+      } else if (lang == 'Spanish') {
+        cy.get('*[class^="rt-tr-group"]').eq(0).contains('Activo').should('exist');
+      }
+
+      cy.get('[data-cy=people-inviteUser]').should('exist');
+      //logout
+      cy.get('[data-cy=home-profileButton]').should('exist').click();
+      cy.get('[data-cy=navbar-option]').eq(4).should('exist').and('not.be.disabled').click();
+    });
+  });
+
+  it('Invite a farm owner', () => {
+    //create test data
+    let count = 0;
+    let emailOwner;
+    let emailUser;
+
+    const farmerName = 'Frank Phiri';
+    const gender = 'Male';
+    const firstName = 'john';
+    const lastName = 'Smith';
+    const password = `${userPassword}+1@`;
+    const farmName = 'UBC FARM';
+    const location = '49.250833,-123.2410777';
+    const fieldName = 'Test Field';
+    let workerName;
+    const testCrop = 'New Crop';
+    const role = 'Manager';
+    const inviteeRole = 'Farm Owner';
+
+    //worker details
+    const language = ['English', 'French', 'Portuguese', 'Spanish'];
+    const wage = 12;
+    const number = 120012432;
+    const birthYear = 1987;
+
+    cy.visit('/');
+
+    language.forEach((lang, idx) => {
+      let usrname = userEmail.indexOf('@');
+      emailOwner = userEmail.slice(0, usrname) + '+' + idx + userEmail.slice(usrname);
+      emailUser = userEmail.slice(0, usrname) + '+' + idx + '0' + userEmail.slice(usrname);
+      workerName = firstName + ' ' + lastName;
+
+      //Login as a new user
+      cy.newUserLogin(emailOwner);
+
+      //create account
+
+      cy.createAccount(emailOwner, farmerName, gender, null, null, password);
+
+      cy.wait(2000);
+      //Get Started page
+      cy.getStarted();
+
+      //Add farm page
+      cy.addFarm(farmName, location);
+
+      //role selection page
+      cy.roleSelection(role);
+
+      //Consent page
+      cy.giveConsent();
+
+      //interested in organic
+      cy.interestedInOrganic();
+
+      //who is your certifier(select BCARA)
+      cy.selectCertifier();
+
+      //onboarding outro
+      cy.onboardingOutro();
+
+      //farm home page
+      cy.homePageSpotlights();
+
+      //Add a farm worker to the farm
+      cy.goToPeopleView('English');
+      cy.url().should('include', '/people');
+      cy.get('[data-cy=people-inviteUser]').should('exist').and('not.be.disabled').click();
+
+      cy.inviteUser(
+        inviteeRole,
+        workerName,
+        emailUser,
+        emailOwner,
+        gender,
+        lang,
+        wage,
+        birthYear,
+        number,
+      );
+
+      const Status = 'Invited';
+      cy.get('[data-cy=snackBar]').contains('Successfully added user to farm!').should('exist');
+      cy.url().should('include', '/people');
+      cy.get('*[class^="rt-tr-group"]').eq(0).contains(emailUser).should('exist');
+      cy.get('*[class^="rt-tr-group"]').eq(0).contains(inviteeRole).should('exist');
+      cy.get('*[class^="rt-tr-group"]').eq(0).contains(Status).should('exist');
+
+      cy.get('*[class^="rt-tr-group"]').eq(0).contains(workerName).should('exist').click();
+
+      cy.get('[data-cy=editUser-firstName]')
+        .invoke('val')
+        .should('equal', firstName, { matchCase: false });
+      cy.get('[data-cy=editUser-lastName]')
+        .invoke('val')
+        .should('equal', lastName, { matchCase: false });
+      cy.get('[data-cy=editUser-email]')
+        .invoke('val')
+        .should('equal', emailUser, { matchCase: false });
+      cy.get('[data-cy=editUser-wage]')
+        .invoke('val')
+        .then(parseInt)
+        .should('be.a', 'number')
+        .should('equal', wage);
+      //logout
+      cy.logOut();
+
+      //login as farm worker, create account and join farm
+      cy.acceptInviteEmail(lang);
+
+      if (lang == 'English') {
+        cy.get('[data-cy=invitedCard-createAccount]').contains('Create a LiteFarm account').click();
+        cy.get('[data-cy=invitedUser-proceed]').click();
+
+        //create account
+        cy.get('[data-cy=invited-password]').type(password);
+        cy.get('[data-cy=invited-createAccount]').click();
+      } else if (lang == 'French') {
+        cy.get('[data-cy=invitedCard-createAccount]').contains('Créer un compte LiteFarm').click();
+        cy.get('[data-cy=invitedUser-proceed]').click();
+
+        //create account
+        cy.get('[data-cy=invited-password]').type(password);
+        cy.get('[data-cy=invited-createAccount]').click();
+      } else if (lang == 'Portuguese') {
+        cy.get('[data-cy=invitedCard-createAccount]').contains('Crie uma conta LiteFarm').click();
+        cy.get('[data-cy=invitedUser-proceed]').click();
+
+        //create account
+        cy.get('[data-cy=invited-password]').type(password);
+        cy.get('[data-cy=invited-createAccount]').click();
+      } else if (lang == 'Spanish') {
+        cy.get('[data-cy=invitedCard-createAccount]').contains('Crear cuenta LiteFarm').click();
+        cy.get('[data-cy=invitedUser-proceed]').click();
+
+        //create account
+        cy.get('[data-cy=invited-password]').type(password);
+        cy.get('[data-cy=invited-createAccount]').click();
+      }
+
+      //Consent page
+      cy.giveConsent();
+
+      cy.get('[data-cy=joinFarm-successContinue]').should('not.be.disabled').click();
+
+      cy.get('[data-cy=chooseFarm-proceed]').should('not.be.disabled').click();
+
+      //farm home page
+      cy.get('[data-cy=spotlight-next]').should('exist').and('not.be.disabled').click();
+      cy.get('[data-cy=spotlight-next]').should('exist').and('not.be.disabled').click();
+      cy.get('[data-cy=spotlight-next]').should('exist').and('not.be.disabled').click();
+      cy.get('[data-cy=spotlight-next]').should('exist').and('not.be.disabled').click();
+
+      cy.goToPeopleView(lang);
+      cy.url().should('include', '/people');
+      cy.get('*[class^="rt-tr-group"]').eq(0).contains(emailUser).should('exist');
+      if (lang == 'English') {
+        cy.get('*[class^="rt-tr-group"]').eq(0).contains('Active').should('exist');
+      } else if (lang == 'French') {
+        cy.get('*[class^="rt-tr-group"]').eq(0).contains('Actif').should('exist');
+      } else if (lang == 'Portuguese') {
+        cy.get('*[class^="rt-tr-group"]').eq(0).contains('Ativo').should('exist');
+      } else if (lang == 'Spanish') {
+        cy.get('*[class^="rt-tr-group"]').eq(0).contains('Activo').should('exist');
+      }
+
+      cy.get('[data-cy=people-inviteUser]').should('exist');
       //logout
       cy.get('[data-cy=home-profileButton]').should('exist').click();
       cy.get('[data-cy=navbar-option]').eq(4).should('exist').and('not.be.disabled').click();

@@ -477,18 +477,21 @@ Cypress.Commands.add(
 
     cy.get('[data-cy=invite-fullName]').should('exist').type(fullName);
     cy.contains('Choose Role').should('exist').click({ force: true });
-    cy.contains(role).should('exist').click();
-    cy.get('[data-cy=invite-email]').should('exist').type(invalidEmail);
-    cy.contains('Email').click();
-    cy.get('[data-cy=error]').contains('Please enter a valid email').should('exist');
+    cy.contains(role).should('exist').click({ force: true });
 
-    cy.get('[data-cy=invite-email]').should('exist').clear().type(existingUser);
-    cy.contains('Email').click();
-    cy.get('[data-cy=error]')
-      .contains('A user with that email already has access to this farm')
-      .should('exist');
+    if (email != null) {
+      cy.get('[data-cy=invite-email]').should('exist').type(invalidEmail);
+      cy.contains('Email').click();
+      cy.get('[data-cy=error]').contains('Please enter a valid email').should('exist');
 
-    cy.get('[data-cy=invite-email]').should('exist').clear().type(email);
+      cy.get('[data-cy=invite-email]').should('exist').clear().type(existingUser);
+      cy.contains('Email').click();
+      cy.get('[data-cy=error]')
+        .contains('A user with that email already has access to this farm')
+        .should('exist');
+
+      cy.get('[data-cy=invite-email]').should('exist').clear().type(email);
+    }
 
     cy.contains('Prefer not to say').should('exist').click({ force: true });
     cy.contains(gender).should('exist').click({ force: true });

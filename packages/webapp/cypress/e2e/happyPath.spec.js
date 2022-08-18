@@ -127,7 +127,6 @@ describe.only('LiteFarm end to end test', () => {
         .and('not.be.disabled')
         .click();
     });
-    //Add field view
 
     cy.get('[data-cy=createField-fieldName]').should('exist').type(fieldName);
     cy.get('[data-cy=createField-save]').should('exist').and('not.be.disabled').click();
@@ -137,7 +136,17 @@ describe.only('LiteFarm end to end test', () => {
     cy.goToPeopleView('English');
     cy.url().should('include', '/people');
     cy.get('[data-cy=people-inviteUser]').should('exist').and('not.be.disabled').click();
-    cy.inviteUser('Farm Worker', workerName, emailWorker, null, lang, null, null, null);
+    cy.inviteUser(
+      'Farm Worker',
+      workerName,
+      emailWorker,
+      emailOwner,
+      'Female',
+      lang,
+      25,
+      1970,
+      180012345,
+    );
 
     cy.url().should('include', '/people');
     //cy.get('.ReactTable').eq(1).should('eq', true);

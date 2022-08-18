@@ -480,6 +480,7 @@ const sensorController = {
         res.status(200).send(result);
       }
     } catch (error) {
+      await trx.rollback();
       res.status(400).json({
         error,
       });

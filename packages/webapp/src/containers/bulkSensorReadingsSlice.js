@@ -9,6 +9,7 @@ const initialState = {
   nearestStationName: '',
   lastUpdatedReadingsTime: '',
   predictedXAxisLabel: '',
+  xAxisLabel: '',
 };
 
 const bulkSensorsReadingsSlice = createSlice({
@@ -25,6 +26,7 @@ const bulkSensorsReadingsSlice = createSlice({
         nearestStationName: '',
         lastUpdatedReadingsTime: '',
         predictedXAxisLabel: '',
+        xAxisLabel: '',
       });
     },
     bulkSensorReadingsLoading: (state, action) => {
@@ -37,6 +39,7 @@ const bulkSensorsReadingsSlice = createSlice({
         nearestStationName: '',
         lastUpdatedReadingsTime: '',
         predictedXAxisLabel: '',
+        xAxisLabel: '',
       });
     },
     bulkSensorReadingsSuccess: (state, { payload }) => {
@@ -50,6 +53,7 @@ const bulkSensorsReadingsSlice = createSlice({
           nearestStationName: payload?.nearestStationName,
           lastUpdatedReadingsTime: payload?.lastUpdatedReadingsTime,
           predictedXAxisLabel: payload?.predictedXAxisLabel,
+          xAxisLabel: payload?.xAxisLabel,
         });
       }
     },
@@ -60,6 +64,7 @@ const bulkSensorsReadingsSlice = createSlice({
       state.nearestStationName = '';
       state.lastUpdatedReadingsTime = '';
       state.predictedXAxisLabel = '';
+      state.xAxisLabel = '';
       (state.latestMinTemperature = null), (state.latestMaxTemperature = null);
     },
   },

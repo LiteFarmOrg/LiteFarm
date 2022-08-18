@@ -77,6 +77,9 @@ const filterSliceReducer = createSlice({
     setDocumentsFilter: (state, { payload: documentsFilter }) => {
       Object.assign(state.documents, documentsFilter);
     },
+    clearTasksFilter: (state) => {
+      state.tasks = intialTasksFilter;
+    },
     resetTasksFilter: (state, { payload: { user_id, userFarms } }) => {
       state.tasks = {
         ...intialTasksFilter,
@@ -190,6 +193,7 @@ export const {
   resetDocumentsFilter,
   setDocumentsFilter,
   resetTasksFilter,
+  clearTasksFilter,
   setTasksFilter,
   setTasksFilterUnassignedDueThisWeek,
   setTasksFilterDueToday,

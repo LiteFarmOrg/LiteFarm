@@ -17,7 +17,7 @@ import { Label, Semibold } from '../Typography';
 import PropTypes from 'prop-types';
 import AxisLabel from './AxisLabel';
 import PredictedRect from './PredictedRect';
-import moment from 'moment';
+import { getLanguageFromLocalStorage } from '../../util/getLanguageFromLocalStorage';
 
 const PureSensorReadingsLineChart = ({
   title,
@@ -33,6 +33,10 @@ const PureSensorReadingsLineChart = ({
   predictedXAxisLabel,
 }) => {
   const [legendsList, setLegendsList] = useState({});
+
+  const language = getLanguageFromLocalStorage();
+  const dateFormat = new Intl.DateTimeFormat(language, { day: '2-digit' });
+  const dayFormat = new Intl.DateTimeFormat(language, { weekday: 'short' });
 
   useEffect(() => {
     if (yAxisDataKeys.length) {
@@ -93,12 +97,20 @@ const PureSensorReadingsLineChart = ({
   const renderDateOnXAxis = (tickProps) => {
     const { x, y, payload, index } = tickProps;
     const { value, offset } = payload;
-    const displayDate = moment(value).format('ddd, MMM DD');
+    const tickDate = new Date(value);
+    const displayDate = dateFormat.format(tickDate);
+    const displayDay = dayFormat.format(tickDate);
+
     if (index % 4 == 2) {
       return (
-        <text x={x} y={y - 16} textAnchor="middle">
-          {displayDate}
-        </text>
+        <>
+          <text x={x} y={y - 16} textAnchor="middle">
+            {displayDate}
+          </text>
+          <text x={x} y={y} textAnchor="middle">
+            {displayDay}
+          </text>
+        </>
       );
     }
     if (index % 4 === 0 && index !== 0) {
@@ -127,14 +139,14 @@ const PureSensorReadingsLineChart = ({
       </div>
       <Label className={styles.subTitle}>{subTitle}</Label>
       <Label className={styles.subTitle}>{weatherStationName}</Label>
-      <ResponsiveContainer width="100%" height="50%">
+      <ResponsiveContainer width="100%" height="60%">
         <LineChart
           data={chartData}
           margin={{
             top: 20,
             right: 30,
-            left: 5,
-            bottom: 20,
+            left: 20,
+            bottom: 60,
           }}
         >
           <pattern
@@ -150,14 +162,9 @@ const PureSensorReadingsLineChart = ({
             <rect x="0" y="0" width="100%" height="100%" fill="url(#pattern-stripe)" />
           </mask>
           <CartesianGrid strokeDasharray="1 1" />
+          <XAxis dataKey={xAxisDataKey} tick={false} tickFormatter={dateTickFormatter} />
           <XAxis
-            label={{ value: xAxisLabel, position: 'insideBottom' }}
-            dataKey={xAxisDataKey}
-            tick={false}
-            tickFormatter={dateTickFormatter}
-          />
-          <XAxis
-            label={{ value: xAxisLabel, position: 'insideBottom' }}
+            label={{ value: xAxisLabel, position: 'insideBottom', dy: 45 }}
             dataKey={xAxisDataKey}
             axisLine={false}
             tickLine={false}
@@ -167,13 +174,7 @@ const PureSensorReadingsLineChart = ({
             scale="band"
             xAxisId="quarter"
           />
-          <YAxis
-            label={
-              <AxisLabel axisType="yAxis" x={25} y={165} width={0} height={0}>
-                {yAxisLabel}
-              </AxisLabel>
-            }
-          />
+          <YAxis label={{ value: yAxisLabel, position: 'insideCenter', angle: -90, dx: -20 }} />
           <Tooltip />
           {yAxisDataKeys.length > 1 && (
             <Legend

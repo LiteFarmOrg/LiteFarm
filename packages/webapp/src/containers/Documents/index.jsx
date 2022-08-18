@@ -20,6 +20,8 @@ import { documentsFilterSelector, isFilterCurrentlyActiveSelector } from '../fil
 import ActiveFilterBox from '../../components/ActiveFilterBox';
 import { getLanguageFromLocalStorage } from '../../util/getLanguageFromLocalStorage';
 import { setPersistedPaths } from '../hooks/useHookFormPersist/hookFormPersistSlice';
+import { Underlined } from '../../components/Typography';
+import { resetDocumentsFilter } from '../filterSlice';
 
 export default function Documents({ history }) {
   const { t } = useTranslation();
@@ -64,10 +66,11 @@ export default function Documents({ history }) {
     filterString,
   );
 
-  const { ref: containerRef, gap, padding } = useDocumentTileGap([
-    validDocuments.length,
-    archivedDocuments.length,
-  ]);
+  const {
+    ref: containerRef,
+    gap,
+    padding,
+  } = useDocumentTileGap([validDocuments.length, archivedDocuments.length]);
 
   const tileClick = (document_id) => {
     history.push(`/documents/${document_id}`);
@@ -77,6 +80,7 @@ export default function Documents({ history }) {
     dispatch(setPersistedPaths(['/documents/add_document']));
     history.push('/documents/add_document');
   };
+  const resetFilter = () => dispatch(resetDocumentsFilter());
   return (
     <Layout classes={{ container: { backgroundColor: 'white' } }}>
       <PageTitle title={t('DOCUMENTS.DOCUMENTS')} style={{ paddingBottom: '20px' }} />
@@ -93,11 +97,14 @@ export default function Documents({ history }) {
       </MuiFullPagePopup>
 
       {isFilterCurrentlyActive && (
-        <ActiveFilterBox
-          pageFilter={documentsFilter}
-          pageFilterKey={'documents'}
-          style={{ marginBottom: '32px' }}
-        />
+        <div style={{ marginBottom: '32px' }}>
+          <ActiveFilterBox pageFilter={documentsFilter} pageFilterKey={'documents'} />
+          <div style={{ marginTop: '12px' }}>
+            <Underlined style={{ color: '#AA5F04' }} onClick={resetFilter}>
+              {t('FILTER.CLEAR_ALL_FILTERS')}
+            </Underlined>
+          </div>
+        </div>
       )}
 
       <div ref={containerRef}>

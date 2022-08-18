@@ -414,8 +414,8 @@ const sensorController = {
   },
 
   async deleteSensor(req, res) {
+    const trx = await transaction.start(Model.knex());
     try {
-      const trx = await transaction.start(Model.knex());
       const isDeleted = await baseController.delete(SensorModel, req.params.location_id, req, {
         trx,
       });
@@ -426,6 +426,7 @@ const sensorController = {
         res.sendStatus(404);
       }
     } catch (error) {
+      await trx.rollback();
       res.status(400).json({
         error,
       });
@@ -480,6 +481,7 @@ const sensorController = {
         res.status(200).send(result);
       }
     } catch (error) {
+      await trx.rollback();
       res.status(400).json({
         error,
       });

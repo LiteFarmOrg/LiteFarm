@@ -22,6 +22,8 @@ const FarmExternalIntegrationsModel = require('../models/farmExternalIntegration
 const LocationModel = require('../models/locationModel');
 const PointModel = require('../models/pointModel');
 const FigureModel = require('../models/figureModel');
+const UserModel = require('../models/userModel');
+
 const { transaction, Model } = require('objection');
 const {
   createOrganization,
@@ -30,7 +32,7 @@ const {
   unclaimSensor,
 } = require('../util/ensemble');
 
-const sensorErrors = require('../util/sensorErrors');
+const { sensorErrors, parseSensorCsv } = require('../util/sensorCSV');
 const syncAsyncResponse = require('../util/syncAsyncResponse');
 
 const sensorController = {
@@ -70,86 +72,11 @@ const sensorController = {
       const { access_token } = await IntegratingPartnersModel.getAccessAndRefreshTokens(
         'Ensemble Scientific',
       );
-      const { data, errors } = parseCsvString(req.file.buffer.toString(), {
-        Name: {
-          key: 'name',
-          parseFunction: (val) => val.trim(),
-          validator: (val) => 1 <= val.length && val.length <= 100,
-          required: true,
-          errorTranslationKey: sensorErrors.SENSOR_NAME,
-        },
-        External_ID: {
-          key: 'external_id',
-          parseFunction: (val) => val.trim(),
-          validator: (val) => val.length <= 20,
-          required: false,
-          errorTranslationKey: sensorErrors.EXTERNAL_ID,
-        },
-        Latitude: {
-          key: 'latitude',
-          parseFunction: (val) => parseFloat(val),
-          validator: (val) => -90 <= val && val <= 90,
-          required: true,
-          errorTranslationKey: sensorErrors.SENSOR_LATITUDE,
-        },
-        Longitude: {
-          key: 'longitude',
-          parseFunction: (val) => parseFloat(val),
-          validator: (val) => -180 <= val && val <= 180,
-          required: true,
-          errorTranslationKey: sensorErrors.SENSOR_LONGITUDE,
-        },
-        Reading_types: {
-          key: 'reading_types',
-          parseFunction: (val) => val.replaceAll(' ', '').split(','),
-          validator: (val) => {
-            if (!val.length || (val.length === 1 && val[0] === '')) {
-              return false;
-            }
-            const allowedReadingTypes = [
-              'soil_water_content',
-              'soil_water_potential',
-              'temperature',
-            ];
-            val.forEach((readingType) => {
-              if (!allowedReadingTypes.includes(readingType)) {
-                return false;
-              }
-            });
-            return true;
-          },
-          required: true,
-          errorTranslationKey: sensorErrors.SENSOR_READING_TYPES,
-        },
-        Depth: {
-          key: 'depth',
-          parseFunction: (val) => parseFloat(val),
-          validator: (val) => 0 <= val && val <= 1000,
-          required: false,
-          errorTranslationKey: sensorErrors.SENSOR_DEPTH,
-        },
-        Brand: {
-          key: 'brand',
-          parseFunction: (val) => val.trim(),
-          validator: (val) => val.length <= 100,
-          required: false,
-          errorTranslationKey: sensorErrors.SENSOR_BRAND,
-        },
-        Model: {
-          key: 'model',
-          parseFunction: (val) => val.trim(),
-          validator: (val) => val.length <= 100,
-          required: false,
-          errorTranslationKey: sensorErrors.SENSOR_MODEL,
-        },
-        Hardware_version: {
-          key: 'hardware_version',
-          parseFunction: (val) => val.trim(),
-          validator: (val) => val.length <= 100,
-          required: false,
-          errorTranslationKey: sensorErrors.SENSOR_HARDWARE_VERSION,
-        },
-      });
+
+      const [{ language_preference }] = await baseController.getIndividual(UserModel, user_id);
+
+      const { data, errors } = parseSensorCsv(req.file.buffer.toString(), language_preference);
+
       if (!data.length > 0) {
         return await sendResponse(
           () => {
@@ -620,62 +547,6 @@ const sensorController = {
       });
     }
   },
-};
-
-/**
- * Parses the csv string into an array of objects and an array of any lines that experienced errors.
- * @param {String} csvString
- * @param {Object} mapping - a mapping from csv column headers to object keys, as well as the validators for the data in the columns
- * @param {String} delimiter
- * @returns {Object<data: Array<Object>, errors: Array<Object>>}
- */
-
-const parseCsvString = (csvString, mapping, delimiter = ',') => {
-  // regex checks for delimiters that are not contained within quotation marks
-  const regex = new RegExp(
-    `(?:${delimiter}|\\n|^)("(?:(?:"")*[^"]*)*"|[^"${delimiter}\\n]*|(?:\\n|$))`,
-  );
-  if (csvString.length === 0 || !/\r\b|\r|\n/.test(csvString)) {
-    return { data: [] };
-  }
-  const rows = csvString.split(/\r\n|\r|\n/).filter((elem) => elem !== '');
-  const headers = rows[0].split(regex);
-  const requiredHeaders = Object.keys(mapping).filter((m) => mapping[m].required);
-  const headerErrors = [];
-  requiredHeaders.forEach((header) => {
-    if (!headers.includes(header)) {
-      headerErrors.push({ row: 1, column: header, translation_key: sensorErrors.MISSING_COLUMNS });
-    }
-  });
-  if (headerErrors.length > 0) {
-    return { data: [], errors: headerErrors };
-  }
-  const allowedHeaders = Object.keys(mapping);
-  const dataRows = rows.slice(1);
-  const { data, errors } = dataRows.reduce(
-    (previous, row, rowIndex) => {
-      const values = row.split(regex);
-      const parsedRow = headers.reduce((previousObj, current, index) => {
-        if (allowedHeaders.includes(current)) {
-          const val = mapping[current].parseFunction(values[index].replace(/^(["'])(.*)\1$/, '$2')); // removes any surrounding quotation marks
-          if (mapping[current].validator(val)) {
-            previousObj[mapping[current].key] = val;
-          } else {
-            previous.errors.push({
-              row: rowIndex + 2,
-              column: current,
-              translation_key: mapping[current].errorTranslationKey,
-            });
-          }
-        }
-        return previousObj;
-      }, {});
-      previous.data.push(parsedRow);
-      return previous;
-    },
-    { data: [], errors: [] },
-  );
-  return { data, errors };
 };
 
 const SensorNotificationTypes = {

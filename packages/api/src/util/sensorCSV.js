@@ -191,7 +191,7 @@ const sensorCsvTranslations = {
 /**
  * Parses the csv string into an array of objects and an array of any lines that experienced errors.
  * @param {String} csvString
- * @param {Object} mapping - a mapping from csv column headers to object keys, as well as the validators for the data in the columns
+ * @param {String} userLang - language preference of user who uploaded the CSV
  * @param {String} delimiter
  * @returns {Object<data: Array<Object>, errors: Array<Object>>}
  */

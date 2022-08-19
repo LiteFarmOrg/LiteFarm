@@ -281,6 +281,7 @@ export default function Map({ history }) {
       setShowingConfirmButtons(true);
       finishDrawing(drawing, maps, map);
       this.setDrawingMode();
+      dispatch(setMapFilterSetting({ farm_id, addDrawer: false }));
     });
     initDrawingState(map, maps, drawingManagerInit, {
       POLYGON: maps.drawing.OverlayType.POLYGON,

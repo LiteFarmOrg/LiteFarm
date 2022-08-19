@@ -163,8 +163,9 @@ export default function Map({ history }) {
     if (showHeader) setShowSuccessHeader(true);
   }, [showHeader]);
 
+  const showAddDrawer = filterSettings.addDrawer;
+
   const [showMapFilter, setShowMapFilter] = useState(false);
-  const [showAddDrawer, setShowAddDrawer] = useState(false);
   const [showExportModal, setShowExportModal] = useState(false);
   const [showDrawAreaSpotlightModal, setShowDrawAreaSpotlightModal] = useState(false);
   const [showDrawLineSpotlightModal, setShowDrawLineSpotlightModal] = useState(false);
@@ -326,18 +327,18 @@ export default function Map({ history }) {
   const handleClickAdd = () => {
     setShowExportModal(false);
     setShowMapFilter(false);
-    setShowAddDrawer(!showAddDrawer);
+    dispatch(setMapFilterSetting({ farm_id, addDrawer: !showAddDrawer }));
   };
 
   const handleClickExport = () => {
     setShowExportModal(!showExportModal);
     setShowMapFilter(false);
-    setShowAddDrawer(false);
+    dispatch(setMapFilterSetting({ farm_id, addDrawer: false }));
   };
 
   const handleClickFilter = () => {
     setShowExportModal(false);
-    setShowAddDrawer(false);
+    dispatch(setMapFilterSetting({ farm_id, addDrawer: false }));
     setShowMapFilter(!showMapFilter);
   };
 
@@ -368,7 +369,7 @@ export default function Map({ history }) {
     } else if (isLine(locationType) && !showedSpotlight.draw_line) {
       setShowDrawLineSpotlightModal(true);
     } else if (locationType === locationEnum.sensor) {
-      setShowAddDrawer(!showAddDrawer);
+      dispatch(setMapFilterSetting({ farm_id, addDrawer: !showAddDrawer }));
       setShowBulkSensorUploadModal(true);
       dispatch(resetBulkUploadSensorsInfoFile());
       return;
@@ -437,7 +438,7 @@ export default function Map({ history }) {
 
   const dismissBulkSensorsUploadModal = () => {
     setShowBulkSensorUploadModal(false);
-    setShowAddDrawer(true);
+    dispatch(setMapFilterSetting({ farm_id, addDrawer: true }));
   };
 
   const { showAdjustAreaSpotlightModal, showAdjustLineSpotlightModal } = drawingState;
@@ -524,7 +525,9 @@ export default function Map({ history }) {
             showModal={showExportModal}
             setShowMapFilter={setShowMapFilter}
             showMapFilter={showMapFilter}
-            setShowAddDrawer={setShowAddDrawer}
+            setShowAddDrawer={(showAddDrawer) => {
+              dispatch(setMapFilterSetting({ farm_id, addDrawer: showAddDrawer }));
+            }}
             showAddDrawer={showAddDrawer}
             handleClickFilter={handleClickFilter}
             filterSettings={filterSettings}

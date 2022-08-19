@@ -27,7 +27,9 @@ import {
 import { sensorUrl } from '../../apiConfig';
 import { getHeader } from '../../containers/saga';
 import { findCenter } from './utils';
-import { AMBIENT_TEMPERATURE, CURRENT_DATE_TIME } from './constants';
+import { CURRENT_DATE_TIME, TEMPERATURE } from './constants';
+import { getTemperatureValue } from '../../components/Map/PreviewPopup/utils.js';
+import { getLanguageFromLocalStorage } from '../../util/getLanguageFromLocalStorage';
 
 const sensorReadingsUrl = () => `${sensorUrl}/reading/visualization`;
 
@@ -133,8 +135,12 @@ export function* getSensorsReadingsSaga({ payload }) {
 
     let ambientDataWithSensorsReadings = result?.data?.sensorReading.reduce((acc, cv) => {
       const dt = new Date(cv.read_time).valueOf() / 1000;
+      let value = 0;
+      if (readingType === TEMPERATURE) {
+        value = getTemperatureValue(cv.value, measurement);
+      }
       if (acc[dt] && dt < currentDT) {
-        acc[dt][cv.name] = cv.value;
+        acc[dt][cv.name] = value;
       }
       return acc;
     }, ambientData);
@@ -169,6 +175,20 @@ export function* getSensorsReadingsSaga({ payload }) {
     );
     const lastUpdatedReadingsTime = moment(lastUpdated).startOf('day').fromNow();
 
+    let xAxisLabel = '';
+    const allTimestamps = Object.keys(ambientDataWithSensorsReadings);
+    if (allTimestamps.length) {
+      const startDateObj = new Date(+allTimestamps[0] * 1000);
+      const endDateObj = new Date(+allTimestamps.at(-1) * 1000);
+
+      const language = getLanguageFromLocalStorage();
+      const options = { month: 'short', day: '2-digit' };
+      const dateTimeFormat = new Intl.DateTimeFormat(language, options);
+
+      let startDateXAxisLabel = dateTimeFormat.format(startDateObj);
+      let endDateXAxisLabel = dateTimeFormat.format(endDateObj);
+      xAxisLabel = `${startDateXAxisLabel} - ${endDateXAxisLabel}`;
+    }
     yield put(
       bulkSensorReadingsSuccess({
         sensorReadings: Object.values(ambientDataWithSensorsReadings),
@@ -177,6 +197,7 @@ export function* getSensorsReadingsSaga({ payload }) {
         nearestStationName: stationName,
         lastUpdatedReadingsTime,
         predictedXAxisLabel,
+        xAxisLabel,
       }),
     );
   } catch (error) {

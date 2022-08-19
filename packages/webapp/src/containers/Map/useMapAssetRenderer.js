@@ -28,6 +28,7 @@ import {
   isNoFillArea,
   locationEnum,
   polygonPath,
+  longPress,
 } from './constants';
 import useSelectionHandler from './useSelectionHandler';
 import { useMaxZoom } from './useMaxZoom';
@@ -149,7 +150,7 @@ const useMapAssetRenderer = ({ isClickable, showingConfirmButtons, drawingState 
 
     markerClusterRef.current.addMarkers(markers, true);
     maps.event.addListener(markerClusterRef.current, 'click', (cluster) => {
-      if (map.getZoom() >= (maxZoomRef?.current || 20) && cluster.markers.length > 1) {
+      if (map.getZoom() > (maxZoomRef?.current || 20) && cluster.markers.length > 1) {
         const pointAssets = {
           gate: [],
           water_valve: [],
@@ -487,42 +488,37 @@ const useMapAssetRenderer = ({ isClickable, showingConfirmButtons, drawingState 
       this.setOptions({ icon: icons[type] });
     });
 
-    let longPressed, longPressTimeout, longPressActive;
+    let longPressed, longPressTimeout;
 
-    maps.event.addListener(marker, 'mousedown', function (event) {
-      longPressActive = true;
+    maps.event.addListener(marker, 'mousedown', function (mapsMouseEvent) {
       longPressed = false;
       longPressTimeout = setTimeout(function () {
-        if (longPressActive === true) {
-          longPressed = true;
+        longPressed = true;
+        if (point.type === 'sensor') {
+          map.panTo(grid_point);
+          const index = assetGeometries.sensor.findIndex(
+            (sensor) => sensor.location_id === point.location_id,
+          );
+          setTimeout(function () {
+            handleSelection(
+              MouseEvent.latLng,
+              { sensor: [assetGeometries.sensor[index]] },
+              maps,
+              true,
+              false,
+              true,
+            );
+          }, longPress / 2);
         }
-      }, 200);
+      }, longPress);
     });
 
-    maps.event.addListener(marker, 'mouseup', function (event) {
+    maps.event.addListener(marker, 'mouseup', function (mapsMouseEvent) {
       clearTimeout(longPressTimeout);
-      longPressActive = false;
-    });
-
-    // Event listener for point click
-    maps.event.addListener(marker, 'click', function (mapsMouseEvent) {
       const latlng = map.getCenter().toJSON();
-      dispatch(setPosition(latlng));
-      dispatch(setZoomLevel(map.getZoom()));
-      if (point.type === 'sensor' && longPressed) {
-        map.setCenter(grid_point);
-        const index = assetGeometries.sensor.findIndex(
-          (sensor) => sensor.location_id === point.location_id,
-        );
-        handleSelection(
-          MouseEvent.latLng,
-          { sensor: [assetGeometries.sensor[index]] },
-          maps,
-          true,
-          false,
-          true,
-        );
-      } else {
+      if (!longPressed) {
+        dispatch(setPosition(latlng));
+        dispatch(setZoomLevel(map.getZoom()));
         handleSelection(mapsMouseEvent.latLng, assetGeometries, maps, true);
       }
     });

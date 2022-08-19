@@ -20,6 +20,7 @@ import {
   setSpotlightToShown,
   bulkUploadSensorsInfoFile,
   getSensorReadings,
+  getAllSensorReadingTypes,
   resetBulkUploadSensorsInfoFile,
   resetShowTransitionModalState,
 } from './saga';
@@ -54,6 +55,7 @@ import {
   setMapFilterHideAll,
   setMapFilterSetting,
   setMapFilterShowAll,
+  isMapFilterSettingActiveSelector,
 } from './mapFilterSettingSlice';
 import {
   hookFormPersistedPathsSetSelector,
@@ -74,6 +76,7 @@ export default function Map({ history }) {
   const windowInnerHeight = useWindowInnerHeight();
   const { farm_name, grid_points, is_admin, farm_id } = useSelector(userFarmSelector);
   const filterSettings = useSelector(mapFilterSettingSelector);
+  const isMapFilterSettingActive = useSelector(isMapFilterSettingActiveSelector);
   const showedSpotlight = useSelector(showedSpotlightSelector);
   const roadview = !filterSettings.map_background;
   const dispatch = useDispatch();
@@ -358,6 +361,7 @@ export default function Map({ history }) {
 
   useEffect(() => {
     dispatch(getSensorReadings());
+    dispatch(getAllSensorReadingTypes());
   }, []);
 
   const handleAddMenuClick = (locationType) => {
@@ -531,6 +535,7 @@ export default function Map({ history }) {
             onFilterMenuClick={handleFilterMenuClick}
             onAddMenuClick={handleAddMenuClick}
             availableFilterSettings={availableFilterSettings}
+            isMapFilterSettingActive={isMapFilterSettingActive}
           />
         )}
         {showExportModal && (

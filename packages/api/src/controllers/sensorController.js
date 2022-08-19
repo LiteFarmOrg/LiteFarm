@@ -48,6 +48,28 @@ const sensorController = {
       res.status(404).send('Sensor not found');
     }
   },
+  async getAllSensorReadingTypes(req, res) {
+    const { farm_id } = req.params;
+    try {
+      const allSensorReadingTypesResponse = await SensorModel.getAllSensorReadingTypes(farm_id);
+      const allReadingTypesObject = allSensorReadingTypesResponse.rows.reduce((obj, item) => {
+        if (item.location_id in obj) {
+          obj[item.location_id].push(item.readable_value);
+        } else {
+          obj[item.location_id] = [item.readable_value];
+        }
+        return obj;
+      }, {});
+      const allReadingTypes = Object.keys(allReadingTypesObject).map(key => {
+        return {
+          location_id: key, reading_types: allReadingTypesObject[key],
+        }
+      });
+      res.status(200).send(allReadingTypes);
+    } catch (error) {
+      res.status(404).send('No sensors found');
+    }
+  },
   async getBrandName(req, res) {
     try {
       const { partner_id } = req.params;
@@ -83,7 +105,7 @@ const sensorController = {
         External_ID: {
           key: 'external_id',
           parseFunction: (val) => val.trim(),
-          validator: (val) => val.length <= 20,
+          validator: (val) => val.length <= 40,
           required: false,
           errorTranslationKey: sensorErrors.EXTERNAL_ID,
         },
@@ -113,11 +135,11 @@ const sensorController = {
               'soil_water_potential',
               'temperature',
             ];
-            val.forEach((readingType) => {
+            for (const readingType of val) {
               if (!allowedReadingTypes.includes(readingType)) {
                 return false;
               }
-            });
+            }
             return true;
           },
           required: true,
@@ -125,8 +147,8 @@ const sensorController = {
         },
         Depth: {
           key: 'depth',
-          parseFunction: (val) => parseFloat(val),
-          validator: (val) => 0 <= val && val <= 1000,
+          parseFunction: (val) => parseFloat(val) / 100, // val is in cm, so divide by 100 to get val in m
+          validator: (val) => 0 <= val && val <= 10,
           required: false,
           errorTranslationKey: sensorErrors.SENSOR_DEPTH,
         },
@@ -416,8 +438,8 @@ const sensorController = {
   },
 
   async deleteSensor(req, res) {
+    const trx = await transaction.start(Model.knex());
     try {
-      const trx = await transaction.start(Model.knex());
       const isDeleted = await baseController.delete(SensorModel, req.params.location_id, req, {
         trx,
       });
@@ -428,6 +450,7 @@ const sensorController = {
         res.sendStatus(404);
       }
     } catch (error) {
+      await trx.rollback();
       res.status(400).json({
         error,
       });
@@ -482,6 +505,7 @@ const sensorController = {
         res.status(200).send(result);
       }
     } catch (error) {
+      await trx.rollback();
       res.status(400).json({
         error,
       });
@@ -653,7 +677,11 @@ const parseCsvString = (csvString, mapping, delimiter = ',') => {
     return { data: [], errors: headerErrors };
   }
   const allowedHeaders = Object.keys(mapping);
-  const dataRows = rows.slice(1);
+  // get all rows except the header and filter out any empty rows
+  const dataRows = rows.slice(1).filter((d) => !/^(,? ?\t?)+$/.test(d));
+  // Set to keep track of the unique keys of sensors - used to make sure only one sensor is uploaded
+  // if duplicates are in the file
+  const validSensorKeys = new Set();
   const { data, errors } = dataRows.reduce(
     (previous, row, rowIndex) => {
       const values = row.split(regex);
@@ -667,17 +695,26 @@ const parseCsvString = (csvString, mapping, delimiter = ',') => {
               row: rowIndex + 2,
               column: current,
               translation_key: mapping[current].errorTranslationKey,
+              variables: { [mapping[current].key]: val },
             });
           }
         }
         return previousObj;
       }, {});
-      previous.data.push(parsedRow);
+      const sensorKey = generateSensorKey(parsedRow);
+      if (!validSensorKeys.has(sensorKey)) {
+        previous.data.push(parsedRow);
+        validSensorKeys.add(sensorKey);
+      }
       return previous;
     },
     { data: [], errors: [] },
   );
   return { data, errors };
+};
+
+const generateSensorKey = (sensor) => {
+  return `${sensor.brand ?? ''}:${sensor.external_id ?? ''}`;
 };
 
 const SensorNotificationTypes = {

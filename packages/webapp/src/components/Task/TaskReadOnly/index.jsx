@@ -120,6 +120,7 @@ export default function PureTaskReadOnly({
 
   const isCompleted = !!task.complete_date;
   const isAbandoned = !!task.abandon_date;
+  const isOtherReason = task.abandonment_reason === 'OTHER';
   const isCurrent = !isCompleted && !isAbandoned;
   const taskStatus = getTaskStatus(task);
 
@@ -315,6 +316,14 @@ export default function PureTaskReadOnly({
               value: task.abandonment_reason,
             }}
           />
+          {isOtherReason && (
+            <InputAutoSize
+              style={{ marginTop: '40px', marginBottom: '40px' }}
+              label={t('TASK.ABANDON.EXPLANATION')}
+              value={task.other_abandonment_reason}
+              disabled
+            />
+          )}
 
           {task.duration > 0 && (
             <TimeSlider

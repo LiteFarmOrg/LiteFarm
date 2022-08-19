@@ -95,8 +95,9 @@ export function useValidateBulkSensorData(onUpload, t) {
         return {
           row: rowNumber,
           column: columnName,
-          errorMessage: t('FARM_MAP.BULK_UPLOAD_SENSORS.VALIDATION.SENSOR_READING_TYPES'),
-          value: invalidReadingTypes.join(','),
+          errorMessage: t('FARM_MAP.BULK_UPLOAD_SENSORS.VALIDATION.SENSOR_READING_TYPES', {
+            invalidReadingTypes: invalidReadingTypes.join(', '),
+          }),
         };
       },
     },
@@ -119,13 +120,14 @@ export function useValidateBulkSensorData(onUpload, t) {
       };
       sheetErrorResponse.errors = validationErrorsResponseList.reduce((acc, validationError) => {
         acc.push({
-          column: validationError?.errorColumn ?? '',
-          errorMessage: '',
-          row: validationError?.line ?? '',
-          value: '',
+          column: validationError?.column ?? '',
+          errorMessage: t(validationError?.translation_key) ?? '',
+          row: validationError?.row ?? '',
+          value: validationError?.errorMessage ?? '',
         });
         return acc;
       }, []);
+      setErrorCount(sheetErrorResponse?.errors?.length);
       setSheetErrors([sheetErrorResponse]);
     }
   }, [bulkSensorsUploadResponse?.validationErrors]);

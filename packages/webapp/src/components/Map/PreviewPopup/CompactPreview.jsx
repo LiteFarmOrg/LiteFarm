@@ -32,14 +32,22 @@ export default function CompactPreview({ title, value, unit, loadReadingView }) 
   const { t } = useTranslation();
 
   const [isClicked, setIsClicked] = useState(false);
-  const handleClick = (e) => {
+
+  const onMouseDown = (e) => {
     e.stopPropagation();
     setIsClicked(true);
-    setTimeout(loadReadingView, 250);
+  };
+
+  const onMouseUp = () => {
+    if (isClicked) setTimeout(loadReadingView, 250);
   };
 
   return (
-    <div className={isClicked ? classes.highlight : classes.container} onClick={handleClick}>
+    <div
+      className={isClicked ? classes.highlight : classes.container}
+      onMouseDown={onMouseDown}
+      onMouseUp={onMouseUp}
+    >
       <div className={classes.title}>{title}:</div>
       <div className={value ? classes.value : classes.error}>
         {value ? value : t('SENSOR.READING.UNKNOWN')}

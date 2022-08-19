@@ -253,13 +253,13 @@ const parseSensorCsv = (csvString, userLang, delimiter = ',') => {
             });
           }
         }
-        const sensorKey = generateSensorKey(parsedRow);
-        if (!validSensorKeys.has(sensorKey)) {
-          previous.data.push(parsedRow);
-          validSensorKeys.add(sensorKey);
-        }
+        return previousObj;
       }, {});
-      previous.data.push(parsedRow);
+      const sensorKey = generateSensorKey(parsedRow);
+      if (!validSensorKeys.has(sensorKey)) {
+        previous.data.push(parsedRow);
+        validSensorKeys.add(sensorKey);
+      }
       return previous;
     },
     { data: [], errors: [] },

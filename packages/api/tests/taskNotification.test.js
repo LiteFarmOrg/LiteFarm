@@ -13,15 +13,22 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const chai = require('chai');
-const chaiHttp = require('chai-http');
+import chai from 'chai';
+
+import chaiHttp from 'chai-http';
 chai.use(chaiHttp);
-const server = require('../src/server');
-const knex = require('../src/util/knex');
+import server from '../src/server.js';
+import knex from '../src/util/knex.js';
 jest.mock('jsdom');
-jest.mock('../src/middleware/acl/checkJwt');
-const mocks = require('./mock.factories.js');
-const { tableCleanup } = require('./testEnvironment');
+jest.mock('../src/middleware/acl/checkJwt.js', () =>
+  jest.fn((req, res, next) => {
+    req.user = {};
+    req.user.user_id = req.get('user_id');
+    next();
+  }),
+);
+import mocks from './mock.factories.js';
+import { tableCleanup } from './testEnvironment.js';
 
 describe('Task Notification Tests', () => {
   let farmOwner;
@@ -30,13 +37,13 @@ describe('Task Notification Tests', () => {
   let farmWorker2;
 
   beforeEach(async () => {
-    const middleware = require('../src/middleware/acl/checkJwt');
-
-    middleware.mockImplementation((req, res, next) => {
-      req.user = {};
-      req.user.user_id = req.get('user_id');
-      next();
-    });
+    // const middleware = require('../src/middleware/acl/checkJwt');
+    //
+    // middleware.mockImplementation((req, res, next) => {
+    //   req.user = {};
+    //   req.user.user_id = req.get('user_id');
+    //   next();
+    // });
 
     [farmOwner] = await mocks.usersFactory();
     [farm] = await mocks.farmFactory();

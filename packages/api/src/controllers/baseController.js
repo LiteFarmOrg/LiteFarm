@@ -170,6 +170,7 @@ export default {
 
   // send back the resource that was just created
   async postWithResponse(model, data, req, { trx, context = {} } = {}) {
+    // console.log(context)
     // TODO: replace removeAdditionalProperties. Additional properties should trigger an error.
     return model
       .query(trx)

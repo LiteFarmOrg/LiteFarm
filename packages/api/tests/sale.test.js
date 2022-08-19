@@ -13,21 +13,27 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const chai = require('chai');
-const chaiHttp = require('chai-http');
-chai.use(chaiHttp);
-const server = require('./../src/server');
-const knex = require('../src/util/knex');
-const { tableCleanup } = require('./testEnvironment');
-jest.mock('jsdom');
-jest.mock('../src/middleware/acl/checkJwt');
-const mocks = require('./mock.factories.js');
+import chai from 'chai';
 
-const saleModel = require('../src/models/saleModel');
-const cropVarietySaleModel = require('../src/models/cropVarietySaleModel');
+import chaiHttp from 'chai-http';
+chai.use(chaiHttp);
+import server from './../src/server.js';
+import knex from '../src/util/knex.js';
+import { tableCleanup } from './testEnvironment.js';
+jest.mock('jsdom');
+jest.mock('../src/middleware/acl/checkJwt.js', () =>
+  jest.fn((req, res, next) => {
+    req.user = {};
+    req.user.user_id = req.get('user_id');
+    next();
+  }),
+);
+import mocks from './mock.factories.js';
+import saleModel from '../src/models/saleModel.js';
+import cropVarietySaleModel from '../src/models/cropVarietySaleModel.js';
 
 describe('Sale Tests', () => {
-  let middleware;
+  let token;
   let owner;
   let farm;
   let ownerFarm;
@@ -102,12 +108,12 @@ describe('Sale Tests', () => {
     [crop] = await mocks.cropFactory({ promisedFarm: [farm] });
     [cropVariety] = await mocks.crop_varietyFactory({ promisedFarm: [farm], promisedCrop: [crop] });
 
-    middleware = require('../src/middleware/acl/checkJwt');
-    middleware.mockImplementation((req, res, next) => {
-      req.user = {};
-      req.user.user_id = req.get('user_id');
-      next();
-    });
+    // middleware = require('../src/middleware/acl/checkJwt');
+    // middleware.mockImplementation((req, res, next) => {
+    //   req.user = {};
+    //   req.user.user_id = req.get('user_id');
+    //   next();
+    // });
   });
 
   afterAll(async (done) => {

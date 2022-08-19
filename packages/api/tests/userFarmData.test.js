@@ -13,22 +13,29 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const chai = require('chai');
-const chaiHttp = require('chai-http');
-const moment = require('moment');
-chai.use(chaiHttp);
-const server = require('./../src/server');
-const knex = require('../src/util/knex');
-jest.mock('jsdom');
-jest.mock('../src/middleware/acl/checkJwt');
-const mocks = require('./mock.factories.js');
-const { tableCleanup } = require('./testEnvironment');
+import chai from 'chai';
 
-const userFarmModel = require('../src/models/userFarmModel');
+import chaiHttp from 'chai-http';
+import moment from 'moment';
+chai.use(chaiHttp);
+import server from './../src/server.js';
+import knex from '../src/util/knex.js';
+jest.mock('jsdom');
+jest.mock('../src/middleware/acl/checkJwt.js', () =>
+  jest.fn((req, res, next) => {
+    req.user = {};
+    req.user.user_id = req.get('user_id');
+    next();
+  }),
+);
+import mocks from './mock.factories.js';
+import { tableCleanup } from './testEnvironment.js';
+import userFarmModel from '../src/models/userFarmModel.js';
 
 describe('userFarm Tests', () => {
-  let middleware;
+  let token;
   let owner;
+  let newOwner;
   let farm;
 
   beforeAll(() => {
@@ -93,12 +100,12 @@ describe('userFarm Tests', () => {
     [farm] = await mocks.farmFactory();
     [newOwner] = await mocks.usersFactory();
 
-    middleware = require('../src/middleware/acl/checkJwt');
-    middleware.mockImplementation((req, res, next) => {
-      req.user = {};
-      req.user.user_id = req.get('user_id');
-      next();
-    });
+    // middleware = require('../src/middleware/acl/checkJwt');
+    // middleware.mockImplementation((req, res, next) => {
+    //   req.user = {};
+    //   req.user.user_id = req.get('user_id');
+    //   next();
+    // });
   });
 
   afterAll(async (done) => {

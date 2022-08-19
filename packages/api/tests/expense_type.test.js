@@ -13,21 +13,27 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const chai = require('chai');
-const chaiHttp = require('chai-http');
-chai.use(chaiHttp);
-const server = require('./../src/server');
-const knex = require('../src/util/knex');
-const { tableCleanup } = require('./testEnvironment');
-jest.mock('jsdom');
-jest.mock('../src/middleware/acl/checkJwt');
-jest.mock('../src/jobs/station_sync/mapping');
-const mocks = require('./mock.factories.js');
+import chai from 'chai';
 
-const farmExpenseTypeModel = require('../src/models/expenseTypeModel');
+import chaiHttp from 'chai-http';
+chai.use(chaiHttp);
+import server from './../src/server.js';
+import knex from '../src/util/knex.js';
+import { tableCleanup } from './testEnvironment.js';
+jest.mock('jsdom');
+jest.mock('../src/middleware/acl/checkJwt.js', () =>
+  jest.fn((req, res, next) => {
+    req.user = {};
+    req.user.user_id = req.get('user_id');
+    next();
+  }),
+);
+jest.mock('../src/jobs/station_sync/mapping.js');
+import mocks from './mock.factories.js';
+import farmExpenseTypeModel from '../src/models/expenseTypeModel.js';
 
 describe('Expense Type Tests', () => {
-  let middleware;
+  let token;
   let farm;
   let farm1;
   let newOwner;
@@ -121,12 +127,12 @@ describe('Expense Type Tests', () => {
     [farm1] = await mocks.farmFactory();
     [newOwner] = await mocks.usersFactory();
 
-    middleware = require('../src/middleware/acl/checkJwt');
-    middleware.mockImplementation((req, res, next) => {
-      req.user = {};
-      req.user.user_id = req.get('user_id');
-      next();
-    });
+    // middleware = require('../src/middleware/acl/checkJwt');
+    // middleware.mockImplementation((req, res, next) => {
+    //   req.user = {};
+    //   req.user.user_id = req.get('user_id');
+    //   next();
+    // });
   });
 
   afterAll(async (done) => {

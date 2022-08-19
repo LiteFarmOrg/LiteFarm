@@ -13,22 +13,31 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const chai = require('chai');
-const chaiHttp = require('chai-http');
+import chai from 'chai';
+
+import chaiHttp from 'chai-http';
 chai.use(chaiHttp);
-const server = require('./../src/server');
-const knex = require('../src/util/knex');
-const { tableCleanup } = require('./testEnvironment');
+import server from './../src/server.js';
+import knex from '../src/util/knex.js';
+import { tableCleanup } from './testEnvironment.js';
 jest.mock('jsdom');
-jest.mock('../src/middleware/acl/checkJwt');
-jest.mock('../src/templates/sendEmailTemplate');
+jest.mock('../src/middleware/acl/checkJwt.js', () =>
+  jest.fn((req, res, next) => {
+    req.user = {};
+    req.user.user_id = req.get('user_id');
+    next();
+  }),
+);
+jest.mock('../src/templates/sendEmailTemplate.js', () => ({
+  sendEmail: jest.fn(),
+  emails: { INVITATION: { path: 'invitation_to_farm_email' } },
+}));
 
-const mocks = require('./mock.factories.js');
-
-const supportTicketModel = require('../src/models/supportTicketModel');
+import mocks from './mock.factories.js';
+import supportTicketModel from '../src/models/supportTicketModel.js';
 
 describe('supportTicket Tests', () => {
-  let middleware;
+  let token;
   let owner;
   let farm;
   let ownerFarm;
@@ -63,12 +72,12 @@ describe('supportTicket Tests', () => {
       fakeUserFarm(1),
     );
 
-    middleware = require('../src/middleware/acl/checkJwt');
-    middleware.mockImplementation((req, res, next) => {
-      req.user = {};
-      req.user.user_id = req.get('user_id');
-      next();
-    });
+    // middleware = require('../src/middleware/acl/checkJwt');
+    // middleware.mockImplementation((req, res, next) => {
+    //   req.user = {};
+    //   req.user.user_id = req.get('user_id');
+    //   next();
+    // });
   });
 
   afterAll(async (done) => {

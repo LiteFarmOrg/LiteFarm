@@ -13,26 +13,34 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const chai = require('chai');
-const chaiHttp = require('chai-http');
-const moment = require('moment');
-const { faker } = require('@faker-js/faker');
+import chai from 'chai';
+
+import chaiHttp from 'chai-http';
+import moment from 'moment';
+import { faker } from '@faker-js/faker';
 chai.use(chaiHttp);
-const server = require('./../src/server');
-const knex = require('../src/util/knex');
-const { tableCleanup } = require('./testEnvironment');
+import server from './../src/server.js';
+import knex from '../src/util/knex.js';
+import { tableCleanup } from './testEnvironment.js';
 jest.mock('jsdom');
 jest.mock('bull');
-jest.mock('../src/middleware/acl/checkJwt');
-const {
-  recordAQuery,
-  getActiveManagementPlans,
-} = require('../src/controllers/organicCertifierSurveyController');
-const mocks = require('./mock.factories.js');
-const emailTemplate = require('../src/templates/sendEmailTemplate');
-jest.mock('../src/templates/sendEmailTemplate');
+jest.mock('../src/middleware/acl/checkJwt.js', () =>
+  jest.fn((req, res, next) => {
+    req.user = {};
+    req.user.user_id = req.get('user_id');
+    next();
+  }),
+);
+import organicCertifierSurveyController from '../src/controllers/organicCertifierSurveyController.js';
+const { recordAQuery, getActiveManagementPlans } = organicCertifierSurveyController;
+import mocks from './mock.factories.js';
+import * as emailTemplate from '../src/templates/sendEmailTemplate';
+jest.mock('../src/templates/sendEmailTemplate.js', () => ({
+  sendEmail: jest.fn(),
+  emails: { INVITATION: { path: 'invitation_to_farm_email' } },
+}));
 
-const organicCertifierSurveyModel = require('../src/models/organicCertifierSurveyModel');
+import organicCertifierSurveyModel from '../src/models/organicCertifierSurveyModel';
 
 describe('organic certification Tests', () => {
   let middleware;
@@ -41,14 +49,14 @@ describe('organic certification Tests', () => {
   let ownerFarm;
 
   beforeAll(() => {
-    middleware = require('../src/middleware/acl/checkJwt');
-    middleware.mockImplementation((req, res, next) => {
-      req.user = {};
-      req.user.user_id = req.get('user_id');
-      next();
-    });
-    email = require('../src/templates/sendEmailTemplate');
-    email.sendEmail.mockClear();
+    // middleware = require('../src/middleware/acl/checkJwt');
+    // middleware.mockImplementation((req, res, next) => {
+    //   req.user = {};
+    //   req.user.user_id = req.get('user_id');
+    //   next();
+    // });
+    // email = require('../src/templates/sendEmailTemplate');
+    emailTemplate.sendEmail.mockClear();
   });
 
   function postRequest(data, { user_id = owner.user_id, farm_id = farm.farm_id }, callback) {

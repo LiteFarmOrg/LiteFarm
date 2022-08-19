@@ -13,26 +13,31 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const chai = require('chai');
-const chaiHttp = require('chai-http');
-const moment = require('moment');
-const bcrypt = require('bcryptjs');
-chai.use(chaiHttp);
-const server = require('./../src/server');
-const { Model } = require('objection');
-const knex = Model.knex();
-const { tableCleanup } = require('./testEnvironment');
-jest.mock('jsdom');
-jest.mock('../src/middleware/acl/checkJwt');
-const mocks = require('./mock.factories.js');
+import chai from 'chai';
 
-const userModel = require('../src/models/userModel');
-const passwordModel = require('../src/models/passwordModel');
-const userFarmModel = require('../src/models/userFarmModel');
-const showedSpotlightModel = require('../src/models/showedSpotlightModel');
+import chaiHttp from 'chai-http';
+import moment from 'moment';
+import bcrypt from 'bcryptjs';
+chai.use(chaiHttp);
+import server from './../src/server.js';
+import knex from '../src/util/knex.js';
+import { tableCleanup } from './testEnvironment.js';
+jest.mock('jsdom');
+jest.mock('../src/middleware/acl/checkJwt.js', () =>
+  jest.fn((req, res, next) => {
+    req.user = {};
+    req.user.user_id = req.get('user_id');
+    next();
+  }),
+);
+import mocks from './mock.factories.js';
+import userModel from '../src/models/userModel.js';
+import passwordModel from '../src/models/passwordModel.js';
+import userFarmModel from '../src/models/userFarmModel.js';
+import showedSpotlightModel from '../src/models/showedSpotlightModel.js';
 
 describe('User Tests', () => {
-  let middleware;
+  let token;
   let owner;
   let farm;
   let ownerFarm;
@@ -129,12 +134,12 @@ describe('User Tests', () => {
       fakeUserFarm(1),
     );
 
-    middleware = require('../src/middleware/acl/checkJwt');
-    middleware.mockImplementation((req, res, next) => {
-      req.user = {};
-      req.user.user_id = req.get('user_id');
-      next();
-    });
+    // middleware = require('../src/middleware/acl/checkJwt');
+    // middleware.mockImplementation((req, res, next) => {
+    //   req.user = {};
+    //   req.user.user_id = req.get('user_id');
+    //   next();
+    // });
   });
 
   describe('Get && put user', () => {

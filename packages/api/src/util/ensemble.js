@@ -17,11 +17,10 @@ import axios from 'axios';
 
 import path from 'path';
 import * as dotenv from 'dotenv';
-const __filename = fileURLToPath(import.meta.url);
 
-const __dirname = path.dirname(__filename);
+const dir = path.dirname(fileURLToPath(import.meta.url));
 
-dotenv.config({ path: path.resolve(__dirname, '..', '..', '.env') });
+dotenv.config({ path: path.resolve(dir, '..', '..', '.env') });
 
 import FarmModel from '../models/farmModel.js';
 import FarmExternalIntegrationsModel from '../models/farmExternalIntegrationsModel.js';

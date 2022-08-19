@@ -18,7 +18,6 @@ import { Model } from 'objection';
 import baseModel from './baseModel.js';
 import { getNonModifiable } from '../middleware/validation/location.js';
 import figureModel from './figureModel.js';
-import fileModel from './fileModel.js';
 import gardenModel from './gardenModel.js';
 import barnModel from './barnModel.js';
 import bufferZoneModel from './bufferZoneModel.js';
@@ -35,6 +34,8 @@ import waterValveModel from './waterValveModel.js';
 import taskModel from './taskModel.js';
 import locationTasksModel from './locationTasksModel.js';
 import sensorModel from './sensorModel.js';
+import fieldModel from './fieldModel.js';
+import pinModel from './pinModel.js';
 
 class Location extends baseModel {
   static get tableName() {
@@ -76,7 +77,7 @@ class Location extends baseModel {
         },
       },
       field: {
-        modelClass: fileModel,
+        modelClass: fieldModel,
         relation: Model.HasOneRelation,
         join: {
           from: 'location.location_id',
@@ -180,7 +181,7 @@ class Location extends baseModel {
         },
       },
       pin: {
-        modelClass: require('./pinModel'),
+        modelClass: pinModel,
         relation: Model.HasOneRelation,
         join: {
           from: 'location.location_id',

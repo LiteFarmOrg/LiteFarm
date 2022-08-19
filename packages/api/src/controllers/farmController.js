@@ -19,7 +19,7 @@ import FarmModel from '../models/farmModel.js';
 import UserModel from '../models/userModel.js';
 import UserFarmModel from '../models/userFarmModel.js';
 import { transaction, Model } from 'objection';
-const knex = Model.knex();
+import knex from '../util/knex.js';
 import { Client } from '@googlemaps/google-maps-services-js';
 const client = new Client({});
 

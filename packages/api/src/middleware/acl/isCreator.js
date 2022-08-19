@@ -1,5 +1,4 @@
-import { Model } from 'objection';
-const knex = Model.knex();
+import knex from '../../util/knex.js';
 const entitiesGetters = {
   farm_expense_id: fromExpense,
   sale_id: fromSale,

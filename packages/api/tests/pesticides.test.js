@@ -13,21 +13,27 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const chai = require('chai');
-const chaiHttp = require('chai-http');
-const moment = require('moment');
-chai.use(chaiHttp);
-const server = require('./../src/server');
-const knex = require('../src/util/knex');
-jest.mock('jsdom');
-jest.mock('../src/middleware/acl/checkJwt');
-const mocks = require('./mock.factories.js');
-const { tableCleanup } = require('./testEnvironment');
+import chai from 'chai';
 
-const pesiticideModel = require('../src/models/pesiticideModel');
+import chaiHttp from 'chai-http';
+import moment from 'moment';
+chai.use(chaiHttp);
+import server from './../src/server.js';
+import knex from '../src/util/knex.js';
+jest.mock('jsdom');
+jest.mock('../src/middleware/acl/checkJwt.js', () =>
+  jest.fn((req, res, next) => {
+    req.user = {};
+    req.user.user_id = req.get('user_id');
+    next();
+  }),
+);
+import mocks from './mock.factories.js';
+import { tableCleanup } from './testEnvironment.js';
+import pesiticideModel from '../src/models/pesiticideModel.js';
 
 describe('Pesticide Tests', () => {
-  let middleware;
+  let token;
   let owner;
   let farm;
 
@@ -88,12 +94,12 @@ describe('Pesticide Tests', () => {
       fakeUserFarm(1),
     );
 
-    middleware = require('../src/middleware/acl/checkJwt');
-    middleware.mockImplementation((req, res, next) => {
-      req.user = {};
-      req.user.user_id = req.get('user_id');
-      next();
-    });
+    // middleware = require('../src/middleware/acl/checkJwt');
+    // middleware.mockImplementation((req, res, next) => {
+    //   req.user = {};
+    //   req.user.user_id = req.get('user_id');
+    //   next();
+    // });
   });
 
   afterAll(async (done) => {

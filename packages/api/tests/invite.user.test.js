@@ -1,31 +1,40 @@
-const chai = require('chai');
-const chaiHttp = require('chai-http');
-const moment = require('moment');
+import chai from 'chai';
+import chaiHttp from 'chai-http';
+import moment from 'moment';
 chai.use(chaiHttp);
-const server = require('./../src/server');
-const knex = require('../src/util/knex');
-const emailMiddleware = require('../src/templates/sendEmailTemplate');
+import server from './../src/server.js';
+import knex from '../src/util/knex.js';
+// import emailMiddleware from '../src/templates/sendEmailTemplate.js';
 jest.mock('jsdom');
 jest.mock('axios');
-jest.mock('../src/middleware/acl/checkJwt');
-jest.mock('../src/templates/sendEmailTemplate');
-const mocks = require('./mock.factories.js');
-const { tableCleanup } = require('./testEnvironment');
+jest.mock('../src/middleware/acl/checkJwt.js', () =>
+  jest.fn((req, res, next) => {
+    req.user = {};
+    req.user.user_id = req.get('user_id');
+    next();
+  }),
+);
+jest.mock('../src/templates/sendEmailTemplate.js', () => ({
+  sendEmail: jest.fn(),
+  emails: { INVITATION: { path: 'invitation_to_farm_email' } },
+}));
+import mocks from './mock.factories.js';
+import { tableCleanup } from './testEnvironment.js';
 
 describe('Invite user', () => {
-  let middleware;
+  let token;
   let email;
   let axios;
   beforeAll(() => {
-    middleware = require('../src/middleware/acl/checkJwt');
-    email = require('../src/templates/sendEmailTemplate');
-
-    middleware.mockImplementation((req, res, next) => {
-      req.user = {};
-      req.user.user_id = req.get('user_id');
-      next();
-    });
-    emailMiddleware.sendEmail.mockClear();
+    // middleware = require('../src/middleware/acl/checkJwt');
+    // email = require('../src/templates/sendEmailTemplate');
+    //
+    // middleware.mockImplementation((req, res, next) => {
+    //   req.user = {};
+    //   req.user.user_id = req.get('user_id');
+    //   next();
+    // });
+    // emailMiddleware.sendEmail.mockClear();
   });
 
   afterAll(async (done) => {

@@ -13,24 +13,24 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const NodeEnvironment = require('jest-environment-node');
-
-class TestEnvironment extends NodeEnvironment {
-  constructor(config) {
-    super(config);
-  }
-
-  async setup() {
-    await super.setup();
-  }
-  async teardown() {
-    await super.teardown();
-  }
-
-  runScript(script) {
-    return super.runScript(script);
-  }
-}
+// import NodeEnvironment from 'jest-environment-node';
+//
+// class TestEnvironment extends NodeEnvironment {
+//   constructor(config) {
+//     super(config);
+//   }
+//
+//   async setup() {
+//     await super.setup();
+//   }
+//   async teardown() {
+//     await super.teardown();
+//   }
+//
+//   runScript(script) {
+//     return super.runScript(script);
+//   }
+// }
 
 async function tableCleanup(knex) {
   await knex('farm')
@@ -126,4 +126,4 @@ async function tableCleanup(knex) {
   `);
 }
 
-module.exports = { TestEnvironment, tableCleanup };
+export { tableCleanup };

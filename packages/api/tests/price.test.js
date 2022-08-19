@@ -13,24 +13,31 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const chai = require('chai');
-const chaiHttp = require('chai-http');
-const moment = require('moment');
-chai.use(chaiHttp);
-const server = require('./../src/server');
-const knex = require('../src/util/knex');
-const { tableCleanup } = require('./testEnvironment');
-jest.mock('jsdom');
-jest.mock('../src/middleware/acl/checkJwt');
-jest.mock('../src/jobs/station_sync/mapping');
-const mocks = require('./mock.factories.js');
+import chai from 'chai';
 
-const priceModel = require('../src/models/priceModel');
+import chaiHttp from 'chai-http';
+import moment from 'moment';
+chai.use(chaiHttp);
+import server from './../src/server.js';
+import knex from '../src/util/knex.js';
+import { tableCleanup } from './testEnvironment.js';
+jest.mock('jsdom');
+jest.mock('../src/middleware/acl/checkJwt.js', () =>
+  jest.fn((req, res, next) => {
+    req.user = {};
+    req.user.user_id = req.get('user_id');
+    next();
+  }),
+);
+jest.mock('../src/jobs/station_sync/mapping.js');
+import mocks from './mock.factories.js';
+import priceModel from '../src/models/priceModel';
 
 describe('Price Tests', () => {
-  let middleware;
+  let token;
   let farm;
   let newOwner;
+  let crop;
 
   beforeAll(() => {
     token = global.token;
@@ -119,12 +126,12 @@ describe('Price Tests', () => {
     [newOwner] = await mocks.usersFactory();
     [crop] = await mocks.cropFactory({ promisedFarm: [farm] });
 
-    middleware = require('../src/middleware/acl/checkJwt');
-    middleware.mockImplementation((req, res, next) => {
-      req.user = {};
-      req.user.user_id = req.get('user_id');
-      next();
-    });
+    // middleware = require('../src/middleware/acl/checkJwt');
+    // middleware.mockImplementation((req, res, next) => {
+    //   req.user = {};
+    //   req.user.user_id = req.get('user_id');
+    //   next();
+    // });
   });
 
   afterAll(async (done) => {

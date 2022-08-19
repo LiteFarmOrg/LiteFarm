@@ -13,36 +13,42 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const chai = require('chai');
-const chaiHttp = require('chai-http');
-chai.use(chaiHttp);
-const server = require('./../src/server');
-const knex = require('../src/util/knex');
-jest.mock('jsdom');
-jest.mock('../src/middleware/acl/checkJwt');
-const mocks = require('./mock.factories.js');
-const { tableCleanup } = require('./testEnvironment');
+import chai from 'chai';
 
-const fertilizerLogModel = require('../src/models/soilAmendmentTaskModel');
-const pestControlLogModel = require('../src/models/pestControlTask');
-const scoutingLogModel = require('../src/models/scoutingTaskModel');
-const irrigationLogModel = require('../src/models/irrigationTaskModel');
-const fieldWorkLogModel = require('../src/models/fieldWorkTaskModel');
-const soilDataLogModel = require('../src/models/soilTaskModel');
-const seedLogModel = require('../src/models/plantTaskModel');
-const harvestLogModel = require('../src/models/harvestTaskModel');
-const activityLogModel = require('../src/models/taskModel');
-const activityFieldsModel = require('../src/models/locationTasksModel');
-const activityCropsModel = require('../src/models/managementTasksModel');
-const fertilizerModel = require('../src/models/fertilizerModel');
-const fieldModel = require('../src/models/fieldModel');
-const managementPlanModel = require('../src/models/managementPlanModel');
-const pesticideModel = require('../src/models/pesiticideModel');
-const diseaseModel = require('../src/models/diseaseModel');
-const harvestUseModel = require('../src/models/harvestUseModel');
+import chaiHttp from 'chai-http';
+chai.use(chaiHttp);
+import server from './../src/server.js';
+import knex from '../src/util/knex.js';
+jest.mock('jsdom');
+jest.mock('../src/middleware/acl/checkJwt.js', () =>
+  jest.fn((req, res, next) => {
+    req.user = {};
+    req.user.user_id = req.get('user_id');
+    next();
+  }),
+);
+import mocks from './mock.factories.js';
+import { tableCleanup } from './testEnvironment.js';
+import fertilizerLogModel from '../src/models/soilAmendmentTaskModel.js';
+import pestControlLogModel from '../src/models/pestControlTask.js';
+import scoutingLogModel from '../src/models/scoutingTaskModel.js';
+import irrigationLogModel from '../src/models/irrigationTaskModel.js';
+import fieldWorkLogModel from '../src/models/fieldWorkTaskModel.js';
+import soilDataLogModel from '../src/models/soilTaskModel.js';
+import seedLogModel from '../src/models/plantTaskModel.js';
+import harvestLogModel from '../src/models/harvestTaskModel.js';
+import activityLogModel from '../src/models/taskModel.js';
+import activityFieldsModel from '../src/models/locationTasksModel.js';
+import activityCropsModel from '../src/models/managementTasksModel.js';
+import fertilizerModel from '../src/models/fertilizerModel.js';
+import fieldModel from '../src/models/fieldModel.js';
+import managementPlanModel from '../src/models/managementPlanModel.js';
+import pesticideModel from '../src/models/pesiticideModel.js';
+import diseaseModel from '../src/models/diseaseModel.js';
+import harvestUseModel from '../src/models/harvestUseModel.js';
 
 xdescribe('Log Tests', () => {
-  let middleware;
+  let token;
   let owner;
   let farm;
 
@@ -148,12 +154,12 @@ xdescribe('Log Tests', () => {
       fakeUserFarm(1),
     );
 
-    middleware = require('../src/middleware/acl/checkJwt');
-    middleware.mockImplementation((req, res, next) => {
-      req.user = {};
-      req.user.user_id = req.get('user_id');
-      next();
-    });
+    // middleware = require('../src/middleware/acl/checkJwt');
+    // middleware.mockImplementation((req, res, next) => {
+    //   req.user = {};
+    //   req.user.user_id = req.get('user_id');
+    //   next();
+    // });
   });
 
   afterAll(async (done) => {

@@ -13,22 +13,28 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const chai = require('chai');
-const chaiHttp = require('chai-http');
+import chai from 'chai';
+
+import chaiHttp from 'chai-http';
 chai.use(chaiHttp);
-const server = require('./../src/server');
-const knex = require('../src/util/knex');
-const { tableCleanup } = require('./testEnvironment');
-let { usersFactory, farmFactory, userFarmFactory } = require('./mock.factories.js');
-const farmModel = require('../src/models/farmModel');
-const { mock } = require('sinon');
-const mocks = require('./mock.factories.js');
-let checkJwt;
+import server from './../src/server.js';
+import knex from '../src/util/knex.js';
+import { tableCleanup } from './testEnvironment.js';
+import mockFactories from './mock.factories.js';
+const { usersFactory, farmFactory, userFarmFactory } = mockFactories;
+import farmModel from '../src/models/farmModel.js';
+import mocks from './mock.factories.js';
 jest.mock('jsdom');
-jest.mock('../src/middleware/acl/checkJwt');
+jest.mock('../src/middleware/acl/checkJwt.js', () =>
+  jest.fn((req, res, next) => {
+    req.user = {};
+    req.user.user_id = req.get('user_id');
+    next();
+  }),
+);
 
 describe('Farm Tests', () => {
-  let middleware;
+  let token;
   let newUser;
   beforeAll(() => {
     // beforeAll is set before each test
@@ -38,12 +44,12 @@ describe('Farm Tests', () => {
 
   beforeEach(async () => {
     [newUser] = await usersFactory();
-    middleware = require('../src/middleware/acl/checkJwt');
-    middleware.mockImplementation((req, res, next) => {
-      req.user = {};
-      req.user.user_id = newUser.user_id;
-      next();
-    });
+    // middleware = require('../src/middleware/acl/checkJwt');
+    // middleware.mockImplementation((req, res, next) => {
+    //   req.user = {};
+    //   req.user.user_id = newUser.user_id;
+    //   next();
+    // });
   });
 
   afterAll(async (done) => {
@@ -81,14 +87,15 @@ describe('Farm Tests', () => {
     };
 
     test('should return 400 status if blank farm is posted', (done) => {
-      postFarmRequest(blankFarm, (err, res) => {
+      postFarmRequest(blankFarm, newUser.user_id, (err, res) => {
         expect(res.status).toBe(400);
         done();
       });
     });
 
     test('should return 400 status if only farm name is filled', (done) => {
-      postFarmRequest({ ...blankFarm, farm_name: 'Test Farm' }, (err, res) => {
+      postFarmRequest({ ...blankFarm, farm_name: 'Test Farm' }, newUser.user_id, (err, res) => {
+        newUser.user_id;
         expect(res.status).toBe(400);
         done();
       });
@@ -103,6 +110,7 @@ describe('Farm Tests', () => {
           grid_points: { lat: 'sa', long: '212' },
           country: 'Canada',
         },
+        newUser.user_id,
         (err, res) => {
           expect(res.status).toBe(400);
           done();
@@ -110,8 +118,14 @@ describe('Farm Tests', () => {
       );
     });
 
-    test('should successfully create a farm if valid data is provided', (done) => {
-      postFarmRequest(validFarm, (err, res) => {
+    test('should successfully create a farm if valid data is provided', async (done) => {
+      const [user] = await usersFactory();
+      const [farm] = await farmFactory();
+      await userFarmFactory(
+        { promisedUser: [user], promisedFarm: [farm] },
+        { role_id: 1, status: 'Active' },
+      );
+      postFarmRequest(validFarm, user.user_id, (err, res) => {
         expect(res.status).toBe(201);
         const farm = res.body;
         expect(farm.units.currency).toBe('USD');
@@ -120,11 +134,17 @@ describe('Farm Tests', () => {
       });
     });
 
-    test('should retrieve a recently created farm', (done) => {
-      postFarmRequest(validFarm, (err, res) => {
+    test('should retrieve a recently created farm', async (done) => {
+      const [user] = await usersFactory();
+      const [farm] = await farmFactory();
+      await userFarmFactory(
+        { promisedUser: [user], promisedFarm: [farm] },
+        { role_id: 1, status: 'Active' },
+      );
+      postFarmRequest(validFarm, user.user_id, (err, res) => {
         expect(res.status).toBe(201);
         const farmId = res.body.farm_id;
-        getFarmRequest(farmId, (err, innerRes) => {
+        getFarmRequest(farmId, user.user_id, (err, innerRes) => {
           expect(innerRes.status).toBe(200);
           const [receivedFarm] = innerRes.body;
           expect(receivedFarm.farm_id).toBe(farmId);
@@ -133,13 +153,20 @@ describe('Farm Tests', () => {
       });
     });
 
-    test('should retrieve a recently created farm with units and currency', (done) => {
+    test('should retrieve a recently created farm with units and currency', async (done) => {
+      const [user] = await usersFactory();
+      const [farm] = await farmFactory();
+      await userFarmFactory(
+        { promisedUser: [user], promisedFarm: [farm] },
+        { role_id: 1, status: 'Active' },
+      );
       postFarmRequest(
         { ...validFarm, units: { measurement: 'imperial', currency: 'MXN' } },
+        user.user_id,
         (err, res) => {
           expect(res.status).toBe(201);
           const farmId = res.body.farm_id;
-          getFarmRequest(farmId, (err, innerRes) => {
+          getFarmRequest(farmId, user.user_id, (err, innerRes) => {
             expect(innerRes.status).toBe(200);
             const [receivedFarm] = innerRes.body;
             expect(receivedFarm.farm_id).toBe(farmId);
@@ -282,6 +309,7 @@ describe('Farm Tests', () => {
       patchDefaultLocationRequest(
         farm.farm_id,
         { default_initial_location_id: field.location_id },
+        newUser.user_id,
         async (err, res) => {
           expect(res.status).toBe(200);
           expect(res.body.default_initial_location_id).toBe(field.location_id);
@@ -299,6 +327,7 @@ describe('Farm Tests', () => {
       patchDefaultLocationRequest(
         farm.farm_id,
         { default_initial_location_id: field.location_id },
+        newUser.user_id,
         async (err, res) => {
           expect(res.status).toBe(403);
           done();
@@ -308,17 +337,18 @@ describe('Farm Tests', () => {
   });
 });
 
-function postFarmRequest(data, callback) {
+function postFarmRequest(data, user, callback) {
   chai
     .request(server)
     .post('/farm')
     .set('Content-Type', 'application/json')
+    .set('user_id', user ?? '')
     .send(data)
     .end(callback);
 }
 
-function getFarmRequest(id, callback) {
-  chai.request(server).get(`/farm/${id}`).end(callback);
+function getFarmRequest(id, user, callback) {
+  chai.request(server).get(`/farm/${id}`).set('user_id', user).end(callback);
 }
 
 function putFarmRequest(data, user, callback) {
@@ -348,12 +378,13 @@ function minimalDeleteRequest(farmId) {
   return chai.request(server).delete(`/farm/${farmId}`);
 }
 
-function patchDefaultLocationRequest(farm_id, data, callback) {
+function patchDefaultLocationRequest(farm_id, data, user, callback) {
   chai
     .request(server)
     .patch(`/farm/${farm_id}/default_initial_location`)
     .set('Content-Type', 'application/json')
     .set('farm_id', farm_id)
+    .set('user_id', user)
     .send(data)
     .end(callback);
 }

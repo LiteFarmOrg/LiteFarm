@@ -23,9 +23,8 @@ import ManagementPlanModel from '../models/managementPlanModel.js';
 import LocationModel from '../models/locationModel.js';
 import DocumentModel from '../models/documentModel.js';
 import Queue from 'bull';
-import { Model } from 'objection';
 import { v4 as uuidv4 } from 'uuid';
-const knex = Model.knex();
+import knex from '../util/knex.js';
 const redisConf = {
   redis: {
     host: process.env.REDIS_HOST,

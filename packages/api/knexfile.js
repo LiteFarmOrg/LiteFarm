@@ -21,7 +21,7 @@ import { fileURLToPath } from 'url';
 
 const dir = path.dirname(fileURLToPath(import.meta.url));
 
-dotenv.config(/*{ path: path.resolve(__dirname, '.env') }*/);
+dotenv.config({ path: path.resolve(dir, '.env') });
 
 export default {
   development: {
@@ -73,7 +73,6 @@ export default {
       directory: dir + '/db/seeds',
     },
   },
-
   production: {
     client: 'postgresql',
     debug: true,

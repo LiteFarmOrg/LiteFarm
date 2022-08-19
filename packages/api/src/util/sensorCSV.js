@@ -13,6 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
+// Sensor bulk upload error translation keys
 const sensorErrors = {
   FILE_ROW_LIMIT_EXCEEDED: 'FARM_MAP.BULK_UPLOAD_SENSORS.VALIDATION.FILE_ROW_LIMIT_EXCEEDED',
   MISSING_COLUMNS: 'FARM_MAP.BULK_UPLOAD_SENSORS.VALIDATION.MISSING_COLUMNS',
@@ -98,6 +99,7 @@ const sensorCsvValidators = [
   },
 ];
 
+// Returns a mapping in the following format { translated_header: index_of_validator }
 const getSensorCsvHeaderMapping = (lang) => {
   const mapping = {};
   sensorCsvValidators.forEach((validator, index) => {
@@ -106,6 +108,7 @@ const getSensorCsvHeaderMapping = (lang) => {
   return mapping;
 };
 
+// Returns the readable values to save in the database based on the given translated reading types
 const getReadableValuesForReadingTypes = (lang, readingTypes) => {
   const translationEntries = Object.entries(sensorCsvTranslations[lang].READING_TYPES);
   return readingTypes.map((rt) => {

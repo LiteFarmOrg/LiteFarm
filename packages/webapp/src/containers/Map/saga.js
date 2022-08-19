@@ -219,7 +219,7 @@ export function* getAllSensorReadingTypesSaga() {
   const header = getHeader(user_id, farm_id);
   try {
     yield put(onLoadingSensorReadingTypesStart());
-    const result = yield call(axios.get, `${sensorUrl}/${farm_id}/reading_types`, header);
+    const result = yield call(axios.get, `${sensorUrl}/${farm_id}/reading_type`, header);
     if (result.status === 200) {
       yield put(getSensorReadingTypesSuccess(result.data));
     } else {

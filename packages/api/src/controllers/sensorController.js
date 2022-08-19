@@ -46,6 +46,28 @@ const sensorController = {
       res.status(404).send('Sensor not found');
     }
   },
+  async getAllSensorReadingTypes(req, res) {
+    const { farm_id } = req.params;
+    try {
+      const allSensorReadingTypesResponse = await SensorModel.getAllSensorReadingTypes(farm_id);
+      const allReadingTypesObject = allSensorReadingTypesResponse.rows.reduce((obj, item) => {
+        if (item.location_id in obj) {
+          obj[item.location_id].push(item.readable_value);
+        } else {
+          obj[item.location_id] = [item.readable_value];
+        }
+        return obj;
+      }, {});
+      const allReadingTypes = Object.keys(allReadingTypesObject).map(key => {
+        return {
+          location_id: key, reading_types: allReadingTypesObject[key],
+        }
+      });
+      res.status(200).send(allReadingTypes);
+    } catch (error) {
+      res.status(404).send('No sensors found');
+    }
+  },
   async getBrandName(req, res) {
     try {
       const { partner_id } = req.params;

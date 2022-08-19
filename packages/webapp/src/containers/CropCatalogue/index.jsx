@@ -81,7 +81,6 @@ export default function CropCatalogue({ history }) {
     history.push('/crop/new');
   };
   const resetFilter = () => dispatch(resetCropCatalogueFilter());
-
   return (
     <Layout classes={{ container: { backgroundColor: 'white' } }}>
       <PageTitle title={t('CROP_CATALOGUE.CROP_CATALOGUE')} style={{ paddingBottom: '20px' }} />

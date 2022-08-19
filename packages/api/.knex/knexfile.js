@@ -15,15 +15,14 @@
 // import path from 'path';
 // import { fileURLToPath } from 'url';
 
-import * as dotenv from 'dotenv';
-import path from 'path';
-import { fileURLToPath } from 'url';
+const dotenv = require('dotenv');
+const path = require('path');
 
-const dir = path.dirname(fileURLToPath(import.meta.url));
+dotenv.config({ path: path.resolve(__dirname, '../.env') });
 
-dotenv.config({ path: path.resolve(dir, '.env') });
+const root = path.resolve(__dirname, '../');
 
-export default {
+module.exports = {
   development: {
     client: 'postgresql',
     connection: {
@@ -33,10 +32,10 @@ export default {
       password: process.env.DEV_DATABASE_PASSWORD,
     },
     migrations: {
-      directory: dir + '/db/migration',
+      directory: root + '/db/migration',
     },
     seeds: {
-      directory: dir + '/db/seeds',
+      directory: root + '/db/seeds',
     },
   },
 
@@ -49,10 +48,10 @@ export default {
       password: 'postgres',
     },
     migrations: {
-      directory: dir + '/db/migration',
+      directory: root + '/db/migration',
     },
     seeds: {
-      directory: dir + '/db/seeds',
+      directory: root + '/db/seeds',
     },
   },
 
@@ -67,21 +66,22 @@ export default {
       ssl: { rejectUnauthorized: false },
     },
     migrations: {
-      directory: dir + '/db/migration',
+      directory: root + '/db/migration',
     },
     seeds: {
-      directory: dir + '/db/seeds',
+      directory: root + '/db/seeds',
     },
   },
+
   production: {
     client: 'postgresql',
     debug: true,
     connection: process.env.DATABASE_URL,
     migrations: {
-      directory: dir + '/db/migration',
+      directory: root + '/db/migration',
     },
     seeds: {
-      directory: dir + '/db/seeds',
+      directory: root + '/db/seeds',
     },
     ssl: {
       rejectUnauthorized: false,
@@ -97,10 +97,10 @@ export default {
     },
     pool: { min: 0, max: 100 },
     migrations: {
-      directory: dir + '/db/migration',
+      directory: root + '/db/migration',
     },
     seeds: {
-      directory: dir + '/db/seeds',
+      directory: root + '/db/seeds',
     },
   },
   pipeline: {
@@ -114,10 +114,10 @@ export default {
     },
     pool: { min: 0, max: 100 },
     migrations: {
-      directory: dir + '/db/migration',
+      directory: root + '/db/migration',
     },
     seeds: {
-      directory: dir + '/db/seeds',
+      directory: root + '/db/seeds',
     },
   },
 };

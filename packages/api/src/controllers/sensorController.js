@@ -111,11 +111,11 @@ const sensorController = {
               'soil_water_potential',
               'temperature',
             ];
-            val.forEach((readingType) => {
+            for (const readingType of val) {
               if (!allowedReadingTypes.includes(readingType)) {
                 return false;
               }
-            });
+            }
             return true;
           },
           required: true,
@@ -667,6 +667,7 @@ const parseCsvString = (csvString, mapping, delimiter = ',') => {
               row: rowIndex + 2,
               column: current,
               translation_key: mapping[current].errorTranslationKey,
+              variables: { [mapping[current].key]: val },
             });
           }
         }

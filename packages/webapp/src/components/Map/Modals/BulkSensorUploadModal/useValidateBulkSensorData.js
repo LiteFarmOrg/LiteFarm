@@ -120,13 +120,14 @@ export function useValidateBulkSensorData(onUpload, t) {
       };
       sheetErrorResponse.errors = validationErrorsResponseList.reduce((acc, validationError) => {
         acc.push({
-          column: validationError?.errorColumn ?? '',
-          errorMessage: '',
-          row: validationError?.line ?? '',
-          value: '',
+          column: validationError?.column ?? '',
+          errorMessage: t(validationError?.translation_key) ?? '',
+          row: validationError?.row ?? '',
+          value: validationError?.errorMessage ?? '',
         });
         return acc;
       }, []);
+      setErrorCount(sheetErrorResponse?.errors?.length);
       setSheetErrors([sheetErrorResponse]);
     }
   }, [bulkSensorsUploadResponse?.validationErrors]);

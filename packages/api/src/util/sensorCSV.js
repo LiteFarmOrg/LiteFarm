@@ -78,8 +78,8 @@ const sensorCsvValidators = [
   },
   {
     key: 'depth',
-    parse: (val) => parseFloat(val),
-    validate: (val) => 0 <= val && val <= 1000,
+    parse: (val) => parseFloat(val) / 100, // val is in cm, so divide by 100 to get val in m,
+    validate: (val) => 0 <= val && val <= 10,
     required: false,
     errorTranslationKey: sensorErrors.SENSOR_DEPTH,
   },

@@ -42,7 +42,7 @@ const sensorCsvValidators = [
   {
     key: 'external_id',
     parse: (val) => val.trim(),
-    validate: (val) => val.length <= 20,
+    validate: (val) => val.length <= 40,
     required: false,
     errorTranslationKey: sensorErrors.EXTERNAL_ID,
   },
@@ -221,7 +221,13 @@ const parseSensorCsv = (csvString, userLang, delimiter = ',') => {
   const allowedHeaders = sensorCsvValidators.map(
     (v) => sensorCsvTranslations[userLang].HEADERS[v.key],
   );
-  const dataRows = rows.slice(1);
+
+  // get all rows except the header and filter out any empty rows
+  const dataRows = rows.slice(1).filter((d) => !/^(,? ?\t?)+$/.test(d));
+
+  // Set to keep track of the unique keys of sensors - used to make sure only one sensor is uploaded
+  // if duplicates are in the file
+  const validSensorKeys = new Set();
 
   const headerMapping = getSensorCsvHeaderMapping(userLang);
 
@@ -243,10 +249,15 @@ const parseSensorCsv = (csvString, userLang, delimiter = ',') => {
               row: rowIndex + 2,
               column: current,
               translation_key: currentValidator.errorTranslationKey,
+              variables: { [currentValidator.key]: val },
             });
           }
         }
-        return previousObj;
+        const sensorKey = generateSensorKey(parsedRow);
+        if (!validSensorKeys.has(sensorKey)) {
+          previous.data.push(parsedRow);
+          validSensorKeys.add(sensorKey);
+        }
       }, {});
       previous.data.push(parsedRow);
       return previous;
@@ -255,6 +266,10 @@ const parseSensorCsv = (csvString, userLang, delimiter = ',') => {
   );
 
   return { data, errors };
+};
+
+const generateSensorKey = (sensor) => {
+  return `${sensor.brand ?? ''}:${sensor.external_id ?? ''}`;
 };
 
 module.exports = {

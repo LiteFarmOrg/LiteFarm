@@ -30,10 +30,11 @@ const index = {
     return { tempUnit: '', speedUnit: '' };
   },
   formatDate(lang, dte) {
-    if (dte && moment(dte).isValid()) {
-      return moment.unix(dte).locale(lang).format('ddd D MMMM');
-    }
-    return '';
+    return new Date(dte * 1000).toLocaleDateString(lang, {
+      weekday: 'short',
+      day: 'numeric',
+      month: 'long',
+    });
   },
 };
 

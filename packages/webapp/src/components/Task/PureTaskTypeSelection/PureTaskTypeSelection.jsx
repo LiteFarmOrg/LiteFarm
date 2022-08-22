@@ -132,6 +132,7 @@ export const PureTaskTypeSelection = ({
               const { task_translation_key, task_type_id, farm_id } = taskType;
               return (
                 <div
+                  data-cy="task-selection"
                   onClick={() => {
                     onTileClick(taskType);
                   }}

@@ -15,8 +15,68 @@ describe.only('Tasks flow tests', () => {
   });
 
   it('farm worker tasks flow tests', () => {
+    //create test data
+    let count = 0;
+    let emailOwner;
+    let emailUser;
+
+    const farmerName = 'Frank Phiri';
+    const gender = 'Male';
+    const firstName = 'john';
+    const lastName = 'Smith';
+    const password = `${userPassword}+1@`;
+    const farmName = 'UBC FARM';
+    const location = '49.250833,-123.2410777';
+    const fieldName = 'Test Field';
+    let workerName;
+    const testCrop = 'New Crop';
+    const role = 'Manager';
+    const inviteeRole = 'Farm Worker';
+
+    //worker details
+    const language = ['English', 'French', 'Portuguese', 'Spanish'];
+    const wage = 12;
+    const number = 120012432;
+    const birthYear = 1987;
+
     cy.visit('/');
-    cy.loginFarmWorker();
+    let usrname = userEmail.indexOf('@');
+    emailOwner = userEmail.slice(0, usrname) + '+' + 1 + userEmail.slice(usrname);
+    emailUser = null;
+    workerName = firstName + ' ' + lastName;
+
+    //Login as a new user
+    cy.newUserLogin(emailOwner);
+
+    //create account
+
+    cy.createAccount(emailOwner, farmerName, gender, null, null, password);
+
+    cy.wait(2000);
+    //Get Started page
+    cy.getStarted();
+
+    //Add farm page
+    cy.addFarm(farmName, location);
+
+    //role selection page
+    cy.roleSelection(role);
+
+    //Consent page
+    cy.giveConsent();
+
+    //interested in organic
+    cy.interestedInOrganic();
+
+    //who is your certifier(select BCARA)
+    cy.selectCertifier();
+
+    //onboarding outro
+    cy.onboardingOutro();
+
+    //farm home page
+    cy.homePageSpotlights();
+
     cy.get('[data-cy=home-taskButton]').should('exist').and('not.be.disabled').click();
     cy.url().should('include', '/tasks');
     cy.get('[data-cy=pill-close]').should('exist').and('not.be.disabled').click();
@@ -54,7 +114,7 @@ describe.only('Tasks flow tests', () => {
     //Task specific data should exist(e.g. cleaning agent and estimated water usage for a cleaning task)
   });
 
-  it.only('Farm owner tasks flow tests', () => {
+  it.only('Farm owner create tasks flow tests', () => {
     //Test for Lf-2314
     let emailOwner;
     let emailUser;
@@ -90,31 +150,120 @@ describe.only('Tasks flow tests', () => {
     //create account
 
     cy.createAccount(emailOwner, farmerName, gender, null, null, password);
+    cy.wait(2000);
+    //Get Started page
+    cy.getStarted();
+
+    //Add farm page
+    cy.addFarm(farmName, location);
+
+    //role selection page
+    cy.roleSelection(role);
+
+    //Consent page
+    cy.giveConsent();
+
+    //interested in organic
+    cy.interestedInOrganic();
+
+    //who is your certifier(select BCARA)
+    cy.selectCertifier();
+
+    //onboarding outro
+    cy.onboardingOutro();
+
+    //farm home page
+    cy.homePageSpotlights();
+
+    //arrive at farm map page and draw a field
+    cy.url().should('include', '/map');
+    cy.get('[data-cy=spotlight-next]')
+      .contains('Next')
+      .should('exist')
+      .and('not.be.disabled')
+      .click();
+    cy.get('[data-cy=spotlight-next]')
+      .contains('Next')
+      .should('exist')
+      .and('not.be.disabled')
+      .click();
+    cy.get('[data-cy=spotlight-next]')
+      .contains('Got it')
+      .should('exist')
+      .and('not.be.disabled')
+      .click();
+    cy.get('[data-cy=map-addFeature]').should('exist').and('not.be.disabled').click();
+    cy.get('[data-cy=map-drawer]').contains('Field').should('exist').and('not.be.disabled').click();
+    cy.get('[data-cy=mapTutorial-continue]')
+      .contains('Got it')
+      .should('exist')
+      .and('not.be.disabled')
+      .click();
+
+    let initialWidth;
+    let initialHeight;
+
+    cy.waitForGoogleApi().then(() => {
+      // here comes the code to execute after loading the google Apis
+
+      cy.get('[data-cy=map-mapContainer]').then(($canvas) => {
+        initialWidth = $canvas.width();
+        initialHeight = $canvas.height();
+      });
+      cy.wait(1000);
+      cy.get('[data-cy=map-mapContainer]').click(558, 344);
+      cy.wait(500);
+      cy.get('[data-cy=map-mapContainer]').click(570, 321);
+      cy.wait(500);
+      cy.get('[data-cy=map-mapContainer]').click(631, 355);
+      cy.wait(500);
+      cy.get('[data-cy=map-mapContainer]').click(605, 374);
+      cy.wait(500);
+      cy.get('[data-cy=map-mapContainer]').click(558, 344);
+      cy.get('[data-cy=mapTutorial-continue]')
+        .contains('Got it')
+        .should('exist')
+        .and('not.be.disabled')
+        .click();
+      cy.get('[data-cy=map-drawCompleteContinue]')
+        .contains('Confirm')
+        .should('exist')
+        .and('not.be.disabled')
+        .click();
+    });
+
+    cy.get('[data-cy=createField-fieldName]').should('exist').type(fieldName);
+    cy.get('[data-cy=createField-save]').should('exist').and('not.be.disabled').click();
+    cy.wait(2000);
 
     cy.get('[data-cy=home-taskButton]').should('exist').and('not.be.disabled').click();
+    cy.contains('Create').should('exist').and('not.be.disabled').click({ force: true });
 
-    cy.createTask();
-    cy.createTask();
+    cy.get('[data-cy=task-selection]').each((element, index, list) => {
+      // Returns the current li element
+      expect(Cypress.$(element)).to.be.visible;
 
-    //assign all unassigned tasks on date to selected user
-    cy.url().should('include', '/tasks');
-    cy.get('[data-cy=pill-close]').should('exist').and('not.be.disabled').click();
-    cy.contains('Unassigned').last().should('exist').and('not.be.disabled').click({ force: true });
-    cy.get('[data-cy=quickAssign-assignAll]').should('exist').check({ force: true });
-    cy.get('[data-cy=quickAssign-update]').should('exist').and('not.be.disabled').click();
-    cy.contains('Tasks').should('exist');
+      // Returns the index of the loop
+      expect(index).to.be.greaterThan(-1);
 
-    //clicking on a task should open the read_only view for said task (test for LF-2374)
-    //cy.url().should('include', '/read_only');
+      // Returns the elements from the cy.get command
+      expect(list).to.have.length(7);
 
-    //Assignee input should exist and should be.disabled, there should be a pencil next to the input and
-    //the quick assign modal should appear on click (test for LF-2374)
+      const text = element.text();
 
-    //Due date input should exist and be disabledhere should be a pencil next to the input and
-    //the quick assign modal should appear on click (test for LF-2374)
+      if (text == 'Clean') {
+        cy.get('[data-cy=task-selection]').eq(index).click();
+        cy.createACleaningTask();
 
-    //locations map should exist and display here said task will be carried out
-    //Task specific data should exist(e.g. cleaning agent and estimated water usage for a cleaning task)
+        //assign all unassigned tasks on date to selected user
+        cy.url().should('include', '/tasks');
+        // cy.get('[data-cy=pill-close]').should('exist').and('not.be.disabled').click();
+        // cy.contains('Unassigned').last().should('exist').and('not.be.disabled').click({ force: true });
+        // cy.get('[data-cy=quickAssign-assignAll]').should('exist').check({ force: true });
+        // cy.get('[data-cy=quickAssign-update]').should('exist').and('not.be.disabled').click();
+        // cy.contains('Tasks').should('exist');
+      }
+    });
   });
 
   it('Admin user must be able to complete tasks on behalf pseudo users', () => {

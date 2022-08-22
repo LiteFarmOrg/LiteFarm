@@ -134,10 +134,8 @@ Cypress.Commands.add('createUserGenderOptions', () => {
   cy.get('#react-select-2-listbox');
 });
 
-Cypress.Commands.add('createTask', () => {
+Cypress.Commands.add('createACleaningTask', () => {
   //Create an unassigned cleaning task due tomorrow
-  cy.contains('Create').should('exist').and('not.be.disabled').click({ force: true });
-  cy.contains('Clean').should('exist').and('not.be.disabled').click({ force: true });
 
   const date = new Date();
   date.setDate(date.getDate() + 1);
@@ -154,10 +152,6 @@ Cypress.Commands.add('createTask', () => {
     force: false,
   });
   cy.get('[data-cy=addTask-locationContinue]')
-    .should('exist')
-    .and('not.be.disabled')
-    .click({ force: true });
-  cy.get('[data-cy=addTask-cropsContinue]')
     .should('exist')
     .and('not.be.disabled')
     .click({ force: true });

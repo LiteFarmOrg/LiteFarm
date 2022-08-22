@@ -127,7 +127,7 @@ describe.only('Invite user tests', () => {
       .should('equal', wage);
   });
 
-  it('Invite farm worker', () => {
+  it.only('Invite farm worker', () => {
     //create test data
     let count = 0;
     let emailOwner;
@@ -301,7 +301,7 @@ describe.only('Invite user tests', () => {
     });
   });
 
-  it.only('Invite farm manager', () => {
+  it('Invite farm manager', () => {
     //create test data
     let count = 0;
     let emailOwner;

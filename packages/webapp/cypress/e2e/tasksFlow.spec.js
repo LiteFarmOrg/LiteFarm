@@ -1,8 +1,17 @@
 import { getDateInputFormat } from '../../src/util/moment';
 
 describe.only('Tasks flow tests', () => {
+  let userEmail;
+  let userPassword;
+
   before(() => {
-    //Ensure test environment is setup(i.e. farm exists, user accounts exist, tasks exist)
+    cy.getEmail().then((email) => {
+      userEmail = email;
+    });
+
+    cy.getPassword().then((password) => {
+      userPassword = password;
+    });
   });
 
   it('farm worker tasks flow tests', () => {
@@ -45,11 +54,43 @@ describe.only('Tasks flow tests', () => {
     //Task specific data should exist(e.g. cleaning agent and estimated water usage for a cleaning task)
   });
 
-  it('admin user tasks flow tests', () => {
+  it.only('Farm owner tasks flow tests', () => {
     //Test for Lf-2314
+    let emailOwner;
+    let emailUser;
+
+    const farmerName = 'Frank Phiri';
+    const gender = 'Male';
+    const firstName = 'john';
+    const lastName = 'Smith';
+    const password = `${userPassword}+1@`;
+    const farmName = 'UBC FARM';
+    const location = '49.250833,-123.2410777';
+    const fieldName = 'Test Field';
+    let workerName;
+    const testCrop = 'New Crop';
+    const role = 'Manager';
+    const inviteeRole = 'Farm Worker';
+
+    //worker details
+    const language = ['English', 'French', 'Portuguese', 'Spanish'];
+    const wage = 12;
+    const number = 120012432;
+    const birthYear = 1987;
 
     cy.visit('/');
-    cy.loginFarmOwner();
+    let usrname = userEmail.indexOf('@');
+    emailOwner = userEmail.slice(0, usrname) + '+' + 1 + userEmail.slice(usrname);
+    emailUser = null;
+    workerName = firstName + ' ' + lastName;
+
+    //Login as a new user
+    cy.newUserLogin(emailOwner);
+
+    //create account
+
+    cy.createAccount(emailOwner, farmerName, gender, null, null, password);
+
     cy.get('[data-cy=home-taskButton]').should('exist').and('not.be.disabled').click();
 
     cy.createTask();
@@ -94,7 +135,7 @@ describe.only('Tasks flow tests', () => {
     cy.get('[data-cy=harvestComplete-save]').should('exist').and('not.be.disabled').click();
   });
 
-  it.only('harvest task for apricot', () => {
+  it('harvest task for apricot', () => {
     //tests for LF-2332
     cy.visit('/');
     cy.loginFarmOwner();
@@ -143,7 +184,7 @@ describe.only('Tasks flow tests', () => {
     cy.get('[data-cy=rowMethod-yield]').should('have.value', '1.43');
   });
 
-  it('harvest task compeletion tests', () => {
+  it('harvest task completion tests', () => {
     //these are tests for LF2360 run this test script after running the happy path test
     //Action: click on the tasks icon. Expected: The tasks view opens with several task cards visible
     cy.visit('/');

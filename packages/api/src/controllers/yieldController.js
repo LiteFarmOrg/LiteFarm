@@ -13,18 +13,17 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const baseController = require('../controllers/baseController');
-const yieldModel = require('../models/yieldModel');
-const { transaction, Model } = require('objection');
+import baseController from '../controllers/baseController.js';
 
+import YieldModel from '../models/yieldModel.js';
+import { transaction, Model } from 'objection';
 
 const YieldController = {
-
   addYield() {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
       try {
-        const result = await baseController.postWithResponse(yieldModel, req.body, req, { trx });
+        const result = await baseController.postWithResponse(YieldModel, req.body, req, { trx });
         await trx.commit();
         res.status(201).send(result);
       } catch (error) {
@@ -41,7 +40,9 @@ const YieldController = {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
       try {
-        const isDeleted = await baseController.delete(yieldModel, req.params.yield_id, req, { trx });
+        const isDeleted = await baseController.delete(YieldModel, req.params.yield_id, req, {
+          trx,
+        });
         await trx.commit();
         if (isDeleted) {
           res.sendStatus(200);
@@ -54,28 +55,27 @@ const YieldController = {
           error,
         });
       }
-    }
+    };
   },
 
   updateYield() {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
       try {
-        const updated = await baseController.put(yieldModel, req.params.id, req.body, req, { trx });
+        const updated = await baseController.put(YieldModel, req.params.id, req.body, req, { trx });
         await trx.commit();
         if (!updated.length) {
           res.sendStatus(404);
         } else {
           res.status(200).send(updated);
         }
-
       } catch (error) {
         await trx.rollback();
         res.status(400).json({
           error,
         });
       }
-    }
+    };
   },
 
   getYieldByFarmId() {
@@ -95,14 +95,18 @@ const YieldController = {
           error,
         });
       }
-    }
+    };
   },
 
   async getByForeignKey(farm_id) {
-    const yields = await yieldModel.query().select('*').from('yield').where('yield.farm_id', farm_id).whereNotDeleted();
+    const yields = await YieldModel.query()
+      .select('*')
+      .from('yield')
+      .where('yield.farm_id', farm_id)
+      .whereNotDeleted();
 
     return yields;
   },
-}
+};
 
-module.exports = YieldController;
+export default YieldController;

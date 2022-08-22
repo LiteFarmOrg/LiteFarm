@@ -13,17 +13,17 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const userModel = require('../models/userModel');
-const passwordModel = require('../models/passwordModel');
-const userFarmModel = require('../models/userFarmModel');
-const showedSpotlightModel = require('../models/showedSpotlightModel');
-const bcrypt = require('bcryptjs');
-const { emails, sendEmail } = require('../templates/sendEmailTemplate');
-const parser = require('ua-parser-js');
-const userLogModel = require('../models/userLogModel');
-const emailModel = require('../models/emailTokenModel');
+import UserModel from '../models/userModel.js';
 
-const { createToken } = require('../util/jwt');
+import PasswordModel from '../models/passwordModel.js';
+import UserFarmModel from '../models/userFarmModel.js';
+import ShowedSpotlightModel from '../models/showedSpotlightModel.js';
+import bcrypt from 'bcryptjs';
+import { emails, sendEmail } from '../templates/sendEmailTemplate.js';
+import parser from 'ua-parser-js';
+import UserLogModel from '../models/userLogModel.js';
+import EmailModel from '../models/emailTokenModel.js';
+import { createToken } from '../util/jwt.js';
 
 const loginController = {
   authenticateUser() {
@@ -49,9 +49,9 @@ const loginController = {
       }
 
       try {
-        const userData = await userModel.query().select('*').where('email', email).first();
+        const userData = await UserModel.query().select('*').where('email', email).first();
         if (!userData || !userData?.user_id) {
-          await userLogModel.query().insert({
+          await UserLogModel.query().insert({
             user_id: null,
             ip,
             languages,
@@ -69,10 +69,10 @@ const loginController = {
           return res.sendStatus(403);
         }
         userID = userData.user_id;
-        const pwData = await passwordModel.query().select('*').where('user_id', userID).first();
+        const pwData = await PasswordModel.query().select('*').where('user_id', userID).first();
         const isMatch = await bcrypt.compare(password, pwData?.password_hash);
         if (!isMatch) {
-          await userLogModel.query().insert({
+          await UserLogModel.query().insert({
             user_id: userID,
             ip,
             languages,
@@ -96,7 +96,7 @@ const loginController = {
           user: userData,
         });
       } catch (error) {
-        await userLogModel.query().insert({
+        await UserLogModel.query().insert({
           user_id: userID,
           ip,
           languages,
@@ -124,15 +124,15 @@ const loginController = {
         const { sub: user_id, email, given_name: first_name, family_name: last_name } = req.user;
         const { language_preference } = req.body;
         // TODO optimize this query
-        const ssoUser = await userModel.query().findById(user_id);
-        const passwordUser = await userModel.query().where({ email }).first();
+        const ssoUser = await UserModel.query().findById(user_id);
+        const passwordUser = await UserModel.query().where({ email }).first();
         const user = ssoUser || passwordUser;
         const isUserNew = !user;
         if (isUserNew) {
           const newUser = { user_id, email, first_name, last_name, language_preference };
-          await userModel.transaction(async (trx) => {
-            await userModel.query(trx).insert(newUser);
-            await showedSpotlightModel.query(trx).insert({ user_id });
+          await UserModel.transaction(async (trx) => {
+            await UserModel.query(trx).insert(newUser);
+            await ShowedSpotlightModel.query(trx).insert({ user_id });
           });
         }
         const isPasswordNeeded = !ssoUser && passwordUser;
@@ -169,8 +169,7 @@ const loginController = {
     return async (req, res) => {
       const { email } = req.params;
       try {
-        const data = await userModel
-          .query()
+        const data = await UserModel.query()
           .select('user_id', 'first_name', 'email', 'language_preference', 'status_id')
           .from('users')
           .where('users.email', email)
@@ -245,8 +244,7 @@ const loginController = {
 };
 
 async function sendMissingInvitations(user) {
-  const userFarms = await userFarmModel
-    .query()
+  const userFarms = await UserFarmModel.query()
     .select('users.*', 'farm.farm_name', 'farm.farm_id')
     .join('farm', 'userFarm.farm_id', 'farm.farm_id')
     .join('users', 'users.user_id', 'userFarm.user_id')
@@ -255,7 +253,7 @@ async function sendMissingInvitations(user) {
   if (userFarms) {
     await Promise.all(
       userFarms.map((userFarm) => {
-        return emailModel.createTokenSendEmail(user, userFarm, userFarm.farm_name);
+        return EmailModel.createTokenSendEmail(user, userFarm, userFarm.farm_name);
       }),
     );
   }
@@ -263,15 +261,13 @@ async function sendMissingInvitations(user) {
 
 async function sendPasswordReset(data) {
   const created_at = new Date();
-  const wasEmailSent = await passwordModel
-    .query()
+  const wasEmailSent = await PasswordModel.query()
     .select('*')
     .where({ user_id: data.user_id })
     .first();
   const password = wasEmailSent
     ? wasEmailSent
-    : await passwordModel
-        .query()
+    : await PasswordModel.query()
         .insert({
           user_id: data.user_id,
           reset_token_version: 1,
@@ -297,4 +293,4 @@ async function sendPasswordReset(data) {
   });
 }
 
-module.exports = loginController;
+export default loginController;

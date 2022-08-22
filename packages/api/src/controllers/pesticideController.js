@@ -13,16 +13,17 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const baseController = require('../controllers/baseController');
-const pesticideModel = require('../models/pesiticideModel');
-const { transaction, Model } = require('objection');
+import baseController from '../controllers/baseController.js';
+
+import PesticideModel from '../models/pesiticideModel.js';
+import { transaction, Model } from 'objection';
 
 const pesticideController = {
   getPesticide() {
     return async (req, res) => {
       try {
         const farm_id = req.params.farm_id;
-        const rows = await pesticideModel.query().whereNotDeleted().where('farm_id', null).orWhere({
+        const rows = await PesticideModel.query().whereNotDeleted().where('farm_id', null).orWhere({
           farm_id,
           deleted: false,
         });
@@ -33,14 +34,16 @@ const pesticideController = {
           error,
         });
       }
-    }
+    };
   },
   addPesticide() {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
       try {
-        const user_id = req.user.user_id;
-        const result = await baseController.postWithResponse(pesticideModel, req.body, req, { trx });
+        // const user_id = req.user.user_id;
+        const result = await baseController.postWithResponse(PesticideModel, req.body, req, {
+          trx,
+        });
         await trx.commit();
         res.status(201).send(result);
       } catch (error) {
@@ -57,7 +60,12 @@ const pesticideController = {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
       try {
-        const isDeleted = await baseController.delete(pesticideModel, req.params.pesticide_id, req, { trx });
+        const isDeleted = await baseController.delete(
+          PesticideModel,
+          req.params.pesticide_id,
+          req,
+          { trx },
+        );
         await trx.commit();
         if (isDeleted) {
           res.sendStatus(200);
@@ -72,6 +80,6 @@ const pesticideController = {
       }
     };
   },
-}
+};
 
-module.exports = pesticideController;
+export default pesticideController;

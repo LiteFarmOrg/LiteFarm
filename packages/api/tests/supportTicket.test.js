@@ -13,24 +13,31 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
+import chai from 'chai';
 
-const chai = require('chai');
-const chaiHttp = require('chai-http');
+import chaiHttp from 'chai-http';
 chai.use(chaiHttp);
-const server = require('./../src/server');
-const knex = require('../src/util/knex');
-const { tableCleanup } = require('./testEnvironment')
+import server from './../src/server.js';
+import knex from '../src/util/knex.js';
+import { tableCleanup } from './testEnvironment.js';
 jest.mock('jsdom');
-jest.mock('../src/middleware/acl/checkJwt');
-jest.mock('../src/templates/sendEmailTemplate');
+jest.mock('../src/middleware/acl/checkJwt.js', () =>
+  jest.fn((req, res, next) => {
+    req.user = {};
+    req.user.user_id = req.get('user_id');
+    next();
+  }),
+);
+jest.mock('../src/templates/sendEmailTemplate.js', () => ({
+  sendEmail: jest.fn(),
+  emails: { INVITATION: { path: 'invitation_to_farm_email' } },
+}));
 
-const mocks = require('./mock.factories');
-
-
-const supportTicketModel = require('../src/models/supportTicketModel');
+import mocks from './mock.factories.js';
+import supportTicketModel from '../src/models/supportTicketModel.js';
 
 describe('supportTicket Tests', () => {
-  let middleware;
+  let token;
   let owner;
   let farm;
   let ownerFarm;
@@ -39,36 +46,39 @@ describe('supportTicket Tests', () => {
     token = global.token;
   });
 
-
   function postRequest(data, { user_id = owner.user_id, farm_id = farm.farm_id }, callback) {
-    chai.request(server).post(`/support_ticket`)
+    chai
+      .request(server)
+      .post(`/support_ticket`)
       .set('Content-Type', 'multipart/form-data')
       .set('user_id', user_id)
       .set('farm_id', farm_id)
       .field({
         _file_: data.attachments,
-        data: JSON.stringify(data)
+        data: JSON.stringify(data),
       })
-      .end(callback)
+      .end(callback);
   }
 
   function fakeUserFarm(role = 1) {
-    return ({ ...mocks.fakeUserFarm(), role_id: role });
+    return { ...mocks.fakeUserFarm(), role_id: role };
   }
-
 
   beforeEach(async () => {
     [owner] = await mocks.usersFactory();
     [farm] = await mocks.farmFactory();
-    [ownerFarm] = await mocks.userFarmFactory({ promisedUser: [owner], promisedFarm: [farm] }, fakeUserFarm(1));
+    [ownerFarm] = await mocks.userFarmFactory(
+      { promisedUser: [owner], promisedFarm: [farm] },
+      fakeUserFarm(1),
+    );
 
-    middleware = require('../src/middleware/acl/checkJwt');
-    middleware.mockImplementation((req, res, next) => {
-      req.user = {};
-      req.user.user_id = req.get('user_id');
-      next()
-    });
-  })
+    // middleware = require('../src/middleware/acl/checkJwt');
+    // middleware.mockImplementation((req, res, next) => {
+    //   req.user = {};
+    //   req.user.user_id = req.get('user_id');
+    //   next();
+    // });
+  });
 
   afterAll(async (done) => {
     await tableCleanup(knex);
@@ -81,18 +91,19 @@ describe('supportTicket Tests', () => {
 
     beforeEach(async () => {
       fakeSupportTicket = mocks.fakeSupportTicket(farm.farm_id);
-    })
+    });
 
     test('Owner post support ticket', async (done) => {
       postRequest(fakeSupportTicket, {}, async (err, res) => {
         expect(res.status).toBe(201);
-        const supportTickets = await supportTicketModel.query().context({showHidden: true}).where('support_ticket_id', res.body.support_ticket_id);
+        const supportTickets = await supportTicketModel
+          .query()
+          .context({ showHidden: true })
+          .where('support_ticket_id', res.body.support_ticket_id);
         expect(supportTickets.length).toBe(1);
         expect(supportTickets[0].created_by_user_id).toBe(owner.user_id);
         done();
-      })
+      });
     });
-
   });
-
 });

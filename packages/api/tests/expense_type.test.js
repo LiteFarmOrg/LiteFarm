@@ -13,21 +13,27 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const chai = require('chai');
-const chaiHttp = require('chai-http');
-chai.use(chaiHttp);
-const server = require('./../src/server');
-const knex = require('../src/util/knex');
-const { tableCleanup } = require('./testEnvironment');
-jest.mock('jsdom');
-jest.mock('../src/middleware/acl/checkJwt');
-jest.mock('../src/jobs/station_sync/mapping');
-const mocks = require('./mock.factories');
+import chai from 'chai';
 
-const farmExpenseTypeModel = require('../src/models/expenseTypeModel');
+import chaiHttp from 'chai-http';
+chai.use(chaiHttp);
+import server from './../src/server.js';
+import knex from '../src/util/knex.js';
+import { tableCleanup } from './testEnvironment.js';
+jest.mock('jsdom');
+jest.mock('../src/middleware/acl/checkJwt.js', () =>
+  jest.fn((req, res, next) => {
+    req.user = {};
+    req.user.user_id = req.get('user_id');
+    next();
+  }),
+);
+jest.mock('../src/jobs/station_sync/mapping.js');
+import mocks from './mock.factories.js';
+import farmExpenseTypeModel from '../src/models/expenseTypeModel.js';
 
 describe('Expense Type Tests', () => {
-  let middleware;
+  let token;
   let farm;
   let farm1;
   let newOwner;
@@ -36,10 +42,13 @@ describe('Expense Type Tests', () => {
     token = global.token;
   });
 
-
   // FUNCTIONS
 
-  function postExpenseTypeRequest(data, { user_id = newOwner.user_id, farm_id = farm.farm_id }, callback) {
+  function postExpenseTypeRequest(
+    data,
+    { user_id = newOwner.user_id, farm_id = farm.farm_id },
+    callback,
+  ) {
     chai
       .request(server)
       .post(`/expense_type`)
@@ -75,7 +84,12 @@ describe('Expense Type Tests', () => {
 
   function deleteRequest(data, { user_id = newOwner.user_id, farm_id = farm.farm_id }, callback) {
     const { expense_type_id } = data;
-    chai.request(server).delete(`/expense_type/${expense_type_id}`).set('user_id', user_id).set('farm_id', farm_id).end(callback);
+    chai
+      .request(server)
+      .delete(`/expense_type/${expense_type_id}`)
+      .set('user_id', user_id)
+      .set('farm_id', farm_id)
+      .end(callback);
   }
 
   async function returnUserFarms(role) {
@@ -84,9 +98,9 @@ describe('Expense Type Tests', () => {
     const [userFarm] = await mocks.userFarmFactory(
       {
         promisedUser: [user],
-        promisedFarm: [mainFarm]
+        promisedFarm: [mainFarm],
       },
-      fakeUserFarm(role)
+      fakeUserFarm(role),
     );
     return { mainFarm, user };
   }
@@ -113,12 +127,12 @@ describe('Expense Type Tests', () => {
     [farm1] = await mocks.farmFactory();
     [newOwner] = await mocks.usersFactory();
 
-    middleware = require('../src/middleware/acl/checkJwt');
-    middleware.mockImplementation((req, res, next) => {
-      req.user = {};
-      req.user.user_id = req.get('user_id');
-      next();
-    });
+    // middleware = require('../src/middleware/acl/checkJwt');
+    // middleware.mockImplementation((req, res, next) => {
+    //   req.user = {};
+    //   req.user.user_id = req.get('user_id');
+    //   next();
+    // });
   });
 
   afterAll(async (done) => {
@@ -130,61 +144,85 @@ describe('Expense Type Tests', () => {
   // POST TESTS
 
   describe('Post expense type tests', () => {
-
     test('Owner should post expense type', async (done) => {
       const { mainFarm, user } = await returnUserFarms(1);
-      const expense_type = getFakeExpenseType(mainFarm.farm_id)
+      const expense_type = getFakeExpenseType(mainFarm.farm_id);
 
-      postExpenseTypeRequest(expense_type, { user_id: user.user_id, farm_id: mainFarm.farm_id }, async (err, res) => {
-        expect(res.status).toBe(201);
-        const expense_types = await farmExpenseTypeModel.query().context({showHidden: true}).where('farm_id', mainFarm.farm_id);
-        expect(expense_types.length).toBe(1);
-        expect(expense_types[0].value).toBe(expense_type.value);
-        done();
-      })
-    })
+      postExpenseTypeRequest(
+        expense_type,
+        { user_id: user.user_id, farm_id: mainFarm.farm_id },
+        async (err, res) => {
+          expect(res.status).toBe(201);
+          const expense_types = await farmExpenseTypeModel
+            .query()
+            .context({ showHidden: true })
+            .where('farm_id', mainFarm.farm_id);
+          expect(expense_types.length).toBe(1);
+          expect(expense_types[0].value).toBe(expense_type.value);
+          done();
+        },
+      );
+    });
     test('Manager should post expense type', async (done) => {
       const { mainFarm, user } = await returnUserFarms(2);
-      const expense_type = getFakeExpenseType(mainFarm.farm_id)
+      const expense_type = getFakeExpenseType(mainFarm.farm_id);
 
-      postExpenseTypeRequest(expense_type, { user_id: user.user_id, farm_id: mainFarm.farm_id }, async (err, res) => {
-        expect(res.status).toBe(201);
-        const expense_types = await farmExpenseTypeModel.query().context({showHidden: true}).where('farm_id', mainFarm.farm_id);
-        expect(expense_types.length).toBe(1);
-        expect(expense_types[0].value).toBe(expense_type.value);
-        done();
-      })
-    })
+      postExpenseTypeRequest(
+        expense_type,
+        { user_id: user.user_id, farm_id: mainFarm.farm_id },
+        async (err, res) => {
+          expect(res.status).toBe(201);
+          const expense_types = await farmExpenseTypeModel
+            .query()
+            .context({ showHidden: true })
+            .where('farm_id', mainFarm.farm_id);
+          expect(expense_types.length).toBe(1);
+          expect(expense_types[0].value).toBe(expense_type.value);
+          done();
+        },
+      );
+    });
     test('Worker should get 403 if they try to post expense type', async (done) => {
       const { mainFarm, user } = await returnUserFarms(3);
-      const expense_type = getFakeExpenseType(mainFarm.farm_id)
+      const expense_type = getFakeExpenseType(mainFarm.farm_id);
 
-      postExpenseTypeRequest(expense_type, { user_id: user.user_id, farm_id: mainFarm.farm_id }, async (err, res) => {
-        expect(res.status).toBe(403);
-        expect(res.error.text).toBe("User does not have the following permission(s): add:expense_types");
-        done();
-      })
-    })
+      postExpenseTypeRequest(
+        expense_type,
+        { user_id: user.user_id, farm_id: mainFarm.farm_id },
+        async (err, res) => {
+          expect(res.status).toBe(403);
+          expect(res.error.text).toBe(
+            'User does not have the following permission(s): add:expense_types',
+          );
+          done();
+        },
+      );
+    });
     test('Unauthorized user should get 403 if they try to post expense type', async (done) => {
       const { mainFarm, user } = await returnUserFarms(3);
-      const expense_type = getFakeExpenseType(mainFarm.farm_id)
+      const expense_type = getFakeExpenseType(mainFarm.farm_id);
       const [unAuthorizedUser] = await mocks.usersFactory();
 
-      postExpenseTypeRequest(expense_type, {
-        user_id: unAuthorizedUser.user_id,
-        farm_id: mainFarm.farm_id
-      }, async (err, res) => {
-        expect(res.status).toBe(403);
-        expect(res.error.text).toBe("User does not have the following permission(s): add:expense_types");
-        done();
-      })
-    })
-  })
+      postExpenseTypeRequest(
+        expense_type,
+        {
+          user_id: unAuthorizedUser.user_id,
+          farm_id: mainFarm.farm_id,
+        },
+        async (err, res) => {
+          expect(res.status).toBe(403);
+          expect(res.error.text).toBe(
+            'User does not have the following permission(s): add:expense_types',
+          );
+          done();
+        },
+      );
+    });
+  });
 
   // GET TESTS
 
   describe('Get expense type tests', () => {
-
     test('Owner should get expense type by farm id (or null)', async (done) => {
       const { mainFarm, user } = await returnUserFarms(1);
       const expense = await returnExpenseType(mainFarm);
@@ -225,16 +263,17 @@ describe('Expense Type Tests', () => {
 
       getRequest({ user_id: unAuthorizedUser.user_id, farm_id: mainFarm.farm_id }, (err, res) => {
         expect(res.status).toBe(403);
-        expect(res.error.text).toBe("User does not have the following permission(s): get:expense_types");
+        expect(res.error.text).toBe(
+          'User does not have the following permission(s): get:expense_types',
+        );
         done();
       });
-    })
-  })
+    });
+  });
 
   // GET DEFAULT TESTS
 
   describe('Get expense type default tests', () => {
-
     test('Owner should get default expense type', async (done) => {
       const { mainFarm, user } = await returnUserFarms(1);
       const expense = await returnDefaultExpenseType();
@@ -267,12 +306,11 @@ describe('Expense Type Tests', () => {
         done();
       });
     });
-  })
+  });
 
   // DELETE DEFAULT TEST
 
   describe('Delete expense type default tests', () => {
-
     test('Owner should get 403 if they try to delete default expense type', async (done) => {
       const { mainFarm, user } = await returnUserFarms(1);
       const expense = await returnDefaultExpenseType();
@@ -310,60 +348,82 @@ describe('Expense Type Tests', () => {
         done();
       });
     });
-  })
+  });
 
   // DELETE TESTS
 
   describe('Delete expense type tests', () => {
-
     test('Owner should delete their expense type', async (done) => {
       const { mainFarm, user } = await returnUserFarms(1);
       const expense = await returnExpenseType(mainFarm);
 
-      deleteRequest(expense.expense_type, { user_id: user.user_id, farm_id: mainFarm.farm_id }, async (err, res) => {
-        expect(res.status).toBe(200);
-        const [deletedField] = await farmExpenseTypeModel.query().context({showHidden: true}).where('expense_type_id', expense.expense_type.expense_type_id);
-        expect(deletedField.deleted).toBe(true);
-        done();
-      });
+      deleteRequest(
+        expense.expense_type,
+        { user_id: user.user_id, farm_id: mainFarm.farm_id },
+        async (err, res) => {
+          expect(res.status).toBe(200);
+          const [deletedField] = await farmExpenseTypeModel
+            .query()
+            .context({ showHidden: true })
+            .where('expense_type_id', expense.expense_type.expense_type_id);
+          expect(deletedField.deleted).toBe(true);
+          done();
+        },
+      );
     });
     test('manager should delete their expense type', async (done) => {
       const { mainFarm, user } = await returnUserFarms(2);
       const expense = await returnExpenseType(mainFarm);
 
-      deleteRequest(expense.expense_type, { user_id: user.user_id, farm_id: mainFarm.farm_id }, async (err, res) => {
-        expect(res.status).toBe(200);
-        const [deletedField] = await farmExpenseTypeModel.query().context({showHidden: true}).where('expense_type_id', expense.expense_type.expense_type_id);
-        expect(deletedField.deleted).toBe(true);
-        done();
-      });
+      deleteRequest(
+        expense.expense_type,
+        { user_id: user.user_id, farm_id: mainFarm.farm_id },
+        async (err, res) => {
+          expect(res.status).toBe(200);
+          const [deletedField] = await farmExpenseTypeModel
+            .query()
+            .context({ showHidden: true })
+            .where('expense_type_id', expense.expense_type.expense_type_id);
+          expect(deletedField.deleted).toBe(true);
+          done();
+        },
+      );
     });
     test('worker should get 403 if they try to delete their expense type', async (done) => {
       const { mainFarm, user } = await returnUserFarms(3);
       const expense = await returnExpenseType(mainFarm);
 
-      deleteRequest(expense.expense_type, { user_id: user.user_id, farm_id: mainFarm.farm_id }, async (err, res) => {
-        expect(res.status).toBe(403);
-        expect(res.error.text).toBe("User does not have the following permission(s): delete:expense_types");
-        done();
-      });
+      deleteRequest(
+        expense.expense_type,
+        { user_id: user.user_id, farm_id: mainFarm.farm_id },
+        async (err, res) => {
+          expect(res.status).toBe(403);
+          expect(res.error.text).toBe(
+            'User does not have the following permission(s): delete:expense_types',
+          );
+          done();
+        },
+      );
     });
     test('Unauthorized user should delete get 403 if they try to delete their expense type', async (done) => {
       const { mainFarm, user } = await returnUserFarms(1);
       const [unAuthorizedUser] = await mocks.usersFactory();
       const expense = await returnExpenseType(mainFarm);
 
-      deleteRequest(expense.expense_type, {
-        user_id: unAuthorizedUser.user_id,
-        farm_id: mainFarm.farm_id
-      }, async (err, res) => {
-        expect(res.status).toBe(403);
-        expect(res.error.text).toBe("User does not have the following permission(s): delete:expense_types");
-        done();
-      });
+      deleteRequest(
+        expense.expense_type,
+        {
+          user_id: unAuthorizedUser.user_id,
+          farm_id: mainFarm.farm_id,
+        },
+        async (err, res) => {
+          expect(res.status).toBe(403);
+          expect(res.error.text).toBe(
+            'User does not have the following permission(s): delete:expense_types',
+          );
+          done();
+        },
+      );
     });
-
   });
-
-
-})
+});

@@ -1,6 +1,5 @@
-
-exports.up = function(knex) {
-  return knex.schema.alterTable('emailToken', t=>{
+export const up = function (knex) {
+  return knex.schema.alterTable('emailToken', (t) => {
     t.dropPrimary();
     t.uuid('invitation_id').primary().defaultTo(knex.raw('uuid_generate_v1()'));
     t.unique(['user_id', 'farm_id']);
@@ -8,8 +7,8 @@ exports.up = function(knex) {
   });
 };
 
-exports.down = function(knex) {
-  return knex.schema.alterTable('emailToken', t=>{
+export const down = function (knex) {
+  return knex.schema.alterTable('emailToken', (t) => {
     t.dropPrimary();
     t.dropUnique(['user_id', 'farm_id']);
     t.primary(['user_id', 'farm_id']);

@@ -20,6 +20,7 @@ import {
   setSpotlightToShown,
   bulkUploadSensorsInfoFile,
   getSensorReadings,
+  getAllSensorReadingTypes,
   resetBulkUploadSensorsInfoFile,
   resetShowTransitionModalState,
 } from './saga';
@@ -360,6 +361,7 @@ export default function Map({ history }) {
 
   useEffect(() => {
     dispatch(getSensorReadings());
+    dispatch(getAllSensorReadingTypes());
   }, []);
 
   const handleAddMenuClick = (locationType) => {

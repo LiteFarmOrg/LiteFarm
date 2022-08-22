@@ -13,7 +13,9 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const Model = require('objection').Model;
+import { Model } from 'objection';
+import taskModel from './taskModel.js';
+import productModel from './productModel.js';
 
 class SoilAmendmentTaskModel extends Model {
   static get tableName() {
@@ -33,11 +35,17 @@ class SoilAmendmentTaskModel extends Model {
 
       properties: {
         task_id: { type: 'integer' },
-        purpose: { type: 'string', enum: ['structure', 'moisture_retention', 'nutrient_availability', 'ph', 'other'] },
+        purpose: {
+          type: 'string',
+          enum: ['structure', 'moisture_retention', 'nutrient_availability', 'ph', 'other'],
+        },
         other_purpose: { type: 'string' },
         product_id: { type: 'integer', minimum: 0 },
         product_quantity: { type: 'number' },
-        product_quantity_unit: { type: 'string', enum: ['g', 'lb', 'kg', 't', 'mt', 'oz', 'l', 'gal', 'ml', 'fl-oz'] },
+        product_quantity_unit: {
+          type: 'string',
+          enum: ['g', 'lb', 'kg', 't', 'mt', 'oz', 'l', 'gal', 'ml', 'fl-oz'],
+        },
       },
       additionalProperties: false,
     };
@@ -51,7 +59,7 @@ class SoilAmendmentTaskModel extends Model {
         // The related model. This can be either a Model
         // subclass constructor or an absolute file path
         // to a module that exports one.
-        modelClass: require('./taskModel'),
+        modelClass: taskModel,
         join: {
           from: 'soil_amendment_task.task_id',
           to: 'task.task_id',
@@ -59,15 +67,14 @@ class SoilAmendmentTaskModel extends Model {
       },
       product: {
         relation: Model.BelongsToOneRelation,
-        modelClass: require('./productModel'),
+        modelClass: productModel,
         join: {
           from: 'soil_amendment_task.product_id',
           to: 'product.product_id',
         },
       },
-
     };
   }
 }
 
-module.exports = SoilAmendmentTaskModel;
+export default SoilAmendmentTaskModel;

@@ -1,5 +1,5 @@
-const PartnerReadingTypesModel = require('./PartnerReadingTypeModel');
-const Model = require('objection').Model;
+import PartnerReadingTypesModel from './PartnerReadingTypeModel.js';
+import { Model } from 'objection';
 
 class SensorReadingTypeModel extends Model {
   /**
@@ -55,4 +55,4 @@ class SensorReadingTypeModel extends Model {
   }
 }
 
-module.exports = SensorReadingTypeModel;
+export default SensorReadingTypeModel;

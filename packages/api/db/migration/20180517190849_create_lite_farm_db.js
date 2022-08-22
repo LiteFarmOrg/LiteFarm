@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-exports.up = async function(knex) {
+export const up = async function (knex) {
   //Add all the tables for DB
   await knex.raw('CREATE EXTENSION IF NOT EXISTS "uuid-ossp";');
   return Promise.all([
@@ -22,11 +22,13 @@ exports.up = async function(knex) {
       table.string('farm_name').notNullable();
       table.string('address');
       table.jsonb('phone_number');
-      table.jsonb('units').defaultTo(JSON.stringify({
-        measurement: 'metric',
-        currency: 'CAD',
-        date_format: 'MM/DD/YY',
-      }));
+      table.jsonb('units').defaultTo(
+        JSON.stringify({
+          measurement: 'metric',
+          currency: 'CAD',
+          date_format: 'MM/DD/YY',
+        }),
+      );
     }),
 
     knex.schema.createTable('users', function (table) {
@@ -34,32 +36,26 @@ exports.up = async function(knex) {
       table.string('first_name').notNullable();
       table.string('last_name').notNullable();
       table.string('profile_picture');
-      table.string('email')
-        .unique()
-        .notNullable();
-      table.string('phone_number')
-        .nullable();
-      table.string('address')
-        .nullable();
-      table.uuid('farm_id')
-        .references('farm_id')
-        .inTable('farm');
+      table.string('email').unique().notNullable();
+      table.string('phone_number').nullable();
+      table.string('address').nullable();
+      table.uuid('farm_id').references('farm_id').inTable('farm');
       table.boolean('is_admin').notNullable().defaultTo(false);
-      table.jsonb('notification_setting').defaultTo(JSON.stringify(
-        {
-          alert_weather : true,
-          alert_worker_finish : true,
-          alert_action_after_scouting : true,
-          alert_before_planned_date : true,
+      table.jsonb('notification_setting').defaultTo(
+        JSON.stringify({
+          alert_weather: true,
+          alert_worker_finish: true,
+          alert_action_after_scouting: true,
+          alert_before_planned_date: true,
           alert_pest: true,
-        }
-      ));
-      table.jsonb('wage').defaultTo(JSON.stringify(
-        {
+        }),
+      );
+      table.jsonb('wage').defaultTo(
+        JSON.stringify({
           type: 'hourly',
           amount: 0,
-        }
-      ));
+        }),
+      );
       table.timestamps(false, true);
     }),
 
@@ -67,36 +63,37 @@ exports.up = async function(knex) {
     knex.schema.createTable('notification', function (table) {
       table.uuid('notification_id').primary().defaultTo(knex.raw('uuid_generate_v1()'));
       table.string('user_id').references('user_id').inTable('users');
-      table.enu('notification_kind', ['todo_added','alert_weather', 'alert_worker_finish', 'alert_action_after_scouting', 'alert_before_planned_date', 'alert_pest']).notNullable();
+      table
+        .enu('notification_kind', [
+          'todo_added',
+          'alert_weather',
+          'alert_worker_finish',
+          'alert_action_after_scouting',
+          'alert_before_planned_date',
+          'alert_pest',
+        ])
+        .notNullable();
       table.boolean('is_read').notNullable().defaultTo(false);
       table.timestamps(false, true);
     }),
 
     //Is this the correct way to make the primary keys?
     knex.schema.createTable('userManages', function (table) {
-      table.string('manager_id')
-        .references('user_id')
-        .inTable('users');
-      table.string('manages_id')
-        .references('user_id')
-        .inTable('users');
+      table.string('manager_id').references('user_id').inTable('users');
+      table.string('manages_id').references('user_id').inTable('users');
       table.primary(['manages_id', 'manager_id']);
     }),
 
     knex.schema.createTable('field', function (table) {
       table.uuid('field_id').primary().defaultTo(knex.raw('uuid_generate_v1()'));
-      table.uuid('farm_id')
-        .references('farm_id')
-        .inTable('farm');
+      table.uuid('farm_id').references('farm_id').inTable('farm');
       table.unique(['field_id', 'farm_id']);
       table.jsonb('grid_points');
     }),
 
     knex.schema.createTable('bed', function (table) {
       table.uuid('bed_id').primary().defaultTo(knex.raw('uuid_generate_v1()'));
-      table.uuid('field_id')
-        .references('field_id')
-        .inTable('field').onDelete('CASCADE');
+      table.uuid('field_id').references('field_id').inTable('field').onDelete('CASCADE');
       table.float('bed_length').unsigned();
       table.integer('bed_index_in_field').unsigned().notNullable();
 
@@ -109,21 +106,46 @@ exports.up = async function(knex) {
       table.string('crop_genus'); //scientific name
       table.string('crop_specie'); //scientific name //crop_genus,crop_specie
       table.unique(['crop_common_name', 'crop_genus', 'crop_specie']); //index?
-      table.enu('crop_group',
-        ['Other crops', 'Fruit and nuts', 'Beverage and spice crops', 'Potatoes and yams'
-          , 'Vegetables and melons', 'Cereals', 'Leguminous crops', 'Sugar crops', 'Oilseed crops']); //TODO: ??
-      table.enu('crop_subgroup',
-        ['Fibre crops', 'Grasses and other fodder crops', 'Nuts',
-          'Temporary spice crops', 'Pome fruits and stone fruits', 'Other crops',
-          'High starch Root/tuber crops', 'Leafy or stem vegetables',
-          'Tropical and subtropical fruits',
-          'Cereals', 'Legumes', 'Sugar crops (root)',
-          'Citrus fruits', 'Permanent spice crops',
-          'Berries', 'Fruit-bearing vegetables', 'Other fruits',
-          'Root, bulb, or tuberous vegetables', 'Temporary oilseed crops',
-          'Permanent oilseed crops', 'Medicinal, aromatic, pesticidal, or similar crops',
-          'Grapes', 'Flower crops', 'Mushrooms and truffles', 'Rubber', 'Sugar crops (other)',
-          'Tobacco']);
+      table.enu('crop_group', [
+        'Other crops',
+        'Fruit and nuts',
+        'Beverage and spice crops',
+        'Potatoes and yams',
+        'Vegetables and melons',
+        'Cereals',
+        'Leguminous crops',
+        'Sugar crops',
+        'Oilseed crops',
+      ]); //TODO: ??
+      table.enu('crop_subgroup', [
+        'Fibre crops',
+        'Grasses and other fodder crops',
+        'Nuts',
+        'Temporary spice crops',
+        'Pome fruits and stone fruits',
+        'Other crops',
+        'High starch Root/tuber crops',
+        'Leafy or stem vegetables',
+        'Tropical and subtropical fruits',
+        'Cereals',
+        'Legumes',
+        'Sugar crops (root)',
+        'Citrus fruits',
+        'Permanent spice crops',
+        'Berries',
+        'Fruit-bearing vegetables',
+        'Other fruits',
+        'Root, bulb, or tuberous vegetables',
+        'Temporary oilseed crops',
+        'Permanent oilseed crops',
+        'Medicinal, aromatic, pesticidal, or similar crops',
+        'Grapes',
+        'Flower crops',
+        'Mushrooms and truffles',
+        'Rubber',
+        'Sugar crops (other)',
+        'Tobacco',
+      ]);
       table.float('max_rooting_depth');
       table.float('depletion_fraction');
       table.boolean('is_avg_depth').defaultTo(false).notNullable();
@@ -160,18 +182,13 @@ exports.up = async function(knex) {
       table.float('folate');
       table.float('vitb12');
       table.float('vitk');
-      table.boolean('is_avg_nutrient').defaultTo(false)
-        .notNullable();
-      table.uuid('farm_id')
-        .references('farm_id')
-        .inTable('farm').defaultTo(null);
+      table.boolean('is_avg_nutrient').defaultTo(false).notNullable();
+      table.uuid('farm_id').references('farm_id').inTable('farm').defaultTo(null);
 
       table.boolean('user_added').defaultTo(false).notNullable();
-      table.boolean('deleted')
-        .defaultTo(false);
+      table.boolean('deleted').defaultTo(false);
       //TODO: add other stuff
     }),
-
 
     /*
     scientific_name (species),
@@ -186,12 +203,8 @@ exports.up = async function(knex) {
 
     knex.schema.createTable('farmCrop', function (table) {
       table.increments('farm_crop_id');
-      table.integer('crop_id')
-        .references('crop_id')
-        .inTable('crop').notNullable();
-      table.uuid('farm_id')
-        .references('farm_id')
-        .inTable('farm').notNullable();
+      table.integer('crop_id').references('crop_id').inTable('crop').notNullable();
+      table.uuid('farm_id').references('farm_id').inTable('farm').notNullable();
       table.float('expected_yield');
       table.string('variety');
       table.unique(['crop_id', 'farm_id', 'variety']);
@@ -206,12 +219,8 @@ exports.up = async function(knex) {
     }),*/
 
     knex.schema.createTable('cropBed', function (table) {
-      table.integer('farm_crop_id')
-        .references('farm_crop_id')
-        .inTable('farmCrop');
-      table.uuid('bed_id')
-        .references('bed_id')
-        .inTable('bed');
+      table.integer('farm_crop_id').references('farm_crop_id').inTable('farmCrop');
+      table.uuid('bed_id').references('bed_id').inTable('bed');
       table.float('length').notNullable();
       table.integer('crop_bed_index_in_bed').notNullable();
       table.primary(['bed_id', 'farm_crop_id']);
@@ -219,29 +228,30 @@ exports.up = async function(knex) {
 
     knex.schema.createTable('cropCommonName', function (table) {
       table.string('crop_name');
-      table.bigint('crop_id')
-        .references('crop_id')
-        .inTable('crop');
+      table.bigint('crop_id').references('crop_id').inTable('crop');
     }),
 
     knex.schema.createTable('disease', function (table) {
       table.increments('disease_id');
       table.string('disease_scientific_name').nullable();
       table.string('disease_common_name');
-      table.enu('disease_group', ['Fungus', 'Insect', 'Bacteria', 'Virus', 'Deficiency', 'Mite', 'Other', 'Weed']); //TODO: is going to be
+      table.enu('disease_group', [
+        'Fungus',
+        'Insect',
+        'Bacteria',
+        'Virus',
+        'Deficiency',
+        'Mite',
+        'Other',
+        'Weed',
+      ]); //TODO: is going to be
       //table.unique(['disease_scientific_name', 'disease_common_name']);
-      table.uuid('farm_id')
-        .references('farm_id')
-        .inTable('farm').defaultTo(null);
+      table.uuid('farm_id').references('farm_id').inTable('farm').defaultTo(null);
     }),
 
     knex.schema.createTable('cropDisease', function (table) {
-      table.integer('disease_id')
-        .references('disease_id')
-        .inTable('disease');
-      table.integer('crop_id')
-        .references('crop_id')
-        .inTable('crop');
+      table.integer('disease_id').references('disease_id').inTable('disease');
+      table.integer('crop_id').references('crop_id').inTable('crop');
       table.primary(['disease_id', 'crop_id']);
     }),
 
@@ -253,19 +263,17 @@ exports.up = async function(knex) {
 
     knex.schema.createTable('plan', function (table) {
       table.uuid('plan_id').primary();
-      table.uuid('farm_id')
-        .references('farm_id')
-        .inTable('farm');
+      table.uuid('farm_id').references('farm_id').inTable('farm');
       table.jsonb('plan_config').notNullable();
     }),
 
     knex.schema.createTable('cropSale', function (table) {
-      table.integer('farm_crop_id')
+      table
+        .integer('farm_crop_id')
         .references('farm_crop_id')
-        .inTable('farmCrop').onDelete('CASCADE');
-      table.integer('sale_id')
-        .references('sale_id')
-        .inTable('sale').onDelete('CASCADE');
+        .inTable('farmCrop')
+        .onDelete('CASCADE');
+      table.integer('sale_id').references('sale_id').inTable('sale').onDelete('CASCADE');
       table.integer('quantity').unsigned();
       table.integer('sale_value');
     }),
@@ -273,18 +281,13 @@ exports.up = async function(knex) {
     knex.schema.createTable('farmExpenseType', function (table) {
       table.increments('expense_type_id');
       table.string('expense_name');
-      table.boolean('user_added')
-        .defaultTo(false);
+      table.boolean('user_added').defaultTo(false);
     }),
 
     knex.schema.createTable('farmExpense', function (table) {
       table.uuid('farm_expense_id').primary();
-      table.uuid('farm_id')
-        .references('farm_id')
-        .inTable('farm');
-      table.integer('expense_type_id')
-        .references('expense_type_id')
-        .inTable('farmExpenseType');
+      table.uuid('farm_id').references('farm_id').inTable('farm');
+      table.integer('expense_type_id').references('expense_type_id').inTable('farmExpenseType');
       table.dateTime('expense_date').notNullable();
       table.integer('value').notNullable().unsigned();
       table.string('picture');
@@ -298,9 +301,7 @@ exports.up = async function(knex) {
       //   'socialEvent', 'pestAndDiseaseControl', 'other']);
       table.dateTime('start_time').notNullable();
       table.dateTime('end_time').notNullable();
-      table.string('user_id')
-        .references('user_id')
-        .inTable('users');
+      table.string('user_id').references('user_id').inTable('users');
       table.integer('break_duration').defaultTo(0);
       table.enu('mood', ['happy', 'neutral', 'very happy', 'sad', 'very sad']).nullable();
     }),
@@ -308,90 +309,79 @@ exports.up = async function(knex) {
     knex.schema.createTable('taskType', function (table) {
       table.increments('task_id').primary();
       table.string('task_name').notNullable();
-      table.uuid('farm_id')
-        .references('farm_id')
-        .inTable('farm').defaultTo(null);
+      table.uuid('farm_id').references('farm_id').inTable('farm').defaultTo(null);
     }),
 
     knex.schema.createTable('shiftTask', function (table) {
-      table.integer('task_id')
-        .references('task_id')
-        .inTable('taskType');
-      table.uuid('shift_id')
-        .references('shift_id')
-        .inTable('shift');
-      table.integer('farm_crop_id')
-        .references('farm_crop_id')
-        .inTable('farmCrop').notNullable();
+      table.integer('task_id').references('task_id').inTable('taskType');
+      table.uuid('shift_id').references('shift_id').inTable('shift');
+      table.integer('farm_crop_id').references('farm_crop_id').inTable('farmCrop').notNullable();
       table.boolean('is_field').defaultTo(false);
-      table.uuid('field_id')
-        .references('field_id')
-        .inTable('field').onDelete('CASCADE').nullable();
+      table.uuid('field_id').references('field_id').inTable('field').onDelete('CASCADE').nullable();
       table.integer('duration').notNullable();
     }),
 
     knex.schema.createTable('todo', function (table) {
       table.increments('todo_id').primary();
       table.string('todo_text').notNullable();
-      table.uuid('farm_id')
-        .references('farm_id')
-        .inTable('farm');
+      table.uuid('farm_id').references('farm_id').inTable('farm');
       table.boolean('is_done').defaultTo(false);
     }),
 
     knex.schema.createTable('userTodo', function (table) {
-      table.integer('todo_id')
-        .references('todo_id')
-        .inTable('todo');
-      table.string('user_id')
-        .references('user_id')
-        .inTable('users');
+      table.integer('todo_id').references('todo_id').inTable('todo');
+      table.string('user_id').references('user_id').inTable('users');
       table.primary(['todo_id', 'user_id']);
     }),
 
     knex.schema.createTable('activityLog', function (table) {
       table.increments('activity_id').primary();
-      table.enu('activity_kind', ['fertilizing', 'pestControl', 'scouting', 'irrigation', 'harvest', 'seeding', 'fieldWork', 'weatherData', 'soilData', 'other']);
+      table.enu('activity_kind', [
+        'fertilizing',
+        'pestControl',
+        'scouting',
+        'irrigation',
+        'harvest',
+        'seeding',
+        'fieldWork',
+        'weatherData',
+        'soilData',
+        'other',
+      ]);
       table.dateTime('date').notNullable();
-      table.string('user_id')
-        .references('user_id')
-        .inTable('users').notNullable();
+      table.string('user_id').references('user_id').inTable('users').notNullable();
       table.string('notes');
-      table.boolean('action_need')
-        .defaultTo(false);
+      table.boolean('action_need').defaultTo(false);
       table.string('photo');
     }),
 
     knex.schema.createTable('activityBeds', function (table) {
-      table.integer('activity_id')
+      table
+        .integer('activity_id')
         .references('activity_id')
         .inTable('activityLog')
         .onDelete('CASCADE');
-      table.uuid('bed_id')
-        .references('bed_id')
-        .inTable('bed');
+      table.uuid('bed_id').references('bed_id').inTable('bed');
       table.primary(['bed_id', 'activity_id']);
     }),
 
-    knex.schema.createTable('activityFields', function(table){
-      table.integer('activity_id')
+    knex.schema.createTable('activityFields', function (table) {
+      table
+        .integer('activity_id')
         .references('activity_id')
         .inTable('activityLog')
         .onDelete('CASCADE');
-      table.uuid('field_id')
-        .references('field_id')
-        .inTable('field').onDelete('CASCADE');
+      table.uuid('field_id').references('field_id').inTable('field').onDelete('CASCADE');
       table.primary(['field_id', 'activity_id']);
     }),
 
     knex.schema.createTable('activityCrops', function (table) {
-      table.integer('activity_id')
+      table
+        .integer('activity_id')
         .references('activity_id')
         .inTable('activityLog')
         .onDelete('CASCADE');
-      table.integer('farm_crop_id')
-        .references('farm_crop_id')
-        .inTable('farmCrop');
+      table.integer('farm_crop_id').references('farm_crop_id').inTable('farmCrop');
       table.float('quantity').unsigned();
       table.enu('quantity_unit', ['lb', 'kg']).defaultTo('kg');
       table.primary(['activity_id', 'farm_crop_id']);
@@ -405,13 +395,12 @@ exports.up = async function(knex) {
       table.float('nh4_n_ppm');
       table.float('p_percentage');
       table.float('k_percentage');
-      table.uuid('farm_id')
-        .references('farm_id')
-        .inTable('farm').defaultTo(null);
+      table.uuid('farm_id').references('farm_id').inTable('farm').defaultTo(null);
     }),
 
     knex.schema.createTable('scoutingLog', function (table) {
-      table.integer('activity_id')
+      table
+        .integer('activity_id')
         .references('activity_id')
         .inTable('activityLog')
         .primary()
@@ -420,7 +409,8 @@ exports.up = async function(knex) {
     }),
 
     knex.schema.createTable('fieldworkLog', function (table) {
-      table.integer('activity_id')
+      table
+        .integer('activity_id')
         .references('activity_id')
         .inTable('activityLog')
         .primary()
@@ -429,14 +419,13 @@ exports.up = async function(knex) {
     }),
 
     knex.schema.createTable('fertilizerLog', function (table) {
-      table.integer('activity_id')
+      table
+        .integer('activity_id')
         .references('activity_id')
         .inTable('activityLog')
         .primary()
         .onDelete('CASCADE');
-      table.integer('fertilizer_id')
-        .references('fertilizer_id')
-        .inTable('fertilizer');
+      table.integer('fertilizer_id').references('fertilizer_id').inTable('fertilizer');
       table.integer('quantity');
       table.enu('quantity_unit', ['g', 'lb', 'kg', 'oz', 'l', 'gal']).defaultTo('kg');
     }),
@@ -453,7 +442,8 @@ exports.up = async function(knex) {
     }),*/
 
     knex.schema.createTable('irrigationLog', function (table) {
-      table.integer('activity_id')
+      table
+        .integer('activity_id')
         .references('activity_id')
         .inTable('activityLog')
         .primary()
@@ -465,7 +455,8 @@ exports.up = async function(knex) {
     }),
 
     knex.schema.createTable('seedLog', function (table) {
-      table.integer('activity_id')
+      table
+        .integer('activity_id')
         .references('activity_id')
         .inTable('activityLog')
         .primary()
@@ -487,30 +478,36 @@ exports.up = async function(knex) {
       table.float('harvest_interval').defaultTo(0);
       table.string('active_ingredients').nullable();
       table.float('concentration').defaultTo(0);
-      table.uuid('farm_id')
-        .references('farm_id')
-        .inTable('farm').defaultTo(null);
+      table.uuid('farm_id').references('farm_id').inTable('farm').defaultTo(null);
     }),
 
     knex.schema.createTable('pestControlLog', function (table) {
-      table.integer('activity_id')
+      table
+        .integer('activity_id')
         .references('activity_id')
         .inTable('activityLog')
         .primary()
         .onDelete('CASCADE');
-      table.integer('pesticide_id')
-        .references('pesticide_id')
-        .inTable('pesticide');
+      table.integer('pesticide_id').references('pesticide_id').inTable('pesticide');
       table.float('quantity').unsigned().notNullable();
       table.enu('quantity_unit', ['g', 'lb', 'kg', 'oz', 'l', 'gal']).defaultTo('kg');
-      table.enu('type', ['systemicSpray', 'foliarSpray', 'handPick', 'biologicalControl', 'burning', 'soilFumigation', 'heatTreatment']).notNullable();
-      table.integer('target_disease_id')
-        .references('disease_id')
-        .inTable('disease');
+      table
+        .enu('type', [
+          'systemicSpray',
+          'foliarSpray',
+          'handPick',
+          'biologicalControl',
+          'burning',
+          'soilFumigation',
+          'heatTreatment',
+        ])
+        .notNullable();
+      table.integer('target_disease_id').references('disease_id').inTable('disease');
     }),
 
     knex.schema.createTable('soilDataLog', function (table) {
-      table.integer('activity_id')
+      table
+        .integer('activity_id')
         .references('activity_id')
         .inTable('activityLog')
         .primary()
@@ -518,9 +515,20 @@ exports.up = async function(knex) {
       table.float('start_depth');
       table.float('end_depth');
       table.enu('depth', ['cm', 'in']);
-      table.enu('texture', ['sand', 'loamySand', 'sandyLoam', 'loam',
-        'siltLoam', 'silt', 'sandyClayLoam', 'clayLoam', 'siltyClayLoam',
-        'sandyClay', 'siltyClay', 'clay']);
+      table.enu('texture', [
+        'sand',
+        'loamySand',
+        'sandyLoam',
+        'loam',
+        'siltLoam',
+        'silt',
+        'sandyClayLoam',
+        'clayLoam',
+        'siltyClayLoam',
+        'sandyClay',
+        'siltyClay',
+        'clay',
+      ]);
       table.float('k');
       table.float('p');
       table.float('n');
@@ -541,10 +549,10 @@ exports.up = async function(knex) {
       table.float('cec');
       table.enu('units', ['percentage', 'mg/kg', 'ounces/lb']);
     }),
-  ])
+  ]);
 };
 
-exports.down = function(knex) {
+export const down = function (knex) {
   //remove all the tables
   return Promise.all([
     knex.schema.dropTable('soilDataLog'),
@@ -583,5 +591,5 @@ exports.down = function(knex) {
     knex.schema.dropTable('activityLog'),
     knex.schema.dropTable('users'),
     knex.schema.dropTable('farm'),
-  ])
+  ]);
 };

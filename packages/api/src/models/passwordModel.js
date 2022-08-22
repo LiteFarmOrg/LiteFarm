@@ -13,7 +13,8 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const Model = require('objection').Model;
+import { Model } from 'objection';
+import userModel from './userModel.js';
 
 class Password extends Model {
   static get tableName() {
@@ -43,7 +44,7 @@ class Password extends Model {
     // Import models here to prevent require loops.
     return {
       user: {
-        modelClass: require('./userModel'),
+        modelClass: userModel,
         relation: Model.HasOneRelation,
         join: {
           from: 'password.user_id',
@@ -59,4 +60,4 @@ class Password extends Model {
   }
 }
 
-module.exports = Password;
+export default Password;

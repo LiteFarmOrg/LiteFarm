@@ -1,9 +1,9 @@
-const pg = require('pg');
+import pg from 'pg';
 const PG_DECIMAL_OID = 1700;
 pg.types.setTypeParser(PG_DECIMAL_OID, parseFloat);
-const Knex = require('knex');
+import Knex from 'knex';
 const environment = process.env.NODE_ENV || 'development';
-const config = require('../../knexfile')[environment];
-const knex = Knex(config);
+import config from '../../.knex/knexfile.js';
+const knex = Knex(config[environment]);
 
-module.exports = knex;
+export default knex;

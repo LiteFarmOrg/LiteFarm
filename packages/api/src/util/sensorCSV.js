@@ -13,10 +13,10 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const { parseCsv } = require('./csv');
+import parseCsv from './csv.js';
 
 // Sensor bulk upload error translation keys
-const sensorErrors = {
+export const sensorErrors = {
   FILE_ROW_LIMIT_EXCEEDED: 'FARM_MAP.BULK_UPLOAD_SENSORS.VALIDATION.FILE_ROW_LIMIT_EXCEEDED',
   MISSING_COLUMNS: 'FARM_MAP.BULK_UPLOAD_SENSORS.VALIDATION.MISSING_COLUMNS',
   EXTERNAL_ID: 'FARM_MAP.BULK_UPLOAD_SENSORS.VALIDATION.EXTERNAL_ID',
@@ -180,7 +180,7 @@ const generateSensorKey = (sensor) => {
   return `${sensor.brand ?? ''}:${sensor.external_id ?? ''}`;
 };
 
-const parseSensorCsv = (csvString, lang) => {
+export const parseSensorCsv = (csvString, lang) => {
   return parseCsv(
     csvString,
     lang,
@@ -192,7 +192,4 @@ const parseSensorCsv = (csvString, lang) => {
   );
 };
 
-module.exports = {
-  sensorErrors,
-  parseSensorCsv,
-};
+export default parseSensorCsv;

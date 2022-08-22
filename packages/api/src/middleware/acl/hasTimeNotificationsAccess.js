@@ -27,4 +27,4 @@ const hasTimeNotificationsAccess = (req, res, next) => {
     return res.status(403).send('Not authorized to access timed notifications');
   }
 };
-module.exports = hasTimeNotificationsAccess;
+export default hasTimeNotificationsAccess;

@@ -1,6 +1,5 @@
-
-exports.up = async function (knex) {
-  await knex.schema.alterTable('beds', t => {
+export const up = async function (knex) {
+  await knex.schema.alterTable('beds', (t) => {
     t.integer('number_of_beds');
     t.integer('number_of_rows_in_bed');
     t.integer('plant_spacing');
@@ -18,8 +17,8 @@ exports.up = async function (knex) {
   });
 };
 
-exports.down = async function (knex) {
-  await knex.schema.alterTable('beds', t => {
+export const down = async function (knex) {
+  await knex.schema.alterTable('beds', (t) => {
     t.dropColumn('number_of_beds');
     t.dropColumn('number_of_rows_in_bed');
     t.dropColumn('plant_spacing');

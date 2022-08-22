@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const { Client } = require('@googlemaps/google-maps-services-js');
+import { Client } from '@googlemaps/google-maps-services-js';
 
 const client = new Client({});
 
@@ -65,4 +65,4 @@ async function mapTimeZoneOffsetsToFarms(knex) {
   }
 }
 
-module.exports = mapTimeZoneOffsetsToFarms;
+export default mapTimeZoneOffsetsToFarms;

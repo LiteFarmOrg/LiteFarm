@@ -1,10 +1,11 @@
-const { formatAlterTableEnumSql } = require('../util');
+import { formatAlterTableEnumSql } from '../util.js';
 const currentEnum = ['soil_amendment', 'pest_control', 'cleaner'];
 const newEnum = ['soil_amendment_task', 'pest_control_task', 'cleaning_task'];
-exports.up = function(knex) {
+
+export const up = function (knex) {
   return knex.raw(formatAlterTableEnumSql('product', 'type', newEnum));
 };
 
-exports.down = function(knex) {
+export const down = function (knex) {
   return knex.raw(formatAlterTableEnumSql('product', 'type', currentEnum));
 };

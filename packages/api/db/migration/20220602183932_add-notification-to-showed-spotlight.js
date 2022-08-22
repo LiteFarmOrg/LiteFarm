@@ -13,14 +13,14 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-exports.up = async function (knex) {
+export const up = async function (knex) {
   await knex.schema.alterTable('showedSpotlight', (t) => {
     t.boolean('notification').defaultTo(false);
     t.timestamp('notification_end').nullable().defaultTo(null);
   });
 };
 
-exports.down = async function (knex) {
+export const down = async function (knex) {
   await knex.schema.alterTable('showedSpotlight', (t) => {
     t.dropColumn('notification');
     t.dropColumn('notification_end');

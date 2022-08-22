@@ -8,7 +8,7 @@ on:
 jobs:
   automated_tests:
     runs-on: ubuntu-20.04
-    container: node:16.13.2
+    container: node:16.15.0
     services:
       postgres:
         image: postgres:13

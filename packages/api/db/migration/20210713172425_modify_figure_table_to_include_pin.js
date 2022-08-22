@@ -1,18 +1,14 @@
-const formatAlterTableEnumSql = (
-  tableName,
-  columnName,
-  enums,
-) => {
+const formatAlterTableEnumSql = (tableName, columnName, enums) => {
   const constraintName = `${tableName}_${columnName}_check`;
   return [
     `ALTER TABLE ${tableName} DROP CONSTRAINT IF EXISTS ${constraintName};`,
     `ALTER TABLE ${tableName} ADD CONSTRAINT ${constraintName} CHECK (${columnName} = ANY (ARRAY['${enums.join(
-      "'::text, '" // eslint-disable-line
+      "'::text, '", // eslint-disable-line
     )}'::text]));`,
   ].join('\n');
 };
 
-exports.up = async function (knex) {
+export const up = async function (knex) {
   await knex.raw(
     formatAlterTableEnumSql('figure', 'type', [
       'field',
@@ -31,10 +27,10 @@ exports.up = async function (knex) {
       'ceremonial_area',
       'pin',
     ]),
-  )
-}
+  );
+};
 
-exports.down = async function (knex) {
+export const down = async function (knex) {
   // await knex.schema.dropColumn('type');
   knex.raw(
     formatAlterTableEnumSql('figure', 'type', [
@@ -53,5 +49,5 @@ exports.down = async function (knex) {
       'natural_area',
       'ceremonial_area',
     ]),
-  )
+  );
 };

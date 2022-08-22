@@ -13,10 +13,11 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const Model = require('objection').Model;
-const BaseModel = require('./baseModel');
-const CertifierModel = require('./certifierModel');
-const CertificationModel = require('./certificationModel');
+import { Model } from 'objection';
+
+import BaseModel from './baseModel.js';
+import userFarmModel from './userFarmModel.js';
+import farmModel from './farmModel.js';
 
 class organicCertifierSurveyModel extends BaseModel {
   static get tableName() {
@@ -47,8 +48,8 @@ class organicCertifierSurveyModel extends BaseModel {
 
   static get relationMappings() {
     return {
-      userFarm:{
-        modelClass: require('./userFarmModel'),
+      userFarm: {
+        modelClass: userFarmModel,
         relation: Model.BelongsToOneRelation,
         join: {
           from: ['organicCertifierSurvey.updated_by_user_id', 'organicCertifierSurvey.farm_id'],
@@ -56,15 +57,15 @@ class organicCertifierSurveyModel extends BaseModel {
         },
       },
       farm: {
-        modelClass: require('./farmModel'),
+        modelClass: farmModel,
         relation: Model.BelongsToOneRelation,
         join: {
           from: 'organicCertifierSurvey.farm_id',
           to: 'farm.farm_id',
         },
       },
-    }
+    };
   }
 }
 
-module.exports = organicCertifierSurveyModel;
+export default organicCertifierSurveyModel;

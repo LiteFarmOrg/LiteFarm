@@ -62,6 +62,7 @@ import mapLocationReducer from '../containers/mapSlice';
 import mapFilterSettingReducer from '../containers/Map/mapFilterSettingSlice';
 import mapCacheReducer from '../containers/Map/mapCacheSlice';
 import mapSensorReducer from '../containers/Map/mapSensorSlice';
+import sensorReadingTypesReducer from '../containers/sensorReadingTypesSlice';
 import showedSpotlightReducer from '../containers/showedSpotlightSlice';
 import bulkSensorsUploadReducer from '../containers/bulkSensorUploadSlice';
 import bulkSensorsReadingsReducer from '../containers/bulkSensorReadingsSlice';
@@ -210,6 +211,7 @@ const persistedStateReducer = combineReducers({
   mapFilterSettingReducer,
   mapCacheReducer,
   mapSensorReducer,
+  sensorReadingTypesReducer,
   appSettingReducer,
 });
 

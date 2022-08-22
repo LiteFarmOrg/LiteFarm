@@ -1,5 +1,4 @@
-
-exports.up = async function(knex) {
+export const up = async function (knex) {
   // selected name = 'NA' because that value exists on beta
   const managementPlans = await knex.raw(`
     select management_plan_id, crop_variety_id
@@ -17,6 +16,7 @@ exports.up = async function(knex) {
   }, {});
 
   const updates = [];
+  // eslint-disable-next-line no-unused-vars
   for (const [cropVarietyId, planIds] of Object.entries(varietyToPlanMap)) {
     let counter = 1;
     for (const planId of planIds) {
@@ -30,6 +30,5 @@ exports.up = async function(knex) {
   await Promise.all(updates);
 };
 
-exports.down = async function(knex) {
-  
-};
+// eslint-disable-next-line no-unused-vars
+export const down = async function (knex) {};

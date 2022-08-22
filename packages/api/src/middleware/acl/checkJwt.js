@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const jwt = require('express-jwt');
+import jwt from 'express-jwt';
 
 const checkJwt = jwt({
   secret: process.env.JWT_SECRET,
@@ -34,4 +34,4 @@ const checkJwt = jwt({
   ],
 });
 
-module.exports = checkJwt;
+export default checkJwt;

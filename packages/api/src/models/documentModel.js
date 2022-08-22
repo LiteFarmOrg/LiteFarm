@@ -13,8 +13,11 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const Model = require('objection').Model;
-const baseModel = require('./baseModel');
+import { Model } from 'objection';
+
+import baseModel from './baseModel.js';
+import farmModel from './farmModel.js';
+import fileModel from './fileModel.js';
 
 class Document extends baseModel {
   static get tableName() {
@@ -63,7 +66,7 @@ class Document extends baseModel {
     return {
       farm: {
         relation: Model.BelongsToOneRelation,
-        modelClass: require('./farmModel'),
+        modelClass: farmModel,
         join: {
           from: 'document.farm_id',
           to: 'farm.farm_id',
@@ -71,7 +74,7 @@ class Document extends baseModel {
       },
       files: {
         relation: Model.HasManyRelation,
-        modelClass: require('./fileModel'),
+        modelClass: fileModel,
         join: {
           from: 'document.document_id',
           to: 'file.document_id',
@@ -81,4 +84,4 @@ class Document extends baseModel {
   }
 }
 
-module.exports = Document;
+export default Document;

@@ -13,14 +13,15 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const mapTimeZoneOffsetsToFarms = require('../../src/jobs/station_sync/updateTimeZoneOffsets');
-exports.up = async function (knex) {
+import mapTimeZoneOffsetsToFarms from '../../src/jobs/station_sync/updateTimeZoneOffsets.js';
+
+export const up = async function (knex) {
   if (['integration', 'production'].includes(process.env.NODE_ENV)) {
     await mapTimeZoneOffsetsToFarms(knex);
   }
 };
 
-exports.down = async function (knex) {
+export const down = async function (knex) {
   if (['integration', 'production'].includes(process.env.NODE_ENV)) {
     await knex('farm').update('utc_offset', null);
   }

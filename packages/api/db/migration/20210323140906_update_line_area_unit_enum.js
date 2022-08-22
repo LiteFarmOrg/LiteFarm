@@ -1,4 +1,4 @@
-exports.up = function(knex) {
+export const up = function (knex) {
   return Promise.all([
     knex('area').where({ perimeter_unit: 'in' }).update({ perimeter_unit: 'm' }),
     knex('area').where({ perimeter_unit: 'cm' }).update({ perimeter_unit: 'm' }),
@@ -11,7 +11,7 @@ exports.up = function(knex) {
   ]);
 };
 
-exports.down = function(knex) {
+export const down = function (knex) {
   return Promise.all([
     knex.schema.raw(`
     ALTER TABLE "area"

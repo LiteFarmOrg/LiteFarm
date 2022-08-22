@@ -13,7 +13,8 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const Model = require('objection').Model;
+import { Model } from 'objection';
+import taskModel from './taskModel.js';
 
 class IrrigationTaskModel extends Model {
   static get tableName() {
@@ -35,8 +36,7 @@ class IrrigationTaskModel extends Model {
         task_id: { type: 'integer' },
         type: {
           type: 'string',
-          enum:['sprinkler', 'drip', 'subsurface', 'flood'],
-
+          enum: ['sprinkler', 'drip', 'subsurface', 'flood'],
         },
         'flow_rate_l/min': {
           type: 'float',
@@ -57,16 +57,14 @@ class IrrigationTaskModel extends Model {
         // The related model. This can be either a Model
         // subclass constructor or an absolute file path
         // to a module that exports one.
-        modelClass: require('./taskModel'),
+        modelClass: taskModel,
         join: {
           from: 'irrigation_task.task_id',
           to: 'task.task_id',
         },
-
       },
-
     };
   }
 }
 
-module.exports = IrrigationTaskModel;
+export default IrrigationTaskModel;

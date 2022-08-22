@@ -1,4 +1,4 @@
-exports.up = function (knex) {
+export const up = function (knex) {
   return knex.schema.raw(`
     UPDATE farm
     SET deleted = true
@@ -7,7 +7,7 @@ exports.up = function (knex) {
  `);
 };
 
-exports.down = function (knex) {
+export const down = function (knex) {
   return knex.schema.raw(`
     UPDATE farm
     SET deleted = false 

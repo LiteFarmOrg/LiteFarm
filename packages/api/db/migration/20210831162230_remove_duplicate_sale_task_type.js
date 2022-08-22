@@ -1,4 +1,4 @@
-exports.up = async function(knex) {
+export const up = async function (knex) {
   const saleTaskTypes = await knex('task_type').where({
     task_name: 'Sales',
     farm_id: null,
@@ -11,17 +11,15 @@ exports.up = async function(knex) {
   }
 };
 
-exports.down = function(knex) {
-  return knex('task_type').insert(
-    {
-      'task_name': 'Sales',
-      'farm_id': null,
-      'deleted': false,
-      'created_by_user_id': '1',
-      'updated_by_user_id': '1',
-      'created_at': '2000-01-01 00:00:00.000000 +00:00',
-      'updated_at': '2000-01-01 00:00:00.000000 +00:00',
-      'task_translation_key': 'SALES',
-    },
-  );
+export const down = function (knex) {
+  return knex('task_type').insert({
+    task_name: 'Sales',
+    farm_id: null,
+    deleted: false,
+    created_by_user_id: '1',
+    updated_by_user_id: '1',
+    created_at: '2000-01-01 00:00:00.000000 +00:00',
+    updated_at: '2000-01-01 00:00:00.000000 +00:00',
+    task_translation_key: 'SALES',
+  });
 };

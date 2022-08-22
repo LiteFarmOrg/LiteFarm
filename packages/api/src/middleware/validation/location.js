@@ -96,7 +96,7 @@ function getNonModifiable(asset) {
 
 const managementPlanEnabledLocations = ['field', 'garden', 'buffer_zone', 'greenhouse'];
 
-module.exports = {
+export {
   modelMapping,
   figureMapping,
   promiseMapper,

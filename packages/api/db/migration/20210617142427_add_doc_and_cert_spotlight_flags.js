@@ -1,5 +1,4 @@
-
-exports.up = async function(knex) {
+export const up = async function (knex) {
   await knex.schema.alterTable('showedSpotlight', (t) => {
     t.boolean('documents').defaultTo(false);
     t.timestamp('documents_end').nullable().defaultTo(null);
@@ -8,7 +7,7 @@ exports.up = async function(knex) {
   });
 };
 
-exports.down = async function(knex) {
+export const down = async function (knex) {
   await knex.schema.alterTable('showedSpotlight', (t) => {
     t.dropColumn('documents');
     t.dropColumn('documents_end');

@@ -1,4 +1,10 @@
-const { formatAlterTableEnumSql, dropTableEnumConstraintSql, addTableEnumConstraintSql } = require('../util');
+import {
+  // eslint-disable-next-line no-unused-vars
+  formatAlterTableEnumSql,
+  dropTableEnumConstraintSql,
+  addTableEnumConstraintSql,
+} from '../util.js';
+
 const upCropGroups = [
   'Fruit and nuts',
   'Other crops',
@@ -46,21 +52,43 @@ const upCropSubgroup = [
   'Tropical and subtropical fruits',
 ];
 
-exports.up = async function(knex) {
+export const up = async function (knex) {
   await knex.raw(dropTableEnumConstraintSql('crop', 'crop_group'));
-  await knex('crop').where({ crop_group: 'Oilseed crops' }).update({ crop_group: 'Oilseed crops and oleaginous fruits' });
-  await knex('crop').where({ crop_group: 'High starch Root/tuber crops' }).update({ crop_group: 'High starch root/tuber crops' });
+  await knex('crop')
+    .where({ crop_group: 'Oilseed crops' })
+    .update({ crop_group: 'Oilseed crops and oleaginous fruits' });
+  await knex('crop')
+    .where({ crop_group: 'High starch Root/tuber crops' })
+    .update({ crop_group: 'High starch root/tuber crops' });
   await knex.raw(addTableEnumConstraintSql('crop', 'crop_group', upCropGroups));
   await knex.raw(dropTableEnumConstraintSql('crop', 'crop_subgroup'));
-  await knex('crop').where({ crop_subgroup: 'High starch Root/tuber crops' }).update({ crop_subgroup: 'High starch root/tuber crops' });
-  await knex('crop').where({ crop_subgroup: 'Legumes' }).update({ crop_subgroup: 'Leguminous crops' });
-  await knex('crop').where({ crop_subgroup: 'Medicinal, aromatic, pesticidal, or similar crops' }).update({ crop_subgroup: 'Medicinal, pesticidal or similar crops' });
-  await knex('crop').where({ crop_subgroup: 'Permanent spice crops' }).update({ crop_subgroup: 'Spice and aromatic crops' });
-  await knex('crop').where({ crop_subgroup: 'Temporary spice crops' }).update({ crop_subgroup: 'Spice and aromatic crops' });
-  await knex('crop').where({ crop_subgroup: 'Root, bulb, or tuberous vegetables' }).update({ crop_subgroup: 'Root, bulb or tuberous vegetables' });
-  await knex('crop').where({ crop_subgroup: 'Sugar crops (other)' }).update({ crop_subgroup: 'Sugar crops' });
-  await knex('crop').where({ crop_subgroup: 'Sugar crops (root)' }).update({ crop_subgroup: 'Sugar crops' });
-  await knex('crop').where({ crop_subgroup: 'Temporary oilseed crops' }).update({ crop_subgroup: 'Other temporary oilseed crops' });
+  await knex('crop')
+    .where({ crop_subgroup: 'High starch Root/tuber crops' })
+    .update({ crop_subgroup: 'High starch root/tuber crops' });
+  await knex('crop')
+    .where({ crop_subgroup: 'Legumes' })
+    .update({ crop_subgroup: 'Leguminous crops' });
+  await knex('crop')
+    .where({ crop_subgroup: 'Medicinal, aromatic, pesticidal, or similar crops' })
+    .update({ crop_subgroup: 'Medicinal, pesticidal or similar crops' });
+  await knex('crop')
+    .where({ crop_subgroup: 'Permanent spice crops' })
+    .update({ crop_subgroup: 'Spice and aromatic crops' });
+  await knex('crop')
+    .where({ crop_subgroup: 'Temporary spice crops' })
+    .update({ crop_subgroup: 'Spice and aromatic crops' });
+  await knex('crop')
+    .where({ crop_subgroup: 'Root, bulb, or tuberous vegetables' })
+    .update({ crop_subgroup: 'Root, bulb or tuberous vegetables' });
+  await knex('crop')
+    .where({ crop_subgroup: 'Sugar crops (other)' })
+    .update({ crop_subgroup: 'Sugar crops' });
+  await knex('crop')
+    .where({ crop_subgroup: 'Sugar crops (root)' })
+    .update({ crop_subgroup: 'Sugar crops' });
+  await knex('crop')
+    .where({ crop_subgroup: 'Temporary oilseed crops' })
+    .update({ crop_subgroup: 'Other temporary oilseed crops' });
 
   await knex.raw(addTableEnumConstraintSql('crop', 'crop_subgroup', upCropSubgroup));
   return Promise.all([
@@ -72,13 +100,23 @@ exports.up = async function(knex) {
       t.integer('transplant_days').unsigned();
       t.integer('harvest_days').unsigned();
       t.integer('termination_days').unsigned();
-      t.enu('planting_method', ['BROADCAST_METHOD', 'CONTAINER_METHOD', 'BED_METHOD', 'ROW_METHOD']);
+      t.enu('planting_method', [
+        'BROADCAST_METHOD',
+        'CONTAINER_METHOD',
+        'BED_METHOD',
+        'ROW_METHOD',
+      ]);
       t.decimal('plant_spacing', 36, 12);
       t.decimal('planting_depth', 36, 12).alter();
       t.decimal('seeding_rate', 36, 12);
     }),
     knex.schema.alterTable('crop_variety', (t) => {
-      t.enu('planting_method', ['BROADCAST_METHOD', 'CONTAINER_METHOD', 'BED_METHOD', 'ROW_METHOD']);
+      t.enu('planting_method', [
+        'BROADCAST_METHOD',
+        'CONTAINER_METHOD',
+        'BED_METHOD',
+        'ROW_METHOD',
+      ]);
       t.decimal('plant_spacing', 36, 12);
       t.decimal('planting_depth', 36, 12).alter();
       t.boolean('needs_transplant').defaultTo(false);
@@ -87,10 +125,10 @@ exports.up = async function(knex) {
       t.integer('harvest_days').unsigned();
       t.integer('termination_days').unsigned();
       t.decimal('seeding_rate', 36, 12);
-
     }),
   ]);
 };
+
 const downCropGroups = [
   'Fruit and nuts',
   'Other crops',
@@ -138,17 +176,32 @@ const downCropSubgroups = [
   'Tobacco',
   'Tropical and subtropical fruits',
 ];
-exports.down = async function(knex) {
+
+export const down = async function (knex) {
   await knex.raw(dropTableEnumConstraintSql('crop', 'crop_group'));
-  await knex('crop').where({ crop_group: 'Oilseed crops and oleaginous fruits' }).update({ crop_group: 'Oilseed crops' });
-  await knex('crop').where({ crop_group: 'High starch root/tuber crops' }).update({ crop_group: 'High starch Root/tuber crops' });
+  await knex('crop')
+    .where({ crop_group: 'Oilseed crops and oleaginous fruits' })
+    .update({ crop_group: 'Oilseed crops' });
+  await knex('crop')
+    .where({ crop_group: 'High starch root/tuber crops' })
+    .update({ crop_group: 'High starch Root/tuber crops' });
   await knex.raw(addTableEnumConstraintSql('crop', 'crop_group', downCropGroups));
   await knex.raw(dropTableEnumConstraintSql('crop', 'crop_subgroup'));
-  await knex('crop').where({ crop_subgroup: 'High starch root/tuber crops' }).update({ crop_subgroup: 'High starch Root/tuber crops' });
-  await knex('crop').where({ crop_subgroup: 'Leguminous crops' }).update({ crop_subgroup: 'Legumes' });
-  await knex('crop').where({ crop_subgroup: 'Medicinal, pesticidal or similar crops' }).update({ crop_subgroup: 'Medicinal, aromatic, pesticidal, or similar crops' });
-  await knex('crop').where({ crop_subgroup: 'Root, bulb or tuberous vegetables' }).update({ crop_subgroup: 'Root, bulb, or tuberous vegetables' });
-  await knex('crop').where({ crop_subgroup: 'Other temporary oilseed crops' }).update({ crop_subgroup: 'Temporary oilseed crops' });
+  await knex('crop')
+    .where({ crop_subgroup: 'High starch root/tuber crops' })
+    .update({ crop_subgroup: 'High starch Root/tuber crops' });
+  await knex('crop')
+    .where({ crop_subgroup: 'Leguminous crops' })
+    .update({ crop_subgroup: 'Legumes' });
+  await knex('crop')
+    .where({ crop_subgroup: 'Medicinal, pesticidal or similar crops' })
+    .update({ crop_subgroup: 'Medicinal, aromatic, pesticidal, or similar crops' });
+  await knex('crop')
+    .where({ crop_subgroup: 'Root, bulb or tuberous vegetables' })
+    .update({ crop_subgroup: 'Root, bulb, or tuberous vegetables' });
+  await knex('crop')
+    .where({ crop_subgroup: 'Other temporary oilseed crops' })
+    .update({ crop_subgroup: 'Temporary oilseed crops' });
 
   await knex.raw(addTableEnumConstraintSql('crop', 'crop_subgroup', downCropSubgroups));
   return Promise.all([

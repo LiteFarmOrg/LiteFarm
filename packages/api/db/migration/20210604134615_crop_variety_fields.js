@@ -1,5 +1,4 @@
-
-exports.up = function(knex) {
+export const up = function (knex) {
   return Promise.all([
     knex.schema.alterTable('crop_variety', (t) => {
       t.boolean('can_be_cover_crop');
@@ -11,10 +10,10 @@ exports.up = function(knex) {
       t.integer('planting_depth');
       t.decimal('yield_per_area', 36, 12);
     }),
-  ])
+  ]);
 };
 
-exports.down = function(knex) {
+export const down = function (knex) {
   return Promise.all([
     knex.schema.alterTable('crop_variety', (t) => {
       t.dropColumn('can_be_cover_crop');
@@ -26,5 +25,5 @@ exports.down = function(knex) {
       t.dropColumn('planting_depth');
       t.dropColumn('yield_per_area');
     }),
-  ])
+  ]);
 };

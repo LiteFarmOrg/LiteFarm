@@ -13,17 +13,24 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const chai = require('chai');
-const chaiHttp = require('chai-http');
+import chai from 'chai';
+
+import chaiHttp from 'chai-http';
 chai.use(chaiHttp);
-const mocks = require('./mock.factories');
-const server = require('./../src/server');
-const knex = require('../src/util/knex');
-const { tableCleanup } = require('./testEnvironment');
-const { faker } = require('@faker-js/faker');
+import mocks from './mock.factories.js';
+import server from './../src/server.js';
+import knex from '../src/util/knex.js';
+import { tableCleanup } from './testEnvironment.js';
+import { faker } from '@faker-js/faker';
 
 jest.mock('jsdom');
-jest.mock('../src/middleware/acl/checkSchedulerJwt.js');
+jest.mock('../src/middleware/acl/checkSchedulerJwt.js', () =>
+  jest.fn((req, res, next) => {
+    req.auth = {};
+    req.auth.requestTimedNotifications = true;
+    next();
+  }),
+);
 
 describe('Time Based Notification Tests', () => {
   let farmOwner;
@@ -47,12 +54,12 @@ describe('Time Based Notification Tests', () => {
       mocks.fakeUserFarm({ role_id: 1 }),
     );
 
-    const middleware = require('../src/middleware/acl/checkSchedulerJwt');
-    middleware.mockImplementation((req, res, next) => {
-      req.auth = {};
-      req.auth.requestTimedNotifications = true;
-      next();
-    });
+    // const middleware = require('../src/middleware/acl/checkSchedulerJwt');
+    // middleware.mockImplementation((req, res, next) => {
+    //   req.auth = {};
+    //   req.auth.requestTimedNotifications = true;
+    //   next();
+    // });
   });
 
   async function createFullTask(defaultTaskData = {}) {

@@ -1,23 +1,29 @@
-const chai = require('chai');
-const chaiHttp = require('chai-http');
+import chai from 'chai';
+import chaiHttp from 'chai-http';
 chai.use(chaiHttp);
-const server = require('../src/server');
-const knex = require('../src/util/knex');
+import server from '../src/server.js';
+import knex from '../src/util/knex.js';
 jest.mock('jsdom');
-jest.mock('../src/middleware/acl/checkJwt');
-const mocks = require('./mock.factories');
-const { tableCleanup } = require('./testEnvironment');
-const { faker } = require('@faker-js/faker');
+jest.mock('../src/middleware/acl/checkJwt.js', () =>
+  jest.fn((req, res, next) => {
+    req.user = {};
+    req.user.user_id = req.get('user_id');
+    next();
+  }),
+);
+import mocks from './mock.factories.js';
+import { tableCleanup } from './testEnvironment.js';
+import { faker } from '@faker-js/faker';
 
 describe('Task tests', () => {
-  let middleware;
+  // let middleware;
   beforeEach(() => {
-    middleware = require('../src/middleware/acl/checkJwt');
-    middleware.mockImplementation((req, res, next) => {
-      req.user = {};
-      req.user.user_id = req.get('user_id');
-      next();
-    });
+    // middleware = require('../src/middleware/acl/checkJwt');
+    // middleware.mockImplementation((req, res, next) => {
+    //   req.user = {};
+    //   req.user.user_id = req.get('user_id');
+    //   next();
+    // });
   });
 
   /**

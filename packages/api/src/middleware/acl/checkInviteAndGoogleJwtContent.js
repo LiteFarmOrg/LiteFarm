@@ -13,10 +13,11 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const jsonwebtoken = require('jsonwebtoken');
-const userFarmModel = require('../../models/userFarmModel');
-const emailTokenModel = require('../../models/emailTokenModel');
-const { tokenType } = require('../../util/jwt');
+import jsonwebtoken from 'jsonwebtoken';
+
+import userFarmModel from '../../models/userFarmModel.js';
+import emailTokenModel from '../../models/emailTokenModel.js';
+import { tokenType } from '../../util/jwt.js';
 
 async function checkInvitationTokenContent(req, res, next) {
   let invitation_token_content;
@@ -25,7 +26,9 @@ async function checkInvitationTokenContent(req, res, next) {
   } catch (error) {
     return res.status(401).send('Invitation link expired');
   }
-  const { user_id, farm_id } = await emailTokenModel.query().findById(invitation_token_content.invitation_id);
+  const { user_id, farm_id } = await emailTokenModel
+    .query()
+    .findById(invitation_token_content.invitation_id);
 
   const { status } = await userFarmModel.query().where({ user_id, farm_id }).first();
   if (status !== 'Invited') {
@@ -39,4 +42,4 @@ async function checkInvitationTokenContent(req, res, next) {
   return next();
 }
 
-module.exports = checkInvitationTokenContent;
+export default checkInvitationTokenContent;

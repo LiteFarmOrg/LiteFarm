@@ -127,6 +127,4 @@ const parseCsv = (
   return { data, errors };
 };
 
-module.exports = {
-  parseCsv,
-};
+export default parseCsv;

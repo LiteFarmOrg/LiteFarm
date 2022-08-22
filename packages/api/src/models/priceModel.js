@@ -13,8 +13,9 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const Model = require('objection').Model;
-const softDelete = require('objection-soft-delete');
+import { Model } from 'objection';
+
+import softDelete from 'objection-soft-delete';
 
 class Price extends softDelete({ columnName: 'deleted' })(Model) {
   static get tableName() {
@@ -45,4 +46,4 @@ class Price extends softDelete({ columnName: 'deleted' })(Model) {
   }
 }
 
-module.exports = Price;
+export default Price;

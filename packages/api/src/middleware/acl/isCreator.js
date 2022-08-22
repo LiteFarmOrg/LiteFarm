@@ -1,11 +1,10 @@
-const { Model } = require('objection');
-const knex = Model.knex();
+import knex from '../../util/knex.js';
 const entitiesGetters = {
   farm_expense_id: fromExpense,
   sale_id: fromSale,
   activity_id: fromActivity,
   shift_id: fromShift,
-//   user_id: (user_id) => ({ user_id }),
+  //   user_id: (user_id) => ({ user_id }),
 };
 
 const isCreator = ({ params = null, body = null }) => async (req, res, next) => {
@@ -42,4 +41,4 @@ async function fromShift(shift_id) {
   return await knex('shift').where({ shift_id }).first();
 }
 
-module.exports = isCreator;
+export default isCreator;

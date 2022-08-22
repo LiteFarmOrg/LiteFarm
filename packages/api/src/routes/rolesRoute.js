@@ -1,8 +1,7 @@
-const express = require('express');
+import express from 'express';
 const router = express.Router();
-const rolesController = require('../controllers/rolesController');
-const checkScope = require('../middleware/acl/checkScope');
+import rolesController from '../controllers/rolesController.js';
 
 router.get('/', rolesController.getRoles());
 
-module.exports = router;
+export default router;

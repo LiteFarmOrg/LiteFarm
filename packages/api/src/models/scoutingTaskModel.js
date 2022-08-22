@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const Model = require('objection').Model;
+import { Model } from 'objection';
 
 class ScoutingTaskModel extends Model {
   static get tableName() {
@@ -34,7 +34,7 @@ class ScoutingTaskModel extends Model {
         task_id: { type: 'integer' },
         type: {
           type: 'string',
-          enum:['harvest', 'pest', 'disease', 'weed', 'other'],
+          enum: ['harvest', 'pest', 'disease', 'weed', 'other'],
         },
       },
       additionalProperties: false,
@@ -42,4 +42,4 @@ class ScoutingTaskModel extends Model {
   }
 }
 
-module.exports = ScoutingTaskModel;
+export default ScoutingTaskModel;

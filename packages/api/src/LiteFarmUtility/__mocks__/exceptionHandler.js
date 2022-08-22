@@ -14,11 +14,11 @@
  */
 
 // eslint-disable-next-line no-undef
-const handleException = jest.fn(()=>{
-  return { status:300, message:'Test error message' }
+const handleException = jest.fn(() => {
+  return { status: 300, message: 'Test error message' };
 });
 const ExceptionHandler = {
   handleException,
 };
 
-module.exports = ExceptionHandler;
+export default ExceptionHandler;

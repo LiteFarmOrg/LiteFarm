@@ -1,8 +1,8 @@
-const i18n = require('./i18n');
+import i18n from './i18n.js';
 
-module.exports = {
-  tCrop: (crop_translation_key) =>
-    i18n.t(`crop:${crop_translation_key}`, { defaultValue: crop_translation_key }),
-  i18n,
-  t: i18n.t,
-};
+const tCrop = (crop_translation_key) =>
+  i18n.t(`crop:${crop_translation_key}`, { defaultValue: crop_translation_key });
+
+const { t } = i18n;
+
+export { tCrop, t, i18n };

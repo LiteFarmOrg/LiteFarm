@@ -13,34 +13,46 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const chai = require('chai');
-const chaiHttp = require('chai-http');
-const moment = require('moment');
+import chai from 'chai';
+
+import chaiHttp from 'chai-http';
+import moment from 'moment';
 chai.use(chaiHttp);
-const server = require('../src/server');
-const knex = require('../src/util/knex');
-const { tableCleanup } = require('./testEnvironment');
+import server from '../src/server.js';
+import knex from '../src/util/knex.js';
+import { tableCleanup } from './testEnvironment.js';
 jest.mock('jsdom');
-jest.mock('../src/middleware/acl/checkJwt');
-jest.mock('../src/jobs/station_sync/mapping');
-jest.mock('../src/templates/sendEmailTemplate');
-const mocks = require('./mock.factories');
-const { faker } = require('@faker-js/faker');
+jest.mock('../src/middleware/acl/checkJwt.js', () =>
+  jest.fn((req, res, next) => {
+    req.user = {};
+    req.user.user_id = req.get('user_id');
+    next();
+  }),
+);
+jest.mock('../src/jobs/station_sync/mapping.js');
+jest.mock('../src/templates/sendEmailTemplate.js', () => ({
+  sendEmail: jest.fn(),
+  emails: { INVITATION: { path: 'invitation_to_farm_email' } },
+}));
+import mocks from './mock.factories.js';
+import { faker } from '@faker-js/faker';
+import * as emailMiddleware from '../src/templates/sendEmailTemplate.js';
 
 describe('Sign Up Tests', () => {
-  let middleware;
-  let emailMiddleware;
-  const mockEmail = jest.fn();
+  let token;
+  let crop;
+  // let emailMiddleware;
+  // const mockEmail = jest.fn();
   let farm;
   let newOwner;
 
   beforeAll(() => {
-    emailMiddleware = require('../src/templates/sendEmailTemplate');
+    // emailMiddleware = require('../src/templates/sendEmailTemplate');
     token = global.token;
   });
 
   beforeEach(() => {
-    emailMiddleware.sendEmail.mockClear();
+    // emailMiddleware.sendEmail.mockClear();
   });
 
   // FUNCTIONS
@@ -53,13 +65,14 @@ describe('Sign Up Tests', () => {
     [farm] = await mocks.farmFactory();
     [newOwner] = await mocks.usersFactory();
     [crop] = await mocks.cropFactory({ promisedFarm: [farm] });
+    emailMiddleware.sendEmail.mockClear();
 
-    middleware = require('../src/middleware/acl/checkJwt');
-    middleware.mockImplementation((req, res, next) => {
-      req.user = {};
-      req.user.sub = '|' + req.get('user_id');
-      next();
-    });
+    // middleware = require('../src/middleware/acl/checkJwt');
+    // middleware.mockImplementation((req, res, next) => {
+    //   req.user = {};
+    //   req.user.sub = '|' + req.get('user_id');
+    //   next();
+    // });
   });
 
   afterAll(async (done) => {

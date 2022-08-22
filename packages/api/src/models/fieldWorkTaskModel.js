@@ -13,7 +13,8 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const Model = require('objection').Model;
+import { Model } from 'objection';
+import taskModel from './taskModel.js';
 
 class FieldWorkTaskModel extends Model {
   static get tableName() {
@@ -34,8 +35,17 @@ class FieldWorkTaskModel extends Model {
         task_id: { type: 'integer' },
         type: {
           type: 'string',
-          enum:['COVERING_SOIL', 'FENCING', 'PREPARING_BEDS_OR_ROWS', 'PRUNING',
-            'SHADE_CLOTH', 'TERMINATION', 'TILLAGE', 'WEEDING', 'OTHER'],
+          enum: [
+            'COVERING_SOIL',
+            'FENCING',
+            'PREPARING_BEDS_OR_ROWS',
+            'PRUNING',
+            'SHADE_CLOTH',
+            'TERMINATION',
+            'TILLAGE',
+            'WEEDING',
+            'OTHER',
+          ],
         },
         other_type: { type: ['string', null] },
       },
@@ -51,16 +61,14 @@ class FieldWorkTaskModel extends Model {
         // The related model. This can be either a Model
         // subclass constructor or an absolute file path
         // to a module that exports one.
-        modelClass: require('./taskModel'),
+        modelClass: taskModel,
         join: {
           from: 'field_work_task.task_id',
           to: 'task.task_id',
         },
-
       },
-
     };
   }
 }
 
-module.exports = FieldWorkTaskModel;
+export default FieldWorkTaskModel;

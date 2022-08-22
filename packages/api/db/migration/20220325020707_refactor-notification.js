@@ -14,7 +14,7 @@ const oldFields = [
   { name: 'ref_pk', defn: 'character varying(255) COLLATE pg_catalog."default"' },
 ];
 
-exports.up = async function (knex) {
+export const up = async function (knex) {
   for (const field of oldFields) {
     await knex.raw(`ALTER TABLE notification DROP COLUMN ${field.name};`);
   }
@@ -23,7 +23,7 @@ exports.up = async function (knex) {
   }
 };
 
-exports.down = async function (knex) {
+export const down = async function (knex) {
   for (const field of newFields) {
     await knex.raw(`ALTER TABLE notification DROP COLUMN ${field.name};`);
   }

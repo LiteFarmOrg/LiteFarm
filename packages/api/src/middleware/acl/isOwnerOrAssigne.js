@@ -1,5 +1,4 @@
-const { Model } = require('objection');
-const knex = Model.knex();
+import knex from '../../util/knex.js';
 const entitiesGetters = {
   activity_id: fromActivity,
   shift_id: fromShift,
@@ -13,17 +12,20 @@ const isOwnerOrAssignee = ({ params = null, body = null }) => async (req, res, n
   const { user_id, farm_id } = headers;
 
   const userIdObjectFromEntity = await entitiesGetters[key](value);
-  return sameUser(userIdObjectFromEntity, { user_id, farm_id }) ? next() : notAuthorizedResponse(res);
+  return sameUser(userIdObjectFromEntity, { user_id, farm_id })
+    ? next()
+    : notAuthorizedResponse(res);
 };
 
 function sameUser(object, { user_id, farm_id }) {
-  return object.farm_id ? object.farm_id === farm_id && object.user_id === user_id : object.user_id === user_id;
+  return object.farm_id
+    ? object.farm_id === farm_id && object.user_id === user_id
+    : object.user_id === user_id;
 }
 
 async function fromActivity(activityId) {
   return knex('activityLog').where({ activity_id: activityId }).first();
 }
-
 
 async function fromShift(shiftId) {
   return await knex('shift').where({ shift_id: shiftId }).first();
@@ -37,7 +39,10 @@ async function isShiftOwnerOrIsAdmin(req, res, next) {
   const { user_id, farm_id } = req.headers;
   const AdminRoles = [1, 2, 5];
   const { role_id } = await knex('userFarm').where({ user_id, farm_id }).first();
-  const isUser = sameUser({ user_id, farm_id }, { user_id: req.body.user_id, farm_id: req.body.farm_id });
+  const isUser = sameUser(
+    { user_id, farm_id },
+    { user_id: req.body.user_id, farm_id: req.body.farm_id },
+  );
   if (isUser) {
     next();
     return;
@@ -58,11 +63,9 @@ async function isAdmin(req, res, next) {
   const { farm_id } = req.params;
   const AdminRoles = [1, 2, 5];
   req.header.farm_id = farm_id;
-  return AdminRoles.includes(req.role) ? next() : res.status(403).send('Worker is not allowed to get shifts of another user');
+  return AdminRoles.includes(req.role)
+    ? next()
+    : res.status(403).send('Worker is not allowed to get shifts of another user');
 }
 
-module.exports = {
-  isOwnerOrAssignee,
-  isShiftOwnerOrIsAdmin,
-  isAdmin,
-};
+export { isOwnerOrAssignee, isShiftOwnerOrIsAdmin, isAdmin };

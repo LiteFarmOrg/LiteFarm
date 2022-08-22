@@ -13,15 +13,13 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
+import OrganicHistoryModel from '../models/organicHistoryModel.js';
 
-const organicHistoryModel = require('../models/organicHistoryModel');
-
-module.exports = {
-
+export default {
   addOrganicHistory() {
     return async (req, res) => {
       try {
-        const result = await organicHistoryModel.query().context(req.user).insert(req.body);
+        const result = await OrganicHistoryModel.query().context(req.user).insert(req.body);
         return res.status(201).send(result);
       } catch (error) {
         return res.status(400).json({ error });
@@ -31,11 +29,14 @@ module.exports = {
 
   async getOrganicHistory(req, res) {
     try {
-      const result = await organicHistoryModel.query().whereNotDeleted().where({ location_id: req.params.location_id });
-      return result?.length ? res.status(200).send(result) : res.status(404).send('Organic history not found');
+      const result = await OrganicHistoryModel.query()
+        .whereNotDeleted()
+        .where({ location_id: req.params.location_id });
+      return result?.length
+        ? res.status(200).send(result)
+        : res.status(404).send('Organic history not found');
     } catch (error) {
       return res.status(400).json({ error });
     }
   },
-
 };

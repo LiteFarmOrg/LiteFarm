@@ -1,4 +1,4 @@
-exports.up = async function (knex) {
+export const up = async function (knex) {
   const shifts = await knex.raw(`
     select distinct shift.shift_id , "shift".start_time, "shift".end_time, "shift".user_id, 
     "shift".break_duration, "shift".mood, "shift".wage_at_moment, "userFarm"."farm_id" 
@@ -13,7 +13,7 @@ exports.up = async function (knex) {
   await knex('shiftTask').del();
   await knex('shift').del();
   await knex.schema.alterTable('shift', (table) =>
-    table.dropForeign('user_id', 'user_id')
+    table.dropForeign('user_id', 'user_id'),
   )
   await knex.schema.alterTable('shift', (table) => {
     table.foreign('user_id');
@@ -25,7 +25,7 @@ exports.up = async function (knex) {
   return knex.batchInsert('shiftTask', shiftTasks);
 };
 
-exports.down = function (knex) {
+export const down = function (knex) {
   return knex.schema.alterTable('shift', (table) => {
     table.dropForeign(['farm_id', 'user_id']);
     table.dropColumn('farm_id');

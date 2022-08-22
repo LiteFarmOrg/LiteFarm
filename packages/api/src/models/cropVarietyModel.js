@@ -13,8 +13,10 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const Model = require('objection').Model;
-const BaseModel = require('./baseModel');
+import { Model } from 'objection';
+
+import BaseModel from './baseModel.js';
+import cropModel from './cropModel.js';
 
 class CropVariety extends BaseModel {
   static get tableName() {
@@ -138,7 +140,7 @@ class CropVariety extends BaseModel {
     return {
       crop: {
         relation: Model.BelongsToOneRelation,
-        modelClass: require('./cropModel'),
+        modelClass: cropModel,
         join: {
           from: 'crop_variety.crop_id',
           to: 'crop.crop_id',
@@ -148,4 +150,4 @@ class CropVariety extends BaseModel {
   }
 }
 
-module.exports = CropVariety;
+export default CropVariety;

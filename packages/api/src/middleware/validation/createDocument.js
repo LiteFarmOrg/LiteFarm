@@ -13,9 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-
 async function validateFilesLength(req, res, next) {
-
   if (req?.body?.files?.length <= 0) {
     return res.status(400).send('Can not create document without file links');
   }
@@ -23,4 +21,4 @@ async function validateFilesLength(req, res, next) {
   return next();
 }
 
-module.exports = validateFilesLength;
+export default validateFilesLength;

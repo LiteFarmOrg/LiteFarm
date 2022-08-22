@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const Model = require('objection').Model;
+import { Model } from 'objection';
 
 class waterBalanceSchedule extends Model {
   static get tableName() {
@@ -39,4 +39,4 @@ class waterBalanceSchedule extends Model {
   }
 }
 
-module.exports = waterBalanceSchedule;
+export default waterBalanceSchedule;

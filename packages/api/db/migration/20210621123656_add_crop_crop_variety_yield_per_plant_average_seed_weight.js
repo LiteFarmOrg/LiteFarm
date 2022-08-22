@@ -1,4 +1,4 @@
-exports.up = function(knex) {
+export const up = function (knex) {
   return Promise.all([
     knex.schema.alterTable('crop_variety', (t) => {
       t.decimal('average_seed_weight', 36, 12);
@@ -11,7 +11,7 @@ exports.up = function(knex) {
   ]);
 };
 
-exports.down = function(knex) {
+export const down = function (knex) {
   return Promise.all([
     knex.schema.alterTable('crop_variety', (t) => {
       t.dropColumn('average_seed_weight');

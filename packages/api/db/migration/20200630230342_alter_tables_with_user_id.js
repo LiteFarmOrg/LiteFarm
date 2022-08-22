@@ -14,39 +14,33 @@
  */
 
 // drops constraints
-exports.up = function(knex) {
+export const up = function (knex) {
   return Promise.all([
     knex.schema.table('shift', (table) => {
-      table.dropForeign('user_id')
+      table.dropForeign('user_id');
     }),
     knex.schema.table('userFarm', (table) => {
-      table.dropForeign('user_id')
+      table.dropForeign('user_id');
     }),
     knex.schema.table('farmDataSchedule', (table) => {
-      table.dropForeign('user_id')
+      table.dropForeign('user_id');
     }),
     knex.schema.table('activityLog', (table) => {
-      table.dropForeign('user_id')
+      table.dropForeign('user_id');
     }),
-  ])
+  ]);
 };
 
-exports.down = function(knex) {
+export const down = function (knex) {
   return Promise.all([
     knex.schema.alterTable('shift', (table) => {
-      table.string('user_id')
-        .references('user_id')
-        .inTable('users').alter();
+      table.string('user_id').references('user_id').inTable('users').alter();
     }),
     knex.schema.alterTable('farmDataSchedule', (table) => {
-      table.string('user_id')
-        .references('user_id')
-        .inTable('users').alter();
+      table.string('user_id').references('user_id').inTable('users').alter();
     }),
     knex.schema.alterTable('activityLog', (table) => {
-      table.string('user_id')
-        .references('user_id')
-        .inTable('users').alter();
+      table.string('user_id').references('user_id').inTable('users').alter();
     }),
-  ])
+  ]);
 };

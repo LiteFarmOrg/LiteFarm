@@ -55,4 +55,4 @@ async function deleteSensorData(knex) {
   });
 }
 
-module.exports = deleteSensorData;
+export default deleteSensorData;

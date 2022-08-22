@@ -13,13 +13,19 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const path = require('path');
-require('dotenv').config();
-require('dotenv').config({ path: path.resolve(process.cwd(), '.env.local') });
-const express = require('express');
-const bodyParser = require('body-parser');
+import './dotenvConfig.js';
+
+// import path from 'path';
+
+// import dotenv from 'dotenv';
+// console.log("Starting up")
+//
+// dotenv.config();
+// dotenv.config({ path: path.resolve(process.cwd(), '.env.local') });
+import express from 'express';
+import bodyParser from 'body-parser';
 const app = express();
-const expressOasGenerator = require('express-oas-generator');
+import expressOasGenerator from 'express-oas-generator';
 const environment = process.env.NODE_ENV || 'development';
 
 /*
@@ -78,58 +84,60 @@ expressOasGenerator.handleResponses(app, {
   ],
 });
 
-const promiseRouter = require('express-promise-router');
-const { Model } = require('objection');
-const checkJwt = require('./middleware/acl/checkJwt');
-const cors = require('cors');
+import promiseRouter from 'express-promise-router';
+import { Model } from 'objection';
+import checkJwt from './middleware/acl/checkJwt.js';
+import cors from 'cors';
 
 // initialize knex
-const knex = require('./util/knex');
+import knex from './util/knex.js';
 
 // bind all models to a knex instance
 Model.knex(knex);
 
 // import routes
-const loginRoutes = require('./routes/loginRoute');
-const cropRoutes = require('./routes/cropRoute');
-const cropVarietyRoutes = require('./routes/cropVarietyRoute');
-const fieldRoutes = require('./routes/fieldRoute');
-const saleRoutes = require('./routes/saleRoute');
-const taskTypeRoutes = require('./routes/taskTypeRoute');
-const userRoutes = require('./routes/userRoute');
-const farmExpenseRoute = require('./routes/farmExpenseRoute');
-const farmExpenseTypeRoute = require('./routes/farmExpenseTypeRoute');
-const farmRoutes = require('./routes/farmRoute');
-const logRoutes = require('./routes/logRoute');
-const shiftRoutes = require('./routes/shiftRoute');
-const managementPlanRoute = require('./routes/managementPlanRoute');
-const fertilizerRoutes = require('./routes/fertilizerRoute');
-const diseaseRoutes = require('./routes/diseaseRoute');
-const pesticideRoutes = require('./routes/pesticideRoute');
-const yieldRoutes = require('./routes/yieldRoute');
-const priceRoutes = require('./routes/priceRoute');
-const insightRoutes = require('./routes/insightRoute');
-const locationRoute = require('./routes/locationRoute');
-const userFarmDataRoute = require('./routes/userFarmDataRoute');
-const userFarmRoute = require('./routes/userFarmRoute');
-const rolesRoutes = require('./routes/rolesRoute');
-const organicCertifierSurveyRoutes = require('./routes/organicCertifierSurveyRoute');
-const passwordResetRoutes = require('./routes/passwordResetRoute.js');
-const showedSpotlightRoutes = require('./routes/showedSpotlightRoute.js');
+import loginRoutes from './routes/loginRoute.js';
+
+import cropRoutes from './routes/cropRoute.js';
+import cropVarietyRoutes from './routes/cropVarietyRoute.js';
+import fieldRoutes from './routes/fieldRoute.js';
+import saleRoutes from './routes/saleRoute.js';
+import taskTypeRoutes from './routes/taskTypeRoute.js';
+import userRoutes from './routes/userRoute.js';
+import farmExpenseRoute from './routes/farmExpenseRoute.js';
+import farmExpenseTypeRoute from './routes/farmExpenseTypeRoute.js';
+import farmRoutes from './routes/farmRoute.js';
+import logRoutes from './routes/logRoute.js';
+import shiftRoutes from './routes/shiftRoute.js';
+import managementPlanRoute from './routes/managementPlanRoute.js';
+import fertilizerRoutes from './routes/fertilizerRoute.js';
+import diseaseRoutes from './routes/diseaseRoute.js';
+import pesticideRoutes from './routes/pesticideRoute.js';
+import yieldRoutes from './routes/yieldRoute.js';
+import priceRoutes from './routes/priceRoute.js';
+import insightRoutes from './routes/insightRoute.js';
+import locationRoute from './routes/locationRoute.js';
+import userFarmDataRoute from './routes/userFarmDataRoute.js';
+import userFarmRoute from './routes/userFarmRoute.js';
+import rolesRoutes from './routes/rolesRoute.js';
+import organicCertifierSurveyRoutes from './routes/organicCertifierSurveyRoute.js';
+import passwordResetRoutes from './routes/passwordResetRoute.js';
+import showedSpotlightRoutes from './routes/showedSpotlightRoute.js';
 
 // const waterBalanceScheduler = require('./jobs/waterBalance/waterBalance');
 // const nitrogenBalanceScheduler = require('./jobs/nitrogenBalance/nitrogenBalance');
 // const farmDataScheduler = require('./jobs/sendFarmData/sendFarmData');
-const userLogRoute = require('./routes/userLogRoute');
-const supportTicketRoute = require('./routes/supportTicketRoute');
-const exportRoute = require('./routes/exportRoute');
-const farmTokenRoute = require('./routes/farmTokenRoute');
-const documentRoute = require('./routes/documentRoute');
-const taskRoute = require('./routes/taskRoute');
-const productRoute = require('./routes/productRoute');
-const notificationUserRoute = require('./routes/notificationUserRoute');
-const timeNotificationRoute = require('./routes/timeNotificationRoute');
-const sensorRoute = require('./routes/sensorRoute');
+import userLogRoute from './routes/userLogRoute.js';
+
+import supportTicketRoute from './routes/supportTicketRoute.js';
+import exportRoute from './routes/exportRoute.js';
+import farmTokenRoute from './routes/farmTokenRoute.js';
+import documentRoute from './routes/documentRoute.js';
+import taskRoute from './routes/taskRoute.js';
+import productRoute from './routes/productRoute.js';
+import notificationUserRoute from './routes/notificationUserRoute.js';
+import timeNotificationRoute from './routes/timeNotificationRoute.js';
+import sensorRoute from './routes/sensorRoute.js';
 
 // register API
 const router = promiseRouter();
@@ -298,4 +306,4 @@ app.on('close', () => {
   knex.destroy();
 });
 
-module.exports = app;
+export default app;

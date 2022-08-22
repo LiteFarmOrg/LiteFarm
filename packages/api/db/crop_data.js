@@ -13,22 +13,26 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-var csv = require('csvtojson');
+import csv from 'csvtojson';
 
-exports.seed = function(knex) {
+export const seed = function (knex) {
   // Deletes ALL existing entries
-  return new Promise(resolve => {
-    knex('crop').del()
+  return new Promise((resolve) => {
+    knex('crop')
+      .del()
       .then(function () {
-        return csv().fromFile(__dirname + '/seedData/crop_data.csv')
+        return csv()
+          .fromFile(__dirname + '/seedData/crop_data.csv')
           .then((jsonBlob) => {
             const jsonObject = JSON.stringify(jsonBlob, (key, value) => {
               return value.length === 0 ? null : value;
             });
-            return knex('crop').insert(JSON.parse(jsonObject)).then(() => {
-              resolve();
-            })
+            return knex('crop')
+              .insert(JSON.parse(jsonObject))
+              .then(() => {
+                resolve();
+              });
           });
       });
-  })
+  });
 };

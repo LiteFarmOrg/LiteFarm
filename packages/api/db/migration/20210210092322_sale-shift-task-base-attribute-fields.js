@@ -1,4 +1,4 @@
-exports.up = function(knex) {
+export const up = function (knex) {
   return Promise.all([
     knex.schema.alterTable('sale', (t) => {
       t.string('created_by_user_id').references('user_id').inTable('users').defaultTo('1');
@@ -14,7 +14,8 @@ exports.up = function(knex) {
     }),
   ]);
 };
-exports.down = function(knex) {
+
+export const down = function (knex) {
   return Promise.all([
     knex.schema.alterTable('sale', (t) => {
       t.dropForeign('created_by_user_id');
@@ -32,6 +33,5 @@ exports.down = function(knex) {
       t.dropColumn('created_at');
       t.dropColumn('updated_at');
     }),
-
   ]);
 };

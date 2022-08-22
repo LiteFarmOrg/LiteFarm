@@ -13,10 +13,11 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const timeNotificationController = require('../controllers/timeNotificationController');
-const express = require('express');
-const checkSchedulerJwt = require('../middleware/acl/checkSchedulerJwt');
-const hasTimeNotificationsAccess = require('../middleware/acl/hasTimeNotificationsAccess');
+import timeNotificationController from '../controllers/timeNotificationController.js';
+
+import express from 'express';
+import checkSchedulerJwt from '../middleware/acl/checkSchedulerJwt.js';
+import hasTimeNotificationsAccess from '../middleware/acl/hasTimeNotificationsAccess.js';
 const router = express.Router();
 
 router.post(
@@ -33,4 +34,4 @@ router.post(
   timeNotificationController.postDailyDueTodayTasks,
 );
 
-module.exports = router;
+export default router;

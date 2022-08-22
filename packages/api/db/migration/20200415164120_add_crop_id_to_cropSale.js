@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-exports.up = async function(knex) {
+export const up = async function(knex) {
   await knex.raw(`
   ALTER TABLE "cropSale"
   ADD COLUMN crop_id integer, ADD COLUMN farm_id uuid;
@@ -47,10 +47,9 @@ WHERE fc.field_crop_id = cs.field_crop_id and f.field_id = fc.field_id and s.sal
   `)
 
 
-
 };
 
-exports.down = function(knex) {
+export const down = function(knex) {
   return Promise.all([
     knex.schema.table('cropSale', (table) => {
       table.dropColumn('crop_id');

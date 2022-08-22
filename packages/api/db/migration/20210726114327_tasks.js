@@ -1,4 +1,4 @@
-const { formatAlterTableEnumSql } = require('../util');
+import { formatAlterTableEnumSql } from '../util.js';
 const logTypeToTaskId = {
   fertilizing: 6,
   pestControl: 11,
@@ -9,7 +9,7 @@ const logTypeToTaskId = {
   fieldWork: 1,
   weatherData: 12,
   soilData: null,
-  other: 12
+  other: 12,
 }
 const oldFieldWorkTypes = ['plow', 'ridgeTill', 'zoneTill', 'mulchTill', 'ripping', 'discing'];
 const fieldWorkTypes = [ ...oldFieldWorkTypes, 'bedPreparation', 'coverRow', 'irrigationSetup', 'prune', 'weed'];
@@ -39,7 +39,8 @@ const newTableNames = {
   activityFields: 'location_tasks',
   activityCrops: 'management_tasks',
 }
-exports.up = async function(knex) {
+
+export const up = async function(knex) {
   // Modifying task types to fit new task structure
   await knex('taskType').insert({ task_id: 1000000, task_name: 'AUG_20201_MIGRATION_PLACEHOLDER' });
   await knex('taskType').insert({  task_name: 'Sales', task_translation_key: 'SALES' });
@@ -114,7 +115,7 @@ exports.up = async function(knex) {
   await knex('task').update({ status: 'COMPLETED' });
 };
 
-exports.down = async function(knex) {
+export const down = async function(knex) {
   await knex('taskType').where('task_id', 1000000).del();
   await knex('taskType').whereIn('task_name', ['Sales', 'Irrigation']).del();
   await knex('taskType').update({  task_name: 'Delivery', task_translation_key: 'DELIVERY' }).where({ task_id: 2 });

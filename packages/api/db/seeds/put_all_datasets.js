@@ -13,10 +13,20 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-var csv = require('csvtojson');
-const knex = require('knex');
-const farmData = require('./seedData/generalFarmSeedData');
-const _ = require('lodash');
+import csv from 'csvtojson';
+// eslint-disable-next-line no-unused-vars
+import knex from 'knex';
+// eslint-disable-next-line no-unused-vars
+import farmData from './seedData/generalFarmSeedData.js';
+// eslint-disable-next-line no-unused-vars
+import _ from 'lodash';
+import { fileURLToPath } from "url";
+import path from "path";
+
+const __filename = fileURLToPath(import.meta.url)
+
+const __dirname = path.dirname(__filename)
+
 
 function insertCsvIntoTable(knex, tableName, fromFile) {
   console.log('inserting', tableName);
@@ -104,6 +114,7 @@ function insertCropDiseasesData(knex) {
 }
 
 // TODO: move this to factories
+// eslint-disable-next-line no-unused-vars
 function insertTestData(knex, farmData) {
   return new Promise(resolve => {
     knex(farmData[0].table).insert(farmData[0].data).then(() => {
@@ -126,7 +137,7 @@ function insertTestData(knex, farmData) {
   })
 }
 
-exports.seed = async function (knex) {
+export const seed = async function (knex) {
   // Deletes ALL existing entries
   var BASEURL = __dirname + '/seedData/';
   const dependencies = ['fertilizerLog', 'fieldCrop', 'waterBalance',

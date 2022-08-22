@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const Model = require('objection').Model;
+import { Model } from 'objection';
 
 class FileModel extends Model {
   static get tableName() {
@@ -23,7 +23,6 @@ class FileModel extends Model {
   static get idColumn() {
     return 'file_id';
   }
-
 
   static get jsonSchema() {
     return {
@@ -45,4 +44,4 @@ class FileModel extends Model {
   }
 }
 
-module.exports = FileModel;
+export default FileModel;

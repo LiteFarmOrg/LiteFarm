@@ -13,17 +13,17 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const baseController = require('../controllers/baseController');
-const priceModel = require('../models/priceModel');
-const { transaction, Model } = require('objection');
+import baseController from '../controllers/baseController.js';
 
+import PriceModel from '../models/priceModel.js';
+import { transaction, Model } from 'objection';
 
 const PriceController = {
   addPrice() {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
       try {
-        const result = await baseController.postWithResponse(priceModel, req.body, req, { trx });
+        const result = await baseController.postWithResponse(PriceModel, req.body, req, { trx });
         await trx.commit();
         res.status(201).send(result);
       } catch (error) {
@@ -40,7 +40,9 @@ const PriceController = {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
       try {
-        const isDeleted = await baseController.delete(priceModel, req.params.price_id, req, { trx });
+        const isDeleted = await baseController.delete(PriceModel, req.params.price_id, req, {
+          trx,
+        });
         await trx.commit();
         if (isDeleted) {
           res.sendStatus(200);
@@ -53,28 +55,27 @@ const PriceController = {
           error,
         });
       }
-    }
+    };
   },
 
   updatePrice() {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
       try {
-        const updated = await baseController.put(priceModel, req.params.id, req.body, req, { trx });
+        const updated = await baseController.put(PriceModel, req.params.id, req.body, req, { trx });
         await trx.commit();
         if (!updated.length) {
           res.sendStatus(404);
         } else {
           res.status(200).send(updated);
         }
-
       } catch (error) {
         await trx.rollback();
         res.status(400).json({
           error,
         });
       }
-    }
+    };
   },
 
   getPriceByFarmId() {
@@ -97,11 +98,14 @@ const PriceController = {
   },
 
   async getByForeignKey(farm_id) {
-    const prices = await priceModel.query().select('*').from('price').where('price.farm_id', farm_id).whereNotDeleted();
+    const prices = await PriceModel.query()
+      .select('*')
+      .from('price')
+      .where('price.farm_id', farm_id)
+      .whereNotDeleted();
 
     return prices;
   },
+};
 
-}
-
-module.exports = PriceController;
+export default PriceController;

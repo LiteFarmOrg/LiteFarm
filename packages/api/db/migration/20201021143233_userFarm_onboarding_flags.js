@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-exports.up = function(knex) {
+export const up = function(knex) {
     return Promise.all([
       knex.schema.table('userFarm', (table) => {
         table.boolean('step_one').nullable().defaultTo(false)
@@ -28,20 +28,20 @@ exports.up = function(knex) {
       }),
     ])
   };
-  
-  exports.down = function(knex) {
-    return Promise.all([
-      knex.schema.table('userFarm', (table) => {
-        table.dropColumn('step_one');
-        table.dropColumn('step_one_end');
-        table.dropColumn('step_two');
-        table.dropColumn('step_two_end');
-        table.dropColumn('step_three');
-        table.dropColumn('step_three_end');
-        table.dropColumn('step_four');
-        table.dropColumn('step_four_end');
-      }),
-    ])
-  };
-  
-  
+
+export const down = function(knex) {
+  return Promise.all([
+    knex.schema.table('userFarm', (table) => {
+      table.dropColumn('step_one');
+      table.dropColumn('step_one_end');
+      table.dropColumn('step_two');
+      table.dropColumn('step_two_end');
+      table.dropColumn('step_three');
+      table.dropColumn('step_three_end');
+      table.dropColumn('step_four');
+      table.dropColumn('step_four_end');
+    }),
+  ])
+};
+
+

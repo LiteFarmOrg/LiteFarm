@@ -13,22 +13,26 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const userFarmModel = require('../../models/userFarmModel');
-const emailTokenModel = require('../../models/emailTokenModel');
+import userFarmModel from '../../models/userFarmModel.js';
+
+import emailTokenModel from '../../models/emailTokenModel.js';
 
 async function checkInvitationTokenContent(req, res, next) {
   const emailToken = await emailTokenModel.query().findById(req.user.invitation_id);
   const { user_id, farm_id } = emailToken;
   req.user.user_id = user_id;
   req.user.farm_id = farm_id;
-  const { status } = await userFarmModel.query().where({
-    user_id,
-    farm_id,
-  }).first();
+  const { status } = await userFarmModel
+    .query()
+    .where({
+      user_id,
+      farm_id,
+    })
+    .first();
   if (status !== 'Invited') {
     return res.status(401).send('Invitation link is used');
   }
   return next();
 }
 
-module.exports = checkInvitationTokenContent;
+export default checkInvitationTokenContent;

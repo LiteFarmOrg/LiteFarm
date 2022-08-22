@@ -13,18 +13,18 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-exports.up = function(knex) {
+export const up = function (knex) {
   return Promise.all([
     knex.schema.table('fertilizer', (table) => {
-      table.float('mineralization_rate')
+      table.float('mineralization_rate');
     }),
-  ])
+  ]);
 };
 
-exports.down = function(knex) {
+export const down = function (knex) {
   return Promise.all([
     knex.schema.table('fertilizer', (table) => {
-      table.dropColumn('mineralization_rate')
+      table.dropColumn('mineralization_rate');
     }),
-  ])
+  ]);
 };

@@ -13,10 +13,12 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const { transaction, Model } = require('objection');
-const LocationModel = require('./locationModel');
-const PartnerReadingTypeModel = require('../models/PartnerReadingTypeModel');
-const knex = Model.knex();
+import { transaction, Model } from 'objection';
+
+import LocationModel from './locationModel.js';
+import PartnerReadingTypeModel from '../models/PartnerReadingTypeModel.js';
+import SensorReadingTypeModel from './SensorReadingTypeModel.js';
+import knex from '../util/knex.js';
 
 class Sensor extends Model {
   static get tableName() {
@@ -51,7 +53,7 @@ class Sensor extends Model {
   static get relationMappings() {
     return {
       sensor_reading_type: {
-        modelClass: require('./SensorReadingTypeModel'),
+        modelClass: SensorReadingTypeModel,
         relation: Model.HasManyRelation,
         join: {
           from: 'sensor.location_id',
@@ -224,4 +226,4 @@ class Sensor extends Model {
   }
 }
 
-module.exports = Sensor;
+export default Sensor;

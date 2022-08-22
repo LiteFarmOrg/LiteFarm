@@ -13,14 +13,15 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const express = require('express');
+import express from 'express';
+
 const router = express.Router();
-const farmController = require('../controllers/farmController');
-const authFarmId = require('../middleware/acl/authFarmId');
-const hasFarmAccess = require('../middleware/acl/hasFarmAccess');
-const checkScope = require('../middleware/acl/checkScope');
-const checkSchedulerJwt = require('../middleware/acl/checkSchedulerJwt');
-const hasTimeNotificationsAccess = require('../middleware/acl/hasTimeNotificationsAccess');
+import farmController from '../controllers/farmController.js';
+import authFarmId from '../middleware/acl/authFarmId.js';
+import hasFarmAccess from '../middleware/acl/hasFarmAccess.js';
+import checkScope from '../middleware/acl/checkScope.js';
+import checkSchedulerJwt from '../middleware/acl/checkSchedulerJwt.js';
+import hasTimeNotificationsAccess from '../middleware/acl/hasTimeNotificationsAccess.js';
 
 router.get('/:farm_id', authFarmId, farmController.getFarmByID());
 
@@ -70,4 +71,4 @@ router.get(
   farmController.getFarmsByOffsetRange,
 );
 
-module.exports = router;
+export default router;

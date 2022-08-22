@@ -13,12 +13,13 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const express = require('express');
+import express from 'express';
+
 const router = express.Router();
-const showedSpotlightController = require('../controllers/showedSpotlightController');
+import showedSpotlightController from '../controllers/showedSpotlightController.js';
 
 router.get('/', showedSpotlightController.getSpotlightFlags());
 
 router.patch('/', showedSpotlightController.updateSpotlightFlags());
 
-module.exports = router;
+export default router;

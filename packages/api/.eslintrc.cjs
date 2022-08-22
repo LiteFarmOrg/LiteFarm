@@ -7,6 +7,11 @@ module.exports = {
   },
   parserOptions: {
     ecmaVersion: 2019,
+    babelOptions: {
+      plugins: [
+        '@babel/plugin-syntax-import-assertions'
+      ]
+    }
   },
   parser: '@babel/eslint-parser',
   rules: {

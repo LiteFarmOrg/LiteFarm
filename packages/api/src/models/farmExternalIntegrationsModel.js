@@ -13,9 +13,10 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const Model = require('objection').Model;
-const IntegratingPartners = require('./integratingPartnersModel');
-const Farm = require('./farmModel');
+import { Model } from 'objection';
+
+import IntegratingPartners from './integratingPartnersModel.js';
+import Farm from './farmModel.js';
 
 class FarmExternalIntegrations extends Model {
   /**
@@ -101,4 +102,4 @@ class FarmExternalIntegrations extends Model {
   }
 }
 
-module.exports = FarmExternalIntegrations;
+export default FarmExternalIntegrations;

@@ -13,7 +13,8 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const Model = require('objection').Model;
+import { Model } from 'objection';
+import certifierModel from './certifierModel.js';
 
 class Certification extends Model {
   static get tableName() {
@@ -31,7 +32,7 @@ class Certification extends Model {
       properties: {
         certification_id: { type: 'integer' },
         certification_name: { type: 'string' },
-        certification_translation_key: { type: 'string' }
+        certification_translation_key: { type: 'string' },
       },
       additionalProperties: false,
     };
@@ -40,16 +41,16 @@ class Certification extends Model {
   static get relationMappings() {
     // Import models here to prevent require loops.
     return {
-        certifiers: {
-            modelClass: require('./certifierModel'),
-            relation: Model.HasManyRelation,
-            join: {
-              from: 'certificationModel.certification_id',
-              to: 'certifierModel.certification_id',
-            },
-        }
+      certifiers: {
+        modelClass: certifierModel,
+        relation: Model.HasManyRelation,
+        join: {
+          from: 'certificationModel.certification_id',
+          to: 'certifierModel.certification_id',
+        },
+      },
     };
   }
 }
 
-module.exports = Certification;
+export default Certification;

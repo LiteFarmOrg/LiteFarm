@@ -13,20 +13,31 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const locationModel = require('../../models/locationModel');
-const { managementPlanEnabledLocations } = require('./location');
+import locationModel from '../../models/locationModel.js';
+
+import { managementPlanEnabledLocations } from './location.js';
 
 async function validateLogLocationId(req, res, next) {
-  req.body.locations = req.body.locations.map(location => ({ location_id: location.location_id }));
-  const locations = await locationModel.query().whereNotDeleted().whereIn('location_id', req.body.locations.map(location => location.location_id))
+  req.body.locations = req.body.locations.map((location) => ({
+    location_id: location.location_id,
+  }));
+  const locations = await locationModel
+    .query()
+    .whereNotDeleted()
+    .whereIn(
+      'location_id',
+      req.body.locations.map((location) => location.location_id),
+    )
     .withGraphFetched('figure');
 
   for (const location of locations) {
     if (!managementPlanEnabledLocations.includes(location.figure.type)) {
-      return res.status(400).send('Location must be type of field, garden, buffer_zone, or greenhouse');
+      return res
+        .status(400)
+        .send('Location must be type of field, garden, buffer_zone, or greenhouse');
     }
   }
   return next();
 }
 
-module.exports = validateLogLocationId;
+export default validateLogLocationId;

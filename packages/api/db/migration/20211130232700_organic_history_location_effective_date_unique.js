@@ -1,10 +1,10 @@
-exports.up = function(knex) {
-  return knex.schema.alterTable('organic_history', function(table) {
+export const up = function (knex) {
+  return knex.schema.alterTable('organic_history', function (table) {
     table.unique(['location_id', 'effective_date']);
   });
 };
 
-exports.down = function(knex) {
+export const down = function (knex) {
   return knex.raw(
     `
     ALTER TABLE "organic_history"

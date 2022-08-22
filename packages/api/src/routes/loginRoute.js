@@ -1,10 +1,10 @@
-const express = require('express');
+import express from 'express';
 const router = express.Router();
-const loginController = require('../controllers/loginController');
-const checkGoogleJwt = require('../middleware/acl/checkGoogleJwt');
+import loginController from '../controllers/loginController.js';
+import checkGoogleJwt from '../middleware/acl/checkGoogleJwt.js';
 
 router.post('/google', checkGoogleJwt, loginController.loginWithGoogle());
 router.post('/', loginController.authenticateUser());
 router.get('/user/:email', loginController.getUserNameByUserEmail());
 
-module.exports = router;
+export default router;

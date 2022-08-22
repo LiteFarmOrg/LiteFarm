@@ -13,19 +13,40 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const express = require('express');
+import express from 'express';
+
 const router = express.Router();
-const priceController = require('../controllers/priceController');
-const checkScope = require('../middleware/acl/checkScope');
-const hasFarmAccess = require('../middleware/acl/hasFarmAccess');
+import priceController from '../controllers/priceController.js';
+import checkScope from '../middleware/acl/checkScope.js';
+import hasFarmAccess from '../middleware/acl/hasFarmAccess.js';
 
 // Get the crop on a bed
-router.get('/farm/:farm_id', hasFarmAccess({ params: 'farm_id' }), checkScope(['get:prices']), priceController.getPriceByFarmId());
+router.get(
+  '/farm/:farm_id',
+  hasFarmAccess({ params: 'farm_id' }),
+  checkScope(['get:prices']),
+  priceController.getPriceByFarmId(),
+);
 
-router.post('/', hasFarmAccess({ body: 'farm_id' }), checkScope(['add:prices']), priceController.addPrice());
+router.post(
+  '/',
+  hasFarmAccess({ body: 'farm_id' }),
+  checkScope(['add:prices']),
+  priceController.addPrice(),
+);
 
-router.put('/:id', hasFarmAccess({ body: 'farm_id' }), checkScope(['edit:prices']), priceController.updatePrice());
+router.put(
+  '/:id',
+  hasFarmAccess({ body: 'farm_id' }),
+  checkScope(['edit:prices']),
+  priceController.updatePrice(),
+);
 
-router.delete('/:price_id', hasFarmAccess({ params: 'price_id' }), checkScope(['delete:prices']), priceController.delPrice());
+router.delete(
+  '/:price_id',
+  hasFarmAccess({ params: 'price_id' }),
+  checkScope(['delete:prices']),
+  priceController.delPrice(),
+);
 
-module.exports = router;
+export default router;

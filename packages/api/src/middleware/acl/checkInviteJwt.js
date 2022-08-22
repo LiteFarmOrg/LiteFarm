@@ -13,12 +13,13 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const jwt = require('express-jwt');
-const { tokenType } = require('../../../src/util/jwt');
+import jwt from 'express-jwt';
+
+import { tokenType } from '../../util/jwt.js';
 
 const checkInviteToken = jwt({
   secret: tokenType.invite,
   algorithms: ['HS256'],
 });
 
-module.exports = checkInviteToken;
+export default checkInviteToken;

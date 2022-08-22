@@ -5,14 +5,11 @@ describe.only('LiteFarm end to end test', () => {
   let userPassword;
 
   before(() => {
-    // get and check the test email only once before the tests
-    cy.task('getUserEmail').then((email) => {
-      expect(email).to.be.a('string');
+    cy.getEmail().then((email) => {
       userEmail = email;
     });
 
-    cy.task('getUserPassword').then((password) => {
-      expect(password).to.be.a('string');
+    cy.getPassword().then((password) => {
       userPassword = password;
     });
   });
@@ -28,153 +25,51 @@ describe.only('LiteFarm end to end test', () => {
     const emailOwner = userEmail;
     const usrname = emailOwner.indexOf('@');
     const emailWorker = emailOwner.slice(0, usrname) + '+1' + emailOwner.slice(usrname);
+    const gender = 'Male';
     const fullName = 'Test Farmer';
-    const password = `${userPassword}+@`;
+    const password = `${userPassword}+1@`;
     const farmName = 'UBC FARM';
     const location = '49.250833,-123.2410777';
     const fieldName = 'Test Field';
     const workerName = 'Test Worker';
     const testCrop = 'New Crop';
+    const role = 'Manager';
+    const lang = 'English';
 
-    //Login page
-    cy.get('[data-cy=email]').type(emailOwner);
-    cy.contains('Continue').should('exist').and('be.enabled').click();
+    //Login as a new user
+    cy.newUserLogin(emailOwner);
 
-    //check you are on the create user account page
-    cy.contains('Create new user account').should('exist');
-    cy.get('[data-cy=createUser-fullName]').type(fullName);
-    cy.get('[data-cy=createUser-password]').type(password);
-    cy.contains('Create Account').should('exist').and('be.enabled').click();
+    //create account
+    cy.createAccount(emailOwner, fullName, gender, null, null, password);
 
-    cy.wait(10 * 1000);
-    cy.task('getLastEmail')
-      .its('html')
-      .then((html) => {
-        cy.document({ log: false }).invoke({ log: false }, 'write', html);
-      });
-    cy.get('[data-cy=button-logIn]')
-      .invoke('attr', 'href')
-      .then((href) => {
-        cy.visit(href);
-      });
+    //confirm user creation email
+    cy.userCreationEmail();
 
     //Get Started page
-    cy.contains('started').should('exist');
-    cy.get('[data-cy=getStarted]').should('exist');
-    cy.get('[data-cy=getStarted]').click();
+    cy.getStarted();
 
     //Add farm page
-    cy.url().should('include', '/add_farm');
-    cy.get('[data-cy=addFarm-continue]').should('exist');
-    cy.get('[data-cy=addFarm-continue]').should('be.disabled');
-    cy.get('[data-cy=addFarm-farmName]').should('exist');
-    cy.get('[data-cy=addFarm-location]').should('exist');
-
-    // Enter new farm details and click continue which should be enabled
-    cy.waitForGoogleApi().then(() => {
-      cy.get('[data-cy=addFarm-farmName]').type(farmName);
-      cy.get('[data-cy=addFarm-location]').type(location).wait(1000);
-      cy.get('[data-cy=addFarm-continue]').should('not.be.disabled').click();
-    });
+    cy.addFarm(farmName, location);
 
     //role selection page
-    cy.contains('What is your role on the farm').should('exist');
-    cy.url().should('include', '/role_selection');
-    cy.get('[data-cy=roleSelection-continue]').should('exist').and('be.disabled');
-    cy.get('[data-cy=roleSelection-role]').should('exist').check('Manager', { force: true });
-    cy.get('[data-cy=roleSelection-continue]').should('not.be.disabled').click();
+    cy.roleSelection(role);
 
     //Consent page
-    cy.contains('Our Data Policy').should('exist');
-    cy.url().should('include', '/consent');
-    cy.get('[data-cy=consent-continue]').should('exist').and('be.disabled');
-    cy.get('[data-cy=consent-agree]').should('exist').check({ force: true });
-    cy.get('[data-cy=consent-continue]').should('not.be.disabled').click();
+    cy.giveConsent();
 
     //interested in organic
-    cy.contains('Interested in certifications').should('exist');
-    cy.url().should('include', '/certification/interested_in_organic');
-    cy.get('[data-cy=interestedInOrganic-continue]').should('exist').and('be.disabled');
-    cy.get('[data-cy=interestedInOrganic-select]').should('exist');
-    cy.get('[type="radio"]').first().check({ force: true });
-    cy.get('[data-cy=interestedInOrganic-continue]').should('not.be.disabled').click();
-
-    //what type of certification(select organic)
-    cy.contains('What type of certification').should('exist');
-    cy.url().should('include', '/certification/selection');
-    cy.get('[data-cy=certificationSelection-continue]').should('exist').and('be.disabled');
-    cy.get('[data-cy=certificationSelection-type]').should('exist');
-    cy.get('[type="radio"]').first().check({ force: true });
-    cy.get('[data-cy=certificationSelection-continue]').should('not.be.disabled').click();
+    cy.interestedInOrganic();
 
     //who is your certifier(select BCARA)
-    cy.contains('Who is your certifier').should('exist');
-    cy.url().should('include', '/certification/certifier/selection');
-    cy.get('[data-cy=certifierSelection-proceed]').should('exist').and('be.disabled');
-    cy.get('[data-cy=certifierSelection-item]').should('exist').eq(1).click();
-    let certifier;
-    cy.get('[data-cy=certifierSelection-item]')
-      .eq(1)
-      .then(function ($elem) {
-        certifier = $elem.text();
-        let end = certifier.indexOf('(');
-        let result = certifier.substring(1, end);
-        //click the proceed button and ensure test is on the certification summary view and the certification selected is displayed
-        cy.get('[data-cy=certifierSelection-proceed]').should('not.be.disabled').click();
-        cy.url().should('include', '/certification/summary');
-        cy.contains(result).should('exist');
-      });
-
-    //certification summary
-    cy.get('[data-cy=certificationSummary-continue]')
-      .should('exist')
-      .and('not.be.disabled')
-      .click();
+    cy.selectCertifier();
 
     //onboarding outro
-    cy.url().should('include', '/outro');
-    cy.get('[data-cy=outro-finish]').should('exist').and('not.be.disabled').click();
+    cy.onboardingOutro();
 
-    cy.wait(10 * 1000);
-    cy.task('getLastEmail')
-      .its('html')
-      .then((html) => {
-        cy.document({ log: false }).invoke({ log: false }, 'write', html);
-      });
-
-    cy.get('[data-cy=congrats-email-logIn]')
-      .invoke('attr', 'href')
-      .then((href) => {
-        cy.visit(href);
-      });
+    cy.confirmationEmail();
 
     //farm home page
-    cy.get('[data-cy=spotlight-next]')
-      .contains('Next')
-      .should('exist')
-      .and('not.be.disabled')
-      .click();
-    cy.get('[data-cy=spotlight-next]')
-      .contains('Next')
-      .should('exist')
-      .and('not.be.disabled')
-      .click();
-    cy.get('[data-cy=spotlight-next]')
-      .contains('Next')
-      .should('exist')
-      .and('not.be.disabled')
-      .click();
-    cy.get('[data-cy=spotlight-next]')
-      .contains('Got it')
-      .should('exist')
-      .and('not.be.disabled')
-      .click();
-    cy.get('[data-cy=home-farmButton]').should('exist').and('not.be.disabled').click();
-    cy.get('[data-cy=navbar-option]')
-      .contains('Farm map')
-      .should('exist')
-      .and('not.be.disabled')
-      .click();
+    cy.homePageSpotlights();
 
     //arrive at farm map page and draw a field
     cy.url().should('include', '/map');
@@ -232,55 +127,36 @@ describe.only('LiteFarm end to end test', () => {
         .and('not.be.disabled')
         .click();
     });
-    //Add field view
+
     cy.get('[data-cy=createField-fieldName]').should('exist').type(fieldName);
     cy.get('[data-cy=createField-save]').should('exist').and('not.be.disabled').click();
     cy.wait(2000);
 
     //Add a farm worker to the farm
-    cy.get('[data-cy=home-farmButton]')
-      .should('exist')
-      .and('not.be.disabled')
-      .click({ force: true });
-    cy.get('[data-cy=navbar-option]')
-      .eq(2)
-      .contains('People')
-      .should('exist')
-      .and('not.be.disabled')
-      .click({ force: true });
+    cy.goToPeopleView('English');
     cy.url().should('include', '/people');
     cy.get('[data-cy=people-inviteUser]').should('exist').and('not.be.disabled').click();
-
-    cy.url().should('include', '/invite_user');
-    cy.get('[data-cy=invite-fullName]').should('exist').type(workerName);
-    cy.contains('Choose Role').should('exist').click({ force: true });
-    cy.contains('Farm Worker').should('exist').click();
-    cy.get('[data-cy=invite-email]').should('exist').type(emailWorker);
-    cy.get('[data-cy=invite-submit]').should('exist').and('not.be.disabled').click();
+    cy.inviteUser(
+      'Farm Worker',
+      workerName,
+      emailWorker,
+      emailOwner,
+      'Female',
+      lang,
+      25,
+      1970,
+      180012345,
+    );
 
     cy.url().should('include', '/people');
+    //cy.get('.ReactTable').eq(1).should('eq', true);
     cy.contains(workerName).should('exist');
 
     //logout
-    cy.get('[data-cy=home-profileButton]').should('exist').click();
-    cy.get('[data-cy=navbar-option]')
-      .contains('Log Out')
-      .should('exist')
-      .and('not.be.disabled')
-      .click();
+    cy.logOut();
 
     //login as farm worker, create account and join farm
-    cy.task('getLastEmail')
-      .its('html')
-      .then((html) => {
-        cy.document({ log: false }).invoke({ log: false }, 'write', html);
-      });
-
-    cy.get('[data-cy=invite-joinButton]')
-      .invoke('attr', 'href')
-      .then((href) => {
-        cy.visit(href);
-      });
+    cy.acceptInviteEmail(lang);
 
     cy.get('[data-cy=invitedCard-createAccount]').click();
 
@@ -365,7 +241,7 @@ describe.only('LiteFarm end to end test', () => {
     cy.contains('Cereals').should('exist').click();
     cy.get('[type="radio"]').first().check({ force: true });
     cy.get('[data-cy=crop-submit]').should('exist').and('not.be.disabled').click();
-
+    cy.wait(5 * 1000);
     cy.url().should('include', '/crop/new/add_crop_variety');
     cy.get('[data-cy=crop-variety]').should('exist').type('New Variety');
     cy.get('[data-cy=crop-supplier]').should('exist').type('New Supplier');
@@ -509,7 +385,6 @@ describe.only('LiteFarm end to end test', () => {
     //Test for LF-2368
     cy.visit('/', {
       onBeforeLoad(win) {
-        // solution is here
         Object.defineProperty(win.navigator, 'languages', {
           value: ['fr-FR'],
         });

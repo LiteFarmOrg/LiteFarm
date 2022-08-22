@@ -116,10 +116,24 @@ Cypress.Commands.add('selectOptions', () => {
   cy.get('.css-1plh46m-MenuList2').should('exist');
 });
 
+Cypress.Commands.add('genderOptions', () => {
+  cy.get('.css-14sfozv-menu').should('exist');
+});
+
 Cypress.Commands.add('insights', () => {
   cy.get('._infoTextLine_avdgi_23').should('exist');
 });
-//<div class=" css-14sfozv-menu" id="react-select-3-listbox"><div class=" css-1plh46m-MenuList2"><div class=" css-19hntng-option" aria-disabled="false" id="react-select-3-option-0" tabindex="-1">Test Worker</div><div class=" css-1n3x1m8-option" aria-disabled="false" id="react-select-3-option-1" tabindex="-1">Unassigned</div></div></div>
+
+Cypress.Commands.add('createUserGender', () => {
+  cy.get(
+    ':nth-child(4) > .css-1e28hxc-container > .css-oi28ju-Control2 > .css-1pfr3d8-IndicatorsContainer2 > .css-1rtg9lh-indicatorContainer > .css-tj5bde-Svg',
+  );
+});
+
+Cypress.Commands.add('createUserGenderOptions', () => {
+  cy.get('#react-select-2-listbox');
+});
+
 Cypress.Commands.add('createTask', () => {
   //Create an unassigned cleaning task due tomorrow
   cy.contains('Create').should('exist').and('not.be.disabled').click({ force: true });
@@ -229,4 +243,311 @@ Cypress.Commands.add('createUnassignedTaskThisWeek', () => {
     .should('exist')
     .and('not.be.disabled')
     .click({ force: true });
+});
+
+Cypress.Commands.add('getEmail', () => {
+  // get and check the test email only once before the tests
+  cy.task('getUserEmail').then((email) => {
+    expect(email).to.be.a('string');
+    return email;
+  });
+}) /
+  Cypress.Commands.add('getPassword', () => {
+    // get and check the test password only once before the tests
+    cy.task('getUserPassword').then((password) => {
+      expect(password).to.be.a('string');
+      return password;
+    });
+  });
+
+Cypress.Commands.add('newUserLogin', (email) => {
+  //Login page
+  cy.get('[data-cy=email]').type(email);
+  cy.contains('Continue').should('exist').and('be.enabled').click();
+});
+
+Cypress.Commands.add('createAccount', (email, fullName, gender, language, birthYear, password) => {
+  cy.contains('Create new user account').should('exist');
+  //cy.get('[data-cy=createUser-email]').should('eq', email);
+  cy.get('[data-cy=createUser-fullName]').type(fullName);
+  cy.get('[data-cy=createUser-password]').type(password);
+  //cy.createUserGender().click();
+  //cy.createUserGenderOptions().eq(1).contains(gender).click();
+  cy.contains('Create Account').should('exist').and('be.enabled').click();
+  cy.intercept('POST', '**/user').as('createUser');
+  //cy.wait('@createUser');
+  cy.wait(7000);
+});
+
+Cypress.Commands.add('userCreationEmail', () => {
+  cy.wait(10 * 1000);
+  cy.task('getLastEmail')
+    .its('html')
+    .then((html) => {
+      cy.document({ log: false }).invoke({ log: false }, 'write', html);
+    });
+  cy.get('[data-cy=button-logIn]')
+    .invoke('attr', 'href')
+    .then((href) => {
+      cy.visit(href);
+    });
+});
+
+Cypress.Commands.add('addFarm', (farmName, location) => {
+  cy.url().should('include', '/add_farm');
+  cy.get('[data-cy=addFarm-continue]').should('exist').should('be.disabled');
+
+  // Enter new farm details and click continue which should be enabled
+  cy.waitForGoogleApi().then(() => {
+    cy.get('[data-cy=addFarm-farmName]').should('exist').type(farmName);
+    cy.get('[data-cy=addFarm-location]').should('exist').type(location).wait(1000);
+    cy.get('[data-cy=addFarm-continue]').should('not.be.disabled').click();
+  });
+});
+
+Cypress.Commands.add('getStarted', () => {
+  cy.contains('started').should('exist');
+  cy.get('[data-cy=getStarted]').should('exist').and('not.be.disabled').click();
+});
+
+Cypress.Commands.add('roleSelection', (role) => {
+  cy.contains('What is your role on the farm').should('exist');
+  cy.url().should('include', '/role_selection');
+  cy.get('[data-cy=roleSelection-continue]').should('exist').and('be.disabled');
+  cy.get('[data-cy=roleSelection-role]').should('exist').check(role, { force: true });
+  cy.get('[data-cy=roleSelection-continue]').should('not.be.disabled').click();
+});
+
+Cypress.Commands.add('giveConsent', () => {
+  //cy.contains('Our Data Policy').should('exist');
+  cy.url().should('include', '/consent');
+  cy.get('[data-cy=consent-continue]').should('exist').and('be.disabled');
+  cy.get('[data-cy=consent-agree]').should('exist').check({ force: true });
+  cy.get('[data-cy=consent-continue]').should('not.be.disabled').click();
+});
+
+Cypress.Commands.add('interestedInOrganic', () => {
+  cy.contains('Interested in certifications').should('exist');
+  cy.url().should('include', '/certification/interested_in_organic');
+  cy.get('[data-cy=interestedInOrganic-continue]').should('exist').and('be.disabled');
+  cy.get('[data-cy=interestedInOrganic-select]').should('exist');
+  cy.get('[type="radio"]').first().check({ force: true });
+  cy.get('[data-cy=interestedInOrganic-continue]').should('not.be.disabled').click();
+
+  cy.contains('What type of certification').should('exist');
+  cy.url().should('include', '/certification/selection');
+  cy.get('[data-cy=certificationSelection-continue]').should('exist').and('be.disabled');
+  cy.get('[data-cy=certificationSelection-type]').should('exist');
+  cy.get('[type="radio"]').first().check({ force: true });
+  cy.get('[data-cy=certificationSelection-continue]').should('not.be.disabled').click();
+});
+
+Cypress.Commands.add('selectCertifier', () => {
+  cy.contains('Who is your certifier').should('exist');
+  cy.url().should('include', '/certification/certifier/selection');
+  cy.get('[data-cy=certifierSelection-proceed]').should('exist').and('be.disabled');
+  cy.get('[data-cy=certifierSelection-item]').should('exist').eq(1).click();
+  let certifier;
+  cy.get('[data-cy=certifierSelection-item]')
+    .eq(1)
+    .then(function ($elem) {
+      certifier = $elem.text();
+      let end = certifier.indexOf('(');
+      let result = certifier.substring(1, end);
+      //click the proceed button and ensure test is on the certification summary view and the certification selected is displayed
+      cy.get('[data-cy=certifierSelection-proceed]').should('not.be.disabled').click();
+      cy.url().should('include', '/certification/summary');
+      cy.contains(result).should('exist');
+    });
+
+  //certification summary
+  cy.get('[data-cy=certificationSummary-continue]').should('exist').and('not.be.disabled').click();
+});
+
+Cypress.Commands.add('onboardingOutro', () => {
+  cy.url().should('include', '/outro');
+  cy.get('[data-cy=outro-finish]').should('exist').and('not.be.disabled').click();
+});
+
+Cypress.Commands.add('confirmationEmail', () => {
+  cy.wait(10 * 1000);
+  cy.task('getLastEmail')
+    .its('html')
+    .then((html) => {
+      cy.document({ log: false }).invoke({ log: false }, 'write', html);
+    });
+
+  cy.get('[data-cy=congrats-email-logIn]')
+    .invoke('attr', 'href')
+    .then((href) => {
+      cy.visit(href);
+    });
+});
+
+Cypress.Commands.add('homePageSpotlights', () => {
+  cy.get('[data-cy=spotlight-next]')
+    .contains('Next')
+    .should('exist')
+    .and('not.be.disabled')
+    .click();
+  cy.get('[data-cy=spotlight-next]')
+    .contains('Next')
+    .should('exist')
+    .and('not.be.disabled')
+    .click();
+  cy.get('[data-cy=spotlight-next]')
+    .contains('Next')
+    .should('exist')
+    .and('not.be.disabled')
+    .click();
+  cy.get('[data-cy=spotlight-next]')
+    .contains('Got it')
+    .should('exist')
+    .and('not.be.disabled')
+    .click();
+  cy.get('[data-cy=home-farmButton]').should('exist').and('not.be.disabled').click();
+  cy.get('[data-cy=navbar-option]')
+    .contains('Farm map')
+    .should('exist')
+    .and('not.be.disabled')
+    .click();
+});
+
+Cypress.Commands.add('goToPeopleView', (lang) => {
+  if (lang == 'English') {
+    cy.get('[data-cy=home-farmButton]')
+      .should('exist')
+      .and('not.be.disabled')
+      .click({ force: true });
+    cy.get('[data-cy=navbar-option]')
+      .eq(2)
+      .contains('People')
+      .should('exist')
+      .and('not.be.disabled')
+      .click({ force: true });
+    cy.url().should('include', '/people');
+  } else if (lang == 'French') {
+    cy.get('[data-cy=home-farmButton]')
+      .should('exist')
+      .and('not.be.disabled')
+      .click({ force: true });
+    cy.get('[data-cy=navbar-option]')
+      .eq(2)
+      .contains('Personnes')
+      .should('exist')
+      .and('not.be.disabled')
+      .click({ force: true });
+    cy.url().should('include', '/people');
+  } else if (lang == 'Spanish') {
+    cy.get('[data-cy=home-farmButton]')
+      .should('exist')
+      .and('not.be.disabled')
+      .click({ force: true });
+    cy.get('[data-cy=navbar-option]')
+      .eq(2)
+      .contains('Personas')
+      .should('exist')
+      .and('not.be.disabled')
+      .click({ force: true });
+    cy.url().should('include', '/people');
+  } else if (lang == 'Portuguese') {
+    cy.get('[data-cy=home-farmButton]')
+      .should('exist')
+      .and('not.be.disabled')
+      .click({ force: true });
+    cy.get('[data-cy=navbar-option]')
+      .eq(2)
+      .contains('Pessoas')
+      .should('exist')
+      .and('not.be.disabled')
+      .click({ force: true });
+    cy.url().should('include', '/people');
+  }
+});
+
+Cypress.Commands.add(
+  'inviteUser',
+  (role, fullName, email, existingUser, gender, language, wage, birthYear, phoneNumber) => {
+    //from people view
+    const invalidEmail = 'Invalid email';
+    cy.url().should('include', '/invite_user');
+    cy.get('[data-cy=invite-fullName]').click();
+    cy.contains('Full name').click();
+    cy.get('[data-cy=error]').contains('Required').should('exist');
+
+    cy.get('[data-cy=invite-fullName]').should('exist').type(fullName);
+    cy.contains('Choose Role').should('exist').click({ force: true });
+    cy.contains(role).should('exist').click({ force: true });
+
+    if (email != null) {
+      cy.get('[data-cy=invite-email]').should('exist').type(invalidEmail);
+      cy.contains('Email').click();
+      cy.get('[data-cy=error]').contains('Please enter a valid email').should('exist');
+
+      cy.get('[data-cy=invite-email]').should('exist').clear().type(existingUser);
+      cy.contains('Email').click();
+      cy.get('[data-cy=error]')
+        .contains('A user with that email already has access to this farm')
+        .should('exist');
+
+      cy.get('[data-cy=invite-email]').should('exist').clear().type(email);
+    }
+
+    cy.contains('Prefer not to say').should('exist').click({ force: true });
+    cy.contains(gender).should('exist').click({ force: true });
+    cy.contains('English').should('exist').click({ force: true });
+    cy.contains(language).should('exist').click({ force: true });
+    cy.get('[data-cy=invite-wage]').should('exist').type(wage);
+    cy.get('[data-cy=invite-phoneNumber]').should('exist').type(phoneNumber);
+    cy.get('[data-cy=invite-birthYear]').should('exist').type(birthYear);
+
+    cy.get('[data-cy=invite-submit]').should('exist').and('not.be.disabled').click();
+  },
+);
+
+Cypress.Commands.add('logOut', () => {
+  cy.get('[data-cy=home-profileButton]').should('exist').click();
+  cy.get('[data-cy=navbar-option]')
+    .contains('Log Out')
+    .should('exist')
+    .and('not.be.disabled')
+    .click();
+});
+
+Cypress.Commands.add('acceptInviteEmail', (lang) => {
+  cy.task('getLastEmail')
+    .its('html')
+    .then((html) => {
+      cy.document({ log: false }).invoke({ log: false }, 'write', html);
+    });
+
+  if (lang == 'English') {
+    cy.get('[data-cy=invite-joinButton]').contains('Join');
+    cy.get('[data-cy=invite-joinButton]')
+      .invoke('attr', 'href')
+      .then((href) => {
+        cy.visit(href);
+      });
+  } else if (lang == 'French') {
+    cy.get('[data-cy=invite-joinButton]').contains('Rejoindre');
+    cy.get('[data-cy=invite-joinButton]')
+      .invoke('attr', 'href')
+      .then((href) => {
+        cy.visit(href);
+      });
+  } else if (lang == 'Spanish') {
+    cy.get('[data-cy=invite-joinButton]').contains('Unete');
+    cy.get('[data-cy=invite-joinButton]')
+      .invoke('attr', 'href')
+      .then((href) => {
+        cy.visit(href);
+      });
+  } else if (lang == 'Portuguese') {
+    cy.get('[data-cy=invite-joinButton]').contains('Junte');
+    cy.get('[data-cy=invite-joinButton]')
+      .invoke('attr', 'href')
+      .then((href) => {
+        cy.visit(href);
+      });
+  }
 });

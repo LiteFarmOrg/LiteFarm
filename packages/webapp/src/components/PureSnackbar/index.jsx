@@ -17,6 +17,7 @@ export function PureSnackbarWithoutBorder({ className, onDismiss, title, type })
 
   return (
     <div
+      data-cy="snackBar"
       className={clsx(className)}
       onClick={() => setDismissProgressBar(true)}
       onMouseOver={() => !type && setDismissProgressBar(true)}

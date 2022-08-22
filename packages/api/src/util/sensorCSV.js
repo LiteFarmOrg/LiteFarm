@@ -13,6 +13,8 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
+const { parseCsv } = require('./csv');
+
 // Sensor bulk upload error translation keys
 const sensorErrors = {
   FILE_ROW_LIMIT_EXCEEDED: 'FARM_MAP.BULK_UPLOAD_SENSORS.VALIDATION.FILE_ROW_LIMIT_EXCEEDED',
@@ -29,6 +31,72 @@ const sensorErrors = {
   SENSOR_ALREADY_OCCUPIED: 'FARM_MAP.BULK_UPLOAD_SENSORS.SENSOR_CLAIM_ERROR.ALREADY_OCCUPIED',
   SENSOR_DOES_NOT_EXIST: 'FARM_MAP.BULK_UPLOAD_SENSORS.SENSOR_CLAIM_ERROR.DOES_NOT_EXIST',
   INTERNAL_ERROR: 'FARM_MAP.BULK_UPLOAD_SENSORS.SENSOR_CLAIM_ERROR.INTERNAL_ERROR',
+};
+
+const sensorCsvHeaderTranslations = {
+  en: {
+    name: 'Name',
+    latitude: 'Latitude',
+    longitude: 'Longitude',
+    reading_types: 'Reading_types',
+    external_id: 'External_ID',
+    depth: 'Depth',
+    brand: 'Brand',
+    model: 'Model',
+  },
+  es: {
+    name: 'Nombre',
+    latitude: 'Latitud',
+    longitude: 'Longitud',
+    reading_types: 'tipos_de_medición',
+    external_id: 'ID_externo',
+    depth: 'Profundidad',
+    brand: 'Marca',
+    model: 'Modelo',
+  },
+  fr: {
+    name: 'Nom',
+    latitude: 'Latitude',
+    longitude: 'Longitude',
+    reading_types: 'types_à_relevé',
+    external_id: 'ID_externe',
+    depth: 'Profondeur',
+    brand: 'Marque',
+    model: 'Modèle',
+  },
+  pt: {
+    name: 'Nome',
+    latitude: 'Latitude',
+    longitude: 'Longitude',
+    reading_types: 'tipos_de_medição',
+    external_id: 'ID_externo',
+    depth: 'Profundidade',
+    brand: 'Marca',
+    model: 'Modelo',
+  },
+};
+
+const readingTypeTranslations = {
+  en: {
+    soil_water_content: 'soil_water_content',
+    soil_water_potential: 'soil_water_potential',
+    temperature: 'temperature',
+  },
+  es: {
+    soil_water_content: 'contenido_de_agua_en_el_suelo',
+    soil_water_potential: 'contenido_de_agua_en_el_suelo',
+    temperature: 'temperatura',
+  },
+  fr: {
+    soil_water_content: 'teneur_en_eau_du_sol',
+    soil_water_potential: 'potential_hydrique_du_sol',
+    temperature: 'température',
+  },
+  pt: {
+    soil_water_content: 'teor_de_água_no_solo',
+    soil_water_potential: 'potencial_de_água_do_solo',
+    temperature: 'temperatura',
+  },
 };
 
 const sensorCsvValidators = [
@@ -99,177 +167,29 @@ const sensorCsvValidators = [
   },
 ];
 
-// Returns a mapping in the following format { translated_header: index_of_validator }
-const getSensorCsvHeaderMapping = (lang) => {
-  const mapping = {};
-  sensorCsvValidators.forEach((validator, index) => {
-    mapping[sensorCsvTranslations[lang].HEADERS[validator.key]] = index;
-  });
-  return mapping;
-};
-
 // Returns the readable values to save in the database based on the given translated reading types
 const getReadableValuesForReadingTypes = (lang, readingTypes) => {
-  const translationEntries = Object.entries(sensorCsvTranslations[lang].READING_TYPES);
+  const translationEntries = Object.entries(readingTypeTranslations[lang]);
   return readingTypes.map((rt) => {
     const entryWithReadableValue = translationEntries.find((e) => e[1] === rt);
     return entryWithReadableValue ? entryWithReadableValue[0] : rt;
   });
 };
 
-const sensorCsvTranslations = {
-  en: {
-    HEADERS: {
-      name: 'Name',
-      latitude: 'Latitude',
-      longitude: 'Longitude',
-      reading_types: 'Reading_types',
-      external_id: 'External_ID',
-      depth: 'Depth',
-      brand: 'Brand',
-      model: 'Model',
-    },
-    READING_TYPES: {
-      soil_water_content: 'soil_water_content',
-      soil_water_potential: 'soil_water_potential',
-      temperature: 'temperature',
-    },
-  },
-  es: {
-    HEADERS: {
-      name: 'Nombre',
-      latitude: 'Latitud',
-      longitude: 'Longitud',
-      reading_types: 'tipos_de_medición',
-      external_id: 'ID_externo',
-      depth: 'Profundidad',
-      brand: 'Marca',
-      model: 'Modelo',
-    },
-    READING_TYPES: {
-      soil_water_content: 'contenido_de_agua_en_el_suelo',
-      soil_water_potential: 'contenido_de_agua_en_el_suelo',
-      temperature: 'temperatura',
-    },
-  },
-  fr: {
-    HEADERS: {
-      name: 'Nom',
-      latitude: 'Latitude',
-      longitude: 'Longitude',
-      reading_types: 'types_à_relevé',
-      external_id: 'ID_externe',
-      depth: 'Profondeur',
-      brand: 'Marque',
-      model: 'Modèle',
-    },
-    READING_TYPES: {
-      soil_water_content: 'teneur_en_eau_du_sol',
-      soil_water_potential: 'potential_hydrique_du_sol',
-      temperature: 'température',
-    },
-  },
-  pt: {
-    HEADERS: {
-      name: 'Nome',
-      latitude: 'Latitude',
-      longitude: 'Longitude',
-      reading_types: 'tipos_de_medição',
-      external_id: 'ID_externo',
-      depth: 'Profundidade',
-      brand: 'Marca',
-      model: 'Modelo',
-    },
-    READING_TYPES: {
-      soil_water_content: 'teor_de_água_no_solo',
-      soil_water_potential: 'potencial_de_água_do_solo',
-      temperature: 'temperatura',
-    },
-  },
-};
-
-/**
- * Parses the csv string into an array of objects and an array of any lines that experienced errors.
- * @param {String} csvString
- * @param {String} userLang - language preference of user who uploaded the CSV
- * @param {String} delimiter
- * @returns {Object<data: Array<Object>, errors: Array<Object>>}
- */
-
-const parseSensorCsv = (csvString, userLang, delimiter = ',') => {
-  // regex checks for delimiters that are not contained within quotation marks
-  const regex = new RegExp(
-    `(?:${delimiter}|\\n|^)("(?:(?:"")*[^"]*)*"|[^"${delimiter}\\n]*|(?:\\n|$))`,
-  );
-  if (csvString.length === 0 || !/\r\b|\r|\n/.test(csvString)) {
-    return { data: [] };
-  }
-  const rows = csvString.split(/\r\n|\r|\n/).filter((elem) => elem !== '');
-  const headers = rows[0].split(regex).map((h) => h.trim());
-  const requiredHeaders = sensorCsvValidators
-    .filter((v) => v.required)
-    .map((v) => sensorCsvTranslations[userLang].HEADERS[v.key]);
-  const headerErrors = [];
-  requiredHeaders.forEach((header) => {
-    if (!headers.includes(header)) {
-      headerErrors.push({ row: 1, column: header, translation_key: sensorErrors.MISSING_COLUMNS });
-    }
-  });
-  if (headerErrors.length > 0) {
-    return { data: [], errors: headerErrors };
-  }
-  const allowedHeaders = sensorCsvValidators.map(
-    (v) => sensorCsvTranslations[userLang].HEADERS[v.key],
-  );
-
-  // get all rows except the header and filter out any empty rows
-  const dataRows = rows.slice(1).filter((d) => !/^(,? ?\t?)+$/.test(d));
-
-  // Set to keep track of the unique keys of sensors - used to make sure only one sensor is uploaded
-  // if duplicates are in the file
-  const validSensorKeys = new Set();
-
-  const headerMapping = getSensorCsvHeaderMapping(userLang);
-
-  const { data, errors } = dataRows.reduce(
-    (previous, row, rowIndex) => {
-      const values = row.split(regex);
-      const parsedRow = headers.reduce((previousObj, current, index) => {
-        const currentValidator = sensorCsvValidators[headerMapping[current]];
-        if (allowedHeaders.includes(current)) {
-          // remove any surrounding quotation marks
-          const val = currentValidator.parse(
-            values[index].replace(/^(["'])(.*)\1$/, '$2'),
-            userLang,
-          );
-          if (currentValidator.validate(val)) {
-            previousObj[currentValidator.key] = val;
-          } else {
-            previous.errors.push({
-              row: rowIndex + 2,
-              column: current,
-              translation_key: currentValidator.errorTranslationKey,
-              variables: { [currentValidator.key]: val },
-            });
-          }
-        }
-        return previousObj;
-      }, {});
-      const sensorKey = generateSensorKey(parsedRow);
-      if (!validSensorKeys.has(sensorKey)) {
-        previous.data.push(parsedRow);
-        validSensorKeys.add(sensorKey);
-      }
-      return previous;
-    },
-    { data: [], errors: [] },
-  );
-
-  return { data, errors };
-};
-
 const generateSensorKey = (sensor) => {
   return `${sensor.brand ?? ''}:${sensor.external_id ?? ''}`;
+};
+
+const parseSensorCsv = (csvString, lang) => {
+  return parseCsv(
+    csvString,
+    lang,
+    sensorCsvValidators,
+    sensorCsvHeaderTranslations,
+    sensorErrors.MISSING_COLUMNS,
+    true,
+    generateSensorKey,
+  );
 };
 
 module.exports = {

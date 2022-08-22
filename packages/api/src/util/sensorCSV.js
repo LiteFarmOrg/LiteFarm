@@ -172,7 +172,7 @@ const getReadableValuesForReadingTypes = (lang, readingTypes) => {
   const translationEntries = Object.entries(readingTypeTranslations[lang]);
   return readingTypes.map((rt) => {
     const entryWithReadableValue = translationEntries.find((e) => e[1] === rt);
-    return entryWithReadableValue ? entryWithReadableValue[0] : rt;
+    return entryWithReadableValue ? entryWithReadableValue[0] : null;
   });
 };
 

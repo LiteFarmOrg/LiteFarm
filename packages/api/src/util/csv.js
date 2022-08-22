@@ -4,7 +4,7 @@
  * @property {String} key - a key representing the column.
  * @property {function} parse - parses a cell in this column to a desired format.
  * @property {function} validate - validates the parsed data.
- * @property {boolean} required - indicated whether this field is valid.
+ * @property {boolean} required - indicates whether this field is valid.
  * @property {String} errorTranslationKey - the error translation key for invalid data in this column.
  */
 

@@ -16,8 +16,7 @@
 import { from } from 'rxjs';
 
 import { delay, concatMap } from 'rxjs/operators/index.js';
-import { Model } from 'objection';
-const knex = Model.knex();
+import knex from '../../util/knex.js';
 import rp from 'request-promise';
 import credentials from '../../credentials.js';
 import endPoints from '../../endPoints.js';

@@ -16,7 +16,8 @@
 import axios from 'axios';
 
 import Queue from 'bull';
-import { sign } from 'jsonwebtoken';
+import jwt from 'jsonwebtoken';
+const { sign } = jwt;
 const apiUrl = process.env.API_URL || 'http://localhost:5001';
 const mockTimer = !!process.env.MOCK_TIMER;
 

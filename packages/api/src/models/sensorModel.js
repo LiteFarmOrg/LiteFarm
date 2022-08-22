@@ -18,7 +18,7 @@ import { transaction, Model } from 'objection';
 import LocationModel from './locationModel.js';
 import PartnerReadingTypeModel from '../models/PartnerReadingTypeModel.js';
 import SensorReadingTypeModel from './SensorReadingTypeModel.js';
-const knex = Model.knex();
+import knex from '../util/knex.js';
 
 class Sensor extends Model {
   static get tableName() {

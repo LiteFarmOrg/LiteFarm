@@ -13,10 +13,9 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { Model } from 'objection';
+import knex from '../../util/knex.js';
 
 async function authFarmId(req, res, next) {
-  const knex = Model.knex();
   const farm_id = req.params.farm_id;
   if (farm_id) {
     // console.log(farm_id);

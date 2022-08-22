@@ -17,7 +17,7 @@ import scheduler from 'node-schedule';
 
 import nitrogenBalanceModel from '../../models/nitrogenBalanceModel.js';
 import { transaction, Model } from 'objection';
-const knex = Model.knex();
+import knex from '../../util/knex.js';
 /* eslint-disable no-console*/
 
 class NitrogenBalance {

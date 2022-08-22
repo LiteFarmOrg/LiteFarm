@@ -14,6 +14,12 @@
  */
 
 import Queue from 'bull';
+import retrieveFn from './do_retrieve.js';
+import uploadFn from './upload.js';
+import excelFn from './recordD.js';
+import zipFn from './zip.js';
+import pdfFn from './pdf.js';
+import emailFn from './email.js';
 
 const processExports = (queueConfig) => {
   const retrieveQueue = new Queue('retrieve', queueConfig);
@@ -22,12 +28,6 @@ const processExports = (queueConfig) => {
   const pdfQueue = new Queue('pdf', queueConfig);
   const emailQueue = new Queue('email', queueConfig);
   const uploadQueue = new Queue('upload', queueConfig);
-  const retrieveFn = require('./do_retrieve');
-  const uploadFn = require('./upload');
-  const excelFn = require('./recordD');
-  const zipFn = require('./zip');
-  const pdfFn = require('./pdf');
-  const emailFn = require('./email');
 
   retrieveQueue.process(retrieveFn(excelQueue, emailQueue));
   excelQueue.process(excelFn(pdfQueue, zipQueue, emailQueue));

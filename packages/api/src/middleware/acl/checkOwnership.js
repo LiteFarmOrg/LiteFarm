@@ -13,12 +13,11 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { Model } from 'objection';
+import knex from '../../util/knex.js';
 
 // relation must be one of field, plan, farmExpense, farmCrop, or to do
 const checkOwnership = (relation) => {
   return async function authRelation(req, res, next) {
-    const knex = Model.knex();
     const id = req.params.id;
     if (id) {
       let sqlQuery;

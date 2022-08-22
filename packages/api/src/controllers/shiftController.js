@@ -18,7 +18,7 @@ import baseController from '../controllers/baseController.js';
 import { transaction, Model } from 'objection';
 import ShiftModel from '../models/shiftModel.js';
 import ShiftTaskModel from '../models/shiftTaskModel.js';
-const knex = Model.knex();
+import knex from '../util/knex.js';
 
 const shiftController = {
   addShift() {

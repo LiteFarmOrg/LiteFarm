@@ -18,7 +18,7 @@ import { transaction, Model } from 'objection';
 import WaterBalanceModel from '../models/waterBalanceModel.js';
 import NitrogenScheduleModel from '../models/nitrogenScheduleModel.js';
 import baseController from '../controllers/baseController.js';
-const knex = Model.knex();
+import knex from '../util/knex.js';
 import * as insightHelpers from '../controllers/insightHelpers.js';
 import waterBalanceScheduler from '../jobs/waterBalance/waterBalance.js';
 // TODO: put nitrogen scheduler here for when we want to put it back

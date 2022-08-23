@@ -32,7 +32,7 @@ export const up = async function (knex) {
   }
 
   await knex.schema.alterTable('users', function (table) {
-    table.dropColumn('password_hash')
+    table.dropColumn('password_hash');
   });
 };
 

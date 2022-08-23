@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-export const up = async function(knex) {
+export const up = async function (knex) {
   await knex.raw(
     `
     ALTER TABLE "activityLog"
@@ -41,22 +41,21 @@ export const up = async function(knex) {
     ADD CONSTRAINT user_id foreign key(user_id) references users(user_id) ON UPDATE CASCADE
     `,
   );
-
 };
 
-export const down = function(knex) {
+export const down = function (knex) {
   return Promise.all([
     knex.schema.table('shift', (table) => {
-      table.dropForeign('user_id', 'user_id')
+      table.dropForeign('user_id', 'user_id');
     }),
     knex.schema.table('userFarm', (table) => {
-      table.dropForeign('user_id', 'user_id')
+      table.dropForeign('user_id', 'user_id');
     }),
     knex.schema.table('farmDataSchedule', (table) => {
-      table.dropForeign('user_id', 'user_id')
+      table.dropForeign('user_id', 'user_id');
     }),
     knex.schema.table('activityLog', (table) => {
-      table.dropForeign('user_id', 'user_id')
+      table.dropForeign('user_id', 'user_id');
     }),
-  ])
+  ]);
 };

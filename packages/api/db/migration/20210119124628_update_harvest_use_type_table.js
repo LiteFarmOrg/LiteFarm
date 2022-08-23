@@ -18,7 +18,7 @@ export const up = function (knex) {
     knex.schema.table('harvestUseType', (table) => {
       table.uuid('farm_id').defaultTo(null);
     }),
-  ])
+  ]);
 };
 
 export const down = function (knex) {
@@ -26,6 +26,5 @@ export const down = function (knex) {
     knex.schema.table('harvestUseType', (table) => {
       table.dropColumn('farm_id');
     }),
-  ])
+  ]);
 };
-

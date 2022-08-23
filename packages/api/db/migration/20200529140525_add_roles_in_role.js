@@ -13,17 +13,15 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-export const up = function(knex) {
+export const up = function (knex) {
   return Promise.all([
-    knex("role").insert([
-      { role_id: 1, role: "Owner" },
-      { role_id: 2, role: "Manager" },
-      { role_id: 3, role: "Worker" },
+    knex('role').insert([
+      { role_id: 1, role: 'Owner' },
+      { role_id: 2, role: 'Manager' },
+      { role_id: 3, role: 'Worker' },
     ]),
   ]);
 };
 
 // eslint-disable-next-line no-unused-vars
-export const down = function(knex) {
-
-};
+export const down = function (knex) {};

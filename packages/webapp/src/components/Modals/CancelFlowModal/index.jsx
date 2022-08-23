@@ -16,7 +16,7 @@ export default function CancelFlowModal({ dismissModal, handleCancel, flow }) {
           <Button className={styles.button} onClick={dismissModal} color={'secondary'} sm>
             {t('common:NO')}
           </Button>
-          <Button className={styles.button} onClick={handleCancel} sm>
+          <Button data-cy="cancelFlow-yes" className={styles.button} onClick={handleCancel} sm>
             {t('common:YES')}
           </Button>
         </>

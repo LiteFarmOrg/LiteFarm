@@ -272,21 +272,53 @@ describe.only('Tasks flow tests', () => {
         cy.contains('Create').should('exist').and('not.be.disabled').click({ force: true });
       } else if (text == 'Harvest') {
         cy.get('[data-cy=task-selection]').eq(index).click();
-        cy.get('[data-cy=tasks-noCropPlanContinue]').click();
-        cy.get('[data-cy=spotlight-next]')
-          .contains('Next')
-          .should('exist')
-          .and('not.be.disabled')
-          .click();
-        cy.get('[data-cy=spotlight-next]')
-          .contains('Got it')
-          .should('exist')
-          .and('not.be.disabled')
-          .click();
-        cy.createAHarvestTask();
+        cy.get('[data-cy=tasks-noCropPlanCancel]').click();
+        // cy.get('[data-cy=spotlight-next]')
+        //   .contains('Next')
+        //   .should('exist')
+        //   .and('not.be.disabled')
+        //   .click();
+        // cy.get('[data-cy=spotlight-next]')
+        //   .contains('Got it')
+        //   .should('exist')
+        //   .and('not.be.disabled')
+        //   .click();
+        // cy.createAHarvestTask();
+        // cy.url().should('include', '/tasks');
+        // cy.get('[data-cy=taskCard]').should('exist');
+        // cy.contains('Create').should('exist').and('not.be.disabled').click({ force: true });
+      } else if (text == 'Pest Control') {
+        cy.get('[data-cy=task-selection]').eq(index).click();
+        cy.createAPestControlTask();
         cy.url().should('include', '/tasks');
         cy.get('[data-cy=taskCard]').should('exist');
         cy.contains('Create').should('exist').and('not.be.disabled').click({ force: true });
+      } else if (text == 'Planting') {
+        cy.get('[data-cy=task-selection]').eq(index).click();
+        cy.get('[data-cy=tasks-plantingModalCheckBox]').click({ force: true });
+        cy.get('[data-cy=tasks-plantingModalCancel]').click();
+        cy.get('[data-cy=task-selection]').eq(index).click();
+        cy.get('[data-cy=home-taskButton]').should('exist').and('not.be.disabled').click();
+        cy.url().should('include', '/tasks');
+        cy.get('[data-cy=taskCard]').should('exist');
+        cy.contains('Create').should('exist').and('not.be.disabled').click({ force: true });
+        // cy.url().should('include', '/tasks');
+        // cy.get('[data-cy=taskCard]').should('exist');
+        // cy.contains('Create').should('exist').and('not.be.disabled').click({ force: true });
+      } else if (text == 'Soil Amendment') {
+        cy.get('[data-cy=task-selection]').eq(index).click();
+        cy.createASoilAmendmentTask();
+        cy.get('[data-cy=cancel-flow]').should('exist').click({ force: true });
+        cy.get('[data-cy=cancelFlow-yes]').should('exist').click({ force: true });
+        cy.url().should('include', '/tasks');
+        cy.get('[data-cy=taskCard]').should('exist');
+        cy.contains('Create').should('exist').and('not.be.disabled').click({ force: true });
+      } else if (text == 'Transplant') {
+        cy.get('[data-cy=task-selection]').eq(index).click();
+        cy.get('[data-cy=tasks-noCropPlanCancel]').click();
+        // cy.url().should('include', '/tasks');
+        // cy.get('[data-cy=taskCard]').should('exist');
+        // cy.contains('Create').should('exist').and('not.be.disabled').click({ force: true });
       }
     });
   });

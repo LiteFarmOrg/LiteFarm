@@ -1,5 +1,4 @@
-
-exports.up = function(knex) {
+export const up = function (knex) {
   return Promise.all([
     knex.schema.alterTable('figure', (t) => {
       t.dropColumn('main_color');
@@ -11,10 +10,10 @@ exports.up = function(knex) {
       t.string('hover_color', 6);
       t.string('line_type');
     }),
-  ])
+  ]);
 };
 
-exports.down = function(knex) {
+export const down = function (knex) {
   return Promise.all([
     knex.schema.alterTable('figure', (t) => {
       t.string('main_color', 6);
@@ -26,5 +25,5 @@ exports.down = function(knex) {
       t.dropColumn('hover_color');
       t.dropColumn('line_type');
     }),
-  ])
+  ]);
 };

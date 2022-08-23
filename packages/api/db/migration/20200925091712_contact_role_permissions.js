@@ -1,4 +1,4 @@
-exports.up = function(knex) {
+export const up = function (knex) {
   return Promise.all([
     knex('rolePermissions').insert([
       { role_id: 1, permission_id: 83 },
@@ -7,8 +7,6 @@ exports.up = function(knex) {
   ]);
 };
 
-exports.down = function(knex) {
-  return Promise.all([
-    knex('rolePermissions').where({ permission_id: 83 }).del(),
-  ]);
+export const down = function (knex) {
+  return Promise.all([knex('rolePermissions').where({ permission_id: 83 }).del()]);
 };

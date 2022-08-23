@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-exports.up = async function (knex) {
+export const up = async function (knex) {
   return knex.schema.alterTable('notification', (table) => {
     table.dropColumns('translation_key', 'entity_id', 'entity_type');
     table.jsonb('title');
@@ -22,7 +22,7 @@ exports.up = async function (knex) {
   });
 };
 
-exports.down = async function (knex) {
+export const down = async function (knex) {
   return knex.schema.alterTable('notification', (table) => {
     table.dropColumns('title', 'body', 'ref');
     table.string('translation_key');

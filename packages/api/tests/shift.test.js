@@ -1,22 +1,28 @@
-const chai = require('chai');
-const chaiHttp = require('chai-http');
+import chai from 'chai';
+import chaiHttp from 'chai-http';
 chai.use(chaiHttp);
-const server = require('./../src/server');
-const knex = require('../src/util/knex');
-const { tableCleanup } = require('./testEnvironment');
+import server from './../src/server.js';
+import knex from '../src/util/knex.js';
+import { tableCleanup } from './testEnvironment.js';
 jest.mock('jsdom');
-jest.mock('../src/middleware/acl/checkJwt');
-const mocks = require('./mock.factories');
+jest.mock('../src/middleware/acl/checkJwt.js', () =>
+  jest.fn((req, res, next) => {
+    req.user = {};
+    req.user.user_id = req.get('user_id');
+    next();
+  }),
+);
+import mocks from './mock.factories.js';
 
 xdescribe('Shift tests', () => {
-  let middleware;
+  // let middleware;
   beforeAll(() => {
-    middleware = require('../src/middleware/acl/checkJwt');
-    middleware.mockImplementation((req, res, next) => {
-      req.user = {};
-      req.user.user_id = req.get('user_id');
-      next();
-    });
+    // middleware = require('../src/middleware/acl/checkJwt');
+    // middleware.mockImplementation((req, res, next) => {
+    //   req.user = {};
+    //   req.user.user_id = req.get('user_id');
+    //   next();
+    // });
   });
 
   afterAll(async (done) => {
@@ -26,7 +32,8 @@ xdescribe('Shift tests', () => {
   });
 
   function getShiftsAtFarm({ user_id, farm_id }, callback) {
-    chai.request(server)
+    chai
+      .request(server)
       .get(`/shift/farm/${farm_id}`)
       .set('user_id', user_id)
       .set('farm_id', farm_id)
@@ -34,7 +41,8 @@ xdescribe('Shift tests', () => {
   }
 
   function getShiftsAtUserFarm({ user_id, farm_id, token_user_id }, callback) {
-    chai.request(server)
+    chai
+      .request(server)
       .get(`/shift/userFarm/${farm_id}`)
       .set('user_id', token_user_id || user_id)
       .set('farm_id', farm_id)
@@ -42,7 +50,8 @@ xdescribe('Shift tests', () => {
   }
 
   function getMyShifts({ user_id, farm_id }, callback) {
-    chai.request(server)
+    chai
+      .request(server)
       .get(`/shift/user/${user_id}`)
       .set('user_id', user_id)
       .set('farm_id', farm_id)
@@ -50,7 +59,8 @@ xdescribe('Shift tests', () => {
   }
 
   function getShiftById({ user_id, farm_id }, shift_id, callback) {
-    chai.request(server)
+    chai
+      .request(server)
       .get(`/shift/${shift_id}`)
       .set('user_id', user_id)
       .set('farm_id', farm_id)
@@ -58,7 +68,8 @@ xdescribe('Shift tests', () => {
   }
 
   function postShift({ user_id, farm_id }, shiftData, callback) {
-    chai.request(server)
+    chai
+      .request(server)
       .post(`/shift`)
       .set('user_id', user_id)
       .set('farm_id', farm_id)
@@ -67,7 +78,8 @@ xdescribe('Shift tests', () => {
   }
 
   function putShift({ user_id, farm_id }, shiftData, callback) {
-    chai.request(server)
+    chai
+      .request(server)
       .put(`/shift/${shiftData.shift_id}`)
       .set('user_id', user_id)
       .set('farm_id', farm_id)
@@ -76,17 +88,19 @@ xdescribe('Shift tests', () => {
   }
 
   function deleteShift({ user_id, farm_id }, shiftId, callback) {
-    chai.request(server)
+    chai
+      .request(server)
       .delete(`/shift/${shiftId}`)
       .set('user_id', user_id)
       .set('farm_id', farm_id)
       .end(callback);
   }
 
-
   async function appendUserFarmAShiftTask({ user_id, farm_id }, shiftData = mocks.fakeShift()) {
     let fieldForFarm = await mocks.fieldFactory({ promisedFarm: [{ farm_id }] });
-    let managementPlanForField = await mocks.management_planFactory({ promisedField: fieldForFarm });
+    let managementPlanForField = await mocks.management_planFactory({
+      promisedField: fieldForFarm,
+    });
     let shift = await mocks.shiftFactory({ promisedUserFarm: [{ user_id, farm_id }] }, shiftData);
     return await mocks.shiftTaskFactory({
       promisedShift: shift,
@@ -96,20 +110,28 @@ xdescribe('Shift tests', () => {
   }
 
   /*
-  * Creates a userFarm A, assigns a shift to that user Farm
-  * Creates another user B at that same farm,
-  * assigns a shift to that other user B
-  * Creates another userFarm which the user B is part of
-  * Assigns shifts to the new userFarm B is part of
-  * A is part of the same user farm as B and they both have shifts on that user farm
-  * B is part of another user farm and has 1 shift there as well.
-  * returns A user and its farm
-  * */
+   * Creates a userFarm A, assigns a shift to that user Farm
+   * Creates another user B at that same farm,
+   * assigns a shift to that other user B
+   * Creates another userFarm which the user B is part of
+   * Assigns shifts to the new userFarm B is part of
+   * A is part of the same user farm as B and they both have shifts on that user farm
+   * B is part of another user farm and has 1 shift there as well.
+   * returns A user and its farm
+   * */
   async function setupAtMyFarm(role) {
-    let [{ user_id, farm_id }] = await mocks.userFarmFactory({}, { status: 'Active', role_id: role });
+    let [{ user_id, farm_id }] = await mocks.userFarmFactory(
+      {},
+      { status: 'Active', role_id: role },
+    );
     let anotherUser = await mocks.usersFactory();
-    let [anotherUserFarm] = await mocks.userFarmFactory({ promisedUser: anotherUser, promisedFarm: [{ farm_id }] });
-    let [differentFarmForTheSameUser] = await mocks.userFarmFactory({ promisedUser: [{ user_id }] });
+    let [anotherUserFarm] = await mocks.userFarmFactory({
+      promisedUser: anotherUser,
+      promisedFarm: [{ farm_id }],
+    });
+    let [differentFarmForTheSameUser] = await mocks.userFarmFactory({
+      promisedUser: [{ user_id }],
+    });
     let [completelyUnrelatedFarm] = await mocks.userFarmFactory();
     await appendUserFarmAShiftTask({ user_id, farm_id });
     await appendUserFarmAShiftTask({ user_id: anotherUserFarm.user_id, farm_id });
@@ -123,7 +145,10 @@ xdescribe('Shift tests', () => {
 
   async function createShiftData(userFarm, notOwnedFarm) {
     let shiftData = mocks.fakeShift();
-    let [shiftTask] = await appendUserFarmAShiftTask(notOwnedFarm ? notOwnedFarm : userFarm, shiftData);
+    let [shiftTask] = await appendUserFarmAShiftTask(
+      notOwnedFarm ? notOwnedFarm : userFarm,
+      shiftData,
+    );
     shiftData.tasks = [{ ...shiftTask }];
     if (notOwnedFarm) {
       shiftData.user_id = notOwnedFarm.user_id;
@@ -137,7 +162,6 @@ xdescribe('Shift tests', () => {
   }
 
   describe('GET farm/farm:id At my farm', () => {
-
     test('should get shifts at my farm for owner', async (done) => {
       const { user_id, farm_id } = await setupAtMyFarm(1);
       getShiftsAtFarm({ user_id, farm_id }, (err, res) => {
@@ -168,7 +192,6 @@ xdescribe('Shift tests', () => {
   });
 
   describe('GET userFarm/farm:id', () => {
-
     test('should get shifts at my farm for owner', async (done) => {
       const { user_id, farm_id } = await setupAtMyFarm(1);
       getShiftsAtUserFarm({ user_id, farm_id }, (err, res) => {
@@ -204,15 +227,17 @@ xdescribe('Shift tests', () => {
 
     test('should get shifts of another user at my farm for owner', async (done) => {
       const { user_id, farm_id, another_user_id } = await setupAtMyFarm(1);
-      getShiftsAtUserFarm({ user_id: another_user_id, farm_id, token_user_id: user_id }, (err, res) => {
-        expect(res.status).toBe(200);
-        expect(res.body.length).toBe(1);
-        expect(res.body.every((shift) => shift.farm_id === farm_id)).toBe(true);
-        expect(res.body.every((shift) => shift.user_id === user_id)).toBe(true);
-        done();
-      });
+      getShiftsAtUserFarm(
+        { user_id: another_user_id, farm_id, token_user_id: user_id },
+        (err, res) => {
+          expect(res.status).toBe(200);
+          expect(res.body.length).toBe(1);
+          expect(res.body.every((shift) => shift.farm_id === farm_id)).toBe(true);
+          expect(res.body.every((shift) => shift.user_id === user_id)).toBe(true);
+          done();
+        },
+      );
     });
-
   });
 
   describe('GET /user/:user_id ', () => {
@@ -252,7 +277,10 @@ xdescribe('Shift tests', () => {
 
   describe('GET /shift_id ', () => {
     test('should get the shift I asked for if I am the owner of it as farm owner', async (done) => {
-      let [{ user_id, farm_id }] = await mocks.userFarmFactory({}, { status: 'Active', role_id: 1 });
+      let [{ user_id, farm_id }] = await mocks.userFarmFactory(
+        {},
+        { status: 'Active', role_id: 1 },
+      );
       const [shiftTask] = await appendUserFarmAShiftTask({ user_id, farm_id });
       getShiftById({ user_id, farm_id }, shiftTask.shift_id, (err, res) => {
         expect(res.status).toBe(200);
@@ -262,7 +290,10 @@ xdescribe('Shift tests', () => {
     });
 
     test('should get the shift I asked for if I am the owner of it as farm manager', async (done) => {
-      let [{ user_id, farm_id }] = await mocks.userFarmFactory({}, { status: 'Active', role_id: 2 });
+      let [{ user_id, farm_id }] = await mocks.userFarmFactory(
+        {},
+        { status: 'Active', role_id: 2 },
+      );
       const [shiftTask] = await appendUserFarmAShiftTask({ user_id, farm_id });
       getShiftById({ user_id, farm_id }, shiftTask.shift_id, (err, res) => {
         expect(res.status).toBe(200);
@@ -272,7 +303,10 @@ xdescribe('Shift tests', () => {
     });
 
     test('should get the shift I asked for if I am the owner of it as farm worker', async (done) => {
-      let [{ user_id, farm_id }] = await mocks.userFarmFactory({}, { status: 'Active', role_id: 3 });
+      let [{ user_id, farm_id }] = await mocks.userFarmFactory(
+        {},
+        { status: 'Active', role_id: 3 },
+      );
       const [shiftTask] = await appendUserFarmAShiftTask({ user_id, farm_id });
       getShiftById({ user_id, farm_id }, shiftTask.shift_id, (err, res) => {
         expect(res.status).toBe(200);
@@ -284,7 +318,10 @@ xdescribe('Shift tests', () => {
     test('should not get the shift I asked for if I am not the owner of it', async (done) => {
       let [anotherUserFarm] = await mocks.userFarmFactory({}, { status: 'Active', role_id: 1 });
       const [shiftTask] = await appendUserFarmAShiftTask(anotherUserFarm);
-      let [{ user_id, farm_id }] = await mocks.userFarmFactory({}, { status: 'Active', role_id: 1 });
+      let [{ user_id, farm_id }] = await mocks.userFarmFactory(
+        {},
+        { status: 'Active', role_id: 1 },
+      );
       getShiftById({ user_id, farm_id }, shiftTask.shift_id, (err, res) => {
         expect(res.status).toBe(403);
         done();
@@ -296,9 +333,11 @@ xdescribe('Shift tests', () => {
     test('should create a shift owned by me with 1 task being an owner', async (done) => {
       let [userFarm] = await mocks.userFarmFactory({}, { status: 'Active', role_id: 1 });
       let [field] = await mocks.fieldFactory({ promisedFarm: [userFarm] });
-      const [task] = await mocks.taskTypeFactory({promisedFarm: [userFarm]})
+      const [task] = await mocks.taskTypeFactory({ promisedFarm: [userFarm] });
       let shift = mocks.fakeShift();
-      shift.tasks = [ {...mocks.fakeShiftTask(), task_id: task.task_id, location_id: field.location_id }];
+      shift.tasks = [
+        { ...mocks.fakeShiftTask(), task_id: task.task_id, location_id: field.location_id },
+      ];
       shift.user_id = userFarm.user_id;
       shift.farm_id = userFarm.farm_id;
       postShift(userFarm, shift, (err, res) => {
@@ -311,12 +350,12 @@ xdescribe('Shift tests', () => {
     test('should create a shift owned by me with many tasks being an owner', async (done) => {
       let [userFarm] = await mocks.userFarmFactory({}, { status: 'Active', role_id: 1 });
       let [field] = await mocks.fieldFactory({ promisedFarm: [userFarm] });
-      const [taskType] = await mocks.taskTypeFactory({promisedFarm: [userFarm]})
+      const [taskType] = await mocks.taskTypeFactory({ promisedFarm: [userFarm] });
       let shift = mocks.fakeShift();
       shift.tasks = [...Array(4)].map(() => mocks.fakeShiftTask());
-      shift.tasks.map(task => {
-        task.location_id = field.location_id
-        task.task_id = taskType.task_id
+      shift.tasks.map((task) => {
+        task.location_id = field.location_id;
+        task.task_id = taskType.task_id;
       });
       shift.user_id = userFarm.user_id;
       shift.farm_id = userFarm.farm_id;
@@ -331,9 +370,11 @@ xdescribe('Shift tests', () => {
     test('should create a shift owned by me with 1 task being a Manager', async (done) => {
       let [userFarm] = await mocks.userFarmFactory({}, { status: 'Active', role_id: 2 });
       let [field] = await mocks.fieldFactory({ promisedFarm: [userFarm] });
-      const [task] = await mocks.taskTypeFactory({promisedFarm: [userFarm]})
+      const [task] = await mocks.taskTypeFactory({ promisedFarm: [userFarm] });
       let shift = mocks.fakeShift();
-      shift.tasks = [ {...mocks.fakeShiftTask(), task_id: task.task_id, location_id: field.location_id }];
+      shift.tasks = [
+        { ...mocks.fakeShiftTask(), task_id: task.task_id, location_id: field.location_id },
+      ];
       shift.user_id = userFarm.user_id;
       shift.farm_id = userFarm.farm_id;
       postShift(userFarm, shift, (err, res) => {
@@ -346,12 +387,12 @@ xdescribe('Shift tests', () => {
     test('should create a shift owned by me with many tasks being a Manager', async (done) => {
       let [userFarm] = await mocks.userFarmFactory({}, { status: 'Active', role_id: 2 });
       let [field] = await mocks.fieldFactory({ promisedFarm: [userFarm] });
-      const [taskType] = await mocks.taskTypeFactory({promisedFarm: [userFarm]})
+      const [taskType] = await mocks.taskTypeFactory({ promisedFarm: [userFarm] });
       let shift = mocks.fakeShift();
       shift.tasks = [...Array(4)].map(() => mocks.fakeShiftTask());
-      shift.tasks.map(task =>  {
-        task.location_id = field.location_id
-        task.task_id = taskType.task_id
+      shift.tasks.map((task) => {
+        task.location_id = field.location_id;
+        task.task_id = taskType.task_id;
       });
       shift.user_id = userFarm.user_id;
       shift.farm_id = userFarm.farm_id;
@@ -366,9 +407,11 @@ xdescribe('Shift tests', () => {
     test('should create a shift owned by me with 1 task being a worker', async (done) => {
       let [userFarm] = await mocks.userFarmFactory({}, { status: 'Active', role_id: 3 });
       let [field] = await mocks.fieldFactory({ promisedFarm: [userFarm] });
-      const [task] = await mocks.taskTypeFactory({promisedFarm: [userFarm]})
+      const [task] = await mocks.taskTypeFactory({ promisedFarm: [userFarm] });
       let shift = mocks.fakeShift();
-      shift.tasks = [ {...mocks.fakeShiftTask(), task_id: task.task_id, location_id: field.location_id }];
+      shift.tasks = [
+        { ...mocks.fakeShiftTask(), task_id: task.task_id, location_id: field.location_id },
+      ];
       shift.user_id = userFarm.user_id;
       shift.farm_id = userFarm.farm_id;
       postShift(userFarm, shift, (err, res) => {
@@ -381,12 +424,12 @@ xdescribe('Shift tests', () => {
     test('should create a shift owned by me with many tasks being a worker', async (done) => {
       let [userFarm] = await mocks.userFarmFactory({}, { status: 'Active', role_id: 3 });
       let [field] = await mocks.fieldFactory({ promisedFarm: [userFarm] });
-      const [taskType] = await mocks.taskTypeFactory({promisedFarm: [userFarm]})
+      const [taskType] = await mocks.taskTypeFactory({ promisedFarm: [userFarm] });
       let shift = mocks.fakeShift();
       shift.tasks = [...Array(4)].map(() => mocks.fakeShiftTask());
-      shift.tasks.map(task =>  {
-        task.location_id = field.location_id
-        task.task_id = taskType.task_id
+      shift.tasks.map((task) => {
+        task.location_id = field.location_id;
+        task.task_id = taskType.task_id;
       });
       shift.user_id = userFarm.user_id;
       shift.farm_id = userFarm.farm_id;
@@ -400,15 +443,20 @@ xdescribe('Shift tests', () => {
 
     test('should be able to create a shift that is not mine if I am Owner', async (done) => {
       let [userFarm] = await mocks.userFarmFactory({}, { status: 'Active', role_id: 1 });
-      const [task] = await mocks.taskTypeFactory({promisedFarm: [userFarm]})
-      let [otherUserFarm] = await mocks.userFarmFactory({ promisedFarm: [{ farm_id: userFarm.farm_id }] }, {
-        status: 'Active',
-        role_id: 1,
-      });
+      const [task] = await mocks.taskTypeFactory({ promisedFarm: [userFarm] });
+      let [otherUserFarm] = await mocks.userFarmFactory(
+        { promisedFarm: [{ farm_id: userFarm.farm_id }] },
+        {
+          status: 'Active',
+          role_id: 1,
+        },
+      );
       let [field] = await mocks.fieldFactory({ promisedFarm: [otherUserFarm] });
       let shift = mocks.fakeShift();
       shift.mood = 'na';
-      shift.tasks = [ {...mocks.fakeShiftTask(), task_id: task.task_id, location_id: field.location_id }];
+      shift.tasks = [
+        { ...mocks.fakeShiftTask(), task_id: task.task_id, location_id: field.location_id },
+      ];
       shift.user_id = otherUserFarm.user_id;
       shift.farm_id = userFarm.farm_id;
       postShift(userFarm, shift, (err, res) => {
@@ -419,14 +467,19 @@ xdescribe('Shift tests', () => {
 
     test('should not be able to create a shift that is not mine if I am Worker', async (done) => {
       let [userFarm] = await mocks.userFarmFactory({}, { status: 'Active', role_id: 3 });
-      let [otherUserFarm] = await mocks.userFarmFactory({ promisedFarm: [{ farm_id: userFarm.farm_id }] }, {
-        status: 'Active',
-        role_id: 3,
-      });
-      const [task] = await mocks.taskTypeFactory({promisedFarm: [userFarm]})
+      let [otherUserFarm] = await mocks.userFarmFactory(
+        { promisedFarm: [{ farm_id: userFarm.farm_id }] },
+        {
+          status: 'Active',
+          role_id: 3,
+        },
+      );
+      const [task] = await mocks.taskTypeFactory({ promisedFarm: [userFarm] });
       let [field] = await mocks.fieldFactory({ promisedFarm: [otherUserFarm] });
       let shift = mocks.fakeShift();
-      shift.tasks = [ {...mocks.fakeShiftTask(), task_id: task.task_id, location_id: field.location_id }];
+      shift.tasks = [
+        { ...mocks.fakeShiftTask(), task_id: task.task_id, location_id: field.location_id },
+      ];
       shift.user_id = otherUserFarm.user_id;
       shift.farm_id = userFarm.farm_id;
       postShift(userFarm, shift, (err, res) => {
@@ -437,15 +490,20 @@ xdescribe('Shift tests', () => {
 
     test('should not be able to set mood if I do not own the shift or Im not a EO', async (done) => {
       let [userFarm] = await mocks.userFarmFactory({}, { status: 'Active', role_id: 1 });
-      let [otherUserFarm] = await mocks.userFarmFactory({ promisedFarm: [{ farm_id: userFarm.farm_id }] }, {
-        status: 'Active',
-        role_id: 1,
-      });
-      const [task] = await mocks.taskTypeFactory({promisedFarm: [userFarm]})
+      let [otherUserFarm] = await mocks.userFarmFactory(
+        { promisedFarm: [{ farm_id: userFarm.farm_id }] },
+        {
+          status: 'Active',
+          role_id: 1,
+        },
+      );
+      const [task] = await mocks.taskTypeFactory({ promisedFarm: [userFarm] });
       let [field] = await mocks.fieldFactory({ promisedFarm: [otherUserFarm] });
       let shift = mocks.fakeShift();
       shift.mood = 'happy';
-      shift.tasks = [ {...mocks.fakeShiftTask(), task_id: task.task_id, location_id: field.location_id }];
+      shift.tasks = [
+        { ...mocks.fakeShiftTask(), task_id: task.task_id, location_id: field.location_id },
+      ];
       shift.user_id = otherUserFarm.user_id;
       shift.farm_id = userFarm.farm_id;
       postShift(userFarm, shift, (err, res) => {
@@ -454,7 +512,6 @@ xdescribe('Shift tests', () => {
       });
     });
   });
-
 
   xdescribe('PUT /shift/:id', () => {
     test('should update a shift that is owned by me. As owner', async (done) => {
@@ -470,10 +527,13 @@ xdescribe('Shift tests', () => {
 
     test('should  update a shift that is NOT owned by me (in my farm). As owner', async (done) => {
       let [userFarm] = await mocks.userFarmFactory({}, { status: 'Active', role_id: 1 });
-      let [anotherUserFarm] = await mocks.userFarmFactory({ promisedFarm: [userFarm] }, {
-        status: 'Active',
-        role_id: 1,
-      });
+      let [anotherUserFarm] = await mocks.userFarmFactory(
+        { promisedFarm: [userFarm] },
+        {
+          status: 'Active',
+          role_id: 1,
+        },
+      );
       let shiftData = await createShiftData(userFarm, anotherUserFarm);
       putShift(userFarm, shiftData, (err, res) => {
         expect(res.status).toBe(200);
@@ -482,7 +542,6 @@ xdescribe('Shift tests', () => {
         done();
       });
     });
-
 
     test('should NOT update a shift that is NOT in my farm. As owner', async (done) => {
       let [userFarm] = await mocks.userFarmFactory({}, { status: 'Active', role_id: 1 });
@@ -507,10 +566,13 @@ xdescribe('Shift tests', () => {
 
     test('should  update a shift that is NOT owned by me (in my farm). As manager', async (done) => {
       let [userFarm] = await mocks.userFarmFactory({}, { status: 'Active', role_id: 2 });
-      let [anotherUserFarm] = await mocks.userFarmFactory({ promisedFarm: [userFarm] }, {
-        status: 'Active',
-        role_id: 1,
-      });
+      let [anotherUserFarm] = await mocks.userFarmFactory(
+        { promisedFarm: [userFarm] },
+        {
+          status: 'Active',
+          role_id: 1,
+        },
+      );
       let shiftData = await createShiftData(userFarm, anotherUserFarm);
       putShift(userFarm, shiftData, (err, res) => {
         expect(res.status).toBe(200);
@@ -519,7 +581,6 @@ xdescribe('Shift tests', () => {
         done();
       });
     });
-
 
     test('should NOT update a shift that is NOT in my farm. As manager', async (done) => {
       let [userFarm] = await mocks.userFarmFactory({}, { status: 'Active', role_id: 2 });
@@ -544,17 +605,19 @@ xdescribe('Shift tests', () => {
 
     test('should not  update a shift that is NOT owned by me (in my farm). As worker', async (done) => {
       let [userFarm] = await mocks.userFarmFactory({}, { status: 'Active', role_id: 3 });
-      let [anotherUserFarm] = await mocks.userFarmFactory({ promisedFarm: [userFarm] }, {
-        status: 'Active',
-        role_id: 1,
-      });
+      let [anotherUserFarm] = await mocks.userFarmFactory(
+        { promisedFarm: [userFarm] },
+        {
+          status: 'Active',
+          role_id: 1,
+        },
+      );
       let shiftData = await createShiftData(userFarm, anotherUserFarm);
       putShift(userFarm, shiftData, (err, res) => {
         expect(res.status).toBe(403);
         done();
       });
     });
-
 
     test('should NOT update a shift that is NOT in my farm. As worker', async (done) => {
       let [userFarm] = await mocks.userFarmFactory({}, { status: 'Active', role_id: 3 });
@@ -566,7 +629,6 @@ xdescribe('Shift tests', () => {
       });
     });
   });
-
 
   describe('DELETE /shift/:id', () => {
     test('should delete a shift I own at my farm. As owner', async (done) => {
@@ -580,10 +642,13 @@ xdescribe('Shift tests', () => {
 
     test('should delete a shift I dont own at my farm. As owner', async (done) => {
       let [userFarm] = await mocks.userFarmFactory({}, { status: 'Active', role_id: 1 });
-      let [anotherUserInMyFarm] = await mocks.userFarmFactory({ promisedFarm: [userFarm] }, {
-        status: 'Active',
-        role_id: 3,
-      });
+      let [anotherUserInMyFarm] = await mocks.userFarmFactory(
+        { promisedFarm: [userFarm] },
+        {
+          status: 'Active',
+          role_id: 3,
+        },
+      );
       let shiftData = await createShiftData(userFarm, anotherUserInMyFarm);
       deleteShift(userFarm, shiftData.shift_id, (err, res) => {
         expect(res.status).toBe(200);
@@ -602,10 +667,13 @@ xdescribe('Shift tests', () => {
 
     test('should delete a shift I dont own at my farm. As manager', async (done) => {
       let [userFarm] = await mocks.userFarmFactory({}, { status: 'Active', role_id: 2 });
-      let [anotherUserInMyFarm] = await mocks.userFarmFactory({ promisedFarm: [userFarm] }, {
-        status: 'Active',
-        role_id: 3,
-      });
+      let [anotherUserInMyFarm] = await mocks.userFarmFactory(
+        { promisedFarm: [userFarm] },
+        {
+          status: 'Active',
+          role_id: 3,
+        },
+      );
       let shiftData = await createShiftData(userFarm, anotherUserInMyFarm);
       deleteShift(userFarm, shiftData.shift_id, (err, res) => {
         expect(res.status).toBe(200);
@@ -624,10 +692,13 @@ xdescribe('Shift tests', () => {
 
     test('should NOT delete a shift I dont own at my farm. As worker', async (done) => {
       let [userFarm] = await mocks.userFarmFactory({}, { status: 'Active', role_id: 3 });
-      let [anotherUserInMyFarm] = await mocks.userFarmFactory({ promisedFarm: [userFarm] }, {
-        status: 'Active',
-        role_id: 3,
-      });
+      let [anotherUserInMyFarm] = await mocks.userFarmFactory(
+        { promisedFarm: [userFarm] },
+        {
+          status: 'Active',
+          role_id: 3,
+        },
+      );
       let shiftData = await createShiftData(userFarm, anotherUserInMyFarm);
       deleteShift(userFarm, shiftData.shift_id, (err, res) => {
         expect(res.status).toBe(403);
@@ -635,5 +706,4 @@ xdescribe('Shift tests', () => {
       });
     });
   });
-
 });

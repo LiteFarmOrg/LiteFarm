@@ -13,11 +13,11 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const jwt = require('express-jwt');
+import jwt from 'express-jwt';
 
 const checkResetPasswordJwt = jwt({
   secret: process.env.JWT_RESET_SECRET,
   algorithms: ['HS256'],
 });
 
-module.exports = checkResetPasswordJwt;
+export default checkResetPasswordJwt;

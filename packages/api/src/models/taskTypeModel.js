@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const baseModel = require('./baseModel');
+import baseModel from './baseModel.js';
 
 class TaskName extends baseModel {
   static get tableName() {
@@ -61,4 +61,4 @@ class TaskName extends baseModel {
   }
 }
 
-module.exports = TaskName;
+export default TaskName;

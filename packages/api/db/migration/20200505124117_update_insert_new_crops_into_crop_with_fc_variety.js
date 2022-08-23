@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-exports.up = async function(knex) {
+export const up = async function(knex) {
   await knex.raw(`
     INSERT INTO "crop" (crop_common_name, crop_genus, crop_specie, crop_group, crop_subgroup, max_rooting_depth, depletion_fraction, initial_kc, is_avg_depth, mid_kc, end_kc, max_height, is_avg_kc, nutrient_notes, percentrefuse, refuse, protein, lipid, energy, ca, fe, mg, ph, k, na, zn, cu, fl, mn, se, vita_rae, vite, vitc, thiamin, riboflavin, niacin, pantothenic, vitb6, folate, vitb12, vitk, is_avg_nutrient, farm_id, user_added, deleted, nutrient_credits)
     SELECT REPLACE(crop_common_name, crop_common_name, CONCAT(crop_common_name, ' - ', fc.variety)), crop_genus, crop_specie, crop_group, crop_subgroup, max_rooting_depth, depletion_fraction, initial_kc, NULL, mid_kc, end_kc, max_height, NULL, nutrient_notes, percentrefuse, refuse, protein, lipid, energy, ca, fe, mg, ph, k, na, zn, cu, fl, mn, se, vita_rae, vite, vitc, thiamin, riboflavin, niacin, pantothenic, vitb6, folate, vitb12, vitk, NULL, f.farm_id, TRUE, deleted, nutrient_credits
@@ -38,7 +38,7 @@ exports.up = async function(knex) {
     ' - ',
     fc.variety
     )
-    `
+    `,
   );
 
   await knex.raw(
@@ -47,7 +47,7 @@ exports.up = async function(knex) {
     SET crop_id = v.crop_id
     FROM "update_field_crop_view" v
     WHERE fc.field_crop_id = v.field_crop_id
-    `
+    `,
   );
 
   await knex.raw(
@@ -56,7 +56,7 @@ exports.up = async function(knex) {
     SET crop_id = v.crop_id
     FROM "update_field_crop_view" v
     WHERE y.crop_id = v.fc_old_crop_id AND y.farm_id = v.farm_id
-    `
+    `,
   );
 
   await knex.raw(
@@ -65,7 +65,7 @@ exports.up = async function(knex) {
     SET crop_id = v.crop_id
     FROM "update_field_crop_view" v
     WHERE p.crop_id = v.fc_old_crop_id AND p.farm_id = v.farm_id
-    `
+    `,
   );
 
   await knex.raw(
@@ -74,7 +74,7 @@ exports.up = async function(knex) {
     SET crop_id = v.crop_id
     FROM "update_field_crop_view" v
     WHERE w.crop_id = v.fc_old_crop_id AND w.field_id = v.field_id
-    `
+    `,
   );
 
   await knex.raw(
@@ -84,11 +84,12 @@ exports.up = async function(knex) {
     FROM "update_field_crop_view" v
     INNER JOIN "sale" s on s.farm_id = v.farm_id
     WHERE cs.crop_id = v.fc_old_crop_id AND s.sale_id = cs.sale_id
-    `
+    `,
   );
 
 };
 
-exports.down = function(knex) {
+// eslint-disable-next-line no-unused-vars
+export const down = function(knex) {
 
 };

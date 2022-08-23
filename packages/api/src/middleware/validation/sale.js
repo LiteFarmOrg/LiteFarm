@@ -20,11 +20,16 @@ async function validateSale(req, res, next) {
     return res.status(400).send('Crop is required');
   }
   for (const singleCropVarietySale of crop_variety_sale) {
-    if (!singleCropVarietySale.crop_variety_id || singleCropVarietySale.managementPlan || singleCropVarietySale.farm || singleCropVarietySale.crop_variety) {
+    if (
+      !singleCropVarietySale.crop_variety_id ||
+      singleCropVarietySale.managementPlan ||
+      singleCropVarietySale.farm ||
+      singleCropVarietySale.crop_variety
+    ) {
       return res.status(400).send('Crop is required');
     }
   }
   return next();
 }
 
-module.exports = validateSale;
+export default validateSale;

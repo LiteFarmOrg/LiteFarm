@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const Model = require('objection').Model;
+import { Model } from 'objection';
 
 class Gate extends Model {
   static get tableName() {
@@ -37,9 +37,8 @@ class Gate extends Model {
 
   static get relationMappings() {
     // Import models here to prevent require loops.
-    return {
-    };
+    return {};
   }
 }
 
-module.exports = Gate;
+export default Gate;

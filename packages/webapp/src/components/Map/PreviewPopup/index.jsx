@@ -8,6 +8,10 @@ import { TEMPERATURE } from '../../../containers/SensorReadings/constants';
 import { getTemperatureUnit, getTemperatureValue } from './utils';
 import { userFarmSelector } from '../../../containers/userFarmSlice';
 import { useSelector } from 'react-redux';
+import {
+  sensorReadingTypesByLocationSelector,
+  sensorReadingTypesSelector,
+} from '../../../containers/sensorReadingTypesSlice';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -51,6 +55,7 @@ export default function PurePreviewPopup({ location, history, sensorReadings, st
   const classes = useStyles();
   const { t } = useTranslation();
   const { units } = useSelector(userFarmSelector);
+  const { reading_types } = useSelector(sensorReadingTypesByLocationSelector(location.id));
 
   const loadReadingView = () => {
     history.push(`/${location.type}/${location.id}/readings`);
@@ -71,26 +76,36 @@ export default function PurePreviewPopup({ location, history, sensorReadings, st
 
   const latestTemperatureData = temperatureData[0];
 
-  return (
-    <div className={classes.container}>
-      <div className={classes.tooltip} style={styleOverride}>
-        <div className={classes.arrow} />
-        <div className={classes.body}>
-          <CompactPreview
-            title={t('SENSOR.READINGS_PREVIEW.TEMPERATURE')}
-            value={
-              temperatureData.length
-                ? getTemperatureValue(latestTemperatureData.value, units.measurement)
-                : null
-            }
-            unit={temperatureData.length ? getTemperatureUnit(units.measurement) : null}
-            loadReadingView={loadReadingView}
-          />
-          {/*other compact views*/}
+  /**
+   * Add other reading types in the "includes" clause when other compact components are developed.
+   * This will allow the PreviewPopup component to only render if a sensor has reading data matching its reading type.
+   */
+  if (reading_types.includes(TEMPERATURE)) {
+    return (
+      <div className={classes.container}>
+        <div className={classes.tooltip} style={styleOverride}>
+          <div className={classes.arrow} />
+          <div className={classes.body}>
+            {reading_types.includes(TEMPERATURE) && (
+              <CompactPreview
+                title={t('SENSOR.READINGS_PREVIEW.TEMPERATURE')}
+                value={
+                  temperatureData.length
+                    ? getTemperatureValue(latestTemperatureData.value, units.measurement)
+                    : null
+                }
+                unit={temperatureData.length ? getTemperatureUnit(units.measurement) : null}
+                loadReadingView={loadReadingView}
+              />
+            )}
+            {/*other compact views*/}
+          </div>
         </div>
       </div>
-    </div>
-  );
+    );
+  } else {
+    return <></>;
+  }
 }
 
 PurePreviewPopup.prototype = {

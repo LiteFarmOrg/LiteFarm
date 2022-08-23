@@ -13,7 +13,9 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const Model = require('objection').Model;
+import { Model } from 'objection';
+import userModel from './userModel.js';
+import farmModel from './farmModel.js';
 
 class farmDataSchedule extends Model {
   static get tableName() {
@@ -47,7 +49,7 @@ class farmDataSchedule extends Model {
   static get relationMappings() {
     return {
       user: {
-        modelClass: require('./userModel'),
+        modelClass: userModel,
         relation: Model.HasOneRelation,
         join: {
           from: 'farmDataSchedule.user_id',
@@ -55,15 +57,15 @@ class farmDataSchedule extends Model {
         },
       },
       farm: {
-        modelClass: require('./farmModel'),
+        modelClass: farmModel,
         relation: Model.HasOneRelation,
         join: {
           from: 'farmDataSchedule.farm_id',
           to: 'farm.farm_id',
         },
       },
-    }
+    };
   }
 }
 
-module.exports = farmDataSchedule;
+export default farmDataSchedule;

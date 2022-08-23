@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-exports.up = async function (knex) {
+export const up = async function (knex) {
   await knex('permissions').insert([
     { permission_id: 132, name: 'add:sensors', description: 'add sensors' },
     { permission_id: 133, name: 'edit:sensors', description: 'edit sensors' },
@@ -32,7 +32,7 @@ exports.up = async function (knex) {
   ]);
 };
 
-exports.down = function (knex) {
+export const down = function (knex) {
   const permissions = [132, 133, 134];
   return Promise.all([
     knex('rolePermissions').whereIn('permission_id', permissions).del(),

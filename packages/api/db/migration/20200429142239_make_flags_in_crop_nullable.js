@@ -13,22 +13,22 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-exports.up = function(knex) {
+export const up = function (knex) {
   return Promise.all([
     knex.schema.alterTable('crop', (table) => {
       table.boolean('is_avg_depth').nullable().alter();
       table.boolean('is_avg_kc').nullable().alter();
       table.boolean('is_avg_nutrient').nullable().alter();
     }),
-  ])
+  ]);
 };
 
-exports.down = function(knex) {
+export const down = function (knex) {
   return Promise.all([
     knex.schema.alterTable('crop', (table) => {
       table.boolean('is_avg_depth').defaultTo(false).notNullable().alter();
       table.boolean('is_avg_kc').defaultTo(false).notNullable().alter();
       table.boolean('is_avg_nutrient').defaultTo(false).notNullable().alter();
     }),
-  ])
+  ]);
 };

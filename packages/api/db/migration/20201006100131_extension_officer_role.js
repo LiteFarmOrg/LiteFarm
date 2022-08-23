@@ -13,16 +13,15 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-exports.up = function(knex) {
+export const up = function(knex) {
     return Promise.all([
-      knex('role').insert({role_id: 5, role: 'Extension Officer'}),
+      knex('role').insert({ role_id: 5, role: 'Extension Officer' }),
     ])
   };
-  
-  exports.down = function(knex) {
-    return Promise.all([
-      knex('role').where('role_id', 5).del(),
-    ])
-  };
-  
-  
+
+export const down = function(knex) {
+  return Promise.all([
+    knex('role').where('role_id', 5).del(),
+  ])
+};
+

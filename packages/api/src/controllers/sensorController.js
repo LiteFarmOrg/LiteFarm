@@ -13,25 +13,27 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const baseController = require('../controllers/baseController');
-const SensorModel = require('../models/sensorModel');
-const SensorReadingModel = require('../models/sensorReadingModel');
-const IntegratingPartnersModel = require('../models/integratingPartnersModel');
-const NotificationUser = require('../models/notificationUserModel');
-const FarmExternalIntegrationsModel = require('../models/farmExternalIntegrationsModel');
-const LocationModel = require('../models/locationModel');
-const PointModel = require('../models/pointModel');
-const FigureModel = require('../models/figureModel');
-const { transaction, Model } = require('objection');
-const {
+import baseController from '../controllers/baseController.js';
+
+import SensorModel from '../models/sensorModel.js';
+import SensorReadingModel from '../models/sensorReadingModel.js';
+import IntegratingPartnersModel from '../models/integratingPartnersModel.js';
+import NotificationUser from '../models/notificationUserModel.js';
+import FarmExternalIntegrationsModel from '../models/farmExternalIntegrationsModel.js';
+import LocationModel from '../models/locationModel.js';
+import PointModel from '../models/pointModel.js';
+import FigureModel from '../models/figureModel.js';
+import { transaction, Model } from 'objection';
+
+import {
   createOrganization,
   registerOrganizationWebhook,
   bulkSensorClaim,
   unclaimSensor,
-} = require('../util/ensemble');
+} from '../util/ensemble.js';
 
-const sensorErrors = require('../util/sensorErrors');
-const syncAsyncResponse = require('../util/syncAsyncResponse');
+import sensorErrors from '../util/sensorErrors.js';
+import syncAsyncResponse from '../util/syncAsyncResponse.js';
 
 const sensorController = {
   async getSensorReadingTypes(req, res) {
@@ -44,6 +46,28 @@ const sensorController = {
       res.status(200).send(readingTypes);
     } catch (error) {
       res.status(404).send('Sensor not found');
+    }
+  },
+  async getAllSensorReadingTypes(req, res) {
+    const { farm_id } = req.params;
+    try {
+      const allSensorReadingTypesResponse = await SensorModel.getAllSensorReadingTypes(farm_id);
+      const allReadingTypesObject = allSensorReadingTypesResponse.rows.reduce((obj, item) => {
+        if (item.location_id in obj) {
+          obj[item.location_id].push(item.readable_value);
+        } else {
+          obj[item.location_id] = [item.readable_value];
+        }
+        return obj;
+      }, {});
+      const allReadingTypes = Object.keys(allReadingTypesObject).map(key => {
+        return {
+          location_id: key, reading_types: allReadingTypesObject[key],
+        }
+      });
+      res.status(200).send(allReadingTypes);
+    } catch (error) {
+      res.status(404).send('No sensors found');
     }
   },
   async getBrandName(req, res) {
@@ -736,4 +760,4 @@ async function sendSensorNotification(
   );
 }
 
-module.exports = sensorController;
+export default sensorController;

@@ -1,10 +1,10 @@
-exports.up = function (knex) {
+export const up = function (knex) {
   return knex.schema.alterTable('task', function (table) {
     table.dropColumn('planned_time');
   });
 };
 
-exports.down = async function (knex) {
+export const down = async function (knex) {
   await knex.schema.alterTable('task', function (table) {
     table.dateTime('planned_time');
   });

@@ -1,8 +1,8 @@
-const XlsxPopulate = require('xlsx-populate');
-const rp = require('request-promise');
+import XlsxPopulate from 'xlsx-populate';
+import rp from 'request-promise';
 const surveyStackURL = 'https://app.surveystack.io/api/';
 
-module.exports = async (emailQueue, submission, exportId, organicCertifierSurvey) => {
+export default async (emailQueue, submission, exportId, organicCertifierSurvey) => {
   if (!submission) {
     emailQueue.add({ fail: true });
     return Promise.resolve();

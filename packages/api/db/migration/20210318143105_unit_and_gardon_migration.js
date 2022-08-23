@@ -1,10 +1,11 @@
-exports.up = function(knex) {
-
+export const up = function (knex) {
   return Promise.all([
     knex.schema.createTable('garden', (t) => {
       t.uuid('location_id')
-        .primary().references('location_id')
-        .inTable('location').onDelete('CASCADE');
+        .primary()
+        .references('location_id')
+        .inTable('location')
+        .onDelete('CASCADE');
       t.enu('organic_status', ['Non-Organic', 'Transitional', 'Organic']).defaultTo('Non-Organic');
       t.date('transition_date');
       t.integer('station_id');
@@ -52,7 +53,7 @@ exports.up = function(knex) {
   ]);
 };
 
-exports.down = function(knex) {
+export const down = function (knex) {
   const permissions = [115, 116];
   return Promise.all([
     knex.schema.dropTable('garden'),

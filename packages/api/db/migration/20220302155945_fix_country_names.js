@@ -40,7 +40,7 @@ const newCountries = [
   },
 ];
 
-exports.up = async function (knex) {
+export const up = async function (knex) {
   for (const name of nameChanges) {
     await knex.schema.raw('UPDATE countries SET country_name = ? WHERE country_name = ?;', [
       name.new,
@@ -50,7 +50,7 @@ exports.up = async function (knex) {
   await knex('countries').insert(newCountries);
 };
 
-exports.down = async function (knex) {
+export const down = async function (knex) {
   for (const name of nameChanges) {
     await knex.schema.raw('UPDATE countries SET country_name = ? WHERE country_name = ?;', [
       name.old,

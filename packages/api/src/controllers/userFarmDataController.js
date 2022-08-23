@@ -13,8 +13,9 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const baseController = require('../controllers/baseController');
-const farmDataScheduleModel = require('../models/farmDataScheduleModel');
+import baseController from '../controllers/baseController.js';
+
+import FarmDataScheduleModel from '../models/farmDataScheduleModel.js';
 
 /* eslint-disable no-console */
 
@@ -25,28 +26,29 @@ const userFarmDataController = {
         const farm_id = req.body.farm_id;
         const user_id = req.body.user_id;
         const data = { farm_id, user_id };
-        await farmDataScheduleModel.transaction(async trx => {
-          await baseController.post(farmDataScheduleModel, data, req, { trx });
+        await FarmDataScheduleModel.transaction(async (trx) => {
+          await baseController.post(FarmDataScheduleModel, data, req, { trx });
         });
         res.sendStatus(200);
       } catch (error) {
         //handle more exceptions
         res.status(400).send(error);
       }
-    }
+    };
   },
 
   getSchedule() {
     return async (req, res) => {
       try {
         const farm_id = req.params.farm_id;
-        const data = await farmDataScheduleModel.query().where({ farm_id, is_processed: false }).returning('*');
+        const data = await FarmDataScheduleModel.query()
+          .where({ farm_id, is_processed: false })
+          .returning('*');
         if (!data.length) {
           res.sendStatus(404);
         } else {
           res.status(200).send(data);
         }
-
       } catch (error) {
         //handle more exceptions
         console.log(error);
@@ -54,6 +56,6 @@ const userFarmDataController = {
       }
     };
   },
-}
+};
 
-module.exports = userFarmDataController;
+export default userFarmDataController;

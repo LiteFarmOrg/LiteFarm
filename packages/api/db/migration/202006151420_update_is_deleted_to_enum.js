@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-exports.up = async function(knex) {
+export const up = async function(knex) {
   return Promise.all([
     await knex.schema.table('userFarm', (table) => {
       table.enu('status', ['Active', 'Inactive', 'Invited']);
@@ -25,7 +25,7 @@ exports.up = async function(knex) {
                            THEN 'Active'
                            ELSE 'Inactive'
                       END)
-      `
+      `,
     ),
     await knex.schema.table('userFarm', (table) => {
       table.dropColumn('is_deleted');
@@ -33,7 +33,7 @@ exports.up = async function(knex) {
   ])
 };
 
-exports.down = async function(knex) {
+export const down = async function(knex) {
   return Promise.all([
     await knex.schema.table('userFarm', (table) => {
       table.boolean('is_deleted').notNullable().defaultTo(false);
@@ -45,7 +45,7 @@ exports.down = async function(knex) {
                                THEN false
                                ELSE true
                           END)
-      `
+      `,
     ),
     await knex.schema.table('userFarm', (table) => {
       table.dropColumn('status');

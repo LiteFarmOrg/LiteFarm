@@ -13,29 +13,31 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const { Model } = require('objection');
+import knex from '../../util/knex.js';
 
 async function authFarmId(req, res, next) {
-  const knex = Model.knex();
   const farm_id = req.params.farm_id;
   if (farm_id) {
     // console.log(farm_id);
     // user id is contained in attribute sub in this format: 'auth0|5b0560215d7d1617fd7ed217'
-    const user_id = req.user.user_id
+    const user_id = req.user.user_id;
     // console.log("check farm_id", user_id, farm_id);
-    const farms = await knex.raw(`SELECT uf.farm_id
+    const farms = await knex.raw(
+      `SELECT uf.farm_id
       FROM "userFarm" uf
-      WHERE uf.user_id = ?`, [user_id]);
+      WHERE uf.user_id = ?`,
+      [user_id],
+    );
 
     if (farms && farms.rows.length) {
       let is_found = false;
-      for(const f of farms.rows){
-        if(f.farm_id === farm_id){
+      for (const f of farms.rows) {
+        if (f.farm_id === farm_id) {
           is_found = true;
           next();
         }
       }
-      if(!is_found){
+      if (!is_found) {
         res.status(401).send('user not authorized to access farm with specified farm_id');
       }
     } else {
@@ -47,4 +49,4 @@ async function authFarmId(req, res, next) {
   }
 }
 
-module.exports = authFarmId;
+export default authFarmId;

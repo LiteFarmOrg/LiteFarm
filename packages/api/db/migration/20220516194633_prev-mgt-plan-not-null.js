@@ -1,4 +1,4 @@
-exports.up = function (knex) {
+export const up = function (knex) {
   return Promise.all([
     knex.raw(`ALTER TABLE transplant_task 
       ALTER COLUMN planting_management_plan_id SET NOT NULL,
@@ -6,7 +6,7 @@ exports.up = function (knex) {
   ]);
 };
 
-exports.down = function (knex) {
+export const down = function (knex) {
   return Promise.all([
     knex.raw(`ALTER TABLE transplant_task 
       ALTER COLUMN planting_management_plan_id DROP NOT NULL,

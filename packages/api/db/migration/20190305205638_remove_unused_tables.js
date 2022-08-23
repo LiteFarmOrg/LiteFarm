@@ -13,46 +13,38 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-exports.up = function(knex) {
+export const up = function (knex) {
   //remove all the tables
   return Promise.all([
     knex.schema.dropTable('activityBeds'),
     knex.schema.dropTable('bed'),
     knex.schema.dropTable('userManages'),
-  ])
+  ]);
 };
 
-
-exports.down = function(knex) {
+export const down = function (knex) {
   return Promise.all([
     knex.schema.createTable('userManages', function (table) {
-      table.string('manager_id')
-        .references('user_id')
-        .inTable('users');
-      table.string('manages_id')
-        .references('user_id')
-        .inTable('users');
+      table.string('manager_id').references('user_id').inTable('users');
+      table.string('manages_id').references('user_id').inTable('users');
       table.primary(['manages_id', 'manager_id']);
     }),
     knex.schema.createTable('bed', function (table) {
       table.uuid('bed_id').primary().defaultTo(knex.raw('uuid_generate_v1()'));
-      table.uuid('field_id')
-        .references('field_id')
-        .inTable('field');
+      table.uuid('field_id').references('field_id').inTable('field');
       table.float('bed_length').unsigned();
       table.integer('bed_index_in_field').unsigned().notNullable();
 
       table.index(['field_id']);
     }),
     knex.schema.createTable('activityBeds', function (table) {
-      table.integer('activity_id')
+      table
+        .integer('activity_id')
         .references('activity_id')
         .inTable('activityLog')
         .onDelete('CASCADE');
-      table.uuid('bed_id')
-        .references('bed_id')
-        .inTable('bed');
+      table.uuid('bed_id').references('bed_id').inTable('bed');
       table.primary(['bed_id', 'activity_id']);
     }),
-  ])
+  ]);
 };

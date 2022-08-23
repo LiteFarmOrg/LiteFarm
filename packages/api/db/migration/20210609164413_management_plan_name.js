@@ -1,12 +1,11 @@
-
-exports.up = function(knex) {
+export const up = function (knex) {
   return knex.schema.alterTable('management_plan', (t) => {
     t.string('name');
-  })
+  });
 };
 
-exports.down = function(knex) {
+export const down = function (knex) {
   return knex.schema.alterTable('management_plan', (t) => {
     t.dropColumn('name');
-  })
+  });
 };

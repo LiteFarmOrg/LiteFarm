@@ -13,7 +13,6 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-
 async function validateOrganicSurvey(req, res, next) {
   const {
     certification_id,
@@ -25,12 +24,19 @@ async function validateOrganicSurvey(req, res, next) {
   if (interested && certification_id && requested_certification) {
     return res.status(400).send('One of certification_id and requested_certification must be null');
   } else if (interested && !certification_id && !requested_certification) {
-    return res.status(400).send('certification_id and requested_certification cannot be null at the same time');
+    return res
+      .status(400)
+      .send('certification_id and requested_certification cannot be null at the same time');
   } else if (interested && certifier_id && requested_certifier) {
     return res.status(400).send('One of certifier_id and requested_certifier must be null');
   } else if (interested && !certifier_id && !requested_certifier) {
-    return res.status(400).send('certifier_id and requested_certifier cannot be null at the same time');
-  } else if (!interested && (certification_id || requested_certification || certifier_id || requested_certifier)) {
+    return res
+      .status(400)
+      .send('certifier_id and requested_certifier cannot be null at the same time');
+  } else if (
+    !interested &&
+    (certification_id || requested_certification || certifier_id || requested_certifier)
+  ) {
     req.body.requested_certification = null;
     req.body.certification_id = null;
     req.body.certifier_id = null;
@@ -39,4 +45,4 @@ async function validateOrganicSurvey(req, res, next) {
   return next();
 }
 
-module.exports = validateOrganicSurvey;
+export default validateOrganicSurvey;

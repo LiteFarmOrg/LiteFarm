@@ -1,4 +1,4 @@
-const Model = require('objection').Model;
+import { Model } from 'objection';
 
 class BedMethodModel extends Model {
   static get tableName() {
@@ -12,7 +12,13 @@ class BedMethodModel extends Model {
   static get jsonSchema() {
     return {
       type: 'object',
-      required: ['planting_management_plan_id', 'number_of_beds', 'number_of_rows_in_bed', 'plant_spacing', 'bed_length'],
+      required: [
+        'planting_management_plan_id',
+        'number_of_beds',
+        'number_of_rows_in_bed',
+        'plant_spacing',
+        'bed_length',
+      ],
       properties: {
         planting_management_plan_id: { type: 'string' },
         number_of_beds: { type: 'integer' },
@@ -38,4 +44,4 @@ class BedMethodModel extends Model {
   }
 }
 
-module.exports = BedMethodModel;
+export default BedMethodModel;

@@ -13,7 +13,10 @@
  *  GNU General Public License for more details, see <<https://www.gnu.org/licenses/>.>
  */
 
-const Model = require('objection').Model;
+import { Model } from 'objection';
+import UserModel from './userModel.js';
+import FarmModel from './farmModel.js';
+import RoleModel from './roleModel.js';
 
 class userFarm extends Model {
   static get tableName() {
@@ -98,7 +101,7 @@ class userFarm extends Model {
   static get relationMappings() {
     return {
       user: {
-        modelClass: require('./userModel'),
+        modelClass: UserModel,
         relation: Model.HasOneRelation,
         join: {
           from: 'userFarm.user_id',
@@ -106,7 +109,7 @@ class userFarm extends Model {
         },
       },
       farm: {
-        modelClass: require('./farmModel'),
+        modelClass: FarmModel,
         relation: Model.HasOneRelation,
         join: {
           from: 'userFarm.farm_id',
@@ -114,7 +117,7 @@ class userFarm extends Model {
         },
       },
       role: {
-        modelClass: require('./roleModel'),
+        modelClass: RoleModel,
         relation: Model.HasOneRelation,
         join: {
           from: 'userFarm.role_id',
@@ -206,4 +209,4 @@ class userFarm extends Model {
   }
 }
 
-module.exports = userFarm;
+export default userFarm;

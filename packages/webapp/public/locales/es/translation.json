@@ -1108,6 +1108,11 @@
     "WHERE_TRANSPLANT_LOCATION": "¿A dónde va a trasplantar?",
     "WILD_CROP": "¿Estás cosechando un cultivo silvestre?"
   },
+  "LOCATION_CREATION": {
+    "TITLE": "MISSING",
+    "CROP_PLAN_BODY": "MISSING",
+    "CREATE_BUTTON": "MISSING"
+  },
   "MY_FARM": {
     "CERTIFICATIONS": "Certificaciones",
     "FARM_INFO": "Información de la finca",

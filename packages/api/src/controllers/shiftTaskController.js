@@ -13,16 +13,19 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const baseController = require('../controllers/baseController');
-const shiftTaskModel = require('../models/shiftTaskModel');
-const { transaction, Model } = require('objection');
+import baseController from '../controllers/baseController.js';
+
+import ShiftTaskModel from '../models/shiftTaskModel.js';
+import { transaction, Model } from 'objection';
 
 const shiftTaskController = {
   addShiftTask() {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
       try {
-        const result = await baseController.postWithResponse(shiftTaskModel, req.body, req, { trx });
+        const result = await baseController.postWithResponse(ShiftTaskModel, req.body, req, {
+          trx,
+        });
         await trx.commit();
         res.status(201).send(result);
       } catch (error) {
@@ -39,7 +42,7 @@ const shiftTaskController = {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
       try {
-        const isDeleted = await baseController.delete(shiftTaskModel, req, req, { trx });
+        const isDeleted = await baseController.delete(ShiftTaskModel, req, req, { trx });
         await trx.commit();
         if (isDeleted) {
           res.sendStatus(200);
@@ -52,9 +55,8 @@ const shiftTaskController = {
           error,
         });
       }
-    }
+    };
   },
+};
 
-}
-
-module.exports = shiftTaskController;
+export default shiftTaskController;

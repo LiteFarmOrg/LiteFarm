@@ -13,8 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const Model = require('objection').Model;
-const baseModel = require('./baseModel');
+import baseModel from './baseModel.js';
 
 class Disease extends baseModel {
   static get tableName() {
@@ -49,4 +48,4 @@ class Disease extends baseModel {
   }
 }
 
-module.exports = Disease;
+export default Disease;

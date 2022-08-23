@@ -13,7 +13,10 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-require('dotenv').config();
+import * as dotenv from 'dotenv';
+import sendOnSchedule from './notifications/index.js';
+import processExports from './certification/index.js';
+dotenv.config();
 const redisConf = {
   redis: {
     host: process.env.REDIS_HOST,
@@ -22,5 +25,5 @@ const redisConf = {
   },
 };
 
-require('./certification').processExports(redisConf);
-require('./notifications').sendOnSchedule(redisConf);
+processExports(redisConf);
+sendOnSchedule(redisConf);

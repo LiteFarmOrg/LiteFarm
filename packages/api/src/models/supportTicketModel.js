@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const BaseModel = require('./baseModel');
+import BaseModel from './baseModel.js';
 
 class supportTicketModel extends BaseModel {
   static get tableName() {
@@ -21,7 +21,7 @@ class supportTicketModel extends BaseModel {
   }
 
   static get idColumn() {
-    return 'support_ticket_id'
+    return 'support_ticket_id';
   }
 
   static get jsonSchema() {
@@ -59,9 +59,8 @@ class supportTicketModel extends BaseModel {
   }
 
   static get relationMappings() {
-    return {
-    }
+    return {};
   }
 }
 
-module.exports = supportTicketModel;
+export default supportTicketModel;

@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-exports.up = function(knex) {
+export const up = function (knex) {
   return Promise.all([
     knex('permissions').insert([
       { name: 'add:actual_revenue', description: 'add actual revenue' },
@@ -73,8 +73,8 @@ exports.up = function(knex) {
       { name: 'edit:shifts', description: 'edit shifts' },
       { name: 'edit:task_types', description: 'edit task types' },
       { name: 'edit:users', description: 'edit users' },
-      { name: 'edit:user_role', description: 'edit other users\' role' },
-      { name: 'edit:user_status', description: 'edit other users\' status' },
+      { name: 'edit:user_role', description: "edit other users' role" },
+      { name: 'edit:user_status', description: "edit other users' status" },
       { name: 'edit:yields', description: 'edit yields' },
       { name: 'get:crops', description: 'get crops' },
       { name: 'get:diseases', description: 'get diseases' },
@@ -102,8 +102,6 @@ exports.up = function(knex) {
   ]);
 };
 
-exports.down = function(knex) {
-  return Promise.all([
-    knex('permissions').del(),
-  ]);
+export const down = function (knex) {
+  return Promise.all([knex('permissions').del()]);
 };

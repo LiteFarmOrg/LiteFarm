@@ -13,10 +13,9 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const Model = require('objection').Model;
-const baseModel = require('./baseModel');
+import baseModel from './baseModel.js';
 
-class Expense extends baseModel{
+class Expense extends baseModel {
   static get tableName() {
     return 'farmExpense';
   }
@@ -48,4 +47,4 @@ class Expense extends baseModel{
   }
 }
 
-module.exports = Expense;
+export default Expense;

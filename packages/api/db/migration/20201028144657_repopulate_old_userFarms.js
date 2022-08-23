@@ -13,18 +13,16 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-exports.up = async function(knex) {
-    await knex.raw(`
+export const up = async function (knex) {
+  await knex.raw(`
     UPDATE "userFarm" 
     SET step_five = true
     `);
-    await knex.raw(`
+  await knex.raw(`
     UPDATE "userFarm" 
     SET step_five_end = NOW()
     `);
+};
 
-  };
-  
-  exports.down = function(knex) {
-  
-  };
+// eslint-disable-next-line no-unused-vars
+export const down = function (knex) {};

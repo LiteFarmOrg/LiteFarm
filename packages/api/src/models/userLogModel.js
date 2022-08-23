@@ -13,7 +13,8 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const Model = require('objection').Model;
+import { Model } from 'objection';
+import UserModel from './userModel.js';
 
 class userLogModel extends Model {
   static get tableName() {
@@ -27,8 +28,15 @@ class userLogModel extends Model {
   static get jsonSchema() {
     return {
       type: 'object',
-      required: ['user_id', 'ip', 'languages', 'browser', 'browser_version',
-        'screen_width', 'screen_height'],
+      required: [
+        'user_id',
+        'ip',
+        'languages',
+        'browser',
+        'browser_version',
+        'screen_width',
+        'screen_height',
+      ],
       properties: {
         user_log_id: { type: 'string' },
         user_id: { type: 'string' },
@@ -59,7 +67,7 @@ class userLogModel extends Model {
   static get relationMappings() {
     return {
       user: {
-        modelClass: require('./userModel.js'),
+        modelClass: UserModel,
         relation: Model.HasOneRelation,
         join: {
           from: 'userLog.user_id',
@@ -70,4 +78,4 @@ class userLogModel extends Model {
   }
 }
 
-module.exports = userLogModel;
+export default userLogModel;

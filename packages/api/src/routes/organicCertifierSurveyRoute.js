@@ -13,29 +13,60 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const express = require('express');
+import express from 'express';
+
 const router = express.Router();
-const organicCertifierSurveyController = require('../controllers/organicCertifierSurveyController');
-const hasFarmAccess = require('../middleware/acl/hasFarmAccess');
-const checkScope = require('../middleware/acl/checkScope');
-const validateOrganicSurvey = require('../middleware/validation/addAndPutOrganicSurvey');
+import organicCertifierSurveyController from '../controllers/organicCertifierSurveyController.js';
+import hasFarmAccess from '../middleware/acl/hasFarmAccess.js';
+import checkScope from '../middleware/acl/checkScope.js';
+import validateOrganicSurvey from '../middleware/validation/addAndPutOrganicSurvey.js';
 
-
-router.get('/:farm_id', hasFarmAccess({ params: 'farm_id' }), checkScope(['get:organic_certifier_survey']), organicCertifierSurveyController.getCertificationSurveyByFarmId());
-router.get('/:farm_id/supported_certifications', hasFarmAccess({ params: 'farm_id' }), organicCertifierSurveyController.getAllSupportedCertifications());
-router.get('/:farm_id/supported_certifiers', hasFarmAccess({
-  params: 'farm_id',
-  body: 'certification_id',
-}), organicCertifierSurveyController.getAllSupportedCertifiers());
-router.post('/', hasFarmAccess({ body: 'farm_id' }), checkScope(['add:organic_certifier_survey']), validateOrganicSurvey, organicCertifierSurveyController.addOrganicCertifierSurvey());
-router.put('/', hasFarmAccess({ body: 'farm_id' }), checkScope(['edit:organic_certifier_survey']), validateOrganicSurvey, organicCertifierSurveyController.putOrganicCertifierSurvey());
-
-
-router.delete('/:survey_id', hasFarmAccess({ params: 'survey_id' }), checkScope(['delete:organic_certifier_survey']), organicCertifierSurveyController.delOrganicCertifierSurvey());
-
-router.post('/request_export',
+router.get(
+  '/:farm_id',
+  hasFarmAccess({ params: 'farm_id' }),
+  checkScope(['get:organic_certifier_survey']),
+  organicCertifierSurveyController.getCertificationSurveyByFarmId(),
+);
+router.get(
+  '/:farm_id/supported_certifications',
+  hasFarmAccess({ params: 'farm_id' }),
+  organicCertifierSurveyController.getAllSupportedCertifications(),
+);
+router.get(
+  '/:farm_id/supported_certifiers',
+  hasFarmAccess({
+    params: 'farm_id',
+    body: 'certification_id',
+  }),
+  organicCertifierSurveyController.getAllSupportedCertifiers(),
+);
+router.post(
+  '/',
   hasFarmAccess({ body: 'farm_id' }),
   checkScope(['add:organic_certifier_survey']),
-  organicCertifierSurveyController.triggerExport());
+  validateOrganicSurvey,
+  organicCertifierSurveyController.addOrganicCertifierSurvey(),
+);
+router.put(
+  '/',
+  hasFarmAccess({ body: 'farm_id' }),
+  checkScope(['edit:organic_certifier_survey']),
+  validateOrganicSurvey,
+  organicCertifierSurveyController.putOrganicCertifierSurvey(),
+);
 
-module.exports = router;
+router.delete(
+  '/:survey_id',
+  hasFarmAccess({ params: 'survey_id' }),
+  checkScope(['delete:organic_certifier_survey']),
+  organicCertifierSurveyController.delOrganicCertifierSurvey(),
+);
+
+router.post(
+  '/request_export',
+  hasFarmAccess({ body: 'farm_id' }),
+  checkScope(['add:organic_certifier_survey']),
+  organicCertifierSurveyController.triggerExport(),
+);
+
+export default router;

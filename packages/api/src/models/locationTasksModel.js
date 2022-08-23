@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const Model = require('objection').Model;
+import { Model } from 'objection';
 
 class LocationTaskModel extends Model {
   static get tableName() {
@@ -38,4 +38,4 @@ class LocationTaskModel extends Model {
   }
 }
 
-module.exports = LocationTaskModel;
+export default LocationTaskModel;

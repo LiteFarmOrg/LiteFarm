@@ -13,20 +13,20 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-exports.up = function(knex) {
+export const up = function (knex) {
   return Promise.all([
     knex.schema.table('fieldCrop', (table) => {
       table.boolean('is_by_bed').notNullable().defaultTo(false);
       table.jsonb('bed_config').nullable();
     }),
-  ])
+  ]);
 };
 
-exports.down = function(knex) {
+export const down = function (knex) {
   return Promise.all([
     knex.schema.table('fieldCrop', (table) => {
       table.dropColumn('is_by_bed');
       table.dropColumn('bed_config');
     }),
-  ])
+  ]);
 };

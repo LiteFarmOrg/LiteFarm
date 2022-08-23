@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const Model = require('objection').Model;
+import { Model } from 'objection';
 
 class WeatherModel extends Model {
   static get tableName() {
@@ -29,7 +29,14 @@ class WeatherModel extends Model {
   static get jsonSchema() {
     return {
       type: 'object',
-      required: ['min_degrees', 'max_degrees', 'min_humidity', 'max_humidity', 'precipitation', 'wind_speed'],
+      required: [
+        'min_degrees',
+        'max_degrees',
+        'min_humidity',
+        'max_humidity',
+        'precipitation',
+        'wind_speed',
+      ],
       properties: {
         weather_id: { type: 'integer' },
         created_at: { type: 'date-time' },
@@ -47,4 +54,4 @@ class WeatherModel extends Model {
   }
 }
 
-module.exports = WeatherModel;
+export default WeatherModel;

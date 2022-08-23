@@ -13,12 +13,12 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const express = require('express');
-const multer = require('multer');
-const checkScope = require('../middleware/acl/checkScope');
-const validateRequest = require('../middleware/validation/validateWebhook');
+import express from 'express';
 
-const SensorController = require('../controllers/sensorController');
+import multer from 'multer';
+import checkScope from '../middleware/acl/checkScope.js';
+import validateRequest from '../middleware/validation/validateWebhook.js';
+import SensorController from '../controllers/sensorController.js';
 
 const storage = multer.memoryStorage();
 const upload = multer({ storage });
@@ -45,6 +45,7 @@ router.get('/reading/farm/:farm_id', SensorController.getReadingsByFarmId);
 router.post('/reading/invalidate', SensorController.invalidateReadings);
 router.post('/unclaim', SensorController.retireSensor);
 router.get('/:location_id/reading_type', SensorController.getSensorReadingTypes);
+router.get('/farm/:farm_id/reading_type', SensorController.getAllSensorReadingTypes);
 router.get('/partner/:partner_id/brand_name', SensorController.getBrandName);
 router.post('/reading/visualization', SensorController.getAllSensorReadingsByLocationIds);
-module.exports = router;
+export default router;

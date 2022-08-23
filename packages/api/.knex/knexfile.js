@@ -12,23 +12,30 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
-const path = require('path');
-require('dotenv').config({ path: path.resolve(__dirname, '.env') });
-module.exports = {
+// import path from 'path';
+// import { fileURLToPath } from 'url';
 
+const dotenv = require('dotenv');
+const path = require('path');
+
+dotenv.config({ path: path.resolve(__dirname, '../.env') });
+
+const root = path.resolve(__dirname, '../');
+
+module.exports = {
   development: {
     client: 'postgresql',
     connection: {
       host: process.env.DEV_DATABASE_HOST,
       database: process.env.DEV_DATABASE,
-      user:     process.env.DEV_DATABASE_USER,
+      user: process.env.DEV_DATABASE_USER,
       password: process.env.DEV_DATABASE_PASSWORD,
     },
     migrations: {
-      directory: __dirname + '/db/migration',
+      directory: root + '/db/migration',
     },
     seeds: {
-      directory: __dirname + '/db/seeds',
+      directory: root + '/db/seeds',
     },
   },
 
@@ -41,10 +48,10 @@ module.exports = {
       password: 'postgres',
     },
     migrations: {
-      directory: __dirname + '/db/migration',
+      directory: root + '/db/migration',
     },
     seeds: {
-      directory: __dirname + '/db/seeds',
+      directory: root + '/db/seeds',
     },
   },
 
@@ -54,15 +61,15 @@ module.exports = {
     connection: {
       host: process.env.DEV_DATABASE_HOST,
       database: process.env.DEV_DATABASE,
-      user:     process.env.DEV_DATABASE_USER,
+      user: process.env.DEV_DATABASE_USER,
       password: process.env.DEV_DATABASE_PASSWORD,
       ssl: { rejectUnauthorized: false },
     },
     migrations: {
-      directory: __dirname + '/db/migration',
+      directory: root + '/db/migration',
     },
     seeds: {
-      directory: __dirname + '/db/seeds',
+      directory: root + '/db/seeds',
     },
   },
 
@@ -71,10 +78,10 @@ module.exports = {
     debug: true,
     connection: process.env.DATABASE_URL,
     migrations: {
-      directory: __dirname + '/db/migration',
+      directory: root + '/db/migration',
     },
     seeds: {
-      directory: __dirname + '/db/seeds',
+      directory: root + '/db/seeds',
     },
     ssl: {
       rejectUnauthorized: false,
@@ -85,15 +92,15 @@ module.exports = {
     connection: {
       host: process.env.TEST_DATABASE_HOST,
       database: process.env.TEST_DATABASE,
-      user:     process.env.TEST_DATABASE_USER,
+      user: process.env.TEST_DATABASE_USER,
       password: process.env.TEST_DATABASE_PASSWORD,
     },
     pool: { min: 0, max: 100 },
     migrations: {
-      directory: __dirname + '/db/migration',
+      directory: root + '/db/migration',
     },
     seeds: {
-      directory: __dirname + '/db/seeds',
+      directory: root + '/db/seeds',
     },
   },
   pipeline: {
@@ -107,10 +114,10 @@ module.exports = {
     },
     pool: { min: 0, max: 100 },
     migrations: {
-      directory: __dirname + '/db/migration',
+      directory: root + '/db/migration',
     },
     seeds: {
-      directory: __dirname + '/db/seeds',
+      directory: root + '/db/seeds',
     },
   },
 };

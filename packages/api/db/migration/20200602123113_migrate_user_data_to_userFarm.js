@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-exports.up = function(knex) {
+export const up = function(knex) {
   return Promise.all([
     knex.raw(
       `
@@ -29,11 +29,12 @@ exports.up = function(knex) {
       END)
       FROM "users" u
       WHERE u.farm_id IS NOT NULL
-      `
-    )
+      `,
+    ),
   ])
 };
 
-exports.down = function(knex) {
+// eslint-disable-next-line no-unused-vars
+export const down = function(knex) {
 
 };

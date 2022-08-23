@@ -22,8 +22,8 @@ import PropTypes from 'prop-types';
 import { Info, Semibold } from '../Typography';
 import { useDispatch, useSelector } from 'react-redux';
 import { userFarmSelector } from '../../containers/userFarmSlice';
-import { setMapFilterSetting } from '../../containers/Map/mapFilterSettingSlice';
 import history from '../../history';
+import { setMapAddDrawerShow } from '../../containers/Map/mapAddDrawerSlice';
 
 export default function LocationCreationModal({ title, body, dismissModal }) {
   const dispatch = useDispatch();
@@ -31,10 +31,7 @@ export default function LocationCreationModal({ title, body, dismissModal }) {
   const { farm_id } = useSelector(userFarmSelector);
 
   const onCreateLocation = () => {
-    const payload = {};
-    payload.farm_id = farm_id;
-    payload.addDrawer = true;
-    dispatch(setMapFilterSetting(payload));
+    dispatch(setMapAddDrawerShow(farm_id));
     history.push('/map');
   };
 

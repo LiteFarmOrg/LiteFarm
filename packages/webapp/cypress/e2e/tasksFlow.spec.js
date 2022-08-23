@@ -257,11 +257,36 @@ describe.only('Tasks flow tests', () => {
 
         //assign all unassigned tasks on date to selected user
         cy.url().should('include', '/tasks');
+        cy.get('[data-cy=taskCard]').should('exist');
+        cy.contains('Create').should('exist').and('not.be.disabled').click({ force: true });
         // cy.get('[data-cy=pill-close]').should('exist').and('not.be.disabled').click();
         // cy.contains('Unassigned').last().should('exist').and('not.be.disabled').click({ force: true });
         // cy.get('[data-cy=quickAssign-assignAll]').should('exist').check({ force: true });
         // cy.get('[data-cy=quickAssign-update]').should('exist').and('not.be.disabled').click();
         // cy.contains('Tasks').should('exist');
+      } else if (text == 'Field Work') {
+        cy.get('[data-cy=task-selection]').eq(index).click();
+        cy.createAFieldWorkTask();
+        cy.url().should('include', '/tasks');
+        cy.get('[data-cy=taskCard]').should('exist');
+        cy.contains('Create').should('exist').and('not.be.disabled').click({ force: true });
+      } else if (text == 'Harvest') {
+        cy.get('[data-cy=task-selection]').eq(index).click();
+        cy.get('[data-cy=tasks-noCropPlanContinue]').click();
+        cy.get('[data-cy=spotlight-next]')
+          .contains('Next')
+          .should('exist')
+          .and('not.be.disabled')
+          .click();
+        cy.get('[data-cy=spotlight-next]')
+          .contains('Got it')
+          .should('exist')
+          .and('not.be.disabled')
+          .click();
+        cy.createAHarvestTask();
+        cy.url().should('include', '/tasks');
+        cy.get('[data-cy=taskCard]').should('exist');
+        cy.contains('Create').should('exist').and('not.be.disabled').click({ force: true });
       }
     });
   });

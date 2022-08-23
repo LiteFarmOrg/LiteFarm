@@ -165,6 +165,76 @@ Cypress.Commands.add('createACleaningTask', () => {
     .click({ force: true });
 });
 
+Cypress.Commands.add('createAFieldWorkTask', () => {
+  const date = new Date();
+  date.setDate(date.getDate() + 1);
+  const dueDate = getDateInputFormat(date);
+
+  cy.get('[data-cy=addTask-taskDate]').should('exist').type(dueDate);
+
+  cy.get('[data-cy=addTask-continue]')
+    .should('exist')
+    .and('not.be.disabled')
+    .click({ force: true });
+  cy.wait(2000);
+  cy.get('[data-cy=map-selectLocation]').click(540, 201, {
+    force: false,
+  });
+  cy.get('[data-cy=addTask-locationContinue]')
+    .should('exist')
+    .and('not.be.disabled')
+    .click({ force: true });
+  cy.contains('Select') // find react-select component
+    .click({ force: true }); // click to open dropdown
+  cy.get('#react-select-8-listbox') // find all options
+    .eq(0)
+    .click(); // click on first option
+
+  cy.get('[data-cy=addTask-detailsContinue]')
+    .should('exist')
+    .and('not.be.disabled')
+    .click({ force: true });
+  cy.get('[data-cy=addTask-assignmentSave]')
+    .should('exist')
+    .and('not.be.disabled')
+    .click({ force: true });
+});
+
+Cypress.Commands.add('createAHarvestTask', () => {
+  const date = new Date();
+  date.setDate(date.getDate() + 1);
+  const dueDate = getDateInputFormat(date);
+
+  cy.get('[data-cy=addTask-taskDate]').should('exist').type(dueDate);
+
+  cy.get('[data-cy=addTask-continue]')
+    .should('exist')
+    .and('not.be.disabled')
+    .click({ force: true });
+  cy.wait(2000);
+  cy.get('[data-cy=map-selectLocation]').click(540, 201, {
+    force: false,
+  });
+  cy.get('[data-cy=addTask-locationContinue]')
+    .should('exist')
+    .and('not.be.disabled')
+    .click({ force: true });
+  cy.contains('Select') // find react-select component
+    .click({ force: true }); // click to open dropdown
+  cy.get('#react-select-8-listbox') // find all options
+    .eq(0)
+    .click(); // click on first option
+
+  cy.get('[data-cy=addTask-detailsContinue]')
+    .should('exist')
+    .and('not.be.disabled')
+    .click({ force: true });
+  cy.get('[data-cy=addTask-assignmentSave]')
+    .should('exist')
+    .and('not.be.disabled')
+    .click({ force: true });
+});
+
 Cypress.Commands.add('createTaskToday', () => {
   //Create an unassigned cleaning task due today
   cy.contains('Create').should('exist').and('not.be.disabled').click({ force: true });

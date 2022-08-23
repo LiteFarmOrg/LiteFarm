@@ -1255,7 +1255,9 @@
       "IMPERIAL": "Imperial",
       "METRIC": "Metric",
       "PHONE_NUMBER": "Phone Number",
-      "UNITS": "Units"
+      "UNITS": "Units",
+      "FARM_NAME_LENGTH_ERROR": "Farm name cannot exceed 255 characters",
+      "PHONE_NUMBER_LENGTH_ERROR": "Phone number must be fewer than 20 characters"
     },
     "FARM_TAB": "Farm",
     "PEOPLE": {

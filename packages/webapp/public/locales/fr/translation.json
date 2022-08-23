@@ -1259,7 +1259,9 @@
       "IMPERIAL": "Impériale",
       "METRIC": "Métrique",
       "PHONE_NUMBER": "Numéro de téléphone",
-      "UNITS": "Unités"
+      "UNITS": "Unités",
+      "FARM_NAME_LENGTH_ERROR": "MISSING",
+      "PHONE_NUMBER_LENGTH_ERROR": "MISSING"
     },
     "FARM_TAB": "Ferme",
     "PEOPLE": {

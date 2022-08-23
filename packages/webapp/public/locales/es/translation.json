@@ -1258,7 +1258,9 @@
       "IMPERIAL": "Britanico",
       "METRIC": "Metrico",
       "PHONE_NUMBER": "Número de teléfono",
-      "UNITS": "Unidades"
+      "UNITS": "Unidades",
+      "FARM_NAME_LENGTH_ERROR": "MISSING",
+      "PHONE_NUMBER_LENGTH_ERROR": "MISSING"
     },
     "FARM_TAB": "Finca",
     "PEOPLE": {

@@ -1105,6 +1105,11 @@
     "WHERE_TRANSPLANT_LOCATION": "Where will you transplant to?",
     "WILD_CROP": "Are you harvesting a wild crop?"
   },
+  "LOCATION_CREATION": {
+    "TITLE": "No locations found!",
+    "CROP_PLAN_BODY": "You’ll need a Field, Garden, Greenhouse, or Buffer Zone before you can finish this crop plan. Do you want to create one now?",
+    "CREATE_BUTTON": "Create Location"
+  },
   "MY_FARM": {
     "CERTIFICATIONS": "Certifications",
     "FARM_INFO": "Farm info",

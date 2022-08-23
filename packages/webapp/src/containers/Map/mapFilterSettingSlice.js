@@ -21,7 +21,6 @@ const initialState = {
   map_background: true,
   label: true,
   sensor: true,
-  addDrawer: false,
 };
 
 const mapFilterSettingAdapter = createEntityAdapter({

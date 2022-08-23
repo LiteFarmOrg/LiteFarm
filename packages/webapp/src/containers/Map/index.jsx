@@ -71,11 +71,17 @@ import {
 import LocationSelectionModal from './LocationSelectionModal';
 import { useMaxZoom } from './useMaxZoom';
 import { sensorSelector } from '../sensorSlice';
+import {
+  mapAddDrawerSelector,
+  setMapAddDrawerHide,
+  setMapAddDrawerShow,
+} from './mapAddDrawerSlice';
 
 export default function Map({ history }) {
   const windowInnerHeight = useWindowInnerHeight();
   const { farm_name, grid_points, is_admin, farm_id } = useSelector(userFarmSelector);
   const filterSettings = useSelector(mapFilterSettingSelector);
+  const mapAddDrawer = useSelector(mapAddDrawerSelector);
   const isMapFilterSettingActive = useSelector(isMapFilterSettingActiveSelector);
   const showedSpotlight = useSelector(showedSpotlightSelector);
   const roadview = !filterSettings.map_background;
@@ -166,7 +172,7 @@ export default function Map({ history }) {
     if (showHeader) setShowSuccessHeader(true);
   }, [showHeader]);
 
-  const showAddDrawer = filterSettings.addDrawer;
+  const showAddDrawer = mapAddDrawer.addDrawer;
 
   const [showMapFilter, setShowMapFilter] = useState(false);
   const [showExportModal, setShowExportModal] = useState(false);
@@ -284,7 +290,7 @@ export default function Map({ history }) {
       setShowingConfirmButtons(true);
       finishDrawing(drawing, maps, map);
       this.setDrawingMode();
-      dispatch(setMapFilterSetting({ farm_id, addDrawer: false }));
+      dispatch(setMapAddDrawerHide(farm_id));
     });
     initDrawingState(map, maps, drawingManagerInit, {
       POLYGON: maps.drawing.OverlayType.POLYGON,
@@ -331,18 +337,18 @@ export default function Map({ history }) {
   const handleClickAdd = () => {
     setShowExportModal(false);
     setShowMapFilter(false);
-    dispatch(setMapFilterSetting({ farm_id, addDrawer: !showAddDrawer }));
+    dispatch(showAddDrawer ? setMapAddDrawerHide(farm_id) : setMapAddDrawerShow(farm_id));
   };
 
   const handleClickExport = () => {
     setShowExportModal(!showExportModal);
     setShowMapFilter(false);
-    dispatch(setMapFilterSetting({ farm_id, addDrawer: false }));
+    dispatch(setMapAddDrawerHide(farm_id));
   };
 
   const handleClickFilter = () => {
     setShowExportModal(false);
-    dispatch(setMapFilterSetting({ farm_id, addDrawer: false }));
+    dispatch(setMapAddDrawerHide(farm_id));
     setShowMapFilter(!showMapFilter);
   };
 
@@ -374,7 +380,7 @@ export default function Map({ history }) {
     } else if (isLine(locationType) && !showedSpotlight.draw_line) {
       setShowDrawLineSpotlightModal(true);
     } else if (locationType === locationEnum.sensor) {
-      dispatch(setMapFilterSetting({ farm_id, addDrawer: !showAddDrawer }));
+      dispatch(showAddDrawer ? setMapAddDrawerHide(farm_id) : setMapAddDrawerShow(farm_id));
       setShowBulkSensorUploadModal(true);
       dispatch(resetBulkUploadSensorsInfoFile());
       return;
@@ -443,7 +449,7 @@ export default function Map({ history }) {
 
   const dismissBulkSensorsUploadModal = () => {
     setShowBulkSensorUploadModal(false);
-    dispatch(setMapFilterSetting({ farm_id, addDrawer: true }));
+    dispatch(setMapAddDrawerShow(farm_id));
   };
 
   const { showAdjustAreaSpotlightModal, showAdjustLineSpotlightModal } = drawingState;
@@ -531,7 +537,7 @@ export default function Map({ history }) {
             setShowMapFilter={setShowMapFilter}
             showMapFilter={showMapFilter}
             setShowAddDrawer={(showAddDrawer) => {
-              dispatch(setMapFilterSetting({ farm_id, addDrawer: showAddDrawer }));
+              dispatch(showAddDrawer ? setMapAddDrawerHide(farm_id) : setMapAddDrawerShow(farm_id));
             }}
             showAddDrawer={showAddDrawer}
             handleClickFilter={handleClickFilter}

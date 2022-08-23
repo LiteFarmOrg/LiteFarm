@@ -1108,6 +1108,8 @@
   "LOCATION_CREATION": {
     "TITLE": "No locations found!",
     "CROP_PLAN_BODY": "You’ll need a Field, Garden, Greenhouse, or Buffer Zone before you can finish this crop plan. Do you want to create one now?",
+    "TASK_TITLE": "No locations for tasks",
+    "TASK_BODY": "You’ll need at least one location before you can create a task. Do you want to create a location now?",
     "CREATE_BUTTON": "Create Location"
   },
   "MY_FARM": {

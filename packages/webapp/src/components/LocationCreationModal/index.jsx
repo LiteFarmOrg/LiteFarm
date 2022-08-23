@@ -20,9 +20,20 @@ import styles from './styles.module.scss';
 import Button from '../Form/Button';
 import PropTypes from 'prop-types';
 import { Info, Semibold } from '../Typography';
+import { useDispatch, useSelector } from 'react-redux';
+import { userFarmSelector } from '../../containers/userFarmSlice';
+import history from '../../history';
+import { setMapAddDrawerShow } from '../../containers/Map/mapAddDrawerSlice';
 
-export default function LocationCreationModal({ title, body, dismissModal, locationCreation }) {
+export default function LocationCreationModal({ title, body, dismissModal }) {
+  const dispatch = useDispatch();
   const { t } = useTranslation();
+  const { farm_id } = useSelector(userFarmSelector);
+
+  const onCreateLocation = () => {
+    dispatch(setMapAddDrawerShow(farm_id));
+    history.push('/map');
+  };
 
   return (
     <Modal dismissModal={dismissModal}>
@@ -35,7 +46,7 @@ export default function LocationCreationModal({ title, body, dismissModal, locat
           <Button onClick={dismissModal} sm>
             {t('common:BACK')}
           </Button>
-          <Button onClick={locationCreation} sm>
+          <Button onClick={onCreateLocation} sm>
             {t('LOCATION_CREATION.CREATE_BUTTON')}
           </Button>
         </div>

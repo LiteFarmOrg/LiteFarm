@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import Button from '../../Form/Button';
 import LocationPicker from '../../LocationPicker/SingleLocationPicker';
 import { useTranslation } from 'react-i18next';
@@ -9,7 +9,6 @@ import PropTypes from 'prop-types';
 import { useForm } from 'react-hook-form';
 import { cloneObject } from '../../../util';
 import Checkbox from '../../Form/Checkbox';
-
 export default function PureTaskLocations({
   locations,
   readOnlyPinCoordinates,

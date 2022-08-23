@@ -16,13 +16,13 @@ export default function TaskCount({ count, handleAddTask }) {
   };
 
   const handleClick = () => {
-    if (location.length) {
+    if (locations.length) {
       handleAddTask();
     } else {
       setCreateLocation(true);
     }
-  }
-  
+  };
+
   return (
     <div className={styles.taskCountContainer}>
       <div className={styles.taskCount}>{t('TASK.TASKS_COUNT', { count })}</div>

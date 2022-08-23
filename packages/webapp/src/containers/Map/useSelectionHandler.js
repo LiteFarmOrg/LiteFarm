@@ -46,7 +46,7 @@ const useSelectionHandler = () => {
               `/${overlappedLocations.area[0].type}/${overlappedLocations.area[0].id}/crops`,
             )
           : history.push(
-              `/${overlappedLocations.area[0].type}/${overlappedLocations.area[0].id}/details`,
+              `/${overlappedLocations.area[0].type}/${overlappedLocations.area[0].id}/readings`,
             );
       } else if (
         overlappedLocations.area.length === 0 &&
@@ -54,7 +54,7 @@ const useSelectionHandler = () => {
         overlappedLocations.point.length === 0
       ) {
         history.push(
-          `/${overlappedLocations.line[0].type}/${overlappedLocations.line[0].id}/details`,
+          `/${overlappedLocations.line[0].type}/${overlappedLocations.line[0].id}/readings`,
         );
       } else {
         if (overlappedLocations.point.length === 1) {
@@ -70,7 +70,7 @@ const useSelectionHandler = () => {
             dispatch(locations(locationArray));
           } else {
             history.push(
-              `/${overlappedLocations.point[0].type}/${overlappedLocations.point[0].id}/details`,
+              `/${overlappedLocations.point[0].type}/${overlappedLocations.point[0].id}/readings`,
             );
           }
         } else {

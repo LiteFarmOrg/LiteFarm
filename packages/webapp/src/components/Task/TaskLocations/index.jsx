@@ -10,11 +10,6 @@ import { useForm } from 'react-hook-form';
 import { cloneObject } from '../../../util';
 import Checkbox from '../../Form/Checkbox';
 import LocationCreationModal from '../../LocationCreationModal';
-import { useDispatch, useSelector } from 'react-redux';
-import { userFarmSelector } from '../../../containers/userFarmSlice';
-import { setMapFilterSetting } from '../../../containers/Map/mapFilterSettingSlice';
-import history from '../../../history';
-
 export default function PureTaskLocations({
   locations,
   readOnlyPinCoordinates,
@@ -30,9 +25,7 @@ export default function PureTaskLocations({
   defaultLocation,
   targetsWildCrop,
 }) {
-  const dispatch = useDispatch();
   const { t } = useTranslation();
-  const { farm_id } = useSelector(userFarmSelector);
   const progress = 43;
   const defaultLocations = useMemo(() => {
     const locationIdsSet = new Set(locations.map(({ location_id }) => location_id));
@@ -98,14 +91,6 @@ export default function PureTaskLocations({
     setCreateTaskLocation(false);
   };
 
-  const onCreateCropLocation = () => {
-    const payload = {};
-    payload.farm_id = farm_id;
-    payload.addDrawer = true;
-    dispatch(setMapFilterSetting(payload));
-    history.push('/map');
-  };
-
   return (
     <>
       <Layout
@@ -155,7 +140,6 @@ export default function PureTaskLocations({
             title={t('LOCATION_CREATION.TASK_TITLE')}
             body={t('LOCATION_CREATION.TASK_BODY')}
             dismissModal={dismissLocationCreationModal}
-            locationCreation={onCreateCropLocation}
           />
         )}
       </Layout>

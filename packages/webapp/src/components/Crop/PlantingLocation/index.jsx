@@ -13,9 +13,6 @@ import { useForm } from 'react-hook-form';
 import { cloneObject } from '../../../util';
 import { getPlantingLocationPaths } from '../getAddManagementPlanPath';
 import LocationCreationModal from '../../LocationCreationModal';
-import { useDispatch, useSelector } from 'react-redux';
-import { setMapFilterSetting } from '../../../containers/Map/mapFilterSettingSlice';
-import { userFarmSelector } from '../../../containers/userFarmSlice';
 
 export default function PurePlantingLocation({
   persistedFormData,
@@ -28,13 +25,11 @@ export default function PurePlantingLocation({
   farmCenterCoordinate,
 }) {
   const { t } = useTranslation(['translation', 'common', 'crop']);
-  const dispatch = useDispatch();
   const { getValues, watch, setValue } = useForm({
     defaultValues: cloneObject(persistedFormData),
     shouldUnregister: false,
   });
   const { historyCancel } = useHookFormPersist(getValues);
-  const { farm_id } = useSelector(userFarmSelector);
 
   const {
     crop_management_plan: { needs_transplant, is_seed, is_wild, already_in_ground },
@@ -105,14 +100,6 @@ export default function PurePlantingLocation({
 
   const dismissLocationCreationModal = () => {
     setCreateCropLocation(false);
-  };
-
-  const onCreateCropLocation = () => {
-    const payload = {};
-    payload.farm_id = farm_id;
-    payload.addDrawer = true;
-    dispatch(setMapFilterSetting(payload));
-    history.push('/map');
   };
 
   const handlePinMode = () => {
@@ -206,7 +193,6 @@ export default function PurePlantingLocation({
             title={t('LOCATION_CREATION.TITLE')}
             body={t('LOCATION_CREATION.CROP_PLAN_BODY')}
             dismissModal={dismissLocationCreationModal}
-            locationCreation={onCreateCropLocation}
           />
         )}
       </Layout>

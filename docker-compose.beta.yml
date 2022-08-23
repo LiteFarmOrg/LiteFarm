@@ -29,7 +29,7 @@ services:
         max_attempts: 3
     build:
       context: ./packages/
-      dockerfile: prod.Dockerfile
+      dockerfile: ./api/prod.Dockerfile
     volumes:
       - /etc/letsencrypt:/usr/src/letsencrypt
     ports:
@@ -45,7 +45,7 @@ services:
     container_name: litefarm-web
     build:
       context: ./packages/
-      dockerfile: prod.Dockerfile
+      dockerfile: ./webapp/prod.Dockerfile
     volumes:
       - /etc/letsencrypt:/etc/letsencrypt
     ports:

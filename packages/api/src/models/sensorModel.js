@@ -128,28 +128,50 @@ class Sensor extends Model {
    */
   static async getSensorLocationByLocationIds(locationIds = []) {
     return await knex.raw(
-      `SELECT 
-      s.location_id, 
-      s.external_id,
-      b.point,
-      b.name
-      FROM "sensor" s 
-      JOIN (
+      `SELECT  
+			  h.location_id, 
+        (array_agg(h.point))[1] as point,
+        (array_agg(h.name))[1] as name,
+			  array_agg(p.readable_value) as reading_type
+			  FROM (
         SELECT 
-        l.name,
-        l.location_id, 
-        a.point 
-        FROM "location" l JOIN
-        (
-          SELECT * FROM "figure" f
-          JOIN "point" p 
-          ON f.figure_id::uuid = p.figure_id
-        ) a
-        ON l.location_id::uuid = a.location_id 
-      ) b 
-      ON s.location_id::uuid = b.location_id
-      WHERE s.location_id = ANY(?)
-      ORDER BY b.name ASC;
+          g.location_id, 
+          g.external_id,
+          g.point,
+          g.name,
+          s.partner_reading_type_id
+          FROM 
+          (
+          SELECT 
+            s.location_id, 
+            s.external_id,
+            b.point,
+            b.name
+            FROM "sensor" s 
+            JOIN (
+            SELECT 
+            l.name,
+            l.location_id, 
+            a.point 
+            FROM "location" l JOIN
+            (
+              SELECT * FROM "figure" f
+              JOIN "point" p 
+              ON f.figure_id::uuid = p.figure_id
+            ) a
+            ON l.location_id::uuid = a.location_id 
+            ) b 
+            ON s.location_id::uuid = b.location_id
+            WHERE s.location_id = ANY(?)
+            ORDER BY b.name ASC
+          ) g 
+          JOIN sensor_reading_type s 
+          ON s.location_id::uuid = g.location_id::uuid
+        ) h 
+			JOIN partner_reading_type p 
+			ON
+			p.partner_reading_type_id = h.partner_reading_type_id
+			GROUP BY h.location_id;
       `,
       [locationIds],
     );

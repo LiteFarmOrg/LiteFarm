@@ -1,7 +1,3 @@
-import moment from 'moment';
-import 'moment/locale/pt';
-import 'moment/locale/es';
-import 'moment/locale/fr';
 import { icons } from './icons';
 
 const index = {

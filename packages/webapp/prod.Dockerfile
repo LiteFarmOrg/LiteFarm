@@ -8,6 +8,8 @@ RUN npm install pnpm -g && pnpm install
 
 COPY ./webapp/ /usr/src/app/
 
+COPY ./shared/ /usr/src/shared/
+
 RUN pnpm run build
 
 FROM nginx:1.15

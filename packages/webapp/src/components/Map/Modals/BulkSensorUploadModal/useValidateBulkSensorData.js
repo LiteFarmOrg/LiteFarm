@@ -95,8 +95,11 @@ export function useValidateBulkSensorData(onUpload, t) {
   };
 
   useEffect(() => {
+    // console.log(bulkSensorsUploadResponse)
     if (bulkSensorsUploadResponse?.defaultFailure) {
       setErrorCount(1);
+      setErrorTypeCode(ErrorTypes.INVALID_CSV);
+      setUploadErrorMessage(t('FARM_MAP.BULK_UPLOAD_SENSORS.UPLOAD_ERROR_MESSAGE'));
     }
   }, [bulkSensorsUploadResponse?.defaultFailure]);
 

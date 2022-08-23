@@ -9,7 +9,6 @@ import PropTypes from 'prop-types';
 import { useForm } from 'react-hook-form';
 import { cloneObject } from '../../../util';
 import Checkbox from '../../Form/Checkbox';
-import LocationCreationModal from '../../LocationCreationModal';
 export default function PureTaskLocations({
   locations,
   readOnlyPinCoordinates,
@@ -85,12 +84,6 @@ export default function PureTaskLocations({
 
   const showWildCropCheckBox = !!readOnlyPinCoordinates?.length;
 
-  const [createTaskLocation, setCreateTaskLocation] = useState(!locations.length);
-
-  const dismissLocationCreationModal = () => {
-    setCreateTaskLocation(false);
-  };
-
   return (
     <>
       <Layout
@@ -133,13 +126,6 @@ export default function PureTaskLocations({
             label={t('TASK.SELECT_WILD_CROP')}
             style={{ paddingBottom: '25px' }}
             hookFormRegister={register(SHOW_WILD_CROP)}
-          />
-        )}
-        {createTaskLocation && (
-          <LocationCreationModal
-            title={t('LOCATION_CREATION.TASK_TITLE')}
-            body={t('LOCATION_CREATION.TASK_BODY')}
-            dismissModal={dismissLocationCreationModal}
           />
         )}
       </Layout>

@@ -40,6 +40,12 @@
     ],
     "globalSetup": "./jest-global-setup.cjs"
   },
+  "nodemonConfig": {
+    "watch": [
+      "./src",
+      "../shared"
+    ]
+  },
   "babel": {
     "presets": [
       [

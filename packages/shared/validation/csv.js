@@ -58,6 +58,7 @@ const parseCsv = (
     `(?:${delimiter}|\\n|^)("(?:(?:"")*[^"]*)*"|[^"${delimiter}\\n]*|(?:\\n|$))`,
   );
 
+  // check if the length of the string is 0 or if the string contains no line returns
   if (csvString.length === 0 || !/\r\b|\r|\n/.test(csvString)) {
     return { data: [] };
   }

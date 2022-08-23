@@ -12,7 +12,6 @@ import Checkbox from '../../Form/Checkbox';
 import { useForm } from 'react-hook-form';
 import { cloneObject } from '../../../util';
 import { getPlantingLocationPaths } from '../getAddManagementPlanPath';
-import LocationCreationModal from '../../LocationCreationModal';
 
 export default function PurePlantingLocation({
   persistedFormData,
@@ -95,12 +94,6 @@ export default function PurePlantingLocation({
   useEffect(() => {
     setPinToggle(!!pinCoordinate && showPinButton);
   }, [showPinButton]);
-
-  const [createCropLocation, setCreateCropLocation] = useState(!cropLocations.length);
-
-  const dismissLocationCreationModal = () => {
-    setCreateCropLocation(false);
-  };
 
   const handlePinMode = () => {
     setPinToggle((pinToggle) => !pinToggle);
@@ -186,13 +179,6 @@ export default function PurePlantingLocation({
             style={{ paddingBottom: '25px' }}
             checked={!!defaultInitialLocationId}
             onChange={defaultLocationCheckboxOnChange}
-          />
-        )}
-        {createCropLocation && (
-          <LocationCreationModal
-            title={t('LOCATION_CREATION.TITLE')}
-            body={t('LOCATION_CREATION.CROP_PLAN_BODY')}
-            dismissModal={dismissLocationCreationModal}
           />
         )}
       </Layout>

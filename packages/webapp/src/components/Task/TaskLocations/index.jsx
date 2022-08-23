@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import Button from '../../Form/Button';
 import LocationPicker from '../../LocationPicker/SingleLocationPicker';
 import { useTranslation } from 'react-i18next';
@@ -9,6 +9,11 @@ import PropTypes from 'prop-types';
 import { useForm } from 'react-hook-form';
 import { cloneObject } from '../../../util';
 import Checkbox from '../../Form/Checkbox';
+import LocationCreationModal from '../../LocationCreationModal';
+import { useDispatch, useSelector } from 'react-redux';
+import { userFarmSelector } from '../../../containers/userFarmSlice';
+import { setMapFilterSetting } from '../../../containers/Map/mapFilterSettingSlice';
+import history from '../../../history';
 
 export default function PureTaskLocations({
   locations,
@@ -25,7 +30,9 @@ export default function PureTaskLocations({
   defaultLocation,
   targetsWildCrop,
 }) {
+  const dispatch = useDispatch();
   const { t } = useTranslation();
+  const { farm_id } = useSelector(userFarmSelector);
   const progress = 43;
   const defaultLocations = useMemo(() => {
     const locationIdsSet = new Set(locations.map(({ location_id }) => location_id));
@@ -85,6 +92,20 @@ export default function PureTaskLocations({
 
   const showWildCropCheckBox = !!readOnlyPinCoordinates?.length;
 
+  const [createTaskLocation, setCreateTaskLocation] = useState(!locations.length);
+
+  const dismissLocationCreationModal = () => {
+    setCreateTaskLocation(false);
+  };
+
+  const onCreateCropLocation = () => {
+    const payload = {};
+    payload.farm_id = farm_id;
+    payload.addDrawer = true;
+    dispatch(setMapFilterSetting(payload));
+    history.push('/map');
+  };
+
   return (
     <>
       <Layout
@@ -127,6 +148,14 @@ export default function PureTaskLocations({
             label={t('TASK.SELECT_WILD_CROP')}
             style={{ paddingBottom: '25px' }}
             hookFormRegister={register(SHOW_WILD_CROP)}
+          />
+        )}
+        {createTaskLocation && (
+          <LocationCreationModal
+            title={t('LOCATION_CREATION.TASK_TITLE')}
+            body={t('LOCATION_CREATION.TASK_BODY')}
+            dismissModal={dismissLocationCreationModal}
+            locationCreation={onCreateCropLocation}
           />
         )}
       </Layout>

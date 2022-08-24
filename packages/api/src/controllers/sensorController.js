@@ -34,7 +34,7 @@ import {
   unclaimSensor,
 } from '../util/ensemble.js';
 
-import { sensorErrors, parseSensorCsv } from '../util/sensorCSV.js';
+import { sensorErrors, parseSensorCsv } from '../../../shared/validation/sensorCSV.js';
 import syncAsyncResponse from '../util/syncAsyncResponse.js';
 
 const sensorController = {

@@ -6,6 +6,7 @@
  * @property {function} validate - validates the parsed data.
  * @property {boolean} required - indicates whether this field is valid.
  * @property {String} errorTranslationKey - the error translation key for invalid data in this column.
+ * @property {boolean} useParsedValForError - whether to use the unparsed or parsed value in the error
  */
 
 /**
@@ -54,9 +55,7 @@ const parseCsv = (
   delimiter = ',',
 ) => {
   // regex checks for delimiters that are not contained within quotation marks
-  const regex = new RegExp(
-    `(?:${delimiter}|\\n|^)("(?:(?:"")*[^"]*)*"|[^"${delimiter}\\n]*|(?:\\n|$))`,
-  );
+  const regex = new RegExp(`(?!\\B"[^"]*)${delimiter}(?![^"]*"\\B)`)
 
   // check if the length of the string is 0 or if the string contains no line returns
   if (csvString.length === 0 || !/\r\b|\r|\n/.test(csvString)) {
@@ -96,15 +95,16 @@ const parseCsv = (
         const currentValidator = validators[headerMapping[current]];
         if (allowedHeaders.includes(current)) {
           // remove any surrounding quotation marks
-          const val = currentValidator.parse(values[index].replace(/^(["'])(.*)\1$/, '$2'), lang);
+          const val = values[index].replace(/^(["'])(.*)\1$/, '$2');
+          const parsedVal = currentValidator.parse(values[index].replace(/^(["'])(.*)\1$/, '$2'), lang);
           if (currentValidator.validate(val)) {
-            previousObj[currentValidator.key] = val;
+            previousObj[currentValidator.key] = parsedVal;
           } else {
             previous.errors.push({
               row: rowIndex + 2,
               column: current,
               translation_key: currentValidator.errorTranslationKey,
-              variables: { [currentValidator.key]: val },
+              variables: { [currentValidator.key]: currentValidator.key.useParsedValForError ? parsedVal : val },
             });
           }
         }

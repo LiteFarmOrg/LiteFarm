@@ -106,6 +106,7 @@ const sensorCsvValidators = [
     validate: (val) => 1 <= val.length && val.length <= 100,
     required: true,
     errorTranslationKey: sensorErrors.SENSOR_NAME,
+    useParsedValForError: true
   },
   {
     key: 'external_id',
@@ -113,6 +114,7 @@ const sensorCsvValidators = [
     validate: (val) => val.length <= 40,
     required: false,
     errorTranslationKey: sensorErrors.EXTERNAL_ID,
+    useParsedValForError: true
   },
   {
     key: 'latitude',
@@ -120,6 +122,7 @@ const sensorCsvValidators = [
     validate: (val) => -90 <= val && val <= 90,
     required: true,
     errorTranslationKey: sensorErrors.SENSOR_LATITUDE,
+    useParsedValForError: true
   },
   {
     key: 'longitude',
@@ -127,6 +130,7 @@ const sensorCsvValidators = [
     validate: (val) => -180 <= val && val <= 180,
     required: true,
     errorTranslationKey: sensorErrors.SENSOR_LONGITUDE,
+    useParsedValForError: true
   },
   {
     key: 'reading_types',
@@ -143,6 +147,7 @@ const sensorCsvValidators = [
     },
     required: true,
     errorTranslationKey: sensorErrors.SENSOR_READING_TYPES,
+    useParsedValForError: false
   },
   {
     key: 'depth',
@@ -150,6 +155,7 @@ const sensorCsvValidators = [
     validate: (val) => 0 <= val && val <= 10,
     required: false,
     errorTranslationKey: sensorErrors.SENSOR_DEPTH,
+    useParsedValForError: true
   },
   {
     key: 'brand',
@@ -157,6 +163,7 @@ const sensorCsvValidators = [
     validate: (val) => val.length <= 100,
     required: false,
     errorTranslationKey: sensorErrors.SENSOR_BRAND,
+    useParsedValForError: true
   },
   {
     key: 'model',
@@ -164,6 +171,7 @@ const sensorCsvValidators = [
     validate: (val) => val.length <= 100,
     required: false,
     errorTranslationKey: sensorErrors.SENSOR_MODEL,
+    useParsedValForError: true
   },
 ];
 

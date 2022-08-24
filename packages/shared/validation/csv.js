@@ -97,7 +97,7 @@ const parseCsv = (
           // remove any surrounding quotation marks
           const val = values[index].replace(/^(["'])(.*)\1$/, '$2');
           const parsedVal = currentValidator.parse(values[index].replace(/^(["'])(.*)\1$/, '$2'), lang);
-          if (currentValidator.validate(val)) {
+          if (currentValidator.validate(parsedVal)) {
             previousObj[currentValidator.key] = parsedVal;
           } else {
             previous.errors.push({

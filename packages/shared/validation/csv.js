@@ -89,7 +89,7 @@ const parseCsv = (
   // get all rows except the header and filter out any empty rows
   const dataRows = rows.slice(1).filter((d) => !/^(,? ?\t?)+$/.test(d));
 
-  if (maxRows && dataRows.length >= maxRows) {
+  if (maxRows && dataRows.length > maxRows) {
     return {
       data: [],
       errors: [

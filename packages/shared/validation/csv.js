@@ -41,6 +41,7 @@ const getHeaderToValidatorMapping = (lang, validators, headerTranslations) => {
  * @param {boolean} validateUniqueDataKeys - whether data keys should be validated for uniqueness.
  * @param {function} getDataKeyFromRow - a function that takes in a parsed row and returns the a key representing the data entry.
  * @param {String} delimiter
+ * @param {Number} maxRows - the maximum number of rows allowed in the file
  * @returns {Object<data: Array<Object>, errors: Array<Object>>}
  */
 
@@ -52,6 +53,7 @@ const parseCsv = (
   missingColumnsErrorKey = 'MISSING_COLUMNS',
   validateUniqueDataKeys = true,
   getDataKeyFromRow = (r) => r[validators[0].key],
+  maxRows = null,
   delimiter = ',',
 ) => {
   // regex checks for delimiters that are not contained within quotation marks
@@ -82,6 +84,19 @@ const parseCsv = (
   // get all rows except the header and filter out any empty rows
   const dataRows = rows.slice(1).filter((d) => !/^(,? ?\t?)+$/.test(d));
 
+  if (maxRows && dataRows.length >= maxRows) {
+    return {
+      data: [],
+      errors: [
+        {
+          row: 1,
+          column: "N/A",
+          translation_key: 'FARM_MAP.BULK_UPLOAD_SENSORS.VALIDATION.FILE_ROW_LIMIT_EXCEEDED',
+          value: ""
+        }
+      ]
+    }
+  }
   // Set to keep track of the unique keys - used to make sure only one data entry is uploaded
   // with a particular key defined by getDataKeyFromRow if duplicates are in the file
   const uniqueDataKeys = new Set();

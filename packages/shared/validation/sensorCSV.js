@@ -197,6 +197,7 @@ export const parseSensorCsv = (csvString, lang) => {
     sensorErrors.MISSING_COLUMNS,
     true,
     generateSensorKey,
+    100
   );
 };
 

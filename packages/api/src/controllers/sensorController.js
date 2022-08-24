@@ -102,27 +102,6 @@ const sensorController = {
 
       const { data, errors } = parseSensorCsv(req.file.buffer.toString(), language_preference);
 
-      if (!data.length > 0) {
-        return await sendResponse(
-          () => {
-            return res.status(400).send({ error_type: 'empty_file' });
-          },
-          async () => {
-            return await sendSensorNotification(
-              user_id,
-              farm_id,
-              SensorNotificationTypes.SENSOR_BULK_UPLOAD_FAIL,
-              {
-                error_download: {
-                  errors: [],
-                  file_name: 'sensor-upload-outcomes.txt',
-                  error_type: 'generic',
-                },
-              },
-            );
-          },
-        );
-      }
       if (errors.length > 0) {
         return await sendResponse(
           () => {
@@ -138,6 +117,26 @@ const sensorController = {
                   errors,
                   file_name: 'sensor-upload-outcomes.txt',
                   error_type: 'validation',
+                },
+              },
+            );
+          },
+        );
+      } else if (!data.length > 0) {
+        return await sendResponse(
+          () => {
+            return res.status(400).send({ error_type: 'empty_file' });
+          },
+          async () => {
+            return await sendSensorNotification(
+              user_id,
+              farm_id,
+              SensorNotificationTypes.SENSOR_BULK_UPLOAD_FAIL,
+              {
+                error_download: {
+                  errors: [],
+                  file_name: 'sensor-upload-outcomes.txt',
+                  error_type: 'generic',
                 },
               },
             );

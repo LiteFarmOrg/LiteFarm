@@ -122,7 +122,7 @@ export function useValidateBulkSensorData(onUpload, t) {
 
       const translatedErrors = translateErrors(errors);
 
-      if (data.length === 100) {
+      if (data.length >= 100) {
         translatedErrors.push({
           row: 1,
           column: 'N/A',

@@ -207,7 +207,9 @@ const PureSensorReadingsLineChart = ({
             </LineChart>
           </ResponsiveContainer>
         </>
-      ) : null}
+      ) : (
+        <></>
+      )}
     </>
   );
 };

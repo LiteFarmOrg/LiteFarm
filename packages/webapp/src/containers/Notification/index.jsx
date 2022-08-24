@@ -126,6 +126,8 @@ export default function NotificationPage() {
 const getUpdateFromNotification = (notification) => {
   if (notification?.ref?.entity?.type) {
     return notification.ref.entity.type;
+  } else {
+    return '';
   }
 };
 

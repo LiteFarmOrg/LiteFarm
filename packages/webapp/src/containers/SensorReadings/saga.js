@@ -83,7 +83,7 @@ export function* getSensorsReadingsSaga({ payload }) {
     const result = yield call(axios.post, sensorReadingsUrl(), postData, header);
     const allSensorNames = result?.data?.sensorsPoints.map((s) => s.name);
     const centerPoint = findCenter(result?.data?.sensorsPoints.map((s) => s?.point));
-
+    const activeReadingTypes = result?.data?.sensorsPoints[0].reading_type;
     params = {
       ...params,
       lat: centerPoint?.lat ?? lat,
@@ -198,6 +198,7 @@ export function* getSensorsReadingsSaga({ payload }) {
         lastUpdatedReadingsTime,
         predictedXAxisLabel,
         xAxisLabel,
+        activeReadingTypes,
       }),
     );
   } catch (error) {

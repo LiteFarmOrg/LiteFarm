@@ -1248,6 +1248,12 @@
       "USER_ADDRESS": "User Address"
     },
     "ACCOUNT_TAB": "Account",
+    "ERROR": {
+      "PHONE_NUMBER_LENGTH": "Phone number must be fewer than 20 characters",
+      "FARM_NAME_LENGTH": "Farm name cannot exceed 255 characters",
+      "FIRST_NAME_LENGTH": "First name cannot exceed 255 characters",
+      "LAST_NAME_LENGTH": "Last name cannot exceed 255 characters"
+    },
     "FARM": {
       "ADDRESS": "Address",
       "CURRENCY": "Currency",
@@ -1255,9 +1261,7 @@
       "IMPERIAL": "Imperial",
       "METRIC": "Metric",
       "PHONE_NUMBER": "Phone Number",
-      "UNITS": "Units",
-      "FARM_NAME_LENGTH_ERROR": "Farm name cannot exceed 255 characters",
-      "PHONE_NUMBER_LENGTH_ERROR": "Phone number must be fewer than 20 characters"
+      "UNITS": "Units"
     },
     "FARM_TAB": "Farm",
     "PEOPLE": {

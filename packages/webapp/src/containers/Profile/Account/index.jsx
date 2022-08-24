@@ -8,7 +8,13 @@ export default function Account({ history }) {
   const userFarm = useSelector(userFarmSelector);
   const dispatch = useDispatch();
   const onSubmit = (data) => {
-    dispatch(updateUser(getProcessedFormData(data)));
+    const parsedData = {
+      ...data,
+      first_name: data.first_name.trim(),
+      last_name: data.last_name.trim(),
+    };
+
+    dispatch(updateUser(getProcessedFormData(parsedData)));
   };
   return <PureAccount history={history} userFarm={userFarm} onSubmit={onSubmit} />;
 }

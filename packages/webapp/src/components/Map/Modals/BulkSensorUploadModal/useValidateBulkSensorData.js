@@ -139,7 +139,7 @@ export function useValidateBulkSensorData(onUpload, t) {
         setUploadErrorMessage(t('FARM_MAP.BULK_UPLOAD_SENSORS.EMPTY_FILE_UPLOAD_ERROR_MESSAGE'));
       }
 
-      setErrorCount(translatedErrors.length);
+      setErrorCount(data.length === 0 ? 1 : translatedErrors.length);
       setSheetErrors(translatedErrors);
       setDisabled(() => (translatedErrors.length === 0 ? 1 : 0));
     } catch (err) {

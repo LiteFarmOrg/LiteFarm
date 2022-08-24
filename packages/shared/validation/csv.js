@@ -59,7 +59,7 @@ const parseCsv = (
 
   // check if the length of the string is 0 or if the string contains no line returns
   if (csvString.length === 0 || !/\r\b|\r|\n/.test(csvString)) {
-    return { data: [] };
+    return { data: [], errors: [] };
   }
 
   const rows = csvString.split(/\r\n|\r|\n/).filter((elem) => elem !== '');

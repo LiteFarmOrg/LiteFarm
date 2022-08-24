@@ -1253,6 +1253,12 @@
       "USER_ADDRESS": "Adresse de l'utilisateur"
     },
     "ACCOUNT_TAB": "Compte",
+    "ERROR": {
+      "PHONE_NUMBER_LENGTH": "MISSING",
+      "FARM_NAME_LENGTH": "MISSING",
+      "FIRST_NAME_LENGTH": "MISSING",
+      "LAST_NAME_LENGTH": "MISSING"
+    },
     "FARM": {
       "ADDRESS": "Adresse",
       "CURRENCY": "Devise",
@@ -1260,9 +1266,7 @@
       "IMPERIAL": "Impériale",
       "METRIC": "Métrique",
       "PHONE_NUMBER": "Numéro de téléphone",
-      "UNITS": "Unités",
-      "FARM_NAME_LENGTH_ERROR": "MISSING",
-      "PHONE_NUMBER_LENGTH_ERROR": "MISSING"
+      "UNITS": "Unités"
     },
     "FARM_TAB": "Ferme",
     "PEOPLE": {

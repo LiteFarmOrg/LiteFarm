@@ -1252,6 +1252,12 @@
       "USER_ADDRESS": "Dirección de usuario"
     },
     "ACCOUNT_TAB": "Cuenta",
+    "ERROR": {
+      "PHONE_NUMBER_LENGTH": "MISSING",
+      "FARM_NAME_LENGTH": "MISSING",
+      "FIRST_NAME_LENGTH": "MISSING",
+      "LAST_NAME_LENGTH": "MISSING"
+    },
     "FARM": {
       "ADDRESS": "Dirección",
       "CURRENCY": "Moneda",
@@ -1259,9 +1265,7 @@
       "IMPERIAL": "Britanico",
       "METRIC": "Metrico",
       "PHONE_NUMBER": "Número de teléfono",
-      "UNITS": "Unidades",
-      "FARM_NAME_LENGTH_ERROR": "MISSING",
-      "PHONE_NUMBER_LENGTH_ERROR": "MISSING"
+      "UNITS": "Unidades"
     },
     "FARM_TAB": "Finca",
     "PEOPLE": {

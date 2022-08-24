@@ -48,7 +48,7 @@ export default function PureFarm({ userFarm, onSubmit, history, isAdmin }) {
           required: true,
           maxLength: {
             value: 255,
-            message: t('PROFILE.FARM.FARM_NAME_LENGTH_ERROR'),
+            message: t('PROFILE.ERROR.FARM_NAME_LENGTH'),
           },
         })}
         disabled={!isAdmin}
@@ -60,7 +60,7 @@ export default function PureFarm({ userFarm, onSubmit, history, isAdmin }) {
           required: false,
           maxLength: {
             value: 20,
-            message: t('PROFILE.FARM.PHONE_NUMBER_LENGTH_ERROR'),
+            message: t('PROFILE.ERROR.PHONE_NUMBER_LENGTH'),
           },
         })}
         errors={

@@ -84,7 +84,7 @@ const readingTypeTranslations = {
   },
   es: {
     soil_water_content: 'contenido_de_agua_en_el_suelo',
-    soil_water_potential: 'contenido_de_agua_en_el_suelo',
+    soil_water_potential: 'potencial_hídrico_del_suelo',
     temperature: 'temperatura',
   },
   fr: {

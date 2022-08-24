@@ -83,17 +83,17 @@ function SensorReadings({ history, match }) {
       />
       {activeReadingTypes.length > 0 && (
         <>
-          {activeReadingTypes.reduce((acc, cv) => {
+          {activeReadingTypes.reduce((acc, cv, i) => {
             if (cv === TEMPERATURE) return acc;
             acc.push(
-              <>
+              <div key={i}>
                 <div className={styles.titleWrapper}>
                   <label>
                     <Semibold className={styles.title}>{cv.replace(/_/g, ' ')}</Semibold>
                   </label>
                 </div>
                 <div className={styles.emptyRect}></div>
-              </>,
+              </div>,
             );
             return acc;
           }, [])}

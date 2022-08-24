@@ -15,7 +15,6 @@ import {
 } from 'recharts';
 import { Label, Semibold } from '../Typography';
 import PropTypes from 'prop-types';
-import AxisLabel from './AxisLabel';
 import PredictedRect from './PredictedRect';
 import { getLanguageFromLocalStorage } from '../../util/getLanguageFromLocalStorage';
 
@@ -31,6 +30,7 @@ const PureSensorReadingsLineChart = ({
   weatherStationName,
   lastUpdatedTemperatureReadings,
   predictedXAxisLabel,
+  isReadingTypeActive,
 }) => {
   const [legendsList, setLegendsList] = useState({});
 
@@ -129,79 +129,87 @@ const PureSensorReadingsLineChart = ({
 
   return (
     <>
-      <div className={styles.titleWrapper}>
-        <label>
-          <Semibold className={styles.title}>{title}</Semibold>
-        </label>
-        <label>
-          <Semibold className={styles.titleLastUpdated}>{lastUpdatedTemperatureReadings}</Semibold>
-        </label>
-      </div>
-      <Label className={styles.subTitle}>{subTitle}</Label>
-      <Label className={styles.subTitle}>{weatherStationName}</Label>
-      <ResponsiveContainer width="100%" height="60%">
-        <LineChart
-          data={chartData}
-          margin={{
-            top: 20,
-            right: 30,
-            left: 20,
-            bottom: 60,
-          }}
-        >
-          <pattern
-            id="pattern-stripe"
-            width="8"
-            height="4"
-            patternUnits="userSpaceOnUse"
-            patternTransform="rotate(45)"
-          >
-            <rect width="2" height="2" transform="translate(0,0)" fill="white"></rect>
-          </pattern>
-          <mask id="mask-stripe">
-            <rect x="0" y="0" width="100%" height="100%" fill="url(#pattern-stripe)" />
-          </mask>
-          <CartesianGrid strokeDasharray="1 1" />
-          <XAxis dataKey={xAxisDataKey} tick={false} tickFormatter={dateTickFormatter} />
-          <XAxis
-            label={{ value: xAxisLabel, position: 'insideBottom', dy: 45 }}
-            dataKey={xAxisDataKey}
-            axisLine={false}
-            tickLine={false}
-            interval={0}
-            tick={renderDateOnXAxis}
-            height={1}
-            scale="band"
-            xAxisId="quarter"
-          />
-          <YAxis label={{ value: yAxisLabel, position: 'insideCenter', angle: -90, dx: -20 }} />
-          <Tooltip />
-          {yAxisDataKeys.length > 1 && (
-            <Legend
-              layout="horizontal"
-              verticalAlign="top"
-              align="center"
-              wrapperStyle={{ top: 10, left: 50 }}
-              payload={Object.values(legendsList)}
-              content={renderCusomizedLegend}
-            />
-          )}
-          {yAxisDataKeys.length &&
-            Object.values(legendsList)
-              .filter((l) => l.isActive)
-              .map((attribute, idx) => (
-                <Line
-                  key={idx}
-                  strokeWidth={2}
-                  dataKey={attribute.value}
-                  stroke={attribute.color}
-                  activeDot={{ r: 6 }}
-                  isAnimationActive={false}
+      {isReadingTypeActive ? (
+        <>
+          <div className={styles.titleWrapper}>
+            <label>
+              <Semibold className={styles.title}>{title}</Semibold>
+            </label>
+            <label>
+              <Semibold className={styles.titleLastUpdated}>
+                {lastUpdatedTemperatureReadings}
+              </Semibold>
+            </label>
+          </div>
+          <Label className={styles.subTitle}>{subTitle}</Label>
+          <Label className={styles.subTitle}>{weatherStationName}</Label>
+          <ResponsiveContainer width="100%" height={380}>
+            <LineChart
+              data={chartData}
+              margin={{
+                top: 20,
+                right: 30,
+                left: 20,
+                bottom: 60,
+              }}
+            >
+              <pattern
+                id="pattern-stripe"
+                width="8"
+                height="4"
+                patternUnits="userSpaceOnUse"
+                patternTransform="rotate(45)"
+              >
+                <rect width="2" height="2" transform="translate(0,0)" fill="white"></rect>
+              </pattern>
+              <mask id="mask-stripe">
+                <rect x="0" y="0" width="100%" height="100%" fill="url(#pattern-stripe)" />
+              </mask>
+              <CartesianGrid strokeDasharray="1 1" />
+              <XAxis dataKey={xAxisDataKey} tick={false} tickFormatter={dateTickFormatter} />
+              <XAxis
+                label={{ value: xAxisLabel, position: 'insideBottom', dy: 45 }}
+                dataKey={xAxisDataKey}
+                axisLine={false}
+                tickLine={false}
+                interval={0}
+                tick={renderDateOnXAxis}
+                height={1}
+                scale="band"
+                xAxisId="quarter"
+              />
+              <YAxis label={{ value: yAxisLabel, position: 'insideCenter', angle: -90, dx: -20 }} />
+              <Tooltip />
+              {yAxisDataKeys.length > 1 && (
+                <Legend
+                  layout="horizontal"
+                  verticalAlign="top"
+                  align="center"
+                  wrapperStyle={{ top: 10, left: 50 }}
+                  payload={Object.values(legendsList)}
+                  content={renderCusomizedLegend}
                 />
-              ))}
-          <ReferenceArea fill={'#EBECED'} shape={<PredictedRect />} x1={predictedXAxisLabel} />
-        </LineChart>
-      </ResponsiveContainer>
+              )}
+              {yAxisDataKeys.length &&
+                Object.values(legendsList)
+                  .filter((l) => l.isActive)
+                  .map((attribute, idx) => (
+                    <Line
+                      key={idx}
+                      strokeWidth={2}
+                      dataKey={attribute.value}
+                      stroke={attribute.color}
+                      activeDot={{ r: 6 }}
+                      isAnimationActive={false}
+                    />
+                  ))}
+              <ReferenceArea fill={'#EBECED'} shape={<PredictedRect />} x1={predictedXAxisLabel} />
+            </LineChart>
+          </ResponsiveContainer>
+        </>
+      ) : (
+        <></>
+      )}
     </>
   );
 };
@@ -218,6 +226,7 @@ PureSensorReadingsLineChart.propTypes = {
   weatherStationName: PropTypes.string.isRequired,
   lastUpdatedTemperatureReadings: PropTypes.string.isRequired,
   predictedXAxisLabel: PropTypes.string.isRequired,
+  isReadingTypeActive: PropTypes.bool.isRequired,
 };
 
 export default PureSensorReadingsLineChart;

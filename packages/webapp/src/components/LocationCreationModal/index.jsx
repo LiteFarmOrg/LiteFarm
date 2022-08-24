@@ -44,7 +44,7 @@ export default function LocationCreationModal({ title, body, dismissModal }) {
         <Info className={styles.body}>{body}</Info>
         <div className={styles.buttonContainer}>
           <Button onClick={dismissModal} sm>
-            {t('common:BACK')}
+            {t('LOCATION_CREATION.GO_BACK_BUTTON')}
           </Button>
           <Button onClick={onCreateLocation} sm>
             {t('LOCATION_CREATION.CREATE_BUTTON')}

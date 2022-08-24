@@ -65,6 +65,11 @@ const parseCsv = (
   }
 
   const rows = csvString.split(/\r\n|\r|\n/).filter((elem) => elem !== '');
+
+  if (rows.length === 0) {
+    return { data: [], errors: []}
+  }
+
   const headers = rows[0].split(regex).map((h) => h.trim());
   const requiredHeaders = validators
     .filter((v) => v.required)

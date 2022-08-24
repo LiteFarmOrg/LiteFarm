@@ -1,5 +1,4 @@
-
-export const up = async function(knex) {
+export const up = async function (knex) {
   // selected name = 'NA' because that value exists on beta
   const managementPlans = await knex.raw(`
     select management_plan_id, crop_variety_id
@@ -32,6 +31,4 @@ export const up = async function(knex) {
 };
 
 // eslint-disable-next-line no-unused-vars
-export const down = async function(knex) {
-
-};
+export const down = async function (knex) {};

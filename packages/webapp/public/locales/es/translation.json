@@ -470,7 +470,7 @@
         "MODEL": "Modelo"
       },
       "SENSOR_READING_TYPES": {
-        "SOIL_MOISTURE_CONTENT": "contenido_de_agua_ en_el_suelo",
+        "SOIL_MOISTURE_CONTENT": "contenido_de_agua_en_el_suelo",
         "SOIL_WATER_POTENTIAL": "potencial_hídrico_del_suelo",
         "TEMPERATURE": "temperatura"
       },
@@ -1108,6 +1108,13 @@
     "WHERE_TRANSPLANT_LOCATION": "¿A dónde va a trasplantar?",
     "WILD_CROP": "¿Estás cosechando un cultivo silvestre?"
   },
+  "LOCATION_CREATION": {
+    "TITLE": "MISSING",
+    "CROP_PLAN_BODY": "MISSING",
+    "TASK_TITLE": "MISSING",
+    "TASK_BODY": "MISSING",
+    "CREATE_BUTTON": "MISSING"
+  },
   "MY_FARM": {
     "CERTIFICATIONS": "Certificaciones",
     "FARM_INFO": "Información de la finca",
@@ -1251,7 +1258,9 @@
       "IMPERIAL": "Britanico",
       "METRIC": "Metrico",
       "PHONE_NUMBER": "Número de teléfono",
-      "UNITS": "Unidades"
+      "UNITS": "Unidades",
+      "FARM_NAME_LENGTH_ERROR": "MISSING",
+      "PHONE_NUMBER_LENGTH_ERROR": "MISSING"
     },
     "FARM_TAB": "Finca",
     "PEOPLE": {

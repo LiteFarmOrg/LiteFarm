@@ -1,5 +1,4 @@
-
-export const up = function(knex) {
+export const up = function (knex) {
   return Promise.all([
     knex.schema.alterTable('crop', (table) => {
       table.dropUnique(['crop_common_name', 'crop_genus', 'crop_specie']);
@@ -8,7 +7,7 @@ export const up = function(knex) {
   ]);
 };
 
-export const down = function(knex) {
+export const down = function (knex) {
   return Promise.all([
     knex.schema.alterTable('crop', (table) => {
       table.dropUnique(['crop_common_name', 'crop_genus', 'crop_specie', 'farm_id']);

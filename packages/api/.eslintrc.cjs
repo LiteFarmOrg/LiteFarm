@@ -1,4 +1,4 @@
-module.exports = {
+module.exports =  {
   extends: ['eslint:recommended', 'prettier'],
   env: {
     es6: true,

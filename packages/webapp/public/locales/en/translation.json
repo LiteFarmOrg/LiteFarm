@@ -1105,6 +1105,13 @@
     "WHERE_TRANSPLANT_LOCATION": "Where will you transplant to?",
     "WILD_CROP": "Are you harvesting a wild crop?"
   },
+  "LOCATION_CREATION": {
+    "TITLE": "No locations found!",
+    "CROP_PLAN_BODY": "You’ll need a Field, Garden, Greenhouse, or Buffer Zone before you can finish this crop plan. Do you want to create one now?",
+    "TASK_TITLE": "No locations for tasks",
+    "TASK_BODY": "You’ll need at least one location before you can create a task. Do you want to create a location now?",
+    "CREATE_BUTTON": "Create Location"
+  },
   "MY_FARM": {
     "CERTIFICATIONS": "Certifications",
     "FARM_INFO": "Farm info",
@@ -1248,7 +1255,9 @@
       "IMPERIAL": "Imperial",
       "METRIC": "Metric",
       "PHONE_NUMBER": "Phone Number",
-      "UNITS": "Units"
+      "UNITS": "Units",
+      "FARM_NAME_LENGTH_ERROR": "Farm name cannot exceed 255 characters",
+      "PHONE_NUMBER_LENGTH_ERROR": "Phone number must be fewer than 20 characters"
     },
     "FARM_TAB": "Farm",
     "PEOPLE": {

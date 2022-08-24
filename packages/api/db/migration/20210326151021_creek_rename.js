@@ -1,5 +1,20 @@
-const newEnum = ['gate', 'water_valve', 'field', 'buffer_zone', 'fence', 'ceremonial_area', 'garden',
-  'residence', 'ground_water', 'natural_area', 'greenhouse', 'barn', 'farm_site_boundary', 'surface_water', 'watercourse'];
+const newEnum = [
+  'gate',
+  'water_valve',
+  'field',
+  'buffer_zone',
+  'fence',
+  'ceremonial_area',
+  'garden',
+  'residence',
+  'ground_water',
+  'natural_area',
+  'greenhouse',
+  'barn',
+  'farm_site_boundary',
+  'surface_water',
+  'watercourse',
+];
 
 export const up = function (knex) {
   return Promise.all([
@@ -19,7 +34,7 @@ export const up = function (knex) {
 };
 
 export const down = function (knex) {
-  const oldEnum = ['creek'].concat(newEnum.slice(0, -1))
+  const oldEnum = ['creek'].concat(newEnum.slice(0, -1));
   return Promise.all([
     knex.raw('ALTER TABLE watercourse RENAME TO creek'),
     knex('permissions').where({ permission_id: 93 }).update({
@@ -33,6 +48,5 @@ export const down = function (knex) {
     knex.raw(`ALTER TABLE figure DROP CONSTRAINT figure_type_check;
               ALTER TABLE figure ADD CONSTRAINT figure_type_check
               CHECK (type = ANY (ARRAY['${oldEnum.join(`'::text,'`)}'::text]))`),
-
   ]);
 };

@@ -12,27 +12,27 @@ export const up = async function (knex) {
   const shiftTasks = await knex.select().from('shiftTask');
   await knex('shiftTask').del();
   await knex('shift').del();
-  await knex.schema.alterTable('shift', (table) =>
-    table.dropForeign('user_id', 'user_id'),
-  )
+  await knex.schema.alterTable('shift', (table) => table.dropForeign('user_id', 'user_id'));
   await knex.schema.alterTable('shift', (table) => {
     table.foreign('user_id');
     table.uuid('farm_id');
     table.boolean('deleted').defaultTo(false);
     table.foreign(['farm_id', 'user_id']).references(['farm_id', 'user_id']).inTable('userFarm');
-  })
+  });
   await knex.batchInsert('shift', shifts.rows);
   return knex.batchInsert('shiftTask', shiftTasks);
 };
 
 export const down = function (knex) {
-  return knex.schema.alterTable('shift', (table) => {
-    table.dropForeign(['farm_id', 'user_id']);
-    table.dropColumn('farm_id');
-    table.dropColumn('deleted');
-  }).then(() => {
-    return knex.schema.alterTable('shift', (table) => {
-      table.foreign('user_id', 'user_id').references('users.user_id');
+  return knex.schema
+    .alterTable('shift', (table) => {
+      table.dropForeign(['farm_id', 'user_id']);
+      table.dropColumn('farm_id');
+      table.dropColumn('deleted');
     })
-  })
+    .then(() => {
+      return knex.schema.alterTable('shift', (table) => {
+        table.foreign('user_id', 'user_id').references('users.user_id');
+      });
+    });
 };

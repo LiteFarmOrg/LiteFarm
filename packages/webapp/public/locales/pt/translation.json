@@ -1249,7 +1249,8 @@
       "PHONE_NUMBER": "Número de telefone",
       "PORTUGUESE": "Português",
       "SPANISH": "Espanhol",
-      "USER_ADDRESS": "Endereço do usuário"
+      "USER_ADDRESS": "Endereço do usuário",
+      "NAME_LENGTH_ERROR": "MISSING"
     },
     "ACCOUNT_TAB": "Conta",
     "FARM": {

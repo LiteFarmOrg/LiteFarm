@@ -1248,7 +1248,8 @@
       "PHONE_NUMBER": "Número de teléfono",
       "PORTUGUESE": "Portugués",
       "SPANISH": "Español",
-      "USER_ADDRESS": "Dirección de usuario"
+      "USER_ADDRESS": "Dirección de usuario",
+      "NAME_LENGTH_ERROR": "MISSING"
     },
     "ACCOUNT_TAB": "Cuenta",
     "FARM": {

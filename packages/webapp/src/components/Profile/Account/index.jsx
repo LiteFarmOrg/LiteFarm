@@ -1,4 +1,4 @@
-import Input, { integerOnKeyDown } from '../../Form/Input';
+import Input, { integerOnKeyDown, getInputErrors } from '../../Form/Input';
 import { Controller, useForm } from 'react-hook-form';
 import { userFarmEnum } from '../../../containers/constants';
 import ReactSelect from '../../Form/ReactSelect';
@@ -32,7 +32,7 @@ export default function PureAccount({ userFarm, onSubmit, history, isAdmin }) {
     handleSubmit,
     control,
     setValue,
-    formState: { isValid, isDirty },
+    formState: { isValid, isDirty, errors },
   } = useForm({
     mode: 'onChange',
     defaultValues: userFarm,
@@ -63,14 +63,24 @@ export default function PureAccount({ userFarm, onSubmit, history, isAdmin }) {
         hookFormRegister={register(userFarmEnum.first_name, {
           required: true,
           pattern: /^[A-Za-zÀ-ÖØ-öø-ÿ]+/g,
+          maxLength: {
+            value: 255,
+            message: t('PROFILE.ACCOUNT.NAME_LENGTH_ERROR'),
+          },
         })}
+        errors={getInputErrors(errors, userFarmEnum.first_name)}
       />
       <Input
         label={t('PROFILE.ACCOUNT.LAST_NAME')}
         hookFormRegister={register(userFarmEnum.last_name, {
           required: false,
           pattern: /^[A-Za-zÀ-ÖØ-öø-ÿ]+/g,
+          maxLength: {
+            value: 255,
+            message: t('PROFILE.ACCOUNT.NAME_LENGTH_ERROR'),
+          },
         })}
+        errors={getInputErrors(errors, userFarmEnum.last_name)}
       />
       <Input
         label={t('PROFILE.ACCOUNT.EMAIL')}

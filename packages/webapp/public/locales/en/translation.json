@@ -1245,7 +1245,8 @@
       "PHONE_NUMBER": "Phone Number",
       "PORTUGUESE": "Portuguese",
       "SPANISH": "Spanish",
-      "USER_ADDRESS": "User Address"
+      "USER_ADDRESS": "User Address",
+      "NAME_LENGTH_ERROR": "Name must be fewer than 255 characters"
     },
     "ACCOUNT_TAB": "Account",
     "FARM": {

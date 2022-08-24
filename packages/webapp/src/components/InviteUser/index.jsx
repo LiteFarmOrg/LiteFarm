@@ -80,7 +80,13 @@ export default function PureInviteUser({ onInvite, onGoBack, userFarmEmails, rol
         data-cy="invite-fullName"
         style={{ marginBottom: '28px' }}
         label={t('INVITE_USER.FULL_NAME')}
-        hookFormRegister={register(NAME, { required: true })}
+        hookFormRegister={register(NAME, {
+          required: true,
+          maxLength: {
+            value: 255,
+            message: t('PROFILE.ACCOUNT.NAME_LENGTH_ERROR'),
+          },
+        })}
         errors={getInputErrors(errors, NAME)}
       />
       <Controller

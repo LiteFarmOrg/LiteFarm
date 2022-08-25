@@ -98,8 +98,6 @@ export default function Map({ history }) {
   const { t } = useTranslation();
   const showHeader = useSelector(setShowSuccessHeaderSelector);
   const [showSuccessHeader, setShowSuccessHeader] = useState(false);
-  const [showZeroAreaWarning, setZeroAreaWarning] = useState(false);
-  const [showZeroLengthWarning, setShowZeroLengthWarning] = useState(false);
   const successMessage = useSelector(setSuccessMessageSelector);
 
   const [showingConfirmButtons, setShowingConfirmButtons] = useState(
@@ -161,6 +159,8 @@ export default function Map({ history }) {
       setLineWidth,
       setShowAdjustAreaSpotlightModal,
       setShowAdjustLineSpotlightModal,
+      setZeroAreaWarning,
+      setShowZeroLengthWarning,
     },
   ] = useDrawingManager();
 
@@ -257,8 +257,10 @@ export default function Map({ history }) {
 
     maps.event.addListener(drawingManagerInit, 'polygoncomplete', function (polygon) {
       const polygonAreaCheck = (path) => {
-        if (Math.round(maps.geometry.spherical.computeArea(path)) === 0) setZeroAreaWarning(true);
-        else setZeroAreaWarning(false);
+        if (Math.round(maps.geometry.spherical.computeArea(path)) === 0) {
+          setZeroAreaWarning(true);
+          setShowAdjustAreaSpotlightModal(false);
+        } else setZeroAreaWarning(false);
       };
       const path = polygon.getPath();
       polygonAreaCheck(path);
@@ -273,6 +275,7 @@ export default function Map({ history }) {
       const polylineLengthCheck = (path) => {
         if (Math.round(maps.geometry.spherical.computeLength(path)) === 0) {
           setShowZeroLengthWarning(true);
+          setShowAdjustLineSpotlightModal(false);
         } else {
           setShowZeroLengthWarning(false);
         }
@@ -452,7 +455,13 @@ export default function Map({ history }) {
     dispatch(setMapAddDrawerShow(farm_id));
   };
 
-  const { showAdjustAreaSpotlightModal, showAdjustLineSpotlightModal } = drawingState;
+  const {
+    showAdjustAreaSpotlightModal,
+    showAdjustLineSpotlightModal,
+    showZeroAreaWarning,
+    showZeroLengthWarning,
+  } = drawingState;
+
   return (
     <>
       {!showMapFilter && !showAddDrawer && !drawingState.type && !showSuccessHeader && (

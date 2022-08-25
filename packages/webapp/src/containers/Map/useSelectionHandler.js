@@ -1,4 +1,4 @@
-import { containsCrops, isArea, isAreaLine, isLine, isPoint } from './constants';
+import { containsCrops, isArea, isAreaLine, isLine, isPoint, locationEnum } from './constants';
 import { useEffect, useState } from 'react';
 import { canShowSelection, canShowSelectionSelector, locations } from '../mapSlice';
 import { useDispatch, useSelector } from 'react-redux';
@@ -59,7 +59,7 @@ const useSelectionHandler = () => {
       } else {
         if (overlappedLocations.point.length === 1) {
           if (
-            overlappedLocations.point[0].type === 'sensor' &&
+            overlappedLocations.point[0].type === locationEnum.sensor &&
             overlappedLocations.point[0].preview
           ) {
             const locationArray = [];
@@ -68,7 +68,7 @@ const useSelectionHandler = () => {
             });
             dispatch(canShowSelection(true));
             dispatch(locations(locationArray));
-          } else if (overlappedLocations.point[0].type === 'sensor') {
+          } else if (overlappedLocations.point[0].type === locationEnum.sensor) {
             history.push(
               `/${overlappedLocations.point[0].type}/${overlappedLocations.point[0].id}/readings`,
             );

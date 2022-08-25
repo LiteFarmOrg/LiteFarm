@@ -1256,7 +1256,8 @@
       "PHONE_NUMBER_LENGTH": "MISSING",
       "FARM_NAME_LENGTH": "MISSING",
       "FIRST_NAME_LENGTH": "MISSING",
-      "LAST_NAME_LENGTH": "MISSING"
+      "LAST_NAME_LENGTH": "MISSING",
+      "USER_ADDRESS_LENGTH": "MISSING"
     },
     "FARM": {
       "ADDRESS": "Dirección",

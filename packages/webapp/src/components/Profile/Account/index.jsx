@@ -99,7 +99,11 @@ export default function PureAccount({ userFarm, onSubmit, history, isAdmin }) {
       />
       <Input
         label={t('PROFILE.ACCOUNT.USER_ADDRESS')}
-        hookFormRegister={register(userFarmEnum.user_address, { required: false })}
+        hookFormRegister={register(userFarmEnum.user_address, {
+          required: false,
+          maxLength: { value: 255, message: t('PROFILE.ERROR.USER_ADDRESS_LENGTH') },
+        })}
+        errors={errors[userFarmEnum.user_address] && errors[userFarmEnum.user_address].message}
         optional
       />
     </ProfileLayout>

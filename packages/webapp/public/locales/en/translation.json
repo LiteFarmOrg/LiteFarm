@@ -1253,7 +1253,8 @@
       "PHONE_NUMBER_LENGTH": "Phone number must be fewer than 20 characters",
       "FARM_NAME_LENGTH": "Farm name cannot exceed 255 characters",
       "FIRST_NAME_LENGTH": "First name cannot exceed 255 characters",
-      "LAST_NAME_LENGTH": "Last name cannot exceed 255 characters"
+      "LAST_NAME_LENGTH": "Last name cannot exceed 255 characters",
+      "USER_ADDRESS_LENGTH": "User address cannot exceed 255 characters"
     },
     "FARM": {
       "ADDRESS": "Address",

@@ -70,9 +70,13 @@ export default function PureSelectionHandler({ locations, history, sensorReading
   };
 
   const loadEditView = (location) => {
-    containsCrops(location.type)
-      ? history.push(`/${location.type}/${location.id}/crops`)
-      : history.push(`/${location.type}/${location.id}/details`);
+    if (containsCrops(location.type)) {
+      history.push(`/${location.type}/${location.id}/crops`);
+    } else if (location.type === SENSOR) {
+      history.push(`/${location.type}/${location.id}/readings`);
+    } else {
+      history.push(`/${location.type}/${location.id}/details`);
+    }
   };
 
   const removeSelect = isTouchDevice()

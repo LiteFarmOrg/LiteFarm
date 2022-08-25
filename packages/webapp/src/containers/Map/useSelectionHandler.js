@@ -1,4 +1,4 @@
-import { containsCrops, isArea, isAreaLine, isLine, isPoint } from './constants';
+import { containsCrops, isArea, isAreaLine, isLine, isPoint, locationEnum } from './constants';
 import { useEffect, useState } from 'react';
 import { canShowSelection, canShowSelectionSelector, locations } from '../mapSlice';
 import { useDispatch, useSelector } from 'react-redux';
@@ -46,7 +46,7 @@ const useSelectionHandler = () => {
               `/${overlappedLocations.area[0].type}/${overlappedLocations.area[0].id}/crops`,
             )
           : history.push(
-              `/${overlappedLocations.area[0].type}/${overlappedLocations.area[0].id}/readings`,
+              `/${overlappedLocations.area[0].type}/${overlappedLocations.area[0].id}/details`,
             );
       } else if (
         overlappedLocations.area.length === 0 &&
@@ -54,12 +54,12 @@ const useSelectionHandler = () => {
         overlappedLocations.point.length === 0
       ) {
         history.push(
-          `/${overlappedLocations.line[0].type}/${overlappedLocations.line[0].id}/readings`,
+          `/${overlappedLocations.line[0].type}/${overlappedLocations.line[0].id}/details`,
         );
       } else {
         if (overlappedLocations.point.length === 1) {
           if (
-            overlappedLocations.point[0].type === 'sensor' &&
+            overlappedLocations.point[0].type === locationEnum.sensor &&
             overlappedLocations.point[0].preview
           ) {
             const locationArray = [];
@@ -68,9 +68,13 @@ const useSelectionHandler = () => {
             });
             dispatch(canShowSelection(true));
             dispatch(locations(locationArray));
-          } else {
+          } else if (overlappedLocations.point[0].type === locationEnum.sensor) {
             history.push(
               `/${overlappedLocations.point[0].type}/${overlappedLocations.point[0].id}/readings`,
+            );
+          } else {
+            history.push(
+              `/${overlappedLocations.point[0].type}/${overlappedLocations.point[0].id}/details`,
             );
           }
         } else {

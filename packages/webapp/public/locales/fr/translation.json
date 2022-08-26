@@ -243,7 +243,7 @@
     "GENDER_TOOLTIP": "Les informations sur le genre sont collectées à des fins de recherche uniquement et ne seront partagées qu'avec les informations d'identification personnelle supprimées",
     "PASSWORD": "Mot de passe",
     "TITLE": "Créer un nouveau compte utilisateur",
-    "LANGUAGE_PREFERENCE": "MISSING",
+    "LANGUAGE_PREFERENCE": "Langue de préférence",
     "DEFAULT_LANGUAGE": "Français",
     "DEFAULT_LANGUAGE_VALUE": "fr"
   },
@@ -453,13 +453,13 @@
       "WIDTH": "Largeur de la zone tampon"
     },
     "BULK_UPLOAD_SENSORS": {
-      "TITLE": "MISSING - Fr - Add sensors to map",
-      "UPLOAD_LINK_MESSAGE": "MISSING - Fr - Download this template",
-      "UPLOAD_INSTRUCTION_MESSAGE": "MISSING - Fr - for correct formatting.",
-      "UPLOAD_PLACEHOLDER": "MISSING - Fr - Upload CSV file",
-      "UPLOAD_ERROR_MESSAGE": "MISSING - Fr - There were some issues with your upload. ",
-      "UPLOAD_ERROR_LINK": "MISSING - Fr - Click here to view them.",
-      "EMPTY_FILE_UPLOAD_ERROR_MESSAGE": "MISSING - Fr - No sensors found, please check your upload and try again.",
+      "TITLE": "Ajouter des capteurs à la carte",
+      "UPLOAD_LINK_MESSAGE": "Téléchargé ce modèle",
+      "UPLOAD_INSTRUCTION_MESSAGE": "pour un formatage correct.",
+      "UPLOAD_PLACEHOLDER": "Téléverser le fichier CSV",
+      "UPLOAD_ERROR_MESSAGE": "Il y avait qulques problèmes avec votre téléchargement. ",
+      "UPLOAD_ERROR_LINK": "Cliquez ici pour les voir.",
+      "EMPTY_FILE_UPLOAD_ERROR_MESSAGE": "Aucun capteur trouvé, veuillez vérifier votre téléchargment et essayez à nouveau.",
       "SENSOR_FIELDS": {
         "NAME": "Nom",
         "LATITUDE": "Latitude",
@@ -476,34 +476,34 @@
         "TEMPERATURE": "température"
       },
       "VALIDATION": {
-        "FILE_ROW_LIMIT_EXCEEDED": "MISSING - Fr - File row limit exceeded. The max number of sensors that can be uploaded from a file is 100.",
-        "MISSING_COLUMNS": "MISSING - Fr - Columns are required/missing.",
-        "EXTERNAL_ID": "MISSING - Fr - Invalid external id, must be between 1 and 20 characters.",
-        "SENSOR_NAME": "MISSING - Fr - Invalid sensor name, must be between 1 and 100 characters.",
-        "SENSOR_LATITUDE": "MISSING - Fr - Invalid latitude value, must be between -90 and 90. and fewer than 10 decimals.",
-        "SENSOR_LONGITUDE": "MISSING - Fr - Invalid longitude value, must be between -180 and 180. and fewer than 10 decimals.",
-        "SENSOR_READING_TYPES": "MISSING - Fr - Invalid reading type detected, valid values include: soil_water_content, soil_water_potential, temperature.",
-        "SENSOR_DEPTH": "MISSING - Fr - Invalid depth value, must be between 0 and 1000.",
-        "SENSOR_BRAND": "MISSING - Fr - Invalid brand name, must be between 1 and 100 characters.",
-        "SENSOR_MODEL": "MISSING - Fr - Invalid model name, must be between 1 and 100 characters.",
-        "SENSOR_HARDWARE_VERSION": "MISSING - Fr - Invalid hardware version name, must be between 1 and 100 characters."
+        "FILE_ROW_LIMIT_EXCEEDED": "Limite de ligne de fichier dépassée. Le nombre maximum de capteurs téléchargeable dans un fichier est de 100.",
+        "MISSING_COLUMNS": "Les colonnes sont requises ou manquantes",
+        "EXTERNAL_ID": "ID externe non valide, il doit être compris entre 1 et 20 caractères.",
+        "SENSOR_NAME": "Nom de capteur non valide, if doit être compris entre 1 et 100 caractères.",
+        "SENSOR_LATITUDE": "La valeur de latitude est non valable, elle doit être comprise entre -90 et 90 et avec moins de 10 décimales.",
+        "SENSOR_LONGITUDE": "La valeur de longitude est non valable, elle doit être comprise entre -180 et 180 et avec moins de 10 décimales.",
+        "SENSOR_READING_TYPES": "Type à relevé non valide détecté. Les valeurs valides comprennent: teneur_en_eau_du_sol, potential_hydrique_du_sol, température.",
+        "SENSOR_DEPTH": "Valeur de profondeur non valide, il doit être compris entre 0 et 1000.",
+        "SENSOR_BRAND": "Nom de marque non valide, il doit être compris entre 1 et 100 caractères.",
+        "SENSOR_MODEL": "Nom de modèle non valide, il doit être compris entre 1 et 100 caractères.",
+        "SENSOR_HARDWARE_VERSION": "Version matérielle non valide, il doit être compris entre 1 et 100 caractères."
       },
       "SENSOR_CLAIM_ERROR": {
-        "ALREADY_OCCUPIED": "MISSING - Fr - Sensor \"{{ sensorId }}\" already registered to another organization, please contact Ensemble support at support@esci.io to troubleshoot.",
-        "DOES_NOT_EXIST": "MISSING - Fr - Sensor \"{{ sensorId }}\" does not exist in the Ensemble database. Please ensure that you have spelled the External_ID properly for this entry, and that the sensor is an Ensemble sensor.",
-        "INTERNAL_ERROR": "MISSING - Fr - Sensor \"{{ sensorId }}\" failed to upload successfully, please reach out to LiteFarm support at support@litefarm.org to troubleshoot."
+        "ALREADY_OCCUPIED": "Le capteur \"{{ sensorId }}\" est déjà enregistré à une autro organisation. Veuillez contacter le support d'Ensemble à support@esci.io pour résoudre.",
+        "DOES_NOT_EXIST": "Le capteur \"{{ sensorId }}\" n'existe pas dans la base de données d'Ensemble. Veuillez vous assurer que vous avez bien orthographié l'ID externe pour cette entrée, et que le capteur est un capteur d'Ensemble.",
+        "INTERNAL_ERROR": "Le téléchargement du capteur \"{{ sensorId }}\" a échoué, veuillez communiquer avec le support de LiteFarm à support@litefarm.org pour résoudre."
       },
       "DOWNLOAD_FILE": {
-        "ROW": "MISSING - Fr - [Row: {{ row }}][Column: {{ column }}] {{- errorMessage }} {{ value }}\n",
-        "PARTIAL_SUCCESS_TOP_TEXT": "MISSING - Fr - The following sensors in your file uploaded successfully or already exist on your farm:\n\n",
+        "ROW": "[Ligne: {{ row }}][Colonne: {{ column }}] {{- errorMessage }} {{ value }}\n",
+        "PARTIAL_SUCCESS_TOP_TEXT": "Les capteurs suivants dans votre fichier on téléchargé avec succès ou existent déjà sur votre ferme:\n\n",
         "PARTIAL_SUCCESS_BOTTOM_TEXT": "MISSING - Fr - They should now be visible on your farm map. These sensors will be ignored in future uploads\n\n",
-        "SOME_ERRORS": "MISSING - Fr - Unfortunately, there were some errors with your upload:\n\n",
-        "DEFAULT": "MISSING - Fr - Something went wrong. Please contact support@litefarm.org for assistance."
+        "SOME_ERRORS": "Malheureusement, il y a eu quelques erreurs avec votre téléchargement:\n\n",
+        "DEFAULT": "Quelque chose a mal tourné. Veuillez contacter support@litefarm.org pour obtenir de l'aide."
       }
     },
     "BULK_UPLOAD_TRANSITION": {
-      "TITLE": "MISSING",
-      "BODY": "MISSING"
+      "TITLE": "Cela prend plus de temps que prévu...",
+      "BODY": "Nous vous informerons quand votre téléchargement est terminé et vos capteurs ont été créés. N'hesitez pas à s'eloigner de cette fenêtre."
     },
     "CEREMONIAL_AREA": {
       "EDIT_TITLE": "Modifier la zone de cérémonie",

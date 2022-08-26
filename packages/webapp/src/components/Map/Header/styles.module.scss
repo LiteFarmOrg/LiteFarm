@@ -1,6 +1,6 @@
 .container {
   display: flex;
-  min-height: 48px;
+  height: var(--map-header-height);
   flex-direction: row;
   align-items: center;
   justify-content: space-between;

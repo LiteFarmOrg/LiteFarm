@@ -24,6 +24,7 @@ export default function BulkSensorUploadModal({
   uploadErrorMessage,
   uploadErrorLink,
   errorTypeCode,
+  invalidFileTypeErrorLink,
 }) {
   const { t } = useTranslation();
 
@@ -46,7 +47,7 @@ export default function BulkSensorUploadModal({
           </div>
           <FileUploader
             handleSelectedFile={handleSelectedFile}
-            acceptedFormat=".csv"
+            acceptedFormat="*"
             selectedFileName={selectedFileName}
             fileInputRef={fileInputRef}
             isValid={!errorCount}
@@ -54,6 +55,7 @@ export default function BulkSensorUploadModal({
             uploadErrorMessage={uploadErrorMessage}
             uploadErrorLink={uploadErrorLink}
             errorTypeCode={errorTypeCode}
+            invalidFileTypeErrorLink={invalidFileTypeErrorLink}
           />
           <Button
             className={styles.buttonUpload}
@@ -86,4 +88,5 @@ BulkSensorUploadModal.prototype = {
   uploadErrorMessage: PropTypes.string,
   uploadErrorLink: PropTypes.string,
   errorTypeCode: PropTypes.number,
+  invalidFileTypeErrorLink: PropTypes.string,
 };

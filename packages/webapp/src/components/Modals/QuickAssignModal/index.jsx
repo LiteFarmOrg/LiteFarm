@@ -24,10 +24,12 @@ export default function TaskQuickAssignModal({
   const unAssignedOption = { label: t('TASK.UNASSIGNED'), value: null, isDisabled: false };
   const options = useMemo(() => {
     if (user.is_admin) {
-      const options = users.map(({ first_name, last_name, user_id }) => ({
-        label: `${first_name} ${last_name}`,
-        value: user_id,
-      }));
+      const options = users
+        .map(({ first_name, last_name, user_id }) => ({
+          label: `${first_name} ${last_name}`,
+          value: user_id,
+        }))
+        .sort((a, b) => (a.label > b.label ? 1 : b.label > a.label ? -1 : 0));
       unAssignedOption.isDisabled = !isAssigned;
       options.unshift(unAssignedOption);
       return options;

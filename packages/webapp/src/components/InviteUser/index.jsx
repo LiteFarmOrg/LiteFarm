@@ -182,7 +182,11 @@ export default function PureInviteUser({ onInvite, onGoBack, userFarmEmails, rol
         step="0.01"
         type="number"
         onKeyPress={numberOnKeyDown}
-        hookFormRegister={register(WAGE, { min: 0, valueAsNumber: true })}
+        hookFormRegister={register(WAGE, {
+          min: { value: 0, message: t('INVITE_USER.WAGE_RANGE_ERROR') },
+          valueAsNumber: true,
+          max: { value: 999999999, message: t('INVITE_USER.WAGE_RANGE_ERROR') },
+        })}
         style={{ marginBottom: '24px' }}
         errors={errors[WAGE] && (errors[WAGE].message || t('INVITE_USER.WAGE_ERROR'))}
         optional

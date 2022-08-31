@@ -15,6 +15,7 @@ export default function FileUploader({
   uploadErrorLink,
   uploadErrorMessage,
   errorTypeCode,
+  invalidFileTypeErrorLink,
 }) {
   const handleClick = (event) => {
     if (fileInputRef.current) {
@@ -45,8 +46,13 @@ export default function FileUploader({
           <label>
             {uploadErrorMessage}{' '}
             {!errorTypeCode && (
-              <span className={styles.errorMessage} onClick={onShowErrorClick}>
+              <span className={styles.errorMessage} onClick={() => onShowErrorClick(errorTypeCode)}>
                 {uploadErrorLink}
+              </span>
+            )}
+            {errorTypeCode === 2 && (
+              <span className={styles.errorMessage} onClick={() => onShowErrorClick(errorTypeCode)}>
+                {invalidFileTypeErrorLink}
               </span>
             )}
           </label>
@@ -65,4 +71,5 @@ FileUploader.prototype = {
   uploadErrorLink: PropTypes.string,
   uploadErrorMessage: PropTypes.string,
   errorTypeCode: PropTypes.number,
+  invalidFileTypeErrorLink: PropTypes.string,
 };

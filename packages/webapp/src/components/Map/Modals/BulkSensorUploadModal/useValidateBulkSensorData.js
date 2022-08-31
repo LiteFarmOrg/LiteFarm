@@ -110,10 +110,13 @@ export function useValidateBulkSensorData(onUpload, t) {
     onUpload(file);
   };
 
+  const getFileExtension = (fileName) => fileName.split('.').pop();
+
   const handleSelectedFile = async (e) => {
     const file = e.target.files[0];
     if (!file) return;
     try {
+      const fileExtension = getFileExtension(file?.name);
       setSelectedFileName(file?.name);
 
       const fileString = await readFile(file);
@@ -131,7 +134,10 @@ export function useValidateBulkSensorData(onUpload, t) {
         });
       }
 
-      if (errors.length !== 0) {
+      if (fileExtension !== 'csv') {
+        setErrorTypeCode(ErrorTypes.INVALID_FILE_TYPE);
+        setUploadErrorMessage(t('FARM_MAP.BULK_UPLOAD_SENSORS.INVALID_FILE_TYPE'));
+      } else if (errors.length !== 0) {
         setErrorTypeCode(ErrorTypes.INVALID_CSV);
         setUploadErrorMessage(t('FARM_MAP.BULK_UPLOAD_SENSORS.UPLOAD_ERROR_MESSAGE'));
       } else if (data.length === 0) {
@@ -147,7 +153,11 @@ export function useValidateBulkSensorData(onUpload, t) {
     }
   };
 
-  const onShowErrorClick = (e) => {
+  const onShowErrorClick = (errorCode) => {
+    if (errorCode === 2) {
+      onTemplateDownloadClick();
+      return;
+    }
     if (sheetErrors.length) {
       const inputFile = fileInputRef.current.files[0];
       if (inputFile) {

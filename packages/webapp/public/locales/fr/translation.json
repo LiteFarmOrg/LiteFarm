@@ -458,6 +458,8 @@
       "UPLOAD_INSTRUCTION_MESSAGE": "pour un formatage correct.",
       "UPLOAD_PLACEHOLDER": "Téléverser le fichier CSV",
       "UPLOAD_ERROR_MESSAGE": "Il y avait qulques problèmes avec votre téléchargement. ",
+      "INVALID_FILE_TYPE": "MISSING - Fr - Upload file must be a csv,",
+      "DOWNLOAD_TEMPLATE_LINK_MESSAGE": "MISSING - Fr - click here to download the template",
       "UPLOAD_ERROR_LINK": "Cliquez ici pour les voir.",
       "EMPTY_FILE_UPLOAD_ERROR_MESSAGE": "Aucun capteur trouvé, veuillez vérifier votre téléchargment et essayez à nouveau.",
       "SENSOR_FIELDS": {

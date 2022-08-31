@@ -130,6 +130,7 @@ export default function PurePeople({ users, history, isAdmin }) {
         defaultPageSize={5}
         className="-striped -highlight"
         getTdProps={onRowEdit}
+        orderDesc={false}
       />
     </ProfileLayout>
   );

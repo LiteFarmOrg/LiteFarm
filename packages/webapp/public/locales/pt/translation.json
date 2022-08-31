@@ -457,6 +457,8 @@
       "UPLOAD_INSTRUCTION_MESSAGE": "MISSING - Pt - for correct formatting.",
       "UPLOAD_PLACEHOLDER": "MISSING - Pt - Upload CSV file",
       "UPLOAD_ERROR_MESSAGE": "MISSING - Pt - There were some issues with your upload. ",
+      "INVALID_FILE_TYPE": "MISSING - Pt - Upload file must be a csv,",
+      "DOWNLOAD_TEMPLATE_LINK_MESSAGE": "MISSING - Pt - click here to download the template",
       "UPLOAD_ERROR_LINK": "MISSING - Pt - Click here to view them.",
       "EMPTY_FILE_UPLOAD_ERROR_MESSAGE": "MISSING - Pt - No sensors found, please check your upload and try again.",
       "SENSOR_FIELDS": {

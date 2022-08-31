@@ -457,6 +457,8 @@
       "UPLOAD_LINK_MESSAGE": "Download this template",
       "UPLOAD_INSTRUCTION_MESSAGE": "for correct formatting.",
       "UPLOAD_PLACEHOLDER": "Upload CSV file",
+      "INVALID_FILE_TYPE": "Upload file must be a csv,",
+      "DOWNLOAD_TEMPLATE_LINK_MESSAGE": "click here to download the template",
       "UPLOAD_ERROR_MESSAGE": "There were some issues with your upload. ",
       "UPLOAD_ERROR_LINK": "Click here to view them.",
       "EMPTY_FILE_UPLOAD_ERROR_MESSAGE": "No sensors found, please check your upload and try again.",

@@ -890,7 +890,8 @@
     "ROLE": "Função",
     "TITLE": "Convide um usuário",
     "WAGE": "Salário/vencimento por hora trabalhada",
-    "WAGE_ERROR": "Salário/vencimento precisa ser um número decimal válido não-negativo"
+    "WAGE_ERROR": "Salário/vencimento precisa ser um número decimal válido não-negativo",
+    "WAGE_RANGE_ERROR": "MISSING"
   },
   "JOIN_FARM_SUCCESS": {
     "IMPORTANT_THINGS": "Deixe-nos mostrar algumas coisas importantes!",

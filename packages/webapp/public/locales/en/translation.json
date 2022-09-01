@@ -887,7 +887,8 @@
     "ROLE": "Role",
     "TITLE": "Invite a user",
     "WAGE": "Hourly Wage",
-    "WAGE_ERROR": "Wage must be a valid, non-negative decimal number"
+    "WAGE_ERROR": "Wage must be a valid, non-negative decimal number",
+    "WAGE_RANGE_ERROR": "Salary must be a positive number less than 999,999,999"
   },
   "JOIN_FARM_SUCCESS": {
     "IMPORTANT_THINGS": "Let us show you a couple of important things!",

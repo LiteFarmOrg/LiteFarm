@@ -1,10 +1,108 @@
 describe.only('Crops flow tests', () => {
-  before(() => {});
+  let userEmail;
+  let userPassword;
 
-  it('Crop catalogue view', () => {
-    //test for LF-2163
-    //Ensure  "needs plan "status key exists on crop catalogue page key section
-    // ensure new status is displayed on crop tile
+  before(() => {
+    cy.getEmail().then((email) => {
+      userEmail = email;
+    });
+
+    cy.getPassword().then((password) => {
+      userPassword = password;
+    });
+  });
+
+  it.only('Crop catalogue view', () => {
+    //create test data
+    let count = 0;
+    let emailOwner;
+    let emailUser;
+
+    const farmerName = 'Frank Phiri';
+    const gender = 'Male';
+    const firstName = 'john';
+    const lastName = 'Smith';
+    const password = `${userPassword}+1@`;
+    const farmName = 'UBC FARM';
+    const location = '49.250833,-123.2410777';
+    const fieldName = 'Test Field';
+    let workerName;
+    const testCrop = 'New Crop';
+    const role = 'Manager';
+    const inviteeRole = 'Farm Worker';
+
+    //worker details
+    const language = ['English', 'French', 'Portuguese', 'Spanish'];
+    const wage = 12;
+    const number = 120012432;
+    const birthYear = 1987;
+
+    cy.visit('/');
+    let usrname = userEmail.indexOf('@');
+    emailOwner = userEmail.slice(0, usrname) + '+' + 1 + userEmail.slice(usrname);
+    emailUser = null;
+    workerName = firstName + ' ' + lastName;
+
+    //Login as a new user
+    cy.newUserLogin(emailOwner);
+
+    //create account
+
+    cy.createAccount(emailOwner, farmerName, gender, null, null, password).then(() => {
+      cy.getStarted();
+    });
+
+    //Add farm page
+    cy.addFarm(farmName, location);
+
+    //role selection page
+    cy.roleSelection(role);
+
+    //Consent page
+    cy.giveConsent();
+
+    //interested in organic
+    cy.interestedInOrganic();
+
+    //who is your certifier(select BCARA)
+    cy.selectCertifier();
+
+    //onboarding outro
+    cy.onboardingOutro();
+
+    //farm home page
+    cy.homePageSpotlights();
+
+    cy.wait(2000);
+    cy.get('[data-cy=navbar-hamburger]').should('exist').click({ force: true });
+    cy.contains('Crops').should('exist').click();
+    cy.url().should('include', '/crop_catalogue');
+
+    cy.get('[data-cy=spotlight-next]')
+      .contains('Next')
+      .should('exist')
+      .and('not.be.disabled')
+      .click();
+    cy.get('[data-cy=spotlight-next]')
+      .contains('Got it')
+      .should('exist')
+      .and('not.be.disabled')
+      .click();
+    cy.get('[data-cy=crop-name]').as('EnglishCrops');
+    cy.get('[data-cy=home-profileButton]').click();
+    cy.contains('My info').click();
+
+    cy.contains('Select').click({ force: true });
+    cy.contains('Spanish').click({ force: true });
+    cy.get('button').contains('Save').click({ force: true });
+
+    cy.get('[data-cy=navbar-hamburger]').should('exist').click({ force: true });
+    cy.contains('Crops').should('exist').click();
+    cy.url().should('include', '/crop_catalogue');
+    cy.get('@EnglishCrops').each(($el, index, $list) => {
+      cy.get('[data-cy=crops-search]').type($el.text());
+      cy.get('[data-cy=crop-tile]').should('not.exist');
+    });
   });
 
   it('Create a new crop', () => {

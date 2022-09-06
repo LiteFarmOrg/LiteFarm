@@ -84,6 +84,11 @@ describe.only('Invite user tests', () => {
 
     //farm home page
     cy.homePageSpotlights();
+    cy.get('[data-cy=navbar-option]')
+      .contains('Farm map')
+      .should('exist')
+      .and('not.be.disabled')
+      .click();
 
     //Add a farm worker to the farm
     cy.goToPeopleView('English');
@@ -191,6 +196,11 @@ describe.only('Invite user tests', () => {
 
       //farm home page
       cy.homePageSpotlights();
+      cy.get('[data-cy=navbar-option]')
+        .contains('Farm map')
+        .should('exist')
+        .and('not.be.disabled')
+        .click();
 
       //Add a farm worker to the farm
       cy.goToPeopleView('English');
@@ -365,6 +375,11 @@ describe.only('Invite user tests', () => {
 
       //farm home page
       cy.homePageSpotlights();
+      cy.get('[data-cy=navbar-option]')
+        .contains('Farm map')
+        .should('exist')
+        .and('not.be.disabled')
+        .click();
 
       //Add a farm worker to the farm
       cy.goToPeopleView('English');
@@ -539,6 +554,11 @@ describe.only('Invite user tests', () => {
 
       //farm home page
       cy.homePageSpotlights();
+      cy.get('[data-cy=navbar-option]')
+        .contains('Farm map')
+        .should('exist')
+        .and('not.be.disabled')
+        .click();
 
       //Add a farm worker to the farm
       cy.goToPeopleView('English');
@@ -713,6 +733,11 @@ describe.only('Invite user tests', () => {
 
       //farm home page
       cy.homePageSpotlights();
+      cy.get('[data-cy=navbar-option]')
+        .contains('Farm map')
+        .should('exist')
+        .and('not.be.disabled')
+        .click();
 
       //Add a farm worker to the farm
       cy.goToPeopleView('English');

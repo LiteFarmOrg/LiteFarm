@@ -76,6 +76,11 @@ describe.only('Tasks flow tests', () => {
 
     //farm home page
     cy.homePageSpotlights();
+    cy.get('[data-cy=navbar-option]')
+      .contains('Farm map')
+      .should('exist')
+      .and('not.be.disabled')
+      .click();
 
     cy.get('[data-cy=home-taskButton]').should('exist').and('not.be.disabled').click();
     cy.url().should('include', '/tasks');
@@ -174,6 +179,11 @@ describe.only('Tasks flow tests', () => {
 
     //farm home page
     cy.homePageSpotlights();
+    cy.get('[data-cy=navbar-option]')
+      .contains('Farm map')
+      .should('exist')
+      .and('not.be.disabled')
+      .click();
 
     //arrive at farm map page and draw a field
     cy.url().should('include', '/map');

@@ -70,6 +70,11 @@ describe.only('LiteFarm end to end test', () => {
 
     //farm home page
     cy.homePageSpotlights();
+    cy.get('[data-cy=navbar-option]')
+      .contains('Farm map')
+      .should('exist')
+      .and('not.be.disabled')
+      .click();
 
     //arrive at farm map page and draw a field
     cy.url().should('include', '/map');

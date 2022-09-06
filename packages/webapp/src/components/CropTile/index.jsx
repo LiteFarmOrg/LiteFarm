@@ -26,6 +26,7 @@ export default function PureCropTile({
   const { t } = useTranslation();
   return (
     <div
+      data-cy="crop-tile"
       className={clsx(
         styles.container,
         isPastVariety && styles.pastVarietyContainer,
@@ -80,7 +81,9 @@ export default function PureCropTile({
       )}
 
       <div className={styles.info}>
-        <div className={styles.infoMain}>{title}</div>
+        <div data-cy="crop-name" className={styles.infoMain}>
+          {title}
+        </div>
         {children}
       </div>
     </div>

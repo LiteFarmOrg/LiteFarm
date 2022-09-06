@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const Model = require('objection').Model;
+import { Model } from 'objection';
 
 class SensorReading extends Model {
   static get tableName() {
@@ -100,4 +100,4 @@ class SensorReading extends Model {
   }
 }
 
-module.exports = SensorReading;
+export default SensorReading;

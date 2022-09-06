@@ -1,7 +1,7 @@
-
-exports.up = async function(knex) {
+export const up = async function (knex) {
   const fertilizerType = await knex('farmExpenseType')
-    .where({ expense_name: 'Fertilizer' }).first();
+    .where({ expense_name: 'Fertilizer' })
+    .first();
   if (fertilizerType) {
     const { expense_type_id } = fertilizerType;
     await knex('farmExpenseType').where({ expense_type_id }).update({
@@ -11,9 +11,10 @@ exports.up = async function(knex) {
   }
 };
 
-exports.down = async function(knex) {
+export const down = async function (knex) {
   const soilAmendmentType = await knex('farmExpenseType')
-    .where({ expense_name: 'Soil Amendment' }).first();
+    .where({ expense_name: 'Soil Amendment' })
+    .first();
   if (soilAmendmentType) {
     const { expense_type_id } = soilAmendmentType;
     await knex('farmExpenseType').where({ expense_type_id }).update({

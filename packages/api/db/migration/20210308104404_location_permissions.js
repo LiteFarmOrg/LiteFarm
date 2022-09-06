@@ -1,4 +1,4 @@
-exports.up = function (knex) {
+export const up = function (knex) {
   return Promise.all([
     knex('permissions').insert([
       { permission_id: 90, name: 'add:gate', description: 'Create a gate' },
@@ -11,7 +11,7 @@ exports.up = function (knex) {
       { permission_id: 97, name: 'add:ground_water', description: 'Create a ground water area' },
       { permission_id: 98, name: 'add:natural_area', description: 'Create a natural area' },
       { permission_id: 99, name: 'add:greenhouse', description: 'Create a greenhouse' },
-      { permission_id: 100, name:'add:barn', description: 'Create a barn' },
+      { permission_id: 100, name: 'add:barn', description: 'Create a barn' },
       { permission_id: 101, name: 'edit:gate', description: 'Edit a gate' },
       { permission_id: 102, name: 'edit:water_valve', description: 'Edit a water valve' },
       { permission_id: 103, name: 'edit:buffer_zone', description: 'Edit a buffer zone' },
@@ -99,9 +99,32 @@ exports.up = function (knex) {
   ]);
 };
 
-exports.down = function (knex) {
-  const permissions  = [90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100, 101, 102, 103,
-    104, 105, 106, 107, 108, 109, 110, 111, 112];
+export const down = function (knex) {
+  const permissions = [
+    90,
+    91,
+    92,
+    93,
+    94,
+    95,
+    96,
+    97,
+    98,
+    99,
+    100,
+    101,
+    102,
+    103,
+    104,
+    105,
+    106,
+    107,
+    108,
+    109,
+    110,
+    111,
+    112,
+  ];
   return Promise.all([
     knex('rolePermissions').whereIn('permission_id', permissions).del(),
     knex('permissions').whereIn('permission_id', permissions).del(),

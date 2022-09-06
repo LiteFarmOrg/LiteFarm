@@ -13,63 +13,47 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-exports.up = function(knex) {
+export const up = function (knex) {
   return Promise.all([
     knex.schema.dropTable('yield'),
     knex.schema.dropTable('price'),
     knex.schema.createTable('yield', (table) => {
       table.increments('yield_id');
-      table.integer('crop_id')
-        .references('crop_id')
-        .inTable('crop');
+      table.integer('crop_id').references('crop_id').inTable('crop');
       table.float('value_kg/acre');
       table.dateTime('date');
-      table.uuid('farm_id')
-        .references('farm_id')
-        .inTable('farm').notNullable();
+      table.uuid('farm_id').references('farm_id').inTable('farm').notNullable();
       // eslint-disable-next-line quotes,comma-spacing
     }),
     knex.schema.createTable('price', (table) => {
       table.increments('yield_id');
-      table.integer('crop_id')
-        .references('crop_id')
-        .inTable('crop');
+      table.integer('crop_id').references('crop_id').inTable('crop');
       table.float('value_$/kg');
       table.dateTime('date');
-      table.uuid('farm_id')
-        .references('farm_id')
-        .inTable('farm').notNullable();
+      table.uuid('farm_id').references('farm_id').inTable('farm').notNullable();
       // eslint-disable-next-line quotes,comma-spacing
     }),
-  ])
+  ]);
 };
 
-exports.down = function(knex) {
+export const down = function (knex) {
   return Promise.all([
     knex.schema.dropTable('yield'),
     knex.schema.dropTable('price'),
     knex.schema.createTable('yield', (table) => {
-      table.integer('crop_id')
-        .references('crop_id')
-        .inTable('crop').notNullable();
-      table.uuid('farm_id')
-        .references('farm_id')
-        .inTable('farm').notNullable();
+      table.integer('crop_id').references('crop_id').inTable('crop').notNullable();
+      table.uuid('farm_id').references('farm_id').inTable('farm').notNullable();
       table.dateTime('date');
       table.float('value');
       table.jsonb('grid_points');
     }),
 
     knex.schema.createTable('price', (table) => {
-      table.integer('crop_id')
-        .references('crop_id')
-        .inTable('crop').notNullable();
-      table.uuid('farm_id')
-        .references('farm_id')
-        .inTable('farm').notNullable();
+      table.integer('crop_id').references('crop_id').inTable('crop').notNullable();
+      table.uuid('farm_id').references('farm_id').inTable('farm').notNullable();
       table.dateTime('date');
       table.float('value');
       table.jsonb('grid_points');
     }),
-  ])
+  ]);
 };

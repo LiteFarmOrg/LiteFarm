@@ -14,9 +14,10 @@
  */
 
 // const baseController = require('../controllers/baseController');
-const supportTicketModel = require('../models/supportTicketModel');
-const userModel = require('../models/userModel');
-const { emails, sendEmail } = require('../templates/sendEmailTemplate');
+import SupportTicketModel from '../models/supportTicketModel.js';
+
+import UserModel from '../models/userModel.js';
+import { emails, sendEmail } from '../templates/sendEmailTemplate.js';
 
 const supportTicketController = {
   // Disabled
@@ -44,9 +45,8 @@ const supportTicketController = {
       const data = JSON.parse(req.body.data);
       data.attachments = [];
       const user_id = req.user.user_id;
-      const user = await userModel.query().findById(user_id);
-      const result = await supportTicketModel
-        .query()
+      const user = await UserModel.query().findById(user_id);
+      const result = await SupportTicketModel.query()
         .context({ user_id })
         .insert(data)
         .returning('*');
@@ -105,4 +105,4 @@ const capitalize = (string) => {
   return string[0].toUpperCase() + string.slice(1);
 };
 
-module.exports = supportTicketController;
+export default supportTicketController;

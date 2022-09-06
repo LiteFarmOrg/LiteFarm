@@ -13,19 +13,24 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const baseController = require('../controllers/baseController');
-const fertilizerModel = require('../models/fertilizerModel');
-const { transaction, Model } = require('objection');
+import baseController from '../controllers/baseController.js';
+
+import FertilizerModel from '../models/fertilizerModel.js';
+import { transaction, Model } from 'objection';
 
 const fertilizerController = {
   getFertilizers() {
     return async (req, res) => {
       try {
         const farm_id = req.params.farm_id;
-        const rows = await fertilizerModel.query().context({ user_id: req.user.user_id }).whereNotDeleted().where('farm_id', null).orWhere({
-          farm_id,
-          deleted: false,
-        });
+        const rows = await FertilizerModel.query()
+          .context({ user_id: req.user.user_id })
+          .whereNotDeleted()
+          .where('farm_id', null)
+          .orWhere({
+            farm_id,
+            deleted: false,
+          });
         if (!rows.length) {
           res.sendStatus(404);
         } else {
@@ -37,7 +42,7 @@ const fertilizerController = {
           error,
         });
       }
-    }
+    };
   },
   addFertilizer() {
     return async (req, res) => {
@@ -51,8 +56,8 @@ const fertilizerController = {
         if (farm_id !== body_farm_id) {
           res.status(400).send({ error: 'farm_id does not match in params and body' });
         }
-        const user_id = req.user.user_id;
-        const result = await baseController.postWithResponse(fertilizerModel, data, req, { trx });
+        // const user_id = req.user.user_id;
+        const result = await baseController.postWithResponse(FertilizerModel, data, req, { trx });
         await trx.commit();
         res.status(201).send(result);
       } catch (error) {
@@ -69,7 +74,12 @@ const fertilizerController = {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
       try {
-        const isDeleted = await baseController.delete(fertilizerModel, req.params.fertilizer_id, req, { trx });
+        const isDeleted = await baseController.delete(
+          FertilizerModel,
+          req.params.fertilizer_id,
+          req,
+          { trx },
+        );
         await trx.commit();
         if (isDeleted) {
           res.sendStatus(200);
@@ -84,6 +94,6 @@ const fertilizerController = {
       }
     };
   },
-}
+};
 
-module.exports = fertilizerController;
+export default fertilizerController;

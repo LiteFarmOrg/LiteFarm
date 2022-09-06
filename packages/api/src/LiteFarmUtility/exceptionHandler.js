@@ -22,29 +22,27 @@ const MODEL_VALIDATION = 'ModelValidation';
 const DUPLICATE_PK = '23505';
 
 class exceptionHandler {
-  static handleException(e){
-    if(e.type === MODEL_VALIDATION){
-      return { status:400, message:e.message }
-    }
-    switch(e.code){
-    case KEY_NOT_FOUND:
-      return { status:400, message:getKeyNotFound(e.detail)+ ' was not found' };
-    case KEY_NOT_DEFINED:
-      return { status:400, message:e.message };
-    case UUID_WRONG_FORMAT:
-      return { status:400, message:'wrong UUID format' };
-    case DUPLICATE_PK:
+  static handleException(e) {
+    if (e.type === MODEL_VALIDATION) {
       return { status: 400, message: e.message };
-    default:
-      return { status:404, message:e.message }
     }
-
+    switch (e.code) {
+      case KEY_NOT_FOUND:
+        return { status: 400, message: getKeyNotFound(e.detail) + ' was not found' };
+      case KEY_NOT_DEFINED:
+        return { status: 400, message: e.message };
+      case UUID_WRONG_FORMAT:
+        return { status: 400, message: 'wrong UUID format' };
+      case DUPLICATE_PK:
+        return { status: 400, message: e.message };
+      default:
+        return { status: 404, message: e.message };
+    }
   }
 }
-function getKeyNotFound(detail){
+function getKeyNotFound(detail) {
   const endingIndexOfKey = detail.indexOf(')');
   return detail.substring(5, endingIndexOfKey);
 }
 
-
-module.exports = exceptionHandler;
+export default exceptionHandler;

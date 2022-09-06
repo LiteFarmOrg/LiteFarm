@@ -1,22 +1,33 @@
-require('dotenv').config();
-const { pick } = require('lodash');
-const crops = require('../seeds/seedData/cropV2');
+import * as dotenv from 'dotenv';
+dotenv.config();
+import * as lodash from 'lodash';
+const { pick } = lodash;
+import crops from '../seeds/seedData/cropV2.js';
 const getBucketName = () => {
   const environment = process.env.NODE_ENV || 'development';
   if (environment === 'production') return 'litefarmapp';
   if (environment === 'integration') return 'litefarmbeta';
   return 'litefarm';
 };
-const getCropPhotoUrl = crop_photo_name => `https://${getBucketName()}.nyc3.cdn.digitaloceanspaces.com/default_crop/v2/${crop_photo_name || 'default.webp'}`;
-const getCrop = crop => {
-  const newCrop = { ...crop, crop_photo_url: getCropPhotoUrl(crop.image_name), image_name: undefined, reviewed: true };
+const getCropPhotoUrl = (crop_photo_name) =>
+  `https://${getBucketName()}.nyc3.cdn.digitaloceanspaces.com/default_crop/v2/${
+    crop_photo_name || 'default.webp'
+  }`;
+const getCrop = (crop) => {
+  const newCrop = {
+    ...crop,
+    crop_photo_url: getCropPhotoUrl(crop.image_name),
+    image_name: undefined,
+    reviewed: true,
+  };
   delete newCrop.image_name;
   delete newCrop.crop_id;
   return newCrop;
 };
-const getCropVariety = crop => {
+const getCropVariety = (crop) => {
   const newCropVariety = {
-    ...crop, crop_variety_photo_url: getCropPhotoUrl(crop.image_name),
+    ...crop,
+    crop_variety_photo_url: getCropPhotoUrl(crop.image_name),
   };
   delete newCropVariety.image_name;
   delete newCropVariety.crop_common_name;
@@ -37,7 +48,7 @@ const updateCropId = async (knex, prevCropId, newCropId) => {
   await knex('crop').where({ crop_id: prevCropId }).delete();
 };
 
-exports.up = async function(knex) {
+export const up = async function (knex) {
   if (process.env.NODE_ENV !== 'test') {
     await updateCropId(knex, 16, 12);
     await updateCropId(knex, 18, 12);
@@ -45,15 +56,18 @@ exports.up = async function(knex) {
 
     for (const crop of crops) {
       if (crop.crop_id) {
-        const updated = await knex('crop').where({ crop_id: crop.crop_id }).whereNull('farm_id').update(getCrop(crop));
-        !updated && await knex('crop').insert(getCrop(crop));
+        const updated = await knex('crop')
+          .where({ crop_id: crop.crop_id })
+          .whereNull('farm_id')
+          .update(getCrop(crop));
+        !updated && (await knex('crop').insert(getCrop(crop)));
         await knex('crop_variety').where({ crop_id: crop.crop_id }).update(getCropVariety(crop));
       } else {
         await knex('crop').insert(getCrop(crop));
       }
     }
     const cropsInDb = await knex('crop');
-    const cropsToUpdateUrl = cropsInDb.filter(crop => crop.crop_photo_url.includes('/v1/'));
+    const cropsToUpdateUrl = cropsInDb.filter((crop) => crop.crop_photo_url.includes('/v1/'));
     for (const { crop_id, crop_photo_url } of cropsToUpdateUrl) {
       const newUrl = crop_photo_url.replace('/v1/', '/v2/');
       await knex('crop').where({ crop_id }).update({ crop_photo_url: newUrl });
@@ -62,12 +76,19 @@ exports.up = async function(knex) {
   }
 };
 
-exports.down = function(knex) {
+export const down = function (knex) {
   if (process.env.NODE_ENV !== 'test') {
-    return Promise.all(crops.filter(crop => !crop.crop_id)
-      .map(crop => knex('crop').where({
-        ...pick(crop, ['crop_common_name', 'crop_genus', 'crop_specie']),
-        farm_id: null,
-      }).delete()));
+    return Promise.all(
+      crops
+        .filter((crop) => !crop.crop_id)
+        .map((crop) =>
+          knex('crop')
+            .where({
+              ...pick(crop, ['crop_common_name', 'crop_genus', 'crop_specie']),
+              farm_id: null,
+            })
+            .delete(),
+        ),
+    );
   }
 };

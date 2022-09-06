@@ -13,25 +13,24 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-exports.up = function(knex) {
-    return Promise.all([
-      knex.schema.table('greenhouse', (table) => {
-        table.dateTime('transition_date');
-        table.boolean('supplemental_lighting');
-        table.boolean('co2_enrichment');
-        table.boolean('greenhouse_heated');
-      }),
-    ])
-  };
-  
-  exports.down = function(knex) {
-    return Promise.all([
-      knex.schema.table('greenhouse', (table) => {
-        table.dropColumn('transition_date');
-        table.dropColumn('supplemental_lighting');
-        table.dropColumn('co2_enrichment');
-        table.dropColumn('greenhouse_heated');
-      }),
-    ]);
-  };
-  
+export const up = function (knex) {
+  return Promise.all([
+    knex.schema.table('greenhouse', (table) => {
+      table.dateTime('transition_date');
+      table.boolean('supplemental_lighting');
+      table.boolean('co2_enrichment');
+      table.boolean('greenhouse_heated');
+    }),
+  ]);
+};
+
+export const down = function (knex) {
+  return Promise.all([
+    knex.schema.table('greenhouse', (table) => {
+      table.dropColumn('transition_date');
+      table.dropColumn('supplemental_lighting');
+      table.dropColumn('co2_enrichment');
+      table.dropColumn('greenhouse_heated');
+    }),
+  ]);
+};

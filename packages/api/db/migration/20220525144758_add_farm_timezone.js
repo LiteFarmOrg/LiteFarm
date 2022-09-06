@@ -13,13 +13,13 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-exports.up = async function (knex) {
+export const up = async function (knex) {
   return knex.schema.alterTable('farm', (table) => {
     table.integer('utc_offset');
   });
 };
 
-exports.down = async function (knex) {
+export const down = async function (knex) {
   return knex.schema.alterTable('farm', (table) => {
     table.dropColumns('utc_offset');
   });

@@ -1,12 +1,9 @@
-
 const NEW_PERMISSION_ID = 130;
 
-exports.up = async function (knex) {
+export const up = async function (knex) {
   await knex.schema.createTable('organic_history', (t) => {
     t.uuid('organic_history_id').primary().defaultTo(knex.raw('uuid_generate_v1()'));
-    t.uuid('location_id')
-      .references('location_id')
-      .inTable('location').notNullable();
+    t.uuid('location_id').references('location_id').inTable('location').notNullable();
     t.enu('organic_status', ['Non-Organic', 'Transitional', 'Organic']).defaultTo('Non-Organic');
     t.date('effective_date').notNullable();
     t.boolean('deleted').notNullable().defaultTo(false);
@@ -25,7 +22,11 @@ exports.up = async function (knex) {
 
   return Promise.all([
     knex('permissions').insert([
-      { permission_id: NEW_PERMISSION_ID, name: 'add:organic_history', description: 'Add an organic history entry' },
+      {
+        permission_id: NEW_PERMISSION_ID,
+        name: 'add:organic_history',
+        description: 'Add an organic history entry',
+      },
     ]),
     knex('rolePermissions').insert([
       { role_id: 1, permission_id: NEW_PERMISSION_ID },
@@ -35,7 +36,7 @@ exports.up = async function (knex) {
   ]);
 };
 
-exports.down = function (knex) {
+export const down = function (knex) {
   return Promise.all([
     knex.schema.dropTable('organic_history'),
     knex('rolePermissions').where('permission_id', NEW_PERMISSION_ID).del(),

@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-exports.up = async function (knex) {
+export const up = async function (knex) {
   await knex('integrating_partner').insert([
     {
       partner_id: 0,
@@ -25,7 +25,7 @@ exports.up = async function (knex) {
   ]);
 };
 
-exports.down = async function (knex) {
+export const down = async function (knex) {
   await knex.raw(
     `DELETE FROM sensor_reading_type WHERE sensor_id IN (SELECT sensor_id FROM sensor WHERE partner_id = 0);`,
   );

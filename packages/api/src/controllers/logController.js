@@ -13,26 +13,25 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const baseController = require('../controllers/baseController');
-const { transaction } = require('objection');
-const { Model } = require('objection');
-const ExceptionHandler = require('../LiteFarmUtility/exceptionHandler');
-const lodash = require('lodash');
+import baseController from '../controllers/baseController.js';
 
-const TaskModel = require('../models/taskModel');
-const FertilizerTaskModel = require('../models/soilAmendmentTaskModel');
-const PestControlTaskModel = require('../models/pestControlTask');
-const ScoutingTaskModel = require('../models/scoutingTaskModel');
-const IrrigationTaskModel = require('../models/irrigationTaskModel');
-const FieldWorkTaskModel = require('../models/fieldWorkTaskModel');
-const SoilTaskModel = require('../models/soilTaskModel');
-const PlantTaskModel = require('../models/plantTaskModel');
-const managementPlanModel = require('../models/managementPlanModel');
-const HarvestTaskModel = require('../models/harvestTaskModel');
-const fieldModel = require('../models/fieldModel');
-const locationModel = require('../models/locationModel');
-const HarvestUseTypeModel = require('../models/harvestUseTypeModel');
-const HarvestUseModel = require('../models/harvestUseModel');
+import { transaction } from 'objection';
+import { Model } from 'objection';
+import ExceptionHandler from '../LiteFarmUtility/exceptionHandler.js';
+import lodash from 'lodash';
+import TaskModel from '../models/taskModel.js';
+import FertilizerTaskModel from '../models/soilAmendmentTaskModel.js';
+import PestControlTaskModel from '../models/pestControlTask.js';
+import ScoutingTaskModel from '../models/scoutingTaskModel.js';
+import IrrigationTaskModel from '../models/irrigationTaskModel.js';
+import FieldWorkTaskModel from '../models/fieldWorkTaskModel.js';
+import SoilTaskModel from '../models/soilTaskModel.js';
+import PlantTaskModel from '../models/plantTaskModel.js';
+import managementPlanModel from '../models/managementPlanModel.js';
+import HarvestTaskModel from '../models/harvestTaskModel.js';
+import locationModel from '../models/locationModel.js';
+import HarvestUseTypeModel from '../models/harvestUseTypeModel.js';
+import HarvestUseModel from '../models/harvestUseModel.js';
 
 const logController = {
   addLog() {
@@ -116,7 +115,7 @@ const logController = {
       const trx = await transaction.start(Model.knex());
       try {
         const check = await HarvestUseTypeModel.query()
-          .where(builder => builder.where('farm_id', farm_id).orWhere('farm_id', null))
+          .where((builder) => builder.where('farm_id', farm_id).orWhere('farm_id', null))
           .where('harvest_use_type_name', name)
           .first();
         if (check) {
@@ -128,7 +127,9 @@ const logController = {
           harvest_use_type_name: name,
           harvest_use_type_translation_key: name,
         };
-        const result = await baseController.post(HarvestUseTypeModel, harvest_use_type, req, { trx });
+        const result = await baseController.post(HarvestUseTypeModel, harvest_use_type, req, {
+          trx,
+        });
         await trx.commit();
         res.status(201).send(result);
       } catch (error) {
@@ -169,7 +170,6 @@ const logController = {
         } else {
           throw { code: 400, message: 'No log id defined' };
         }
-
       } catch (exception) {
         await trx.rollback();
         const error = ExceptionHandler.handleException(exception);
@@ -180,11 +180,10 @@ const logController = {
 };
 
 const logServices = {
-
   async insertLog(req, trx) {
-    const { body, user } = req;
+    const { body } = req;
     const logModel = getActivityModelKind(body.activity_kind);
-    const user_id = user.user_id;
+    // const user_id = user.user_id;
     const task = await baseController.post(TaskModel, body, req, { trx });
     //insert crops,locations and beds
     await baseController.relateModels(task, managementPlanModel, body.crops, trx);
@@ -219,9 +218,19 @@ const logServices = {
   },
 
   async getLogByFarm(farm_id) {
-    const logs = await TaskModel.query().whereNotDeleted()
-      .distinct('users.first_name', 'users.last_name', 'task.task_id', 'task.activity_kind',
-        'task.date', 'task.user_id', 'task.notes', 'task.action_needed', 'task.photo')
+    const logs = await TaskModel.query()
+      .whereNotDeleted()
+      .distinct(
+        'users.first_name',
+        'users.last_name',
+        'task.task_id',
+        'task.activity_kind',
+        'task.date',
+        'task.user_id',
+        'task.notes',
+        'task.action_needed',
+        'task.photo',
+      )
       .join('activityFields', 'activityFields.task_id', 'task.task_id')
       .join('location', 'location.location_id', 'activityFields.location_id')
       .join('userFarm', 'userFarm.farm_id', '=', 'location.farm_id')
@@ -245,8 +254,6 @@ const logServices = {
       }
     }
     return logs;
-
-
   },
 
   async patchLog(logId, trx, req) {
@@ -280,8 +287,6 @@ const logServices = {
 };
 
 function getActivityModelKind(activity_kind) {
-
-
   if (activity_kind === 'fertilizing') {
     return FertilizerTaskModel;
   } else if (activity_kind === 'pestControl') {
@@ -306,5 +311,5 @@ function getActivityModelKind(activity_kind) {
   throw 'Unknown log type';
 }
 
-module.exports.logController = logController;
-module.exports.logServices = logServices;
+export default logController;
+export { logServices };

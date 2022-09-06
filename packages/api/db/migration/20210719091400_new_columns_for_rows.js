@@ -1,6 +1,5 @@
-
-exports.up = async function (knex) {
-  await knex.schema.alterTable('rows', t => {
+export const up = async function (knex) {
+  await knex.schema.alterTable('rows', (t) => {
     t.string('specify_rows');
     t.decimal('planting_depth', 36, 12);
     t.enu('planting_depth_unit', ['cm', 'm', 'km', 'in', 'ft', 'mi']).defaultTo('cm');
@@ -12,8 +11,8 @@ exports.up = async function (knex) {
   });
 };
 
-exports.down = async function (knex) {
-  await knex.schema.alterTable('rows', t => {
+export const down = async function (knex) {
+  await knex.schema.alterTable('rows', (t) => {
     t.dropColumn('specify_rows');
     t.dropColumn('planting_depth');
     t.dropColumn('planting_depth_unit');

@@ -13,41 +13,40 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-exports.up = async function(knex) {
-    await knex.raw(`
+export const up = async function (knex) {
+  await knex.raw(`
     UPDATE "userFarm" 
     SET step_one = true
     `);
-    await knex.raw(`
+  await knex.raw(`
     UPDATE "userFarm" 
     SET step_one_end = NOW()
     `);
-    await knex.raw(`
+  await knex.raw(`
     UPDATE "userFarm" 
     SET step_two = true
     `);
-    await knex.raw(`
+  await knex.raw(`
     UPDATE "userFarm" 
     SET step_two_end = NOW()
     `);
-    await knex.raw(`
+  await knex.raw(`
     UPDATE "userFarm" 
     SET step_three = true
     `);
-    await knex.raw(`
+  await knex.raw(`
     UPDATE "userFarm" 
     SET step_three_end = NOW()
     `);
-    await knex.raw(`
+  await knex.raw(`
     UPDATE "userFarm" 
     SET step_four = true
     `);
-    await knex.raw(`
+  await knex.raw(`
     UPDATE "userFarm" 
     SET step_four_end = NOW()
     `);
-  };
-  
-  exports.down = function(knex) {
-  
-  };
+};
+
+// eslint-disable-next-line no-unused-vars
+export const down = function (knex) {};

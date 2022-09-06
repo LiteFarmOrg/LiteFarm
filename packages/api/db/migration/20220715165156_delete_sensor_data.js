@@ -1,9 +1,9 @@
-const deleteSensorData = require('../deleteSensorData');
+import deleteSensorData from '../deleteSensorData.js';
 
-exports.up = async function (knex) {
+export const up = async function (knex) {
   await deleteSensorData(knex);
 };
 
-exports.down = function () {
+export const down = function () {
   console.log('not implemented');
 };

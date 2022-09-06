@@ -13,8 +13,9 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const Model = require('objection').Model;
-const lodash = require('lodash');
+import { Model } from 'objection';
+
+import lodash from 'lodash';
 
 class PestControlTask extends Model {
   static get tableName() {
@@ -41,13 +42,24 @@ class PestControlTask extends Model {
         task_id: { type: 'integer' },
         product_id: { type: 'integer' },
         product_quantity: { type: 'number' },
-        product_quantity_unit: { type: 'string', enum: ['g', 'lb', 'kg', 't', 'mt', 'oz', 'l', 'gal', 'ml', 'fl-oz'] },
+        product_quantity_unit: {
+          type: 'string',
+          enum: ['g', 'lb', 'kg', 't', 'mt', 'oz', 'l', 'gal', 'ml', 'fl-oz'],
+        },
         other_method: { type: 'string' },
         pest_target: { type: 'string' },
         control_method: {
           type: 'string',
-          enum: [ 'systemicSpray', 'foliarSpray', 'handWeeding', 'biologicalControl',
-            'flameWeeding', 'soilFumigation', 'heatTreatment', 'other'],
+          enum: [
+            'systemicSpray',
+            'foliarSpray',
+            'handWeeding',
+            'biologicalControl',
+            'flameWeeding',
+            'soilFumigation',
+            'heatTreatment',
+            'other',
+          ],
         },
       },
       additionalProperties: false,
@@ -55,4 +67,4 @@ class PestControlTask extends Model {
   }
 }
 
-module.exports = PestControlTask;
+export default PestControlTask;

@@ -1,4 +1,4 @@
-exports.up = async function (knex) {
+export const up = async function (knex) {
   const crops = await knex('crop');
   await knex.schema.alterTable('crop_variety', (t) => {
     t.decimal('protein').nullable();
@@ -24,17 +24,62 @@ exports.up = async function (knex) {
     t.decimal('nutrient_credits').nullable();
   });
   const varietals = await knex('crop_variety');
-  return Promise.all(varietals.map(({ crop_id, crop_variety_id }) => {
-    const crop = crops.find((crop) => crop.crop_id === crop_id)
-    const { protein, lipid, ph, energy, ca, fe, mg, k, na, zn, cu, mn, vita_rae, vitc, thiamin,
-      riboflavin, niacin, vitb6, folate, vitb12, nutrient_credits } = crop;
-    return knex('crop_variety').update({ protein, lipid, ph, energy, ca, fe, mg, k, na, zn, cu, mn,
-      vita_rae, vitc, thiamin, riboflavin, niacin, vitb6, folate, vitb12, nutrient_credits }).where({ crop_variety_id });
-  }))
-
+  return Promise.all(
+    varietals.map(({ crop_id, crop_variety_id }) => {
+      const crop = crops.find((crop) => crop.crop_id === crop_id);
+      const {
+        protein,
+        lipid,
+        ph,
+        energy,
+        ca,
+        fe,
+        mg,
+        k,
+        na,
+        zn,
+        cu,
+        mn,
+        vita_rae,
+        vitc,
+        thiamin,
+        riboflavin,
+        niacin,
+        vitb6,
+        folate,
+        vitb12,
+        nutrient_credits,
+      } = crop;
+      return knex('crop_variety')
+        .update({
+          protein,
+          lipid,
+          ph,
+          energy,
+          ca,
+          fe,
+          mg,
+          k,
+          na,
+          zn,
+          cu,
+          mn,
+          vita_rae,
+          vitc,
+          thiamin,
+          riboflavin,
+          niacin,
+          vitb6,
+          folate,
+          vitb12,
+          nutrient_credits,
+        })
+        .where({ crop_variety_id });
+    }),
+  );
 };
 
-exports.down = function (knex) {
+export const down = function (knex) {
   return knex.schema.alterTable('crop_variety', (t) => {
     t.dropColumn('protein');
     t.dropColumn('lipid');
@@ -57,5 +102,5 @@ exports.down = function (knex) {
     t.dropColumn('folate');
     t.dropColumn('vitb12');
     t.dropColumn('nutrient_credits');
-  })
+  });
 };

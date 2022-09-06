@@ -457,6 +457,8 @@
       "UPLOAD_INSTRUCTION_MESSAGE": "MISSING - Pt - for correct formatting.",
       "UPLOAD_PLACEHOLDER": "MISSING - Pt - Upload CSV file",
       "UPLOAD_ERROR_MESSAGE": "MISSING - Pt - There were some issues with your upload. ",
+      "INVALID_FILE_TYPE": "MISSING - Pt - Upload file must be a csv,",
+      "DOWNLOAD_TEMPLATE_LINK_MESSAGE": "MISSING - Pt - click here to download the template",
       "UPLOAD_ERROR_LINK": "MISSING - Pt - Click here to view them.",
       "EMPTY_FILE_UPLOAD_ERROR_MESSAGE": "MISSING - Pt - No sensors found, please check your upload and try again.",
       "SENSOR_FIELDS": {
@@ -888,7 +890,8 @@
     "ROLE": "Função",
     "TITLE": "Convide um usuário",
     "WAGE": "Salário/vencimento por hora trabalhada",
-    "WAGE_ERROR": "Salário/vencimento precisa ser um número decimal válido não-negativo"
+    "WAGE_ERROR": "Salário/vencimento precisa ser um número decimal válido não-negativo",
+    "WAGE_RANGE_ERROR": "MISSING"
   },
   "JOIN_FARM_SUCCESS": {
     "IMPORTANT_THINGS": "Deixe-nos mostrar algumas coisas importantes!",
@@ -1109,6 +1112,14 @@
     "WHERE_TRANSPLANT_LOCATION": "Onde você fará o transplante?",
     "WILD_CROP": "Você está colhendo uma planta silvestre?"
   },
+  "LOCATION_CREATION": {
+    "TITLE": "MISSING",
+    "CROP_PLAN_BODY": "MISSING",
+    "TASK_TITLE": "MISSING",
+    "TASK_BODY": "MISSING",
+    "GO_BACK_BUTTON": "MISSING",
+    "CREATE_BUTTON": "MISSING"
+  },
   "MY_FARM": {
     "CERTIFICATIONS": "Certificações",
     "FARM_INFO": "Informação da fazenda",
@@ -1245,6 +1256,13 @@
       "USER_ADDRESS": "Endereço do usuário"
     },
     "ACCOUNT_TAB": "Conta",
+    "ERROR": {
+      "PHONE_NUMBER_LENGTH": "MISSING",
+      "FARM_NAME_LENGTH": "MISSING",
+      "FIRST_NAME_LENGTH": "MISSING",
+      "LAST_NAME_LENGTH": "MISSING",
+      "USER_ADDRESS_LENGTH": "MISSING"
+    },
     "FARM": {
       "ADDRESS": "Endereço",
       "CURRENCY": "Moeda",

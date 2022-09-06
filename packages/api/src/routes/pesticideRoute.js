@@ -13,14 +13,30 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const express = require('express');
+import express from 'express';
+
 const router = express.Router();
-const pesticideController = require('../controllers/pesticideController');
-const hasFarmAccess = require('../middleware/acl/hasFarmAccess');
-const checkScope = require('../middleware/acl/checkScope');
+import pesticideController from '../controllers/pesticideController.js';
+import hasFarmAccess from '../middleware/acl/hasFarmAccess.js';
+import checkScope from '../middleware/acl/checkScope.js';
 
-router.get('/farm/:farm_id', hasFarmAccess({ params:'farm_id' }), checkScope(['get:pesticides']), pesticideController.getPesticide());
-router.post('/', hasFarmAccess({ body: 'farm_id' }), checkScope(['add:pesticides']), pesticideController.addPesticide());
-router.delete('/:pesticide_id', hasFarmAccess({ params: 'pesticide_id' }), checkScope(['delete:pesticides']), pesticideController.delPesticide());
+router.get(
+  '/farm/:farm_id',
+  hasFarmAccess({ params: 'farm_id' }),
+  checkScope(['get:pesticides']),
+  pesticideController.getPesticide(),
+);
+router.post(
+  '/',
+  hasFarmAccess({ body: 'farm_id' }),
+  checkScope(['add:pesticides']),
+  pesticideController.addPesticide(),
+);
+router.delete(
+  '/:pesticide_id',
+  hasFarmAccess({ params: 'pesticide_id' }),
+  checkScope(['delete:pesticides']),
+  pesticideController.delPesticide(),
+);
 
-module.exports = router;
+export default router;

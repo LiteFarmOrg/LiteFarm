@@ -13,22 +13,20 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-exports.up = function(knex) {
+export const up = function (knex) {
   return Promise.all([
     knex.schema.createTable('rolePermissions', (table) => {
-      table.integer('role_id')
-        .references('role_id')
-        .inTable('role').onDelete('CASCADE');
-      table.integer('permission_id')
+      table.integer('role_id').references('role_id').inTable('role').onDelete('CASCADE');
+      table
+        .integer('permission_id')
         .references('permission_id')
-        .inTable('permissions').onDelete('CASCADE');
+        .inTable('permissions')
+        .onDelete('CASCADE');
       table.primary(['role_id', 'permission_id']);
     }),
-  ])
+  ]);
 };
 
-exports.down = function(knex) {
-  return Promise.all([
-    knex.schema.dropTable('rolePermissions'),
-  ])
+export const down = function (knex) {
+  return Promise.all([knex.schema.dropTable('rolePermissions')]);
 };

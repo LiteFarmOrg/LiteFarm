@@ -457,6 +457,8 @@
       "UPLOAD_INSTRUCTION_MESSAGE": "MISSING - Es - for correct formatting.",
       "UPLOAD_PLACEHOLDER": "MISSING - Es - Upload CSV file",
       "UPLOAD_ERROR_MESSAGE": "MISSING - Es - There were some issues with your upload. ",
+      "INVALID_FILE_TYPE": "MISSING - Es - Upload file must be a csv,",
+      "DOWNLOAD_TEMPLATE_LINK_MESSAGE": "MISSING - Es - click here to download the template",
       "UPLOAD_ERROR_LINK": "MISSING - Es - Click here to view them.",
       "EMPTY_FILE_UPLOAD_ERROR_MESSAGE": "MISSING - Es - No sensors found, please check your upload and try again.",
       "SENSOR_FIELDS": {
@@ -470,7 +472,7 @@
         "MODEL": "Modelo"
       },
       "SENSOR_READING_TYPES": {
-        "SOIL_MOISTURE_CONTENT": "contenido_de_agua_ en_el_suelo",
+        "SOIL_MOISTURE_CONTENT": "contenido_de_agua_en_el_suelo",
         "SOIL_WATER_POTENTIAL": "potencial_hídrico_del_suelo",
         "TEMPERATURE": "temperatura"
       },
@@ -888,7 +890,8 @@
     "ROLE": "Rol",
     "TITLE": "Invitar a un usuario",
     "WAGE": "Salario",
-    "WAGE_ERROR": "Salario debe ser válido, no números decimales negativos"
+    "WAGE_ERROR": "Salario debe ser válido, no números decimales negativos",
+    "WAGE_RANGE_ERROR": "MISSING"
   },
   "JOIN_FARM_SUCCESS": {
     "IMPORTANT_THINGS": "Déjenos mostrarle un par de cosas importantes!",
@@ -1108,6 +1111,14 @@
     "WHERE_TRANSPLANT_LOCATION": "¿A dónde va a trasplantar?",
     "WILD_CROP": "¿Estás cosechando un cultivo silvestre?"
   },
+  "LOCATION_CREATION": {
+    "TITLE": "MISSING",
+    "CROP_PLAN_BODY": "MISSING",
+    "TASK_TITLE": "MISSING",
+    "TASK_BODY": "MISSING",
+    "GO_BACK_BUTTON": "MISSING",
+    "CREATE_BUTTON": "MISSING"
+  },
   "MY_FARM": {
     "CERTIFICATIONS": "Certificaciones",
     "FARM_INFO": "Información de la finca",
@@ -1244,6 +1255,13 @@
       "USER_ADDRESS": "Dirección de usuario"
     },
     "ACCOUNT_TAB": "Cuenta",
+    "ERROR": {
+      "PHONE_NUMBER_LENGTH": "MISSING",
+      "FARM_NAME_LENGTH": "MISSING",
+      "FIRST_NAME_LENGTH": "MISSING",
+      "LAST_NAME_LENGTH": "MISSING",
+      "USER_ADDRESS_LENGTH": "MISSING"
+    },
     "FARM": {
       "ADDRESS": "Dirección",
       "CURRENCY": "Moneda",

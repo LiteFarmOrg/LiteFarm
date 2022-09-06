@@ -292,9 +292,15 @@ export default function PureEditUser({
         label={t('INVITE_USER.WAGE')}
         step="0.01"
         type="number"
-        hookFormRegister={register(WAGE, { min: 0, valueAsNumber: true })}
+        hookFormRegister={register(WAGE, {
+          min: { value: 0, message: t('INVITE_USER.WAGE_RANGE_ERROR') },
+          valueAsNumber: true,
+          max: { value: 999999999, message: t('INVITE_USER.WAGE_RANGE_ERROR') },
+        })}
         style={{ marginBottom: '24px' }}
-        errors={errors[WAGE] && (errors[WAGE].message || t('INVITE_USER.WAGE_ERROR'))}
+        errors={
+          errors?.wage?.amount && (errors?.wage?.amount?.message || t('INVITE_USER.WAGE_ERROR'))
+        }
         optional
       />
       {isPseudoUser && shouldInvitePseudoUser && (

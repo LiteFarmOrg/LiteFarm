@@ -1,6 +1,7 @@
 import Form from '../Form';
 import Button from '../Form/Button';
 import Input, { getInputErrors, integerOnKeyDown, numberOnKeyDown } from '../Form/Input';
+import { isValidName } from '../Form/Input/utils';
 import React, { useEffect } from 'react';
 import { Title } from '../Typography';
 import PropTypes from 'prop-types';
@@ -80,7 +81,7 @@ export default function PureInviteUser({ onInvite, onGoBack, userFarmEmails, rol
         data-cy="invite-fullName"
         style={{ marginBottom: '28px' }}
         label={t('INVITE_USER.FULL_NAME')}
-        hookFormRegister={register(NAME, { required: true })}
+        hookFormRegister={register(NAME, { required: true, validate: isValidName })}
         errors={getInputErrors(errors, NAME)}
       />
       <Controller
@@ -183,7 +184,11 @@ export default function PureInviteUser({ onInvite, onGoBack, userFarmEmails, rol
         step="0.01"
         type="number"
         onKeyPress={numberOnKeyDown}
-        hookFormRegister={register(WAGE, { min: 0, valueAsNumber: true })}
+        hookFormRegister={register(WAGE, {
+          min: { value: 0, message: t('INVITE_USER.WAGE_RANGE_ERROR') },
+          valueAsNumber: true,
+          max: { value: 999999999, message: t('INVITE_USER.WAGE_RANGE_ERROR') },
+        })}
         style={{ marginBottom: '24px' }}
         errors={errors[WAGE] && (errors[WAGE].message || t('INVITE_USER.WAGE_ERROR'))}
         optional

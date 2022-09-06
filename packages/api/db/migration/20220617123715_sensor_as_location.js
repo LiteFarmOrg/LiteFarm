@@ -8,7 +8,7 @@ const formatAlterTableEnumSql = (tableName, columnName, enums) => {
   ].join('\n');
 };
 
-exports.up = async function (knex) {
+export const up = async function (knex) {
   await knex.raw(
     formatAlterTableEnumSql('figure', 'type', [
       'field',
@@ -31,7 +31,7 @@ exports.up = async function (knex) {
   );
 };
 
-exports.down = async function (knex) {
+export const down = async function (knex) {
   await knex.raw(
     formatAlterTableEnumSql('figure', 'type', [
       'field',

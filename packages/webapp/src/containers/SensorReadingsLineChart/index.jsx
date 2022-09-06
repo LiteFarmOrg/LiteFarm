@@ -16,6 +16,7 @@ const SensorReadingsLineChart = ({
   ambientTempFor = '',
   lastUpdatedTemperatureReadings = '',
   predictedXAxisLabel = '',
+  activeReadingTypes = [],
 }) => {
   const {
     sensorsReadingsOfTemperature = [],
@@ -24,6 +25,7 @@ const SensorReadingsLineChart = ({
   } = useSensorReadingsLineChart(locationIds, readingType, noDataText, ambientTempFor);
   return (
     <PureSensorReadingsLineChart
+      isReadingTypeActive={activeReadingTypes.includes(readingType)}
       title={title}
       subTitle={subTitle}
       xAxisDataKey={xAxisDataKey}
@@ -52,6 +54,7 @@ SensorReadingsLineChart.propTypes = {
   ambientTempFor: PropTypes.string.isRequired,
   lastUpdatedTemperatureReadings: PropTypes.string.isRequired,
   predictedXAxisLabel: PropTypes.string.isRequired,
+  activeReadingTypes: PropTypes.array.isRequired,
 };
 
 export default SensorReadingsLineChart;

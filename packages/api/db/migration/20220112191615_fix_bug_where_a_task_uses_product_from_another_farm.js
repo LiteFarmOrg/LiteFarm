@@ -1,6 +1,7 @@
-const { Model } = require('objection');
-const TaskModel = require('../../src/models/taskModel');
-exports.up = async function (knex) {
+import { Model } from 'objection';
+import TaskModel from '../../src/models/taskModel.js';
+
+export const up = async function (knex) {
   Model.knex(knex);
   const graphTasks = await TaskModel.query().withGraphFetched(`
           [locations, managementPlans, soil_amendment_task, field_work_task, cleaning_task, pest_control_task, harvest_task.[harvest_use], plant_task, transplant_task]
@@ -52,4 +53,5 @@ exports.up = async function (knex) {
   }
 };
 
-exports.down = function (knex) {};
+// eslint-disable-next-line no-unused-vars
+export const down = function (knex) {};

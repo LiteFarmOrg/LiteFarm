@@ -13,35 +13,32 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-exports.up = function(knex) {
-    return Promise.all([
-      knex.schema.table('userFarm', (table) => {
-        table.boolean('step_one').nullable().defaultTo(false)
-        table.string('step_one_end').nullable().defaultTo(null)
-        table.boolean('step_two').nullable().defaultTo(false)
-        table.string('step_two_end').nullable().defaultTo(null)
-        table.boolean('step_three').nullable().defaultTo(false)
-        table.string('step_three_end').nullable().defaultTo(null)
-        table.boolean('step_four').nullable().defaultTo(false)
-        table.string('step_four_end').nullable().defaultTo(null)
+export const up = function (knex) {
+  return Promise.all([
+    knex.schema.table('userFarm', (table) => {
+      table.boolean('step_one').nullable().defaultTo(false);
+      table.string('step_one_end').nullable().defaultTo(null);
+      table.boolean('step_two').nullable().defaultTo(false);
+      table.string('step_two_end').nullable().defaultTo(null);
+      table.boolean('step_three').nullable().defaultTo(false);
+      table.string('step_three_end').nullable().defaultTo(null);
+      table.boolean('step_four').nullable().defaultTo(false);
+      table.string('step_four_end').nullable().defaultTo(null);
+    }),
+  ]);
+};
 
-      }),
-    ])
-  };
-  
-  exports.down = function(knex) {
-    return Promise.all([
-      knex.schema.table('userFarm', (table) => {
-        table.dropColumn('step_one');
-        table.dropColumn('step_one_end');
-        table.dropColumn('step_two');
-        table.dropColumn('step_two_end');
-        table.dropColumn('step_three');
-        table.dropColumn('step_three_end');
-        table.dropColumn('step_four');
-        table.dropColumn('step_four_end');
-      }),
-    ])
-  };
-  
-  
+export const down = function (knex) {
+  return Promise.all([
+    knex.schema.table('userFarm', (table) => {
+      table.dropColumn('step_one');
+      table.dropColumn('step_one_end');
+      table.dropColumn('step_two');
+      table.dropColumn('step_two_end');
+      table.dropColumn('step_three');
+      table.dropColumn('step_three_end');
+      table.dropColumn('step_four');
+      table.dropColumn('step_four_end');
+    }),
+  ]);
+};

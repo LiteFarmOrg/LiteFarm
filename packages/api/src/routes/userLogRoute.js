@@ -1,6 +1,6 @@
-const express = require('express');
+import express from 'express';
 const router = express.Router();
-const userLogController = require('../controllers/userLogController');
+import userLogController from '../controllers/userLogController.js';
 router.post('/', userLogController.addUserLog());
 
-module.exports = router;
+export default router;

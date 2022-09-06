@@ -13,11 +13,12 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const baseController = require('../controllers/baseController');
-const { transaction, Model } = require('objection');
-const shiftModel = require('../models/shiftModel');
-const shiftTaskModel = require('../models/shiftTaskModel');
-const knex = Model.knex();
+import baseController from '../controllers/baseController.js';
+
+import { transaction, Model } from 'objection';
+import ShiftModel from '../models/shiftModel.js';
+import ShiftTaskModel from '../models/shiftTaskModel.js';
+import knex from '../util/knex.js';
 
 const shiftController = {
   addShift() {
@@ -31,7 +32,7 @@ const shiftController = {
         }
         const tasks = body.tasks;
         const user_id = req.user.user_id;
-        const shift_result = await baseController.postWithResponse(shiftModel, body, req, { trx });
+        const shift_result = await baseController.postWithResponse(ShiftModel, body, req, { trx });
         const shift_id = shift_result.shift_id;
         shift_result.tasks = await shiftController.insertTasks(tasks, trx, shift_id, user_id);
         await trx.commit();
@@ -58,14 +59,14 @@ const shiftController = {
         }
         const tasks = body.tasks;
         const shiftUsers = body.shift_users;
-        for (let sUser of shiftUsers) {
+        for (const sUser of shiftUsers) {
           // eslint-disable-line
           const temp = body;
           temp.user_id = sUser.value;
           temp.wage_at_moment = sUser.wage;
           temp.mood = sUser.mood;
-          const user_id = req.user.user_id;
-          const shift_result = await baseController.postWithResponse(shiftModel, temp, req, {
+          // const user_id = req.user.user_id;
+          const shift_result = await baseController.postWithResponse(ShiftModel, temp, req, {
             trx,
           });
           const shift_id = shift_result.shift_id;
@@ -88,12 +89,11 @@ const shiftController = {
       const trx = await transaction.start(Model.knex());
       try {
         const sID = req.params.shift_id.toString();
-        const isShiftTaskDeleted = await shiftTaskModel
-          .query(trx)
+        const isShiftTaskDeleted = await ShiftTaskModel.query(trx)
           .context({ user_id: req.user.user_id })
           .where('shift_id', sID)
           .delete();
-        const isShiftDeleted = await baseController.delete(shiftModel, sID, req, { trx });
+        const isShiftDeleted = await baseController.delete(ShiftModel, sID, req, { trx });
         await trx.commit();
         if (isShiftDeleted && isShiftTaskDeleted) {
           res.sendStatus(200);
@@ -112,11 +112,11 @@ const shiftController = {
     return async (req, res) => {
       try {
         const id = req.params.shift_id;
-        const shiftRow = await baseController.getIndividual(shiftModel, id);
+        const shiftRow = await baseController.getIndividual(ShiftModel, id);
         if (!shiftRow.length) {
           res.status(404).send('Shift not found');
         }
-        const taskRow = await baseController.getByForeignKey(shiftTaskModel, 'shift_id', id);
+        const taskRow = await baseController.getByForeignKey(ShiftTaskModel, 'shift_id', id);
         if (!taskRow.length) {
           res.status(404).send('Shit tasks not found');
         }
@@ -141,7 +141,7 @@ const shiftController = {
         }
         const user_id = req.user.user_id;
         const updatedShift = await baseController.put(
-          shiftModel,
+          ShiftModel,
           req.params.shift_id,
           req.body,
           req,
@@ -150,8 +150,7 @@ const shiftController = {
         if (!updatedShift.length) {
           res.sendStatus(404).send('can not find shift');
         }
-        const isShiftTaskDeleted = await shiftTaskModel
-          .query(trx)
+        const isShiftTaskDeleted = await ShiftTaskModel.query(trx)
           .context({ user_id: req.user.user_id })
           .delete()
           .where('shift_id', req.params.shift_id);
@@ -181,17 +180,17 @@ const shiftController = {
     return async (req, res) => {
       try {
         const user_id = req.params.user_id;
-        const shiftIDs = await shiftModel.query().where('user_id', user_id).select('shift_id');
+        const shiftIDs = await ShiftModel.query().where('user_id', user_id).select('shift_id');
         const shifts = [];
         for (const idObj of shiftIDs) {
           const shift_id = idObj.shift_id;
-          const shiftRow = await baseController.getIndividual(shiftModel, shift_id);
+          const shiftRow = await baseController.getIndividual(ShiftModel, shift_id);
           if (!shiftRow.length) {
             //res.status(404).send('Shift not found');
             continue;
           }
           const taskRow = await baseController.getByForeignKey(
-            shiftTaskModel,
+            ShiftTaskModel,
             'shift_id',
             shift_id,
           );
@@ -216,8 +215,8 @@ const shiftController = {
     return async (req, res) => {
       try {
         const farm_id = req.params.farm_id;
-        const { user_id } = req.headers;
-        const role = req.role;
+        // const { user_id } = req.headers;
+        // const role = req.role;
         const data = await knex
           .select([
             'task_type.task_name',
@@ -366,8 +365,7 @@ const shiftController = {
         }
         task.shift_id = shift_id;
         //eslint-disable-next-line
-        let inserted = await shiftTaskModel
-          .query(trx)
+        let inserted = await ShiftTaskModel.query(trx)
           .context({ user_id })
           .insert(task)
           .returning('*');
@@ -381,4 +379,4 @@ const shiftController = {
   },
 };
 
-module.exports = shiftController;
+export default shiftController;

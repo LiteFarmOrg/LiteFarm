@@ -17,12 +17,12 @@ const tableName = 'crop';
 const apricot_id = 31; // Apricot
 const apricot_plant_spacing = 4.572; // in m
 
-exports.up = async function (knex) {
+export const up = async function (knex) {
   await knex(tableName)
     .where({ crop_id: apricot_id })
     .update({ plant_spacing: apricot_plant_spacing });
 };
 
-exports.down = async function (knex) {
+export const down = async function (knex) {
   await knex(tableName).where({ crop_id: apricot_id }).update({ plant_spacing: 15 });
 };

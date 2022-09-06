@@ -1,5 +1,5 @@
-const { faker } = require('@faker-js/faker');
-const knex = require('../src/util/knex');
+import { faker } from '@faker-js/faker';
+import knex from '../src/util/knex';
 
 function weather_stationFactory(station = fakeStation()) {
   return knex('weather_station').insert(station).returning('*');
@@ -2169,7 +2169,7 @@ function fakeNotification(defaultData = {}) {
   };
 }
 
-module.exports = {
+export default {
   weather_stationFactory,
   fakeStation,
   usersFactory,

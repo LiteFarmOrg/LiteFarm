@@ -28,8 +28,8 @@ services:
         condition: on-failure
         max_attempts: 3
     build:
-      context: ./packages/api
-      dockerfile: prod.Dockerfile
+      context: ./packages/
+      dockerfile: ./api/prod.Dockerfile
     volumes:
       - /etc/letsencrypt:/usr/src/letsencrypt
     ports:
@@ -44,8 +44,8 @@ services:
   frontend:
     container_name: litefarm-web
     build:
-      context: ./packages/webapp
-      dockerfile: prod.Dockerfile
+      context: ./packages/
+      dockerfile: ./webapp/prod.Dockerfile
     volumes:
       - /etc/letsencrypt:/etc/letsencrypt
     ports:

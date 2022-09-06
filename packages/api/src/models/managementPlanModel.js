@@ -13,9 +13,12 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const Model = require('objection').Model;
-const baseModel = require('./baseModel');
-const moment = require('moment');
+import { Model } from 'objection';
+
+import baseModel from './baseModel.js';
+import moment from 'moment';
+import cropVarietyModel from './cropVarietyModel.js';
+import cropManagementPlanModel from './cropManagementPlanModel.js';
 
 class ManagementPlan extends baseModel {
   static get tableName() {
@@ -66,14 +69,14 @@ class ManagementPlan extends baseModel {
     return {
       crop_variety: {
         relation: Model.BelongsToOneRelation,
-        modelClass: require('./cropVarietyModel'),
+        modelClass: cropVarietyModel,
         join: {
           from: 'management_plan.crop_variety_id',
           to: 'crop_variety.crop_variety_id',
         },
       },
       crop_management_plan: {
-        modelClass: require('./cropManagementPlanModel'),
+        modelClass: cropManagementPlanModel,
         relation: Model.HasOneRelation,
         join: {
           from: 'management_plan.management_plan_id',
@@ -84,4 +87,4 @@ class ManagementPlan extends baseModel {
   }
 }
 
-module.exports = ManagementPlan;
+export default ManagementPlan;

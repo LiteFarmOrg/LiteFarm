@@ -14,11 +14,12 @@
  */
 
 import { useEffect, useRef, useState } from 'react';
-import * as XLSX from 'xlsx';
 import { useSelector } from 'react-redux';
 import { bulkSensorsUploadSliceSelector } from '../../../../containers/bulkSensorUploadSlice';
 import { createSensorErrorDownload } from '../../../../util/sensor';
 import { ErrorTypes } from './constants';
+import parseSensorCsv from '../../../../../../shared/validation/sensorCSV.js';
+import { getLanguageFromLocalStorage } from '../../../../util/getLanguageFromLocalStorage';
 
 export function useValidateBulkSensorData(onUpload, t) {
   const bulkSensorsUploadResponse = useSelector(bulkSensorsUploadSliceSelector);
@@ -30,6 +31,7 @@ export function useValidateBulkSensorData(onUpload, t) {
   const [translatedUploadErrors, setTranslatedUploadErrors] = useState([]);
   const [uploadErrorMessage, setUploadErrorMessage] = useState('');
   const [errorTypeCode, setErrorTypeCode] = useState(ErrorTypes.DEFAULT);
+  const lang = getLanguageFromLocalStorage();
 
   // Required Fields
   const SENSOR_NAME = t('FARM_MAP.BULK_UPLOAD_SENSORS.SENSOR_FIELDS.NAME');
@@ -43,16 +45,6 @@ export function useValidateBulkSensorData(onUpload, t) {
   const SENSOR_BRAND = t('FARM_MAP.BULK_UPLOAD_SENSORS.SENSOR_FIELDS.BRAND');
   const SENSOR_MODEL = t('FARM_MAP.BULK_UPLOAD_SENSORS.SENSOR_FIELDS.MODEL');
 
-  const SOIL_MOISTURE_CONTENT = t(
-    'FARM_MAP.BULK_UPLOAD_SENSORS.SENSOR_READING_TYPES.SOIL_MOISTURE_CONTENT',
-  );
-  const SOIL_WATER_POTENTIAL = t(
-    'FARM_MAP.BULK_UPLOAD_SENSORS.SENSOR_READING_TYPES.SOIL_WATER_POTENTIAL',
-  );
-  const TEMPERATURE = t('FARM_MAP.BULK_UPLOAD_SENSORS.SENSOR_READING_TYPES.TEMPERATURE');
-
-  const requiredReadingTypes = [SOIL_MOISTURE_CONTENT, SOIL_WATER_POTENTIAL, TEMPERATURE];
-
   const requiredFields = [SENSOR_NAME, SENSOR_LATITUDE, SENSOR_LONGITUDE, SENSOR_READING_TYPES];
   const templateFields = [
     ...requiredFields,
@@ -60,47 +52,6 @@ export function useValidateBulkSensorData(onUpload, t) {
     SENSOR_DEPTH,
     SENSOR_BRAND,
     SENSOR_MODEL,
-  ];
-
-  const validationFields = [
-    {
-      errorMessage: t('FARM_MAP.BULK_UPLOAD_SENSORS.VALIDATION.SENSOR_NAME'),
-      mask: /^[a-zA-Z0-9 .-/!@#$%^&*)(]{1,100}$/,
-      columnName: SENSOR_NAME,
-    },
-    {
-      errorMessage: t('FARM_MAP.BULK_UPLOAD_SENSORS.VALIDATION.SENSOR_LATITUDE'),
-      mask: /^(\+|-)?(?:90(?:(?:.0{1,6})?)|(?:[0-9]|[1-8][0-9])(?:(?:.[0-9]{1,30})?))$/,
-      columnName: SENSOR_LATITUDE,
-    },
-    {
-      errorMessage: t('FARM_MAP.BULK_UPLOAD_SENSORS.VALIDATION.SENSOR_LONGITUDE'),
-      mask: /^(\+|-)?(?:180(?:(?:.0{1,6})?)|(?:[0-9]|[1-9][0-9]|1[0-7][0-9])(?:(?:.[0-9]{1,30})?))$/,
-      columnName: SENSOR_LONGITUDE,
-    },
-    {
-      errorMessage: t('FARM_MAP.BULK_UPLOAD_SENSORS.VALIDATION.SENSOR_READING_TYPES'),
-      columnName: SENSOR_READING_TYPES,
-      validate(rowNumber, columnName, value) {
-        if (typeof value !== 'string') return;
-        const inputReadingTypes = value.trim().split(',');
-        if (!inputReadingTypes.length) return;
-        const invalidReadingTypes = inputReadingTypes.reduce((acc, fieldName) => {
-          if (!requiredReadingTypes.includes(fieldName.trim())) {
-            acc.push(fieldName.trim());
-          }
-          return acc;
-        }, []);
-        if (!invalidReadingTypes.length) return;
-        return {
-          row: rowNumber,
-          column: columnName,
-          errorMessage: t('FARM_MAP.BULK_UPLOAD_SENSORS.VALIDATION.SENSOR_READING_TYPES', {
-            invalidReadingTypes: invalidReadingTypes.join(', '),
-          }),
-        };
-      },
-    },
   ];
 
   useEffect(() => {
@@ -114,77 +65,43 @@ export function useValidateBulkSensorData(onUpload, t) {
   useEffect(() => {
     let validationErrorsResponseList = bulkSensorsUploadResponse?.validationErrors || [];
     if (validationErrorsResponseList.length) {
-      const sheetErrorResponse = {
-        sheetName: 'API_ERROR_SHEET',
-        errors: [],
-      };
-      sheetErrorResponse.errors = validationErrorsResponseList.reduce((acc, validationError) => {
-        acc.push({
-          column: validationError?.column ?? '',
-          errorMessage: t(validationError?.translation_key) ?? '',
-          row: validationError?.row ?? '',
-          value: validationError?.errorMessage ?? '',
-        });
-        return acc;
-      }, []);
-      setErrorCount(sheetErrorResponse?.errors?.length);
-      setSheetErrors([sheetErrorResponse]);
+      const translatedErrors = translateErrors(bulkSensorsUploadResponse?.validationErrors);
+      setErrorCount(translatedErrors.length);
+      setSheetErrors(translatedErrors);
+      setErrorTypeCode(ErrorTypes.INVALID_CSV);
+      setUploadErrorMessage(t('FARM_MAP.BULK_UPLOAD_SENSORS.UPLOAD_ERROR_MESSAGE'));
     }
   }, [bulkSensorsUploadResponse?.validationErrors]);
 
   useEffect(() => {
     if (bulkSensorsUploadResponse?.errorSensors.length > 0) {
       setErrorCount((curr) => curr + bulkSensorsUploadResponse.errorSensors.length);
+      const translatedErrors = translateErrors(bulkSensorsUploadResponse?.errorSensors);
+      setTranslatedUploadErrors(translatedErrors);
+      setErrorTypeCode(ErrorTypes.INVALID_CSV);
+      setUploadErrorMessage(t('FARM_MAP.BULK_UPLOAD_SENSORS.UPLOAD_ERROR_MESSAGE'));
     }
-    const translatedErrors = bulkSensorsUploadResponse?.errorSensors.map((e) => {
+  }, [bulkSensorsUploadResponse?.errorSensors]);
+
+  const translateErrors = (errors) => {
+    return errors?.map((e) => {
       return {
         row: e.row,
         column: e.column,
         errorMessage: e.variables ? t(e.translation_key, e.variables) : t(e.translation_key),
+        value: e?.value ?? '',
       };
     });
-
-    setTranslatedUploadErrors(translatedErrors);
-  }, [bulkSensorsUploadResponse?.errorSensors]);
+  };
 
   useEffect(() => {
+    // console.log(bulkSensorsUploadResponse)
     if (bulkSensorsUploadResponse?.defaultFailure) {
       setErrorCount(1);
+      setErrorTypeCode(ErrorTypes.INVALID_CSV);
+      setUploadErrorMessage(t('FARM_MAP.BULK_UPLOAD_SENSORS.UPLOAD_ERROR_MESSAGE'));
     }
   }, [bulkSensorsUploadResponse?.defaultFailure]);
-
-  const validateExcel = (rows) => {
-    let errors = [];
-    for (let i = 0; i < rows.length; i++) {
-      let element = rows[i];
-      for (const validationField of validationFields) {
-        const COLUMN = validationField.columnName;
-        if (COLUMN.length) {
-          let validColumn = true;
-          if (validationField.hasOwnProperty('mask')) {
-            validColumn = validationField.mask.test(element[COLUMN]);
-          }
-          if (!validColumn) {
-            errors.push({
-              row: i + 2,
-              column: COLUMN,
-              errorMessage: validationField.errorMessage,
-              value: element[COLUMN],
-            });
-          } else {
-            // find for other errors after regex check.
-            if (validationField.hasOwnProperty('validate')) {
-              const validationError = validationField.validate(i + 2, COLUMN, element[COLUMN]);
-              if (validationError) {
-                errors.push(validationError);
-              }
-            }
-          }
-        }
-      }
-    }
-    return errors;
-  };
 
   const onUploadClicked = async (e) => {
     e.preventDefault();
@@ -193,90 +110,59 @@ export function useValidateBulkSensorData(onUpload, t) {
     onUpload(file);
   };
 
-  const checkRequiredColumnsArePresent = (sensorObject = {}) => {
-    const missingColumns = requiredFields.filter(
-      (fieldName) => !Object.keys(sensorObject).includes(fieldName),
-    );
-    return missingColumns.length
-      ? [
-          {
-            row: 1,
-            column: missingColumns.join(','),
-            errorMessage: t('FARM_MAP.BULK_UPLOAD_SENSORS.VALIDATION.MISSING_COLUMNS'),
-            value: '',
-          },
-        ]
-      : [];
-  };
-
-  const checkCSVFileRowLimit = (sensorList = []) =>
-    sensorList.length > 100
-      ? [
-          {
-            row: 1,
-            column: 'N/A',
-            errorMessage: t('FARM_MAP.BULK_UPLOAD_SENSORS.VALIDATION.FILE_ROW_LIMIT_EXCEEDED'),
-            value: '',
-          },
-        ]
-      : [];
+  const getFileExtension = (fileName) => fileName.split('.').pop();
 
   const handleSelectedFile = async (e) => {
     const file = e.target.files[0];
     if (!file) return;
     try {
+      const fileExtension = getFileExtension(file?.name);
       setSelectedFileName(file?.name);
-      const arrBuffer = await file.arrayBuffer();
-      const uint8Array = new Uint8Array(arrBuffer);
-      const readAsUTF8 = new TextDecoder().decode(uint8Array);
-      const workBook = XLSX.read(readAsUTF8, {
-        type: 'string',
-      });
-      const sheetErrorList = [];
-      let totalErrorCount = 0;
-      let isEmptyFile = false;
-      for (const singleSheet of workBook.SheetNames) {
-        const sheetError = {
-          sheetName: singleSheet,
-        };
-        const worksheet = workBook.Sheets[singleSheet];
-        // sheet_to_json always return array.
-        const jsonData = XLSX.utils.sheet_to_json(worksheet, { defval: '' });
-        isEmptyFile = !jsonData.length;
-        let errors = [];
-        errors = checkRequiredColumnsArePresent(jsonData[0]);
-        if (!errors.length) {
-          errors = checkCSVFileRowLimit(jsonData);
-        }
-        if (!errors.length) {
-          errors = validateExcel(jsonData);
-        }
 
-        totalErrorCount += errors.length;
-        sheetError.errors = errors;
-        sheetError.errors.length && sheetErrorList.push(sheetError);
+      const fileString = await readFile(file);
+
+      const { data, errors } = parseSensorCsv(fileString, lang);
+
+      const translatedErrors = translateErrors(errors);
+
+      if (data.length >= 100) {
+        translatedErrors.push({
+          row: 1,
+          column: 'N/A',
+          errorMessage: t('FARM_MAP.BULK_UPLOAD_SENSORS.VALIDATION.FILE_ROW_LIMIT_EXCEEDED'),
+          value: '',
+        });
       }
-      if (isEmptyFile) {
-        setErrorTypeCode(ErrorTypes.EMPTY_FILE);
-        setUploadErrorMessage(t('FARM_MAP.BULK_UPLOAD_SENSORS.EMPTY_FILE_UPLOAD_ERROR_MESSAGE'));
-      } else {
+
+      if (fileExtension !== 'csv') {
+        setErrorTypeCode(ErrorTypes.INVALID_FILE_TYPE);
+        setUploadErrorMessage(t('FARM_MAP.BULK_UPLOAD_SENSORS.INVALID_FILE_TYPE'));
+      } else if (errors.length !== 0) {
         setErrorTypeCode(ErrorTypes.INVALID_CSV);
         setUploadErrorMessage(t('FARM_MAP.BULK_UPLOAD_SENSORS.UPLOAD_ERROR_MESSAGE'));
+      } else if (data.length === 0) {
+        setErrorTypeCode(ErrorTypes.EMPTY_FILE);
+        setUploadErrorMessage(t('FARM_MAP.BULK_UPLOAD_SENSORS.EMPTY_FILE_UPLOAD_ERROR_MESSAGE'));
       }
-      setErrorCount(totalErrorCount);
-      setSheetErrors(sheetErrorList);
-      setDisabled(() => (totalErrorCount === 0 ? 1 : 0));
+
+      setErrorCount(data.length === 0 ? 1 : translatedErrors.length);
+      setSheetErrors(translatedErrors);
+      setDisabled(() => (translatedErrors.length === 0 ? 1 : 0));
     } catch (err) {
       console.error(err);
     }
   };
 
-  const onShowErrorClick = (e) => {
-    if (bulkSensorsUploadResponse?.validationErrors.length || sheetErrors.length) {
+  const onShowErrorClick = (errorCode) => {
+    if (errorCode === 2) {
+      onTemplateDownloadClick();
+      return;
+    }
+    if (sheetErrors.length) {
       const inputFile = fileInputRef.current.files[0];
       if (inputFile) {
         const downloadFileName = `${inputFile.name.replace(/.csv/, '')}_errors.txt`;
-        createSensorErrorDownload(downloadFileName, sheetErrors[0].errors, 'validation');
+        createSensorErrorDownload(downloadFileName, sheetErrors, 'validation');
       }
     } else if (bulkSensorsUploadResponse?.defaultFailure) {
       createSensorErrorDownload('sensor-upload-outcomes.txt', null, 'generic');
@@ -313,4 +199,15 @@ export function useValidateBulkSensorData(onUpload, t) {
     uploadErrorMessage,
     errorTypeCode,
   };
+}
+
+function readFile(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => {
+      resolve(reader.result);
+    };
+    reader.onerror = reject;
+    reader.readAsText(file);
+  });
 }

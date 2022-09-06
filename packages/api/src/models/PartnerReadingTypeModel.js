@@ -13,9 +13,10 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const BaseModel = require('./baseModel');
-const Model = require('objection').Model;
-const IntegratingPartners = require('./integratingPartnersModel');
+import BaseModel from './baseModel.js';
+
+import { Model } from 'objection';
+import IntegratingPartners from './integratingPartnersModel.js';
 
 class PartnerReadingTypeModel extends BaseModel {
   /**
@@ -76,4 +77,4 @@ class PartnerReadingTypeModel extends BaseModel {
   }
 }
 
-module.exports = PartnerReadingTypeModel;
+export default PartnerReadingTypeModel;

@@ -13,19 +13,41 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const express = require('express');
+import express from 'express';
+
 const router = express.Router();
-const fieldController = require('../controllers/fieldController');
-const checkScope = require('../middleware/acl/checkScope');
-const hasFarmAccess = require('../middleware/acl/hasFarmAccess');
+import fieldController from '../controllers/fieldController.js';
+import checkScope from '../middleware/acl/checkScope.js';
+import hasFarmAccess from '../middleware/acl/hasFarmAccess.js';
 
 // Get the crop on a bed
-router.get('/farm/:farm_id', hasFarmAccess({ params: 'farm_id' }), checkScope(['get:fields']), fieldController.getFieldByFarmID());
+router.get(
+  '/farm/:farm_id',
+  hasFarmAccess({ params: 'farm_id' }),
+  checkScope(['get:fields']),
+  fieldController.getFieldByFarmID(),
+);
 
-router.post('/', hasFarmAccess({ body: 'farm_id' }), checkScope(['add:fields']), fieldController.addField(), fieldController.mapFieldToStation);
+router.post(
+  '/',
+  hasFarmAccess({ body: 'farm_id' }),
+  checkScope(['add:fields']),
+  fieldController.addField(),
+  fieldController.mapFieldToStation,
+);
 
-router.put('/:field_id', hasFarmAccess({ params: 'field_id' }), checkScope(['edit:fields']), fieldController.updateField());
+router.put(
+  '/:field_id',
+  hasFarmAccess({ params: 'field_id' }),
+  checkScope(['edit:fields']),
+  fieldController.updateField(),
+);
 
-router.delete('/:field_id', hasFarmAccess({ params: 'field_id' }), checkScope(['delete:fields']), fieldController.delField());
+router.delete(
+  '/:field_id',
+  hasFarmAccess({ params: 'field_id' }),
+  checkScope(['delete:fields']),
+  fieldController.delField(),
+);
 
-module.exports = router;
+export default router;

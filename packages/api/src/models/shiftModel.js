@@ -13,8 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const baseModel = require('./baseModel');
-const Model = require('objection').Model;
+import baseModel from './baseModel.js';
 
 class Shift extends baseModel {
   static get tableName() {
@@ -46,8 +45,8 @@ class Shift extends baseModel {
         ...this.baseProperties,
       },
       additionalProperties: false,
-    }
+    };
   }
 }
 
-module.exports = Shift;
+export default Shift;

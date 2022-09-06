@@ -13,24 +13,24 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-exports.up = function(knex) {
+export const up = function (knex) {
   return Promise.all([
     knex.schema.table('yield', (table) => {
-      table.dropColumn('quantity_kg')
+      table.dropColumn('quantity_kg');
     }),
     knex.schema.table('yield', (table) => {
-      table.float('quantity_kg/m2')
+      table.float('quantity_kg/m2');
     }),
-  ])
+  ]);
 };
 
-exports.down = function(knex) {
+export const down = function (knex) {
   return Promise.all([
     knex.schema.table('yield', (table) => {
-      table.dropColumn('quantity_kg/m2')
+      table.dropColumn('quantity_kg/m2');
     }),
     knex.schema.table('yield', (table) => {
-      table.float('quantity_kg')
+      table.float('quantity_kg');
     }),
-  ])
+  ]);
 };

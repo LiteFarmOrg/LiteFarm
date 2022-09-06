@@ -1,12 +1,11 @@
-
-exports.up = function(knex) {
+export const up = function (knex) {
   return knex.schema.alterTable('shiftTask', (t) => {
-    t.renameColumn('is_field', 'is_location')
+    t.renameColumn('is_field', 'is_location');
   });
 };
 
-exports.down = function(knex) {
+export const down = function (knex) {
   return knex.schema.alterTable('shiftTask', (t) => {
-    t.renameColumn('is_location', 'is_field')
+    t.renameColumn('is_location', 'is_field');
   });
 };

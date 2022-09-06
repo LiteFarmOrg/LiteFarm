@@ -5,7 +5,7 @@ export const DEFAULT_CENTER = {
 export const DEFAULT_ZOOM = 15;
 export const GMAPS_API_KEY = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
 export const ENVIRONMENT = import.meta.env.NODE_ENV;
-export const longPress = 800;
+export const longPress = 500;
 
 export const getAreaLocationTypes = () => [
   locationEnum.barn,

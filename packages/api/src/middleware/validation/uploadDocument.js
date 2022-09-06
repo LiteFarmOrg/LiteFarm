@@ -1,4 +1,4 @@
-const path = require('path');
+import path from 'path';
 
 async function validateFileExtension(req, res, next) {
   const { file } = req;
@@ -16,7 +16,19 @@ async function validateFileExtension(req, res, next) {
   return res.status(400).send(`Do not support file type ${path.extname(file.originalname)}`);
 }
 
-const allowedDocumentFormatSet = new Set(['.csv', '.doc', '.docb', '.docm', '.docx', '.dot', '.dotm', '.dotx', '.txt', '.xls', '.xlsx']);
+const allowedDocumentFormatSet = new Set([
+  '.csv',
+  '.doc',
+  '.docb',
+  '.docm',
+  '.docx',
+  '.dot',
+  '.dotm',
+  '.dotx',
+  '.txt',
+  '.xls',
+  '.xlsx',
+]);
 
 const minimizedImageFormatSet = new Set(['.webp', '.svg']);
 
@@ -32,4 +44,4 @@ function isImageOrPdf(file) {
   return file.mimetype === 'application/pdf' || /^image\/.*/.test(file.mimetype);
 }
 
-module.exports = validateFileExtension;
+export default validateFileExtension;

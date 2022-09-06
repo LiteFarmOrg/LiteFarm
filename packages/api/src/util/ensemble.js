@@ -13,14 +13,21 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const axios = require('axios');
-const path = require('path');
-require('dotenv').config({ path: path.resolve(__dirname, '..', '..', '.env') });
+import axios from 'axios';
 
-const FarmModel = require('../models/farmModel');
-const FarmExternalIntegrationsModel = require('../models/farmExternalIntegrationsModel');
-const IntegratingPartners = require('../models/integratingPartnersModel');
-const { ensembleAPI } = require('../endPoints');
+import path from 'path';
+import * as dotenv from 'dotenv';
+
+const dir = path.dirname(fileURLToPath(import.meta.url));
+
+dotenv.config({ path: path.resolve(dir, '..', '..', '.env') });
+
+import FarmModel from '../models/farmModel.js';
+import FarmExternalIntegrationsModel from '../models/farmExternalIntegrationsModel.js';
+import IntegratingPartners from '../models/integratingPartnersModel.js';
+import endPoints from '../endPoints.js';
+import { fileURLToPath } from 'url';
+const { ensembleAPI } = endPoints;
 
 let baseUrl;
 if (process.env.NODE_ENV === 'integration') {
@@ -306,9 +313,4 @@ async function unclaimSensor(org_id, external_id, access_token) {
   }
 }
 
-module.exports = {
-  bulkSensorClaim,
-  registerOrganizationWebhook,
-  createOrganization,
-  unclaimSensor,
-};
+export { bulkSensorClaim, registerOrganizationWebhook, createOrganization, unclaimSensor };

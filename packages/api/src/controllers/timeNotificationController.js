@@ -13,10 +13,11 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const UserFarmModel = require('../models/userFarmModel');
-const TaskModel = require('../models/taskModel');
-const NotificationUser = require('../models/notificationUserModel');
-const { getTasksForFarm } = require('./taskController');
+import UserFarmModel from '../models/userFarmModel.js';
+
+import TaskModel from '../models/taskModel.js';
+import NotificationUser from '../models/notificationUserModel.js';
+import { getTasksForFarm } from './taskController.js';
 
 const timeNotificationController = {
   /**
@@ -151,4 +152,4 @@ async function sendDailyDueTodayTaskNotification(farmId, userId, isDayLaterThanU
   );
 }
 
-module.exports = timeNotificationController;
+export default timeNotificationController;

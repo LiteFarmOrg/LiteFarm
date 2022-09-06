@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-exports.up = async function (knex) {
+export const up = async function (knex) {
   return Promise.all([
     knex.schema.createTable('organicCertifierSurvey', function (table) {
       table.uuid('survey_id').primary().defaultTo(knex.raw('uuid_generate_v1()'));
@@ -26,13 +26,31 @@ exports.up = async function (knex) {
       table.boolean('interested').defaultTo(false).notNullable();
     }),
     knex.schema.alterTable('organicCertifierSurvey', (table) => {
-      table.foreign(['farm_id', 'created_by_user_id']).references(['farm_id', 'user_id']).inTable('userFarm');
-      table.foreign(['farm_id', 'updated_by_user_id']).references(['farm_id', 'user_id']).inTable('userFarm');
+      table
+        .foreign(['farm_id', 'created_by_user_id'])
+        .references(['farm_id', 'user_id'])
+        .inTable('userFarm');
+      table
+        .foreign(['farm_id', 'updated_by_user_id'])
+        .references(['farm_id', 'user_id'])
+        .inTable('userFarm');
     }),
     knex('permissions').insert([
-      { name: 'get:organic_certifier_survey', permission_id: 85, description: 'Get organic certifier survey' },
-      { name: 'add:organic_certifier_survey', permission_id: 86, description: 'Submit a organic certifier survey' },
-      { name: 'edit:organic_certifier_survey', permission_id: 87, description: 'Edit a organic certifier survey' },
+      {
+        name: 'get:organic_certifier_survey',
+        permission_id: 85,
+        description: 'Get organic certifier survey',
+      },
+      {
+        name: 'add:organic_certifier_survey',
+        permission_id: 86,
+        description: 'Submit a organic certifier survey',
+      },
+      {
+        name: 'edit:organic_certifier_survey',
+        permission_id: 87,
+        description: 'Edit a organic certifier survey',
+      },
     ]),
     knex('rolePermissions').insert([
       { role_id: 5, permission_id: 85 },
@@ -45,13 +63,13 @@ exports.up = async function (knex) {
       { role_id: 2, permission_id: 86 },
       { role_id: 2, permission_id: 87 },
     ]),
-  ])
+  ]);
 };
 
-exports.down = function (knex) {
+export const down = function (knex) {
   return Promise.all([
     knex.schema.dropTable('organicCertifierSurvey'),
     knex('rolePermissions').whereIn('permission_id', [85, 86, 87]).del(),
     knex('permissions').whereIn('permission_id', [85, 86, 87]).del(),
-  ])
+  ]);
 };

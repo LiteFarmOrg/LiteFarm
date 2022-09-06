@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const Model = require('objection').Model;
+import { Model } from 'objection';
 
 class Line extends Model {
   static get tableName() {
@@ -51,4 +51,4 @@ class Line extends Model {
   }
 }
 
-module.exports = Line;
+export default Line;

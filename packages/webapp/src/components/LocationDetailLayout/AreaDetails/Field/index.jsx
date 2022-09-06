@@ -90,9 +90,7 @@ export function FieldDetailsChildren({ isViewLocationPage }) {
   const { t } = useTranslation();
   const { control, watch, register } = useFormContext();
   const fieldTypeSelection = watch(fieldEnum.organic_status);
-  const [defaultTransitionalDate, setDefaultTransitionalDate] = useState(
-    watch(fieldEnum.transition_date),
-  );
+  const [transitionalDate, setTransitionalDate] = useState(watch(fieldEnum.transition_date));
   return (
     <div>
       <div style={{ marginBottom: '20px' }}>
@@ -131,8 +129,8 @@ export function FieldDetailsChildren({ isViewLocationPage }) {
             label={t('FARM_MAP.FIELD.DATE')}
             hookFormRegister={register(fieldEnum.transition_date, { required: true })}
             disabled={isViewLocationPage}
-            onChange={(e) => setDefaultTransitionalDate(e.target.value)}
-            value={defaultTransitionalDate}
+            onChange={(e) => setTransitionalDate(e.target.value)}
+            value={transitionalDate}
           />
         )}
       </div>

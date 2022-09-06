@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useFormContext } from 'react-hook-form';
 import Leaf from '../../../../assets/images/farmMapFilter/Leaf.svg';
@@ -85,6 +85,9 @@ export function GardenDetailsChildren({ isViewLocationPage }) {
     formState: { errors },
   } = useFormContext();
   const gardenTypeSelection = watch(gardenEnum.organic_status);
+  const [defaultTransitionalDate, setDefaultTransitionalDate] = useState(
+    watch(gardenEnum.transition_date),
+  );
   return (
     <div>
       <div style={{ marginBottom: '20px' }}>
@@ -129,6 +132,8 @@ export function GardenDetailsChildren({ isViewLocationPage }) {
             style={{ paddingTop: '16px', paddingBottom: '20px' }}
             disabled={isViewLocationPage}
             errors={getInputErrors(errors, gardenEnum.transition_date)}
+            onChange={(e) => setDefaultTransitionalDate(e.target.value)}
+            value={defaultTransitionalDate}
           />
         )}
       </div>

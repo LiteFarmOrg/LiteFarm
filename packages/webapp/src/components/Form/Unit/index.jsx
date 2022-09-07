@@ -319,49 +319,32 @@ const Unit = ({
           )}
         </div>
       )}
-      {showError && (
-        <Cross
-          onClick={onClear}
-          style={{
-            position: 'absolute',
-            right: 0,
-            transform: isSelectDisabled
-              ? 'translate(-1px, 23px)'
-              : unitType.databaseUnit === 'd'
-              ? 'translate(-95px, 23px)' // long date unit component
-              : 'translate(-62px, 23px)',
-            lineHeight: '40px',
-            cursor: 'pointer',
-            zIndex: 2,
-            width: '37px',
-            display: 'flex',
-            justifyContent: 'center',
-            backgroundColor: 'white',
-          }}
-        />
-      )}
+
       <div className={styles.inputContainer}>
-        <input
-          disabled={disabled}
-          className={clsx(styles.input)}
-          style={{ ...classes.input }}
-          aria-invalid={showError ? 'true' : 'false'}
-          type={'number'}
-          value={visibleInputValue}
-          size={1}
-          onKeyDown={getOnKeyDown(measure)}
-          onBlur={
-            mode === 'onBlur'
-              ? (e) => {
-                  inputOnBlur(e);
-                  onBlur && onBlur(e);
-                }
-              : onBlur
-          }
-          onChange={inputOnChange}
-          onWheel={preventNumberScrolling}
-          {...props}
-        />
+        <div className={styles.inputWrapper}>
+          <input
+            disabled={disabled}
+            className={clsx(styles.input)}
+            style={{ ...classes.input }}
+            aria-invalid={showError ? 'true' : 'false'}
+            type={'number'}
+            value={visibleInputValue}
+            size={1}
+            onKeyDown={getOnKeyDown(measure)}
+            onBlur={
+              mode === 'onBlur'
+                ? (e) => {
+                    inputOnBlur(e);
+                    onBlur && onBlur(e);
+                  }
+                : onBlur
+            }
+            onChange={inputOnChange}
+            onWheel={preventNumberScrolling}
+            {...props}
+          />
+          {showError && <Cross onClick={onClear} className={styles.crossWrapper} />}
+        </div>
 
         <Controller
           control={control}

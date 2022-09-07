@@ -24,7 +24,7 @@ describe.only('Crops flow tests', () => {
     const lastName = 'Smith';
     const password = `${userPassword}+1@`;
     const farmName = 'UBC FARM';
-    const location = '49.250833,-123.2410777';
+    const location = 'University Endowment Lands, BC V6T 1W5 Canada';
     const fieldName = 'Test Field';
     let workerName;
     const testCrop = 'New Crop';
@@ -48,7 +48,9 @@ describe.only('Crops flow tests', () => {
 
     //create account
 
-    cy.createAccount(emailOwner, farmerName, gender, null, null, password).then(() => {
+    cy.createAccount(emailOwner, farmerName, gender, null, null, password);
+
+    cy.get('@createUser').then(() => {
       cy.getStarted();
     });
 
@@ -88,23 +90,29 @@ describe.only('Crops flow tests', () => {
       .should('exist')
       .and('not.be.disabled')
       .click();
-    cy.get('[data-cy=crop-name]').as('EnglishCrops');
+
+    let cropsCount;
+    let crops = [];
+    cy.get('[data-cy=crop-name]').each(($el, index, $list) => {
+      cropsCount++;
+      crops.push($el.text());
+    });
+
     cy.get('[data-cy=home-profileButton]').click();
-    cy.contains('My info').click();
-
-    cy.contains('Select').click({ force: true });
-    cy.contains('Spanish').click({ force: true });
-    cy.get('button').contains('Save').click({ force: true });
-
+    cy.get(':nth-child(1) > [data-cy="navbar-option"]').click();
+    cy.get(':nth-child(3) > ._input_ugk5b_1').type('Kaphiri');
+    cy.get('.css-b4qs0x-ValueContainer2').click({ force: true });
+    cy.get('#react-select-4-listbox').contains('Portuguese').click({ force: true });
+    cy.get('[data-cy=account-submit]').click();
     cy.get('[data-cy=navbar-hamburger]').should('exist').click({ force: true });
-    cy.contains('Crops').should('exist').click();
+    cy.contains('Cultivos').should('exist').click();
     cy.url().should('include', '/crop_catalogue');
-    cy.get('@EnglishCrops').each(($el, index, $list) => {
-      cy.get('[data-cy=crops-search]').type($el.text());
+    cy.get('[data-cy=crop-name]').each(($el, index, $list) => {
+      cy.get('[data-cy=crops-search]').type(crops[index]);
       cy.get('[data-cy=crop-tile]').should('not.exist');
+      cy.get('[data-cy=crops-search]').clear();
     });
   });
-
   it('Create a new crop', () => {
     //Test for LF-2237
     cy.visit('/');

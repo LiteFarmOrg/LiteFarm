@@ -30,7 +30,7 @@ const SensorReadingsLineChart = ({
     <>
       {loading ? (
         <div className={styles.loaderWrapper}>
-          <Spinner />{' '}
+          <Spinner />
         </div>
       ) : (
         <PureSensorReadingsLineChart

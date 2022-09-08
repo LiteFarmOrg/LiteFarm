@@ -59,8 +59,8 @@ const PureTaskCrops = ({
   }
 
   const filterManagementPlansByCropVarietyName = (mp) =>
-    mp.crop_variety_name.toLowerCase().includes(filter?.toLowerCase()) ||
-    t(`crop:${mp.crop.crop_translation_key}`).toLowerCase().includes(filter?.toLowerCase());
+    mp?.crop_variety_name?.toLowerCase().includes(filter?.toLowerCase()) ||
+    t(`crop:${mp?.crop?.crop_translation_key}`)?.toLowerCase().includes(filter?.toLowerCase());
 
   const managementPlansFilteredByInput = useMemo(() => {
     if (!filter) {

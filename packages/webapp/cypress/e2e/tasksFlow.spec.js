@@ -130,7 +130,7 @@ describe.only('Tasks flow tests', () => {
     const lastName = 'Smith';
     const password = `${userPassword}+1@`;
     const farmName = 'UBC FARM';
-    const location = '49.250833,-123.2410777';
+    const location = 'University Endowment Lands, BC V6T 1W5 Canada';
     const fieldName = 'Test Field';
     let workerName;
     const testCrop = 'New Crop';
@@ -155,9 +155,11 @@ describe.only('Tasks flow tests', () => {
     //create account
 
     cy.createAccount(emailOwner, farmerName, gender, null, null, password);
-    cy.wait(2000);
+
     //Get Started page
-    cy.getStarted();
+    cy.get('@createUser').then(() => {
+      cy.getStarted();
+    });
 
     //Add farm page
     cy.addFarm(farmName, location);

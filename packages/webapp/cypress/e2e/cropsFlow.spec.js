@@ -109,7 +109,10 @@ describe.only('Crops flow tests', () => {
     cy.url().should('include', '/crop_catalogue');
     cy.get('[data-cy=crop-name]').each(($el, index, $list) => {
       cy.get('[data-cy=crops-search]').type(crops[index]);
-      cy.get('[data-cy=crop-tile]').should('not.exist');
+      if (crops[index != 'Aloe vera']) {
+        cy.get('[data-cy=crop-tile]').should('not.exist');
+      }
+
       cy.get('[data-cy=crops-search]').clear();
     });
   });

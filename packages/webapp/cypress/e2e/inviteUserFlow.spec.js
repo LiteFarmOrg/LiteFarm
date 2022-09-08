@@ -110,11 +110,11 @@ describe.only('Invite user tests', () => {
     const Status = 'Active';
     cy.get('[data-cy=snackBar]').contains('Successfully added user to farm!').should('exist');
     cy.url().should('include', '/people');
-    //cy.get('*[class^="rt-tr-group"]').eq(0).contains(emailUser).should('exist');
+    //cy.get('*[class^="rt-tr-group"]').eq(1).contains(emailUser).should('exist');
     cy.get('*[class^="rt-tr-group"]').eq(0).contains('Worker Without Account').should('exist');
-    cy.get('*[class^="rt-tr-group"]').eq(0).contains(Status).should('exist');
+    cy.get('*[class^="rt-tr-group"]').eq(1).contains(Status).should('exist');
 
-    cy.get('*[class^="rt-tr-group"]').eq(0).contains(workerName).should('exist').click();
+    cy.get('*[class^="rt-tr-group"]').eq(1).contains(workerName).should('exist').click();
 
     cy.get('[data-cy=editUser-firstName]')
       .invoke('val')
@@ -222,11 +222,11 @@ describe.only('Invite user tests', () => {
       const Status = 'Invited';
       cy.get('[data-cy=snackBar]').contains('Successfully added user to farm!').should('exist');
       cy.url().should('include', '/people');
-      cy.get('*[class^="rt-tr-group"]').eq(0).contains(emailUser).should('exist');
-      cy.get('*[class^="rt-tr-group"]').eq(0).contains(inviteeRole).should('exist');
-      cy.get('*[class^="rt-tr-group"]').eq(0).contains(Status).should('exist');
+      cy.get('*[class^="rt-tr-group"]').eq(1).contains(emailUser).should('exist');
+      cy.get('*[class^="rt-tr-group"]').eq(1).contains(inviteeRole).should('exist');
+      cy.get('*[class^="rt-tr-group"]').eq(1).contains(Status).should('exist');
 
-      cy.get('*[class^="rt-tr-group"]').eq(0).contains(workerName).should('exist').click();
+      cy.get('*[class^="rt-tr-group"]').eq(1).contains(workerName).should('exist').click();
 
       cy.get('[data-cy=editUser-firstName]')
         .invoke('val')
@@ -293,7 +293,7 @@ describe.only('Invite user tests', () => {
 
       cy.goToPeopleView(lang);
       cy.url().should('include', '/people');
-      cy.get('*[class^="rt-tr-group"]').eq(0).contains(emailUser).should('exist');
+      cy.get('*[class^="rt-tr-group"]').eq(1).contains(emailUser).should('exist');
       if (lang == 'English') {
         cy.get('*[class^="rt-tr-group"]').eq(0).contains('Active').should('exist');
       } else if (lang == 'French') {
@@ -401,11 +401,11 @@ describe.only('Invite user tests', () => {
       const Status = 'Invited';
       cy.get('[data-cy=snackBar]').contains('Successfully added user to farm!').should('exist');
       cy.url().should('include', '/people');
-      cy.get('*[class^="rt-tr-group"]').eq(0).contains(emailUser).should('exist');
-      cy.get('*[class^="rt-tr-group"]').eq(0).contains(inviteeRole).should('exist');
-      cy.get('*[class^="rt-tr-group"]').eq(0).contains(Status).should('exist');
+      cy.get('*[class^="rt-tr-group"]').eq(1).contains(emailUser).should('exist');
+      cy.get('*[class^="rt-tr-group"]').eq(1).contains(inviteeRole).should('exist');
+      cy.get('*[class^="rt-tr-group"]').eq(1).contains(Status).should('exist');
 
-      cy.get('*[class^="rt-tr-group"]').eq(0).contains(workerName).should('exist').click();
+      cy.get('*[class^="rt-tr-group"]').eq(1).contains(workerName).should('exist').click();
 
       cy.get('[data-cy=editUser-firstName]')
         .invoke('val')
@@ -472,7 +472,7 @@ describe.only('Invite user tests', () => {
 
       cy.goToPeopleView(lang);
       cy.url().should('include', '/people');
-      cy.get('*[class^="rt-tr-group"]').eq(0).contains(emailUser).should('exist');
+      cy.get('*[class^="rt-tr-group"]').eq(1).contains(emailUser).should('exist');
       if (lang == 'English') {
         cy.get('*[class^="rt-tr-group"]').eq(0).contains('Active').should('exist');
       } else if (lang == 'French') {
@@ -580,11 +580,11 @@ describe.only('Invite user tests', () => {
       const Status = 'Invited';
       cy.get('[data-cy=snackBar]').contains('Successfully added user to farm!').should('exist');
       cy.url().should('include', '/people');
-      cy.get('*[class^="rt-tr-group"]').eq(0).contains(emailUser).should('exist');
-      cy.get('*[class^="rt-tr-group"]').eq(0).contains(inviteeRole).should('exist');
-      cy.get('*[class^="rt-tr-group"]').eq(0).contains(Status).should('exist');
+      cy.get('*[class^="rt-tr-group"]').eq(1).contains(emailUser).should('exist');
+      cy.get('*[class^="rt-tr-group"]').eq(1).contains(inviteeRole).should('exist');
+      cy.get('*[class^="rt-tr-group"]').eq(1).contains(Status).should('exist');
 
-      cy.get('*[class^="rt-tr-group"]').eq(0).contains(workerName).should('exist').click();
+      cy.get('*[class^="rt-tr-group"]').eq(1).contains(workerName).should('exist').click();
 
       cy.get('[data-cy=editUser-firstName]')
         .invoke('val')
@@ -651,7 +651,7 @@ describe.only('Invite user tests', () => {
 
       cy.goToPeopleView(lang);
       cy.url().should('include', '/people');
-      cy.get('*[class^="rt-tr-group"]').eq(0).contains(emailUser).should('exist');
+      cy.get('*[class^="rt-tr-group"]').eq(1).contains(emailUser).should('exist');
       if (lang == 'English') {
         cy.get('*[class^="rt-tr-group"]').eq(0).contains('Active').should('exist');
       } else if (lang == 'French') {
@@ -759,11 +759,11 @@ describe.only('Invite user tests', () => {
       const Status = 'Invited';
       cy.get('[data-cy=snackBar]').contains('Successfully added user to farm!').should('exist');
       cy.url().should('include', '/people');
-      cy.get('*[class^="rt-tr-group"]').eq(0).contains(emailUser).should('exist');
-      cy.get('*[class^="rt-tr-group"]').eq(0).contains(inviteeRole).should('exist');
-      cy.get('*[class^="rt-tr-group"]').eq(0).contains(Status).should('exist');
+      cy.get('*[class^="rt-tr-group"]').eq(1).contains(emailUser).should('exist');
+      cy.get('*[class^="rt-tr-group"]').eq(1).contains(inviteeRole).should('exist');
+      cy.get('*[class^="rt-tr-group"]').eq(1).contains(Status).should('exist');
 
-      cy.get('*[class^="rt-tr-group"]').eq(0).contains(workerName).should('exist').click();
+      cy.get('*[class^="rt-tr-group"]').eq(1).contains(workerName).should('exist').click();
 
       cy.get('[data-cy=editUser-firstName]')
         .invoke('val')
@@ -830,7 +830,7 @@ describe.only('Invite user tests', () => {
 
       cy.goToPeopleView(lang);
       cy.url().should('include', '/people');
-      cy.get('*[class^="rt-tr-group"]').eq(0).contains(emailUser).should('exist');
+      cy.get('*[class^="rt-tr-group"]').eq(1).contains(emailUser).should('exist');
       if (lang == 'English') {
         cy.get('*[class^="rt-tr-group"]').eq(0).contains('Active').should('exist');
       } else if (lang == 'French') {

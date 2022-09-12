@@ -11,8 +11,8 @@ jobs:
       - name: Cypress run
         uses: cypress-io/github-action@v2
         with:
-          build: npm run nodemon
-          start: pnpm dev
+          build: npm run build
+          start: npm start
           record: true
       env:
       CYPRESS_RECORD_KEY: ${{secrets.CYPRESS_RECORD_KEY}}

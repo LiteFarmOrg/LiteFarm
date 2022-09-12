@@ -5,7 +5,7 @@ on: [push]
 jobs:
   automated_tests:
     runs-on: ubuntu-20.04
-    container: node:16.15.0
+    container: cypress/browsers:node12.18.3-chrome87-ff82
     services:
       postgres:
         image: postgres:13

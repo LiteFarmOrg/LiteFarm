@@ -1,6 +1,6 @@
 name: 'Cypress happy path test'
 
-on:[push]
+on: [push]
 
 jobs:
   automated_tests:

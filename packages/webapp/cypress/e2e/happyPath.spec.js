@@ -306,7 +306,7 @@ describe.only('LiteFarm end to end test', () => {
         heightFactor = canvasHeight / initialHeight;
         widthFactor = canvasWidth / initialWidth;
         cy.contains(fieldName).should('exist');
-        cy.wait(500);
+        cy.wait(8000);
         cy.get('[data-cy=map-selectLocation]').click(widthFactor * 570, heightFactor * 321, {
           force: false,
         });

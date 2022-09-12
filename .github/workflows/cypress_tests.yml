@@ -16,7 +16,6 @@ jobs:
       # and run all Cypress tests
       - name: Cypress run
         run: cd packages/webapp && pnpm cypress run --spec cypress/e2e/happyPath.spec.js --browser chrome
-        uses: cypress-io/github-action@v4.x.x # use the explicit version number
         with:
           start: cd packages/api && npm run nodemon
           start: cd packages/webapp && pnpm dev

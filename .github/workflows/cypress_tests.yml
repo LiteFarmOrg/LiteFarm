@@ -30,16 +30,12 @@ jobs:
       TEST_USER: ${{secrets.TEST_USER}}
       TEST_USER_ID: ${{secrets.TEST_USER_ID}}
     steps:
-      # Checkout the current code in the repository
       - name: Check out repository code
         uses: actions/checkout@v3
-      # Install all the dependencies
       - name: Install dependencies
         run: cd packages/api && npm ci && cd ../shared && npm ci
-      # Run migrations on the database
       - name: Setup database
         run: cd packages/api && npm run migrate:pipeline:db
-      # Run all the CI tests
       - name: Start api server
         run: cd packages/api && npm run nodemon
       - name: Start front end

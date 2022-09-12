@@ -1,0 +1,19 @@
+name: Cypress Happy path test
+
+on: 
+  [push]
+
+jobs:
+  cypress-run:
+    runs-on: ubuntu-latest
+    container: cypress/browsers:node12.18.3-chrome87-ff82
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      # Install NPM dependencies, cache them correctly
+      # and run all Cypress tests
+      - name: Cypress run
+        run: cd packages/webapp && pnpm cypress run --spec cypress/e2e/happyPath.spec.js --browser chrome
+        with:
+          start: cd packages/api && npm run nodemon
+          start: cd packages/webapp && pnpm dev

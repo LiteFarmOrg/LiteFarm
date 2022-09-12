@@ -1,16 +1,50 @@
-name: Cypress Happy path test
+name: 'Cypress happy path test'
 
-on: 
-  [push]
+on:[push]
 
 jobs:
-  cypress-run:
-    runs-on: ubuntu-latest
-    container: cypress/browsers:node12.18.3-chrome87-ff82
+  automated_tests:
+    runs-on: ubuntu-20.04
+    container: node:16.15.0
+    services:
+      postgres:
+        image: postgres:13
+        env:
+          POSTGRES_DB: 'test_farm'
+          POSTGRES_USER: 'postgres'
+          POSTGRES_PASSWORD: 'pipeline'
+          POSTGRES_HOST: postgres
+          POSTGRES_PORT: 5432
+        ports:
+          - "5432:5432"
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 5
+    env:
+      JWT_INVITE_SECRET: ${{secrets.JWT_INVITE_SECRET}}
+      JWT_RESET_SECRET: ${{secrets.JWT_RESET_SECRET}}
+      JWT_SCHEDULER_SECRET: ${{secrets.JWT_SCHEDULER_SECRET}}
+      JWT_SECRET: ${{secrets.JWT_SECRET}}
+      TEST_USER: ${{secrets.TEST_USER}}
+      TEST_USER_ID: ${{secrets.TEST_USER_ID}}
     steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-      # Install NPM dependencies, cache them correctly
-      # and run all Cypress tests
-      - name: Run tests
-        run: cd packages/webapp && pnpm cypress run --spec cypress/e2e/happyPath.spec.js --browser chrome
+      # Checkout the current code in the repository
+      - name: Check out repository code
+        uses: actions/checkout@v3
+      # Install all the dependencies
+      - name: Install dependencies
+        run: cd packages/api && npm ci && cd ../shared && npm ci
+      # Run migrations on the database
+      - name: Setup database
+        run: cd packages/api && npm run migrate:pipeline:db
+      # Run all the CI tests
+      - name: Start api server
+        run: cd packages/api && npm run nodemon
+      - name: Start front end
+        run: cd packages/webapp && pnpm dev
+      - name: Run cypress happy path test
+      run: pnpm cypress run --spec cypress/e2e/happyPath.spec.js --browser chrome
+
+

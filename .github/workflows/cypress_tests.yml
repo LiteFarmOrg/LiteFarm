@@ -1,4 +1,4 @@
-name: End-to-end tests
+name: Run cypress happy path tests
 on: [push]
 jobs:
   cypress-run:
@@ -8,5 +8,5 @@ jobs:
         uses: actions/checkout@v2
       # Install NPM dependencies, cache them correctly
       # and run all Cypress tests
-      - name: Cypress run
+      - name: Cypress run --spec cypress/e2e/happyPath.spec.js --browser chrome
         uses: cypress-io/github-action@v4

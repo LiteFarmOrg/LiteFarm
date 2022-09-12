@@ -30,6 +30,11 @@
     "ASSIGN_TASK": "Attribuer une tâche",
     "ASSIGNEE": "Personne responsable",
     "CANCEL": "création de tâches",
+    "WAGE_INPUT": "Salaire horaire",
+    "UNASSIGNED_WAGE_WARNING": "n'a pas actuellement de salaire horaire assigné, voudriez-vous en fixer un maintenant\u00a0?",
+    "DONT_ASK": "Ne demande plus",
+    "UPDATE_ALL": "Effectuez ces modifications pour toutes les tâches à cette date",
+    "WAGE_ERROR": "Le salaire doit être un nombre positif inférieur à 999,999,999",
     "CLEANING_VIEW": {
       "ESTIMATED_WATER": "Consommation d'eau estimée",
       "IS_PERMITTED": "Le produit de nettoyage est-il dans la liste des substances autorisées ?",

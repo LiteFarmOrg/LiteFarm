@@ -6,7 +6,7 @@ import { userFarmsByFarmSelector, userFarmSelector } from '../../userFarmSlice';
 import { PureTaskCard } from '../../../components/CardWithStatus/TaskCard/TaskCard';
 import TaskQuickAssignModal from '../../../components/Modals/QuickAssignModal';
 import UpdateTaskDateModal from '../../../components/Modals/UpdateTaskDateModal';
-import { assignTask, assignTasksOnDate, changeTaskDate } from '../saga';
+import { assignTask, assignTasksOnDate, changeTaskDate, updateWageUserFarm } from '../saga';
 
 const TaskCard = ({
   task_id,
@@ -31,6 +31,8 @@ const TaskCard = ({
   };
   const onAssignTasksOnDate = (task) => dispatch(assignTasksOnDate(task));
   const onAssignTask = (task) => dispatch(assignTask(task));
+  const handleUserUpdate = (user) => dispatch(updateWageUserFarm(user));
+
   const users = useSelector(userFarmsByFarmSelector).filter((user) => user.status !== 'Inactive');
   const user = useSelector(userFarmSelector);
   const immutableStatus = ['completed', 'abandoned'];
@@ -82,6 +84,7 @@ const TaskCard = ({
           isAssigned={!!assignee}
           onAssignTasksOnDate={onAssignTasksOnDate}
           onAssignTask={onAssignTask}
+          onUserUpdated={handleUserUpdate}
           users={users}
           user={user}
           dismissModal={() => setShowTaskAssignModal(false)}

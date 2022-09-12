@@ -26,8 +26,8 @@ export default function EditUser({ history, match }) {
       user_id,
       role_id,
       wage: {
+        ...userFarm.wage,
         amount: +parseFloat(data.wage.amount).toFixed(2),
-        type: userFarm.wage?.type || 'hourly',
       },
     };
     if (role_id === userFarm.role_id || !role_id) delete reqBody.role_id;

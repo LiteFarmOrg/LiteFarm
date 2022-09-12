@@ -8,6 +8,7 @@ const Checkbox = ({
   label = 'label',
   disabled = false,
   classes = {},
+  className,
   children,
   style,
   onChange,
@@ -20,7 +21,7 @@ const Checkbox = ({
   const name = hookFormRegister?.name ?? props?.name;
   return (
     <label
-      className={clsx(styles.container, disabled && styles.disabled)}
+      className={clsx(styles.container, className, disabled && styles.disabled)}
       style={(style || classes.container) && { ...style, ...classes.container }}
     >
       <input

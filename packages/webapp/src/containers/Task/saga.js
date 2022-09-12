@@ -1,13 +1,14 @@
-import { all, call, put, select, takeLatest, takeLeading } from 'redux-saga/effects';
+import { all, call, put, select, takeLatest, takeLeading, takeEvery } from 'redux-saga/effects';
 import { createAction } from '@reduxjs/toolkit';
-import apiConfig from '../../apiConfig';
+import apiConfig, { userFarmUrl } from '../../apiConfig';
 import { axios, getHeader, getPlantingManagementPlansSuccessSaga, onReqSuccessSaga } from '../saga';
 import i18n from '../../locales/i18n';
-import { loginSelector } from '../userFarmSlice';
+import { loginSelector, putUserSuccess } from '../userFarmSlice';
 import history from '../../history';
 import { enqueueErrorSnackbar, enqueueSuccessSnackbar } from '../Snackbar/snackbarSlice';
 import { addManyTasksFromGetReq, putTasksSuccess, putTaskSuccess } from '../taskSlice';
 import { getProductsSuccess, onLoadingProductFail, onLoadingProductStart } from '../productSlice';
+
 import {
   deleteTaskTypeSuccess,
   getTaskTypesSuccess,
@@ -60,6 +61,8 @@ import {
   onLoadingHarvestUseTypeStart,
 } from '../harvestUseTypeSlice';
 import { managementPlanWithCurrentLocationEntitiesSelector } from './TaskCrops/managementPlansWithLocationSelector';
+
+const patchWageUrl = (farm_id, user_id) => `${userFarmUrl}/wage/farm/${farm_id}/user/${user_id}`;
 
 const taskTypeEndpoint = [
   'cleaning_task',
@@ -628,6 +631,23 @@ export function* addCustomHarvestUseSaga({ payload: data }) {
   }
 }
 
+export const updateWageUserFarm = createAction('updateWageUserFarmSaga');
+
+export function* updateWageUserFarmSaga({ payload: user }) {
+  let target_user_id = user.user_id;
+  const { user_id, farm_id } = yield select(loginSelector);
+  const header = getHeader(user_id, farm_id);
+  try {
+    const patchRequests = [];
+    user.wage &&
+      patchRequests.push(call(axios.patch, patchWageUrl(farm_id, target_user_id), user, header));
+    yield all(patchRequests);
+    yield put(putUserSuccess({ ...user, farm_id }));
+  } catch (e) {
+    console.error(e);
+  }
+}
+
 export default function* taskSaga() {
   yield takeLeading(addCustomTaskType.type, addTaskTypeSaga);
   yield takeLeading(assignTask.type, assignTaskSaga);
@@ -651,4 +671,5 @@ export default function* taskSaga() {
     getPlantingTasksAndPlantingManagementPlansSuccess.type,
     getPlantingTasksAndPlantingManagementPlansSuccessSaga,
   );
+  yield takeEvery(updateWageUserFarm.type, updateWageUserFarmSaga);
 }

@@ -8,6 +8,8 @@ import Checkbox from '../../Form/Checkbox';
 import { ReactComponent as Person } from '../../../assets/images/task/Person.svg';
 import { tasksSelector } from '../../../containers/taskSlice';
 import { useSelector } from 'react-redux';
+import { Label } from '../../Typography';
+import Input from '../../Form/Input';
 
 export default function TaskQuickAssignModal({
   dismissModal,
@@ -16,6 +18,7 @@ export default function TaskQuickAssignModal({
   isAssigned,
   onAssignTasksOnDate,
   onAssignTask,
+  onUserUpdated,
   users,
   user,
 }) {
@@ -37,12 +40,18 @@ export default function TaskQuickAssignModal({
   }, []);
 
   const [selectedWorker, setWorker] = useState(isAssigned ? unAssignedOption : selfOption);
+  const [wage, setWage] = useState('');
+  const [wageError, setWageError] = useState();
+  const [dontAsk, setDontAsk] = useState(false);
   const [assignAll, setAssignAll] = useState(false);
+
+  const selectedWorkerData = useMemo(() => {
+    return users.find(({ user_id }) => user_id === selectedWorker.value);
+  }, [selectedWorker]);
 
   const tasks = useSelector(tasksSelector);
 
   const checkUnassignedTaskForSameDate = () => {
-    console.log(tasks);
     const selectedTask = tasks.find((t) => t.task_id == task_id);
     let isUnassignedTaskPresent = false;
     for (let task of tasks) {
@@ -60,17 +69,49 @@ export default function TaskQuickAssignModal({
   };
 
   const onAssign = () => {
-    assignAll && checkUnassignedTaskForSameDate() && selectedWorker.value !== null
-      ? onAssignTasksOnDate({
-          task_id: task_id,
-          date: due_date,
-          assignee_user_id: selectedWorker.value,
-        })
-      : onAssignTask({
-          task_id: task_id,
-          assignee_user_id: selectedWorker.value,
-        });
+    if (!!wageError) {
+      return;
+    }
+
+    if (assignAll && checkUnassignedTaskForSameDate() && selectedWorker.value !== null) {
+      onAssignTasksOnDate({
+        task_id: task_id,
+        date: due_date,
+        assignee_user_id: selectedWorker.value,
+      });
+    } else {
+      onAssignTask({
+        task_id: task_id,
+        assignee_user_id: selectedWorker.value,
+      });
+    }
+
+    if ((wage || dontAsk) && onUserUpdated) {
+      const wagePayload = {
+        ...selectedWorkerData.wage,
+        dont_ask_again: dontAsk,
+      };
+
+      if (typeof wage === 'number') {
+        wagePayload.amount = wage;
+      }
+
+      onUserUpdated({
+        ...selectedWorkerData,
+        wage: wagePayload,
+      });
+    }
     dismissModal();
+  };
+
+  const handleWageChange = (e) => {
+    const wage = Number(e.target.value);
+    setWage(wage);
+    if (wage < 0 || wage > 999999999) {
+      setWageError(t('ADD_TASK.WAGE_ERROR'));
+    } else {
+      setWageError();
+    }
   };
 
   const onCheckedAll = () => {
@@ -78,6 +119,8 @@ export default function TaskQuickAssignModal({
   };
 
   const disabled = selectedWorker === null;
+  const showWageFields =
+    selectedWorkerData?.wage?.amount === 0 && !selectedWorkerData?.wage?.dont_ask_again;
 
   return (
     <ModalComponent
@@ -112,13 +155,46 @@ export default function TaskQuickAssignModal({
         style={{ marginBottom: '24px' }}
         isSearchable
       />
-      {/*TODO: properly fix checkbox label overflow ST-272*/}
-      <Checkbox
-        data-cy="quickAssign-assignAll"
-        style={{ paddingRight: '24px' }}
-        label={t('ADD_TASK.ASSIGN_ALL_TO_PERSON')}
-        onChange={onCheckedAll}
-      />
+      {showWageFields ? (
+        <>
+          <Label className={styles.warning}>
+            {selectedWorkerData.first_name} {t('ADD_TASK.UNASSIGNED_WAGE_WARNING')}
+          </Label>
+          <Input
+            data-cy="quickAssign-wageInput"
+            label={t('ADD_TASK.WAGE_INPUT')}
+            type="number"
+            value={wage}
+            onChange={handleWageChange}
+            errors={wageError}
+            optional
+          />
+          <Checkbox
+            className={styles.input}
+            value={dontAsk}
+            data-cy="quickAssign-dontAsk"
+            label={t('ADD_TASK.DONT_ASK')}
+            onChange={() => setDontAsk(!dontAsk)}
+          />
+          <Checkbox
+            className={styles.input}
+            value={assignAll}
+            data-cy="quickAssign-updateAll"
+            label={t('ADD_TASK.UPDATE_ALL')}
+            onChange={onCheckedAll}
+          />
+        </>
+      ) : (
+        <>
+          {/*TODO: properly fix checkbox label overflow ST-272*/}
+          <Checkbox
+            data-cy="quickAssign-assignAll"
+            style={{ paddingRight: '24px' }}
+            label={t('ADD_TASK.ASSIGN_ALL_TO_PERSON')}
+            onChange={onCheckedAll}
+          />
+        </>
+      )}
     </ModalComponent>
   );
 }

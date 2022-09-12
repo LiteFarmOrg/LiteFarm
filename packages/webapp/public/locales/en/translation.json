@@ -30,6 +30,11 @@
     "ASSIGN_TASK": "Assign task",
     "ASSIGNEE": "Assignee",
     "CANCEL": "task creation",
+    "WAGE_INPUT": "Hourly Wage",
+    "UNASSIGNED_WAGE_WARNING": "doesn't currently have an hourly wage assigned, would you like to set one now?",
+    "DONT_ASK": "Don't ask again",
+    "UPDATE_ALL": "Make these changes for all tasks on this date",
+    "WAGE_ERROR": "Salary must be a positive number less than 999,999,999",
     "CLEANING_VIEW": {
       "ESTIMATED_WATER": "Estimated water usage",
       "IS_PERMITTED": "Is the cleaning agent in the permitted substances list?",

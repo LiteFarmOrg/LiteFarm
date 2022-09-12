@@ -45,4 +45,5 @@ jobs:
       # Run all the CI tests
       - name: Run tests
         run: cd packages/api && npm run test-ci
+        run: cd packages/webapp && pnpm cypress run --spec cypress/e2e/happyPath.spec.js --browser chrome
 

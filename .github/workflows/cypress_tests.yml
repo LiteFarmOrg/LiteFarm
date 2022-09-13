@@ -14,7 +14,7 @@ jobs:
       # Install NPM dependencies, cache them correctly
       # and run all Cypress tests
       - name: Install dependencies
-        run: cd packages/api && npm ci && cd ../shared && npm ci
+        run: cd packages/api && npm ci && cd ../shared && npm ci && npm i knex
       # Run migrations on the database
       - name: Setup database
         run: cd packages/api && npm run migrate:dev:db

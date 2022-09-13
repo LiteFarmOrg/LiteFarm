@@ -16,4 +16,6 @@ jobs:
           browser: chrome
           headed: false
           spec: cypress/e2e/test.spec.js
-          start: cd packages/api && npm run nodemon && cd packages/webapp && pnpm dev
+          start: |
+            cd packages/api && npm run nodemon
+            cd packages/webapp && pnpm dev

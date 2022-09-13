@@ -17,7 +17,7 @@ jobs:
         run: cd packages/api && npm ci && cd ../shared && npm ci
       # Run migrations on the database
       - name: Setup database
-        run: cd packages/api && npm run migrate:db
+        run: cd packages/api && npm run migrate:dev:db
       - name: Cypress run
         uses: cypress-io/github-action@v4.2.0
         with:

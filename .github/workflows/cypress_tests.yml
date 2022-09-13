@@ -12,7 +12,7 @@ jobs:
       - name: Cypress run
         uses: cypress-io/github-action@v4.2.0
         with:
-        config-file: ./cypress.config.ts
+          config-file: ./cypress.config.ts
           browser: chrome
           headed: false
           spec: cypress/e2e/test.spec.js

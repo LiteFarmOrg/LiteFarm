@@ -13,5 +13,5 @@ jobs:
         with:
           version: 6.0.2
       - name: Cypress run
-        run: cd packages/webapp && pnpm cypress open --spec cypress/e2e/happyPath.spec.js
+        run: cd packages/webapp && pnpm cypress run --spec cypress/e2e/happyPath.spec.js
       

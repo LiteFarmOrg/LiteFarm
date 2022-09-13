@@ -13,6 +13,11 @@ jobs:
           version: 6.0.2
       # Install NPM dependencies, cache them correctly
       # and run all Cypress tests
+      - name: Install dependencies
+        run: cd packages/api && npm ci && cd ../shared && npm ci
+      # Run migrations on the database
+      - name: Setup database
+        run: cd packages/api && npm run migrate:pipeline:db
       - name: Cypress run
         uses: cypress-io/github-action@v4.2.0
         with:

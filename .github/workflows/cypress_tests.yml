@@ -15,9 +15,6 @@ jobs:
       # and run all Cypress tests
       - name: Install dependencies
         run: cd packages/api && npm ci && cd ../shared && npm ci && npm i knex
-      # Run migrations on the database
-      - name: Setup database
-        run: cd packages/api && npm run migrate:dev:db
       - name: Cypress run
         uses: cypress-io/github-action@v4.2.0
         with:

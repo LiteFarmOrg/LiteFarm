@@ -10,4 +10,7 @@ jobs:
       # Install NPM dependencies, cache them correctly
       # and run all Cypress tests
       - name: Cypress run
-        run: cd packages/webapp && pnpm install && pnpm cypress open --spec cypress/e2e/happyPath.spec.js
+        run: cd packages/webapp && pnpm cypress open --spec cypress/e2e/happyPath.spec.js
+      - uses: pnpm/action-setup@v2.2.2
+        with:
+          version: 6.0.2

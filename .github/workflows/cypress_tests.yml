@@ -14,4 +14,4 @@ jobs:
         with:
           browser: chrome
           headed: false
-          spec: cypress/e2e/happyPath.spec.js
+          spec: cypress/e2e/test.spec.js

@@ -9,5 +9,5 @@ jobs:
         uses: actions/checkout@v2
       # Install NPM dependencies, cache them correctly
       # and run all Cypress tests
-      - name: Cypress run --spec cypress/e2e/happyPath.spec.js --browser chrome
+      - name: Cypress run --spec cypress/e2e/happyPath.spec.js
         uses: cypress-io/github-action@v4

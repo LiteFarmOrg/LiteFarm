@@ -18,10 +18,10 @@ jobs:
       - name: Cypress run
         uses: cypress-io/github-action@v4.2.0
         with:
-          config-file: ./cypress.config.ts
+          config-file: ./packages/webapp/cypress.config.ts
           browser: chrome
           headed: false
-          spec: cypress/e2e/test.spec.js
+          spec: ./packages/webapp/cypress/e2e/test.spec.js
           start: |
             cd packages/api && npm run nodemon
             cd packages/webapp && pnpm dev

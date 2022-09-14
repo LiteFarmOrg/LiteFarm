@@ -1,85 +1,22 @@
 name: End-to-end tests
 on: [push]
 jobs:
-  job1:
+  basic-pnpm-ubuntu-20:
     runs-on: ubuntu-20.04
-    container: node:16.15.0
-    services:
-      postgres:
-        image: postgres:13
-        env:
-          POSTGRES_DB: 'test_farm'
-          POSTGRES_USER: 'postgres'
-          POSTGRES_PASSWORD: 'pipeline'
-          POSTGRES_HOST: postgres
-          POSTGRES_PORT: 5432
-        ports:
-          - "5432:5432"
-        options: >-
-          --health-cmd pg_isready
-          --health-interval 5s
-          --health-timeout 5s
-          --health-retries 5
-    env:
-      JWT_INVITE_SECRET: ${{secrets.JWT_INVITE_SECRET}}
-      JWT_RESET_SECRET: ${{secrets.JWT_RESET_SECRET}}
-      JWT_SCHEDULER_SECRET: ${{secrets.JWT_SCHEDULER_SECRET}}
-      JWT_SECRET: ${{secrets.JWT_SECRET}}
-      TEST_USER: ${{secrets.TEST_USER}}
-      TEST_USER_ID: ${{secrets.TEST_USER_ID}}
-    steps:
-      # Checkout the current code in the repository
-      - name: Check out repository code
-        uses: actions/checkout@v3
-      # Install all the dependencies
-      - name: Install dependencies
-        run: cd packages/api && npm ci && cd ../shared && npm ci
-      # Run migrations on the database
-      - name: Setup database
-        run: cd packages/api && npm run migrate:pipeline:db
-      - name: Start servers
-        run: cd packages/api && npm run nodemon
-  job2:
-    runs-on: ubuntu-20.04
-    container: cypress/browsers:node16.5.0-chrome94-ff93
-    env:
-        JWT_INVITE_SECRET: ${{secrets.JWT_INVITE_SECRET}}
-        JWT_RESET_SECRET: ${{secrets.JWT_RESET_SECRET}}
-        JWT_SCHEDULER_SECRET: ${{secrets.JWT_SCHEDULER_SECRET}}
-        JWT_SECRET: ${{secrets.JWT_SECRET}}
-        TEST_USER: ${{secrets.TEST_USER}}
-        TEST_USER_ID: ${{secrets.TEST_USER_ID}}
-    steps:
-      - name: Public IP
-        id: ip
-        uses: haythem/public-ip@v1.2
-      - name: Second Checkout
-        uses: actions/checkout@v3  
-      - uses: pnpm/action-setup@v2.2.2
-        with:
-          version: 6.31.0
-       # Install NPM dependencies, cache them correctly
-      # and run all Cypress tests
-      - name: Install dependencies
-        run: cd packages/webapp && pnpm install --no-frozen-lockfile
-      - name: Start servers
-        run: cd packages/webapp && pnpm dev
-  cypress-run:
-    runs-on: ubuntu-20.04
-    container: cypress/browsers:node16.5.0-chrome94-ff93
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
-        with:
-          version: 17.5.0
-      - uses: pnpm/action-setup@v2.2.2
-        with:
-          version: 6.31.0
-      # Install NPM dependencies, cache them correctly
-      # and run all Cypress tests
-      - name: Install dependencies
-        run: cd packages/webapp && pnpm install --no-frozen-lockfile
-      - name: Cypress run
-        run: cd packages/webapp && pnpm cypress run --config baseUrl=${{ steps.ip.outputs.ipv4 }}:3000"
+        uses: actions/checkout@v2
 
+      - name: Install pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: latest
 
+      - name: Cypress tests
+        uses: ./
+        with:
+          working-directory: packages/webapp
+          build: npx cypress info
+          start: |
+                cd packages/api && npm run nodemon
+                cd ../webapp pnpm dev

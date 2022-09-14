@@ -2,20 +2,41 @@ name: End-to-end tests
 on: [push]
 jobs:
   job1:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
+    container: node:16.15.0
+    services:
+      postgres:
+        image: postgres:13
+        env:
+          POSTGRES_DB: 'test_farm'
+          POSTGRES_USER: 'postgres'
+          POSTGRES_PASSWORD: 'pipeline'
+          POSTGRES_HOST: postgres
+          POSTGRES_PORT: 5432
+        ports:
+          - "5432:5432"
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 5
     env:
-        JWT_INVITE_SECRET: ${{secrets.JWT_INVITE_SECRET}}
-        JWT_RESET_SECRET: ${{secrets.JWT_RESET_SECRET}}
-        JWT_SCHEDULER_SECRET: ${{secrets.JWT_SCHEDULER_SECRET}}
-        JWT_SECRET: ${{secrets.JWT_SECRET}}
-        TEST_USER: ${{secrets.TEST_USER}}
-        TEST_USER_ID: ${{secrets.TEST_USER_ID}}
+      JWT_INVITE_SECRET: ${{secrets.JWT_INVITE_SECRET}}
+      JWT_RESET_SECRET: ${{secrets.JWT_RESET_SECRET}}
+      JWT_SCHEDULER_SECRET: ${{secrets.JWT_SCHEDULER_SECRET}}
+      JWT_SECRET: ${{secrets.JWT_SECRET}}
+      TEST_USER: ${{secrets.TEST_USER}}
+      TEST_USER_ID: ${{secrets.TEST_USER_ID}}
     steps:
-      - name: Checkout
+      # Checkout the current code in the repository
+      - name: Check out repository code
         uses: actions/checkout@v3
-
+      # Install all the dependencies
       - name: Install dependencies
-        run:  cd packages/api && npm i && cd ../shared && npm i
+        run: cd packages/api && npm ci && cd ../shared && npm ci
+      # Run migrations on the database
+      - name: Setup database
+        run: cd packages/api && npm run migrate:pipeline:db
       - name: Start servers
         run: cd packages/api && npm run nodemon
   job2:

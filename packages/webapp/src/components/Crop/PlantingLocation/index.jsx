@@ -12,6 +12,8 @@ import Checkbox from '../../Form/Checkbox';
 import { useForm } from 'react-hook-form';
 import { cloneObject } from '../../../util';
 import { getPlantingLocationPaths } from '../getAddManagementPlanPath';
+import { cropVarietySelector } from '../../../containers/cropVarietySlice';
+import { useSelector } from 'react-redux';
 
 export default function PurePlantingLocation({
   persistedFormData,
@@ -98,11 +100,24 @@ export default function PurePlantingLocation({
   const handlePinMode = () => {
     setPinToggle((pinToggle) => !pinToggle);
   };
+  const crop = useSelector(cropVarietySelector(variety_id));
 
-  const onSubmit = () =>
-    history.push(
-      getPlantingLocationPaths(variety_id, persistedFormData, isFinalLocationPage).submitPath,
-    );
+  const onSubmit = () => {
+    const d = getValues();
+    const selectedLocationId =
+      d?.crop_management_plan?.planting_management_plans[locationPrefix]?.location_id;
+    const selectedLocation = cropLocations.find((c) => c.location_id === selectedLocationId);
+    const isCropOrganic = crop.organic;
+    const isSelectedLocationOrganic = selectedLocation.organic_status === 'Organic';
+    if (isCropOrganic !== isSelectedLocationOrganic) {
+      console.log('show pop up');
+    } else {
+      history.push(
+        getPlantingLocationPaths(variety_id, persistedFormData, isFinalLocationPage).submitPath,
+      );
+    }
+  };
+
   const onGoBack = () => {
     history.back();
     ``;

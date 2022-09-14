@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import AreaDetails from '../AreaDetails';
 import { useForm, useFormContext } from 'react-hook-form';
@@ -90,6 +90,7 @@ export function FieldDetailsChildren({ isViewLocationPage }) {
   const { t } = useTranslation();
   const { control, watch, register } = useFormContext();
   const fieldTypeSelection = watch(fieldEnum.organic_status);
+  const [transitionalDate, setTransitionalDate] = useState(watch(fieldEnum.transition_date));
   return (
     <div>
       <div style={{ marginBottom: '20px' }}>
@@ -128,6 +129,8 @@ export function FieldDetailsChildren({ isViewLocationPage }) {
             label={t('FARM_MAP.FIELD.DATE')}
             hookFormRegister={register(fieldEnum.transition_date, { required: true })}
             disabled={isViewLocationPage}
+            onChange={(e) => setTransitionalDate(e.target.value)}
+            value={transitionalDate}
           />
         )}
       </div>

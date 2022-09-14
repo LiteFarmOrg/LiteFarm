@@ -10,7 +10,7 @@ jobs:
         
       - uses: pnpm/action-setup@v2.2.2
         with:
-          version: 7.8
+          version: 6.31.0
       # Install NPM dependencies, cache them correctly
       # and run all Cypress tests
       - name: Install dependencies

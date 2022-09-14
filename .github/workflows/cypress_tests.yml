@@ -76,7 +76,7 @@ jobs:
       # Install NPM dependencies, cache them correctly
       # and run all Cypress tests
       - name: Install dependencies
-        run: cd packages/webapp && pnpm install
+        run: cd packages/webapp && pnpm install --no-frozen-lockfile
       - name: Cypress run
         run: cd packages/webapp && pnpm cypress run
 

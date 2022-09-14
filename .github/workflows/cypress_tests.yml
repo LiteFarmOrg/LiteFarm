@@ -14,14 +14,6 @@ jobs:
       # Install NPM dependencies, cache them correctly
       # and run all Cypress tests
       - name: Install dependencies
-        run: apt-get install sudo && cd packages/api && sudo npm install --unsafe-perm=true --allow-root && cd ../shared && npm ci && cd ../webapp && pnpm install --no-frozen-lockfile
+        run:  cd packages/api && npm ci && cd ../shared && npm ci && cd ../webapp && pnpm install --no-frozen-lockfile
       - name: Cypress run
-        uses: cypress-io/github-action@v4.2.0
-        with:
-          config-file: ./packages/webapp/cypress.config.ts
-          browser: chrome
-          headed: false
-          spec: ./packages/webapp/cypress/e2e/test.spec.js
-          start: |
-            cd packages/api && npm run nodemon
-            cd packages/webapp && pnpm dev
+        run: pnpm cypress run

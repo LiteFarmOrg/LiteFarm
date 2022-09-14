@@ -12,7 +12,7 @@ jobs:
         with:
           version: latest
       - name: Install dependencies
-        run: pnpm install --frozen-lockfile
+        run: pnpm install
 
       - name: Cypress run
         uses: cypress-io/github-action@v4.2.0

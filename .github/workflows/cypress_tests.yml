@@ -17,8 +17,9 @@ jobs:
       - name: Cypress run
         uses: cypress-io/github-action@v4.2.0
         with:
-          working-directory: packages/webapp/cypress
+          working-directory: packages/webapp
           build: npx cypress info
+          spec: packages/webapp/cypress/e2e/happyPath.spec.js
           start: |
                 cd packages/api && npm run nodemon
                 cd ../webapp pnpm dev

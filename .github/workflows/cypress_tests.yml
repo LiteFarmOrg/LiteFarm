@@ -28,8 +28,6 @@ jobs:
       TEST_USER: ${{secrets.TEST_USER}}
       TEST_USER_ID: ${{secrets.TEST_USER_ID}}
     steps:
-      - name: 🔎 Check IP
-        run: curl https://api.ipify.org
       # Checkout the current code in the repository
       - name: Check out repository code
         uses: actions/checkout@v3
@@ -52,12 +50,11 @@ jobs:
         TEST_USER: ${{secrets.TEST_USER}}
         TEST_USER_ID: ${{secrets.TEST_USER_ID}}
     steps:
-      - name: 🔎 Check IP
-        run: curl https://api.ipify.org
+      - name: Public IP
+        id: ip
+        uses: haythem/public-ip@v1.2
       - name: Second Checkout
-        uses: actions/checkout@v3
-
-          
+        uses: actions/checkout@v3  
       - uses: pnpm/action-setup@v2.2.2
         with:
           version: 6.31.0
@@ -70,9 +67,9 @@ jobs:
   cypress-run:
     runs-on: ubuntu-20.04
     container: cypress/browsers:node16.5.0-chrome94-ff93
+    env:
+        base_url: ${{ steps.ip.outputs.ipv4 }}
     steps:
-      - name: Check IP
-        run: curl https://api.ipify.org
       - name: Checkout
         uses: actions/checkout@v3
         with:

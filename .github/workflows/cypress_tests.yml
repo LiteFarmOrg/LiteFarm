@@ -3,7 +3,7 @@ on: [push]
 jobs:
   cypress-run:
     runs-on: ubuntu-20.04
-    container: cypress/browsers:node16.15.0-chrome78-ff70
+    container: cypress/browsers:node16.5.0-chrome94-ff93
     steps:
       - name: Checkout
         uses: actions/checkout@v2

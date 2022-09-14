@@ -16,4 +16,4 @@ jobs:
       - name: Install dependencies
         run:  cd packages/api && npm ci && cd ../shared && npm ci && cd ../webapp && pnpm install --no-frozen-lockfile
       - name: Cypress run
-        run: pnpm cypress run
+        run: cd packages/webapp && pnpm cypress run

@@ -58,5 +58,7 @@
   "UPLOADING": "Uploading...",
   "WORD_LIMIT_ERROR": "Only {{value}} characters can be displayed",
   "YEAR": "Year",
-  "YES": "Yes"
+  "YES": "Yes",
+  "GO_BACK": "Go back",
+  "THATS_FINE": "That’s fine"
 }

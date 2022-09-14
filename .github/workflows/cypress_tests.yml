@@ -13,7 +13,10 @@ jobs:
         with:
           version: latest
       - name: Install dependencies
-        run: cd packages/webapp && pnpm install --no-frozen-lockfile
+        run: |
+            npm install -g n
+            n lts
+            cd packages/webapp && pnpm install --no-frozen-lockfile
 
       - name: Cypress run
         uses: cypress-io/github-action@v4.2.0

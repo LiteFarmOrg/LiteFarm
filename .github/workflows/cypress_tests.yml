@@ -12,8 +12,8 @@ jobs:
         with:
           version: latest
 
-      - name: Cypress tests
-        uses: ./
+      - name: Cypress run
+        uses: cypress-io/github-action@v4.2.0
         with:
           working-directory: packages/webapp/cypress
           build: npx cypress info

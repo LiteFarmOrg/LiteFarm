@@ -17,7 +17,7 @@ jobs:
       # and run all Cypress tests
       - name: Install dependencies
         run:  cd packages/api && npm ci && cd ../shared && npm ci && cd ../webapp && pnpm install --no-frozen-lockfile
-      -name: Start servers
+      - name: Start servers
         run: cd packages/api && npm run nodemon && cd ../webapp && pnpm dev
       - name: Cypress run
         run: cd packages/webapp && pnpm cypress run

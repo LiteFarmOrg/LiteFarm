@@ -63,15 +63,21 @@ jobs:
       - name: Start servers
         run: cd packages/webapp && pnpm dev
   cypress-run:
-      runs-on: ubuntu-latest
-      steps:
+    runs-on: ubuntu-20.04
+    container: cypress/browsers:node16.5.0-chrome94-ff93
+    steps:
       - name: Checkout
-        uses: actions/checkout@v2
-      # Install NPM dependencies, cache them correctly
-      # and run all Cypress tests with `quiet` parameter
-      - name: Cypress run
-        uses: ./
+        uses: actions/checkout@v3
         with:
-          working-directory: packages/webapp
-          quiet: true
+          version: 17.5.0
+      - uses: pnpm/action-setup@v2.2.2
+        with:
+          version: 6.31.0
+      # Install NPM dependencies, cache them correctly
+      # and run all Cypress tests
+      - name: Install dependencies
+        run: cd packages/webapp && pnpm install
+      - name: Cypress run
+        run: cd packages/webapp && pnpm cypress run
+
 

@@ -1,9 +1,8 @@
 name: End-to-end tests
 on: [push]
 jobs:
-  cypress-run:
-    runs-on: ubuntu-20.04
-    container: cypress/browsers:node16.5.0-chrome94-ff93
+  job1:
+    runs-on: ubuntu-latest
     env:
         JWT_INVITE_SECRET: ${{secrets.JWT_INVITE_SECRET}}
         JWT_RESET_SECRET: ${{secrets.JWT_RESET_SECRET}}
@@ -14,18 +13,43 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+        
         with:
           version: 17.5.0
+      - name: Install dependencies
+        run:  cd packages/api && npm ci && cd ../shared && npm ci
+      - name: Start servers
+        run: cd packages/api && npm run nodemon
+  job2:
+    runs-on: ubuntu-latest
+    env:
+        JWT_INVITE_SECRET: ${{secrets.JWT_INVITE_SECRET}}
+        JWT_RESET_SECRET: ${{secrets.JWT_RESET_SECRET}}
+        JWT_SCHEDULER_SECRET: ${{secrets.JWT_SCHEDULER_SECRET}}
+        JWT_SECRET: ${{secrets.JWT_SECRET}}
+        TEST_USER: ${{secrets.TEST_USER}}
+        TEST_USER_ID: ${{secrets.TEST_USER_ID}}
+    needs: job1
+    steps:
+      - name: Second Checkout
+        uses: actions/checkout@v3
+        with:
+          version: 17.5.0
+          
       - uses: pnpm/action-setup@v2.2.2
         with:
           version: 6.31.0
-      # Install NPM dependencies, cache them correctly
+       # Install NPM dependencies, cache them correctly
       # and run all Cypress tests
       - name: Install dependencies
-        run:  cd packages/api && npm ci && cd ../shared && npm ci && cd ../webapp && pnpm install --no-frozen-lockfile
+        run: cd packages/webapp && pnpm install --no-frozen-lockfile
       - name: Start servers
-        run: |
-            cd packages/api && npm run nodemon
-            cd ../webapp && pnpm dev
-      - name: Cypress run
-        run: cd packages/webapp && pnpm cypress run
+        run: cd packages/webapp && pnpm dev
+  cypress-run:
+    needs: job2
+    runs-on: ubuntu-20.04
+    container: cypress/browsers:node12.13.0-chrome78-ff70
+    steps:
+      - name: Checkout
+        run: cd packages/webapp pnpm cypress run
+  

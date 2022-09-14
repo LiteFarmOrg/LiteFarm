@@ -28,6 +28,8 @@ jobs:
       TEST_USER: ${{secrets.TEST_USER}}
       TEST_USER_ID: ${{secrets.TEST_USER_ID}}
     steps:
+      - name: 🔎 Check IP
+        run: curl https://api.ipify.org
       # Checkout the current code in the repository
       - name: Check out repository code
         uses: actions/checkout@v3
@@ -41,6 +43,7 @@ jobs:
         run: cd packages/api && npm run nodemon
   job2:
     runs-on: ubuntu-latest
+    
     env:
         JWT_INVITE_SECRET: ${{secrets.JWT_INVITE_SECRET}}
         JWT_RESET_SECRET: ${{secrets.JWT_RESET_SECRET}}
@@ -49,6 +52,8 @@ jobs:
         TEST_USER: ${{secrets.TEST_USER}}
         TEST_USER_ID: ${{secrets.TEST_USER_ID}}
     steps:
+      - name: 🔎 Check IP
+        run: curl https://api.ipify.org
       - name: Second Checkout
         uses: actions/checkout@v3
 
@@ -66,6 +71,8 @@ jobs:
     runs-on: ubuntu-20.04
     container: cypress/browsers:node16.5.0-chrome94-ff93
     steps:
+      - name: 🔎 Check IP
+        run: curl https://api.ipify.org
       - name: Checkout
         uses: actions/checkout@v3
         with:

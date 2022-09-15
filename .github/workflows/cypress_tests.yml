@@ -46,5 +46,4 @@ jobs:
           wait-on-timeout: 120
           browser: chrome
           build: npx cypress info
-          start: |
-              pnpm dev
+          start: pnpm dev, npm run start

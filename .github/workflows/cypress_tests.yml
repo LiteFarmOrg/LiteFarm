@@ -42,6 +42,9 @@ jobs:
         uses: haythem/public-ip@v1.2
       - name: START
         run: cd packages/api && npm run start
+    outputs:
+          ipAddress: ${{ steps.ip.outputs.ipv4 }}
+        
 
         
   
@@ -49,7 +52,7 @@ jobs:
       runs-on: ubuntu-latest
       container: cypress/browsers:node12.18.3-chrome87-ff82
       env: 
-          VITE_API_URL: '${{ steps.ip.outputs.ipv6 }}/5001'
+          VITE_API_URL: "${{ needs.spin_up.outputs.ipAddress }}/5001"
           
       steps:
       - name: Checkout

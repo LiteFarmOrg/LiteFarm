@@ -1,26 +1,68 @@
-name: End-to-end tests
-on: [push]
-jobs:
-  basic-pnpm-ubuntu-20:
-      runs-on: ubuntu-latest
-      container: cypress/browsers:node12.18.3-chrome87-ff82
-      env: 
-          VITE_API_URL: "${{ needs.automated_tests.outputs.ipAddress }}"
-          
-      steps:
-      - name: Checkout
-        uses: actions/checkout@v3
+name: CI
 
-      - name: Install pnpm
+# Controls when the workflow will run
+on:
+  # Triggers the workflow on push or pull request events but only for the main branch
+  push:
+    branches: [ main-test, main ]
+  pull_request:
+    branches: [   main-test, main ]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  
+  build:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+    environment: Testing
+    strategy:
+      matrix:
+        node-version: 16.x
+      max-parallel: 1
+    services:
+      postgres:
+        image: postgres:13
+        env:
+          POSTGRES_DB: 'test_farm'
+          POSTGRES_USER: 'postgres'
+          POSTGRES_PASSWORD: 'pipeline'
+          POSTGRES_HOST: postgres
+          POSTGRES_PORT: 5432
+        ports:
+          - "5432:5432"
+    
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v3
+        with: 
+          ref: 'testing'
+
+      - name: Install server npm packages
+        uses: bahmutov/npm-install@v1
+        with:
+          working-directory: packages/api
+
+      - name: Install client pnpm packages
         uses: pnpm/action-setup@v2
         with:
-          version: latest
-      - name: Install dependencies
-        run: |
-            echo "$VITE_API_URL"
-            npm install -g n
-            n lts
-            cd packages/webapp && pnpm install --no-frozen-lockfile
+          working-directory: packages/webapp
+
+      - name: Start server in the background
+        env: 
+          POSTGRES_DB: 'test_farm'
+          POSTGRES_USER: 'postgres'
+          POSTGRES_PASSWORD: 'pipeline'
+          POSTGRES_HOST: postgres
+          POSTGRES_PORT: 5432
+        run: (cd packages/api && npm run start &)
+
+      - name: Start React app in the background
+        run: (cd packages/webapp && pnpm dev &)
 
       - name: Cypress run
         uses: cypress-io/github-action@v4.2.0
@@ -31,4 +73,3 @@ jobs:
           wait-on-timeout: 120
           browser: chrome
           build: npx cypress info
-          start: pnpm dev

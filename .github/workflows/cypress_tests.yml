@@ -48,4 +48,4 @@ jobs:
           build: npx cypress info
           start: |
               cd ../api && npm run migrate:dev:db && npm run
-              pnpm dev
+              cd ../webapp && pnpm dev

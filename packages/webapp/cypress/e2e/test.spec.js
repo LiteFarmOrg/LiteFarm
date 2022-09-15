@@ -12,7 +12,7 @@ describe.only('LiteFarm end to end test', () => {
     });
   });
 
-  it.only('Happy path test', { defaultCommandTimeout: 7000 }, () => {
+  it.only('Happy path test', { defaultCommandTimeout: 10000 }, () => {
     cy.visit('/');
     cy.get('[data-cy=email]').should('exist');
     cy.get('[data-cy=continue]').should('exist');

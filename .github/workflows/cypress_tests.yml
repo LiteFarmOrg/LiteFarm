@@ -11,9 +11,9 @@ jobs:
       postgres:
         image: postgres:13
         env:
-          POSTGRES_DB: 'test_farm'
+          POSTGRES_DB: 'pg-litefarm'
           POSTGRES_USER: 'postgres'
-          POSTGRES_PASSWORD: 'pipeline'
+          POSTGRES_PASSWORD: 'postgres'
           POSTGRES_HOST: postgres
           POSTGRES_PORT: 5432
         ports:
@@ -49,7 +49,7 @@ jobs:
           npm install -g n
           n lts
           npm install express
-          npm run migrate:pipeline:db
+          npm run migrate:dev:db
           npm run start &
         env:
           PORT: 5000

@@ -9,7 +9,7 @@ jobs:
     container: cypress/browsers:node12.18.3-chrome87-ff82
     services:
       postgres:
-        image: postgres:10
+        image: postgres:13
         env:
           POSTGRES_DB: 'test_farm'
           POSTGRES_USER: 'postgres'
@@ -49,7 +49,6 @@ jobs:
           npm install -g n
           n lts
           npm install express
-          npm run migrate:pipeline:db
           npm run start &
         env:
           PORT: 5000

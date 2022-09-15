@@ -4,6 +4,17 @@ jobs:
   basic-pnpm-ubuntu-20:
     runs-on: ubuntu-latest
     container: cypress/browsers:node12.18.3-chrome87-ff82
+    services:
+      postgres:
+        image: postgres:13
+        env:
+          POSTGRES_DB: 'pg-litefarm'
+          POSTGRES_USER: 'postgres'
+          POSTGRES_PASSWORD: 'postgres'
+          POSTGRES_HOST: postgres
+          POSTGRES_PORT: 5432
+        ports:
+          - "5432:5432"
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -22,9 +33,11 @@ jobs:
         uses: cypress-io/github-action@v4.2.0
         with:
           install: false
-          wait-on: 'http://localhost:3000'
+          wait-on: 'http://localhost:5000'
           working-directory: packages/webapp
           wait-on-timeout: 120
           browser: chrome
           build: npx cypress info
-          start: pnpm dev
+          start: |
+              cd ../api && npm run migrate:pipeline:db && npm run
+              pnpm dev

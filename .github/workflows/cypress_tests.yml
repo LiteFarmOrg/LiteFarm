@@ -23,7 +23,7 @@ jobs:
         working-directory: packages/api
         run: |
           npm install -g n
-          lts
+          n lts
           npm run start &
         env:
           PORT: 5000

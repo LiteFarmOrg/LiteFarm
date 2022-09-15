@@ -269,8 +269,10 @@ Cypress.Commands.add('newUserLogin', (email) => {
 Cypress.Commands.add('createAccount', (email, fullName, gender, language, birthYear, password) => {
   cy.contains('Create new user account').should('exist');
   //cy.get('[data-cy=createUser-email]').should('eq', email);
-  cy.get('[data-cy=createUser-fullName]').type(fullName, { force: true });
   cy.get('[data-cy=createUser-password]').type(password, { force: true });
+  cy.get('[data-cy=createUser-fullName]').type(fullName, { force: true });
+
+  cy.contains('character').click();
   //cy.createUserGender().click();
   //cy.createUserGenderOptions().eq(1).contains(gender).click();
   cy.contains('Create Account').should('exist').and('be.enabled').click();

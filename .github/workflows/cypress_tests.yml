@@ -41,11 +41,11 @@ jobs:
         uses: cypress-io/github-action@v4.2.0
         with:
           install: false
-          wait-on: 'http://localhost:5000'
+          wait-on: 'http://localhost:3000'
           working-directory: packages/webapp
           wait-on-timeout: 120
           browser: chrome
           build: npx cypress info
           start: |
               pnpm dev
-              cd ../api && npm run migrate:dev:db && npm run nodemon
+              #cd ../api && npm run migrate:dev:db && npm run nodemon

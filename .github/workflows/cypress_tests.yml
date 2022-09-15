@@ -27,8 +27,7 @@ jobs:
         with:
           install: false
           wait-on: 'http://localhost:3000'
-          working-directory: packages/webapp
           wait-on-timeout: 120
           browser: chrome
           build: npx cypress info
-          start: pnpm dev, echo $PATH
+          start: cd packages/webapp && pnpm dev, cd ../api && npm run start

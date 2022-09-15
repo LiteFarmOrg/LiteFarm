@@ -39,5 +39,6 @@ describe.only('LiteFarm end to end test', () => {
 
     //create account
     cy.createAccount(emailOwner, fullName, gender, null, null, password);
+    cy.url().should('include', 'welcome');
   });
 });

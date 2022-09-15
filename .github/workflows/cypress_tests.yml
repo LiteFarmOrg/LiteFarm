@@ -28,6 +28,11 @@ jobs:
           npm run start &
         env:
           PORT: 5000
+          
+      - name: Install pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: latest
 
       - name: Run and test app
         working-directory: packages/webapp
@@ -38,3 +43,5 @@ jobs:
         env:
           CI: true
           API_URI: http://localhost:5000
+          
+       

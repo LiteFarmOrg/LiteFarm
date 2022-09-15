@@ -11,7 +11,7 @@ jobs:
       postgres:
         image: postgres:13
         env:
-          POSTGRES_DB: 'pg-litefarm'
+          POSTGRES_DB: 'test_farm'
           POSTGRES_USER: 'postgres'
           POSTGRES_PASSWORD: 'pipeline'
           POSTGRES_HOST: postgres

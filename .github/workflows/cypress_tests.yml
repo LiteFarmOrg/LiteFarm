@@ -47,7 +47,7 @@ jobs:
         run: |
           pnpm install --no-frozen-lockfile
           pnpm dev &
-          pnpm cypress run
+          pnpm cypress run --browser chrome
         env:
           CI: true
           API_URI: http://localhost:5000

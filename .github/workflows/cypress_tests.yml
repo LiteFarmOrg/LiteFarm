@@ -52,7 +52,7 @@ jobs:
       runs-on: ubuntu-latest
       container: cypress/browsers:node12.18.3-chrome87-ff82
       env: 
-          VITE_API_URL: "${{ needs.spin_up.outputs.ipAddress }}/5001"
+          VITE_API_URL: "${{ needs.automated_tests.outputs.ipAddress }}/5001"
           
       steps:
       - name: Checkout

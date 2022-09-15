@@ -22,15 +22,16 @@ jobs:
       - name: Run API in background
         working-directory: packages/api
         run: |
-          npm install
-          npm run start
+          npm install -g n
+          lts
+          npm run start &
         env:
           PORT: 5000
 
       - name: Run and test app
         working-directory: packages/webapp
         run: |
-          pnpm install
+          pnpm install --no-frozen-lockfile
           pnpm dev &
           pnpm cypress run
         env:

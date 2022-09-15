@@ -9,7 +9,7 @@ jobs:
     container: cypress/browsers:node12.18.3-chrome87-ff82
     services:
       postgres:
-        image: postgres:13
+        image: postgres:10
         env:
           POSTGRES_DB: 'test_farm'
           POSTGRES_USER: 'postgres'

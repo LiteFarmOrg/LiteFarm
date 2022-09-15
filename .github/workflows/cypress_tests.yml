@@ -64,7 +64,7 @@ jobs:
           version: latest
       - name: Install dependencies
         run: |
-          echo ${{ VITE_API_URL }}
+            echo "$VITE_API_URL"
             npm install -g n
             n lts
             cd packages/webapp && pnpm install --no-frozen-lockfile

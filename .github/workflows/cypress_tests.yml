@@ -7,6 +7,22 @@ jobs:
     timeout-minutes: 10
     runs-on: ubuntu-latest
     container: cypress/browsers:node12.18.3-chrome87-ff82
+    services:
+      postgres:
+        image: postgres:13
+        env:
+          POSTGRES_DB: 'test_farm'
+          POSTGRES_USER: 'postgres'
+          POSTGRES_PASSWORD: 'pipeline'
+          POSTGRES_HOST: postgres
+          POSTGRES_PORT: 5432
+        ports:
+          - "5432:5432"
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 5
     env:
       JWT_INVITE_SECRET: ${{secrets.JWT_INVITE_SECRET}}
       JWT_RESET_SECRET: ${{secrets.JWT_RESET_SECRET}}
@@ -33,6 +49,7 @@ jobs:
           npm install -g n
           n lts
           npm install express
+          npm run migrate:pipeline:db
           npm run start &
         env:
           PORT: 5000

@@ -49,7 +49,7 @@ jobs:
           npm install -g n
           n lts
           npm install express
-          npm run migrate:dev:db
+          npm run migrate:pipeline:db
           npm run start &
         env:
           PORT: 5000

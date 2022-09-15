@@ -42,6 +42,7 @@ const CreateMarkerCluster = (
           icon: {
             url: `data:image/svg+xml;base64,${svg}`,
           },
+          zIndex: 10,
         });
         eventListeners.forEach((e) => {
           m.addListener(e.event, e.callbackFunction(m));

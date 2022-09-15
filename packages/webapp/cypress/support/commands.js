@@ -272,7 +272,7 @@ Cypress.Commands.add('createAccount', (email, fullName, gender, language, birthY
   cy.get('[data-cy=createUser-password]').type(password, { force: true });
   cy.get('[data-cy=createUser-fullName]').type(fullName, { force: true });
 
-  cy.contains('character').click();
+  cy.contains('character').click({ force: true });
   //cy.createUserGender().click();
   //cy.createUserGenderOptions().eq(1).contains(gender).click();
   cy.contains('Create Account').should('exist').and('be.enabled').click({ force: true });

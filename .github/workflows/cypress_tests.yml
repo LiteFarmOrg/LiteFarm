@@ -35,7 +35,7 @@ jobs:
           install: false
           wait-on: 'http://localhost:5000'
           working-directory: packages/webapp
-          wait-on-timeout: 120
+          wait-on-timeout: 12000
           browser: chrome
           build: npx cypress info
           start: |

@@ -1,17 +1,7 @@
 name: CI
 
 # Controls when the workflow will run
-on:
-  # Triggers the workflow on push or pull request events but only for the main branch
-  push:
-    branches: [ main-test, main ]
-  pull_request:
-    branches: [   main-test, main ]
-
-  # Allows you to run this workflow manually from the Actions tab
-  workflow_dispatch:
-
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+on: [push]
 jobs:
   # This workflow contains a single job called "build"
   
@@ -21,7 +11,7 @@ jobs:
     environment: Testing
     strategy:
       matrix:
-        node-version: 16.x
+        node-version: [16.14.0]
       max-parallel: 1
     services:
       postgres:

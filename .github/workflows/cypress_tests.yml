@@ -47,5 +47,5 @@ jobs:
           browser: chrome
           build: npx cypress info
           start: |
-              cd ../api && npm run migrate:pipeline:db && npm run
+              cd ../api && npm run migrate:dev:db && npm run
               pnpm dev

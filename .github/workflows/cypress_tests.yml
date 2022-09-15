@@ -7,6 +7,13 @@ jobs:
     timeout-minutes: 10
     runs-on: ubuntu-latest
     container: cypress/browsers:node12.18.3-chrome87-ff82
+    env:
+      JWT_INVITE_SECRET: ${{secrets.JWT_INVITE_SECRET}}
+      JWT_RESET_SECRET: ${{secrets.JWT_RESET_SECRET}}
+      JWT_SCHEDULER_SECRET: ${{secrets.JWT_SCHEDULER_SECRET}}
+      JWT_SECRET: ${{secrets.JWT_SECRET}}
+      TEST_USER: ${{secrets.TEST_USER}}
+      TEST_USER_ID: ${{secrets.TEST_USER_ID}}
 
     strategy:
       matrix:

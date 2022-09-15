@@ -13,7 +13,7 @@ jobs:
         env:
           POSTGRES_DB: 'pg-litefarm'
           POSTGRES_USER: 'postgres'
-          POSTGRES_PASSWORD: 'postgres'
+          POSTGRES_PASSWORD: 'pipeline'
           POSTGRES_HOST: postgres
           POSTGRES_PORT: 5432
         ports:

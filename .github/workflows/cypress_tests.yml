@@ -62,7 +62,7 @@ jobs:
         working-directory: packages/webapp
         run: |
           pnpm install --no-frozen-lockfile
-          pnpm i @cypress/code-coverage
+          npm i @cypress/code-coverage
           pnpm dev &
           pnpm cypress run --browser chrome --spec cypress/e2e/test.spec.js
           

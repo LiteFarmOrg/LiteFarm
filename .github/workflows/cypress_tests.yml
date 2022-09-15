@@ -1,65 +1,38 @@
-name: CI
+name: Test App
 
-# Controls when the workflow will run
 on: [push]
+
 jobs:
-  # This workflow contains a single job called "build"
-  
   build:
-    # The type of runner that the job will run on
+    timeout-minutes: 10
     runs-on: ubuntu-latest
-    environment: Testing
+
     strategy:
       matrix:
         node-version: [16.14.0]
-      max-parallel: 1
-    services:
-      postgres:
-        image: postgres:13
-        env:
-          POSTGRES_DB: 'test_farm'
-          POSTGRES_USER: 'postgres'
-          POSTGRES_PASSWORD: 'pipeline'
-          POSTGRES_HOST: postgres
-          POSTGRES_PORT: 5432
-        ports:
-          - "5432:5432"
-    
-    # Steps represent a sequence of tasks that will be executed as part of the job
+
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v3
-        with: 
-          ref: 'testing'
 
-      - name: Install server npm packages
-        uses: bahmutov/npm-install@v1
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
         with:
-          working-directory: packages/api
+          node-version: ${{ matrix.node-version }}
 
-      - name: Install client pnpm packages
-        uses: pnpm/action-setup@v2
-        with:
-          working-directory: packages/webapp
+      - name: Run API in background
+        working-directory: packages/api
+        run: |
+          npm install
+          npm run start
+        env:
+          PORT: 5000
 
-      - name: Start server in the background
-        env: 
-          POSTGRES_DB: 'test_farm'
-          POSTGRES_USER: 'postgres'
-          POSTGRES_PASSWORD: 'pipeline'
-          POSTGRES_HOST: postgres
-          POSTGRES_PORT: 5432
-        run: (cd packages/api && npm run start &)
-
-      - name: Start React app in the background
-        run: (cd packages/webapp && pnpm dev &)
-
-      - name: Cypress run
-        uses: cypress-io/github-action@v4.2.0
-        with:
-          install: false
-          working-directory: packages/webapp
-          wait-on: 'http://localhost:3000'
-          wait-on-timeout: 120
-          browser: chrome
-          build: npx cypress info
+      - name: Run and test app
+        working-directory: packages/webapp
+        run: |
+          pnpm install
+          pnpm dev &
+          pnpm cypress run
+        env:
+          CI: true
+          API_URI: http://localhost:5000

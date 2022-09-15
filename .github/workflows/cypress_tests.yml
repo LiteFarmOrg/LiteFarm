@@ -15,6 +15,14 @@ jobs:
           POSTGRES_PORT: 5432
         ports:
           - "5432:5432"
+    env:
+      JWT_INVITE_SECRET: ${{secrets.JWT_INVITE_SECRET}}
+      JWT_RESET_SECRET: ${{secrets.JWT_RESET_SECRET}}
+      JWT_SCHEDULER_SECRET: ${{secrets.JWT_SCHEDULER_SECRET}}
+      JWT_SECRET: ${{secrets.JWT_SECRET}}
+      TEST_USER: ${{secrets.TEST_USER}}
+      TEST_USER_ID: ${{secrets.TEST_USER_ID}}
+      
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -35,7 +43,7 @@ jobs:
           install: false
           wait-on: 'http://localhost:5000'
           working-directory: packages/webapp
-          wait-on-timeout: 12000
+          wait-on-timeout: 120
           browser: chrome
           build: npx cypress info
           start: |

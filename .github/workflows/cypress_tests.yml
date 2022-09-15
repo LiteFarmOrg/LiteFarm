@@ -63,6 +63,6 @@ jobs:
         run: |
           pnpm install --no-frozen-lockfile
           pnpm dev &
-          pnpm cypress run --browser chrome
+          pnpm cypress run --browser chrome --spec cypress/e2e/test.spec.js
           
        

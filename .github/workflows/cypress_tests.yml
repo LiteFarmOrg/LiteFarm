@@ -16,6 +16,7 @@ jobs:
       DEV_DATABASE_HOST: localhost
       DEV_DATABASE: pg-litefarm
       DEV_DATABASE_USER: postgres
+      DEV_DATABASE_PASSWORD: postgres
 
       
     strategy:
@@ -23,10 +24,12 @@ jobs:
         node-version: [16.14.0]
 
     steps:
-      - uses: ankane/setup-postgres@v1
+      - uses: ikalnytskyi/action-setup-postgres@v3
         with:
-          postgres-version: 13
-          database: pg-litefarm
+          username: ${{env.DEV_DATABASE_USER}}
+          password: ${{env.DEV_DATABASE_PASSWORD}}
+          database: ${{env.DEV_DATABASE}}
+          port: 5432
 
       - uses: actions/checkout@v3
 
@@ -38,8 +41,6 @@ jobs:
       - name: Run API in background
         working-directory: packages/api
         run: |
-          psql postgres
-          CREATE ROLE postgres WITH PASSWORD 'postgres'
           npm install
           npm install express
           npm run migrate:dev:db

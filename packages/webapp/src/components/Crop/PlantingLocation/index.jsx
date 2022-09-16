@@ -115,7 +115,7 @@ export default function PurePlantingLocation({
     const selectedLocationId =
       getValues()?.crop_management_plan?.planting_management_plans[locationPrefix]?.location_id;
     const selectedLocation = cropLocations.find((c) => c.location_id === selectedLocationId);
-    const isCropOrganic = crop.organic;
+    const isCropOrganic = crop.organic ?? false;
     const isSelectedLocationOrganic = selectedLocation?.organic_status?.toLowerCase() === ORGANIC;
     if (isCropOrganic !== isSelectedLocationOrganic) {
       let content = {};

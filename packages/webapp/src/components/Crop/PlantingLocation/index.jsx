@@ -107,8 +107,16 @@ export default function PurePlantingLocation({
   };
   const crop = useSelector(cropVarietySelector(variety_id));
 
+  const proceedToNextStep = () =>
+    history.push(
+      getPlantingLocationPaths(variety_id, persistedFormData, isFinalLocationPage).submitPath,
+    );
+
   const checkAndClearLocations = (dismissStatus) => {
-    if (dismissStatus !== buttonStatusEnum.GO_BACK) return;
+    if (dismissStatus === buttonStatusEnum.THATS_FINE) {
+      proceedToNextStep();
+      return;
+    }
     setValue(LOCATION_ID, null);
   };
 
@@ -132,9 +140,7 @@ export default function PurePlantingLocation({
         return true;
       });
     } else {
-      history.push(
-        getPlantingLocationPaths(variety_id, persistedFormData, isFinalLocationPage).submitPath,
-      );
+      proceedToNextStep();
     }
   };
 

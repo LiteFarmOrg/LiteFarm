@@ -17,19 +17,20 @@ const OrganicStatusMismatchModal = ({ modalContent, dismissModal }) => {
         <>
           <Button
             className={styles.button}
-            onClick={() => dismissModal(buttonStatusEnum.GO_BACK)}
-            type={'submit'}
-            sm
-          >
-            {t('common:GO_BACK')}
-          </Button>
-          <Button
-            className={styles.button}
+            color={'secondary'}
             onClick={() => dismissModal(buttonStatusEnum.THATS_FINE)}
             type={'submit'}
             sm
           >
             {t('common:THATS_FINE')}
+          </Button>
+          <Button
+            className={styles.button}
+            onClick={() => dismissModal(buttonStatusEnum.GO_BACK)}
+            type={'submit'}
+            sm
+          >
+            {t('common:GO_BACK')}
           </Button>
         </>
       }

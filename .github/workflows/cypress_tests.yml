@@ -25,8 +25,7 @@ jobs:
       - name: Run API in background
         working-directory: packages/api
         run: |
-          npm install -g n
-          n lts
+          npm install
           npm install express
           npm run start &
         env:

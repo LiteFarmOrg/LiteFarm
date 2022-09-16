@@ -58,6 +58,6 @@ jobs:
           pnpm install --no-frozen-lockfile
           npm i @cypress/code-coverage
           pnpm dev &
-          pnpm cypress run --browser chrome --spec cypress/e2e/test.spec.js --record --key 2630f414-4914-48b0-907d-aa3a9cc6a30b
+          pnpm cypress run --browser chrome --spec cypress/e2e/happyPath.spec.js --record --key 2630f414-4914-48b0-907d-aa3a9cc6a30b
           
        

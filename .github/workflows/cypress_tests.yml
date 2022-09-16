@@ -13,6 +13,10 @@ jobs:
       JWT_SECRET: ${{secrets.JWT_SECRET}}
       TEST_USER: ${{secrets.TEST_USER}}
       TEST_USER_ID: ${{secrets.TEST_USER_ID}}
+      
+    strategy:
+      matrix:
+        node-version: [16.14.0]
 
     steps:
       - uses: actions/checkout@v3

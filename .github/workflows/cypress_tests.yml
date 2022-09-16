@@ -39,7 +39,7 @@ jobs:
       - name: Run API in background
         working-directory: packages/api
         run: |
-          psql postgres
+          psql postgres &
           CREATE ROLE 'postgres' WITH LOGIN PASSWORD 'postgres';
           \du
           npm install

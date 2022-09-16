@@ -263,7 +263,7 @@ Cypress.Commands.add('getEmail', () => {
 Cypress.Commands.add('newUserLogin', (email) => {
   //Login page
   cy.get('[data-cy=email]').type(email);
-  cy.contains('Continue').should('exist').and('be.enabled').click();
+  cy.contains('Continue').should('exist').and('be.enabled').click({ force: true });
 });
 
 Cypress.Commands.add('createAccount', (email, fullName, gender, language, birthYear, password) => {

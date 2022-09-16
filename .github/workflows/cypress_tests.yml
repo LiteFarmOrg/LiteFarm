@@ -42,6 +42,7 @@ jobs:
         working-directory: packages/api
         run: |
           npm install
+          npm run migrate:dev:db
           npm install express
           npm run start &
         env:
@@ -55,7 +56,7 @@ jobs:
       - name: Run and test app
         working-directory: packages/webapp
         run: |
-          pnpm install --no-frozen-lockfile
+          pnpm install
           npm i @cypress/code-coverage
           pnpm dev &
           pnpm cypress run --browser chrome --spec cypress/e2e/test.spec.js --record --key 2630f414-4914-48b0-907d-aa3a9cc6a30b

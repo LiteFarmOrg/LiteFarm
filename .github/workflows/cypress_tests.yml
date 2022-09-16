@@ -6,22 +6,6 @@ jobs:
   build:
     timeout-minutes: 10
     runs-on: macos-12
-    services:
-      postgres:
-        image: postgres:13
-        env:
-          POSTGRES_DB: 'test_farm'
-          POSTGRES_USER: 'postgres'
-          POSTGRES_PASSWORD: 'pipeline'
-          POSTGRES_HOST: postgres
-          POSTGRES_PORT: 5432
-        ports:
-          - "5432:5432"
-        options: >-
-          --health-cmd pg_isready
-          --health-interval 5s
-          --health-timeout 5s
-          --health-retries 5
     env:
       JWT_INVITE_SECRET: ${{secrets.JWT_INVITE_SECRET}}
       JWT_RESET_SECRET: ${{secrets.JWT_RESET_SECRET}}
@@ -30,10 +14,6 @@ jobs:
       TEST_USER: ${{secrets.TEST_USER}}
       TEST_USER_ID: ${{secrets.TEST_USER_ID}}
 
-    strategy:
-      matrix:
-        node-version: [16.14.0]
-
     steps:
       - uses: actions/checkout@v3
 
@@ -41,6 +21,12 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
+          
+      - name: setup database 
+      - uses: ankane/setup-postgres@v1
+        with:
+          database: pg-litefarm
+          run: npm run migrate:dev:db
 
       - name: Run API in background
         working-directory: packages/api

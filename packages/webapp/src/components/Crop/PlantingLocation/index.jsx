@@ -15,6 +15,7 @@ import { getPlantingLocationPaths } from '../getAddManagementPlanPath';
 import { cropVarietySelector } from '../../../containers/cropVarietySlice';
 import { useSelector } from 'react-redux';
 import OrganicStatusMismatchModal from '../../Modals/OrganicStatusMismatchModal';
+import { buttonStatusEnum } from '../../Modals/OrganicStatusMismatchModal/constants';
 
 export default function PurePlantingLocation({
   persistedFormData,
@@ -107,7 +108,7 @@ export default function PurePlantingLocation({
   const crop = useSelector(cropVarietySelector(variety_id));
 
   const checkAndClearLocations = (dismissStatus) => {
-    if (dismissStatus !== 1) return;
+    if (dismissStatus !== buttonStatusEnum.GO_BACK) return;
     setValue(LOCATION_ID, null);
   };
 

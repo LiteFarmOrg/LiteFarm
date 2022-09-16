@@ -4,6 +4,7 @@ import ModalComponent from '../ModalComponent/v2';
 import { useTranslation } from 'react-i18next';
 import Button from '../../Form/Button';
 import styles from './styles.module.scss';
+import { buttonStatusEnum } from './constants';
 
 const OrganicStatusMismatchModal = ({ modalContent, dismissModal }) => {
   const { t } = useTranslation();
@@ -14,10 +15,20 @@ const OrganicStatusMismatchModal = ({ modalContent, dismissModal }) => {
       dismissModal={() => dismissModal(0)}
       buttonGroup={
         <>
-          <Button className={styles.button} onClick={() => dismissModal(1)} type={'submit'} sm>
+          <Button
+            className={styles.button}
+            onClick={() => dismissModal(buttonStatusEnum.GO_BACK)}
+            type={'submit'}
+            sm
+          >
             {t('common:GO_BACK')}
           </Button>
-          <Button className={styles.button} onClick={() => dismissModal(0)} type={'submit'} sm>
+          <Button
+            className={styles.button}
+            onClick={() => dismissModal(buttonStatusEnum.THATS_FINE)}
+            type={'submit'}
+            sm
+          >
             {t('common:THATS_FINE')}
           </Button>
         </>

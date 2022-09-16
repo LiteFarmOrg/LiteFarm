@@ -13,6 +13,11 @@ jobs:
       JWT_SECRET: ${{secrets.JWT_SECRET}}
       TEST_USER: ${{secrets.TEST_USER}}
       TEST_USER_ID: ${{secrets.TEST_USER_ID}}
+      DEV_DATABASE_HOST: localhost
+      DEV_DATABASE: pg-litefarm
+      DEV_DATABASE_USER: postgres
+      DEV_DATABASE_PASSWORD: postgres
+
       
     strategy:
       matrix:

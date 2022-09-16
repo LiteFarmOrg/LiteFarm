@@ -28,12 +28,7 @@ jobs:
         with:
           postgres-version: 13
           database: pg-litefarm
-          
-          run: | 
-            psql postgres
-            CREATE ROLE postgres WITH LOGIN PASSWORD 'postgres';
-            \du
-        
+
       - uses: actions/checkout@v3
 
       - name: Use Node.js ${{ matrix.node-version }}
@@ -44,6 +39,9 @@ jobs:
       - name: Run API in background
         working-directory: packages/api
         run: |
+          psql postgres
+          CREATE ROLE 'postgres' WITH LOGIN PASSWORD 'postgres';
+          \du
           npm install
           npm install express
           npm run migrate:dev:db

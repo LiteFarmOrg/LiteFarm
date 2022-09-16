@@ -41,6 +41,7 @@ jobs:
       - name: Run API in background
         working-directory: packages/api
         run: |
+          npm i knex
           npm run migrate:dev:db
           npm install
           npm install express

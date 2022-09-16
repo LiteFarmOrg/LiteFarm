@@ -21,12 +21,6 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
-          
-      - name: setup database 
-      - uses: ankane/setup-postgres@v1
-        with:
-          database: pg-litefarm
-          run: npm run migrate:dev:db
 
       - name: Run API in background
         working-directory: packages/api

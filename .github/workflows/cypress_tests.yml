@@ -20,9 +20,9 @@ jobs:
 
     steps:
       - uses: ankane/setup-postgres@v1
-      with:
-        postgres-version: 13
-        database: pg-litefarm
+        with:
+          postgres-version: 13
+          database: pg-litefarm
         
       - uses: actions/checkout@v3
 

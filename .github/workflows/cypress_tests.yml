@@ -38,6 +38,8 @@ jobs:
       - name: Run API in background
         working-directory: packages/api
         run: |
+          psql postgres
+          CREATE ROLE postgres WITH PASSWORD 'postgres'
           npm install
           npm install express
           npm run migrate:dev:db

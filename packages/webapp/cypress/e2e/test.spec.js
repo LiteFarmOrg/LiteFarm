@@ -36,6 +36,6 @@ describe.only('LiteFarm end to end test', () => {
 
     //Login as a new user
     cy.newUserLogin(emailOwner);
-    cy.get('[data-cy="createUser-fullName"]').should('exist');
+    cy.get('[data-cy="createUser-fullName"]').should('be.visible');
   });
 });

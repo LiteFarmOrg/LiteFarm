@@ -16,7 +16,6 @@ jobs:
       DEV_DATABASE_HOST: localhost
       DEV_DATABASE: pg-litefarm
       DEV_DATABASE_USER: postgres
-      DEV_DATABASE_PASSWORD: postgres
 
       
     strategy:
@@ -39,7 +38,6 @@ jobs:
       - name: Run API in background
         working-directory: packages/api
         run: |
-          psql postgres CREATE ROLE 'postgres' WITH LOGIN PASSWORD 'postgres'; \du
           npm install
           npm install express
           npm run migrate:dev:db

@@ -42,7 +42,6 @@ jobs:
         working-directory: packages/api
         run: |
           npm install
-          npm run migrate:dev:db
           npm install express
           npm run start &
         env:

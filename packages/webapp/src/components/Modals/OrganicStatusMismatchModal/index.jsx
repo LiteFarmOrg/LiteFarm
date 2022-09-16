@@ -1,10 +1,11 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import ModalComponent from '../ModalComponent/v2';
 import { useTranslation } from 'react-i18next';
 import Button from '../../Form/Button';
 import styles from './styles.module.scss';
 
-export default function OrganicStatusMismatchModal({ modalContent, dismissModal }) {
+const OrganicStatusMismatchModal = ({ modalContent, dismissModal }) => {
   const { t } = useTranslation();
   return (
     <ModalComponent
@@ -23,4 +24,11 @@ export default function OrganicStatusMismatchModal({ modalContent, dismissModal 
       }
     />
   );
-}
+};
+
+OrganicStatusMismatchModal.propTypes = {
+  modalContent: PropTypes.object.isRequired,
+  dismissModal: PropTypes.func.isRequired,
+};
+
+export default OrganicStatusMismatchModal;

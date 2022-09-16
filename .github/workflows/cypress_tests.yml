@@ -42,7 +42,7 @@ jobs:
         working-directory: packages/api
         run: |
           npm ci && cd ../shared && npm ci
-          npm run migrate:dev:db
+          cd .. && npm run migrate:dev:db
           npm run start &
         env:
           PORT: 5000

@@ -23,6 +23,11 @@ jobs:
         with:
           postgres-version: 13
           database: pg-litefarm
+          
+          run: | 
+            psql postgres
+            CREATE ROLE postgres WITH LOGIN PASSWORD 'postgres';
+            \du
         
       - uses: actions/checkout@v3
 

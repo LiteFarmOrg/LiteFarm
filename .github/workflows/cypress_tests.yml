@@ -36,6 +36,7 @@ jobs:
         run: |
           npm install
           npm install express
+          npm run migrate:dev:db
           npm run start &
         env:
           PORT: 5000

@@ -41,10 +41,8 @@ jobs:
       - name: Run API in background
         working-directory: packages/api
         run: |
-          npm i knex
+          npm ci && cd ../shared && npm ci
           npm run migrate:dev:db
-          npm install
-          npm install express
           npm run start &
         env:
           PORT: 5000

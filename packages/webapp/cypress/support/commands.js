@@ -282,7 +282,7 @@ Cypress.Commands.add('createAccount', (email, fullName, gender, language, birthY
 });
 
 Cypress.Commands.add('userCreationEmail', () => {
-  cy.wait(10 * 1000);
+  cy.wait(20 * 1000);
   cy.task('getLastEmail')
     .its('html')
     .then((html) => {

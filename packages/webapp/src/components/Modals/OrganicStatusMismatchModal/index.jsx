@@ -7,7 +7,7 @@ import styles from './styles.module.scss';
 import { buttonStatusEnum } from './constants';
 
 /**
- * The component is used as a modal to show if there is a mismatch between the selection of crop type (i.e organic/ non-organic)
+ * This component is used as a modal to show if there is a mismatch between the selection of crop type (i.e organic/ non-organic)
  * and selected area types.
  *
  * Type can be organic, non-organic, and transitioning

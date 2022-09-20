@@ -17,6 +17,7 @@ jobs:
       DEV_DATABASE: pg-litefarm
       DEV_DATABASE_USER: postgres
       DEV_DATABASE_PASSWORD: postgres
+      VITE_GOOGLE_MAPS_API_KEY: ${{secrets.VITE_GOOGLE_MAPS_API_KEY}}
 
       
     strategy:

@@ -15,7 +15,7 @@ describe('LiteFarm end to end test', () => {
   });
 
   it('should correctly calculate perimeter and area of a field', () => {
-    cy.visit('/');
+    cy.visit('https://beta.litefarm.org');
     cy.get('[data-cy=email]').should('exist');
     cy.get('[data-cy=continue]').should('exist');
     cy.get('[data-cy=continue]').should('be.disabled');
@@ -29,7 +29,7 @@ describe('LiteFarm end to end test', () => {
     const fullName = 'Test Farmer';
     const password = `${userPassword}+1@`;
     const farmName = 'UBC FARM';
-    const location = 'University Endowment Lands, BC V6T 1W5 Canada';
+    const location = '49.250833,-123.2410777';
     const fieldName = 'Test Field';
     const workerName = 'Test Worker';
     const testCrop = 'New Crop';
@@ -38,13 +38,13 @@ describe('LiteFarm end to end test', () => {
 
     //Login as a new user
     cy.newUserLogin(emailOwner);
-    cy.wait(10 * 1000);
+    cy.wait(5000);
     //create account
     cy.createAccount(emailOwner, fullName, gender, null, null, password);
 
     //confirm user creation email
     //cy.userCreationEmail();
-    cy.wait(10 * 1000);
+    cy.wait(5000);
     //Get Started page
     cy.getStarted();
 

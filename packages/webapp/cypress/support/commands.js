@@ -302,8 +302,7 @@ Cypress.Commands.add('addFarm', (farmName, location) => {
   // Enter new farm details and click continue which should be enabled
   cy.waitForGoogleApi().then(() => {
     cy.get('[data-cy=addFarm-farmName]').should('exist').type(farmName);
-    cy.get('[data-cy=addFarm-location]').should('exist').type(location).wait(1000);
-    cy.get('.pac-item').should('exist').click();
+    cy.get('[data-cy=addFarm-location]').should('exist').type(location).wait(5000);
     cy.get('[data-cy=addFarm-continue]').should('not.be.disabled').click();
   });
 });

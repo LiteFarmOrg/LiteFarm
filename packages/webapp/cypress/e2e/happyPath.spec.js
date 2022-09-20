@@ -38,13 +38,13 @@ describe('LiteFarm end to end test', () => {
 
     //Login as a new user
     cy.newUserLogin(emailOwner);
-    cy.wait(5000);
+    cy.wait(10 * 1000);
     //create account
     cy.createAccount(emailOwner, fullName, gender, null, null, password);
 
     //confirm user creation email
     //cy.userCreationEmail();
-
+    cy.wait(10 * 1000);
     //Get Started page
     cy.getStarted();
 

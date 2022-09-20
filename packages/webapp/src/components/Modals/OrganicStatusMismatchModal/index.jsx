@@ -6,6 +6,12 @@ import Button from '../../Form/Button';
 import styles from './styles.module.scss';
 import { buttonStatusEnum } from './constants';
 
+/**
+ * The compoent is used as a modal to show if there is a mismatch between selection of crop type (i.e organic/ non-organic)
+ * and selected area types
+ *
+ * Type can be  organic, non-organic and transitioning
+ */
 const OrganicStatusMismatchModal = ({ modalContent, dismissModal }) => {
   const { t } = useTranslation();
   return (

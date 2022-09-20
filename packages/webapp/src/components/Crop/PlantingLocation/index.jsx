@@ -54,7 +54,7 @@ export default function PurePlantingLocation({
   const selectedLocationId = watch(LOCATION_ID);
   const pinCoordinate = watch(PIN_COORDINATE);
   const defaultInitialLocationId = watch(DEFAULT_INITIAL_LOCATION_ID);
-  const [showOrganicStausMismatchModal, setShowOrganicStausMismatchModal] = useState(false);
+  const [showOrganicStatusMismatchModal, setShowOrganicStatusMismatchModal] = useState(false);
   const [modalContent, setModalContent] = useState({});
 
   const setLocationId = (location_id) => {
@@ -135,7 +135,7 @@ export default function PurePlantingLocation({
         content.title = t('CROP_STATUS_NON_ORGANIC_MISMATCH_MODAL.TITLE');
         content.subTitle = t('CROP_STATUS_NON_ORGANIC_MISMATCH_MODAL.SUBTITLE');
       }
-      setShowOrganicStausMismatchModal((status) => {
+      setShowOrganicStatusMismatchModal((status) => {
         setModalContent(content);
         return true;
       });
@@ -222,12 +222,12 @@ export default function PurePlantingLocation({
             onChange={defaultLocationCheckboxOnChange}
           />
         )}
-        {showOrganicStausMismatchModal && (
+        {showOrganicStatusMismatchModal && (
           <OrganicStatusMismatchModal
             modalContent={modalContent}
             dismissModal={(dismissStatus) => {
               checkAndClearLocations(dismissStatus);
-              setShowOrganicStausMismatchModal(false);
+              setShowOrganicStatusMismatchModal(false);
             }}
           />
         )}

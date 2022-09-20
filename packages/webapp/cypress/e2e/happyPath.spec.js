@@ -15,7 +15,7 @@ describe('LiteFarm end to end test', () => {
   });
 
   it('should correctly calculate perimeter and area of a field', () => {
-    cy.visit('https://beta.litefarm.org');
+    cy.visit('/');
     cy.get('[data-cy=email]').should('exist');
     cy.get('[data-cy=continue]').should('exist');
     cy.get('[data-cy=continue]').should('be.disabled');

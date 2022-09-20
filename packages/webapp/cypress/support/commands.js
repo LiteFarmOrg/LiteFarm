@@ -408,12 +408,6 @@ Cypress.Commands.add('homePageSpotlights', () => {
     .should('exist')
     .and('not.be.disabled')
     .click();
-  cy.get('[data-cy=home-farmButton]').should('exist').and('not.be.disabled').click();
-  cy.get('[data-cy=navbar-option]')
-    .contains('Farm map')
-    .should('exist')
-    .and('not.be.disabled')
-    .click();
 });
 
 Cypress.Commands.add('goToPeopleView', (lang) => {

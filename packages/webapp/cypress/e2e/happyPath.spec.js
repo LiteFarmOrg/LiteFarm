@@ -1,6 +1,6 @@
-import { computeArea, LatLng } from 'spherical-geometry-js/src/index';
+import { getDateInputFormat } from '../../src/util/moment';
 
-describe('LiteFarm end to end test', () => {
+describe.only('LiteFarm end to end test', () => {
   let userEmail;
   let userPassword;
 
@@ -14,8 +14,8 @@ describe('LiteFarm end to end test', () => {
     });
   });
 
-  it('should correctly calculate perimeter and area of a field', () => {
-    cy.visit('https://beta.litefarm.org');
+  it.only('Happy path', { defaultCommandTimeout: 7000 }, () => {
+    cy.visit('/');
     cy.get('[data-cy=email]').should('exist');
     cy.get('[data-cy=continue]').should('exist');
     cy.get('[data-cy=continue]').should('be.disabled');
@@ -38,13 +38,13 @@ describe('LiteFarm end to end test', () => {
 
     //Login as a new user
     cy.newUserLogin(emailOwner);
-    cy.wait(5000);
+
     //create account
     cy.createAccount(emailOwner, fullName, gender, null, null, password);
 
     //confirm user creation email
-    //cy.userCreationEmail();
-    cy.wait(5000);
+    cy.userCreationEmail();
+
     //Get Started page
     cy.getStarted();
 
@@ -65,6 +65,8 @@ describe('LiteFarm end to end test', () => {
 
     //onboarding outro
     cy.onboardingOutro();
+
+    cy.confirmationEmail();
 
     //farm home page
     cy.homePageSpotlights();
@@ -129,104 +131,274 @@ describe('LiteFarm end to end test', () => {
         .should('exist')
         .and('not.be.disabled')
         .click();
+    });
 
-      cy.get('[data-cy=createField-fieldName]').should('exist').type(fieldName);
-      cy.get('[data-cy=createField-save]').should('exist').and('not.be.disabled').click();
-      cy.wait(2000);
+    cy.get('[data-cy=createField-fieldName]').should('exist').type(fieldName);
+    cy.get('[data-cy=createField-save]').should('exist').and('not.be.disabled').click();
+    cy.wait(2000);
 
-      // inspect the caught error
-      cy.on('uncaught:exception', (e) => {
-        if (
-          e.message.includes(
-            'assets[curr].map is not a function or its return value is not iterable',
-          )
-        ) {
-          // we expected this error, so let's ignore it
-          // and let the test continue
-          return false;
+    //Add a farm worker to the farm
+    cy.goToPeopleView('English');
+    cy.url().should('include', '/people');
+    cy.get('[data-cy=people-inviteUser]').should('exist').and('not.be.disabled').click();
+    cy.inviteUser(
+      'Farm Worker',
+      workerName,
+      emailWorker,
+      emailOwner,
+      'Female',
+      lang,
+      25,
+      1970,
+      180012345,
+    );
+
+    cy.url().should('include', '/people');
+    //cy.get('.ReactTable').eq(1).should('eq', true);
+    cy.contains(workerName).should('exist');
+
+    //logout
+    cy.logOut();
+
+    //login as farm worker, create account and join farm
+    cy.acceptInviteEmail(lang);
+
+    cy.get('[data-cy=invitedCard-createAccount]').click();
+
+    cy.get('[data-cy=invitedUser-proceed]').click();
+
+    cy.get('[data-cy=invited-password]').type(password);
+
+    cy.get('[data-cy=invited-createAccount]').click();
+
+    //Consent page
+    cy.contains('Our Data Policy').should('exist');
+    cy.url().should('include', '/consent');
+    cy.get('[data-cy=consent-continue]').should('exist').and('be.disabled');
+    cy.get('[data-cy=consent-agree]').should('exist').check({ force: true });
+    cy.get('[data-cy=consent-continue]').should('not.be.disabled').click();
+
+    cy.get('[data-cy=joinFarm-successContinue]').should('not.be.disabled').click();
+
+    cy.get('[data-cy=chooseFarm-proceed]').should('not.be.disabled').click();
+
+    //farm home page
+    cy.get('[data-cy=spotlight-next]')
+      .contains('Next')
+      .should('exist')
+      .and('not.be.disabled')
+      .click();
+    cy.get('[data-cy=spotlight-next]')
+      .contains('Next')
+      .should('exist')
+      .and('not.be.disabled')
+      .click();
+    cy.get('[data-cy=spotlight-next]')
+      .contains('Next')
+      .should('exist')
+      .and('not.be.disabled')
+      .click();
+    cy.get('[data-cy=spotlight-next]')
+      .contains('Got it')
+      .should('exist')
+      .and('not.be.disabled')
+      .click();
+
+    //logout
+    cy.get('[data-cy=home-profileButton]').should('exist').click();
+    cy.get('[data-cy=navbar-option]')
+      .contains('Log Out')
+      .should('exist')
+      .and('not.be.disabled')
+      .click();
+
+    //Login as farm owner
+    cy.get('[data-cy=email]').type(emailOwner);
+    cy.contains('Continue').should('exist').and('be.enabled').click();
+    cy.get('[data-cy=enterPassword-password]').type(password);
+    cy.get('[data-cy=enterPassword-submit]').should('exist').and('be.enabled').click();
+
+    cy.get('[data-cy=chooseFarm-proceed]').should('exist').and('be.enabled').click();
+
+    // Add a crop variety
+    cy.get('[data-cy=navbar-hamburger]').should('exist').click();
+    cy.contains('Crops').should('exist').click();
+    cy.url().should('include', '/crop_catalogue');
+    cy.get('[data-cy=spotlight-next]')
+      .contains('Next')
+      .should('exist')
+      .and('not.be.disabled')
+      .click();
+    cy.get('[data-cy=spotlight-next]')
+      .contains('Got it')
+      .should('exist')
+      .and('not.be.disabled')
+      .click();
+    cy.get('[data-cy=crop-addLink]')
+      .contains('Add a new crop')
+      .should('exist')
+      .and('not.be.disabled')
+      .click();
+
+    cy.url().should('include', '/crop/new');
+    cy.get('[data-cy=crop-cropName]').should('exist').type(testCrop);
+    cy.contains('Select').should('exist').click({ force: true });
+    cy.contains('Cereals').should('exist').click();
+    cy.get('[type="radio"]').first().check({ force: true });
+    cy.get('[data-cy=crop-submit]').should('exist').and('not.be.disabled').click();
+    cy.wait(5 * 1000);
+    cy.url().should('include', '/crop/new/add_crop_variety');
+    cy.get('[data-cy=crop-variety]').should('exist').type('New Variety');
+    cy.get('[data-cy=crop-supplier]').should('exist').type('New Supplier');
+    cy.get('[type="radio"]').first().check({ force: true });
+    cy.get('[data-cy=variety-submit]').should('exist').and('not.be.disabled').click();
+
+    cy.url().should('include', '/crop/new/add_crop_variety/compliance');
+    cy.get('[data-cy=compliance-seed]').eq(1).should('exist').check({ force: true });
+    cy.get('[data-cy=compliance-seedAvailability]').eq(1).should('exist').check({ force: true });
+    cy.get('[data-cy=compliance-seedEngineered]').eq(0).should('exist').check({ force: true });
+    cy.get('[data-cy=compliance-seedTreated]').eq(2).should('exist').check({ force: true });
+    cy.get('[data-cy=compliance-newVarietySave]').should('exist').and('not.be.disabled').click();
+
+    cy.url().should('include', '/management');
+    cy.get('[data-cy=spotlight-next]')
+      .contains('Next')
+      .should('exist')
+      .and('not.be.disabled')
+      .click();
+    cy.get('[data-cy=spotlight-next]')
+      .contains(`Let's get started`)
+      .should('exist')
+      .and('not.be.disabled')
+      .click();
+    //Add a management plan for the new variety
+    cy.get('[data-cy=crop-addPlan]')
+      .contains('Add a plan')
+      .should('exist')
+      .and('not.be.disabled')
+      .click();
+    cy.url().should('include', '/add_management_plan');
+    cy.get('[data-cy=cropPlan-groundPlanted]').should('exist').first().check({ force: true });
+    cy.get('[data-cy=cropPlan-submit]').should('exist').and('not.be.disabled').click();
+
+    cy.url().should('include', '/add_management_plan/needs_transplant');
+    cy.get('[data-cy=cropPlan-transplantSubmit]').should('exist').and('not.be.disabled').click();
+    cy.url().should('include', '/add_management_plan/plant_date');
+    const date = new Date();
+    date.setDate(date.getDate() + 7);
+    const formattedDate = getDateInputFormat(date);
+    cy.get('[data-cy=cropPlan-plantDate]').should('exist').type(formattedDate);
+    cy.get('[data-cy=cropPlan-seedGermination]').should('exist').type(7);
+    cy.get('[data-cy=cropPlan-plantHarvest]').should('exist').type(200);
+    cy.get('[data-cy=plantDate-submit]').should('exist').and('not.be.disabled').click();
+
+    cy.url().should('include', '/add_management_plan/choose_final_planting_location');
+    cy.get('[data-cy=map-selectLocation]').should('exist');
+    let heightFactor;
+    let widthFactor;
+    cy.wait(10 * 1000);
+    cy.waitForGoogleApi().then(() => {
+      // here comes the code to execute after loading the google Apis
+      cy.get('[data-cy=map-selectLocation]').then(($canvas) => {
+        const canvasWidth = $canvas.width();
+        const canvasHeight = $canvas.height();
+
+        heightFactor = canvasHeight / initialHeight;
+        widthFactor = canvasWidth / initialWidth;
+        cy.contains(fieldName).should('exist');
+        cy.wait(8000);
+        cy.get('[data-cy=map-selectLocation]').click(widthFactor * 570, heightFactor * 321, {
+          force: false,
+        });
+      });
+    });
+
+    cy.get('[data-cy=cropPlan-locationSubmit]').should('exist').and('not.be.disabled').click();
+    cy.url().should('include', '/add_management_plan/final_planting_method');
+
+    cy.get('[data-cy=cropPlan-plantingMethod]').eq(0).should('exist').check({ force: true });
+
+    cy.get('[data-cy=plantingMethod-submit]').should('exist').and('not.be.disabled').click();
+    cy.url().should('include', '/add_management_plan/row_method');
+
+    cy.get('[data-cy=rowMethod-equalLength]').eq(0).should('exist').check({ force: true });
+
+    cy.get('[data-cy=rowMethod-rows]').should('exist').should('have.value', '').type('10');
+    cy.get('[data-cy=rowMethod-length]').should('exist').should('have.value', '').type('30');
+    cy.get('[data-cy=rowMethod-spacing]').should('exist').should('have.value', '').type('15');
+    cy.contains('row').click();
+    cy.get('[data-cy=rowMethod-yield]').should('exist').should('have.value', '').type('1500');
+    cy.contains('row').click();
+
+    cy.get('[data-cy=rowMethod-submit]').should('exist').and('not.be.disabled').click();
+    cy.url().should('include', '/add_management_plan/row_guidance');
+    cy.get('[data-cy=planGuidance-submit]').should('exist').and('not.be.disabled').click();
+    cy.get('[data-cy=cropPlan-save]').should('exist').and('not.be.disabled').click();
+    cy.get('[data-cy=spotlight-next]')
+      .contains('Got it')
+      .should('exist')
+      .and('not.be.disabled')
+      .click();
+    //modify the management plan with quick assign modal
+    cy.get('[data-cy=taskCard-dueDate]').eq(0).should('exist').and('not.be.disabled').click();
+    cy.get('[data-cy=dateAssign-update]').should('exist').and('be.disabled');
+
+    date.setDate(date.getDate() + 30);
+    const dueDate = getDateInputFormat(date);
+
+    cy.get('[data-cy=dateAssign-date]').should('exist').type(dueDate);
+    cy.get('[data-cy=dateAssign-update]')
+      .should('exist')
+      .and('not.be.disabled')
+      .click()
+      .then(() => {
+        function reformatDateString(s) {
+          var months = [
+            'Jan',
+            'Feb',
+            'Mar',
+            'Apr',
+            'May',
+            'Jun',
+            'Jul',
+            'Aug',
+            'Sep',
+            'Oct',
+            'Nov',
+            'Dec',
+          ];
+          var parts = s.split('-');
+          return months[parts[1] - 1] + ' ' + Number(parts[2]) + ', ' + parts[0];
         }
-        // on any other error message the test fails
+
+        const Date = reformatDateString(dueDate);
+
+        cy.get('[data-cy=taskCard-dueDate]').eq(0).contains(Date).should('exist');
       });
 
-      cy.window()
-        .its('store')
-        .invoke('getState')
-        .its('entitiesReducer.fieldReducer')
-        .then((fields) => {
-          let entities = Object.entries(fields.entities);
-          let points = entities[0][1].grid_points;
-          let perimeter = 0;
-          let area = 0;
+    cy.get('[data-cy=taskCard-assignee]').eq(0).should('exist').and('not.be.disabled');
+    cy.get('[data-cy=taskCard]').eq(1).should('exist').click('right');
+    cy.get('[data-cy=taskReadOnly-pencil]').should('exist').click();
+    cy.get('[data-cy=quickAssign-update]').should('exist').and('not.be.disabled').click();
 
-          const distance = (lat1, lon1, lat2, lon2, unit) => {
-            if (lat1 == lat2 && lon1 == lon2) {
-              return 0;
-            } else {
-              var radlat1 = (Math.PI * lat1) / 180;
-              var radlat2 = (Math.PI * lat2) / 180;
-              var theta = lon1 - lon2;
-              var radtheta = (Math.PI * theta) / 180;
-              var dist =
-                Math.sin(radlat1) * Math.sin(radlat2) +
-                Math.cos(radlat1) * Math.cos(radlat2) * Math.cos(radtheta);
-              if (dist > 1) {
-                dist = 1;
-              }
-              dist = Math.acos(dist);
-              dist = (dist * 180) / Math.PI;
-              dist = dist * 60 * 1.1515;
-              if (unit == 'K') {
-                dist = dist * 1.609344;
-              }
-              if (unit == 'N') {
-                dist = dist * 0.8684;
-              }
-              console.log(dist);
-              return dist;
-            }
-          };
+    //logout
+    //cy.get('[data-cy=home-profileButton]').should('exist').click();
+    //cy.get('[data-cy=navbar-option]').contains('Log Out').should('exist').and('not.be.disabled').click();
+  });
 
-          for (let i = 0; i < points.length; i++) {
-            if (i < points.length - 1) {
-              console.log(points[i].lat, points[i].lng, points[i + 1].lat, points[i + 1].lng);
-              let dist = distance(
-                points[i].lat,
-                points[i].lng,
-                points[i + 1].lat,
-                points[i + 1].lng,
-                'K',
-              );
-
-              perimeter = perimeter + dist;
-            } else if (i == points.length - 1) {
-              let dist = distance(points[0].lat, points[0].lng, points[i].lat, points[i].lng, 'K');
-              perimeter = perimeter + dist;
-            }
-          }
-
-          let perimeter_unit = entities[0][1].perimeter_unit;
-
-          if (perimeter_unit == 'm') {
-            //calculate distance in meters
-            perimeter = Math.round(perimeter * 1000);
-            expect(entities[0][1].perimeter).to.equal(perimeter + 1);
-          } else if (perimeter_unit == 'km') {
-            perimeter = Math.round(perimeter);
-            expect(entities[0][1].perimeter).to.equal(perimeter);
-          }
-
-          var latLngs = points.map(function (point) {
-            return new LatLng(point.lat, point.lng);
-          });
-
-          let total_area_unit = entities[0][1].total_area_unit;
-
-          //Calculate area in hectares
-          area = computeArea(latLngs) / 10000;
-          expect(total_area_unit).to.equal('ha');
-          //need to fix truncation to rounding to 2 decimal places
-          expect(entities[0][1].total_area).to.equal(parseFloat(area).toFixed(2));
+  it('Browser local detection', () => {
+    //Test for LF-2368
+    cy.visit('/', {
+      onBeforeLoad(win) {
+        Object.defineProperty(win.navigator, 'languages', {
+          value: ['fr-FR'],
         });
+      },
     });
+
+    cy.contains('CONTINUER AVEC GOOGLE').should('exist');
+    cy.get('[data-cy=email]').type('french@test.com');
+    cy.contains('Continue').should('exist').and('be.enabled').click();
+    cy.contains('Créer un nouveau compte utilisateur').should('exist');
   });
 });

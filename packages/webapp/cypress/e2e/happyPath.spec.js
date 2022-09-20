@@ -42,9 +42,7 @@ describe.only('LiteFarm end to end test', () => {
     //create account
     cy.createAccount(emailOwner, fullName, gender, null, null, password);
 
-    //confirm user creation email
-    cy.userCreationEmail();
-
+    cy.wait(5000);
     //Get Started page
     cy.getStarted();
 

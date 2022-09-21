@@ -70,7 +70,6 @@ jobs:
           pnpm dev &
           pnpm cypress run --headed --browser chrome --spec cypress/e2e/happyPath.spec.js --record --key 2630f414-4914-48b0-907d-aa3a9cc6a30b
       - name: Check database
-      - run: |
-            psql postgres & SELECT * FROM farm;
+      - run: psql postgres & SELECT * FROM farm;
 
        

@@ -51,7 +51,7 @@ describe.only('LiteFarm end to end test', () => {
 
     //role selection page
     cy.roleSelection(role);
-
+    cy.wait(3000);
     //Consent page
     cy.giveConsent();
 

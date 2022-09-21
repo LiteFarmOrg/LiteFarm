@@ -69,5 +69,11 @@ jobs:
           npm i @cypress/code-coverage
           pnpm dev &
           pnpm cypress run --headed --browser chrome --spec cypress/e2e/happyPath.spec.js --record --key 2630f414-4914-48b0-907d-aa3a9cc6a30b
-        
+      - name: Github Action for Postgres CLI
+      # You may pin to the exact commit or the version.
+      # uses: oohnoitz/pg-cli-action@7d7219a694bb0ac177db3ae62096e35962894b6a
+        uses: oohnoitz/pg-cli-action@v0.1.1
+        with:
+          # Commands to run
+          command: SELECT * FROM farm; 
        

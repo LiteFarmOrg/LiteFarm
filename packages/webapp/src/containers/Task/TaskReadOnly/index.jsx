@@ -42,7 +42,7 @@ function TaskReadOnly({ history, match, location }) {
   const users = useSelector(userFarmsByFarmSelector).filter((user) => user.status !== 'Inactive');
   const user = useSelector(userFarmSelector);
   const isAdmin = useSelector(isAdminSelector);
-  const isTaskTypeCustom = !!task.taskType.farm_id;
+  const isTaskTypeCustom = !!task?.taskType?.farm_id;
 
   const selectedTaskType = task.taskType;
   const isHarvest = isTaskType(selectedTaskType, 'HARVEST_TASK');

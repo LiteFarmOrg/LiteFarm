@@ -92,8 +92,8 @@ export default function PureTaskReadOnly({
       };
     }
   }, [task]);
-  const locationIds = task.locations.map(({ location_id }) => location_id);
-  const owner_user_id = task.owner_user_id;
+  const locationIds = task?.locations?.map(({ location_id }) => location_id);
+  const owner_user_id = task?.owner_user_id;
   const {
     register,
     handleSubmit,
@@ -133,7 +133,7 @@ export default function PureTaskReadOnly({
   const canCompleteTask =
     user.user_id === task.assignee_user_id || (assignedToPseudoUser && user.is_admin);
 
-  return (
+  return taskType ? (
     <Layout
       buttonGroup={
         canCompleteTask &&
@@ -215,7 +215,7 @@ export default function PureTaskReadOnly({
         return (
           <div key={location_id}>
             <div style={{ paddingBottom: '16px' }}>
-              <PageBreak label={task.locationsById[location_id].name} />
+              <PageBreak label={task?.locationsById[location_id]?.name} />
             </div>
             <PureCropTileContainer gap={24}>
               {task.managementPlansByLocation[location_id]?.map((managementPlan) => {
@@ -416,7 +416,7 @@ export default function PureTaskReadOnly({
         />
       )}
     </Layout>
-  );
+  ) : null;
 }
 
 const taskComponents = {

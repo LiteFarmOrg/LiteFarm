@@ -286,6 +286,7 @@ export const abandonedTasksSelector = createSelector([tasksSelector], getAbandon
 
 export const taskWithProductSelector = (task_id) =>
   createSelector([taskSelector(task_id), productsSelector], (task, products) => {
+    if (!task) return {};
     const taskTypeLowerCase = task?.taskType?.task_translation_key?.toLowerCase() ?? '';
     const taskHasProduct = !!task[taskTypeLowerCase]?.product_id;
     if (taskHasProduct) {

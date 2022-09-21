@@ -32,7 +32,7 @@ export const useReadonlyTask = (task_id) => {
   const tasksByManagementPlanId = useSelector(taskEntitiesByManagementPlanIdSelector);
 
   const getTransplantTask = (task) => {
-    const managementPlan = task.managementPlans[0];
+    const managementPlan = task?.managementPlans[0];
     // prev_planting_management_plan will default to planting_management_plan if undefined
     const { planting_management_plan, prev_planting_management_plan = planting_management_plan } =
       managementPlan;
@@ -55,7 +55,7 @@ export const useReadonlyTask = (task_id) => {
   };
   const getTask = (task) => {
     task.pinCoordinates = [];
-    task.managementPlansByPinCoordinate = task.managementPlans.reduce(
+    task.managementPlansByPinCoordinate = task?.managementPlans?.reduce(
       (managementPlansByLocation, managementPlan) => {
         const pin_coordinate = managementPlan.planting_management_plan?.pin_coordinate;
         if (pin_coordinate) {
@@ -68,7 +68,7 @@ export const useReadonlyTask = (task_id) => {
     );
     task.locationsById = getLocationsById(task);
 
-    task.managementPlansByLocation = task.managementPlans.reduce(
+    task.managementPlansByLocation = task?.managementPlans?.reduce(
       (managementPlansByLocation, managementPlan) => {
         const location_id = managementPlan.planting_management_plan?.location?.location_id;
         if (location_id) {
@@ -90,6 +90,7 @@ export const useReadonlyTask = (task_id) => {
 
 const getLocationsById = (task) => {
   const locationsById = {};
+  if (!location?.location_id) return locationsById;
   for (const location of task.locations) {
     locationsById[location.location_id] = location;
   }

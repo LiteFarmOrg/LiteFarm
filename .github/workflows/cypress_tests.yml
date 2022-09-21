@@ -54,6 +54,7 @@ jobs:
 
       - name: Run and test app
         working-directory: packages/webapp
+        if: ${{ env.VITE_GOOGLE_MAPS_API_KEY != Null }}
         run: |
           pnpm install --no-frozen-lockfile
           npm i spherical-geometry-js

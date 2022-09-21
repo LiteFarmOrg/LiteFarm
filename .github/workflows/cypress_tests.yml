@@ -18,6 +18,12 @@ jobs:
       DEV_DATABASE_USER: postgres
       DEV_DATABASE_PASSWORD: postgres
       VITE_GOOGLE_MAPS_API_KEY: ${{secrets.VITE_GOOGLE_MAPS_API_KEY}}
+      VITE_WEATHER_API_KEY: ${{secrets.VITE_WEATHER_API_KEY}}
+      VITE_ENV: development
+      VITE_GOOGLE_OAUTH_CLIENT_ID: ${{secrets.VITE_GOOGLE_OAUTH_CLIENT_ID}}
+      VITE_DO_BUCKET_NAME: litefarm
+      NODE_ENV: development
+      VITE_API_URL: http://localhost:5000
 
       
     strategy:

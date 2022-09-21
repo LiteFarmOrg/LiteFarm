@@ -54,13 +54,6 @@ jobs:
 
       - name: Run and test app
         working-directory: packages/webapp
-        if: ${{ secrets.VITE_GOOGLE_MAPS_API_KEY != '' }}
-        run: |
-          pnpm install --no-frozen-lockfile
-          npm i spherical-geometry-js
-          npm i @cypress/code-coverage
-          pnpm dev &
-          pnpm cypress run --headed --browser chrome --spec cypress/e2e/happyPath.spec.js --record --key 2630f414-4914-48b0-907d-aa3a9cc6a30b
         env:   
           VITE_GOOGLE_MAPS_API_KEY: ${{secrets.VITE_GOOGLE_MAPS_API_KEY}}
           VITE_WEATHER_API_KEY: ${{secrets.VITE_WEATHER_API_KEY}}
@@ -69,4 +62,12 @@ jobs:
           VITE_DO_BUCKET_NAME: litefarm
           NODE_ENV: development
           VITE_API_URL: http://localhost:5000
+        if: ${{ env.VITE_GOOGLE_MAPS_API_KEY != '' }}
+        run: |
+          pnpm install --no-frozen-lockfile
+          npm i spherical-geometry-js
+          npm i @cypress/code-coverage
+          pnpm dev &
+          pnpm cypress run --headed --browser chrome --spec cypress/e2e/happyPath.spec.js --record --key 2630f414-4914-48b0-907d-aa3a9cc6a30b
+        
        

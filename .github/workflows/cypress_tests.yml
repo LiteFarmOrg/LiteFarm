@@ -74,6 +74,7 @@ jobs:
         uses: cypress-io/github-action@v4.2.0 
         with:
           working-directory: packages/webapp
+          install-command: pnpm install --no-frozen-lockfile
           install: true
           start: pnpm dev
           wait-on: 'http://localhost:3000'

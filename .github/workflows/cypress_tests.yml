@@ -58,7 +58,6 @@ jobs:
           VITE_GOOGLE_MAPS_API_KEY: AIzaSyC8UBxTVXeVnFGcZnvhTBY19rpkg6kEL3I
         run: |
           pnpm install --no-frozen-lockfile
-          npm install cypress
           npm i spherical-geometry-js
           npm i @cypress/code-coverage
 
@@ -75,7 +74,7 @@ jobs:
         uses: cypress-io/github-action@v4.2.0 
         with:
           working-directory: packages/webapp
-          install: false
+          install: true
           start: pnpm dev
           wait-on: 'http://localhost:3000'
           wait-on-timeout: 120

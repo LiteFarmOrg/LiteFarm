@@ -41,7 +41,7 @@ jobs:
       - name: Run API in background
         working-directory: packages/api
         run: |
-          npm ci && cd ../shared && npm ci
+          npm i -g && cd ../shared && npm ci
           cd ../api && npm run migrate:dev:db
           npm run start &
         env:

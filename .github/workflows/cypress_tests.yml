@@ -49,7 +49,6 @@ jobs:
           
       - name: Install pnpm
         uses: pnpm/action-setup@v2
-        working-directory: packages/webapp
         with:
           version: latest
 

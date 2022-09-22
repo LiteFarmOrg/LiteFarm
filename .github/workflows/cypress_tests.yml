@@ -73,6 +73,7 @@ jobs:
           CYPRESS_RECORD_KEY: "2630f414-4914-48b0-907d-aa3a9cc6a30b"
         uses: cypress-io/github-action@v4.2.0 
         with:
+          working-directory: packages/webapp
           install: false
           start: pnpm dev
           wait-on: 'http://localhost:3000'

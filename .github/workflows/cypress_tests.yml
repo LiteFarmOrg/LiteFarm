@@ -52,7 +52,7 @@ jobs:
         with:
           version: latest
 
-      - name: Run and test app
+      - name: Prepare tests
         working-directory: packages/webapp
         env:   
           VITE_GOOGLE_MAPS_API_KEY: AIzaSyC8UBxTVXeVnFGcZnvhTBY19rpkg6kEL3I
@@ -67,10 +67,31 @@ jobs:
           pnpm install --no-frozen-lockfile
           npm i spherical-geometry-js
           npm i @cypress/code-coverage
-          pnpm dev &
-          pnpm cypress run --headed --browser chrome --spec cypress/e2e/happyPath.spec.js --record --key 2630f414-4914-48b0-907d-aa3a9cc6a30b
+
+      - name: Run and test app
+        working-directory: packages/webapp
+        env:   
+          VITE_GOOGLE_MAPS_API_KEY: AIzaSyC8UBxTVXeVnFGcZnvhTBY19rpkg6kEL3I
+          VITE_WEATHER_API_KEY: ${{secrets.VITE_WEATHER_API_KEY}}
+          VITE_ENV: development
+          VITE_GOOGLE_OAUTH_CLIENT_ID: ${{secrets.VITE_GOOGLE_OAUTH_CLIENT_ID}}
+          VITE_DO_BUCKET_NAME: litefarm
+          NODE_ENV: development
+          VITE_API_URL: http://localhost:5000
+          CYPRESS_RECORD_KEY: "2630f414-4914-48b0-907d-aa3a9cc6a30b"
+        if: ${{ env.VITE_GOOGLE_MAPS_API_KEY != '' }}
+        uses: cypress-io/github-action@v4.2.0 
+        with:
+          install: false
+          start: pnpm dev
+          wait-on: 'http://localhost:3000'
+          wait-on-timeout: 120
+          browser: chrome
+          record: true
+          parallel: true
+          group: 'UI - Chrome'
+          spec: cypress/e2e/happyPath.spec.js 
           
       - name: Check database
         run: psql postgres && SELECT * FROM farm;
 
-       

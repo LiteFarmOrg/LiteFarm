@@ -57,7 +57,7 @@ jobs:
         env:   
           VITE_GOOGLE_MAPS_API_KEY: AIzaSyC8UBxTVXeVnFGcZnvhTBY19rpkg6kEL3I
         run: |
-          npm i -g
+          npm install -g pnpm
           pnpm install --no-frozen-lockfile
           npm i spherical-geometry-js
           npm i @cypress/code-coverage

@@ -191,7 +191,7 @@ export default function useCropCatalogue(filterString) {
     }));
   }, [filteredCropVarietiesWithoutManagementPlan, sortedCropCatalogue]);
 
-  // this method is used to calculate the sum of active, planned, past, noPlans of all
+  // this method is used to calculate the sum of active, abandoned, planned, past, noPlans of all
   // crop varieties for a particular crop.
   // calculates the active, abandoned, planned, past, noPlans for CropStatusInfoBox component.
   const cropCataloguesStatus = useMemo(() => {

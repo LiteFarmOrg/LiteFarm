@@ -1,5 +1,6 @@
 import {
   getCurrentManagementPlans,
+  getAbandonedManagementPlans,
   getExpiredManagementPlans,
   getPlannedManagementPlans,
 } from '../managementPlanSlice';
@@ -9,6 +10,7 @@ import { useMemo } from 'react';
 import useStringFilteredCrops from '../CropCatalogue/useStringFilteredCrops';
 import {
   ACTIVE,
+  ABANDONED,
   COMPLETE,
   LOCATION,
   PLANNED,
@@ -70,11 +72,12 @@ export default function useCropVarietyCatalogue(filterString, crop_id) {
     );
   }, [cropCatalogueFilter[SUPPLIERS], managementPlansFilteredByLocations]);
 
-  // crop varity list the contains active, planned, past and noPlans count.
+  // crop varity list the contains active, abandoned, planned, past and noPlans count.
   const cropCatalogue = useMemo(() => {
     const time = new Date(cropCatalogFilterDate).getTime();
     const managementPlansByStatus = {
       active: getCurrentManagementPlans(managementPlansFilteredBySuppliers, time),
+      abandoned: getAbandonedManagementPlans(managementPlansFilteredBySuppliers, time),
       planned: getPlannedManagementPlans(managementPlansFilteredBySuppliers, time),
       past: getExpiredManagementPlans(managementPlansFilteredBySuppliers, time),
     };
@@ -84,6 +87,7 @@ export default function useCropVarietyCatalogue(filterString, crop_id) {
         if (!managementPlansByCropId.hasOwnProperty(managementPlan.crop_variety_id)) {
           managementPlansByCropId[managementPlan.crop_variety_id] = {
             active: [],
+            abandoned: [],
             planned: [],
             past: [],
             crop_common_name: managementPlan.crop_common_name,
@@ -118,7 +122,7 @@ export default function useCropVarietyCatalogue(filterString, crop_id) {
     return managementPlansByCropIdWithNoPlans;
   }, [managementPlansFilteredBySuppliers, cropCatalogFilterDate]);
 
-  // filter crop variety on the basis of active, planned, past and noPlan status.
+  // filter crop variety on the basis of active, abandoned, planned, past and noPlan status.
   const cropCatalogueFilteredByStatus = useMemo(() => {
     const statusFilter = cropCatalogueFilter[STATUS];
     const included = new Set();
@@ -130,6 +134,7 @@ export default function useCropVarietyCatalogue(filterString, crop_id) {
       return {
         ...catalogue,
         active: statusFilter[ACTIVE].active ? catalogue.active : [],
+        abandoned: statusFilter[ABANDONED].active ? catalogue.abandoned : [],
         planned: statusFilter[PLANNED].active ? catalogue.planned : [],
         past: statusFilter[COMPLETE].active ? catalogue.past : [],
         noPlans: statusFilter[NEEDS_PLAN].active ? catalogue.noPlans : [],
@@ -138,13 +143,14 @@ export default function useCropVarietyCatalogue(filterString, crop_id) {
     return newCropCatalogue.filter(
       (catalog) =>
         catalog.active.length ||
+        catalog.abandoned.length ||
         catalog.past.length ||
         catalog.planned.length ||
         catalog.noPlans.length,
     );
   }, [cropCatalogueFilter[STATUS], cropCatalogue]);
 
-  // sort the crop varieties on the basis of active, planned, past.
+  // sort the crop varieties on the basis of active, abandoned, planned, past.
   const { t } = useTranslation();
   const onlyOneOfTwoNumberIsZero = (i, j) => i + j > 0 && i * j === 0;
   const sortedCropCatalogue = useMemo(() => {
@@ -230,7 +236,7 @@ export default function useCropVarietyCatalogue(filterString, crop_id) {
 
   // this method is used to calculate the sum of active, planned, past, noPlans of all
   // crop varieties for a particular crop.
-  // Also, calculates the active, planned, past, noPlans for CropStatusInfoBox component
+  // Also, calculates the active, abandoned, planned, past, noPlans for CropStatusInfoBox component
   const cropCataloguesStatus = useMemo(() => {
     const cropsWithoutManagementPlanCount = filteredCropsWithoutManagementPlanList.reduce(
       (acc, c) => {
@@ -241,6 +247,7 @@ export default function useCropVarietyCatalogue(filterString, crop_id) {
     );
     const cropCataloguesStatus = {
       active: 0,
+      abandoned: 0,
       planned: 0,
       past: 0,
       noPlans: cropsWithoutManagementPlanCount,
@@ -254,6 +261,7 @@ export default function useCropVarietyCatalogue(filterString, crop_id) {
       ...cropCataloguesStatus,
       sum:
         cropCataloguesStatus.active +
+        cropCataloguesStatus.abandoned +
         cropCataloguesStatus.planned +
         cropCataloguesStatus.past +
         cropCataloguesStatus.noPlans,

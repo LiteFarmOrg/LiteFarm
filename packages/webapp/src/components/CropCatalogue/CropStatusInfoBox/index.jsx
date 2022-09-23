@@ -65,6 +65,10 @@ export default function CropStatusInfoBox({
             {t('common:ACTIVE')}
           </div>
           <div className={classes.cropCountContainer}>
+            <Square color={'abandoned'}>{status.abandoned}</Square>
+            {t('common:ABANDONED')}
+          </div>
+          <div className={classes.cropCountContainer}>
             <Square color={'planned'}>{status.planned}</Square>
             {t('common:PLANNED')}
           </div>
@@ -88,6 +92,7 @@ CropStatusInfoBox.propTypes = {
 
   status: PropTypes.exact({
     active: PropTypes.number,
+    abandoned: PropTypes.number,
     planned: PropTypes.number,
     past: PropTypes.number,
     noPlans: PropTypes.number,

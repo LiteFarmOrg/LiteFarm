@@ -40,7 +40,7 @@ export default function CropCatalogue({ history }) {
 
   const [filterString, setFilterString] = useState('');
   const filterStringOnChange = (e) => setFilterString(e.target.value);
-  const { active, planned, past, noPlans, sum, cropCatalogue, filteredCropsWithoutManagementPlan } =
+  const { active, abandoned, planned, past, noPlans, sum, cropCatalogue, filteredCropsWithoutManagementPlan } =
     useCropCatalogue(filterString);
   const crops = useStringFilteredCrops(
     useSortByCropTranslation(useSelector(cropsSelector)),
@@ -114,7 +114,7 @@ export default function CropCatalogue({ history }) {
           <>
             <PageBreak style={{ paddingBottom: '16px' }} label={t('CROP_CATALOGUE.ON_YOUR_FARM')} />
             <CropStatusInfoBox
-              status={{ active, past, planned, noPlans }}
+              status={{ active, abandoned, past, planned, noPlans }}
               style={{ marginBottom: '16px' }}
               date={date}
               setDate={setDate}

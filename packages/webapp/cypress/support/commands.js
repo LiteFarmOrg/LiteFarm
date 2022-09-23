@@ -147,8 +147,8 @@ Cypress.Commands.add('createACleaningTask', () => {
     .should('exist')
     .and('not.be.disabled')
     .click({ force: true });
-  cy.wait(2000);
-  cy.get('[data-cy=map-selectLocation]').click(540, 201, {
+  cy.wait(3000);
+  cy.get('[data-cy=map-selectLocation]').click(530, 216, {
     force: false,
   });
   cy.get('[data-cy=addTask-locationContinue]')
@@ -177,7 +177,7 @@ Cypress.Commands.add('createAFieldWorkTask', () => {
     .and('not.be.disabled')
     .click({ force: true });
   cy.wait(2000);
-  cy.get('[data-cy=map-selectLocation]').click(540, 201, {
+  cy.get('[data-cy=map-selectLocation]').click(530, 216, {
     force: false,
   });
   cy.get('[data-cy=addTask-locationContinue]')
@@ -212,7 +212,7 @@ Cypress.Commands.add('createAHarvestTask', () => {
     .and('not.be.disabled')
     .click({ force: true });
   cy.wait(2000);
-  cy.get('[data-cy=map-selectLocation]').click(540, 201, {
+  cy.get('[data-cy=map-selectLocation]').click(530, 216, {
     force: false,
   });
   cy.get('[data-cy=addTask-locationContinue]')
@@ -247,7 +247,7 @@ Cypress.Commands.add('createAPestControlTask', () => {
     .and('not.be.disabled')
     .click({ force: true });
   cy.wait(2000);
-  cy.get('[data-cy=map-selectLocation]').click(540, 201, {
+  cy.get('[data-cy=map-selectLocation]').click(530, 216, {
     force: false,
   });
   cy.get('[data-cy=addTask-locationContinue]')
@@ -282,7 +282,7 @@ Cypress.Commands.add('createASoilAmendmentTask', () => {
     .and('not.be.disabled')
     .click({ force: true });
   cy.wait(2000);
-  cy.get('[data-cy=map-selectLocation]').click(540, 201, {
+  cy.get('[data-cy=map-selectLocation]').click(530, 216, {
     force: false,
   });
   cy.get('[data-cy=addTask-locationContinue]')
@@ -321,7 +321,7 @@ Cypress.Commands.add('createTaskToday', () => {
     .and('not.be.disabled')
     .click({ force: true });
   cy.wait(2000);
-  cy.get('[data-cy=map-selectLocation]').click(540, 201, {
+  cy.get('[data-cy=map-selectLocation]').click(530, 216, {
     force: false,
   });
   cy.get('[data-cy=addTask-locationContinue]')
@@ -359,7 +359,7 @@ Cypress.Commands.add('createUnassignedTaskThisWeek', () => {
     .and('not.be.disabled')
     .click({ force: true });
   cy.wait(2000);
-  cy.get('[data-cy=map-selectLocation]').click(540, 201, {
+  cy.get('[data-cy=map-selectLocation]').click(530, 216, {
     force: false,
   });
   cy.get('[data-cy=addTask-locationContinue]')

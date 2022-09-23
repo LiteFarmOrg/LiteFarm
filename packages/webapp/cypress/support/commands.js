@@ -289,21 +289,24 @@ Cypress.Commands.add('createASoilAmendmentTask', () => {
     .should('exist')
     .and('not.be.disabled')
     .click({ force: true });
-  cy.get('[data-cy=cancel-flow]').should('exist').click({ force: true });
-  // cy.contains('Select') // find react-select component
-  //   .click({ force: true }); // click to open dropdown
-  // cy.get('.css-9p5joy-MenuList2') // find all options
-  //   .eq(0)
-  //   .click(); // click on first option
-
-  // cy.get('[data-cy=addTask-detailsContinue]')
-  //   .should('exist')
-  //   .and('not.be.disabled')
-  //   .click({ force: true });
-  // cy.get('[data-cy=addTask-assignmentSave]')
-  //   .should('exist')
-  //   .and('not.be.disabled')
-  //   .click({ force: true });
+  cy.selectDropdown().eq(0).click();
+  cy.contains('pH').click();
+  cy.selectDropdown().eq(1).click();
+  cy.get('.css-s115vr-Control2 > .css-b4qs0x-ValueContainer2 > .css-ujecln-Input2').type(
+    'Lime{enter}',
+  );
+  cy.get('._input_ugk5b_1').type('New Supplier');
+  cy.get('[type = "radio"]').eq(1).check({ force: true });
+  cy.get('._input_12pgn_1').type('30');
+  cy.contains('Notes').click();
+  cy.get('[data-cy=addTask-detailsContinue]')
+    .should('exist')
+    .and('not.be.disabled')
+    .click({ force: true });
+  cy.get('[data-cy=addTask-assignmentSave]')
+    .should('exist')
+    .and('not.be.disabled')
+    .click({ force: true });
 });
 
 Cypress.Commands.add('createTaskToday', () => {

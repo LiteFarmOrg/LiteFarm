@@ -320,8 +320,6 @@ describe.only('Tasks flow tests', () => {
       } else if (text == 'Soil Amendment') {
         cy.get('[data-cy=task-selection]').eq(index).click();
         cy.createASoilAmendmentTask();
-        cy.get('[data-cy=cancel-flow]').should('exist').click({ force: true });
-        cy.get('[data-cy=cancelFlow-yes]').should('exist').click({ force: true });
         cy.url().should('include', '/tasks');
         cy.get('[data-cy=taskCard]').should('exist');
         cy.contains('Create').should('exist').and('not.be.disabled').click({ force: true });

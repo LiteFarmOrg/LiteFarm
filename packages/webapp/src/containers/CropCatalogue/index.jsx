@@ -135,6 +135,7 @@ export default function CropCatalogue({ history }) {
                     cropCount={{
                       noPlans: noPlansCount,
                     }}
+                    view='CropCatalogue'
                   />
                 );
               })}
@@ -142,6 +143,7 @@ export default function CropCatalogue({ history }) {
                 const {
                   crop_translation_key,
                   active,
+                  abandoned,
                   planned,
                   past,
                   imageKey,
@@ -155,6 +157,7 @@ export default function CropCatalogue({ history }) {
                     key={crop_translation_key}
                     cropCount={{
                       active: active.length,
+                      abandoned: abandoned.length,
                       planned: planned.length,
                       past: past.length,
                       noPlans: cropCatalog?.noPlans?.length,
@@ -165,6 +168,7 @@ export default function CropCatalogue({ history }) {
                     alt={imageKey}
                     style={{ width: cardWidth }}
                     onClick={() => history.push(`/crop_varieties/crop/${cropCatalog.crop_id}`)}
+                    view='CropCatalogue'
                   />
                 );
               })}
@@ -200,6 +204,7 @@ export default function CropCatalogue({ history }) {
                         onClick={() => {
                           onAddCropVariety(crop.crop_id);
                         }}
+                        view='CropCatalogue'
                       />
                     );
                   })}

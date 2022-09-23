@@ -21,8 +21,9 @@ export default function PureCropTile({
   children,
   isSelected,
   status,
+  view,
 }) {
-  const { active = 0, planned = 0, past = 0, noPlans = 0 } = cropCount;
+  const { active = 0, abandoned=0, planned = 0, past = 0, noPlans = 0 } = cropCount;
   const { t } = useTranslation();
   return (
     <div
@@ -71,14 +72,40 @@ export default function PureCropTile({
         </div>
       )}
 
-      {noPlans !== 0 && (
-        <div className={styles.needsPlanContainer}>
-          <Square color={'needsPlan'} isCropTile style={{ borderBottomRightRadius: '4px' }}>
-            {noPlans}
-          </Square>
-        </div>
+      {view === 'CropVariety' && (
+        <>
+          {noPlans !== 0 && (
+          <div className={styles.planStateContainer}>
+            <Square color={'needsPlan'} isCropTile style={{ borderBottomRightRadius: '4px' }}>
+              {noPlans}
+            </Square>
+          </div>
+          )}
+          {abandoned !== 0 && (
+          <div className={styles.planStateContainer}>
+            <Square color={'abandoned'} isCropTile style={{ borderBottomRightRadius: '4px' }}>
+              {abandoned}
+            </Square>
+          </div>
+          )}
+        </>
       )}
 
+      {view === 'CropCatalogue' && (
+        <>
+          {noPlans + abandoned !== 0 && (
+            <div className={styles.planStateContainer}>
+              <Square color={'abandoned'} isCropTile>
+                {abandoned}
+              </Square>
+              <Square color={'needsPlan'} isCropTile style={{ borderBottomRightRadius: '4px' }}>
+                {noPlans}
+              </Square>
+            </div>
+          )}
+        </>
+      )}
+    
       <div className={styles.info}>
         <div className={styles.infoMain}>{title}</div>
         {children}
@@ -103,4 +130,5 @@ PureCropTile.prototype = {
   isPastVariety: PropTypes.bool,
   isCropTemplate: PropTypes.bool,
   status: PropTypes.oneOf(['active', 'planned', 'completed', 'abandoned']),
+  view: PropTypes.oneOf(['CropCatalogue', 'CropVariety']),
 };

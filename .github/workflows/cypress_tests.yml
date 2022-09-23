@@ -54,7 +54,7 @@ jobs:
 
       - name: Run and test app
         env:   
-          VITE_GOOGLE_MAPS_API_KEY: AIzaSyDhe9WuLcnXiJ4O80HoviJXsYcHbLYSNp0
+          VITE_GOOGLE_MAPS_API_KEY: ${{secrets.VITE_GOOGLE_MAPS_API_KEY}}
           VITE_WEATHER_API_KEY: ${{secrets.VITE_WEATHER_API_KEY}}
           VITE_ENV: development
           VITE_GOOGLE_OAUTH_CLIENT_ID: ${{secrets.VITE_GOOGLE_OAUTH_CLIENT_ID}}

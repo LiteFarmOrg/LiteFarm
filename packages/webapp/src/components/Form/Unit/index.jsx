@@ -114,7 +114,7 @@ const useReactSelectStyles = (disabled, { reactSelectWidth = DEFAULT_REACT_SELEC
       singleValue: (provided, state) => ({
         fontSize: '16px',
         lineHeight: '24px',
-        color: 'var(--grey600)',
+        color: 'var(--fontColor)',
         fontStyle: 'normal',
         fontWeight: 'normal',
         fontFamily: '"Open Sans", "SansSerif", serif',

@@ -163,6 +163,16 @@ export const abandonedManagementPlansSelector = createSelector(
   },
 );
 
+export const isAbandonedManagementPlan = (managementPlan, time) => {
+  return (
+    managementPlan.abandon_date
+  );
+};
+
+export const getAbandonedManagementPlans = (managementPlans, time) => {
+  return managementPlans.filter((managementPlan) => isAbandonedManagementPlan(managementPlan, time));
+};
+
 /**
  *
  * @param {Object} managementPlan
@@ -203,21 +213,6 @@ export const isCurrentManagementPlan = (managementPlan, time) => {
 export const getCurrentManagementPlans = (managementPlans, time) => {
   return managementPlans.filter((managementPlan) => isCurrentManagementPlan(managementPlan, time));
 };
-
-
-// 
-
-export const isAbandonedManagementPlan = (managementPlan, time) => {
-  return (
-    managementPlan.abandon_date
-  );
-};
-
-export const getAbandonedManagementPlans = (managementPlans, time) => {
-  return managementPlans.filter((managementPlan) => isAbandonedManagementPlan(managementPlan, time));
-};
-
-//
 
 export const plannedManagementPlansSelector = createSelector(
   [managementPlansSelector, lastActiveDatetimeSelector],
@@ -293,14 +288,14 @@ export const currentManagementPlanByCropIdSelector = (crop_id) =>
     (managementPlans, cropCatalogFilterDate) =>
       getCurrentManagementPlans(managementPlans, new Date(cropCatalogFilterDate).getTime()),
   );
-//
+
 export const abandonedManagementPlanByCropIdSelector = (crop_id) =>
   createSelector(
     [managementPlanByCropIdSelector(crop_id), cropCatalogueFilterDateSelector],
     (managementPlans, cropCatalogFilterDate) =>
       getAbandonedManagementPlans(managementPlans, new Date(cropCatalogFilterDate).getTime()),
   );
-//
+
 export const plannedManagementPlanByCropIdSelector = (crop_id) =>
   createSelector(
     [managementPlanByCropIdSelector(crop_id), cropCatalogueFilterDateSelector],
@@ -330,12 +325,12 @@ export const currentCropVarietiesByCropIdSelector = (crop_id) =>
   createSelector([currentManagementPlanByCropIdSelector(crop_id)], (managementPlans) =>
     getUniqueEntities(managementPlans, 'crop_variety_id'),
   );
-//
+
 export const abandonedCropVarietiesByCropIdSelector = (crop_id) =>
   createSelector([abandonedManagementPlanByCropIdSelector(crop_id)], (managementPlans) =>
     getUniqueEntities(managementPlans, 'crop_variety_id'),
   );
-//
+
 export const plannedCropVarietiesByCropIdSelector = (crop_id) =>
   createSelector([plannedManagementPlanByCropIdSelector(crop_id)], (managementPlans) =>
     getUniqueEntities(managementPlans, 'crop_variety_id'),

@@ -266,7 +266,7 @@ describe.only('Tasks flow tests', () => {
       if (text == 'Clean') {
         cy.get('[data-cy=task-selection]').eq(index).click();
         cy.createACleaningTask();
-
+        cy.get('._contentContainer_nkx8u_1').contains('Successfully created task').should('exist');
         //assign all unassigned tasks on date to selected user
         cy.url().should('include', '/tasks');
         cy.get('[data-cy=taskCard]').should('exist');
@@ -279,6 +279,7 @@ describe.only('Tasks flow tests', () => {
       } else if (text == 'Field Work') {
         cy.get('[data-cy=task-selection]').eq(index).click();
         cy.createAFieldWorkTask();
+        cy.get('._contentContainer_nkx8u_1').contains('Successfully created task').should('exist');
         cy.url().should('include', '/tasks');
         cy.get('[data-cy=taskCard]').should('exist');
         cy.contains('Create').should('exist').and('not.be.disabled').click({ force: true });
@@ -302,6 +303,7 @@ describe.only('Tasks flow tests', () => {
       } else if (text == 'Pest Control') {
         cy.get('[data-cy=task-selection]').eq(index).click();
         cy.createAPestControlTask();
+        cy.get('._contentContainer_nkx8u_1').contains('Successfully created task').should('exist');
         cy.url().should('include', '/tasks');
         cy.get('[data-cy=taskCard]').should('exist');
         cy.contains('Create').should('exist').and('not.be.disabled').click({ force: true });
@@ -320,6 +322,7 @@ describe.only('Tasks flow tests', () => {
       } else if (text == 'Soil Amendment') {
         cy.get('[data-cy=task-selection]').eq(index).click();
         cy.createASoilAmendmentTask();
+        cy.get('._contentContainer_nkx8u_1').contains('Successfully created task').should('exist');
         cy.url().should('include', '/tasks');
         cy.get('[data-cy=taskCard]').should('exist');
         cy.contains('Create').should('exist').and('not.be.disabled').click({ force: true });

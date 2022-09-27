@@ -65,7 +65,7 @@ jobs:
         uses: cypress-io/github-action@v4.2.0 
         with:
           working-directory: packages/webapp
-          install-command: pnpm install --config.auto-install-peers=true --no-frozen-lockfile --force
+          install-command: pnpm install --config.auto-install-peers=true --frozen-lockfile
           install: true
           build: npx browserslist@latest --update-db
           start: pnpm dev

@@ -16,7 +16,7 @@ describe.only('LiteFarm end to end test', () => {
 
   it.only('Happy path', { defaultCommandTimeout: 7000 }, () => {
     cy.visit('/');
-    cy.get('[data-cy=email]').should('exist');
+    cy.get('[data-cy="email"]').should('exist');
     cy.get('[data-cy=continue]').should('exist');
     cy.get('[data-cy=continue]').should('be.disabled');
     cy.get('[data-cy=continueGoogle]').should('exist');

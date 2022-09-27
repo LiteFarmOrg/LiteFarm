@@ -85,7 +85,7 @@ jobs:
         with:
           working-directory: packages/webapp
           install: true
-          build: npx browserslist@latest --update-db
+          start: npx browserslist@latest --update-db
           wait-on: 'http://localhost:3000'
           wait-on-timeout: 120
           browser: chrome

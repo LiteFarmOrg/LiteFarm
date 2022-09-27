@@ -31,26 +31,45 @@ jobs:
           database: ${{env.DEV_DATABASE}}
           port: 5432
 
-      - uses: actions/checkout@v2
+      - name: Install pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: latest
 
+      - uses: actions/checkout@v2
+          
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
 
-      - name: Run API in background
+      - name: Install shared package
+        working-directory: packages/shared
+        run: >-
+          npm ci
+      
+      - name: Install api package
         working-directory: packages/api
-        run: |
-          npm ci && cd ../shared && npm ci
-          cd ../api && npm run migrate:dev:db
+        run: >-
+          npm ci
+      
+      - name: Install webapp package
+        working-directory: packages/webapp
+        run: >-
+          pnpm install --config.auto-install-peers=true --frozen-lockfile 
+
+      - name: Start api component in background
+        working-directory: packages/api
+        run: >-
+          npm run migrate:dev:db &&
           npm run start &
         env:
           PORT: 5000
-          
-      - name: Install pnpm
-        uses: pnpm/action-setup@v2
-        with:
-          version: latest
+
+      - name: Start webapp component in background
+        working-directory: packages/webapp
+        run: >-
+          pnpm dev &
 
       - name: Run and test app
         env:   
@@ -65,10 +84,8 @@ jobs:
         uses: cypress-io/github-action@v4.2.0 
         with:
           working-directory: packages/webapp
-          install-command: pnpm install --config.auto-install-peers=true --frozen-lockfile
           install: true
           build: npx browserslist@latest --update-db
-          start: pnpm dev
           wait-on: 'http://localhost:3000'
           wait-on-timeout: 120
           browser: chrome

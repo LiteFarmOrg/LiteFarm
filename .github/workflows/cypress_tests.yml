@@ -68,6 +68,14 @@ jobs:
 
       - name: Start webapp component in background
         working-directory: packages/webapp
+        env:   
+          VITE_GOOGLE_MAPS_API_KEY: ${{secrets.VITE_GOOGLE_MAPS_API_KEY}}
+          VITE_WEATHER_API_KEY: ${{secrets.VITE_WEATHER_API_KEY}}
+          VITE_ENV: development
+          VITE_GOOGLE_OAUTH_CLIENT_ID: ${{secrets.VITE_GOOGLE_OAUTH_CLIENT_ID}}
+          VITE_DO_BUCKET_NAME: litefarm
+          NODE_ENV: development
+          VITE_API_URL: http://localhost:5000
         run: >-
           pnpm dev &
 
@@ -85,7 +93,7 @@ jobs:
         with:
           working-directory: packages/webapp
           install: true
-          start: npx browserslist@latest --update-db
+            #           start: npx browserslist@latest --update-db
           wait-on: 'http://localhost:3000'
           wait-on-timeout: 120
           browser: chrome

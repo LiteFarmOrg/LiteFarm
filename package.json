@@ -1,8 +1,11 @@
 {
+  "dependencies": {
+    "uuid": "8.3.2"
+  },
   "devDependencies": {
-    "cypress": "^9.5.3",
-    "husky": "^7.0.4",
-    "lerna": "^4.0.0"
+    "cypress": "^10.0.0",
+    "husky": "^8.0.0",
+    "lerna": "^5.0.0"
   },
   "scripts": {
     "test": "lerna run test",

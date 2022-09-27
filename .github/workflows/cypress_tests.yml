@@ -67,6 +67,7 @@ jobs:
           working-directory: packages/webapp
           install-command: pnpm install --config.auto-install-peers=true --no-frozen-lockfile --force
           install: true
+          build: npx browserslist@latest --update-db
           start: pnpm dev
           wait-on: 'http://localhost:3000'
           wait-on-timeout: 120

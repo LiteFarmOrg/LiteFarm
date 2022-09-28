@@ -248,6 +248,46 @@ describe.only('Tasks flow tests', () => {
     cy.get('[data-cy=createField-save]').should('exist').and('not.be.disabled').click();
     cy.wait(2000);
 
+    //add a crop variety
+    cy.get('[data-cy=navbar-hamburger]').should('exist').click();
+    cy.contains('Crops').should('exist').click();
+    cy.url().should('include', '/crop_catalogue');
+    cy.get('[data-cy=spotlight-next]')
+      .contains('Next')
+      .should('exist')
+      .and('not.be.disabled')
+      .click();
+    cy.get('[data-cy=spotlight-next]')
+      .contains('Got it')
+      .should('exist')
+      .and('not.be.disabled')
+      .click();
+    cy.get('[data-cy=crop-addLink]')
+      .contains('Add a new crop')
+      .should('exist')
+      .and('not.be.disabled')
+      .click();
+
+    cy.url().should('include', '/crop/new');
+    cy.get('[data-cy=crop-cropName]').should('exist').type(testCrop);
+    cy.contains('Select').should('exist').click({ force: true });
+    cy.contains('Cereals').should('exist').click();
+    cy.get('[type="radio"]').first().check({ force: true });
+    cy.get('[data-cy=crop-submit]').should('exist').and('not.be.disabled').click();
+    cy.wait(5 * 1000);
+    cy.url().should('include', '/crop/new/add_crop_variety');
+    cy.get('[data-cy=crop-variety]').should('exist').type('New Variety');
+    cy.get('[data-cy=crop-supplier]').should('exist').type('New Supplier');
+    cy.get('[type="radio"]').first().check({ force: true });
+    cy.get('[data-cy=variety-submit]').should('exist').and('not.be.disabled').click();
+
+    cy.url().should('include', '/crop/new/add_crop_variety/compliance');
+    cy.get('[data-cy=compliance-seed]').eq(1).should('exist').check({ force: true });
+    cy.get('[data-cy=compliance-seedAvailability]').eq(1).should('exist').check({ force: true });
+    cy.get('[data-cy=compliance-seedEngineered]').eq(0).should('exist').check({ force: true });
+    cy.get('[data-cy=compliance-seedTreated]').eq(2).should('exist').check({ force: true });
+    cy.get('[data-cy=compliance-newVarietySave]').should('exist').and('not.be.disabled').click();
+
     cy.get('[data-cy=home-taskButton]').should('exist').and('not.be.disabled').click();
     cy.contains('Create').should('exist').and('not.be.disabled').click({ force: true });
 
@@ -285,21 +325,12 @@ describe.only('Tasks flow tests', () => {
         cy.contains('Create').should('exist').and('not.be.disabled').click({ force: true });
       } else if (text == 'Harvest') {
         cy.get('[data-cy=task-selection]').eq(index).click();
-        cy.get('[data-cy=tasks-noCropPlanCancel]').click();
-        // cy.get('[data-cy=spotlight-next]')
-        //   .contains('Next')
-        //   .should('exist')
-        //   .and('not.be.disabled')
-        //   .click();
-        // cy.get('[data-cy=spotlight-next]')
-        //   .contains('Got it')
-        //   .should('exist')
-        //   .and('not.be.disabled')
-        //   .click();
-        // cy.createAHarvestTask();
-        // cy.url().should('include', '/tasks');
-        // cy.get('[data-cy=taskCard]').should('exist');
-        // cy.contains('Create').should('exist').and('not.be.disabled').click({ force: true });
+        cy.get('[data-cy="tasks-noCropPlanContinue"]').click();
+        cy.createAHarvestTask();
+        cy.get('[data-cy=home-taskButton]').should('exist').and('not.be.disabled').click();
+        cy.url().should('include', '/tasks');
+        cy.get('[data-cy=taskCard]').should('exist');
+        cy.contains('Create').should('exist').and('not.be.disabled').click({ force: true });
       } else if (text == 'Pest Control') {
         cy.get('[data-cy=task-selection]').eq(index).click();
         cy.createAPestControlTask();
@@ -324,11 +355,8 @@ describe.only('Tasks flow tests', () => {
         cy.createASoilAmendmentTask();
         cy.get('._contentContainer_nkx8u_1').contains('Successfully created task').should('exist');
         cy.url().should('include', '/tasks');
-        cy.get('[data-cy=taskCard]').should('exist');
-        cy.contains('Create').should('exist').and('not.be.disabled').click({ force: true });
       } else if (text == 'Transplant') {
-        cy.get('[data-cy=task-selection]').eq(index).click();
-        cy.get('[data-cy=tasks-noCropPlanCancel]').click();
+        return;
         // cy.url().should('include', '/tasks');
         // cy.get('[data-cy=taskCard]').should('exist');
         // cy.contains('Create').should('exist').and('not.be.disabled').click({ force: true });

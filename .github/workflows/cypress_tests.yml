@@ -78,8 +78,8 @@ jobs:
           start: pnpm dev
           wait-on: 'http://localhost:3000'
           wait-on-timeout: 120
-          browser: chrome
+            #          browser: chrome
           record: true
           parallel: true
-          group: 'UI - Chrome'
+            #          group: 'UI - Chrome'
           spec: cypress/e2e/happyPath.spec.js 

@@ -4,7 +4,7 @@ on: [push]
 
 jobs:
   build:
-    timeout-minutes: 10
+    timeout-minutes: 20
     runs-on: macos-12
     env:
       JWT_INVITE_SECRET: ${{secrets.JWT_INVITE_SECRET}}
@@ -17,7 +17,6 @@ jobs:
       DEV_DATABASE: pg-litefarm
       DEV_DATABASE_USER: postgres
       DEV_DATABASE_PASSWORD: postgres
-
       
     strategy:
       matrix:
@@ -43,23 +42,19 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
 
-      - name: Install shared package
+      - name: Build shared package
         working-directory: packages/shared
         run: >-
           npm ci
-      
-      - name: Install api package
+
+      - name: Run api in background
+        uses: BerniWittmann/background-server-action@latest
         working-directory: packages/api
-        run: >-
-          npm ci
-      
-      - name: Start api component in background
-        working-directory: packages/api
-        run: >-
-          npm run migrate:dev:db &&
-          npm run start &
         env:
           PORT: 5000
+        with:
+          build: npm ci, npm run migrate:dev:db
+          start: npm start 
 
       - name: Run and test app
         env:   

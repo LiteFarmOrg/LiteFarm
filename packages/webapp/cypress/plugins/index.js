@@ -21,6 +21,8 @@
 const axios = require('axios');
 const makeEmailAccount = require('./email-account');
 
+const { startDevServer } = require('@cypress/vite-dev-server');
+
 module.exports = async (on, config) => {
   // `on` is used to hook into various events Cypress emits
   // `config` is the resolved Cypress config
@@ -42,6 +44,8 @@ module.exports = async (on, config) => {
       return emailAccount.getLastEmail();
     },
   });
+
+  on('dev-server:start', (options) => startDevServer({ options }));
 
   return config;
 };

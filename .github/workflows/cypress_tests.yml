@@ -74,12 +74,14 @@ jobs:
         with:
           working-directory: packages/webapp
           install: true
-          build: pnpm install --config.auto-install-peers=true --frozen-lockfile
-          start: pnpm dev
-          wait-on: 'http://localhost:3000'
-          wait-on-timeout: 120
-            #          browser: chrome
+          build: >-
+            pnpm install --config.auto-install-peers=true --frozen-lockfile
+          start: >-
+            pnpm dev
+          wait-on: >-
+            http://localhost:3000
+          wait-on-timeout: 30
           record: true
           parallel: true
-            #          group: 'UI - Chrome'
           spec: cypress/e2e/happyPath.spec.js 
+          config: 'baseUrl=http://localhost:3000'

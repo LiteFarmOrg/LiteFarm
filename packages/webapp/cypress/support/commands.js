@@ -243,7 +243,7 @@ Cypress.Commands.add('createAHarvestTask', () => {
     .and('not.be.disabled')
     .click({ force: true });
   cy.get('[data-cy="spotlight-next"]').click({ force: true });
-  cy.wait(2000);
+  cy.wait(7000);
   cy.get('[data-cy=map-selectLocation]').click(530, 216, {
     force: false,
   });
@@ -255,7 +255,7 @@ Cypress.Commands.add('createAHarvestTask', () => {
   cy.get('[data-cy=cropPlan-numberContainers]').type('50');
   cy.get('[data-cy=cropPlan-numberPlants]').type('10');
   cy.get('[data-cy=cropPlan-containerSubmit]').click();
-  cy.wait(2000);
+  cy.wait(7000);
   cy.get('[data-cy=map-selectLocation]').click(530, 216, {
     force: false,
   });
@@ -299,7 +299,7 @@ Cypress.Commands.add('createAPestControlTask', () => {
     .should('exist')
     .and('not.be.disabled')
     .click({ force: true });
-  cy.wait(2000);
+  cy.wait(7000);
   cy.get('[data-cy=map-selectLocation]').click(530, 216, {
     force: false,
   });
@@ -334,7 +334,7 @@ Cypress.Commands.add('createASoilAmendmentTask', () => {
     .should('exist')
     .and('not.be.disabled')
     .click({ force: true });
-  cy.wait(2000);
+  cy.wait(7000);
   cy.get('[data-cy=map-selectLocation]').click(530, 216, {
     force: false,
   });

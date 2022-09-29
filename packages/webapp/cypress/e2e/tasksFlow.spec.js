@@ -362,6 +362,19 @@ describe.only('Tasks flow tests', () => {
         // cy.contains('Create').should('exist').and('not.be.disabled').click({ force: true });
       }
     });
+
+    cy.get('[data-cy="tasks-taskCount"]').contains('7 tasks');
+    cy.get('[data-cy="taskCard"]').each((element, index, list) => {
+      expect(Cypress.$(element)).to.be.visible;
+
+      // Returns the index of the loop
+      expect(index).to.be.greaterThan(-1);
+
+      // Returns the elements from the cy.get command
+      expect(list).to.have.length(7);
+      cy.contains('Test Field').should('exist').click();
+      cy.get('._buttonContainer_ws78e_1').should('exist').click();
+    });
   });
 
   it('Admin user must be able to complete tasks on behalf pseudo users', () => {

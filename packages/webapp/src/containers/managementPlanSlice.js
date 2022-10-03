@@ -163,14 +163,14 @@ export const abandonedManagementPlansSelector = createSelector(
   },
 );
 
-export const isAbandonedManagementPlan = (managementPlan, time) => {
+export const isAbandonedManagementPlan = (managementPlan) => {
   return (
-    managementPlan.abandon_date
+    managementPlan.abandon_date && managementPlan.abandon_reason
   );
 };
 
-export const getAbandonedManagementPlans = (managementPlans, time) => {
-  return managementPlans.filter((managementPlan) => isAbandonedManagementPlan(managementPlan, time));
+export const getAbandonedManagementPlans = (managementPlans) => {
+  return managementPlans.filter((managementPlan) => isAbandonedManagementPlan(managementPlan));
 };
 
 /**
@@ -293,7 +293,7 @@ export const abandonedManagementPlanByCropIdSelector = (crop_id) =>
   createSelector(
     [managementPlanByCropIdSelector(crop_id), cropCatalogueFilterDateSelector],
     (managementPlans, cropCatalogFilterDate) =>
-      getAbandonedManagementPlans(managementPlans, new Date(cropCatalogFilterDate).getTime()),
+      getAbandonedManagementPlans(managementPlans),
   );
 
 export const plannedManagementPlanByCropIdSelector = (crop_id) =>

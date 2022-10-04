@@ -47,7 +47,11 @@ const useStyles = makeStyles({
 export const StatusLabel = ({ color = 'active', label, sm, ...props }) => {
   const classes = useStyles();
   return (
-    <div className={clsx(classes.container, classes[color], sm && classes.sm)} {...props}>
+    <div
+      data-cy="status-label"
+      className={clsx(classes.container, classes[color], sm && classes.sm)}
+      {...props}
+    >
       {label}
     </div>
   );

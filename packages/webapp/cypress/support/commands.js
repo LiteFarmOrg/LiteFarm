@@ -147,7 +147,7 @@ Cypress.Commands.add('createACleaningTask', () => {
     .should('exist')
     .and('not.be.disabled')
     .click({ force: true });
-  cy.wait(3000);
+  cy.wait(20 * 1000);
   cy.get('[data-cy=map-selectLocation]').click(530, 216, {
     force: false,
   });
@@ -176,7 +176,7 @@ Cypress.Commands.add('createAFieldWorkTask', () => {
     .should('exist')
     .and('not.be.disabled')
     .click({ force: true });
-  cy.wait(2000);
+  cy.wait(20 * 1000);
   cy.get('[data-cy=map-selectLocation]').click(530, 216, {
     force: false,
   });
@@ -200,93 +200,106 @@ Cypress.Commands.add('createAFieldWorkTask', () => {
     .click({ force: true });
 });
 
-Cypress.Commands.add('createAHarvestTask', () => {
-  const date = new Date();
-  date.setDate(date.getDate() + 1);
-  const dueDate = getDateInputFormat(date);
+Cypress.Commands.add(
+  'createAHarvestTask',
+  (
+    daysGermination,
+    daysTransplant,
+    daysHarvest,
+    containers,
+    plantsPerContainer,
+    rows,
+    length,
+    spacing,
+    harvest,
+  ) => {
+    const date = new Date();
+    date.setDate(date.getDate() + 1);
+    const dueDate = getDateInputFormat(date);
 
-  cy.get('[data-cy="crop-tile"]').eq(0).click();
-  cy.get('[data-cy="crop-name"]').contains('New Variety').click();
-  cy.url().should('include', '/management');
-  cy.get('[data-cy=spotlight-next]')
-    .contains('Next')
-    .should('exist')
-    .and('not.be.disabled')
-    .click();
-  cy.get('[data-cy=spotlight-next]')
-    .contains(`Let's get started`)
-    .should('exist')
-    .and('not.be.disabled')
-    .click();
-  //Add a management plan for the new variety
-  cy.get('[data-cy=crop-addPlan]')
-    .contains('Add a plan')
-    .should('exist')
-    .and('not.be.disabled')
-    .click();
-  cy.url().should('include', '/add_management_plan');
-  cy.get('[data-cy=cropPlan-groundPlanted]').should('exist').first().check({ force: true });
-  cy.get('[data-cy=cropPlan-submit]').should('exist').and('not.be.disabled').click();
+    cy.get('[data-cy="crop-tile"]').eq(0).click();
+    cy.get('[data-cy="crop-name"]').contains('New Variety').click();
+    cy.url().should('include', '/management');
+    cy.get('[data-cy=spotlight-next]')
+      .contains('Next')
+      .should('exist')
+      .and('not.be.disabled')
+      .click();
+    cy.get('[data-cy=spotlight-next]')
+      .contains(`Let's get started`)
+      .should('exist')
+      .and('not.be.disabled')
+      .click();
+    //Add a management plan for the new variety
+    cy.get('[data-cy=crop-addPlan]')
+      .contains('Add a plan')
+      .should('exist')
+      .and('not.be.disabled')
+      .click();
+    cy.url().should('include', '/add_management_plan');
+    cy.get('[data-cy=cropPlan-groundPlanted]').should('exist').first().check({ force: true });
+    cy.get('[data-cy=cropPlan-submit]').should('exist').and('not.be.disabled').click();
 
-  cy.url().should('include', '/add_management_plan/needs_transplant');
-  cy.get('[type = "radio"]').eq(0).check({ force: true });
-  cy.get('[type = "radio"]').eq(3).check({ force: true });
-  cy.get('[data-cy=cropPlan-transplantSubmit]').should('exist').and('not.be.disabled').click();
-  cy.url().should('include', '/add_management_plan/plant_date');
-  cy.get('[data-cy="cropPlan-plantDate"]').should('exist').type(dueDate);
-  cy.get('[data-cy="cropPlan-seedGermination"]').type(10);
-  cy.get('[data-cy="cropPlan-plantTransplant"]').type(20);
-  cy.get('[data-cy="cropPlan-plantHarvest"]').type(40);
+    cy.url().should('include', '/add_management_plan/needs_transplant');
+    cy.get('[type = "radio"]').eq(0).check({ force: true });
+    cy.get('[type = "radio"]').eq(3).check({ force: true });
+    cy.get('[data-cy=cropPlan-transplantSubmit]').should('exist').and('not.be.disabled').click();
+    cy.url().should('include', '/add_management_plan/plant_date');
+    cy.get('[data-cy="cropPlan-plantDate"]').should('exist').type(dueDate);
+    cy.get('[data-cy="cropPlan-seedGermination"]').type(daysGermination);
+    cy.get('[data-cy="cropPlan-plantTransplant"]').type(daysTransplant);
+    cy.get('[data-cy="cropPlan-plantHarvest"]').type(daysHarvest);
 
-  cy.get('[data-cy="plantDate-submit"]')
-    .should('exist')
-    .and('not.be.disabled')
-    .click({ force: true });
-  cy.get('[data-cy="spotlight-next"]').click({ force: true });
-  cy.wait(7000);
-  cy.get('[data-cy=map-selectLocation]').click(530, 216, {
-    force: false,
-  });
-  cy.get('[data-cy="cropPlan-locationSubmit"]')
-    .should('exist')
-    .and('not.be.disabled')
-    .click({ force: true });
-  cy.get('[type = "radio"]').eq(0).check({ force: true });
-  cy.get('[data-cy=cropPlan-numberContainers]').type('50');
-  cy.get('[data-cy=cropPlan-numberPlants]').type('10');
-  cy.get('[data-cy=cropPlan-containerSubmit]').click();
-  cy.wait(7000);
-  cy.get('[data-cy=map-selectLocation]').click(530, 216, {
-    force: false,
-  });
-  cy.get('[data-cy="cropPlan-locationSubmit"]')
-    .should('exist')
-    .and('not.be.disabled')
-    .click({ force: true });
-  cy.get('[data-cy=cropPlan-plantingMethod]').eq(0).should('exist').check({ force: true });
+    cy.get('[data-cy="plantDate-submit"]')
+      .should('exist')
+      .and('not.be.disabled')
+      .click({ force: true });
+    cy.get('[data-cy="spotlight-next"]').click({ force: true });
+    cy.wait(7000);
+    cy.get('[data-cy=map-selectLocation]').click(530, 216, {
+      force: false,
+    });
+    cy.get('[data-cy="cropPlan-locationSubmit"]')
+      .should('exist')
+      .and('not.be.disabled')
+      .click({ force: true });
+    cy.get('[type = "radio"]').eq(0).check({ force: true });
+    cy.get('[data-cy=cropPlan-numberContainers]').type(containers);
+    cy.get('[data-cy=cropPlan-numberPlants]').type(plantsPerContainer);
+    cy.get('[data-cy=cropPlan-containerSubmit]').click();
+    cy.wait(7000);
+    cy.get('[data-cy=map-selectLocation]').click(530, 216, {
+      force: false,
+    });
+    cy.get('[data-cy="cropPlan-locationSubmit"]')
+      .should('exist')
+      .and('not.be.disabled')
+      .click({ force: true });
+    cy.get('[data-cy=cropPlan-plantingMethod]').eq(0).should('exist').check({ force: true });
 
-  cy.get('[data-cy=plantingMethod-submit]').should('exist').and('not.be.disabled').click();
-  cy.url().should('include', '/add_management_plan/row_method');
+    cy.get('[data-cy=plantingMethod-submit]').should('exist').and('not.be.disabled').click();
+    cy.url().should('include', '/add_management_plan/row_method');
 
-  cy.get('[data-cy=rowMethod-equalLength]').eq(0).should('exist').check({ force: true });
+    cy.get('[data-cy=rowMethod-equalLength]').eq(0).should('exist').check({ force: true });
 
-  cy.get('[data-cy=rowMethod-rows]').should('exist').should('have.value', '').type('10');
-  cy.get('[data-cy=rowMethod-length]').should('exist').should('have.value', '').type('30');
-  cy.get('[data-cy=rowMethod-spacing]').should('exist').should('have.value', '').type('15');
-  cy.contains('row').click();
-  cy.get('[data-cy=rowMethod-yield]').should('exist').should('have.value', '').type('1500');
-  cy.contains('row').click();
+    cy.get('[data-cy=rowMethod-rows]').should('exist').should('have.value', '').type(rows);
+    cy.get('[data-cy=rowMethod-length]').should('exist').should('have.value', '').type(length);
+    cy.get('[data-cy=rowMethod-spacing]').should('exist').should('have.value', '').type(spacing);
+    cy.contains('row').click();
+    cy.get('[data-cy=rowMethod-yield]').should('exist').should('have.value', '').type(harvest);
+    cy.contains('row').click();
 
-  cy.get('[data-cy=rowMethod-submit]').should('exist').and('not.be.disabled').click();
-  cy.url().should('include', '/add_management_plan/row_guidance');
-  cy.get('[data-cy=planGuidance-submit]').should('exist').and('not.be.disabled').click();
-  cy.get('[data-cy=cropPlan-save]').should('exist').and('not.be.disabled').click();
-  cy.get('[data-cy=spotlight-next]')
-    .contains('Got it')
-    .should('exist')
-    .and('not.be.disabled')
-    .click();
-});
+    cy.get('[data-cy=rowMethod-submit]').should('exist').and('not.be.disabled').click();
+    cy.url().should('include', '/add_management_plan/row_guidance');
+    cy.get('[data-cy=planGuidance-submit]').should('exist').and('not.be.disabled').click();
+    cy.get('[data-cy=cropPlan-save]').should('exist').and('not.be.disabled').click();
+    cy.get('[data-cy=spotlight-next]')
+      .contains('Got it')
+      .should('exist')
+      .and('not.be.disabled')
+      .click();
+  },
+);
 
 Cypress.Commands.add('createAPestControlTask', () => {
   const date = new Date();
@@ -468,7 +481,7 @@ Cypress.Commands.add('createAccount', (email, fullName, gender, language, birthY
   cy.contains('Create Account').should('exist').and('be.enabled').click();
   cy.intercept('POST', '**/user').as('createUser');
   //cy.wait('@createUser');
-  cy.wait(7000);
+  cy.wait(20 * 1000);
 });
 
 Cypress.Commands.add('userCreationEmail', () => {
@@ -491,6 +504,7 @@ Cypress.Commands.add('addFarm', (farmName, location) => {
 
   // Enter new farm details and click continue which should be enabled
   cy.waitForGoogleApi().then(() => {
+    cy.wait(3000);
     cy.get('[data-cy=addFarm-farmName]').should('exist').type(farmName);
     cy.get('[data-cy=addFarm-location]').should('exist').type(location).wait(1000);
     cy.get('.pac-item').should('exist').click();

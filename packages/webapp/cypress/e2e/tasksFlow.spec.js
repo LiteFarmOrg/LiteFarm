@@ -52,13 +52,13 @@ describe.only('Tasks flow tests', () => {
 
     cy.createAccount(emailOwner, farmerName, gender, null, null, password);
 
-    cy.wait(2000);
+    cy.wait(20 * 1000);
     //Get Started page
     cy.getStarted();
 
     //Add farm page
     cy.addFarm(farmName, location);
-
+    cy.wait(5 * 1000);
     //role selection page
     cy.roleSelection(role);
 
@@ -136,6 +136,21 @@ describe.only('Tasks flow tests', () => {
     const testCrop = 'New Crop';
     const role = 'Manager';
     const inviteeRole = 'Farm Worker';
+
+    //Inputs for crop plan
+    const daysGermination = 10;
+    const daysTransplant = 20;
+    const daysHarvest = 40;
+
+    //Planting task inputs
+    const containers = 50;
+    const plantsPerContainer = 10;
+
+    //Transplant task inputs
+    const rows = 10;
+    const length = 30;
+    const spacing = 15;
+    const harvest = 1500;
 
     //worker details
     const language = ['English', 'French', 'Portuguese', 'Spanish'];
@@ -222,7 +237,7 @@ describe.only('Tasks flow tests', () => {
         initialWidth = $canvas.width();
         initialHeight = $canvas.height();
       });
-      cy.wait(1000);
+      cy.wait(5000);
       cy.get('[data-cy=map-mapContainer]').click(558, 344);
       cy.wait(500);
       cy.get('[data-cy=map-mapContainer]').click(570, 321);
@@ -287,8 +302,11 @@ describe.only('Tasks flow tests', () => {
     cy.get('[data-cy=compliance-seedEngineered]').eq(0).should('exist').check({ force: true });
     cy.get('[data-cy=compliance-seedTreated]').eq(2).should('exist').check({ force: true });
     cy.get('[data-cy=compliance-newVarietySave]').should('exist').and('not.be.disabled').click();
-
-    cy.get('[data-cy=home-taskButton]').should('exist').and('not.be.disabled').click();
+    cy.get('[data-cy="spotlight-next"]').click();
+    cy.get('[data-cy=home-taskButton]')
+      .should('exist')
+      .and('not.be.disabled')
+      .click({ force: true });
     cy.contains('Create').should('exist').and('not.be.disabled').click({ force: true });
 
     cy.get('[data-cy=task-selection]').each((element, index, list) => {
@@ -326,7 +344,18 @@ describe.only('Tasks flow tests', () => {
       } else if (text == 'Harvest') {
         cy.get('[data-cy=task-selection]').eq(index).click();
         cy.get('[data-cy="tasks-noCropPlanContinue"]').click();
-        cy.createAHarvestTask();
+
+        cy.createAHarvestTask(
+          daysGermination,
+          daysTransplant,
+          daysHarvest,
+          containers,
+          plantsPerContainer,
+          rows,
+          length,
+          spacing,
+          harvest,
+        );
         cy.get('[data-cy=home-taskButton]').should('exist').and('not.be.disabled').click();
         cy.url().should('include', '/tasks');
         cy.get('[data-cy=taskCard]').should('exist');
@@ -366,13 +395,62 @@ describe.only('Tasks flow tests', () => {
     cy.get('[data-cy="tasks-taskCount"]').contains('7 tasks');
     cy.get('[data-cy="taskCard"]').each((element, index, list) => {
       expect(Cypress.$(element)).to.be.visible;
-
+      const text = element.text();
       // Returns the index of the loop
       expect(index).to.be.greaterThan(-1);
 
       // Returns the elements from the cy.get command
       expect(list).to.have.length(7);
-      cy.contains('Test Field').should('exist').click();
+      if (text.includes('Transplant')) {
+        cy.log(text);
+        cy.contains('Transplant').should('exist').click();
+        cy.get('[data-cy="rowMethod-rows"]')
+          .invoke('val')
+          .then(parseInt)
+          .should('be.a', 'number')
+          .should('equal', rows);
+        cy.get('[data-cy="rowMethod-length"]')
+          .invoke('val')
+          .then(parseInt)
+          .should('be.a', 'number')
+          .should('equal', length);
+        cy.get('[data-cy="rowMethod-spacing"]')
+          .invoke('val')
+          .then(parseInt)
+          .should('be.a', 'number')
+          .should('equal', spacing);
+
+        cy.get('[data-cy="taskReadOnly-pencil"]').click();
+        cy.get('[data-cy="quickAssign-update"]').click();
+        cy.get('[data-cy="taskReadOnly-complete"]').click();
+        cy.get('[data-cy="beforeComplete-submit"]').click();
+        cy.get('[type = "checkbox"]').check({ force: true });
+        cy.get('[data-cy="harvestComplete-save"]').click();
+        cy.get('[data-cy="status-label"]').eq(6).contains('Completed').should('exist');
+      }
+
+      if (text.includes('Planting')) {
+        cy.log(text);
+        cy.contains('Planting').should('exist').click();
+        cy.get('[data-cy="cropPlan-numberContainers"]')
+          .invoke('val')
+          .then(parseInt)
+          .should('be.a', 'number')
+          .should('equal', containers);
+        cy.get('[data-cy="cropPlan-numberPlants"]')
+          .invoke('val')
+          .then(parseInt)
+          .should('be.a', 'number')
+          .should('equal', plantsPerContainer);
+
+        cy.contains('Abandon this task').should('exist').click();
+        cy.selectDropdown().click();
+        cy.contains('Weather').click();
+        cy.get('[data-cy="abandon-save"]').click();
+        cy.get('[data-cy="status-label"]').eq(6).contains('Abandoned').should('exist');
+      }
+
+      cy.contains('Test Field').should('exist').click({ force: true });
       cy.get('._buttonContainer_ws78e_1').should('exist').click();
     });
   });

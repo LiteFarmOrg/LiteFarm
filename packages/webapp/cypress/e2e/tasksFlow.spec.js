@@ -421,7 +421,7 @@ describe.only('Tasks flow tests', () => {
           .should('be.a', 'number')
           .should('equal', length);
         cy.get('.css-3iigni-container')
-          .eq(1)
+          .eq(0)
           .then((val) => {
             const unit = val.text();
 
@@ -432,7 +432,13 @@ describe.only('Tasks flow tests', () => {
           .then(parseInt)
           .should('be.a', 'number')
           .should('equal', spacing);
+        cy.get('.css-3iigni-container')
+          .eq(1)
+          .then((val) => {
+            const unit = val.text();
 
+            expect(unit).to.equal(spacingUnit);
+          });
         cy.get('[data-cy="taskReadOnly-pencil"]').click();
         cy.get('[data-cy="quickAssign-update"]').click();
         cy.get('[data-cy="taskReadOnly-complete"]').click();

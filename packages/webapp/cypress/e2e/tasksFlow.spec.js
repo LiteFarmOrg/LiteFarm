@@ -149,8 +149,11 @@ describe.only('Tasks flow tests', () => {
     //Transplant task inputs
     const rows = 10;
     const length = 30;
+    const lengthUnit = 'm';
     const spacing = 15;
+    const spacingUnit = 'cm';
     const harvest = 1500;
+    const harvestUnit = 'kg';
 
     //worker details
     const language = ['English', 'French', 'Portuguese', 'Spanish'];
@@ -353,8 +356,11 @@ describe.only('Tasks flow tests', () => {
           plantsPerContainer,
           rows,
           length,
+          lengthUnit,
           spacing,
+          spacingUnit,
           harvest,
+          harvestUnit,
         );
         cy.get('[data-cy=home-taskButton]').should('exist').and('not.be.disabled').click();
         cy.url().should('include', '/tasks');
@@ -414,6 +420,13 @@ describe.only('Tasks flow tests', () => {
           .then(parseInt)
           .should('be.a', 'number')
           .should('equal', length);
+        cy.get('.css-3iigni-container')
+          .eq(1)
+          .then((val) => {
+            const unit = val.text();
+
+            expect(unit).to.equal(lengthUnit);
+          });
         cy.get('[data-cy="rowMethod-spacing"]')
           .invoke('val')
           .then(parseInt)

@@ -210,8 +210,11 @@ Cypress.Commands.add(
     plantsPerContainer,
     rows,
     length,
+    lengthUnit,
     spacing,
+    spacingUnit,
     harvest,
+    harvestUnit,
   ) => {
     const date = new Date();
     date.setDate(date.getDate() + 1);
@@ -284,9 +287,30 @@ Cypress.Commands.add(
 
     cy.get('[data-cy=rowMethod-rows]').should('exist').should('have.value', '').type(rows);
     cy.get('[data-cy=rowMethod-length]').should('exist').should('have.value', '').type(length);
+    cy.get('.css-15ndcg3-SingleValue2')
+      .eq(0)
+      .then((val) => {
+        const unit = val.text();
+
+        expect(unit).to.equal(lengthUnit);
+      });
     cy.get('[data-cy=rowMethod-spacing]').should('exist').should('have.value', '').type(spacing);
+    cy.get('.css-15ndcg3-SingleValue2')
+      .eq(1)
+      .then((val) => {
+        const unit = val.text();
+
+        expect(unit).to.equal(spacingUnit);
+      });
     cy.contains('row').click();
     cy.get('[data-cy=rowMethod-yield]').should('exist').should('have.value', '').type(harvest);
+    cy.get('.css-15ndcg3-SingleValue2')
+      .eq(2)
+      .then((val) => {
+        const unit = val.text();
+
+        expect(unit).to.equal(harvestUnit);
+      });
     cy.contains('row').click();
 
     cy.get('[data-cy=rowMethod-submit]').should('exist').and('not.be.disabled').click();
@@ -509,6 +533,7 @@ Cypress.Commands.add('addFarm', (farmName, location) => {
     cy.get('[data-cy=addFarm-location]').should('exist').type(location).wait(1000);
     cy.get('.pac-item').should('exist').click();
     cy.get('[data-cy=addFarm-continue]').should('not.be.disabled').click();
+    cy.wait(5 * 1000);
   });
 });
 

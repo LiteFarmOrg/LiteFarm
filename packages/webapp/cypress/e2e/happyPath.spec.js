@@ -32,7 +32,7 @@ describe.only('LiteFarm end to end test', () => {
     const farmName = 'UBC FARM';
     const location = 'University Endowment Lands, BC V6T 1W5 Canada';
     const fieldName = 'Test Field';
-    const workerName = 'Test Worker';
+    const workerName = 'John Worker';
     const testCrop = 'New Crop';
     const role = 'Manager';
     const lang = 'English';
@@ -132,7 +132,7 @@ describe.only('LiteFarm end to end test', () => {
         initialWidth = $canvas.width();
         initialHeight = $canvas.height();
       });
-      cy.wait(20 * 1000);
+      cy.wait(5 * 1000);
       cy.get('[data-cy=map-mapContainer]').click(558, 344);
       cy.wait(500);
       cy.get('[data-cy=map-mapContainer]').click(570, 321);

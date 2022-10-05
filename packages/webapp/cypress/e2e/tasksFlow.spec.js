@@ -305,7 +305,17 @@ describe.only('Tasks flow tests', () => {
     cy.get('[data-cy=compliance-seedEngineered]').eq(0).should('exist').check({ force: true });
     cy.get('[data-cy=compliance-seedTreated]').eq(2).should('exist').check({ force: true });
     cy.get('[data-cy=compliance-newVarietySave]').should('exist').and('not.be.disabled').click();
-    cy.get('[data-cy="spotlight-next"]').click();
+    cy.url().should('include', '/management');
+    cy.get('[data-cy=spotlight-next]')
+      .contains('Next')
+      .should('exist')
+      .and('not.be.disabled')
+      .click();
+    cy.get('[data-cy=spotlight-next]')
+      .contains(`Let's get started`)
+      .should('exist')
+      .and('not.be.disabled')
+      .click();
     cy.get('[data-cy=home-taskButton]')
       .should('exist')
       .and('not.be.disabled')

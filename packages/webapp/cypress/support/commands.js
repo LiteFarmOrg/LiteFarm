@@ -222,17 +222,7 @@ Cypress.Commands.add(
 
     cy.get('[data-cy="crop-tile"]').eq(0).click();
     cy.get('[data-cy="crop-name"]').contains('New Variety').click();
-    // cy.url().should('include', '/management');
-    // cy.get('[data-cy=spotlight-next]')
-    //   .contains('Next')
-    //   .should('exist')
-    //   .and('not.be.disabled')
-    //   .click();
-    // cy.get('[data-cy=spotlight-next]')
-    //   .contains(`Let's get started`)
-    //   .should('exist')
-    //   .and('not.be.disabled')
-    //   .click();
+
     //Add a management plan for the new variety
     cy.get('[data-cy=crop-addPlan]')
       .contains('Add a plan')

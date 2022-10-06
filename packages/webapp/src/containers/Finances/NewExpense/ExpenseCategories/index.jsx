@@ -89,7 +89,7 @@ class ExpenseCategories extends Component {
             width: '100%',
           }}
         >
-          {expenseTypes.length > 0 &&
+          {expenseTypes?.length > 0 &&
             expenseTypes
               .sort((firstExpenseType, secondExpenseType) => {
                 if (firstExpenseType.expense_translation_key === 'OTHER') return 1;

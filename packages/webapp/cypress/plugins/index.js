@@ -38,8 +38,8 @@ module.exports = async (on, config) => {
     getUserPassword() {
       return emailAccount.password;
     },
-    getLastEmail() {
-      return emailAccount.getLastEmail();
+    async getLastEmail() {
+      return await emailAccount.getLastEmail();
     },
   });
 

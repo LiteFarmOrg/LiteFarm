@@ -732,6 +732,7 @@ Cypress.Commands.add('logOut', () => {
 });
 
 Cypress.Commands.add('acceptInviteEmail', (lang) => {
+  cy.wait(10 * 1000);
   cy.task('getLastEmail')
     .its('html')
     .then((html) => {

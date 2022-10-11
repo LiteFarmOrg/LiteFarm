@@ -262,7 +262,7 @@ describe.only('Tasks flow tests', () => {
         .click();
     });
 
-    cy.get('[data-cy=createField-fieldName]').should('exist').type(fieldName);
+    cy.get('[data-cy=areaDetails-name]').should('exist').type(fieldName);
     cy.get('[data-cy=createField-save]').should('exist').and('not.be.disabled').click();
     cy.wait(2000);
 

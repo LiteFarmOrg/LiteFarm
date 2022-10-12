@@ -48,6 +48,7 @@ export default function PointDetails({
         </PureWarningBox>
       )}
       <Input
+        data-cy="pointDetails-name"
         label={name}
         type="text"
         style={{ marginBottom: '40px' }}

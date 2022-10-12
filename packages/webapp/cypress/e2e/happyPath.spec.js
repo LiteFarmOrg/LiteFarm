@@ -503,6 +503,13 @@ describe.only('LiteFarm end to end test', () => {
     cy.get('[data-cy=taskReadOnly-pencil]').should('exist').click();
     cy.get('[data-cy=quickAssign-update]').should('exist').and('not.be.disabled').click();
 
+    cy.get('[data-cy=home-taskButton]')
+      .should('exist')
+      .and('not.be.disabled')
+      .click({ force: true });
+
+    cy.get('._filter_4bpr4_19').click();
+
     cy.get('[data-cy=home-farmButton]').should('exist').and('not.be.disabled').click();
     cy.get('[data-cy=navbar-option]')
       .contains('Farm map')
@@ -771,10 +778,57 @@ describe.only('LiteFarm end to end test', () => {
     cy.get('[data-cy="lineDetails-name"]').type('Watercourse 1');
     cy.get('[data-cy="createField-save"]').should('be.enabled').click();
 
+    cy.get('[data-cy=map-addFeature]').should('exist').and('not.be.disabled').click();
+    cy.get('[data-cy=map-drawer]').contains('Gate').should('exist').and('not.be.disabled').click();
+
+    cy.waitForGoogleApi().then(() => {
+      // here comes the code to execute after loading the google Apis
+
+      cy.wait(5000);
+      cy.get('[data-cy=map-mapContainer]').click(95, 95);
+      cy.contains('Confirm').click();
+    });
+    cy.get('[data-cy="pointDetails-name"]').type('Gate 1');
+    cy.get('[data-cy="createField-save"]').should('be.enabled').click();
+
+    cy.get('[data-cy=map-addFeature]').should('exist').and('not.be.disabled').click();
+    cy.get('[data-cy=map-drawer]')
+      .contains('Water valve')
+      .should('exist')
+      .and('not.be.disabled')
+      .click();
+
+    cy.waitForGoogleApi().then(() => {
+      // here comes the code to execute after loading the google Apis
+
+      cy.wait(5000);
+      cy.get('[data-cy=map-mapContainer]').click(305, 95);
+      cy.contains('Confirm').click();
+    });
+    cy.get('[data-cy="pointDetails-name"]').type('Valve 1');
+    cy.get('[data-cy="createField-save"]').should('be.enabled').click();
+
+    cy.get('[data-cy=map-addFeature]').should('exist').and('not.be.disabled').click();
+    cy.get('[data-cy=map-drawer]')
+      .contains('Sensor')
+      .should('exist')
+      .and('not.be.disabled')
+      .click();
+
+    cy.contains('Download this').click();
+    cy.get('[data-cy=sensorModal-back]').click();
+    cy.get('[data-cy=map-addFeature]').should('exist').and('not.be.disabled').click();
+
     cy.get('[data-cy=navbar-hamburger]').should('exist').click();
     cy.contains('Document').should('exist').click();
     cy.get('[data-cy="spotlight-next"]').click();
     cy.get('[data-cy="spotlight-next"]').click();
+
+    cy.get('[data-cy=navbar-hamburger]').should('exist').click();
+    cy.contains('Crops').should('exist').click();
+    cy.url().should('include', '/crop_catalogue');
+    cy.get('[data-cy="tasks-filter"]').click();
+    cy.selectDropdown().eq(0).click();
 
     //logout
     //cy.get('[data-cy=home-profileButton]').should('exist').click();

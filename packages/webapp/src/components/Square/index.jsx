@@ -23,9 +23,6 @@ const useStyles = makeStyles({
   active: {
     backgroundColor: colors.brightGreen700,
   },
-  abandoned: {
-    backgroundColor: colors.grey900,
-  },
   planned: {
     backgroundColor: colors.brown700,
   },
@@ -65,7 +62,6 @@ export default function Square({ color = 'active', children, isCropTile, ...prop
 Square.propTypes = {
   color: PropTypes.oneOf([
     'active',
-    'abandoned',
     'planned',
     'past',
     'needsPlan',

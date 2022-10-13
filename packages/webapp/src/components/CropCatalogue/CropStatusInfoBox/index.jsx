@@ -65,15 +65,11 @@ export default function CropStatusInfoBox({
             {t('common:ACTIVE')}
           </div>
           <div className={classes.cropCountContainer}>
-            <Square color={'abandoned'}>{status.abandoned}</Square>
-            {t('common:ABANDONED')}
-          </div>
-          <div className={classes.cropCountContainer}>
             <Square color={'planned'}>{status.planned}</Square>
             {t('common:PLANNED')}
           </div>
           <div className={classes.cropCountContainer}>
-            <Square color={'past'}>{status.past}</Square>
+            <Square color={'past'}>{status.past + status.abandoned}</Square>
             {t('common:PAST')}
           </div>
           <div className={classes.cropCountContainer}>

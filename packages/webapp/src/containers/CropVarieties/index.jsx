@@ -138,7 +138,6 @@ export default function CropVarieties({ history, match, location }) {
                     cropCount={{
                       noPlans: noPlansCount,
                     }}
-                    view='CropVariety'
                   />
                 );
               })}
@@ -175,7 +174,6 @@ export default function CropVarieties({ history, match, location }) {
                     alt={imageKey}
                     style={{ width: cardWidth }}
                     onClick={() => goToVarietyManagement(crop_variety_id)}
-                    view='CropVariety'
                   />
                 );
               })}

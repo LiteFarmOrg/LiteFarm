@@ -83,7 +83,7 @@ describe.only('LiteFarm end to end test', () => {
 
     //who is your certifier(select BCARA)
     cy.selectCertifier();
-
+    cy.wait(5000);
     //onboarding outro
     cy.onboardingOutro();
 

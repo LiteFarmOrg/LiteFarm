@@ -77,7 +77,7 @@ describe.only('LiteFarm end to end test', () => {
     cy.wait(5000);
     //Consent page
     cy.giveConsent();
-
+    cy.wait(5000);
     //interested in organic
     cy.interestedInOrganic();
 

@@ -830,6 +830,12 @@ describe.only('LiteFarm end to end test', () => {
     cy.get('[data-cy="tasks-filter"]').click();
     cy.selectDropdown().eq(0).click();
 
+    cy.get('.css-1plh46m-MenuList2').eq(0).click();
+    cy.contains('Apply').click();
+
+    cy.get('[data-cy=navbar-hamburger]').should('exist').click();
+    cy.contains('Finances').should('exist').click();
+
     //logout
     //cy.get('[data-cy=home-profileButton]').should('exist').click();
     //cy.get('[data-cy=navbar-option]').contains('Log Out').should('exist').and('not.be.disabled').click();

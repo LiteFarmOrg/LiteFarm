@@ -523,10 +523,11 @@ Cypress.Commands.add('addFarm', (farmName, location) => {
   cy.waitForGoogleApi().then(() => {
     cy.wait(3000);
     cy.get('[data-cy=addFarm-farmName]').should('exist').type(farmName);
-    cy.wait('@loadMap');
-    cy.get('[data-cy=addFarm-location]').should('exist').type(location).wait(1000);
+    cy.wait('@loadMap').then(() => {
+      cy.get('[data-cy=addFarm-location]').should('exist').type(location).wait(1000);
 
-    cy.get('.pac-item').should('exist').click({ force: true });
+      cy.get('.pac-item').should('exist').click({ force: true });
+    });
     cy.get('[data-cy=addFarm-continue]').should('not.be.disabled').click();
     cy.wait(5 * 1000);
   });

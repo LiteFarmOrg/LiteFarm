@@ -64,7 +64,7 @@ describe.only('LiteFarm end to end test', () => {
 
     cy.get('@createUser').then(() => {
       //confirm user creation email
-      cy.userCreationEmail();
+      //cy.userCreationEmail();
       //Get Started page
       cy.getStarted();
     });

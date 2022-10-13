@@ -20,7 +20,6 @@
 // eslint-disable-next-line no-unused-vars
 const axios = require('axios');
 const makeEmailAccount = require('./email-account');
-const { cypressBrowserPermissionsPlugin } = require('cypress-browser-permissions');
 
 module.exports = async (on, config) => {
   // `on` is used to hook into various events Cypress emits
@@ -28,8 +27,6 @@ module.exports = async (on, config) => {
   config.env.googleRefreshToken = process.env.GOOGLE_REFRESH_TOKEN;
   config.env.googleClientId = process.env.REACT_APP_GOOGLE_CLIENTID;
   config.env.googleClientSecret = process.env.REACT_APP_GOOGLE_CLIENT_SECRET;
-
-  config = cypressBrowserPermissionsPlugin(on, config);
 
   const emailAccount = await makeEmailAccount();
   require('@cypress/code-coverage/task')(on, config);
@@ -41,8 +38,8 @@ module.exports = async (on, config) => {
     getUserPassword() {
       return emailAccount.password;
     },
-    async getLastEmail() {
-      return await emailAccount.getLastEmail();
+    getLastEmail() {
+      return emailAccount.getLastEmail();
     },
   });
 

@@ -71,6 +71,7 @@ jobs:
           start: pnpm dev
           wait-on: 'http://localhost:3000'
           wait-on-timeout: 120
+          headed: false
           browser: chrome
           record: true
           parallel: true

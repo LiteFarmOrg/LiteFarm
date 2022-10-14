@@ -22,7 +22,7 @@ export default function PureCropTile({
   isSelected,
   status,
 }) {
-  const { active = 0, abandoned = 0, planned = 0, past = 0, noPlans = 0 } = cropCount;
+  const { active = 0, abandoned = 0, planned = 0, completed = 0, noPlans = 0 } = cropCount;
   const { t } = useTranslation();
   return (
     <div
@@ -47,14 +47,14 @@ export default function PureCropTile({
         }}
       />
 
-      {planned + past + active !== 0 && (
+      {planned + completed + abandoned + active !== 0 && (
         <div className={styles.cropCountContainer}>
           <Square isCropTile>{active}</Square>
           <Square color={'planned'} isCropTile>
             {planned}
           </Square>
           <Square color={'past'} isCropTile>
-            {past + abandoned}
+            {completed + abandoned}
           </Square>
         </div>
       )}
@@ -93,7 +93,7 @@ PureCropTile.prototype = {
     abandoned: PropTypes.number,
     active: PropTypes.number,
     planned: PropTypes.number,
-    past: PropTypes.number,
+    completed: PropTypes.number,
   }),
   needsPlan: PropTypes.bool,
   title: PropTypes.string,

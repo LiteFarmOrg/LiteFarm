@@ -43,7 +43,7 @@ export default function CropVarieties({ history, match, location }) {
     dispatch(resetAndUnLockFormData());
   }, []);
 
-  const { active, abandoned, planned, past, noPlans, sum, cropCatalogue, filteredCropsWithoutManagementPlan } =
+  const { active, abandoned, planned, completed, noPlans, sum, cropCatalogue, filteredCropsWithoutManagementPlan } =
     useCropVarietyCatalogue(filterString, crop_id);
 
   const {
@@ -110,7 +110,7 @@ export default function CropVarieties({ history, match, location }) {
           <>
             <PageBreak style={{ paddingBottom: '16px' }} label={t('CROP_CATALOGUE.ON_YOUR_FARM')} />
             <CropStatusInfoBox
-              status={{ active, abandoned, past, planned, noPlans }}
+              status={{ active, abandoned, completed, planned, noPlans }}
               style={{ marginBottom: '16px' }}
               date={date}
               setDate={setDate}
@@ -147,7 +147,7 @@ export default function CropVarieties({ history, match, location }) {
                   active,
                   abandoned,
                   planned,
-                  past,
+                  completed,
                   imageKey,
                   crop_photo_url,
                   crop_id,
@@ -165,7 +165,7 @@ export default function CropVarieties({ history, match, location }) {
                       active: active.length,
                       abandoned: abandoned.length,
                       planned: planned.length,
-                      past: past.length,
+                      completed: completed.length,
                       noPlans: noPlans.length,
                     }}
                     needsPlan={!!noPlansCount}

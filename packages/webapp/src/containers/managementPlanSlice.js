@@ -149,12 +149,6 @@ export const expiredManagementPlansSelector = createSelector(
   },
 );
 
-// export const completedManagementPlansSelector = createSelector(
-//   [expiredManagementPlansSelector],
-//   (managementPlans) => {
-//     return managementPlans.filter(({ abandon_date }) => !abandon_date);
-//   },
-// );
 export const completedManagementPlansSelector = createSelector(
   [managementPlansSelector],
   (managementPlans) => {

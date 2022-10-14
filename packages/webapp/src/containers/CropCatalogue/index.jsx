@@ -202,7 +202,6 @@ export default function CropCatalogue({ history }) {
                         onClick={() => {
                           onAddCropVariety(crop.crop_id);
                         }}
-                        view='CropCatalogue'
                       />
                     );
                   })}

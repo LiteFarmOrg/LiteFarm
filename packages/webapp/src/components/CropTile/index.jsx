@@ -101,5 +101,5 @@ PureCropTile.prototype = {
   alt: PropTypes.string,
   isPastVariety: PropTypes.bool,
   isCropTemplate: PropTypes.bool,
-  status: PropTypes.oneOf(['active', 'planned', 'completed', 'abandoned']),
+  status: PropTypes.oneOf(['active', 'past', 'abandoned']),
 };

@@ -15,7 +15,7 @@ describe.only('LiteFarm end to end test', () => {
     });
   });
 
-  it.only('Happy path', { defaultCommandTimeout: 20000 }, () => {
+  it.only('Happy path', () => {
     cy.visit('/');
     cy.get('[data-cy=email]').should('exist');
     cy.get('[data-cy=continue]').should('exist');
@@ -30,7 +30,7 @@ describe.only('LiteFarm end to end test', () => {
     const fullName = 'Test Farmer';
     const password = `${userPassword}+1@`;
     const farmName = 'UBC FARM';
-    const location = 'University Endowment Lands, BC V6T 1W5 Canada';
+    const location = 'Ross Drive, University Endowment Lands, BC V6S, Canada';
     const fieldName = 'Test Field';
     const workerName = 'John Worker';
     const testCrop = 'New Crop';
@@ -62,16 +62,20 @@ describe.only('LiteFarm end to end test', () => {
     //create account
     cy.createAccount(emailOwner, fullName, gender, null, null, password);
 
-    cy.get('@createUser').then(() => {
-      //confirm user creation email
-      //cy.userCreationEmail();
-      //Get Started page
-      cy.getStarted();
-    });
+    // .should(({request, response})=>{
+    //   expect(response.status).to('equal',201);
+
+    // });
+
+    // cy.get('@createUser').then(() => {
+    //confirm user creation email
+    //cy.userCreationEmail();
+    //Get Started page
+    cy.getStarted();
+    // });
 
     //Add farm page
     cy.addFarm(farmName, location);
-
     //role selection page
     cy.roleSelection(role);
     cy.wait(5000);
@@ -87,7 +91,7 @@ describe.only('LiteFarm end to end test', () => {
     //onboarding outro
     cy.onboardingOutro();
 
-    cy.confirmationEmail();
+    //cy.confirmationEmail();
 
     //farm home page
     cy.homePageSpotlights();

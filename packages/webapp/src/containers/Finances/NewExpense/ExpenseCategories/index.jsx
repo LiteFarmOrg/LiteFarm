@@ -16,6 +16,7 @@ import { setSelectedExpenseTypes } from '../../actions';
 import history from '../../../../history';
 import { withTranslation } from 'react-i18next';
 import { Grid } from '@material-ui/core';
+import PropTypes from 'prop-types';
 
 const iconMap = {
   EQUIPMENT: EquipImg,
@@ -142,6 +143,10 @@ class ExpenseCategories extends Component {
     );
   }
 }
+
+ExpenseCategories.propTypes = {
+  expenseTypes: PropTypes.array,
+};
 
 const mapStateToProps = (state) => {
   return {

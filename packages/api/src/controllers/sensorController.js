@@ -403,25 +403,41 @@ const sensorController = {
     const trx = await transaction.start(Model.knex());
     try {
       const infoBody = [];
-      for (const sensor of req.body) {
-        const corresponding_sensor = await SensorModel.query()
+      for (const sensor of Object.keys(req.body)) {
+        const sensorData = req.body[sensor].data;
+        let corresponding_sensor = await SensorModel.query()
           .select('location_id')
-          .where('external_id', sensor.sensor_esid)
+          .where('external_id', sensor)
           .where('partner_id', req.params.partner_id);
-        for (let i = 0; i < sensor.value.length; i++) {
-          const row = {
-            read_time: sensor.time[i],
-            location_id: corresponding_sensor[0].location_id,
-            reading_type: sensor.parameter_number,
-            value: sensor.value[i],
-            unit: sensor.unit,
-          };
-          // Only include this entry if all required values are populated
-          if (Object.values(row).every((value) => value)) {
-            infoBody.push(row);
+        if (!corresponding_sensor.length) return res.status(400).send('sensor id not found');
+
+        corresponding_sensor = corresponding_sensor[0];
+        for (const sensorInfo of sensorData) {
+          const sensorInfoData = sensorInfo;
+          const parameter_number = sensorInfoData.parameter_category
+            .toLowerCase()
+            .replaceAll(' ', '_');
+          const unit = sensorInfoData.unit;
+
+          if (sensorInfoData.values.length < sensorInfoData.timestamps.length)
+            return res.status(400).send('sensor values and timestamps are not in sync');
+
+          for (let k = 0; k < sensorInfoData.values.length; ++k) {
+            const row = {
+              read_time: sensorInfoData.timestamps[k],
+              location_id: corresponding_sensor.location_id,
+              value: sensorInfoData.values[k],
+              reading_type: parameter_number,
+              unit,
+            };
+            // Only include this entry if all required values are populated
+            if (Object.values(row).every((value) => value)) {
+              infoBody.push(row);
+            }
           }
         }
       }
+
       if (infoBody.length === 0) {
         res.status(200).send(infoBody);
       } else {

@@ -493,7 +493,7 @@ Cypress.Commands.add('createAccount', (email, fullName, gender, language, birthY
   //cy.createUserGender().click();
   //cy.createUserGenderOptions().eq(1).contains(gender).click();
 
-  cy.intercept('POST', 'http://localhost:5001/user').as('createUser');
+  cy.intercept('POST', '**/user').as('createUser');
   cy.contains('Create Account').should('exist').and('be.enabled').click();
 });
 

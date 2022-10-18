@@ -15,6 +15,7 @@
   "BREAK_TASK": "Break",
   "SOIL_TASK": "Soil Sample Results",
   "IRRIGATION_TASK": "Irrigate",
+  "IRRIGATION_TASK_LOWER": "Irrigation work",
   "TRANSPORT_TASK": "Transport",
   "FIELD_WORK_TASK": "Field Work",
   "FIELD_WORK_TASK_LOWER": "field work",

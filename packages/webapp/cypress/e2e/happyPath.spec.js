@@ -58,20 +58,20 @@ describe.only('LiteFarm end to end test', () => {
 
     //Login as a new user
     cy.newUserLogin(emailOwner);
-
+    cy.wait(10 * 1000);
     //create account
     cy.createAccount(emailOwner, fullName, gender, null, null, password);
 
-    // .should(({request, response})=>{
-    //   expect(response.status).to('equal',201);
-
-    // });
+    cy.wait('@createUser', { timeout: 30 * 1000 }).should(({ request, response }) => {
+      expect(response.statusCode).to.equal(201);
+      cy.getStarted();
+    });
 
     // cy.get('@createUser').then(() => {
     //confirm user creation email
     //cy.userCreationEmail();
     //Get Started page
-    cy.getStarted();
+
     // });
 
     //Add farm page

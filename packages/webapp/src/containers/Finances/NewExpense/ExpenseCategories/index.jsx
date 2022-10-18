@@ -16,6 +16,7 @@ import { setSelectedExpenseTypes } from '../../actions';
 import history from '../../../../history';
 import { withTranslation } from 'react-i18next';
 import { Grid } from '@material-ui/core';
+import PropTypes from 'prop-types';
 
 const iconMap = {
   EQUIPMENT: EquipImg,
@@ -89,50 +90,49 @@ class ExpenseCategories extends Component {
             width: '100%',
           }}
         >
-          {expenseTypes.length > 0 &&
-            expenseTypes
-              .sort((firstExpenseType, secondExpenseType) => {
-                if (firstExpenseType.expense_translation_key === 'OTHER') return 1;
-                if (secondExpenseType.expense_translation_key === 'OTHER') return -1;
-                return this.props
-                  .t(`expense:${firstExpenseType.expense_translation_key}`)
-                  .localeCompare(
-                    this.props.t(`expense:${secondExpenseType.expense_translation_key}`),
-                  );
-              })
-              .map((type) => {
-                return (
-                  <Grid
-                    item
-                    xs={4}
-                    md={3}
-                    lg={2}
-                    key={type.expense_type_id}
-                    style={{ marginBottom: '12px' }}
-                  >
-                    <div>
-                      <div
-                        style={
-                          selectedTypes.includes(type.expense_type_id)
-                            ? selectedStyle
-                            : unSelectedStyle
-                        }
-                        onClick={() => this.addRemoveType(type.expense_type_id)}
-                        className={styles.greenCircle}
-                      >
-                        <img
-                          src={iconMap[type.expense_translation_key]}
-                          alt=""
-                          className={styles.circleImg}
-                        />
-                      </div>
-                      <div className={styles.typeName}>
-                        {this.props.t(`expense:${type.expense_translation_key}`)}
-                      </div>
-                    </div>
-                  </Grid>
+          {expenseTypes
+            ?.sort((firstExpenseType, secondExpenseType) => {
+              if (firstExpenseType.expense_translation_key === 'OTHER') return 1;
+              if (secondExpenseType.expense_translation_key === 'OTHER') return -1;
+              return this.props
+                .t(`expense:${firstExpenseType.expense_translation_key}`)
+                .localeCompare(
+                  this.props.t(`expense:${secondExpenseType.expense_translation_key}`),
                 );
-              })}
+            })
+            .map((type) => {
+              return (
+                <Grid
+                  item
+                  xs={4}
+                  md={3}
+                  lg={2}
+                  key={type.expense_type_id}
+                  style={{ marginBottom: '12px' }}
+                >
+                  <div>
+                    <div
+                      style={
+                        selectedTypes.includes(type.expense_type_id)
+                          ? selectedStyle
+                          : unSelectedStyle
+                      }
+                      onClick={() => this.addRemoveType(type.expense_type_id)}
+                      className={styles.greenCircle}
+                    >
+                      <img
+                        src={iconMap[type.expense_translation_key]}
+                        alt=""
+                        className={styles.circleImg}
+                      />
+                    </div>
+                    <div className={styles.typeName}>
+                      {this.props.t(`expense:${type.expense_translation_key}`)}
+                    </div>
+                  </div>
+                </Grid>
+              );
+            })}
         </Grid>
         <div className={styles.bottomContainer}>
           <button className="btn btn-primary" onClick={() => this.nextPage()}>
@@ -143,6 +143,10 @@ class ExpenseCategories extends Component {
     );
   }
 }
+
+ExpenseCategories.propTypes = {
+  expenseTypes: PropTypes.array,
+};
 
 const mapStateToProps = (state) => {
   return {

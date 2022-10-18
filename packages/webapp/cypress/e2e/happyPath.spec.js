@@ -16,7 +16,7 @@ describe.only('LiteFarm end to end test', () => {
   });
 
   it.only('Happy path', () => {
-    cy.visit('/');
+    cy.visit('https://beta.litefarm.org');
     cy.get('[data-cy=email]').should('exist');
     cy.get('[data-cy=continue]').should('exist');
     cy.get('[data-cy=continue]').should('be.disabled');

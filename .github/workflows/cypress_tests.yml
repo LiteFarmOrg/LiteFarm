@@ -1,11 +1,11 @@
-name: Test App
+name: Run cypress happy path test
 
 on: [push]
 
 jobs:
   build:
-    timeout-minutes: 30
-    runs-on: macos-12
+    timeout-minutes: 10
+    runs-on: ubuntu-20.04
     env:
       JWT_INVITE_SECRET: ${{secrets.JWT_INVITE_SECRET}}
       JWT_RESET_SECRET: ${{secrets.JWT_RESET_SECRET}}
@@ -17,7 +17,10 @@ jobs:
       DEV_DATABASE: pg-litefarm
       DEV_DATABASE_USER: postgres
       DEV_DATABASE_PASSWORD: postgres
-
+      GOOGLE_API_KEY: ${{secrets.VITE_GOOGLE_MAPS_API_KEY}}
+      VITE_GOOGLE_MAPS_API_KEY: ${{secrets.VITE_GOOGLE_MAPS_API_KEY}}
+      VITE_WEATHER_API_KEY: ${{secrets.VITE_WEATHER_API_KEY}}
+      
     strategy:
       matrix:
         node-version: [17.5.0]
@@ -30,39 +33,30 @@ jobs:
           database: ${{env.DEV_DATABASE}}
           port: 5432
 
-      - name: Install pnpm
-        uses: pnpm/action-setup@v2
-        with:
-          version: latest
-
       - uses: actions/checkout@v2
-          
+
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
 
-      - name: Build shared package
-        working-directory: packages/shared
-        run: >-
-          npm ci
-      
-      - name: Install api package
+      - name: Run API in background
         working-directory: packages/api
-        run: >-
-          npm ci
-      
-      - name: Start api component in background
-        working-directory: packages/api
-        run: >-
-          npm run migrate:dev:db &&
+        run: |
+          npm ci && cd ../shared && npm ci
+          cd ../api && npm run migrate:dev:db
           npm run start &
         env:
           PORT: 5000
+          
+      - name: Install pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: latest
 
       - name: Run and test app
         env:   
-          VITE_GOOGLE_MAPS_API_KEY: ${{secrets.VITE_GOOGLE_MAPS_API_KEY}}
+          VITE_GOOGLE_MAPS_API_KEY: AIzaSyC8UBxTVXeVnFGcZnvhTBY19rpkg6kEL3I
           VITE_WEATHER_API_KEY: ${{secrets.VITE_WEATHER_API_KEY}}
           VITE_ENV: development
           VITE_GOOGLE_OAUTH_CLIENT_ID: ${{secrets.VITE_GOOGLE_OAUTH_CLIENT_ID}}
@@ -73,15 +67,14 @@ jobs:
         uses: cypress-io/github-action@v4.2.0 
         with:
           working-directory: packages/webapp
+          install-command: pnpm install --config.auto-install-peers=true --no-frozen-lockfile --force
           install: true
-          build: >-
-            pnpm install --config.auto-install-peers=true --frozen-lockfile
-          start: >-
-            pnpm dev
-          wait-on: >-
-            http://localhost:3000
-          wait-on-timeout: 30
+          start: pnpm dev
+          wait-on: 'http://localhost:3000'
+          wait-on-timeout: 120
+          headed: true
+          browser: chrome
           record: true
           parallel: true
+          group: 'UI - Chrome'
           spec: cypress/e2e/test.spec.js 
-          config: 'baseUrl=http://localhost:3000'

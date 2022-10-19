@@ -1,4 +1,5 @@
 import 'cypress-react-selector';
+import { GiAbstract090 } from 'react-icons/gi';
 import { getDateInputFormat } from '../../src/util/moment';
 
 // cypress/support/commands.js
@@ -263,22 +264,23 @@ Cypress.Commands.add('getEmail', () => {
 Cypress.Commands.add('newUserLogin', (email) => {
   //Login page
   cy.get('[data-cy=email]').type(email);
+  cy.intercept('GET', '**/login/user/' + email, (req) => {
+    delete req.headers['if-none-match'];
+  }).as('emailLogin');
+
   cy.contains('Continue').should('exist').and('be.enabled').click({ force: true });
 });
 
 Cypress.Commands.add('createAccount', (email, fullName, gender, language, birthYear, password) => {
   cy.contains('Create new user account').should('exist');
   //cy.get('[data-cy=createUser-email]').should('eq', email);
-  cy.get('[data-cy=createUser-password]').type(password, { force: true });
-  cy.get('[data-cy=createUser-fullName]').type(fullName, { force: true });
-
-  cy.contains('character').click({ force: true });
+  cy.get('[data-cy=createUser-fullName]').type(fullName);
+  cy.get('[data-cy=createUser-password]').type(password);
   //cy.createUserGender().click();
   //cy.createUserGenderOptions().eq(1).contains(gender).click();
-  cy.contains('Create Account').should('exist').and('be.enabled').click({ force: true });
+
   cy.intercept('POST', '**/user').as('createUser');
-  //cy.wait('@createUser');
-  cy.wait(7000);
+  cy.contains('Create Account').should('exist').and('be.enabled').click();
 });
 
 Cypress.Commands.add('userCreationEmail', () => {

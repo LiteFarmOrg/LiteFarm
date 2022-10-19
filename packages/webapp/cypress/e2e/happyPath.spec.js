@@ -58,9 +58,11 @@ describe.only('LiteFarm end to end test', () => {
 
     //Login as a new user
     cy.newUserLogin(emailOwner);
-    cy.waitForReact();
-    //create account
-    cy.createAccount(emailOwner, fullName, gender, null, null, password);
+    cy.wait('@emailLogin', { timeout: 30 * 1000 }).should(({ request, response }) => {
+      expect(response.statusCode).to.equal(304);
+      //create account
+      cy.createAccount(emailOwner, fullName, gender, null, null, password);
+    });
 
     cy.wait('@createUser', { timeout: 30 * 1000 }).should(({ request, response }) => {
       expect(response.statusCode).to.equal(201);

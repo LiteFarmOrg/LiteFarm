@@ -482,6 +482,7 @@ Cypress.Commands.add('getEmail', () => {
 Cypress.Commands.add('newUserLogin', (email) => {
   //Login page
   cy.get('[data-cy=email]').type(email);
+  cy.intercept('GET', '**/login/user/' + email).as('emailLogin');
   cy.contains('Continue').should('exist').and('be.enabled').click();
 });
 

@@ -517,25 +517,55 @@ Cypress.Commands.add('userCreationEmail', () => {
 
 Cypress.Commands.add('addFarm', (farmName, location) => {
   cy.url().should('include', '/add_farm');
-  cy.get('[data-cy=addFarm-continue]').should('exist').should('be.disabled');
-  cy.intercept({
-    method: 'GET',
-    url: 'https://maps.googleapis.com/maps/api/mapsjs/gen_204?csp_test=true',
-  }).as('loadMap');
-  // Enter new farm details and click continue which should be enabled
-  cy.waitForGoogleApi().then(() => {
-    cy.wait(3000);
+  // cy.get('[data-cy=addFarm-continue]').should('exist').should('be.disabled');
+  // cy.intercept({
+  //   method: 'GET',
+  //   url: 'https://maps.googleapis.com/maps/api/mapsjs/gen_204?csp_test=true',
+  // }).as('loadMap');
+  // // Enter new farm details and click continue which should be enabled
+  // cy.waitForGoogleApi().then(() => {
+  //   cy.wait(3000);
 
-    cy.wait('@loadMap', { timeout: 15000 }).then(() => {
-      //cy.get('svg').eq(0).click();
-      cy.get('[data-cy=addFarm-location]').should('exist').type(location).wait(1000);
-      //cy.get('.pac-item').should('exist').click({ force: true });
-      cy.get('[data-cy=addFarm-farmName]').should('exist').type(farmName);
+  //   cy.wait('@loadMap', { timeout: 15000 }).then(() => {
+  //     //cy.get('svg').eq(0).click();
+  //     cy.get('[data-cy=addFarm-location]').should('exist').type(location).wait(1000);
+  //     //cy.get('.pac-item').should('exist').click({ force: true });
+  //     cy.get('[data-cy=addFarm-farmName]').should('exist').type(farmName);
+  //   });
+
+  //   cy.get('[data-cy=addFarm-continue]').should('not.be.disabled').click();
+  //   cy.getReact('PureAddFarm').getProps('map').getProps('gridPoints');
+  //   cy.wait(5 * 1000);
+  // });
+  const token = localStorage.getItem('id_token');
+  cy.request({
+    method: 'POST',
+    url: 'http://localhost:5001/farm', // baseUrl is prepend to URL
+    headers: { Authorization: 'Bearer ' + token },
+    body: {
+      farm_name: farmName,
+      address: 'University Blvd, Vancouver, BC V6T, Canada',
+      grid_points: { lat: 49.2657793, lng: -123.2359185 },
+      country: 'Canada',
+    },
+  }).then((response) => {
+    // response.body is automatically serialized into JSON
+    expect(response.body).to.have.property('farm_name', farmName); // true
+    const farm_id = response.body.farm_id;
+    const user_id = response.body.user_id;
+    const now = new Date();
+    cy.request({
+      method: 'PATCH',
+      url: 'http://localhost:5001/user_farm/onboarding/farm/' + farm_id + '/user/' + user_id, // baseUrl is prepend to URL
+      headers: { Authorization: 'Bearer ' + token },
+      body: {
+        step_one: true,
+        step_one_end: now,
+      },
+    }).then((response) => {
+      expect(response.status).to.equal(200); // true
     });
-
-    cy.get('[data-cy=addFarm-continue]').should('not.be.disabled').click();
-    cy.getReact('PureAddFarm').getProps('map').getProps('gridPoints');
-    cy.wait(5 * 1000);
+    cy.visit('/role_selection');
   });
 });
 

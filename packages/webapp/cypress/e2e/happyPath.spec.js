@@ -1,4 +1,3 @@
-import { computeArea, LatLng } from 'spherical-geometry-js/src/index';
 import { getDateInputFormat } from '../../src/util/moment';
 
 describe.only('LiteFarm end to end test', () => {

@@ -2,6 +2,11 @@ import { defineConfig } from 'cypress';
 
 export default defineConfig({
   projectId: '45vid6',
+  env: {
+    'cypress-react-selector': {
+      root: '#root',
+    },
+  },
   e2e: {
     // We've imported your old cypress plugins here.
     // You may want to clean this up later by importing these.

@@ -219,7 +219,9 @@ export default (data, exportId, from_date, to_date, farm_name, measurement, isIn
         });
     });
     return workbook.toFileAsync(
-      `${process.env.EXPORT_WD}/temp/${exportId}/Record I - ${title}.xlsx`,
+      `${process.env.EXPORT_WD}/temp/${exportId}/${t(
+        'RECORD_I.EXPORT_DOCUMENT_NAME',
+      )} - ${title}.xlsx`,
     );
   });
 };

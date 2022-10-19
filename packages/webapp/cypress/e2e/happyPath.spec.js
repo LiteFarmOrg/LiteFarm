@@ -58,7 +58,7 @@ describe.only('LiteFarm end to end test', () => {
 
     //Login as a new user
     cy.newUserLogin(emailOwner);
-    cy.wait(10 * 1000);
+    cy.waitForReact();
     //create account
     cy.createAccount(emailOwner, fullName, gender, null, null, password);
 
@@ -75,6 +75,8 @@ describe.only('LiteFarm end to end test', () => {
     // });
 
     //Add farm page
+    cy.waitForReact();
+
     cy.addFarm(farmName, location);
     //role selection page
     cy.roleSelection(role);

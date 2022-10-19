@@ -172,7 +172,9 @@ export default (data, exportId, from_date, to_date, farm_name) => {
         workbook.sheet(0).cell(cell).value(value);
       });
     });
-    return workbook.toFileAsync(`${process.env.EXPORT_WD}/temp/${exportId}/Record D.xlsx`);
+    return workbook.toFileAsync(
+      `${process.env.EXPORT_WD}/temp/${exportId}/${t('RECORD_D.EXPORT_DOCUMENT_NAME')}.xlsx`,
+    );
   });
 };
 

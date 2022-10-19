@@ -76,7 +76,6 @@ describe.only('LiteFarm end to end test', () => {
 
     //Add farm page
     cy.waitForReact();
-
     cy.addFarm(farmName, location);
     //role selection page
     cy.roleSelection(role);

@@ -14,7 +14,7 @@
     "storybook": "start-storybook -p 6006 public",
     "build-storybook": "build-storybook",
     "precommit": "lint-staged",
-    "cypress": "cypress run"
+    "cypress": "cypress open"
   },
   "lint-staged": {
     "*.{js, jsx}": [

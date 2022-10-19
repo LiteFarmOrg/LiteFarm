@@ -83,5 +83,5 @@ jobs:
           wait-on-timeout: 30
           record: true
           parallel: true
-          spec: cypress/e2e/happyPath.spec.js 
+          spec: cypress/e2e/test.spec.js 
           config: 'baseUrl=http://localhost:3000'

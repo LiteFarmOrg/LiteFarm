@@ -1701,5 +1701,13 @@
   },
   "YEAR_SELECTOR": {
     "TITLE": "Select Year"
+  },
+  "CROP_STATUS_NON_ORGANIC_MISMATCH_MODAL": {
+    "TITLE": "You’ve selected a non-organic location!",
+    "SUBTITLE": "You’ve indicated you’ll be planting an organic crop in a non-organic location. Do you want to proceed?"
+  },
+  "CROP_STATUS_ORGANIC_MISMATCH_MODAL": {
+    "TITLE": "You’ve selected an organic location!",
+    "SUBTITLE": "You’ve indicated you’ll be planting a non-organic crop in an organic location. Do you want to proceed?"
   }
 }

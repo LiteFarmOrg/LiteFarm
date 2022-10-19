@@ -74,7 +74,6 @@ describe.only('LiteFarm end to end test', () => {
     //Get Started page
 
     // });
-
     //Add farm page
     cy.waitForReact();
     cy.addFarm(farmName, location);

@@ -527,9 +527,8 @@ Cypress.Commands.add('addFarm', (farmName, location) => {
     cy.wait(3000);
 
     cy.wait('@loadMap', { timeout: 15000 }).then(() => {
-      cy.get('svg').eq(0).click();
-      cy.wait(15 * 1000);
-      //cy.get('[data-cy=addFarm-location]').should('exist').type(location).wait(1000);
+      //cy.get('svg').eq(0).click();
+      cy.get('[data-cy=addFarm-location]').should('exist').type(location).wait(1000);
       //cy.get('.pac-item').should('exist').click({ force: true });
       cy.get('[data-cy=addFarm-farmName]').should('exist').type(farmName);
     });

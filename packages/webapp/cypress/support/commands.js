@@ -482,8 +482,11 @@ Cypress.Commands.add('getEmail', () => {
 Cypress.Commands.add('newUserLogin', (email) => {
   //Login page
   cy.get('[data-cy=email]').type(email);
-  cy.intercept('GET', '**/login/user/' + email).as('emailLogin');
+  cy.intercept('GET', '**/login/user/' + email, (req) => {
+    delete req.headers['if-none-match'];
+  }).as('emailLogin');
   cy.contains('Continue').should('exist').and('be.enabled').click();
+  cy.wait(5 * 1000);
 });
 
 Cypress.Commands.add('createAccount', (email, fullName, gender, language, birthYear, password) => {

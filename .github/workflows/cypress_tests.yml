@@ -1,6 +1,9 @@
 name: Run cypress happy path test
 
-on: [push]
+on: 
+  pull_request:
+    branches:
+      - integration
 
 jobs:
   build:
@@ -77,4 +80,4 @@ jobs:
           record: true
           parallel: true
           group: 'UI - Chrome'
-          spec: cypress/e2e/test.spec.js 
+          spec: cypress/e2e/happyPath.spec.js 

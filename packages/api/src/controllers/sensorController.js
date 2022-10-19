@@ -424,14 +424,15 @@ const sensorController = {
 
           for (let k = 0; k < sensorInfoData.values.length; ++k) {
             const row = {
-              read_time: sensorInfoData.timestamps[k],
+              read_time: sensorInfoData.timestamps[k] || '',
               location_id: corresponding_sensor.location_id,
               value: sensorInfoData.values[k],
               reading_type: parameter_number,
+              valid: sensorInfoData.validated[k] || false,
               unit,
             };
             // Only include this entry if all required values are populated
-            if (Object.values(row).every((value) => value)) {
+            if (Object.values(row).length) {
               infoBody.push(row);
             }
           }

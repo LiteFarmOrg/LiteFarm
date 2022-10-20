@@ -84,8 +84,9 @@ describe.only('LiteFarm end to end test', () => {
     cy.get('[data-cy="chooseFarm-proceed"]').click();
     //role selection page
     cy.roleSelection(role);
-    cy.wait(30 * 1000);
+
     //Consent page
+    cy.wait(30 * 1000);
     cy.giveConsent();
     cy.wait(5000);
     //interested in organic

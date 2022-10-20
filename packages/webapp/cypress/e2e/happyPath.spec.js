@@ -319,11 +319,18 @@ describe.only('LiteFarm end to end test', () => {
       .should('exist')
       .and('not.be.disabled')
       .click({ force: true });
-
+    cy.intercept('GET', '**/task_type/farm/**', (req) => {
+      delete req.headers['if-none-match'];
+    }).as('getTaskTypes');
     cy.contains('Create', { timeout: 60 * 1000 })
       .should('exist')
       .and('not.be.disabled')
       .click({ force: true });
+
+    cy.wait('@getTaskTypes').should(({ request, response }) => {
+      cy.log(response.body);
+    });
+
     cy.wait(30 * 1000);
     cy.get('[data-cy=task-selection]').each((element, index, list) => {
       // Returns the current li element

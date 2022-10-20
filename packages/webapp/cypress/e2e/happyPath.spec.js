@@ -201,67 +201,67 @@ describe.only('LiteFarm end to end test', () => {
     cy.contains(workerName).should('exist');
 
     //logout
-    cy.logOut();
+    // cy.logOut();
 
-    //login as farm worker, create account and join farm
-    cy.acceptInviteEmail(lang);
+    // //login as farm worker, create account and join farm
+    // cy.acceptInviteEmail(lang);
 
-    cy.get('[data-cy=invitedCard-createAccount]').click();
+    // cy.get('[data-cy=invitedCard-createAccount]').click();
 
-    cy.get('[data-cy=invitedUser-proceed]').click();
+    // cy.get('[data-cy=invitedUser-proceed]').click();
 
-    cy.get('[data-cy=invited-password]').type(password);
+    // cy.get('[data-cy=invited-password]').type(password);
 
-    cy.get('[data-cy=invited-createAccount]').click();
+    // cy.get('[data-cy=invited-createAccount]').click();
 
-    //Consent page
-    cy.contains('Our Data Policy').should('exist');
-    cy.url().should('include', '/consent');
-    cy.get('[data-cy=consent-continue]').should('exist').and('be.disabled');
-    cy.get('[data-cy=consent-agree]').should('exist').check({ force: true });
-    cy.get('[data-cy=consent-continue]').should('not.be.disabled').click();
+    // //Consent page
+    // cy.contains('Our Data Policy').should('exist');
+    // cy.url().should('include', '/consent');
+    // cy.get('[data-cy=consent-continue]').should('exist').and('be.disabled');
+    // cy.get('[data-cy=consent-agree]').should('exist').check({ force: true });
+    // cy.get('[data-cy=consent-continue]').should('not.be.disabled').click();
 
-    cy.get('[data-cy=joinFarm-successContinue]').should('not.be.disabled').click();
+    // cy.get('[data-cy=joinFarm-successContinue]').should('not.be.disabled').click();
 
-    cy.get('[data-cy=chooseFarm-proceed]').should('not.be.disabled').click();
+    // cy.get('[data-cy=chooseFarm-proceed]').should('not.be.disabled').click();
 
-    //farm home page
-    cy.get('[data-cy=spotlight-next]')
-      .contains('Next')
-      .should('exist')
-      .and('not.be.disabled')
-      .click();
-    cy.get('[data-cy=spotlight-next]')
-      .contains('Next')
-      .should('exist')
-      .and('not.be.disabled')
-      .click();
-    cy.get('[data-cy=spotlight-next]')
-      .contains('Next')
-      .should('exist')
-      .and('not.be.disabled')
-      .click();
-    cy.get('[data-cy=spotlight-next]')
-      .contains('Got it')
-      .should('exist')
-      .and('not.be.disabled')
-      .click();
+    // //farm home page
+    // cy.get('[data-cy=spotlight-next]')
+    //   .contains('Next')
+    //   .should('exist')
+    //   .and('not.be.disabled')
+    //   .click();
+    // cy.get('[data-cy=spotlight-next]')
+    //   .contains('Next')
+    //   .should('exist')
+    //   .and('not.be.disabled')
+    //   .click();
+    // cy.get('[data-cy=spotlight-next]')
+    //   .contains('Next')
+    //   .should('exist')
+    //   .and('not.be.disabled')
+    //   .click();
+    // cy.get('[data-cy=spotlight-next]')
+    //   .contains('Got it')
+    //   .should('exist')
+    //   .and('not.be.disabled')
+    //   .click();
 
-    //logout
-    cy.get('[data-cy=home-profileButton]').should('exist').click();
-    cy.get('[data-cy=navbar-option]')
-      .contains('Log Out')
-      .should('exist')
-      .and('not.be.disabled')
-      .click();
+    // //logout
+    // cy.get('[data-cy=home-profileButton]').should('exist').click();
+    // cy.get('[data-cy=navbar-option]')
+    //   .contains('Log Out')
+    //   .should('exist')
+    //   .and('not.be.disabled')
+    //   .click();
 
     //Login as farm owner
-    cy.get('[data-cy=email]').type(emailOwner);
-    cy.contains('Continue').should('exist').and('be.enabled').click();
-    cy.get('[data-cy=enterPassword-password]').type(password);
-    cy.get('[data-cy=enterPassword-submit]').should('exist').and('be.enabled').click();
+    // cy.get('[data-cy=email]').type(emailOwner);
+    // cy.contains('Continue').should('exist').and('be.enabled').click();
+    // cy.get('[data-cy=enterPassword-password]').type(password);
+    // cy.get('[data-cy=enterPassword-submit]').should('exist').and('be.enabled').click();
 
-    cy.get('[data-cy=chooseFarm-proceed]').should('exist').and('be.enabled').click();
+    // cy.get('[data-cy=chooseFarm-proceed]').should('exist').and('be.enabled').click();
 
     // Add a crop variety
     cy.get('[data-cy=navbar-hamburger]').should('exist').click();

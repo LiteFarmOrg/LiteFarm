@@ -413,22 +413,19 @@ const sensorController = {
 
         corresponding_sensor = corresponding_sensor[0];
         for (const sensorInfo of sensorData) {
-          const sensorInfoData = sensorInfo;
-          const parameter_number = sensorInfoData.parameter_category
-            .toLowerCase()
-            .replaceAll(' ', '_');
-          const unit = sensorInfoData.unit;
+          const parameter_number = sensorInfo.parameter_category.toLowerCase().replaceAll(' ', '_');
+          const unit = sensorInfo.unit;
 
-          if (sensorInfoData.values.length < sensorInfoData.timestamps.length)
+          if (sensorInfo.values.length < sensorInfo.timestamps.length)
             return res.status(400).send('sensor values and timestamps are not in sync');
 
-          for (let k = 0; k < sensorInfoData.values.length; ++k) {
+          for (let k = 0; k < sensorInfo.values.length; ++k) {
             const row = {
-              read_time: sensorInfoData.timestamps[k] || '',
+              read_time: sensorInfo.timestamps[k] || '',
               location_id: corresponding_sensor.location_id,
-              value: sensorInfoData.values[k],
+              value: sensorInfo.values[k],
               reading_type: parameter_number,
-              valid: sensorInfoData.validated[k] || false,
+              valid: sensorInfo.validated[k] || false,
               unit,
             };
             // Only include this entry if all required values are populated

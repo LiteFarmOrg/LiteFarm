@@ -111,7 +111,7 @@ describe.only('LiteFarm end to end test', () => {
 
     //arrive at farm map page and draw a field
     cy.url().should('include', '/map');
-    cy.get('[data-cy=spotlight-next]')
+    cy.get('[data-cy=spotlight-next]', { timeout: 60 * 1000 })
       .contains('Next')
       .should('exist')
       .and('not.be.disabled')

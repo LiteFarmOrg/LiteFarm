@@ -185,7 +185,7 @@
     }
   },
   "CERTIFICATIONS": {
-    "COULD_NOT_CONTACT_CERTIFIER": "It looks like LiteFarm wasn’t able to contact your certifier. You can still export your documents but your certifier may require additional information.",
+    "COULD_NOT_CONTACT_CERTIFIER": "Parece que a LiteFarm não conseguiu entrar em contato com sua certificadora. Você ainda pode exportar seus documentos, mas seu certificador pode exigir informações adicionais.",
     "EMAIL": "Email",
     "EMAIL_ERROR": "É necessário um e-mail válido",
     "EXPORT": "Exportar",
@@ -200,7 +200,7 @@
     "NOTE_CANNOT_RESUBMIT": "Observação: depois de enviar a pesquisa, você não poderar alterar as respostas. Para alterar após a submissão, é preciso começar uma nova exportação.",
     "ORGANIC_CERTIFICATION_FROM": "Certificação orgânica de",
     "SELECT_REPORTING_PERIOD": "Selecione o período do seu relatório",
-    "UH_OH": "Uh oh!",
+    "UH_OH": "Ops!",
     "WHERE_TO_SEND_DOCS": "Para onde você quer que os seus documentos sejam enviados?",
     "WOULD_LIKE_ANSWERS": "A certificadora gostaria que você respondesse algumas perguntas extras antes de nós exportarmos seus documentos."
   },

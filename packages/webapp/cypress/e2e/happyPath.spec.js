@@ -321,7 +321,7 @@ describe.only('LiteFarm end to end test', () => {
       .click({ force: true });
 
     cy.contains('Create').should('exist').and('not.be.disabled').click({ force: true });
-
+    cy.wait(30 * 1000);
     cy.get('[data-cy=task-selection]').each((element, index, list) => {
       // Returns the current li element
       expect(Cypress.$(element)).to.be.visible;

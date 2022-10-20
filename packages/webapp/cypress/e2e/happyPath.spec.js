@@ -60,7 +60,7 @@ describe.only('LiteFarm end to end test', () => {
     cy.wait('@emailLogin', { timeout: 30 * 1000 }).should(({ request, response }) => {
       expect(response.statusCode).to.equal(200);
       //create account
-      cy.wait(15 * 1000);
+      cy.wait(5 * 1000);
       cy.createAccount(emailOwner, fullName, gender, null, null, password);
     });
 
@@ -86,7 +86,7 @@ describe.only('LiteFarm end to end test', () => {
     cy.roleSelection(role);
 
     //Consent page
-    cy.wait(30 * 1000);
+    cy.wait(5 * 1000);
     cy.waitForReact();
     cy.giveConsent();
     cy.wait(5000);

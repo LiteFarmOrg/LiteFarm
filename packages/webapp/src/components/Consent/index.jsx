@@ -15,7 +15,7 @@ export default function PureConsent({ onSubmit, checkboxArgs, onGoBack, consent,
       buttonGroup={
         <>
           {onSubmit && (
-            <Button data-cy='consent-continue' type={'submit'} fullLength disabled={disabled}>
+            <Button data-cy="consent-continue" type={'submit'} fullLength disabled={disabled}>
               {t('common:CONTINUE')}
             </Button>
           )}
@@ -27,7 +27,7 @@ export default function PureConsent({ onSubmit, checkboxArgs, onGoBack, consent,
         onGoBack={onGoBack}
         style={{ marginBottom: '16px' }}
       />
-      <div className={clsx(styles.consentTextContainer)}>
+      <div data-cy="consentPage-content" className={clsx(styles.consentTextContainer)}>
         {consent}
       </div>
       <div
@@ -41,7 +41,7 @@ export default function PureConsent({ onSubmit, checkboxArgs, onGoBack, consent,
         }}
       />
       <div>
-        <Checkbox data-cy='consent-agree' style={{ marginBottom: 0 }} {...checkboxArgs} />
+        <Checkbox data-cy="consent-agree" style={{ marginBottom: 0 }} {...checkboxArgs} />
       </div>
     </Form>
   );

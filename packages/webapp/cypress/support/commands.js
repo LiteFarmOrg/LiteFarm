@@ -597,7 +597,8 @@ Cypress.Commands.add('roleSelection', (role) => {
 Cypress.Commands.add('giveConsent', () => {
   //cy.contains('Our Data Policy').should('exist');
   cy.url().should('include', '/consent');
-  //cy.get('[data-cy=consent-continue]').should('exist').and('be.disabled');
+  cy.wait(10 * 1000);
+  cy.get('[data-cy=consent-continue]').should('exist').and('be.disabled');
   cy.get('[data-cy=consent-agree]').should('exist').check({ force: true });
   cy.get('[data-cy=consent-continue]').should('not.be.disabled').click();
 });

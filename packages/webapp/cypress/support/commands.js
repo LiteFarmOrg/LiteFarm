@@ -565,7 +565,20 @@ Cypress.Commands.add('addFarm', (farmName, location) => {
     }).then((response) => {
       expect(response.status).to.equal(200); // true
     });
-    cy.visit('/role_selection');
+
+    cy.request({
+      method: 'GET',
+      url: 'http://localhost:5000/farm_token/farm/' + farm_id, // baseUrl is prepend to URL
+      headers: { Authorization: 'Bearer ' + token, user_id, farm_id },
+    }).then((response) => {
+      const farm_token = response.body;
+      expect(response.status).to.equal(200); // true
+      cy.log(farm_token);
+      localStorage.setItem('farm_token', farm_token);
+    });
+
+    cy.clearLocalStorage();
+    cy.visit('/');
   });
 });
 

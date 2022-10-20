@@ -77,6 +77,10 @@ describe.only('LiteFarm end to end test', () => {
     //Add farm page
     cy.waitForReact();
     cy.addFarm(farmName, location);
+    cy.newUserLogin(emailOwner);
+    cy.get('[data-cy="enterPassword-password"]').type(password);
+    cy.get('[data-cy="enterPassword-submit"]').click();
+    cy.get('[data-cy="chooseFarm-proceed"]').click();
     //role selection page
     cy.roleSelection(role);
     cy.wait(5000);

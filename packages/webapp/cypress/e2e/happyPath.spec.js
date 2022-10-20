@@ -130,7 +130,7 @@ describe.only('LiteFarm end to end test', () => {
     cy.get('[data-cy="map-selection"]').should('be.visible');
 
     cy.get('[data-cy=map-drawer]').contains('Field').should('exist').and('not.be.disabled').click();
-    cy.get('[data-cy=map-mapContainer]', { timeout: 30 * 1000 })
+    cy.get('[data-cy=map-mapContainer]', { timeout: 60 * 1000 })
       .find('button')
       .eq(2)
       .should('exist')

@@ -126,7 +126,15 @@ describe.only('LiteFarm end to end test', () => {
       .and('not.be.disabled')
       .click();
     cy.get('[data-cy=map-addFeature]').should('exist').and('not.be.disabled').click();
+
+    cy.get('[data-cy="map-selection"]').should('be.visible');
+
     cy.get('[data-cy=map-drawer]').contains('Field').should('exist').and('not.be.disabled').click();
+    cy.get('[data-cy=map-mapContainer]')
+      .find('button')
+      .eq(2)
+      .should('exist')
+      .and('be.visible', { timeout: 30 * 1000 });
     cy.get('[data-cy=mapTutorial-continue]')
       .contains('Got it')
       .should('exist')

@@ -539,7 +539,7 @@ Cypress.Commands.add('addFarm', (farmName, location) => {
   const token = localStorage.getItem('id_token');
   cy.request({
     method: 'POST',
-    url: 'http://localhost:5000/farm', // baseUrl is prepend to URL
+    url: 'http://localhost:5001/farm', // baseUrl is prepend to URL
     headers: { Authorization: 'Bearer ' + token },
     body: {
       farm_name: farmName,
@@ -555,7 +555,7 @@ Cypress.Commands.add('addFarm', (farmName, location) => {
     const now = new Date();
     cy.request({
       method: 'PATCH',
-      url: 'http://localhost:5000/user_farm/onboarding/farm/' + farm_id + '/user/' + user_id, // baseUrl is prepend to URL
+      url: 'http://localhost:5001/user_farm/onboarding/farm/' + farm_id + '/user/' + user_id, // baseUrl is prepend to URL
       headers: { Authorization: 'Bearer ' + token },
       body: {
         step_one: true,

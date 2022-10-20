@@ -489,7 +489,7 @@ Cypress.Commands.add('newUserLogin', (email) => {
 });
 
 Cypress.Commands.add('createAccount', (email, fullName, gender, language, birthYear, password) => {
-  cy.contains('Create new user account').should('exist');
+  cy.contains('Create new user account', { timeout: 60 * 1000 }).should('exist');
   //cy.get('[data-cy=createUser-email]').should('eq', email);
   cy.get('[data-cy=createUser-fullName]').type(fullName);
   cy.get('[data-cy=createUser-password]').type(password);

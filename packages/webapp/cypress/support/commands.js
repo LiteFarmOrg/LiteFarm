@@ -1,6 +1,8 @@
 import 'cypress-react-selector';
 import { getDateInputFormat } from '../../src/util/moment';
-
+let token;
+let farm_id;
+let user_id;
 // cypress/support/commands.js
 Cypress.Commands.add('loginByGoogleApi', () => {
   cy.log(process.env.REACT_APP_GOOGLE_CLIENTID);
@@ -536,7 +538,7 @@ Cypress.Commands.add('addFarm', (farmName, location) => {
   //   cy.getReact('PureAddFarm').getProps('map').getProps('gridPoints');
   //   cy.wait(5 * 1000);
   // });
-  const token = localStorage.getItem('id_token');
+  token = localStorage.getItem('id_token');
   cy.request({
     method: 'POST',
     url: 'http://localhost:5000/farm', // baseUrl is prepend to URL
@@ -550,12 +552,12 @@ Cypress.Commands.add('addFarm', (farmName, location) => {
   }).then((response) => {
     // response.body is automatically serialized into JSON
     expect(response.body).to.have.property('farm_name', farmName); // true
-    const farm_id = response.body.farm_id;
-    const user_id = response.body.user_id;
+    farm_id = response.body.farm_id;
+    user_id = response.body.user_id;
     const now = new Date();
     cy.request({
       method: 'PATCH',
-      url: 'http://localhost:5000/user_farm/onboarding/farm/' + farm_id + '/user/' + user_id, // baseUrl is prepend to URL
+      url: 'http://localhost:5000/user_farm/onboarding/farm/' + farm_id + '/user/' + user_id,
       headers: { Authorization: 'Bearer ' + token },
       body: {
         step_one: true,
@@ -683,6 +685,46 @@ Cypress.Commands.add('homePageSpotlights', () => {
     .and('not.be.disabled')
     .click();
   cy.get('[data-cy=home-farmButton]').should('exist').and('not.be.disabled').click();
+});
+
+Cypress.Commands.add('addField', () => {
+  cy.request({
+    method: 'POST',
+    url: 'http://localhost:5000/location/field',
+    headers: { Authorization: 'Bearer ' + token, user_id, farm_id },
+    body: {
+      figure: {
+        type: 'field',
+        area: {
+          total_area: 16931,
+          total_area_unit: 'ha',
+          grid_points: [
+            {
+              lat: 49.26395897685993,
+              lng: -123.23342941003418,
+            },
+            { lat: 49.26460309887879, lng: -123.23291442590332 },
+            { lat: 49.263650915530825, lng: -123.23029658990478 },
+            { lat: 49.26311880506887, lng: -123.23141238885498 },
+          ],
+          perimeter: 573,
+          perimeter_unit: 'm',
+        },
+      },
+      field: {
+        organic_status: 'Non-Organic',
+        organic_history: {
+          effective_date: '2022-10-20',
+          organic_status: 'Non-Organic',
+        },
+      },
+      farm_id: farm_id,
+      name: 'Test Field',
+      notes: '',
+    },
+  }).then((response) => {
+    expect(response.status).to.equal(200); // true
+  });
 });
 
 Cypress.Commands.add('goToPeopleView', (lang) => {

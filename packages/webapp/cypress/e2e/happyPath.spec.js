@@ -129,53 +129,56 @@ describe.only('LiteFarm end to end test', () => {
 
     cy.get('[data-cy="map-selection"]').should('be.visible');
 
-    cy.get('[data-cy=map-drawer]').contains('Field').should('exist').and('not.be.disabled').click();
-    cy.get('[data-cy=map-mapContainer]', { timeout: 60 * 1000 })
-      .find('button')
-      .eq(2)
-      .should('exist')
-      .and('be.visible');
-    cy.get('[data-cy=mapTutorial-continue]')
-      .contains('Got it')
-      .should('exist')
-      .and('not.be.disabled')
-      .click();
+    cy.get('[data-cy=map-drawer]').contains('Field').should('exist').and('not.be.disabled'); //.click();
+    // cy.get('[data-cy=map-mapContainer]', { timeout: 60 * 1000 })
+    //   .find('button', { timeout: 60 * 1000 })
+    //   .eq(2)
+    //   .should('exist')
+    //   .and('be.visible');
+    // cy.get('[data-cy=mapTutorial-continue]')
+    //   .contains('Got it')
+    //   .should('exist')
+    //   .and('not.be.disabled')
+    //   .click();
 
     let initialWidth;
     let initialHeight;
 
-    cy.waitForGoogleApi().then(() => {
-      // here comes the code to execute after loading the google Apis
+    // cy.waitForGoogleApi().then(() => {
+    // here comes the code to execute after loading the google Apis
 
-      cy.get('[data-cy=map-mapContainer]').then(($canvas) => {
-        initialWidth = $canvas.width();
-        initialHeight = $canvas.height();
-      });
-      cy.wait(5000);
-      cy.get('[data-cy=map-mapContainer]').click(558, 344);
-      cy.wait(500);
-      cy.get('[data-cy=map-mapContainer]').click(570, 321);
-      cy.wait(500);
-      cy.get('[data-cy=map-mapContainer]').click(631, 355);
-      cy.wait(500);
-      cy.get('[data-cy=map-mapContainer]').click(605, 374);
-      cy.wait(500);
-      cy.get('[data-cy=map-mapContainer]').click(558, 344);
-      cy.get('[data-cy=mapTutorial-continue]')
-        .contains('Got it')
-        .should('exist')
-        .and('not.be.disabled')
-        .click();
-      cy.get('[data-cy=map-drawCompleteContinue]')
-        .contains('Confirm')
-        .should('exist')
-        .and('not.be.disabled')
-        .click();
-    });
+    //   cy.get('[data-cy=map-mapContainer]').then(($canvas) => {
+    //     initialWidth = $canvas.width();
+    //     initialHeight = $canvas.height();
+    //   });
+    //   cy.wait(5000);
+    //   cy.get('[data-cy=map-mapContainer]').click(558, 344);
+    //   cy.wait(500);
+    //   cy.get('[data-cy=map-mapContainer]').click(570, 321);
+    //   cy.wait(500);
+    //   cy.get('[data-cy=map-mapContainer]').click(631, 355);
+    //   cy.wait(500);
+    //   cy.get('[data-cy=map-mapContainer]').click(605, 374);
+    //   cy.wait(500);
+    //   cy.get('[data-cy=map-mapContainer]').click(558, 344);
+    //   cy.get('[data-cy=mapTutorial-continue]')
+    //     .contains('Got it')
+    //     .should('exist')
+    //     .and('not.be.disabled')
+    //     .click();
+    //   cy.get('[data-cy=map-drawCompleteContinue]')
+    //     .contains('Confirm')
+    //     .should('exist')
+    //     .and('not.be.disabled')
+    //     .click();
 
-    cy.get('[data-cy=areaDetails-name]').should('exist').type(fieldName);
-    cy.get('[data-cy=createField-save]').should('exist').and('not.be.disabled').click();
-    cy.wait(2000);
+    // });
+
+    // cy.get('[data-cy=areaDetails-name]').should('exist').type(fieldName);
+    // cy.get('[data-cy=createField-save]').should('exist').and('not.be.disabled').click();
+    // cy.wait(2000);
+
+    cy.addField();
 
     //Add a farm worker to the farm
     cy.goToPeopleView('English');

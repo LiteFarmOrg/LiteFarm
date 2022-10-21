@@ -138,7 +138,6 @@ Cypress.Commands.add('createUserGenderOptions', () => {
 
 Cypress.Commands.add('createACleaningTask', () => {
   //Create an unassigned cleaning task due tomorrow
-
   const date = new Date();
   date.setDate(date.getDate() + 1);
   const dueDate = getDateInputFormat(date);

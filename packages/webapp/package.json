@@ -3,7 +3,7 @@
   "version": "3.2.5",
   "description": "LiteFarm Web application",
   "scripts": {
-    "dev": "CYPRESS_COVERAGE=TRUE  vite",
+    "dev": "set CYPRESS_COVERAGE=TRUE && vite",
     "build": "tsc && vite build",
     "preview": "vite preview",
     "lint": "eslint src",

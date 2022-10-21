@@ -39,16 +39,17 @@ function TaskCrops({
   history,
   match,
   goBackPath = '/add_task/task_locations',
-  onContinuePath = '/add_task/task_details',
   locations,
   location,
 }) {
-  const persistedPaths = [goBackPath, onContinuePath];
+  const onContinuePath = useIsTaskType('IRRIGATION_TASK')
+    ? '/add_task/irrigation_method'
+    : '/add_task/task_details';
 
+  const persistedPaths = [goBackPath, onContinuePath];
   const handleGoBack = () => {
     history.back();
   };
-
   const onContinue = () => {
     history.push(onContinuePath, location?.state);
   };

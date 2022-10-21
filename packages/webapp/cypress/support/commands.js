@@ -3,6 +3,8 @@ import { getDateInputFormat } from '../../src/util/moment';
 let token;
 let farm_id;
 let user_id;
+let fieldLocation_id;
+let fieldName;
 // cypress/support/commands.js
 Cypress.Commands.add('loginByGoogleApi', () => {
   cy.log(process.env.REACT_APP_GOOGLE_CLIENTID);
@@ -153,17 +155,76 @@ Cypress.Commands.add('createACleaningTask', () => {
     force: false,
   });
   cy.get('[data-cy=addTask-locationContinue]').should('exist');
-  //   .and('not.be.disabled')
-  //   .click({ force: true });
+  // .and('not.be.disabled')
+  // .click({ force: true });
   cy.visit('/add_task/task_details');
   cy.get('[data-cy=addTask-detailsContinue]')
     .should('exist')
     .and('not.be.disabled')
     .click({ force: true });
+
   cy.get('[data-cy=addTask-assignmentSave]')
     .should('exist')
     .and('not.be.disabled')
     .click({ force: true });
+
+  cy.request({
+    method: 'POST',
+    url: 'http://localhost:5000/task/cleaning_task',
+    headers: { Authorization: 'Bearer ' + token, user_id, farm_id },
+    body: {
+      task_id: 1,
+      due_date: date,
+      owner_user_id: user_id,
+      notes: null,
+      action_needed: false,
+      photo: null,
+      task_type_id: 18,
+      assignee_user_id: null,
+      coordinates: null,
+      duration: null,
+      wage_at_moment: null,
+      happiness: null,
+      completion_notes: null,
+      complete_date: null,
+      late_time: null,
+      for_review_time: null,
+      abandon_date: null,
+      abandonment_reason: null,
+      other_abandonment_reason: null,
+      abandonment_notes: null,
+      override_hourly_wage: false,
+      locations: [
+        {
+          location_id: fieldLocation_id,
+          farm_id: farm_id,
+          name: fieldName,
+          notes: '',
+          deleted: false,
+        },
+      ],
+      managementPlans: [],
+      taskType: {
+        task_type_id: 18,
+        task_name: 'Cleaning',
+        farm_id: null,
+        deleted: false,
+        task_translation_key: 'CLEANING_TASK',
+      },
+      cleaning_task: {
+        task_id: 1,
+        product_id: null,
+        cleaning_target: null,
+        agent_used: false,
+        water_usage: null,
+        water_usage_unit: 'l',
+        product_quantity: null,
+        product_quantity_unit: 'l',
+      },
+    },
+  }).then((response) => {
+    expect(response.status).to.equal(201); // true
+  });
 });
 
 Cypress.Commands.add('createAFieldWorkTask', () => {
@@ -723,6 +784,8 @@ Cypress.Commands.add('addField', () => {
     },
   }).then((response) => {
     expect(response.status).to.equal(200); // true
+    fieldLocation_id = response.body.location_id;
+    fieldName = response.body.name;
   });
 });
 

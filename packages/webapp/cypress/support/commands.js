@@ -138,7 +138,7 @@ Cypress.Commands.add('createUserGenderOptions', () => {
   cy.get('#react-select-2-listbox');
 });
 
-Cypress.Commands.add('createACleaningTask', () => {
+Cypress.Commands.add('createACleaningTask', (taskType_id) => {
   //Create an unassigned cleaning task due tomorrow
   const date = new Date();
   date.setDate(date.getDate() + 1);
@@ -172,7 +172,7 @@ Cypress.Commands.add('createACleaningTask', () => {
     url: 'http://localhost:5000/task/cleaning_task',
     headers: { Authorization: 'Bearer ' + token, user_id, farm_id },
     body: {
-      task_type_id: 18,
+      task_type_id: taskType_id,
       due_date: date,
       locations: [
         {

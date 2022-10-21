@@ -35,6 +35,7 @@ describe.only('LiteFarm end to end test', () => {
     const testCrop = 'New Crop';
     const role = 'Manager';
     const lang = 'English';
+    let taskType_id;
 
     const date = new Date();
     //Inputs for crop plan
@@ -328,7 +329,13 @@ describe.only('LiteFarm end to end test', () => {
       .click({ force: true });
 
     cy.wait('@getTaskTypes').should(({ request, response }) => {
-      cy.log(response.body);
+      const taskTypes = response.body;
+
+      taskTypes.forEach((taskType) => {
+        if (taskType.task_name == 'Cleaning') {
+          taskType_id = taskType.task_type_id;
+        }
+      });
     });
 
     cy.get('[data-cy=task-selection]').each((element, index, list) => {
@@ -345,7 +352,7 @@ describe.only('LiteFarm end to end test', () => {
 
       if (text == 'Clean') {
         cy.get('[data-cy=task-selection]').eq(index).click();
-        cy.createACleaningTask();
+        cy.createACleaningTask(taskType_id);
         //cy.get('._contentContainer_nkx8u_1').contains('Successfully created task').should('exist');
         //assign all unassigned tasks on date to selected user
         cy.visit('/tasks');

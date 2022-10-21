@@ -304,7 +304,7 @@ describe.only('LiteFarm end to end test', () => {
     cy.get('[data-cy=compliance-newVarietySave]').should('exist').and('not.be.disabled').click();
 
     cy.url().should('include', '/management');
-    cy.get('[data-cy=spotlight-next]')
+    cy.get('[data-cy=spotlight-next]', { timeout: 60 * 1000 })
       .contains('Next')
       .should('exist')
       .and('not.be.disabled')

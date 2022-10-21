@@ -426,6 +426,7 @@ describe.only('LiteFarm end to end test', () => {
       }
     });
 
+    cy.visit('/tasks');
     cy.get('[data-cy="tasks-taskCount"]').contains('7 tasks');
     cy.get('[data-cy="taskCard"]').each((element, index, list) => {
       expect(Cypress.$(element)).to.be.visible;

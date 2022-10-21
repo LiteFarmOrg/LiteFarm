@@ -1,6 +1,9 @@
 name: Run cypress happy path test
 
-on: [push]
+on:   
+  pull_request:
+    branches:
+      - integration
 
 jobs:
   build:

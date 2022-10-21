@@ -499,7 +499,9 @@ describe.only('LiteFarm end to end test', () => {
       }
 
       cy.contains('Test Field').should('exist').click({ force: true });
-      cy.get('._buttonContainer_ws78e_1').should('exist').click();
+      cy.get('._buttonContainer_ws78e_1', { timeout: 60 * 1000 })
+        .should('exist')
+        .click();
     });
     //modify the management plan with quick assign modal
     cy.get('[data-cy=taskCard-dueDate]').eq(0).should('exist').and('not.be.disabled').click();

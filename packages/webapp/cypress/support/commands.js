@@ -148,7 +148,7 @@ Cypress.Commands.add('createACleaningTask', () => {
     .should('exist')
     .and('not.be.disabled')
     .click({ force: true });
-  cy.wait(100 * 1000);
+  cy.wait(20 * 1000);
   cy.get('[data-cy=map-selectLocation]').click(530, 216, {
     force: false,
   });
@@ -540,7 +540,7 @@ Cypress.Commands.add('addFarm', (farmName, location) => {
   token = localStorage.getItem('id_token');
   cy.request({
     method: 'POST',
-    url: 'http://localhost:5000/farm', // baseUrl is prepend to URL
+    url: 'http://localhost:5001/farm', // baseUrl is prepend to URL
     headers: { Authorization: 'Bearer ' + token },
     body: {
       farm_name: farmName,
@@ -556,7 +556,7 @@ Cypress.Commands.add('addFarm', (farmName, location) => {
     const now = new Date();
     cy.request({
       method: 'PATCH',
-      url: 'http://localhost:5000/user_farm/onboarding/farm/' + farm_id + '/user/' + user_id,
+      url: 'http://localhost:5001/user_farm/onboarding/farm/' + farm_id + '/user/' + user_id,
       headers: { Authorization: 'Bearer ' + token },
       body: {
         step_one: true,
@@ -568,7 +568,7 @@ Cypress.Commands.add('addFarm', (farmName, location) => {
 
     // cy.request({
     //   method: 'GET',
-    //   url: 'http://localhost:5000/farm_token/farm/' + farm_id, // baseUrl is prepend to URL
+    //   url: 'http://localhost:5001/farm_token/farm/' + farm_id, // baseUrl is prepend to URL
     //   headers: { Authorization: 'Bearer ' + token, user_id, farm_id },
     // }).then((response) => {
     //   const farm_token = response.body;
@@ -689,7 +689,7 @@ Cypress.Commands.add('homePageSpotlights', () => {
 Cypress.Commands.add('addField', () => {
   cy.request({
     method: 'POST',
-    url: 'http://localhost:5000/location/field',
+    url: 'http://localhost:5001/location/field',
     headers: { Authorization: 'Bearer ' + token, user_id, farm_id },
     body: {
       figure: {

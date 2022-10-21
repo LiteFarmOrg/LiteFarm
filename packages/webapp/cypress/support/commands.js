@@ -149,7 +149,7 @@ Cypress.Commands.add('createACleaningTask', () => {
     .should('exist')
     .and('not.be.disabled')
     .click({ force: true });
-  cy.wait(20 * 1000);
+  cy.wait(100 * 1000);
   cy.get('[data-cy=map-selectLocation]').click(530, 216, {
     force: false,
   });

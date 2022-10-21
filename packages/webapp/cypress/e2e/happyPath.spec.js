@@ -541,7 +541,7 @@ describe.only('LiteFarm end to end test', () => {
       });
 
     cy.get('[data-cy=taskCard-assignee]').eq(0).should('exist').and('not.be.disabled');
-    cy.get('[data-cy=taskCard]').eq(1).should('exist').click('right');
+    cy.get('[data-cy=taskCard]').eq(0).should('exist').click('right');
     cy.get('[data-cy=taskReadOnly-pencil]').should('exist').click();
     cy.get('[data-cy=quickAssign-update]').should('exist').and('not.be.disabled').click();
 

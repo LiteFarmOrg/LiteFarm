@@ -358,7 +358,7 @@ describe.only('LiteFarm end to end test', () => {
         cy.visit('/tasks');
         cy.url().should('include', '/tasks');
         //cy.get('[data-cy="pill-close"]').click();
-        cy.get('[data-cy=taskCard]').should('exist');
+        cy.get('[data-cy=taskCard]', { timeout: 60 * 1000 }).should('exist');
         cy.contains('Create').should('exist').and('not.be.disabled').click({ force: true });
         // cy.get('[data-cy=pill-close]').should('exist').and('not.be.disabled').click();
         // cy.contains('Unassigned').last().should('exist').and('not.be.disabled').click({ force: true });

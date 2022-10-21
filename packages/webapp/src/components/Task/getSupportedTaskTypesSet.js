@@ -10,6 +10,7 @@ export const getSupportedTaskTypesSet = (isAdmin) => {
     'PEST_CONTROL_TASK',
     'CLEANING_TASK',
     'HARVEST_TASK',
+    'IRRIGATION_TASK',
   ]);
 
   if (isAdmin) {

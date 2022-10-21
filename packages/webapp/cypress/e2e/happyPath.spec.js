@@ -267,7 +267,7 @@ describe.only('LiteFarm end to end test', () => {
     cy.get('[data-cy=navbar-hamburger]').should('exist').click();
     cy.contains('Crops').should('exist').click();
     cy.url().should('include', '/crop_catalogue');
-    cy.get('[data-cy=spotlight-next]')
+    cy.get('[data-cy=spotlight-next]', { timeout: 60 * 1000 })
       .contains('Next')
       .should('exist')
       .and('not.be.disabled')

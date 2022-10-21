@@ -337,7 +337,7 @@ describe.only('LiteFarm end to end test', () => {
         }
       });
     });
-
+    cy.wait(20 * 1000);
     cy.get('[data-cy=task-selection]').each((element, index, list) => {
       // Returns the current li element
       expect(Cypress.$(element)).to.be.visible;

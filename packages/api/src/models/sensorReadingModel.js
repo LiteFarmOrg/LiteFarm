@@ -38,7 +38,7 @@ class SensorReading extends Model {
         'unit',
         'read_time',
         'reading_type',
-        'valid',
+        'value',
         'unit',
       ],
       properties: {

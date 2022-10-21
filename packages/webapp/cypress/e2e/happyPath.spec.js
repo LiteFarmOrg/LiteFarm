@@ -688,8 +688,6 @@ describe.only('LiteFarm end to end test', () => {
       .click();
 
     cy.waitForGoogleApi().then(() => {
-      // here comes the code to execute after loading the google Apis
-
       cy.wait(5000);
       cy.get('[data-cy=map-mapContainer]').click(381, 400);
       cy.wait(500);

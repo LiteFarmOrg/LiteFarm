@@ -21,10 +21,13 @@ import { useMaxZoom } from '../../Map/useMaxZoom';
 import { managementPlanSelector } from '../../managementPlanSlice';
 
 export default function TaskLocationsSwitch({ history, match, location }) {
-  const isCropLocation = useIsTaskType('HARVEST_TASK');
+  const isHarvestLocation = useIsTaskType('HARVEST_TASK') ;
+  const isIrrigationLocation = useIsTaskType('IRRIGATION_TASK');
   const isTransplantLocation = useIsTaskType('TRANSPLANT_TASK');
-  if (isCropLocation) {
-    return <TaskActiveAndPlannedCropLocations history={history} location={location} />;
+  if (isHarvestLocation) {
+    return <TaskActiveAndPlannedCropLocations history={history} location={location} isMulti={true}/>;
+  } else if (isIrrigationLocation) {
+    return <TaskActiveAndPlannedCropLocations history={history} location={location} isMulti={false} />;
   } else if (isTransplantLocation) {
     return <TaskTransplantLocations history={history} location={location} />;
   } else {
@@ -32,7 +35,7 @@ export default function TaskLocationsSwitch({ history, match, location }) {
   }
 }
 
-function TaskActiveAndPlannedCropLocations({ history, location }) {
+function TaskActiveAndPlannedCropLocations({ history, location, isMulti }) {
   const cropLocations = useSelector(cropLocationsSelector);
   const cropLocationEntities = useSelector(cropLocationEntitiesSelector);
   const cropLocationsIds = cropLocations.map(({ location_id }) => ({ location_id }));
@@ -55,6 +58,7 @@ function TaskActiveAndPlannedCropLocations({ history, location }) {
     <TaskLocations
       locations={activeAndPlannedLocations}
       history={history}
+      isMulti={isMulti}
       onContinue={onContinue}
       onGoBack={onGoBack}
       readOnlyPinCoordinates={readOnlyPinCoordinates}

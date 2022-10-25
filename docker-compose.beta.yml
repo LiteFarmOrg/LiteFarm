@@ -41,13 +41,13 @@ services:
       DEV_DATABASE: ${DEV_DATABASE}
       DEV_DATABASE_USER: ${DEV_DATABASE_USER}
       DEV_DATABASE_PASSWORD: ${DEV_DATABASE_PASSWORD}
-  # frontend:
-  #   container_name: litefarm-web
-  #   build:
-  #     context: ./packages/
-  #     dockerfile: ./webapp/prod.Dockerfile
-  #   volumes:
-  #     - /etc/letsencrypt:/etc/letsencrypt
-  #   ports:
-  #     - "80:80"
-  #     - "443:443"
+  frontend:
+    container_name: litefarm-web
+    build:
+      context: ./packages/
+      dockerfile: ./webapp/prod.Dockerfile
+    volumes:
+      - /etc/letsencrypt:/etc/letsencrypt
+    ports:
+      - "80:80"
+      - "443:443"

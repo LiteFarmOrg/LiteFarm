@@ -403,6 +403,8 @@ const sensorController = {
     const trx = await transaction.start(Model.knex());
     try {
       const infoBody = [];
+      // eslint-disable-next-line no-console
+      console.log('Ensemble Data  >>>>>> ', JSON.stringify(req.body));
       for (const sensor of Object.keys(req.body)) {
         const sensorData = req.body[sensor].data;
         let corresponding_sensor = await SensorModel.query()

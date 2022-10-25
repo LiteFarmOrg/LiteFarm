@@ -94,6 +94,10 @@ async function registerOrganizationWebhook(farmId, organizationId, accessToken) 
   const existingIntegration = await FarmExternalIntegrationsModel.query()
     .where({ farm_id: farmId, partner_id: 1 })
     .first();
+  // eslint-disable-next-line no-console
+  console.log('existingIntegration?.webhook_id >>> >>> ', existingIntegration?.webhook_id);
+  // eslint-disable-next-line no-console
+  console.log('baseUrl >> >>>> ', baseUrl);
   if (existingIntegration?.webhook_id) {
     return existingIntegration.webhook_id;
   } else {
@@ -106,11 +110,15 @@ async function registerOrganizationWebhook(farmId, organizationId, accessToken) 
         frequency: 15,
       },
     };
+    // eslint-disable-next-line no-console
+    console.log('axiosObject >> >>> ', axiosObject);
     const onError = (error) => {
       console.log(error);
       throw new Error('Failed to register webhook with ESCI');
     };
     const onResponse = async (response) => {
+      // eslint-disable-next-line no-console
+      console.log('response >>> >> > ', response);
       await FarmExternalIntegrationsModel.updateWebhookId(farmId, response.data.id);
       return { ...response.data, status: response.status };
     };

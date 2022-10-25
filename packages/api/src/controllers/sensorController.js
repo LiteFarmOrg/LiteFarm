@@ -411,6 +411,7 @@ const sensorController = {
           .select('location_id')
           .where('external_id', sensor)
           .where('partner_id', req.params.partner_id);
+
         if (!corresponding_sensor.length) return res.status(400).send('sensor id not found');
 
         corresponding_sensor = corresponding_sensor[0];
@@ -437,7 +438,6 @@ const sensorController = {
           }
         }
       }
-
       if (infoBody.length === 0) {
         res.status(200).send(infoBody);
       } else {

@@ -18,7 +18,7 @@ const OrganicStatusMismatchModal = ({ modalContent, dismissModal }) => {
     <ModalComponent
       title={modalContent?.title ?? ''}
       contents={[modalContent?.subTitle ?? '']}
-      dismissModal={() => dismissModal(0)}
+      dismissModal={() => dismissModal(buttonStatusEnum.GO_BACK)}
       buttonGroup={
         <>
           <Button

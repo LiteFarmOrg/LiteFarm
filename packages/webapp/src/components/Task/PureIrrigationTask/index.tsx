@@ -39,6 +39,8 @@ const PureIrrigationTask: FC<IPureIrrigationTask> = ({ onContinue, onGoBack, ...
   const { historyCancel } = useHookFormPersist(getValues);
   const LIFECYCLE = 'lifecycle';
   const IrrigationTypeOptions = [
+    { label: t('ADD_TASK.IRRIGATION_VIEW.TYPE.HAND_WATERING'), value: 'HAND_WATERING' },
+    { label: t('ADD_TASK.IRRIGATION_VIEW.TYPE.CHANNEL'), value: 'CHANNEL' },
     { label: t('ADD_TASK.IRRIGATION_VIEW.TYPE.DRIP'), value: 'DRIP' },
     { label: t('ADD_TASK.IRRIGATION_VIEW.TYPE.FLOOD'), value: 'FLOOD' },
     { label: t('ADD_TASK.IRRIGATION_VIEW.TYPE.PIVOT'), value: 'PIVOT' },

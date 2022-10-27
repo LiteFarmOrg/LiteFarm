@@ -115,6 +115,8 @@
       "TELL_US_ABOUT_YOUR_IRRIGATION_TASK": "Tell us about your Irrigation Task",
       "TYPE_OF_IRRIGATION": "Type of Irrigation",
       "TYPE": {
+        "HAND_WATERING": "Hand Watering",
+        "CHANNEL": "Channel",
         "DRIP": "Drip",
         "FLOOD": "Flood",
         "PIVOT": "Pivot",

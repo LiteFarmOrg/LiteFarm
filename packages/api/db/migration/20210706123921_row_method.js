@@ -1,10 +1,11 @@
-
-exports.up = async function (knex) {
+export const up = async function (knex) {
   await knex.schema.createTable('rows', (t) => {
-    t.integer('management_plan_id').primary()
-      .references('management_plan_id').inTable('crop_management_plan');
+    t.integer('management_plan_id')
+      .primary()
+      .references('management_plan_id')
+      .inTable('crop_management_plan');
     t.boolean('same_length').notNullable();
-    t.integer('number_of_rows')
+    t.integer('number_of_rows');
     t.decimal('row_length', 36, 12);
     t.enu('row_length_unit', ['cm', 'm', 'km', 'in', 'ft', 'mi']).defaultTo('cm');
     t.decimal('plant_spacing', 36, 12);
@@ -18,6 +19,6 @@ exports.up = async function (knex) {
   });
 };
 
-exports.down = async function (knex) {
+export const down = async function (knex) {
   await knex.schema.dropTable('rows');
 };

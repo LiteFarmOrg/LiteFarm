@@ -1,4 +1,4 @@
-exports.up = function(knex) {
+export const up = function (knex) {
   return Promise.all([
     knex('permissions').where({ name: 'add:field_crops' }).update({
       name: 'add:management_plan',
@@ -19,7 +19,7 @@ exports.up = function(knex) {
   ]);
 };
 
-exports.down = function(knex) {
+export const down = function (knex) {
   return Promise.all([
     knex('permissions').where({ name: 'add:management_plan' }).update({
       name: 'add:field_crops',

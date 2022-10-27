@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-exports.up = async function (knex) {
+export const up = async function (knex) {
   await knex.schema.createTable('partner_reading_type', function (table) {
     table
       .uuid('partner_reading_type_id')
@@ -58,7 +58,7 @@ exports.up = async function (knex) {
   });
 };
 
-exports.down = async function (knex) {
+export const down = async function (knex) {
   await knex.schema.dropTable('sensor_reading_type');
   await knex.schema.dropTable('partner_reading_type');
 };

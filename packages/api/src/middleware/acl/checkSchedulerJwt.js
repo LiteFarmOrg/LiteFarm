@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const jwt = require('express-jwt');
+import jwt from 'express-jwt';
 
 const checkSchedulerJwt = jwt({
   secret: process.env.JWT_SCHEDULER_SECRET,
@@ -21,4 +21,4 @@ const checkSchedulerJwt = jwt({
   requestProperty: 'auth',
 });
 
-module.exports = checkSchedulerJwt;
+export default checkSchedulerJwt;

@@ -1,4 +1,4 @@
-exports.up = function (knex) {
+export const up = function (knex) {
   return Promise.all([
     knex.schema.createTable('sensor', function (table) {
       table.uuid('sensor_id').primary().notNullable().defaultTo(knex.raw('uuid_generate_v1()'));
@@ -29,6 +29,6 @@ exports.up = function (knex) {
   ]);
 };
 
-exports.down = function (knex) {
+export const down = function (knex) {
   return Promise.all([knex.schema.dropTable('sensor'), knex.schema.dropTable('sensor_reading')]);
 };

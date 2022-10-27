@@ -1,8 +1,8 @@
-const S3 = require('aws-sdk/clients/s3');
-const axios = require('axios');
-const FormData = require('form-data');
-const { v4: uuidv4 } = require('uuid');
-const path = require('path');
+import S3 from 'aws-sdk/clients/s3.js';
+import axios from 'axios';
+import FormData from 'form-data';
+import { v4 as uuidv4 } from 'uuid';
+import path from 'path';
 
 function getPrivateS3BucketName() {
   if (process.env.PRIVATE_BUCKET_NAME) return process.env.PRIVATE_BUCKET_NAME;
@@ -105,7 +105,7 @@ function getPublicS3Url() {
   return `https://${getPublicS3BucketName()}.${DO_ENDPOINT}`;
 }
 
-module.exports = {
+export {
   getPublicS3BucketName,
   getPrivateS3BucketName,
   getImaginaryUrl,

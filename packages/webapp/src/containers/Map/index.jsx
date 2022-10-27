@@ -20,6 +20,7 @@ import {
   setSpotlightToShown,
   bulkUploadSensorsInfoFile,
   getSensorReadings,
+  getAllSensorReadingTypes,
   resetBulkUploadSensorsInfoFile,
   resetShowTransitionModalState,
 } from './saga';
@@ -54,6 +55,7 @@ import {
   setMapFilterHideAll,
   setMapFilterSetting,
   setMapFilterShowAll,
+  isMapFilterSettingActiveSelector,
 } from './mapFilterSettingSlice';
 import {
   hookFormPersistedPathsSetSelector,
@@ -69,11 +71,18 @@ import {
 import LocationSelectionModal from './LocationSelectionModal';
 import { useMaxZoom } from './useMaxZoom';
 import { sensorSelector } from '../sensorSlice';
+import {
+  mapAddDrawerSelector,
+  setMapAddDrawerHide,
+  setMapAddDrawerShow,
+} from './mapAddDrawerSlice';
 
 export default function Map({ history }) {
   const windowInnerHeight = useWindowInnerHeight();
   const { farm_name, grid_points, is_admin, farm_id } = useSelector(userFarmSelector);
   const filterSettings = useSelector(mapFilterSettingSelector);
+  const mapAddDrawer = useSelector(mapAddDrawerSelector);
+  const isMapFilterSettingActive = useSelector(isMapFilterSettingActiveSelector);
   const showedSpotlight = useSelector(showedSpotlightSelector);
   const roadview = !filterSettings.map_background;
   const dispatch = useDispatch();
@@ -89,8 +98,6 @@ export default function Map({ history }) {
   const { t } = useTranslation();
   const showHeader = useSelector(setShowSuccessHeaderSelector);
   const [showSuccessHeader, setShowSuccessHeader] = useState(false);
-  const [showZeroAreaWarning, setZeroAreaWarning] = useState(false);
-  const [showZeroLengthWarning, setShowZeroLengthWarning] = useState(false);
   const successMessage = useSelector(setSuccessMessageSelector);
 
   const [showingConfirmButtons, setShowingConfirmButtons] = useState(
@@ -152,6 +159,8 @@ export default function Map({ history }) {
       setLineWidth,
       setShowAdjustAreaSpotlightModal,
       setShowAdjustLineSpotlightModal,
+      setZeroAreaWarning,
+      setShowZeroLengthWarning,
     },
   ] = useDrawingManager();
 
@@ -163,8 +172,9 @@ export default function Map({ history }) {
     if (showHeader) setShowSuccessHeader(true);
   }, [showHeader]);
 
+  const showAddDrawer = mapAddDrawer.addDrawer;
+
   const [showMapFilter, setShowMapFilter] = useState(false);
-  const [showAddDrawer, setShowAddDrawer] = useState(false);
   const [showExportModal, setShowExportModal] = useState(false);
   const [showDrawAreaSpotlightModal, setShowDrawAreaSpotlightModal] = useState(false);
   const [showDrawLineSpotlightModal, setShowDrawLineSpotlightModal] = useState(false);
@@ -247,8 +257,10 @@ export default function Map({ history }) {
 
     maps.event.addListener(drawingManagerInit, 'polygoncomplete', function (polygon) {
       const polygonAreaCheck = (path) => {
-        if (Math.round(maps.geometry.spherical.computeArea(path)) === 0) setZeroAreaWarning(true);
-        else setZeroAreaWarning(false);
+        if (Math.round(maps.geometry.spherical.computeArea(path)) === 0) {
+          setZeroAreaWarning(true);
+          setShowAdjustAreaSpotlightModal(false);
+        } else setZeroAreaWarning(false);
       };
       const path = polygon.getPath();
       polygonAreaCheck(path);
@@ -263,6 +275,7 @@ export default function Map({ history }) {
       const polylineLengthCheck = (path) => {
         if (Math.round(maps.geometry.spherical.computeLength(path)) === 0) {
           setShowZeroLengthWarning(true);
+          setShowAdjustLineSpotlightModal(false);
         } else {
           setShowZeroLengthWarning(false);
         }
@@ -280,6 +293,7 @@ export default function Map({ history }) {
       setShowingConfirmButtons(true);
       finishDrawing(drawing, maps, map);
       this.setDrawingMode();
+      dispatch(setMapAddDrawerHide(farm_id));
     });
     initDrawingState(map, maps, drawingManagerInit, {
       POLYGON: maps.drawing.OverlayType.POLYGON,
@@ -326,18 +340,18 @@ export default function Map({ history }) {
   const handleClickAdd = () => {
     setShowExportModal(false);
     setShowMapFilter(false);
-    setShowAddDrawer(!showAddDrawer);
+    dispatch(showAddDrawer ? setMapAddDrawerHide(farm_id) : setMapAddDrawerShow(farm_id));
   };
 
   const handleClickExport = () => {
     setShowExportModal(!showExportModal);
     setShowMapFilter(false);
-    setShowAddDrawer(false);
+    dispatch(setMapAddDrawerHide(farm_id));
   };
 
   const handleClickFilter = () => {
     setShowExportModal(false);
-    setShowAddDrawer(false);
+    dispatch(setMapAddDrawerHide(farm_id));
     setShowMapFilter(!showMapFilter);
   };
 
@@ -358,6 +372,7 @@ export default function Map({ history }) {
 
   useEffect(() => {
     dispatch(getSensorReadings());
+    dispatch(getAllSensorReadingTypes());
   }, []);
 
   const handleAddMenuClick = (locationType) => {
@@ -368,7 +383,7 @@ export default function Map({ history }) {
     } else if (isLine(locationType) && !showedSpotlight.draw_line) {
       setShowDrawLineSpotlightModal(true);
     } else if (locationType === locationEnum.sensor) {
-      setShowAddDrawer(!showAddDrawer);
+      dispatch(showAddDrawer ? setMapAddDrawerHide(farm_id) : setMapAddDrawerShow(farm_id));
       setShowBulkSensorUploadModal(true);
       dispatch(resetBulkUploadSensorsInfoFile());
       return;
@@ -437,10 +452,16 @@ export default function Map({ history }) {
 
   const dismissBulkSensorsUploadModal = () => {
     setShowBulkSensorUploadModal(false);
-    setShowAddDrawer(true);
+    dispatch(setMapAddDrawerShow(farm_id));
   };
 
-  const { showAdjustAreaSpotlightModal, showAdjustLineSpotlightModal } = drawingState;
+  const {
+    showAdjustAreaSpotlightModal,
+    showAdjustLineSpotlightModal,
+    showZeroAreaWarning,
+    showZeroLengthWarning,
+  } = drawingState;
+
   return (
     <>
       {!showMapFilter && !showAddDrawer && !drawingState.type && !showSuccessHeader && (
@@ -525,13 +546,16 @@ export default function Map({ history }) {
             showModal={showExportModal}
             setShowMapFilter={setShowMapFilter}
             showMapFilter={showMapFilter}
-            setShowAddDrawer={setShowAddDrawer}
+            setShowAddDrawer={(showAddDrawer) => {
+              dispatch(showAddDrawer ? setMapAddDrawerHide(farm_id) : setMapAddDrawerShow(farm_id));
+            }}
             showAddDrawer={showAddDrawer}
             handleClickFilter={handleClickFilter}
             filterSettings={filterSettings}
             onFilterMenuClick={handleFilterMenuClick}
             onAddMenuClick={handleAddMenuClick}
             availableFilterSettings={availableFilterSettings}
+            isMapFilterSettingActive={isMapFilterSettingActive}
           />
         )}
         {showExportModal && (

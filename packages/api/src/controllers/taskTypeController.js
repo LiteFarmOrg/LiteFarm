@@ -13,16 +13,17 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const baseController = require('../controllers/baseController');
-const TaskTypeModel = require('../models/taskTypeModel');
-const { transaction, Model } = require('objection');
+import baseController from '../controllers/baseController.js';
+
+import TaskTypeModel from '../models/taskTypeModel.js';
+import { transaction, Model } from 'objection';
 
 const taskTypeController = {
   addType() {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
       try {
-        const user_id = req.user.user_id;
+        // const user_id = req.user.user_id;
         const data = req.body;
         data.task_translation_key = data.task_name;
         const result = await baseController.postWithResponse(TaskTypeModel, data, req, { trx });
@@ -55,7 +56,7 @@ const taskTypeController = {
           error,
         });
       }
-    }
+    };
   },
 
   getTypeByID() {
@@ -81,7 +82,9 @@ const taskTypeController = {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
       try {
-        const isDeleted = await baseController.delete(TaskTypeModel, req.params.task_type_id, req, { trx });
+        const isDeleted = await baseController.delete(TaskTypeModel, req.params.task_type_id, req, {
+          trx,
+        });
         await trx.commit();
         if (isDeleted) {
           return res.sendStatus(200);
@@ -94,8 +97,8 @@ const taskTypeController = {
           error,
         });
       }
-    }
+    };
   },
-}
+};
 
-module.exports = taskTypeController;
+export default taskTypeController;

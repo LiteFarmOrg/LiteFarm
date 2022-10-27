@@ -132,13 +132,15 @@ export default function PureManagementDetail({
       )}
 
       {(isAbandoned || isCompleted) && (
-        <Rating
-          className={styles.rating}
-          style={{ marginBottom: '34px' }}
-          label={t('MANAGEMENT_PLAN.RATE_THIS_MANAGEMENT_PLAN')}
-          stars={plan.rating}
-          onRate={() => {}}
-        />
+        <div>
+          <Rating
+            className={styles.rating}
+            style={{ marginBottom: '34px', width: '24px', height: '24px' }}
+            label={t('MANAGEMENT_PLAN.RATE_THIS_MANAGEMENT_PLAN')}
+            stars={plan.rating}
+            viewOnly={true}
+          />
+        </div>
       )}
 
       {isAbandoned && (

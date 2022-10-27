@@ -13,25 +13,29 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const baseController = require('../controllers/baseController');
-const SensorModel = require('../models/sensorModel');
-const SensorReadingModel = require('../models/sensorReadingModel');
-const IntegratingPartnersModel = require('../models/integratingPartnersModel');
-const NotificationUser = require('../models/notificationUserModel');
-const FarmExternalIntegrationsModel = require('../models/farmExternalIntegrationsModel');
-const LocationModel = require('../models/locationModel');
-const PointModel = require('../models/pointModel');
-const FigureModel = require('../models/figureModel');
-const { transaction, Model } = require('objection');
-const {
+import baseController from '../controllers/baseController.js';
+
+import SensorModel from '../models/sensorModel.js';
+import SensorReadingModel from '../models/sensorReadingModel.js';
+import IntegratingPartnersModel from '../models/integratingPartnersModel.js';
+import NotificationUser from '../models/notificationUserModel.js';
+import FarmExternalIntegrationsModel from '../models/farmExternalIntegrationsModel.js';
+import LocationModel from '../models/locationModel.js';
+import PointModel from '../models/pointModel.js';
+import FigureModel from '../models/figureModel.js';
+import UserModel from '../models/userModel.js';
+
+import { transaction, Model } from 'objection';
+
+import {
   createOrganization,
   registerOrganizationWebhook,
   bulkSensorClaim,
   unclaimSensor,
-} = require('../util/ensemble');
+} from '../util/ensemble.js';
 
-const sensorErrors = require('../util/sensorErrors');
-const syncAsyncResponse = require('../util/syncAsyncResponse');
+import { sensorErrors, parseSensorCsv } from '../../../shared/validation/sensorCSV.js';
+import syncAsyncResponse from '../util/syncAsyncResponse.js';
 
 const sensorController = {
   async getSensorReadingTypes(req, res) {
@@ -44,6 +48,29 @@ const sensorController = {
       res.status(200).send(readingTypes);
     } catch (error) {
       res.status(404).send('Sensor not found');
+    }
+  },
+  async getAllSensorReadingTypes(req, res) {
+    const { farm_id } = req.params;
+    try {
+      const allSensorReadingTypesResponse = await SensorModel.getAllSensorReadingTypes(farm_id);
+      const allReadingTypesObject = allSensorReadingTypesResponse.rows.reduce((obj, item) => {
+        if (item.location_id in obj) {
+          obj[item.location_id].push(item.readable_value);
+        } else {
+          obj[item.location_id] = [item.readable_value];
+        }
+        return obj;
+      }, {});
+      const allReadingTypes = Object.keys(allReadingTypesObject).map((key) => {
+        return {
+          location_id: key,
+          reading_types: allReadingTypesObject[key],
+        };
+      });
+      res.status(200).send(allReadingTypes);
+    } catch (error) {
+      res.status(404).send('No sensors found');
     }
   },
   async getBrandName(req, res) {
@@ -70,107 +97,11 @@ const sensorController = {
       const { access_token } = await IntegratingPartnersModel.getAccessAndRefreshTokens(
         'Ensemble Scientific',
       );
-      const { data, errors } = parseCsvString(req.file.buffer.toString(), {
-        Name: {
-          key: 'name',
-          parseFunction: (val) => val.trim(),
-          validator: (val) => 1 <= val.length && val.length <= 100,
-          required: true,
-          errorTranslationKey: sensorErrors.SENSOR_NAME,
-        },
-        External_ID: {
-          key: 'external_id',
-          parseFunction: (val) => val.trim(),
-          validator: (val) => val.length <= 20,
-          required: false,
-          errorTranslationKey: sensorErrors.EXTERNAL_ID,
-        },
-        Latitude: {
-          key: 'latitude',
-          parseFunction: (val) => parseFloat(val),
-          validator: (val) => -90 <= val && val <= 90,
-          required: true,
-          errorTranslationKey: sensorErrors.SENSOR_LATITUDE,
-        },
-        Longitude: {
-          key: 'longitude',
-          parseFunction: (val) => parseFloat(val),
-          validator: (val) => -180 <= val && val <= 180,
-          required: true,
-          errorTranslationKey: sensorErrors.SENSOR_LONGITUDE,
-        },
-        Reading_types: {
-          key: 'reading_types',
-          parseFunction: (val) => val.replaceAll(' ', '').split(','),
-          validator: (val) => {
-            if (!val.length || (val.length === 1 && val[0] === '')) {
-              return false;
-            }
-            const allowedReadingTypes = [
-              'soil_water_content',
-              'soil_water_potential',
-              'temperature',
-            ];
-            val.forEach((readingType) => {
-              if (!allowedReadingTypes.includes(readingType)) {
-                return false;
-              }
-            });
-            return true;
-          },
-          required: true,
-          errorTranslationKey: sensorErrors.SENSOR_READING_TYPES,
-        },
-        Depth: {
-          key: 'depth',
-          parseFunction: (val) => parseFloat(val),
-          validator: (val) => 0 <= val && val <= 1000,
-          required: false,
-          errorTranslationKey: sensorErrors.SENSOR_DEPTH,
-        },
-        Brand: {
-          key: 'brand',
-          parseFunction: (val) => val.trim(),
-          validator: (val) => val.length <= 100,
-          required: false,
-          errorTranslationKey: sensorErrors.SENSOR_BRAND,
-        },
-        Model: {
-          key: 'model',
-          parseFunction: (val) => val.trim(),
-          validator: (val) => val.length <= 100,
-          required: false,
-          errorTranslationKey: sensorErrors.SENSOR_MODEL,
-        },
-        Hardware_version: {
-          key: 'hardware_version',
-          parseFunction: (val) => val.trim(),
-          validator: (val) => val.length <= 100,
-          required: false,
-          errorTranslationKey: sensorErrors.SENSOR_HARDWARE_VERSION,
-        },
-      });
-      if (!data.length > 0) {
-        return await sendResponse(
-          () => {
-            return res.status(400).send({ error_type: 'empty_file' });
-          },
-          async () => {
-            return await sendSensorNotification(
-              user_id,
-              farm_id,
-              SensorNotificationTypes.SENSOR_BULK_UPLOAD_FAIL,
-              {
-                error_download: {
-                  errors: [],
-                  file_name: 'sensor-upload-outcomes.txt',
-                  error_type: 'generic',
-                },
-              },
-            );
-          },
-        );
-      }
+
+      const [{ language_preference }] = await baseController.getIndividual(UserModel, user_id);
+
+      const { data, errors } = parseSensorCsv(req.file.buffer.toString(), language_preference);
+
       if (errors.length > 0) {
         return await sendResponse(
           () => {
@@ -186,6 +117,26 @@ const sensorController = {
                   errors,
                   file_name: 'sensor-upload-outcomes.txt',
                   error_type: 'validation',
+                },
+              },
+            );
+          },
+        );
+      } else if (!data.length > 0) {
+        return await sendResponse(
+          () => {
+            return res.status(400).send({ error_type: 'empty_file' });
+          },
+          async () => {
+            return await sendSensorNotification(
+              user_id,
+              farm_id,
+              SensorNotificationTypes.SENSOR_BULK_UPLOAD_FAIL,
+              {
+                error_download: {
+                  errors: [],
+                  file_name: 'sensor-upload-outcomes.txt',
+                  error_type: 'generic',
                 },
               },
             );
@@ -414,8 +365,8 @@ const sensorController = {
   },
 
   async deleteSensor(req, res) {
+    const trx = await transaction.start(Model.knex());
     try {
-      const trx = await transaction.start(Model.knex());
       const isDeleted = await baseController.delete(SensorModel, req.params.location_id, req, {
         trx,
       });
@@ -426,6 +377,7 @@ const sensorController = {
         res.sendStatus(404);
       }
     } catch (error) {
+      await trx.rollback();
       res.status(400).json({
         error,
       });
@@ -480,6 +432,7 @@ const sensorController = {
         res.status(200).send(result);
       }
     } catch (error) {
+      await trx.rollback();
       res.status(400).json({
         error,
       });
@@ -622,62 +575,6 @@ const sensorController = {
   },
 };
 
-/**
- * Parses the csv string into an array of objects and an array of any lines that experienced errors.
- * @param {String} csvString
- * @param {Object} mapping - a mapping from csv column headers to object keys, as well as the validators for the data in the columns
- * @param {String} delimiter
- * @returns {Object<data: Array<Object>, errors: Array<Object>>}
- */
-
-const parseCsvString = (csvString, mapping, delimiter = ',') => {
-  // regex checks for delimiters that are not contained within quotation marks
-  const regex = new RegExp(
-    `(?:${delimiter}|\\n|^)("(?:(?:"")*[^"]*)*"|[^"${delimiter}\\n]*|(?:\\n|$))`,
-  );
-  if (csvString.length === 0 || !/\r\b|\r|\n/.test(csvString)) {
-    return { data: [] };
-  }
-  const rows = csvString.split(/\r\n|\r|\n/).filter((elem) => elem !== '');
-  const headers = rows[0].split(regex);
-  const requiredHeaders = Object.keys(mapping).filter((m) => mapping[m].required);
-  const headerErrors = [];
-  requiredHeaders.forEach((header) => {
-    if (!headers.includes(header)) {
-      headerErrors.push({ row: 1, column: header, translation_key: sensorErrors.MISSING_COLUMNS });
-    }
-  });
-  if (headerErrors.length > 0) {
-    return { data: [], errors: headerErrors };
-  }
-  const allowedHeaders = Object.keys(mapping);
-  const dataRows = rows.slice(1);
-  const { data, errors } = dataRows.reduce(
-    (previous, row, rowIndex) => {
-      const values = row.split(regex);
-      const parsedRow = headers.reduce((previousObj, current, index) => {
-        if (allowedHeaders.includes(current)) {
-          const val = mapping[current].parseFunction(values[index].replace(/^(["'])(.*)\1$/, '$2')); // removes any surrounding quotation marks
-          if (mapping[current].validator(val)) {
-            previousObj[mapping[current].key] = val;
-          } else {
-            previous.errors.push({
-              row: rowIndex + 2,
-              column: current,
-              translation_key: mapping[current].errorTranslationKey,
-            });
-          }
-        }
-        return previousObj;
-      }, {});
-      previous.data.push(parsedRow);
-      return previous;
-    },
-    { data: [], errors: [] },
-  );
-  return { data, errors };
-};
-
 const SensorNotificationTypes = {
   SENSOR_BULK_UPLOAD_SUCCESS: 'SENSOR_BULK_UPLOAD_SUCCESS',
   SENSOR_BULK_UPLOAD_FAIL: 'SENSOR_BULK_UPLOAD_FAIL',
@@ -721,4 +618,4 @@ async function sendSensorNotification(
   );
 }
 
-module.exports = sensorController;
+export default sensorController;

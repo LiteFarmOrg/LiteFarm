@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const baseModel = require('./baseModel');
+import baseModel from './baseModel.js';
 
 class Notification extends baseModel {
   static get tableName() {
@@ -46,4 +46,4 @@ class Notification extends baseModel {
   }
 }
 
-module.exports = Notification;
+export default Notification;

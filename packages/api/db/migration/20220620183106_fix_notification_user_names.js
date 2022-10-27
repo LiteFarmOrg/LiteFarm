@@ -1,4 +1,4 @@
-exports.up = async function (knex) {
+export const up = async function (knex) {
   return await knex.raw(`
     with subquery as (
         select ('{'||index-1||',name}')::text[] as name_path, ('{'||index-1||',value}')::text[] as value_path, n.notification_id,
@@ -16,7 +16,7 @@ exports.up = async function (knex) {
   `);
 };
 
-exports.down = async function (knex) {
+export const down = async function (knex) {
   return await knex.raw(`
       with subquery as (
           select ('{'||index-1||',name}')::text[] as name_path, ('{'||index-1||',value}')::text[] as value_path, n.notification_id,

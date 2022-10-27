@@ -1,5 +1,6 @@
 {
   "ABANDON": "Abandonner",
+  "ABANDONED": "MISSING",
   "ACTIVE": "Actif",
   "ADD": "Ajouter",
   "ALL": "Tout",
@@ -53,9 +54,11 @@
   "SUBMIT": "Soumettre",
   "SUBMITTING": "Soumission en cours...",
   "UPDATE": "Mettre à Jour",
-  "UPLOAD": "MISSING",
-  "UPLOADING": "MISSING",
+  "UPLOAD": "Télécharger",
+  "UPLOADING": "Téléchargement...",
   "WORD_LIMIT_ERROR": "Seulement les charactères{{value}} peuvent être affichés",
   "YEAR": "Année",
-  "YES": "Oui"
+  "YES": "Oui",
+  "GO_BACK": "MISSING",
+  "THATS_FINE": "MISSING"
 }

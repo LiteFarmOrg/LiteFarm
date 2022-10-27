@@ -11,6 +11,9 @@
   font-size: 20px;
   line-height: 18px;
   color: var(--grey700);
+  overflow-wrap: break-word;
+  hyphens: auto;
+  width: 100%;
 }
 
 .label {

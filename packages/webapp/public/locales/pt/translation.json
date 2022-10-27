@@ -185,7 +185,7 @@
     }
   },
   "CERTIFICATIONS": {
-    "COULD_NOT_CONTACT_CERTIFIER": "It looks like LiteFarm wasn’t able to contact your certifier. You can still export your documents but your certifier may require additional information.",
+    "COULD_NOT_CONTACT_CERTIFIER": "Parece que a LiteFarm não conseguiu entrar em contato com sua certificadora. Você ainda pode exportar seus documentos, mas seu certificador pode exigir informações adicionais.",
     "EMAIL": "Email",
     "EMAIL_ERROR": "É necessário um e-mail válido",
     "EXPORT": "Exportar",
@@ -200,7 +200,7 @@
     "NOTE_CANNOT_RESUBMIT": "Observação: depois de enviar a pesquisa, você não poderar alterar as respostas. Para alterar após a submissão, é preciso começar uma nova exportação.",
     "ORGANIC_CERTIFICATION_FROM": "Certificação orgânica de",
     "SELECT_REPORTING_PERIOD": "Selecione o período do seu relatório",
-    "UH_OH": "Uh oh!",
+    "UH_OH": "Ops!",
     "WHERE_TO_SEND_DOCS": "Para onde você quer que os seus documentos sejam enviados?",
     "WOULD_LIKE_ANSWERS": "A certificadora gostaria que você respondesse algumas perguntas extras antes de nós exportarmos seus documentos."
   },
@@ -457,6 +457,8 @@
       "UPLOAD_INSTRUCTION_MESSAGE": "MISSING - Pt - for correct formatting.",
       "UPLOAD_PLACEHOLDER": "MISSING - Pt - Upload CSV file",
       "UPLOAD_ERROR_MESSAGE": "MISSING - Pt - There were some issues with your upload. ",
+      "INVALID_FILE_TYPE": "MISSING - Pt - Upload file must be a csv,",
+      "DOWNLOAD_TEMPLATE_LINK_MESSAGE": "MISSING - Pt - click here to download the template",
       "UPLOAD_ERROR_LINK": "MISSING - Pt - Click here to view them.",
       "EMPTY_FILE_UPLOAD_ERROR_MESSAGE": "MISSING - Pt - No sensors found, please check your upload and try again.",
       "SENSOR_FIELDS": {
@@ -888,7 +890,8 @@
     "ROLE": "Função",
     "TITLE": "Convide um usuário",
     "WAGE": "Salário/vencimento por hora trabalhada",
-    "WAGE_ERROR": "Salário/vencimento precisa ser um número decimal válido não-negativo"
+    "WAGE_ERROR": "Salário/vencimento precisa ser um número decimal válido não-negativo",
+    "WAGE_RANGE_ERROR": "MISSING"
   },
   "JOIN_FARM_SUCCESS": {
     "IMPORTANT_THINGS": "Deixe-nos mostrar algumas coisas importantes!",
@@ -1109,6 +1112,14 @@
     "WHERE_TRANSPLANT_LOCATION": "Onde você fará o transplante?",
     "WILD_CROP": "Você está colhendo uma planta silvestre?"
   },
+  "LOCATION_CREATION": {
+    "TITLE": "MISSING",
+    "CROP_PLAN_BODY": "MISSING",
+    "TASK_TITLE": "MISSING",
+    "TASK_BODY": "MISSING",
+    "GO_BACK_BUTTON": "MISSING",
+    "CREATE_BUTTON": "MISSING"
+  },
   "MY_FARM": {
     "CERTIFICATIONS": "Certificações",
     "FARM_INFO": "Informação da fazenda",
@@ -1245,6 +1256,13 @@
       "USER_ADDRESS": "Endereço do usuário"
     },
     "ACCOUNT_TAB": "Conta",
+    "ERROR": {
+      "PHONE_NUMBER_LENGTH": "MISSING",
+      "FARM_NAME_LENGTH": "MISSING",
+      "FIRST_NAME_LENGTH": "MISSING",
+      "LAST_NAME_LENGTH": "MISSING",
+      "USER_ADDRESS_LENGTH": "MISSING"
+    },
     "FARM": {
       "ADDRESS": "Endereço",
       "CURRENCY": "Moeda",
@@ -1691,5 +1709,13 @@
     "READINGS_PREVIEW": {
       "TEMPERATURE": "MISSING"
     }
+  },
+  "CROP_STATUS_NON_ORGANIC_MISMATCH_MODAL": {
+    "TITLE": "MISSING",
+    "SUBTITLE": "MISSING"
+  },
+  "CROP_STATUS_ORGANIC_MISMATCH_MODAL": {
+    "TITLE": "MISSING",
+    "SUBTITLE": "MISSING"
   }
 }

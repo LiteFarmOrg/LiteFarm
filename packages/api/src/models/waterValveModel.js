@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const Model = require('objection').Model;
+import { Model } from 'objection';
 
 class WaterValve extends Model {
   static get tableName() {
@@ -30,7 +30,10 @@ class WaterValve extends Model {
       required: ['location_id'],
       properties: {
         location_id: { type: 'string' },
-        source: { type: 'string', enum: ['Municipal water', 'Surface water', 'Groundwater', 'Rain water'] },
+        source: {
+          type: 'string',
+          enum: ['Municipal water', 'Surface water', 'Groundwater', 'Rain water'],
+        },
         flow_rate: { type: ['number', null] },
         flow_rate_unit: { type: 'string', enum: ['l/min', 'l/h', 'gal/min', 'gal/h'] },
       },
@@ -44,4 +47,4 @@ class WaterValve extends Model {
   }
 }
 
-module.exports = WaterValve;
+export default WaterValve;

@@ -1,5 +1,4 @@
-const { Model } = require('objection');
-const knex = Model.knex();
+import knex from '../../util/knex.js';
 const typesOfTask = [
   'soil_amendment_task',
   'pest_control_task',
@@ -11,7 +10,6 @@ const typesOfTask = [
   'plant_task',
   'cleaning_task',
 ];
-
 
 const modelMapping = {
   soil_amendment_task: modelValidation('soil_amendment_task'),
@@ -35,17 +33,19 @@ function modelValidation(asset) {
         message: 'Task is a required property',
       });
     }
-    const nonModifiable = typesOfTask.filter(p => p !== asset);
-    const isTryingToModifyOtherAssets = Object.keys(data).some(k => nonModifiable.includes(k));
-    !isTryingToModifyOtherAssets ? next() : res.status(400).send({
-      message: 'You are trying to modify an unallowed object',
-    });
+    const nonModifiable = typesOfTask.filter((p) => p !== asset);
+    const isTryingToModifyOtherAssets = Object.keys(data).some((k) => nonModifiable.includes(k));
+    !isTryingToModifyOtherAssets
+      ? next()
+      : res.status(400).send({
+          message: 'You are trying to modify an unallowed object',
+        });
   };
 }
 
 function isWorkerToSelfOrAdmin({ hasManyTasks = false } = {}) {
   function checkWageAndAssignee(task, user_id) {
-    if (!!task.wage_at_moment) {
+    if (task.wage_at_moment) {
       throw new Error('Worker is not allowed to modify its wage');
     } else if (task.assignee_user_id && task.assignee_user_id !== user_id) {
       throw new Error('Worker is not allowed to add tasks to another user');
@@ -56,7 +56,7 @@ function isWorkerToSelfOrAdmin({ hasManyTasks = false } = {}) {
     const { user_id } = req.user;
     try {
       if (hasManyTasks) {
-        req.body.map(task => checkWageAndAssignee(task, user_id));
+        req.body.map((task) => checkWageAndAssignee(task, user_id));
       } else {
         checkWageAndAssignee(req.body, user_id);
       }
@@ -64,7 +64,6 @@ function isWorkerToSelfOrAdmin({ hasManyTasks = false } = {}) {
       return res.status(403).send(e.message);
     }
     return next();
-
   }
 
   return async (req, res, next) => {
@@ -77,12 +76,7 @@ function isWorkerToSelfOrAdmin({ hasManyTasks = false } = {}) {
       return;
     }
     return checkReq(req, res, next);
-
   };
 }
 
-module.exports = {
-  modelMapping,
-  typesOfTask,
-  isWorkerToSelfOrAdmin,
-};
+export { modelMapping, typesOfTask, isWorkerToSelfOrAdmin };

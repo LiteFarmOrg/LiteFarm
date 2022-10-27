@@ -2,6 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { useSensorReadingsLineChart } from './useSensorReadingsLineChart';
 import PureSensorReadingsLineChart from '../../components/SensorReadingsLineChart';
+import styles from './styles.module.scss';
+import Spinner from '../../components/Spinner';
 
 const SensorReadingsLineChart = ({
   title = '',
@@ -16,26 +18,37 @@ const SensorReadingsLineChart = ({
   ambientTempFor = '',
   lastUpdatedTemperatureReadings = '',
   predictedXAxisLabel = '',
+  activeReadingTypes = [],
 }) => {
   const {
     sensorsReadingsOfTemperature = [],
     yAxisDataKeys = [],
     lineColors = [],
+    loading = true,
   } = useSensorReadingsLineChart(locationIds, readingType, noDataText, ambientTempFor);
   return (
-    <PureSensorReadingsLineChart
-      title={title}
-      subTitle={subTitle}
-      xAxisDataKey={xAxisDataKey}
-      yAxisDataKeys={yAxisDataKeys}
-      lineColors={lineColors}
-      xAxisLabel={xAxisLabel}
-      yAxisLabel={yAxisLabel}
-      chartData={sensorsReadingsOfTemperature}
-      weatherStationName={weatherStationName}
-      lastUpdatedTemperatureReadings={lastUpdatedTemperatureReadings}
-      predictedXAxisLabel={predictedXAxisLabel}
-    />
+    <>
+      {loading ? (
+        <div className={styles.loaderWrapper}>
+          <Spinner />
+        </div>
+      ) : (
+        <PureSensorReadingsLineChart
+          isReadingTypeActive={activeReadingTypes.includes(readingType)}
+          title={title}
+          subTitle={subTitle}
+          xAxisDataKey={xAxisDataKey}
+          yAxisDataKeys={yAxisDataKeys}
+          lineColors={lineColors}
+          xAxisLabel={xAxisLabel}
+          yAxisLabel={yAxisLabel}
+          chartData={sensorsReadingsOfTemperature}
+          weatherStationName={weatherStationName}
+          lastUpdatedTemperatureReadings={lastUpdatedTemperatureReadings}
+          predictedXAxisLabel={predictedXAxisLabel}
+        />
+      )}
+    </>
   );
 };
 
@@ -52,6 +65,7 @@ SensorReadingsLineChart.propTypes = {
   ambientTempFor: PropTypes.string.isRequired,
   lastUpdatedTemperatureReadings: PropTypes.string.isRequired,
   predictedXAxisLabel: PropTypes.string.isRequired,
+  activeReadingTypes: PropTypes.array.isRequired,
 };
 
 export default SensorReadingsLineChart;

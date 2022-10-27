@@ -41,5 +41,6 @@ export function useSensorReadingsLineChart(locationIds, readingType, noDataText,
     yAxisDataKeys: getYAxisDataKeys(),
     lineColors: CHART_LINE_COLORS,
     tempUnit,
+    loading: bulkSensorsReadingsSliceSelectorData?.loading,
   };
 }

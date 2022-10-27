@@ -32,17 +32,9 @@ function InviteUser() {
   });
 
   const onInvite = (userInfo) => {
-    const {
-      role,
-      email,
-      wage: amount,
-      first_name,
-      last_name,
-      gender,
-      language,
-      birth_year,
-      phone_number,
-    } = userInfo;
+    const { role, email, first_name, last_name, gender, language, birth_year, phone_number } =
+      userInfo;
+    const amount = +parseFloat(userInfo?.wage).toFixed(2);
     // Pseudo worker is a worker with no email filled out
     const isPseudo = role === 3 && email.trim().length === 0;
     // const amount = pay.amount && pay.amount.trim().length > 0 ? Number(pay.amount) : 0; // TODO: convert this to null to indicate no wage is entered

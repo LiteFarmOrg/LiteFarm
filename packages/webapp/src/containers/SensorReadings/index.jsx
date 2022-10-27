@@ -2,14 +2,15 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import SensorReadingsLineChart from '../SensorReadingsLineChart';
-import { CURRENT_DATE_TIME } from './constants';
+import { CURRENT_DATE_TIME, TEMPERATURE } from './constants';
 import PageTitle from '../../components/PageTitle/v2';
 import RouterTab from '../../components/RouterTab';
 import { bulkSensorsReadingsSliceSelector } from '../bulkSensorReadingsSlice';
 import { sensorsSelector } from '../sensorSlice';
 import utils from '../WeatherBoard/utils';
-import { TEMPERATURE } from './constants';
 import { measurementSelector } from '../../containers/userFarmSlice';
+import styles from './styles.module.scss';
+import { Semibold } from '../../components/Typography';
 
 function SensorReadings({ history, match }) {
   const { t } = useTranslation();
@@ -22,6 +23,8 @@ function SensorReadings({ history, match }) {
     nearestStationName = '',
     lastUpdatedReadingsTime = '',
     predictedXAxisLabel = '',
+    xAxisLabel = '',
+    activeReadingTypes = [],
   } = useSelector(bulkSensorsReadingsSliceSelector);
   const measurementUnit = useSelector(measurementSelector);
   const { tempUnit } = utils.getUnits(measurementUnit);
@@ -75,7 +78,27 @@ function SensorReadings({ history, match }) {
           },
         )}
         predictedXAxisLabel={predictedXAxisLabel}
+        xAxisLabel={xAxisLabel}
+        activeReadingTypes={activeReadingTypes}
       />
+      {activeReadingTypes.length > 0 && (
+        <>
+          {activeReadingTypes.reduce((acc, cv, i) => {
+            if (cv === TEMPERATURE) return acc;
+            acc.push(
+              <div key={i}>
+                <div className={styles.titleWrapper}>
+                  <label>
+                    <Semibold className={styles.title}>{cv.replace(/_/g, ' ')}</Semibold>
+                  </label>
+                </div>
+                <div className={styles.emptyRect}></div>
+              </div>,
+            );
+            return acc;
+          }, [])}
+        </>
+      )}
     </div>
   );
 }

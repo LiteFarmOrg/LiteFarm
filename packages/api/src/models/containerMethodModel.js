@@ -13,8 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const Model = require('objection').Model;
-
+import { Model } from 'objection';
 
 class ContainerMethodModel extends Model {
   static get tableName() {
@@ -51,4 +50,4 @@ class ContainerMethodModel extends Model {
   }
 }
 
-module.exports = ContainerMethodModel;
+export default ContainerMethodModel;

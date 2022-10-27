@@ -13,38 +13,47 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const formatAlterTableEnumSql = (
-  tableName,
-  columnName,
-  enums,
-) => {
+const formatAlterTableEnumSql = (tableName, columnName, enums) => {
   const constraintName = `${tableName}_${columnName}_check`;
   return [
     `ALTER TABLE ${tableName} DROP CONSTRAINT IF EXISTS ${constraintName};`,
     `ALTER TABLE ${tableName} ADD CONSTRAINT ${constraintName} CHECK (${columnName} = ANY (ARRAY['${enums.join(
-      "'::text, '" // eslint-disable-line
+      "'::text, '", // eslint-disable-line
     )}'::text]));`,
   ].join('\n');
 };
 
-exports.up = function(knex) {
+export const up = function (knex) {
   return Promise.all([
     knex.schema.table('shift', (table) => {
       table.float('wage').defaultTo(0);
     }),
     knex.raw(
-      formatAlterTableEnumSql('shift', 'mood', ['happy', 'neutral', 'very happy', 'sad', 'very sad', 'na'])
+      formatAlterTableEnumSql('shift', 'mood', [
+        'happy',
+        'neutral',
+        'very happy',
+        'sad',
+        'very sad',
+        'na',
+      ]),
     ),
-  ])
+  ]);
 };
 
-exports.down = function(knex) {
+export const down = function (knex) {
   return Promise.all([
     knex.schema.table('shift', (table) => {
       table.dropColumn('wage');
     }),
     knex.raw(
-      formatAlterTableEnumSql('shift', 'mood', ['happy', 'neutral', 'very happy', 'sad', 'very sad'])
+      formatAlterTableEnumSql('shift', 'mood', [
+        'happy',
+        'neutral',
+        'very happy',
+        'sad',
+        'very sad',
+      ]),
     ),
-  ])
+  ]);
 };

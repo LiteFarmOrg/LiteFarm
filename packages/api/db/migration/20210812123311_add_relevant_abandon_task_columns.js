@@ -1,5 +1,4 @@
-
-exports.up = async function(knex) {
+export const up = async function (knex) {
   await knex.schema.alterTable('task', (t) => {
     t.string('abandonment_reason');
     t.string('other_abandonment_reason');
@@ -7,7 +6,7 @@ exports.up = async function(knex) {
   });
 };
 
-exports.down = async function(knex) {
+export const down = async function (knex) {
   await knex.schema.alterTable('task', (t) => {
     t.dropColumn('abandonment_reason');
     t.dropColumn('other_abandonment_reason');

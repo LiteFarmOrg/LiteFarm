@@ -1,5 +1,4 @@
-
-exports.up = async function(knex) {
+export const up = async function (knex) {
   await knex.raw(`
     ALTER TABLE "field_work_task"
     DROP CONSTRAINT "field_work_task_type_check";
@@ -22,7 +21,7 @@ exports.up = async function(knex) {
   `);
 };
 
-exports.down = async function(knex) {
+export const down = async function (knex) {
   await knex.raw(`
     ALTER TABLE "field_work_task"
     DROP CONSTRAINT "field_work_task_type_check";

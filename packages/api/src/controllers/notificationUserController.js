@@ -13,12 +13,12 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const NotificationUser = require('../models/notificationUserModel');
+import NotificationUser from '../models/notificationUserModel.js';
 
 /**
  * Controls requests related to the user's notifications.
  */
-module.exports = {
+export default {
   /**
    * Establishes a subscription for the user's notifications.
    * @param {Request} req - The HTTP request object.

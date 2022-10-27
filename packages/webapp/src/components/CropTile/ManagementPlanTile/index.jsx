@@ -9,12 +9,13 @@ import { getManagementPlanTileDate } from '../../../util/moment';
 
 const cropStatus = {
   active: 'active',
-  past: 'past',
   planned: 'planned',
+  completed: 'completed',
+  abandoned: 'abandoned',
 };
 
 const isActive = (status) => status === cropStatus.active;
-const isPast = (status) => status === cropStatus.past;
+const isPast = (status) => (status === cropStatus.completed) || (status === cropStatus.abandoned);
 const isPlanned = (status) => status === cropStatus.planned;
 
 export default function PureManagementPlanTile({
@@ -76,7 +77,7 @@ PureManagementPlanTile.prototype = {
     crop_translation_key: PropTypes.string,
   }),
   className: PropTypes.string,
-  status: PropTypes.oneOf(['past', 'active', 'planned']),
+  status: PropTypes.oneOf(['active', 'planned', 'completed', 'abandoned']),
   onClick: PropTypes.func,
   style: PropTypes.object,
   isSelected: PropTypes.bool,

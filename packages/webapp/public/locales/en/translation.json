@@ -457,6 +457,8 @@
       "UPLOAD_LINK_MESSAGE": "Download this template",
       "UPLOAD_INSTRUCTION_MESSAGE": "for correct formatting.",
       "UPLOAD_PLACEHOLDER": "Upload CSV file",
+      "INVALID_FILE_TYPE": "Upload file must be a csv,",
+      "DOWNLOAD_TEMPLATE_LINK_MESSAGE": "click here to download the template",
       "UPLOAD_ERROR_MESSAGE": "There were some issues with your upload. ",
       "UPLOAD_ERROR_LINK": "Click here to view them.",
       "EMPTY_FILE_UPLOAD_ERROR_MESSAGE": "No sensors found, please check your upload and try again.",
@@ -478,11 +480,11 @@
       "VALIDATION": {
         "FILE_ROW_LIMIT_EXCEEDED": "File row limit exceeded. The max number of sensors that can be uploaded from a file is 100.",
         "MISSING_COLUMNS": "Columns are required/missing.",
-        "EXTERNAL_ID": "Invalid external id, must be between 1 and 20 characters.",
+        "EXTERNAL_ID": "Invalid external id, must be between 1 and 40 characters.",
         "SENSOR_NAME": "Invalid sensor name, must be between 1 and 100 characters.",
         "SENSOR_LATITUDE": "Invalid latitude value, must be between -90 and 90. and fewer than 10 decimals.",
         "SENSOR_LONGITUDE": "Invalid longitude value, must be between -180 and 180. and fewer than 10 decimals.",
-        "SENSOR_READING_TYPES": "Invalid reading type detected, valid values include: soil_water_content, soil_water_potential, temperature.",
+        "SENSOR_READING_TYPES": "Invalid reading type detected: {{ reading_types }}. Valid values include: soil_water_content, soil_water_potential, temperature.",
         "SENSOR_DEPTH": "Invalid depth value, must be between 0 and 1000.",
         "SENSOR_BRAND": "Invalid brand name, must be between 1 and 100 characters.",
         "SENSOR_MODEL": "Invalid model name, must be between 1 and 100 characters.",
@@ -885,7 +887,8 @@
     "ROLE": "Role",
     "TITLE": "Invite a user",
     "WAGE": "Hourly Wage",
-    "WAGE_ERROR": "Wage must be a valid, non-negative decimal number"
+    "WAGE_ERROR": "Wage must be a valid, non-negative decimal number",
+    "WAGE_RANGE_ERROR": "Salary must be a positive number less than 999,999,999"
   },
   "JOIN_FARM_SUCCESS": {
     "IMPORTANT_THINGS": "Let us show you a couple of important things!",
@@ -1105,6 +1108,14 @@
     "WHERE_TRANSPLANT_LOCATION": "Where will you transplant to?",
     "WILD_CROP": "Are you harvesting a wild crop?"
   },
+  "LOCATION_CREATION": {
+    "TITLE": "No locations found!",
+    "CROP_PLAN_BODY": "You’ll need a Field, Garden, Greenhouse, or Buffer Zone before you can finish this crop plan. Do you want to create one now?",
+    "TASK_TITLE": "No locations for tasks",
+    "TASK_BODY": "You’ll need at least one location before you can create a task. Do you want to create a location now?",
+    "GO_BACK_BUTTON": "Go back",
+    "CREATE_BUTTON": "Create location"
+  },
   "MY_FARM": {
     "CERTIFICATIONS": "Certifications",
     "FARM_INFO": "Farm info",
@@ -1241,6 +1252,13 @@
       "USER_ADDRESS": "User Address"
     },
     "ACCOUNT_TAB": "Account",
+    "ERROR": {
+      "PHONE_NUMBER_LENGTH": "Phone number must be fewer than 20 characters",
+      "FARM_NAME_LENGTH": "Farm name cannot exceed 255 characters",
+      "FIRST_NAME_LENGTH": "First name cannot exceed 255 characters",
+      "LAST_NAME_LENGTH": "Last name cannot exceed 255 characters",
+      "USER_ADDRESS_LENGTH": "User address cannot exceed 255 characters"
+    },
     "FARM": {
       "ADDRESS": "Address",
       "CURRENCY": "Currency",
@@ -1683,5 +1701,13 @@
   },
   "YEAR_SELECTOR": {
     "TITLE": "Select Year"
+  },
+  "CROP_STATUS_NON_ORGANIC_MISMATCH_MODAL": {
+    "TITLE": "You’ve selected a non-organic location!",
+    "SUBTITLE": "You’ve indicated you’ll be planting an organic crop in a non-organic location. Do you want to proceed?"
+  },
+  "CROP_STATUS_ORGANIC_MISMATCH_MODAL": {
+    "TITLE": "You’ve selected an organic location!",
+    "SUBTITLE": "You’ve indicated you’ll be planting a non-organic crop in an organic location. Do you want to proceed?"
   }
 }

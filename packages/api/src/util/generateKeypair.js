@@ -3,7 +3,7 @@
  *
  * Make sure to save the private key elsewhere after generated!
  */
-const crypto = require('crypto');
+import crypto from 'crypto';
 
 function genKeyPair() {
   // Generates an object where the keys are stored in properties `privateKey` and `publicKey`

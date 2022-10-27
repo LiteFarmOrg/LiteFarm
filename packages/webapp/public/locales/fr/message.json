@@ -20,7 +20,7 @@
   },
   "BULK_UPLOAD": {
     "ERROR": {
-      "UPLOAD": "MISSING"
+      "UPLOAD": "Le chargement du fichier CSV sur le serveur a échoué"
     }
   },
   "CROP": {
@@ -99,7 +99,7 @@
     "SUCCESS_DELETE": "Supprimé avec succès",
     "SUCCESS_PATCH": "Mise à jour réussie",
     "SUCCESS_POST": "Enregistré avec succès",
-    "SUCCESS_UPLOAD": "MISSING"
+    "SUCCESS_UPLOAD": "Téléchargé avec succès"
   },
   "ORGANIC_CERTIFIER_SURVEY": {
     "ERROR": {
@@ -197,7 +197,7 @@
     }
   },
   "SENSOR": {
-    "SUCCESSFUL_UPDATE": "MISSING",
-    "ERROR_UPDATE": "MISSING"
+    "SUCCESSFUL_UPDATE": "Le capteur a été mis à jour avec succès",
+    "ERROR_UPDATE": "Erreur de mise à jour du capteur"
   }
 }

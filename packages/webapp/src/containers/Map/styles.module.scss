@@ -27,12 +27,8 @@
   // TODO: this is a workaround for keeping all locations in view (ST-297)
   // remove this when we have a better solution
   // that is dependent to navbar height (viewport)
-  padding-top: 54px;
+  padding-top: calc(var(--global-navbar-height) + var(--global-map-header-height));
   // z-index: -1;
-}
-
-.selectionContainer {
-
 }
 
 .selectionModal {

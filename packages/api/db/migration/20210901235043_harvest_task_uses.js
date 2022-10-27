@@ -1,5 +1,4 @@
-
-exports.up = async function (knex) {
+export const up = async function (knex) {
   await knex.schema.alterTable('harvest_task', function (table) {
     table.renameColumn('quantity', 'projected_quantity');
     table.renameColumn('quantity_unit', 'projected_quantity_unit');
@@ -8,7 +7,7 @@ exports.up = async function (knex) {
   });
 };
 
-exports.down = async function (knex) {
+export const down = async function (knex) {
   await knex.schema.alterTable('harvest_task', function (table) {
     table.renameColumn('projected_quantity', 'quantity');
     table.renameColumn('projected_quantity_unit', 'quantity_unit');

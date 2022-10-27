@@ -13,8 +13,9 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const Model = require('objection').Model;
-
+import { Model } from 'objection';
+import taskModel from './taskModel.js';
+import plantingManagementPlanModel from './plantingManagementPlanModel.js';
 
 class transplantTaskModel extends Model {
   static get tableName() {
@@ -51,7 +52,7 @@ class transplantTaskModel extends Model {
     return {
       task: {
         relation: Model.BelongsToOneRelation,
-        modelClass: require('./taskModel'),
+        modelClass: taskModel,
         join: {
           from: 'transplant_task.task_id',
           to: 'task.task_id',
@@ -59,7 +60,7 @@ class transplantTaskModel extends Model {
       },
       planting_management_plan: {
         relation: Model.BelongsToOneRelation,
-        modelClass: require('./plantingManagementPlanModel'),
+        modelClass: plantingManagementPlanModel,
         join: {
           from: 'transplant_task.planting_management_plan_id',
           to: 'planting_management_plan.planting_management_plan_id',
@@ -69,4 +70,4 @@ class transplantTaskModel extends Model {
   }
 }
 
-module.exports = transplantTaskModel;
+export default transplantTaskModel;

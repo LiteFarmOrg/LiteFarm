@@ -12,6 +12,7 @@
     "CERTIFIED": "Certified",
     "CROPS_OR_ANIMALS": "Crop(s) or type of Animal per unit",
     "CURRENT_STATUS": "Current Status - mark one per Unit",
+    "EXPORT_DOCUMENT_NAME": "RECORD A",
     "HEADER": "RECORD A - SITE IDENTIFICATION",
     "HECTARES": "Hectares",
     "INDIVIDUAL_PRODUCTION_UNIT": "for each individual Production Unit (eg. Site/Field/GH/Defined Area -   as appropriate for your Operation and labelled on your map)",
@@ -37,6 +38,7 @@
   },
   "RECORD_D": {
     "DATE_COMPLETED": "Date Completed",
+    "EXPORT_DOCUMENT_NAME": "RECORD D",
     "FROM": "From",
     "HEADER": "Record D- Seed and Planting Stock",
     "NOTE": {
@@ -68,6 +70,7 @@
   "RECORD_I": {
     "CLEANERS": "Cleaners",
     "CROP_PRODUCTION_AIDS": "Crop Production Aids",
+    "EXPORT_DOCUMENT_NAME": "RECORD I",
     "HEADER": "Record I",
     "INPUT_CATEGORY": "Input Category",
     "LOCATIONS": "Location(s)",

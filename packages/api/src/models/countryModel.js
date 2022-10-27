@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const Model = require('objection').Model;
+import { Model } from 'objection';
 
 class Certification extends Model {
   static get tableName() {
@@ -42,9 +42,8 @@ class Certification extends Model {
 
   static get relationMappings() {
     // Import models here to prevent require loops.
-    return {
-    };
+    return {};
   }
 }
 
-module.exports = Certification;
+export default Certification;

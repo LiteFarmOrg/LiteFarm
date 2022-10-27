@@ -28,16 +28,17 @@ function Table({
   getTdProps,
   sortByID,
   minRows = 5,
+  orderDesc = true,
 }) {
   const { t } = useTranslation();
   const defaultSorted = sortByID
     ? [
         {
           id: sortByID,
-          desc: true,
+          desc: orderDesc,
         },
       ]
-    : [{ id: columns?.[0]?.id, desc: true }];
+    : [{ id: columns?.[0]?.id, desc: orderDesc }];
   const pageSize = showPagination
     ? Math.min(Math.max(data?.length || minRows || 5, minRows), defaultPageSize)
     : undefined;

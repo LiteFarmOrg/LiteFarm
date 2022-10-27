@@ -1,4 +1,4 @@
-exports.up = function(knex) {
+export const up = function (knex) {
   return Promise.all([
     knex.schema.createTable('weather_station', (t) => {
       t.integer('id').primary();
@@ -13,19 +13,19 @@ exports.up = function(knex) {
     knex.schema.alterTable('weatherHourly', (t) => {
       t.dropForeign('field_id');
       t.dropColumn('field_id');
-      t.integer('station_id').unsigned()
+      t.integer('station_id').unsigned();
       t.foreign('station_id').references('id').inTable('weather_station');
     }),
     knex.schema.alterTable('weather', (t) => {
       t.dropForeign('field_id');
       t.dropColumn('field_id');
-      t.integer('station_id').unsigned()
+      t.integer('station_id').unsigned();
       t.foreign('station_id').references('id').inTable('weather_station');
     }),
   ]);
 };
 
-exports.down = function(knex) {
+export const down = function (knex) {
   return Promise.all([
     knex.schema.alterTable('field', (t) => {
       t.dropForeign('station_id');
@@ -44,6 +44,6 @@ exports.down = function(knex) {
       t.dropColumn('station_id');
     }),
   ]).then(() => {
-    return knex.schema.dropTable('weather_station')
+    return knex.schema.dropTable('weather_station');
   });
 };

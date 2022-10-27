@@ -13,12 +13,12 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-exports.up = function(knex) {
+export const up = function (knex) {
   return Promise.all([
     knex.schema.table('fertilizerLog', (table) => {
       table.dropColumn('quantity_unit');
       table.dropColumn('quantity');
-      table.float('quantity_kg')
+      table.float('quantity_kg');
     }),
     knex.schema.table('pestControlLog', (table) => {
       table.renameColumn('quantity', 'quantity_kg');
@@ -43,10 +43,10 @@ exports.up = function(knex) {
     knex.schema.table('irrigationLog', (table) => {
       table.renameColumn('flow_rate', 'flow_rate_l/min');
     }),
-  ])
+  ]);
 };
 
-exports.down = function(knex) {
+export const down = function (knex) {
   return Promise.all([
     knex.schema.table('fertilizerLog', (table) => {
       table.renameColumn('quantity_kg', 'quantity');
@@ -75,5 +75,5 @@ exports.down = function(knex) {
     knex.schema.table('irrigationLog', (table) => {
       table.renameColumn('flow_rate_l/min', 'flow_rate');
     }),
-  ])
+  ]);
 };

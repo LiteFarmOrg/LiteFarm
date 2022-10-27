@@ -13,7 +13,8 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const Model = require('objection').Model;
+import { Model } from 'objection';
+import userModel from './userModel.js';
 
 class ShowedSpotlight extends Model {
   static get tableName() {
@@ -72,7 +73,7 @@ class ShowedSpotlight extends Model {
     // Import models here to prevent require loops.
     return {
       user: {
-        modelClass: require('./userModel'),
+        modelClass: userModel,
         relation: Model.HasOneRelation,
         join: {
           from: 'showedSpotlight.user_id',
@@ -83,4 +84,4 @@ class ShowedSpotlight extends Model {
   }
 }
 
-module.exports = ShowedSpotlight;
+export default ShowedSpotlight;

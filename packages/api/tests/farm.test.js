@@ -13,22 +13,28 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const chai = require('chai');
-const chaiHttp = require('chai-http');
+import chai from 'chai';
+
+import chaiHttp from 'chai-http';
 chai.use(chaiHttp);
-const server = require('./../src/server');
-const knex = require('../src/util/knex');
-const { tableCleanup } = require('./testEnvironment');
-let { usersFactory, farmFactory, userFarmFactory } = require('./mock.factories');
-const farmModel = require('../src/models/farmModel');
-const { mock } = require('sinon');
-const mocks = require('./mock.factories');
-let checkJwt;
+import server from './../src/server.js';
+import knex from '../src/util/knex.js';
+import { tableCleanup } from './testEnvironment.js';
+import mockFactories from './mock.factories.js';
+const { usersFactory, farmFactory, userFarmFactory } = mockFactories;
+import farmModel from '../src/models/farmModel.js';
+import mocks from './mock.factories.js';
 jest.mock('jsdom');
-jest.mock('../src/middleware/acl/checkJwt');
+jest.mock('../src/middleware/acl/checkJwt.js', () =>
+  jest.fn((req, res, next) => {
+    req.user = {};
+    req.user.user_id = req.get('user_id');
+    next();
+  }),
+);
 
 describe('Farm Tests', () => {
-  let middleware;
+  let token;
   let newUser;
   beforeAll(() => {
     // beforeAll is set before each test
@@ -36,15 +42,14 @@ describe('Farm Tests', () => {
     token = global.token;
   });
 
-
   beforeEach(async () => {
     [newUser] = await usersFactory();
-    middleware = require('../src/middleware/acl/checkJwt');
-    middleware.mockImplementation((req, res, next) => {
-      req.user = {};
-      req.user.user_id = newUser.user_id;
-      next();
-    });
+    // middleware = require('../src/middleware/acl/checkJwt');
+    // middleware.mockImplementation((req, res, next) => {
+    //   req.user = {};
+    //   req.user.user_id = newUser.user_id;
+    //   next();
+    // });
   });
 
   afterAll(async (done) => {
@@ -82,35 +87,45 @@ describe('Farm Tests', () => {
     };
 
     test('should return 400 status if blank farm is posted', (done) => {
-      postFarmRequest(blankFarm, (err, res) => {
+      postFarmRequest(blankFarm, newUser.user_id, (err, res) => {
         expect(res.status).toBe(400);
         done();
       });
     });
 
     test('should return 400 status if only farm name is filled', (done) => {
-      postFarmRequest({ ...blankFarm, farm_name: 'Test Farm' }, (err, res) => {
+      postFarmRequest({ ...blankFarm, farm_name: 'Test Farm' }, newUser.user_id, (err, res) => {
+        newUser.user_id;
         expect(res.status).toBe(400);
         done();
       });
     });
 
     test('should return 400 status if name and invalid address are filled', (done) => {
-      postFarmRequest({
+      postFarmRequest(
+        {
           ...blankFarm,
           farm_name: 'Test Farm',
           address: 'ANSOFANSOD',
           grid_points: { lat: 'sa', long: '212' },
           country: 'Canada',
         },
+        newUser.user_id,
         (err, res) => {
           expect(res.status).toBe(400);
           done();
-        });
+        },
+      );
     });
 
-    test('should successfully create a farm if valid data is provided', (done) => {
-      postFarmRequest(validFarm, (err, res) => {
+    test('should successfully create a farm if valid data is provided', async (done) => {
+      const [user] = await usersFactory();
+      const [farm] = await farmFactory();
+      await userFarmFactory(
+        { promisedUser: [user], promisedFarm: [farm] },
+        { role_id: 1, status: 'Active' },
+      );
+      postFarmRequest(validFarm, user.user_id, (err, res) => {
         expect(res.status).toBe(201);
         const farm = res.body;
         expect(farm.units.currency).toBe('USD');
@@ -119,11 +134,17 @@ describe('Farm Tests', () => {
       });
     });
 
-    test('should retrieve a recently created farm', (done) => {
-      postFarmRequest(validFarm, (err, res) => {
+    test('should retrieve a recently created farm', async (done) => {
+      const [user] = await usersFactory();
+      const [farm] = await farmFactory();
+      await userFarmFactory(
+        { promisedUser: [user], promisedFarm: [farm] },
+        { role_id: 1, status: 'Active' },
+      );
+      postFarmRequest(validFarm, user.user_id, (err, res) => {
         expect(res.status).toBe(201);
         const farmId = res.body.farm_id;
-        getFarmRequest(farmId, (err, innerRes) => {
+        getFarmRequest(farmId, user.user_id, (err, innerRes) => {
           expect(innerRes.status).toBe(200);
           const [receivedFarm] = innerRes.body;
           expect(receivedFarm.farm_id).toBe(farmId);
@@ -132,60 +153,93 @@ describe('Farm Tests', () => {
       });
     });
 
-    test('should retrieve a recently created farm with units and currency', (done) => {
-      postFarmRequest({ ...validFarm, units: { measurement: 'imperial', currency: 'MXN' } }, (err, res) => {
-        expect(res.status).toBe(201);
-        const farmId = res.body.farm_id;
-        getFarmRequest(farmId, (err, innerRes) => {
-          expect(innerRes.status).toBe(200);
-          const [receivedFarm] = innerRes.body;
-          expect(receivedFarm.farm_id).toBe(farmId);
-          done();
-        });
-      });
+    test('should retrieve a recently created farm with units and currency', async (done) => {
+      const [user] = await usersFactory();
+      const [farm] = await farmFactory();
+      await userFarmFactory(
+        { promisedUser: [user], promisedFarm: [farm] },
+        { role_id: 1, status: 'Active' },
+      );
+      postFarmRequest(
+        { ...validFarm, units: { measurement: 'imperial', currency: 'MXN' } },
+        user.user_id,
+        (err, res) => {
+          expect(res.status).toBe(201);
+          const farmId = res.body.farm_id;
+          getFarmRequest(farmId, user.user_id, (err, innerRes) => {
+            expect(innerRes.status).toBe(200);
+            const [receivedFarm] = innerRes.body;
+            expect(receivedFarm.farm_id).toBe(farmId);
+            done();
+          });
+        },
+      );
     });
-
   });
 
   describe('Updating a Farm', () => {
     test('should fail to patch an address on a created farm', async (done) => {
       const [farm] = await farmFactory();
-      await userFarmFactory({ promisedUser: [newUser], promisedFarm: [farm] }, { role_id: 1, status: 'Active' });
-      putFarmRequest({ farm_id: farm.farm_id, address: farm.address + '2222' }, newUser.user_id, (err, res) => {
-        expect(res.status).toBe(400);
-        done();
-      });
+      await userFarmFactory(
+        { promisedUser: [newUser], promisedFarm: [farm] },
+        { role_id: 1, status: 'Active' },
+      );
+      putFarmRequest(
+        { farm_id: farm.farm_id, address: farm.address + '2222' },
+        newUser.user_id,
+        (err, res) => {
+          expect(res.status).toBe(400);
+          done();
+        },
+      );
     });
 
     test('should succeed to change farm name', async (done) => {
       const [farm] = await farmFactory();
-      await userFarmFactory({ promisedUser: [newUser], promisedFarm: [farm] }, { role_id: 1, status: 'Active' });
-      putFarmRequest({ farm_id: farm.farm_id, farm_name: 'OtherTestFarm' }, newUser.user_id, async (err, res) => {
-        expect(res.status).toBe(200);
-        const [receivedFarm] = res.body;
-        expect(receivedFarm.farm_id).toBe(farm.farm_id);
-        expect(receivedFarm.farm_name).toBe('OtherTestFarm');
-        const [farmQuery] = await knex.select().from('farm').where({ farm_id: farm.farm_id });
-        expect(farmQuery.farm_name).toBe('OtherTestFarm');
-        done();
-      });
+      await userFarmFactory(
+        { promisedUser: [newUser], promisedFarm: [farm] },
+        { role_id: 1, status: 'Active' },
+      );
+      putFarmRequest(
+        { farm_id: farm.farm_id, farm_name: 'OtherTestFarm' },
+        newUser.user_id,
+        async (err, res) => {
+          expect(res.status).toBe(200);
+          const [receivedFarm] = res.body;
+          expect(receivedFarm.farm_id).toBe(farm.farm_id);
+          expect(receivedFarm.farm_name).toBe('OtherTestFarm');
+          const [farmQuery] = await knex.select().from('farm').where({ farm_id: farm.farm_id });
+          expect(farmQuery.farm_name).toBe('OtherTestFarm');
+          done();
+        },
+      );
     });
 
     test('should fail to update a farm that I dont own or manage', async (done) => {
       const [user] = await usersFactory();
       const [farm] = await farmFactory();
-      await userFarmFactory({ promisedUser: [user], promisedFarm: [farm] }, { role_id: 3, status: 'Active' });
-      putFarmRequest({ farm_id: farm.farm_id, farm_name: 'OtherTestFarm' }, user.user_id, async (err, res) => {
-        expect(res.status).toBe(403);
-        done();
-      });
+      await userFarmFactory(
+        { promisedUser: [user], promisedFarm: [farm] },
+        { role_id: 3, status: 'Active' },
+      );
+      putFarmRequest(
+        { farm_id: farm.farm_id, farm_name: 'OtherTestFarm' },
+        user.user_id,
+        async (err, res) => {
+          expect(res.status).toBe(403);
+          done();
+        },
+      );
     });
   });
 
   describe('Delete a Farm', () => {
     test('should succeed on deleting a farm that I own or manage', async (done) => {
       const [farm] = await farmFactory();
-      await userFarmFactory({ promisedUser: [newUser], promisedFarm: [farm] }, { role_id: 1, status: 'Active' });
+      await userFarmFactory(
+        { promisedUser: [newUser], promisedFarm: [farm] },
+        { role_id: 1, status: 'Active' },
+      );
       deleteRequest(farm, newUser.user_id, async (err, res) => {
         expect(res.status).toBe(200);
         const [farmQuery] = await knex.select().from('farm').where({ farm_id: farm.farm_id });
@@ -197,7 +251,10 @@ describe('Farm Tests', () => {
     test('should fail to delete a farm if I am not an owner or manager', async (done) => {
       const [user] = await usersFactory();
       const [farm] = await farmFactory();
-      await userFarmFactory({ promisedUser: [user], promisedFarm: [farm] }, { role_id: 3, status: 'Active' });
+      await userFarmFactory(
+        { promisedUser: [user], promisedFarm: [farm] },
+        { role_id: 3, status: 'Active' },
+      );
       deleteRequest(farm, user.user_id, async (err, res) => {
         expect(res.status).toBe(403);
         const farmQuery = await knex.select().from('farm').where({ farm_id: farm.farm_id });
@@ -211,7 +268,10 @@ describe('Farm Tests', () => {
     test('should fail to update a farm Im not a part of', async (done) => {
       const [farmImNotPartOf] = await userFarmFactory();
       const [farm] = await farmFactory();
-      await userFarmFactory({ promisedUser: [newUser], promisedFarm: [farm] }, { role_id: 1, status: 'Active' });
+      await userFarmFactory(
+        { promisedUser: [newUser], promisedFarm: [farm] },
+        { role_id: 1, status: 'Active' },
+      );
       minimalPutFarmRequest(farmImNotPartOf.farm_id)
         .set('farm_id', farm.farm_id)
         .set('user_id', newUser.user_id)
@@ -225,7 +285,10 @@ describe('Farm Tests', () => {
     test('should fail to delete a farm Im not a part of ', async (done) => {
       const [farmImNotPartOf] = await userFarmFactory();
       const [farm] = await farmFactory();
-      await userFarmFactory({ promisedUser: [newUser], promisedFarm: [farm] }, { role_id: 1, status: 'Active' });
+      await userFarmFactory(
+        { promisedUser: [newUser], promisedFarm: [farm] },
+        { role_id: 1, status: 'Active' },
+      );
       minimalDeleteRequest(farmImNotPartOf.farm_id)
         .set('farm_id', farm.farm_id)
         .set('user_id', newUser.user_id)
@@ -238,41 +301,60 @@ describe('Farm Tests', () => {
   describe('Patch default location test', () => {
     test('should patch default_initial_location_id', async (done) => {
       const [farm] = await farmFactory();
-      await userFarmFactory({ promisedUser: [newUser], promisedFarm: [farm] }, { role_id: 1, status: 'Active' });
+      await userFarmFactory(
+        { promisedUser: [newUser], promisedFarm: [farm] },
+        { role_id: 1, status: 'Active' },
+      );
       const [field] = await mocks.fieldFactory({ promisedFarm: [farm] });
-      patchDefaultLocationRequest(farm.farm_id, { default_initial_location_id: field.location_id }, async (err, res) => {
-        expect(res.status).toBe(200);
-        expect(res.body.default_initial_location_id).toBe(field.location_id);
-        done();
-      });
+      patchDefaultLocationRequest(
+        farm.farm_id,
+        { default_initial_location_id: field.location_id },
+        newUser.user_id,
+        async (err, res) => {
+          expect(res.status).toBe(200);
+          expect(res.body.default_initial_location_id).toBe(field.location_id);
+          done();
+        },
+      );
     });
     test('should fail to update default_initial_location_id when the location is not part of the farm', async (done) => {
       const [farm] = await farmFactory();
-      await userFarmFactory({ promisedUser: [newUser], promisedFarm: [farm] }, { role_id: 1, status: 'Active' });
+      await userFarmFactory(
+        { promisedUser: [newUser], promisedFarm: [farm] },
+        { role_id: 1, status: 'Active' },
+      );
       const [field] = await mocks.fieldFactory();
-      patchDefaultLocationRequest(farm.farm_id, { default_initial_location_id: field.location_id }, async (err, res) => {
-        expect(res.status).toBe(403);
-        done();
-      });
+      patchDefaultLocationRequest(
+        farm.farm_id,
+        { default_initial_location_id: field.location_id },
+        newUser.user_id,
+        async (err, res) => {
+          expect(res.status).toBe(403);
+          done();
+        },
+      );
     });
   });
 });
 
-
-function postFarmRequest(data, callback) {
-  chai.request(server).post('/farm')
+function postFarmRequest(data, user, callback) {
+  chai
+    .request(server)
+    .post('/farm')
     .set('Content-Type', 'application/json')
+    .set('user_id', user ?? '')
     .send(data)
     .end(callback);
 }
 
-function getFarmRequest(id, callback) {
-  chai.request(server).get(`/farm/${id}`)
-    .end(callback);
+function getFarmRequest(id, user, callback) {
+  chai.request(server).get(`/farm/${id}`).set('user_id', user).end(callback);
 }
 
 function putFarmRequest(data, user, callback) {
-  chai.request(server).put(`/farm/${data.farm_id}`)
+  chai
+    .request(server)
+    .put(`/farm/${data.farm_id}`)
     .set('farm_id', data.farm_id)
     .set('user_id', user)
     .send(data)
@@ -284,7 +366,9 @@ function minimalPutFarmRequest(farmId) {
 }
 
 function deleteRequest(data, user, callback) {
-  chai.request(server).delete(`/farm/${data.farm_id}`)
+  chai
+    .request(server)
+    .delete(`/farm/${data.farm_id}`)
     .set('farm_id', data.farm_id)
     .set('user_id', user)
     .end(callback);
@@ -294,10 +378,13 @@ function minimalDeleteRequest(farmId) {
   return chai.request(server).delete(`/farm/${farmId}`);
 }
 
-function patchDefaultLocationRequest(farm_id, data, callback) {
-  chai.request(server).patch(`/farm/${farm_id}/default_initial_location`)
+function patchDefaultLocationRequest(farm_id, data, user, callback) {
+  chai
+    .request(server)
+    .patch(`/farm/${farm_id}/default_initial_location`)
     .set('Content-Type', 'application/json')
     .set('farm_id', farm_id)
+    .set('user_id', user)
     .send(data)
     .end(callback);
 }

@@ -13,20 +13,20 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const baseController = require('../controllers/baseController');
-const expenseTypeModel = require('../models/expenseTypeModel');
-const { transaction, Model } = require('objection');
+import baseController from '../controllers/baseController.js';
+
+import ExpenseTypeModel from '../models/expenseTypeModel.js';
+import { transaction, Model } from 'objection';
 
 const farmExpenseTypeController = {
-
   addFarmExpenseType() {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
       try {
-        const user_id = req.user.user_id;
+        // const user_id = req.user.user_id;
         const data = req.body;
         data.expense_translation_key = data.expense_name;
-        const result = await baseController.postWithResponse(expenseTypeModel, data, req, { trx });
+        const result = await baseController.postWithResponse(ExpenseTypeModel, data, req, { trx });
         await trx.commit();
         res.status(201).send(result);
       } catch (error) {
@@ -43,7 +43,10 @@ const farmExpenseTypeController = {
     return async (req, res) => {
       try {
         const farm_id = req.params.farm_id;
-        const result = await expenseTypeModel.query().where('farm_id', null).orWhere('farm_id', farm_id).whereNotDeleted();
+        const result = await ExpenseTypeModel.query()
+          .where('farm_id', null)
+          .orWhere('farm_id', farm_id)
+          .whereNotDeleted();
         res.status(200).send(result);
       } catch (error) {
         res.status(400).json({
@@ -56,8 +59,9 @@ const farmExpenseTypeController = {
   getDefaultTypes() {
     return async (req, res) => {
       try {
-        const result = await expenseTypeModel.query()
-          .where('farm_id', null).whereNotDeleted()
+        const result = await ExpenseTypeModel.query()
+          .where('farm_id', null)
+          .whereNotDeleted()
           .orderBy('expense_type_id', 'asc');
         res.status(200).send(result);
       } catch (error) {
@@ -75,7 +79,12 @@ const farmExpenseTypeController = {
         res.sendStatus(403);
       }
       try {
-        const isDeleted = await baseController.delete(expenseTypeModel, req.params.expense_type_id, req, { trx });
+        const isDeleted = await baseController.delete(
+          ExpenseTypeModel,
+          req.params.expense_type_id,
+          req,
+          { trx },
+        );
         await trx.commit();
         if (isDeleted) {
           res.sendStatus(200);
@@ -90,8 +99,6 @@ const farmExpenseTypeController = {
       }
     };
   },
-
-
 };
 
-module.exports = farmExpenseTypeController;
+export default farmExpenseTypeController;

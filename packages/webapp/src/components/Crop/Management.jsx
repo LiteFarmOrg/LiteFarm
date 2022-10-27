@@ -8,6 +8,9 @@ import PropTypes from 'prop-types';
 import { CardWithStatusContainer } from '../CardWithStatus/CardWithStatusContainer/CardWithStatusContainer';
 import { ManagementPlanCard } from '../CardWithStatus/ManagementPlanCard/ManagementPlanCard';
 import Input from '../Form/Input';
+import { useSelector } from 'react-redux';
+import { cropLocationsSelector } from '../../containers/locationSlice';
+import LocationCreationModal from '../LocationCreationModal';
 
 export default function PureCropManagement({
   history,
@@ -32,6 +35,20 @@ export default function PureCropManagement({
         )
       : managementPlanCardContents;
   }, [searchString, managementPlanCardContents]);
+  const cropLocations = useSelector(cropLocationsSelector);
+  const [createCropLocation, setCreateCropLocation] = useState(false);
+
+  const dismissLocationCreationModal = () => {
+    setCreateCropLocation(false);
+  };
+
+  const handleAddPlan = () => {
+    if (cropLocations.length) {
+      onAddManagementPlan();
+    } else {
+      setCreateCropLocation(true);
+    }
+  };
 
   return (
     <Layout>
@@ -63,10 +80,17 @@ export default function PureCropManagement({
         />
       )}
       {isAdmin && (
-        <AddLink data-cy="crop-addPlan" onClick={onAddManagementPlan}>
+        <AddLink data-cy="crop-addPlan" onClick={handleAddPlan}>
           {' '}
           {t('CROP_DETAIL.ADD_PLAN')}
         </AddLink>
+      )}
+      {createCropLocation && (
+        <LocationCreationModal
+          title={t('LOCATION_CREATION.TITLE')}
+          body={t('LOCATION_CREATION.CROP_PLAN_BODY')}
+          dismissModal={dismissLocationCreationModal}
+        />
       )}
       {managementPlanCardContents && (
         <CardWithStatusContainer style={{ paddingTop: '16px' }}>

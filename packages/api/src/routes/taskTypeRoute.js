@@ -13,15 +13,36 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const express = require('express');
+import express from 'express';
+
 const router = express.Router();
-const TaskTypeController = require('../controllers/taskTypeController');
-const checkScope = require('../middleware/acl/checkScope');
-const hasFarmAccess = require('../middleware/acl/hasFarmAccess');
+import TaskTypeController from '../controllers/taskTypeController.js';
+import checkScope from '../middleware/acl/checkScope.js';
+import hasFarmAccess from '../middleware/acl/hasFarmAccess.js';
 
-router.post('/', hasFarmAccess({ body: 'farm_id' }), checkScope(['add:task_types']), TaskTypeController.addType());
-router.get('/farm/:farm_id', hasFarmAccess({ params: 'farm_id' }), checkScope(['get:task_types']), TaskTypeController.getAllTypes());
-router.get('/:task_type_id', hasFarmAccess({ params: 'task_type_id' }), checkScope(['get:task_types']), TaskTypeController.getTypeByID());
-router.delete('/:task_type_id', hasFarmAccess({ params: 'task_type_id' }), checkScope(['delete:task_types']), TaskTypeController.delType());
+router.post(
+  '/',
+  hasFarmAccess({ body: 'farm_id' }),
+  checkScope(['add:task_types']),
+  TaskTypeController.addType(),
+);
+router.get(
+  '/farm/:farm_id',
+  hasFarmAccess({ params: 'farm_id' }),
+  checkScope(['get:task_types']),
+  TaskTypeController.getAllTypes(),
+);
+router.get(
+  '/:task_type_id',
+  hasFarmAccess({ params: 'task_type_id' }),
+  checkScope(['get:task_types']),
+  TaskTypeController.getTypeByID(),
+);
+router.delete(
+  '/:task_type_id',
+  hasFarmAccess({ params: 'task_type_id' }),
+  checkScope(['delete:task_types']),
+  TaskTypeController.delType(),
+);
 
-module.exports = router;
+export default router;

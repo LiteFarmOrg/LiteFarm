@@ -1,7 +1,7 @@
-const XlsxPopulate = require('xlsx-populate');
-const { i18n, t, tCrop } = require('../locales/i18nt');
+import XlsxPopulate from 'xlsx-populate';
+import { i18n, t, tCrop } from '../locales/i18nt.js';
 
-module.exports = (data, exportId, from_date, to_date, farm_name, measurement) => {
+export default (data, exportId, from_date, to_date, farm_name, measurement) => {
   return XlsxPopulate.fromBlankAsync().then((workbook) => {
     const dataToCellMapping = {
       name: 'A',
@@ -192,7 +192,7 @@ module.exports = (data, exportId, from_date, to_date, farm_name, measurement) =>
           sheet.cell(cell).value(value);
         });
       });
-    return workbook.toFileAsync(`${process.env.EXPORT_WD}/temp/${exportId}/Record A.xlsx`);
+    return workbook.toFileAsync(`${process.env.EXPORT_WD}/temp/${exportId}/${t('RECORD_A.EXPORT_DOCUMENT_NAME')}.xlsx`);
   });
 };
 

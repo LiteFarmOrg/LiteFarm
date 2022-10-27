@@ -1,33 +1,16 @@
 .headerContainer {
-  margin: -24px -24px 0 -24px;
+  --header-height: 120px;
+  margin: -24px -24px 0;
   background-color: var(--grey200);
   width: auto;
-  height: 120px;
+  height: var(--header-height);
   overflow: hidden;
-  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
 }
 
-@media only screen and (max-width: 1000px) {
-  .headerTitle {
-    width: 75vw; 
-  }
-}
-
-@media only screen and (max-width: 850px) {
-  .headerTitle {
-    width: 65vw; 
-  }
-}
-@media only screen and (max-width: 650px) {
-  .headerTitle {
-    width: 55vw; 
-  }
-}
-
-@media only screen and (max-width: 450px) {
-  .headerTitle {
-    width: 40vw; 
-  }
+.headerInfoWrapper {
+  width: min(75%, 800px);
 }
 
 .headerTitle {
@@ -37,20 +20,25 @@
   line-height: 32px;
   display: inline-block;
   margin-bottom: 14px;
+  width: min(90%, 700px);
+}
+
+.textOverFlowBehaviour {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  max-width: 800px;
 }
 
 .headerTitleContainer {
   margin-top: 15px;
   padding-left: 25px;
+  width: 100%;
 }
 
 .headerAttributesContainer {
   margin-top: -6px;
   padding-left: 25px;
+  width: min(75vw, 800px);
 }
 
 .attributeText {
@@ -60,10 +48,10 @@
 }
 
 .imgContainer {
-  position: relative;
-  right: -50px;
-  top: -140px;
-  float: right;
+  align-self: center;
+  @media only screen and (min-width: 700px) {
+    transform: translateX(25%);
+  }
 }
 
 .labelToRadioDistance {

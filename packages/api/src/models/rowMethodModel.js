@@ -1,4 +1,4 @@
-const Model = require('objection').Model;
+import { Model } from 'objection';
 
 class RowMethodModel extends Model {
   static get tableName() {
@@ -40,4 +40,4 @@ class RowMethodModel extends Model {
   }
 }
 
-module.exports = RowMethodModel;
+export default RowMethodModel;

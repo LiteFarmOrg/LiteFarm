@@ -1,5 +1,6 @@
 {
   "ABANDON": "Abandonar",
+  "ABANDONED": "MISSING",
   "ACTIVE": "Ativo",
   "ADD": "Adicionar",
   "ALL": "Tudo",
@@ -57,5 +58,7 @@
   "UPLOADING": "MISSING",
   "WORD_LIMIT_ERROR": "Somente {{value}} caractéres podem ser exibidos",
   "YEAR": "Ano",
-  "YES": "Sim"
+  "YES": "Sim",
+  "GO_BACK": "MISSING",
+  "THATS_FINE": "MISSING"
 }

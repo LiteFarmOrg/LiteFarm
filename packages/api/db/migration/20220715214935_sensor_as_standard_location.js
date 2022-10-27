@@ -1,6 +1,6 @@
-const deleteSensorData = require('../deleteSensorData');
+import deleteSensorData from '../deleteSensorData.js';
 
-exports.up = async function (knex) {
+export const up = async function (knex) {
   await knex.schema.createTable('sensor', function (table) {
     table
       .uuid('location_id')
@@ -51,6 +51,6 @@ exports.up = async function (knex) {
   });
 };
 
-exports.down = async function (knex) {
+export const down = async function (knex) {
   deleteSensorData(knex);
 };

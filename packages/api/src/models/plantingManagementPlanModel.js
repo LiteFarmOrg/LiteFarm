@@ -13,7 +13,15 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const Model = require('objection').Model;
+import { Model } from 'objection';
+import locationModel from './locationModel.js';
+import broadcastMethodModel from './broadcastMethodModel.js';
+import containerMethodModel from './containerMethodModel.js';
+import bedMethodModel from './bedMethodModel.js';
+import rowMethodModel from './rowMethodModel.js';
+import transplantTaskModel from './transplantTaskModel.js';
+import plantTaskModel from './plantTaskModel.js';
+import managementTasksModel from './managementTasksModel.js';
 
 class plantingManagementPlanModel extends Model {
   static get tableName() {
@@ -63,14 +71,14 @@ class plantingManagementPlanModel extends Model {
     return {
       location: {
         relation: Model.HasOneRelation,
-        modelClass: require('./locationModel.js'),
+        modelClass: locationModel,
         join: {
           from: 'planting_management_plan.location_id',
           to: 'location.location_id',
         },
       },
       broadcast_method: {
-        modelClass: require('./broadcastMethodModel'),
+        modelClass: broadcastMethodModel,
         relation: Model.HasOneRelation,
         join: {
           from: 'planting_management_plan.planting_management_plan_id',
@@ -78,7 +86,7 @@ class plantingManagementPlanModel extends Model {
         },
       },
       container_method: {
-        modelClass: require('./containerMethodModel'),
+        modelClass: containerMethodModel,
         relation: Model.HasOneRelation,
         join: {
           from: 'planting_management_plan.planting_management_plan_id',
@@ -86,7 +94,7 @@ class plantingManagementPlanModel extends Model {
         },
       },
       bed_method: {
-        modelClass: require('./bedMethodModel'),
+        modelClass: bedMethodModel,
         relation: Model.HasOneRelation,
         join: {
           from: 'planting_management_plan.planting_management_plan_id',
@@ -94,7 +102,7 @@ class plantingManagementPlanModel extends Model {
         },
       },
       row_method: {
-        modelClass: require('./rowMethodModel'),
+        modelClass: rowMethodModel,
         relation: Model.HasOneRelation,
         join: {
           from: 'planting_management_plan.planting_management_plan_id',
@@ -102,7 +110,7 @@ class plantingManagementPlanModel extends Model {
         },
       },
       transplant_task: {
-        modelClass: require('./transplantTaskModel'),
+        modelClass: transplantTaskModel,
         relation: Model.HasOneRelation,
         join: {
           from: 'planting_management_plan.planting_management_plan_id',
@@ -110,7 +118,7 @@ class plantingManagementPlanModel extends Model {
         },
       },
       plant_task: {
-        modelClass: require('./plantTaskModel'),
+        modelClass: plantTaskModel,
         relation: Model.HasOneRelation,
         join: {
           from: 'planting_management_plan.planting_management_plan_id',
@@ -118,7 +126,7 @@ class plantingManagementPlanModel extends Model {
         },
       },
       managementTasks: {
-        modelClass: require('./managementTasksModel'),
+        modelClass: managementTasksModel,
         relation: Model.HasManyRelation,
         join: {
           from: 'planting_management_plan.planting_management_plan_id',
@@ -129,4 +137,4 @@ class plantingManagementPlanModel extends Model {
   }
 }
 
-module.exports = plantingManagementPlanModel;
+export default plantingManagementPlanModel;

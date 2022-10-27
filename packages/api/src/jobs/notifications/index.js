@@ -13,9 +13,11 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const axios = require('axios');
-const Queue = require('bull');
-const { sign } = require('jsonwebtoken');
+import axios from 'axios';
+
+import Queue from 'bull';
+import jwt from 'jsonwebtoken';
+const { sign } = jwt;
 const apiUrl = process.env.API_URL || 'http://localhost:5001';
 const mockTimer = !!process.env.MOCK_TIMER;
 
@@ -136,6 +138,4 @@ const sendOnSchedule = (queueConfig) => {
   });
 };
 
-module.exports = {
-  sendOnSchedule,
-};
+export default sendOnSchedule;

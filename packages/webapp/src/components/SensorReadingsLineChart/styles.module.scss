@@ -1,3 +1,6 @@
+.lineChartWrapper{
+  max-height: 650px;
+}
 .title {
   font-style: normal;
   font-weight: normal;
@@ -5,6 +8,7 @@
   font-size: 20px;
   line-height: 24px;
   font-family: 'Open Sans', 'SansSerif', serif;
+  text-transform: capitalize;
 }
 
 .subTitle{
@@ -21,7 +25,17 @@
 .legendWrapper{
   display: flex;
   margin-right: 32px;
-  justify-content: center;
+  justify-content: start;
+  flex-wrap: wrap;
+}
+
+@media (min-width: 500px) {
+  .legendWrapper{
+    display: flex;
+    margin-right: 32px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
 }
 
 .legendContainer{
@@ -44,4 +58,19 @@
   justify-content: space-between;
   align-items: baseline;
   flex-wrap: wrap;
+}
+
+.graphWrapper{
+  display: flex;
+  flex-direction: row;
+  height: 100%;
+  overflow-x: scroll;
+  overflow-y: hidden;
+}
+
+.yAxisWrapper {
+  background: white;
+  position: sticky;
+  left: 0;
+  z-index: 3;
 }

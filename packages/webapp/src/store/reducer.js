@@ -60,8 +60,10 @@ import productReducer from '../containers/productSlice';
 import homeReducer from '../containers/Home/homeSlice';
 import mapLocationReducer from '../containers/mapSlice';
 import mapFilterSettingReducer from '../containers/Map/mapFilterSettingSlice';
+import mapAddDrawerReducer from '../containers/Map/mapAddDrawerSlice';
 import mapCacheReducer from '../containers/Map/mapCacheSlice';
 import mapSensorReducer from '../containers/Map/mapSensorSlice';
+import sensorReadingTypesReducer from '../containers/sensorReadingTypesSlice';
 import showedSpotlightReducer from '../containers/showedSpotlightSlice';
 import bulkSensorsUploadReducer from '../containers/bulkSensorUploadSlice';
 import bulkSensorsReadingsReducer from '../containers/bulkSensorReadingsSlice';
@@ -198,6 +200,7 @@ const entitiesReducer = combineReducers({
   taskTypeReducer,
   harvestUseTypeReducer,
   productReducer,
+  mapAddDrawerReducer,
 });
 
 const farmStateReducer = combineReducers({
@@ -210,6 +213,7 @@ const persistedStateReducer = combineReducers({
   mapFilterSettingReducer,
   mapCacheReducer,
   mapSensorReducer,
+  sensorReadingTypesReducer,
   appSettingReducer,
 });
 

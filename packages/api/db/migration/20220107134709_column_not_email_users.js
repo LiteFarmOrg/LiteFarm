@@ -12,20 +12,18 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
- exports.up = function(knex) {
-   return Promise.all([
-     knex.schema.table('users', (table) => {
-       table.boolean('do_not_email')
-            .notNullable()
-            .defaultTo(false)
-     }),
-   ])
- };
+export const up = function (knex) {
+  return Promise.all([
+    knex.schema.table('users', (table) => {
+      table.boolean('do_not_email').notNullable().defaultTo(false);
+    }),
+  ]);
+};
 
- exports.down = function(knex) {
-   return Promise.all([
-     knex.schema.table('users', (table) => {
-       table.dropColumn('do_not_email')
-     }),
-   ])
- };
+export const down = function (knex) {
+  return Promise.all([
+    knex.schema.table('users', (table) => {
+      table.dropColumn('do_not_email');
+    }),
+  ]);
+};

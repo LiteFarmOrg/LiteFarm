@@ -23,4 +23,4 @@ const endPoints = {
   ensembleAPI: 'https://api.esci.io', // for sensor readings
 };
 
-module.exports = endPoints;
+export default endPoints;

@@ -1,5 +1,4 @@
-
-exports.up = async function(knex) {
+export const up = async function (knex) {
   await knex.schema.createTable('showedSpotlight', (t) => {
     t.string('user_id').primary().references('user_id').inTable('users');
 
@@ -30,6 +29,6 @@ exports.up = async function(knex) {
   }
 };
 
-exports.down = async function(knex) {
+export const down = async function (knex) {
   await knex.schema.dropTable('showedSpotlight');
 };

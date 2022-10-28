@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 import { ImageWithAuthentication } from '../../ImageWithAuthentication';
 import { useTranslation } from 'react-i18next';
 import { DocumentIcon } from '../../../components/Icons/DocumentIcon';
+import { DocumentWithAuthentication } from '../../DocumentWithAuthentication';
 
 export default function PureDocumentTile({
   className,
@@ -16,51 +17,60 @@ export default function PureDocumentTile({
   onClick,
   noExpiration,
   extensionName,
+  fileUrl,
   imageComponent = (props) => <ImageWithAuthentication {...props} />,
+  fileDownloadComponent = (props) => <DocumentWithAuthentication {...props} />,
 }) {
   const { t } = useTranslation();
 
   return (
-    <div className={clsx(styles.container, className)} onClick={onClick}>
-      {preview ? (
-        imageComponent({
-          className: styles.img,
-          src: preview,
-        })
-      ) : (
-        <div className={styles.documentIconContainer}>
-          <DocumentIcon extensionName={extensionName} />
-        </div>
-      )}
-      <div className={styles.info}>
-        <div>
-          <div className={styles.title} style={{ marginBottom: '4px' }}>
-            {title}
+    <div className={styles.previewWrapper}>
+      <div className={clsx(styles.container, className)} onClick={onClick}>
+        {preview ? (
+          imageComponent({
+            className: styles.img,
+            src: preview,
+          })
+        ) : (
+          <div className={styles.documentIconContainer}>
+            <DocumentIcon extensionName={extensionName} />
           </div>
-          {type && (
+        )}
+        <div className={styles.info}>
+          <div>
+            <div className={styles.title} style={{ marginBottom: '4px' }}>
+              {title}
+            </div>
+            {type && (
+              <>
+                <div
+                  className={styles.type}
+                  style={{
+                    marginTop: '4px',
+                    marginBottom: date ? '4px' : '8px',
+                  }}
+                >
+                  {t(`DOCUMENTS.TYPE.${type}`)}
+                </div>
+              </>
+            )}
+          </div>
+          {date && !noExpiration && (
             <>
-              <div
-                className={styles.type}
-                style={{
-                  marginTop: '4px',
-                  marginBottom: date ? '4px' : '8px',
-                }}
-              >
-                {t(`DOCUMENTS.TYPE.${type}`)}
+              <div className={styles.date} style={{ marginBottom: '8px' }}>
+                {<CalendarIcon className={styles.calendar} />}
+                {date}
               </div>
             </>
           )}
         </div>
-
-        {date && !noExpiration && (
-          <>
-            <div className={styles.date} style={{ marginBottom: '8px' }}>
-              {<CalendarIcon className={styles.calendar} />}
-              {date}
-            </div>
-          </>
-        )}
       </div>
+      {fileUrl &&
+        fileDownloadComponent({
+          className: styles.downloadContainer,
+          fileUrl,
+          title: `${title}.${extensionName}`,
+        })}
     </div>
   );
 }
@@ -73,4 +83,5 @@ PureDocumentTile.prototype = {
   preview: PropTypes.string,
   onClick: PropTypes.func,
   extensionName: PropTypes.string,
+  fileUrl: PropTypes.string,
 };

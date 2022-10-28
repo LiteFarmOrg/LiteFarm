@@ -1,6 +1,10 @@
 import 'cypress-react-selector';
 import { getDateInputFormat } from '../../src/util/moment';
-
+let token;
+let farm_id;
+let user_id;
+let fieldLocation_id;
+let fieldName;
 // cypress/support/commands.js
 Cypress.Commands.add('loginByGoogleApi', () => {
   cy.log(process.env.REACT_APP_GOOGLE_CLIENTID);
@@ -134,11 +138,8 @@ Cypress.Commands.add('createUserGenderOptions', () => {
   cy.get('#react-select-2-listbox');
 });
 
-Cypress.Commands.add('createTask', () => {
+Cypress.Commands.add('createACleaningTask', (taskType_id) => {
   //Create an unassigned cleaning task due tomorrow
-  cy.contains('Create').should('exist').and('not.be.disabled').click({ force: true });
-  cy.contains('Clean').should('exist').and('not.be.disabled').click({ force: true });
-
   const date = new Date();
   date.setDate(date.getDate() + 1);
   const dueDate = getDateInputFormat(date);
@@ -149,18 +150,263 @@ Cypress.Commands.add('createTask', () => {
     .should('exist')
     .and('not.be.disabled')
     .click({ force: true });
-  cy.wait(2000);
-  cy.get('[data-cy=map-selectLocation]').click(540, 201, {
+  cy.wait(20 * 1000);
+  cy.get('[data-cy=map-selectLocation]').click(530, 216, {
+    force: false,
+  });
+  cy.get('[data-cy=addTask-locationContinue]').should('exist');
+  // .and('not.be.disabled')
+  // .click({ force: true });
+  cy.visit('/add_task/task_details');
+  cy.get('[data-cy=addTask-detailsContinue]')
+    .should('exist')
+    .and('not.be.disabled')
+    .click({ force: true });
+
+  cy.get('[data-cy=addTask-assignmentSave]').should('exist');
+  // .and('not.be.disabled')
+  // .click({ force: true });
+
+  cy.request({
+    method: 'POST',
+    url: 'http://localhost:5000/task/cleaning_task',
+    headers: { Authorization: 'Bearer ' + token, user_id, farm_id },
+    body: {
+      task_type_id: taskType_id,
+      due_date: date,
+      locations: [
+        {
+          location_id: fieldLocation_id,
+        },
+      ],
+      cleaning_task: {
+        agent_used: false,
+        water_usage_unit: 'l',
+      },
+      assignee_user_id: null,
+      override_hourly_wage: false,
+      wage_at_moment: null,
+    },
+  }).then((response) => {
+    expect(response.status).to.equal(201); // true
+  });
+});
+
+Cypress.Commands.add('createAFieldWorkTask', () => {
+  const date = new Date();
+  date.setDate(date.getDate() + 1);
+  const dueDate = getDateInputFormat(date);
+
+  cy.get('[data-cy=addTask-taskDate]').should('exist').type(dueDate);
+
+  cy.get('[data-cy=addTask-continue]')
+    .should('exist')
+    .and('not.be.disabled')
+    .click({ force: true });
+  cy.wait(20 * 1000);
+  cy.get('[data-cy=map-selectLocation]').click(530, 216, {
     force: false,
   });
   cy.get('[data-cy=addTask-locationContinue]')
     .should('exist')
     .and('not.be.disabled')
     .click({ force: true });
-  cy.get('[data-cy=addTask-cropsContinue]')
+  cy.contains('Select') // find react-select component
+    .click({ force: true }); // click to open dropdown
+  cy.get('.css-1plh46m-MenuList2') // find all options
+    .eq(0)
+    .click(); // click on first option
+
+  cy.get('[data-cy=addTask-detailsContinue]')
     .should('exist')
     .and('not.be.disabled')
     .click({ force: true });
+  cy.get('[data-cy=addTask-assignmentSave]')
+    .should('exist')
+    .and('not.be.disabled')
+    .click({ force: true });
+});
+
+Cypress.Commands.add(
+  'createAHarvestTask',
+  (
+    daysGermination,
+    daysTransplant,
+    daysHarvest,
+    containers,
+    plantsPerContainer,
+    rows,
+    length,
+    lengthUnit,
+    spacing,
+    spacingUnit,
+    harvest,
+    harvestUnit,
+  ) => {
+    const date = new Date();
+    date.setDate(date.getDate() + 1);
+    const dueDate = getDateInputFormat(date);
+
+    cy.get('[data-cy="crop-tile"]').eq(0).click();
+    cy.get('[data-cy="crop-name"]').contains('New Variety').click();
+
+    //Add a management plan for the new variety
+    cy.get('[data-cy=crop-addPlan]')
+      .contains('Add a plan')
+      .should('exist')
+      .and('not.be.disabled')
+      .click();
+    cy.url().should('include', '/add_management_plan');
+    cy.get('[data-cy=cropPlan-groundPlanted]').should('exist').first().check({ force: true });
+    cy.get('[data-cy=cropPlan-submit]').should('exist').and('not.be.disabled').click();
+
+    cy.url().should('include', '/add_management_plan/needs_transplant');
+    cy.get('[type = "radio"]').eq(0).check({ force: true });
+    cy.get('[type = "radio"]').eq(3).check({ force: true });
+    cy.get('[data-cy=cropPlan-transplantSubmit]').should('exist').and('not.be.disabled').click();
+    cy.url().should('include', '/add_management_plan/plant_date');
+    cy.get('[data-cy="cropPlan-plantDate"]').should('exist').type(dueDate);
+    cy.get('[data-cy="cropPlan-seedGermination"]').type(daysGermination);
+    cy.get('[data-cy="cropPlan-plantTransplant"]').type(daysTransplant);
+    cy.get('[data-cy="cropPlan-plantHarvest"]').type(daysHarvest);
+
+    cy.get('[data-cy="plantDate-submit"]')
+      .should('exist')
+      .and('not.be.disabled')
+      .click({ force: true });
+    cy.get('[data-cy="spotlight-next"]').click({ force: true });
+    cy.wait(7000);
+    cy.get('[data-cy=map-selectLocation]').click(530, 216, {
+      force: false,
+    });
+    cy.get('[data-cy="cropPlan-locationSubmit"]')
+      .should('exist')
+      .and('not.be.disabled')
+      .click({ force: true });
+    cy.get('[type = "radio"]').eq(0).check({ force: true });
+    cy.get('[data-cy=cropPlan-numberContainers]').type(containers);
+    cy.get('[data-cy=cropPlan-numberPlants]').type(plantsPerContainer);
+    cy.get('[data-cy=cropPlan-containerSubmit]').click();
+    cy.wait(7000);
+    cy.get('[data-cy=map-selectLocation]').click(530, 216, {
+      force: false,
+    });
+    cy.get('[data-cy="cropPlan-locationSubmit"]')
+      .should('exist')
+      .and('not.be.disabled')
+      .click({ force: true });
+    cy.get('[data-cy=cropPlan-plantingMethod]').eq(0).should('exist').check({ force: true });
+
+    cy.get('[data-cy=plantingMethod-submit]').should('exist').and('not.be.disabled').click();
+    cy.url().should('include', '/add_management_plan/row_method');
+
+    cy.get('[data-cy=rowMethod-equalLength]').eq(0).should('exist').check({ force: true });
+
+    cy.get('[data-cy=rowMethod-rows]').should('exist').should('have.value', '').type(rows);
+    cy.get('[data-cy=rowMethod-length]').should('exist').should('have.value', '').type(length);
+    cy.get('.css-15ndcg3-SingleValue2')
+      .eq(0)
+      .then((val) => {
+        const unit = val.text();
+
+        expect(unit).to.equal(lengthUnit);
+      });
+    cy.get('[data-cy=rowMethod-spacing]').should('exist').should('have.value', '').type(spacing);
+    cy.get('.css-15ndcg3-SingleValue2')
+      .eq(1)
+      .then((val) => {
+        const unit = val.text();
+
+        expect(unit).to.equal(spacingUnit);
+      });
+    cy.contains('row').click();
+    cy.get('[data-cy=rowMethod-yield]').should('exist').should('have.value', '').type(harvest);
+    cy.get('.css-15ndcg3-SingleValue2')
+      .eq(2)
+      .then((val) => {
+        const unit = val.text();
+
+        expect(unit).to.equal(harvestUnit);
+      });
+    cy.contains('row').click();
+
+    cy.get('[data-cy=rowMethod-submit]').should('exist').and('not.be.disabled').click();
+    cy.url().should('include', '/add_management_plan/row_guidance');
+    cy.get('[data-cy=planGuidance-submit]').should('exist').and('not.be.disabled').click();
+    cy.get('[data-cy=cropPlan-save]').should('exist').and('not.be.disabled').click();
+    cy.get('[data-cy=spotlight-next]')
+      .contains('Got it')
+      .should('exist')
+      .and('not.be.disabled')
+      .click();
+  },
+);
+
+Cypress.Commands.add('createAPestControlTask', () => {
+  const date = new Date();
+  date.setDate(date.getDate() + 1);
+  const dueDate = getDateInputFormat(date);
+
+  cy.get('[data-cy=addTask-taskDate]').should('exist').type(dueDate);
+
+  cy.get('[data-cy=addTask-continue]')
+    .should('exist')
+    .and('not.be.disabled')
+    .click({ force: true });
+  cy.wait(7000);
+  cy.get('[data-cy=map-selectLocation]').click(530, 216, {
+    force: false,
+  });
+  cy.get('[data-cy=addTask-locationContinue]')
+    .should('exist')
+    .and('not.be.disabled')
+    .click({ force: true });
+  cy.get('[data-cy="addTask-cropsContinue"]').click();
+  cy.selectDropdown() // find all options
+    .eq(0)
+    .click(); // click on first option
+
+  cy.get('.css-9p5joy-MenuList2').eq(0).click();
+  cy.get('[data-cy=addTask-detailsContinue]')
+    .should('exist')
+    .and('not.be.disabled')
+    .click({ force: true });
+  cy.get('[data-cy=addTask-assignmentSave]')
+    .should('exist')
+    .and('not.be.disabled')
+    .click({ force: true });
+});
+
+Cypress.Commands.add('createASoilAmendmentTask', () => {
+  const date = new Date();
+  date.setDate(date.getDate() + 1);
+  const dueDate = getDateInputFormat(date);
+
+  cy.get('[data-cy=addTask-taskDate]').should('exist').type(dueDate);
+
+  cy.get('[data-cy=addTask-continue]')
+    .should('exist')
+    .and('not.be.disabled')
+    .click({ force: true });
+  cy.wait(7000);
+  cy.get('[data-cy=map-selectLocation]').click(530, 216, {
+    force: false,
+  });
+  cy.get('[data-cy=addTask-locationContinue]')
+    .should('exist')
+    .and('not.be.disabled')
+    .click({ force: true });
+  cy.get('[data-cy="addTask-cropsContinue"]').click();
+  cy.selectDropdown().eq(0).click();
+  cy.contains('pH').click();
+  cy.selectDropdown().eq(1).click();
+  cy.get('.css-s115vr-Control2 > .css-b4qs0x-ValueContainer2 > .css-ujecln-Input2').type(
+    'Lime{enter}',
+  );
+  cy.get('._input_ugk5b_1').type('New Supplier');
+  cy.get('[type = "radio"]').eq(1).check({ force: true });
+  cy.get('._input_12pgn_1').type('30');
+  cy.contains('Notes').click();
   cy.get('[data-cy=addTask-detailsContinue]')
     .should('exist')
     .and('not.be.disabled')
@@ -186,7 +432,7 @@ Cypress.Commands.add('createTaskToday', () => {
     .and('not.be.disabled')
     .click({ force: true });
   cy.wait(2000);
-  cy.get('[data-cy=map-selectLocation]').click(540, 201, {
+  cy.get('[data-cy=map-selectLocation]').click(530, 216, {
     force: false,
   });
   cy.get('[data-cy=addTask-locationContinue]')
@@ -224,7 +470,7 @@ Cypress.Commands.add('createUnassignedTaskThisWeek', () => {
     .and('not.be.disabled')
     .click({ force: true });
   cy.wait(2000);
-  cy.get('[data-cy=map-selectLocation]').click(540, 201, {
+  cy.get('[data-cy=map-selectLocation]').click(530, 216, {
     force: false,
   });
   cy.get('[data-cy=addTask-locationContinue]')
@@ -263,20 +509,22 @@ Cypress.Commands.add('getEmail', () => {
 Cypress.Commands.add('newUserLogin', (email) => {
   //Login page
   cy.get('[data-cy=email]').type(email);
+  cy.intercept('GET', '**/login/user/' + email, (req) => {
+    delete req.headers['if-none-match'];
+  }).as('emailLogin');
   cy.contains('Continue').should('exist').and('be.enabled').click();
 });
 
 Cypress.Commands.add('createAccount', (email, fullName, gender, language, birthYear, password) => {
-  cy.contains('Create new user account').should('exist');
+  cy.contains('Create new user account', { timeout: 60 * 1000 }).should('exist');
   //cy.get('[data-cy=createUser-email]').should('eq', email);
   cy.get('[data-cy=createUser-fullName]').type(fullName);
   cy.get('[data-cy=createUser-password]').type(password);
   //cy.createUserGender().click();
   //cy.createUserGenderOptions().eq(1).contains(gender).click();
-  cy.contains('Create Account').should('exist').and('be.enabled').click();
+
   cy.intercept('POST', '**/user').as('createUser');
-  //cy.wait('@createUser');
-  cy.wait(7000);
+  cy.contains('Create Account').should('exist').and('be.enabled').click();
 });
 
 Cypress.Commands.add('userCreationEmail', () => {
@@ -295,13 +543,68 @@ Cypress.Commands.add('userCreationEmail', () => {
 
 Cypress.Commands.add('addFarm', (farmName, location) => {
   cy.url().should('include', '/add_farm');
-  cy.get('[data-cy=addFarm-continue]').should('exist').should('be.disabled');
+  // cy.get('[data-cy=addFarm-continue]').should('exist').should('be.disabled');
+  // cy.intercept({
+  //   method: 'GET',
+  //   url: 'https://maps.googleapis.com/maps/api/mapsjs/gen_204?csp_test=true',
+  // }).as('loadMap');
+  // // Enter new farm details and click continue which should be enabled
+  // cy.waitForGoogleApi().then(() => {
+  //   cy.wait(3000);
 
-  // Enter new farm details and click continue which should be enabled
-  cy.waitForGoogleApi().then(() => {
-    cy.get('[data-cy=addFarm-farmName]').should('exist').type(farmName);
-    cy.get('[data-cy=addFarm-location]').should('exist').type(location).wait(1000);
-    cy.get('[data-cy=addFarm-continue]').should('not.be.disabled').click();
+  //   cy.wait('@loadMap', { timeout: 15000 }).then(() => {
+  //     //cy.get('svg').eq(0).click();
+  //     cy.get('[data-cy=addFarm-location]').should('exist').type(location).wait(1000);
+  //     //cy.get('.pac-item').should('exist').click({ force: true });
+  //     cy.get('[data-cy=addFarm-farmName]').should('exist').type(farmName);
+  //   });
+
+  //   cy.get('[data-cy=addFarm-continue]').should('not.be.disabled').click();
+  //   cy.getReact('PureAddFarm').getProps('map').getProps('gridPoints');
+  //   cy.wait(5 * 1000);
+  // });
+  token = localStorage.getItem('id_token');
+  cy.request({
+    method: 'POST',
+    url: 'http://localhost:5000/farm', // baseUrl is prepend to URL
+    headers: { Authorization: 'Bearer ' + token },
+    body: {
+      farm_name: farmName,
+      address: 'University Blvd, Vancouver, BC V6T, Canada',
+      grid_points: { lat: 49.2657793, lng: -123.2359185 },
+      country: 'Canada',
+    },
+  }).then((response) => {
+    // response.body is automatically serialized into JSON
+    expect(response.body).to.have.property('farm_name', farmName); // true
+    farm_id = response.body.farm_id;
+    user_id = response.body.user_id;
+    const now = new Date();
+    cy.request({
+      method: 'PATCH',
+      url: 'http://localhost:5000/user_farm/onboarding/farm/' + farm_id + '/user/' + user_id,
+      headers: { Authorization: 'Bearer ' + token },
+      body: {
+        step_one: true,
+        step_one_end: now,
+      },
+    }).then((response) => {
+      expect(response.status).to.equal(200); // true
+    });
+
+    // cy.request({
+    //   method: 'GET',
+    //   url: 'http://localhost:5000/farm_token/farm/' + farm_id, // baseUrl is prepend to URL
+    //   headers: { Authorization: 'Bearer ' + token, user_id, farm_id },
+    // }).then((response) => {
+    //   const farm_token = response.body;
+    //   expect(response.status).to.equal(200); // true
+    //   cy.log(farm_token);
+    //   localStorage.setItem('farm_token', farm_token);
+    // });
+
+    cy.clearLocalStorage();
+    cy.visit('/');
   });
 });
 
@@ -321,6 +624,7 @@ Cypress.Commands.add('roleSelection', (role) => {
 Cypress.Commands.add('giveConsent', () => {
   //cy.contains('Our Data Policy').should('exist');
   cy.url().should('include', '/consent');
+  cy.get('[data-cy=consentPage-content]', { timeout: 60 * 1000 }).should('exist');
   cy.get('[data-cy=consent-continue]').should('exist').and('be.disabled');
   cy.get('[data-cy=consent-agree]').should('exist').check({ force: true });
   cy.get('[data-cy=consent-continue]').should('not.be.disabled').click();
@@ -406,11 +710,48 @@ Cypress.Commands.add('homePageSpotlights', () => {
     .and('not.be.disabled')
     .click();
   cy.get('[data-cy=home-farmButton]').should('exist').and('not.be.disabled').click();
-  cy.get('[data-cy=navbar-option]')
-    .contains('Farm map')
-    .should('exist')
-    .and('not.be.disabled')
-    .click();
+});
+
+Cypress.Commands.add('addField', () => {
+  cy.request({
+    method: 'POST',
+    url: 'http://localhost:5000/location/field',
+    headers: { Authorization: 'Bearer ' + token, user_id, farm_id },
+    body: {
+      figure: {
+        type: 'field',
+        area: {
+          total_area: 16931,
+          total_area_unit: 'ha',
+          grid_points: [
+            {
+              lat: 49.26395897685993,
+              lng: -123.23342941003418,
+            },
+            { lat: 49.26460309887879, lng: -123.23291442590332 },
+            { lat: 49.263650915530825, lng: -123.23029658990478 },
+            { lat: 49.26311880506887, lng: -123.23141238885498 },
+          ],
+          perimeter: 573,
+          perimeter_unit: 'm',
+        },
+      },
+      field: {
+        organic_status: 'Non-Organic',
+        organic_history: {
+          effective_date: '2022-10-20',
+          organic_status: 'Non-Organic',
+        },
+      },
+      farm_id: farm_id,
+      name: 'Test Field',
+      notes: '',
+    },
+  }).then((response) => {
+    expect(response.status).to.equal(200); // true
+    fieldLocation_id = response.body.location_id;
+    fieldName = response.body.name;
+  });
 });
 
 Cypress.Commands.add('goToPeopleView', (lang) => {
@@ -515,8 +856,8 @@ Cypress.Commands.add('logOut', () => {
 });
 
 Cypress.Commands.add('acceptInviteEmail', (lang) => {
-  cy.task('getLastEmail')
-    .its('html')
+  cy.task('getLastEmail', { timeout: 60 * 1000 })
+    .its('html', { timeout: 60 * 1000 })
     .then((html) => {
       cy.document({ log: false }).invoke({ log: false }, 'write', html);
     });

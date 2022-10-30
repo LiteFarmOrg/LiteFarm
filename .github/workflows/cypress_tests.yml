@@ -59,8 +59,6 @@ jobs:
 
       - name: Run and test app
         env:   
-          VITE_GOOGLE_MAPS_API_KEY: AIzaSyC8UBxTVXeVnFGcZnvhTBY19rpkg6kEL3I
-          VITE_WEATHER_API_KEY: ${{secrets.VITE_WEATHER_API_KEY}}
           VITE_ENV: development
           VITE_GOOGLE_OAUTH_CLIENT_ID: ${{secrets.VITE_GOOGLE_OAUTH_CLIENT_ID}}
           VITE_DO_BUCKET_NAME: litefarm

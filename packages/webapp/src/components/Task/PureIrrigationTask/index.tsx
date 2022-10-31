@@ -10,6 +10,7 @@ import Checkbox from '../../Form/Checkbox';
 import RadioGroup from '../../Form/RadioGroup';
 import styles from '../../Crop/styles.module.scss';
 import Input, { integerOnKeyDown } from '../../Form/Input';
+import InputAutoSize from '../../Form/InputAutoSize';
 
 export interface IPureIrrigationTask {
   onContinue: () => void;
@@ -17,8 +18,12 @@ export interface IPureIrrigationTask {
 }
 
 const PureIrrigationTask: FC<IPureIrrigationTask> = ({ onContinue, onGoBack, ...props }) => {
-  const [checked, setChecked] = useState<boolean>();
-  const onCheckBoxClick = () => setChecked(!checked);
+  const [checkDefaultLocation, setCheckDefaultLocation] = useState<boolean>();
+  const [checkDefaultMeasurement, setCheckDefaultMeasurement] = useState<boolean>();
+  const [irrigationType, setIrrigationType] = useState<string>('');
+  const [defaultMeasurementType, setDefaultMeasurementType] = useState<string>('');
+  const onCheckDefaultLocation = () => setCheckDefaultLocation(!checkDefaultLocation);
+  const onCheckDefaultMeasurementType = () => setCheckDefaultMeasurement(!checkDefaultMeasurement);
   // @ts-ignore
   const { persistedFormData, useHookFormPersist } = props;
 
@@ -35,19 +40,52 @@ const PureIrrigationTask: FC<IPureIrrigationTask> = ({ onContinue, onGoBack, ...
     shouldUnregister: false,
     defaultValues: { ...persistedFormData },
   });
+  const NOTES = 'notes';
+  register(NOTES, { required: false });
   const disabled = !isValid;
   const { historyCancel } = useHookFormPersist(getValues);
   const LIFECYCLE = 'lifecycle';
   const IrrigationTypeOptions = [
-    { label: t('ADD_TASK.IRRIGATION_VIEW.TYPE.HAND_WATERING'), value: 'HAND_WATERING' },
-    { label: t('ADD_TASK.IRRIGATION_VIEW.TYPE.CHANNEL'), value: 'CHANNEL' },
-    { label: t('ADD_TASK.IRRIGATION_VIEW.TYPE.DRIP'), value: 'DRIP' },
-    { label: t('ADD_TASK.IRRIGATION_VIEW.TYPE.FLOOD'), value: 'FLOOD' },
-    { label: t('ADD_TASK.IRRIGATION_VIEW.TYPE.PIVOT'), value: 'PIVOT' },
-    { label: t('ADD_TASK.IRRIGATION_VIEW.TYPE.SPRINKLER'), value: 'SPRINKLER' },
-    { label: t('ADD_TASK.IRRIGATION_VIEW.TYPE.SUB_SURFACE'), value: 'SUB_SURFACE' },
-    { label: t('ADD_TASK.IRRIGATION_VIEW.TYPE.OTHER'), value: 'OTHER' },
+    {
+      label: t('ADD_TASK.IRRIGATION_VIEW.TYPE.HAND_WATERING'),
+      value: 'HAND_WATERING',
+      default_measuring_type: 'VOLUME',
+    },
+    {
+      label: t('ADD_TASK.IRRIGATION_VIEW.TYPE.CHANNEL'),
+      value: 'CHANNEL',
+      default_measuring_type: 'VOLUME',
+    },
+    {
+      label: t('ADD_TASK.IRRIGATION_VIEW.TYPE.DRIP'),
+      value: 'DRIP',
+      default_measuring_type: 'VOLUME',
+    },
+    {
+      label: t('ADD_TASK.IRRIGATION_VIEW.TYPE.FLOOD'),
+      value: 'FLOOD',
+      default_measuring_type: 'VOLUME',
+    },
+    {
+      label: t('ADD_TASK.IRRIGATION_VIEW.TYPE.PIVOT'),
+      value: 'PIVOT',
+      default_measuring_type: 'DEPTH',
+    },
+    {
+      label: t('ADD_TASK.IRRIGATION_VIEW.TYPE.SPRINKLER'),
+      value: 'SPRINKLER',
+      default_measuring_type: 'DEPTH',
+    },
+    {
+      label: t('ADD_TASK.IRRIGATION_VIEW.TYPE.SUB_SURFACE'),
+      value: 'SUB_SURFACE',
+      default_measuring_type: 'VOLUME',
+    },
+    { label: t('ADD_TASK.IRRIGATION_VIEW.TYPE.OTHER'), value: 'OTHER', default_measuring_type: '' },
   ];
+
+  const isDepthDefaultMeasurementType = () => defaultMeasurementType === 'DEPTH';
+  const isVolumeDefaultMeasurementType = () => defaultMeasurementType === 'VOLUME';
 
   return (
     <Form
@@ -61,10 +99,15 @@ const PureIrrigationTask: FC<IPureIrrigationTask> = ({ onContinue, onGoBack, ...
         style={{ marginBottom: '24px' }}
         onGoBack={onGoBack}
         onCancel={historyCancel}
+        value={71}
         title={t('ADD_TASK.ADD_A_TASK')}
         cancelModalTitle={t('ADD_TASK.CANCEL')}
       />
-      <Main style={{ marginBottom: '16px' }}>
+      <></>
+      <Main
+        style={{ marginBottom: '16px' }}
+        tooltipContent={t('ADD_TASK.IRRIGATION_VIEW.BRAND_TOOLTIP') as string}
+      >
         {t('ADD_TASK.IRRIGATION_VIEW.TELL_US_ABOUT_YOUR_IRRIGATION_TASK')}
       </Main>
 
@@ -79,6 +122,8 @@ const PureIrrigationTask: FC<IPureIrrigationTask> = ({ onContinue, onGoBack, ...
             style={{ marginBottom: '10px' }}
             onChange={(e) => {
               onChange(e);
+              setIrrigationType(e.value);
+              setDefaultMeasurementType(e.default_measuring_type);
             }}
             value={
               !value
@@ -90,13 +135,19 @@ const PureIrrigationTask: FC<IPureIrrigationTask> = ({ onContinue, onGoBack, ...
           />
         )}
       />
-
+      {irrigationType === 'OTHER' && (
+        <Input
+          style={{ marginTop: '15px' }}
+          label={t('ADD_TASK.IRRIGATION_VIEW.WHAT_TYPE_OF_IRRIGATION')}
+          hookFormRegister={register('IrrigationType')}
+        />
+      )}
       <Checkbox
         label={t('ADD_TASK.IRRIGATION_VIEW.SET_AS_DEFAULT_TYPE_FOR_THIS_LOCATION')}
-        onClick={onCheckBoxClick}
-        checked={checked}
+        onClick={onCheckDefaultLocation}
+        checked={checkDefaultLocation}
         sm
-        style={{ marginTop: '2px', marginBottom: '20px' }}
+        style={{ marginTop: '10px', marginBottom: '25px' }}
       />
       <Label className={styles.label} style={{ marginBottom: '12px', marginTop: '10px' }}>
         {t('ADD_TASK.IRRIGATION_VIEW.HOW_DO_YOU_MEASURE_WATER_USE_FOR_THIS_IRRIGATION_TYPE')}
@@ -105,19 +156,25 @@ const PureIrrigationTask: FC<IPureIrrigationTask> = ({ onContinue, onGoBack, ...
       <RadioGroup
         hookFormControl={control}
         name={LIFECYCLE}
-        // style={{ paddingBottom: '5px' }}
         radios={[
-          { value: 'VOLUME', label: t('ADD_TASK.IRRIGATION_VIEW.VOLUME') },
+          {
+            value: 'VOLUME',
+            label: t('ADD_TASK.IRRIGATION_VIEW.VOLUME'),
+            checked: { isVolumeDefaultMeasurementType },
+          },
           {
             value: 'DEPTH',
             label: t('ADD_TASK.IRRIGATION_VIEW.DEPTH'),
+            checked: { isDepthDefaultMeasurementType },
           },
         ]}
+        required
       />
+
       <Checkbox
         label={t('ADD_TASK.IRRIGATION_VIEW.SET_AS_DEFAULT_MEASUREMENT_FOR_THIS_IRRIGATION_TYPE')}
-        onClick={onCheckBoxClick}
-        checked={checked}
+        onClick={onCheckDefaultMeasurementType}
+        checked={checkDefaultMeasurement}
         sm
         style={{ marginTop: '2px', marginBottom: '20px' }}
       />
@@ -132,7 +189,18 @@ const PureIrrigationTask: FC<IPureIrrigationTask> = ({ onContinue, onGoBack, ...
         optional
       />
       {/*<Underlined onClick={forgotPassword}>Calculate Water Usage</Underlined>*/}
-      <Underlined>Calculate Water Usage</Underlined>
+      <Underlined>{t('ADD_TASK.IRRIGATION_VIEW.CALCULATE_WATER_USAGE')}</Underlined>
+
+      <InputAutoSize
+        style={{ paddingTop: '20px' }}
+        label={t('LOG_COMMON.NOTES')}
+        optional={true}
+        hookFormRegister={register(NOTES, {
+          maxLength: { value: 10000, message: t('ADD_TASK.TASK_NOTES_CHAR_LIMIT') },
+        })}
+        name={NOTES}
+        errors={errors[NOTES]?.message}
+      />
     </Form>
   );
 };

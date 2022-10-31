@@ -113,7 +113,9 @@
     "WILD_CROP": "Wild crops",
     "IRRIGATION_VIEW": {
       "TELL_US_ABOUT_YOUR_IRRIGATION_TASK": "Tell us about your Irrigation Task",
+      "BRAND_TOOLTIP": "This task is for watering your location. If you want to install irrigation, create a field work task instead.",
       "TYPE_OF_IRRIGATION": "Type of Irrigation",
+      "WHAT_TYPE_OF_IRRIGATION": "What type of irrigation?",
       "TYPE": {
         "HAND_WATERING": "Hand Watering",
         "CHANNEL": "Channel",
@@ -129,7 +131,8 @@
       "VOLUME": "Volume",
       "DEPTH": "Depth",
       "SET_AS_DEFAULT_MEASUREMENT_FOR_THIS_IRRIGATION_TYPE": "Set as default measurement for this irrigation type",
-      "ESTIMATED_WATER_USAGE": "Estimated water usage"
+      "ESTIMATED_WATER_USAGE": "Estimated water usage",
+      "CALCULATE_WATER_USAGE": "Calculate Water Usage"
     }
   },
   "BED_PLAN": {

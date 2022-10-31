@@ -154,42 +154,44 @@ Cypress.Commands.add('createACleaningTask', (taskType_id) => {
   cy.get('[data-cy=map-selectLocation]').click(530, 216, {
     force: false,
   });
-  cy.get('[data-cy=addTask-locationContinue]').should('exist');
-  // .and('not.be.disabled')
-  // .click({ force: true });
-  cy.visit('/add_task/task_details');
+  cy.get('[data-cy=addTask-locationContinue]')
+    .should('exist')
+    .and('not.be.disabled')
+    .click({ force: true });
+  //cy.visit('/add_task/task_details');
   cy.get('[data-cy=addTask-detailsContinue]')
     .should('exist')
     .and('not.be.disabled')
     .click({ force: true });
 
-  cy.get('[data-cy=addTask-assignmentSave]').should('exist');
-  // .and('not.be.disabled')
-  // .click({ force: true });
+  cy.get('[data-cy=addTask-assignmentSave]')
+    .should('exist')
+    .and('not.be.disabled')
+    .click({ force: true });
 
-  cy.request({
-    method: 'POST',
-    url: 'http://localhost:5000/task/cleaning_task',
-    headers: { Authorization: 'Bearer ' + token, user_id, farm_id },
-    body: {
-      task_type_id: taskType_id,
-      due_date: date,
-      locations: [
-        {
-          location_id: fieldLocation_id,
-        },
-      ],
-      cleaning_task: {
-        agent_used: false,
-        water_usage_unit: 'l',
-      },
-      assignee_user_id: null,
-      override_hourly_wage: false,
-      wage_at_moment: null,
-    },
-  }).then((response) => {
-    expect(response.status).to.equal(201); // true
-  });
+  //   cy.request({
+  //     method: 'POST',
+  //     url: 'http://localhost:5000/task/cleaning_task',
+  //     headers: { Authorization: 'Bearer ' + token, user_id, farm_id },
+  //     body: {
+  //       task_type_id: taskType_id,
+  //       due_date: date,
+  //       locations: [
+  //         {
+  //           location_id: fieldLocation_id,
+  //         },
+  //       ],
+  //       cleaning_task: {
+  //         agent_used: false,
+  //         water_usage_unit: 'l',
+  //       },
+  //       assignee_user_id: null,
+  //       override_hourly_wage: false,
+  //       wage_at_moment: null,
+  //     },
+  //   }).then((response) => {
+  //     expect(response.status).to.equal(201); // true
+  //   });
 });
 
 Cypress.Commands.add('createAFieldWorkTask', () => {
@@ -543,12 +545,15 @@ Cypress.Commands.add('userCreationEmail', () => {
 
 Cypress.Commands.add('addFarm', (farmName, location) => {
   cy.url().should('include', '/add_farm');
-  // cy.get('[data-cy=addFarm-continue]').should('exist').should('be.disabled');
-  // cy.intercept({
-  //   method: 'GET',
-  //   url: 'https://maps.googleapis.com/maps/api/mapsjs/gen_204?csp_test=true',
-  // }).as('loadMap');
-  // // Enter new farm details and click continue which should be enabled
+  cy.get('[data-cy=addFarm-continue]').should('exist').should('be.disabled');
+  cy.intercept({
+    method: 'GET',
+    url: 'https://maps.googleapis.com/maps/api/mapsjs/gen_204?csp_test=true',
+  }).as('loadMap');
+
+  cy.intercept('GET', '**/user/**').as('getUser');
+  cy.intercept('POST', '/farm').as('addFarm');
+  // Enter new farm details and click continue which should be enabled
   // cy.waitForGoogleApi().then(() => {
   //   cy.wait(3000);
 
@@ -560,7 +565,9 @@ Cypress.Commands.add('addFarm', (farmName, location) => {
   //   });
 
   //   cy.get('[data-cy=addFarm-continue]').should('not.be.disabled').click();
-  //   cy.getReact('PureAddFarm').getProps('map').getProps('gridPoints');
+  //   //cy.getReact('PureAddFarm').getProps('map').getProps('gridPoints');
+  //   //cy.wait('@getUser');
+  //   //cy.wait('@addFarm');
   //   cy.wait(5 * 1000);
   // });
   token = localStorage.getItem('id_token');
@@ -592,17 +599,16 @@ Cypress.Commands.add('addFarm', (farmName, location) => {
       expect(response.status).to.equal(200); // true
     });
 
-    // cy.request({
-    //   method: 'GET',
-    //   url: 'http://localhost:5000/farm_token/farm/' + farm_id, // baseUrl is prepend to URL
-    //   headers: { Authorization: 'Bearer ' + token, user_id, farm_id },
-    // }).then((response) => {
-    //   const farm_token = response.body;
-    //   expect(response.status).to.equal(200); // true
-    //   cy.log(farm_token);
-    //   localStorage.setItem('farm_token', farm_token);
-    // });
-
+    cy.request({
+      method: 'GET',
+      url: 'http://localhost:5000/farm_token/farm/' + farm_id, // baseUrl is prepend to URL
+      headers: { Authorization: 'Bearer ' + token, user_id, farm_id },
+    }).then((response) => {
+      const farm_token = response.body;
+      expect(response.status).to.equal(200); // true
+      cy.log(farm_token);
+      localStorage.setItem('farm_token', farm_token);
+    });
     cy.clearLocalStorage();
     cy.visit('/');
   });
@@ -618,12 +624,16 @@ Cypress.Commands.add('roleSelection', (role) => {
   cy.url().should('include', '/role_selection');
   cy.get('[data-cy=roleSelection-continue]').should('exist').and('be.disabled');
   cy.get('[data-cy=roleSelection-role]').should('exist').check(role, { force: true });
+  cy.intercept('PATCH', '**/role/farm/**').as('roleSelection');
+  cy.intercept('PATCH', '**/onboarding/farm/**').as('farmOnboarding');
   cy.get('[data-cy=roleSelection-continue]').should('not.be.disabled').click();
+  cy.wait('@roleSelection');
+  cy.wait('@farmOnboarding');
 });
 
 Cypress.Commands.add('giveConsent', () => {
   //cy.contains('Our Data Policy').should('exist');
-  cy.url().should('include', '/consent');
+  //cy.url().should('include', '/consent');
   cy.get('[data-cy=consentPage-content]', { timeout: 60 * 1000 }).should('exist');
   cy.get('[data-cy=consent-continue]').should('exist').and('be.disabled');
   cy.get('[data-cy=consent-agree]').should('exist').check({ force: true });

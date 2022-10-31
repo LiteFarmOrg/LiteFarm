@@ -10,20 +10,41 @@ jobs:
     timeout-minutes: 10
     runs-on: ubuntu-20.04
     env:
+      NODE_ENV: 'development'
       JWT_INVITE_SECRET: ${{secrets.JWT_INVITE_SECRET}}
       JWT_RESET_SECRET: ${{secrets.JWT_RESET_SECRET}}
       JWT_SCHEDULER_SECRET: ${{secrets.JWT_SCHEDULER_SECRET}}
       JWT_SECRET: ${{secrets.JWT_SECRET}}
+      JWT_FARM_SECRET: 'Here_is_the_farm_token'
       TEST_USER: ${{secrets.TEST_USER}}
       TEST_USER_ID: ${{secrets.TEST_USER_ID}}
       DEV_DATABASE_HOST: localhost
       DEV_DATABASE: pg-litefarm
       DEV_DATABASE_USER: postgres
       DEV_DATABASE_PASSWORD: postgres
+      TEST_DATABASE: 'test_farm'
+      TEST_DATABASE_USER: 'postgres'
+      TEST_DATABASE_HOST: 'localhost'
+      TEST_DATABASE_PASSWORD: 'postgres'
+      OPEN_WEATHER_APP_ID: ${{secrets.OPEN_WEATHER_APP_ID}}
       GOOGLE_API_KEY: ${{secrets.VITE_GOOGLE_MAPS_API_KEY}}
+      GMAIl_API_CLIENT_ID: ${{secrets.GMAIl_API_CLIENT_ID}}
+      GMAIL_API_CLIENT_SECRET: ${{secrets.GMAIL_API_CLIENT_SECRET}}
+      GMAIL_REFRESH_TOKEN: ${{secrets.GMAIL_REFRESH_TOKEN}}
+      CONTACT_FORM_EMAIL: ${{secrets.CONTACT_FORM_EMAIL}}
+      CONTACT_FORM_PASSWORD: ${{secrets.CONTACT_FORM_PASSWORD}}
       VITE_GOOGLE_MAPS_API_KEY: ${{secrets.VITE_GOOGLE_MAPS_API_KEY}}
       VITE_WEATHER_API_KEY: ${{secrets.VITE_WEATHER_API_KEY}}
-      
+      GOOGLE_OAUTH_CLIENT_ID: ${{secrets.GOOGLE_OAUTH_CLIENT_ID}}
+      DO_SPACES_ACCESS_KEY_ID: ${{secrets.DO_SPACES_ACCESS_KEY_ID}}
+      DO_SPACES_SECRET_ACCESS_KEY: ${{secrets.DO_SPACES_SECRET_ACCESS_KEY}}
+      IMAGINARY_TOKEN: ${{secrets.IMAGINARY_TOKEN}}
+      REDIS_HOST: 'localhost'
+      REDIS_PORT: '6379'
+      REDIS_PASSWORD: ${{secrets.REDIS_PASSWORD}}
+      REPORT_URL: 'http://localhost:3000/render_survey'
+      EXPORT_WD: 'exports'
+
     strategy:
       matrix:
         node-version: [17.5.0]
@@ -59,8 +80,6 @@ jobs:
 
       - name: Run and test app
         env:   
-          VITE_GOOGLE_MAPS_API_KEY: AIzaSyC8UBxTVXeVnFGcZnvhTBY19rpkg6kEL3I
-          VITE_WEATHER_API_KEY: ${{secrets.VITE_WEATHER_API_KEY}}
           VITE_ENV: development
           VITE_GOOGLE_OAUTH_CLIENT_ID: ${{secrets.VITE_GOOGLE_OAUTH_CLIENT_ID}}
           VITE_DO_BUCKET_NAME: litefarm

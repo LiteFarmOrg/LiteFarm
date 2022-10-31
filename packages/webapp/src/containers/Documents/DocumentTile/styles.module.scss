@@ -20,12 +20,11 @@
 }
 
 .downloadContainer{
+    height: 29px;
     position: absolute;
-    top: 0;
-    right:0;
+    top: 0px;
+    right: -5px;
     cursor: pointer;
-    border: 5px solid green;
-    background: green;
     z-index: 10;
 }
 

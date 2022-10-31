@@ -16,6 +16,7 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { ImageWithAuthentication } from '../../ImageWithAuthentication';
+import { DocumentWithAuthentication } from '../../DocumentWithAuthentication';
 import MainDocumentView from '../../../components/Documents/Main';
 import { documentSelector } from '../../documentSlice';
 import ArchiveDocumentModal from '../../../components/Modals/ArchiveDocumentModal';
@@ -43,6 +44,7 @@ export default function MainDocument({ history, match }) {
       <MainDocumentView
         onGoBack={onGoBack}
         imageComponent={(props) => <ImageWithAuthentication {...props} />}
+        fileDownloadComponent={(props) => <DocumentWithAuthentication {...props} />}
         onUpdate={onUpdate}
         onRetire={() => setShowArchiveModal(true)}
         document={document}

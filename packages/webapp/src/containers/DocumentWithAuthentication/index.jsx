@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { ReactComponent as Download } from '../../assets/images/farmMapFilter/Download.svg';
 
 export function DocumentWithAuthentication({ fileUrl, title, ...props }) {
   const [fileHref, setFileHref] = useState();
@@ -34,9 +35,5 @@ export function DocumentWithAuthentication({ fileUrl, title, ...props }) {
     document.body.appendChild(element);
     element.click();
   };
-  return (
-    <a onClick={handleClick} {...props}>
-      Download
-    </a>
-  );
+  return <Download onClick={handleClick} {...props} />;
 }

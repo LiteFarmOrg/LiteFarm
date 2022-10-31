@@ -152,6 +152,7 @@ export function WatercourseDetailsChildren({ system, isViewLocationPage, isEditL
           hookFormGetValue={getValues}
           hookFromWatch={watch}
           control={control}
+          required
           disabled={!isEditLocationPage}
         />
       </div>
@@ -169,6 +170,7 @@ export function WatercourseDetailsChildren({ system, isViewLocationPage, isEditL
           hookFormGetValue={getValues}
           hookFromWatch={watch}
           control={control}
+          required
           disabled={!isEditLocationPage}
         />
       </div>

@@ -47,6 +47,7 @@
     "EDIT_CUSTOM_TASK": "Edit custom task",
     "FIELD_WORK_VIEW": {
       "OTHER_TYPE_OF_FIELD_WORK": "Describe the type of field work",
+      "FIELD_WORK_TASK": "field work task",
       "TYPE": {
         "COVERING_SOIL": "Covering soil",
         "FENCING": "Fencing",
@@ -113,7 +114,10 @@
     "WILD_CROP": "Wild crops",
     "IRRIGATION_VIEW": {
       "TELL_US_ABOUT_YOUR_IRRIGATION_TASK": "Tell us about your Irrigation Task",
-      "BRAND_TOOLTIP": "This task is for watering your location. If you want to install irrigation, create a field work task instead.",
+      "BRAND_TOOLTIP": {
+        "FIRST_PHRASE": "This task is for watering your location. If you want to install irrigation, create a",
+        "LAST_PHRASE": "instead."
+      },
       "TYPE_OF_IRRIGATION": "Type of Irrigation",
       "WHAT_TYPE_OF_IRRIGATION": "What type of irrigation?",
       "TYPE": {
@@ -132,6 +136,7 @@
       "DEPTH": "Depth",
       "SET_AS_DEFAULT_MEASUREMENT_FOR_THIS_IRRIGATION_TYPE": "Set as default measurement for this irrigation type",
       "ESTIMATED_WATER_USAGE": "Estimated water usage",
+      "NOT_SURE": "Not sure?",
       "CALCULATE_WATER_USAGE": "Calculate Water Usage"
     }
   },

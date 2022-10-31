@@ -1,5 +1,5 @@
-import React, { FC, useState } from 'react';
-import { AddLink, Label, Main, Underlined } from '../../Typography';
+import React, { FC, ReactChild, useState } from 'react';
+import { Label, Main, Underlined } from '../../Typography';
 import { useTranslation } from 'react-i18next';
 import Button from '../../Form/Button';
 import Form from '../../Form';
@@ -8,9 +8,10 @@ import MultiStepPageTitle from '../../PageTitle/MultiStepPageTitle';
 import ReactSelect from '../../Form/ReactSelect';
 import Checkbox from '../../Form/Checkbox';
 import RadioGroup from '../../Form/RadioGroup';
-import styles from '../../Crop/styles.module.scss';
+import styles from '../../Typography/typography.module.scss';
 import Input, { integerOnKeyDown } from '../../Form/Input';
 import InputAutoSize from '../../Form/InputAutoSize';
+import WaterUseCalculatorModal from '../../Modals/WaterUseCalculatorModal';
 
 export interface IPureIrrigationTask {
   onContinue: () => void;
@@ -22,8 +23,12 @@ const PureIrrigationTask: FC<IPureIrrigationTask> = ({ onContinue, onGoBack, ...
   const [checkDefaultMeasurement, setCheckDefaultMeasurement] = useState<boolean>();
   const [irrigationType, setIrrigationType] = useState<string>('');
   const [defaultMeasurementType, setDefaultMeasurementType] = useState<string>('');
+  const [showWaterUseCalculatorModal, setShowWaterUseCalculatorModal] = useState<boolean>(false);
+  const [totalWaterUsage, setTotalWaterUsage] = useState<number>(0);
+
   const onCheckDefaultLocation = () => setCheckDefaultLocation(!checkDefaultLocation);
   const onCheckDefaultMeasurementType = () => setCheckDefaultMeasurement(!checkDefaultMeasurement);
+
   // @ts-ignore
   const { persistedFormData, useHookFormPersist } = props;
 
@@ -86,6 +91,9 @@ const PureIrrigationTask: FC<IPureIrrigationTask> = ({ onContinue, onGoBack, ...
 
   const isDepthDefaultMeasurementType = () => defaultMeasurementType === 'DEPTH';
   const isVolumeDefaultMeasurementType = () => defaultMeasurementType === 'VOLUME';
+  const onDismissWaterUseCalculatorModel = () => {
+    setShowWaterUseCalculatorModal(false);
+  };
 
   return (
     <Form
@@ -106,7 +114,13 @@ const PureIrrigationTask: FC<IPureIrrigationTask> = ({ onContinue, onGoBack, ...
       <></>
       <Main
         style={{ marginBottom: '16px' }}
-        tooltipContent={t('ADD_TASK.IRRIGATION_VIEW.BRAND_TOOLTIP') as string}
+        tooltipContent={
+          <>
+            {t('ADD_TASK.IRRIGATION_VIEW.BRAND_TOOLTIP.FIRST_PHRASE')}{' '}
+            <Underlined>{t('ADD_TASK.FIELD_WORK_VIEW.FIELD_WORK_TASK')}</Underlined>
+            {t('ADD_TASK.IRRIGATION_VIEW.BRAND_TOOLTIP.LAST_PHRASE')}{' '}
+          </>
+        }
       >
         {t('ADD_TASK.IRRIGATION_VIEW.TELL_US_ABOUT_YOUR_IRRIGATION_TASK')}
       </Main>
@@ -181,15 +195,19 @@ const PureIrrigationTask: FC<IPureIrrigationTask> = ({ onContinue, onGoBack, ...
 
       <Input
         label={t('ADD_TASK.IRRIGATION_VIEW.ESTIMATED_WATER_USAGE')}
-        // style={{ paddingBottom: '16px', paddingTop: '24px' }}
         hookFormRegister={register('estimated_water_usage', { valueAsNumber: true })}
         type={'number'}
+        value={totalWaterUsage}
         onKeyDown={integerOnKeyDown}
         max={9999999999}
         optional
       />
-      {/*<Underlined onClick={forgotPassword}>Calculate Water Usage</Underlined>*/}
-      <Underlined>{t('ADD_TASK.IRRIGATION_VIEW.CALCULATE_WATER_USAGE')}</Underlined>
+      <Label>
+        {t('ADD_TASK.IRRIGATION_VIEW.NOT_SURE')}{' '}
+        <Underlined onClick={() => setShowWaterUseCalculatorModal(true)}>
+          {t('ADD_TASK.IRRIGATION_VIEW.CALCULATE_WATER_USAGE')}
+        </Underlined>
+      </Label>
 
       <InputAutoSize
         style={{ paddingTop: '20px' }}
@@ -201,6 +219,13 @@ const PureIrrigationTask: FC<IPureIrrigationTask> = ({ onContinue, onGoBack, ...
         name={NOTES}
         errors={errors[NOTES]?.message}
       />
+
+      {showWaterUseCalculatorModal && (
+        <WaterUseCalculatorModal
+          dismissModal={onDismissWaterUseCalculatorModel}
+          // setTotalWaterUsage={setTotalWaterUsage}
+        />
+      )}
     </Form>
   );
 };

@@ -36,7 +36,8 @@
       "ADD": "Error: no se pudo agregar variedad a la base de datos",
       "ADD_ALREADY_EXISTS": "Error: existe variedad",
       "DELETE": "No se pudo eliminar la variedad de cultivo",
-      "UPDATE": "No se pudo actualizar la variedad de cultivo"
+      "UPDATE": "No se pudo actualizar la variedad de cultivo",
+      "FIND": "MISSING"
     },
     "SUCCESS": {
       "ADD": "¡Variedad guardada con éxito!",

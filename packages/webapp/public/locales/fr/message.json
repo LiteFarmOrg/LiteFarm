@@ -36,7 +36,8 @@
       "ADD": "Erreur : échec de l'ajout de la variété à la base de données",
       "ADD_ALREADY_EXISTS": "Erreur : la variété existe déjà",
       "DELETE": "Échec de la suppression de la variété de culture",
-      "UPDATE": "Échec de la mise à jour de la variété de culture"
+      "UPDATE": "Échec de la mise à jour de la variété de culture",
+      "FIND": "MISSING"
     },
     "SUCCESS": {
       "ADD": "Variété de culture sauvegardée avec succès !",

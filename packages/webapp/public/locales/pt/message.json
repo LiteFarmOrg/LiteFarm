@@ -36,7 +36,8 @@
       "ADD": "Erro: falha ao adicionar variedade ao banco de dados",
       "ADD_ALREADY_EXISTS": "Erro: Variedade já existe",
       "DELETE": "Falha ao deletar variedade de cultivo",
-      "UPDATE": "Falha ao atualizar variedade de cultivo"
+      "UPDATE": "Falha ao atualizar variedade de cultivo",
+      "FIND": "MISSING"
     },
     "SUCCESS": {
       "ADD": "Variedade salva com sucesso!",

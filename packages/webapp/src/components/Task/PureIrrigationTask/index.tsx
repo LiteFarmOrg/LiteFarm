@@ -65,6 +65,7 @@ const PureIrrigationTask: FC<IPureIrrigationTask> = ({ handleGoBack, ...props })
     shouldUnregister: false,
     defaultValues: { ...persistedFormData },
   });
+
   const MEASUREMENT_TYPE = 'measurement_type';
   const DEPTH = 'estimated_water_usage';
   const DEPTH_UNIT = 'estimated_water_usage_unit';
@@ -252,12 +253,12 @@ const PureIrrigationTask: FC<IPureIrrigationTask> = ({ handleGoBack, ...props })
       </Label>
 
       <InputAutoSize
-        style={{ paddingTop: '20px' }}
         label={t('LOG_COMMON.NOTES')}
         optional={true}
         hookFormRegister={register(NOTES, {
           maxLength: { value: 10000, message: t('ADD_TASK.TASK_NOTES_CHAR_LIMIT') },
         })}
+        style={{ paddingTop: '20px' }}
         name={NOTES}
         errors={errors[NOTES]?.message}
       />

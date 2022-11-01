@@ -9,13 +9,28 @@ import ReactSelect from '../../Form/ReactSelect';
 import Checkbox from '../../Form/Checkbox';
 import RadioGroup from '../../Form/RadioGroup';
 import styles from '../../Typography/typography.module.scss';
-import Input, { integerOnKeyDown } from '../../Form/Input';
+import Input from '../../Form/Input';
 import InputAutoSize from '../../Form/InputAutoSize';
 import WaterUseCalculatorModal from '../../Modals/WaterUseCalculatorModal';
+import Unit from '../../Form/Unit';
+import { waterUsage } from '../../../util/convert-units/unit';
 
+export interface ISystem {
+  metric: {
+    units: string[];
+    defaultUnit: string;
+    breakpoints: number[];
+  };
+  imperial: {
+    units: string[];
+    defaultUnit: string;
+    breakpoints: number[];
+  };
+}
 export interface IPureIrrigationTask {
   handleGoBack: () => void;
   persistedPaths: string[];
+  system: ISystem;
 }
 
 const PureIrrigationTask: FC<IPureIrrigationTask> = ({ handleGoBack, ...props }) => {
@@ -34,7 +49,7 @@ const PureIrrigationTask: FC<IPureIrrigationTask> = ({ handleGoBack, ...props })
   const onCheckDefaultMeasurementType = () => setCheckDefaultMeasurement(!checkDefaultMeasurement);
 
   // @ts-ignore
-  const { persistedFormData, useHookFormPersist } = props;
+  const { persistedFormData, useHookFormPersist, system } = props;
 
   const { t } = useTranslation();
   const {
@@ -43,17 +58,21 @@ const PureIrrigationTask: FC<IPureIrrigationTask> = ({ handleGoBack, ...props })
     getValues,
     watch,
     control,
+    setValue,
     formState: { isValid, errors },
   } = useForm({
     mode: 'onChange',
     shouldUnregister: false,
     defaultValues: { ...persistedFormData },
   });
+  const MEASUREMENT_TYPE = 'measurement_type';
+  const DEPTH = 'estimated_water_usage';
+  const DEPTH_UNIT = 'estimated_water_usage_unit';
   const NOTES = 'notes';
   register(NOTES, { required: false });
   const disabled = !isValid;
   const { historyCancel } = useHookFormPersist(getValues);
-  const MEASUREMENT_TYPE = 'measurement_type';
+
   const IrrigationTypeOptions = [
     {
       label: t('ADD_TASK.IRRIGATION_VIEW.TYPE.HAND_WATERING'),
@@ -182,11 +201,19 @@ const PureIrrigationTask: FC<IPureIrrigationTask> = ({ handleGoBack, ...props })
             value: 'VOLUME',
             label: t('ADD_TASK.IRRIGATION_VIEW.VOLUME'),
             checked: isVolumeDefaultMeasurementType,
+            onChange: () => {
+              setIsDepthDefaultMeasurementType(() => !isDepthDefaultMeasurementType);
+              setIsVolumeDefaultMeasurementType(() => !isVolumeDefaultMeasurementType);
+            },
           },
           {
             value: 'DEPTH',
             label: t('ADD_TASK.IRRIGATION_VIEW.DEPTH'),
             checked: isDepthDefaultMeasurementType,
+            onChange: () => {
+              setIsDepthDefaultMeasurementType(() => !isDepthDefaultMeasurementType);
+              setIsVolumeDefaultMeasurementType(() => !isVolumeDefaultMeasurementType);
+            },
           },
         ]}
         required
@@ -200,15 +227,23 @@ const PureIrrigationTask: FC<IPureIrrigationTask> = ({ handleGoBack, ...props })
         style={{ marginTop: '2px', marginBottom: '20px' }}
       />
 
-      <Input
+      <Unit
+        register={register}
+        defaultValue={totalWaterUsage}
+        displayUnitName={DEPTH_UNIT}
         label={t('ADD_TASK.IRRIGATION_VIEW.ESTIMATED_WATER_USAGE')}
-        hookFormRegister={register('estimated_water_usage', { valueAsNumber: true })}
-        type={'number'}
-        value={totalWaterUsage}
-        onKeyDown={integerOnKeyDown}
-        max={9999999999}
-        optional
+        hookFormSetValue={setValue}
+        hookFormGetValue={getValues}
+        hookFromWatch={watch}
+        name={DEPTH}
+        unitType={waterUsage}
+        max={999999999}
+        system={system}
+        control={control}
+        style={{ paddingBottom: '32px' }}
+        disabled={false}
       />
+
       <Label>
         {t('ADD_TASK.IRRIGATION_VIEW.NOT_SURE')}{' '}
         <Underlined onClick={() => setShowWaterUseCalculatorModal(true)}>

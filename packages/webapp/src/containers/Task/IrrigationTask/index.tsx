@@ -8,13 +8,16 @@ export interface IIrrigationTask {
   location: any;
 }
 const IrrigationTask: FC<IIrrigationTask> = ({ history, match, location }) => {
-  const onGoBack = () => history.back();
-  // const onGoBack = () =>  history.push('/add_task/task_crops')
-  const onContinue = () => history.push('/');
+  const continuePath = '/add_task/task_assignment';
+  const goBackPath = '/add_task/task_locations';
+  const persistedPaths = [goBackPath, continuePath, '/add_task/task_crops'];
+  const handleGoBack = () => {
+    history.back();
+  };
 
   return (
     <HookFormPersistProvider>
-      <PureIrrigationTask onGoBack={onGoBack} onContinue={onContinue} />
+      <PureIrrigationTask handleGoBack={handleGoBack} persistedPaths={persistedPaths} />
     </HookFormPersistProvider>
   );
 };

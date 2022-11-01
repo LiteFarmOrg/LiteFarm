@@ -1,4 +1,4 @@
-import React, { FC, ReactChild, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import { Label, Main, Underlined } from '../../Typography';
 import { useTranslation } from 'react-i18next';
 import Button from '../../Form/Button';
@@ -14,17 +14,21 @@ import InputAutoSize from '../../Form/InputAutoSize';
 import WaterUseCalculatorModal from '../../Modals/WaterUseCalculatorModal';
 
 export interface IPureIrrigationTask {
-  onContinue: () => void;
-  onGoBack: () => void;
+  handleGoBack: () => void;
+  persistedPaths: string[];
 }
 
-const PureIrrigationTask: FC<IPureIrrigationTask> = ({ onContinue, onGoBack, ...props }) => {
+const PureIrrigationTask: FC<IPureIrrigationTask> = ({ handleGoBack, ...props }) => {
   const [checkDefaultLocation, setCheckDefaultLocation] = useState<boolean>();
   const [checkDefaultMeasurement, setCheckDefaultMeasurement] = useState<boolean>();
   const [irrigationType, setIrrigationType] = useState<string>('');
   const [defaultMeasurementType, setDefaultMeasurementType] = useState<string>('');
   const [showWaterUseCalculatorModal, setShowWaterUseCalculatorModal] = useState<boolean>(false);
   const [totalWaterUsage, setTotalWaterUsage] = useState<number>(0);
+  const [isDepthDefaultMeasurementType, setIsDepthDefaultMeasurementType] =
+    useState<boolean>(false);
+  const [isVolumeDefaultMeasurementType, setIsVolumeDefaultMeasurementType] =
+    useState<boolean>(false);
 
   const onCheckDefaultLocation = () => setCheckDefaultLocation(!checkDefaultLocation);
   const onCheckDefaultMeasurementType = () => setCheckDefaultMeasurement(!checkDefaultMeasurement);
@@ -49,7 +53,7 @@ const PureIrrigationTask: FC<IPureIrrigationTask> = ({ onContinue, onGoBack, ...
   register(NOTES, { required: false });
   const disabled = !isValid;
   const { historyCancel } = useHookFormPersist(getValues);
-  const LIFECYCLE = 'lifecycle';
+  const MEASUREMENT_TYPE = 'measurement_type';
   const IrrigationTypeOptions = [
     {
       label: t('ADD_TASK.IRRIGATION_VIEW.TYPE.HAND_WATERING'),
@@ -89,8 +93,11 @@ const PureIrrigationTask: FC<IPureIrrigationTask> = ({ onContinue, onGoBack, ...
     { label: t('ADD_TASK.IRRIGATION_VIEW.TYPE.OTHER'), value: 'OTHER', default_measuring_type: '' },
   ];
 
-  const isDepthDefaultMeasurementType = () => defaultMeasurementType === 'DEPTH';
-  const isVolumeDefaultMeasurementType = () => defaultMeasurementType === 'VOLUME';
+  useEffect(() => {
+    setIsVolumeDefaultMeasurementType(() => defaultMeasurementType === 'VOLUME');
+    setIsDepthDefaultMeasurementType(() => defaultMeasurementType === 'DEPTH');
+  }, [defaultMeasurementType]);
+
   const onDismissWaterUseCalculatorModel = () => {
     setShowWaterUseCalculatorModal(false);
   };
@@ -105,7 +112,7 @@ const PureIrrigationTask: FC<IPureIrrigationTask> = ({ onContinue, onGoBack, ...
     >
       <MultiStepPageTitle
         style={{ marginBottom: '24px' }}
-        onGoBack={onGoBack}
+        onGoBack={handleGoBack}
         onCancel={historyCancel}
         value={71}
         title={t('ADD_TASK.ADD_A_TASK')}
@@ -153,7 +160,7 @@ const PureIrrigationTask: FC<IPureIrrigationTask> = ({ onContinue, onGoBack, ...
         <Input
           style={{ marginTop: '15px' }}
           label={t('ADD_TASK.IRRIGATION_VIEW.WHAT_TYPE_OF_IRRIGATION')}
-          hookFormRegister={register('IrrigationType')}
+          hookFormRegister={register('IrrigationType', { required: true })}
         />
       )}
       <Checkbox
@@ -169,17 +176,17 @@ const PureIrrigationTask: FC<IPureIrrigationTask> = ({ onContinue, onGoBack, ...
 
       <RadioGroup
         hookFormControl={control}
-        name={LIFECYCLE}
+        name={MEASUREMENT_TYPE}
         radios={[
           {
             value: 'VOLUME',
             label: t('ADD_TASK.IRRIGATION_VIEW.VOLUME'),
-            checked: { isVolumeDefaultMeasurementType },
+            checked: isVolumeDefaultMeasurementType,
           },
           {
             value: 'DEPTH',
             label: t('ADD_TASK.IRRIGATION_VIEW.DEPTH'),
-            checked: { isDepthDefaultMeasurementType },
+            checked: isDepthDefaultMeasurementType,
           },
         ]}
         required

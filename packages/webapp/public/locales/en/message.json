@@ -36,7 +36,8 @@
       "ADD": "Error: failed to add varietal to database",
       "ADD_ALREADY_EXISTS": "Error: Varietal exists",
       "DELETE": "Failed to delete crop variety",
-      "UPDATE": "Failed to update crop variety"
+      "UPDATE": "Failed to update crop variety",
+      "FIND": "Failed to find crop variety"
     },
     "SUCCESS": {
       "ADD": "Successfully saved varietal!",

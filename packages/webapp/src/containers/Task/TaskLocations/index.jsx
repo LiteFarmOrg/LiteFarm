@@ -24,13 +24,16 @@ export default function TaskLocationsSwitch({ history, match, location }) {
   const isHarvestLocation = useIsTaskType('HARVEST_TASK') ;
   const isIrrigationLocation = useIsTaskType('IRRIGATION_TASK');
   const isTransplantLocation = useIsTaskType('TRANSPLANT_TASK');
+  
   if (isHarvestLocation || isIrrigationLocation) {
     return <TaskActiveAndPlannedCropLocations history={history} location={location} isMulti={isHarvestLocation}/>;
-  } else if (isTransplantLocation) {
+  } 
+  
+  if (isTransplantLocation) {
     return <TaskTransplantLocations history={history} location={location} />;
-  } else {
-    return <TaskAllLocations history={history} location={location} />;
   }
+  
+  return <TaskAllLocations history={history} location={location} />;
 }
 
 function TaskActiveAndPlannedCropLocations({ history, location, isMulti }) {

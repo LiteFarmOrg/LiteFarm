@@ -6,7 +6,7 @@ let user_id;
 let fieldLocation_id;
 let fieldName;
 var apiUrl = Cypress.env('apiUrl');
-// cypress/support/commands.js
+
 Cypress.Commands.add('loginByGoogleApi', () => {
   cy.log(process.env.REACT_APP_GOOGLE_CLIENTID);
   cy.log('Logging in to Google');

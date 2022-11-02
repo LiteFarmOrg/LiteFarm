@@ -3,11 +3,12 @@ import { HookFormPersistProvider } from '../../hooks/useHookFormPersist/HookForm
 import PureIrrigationTask, { ISystem } from '../../../components/Task/PureIrrigationTask';
 import { useSelector } from 'react-redux';
 import { measurementSelector } from '../../userFarmSlice';
+import { RouteComponentProps } from 'react-router-dom';
 
 export interface IIrrigationTask {
-  history: any;
-  match: any;
-  location: any;
+  history: RouteComponentProps['history'];
+  location: RouteComponentProps['location'];
+  match: RouteComponentProps['match'];
 }
 const IrrigationTask: FC<IIrrigationTask> = ({ history, match, location }) => {
   const system = useSelector(measurementSelector) as ISystem;

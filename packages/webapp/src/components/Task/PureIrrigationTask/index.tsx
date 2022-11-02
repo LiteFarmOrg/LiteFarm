@@ -30,11 +30,15 @@ export interface ISystem {
 }
 export interface IPureIrrigationTask {
   handleGoBack: () => void;
-  persistedPaths: string[];
+  handleContinue: () => void;
   system: ISystem;
 }
 
-const PureIrrigationTask: FC<IPureIrrigationTask> = ({ handleGoBack, ...props }) => {
+const PureIrrigationTask: FC<IPureIrrigationTask> = ({
+  handleGoBack,
+  handleContinue,
+  ...props
+}) => {
   const [checkDefaultLocation, setCheckDefaultLocation] = useState<boolean>();
   const [checkDefaultMeasurement, setCheckDefaultMeasurement] = useState<boolean>();
   const [irrigationTypeValue, setIrrigationTypeValue] = useState<string>('');
@@ -121,6 +125,7 @@ const PureIrrigationTask: FC<IPureIrrigationTask> = ({ handleGoBack, ...props })
           {t('common:CONTINUE')}
         </Button>
       }
+      onSubmit={handleSubmit(handleContinue)}
     >
       <MultiStepPageTitle
         style={{ marginBottom: '24px' }}

@@ -11,9 +11,6 @@ export interface IIrrigationTask {
 }
 const IrrigationTask: FC<IIrrigationTask> = ({ history, match, location }) => {
   const system = useSelector(measurementSelector) as ISystem;
-  const continuePath = '/add_task/task_assignment';
-  const goBackPath = '/add_task/task_locations';
-  const persistedPaths = [goBackPath, continuePath, '/add_task/task_crops'];
   const handleGoBack = () => {
     history.back();
   };
@@ -22,7 +19,7 @@ const IrrigationTask: FC<IIrrigationTask> = ({ history, match, location }) => {
     <HookFormPersistProvider>
       <PureIrrigationTask
         handleGoBack={handleGoBack}
-        persistedPaths={persistedPaths}
+        handleContinue={() => history.push(`/add_task/task_assignment`)}
         system={system}
       />
     </HookFormPersistProvider>

@@ -2,7 +2,12 @@ import { useEffect, useState } from 'react';
 import { mediaEnum } from './constants';
 import { ReactComponent as Download } from '../../assets/images/farmMapFilter/Download.svg';
 
-export function MediaWithAuthentication({ fileUrl = '', title = '', mediaType, ...props }) {
+export function MediaWithAuthentication({
+  fileUrl = '',
+  title = '',
+  mediaType = mediaEnum.IMAGE,
+  ...props
+}) {
   const [mediaUrl, setMediaUrl] = useState();
   useEffect(() => {
     const config = {

@@ -36,11 +36,8 @@ export interface IPureIrrigationTask {
 const PureIrrigationTask: FC<IPureIrrigationTask> = ({ handleGoBack, ...props }) => {
   const [checkDefaultLocation, setCheckDefaultLocation] = useState<boolean>();
   const [checkDefaultMeasurement, setCheckDefaultMeasurement] = useState<boolean>();
-  const [irrigationType, setIrrigationType] = useState<string>('');
+  const [irrigationTypeValue, setIrrigationTypeValue] = useState<string>('');
   const [showWaterUseCalculatorModal, setShowWaterUseCalculatorModal] = useState<boolean>(false);
-
-  const onCheckDefaultLocation = () => setCheckDefaultLocation(!checkDefaultLocation);
-  const onCheckDefaultMeasurementType = () => setCheckDefaultMeasurement(!checkDefaultMeasurement);
 
   // @ts-ignore
   const { persistedFormData, useHookFormPersist, system } = props;
@@ -62,16 +59,6 @@ const PureIrrigationTask: FC<IPureIrrigationTask> = ({ handleGoBack, ...props })
       ...persistedFormData,
     },
   });
-
-  const IRRIGATION_TYPE = 'irrigation_type';
-  const CREATE_IRRIGATION_TYPE = 'create_irrigation_type';
-  const MEASUREMENT_TYPE = 'measurement_type';
-  const DEPTH = 'estimated_water_usage';
-  const DEPTH_UNIT = 'estimated_water_usage_unit';
-  const NOTES = 'notes';
-  register(NOTES, { required: false });
-  const disabled = !isValid;
-  const { historyCancel } = useHookFormPersist(getValues);
 
   const IrrigationTypeOptions = [
     {
@@ -109,18 +96,24 @@ const PureIrrigationTask: FC<IPureIrrigationTask> = ({ handleGoBack, ...props })
       value: 'SUB_SURFACE',
       default_measuring_type: 'VOLUME',
     },
-    { label: t('ADD_TASK.IRRIGATION_VIEW.TYPE.OTHER'), value: 'OTHER', default_measuring_type: '' },
+    { label: t('ADD_TASK.IRRIGATION_VIEW.TYPE.OTHER'), value: null, default_measuring_type: null },
   ];
+  const IRRIGATION_TYPE = 'irrigation_type';
+  const CREATE_IRRIGATION_TYPE = 'create_irrigation_type';
+  const MEASUREMENT_TYPE = 'measurement_type';
+  const DEPTH = 'estimated_water_usage';
+  const DEPTH_UNIT = 'estimated_water_usage_unit';
+  const NOTES = 'notes';
+  register(NOTES, { required: false });
+  const disabled = !isValid;
+  const { historyCancel } = useHookFormPersist(getValues);
 
-  const onDismissWaterUseCalculatorModel = () => {
-    setShowWaterUseCalculatorModal(false);
-  };
+  const onCheckDefaultLocation = () => setCheckDefaultLocation(!checkDefaultLocation);
+  const onCheckDefaultMeasurementType = () => setCheckDefaultMeasurement(!checkDefaultMeasurement);
+  const onDismissWaterUseCalculatorModel = () => setShowWaterUseCalculatorModal(false);
 
   return (
     <Form
-      onSubmit={handleSubmit((data) => {
-        console.log(data);
-      })}
       buttonGroup={
         <Button type={'submit'} disabled={disabled} fullLength>
           {t('common:CONTINUE')}
@@ -160,14 +153,14 @@ const PureIrrigationTask: FC<IPureIrrigationTask> = ({ handleGoBack, ...props })
             style={{ marginBottom: '10px' }}
             onChange={(e) => {
               onChange(e);
-              setIrrigationType(e.value);
+              setIrrigationTypeValue(e.value);
               setValue(MEASUREMENT_TYPE, e.default_measuring_type);
             }}
             value={value}
           />
         )}
       />
-      {irrigationType === 'OTHER' && (
+      {irrigationTypeValue === null && (
         <Input
           style={{ marginTop: '15px' }}
           label={t('ADD_TASK.IRRIGATION_VIEW.WHAT_TYPE_OF_IRRIGATION')}

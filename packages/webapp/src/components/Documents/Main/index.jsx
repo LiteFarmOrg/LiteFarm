@@ -23,6 +23,7 @@ import PageTitle from '../../PageTitle/v2';
 import Checkbox from '../../Form/Checkbox';
 import CertifierSelectionMenuItem from '../../OrganicCertifierSurvey/CertifierSelection/CertifierSelectionMenu/CertiferSelectionMenuItem';
 import styles from './styles.module.scss';
+import { mediaEnum } from '../../../containers/MediaWithAuthentication/constants';
 
 function MainDocumentView({
   onRetire,
@@ -85,16 +86,17 @@ function MainDocumentView({
       >
         {document.files?.map(({ thumbnail_url, file_name, url }, index) =>
           thumbnail_url ? (
-            <div className={styles.previewWrapper}>
+            <div className={styles.previewWrapper} key={index}>
               {fileDownloadComponent({
                 className: styles.downloadContainer,
                 title: `${document.name}.${url.split('.').at(-1)}`,
                 fileUrl: url,
+                mediaType: mediaEnum.DOCUMENT,
               })}
               {imageComponent({
                 style: { width: '100%', maxWidth: '312px', position: 'relative', zIndex: 0 },
-                src: thumbnail_url,
-                key: index,
+                fileUrl: thumbnail_url,
+                mediaType: mediaEnum.IMAGE,
               })}
             </div>
           ) : (

@@ -3,10 +3,10 @@ import styles from './styles.module.scss';
 import clsx from 'clsx';
 import { ReactComponent as CalendarIcon } from '../../../assets/images/managementPlans/calendar.svg';
 import PropTypes from 'prop-types';
-import { ImageWithAuthentication } from '../../ImageWithAuthentication';
+import { MediaWithAuthentication } from '../../../containers/MediaWithAuthentication';
+import { mediaEnum } from '../../../containers/MediaWithAuthentication/constants';
 import { useTranslation } from 'react-i18next';
 import { DocumentIcon } from '../../../components/Icons/DocumentIcon';
-import { DocumentWithAuthentication } from '../../DocumentWithAuthentication';
 
 export default function PureDocumentTile({
   className,
@@ -18,8 +18,8 @@ export default function PureDocumentTile({
   noExpiration,
   extensionName,
   fileUrl,
-  imageComponent = (props) => <ImageWithAuthentication {...props} />,
-  fileDownloadComponent = (props) => <DocumentWithAuthentication {...props} />,
+  imageComponent = (props) => <MediaWithAuthentication {...props} />,
+  fileDownloadComponent = (props) => <MediaWithAuthentication {...props} />,
 }) {
   const { t } = useTranslation();
 
@@ -29,7 +29,8 @@ export default function PureDocumentTile({
         {preview ? (
           imageComponent({
             className: styles.img,
-            src: preview,
+            fileUrl: preview,
+            mediaType: mediaEnum.IMAGE,
           })
         ) : (
           <div className={styles.documentIconContainer}>
@@ -70,6 +71,7 @@ export default function PureDocumentTile({
           className: styles.downloadContainer,
           fileUrl,
           title: `${title}.${extensionName}`,
+          mediaType: mediaEnum.DOCUMENT,
         })}
     </div>
   );

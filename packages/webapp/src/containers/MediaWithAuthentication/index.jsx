@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react';
+import { mediaEnum } from './constants';
 import { ReactComponent as Download } from '../../assets/images/farmMapFilter/Download.svg';
 
-export function DocumentWithAuthentication({ fileUrl, title, ...props }) {
-  const [fileHref, setFileHref] = useState();
+export function MediaWithAuthentication({ fileUrl = '', title = '', mediaType, ...props }) {
+  const [mediaUrl, setMediaUrl] = useState();
   useEffect(() => {
     const config = {
       headers: {
@@ -18,8 +19,8 @@ export function DocumentWithAuthentication({ fileUrl, title, ...props }) {
         const url = new URL(fileUrl);
         url.hostname = 'images.litefarm.workers.dev';
         const response = await fetch(url.toString(), config);
-        const image = await response.blob();
-        subscribed && setFileHref(URL.createObjectURL(image));
+        const blobFile = await response.blob();
+        subscribed && setMediaUrl(URL.createObjectURL(blobFile));
       } catch (e) {
         console.log(e);
       }
@@ -30,10 +31,23 @@ export function DocumentWithAuthentication({ fileUrl, title, ...props }) {
 
   const handleClick = () => {
     const element = document.createElement('a');
-    element.href = fileHref;
+    element.href = mediaUrl;
     element.download = title;
     document.body.appendChild(element);
     element.click();
   };
-  return <Download onClick={handleClick} {...props} />;
+
+  const renderMediaComponent = () => {
+    switch (mediaType) {
+      case mediaEnum.DOCUMENT: {
+        return <Download onClick={handleClick} {...props} />;
+      }
+      case mediaEnum.IMAGE:
+      default: {
+        return <img loading="lazy" src={mediaUrl} {...props} />;
+      }
+    }
+  };
+
+  return renderMediaComponent();
 }

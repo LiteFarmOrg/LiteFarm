@@ -14,6 +14,7 @@ import InputAutoSize from '../../Form/InputAutoSize';
 import WaterUseCalculatorModal from '../../Modals/WaterUseCalculatorModal';
 import Unit from '../../Form/Unit';
 import { waterUsage } from '../../../util/convert-units/unit';
+import CancelFlowModal from '../../Modals/CancelFlowModal';
 
 export interface ISystem {
   metric: {
@@ -38,6 +39,7 @@ const PureIrrigationTask: FC<IPureIrrigationTask> = ({ handleGoBack, ...props })
   const [checkDefaultMeasurement, setCheckDefaultMeasurement] = useState<boolean>();
   const [irrigationTypeValue, setIrrigationTypeValue] = useState<string>('');
   const [showWaterUseCalculatorModal, setShowWaterUseCalculatorModal] = useState<boolean>(false);
+  const [showConfirmCancelModal, setShowConfirmCancelModal] = useState<boolean>(false);
 
   // @ts-ignore
   const { persistedFormData, useHookFormPersist, system } = props;
@@ -133,7 +135,9 @@ const PureIrrigationTask: FC<IPureIrrigationTask> = ({ handleGoBack, ...props })
         tooltipContent={
           <>
             {t('ADD_TASK.IRRIGATION_VIEW.BRAND_TOOLTIP.FIRST_PHRASE')}{' '}
-            <Underlined>{t('ADD_TASK.FIELD_WORK_VIEW.FIELD_WORK_TASK')}</Underlined>
+            <Underlined onClick={() => setShowConfirmCancelModal(true)}>
+              {t('ADD_TASK.FIELD_WORK_VIEW.FIELD_WORK_TASK')}
+            </Underlined>
             {t('ADD_TASK.IRRIGATION_VIEW.BRAND_TOOLTIP.LAST_PHRASE')}{' '}
           </>
         }
@@ -251,6 +255,14 @@ const PureIrrigationTask: FC<IPureIrrigationTask> = ({ handleGoBack, ...props })
 
       {showWaterUseCalculatorModal && (
         <WaterUseCalculatorModal dismissModal={onDismissWaterUseCalculatorModel} />
+      )}
+
+      {showConfirmCancelModal && (
+        <CancelFlowModal
+          dismissModal={() => setShowConfirmCancelModal(false)}
+          handleCancel={historyCancel}
+          flow={t('ADD_TASK.CANCEL')}
+        />
       )}
     </Form>
   );

@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC, useState } from 'react';
 import { Label, Main, Underlined } from '../../Typography';
 import { useTranslation } from 'react-i18next';
 import Button from '../../Form/Button';
@@ -37,13 +37,7 @@ const PureIrrigationTask: FC<IPureIrrigationTask> = ({ handleGoBack, ...props })
   const [checkDefaultLocation, setCheckDefaultLocation] = useState<boolean>();
   const [checkDefaultMeasurement, setCheckDefaultMeasurement] = useState<boolean>();
   const [irrigationType, setIrrigationType] = useState<string>('');
-  const [defaultMeasurementType, setDefaultMeasurementType] = useState<string>('');
   const [showWaterUseCalculatorModal, setShowWaterUseCalculatorModal] = useState<boolean>(false);
-  const [totalWaterUsage, setTotalWaterUsage] = useState<number>(0);
-  const [isDepthDefaultMeasurementType, setIsDepthDefaultMeasurementType] =
-    useState<boolean>(false);
-  const [isVolumeDefaultMeasurementType, setIsVolumeDefaultMeasurementType] =
-    useState<boolean>(false);
 
   const onCheckDefaultLocation = () => setCheckDefaultLocation(!checkDefaultLocation);
   const onCheckDefaultMeasurementType = () => setCheckDefaultMeasurement(!checkDefaultMeasurement);
@@ -63,9 +57,14 @@ const PureIrrigationTask: FC<IPureIrrigationTask> = ({ handleGoBack, ...props })
   } = useForm({
     mode: 'onChange',
     shouldUnregister: false,
-    defaultValues: { ...persistedFormData },
+    defaultValues: {
+      measurement_type: '',
+      ...persistedFormData,
+    },
   });
 
+  const IRRIGATION_TYPE = 'irrigation_type';
+  const CREATE_IRRIGATION_TYPE = 'create_irrigation_type';
   const MEASUREMENT_TYPE = 'measurement_type';
   const DEPTH = 'estimated_water_usage';
   const DEPTH_UNIT = 'estimated_water_usage_unit';
@@ -113,17 +112,15 @@ const PureIrrigationTask: FC<IPureIrrigationTask> = ({ handleGoBack, ...props })
     { label: t('ADD_TASK.IRRIGATION_VIEW.TYPE.OTHER'), value: 'OTHER', default_measuring_type: '' },
   ];
 
-  useEffect(() => {
-    setIsVolumeDefaultMeasurementType(() => defaultMeasurementType === 'VOLUME');
-    setIsDepthDefaultMeasurementType(() => defaultMeasurementType === 'DEPTH');
-  }, [defaultMeasurementType]);
-
   const onDismissWaterUseCalculatorModel = () => {
     setShowWaterUseCalculatorModal(false);
   };
 
   return (
     <Form
+      onSubmit={handleSubmit((data) => {
+        console.log(data);
+      })}
       buttonGroup={
         <Button type={'submit'} disabled={disabled} fullLength>
           {t('common:CONTINUE')}
@@ -154,7 +151,7 @@ const PureIrrigationTask: FC<IPureIrrigationTask> = ({ handleGoBack, ...props })
 
       <Controller
         control={control}
-        name={t('IRRIGATION_TASK_LOWER')}
+        name={IRRIGATION_TYPE}
         rules={{ required: true }}
         render={({ field: { onChange, value } }) => (
           <ReactSelect
@@ -164,15 +161,9 @@ const PureIrrigationTask: FC<IPureIrrigationTask> = ({ handleGoBack, ...props })
             onChange={(e) => {
               onChange(e);
               setIrrigationType(e.value);
-              setDefaultMeasurementType(e.default_measuring_type);
+              setValue(MEASUREMENT_TYPE, e.default_measuring_type);
             }}
-            value={
-              !value
-                ? value
-                : value?.value
-                ? value
-                : { value, label: t(`ADD_TASK.IRRIGATION_VIEW.TYPE.${value}`) }
-            }
+            value={value}
           />
         )}
       />
@@ -180,7 +171,13 @@ const PureIrrigationTask: FC<IPureIrrigationTask> = ({ handleGoBack, ...props })
         <Input
           style={{ marginTop: '15px' }}
           label={t('ADD_TASK.IRRIGATION_VIEW.WHAT_TYPE_OF_IRRIGATION')}
-          hookFormRegister={register('IrrigationType', { required: true })}
+          hookFormRegister={register(CREATE_IRRIGATION_TYPE, {
+            required: true,
+            maxLength: {
+              value: 100,
+              message: t('ADD_TASK.IRRIGATION_VIEW.IRRIGATION_TYPE_CHAR_LIMIT'),
+            },
+          })}
         />
       )}
       <Checkbox
@@ -189,35 +186,32 @@ const PureIrrigationTask: FC<IPureIrrigationTask> = ({ handleGoBack, ...props })
         checked={checkDefaultLocation}
         sm
         style={{ marginTop: '10px', marginBottom: '25px' }}
+        hookFormRegister={register('default_irrigation_task_location')}
       />
       <Label className={styles.label} style={{ marginBottom: '12px', marginTop: '10px' }}>
         {t('ADD_TASK.IRRIGATION_VIEW.HOW_DO_YOU_MEASURE_WATER_USE_FOR_THIS_IRRIGATION_TYPE')}
       </Label>
 
       <RadioGroup
-        hookFormControl={control}
+        required
         name={MEASUREMENT_TYPE}
+        hookFormControl={control}
         radios={[
           {
             value: 'VOLUME',
             label: t('ADD_TASK.IRRIGATION_VIEW.VOLUME'),
-            checked: isVolumeDefaultMeasurementType,
             onChange: () => {
-              setIsDepthDefaultMeasurementType(() => !isDepthDefaultMeasurementType);
-              setIsVolumeDefaultMeasurementType(() => !isVolumeDefaultMeasurementType);
+              setValue(MEASUREMENT_TYPE, 'VOLUME');
             },
           },
           {
             value: 'DEPTH',
             label: t('ADD_TASK.IRRIGATION_VIEW.DEPTH'),
-            checked: isDepthDefaultMeasurementType,
             onChange: () => {
-              setIsDepthDefaultMeasurementType(() => !isDepthDefaultMeasurementType);
-              setIsVolumeDefaultMeasurementType(() => !isVolumeDefaultMeasurementType);
+              setValue(MEASUREMENT_TYPE, 'DEPTH');
             },
           },
         ]}
-        required
       />
 
       <Checkbox
@@ -226,11 +220,11 @@ const PureIrrigationTask: FC<IPureIrrigationTask> = ({ handleGoBack, ...props })
         checked={checkDefaultMeasurement}
         sm
         style={{ marginTop: '2px', marginBottom: '20px' }}
+        hookFormRegister={register('default_irrigation_measurement')}
       />
 
       <Unit
         register={register}
-        defaultValue={totalWaterUsage}
         displayUnitName={DEPTH_UNIT}
         label={t('ADD_TASK.IRRIGATION_VIEW.ESTIMATED_WATER_USAGE')}
         hookFormSetValue={setValue}
@@ -264,10 +258,7 @@ const PureIrrigationTask: FC<IPureIrrigationTask> = ({ handleGoBack, ...props })
       />
 
       {showWaterUseCalculatorModal && (
-        <WaterUseCalculatorModal
-          dismissModal={onDismissWaterUseCalculatorModel}
-          // setTotalWaterUsage={setTotalWaterUsage}
-        />
+        <WaterUseCalculatorModal dismissModal={onDismissWaterUseCalculatorModel} />
       )}
     </Form>
   );

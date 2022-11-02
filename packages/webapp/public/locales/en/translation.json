@@ -120,6 +120,7 @@
       },
       "TYPE_OF_IRRIGATION": "Type of Irrigation",
       "WHAT_TYPE_OF_IRRIGATION": "What type of irrigation?",
+      "IRRIGATION_TYPE_CHAR_LIMIT": "Irrigation must be less than 100 characters",
       "TYPE": {
         "HAND_WATERING": "Hand Watering",
         "CHANNEL": "Channel",

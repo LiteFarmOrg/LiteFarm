@@ -128,7 +128,6 @@ const PureIrrigationTask: FC<IPureIrrigationTask> = ({ handleGoBack, ...props })
         title={t('ADD_TASK.ADD_A_TASK')}
         cancelModalTitle={t('ADD_TASK.CANCEL')}
       />
-      <></>
       <Main
         style={{ marginBottom: '16px' }}
         tooltipContent={

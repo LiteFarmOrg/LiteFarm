@@ -73,8 +73,8 @@ describe.only('LiteFarm end to end test', () => {
     //confirm user creation email
     //cy.userCreationEmail();
     //Get Started page
-
     // });
+
     //Add farm page
     cy.waitForReact();
     cy.addFarm(farmName, location);

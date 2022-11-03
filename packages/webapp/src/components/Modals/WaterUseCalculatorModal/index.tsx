@@ -7,7 +7,6 @@ import Button from '../../Form/Button';
 
 export interface IWaterUseCalculatorModal {
   dismissModal: () => void;
-  // setTotalWaterUsage: () => number,
 }
 
 const WaterUseCalculatorModal: FC<IWaterUseCalculatorModal> = ({ dismissModal }) => {

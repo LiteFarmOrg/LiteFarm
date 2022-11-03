@@ -1,6 +1,7 @@
 import {
   getCurrentManagementPlans,
-  getExpiredManagementPlans,
+  getAbandonedManagementPlans,
+  getCompletedManagementPlans,
   getPlannedManagementPlans,
 } from '../managementPlanSlice';
 import { useSelector } from 'react-redux';
@@ -9,6 +10,7 @@ import { useMemo } from 'react';
 import useStringFilteredCrops from './useStringFilteredCrops';
 import {
   ACTIVE,
+  ABANDONED,
   COMPLETE,
   LOCATION,
   PLANNED,
@@ -80,8 +82,9 @@ export default function useCropCatalogue(filterString) {
     const time = new Date(cropCatalogFilterDate).getTime();
     const managementPlansByStatus = {
       active: getCurrentManagementPlans(managementPlansFilteredBySuppliers, time),
+      abandoned: getAbandonedManagementPlans(managementPlansFilteredBySuppliers, time),
       planned: getPlannedManagementPlans(managementPlansFilteredBySuppliers, time),
-      past: getExpiredManagementPlans(managementPlansFilteredBySuppliers, time),
+      completed: getCompletedManagementPlans(managementPlansFilteredBySuppliers, time),
     };
     const managementPlansByCropId = {};
     for (const status in managementPlansByStatus) {
@@ -89,8 +92,9 @@ export default function useCropCatalogue(filterString) {
         if (!managementPlansByCropId.hasOwnProperty(managementPlan.crop_id)) {
           managementPlansByCropId[managementPlan.crop_id] = {
             active: [],
+            abandoned: [],
             planned: [],
-            past: [],
+            completed: [],
             crop_common_name: managementPlan.crop_common_name,
             crop_translation_key: managementPlan.crop_translation_key,
             imageKey: managementPlan.crop_translation_key?.toLowerCase(),
@@ -134,14 +138,16 @@ export default function useCropCatalogue(filterString) {
     const newCropCatalogue = cropCatalogue.map((catalogue) => ({
       ...catalogue,
       active: statusFilter[ACTIVE].active ? catalogue.active : [],
+      abandoned: statusFilter[ABANDONED].active ? catalogue.abandoned : [],
       planned: statusFilter[PLANNED].active ? catalogue.planned : [],
-      past: statusFilter[COMPLETE].active ? catalogue.past : [],
+      completed: statusFilter[COMPLETE].active ? catalogue.completed : [],
       noPlans: statusFilter[NEEDS_PLAN].active ? catalogue.noPlans : [],
     }));
     return newCropCatalogue.filter(
       (catalog) =>
         catalog.active.length ||
-        catalog.past.length ||
+        catalog.abandoned.length ||
+        catalog.completed.length ||
         catalog.planned.length ||
         catalog.noPlans.length,
     );
@@ -185,11 +191,11 @@ export default function useCropCatalogue(filterString) {
     }));
   }, [filteredCropVarietiesWithoutManagementPlan, sortedCropCatalogue]);
 
-  // this method is used to calculate the sum of active, planned, past, noPlans of all
+  // this method is used to calculate the sum of active, abandoned, planned, completed, noPlans of all
   // crop varieties for a particular crop.
-  // calculates the active, planned, past, noPlans for CropStatusInfoBox component.
+  // calculates the active, abandoned, planned, completed, noPlans for CropStatusInfoBox component.
   const cropCataloguesStatus = useMemo(() => {
-    const cropCataloguesStatus = { active: 0, planned: 0, past: 0, noPlans: 0 };
+    const cropCataloguesStatus = { active: 0, abandoned: 0, planned: 0, completed: 0, noPlans: 0 };
     for (const managementPlansByStatus of cropCatalogueFilteredByStatus) {
       for (const status in cropCataloguesStatus) {
         cropCataloguesStatus[status] += managementPlansByStatus[status].length;
@@ -203,8 +209,9 @@ export default function useCropCatalogue(filterString) {
       ...cropCataloguesStatus,
       sum:
         cropCataloguesStatus.active +
+        cropCataloguesStatus.abandoned +
         cropCataloguesStatus.planned +
-        cropCataloguesStatus.past +
+        cropCataloguesStatus.completed +
         cropCataloguesStatus.noPlans,
     };
   }, [cropCatalogueFilteredByStatus, filteredCropVarietiesWithoutManagementPlan]);

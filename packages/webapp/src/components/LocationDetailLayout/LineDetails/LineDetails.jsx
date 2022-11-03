@@ -48,6 +48,7 @@ export default function LineDetails({
         </PureWarningBox>
       )}
       <Input
+        data-cy="lineDetails-name"
         label={name}
         type="text"
         style={{ marginBottom: '40px' }}

@@ -5,7 +5,6 @@
   "main": "./api/src/server.js",
   "type": "module",
   "scripts": {
-    "dev": "set CYPRESS_COVERAGE=TRUE && vite",
     "test": "jest --runInBand",
     "test-ci": "NODE_ENV=pipeline jest --runInBand --forceExit",
     "test-end2end": "jest endToEnd",

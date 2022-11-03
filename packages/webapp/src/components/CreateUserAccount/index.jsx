@@ -97,6 +97,7 @@ export default function PureCreateUserAccount({ onSignUp, email, onGoBack }) {
     >
       <Title style={{ marginBottom: '32px' }}>{title}</Title>
       <Input
+        data-cy="createUser-email"
         style={{ marginBottom: '28px' }}
         label={t('CREATE_USER.EMAIL')}
         disabled
@@ -114,6 +115,7 @@ export default function PureCreateUserAccount({ onSignUp, email, onGoBack }) {
         name={GENDER}
         render={({ field: { onChange, onBlur, value } }) => (
           <ReactSelect
+            data-cy="createUser-gender"
             label={t('CREATE_USER.GENDER')}
             options={genderOptions}
             onChange={onChange}
@@ -125,6 +127,7 @@ export default function PureCreateUserAccount({ onSignUp, email, onGoBack }) {
         )}
       />
       <Controller
+        data-cy="createUser-language"
         control={control}
         name={LANGUAGE}
         render={({ field: { onChange, onBlur, value } }) => (
@@ -145,6 +148,7 @@ export default function PureCreateUserAccount({ onSignUp, email, onGoBack }) {
         )}
       />
       <Input
+        data-cy="createUser-birthYear"
         label={t('CREATE_USER.BIRTH_YEAR')}
         type="number"
         hookFormRegister={register(BIRTHYEAR, {

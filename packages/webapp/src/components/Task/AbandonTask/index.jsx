@@ -67,7 +67,12 @@ const PureAbandonTask = ({
   return (
     <Layout
       buttonGroup={
-        <Button disabled={disabled} onClick={handleSubmit(onSubmit, onError)} fullLength>
+        <Button
+          data-cy="abandon-save"
+          disabled={disabled}
+          onClick={handleSubmit(onSubmit, onError)}
+          fullLength
+        >
           {t('TASK.ABANDON.ABANDON')}
         </Button>
       }

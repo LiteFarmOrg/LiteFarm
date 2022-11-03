@@ -32,7 +32,12 @@ export default function BulkSensorUploadModal({
     <Modal dismissModal={dismissModal}>
       <div className={styles.container}>
         <div className={styles.modalHeaderWrapper}>
-          <button type={'button'} className={styles.buttonContainer} onClick={dismissModal}>
+          <button
+            data-cy="sensorModal-back"
+            type={'button'}
+            className={styles.buttonContainer}
+            onClick={dismissModal}
+          >
             <BsChevronLeft style={{ fontSize: '20px' }} />
           </button>
           <Semibold className={styles.title}>{title}</Semibold>

@@ -49,6 +49,7 @@ const PureFieldWorkTask = ({
         rules={{ required: true }}
         render={({ field: { onChange, value } }) => (
           <ReactSelect
+            data-cy="fieldWorkTask-typeSelect"
             label={t('ADD_TASK.FIELD_WORK_VIEW.TYPE_OF_FIELD_WORK')}
             options={fieldWorkTypeOptions}
             style={{ marginBottom: '24px' }}

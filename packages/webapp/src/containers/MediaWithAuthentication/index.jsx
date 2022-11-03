@@ -18,7 +18,7 @@ export function MediaWithAuthentication({
       method: 'GET',
     };
     let subscribed;
-    const getImageSrc = async () => {
+    const fetchMediaUrl = async () => {
       try {
         subscribed = true;
         const url = new URL(fileUrl);
@@ -30,7 +30,7 @@ export function MediaWithAuthentication({
         console.log(e);
       }
     };
-    getImageSrc();
+    fetchMediaUrl();
     return () => (subscribed = false);
   }, []);
 

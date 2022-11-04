@@ -15,19 +15,8 @@ import WaterUseCalculatorModal from '../../Modals/WaterUseCalculatorModal';
 import Unit from '../../Form/Unit';
 import { waterUsage } from '../../../util/convert-units/unit';
 import CancelFlowModal from '../../Modals/CancelFlowModal';
+import { ISystem } from '../../Form/Unit/types';
 
-export interface ISystem {
-  metric: {
-    units: string[];
-    defaultUnit: string;
-    breakpoints: number[];
-  };
-  imperial: {
-    units: string[];
-    defaultUnit: string;
-    breakpoints: number[];
-  };
-}
 export interface IPureIrrigationTask {
   handleGoBack: () => void;
   handleContinue: () => void;

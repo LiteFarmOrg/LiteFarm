@@ -1,6 +1,7 @@
 import React, { FC } from 'react';
 import { HookFormPersistProvider } from '../../hooks/useHookFormPersist/HookFormPersistProvider';
-import PureIrrigationTask, { ISystem } from '../../../components/Task/PureIrrigationTask';
+import PureIrrigationTask from '../../../components/Task/PureIrrigationTask';
+import { ISystem } from '../../../components/Form/Unit/types';
 import { useSelector } from 'react-redux';
 import { measurementSelector } from '../../userFarmSlice';
 import { RouteComponentProps } from 'react-router-dom';

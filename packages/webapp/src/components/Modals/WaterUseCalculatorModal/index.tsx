@@ -12,11 +12,10 @@ export interface IWaterUseCalculatorModal {
 const WaterUseCalculatorModal: FC<IWaterUseCalculatorModal> = ({ dismissModal }) => {
   const { t } = useTranslation();
   return (
-    <ModalComponent>
+    <ModalComponent
       dismissModal={dismissModal}
       title={t('ADD_TASK.ASSIGN_TASK')}
-      buttonGroup=
-      {
+      buttonGroup={
         <>
           <Button onClick={dismissModal} className={styles.button} color="secondary" sm>
             {t('common:CANCEL')}
@@ -28,7 +27,7 @@ const WaterUseCalculatorModal: FC<IWaterUseCalculatorModal> = ({ dismissModal })
         </>
       }
       icon={<Person />}
-    </ModalComponent>
+    />
   );
 };
 export default WaterUseCalculatorModal;

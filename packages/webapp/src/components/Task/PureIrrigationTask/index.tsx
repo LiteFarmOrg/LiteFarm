@@ -39,8 +39,8 @@ const PureIrrigationTask: FC<IPureIrrigationTask> = ({
   handleContinue,
   ...props
 }) => {
-  const [checkDefaultLocation, setCheckDefaultLocation] = useState<boolean>();
-  const [checkDefaultMeasurement, setCheckDefaultMeasurement] = useState<boolean>();
+  const [checkDefaultLocation, setCheckDefaultLocation] = useState<boolean>(false);
+  const [checkDefaultMeasurement, setCheckDefaultMeasurement] = useState<boolean>(false);
   const [irrigationTypeValue, setIrrigationTypeValue] = useState<string>('');
   const [showWaterUseCalculatorModal, setShowWaterUseCalculatorModal] = useState<boolean>(false);
   const [showConfirmCancelModal, setShowConfirmCancelModal] = useState<boolean>(false);
@@ -105,6 +105,8 @@ const PureIrrigationTask: FC<IPureIrrigationTask> = ({
     { label: t('ADD_TASK.IRRIGATION_VIEW.TYPE.OTHER'), value: null, default_measuring_type: null },
   ];
   const IRRIGATION_TYPE = 'irrigation_type';
+  const DEFAULT_IRRIGATION_TASK_LOCATION = 'default_irrigation_task_location';
+  const DEFAULT_IRRIGATION_MEASUREMENT = 'default_irrigation_measurement';
   const CREATE_IRRIGATION_TYPE = 'create_irrigation_type';
   const MEASUREMENT_TYPE = 'measurement_type';
   const DEPTH = 'estimated_water_usage';
@@ -183,11 +185,11 @@ const PureIrrigationTask: FC<IPureIrrigationTask> = ({
       )}
       <Checkbox
         label={t('ADD_TASK.IRRIGATION_VIEW.SET_AS_DEFAULT_TYPE_FOR_THIS_LOCATION')}
-        onClick={onCheckDefaultLocation}
+        onChange={onCheckDefaultLocation}
         checked={checkDefaultLocation}
         sm
         style={{ marginTop: '10px', marginBottom: '25px' }}
-        hookFormRegister={register('default_irrigation_task_location')}
+        hookFormRegister={register(DEFAULT_IRRIGATION_TASK_LOCATION)}
       />
       <Label className={styles.label} style={{ marginBottom: '12px', marginTop: '10px' }}>
         {t('ADD_TASK.IRRIGATION_VIEW.HOW_DO_YOU_MEASURE_WATER_USE_FOR_THIS_IRRIGATION_TYPE')}
@@ -217,11 +219,11 @@ const PureIrrigationTask: FC<IPureIrrigationTask> = ({
 
       <Checkbox
         label={t('ADD_TASK.IRRIGATION_VIEW.SET_AS_DEFAULT_MEASUREMENT_FOR_THIS_IRRIGATION_TYPE')}
-        onClick={onCheckDefaultMeasurementType}
+        onChange={onCheckDefaultMeasurementType}
         checked={checkDefaultMeasurement}
         sm
         style={{ marginTop: '2px', marginBottom: '20px' }}
-        hookFormRegister={register('default_irrigation_measurement')}
+        hookFormRegister={register(DEFAULT_IRRIGATION_MEASUREMENT)}
       />
 
       <Unit

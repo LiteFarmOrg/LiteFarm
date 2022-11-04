@@ -20,7 +20,7 @@ services:
       timeout: 5s
       retries: 5
     volumes:
-      - ~/docker/volumes/postgres:/var/lib/postgresql/data
+      - ~/docker/volume/postgres:/var/lib/postgresql/data
   backend:
     container_name: litefarm-api
     deploy:

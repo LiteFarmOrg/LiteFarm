@@ -6,7 +6,7 @@ import {
   hookFormPersistSelector,
   initEditDocument,
 } from '../../hooks/useHookFormPersist/hookFormPersistSlice';
-import { ImageWithAuthentication } from '../../ImageWithAuthentication';
+import { MediaWithAuthentication } from '../../../containers/MediaWithAuthentication';
 import { documentSelector } from '../../documentSlice';
 import useHookFormPersist from '../../hooks/useHookFormPersist';
 import { DocumentUploader } from '../DocumentUploader';
@@ -50,7 +50,7 @@ export default function EditDocument({ history, match }) {
         isEdit={true}
         persistedFormData={document}
         useHookFormPersist={useHookFormPersist}
-        imageComponent={(props) => <ImageWithAuthentication {...props} />}
+        imageComponent={(props) => <MediaWithAuthentication {...props} />}
         documentUploader={(props) => <DocumentUploader {...props} />}
       />
     </>

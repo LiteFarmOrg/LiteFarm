@@ -4,12 +4,9 @@ import ModalComponent from '../ModalComponent/v2';
 import { ReactComponent as Person } from '../../../assets/images/task/Person.svg';
 import styles from '../QuickAssignModal/styles.module.scss';
 import Button from '../../Form/Button';
+import PropTypes from 'prop-types';
 
-export interface IWaterUseCalculatorModal {
-  dismissModal: () => void;
-}
-
-const WaterUseCalculatorModal: FC<IWaterUseCalculatorModal> = ({ dismissModal }) => {
+export default function WaterUseCalculatorModal({ dismissModal }) {
   const { t } = useTranslation();
   return (
     <ModalComponent
@@ -29,5 +26,7 @@ const WaterUseCalculatorModal: FC<IWaterUseCalculatorModal> = ({ dismissModal })
       icon={<Person />}
     />
   );
+}
+WaterUseCalculatorModal.propTypes = {
+  dismissModal: PropTypes.func,
 };
-export default WaterUseCalculatorModal;

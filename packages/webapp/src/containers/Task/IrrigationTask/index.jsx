@@ -1,18 +1,11 @@
-import React, { FC } from 'react';
+import React from 'react';
 import { HookFormPersistProvider } from '../../hooks/useHookFormPersist/HookFormPersistProvider';
 import PureIrrigationTask from '../../../components/Task/PureIrrigationTask';
-import { ISystem } from '../../../components/Form/Unit/types';
 import { useSelector } from 'react-redux';
 import { measurementSelector } from '../../userFarmSlice';
-import { RouteComponentProps } from 'react-router-dom';
 
-export interface IIrrigationTask {
-  history: RouteComponentProps['history'];
-  location: RouteComponentProps['location'];
-  match: RouteComponentProps['match'];
-}
-const IrrigationTask: FC<IIrrigationTask> = ({ history, match, location }) => {
-  const system = useSelector(measurementSelector) as ISystem;
+export default function IrrigationTask({ history, match, location }) {
+  const system = useSelector(measurementSelector);
   const handleGoBack = () => {
     history.back();
   };
@@ -26,5 +19,4 @@ const IrrigationTask: FC<IIrrigationTask> = ({ history, match, location }) => {
       />
     </HookFormPersistProvider>
   );
-};
-export default IrrigationTask;
+}

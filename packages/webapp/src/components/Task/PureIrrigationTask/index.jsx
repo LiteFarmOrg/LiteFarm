@@ -15,27 +15,19 @@ import WaterUseCalculatorModal from '../../Modals/WaterUseCalculatorModal';
 import Unit from '../../Form/Unit';
 import { waterUsage } from '../../../util/convert-units/unit';
 import CancelFlowModal from '../../Modals/CancelFlowModal';
-import { ISystem } from '../../Form/Unit/types';
 
-export interface IPureIrrigationTask {
-  handleGoBack: () => void;
-  handleContinue: () => void;
-  system: ISystem;
-}
-
-const PureIrrigationTask: FC<IPureIrrigationTask> = ({
+export default function PureIrrigationTask({
   handleGoBack,
   handleContinue,
-  ...props
-}) => {
-  const [checkDefaultLocation, setCheckDefaultLocation] = useState<boolean>(false);
-  const [checkDefaultMeasurement, setCheckDefaultMeasurement] = useState<boolean>(false);
-  const [irrigationTypeValue, setIrrigationTypeValue] = useState<string>('');
-  const [showWaterUseCalculatorModal, setShowWaterUseCalculatorModal] = useState<boolean>(false);
-  const [showConfirmCancelModal, setShowConfirmCancelModal] = useState<boolean>(false);
-
-  // @ts-ignore
-  const { persistedFormData, useHookFormPersist, system } = props;
+  system,
+  persistedFormData,
+  useHookFormPersist,
+}) {
+  const [checkDefaultLocation, setCheckDefaultLocation] = useState(false);
+  const [checkDefaultMeasurement, setCheckDefaultMeasurement] = useState(false);
+  const [irrigationTypeValue, setIrrigationTypeValue] = useState('');
+  const [showWaterUseCalculatorModal, setShowWaterUseCalculatorModal] = useState(false);
+  const [showConfirmCancelModal, setShowConfirmCancelModal] = useState(false);
 
   const { t } = useTranslation();
   const {
@@ -262,5 +254,4 @@ const PureIrrigationTask: FC<IPureIrrigationTask> = ({
       )}
     </Form>
   );
-};
-export default PureIrrigationTask;
+}

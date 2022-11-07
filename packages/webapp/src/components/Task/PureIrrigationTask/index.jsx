@@ -260,7 +260,7 @@ export default function PureIrrigationTask({
 PureIrrigationTask.propTypes = {
   handleGoBack: PropTypes.func,
   handleContinue: PropTypes.func,
-  system: PropTypes.object,
+  system: PropTypes.string,
   persistedFormData: PropTypes.object,
   useHookFormPersist: PropTypes.func,
 };

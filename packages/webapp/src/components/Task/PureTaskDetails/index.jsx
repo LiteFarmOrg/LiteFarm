@@ -12,6 +12,7 @@ import PurePestControlTask from '../PestControlTask';
 import PureHarvestingTask from '../HarvestingTask';
 import InputAutoSize from '../../Form/InputAutoSize';
 import { isTaskType } from '../../../containers/Task/useIsTaskType';
+import PureIrrigationTask from '../PureIrrigationTask';
 
 export default function PureTaskDetails({
   handleGoBack,
@@ -174,4 +175,5 @@ const taskComponents = {
   SOIL_AMENDMENT_TASK: (props) => <PureSoilAmendmentTask {...props} />,
   PEST_CONTROL_TASK: (props) => <PurePestControlTask {...props} />,
   HARVEST_TASK: (props) => <PureHarvestingTask {...props} />,
+  IRRIGATION_TASK: (props) => <PureIrrigationTask {...props} />,
 };

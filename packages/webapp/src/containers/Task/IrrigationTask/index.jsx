@@ -22,5 +22,5 @@ export default function IrrigationTask({ history }) {
   );
 }
 IrrigationTask.propTypes = {
-  history: PropTypes.func,
+  history: PropTypes.object,
 };

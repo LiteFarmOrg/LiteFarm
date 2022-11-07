@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react';
+import React, { useState } from 'react';
 import { Label, Main, Underlined } from '../../Typography';
 import { useTranslation } from 'react-i18next';
 import Button from '../../Form/Button';
@@ -15,6 +15,7 @@ import WaterUseCalculatorModal from '../../Modals/WaterUseCalculatorModal';
 import Unit from '../../Form/Unit';
 import { waterUsage } from '../../../util/convert-units/unit';
 import CancelFlowModal from '../../Modals/CancelFlowModal';
+import PropTypes from 'prop-types';
 
 export default function PureIrrigationTask({
   handleGoBack,
@@ -25,7 +26,7 @@ export default function PureIrrigationTask({
 }) {
   const [checkDefaultLocation, setCheckDefaultLocation] = useState(false);
   const [checkDefaultMeasurement, setCheckDefaultMeasurement] = useState(false);
-  const [irrigationTypeValue, setIrrigationTypeValue] = useState('');
+  const [irrigationTypeValue, setIrrigationTypeValue] = useState();
   const [showWaterUseCalculatorModal, setShowWaterUseCalculatorModal] = useState(false);
   const [showConfirmCancelModal, setShowConfirmCancelModal] = useState(false);
 
@@ -255,3 +256,11 @@ export default function PureIrrigationTask({
     </Form>
   );
 }
+
+PureIrrigationTask.propTypes = {
+  handleGoBack: PropTypes.func,
+  handleContinue: PropTypes.func,
+  system: PropTypes.object,
+  persistedFormData: PropTypes.object,
+  useHookFormPersist: PropTypes.func,
+};

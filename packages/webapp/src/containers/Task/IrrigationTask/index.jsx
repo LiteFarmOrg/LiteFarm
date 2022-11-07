@@ -3,8 +3,9 @@ import { HookFormPersistProvider } from '../../hooks/useHookFormPersist/HookForm
 import PureIrrigationTask from '../../../components/Task/PureIrrigationTask';
 import { useSelector } from 'react-redux';
 import { measurementSelector } from '../../userFarmSlice';
+import PropTypes from 'prop-types';
 
-export default function IrrigationTask({ history, match, location }) {
+export default function IrrigationTask({ history }) {
   const system = useSelector(measurementSelector);
   const handleGoBack = () => {
     history.back();
@@ -20,3 +21,6 @@ export default function IrrigationTask({ history, match, location }) {
     </HookFormPersistProvider>
   );
 }
+IrrigationTask.propTypes = {
+  history: PropTypes.func,
+};

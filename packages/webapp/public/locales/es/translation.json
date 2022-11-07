@@ -47,6 +47,7 @@
     "EDIT_CUSTOM_TASK": "Editar la tarea personalizada",
     "FIELD_WORK_VIEW": {
       "OTHER_TYPE_OF_FIELD_WORK": "Describe el tipo de trabajo de campo",
+      "FIELD_WORK_TASK": "MISSING",
       "TYPE": {
         "COVERING_SOIL": "Cubriendo el suelo",
         "FENCING": "Cercar",
@@ -110,7 +111,35 @@
     "TRANSPLANT_METHOD": "Método de trasplantar",
     "WAGE_OVERRIDE": "Alterar el salario",
     "WHAT_PLANTING_METHOD": "¿Cuál es el método de trasplante?",
-    "WILD_CROP": "Cultivos silvestres"
+    "WILD_CROP": "Cultivos silvestres",
+    "IRRIGATION_VIEW": {
+      "TELL_US_ABOUT_YOUR_IRRIGATION_TASK": "MISSING",
+      "BRAND_TOOLTIP": {
+        "FIRST_PHRASE": "MISSING",
+        "LAST_PHRASE": "MISSING."
+      },
+      "TYPE_OF_IRRIGATION": "MISSING",
+      "WHAT_TYPE_OF_IRRIGATION": "MISSING",
+      "IRRIGATION_TYPE_CHAR_LIMIT": "MISSING",
+      "TYPE": {
+        "HAND_WATERING": "MISSING",
+        "CHANNEL": "MISSING",
+        "DRIP": "MISSING",
+        "FLOOD": "MISSING",
+        "PIVOT": "MISSING",
+        "SPRINKLER": "MISSING",
+        "SUB_SURFACE": "MISSING",
+        "OTHER": "MISSING"
+      },
+      "SET_AS_DEFAULT_TYPE_FOR_THIS_LOCATION": "MISSING",
+      "HOW_DO_YOU_MEASURE_WATER_USE_FOR_THIS_IRRIGATION_TYPE": "MISSING",
+      "VOLUME": "MISSING",
+      "DEPTH": "MISSING",
+      "SET_AS_DEFAULT_MEASUREMENT_FOR_THIS_IRRIGATION_TYPE": "MISSING",
+      "ESTIMATED_WATER_USAGE": "MISSING",
+      "NOT_SURE": "MISSING",
+      "CALCULATE_WATER_USAGE": "MISSING"
+    }
   },
   "BED_PLAN": {
     "LENGTH_OF_BED": "Largo de camas",

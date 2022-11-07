@@ -11,6 +11,7 @@ export const onAddTask = (dispatch, history, state) => () => {
   //TODO: remove all persistedPath in add task flow
   dispatch(
     setPersistedPaths([
+      '/add_task/irrigation_method',
       '/add_task/task_type_selection',
       '/add_task/task_assignment',
       '/add_task/task_crops',

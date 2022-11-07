@@ -2,11 +2,7 @@
   "compilerOptions": {
     "target": "ESNext",
     "useDefineForClassFields": true,
-    "lib": [
-      "DOM",
-      "DOM.Iterable",
-      "ESNext"
-    ],
+    "lib": ["DOM", "DOM.Iterable", "ESNext"],
     "allowJs": false,
     "skipLibCheck": false,
     "esModuleInterop": false,
@@ -19,13 +15,8 @@
     "isolatedModules": false,
     "noEmit": true,
     "jsx": "react-jsx",
-    "types": [
-      "vite/client",
-      "vite-plugin-svgr/client",
-      "@emotion/react/types/css-prop"
-    ]
+    "noImplicitAny": false,
+    "types": ["vite/client", "vite-plugin-svgr/client", "@emotion/react/types/css-prop"]
   },
-  "include": [
-    "./src"
-  ]
+  "include": ["./src"]
 }

@@ -194,7 +194,7 @@ Main.propTypes = {
   children: PropTypes.node,
   className: PropTypes.string,
   style: PropTypes.object,
-  tooltipContent: PropTypes.string,
+  tooltipContent: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
   hasLeaf: PropTypes.bool,
 };
 

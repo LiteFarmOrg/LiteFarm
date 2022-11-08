@@ -25,7 +25,9 @@ export default function TaskCount({ count, handleAddTask }) {
 
   return (
     <div className={styles.taskCountContainer}>
-      <div className={styles.taskCount}>{t('TASK.TASKS_COUNT', { count })}</div>
+      <div data-cy="tasks-taskCount" className={styles.taskCount}>
+        {t('TASK.TASKS_COUNT', { count })}
+      </div>
       <AddLink onClick={handleClick}>{t('TASK.ADD_TASK')}</AddLink>
       {createLocation && (
         <LocationCreationModal

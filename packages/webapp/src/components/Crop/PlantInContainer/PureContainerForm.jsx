@@ -120,6 +120,7 @@ export default function PureContainerForm({
           {!in_ground && (
             <div className={styles.row}>
               <Input
+                data-cy="cropPlan-numberContainers"
                 label={t('MANAGEMENT_PLAN.NUMBER_OF_CONTAINER')}
                 hookFormRegister={register(NUMBER_OF_CONTAINERS, {
                   required: true,
@@ -133,6 +134,7 @@ export default function PureContainerForm({
                 disabled={disabled}
               />
               <Input
+                data-cy="cropPlan-numberPlants"
                 label={t('MANAGEMENT_PLAN.PLANTS_PER_CONTAINER')}
                 hookFormRegister={register(PLANTS_PER_CONTAINER, {
                   required: true,

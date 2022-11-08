@@ -159,6 +159,7 @@ export default function PureInviteUser({ onInvite, onGoBack, userFarmEmails, rol
         )}
       />
       <Input
+        data-cy="invite-birthYear"
         label={t('INVITE_USER.BIRTH_YEAR')}
         type="number"
         onKeyPress={integerOnKeyDown}
@@ -178,6 +179,7 @@ export default function PureInviteUser({ onInvite, onGoBack, userFarmEmails, rol
         optional
       />
       <Input
+        data-cy="invite-wage"
         label={t('INVITE_USER.WAGE')}
         step="0.01"
         type="number"
@@ -192,6 +194,7 @@ export default function PureInviteUser({ onInvite, onGoBack, userFarmEmails, rol
         optional
       />
       <Input
+        data-cy="invite-phoneNumber"
         style={{ marginBottom: '24px' }}
         label={t('INVITE_USER.PHONE')}
         type={'number'}

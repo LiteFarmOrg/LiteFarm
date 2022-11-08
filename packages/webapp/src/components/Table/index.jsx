@@ -44,6 +44,7 @@ function Table({
     : undefined;
   return (
     <ReactTable
+      data-cy="table"
       className={className}
       columns={columns}
       data={data}

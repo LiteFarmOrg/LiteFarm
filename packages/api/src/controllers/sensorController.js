@@ -405,87 +405,87 @@ const sensorController = {
     // eslint-disable-next-line no-console
     console.log('Ensemble Data  >>>>>> ', JSON.stringify(req.body));
 
-    if (!transaction) res.status(400).json('transaction not found');
+    //   if (!transaction) res.status(400).json('transaction not found');
 
-    // eslint-disable-next-line no-console
-    console.log('transaction >>>> ', transaction);
+    //   // eslint-disable-next-line no-console
+    //   console.log('transaction >>>> ', transaction);
 
-    const trx = await transaction.start(Model.knex());
+    //   const trx = await transaction.start(Model.knex());
 
-    if (!trx) res.status(400).json('trx not found');
-    // eslint-disable-next-line no-console
-    console.log('trx >>>> ', trx);
+    //   if (!trx) res.status(400).json('trx not found');
+    //   // eslint-disable-next-line no-console
+    //   console.log('trx >>>> ', trx);
 
-    try {
-      const infoBody = [];
-      for (const sensor of Object.keys(req.body)) {
-        const sensorData = req.body[sensor].data;
-        let corresponding_sensor = await SensorModel.query()
-          .select('location_id')
-          .where('external_id', sensor)
-          .where('partner_id', req.params.partner_id);
+    //   try {
+    //     const infoBody = [];
+    //     for (const sensor of Object.keys(req.body)) {
+    //       const sensorData = req.body[sensor].data;
+    //       let corresponding_sensor = await SensorModel.query()
+    //         .select('location_id')
+    //         .where('external_id', sensor)
+    //         .where('partner_id', req.params.partner_id);
 
-        if (!corresponding_sensor.length) return res.status(400).send('sensor id not found');
+    //       if (!corresponding_sensor.length) return res.status(400).send('sensor id not found');
 
-        corresponding_sensor = corresponding_sensor[0];
-        for (const sensorInfo of sensorData) {
-          const parameter_number = sensorInfo.parameter_category.toLowerCase().replaceAll(' ', '_');
-          const unit = sensorInfo.unit;
+    //       corresponding_sensor = corresponding_sensor[0];
+    //       for (const sensorInfo of sensorData) {
+    //         const parameter_number = sensorInfo.parameter_category.toLowerCase().replaceAll(' ', '_');
+    //         const unit = sensorInfo.unit;
 
-          if (sensorInfo.values.length < sensorInfo.timestamps.length)
-            return res.status(400).send('sensor values and timestamps are not in sync');
+    //         if (sensorInfo.values.length < sensorInfo.timestamps.length)
+    //           return res.status(400).send('sensor values and timestamps are not in sync');
 
-          for (let k = 0; k < sensorInfo.values.length; ++k) {
-            const row = {
-              read_time: sensorInfo.timestamps[k] || '',
-              location_id: corresponding_sensor.location_id,
-              value: sensorInfo.values[k],
-              reading_type: parameter_number,
-              valid: sensorInfo.validated[k] || false,
-              unit,
-            };
-            // Only include this entry if all required values are populated
-            if (Object.values(row).length) {
-              infoBody.push(row);
-            }
-          }
-        }
-      }
-      if (infoBody.length === 0) {
-        res.status(200).send(infoBody);
-      } else {
-        const result = await baseController.postWithResponse(SensorReadingModel, infoBody, req, {
-          trx,
-        });
-        await trx.commit();
-        res.status(200).send(result);
-      }
-    } catch (error) {
-      await trx.rollback();
-      res.status(400).json({
-        error,
-      });
-    }
-  },
+    //         for (let k = 0; k < sensorInfo.values.length; ++k) {
+    //           const row = {
+    //             read_time: sensorInfo.timestamps[k] || '',
+    //             location_id: corresponding_sensor.location_id,
+    //             value: sensorInfo.values[k],
+    //             reading_type: parameter_number,
+    //             valid: sensorInfo.validated[k] || false,
+    //             unit,
+    //           };
+    //           // Only include this entry if all required values are populated
+    //           if (Object.values(row).length) {
+    //             infoBody.push(row);
+    //           }
+    //         }
+    //       }
+    //     }
+    //     if (infoBody.length === 0) {
+    //       res.status(200).send(infoBody);
+    //     } else {
+    //       const result = await baseController.postWithResponse(SensorReadingModel, infoBody, req, {
+    //         trx,
+    //       });
+    //       await trx.commit();
+    //       res.status(200).send(result);
+    //     }
+    //   } catch (error) {
+    //     await trx.rollback();
+    //     res.status(400).json({
+    //       error,
+    //     });
+    //   }
+    // },
 
-  async getAllReadingsByLocationId(req, res) {
-    try {
-      const { location_id } = req.params;
-      if (!location_id) {
-        res.status(400).send('No sensor selected');
-      }
-      const data = await baseController.getByFieldId(
-        SensorReadingModel,
-        'location_id',
-        location_id,
-      );
-      const validReadings = data.filter((datapoint) => datapoint.valid);
-      res.status(200).send(validReadings);
-    } catch (error) {
-      res.status(400).json({
-        error,
-      });
-    }
+    // async getAllReadingsByLocationId(req, res) {
+    //   try {
+    //     const { location_id } = req.params;
+    //     if (!location_id) {
+    //       res.status(400).send('No sensor selected');
+    //     }
+    //     const data = await baseController.getByFieldId(
+    //       SensorReadingModel,
+    //       'location_id',
+    //       location_id,
+    //     );
+    //     const validReadings = data.filter((datapoint) => datapoint.valid);
+    //     res.status(200).send(validReadings);
+    //   } catch (error) {
+    //     res.status(400).json({
+    //       error,
+    //     });
+    //   }
   },
 
   async getReadingsByFarmId(req, res) {

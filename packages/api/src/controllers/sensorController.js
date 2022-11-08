@@ -400,7 +400,14 @@ const sensorController = {
   },
 
   async addReading(req, res) {
+    if (!transaction) res.status(400).json('transaction not found');
+    // eslint-disable-next-line no-console
+    console.log('transaction >>>> ', transaction);
     const trx = await transaction.start(Model.knex());
+
+    if (!trx) res.status(400).json('trx not found');
+    // eslint-disable-next-line no-console
+    console.log('trx >>>> ', trx);
     try {
       const infoBody = [];
       // eslint-disable-next-line no-console

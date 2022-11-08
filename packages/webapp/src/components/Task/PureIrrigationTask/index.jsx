@@ -24,8 +24,6 @@ export default function PureIrrigationTask({
   persistedFormData,
   useHookFormPersist,
 }) {
-  const [checkDefaultLocation, setCheckDefaultLocation] = useState(false);
-  const [checkDefaultMeasurement, setCheckDefaultMeasurement] = useState(false);
   const [irrigationTypeValue, setIrrigationTypeValue] = useState();
   const [showWaterUseCalculatorModal, setShowWaterUseCalculatorModal] = useState(false);
   const [showConfirmCancelModal, setShowConfirmCancelModal] = useState(false);
@@ -98,8 +96,6 @@ export default function PureIrrigationTask({
   const disabled = !isValid;
   const { historyCancel } = useHookFormPersist(getValues);
 
-  const onCheckDefaultLocation = () => setCheckDefaultLocation(!checkDefaultLocation);
-  const onCheckDefaultMeasurementType = () => setCheckDefaultMeasurement(!checkDefaultMeasurement);
   const onDismissWaterUseCalculatorModel = () => setShowWaterUseCalculatorModal(false);
 
   return (
@@ -167,8 +163,6 @@ export default function PureIrrigationTask({
       )}
       <Checkbox
         label={t('ADD_TASK.IRRIGATION_VIEW.SET_AS_DEFAULT_TYPE_FOR_THIS_LOCATION')}
-        onChange={onCheckDefaultLocation}
-        checked={checkDefaultLocation}
         sm
         style={{ marginTop: '10px', marginBottom: '25px' }}
         hookFormRegister={register(DEFAULT_IRRIGATION_TASK_LOCATION)}
@@ -201,8 +195,6 @@ export default function PureIrrigationTask({
 
       <Checkbox
         label={t('ADD_TASK.IRRIGATION_VIEW.SET_AS_DEFAULT_MEASUREMENT_FOR_THIS_IRRIGATION_TYPE')}
-        onChange={onCheckDefaultMeasurementType}
-        checked={checkDefaultMeasurement}
         sm
         style={{ marginTop: '2px', marginBottom: '20px' }}
         hookFormRegister={register(DEFAULT_IRRIGATION_MEASUREMENT)}

@@ -22,9 +22,15 @@ export default function PureAddFarm({
   const { t } = useTranslation(['translation', 'common']);
   return (
     <Form
+      data-cy="addFarm-form"
       onSubmit={onSubmit}
       buttonGroup={
-        <Button data-cy="addFarm-continue" type={'submit'} disabled={disabled || loading} fullLength>
+        <Button
+          data-cy="addFarm-continue"
+          type={'submit'}
+          disabled={disabled || loading}
+          fullLength
+        >
           {loading ? t('common:LOADING') : t('common:CONTINUE')}
         </Button>
       }

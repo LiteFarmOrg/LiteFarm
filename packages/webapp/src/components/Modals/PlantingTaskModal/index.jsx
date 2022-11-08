@@ -25,6 +25,7 @@ export function PlantingTaskModal({ dismissModal, goToCatalogue, updatePlantTask
       buttonGroup={
         <>
           <Button
+            data-cy="tasks-plantingModalCancel"
             className={styles.button}
             onClick={onCancel}
             color={'secondary'}
@@ -40,6 +41,7 @@ export function PlantingTaskModal({ dismissModal, goToCatalogue, updatePlantTask
       }
     >
       <Checkbox
+        data-cy="tasks-plantingModalCheckBox"
         label={t('common:DO_NOT_SHOW')}
         checked={checked}
         sm

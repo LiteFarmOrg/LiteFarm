@@ -23,7 +23,6 @@ export default function PureCompleteStepOne({
   system,
   products,
 
-
   useHookFormPersist,
 }) {
   const { t } = useTranslation();
@@ -53,7 +52,7 @@ export default function PureCompleteStepOne({
   return (
     <Form
       buttonGroup={
-        <Button type={'submit'} disabled={!isValid} fullLength>
+        <Button data-cy="beforeComplete-submit" type={'submit'} disabled={!isValid} fullLength>
           {t('common:CONTINUE')}
         </Button>
       }

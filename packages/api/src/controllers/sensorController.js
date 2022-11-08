@@ -400,18 +400,24 @@ const sensorController = {
   },
 
   async addReading(req, res) {
+    if (!Object.keys(req.body).length) res.status(400).json('no data posted');
+
+    // eslint-disable-next-line no-console
+    console.log('Ensemble Data  >>>>>> ', JSON.stringify(req.body));
+
     if (!transaction) res.status(400).json('transaction not found');
+
     // eslint-disable-next-line no-console
     console.log('transaction >>>> ', transaction);
+
     const trx = await transaction.start(Model.knex());
 
     if (!trx) res.status(400).json('trx not found');
     // eslint-disable-next-line no-console
     console.log('trx >>>> ', trx);
+
     try {
       const infoBody = [];
-      // eslint-disable-next-line no-console
-      console.log('Ensemble Data  >>>>>> ', JSON.stringify(req.body));
       for (const sensor of Object.keys(req.body)) {
         const sensorData = req.body[sensor].data;
         let corresponding_sensor = await SensorModel.query()

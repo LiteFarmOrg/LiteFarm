@@ -29,21 +29,21 @@ import endPoints from '../endPoints.js';
 import { fileURLToPath } from 'url';
 const { ensembleAPI } = endPoints;
 
-const baseUrl = 'https://9044-2604-3d08-6384-7a00-3c6e-8407-2521-ba86.ngrok.io';
-// if (process.env.NODE_ENV === 'integration') {
-//   baseUrl = 'https://api.beta.litefarm.org';
-// } else if (process.env.NODE_ENV === 'production') {
-//   baseUrl = 'https://api.app.litefarm.org';
-// } else if (process.env.NODE_ENV === 'development') {
-//   /*
-//    * NOTE: for testing out the webhook run the following:
-//    * - 'npm run ngrok:api' (or 'npm run ngrok' for both frontend and backend forwarding)
-//    * - 'npm run ngrok:setup'
-//    */
-//   baseUrl = process.env.NGROK_API;
-// } else {
-//   baseUrl = 'http://localhost:' + process.env.PORT;
-// }
+let baseUrl;
+if (process.env.NODE_ENV === 'integration') {
+  baseUrl = 'https://api.beta.litefarm.org';
+} else if (process.env.NODE_ENV === 'production') {
+  baseUrl = 'https://api.app.litefarm.org';
+} else if (process.env.NODE_ENV === 'development') {
+  /*
+   * NOTE: for testing out the webhook run the following:
+   * - 'npm run ngrok:api' (or 'npm run ngrok' for both frontend and backend forwarding)
+   * - 'npm run ngrok:setup'
+   */
+  baseUrl = process.env.NGROK_API;
+} else {
+  baseUrl = 'http://localhost:' + process.env.PORT;
+}
 
 /**
  * Sends a request to the Ensemble API for an organization to claim sensors

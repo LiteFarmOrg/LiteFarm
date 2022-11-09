@@ -432,7 +432,8 @@ const sensorController = {
               valid: sensorInfo.validated[k] || false,
               unit,
             };
-            // Only include this entry if all required values are populated
+            // checks the number of keys i.e the number of attributes present in the row object.
+            // these attibutes are the data columns of the sensor readings table.
             if (Object.values(row).length) {
               infoBody.push(row);
             }

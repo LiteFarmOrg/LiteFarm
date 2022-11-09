@@ -149,7 +149,7 @@ export default function PureIrrigationTask({
         )}
       />
       {(irrigationTypeValue === null ||
-        getValues(IRRIGATION_TYPE).label === t('ADD_TASK.IRRIGATION_VIEW.TYPE.OTHER')) && (
+        getValues(IRRIGATION_TYPE)?.label === t('ADD_TASK.IRRIGATION_VIEW.TYPE.OTHER')) && (
         <Input
           style={{ marginTop: '15px' }}
           label={t('ADD_TASK.IRRIGATION_VIEW.WHAT_TYPE_OF_IRRIGATION')}

@@ -364,6 +364,47 @@ const getTransplantTaskBody = (data, endpoint, managementPlanWithCurrentLocation
   );
 };
 
+const getIrrigationTaskBody = (data, endpoint, managementPlanWithCurrentLocationEntities) => {
+  const managementPlans = data.managementPlans.map(
+    (managementPlan) => managementPlan.management_plan_id,
+  );
+  const irrigation_task_type = data.irrigation_task_type?.value
+    ? data.irrigation_task_type.value
+    : data.irrigation_task_type_other;
+  const set_default_irrigation_task_location = data.set_default_irrigation_task_type_location;
+  const set_default_irrigation_task_type_measurement =
+    data.set_default_irrigation_task_type_measurement;
+  const set_default_location_flow_rate = data.set_default_location_flow_rate;
+  return produce(
+    getPostTaskBody(data, 'irrigation_task', managementPlanWithCurrentLocationEntities),
+    (data) => {
+      data.managementPlans = managementPlans?.map((management_plan_id) => ({
+        planting_management_plan_id:
+          managementPlanWithCurrentLocationEntities[management_plan_id].planting_management_plan
+            .planting_management_plan_id,
+      }));
+      data.irrigation_task = {
+        type: irrigation_task_type,
+        default_measuring_type:
+          set_default_irrigation_task_type_measurement === true ? data.measurement_type : null,
+      };
+      data.location = {
+        id: data.locations[0].location_id,
+        default_irrigation_task_type:
+          set_default_irrigation_task_location === true ? irrigation_task_type : null,
+        default_flow_rate: set_default_location_flow_rate === true ? data.flow_rate : null,
+      };
+      delete data.irrigation_task_type_other;
+      delete data.crop_management_plan;
+      delete data.locations;
+      delete data.irrigation_task_type;
+      delete data.set_default_irrigation_task_type_measurement;
+      delete data.set_default_irrigation_task_type_location;
+      delete data.set_default_location_flow_rate;
+    },
+  );
+};
+
 const taskTypeGetPostTaskBodyFunctionMap = {
   CLEANING_TASK: getPostTaskBody,
   FIELD_WORK_TASK: getPostTaskBody,
@@ -371,6 +412,7 @@ const taskTypeGetPostTaskBodyFunctionMap = {
   SOIL_AMENDMENT_TASK: getPostTaskBody,
   HARVEST_TASK: getPostHarvestTaskBody,
   TRANSPLANT_TASK: getTransplantTaskBody,
+  IRRIGATION_TASK: getIrrigationTaskBody,
 };
 
 const getPostTaskReqBody = (

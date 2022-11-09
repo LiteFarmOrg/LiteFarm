@@ -84,10 +84,10 @@ export default function PureIrrigationTask({
     },
     { label: t('ADD_TASK.IRRIGATION_VIEW.TYPE.OTHER'), value: null, default_measuring_type: null },
   ];
-  const IRRIGATION_TYPE = 'irrigation_type';
-  const DEFAULT_IRRIGATION_TASK_LOCATION = 'default_irrigation_task_location';
-  const DEFAULT_IRRIGATION_MEASUREMENT = 'default_irrigation_measurement';
-  const CREATE_IRRIGATION_TYPE = 'create_irrigation_type';
+  const IRRIGATION_TYPE = 'irrigation_task_type';
+  const DEFAULT_IRRIGATION_TASK_LOCATION = 'set_default_irrigation_task_type_location';
+  const DEFAULT_IRRIGATION_MEASUREMENT = 'set_default_irrigation_task_type_measurement';
+  const CREATE_IRRIGATION_TYPE = 'irrigation_task_type_other';
   const MEASUREMENT_TYPE = 'measurement_type';
   const DEPTH = 'estimated_water_usage';
   const DEPTH_UNIT = 'estimated_water_usage_unit';
@@ -149,7 +149,7 @@ export default function PureIrrigationTask({
         )}
       />
       {(irrigationTypeValue === null ||
-        getValues(IRRIGATION_TYPE).label === t('ADD_TASK.IRRIGATION_VIEW.TYPE.OTHER')) && (
+        getValues(IRRIGATION_TYPE)?.label === t('ADD_TASK.IRRIGATION_VIEW.TYPE.OTHER')) && (
         <Input
           style={{ marginTop: '15px' }}
           label={t('ADD_TASK.IRRIGATION_VIEW.WHAT_TYPE_OF_IRRIGATION')}

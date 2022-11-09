@@ -402,7 +402,10 @@ const sensorController = {
   async addReading(req, res) {
     // eslint-disable-next-line no-console
     console.log('Ensemble Data  >>>>>> ', JSON.stringify(req.body));
-    if (!Object.keys(req.body).length) res.status(400).json('no data posted');
+    if (!Object.keys(req.body).length) {
+      res.status(400).json('no data posted');
+      return;
+    }
 
     res.status(200).json({ testData: req.body });
 

@@ -404,6 +404,7 @@ const sensorController = {
 
     // eslint-disable-next-line no-console
     console.log('Ensemble Data  >>>>>> ', JSON.stringify(req.body));
+    res.json({ testData: req.body });
 
     //   if (!transaction) res.status(400).json('transaction not found');
 

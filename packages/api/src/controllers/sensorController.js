@@ -403,7 +403,6 @@ const sensorController = {
     if (!Object.keys(req.body).length) {
       return res.status(400).json('no data posted');
     }
-
     const trx = await transaction.start(Model.knex());
     try {
       const infoBody = [];

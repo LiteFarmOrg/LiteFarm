@@ -26,7 +26,7 @@ services:
     deploy:
       restart_policy:
         condition: on-failure
-        max_attempts: 10
+        max_attempts: 3
     build:
       context: ./packages/
       dockerfile: ./api/prod.Dockerfile

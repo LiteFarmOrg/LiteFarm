@@ -424,19 +424,14 @@ const sensorController = {
             return res.status(400).send('sensor values and timestamps are not in sync');
 
           for (let k = 0; k < sensorInfo.values.length; ++k) {
-            const row = {
+            infoBody.push({
               read_time: sensorInfo.timestamps[k] || '',
               location_id: corresponding_sensor.location_id,
               value: sensorInfo.values[k],
               reading_type: parameter_number,
               valid: sensorInfo.validated[k] || false,
               unit,
-            };
-            // checks the number of keys i.e the number of attributes present in the row object.
-            // these attibutes are the data columns of the sensor readings table.
-            if (Object.values(row).length) {
-              infoBody.push(row);
-            }
+            });
           }
         }
       }

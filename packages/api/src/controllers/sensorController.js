@@ -407,22 +407,7 @@ const sensorController = {
       return res.status(400).json('no data posted');
     }
 
-    // res.status(200).json({ testData: req.body });
-    if (!transaction) {
-      return res.status(400).json('transaction not found');
-    }
-
-    // eslint-disable-next-line no-console
-    console.log('transaction >>>> ', transaction);
-
     const trx = await transaction.start(Model.knex());
-
-    if (!trx) {
-      return res.status(400).json('trx not found');
-    }
-    // eslint-disable-next-line no-console
-    console.log('trx >>>> ', trx);
-
     try {
       const infoBody = [];
       for (const sensor of Object.keys(req.body)) {

@@ -401,7 +401,7 @@ const sensorController = {
 
   async addReading(req, res) {
     if (!Object.keys(req.body).length) {
-      return res.status(400).json('no data posted');
+      return res.status(400).send('No sensor readings posted');
     }
     const trx = await transaction.start(Model.knex());
     try {

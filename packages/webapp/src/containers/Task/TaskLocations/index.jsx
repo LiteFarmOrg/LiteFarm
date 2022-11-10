@@ -126,7 +126,6 @@ function TaskAllLocations({ history, location }) {
     history.push('/add_task/task_crops', location?.state);
   };
 
-  
   return (
     <TaskLocations
       locations={locations}

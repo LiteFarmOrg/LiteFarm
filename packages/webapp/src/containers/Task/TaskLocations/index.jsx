@@ -88,6 +88,7 @@ function TaskTransplantLocations({ history, location }) {
 }
 
 function TaskIrrigationLocations({ history, location }) {
+  const { t } = useTranslation();
   const cropLocations = useSelector(cropLocationsSelector);
   const readOnlyPinCoordinates = useReadOnlyPinCoordinates();
   const onContinue = () => {
@@ -99,6 +100,7 @@ function TaskIrrigationLocations({ history, location }) {
       locations={cropLocations}
       history={history}
       isMulti={false}
+      title={t('TASK.IRRIGATION_LOCATION')}
       onContinue={onContinue}
       readOnlyPinCoordinates={readOnlyPinCoordinates}
       location={location}

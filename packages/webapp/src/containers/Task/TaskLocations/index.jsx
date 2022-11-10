@@ -151,10 +151,10 @@ function TaskLocations({
   const managementPlan = location?.state?.management_plan_id
     ? useSelector(managementPlanSelector(location.state.management_plan_id))
     : null;
-
   const onGoBack = () => {
     history.back();
   };
+  
   return (
     <HookFormPersistProvider>
       <PureTaskLocations

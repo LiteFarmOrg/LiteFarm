@@ -76,10 +76,9 @@ export default function PureTaskLocations({
   }, []);
 
   const onChange = (e) => {
-    if(e.target.checked){
+    if(!isMulti && e.target.checked){
       clearLocations();
     }
-    
   }
 
   const getSelectedLocations = (location_id, selectedLocations) => {

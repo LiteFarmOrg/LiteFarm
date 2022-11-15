@@ -81,6 +81,8 @@ jobs:
 
       - name: Set code coverage commit status and update coverage badge
         run: cd packages/webapp && npx set-gh-status && npx update-badge
+
+      - uses: mikeal/publish-to-github-action@master
         env: 
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
       

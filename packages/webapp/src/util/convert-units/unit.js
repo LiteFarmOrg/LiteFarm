@@ -124,13 +124,13 @@ export const estimated_duration = {
 
 export const application_depth = {
   metric: {
-    units: ['mm', 'm'],
+    units: ['mm'],
     defaultUnit: 'mm',
     breakpoints: [1000],
   },
   imperial: {
-    units: ['ft2', 'ac'],
-    defaultUnit: 'ft2',
+    units: ['in'],
+    defaultUnit: 'in',
     breakpoints: [10890],
   },
   databaseUnit: databaseUnit.length,

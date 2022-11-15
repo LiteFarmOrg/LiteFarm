@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import ModalComponent from '../ModalComponent/v2';
 import { ReactComponent as Person } from '../../../assets/images/task/Person.svg';
@@ -13,7 +13,6 @@ import {
   percentage_location,
   estimated_duration,
 } from '../../../util/convert-units/unit';
-import { useForm } from 'react-hook-form';
 import Checkbox from '../../Form/Checkbox';
 import { Label } from '../../Typography';
 
@@ -45,25 +44,19 @@ const TotalWaterUsage = ({ totalWaterUsage }) => {
 
 const WaterUseVolumeCalculator = ({
   system,
-  persistedFormData,
-  useHookFormPersist,
   setTotalWaterUsage,
   totalWaterUsage,
+  setModalValues,
+  formState,
 }) => {
   const { t } = useTranslation();
-  const { register, getValues, watch, control, setValue } = useForm({
-    mode: 'onChange',
-    shouldUnregister: false,
-    defaultValues: {
-      measurement_type: '',
-      ...persistedFormData,
-    },
-  });
+  const { register, getValues, watch, control, setValue } = formState();
   const { estimated_flow_rate, estimated_duration } = getValues();
   useEffect(() => {
     if (estimated_flow_rate && estimated_duration) {
       setTotalWaterUsage(() => estimated_flow_rate * estimated_duration);
     }
+    setModalValues(getValues());
   }, [estimated_duration, estimated_flow_rate]);
 
   const FLOW_RATE = 'estimated_flow_rate';
@@ -119,20 +112,13 @@ const WaterUseVolumeCalculator = ({
 
 const WaterUseDepthCalculator = ({
   system,
-  persistedFormData,
-  useHookFormPersist,
   setTotalWaterUsage,
   totalWaterUsage,
+
+  formState,
 }) => {
   const { t } = useTranslation();
-  const { register, getValues, watch, control, setValue } = useForm({
-    mode: 'onChange',
-    shouldUnregister: false,
-    defaultValues: {
-      measurement_type: '',
-      ...persistedFormData,
-    },
-  });
+  const { register, getValues, watch, control, setValue } = formState();
 
   const APPLICATION_DEPTH = 'application_depth';
   const APPLICATION_DEPTH_UNIT = 'application_depth_unit';
@@ -155,7 +141,7 @@ const WaterUseDepthCalculator = ({
         hookFromWatch={watch}
         name={APPLICATION_DEPTH}
         unitType={application_depth}
-        max={999999999}
+        max={999999.99}
         system={system}
         control={control}
         disabled={false}
@@ -177,7 +163,7 @@ const WaterUseDepthCalculator = ({
         hookFromWatch={watch}
         name={LOCATION_IRRIGATED}
         unitType={percentage_location}
-        max={999999999}
+        max={100}
         system={system}
         control={control}
         disabled={false}
@@ -232,13 +218,20 @@ const WaterUseDepthCalculator = ({
   );
 };
 
-const WaterUseModal = ({ measurementType, system, setTotalWaterUsage, totalWaterUsage }) => {
+const WaterUseModal = ({
+  measurementType,
+  system,
+  setTotalWaterUsage,
+  totalWaterUsage,
+  formState,
+}) => {
   if (measurementType === 'VOLUME')
     return (
       <WaterUseVolumeCalculator
         system={system}
         totalWaterUsage={totalWaterUsage}
         setTotalWaterUsage={setTotalWaterUsage}
+        formState={formState}
       />
     );
   if (measurementType === 'DEPTH')
@@ -247,6 +240,7 @@ const WaterUseModal = ({ measurementType, system, setTotalWaterUsage, totalWater
         system={system}
         totalWaterUsage={totalWaterUsage}
         setTotalWaterUsage={setTotalWaterUsage}
+        formState={formState}
       />
     );
 };
@@ -258,6 +252,7 @@ export default function WaterUseCalculatorModal({
   handleModalSubmit,
   totalWaterUsage,
   setTotalWaterUsage,
+  formState,
 }) {
   const { t } = useTranslation();
 
@@ -288,6 +283,7 @@ export default function WaterUseCalculatorModal({
         measurementType={measurementType}
         totalWaterUsage={totalWaterUsage}
         setTotalWaterUsage={setTotalWaterUsage}
+        formState={formState}
       />
     </ModalComponent>
   );

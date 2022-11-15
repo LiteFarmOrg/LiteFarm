@@ -47,6 +47,10 @@ export default function PureIrrigationTask({
     },
   });
 
+  const stateController = () => {
+    return { register, getValues, watch, control, setValue };
+  };
+
   const IrrigationTypeOptions = [
     {
       label: t('ADD_TASK.IRRIGATION_VIEW.TYPE.HAND_WATERING'),
@@ -246,6 +250,7 @@ export default function PureIrrigationTask({
           handleModalSubmit={handleModalSubmit}
           totalWaterUsage={totalWaterUsage}
           setTotalWaterUsage={setTotalWaterUsage}
+          formState={stateController}
         />
       )}
 

@@ -564,6 +564,7 @@ Cypress.Commands.add('addFarm', (farmName, location) => {
   //   cy.getReact('PureAddFarm').getProps('map').getProps('gridPoints');
   //   cy.wait(5 * 1000);
   // });
+  cy.log(apiUrl);
   token = localStorage.getItem('id_token');
   cy.request({
     method: 'POST',

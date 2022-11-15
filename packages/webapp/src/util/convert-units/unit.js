@@ -122,7 +122,7 @@ export const estimated_duration = {
   databaseUnit: databaseUnit.length,
 };
 
-export const application_depth = {
+export const irrigation_depth = {
   metric: {
     units: ['mm'],
     defaultUnit: 'mm',

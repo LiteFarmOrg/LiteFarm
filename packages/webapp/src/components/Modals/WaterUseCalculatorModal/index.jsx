@@ -9,12 +9,14 @@ import Unit from '../../Form/Unit';
 import {
   water_valve_flow_rate,
   location_area,
-  application_depth,
+  irrigation_depth,
   percentage_location,
   estimated_duration,
 } from '../../../util/convert-units/unit';
 import Checkbox from '../../Form/Checkbox';
 import { Label } from '../../Typography';
+import { useSelector } from 'react-redux';
+import { cropLocationsSelector } from '../../../containers/locationSlice';
 
 const TotalWaterUsage = ({ totalWaterUsage }) => {
   const { t } = useTranslation();
@@ -42,28 +44,22 @@ const TotalWaterUsage = ({ totalWaterUsage }) => {
   );
 };
 
-const WaterUseVolumeCalculator = ({
-  system,
-  setTotalWaterUsage,
-  totalWaterUsage,
-  setModalValues,
-  formState,
-}) => {
+const WaterUseVolumeCalculator = ({ system, setTotalWaterUsage, totalWaterUsage, formState }) => {
   const { t } = useTranslation();
   const { register, getValues, watch, control, setValue } = formState();
-  const { estimated_flow_rate, estimated_duration } = getValues();
+  const { estimated_flow_rate, estimated_irrigation_duration } = getValues();
+
   useEffect(() => {
-    if (estimated_flow_rate && estimated_duration) {
-      setTotalWaterUsage(() => estimated_flow_rate * estimated_duration);
+    if (estimated_flow_rate && estimated_irrigation_duration) {
+      setTotalWaterUsage(() => estimated_flow_rate * estimated_irrigation_duration);
     }
-    setModalValues(getValues());
-  }, [estimated_duration, estimated_flow_rate]);
+  }, [estimated_irrigation_duration, estimated_flow_rate]);
 
   const FLOW_RATE = 'estimated_flow_rate';
   const FLOW_RATE_UNIT = 'estimated_flow_rate_unit';
   const DEFAULT_LOCATION_FLOW_RATE = 'default_location_flow_rate';
-  const ESTIMATED_DURATION = 'estimated_duration';
-  const ESTIMATED_DURATION_UNIT = 'estimated_duration_unit';
+  const ESTIMATED_DURATION = 'estimated_irrigation_duration';
+  const ESTIMATED_DURATION_UNIT = 'estimated_irrigation_duration_unit';
 
   return (
     <>
@@ -79,7 +75,6 @@ const WaterUseVolumeCalculator = ({
         max={999999999}
         system={system}
         control={control}
-        disabled={false}
       />
 
       <Checkbox
@@ -97,12 +92,11 @@ const WaterUseVolumeCalculator = ({
         hookFormGetValue={getValues}
         hookFromWatch={watch}
         name={ESTIMATED_DURATION}
-        unitType={estimated_duration}
+        unitType={water_valve_flow_rate}
         max={999999999}
         system={system}
         control={control}
         style={{ paddingBottom: '32px' }}
-        disabled={false}
       />
 
       <TotalWaterUsage totalWaterUsage={totalWaterUsage} />
@@ -110,26 +104,34 @@ const WaterUseVolumeCalculator = ({
   );
 };
 
-const WaterUseDepthCalculator = ({
-  system,
-  setTotalWaterUsage,
-  totalWaterUsage,
-
-  formState,
-}) => {
+const WaterUseDepthCalculator = ({ system, setTotalWaterUsage, totalWaterUsage, formState }) => {
   const { t } = useTranslation();
   const { register, getValues, watch, control, setValue } = formState();
+  const { location_size, application_depth, percentage_location_irrigated } = getValues();
+
+  const location = useSelector(cropLocationsSelector).filter(
+    (location) => location.location_id === getValues().locations[0].location_id,
+  );
 
   const APPLICATION_DEPTH = 'application_depth';
   const APPLICATION_DEPTH_UNIT = 'application_depth_unit';
   const DEFAULT_LOCATION_APPLICATION_DEPTH = 'default_location_application_depth';
-  const LOCATION_IRRIGATED = 'location_irrigated';
-  const LOCATION_IRRIGATED_UNIT = 'location_irrigated_unit';
+  const PERCENTAGE_LOCATION_IRRIGATED = 'percentage_location_irrigated';
+  const PERCENTAGE_LOCATION_IRRIGATED_UNIT = 'percentage_location_irrigated_unit';
 
   const LOCATION_SIZE = 'location_size';
   const LOCATION_SIZE_UNIT = 'location_size_unit';
   const IRRIGATED_AREA = 'irrigated_area';
   const IRRIGATED_AREA_UNIT = 'irrigated_area_unit';
+
+  useEffect(() => {
+    if (location_size && percentage_location_irrigated) {
+      const irrigatedArea = location_size * application_depth;
+      console.log(irrigatedArea);
+      setValue(IRRIGATED_AREA, irrigatedArea);
+    }
+  }, [location_size, percentage_location_irrigated]);
+
   return (
     <>
       <Unit
@@ -140,7 +142,7 @@ const WaterUseDepthCalculator = ({
         hookFormGetValue={getValues}
         hookFromWatch={watch}
         name={APPLICATION_DEPTH}
-        unitType={application_depth}
+        unitType={irrigation_depth}
         max={999999.99}
         system={system}
         control={control}
@@ -156,12 +158,12 @@ const WaterUseDepthCalculator = ({
 
       <Unit
         register={register}
-        displayUnitName={LOCATION_IRRIGATED_UNIT}
+        displayUnitName={PERCENTAGE_LOCATION_IRRIGATED_UNIT}
         label={t('ADD_TASK.IRRIGATION_VIEW.PERCENTAGE_LOCATION_TO_BE_IRRIGATED')}
         hookFormSetValue={setValue}
         hookFormGetValue={getValues}
         hookFromWatch={watch}
-        name={LOCATION_IRRIGATED}
+        name={PERCENTAGE_LOCATION_IRRIGATED}
         unitType={percentage_location}
         max={100}
         system={system}
@@ -192,7 +194,7 @@ const WaterUseDepthCalculator = ({
           hookFromWatch={watch}
           control={control}
           required
-          value={5665}
+          value={location[0].total_area}
           disabled={true}
         />
 
@@ -209,7 +211,6 @@ const WaterUseDepthCalculator = ({
           hookFromWatch={watch}
           control={control}
           required
-          value={78888}
           disabled={true}
         />
       </div>

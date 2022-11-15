@@ -79,7 +79,8 @@ jobs:
           group: 'UI - Chrome'
           spec: cypress/e2e/happyPath.spec.js
 
-      - name: Ensure coverage has not dropped 📈
-        run: cd packages/webapp && npx set-gh-status
+      - name: Set code coverage commit status and update coverage badge
+        run: cd packages/webapp && npx set-gh-status && npx update-badge
         env: 
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+      

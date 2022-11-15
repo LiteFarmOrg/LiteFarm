@@ -81,5 +81,5 @@ jobs:
 
       - name: Ensure coverage has not dropped 📈
         run: npx set-gh-status
-          env:|
-          GITHUB_TOKEN:${{ secrets.GITHUB_TOKEN }
+        env: 
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}

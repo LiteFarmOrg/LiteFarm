@@ -164,33 +164,34 @@ Cypress.Commands.add('createACleaningTask', (taskType_id) => {
     .and('not.be.disabled')
     .click({ force: true });
 
-  cy.get('[data-cy=addTask-assignmentSave]').should('exist');
-  // .and('not.be.disabled')
-  // .click({ force: true });
+  cy.get('[data-cy=addTask-assignmentSave]')
+    .should('exist')
+    .and('not.be.disabled')
+    .click({ force: true });
 
-  cy.request({
-    method: 'POST',
-    url: apiUrl + '/task/cleaning_task',
-    headers: { Authorization: 'Bearer ' + token, user_id, farm_id },
-    body: {
-      task_type_id: taskType_id,
-      due_date: date,
-      locations: [
-        {
-          location_id: fieldLocation_id,
-        },
-      ],
-      cleaning_task: {
-        agent_used: false,
-        water_usage_unit: 'l',
-      },
-      assignee_user_id: null,
-      override_hourly_wage: false,
-      wage_at_moment: null,
-    },
-  }).then((response) => {
-    expect(response.status).to.equal(201); // true
-  });
+  // cy.request({
+  //   method: 'POST',
+  //   url: apiUrl + '/task/cleaning_task',
+  //   headers: { Authorization: 'Bearer ' + token, user_id, farm_id },
+  //   body: {
+  //     task_type_id: taskType_id,
+  //     due_date: date,
+  //     locations: [
+  //       {
+  //         location_id: fieldLocation_id,
+  //       },
+  //     ],
+  //     cleaning_task: {
+  //       agent_used: false,
+  //       water_usage_unit: 'l',
+  //     },
+  //     assignee_user_id: null,
+  //     override_hourly_wage: false,
+  //     wage_at_moment: null,
+  //   },
+  // }).then((response) => {
+  //   expect(response.status).to.equal(201); // true
+  // });
 });
 
 Cypress.Commands.add('createAFieldWorkTask', () => {

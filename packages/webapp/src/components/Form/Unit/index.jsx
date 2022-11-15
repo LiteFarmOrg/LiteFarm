@@ -35,6 +35,8 @@ import { ReactComponent as Leaf } from '../../../assets/images/signUp/leaf.svg';
 import { convert } from '../../../util/convert-units/convert';
 
 export const getUnitOptionMap = () => ({
+  percentage: { label: '%', value: '%' },
+  mm: { label: 'mm', value: 'mm' },
   m2: { label: 'm²', value: 'm2' },
   ha: { label: 'ha', value: 'ha' },
   ft2: { label: 'ft²', value: 'ft2' },

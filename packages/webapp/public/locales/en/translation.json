@@ -151,7 +151,9 @@
       "ESTIMATED_APPLICATION_DEPTH": "Estimated application depth",
       "DEFAULT_APPLICATION_DEPTH": "Set as default application depth for this location",
       "PERCENTAGE_LOCATION_TO_BE_IRRIGATED": "% of location to be irrigated.",
-      "TOTAL_WATER_USAGE": "Total Water Usage"
+      "TOTAL_WATER_USAGE": "Total Water Usage",
+      "LOCATION_SIZE": "Location size",
+      "IRRIGATED_AREA": "Irrigated area"
     }
   },
   "BED_PLAN": {

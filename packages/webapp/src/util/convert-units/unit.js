@@ -112,7 +112,47 @@ export const container_planting_depth = {
   },
   databaseUnit: databaseUnit.length,
 };
+export const application_depth = {
+  metric: {
+    units: ['mm', 'm'],
+    defaultUnit: 'mm',
+    breakpoints: [1000],
+  },
+  imperial: {
+    units: ['ft2', 'ac'],
+    defaultUnit: 'ft2',
+    breakpoints: [10890],
+  },
+  databaseUnit: databaseUnit.length,
+};
 
+export const percentage_location = {
+  metric: {
+    units: ['percentage'],
+    defaultUnit: 'percentage',
+    breakpoints: [1000],
+  },
+  imperial: {
+    units: ['ft2', 'ac'],
+    defaultUnit: 'ft2',
+    breakpoints: [10890],
+  },
+  databaseUnit: databaseUnit.area,
+};
+
+export const location_area = {
+  metric: {
+    units: ['ha', 'm2'],
+    defaultUnit: 'ha',
+    breakpoints: [1000],
+  },
+  imperial: {
+    units: ['ft2', 'ac'],
+    defaultUnit: 'ft2',
+    breakpoints: [10890],
+  },
+  databaseUnit: databaseUnit.area,
+};
 export const length_of_bed_or_row = {
   metric: {
     units: ['cm', 'm'],

@@ -7,13 +7,13 @@ import Button from '../../Form/Button';
 import PropTypes from 'prop-types';
 import Unit from '../../Form/Unit';
 import {
-  area_perimeter,
-  area_total_area,
   water_valve_flow_rate,
+  location_area,
+  application_depth,
+  percentage_location,
 } from '../../../util/convert-units/unit';
 import { useForm } from 'react-hook-form';
 import Checkbox from '../../Form/Checkbox';
-import { fieldEnum as areaEnum } from '../../../containers/constants';
 import { Label } from '../../Typography';
 
 const TotalWaterUsage = ({ totalWaterUsage }) => {
@@ -119,6 +119,11 @@ const WaterUseDepthCalculator = ({ system, persistedFormData, useHookFormPersist
   const DEFAULT_LOCATION_APPLICATION_DEPTH = 'default_location_application_depth';
   const LOCATION_IRRIGATED = 'location_irrigated';
   const LOCATION_IRRIGATED_UNIT = 'location_irrigated_unit';
+
+  const LOCATION_SIZE = 'location_size';
+  const LOCATION_SIZE_UNIT = 'location_size_unit';
+  const IRRIGATED_AREA = 'irrigated_area';
+  const IRRIGATED_AREA_UNIT = 'irrigated_area_unit';
   return (
     <>
       <Unit
@@ -129,7 +134,7 @@ const WaterUseDepthCalculator = ({ system, persistedFormData, useHookFormPersist
         hookFormGetValue={getValues}
         hookFromWatch={watch}
         name={APPLICATION_DEPTH}
-        unitType={water_valve_flow_rate}
+        unitType={application_depth}
         max={999999999}
         system={system}
         control={control}
@@ -151,12 +156,13 @@ const WaterUseDepthCalculator = ({ system, persistedFormData, useHookFormPersist
         hookFormGetValue={getValues}
         hookFromWatch={watch}
         name={LOCATION_IRRIGATED}
-        unitType={water_valve_flow_rate}
+        unitType={percentage_location}
         max={999999999}
         system={system}
         control={control}
         disabled={false}
       />
+
       <div
         style={{
           flexDirection: 'row',
@@ -170,34 +176,34 @@ const WaterUseDepthCalculator = ({ system, persistedFormData, useHookFormPersist
         <Unit
           register={register}
           classes={{ container: { flexGrow: 1 } }}
-          label={t('FARM_MAP.AREA_DETAILS.TOTAL_AREA')}
-          name={areaEnum.total_area}
-          displayUnitName={areaEnum.total_area_unit}
-          unitType={area_total_area}
+          label={t('ADD_TASK.IRRIGATION_VIEW.LOCATION_SIZE')}
+          name={LOCATION_SIZE}
+          displayUnitName={LOCATION_SIZE_UNIT}
+          unitType={location_area}
           system={system}
           hookFormSetValue={setValue}
           hookFormGetValue={getValues}
           hookFromWatch={watch}
           control={control}
           required
-          // defaultValue={total_area}
+          value={5665}
           disabled={true}
         />
 
         <Unit
           register={register}
           classes={{ container: { flexGrow: 1 } }}
-          label={t('FARM_MAP.AREA_DETAILS.PERIMETER')}
-          name={areaEnum.perimeter}
-          displayUnitName={areaEnum.perimeter_unit}
-          unitType={area_perimeter}
+          label={t('ADD_TASK.IRRIGATION_VIEW.IRRIGATED_AREA')}
+          name={IRRIGATED_AREA}
+          displayUnitName={IRRIGATED_AREA_UNIT}
+          unitType={location_area}
           system={system}
           hookFormSetValue={setValue}
           hookFormGetValue={getValues}
           hookFromWatch={watch}
           control={control}
           required
-          // defaultValue={perimeter}
+          value={78888}
           disabled={true}
         />
       </div>

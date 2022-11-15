@@ -107,30 +107,35 @@ const WaterUseVolumeCalculator = ({ system, setTotalWaterUsage, totalWaterUsage,
 const WaterUseDepthCalculator = ({ system, setTotalWaterUsage, totalWaterUsage, formState }) => {
   const { t } = useTranslation();
   const { register, getValues, watch, control, setValue } = formState();
-  const { location_size, application_depth, percentage_location_irrigated } = getValues();
+  const { application_depth, percentage_location_irrigated } = getValues();
 
-  const location = useSelector(cropLocationsSelector).filter(
+  const locationArea = useSelector(cropLocationsSelector).filter(
     (location) => location.location_id === getValues().locations[0].location_id,
-  );
+  )[0].total_area;
 
   const APPLICATION_DEPTH = 'application_depth';
   const APPLICATION_DEPTH_UNIT = 'application_depth_unit';
   const DEFAULT_LOCATION_APPLICATION_DEPTH = 'default_location_application_depth';
   const PERCENTAGE_LOCATION_IRRIGATED = 'percentage_location_irrigated';
   const PERCENTAGE_LOCATION_IRRIGATED_UNIT = 'percentage_location_irrigated_unit';
-
   const LOCATION_SIZE = 'location_size';
   const LOCATION_SIZE_UNIT = 'location_size_unit';
   const IRRIGATED_AREA = 'irrigated_area';
   const IRRIGATED_AREA_UNIT = 'irrigated_area_unit';
 
   useEffect(() => {
-    if (location_size && percentage_location_irrigated) {
-      const irrigatedArea = location_size * application_depth;
-      console.log(irrigatedArea);
+    if (application_depth && percentage_location_irrigated) {
+      const totalWater = (application_depth * percentage_location_irrigated) / 100;
+      setTotalWaterUsage(totalWater);
+    }
+  }, [application_depth, percentage_location_irrigated]);
+
+  useEffect(() => {
+    if (locationArea && percentage_location_irrigated) {
+      const irrigatedArea = (locationArea * percentage_location_irrigated) / 100;
       setValue(IRRIGATED_AREA, irrigatedArea);
     }
-  }, [location_size, percentage_location_irrigated]);
+  }, [locationArea, percentage_location_irrigated]);
 
   return (
     <>
@@ -142,7 +147,7 @@ const WaterUseDepthCalculator = ({ system, setTotalWaterUsage, totalWaterUsage, 
         hookFormGetValue={getValues}
         hookFromWatch={watch}
         name={APPLICATION_DEPTH}
-        unitType={irrigation_depth}
+        unitType={location_area}
         max={999999.99}
         system={system}
         control={control}
@@ -164,7 +169,7 @@ const WaterUseDepthCalculator = ({ system, setTotalWaterUsage, totalWaterUsage, 
         hookFormGetValue={getValues}
         hookFromWatch={watch}
         name={PERCENTAGE_LOCATION_IRRIGATED}
-        unitType={percentage_location}
+        unitType={location_area}
         max={100}
         system={system}
         control={control}
@@ -194,7 +199,7 @@ const WaterUseDepthCalculator = ({ system, setTotalWaterUsage, totalWaterUsage, 
           hookFromWatch={watch}
           control={control}
           required
-          value={location[0].total_area}
+          value={locationArea}
           disabled={true}
         />
 
@@ -214,7 +219,7 @@ const WaterUseDepthCalculator = ({ system, setTotalWaterUsage, totalWaterUsage, 
           disabled={true}
         />
       </div>
-      <TotalWaterUsage totalWaterUsage={86969} />
+      <TotalWaterUsage totalWaterUsage={totalWaterUsage} />
     </>
   );
 };

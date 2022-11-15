@@ -112,6 +112,16 @@ export const container_planting_depth = {
   },
   databaseUnit: databaseUnit.length,
 };
+
+export const estimated_duration = {
+  metric: {
+    units: ['hr', 'm'],
+    defaultUnit: 'hr',
+    breakpoints: [1000],
+  },
+  databaseUnit: databaseUnit.length,
+};
+
 export const application_depth = {
   metric: {
     units: ['mm', 'm'],

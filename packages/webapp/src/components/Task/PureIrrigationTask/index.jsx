@@ -27,6 +27,7 @@ export default function PureIrrigationTask({
   const [irrigationTypeValue, setIrrigationTypeValue] = useState();
   const [showWaterUseCalculatorModal, setShowWaterUseCalculatorModal] = useState(false);
   const [showConfirmCancelModal, setShowConfirmCancelModal] = useState(false);
+  const [totalWaterUsage, setTotalWaterUsage] = useState();
 
   const { t } = useTranslation();
   const {
@@ -97,6 +98,10 @@ export default function PureIrrigationTask({
   const { historyCancel } = useHookFormPersist(getValues);
 
   const onDismissWaterUseCalculatorModel = () => setShowWaterUseCalculatorModal(false);
+  const handleModalSubmit = () => {
+    setValue(ESTIMATED_WATER_USAGE, totalWaterUsage);
+    onDismissWaterUseCalculatorModel();
+  };
 
   return (
     <Form
@@ -233,11 +238,14 @@ export default function PureIrrigationTask({
         errors={errors[NOTES]?.message}
       />
 
-      {showWaterUseCalculatorModal && (
+      {showWaterUseCalculatorModal && getValues(MEASUREMENT_TYPE) && (
         <WaterUseCalculatorModal
           dismissModal={onDismissWaterUseCalculatorModel}
           measurementType={getValues(MEASUREMENT_TYPE)}
           system={system}
+          handleModalSubmit={handleModalSubmit}
+          totalWaterUsage={totalWaterUsage}
+          setTotalWaterUsage={setTotalWaterUsage}
         />
       )}
 

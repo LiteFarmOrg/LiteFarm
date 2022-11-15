@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import ModalComponent from '../ModalComponent/v2';
 import { ReactComponent as Person } from '../../../assets/images/task/Person.svg';
@@ -11,6 +11,7 @@ import {
   location_area,
   application_depth,
   percentage_location,
+  estimated_duration,
 } from '../../../util/convert-units/unit';
 import { useForm } from 'react-hook-form';
 import Checkbox from '../../Form/Checkbox';
@@ -42,7 +43,13 @@ const TotalWaterUsage = ({ totalWaterUsage }) => {
   );
 };
 
-const WaterUseVolumeCalculator = ({ system, persistedFormData, useHookFormPersist }) => {
+const WaterUseVolumeCalculator = ({
+  system,
+  persistedFormData,
+  useHookFormPersist,
+  setTotalWaterUsage,
+  totalWaterUsage,
+}) => {
   const { t } = useTranslation();
   const { register, getValues, watch, control, setValue } = useForm({
     mode: 'onChange',
@@ -52,8 +59,15 @@ const WaterUseVolumeCalculator = ({ system, persistedFormData, useHookFormPersis
       ...persistedFormData,
     },
   });
-  const FLOW_RATE = 'flow_rate';
-  const FLOW_RATE_UNIT = 'flow_rate_unit';
+  const { estimated_flow_rate, estimated_duration } = getValues();
+  useEffect(() => {
+    if (estimated_flow_rate && estimated_duration) {
+      setTotalWaterUsage(() => estimated_flow_rate * estimated_duration);
+    }
+  }, [estimated_duration, estimated_flow_rate]);
+
+  const FLOW_RATE = 'estimated_flow_rate';
+  const FLOW_RATE_UNIT = 'estimated_flow_rate_unit';
   const DEFAULT_LOCATION_FLOW_RATE = 'default_location_flow_rate';
   const ESTIMATED_DURATION = 'estimated_duration';
   const ESTIMATED_DURATION_UNIT = 'estimated_duration_unit';
@@ -90,7 +104,7 @@ const WaterUseVolumeCalculator = ({ system, persistedFormData, useHookFormPersis
         hookFormGetValue={getValues}
         hookFromWatch={watch}
         name={ESTIMATED_DURATION}
-        unitType={water_valve_flow_rate}
+        unitType={estimated_duration}
         max={999999999}
         system={system}
         control={control}
@@ -98,12 +112,18 @@ const WaterUseVolumeCalculator = ({ system, persistedFormData, useHookFormPersis
         disabled={false}
       />
 
-      <TotalWaterUsage totalWaterUsage={7890} />
+      <TotalWaterUsage totalWaterUsage={totalWaterUsage} />
     </>
   );
 };
 
-const WaterUseDepthCalculator = ({ system, persistedFormData, useHookFormPersist }) => {
+const WaterUseDepthCalculator = ({
+  system,
+  persistedFormData,
+  useHookFormPersist,
+  setTotalWaterUsage,
+  totalWaterUsage,
+}) => {
   const { t } = useTranslation();
   const { register, getValues, watch, control, setValue } = useForm({
     mode: 'onChange',
@@ -212,13 +232,35 @@ const WaterUseDepthCalculator = ({ system, persistedFormData, useHookFormPersist
   );
 };
 
-const WaterUseModal = ({ measurementType, system }) => {
-  if (measurementType === 'VOLUME') return <WaterUseVolumeCalculator system={system} />;
-  return <WaterUseDepthCalculator system={system} />;
+const WaterUseModal = ({ measurementType, system, setTotalWaterUsage, totalWaterUsage }) => {
+  if (measurementType === 'VOLUME')
+    return (
+      <WaterUseVolumeCalculator
+        system={system}
+        totalWaterUsage={totalWaterUsage}
+        setTotalWaterUsage={setTotalWaterUsage}
+      />
+    );
+  if (measurementType === 'DEPTH')
+    return (
+      <WaterUseDepthCalculator
+        system={system}
+        totalWaterUsage={totalWaterUsage}
+        setTotalWaterUsage={setTotalWaterUsage}
+      />
+    );
 };
 
-export default function WaterUseCalculatorModal({ dismissModal, measurementType, system }) {
+export default function WaterUseCalculatorModal({
+  dismissModal,
+  measurementType,
+  system,
+  handleModalSubmit,
+  totalWaterUsage,
+  setTotalWaterUsage,
+}) {
   const { t } = useTranslation();
+
   return (
     <ModalComponent
       dismissModal={dismissModal}
@@ -229,7 +271,7 @@ export default function WaterUseCalculatorModal({ dismissModal, measurementType,
             {t('common:CANCEL')}
           </Button>
 
-          <Button className={styles.button} color="primary" sm>
+          <Button className={styles.button} onClick={handleModalSubmit} color="primary" sm>
             {t('common:SAVE')}
           </Button>
         </>
@@ -241,7 +283,12 @@ export default function WaterUseCalculatorModal({ dismissModal, measurementType,
         'ADD_TASK.IRRIGATION_VIEW.WATER_USE_CALCULATOR_INFO.PHRASE2',
       )} ${measurementType} ${t('ADD_TASK.IRRIGATION_VIEW.WATER_USE_CALCULATOR_INFO.PHRASE3')}`}
     >
-      <WaterUseModal system={system} measurementType={measurementType} />
+      <WaterUseModal
+        system={system}
+        measurementType={measurementType}
+        totalWaterUsage={totalWaterUsage}
+        setTotalWaterUsage={setTotalWaterUsage}
+      />
     </ModalComponent>
   );
 }

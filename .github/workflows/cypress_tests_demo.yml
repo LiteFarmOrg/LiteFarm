@@ -80,6 +80,6 @@ jobs:
           spec: cypress/e2e/happyPath.spec.js
 
       - name: Ensure coverage has not dropped 📈
-        run: pwd
+        run: cd packages/webapp && npx set-gh-status
         env: 
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}

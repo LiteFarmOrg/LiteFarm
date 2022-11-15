@@ -79,7 +79,7 @@ jobs:
           group: 'UI - Chrome'
           spec: cypress/e2e/happyPath.spec.js
 
-      - name: Copy test execution videos
-        run: |
-          mkdir public
-          cp -r packages/webapp/coverage/lcov-report/index.html
+      - name: Ensure coverage has not dropped 📈
+         run: npx set-gh-status
+         env:
+            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }

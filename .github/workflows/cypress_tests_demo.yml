@@ -79,15 +79,7 @@ jobs:
           group: 'UI - Chrome'
           spec: cypress/e2e/happyPath.spec.js
 
-      - name: Code Coverage Report
-        uses: irongut/CodeCoverageSummary@v1.3.0
-        with:
-          filename: packages/webapp/coverage/clover.xml
-          badge: true
-          fail_below_min: true
-          format: markdown
-          hide_branch_rate: false
-          hide_complexity: true
-          indicators: true
-          output: both
-          thresholds: '45 80'
+      - name: Copy test execution videos
+        run: |
+          mkdir public
+          cp -r packages/webapp/coverage/lcov-report/index.html

@@ -89,8 +89,8 @@ export default function PureIrrigationTask({
   const DEFAULT_IRRIGATION_MEASUREMENT = 'set_default_irrigation_task_type_measurement';
   const CREATE_IRRIGATION_TYPE = 'irrigation_task_type_other';
   const MEASUREMENT_TYPE = 'measurement_type';
-  const DEPTH = 'estimated_water_usage';
-  const DEPTH_UNIT = 'estimated_water_usage_unit';
+  const ESTIMATED_WATER_USAGE = 'estimated_water_usage';
+  const ESTIMATED_WATER_USAGE_UNIT = 'estimated_water_usage_unit';
   const NOTES = 'notes';
   register(NOTES, { required: false });
   const disabled = !isValid;
@@ -138,7 +138,6 @@ export default function PureIrrigationTask({
           <ReactSelect
             label={t('ADD_TASK.IRRIGATION_VIEW.TYPE_OF_IRRIGATION')}
             options={IrrigationTypeOptions}
-            style={{ marginBottom: '10px' }}
             onChange={(e) => {
               onChange(e);
               setIrrigationTypeValue(e.value);
@@ -197,23 +196,22 @@ export default function PureIrrigationTask({
       <Checkbox
         label={t('ADD_TASK.IRRIGATION_VIEW.SET_AS_DEFAULT_MEASUREMENT_FOR_THIS_IRRIGATION_TYPE')}
         sm
-        style={{ marginTop: '2px', marginBottom: '20px' }}
+        style={{ marginBottom: '45px' }}
         hookFormRegister={register(DEFAULT_IRRIGATION_MEASUREMENT)}
       />
 
       <Unit
         register={register}
-        displayUnitName={DEPTH_UNIT}
+        displayUnitName={ESTIMATED_WATER_USAGE_UNIT}
         label={t('ADD_TASK.IRRIGATION_VIEW.ESTIMATED_WATER_USAGE')}
         hookFormSetValue={setValue}
         hookFormGetValue={getValues}
         hookFromWatch={watch}
-        name={DEPTH}
+        name={ESTIMATED_WATER_USAGE}
         unitType={waterUsage}
         max={999999999}
         system={system}
         control={control}
-        style={{ paddingBottom: '32px' }}
         disabled={false}
       />
 
@@ -236,7 +234,11 @@ export default function PureIrrigationTask({
       />
 
       {showWaterUseCalculatorModal && (
-        <WaterUseCalculatorModal dismissModal={onDismissWaterUseCalculatorModel} />
+        <WaterUseCalculatorModal
+          dismissModal={onDismissWaterUseCalculatorModel}
+          measurementType={getValues(MEASUREMENT_TYPE)}
+          system={system}
+        />
       )}
 
       {showConfirmCancelModal && (

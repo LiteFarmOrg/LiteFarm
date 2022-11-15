@@ -138,7 +138,20 @@
       "SET_AS_DEFAULT_MEASUREMENT_FOR_THIS_IRRIGATION_TYPE": "Set as default measurement for this irrigation type",
       "ESTIMATED_WATER_USAGE": "Estimated water usage",
       "NOT_SURE": "Not sure?",
-      "CALCULATE_WATER_USAGE": "Calculate Water Usage"
+      "CALCULATE_WATER_USAGE": "Calculate Water Usage",
+      "WATER_USE_CALCULATOR": "Water Use Calculator",
+      "WATER_USE_CALCULATOR_INFO": {
+        "PHRASE1": "This calculator helps you calculator water usage based on ",
+        "PHRASE2": "If you would prefer to calculate based on",
+        "PHRASE3": "please go back and select"
+      },
+      "ESTIMATED_FLOW_RATE": "Estimated flow rate",
+      "DEFAULT_LOCATION_FLOW_RATE": "Set as default flow rate for this location",
+      "ESTIMATED_DURATION": "Estimated Duration",
+      "ESTIMATED_APPLICATION_DEPTH": "Estimated application depth",
+      "DEFAULT_APPLICATION_DEPTH": "Set as default application depth for this location",
+      "PERCENTAGE_LOCATION_TO_BE_IRRIGATED": "% of location to be irrigated.",
+      "TOTAL_WATER_USAGE": "Total Water Usage"
     }
   },
   "BED_PLAN": {

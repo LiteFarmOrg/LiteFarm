@@ -571,12 +571,14 @@ Cypress.Commands.add('addFarm', (farmName, location) => {
   cy.get('[data-cy=addFarm-continue]').should('not.be.disabled').click();
   cy.wait('@addFarm', { timeout: 60 * 1000 }).should(({ request, response }) => {
     expect(response.statusCode).to.equal(201);
+    farm_id = response.body.farm_id;
+    user_id = response.body.user_id;
   });
   //   cy.getReact('PureAddFarm').getProps('map').getProps('gridPoints');
   //   cy.wait(5 * 1000);
   // });
   // cy.log(apiUrl);
-  // token = localStorage.getItem('id_token');
+  token = localStorage.getItem('id_token');
   // cy.request({
   //   method: 'POST',
   //   url: apiUrl + '/farm',
@@ -737,15 +739,12 @@ Cypress.Commands.add('addField', () => {
           total_area: 16931,
           total_area_unit: 'ha',
           grid_points: [
-            {
-              lat: 49.26395897685993,
-              lng: -123.23342941003418,
-            },
-            { lat: 49.26460309887879, lng: -123.23291442590332 },
-            { lat: 49.263650915530825, lng: -123.23029658990478 },
-            { lat: 49.26311880506887, lng: -123.23141238885498 },
+            { lat: 49.24936925073192, lng: -123.23893858780097 },
+            { lat: 49.25050379527461, lng: -123.23791934837531 },
+            { lat: 49.24940776964704, lng: -123.2347650705738 },
+            { lat: 49.24856735012818, lng: -123.235521453516 },
           ],
-          perimeter: 573,
+          perimeter: 778,
           perimeter_unit: 'm',
         },
       },

@@ -550,7 +550,7 @@ Cypress.Commands.add('userCreationEmail', () => {
 
 Cypress.Commands.add('addFarm', (farmName, location) => {
   cy.url().should('include', '/add_farm');
-  // cy.get('[data-cy=addFarm-continue]').should('exist').should('be.disabled');
+  cy.get('[data-cy=addFarm-continue]').should('exist').should('be.disabled');
   // cy.intercept({
   //   method: 'GET',
   //   url: 'https://maps.googleapis.com/maps/api/mapsjs/gen_204?csp_test=true',
@@ -561,59 +561,59 @@ Cypress.Commands.add('addFarm', (farmName, location) => {
 
   //   cy.wait('@loadMap', { timeout: 15000 }).then(() => {
   //     //cy.get('svg').eq(0).click();
-  //     cy.get('[data-cy=addFarm-location]').should('exist').type(location).wait(1000);
+  cy.get('[data-cy=addFarm-location]').should('exist').type(location).wait(1000);
   //     //cy.get('.pac-item').should('exist').click({ force: true });
-  //     cy.get('[data-cy=addFarm-farmName]').should('exist').type(farmName);
+  cy.get('[data-cy=addFarm-farmName]').should('exist').type(farmName);
   //   });
 
-  //   cy.get('[data-cy=addFarm-continue]').should('not.be.disabled').click();
+  cy.get('[data-cy=addFarm-continue]').should('not.be.disabled').click();
   //   cy.getReact('PureAddFarm').getProps('map').getProps('gridPoints');
   //   cy.wait(5 * 1000);
   // });
-  cy.log(apiUrl);
-  token = localStorage.getItem('id_token');
-  cy.request({
-    method: 'POST',
-    url: apiUrl + '/farm',
-    headers: { Authorization: 'Bearer ' + token },
-    body: {
-      farm_name: farmName,
-      address: 'University Blvd, Vancouver, BC V6T, Canada',
-      grid_points: { lat: 49.2657793, lng: -123.2359185 },
-      country: 'Canada',
-    },
-  }).then((response) => {
-    // response.body is automatically serialized into JSON
-    expect(response.body).to.have.property('farm_name', farmName); // true
-    farm_id = response.body.farm_id;
-    user_id = response.body.user_id;
-    const now = new Date();
-    cy.request({
-      method: 'PATCH',
-      url: apiUrl + '/user_farm/onboarding/farm/' + farm_id + '/user/' + user_id,
-      headers: { Authorization: 'Bearer ' + token },
-      body: {
-        step_one: true,
-        step_one_end: now,
-      },
-    }).then((response) => {
-      expect(response.status).to.equal(200); // true
-    });
+  // cy.log(apiUrl);
+  // token = localStorage.getItem('id_token');
+  // cy.request({
+  //   method: 'POST',
+  //   url: apiUrl + '/farm',
+  //   headers: { Authorization: 'Bearer ' + token },
+  //   body: {
+  //     farm_name: farmName,
+  //     address: 'University Blvd, Vancouver, BC V6T, Canada',
+  //     grid_points: { lat: 49.2657793, lng: -123.2359185 },
+  //     country: 'Canada',
+  //   },
+  // }).then((response) => {
+  //   // response.body is automatically serialized into JSON
+  //   expect(response.body).to.have.property('farm_name', farmName); // true
+  //   farm_id = response.body.farm_id;
+  //   user_id = response.body.user_id;
+  //   const now = new Date();
+  //   cy.request({
+  //     method: 'PATCH',
+  //     url: apiUrl + '/user_farm/onboarding/farm/' + farm_id + '/user/' + user_id,
+  //     headers: { Authorization: 'Bearer ' + token },
+  //     body: {
+  //       step_one: true,
+  //       step_one_end: now,
+  //     },
+  //   }).then((response) => {
+  //     expect(response.status).to.equal(200); // true
+  //   });
 
-    // cy.request({
-    //   method: 'GET',
-    //   url: apiUrl+'/farm_token/farm/' + farm_id, // baseUrl is prepend to URL
-    //   headers: { Authorization: 'Bearer ' + token, user_id, farm_id },
-    // }).then((response) => {
-    //   const farm_token = response.body;
-    //   expect(response.status).to.equal(200); // true
-    //   cy.log(farm_token);
-    //   localStorage.setItem('farm_token', farm_token);
-    // });
+  // cy.request({
+  //   method: 'GET',
+  //   url: apiUrl+'/farm_token/farm/' + farm_id, // baseUrl is prepend to URL
+  //   headers: { Authorization: 'Bearer ' + token, user_id, farm_id },
+  // }).then((response) => {
+  //   const farm_token = response.body;
+  //   expect(response.status).to.equal(200); // true
+  //   cy.log(farm_token);
+  //   localStorage.setItem('farm_token', farm_token);
+  // });
 
-    cy.clearLocalStorage();
-    cy.visit('/');
-  });
+  cy.clearLocalStorage();
+  cy.visit('/');
+  // });
 });
 
 Cypress.Commands.add('getStarted', () => {

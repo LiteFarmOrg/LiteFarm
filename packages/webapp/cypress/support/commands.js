@@ -550,7 +550,7 @@ Cypress.Commands.add('userCreationEmail', () => {
 
 Cypress.Commands.add('addFarm', (farmName, location) => {
   cy.url().should('include', '/add_farm');
-  cy.wait(5 * 1000);
+  cy.wait(15 * 1000);
   cy.get('[data-cy=addFarm-continue]').should('exist').should('be.disabled');
   // cy.intercept({
   //   method: 'GET',

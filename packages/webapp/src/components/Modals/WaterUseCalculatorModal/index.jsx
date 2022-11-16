@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import ModalComponent from '../ModalComponent/v2';
-import { ReactComponent as Person } from '../../../assets/images/task/Person.svg';
+import { ReactComponent as Calculator } from '../../../assets/images/task/Calculator.svg';
 import styles from '../QuickAssignModal/styles.module.scss';
 import Button from '../../Form/Button';
 import PropTypes from 'prop-types';
@@ -107,7 +107,7 @@ const WaterUseVolumeCalculator = ({ system, setTotalWaterUsage, totalWaterUsage,
 const WaterUseDepthCalculator = ({ system, setTotalWaterUsage, totalWaterUsage, formState }) => {
   const { t } = useTranslation();
   const { register, getValues, watch, control, setValue } = formState();
-  const { application_depth, percentage_location_irrigated } = getValues();
+  const { percentage_location_irrigated, irrigated_area } = getValues();
 
   const locationArea = useSelector(cropLocationsSelector).filter(
     (location) => location.location_id === getValues().locations[0].location_id,
@@ -124,11 +124,11 @@ const WaterUseDepthCalculator = ({ system, setTotalWaterUsage, totalWaterUsage, 
   const IRRIGATED_AREA_UNIT = 'irrigated_area_unit';
 
   useEffect(() => {
-    if (application_depth && percentage_location_irrigated) {
-      const totalWater = (application_depth * percentage_location_irrigated) / 100;
+    if (irrigated_area && percentage_location_irrigated) {
+      const totalWater = (irrigated_area * percentage_location_irrigated) / 100;
       setTotalWaterUsage(totalWater);
     }
-  }, [application_depth, percentage_location_irrigated]);
+  }, [irrigated_area, percentage_location_irrigated]);
 
   useEffect(() => {
     if (locationArea && percentage_location_irrigated) {
@@ -277,7 +277,7 @@ export default function WaterUseCalculatorModal({
           </Button>
         </>
       }
-      icon={<Person />}
+      icon={<Calculator />}
       tooltipContent={`${t(
         'ADD_TASK.IRRIGATION_VIEW.WATER_USE_CALCULATOR_INFO.PHRASE1',
       )} ${measurementType}. ${t(

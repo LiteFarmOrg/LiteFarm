@@ -164,12 +164,16 @@ Cypress.Commands.add('createACleaningTask', (taskType_id) => {
     .should('exist')
     .and('not.be.disabled')
     .click({ force: true });
+  cy.intercept('POST', '**/task/cleaning_task/').as('createCleaningTask');
 
   cy.get('[data-cy=addTask-assignmentSave]')
     .should('exist')
     .and('not.be.disabled')
     .click({ force: true });
-
+  // cy.wait('@createCleaningTask', {timeout: 60 *1000}).should(({ request, response }) => {
+  //   expect(response.statusCode).to.equal(201);
+  // });
+  //create account
   // cy.request({
   //   method: 'POST',
   //   url: apiUrl + '/task/cleaning_task',
@@ -206,7 +210,7 @@ Cypress.Commands.add('createAFieldWorkTask', () => {
     .should('exist')
     .and('not.be.disabled')
     .click({ force: true });
-  cy.wait(20 * 1000);
+  cy.get('._zoomIn_e5ede_9', { timeout: 60 * 1000 });
   cy.get('[data-cy=map-selectLocation]').click(530, 216, {
     force: false,
   });

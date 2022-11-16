@@ -145,41 +145,41 @@ describe.only('LiteFarm end to end test', () => {
     let initialWidth;
     let initialHeight;
 
-    cy.waitForGoogleApi().then(() => {
-      //here comes the code to execute after loading the google Apis
+    // cy.waitForGoogleApi().then(() => {
+    //   //here comes the code to execute after loading the google Apis
 
-      cy.get('[data-cy=map-mapContainer]').then(($canvas) => {
-        initialWidth = $canvas.width();
-        initialHeight = $canvas.height();
-      });
-      cy.get('._zoomIn_e5ede_9', { timeout: 60 * 1000 });
-      cy.wait(20 * 1000);
-      cy.get('[data-cy=map-mapContainer]').click(558, 344);
-      cy.wait(500);
-      cy.get('[data-cy=map-mapContainer]').click(570, 321);
-      cy.wait(500);
-      cy.get('[data-cy=map-mapContainer]').click(631, 355);
-      cy.wait(500);
-      cy.get('[data-cy=map-mapContainer]').click(605, 374);
-      cy.wait(500);
-      cy.get('[data-cy=map-mapContainer]').click(558, 344);
-      cy.get('[data-cy=mapTutorial-continue]')
-        .contains('Got it')
-        .should('exist')
-        .and('not.be.disabled')
-        .click();
-      cy.get('[data-cy=map-drawCompleteContinue]')
-        .contains('Confirm')
-        .should('exist')
-        .and('not.be.disabled')
-        .click();
-    });
+    //   cy.get('[data-cy=map-mapContainer]').then(($canvas) => {
+    //     initialWidth = $canvas.width();
+    //     initialHeight = $canvas.height();
+    //   });
+    //   cy.get('._zoomIn_e5ede_9', { timeout: 60 * 1000 });
+    //   cy.wait(20 * 1000);
+    //   cy.get('[data-cy=map-mapContainer]').click(558, 344, {force: true});
+    //   cy.wait(500);
+    //   cy.get('[data-cy=map-mapContainer]').click(570, 321, {force: true});
+    //   cy.wait(500);
+    //   cy.get('[data-cy=map-mapContainer]').click(631, 355, {force: true});
+    //   cy.wait(500);
+    //   cy.get('[data-cy=map-mapContainer]').click(605, 374, {force: true});
+    //   cy.wait(500);
+    //   cy.get('[data-cy=map-mapContainer]').click(558, 344, {force: true});
+    //   cy.get('[data-cy=mapTutorial-continue]')
+    //     .contains('Got it')
+    //     .should('exist')
+    //     .and('not.be.disabled')
+    //     .click();
+    //   cy.get('[data-cy=map-drawCompleteContinue]')
+    //     .contains('Confirm')
+    //     .should('exist')
+    //     .and('not.be.disabled')
+    //     .click();
+    // });
 
-    cy.get('[data-cy=areaDetails-name]').should('exist').type(fieldName);
-    cy.get('[data-cy=createField-save]').should('exist').and('not.be.disabled').click();
-    // cy.wait(2000);
+    // cy.get('[data-cy=areaDetails-name]').should('exist').type(fieldName);
+    // cy.get('[data-cy=createField-save]').should('exist').and('not.be.disabled').click();
+    // // cy.wait(2000);
 
-    //cy.addField();
+    cy.addField();
 
     //Add a farm worker to the farm
     cy.goToPeopleView('English');
@@ -355,11 +355,11 @@ describe.only('LiteFarm end to end test', () => {
         cy.createACleaningTask(taskType_id);
         //cy.get('._contentContainer_nkx8u_1').contains('Successfully created task').should('exist');
         //assign all unassigned tasks on date to selected user
-        cy.visit('/tasks');
-        cy.url().should('include', '/tasks');
+        //cy.visit('/tasks');x
+        //cy.url().should('include', '/tasks');
         //cy.get('[data-cy="pill-close"]').click();
-        cy.get('[data-cy=taskCard]', { timeout: 60 * 1000 }).should('exist');
-        cy.contains('Create').should('exist').and('not.be.disabled').click({ force: true });
+        // cy.get('[data-cy=taskCard]', { timeout: 60 * 1000 }).should('exist');
+        // cy.contains('Create').should('exist').and('not.be.disabled').click({ force: true });
         // cy.get('[data-cy=pill-close]').should('exist').and('not.be.disabled').click();
         // cy.contains('Unassigned').last().should('exist').and('not.be.disabled').click({ force: true });
         // cy.get('[data-cy=quickAssign-assignAll]').should('exist').check({ force: true });

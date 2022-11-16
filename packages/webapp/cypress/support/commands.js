@@ -561,12 +561,16 @@ Cypress.Commands.add('addFarm', (farmName, location) => {
 
   //   cy.wait('@loadMap', { timeout: 15000 }).then(() => {
   //     //cy.get('svg').eq(0).click();
-  cy.get('[data-cy=addFarm-location]').should('exist').type(location).wait(1000);
+  cy.get('[data-cy=addFarm-location]').should('exist').clear().type(location).wait(1000);
   //     //cy.get('.pac-item').should('exist').click({ force: true });
   cy.get('[data-cy=addFarm-farmName]').should('exist').type(farmName);
   //   });
+  cy.intercept('POST', '/farm').as('addFarm');
 
   cy.get('[data-cy=addFarm-continue]').should('not.be.disabled').click();
+  cy.wait('@addFarm', { timeout: 60 * 1000 }).should(({ request, response }) => {
+    expect(response.statusCode).to.equal(201);
+  });
   //   cy.getReact('PureAddFarm').getProps('map').getProps('gridPoints');
   //   cy.wait(5 * 1000);
   // });
@@ -717,7 +721,7 @@ Cypress.Commands.add('homePageSpotlights', () => {
     .should('exist')
     .and('not.be.disabled')
     .click();
-  cy.get('[data-cy=home-farmButton]').should('exist').and('not.be.disabled').click();
+  cy.get('[data-cy=home-farmButton]').should('exist').and('not.be.disabled').click({ force: true });
 });
 
 Cypress.Commands.add('addField', () => {

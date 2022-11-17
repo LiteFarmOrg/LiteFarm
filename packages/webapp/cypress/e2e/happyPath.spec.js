@@ -355,7 +355,7 @@ describe.only('LiteFarm end to end test', () => {
         cy.createACleaningTask(taskType_id);
         //cy.get('._contentContainer_nkx8u_1').contains('Successfully created task').should('exist');
         //assign all unassigned tasks on date to selected user
-        cy.visit('/tasks');
+        //cy.visit('/tasks');
         cy.url().should('include', '/tasks');
         //cy.get('[data-cy="pill-close"]').click();
         cy.get('[data-cy=taskCard]', { timeout: 60 * 1000 }).should('exist');

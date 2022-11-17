@@ -159,7 +159,7 @@ Cypress.Commands.add('createACleaningTask', (taskType_id) => {
     .should('exist')
     .and('not.be.disabled')
     .click({ force: true });
-  cy.visit('/add_task/task_details');
+  //cy.visit('/add_task/task_details');
   cy.get('[data-cy=addTask-detailsContinue]')
     .should('exist')
     .and('not.be.disabled')

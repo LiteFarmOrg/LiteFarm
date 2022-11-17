@@ -141,7 +141,7 @@
       "CALCULATE_WATER_USAGE": "Calculate Water Usage",
       "WATER_USE_CALCULATOR": "Water Use Calculator",
       "WATER_USE_CALCULATOR_INFO": {
-        "PHRASE1": "This calculator helps you calculator water usage based on ",
+        "PHRASE1": "This calculator helps you calculate water usage based on ",
         "PHRASE2": "If you would prefer to calculate based on",
         "PHRASE3": "please go back and select"
       },

@@ -138,6 +138,7 @@ const useReactSelectStyles = (disabled, { reactSelectWidth = DEFAULT_REACT_SELEC
 };
 const Unit = ({
   disabled = false,
+  selectDisabled = false,
   classes = { container: {} },
   style = {},
   label,
@@ -159,6 +160,7 @@ const Unit = ({
   mode = 'onBlur',
   max = 1000000000,
   toolTipContent,
+  onChangeUnitOption,
   onBlur,
   hasLeaf,
   ...props
@@ -191,7 +193,7 @@ const Unit = ({
     const options = getOptions(unitType, system);
     const hookFormValue = hookFormGetValue(name);
     const value = hookFormValue || (hookFormValue === 0 ? 0 : defaultValue);
-    const isSelectDisabled = options.length <= 1;
+    const isSelectDisabled = options.length <= 1 || selectDisabled;
     const measure = convert().describe(databaseUnit)?.measure;
     const reactSelectWidth = getReactSelectWidth(measure);
     return to && convert().describe(to)?.system === system
@@ -358,6 +360,7 @@ const Unit = ({
               onBlur={onBlur}
               onChange={(e) => {
                 onChange(e);
+                onChangeUnitOption(e);
                 if (!isDirty) setDirty(true);
               }}
               value={value}
@@ -408,6 +411,7 @@ const Unit = ({
 
 Unit.propTypes = {
   disabled: PropTypes.bool,
+  selectDisabled: PropTypes.bool,
   label: PropTypes.string,
   optional: PropTypes.bool,
   info: PropTypes.string,

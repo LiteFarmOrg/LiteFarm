@@ -142,6 +142,20 @@ export const irrigation_depth = {
   databaseUnit: databaseUnit.length,
 };
 
+export const percentage_location = {
+  metric: {
+    units: ['percentage'],
+    defaultUnit: 'percentage',
+    breakpoints: [1000],
+  },
+  imperial: {
+    units: ['ft2', 'ac'],
+    defaultUnit: 'ft2',
+    breakpoints: [10890],
+  },
+  databaseUnit: databaseUnit.length,
+};
+
 export const location_area = {
   metric: {
     units: ['ha', 'm2'],

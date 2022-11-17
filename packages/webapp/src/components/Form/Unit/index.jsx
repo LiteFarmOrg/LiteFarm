@@ -36,6 +36,7 @@ import { convert } from '../../../util/convert-units/convert';
 
 export const getUnitOptionMap = () => ({
   h: { label: 'h', value: 'h' },
+  percentage: { label: '%', value: '%' },
   mm: { label: 'mm', value: 'mm' },
   m2: { label: 'm²', value: 'm2' },
   ha: { label: 'ha', value: 'ha' },

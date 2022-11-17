@@ -11,12 +11,13 @@ import {
   location_area,
   irrigation_depth,
   estimated_duration,
+  percentage_location,
 } from '../../../util/convert-units/unit';
 import Checkbox from '../../Form/Checkbox';
 import { Label } from '../../Typography';
 import { useSelector } from 'react-redux';
 import { cropLocationsSelector } from '../../../containers/locationSlice';
-import Input, { getInputErrors, integerOnKeyDown } from '../../Form/Input';
+import { useForm } from 'react-hook-form';
 
 const TotalWaterUsage = ({ totalWaterUsage }) => {
   const { t } = useTranslation();
@@ -107,7 +108,9 @@ const WaterUseVolumeCalculator = ({ system, setTotalWaterUsage, totalWaterUsage,
 const WaterUseDepthCalculator = ({ system, setTotalWaterUsage, totalWaterUsage, formState }) => {
   const { t } = useTranslation();
   const { register, getValues, watch, control, setValue } = formState();
-  const { percentage_location_irrigated, irrigated_area } = getValues();
+  const { irrigated_area } = getValues();
+  const percentageState = useForm({ mode: 'onChange', shouldUnregister: false });
+  const { percentage_location_irrigated } = percentageState.getValues();
 
   const locationArea = useSelector(cropLocationsSelector).filter(
     (location) => location.location_id === getValues().locations[0].location_id,
@@ -160,19 +163,19 @@ const WaterUseDepthCalculator = ({ system, setTotalWaterUsage, totalWaterUsage, 
         style={{ marginTop: '10px', marginBottom: '30px' }}
         hookFormRegister={register(DEFAULT_LOCATION_APPLICATION_DEPTH)}
       />
-      <div>
-        <Input
-          label={t('ADD_TASK.IRRIGATION_VIEW.PERCENTAGE_LOCATION_TO_BE_IRRIGATED')}
-          hookFormRegister={register(PERCENTAGE_LOCATION_IRRIGATED, {
-            valueAsNumber: true,
-          })}
-          type={'number'}
-          onKeyDown={integerOnKeyDown}
-          max={100}
-          optional
-        />
-        <Label style={{}}>%</Label>
-      </div>
+      <Unit
+        register={percentageState.register}
+        displayUnitName={PERCENTAGE_LOCATION_IRRIGATED_UNIT}
+        label={t('ADD_TASK.IRRIGATION_VIEW.PERCENTAGE_LOCATION_TO_BE_IRRIGATED')}
+        hookFormSetValue={percentageState.setValue}
+        hookFormGetValue={percentageState.getValues}
+        hookFromWatch={percentageState.watch}
+        name={PERCENTAGE_LOCATION_IRRIGATED}
+        unitType={percentage_location}
+        max={100}
+        system={system}
+        control={percentageState.control}
+      />
 
       <div
         style={{

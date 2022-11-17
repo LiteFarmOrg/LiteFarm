@@ -570,11 +570,12 @@ Cypress.Commands.add('addFarm', (farmName, location) => {
     .type(location);
   cy.wait(5 * 1000);
   cy.get('.pac-item').should('exist').click({ force: true });
-  cy.get('.gm-tilt', { timeout: 100 * 1000 }).should('be.visible');
+
   cy.get('[data-cy=addFarm-farmName]').should('exist').type(farmName);
+  //cy.get('.gm-tilt', { timeout: 100 * 1000 }).should('be.visible');
   //   });
   cy.intercept('POST', '/farm').as('addFarm');
-  cy.pause();
+  //cy.pause();
   cy.get('[data-cy=addFarm-continue]').should('not.be.disabled').click();
   cy.wait('@addFarm', { timeout: 60 * 1000 }).should(({ request, response }) => {
     expect(response.statusCode).to.equal(201);

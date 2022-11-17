@@ -23,6 +23,7 @@ jobs:
       GOOGLE_API_KEY: ${{secrets.VITE_GOOGLE_MAPS_API_KEY}}
       VITE_GOOGLE_MAPS_API_KEY: ${{secrets.VITE_GOOGLE_MAPS_API_KEY}}
       VITE_WEATHER_API_KEY: ${{secrets.VITE_WEATHER_API_KEY}}
+      NODE_ENV: development
       
     strategy:
       matrix:

@@ -145,16 +145,19 @@ Cypress.Commands.add('createACleaningTask', (taskType_id) => {
   date.setDate(date.getDate() + 1);
   const dueDate = getDateInputFormat(date);
 
-  cy.get('[data-cy=addTask-taskDate]').should('exist').type(dueDate);
+  cy.get('[data-cy=addTask-taskDate]', { timeout: 60 * 1000 })
+    .should('exist')
+    .type(dueDate);
 
   cy.get('[data-cy=addTask-continue]')
     .should('exist')
     .and('not.be.disabled')
     .click({ force: true });
-  cy.wait(20 * 1000);
-  cy.get('[data-cy=map-selectLocation]').click(530, 216, {
-    force: false,
+  cy.get('._zoomIn_e5ede_9', { timeout: 60 * 1000 }).should('be.visible');
+  cy.get('[data-cy=map-selectLocation]').click(520, 216, {
+    force: true,
   });
+
   cy.get('[data-cy=addTask-locationContinue]')
     .should('exist')
     .and('not.be.disabled')
@@ -210,9 +213,9 @@ Cypress.Commands.add('createAFieldWorkTask', () => {
     .should('exist')
     .and('not.be.disabled')
     .click({ force: true });
-  cy.get('._zoomIn_e5ede_9', { timeout: 60 * 1000 });
+  cy.get('._zoomIn_e5ede_9', { timeout: 60 * 1000 }).should('exist');
   cy.get('[data-cy=map-selectLocation]').click(530, 216, {
-    force: false,
+    force: true,
   });
   cy.get('[data-cy=addTask-locationContinue]')
     .should('exist')
@@ -277,12 +280,14 @@ Cypress.Commands.add(
     cy.get('[data-cy="cropPlan-plantTransplant"]').type(daysTransplant);
     cy.get('[data-cy="cropPlan-plantHarvest"]').type(daysHarvest);
 
-    cy.get('[data-cy="plantDate-submit"]')
+    cy.get('[data-cy="plantDate-submit"]', { timeout: 60 * 1000 })
       .should('exist')
       .and('not.be.disabled')
       .click({ force: true });
     cy.get('[data-cy="spotlight-next"]').click({ force: true });
-    cy.wait(7000);
+    cy.get('[data-cy="cropPlan-locationSubmit"]', { timeout: 60 * 1000 })
+      .should('exist')
+      .and('be.disabled');
     cy.get('[data-cy=map-selectLocation]').click(530, 216, {
       force: false,
     });
@@ -294,7 +299,6 @@ Cypress.Commands.add(
     cy.get('[data-cy=cropPlan-numberContainers]').type(containers);
     cy.get('[data-cy=cropPlan-numberPlants]').type(plantsPerContainer);
     cy.get('[data-cy=cropPlan-containerSubmit]').click();
-    cy.wait(7000);
     cy.get('[data-cy=map-selectLocation]').click(530, 216, {
       force: false,
     });
@@ -360,7 +364,6 @@ Cypress.Commands.add('createAPestControlTask', () => {
     .should('exist')
     .and('not.be.disabled')
     .click({ force: true });
-  cy.wait(7000);
   cy.get('[data-cy=map-selectLocation]').click(530, 216, {
     force: false,
   });
@@ -395,7 +398,6 @@ Cypress.Commands.add('createASoilAmendmentTask', () => {
     .should('exist')
     .and('not.be.disabled')
     .click({ force: true });
-  cy.wait(7000);
   cy.get('[data-cy=map-selectLocation]').click(530, 216, {
     force: false,
   });
@@ -438,7 +440,6 @@ Cypress.Commands.add('createTaskToday', () => {
     .should('exist')
     .and('not.be.disabled')
     .click({ force: true });
-  cy.wait(2000);
   cy.get('[data-cy=map-selectLocation]').click(530, 216, {
     force: false,
   });
@@ -476,7 +477,6 @@ Cypress.Commands.add('createUnassignedTaskThisWeek', () => {
     .should('exist')
     .and('not.be.disabled')
     .click({ force: true });
-  cy.wait(2000);
   cy.get('[data-cy=map-selectLocation]').click(530, 216, {
     force: false,
   });
@@ -550,8 +550,10 @@ Cypress.Commands.add('userCreationEmail', () => {
 
 Cypress.Commands.add('addFarm', (farmName, location) => {
   cy.url().should('include', '/add_farm');
-  cy.wait(15 * 1000);
-  cy.get('[data-cy=addFarm-continue]').should('exist').should('be.disabled');
+  cy.get('[data-cy=addFarm-mapPin]', { timeout: 60 * 1000 })
+    .should('exist')
+    .click({ force: true });
+  cy.get('[data-cy=addFarm-continue]', { timeout: 60 * 1000 }).should('be.disabled');
   // cy.intercept({
   //   method: 'GET',
   //   url: 'https://maps.googleapis.com/maps/api/mapsjs/gen_204?csp_test=true',
@@ -562,8 +564,12 @@ Cypress.Commands.add('addFarm', (farmName, location) => {
 
   //   cy.wait('@loadMap', { timeout: 15000 }).then(() => {
   //     //cy.get('svg').eq(0).click();
-  cy.get('[data-cy=addFarm-location]').should('exist').clear().type(location).wait(1000);
-  //     //cy.get('.pac-item').should('exist').click({ force: true });
+  cy.get('[data-cy=addFarm-location]', { timeout: 60 * 1000 })
+    .should('exist')
+    .clear()
+    .type(location);
+  cy.wait(5 * 1000);
+  cy.get('.pac-item').should('exist').click({ force: true });
   cy.get('[data-cy=addFarm-farmName]').should('exist').type(farmName);
   //   });
   cy.intercept('POST', '/farm').as('addFarm');
@@ -631,7 +637,9 @@ Cypress.Commands.add('getStarted', () => {
 Cypress.Commands.add('roleSelection', (role) => {
   cy.contains('What is your role on the farm').should('exist');
   cy.url().should('include', '/role_selection');
-  cy.get('[data-cy=roleSelection-continue]').should('exist').and('be.disabled');
+  cy.get('[data-cy=roleSelection-continue]', { timeout: 60 * 1000 })
+    .should('exist')
+    .and('be.disabled');
   cy.get('[data-cy=roleSelection-role]').should('exist').check(role, { force: true });
   cy.get('[data-cy=roleSelection-continue]').should('not.be.disabled').click();
 });
@@ -646,7 +654,7 @@ Cypress.Commands.add('giveConsent', () => {
 });
 
 Cypress.Commands.add('interestedInOrganic', () => {
-  cy.contains('Interested in certifications').should('exist');
+  cy.contains('Interested in certifications', { timeout: 60 * 1000 }).should('exist');
   cy.url().should('include', '/certification/interested_in_organic');
   cy.get('[data-cy=interestedInOrganic-continue]').should('exist').and('be.disabled');
   cy.get('[data-cy=interestedInOrganic-select]').should('exist');
@@ -662,7 +670,7 @@ Cypress.Commands.add('interestedInOrganic', () => {
 });
 
 Cypress.Commands.add('selectCertifier', () => {
-  cy.contains('Who is your certifier').should('exist');
+  cy.contains('Who is your certifier', { timeout: 60 * 1000 }).should('exist');
   cy.url().should('include', '/certification/certifier/selection');
   cy.get('[data-cy=certifierSelection-proceed]').should('exist').and('be.disabled');
   cy.get('[data-cy=certifierSelection-item]').should('exist').eq(1).click();

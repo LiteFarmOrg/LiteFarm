@@ -29,7 +29,7 @@ describe.only('LiteFarm end to end test', () => {
     const fullName = 'Test Farmer';
     const password = `${userPassword}+1@`;
     const farmName = 'UBC FARM';
-    const location = '49.250833, -123.2410777';
+    const location = '3461 Ross Drive, Vancouver, BC V6T 1W5, Canada';
     const fieldName = 'Test Field';
     const workerName = 'John Worker';
     const testCrop = 'New Crop';
@@ -86,16 +86,13 @@ describe.only('LiteFarm end to end test', () => {
     cy.roleSelection(role);
 
     //Consent page
-    cy.wait(5 * 1000);
     cy.waitForReact();
     cy.giveConsent();
-    cy.wait(5000);
     //interested in organic
     cy.interestedInOrganic();
 
     //who is your certifier(select BCARA)
     cy.selectCertifier();
-    cy.wait(5000);
     //onboarding outro
     cy.onboardingOutro();
 

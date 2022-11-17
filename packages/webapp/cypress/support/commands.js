@@ -248,7 +248,9 @@ Cypress.Commands.add(
     date.setDate(date.getDate() + 1);
     const dueDate = getDateInputFormat(date);
 
-    cy.get('[data-cy="crop-tile"]').eq(0).click();
+    cy.get('[data-cy="crop-tile"]', { timeout: 60 * 1000 })
+      .eq(0)
+      .click();
     cy.get('[data-cy="crop-name"]').contains('New Variety').click();
 
     //Add a management plan for the new variety

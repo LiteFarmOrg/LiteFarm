@@ -221,7 +221,6 @@ export default function PureIrrigationTask({
         max={999999999}
         system={system}
         control={control}
-        disabled={false}
       />
 
       <Label>

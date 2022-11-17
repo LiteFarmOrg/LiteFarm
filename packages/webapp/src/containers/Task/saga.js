@@ -374,7 +374,12 @@ const getIrrigationTaskBody = (data, endpoint, managementPlanWithCurrentLocation
   const set_default_irrigation_task_location = data.set_default_irrigation_task_type_location;
   const set_default_irrigation_task_type_measurement =
     data.set_default_irrigation_task_type_measurement;
-  const set_default_location_flow_rate = data.set_default_location_flow_rate;
+  const default_location_flow_rate = data.default_location_flow_rate;
+  const estimated_flow_rate = data.estimated_flow_rate;
+  const estimated_flow_rate_unit = data.estimated_flow_rate_unit;
+  const default_location_application_depth = data.default_location_application_depth;
+  const application_depth = data.application_depth;
+  const application_depth_unit = data.application_depth_unit;
   return produce(
     getPostTaskBody(data, 'irrigation_task', managementPlanWithCurrentLocationEntities),
     (data) => {
@@ -389,10 +394,15 @@ const getIrrigationTaskBody = (data, endpoint, managementPlanWithCurrentLocation
           set_default_irrigation_task_type_measurement === true ? data.measurement_type : null,
       };
       data.location = {
-        id: data.locations[0].location_id,
+        location_id: data.locations[0].location_id,
         default_irrigation_task_type:
           set_default_irrigation_task_location === true ? irrigation_task_type : null,
-        default_flow_rate: set_default_location_flow_rate === true ? data.flow_rate : null,
+        default_location_flow_rate,
+        estimated_flow_rate,
+        estimated_flow_rate_unit,
+        default_location_application_depth,
+        application_depth,
+        application_depth_unit,
       };
       delete data.irrigation_task_type_other;
       delete data.crop_management_plan;
@@ -401,6 +411,19 @@ const getIrrigationTaskBody = (data, endpoint, managementPlanWithCurrentLocation
       delete data.set_default_irrigation_task_type_measurement;
       delete data.set_default_irrigation_task_type_location;
       delete data.set_default_location_flow_rate;
+      delete data.irrigated_area;
+      delete data.irrigated_area_unit;
+      delete data.percentage_location_irrigated;
+      delete data.percentage_location_irrigated_unit;
+      delete data.estimated_irrigation_duration;
+      delete data.estimated_irrigation_duration_unit;
+      delete data.default_location_flow_rate;
+      delete data.estimated_flow_rate;
+      delete data.estimated_flow_rate_unit;
+      delete data.application_depth_unit;
+      delete data.application_depth;
+      delete data.default_location_application_depth;
+      delete data.location_size_unit;
     },
   );
 };

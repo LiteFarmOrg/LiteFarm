@@ -7,7 +7,7 @@ export const up = function (knex) {
       table.jsonb('flow_rate_unit');
       table.float('application_depth');
       table.jsonb('application_depth_unit');
-      table.string('location_id');
+      table.uuid('location_id').references('location_id').inTable('location');
       table.string('notes');
       table.string('due_date');
       table.string('created_by_user_id').references('user_id').inTable('users').defaultTo('1');

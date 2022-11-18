@@ -27,7 +27,7 @@ jobs:
       
     strategy:
       matrix:
-        node-version: [17.5.0]
+        node-version: [16.15.0]
 
     steps:
       - uses: ikalnytskyi/action-setup-postgres@v3
@@ -80,4 +80,15 @@ jobs:
           record: true
           parallel: true
           group: 'UI - Chrome'
-          spec: cypress/e2e/happyPath.spec.js 
+          spec: cypress/e2e/happyPath.spec.js
+
+      - name: Set code coverage commit status and update coverage badge
+        run: cd packages/webapp && npx set-gh-status && npx update-badge
+        env: 
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+
+      - uses: mikeal/publish-to-github-action@master
+        env: 
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+          BRANCH_NAME: ${{ github.head_ref || github.ref_name }}
+      

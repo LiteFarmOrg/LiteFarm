@@ -1,6 +1,7 @@
 export const up = function (knex) {
   return Promise.all([
-    knex.schema.alterTable('location', (t) => {
+    knex.schema.createTable('location_defaults', (t) => {
+      t.uuid('location_id').primary().references('location_id').inTable('location');
       t.string('irrigation_task_type');
       t.float('flow_rate');
       t.jsonb('flow_rate_unit');

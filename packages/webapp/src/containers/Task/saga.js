@@ -391,12 +391,16 @@ const getIrrigationTaskBody = (data, endpoint, managementPlanWithCurrentLocation
       }));
       data.irrigation_task = {
         type: irrigation_task_type,
-        default_measuring_type:
-          set_default_irrigation_task_type_measurement === true ? data.measurement_type : null,
+        default_measuring_type: data.measurement_type,
       };
+      data.irrigation_type = {
+        irrigation_type_name: irrigation_task_type,
+      };
+      set_default_irrigation_task_type_measurement &&
+        (data.irrigation_task.irrigation_type = data.measurement_type);
+
       data.location = {
         location_id: data.locations[0].location_id,
-        irrigation_task_type,
         flow_rate,
         flow_rate_unit,
         application_depth,
@@ -404,6 +408,8 @@ const getIrrigationTaskBody = (data, endpoint, managementPlanWithCurrentLocation
         default_application_depth,
         default_flow_rate,
       };
+      set_default_irrigation_task_location &&
+        (data.location.irrigation_task_type = irrigation_task_type);
       delete data.irrigation_task_type_other;
       delete data.crop_management_plan;
       delete data.locations;

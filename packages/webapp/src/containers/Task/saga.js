@@ -368,9 +368,10 @@ const getIrrigationTaskBody = (data, endpoint, managementPlanWithCurrentLocation
   const managementPlans = data.managementPlans.map(
     (managementPlan) => managementPlan.management_plan_id,
   );
-  const irrigation_task_type = data.irrigation_task_type?.value
-    ? data.irrigation_task_type.value
-    : data.irrigation_task_type_other;
+  const irrigation_task_type =
+    data.irrigation_task_type.value !== 'OTHER'
+      ? data.irrigation_task_type.value
+      : data.irrigation_task_type_other;
   const set_default_irrigation_task_location = data.set_default_irrigation_task_type_location;
   const set_default_irrigation_task_type_measurement =
     data.set_default_irrigation_task_type_measurement;

@@ -87,7 +87,11 @@ export default function PureIrrigationTask({
       value: 'SUB_SURFACE',
       default_measuring_type: 'VOLUME',
     },
-    { label: t('ADD_TASK.IRRIGATION_VIEW.TYPE.OTHER'), value: null, default_measuring_type: null },
+    {
+      label: t('ADD_TASK.IRRIGATION_VIEW.TYPE.OTHER'),
+      value: 'OTHER',
+      default_measuring_type: null,
+    },
   ];
   const IRRIGATION_TYPE = 'irrigation_task_type';
   const DEFAULT_IRRIGATION_TASK_LOCATION = 'set_default_irrigation_task_type_location';
@@ -97,7 +101,6 @@ export default function PureIrrigationTask({
   const ESTIMATED_WATER_USAGE = 'estimated_water_usage';
   const ESTIMATED_WATER_USAGE_UNIT = 'estimated_water_usage_unit';
   const NOTES = 'notes';
-  register(NOTES, { required: false });
   const disabled = !isValid;
   const { historyCancel } = useHookFormPersist(getValues);
 
@@ -156,7 +159,7 @@ export default function PureIrrigationTask({
           />
         )}
       />
-      {(irrigationTypeValue === null ||
+      {(irrigationTypeValue === 'OTHER' ||
         getValues(IRRIGATION_TYPE)?.label === t('ADD_TASK.IRRIGATION_VIEW.TYPE.OTHER')) && (
         <Input
           style={{ marginTop: '15px' }}
@@ -236,7 +239,7 @@ export default function PureIrrigationTask({
 
       <InputAutoSize
         label={t('LOG_COMMON.NOTES')}
-        optional={true}
+        optional
         hookFormRegister={register(NOTES, {
           maxLength: { value: 10000, message: t('ADD_TASK.TASK_NOTES_CHAR_LIMIT') },
         })}

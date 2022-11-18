@@ -116,7 +116,6 @@ const useReactSelectStyles = (disabled, { reactSelectWidth = DEFAULT_REACT_SELEC
         lineHeight: '24px',
         color: 'var(--fontColor)',
         fontStyle: 'normal',
-        zIndex: 1,
         fontWeight: 'normal',
         fontFamily: '"Open Sans", "SansSerif", serif',
         overflowX: 'hidden',
@@ -372,7 +371,7 @@ const Unit = ({
           className={clsx(
             styles.pseudoInputContainer,
             showError && styles.inputError,
-            isSelectDisabled && disabled && styles.disableBackground,
+            disabled && styles.disableBackground,
           )}
         >
           <div

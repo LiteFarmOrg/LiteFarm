@@ -24,6 +24,7 @@ import HarvestUse from '../models/harvestUseModel.js';
 import NotificationUser from '../models/notificationUserModel.js';
 import User from '../models/userModel.js';
 import { typesOfTask } from './../middleware/validation/task.js';
+import FieldWorkModel from '../models/fieldWorkModel.js';
 const adminRoles = [1, 2, 5];
 // const isDateInPast = (date) => {
 //   const today = new Date();
@@ -252,9 +253,10 @@ const taskController = {
         // OC: the "noInsert" rule will not fail if a relationship is present in the graph.
         // it will just ignore the insert on it. This is just a 2nd layer of protection
         // after the validation middleware.
-        const data = req.body;
+        let data = req.body;
         const { user_id } = req.user;
         data.owner_user_id = user_id;
+        data = await this.checkAndAddCustomFieldWork(typeOfTask, data, req.headers.farm_id);
         const result = await TaskModel.transaction(async (trx) => {
           const { task_id } = await TaskModel.query(trx)
             .context({ user_id: req.user.user_id })
@@ -291,6 +293,28 @@ const taskController = {
         return res.status(400).send({ error });
       }
     };
+  },
+
+  async checkAndAddCustomFieldWork(typeOfTask, data, farm_id) {
+    if (typeOfTask !== 'field_work_task') return data;
+    const containsFieldWorkTask = Object.prototype.hasOwnProperty.call(
+      data.field_work_task,
+      'fieldWorkTask',
+    );
+    if (containsFieldWorkTask) {
+      const fieldWorkTask = data.field_work_task.fieldWorkTask;
+      const row = {
+        farm_id,
+        field_work_name: fieldWorkTask.field_work_name,
+        field_work_type_translation_key: fieldWorkTask.field_work_type_translation_key,
+        created_by_user_id: data.owner_user_id,
+        updated_by_user_id: data.owner_user_id,
+      };
+      const fieldWork = await FieldWorkModel.insertCustomFieldWorkType(row);
+      delete data.field_work_task.fieldWorkTask;
+      data.field_work_task.field_work_id = fieldWork.field_work_id;
+    }
+    return data;
   },
 
   async createHarvestTasks(req, res) {
@@ -527,6 +551,17 @@ const taskController = {
       if (harvest_uses) {
         return res.status(200).send(harvest_uses);
       }
+    } catch (error) {
+      console.log(error);
+      return res.status(400).send({ error });
+    }
+  },
+
+  async getFieldWorkTypes(req, res) {
+    const { farm_id } = req.params;
+    try {
+      const farmTypes = await FieldWorkModel.getAllFieldWorkTypesByFarmId(farm_id);
+      res.status(200).json(farmTypes);
     } catch (error) {
       console.log(error);
       return res.status(400).send({ error });

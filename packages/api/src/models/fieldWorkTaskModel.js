@@ -15,8 +15,10 @@
 
 import { Model } from 'objection';
 import taskModel from './taskModel.js';
+import BaseModel from './baseModel.js';
+import fieldWorkModel from './fieldWorkModel.js';
 
-class FieldWorkTaskModel extends Model {
+class FieldWorkTaskModel extends BaseModel {
   static get tableName() {
     return 'field_work_task';
   }
@@ -48,6 +50,8 @@ class FieldWorkTaskModel extends Model {
           ],
         },
         other_type: { type: ['string', null] },
+        field_work_id: { type: 'integer' },
+        ...this.baseProperties,
       },
       additionalProperties: false,
     };
@@ -65,6 +69,14 @@ class FieldWorkTaskModel extends Model {
         join: {
           from: 'field_work_task.task_id',
           to: 'task.task_id',
+        },
+      },
+      fieldWorkTask: {
+        modelClass: fieldWorkModel,
+        relation: Model.HasManyRelation,
+        join: {
+          from: 'field_work_task.field_work_id',
+          to: 'field_work.field_work_id',
         },
       },
     };

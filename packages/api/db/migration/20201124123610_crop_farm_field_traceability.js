@@ -10,6 +10,7 @@ const tables = [
   'pesticide',
   'shift',
   'taskType',
+  'fieldWorkLog',
 ];
 
 export const up = function (knex) {

@@ -53,6 +53,7 @@ import consentSaga from './containers/Consent/saga';
 import callbackSaga from './containers/Callback/saga';
 import inviteUserSaga from './containers/InviteUser/saga';
 import exportSaga from './containers/ExportDownload/saga';
+import fieldWorkTaskSaga from './components/Task/FieldWorkTask/saga';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/lib/integration/react';
 import loginSaga from './containers/GoogleLoginButton/saga';
@@ -136,6 +137,7 @@ sagaMiddleware.run(taskSaga);
 sagaMiddleware.run(abandonAndCompleteManagementPlanSaga);
 sagaMiddleware.run(exportSaga);
 sagaMiddleware.run(errorHandlerSaga);
+sagaMiddleware.run(fieldWorkTaskSaga);
 
 ReactDOM.render(
   <Provider store={store}>

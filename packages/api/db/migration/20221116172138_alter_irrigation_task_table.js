@@ -1,11 +1,6 @@
 export const up = function (knex) {
   return Promise.all([
     knex.schema.alterTable('irrigation_task', (table) => {
-      table.string('type').references('irrigation_type_name').inTable('irrigation_type');
-      table
-        .string('measuring_type')
-        .references('default_measuring_type')
-        .inTable('irrigation_type');
       table.float('estimated_water_usage');
       table.string('estimated_water_usage_unit');
       table.float('flow_rate');

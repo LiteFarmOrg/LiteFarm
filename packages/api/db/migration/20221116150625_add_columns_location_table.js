@@ -6,6 +6,8 @@ export const up = function (knex) {
       t.jsonb('flow_rate_unit');
       t.float('application_depth');
       t.jsonb('application_depth_unit');
+      t.boolean('default_application_depth').defaultTo(false);
+      t.boolean('default_flow_rate').defaultTo(false);
     }),
   ]);
 };

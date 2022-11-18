@@ -374,10 +374,10 @@ const getIrrigationTaskBody = (data, endpoint, managementPlanWithCurrentLocation
   const set_default_irrigation_task_location = data.set_default_irrigation_task_type_location;
   const set_default_irrigation_task_type_measurement =
     data.set_default_irrigation_task_type_measurement;
-  const default_location_flow_rate = data.default_location_flow_rate;
-  const estimated_flow_rate = data.estimated_flow_rate;
-  const estimated_flow_rate_unit = data.estimated_flow_rate_unit;
-  const default_location_application_depth = data.default_location_application_depth;
+  const default_flow_rate = data.default_location_flow_rate;
+  const flow_rate = data.estimated_flow_rate;
+  const flow_rate_unit = data.estimated_flow_rate_unit;
+  const default_application_depth = data.default_location_application_depth;
   const application_depth = data.application_depth;
   const application_depth_unit = data.application_depth_unit;
   return produce(
@@ -395,14 +395,13 @@ const getIrrigationTaskBody = (data, endpoint, managementPlanWithCurrentLocation
       };
       data.location = {
         location_id: data.locations[0].location_id,
-        default_irrigation_task_type:
-          set_default_irrigation_task_location === true ? irrigation_task_type : null,
-        default_location_flow_rate,
-        estimated_flow_rate,
-        estimated_flow_rate_unit,
-        default_location_application_depth,
+        irrigation_task_type,
+        flow_rate,
+        flow_rate_unit,
         application_depth,
         application_depth_unit,
+        default_application_depth,
+        default_flow_rate,
       };
       delete data.irrigation_task_type_other;
       delete data.crop_management_plan;

@@ -149,7 +149,11 @@ const Input = ({
         {...props}
       />
       {info && !showError && <Info style={classes.info}>{info}</Info>}
-      {showError ? <Error style={classes.errors}>{errors}</Error> : null}
+      {showError ? (
+        <Error data-cy="error" style={classes.errors}>
+          {errors}
+        </Error>
+      ) : null}
     </div>
   );
 };

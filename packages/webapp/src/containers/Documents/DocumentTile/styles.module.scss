@@ -15,6 +15,18 @@
     object-fit: cover;
 }
 
+.previewWrapper {
+    position: relative;
+}
+
+.downloadContainer{
+    height: 29px;
+    position: absolute;
+    top: 0px;
+    right: -5px;
+    cursor: pointer;
+    z-index: 10;
+}
 
 .info {
     display: flex;

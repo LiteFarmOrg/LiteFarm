@@ -11,11 +11,22 @@ import { useIsTaskType } from '../useIsTaskType';
 
 export default function ManagementPlanSelector({ history, match, location }) {
   const isTransplantTask = useIsTaskType('TRANSPLANT_TASK');
-  return isTransplantTask ? (
-    <TransplantManagementPlansSelector history={history} match={match} location={location} />
-  ) : (
-    <TaskCrops history={history} match={match} location={location} />
-  );
+  const isIrrigationTask = useIsTaskType('IRRIGATION_TASK');
+  if (isTransplantTask)
+    return (
+      <TransplantManagementPlansSelector history={history} match={match} location={location} />
+    );
+  if (isIrrigationTask)
+    return (
+      <TaskCrops
+        onContinuePath="/add_task/irrigation_method"
+        goBackPath="/add_task/task_locations"
+        history={history}
+        match={match}
+        location={location}
+      />
+    );
+  return <TaskCrops history={history} match={match} location={location} />;
 }
 
 function TransplantManagementPlansSelector({ history, match, location }) {
@@ -44,11 +55,9 @@ function TaskCrops({
   location,
 }) {
   const persistedPaths = [goBackPath, onContinuePath];
-
   const handleGoBack = () => {
     history.back();
   };
-
   const onContinue = () => {
     history.push(onContinuePath, location?.state);
   };

@@ -81,7 +81,7 @@ LiteFarm is comprised of three applications which all reside in this monorepo.
 
 The applications are configured with environment variables stored in `.env` files. Configuration information includes secrets like API keys, so the `.env` files are not included in this git repository.
 
- This repository only contains `.env.default` files for api and webapp. To join the LiteFarm team and recieve full versions of the environment files contact smattingly@litefarm.org. 
+ This repository only contains `.env.default` files for api and webapp. To join the LiteFarm team and recieve full versions of the environment files contact community@litefarm.org. 
 
  Once you recieve the `.env` files, you will have to rename them correctly and place them in the right folders.
 

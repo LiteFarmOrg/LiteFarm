@@ -15,6 +15,7 @@ export function NoCropManagementPlanModal({ dismissModal, goToCatalogue }) {
       buttonGroup={
         <>
           <Button
+            data-cy="tasks-noCropPlanCancel"
             className={styles.button}
             onClick={dismissModal}
             color={'secondary'}
@@ -23,12 +24,11 @@ export function NoCropManagementPlanModal({ dismissModal, goToCatalogue }) {
           >
             {t('common:CANCEL')}
           </Button>
-          <Button onClick={goToCatalogue} type={'submit'} sm>
+          <Button data-cy="tasks-noCropPlanContinue" onClick={goToCatalogue} type={'submit'} sm>
             {t('ADD_TASK.GO_TO_CATALOGUE')}
           </Button>
         </>
       }
-    >
-    </ModalComponent>
+    ></ModalComponent>
   );
 }

@@ -53,7 +53,7 @@ export default function PureAccount({ userFarm, onSubmit, history, isAdmin }) {
       onSubmit={handleSubmit(onSubmit)}
       history={history}
       buttonGroup={
-        <Button fullLength type={'submit'} disabled={disabled}>
+        <Button data-cy="account-submit" fullLength type={'submit'} disabled={disabled}>
           {t('common:SAVE')}
         </Button>
       }

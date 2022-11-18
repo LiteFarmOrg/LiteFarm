@@ -133,6 +133,7 @@ export default function Documents({ history }) {
                       extensionName={document?.files?.[0]?.file_name.split('.').pop()}
                       onClick={() => tileClick(document.document_id)}
                       key={document.document_id}
+                      fileUrl={document?.files?.at(-1)?.url}
                     />
                   );
                 })}
@@ -158,6 +159,7 @@ export default function Documents({ history }) {
                       extensionName={document?.files?.[0]?.file_name.split('.').pop()}
                       onClick={() => tileClick(document.document_id)}
                       key={document.document_id}
+                      fileUrl={document?.files?.at(-1)?.url}
                     />
                   );
                 })}

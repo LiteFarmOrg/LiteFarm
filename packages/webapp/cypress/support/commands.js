@@ -155,44 +155,42 @@ Cypress.Commands.add('createACleaningTask', (taskType_id) => {
   cy.get('[data-cy=map-selectLocation]').click(530, 216, {
     force: false,
   });
-  cy.get('[data-cy=addTask-locationContinue]')
-    .should('exist')
-    .and('not.be.disabled')
-    .click({ force: true });
-  //cy.visit('/add_task/task_details');
+  cy.get('[data-cy=addTask-locationContinue]').should('exist');
+  // .and('not.be.disabled')
+  // .click({ force: true });
+  cy.visit('/add_task/task_details');
   cy.get('[data-cy=addTask-detailsContinue]')
     .should('exist')
     .and('not.be.disabled')
     .click({ force: true });
 
-  cy.get('[data-cy=addTask-assignmentSave]')
-    .should('exist')
-    .and('not.be.disabled')
-    .click({ force: true });
+  cy.get('[data-cy=addTask-assignmentSave]').should('exist');
+  // .and('not.be.disabled')
+  // .click({ force: true });
 
-  // cy.request({
-  //   method: 'POST',
-  //   url: apiUrl + '/task/cleaning_task',
-  //   headers: { Authorization: 'Bearer ' + token, user_id, farm_id },
-  //   body: {
-  //     task_type_id: taskType_id,
-  //     due_date: date,
-  //     locations: [
-  //       {
-  //         location_id: fieldLocation_id,
-  //       },
-  //     ],
-  //     cleaning_task: {
-  //       agent_used: false,
-  //       water_usage_unit: 'l',
-  //     },
-  //     assignee_user_id: null,
-  //     override_hourly_wage: false,
-  //     wage_at_moment: null,
-  //   },
-  // }).then((response) => {
-  //   expect(response.status).to.equal(201); // true
-  // });
+  cy.request({
+    method: 'POST',
+    url: apiUrl + '/task/cleaning_task',
+    headers: { Authorization: 'Bearer ' + token, user_id, farm_id },
+    body: {
+      task_type_id: taskType_id,
+      due_date: date,
+      locations: [
+        {
+          location_id: fieldLocation_id,
+        },
+      ],
+      cleaning_task: {
+        agent_used: false,
+        water_usage_unit: 'l',
+      },
+      assignee_user_id: null,
+      override_hourly_wage: false,
+      wage_at_moment: null,
+    },
+  }).then((response) => {
+    expect(response.status).to.equal(201); // true
+  });
 });
 
 Cypress.Commands.add('createAFieldWorkTask', () => {
@@ -250,9 +248,7 @@ Cypress.Commands.add(
     date.setDate(date.getDate() + 1);
     const dueDate = getDateInputFormat(date);
 
-    cy.get('[data-cy="crop-tile"]', { timeout: 60 * 1000 })
-      .eq(0)
-      .click();
+    cy.get('[data-cy="crop-tile"]').eq(0).click();
     cy.get('[data-cy="crop-name"]').contains('New Variety').click();
 
     //Add a management plan for the new variety

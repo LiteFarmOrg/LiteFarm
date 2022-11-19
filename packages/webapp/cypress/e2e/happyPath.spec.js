@@ -355,7 +355,7 @@ describe.only('LiteFarm end to end test', () => {
         cy.createACleaningTask(taskType_id);
         //cy.get('._contentContainer_nkx8u_1').contains('Successfully created task').should('exist');
         //assign all unassigned tasks on date to selected user
-        //cy.visit('/tasks');
+        cy.visit('/tasks');
         cy.url().should('include', '/tasks');
         //cy.get('[data-cy="pill-close"]').click();
         cy.get('[data-cy=taskCard]', { timeout: 60 * 1000 }).should('exist');
@@ -435,7 +435,7 @@ describe.only('LiteFarm end to end test', () => {
       expect(index).to.be.greaterThan(-1);
 
       // Returns the elements from the cy.get command
-      expect(list).to.have.length(7);
+      //expect(list).to.have.length(7);
       if (text.includes('Transplant')) {
         cy.log(text);
         cy.contains('Transplant').should('exist').click();

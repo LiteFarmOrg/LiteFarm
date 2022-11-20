@@ -1634,6 +1634,7 @@
     "HARVEST_USE": "Utilisation de la récolte",
     "HARVEST_USE_ALREADY_EXISTS": "L'utilisation de la récolteexiste déjà",
     "HOW_WILL_HARVEST_BE_USED": "Comment la récolte sera-t-elle utilisée\u00a0?",
+    "IRRIGATION_LOCATION": "MISSING",
     "LOCATIONS": "Emplacement(s)",
     "NO_TASKS_TO_DISPLAY": "Il n'y a aucune tâche à afficher.",
     "NO_WORK_DONE": "Aucun travail n'a été terminé",

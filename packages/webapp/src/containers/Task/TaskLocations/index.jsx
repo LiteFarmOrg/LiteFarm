@@ -25,18 +25,22 @@ export default function TaskLocationsSwitch({ history, match, location }) {
   const isIrrigationLocation = useIsTaskType('IRRIGATION_TASK');
   const isTransplantLocation = useIsTaskType('TRANSPLANT_TASK');
   
-  if (isHarvestLocation || isIrrigationLocation) {
-    return <TaskActiveAndPlannedCropLocations history={history} location={location} isMulti={isHarvestLocation}/>;
+  if (isHarvestLocation) {
+    return <TaskActiveAndPlannedCropLocations history={history} location={location} />;
   } 
   
   if (isTransplantLocation) {
     return <TaskTransplantLocations history={history} location={location} />;
   }
+
+  if (isIrrigationLocation) {
+    return <TaskIrrigationLocations history={history} location={location} />;
+  }
   
   return <TaskAllLocations history={history} location={location} />;
 }
 
-function TaskActiveAndPlannedCropLocations({ history, location, isMulti }) {
+function TaskActiveAndPlannedCropLocations({ history, location }) {
   const cropLocations = useSelector(cropLocationsSelector);
   const cropLocationEntities = useSelector(cropLocationEntitiesSelector);
   const cropLocationsIds = cropLocations.map(({ location_id }) => ({ location_id }));
@@ -52,16 +56,12 @@ function TaskActiveAndPlannedCropLocations({ history, location, isMulti }) {
     history.push('/add_task/task_crops', location?.state);
   };
 
-  const onGoBack = () => {
-    history.back();
-  };
   return (
     <TaskLocations
       locations={activeAndPlannedLocations}
       history={history}
-      isMulti={isMulti}
+      isMulti={true}
       onContinue={onContinue}
-      onGoBack={onGoBack}
       readOnlyPinCoordinates={readOnlyPinCoordinates}
       location={location}
     />
@@ -75,9 +75,6 @@ function TaskTransplantLocations({ history, location }) {
     history.push('/add_task/planting_method', location.state);
   };
 
-  const onGoBack = () => {
-    history.back();
-  };
   return (
     <TaskLocations
       locations={cropLocations}
@@ -85,7 +82,27 @@ function TaskTransplantLocations({ history, location }) {
       isMulti={false}
       title={t('TASK.TRANSPLANT_LOCATIONS')}
       onContinue={onContinue}
-      onGoBack={onGoBack}
+      location={location}
+    />
+  );
+}
+
+function TaskIrrigationLocations({ history, location }) {
+  const { t } = useTranslation();
+  const cropLocations = useSelector(cropLocationsSelector);
+  const readOnlyPinCoordinates = useReadOnlyPinCoordinates();
+  const onContinue = () => {
+    history.push('/add_task/task_crops', location.state);
+  };
+
+  return (
+    <TaskLocations
+      locations={cropLocations}
+      history={history}
+      isMulti={false}
+      title={t('TASK.IRRIGATION_LOCATION')}
+      onContinue={onContinue}
+      readOnlyPinCoordinates={readOnlyPinCoordinates}
       location={location}
     />
   );
@@ -109,14 +126,10 @@ function TaskAllLocations({ history, location }) {
     history.push('/add_task/task_crops', location?.state);
   };
 
-  const onGoBack = () => {
-    history.back();
-  };
   return (
     <TaskLocations
       locations={locations}
       history={history}
-      onGoBack={onGoBack}
       onContinue={onContinue}
       readOnlyPinCoordinates={readOnlyPinCoordinates}
       location={location}
@@ -130,7 +143,6 @@ function TaskLocations({
   isMulti,
   title,
   onContinue,
-  onGoBack,
   readOnlyPinCoordinates,
   location,
 }) {
@@ -139,6 +151,10 @@ function TaskLocations({
   const managementPlan = location?.state?.management_plan_id
     ? useSelector(managementPlanSelector(location.state.management_plan_id))
     : null;
+  const onGoBack = () => {
+    history.back();
+  };
+  
   return (
     <HookFormPersistProvider>
       <PureTaskLocations

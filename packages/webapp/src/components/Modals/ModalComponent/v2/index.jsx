@@ -42,7 +42,7 @@ export default function ModalComponent({
             {title}
             {tooltipContent && (
               <>
-                &nbsp;&nbsp;
+                {' '}
                 <Infoi
                   style={{ fontSize: '18px', transform: 'translateY(3px)' }}
                   content={tooltipContent}

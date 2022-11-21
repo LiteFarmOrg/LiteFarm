@@ -18,6 +18,7 @@ import { Label } from '../../Typography';
 import { useSelector } from 'react-redux';
 import { cropLocationsSelector } from '../../../containers/locationSlice';
 import { useForm } from 'react-hook-form';
+import { convert } from '../../../util/convert-units/convert';
 
 const TotalWaterUsage = ({ totalWaterUsage }) => {
   const { t } = useTranslation();
@@ -48,7 +49,12 @@ const TotalWaterUsage = ({ totalWaterUsage }) => {
 const WaterUseVolumeCalculator = ({ system, setTotalWaterUsage, totalWaterUsage, formState }) => {
   const { t } = useTranslation();
   const { register, getValues, watch, control, setValue } = formState();
-  const { estimated_flow_rate, estimated_irrigation_duration } = getValues();
+  const {
+    estimated_flow_rate,
+    estimated_flow_rate_unit,
+    estimated_irrigation_duration,
+    estimated_irrigation_duration_unit,
+  } = getValues();
 
   useEffect(() => {
     if (estimated_flow_rate && estimated_irrigation_duration) {
@@ -77,8 +83,10 @@ const WaterUseVolumeCalculator = ({ system, setTotalWaterUsage, totalWaterUsage,
         system={system}
         control={control}
         onChangeUnitOption={(e) => {
-          e.label === 'l/h' && setTotalWaterUsage(() => totalWaterUsage / 60);
-          e.label === 'l/m' && setTotalWaterUsage(() => totalWaterUsage * 60);
+          if (e.label === 'l/h' && estimated_flow_rate_unit.label === 'l/m')
+            setTotalWaterUsage(() => convert(totalWaterUsage).from('l/h').to('l/min'));
+          if (e.label === 'l/m' && estimated_flow_rate_unit.label === 'l/h')
+            setTotalWaterUsage(() => convert(totalWaterUsage).from('l/min').to('l/h'));
         }}
       />
 
@@ -103,8 +111,10 @@ const WaterUseVolumeCalculator = ({ system, setTotalWaterUsage, totalWaterUsage,
         control={control}
         style={{ paddingBottom: '32px' }}
         onChangeUnitOption={(e) => {
-          e.label === 'h' && setTotalWaterUsage(() => totalWaterUsage / 60);
-          e.label === 'm' && setTotalWaterUsage(() => totalWaterUsage * 60);
+          if (e.label === 'h' && estimated_irrigation_duration_unit.label === 'm')
+            setTotalWaterUsage(() => totalWaterUsage / 60);
+          if (e.label === 'm' && estimated_irrigation_duration_unit.label === 'h')
+            setTotalWaterUsage(() => totalWaterUsage * 60);
         }}
       />
 
@@ -121,8 +131,8 @@ const WaterUseDepthCalculator = ({ system, setTotalWaterUsage, totalWaterUsage, 
   const { percentage_location_irrigated } = modalState.getValues();
 
   const locationSize = useSelector(cropLocationsSelector).filter(
-    (location) => location.location_id === getValues().locations[0].location_id,
-  )[0].total_area;
+    (location) => location?.location_id === getValues().locations[0]?.location_id,
+  )[0]?.total_area;
 
   const APPLICATION_DEPTH = 'application_depth';
   const APPLICATION_DEPTH_UNIT = 'application_depth_unit';
@@ -162,7 +172,6 @@ const WaterUseDepthCalculator = ({ system, setTotalWaterUsage, totalWaterUsage, 
         max={999999.99}
         system={system}
         control={control}
-        selectDisabled={true}
       />
 
       <Checkbox

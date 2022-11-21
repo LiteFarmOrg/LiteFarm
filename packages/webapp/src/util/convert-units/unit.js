@@ -118,26 +118,26 @@ export const estimated_duration = {
   metric: {
     units: ['h', 'm'],
     defaultUnit: 'h',
-    breakpoints: [9999999999],
+    breakpoints: [60],
   },
   imperial: {
     units: ['h', 'm'],
     defaultUnit: 'h',
-    breakpoints: [9999999999],
+    breakpoints: [60],
   },
   databaseUnit: databaseUnit.hour,
 };
 
 export const irrigation_depth = {
   metric: {
-    units: ['mm', 'm'],
+    units: ['mm'],
     defaultUnit: 'mm',
-    breakpoints: [1000],
+    breakpoints: [],
   },
   imperial: {
     units: ['in'],
     defaultUnit: 'in',
-    breakpoints: [10890],
+    breakpoints: [],
   },
   databaseUnit: databaseUnit.length,
 };

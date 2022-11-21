@@ -138,7 +138,6 @@ const useReactSelectStyles = (disabled, { reactSelectWidth = DEFAULT_REACT_SELEC
 };
 const Unit = ({
   disabled = false,
-  selectDisabled = false,
   classes = { container: {} },
   style = {},
   label,
@@ -193,7 +192,7 @@ const Unit = ({
     const options = getOptions(unitType, system);
     const hookFormValue = hookFormGetValue(name);
     const value = hookFormValue || (hookFormValue === 0 ? 0 : defaultValue);
-    const isSelectDisabled = options.length <= 1 || selectDisabled;
+    const isSelectDisabled = options.length <= 1;
     const measure = convert().describe(databaseUnit)?.measure;
     const reactSelectWidth = getReactSelectWidth(measure);
     return to && convert().describe(to)?.system === system

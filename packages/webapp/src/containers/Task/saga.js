@@ -386,8 +386,8 @@ const getIrrigationTaskBody = (data, endpoint, managementPlanWithCurrentLocation
     (data) => {
       data.managementPlans = managementPlans?.map((management_plan_id) => ({
         planting_management_plan_id:
-          managementPlanWithCurrentLocationEntities[management_plan_id].planting_management_plan
-            .planting_management_plan_id,
+          managementPlanWithCurrentLocationEntities[management_plan_id]?.planting_management_plan
+            ?.planting_management_plan_id,
       }));
       data.irrigation_task = {
         type: irrigation_task_type,

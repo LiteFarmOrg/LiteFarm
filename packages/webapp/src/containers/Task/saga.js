@@ -418,29 +418,6 @@ const getIrrigationTaskBody = (data, endpoint, managementPlanWithCurrentLocation
             : null),
         },
       };
-
-      delete data.locations;
-      delete data.measurement_type;
-      delete data.set_default_irrigation_task_type_location;
-      delete data.set_default_irrigation_task_type_measurement;
-      delete data.irrigation_task_type;
-      delete data.estimated_water_usage;
-      delete data.estimated_water_usage_unit;
-      delete data.default_location_flow_rate;
-      delete data.estimated_flow_rate;
-      delete data.estimated_flow_rate_unit;
-      delete data.estimated_irrigation_duration;
-      delete data.estimated_irrigation_duration_unit;
-      delete data.application_depth;
-      delete data.application_depth_unit;
-      delete data.irrigation_task_type_other;
-      delete data.irrigated_area;
-      delete data.irrigated_area_unit;
-      delete data.default_irrigation_measurement;
-      delete data.irrigation_task_location;
-      delete data.default_location_application_depth;
-      delete data.default_irrigation_task_location;
-      delete data.location_size_unit;
     },
   );
 };

@@ -160,7 +160,7 @@ const Unit = ({
   mode = 'onBlur',
   max = 1000000000,
   toolTipContent,
-  onChangeUnitOption,
+  onChangeUnitOption = () => {},
   onBlur,
   hasLeaf,
   ...props

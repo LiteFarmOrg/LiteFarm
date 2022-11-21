@@ -40,10 +40,12 @@ const WaterUseVolumeCalculator = ({ system, setTotalWaterUsage, totalWaterUsage,
     estimated_irrigation_duration,
     estimated_irrigation_duration_unit,
   } = getValues();
+  const modalState = useForm({ mode: 'onChange', shouldUnregister: false });
 
   useEffect(() => {
     if (estimated_flow_rate && estimated_irrigation_duration) {
       setTotalWaterUsage(() => estimated_flow_rate * estimated_irrigation_duration);
+      modalState.setValue('totalWaterVolumeUsage', estimated_flow_rate * estimated_flow_rate);
     }
   }, [estimated_irrigation_duration, estimated_flow_rate]);
 
@@ -72,6 +74,8 @@ const WaterUseVolumeCalculator = ({ system, setTotalWaterUsage, totalWaterUsage,
             setTotalWaterUsage(() => convert(totalWaterUsage).from('l/h').to('l/min'));
           if (e.label === 'l/m' && estimated_flow_rate_unit.label === 'l/h')
             setTotalWaterUsage(() => convert(totalWaterUsage).from('l/min').to('l/h'));
+
+          modalState.setValue('totalWaterVolumeUsage', totalWaterUsage);
         }}
       />
 
@@ -100,10 +104,12 @@ const WaterUseVolumeCalculator = ({ system, setTotalWaterUsage, totalWaterUsage,
             setTotalWaterUsage(() => convert(totalWaterUsage).from('min').to('h'));
           if (e.label === 'min' && estimated_irrigation_duration_unit.label === 'h')
             setTotalWaterUsage(() => convert(totalWaterUsage).from('h').to('min'));
+
+          modalState.setValue('totalWaterVolumeUsage', totalWaterUsage);
         }}
       />
 
-      <TotalWaterUsage totalWaterUsage={totalWaterUsage} />
+      <TotalWaterUsage totalWaterUsage={modalState.getValues('totalWaterVolumeUsage')} />
     </>
   );
 };
@@ -132,6 +138,7 @@ const WaterUseDepthCalculator = ({ system, setTotalWaterUsage, totalWaterUsage, 
   useEffect(() => {
     if (irrigated_area) {
       setTotalWaterUsage(() => irrigated_area * application_depth);
+      modalState.setValue('totalWaterDepthUsage', irrigated_area * application_depth);
     }
   }, [irrigated_area, application_depth]);
 
@@ -222,7 +229,7 @@ const WaterUseDepthCalculator = ({ system, setTotalWaterUsage, totalWaterUsage, 
           disabled={true}
         />
       </div>
-      <TotalWaterUsage totalWaterUsage={totalWaterUsage} />
+      <TotalWaterUsage totalWaterUsage={modalState.getValues('totalWaterDepthUsage')} />
     </>
   );
 };

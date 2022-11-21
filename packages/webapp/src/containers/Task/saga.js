@@ -394,6 +394,7 @@ const getIrrigationTaskBody = (data, endpoint, managementPlanWithCurrentLocation
         estimated_water_usage_unit: data.estimated_water_usage_unit,
         estimated_duration: data.estimated_duration,
         estimated_duration_unit: data.estimated_duration_unit,
+        default_measuring_type: data.measurement_type,
         ...locationDefaults,
         irrigation_type: {
           irrigation_type_name: irrigation_task_type,

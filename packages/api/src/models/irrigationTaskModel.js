@@ -36,16 +36,17 @@ class IrrigationTaskModel extends BaseModel {
 
       properties: {
         task_id: { type: 'integer' },
-        type: {
-          type: 'string',
-          enum: ['sprinkler', 'drip', 'subsurface', 'flood'],
-        },
-        'flow_rate_l/min': {
-          type: 'float',
-        },
-        hours: {
-          type: 'float',
-        },
+        type: { type: 'string' },
+        'flow_rate_l/min': { type: 'float' },
+        hours: { type: 'float' },
+        location_id: { type: 'string' },
+        irrigation_task_type: { type: 'string' },
+        flow_rate: { type: 'number' },
+        flow_rate_unit: { type: 'string' },
+        application_depth: { type: 'number' },
+        application_depth_unit: { type: 'string' },
+        estimated_water_usage: { type: 'number' },
+        estimated_water_usage_unit: { type: 'string' },
       },
       additionalProperties: false,
     };

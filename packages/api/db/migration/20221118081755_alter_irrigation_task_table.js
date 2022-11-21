@@ -4,9 +4,9 @@ export const up = function (knex) {
       table.float('estimated_water_usage');
       table.string('estimated_water_usage_unit');
       table.float('flow_rate');
-      table.jsonb('flow_rate_unit');
+      table.string('flow_rate_unit');
       table.float('application_depth');
-      table.jsonb('application_depth_unit');
+      table.string('application_depth_unit');
       table.uuid('location_id').references('location_id').inTable('location');
       table.string('notes');
       table.string('due_date');

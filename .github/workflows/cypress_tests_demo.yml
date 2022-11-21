@@ -25,7 +25,7 @@ jobs:
       
     strategy:
       matrix:
-        node-version: [17.5.0, 16.15.0]
+        node-version: [17.5.0]
 
     steps:
       - uses: ikalnytskyi/action-setup-postgres@v3

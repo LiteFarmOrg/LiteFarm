@@ -16,6 +16,7 @@
 import { Model } from 'objection';
 import taskModel from './taskModel.js';
 import BaseModel from './baseModel.js';
+import irrigationTypesModel from './irrigationTypesModel.js';
 
 class IrrigationTaskModel extends BaseModel {
   static get tableName() {
@@ -62,6 +63,15 @@ class IrrigationTaskModel extends BaseModel {
         join: {
           from: 'irrigation_task.task_id',
           to: 'task.task_id',
+        },
+      },
+
+      irrigation_type: {
+        relation: Model.HasOneRelation,
+        modelClass: irrigationTypesModel,
+        join: {
+          from: 'irrigation_task.type',
+          to: 'irrigation_type.irrigation_type_name',
         },
       },
     };

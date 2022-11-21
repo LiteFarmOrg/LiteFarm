@@ -5,7 +5,6 @@ on:
 
 jobs:
   build:
-    timeout-minutes: 10
     runs-on: ubuntu-20.04
     env:
       JWT_INVITE_SECRET: ${{secrets.JWT_INVITE_SECRET}}
@@ -25,7 +24,7 @@ jobs:
       
     strategy:
       matrix:
-        node-version: [17.5.0]
+        node-version: [16.15.0]
 
     steps:
       - uses: ikalnytskyi/action-setup-postgres@v3

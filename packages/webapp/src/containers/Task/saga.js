@@ -382,8 +382,8 @@ const getIrrigationTaskBody = (data, endpoint, managementPlanWithCurrentLocation
             ?.planting_management_plan_id,
       }));
       const locationDefaults = {
-        flow_rate: data.estimated_flow_rate,
-        flow_rate_unit: data.estimated_flow_rate_unit,
+        estimated_flow_rate: data.estimated_flow_rate,
+        estimated_flow_rate_unit: data.estimated_flow_rate_unit,
         application_depth: data.application_depth,
         application_depth_unit: data.application_depth_unit,
       };

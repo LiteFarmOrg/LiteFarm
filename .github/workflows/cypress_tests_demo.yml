@@ -79,13 +79,19 @@ jobs:
           group: 'UI - Chrome'
           spec: cypress/e2e/happyPath.spec.js
 
+      - name: Archive code coverage results
+        uses: actions/upload-artifact@v3
+        continue-on-error: true
+        with:
+          name: code-coverage-report
+          path: coverage/coverage-summary.json
+          working-directory: packages/webapp
+
       - name: Set code coverage commit status and update coverage badge
         run: cd packages/webapp && npx set-gh-status && npx update-badge
+        continue-on-error: true
+        working-directory: packages/webapp
+        run: npx set-gh-status && npx update-badge
         env: 
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
-
-      - uses: mikeal/publish-to-github-action@master
-        env: 
-          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
-          BRANCH_NAME: ${{ github.head_ref || github.ref_name }}
       

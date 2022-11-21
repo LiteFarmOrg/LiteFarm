@@ -203,7 +203,7 @@ const WaterUseDepthCalculator = ({ system, setTotalWaterUsage, totalWaterUsage, 
           control={control}
           required
           value={locationSize}
-          disabled={true}
+          disabled
         />
 
         <Unit

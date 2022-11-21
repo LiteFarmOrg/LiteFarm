@@ -78,6 +78,7 @@ const getOnKeyDown = (measure) => {
 };
 
 const DEFAULT_REACT_SELECT_WIDTH = 61;
+const DEFAULT_SELECT_ARROW_ICON_WIDTH = 20;
 
 const getReactSelectWidth = (measure) => {
   if (measure === 'time') return 93;
@@ -110,6 +111,7 @@ const useReactSelectStyles = (disabled, { reactSelectWidth = DEFAULT_REACT_SELEC
         width: `${reactSelectWidth - 19}px`,
         display: 'flex',
         justifyContent: 'center',
+        background: state.isDisabled ? 'var(--inputDisabled)' : 'inherit',
       }),
       singleValue: (provided, state) => ({
         fontSize: '16px',
@@ -371,16 +373,15 @@ const Unit = ({
           className={clsx(
             styles.pseudoInputContainer,
             showError && styles.inputError,
-            disabled && styles.disableBackground,
           )}
         >
           <div
             className={clsx(
               styles.verticleDivider,
               showError && styles.inputError,
-              isSelectDisabled && styles.none,
+              disabled && styles.none
             )}
-            style={{ width: `${reactSelectWidth}px` }}
+            style={{ width: `${isSelectDisabled ? reactSelectWidth - DEFAULT_SELECT_ARROW_ICON_WIDTH : reactSelectWidth}px` }}
           />
         </div>
       </div>

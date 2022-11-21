@@ -7,7 +7,6 @@ on:
 
 jobs:
   build:
-    timeout-minutes: 10
     runs-on: ubuntu-20.04
     env:
       JWT_INVITE_SECRET: ${{secrets.JWT_INVITE_SECRET}}

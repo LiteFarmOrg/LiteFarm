@@ -402,21 +402,21 @@ const getIrrigationTaskBody = (data, endpoint, managementPlanWithCurrentLocation
             : undefined,
         },
       };
-      // data.location = {
-      //   location_id: data.locations[0].location_id,
-      //   location_defaults: {
-      //     location_id: data.locations[0].location_id,
-      //     irrigation_task_type: data.set_default_irrigation_task_type_location
-      //       ? irrigation_task_type
-      //       : undefined,
-      //     ...(data.default_location_application_depth
-      //       ? pick(locationDefaults, ['application_depth', 'application_depth_unit'])
-      //       : null),
-      //     ...(data.default_location_flow_rate
-      //       ? pick(locationDefaults, ['flow_rate', 'flow_rate_unit'])
-      //       : null),
-      //   },
-      // };
+      data.location = {
+        location_id: data.locations[0].location_id,
+        location_defaults: {
+          location_id: data.locations[0].location_id,
+          irrigation_task_type: data.set_default_irrigation_task_type_location
+            ? irrigation_task_type
+            : undefined,
+          ...(data.default_location_application_depth
+            ? pick(locationDefaults, ['application_depth', 'application_depth_unit'])
+            : null),
+          ...(data.default_location_flow_rate
+            ? pick(locationDefaults, ['flow_rate', 'flow_rate_unit'])
+            : null),
+        },
+      };
 
       delete data.locations;
       delete data.measurement_type;

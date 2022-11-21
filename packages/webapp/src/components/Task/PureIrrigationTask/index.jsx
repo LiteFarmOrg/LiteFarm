@@ -211,7 +211,7 @@ export default function PureIrrigationTask({
       <Checkbox
         label={t('ADD_TASK.IRRIGATION_VIEW.SET_AS_DEFAULT_MEASUREMENT_FOR_THIS_IRRIGATION_TYPE')}
         sm
-        style={{ marginBottom: '24px', marginTop: '-5px' }}
+        style={{ marginBottom: '24px' }}
         hookFormRegister={register(DEFAULT_IRRIGATION_MEASUREMENT)}
       />
 
@@ -227,7 +227,7 @@ export default function PureIrrigationTask({
         max={999999999}
         system={system}
         control={control}
-        style={{ marginTop: '10px' }}
+        style={{ marginTop: '15px' }}
       />
 
       <Label>

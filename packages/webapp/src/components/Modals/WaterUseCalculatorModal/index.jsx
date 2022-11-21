@@ -19,29 +19,14 @@ import { useSelector } from 'react-redux';
 import { cropLocationsSelector } from '../../../containers/locationSlice';
 import { useForm } from 'react-hook-form';
 import { convert } from '../../../util/convert-units/convert';
+import modalStyles from './styles.module.scss';
 
 const TotalWaterUsage = ({ totalWaterUsage }) => {
   const { t } = useTranslation();
-  const labelStyle = {
-    fontSize: '16px',
-    lineHeight: '20px',
-    color: 'var(--teal900)',
-  };
   return (
-    <div
-      style={{
-        display: 'flex',
-        justifyContent: 'space-between',
-        padding: '10px',
-        width: '100%',
-        border: `2px solid var(--teal700)`,
-        borderRadius: '4px',
-        color: 'var(--teal700)',
-        marginLeft: 'auto',
-      }}
-    >
-      <Label style={labelStyle}>{t('ADD_TASK.IRRIGATION_VIEW.TOTAL_WATER_USAGE')}</Label>
-      <Label style={labelStyle}>{totalWaterUsage} l</Label>
+    <div className={modalStyles.labelContainer}>
+      <Label className={modalStyles.label}>{t('ADD_TASK.IRRIGATION_VIEW.TOTAL_WATER_USAGE')}</Label>
+      <Label className={modalStyles.label}>{totalWaterUsage} l</Label>
     </div>
   );
 };
@@ -111,10 +96,10 @@ const WaterUseVolumeCalculator = ({ system, setTotalWaterUsage, totalWaterUsage,
         control={control}
         style={{ paddingBottom: '32px' }}
         onChangeUnitOption={(e) => {
-          if (e.label === 'h' && estimated_irrigation_duration_unit.label === 'm')
-            setTotalWaterUsage(() => totalWaterUsage / 60);
-          if (e.label === 'm' && estimated_irrigation_duration_unit.label === 'h')
-            setTotalWaterUsage(() => totalWaterUsage * 60);
+          if (e.label === 'h' && estimated_irrigation_duration_unit.label === 'min')
+            setTotalWaterUsage(() => convert(totalWaterUsage).from('min').to('h'));
+          if (e.label === 'min' && estimated_irrigation_duration_unit.label === 'h')
+            setTotalWaterUsage(() => convert(totalWaterUsage).from('h').to('min'));
         }}
       />
 

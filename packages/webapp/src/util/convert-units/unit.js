@@ -13,7 +13,6 @@ const databaseUnit = {
   volumeFlowRate: 'l/min',
   volume: 'l',
   time: 'd',
-  hour: 'h',
 };
 
 export const area_total_area = {
@@ -116,16 +115,16 @@ export const container_planting_depth = {
 
 export const estimated_duration = {
   metric: {
-    units: ['h', 'm'],
+    units: ['h', 'min'],
     defaultUnit: 'h',
     breakpoints: [60],
   },
   imperial: {
-    units: ['h', 'm'],
+    units: ['h', 'min'],
     defaultUnit: 'h',
-    breakpoints: [60],
+    breakpoints: [1],
   },
-  databaseUnit: databaseUnit.hour,
+  databaseUnit: databaseUnit.time,
 };
 
 export const irrigation_depth = {

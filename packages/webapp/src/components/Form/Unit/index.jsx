@@ -36,6 +36,7 @@ import { convert } from '../../../util/convert-units/convert';
 
 export const getUnitOptionMap = () => ({
   h: { label: 'h', value: 'h' },
+  min: { label: 'min', value: 'min' },
   percentage: { label: '%', value: '%' },
   mm: { label: 'mm', value: 'mm' },
   m2: { label: 'm²', value: 'm2' },
@@ -410,7 +411,6 @@ const Unit = ({
 
 Unit.propTypes = {
   disabled: PropTypes.bool,
-  selectDisabled: PropTypes.bool,
   label: PropTypes.string,
   optional: PropTypes.bool,
   info: PropTypes.string,

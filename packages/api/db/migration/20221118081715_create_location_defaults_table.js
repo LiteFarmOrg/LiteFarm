@@ -14,5 +14,5 @@ export const up = function (knex) {
 };
 
 export const down = function (knex) {
-  return Promise.all([knex.schema.dropTable('location')]);
+  return Promise.all([knex.schema.dropTable('location_defaults')]);
 };

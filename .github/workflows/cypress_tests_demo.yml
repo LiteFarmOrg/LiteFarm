@@ -87,11 +87,10 @@ jobs:
           path: coverage/coverage-summary.json
           working-directory: packages/webapp
 
-      - name: Set code coverage commit status and update coverage badge
-        run: cd packages/webapp && npx set-gh-status && npx update-badge
+      - name: Set code coverage commit status
         continue-on-error: true
         working-directory: packages/webapp
-        run: npx set-gh-status && npx update-badge
+        run: npx set-gh-status
         env: 
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
       

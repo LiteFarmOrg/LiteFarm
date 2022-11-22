@@ -17,20 +17,15 @@ export const up = async function (knex) {
   });
 
   for (const row of irrigation_task_rows) {
-    await knex.raw(`UPDATE irrigation_task SET estimated_duration = ${row.hours * 60}`);
+    await knex.raw(
+      `UPDATE "task" task SET duration = ${row.hours * 60} WHERE task.task_id = row.task_id`,
+    );
     await knex('irrigation_task').insert({ estimated_flow_rate_unit: 'l/min' });
   }
 };
 
 export const down = async function (knex) {
-  const irrigation_task_rows = await knex('irrigation_task').select(
-    'task_id',
-    'estimated_flow_rate',
-    'estimated_duration',
-  );
-  for (const row of irrigation_task_rows) {
-    await knex.raw(`UPDATE irrigation_task SET hours = ${row.estimated_duration / 60}`);
-  }
+  const task_rows = await knex('task').select('task_id', 'duration');
 
   await knex.schema.alterTable('irrigation_task', (table) => {
     table.renameColumn('estimated_duration', 'hours');
@@ -42,4 +37,12 @@ export const down = async function (knex) {
     table.dropColumn('application_depth');
     table.dropColumn('application_depth_unit');
   });
+
+  for (const row of task_rows) {
+    await knex.raw(
+      `UPDATE 'irrigation_task' task SET hours = ${
+        row.duration / 60
+      } WHERE task.task_id = row.task_id`,
+    );
+  }
 };

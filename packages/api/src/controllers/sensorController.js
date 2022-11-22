@@ -401,7 +401,7 @@ const sensorController = {
 
   async addReading(req, res) {
     if (!Object.keys(req.body).length) {
-      return res.status(400).send('No sensor readings posted');
+      return res.status(200).send('No sensor readings posted');
     }
     const trx = await transaction.start(Model.knex());
     try {
@@ -446,7 +446,7 @@ const sensorController = {
       }
     } catch (error) {
       await trx.rollback();
-      return res.status(400).json({
+      return res.status(200).json({
         error,
       });
     }

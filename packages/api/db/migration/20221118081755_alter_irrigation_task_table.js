@@ -7,6 +7,7 @@ export const up = async function (knex) {
 
   await knex.schema.alterTable('irrigation_task', (table) => {
     table.renameColumn('hours', 'estimated_duration');
+    table.string('estimated_duration_unit');
     table.renameColumn('flow_rate_l/min', 'estimated_flow_rate');
     table.string('estimated_flow_rate_unit');
     table.uuid('location_id').references('location_id').inTable('location');
@@ -29,6 +30,7 @@ export const down = async function (knex) {
 
   await knex.schema.alterTable('irrigation_task', (table) => {
     table.renameColumn('estimated_duration', 'hours');
+    table.dropColumn('estimated_duration_unit');
     table.renameColumn('estimated_flow_rate', 'flow_rate_l/min');
     table.dropColumn('estimated_flow_rate_unit');
     table.dropColumn('location_id');

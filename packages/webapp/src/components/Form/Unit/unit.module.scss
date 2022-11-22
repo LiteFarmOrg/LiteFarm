@@ -12,7 +12,6 @@
   right: 0;
   line-height: 40px;
   cursor: pointer;
-  z-index: 2;
   width: 37px;
   display: flex;
   justify-content: center;
@@ -29,7 +28,6 @@
   font-family: 'Open Sans', 'SansSerif', serif;
   background: transparent;
   min-width: 0;
-  z-index: 1;
 }
 
 .input[type='number'] {
@@ -115,14 +113,12 @@
   height: 100%;
   position: absolute;
   width: 100%;
-  z-index: 0;
   display: flex;
   justify-content: flex-end;
   pointer-events: none;
 }
 
 .verticleDivider {
-  width: 61px;
   border-left: 1px solid var(--grey400);
 }
 
@@ -136,11 +132,6 @@
 
 .none {
   display: none;
-}
-
-.disableBackground {
-  z-index: -1;
-  background-color: var(--inputDisabled);
 }
 
 .noBorderRadius {

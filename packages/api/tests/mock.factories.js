@@ -1613,14 +1613,13 @@ function fakeIrrigationTask(defaultData = {}) {
   return {
     type: faker.helpers.arrayElement(['sprinkler', 'drip', 'subsurface', 'flood']),
     estimated_duration: faker.datatype.number(10),
-    estimated_duration_unit: faker.random.word(),
-    // estimated_duration_unit: faker.helpers.arrayElement(['h', 'min']),
+    estimated_duration_unit: faker.random.arrayElement(['h', 'min']),
     estimated_flow_rate: faker.datatype.number(10),
-    // estimated_flow_rate_unit: faker.helpers.arrayElement(['l/h', 'l/min']),
+    estimated_flow_rate_unit: faker.random.arrayElement(['l/h', 'l/min']),
     estimated_water_usage: faker.datatype.number(10),
-    // estimated_water_usage_unit: faker.helpers.arrayElement(['ml', 'l']),
+    estimated_water_usage_unit: faker.random.arrayElement(['ml', 'l']),
     application_depth: faker.datatype.number(10),
-    // application_depth_unit: faker.helpers.arrayElement(['mm']),
+    application_depth_unit: faker.random.arrayElement(['mm']),
     ...defaultData,
   };
 }

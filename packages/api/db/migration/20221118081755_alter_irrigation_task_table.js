@@ -21,7 +21,10 @@ export const up = async function (knex) {
     await knex.raw(
       `UPDATE "task" task SET duration = ${row.hours * 60} WHERE task.task_id = row.task_id`,
     );
-    await knex('irrigation_task').insert({ estimated_flow_rate_unit: 'l/min' });
+    await knex('irrigation_task').insert({
+      estimated_flow_rate_unit: 'l/min',
+      estimated_duration_unit: 'h',
+    });
   }
 };
 

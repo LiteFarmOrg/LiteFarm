@@ -28,7 +28,7 @@ yarn-error.log*
 ./cypress.env.json
 
 .nyc_output
-./.nyc_output/out.json
+.nyc_output/out.json
 
 public/locales/*/*_old.json
 

@@ -15,10 +15,9 @@
 
 import { Model } from 'objection';
 import taskModel from './taskModel.js';
-import BaseModel from './baseModel.js';
 import irrigationTypesModel from './irrigationTypesModel.js';
 
-class IrrigationTaskModel extends BaseModel {
+class IrrigationTaskModel extends Model {
   static get tableName() {
     return 'irrigation_task';
   }

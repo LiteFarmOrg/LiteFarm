@@ -95,4 +95,5 @@ jobs:
         run: npx set-gh-status
         env: 
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+          GH_SHA: ${{ github.event.after }}
       

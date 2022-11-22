@@ -1612,23 +1612,8 @@ async function irrigation_taskFactory(
 function fakeIrrigationTask(defaultData = {}) {
   return {
     type: faker.helpers.arrayElement(['sprinkler', 'drip', 'subsurface', 'flood']),
-    // task_id: faker.datatype.number(10),
-    // hours: faker.datatype.number(10),
-    // 'flow_rate_l/min': faker.datatype.number(10),
     ...defaultData,
   };
-
-  // async function soil_amendment_taskFactory(
-  //     { promisedTask = taskFactory(), promisedProduct = productFactory() } = {},
-  //     soil_amendment_task = fakeSoilAmendmentTask(),
-  // ) {
-  //   const [task, product] = await Promise.all([promisedTask, promisedProduct]);
-  //   const [{ task_id }] = task;
-  //   const [{ product_id }] = product;
-  //   return knex('soil_amendment_task')
-  //       .insert({ task_id, product_id, ...soil_amendment_task })
-  //       .returning('*');
-  // }
 }
 
 async function scouting_taskFactory(

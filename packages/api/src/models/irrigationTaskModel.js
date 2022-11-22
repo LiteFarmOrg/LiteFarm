@@ -15,6 +15,7 @@
 
 import { Model } from 'objection';
 import taskModel from './taskModel.js';
+import irrigationTypesModel from './irrigationTypesModel.js';
 
 class IrrigationTaskModel extends Model {
   static get tableName() {
@@ -34,16 +35,15 @@ class IrrigationTaskModel extends Model {
 
       properties: {
         task_id: { type: 'integer' },
-        type: {
-          type: 'string',
-          enum: ['sprinkler', 'drip', 'subsurface', 'flood'],
-        },
-        'flow_rate_l/min': {
-          type: 'float',
-        },
-        hours: {
-          type: 'float',
-        },
+        type: { type: 'string' },
+        estimated_duration: { type: 'number' },
+        estimated_flow_rate: { type: 'number' },
+        estimated_flow_rate_unit: { type: 'string' },
+        location_id: { type: 'string' },
+        estimated_water_usage: { type: 'number' },
+        estimated_water_usage_unit: { type: 'string' },
+        application_depth: { type: 'number' },
+        application_depth_unit: { type: 'string' },
       },
       additionalProperties: false,
     };
@@ -61,6 +61,15 @@ class IrrigationTaskModel extends Model {
         join: {
           from: 'irrigation_task.task_id',
           to: 'task.task_id',
+        },
+      },
+
+      irrigation_type: {
+        relation: Model.HasOneRelation,
+        modelClass: irrigationTypesModel,
+        join: {
+          from: 'irrigation_task.type',
+          to: 'irrigation_type.irrigation_type_name',
         },
       },
     };

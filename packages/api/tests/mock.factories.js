@@ -1612,8 +1612,7 @@ async function irrigation_taskFactory(
 function fakeIrrigationTask(defaultData = {}) {
   return {
     type: faker.helpers.arrayElement(['sprinkler', 'drip', 'subsurface', 'flood']),
-    hours: faker.datatype.number(10),
-    'flow_rate_l/min': faker.datatype.number(10),
+    estimated_duration: faker.datatype.number(10),
     ...defaultData,
   };
 }

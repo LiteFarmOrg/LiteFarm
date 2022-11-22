@@ -12013,37 +12013,13 @@
                       "type": "string",
                       "example": "drip"
                     },
-                    "estimated_flow_rate": {
+                    "flow_rate_l/min": {
                       "type": "number",
                       "example": 0
                     },
-                    "estimated_duration": {
+                    "hours": {
                       "type": "number",
-                      "example": 0
-                    },
-                    "estimated_flow_rate_unit": {
-                      "type": "string",
-                      "example": "l/min"
-                    },
-                    "location_id": {
-                      "type": "string",
-                      "example": "432eabfe-07b1-11ed-9e2b-096f157b6951"
-                    },
-                    "estimated_water_usage": {
-                      "type": "number",
-                      "example": 0
-                    },
-                    "estimated_water_usage_unit": {
-                      "type": "string",
-                      "example": "l/min"
-                    },
-                    "application_depth": {
-                      "type": "number",
-                      "example": 0
-                    },
-                    "application_depth_unit": {
-                      "type": "string",
-                      "example": "l/min"
+                      "example": 5
                     }
                   }
                 }

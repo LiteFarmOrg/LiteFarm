@@ -147,3 +147,7 @@ _Note: Please make sure to run the commands in the following order:_
 - `npm run ngrok:setup` (in a new terminal)
 - `pnpm dev` (in a new terminal from the `packages/webapp` folder)
 - `npm run nodemon` (in a new terminal from the `packages/api` folder)
+
+## How to Contribute
+
+Please email: community@litefarm.org for more details.

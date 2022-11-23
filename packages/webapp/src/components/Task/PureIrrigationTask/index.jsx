@@ -11,11 +11,11 @@ import RadioGroup from '../../Form/RadioGroup';
 import styles from '../../Typography/typography.module.scss';
 import Input from '../../Form/Input';
 import InputAutoSize from '../../Form/InputAutoSize';
-import WaterUseCalculatorModal from '../../Modals/WaterUseCalculatorModal';
 import Unit from '../../Form/Unit';
 import { waterUsage } from '../../../util/convert-units/unit';
 import CancelFlowModal from '../../Modals/CancelFlowModal';
 import PropTypes from 'prop-types';
+import WaterUsageCalculatorModal from '../../Modals/WaterUsageCalculatorModal';
 
 export default function PureIrrigationTask({
   handleGoBack,
@@ -249,7 +249,7 @@ export default function PureIrrigationTask({
       />
 
       {showWaterUseCalculatorModal && getValues(MEASUREMENT_TYPE) && (
-        <WaterUseCalculatorModal
+        <WaterUsageCalculatorModal
           dismissModal={onDismissWaterUseCalculatorModel}
           measurementType={getValues(MEASUREMENT_TYPE)}
           system={system}

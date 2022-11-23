@@ -43,14 +43,9 @@ export const down = async function (knex) {
     table.dropColumn('application_depth_unit');
   });
 
-  for (const row of task_rows) {
-    await knex.raw(
-      `UPDATE "irrigation_task" it SET hours = ${
-        row.duration / 60
-      } FROM "task" t WHERE t.task_id = it.task_id`,
-    );
+  task_rows.forEach(async () => {
     await knex.raw(
       `UPDATE "task" t SET duration = null FROM "irrigation_task" it WHERE it.task_id = t.task_id`,
     );
-  }
+  });
 };

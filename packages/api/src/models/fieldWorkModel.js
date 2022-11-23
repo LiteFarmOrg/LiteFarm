@@ -86,18 +86,16 @@ class FieldWorkModel extends baseModel {
     }
   }
   static async getAllFieldWorkTypesByFarmId(farm_id) {
-    const data = await Model.knex()
-      .raw(
-        `
+    const data = await Model.knex().raw(
+      `
       SELECT field_work_id, farm_id, 
       'ADD_TASK.FIELD_WORK_VIEW.TYPE.' || field_work_type_translation_key as label, 
       field_work_type_translation_key as value,
       field_work_name 
       FROM public.field_work WHERE farm_id = ? OR farm_id IS NULL;
     `,
-        [farm_id],
-      )
-      .debug();
+      [farm_id],
+    );
     return data.rows;
   }
 }

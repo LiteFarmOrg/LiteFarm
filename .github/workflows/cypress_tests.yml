@@ -82,6 +82,11 @@ jobs:
           group: 'UI - Chrome'
           spec: cypress/e2e/happyPath.spec.js
 
+      - name: set code coverage badge
+        run: npx -p check-code-coverage update-badge --from '${GITHUB_WORKSPACE}/packages/webapp/coverage/coverage-summary.json'
+        env: 
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+
       - name: Archive code coverage results
         uses: actions/upload-artifact@v3
         continue-on-error: true
@@ -97,8 +102,3 @@ jobs:
         env: 
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
           GH_SHA: ${{ github.event.after }}
-
-      - name: set code coverage badge
-        run: npx -p check-code-coverage update-badge --from '${GITHUB_WORKSPACE}/packages/webapp/coverage/coverage-summary.json'
-        env: 
-          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}

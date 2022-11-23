@@ -392,7 +392,7 @@ const getPostTaskReqBody = (
 export const createTask = createAction('createTaskSaga');
 
 export function* createTaskSaga({ payload }) {
-  const { returnPath, ...data } = payload;
+  let { returnPath, ...data } = payload;
 
   const { taskUrl } = apiConfig;
   let { user_id, farm_id } = yield select(loginSelector);
@@ -412,6 +412,7 @@ export function* createTaskSaga({ payload }) {
     const managementPlanWithCurrentLocationEntities = yield select(
       managementPlanWithCurrentLocationEntitiesSelector,
     );
+    data = getCompleteFieldWorkTaskBody(data, task_translation_key);
     const result = yield call(
       axios.post,
       `${taskUrl}/${endpoint}`,
@@ -436,6 +437,35 @@ export function* createTaskSaga({ payload }) {
     yield put(enqueueErrorSnackbar(i18n.t('message:TASK.CREATE.FAILED')));
   }
 }
+const getCompleteFieldWorkTaskBody = (data, task_translation_key) => {
+  if (task_translation_key !== 'FIELD_WORK_TASK') return data;
+  let reqBody = { ...data };
+  let fieldType = reqBody?.field_work_task?.type?.value || '';
+  let label = reqBody?.field_work_task?.type?.label?.trim() || '';
+  let fieldWorkId = data?.field_work_task?.type?.field_work_id || -1;
+
+  if (fieldType === 'OTHER') {
+    let customName = reqBody?.field_work_task?.fieldWorkTask?.field_work_name?.trim() || '';
+    const field_work_type_translation_key = customName
+      ?.trim()
+      ?.toLocaleUpperCase()
+      ?.replaceAll(' ', '_');
+    reqBody.field_work_task = {
+      type: field_work_type_translation_key,
+      fieldWorkTask: {
+        field_work_name: customName,
+        field_work_type_translation_key,
+      },
+    };
+  } else {
+    reqBody.field_work_task = {
+      type: label?.trim()?.toLocaleUpperCase()?.replaceAll(' ', '_'),
+      field_work_id: fieldWorkId,
+    };
+    delete reqBody.field_work_task.fieldWorkTask;
+  }
+  return reqBody;
+};
 
 //TODO: change req shape to {...task, harvestUses}
 const getCompleteHarvestTaskBody = (data) => {

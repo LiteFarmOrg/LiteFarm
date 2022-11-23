@@ -64,6 +64,11 @@ export const up = async function (knex) {
     );
   }
 
+  await knex.raw(`
+    ALTER TABLE "field_work_task"
+    DROP CONSTRAINT "field_work_task_type_check";
+  `);
+
   return null;
 };
 
@@ -73,5 +78,20 @@ export const down = async function (knex) {
     await knex.schema.alterTable('field_work_task', (t) => {
       t.dropColumn('field_work_id');
     }),
+    await knex.raw(`
+    ALTER TABLE "field_work_task"
+    ADD CONSTRAINT "field_work_task_type_check" 
+    CHECK ("type" IN (
+      'COVERING_SOIL',
+      'FENCING',
+      'PREPARING_BEDS_OR_ROWS',
+      'PRUNING',
+      'SHADE_CLOTH',
+      'TERMINATION',
+      'TILLAGE',
+      'WEEDING',
+      'OTHER'
+    ));
+    `),
   ]);
 };

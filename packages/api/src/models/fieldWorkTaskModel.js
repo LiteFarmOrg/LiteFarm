@@ -35,20 +35,7 @@ class FieldWorkTaskModel extends BaseModel {
 
       properties: {
         task_id: { type: 'integer' },
-        type: {
-          type: 'string',
-          enum: [
-            'COVERING_SOIL',
-            'FENCING',
-            'PREPARING_BEDS_OR_ROWS',
-            'PRUNING',
-            'SHADE_CLOTH',
-            'TERMINATION',
-            'TILLAGE',
-            'WEEDING',
-            'OTHER',
-          ],
-        },
+        type: { type: 'string' },
         other_type: { type: ['string', null] },
         field_work_id: { type: 'integer' },
         ...this.baseProperties,

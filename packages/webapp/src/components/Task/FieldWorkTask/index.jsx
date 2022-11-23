@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import i18next from 'i18next';
 import Input from '../../Form/Input';
 import ReactSelect from '../../Form/ReactSelect';
 import { Controller } from 'react-hook-form';
@@ -23,7 +24,7 @@ const PureFieldWorkTask = ({
 
   const FIELD_WORK_TYPE = 'field_work_task.type';
   const typeValue = watch(FIELD_WORK_TYPE);
-  const FIELD_WORK_OTHER_TYPE = 'field_work_task.other_type';
+  const FIELD_WORK_OTHER_TYPE = 'field_work_task.fieldWorkTask.field_work_name';
   const fieldWorkTypeExposedValue = useMemo(() => {
     return typeValue?.value
       ? typeValue
@@ -50,6 +51,16 @@ const PureFieldWorkTask = ({
     dispatch(getFieldWorkTypes());
   }, []);
 
+  const displayLabel = (value) => {
+    const translationKey = `ADD_TASK.FIELD_WORK_VIEW.TYPE.${value}`;
+    if (i18next.exists(translationKey)) {
+      return t(translationKey);
+    } else {
+      let customValue = value.toLocaleLowerCase().replaceAll('_', ' ');
+      return customValue[0].toUpperCase() + customValue.slice(1);
+    }
+  };
+
   return (
     <>
       <Controller
@@ -70,11 +81,7 @@ const PureFieldWorkTask = ({
             value={
               // TODO: refactor value reading here and in pest control
               // this solution keeps placeholder while accommodating the read-only view
-              !value
-                ? value
-                : value?.value
-                ? value
-                : { value, label: t(`ADD_TASK.FIELD_WORK_VIEW.TYPE.${value}`) }
+              !value ? value : value?.value ? value : { value, label: displayLabel(value) }
             }
           />
         )}

@@ -254,7 +254,7 @@ const WaterUseModal = ({
     );
 };
 
-export default function WaterUseCalculatorModal({
+export default function WaterUsageCalculatorModal({
   dismissModal,
   measurementType,
   system,
@@ -264,7 +264,6 @@ export default function WaterUseCalculatorModal({
   formState,
 }) {
   const { t } = useTranslation();
-
   return (
     <ModalComponent
       dismissModal={dismissModal}
@@ -303,7 +302,8 @@ export default function WaterUseCalculatorModal({
     </ModalComponent>
   );
 }
-WaterUseCalculatorModal.propTypes = {
+
+WaterUsageCalculatorModal.propTypes = {
   dismissModal: PropTypes.func,
   measurementType: PropTypes.string,
 };

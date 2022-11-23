@@ -43,9 +43,10 @@ export const down = async function (knex) {
     table.dropColumn('application_depth_unit');
   });
 
-  task_rows.forEach(async () => {
+  // eslint-disable-next-line no-unused-vars
+  for (const item of task_rows) {
     await knex.raw(
       `UPDATE "task" t SET duration = null FROM "irrigation_task" it WHERE it.task_id = t.task_id`,
     );
-  });
+  }
 };

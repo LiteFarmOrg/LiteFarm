@@ -92,8 +92,8 @@ jobs:
         continue-on-error: true
         with:
           name: code-coverage-report
-          path: coverage/coverage-summary.json
           working-directory: packages/webapp
+          path: coverage/coverage-summary.json
 
       - name: Set code coverage commit status
         continue-on-error: true

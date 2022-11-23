@@ -8,6 +8,7 @@ on:
 jobs:
   build:
     runs-on: ubuntu-20.04
+    timeout-minutes: 30
     env:
       JWT_INVITE_SECRET: ${{secrets.JWT_INVITE_SECRET}}
       JWT_RESET_SECRET: ${{secrets.JWT_RESET_SECRET}}
@@ -96,4 +97,8 @@ jobs:
         env: 
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
           GH_SHA: ${{ github.event.after }}
-      
+
+      - name: set code coverage badge
+        run: npx -p check-code-coverage update-badge --from '${GITHUB_WORKSPACE}/packages/webapp/coverage/coverage-summary.json'
+        env: 
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}

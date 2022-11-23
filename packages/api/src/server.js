@@ -143,7 +143,7 @@ import sensorRoute from './routes/sensorRoute.js';
 const router = promiseRouter();
 
 app.get('/', (req, res) => {
-  res.sendStatus(200);
+  res.status(200).json({ message: 'Welcome!' });
 });
 
 /**

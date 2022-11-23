@@ -49,5 +49,8 @@ export const down = async function (knex) {
         row.duration / 60
       } FROM "task" t WHERE t.task_id = it.task_id`,
     );
+    await knex.raw(
+      `UPDATE "task" t SET duration = null FROM "irrigation_task" it WHERE it.task_id = t.task_id`,
+    );
   }
 };

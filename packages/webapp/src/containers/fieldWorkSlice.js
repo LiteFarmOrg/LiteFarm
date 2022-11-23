@@ -22,7 +22,6 @@ const fieldWorkSlice = createSlice({
       });
     },
     fieldWorkSuccess: (state, { payload }) => {
-      console.log('payload', payload);
       if (state.loading && payload?.fieldWorkTypes?.length) {
         Object.assign(state, {
           loading: false,

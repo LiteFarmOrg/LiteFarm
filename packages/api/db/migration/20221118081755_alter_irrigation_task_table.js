@@ -45,7 +45,7 @@ export const down = async function (knex) {
 
   for (const row of task_rows) {
     await knex.raw(
-      `UPDATE "irrigation_task" it SET hour = ${
+      `UPDATE "irrigation_task" it SET hours = ${
         row.duration / 60
       } FROM "task" t WHERE t.task_id = it.task_id`,
     );

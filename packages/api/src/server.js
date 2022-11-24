@@ -138,13 +138,12 @@ import productRoute from './routes/productRoute.js';
 import notificationUserRoute from './routes/notificationUserRoute.js';
 import timeNotificationRoute from './routes/timeNotificationRoute.js';
 import sensorRoute from './routes/sensorRoute.js';
-import { displayWelcomeMessage } from './displayWelcomeMessage.js';
 
 // register API
 const router = promiseRouter();
 
 app.get('/', (req, res) => {
-  res.status(200).json(displayWelcomeMessage());
+  res.sendStatus(200);
 });
 
 /**

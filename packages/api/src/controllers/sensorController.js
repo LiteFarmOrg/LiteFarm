@@ -408,13 +408,11 @@ const sensorController = {
       const infoBody = [];
       for (const sensor of Object.keys(req.body)) {
         const sensorData = req.body[sensor].data;
-        let corresponding_sensor = await SensorModel.query()
-          .select('location_id')
-          .where('external_id', sensor)
-          .where('partner_id', req.params.partner_id);
-
+        let { rows: corresponding_sensor = [] } = await SensorModel.getLocationIdForSensorReadings(
+          sensor,
+          req.params.partner_id,
+        );
         if (!corresponding_sensor.length) return res.status(400).send('sensor id not found');
-
         corresponding_sensor = corresponding_sensor[0];
         for (const sensorInfo of sensorData) {
           const parameter_number = sensorInfo.parameter_category.toLowerCase().replaceAll(' ', '_');

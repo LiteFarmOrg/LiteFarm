@@ -43,7 +43,29 @@ const WaterUseVolumeCalculator = ({ system, setTotalWaterUsage, totalWaterUsage,
 
   useEffect(() => {
     if (estimated_flow_rate && estimated_irrigation_duration) {
-      setTotalWaterUsage(() => estimated_flow_rate * estimated_irrigation_duration);
+      setTotalWaterUsage(() => {
+        if (
+          estimated_flow_rate_unit.label === 'l/h' &&
+          estimated_irrigation_duration_unit.label === 'h'
+        )
+          return estimated_flow_rate * estimated_irrigation_duration;
+        if (
+          estimated_flow_rate_unit.label === 'l/m' &&
+          estimated_irrigation_duration_unit.label === 'min'
+        )
+          return estimated_flow_rate * estimated_irrigation_duration;
+        if (
+          estimated_flow_rate_unit.label === 'l/h' &&
+          estimated_irrigation_duration_unit.label === 'min'
+        )
+          return (estimated_flow_rate * estimated_irrigation_duration) / 60;
+        if (
+          estimated_flow_rate_unit.label === 'l/m' &&
+          estimated_irrigation_duration_unit.label === 'h'
+        )
+          return estimated_flow_rate * estimated_irrigation_duration * 60;
+        return totalWaterUsage;
+      });
     }
   }, [estimated_irrigation_duration, estimated_flow_rate]);
 

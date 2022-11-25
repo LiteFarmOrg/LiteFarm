@@ -69,9 +69,9 @@ const WaterUseVolumeCalculator = ({ system, setTotalWaterUsage, totalWaterUsage,
         control={control}
         onChangeUnitOption={(e) => {
           if (e.label === 'l/h' && estimated_flow_rate_unit.label === 'l/m')
-            setTotalWaterUsage(() => convert(totalWaterUsage).from('l/h').to('l/min'));
+            setValue(FLOW_RATE, convert(getValues(FLOW_RATE)).from('l/h').to('l/min'));
           if (e.label === 'l/m' && estimated_flow_rate_unit.label === 'l/h')
-            setTotalWaterUsage(() => convert(totalWaterUsage).from('l/min').to('l/h'));
+            setValue(FLOW_RATE, convert(getValues(FLOW_RATE)).from('l/min').to('l/h'));
         }}
       />
 
@@ -97,9 +97,15 @@ const WaterUseVolumeCalculator = ({ system, setTotalWaterUsage, totalWaterUsage,
         style={{ paddingBottom: '32px' }}
         onChangeUnitOption={(e) => {
           if (e.label === 'h' && estimated_irrigation_duration_unit.label === 'min')
-            setTotalWaterUsage(() => convert(totalWaterUsage).from('min').to('h'));
+            setValue(
+              ESTIMATED_DURATION,
+              convert(getValues(ESTIMATED_DURATION)).from('min').to('h'),
+            );
           if (e.label === 'min' && estimated_irrigation_duration_unit.label === 'h')
-            setTotalWaterUsage(() => convert(totalWaterUsage).from('h').to('min'));
+            setValue(
+              ESTIMATED_DURATION,
+              convert(getValues(ESTIMATED_DURATION)).from('h').to('min'),
+            );
         }}
       />
 

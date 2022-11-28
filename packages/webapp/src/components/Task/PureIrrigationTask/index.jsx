@@ -109,6 +109,10 @@ export default function PureIrrigationTask({
   const onDismissWaterUseCalculatorModel = () => setShowWaterUseCalculatorModal(false);
   const handleModalSubmit = () => {
     setValue(ESTIMATED_WATER_USAGE, totalWaterUsage);
+    setValue(ESTIMATED_WATER_USAGE_UNIT, {
+      label: 'l',
+      value: 'l',
+    });
     onDismissWaterUseCalculatorModel();
   };
 

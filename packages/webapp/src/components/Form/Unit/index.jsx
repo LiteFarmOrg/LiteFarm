@@ -375,19 +375,20 @@ const Unit = ({
             />
           )}
         />
-        <div
-          className={clsx(
-            styles.pseudoInputContainer,
-            showError && styles.inputError,
-          )}
-        >
+        <div className={clsx(styles.pseudoInputContainer, showError && styles.inputError)}>
           <div
             className={clsx(
               styles.verticleDivider,
               showError && styles.inputError,
-              disabled && styles.none
+              disabled && styles.none,
             )}
-            style={{ width: `${isSelectDisabled ? reactSelectWidth - DEFAULT_SELECT_ARROW_ICON_WIDTH : reactSelectWidth}px` }}
+            style={{
+              width: `${
+                isSelectDisabled
+                  ? reactSelectWidth - DEFAULT_SELECT_ARROW_ICON_WIDTH
+                  : reactSelectWidth
+              }px`,
+            }}
           />
         </div>
       </div>

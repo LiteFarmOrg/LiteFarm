@@ -132,9 +132,7 @@ export default function PureIrrigationTask({
         tooltipContent={
           <>
             {t('ADD_TASK.IRRIGATION_VIEW.BRAND_TOOLTIP.FIRST_PHRASE')}{' '}
-            <Underlined onClick={() => setShowConfirmCancelModal(true)}>
-              {t('ADD_TASK.FIELD_WORK_VIEW.FIELD_WORK_TASK')}
-            </Underlined>
+            {t('ADD_TASK.FIELD_WORK_VIEW.FIELD_WORK_TASK')} {''}
             {t('ADD_TASK.IRRIGATION_VIEW.BRAND_TOOLTIP.LAST_PHRASE')}{' '}
           </>
         }
@@ -230,7 +228,7 @@ export default function PureIrrigationTask({
         style={{ marginTop: '15px' }}
       />
 
-      <Label>
+      <Label style={{ marginTop: '4px' }}>
         {t('ADD_TASK.IRRIGATION_VIEW.NOT_SURE')}{' '}
         <Underlined onClick={() => setShowWaterUseCalculatorModal(true)}>
           {t('ADD_TASK.IRRIGATION_VIEW.CALCULATE_WATER_USAGE')}

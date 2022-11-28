@@ -36,6 +36,7 @@ import {
 
 import { sensorErrors, parseSensorCsv } from '../../../shared/validation/sensorCSV.js';
 import syncAsyncResponse from '../util/syncAsyncResponse.js';
+import knex from '../util/knex.js';
 
 const sensorController = {
   async getSensorReadingTypes(req, res) {
@@ -403,7 +404,6 @@ const sensorController = {
     if (!Object.keys(req.body).length) {
       return res.status(200).send('No sensor readings posted');
     }
-    const trx = await transaction.start(Model.knex());
     try {
       const infoBody = [];
       for (const sensor of Object.keys(req.body)) {
@@ -438,14 +438,11 @@ const sensorController = {
       if (infoBody.length === 0) {
         return res.status(200).send(infoBody);
       } else {
-        const result = await baseController.postWithResponse(SensorReadingModel, infoBody, req, {
-          trx,
-        });
-        await trx.commit();
-        return res.status(200).send(result);
+        const chunkSize = 999;
+        const result = await knex.batchInsert('sensor_reading', infoBody, chunkSize).returning('*');
+        return res.status(200).json(result);
       }
     } catch (error) {
-      await trx.rollback();
       return res.status(200).json({
         error,
       });

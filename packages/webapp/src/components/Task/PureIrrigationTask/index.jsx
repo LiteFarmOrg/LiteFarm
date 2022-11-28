@@ -16,6 +16,7 @@ import { waterUsage } from '../../../util/convert-units/unit';
 import CancelFlowModal from '../../Modals/CancelFlowModal';
 import PropTypes from 'prop-types';
 import WaterUsageCalculatorModal from '../../Modals/WaterUsageCalculatorModal';
+import { convert } from '../../../util/convert-units/convert';
 
 export default function PureIrrigationTask({
   handleGoBack,
@@ -46,6 +47,7 @@ export default function PureIrrigationTask({
       ...persistedFormData,
     },
   });
+  const { estimated_water_usage_unit, estimated_water_usage } = getValues();
 
   const stateController = () => {
     return { register, getValues, watch, control, setValue };
@@ -226,6 +228,12 @@ export default function PureIrrigationTask({
         system={system}
         control={control}
         style={{ marginTop: '15px' }}
+        onChangeUnitOption={(e) => {
+          if (e.label === 'l' && estimated_water_usage_unit.label === 'ml')
+            setValue(ESTIMATED_WATER_USAGE, convert(estimated_water_usage).from('ml').to('l'));
+          if (e.label === 'ml' && estimated_water_usage_unit.label === 'l')
+            setValue(ESTIMATED_WATER_USAGE, convert(estimated_water_usage).from('l').to('ml'));
+        }}
       />
 
       <Label style={{ marginTop: '4px' }}>

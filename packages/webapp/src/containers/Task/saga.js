@@ -430,6 +430,7 @@ const getIrrigationTaskBody = (data, endpoint, managementPlanWithCurrentLocation
           'location_size_unit',
           'estimated_irrigation_duration',
           'estimated_irrigation_duration_unit',
+          'irrigation_task_type_other',
           'irrigation_type',
           'location_defaults',
         ].includes(element) && delete data[element];

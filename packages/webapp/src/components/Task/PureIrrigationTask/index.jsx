@@ -11,7 +11,7 @@ import RadioGroup from '../../Form/RadioGroup';
 import styles from '../../Typography/typography.module.scss';
 import Input from '../../Form/Input';
 import InputAutoSize from '../../Form/InputAutoSize';
-import Unit from '../../Form/Unit';
+import Unit, { getUnitOptionMap } from '../../Form/Unit';
 import { waterUsage } from '../../../util/convert-units/unit';
 import CancelFlowModal from '../../Modals/CancelFlowModal';
 import PropTypes from 'prop-types';
@@ -109,10 +109,7 @@ export default function PureIrrigationTask({
   const onDismissWaterUseCalculatorModel = () => setShowWaterUseCalculatorModal(false);
   const handleModalSubmit = () => {
     setValue(ESTIMATED_WATER_USAGE, totalWaterUsage);
-    setValue(ESTIMATED_WATER_USAGE_UNIT, {
-      label: 'l',
-      value: 'l',
-    });
+    setValue(ESTIMATED_WATER_USAGE_UNIT, getUnitOptionMap()['l']);
     onDismissWaterUseCalculatorModel();
   };
 

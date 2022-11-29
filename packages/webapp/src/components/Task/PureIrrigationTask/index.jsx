@@ -11,11 +11,12 @@ import RadioGroup from '../../Form/RadioGroup';
 import styles from '../../Typography/typography.module.scss';
 import Input from '../../Form/Input';
 import InputAutoSize from '../../Form/InputAutoSize';
-import Unit from '../../Form/Unit';
+import Unit, { getUnitOptionMap } from '../../Form/Unit';
 import { waterUsage } from '../../../util/convert-units/unit';
 import CancelFlowModal from '../../Modals/CancelFlowModal';
 import PropTypes from 'prop-types';
 import WaterUsageCalculatorModal from '../../Modals/WaterUsageCalculatorModal';
+import { convert } from '../../../util/convert-units/convert';
 
 export default function PureIrrigationTask({
   handleGoBack,
@@ -46,6 +47,7 @@ export default function PureIrrigationTask({
       ...persistedFormData,
     },
   });
+  const { estimated_water_usage_unit, estimated_water_usage } = getValues();
 
   const stateController = () => {
     return { register, getValues, watch, control, setValue };
@@ -107,6 +109,7 @@ export default function PureIrrigationTask({
   const onDismissWaterUseCalculatorModel = () => setShowWaterUseCalculatorModal(false);
   const handleModalSubmit = () => {
     setValue(ESTIMATED_WATER_USAGE, totalWaterUsage);
+    setValue(ESTIMATED_WATER_USAGE_UNIT, getUnitOptionMap()['l']);
     onDismissWaterUseCalculatorModel();
   };
 
@@ -132,9 +135,7 @@ export default function PureIrrigationTask({
         tooltipContent={
           <>
             {t('ADD_TASK.IRRIGATION_VIEW.BRAND_TOOLTIP.FIRST_PHRASE')}{' '}
-            <Underlined onClick={() => setShowConfirmCancelModal(true)}>
-              {t('ADD_TASK.FIELD_WORK_VIEW.FIELD_WORK_TASK')}
-            </Underlined>
+            {t('ADD_TASK.FIELD_WORK_VIEW.FIELD_WORK_TASK')} {''}
             {t('ADD_TASK.IRRIGATION_VIEW.BRAND_TOOLTIP.LAST_PHRASE')}{' '}
           </>
         }
@@ -228,9 +229,15 @@ export default function PureIrrigationTask({
         system={system}
         control={control}
         style={{ marginTop: '15px' }}
+        onChangeUnitOption={(e) => {
+          if (e.label === 'l' && estimated_water_usage_unit.label === 'ml')
+            setValue(ESTIMATED_WATER_USAGE, convert(estimated_water_usage).from('ml').to('l'));
+          if (e.label === 'ml' && estimated_water_usage_unit.label === 'l')
+            setValue(ESTIMATED_WATER_USAGE, convert(estimated_water_usage).from('l').to('ml'));
+        }}
       />
 
-      <Label>
+      <Label style={{ marginTop: '4px' }}>
         {t('ADD_TASK.IRRIGATION_VIEW.NOT_SURE')}{' '}
         <Underlined onClick={() => setShowWaterUseCalculatorModal(true)}>
           {t('ADD_TASK.IRRIGATION_VIEW.CALCULATE_WATER_USAGE')}

@@ -194,8 +194,10 @@ const ReactSelect = React.forwardRef(function ReactSelect(
         <CreatableSelect
           customStyles
           formatCreateLabel={(userInput) => `${createPromptText} "${userInput}"`}
+          menuPortalTarget={document.body}
           styles={{
             ...styles,
+            menuPortal: (base) => ({ ...base, zIndex: 9999 }),
             singleValue: (provided, state) => ({
               ...provided,
               color: isDisabled ? 'var(--grey600)' : null,
@@ -234,8 +236,10 @@ const ReactSelect = React.forwardRef(function ReactSelect(
       {!creatable && (
         <Select
           customStyles
+          menuPortalTarget={document.body}
           styles={{
             ...styles,
+            menuPortal: (base) => ({ ...base, zIndex: 9999 }),
             singleValue: (provided, state) => ({
               ...provided,
               color: isDisabled ? 'var(--grey600)' : null,

@@ -36,6 +36,7 @@ import {
 
 import { sensorErrors, parseSensorCsv } from '../../../shared/validation/sensorCSV.js';
 import syncAsyncResponse from '../util/syncAsyncResponse.js';
+import knex from '../util/knex.js';
 
 const sensorController = {
   async getSensorReadingTypes(req, res) {
@@ -401,20 +402,17 @@ const sensorController = {
 
   async addReading(req, res) {
     if (!Object.keys(req.body).length) {
-      return res.status(400).send('No sensor readings posted');
+      return res.status(200).send('No sensor readings posted');
     }
-    const trx = await transaction.start(Model.knex());
     try {
       const infoBody = [];
       for (const sensor of Object.keys(req.body)) {
         const sensorData = req.body[sensor].data;
-        let corresponding_sensor = await SensorModel.query()
-          .select('location_id')
-          .where('external_id', sensor)
-          .where('partner_id', req.params.partner_id);
-
+        let { rows: corresponding_sensor = [] } = await SensorModel.getLocationIdForSensorReadings(
+          sensor,
+          req.params.partner_id,
+        );
         if (!corresponding_sensor.length) return res.status(400).send('sensor id not found');
-
         corresponding_sensor = corresponding_sensor[0];
         for (const sensorInfo of sensorData) {
           const parameter_number = sensorInfo.parameter_category.toLowerCase().replaceAll(' ', '_');
@@ -438,15 +436,12 @@ const sensorController = {
       if (infoBody.length === 0) {
         return res.status(200).send(infoBody);
       } else {
-        const result = await baseController.postWithResponse(SensorReadingModel, infoBody, req, {
-          trx,
-        });
-        await trx.commit();
-        return res.status(200).send(result);
+        const chunkSize = 999;
+        const result = await knex.batchInsert('sensor_reading', infoBody, chunkSize).returning('*');
+        return res.status(200).json(result);
       }
     } catch (error) {
-      await trx.rollback();
-      return res.status(400).json({
+      return res.status(200).json({
         error,
       });
     }

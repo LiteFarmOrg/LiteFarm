@@ -7,6 +7,7 @@ import { VscWarning } from 'react-icons/vsc';
 
 import { colors } from '../../../../assets/theme';
 import { FiSlash } from 'react-icons/all';
+import Infoi from '../../../Tooltip/Infoi';
 
 export default function ModalComponent({
   title,
@@ -17,6 +18,7 @@ export default function ModalComponent({
   children,
   warning,
   error,
+  tooltipContent,
 }) {
   if (warning && error) {
     console.error('warning and error cannot be true at the same time');
@@ -38,6 +40,15 @@ export default function ModalComponent({
             {error && <FiSlash style={{ marginTop: '1px' }} />}
             {icon && icon}
             {title}
+            {tooltipContent && (
+              <>
+                {' '}
+                <Infoi
+                  style={{ fontSize: '18px', transform: 'translateY(3px)' }}
+                  content={tooltipContent}
+                />
+              </>
+            )}
           </Semibold>
         )}
         {contents?.map((line, index) => (
@@ -59,4 +70,5 @@ ModalComponent.prototype = {
   buttonGroup: PropTypes.node,
   children: PropTypes.node,
   warning: PropTypes.bool,
+  tooltipContent: PropTypes.string,
 };

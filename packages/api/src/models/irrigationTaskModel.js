@@ -34,16 +34,17 @@ class IrrigationTaskModel extends Model {
 
       properties: {
         task_id: { type: 'integer' },
-        type: {
-          type: 'string',
-          enum: ['sprinkler', 'drip', 'subsurface', 'flood'],
-        },
-        'flow_rate_l/min': {
-          type: 'float',
-        },
-        hours: {
-          type: 'float',
-        },
+        type: { type: 'string' },
+        estimated_duration: { type: 'number' },
+        estimated_duration_unit: { type: 'string' },
+        estimated_flow_rate: { type: 'number' },
+        estimated_flow_rate_unit: { type: 'string' },
+        location_id: { type: 'string' },
+        estimated_water_usage: { type: 'number' },
+        estimated_water_usage_unit: { type: 'string' },
+        application_depth: { type: 'number' },
+        application_depth_unit: { type: 'string' },
+        default_measuring_type: { type: 'string' },
       },
       additionalProperties: false,
     };

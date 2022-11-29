@@ -102,6 +102,7 @@ export function BufferZoneDetailsChildren({ isViewLocationPage, isEditLocationPa
           hookFormGetValue={getValues}
           hookFromWatch={watch}
           control={control}
+          required
           disabled={!isEditLocationPage}
         />
       </div>

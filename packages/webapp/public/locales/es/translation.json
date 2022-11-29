@@ -138,7 +138,22 @@
       "SET_AS_DEFAULT_MEASUREMENT_FOR_THIS_IRRIGATION_TYPE": "MISSING",
       "ESTIMATED_WATER_USAGE": "MISSING",
       "NOT_SURE": "MISSING",
-      "CALCULATE_WATER_USAGE": "MISSING"
+      "CALCULATE_WATER_USAGE": "MISSING",
+      "WATER_USE_CALCULATOR": "MISSING",
+      "WATER_USE_CALCULATOR_INFO": {
+        "PHRASE1": "MISSING",
+        "PHRASE2": "MISSING",
+        "PHRASE3": "MISSING"
+      },
+      "ESTIMATED_FLOW_RATE": "MISSING",
+      "DEFAULT_LOCATION_FLOW_RATE": "MISSING",
+      "ESTIMATED_DURATION": "MISSING",
+      "ESTIMATED_APPLICATION_DEPTH": "MISSING",
+      "DEFAULT_APPLICATION_DEPTH": "MISSING",
+      "PERCENTAGE_LOCATION_TO_BE_IRRIGATED": "MISSING.",
+      "TOTAL_WATER_USAGE": "MISSING",
+      "LOCATION_SIZE": "MISSING",
+      "IRRIGATED_AREA": "MISSING"
     }
   },
   "BED_PLAN": {
@@ -1618,6 +1633,7 @@
     "HARVEST_USE": "Usa de la cosecha?",
     "HARVEST_USE_ALREADY_EXISTS": "El uso de cosecha ya existe",
     "HOW_WILL_HARVEST_BE_USED": "Como va a usar la cosecha?",
+    "IRRIGATION_LOCATION": "MISSING",
     "LOCATIONS": "Ubicacion (es)",
     "NO_TASKS_TO_DISPLAY": "No hay tareas para mostrar.",
     "NO_WORK_DONE": "No se completó ningún trabajo",

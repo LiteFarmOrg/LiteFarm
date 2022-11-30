@@ -70,7 +70,7 @@ const PureSensorReadingsLineChart = ({
 
   const renderCusomizedLegend = ({ payload }) => {
     return (
-      <div className={styles.legendWrapper}>
+      <div id="legend" className={styles.legendWrapper}>
         {payload.map((entry, idx) => {
           const { value = '', color = '', isActive = true } = entry;
           const style = {
@@ -80,7 +80,6 @@ const PureSensorReadingsLineChart = ({
           };
           return (
             <div
-              id="legend"
               style={style}
               key={idx}
               onClick={() => handleLegendClick(entry)}

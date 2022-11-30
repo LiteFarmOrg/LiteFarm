@@ -9,7 +9,6 @@ export function SensorReadingChartSpotlightProvider({ children, open, onFinish }
         {
           title: t('SENSOR.SENSOR_READING_CHART_SPOTLIGHT.TITLE'),
           contents: [t('SENSOR.SENSOR_READING_CHART_SPOTLIGHT.CONTENT')],
-          position: 'center',
           selector: '#legend',
           //popoverStyles: { width: '240px' },
         },

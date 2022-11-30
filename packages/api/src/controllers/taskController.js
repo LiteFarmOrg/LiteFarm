@@ -312,7 +312,7 @@ const taskController = {
       };
       const fieldWork = await FieldWorkModel.insertCustomFieldWorkType(row);
       delete data.field_work_task.fieldWorkTask;
-      data.field_work_task.field_work_id = fieldWork.field_work_id;
+      data.field_work_task.field_work_type_id = fieldWork.field_work_type_id;
     }
     return data;
   },

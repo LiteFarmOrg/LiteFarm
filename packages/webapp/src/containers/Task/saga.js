@@ -518,7 +518,7 @@ const getCompleteFieldWorkTaskBody = (data, task_translation_key) => {
   let reqBody = { ...data };
   let fieldType = reqBody?.field_work_task?.type?.value || '';
   let label = reqBody?.field_work_task?.type?.label?.trim() || '';
-  let fieldWorkId = data?.field_work_task?.type?.field_work_id || -1;
+  let fieldWorkId = data?.field_work_task?.type?.field_work_type_id || -1;
 
   if (fieldType === 'OTHER') {
     let customName = reqBody?.field_work_task?.fieldWorkTask?.field_work_name?.trim() || '';
@@ -536,7 +536,7 @@ const getCompleteFieldWorkTaskBody = (data, task_translation_key) => {
   } else {
     reqBody.field_work_task = {
       type: label?.trim()?.toLocaleUpperCase()?.replaceAll(' ', '_'),
-      field_work_id: fieldWorkId,
+      field_work_type_id: fieldWorkId,
     };
     delete reqBody.field_work_task.fieldWorkTask;
   }

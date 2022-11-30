@@ -25,17 +25,16 @@ import {
 import { taskUrl } from '../../../apiConfig';
 import { getHeader } from '../../../containers/saga';
 
-const getFieldWorkTypesURL = () => `${taskUrl}/get_field_work_types/`;
+const getFieldWorkTypesURL = (farm_id) => `${taskUrl}/get_field_work_types/${farm_id}`;
 
 export const getFieldWorkTypes = createAction(`getFieldWorkTypesSaga`);
 
 export function* getFieldWorkTypesSaga() {
-  const { farm_id } = yield select(userFarmSelector);
+  const { farm_id, user_id } = yield select(userFarmSelector);
   try {
     yield put(fieldWorkLoading());
-    const header = getHeader(farm_id);
-    const url = `${getFieldWorkTypesURL()}${farm_id}`;
-    const result = yield call(axios.get, url, header);
+    const header = getHeader(user_id, farm_id);
+    const result = yield call(axios.get, getFieldWorkTypesURL(farm_id), header);
     yield put(fieldWorkSuccess({ fieldWorkTypes: result.data }));
   } catch (error) {
     yield put(fieldWorkFailure());

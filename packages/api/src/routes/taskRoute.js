@@ -250,6 +250,10 @@ router.get(
   taskController.getHarvestUsesByFarmId,
 );
 
-router.get('/get_field_work_types/:farm_id', taskController.getFieldWorkTypes);
+router.get(
+  '/get_field_work_types/:farm_id',
+  hasFarmAccess({ params: 'farm_id' }),
+  taskController.getFieldWorkTypes,
+);
 
 export default router;

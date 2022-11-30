@@ -4,7 +4,7 @@ import i18next from 'i18next';
 import Input from '../../Form/Input';
 import ReactSelect from '../../Form/ReactSelect';
 import { Controller } from 'react-hook-form';
-import { getFieldWorkTypes } from './saga';
+import { getFieldWorkTypes } from '../../../containers/Task/FieldWorkTask/saga';
 import { useDispatch, useSelector } from 'react-redux';
 import { fieldWorkSliceSliceSelector } from '../../../containers/fieldWorkSlice';
 

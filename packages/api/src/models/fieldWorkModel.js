@@ -51,7 +51,7 @@ class FieldWorkModel extends baseModel {
         relation: Model.BelongsToOneRelation,
         modelClass: farmModel,
         join: {
-          from: 'field_work.farm_id',
+          from: 'field_work_type.farm_id',
           to: 'farm.farm_id',
         },
       },

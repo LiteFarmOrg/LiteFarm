@@ -63,7 +63,7 @@ class FieldWorkTaskModel extends BaseModel {
         relation: Model.HasManyRelation,
         join: {
           from: 'field_work_task.field_work_type_id',
-          to: 'field_work.field_work_type_id',
+          to: 'field_work_type.field_work_type_id',
         },
       },
     };

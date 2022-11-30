@@ -70,7 +70,7 @@ export const up = async function (knex) {
 
   await knex.raw(`
     ALTER TABLE "field_work_task"
-    DROP CONSTRAINT "field_work_task_type_check";
+    DROP CONSTRAINT IF EXISTS "field_work_task_type_check";
   `);
 
   return null;

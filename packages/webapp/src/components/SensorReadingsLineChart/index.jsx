@@ -80,6 +80,7 @@ const PureSensorReadingsLineChart = ({
           };
           return (
             <div
+              id="legend"
               style={style}
               key={idx}
               onClick={() => handleLegendClick(entry)}

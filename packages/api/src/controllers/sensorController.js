@@ -411,6 +411,7 @@ const sensorController = {
         let { rows: corresponding_sensor = [] } = await SensorModel.getLocationIdForSensorReadings(
           sensor,
           req.params.partner_id,
+          req.params.farm_id,
         );
         if (!corresponding_sensor.length) return res.status(400).send('sensor id not found');
         corresponding_sensor = corresponding_sensor[0];

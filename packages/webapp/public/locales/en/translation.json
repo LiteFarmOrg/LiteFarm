@@ -1520,6 +1520,10 @@
     },
     "READINGS_PREVIEW": {
       "TEMPERATURE": "Current soil temp"
+    },
+    "SENSOR_READING_CHART_SPOTLIGHT": {
+      "TITLE": "MISSING",
+      "CONTENT": "MISSING"
     }
   },
   "SHIFT": {

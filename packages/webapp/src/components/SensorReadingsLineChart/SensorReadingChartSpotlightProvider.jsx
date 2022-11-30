@@ -7,13 +7,8 @@ export function SensorReadingChartSpotlightProvider({ children, open, onFinish }
     <TourProviderWrapper
       steps={[
         {
-          title: t('NAVIGATION.SPOTLIGHT.NOTIFICATION_TITLE'),
-          contents: [t('NAVIGATION.SPOTLIGHT.YOU_CAN')],
-          list: [
-            t('NAVIGATION.SPOTLIGHT.SEE_UPDATES'),
-            t('NAVIGATION.SPOTLIGHT.MANAGE_TASK'),
-            t('NAVIGATION.SPOTLIGHT.COORDINATE_ACTIVITIES'),
-          ],
+          title: t('SENSOR.SENSOR_READING_CHART_SPOTLIGHT.TITLE'),
+          contents: [t('SENSOR.SENSOR_READING_CHART_SPOTLIGHT.CONTENT')],
           position: 'center',
           selector: '#legend',
           //popoverStyles: { width: '240px' },

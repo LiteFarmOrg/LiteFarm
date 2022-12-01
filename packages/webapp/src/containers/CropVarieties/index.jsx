@@ -80,9 +80,9 @@ export default function CropVarieties({ history, match, location }) {
   const onGoBack = () => history.push('/crop_catalogue');
 
   const onLoadError = () => {
-    dispatch(enqueueErrorSnackbar(t('message:CROP_VARIETY.ERROR.FIND')));
     onGoBack();
-  }
+    dispatch(enqueueErrorSnackbar(t('message:CROP_VARIETY.ERROR.FIND')));
+  };
 
   const goToVarietyManagement = (varietyId) => {
     history.push(`/crop/${varietyId}/management`, { returnPath: location.pathname });
@@ -92,121 +92,124 @@ export default function CropVarieties({ history, match, location }) {
   const goToVarietyCreation = () => {
     onAddCropVariety(crop_id);
   };
-  
-  return (<>
-    {crop ? <Layout>
-        <PageTitle
-          title={`${t(`crop:${crop.crop_translation_key}`)} ${t('CROP_VARIETIES.CROP_VARIETIES')}`}
-          style={{ paddingBottom: '20px' }}
-          onGoBack={onGoBack}
-        />
-        <PureSearchbarAndFilter
-          onFilterOpen={onFilterOpen}
-          value={filterString}
-          onChange={filterStringOnChange}
-          isFilterActive={isFilterCurrentlyActive}
-        />
-        <MuiFullPagePopup open={isFilterOpen} onClose={onFilterClose}>
-          <CropVarietyFilterPage cropId={crop_id} onGoBack={onFilterClose} />
-        </MuiFullPagePopup>
-
-        {isFilterCurrentlyActive && (
-          <ActiveFilterBox
-            pageFilter={cropCatalogueFilter}
-            pageFilterKey={`${crop_id}`}
-            style={{ marginBottom: '32px' }}
-          />
-        )}
-
-        {/* <CropStatusInfoBox style={{ marginBottom: '16px' }} date={date} setDate={setDate} /> */}
-
-        <div ref={containerRef}>
-          {!!(sum + filteredCropsWithoutManagementPlan.length) ? (
-            <>
-              <PageBreak style={{ paddingBottom: '16px' }} label={t('CROP_CATALOGUE.ON_YOUR_FARM')} />
-              <CropStatusInfoBox
-                status={{ active, abandoned, completed, planned, noPlans }}
-                style={{ marginBottom: '16px' }}
-                date={date}
-                setDate={setDate}
-              />
-              <PureCropTileContainer gap={gap} padding={padding}>
-                {filteredCropsWithoutManagementPlan.map((cropVariety) => {
-                  const {
-                    crop_translation_key,
-                    crop_photo_url,
-                    crop_id,
-                    crop_variety_name,
-                    crop_variety_id,
-                    noPlansCount,
-                  } = cropVariety;
-                  const imageKey = cropVariety.crop_translation_key?.toLowerCase();
-
-                  return (
-                    <PureCropTile
-                      key={crop_variety_id}
-                      title={crop_variety_name}
-                      src={crop_photo_url}
-                      alt={imageKey}
-                      style={{ width: cardWidth }}
-                      onClick={() => goToVarietyManagement(crop_variety_id)}
-                      cropCount={{
-                        noPlans: noPlansCount,
-                      }}
-                    />
-                  );
-                })}
-                {cropCatalogue.map((cropCatalog) => {
-                  const {
-                    crop_translation_key,
-                    active,
-                    abandoned,
-                    planned,
-                    completed,
-                    imageKey,
-                    crop_photo_url,
-                    crop_id,
-                    needsPlan,
-                    noPlans,
-                    noPlansCount,
-                    crop_variety_name,
-                    crop_variety_id,
-                  } = cropCatalog;
-
-                  return (
-                    <PureCropTile
-                      key={crop_variety_id}
-                      cropCount={{
-                        active: active.length,
-                        abandoned: abandoned.length,
-                        planned: planned.length,
-                        completed: completed.length,
-                        noPlans: noPlans.length,
-                      }}
-                      needsPlan={!!noPlansCount}
-                      title={crop_variety_name}
-                      src={crop_photo_url}
-                      alt={imageKey}
-                      style={{ width: cardWidth }}
-                      onClick={() => goToVarietyManagement(crop_variety_id)}
-                    />
-                  );
-                })}
-              </PureCropTileContainer>
-            </>
-          ) : (
-            isFilterCurrentlyActive && (
-              <Semibold style={{ color: 'var(--teal700)' }}>
-                {t('CROP_CATALOGUE.NO_RESULTS_FOUND')}
-              </Semibold>
-            )
-          )}
-        </div>
-        {isAdmin && !isFilterCurrentlyActive && (
-          <AddLink onClick={goToVarietyCreation}>{t('CROP_VARIETIES.ADD_VARIETY')}</AddLink>
-        )}
-      </Layout> : onLoadError()
+  useEffect(() => {
+    if (!crop) {
+      onLoadError();
     }
-  </>
-  );
+  }, [crop]);
+
+  return crop ? (
+    <Layout>
+      <PageTitle
+        title={`${t(`crop:${crop.crop_translation_key}`)} ${t('CROP_VARIETIES.CROP_VARIETIES')}`}
+        style={{ paddingBottom: '20px' }}
+        onGoBack={onGoBack}
+      />
+      <PureSearchbarAndFilter
+        onFilterOpen={onFilterOpen}
+        value={filterString}
+        onChange={filterStringOnChange}
+        isFilterActive={isFilterCurrentlyActive}
+      />
+      <MuiFullPagePopup open={isFilterOpen} onClose={onFilterClose}>
+        <CropVarietyFilterPage cropId={crop_id} onGoBack={onFilterClose} />
+      </MuiFullPagePopup>
+
+      {isFilterCurrentlyActive && (
+        <ActiveFilterBox
+          pageFilter={cropCatalogueFilter}
+          pageFilterKey={`${crop_id}`}
+          style={{ marginBottom: '32px' }}
+        />
+      )}
+
+      {/* <CropStatusInfoBox style={{ marginBottom: '16px' }} date={date} setDate={setDate} /> */}
+
+      <div ref={containerRef}>
+        {!!(sum + filteredCropsWithoutManagementPlan.length) ? (
+          <>
+            <PageBreak style={{ paddingBottom: '16px' }} label={t('CROP_CATALOGUE.ON_YOUR_FARM')} />
+            <CropStatusInfoBox
+              status={{ active, abandoned, completed, planned, noPlans }}
+              style={{ marginBottom: '16px' }}
+              date={date}
+              setDate={setDate}
+            />
+            <PureCropTileContainer gap={gap} padding={padding}>
+              {filteredCropsWithoutManagementPlan.map((cropVariety) => {
+                const {
+                  crop_translation_key,
+                  crop_photo_url,
+                  crop_id,
+                  crop_variety_name,
+                  crop_variety_id,
+                  noPlansCount,
+                } = cropVariety;
+                const imageKey = cropVariety.crop_translation_key?.toLowerCase();
+
+                return (
+                  <PureCropTile
+                    key={crop_variety_id}
+                    title={crop_variety_name}
+                    src={crop_photo_url}
+                    alt={imageKey}
+                    style={{ width: cardWidth }}
+                    onClick={() => goToVarietyManagement(crop_variety_id)}
+                    cropCount={{
+                      noPlans: noPlansCount,
+                    }}
+                  />
+                );
+              })}
+              {cropCatalogue.map((cropCatalog) => {
+                const {
+                  crop_translation_key,
+                  active,
+                  abandoned,
+                  planned,
+                  completed,
+                  imageKey,
+                  crop_photo_url,
+                  crop_id,
+                  needsPlan,
+                  noPlans,
+                  noPlansCount,
+                  crop_variety_name,
+                  crop_variety_id,
+                } = cropCatalog;
+
+                return (
+                  <PureCropTile
+                    key={crop_variety_id}
+                    cropCount={{
+                      active: active.length,
+                      abandoned: abandoned.length,
+                      planned: planned.length,
+                      completed: completed.length,
+                      noPlans: noPlans.length,
+                    }}
+                    needsPlan={!!noPlansCount}
+                    title={crop_variety_name}
+                    src={crop_photo_url}
+                    alt={imageKey}
+                    style={{ width: cardWidth }}
+                    onClick={() => goToVarietyManagement(crop_variety_id)}
+                  />
+                );
+              })}
+            </PureCropTileContainer>
+          </>
+        ) : (
+          isFilterCurrentlyActive && (
+            <Semibold style={{ color: 'var(--teal700)' }}>
+              {t('CROP_CATALOGUE.NO_RESULTS_FOUND')}
+            </Semibold>
+          )
+        )}
+      </div>
+      {isAdmin && !isFilterCurrentlyActive && (
+        <AddLink onClick={goToVarietyCreation}>{t('CROP_VARIETIES.ADD_VARIETY')}</AddLink>
+      )}
+    </Layout>
+  ) : null;
 }

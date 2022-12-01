@@ -80,8 +80,8 @@ export default function CropVarieties({ history, match, location }) {
   const onGoBack = () => history.push('/crop_catalogue');
 
   const onLoadError = () => {
-    onGoBack();
     dispatch(enqueueErrorSnackbar(t('message:CROP_VARIETY.ERROR.FIND')));
+    onGoBack();
   }
 
   const goToVarietyManagement = (varietyId) => {
@@ -93,9 +93,8 @@ export default function CropVarieties({ history, match, location }) {
     onAddCropVariety(crop_id);
   };
   
-  return (
-    <Layout>
-      {crop ? <>
+  return (<>
+    {crop ? <Layout>
         <PageTitle
           title={`${t(`crop:${crop.crop_translation_key}`)} ${t('CROP_VARIETIES.CROP_VARIETIES')}`}
           style={{ paddingBottom: '20px' }}
@@ -106,7 +105,7 @@ export default function CropVarieties({ history, match, location }) {
           value={filterString}
           onChange={filterStringOnChange}
           isFilterActive={isFilterCurrentlyActive}
-      />
+        />
         <MuiFullPagePopup open={isFilterOpen} onClose={onFilterClose}>
           <CropVarietyFilterPage cropId={crop_id} onGoBack={onFilterClose} />
         </MuiFullPagePopup>
@@ -206,8 +205,8 @@ export default function CropVarieties({ history, match, location }) {
         {isAdmin && !isFilterCurrentlyActive && (
           <AddLink onClick={goToVarietyCreation}>{t('CROP_VARIETIES.ADD_VARIETY')}</AddLink>
         )}
-      </> : onLoadError()
+      </Layout> : onLoadError()
     }
-    </Layout>
+  </>
   );
 }

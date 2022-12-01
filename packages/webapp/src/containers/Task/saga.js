@@ -392,9 +392,8 @@ const getIrrigationTaskBody = (data, endpoint, managementPlanWithCurrentLocation
       };
       data.irrigation_type = {
         irrigation_type_name: irrigation_task_type,
-        default_measuring_type: data.set_default_irrigation_task_type_measurement
-          ? data.measurement_type
-          : undefined,
+        default_measuring_type: data.measurement_type,
+        irrigation_task_type_other: data.irrigation_task_type_other === irrigation_task_type,
       };
       data.location_defaults = data.locations.map((location) => ({
         location_id: location.location_id,
@@ -431,8 +430,6 @@ const getIrrigationTaskBody = (data, endpoint, managementPlanWithCurrentLocation
           'estimated_irrigation_duration',
           'estimated_irrigation_duration_unit',
           'irrigation_task_type_other',
-          'irrigation_type',
-          'location_defaults',
         ].includes(element) && delete data[element];
       }
     },

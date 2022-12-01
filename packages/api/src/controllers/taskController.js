@@ -24,6 +24,8 @@ import HarvestUse from '../models/harvestUseModel.js';
 import NotificationUser from '../models/notificationUserModel.js';
 import User from '../models/userModel.js';
 import { typesOfTask } from './../middleware/validation/task.js';
+import locationDefaultsModel from '../models/locationDefaultsModel.js';
+import IrrigationTypesModel from '../models/irrigationTypesModel.js';
 const adminRoles = [1, 2, 5];
 // const isDateInPast = (date) => {
 //   const today = new Date();
@@ -245,6 +247,33 @@ const taskController = {
     }
   },
 
+  async checkCustomDependencies(typeOfTask, data, farm_id) {
+    switch (typeOfTask) {
+      case 'irrigation_task':
+        if (data.irrigation_type?.irrigation_task_type_other) {
+          await IrrigationTypesModel.insertCustomIrrigationType({
+            farm_id,
+            irrigation_type_name: data.irrigation_type?.irrigation_type_name,
+            default_measuring_type: data.irrigation_type?.default_measuring_type,
+          });
+        }
+        if (data.location_defaults) {
+          for (const location_default of data.location_defaults) {
+            await locationDefaultsModel.transaction(async (trx) => {
+              await locationDefaultsModel
+                .query(trx)
+                .context({ location_id: location_default.location_id })
+                .upsertGraph({ ...location_default }, { insertMissing: true });
+            });
+          }
+        }
+        delete data.irrigation_type;
+        delete data.location_defaults;
+        return data;
+      default:
+        return data;
+    }
+  },
   createTask(typeOfTask) {
     const nonModifiable = getNonModifiable(typeOfTask);
     return async (req, res, next) => {
@@ -252,7 +281,8 @@ const taskController = {
         // OC: the "noInsert" rule will not fail if a relationship is present in the graph.
         // it will just ignore the insert on it. This is just a 2nd layer of protection
         // after the validation middleware.
-        const data = req.body;
+        let data = req.body;
+        data = await this.checkCustomDependencies(typeOfTask, data, req.headers.farm_id);
         const { user_id } = req.user;
         data.owner_user_id = user_id;
         const result = await TaskModel.transaction(async (trx) => {

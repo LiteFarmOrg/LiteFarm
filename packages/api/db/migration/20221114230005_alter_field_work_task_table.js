@@ -103,6 +103,31 @@ export const up = async function (knex) {
 };
 
 export const down = async function (knex) {
+  await knex.schema.alterTable('field_work_task', (t) => {
+    t.string('type');
+    t.string('other_type');
+  });
+
+  const field_work_tasks = await knex('field_work_task').select('*');
+  for (const task of field_work_tasks) {
+    if (task.field_work_type_id) {
+      const { rows = [] } = await knex.raw(
+        `SELECT * FROM field_work_type WHERE field_work_type_id=${task.field_work_type_id}`,
+      );
+      if (rows.length) {
+        const row = rows[0];
+        if (row.farm_id) {
+          await knex.raw(
+            `UPDATE field_work_task SET type = 'OTHER', other_type = '${row.field_work_name}'::text WHERE field_work_type_id = ${row.field_work_type_id}`,
+          );
+        } else {
+          await knex.raw(
+            `UPDATE field_work_task SET type = '${row.field_work_type_translation_key}' WHERE field_work_type_id = ${row.field_work_type_id};`,
+          );
+        }
+      }
+    }
+  }
   return Promise.all([
     await knex.raw('DROP TABLE "field_work_type" cascade'),
     await knex.schema.alterTable('field_work_task', (t) => {

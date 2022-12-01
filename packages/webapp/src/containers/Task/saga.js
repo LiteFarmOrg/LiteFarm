@@ -488,7 +488,7 @@ export function* createTaskSaga({ payload }) {
     const managementPlanWithCurrentLocationEntities = yield select(
       managementPlanWithCurrentLocationEntitiesSelector,
     );
-    data = getCompleteFieldWorkTaskBody(data, task_translation_key);
+    data = getTaskBody(data, task_translation_key);
     const result = yield call(
       axios.post,
       `${taskUrl}/${endpoint}`,
@@ -513,8 +513,19 @@ export function* createTaskSaga({ payload }) {
     yield put(enqueueErrorSnackbar(i18n.t('message:TASK.CREATE.FAILED')));
   }
 }
+
+const getTaskBody = (data, task_translation_key) => {
+  switch (task_translation_key) {
+    case 'FIELD_WORK_TASK': {
+      return getCompleteFieldWorkTaskBody(data, task_translation_key);
+    }
+    default: {
+      return data;
+    }
+  }
+};
+
 const getCompleteFieldWorkTaskBody = (data, task_translation_key) => {
-  if (task_translation_key !== 'FIELD_WORK_TASK') return data;
   let reqBody = { ...data };
   let field_work_name =
     reqBody?.field_work_task?.field_work_task_type?.field_work_name?.trim() || '';

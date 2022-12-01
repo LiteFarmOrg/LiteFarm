@@ -256,7 +256,7 @@ const taskController = {
         let data = req.body;
         const { user_id } = req.user;
         data.owner_user_id = user_id;
-        data = await this.checkAndAddCustomFieldWork(typeOfTask, data, req.headers.farm_id);
+        data = await this.checkAndAddCustomTask(typeOfTask, data, req.headers.farm_id);
         const result = await TaskModel.transaction(async (trx) => {
           const { task_id } = await TaskModel.query(trx)
             .context({ user_id: req.user.user_id })
@@ -295,8 +295,18 @@ const taskController = {
     };
   },
 
+  async checkAndAddCustomTask(typeOfTask, data, farm_id) {
+    switch (typeOfTask) {
+      case 'field_work_task': {
+        return await this.checkAndAddCustomFieldWork(typeOfTask, data, farm_id);
+      }
+      default: {
+        return data;
+      }
+    }
+  },
+
   async checkAndAddCustomFieldWork(typeOfTask, data, farm_id) {
-    if (typeOfTask !== 'field_work_task') return data;
     const containsFieldWorkTask = Object.prototype.hasOwnProperty.call(
       data.field_work_task,
       'field_work_task_type',

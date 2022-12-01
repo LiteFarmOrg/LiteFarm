@@ -488,7 +488,7 @@ export function* createTaskSaga({ payload }) {
     const managementPlanWithCurrentLocationEntities = yield select(
       managementPlanWithCurrentLocationEntitiesSelector,
     );
-    data = getTaskBody(data, task_translation_key);
+    data = getCompleteCustomTaskTypeBody(data, task_translation_key);
     const result = yield call(
       axios.post,
       `${taskUrl}/${endpoint}`,
@@ -514,7 +514,7 @@ export function* createTaskSaga({ payload }) {
   }
 }
 
-const getTaskBody = (data, task_translation_key) => {
+const getCompleteCustomTaskTypeBody = (data, task_translation_key) => {
   switch (task_translation_key) {
     case 'FIELD_WORK_TASK': {
       return getCompleteFieldWorkTaskBody(data, task_translation_key);

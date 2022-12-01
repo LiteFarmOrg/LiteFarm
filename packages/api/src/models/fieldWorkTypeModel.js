@@ -17,7 +17,7 @@ import { Model } from 'objection';
 import farmModel from './farmModel.js';
 import baseModel from './baseModel.js';
 
-class FieldWorkModel extends baseModel {
+class FieldWorkTypeModel extends baseModel {
   static get tableName() {
     return 'field_work_type';
   }
@@ -99,4 +99,4 @@ class FieldWorkModel extends baseModel {
     return data.rows;
   }
 }
-export default FieldWorkModel;
+export default FieldWorkTypeModel;

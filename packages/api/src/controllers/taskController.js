@@ -24,7 +24,7 @@ import HarvestUse from '../models/harvestUseModel.js';
 import NotificationUser from '../models/notificationUserModel.js';
 import User from '../models/userModel.js';
 import { typesOfTask } from './../middleware/validation/task.js';
-import FieldWorkModel from '../models/fieldWorkModel.js';
+import FieldWorkTypeModel from '../models/fieldWorkTypeModel.js';
 const adminRoles = [1, 2, 5];
 // const isDateInPast = (date) => {
 //   const today = new Date();
@@ -256,7 +256,7 @@ const taskController = {
         let data = req.body;
         const { user_id } = req.user;
         data.owner_user_id = user_id;
-        data = await this.checkAndAddCustomTask(typeOfTask, data, req.headers.farm_id);
+        data = await this.checkAndAddCustomType(typeOfTask, data, req.headers.farm_id);
         const result = await TaskModel.transaction(async (trx) => {
           const { task_id } = await TaskModel.query(trx)
             .context({ user_id: req.user.user_id })
@@ -295,7 +295,7 @@ const taskController = {
     };
   },
 
-  async checkAndAddCustomTask(typeOfTask, data, farm_id) {
+  async checkAndAddCustomType(typeOfTask, data, farm_id) {
     switch (typeOfTask) {
       case 'field_work_task': {
         return await this.checkAndAddCustomFieldWork(typeOfTask, data, farm_id);
@@ -320,7 +320,7 @@ const taskController = {
         created_by_user_id: data.owner_user_id,
         updated_by_user_id: data.owner_user_id,
       };
-      const fieldWork = await FieldWorkModel.insertCustomFieldWorkType(row);
+      const fieldWork = await FieldWorkTypeModel.insertCustomFieldWorkType(row);
       delete data.field_work_task.field_work_task_type;
       data.field_work_task.field_work_type_id = fieldWork.field_work_type_id;
     }
@@ -570,7 +570,7 @@ const taskController = {
   async getFieldWorkTypes(req, res) {
     const { farm_id } = req.params;
     try {
-      const farmTypes = await FieldWorkModel.getAllFieldWorkTypesByFarmId(farm_id);
+      const farmTypes = await FieldWorkTypeModel.getAllFieldWorkTypesByFarmId(farm_id);
       res.status(200).json(farmTypes);
     } catch (error) {
       console.log(error);

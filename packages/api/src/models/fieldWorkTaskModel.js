@@ -16,7 +16,7 @@
 import { Model } from 'objection';
 import taskModel from './taskModel.js';
 import BaseModel from './baseModel.js';
-import fieldWorkModel from './fieldWorkModel.js';
+import FieldWorkTypeModel from './fieldWorkTypeModel.js';
 
 class FieldWorkTaskModel extends BaseModel {
   static get tableName() {
@@ -57,7 +57,7 @@ class FieldWorkTaskModel extends BaseModel {
         },
       },
       field_work_task_type: {
-        modelClass: fieldWorkModel,
+        modelClass: FieldWorkTypeModel,
         relation: Model.HasManyRelation,
         join: {
           from: 'field_work_task.field_work_type_id',

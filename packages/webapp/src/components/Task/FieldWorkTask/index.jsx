@@ -58,8 +58,7 @@ const PureFieldWorkTask = ({
     if (i18next.exists(translationKey)) {
       return t(translationKey);
     } else {
-      let customValue = value?.toLocaleLowerCase()?.replaceAll('_', ' ');
-      return customValue[0]?.toUpperCase() + customValue?.slice(1);
+      return value;
     }
   };
 

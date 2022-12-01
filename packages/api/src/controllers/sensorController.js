@@ -36,6 +36,7 @@ import {
 
 import { sensorErrors, parseSensorCsv } from '../../../shared/validation/sensorCSV.js';
 import syncAsyncResponse from '../util/syncAsyncResponse.js';
+import knex from '../util/knex.js';
 
 const sensorController = {
   async getSensorReadingTypes(req, res) {
@@ -400,40 +401,47 @@ const sensorController = {
   },
 
   async addReading(req, res) {
-    const trx = await transaction.start(Model.knex());
+    if (!Object.keys(req.body).length) {
+      return res.status(200).send('No sensor readings posted');
+    }
     try {
       const infoBody = [];
-      for (const sensor of req.body) {
-        const corresponding_sensor = await SensorModel.query()
-          .select('location_id')
-          .where('external_id', sensor.sensor_esid)
-          .where('partner_id', req.params.partner_id);
-        for (let i = 0; i < sensor.value.length; i++) {
-          const row = {
-            read_time: sensor.time[i],
-            location_id: corresponding_sensor[0].location_id,
-            reading_type: sensor.parameter_number,
-            value: sensor.value[i],
-            unit: sensor.unit,
-          };
-          // Only include this entry if all required values are populated
-          if (Object.values(row).every((value) => value)) {
-            infoBody.push(row);
+      for (const sensor of Object.keys(req.body)) {
+        const sensorData = req.body[sensor].data;
+        let { rows: corresponding_sensor = [] } = await SensorModel.getLocationIdForSensorReadings(
+          sensor,
+          req.params.partner_id,
+        );
+        if (!corresponding_sensor.length) return res.status(400).send('sensor id not found');
+        corresponding_sensor = corresponding_sensor[0];
+        for (const sensorInfo of sensorData) {
+          const parameter_number = sensorInfo.parameter_category.toLowerCase().replaceAll(' ', '_');
+          const unit = sensorInfo.unit;
+
+          if (sensorInfo.values.length < sensorInfo.timestamps.length)
+            return res.status(400).send('sensor values and timestamps are not in sync');
+
+          for (let k = 0; k < sensorInfo.values.length; ++k) {
+            infoBody.push({
+              read_time: sensorInfo.timestamps[k] || '',
+              location_id: corresponding_sensor.location_id,
+              value: sensorInfo.values[k],
+              reading_type: parameter_number,
+              valid: sensorInfo.validated[k] || false,
+              unit,
+            });
           }
         }
       }
       if (infoBody.length === 0) {
-        res.status(200).send(infoBody);
+        return res.status(200).send(infoBody);
       } else {
-        const result = await baseController.postWithResponse(SensorReadingModel, infoBody, req, {
-          trx,
-        });
-        await trx.commit();
-        res.status(200).send(result);
+        const chunkSize = 999;
+        const result = await knex.batchInsert('sensor_reading', infoBody, chunkSize).returning('*');
+        return res.status(200).json(result);
       }
     } catch (error) {
-      await trx.rollback();
-      res.status(400).json({
+      return res.status(200).json({
         error,
       });
     }

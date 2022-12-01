@@ -35,6 +35,10 @@ import { ReactComponent as Leaf } from '../../../assets/images/signUp/leaf.svg';
 import { convert } from '../../../util/convert-units/convert';
 
 export const getUnitOptionMap = () => ({
+  h: { label: 'h', value: 'h' },
+  min: { label: 'min', value: 'min' },
+  percentage: { label: '%', value: '%' },
+  mm: { label: 'mm', value: 'mm' },
   m2: { label: 'm²', value: 'm2' },
   ha: { label: 'ha', value: 'ha' },
   ft2: { label: 'ft²', value: 'ft2' },
@@ -78,6 +82,7 @@ const getOnKeyDown = (measure) => {
 };
 
 const DEFAULT_REACT_SELECT_WIDTH = 61;
+const DEFAULT_SELECT_ARROW_ICON_WIDTH = 20;
 
 const getReactSelectWidth = (measure) => {
   if (measure === 'time') return 93;
@@ -110,6 +115,7 @@ const useReactSelectStyles = (disabled, { reactSelectWidth = DEFAULT_REACT_SELEC
         width: `${reactSelectWidth - 19}px`,
         display: 'flex',
         justifyContent: 'center',
+        background: state.isDisabled ? 'var(--inputDisabled)' : 'inherit',
       }),
       singleValue: (provided, state) => ({
         fontSize: '16px',
@@ -156,6 +162,7 @@ const Unit = ({
   mode = 'onBlur',
   max = 1000000000,
   toolTipContent,
+  onChangeUnitOption = () => {},
   onBlur,
   hasLeaf,
   ...props
@@ -355,6 +362,7 @@ const Unit = ({
               onBlur={onBlur}
               onChange={(e) => {
                 onChange(e);
+                onChangeUnitOption(e);
                 if (!isDirty) setDirty(true);
               }}
               value={value}
@@ -367,20 +375,20 @@ const Unit = ({
             />
           )}
         />
-        <div
-          className={clsx(
-            styles.pseudoInputContainer,
-            showError && styles.inputError,
-            isSelectDisabled && disabled && styles.disableBackground,
-          )}
-        >
+        <div className={clsx(styles.pseudoInputContainer, showError && styles.inputError)}>
           <div
             className={clsx(
               styles.verticleDivider,
               showError && styles.inputError,
-              isSelectDisabled && styles.none,
+              disabled && styles.none,
             )}
-            style={{ width: `${reactSelectWidth}px` }}
+            style={{
+              width: `${
+                isSelectDisabled
+                  ? reactSelectWidth - DEFAULT_SELECT_ARROW_ICON_WIDTH
+                  : reactSelectWidth
+              }px`,
+            }}
           />
         </div>
       </div>

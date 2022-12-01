@@ -67,6 +67,7 @@ const taskTypeEndpoint = [
   'pest_control_task',
   'soil_amendment_task',
   'harvest_tasks',
+  'irrigation_task',
 ];
 
 export const getProducts = createAction('getProductsSaga');
@@ -364,6 +365,80 @@ const getTransplantTaskBody = (data, endpoint, managementPlanWithCurrentLocation
   );
 };
 
+const getIrrigationTaskBody = (data, endpoint, managementPlanWithCurrentLocationEntities) => {
+  const irrigation_task_type =
+    data.irrigation_task_type.value !== 'OTHER'
+      ? data.irrigation_task_type.value
+      : data.irrigation_task_type_other;
+
+  return produce(
+    getPostTaskBody(data, 'irrigation_task', managementPlanWithCurrentLocationEntities),
+    (data) => {
+      const locationDefaults = {
+        estimated_flow_rate: data.estimated_flow_rate,
+        estimated_flow_rate_unit: data.estimated_flow_rate_unit,
+        application_depth: data.application_depth,
+        application_depth_unit: data.application_depth_unit,
+      };
+      data.irrigation_task = {
+        type: irrigation_task_type,
+        location_id: data.locations[0]?.location_id,
+        estimated_water_usage: data.estimated_water_usage,
+        estimated_water_usage_unit: data.estimated_water_usage_unit,
+        estimated_duration: data.estimated_irrigation_duration,
+        estimated_duration_unit: data.estimated_irrigation_duration_unit,
+        default_measuring_type: data.measurement_type,
+        ...locationDefaults,
+      };
+      data.irrigation_type = {
+        irrigation_type_name: irrigation_task_type,
+        default_measuring_type: data.set_default_irrigation_task_type_measurement
+          ? data.measurement_type
+          : undefined,
+      };
+      data.location_defaults = data.locations.map((location) => ({
+        location_id: location.location_id,
+        irrigation_task_type: data.set_default_irrigation_task_type_location
+          ? irrigation_task_type
+          : undefined,
+        ...(data.default_location_application_depth
+          ? pick(locationDefaults, ['application_depth', 'application_depth_unit'])
+          : null),
+        ...(data.default_location_flow_rate
+          ? pick(locationDefaults, ['flow_rate', 'flow_rate_unit'])
+          : null),
+      }));
+
+      for (const element in data) {
+        [
+          'estimated_water_usage',
+          'estimated_water_usage_unit',
+          'irrigation_task_type',
+          'measurement_type',
+          'set_default_irrigation_task_type_location',
+          'set_default_irrigation_task_type_measurement',
+          'estimated_flow_rate',
+          'estimated_flow_rate_unit',
+          'estimated_irrigation_duration',
+          'estimated_irrigation_duration_unit',
+          'default_location_flow_rate',
+          'application_depth',
+          'application_depth_unit',
+          'default_location_application_depth',
+          'irrigated_area',
+          'irrigated_area_unit',
+          'location_size_unit',
+          'estimated_irrigation_duration',
+          'estimated_irrigation_duration_unit',
+          'irrigation_task_type_other',
+          'irrigation_type',
+          'location_defaults',
+        ].includes(element) && delete data[element];
+      }
+    },
+  );
+};
+
 const taskTypeGetPostTaskBodyFunctionMap = {
   CLEANING_TASK: getPostTaskBody,
   FIELD_WORK_TASK: getPostTaskBody,
@@ -371,6 +446,7 @@ const taskTypeGetPostTaskBodyFunctionMap = {
   SOIL_AMENDMENT_TASK: getPostTaskBody,
   HARVEST_TASK: getPostHarvestTaskBody,
   TRANSPLANT_TASK: getTransplantTaskBody,
+  IRRIGATION_TASK: getIrrigationTaskBody,
 };
 
 const getPostTaskReqBody = (

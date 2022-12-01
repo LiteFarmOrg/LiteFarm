@@ -54,7 +54,7 @@ export default function PurePlantInContainer({
   return (
     <Form
       buttonGroup={
-        <Button disabled={disabled} fullLength>
+        <Button data-cy="cropPlan-containerSubmit" disabled={disabled} fullLength>
           {t('common:CONTINUE')}
         </Button>
       }

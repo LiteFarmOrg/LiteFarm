@@ -55,6 +55,9 @@ export default function PureTaskLocations({
   );
 
   const onSelectLocation = (location_id) => {
+    if(!isMulti && getValues('show_wild_crop')){
+      setValue(SHOW_WILD_CROP, false);
+    }
     setValue(
       LOCATIONS,
       isMulti ? getSelectedLocations(location_id, selectedLocations) : [{ location_id }],
@@ -70,6 +73,12 @@ export default function PureTaskLocations({
   useEffect(() => {
     setValue(SHOW_WILD_CROP, targetsWildCrop);
   }, []);
+
+  const onChange = (e) => {
+    if(!isMulti && e.target.checked){
+      clearLocations();
+    }
+  }
 
   const getSelectedLocations = (location_id, selectedLocations) => {
     const isSelected = selectedLocations
@@ -126,6 +135,7 @@ export default function PureTaskLocations({
             label={t('TASK.SELECT_WILD_CROP')}
             style={{ paddingBottom: '25px' }}
             hookFormRegister={register(SHOW_WILD_CROP)}
+            onChange={onChange}
           />
         )}
       </Layout>
@@ -133,7 +143,7 @@ export default function PureTaskLocations({
   );
 }
 
-PureTaskLocations.prototype = {
+PureTaskLocations.propTypes = {
   onContinue: PropTypes.func,
   onGoBack: PropTypes.func,
   storedLocations: PropTypes.array,
@@ -146,4 +156,5 @@ PureTaskLocations.prototype = {
   readOnlyPinCoordinates: PropTypes.array,
   maxZoomRef: PropTypes.object,
   getMaxZoom: PropTypes.func,
+  targetsWildCrop: PropTypes.bool,
 };

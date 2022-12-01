@@ -18,57 +18,78 @@ LiteFarm is comprised of three applications which all reside in this monorepo.
 
 ## Preliminaries 
 
-1. Install [node.js](https://nodejs.org/en/download/package-manager/) if you do not already have it.
-2. If you do not have pnpm installed, run `npm install -g pnpm` in a terminal.
-3. Use the `git clone` command to clone this repository to your computer.
-4. In a terminal, navigate to the root folder of the repo and run `npm install`.
-5. Navigate to the `packages/api` folder, and run `npm install`.
-6. Navigate to the `packages/webapp` folder, and run `pnpm install`.
-
-
-## Configuring the applications
-
-The applications are configured with environment variables stored in `.env` files. Configuration information includes secrets like API keys, so the `.env` files should never be added to source control. This repository does contain `.env.default` files for api and webapp. These files contain all necessary environment variables, but for sensitive ones the values are redacted. Contact smattingly@litefarm.org for assistance.
+1. Check to see if you have Node.js installed. On a Mac use the command `node-v` in terminal. If it is installed, the version in use will be reported in the terminal. If not, install it from [node.js](https://nodejs.org/en/download/package-manager/).
+2. Check to see if you have pnpm installed. On a Mac use the command `pnpm -v`. If it is installed, the version will be reported. If you do not have it installed, run `npm install -g pnpm` in a terminal. 
+3. Check to see if you have NVM installed. On a Mac use the command `nvm -v`. If you do not have NVM (Node Version Manager) installed, install it using these instructions: [NVM](https://www.loginradius.com/blog/engineering/run-multiple-nodejs-version-on-the-same-machine/)
+4. Clone the repository from Github to your computer. On a Mac, in a Terminal window navigate to the directory you want to put the files in. Then use the command `git clone https://github.com/LiteFarmOrg/LiteFarm.git`.
+5. In a terminal, navigate to the root folder of the repo and run `npm install`.
+6. Navigate to the `packages/api` folder, and run `npm install`.
+   If trying to run this command results in the error, 
+   `npm ERR! code ERESOLVE
+   npm ERR! ERESOLVE could not resolve
+   npm ERR!
+   npm ERR! While resolving: objection@2.2.17...`
+   
+   Use nvm to install and use the Node version 16.15.0 with the commands, `nvm install 16.15.0` then `nvm use 16.15.0`. Then try again.
+7. Navigate to the `packages/webapp` folder, and run `pnpm install`.
 
 ## Database setup
 
-1. Install PostgreSQL by downloading installers or packages from https://www.postgresql.org/download/. Alternatively, Mac and Linux users can use homebrew as shown below.
+1. If using Windows, install PostgreSQL by downloading installers or packages from https://www.postgresql.org/download/. Mac and Linux users can use homebrew with the commands shown below (a link for installing Homebrew is below too!). The second command can take up to 10 minutes because it may trigger the compilation of a new binary.
 
-   ```bash      
-   # Install homebrew.
+   In a Terminal window:  
+```      
+   # Install homebrew if you don't already have it with the command:
    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
    # Install PostgreSQL.
    brew install postgresql
-   # Start DBMS service.
+   # Start the Database Management Systems (DBMS) service.
    brew services start postgresql
-   ```
+```
 
-2. Set up the PostgreSQL role (account) and databases. You will use the `psql` client program. Account setup details will vary by OS. If an installer asks you to choose a password for the `postgres` (superuser) account, use `postgres` for consistency with the contents of `.env.default`.
+2. Set up the PostgreSQL role (account) and databases. Use the `psql` client program. If an installer asks you to choose a password for the `postgres` (superuser) account, use `postgres` for consistency with the contents of `.env.default`.
+
+   - On a Mac, type "psql" in the terminal to start the client.
+
+      If this returns the error, "/... postgresql.plist: service already loaded..." then you need to [remove a .pid file](https://stackoverflow.com/questions/13410686/postgres-could-not-connect-to-server) that is interfering with the start of the DBMS service. On a Mac, use the terminal command, `rm /usr/local/var/postgres/postmaster.pid` then `brew services restart postgresql`.
+
+      Then use the Linux commands below to set the postgres user password, and make two new databases.
 
    - Linux. In a terminal, start the client with `sudo -u postgres psql`, then execute each of the following commands. (The last command terminates the client session.)
-       ```sql
+
        ALTER ROLE postgres WITH PASSWORD 'postgres';
        CREATE DATABASE "pg-litefarm";
        CREATE DATABASE test_farm;
+
+   Then exit with,
        exit;       
-       ```
 
    - Windows. At the Start menu, type `psql` and the search results will show "SQL Shell (psql)". In the client, execute
      each of the following commands. (The last command terminates the client session.)
 
-       ```sql
        CREATE DATABASE "pg-litefarm";
        CREATE DATABASE test_farm;
+       
+   Then exit with,
        exit;       
-       ```
+
+   For Windows, the ALTER ROLE command is not used because the password is set using the wizard installer downloaded.
 
 3. In a terminal, navigate to the `packages/api` folder. Execute `npm run migrate:dev:db` to run the [migrations](https://knexjs.org/#Migrations) that set up the PostgreSQL database used by the app.
+
+## Adding environment files
+
+The applications are configured with environment variables stored in `.env` files. Configuration information includes secrets like API keys, so the `.env` files are not included in this git repository.
+
+ This repository only contains `.env.default` files for api and webapp. To join the LiteFarm team and recieve full versions of the environment files contact community@litefarm.org. 
+
+ Once you recieve the `.env` files, you will have to rename them correctly and place them in the right folders.
 
 # Running the apps
 
 ## api
 
-In a terminal, navigate to the `packages/api` folder. Run `npm run nodemon` to launch the backend application. It will automatically reflect any changes you make to the backend.
+In a terminal, navigate to the `packages/api` folder. Run `npm run nodemon` to launch the backend application. Nodemon will automatically restart the application when changes are made to the backend code.
 
 ## webapp
 
@@ -126,3 +147,7 @@ _Note: Please make sure to run the commands in the following order:_
 - `npm run ngrok:setup` (in a new terminal)
 - `pnpm dev` (in a new terminal from the `packages/webapp` folder)
 - `npm run nodemon` (in a new terminal from the `packages/api` folder)
+
+## How to Contribute
+
+Please email: community@litefarm.org for more details.

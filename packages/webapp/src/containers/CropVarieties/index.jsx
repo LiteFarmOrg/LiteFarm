@@ -44,8 +44,16 @@ export default function CropVarieties({ history, match, location }) {
     dispatch(resetAndUnLockFormData());
   }, []);
 
-  const { active, abandoned, planned, completed, noPlans, sum, cropCatalogue, filteredCropsWithoutManagementPlan } =
-    useCropVarietyCatalogue(filterString, crop_id);
+  const {
+    active,
+    abandoned,
+    planned,
+    completed,
+    noPlans,
+    sum,
+    cropCatalogue,
+    filteredCropsWithoutManagementPlan,
+  } = useCropVarietyCatalogue(filterString, crop_id);
 
   const {
     ref: containerRef,
@@ -92,7 +100,8 @@ export default function CropVarieties({ history, match, location }) {
           onFilterOpen={onFilterOpen}
           value={filterString}
           onChange={filterStringOnChange}
-        />
+          isFilterActive={isFilterCurrentlyActive}
+      />
         <MuiFullPagePopup open={isFilterOpen} onClose={onFilterClose}>
           <CropVarietyFilterPage cropId={crop_id} onGoBack={onFilterClose} />
         </MuiFullPagePopup>

@@ -47,6 +47,7 @@
     "EDIT_CUSTOM_TASK": "Edit custom task",
     "FIELD_WORK_VIEW": {
       "OTHER_TYPE_OF_FIELD_WORK": "Describe the type of field work",
+      "FIELD_WORK_TASK": "field work task",
       "TYPE": {
         "COVERING_SOIL": "Covering soil",
         "FENCING": "Fencing",
@@ -110,7 +111,50 @@
     "TRANSPLANT_METHOD": "Transplant method",
     "WAGE_OVERRIDE": "Wage override",
     "WHAT_PLANTING_METHOD": "What is the transplanting method?",
-    "WILD_CROP": "Wild crops"
+    "WILD_CROP": "Wild crops",
+    "IRRIGATION_VIEW": {
+      "TELL_US_ABOUT_YOUR_IRRIGATION_TASK": "Tell us about your Irrigation Task",
+      "BRAND_TOOLTIP": {
+        "FIRST_PHRASE": "This task is for watering your location. If you want to install irrigation, create a",
+        "LAST_PHRASE": "instead."
+      },
+      "TYPE_OF_IRRIGATION": "Type of Irrigation",
+      "WHAT_TYPE_OF_IRRIGATION": "What type of irrigation?",
+      "IRRIGATION_TYPE_CHAR_LIMIT": "Irrigation must be less than 100 characters",
+      "TYPE": {
+        "HAND_WATERING": "Hand Watering",
+        "CHANNEL": "Channel",
+        "DRIP": "Drip",
+        "FLOOD": "Flood",
+        "PIVOT": "Pivot",
+        "SPRINKLER": "Sprinkler",
+        "SUB_SURFACE": "Subsurface",
+        "OTHER": "Other"
+      },
+      "SET_AS_DEFAULT_TYPE_FOR_THIS_LOCATION": "Set as default type for this location",
+      "HOW_DO_YOU_MEASURE_WATER_USE_FOR_THIS_IRRIGATION_TYPE": "How do you measure water use for this irrigation type?",
+      "VOLUME": "Volume",
+      "DEPTH": "Depth",
+      "SET_AS_DEFAULT_MEASUREMENT_FOR_THIS_IRRIGATION_TYPE": "Set as default measurement for this irrigation type",
+      "ESTIMATED_WATER_USAGE": "Estimated water usage",
+      "NOT_SURE": "Not sure?",
+      "CALCULATE_WATER_USAGE": "Calculate Water Usage",
+      "WATER_USE_CALCULATOR": "Water Use Calculator",
+      "WATER_USE_CALCULATOR_INFO": {
+        "PHRASE1": "This calculator helps you calculate water usage based on ",
+        "PHRASE2": "If you would prefer to calculate based on",
+        "PHRASE3": "please go back and select"
+      },
+      "ESTIMATED_FLOW_RATE": "Estimated flow rate",
+      "DEFAULT_LOCATION_FLOW_RATE": "Set as default flow rate for this location",
+      "ESTIMATED_DURATION": "Estimated Duration",
+      "ESTIMATED_APPLICATION_DEPTH": "Estimated application depth",
+      "DEFAULT_APPLICATION_DEPTH": "Set as default application depth for this location",
+      "PERCENTAGE_LOCATION_TO_BE_IRRIGATED": "% of location to be irrigated.",
+      "TOTAL_WATER_USAGE": "Total Water Usage",
+      "LOCATION_SIZE": "Location size",
+      "IRRIGATED_AREA": "Irrigated area"
+    }
   },
   "BED_PLAN": {
     "LENGTH_OF_BED": "Length of beds",
@@ -1654,6 +1698,7 @@
     "HARVEST_USE": "Harvest use",
     "HARVEST_USE_ALREADY_EXISTS": "Harvest use already exists",
     "HOW_WILL_HARVEST_BE_USED": "How will the harvest be used?",
+    "IRRIGATION_LOCATION": "Select an irrigation location",
     "LOCATIONS": "Location(s)",
     "NO_TASKS_TO_DISPLAY": "There are no tasks to display.",
     "NO_WORK_DONE": "No work was completed",

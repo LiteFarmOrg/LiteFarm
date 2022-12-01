@@ -36,6 +36,7 @@ import locationTasksModel from './locationTasksModel.js';
 import sensorModel from './sensorModel.js';
 import fieldModel from './fieldModel.js';
 import pinModel from './pinModel.js';
+import locationDefaultsModel from './locationDefaultsModel.js';
 
 class Location extends baseModel {
   static get tableName() {
@@ -215,6 +216,14 @@ class Location extends baseModel {
         join: {
           from: 'location.location_id',
           to: 'sensor.location_id',
+        },
+      },
+      location_defaults: {
+        modelClass: locationDefaultsModel,
+        relation: Model.HasOneRelation,
+        join: {
+          from: 'location.location_id',
+          to: 'location_defaults.location_id',
         },
       },
     };

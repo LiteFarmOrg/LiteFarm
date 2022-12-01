@@ -315,6 +315,7 @@ export default function PurePlantingDate({
       )}
       {showTransplantOffset && (
         <InputDuration
+          data-cy="cropPlan-plantTransplant"
           style={{ marginBottom: '40px' }}
           startDate={startDate}
           hookFormWatch={watch}

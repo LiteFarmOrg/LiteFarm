@@ -174,5 +174,4 @@ const taskComponents = {
   SOIL_AMENDMENT_TASK: (props) => <PureSoilAmendmentTask {...props} />,
   PEST_CONTROL_TASK: (props) => <PurePestControlTask {...props} />,
   HARVEST_TASK: (props) => <PureHarvestingTask {...props} />,
-  IRRIGATION_TASK: () => '',
 };

@@ -272,6 +272,7 @@ const EditCustomTaskUpdate = React.lazy(() => import('./containers/Task/EditCust
 const TaskTransplantMethod = React.lazy(() =>
   import('./containers/Task/TaskTransplantMethod/TaskTransplantMethod'),
 );
+const IrrigationTask = React.lazy(() => import('./containers/Task/IrrigationTask'));
 const TaskBedMethod = React.lazy(() =>
   import('./containers/Task/TaskTransplantMethod/TaskBedMethod'),
 );
@@ -611,6 +612,7 @@ const Routes = () => {
             <Route path="/certification/summary" exact component={SetCertificationSummary} />
             <Route path="/export/:id/from/:from/to/:to" exact component={ExportDownload} />
             <Route path="/add_task/task_locations" exact component={TaskLocations} />
+            <Route path="/add_task/irrigation_method" exact component={IrrigationTask} />
             <Route path="/add_task/task_date" exact component={TaskDate} />
             <Route path="/add_task/task_assignment" exact component={TaskAssignment} />
             <Route path="/add_task/task_details" exact component={TaskDetails} />
@@ -910,6 +912,7 @@ const Routes = () => {
             />
             <Route path="/tasks/:task_id/harvest_uses" exact component={HarvestUses} />
             <Route path="/add_task/task_locations" exact component={TaskLocations} />
+            <Route path="/add_task/irrigation_method" exact component={IrrigationTask} />
             <Route path="/add_task/task_date" exact component={TaskDate} />
             <Route path="/add_task/task_assignment" exact component={TaskAssignment} />
             <Route path="/add_task/task_details" exact component={TaskDetails} />
@@ -1009,6 +1012,7 @@ const Routes = () => {
             />
             <Route path="/tasks/:task_id/harvest_uses" exact component={HarvestUses} />
             <Route path="/add_task/task_locations" exact component={TaskLocations} />
+            <Route path="/add_task/irrigation_method" exact component={IrrigationTask} />
             <Route path="/add_task/task_date" exact component={TaskDate} />
             <Route path="/add_task/task_assignment" exact component={TaskAssignment} />
             <Route path="/add_task/task_details" exact component={TaskDetails} />

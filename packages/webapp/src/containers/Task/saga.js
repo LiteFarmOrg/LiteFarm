@@ -516,27 +516,25 @@ export function* createTaskSaga({ payload }) {
 const getCompleteFieldWorkTaskBody = (data, task_translation_key) => {
   if (task_translation_key !== 'FIELD_WORK_TASK') return data;
   let reqBody = { ...data };
-  let fieldType = reqBody?.field_work_task?.type?.value || '';
-  let label = reqBody?.field_work_task?.type?.label?.trim() || '';
-  let fieldWorkId = data?.field_work_task?.type?.field_work_type_id || -1;
+  let field_work_name =
+    reqBody?.field_work_task?.field_work_task_type?.field_work_name?.trim() || '';
+  let value = reqBody?.field_work_task?.field_work_task_type?.value || '';
+  let field_work_type_id = reqBody?.field_work_task?.field_work_task_type?.field_work_type_id || -1;
+  let farm_id = reqBody?.field_work_task?.field_work_task_type?.farm_id || null;
 
-  if (fieldType === 'OTHER') {
-    let customName = reqBody?.field_work_task?.fieldWorkTask?.field_work_name?.trim() || '';
-    const field_work_type_translation_key = customName
-      ?.trim()
-      ?.toLocaleUpperCase()
-      ?.replaceAll(' ', '_');
+  if (value === 'OTHER' && !farm_id) {
     reqBody.field_work_task = {
-      type: field_work_type_translation_key,
-      fieldWorkTask: {
-        field_work_name: customName,
-        field_work_type_translation_key,
+      field_work_task_type: {
+        field_work_name,
+        field_work_type_translation_key: field_work_name
+          ?.trim()
+          ?.toLocaleUpperCase()
+          ?.replaceAll(' ', '_'),
       },
     };
   } else {
     reqBody.field_work_task = {
-      type: label?.trim()?.toLocaleUpperCase()?.replaceAll(' ', '_'),
-      field_work_type_id: fieldWorkId,
+      field_work_type_id,
     };
     delete reqBody.field_work_task.fieldWorkTask;
   }

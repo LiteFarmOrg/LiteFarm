@@ -22,9 +22,9 @@ const PureFieldWorkTask = ({
   const dispatch = useDispatch();
   const [fieldWorkTypeOptions, setFieldWorkTypeOptions] = useState([]);
 
-  const FIELD_WORK_TYPE = 'field_work_task.type';
+  const FIELD_WORK_TYPE = 'field_work_task.field_work_task_type';
   const typeValue = watch(FIELD_WORK_TYPE);
-  const FIELD_WORK_OTHER_TYPE = 'field_work_task.fieldWorkTask.field_work_name';
+  const FIELD_WORK_OTHER_TYPE = 'field_work_task.field_work_task_type.field_work_name';
   const fieldWorkTypeExposedValue = useMemo(() => {
     return typeValue?.value
       ? typeValue
@@ -51,13 +51,15 @@ const PureFieldWorkTask = ({
     dispatch(getFieldWorkTypes());
   }, []);
 
-  const displayLabel = (value) => {
+  const displayLabel = (values) => {
+    if (!values.length) return '';
+    const value = values[0]?.field_work_name || '';
     const translationKey = `ADD_TASK.FIELD_WORK_VIEW.TYPE.${value}`;
     if (i18next.exists(translationKey)) {
       return t(translationKey);
     } else {
-      let customValue = value.toLocaleLowerCase().replaceAll('_', ' ');
-      return customValue[0].toUpperCase() + customValue.slice(1);
+      let customValue = value?.toLocaleLowerCase()?.replaceAll('_', ' ');
+      return customValue[0]?.toUpperCase() + customValue?.slice(1);
     }
   };
 

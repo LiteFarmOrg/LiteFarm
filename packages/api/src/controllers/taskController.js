@@ -270,7 +270,7 @@ const taskController = {
             .withGraphFetched(
               `
           [locations, managementPlans, taskType, soil_amendment_task, irrigation_task,scouting_task,
-          field_work_task, cleaning_task, pest_control_task, soil_task, harvest_task, plant_task]
+          field_work_task.[field_work_task_type], cleaning_task, pest_control_task, soil_task, harvest_task, plant_task]
           `,
             )
             .where({ task_id });
@@ -299,19 +299,19 @@ const taskController = {
     if (typeOfTask !== 'field_work_task') return data;
     const containsFieldWorkTask = Object.prototype.hasOwnProperty.call(
       data.field_work_task,
-      'fieldWorkTask',
+      'field_work_task_type',
     );
     if (containsFieldWorkTask) {
-      const fieldWorkTask = data.field_work_task.fieldWorkTask;
+      const field_work_task_type = data.field_work_task.field_work_task_type;
       const row = {
         farm_id,
-        field_work_name: fieldWorkTask.field_work_name,
-        field_work_type_translation_key: fieldWorkTask.field_work_type_translation_key,
+        field_work_name: field_work_task_type.field_work_name,
+        field_work_type_translation_key: field_work_task_type.field_work_type_translation_key,
         created_by_user_id: data.owner_user_id,
         updated_by_user_id: data.owner_user_id,
       };
       const fieldWork = await FieldWorkModel.insertCustomFieldWorkType(row);
-      delete data.field_work_task.fieldWorkTask;
+      delete data.field_work_task.field_work_task_type;
       data.field_work_task.field_work_type_id = fieldWork.field_work_type_id;
     }
     return data;
@@ -524,7 +524,7 @@ const taskController = {
       const graphTasks = await TaskModel.query()
         .whereNotDeleted()
         .withGraphFetched(
-          `[locations, managementPlans, soil_amendment_task, field_work_task, cleaning_task, pest_control_task, 
+          `[locations, managementPlans, soil_amendment_task, field_work_task.[field_work_task_type], cleaning_task, pest_control_task, 
             harvest_task.[harvest_use], plant_task, transplant_task]
         `,
         )

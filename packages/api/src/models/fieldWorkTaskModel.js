@@ -35,8 +35,6 @@ class FieldWorkTaskModel extends BaseModel {
 
       properties: {
         task_id: { type: 'integer' },
-        type: { type: 'string' },
-        other_type: { type: ['string', null] },
         field_work_type_id: { type: 'integer' },
         ...this.baseProperties,
       },
@@ -58,7 +56,7 @@ class FieldWorkTaskModel extends BaseModel {
           to: 'task.task_id',
         },
       },
-      fieldWorkTask: {
+      field_work_task_type: {
         modelClass: fieldWorkModel,
         relation: Model.HasManyRelation,
         join: {

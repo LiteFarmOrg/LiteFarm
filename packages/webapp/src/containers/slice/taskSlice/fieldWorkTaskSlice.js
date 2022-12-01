@@ -3,7 +3,7 @@ import { onLoadingFail, onLoadingStart, onLoadingSuccess } from '../../userFarmS
 import { createSelector } from 'reselect';
 import { pick } from '../../../util/pick';
 
-const fieldWorkTaskProperties = ['other_type', 'type', 'task_id'];
+const fieldWorkTaskProperties = ['other_type', 'type', 'task_id', 'field_work_task_type'];
 
 const getFieldWorkTask = (task) => {
   return pick(task, fieldWorkTaskProperties);

@@ -55,8 +55,14 @@ export default function PureTaskLocations({
   );
 
   const onSelectLocation = (location_id) => {
-    if(!isMulti && getValues('show_wild_crop')){
-      setValue(SHOW_WILD_CROP, false);
+    if(!isMulti){
+      if(getValues('show_wild_crop')){
+        setValue(SHOW_WILD_CROP, false);
+      }
+      if (selectedLocations[0]?.location_id === location_id) {
+        setValue(LOCATIONS, []);
+        return;
+      } 
     }
     setValue(
       LOCATIONS,

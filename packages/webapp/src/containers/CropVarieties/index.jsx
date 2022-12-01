@@ -25,7 +25,7 @@ import ActiveFilterBox from '../../components/ActiveFilterBox';
 import { useStartAddCropVarietyFlow } from './useStartAddCropVarietyFlow';
 import useCropVarietyCatalogue from './useCropVarietyCatalogue';
 import CropStatusInfoBox from '../../components/CropCatalogue/CropStatusInfoBox';
-import DoesNotExist from '../../components/Error/DoesNotExist';
+import { enqueueErrorSnackbar } from '../Snackbar/snackbarSlice';
 
 export default function CropVarieties({ history, match, location }) {
   const { t } = useTranslation();
@@ -78,6 +78,11 @@ export default function CropVarieties({ history, match, location }) {
   const setDate = (date) => dispatch(setCropCatalogueFilterDate(date));
 
   const onGoBack = () => history.push('/crop_catalogue');
+
+  const onLoadError = () => {
+    onGoBack();
+    dispatch(enqueueErrorSnackbar(t('message:CROP_VARIETY.ERROR.FIND')));
+  }
 
   const goToVarietyManagement = (varietyId) => {
     history.push(`/crop/${varietyId}/management`, { returnPath: location.pathname });
@@ -201,7 +206,7 @@ export default function CropVarieties({ history, match, location }) {
         {isAdmin && !isFilterCurrentlyActive && (
           <AddLink onClick={goToVarietyCreation}>{t('CROP_VARIETIES.ADD_VARIETY')}</AddLink>
         )}
-      </> : <DoesNotExist message={`${t('message:CROP_VARIETY.ERROR.FIND')}: ${crop_id}`} onGoBack={onGoBack} />
+      </> : onLoadError()
     }
     </Layout>
   );

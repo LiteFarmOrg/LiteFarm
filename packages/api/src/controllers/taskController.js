@@ -248,13 +248,22 @@ const taskController = {
   },
 
   async checkCustomDependencies(typeOfTask, data, farm_id) {
+    const irrigationTypeValues = {
+      farm_id,
+      irrigation_type_name: data.irrigation_type?.irrigation_type_name,
+      default_measuring_type: data.irrigation_type?.default_measuring_type,
+    };
+
     switch (typeOfTask) {
       case 'irrigation_task':
         if (data.irrigation_type?.irrigation_task_type_other) {
-          await IrrigationTypesModel.insertCustomIrrigationType({
-            farm_id,
-            irrigation_type_name: data.irrigation_type?.irrigation_type_name,
-            default_measuring_type: data.irrigation_type?.default_measuring_type,
+          await IrrigationTypesModel.insertCustomIrrigationType({ ...irrigationTypeValues });
+        }
+        if (data.irrigation_type?.set_default_irrigation_task_type_measurement) {
+          await IrrigationTypesModel.transaction(async (trx) => {
+            await IrrigationTypesModel.query(trx)
+              .context({ irrigation_type_name: data.irrigation_type?.irrigation_type_name })
+              .upsertGraph({ ...irrigationTypeValues }, { insertMissing: true });
           });
         }
         if (data.location_defaults) {
@@ -297,7 +306,7 @@ const taskController = {
           const [task] = await TaskModel.query(trx)
             .withGraphFetched(
               `
-          [locations, managementPlans, taskType, soil_amendment_task, irrigation_task,scouting_task,
+          [locations, managementPlans, taskType, soil_amendment_task, irrigation_task, scouting_task,
           field_work_task, cleaning_task, pest_control_task, soil_task, harvest_task, plant_task]
           `,
             )

@@ -67,7 +67,12 @@ const WaterUseVolumeCalculator = ({ system, setTotalWaterUsage, totalWaterUsage,
         return totalWaterUsage;
       });
     }
-  }, [estimated_irrigation_duration, estimated_flow_rate]);
+  }, [
+    estimated_irrigation_duration,
+    estimated_flow_rate,
+    estimated_irrigation_duration_unit,
+    estimated_flow_rate_unit,
+  ]);
 
   const FLOW_RATE = 'estimated_flow_rate';
   const FLOW_RATE_UNIT = 'estimated_flow_rate_unit';
@@ -91,9 +96,9 @@ const WaterUseVolumeCalculator = ({ system, setTotalWaterUsage, totalWaterUsage,
         control={control}
         onChangeUnitOption={(e) => {
           if (e.value === 'l/h' && estimated_flow_rate_unit.value === 'l/min')
-            setValue(FLOW_RATE, convert(getValues(FLOW_RATE)).from('l/h').to('l/min'));
-          if (e.value === 'l/min' && estimated_flow_rate_unit.value === 'l/h')
             setValue(FLOW_RATE, convert(getValues(FLOW_RATE)).from('l/min').to('l/h'));
+          if (e.value === 'l/min' && estimated_flow_rate_unit.value === 'l/h')
+            setValue(FLOW_RATE, convert(getValues(FLOW_RATE)).from('l/h').to('l/min'));
         }}
       />
 

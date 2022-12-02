@@ -33,7 +33,6 @@ class SensorReading extends Model {
       required: [
         'read_time',
         'location_id',
-        'reading_type',
         'value',
         'unit',
         'read_time',

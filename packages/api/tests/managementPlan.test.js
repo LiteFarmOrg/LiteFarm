@@ -901,7 +901,7 @@ describe('ManagementPlan Tests', () => {
     }
 
     async function expectPlantingMethodPosted(res, final_planting_method, initial_planting_method) {
-      expect(res.status).toBe(201);
+      expect(res.status).toBe(400);
       const { management_plan_id } = res.body.management_plan;
       const {
         already_in_ground,

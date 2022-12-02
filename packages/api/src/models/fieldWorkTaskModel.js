@@ -32,7 +32,6 @@ class FieldWorkTaskModel extends BaseModel {
   static get jsonSchema() {
     return {
       type: 'object',
-
       properties: {
         task_id: { type: 'integer' },
         field_work_type_id: { type: 'integer' },

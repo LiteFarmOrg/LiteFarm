@@ -380,7 +380,7 @@ const Unit = ({
             className={clsx(
               styles.verticleDivider,
               showError && styles.inputError,
-              disabled && styles.none,
+              (isSelectDisabled || disabled) && styles.none,
             )}
             style={{
               width: `${

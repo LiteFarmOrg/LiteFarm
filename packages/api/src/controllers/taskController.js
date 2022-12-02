@@ -298,7 +298,7 @@ const taskController = {
   async checkAndAddCustomType(typeOfTask, data, farm_id) {
     switch (typeOfTask) {
       case 'field_work_task': {
-        return await this.checkAndAddCustomFieldWork(typeOfTask, data, farm_id);
+        return await this.checkAndAddCustomFieldWork(data, farm_id);
       }
       default: {
         return data;
@@ -306,7 +306,8 @@ const taskController = {
     }
   },
 
-  async checkAndAddCustomFieldWork(typeOfTask, data, farm_id) {
+  async checkAndAddCustomFieldWork(data, farm_id) {
+    if (!data.field_work_task) return data;
     const containsFieldWorkTask = Object.prototype.hasOwnProperty.call(
       data.field_work_task,
       'field_work_task_type',

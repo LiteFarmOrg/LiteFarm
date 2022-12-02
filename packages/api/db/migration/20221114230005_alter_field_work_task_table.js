@@ -145,5 +145,20 @@ export const down = async function (knex) {
       t.dropColumn('created_at');
       t.dropColumn('updated_at');
     }),
+    await knex.raw(`
+      ALTER TABLE "field_work_task"
+      ADD CONSTRAINT "field_work_task_type_check" 
+      CHECK ("type" IN (
+        'COVERING_SOIL',
+        'FENCING',
+        'PREPARING_BEDS_OR_ROWS',
+        'PRUNING',
+        'SHADE_CLOTH',
+        'TERMINATION',
+        'TILLAGE',
+        'WEEDING',
+        'OTHER'
+      ));
+    `),
   ]);
 };

@@ -76,6 +76,8 @@ export const up = async function (knex) {
     'field_work_type_translation_key',
     'farm_id',
     'field_work_name',
+    'created_by_user_id',
+    'updated_by_user_id',
   );
 
   await knex.schema.alterTable('field_work_task', (t) => {
@@ -89,11 +91,20 @@ export const up = async function (knex) {
   for (const row of field_work_rows) {
     if (row.farm_id) {
       await knex.raw(
-        `UPDATE field_work_task SET field_work_type_id = ${row.field_work_type_id} WHERE type = 'OTHER' AND other_type = '${row.field_work_name}'::text;`,
+        `UPDATE field_work_task 
+        SET field_work_type_id = ${row.field_work_type_id},
+        created_by_user_id = '${row.created_by_user_id}'::text,
+        updated_by_user_id = '${row.updated_by_user_id}'::text
+        WHERE type = 'OTHER' 
+        AND other_type = '${row.field_work_name}'::text;`,
       );
     } else {
       await knex.raw(
-        `UPDATE field_work_task SET field_work_type_id = ${row.field_work_type_id} WHERE type = '${row.field_work_type_translation_key}';`,
+        `UPDATE field_work_task 
+        SET field_work_type_id = ${row.field_work_type_id}, 
+        created_by_user_id = '${row.created_by_user_id}'::text,
+        updated_by_user_id = '${row.updated_by_user_id}'::text
+        WHERE type = '${row.field_work_type_translation_key}';`,
       );
     }
   }
@@ -124,11 +135,16 @@ export const down = async function (knex) {
         const row = rows[0];
         if (row.farm_id) {
           await knex.raw(
-            `UPDATE field_work_task SET type = 'OTHER', other_type = '${row.field_work_name}'::text WHERE field_work_type_id = ${row.field_work_type_id}`,
+            `UPDATE field_work_task 
+            SET type = 'OTHER', 
+            other_type = '${row.field_work_name}'::text 
+            WHERE field_work_type_id = ${row.field_work_type_id}`,
           );
         } else {
           await knex.raw(
-            `UPDATE field_work_task SET type = '${row.field_work_type_translation_key}' WHERE field_work_type_id = ${row.field_work_type_id};`,
+            `UPDATE field_work_task 
+            SET type = '${row.field_work_type_translation_key}' 
+            WHERE field_work_type_id = ${row.field_work_type_id};`,
           );
         }
       }

@@ -442,7 +442,7 @@
     "HINT": "Dicas",
     "LABEL": "Senha",
     "ONE_NUMBER": "pelo menos um número",
-    "ONE_SPECIAL_CHARACTER": "pelo menos um caractere especial",
+    "ONE_SPECIAL_CHARACTER": "pelo menos um caractere especial (! @ # $ % ^ & * )",
     "ONE_UPPER_CASE": "pelo menos uma letra maiúscula",
     "TOO_SHORT": "pelo menos 8 caracteres"
   },

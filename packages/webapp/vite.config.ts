@@ -1,20 +1,14 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
-import mdx from 'vite-plugin-mdx';
-// @ts-ignore
+import mdx from '@mdx-js/rollup';
 import svgrPlugin from 'vite-plugin-svgr';
 import IstanbulPlugin from 'vite-plugin-istanbul';
 
 // https://vitejs.dev/config/
-export default defineConfig(({ mode }) => ({
+export default defineConfig({
   plugins: [
-    react({
-      babel: {
-        plugins: ['@emotion/babel-plugin'],
-      },
-      jsxRuntime: mode === 'development' ? 'automatic' : 'classic',
-    }),
-    mdx(),
+    react(),
+    mdx({ providerImportSource: '@mdx-js/react' }),
     svgrPlugin({
       svgrOptions: {
         icon: false,
@@ -23,12 +17,15 @@ export default defineConfig(({ mode }) => ({
     IstanbulPlugin({
       include: 'src/*',
       exclude: ['node_modules', 'tests/'],
-      extension: [ '.js', '.ts', '.jsx' ],
+      extension: ['.js', '.ts', '.jsx'],
       requireEnv: true,
       cypress: true,
- }),
+    }),
   ],
   build: {
     sourcemap: true,
   },
-}));
+  server: {
+    port: 3000,
+  },
+});

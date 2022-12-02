@@ -7,8 +7,8 @@ on:
 
 jobs:
   build:
-    timeout-minutes: 10
     runs-on: ubuntu-20.04
+    timeout-minutes: 30
     env:
       JWT_INVITE_SECRET: ${{secrets.JWT_INVITE_SECRET}}
       JWT_RESET_SECRET: ${{secrets.JWT_RESET_SECRET}}
@@ -23,10 +23,11 @@ jobs:
       GOOGLE_API_KEY: ${{secrets.VITE_GOOGLE_MAPS_API_KEY}}
       VITE_GOOGLE_MAPS_API_KEY: ${{secrets.VITE_GOOGLE_MAPS_API_KEY}}
       VITE_WEATHER_API_KEY: ${{secrets.VITE_WEATHER_API_KEY}}
+      NODE_ENV: development
       
     strategy:
       matrix:
-        node-version: [17.5.0]
+        node-version: [16.15.0]
 
     steps:
       - uses: ikalnytskyi/action-setup-postgres@v3
@@ -79,4 +80,25 @@ jobs:
           record: true
           parallel: true
           group: 'UI - Chrome'
-          spec: cypress/e2e/happyPath.spec.js 
+          spec: cypress/e2e/happyPath.spec.js
+
+      - name: set code coverage badge
+        run: npx -p check-code-coverage update-badge --from '${GITHUB_WORKSPACE}/packages/webapp/coverage/coverage-summary.json'
+        env: 
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+
+      - name: Archive code coverage results
+        uses: actions/upload-artifact@v3
+        continue-on-error: true
+        with:
+          name: code-coverage-report
+          working-directory: packages/webapp
+          path: coverage/coverage-summary.json
+
+      - name: Set code coverage commit status
+        continue-on-error: true
+        working-directory: packages/webapp
+        run: npx set-gh-status
+        env: 
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+          GH_SHA: ${{ github.event.after }}

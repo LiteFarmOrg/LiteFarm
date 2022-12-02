@@ -1519,7 +1519,8 @@
       "LAST_UPDATED_TEMPERATURE_READINGS": "Last updated {{latestReadingUpdate}}"
     },
     "READINGS_PREVIEW": {
-      "TEMPERATURE": "Current soil temp"
+      "TEMPERATURE": "Current soil temp",
+      "SOIL_WATER_POTENTIAL": "Current soil watter potential"
     },
     "SENSOR_READING_CHART_SPOTLIGHT": {
       "TITLE": "Temperature sensor readings chart",

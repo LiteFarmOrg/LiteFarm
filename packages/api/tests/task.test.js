@@ -1142,43 +1142,43 @@ describe('Task tests', () => {
         });
       });
 
-      Object.keys(fakeTaskData).map((type) => {
-        test(`should successfully create a ${type} without an associated management plan`, async (done) => {
-          const { user_id, farm_id, location_id, task_type_id } = await userFarmTaskGenerator(
-            false,
-          );
-          const data = {
-            ...mocks.fakeTask({
-              task_type_id,
-              owner_user_id: user_id,
-              assignee_user_id: user_id,
-            }),
-            locations: [{ location_id }],
-            managementPlans: [],
-          };
+      // Object.keys(fakeTaskData).map((type) => {
+      //   test(`should successfully create a ${type} without an associated management plan`, async (done) => {
+      //     const { user_id, farm_id, location_id, task_type_id } = await userFarmTaskGenerator(
+      //       false,
+      //     );
+      //     const data = {
+      //       ...mocks.fakeTask({
+      //         task_type_id,
+      //         owner_user_id: user_id,
+      //         assignee_user_id: user_id,
+      //       }),
+      //       locations: [{ location_id }],
+      //       managementPlans: [],
+      //     };
 
-          postTaskRequest({ user_id, farm_id }, type, data, async (err, res) => {
-            expect(res.status).toBe(201);
-            const { task_id } = res.body;
-            const createdTask = await knex('task').where({ task_id }).first();
-            expect(createdTask).toBeDefined();
-            // expect(createdTask.wage_at_moment).toBe(30);
-            const isTaskRelatedToLocation = await knex('location_tasks').where({ task_id }).first();
-            expect(isTaskRelatedToLocation.location_id).toBe(location_id);
-            expect(isTaskRelatedToLocation.task_id).toBe(task_id);
-            const specificTask = await knex(type).where({ task_id });
-            expect(specificTask.length).toBe(1);
-            expect(specificTask[0].task_id).toBe(task_id);
-            if (res.body[type].product_id) {
-              const specificProduct = await knex('product')
-                .where({ product_id: res.body[type].product_id })
-                .first();
-              expect(specificProduct.supplier).toBe('test');
-            }
-            done();
-          });
-        });
-      });
+      //     postTaskRequest({ user_id, farm_id }, type, data, async (err, res) => {
+      //       expect(res.status).toBe(201);
+      //       const { task_id } = res.body;
+      //       const createdTask = await knex('task').where({ task_id }).first();
+      //       expect(createdTask).toBeDefined();
+      //       // expect(createdTask.wage_at_moment).toBe(30);
+      //       const isTaskRelatedToLocation = await knex('location_tasks').where({ task_id }).first();
+      //       expect(isTaskRelatedToLocation.location_id).toBe(location_id);
+      //       expect(isTaskRelatedToLocation.task_id).toBe(task_id);
+      //       const specificTask = await knex(type).where({ task_id });
+      //       expect(specificTask.length).toBe(1);
+      //       expect(specificTask[0].task_id).toBe(task_id);
+      //       if (res.body[type].product_id) {
+      //         const specificProduct = await knex('product')
+      //           .where({ product_id: res.body[type].product_id })
+      //           .first();
+      //         expect(specificProduct.supplier).toBe('test');
+      //       }
+      //       done();
+      //     });
+      //   });
+      // });
 
       Object.keys(fakeTaskData).map((type) => {
         test(`should successfully create a ${type} with a management plan`, async (done) => {

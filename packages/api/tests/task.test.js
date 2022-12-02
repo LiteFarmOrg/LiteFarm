@@ -50,7 +50,7 @@ describe('Task tests', () => {
       .end(callback);
   }
 
-  function postTaskRequest({ user_id, farm_id }, data, callback) {
+  function postTaskRequest({ user_id, farm_id }, type, data, callback) {
     chai
       .request(server)
       .post(`/task/${type}`)
@@ -1157,7 +1157,7 @@ describe('Task tests', () => {
             managementPlans: [],
           };
 
-          postTaskRequest({ user_id, farm_id }, data, async (err, res) => {
+          postTaskRequest({ user_id, farm_id }, type, data, async (err, res) => {
             expect(res.status).toBe(201);
             const { task_id } = res.body;
             const createdTask = await knex('task').where({ task_id }).first();

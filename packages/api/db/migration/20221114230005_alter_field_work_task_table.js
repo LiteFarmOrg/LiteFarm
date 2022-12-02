@@ -2,16 +2,22 @@
 
 export const up = async function (knex) {
   let fieldWorkData = await knex.raw(`
-    SELECT DISTINCT TRIM(t.other_type) AS field_work_name, 
+    SELECT 
+    DISTINCT TRIM(t.other_type) AS field_work_name, 
     TRIM(REPLACE(UPPER(t.other_type),' ', '_')) AS field_work_type_translation_key, 
-    l.farm_id FROM 
-      (
-        SELECT * FROM field_work_task AS fwt
-        JOIN location_tasks as lt
-        ON lt.task_id = fwt.task_id  
-        WHERE type='OTHER'
-      ) as t 
-    JOIN location AS l
+    l.farm_id,
+    f.created_by_user_id,
+    f.updated_by_user_id
+        FROM 
+          (
+            SELECT * FROM field_work_task AS fwt
+            JOIN location_tasks as lt
+            ON lt.task_id = fwt.task_id  
+            WHERE type='OTHER'
+          ) as t 
+        JOIN location AS l
+      JOIN farm AS f
+    ON f.farm_id = l.farm_id
     ON l.location_id = t.location_id;
   `);
 

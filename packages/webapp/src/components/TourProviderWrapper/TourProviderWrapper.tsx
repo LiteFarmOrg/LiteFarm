@@ -1,12 +1,16 @@
-import { StepType, TourProvider } from '@reactour/tour';
+import {
+  PopoverContentProps,
+  StepType,
+  TourProps,
+  TourProvider,
+  ProviderProps,
+} from '@reactour/tour';
 import React, { ReactNode, useMemo } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { useTranslation } from 'react-i18next';
 import { Label, Semibold } from '../Typography';
 import { colors } from '../../assets/theme';
 import Button from '../Form/Button';
-import { ProviderProps, TourProps } from '@reactour/tour/dist/types';
-import { ContentProps } from '@reactour/tour/src/types';
 import { keyframes } from '@emotion/react';
 
 const opositeSide = {
@@ -136,7 +140,7 @@ export function TourProviderWrapper({
           popoverStyles,
           maskStyles,
         }),
-        content: (props: ContentProps) => (
+        content: (props: PopoverContentProps) => (
           <TourContentBody
             onFinish={onFinish}
             isLastStep={steps.length === props.currentStep + 1}
@@ -199,12 +203,15 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-type TourContentBodyProps = ContentProps & {
+type TourContentBodyProps = {
   step: TourContentBodyStep;
   continuous?: boolean;
   primaryProps?: object;
   isLastStep?: boolean;
   onFinish?(): void;
+  setCurrentStep: PopoverContentProps['setCurrentStep'];
+  currentStep: PopoverContentProps['currentStep'];
+  setIsOpen: PopoverContentProps['setIsOpen'];
 };
 
 export function TourContentBody({
@@ -267,7 +274,13 @@ export function TourContentBody({
       {children}
       {
         <div className={classes.buttonGroup}>
-          <Button data-cy='spotlight-next' onClick={onClick} sm id={continuous ? 'next' : 'close'} {...primaryProps}>
+          <Button
+            data-cy="spotlight-next"
+            onClick={onClick}
+            sm
+            id={continuous ? 'next' : 'close'}
+            {...primaryProps}
+          >
             {buttonText || (isLastStep ? t('common:GOT_IT') : t('common:NEXT'))}
           </Button>
         </div>

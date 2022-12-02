@@ -67,12 +67,7 @@ const WaterUseVolumeCalculator = ({ system, setTotalWaterUsage, totalWaterUsage,
         return totalWaterUsage;
       });
     }
-  }, [
-    estimated_irrigation_duration,
-    estimated_flow_rate,
-    estimated_irrigation_duration_unit,
-    estimated_flow_rate_unit,
-  ]);
+  }, [estimated_irrigation_duration, estimated_flow_rate]);
 
   const FLOW_RATE = 'estimated_flow_rate';
   const FLOW_RATE_UNIT = 'estimated_flow_rate_unit';

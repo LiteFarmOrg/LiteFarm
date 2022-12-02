@@ -55,14 +55,14 @@ export default function PureTaskLocations({
   );
 
   const onSelectLocation = (location_id) => {
-    if(!isMulti){
-      if(getValues('show_wild_crop')){
+    if (!isMulti) {
+      if (getValues('show_wild_crop')) {
         setValue(SHOW_WILD_CROP, false);
       }
       if (selectedLocations[0]?.location_id === location_id) {
         setValue(LOCATIONS, []);
         return;
-      } 
+      }
     }
     setValue(
       LOCATIONS,
@@ -81,10 +81,10 @@ export default function PureTaskLocations({
   }, []);
 
   const onChange = (e) => {
-    if(!isMulti && e.target.checked){
+    if (!isMulti && e.target.checked) {
       clearLocations();
     }
-  }
+  };
 
   const getSelectedLocations = (location_id, selectedLocations) => {
     const isSelected = selectedLocations

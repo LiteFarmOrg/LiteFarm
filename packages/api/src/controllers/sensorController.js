@@ -24,6 +24,7 @@ import LocationModel from '../models/locationModel.js';
 import PointModel from '../models/pointModel.js';
 import FigureModel from '../models/figureModel.js';
 import UserModel from '../models/userModel.js';
+import PartnerReadingTypeModel from '../models/PartnerReadingTypeModel.js';
 
 import { transaction, Model } from 'objection';
 
@@ -406,16 +407,29 @@ const sensorController = {
     }
     try {
       const infoBody = [];
+      const partnerId = parseInt(req.params.partner_id) || 1;
+      const farmId = req.params.farm_id || '';
+      if (!farmId.length) return res.status(400).send('farm id not found');
+      const {
+        rows: partnerSensorReadingTypes = [],
+      } = await PartnerReadingTypeModel.getPartnerReadingTypeByPartnerId(partnerId);
+      if (!partnerSensorReadingTypes.length)
+        return res.status(400).send('partner not registered with the Litefarm');
       for (const sensor of Object.keys(req.body)) {
         const sensorData = req.body[sensor].data;
         let { rows: corresponding_sensor = [] } = await SensorModel.getLocationIdForSensorReadings(
           sensor,
-          req.params.partner_id,
+          partnerId,
+          farmId,
         );
         if (!corresponding_sensor.length) return res.status(400).send('sensor id not found');
         corresponding_sensor = corresponding_sensor[0];
         for (const sensorInfo of sensorData) {
-          const parameter_number = sensorInfo.parameter_category.toLowerCase().replaceAll(' ', '_');
+          const readingType = sensorInfo.parameter_category.toLowerCase().replaceAll(' ', '_');
+          const isPartnerReadingTypePresent = partnerSensorReadingTypes.some(
+            (partnerSensorReadingType) => partnerSensorReadingType.readable_value === readingType,
+          );
+          if (!isPartnerReadingTypePresent) continue;
           const unit = sensorInfo.unit;
 
           if (sensorInfo.values.length < sensorInfo.timestamps.length)
@@ -426,7 +440,7 @@ const sensorController = {
               read_time: sensorInfo.timestamps[k] || '',
               location_id: corresponding_sensor.location_id,
               value: sensorInfo.values[k],
-              reading_type: parameter_number,
+              reading_type: readingType,
               valid: sensorInfo.validated[k] || false,
               unit,
             });

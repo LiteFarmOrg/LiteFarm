@@ -141,7 +141,6 @@ const useReactSelectStyles = (disabled, { reactSelectWidth = DEFAULT_REACT_SELEC
 };
 const Unit = ({
   disabled = false,
-  hideLineUnitSeparator = false,
   classes = { container: {} },
   style = {},
   label,
@@ -382,7 +381,6 @@ const Unit = ({
               styles.verticleDivider,
               showError && styles.inputError,
               disabled && styles.none,
-              hideLineUnitSeparator && styles.none,
             )}
             style={{
               width: `${

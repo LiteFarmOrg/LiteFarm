@@ -200,7 +200,6 @@ const WaterUseDepthCalculator = ({ system, setTotalWaterUsage, totalWaterUsage, 
         max={999999.99}
         system={system}
         control={control}
-        hideLineUnitSeparator={true}
       />
 
       <Checkbox
@@ -221,7 +220,6 @@ const WaterUseDepthCalculator = ({ system, setTotalWaterUsage, totalWaterUsage, 
         max={100}
         system={system}
         control={modalState.control}
-        hideLineUnitSeparator={true}
       />
 
       <div

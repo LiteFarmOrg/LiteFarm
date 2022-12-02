@@ -115,7 +115,7 @@ const useReactSelectStyles = (disabled, { reactSelectWidth = DEFAULT_REACT_SELEC
         width: `${reactSelectWidth - 19}px`,
         display: 'flex',
         justifyContent: 'center',
-        background: state.isDisabled ? 'var(--inputDisabled)' : 'inherit',
+        background: disabled ? 'var(--inputDisabled)' : 'inherit',
       }),
       singleValue: (provided, state) => ({
         fontSize: '16px',

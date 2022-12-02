@@ -39,9 +39,11 @@ const showedSpotlightController = {
             'compliance_docs_and_certification',
             'transplant',
             'management_plan_creation',
+            'sensor_reading_chart',
           )
           .findById(user_id);
         res.status(200).send(data);
+        console.log(data);
       } catch (error) {
         //handle more exceptions
         res.status(400).json({

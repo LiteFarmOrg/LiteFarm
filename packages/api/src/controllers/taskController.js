@@ -312,11 +312,13 @@ const taskController = {
           await IrrigationTypesModel.insertCustomIrrigationType({ ...irrigationTypeValues });
         }
         if (data.irrigation_type?.set_default_irrigation_task_type_measurement) {
-          await IrrigationTypesModel.transaction(async (trx) => {
-            await IrrigationTypesModel.query(trx)
-              .context({ irrigation_type_name: data.irrigation_type?.irrigation_type_name })
-              .upsertGraph({ ...irrigationTypeValues }, { insertMissing: true });
-          });
+          await IrrigationTypesModel.query()
+            .where('irrigation_type_name', irrigationTypeValues.irrigation_type_name)
+            .patch({
+              default_measuring_type: irrigationTypeValues.default_measuring_type,
+              farm_id: irrigationTypeValues.farm_id,
+            })
+            .returning('*');
         }
         if (data.location_defaults) {
           for (const location_default of data.location_defaults) {

@@ -1534,17 +1534,6 @@ async function field_work_taskFactory(
 
 function fakeFieldWorkTask(defaultData = {}) {
   return {
-    type: faker.helpers.arrayElement([
-      'COVERING_SOIL',
-      'FENCING',
-      'PREPARING_BEDS_OR_ROWS',
-      'PRUNING',
-      'SHADE_CLOTH',
-      'TERMINATION',
-      'TILLAGE',
-      'WEEDING',
-      'OTHER',
-    ]),
     ...defaultData,
   };
 }

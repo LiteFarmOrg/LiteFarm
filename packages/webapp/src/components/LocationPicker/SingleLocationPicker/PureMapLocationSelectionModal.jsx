@@ -58,11 +58,16 @@ export default function PureMapLocationSelectionModal({
                 selectedLocationIds.includes(location_id) && classes.selectedRowContainer,
               )}
             >
-              <div style={{ float: 'left', paddingTop: '8px', paddingLeft: '20px' }}>
+              <div
+                data-cy="locationPicker-location"
+                style={{ float: 'left', paddingTop: '8px', paddingLeft: '20px' }}
+              >
                 {' '}
                 {locationImgMap[type]}{' '}
               </div>
-              <div style={{ padding: '12px 20px 10px 55px' }}>{name}</div>
+              <div data-cy="locationPicker-locationName" style={{ padding: '12px 20px 10px 55px' }}>
+                {name}
+              </div>
             </div>
           );
         })}

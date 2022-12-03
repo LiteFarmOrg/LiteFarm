@@ -271,8 +271,8 @@ const taskController = {
           const [task] = await TaskModel.query(trx)
             .withGraphFetched(
               `
-          [locations, managementPlans, taskType, soil_amendment_task, irrigation_task, scouting_task,
-          field_work_task, cleaning_task, pest_control_task, soil_task, harvest_task, plant_task]
+          [locations, managementPlans, taskType, soil_amendment_task, irrigation_task,scouting_task,
+          field_work_task.[field_work_task_type], cleaning_task, pest_control_task, soil_task, harvest_task, plant_task]
           `,
             )
             .where({ task_id });

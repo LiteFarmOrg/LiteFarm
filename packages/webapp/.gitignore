@@ -27,6 +27,9 @@ yarn-error.log*
 ./cypress/integration/__snapshots__
 ./cypress.env.json
 
+.nyc_output
+.nyc_output/out.json
+
 public/locales/*/*_old.json
 
 src/__snapshots__/*

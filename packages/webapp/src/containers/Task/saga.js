@@ -468,7 +468,7 @@ const getPostTaskReqBody = (
 export const createTask = createAction('createTaskSaga');
 
 export function* createTaskSaga({ payload }) {
-  const { returnPath, ...data } = payload;
+  let { returnPath, ...data } = payload;
 
   const { taskUrl } = apiConfig;
   let { user_id, farm_id } = yield select(loginSelector);
@@ -488,6 +488,7 @@ export function* createTaskSaga({ payload }) {
     const managementPlanWithCurrentLocationEntities = yield select(
       managementPlanWithCurrentLocationEntitiesSelector,
     );
+    data = getCompleteCustomTaskTypeBody(data, task_translation_key);
     const result = yield call(
       axios.post,
       `${taskUrl}/${endpoint}`,
@@ -512,6 +513,44 @@ export function* createTaskSaga({ payload }) {
     yield put(enqueueErrorSnackbar(i18n.t('message:TASK.CREATE.FAILED')));
   }
 }
+
+const getCompleteCustomTaskTypeBody = (data, task_translation_key) => {
+  switch (task_translation_key) {
+    case 'FIELD_WORK_TASK': {
+      return getCompleteFieldWorkTaskBody(data, task_translation_key);
+    }
+    default: {
+      return data;
+    }
+  }
+};
+
+const getCompleteFieldWorkTaskBody = (data, task_translation_key) => {
+  let reqBody = { ...data };
+  let field_work_name =
+    reqBody?.field_work_task?.field_work_task_type?.field_work_name?.trim() || '';
+  let value = reqBody?.field_work_task?.field_work_task_type?.value || '';
+  let field_work_type_id = reqBody?.field_work_task?.field_work_task_type?.field_work_type_id || -1;
+  let farm_id = reqBody?.field_work_task?.field_work_task_type?.farm_id || null;
+
+  if (value === 'OTHER' && !farm_id) {
+    reqBody.field_work_task = {
+      field_work_task_type: {
+        field_work_name,
+        field_work_type_translation_key: field_work_name
+          ?.trim()
+          ?.toLocaleUpperCase()
+          ?.replaceAll(' ', '_'),
+      },
+    };
+  } else {
+    reqBody.field_work_task = {
+      field_work_type_id,
+    };
+    delete reqBody.field_work_task.fieldWorkTask;
+  }
+  return reqBody;
+};
 
 //TODO: change req shape to {...task, harvestUses}
 const getCompleteHarvestTaskBody = (data) => {

@@ -443,7 +443,7 @@
     "HINT": "Hint",
     "LABEL": "Password",
     "ONE_NUMBER": "at least one number",
-    "ONE_SPECIAL_CHARACTER": "at least one special character (! @ # $ % ^ & * )",
+    "ONE_SPECIAL_CHARACTER": "at least one special character (! @ # $ % ^ & *)",
     "ONE_UPPER_CASE": "at least one upper case character",
     "TOO_SHORT": "at least 8 characters"
   },

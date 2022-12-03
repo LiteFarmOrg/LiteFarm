@@ -18,10 +18,10 @@
  * @type {Cypress.PluginConfig}
  */
 // eslint-disable-next-line no-unused-vars
-const axios = require('axios');
-const makeEmailAccount = require('./email-account');
+import axios from 'axios';
+import { makeEmailAccount } from './email-account';
 
-module.exports = async (on, config) => {
+export default async function (on, config) {
   // `on` is used to hook into various events Cypress emits
   // `config` is the resolved Cypress config
   config.env.googleRefreshToken = process.env.GOOGLE_REFRESH_TOKEN;
@@ -29,7 +29,7 @@ module.exports = async (on, config) => {
   config.env.googleClientSecret = process.env.REACT_APP_GOOGLE_CLIENT_SECRET;
 
   const emailAccount = await makeEmailAccount();
-  require('@cypress/code-coverage/task')(on, config);
+  import('@cypress/code-coverage/task').then((coverage) => coverage(on, config));
 
   on('task', {
     getUserEmail() {
@@ -44,4 +44,4 @@ module.exports = async (on, config) => {
   });
 
   return config;
-};
+}

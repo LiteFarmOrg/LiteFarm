@@ -29,7 +29,7 @@ export default async function (on, config) {
   config.env.googleClientSecret = process.env.REACT_APP_GOOGLE_CLIENT_SECRET;
 
   const emailAccount = await makeEmailAccount();
-  import('@cypress/code-coverage/task').then((coverage) => coverage(on, config));
+  import('@cypress/code-coverage/task').then((coverage) => coverage.default(on, config));
 
   on('task', {
     getUserEmail() {

@@ -26,6 +26,7 @@ import User from '../models/userModel.js';
 import { typesOfTask } from './../middleware/validation/task.js';
 import locationDefaultsModel from '../models/locationDefaultsModel.js';
 import IrrigationTypesModel from '../models/irrigationTypesModel.js';
+import FieldWorkTypeModel from '../models/fieldWorkTypeModel.js';
 const adminRoles = [1, 2, 5];
 // const isDateInPast = (date) => {
 //   const today = new Date();
@@ -247,42 +248,6 @@ const taskController = {
     }
   },
 
-  async checkCustomDependencies(typeOfTask, data, farm_id) {
-    const irrigationTypeValues = {
-      farm_id,
-      irrigation_type_name: data.irrigation_type?.irrigation_type_name,
-      default_measuring_type: data.irrigation_type?.default_measuring_type,
-    };
-
-    switch (typeOfTask) {
-      case 'irrigation_task':
-        if (data.irrigation_type?.irrigation_task_type_other) {
-          await IrrigationTypesModel.insertCustomIrrigationType({ ...irrigationTypeValues });
-        }
-        if (data.irrigation_type?.set_default_irrigation_task_type_measurement) {
-          await IrrigationTypesModel.transaction(async (trx) => {
-            await IrrigationTypesModel.query(trx)
-              .context({ irrigation_type_name: data.irrigation_type?.irrigation_type_name })
-              .upsertGraph({ ...irrigationTypeValues }, { insertMissing: true });
-          });
-        }
-        if (data.location_defaults) {
-          for (const location_default of data.location_defaults) {
-            await locationDefaultsModel.transaction(async (trx) => {
-              await locationDefaultsModel
-                .query(trx)
-                .context({ location_id: location_default.location_id })
-                .upsertGraph({ ...location_default }, { insertMissing: true });
-            });
-          }
-        }
-        delete data.irrigation_type;
-        delete data.location_defaults;
-        return data;
-      default:
-        return data;
-    }
-  },
   createTask(typeOfTask) {
     const nonModifiable = getNonModifiable(typeOfTask);
     return async (req, res, next) => {
@@ -330,6 +295,68 @@ const taskController = {
         return res.status(400).send({ error });
       }
     };
+  },
+
+  async checkCustomDependencies(typeOfTask, data, farm_id) {
+    const irrigationTypeValues = {
+      farm_id,
+      irrigation_type_name: data.irrigation_type?.irrigation_type_name,
+      default_measuring_type: data.irrigation_type?.default_measuring_type,
+    };
+    switch (typeOfTask) {
+      case 'field_work_task': {
+        return await this.checkAndAddCustomFieldWork(data, farm_id);
+      }
+      case 'irrigation_task':
+        if (data.irrigation_type?.irrigation_task_type_other) {
+          await IrrigationTypesModel.insertCustomIrrigationType({ ...irrigationTypeValues });
+        }
+        if (data.irrigation_type?.set_default_irrigation_task_type_measurement) {
+          await IrrigationTypesModel.transaction(async (trx) => {
+            await IrrigationTypesModel.query(trx)
+              .context({ irrigation_type_name: data.irrigation_type?.irrigation_type_name })
+              .upsertGraph({ ...irrigationTypeValues }, { insertMissing: true });
+          });
+        }
+        if (data.location_defaults) {
+          for (const location_default of data.location_defaults) {
+            await locationDefaultsModel.transaction(async (trx) => {
+              await locationDefaultsModel
+                .query(trx)
+                .context({ location_id: location_default.location_id })
+                .upsertGraph({ ...location_default }, { insertMissing: true });
+            });
+          }
+        }
+        delete data.irrigation_type;
+        delete data.location_defaults;
+        return data;
+      default: {
+        return data;
+      }
+    }
+  },
+
+  async checkAndAddCustomFieldWork(data, farm_id) {
+    if (!data.field_work_task) return data;
+    const containsFieldWorkTask = Object.prototype.hasOwnProperty.call(
+      data.field_work_task,
+      'field_work_task_type',
+    );
+    if (containsFieldWorkTask) {
+      const field_work_task_type = data.field_work_task.field_work_task_type;
+      const row = {
+        farm_id,
+        field_work_name: field_work_task_type.field_work_name,
+        field_work_type_translation_key: field_work_task_type.field_work_type_translation_key,
+        created_by_user_id: data.owner_user_id,
+        updated_by_user_id: data.owner_user_id,
+      };
+      const fieldWork = await FieldWorkTypeModel.insertCustomFieldWorkType(row);
+      delete data.field_work_task.field_work_task_type;
+      data.field_work_task.field_work_type_id = fieldWork.field_work_type_id;
+    }
+    return data;
   },
 
   async createHarvestTasks(req, res) {
@@ -539,7 +566,7 @@ const taskController = {
       const graphTasks = await TaskModel.query()
         .whereNotDeleted()
         .withGraphFetched(
-          `[locations, managementPlans, soil_amendment_task, field_work_task, cleaning_task, pest_control_task, 
+          `[locations, managementPlans, soil_amendment_task, field_work_task.[field_work_task_type], cleaning_task, pest_control_task, 
             harvest_task.[harvest_use], plant_task, transplant_task]
         `,
         )
@@ -566,6 +593,17 @@ const taskController = {
       if (harvest_uses) {
         return res.status(200).send(harvest_uses);
       }
+    } catch (error) {
+      console.log(error);
+      return res.status(400).send({ error });
+    }
+  },
+
+  async getFieldWorkTypes(req, res) {
+    const { farm_id } = req.params;
+    try {
+      const farmTypes = await FieldWorkTypeModel.getAllFieldWorkTypesByFarmId(farm_id);
+      res.status(200).json(farmTypes);
     } catch (error) {
       console.log(error);
       return res.status(400).send({ error });

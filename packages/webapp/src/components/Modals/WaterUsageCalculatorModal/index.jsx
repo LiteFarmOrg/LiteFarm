@@ -7,11 +7,11 @@ import Button from '../../Form/Button';
 import PropTypes from 'prop-types';
 import Unit from '../../Form/Unit';
 import {
-  water_valve_flow_rate,
-  location_area,
-  irrigation_depth,
   estimated_duration,
+  irrigation_depth,
+  location_area,
   percentage_location,
+  water_valve_flow_rate,
 } from '../../../util/convert-units/unit';
 import Checkbox from '../../Form/Checkbox';
 import { Label } from '../../Typography';
@@ -90,9 +90,9 @@ const WaterUseVolumeCalculator = ({ system, setTotalWaterUsage, totalWaterUsage,
         system={system}
         control={control}
         onChangeUnitOption={(e) => {
-          if (e.label === 'l/h' && estimated_flow_rate_unit.label === 'l/m')
+          if (e.value === 'l/h' && estimated_flow_rate_unit.value === 'l/min')
             setValue(FLOW_RATE, convert(getValues(FLOW_RATE)).from('l/h').to('l/min'));
-          if (e.label === 'l/m' && estimated_flow_rate_unit.label === 'l/h')
+          if (e.value === 'l/min' && estimated_flow_rate_unit.value === 'l/h')
             setValue(FLOW_RATE, convert(getValues(FLOW_RATE)).from('l/min').to('l/h'));
         }}
       />
@@ -158,18 +158,22 @@ const WaterUseDepthCalculator = ({ system, setTotalWaterUsage, totalWaterUsage, 
   const IRRIGATED_AREA_UNIT = 'irrigated_area_unit';
 
   useEffect(() => {
-    if (irrigated_area) {
-      setTotalWaterUsage(() => irrigated_area * application_depth);
-    }
-  }, [irrigated_area, application_depth]);
-
-  useEffect(() => {
     if (locationSize && percentage_location_irrigated) {
       const irrigatedArea =
         locationSize * (percentage_location_irrigated ? percentage_location_irrigated / 100 : 1);
       setValue(IRRIGATED_AREA, irrigatedArea);
     }
   }, [locationSize, percentage_location_irrigated]);
+
+  useEffect(() => {
+    if (irrigated_area) {
+      setTotalWaterUsage(() => {
+        const Irrigated_area_in_m_squared = irrigated_area * 10000;
+        const Volume_in_m_cubed = Irrigated_area_in_m_squared * (application_depth / 1000);
+        return Volume_in_m_cubed * 1000;
+      });
+    }
+  }, [irrigated_area, application_depth]);
 
   return (
     <>
@@ -185,6 +189,7 @@ const WaterUseDepthCalculator = ({ system, setTotalWaterUsage, totalWaterUsage, 
         max={999999.99}
         system={system}
         control={control}
+        hideLineUnitSeparator={true}
       />
 
       <Checkbox
@@ -205,6 +210,7 @@ const WaterUseDepthCalculator = ({ system, setTotalWaterUsage, totalWaterUsage, 
         max={100}
         system={system}
         control={modalState.control}
+        hideLineUnitSeparator={true}
       />
 
       <div

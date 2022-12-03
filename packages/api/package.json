@@ -19,6 +19,7 @@
     "migrate:testing:db": "NODE_ENV=test knex migrate:latest --env=test --knexfile=./.knex/knexfile.js",
     "migrate:dev:db": "knex migrate:latest --knexfile=./.knex/knexfile.js",
     "migrate:make:dev": "knex migrate:latest --knexfile=./.knex/knexfile.js",
+    "migrate:make:rollback": "knex migrate:rollback --knexfile=./.knex/knexfile.js",
     "migrate:dev:seed": "knex seed:run --knexfile=./.knex/knexfile.js",
     "migrate:pipeline:db": "NODE_ENV=test knex migrate:latest --env=pipeline --knexfile=./.knex/knexfile.js",
     "migrate:testing:seed": "knex seed:run --env=test --knexfile=./.knex/knexfile.js",
@@ -94,6 +95,8 @@
     "sinon": "^9.1.0",
     "ua-parser-js": "^0.7.28",
     "uuid": "^8.3.0",
+    "winston": "^3.8.2",
+    "winston-daily-rotate-file": "^4.7.1",
     "xlsx-populate": "^1.21.0"
   },
   "devDependencies": {

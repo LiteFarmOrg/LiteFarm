@@ -163,7 +163,7 @@ export default function PureIrrigationTask({
       {(irrigationTypeValue === 'OTHER' ||
         getValues(IRRIGATION_TYPE)?.label === t('ADD_TASK.IRRIGATION_VIEW.TYPE.OTHER')) && (
         <Input
-          style={{ marginTop: '15px' }}
+          style={{ marginTop: '6px' }}
           label={t('ADD_TASK.IRRIGATION_VIEW.WHAT_TYPE_OF_IRRIGATION')}
           hookFormRegister={register(CREATE_IRRIGATION_TYPE, {
             required: true,
@@ -177,13 +177,10 @@ export default function PureIrrigationTask({
       <Checkbox
         label={t('ADD_TASK.IRRIGATION_VIEW.SET_AS_DEFAULT_TYPE_FOR_THIS_LOCATION')}
         sm
-        style={{ marginTop: '10px', marginBottom: '25px' }}
+        style={{ marginTop: '6px', marginBottom: '24px' }}
         hookFormRegister={register(DEFAULT_IRRIGATION_TASK_LOCATION)}
       />
-      <Label
-        className={styles.label}
-        style={{ marginBottom: '12px', marginTop: '10px', fontSize: '16px' }}
-      >
+      <Label className={styles.label} style={{ marginBottom: '4px', fontSize: '16px' }}>
         {t('ADD_TASK.IRRIGATION_VIEW.HOW_DO_YOU_MEASURE_WATER_USE_FOR_THIS_IRRIGATION_TYPE')}
       </Label>
 
@@ -212,7 +209,7 @@ export default function PureIrrigationTask({
       <Checkbox
         label={t('ADD_TASK.IRRIGATION_VIEW.SET_AS_DEFAULT_MEASUREMENT_FOR_THIS_IRRIGATION_TYPE')}
         sm
-        style={{ marginBottom: '24px' }}
+        style={{ marginBottom: '4px' }}
         hookFormRegister={register(DEFAULT_IRRIGATION_MEASUREMENT)}
       />
 

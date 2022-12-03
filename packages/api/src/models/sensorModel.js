@@ -237,14 +237,14 @@ class Sensor extends Model {
     }
   }
 
-  static async getLocationIdForSensorReadings(external_id, partner_id) {
+  static async getLocationIdForSensorReadings(external_id, partner_id, farm_id) {
     return Model.knex().raw(
       `
         SELECT loc.location_id FROM sensor AS s
         JOIN location AS loc ON loc.location_id = s.location_id 
-        WHERE external_id = ? and partner_id = ? AND deleted = ?;
+        WHERE external_id = ? and partner_id = ? AND farm_id = ?;
       `,
-      [external_id, partner_id, false],
+      [external_id, partner_id, farm_id],
     );
   }
 }

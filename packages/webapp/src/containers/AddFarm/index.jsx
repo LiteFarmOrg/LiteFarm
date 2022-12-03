@@ -253,7 +253,7 @@ const AddFarm = () => {
             icon: isGettingLocation ? (
               <span>{t('ADD_FARM.LOCATING')}</span>
             ) : (
-              <VscLocation size={27} onClick={getGeoLocation} />
+              <VscLocation data-cy="addFarm-mapPin" size={27} onClick={getGeoLocation} />
             ),
             hookFormRegister: addressRegister,
             id: 'autocomplete',

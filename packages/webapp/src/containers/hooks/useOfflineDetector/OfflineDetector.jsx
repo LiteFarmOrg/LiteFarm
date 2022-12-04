@@ -2,6 +2,9 @@ import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { updateOfflineStatus } from './offlineDetectorSlice';
 
+/**
+ * {@link enqueueErrorSnackbar} If offline, all error snackbar will be disabled
+ */
 export function OfflineDetector() {
   const dispatch = useDispatch();
   const goOnline = () => dispatch(updateOfflineStatus(false));

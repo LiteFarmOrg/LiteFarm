@@ -1,35 +1,40 @@
 import React, { ReactNode } from 'react';
 import styles from './button.module.scss';
 import clsx from 'clsx';
+import { useIsOffline } from '../../../containers/hooks/useOfflineDetector/useIsOffline';
 
 type ButtonProps = {
-  color?: | 'primary' | 'secondary' | 'success' | 'none',
-  children?: ReactNode,
-  sm?: boolean,
-  disabled?: boolean,
-  fullLength?: boolean,
-  className?: string,
-  onClick?(): void,
-  type?: 'button' | 'submit' | 'reset',
-  inputRef?: any,
-  id?: string
-}
+  color?: 'primary' | 'secondary' | 'success' | 'none';
+  children?: ReactNode;
+  sm?: boolean;
+  disabled?: boolean;
+  fullLength?: boolean;
+  className?: string;
+  onClick?(): void;
+  type?: 'button' | 'submit' | 'reset';
+  inputRef?: any;
+  getIsOffline: () => boolean;
+  id?: string;
+} & React.ButtonHTMLAttributes<HTMLButtonElement>;
 
 const Button = ({
-                  color = 'primary',
-                  children = 'Button',
-                  sm,
-                  disabled = false,
-                  fullLength = false,
-                  className,
-                  onClick,
-                  type,
-                  inputRef,
-                  ...props
-                }: ButtonProps) => {
+  color = 'primary',
+  children = 'Button',
+  sm,
+  disabled = false,
+  fullLength = false,
+  className,
+  onClick,
+  type,
+  inputRef,
+  getIsOffline = useIsOffline,
+  ...props
+}: ButtonProps) => {
+  const isOffline = getIsOffline();
+  const isDisabled = disabled || (color === 'primary' && isOffline);
   return (
     <button
-      disabled={disabled}
+      disabled={isDisabled}
       className={clsx(
         styles.btn,
         color && styles[color],

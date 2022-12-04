@@ -31,7 +31,7 @@ const Button = ({
   ...props
 }: ButtonProps) => {
   const isOffline = getIsOffline();
-  const isDisabled = disabled || (color === 'primary' && isOffline);
+  const isDisabled = disabled || (isOffline && color === 'primary' && !sm);
   return (
     <button
       disabled={isDisabled}

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo, useState } from 'react';
 import styles from './styles.module.scss';
 import clsx from 'clsx';
 import Square from '../Square';
@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 import { StatusLabel } from '../CardWithStatus/StatusLabel';
 import { managementPlanStatusTranslateKey } from '../CardWithStatus/ManagementPlanCard/ManagementPlanCard';
 import { useTranslation } from 'react-i18next';
+import { useIsOffline } from '../../containers/hooks/useOfflineDetector/useIsOffline';
 
 export default function PureCropTile({
   className,
@@ -21,9 +22,32 @@ export default function PureCropTile({
   children,
   isSelected,
   status,
+  getIsOffline = useIsOffline,
 }) {
   const { active = 0, abandoned = 0, planned = 0, completed = 0, noPlans = 0 } = cropCount;
   const { t } = useTranslation();
+  const isOffline = getIsOffline();
+  const [hasError, setHasError] = useState();
+  const showImage = !(isOffline && hasError);
+  const image = useMemo(() => {
+    if (showImage) {
+      return (
+        <img
+          src={src}
+          alt={alt}
+          loading="lazy"
+          className={styles.img}
+          onError={(e) => {
+            e.target.onerror = null;
+            e.target.src = 'crop-images/default.jpg';
+            setHasError(true);
+          }}
+        />
+      );
+    } else {
+      return <div className={clsx(styles.img, styles.imgPlaceHolder)} />;
+    }
+  }, [showImage]);
   return (
     <div
       data-cy="crop-tile"
@@ -37,19 +61,7 @@ export default function PureCropTile({
       style={style}
       onClick={onClick}
     >
-      <img
-        src={src}
-        alt={alt}
-        loading="lazy"
-        className={styles.img}
-        onError={(e) => {
-          e.target.onerror = null;
-          import('../../assets/images/offlineImages/default.jpg').then(
-            (defaultImage) => (e.target.src = defaultImage.default),
-          );
-        }}
-      />
-
+      {image}
       {planned + completed + abandoned + active !== 0 && (
         <div className={styles.cropCountContainer}>
           <Square isCropTile>{active}</Square>

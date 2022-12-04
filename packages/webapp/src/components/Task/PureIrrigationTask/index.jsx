@@ -19,34 +19,23 @@ import WaterUsageCalculatorModal from '../../Modals/WaterUsageCalculatorModal';
 import { convert } from '../../../util/convert-units/convert';
 
 export default function PureIrrigationTask({
-  handleGoBack,
-  handleContinue,
   system,
-  persistedFormData,
-  useHookFormPersist,
+  products,
+  register,
+  control,
+  setValue,
+  getValues,
+  formState,
+  watch,
+  farm,
+  disabled = false,
 }) {
   const [irrigationTypeValue, setIrrigationTypeValue] = useState();
   const [showWaterUseCalculatorModal, setShowWaterUseCalculatorModal] = useState(false);
-  const [showConfirmCancelModal, setShowConfirmCancelModal] = useState(false);
   const [totalWaterUsage, setTotalWaterUsage] = useState();
 
   const { t } = useTranslation();
-  const {
-    register,
-    handleSubmit,
-    getValues,
-    watch,
-    control,
-    setValue,
-    formState: { isValid, errors },
-  } = useForm({
-    mode: 'onChange',
-    shouldUnregister: false,
-    defaultValues: {
-      measurement_type: '',
-      ...persistedFormData,
-    },
-  });
+
   const { estimated_water_usage_unit, estimated_water_usage } = getValues();
 
   const stateController = () => {
@@ -102,9 +91,6 @@ export default function PureIrrigationTask({
   const MEASUREMENT_TYPE = 'measurement_type';
   const ESTIMATED_WATER_USAGE = 'estimated_water_usage';
   const ESTIMATED_WATER_USAGE_UNIT = 'estimated_water_usage_unit';
-  const NOTES = 'notes';
-  const disabled = !isValid;
-  const { historyCancel } = useHookFormPersist(getValues);
 
   const onDismissWaterUseCalculatorModel = () => setShowWaterUseCalculatorModal(false);
   const handleModalSubmit = () => {
@@ -114,35 +100,7 @@ export default function PureIrrigationTask({
   };
 
   return (
-    <Form
-      buttonGroup={
-        <Button type={'submit'} disabled={disabled} fullLength>
-          {t('common:CONTINUE')}
-        </Button>
-      }
-      onSubmit={handleSubmit(handleContinue)}
-    >
-      <MultiStepPageTitle
-        style={{ marginBottom: '24px' }}
-        onGoBack={handleGoBack}
-        onCancel={historyCancel}
-        value={71}
-        title={t('ADD_TASK.ADD_A_TASK')}
-        cancelModalTitle={t('ADD_TASK.CANCEL')}
-      />
-      <Main
-        style={{ marginBottom: '16px' }}
-        tooltipContent={
-          <>
-            {t('ADD_TASK.IRRIGATION_VIEW.BRAND_TOOLTIP.FIRST_PHRASE')}{' '}
-            {t('ADD_TASK.FIELD_WORK_VIEW.FIELD_WORK_TASK')} {''}
-            {t('ADD_TASK.IRRIGATION_VIEW.BRAND_TOOLTIP.LAST_PHRASE')}{' '}
-          </>
-        }
-      >
-        {t('ADD_TASK.IRRIGATION_VIEW.TELL_US_ABOUT_YOUR_IRRIGATION_TASK')}
-      </Main>
-
+    <>
       <Controller
         control={control}
         name={IRRIGATION_TYPE}
@@ -241,17 +199,6 @@ export default function PureIrrigationTask({
         </Underlined>
       </Label>
 
-      <InputAutoSize
-        label={t('LOG_COMMON.NOTES')}
-        optional
-        hookFormRegister={register(NOTES, {
-          maxLength: { value: 10000, message: t('ADD_TASK.TASK_NOTES_CHAR_LIMIT') },
-        })}
-        style={{ paddingTop: '20px' }}
-        name={NOTES}
-        errors={errors[NOTES]?.message}
-      />
-
       {showWaterUseCalculatorModal && getValues(MEASUREMENT_TYPE) && (
         <WaterUsageCalculatorModal
           dismissModal={onDismissWaterUseCalculatorModel}
@@ -263,15 +210,7 @@ export default function PureIrrigationTask({
           formState={stateController}
         />
       )}
-
-      {showConfirmCancelModal && (
-        <CancelFlowModal
-          dismissModal={() => setShowConfirmCancelModal(false)}
-          handleCancel={historyCancel}
-          flow={t('ADD_TASK.CANCEL')}
-        />
-      )}
-    </Form>
+    </>
   );
 }
 

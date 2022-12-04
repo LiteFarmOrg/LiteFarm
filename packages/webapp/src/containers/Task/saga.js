@@ -28,6 +28,11 @@ import {
   onLoadingFieldWorkTaskStart,
 } from '../slice/taskSlice/fieldWorkTaskSlice';
 import {
+  getIrrigationTasksSuccess,
+  onLoadingIrrigationTaskFail,
+  onLoadingIrrigationTaskStart,
+} from '../slice/taskSlice/irrigationTaskSlice';
+import {
   getPestControlTasksSuccess,
   onLoadingPestControlTaskFail,
   onLoadingPestControlTaskStart,
@@ -214,6 +219,10 @@ const taskTypeActionMap = {
     success: (tasks) => put(getFieldWorkTasksSuccess(tasks)),
     fail: onLoadingFieldWorkTaskFail,
   },
+  IRRIGATION_TASK: {
+    success: (tasks) => put(getIrrigationTasksSuccess(tasks)),
+    fail: onLoadingIrrigationTaskFail,
+  },
   PEST_CONTROL_TASK: {
     success: (tasks) => put(getPestControlTasksSuccess(tasks)),
     fail: onLoadingPestControlTaskFail,
@@ -248,6 +257,7 @@ export function* onLoadingTaskStartSaga() {
   yield put(onLoadingHarvestTaskStart());
   yield put(onLoadingPlantTaskStart());
   yield put(onLoadingTransplantTaskStart());
+  yield put(onLoadingIrrigationTaskStart());
 }
 
 export function* getTasksSuccessSaga({ payload: tasks }) {

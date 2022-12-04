@@ -47,6 +47,7 @@ import { BiPencil } from 'react-icons/bi';
 import TaskQuickAssignModal from '../../Modals/QuickAssignModal';
 import { getDateInputFormat } from '../../../util/moment';
 import UpdateTaskDateModal from '../../Modals/UpdateTaskDateModal';
+import PureIrrigationTask from '../PureIrrigationTask';
 
 export default function PureTaskReadOnly({
   onGoBack,
@@ -427,4 +428,5 @@ const taskComponents = {
   PLANT_TASK: (props) => <PurePlantingTask disabled isPlantTask={true} {...props} />,
   TRANSPLANT_TASK: (props) => <PurePlantingTask disabled isPlantTask={false} {...props} />,
   HARVEST_TASK: (props) => <PureHarvestingTaskReadOnly {...props} />,
+  IRRIGATION_TASK: (props) => <PureIrrigationTask {...props} />,
 };

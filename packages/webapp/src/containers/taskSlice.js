@@ -20,6 +20,7 @@ import { taskTypeEntitiesSelector } from './taskTypeSlice';
 import { plantTaskEntitiesSelector } from './slice/taskSlice/plantTaskSlice';
 import { transplantTaskEntitiesSelector } from './slice/taskSlice/transplantTaskSlice';
 import { plantingManagementPlanEntitiesSelector } from './plantingManagementPlanSlice';
+import { irrigationTaskEntitiesSelector } from './slice/taskSlice/irrigationTaskSlice';
 
 export const getTask = (obj) => {
   const task = pick(obj, [
@@ -133,6 +134,7 @@ export const taskEntitiesSelector = createSelector(
     locationEntitiesSelector,
     cleaningTaskEntitiesSelector,
     fieldWorkTaskEntitiesSelector,
+    irrigationTaskEntitiesSelector,
     harvestTaskEntitiesSelector,
     pestControlTaskEntitiesSelector,
     soilAmendmentTaskEntitiesSelector,
@@ -149,6 +151,7 @@ export const taskEntitiesSelector = createSelector(
     locationEntities,
     cleaningTaskEntities,
     fieldWorkTaskEntities,
+    irrigationTaskEntities,
     harvestTaskEntities,
     pestControlTaskEntities,
     soilAmendmentTaskEntities,
@@ -156,9 +159,12 @@ export const taskEntitiesSelector = createSelector(
     transplantTaskEntities,
     plantingManagementPlanEntities,
   ) => {
+    console.log(irrigationTaskEntities);
+    console.log(harvestTaskEntities);
     const subTaskEntities = {
       ...cleaningTaskEntities,
       ...fieldWorkTaskEntities,
+      ...irrigationTaskEntities,
       ...harvestTaskEntities,
       ...pestControlTaskEntities,
       ...soilAmendmentTaskEntities,
@@ -190,9 +196,11 @@ export const taskEntitiesSelector = createSelector(
           taskEntities[task_id].locations?.map((location_id) => locationEntities[location_id]) ||
           [];
         const taskType = taskTypeEntities[taskEntities[task_id].task_type_id];
+        console.log(taskType);
         taskEntities[task_id].taskType = taskType;
         const { task_translation_key, farm_id } = taskType;
         const subtask = subTaskEntities[task_id];
+        console.log(subtask);
         !farm_id && (taskEntities[task_id][task_translation_key.toLowerCase()] = subtask);
         if (!farm_id && ['PLANT_TASK', 'TRANSPLANT_TASK'].includes(task_translation_key)) {
           taskEntities[task_id].locations = subtask.planting_management_plan.location_id

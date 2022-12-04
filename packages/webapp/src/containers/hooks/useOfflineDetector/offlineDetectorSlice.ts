@@ -15,5 +15,3 @@ const hookFormPersistSlice = createSlice({
 });
 export const { updateOfflineStatus } = hookFormPersistSlice.actions;
 export default hookFormPersistSlice.reducer;
-const isOfflineSelector = (state: any) =>
-  state?.tempStateReducer[hookFormPersistSlice.name].isOffline as boolean;

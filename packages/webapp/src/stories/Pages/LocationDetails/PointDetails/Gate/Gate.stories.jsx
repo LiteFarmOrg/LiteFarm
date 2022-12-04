@@ -14,9 +14,9 @@ const Template = (args) => <Gate {...args} />;
 export const Post = Template.bind({});
 Post.args = {
   isCreateLocationPage: true,
-  useHookFormPersist: () => ({
-    persistedData: { point: {}, type: 'type' },
-  }),
+  match: { params: { location_id: 1 } },
+
+  persistedFormData: { name: 'location', point: {}, type: 'type' },
 };
 Post.parameters = {
   ...chromaticSmallScreen,
@@ -29,9 +29,8 @@ View.args = {
   submitForm: (data) => {},
   system: 'metric',
   isAdmin: true,
-  useHookFormPersist: () => ({
-    persistedData: { grid_points: {}, total_area: 1, perimeter: 2 },
-  }),
+
+  persistedFormData: { name: 'location', grid_points: {}, total_area: 1, perimeter: 2 },
 };
 View.parameters = {
   ...chromaticSmallScreen,
@@ -39,13 +38,13 @@ View.parameters = {
 
 export const Edit = Template.bind({});
 Edit.args = {
+  match: { params: {} },
   isEditLocationPage: true,
   submitForm: (data) => {},
   system: 'metric',
   isAdmin: true,
-  useHookFormPersist: () => ({
-    persistedData: { grid_points: {}, total_area: 1, perimeter: 2 },
-  }),
+
+  persistedFormData: { name: 'location', grid_points: {}, total_area: 1, perimeter: 2 },
 };
 Edit.parameters = {
   ...chromaticSmallScreen,

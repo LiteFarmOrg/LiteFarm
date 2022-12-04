@@ -44,7 +44,9 @@ export default function PureCropTile({
         className={styles.img}
         onError={(e) => {
           e.target.onerror = null;
-          e.target.src = 'crop-images/default.jpg';
+          import('../../assets/images/offlineImages/default.jpg').then(
+            (defaultImage) => (e.target.src = defaultImage.default),
+          );
         }}
       />
 

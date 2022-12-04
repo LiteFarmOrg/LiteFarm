@@ -12,9 +12,9 @@ const Template = (args) => <PureTaskDate {...args} />;
 
 export const TaskDate = Template.bind({});
 TaskDate.args = {
-  onCancel: () => { },
-  onGoBack: () => { },
-  onContinue: () => { },
-  useHookFormPersist: () => { },
+  onCancel: () => {},
+  onGoBack: () => {},
+  onContinue: () => {},
+  useHookFormPersist: () => ({ historyCancel: () => {} }),
   persistedFormData: {},
 };

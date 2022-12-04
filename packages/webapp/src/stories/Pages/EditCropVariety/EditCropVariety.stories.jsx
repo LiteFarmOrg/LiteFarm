@@ -15,7 +15,7 @@ const Template = (args) => <EditCropVariety {...args} />;
 
 export const Primary = Template.bind({});
 Primary.args = {
-  crop: {
+  cropVariety: {
     crop_common_name: 'Apricot',
     crop_genus: 'Prunus',
     crop_group: 'Fruit and nuts',
@@ -38,7 +38,7 @@ Primary.parameters = {
 
 export const SeekingCert = Template.bind({});
 SeekingCert.args = {
-  crop: {
+  cropVariety: {
     crop_common_name: 'Apricot',
     crop_genus: 'Prunus',
     crop_group: 'Fruit and nuts',

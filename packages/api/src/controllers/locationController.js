@@ -11,7 +11,7 @@ const LocationController = {
           figure.[area, line, point], 
           gate, water_valve, field, garden, buffer_zone, watercourse, fence, 
           ceremonial_area, residence, surface_water, natural_area,
-          greenhouse, barn, farm_site_boundary, sensor
+          greenhouse, barn, farm_site_boundary, sensor location_defaults
         ]`);
       return res.status(200).send(locations);
     };

@@ -105,7 +105,6 @@ export default function PureIrrigationTask({
   const NOTES = 'notes';
   const disabled = !isValid;
   const { historyCancel } = useHookFormPersist(getValues);
-
   const onDismissWaterUseCalculatorModel = () => setShowWaterUseCalculatorModal(false);
   const handleModalSubmit = () => {
     setValue(ESTIMATED_WATER_USAGE, totalWaterUsage);

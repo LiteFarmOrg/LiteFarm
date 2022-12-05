@@ -24,5 +24,14 @@ class LocationDefaultsModel extends Model {
       additionalProperties: false,
     };
   }
+  static async createOrUpdateLocationDefaults({ location_defaults }) {
+    for (const location_default of location_defaults) {
+      await LocationDefaultsModel.transaction(async (trx) => {
+        await LocationDefaultsModel.query(trx)
+          .context({ location_id: location_default.location_id })
+          .upsertGraph({ ...location_default }, { insertMissing: true });
+      });
+    }
+  }
 }
 export default LocationDefaultsModel;

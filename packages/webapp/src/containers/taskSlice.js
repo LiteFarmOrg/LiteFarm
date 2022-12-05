@@ -159,8 +159,6 @@ export const taskEntitiesSelector = createSelector(
     transplantTaskEntities,
     plantingManagementPlanEntities,
   ) => {
-    console.log(irrigationTaskEntities);
-    console.log(harvestTaskEntities);
     const subTaskEntities = {
       ...cleaningTaskEntities,
       ...fieldWorkTaskEntities,
@@ -196,11 +194,9 @@ export const taskEntitiesSelector = createSelector(
           taskEntities[task_id].locations?.map((location_id) => locationEntities[location_id]) ||
           [];
         const taskType = taskTypeEntities[taskEntities[task_id].task_type_id];
-        console.log(taskType);
         taskEntities[task_id].taskType = taskType;
         const { task_translation_key, farm_id } = taskType;
         const subtask = subTaskEntities[task_id];
-        console.log(subtask);
         !farm_id && (taskEntities[task_id][task_translation_key.toLowerCase()] = subtask);
         if (!farm_id && ['PLANT_TASK', 'TRANSPLANT_TASK'].includes(task_translation_key)) {
           taskEntities[task_id].locations = subtask.planting_management_plan.location_id

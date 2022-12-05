@@ -2,7 +2,19 @@ import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
 import { onLoadingFail, onLoadingStart } from '../../userFarmSlice';
 import { pick } from '../../../util/pick';
 import { createSelector } from 'reselect';
-const irrigationTaskProperties = ['task_id', 'type'];
+const irrigationTaskProperties = [
+  'task_id',
+  'type',
+  'application_depth',
+  'application_depth_unit',
+  'default_measuring_type',
+  'estimated_duration',
+  'estimated_duration_unit',
+  'estimated_flow_rate',
+  'estimated_flow_rate_unit',
+  'estimated_water_usage',
+  'estimated_water_usage_unit',
+];
 const getIrrigationTask = (task) => {
   return pick(task, irrigationTaskProperties);
 };

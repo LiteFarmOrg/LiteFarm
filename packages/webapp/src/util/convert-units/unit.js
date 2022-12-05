@@ -159,7 +159,7 @@ export const location_area = {
   metric: {
     units: ['ha', 'm2'],
     defaultUnit: 'ha',
-    breakpoints: [1000],
+    breakpoints: [10000],
   },
   imperial: {
     units: ['ft2', 'ac'],

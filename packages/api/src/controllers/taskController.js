@@ -24,6 +24,8 @@ import HarvestUse from '../models/harvestUseModel.js';
 import NotificationUser from '../models/notificationUserModel.js';
 import User from '../models/userModel.js';
 import { typesOfTask } from './../middleware/validation/task.js';
+import locationDefaultsModel from '../models/locationDefaultsModel.js';
+import IrrigationTypesModel from '../models/irrigationTypesModel.js';
 import FieldWorkTypeModel from '../models/fieldWorkTypeModel.js';
 const adminRoles = [1, 2, 5];
 // const isDateInPast = (date) => {
@@ -254,9 +256,9 @@ const taskController = {
         // it will just ignore the insert on it. This is just a 2nd layer of protection
         // after the validation middleware.
         let data = req.body;
+        data = await this.checkCustomDependencies(typeOfTask, data, req.headers.farm_id);
         const { user_id } = req.user;
         data.owner_user_id = user_id;
-        data = await this.checkAndAddCustomType(typeOfTask, data, req.headers.farm_id);
         const result = await TaskModel.transaction(async (trx) => {
           const { task_id } = await TaskModel.query(trx)
             .context({ user_id: req.user.user_id })
@@ -295,11 +297,31 @@ const taskController = {
     };
   },
 
-  async checkAndAddCustomType(typeOfTask, data, farm_id) {
+  async checkCustomDependencies(typeOfTask, data, farm_id) {
+    const irrigationTypeValues = {
+      farm_id,
+      irrigation_type_name: data.irrigation_type?.irrigation_type_name,
+      default_measuring_type: data.irrigation_type?.default_measuring_type,
+    };
     switch (typeOfTask) {
       case 'field_work_task': {
         return await this.checkAndAddCustomFieldWork(data, farm_id);
       }
+      case 'irrigation_task':
+        if (data.irrigation_type?.irrigation_task_type_other) {
+          await IrrigationTypesModel.insertCustomIrrigationType({ ...irrigationTypeValues });
+        }
+        if (data.irrigation_type?.set_default_irrigation_task_type_measurement) {
+          await IrrigationTypesModel.updateIrrigationType(irrigationTypeValues);
+        }
+        if (data.location_defaults) {
+          await locationDefaultsModel.createOrUpdateLocationDefaults({
+            location_defaults: data.location_defaults,
+          });
+        }
+        delete data.irrigation_type;
+        delete data.location_defaults;
+        return data;
       default: {
         return data;
       }

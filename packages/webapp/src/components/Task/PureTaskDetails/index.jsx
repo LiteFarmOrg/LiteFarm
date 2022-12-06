@@ -32,6 +32,7 @@ export default function PureTaskDetails({
   const taskName = selectedTaskType.task_name;
   const isCustomType = !!selectedTaskType.farm_id;
   const isHarvest = isTaskType(selectedTaskType, 'HARVEST_TASK');
+  const isIrrigationTask = isTaskType(selectedTaskType, 'IRRIGATION_TASK');
 
   const defaults = {
     CLEANING_TASK: { cleaning_task: { agent_used: false } },
@@ -128,7 +129,10 @@ export default function PureTaskDetails({
           value={isHarvest ? 67 : 71}
         />
 
-        <Main style={{ marginBottom: isHarvest ? '16px' : '24px' }}>
+        <Main
+          style={{ marginBottom: isHarvest ? '16px' : '24px' }}
+          tooltipContent={isIrrigationTask ? t('ADD_TASK.IRRIGATION_VIEW.BRAND_TOOLTIP') : ''}
+        >
           {isHarvest
             ? t('ADD_TASK.HOW_MUCH_IS_HARVESTED')
             : t('ADD_TASK.TELL_US_ABOUT_YOUR_TASK_TYPE_ONE') +
@@ -154,7 +158,7 @@ export default function PureTaskDetails({
           })}
         {!isHarvest && (
           <InputAutoSize
-            style={{ paddingTop: '20px' }}
+            style={{ paddingTop: '40px' }}
             label={t('LOG_COMMON.NOTES')}
             optional={true}
             hookFormRegister={register(NOTES, {

@@ -600,6 +600,16 @@ const taskController = {
       return res.status(400).send({ error });
     }
   },
+  async getIrrigationTaskTypes(req, res) {
+    const { farm_id } = req.params;
+    try {
+      const irrigationTaskTypes = await IrrigationTypesModel.updateIrrigationType(farm_id);
+      console.log(irrigationTaskTypes);
+      res.status(200).json(irrigationTaskTypes);
+    } catch (error) {
+      return res.status(400).send(error);
+    }
+  },
 };
 
 //TODO: tests where location and management_plan inserts should fail

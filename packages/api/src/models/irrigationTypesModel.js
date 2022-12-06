@@ -45,5 +45,12 @@ class IrrigationTypesModel extends Model {
       })
       .returning('*');
   }
+  static async getAllIrrigationTaskTypesByFarmId(farm_id) {
+    const data = await IrrigationTypesModel.knex().raw(
+      `SELECT * FROM public.irrigation_type WHERE farm_id = ? OR farm_id IS NULL`,
+      [farm_id],
+    );
+    return data.rows;
+  }
 }
 export default IrrigationTypesModel;

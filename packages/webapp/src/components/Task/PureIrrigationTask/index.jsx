@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { Label, Underlined } from '../../Typography';
 import { useTranslation } from 'react-i18next';
 import { Controller } from 'react-hook-form';
@@ -12,6 +12,8 @@ import { waterUsage } from '../../../util/convert-units/unit';
 import PropTypes from 'prop-types';
 import WaterUsageCalculatorModal from '../../Modals/WaterUsageCalculatorModal';
 import { convert } from '../../../util/convert-units/convert';
+import { useDispatch, useSelector } from 'react-redux';
+import { irrigationTaskTypesSliceSelector } from '../../../containers/irrigationTaskTypesSlice';
 
 export default function PureIrrigationTask({
   system,
@@ -25,19 +27,16 @@ export default function PureIrrigationTask({
   farm,
   disabled = false,
 }) {
-  const [irrigationTypeValue, setIrrigationTypeValue] = useState();
+  const { t } = useTranslation();
   const [showWaterUseCalculatorModal, setShowWaterUseCalculatorModal] = useState(false);
   const [totalWaterUsage, setTotalWaterUsage] = useState();
-
-  const { t } = useTranslation();
-
   const { estimated_water_usage_unit, estimated_water_usage } = getValues();
 
   const stateController = () => {
     return { register, getValues, watch, control, setValue };
   };
 
-  const IrrigationTypeOptions = [
+  const options = [
     {
       label: t('ADD_TASK.IRRIGATION_VIEW.TYPE.HAND_WATERING'),
       value: 'HAND_WATERING',
@@ -79,13 +78,31 @@ export default function PureIrrigationTask({
       default_measuring_type: null,
     },
   ];
-  const IRRIGATION_TYPE = 'irrigation_task_type';
-  const DEFAULT_IRRIGATION_TASK_LOCATION = 'set_default_irrigation_task_type_location';
-  const DEFAULT_IRRIGATION_MEASUREMENT = 'set_default_irrigation_task_type_measurement';
-  const CREATE_IRRIGATION_TYPE = 'irrigation_task_type_other';
-  const MEASUREMENT_TYPE = 'measurement_type';
-  const ESTIMATED_WATER_USAGE = 'estimated_water_usage';
-  const ESTIMATED_WATER_USAGE_UNIT = 'estimated_water_usage_unit';
+  const IRRIGATION_TYPE = 'irrigation_task.type';
+  const irrigationTaskTypes = useSelector(irrigationTaskTypesSliceSelector);
+  console.log(irrigationTaskTypes);
+  const dispatch = useDispatch();
+  const [IrrigationTypeOptions, setIrrigationTypeOptions] = useState([]);
+  const [selectedIrrigationTypeValue, setSelectedIrrigationTypeValue] = useState();
+  const irrigationTypeValue = watch(IRRIGATION_TYPE);
+  const irrigationTaskTypeOption = useMemo(() => {
+    return irrigationTypeValue?.value
+      ? irrigationTypeValue
+      : {
+          label: t(`ADD_TASK.IRRIGATION_VIEW.TYPE.${irrigationTypeValue}`),
+          value: irrigationTypeValue,
+          default_measuring_value: '',
+        };
+  }, [irrigationTypeValue]);
+
+  const DEFAULT_IRRIGATION_TASK_LOCATION =
+    'irrigation_task.set_default_irrigation_task_type_location';
+  const DEFAULT_IRRIGATION_MEASUREMENT =
+    'irrigation_task.set_default_irrigation_task_type_measurement';
+  const IRRIGATION_TYPE_OTHER = 'irrigation_task.irrigation_task_type_other';
+  const MEASUREMENT_TYPE = 'irrigation_task.default_measuring_type';
+  const ESTIMATED_WATER_USAGE = 'irrigation_task.estimated_water_usage';
+  const ESTIMATED_WATER_USAGE_UNIT = 'irrigation_task.estimated_water_usage_unit';
 
   const onDismissWaterUseCalculatorModel = () => setShowWaterUseCalculatorModal(false);
   const handleModalSubmit = () => {
@@ -106,19 +123,21 @@ export default function PureIrrigationTask({
             options={IrrigationTypeOptions}
             onChange={(e) => {
               onChange(e);
-              setIrrigationTypeValue(e.value);
+              setSelectedIrrigationTypeValue(e.value);
               setValue(MEASUREMENT_TYPE, e.default_measuring_type);
             }}
+            disabled={disabled}
             value={value}
           />
         )}
       />
-      {(irrigationTypeValue === 'OTHER' ||
+      {(selectedIrrigationTypeValue === 'OTHER' ||
         getValues(IRRIGATION_TYPE)?.label === t('ADD_TASK.IRRIGATION_VIEW.TYPE.OTHER')) && (
         <Input
           style={{ marginTop: '6px' }}
+          disabled={disabled}
           label={t('ADD_TASK.IRRIGATION_VIEW.WHAT_TYPE_OF_IRRIGATION')}
-          hookFormRegister={register(CREATE_IRRIGATION_TYPE, {
+          hookFormRegister={register(IRRIGATION_TYPE_OTHER, {
             required: true,
             maxLength: {
               value: 100,
@@ -130,10 +149,11 @@ export default function PureIrrigationTask({
       <Checkbox
         label={t('ADD_TASK.IRRIGATION_VIEW.SET_AS_DEFAULT_TYPE_FOR_THIS_LOCATION')}
         sm
-        style={{ marginTop: '6px', marginBottom: '24px' }}
+        style={{ marginTop: '6px', marginBottom: '40px' }}
         hookFormRegister={register(DEFAULT_IRRIGATION_TASK_LOCATION)}
+        disabled={disabled}
       />
-      <Label className={styles.label} style={{ marginBottom: '4px', fontSize: '16px' }}>
+      <Label className={styles.label} style={{ marginBottom: '24px', fontSize: '16px' }}>
         {t('ADD_TASK.IRRIGATION_VIEW.HOW_DO_YOU_MEASURE_WATER_USE_FOR_THIS_IRRIGATION_TYPE')}
       </Label>
 
@@ -141,6 +161,7 @@ export default function PureIrrigationTask({
         required
         name={MEASUREMENT_TYPE}
         hookFormControl={control}
+        disabled={disabled}
         radios={[
           {
             value: 'VOLUME',
@@ -162,8 +183,8 @@ export default function PureIrrigationTask({
       <Checkbox
         label={t('ADD_TASK.IRRIGATION_VIEW.SET_AS_DEFAULT_MEASUREMENT_FOR_THIS_IRRIGATION_TYPE')}
         sm
-        style={{ marginBottom: '4px' }}
         hookFormRegister={register(DEFAULT_IRRIGATION_MEASUREMENT)}
+        disabled={disabled}
       />
 
       <Unit
@@ -178,7 +199,8 @@ export default function PureIrrigationTask({
         max={999999999}
         system={system}
         control={control}
-        style={{ marginTop: '15px' }}
+        style={{ marginTop: '40px' }}
+        disabled={disabled}
         onChangeUnitOption={(e) => {
           if (e.label === 'l' && estimated_water_usage_unit.label === 'ml')
             setValue(ESTIMATED_WATER_USAGE, convert(estimated_water_usage).from('ml').to('l'));
@@ -187,9 +209,9 @@ export default function PureIrrigationTask({
         }}
       />
 
-      <Label style={{ marginTop: '4px' }}>
+      <Label style={{ marginTop: '4px', paddingBottom: '40px' }}>
         {t('ADD_TASK.IRRIGATION_VIEW.NOT_SURE')}{' '}
-        <Underlined onClick={() => setShowWaterUseCalculatorModal(true)}>
+        <Underlined onClick={() => !disabled && setShowWaterUseCalculatorModal(true)}>
           {t('ADD_TASK.IRRIGATION_VIEW.CALCULATE_WATER_USAGE')}
         </Underlined>
       </Label>

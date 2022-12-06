@@ -1,19 +1,14 @@
 import React, { useState } from 'react';
-import { Label, Main, Underlined } from '../../Typography';
+import { Label, Underlined } from '../../Typography';
 import { useTranslation } from 'react-i18next';
-import Button from '../../Form/Button';
-import Form from '../../Form';
-import { Controller, useForm } from 'react-hook-form';
-import MultiStepPageTitle from '../../PageTitle/MultiStepPageTitle';
+import { Controller } from 'react-hook-form';
 import ReactSelect from '../../Form/ReactSelect';
 import Checkbox from '../../Form/Checkbox';
 import RadioGroup from '../../Form/RadioGroup';
 import styles from '../../Typography/typography.module.scss';
 import Input from '../../Form/Input';
-import InputAutoSize from '../../Form/InputAutoSize';
 import Unit, { getUnitOptionMap } from '../../Form/Unit';
 import { waterUsage } from '../../../util/convert-units/unit';
-import CancelFlowModal from '../../Modals/CancelFlowModal';
 import PropTypes from 'prop-types';
 import WaterUsageCalculatorModal from '../../Modals/WaterUsageCalculatorModal';
 import { convert } from '../../../util/convert-units/convert';
@@ -215,9 +210,5 @@ export default function PureIrrigationTask({
 }
 
 PureIrrigationTask.propTypes = {
-  handleGoBack: PropTypes.func,
-  handleContinue: PropTypes.func,
   system: PropTypes.string,
-  persistedFormData: PropTypes.object,
-  useHookFormPersist: PropTypes.func,
 };

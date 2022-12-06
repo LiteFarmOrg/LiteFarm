@@ -28,14 +28,11 @@ const defaultIrrigationTaskTypes = [
 ];
 export default function PureIrrigationTask({
   system,
-  products,
   register,
   control,
   setValue,
   getValues,
-  formState,
   watch,
-  farm,
   disabled = false,
 }) {
   const { t } = useTranslation();
@@ -50,7 +47,7 @@ export default function PureIrrigationTask({
     dispatch(getIrrigationTaskTypes());
   }, []);
 
-  const irrigationTaskTypeOptions = useMemo(() => {
+  const IrrigationTypeOptions = useMemo(() => {
     let options;
     options = irrigationTaskTypes.map((irrigationType) => {
       return {
@@ -88,6 +85,11 @@ export default function PureIrrigationTask({
     setValue(ESTIMATED_WATER_USAGE_UNIT, getUnitOptionMap()['l']);
     onDismissWaterUseCalculatorModel();
   };
+  const selectedIrrigationTypeOption = useMemo(() => {
+    return IrrigationTypeOptions.filter(
+      (options) => options.value === getValues(IRRIGATION_TYPE),
+    )[0];
+  }, [getValues(IRRIGATION_TYPE), IrrigationTypeOptions]);
 
   return (
     <>
@@ -98,14 +100,15 @@ export default function PureIrrigationTask({
         render={({ field: { onChange, value } }) => (
           <ReactSelect
             label={t('ADD_TASK.IRRIGATION_VIEW.TYPE_OF_IRRIGATION')}
-            options={irrigationTaskTypeOptions}
+            options={IrrigationTypeOptions}
             onChange={(e) => {
               onChange(e);
               setIrrigationTypeValue(e.value);
               setValue(MEASUREMENT_TYPE, e.default_measuring_type);
             }}
-            disabled={disabled}
-            value={value}
+            isDisabled={disabled}
+            value={!value ? value : value?.value ? value : selectedIrrigationTypeOption}
+            defaultValue={IrrigationTypeOptions[2]}
           />
         )}
       />
@@ -210,5 +213,6 @@ export default function PureIrrigationTask({
 }
 
 PureIrrigationTask.propTypes = {
-  system: PropTypes.string,
+  system: PropTypes.oneOf(['imperial', 'metric']).isRequired,
+  disabled: PropTypes.bool,
 };

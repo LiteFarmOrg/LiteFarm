@@ -16,6 +16,16 @@ import { useDispatch, useSelector } from 'react-redux';
 import { irrigationTaskTypesSliceSelector } from '../../../containers/irrigationTaskTypesSlice';
 import { getIrrigationTaskTypes } from '../../../containers/Task/IrrigationTaskTypes/saga';
 
+const defaultIrrigationTaskTypes = [
+  'HAND_WATERING',
+  'CHANNEL',
+  'DRIP',
+  'FLOOD',
+  'PIVOT',
+  'SPRINKLER',
+  'SUB_SURFACE',
+  'OTHER',
+];
 export default function PureIrrigationTask({
   system,
   products,
@@ -30,27 +40,16 @@ export default function PureIrrigationTask({
 }) {
   const { t } = useTranslation();
   const [showWaterUseCalculatorModal, setShowWaterUseCalculatorModal] = useState(false);
+  const [irrigationTypeValue, setIrrigationTypeValue] = useState();
   const [totalWaterUsage, setTotalWaterUsage] = useState();
   const { estimated_water_usage_unit, estimated_water_usage } = getValues();
-
-  const stateController = () => {
-    return { register, getValues, watch, control, setValue };
-  };
-
-  const defaultIrrigationTaskTypes = [
-    'HAND_WATERING',
-    'CHANNEL',
-    'DRIP',
-    'FLOOD',
-    'PIVOT',
-    'SPRINKLER',
-    'SUB_SURFACE',
-    'OTHER',
-  ];
-  const IRRIGATION_TYPE = 'irrigation_task.type';
   const { irrigationTaskTypes = [] } = useSelector(irrigationTaskTypesSliceSelector);
 
-  const [selectedIrrigationTypeValue, setSelectedIrrigationTypeValue] = useState();
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getIrrigationTaskTypes());
+  }, []);
+
   const irrigationTaskTypeOptions = useMemo(() => {
     let options;
     options = irrigationTaskTypes.map((irrigationType) => {
@@ -70,11 +69,10 @@ export default function PureIrrigationTask({
     return options;
   }, [irrigationTaskTypes]);
 
-  const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(getIrrigationTaskTypes());
-  }, []);
-
+  const stateController = () => {
+    return { register, getValues, watch, control, setValue };
+  };
+  const IRRIGATION_TYPE = 'irrigation_task.type';
   const DEFAULT_IRRIGATION_TASK_LOCATION =
     'irrigation_task.set_default_irrigation_task_type_location';
   const DEFAULT_IRRIGATION_MEASUREMENT =
@@ -103,7 +101,7 @@ export default function PureIrrigationTask({
             options={irrigationTaskTypeOptions}
             onChange={(e) => {
               onChange(e);
-              setSelectedIrrigationTypeValue(e.value);
+              setIrrigationTypeValue(e.value);
               setValue(MEASUREMENT_TYPE, e.default_measuring_type);
             }}
             disabled={disabled}
@@ -111,7 +109,7 @@ export default function PureIrrigationTask({
           />
         )}
       />
-      {(selectedIrrigationTypeValue === 'OTHER' ||
+      {(irrigationTypeValue === 'OTHER' ||
         getValues(IRRIGATION_TYPE)?.label === t('ADD_TASK.IRRIGATION_VIEW.TYPE.OTHER')) && (
         <Input
           style={{ marginTop: '6px' }}

@@ -75,6 +75,16 @@ class PartnerReadingTypeModel extends BaseModel {
   static async getReadingTypeByReadableValue(readableValue) {
     return PartnerReadingTypeModel.query().where('readable_value', readableValue).first();
   }
+
+  static async getPartnerReadingTypeByPartnerId(partner_id) {
+    return Model.knex().raw(
+      `
+        SELECT readable_value FROM public.partner_reading_type
+        WHERE partner_id=?
+      `,
+      [partner_id],
+    );
+  }
 }
 
 export default PartnerReadingTypeModel;

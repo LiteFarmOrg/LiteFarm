@@ -371,30 +371,31 @@ const getIrrigationTaskBody = (data, endpoint, managementPlanWithCurrentLocation
       ? data.irrigation_task_type.value
       : data.irrigation_task_type_other;
 
+  const locationDefaults = {
+    estimated_flow_rate: data.estimated_flow_rate,
+    estimated_flow_rate_unit: data.estimated_flow_rate_unit?.value,
+    application_depth: data.application_depth,
+    application_depth_unit: data.application_depth_unit?.value,
+  };
   return produce(
     getPostTaskBody(data, 'irrigation_task', managementPlanWithCurrentLocationEntities),
     (data) => {
-      const locationDefaults = {
-        estimated_flow_rate: data.estimated_flow_rate,
-        estimated_flow_rate_unit: data.estimated_flow_rate_unit,
-        application_depth: data.application_depth,
-        application_depth_unit: data.application_depth_unit,
-      };
       data.irrigation_task = {
         type: irrigation_task_type,
         location_id: data.locations[0]?.location_id,
         estimated_water_usage: data.estimated_water_usage,
-        estimated_water_usage_unit: data.estimated_water_usage_unit,
+        estimated_water_usage_unit: data.estimated_water_usage_unit?.value,
         estimated_duration: data.estimated_irrigation_duration,
-        estimated_duration_unit: data.estimated_irrigation_duration_unit,
+        estimated_duration_unit: data.estimated_irrigation_duration_unit?.value,
         default_measuring_type: data.measurement_type,
         ...locationDefaults,
       };
       data.irrigation_type = {
         irrigation_type_name: irrigation_task_type,
-        default_measuring_type: data.set_default_irrigation_task_type_measurement
-          ? data.measurement_type
-          : undefined,
+        default_measuring_type: data.measurement_type,
+        irrigation_task_type_other: data.irrigation_task_type_other === irrigation_task_type,
+        set_default_irrigation_task_type_measurement:
+          data.set_default_irrigation_task_type_measurement,
       };
       data.location_defaults = data.locations.map((location) => ({
         location_id: location.location_id,
@@ -405,7 +406,7 @@ const getIrrigationTaskBody = (data, endpoint, managementPlanWithCurrentLocation
           ? pick(locationDefaults, ['application_depth', 'application_depth_unit'])
           : null),
         ...(data.default_location_flow_rate
-          ? pick(locationDefaults, ['flow_rate', 'flow_rate_unit'])
+          ? pick(locationDefaults, ['estimated_flow_rate', 'estimated_flow_rate_unit'])
           : null),
       }));
 
@@ -431,8 +432,6 @@ const getIrrigationTaskBody = (data, endpoint, managementPlanWithCurrentLocation
           'estimated_irrigation_duration',
           'estimated_irrigation_duration_unit',
           'irrigation_task_type_other',
-          'irrigation_type',
-          'location_defaults',
         ].includes(element) && delete data[element];
       }
     },
@@ -468,7 +467,7 @@ const getPostTaskReqBody = (
 export const createTask = createAction('createTaskSaga');
 
 export function* createTaskSaga({ payload }) {
-  const { returnPath, ...data } = payload;
+  let { returnPath, ...data } = payload;
 
   const { taskUrl } = apiConfig;
   let { user_id, farm_id } = yield select(loginSelector);
@@ -488,6 +487,7 @@ export function* createTaskSaga({ payload }) {
     const managementPlanWithCurrentLocationEntities = yield select(
       managementPlanWithCurrentLocationEntitiesSelector,
     );
+    data = getCompleteCustomTaskTypeBody(data, task_translation_key);
     const result = yield call(
       axios.post,
       `${taskUrl}/${endpoint}`,
@@ -512,6 +512,44 @@ export function* createTaskSaga({ payload }) {
     yield put(enqueueErrorSnackbar(i18n.t('message:TASK.CREATE.FAILED')));
   }
 }
+
+const getCompleteCustomTaskTypeBody = (data, task_translation_key) => {
+  switch (task_translation_key) {
+    case 'FIELD_WORK_TASK': {
+      return getCompleteFieldWorkTaskBody(data, task_translation_key);
+    }
+    default: {
+      return data;
+    }
+  }
+};
+
+const getCompleteFieldWorkTaskBody = (data, task_translation_key) => {
+  let reqBody = { ...data };
+  let field_work_name =
+    reqBody?.field_work_task?.field_work_task_type?.field_work_name?.trim() || '';
+  let value = reqBody?.field_work_task?.field_work_task_type?.value || '';
+  let field_work_type_id = reqBody?.field_work_task?.field_work_task_type?.field_work_type_id || -1;
+  let farm_id = reqBody?.field_work_task?.field_work_task_type?.farm_id || null;
+
+  if (value === 'OTHER' && !farm_id) {
+    reqBody.field_work_task = {
+      field_work_task_type: {
+        field_work_name,
+        field_work_type_translation_key: field_work_name
+          ?.trim()
+          ?.toLocaleUpperCase()
+          ?.replaceAll(' ', '_'),
+      },
+    };
+  } else {
+    reqBody.field_work_task = {
+      field_work_type_id,
+    };
+    delete reqBody.field_work_task.fieldWorkTask;
+  }
+  return reqBody;
+};
 
 //TODO: change req shape to {...task, harvestUses}
 const getCompleteHarvestTaskBody = (data) => {

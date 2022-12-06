@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { makeStyles } from '@material-ui/core/styles';
 import { colors } from '../../../assets/theme';
 import CompactPreview from './CompactPreview';
-import { TEMPERATURE } from '../../../containers/SensorReadings/constants';
+import { TEMPERATURE, SOIL_WATER_POTENTIAL } from '../../../containers/SensorReadings/constants';
 import { getTemperatureUnit, getTemperatureValue } from './utils';
 import { userFarmSelector } from '../../../containers/userFarmSlice';
 import { useSelector } from 'react-redux';
@@ -62,6 +62,7 @@ export default function PurePreviewPopup({ location, history, sensorReadings, st
   };
 
   let temperatureData = [];
+  let soilWaterPotentialData = [];
   let sixHoursBefore = new Date();
   sixHoursBefore.setHours(sixHoursBefore.getHours() - 6);
 
@@ -72,15 +73,22 @@ export default function PurePreviewPopup({ location, history, sensorReadings, st
         sensorReading.location_id === location.id &&
         new Date(sensorReading.read_time) > sixHoursBefore,
     );
+    soilWaterPotentialData = sensorReadings.filter(
+      (sensorReading) =>
+        sensorReading.reading_type === SOIL_WATER_POTENTIAL &&
+        sensorReading.location_id === location.id &&
+        new Date(sensorReading.read_time) > sixHoursBefore,
+    );
   }
 
   const latestTemperatureData = temperatureData[0];
+  const latestSoilWaterPotentialData = soilWaterPotentialData[0];
 
   /**
    * Add other reading types in the "includes" clause when other compact components are developed.
    * This will allow the PreviewPopup component to only render if a sensor has reading data matching its reading type.
    */
-  if (reading_types.includes(TEMPERATURE)) {
+  if (reading_types.includes(TEMPERATURE) || reading_types.includes(SOIL_WATER_POTENTIAL)) {
     return (
       <div className={classes.container}>
         <div className={classes.tooltip} style={styleOverride}>
@@ -90,11 +98,23 @@ export default function PurePreviewPopup({ location, history, sensorReadings, st
               <CompactPreview
                 title={t('SENSOR.READINGS_PREVIEW.TEMPERATURE')}
                 value={
-                  temperatureData.length
-                    ? getTemperatureValue(latestTemperatureData.value, units.measurement)
+                  temperatureData?.length
+                    ? getTemperatureValue(latestTemperatureData?.value, units?.measurement)
                     : null
                 }
-                unit={temperatureData.length ? getTemperatureUnit(units.measurement) : null}
+                unit={temperatureData?.length ? getTemperatureUnit(units?.measurement) : null}
+                loadReadingView={loadReadingView}
+              />
+            )}
+            {reading_types.includes(SOIL_WATER_POTENTIAL) && (
+              <CompactPreview
+                title={t('SENSOR.READINGS_PREVIEW.SOIL_WATER_POTENTIAL')}
+                value={
+                  soilWaterPotentialData?.length
+                    ? -latestSoilWaterPotentialData?.value?.toFixed(2)
+                    : null
+                }
+                unit={soilWaterPotentialData?.length ? latestSoilWaterPotentialData?.unit : null}
                 loadReadingView={loadReadingView}
               />
             )}

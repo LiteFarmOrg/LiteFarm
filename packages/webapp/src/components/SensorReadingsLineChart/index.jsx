@@ -17,8 +17,11 @@ import { Label, Semibold } from '../Typography';
 import PropTypes from 'prop-types';
 import PredictedRect from './PredictedRect';
 import { getLanguageFromLocalStorage } from '../../util/getLanguageFromLocalStorage';
+import { SensorReadingChartSpotlightProvider } from './SensorReadingChartSpotlightProvider';
 
 const PureSensorReadingsLineChart = ({
+  showSpotLight,
+  resetSpotlight,
   title,
   subTitle,
   xAxisDataKey,
@@ -67,7 +70,7 @@ const PureSensorReadingsLineChart = ({
 
   const renderCusomizedLegend = ({ payload }) => {
     return (
-      <div className={styles.legendWrapper}>
+      <div id="legend" className={styles.legendWrapper}>
         {payload.map((entry, idx) => {
           const { value = '', color = '', isActive = true } = entry;
           const style = {
@@ -82,6 +85,7 @@ const PureSensorReadingsLineChart = ({
               onClick={() => handleLegendClick(entry)}
               className={styles.legendContainer}
             >
+              <SensorReadingChartSpotlightProvider open={showSpotLight} onFinish={resetSpotlight} />
               <Surface style={{ marginTop: '2px' }} width={10} height={10}>
                 <Symbols cx={5} cy={5} type="circle" size={50} fill={color} />
                 {!isActive && <Symbols cx={5} cy={5} type="circle" size={25} fill={'#FFF'} />}

@@ -95,6 +95,9 @@ import knex from './util/knex.js';
 // bind all models to a knex instance
 Model.knex(knex);
 
+// import logger
+import logger from './common/logger.js';
+
 // import routes
 import loginRoutes from './routes/loginRoute.js';
 
@@ -290,7 +293,7 @@ if (
 ) {
   app.listen(port, () => {
     // eslint-disable-next-line no-console
-    console.log('LiteFarm Backend listening on port ' + port);
+    logger.info('LiteFarm Backend listening on port ' + port);
   });
   // waterBalanceScheduler.registerHourlyJob();
   // waterBalanceScheduler.registerDailyJob();

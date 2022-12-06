@@ -16,6 +16,9 @@
 import * as dotenv from 'dotenv';
 import sendOnSchedule from './notifications/index.js';
 import processExports from './certification/index.js';
+
+import logger from '../common/logger.js';
+
 dotenv.config();
 const redisConf = {
   redis: {
@@ -24,6 +27,8 @@ const redisConf = {
     password: process.env.REDIS_PASSWORD,
   },
 };
+
+logger.info('starting job scheduler');
 
 processExports(redisConf);
 sendOnSchedule(redisConf);

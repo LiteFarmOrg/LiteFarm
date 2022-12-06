@@ -101,6 +101,7 @@
     "@types/react-dom": "^17.0.11",
     "@typescript-eslint/parser": "^5.11.0",
     "@vitejs/plugin-react": "^1.1.4",
+    "check-code-coverage": "^1.10.4",
     "chromatic": "^6.4.3",
     "cypress": "^10.1.0",
     "cypress-get-table": "^1.0.1",

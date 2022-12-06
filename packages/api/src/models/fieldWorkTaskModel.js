@@ -15,8 +15,10 @@
 
 import { Model } from 'objection';
 import taskModel from './taskModel.js';
+import BaseModel from './baseModel.js';
+import FieldWorkTypeModel from './fieldWorkTypeModel.js';
 
-class FieldWorkTaskModel extends Model {
+class FieldWorkTaskModel extends BaseModel {
   static get tableName() {
     return 'field_work_task';
   }
@@ -30,24 +32,10 @@ class FieldWorkTaskModel extends Model {
   static get jsonSchema() {
     return {
       type: 'object',
-
       properties: {
         task_id: { type: 'integer' },
-        type: {
-          type: 'string',
-          enum: [
-            'COVERING_SOIL',
-            'FENCING',
-            'PREPARING_BEDS_OR_ROWS',
-            'PRUNING',
-            'SHADE_CLOTH',
-            'TERMINATION',
-            'TILLAGE',
-            'WEEDING',
-            'OTHER',
-          ],
-        },
-        other_type: { type: ['string', null] },
+        field_work_type_id: { type: 'integer' },
+        ...this.baseProperties,
       },
       additionalProperties: false,
     };
@@ -65,6 +53,14 @@ class FieldWorkTaskModel extends Model {
         join: {
           from: 'field_work_task.task_id',
           to: 'task.task_id',
+        },
+      },
+      field_work_task_type: {
+        modelClass: FieldWorkTypeModel,
+        relation: Model.HasManyRelation,
+        join: {
+          from: 'field_work_task.field_work_type_id',
+          to: 'field_work_type.field_work_type_id',
         },
       },
     };

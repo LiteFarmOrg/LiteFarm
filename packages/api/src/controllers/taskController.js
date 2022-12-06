@@ -256,9 +256,9 @@ const taskController = {
         // it will just ignore the insert on it. This is just a 2nd layer of protection
         // after the validation middleware.
         let data = req.body;
-        data = await this.checkCustomDependencies(typeOfTask, data, req.headers.farm_id);
         const { user_id } = req.user;
         data.owner_user_id = user_id;
+        data = await this.checkCustomDependencies(typeOfTask, data, req.headers.farm_id);
         const result = await TaskModel.transaction(async (trx) => {
           const { task_id } = await TaskModel.query(trx)
             .context({ user_id: req.user.user_id })

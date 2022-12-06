@@ -1482,6 +1482,7 @@ export default {
       drop_point: false,
       adjust_area: false,
       adjust_line: false,
+      notification: true,
       navigation: true,
       introduce_map: true,
       crop_catalog: false,
@@ -1713,6 +1714,43 @@ export default {
       loading: false,
       loaded: false,
     },
+    alertReducer: {
+      ids: ['8350e6e6-7216-11ed-b431-2792462c3cd9'],
+      entities: {
+        '8350e6e6-7216-11ed-b431-2792462c3cd9': {
+          farm_id: '8350e6e6-7216-11ed-b431-2792462c3cd9',
+          loading: false,
+          error: null,
+          loaded: true,
+          count: 0,
+        },
+      },
+    },
+    bulkSensorsUploadReducer: {
+      loading: false,
+      isBulkUploadSuccessful: false,
+      validationErrors: [],
+      success: [],
+      errorSensors: [],
+      showTransitionModal: false,
+      defaultFailure: false,
+    },
+    bulkSensorsReadingsReducer: {
+      loading: false,
+      sensorsReadingsOfTemperature: [],
+      selectedSensorName: '',
+      latestMinTemperature: null,
+      latestMaxTemperature: null,
+      nearestStationName: '',
+      lastUpdatedReadingsTime: '',
+      predictedXAxisLabel: '',
+      xAxisLabel: '',
+      activeReadingTypes: [],
+    },
+    mapAddDrawerReducer: {
+      ids: [],
+      entities: {},
+    },
   },
   persistedStateReducer: {
     userLogReducer: {
@@ -1765,6 +1803,9 @@ export default {
     },
     navbarReducer: {
       introducingCertifications: false,
+    },
+    offlineDetectorReducer: {
+      isOffline: false,
     },
   },
   baseReducer: {},

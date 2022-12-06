@@ -17,6 +17,7 @@ Primary.args = {
   onError: () => console.log('onError called'),
   handleGoBack: () => console.log('handleGoBack called'),
   handleCancel: () => console.log('handleCancel called'),
+  useHookFormPersist: () => ({}),
 };
 Primary.parameters = {
   ...chromaticSmallScreen,

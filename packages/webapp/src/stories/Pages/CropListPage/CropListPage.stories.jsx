@@ -2140,4 +2140,5 @@ Primary.args = {
     params: { location_id: '3da7abb4-9d44-11eb-bbf7-1bc17302df43' },
   },
   history: { location: { pathname: '/field/3da7abb4-9d44-11eb-bbf7-1bc17302df43/crops' } },
+  title: 'crop',
 };

@@ -17,4 +17,9 @@ HarvestCompleteQuantity.args = {
   system: 'metric',
   useHookFormPersist: () => ({}),
   persistedFormData: {},
+  task: {
+    harvest_task: {
+      projected_quantity: 1,
+    },
+  },
 };

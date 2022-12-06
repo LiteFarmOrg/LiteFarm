@@ -1,6 +1,5 @@
 import { makeStyles } from '@material-ui/core/styles';
 import { useDispatch } from 'react-redux';
-import Compressor from 'compressorjs';
 import { useRef } from 'react';
 import { mergeRefs } from '../../components/Form/utils';
 import PropTypes from 'prop-types';
@@ -52,6 +51,7 @@ export default function ImagePickerWrapper({
       } else if (blob.size < 200000) {
         dispatch(uploadCropVarietyImage({ file: blob, onUploadSuccess }));
       } else {
+        const Compressor = await import('compressorjs').then((Compressor) => Compressor.default);
         new Compressor(blob, {
           quality: blob.size > 1000000 ? 0.6 : 0.8,
           convertSize: 200000,

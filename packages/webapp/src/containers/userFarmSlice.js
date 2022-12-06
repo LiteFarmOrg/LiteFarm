@@ -254,6 +254,11 @@ export const measurementSelector = createSelector(
   (userFarm) => userFarm.units.measurement,
 );
 
+export const currencySelector = createSelector(
+  userFarmSelector,
+  (userFarm) => userFarm.units.currency || 'USD',
+);
+
 const getUserFarmsByUser = (byFarmIdUserId, user_id) => {
   let userFarms = [];
   for (let by_user of Object.values(byFarmIdUserId)) {

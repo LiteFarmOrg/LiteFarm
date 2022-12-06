@@ -2,6 +2,7 @@ import React from 'react';
 import LineDetails from '../../../../components/LocationDetailLayout/LineDetails/LineDetails';
 import decorator from '../../config/Decorators';
 import { chromaticSmallScreen } from '../../config/chromatic';
+import { FormProvider, useForm } from 'react-hook-form';
 
 export default {
   title: 'Form/Location/Line/LineDetails',
@@ -9,7 +10,12 @@ export default {
   component: LineDetails,
 };
 
-const Template = (args) => <LineDetails {...args} />;
+const Template = (args) => (
+  <FormProvider {...useForm()}>
+    {' '}
+    <LineDetails {...args} />
+  </FormProvider>
+);
 
 export const Post = Template.bind({});
 Post.args = {
@@ -21,6 +27,7 @@ Post.args = {
   setValue: (data) => {},
   handleSubmit: (data) => {},
   history: (data) => {},
+  match: { params: { location_id: 1 } },
   onError: (data) => {},
   register: (data) => {},
   disabled: false,

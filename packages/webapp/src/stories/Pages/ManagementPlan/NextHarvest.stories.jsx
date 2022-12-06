@@ -15,4 +15,5 @@ Management.args = {
   useHookFormPersist: () => ({}),
   persistedFormData: { crop_management_plan: {} },
   system: 'metric',
+  crop_variety: { crop_variety_id: 1 },
 };

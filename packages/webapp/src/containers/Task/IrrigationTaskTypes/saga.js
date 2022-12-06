@@ -11,7 +11,6 @@ import apiConfig from '../../../apiConfig';
 
 export const getIrrigationTaskTypes = createAction(`getIrrigationTaskTypesSaga`);
 export function* getIrrigationTaskTypesSaga() {
-  console.log('test');
   const { farm_id, user_id } = yield select(userFarmSelector);
   const { taskUrl } = apiConfig;
   const header = getHeader(user_id, farm_id);

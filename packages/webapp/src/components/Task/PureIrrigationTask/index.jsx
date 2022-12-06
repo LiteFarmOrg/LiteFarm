@@ -37,67 +37,43 @@ export default function PureIrrigationTask({
     return { register, getValues, watch, control, setValue };
   };
 
-  const options = [
-    {
-      label: t('ADD_TASK.IRRIGATION_VIEW.TYPE.HAND_WATERING'),
-      value: 'HAND_WATERING',
-      default_measuring_type: 'VOLUME',
-    },
-    {
-      label: t('ADD_TASK.IRRIGATION_VIEW.TYPE.CHANNEL'),
-      value: 'CHANNEL',
-      default_measuring_type: 'VOLUME',
-    },
-    {
-      label: t('ADD_TASK.IRRIGATION_VIEW.TYPE.DRIP'),
-      value: 'DRIP',
-      default_measuring_type: 'VOLUME',
-    },
-    {
-      label: t('ADD_TASK.IRRIGATION_VIEW.TYPE.FLOOD'),
-      value: 'FLOOD',
-      default_measuring_type: 'VOLUME',
-    },
-    {
-      label: t('ADD_TASK.IRRIGATION_VIEW.TYPE.PIVOT'),
-      value: 'PIVOT',
-      default_measuring_type: 'DEPTH',
-    },
-    {
-      label: t('ADD_TASK.IRRIGATION_VIEW.TYPE.SPRINKLER'),
-      value: 'SPRINKLER',
-      default_measuring_type: 'DEPTH',
-    },
-    {
-      label: t('ADD_TASK.IRRIGATION_VIEW.TYPE.SUB_SURFACE'),
-      value: 'SUB_SURFACE',
-      default_measuring_type: 'VOLUME',
-    },
-    {
-      label: t('ADD_TASK.IRRIGATION_VIEW.TYPE.OTHER'),
-      value: 'OTHER',
-      default_measuring_type: null,
-    },
+  const defaultIrrigationTaskTypes = [
+    'HAND_WATERING',
+    'CHANNEL',
+    'DRIP',
+    'FLOOD',
+    'PIVOT',
+    'SPRINKLER',
+    'SUB_SURFACE',
+    'OTHER',
   ];
   const IRRIGATION_TYPE = 'irrigation_task.type';
   const { irrigationTaskTypes = [] } = useSelector(irrigationTaskTypesSliceSelector);
+
+  const [selectedIrrigationTypeValue, setSelectedIrrigationTypeValue] = useState();
+  const irrigationTaskTypeOptions = useMemo(() => {
+    let options;
+    options = irrigationTaskTypes.map((irrigationType) => {
+      return {
+        value: irrigationType.value,
+        label: defaultIrrigationTaskTypes.includes(irrigationType.value)
+          ? t(`ADD_TASK.IRRIGATION_VIEW.TYPE.${irrigationType.value}`)
+          : t(irrigationType.value),
+        default_measuring_type: irrigationType.default_measuring_type,
+      };
+    });
+    options.push({
+      label: t('ADD_TASK.IRRIGATION_VIEW.TYPE.OTHER'),
+      value: 'OTHER',
+      default_measuring_type: null,
+    });
+    return options;
+  }, [irrigationTaskTypes]);
+
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(getIrrigationTaskTypes);
+    dispatch(getIrrigationTaskTypes());
   }, []);
-
-  const [IrrigationTypeOptions, setIrrigationTypeOptions] = useState([]);
-  const [selectedIrrigationTypeValue, setSelectedIrrigationTypeValue] = useState();
-  const irrigationTypeValue = watch(IRRIGATION_TYPE);
-  const irrigationTaskTypeOption = useMemo(() => {
-    return irrigationTypeValue?.value
-      ? irrigationTypeValue
-      : {
-          label: t(`ADD_TASK.IRRIGATION_VIEW.TYPE.${irrigationTypeValue}`),
-          value: irrigationTypeValue,
-          default_measuring_value: '',
-        };
-  }, [irrigationTypeValue]);
 
   const DEFAULT_IRRIGATION_TASK_LOCATION =
     'irrigation_task.set_default_irrigation_task_type_location';
@@ -124,7 +100,7 @@ export default function PureIrrigationTask({
         render={({ field: { onChange, value } }) => (
           <ReactSelect
             label={t('ADD_TASK.IRRIGATION_VIEW.TYPE_OF_IRRIGATION')}
-            options={IrrigationTypeOptions}
+            options={irrigationTaskTypeOptions}
             onChange={(e) => {
               onChange(e);
               setSelectedIrrigationTypeValue(e.value);

@@ -381,30 +381,31 @@ const getIrrigationTaskBody = (data, endpoint, managementPlanWithCurrentLocation
       ? data.irrigation_task_type.value
       : data.irrigation_task_type_other;
 
+  const locationDefaults = {
+    estimated_flow_rate: data.estimated_flow_rate,
+    estimated_flow_rate_unit: data.estimated_flow_rate_unit?.value,
+    application_depth: data.application_depth,
+    application_depth_unit: data.application_depth_unit?.value,
+  };
   return produce(
     getPostTaskBody(data, 'irrigation_task', managementPlanWithCurrentLocationEntities),
     (data) => {
-      const locationDefaults = {
-        estimated_flow_rate: data.estimated_flow_rate,
-        estimated_flow_rate_unit: data.estimated_flow_rate_unit,
-        application_depth: data.application_depth,
-        application_depth_unit: data.application_depth_unit,
-      };
       data.irrigation_task = {
         type: irrigation_task_type,
         location_id: data.locations[0]?.location_id,
         estimated_water_usage: data.estimated_water_usage,
-        estimated_water_usage_unit: data.estimated_water_usage_unit,
+        estimated_water_usage_unit: data.estimated_water_usage_unit?.value,
         estimated_duration: data.estimated_irrigation_duration,
-        estimated_duration_unit: data.estimated_irrigation_duration_unit,
+        estimated_duration_unit: data.estimated_irrigation_duration_unit?.value,
         default_measuring_type: data.measurement_type,
         ...locationDefaults,
       };
       data.irrigation_type = {
         irrigation_type_name: irrigation_task_type,
-        default_measuring_type: data.set_default_irrigation_task_type_measurement
-          ? data.measurement_type
-          : undefined,
+        default_measuring_type: data.measurement_type,
+        irrigation_task_type_other: data.irrigation_task_type_other === irrigation_task_type,
+        set_default_irrigation_task_type_measurement:
+          data.set_default_irrigation_task_type_measurement,
       };
       data.location_defaults = data.locations.map((location) => ({
         location_id: location.location_id,
@@ -415,7 +416,7 @@ const getIrrigationTaskBody = (data, endpoint, managementPlanWithCurrentLocation
           ? pick(locationDefaults, ['application_depth', 'application_depth_unit'])
           : null),
         ...(data.default_location_flow_rate
-          ? pick(locationDefaults, ['flow_rate', 'flow_rate_unit'])
+          ? pick(locationDefaults, ['estimated_flow_rate', 'estimated_flow_rate_unit'])
           : null),
       }));
 
@@ -441,8 +442,6 @@ const getIrrigationTaskBody = (data, endpoint, managementPlanWithCurrentLocation
           'estimated_irrigation_duration',
           'estimated_irrigation_duration_unit',
           'irrigation_task_type_other',
-          'irrigation_type',
-          'location_defaults',
         ].includes(element) && delete data[element];
       }
     },

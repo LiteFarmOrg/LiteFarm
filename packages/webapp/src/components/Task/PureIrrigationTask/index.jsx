@@ -245,7 +245,7 @@ export default function PureIrrigationTask({
         hookFormRegister={register(NOTES, {
           maxLength: { value: 10000, message: t('ADD_TASK.TASK_NOTES_CHAR_LIMIT') },
         })}
-        style={{ paddingTop: '40px' }}
+        style={{ paddingTop: '36px' }}
         name={NOTES}
         errors={errors[NOTES]?.message}
       />

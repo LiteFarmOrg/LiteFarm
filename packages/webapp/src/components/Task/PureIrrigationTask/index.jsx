@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { Label, Underlined } from '../../Typography';
 import { useTranslation } from 'react-i18next';
 import { Controller } from 'react-hook-form';
@@ -14,6 +14,7 @@ import WaterUsageCalculatorModal from '../../Modals/WaterUsageCalculatorModal';
 import { convert } from '../../../util/convert-units/convert';
 import { useDispatch, useSelector } from 'react-redux';
 import { irrigationTaskTypesSliceSelector } from '../../../containers/irrigationTaskTypesSlice';
+import { getIrrigationTaskTypes } from '../../../containers/Task/IrrigationTaskTypes/saga';
 
 export default function PureIrrigationTask({
   system,
@@ -79,9 +80,12 @@ export default function PureIrrigationTask({
     },
   ];
   const IRRIGATION_TYPE = 'irrigation_task.type';
-  const irrigationTaskTypes = useSelector(irrigationTaskTypesSliceSelector);
-  console.log(irrigationTaskTypes);
+  const { irrigationTaskTypes = [] } = useSelector(irrigationTaskTypesSliceSelector);
   const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getIrrigationTaskTypes);
+  }, []);
+
   const [IrrigationTypeOptions, setIrrigationTypeOptions] = useState([]);
   const [selectedIrrigationTypeValue, setSelectedIrrigationTypeValue] = useState();
   const irrigationTypeValue = watch(IRRIGATION_TYPE);

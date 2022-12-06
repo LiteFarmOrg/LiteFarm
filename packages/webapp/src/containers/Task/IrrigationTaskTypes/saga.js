@@ -1,6 +1,6 @@
 import { createAction } from '@reduxjs/toolkit';
 import { userFarmSelector } from '../../userFarmSlice';
-import { call, put, select, takeLeading } from 'redux-saga/effects';
+import { call, put, select, takeLeading, takeLatest } from 'redux-saga/effects';
 import {
   irrigationTaskTypesFailure,
   irrigationTaskTypesLoading,
@@ -11,14 +11,13 @@ import apiConfig from '../../../apiConfig';
 
 export const getIrrigationTaskTypes = createAction(`getIrrigationTaskTypesSaga`);
 export function* getIrrigationTaskTypesSaga() {
+  console.log('test');
   const { farm_id, user_id } = yield select(userFarmSelector);
   const { taskUrl } = apiConfig;
-  console.log('test');
+  const header = getHeader(user_id, farm_id);
   try {
     yield put(irrigationTaskTypesLoading());
-    const header = getHeader(user_id, farm_id);
     const result = yield call(axios.get, `${taskUrl}/irrigation_task_types/${farm_id}`, header);
-    console.log(result);
     yield put(irrigationTaskTypesSuccess({ irrigationTaskTypes: result.data }));
   } catch (e) {
     yield put(irrigationTaskTypesFailure());
@@ -27,5 +26,5 @@ export function* getIrrigationTaskTypesSaga() {
 }
 
 export default function* irrigationTaskTypeSaga() {
-  yield takeLeading(getIrrigationTaskTypes.type, getIrrigationTaskTypesSaga);
+  yield takeLatest(getIrrigationTaskTypes.type, getIrrigationTaskTypesSaga);
 }

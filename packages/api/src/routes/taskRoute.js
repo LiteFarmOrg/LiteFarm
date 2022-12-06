@@ -257,7 +257,7 @@ router.get(
 );
 
 router.get(
-  '/irrigation_task_type/:farm_id',
+  '/irrigation_task_types/:farm_id',
   hasFarmAccess({ params: 'farm_id' }),
   taskController.getIrrigationTaskTypes,
 );

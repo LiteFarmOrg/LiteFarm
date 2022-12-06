@@ -108,7 +108,6 @@ export default function PureIrrigationTask({
             }}
             isDisabled={disabled}
             value={!value ? value : value?.value ? value : selectedIrrigationTypeOption}
-            defaultValue={IrrigationTypeOptions[2]}
           />
         )}
       />

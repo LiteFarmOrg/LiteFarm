@@ -11,6 +11,7 @@ import {
   irrigation_depth,
   location_area,
   percentage_location,
+  roundToTwoDecimal,
   water_valve_flow_rate,
 } from '../../../util/convert-units/unit';
 import Checkbox from '../../Form/Checkbox';
@@ -165,11 +166,10 @@ const WaterUseDepthCalculator = ({ system, setTotalWaterUsage, totalWaterUsage, 
   }, [location]);
 
   useEffect(() => {
-    if (locationSize && percentage_location_irrigated) {
-      const irrigatedArea =
-        locationSize * (percentage_location_irrigated ? percentage_location_irrigated / 100 : 1);
-      setValue(IRRIGATED_AREA, irrigatedArea);
-    }
+    const irrigatedArea = roundToTwoDecimal(
+      locationSize * (percentage_location_irrigated ? percentage_location_irrigated / 100 : 1),
+    );
+    setValue(IRRIGATED_AREA, irrigatedArea);
   }, [locationSize, percentage_location_irrigated]);
 
   useEffect(() => {
@@ -177,11 +177,11 @@ const WaterUseDepthCalculator = ({ system, setTotalWaterUsage, totalWaterUsage, 
       setTotalWaterUsage(() => {
         const Irrigated_area_in_m_squared =
           getValues(IRRIGATED_AREA_UNIT).value === 'm2'
-            ? irrigated_area
-            : convert(irrigated_area).from('ha').to('m2');
+            ? roundToTwoDecimal(irrigated_area)
+            : roundToTwoDecimal(convert(irrigated_area).from('ha').to('m2'));
         const Volume_in_m_cubed =
           Irrigated_area_in_m_squared * (application_depth ? application_depth / 1000 : 1);
-        return Volume_in_m_cubed * 1000;
+        return roundToTwoDecimal(Volume_in_m_cubed * 1000);
       });
     }
   }, [irrigated_area, application_depth]);

@@ -244,7 +244,6 @@ const WaterUseDepthCalculator = ({ system, setTotalWaterUsage, totalWaterUsage, 
           hookFormGetValue={getValues}
           hookFromWatch={watch}
           control={control}
-          required
           value={locationSize}
           disabled
         />
@@ -261,7 +260,6 @@ const WaterUseDepthCalculator = ({ system, setTotalWaterUsage, totalWaterUsage, 
           hookFormGetValue={getValues}
           hookFromWatch={watch}
           control={control}
-          required
           disabled={true}
         />
       </div>

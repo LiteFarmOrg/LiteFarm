@@ -14,6 +14,8 @@ const irrigationTaskProperties = [
   'estimated_flow_rate_unit',
   'estimated_water_usage',
   'estimated_water_usage_unit',
+  'default_location_flow_rate',
+  'default_location_application_depth',
   'set_default_irrigation_task_type_location',
   'set_default_irrigation_task_type_measurement',
 ];

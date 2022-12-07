@@ -104,16 +104,6 @@ class SensorReading extends Model {
       )
       .debug();
     return sensorReadings.rows;
-    // return await SensorReading.query()
-    //   .select('*')
-    //   .joinRaw('JOIN sensor ON sensor_reading.location_id = sensor.location_id')
-    //   .joinRaw('JOIN location ON location.location_id = sensor.location_id')
-    //   .whereIn('sensor.location_id', locationIds)
-    //   .andWhere('reading_type', '=', readingType)
-    //   .andWhere('valid', '=', true)
-    //   .andWhere('read_time', '>=', startDate)
-    //   .andWhere('read_time', '<', endDate)
-    //   .orderBy([{ column: 'sensor_reading.location_id' }, { column: 'sensor_reading.read_time' }]);
   }
 }
 

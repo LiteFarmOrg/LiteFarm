@@ -11,6 +11,7 @@ import {
   irrigation_depth,
   location_area,
   percentage_location,
+  roundToTwoDecimal,
   water_valve_flow_rate,
 } from '../../../util/convert-units/unit';
 import Checkbox from '../../Form/Checkbox';
@@ -139,9 +140,7 @@ const WaterUseVolumeCalculator = ({ system, setTotalWaterUsage, totalWaterUsage,
 const WaterUseDepthCalculator = ({ system, setTotalWaterUsage, totalWaterUsage, formState }) => {
   const { t } = useTranslation();
   const { register, getValues, watch, control, setValue } = formState();
-  const { irrigated_area, application_depth } = getValues();
-  const modalState = useForm({ mode: 'onChange', shouldUnregister: false });
-  const { percentage_location_irrigated } = modalState.getValues();
+  const { irrigated_area, application_depth, percentage_location_irrigated } = getValues();
   const [locationSize, setLocationSize] = useState();
 
   const location = useSelector(cropLocationsSelector).filter(
@@ -165,11 +164,10 @@ const WaterUseDepthCalculator = ({ system, setTotalWaterUsage, totalWaterUsage, 
   }, [location]);
 
   useEffect(() => {
-    if (locationSize && percentage_location_irrigated) {
-      const irrigatedArea =
-        locationSize * (percentage_location_irrigated ? percentage_location_irrigated / 100 : 1);
-      setValue(IRRIGATED_AREA, irrigatedArea);
-    }
+    const irrigatedArea = roundToTwoDecimal(
+      locationSize * (percentage_location_irrigated ? percentage_location_irrigated / 100 : 1),
+    );
+    setValue(IRRIGATED_AREA, irrigatedArea);
   }, [locationSize, percentage_location_irrigated]);
 
   useEffect(() => {
@@ -177,11 +175,11 @@ const WaterUseDepthCalculator = ({ system, setTotalWaterUsage, totalWaterUsage, 
       setTotalWaterUsage(() => {
         const Irrigated_area_in_m_squared =
           getValues(IRRIGATED_AREA_UNIT).value === 'm2'
-            ? irrigated_area
-            : convert(irrigated_area).from('ha').to('m2');
+            ? roundToTwoDecimal(irrigated_area)
+            : roundToTwoDecimal(convert(irrigated_area).from('ha').to('m2'));
         const Volume_in_m_cubed =
           Irrigated_area_in_m_squared * (application_depth ? application_depth / 1000 : 1);
-        return Volume_in_m_cubed * 1000;
+        return roundToTwoDecimal(Volume_in_m_cubed * 1000);
       });
     }
   }, [irrigated_area, application_depth]);
@@ -209,17 +207,17 @@ const WaterUseDepthCalculator = ({ system, setTotalWaterUsage, totalWaterUsage, 
         hookFormRegister={register(DEFAULT_LOCATION_APPLICATION_DEPTH)}
       />
       <Unit
-        register={modalState.register}
+        register={register}
         displayUnitName={PERCENTAGE_LOCATION_IRRIGATED_UNIT}
         label={t('ADD_TASK.IRRIGATION_VIEW.PERCENTAGE_LOCATION_TO_BE_IRRIGATED')}
-        hookFormSetValue={modalState.setValue}
-        hookFormGetValue={modalState.getValues}
-        hookFromWatch={modalState.watch}
+        hookFormSetValue={setValue}
+        hookFormGetValue={getValues}
+        hookFromWatch={watch}
         name={PERCENTAGE_LOCATION_IRRIGATED}
         unitType={percentage_location}
         max={100}
         system={system}
-        control={modalState.control}
+        control={control}
       />
 
       <div
@@ -244,7 +242,6 @@ const WaterUseDepthCalculator = ({ system, setTotalWaterUsage, totalWaterUsage, 
           hookFormGetValue={getValues}
           hookFromWatch={watch}
           control={control}
-          required
           value={locationSize}
           disabled
         />
@@ -261,7 +258,6 @@ const WaterUseDepthCalculator = ({ system, setTotalWaterUsage, totalWaterUsage, 
           hookFormGetValue={getValues}
           hookFromWatch={watch}
           control={control}
-          required
           disabled={true}
         />
       </div>

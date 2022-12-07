@@ -98,11 +98,11 @@ export default function PurePreviewPopup({ location, history, sensorReadings, st
               <CompactPreview
                 title={t('SENSOR.READINGS_PREVIEW.TEMPERATURE')}
                 value={
-                  temperatureData.length
-                    ? getTemperatureValue(latestTemperatureData.value, units.measurement)
+                  temperatureData?.length
+                    ? getTemperatureValue(latestTemperatureData?.value, units?.measurement)
                     : null
                 }
-                unit={temperatureData.length ? getTemperatureUnit(units.measurement) : null}
+                unit={temperatureData?.length ? getTemperatureUnit(units?.measurement) : null}
                 loadReadingView={loadReadingView}
               />
             )}
@@ -110,9 +110,11 @@ export default function PurePreviewPopup({ location, history, sensorReadings, st
               <CompactPreview
                 title={t('SENSOR.READINGS_PREVIEW.SOIL_WATER_POTENTIAL')}
                 value={
-                  temperatureData.length ? -latestSoilWaterPotentialData.value.toFixed(2) : null
+                  soilWaterPotentialData?.length
+                    ? -latestSoilWaterPotentialData?.value?.toFixed(2)
+                    : null
                 }
-                unit={latestSoilWaterPotentialData.unit}
+                unit={soilWaterPotentialData?.length ? latestSoilWaterPotentialData?.unit : null}
                 loadReadingView={loadReadingView}
               />
             )}

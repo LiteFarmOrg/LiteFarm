@@ -55,7 +55,7 @@ export default function PurePreviewPopup({ location, history, sensorReadings, st
   const classes = useStyles();
   const { t } = useTranslation();
   const { units } = useSelector(userFarmSelector);
-  const { reading_types } = useSelector(sensorReadingTypesByLocationSelector(location.id));
+  const { reading_types = [] } = useSelector(sensorReadingTypesByLocationSelector(location.id));
 
   const loadReadingView = () => {
     history.push(`/${location.type}/${location.id}/readings`);
@@ -88,13 +88,13 @@ export default function PurePreviewPopup({ location, history, sensorReadings, st
    * Add other reading types in the "includes" clause when other compact components are developed.
    * This will allow the PreviewPopup component to only render if a sensor has reading data matching its reading type.
    */
-  if (reading_types.includes(TEMPERATURE) || reading_types.includes(SOIL_WATER_POTENTIAL)) {
+  if (reading_types?.includes(TEMPERATURE) || reading_types?.includes(SOIL_WATER_POTENTIAL)) {
     return (
       <div className={classes.container}>
         <div className={classes.tooltip} style={styleOverride}>
           <div className={classes.arrow} />
           <div className={classes.body}>
-            {reading_types.includes(TEMPERATURE) && (
+            {reading_types?.includes(TEMPERATURE) && (
               <CompactPreview
                 title={t('SENSOR.READINGS_PREVIEW.TEMPERATURE')}
                 value={
@@ -106,7 +106,7 @@ export default function PurePreviewPopup({ location, history, sensorReadings, st
                 loadReadingView={loadReadingView}
               />
             )}
-            {reading_types.includes(SOIL_WATER_POTENTIAL) && (
+            {reading_types?.includes(SOIL_WATER_POTENTIAL) && (
               <CompactPreview
                 title={t('SENSOR.READINGS_PREVIEW.SOIL_WATER_POTENTIAL')}
                 value={

@@ -88,9 +88,8 @@ class SensorReading extends Model {
     const durationType = '1 hour';
     const startDate = new Date(endDate);
     startDate.setDate(endDate.getDate() - 5);
-    const sensorReadings = await knex
-      .raw(
-        `
+    const sensorReadings = await knex.raw(
+      `
     SELECT
       nearest_read_time AS read_time, 
       read_time AS actual_read_time, 
@@ -100,9 +99,8 @@ class SensorReading extends Model {
       name 
     FROM get_nearest_sensor_readings(?,?,?,?,?,?) WHERE nearest_read_time - read_time < INTERVAL '2 hour';
   `,
-        [readingType, false, startDate, endDate, locationIds, durationType],
-      )
-      .debug();
+      [readingType, false, startDate, endDate, locationIds, durationType],
+    );
     return sensorReadings.rows;
   }
 }

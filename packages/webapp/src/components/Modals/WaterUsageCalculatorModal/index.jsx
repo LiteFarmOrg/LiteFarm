@@ -140,9 +140,7 @@ const WaterUseVolumeCalculator = ({ system, setTotalWaterUsage, totalWaterUsage,
 const WaterUseDepthCalculator = ({ system, setTotalWaterUsage, totalWaterUsage, formState }) => {
   const { t } = useTranslation();
   const { register, getValues, watch, control, setValue } = formState();
-  const { irrigated_area, application_depth } = getValues();
-  const modalState = useForm({ mode: 'onChange', shouldUnregister: false });
-  const { percentage_location_irrigated } = modalState.getValues();
+  const { irrigated_area, application_depth, percentage_location_irrigated } = getValues();
   const [locationSize, setLocationSize] = useState();
 
   const location = useSelector(cropLocationsSelector).filter(
@@ -209,17 +207,17 @@ const WaterUseDepthCalculator = ({ system, setTotalWaterUsage, totalWaterUsage, 
         hookFormRegister={register(DEFAULT_LOCATION_APPLICATION_DEPTH)}
       />
       <Unit
-        register={modalState.register}
+        register={register}
         displayUnitName={PERCENTAGE_LOCATION_IRRIGATED_UNIT}
         label={t('ADD_TASK.IRRIGATION_VIEW.PERCENTAGE_LOCATION_TO_BE_IRRIGATED')}
-        hookFormSetValue={modalState.setValue}
-        hookFormGetValue={modalState.getValues}
-        hookFromWatch={modalState.watch}
+        hookFormSetValue={setValue}
+        hookFormGetValue={getValues}
+        hookFromWatch={watch}
         name={PERCENTAGE_LOCATION_IRRIGATED}
         unitType={percentage_location}
         max={100}
         system={system}
-        control={modalState.control}
+        control={control}
       />
 
       <div

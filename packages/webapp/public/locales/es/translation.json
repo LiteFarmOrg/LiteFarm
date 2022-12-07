@@ -442,7 +442,7 @@
     "HINT": "Pista",
     "LABEL": "Contraseña",
     "ONE_NUMBER": "Al menos un numero",
-    "ONE_SPECIAL_CHARACTER": "Al menos un caracter especial",
+    "ONE_SPECIAL_CHARACTER": "Al menos un caracter especial (! @ # $ % ^ & *)",
     "ONE_UPPER_CASE": "Al menos una letra mayuscula",
     "TOO_SHORT": "Al menos 8 caracteres"
   },

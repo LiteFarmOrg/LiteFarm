@@ -443,7 +443,7 @@
     "HINT": "Indice",
     "LABEL": "Mot de passe",
     "ONE_NUMBER": "au moins un numéro",
-    "ONE_SPECIAL_CHARACTER": "au moins un caractère spécial",
+    "ONE_SPECIAL_CHARACTER": "au moins un caractère spécial (! @ # $ % ^ & *)",
     "ONE_UPPER_CASE": "au moins un caractère majuscule",
     "TOO_SHORT": "au moins 8 caractères"
   },

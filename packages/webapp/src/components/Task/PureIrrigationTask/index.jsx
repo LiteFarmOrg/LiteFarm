@@ -189,7 +189,7 @@ export default function PureIrrigationTask({
         }}
       />
 
-      <Label style={{ marginTop: '4px', paddingBottom: '40px' }}>
+      <Label style={{ marginTop: '4px', marginBottom: `${disabled ? 36 : 0}px` }}>
         {t('ADD_TASK.IRRIGATION_VIEW.NOT_SURE')}{' '}
         <Underlined onClick={() => !disabled && setShowWaterUseCalculatorModal(true)}>
           {t('ADD_TASK.IRRIGATION_VIEW.CALCULATE_WATER_USAGE')}

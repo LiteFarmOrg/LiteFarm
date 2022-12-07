@@ -158,7 +158,7 @@ export default function PureTaskDetails({
           })}
         {!isHarvest && (
           <InputAutoSize
-            style={{ paddingTop: '40px' }}
+            style={{ paddingTop: '36px' }}
             label={t('LOG_COMMON.NOTES')}
             optional={true}
             hookFormRegister={register(NOTES, {

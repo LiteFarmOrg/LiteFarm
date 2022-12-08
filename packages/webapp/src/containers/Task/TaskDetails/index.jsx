@@ -13,8 +13,6 @@ import {
   useWildManagementPlanTiles,
 } from '../TaskCrops/useManagementPlanTilesByLocationIds';
 import { useIsTaskType } from '../useIsTaskType';
-import { irrigationTaskTypesSliceSelector } from '../../irrigationTaskTypesSlice';
-import { getIrrigationTaskTypes } from '../IrrigationTaskTypes/saga';
 
 function TaskDetails({ history, match, location }) {
   const continuePath = '/add_task/task_assignment';
@@ -29,7 +27,6 @@ function TaskDetails({ history, match, location }) {
   const persistedFormData = useSelector(hookFormPersistSelector);
   const products = useSelector(productsSelector);
   const taskTypesBypassCrops = useSelector(taskTypeIdNoCropsSelector);
-  const { irrigationTaskTypes = [] } = useSelector(irrigationTaskTypesSliceSelector);
   const selectedTaskType = useSelector(taskTypeSelector(persistedFormData.task_type_id));
   const managementPlanIds = persistedFormData.managementPlans?.map(
     ({ management_plan_id }) => management_plan_id,
@@ -56,7 +53,6 @@ function TaskDetails({ history, match, location }) {
 
   useEffect(() => {
     dispatch(getProducts());
-    dispatch(getIrrigationTaskTypes());
   }, []);
 
   return (
@@ -69,7 +65,6 @@ function TaskDetails({ history, match, location }) {
         selectedTaskType={selectedTaskType}
         system={system}
         products={products}
-        irrigationTaskTypes={irrigationTaskTypes}
         farm={{ farm_id, country_id, interested }}
         managementPlanByLocations={managementPlanByLocations}
         wildManagementPlanTiles={showWildCrops && wildManagementPlanTiles}

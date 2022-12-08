@@ -35,7 +35,6 @@ class IrrigationTaskModel extends Model {
       properties: {
         task_id: { type: 'integer' },
         type: { type: 'string' },
-        irrigation_type_id: { type: 'number' },
         estimated_duration: { type: 'number' },
         estimated_duration_unit: { type: 'string' },
         estimated_flow_rate: { type: 'number' },
@@ -46,10 +45,6 @@ class IrrigationTaskModel extends Model {
         application_depth: { type: 'number' },
         application_depth_unit: { type: 'string' },
         default_measuring_type: { type: 'string' },
-        irrigated_area: { type: 'number' },
-        irrigated_area_unit: { type: 'string' },
-        location_size_unit: { type: 'string' },
-        percentage_location_irrigated: { type: 'number' },
         default_location_flow_rate: { type: 'boolean' },
         default_location_application_depth: { type: 'boolean' },
         default_irrigation_task_type_location: { type: 'boolean' },

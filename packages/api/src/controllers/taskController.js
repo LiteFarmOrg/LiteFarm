@@ -319,11 +319,6 @@ const taskController = {
             location_defaults: data.location_defaults,
           });
         }
-        // eslint-disable-next-line no-case-declarations
-        const irrigationType = await IrrigationTypesModel.query('irrigation_type_id')
-          .select()
-          .where('irrigation_type_name', data.irrigation_type.type);
-        data.irrigation_type.irrigation_type_id = irrigationType[0].irrigation_type_id;
         delete data.irrigation_type;
         delete data.location_defaults;
         return data;

@@ -114,10 +114,7 @@
     "WILD_CROP": "Wild crops",
     "IRRIGATION_VIEW": {
       "TELL_US_ABOUT_YOUR_IRRIGATION_TASK": "Tell us about your Irrigation Task",
-      "BRAND_TOOLTIP": {
-        "FIRST_PHRASE": "This task is for watering your location. If you want to install irrigation, create a",
-        "LAST_PHRASE": "instead."
-      },
+      "BRAND_TOOLTIP": "This task is for watering your location. If you want to install irrigation, create a field work task instead.",
       "TYPE_OF_IRRIGATION": "Type of Irrigation",
       "WHAT_TYPE_OF_IRRIGATION": "What type of irrigation?",
       "IRRIGATION_TYPE_CHAR_LIMIT": "Irrigation must be less than 100 characters",

@@ -11,20 +11,9 @@ import { useIsTaskType } from '../useIsTaskType';
 
 export default function ManagementPlanSelector({ history, match, location }) {
   const isTransplantTask = useIsTaskType('TRANSPLANT_TASK');
-  const isIrrigationTask = useIsTaskType('IRRIGATION_TASK');
   if (isTransplantTask)
     return (
       <TransplantManagementPlansSelector history={history} match={match} location={location} />
-    );
-  if (isIrrigationTask)
-    return (
-      <TaskCrops
-        onContinuePath="/add_task/irrigation_method"
-        goBackPath="/add_task/task_locations"
-        history={history}
-        match={match}
-        location={location}
-      />
     );
   return <TaskCrops history={history} match={match} location={location} />;
 }

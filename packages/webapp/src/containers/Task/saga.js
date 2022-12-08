@@ -28,6 +28,11 @@ import {
   onLoadingFieldWorkTaskStart,
 } from '../slice/taskSlice/fieldWorkTaskSlice';
 import {
+  getIrrigationTasksSuccess,
+  onLoadingIrrigationTaskFail,
+  onLoadingIrrigationTaskStart,
+} from '../slice/taskSlice/irrigationTaskSlice';
+import {
   getPestControlTasksSuccess,
   onLoadingPestControlTaskFail,
   onLoadingPestControlTaskStart,
@@ -214,6 +219,10 @@ const taskTypeActionMap = {
     success: (tasks) => put(getFieldWorkTasksSuccess(tasks)),
     fail: onLoadingFieldWorkTaskFail,
   },
+  IRRIGATION_TASK: {
+    success: (tasks) => put(getIrrigationTasksSuccess(tasks)),
+    fail: onLoadingIrrigationTaskFail,
+  },
   PEST_CONTROL_TASK: {
     success: (tasks) => put(getPestControlTasksSuccess(tasks)),
     fail: onLoadingPestControlTaskFail,
@@ -248,6 +257,7 @@ export function* onLoadingTaskStartSaga() {
   yield put(onLoadingHarvestTaskStart());
   yield put(onLoadingPlantTaskStart());
   yield put(onLoadingTransplantTaskStart());
+  yield put(onLoadingIrrigationTaskStart());
 }
 
 export function* getTasksSuccessSaga({ payload: tasks }) {
@@ -367,74 +377,47 @@ const getTransplantTaskBody = (data, endpoint, managementPlanWithCurrentLocation
 
 const getIrrigationTaskBody = (data, endpoint, managementPlanWithCurrentLocationEntities) => {
   const irrigation_task_type =
-    data.irrigation_task_type.value !== 'OTHER'
-      ? data.irrigation_task_type.value
-      : data.irrigation_task_type_other;
-
-  const locationDefaults = {
-    estimated_flow_rate: data.estimated_flow_rate,
-    estimated_flow_rate_unit: data.estimated_flow_rate_unit?.value,
-    application_depth: data.application_depth,
-    application_depth_unit: data.application_depth_unit?.value,
-  };
+    data.irrigation_task?.type.value === 'OTHER'
+      ? data.irrigation_task?.irrigation_task_type_other
+      : data.irrigation_task?.type.value;
   return produce(
     getPostTaskBody(data, 'irrigation_task', managementPlanWithCurrentLocationEntities),
     (data) => {
       data.irrigation_task = {
+        ...data.irrigation_task,
         type: irrigation_task_type,
         location_id: data.locations[0]?.location_id,
-        estimated_water_usage: data.estimated_water_usage,
-        estimated_water_usage_unit: data.estimated_water_usage_unit?.value,
-        estimated_duration: data.estimated_irrigation_duration,
-        estimated_duration_unit: data.estimated_irrigation_duration_unit?.value,
-        default_measuring_type: data.measurement_type,
-        ...locationDefaults,
       };
       data.irrigation_type = {
         irrigation_type_name: irrigation_task_type,
-        default_measuring_type: data.measurement_type,
-        irrigation_task_type_other: data.irrigation_task_type_other === irrigation_task_type,
-        set_default_irrigation_task_type_measurement:
-          data.set_default_irrigation_task_type_measurement,
+        default_measuring_type: data.irrigation_task.default_measuring_type,
+        irrigation_task_type_other:
+          data.irrigation_task.irrigation_task_type_other === irrigation_task_type,
+        default_irrigation_task_type_measurement:
+          data.irrigation_task.default_irrigation_task_type_measurement,
       };
       data.location_defaults = data.locations.map((location) => ({
         location_id: location.location_id,
-        irrigation_task_type: data.set_default_irrigation_task_type_location
+        irrigation_task_type: data.irrigation_task.default_irrigation_task_type_location
           ? irrigation_task_type
           : undefined,
-        ...(data.default_location_application_depth
-          ? pick(locationDefaults, ['application_depth', 'application_depth_unit'])
+        ...(data.irrigation_task.default_location_application_depth
+          ? pick(data.irrigation_task, ['application_depth', 'application_depth_unit'])
           : null),
-        ...(data.default_location_flow_rate
-          ? pick(locationDefaults, ['estimated_flow_rate', 'estimated_flow_rate_unit'])
+        ...(data.irrigation_task.default_location_flow_rate
+          ? pick(data.irrigation_task, ['estimated_flow_rate', 'estimated_flow_rate_unit'])
           : null),
       }));
 
-      for (const element in data) {
+      for (const element in data.irrigation_task) {
         [
-          'estimated_water_usage',
-          'estimated_water_usage_unit',
-          'irrigation_task_type',
-          'measurement_type',
-          'set_default_irrigation_task_type_location',
-          'set_default_irrigation_task_type_measurement',
-          'estimated_flow_rate',
-          'estimated_flow_rate_unit',
-          'estimated_irrigation_duration',
-          'estimated_irrigation_duration_unit',
-          'default_location_flow_rate',
-          'application_depth',
-          'application_depth_unit',
-          'default_location_application_depth',
+          'irrigation_task_type_other',
+          'percentage_location_irrigated_unit',
           'irrigated_area',
           'irrigated_area_unit',
           'location_size_unit',
-          'estimated_irrigation_duration',
-          'estimated_irrigation_duration_unit',
-          'irrigation_task_type_other',
           'percentage_location_irrigated',
-          'percentage_location_irrigated_unit',
-        ].includes(element) && delete data[element];
+        ].includes(element) && delete data.irrigation_task[element];
       }
     },
   );

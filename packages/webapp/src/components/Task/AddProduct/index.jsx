@@ -107,6 +107,7 @@ const AddProduct = ({
       <input name={NAME} style={{ display: 'none' }} {...register(NAME, { required: true })} />
       <input name={PRODUCT_ID} style={{ display: 'none' }} {...register(PRODUCT_ID)} />
       <Input
+        data-cy="cleanTask-productSupplier"
         name={SUPPLIER}
         label={t('ADD_PRODUCT.SUPPLIER_LABEL')}
         hookFormRegister={register(SUPPLIER, { required: interested })}
@@ -121,6 +122,7 @@ const AddProduct = ({
             {typesOfProduct[type].label} <Leaf style={{ display: 'inline-block' }} />
           </Main>
           <RadioGroup
+            data-cy="cleanTask-agentPermitted"
             hookFormControl={control}
             name={PERMITTED}
             required={true}

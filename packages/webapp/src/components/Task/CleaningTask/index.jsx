@@ -37,6 +37,7 @@ const PureCleaningTask = ({
   return (
     <>
       <Input
+        data-cy="cleanTask-whatInput"
         label={t('ADD_TASK.CLEANING_VIEW.WHAT_NEEDS_TO_BE')}
         name={CLEANING_TARGET}
         disabled={disabled}
@@ -47,6 +48,7 @@ const PureCleaningTask = ({
 
       <Main>{t('ADD_TASK.CLEANING_VIEW.WILL_CLEANER_BE_USED')}</Main>
       <RadioGroup
+        data-cy="cleanTask-willUseCleaner"
         style={{ marginBottom: '24px', marginTop: '18px' }}
         hookFormControl={control}
         name={AGENT_USED}
@@ -70,6 +72,7 @@ const PureCleaningTask = ({
         />
       )}
       <Unit
+        data-cy="cleanTask-waterUsage"
         register={register}
         style={{ marginBottom: '40px' }}
         label={t('ADD_TASK.CLEANING_VIEW.ESTIMATED_WATER')}

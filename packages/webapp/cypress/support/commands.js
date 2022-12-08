@@ -740,7 +740,7 @@ Cypress.Commands.add('addField', () => {
       field: {
         organic_status: 'Non-Organic',
         organic_history: {
-          effective_date: '2022-10-20',
+          effective_date: new Date(),
           organic_status: 'Non-Organic',
         },
       },

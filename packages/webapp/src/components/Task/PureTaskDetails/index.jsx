@@ -153,6 +153,7 @@ export default function PureTaskDetails({
           })}
         {!isHarvest && (
           <InputAutoSize
+            data-cy="task-notes"
             style={{ paddingTop: '20px' }}
             label={t('LOG_COMMON.NOTES')}
             optional={true}

@@ -76,7 +76,7 @@ describe.only('LiteFarm end to end test', () => {
     // });
 
     //Add farm page
-    cy.waitForReact();
+
     cy.addFarm(farmName, location);
     cy.newUserLogin(emailOwner);
     cy.get('[data-cy="enterPassword-password"]').type(password);
@@ -87,7 +87,7 @@ describe.only('LiteFarm end to end test', () => {
 
     //Consent page
     cy.wait(5 * 1000);
-    cy.waitForReact();
+
     cy.giveConsent();
     cy.wait(5000);
     //interested in organic

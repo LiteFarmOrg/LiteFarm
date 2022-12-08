@@ -214,9 +214,10 @@ Cypress.Commands.add('createAFieldWorkTask', () => {
     .click({ force: true });
   cy.contains('Select') // find react-select component
     .click({ force: true }); // click to open dropdown
-  cy.get('.css-1plh46m-MenuList2') // find all options
-    .eq(0)
+  cy.get('#react-select-2-input') // find all options
     .click(); // click on first option
+
+  cy.get('#react-select-2-option-3').eq(0).click();
 
   cy.get('[data-cy=addTask-detailsContinue]')
     .should('exist')
@@ -249,7 +250,9 @@ Cypress.Commands.add(
     const dueDate = getDateInputFormat(date);
 
     cy.get('[data-cy="crop-tile"]').eq(0).click();
-    cy.get('[data-cy="crop-name"]').contains('New Variety').click();
+    cy.intercept('GET', '**/crop_variety/farm/**').as('getVarieties');
+    cy.wait('@getVarieties');
+    cy.get('[data-cy="crop-name"]').eq(0).click();
 
     //Add a management plan for the new variety
     cy.get('[data-cy=crop-addPlan]')
@@ -638,7 +641,7 @@ Cypress.Commands.add('interestedInOrganic', () => {
   cy.get('[data-cy=interestedInOrganic-select]').should('exist');
   cy.get('[type="radio"]').first().check({ force: true });
   cy.get('[data-cy=interestedInOrganic-continue]').should('not.be.disabled').click();
-
+  cy.wait(5 * 1000);
   cy.contains('What type of certification').should('exist');
   cy.url().should('include', '/certification/selection');
   cy.get('[data-cy=certificationSelection-continue]').should('exist').and('be.disabled');
@@ -740,7 +743,7 @@ Cypress.Commands.add('addField', () => {
       field: {
         organic_status: 'Non-Organic',
         organic_history: {
-          effective_date: new Date(),
+          effective_date: '2022-10-20',
           organic_status: 'Non-Organic',
         },
       },

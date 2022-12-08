@@ -2,6 +2,8 @@ import { getDateInputFormat } from '../../src/util/moment';
 
 let userEmail;
 let userPassword;
+let Data;
+let fullName;
 
 before(() => {
   cy.getEmail().then((email) => {
@@ -15,6 +17,9 @@ before(() => {
 });
 
 before(() => {
+  cy.fixture('tasks').then((data) => {
+    Data = data;
+  });
   cy.visit('/');
   cy.get('[data-cy=email]', { timeout: 60 * 1000 }).should('exist');
   cy.get('[data-cy=continue]').should('exist');
@@ -26,7 +31,7 @@ before(() => {
   const usrname = emailOwner.indexOf('@');
   const emailWorker = emailOwner.slice(0, usrname) + '+1' + emailOwner.slice(usrname);
   const gender = 'Male';
-  const fullName = 'Test Farmer';
+  fullName = 'Test Farmer';
   const password = `${userPassword}+1@`;
   const farmName = 'UBC FARM';
   const location = '49.250833, -123.2410777';
@@ -156,14 +161,14 @@ describe.only('LiteFarm end to end tests for tasks flow', () => {
       .and('not.be.disabled')
       .click({ force: true });
 
-    cy.get('[data-cy=cleanTask-whatInput]').type('channels on the field');
+    cy.get('[data-cy=cleanTask-whatInput]').type(Data.cleanTask.What);
     cy.get('[data-cy=cleanTask-willUseCleaner]').first().check({ force: true });
-    cy.get('#react-select-3-input').type('Weed killer{enter}');
-    cy.get('[data-cy=cleanTask-productSupplier]').type('Self');
+    cy.get('#react-select-3-input').type(`${Data.cleanTask.Product}{enter}`);
+    cy.get('[data-cy=cleanTask-productSupplier]').type(Data.cleanTask.Supplier);
     cy.get('[data-cy=cleanTask-agentPermitted]').first().check({ force: true });
-    cy.get('[data-cy=soilAmendment-quantity]').type('30');
-    cy.get('[data-cy=cleanTask-waterUsage]').type('3000');
-    cy.get('[data-cy=task-notes]').type('this is a test');
+    cy.get('[data-cy=soilAmendment-quantity]').type(Data.cleanTask.Quantity);
+    cy.get('[data-cy=cleanTask-waterUsage]').type(Data.cleanTask.Water_Usage);
+    cy.get('[data-cy=task-notes]').type(Data.cleanTask.Notes);
     cy.get('[data-cy=addTask-detailsContinue]')
       .should('exist')
       .and('not.be.disabled')
@@ -173,5 +178,33 @@ describe.only('LiteFarm end to end tests for tasks flow', () => {
       .should('exist')
       .and('not.be.disabled')
       .click({ force: true });
+
+    cy.get('[data-cy="taskCard"]').eq(0).should('exist').click();
+
+    cy.get('[data-cy="task-assignee"]')
+      .invoke('val')
+      .should('equal', fullName, { matchCase: false });
+
+    cy.get('[data-cy="task-date"]').invoke('val').should('equal', dueDate, { matchCase: false });
+
+    cy.get('[type="radio"]').first().should('be.checked');
+
+    cy.get('[data-cy="cleanTask-whatInput"]')
+      .invoke('val')
+      .should('equal', Data.cleanTask.What, { matchCase: false });
+
+    cy.get('[data-cy="react-select"]').contains(Data.cleanTask.Product).should('exist');
+
+    cy.get('[data-cy="cleanTask-productSupplier"]')
+      .invoke('val')
+      .should('equal', Data.cleanTask.Supplier, { matchCase: false });
+
+    cy.get('[data-cy="soilAmendment-quantity"]')
+      .invoke('val')
+      .should('equal', Data.cleanTask.Quantity, { matchCase: false });
+
+    cy.get('[data-cy="cleanTask-waterUsage"]')
+      .invoke('val')
+      .should('equal', Data.cleanTask.Water_Usage, { matchCase: false });
   });
 });

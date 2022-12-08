@@ -164,6 +164,7 @@ export default function PureTaskReadOnly({
       />
       <div className={styles.editableContainer}>
         <Input
+          data-cy="task-assignee"
           label={t('ADD_TASK.ASSIGNEE')}
           disabled={true}
           value={assigneeName ? assigneeName : t('TASK.UNASSIGNED')}
@@ -178,7 +179,7 @@ export default function PureTaskReadOnly({
       </div>
 
       <div className={styles.editableContainer}>
-        <Input type={'date'} value={date} label={dateLabel} disabled />
+        <Input data-cy="task-date" type={'date'} value={date} label={dateLabel} disabled />
         {isCurrent && isAdmin && (
           <BiPencil className={styles.pencil} onClick={(_) => setShowDueDateModal(true)} />
         )}
@@ -382,6 +383,7 @@ export default function PureTaskReadOnly({
         })}
       {showTaskNotes && (
         <InputAutoSize
+          data-cy="task-notesReadOnly"
           style={{ marginBottom: '40px' }}
           label={t('common:NOTES')}
           value={task.notes}

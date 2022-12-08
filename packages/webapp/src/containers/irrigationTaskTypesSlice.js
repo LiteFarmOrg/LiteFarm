@@ -1,11 +1,14 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
 
+const irrigationTaskTypesAdapter = createEntityAdapter({
+  selectId: (irrigationTaskType) => irrigationTaskType.irrigation_type_id,
+});
 const IrrigationTaskTypesSlice = createSlice({
   name: 'irrigationTaskTypesReducer',
-  initialState: {
+  initialState: irrigationTaskTypesAdapter.getInitialState({
     loading: false,
     irrigationTaskTypes: [],
-  },
+  }),
   reducers: {
     resetIrrigationTaskTypes: (state) => {
       Object.assign(state, {

@@ -76,6 +76,7 @@ import App from './App';
 import { sagaMiddleware } from './store/sagaMiddleware';
 import { persistor, store } from './store/store';
 import { GlobalScss } from './components/GlobalScss';
+import irrigationTaskTypesSaga from './containers/Task/IrrigationTaskTypes/saga';
 
 if (import.meta.env.VITE_SENTRY_DSN) {
   Sentry.init({
@@ -138,6 +139,7 @@ sagaMiddleware.run(abandonAndCompleteManagementPlanSaga);
 sagaMiddleware.run(exportSaga);
 sagaMiddleware.run(errorHandlerSaga);
 sagaMiddleware.run(fieldWorkTaskSaga);
+sagaMiddleware.run(irrigationTaskTypesSaga);
 
 ReactDOM.render(
   <Provider store={store}>

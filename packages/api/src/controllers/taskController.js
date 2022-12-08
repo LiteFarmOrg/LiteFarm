@@ -311,7 +311,7 @@ const taskController = {
         if (data.irrigation_type?.irrigation_task_type_other) {
           await IrrigationTypesModel.insertCustomIrrigationType({ ...irrigationTypeValues });
         }
-        if (data.irrigation_type?.set_default_irrigation_task_type_measurement) {
+        if (data.irrigation_type?.default_irrigation_task_type_measurement) {
           await IrrigationTypesModel.updateIrrigationType(irrigationTypeValues);
         }
         if (data.location_defaults) {
@@ -558,7 +558,7 @@ const taskController = {
         .whereNotDeleted()
         .withGraphFetched(
           `[locations, managementPlans, soil_amendment_task, field_work_task.[field_work_task_type], cleaning_task, pest_control_task, 
-            harvest_task.[harvest_use], plant_task, transplant_task]
+            harvest_task.[harvest_use], plant_task, transplant_task, irrigation_task ]
         `,
         )
         .whereIn('task_id', taskIds);
@@ -598,6 +598,17 @@ const taskController = {
     } catch (error) {
       console.log(error);
       return res.status(400).send({ error });
+    }
+  },
+  async getIrrigationTaskTypes(req, res) {
+    const { farm_id } = req.params;
+    try {
+      const irrigationTaskTypes = await IrrigationTypesModel.getAllIrrigationTaskTypesByFarmId(
+        farm_id,
+      );
+      res.status(200).json(irrigationTaskTypes);
+    } catch (error) {
+      return res.status(400).send(error);
     }
   },
 };

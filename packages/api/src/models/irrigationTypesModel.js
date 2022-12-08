@@ -1,5 +1,6 @@
 import { Model } from 'objection';
 import knex from '../util/knex.js';
+
 class IrrigationTypesModel extends Model {
   static get tableName() {
     return 'irrigation_type';
@@ -44,6 +45,13 @@ class IrrigationTypesModel extends Model {
         farm_id: irrigationTypeValues.farm_id,
       })
       .returning('*');
+  }
+  static async getAllIrrigationTaskTypesByFarmId(farm_id) {
+    return IrrigationTypesModel.query()
+      .select('*')
+      .where((builder) => {
+        builder.whereNull('farm_id').orWhere({ farm_id });
+      });
   }
 }
 export default IrrigationTypesModel;

@@ -8,7 +8,7 @@ export const up = async function (knex) {
     table.boolean('default_location_flow_rate').defaultTo(false);
     table.boolean('default_location_application_depth').defaultTo(false);
     table.boolean('set_default_irrigation_task_type_location').defaultTo(false);
-    table.string('set_default_irrigation_task_type_measurement').defaultTo(false);
+    table.boolean('set_default_irrigation_task_type_measurement').defaultTo(false);
   });
 };
 

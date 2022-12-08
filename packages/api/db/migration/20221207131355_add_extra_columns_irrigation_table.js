@@ -7,8 +7,8 @@ export const up = async function (knex) {
     table.string('percentage_location_irrigated_unit');
     table.boolean('default_location_flow_rate').defaultTo(false);
     table.boolean('default_location_application_depth').defaultTo(false);
-    table.boolean('set_default_irrigation_task_type_location').defaultTo(false);
-    table.boolean('set_default_irrigation_task_type_measurement').defaultTo(false);
+    table.boolean('default_irrigation_task_type_location').defaultTo(false);
+    table.boolean('default_irrigation_task_type_measurement').defaultTo(false);
   });
 };
 
@@ -21,7 +21,7 @@ export const down = async function (knex) {
     table.dropColumn('percentage_location_irrigated_unit');
     table.dropColumn('default_location_flow_rate');
     table.dropColumn('default_location_application_depth');
-    table.dropColumn('set_default_irrigation_task_type_location');
-    table.dropColumn('set_default_irrigation_task_type_measurement');
+    table.dropColumn('default_irrigation_task_type_location');
+    table.dropColumn('default_irrigation_task_type_measurement');
   });
 };

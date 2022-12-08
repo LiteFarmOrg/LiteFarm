@@ -52,8 +52,8 @@ class IrrigationTaskModel extends Model {
         percentage_location_irrigated_unit: { type: 'string' },
         default_location_flow_rate: { type: 'boolean' },
         default_location_application_depth: { type: 'boolean' },
-        set_default_irrigation_task_type_location: { type: 'boolean' },
-        set_default_irrigation_task_type_measurement: { type: 'boolean' },
+        default_irrigation_task_type_location: { type: 'boolean' },
+        default_irrigation_task_type_measurement: { type: 'boolean' },
       },
       additionalProperties: false,
     };

@@ -311,7 +311,7 @@ const taskController = {
         if (data.irrigation_type?.irrigation_task_type_other) {
           await IrrigationTypesModel.insertCustomIrrigationType({ ...irrigationTypeValues });
         }
-        if (data.irrigation_type?.set_default_irrigation_task_type_measurement) {
+        if (data.irrigation_type?.default_irrigation_task_type_measurement) {
           await IrrigationTypesModel.updateIrrigationType(irrigationTypeValues);
         }
         if (data.location_defaults) {

@@ -393,12 +393,12 @@ const getIrrigationTaskBody = (data, endpoint, managementPlanWithCurrentLocation
         default_measuring_type: data.irrigation_task.default_measuring_type,
         irrigation_task_type_other:
           data.irrigation_task.irrigation_task_type_other === irrigation_task_type,
-        set_default_irrigation_task_type_measurement:
-          data.irrigation_task.set_default_irrigation_task_type_measurement,
+        default_irrigation_task_type_measurement:
+          data.irrigation_task.default_irrigation_task_type_measurement,
       };
       data.location_defaults = data.locations.map((location) => ({
         location_id: location.location_id,
-        irrigation_task_type: data.irrigation_task.set_default_irrigation_task_type_location
+        irrigation_task_type: data.irrigation_task.default_irrigation_task_type_location
           ? irrigation_task_type
           : undefined,
         ...(data.irrigation_task.default_location_application_depth

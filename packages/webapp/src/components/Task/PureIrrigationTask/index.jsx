@@ -42,10 +42,10 @@ export default function PureIrrigationTask({
     let options;
     options = irrigationTaskTypes.map((irrigationType) => {
       return {
-        value: irrigationType.value,
-        label: defaultIrrigationTaskTypes.includes(irrigationType.value)
-          ? t(`ADD_TASK.IRRIGATION_VIEW.TYPE.${irrigationType.value}`)
-          : t(irrigationType.value),
+        value: irrigationType.irrigation_type_name,
+        label: defaultIrrigationTaskTypes.includes(irrigationType.irrigation_type_name)
+          ? t(`ADD_TASK.IRRIGATION_VIEW.TYPE.${irrigationType.irrigation_type_name}`)
+          : t(irrigationType.irrigation_type_name),
         default_measuring_type: irrigationType.default_measuring_type,
       };
     });

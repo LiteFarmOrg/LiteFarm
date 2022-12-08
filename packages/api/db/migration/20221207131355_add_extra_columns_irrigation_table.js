@@ -1,8 +1,7 @@
 export const up = async function (knex) {
   await knex.schema.alterTable('irrigation_task', (table) => {
-    table.float('irrigation_type_id').references('irrigation_type_id').inTable('irrigation_type');
+    table.integer('irrigation_type_id').references('irrigation_type_id').inTable('irrigation_type');
     table.decimal('irrigated_area', 36, 12);
-    table.string('irrigated_area_unit');
     table.enu('irrigated_area_unit', ['m2', 'ha', 'ft2', 'ac']).defaultTo('m2');
     table.string('location_size_unit');
     table.float('percentage_location_irrigated');

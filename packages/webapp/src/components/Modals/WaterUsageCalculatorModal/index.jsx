@@ -7,7 +7,7 @@ import Button from '../../Form/Button';
 import PropTypes from 'prop-types';
 import Unit, { getUnitOptionMap } from '../../Form/Unit';
 import {
-  estimated_duration as estimated_time_duration,
+  irrigation_task_estimated_duration,
   irrigation_depth,
   location_area,
   percentage_location,
@@ -99,7 +99,7 @@ const WaterUseVolumeCalculator = ({ system, setTotalWaterUsage, totalWaterUsage,
         hookFormGetValue={getValues}
         hookFromWatch={watch}
         name={ESTIMATED_DURATION}
-        unitType={estimated_time_duration}
+        unitType={irrigation_task_estimated_duration}
         max={999999.99}
         system={system}
         control={control}

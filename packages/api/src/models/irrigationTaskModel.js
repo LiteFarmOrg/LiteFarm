@@ -35,6 +35,7 @@ class IrrigationTaskModel extends Model {
       properties: {
         task_id: { type: 'integer' },
         type: { type: 'string' },
+        irrigation_type_id: { type: 'number' },
         estimated_duration: { type: 'number' },
         estimated_duration_unit: { type: 'string' },
         estimated_flow_rate: { type: 'number' },

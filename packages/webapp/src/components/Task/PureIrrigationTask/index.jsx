@@ -103,7 +103,7 @@ export default function PureIrrigationTask({
         )}
       />
       {(irrigationTypeValue === 'OTHER' ||
-        getValues(IRRIGATION_TYPE)?.label === t('ADD_TASK.IRRIGATION_VIEW.TYPE.OTHER')) && (
+        irrigation_type?.label === t('ADD_TASK.IRRIGATION_VIEW.TYPE.OTHER')) && (
         <Input
           style={{ marginTop: '6px' }}
           disabled={disabled}

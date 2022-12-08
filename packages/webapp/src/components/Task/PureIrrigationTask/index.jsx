@@ -39,7 +39,6 @@ export default function PureIrrigationTask({
   const [showWaterUseCalculatorModal, setShowWaterUseCalculatorModal] = useState(false);
   const [irrigationTypeValue, setIrrigationTypeValue] = useState();
   const [totalWaterUsage, setTotalWaterUsage] = useState();
-  const { estimated_water_usage_unit, estimated_water_usage } = getValues();
   const { irrigationTaskTypes = [] } = useSelector(irrigationTaskTypesSliceSelector);
 
   const dispatch = useDispatch();
@@ -77,6 +76,10 @@ export default function PureIrrigationTask({
   const ESTIMATED_WATER_USAGE = 'irrigation_task.estimated_water_usage';
   const ESTIMATED_WATER_USAGE_UNIT = 'irrigation_task.estimated_water_usage_unit';
 
+  const estimated_water_usage = watch(ESTIMATED_WATER_USAGE);
+  const estimated_water_usage_unit = watch(ESTIMATED_WATER_USAGE_UNIT);
+  const irrigation_type = watch(IRRIGATION_TYPE);
+
   const onDismissWaterUseCalculatorModel = () => setShowWaterUseCalculatorModal(false);
   const handleModalSubmit = () => {
     setValue(ESTIMATED_WATER_USAGE, totalWaterUsage);
@@ -84,10 +87,8 @@ export default function PureIrrigationTask({
     onDismissWaterUseCalculatorModel();
   };
   const selectedIrrigationTypeOption = useMemo(() => {
-    return IrrigationTypeOptions.filter(
-      (options) => options.value === getValues(IRRIGATION_TYPE),
-    )[0];
-  }, [getValues(IRRIGATION_TYPE), IrrigationTypeOptions]);
+    return IrrigationTypeOptions.filter((options) => options.value === irrigation_type)[0];
+  }, [irrigation_type, IrrigationTypeOptions]);
 
   return (
     <>
@@ -180,10 +181,10 @@ export default function PureIrrigationTask({
         style={{ marginTop: '40px' }}
         disabled={disabled}
         onChangeUnitOption={(e) => {
-          if (e.label === 'l' && estimated_water_usage_unit.label === 'ml')
-            setValue(ESTIMATED_WATER_USAGE, convert(estimated_water_usage).from('ml').to('l'));
-          if (e.label === 'ml' && estimated_water_usage_unit.label === 'l')
-            setValue(ESTIMATED_WATER_USAGE, convert(estimated_water_usage).from('l').to('ml'));
+          setValue(
+            ESTIMATED_WATER_USAGE,
+            convert(estimated_water_usage).from(estimated_water_usage_unit.value).to(e.value),
+          );
         }}
       />
 

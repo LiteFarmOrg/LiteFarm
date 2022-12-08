@@ -410,7 +410,8 @@ const getIrrigationTaskBody = (data, endpoint, managementPlanWithCurrentLocation
       }));
 
       for (const element in data.irrigation_task) {
-        ['irrigation_task_type_other'].includes(element) && delete data.irrigation_task[element];
+        ['irrigation_task_type_other', 'percentage_location_irrigated_unit'].includes(element) &&
+          delete data.irrigation_task[element];
       }
     },
   );

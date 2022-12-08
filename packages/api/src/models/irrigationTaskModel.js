@@ -49,7 +49,6 @@ class IrrigationTaskModel extends Model {
         irrigated_area_unit: { type: 'string' },
         location_size_unit: { type: 'string' },
         percentage_location_irrigated: { type: 'number' },
-        percentage_location_irrigated_unit: { type: 'string' },
         default_location_flow_rate: { type: 'boolean' },
         default_location_application_depth: { type: 'boolean' },
         default_irrigation_task_type_location: { type: 'boolean' },

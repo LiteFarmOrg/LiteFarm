@@ -34,34 +34,33 @@ const TotalWaterUsage = ({ totalWaterUsage }) => {
 const WaterUseVolumeCalculator = ({ system, setTotalWaterUsage, totalWaterUsage, formState }) => {
   const { t } = useTranslation();
   const { register, getValues, watch, control, setValue } = formState();
-  const {
-    estimated_flow_rate,
-    estimated_flow_rate_unit,
-    estimated_duration,
-    estimated_duration_unit,
-  } = getValues().irrigation_task;
-
-  useEffect(() => {
-    if (estimated_flow_rate && estimated_duration) {
-      setTotalWaterUsage(() => {
-        if (estimated_flow_rate_unit.label === 'l/h' && estimated_duration_unit.label === 'h')
-          return estimated_flow_rate * estimated_duration;
-        if (estimated_flow_rate_unit.label === 'l/m' && estimated_duration_unit.label === 'min')
-          return estimated_flow_rate * estimated_duration;
-        if (estimated_flow_rate_unit.label === 'l/h' && estimated_duration_unit.label === 'min')
-          return (estimated_flow_rate * estimated_duration) / 60;
-        if (estimated_flow_rate_unit.label === 'l/m' && estimated_duration_unit.label === 'h')
-          return estimated_flow_rate * estimated_duration * 60;
-        return totalWaterUsage;
-      });
-    }
-  }, [estimated_duration, estimated_flow_rate]);
 
   const FLOW_RATE = 'irrigation_task.estimated_flow_rate';
   const FLOW_RATE_UNIT = 'irrigation_task.estimated_flow_rate_unit';
   const DEFAULT_LOCATION_FLOW_RATE = 'irrigation_task.default_location_flow_rate';
   const ESTIMATED_DURATION = 'irrigation_task.estimated_duration';
   const ESTIMATED_DURATION_UNIT = 'irrigation_task.estimated_duration_unit';
+
+  const estimated_flow_rate = watch(FLOW_RATE);
+  const estimated_flow_rate_unit = watch(FLOW_RATE_UNIT);
+  const estimated_duration = watch(ESTIMATED_DURATION);
+  const estimated_duration_unit = watch(ESTIMATED_DURATION_UNIT);
+
+  useEffect(() => {
+    if (estimated_flow_rate && estimated_duration) {
+      setTotalWaterUsage(() => {
+        if (estimated_flow_rate_unit.label === 'l/h' && estimated_duration_unit.label === 'h')
+          return roundToTwoDecimal(estimated_flow_rate * estimated_duration);
+        if (estimated_flow_rate_unit.label === 'l/m' && estimated_duration_unit.label === 'min')
+          return roundToTwoDecimal(estimated_flow_rate * estimated_duration);
+        if (estimated_flow_rate_unit.label === 'l/h' && estimated_duration_unit.label === 'min')
+          return roundToTwoDecimal(estimated_flow_rate * (estimated_duration / 60));
+        if (estimated_flow_rate_unit.label === 'l/m' && estimated_duration_unit.label === 'h')
+          return roundToTwoDecimal(estimated_flow_rate * (estimated_duration * 60));
+        return totalWaterUsage;
+      });
+    }
+  }, [estimated_duration, estimated_flow_rate]);
 
   return (
     <>
@@ -78,10 +77,10 @@ const WaterUseVolumeCalculator = ({ system, setTotalWaterUsage, totalWaterUsage,
         system={system}
         control={control}
         onChangeUnitOption={(e) => {
-          if (e.value === 'l/h' && estimated_flow_rate_unit?.value === 'l/min')
-            setValue(FLOW_RATE, convert(getValues(FLOW_RATE)).from('l/min').to('l/h'));
-          if (e.value === 'l/min' && estimated_flow_rate_unit?.value === 'l/h')
-            setValue(FLOW_RATE, convert(getValues(FLOW_RATE)).from('l/h').to('l/min'));
+          setValue(
+            FLOW_RATE,
+            convert(estimated_flow_rate).from(estimated_duration_unit.value).to(e.value),
+          );
         }}
       />
 
@@ -106,16 +105,10 @@ const WaterUseVolumeCalculator = ({ system, setTotalWaterUsage, totalWaterUsage,
         control={control}
         style={{ paddingBottom: '32px' }}
         onChangeUnitOption={(e) => {
-          if (e.label === 'h' && estimated_duration_unit?.label === 'min')
-            setValue(
-              ESTIMATED_DURATION,
-              convert(getValues(ESTIMATED_DURATION)).from('min').to('h'),
-            );
-          if (e.label === 'min' && estimated_duration_unit?.label === 'h')
-            setValue(
-              ESTIMATED_DURATION,
-              convert(getValues(ESTIMATED_DURATION)).from('h').to('min'),
-            );
+          setValue(
+            ESTIMATED_DURATION,
+            convert(estimated_duration).from(estimated_duration_unit.label).to(e.label),
+          );
         }}
       />
 
@@ -127,8 +120,6 @@ const WaterUseVolumeCalculator = ({ system, setTotalWaterUsage, totalWaterUsage,
 const WaterUseDepthCalculator = ({ system, setTotalWaterUsage, totalWaterUsage, formState }) => {
   const { t } = useTranslation();
   const { register, getValues, watch, control, setValue } = formState();
-  const { irrigated_area, application_depth, percentage_location_irrigated } =
-    getValues().irrigation_task;
   const [locationSize, setLocationSize] = useState();
 
   const location = useSelector(cropLocationsSelector).filter(
@@ -144,6 +135,10 @@ const WaterUseDepthCalculator = ({ system, setTotalWaterUsage, totalWaterUsage, 
   const LOCATION_SIZE_UNIT = 'irrigation_task.location_size_unit';
   const IRRIGATED_AREA = 'irrigation_task.irrigated_area';
   const IRRIGATED_AREA_UNIT = 'irrigation_task.irrigated_area_unit';
+
+  const irrigated_area = watch(IRRIGATED_AREA);
+  const application_depth = watch(APPLICATION_DEPTH);
+  const percentage_location_irrigated = watch(PERCENTAGE_LOCATION_IRRIGATED);
 
   useEffect(() => {
     setLocationSize(location.total_area);

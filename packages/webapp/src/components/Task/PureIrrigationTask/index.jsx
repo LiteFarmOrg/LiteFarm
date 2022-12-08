@@ -12,6 +12,9 @@ import { waterUsage } from '../../../util/convert-units/unit';
 import PropTypes from 'prop-types';
 import WaterUsageCalculatorModal from '../../Modals/WaterUsageCalculatorModal';
 import { convert } from '../../../util/convert-units/convert';
+import { getIrrigationTaskTypes } from '../../../containers/Task/IrrigationTaskTypes/saga';
+import { useDispatch, useSelector } from 'react-redux';
+import { irrigationTaskTypesSliceSelector } from '../../../containers/irrigationTaskTypesSlice';
 
 const defaultIrrigationTaskTypes = [
   'HAND_WATERING',
@@ -30,13 +33,14 @@ export default function PureIrrigationTask({
   setValue,
   getValues,
   watch,
-  irrigationTaskTypes,
   disabled = false,
 }) {
   const { t } = useTranslation();
   const [showWaterUseCalculatorModal, setShowWaterUseCalculatorModal] = useState(false);
+  const { irrigationTaskTypes = [] } = useSelector(irrigationTaskTypesSliceSelector);
   const [irrigationTypeValue, setIrrigationTypeValue] = useState();
   const [totalWaterUsage, setTotalWaterUsage] = useState();
+  const dispatch = useDispatch();
 
   const IrrigationTypeOptions = useMemo(() => {
     let options;
@@ -56,6 +60,10 @@ export default function PureIrrigationTask({
     });
     return options;
   }, [irrigationTaskTypes]);
+
+  useEffect(() => {
+    dispatch(getIrrigationTaskTypes());
+  }, []);
 
   const stateController = () => {
     return { register, getValues, watch, control, setValue };

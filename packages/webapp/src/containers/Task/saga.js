@@ -565,10 +565,41 @@ const getCompletePlantingTaskBody = (task_translation_key) => (data) => {
   }).taskData;
 };
 
+const getCompleteIrrigationTaskBody = (task_translation_key) => (data) => {
+  return produce(data, (data) => {
+    const taskType = task_translation_key.toLowerCase();
+    const irrigation_task = data.taskData[taskType];
+    if (irrigation_task) {
+      data.taskData[taskType].type = data.taskData[taskType]?.irrigation_task_type_other
+        ? data.taskData[taskType]?.irrigation_task_type_other
+        : data.taskData[taskType]?.type;
+      data.taskData.irrigation_type = {
+        irrigation_type_name: data.taskData[taskType]?.type,
+        default_measuring_type: data.taskData[taskType]?.default_measuring_type,
+        irrigation_task_type_other:
+          data.taskData[taskType]?.irrigation_task_type_other === data.taskData[taskType]?.type,
+        default_irrigation_task_type_measurement:
+          data.taskData[taskType]?.default_irrigation_task_type_measurement,
+      };
+      for (const element in data.taskData[taskType]) {
+        [
+          'irrigation_task_type_other',
+          'percentage_location_irrigated_unit',
+          'irrigated_area',
+          'irrigated_area_unit',
+          'location_size_unit',
+          'percentage_location_irrigated',
+        ].includes(element) && delete data.taskData[taskType][element];
+      }
+    }
+  }).taskData;
+};
+
 const taskTypeGetCompleteTaskBodyFunctionMap = {
   HARVEST_TASK: getCompleteHarvestTaskBody,
   TRANSPLANT_TASK: getCompletePlantingTaskBody('TRANSPLANT_TASK'),
   PLANT_TASK: getCompletePlantingTaskBody('PLANT_TASK'),
+  IRRIGATION_TASK: getCompleteIrrigationTaskBody('IRRIGATION_TASK'),
 };
 
 export const completeTask = createAction('completeTaskSaga');

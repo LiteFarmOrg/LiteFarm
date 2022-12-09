@@ -32,14 +32,17 @@ export default function PureIrrigationTask({
   control,
   setValue,
   getValues,
+  reset,
   watch,
   disabled = false,
+  otherTaskType = false,
 }) {
   const { t } = useTranslation();
   const [showWaterUseCalculatorModal, setShowWaterUseCalculatorModal] = useState(false);
   const { irrigationTaskTypes = [] } = useSelector(irrigationTaskTypesSliceSelector);
   const [irrigationTypeValue, setIrrigationTypeValue] = useState();
-  const [totalWaterUsage, setTotalWaterUsage] = useState();
+  const [totalVolumeWaterUsage, setTotalVolumeWaterUsage] = useState();
+  const [totalDepthWaterUsage, setTotalDepthWaterUSage] = useState();
   const dispatch = useDispatch();
 
   const IrrigationTypeOptions = useMemo(() => {
@@ -66,7 +69,7 @@ export default function PureIrrigationTask({
   }, []);
 
   const stateController = () => {
-    return { register, getValues, watch, control, setValue };
+    return { register, getValues, watch, control, setValue, reset };
   };
   const IRRIGATION_TYPE = 'irrigation_task.type';
   const DEFAULT_IRRIGATION_TASK_LOCATION = 'irrigation_task.default_irrigation_task_type_location';
@@ -79,13 +82,37 @@ export default function PureIrrigationTask({
   const estimated_water_usage = watch(ESTIMATED_WATER_USAGE);
   const estimated_water_usage_unit = watch(ESTIMATED_WATER_USAGE_UNIT);
   const irrigation_type = watch(IRRIGATION_TYPE);
+  const measurement_type = watch(MEASUREMENT_TYPE);
 
   const onDismissWaterUseCalculatorModel = () => setShowWaterUseCalculatorModal(false);
   const handleModalSubmit = () => {
-    setValue(ESTIMATED_WATER_USAGE, totalWaterUsage);
-    setValue(ESTIMATED_WATER_USAGE_UNIT, getUnitOptionMap()['l']);
+    setValue(
+      ESTIMATED_WATER_USAGE,
+      measurement_type === 'VOLUME' ? totalVolumeWaterUsage : totalDepthWaterUsage,
+    );
+    setValue(
+      ESTIMATED_WATER_USAGE_UNIT,
+      ['ml', 'l'].includes(estimated_water_usage_unit.value)
+        ? getUnitOptionMap()['l']
+        : getUnitOptionMap()['gal'],
+    );
     onDismissWaterUseCalculatorModel();
   };
+
+  useEffect(() => {
+    if (estimated_water_usage !== totalDepthWaterUsage && otherTaskType) {
+      reset({
+        ...getValues(),
+        irrigation_task: {
+          ...getValues().irrigation_task,
+          application_depth: '',
+          percentage_location_irrigated: '',
+        },
+      });
+      setTotalDepthWaterUSage('');
+    }
+  }, [showWaterUseCalculatorModal]);
+
   const selectedIrrigationTypeOption = useMemo(() => {
     return IrrigationTypeOptions.filter((options) => options.value === irrigation_type)[0];
   }, [irrigation_type, IrrigationTypeOptions]);
@@ -195,14 +222,16 @@ export default function PureIrrigationTask({
         </Underlined>
       </Label>
 
-      {showWaterUseCalculatorModal && getValues(MEASUREMENT_TYPE) && (
+      {showWaterUseCalculatorModal && measurement_type && (
         <WaterUsageCalculatorModal
           dismissModal={onDismissWaterUseCalculatorModel}
-          measurementType={getValues(MEASUREMENT_TYPE)}
+          measurementType={measurement_type}
           system={system}
           handleModalSubmit={handleModalSubmit}
-          totalWaterUsage={totalWaterUsage}
-          setTotalWaterUsage={setTotalWaterUsage}
+          totalVolumeWaterUsage={totalVolumeWaterUsage}
+          setTotalVolumeWaterUsage={setTotalVolumeWaterUsage}
+          totalDepthWaterUsage={totalDepthWaterUsage}
+          setTotalDepthWaterUSage={setTotalDepthWaterUSage}
           formState={stateController}
         />
       )}

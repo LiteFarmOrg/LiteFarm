@@ -21,12 +21,14 @@ import { cropLocationsSelector } from '../../../containers/locationSlice';
 import { convert } from '../../../util/convert-units/convert';
 import modalStyles from './styles.module.scss';
 
-const TotalWaterUsage = ({ totalWaterUsage }) => {
+const TotalWaterUsage = ({ totalWaterUsage, estimated_water_usage_unit }) => {
   const { t } = useTranslation();
   return (
     <div className={modalStyles.labelContainer}>
       <Label className={modalStyles.label}>{t('ADD_TASK.IRRIGATION_VIEW.TOTAL_WATER_USAGE')}</Label>
-      <Label className={modalStyles.label}>{totalWaterUsage} l</Label>
+      <Label className={modalStyles.label}>
+        {totalWaterUsage} {['ml', 'l'].includes(estimated_water_usage_unit?.value) ? 'l' : 'gal'}
+      </Label>
     </div>
   );
 };
@@ -45,17 +47,30 @@ const WaterUseVolumeCalculator = ({ system, setTotalWaterUsage, totalWaterUsage,
   const estimated_flow_rate_unit = watch(FLOW_RATE_UNIT);
   const estimated_duration = watch(ESTIMATED_DURATION);
   const estimated_duration_unit = watch(ESTIMATED_DURATION_UNIT);
+  const estimated_water_usage_unit = getValues('irrigation_task.estimated_water_usage_unit');
 
   useEffect(() => {
     if (estimated_flow_rate && estimated_duration) {
       setTotalWaterUsage(() => {
-        if (estimated_flow_rate_unit.label === 'l/h' && estimated_duration_unit.label === 'h')
+        if (
+          ['l/h', 'gal/h'].includes(estimated_flow_rate_unit.value) &&
+          estimated_duration_unit.label === 'h'
+        )
           return roundToTwoDecimal(estimated_flow_rate * estimated_duration);
-        if (estimated_flow_rate_unit.label === 'l/m' && estimated_duration_unit.label === 'min')
+        if (
+          ['l/min', 'gal/min'].includes(estimated_flow_rate_unit.value) &&
+          estimated_duration_unit.label === 'min'
+        )
           return roundToTwoDecimal(estimated_flow_rate * estimated_duration);
-        if (estimated_flow_rate_unit.label === 'l/h' && estimated_duration_unit.label === 'min')
+        if (
+          ['l/h', 'gal/h'].includes(estimated_flow_rate_unit.value) &&
+          estimated_duration_unit.label === 'min'
+        )
           return roundToTwoDecimal(estimated_flow_rate * (estimated_duration / 60));
-        if (estimated_flow_rate_unit.label === 'l/m' && estimated_duration_unit.label === 'h')
+        if (
+          ['l/min', 'gal/min'].includes(estimated_flow_rate_unit.value) &&
+          estimated_duration_unit.label === 'h'
+        )
           return roundToTwoDecimal(estimated_flow_rate * (estimated_duration * 60));
         return totalWaterUsage;
       });
@@ -79,7 +94,7 @@ const WaterUseVolumeCalculator = ({ system, setTotalWaterUsage, totalWaterUsage,
         onChangeUnitOption={(e) => {
           setValue(
             FLOW_RATE,
-            convert(estimated_flow_rate).from(estimated_duration_unit.value).to(e.value),
+            convert(estimated_flow_rate).from(estimated_flow_rate_unit.value).to(e.value),
           );
         }}
       />
@@ -112,7 +127,10 @@ const WaterUseVolumeCalculator = ({ system, setTotalWaterUsage, totalWaterUsage,
         }}
       />
 
-      <TotalWaterUsage totalWaterUsage={totalWaterUsage} />
+      <TotalWaterUsage
+        totalWaterUsage={totalWaterUsage}
+        estimated_water_usage_unit={estimated_water_usage_unit}
+      />
     </>
   );
 };
@@ -135,6 +153,7 @@ const WaterUseDepthCalculator = ({ system, setTotalWaterUsage, totalWaterUsage, 
   const LOCATION_SIZE_UNIT = 'irrigation_task.location_size_unit';
   const IRRIGATED_AREA = 'irrigation_task.irrigated_area';
   const IRRIGATED_AREA_UNIT = 'irrigation_task.irrigated_area_unit';
+  const estimated_water_usage_unit = getValues('irrigation_task.estimated_water_usage_unit');
 
   const irrigated_area = watch(IRRIGATED_AREA);
   const application_depth = watch(APPLICATION_DEPTH);
@@ -154,10 +173,10 @@ const WaterUseDepthCalculator = ({ system, setTotalWaterUsage, totalWaterUsage, 
   }, [locationSize, percentage_location_irrigated]);
 
   useEffect(() => {
-    if (irrigated_area) {
+    if (irrigated_area && application_depth) {
       setTotalWaterUsage(() => {
         const Irrigated_area_in_m_squared =
-          getValues(IRRIGATED_AREA_UNIT).value === 'm2'
+          getValues(IRRIGATED_AREA_UNIT)?.value === 'm2'
             ? roundToTwoDecimal(irrigated_area)
             : roundToTwoDecimal(convert(irrigated_area).from('ha').to('m2'));
         const Volume_in_m_cubed =
@@ -165,7 +184,7 @@ const WaterUseDepthCalculator = ({ system, setTotalWaterUsage, totalWaterUsage, 
         return roundToTwoDecimal(Volume_in_m_cubed * 1000);
       });
     }
-  }, [irrigated_area, application_depth]);
+  }, [application_depth, percentage_location_irrigated, irrigated_area]);
 
   return (
     <>
@@ -244,7 +263,10 @@ const WaterUseDepthCalculator = ({ system, setTotalWaterUsage, totalWaterUsage, 
           disabled={true}
         />
       </div>
-      <TotalWaterUsage totalWaterUsage={totalWaterUsage} />
+      <TotalWaterUsage
+        totalWaterUsage={totalWaterUsage}
+        estimated_water_usage_unit={estimated_water_usage_unit}
+      />
     </>
   );
 };
@@ -252,16 +274,18 @@ const WaterUseDepthCalculator = ({ system, setTotalWaterUsage, totalWaterUsage, 
 const WaterUseModal = ({
   measurementType,
   system,
-  setTotalWaterUsage,
-  totalWaterUsage,
+  totalVolumeWaterUsage,
+  setTotalVolumeWaterUsage,
+  totalDepthWaterUsage,
+  setTotalDepthWaterUSage,
   formState,
 }) => {
   if (measurementType === 'VOLUME')
     return (
       <WaterUseVolumeCalculator
         system={system}
-        totalWaterUsage={totalWaterUsage}
-        setTotalWaterUsage={setTotalWaterUsage}
+        totalWaterUsage={totalVolumeWaterUsage}
+        setTotalWaterUsage={setTotalVolumeWaterUsage}
         formState={formState}
       />
     );
@@ -269,8 +293,8 @@ const WaterUseModal = ({
     return (
       <WaterUseDepthCalculator
         system={system}
-        totalWaterUsage={totalWaterUsage}
-        setTotalWaterUsage={setTotalWaterUsage}
+        totalWaterUsage={totalDepthWaterUsage}
+        setTotalWaterUsage={setTotalDepthWaterUSage}
         formState={formState}
       />
     );
@@ -281,8 +305,10 @@ export default function WaterUsageCalculatorModal({
   measurementType,
   system,
   handleModalSubmit,
-  totalWaterUsage,
-  setTotalWaterUsage,
+  totalVolumeWaterUsage,
+  setTotalVolumeWaterUsage,
+  totalDepthWaterUsage,
+  setTotalDepthWaterUSage,
   formState,
 }) {
   const { t } = useTranslation();
@@ -317,8 +343,10 @@ export default function WaterUsageCalculatorModal({
       <WaterUseModal
         system={system}
         measurementType={measurementType}
-        totalWaterUsage={totalWaterUsage}
-        setTotalWaterUsage={setTotalWaterUsage}
+        totalVolumeWaterUsage={totalVolumeWaterUsage}
+        setTotalVolumeWaterUsage={setTotalVolumeWaterUsage}
+        totalDepthWaterUsage={totalDepthWaterUsage}
+        setTotalDepthWaterUSage={setTotalDepthWaterUSage}
         formState={formState}
       />
     </ModalComponent>

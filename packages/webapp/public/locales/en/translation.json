@@ -1517,7 +1517,7 @@
     },
     "READINGS_PREVIEW": {
       "TEMPERATURE": "Current soil temp",
-      "SOIL_WATER_POTENTIAL": "Current soil watter potential"
+      "SOIL_WATER_POTENTIAL": "Current soil water potential"
     },
     "SENSOR_READING_CHART_SPOTLIGHT": {
       "TITLE": "Temperature sensor readings chart",

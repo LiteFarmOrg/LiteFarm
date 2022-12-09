@@ -571,6 +571,14 @@ const getCompleteIrrigationTaskBody = (task_translation_key) => (data) => {
     data.taskData[taskType].type = data.taskData[taskType].irrigation_task_type_other
       ? data.taskData[taskType].irrigation_task_type_other
       : data.taskData[taskType].type;
+    data.taskData.irrigation_type = {
+      irrigation_type_name: data.taskData[taskType].type,
+      default_measuring_type: data.taskData[taskType].default_measuring_type,
+      irrigation_task_type_other:
+        data.taskData[taskType].irrigation_task_type_other === data.taskData[taskType].type,
+      default_irrigation_task_type_measurement:
+        data.taskData[taskType].default_irrigation_task_type_measurement,
+    };
     for (const element in data.taskData[taskType]) {
       [
         'irrigation_task_type_other',

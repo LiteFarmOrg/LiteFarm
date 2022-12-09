@@ -56,12 +56,11 @@ export default function PureIrrigationTask({
         default_measuring_type: irrigationType.default_measuring_type,
       };
     });
-    otherTaskType &&
-      options.push({
-        label: t('ADD_TASK.IRRIGATION_VIEW.TYPE.OTHER'),
-        value: 'OTHER',
-        default_measuring_type: null,
-      });
+    options.push({
+      label: t('ADD_TASK.IRRIGATION_VIEW.TYPE.OTHER'),
+      value: 'OTHER',
+      default_measuring_type: null,
+    });
     return options;
   }, [irrigationTaskTypes]);
 

@@ -184,7 +184,7 @@ const WaterUseDepthCalculator = ({ system, setTotalWaterUsage, totalWaterUsage, 
         return roundToTwoDecimal(Volume_in_m_cubed * 1000);
       });
     }
-  }, [application_depth, percentage_location_irrigated]);
+  }, [application_depth, percentage_location_irrigated, irrigated_area]);
 
   return (
     <>

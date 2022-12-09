@@ -85,7 +85,6 @@ const PureSensorReadingsLineChart = ({
               onClick={() => handleLegendClick(entry)}
               className={styles.legendContainer}
             >
-              <SensorReadingChartSpotlightProvider open={showSpotLight} onFinish={resetSpotlight} />
               <Surface style={{ marginTop: '2px' }} width={10} height={10}>
                 <Symbols cx={5} cy={5} type="circle" size={50} fill={color} />
                 {!isActive && <Symbols cx={5} cy={5} type="circle" size={25} fill={'#FFF'} />}
@@ -94,6 +93,7 @@ const PureSensorReadingsLineChart = ({
             </div>
           );
         })}
+        <SensorReadingChartSpotlightProvider open={showSpotLight} onFinish={resetSpotlight} />
       </div>
     );
   };

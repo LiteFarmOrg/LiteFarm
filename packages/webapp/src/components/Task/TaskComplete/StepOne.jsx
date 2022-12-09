@@ -37,6 +37,7 @@ export default function PureCompleteStepOne({
     getValues,
     control,
     setValue,
+    reset,
     formState: { errors, isValid },
   } = useForm({
     mode: 'onChange',
@@ -77,6 +78,7 @@ export default function PureCompleteStepOne({
           watch,
           control,
           register,
+          reset,
           formState: { errors, isValid },
           errors,
           system,

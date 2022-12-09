@@ -53,6 +53,7 @@ import consentSaga from './containers/Consent/saga';
 import callbackSaga from './containers/Callback/saga';
 import inviteUserSaga from './containers/InviteUser/saga';
 import exportSaga from './containers/ExportDownload/saga';
+import fieldWorkTaskSaga from './containers/Task/FieldWorkTask/saga';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/lib/integration/react';
 import loginSaga from './containers/GoogleLoginButton/saga';
@@ -75,6 +76,7 @@ import App from './App';
 import { sagaMiddleware } from './store/sagaMiddleware';
 import { persistor, store } from './store/store';
 import { GlobalScss } from './components/GlobalScss';
+import irrigationTaskTypesSaga from './containers/Task/IrrigationTaskTypes/saga';
 
 if (import.meta.env.VITE_SENTRY_DSN) {
   Sentry.init({
@@ -136,6 +138,8 @@ sagaMiddleware.run(taskSaga);
 sagaMiddleware.run(abandonAndCompleteManagementPlanSaga);
 sagaMiddleware.run(exportSaga);
 sagaMiddleware.run(errorHandlerSaga);
+sagaMiddleware.run(fieldWorkTaskSaga);
+sagaMiddleware.run(irrigationTaskTypesSaga);
 
 ReactDOM.render(
   <Provider store={store}>

@@ -24,6 +24,9 @@ import HarvestUse from '../models/harvestUseModel.js';
 import NotificationUser from '../models/notificationUserModel.js';
 import User from '../models/userModel.js';
 import { typesOfTask } from './../middleware/validation/task.js';
+import locationDefaultsModel from '../models/locationDefaultsModel.js';
+import IrrigationTypesModel from '../models/irrigationTypesModel.js';
+import FieldWorkTypeModel from '../models/fieldWorkTypeModel.js';
 const adminRoles = [1, 2, 5];
 // const isDateInPast = (date) => {
 //   const today = new Date();
@@ -252,9 +255,10 @@ const taskController = {
         // OC: the "noInsert" rule will not fail if a relationship is present in the graph.
         // it will just ignore the insert on it. This is just a 2nd layer of protection
         // after the validation middleware.
-        const data = req.body;
+        let data = req.body;
         const { user_id } = req.user;
         data.owner_user_id = user_id;
+        data = await this.checkCustomDependencies(typeOfTask, data, req.headers.farm_id);
         const result = await TaskModel.transaction(async (trx) => {
           const { task_id } = await TaskModel.query(trx)
             .context({ user_id: req.user.user_id })
@@ -268,7 +272,7 @@ const taskController = {
             .withGraphFetched(
               `
           [locations, managementPlans, taskType, soil_amendment_task, irrigation_task,scouting_task,
-          field_work_task, cleaning_task, pest_control_task, soil_task, harvest_task, plant_task]
+          field_work_task.[field_work_task_type], cleaning_task, pest_control_task, soil_task, harvest_task, plant_task]
           `,
             )
             .where({ task_id });
@@ -291,6 +295,59 @@ const taskController = {
         return res.status(400).send({ error });
       }
     };
+  },
+
+  async checkCustomDependencies(typeOfTask, data, farm_id) {
+    const irrigationTypeValues = {
+      farm_id,
+      irrigation_type_name: data.irrigation_type?.irrigation_type_name,
+      default_measuring_type: data.irrigation_type?.default_measuring_type,
+    };
+    switch (typeOfTask) {
+      case 'field_work_task': {
+        return await this.checkAndAddCustomFieldWork(data, farm_id);
+      }
+      case 'irrigation_task':
+        if (data.irrigation_type?.irrigation_task_type_other) {
+          await IrrigationTypesModel.insertCustomIrrigationType({ ...irrigationTypeValues });
+        }
+        if (data.irrigation_type?.default_irrigation_task_type_measurement) {
+          await IrrigationTypesModel.updateIrrigationType(irrigationTypeValues);
+        }
+        if (data.location_defaults) {
+          await locationDefaultsModel.createOrUpdateLocationDefaults({
+            location_defaults: data.location_defaults,
+          });
+        }
+        delete data.irrigation_type;
+        delete data.location_defaults;
+        return data;
+      default: {
+        return data;
+      }
+    }
+  },
+
+  async checkAndAddCustomFieldWork(data, farm_id) {
+    if (!data.field_work_task) return data;
+    const containsFieldWorkTask = Object.prototype.hasOwnProperty.call(
+      data.field_work_task,
+      'field_work_task_type',
+    );
+    if (containsFieldWorkTask) {
+      const field_work_task_type = data.field_work_task.field_work_task_type;
+      const row = {
+        farm_id,
+        field_work_name: field_work_task_type.field_work_name,
+        field_work_type_translation_key: field_work_task_type.field_work_type_translation_key,
+        created_by_user_id: data.owner_user_id,
+        updated_by_user_id: data.owner_user_id,
+      };
+      const fieldWork = await FieldWorkTypeModel.insertCustomFieldWorkType(row);
+      delete data.field_work_task.field_work_task_type;
+      data.field_work_task.field_work_type_id = fieldWork.field_work_type_id;
+    }
+    return data;
   },
 
   async createHarvestTasks(req, res) {
@@ -373,7 +430,8 @@ const taskController = {
     const nonModifiable = getNonModifiable(typeOfTask);
     return async (req, res, next) => {
       try {
-        const data = req.body;
+        let data = req.body;
+        data = await this.checkCustomDependencies(typeOfTask, data, req.headers.farm_id);
         const { farm_id } = req.headers;
         const { user_id } = req.user;
         const { task_id } = req.params;
@@ -500,8 +558,8 @@ const taskController = {
       const graphTasks = await TaskModel.query()
         .whereNotDeleted()
         .withGraphFetched(
-          `[locations, managementPlans, soil_amendment_task, field_work_task, cleaning_task, pest_control_task, 
-            harvest_task.[harvest_use], plant_task, transplant_task]
+          `[locations, managementPlans, soil_amendment_task, field_work_task.[field_work_task_type], cleaning_task, pest_control_task, 
+            harvest_task.[harvest_use], plant_task, transplant_task, irrigation_task ]
         `,
         )
         .whereIn('task_id', taskIds);
@@ -530,6 +588,28 @@ const taskController = {
     } catch (error) {
       console.log(error);
       return res.status(400).send({ error });
+    }
+  },
+
+  async getFieldWorkTypes(req, res) {
+    const { farm_id } = req.params;
+    try {
+      const farmTypes = await FieldWorkTypeModel.getAllFieldWorkTypesByFarmId(farm_id);
+      res.status(200).json(farmTypes);
+    } catch (error) {
+      console.log(error);
+      return res.status(400).send({ error });
+    }
+  },
+  async getIrrigationTaskTypes(req, res) {
+    const { farm_id } = req.params;
+    try {
+      const irrigationTaskTypes = await IrrigationTypesModel.getAllIrrigationTaskTypesByFarmId(
+        farm_id,
+      );
+      res.status(200).json(irrigationTaskTypes);
+    } catch (error) {
+      return res.status(400).send(error);
     }
   },
 };

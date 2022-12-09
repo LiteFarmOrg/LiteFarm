@@ -12,6 +12,7 @@ import PureFieldWorkTask from '../FieldWorkTask';
 import PurePestControlTask from '../PestControlTask';
 import { cloneObject } from '../../../util';
 import { PurePlantingTask } from '../PlantingTask';
+import PureIrrigationTask from '../PureIrrigationTask';
 
 export default function PureCompleteStepOne({
   persistedFormData,
@@ -36,6 +37,7 @@ export default function PureCompleteStepOne({
     getValues,
     control,
     setValue,
+    reset,
     formState: { errors, isValid },
   } = useForm({
     mode: 'onChange',
@@ -76,6 +78,7 @@ export default function PureCompleteStepOne({
           watch,
           control,
           register,
+          reset,
           formState: { errors, isValid },
           errors,
           system,
@@ -95,4 +98,5 @@ const taskComponents = {
   PEST_CONTROL_TASK: (props) => <PurePestControlTask {...props} />,
   PLANT_TASK: (props) => <PurePlantingTask disabled isPlantTask={true} {...props} />,
   TRANSPLANT_TASK: (props) => <PurePlantingTask disabled isPlantTask={false} {...props} />,
+  IRRIGATION_TASK: (props) => <PureIrrigationTask {...props} />,
 };

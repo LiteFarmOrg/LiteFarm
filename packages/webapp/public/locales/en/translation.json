@@ -114,10 +114,7 @@
     "WILD_CROP": "Wild crops",
     "IRRIGATION_VIEW": {
       "TELL_US_ABOUT_YOUR_IRRIGATION_TASK": "Tell us about your Irrigation Task",
-      "BRAND_TOOLTIP": {
-        "FIRST_PHRASE": "This task is for watering your location. If you want to install irrigation, create a",
-        "LAST_PHRASE": "instead."
-      },
+      "BRAND_TOOLTIP": "This task is for watering your location. If you want to install irrigation, create a field work task instead.",
       "TYPE_OF_IRRIGATION": "Type of Irrigation",
       "WHAT_TYPE_OF_IRRIGATION": "What type of irrigation?",
       "IRRIGATION_TYPE_CHAR_LIMIT": "Irrigation must be less than 100 characters",
@@ -443,7 +440,7 @@
     "HINT": "Hint",
     "LABEL": "Password",
     "ONE_NUMBER": "at least one number",
-    "ONE_SPECIAL_CHARACTER": "at least one special character",
+    "ONE_SPECIAL_CHARACTER": "at least one special character (! @ # $ % ^ & *)",
     "ONE_UPPER_CASE": "at least one upper case character",
     "TOO_SHORT": "at least 8 characters"
   },
@@ -1520,7 +1517,7 @@
     },
     "READINGS_PREVIEW": {
       "TEMPERATURE": "Current soil temp",
-      "SOIL_WATER_POTENTIAL": "Current soil watter potential"
+      "SOIL_WATER_POTENTIAL": "Current soil water potential"
     },
     "SENSOR_READING_CHART_SPOTLIGHT": {
       "TITLE": "Temperature sensor readings chart",

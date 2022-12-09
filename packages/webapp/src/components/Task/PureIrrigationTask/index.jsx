@@ -97,6 +97,21 @@ export default function PureIrrigationTask({
     );
     onDismissWaterUseCalculatorModel();
   };
+
+  useEffect(() => {
+    if (estimated_water_usage !== totalDepthWaterUsage) {
+      reset({
+        ...getValues(),
+        irrigation_task: {
+          ...getValues().irrigation_task,
+          application_depth: '',
+          percentage_location_irrigated: '',
+        },
+      });
+      setTotalDepthWaterUSage('');
+    }
+  }, [showWaterUseCalculatorModal]);
+
   const selectedIrrigationTypeOption = useMemo(() => {
     return IrrigationTypeOptions.filter((options) => options.value === irrigation_type)[0];
   }, [irrigation_type, IrrigationTypeOptions]);

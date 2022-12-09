@@ -137,7 +137,7 @@ const WaterUseVolumeCalculator = ({ system, setTotalWaterUsage, totalWaterUsage,
 
 const WaterUseDepthCalculator = ({ system, setTotalWaterUsage, totalWaterUsage, formState }) => {
   const { t } = useTranslation();
-  const { register, getValues, watch, control, setValue, reset } = formState();
+  const { register, getValues, watch, control, setValue } = formState();
   const [locationSize, setLocationSize] = useState();
 
   const location = useSelector(cropLocationsSelector).filter(
@@ -158,20 +158,6 @@ const WaterUseDepthCalculator = ({ system, setTotalWaterUsage, totalWaterUsage, 
   const irrigated_area = watch(IRRIGATED_AREA);
   const application_depth = watch(APPLICATION_DEPTH);
   const percentage_location_irrigated = watch(PERCENTAGE_LOCATION_IRRIGATED);
-
-  useEffect(() => {
-    if (getValues().irrigation_task.estimated_water_usage !== totalWaterUsage) {
-      reset({
-        ...getValues(),
-        irrigation_task: {
-          ...getValues().irrigation_task,
-          application_depth: '',
-          percentage_location_irrigated: '',
-        },
-      });
-      setTotalWaterUsage('');
-    }
-  }, []);
 
   useEffect(() => {
     setLocationSize(location.total_area);

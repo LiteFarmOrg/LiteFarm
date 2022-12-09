@@ -565,10 +565,30 @@ const getCompletePlantingTaskBody = (task_translation_key) => (data) => {
   }).taskData;
 };
 
+const getCompleteIrrigationTaskBody = (task_translation_key) => (data) => {
+  return produce(data, (data) => {
+    const taskType = task_translation_key.toLowerCase();
+    data.taskData[taskType].type = data.taskData[taskType].irrigation_task_type_other
+      ? data.taskData[taskType].irrigation_task_type_other
+      : data.taskData[taskType].type;
+    for (const element in data.taskData[taskType]) {
+      [
+        'irrigation_task_type_other',
+        'percentage_location_irrigated_unit',
+        'irrigated_area',
+        'irrigated_area_unit',
+        'location_size_unit',
+        'percentage_location_irrigated',
+      ].includes(element) && delete data.taskData[taskType][element];
+    }
+  }).taskData;
+};
+
 const taskTypeGetCompleteTaskBodyFunctionMap = {
   HARVEST_TASK: getCompleteHarvestTaskBody,
   TRANSPLANT_TASK: getCompletePlantingTaskBody('TRANSPLANT_TASK'),
   PLANT_TASK: getCompletePlantingTaskBody('PLANT_TASK'),
+  IRRIGATION_TASK: getCompleteIrrigationTaskBody('IRRIGATION_TASK'),
 };
 
 export const completeTask = createAction('completeTaskSaga');

@@ -100,7 +100,7 @@ export default function PureTaskDetails({
   } = formFunctions;
 
   const { historyCancel } = useHookFormPersist(getValues);
-
+  const otherTaskType = true;
   const NOTES = 'notes';
   register(NOTES, { required: false });
 
@@ -151,6 +151,7 @@ export default function PureTaskDetails({
             register,
             formState: { errors, isValid },
             reset,
+            otherTaskType,
             farm,
             system,
             products,

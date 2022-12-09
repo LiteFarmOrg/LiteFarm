@@ -35,6 +35,7 @@ export default function PureIrrigationTask({
   reset,
   watch,
   disabled = false,
+  otherTaskType = false,
 }) {
   const { t } = useTranslation();
   const [showWaterUseCalculatorModal, setShowWaterUseCalculatorModal] = useState(false);
@@ -55,11 +56,12 @@ export default function PureIrrigationTask({
         default_measuring_type: irrigationType.default_measuring_type,
       };
     });
-    options.push({
-      label: t('ADD_TASK.IRRIGATION_VIEW.TYPE.OTHER'),
-      value: 'OTHER',
-      default_measuring_type: null,
-    });
+    otherTaskType &&
+      options.push({
+        label: t('ADD_TASK.IRRIGATION_VIEW.TYPE.OTHER'),
+        value: 'OTHER',
+        default_measuring_type: null,
+      });
     return options;
   }, [irrigationTaskTypes]);
 
@@ -99,7 +101,7 @@ export default function PureIrrigationTask({
   };
 
   useEffect(() => {
-    if (estimated_water_usage !== totalDepthWaterUsage) {
+    if (estimated_water_usage !== totalDepthWaterUsage && otherTaskType) {
       reset({
         ...getValues(),
         irrigation_task: {

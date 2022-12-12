@@ -60,22 +60,7 @@ export default function PureCustomSignUp({
         </div>
       </div>
       <Footer style={{ position: 'relative', bottom: 0, marginTop: '12px' }}>
-        <div className={styles.bottomButton}>
-          <Button
-            disabled={disabled}
-            style={{
-              border: '4px',
-              shadow: '0px 2px 8px rgba(102, 115, 138, 0.3)',
-              width: 312,
-              height: 48,
-            }}
-            type="submit"
-            fullLength
-            data-cy="continue"
-          >
-            {t('common:CONTINUE')}
-          </Button>
-        </div>
+        <div className={styles.bottomButton}></div>
       </Footer>
     </form>
   );

@@ -1,8 +1,12 @@
-import React, { useEffect, useMemo } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import i18next from 'i18next';
 import Input from '../../Form/Input';
 import ReactSelect from '../../Form/ReactSelect';
 import { Controller } from 'react-hook-form';
+import { getFieldWorkTypes } from '../../../containers/Task/FieldWorkTask/saga';
+import { useDispatch, useSelector } from 'react-redux';
+import { fieldWorkSliceSliceSelector } from '../../../containers/fieldWorkSlice';
 
 const PureFieldWorkTask = ({
   register,
@@ -13,23 +17,14 @@ const PureFieldWorkTask = ({
   disabled = false,
 }) => {
   const { t } = useTranslation();
-  const FIELD_WORK_TYPE = 'field_work_task.type';
+
+  const { fieldWorkTypes = [] } = useSelector(fieldWorkSliceSliceSelector);
+  const dispatch = useDispatch();
+  const [fieldWorkTypeOptions, setFieldWorkTypeOptions] = useState([]);
+
+  const FIELD_WORK_TYPE = 'field_work_task.field_work_task_type';
   const typeValue = watch(FIELD_WORK_TYPE);
-  const FIELD_WORK_OTHER_TYPE = 'field_work_task.other_type';
-  const fieldWorkTypeOptions = [
-    { label: t('ADD_TASK.FIELD_WORK_VIEW.TYPE.COVERING_SOIL'), value: 'COVERING_SOIL' },
-    { label: t('ADD_TASK.FIELD_WORK_VIEW.TYPE.FENCING'), value: 'FENCING' },
-    {
-      label: t('ADD_TASK.FIELD_WORK_VIEW.TYPE.PREPARING_BEDS_OR_ROWS'),
-      value: 'PREPARING_BEDS_OR_ROWS',
-    },
-    { label: t('ADD_TASK.FIELD_WORK_VIEW.TYPE.PRUNING'), value: 'PRUNING' },
-    { label: t('ADD_TASK.FIELD_WORK_VIEW.TYPE.SHADE_CLOTH'), value: 'SHADE_CLOTH' },
-    { label: t('ADD_TASK.FIELD_WORK_VIEW.TYPE.TERMINATION'), value: 'TERMINATION' },
-    { label: t('ADD_TASK.FIELD_WORK_VIEW.TYPE.TILLAGE'), value: 'TILLAGE' },
-    { label: t('ADD_TASK.FIELD_WORK_VIEW.TYPE.WEEDING'), value: 'WEEDING' },
-    { label: t('ADD_TASK.FIELD_WORK_VIEW.TYPE.OTHER'), value: 'OTHER' },
-  ];
+  const FIELD_WORK_OTHER_TYPE = 'field_work_task.field_work_task_type.field_work_name';
   const fieldWorkTypeExposedValue = useMemo(() => {
     return typeValue?.value
       ? typeValue
@@ -41,6 +36,32 @@ const PureFieldWorkTask = ({
   useEffect(() => {
     if (fieldWorkTypeExposedValue?.value !== 'OTHER') setValue(FIELD_WORK_OTHER_TYPE, null);
   }, [fieldWorkTypeExposedValue]);
+
+  useEffect(() => {
+    setFieldWorkTypeOptions((allOptions) => {
+      let options = fieldWorkTypes.map((f) =>
+        f.farm_id === null ? { ...f, label: t(f.label) } : { ...f, label: f.field_work_name },
+      );
+      options.push({ label: t('ADD_TASK.FIELD_WORK_VIEW.TYPE.OTHER'), value: 'OTHER' });
+      return options;
+    });
+  }, [fieldWorkTypes]);
+
+  useEffect(() => {
+    dispatch(getFieldWorkTypes());
+  }, []);
+
+  const displayLabel = (values) => {
+    if (!values.length) return '';
+    const value = values[0]?.field_work_name || '';
+    const translationKey = `ADD_TASK.FIELD_WORK_VIEW.TYPE.${value}`;
+    if (i18next.exists(translationKey)) {
+      return t(translationKey);
+    } else {
+      return value;
+    }
+  };
+
   return (
     <>
       <Controller
@@ -61,11 +82,7 @@ const PureFieldWorkTask = ({
             value={
               // TODO: refactor value reading here and in pest control
               // this solution keeps placeholder while accommodating the read-only view
-              !value
-                ? value
-                : value?.value
-                ? value
-                : { value, label: t(`ADD_TASK.FIELD_WORK_VIEW.TYPE.${value}`) }
+              !value ? value : value?.value ? value : { value, label: displayLabel(value) }
             }
           />
         )}

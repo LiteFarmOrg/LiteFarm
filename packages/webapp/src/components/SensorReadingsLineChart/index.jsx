@@ -17,8 +17,11 @@ import { Label, Semibold } from '../Typography';
 import PropTypes from 'prop-types';
 import PredictedRect from './PredictedRect';
 import { getLanguageFromLocalStorage } from '../../util/getLanguageFromLocalStorage';
+import { SensorReadingChartSpotlightProvider } from './SensorReadingChartSpotlightProvider';
 
 const PureSensorReadingsLineChart = ({
+  showSpotLight,
+  resetSpotlight,
   title,
   subTitle,
   xAxisDataKey,
@@ -67,7 +70,7 @@ const PureSensorReadingsLineChart = ({
 
   const renderCusomizedLegend = ({ payload }) => {
     return (
-      <div className={styles.legendWrapper}>
+      <div id="legend" className={styles.legendWrapper}>
         {payload.map((entry, idx) => {
           const { value = '', color = '', isActive = true } = entry;
           const style = {
@@ -90,6 +93,7 @@ const PureSensorReadingsLineChart = ({
             </div>
           );
         })}
+        <SensorReadingChartSpotlightProvider open={showSpotLight} onFinish={resetSpotlight} />
       </div>
     );
   };

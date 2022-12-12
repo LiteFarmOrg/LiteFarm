@@ -114,10 +114,7 @@
     "WILD_CROP": "Cultivos silvestres",
     "IRRIGATION_VIEW": {
       "TELL_US_ABOUT_YOUR_IRRIGATION_TASK": "MISSING",
-      "BRAND_TOOLTIP": {
-        "FIRST_PHRASE": "MISSING",
-        "LAST_PHRASE": "MISSING."
-      },
+      "BRAND_TOOLTIP": "MISSING",
       "TYPE_OF_IRRIGATION": "MISSING",
       "WHAT_TYPE_OF_IRRIGATION": "MISSING",
       "IRRIGATION_TYPE_CHAR_LIMIT": "MISSING",
@@ -442,7 +439,7 @@
     "HINT": "Dicas",
     "LABEL": "Senha",
     "ONE_NUMBER": "pelo menos um número",
-    "ONE_SPECIAL_CHARACTER": "pelo menos um caractere especial",
+    "ONE_SPECIAL_CHARACTER": "pelo menos um caractere especial (! @ # $ % ^ & *)",
     "ONE_UPPER_CASE": "pelo menos uma letra maiúscula",
     "TOO_SHORT": "pelo menos 8 caracteres"
   },
@@ -1754,6 +1751,10 @@
     "READINGS_PREVIEW": {
       "TEMPERATURE": "MISSING",
       "SOIL_WATER_POTENTIAL": "MISSING"
+    },
+    "SENSOR_READING_CHART_SPOTLIGHT": {
+      "TITLE": "MISSING",
+      "CONTENT": "MISSING"
     }
   },
   "CROP_STATUS_NON_ORGANIC_MISMATCH_MODAL": {

@@ -13,6 +13,7 @@ const databaseUnit = {
   volumeFlowRate: 'l/min',
   volume: 'l',
   time: 'd',
+  degree: 'deg',
 };
 
 export const area_total_area = {
@@ -113,7 +114,7 @@ export const container_planting_depth = {
   databaseUnit: databaseUnit.length,
 };
 
-export const estimated_duration = {
+export const irrigation_task_estimated_duration = {
   metric: {
     units: ['h', 'min'],
     defaultUnit: 'h',
@@ -143,23 +144,23 @@ export const irrigation_depth = {
 
 export const percentage_location = {
   metric: {
-    units: ['percentage'],
-    defaultUnit: 'percentage',
-    breakpoints: [1000],
+    units: ['deg'],
+    defaultUnit: 'deg',
+    breakpoints: [100],
   },
   imperial: {
-    units: ['ft2', 'ac'],
-    defaultUnit: 'ft2',
-    breakpoints: [10890],
+    units: ['deg'],
+    defaultUnit: 'deg',
+    breakpoints: [100],
   },
-  databaseUnit: databaseUnit.length,
+  databaseUnit: databaseUnit.degree,
 };
 
 export const location_area = {
   metric: {
     units: ['ha', 'm2'],
     defaultUnit: 'ha',
-    breakpoints: [1000],
+    breakpoints: [10000],
   },
   imperial: {
     units: ['ft2', 'ac'],

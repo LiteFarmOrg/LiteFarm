@@ -2,6 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { useSensorReadingsLineChart } from './useSensorReadingsLineChart';
 import PureSensorReadingsLineChart from '../../components/SensorReadingsLineChart';
+import { showedSpotlightSelector } from '../showedSpotlightSlice';
+import { setSpotlightToShown } from '../Map/saga';
+import { useDispatch, useSelector } from 'react-redux';
 import styles from './styles.module.scss';
 import Spinner from '../../components/Spinner';
 
@@ -20,6 +23,12 @@ const SensorReadingsLineChart = ({
   predictedXAxisLabel = '',
   activeReadingTypes = [],
 }) => {
+  const dispatch = useDispatch();
+  const { sensor_reading_chart } = useSelector(showedSpotlightSelector);
+
+  const resetSpotlight = () => {
+    dispatch(setSpotlightToShown('sensor_reading_chart'));
+  };
   const {
     sensorsReadingsOfTemperature = [],
     yAxisDataKeys = [],
@@ -34,6 +43,8 @@ const SensorReadingsLineChart = ({
         </div>
       ) : (
         <PureSensorReadingsLineChart
+          showSpotLight={!sensor_reading_chart}
+          resetSpotlight={resetSpotlight}
           isReadingTypeActive={activeReadingTypes.includes(readingType)}
           title={title}
           subTitle={subTitle}

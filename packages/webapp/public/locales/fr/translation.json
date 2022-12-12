@@ -114,10 +114,7 @@
     "WILD_CROP": "Cultures sauvages",
     "IRRIGATION_VIEW": {
       "TELL_US_ABOUT_YOUR_IRRIGATION_TASK": "MISSING",
-      "BRAND_TOOLTIP": {
-        "FIRST_PHRASE": "MISSING",
-        "LAST_PHRASE": "MISSING."
-      },
+      "BRAND_TOOLTIP": "MISSING",
       "TYPE_OF_IRRIGATION": "MISSING",
       "WHAT_TYPE_OF_IRRIGATION": "MISSING",
       "IRRIGATION_TYPE_CHAR_LIMIT": "MISSING",
@@ -443,7 +440,7 @@
     "HINT": "Indice",
     "LABEL": "Mot de passe",
     "ONE_NUMBER": "au moins un numéro",
-    "ONE_SPECIAL_CHARACTER": "au moins un caractère spécial",
+    "ONE_SPECIAL_CHARACTER": "au moins un caractère spécial (! @ # $ % ^ & *)",
     "ONE_UPPER_CASE": "au moins un caractère majuscule",
     "TOO_SHORT": "au moins 8 caractères"
   },
@@ -1754,6 +1751,10 @@
     "READINGS_PREVIEW": {
       "TEMPERATURE": "MISSING",
       "SOIL_WATER_POTENTIAL": "MISSING"
+    },
+    "SENSOR_READING_CHART_SPOTLIGHT": {
+      "TITLE": "MISSING",
+      "CONTENT": "MISSING"
     }
   },
   "CROP_STATUS_NON_ORGANIC_MISMATCH_MODAL": {

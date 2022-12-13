@@ -31,7 +31,13 @@ const TotalWaterUsage = ({ totalWaterUsage }) => {
   );
 };
 
-const WaterUseVolumeCalculator = ({ system, setTotalWaterUsage, totalWaterUsage, formState }) => {
+const WaterUseVolumeCalculator = ({
+  system,
+  setTotalWaterUsage,
+  totalWaterUsage,
+  formState,
+  locationDefaults,
+}) => {
   const { t } = useTranslation();
   const { register, getValues, watch, control, setValue } = formState();
 
@@ -61,6 +67,23 @@ const WaterUseVolumeCalculator = ({ system, setTotalWaterUsage, totalWaterUsage,
       });
     }
   }, [estimated_duration, estimated_flow_rate]);
+
+  useEffect(() => {
+    if (!watch(DEFAULT_LOCATION_FLOW_RATE) && !!locationDefaults?.default_location_flow_rate) {
+      setValue(DEFAULT_LOCATION_FLOW_RATE, locationDefaults?.default_location_flow_rate);
+    } else {
+      setValue(DEFAULT_LOCATION_FLOW_RATE, false);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (!watch(FLOW_RATE) && !!locationDefaults?.estimated_flow_rate) {
+      if (locationDefaults?.estimated_flow_rate) {
+        setValue(FLOW_RATE, locationDefaults?.estimated_flow_rate);
+        setValue(FLOW_RATE_UNIT, getUnitOptionMap()[locationDefaults?.estimated_flow_rate_unit]);
+      }
+    }
+  }, [locationDefaults]);
 
   return (
     <>
@@ -117,7 +140,13 @@ const WaterUseVolumeCalculator = ({ system, setTotalWaterUsage, totalWaterUsage,
   );
 };
 
-const WaterUseDepthCalculator = ({ system, setTotalWaterUsage, totalWaterUsage, formState }) => {
+const WaterUseDepthCalculator = ({
+  system,
+  setTotalWaterUsage,
+  totalWaterUsage,
+  formState,
+  locationDefaults,
+}) => {
   const { t } = useTranslation();
   const { register, getValues, watch, control, setValue } = formState();
   const [locationSize, setLocationSize] = useState();
@@ -152,6 +181,29 @@ const WaterUseDepthCalculator = ({ system, setTotalWaterUsage, totalWaterUsage, 
     );
     setValue(IRRIGATED_AREA, irrigatedArea);
   }, [locationSize, percentage_location_irrigated]);
+
+  useEffect(() => {
+    if (locationDefaults?.default_location_application_depth) {
+      setValue(
+        DEFAULT_LOCATION_APPLICATION_DEPTH,
+        locationDefaults?.default_location_application_depth,
+      );
+    }
+  }, []);
+
+  useEffect(() => {
+    if (
+      !watch(APPLICATION_DEPTH) &&
+      locationDefaults?.application_depth &&
+      locationDefaults?.application_depth_unit
+    ) {
+      setValue(APPLICATION_DEPTH, locationDefaults?.application_depth);
+      setValue(
+        APPLICATION_DEPTH_UNIT,
+        getUnitOptionMap()[locationDefaults?.application_depth_unit],
+      );
+    }
+  }, [locationDefaults]);
 
   useEffect(() => {
     if (irrigated_area) {
@@ -255,6 +307,7 @@ const WaterUseModal = ({
   setTotalWaterUsage,
   totalWaterUsage,
   formState,
+  locationDefaults,
 }) => {
   if (measurementType === 'VOLUME')
     return (
@@ -263,6 +316,7 @@ const WaterUseModal = ({
         totalWaterUsage={totalWaterUsage}
         setTotalWaterUsage={setTotalWaterUsage}
         formState={formState}
+        locationDefaults={locationDefaults}
       />
     );
   if (measurementType === 'DEPTH')
@@ -272,6 +326,7 @@ const WaterUseModal = ({
         totalWaterUsage={totalWaterUsage}
         setTotalWaterUsage={setTotalWaterUsage}
         formState={formState}
+        locationDefaults={locationDefaults}
       />
     );
 };
@@ -284,6 +339,7 @@ export default function WaterUsageCalculatorModal({
   totalWaterUsage,
   setTotalWaterUsage,
   formState,
+  locationDefaults,
 }) {
   const { t } = useTranslation();
   return (
@@ -320,6 +376,7 @@ export default function WaterUsageCalculatorModal({
         totalWaterUsage={totalWaterUsage}
         setTotalWaterUsage={setTotalWaterUsage}
         formState={formState}
+        locationDefaults={locationDefaults}
       />
     </ModalComponent>
   );
@@ -328,4 +385,5 @@ export default function WaterUsageCalculatorModal({
 WaterUsageCalculatorModal.propTypes = {
   dismissModal: PropTypes.func,
   measurementType: PropTypes.string,
+  locationDefaults: PropTypes.object,
 };

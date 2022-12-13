@@ -26,6 +26,7 @@ export default function PureTaskDetails({
   farm,
   managementPlanByLocations,
   wildManagementPlanTiles,
+  locations,
 }) {
   const { t } = useTranslation();
   const taskType = selectedTaskType.task_translation_key;
@@ -155,6 +156,7 @@ export default function PureTaskDetails({
             persistedFormData,
             managementPlanByLocations,
             wildManagementPlanTiles,
+            locations,
           })}
         {!isHarvest && (
           <InputAutoSize

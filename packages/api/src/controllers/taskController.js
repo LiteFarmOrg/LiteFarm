@@ -557,8 +557,8 @@ const taskController = {
       const graphTasks = await TaskModel.query()
         .whereNotDeleted()
         .withGraphFetched(
-          `[locations, managementPlans, soil_amendment_task, field_work_task.[field_work_task_type], cleaning_task, pest_control_task, 
-            harvest_task.[harvest_use], plant_task, transplant_task, irrigation_task ]
+          `[locations.[location_defaults], managementPlans, soil_amendment_task, field_work_task.[field_work_task_type], cleaning_task, pest_control_task, 
+            harvest_task.[harvest_use], plant_task, transplant_task, irrigation_task]
         `,
         )
         .whereIn('task_id', taskIds);

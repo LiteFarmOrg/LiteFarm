@@ -45,6 +45,7 @@ export const getTask = (obj) => {
     'abandonment_reason',
     'other_abandonment_reason',
     'abandonment_notes',
+    'location_defaults',
   ]);
   //TODO: investigate why incomplete tasks wage_at_moment are null
   if (task.wage_at_moment === null) task.wage_at_moment = 0;
@@ -94,6 +95,8 @@ const taskSlice = createSlice({
         payload: tasks.map((task) => ({
           ...task,
           locations: task.locations?.map(({ location_id }) => location_id) || [],
+          location_defaults:
+            task.locations?.map(({ location_defaults }) => location_defaults) || [],
           managementPlans:
             task.managementPlans?.map(({ management_plan_id, planting_management_plan_id }) => ({
               management_plan_id,
@@ -262,6 +265,35 @@ export const tasksByManagementPlanIdSelector = (management_plan_id) =>
   );
 
 export const taskSelector = (task_id) => (state) => taskEntitiesSelector(state)[task_id];
+
+export const getLocationDefaultsByLocationId = (locations) =>
+  createSelector([tasksSelector], (tasks) => {
+    if (!locations?.length) return {};
+    else if (!Object.prototype.hasOwnProperty.call(locations[0], 'location_id')) return {};
+    const locationId = locations[0]?.location_id;
+    return tasks.reduce((acc, cv) => {
+      for (let locationDefault of cv.location_defaults) {
+        if (locationDefault.location_id === locationId) {
+          acc = {
+            ...locationDefault,
+            default_irrigation_task_type_location:
+              cv?.irrigation_task?.default_irrigation_task_type_location,
+            default_irrigation_task_type_measurement:
+              cv?.irrigation_task?.default_irrigation_task_type_measurement,
+            default_location_application_depth:
+              cv?.irrigation_task?.default_location_application_depth,
+            default_location_flow_rate: cv?.irrigation_task?.default_location_flow_rate,
+            default_measuring_type: cv?.irrigation_task?.default_measuring_type,
+            estimated_water_usage: cv?.irrigation_task?.estimated_water_usage,
+            estimated_water_usage_unit: cv?.irrigation_task?.estimated_water_usage_unit,
+            estimated_duration: cv?.irrigation_task?.estimated_duration,
+            estimated_duration_unit: cv?.irrigation_task?.estimated_duration_unit,
+          };
+        }
+      }
+      return acc;
+    }, {});
+  });
 
 export const getPendingTasks = (tasks) =>
   tasks.filter((task) => !task.abandon_date && !task.complete_date);

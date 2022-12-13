@@ -68,6 +68,7 @@ function TaskDetails({ history, match, location }) {
         farm={{ farm_id, country_id, interested }}
         managementPlanByLocations={managementPlanByLocations}
         wildManagementPlanTiles={showWildCrops && wildManagementPlanTiles}
+        locations={persistedFormData.locations}
       />
     </HookFormPersistProvider>
   );

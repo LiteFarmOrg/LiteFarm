@@ -30,25 +30,20 @@ class IrrigationTaskModel extends Model {
   static get jsonSchema() {
     return {
       type: 'object',
-      required: ['type'],
+      required: ['irrigation_type_name', 'irrigation_type_id'],
 
       properties: {
         task_id: { type: 'integer' },
-        type: { type: 'string' },
+        irrigation_type_name: { type: 'string' },
+        estimated_flow_rate: { type: 'number' },
         estimated_duration: { type: 'number' },
         estimated_duration_unit: { type: 'string' },
-        estimated_flow_rate: { type: 'number' },
-        estimated_flow_rate_unit: { type: 'string' },
         location_id: { type: 'string' },
         estimated_water_usage: { type: 'number' },
-        estimated_water_usage_unit: { type: 'string' },
         application_depth: { type: 'number' },
-        application_depth_unit: { type: 'string' },
-        default_measuring_type: { type: 'string' },
-        default_location_flow_rate: { type: 'boolean' },
-        default_location_application_depth: { type: 'boolean' },
-        default_irrigation_task_type_location: { type: 'boolean' },
-        default_irrigation_task_type_measurement: { type: 'boolean' },
+        measuring_type: { type: 'string' },
+        irrigation_type_id: { type: 'number' },
+        percent_of_location_irrigated: { type: 'number' },
       },
       additionalProperties: false,
     };

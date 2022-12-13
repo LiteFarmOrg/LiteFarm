@@ -24,7 +24,6 @@ import HarvestUse from '../models/harvestUseModel.js';
 import NotificationUser from '../models/notificationUserModel.js';
 import User from '../models/userModel.js';
 import { typesOfTask } from './../middleware/validation/task.js';
-import locationDefaultsModel from '../models/locationDefaultsModel.js';
 import IrrigationTypesModel from '../models/irrigationTypesModel.js';
 import FieldWorkTypeModel from '../models/fieldWorkTypeModel.js';
 const adminRoles = [1, 2, 5];
@@ -298,30 +297,46 @@ const taskController = {
   },
 
   async checkCustomDependencies(typeOfTask, data, farm_id) {
-    const irrigationTypeValues = {
-      farm_id,
-      irrigation_type_name: data.irrigation_type?.irrigation_type_name,
-      default_measuring_type: data.irrigation_type?.default_measuring_type,
-    };
     switch (typeOfTask) {
       case 'field_work_task': {
         return await this.checkAndAddCustomFieldWork(data, farm_id);
       }
       case 'irrigation_task':
-        if (data.irrigation_type?.irrigation_task_type_other) {
-          await IrrigationTypesModel.insertCustomIrrigationType({ ...irrigationTypeValues });
-        }
-        if (data.irrigation_type?.default_irrigation_task_type_measurement) {
-          await IrrigationTypesModel.updateIrrigationType(irrigationTypeValues);
-        }
-        if (data.location_defaults) {
-          await locationDefaultsModel.createOrUpdateLocationDefaults({
-            location_defaults: data.location_defaults,
-          });
-        }
-        delete data.irrigation_type;
-        delete data.location_defaults;
-        return data;
+        return await (async () => {
+          const irrigationTypeExists = await IrrigationTypesModel.query()
+            .select('irrigation_type_id')
+            .where({ irrigation_type_name: data.irrigation_task.irrigation_type_name })
+            .first();
+          const irrigation_type = irrigationTypeExists
+            ? irrigationTypeExists
+            : await IrrigationTypesModel.insertCustomIrrigationType({
+                irrigation_type_name: data.irrigation_task.irrigation_type_name,
+                farm_id,
+                default_measuring_type: data.irrigation_task.measuring_type,
+                default_irrigation_task_type_measurement:
+                  data.irrigation_task.default_irrigation_task_type_measurement,
+                created_by_user_id: data.owner_user_id,
+                updated_by_user_id: data.owner_user_id,
+                created_at: new Date().toISOString(),
+                updated_at: new Date().toISOString(),
+              });
+          if (data.irrigation_task.default_irrigation_task_type_measurement) {
+            console.log('test');
+          }
+          delete data.irrigation_task.default_irrigation_task_type_measurement;
+          console.log(irrigation_type.irrigation_type_id);
+
+          // if (data.irrigation_type?.default_irrigation_task_type_measurement) {
+          //   await IrrigationTypesModel.updateIrrigationType(irrigationTypeValues);
+          // }
+          // if (data.location_defaults) {
+          //   await locationDefaultsModel.createOrUpdateLocationDefaults({
+          //     location_defaults: data.location_defaults,
+          //   });
+          // }
+          // delete data.irrigation_type;
+          // delete data.location_defaults;
+        })();
       default: {
         return data;
       }

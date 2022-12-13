@@ -1,7 +1,7 @@
-import { Model } from 'objection';
 import knex from '../util/knex.js';
+import BaseModel from './baseModel.js';
 
-class IrrigationTypesModel extends Model {
+class IrrigationTypesModel extends BaseModel {
   static get tableName() {
     return 'irrigation_type';
   }
@@ -13,12 +13,14 @@ class IrrigationTypesModel extends Model {
   static get jsonSchema() {
     return {
       type: 'object',
-      required: [''],
+      required: ['irrigation_type_name'],
       properties: {
         irrigation_type_id: { type: 'string' },
-        irrigation_type_name: { type: 'string' },
+        irrigation_type_name: { type: 'string', uniqueItems: true },
         farm_id: { type: 'string' },
         default_measuring_type: { type: 'string' },
+        default_irrigation_task_type_measurement: { type: 'boolean' },
+        ...this.baseProperties,
       },
       additionalProperties: false,
     };
@@ -26,15 +28,10 @@ class IrrigationTypesModel extends Model {
 
   static async insertCustomIrrigationType(row) {
     await knex('irrigation_type').insert(row);
-    const irrigationTypeNames = await knex('irrigation_type').select('irrigation_type_name');
-    const irrigationTaskTypes = await knex('irrigation_task').select('type');
-    const irrigationTypeEnums = irrigationTypeNames.map((type) => type.irrigation_type_name);
-    const irrigationTaskTypeEnums = irrigationTaskTypes.map((type) => type.type);
-    await knex.schema.raw(`ALTER TABLE irrigation_task DROP CONSTRAINT "irrigationLog_type_check";
-                          ALTER TABLE irrigation_task ADD CONSTRAINT "irrigationLog_type_check" 
-                           CHECK (type = ANY (ARRAY['${[
-                             ...new Set(irrigationTypeEnums.concat(irrigationTaskTypeEnums)),
-                           ].join(`'::text,'`)}'::text]))`);
+    const irrigationType = await knex('irrigation_type')
+      .select('irrigation_type_id')
+      .where({ irrigation_type_name: row.irrigation_type_name });
+    return irrigationType[0];
   }
 
   static async updateIrrigationType(irrigationTypeValues) {

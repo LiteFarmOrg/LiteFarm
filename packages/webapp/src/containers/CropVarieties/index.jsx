@@ -130,6 +130,7 @@ export default function CropVarieties({ history, match, location }) {
                   crop_translation_key,
                   crop_photo_url,
                   crop_id,
+                  crop_variety_photo_url,
                   crop_variety_name,
                   crop_variety_id,
                   noPlansCount,
@@ -140,7 +141,7 @@ export default function CropVarieties({ history, match, location }) {
                   <PureCropTile
                     key={crop_variety_id}
                     title={crop_variety_name}
-                    src={crop_photo_url}
+                    src={crop_variety_photo_url}
                     alt={imageKey}
                     style={{ width: cardWidth }}
                     onClick={() => goToVarietyManagement(crop_variety_id)}
@@ -163,6 +164,7 @@ export default function CropVarieties({ history, match, location }) {
                   needsPlan,
                   noPlans,
                   noPlansCount,
+                  crop_variety_photo_url,
                   crop_variety_name,
                   crop_variety_id,
                 } = cropCatalog;
@@ -179,7 +181,7 @@ export default function CropVarieties({ history, match, location }) {
                     }}
                     needsPlan={!!noPlansCount}
                     title={crop_variety_name}
-                    src={crop_photo_url}
+                    src={crop_variety_photo_url}
                     alt={imageKey}
                     style={{ width: cardWidth }}
                     onClick={() => goToVarietyManagement(crop_variety_id)}

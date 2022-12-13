@@ -118,6 +118,12 @@ export default function PureIrrigationTask({
 
     if (locationDefaults?.default_measuring_type) {
       setValue(MEASUREMENT_TYPE, locationDefaults?.default_measuring_type);
+      setValue(
+        IRRIGATION_TYPE,
+        IrrigationTypeOptions.find(
+          (options) => options.value === locationDefaults?.irrigation_task_type,
+        ),
+      );
     } else {
       setValue(MEASUREMENT_TYPE, '');
     }
@@ -155,18 +161,13 @@ export default function PureIrrigationTask({
     }
   }, [showWaterUseCalculatorModal]);
 
-  // const selectedIrrigationTypeOption = useMemo(() => {
-  //   return IrrigationTypeOptions.filter((options) => options.value === irrigation_type)[0];
-  // }, [irrigation_type, IrrigationTypeOptions]);
-
   return (
     <>
       <Controller
         control={control}
         name={IRRIGATION_TYPE}
         rules={{ required: true }}
-        defaultValue=""
-        render={({ field: { onChange, value, onBlur, onFocus } }) => {
+        render={({ field: { onChange, onBlur, onFocus } }) => {
           return (
             <ReactSelect
               onFocus={onFocus}

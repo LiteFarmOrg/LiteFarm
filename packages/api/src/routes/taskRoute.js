@@ -256,4 +256,10 @@ router.get(
   taskController.getFieldWorkTypes,
 );
 
+router.get(
+  '/irrigation_task_types/:farm_id',
+  hasFarmAccess({ params: 'farm_id' }),
+  taskController.getIrrigationTaskTypes,
+);
+
 export default router;

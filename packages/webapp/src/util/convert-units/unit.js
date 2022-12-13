@@ -114,7 +114,7 @@ export const container_planting_depth = {
   databaseUnit: databaseUnit.length,
 };
 
-export const estimated_duration = {
+export const irrigation_task_estimated_duration = {
   metric: {
     units: ['h', 'min'],
     defaultUnit: 'h',

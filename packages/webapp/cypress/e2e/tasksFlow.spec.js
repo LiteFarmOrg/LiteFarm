@@ -140,7 +140,9 @@ before(() => {
 });
 
 describe.only('LiteFarm end to end tests for tasks flow', () => {
-  it('create a cleaning task with all inputs', () => {
+  it('create a cleaning task with all inputs user system of measurement preference metric', () => {
+    let productUnit;
+    let waterUnit;
     cy.contains('Clean').click();
     const date = new Date();
     date.setDate(date.getDate() + 1);
@@ -167,7 +169,17 @@ describe.only('LiteFarm end to end tests for tasks flow', () => {
     cy.get('[data-cy=cleanTask-productSupplier]').type(Data.cleanTask.Supplier);
     cy.get('[data-cy=cleanTask-agentPermitted]').first().check({ force: true });
     cy.get('[data-cy=soilAmendment-quantity]').type(Data.cleanTask.Quantity);
+    cy.get('.Unit-select')
+      .eq(0)
+      .then(($elem) => {
+        productUnit = $elem.text();
+      });
     cy.get('[data-cy=cleanTask-waterUsage]').type(Data.cleanTask.Water_Usage);
+    cy.get('.Unit-select')
+      .eq(1)
+      .then(($elem) => {
+        waterUnit = $elem.text();
+      });
     cy.get('[data-cy=task-notes]').type(Data.cleanTask.Notes);
     cy.get('[data-cy=addTask-detailsContinue]')
       .should('exist')
@@ -202,9 +214,21 @@ describe.only('LiteFarm end to end tests for tasks flow', () => {
     cy.get('[data-cy="soilAmendment-quantity"]')
       .invoke('val')
       .should('equal', Data.cleanTask.Quantity, { matchCase: false });
+    cy.get('.Unit-select')
+      .eq(0)
+      .then(($elem) => {
+        const text = $elem.text();
+        expect(text).to.equal(productUnit);
+      });
 
     cy.get('[data-cy="cleanTask-waterUsage"]')
       .invoke('val')
       .should('equal', Data.cleanTask.Water_Usage, { matchCase: false });
+    cy.get('.Unit-select')
+      .eq(1)
+      .then(($elem) => {
+        const text = $elem.text();
+        expect(text).to.equal(waterUnit);
+      });
   });
 });

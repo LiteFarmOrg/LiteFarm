@@ -115,12 +115,12 @@ const useReactSelectStyles = (disabled, { reactSelectWidth = DEFAULT_REACT_SELEC
         width: `${reactSelectWidth - 19}px`,
         display: 'flex',
         justifyContent: 'center',
-        background: state.isDisabled ? 'var(--inputDisabled)' : 'inherit',
+        background: disabled ? 'var(--inputDisabled)' : 'inherit',
       }),
       singleValue: (provided, state) => ({
         fontSize: '16px',
         lineHeight: '24px',
-        color: 'var(--fontColor)',
+        color: state.isDisabled ? 'var(--grey600)' : 'var(--fontColor)',
         fontStyle: 'normal',
         fontWeight: 'normal',
         fontFamily: '"Open Sans", "SansSerif", serif',
@@ -380,7 +380,7 @@ const Unit = ({
             className={clsx(
               styles.verticleDivider,
               showError && styles.inputError,
-              disabled && styles.none,
+              (isSelectDisabled || disabled) && styles.none,
             )}
             style={{
               width: `${

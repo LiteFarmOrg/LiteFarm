@@ -102,6 +102,7 @@ export default function PureTaskReadOnly({
     getValues,
     control,
     setValue,
+    reset,
     formState: { errors, isValid },
   } = useForm({
     mode: 'onChange',
@@ -293,6 +294,7 @@ export default function PureTaskReadOnly({
               control,
               register,
               errors,
+              reset,
               disabled: true,
               farm: user,
               system,
@@ -373,6 +375,7 @@ export default function PureTaskReadOnly({
           watch,
           control,
           register,
+          reset,
           formState: { errors, isValid },
           errors,
           disabled: true,

@@ -47,7 +47,6 @@ export default function PureIrrigationTask({
   const [irrigationTypeValue, setIrrigationTypeValue] = useState(() => {
     if (locationDefaults?.irrigation_task_type) return locationDefaults?.irrigation_task_type;
   });
-  // const [totalWaterUsage, setTotalWaterUsage] = useState();
   const [totalVolumeWaterUsage, setTotalVolumeWaterUsage] = useState();
   const [totalDepthWaterUsage, setTotalDepthWaterUSage] = useState();
   const dispatch = useDispatch();

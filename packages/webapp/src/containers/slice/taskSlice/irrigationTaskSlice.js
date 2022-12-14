@@ -4,10 +4,10 @@ import { pick } from '../../../util/pick';
 import { createSelector } from 'reselect';
 const irrigationTaskProperties = [
   'task_id',
-  'type',
+  'irrigation_type_name',
   'application_depth',
   'application_depth_unit',
-  'default_measuring_type',
+  'measuring_type',
   'estimated_duration',
   'estimated_duration_unit',
   'estimated_flow_rate',

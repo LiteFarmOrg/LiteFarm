@@ -13,7 +13,7 @@ class IrrigationTypesModel extends BaseModel {
   static get jsonSchema() {
     return {
       type: 'object',
-      required: ['irrigation_type_name'],
+      required: [''],
       properties: {
         irrigation_type_id: { type: 'string' },
         irrigation_type_name: { type: 'string' },
@@ -34,11 +34,11 @@ class IrrigationTypesModel extends BaseModel {
   }
 
   static async updateIrrigationType(irrigationTypeValues) {
+    const { irrigation_type_id, ...rest } = irrigationTypeValues;
     IrrigationTypesModel.query()
-      .where('irrigation_type_name', irrigationTypeValues.irrigation_type_name)
+      .where('irrigation_type_id', irrigation_type_id)
       .patch({
-        default_measuring_type: irrigationTypeValues.default_measuring_type,
-        farm_id: irrigationTypeValues.farm_id,
+        ...rest,
       })
       .returning('*');
   }

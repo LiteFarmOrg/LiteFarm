@@ -303,39 +303,50 @@ const taskController = {
       }
       case 'irrigation_task':
         return await (async () => {
+          const customIrrigationType = {
+            irrigation_type_name: data.irrigation_task.irrigation_type_name,
+            farm_id,
+            default_measuring_type: data.irrigation_task.measuring_type,
+            created_by_user_id: data.owner_user_id,
+            updated_by_user_id: data.owner_user_id,
+            created_at: new Date().toISOString(),
+            updated_at: new Date().toISOString(),
+          };
+
           const irrigationTypeExists = await IrrigationTypesModel.query()
             .select('irrigation_type_id')
             .where({ irrigation_type_name: data.irrigation_task.irrigation_type_name })
             .first();
+
           const irrigation_type = irrigationTypeExists
             ? irrigationTypeExists
-            : await IrrigationTypesModel.insertCustomIrrigationType({
-                irrigation_type_name: data.irrigation_task.irrigation_type_name,
-                farm_id,
-                default_measuring_type: data.irrigation_task.measuring_type,
-                default_irrigation_task_type_measurement:
-                  data.irrigation_task.default_irrigation_task_type_measurement,
-                created_by_user_id: data.owner_user_id,
-                updated_by_user_id: data.owner_user_id,
-                created_at: new Date().toISOString(),
-                updated_at: new Date().toISOString(),
-              });
-          if (data.irrigation_task.default_irrigation_task_type_measurement) {
-            console.log('test');
-          }
-          delete data.irrigation_task.default_irrigation_task_type_measurement;
-          console.log(irrigation_type.irrigation_type_id);
+            : await IrrigationTypesModel.insertCustomIrrigationType({ ...customIrrigationType });
 
-          // if (data.irrigation_type?.default_irrigation_task_type_measurement) {
-          //   await IrrigationTypesModel.updateIrrigationType(irrigationTypeValues);
+          // if (data.irrigation_task.default_irrigation_task_type_measurement) {
+          //   const checkFarmIrrigationTypeExists = await IrrigationTypesModel.query()
+          //       .select('irrigation_type_id')
+          //       .where('irrigation_type_name', data.irrigation_task.irrigation_type_name)
+          //       .andWhere('farm_id', farm_id)
+          //       .first();
+          //
+          //   checkFarmIrrigationTypeExists ? await IrrigationTypesModel.updateIrrigationType(
+          //       {
+          //         irrigation_type_id: checkFarmIrrigationTypeExists.irrigation_type_id,
+          //         irrigation_type_name: data.irrigation_task.irrigation_type_name,
+          //         default_measuring_type: data.irrigation_task.measuring_type,
+          //         updated_by_user_id: data.owner_user_id,
+          //         updated_at: new Date().toISOString(),
+          //       })
+          //       : await IrrigationTypesModel.insertCustomIrrigationType({ ...customIrrigationType });
+          //
           // }
-          // if (data.location_defaults) {
+          // if (data.location_defaults){
           //   await locationDefaultsModel.createOrUpdateLocationDefaults({
           //     location_defaults: data.location_defaults,
-          //   });
+          //   })
           // }
-          // delete data.irrigation_type;
-          // delete data.location_defaults;
+          data.irrigation_task.irrigation_type_id = irrigation_type.irrigation_type_id;
+          delete data.location_defaults;
         })();
       default: {
         return data;

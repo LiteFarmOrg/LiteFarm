@@ -1,6 +1,4 @@
 import BaseModel from './baseModel.js';
-import { Model } from 'objection';
-import locationModel from './locationModel.js';
 
 class LocationDefaultsModel extends BaseModel {
   static get tableName() {
@@ -27,29 +25,11 @@ class LocationDefaultsModel extends BaseModel {
       additionalProperties: false,
     };
   }
-  static get relationMappings() {
-    return {
-      location: {
-        relation: Model.BelongsToOneRelation,
-        // The related model. This can be either a Model
-        // subclass constructor or an absolute file path
-        // to a module that exports one.
-        modelClass: locationModel,
-        join: {
-          from: 'location_defaults.location_id',
-          to: 'location.location_id',
-        },
-      },
-    };
-  }
-  static async createOrUpdateLocationDefaults({ location_defaults }) {
-    for (const location_default of location_defaults) {
-      await LocationDefaultsModel.transaction(async (trx) => {
-        await LocationDefaultsModel.query(trx)
-          .context({ location_id: location_default.location_id })
-          .upsertGraph({ ...location_default }, { insertMissing: true });
-      });
-    }
+  static async createOrUpdateLocationDefaults(location_defaults) {
+    const { user_id, ...rest } = location_defaults;
+    await LocationDefaultsModel.query()
+      .context({ user_id })
+      .upsertGraph({ ...rest }, { insertMissing: true });
   }
 }
 export default LocationDefaultsModel;

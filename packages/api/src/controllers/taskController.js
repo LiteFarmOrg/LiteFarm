@@ -26,6 +26,7 @@ import User from '../models/userModel.js';
 import { typesOfTask } from './../middleware/validation/task.js';
 import IrrigationTypesModel from '../models/irrigationTypesModel.js';
 import FieldWorkTypeModel from '../models/fieldWorkTypeModel.js';
+import locationDefaultsModel from '../models/locationDefaultsModel.js';
 const adminRoles = [1, 2, 5];
 // const isDateInPast = (date) => {
 //   const today = new Date();
@@ -321,6 +322,7 @@ const taskController = {
           const irrigation_type = irrigationTypeExists
             ? irrigationTypeExists
             : await IrrigationTypesModel.insertCustomIrrigationType({ ...customIrrigationType });
+
           data.irrigation_task.irrigation_type_id = irrigation_type.irrigation_type_id;
 
           if (data.irrigation_task.default_irrigation_task_type_measurement) {
@@ -329,26 +331,21 @@ const taskController = {
               .where('irrigation_type_name', data.irrigation_task.irrigation_type_name)
               .andWhere('farm_id', farm_id)
               .first();
-
             checkFarmIrrigationTypeExists
               ? await IrrigationTypesModel.updateIrrigationType({
                   irrigation_type_id: checkFarmIrrigationTypeExists.irrigation_type_id,
                   irrigation_type_name: data.irrigation_task.irrigation_type_name,
                   default_measuring_type: data.irrigation_task.measuring_type,
-                  updated_by_user_id: data.owner_user_id,
-                  updated_at: new Date().toISOString(),
+                  user_id: data.owner_user_id,
                 })
               : await IrrigationTypesModel.insertCustomIrrigationType({ ...customIrrigationType });
           }
 
           if (data.location_defaults) {
-            // await locationDefaultsModel.createOrUpdateLocationDefaults({
-            //  ...data.location_defaults,
-            //   created_by_user_id: data.owner_user_id,
-            //   updated_by_user_id: data.owner_user_id,
-            //   created_at: new Date().toISOString(),
-            //   updated_at: new Date().toISOString(),
-            // })
+            await locationDefaultsModel.createOrUpdateLocationDefaults({
+              ...data.location_defaults[0],
+              user_id: data.owner_user_id,
+            });
             delete data.location_defaults;
           }
           return data;

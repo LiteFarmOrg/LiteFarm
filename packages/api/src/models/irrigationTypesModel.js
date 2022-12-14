@@ -34,13 +34,11 @@ class IrrigationTypesModel extends BaseModel {
   }
 
   static async updateIrrigationType(irrigationTypeValues) {
-    const { irrigation_type_id, ...rest } = irrigationTypeValues;
-    IrrigationTypesModel.query()
-      .where('irrigation_type_id', irrigation_type_id)
-      .patch({
-        ...rest,
-      })
-      .returning('*');
+    const { user_id, irrigation_type_id, ...rest } = irrigationTypeValues;
+    return await IrrigationTypesModel.query()
+      .context({ user_id })
+      .findById(irrigation_type_id)
+      .patch({ ...rest });
   }
   static async getAllIrrigationTaskTypesByFarmId(farm_id) {
     return IrrigationTypesModel.query()

@@ -29,18 +29,13 @@ export const up = async function (knex) {
     table.renameColumn('type', 'irrigation_type_name');
     table.renameColumn('default_measuring_type', 'measuring_type');
     table.float('percent_of_location_irrigated');
-    table.dropColumn('default_location_flow_rate');
-    table.dropColumn('default_location_application_depth');
-    table.dropColumn('default_irrigation_task_type_location');
-    table.dropColumn('default_irrigation_task_type_measurement');
-    table.dropColumn('estimated_water_usage_unit');
-    table.dropColumn('estimated_flow_rate_unit');
-    table.dropColumn('application_depth_unit');
   });
 };
 
 export const down = async function (knex) {
   await knex.schema.alterTable('irrigation_task', (table) => {
     table.dropColumn('percent_of_location_irrigated');
+    table.renameColumn('irrigation_type_name', 'type');
+    table.renameColumn('measuring_type', 'default_measuring_type');
   });
 };

@@ -16,10 +16,9 @@ class IrrigationTypesModel extends BaseModel {
       required: ['irrigation_type_name'],
       properties: {
         irrigation_type_id: { type: 'string' },
-        irrigation_type_name: { type: 'string', uniqueItems: true },
+        irrigation_type_name: { type: 'string' },
         farm_id: { type: 'string' },
         default_measuring_type: { type: 'string' },
-        default_irrigation_task_type_measurement: { type: 'boolean' },
         ...this.baseProperties,
       },
       additionalProperties: false,

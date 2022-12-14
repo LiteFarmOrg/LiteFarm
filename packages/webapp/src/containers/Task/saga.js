@@ -408,12 +408,6 @@ const getIrrigationTaskBody = (data, endpoint, managementPlanWithCurrentLocation
           'irrigated_area',
           'irrigated_area_unit',
           'location_size_unit',
-          'application_depth_unit',
-          'estimated_flow_rate_unit',
-          'estimated_water_usage_unit',
-          'default_irrigation_task_type_location',
-          'default_location_application_depth',
-          'default_location_flow_rate',
         ].includes(element) && delete data.irrigation_task[element];
       }
     },

@@ -635,7 +635,24 @@ const taskController = {
       const irrigationTaskTypes = await IrrigationTypesModel.getAllIrrigationTaskTypesByFarmId(
         farm_id,
       );
-      res.status(200).json(irrigationTaskTypes);
+      const customIrrigationTypes = irrigationTaskTypes.filter((task) => task.farm_id !== null);
+      const nonDuplicate = irrigationTaskTypes.filter(
+        (task) =>
+          !customIrrigationTypes
+            .map((test) => test.irrigation_type_name)
+            .includes(task.irrigation_type_name),
+      );
+      const formattedIrrigationTskTypes = nonDuplicate.concat(customIrrigationTypes);
+      formattedIrrigationTskTypes.sort(function (a, b) {
+        if (a.irrigation_type_name < b.irrigation_type_name) {
+          return -1;
+        }
+        if (a.irrigation_type_name > b.irrigation_type_name) {
+          return 1;
+        }
+        return 0;
+      });
+      res.status(200).json(formattedIrrigationTskTypes);
     } catch (error) {
       return res.status(400).send(error);
     }

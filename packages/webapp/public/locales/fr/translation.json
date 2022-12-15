@@ -330,12 +330,14 @@
       "TITLE": "Filtre de catalogue de cultures"
     },
     "FILTER_TITLE": "Recadrer le filtre du catalogue",
+    "GENUS": "MISSING",
     "HERE_YOU_CAN": "Ici, vous pouvez\u00a0:",
     "LETS_BEGIN": "Commencer",
     "NEW_CROP_NAME": "Nouveau nom de culture",
     "NO_RESULTS_FOUND": "Aucun résultat trouvé. Veuillez modifier vos filtres.",
     "ON_YOUR_FARM": "Sur votre ferme",
-    "SELECT_A_CROP": "Sélectionnez une culture pour l'ajouter à votre ferme. Utilisez la recherche et les filtres pour trouver les récoltes plus rapidement."
+    "SELECT_A_CROP": "Sélectionnez une culture pour l'ajouter à votre ferme. Utilisez la recherche et les filtres pour trouver les récoltes plus rapidement.",
+    "SPECIES": "MISSING"
   },
   "CROP_DETAIL": {
     "ADD_PLAN": "Ajouter un plan",

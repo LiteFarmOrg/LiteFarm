@@ -10,36 +10,76 @@ import { mergeRefs } from '../utils';
 import { useTranslation } from 'react-i18next';
 import { ReactComponent as Leaf } from '../../../assets/images/signUp/leaf.svg';
 import Infoi from '../../Tooltip/Infoi';
-import { get } from 'react-hook-form';
+import * as ReactHookForm from 'react-hook-form';
 import i18n from '../../../locales/i18n';
 
+
+/**
+ * Creates a new text input on a form.
+ * 
+ * @param {Object} propTypes Interface describing types of props
+ * @param {{
+ *  input: React.CSSProperties, 
+ *  label: React.CSSProperties,
+ *  container: React.CSSProperties,
+ *  info: React.CSSProperties,
+ *  errors: React.CSSProperties
+ * }} [propTypes.classes={}] Add style objects into child elements. (optional)  
+ *     *default: { }*
+ * @param {string} [propTypes.currency] Currency symbol or abbreviation. (optional)
+ * @param {boolean} [propTypes.disabled=false]  Disable input functionality. (optional)  
+ *     *default: false*
+ * @param {(string|boolean)} [propTypes.errors] Shows error messages if truthy. (optional)
+ * @param {boolean} [propTypes.hasLeaf] Has organic leaf identifier. (optional)
+ * @param {ReactHookForm.UseFormRegisterReturn} [propTypes.hookFormRegister] Return object from register() from react-hook-form. (optional)
+ * @param {(React.ReactNode[]|React.ReactNode)} [propTypes.icon] Pass one or an array of icon components (nodes). (optional)
+ * @param {string} [propTypes.info] Visible help text below input. (optional)
+ * @param {boolean} [propTypes.isSearchBar] Is being used as a search bar. (optional)
+ * @param {string} [propTypes.label] Input label text. (optional)
+ * @param {(number|string)} [propTypes.max] If input value > max, component will auto correct and set to max. (optional)
+ * @param {(number|string)} [propTypes.min] If input value < min, component will auto correct and set to min. (optional)
+ * @param {function()} [propTypes.onBlur] Callback function passed to child `<input />`. (optional)
+ * @param {function()} [propTypes.onChange] Callback function passed to children: `<input />` and `<Cross />`. (optional)
+ * @param {boolean} [propTypes.optional] Label text should include "(optional)" (optional)
+ * @param {string} [propTypes.placeholder] Example or dummy text in input box. (optional)
+ * @param {boolean} [propTypes.showCross] Show the Close [X] button on error. (optional)  
+ *     *default: false*
+ * @param {React.CSSProperties} [propTypes.style] Add style to `<Input />`. (optional)
+ * @param {string} [propTypes.toolTipContent] Text displayed on hover of Tooltip icon. (optional)
+ * @param {string} [propTypes.type] One of React.HTMLInputTypeAttribute or 'decimal'. Affect visibility (ie passwords) and input sanitization. (optional)  
+ *     *default: 'text'*
+ * @param {string} [propTypes.unit] Shows text symbol or abbreviation for units.(optional)
+ * @todo Deprecate propTypes.optional replace with hookFormRegister.required.
+ * @todo Replace propTypes.type with React.HTMLInputTypeAttribute.
+ * @todo Deprecate propTypes.unit and replace `<Input />` wit `<Unit />`.
+ * @todo Input should be a controlled component.
+*/
 const Input = ({
-  disabled = false,
   classes = {},
-  style,
-  label,
-  optional,
-  info,
+  currency,
+  disabled = false,
   errors,
-  icon,
+  hasLeaf,
   hookFormRegister,
+  icon,
+  info,
   isSearchBar,
-  type = 'text',
+  label,
   max,
   min,
-  toolTipContent,
-  unit,
-  showCross = true,
-  onChange,
   onBlur,
-  hasLeaf,
+  onChange,
+  optional,
   placeholder,
-  currency,
+  showCross = true,
+  style,
+  toolTipContent,
+  type = 'text',
+  unit,
   ...props
 }) => {
   const { t } = useTranslation(['translation', 'common']);
   const name = hookFormRegister?.name ?? props?.name;
-
   const [inputType, setType] = useState(type);
   const isPassword = type === 'password';
   const showPassword = inputType === 'text';
@@ -226,7 +266,7 @@ export const integerOnKeyDown = (event) => {
 export const preventNumberScrolling = (e) => e.target.blur();
 
 export const getInputErrors = (errors, name) => {
-  const error = get(errors, name);
+  const error = ReactHookForm.get(errors, name);
   if (error?.type === 'required') {
     return i18n.t('common:REQUIRED');
   } else {

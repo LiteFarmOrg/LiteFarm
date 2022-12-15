@@ -458,8 +458,7 @@ const taskController = {
     const nonModifiable = getNonModifiable(typeOfTask);
     return async (req, res, next) => {
       try {
-        let data = req.body;
-        data = await this.checkCustomDependencies(typeOfTask, data, req.headers.farm_id);
+        const data = req.body;
         const { farm_id } = req.headers;
         const { user_id } = req.user;
         const { task_id } = req.params;

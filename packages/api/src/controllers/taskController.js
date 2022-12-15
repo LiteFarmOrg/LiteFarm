@@ -304,43 +304,40 @@ const taskController = {
       }
       case 'irrigation_task':
         return await (async () => {
-          const customIrrigationType = {
-            irrigation_type_name: data.irrigation_task.irrigation_type_name,
-            farm_id,
-            default_measuring_type: data.irrigation_task.measuring_type,
-            created_by_user_id: data.owner_user_id,
-            updated_by_user_id: data.owner_user_id,
-            created_at: new Date().toISOString(),
-            updated_at: new Date().toISOString(),
-          };
-
-          const irrigationTypeExists = await IrrigationTypesModel.query()
-            .select('irrigation_type_id')
-            .where({ irrigation_type_name: data.irrigation_task.irrigation_type_name })
-            .first();
-
-          const irrigation_type = irrigationTypeExists
-            ? irrigationTypeExists
-            : await IrrigationTypesModel.insertCustomIrrigationType({ ...customIrrigationType });
-
-          data.irrigation_task.irrigation_type_id = irrigation_type.irrigation_type_id;
-
-          if (data.irrigation_task.default_irrigation_task_type_measurement) {
-            const checkFarmIrrigationTypeExists = await IrrigationTypesModel.query()
-              .select('irrigation_type_id')
-              .where('irrigation_type_name', data.irrigation_task.irrigation_type_name)
-              .andWhere('farm_id', farm_id)
-              .first();
-            checkFarmIrrigationTypeExists
-              ? await IrrigationTypesModel.updateIrrigationType({
-                  irrigation_type_id: checkFarmIrrigationTypeExists.irrigation_type_id,
-                  irrigation_type_name: data.irrigation_task.irrigation_type_name,
-                  default_measuring_type: data.irrigation_task.measuring_type,
-                  user_id: data.owner_user_id,
-                })
-              : await IrrigationTypesModel.insertCustomIrrigationType({ ...customIrrigationType });
+          if (data.irrigation_task){
+            const customIrrigationType = {
+              irrigation_type_name: data.irrigation_task.irrigation_type_name,
+              farm_id,
+              default_measuring_type: data.irrigation_task.measuring_type,
+              created_by_user_id: data.owner_user_id,
+              updated_by_user_id: data.owner_user_id,
+              created_at: new Date().toISOString(),
+              updated_at: new Date().toISOString(),
+            };
+            const irrigationTypeExists = await IrrigationTypesModel.query()
+                .select('irrigation_type_id')
+                .where({ irrigation_type_name: data.irrigation_task.irrigation_type_name })
+                .first();
+            const irrigation_type = irrigationTypeExists
+                ? irrigationTypeExists
+                : await IrrigationTypesModel.insertCustomIrrigationType({ ...customIrrigationType });
+            data.irrigation_task.irrigation_type_id = irrigation_type.irrigation_type_id;
+            if (data.irrigation_task.default_irrigation_task_type_measurement) {
+              const checkFarmIrrigationTypeExists = await IrrigationTypesModel.query()
+                  .select('irrigation_type_id')
+                  .where('irrigation_type_name', data.irrigation_task.irrigation_type_name)
+                  .andWhere('farm_id', farm_id)
+                  .first();
+              checkFarmIrrigationTypeExists
+                  ? await IrrigationTypesModel.updateIrrigationType({
+                    irrigation_type_id: checkFarmIrrigationTypeExists.irrigation_type_id,
+                    irrigation_type_name: data.irrigation_task.irrigation_type_name,
+                    default_measuring_type: data.irrigation_task.measuring_type,
+                    user_id: data.owner_user_id,
+                  })
+                  : await IrrigationTypesModel.insertCustomIrrigationType({ ...customIrrigationType });
+            }
           }
-
           if (data.location_defaults) {
             await locationDefaultsModel.createOrUpdateLocationDefaults({
               ...data.location_defaults[0],
@@ -458,7 +455,7 @@ const taskController = {
     const nonModifiable = getNonModifiable(typeOfTask);
     return async (req, res, next) => {
       try {
-        const data = req.body;
+        let data = req.body;
         const { farm_id } = req.headers;
         const { user_id } = req.user;
         const { task_id } = req.params;
@@ -478,6 +475,7 @@ const taskController = {
         const wagePatchData = override_hourly_wage
           ? { wage_at_moment }
           : { wage_at_moment: wage.amount };
+        data = await this.checkCustomDependencies(typeOfTask, data = { ...data, owner_user_id: user_id }, req.headers.farm_id);
         const result = await TaskModel.transaction(async (trx) => {
           const task = await TaskModel.query(trx)
             .context({ user_id: req.user.user_id })

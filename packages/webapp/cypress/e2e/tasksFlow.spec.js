@@ -16,7 +16,7 @@ before(() => {
   });
 });
 
-before(() => {
+beforeEach(() => {
   cy.fixture('tasks').then((data) => {
     Data = data;
   });
@@ -140,7 +140,7 @@ before(() => {
 });
 
 describe.only('LiteFarm end to end tests for tasks flow', () => {
-  it('create a cleaning task with all inputs user system of measurement preference metric', () => {
+  it.only('create a cleaning task with all inputs user system of measurement preference metric', () => {
     let productUnit;
     let waterUnit;
     cy.contains('Clean').click();
@@ -230,5 +230,69 @@ describe.only('LiteFarm end to end tests for tasks flow', () => {
         const text = $elem.text();
         expect(text).to.equal(waterUnit);
       });
+
+    cy.get('[data-cy="task-notesReadOnly"]')
+      .invoke('val')
+      .should('equal', Data.cleanTask.Notes, { matchCase: false });
+  });
+
+  it('create a custom fieldwork task with all options', () => {
+    const customTask = 'Custom task';
+    const wage = '20';
+    cy.contains('Field Work').click();
+    const date = new Date();
+    date.setDate(date.getDate() + 1);
+    const dueDate = getDateInputFormat(date);
+
+    cy.get('[data-cy=addTask-taskDate]').should('exist').type(dueDate);
+
+    cy.get('[data-cy=addTask-continue]')
+      .should('exist')
+      .and('not.be.disabled')
+      .click({ force: true });
+    cy.wait(20 * 1000);
+    cy.get('[data-cy=map-selectLocation]').click(530, 216, {
+      force: false,
+    });
+    cy.get('[data-cy=addTask-locationContinue]')
+      .should('exist')
+      .and('not.be.disabled')
+      .click({ force: true });
+
+    cy.get('#react-select-2-input') // find all options
+      .click(); // click on first option
+
+    cy.get('#react-select-2-option-8').eq(0).click();
+    cy.get('[data-cy=fieldWork-customTask]').should('exist').type(customTask);
+
+    cy.get('[data-cy=task-notes]').type(Data.cleanTask.Notes);
+
+    cy.get('[data-cy=addTask-detailsContinue]')
+      .should('exist')
+      .and('not.be.disabled')
+      .click({ force: true });
+
+    cy.get('[type="radio"]').first().check({ force: true });
+
+    cy.get('[data-cy="taskDetails-wageOverride"]').should('exist').type(wage);
+
+    cy.get('[data-cy=addTask-assignmentSave]')
+      .should('exist')
+      .and('not.be.disabled')
+      .click({ force: true });
+
+    cy.get('[data-cy="taskCard"]').eq(0).should('exist').click();
+
+    cy.get('[data-cy="task-assignee"]')
+      .invoke('val')
+      .should('equal', fullName, { matchCase: false });
+
+    cy.get('[data-cy="task-date"]').invoke('val').should('equal', dueDate, { matchCase: false });
+
+    cy.get('[data-cy="react-select"]').contains(customTask).should('exist');
+
+    cy.get('[data-cy="task-notesReadOnly"]')
+      .invoke('val')
+      .should('equal', Data.cleanTask.Notes, { matchCase: false });
   });
 });

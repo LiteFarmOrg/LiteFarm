@@ -89,6 +89,7 @@ const PureFieldWorkTask = ({
       />
       {fieldWorkTypeExposedValue?.value === 'OTHER' && (
         <Input
+          data-cy="fieldWork-customTask"
           label={t('ADD_TASK.FIELD_WORK_VIEW.OTHER_TYPE_OF_FIELD_WORK')}
           style={{ marginBottom: '20px' }}
           name={FIELD_WORK_OTHER_TYPE}

@@ -140,6 +140,7 @@ const PureTaskAssignment = ({
         {override && (
           <div>
             <Input
+              data-cy="taskDetails-wageOverride"
               label={t('ADD_TASK.WAGE_OVERRIDE')}
               unit={currencySymbol + t('ADD_TASK.HR')}
               hookFormRegister={register(WAGE_OVERRIDE, {

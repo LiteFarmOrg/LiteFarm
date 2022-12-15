@@ -212,8 +212,6 @@ Cypress.Commands.add('createAFieldWorkTask', () => {
     .should('exist')
     .and('not.be.disabled')
     .click({ force: true });
-  cy.contains('Select') // find react-select component
-    .click({ force: true }); // click to open dropdown
   cy.get('#react-select-2-input') // find all options
     .click(); // click on first option
 

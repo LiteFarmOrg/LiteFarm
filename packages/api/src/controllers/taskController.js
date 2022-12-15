@@ -641,17 +641,13 @@ const taskController = {
             .map((test) => test.irrigation_type_name)
             .includes(task.irrigation_type_name),
       );
-      const formattedIrrigationTskTypes = nonDuplicate.concat(customIrrigationTypes);
-      formattedIrrigationTskTypes.sort(function (a, b) {
-        if (a.irrigation_type_name < b.irrigation_type_name) {
-          return -1;
-        }
-        if (a.irrigation_type_name > b.irrigation_type_name) {
-          return 1;
-        }
+      const formattedIrrigationTaskTypes = nonDuplicate.concat(customIrrigationTypes);
+      formattedIrrigationTaskTypes.sort(function (a, b) {
+        if (a.irrigation_type_name.toUpperCase() < b.irrigation_type_name.toUpperCase()) return -1;
+        if (a.irrigation_type_name.toUpperCase() > b.irrigation_type_name.toLowerCase()) return 1;
         return 0;
       });
-      res.status(200).json(formattedIrrigationTskTypes);
+      res.status(200).json(formattedIrrigationTaskTypes);
     } catch (error) {
       return res.status(400).send(error);
     }

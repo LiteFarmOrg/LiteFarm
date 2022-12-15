@@ -1600,7 +1600,7 @@ async function irrigation_taskFactory(
 
 function fakeIrrigationTask(defaultData = {}) {
   return {
-    irrigation_type_name: faker.helpers.arrayElement(['sprinkler', 'drip', 'subsurface', 'flood']),
+    irrigation_type_name: faker.helpers.arrayElement(['HAND_WATERING']),
     irrigation_type_id: faker.datatype.number(1),
     estimated_duration: faker.datatype.number(10),
     ...defaultData,

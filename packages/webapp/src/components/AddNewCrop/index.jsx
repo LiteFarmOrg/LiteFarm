@@ -111,6 +111,9 @@ export default function PureAddNewCrop({
         label={t('CROP_CATALOGUE.GENUS')}
         hookFormRegister={register('crop_genus', {
           maxLength: { value: 200, message: 'Genus cannot be longer than 200 characters' },
+          setValueAs: (v) => {
+            return v.charAt(0).toUpperCase() + v.slice(1).toLowerCase();
+          },
         })}
         errors={getInputErrors(errors, 'crop_genus')}
         optional
@@ -122,6 +125,9 @@ export default function PureAddNewCrop({
         label={t('CROP_CATALOGUE.SPECIES')}
         hookFormRegister={register('crop_specie', {
           maxLength: { value: 200, message: 'Species cannot be longer than 200 characters' },
+          setValueAs: (v) => {
+            return v.toLowerCase();
+          },
         })}
         errors={getInputErrors(errors, 'crop_specie')}
         optional

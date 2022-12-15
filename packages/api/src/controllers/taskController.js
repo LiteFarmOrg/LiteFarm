@@ -638,7 +638,7 @@ const taskController = {
       const nonDuplicate = irrigationTaskTypes.filter(
         (task) =>
           !customIrrigationTypes
-            .map((test) => test.irrigation_type_name)
+            .map((type) => type.irrigation_type_name)
             .includes(task.irrigation_type_name),
       );
       const formattedIrrigationTaskTypes = nonDuplicate.concat(customIrrigationTypes);

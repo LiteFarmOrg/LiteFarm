@@ -23,15 +23,11 @@ import modalStyles from './styles.module.scss';
 
 const TotalWaterUsage = ({ totalWaterUsage, estimated_water_usage_unit }) => {
   const { t } = useTranslation();
-  const unit_label = ['ml', 'l'].includes(estimated_water_usage_unit?.value) ? 'l' : 'gal';
   return (
     <div className={modalStyles.labelContainer}>
       <Label className={modalStyles.label}>{t('ADD_TASK.IRRIGATION_VIEW.TOTAL_WATER_USAGE')}</Label>
       <Label className={modalStyles.label}>
-        {unit_label === 'l'
-          ? totalWaterUsage
-          : roundToTwoDecimal(convert(totalWaterUsage).from('l').to('gal'))}{' '}
-        {unit_label}
+        {totalWaterUsage} {['ml', 'l'].includes(estimated_water_usage_unit?.value) ? 'l' : 'gal'}
       </Label>
     </div>
   );

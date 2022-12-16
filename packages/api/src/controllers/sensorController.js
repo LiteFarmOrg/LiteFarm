@@ -484,11 +484,10 @@ const sensorController = {
   async getReadingsByFarmId(req, res) {
     try {
       const { farm_id } = req.params;
-      const { days = 7 } = req.query;
       if (!farm_id) {
         return res.status(400).send('Invalid farm id');
       }
-      const result = await SensorReadingModel.getSensorReadingsInDaysByFarmId(farm_id, days);
+      const result = await SensorReadingModel.getSensorReadingsInDaysByFarmId(farm_id);
       res.status(200).send(result);
     } catch (error) {
       res.status(400).send(error);

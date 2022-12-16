@@ -77,7 +77,6 @@ export function* postCropAndVarietalSaga({ payload: cropData }) {
   const data = {
     crop: {
       ...crop,
-      crop_photo_url: variety.crop_variety_photo_url,
       farm_id,
     },
     variety: {

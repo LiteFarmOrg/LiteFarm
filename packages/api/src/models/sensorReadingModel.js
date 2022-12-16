@@ -61,16 +61,30 @@ class SensorReading extends Model {
    * @param {number} days number of days of sensor readings
    * @returns {Object} Sensor Reading Object
    */
-  static async getSensorReadingsInDaysByFarmId(farmId, days) {
-    const pastDate = new Date();
-    pastDate.setDate(pastDate.getDate() - days);
-    return await SensorReading.query()
-      .select('*')
-      .join('sensor', 'sensor_reading.location_id', 'sensor.location_id')
-      .join('location', 'sensor_reading.location_id', 'location.location_id')
-      .where('farm_id', farmId)
-      .andWhere('read_time', '>=', pastDate)
-      .orderBy('read_time', 'desc');
+  static async getSensorReadingsInDaysByFarmId(farmId) {
+    const sensorReadings = await knex.raw(
+      `
+      SELECT * FROM 
+      (SELECT
+      l.name,
+      rank() OVER 
+        (
+        PARTITION BY sr.reading_type, sr.location_id 
+        ORDER BY sr.read_time DESC
+        ),
+        sr.*
+        FROM sensor_reading AS sr
+      INNER JOIN sensor AS s
+      ON sr.location_id = s.location_id
+      INNER JOIN location AS l
+      ON sr.location_id = l.location_id
+      WHERE l.farm_id = ?
+      ) sensor_reading_ranked_scores
+      WHERE rank <=1
+    `,
+      [farmId],
+    );
+    return sensorReadings.rows;
   }
 
   /**

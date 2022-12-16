@@ -133,7 +133,7 @@ export default function PureAddNewCrop({
       >
         {React.cloneElement(imageUploader, {
           hookFormRegister: cropImageUrlRegister,
-          uploadDirectory: 'crop_variety/',
+          targetRoute: 'crop',
         })}
       </div>
       <Input

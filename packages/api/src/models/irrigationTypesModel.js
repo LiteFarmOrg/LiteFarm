@@ -43,6 +43,38 @@ class IrrigationTypesModel extends BaseModel {
       },
     };
   }
+  static async checkFarmIrrigationTypeExists(data, farm_id) {
+    const checkFarmIrrigationTypeExists = await IrrigationTypesModel.query()
+      .select('irrigation_type_id')
+      .where('irrigation_type_name', data.irrigation_task.irrigation_type_name)
+      .andWhere('farm_id', farm_id)
+      .first();
+    return {
+      checkFarmIrrigationTypeExists,
+    };
+  }
+  static async checkAndAddCustomIrrigationType(data, farm_id) {
+    const customIrrigationType = {
+      irrigation_type_name: data.irrigation_task.irrigation_type_name,
+      farm_id,
+      default_measuring_type: data.irrigation_task.measuring_type,
+      created_by_user_id: data.owner_user_id,
+      updated_by_user_id: data.owner_user_id,
+      created_at: new Date().toISOString(),
+      updated_at: new Date().toISOString(),
+    };
+    const irrigationTypeExists = await IrrigationTypesModel.query()
+      .select('irrigation_type_id')
+      .where({ irrigation_type_name: data.irrigation_task.irrigation_type_name })
+      .first();
+    const irrigation_type = irrigationTypeExists
+      ? irrigationTypeExists
+      : await IrrigationTypesModel.insertCustomIrrigationType({ ...customIrrigationType });
+    data.irrigation_task.irrigation_type_id = irrigation_type.irrigation_type_id;
+    return {
+      customIrrigationType,
+    };
+  }
 
   static async insertCustomIrrigationType(row) {
     await knex('irrigation_type').insert(row);

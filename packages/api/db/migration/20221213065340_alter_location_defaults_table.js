@@ -12,6 +12,8 @@ export const up = async function (knex) {
 
 export const down = async function (knex) {
   await knex.schema.alterTable('location_defaults', (table) => {
+    table.float('estimated_flow_rate').alter();
+    table.float('application_depth').alter();
     table.dropColumn('created_by_user_id');
     table.dropColumn('updated_by_user_id');
     table.dropColumn('created_at');

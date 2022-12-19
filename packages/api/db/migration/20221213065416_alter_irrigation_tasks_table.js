@@ -41,8 +41,11 @@ export const up = async function (knex) {
 
 export const down = async function (knex) {
   await knex.schema.alterTable('irrigation_task', (table) => {
-    table.dropColumn('percent_of_location_irrigated');
+    table.float('estimated_flow_rate').alter();
+    table.float('estimated_water_usage').alter();
+    table.float('application_depth').alter();
     table.renameColumn('irrigation_type_name', 'type');
     table.renameColumn('measuring_type', 'default_measuring_type');
+    table.dropColumn('percent_of_location_irrigated');
   });
 };

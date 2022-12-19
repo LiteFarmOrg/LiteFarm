@@ -81,7 +81,7 @@ class IrrigationTypesModel extends BaseModel {
     const irrigationType = await knex('irrigation_type')
       .select('irrigation_type_id')
       .where({ irrigation_type_name: row.irrigation_type_name });
-    return irrigationType[0];
+    return irrigationType.length > 0 ? irrigationType[0] : [];
   }
 
   static async updateIrrigationType(irrigationTypeValues) {
@@ -91,12 +91,15 @@ class IrrigationTypesModel extends BaseModel {
       .findById(irrigation_type_id)
       .patch({ ...rest });
   }
+
   static async getAllIrrigationTaskTypesByFarmId(farm_id) {
-    return IrrigationTypesModel.query()
-      .select('*')
-      .where((builder) => {
-        builder.whereNull('farm_id').orWhere({ farm_id });
-      });
+    const data = await knex.raw(`SELECT * FROM (
+    SELECT DISTINCT ON (UPPER(irrigation_type_name)) it.*
+    FROM irrigation_type AS it
+    WHERE farm_id = '${farm_id}'
+    OR farm_id IS NULL) AS a
+    ORDER BY irrigation_type_name ASC;`);
+    return data.rows;
   }
 }
 export default IrrigationTypesModel;

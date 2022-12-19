@@ -15,6 +15,7 @@
 
 import { Model } from 'objection';
 import taskModel from './taskModel.js';
+import IrrigationTypesModel from './irrigationTypesModel.js';
 
 class IrrigationTaskModel extends Model {
   static get tableName() {
@@ -46,10 +47,6 @@ class IrrigationTaskModel extends Model {
         application_depth: { type: 'number' },
         application_depth_unit: { type: 'string' },
         measuring_type: { type: 'string' },
-        default_location_flow_rate: { type: 'boolean' },
-        default_location_application_depth: { type: 'boolean' },
-        default_irrigation_task_type_location: { type: 'boolean' },
-        default_irrigation_task_type_measurement: { type: 'boolean' },
         percent_of_location_irrigated: { type: 'number' },
       },
       additionalProperties: false,
@@ -68,6 +65,17 @@ class IrrigationTaskModel extends Model {
         join: {
           from: 'irrigation_task.task_id',
           to: 'task.task_id',
+        },
+      },
+      irrigation_type: {
+        relation: Model.BelongsToOneRelation,
+        // The related model. This can be either a Model
+        // subclass constructor or an absolute file path
+        // to a module that exports one.
+        modelClass: IrrigationTypesModel,
+        join: {
+          from: 'irrigation_type.irrigation_type_id',
+          to: 'irrigation_task.irrigation_type_id',
         },
       },
     };

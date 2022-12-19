@@ -271,7 +271,7 @@ const taskController = {
           const [task] = await TaskModel.query(trx)
             .withGraphFetched(
               `
-          [locations, managementPlans, taskType, soil_amendment_task, irrigation_task,scouting_task,
+          [locations.[location_defaults], managementPlans, taskType, soil_amendment_task, irrigation_task.[irrigation_type],scouting_task,
           field_work_task.[field_work_task_type], cleaning_task, pest_control_task, soil_task, harvest_task, plant_task]
           `,
             )
@@ -304,7 +304,7 @@ const taskController = {
       }
       case 'irrigation_task':
         return await (async () => {
-          if (data.irrigation_task){
+          if (data.irrigation_task) {
             const customIrrigationType = {
               irrigation_type_name: data.irrigation_task.irrigation_type_name,
               farm_id,
@@ -315,27 +315,29 @@ const taskController = {
               updated_at: new Date().toISOString(),
             };
             const irrigationTypeExists = await IrrigationTypesModel.query()
-                .select('irrigation_type_id')
-                .where({ irrigation_type_name: data.irrigation_task.irrigation_type_name })
-                .first();
+              .select('irrigation_type_id')
+              .where({ irrigation_type_name: data.irrigation_task.irrigation_type_name })
+              .first();
             const irrigation_type = irrigationTypeExists
-                ? irrigationTypeExists
-                : await IrrigationTypesModel.insertCustomIrrigationType({ ...customIrrigationType });
+              ? irrigationTypeExists
+              : await IrrigationTypesModel.insertCustomIrrigationType({ ...customIrrigationType });
             data.irrigation_task.irrigation_type_id = irrigation_type.irrigation_type_id;
             if (data.irrigation_task.default_irrigation_task_type_measurement) {
               const checkFarmIrrigationTypeExists = await IrrigationTypesModel.query()
-                  .select('irrigation_type_id')
-                  .where('irrigation_type_name', data.irrigation_task.irrigation_type_name)
-                  .andWhere('farm_id', farm_id)
-                  .first();
+                .select('irrigation_type_id')
+                .where('irrigation_type_name', data.irrigation_task.irrigation_type_name)
+                .andWhere('farm_id', farm_id)
+                .first();
               checkFarmIrrigationTypeExists
-                  ? await IrrigationTypesModel.updateIrrigationType({
+                ? await IrrigationTypesModel.updateIrrigationType({
                     irrigation_type_id: checkFarmIrrigationTypeExists.irrigation_type_id,
                     irrigation_type_name: data.irrigation_task.irrigation_type_name,
                     default_measuring_type: data.irrigation_task.measuring_type,
                     user_id: data.owner_user_id,
                   })
-                  : await IrrigationTypesModel.insertCustomIrrigationType({ ...customIrrigationType });
+                : await IrrigationTypesModel.insertCustomIrrigationType({
+                    ...customIrrigationType,
+                  });
             }
           }
           if (data.location_defaults) {
@@ -345,6 +347,7 @@ const taskController = {
             });
             delete data.location_defaults;
           }
+          delete data.irrigation_task.default_irrigation_task_type_measurement;
           return data;
         })();
       default: {
@@ -475,7 +478,11 @@ const taskController = {
         const wagePatchData = override_hourly_wage
           ? { wage_at_moment }
           : { wage_at_moment: wage.amount };
-        data = await this.checkCustomDependencies(typeOfTask, data = { ...data, owner_user_id: user_id }, req.headers.farm_id);
+        data = await this.checkCustomDependencies(
+          typeOfTask,
+          (data = { ...data, owner_user_id: user_id }),
+          req.headers.farm_id,
+        );
         const result = await TaskModel.transaction(async (trx) => {
           const task = await TaskModel.query(trx)
             .context({ user_id: req.user.user_id })
@@ -583,8 +590,8 @@ const taskController = {
       const graphTasks = await TaskModel.query()
         .whereNotDeleted()
         .withGraphFetched(
-          `[locations, managementPlans, soil_amendment_task, field_work_task.[field_work_task_type], cleaning_task, pest_control_task, 
-            harvest_task.[harvest_use], plant_task, transplant_task, irrigation_task ]
+          `[locations.[location_defaults], managementPlans, soil_amendment_task, field_work_task.[field_work_task_type], cleaning_task, pest_control_task, 
+            harvest_task.[harvest_use], plant_task, transplant_task, irrigation_task.[irrigation_type] ]
         `,
         )
         .whereIn('task_id', taskIds);

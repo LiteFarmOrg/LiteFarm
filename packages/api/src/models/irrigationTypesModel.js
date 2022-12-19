@@ -1,5 +1,7 @@
 import knex from '../util/knex.js';
 import BaseModel from './baseModel.js';
+import { Model } from 'objection';
+import IrrigationTaskModel from './irrigationTaskModel.js';
 
 class IrrigationTypesModel extends BaseModel {
   static get tableName() {
@@ -22,6 +24,23 @@ class IrrigationTypesModel extends BaseModel {
         ...this.baseProperties,
       },
       additionalProperties: false,
+    };
+  }
+
+  static get relationMappings() {
+    // Import models here to prevent require loops.
+    return {
+      irrigation_task: {
+        relation: Model.BelongsToOneRelation,
+        // The related model. This can be either a Model
+        // subclass constructor or an absolute file path
+        // to a module that exports one.
+        modelClass: IrrigationTaskModel,
+        join: {
+          from: 'irrigation_task.irrigation_type_id',
+          to: 'irrigation_type.irrigation_type_id',
+        },
+      },
     };
   }
 

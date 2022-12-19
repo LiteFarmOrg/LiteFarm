@@ -14,10 +14,7 @@ const irrigationTaskProperties = [
   'estimated_flow_rate_unit',
   'estimated_water_usage',
   'estimated_water_usage_unit',
-  'default_location_flow_rate',
-  'default_location_application_depth',
-  'default_irrigation_task_type_location',
-  'default_irrigation_task_type_measurement',
+  'irrigation_type',
 ];
 const getIrrigationTask = (task) => {
   return pick(task, irrigationTaskProperties);

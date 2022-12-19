@@ -408,6 +408,9 @@ const getIrrigationTaskBody = (data, endpoint, managementPlanWithCurrentLocation
           'irrigated_area',
           'irrigated_area_unit',
           'location_size_unit',
+          'default_location_flow_rate',
+          'default_location_application_depth',
+          'default_irrigation_task_type_location',
         ].includes(element) && delete data.irrigation_task[element];
       }
     },
@@ -572,6 +575,10 @@ const getCompleteIrrigationTaskBody = (task_translation_key) => (data) => {
           'irrigated_area',
           'irrigated_area_unit',
           'location_size_unit',
+          'default_location_flow_rate',
+          'default_location_application_depth',
+          'default_irrigation_task_type_location',
+          'irrigation_type',
         ].includes(element) && delete data.taskData[taskType][element];
       }
     }

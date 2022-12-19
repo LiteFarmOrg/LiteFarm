@@ -77,11 +77,11 @@ export default function PureIrrigationTask({
   const stateController = () => {
     return { register, getValues, watch, control, setValue, reset };
   };
-  const IRRIGATION_TYPE = 'irrigation_task.type';
+  const IRRIGATION_TYPE = 'irrigation_task.irrigation_type_name';
   const DEFAULT_IRRIGATION_TASK_LOCATION = 'irrigation_task.default_irrigation_task_type_location';
   const DEFAULT_IRRIGATION_MEASUREMENT = 'irrigation_task.default_irrigation_task_type_measurement';
   const IRRIGATION_TYPE_OTHER = 'irrigation_task.irrigation_task_type_other';
-  const MEASUREMENT_TYPE = 'irrigation_task.default_measuring_type';
+  const MEASUREMENT_TYPE = 'irrigation_task.measuring_type';
   const ESTIMATED_WATER_USAGE = 'irrigation_task.estimated_water_usage';
   const ESTIMATED_WATER_USAGE_UNIT = 'irrigation_task.estimated_water_usage_unit';
 

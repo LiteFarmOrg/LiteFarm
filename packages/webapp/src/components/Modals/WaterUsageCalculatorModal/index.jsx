@@ -176,8 +176,8 @@ const WaterUseDepthCalculator = ({
   const APPLICATION_DEPTH = 'irrigation_task.application_depth';
   const APPLICATION_DEPTH_UNIT = 'irrigation_task.application_depth_unit';
   const DEFAULT_LOCATION_APPLICATION_DEPTH = 'irrigation_task.default_location_application_depth';
-  const PERCENTAGE_LOCATION_IRRIGATED = 'irrigation_task.percentage_location_irrigated';
-  const PERCENTAGE_LOCATION_IRRIGATED_UNIT = 'irrigation_task.percentage_location_irrigated_unit';
+  const PERCENTAGE_LOCATION_IRRIGATED = 'irrigation_task.percent_of_location_irrigated';
+  const PERCENTAGE_LOCATION_IRRIGATED_UNIT = 'irrigation_task.percent_of_location_irrigated_unit';
   const LOCATION_SIZE = 'irrigation_task.location_size';
   const LOCATION_SIZE_UNIT = 'irrigation_task.location_size_unit';
   const IRRIGATED_AREA = 'irrigation_task.irrigated_area';
@@ -187,6 +187,7 @@ const WaterUseDepthCalculator = ({
   const irrigated_area = watch(IRRIGATED_AREA);
   const application_depth = watch(APPLICATION_DEPTH);
   const percentage_location_irrigated = watch(PERCENTAGE_LOCATION_IRRIGATED);
+  const application_depth_unit = watch(APPLICATION_DEPTH_UNIT);
 
   useEffect(() => {
     setLocationSize(location.total_area);
@@ -207,10 +208,19 @@ const WaterUseDepthCalculator = ({
         const Irrigated_area_in_m_squared =
           getValues(IRRIGATED_AREA_UNIT)?.value === 'm2'
             ? roundToTwoDecimal(irrigated_area)
-            : roundToTwoDecimal(convert(irrigated_area).from('ha').to('m2'));
+            : roundToTwoDecimal(convert(irrigated_area).from('ha').to('m2')); // to convert from ha to m2
+        if (application_depth_unit.value === 'in') {
+          const application_depth_in_mm = application_depth
+            ? convert(application_depth).from('in').to('mm')
+            : 1; // convert application_depth from inc to mm
+          const Volume_in_m_cubed =
+            Irrigated_area_in_m_squared *
+            (application_depth > 1 ? application_depth_in_mm / 1000 : 1); // to convert application depth from mm to m
+          return roundToTwoDecimal(convert(Volume_in_m_cubed).from('m3').to('gal'));
+        }
         const Volume_in_m_cubed =
-          Irrigated_area_in_m_squared * (application_depth ? application_depth / 1000 : 1);
-        return roundToTwoDecimal(Volume_in_m_cubed * 1000);
+          Irrigated_area_in_m_squared * (application_depth ? application_depth / 1000 : 1); // to convert application depth from mm to m
+        return roundToTwoDecimal(Volume_in_m_cubed * 1000); // to convert from m3 to litres
       });
     }
   }, [application_depth, percentage_location_irrigated, irrigated_area]);

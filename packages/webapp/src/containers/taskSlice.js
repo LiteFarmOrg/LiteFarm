@@ -187,6 +187,19 @@ export const taskEntitiesSelector = createSelector(
           (managementPlan.prev_planting_management_plan = prev_planting_management_plan);
       });
     };
+    const getIrrigationTask = (payload) => {
+      return {
+        ...payload.task,
+        default_irrigation_task_type_measurement:
+          payload.task.measuring_type === payload.task.irrigation_type?.default_measuring_type,
+        default_irrigation_task_type_location:
+          payload.task.irrigation_type_name === payload.location_defaults.irrigation_task_type,
+        default_location_application_depth:
+          payload.task.application_depth === payload.location_defaults.application_depth,
+        default_location_flow_rate:
+          payload.task.estimated_flow_rate === payload.location_defaults.estimated_flow_rate,
+      };
+    };
 
     return produce(taskEntities, (taskEntities) => {
       for (const task_id in taskEntities) {
@@ -211,6 +224,12 @@ export const taskEntitiesSelector = createSelector(
         }
         taskEntities[task_id].assignee =
           userFarmEntities[userFarm.farm_id][taskEntities[task_id].assignee_user_id];
+        if (['IRRIGATION_TASK'].includes(task_translation_key)) {
+          taskEntities[task_id].irrigation_task = getIrrigationTask({
+            task: taskEntities[task_id].irrigation_task,
+            location_defaults: taskEntities[task_id].location_defaults[0],
+          });
+        }
       }
     });
   },

@@ -4,20 +4,17 @@ import { pick } from '../../../util/pick';
 import { createSelector } from 'reselect';
 const irrigationTaskProperties = [
   'task_id',
-  'type',
+  'irrigation_type_name',
   'application_depth',
   'application_depth_unit',
-  'default_measuring_type',
+  'measuring_type',
   'estimated_duration',
   'estimated_duration_unit',
   'estimated_flow_rate',
   'estimated_flow_rate_unit',
   'estimated_water_usage',
   'estimated_water_usage_unit',
-  'default_location_flow_rate',
-  'default_location_application_depth',
-  'default_irrigation_task_type_location',
-  'default_irrigation_task_type_measurement',
+  'irrigation_type',
 ];
 const getIrrigationTask = (task) => {
   return pick(task, irrigationTaskProperties);

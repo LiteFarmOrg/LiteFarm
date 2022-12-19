@@ -302,7 +302,7 @@ export const getLocationDefaultsByLocationId = (locations) =>
             default_location_application_depth:
               cv?.irrigation_task?.default_location_application_depth,
             default_location_flow_rate: cv?.irrigation_task?.default_location_flow_rate,
-            default_measuring_type: cv?.irrigation_task?.default_measuring_type,
+            default_measuring_type: cv?.irrigation_task?.measuring_type,
             estimated_water_usage: cv?.irrigation_task?.estimated_water_usage,
             estimated_water_usage_unit: cv?.irrigation_task?.estimated_water_usage_unit,
             estimated_duration: cv?.irrigation_task?.estimated_duration,

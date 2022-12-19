@@ -38,6 +38,7 @@ export default function PureIrrigationTask({
   disabled = false,
   locations,
   otherTaskType = false,
+  createTask = false,
 }) {
   const { t } = useTranslation();
   const [showWaterUseCalculatorModal, setShowWaterUseCalculatorModal] = useState(false);
@@ -106,14 +107,16 @@ export default function PureIrrigationTask({
   };
 
   useEffect(() => {
-    if (locationDefaults?.default_irrigation_task_type_location) {
-      setValue(
-        DEFAULT_IRRIGATION_TASK_LOCATION,
-        locationDefaults?.default_irrigation_task_type_location,
-      );
-    } else {
-      setValue(DEFAULT_IRRIGATION_TASK_LOCATION, false);
-    }
+    if (!createTask) return;
+    setValue(
+      DEFAULT_IRRIGATION_TASK_LOCATION,
+      locationDefaults?.default_irrigation_task_type_location ?? false,
+    );
+
+    setValue(
+      DEFAULT_IRRIGATION_MEASUREMENT,
+      locationDefaults?.default_irrigation_task_type_measurement ?? false,
+    );
 
     if (locationDefaults?.default_measuring_type) {
       setValue(MEASUREMENT_TYPE, locationDefaults?.default_measuring_type);
@@ -125,15 +128,6 @@ export default function PureIrrigationTask({
       );
     } else {
       setValue(MEASUREMENT_TYPE, '');
-    }
-
-    if (locationDefaults?.default_irrigation_task_type_measurement) {
-      setValue(
-        DEFAULT_IRRIGATION_MEASUREMENT,
-        locationDefaults?.default_irrigation_task_type_measurement,
-      );
-    } else {
-      setValue(DEFAULT_IRRIGATION_MEASUREMENT, false);
     }
   }, []);
 

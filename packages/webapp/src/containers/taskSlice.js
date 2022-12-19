@@ -191,7 +191,7 @@ export const taskEntitiesSelector = createSelector(
       return {
         ...payload.task,
         default_irrigation_task_type_measurement:
-          payload.task.irrigation_type_name === payload.task.irrigation_type?.irrigation_type_name,
+          payload.task.measuring_type === payload.task.irrigation_type?.default_measuring_type,
         default_irrigation_task_type_location:
           payload.task.irrigation_type_name === payload.location_defaults.irrigation_task_type,
         default_location_application_depth:

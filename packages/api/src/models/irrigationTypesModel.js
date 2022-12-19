@@ -98,7 +98,7 @@ class IrrigationTypesModel extends BaseModel {
     FROM irrigation_type AS it
     WHERE farm_id = '${farm_id}'
     OR farm_id IS NULL) AS a
-    ORDER BY irrigation_type_name ASC;`);
+    ORDER BY (UPPER(irrigation_type_name)) ASC;`);
     return data.rows;
   }
 }

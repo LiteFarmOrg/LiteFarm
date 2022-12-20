@@ -766,6 +766,9 @@
     "VIEW_WITHIN_DATE_RANGE": "Veja a receita neste intervalo de datas",
     "WHOLE_FARM_REVENUE": "Receita de toda a propriedade"
   },
+  "FORM_VALIDATION": {
+    "OVER_200_CHARS": "MISSING"
+  },
   "HELP": {
     "ATTACHMENT_LABEL": "Carregar captura de tela ou arquivo",
     "EMAIL": "Email",

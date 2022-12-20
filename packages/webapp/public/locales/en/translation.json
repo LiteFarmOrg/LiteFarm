@@ -767,6 +767,9 @@
     "VIEW_WITHIN_DATE_RANGE": "View revenue within this date range",
     "WHOLE_FARM_REVENUE": "Whole farm revenue"
   },
+  "FORM_VALIDATION": {
+    "OVER_200_CHARS": "Text cannot exceed 200 characters"
+  },
   "HELP": {
     "ATTACHMENT_LABEL": "Upload screenshot or file",
     "EMAIL": "Email",

@@ -766,6 +766,9 @@
     "VIEW_WITHIN_DATE_RANGE": "Ver ingresos dentro de este intervalo de fechas",
     "WHOLE_FARM_REVENUE": "Ingresos de toda la granja"
   },
+  "FORM_VALIDATION": {
+    "OVER_200_CHARS": "MISSING"
+  },
   "HELP": {
     "ATTACHMENT_LABEL": "Cargue imagen de pantalla o archivo",
     "EMAIL": "Correo electrónico",

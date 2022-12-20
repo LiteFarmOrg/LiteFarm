@@ -128,7 +128,7 @@ export default function PurePreviewPopup({ location, history, sensorReadings, st
                 title={t('SENSOR.READINGS_PREVIEW.SOIL_WATER_POTENTIAL')}
                 value={
                   soilWaterPotentialData?.length
-                    ? -getSoilWaterPotentialValue(
+                    ? getSoilWaterPotentialValue(
                         latestSoilWaterPotentialData?.value,
                         units?.measurement,
                       )

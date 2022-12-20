@@ -260,7 +260,7 @@ export const waterUsage = {
     breakpoints: [1000],
   },
   imperial: {
-    units: ['fl-oz', 'gal'],
+    units: ['gal', 'fl-oz'],
     defaultUnit: 'gal',
     breakpoints: [128],
   },

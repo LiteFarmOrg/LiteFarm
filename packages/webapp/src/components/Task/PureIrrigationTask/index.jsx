@@ -59,7 +59,7 @@ export default function PureIrrigationTask({
     options.push({
       label: t('ADD_TASK.IRRIGATION_VIEW.TYPE.OTHER'),
       value: 'OTHER',
-      default_measuring_type: null,
+      default_measuring_type: 'VOLUME',
     });
     return options;
   }, [irrigationTaskTypes]);

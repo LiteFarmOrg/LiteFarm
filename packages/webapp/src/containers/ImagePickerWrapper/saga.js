@@ -6,20 +6,29 @@ import { axios, getHeader } from '../saga';
 import i18n from '../../locales/i18n';
 import { enqueueErrorSnackbar } from '../Snackbar/snackbarSlice';
 
-export const uploadCropVarietyImage = createAction(`uploadCropVarietyImageSaga`);
+const { cropVarietyURL, cropURL } = apiConfig;
+const imageRouteURL = {
+  crop_variety: cropVarietyURL,
+  crop: cropURL,
+  //deprecated
+  'storybook/': cropVarietyURL,
+}
 
-export function* uploadCropVarietyImageSaga({ payload: { file, onUploadSuccess } }) {
-  const { cropVarietyURL } = apiConfig;
+export const uploadImage = createAction(`uploadImageSaga`);
+
+export function* uploadImageSaga({ payload: { file, onUploadSuccess, targetRoute } }) {
+  
   let { user_id, farm_id } = yield select(loginSelector);
   const header = getHeader(user_id, farm_id, {
     headers: { 'Content-Type': 'multipart/form-data' },
   });
   try {
+    const imageRoute = imageRouteURL[targetRoute]
     const formData = new FormData();
     formData.append('_file_', file);
     const result = yield call(
       axios.post,
-      `${cropVarietyURL}/upload/farm/${farm_id}`,
+      `${imageRoute}/upload/farm/${farm_id}`,
       formData,
       header,
     );
@@ -34,6 +43,6 @@ export function* uploadCropVarietyImageSaga({ payload: { file, onUploadSuccess }
   }
 }
 
-export default function* cropVarietyImageUploaderSaga() {
-  yield takeLeading(uploadCropVarietyImage.type, uploadCropVarietyImageSaga);
+export default function* imageUploaderSaga() {
+  yield takeLeading(uploadImage.type, uploadImageSaga);
 }

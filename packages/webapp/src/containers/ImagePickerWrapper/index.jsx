@@ -51,13 +51,21 @@ export default function ImagePickerWrapper({
       if (isNotImage) {
         dispatch(enqueueErrorSnackbar(i18n.t('message:ATTACHMENTS.ERROR.FAILED_UPLOAD')));
       } else if (blob.size < 200000) {
-        dispatch(uploadImage({ file: blob, onUploadSuccess, targetRoute: targetRoute ?? uploadDirectory }));
+        dispatch(
+          uploadImage({ file: blob, onUploadSuccess, targetRoute: targetRoute ?? uploadDirectory }),
+        );
       } else {
         new Compressor(blob, {
           quality: blob.size > 1000000 ? 0.6 : 0.8,
           convertSize: 200000,
           success(compressedBlob) {
-            dispatch(uploadImage({ file: compressedBlob, onUploadSuccess, targetRoute: targetRoute ?? uploadDirectory }));
+            dispatch(
+              uploadImage({
+                file: compressedBlob,
+                onUploadSuccess,
+                targetRoute: targetRoute ?? uploadDirectory,
+              }),
+            );
           },
           error(err) {
             console.log(err.message);

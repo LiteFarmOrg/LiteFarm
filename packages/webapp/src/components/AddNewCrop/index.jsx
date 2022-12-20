@@ -54,10 +54,9 @@ export default function PureAddNewCrop({
   } = useForm({
     mode: 'onChange',
     defaultValues: {
-      crop_photo_url:
-        `https://${
-          import.meta.env.VITE_DO_BUCKET_NAME
-        }.nyc3.digitaloceanspaces.com/default_crop/v2/default.webp`,
+      crop_photo_url: `https://${
+        import.meta.env.VITE_DO_BUCKET_NAME
+      }.nyc3.digitaloceanspaces.com/default_crop/v2/default.webp`,
       ...persistedFormData,
     },
   });

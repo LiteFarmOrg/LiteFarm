@@ -12,26 +12,20 @@ const imageRouteURL = {
   crop: cropURL,
   //deprecated
   'storybook/': cropVarietyURL,
-}
+};
 
 export const uploadImage = createAction(`uploadImageSaga`);
 
 export function* uploadImageSaga({ payload: { file, onUploadSuccess, targetRoute } }) {
-  
   let { user_id, farm_id } = yield select(loginSelector);
   const header = getHeader(user_id, farm_id, {
     headers: { 'Content-Type': 'multipart/form-data' },
   });
   try {
-    const imageRoute = imageRouteURL[targetRoute]
+    const imageRoute = imageRouteURL[targetRoute];
     const formData = new FormData();
     formData.append('_file_', file);
-    const result = yield call(
-      axios.post,
-      `${imageRoute}/upload/farm/${farm_id}`,
-      formData,
-      header,
-    );
+    const result = yield call(axios.post, `${imageRoute}/upload/farm/${farm_id}`, formData, header);
     if (result) {
       onUploadSuccess?.(result.data.url);
     } else {

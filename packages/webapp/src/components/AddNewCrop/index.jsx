@@ -39,21 +39,32 @@ export default function PureAddNewCrop({
   persistedFormData,
   useHookFormPersist,
   isPhysiologyAnatomyDropDownOpen,
+  imageUploader,
 }) {
   const { t } = useTranslation();
+  const CROP_PHOTO_URL = 'crop_photo_url';
   const {
     register,
     handleSubmit,
     setValue,
     control,
     getValues,
+    watch,
     formState: { isValid, errors },
   } = useForm({
     mode: 'onChange',
-    defaultValues: { ...persistedFormData },
+    defaultValues: {
+      crop_photo_url:
+        `https://${
+          import.meta.env.VITE_DO_BUCKET_NAME
+        }.nyc3.digitaloceanspaces.com/default_crop/v2/default.webp`,
+      ...persistedFormData,
+    },
   });
   const { historyCancel } = useHookFormPersist(getValues);
   const allCropGroupAverages = useSelector(cropGroupAveragesSelector);
+  const cropImageUrlRegister = register(CROP_PHOTO_URL, { required: true });
+  const crop_photo_url = watch(CROP_PHOTO_URL);
 
   const cropGroupOptions = [
     { value: BEVERAGE_AND_SPICE_CROPS, label: t('crop_group:BEVERAGE_AND_SPICE_CROPS') },
@@ -98,6 +109,33 @@ export default function PureAddNewCrop({
         title={t('CROP.ADD_CROP')}
         value={progress}
       />
+      <img
+        src={crop_photo_url}
+        alt={t('translation:CROP.ADD_IMAGE')}
+        className={styles.circleImg}
+        onError={(e) => {
+          e.target.onerror = null;
+          e.target.src = 'crop-images/default.jpg';
+        }}
+      />
+      <div
+        style={{
+          marginLeft: 'auto',
+          marginRight: 'auto',
+          marginBottom: '24px',
+          display: 'flex',
+          width: 'fit-content',
+          fontSize: '16px',
+          color: 'var(--iconActive)',
+          lineHeight: '16px',
+          cursor: 'pointer',
+        }}
+      >
+        {React.cloneElement(imageUploader, {
+          hookFormRegister: cropImageUrlRegister,
+          targetRoute: 'crop',
+        })}
+      </div>
       <Input
         data-cy="crop-cropName"
         style={{ marginBottom: '40px' }}

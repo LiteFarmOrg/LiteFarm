@@ -19,6 +19,8 @@ import express from 'express';
 const router = express.Router();
 import hasFarmAccess from '../middleware/acl/hasFarmAccess.js';
 import checkScope from '../middleware/acl/checkScope.js';
+import multerDiskUpload from '../util/fileUpload.js';
+import validateFileExtension from '../middleware/validation/uploadImage.js';
 
 // get an individual crop
 router.get(
@@ -58,6 +60,14 @@ router.delete(
   hasFarmAccess({ params: 'crop_id' }),
   checkScope(['delete:crops']),
   cropController.delCrop(),
+);
+router.post(
+  '/upload/farm/:farm_id',
+  hasFarmAccess({ params: 'farm_id' }),
+  checkScope(['add:crops']),
+  multerDiskUpload,
+  validateFileExtension,
+  cropController.uploadCropImage(),
 );
 
 export default router;

@@ -1,6 +1,6 @@
-import { Model } from 'objection';
+import BaseModel from './baseModel.js';
 
-class LocationDefaultsModel extends Model {
+class LocationDefaultsModel extends BaseModel {
   static get tableName() {
     return 'location_defaults';
   }
@@ -20,18 +20,16 @@ class LocationDefaultsModel extends Model {
         estimated_flow_rate_unit: { type: 'string' },
         application_depth: { type: 'float' },
         application_depth_unit: { type: 'string' },
+        ...this.baseProperties,
       },
       additionalProperties: false,
     };
   }
-  static async createOrUpdateLocationDefaults({ location_defaults }) {
-    for (const location_default of location_defaults) {
-      await LocationDefaultsModel.transaction(async (trx) => {
-        await LocationDefaultsModel.query(trx)
-          .context({ location_id: location_default.location_id })
-          .upsertGraph({ ...location_default }, { insertMissing: true });
-      });
-    }
+  static async createOrUpdateLocationDefaults(location_defaults) {
+    const { user_id, ...rest } = location_defaults;
+    await LocationDefaultsModel.query()
+      .context({ user_id })
+      .upsertGraph({ ...rest }, { insertMissing: true });
   }
 }
 export default LocationDefaultsModel;

@@ -454,25 +454,21 @@ const sensorController = {
         }
       }
       if (infoBody.length === 0) {
-        return res
-          .status(200)
-          .json({
-            error: 'No records of sensor readings added to the Litefarm.',
-            readingTypeValidationError: readingTypeValidation.length
-              ? readingTypeValidation
-              : undefined,
-          });
+        return res.status(200).json({
+          error: 'No records of sensor readings added to the Litefarm.',
+          readingTypeValidationError: readingTypeValidation.length
+            ? readingTypeValidation
+            : undefined,
+        });
       } else {
         const chunkSize = 999;
         const result = await knex.batchInsert('sensor_reading', infoBody, chunkSize).returning('*');
-        return res
-          .status(200)
-          .json({
-            sensorsAdded: result,
-            readingTypeValidationError: readingTypeValidation.length
-              ? readingTypeValidation
-              : undefined,
-          });
+        return res.status(200).json({
+          sensorsAdded: result,
+          readingTypeValidationError: readingTypeValidation.length
+            ? readingTypeValidation
+            : undefined,
+        });
       }
     } catch (error) {
       return res.status(200).json({

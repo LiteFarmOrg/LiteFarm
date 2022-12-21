@@ -59,7 +59,7 @@ export default function PureIrrigationTask({
     options.push({
       label: t('ADD_TASK.IRRIGATION_VIEW.TYPE.OTHER'),
       value: 'OTHER',
-      default_measuring_type: null,
+      default_measuring_type: 'VOLUME',
     });
     return options;
   }, [irrigationTaskTypes]);
@@ -71,11 +71,11 @@ export default function PureIrrigationTask({
   const stateController = () => {
     return { register, getValues, watch, control, setValue, reset };
   };
-  const IRRIGATION_TYPE = 'irrigation_task.type';
+  const IRRIGATION_TYPE = 'irrigation_task.irrigation_type_name';
   const DEFAULT_IRRIGATION_TASK_LOCATION = 'irrigation_task.default_irrigation_task_type_location';
   const DEFAULT_IRRIGATION_MEASUREMENT = 'irrigation_task.default_irrigation_task_type_measurement';
   const IRRIGATION_TYPE_OTHER = 'irrigation_task.irrigation_task_type_other';
-  const MEASUREMENT_TYPE = 'irrigation_task.default_measuring_type';
+  const MEASUREMENT_TYPE = 'irrigation_task.measuring_type';
   const ESTIMATED_WATER_USAGE = 'irrigation_task.estimated_water_usage';
   const ESTIMATED_WATER_USAGE_UNIT = 'irrigation_task.estimated_water_usage_unit';
 
@@ -205,7 +205,7 @@ export default function PureIrrigationTask({
         max={999999999}
         system={system}
         control={control}
-        style={{ marginTop: '40px' }}
+        style={{ marginTop: '40px', marginBottom: `${disabled ? 40 : 0}px` }}
         disabled={disabled}
         onChangeUnitOption={(e) => {
           setValue(
@@ -214,13 +214,16 @@ export default function PureIrrigationTask({
           );
         }}
       />
-
-      <Label style={{ marginTop: '4px', marginBottom: `${disabled ? 36 : 0}px` }}>
-        {t('ADD_TASK.IRRIGATION_VIEW.NOT_SURE')}{' '}
-        <Underlined onClick={() => !disabled && setShowWaterUseCalculatorModal(true)}>
-          {t('ADD_TASK.IRRIGATION_VIEW.CALCULATE_WATER_USAGE')}
-        </Underlined>
-      </Label>
+      {!disabled && (
+        <>
+          <Label style={{ marginTop: '4px', marginBottom: `${disabled ? 36 : 0}px` }}>
+            {t('ADD_TASK.IRRIGATION_VIEW.NOT_SURE')}{' '}
+            <Underlined onClick={() => !disabled && setShowWaterUseCalculatorModal(true)}>
+              {t('ADD_TASK.IRRIGATION_VIEW.CALCULATE_WATER_USAGE')}
+            </Underlined>
+          </Label>
+        </>
+      )}
 
       {showWaterUseCalculatorModal && measurement_type && (
         <WaterUsageCalculatorModal

@@ -4,7 +4,7 @@ import Compressor from 'compressorjs';
 import { useRef } from 'react';
 import { mergeRefs } from '../../components/Form/utils';
 import PropTypes from 'prop-types';
-import { uploadCropVarietyImage } from './saga';
+import { uploadImage } from './saga';
 import i18n from '../../locales/i18n';
 import { enqueueErrorSnackbar } from '../Snackbar/snackbarSlice';
 
@@ -35,7 +35,8 @@ export default function ImagePickerWrapper({
   hookFormRegister,
   onChange,
   onBlur,
-  uploadDirectory,
+  uploadDirectory, //deprecated but supported for storybook
+  targetRoute,
   compressorProps = {},
   ...props
 }) {
@@ -50,13 +51,21 @@ export default function ImagePickerWrapper({
       if (isNotImage) {
         dispatch(enqueueErrorSnackbar(i18n.t('message:ATTACHMENTS.ERROR.FAILED_UPLOAD')));
       } else if (blob.size < 200000) {
-        dispatch(uploadCropVarietyImage({ file: blob, onUploadSuccess }));
+        dispatch(
+          uploadImage({ file: blob, onUploadSuccess, targetRoute: targetRoute ?? uploadDirectory }),
+        );
       } else {
         new Compressor(blob, {
           quality: blob.size > 1000000 ? 0.6 : 0.8,
           convertSize: 200000,
           success(compressedBlob) {
-            dispatch(uploadCropVarietyImage({ file: compressedBlob, onUploadSuccess }));
+            dispatch(
+              uploadImage({
+                file: compressedBlob,
+                onUploadSuccess,
+                targetRoute: targetRoute ?? uploadDirectory,
+              }),
+            );
           },
           error(err) {
             console.log(err.message);
@@ -118,5 +127,6 @@ ImagePickerWrapper.propTypes = {
   children: PropTypes.node,
   className: PropTypes.object,
   uploadDirectory: PropTypes.string,
+  targetRoute: PropTypes.string,
   compressorProps: PropTypes.object,
 };

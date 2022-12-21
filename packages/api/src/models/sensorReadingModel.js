@@ -97,25 +97,34 @@ class SensorReading extends Model {
   static async getSensorReadingsByLocationIds(
     endDate = new Date(),
     locationIds = [],
-    readingType = '',
+    readingTypes = [],
   ) {
     const durationType = '1 hour';
     const startDate = new Date(endDate);
     startDate.setDate(endDate.getDate() - 5);
-    const sensorReadings = await knex.raw(
-      `
-    SELECT
-      nearest_read_time AS read_time, 
-      read_time AS actual_read_time, 
-      value, 
-      u AS unit,
-      location_id,
-      name 
-    FROM get_nearest_sensor_readings(?,?,?,?,?,?) WHERE nearest_read_time - read_time < INTERVAL '2 hour';
-  `,
-      [readingType, false, startDate, endDate, locationIds, durationType],
-    );
-    return sensorReadings.rows;
+    const sensorReadingsResponsePromises = [];
+    for (const readingType of readingTypes) {
+      sensorReadingsResponsePromises.push(
+        knex.raw(
+          `
+        SELECT
+          nearest_read_time AS read_time, 
+          read_time AS actual_read_time, 
+          value, 
+          u AS unit,
+          location_id,
+          name 
+        FROM get_nearest_sensor_readings_by_reading_type(?,?,?,?,?,?) WHERE nearest_read_time - read_time < INTERVAL '2 hour';
+      `,
+          [readingType, false, startDate, endDate, locationIds, durationType],
+        ),
+      );
+    }
+    const sensorReadingsResponse = await Promise.all(sensorReadingsResponsePromises);
+    return readingTypes.reduce((acc, cv, index) => {
+      acc[cv] = sensorReadingsResponse[index].rows;
+      return acc;
+    }, {});
   }
 }
 

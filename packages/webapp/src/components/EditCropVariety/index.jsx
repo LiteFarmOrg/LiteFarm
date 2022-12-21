@@ -125,7 +125,7 @@ export default function PureEditCropVariety({
       >
         {React.cloneElement(imageUploader, {
           hookFormRegister: imageUrlRegister,
-          uploadDirectory: 'crop_variety/',
+          targetRoute: 'crop_variety',
         })}
       </div>
 

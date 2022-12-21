@@ -1515,6 +1515,13 @@
       "AMBIENT_TEMPERATURE_FOR": "Ambient temperature for",
       "LAST_UPDATED_TEMPERATURE_READINGS": "Last updated {{latestReadingUpdate}}"
     },
+    "SOIL_WATER_POTENTIAL_READINGS_OF_SENSOR": {
+      "TITLE": "Soil water potential",
+      "SUBTITLE": "MISSING",
+      "Y_AXIS_LABEL": "Soil water potential in {{soilWaterPotentialUnit}}",
+      "NO_DATA": "(no data)",
+      "LAST_UPDATED_TEMPERATURE_READINGS": "Last updated {{latestReadingUpdate}}"
+    },
     "READINGS_PREVIEW": {
       "TEMPERATURE": "Current soil temp",
       "SOIL_WATER_POTENTIAL": "Current soil water potential"

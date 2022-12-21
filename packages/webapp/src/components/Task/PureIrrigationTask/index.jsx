@@ -59,7 +59,7 @@ export default function PureIrrigationTask({
     options.push({
       label: t('ADD_TASK.IRRIGATION_VIEW.TYPE.OTHER'),
       value: 'OTHER',
-      default_measuring_type: null,
+      default_measuring_type: 'VOLUME',
     });
     return options;
   }, [irrigationTaskTypes]);
@@ -205,7 +205,7 @@ export default function PureIrrigationTask({
         max={999999999}
         system={system}
         control={control}
-        style={{ marginTop: '40px' }}
+        style={{ marginTop: '40px', marginBottom: `${disabled ? 40 : 0}px` }}
         disabled={disabled}
         onChangeUnitOption={(e) => {
           setValue(
@@ -214,13 +214,16 @@ export default function PureIrrigationTask({
           );
         }}
       />
-
-      <Label style={{ marginTop: '4px', marginBottom: `${disabled ? 36 : 0}px` }}>
-        {t('ADD_TASK.IRRIGATION_VIEW.NOT_SURE')}{' '}
-        <Underlined onClick={() => !disabled && setShowWaterUseCalculatorModal(true)}>
-          {t('ADD_TASK.IRRIGATION_VIEW.CALCULATE_WATER_USAGE')}
-        </Underlined>
-      </Label>
+      {!disabled && (
+        <>
+          <Label style={{ marginTop: '4px', marginBottom: `${disabled ? 36 : 0}px` }}>
+            {t('ADD_TASK.IRRIGATION_VIEW.NOT_SURE')}{' '}
+            <Underlined onClick={() => !disabled && setShowWaterUseCalculatorModal(true)}>
+              {t('ADD_TASK.IRRIGATION_VIEW.CALCULATE_WATER_USAGE')}
+            </Underlined>
+          </Label>
+        </>
+      )}
 
       {showWaterUseCalculatorModal && measurement_type && (
         <WaterUsageCalculatorModal

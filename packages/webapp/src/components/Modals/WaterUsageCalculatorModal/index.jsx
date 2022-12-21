@@ -162,8 +162,14 @@ const WaterUseDepthCalculator = ({ system, setTotalWaterUsage, totalWaterUsage, 
 
   useEffect(() => {
     setLocationSize(location.total_area);
-    setValue(LOCATION_SIZE_UNIT, getUnitOptionMap()[location.total_area_unit]);
-    setValue(IRRIGATED_AREA_UNIT, getUnitOptionMap()[location.total_area_unit]);
+    if (application_depth_unit.value === 'in') {
+      const conversion_unit = location.total_area_unit === 'ha' ? 'ft2' : 'ac';
+      setValue(LOCATION_SIZE_UNIT, getUnitOptionMap()[conversion_unit]);
+      setValue(IRRIGATED_AREA_UNIT, getUnitOptionMap()[conversion_unit]);
+    } else {
+      setValue(LOCATION_SIZE_UNIT, getUnitOptionMap()[location.total_area_unit]);
+      setValue(IRRIGATED_AREA_UNIT, getUnitOptionMap()[location.total_area_unit]);
+    }
   }, [location]);
 
   useEffect(() => {
@@ -176,22 +182,24 @@ const WaterUseDepthCalculator = ({ system, setTotalWaterUsage, totalWaterUsage, 
   useEffect(() => {
     if (irrigated_area && application_depth) {
       setTotalWaterUsage(() => {
+        if (application_depth_unit.value === 'in') {
+          const Irrigated_area_in_ft2 =
+            getValues(IRRIGATED_AREA_UNIT)?.value === 'ft2'
+              ? roundToTwoDecimal(irrigated_area)
+              : roundToTwoDecimal(convert(irrigated_area).from('ac').to('ft2')); // convert from ac to ft2
+          const volume_in_ft3 =
+            Irrigated_area_in_ft2 *
+            (application_depth ? convert(application_depth).from('in').to('ft') : 1); // convert depth from inc to ft
+          return roundToTwoDecimal(convert(volume_in_ft3).from('ft3').to('gal')); // convert ft3 to gallons
+        }
         const Irrigated_area_in_m_squared =
           getValues(IRRIGATED_AREA_UNIT)?.value === 'm2'
             ? roundToTwoDecimal(irrigated_area)
             : roundToTwoDecimal(convert(irrigated_area).from('ha').to('m2')); // to convert from ha to m2
-        if (application_depth_unit.value === 'in') {
-          const application_depth_in_mm = application_depth
-            ? convert(application_depth).from('in').to('mm')
-            : 1; // convert application_depth from inc to mm
-          const Volume_in_m_cubed =
-            Irrigated_area_in_m_squared *
-            (application_depth > 1 ? application_depth_in_mm / 1000 : 1); // to convert application depth from mm to m
-          return roundToTwoDecimal(convert(Volume_in_m_cubed).from('m3').to('gal'));
-        }
         const Volume_in_m_cubed =
-          Irrigated_area_in_m_squared * (application_depth ? application_depth / 1000 : 1); // to convert application depth from mm to m
-        return roundToTwoDecimal(Volume_in_m_cubed * 1000); // to convert from m3 to litres
+          Irrigated_area_in_m_squared *
+          (application_depth ? convert(application_depth).from('mm').to('m') : 1); // to convert application depth from mm to m
+        return roundToTwoDecimal(convert(Volume_in_m_cubed).from('m3').to('l')); // to convert from m3 to litres
       });
     }
   }, [application_depth, percentage_location_irrigated, irrigated_area]);

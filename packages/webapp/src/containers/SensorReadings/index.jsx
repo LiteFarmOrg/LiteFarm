@@ -64,16 +64,11 @@ function SensorReadings({ history, match }) {
         low: latestMinTemperature,
         soilWaterPotentialUnit: soilWaterPotentialUnit ?? 'kPa',
       }),
-      weatherStationName: t('SENSOR.SOIL_WATER_POTENTIAL_READINGS_OF_SENSOR.WEATHER_STATION', {
-        weatherStationLocation: nearestStationName,
-      }),
-
       xAxisDataKey: CURRENT_DATE_TIME,
       yAxisLabel: t('SENSOR.SOIL_WATER_POTENTIAL_READINGS_OF_SENSOR.Y_AXIS_LABEL', {
         soilWaterPotentialUnit: soilWaterPotentialUnit ?? 'kPa',
       }),
       noDataText: t('SENSOR.SOIL_WATER_POTENTIAL_READINGS_OF_SENSOR.NO_DATA'),
-      ambientTempFor: t('SENSOR.SOIL_WATER_POTENTIAL_READINGS_OF_SENSOR.AMBIENT_TEMPERATURE_FOR'),
       lastUpdatedTemperatureReadings: t(
         'SENSOR.SOIL_WATER_POTENTIAL_READINGS_OF_SENSOR.LAST_UPDATED_TEMPERATURE_READINGS',
         {

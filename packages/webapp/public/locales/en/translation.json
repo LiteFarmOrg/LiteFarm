@@ -1517,11 +1517,9 @@
     },
     "SOIL_WATER_POTENTIAL_READINGS_OF_SENSOR": {
       "TITLE": "Soil water potential",
-      "SUBTITLE": "Today’s ambient high and low temperature: {{high}}{{soilWaterPotentialUnit}} / {{low}}{{soilWaterPotentialUnit}}",
+      "SUBTITLE": "MISSING",
       "Y_AXIS_LABEL": "Soil water potential in {{soilWaterPotentialUnit}}",
-      "WEATHER_STATION": "Weather station: {{weatherStationLocation}}",
       "NO_DATA": "(no data)",
-      "AMBIENT_TEMPERATURE_FOR": "Ambient temperature for",
       "LAST_UPDATED_TEMPERATURE_READINGS": "Last updated {{latestReadingUpdate}}"
     },
     "READINGS_PREVIEW": {

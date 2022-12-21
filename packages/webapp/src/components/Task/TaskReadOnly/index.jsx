@@ -81,8 +81,8 @@ export default function PureTaskReadOnly({
       return {
         date: getDateInputFormat(task.complete_date),
         dateLabel: t('TASK.COMPLETE.DATE'),
-        secondDate: null,
-        secondDateLabel: null,
+        secondDate: getDateInputFormat(task.due_date),
+        secondDateLabel: t('TASK.DUE_DATE'),
       };
     } else {
       return {

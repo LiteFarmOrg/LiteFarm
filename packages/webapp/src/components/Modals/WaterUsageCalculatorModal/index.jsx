@@ -20,6 +20,7 @@ import { useSelector } from 'react-redux';
 import { cropLocationsSelector } from '../../../containers/locationSlice';
 import { convert } from '../../../util/convert-units/convert';
 import modalStyles from './styles.module.scss';
+import { numberOnKeyDown } from '../../Form/Input';
 
 const TotalWaterUsage = ({ totalWaterUsage, estimated_water_usage_unit }) => {
   const { t } = useTranslation();
@@ -118,6 +119,7 @@ const WaterUseVolumeCalculator = ({ system, setTotalWaterUsage, totalWaterUsage,
         max={999999.99}
         system={system}
         control={control}
+        onKeyDown={numberOnKeyDown}
         style={{ paddingBottom: '32px' }}
         onChangeUnitOption={(e) => {
           setValue(

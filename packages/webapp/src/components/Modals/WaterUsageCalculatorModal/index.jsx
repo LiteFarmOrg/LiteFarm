@@ -122,7 +122,7 @@ const WaterUseVolumeCalculator = ({ system, setTotalWaterUsage, totalWaterUsage,
         onChangeUnitOption={(e) => {
           setValue(
             ESTIMATED_DURATION,
-            convert(estimated_duration).from(estimated_duration_unit.label).to(e.label),
+            convert(estimated_duration).from(estimated_duration_unit.value).to(e.value),
           );
         }}
       />
@@ -161,8 +161,7 @@ const WaterUseDepthCalculator = ({ system, setTotalWaterUsage, totalWaterUsage, 
   const application_depth_unit = watch(APPLICATION_DEPTH_UNIT);
 
   useEffect(() => {
-    setLocationSize(location.total_area);
-    if (application_depth_unit.value === 'in') {
+    if (['gal', 'fl-oz'].includes(getValues('irrigation_task').estimated_water_usage_unit?.value)) {
       const conversion_unit = location.total_area_unit === 'ha' ? 'ft2' : 'ac';
       setValue(LOCATION_SIZE_UNIT, getUnitOptionMap()[conversion_unit]);
       setValue(IRRIGATED_AREA_UNIT, getUnitOptionMap()[conversion_unit]);
@@ -170,6 +169,7 @@ const WaterUseDepthCalculator = ({ system, setTotalWaterUsage, totalWaterUsage, 
       setValue(LOCATION_SIZE_UNIT, getUnitOptionMap()[location.total_area_unit]);
       setValue(IRRIGATED_AREA_UNIT, getUnitOptionMap()[location.total_area_unit]);
     }
+    setLocationSize(location.total_area);
   }, [location]);
 
   useEffect(() => {

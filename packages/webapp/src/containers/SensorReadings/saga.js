@@ -33,7 +33,10 @@ import { sensorUrl } from '../../apiConfig';
 import { getHeader } from '../../containers/saga';
 import { findCenter } from './utils';
 import { CURRENT_DATE_TIME, TEMPERATURE } from './constants';
-import { getTemperatureValue } from '../../components/Map/PreviewPopup/utils.js';
+import {
+  getTemperatureValue,
+  getSoilWaterPotentialValue,
+} from '../../components/Map/PreviewPopup/utils.js';
 import { getLanguageFromLocalStorage } from '../../util/getLanguageFromLocalStorage';
 
 const sensorReadingsUrl = () => `${sensorUrl}/reading/visualization`;
@@ -218,7 +221,7 @@ export function* getSensorsReadingsSaga({ payload }) {
               if (!acc[dt]) acc[dt] = {};
               acc[dt] = {
                 ...acc[dt],
-                [cv?.name]: cv?.value,
+                [cv?.name]: getSoilWaterPotentialValue(cv?.value, measurement),
                 [CURRENT_DATE_TIME]: currentDateTime,
               };
             }

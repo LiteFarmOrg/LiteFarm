@@ -18,6 +18,7 @@ import PropTypes from 'prop-types';
 import PredictedRect from './PredictedRect';
 import { getLanguageFromLocalStorage } from '../../util/getLanguageFromLocalStorage';
 import { SensorReadingChartSpotlightProvider } from './SensorReadingChartSpotlightProvider';
+import { TEMPERATURE } from '../../containers/SensorReadings/constants';
 
 const PureSensorReadingsLineChart = ({
   showSpotLight,
@@ -34,6 +35,7 @@ const PureSensorReadingsLineChart = ({
   lastUpdatedTemperatureReadings,
   predictedXAxisLabel,
   isReadingTypeActive,
+  readingType,
 }) => {
   const [legendsList, setLegendsList] = useState({});
 
@@ -145,8 +147,12 @@ const PureSensorReadingsLineChart = ({
               </Semibold>
             </label>
           </div>
-          <Label className={styles.subTitle}>{subTitle}</Label>
-          <Label className={styles.subTitle}>{weatherStationName}</Label>
+          {readingType === TEMPERATURE && (
+            <>
+              <Label className={styles.subTitle}>{subTitle}</Label>
+              <Label className={styles.subTitle}>{weatherStationName}</Label>
+            </>
+          )}
           <ResponsiveContainer width="100%" height={380}>
             <LineChart
               data={chartData}
@@ -207,7 +213,13 @@ const PureSensorReadingsLineChart = ({
                       isAnimationActive={false}
                     />
                   ))}
-              <ReferenceArea fill={'#EBECED'} shape={<PredictedRect />} x1={predictedXAxisLabel} />
+              {readingType === TEMPERATURE ? (
+                <ReferenceArea
+                  fill={'#EBECED'}
+                  shape={<PredictedRect />}
+                  x1={predictedXAxisLabel}
+                />
+              ) : null}
             </LineChart>
           </ResponsiveContainer>
         </>
@@ -231,6 +243,7 @@ PureSensorReadingsLineChart.propTypes = {
   lastUpdatedTemperatureReadings: PropTypes.string.isRequired,
   predictedXAxisLabel: PropTypes.string.isRequired,
   isReadingTypeActive: PropTypes.bool.isRequired,
+  readingType: PropTypes.string.isRequired,
 };
 
 export default PureSensorReadingsLineChart;

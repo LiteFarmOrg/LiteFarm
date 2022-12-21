@@ -331,7 +331,7 @@ const taskController = {
             });
             delete data.location_defaults;
           }
-          delete data.irrigation_task.default_irrigation_task_type_measurement;
+          delete data.irrigation_task?.default_irrigation_task_type_measurement;
           return data;
         })();
       default: {

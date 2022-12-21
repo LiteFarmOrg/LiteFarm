@@ -30,11 +30,17 @@ const SensorReadingsLineChart = ({
     dispatch(setSpotlightToShown('sensor_reading_chart'));
   };
   const {
-    sensorsReadingsOfTemperature = [],
+    sensorsReadings = [],
     yAxisDataKeys = [],
     lineColors = [],
     loading = true,
-  } = useSensorReadingsLineChart(locationIds, readingType, noDataText, ambientTempFor);
+  } = useSensorReadingsLineChart(
+    locationIds,
+    readingType,
+    noDataText,
+    ambientTempFor,
+    activeReadingTypes,
+  );
   return (
     <>
       {loading ? (
@@ -53,10 +59,11 @@ const SensorReadingsLineChart = ({
           lineColors={lineColors}
           xAxisLabel={xAxisLabel}
           yAxisLabel={yAxisLabel}
-          chartData={sensorsReadingsOfTemperature}
+          chartData={sensorsReadings}
           weatherStationName={weatherStationName}
           lastUpdatedTemperatureReadings={lastUpdatedTemperatureReadings}
           predictedXAxisLabel={predictedXAxisLabel}
+          readingType={readingType}
         />
       )}
     </>

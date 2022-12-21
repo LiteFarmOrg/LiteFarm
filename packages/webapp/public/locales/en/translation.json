@@ -147,7 +147,7 @@
       "ESTIMATED_DURATION": "Estimated Duration",
       "ESTIMATED_APPLICATION_DEPTH": "Estimated application depth",
       "DEFAULT_APPLICATION_DEPTH": "Set as default application depth for this location",
-      "PERCENTAGE_LOCATION_TO_BE_IRRIGATED": "% of location to be irrigated.",
+      "PERCENTAGE_LOCATION_TO_BE_IRRIGATED": "% of location to be irrigated",
       "TOTAL_WATER_USAGE": "Total Water Usage",
       "LOCATION_SIZE": "Location size",
       "IRRIGATED_AREA": "Irrigated area"
@@ -1513,6 +1513,13 @@
       "WEATHER_STATION": "Weather station: {{weatherStationLocation}}",
       "NO_DATA": "(no data)",
       "AMBIENT_TEMPERATURE_FOR": "Ambient temperature for",
+      "LAST_UPDATED_TEMPERATURE_READINGS": "Last updated {{latestReadingUpdate}}"
+    },
+    "SOIL_WATER_POTENTIAL_READINGS_OF_SENSOR": {
+      "TITLE": "Soil water potential",
+      "SUBTITLE": "MISSING",
+      "Y_AXIS_LABEL": "Soil water potential in {{soilWaterPotentialUnit}}",
+      "NO_DATA": "(no data)",
       "LAST_UPDATED_TEMPERATURE_READINGS": "Last updated {{latestReadingUpdate}}"
     },
     "READINGS_PREVIEW": {

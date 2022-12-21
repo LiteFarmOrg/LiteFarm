@@ -2,14 +2,14 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   loading: false,
-  sensorsReadingsOfTemperature: [],
+  sensorsReadings: {},
   selectedSensorName: '',
   latestMinTemperature: null,
   latestMaxTemperature: null,
   nearestStationName: '',
   lastUpdatedReadingsTime: '',
   predictedXAxisLabel: '',
-  xAxisLabel: '',
+  xAxisLabel: {},
   activeReadingTypes: [],
 };
 
@@ -20,36 +20,36 @@ const bulkSensorsReadingsSlice = createSlice({
     resetBulkSensorReadingsStates: (state, action) => {
       Object.assign(state, {
         loading: false,
-        sensorsReadingsOfTemperature: [],
+        sensorsReadings: {},
         selectedSensorName: '',
         latestMinTemperature: null,
         latestMaxTemperature: null,
         nearestStationName: '',
         lastUpdatedReadingsTime: '',
         predictedXAxisLabel: '',
-        xAxisLabel: '',
+        xAxisLabel: {},
         activeReadingTypes: [],
       });
     },
     bulkSensorReadingsLoading: (state, action) => {
       Object.assign(state, {
         loading: true,
-        sensorsReadingsOfTemperature: [],
+        sensorsReadings: {},
         selectedSensorName: '',
         latestMinTemperature: null,
         latestMaxTemperature: null,
         nearestStationName: '',
         lastUpdatedReadingsTime: '',
         predictedXAxisLabel: '',
-        xAxisLabel: '',
+        xAxisLabel: {},
         activeReadingTypes: [],
       });
     },
     bulkSensorReadingsSuccess: (state, { payload }) => {
-      if (state.loading && Object.keys(payload?.latestTemperatureReadings).length) {
+      if (state.loading) {
         Object.assign(state, {
           loading: false,
-          sensorsReadingsOfTemperature: payload?.sensorReadings,
+          sensorsReadings: payload?.sensorReadings,
           selectedSensorName: payload?.selectedSensorName,
           latestMinTemperature: payload?.latestTemperatureReadings?.tempMin,
           latestMaxTemperature: payload?.latestTemperatureReadings?.tempMax,
@@ -63,12 +63,12 @@ const bulkSensorsReadingsSlice = createSlice({
     },
     bulkSensorReadingsFailure: (state, action) => {
       state.loading = true;
-      state.sensorsReadingsOfTemperature = [];
+      state.sensorsReadings = {};
       state.selectedSensorName = '';
       state.nearestStationName = '';
       state.lastUpdatedReadingsTime = '';
       state.predictedXAxisLabel = '';
-      state.xAxisLabel = '';
+      state.xAxisLabel = {};
       state.activeReadingTypes = [];
       (state.latestMinTemperature = null), (state.latestMaxTemperature = null);
     },

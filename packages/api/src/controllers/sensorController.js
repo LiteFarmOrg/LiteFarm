@@ -415,6 +415,7 @@ const sensorController = {
       } = await PartnerReadingTypeModel.getPartnerReadingTypeByPartnerId(partnerId);
       if (!partnerSensorReadingTypes.length)
         return res.status(400).send('partner not registered with the Litefarm');
+      const readingTypeValidation = [];
       for (const sensor of Object.keys(req.body)) {
         const sensorData = req.body[sensor].data;
         let { rows: corresponding_sensor = [] } = await SensorModel.getLocationIdForSensorReadings(
@@ -429,7 +430,12 @@ const sensorController = {
           const isPartnerReadingTypePresent = partnerSensorReadingTypes.some(
             (partnerSensorReadingType) => partnerSensorReadingType.readable_value === readingType,
           );
-          if (!isPartnerReadingTypePresent) continue;
+          if (!isPartnerReadingTypePresent) {
+            readingTypeValidation.push(
+              `Invalid reading type ${sensorInfo.parameter_category} of ${sensor} sensor.`,
+            );
+            continue;
+          }
           const unit = sensorInfo.unit;
 
           if (sensorInfo.values.length < sensorInfo.timestamps.length)
@@ -448,11 +454,21 @@ const sensorController = {
         }
       }
       if (infoBody.length === 0) {
-        return res.status(200).send(infoBody);
+        return res.status(200).json({
+          error: 'No records of sensor readings added to the Litefarm.',
+          readingTypeValidationError: readingTypeValidation.length
+            ? readingTypeValidation
+            : undefined,
+        });
       } else {
         const chunkSize = 999;
         const result = await knex.batchInsert('sensor_reading', infoBody, chunkSize).returning('*');
-        return res.status(200).json(result);
+        return res.status(200).json({
+          sensorsAdded: result,
+          readingTypeValidationError: readingTypeValidation.length
+            ? readingTypeValidation
+            : undefined,
+        });
       }
     } catch (error) {
       return res.status(200).json({
@@ -510,7 +526,7 @@ const sensorController = {
   },
   async getAllSensorReadingsByLocationIds(req, res) {
     try {
-      const { locationIds = [], readingType = '', endDate = '' } = req.body;
+      const { locationIds = [], readingTypes = [], endDate = '' } = req.body;
 
       if (!locationIds.length || !Array.isArray(locationIds)) {
         return res.status(400).send('No location ids are present');
@@ -520,7 +536,7 @@ const sensorController = {
         return res.status(400).send('Invalid location ids are present');
       }
 
-      if (!readingType.length) {
+      if (!readingTypes.length) {
         return res.status(400).send('No read type is present');
       }
 
@@ -531,7 +547,7 @@ const sensorController = {
       const result = await SensorReadingModel.getSensorReadingsByLocationIds(
         new Date(endDate),
         locationIds,
-        readingType,
+        readingTypes,
       );
 
       const sensorsPoints = await SensorModel.getSensorLocationByLocationIds(locationIds);

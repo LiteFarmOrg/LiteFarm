@@ -95,6 +95,7 @@ export default function useCropVarietyCatalogue(filterString, crop_id) {
             imageKey: managementPlan.crop_translation_key?.toLowerCase(),
             crop_id: managementPlan.crop_id,
             crop_photo_url: managementPlan.crop_photo_url,
+            crop_variety_photo_url: managementPlan.crop_variety_photo_url,
             crop_variety_id: managementPlan.crop_variety_id,
             crop_variety_name: managementPlan.crop_variety_name,
           };

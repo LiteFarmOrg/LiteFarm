@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import SensorReadingsLineChart from '../SensorReadingsLineChart';
@@ -11,6 +11,7 @@ import utils from '../WeatherBoard/utils';
 import { measurementSelector } from '../../containers/userFarmSlice';
 import styles from './styles.module.scss';
 import { Semibold } from '../../components/Typography';
+import { sensorReadingTypesByLocationSelector } from '../../containers/sensorReadingTypesSlice';
 
 function SensorReadings({ history, match }) {
   const { t } = useTranslation();
@@ -23,12 +24,11 @@ function SensorReadings({ history, match }) {
     nearestStationName = '',
     lastUpdatedReadingsTime = '',
     predictedXAxisLabel = '',
-    xAxisLabel = '',
-    activeReadingTypes = [],
+    xAxisLabel = {},
   } = useSelector(bulkSensorsReadingsSliceSelector);
   const measurementUnit = useSelector(measurementSelector);
   const { tempUnit, soilWaterPotentialUnit } = utils.getUnits(measurementUnit);
-  const [readingTypes, setReadingTypes] = useState(() => activeReadingTypes);
+  const { reading_types = [] } = useSelector(sensorReadingTypesByLocationSelector(location_id));
 
   const sensorVisualizationPropList = {
     [TEMPERATURE]: {
@@ -46,7 +46,6 @@ function SensorReadings({ history, match }) {
       yAxisLabel: t('SENSOR.TEMPERATURE_READINGS_OF_SENSOR.Y_AXIS_LABEL', {
         tempUnit: tempUnit ?? 'C',
       }),
-      readingType: TEMPERATURE,
       noDataText: t('SENSOR.TEMPERATURE_READINGS_OF_SENSOR.NO_DATA'),
       ambientTempFor: t('SENSOR.TEMPERATURE_READINGS_OF_SENSOR.AMBIENT_TEMPERATURE_FOR'),
       lastUpdatedTemperatureReadings: t(
@@ -56,8 +55,7 @@ function SensorReadings({ history, match }) {
         },
       ),
       predictedXAxisLabel: predictedXAxisLabel,
-      xAxisLabel: xAxisLabel,
-      activeReadingTypes: activeReadingTypes,
+      activeReadingTypes: reading_types,
     },
     [SOIL_WATER_POTENTIAL]: {
       title: t('SENSOR.SOIL_WATER_POTENTIAL_READINGS_OF_SENSOR.TITLE'),
@@ -74,7 +72,6 @@ function SensorReadings({ history, match }) {
       yAxisLabel: t('SENSOR.SOIL_WATER_POTENTIAL_READINGS_OF_SENSOR.Y_AXIS_LABEL', {
         soilWaterPotentialUnit: soilWaterPotentialUnit ?? 'kPa',
       }),
-      readingType: SOIL_WATER_POTENTIAL,
       noDataText: t('SENSOR.SOIL_WATER_POTENTIAL_READINGS_OF_SENSOR.NO_DATA'),
       ambientTempFor: t('SENSOR.SOIL_WATER_POTENTIAL_READINGS_OF_SENSOR.AMBIENT_TEMPERATURE_FOR'),
       lastUpdatedTemperatureReadings: t(
@@ -84,8 +81,7 @@ function SensorReadings({ history, match }) {
         },
       ),
       predictedXAxisLabel: predictedXAxisLabel,
-      xAxisLabel: xAxisLabel,
-      activeReadingTypes: activeReadingTypes,
+      activeReadingTypes: reading_types,
     },
   };
 
@@ -114,20 +110,18 @@ function SensorReadings({ history, match }) {
           },
         ]}
       />
-      {readingTypes.length > 0
-        ? readingTypes.map((type, index) => {
+      {reading_types.length > 0
+        ? reading_types.map((type, index) => {
             const {
               title,
               subTitle,
               weatherStationName,
               xAxisDataKey,
               yAxisLabel,
-              readingType,
               noDataText,
               ambientTempFor,
               lastUpdatedTemperatureReadings,
               predictedXAxisLabel,
-              xAxisLabel,
               activeReadingTypes,
             } = sensorVisualizationPropList[type];
             return (
@@ -139,20 +133,20 @@ function SensorReadings({ history, match }) {
                 xAxisDataKey={xAxisDataKey}
                 yAxisLabel={yAxisLabel}
                 locationIds={[location_id]}
-                readingType={readingType}
+                readingType={type}
                 noDataText={noDataText}
                 ambientTempFor={ambientTempFor}
                 lastUpdatedTemperatureReadings={lastUpdatedTemperatureReadings}
                 predictedXAxisLabel={predictedXAxisLabel}
-                xAxisLabel={xAxisLabel}
+                xAxisLabel={xAxisLabel[type]}
                 activeReadingTypes={activeReadingTypes}
               />
             );
           })
         : null}
-      {activeReadingTypes.length > 0 && (
+      {reading_types.length > 0 && (
         <>
-          {activeReadingTypes.reduce((acc, cv, i) => {
+          {reading_types.reduce((acc, cv, i) => {
             if (cv === TEMPERATURE || cv === SOIL_WATER_POTENTIAL) return acc;
             acc.push(
               <div key={i}>

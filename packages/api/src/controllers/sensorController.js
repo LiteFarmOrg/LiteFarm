@@ -484,11 +484,10 @@ const sensorController = {
   async getReadingsByFarmId(req, res) {
     try {
       const { farm_id } = req.params;
-      const { days = 7 } = req.query;
       if (!farm_id) {
         return res.status(400).send('Invalid farm id');
       }
-      const result = await SensorReadingModel.getSensorReadingsInDaysByFarmId(farm_id, days);
+      const result = await SensorReadingModel.getSensorReadingsInDaysByFarmId(farm_id);
       res.status(200).send(result);
     } catch (error) {
       res.status(400).send(error);
@@ -511,7 +510,7 @@ const sensorController = {
   },
   async getAllSensorReadingsByLocationIds(req, res) {
     try {
-      const { locationIds = [], readingType = '', endDate = '' } = req.body;
+      const { locationIds = [], readingTypes = [], endDate = '' } = req.body;
 
       if (!locationIds.length || !Array.isArray(locationIds)) {
         return res.status(400).send('No location ids are present');
@@ -521,7 +520,7 @@ const sensorController = {
         return res.status(400).send('Invalid location ids are present');
       }
 
-      if (!readingType.length) {
+      if (!readingTypes.length) {
         return res.status(400).send('No read type is present');
       }
 
@@ -532,7 +531,7 @@ const sensorController = {
       const result = await SensorReadingModel.getSensorReadingsByLocationIds(
         new Date(endDate),
         locationIds,
-        readingType,
+        readingTypes,
       );
 
       const sensorsPoints = await SensorModel.getSensorLocationByLocationIds(locationIds);

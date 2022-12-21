@@ -103,7 +103,6 @@ export function* getSensorsReadingsSaga({ payload }) {
     let sensorReadingData = {};
 
     for (let readingType of readingTypes) {
-      console.log('readingType >>> HH ', readingType);
       if (readingType === TEMPERATURE) {
         params = {
           ...params,
@@ -128,9 +127,7 @@ export function* getSensorsReadingsSaga({ payload }) {
         ];
 
         const ambientData = weatherResData.reduce((acc, tempInfo) => {
-          console.log('tempInfo?.dt', tempInfo?.dt);
           let dateAndTimeInfo = new Date(tempInfo?.dt * 1000).toString();
-          console.log('dateAndTimeInfo', dateAndTimeInfo);
           const isCorrectTimestamp = GRAPH_TIMESTAMPS?.find((g) => dateAndTimeInfo?.includes(g));
           if (isCorrectTimestamp && startDate < tempInfo?.dt && tempInfo?.dt < predictedEndDate) {
             const currentDateTime = `${dateAndTimeInfo?.split(':00:00')[0]}:00`;

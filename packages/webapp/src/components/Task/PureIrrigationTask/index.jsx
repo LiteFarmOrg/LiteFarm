@@ -43,6 +43,8 @@ export default function PureIrrigationTask({
   const [irrigationTypeValue, setIrrigationTypeValue] = useState();
   const [totalVolumeWaterUsage, setTotalVolumeWaterUsage] = useState();
   const [totalDepthWaterUsage, setTotalDepthWaterUSage] = useState();
+  const [estimatedWaterUsageComputed, setEstimatedWaterUsageComputed] = useState(false);
+
   const dispatch = useDispatch();
 
   const IrrigationTypeOptions = useMemo(() => {
@@ -100,13 +102,17 @@ export default function PureIrrigationTask({
   };
 
   useEffect(() => {
-    if (estimated_water_usage !== totalDepthWaterUsage && otherTaskType) {
+    if (
+      estimated_water_usage !== totalDepthWaterUsage &&
+      otherTaskType &&
+      !estimatedWaterUsageComputed
+    ) {
       reset({
         ...getValues(),
         irrigation_task: {
           ...getValues().irrigation_task,
           application_depth: '',
-          percentage_location_irrigated: '',
+          percent_of_location_irrigated: '',
         },
       });
       setTotalDepthWaterUSage('');
@@ -208,6 +214,7 @@ export default function PureIrrigationTask({
         style={{ marginTop: '40px', marginBottom: `${disabled ? 40 : 0}px` }}
         disabled={disabled}
         onChangeUnitOption={(e) => {
+          setEstimatedWaterUsageComputed(true);
           setValue(
             ESTIMATED_WATER_USAGE,
             convert(estimated_water_usage).from(estimated_water_usage_unit.value).to(e.value),

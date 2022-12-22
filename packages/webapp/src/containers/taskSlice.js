@@ -307,6 +307,7 @@ export const getLocationDefaultsByLocationId = (locations) =>
             estimated_water_usage_unit: cv?.irrigation_task?.estimated_water_usage_unit,
             estimated_duration: cv?.irrigation_task?.estimated_duration,
             estimated_duration_unit: cv?.irrigation_task?.estimated_duration_unit,
+            irrigation_task_type: cv?.irrigation_task?.irrigation_type?.irrigation_type_name,
           };
         }
       }

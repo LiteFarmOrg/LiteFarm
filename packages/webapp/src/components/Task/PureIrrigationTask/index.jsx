@@ -110,26 +110,19 @@ export default function PureIrrigationTask({
 
   useEffect(() => {
     if (!createTask) return;
-    setValue(
-      DEFAULT_IRRIGATION_TASK_LOCATION,
-      locationDefaults?.default_irrigation_task_type_location ?? false,
-    );
 
-    setValue(
-      DEFAULT_IRRIGATION_MEASUREMENT,
-      locationDefaults?.default_irrigation_task_type_measurement ?? false,
-    );
-
-    if (locationDefaults?.default_measuring_type) {
-      setValue(MEASUREMENT_TYPE, locationDefaults?.default_measuring_type);
+    if (locationDefaults?.irrigation_task_type) {
       setValue(
         IRRIGATION_TYPE,
         IrrigationTypeOptions.find(
           (options) => options.value === locationDefaults?.irrigation_task_type,
         ),
       );
-    } else {
-      setValue(MEASUREMENT_TYPE, '');
+      setValue(DEFAULT_IRRIGATION_TASK_LOCATION, true);
+    }
+    if (locationDefaults?.default_measuring_type) {
+      setValue(MEASUREMENT_TYPE, locationDefaults?.default_measuring_type);
+      setValue(DEFAULT_IRRIGATION_MEASUREMENT, true);
     }
   }, []);
 
@@ -139,7 +132,7 @@ export default function PureIrrigationTask({
         (options) => options.value === locationDefaults?.irrigation_task_type,
       );
     } else {
-      return IrrigationTypeOptions.find((options) => options.value === irrigation_type);
+      return IrrigationTypeOptions.find((options) => options.value === irrigation_type?.value);
     }
   };
   useEffect(() => {

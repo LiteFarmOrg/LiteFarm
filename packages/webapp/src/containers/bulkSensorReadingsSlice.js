@@ -7,7 +7,7 @@ const initialState = {
   latestMinTemperature: null,
   latestMaxTemperature: null,
   nearestStationName: '',
-  lastUpdatedReadingsTime: '',
+  lastUpdatedReadingsTime: {},
   predictedXAxisLabel: '',
   xAxisLabel: {},
   activeReadingTypes: [],
@@ -25,7 +25,7 @@ const bulkSensorsReadingsSlice = createSlice({
         latestMinTemperature: null,
         latestMaxTemperature: null,
         nearestStationName: '',
-        lastUpdatedReadingsTime: '',
+        lastUpdatedReadingsTime: {},
         predictedXAxisLabel: '',
         xAxisLabel: {},
         activeReadingTypes: [],
@@ -39,7 +39,7 @@ const bulkSensorsReadingsSlice = createSlice({
         latestMinTemperature: null,
         latestMaxTemperature: null,
         nearestStationName: '',
-        lastUpdatedReadingsTime: '',
+        lastUpdatedReadingsTime: {},
         predictedXAxisLabel: '',
         xAxisLabel: {},
         activeReadingTypes: [],
@@ -66,7 +66,7 @@ const bulkSensorsReadingsSlice = createSlice({
       state.sensorsReadings = {};
       state.selectedSensorName = '';
       state.nearestStationName = '';
-      state.lastUpdatedReadingsTime = '';
+      state.lastUpdatedReadingsTime = {};
       state.predictedXAxisLabel = '';
       state.xAxisLabel = {};
       state.activeReadingTypes = [];

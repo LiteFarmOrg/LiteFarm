@@ -93,42 +93,45 @@ function SensorReadings({ history, match }) {
           },
         ]}
       />
-      {reading_types.length > 0
-        ? reading_types.map((type, index) => {
-            const {
-              title,
-              subTitle,
-              weatherStationName,
-              xAxisDataKey,
-              yAxisLabel,
-              noDataText,
-              ambientTempFor,
-              predictedXAxisLabel,
-              activeReadingTypes,
-            } = sensorVisualizationPropList[type];
-            return (
-              <SensorReadingsLineChart
-                key={index}
-                title={title}
-                subTitle={subTitle}
-                weatherStationName={weatherStationName}
-                xAxisDataKey={xAxisDataKey}
-                yAxisLabel={yAxisLabel}
-                locationIds={[location_id]}
-                readingType={type}
-                noDataText={noDataText}
-                ambientTempFor={ambientTempFor}
-                lastUpdatedReadings={t(
-                  'SENSOR.TEMPERATURE_READINGS_OF_SENSOR.LAST_UPDATED_TEMPERATURE_READINGS',
-                  { latestReadingUpdate: lastUpdatedReadingsTime[type] ?? '' },
-                )}
-                predictedXAxisLabel={predictedXAxisLabel}
-                xAxisLabel={xAxisLabel[type]}
-                activeReadingTypes={activeReadingTypes}
-                noDataFoundMessage={t('SENSOR.NO_DATA_FOUND')}
-              />
-            );
-          })
+      {reading_types?.length > 0
+        ? [...reading_types]
+            ?.sort()
+            ?.reverse()
+            ?.map((type, index) => {
+              const {
+                title,
+                subTitle,
+                weatherStationName,
+                xAxisDataKey,
+                yAxisLabel,
+                noDataText,
+                ambientTempFor,
+                predictedXAxisLabel,
+                activeReadingTypes,
+              } = sensorVisualizationPropList[type];
+              return (
+                <SensorReadingsLineChart
+                  key={index}
+                  title={title}
+                  subTitle={subTitle}
+                  weatherStationName={weatherStationName}
+                  xAxisDataKey={xAxisDataKey}
+                  yAxisLabel={yAxisLabel}
+                  locationIds={[location_id]}
+                  readingType={type}
+                  noDataText={noDataText}
+                  ambientTempFor={ambientTempFor}
+                  lastUpdatedReadings={t(
+                    'SENSOR.TEMPERATURE_READINGS_OF_SENSOR.LAST_UPDATED_TEMPERATURE_READINGS',
+                    { latestReadingUpdate: lastUpdatedReadingsTime[type] ?? '' },
+                  )}
+                  predictedXAxisLabel={predictedXAxisLabel}
+                  xAxisLabel={xAxisLabel[type]}
+                  activeReadingTypes={activeReadingTypes}
+                  noDataFoundMessage={t('SENSOR.NO_DATA_FOUND')}
+                />
+              );
+            })
         : null}
       {reading_types.length > 0 && (
         <>

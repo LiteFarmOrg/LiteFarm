@@ -1477,6 +1477,7 @@
     "EXTERNAL_IDENTIFIER": "External identifier",
     "PART_NUMBER": "Part Number",
     "HARDWARE_VERSION": "Hardware version",
+    "NO_DATA_FOUND": "No sensor readings found",
     "DETAIL": {
       "RETIRE": "Retire",
       "EDIT": "Edit",

@@ -125,6 +125,7 @@ function SensorReadings({ history, match }) {
                 predictedXAxisLabel={predictedXAxisLabel}
                 xAxisLabel={xAxisLabel[type]}
                 activeReadingTypes={activeReadingTypes}
+                noDataFoundMessage={t('SENSOR.NO_DATA_FOUND')}
               />
             );
           })

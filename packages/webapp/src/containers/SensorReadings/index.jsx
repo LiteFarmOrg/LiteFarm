@@ -48,12 +48,6 @@ function SensorReadings({ history, match }) {
       }),
       noDataText: t('SENSOR.TEMPERATURE_READINGS_OF_SENSOR.NO_DATA'),
       ambientTempFor: t('SENSOR.TEMPERATURE_READINGS_OF_SENSOR.AMBIENT_TEMPERATURE_FOR'),
-      lastUpdatedTemperatureReadings: t(
-        'SENSOR.TEMPERATURE_READINGS_OF_SENSOR.LAST_UPDATED_TEMPERATURE_READINGS',
-        {
-          latestReadingUpdate: lastUpdatedReadingsTime ?? '',
-        },
-      ),
       predictedXAxisLabel: predictedXAxisLabel,
       activeReadingTypes: reading_types,
     },
@@ -69,12 +63,6 @@ function SensorReadings({ history, match }) {
         soilWaterPotentialUnit: soilWaterPotentialUnit ?? 'kPa',
       }),
       noDataText: t('SENSOR.SOIL_WATER_POTENTIAL_READINGS_OF_SENSOR.NO_DATA'),
-      lastUpdatedTemperatureReadings: t(
-        'SENSOR.SOIL_WATER_POTENTIAL_READINGS_OF_SENSOR.LAST_UPDATED_TEMPERATURE_READINGS',
-        {
-          latestReadingUpdate: lastUpdatedReadingsTime ?? '',
-        },
-      ),
       predictedXAxisLabel: predictedXAxisLabel,
       activeReadingTypes: reading_types,
     },
@@ -115,7 +103,6 @@ function SensorReadings({ history, match }) {
               yAxisLabel,
               noDataText,
               ambientTempFor,
-              lastUpdatedTemperatureReadings,
               predictedXAxisLabel,
               activeReadingTypes,
             } = sensorVisualizationPropList[type];
@@ -131,7 +118,10 @@ function SensorReadings({ history, match }) {
                 readingType={type}
                 noDataText={noDataText}
                 ambientTempFor={ambientTempFor}
-                lastUpdatedTemperatureReadings={lastUpdatedTemperatureReadings}
+                lastUpdatedReadings={t(
+                  'SENSOR.TEMPERATURE_READINGS_OF_SENSOR.LAST_UPDATED_TEMPERATURE_READINGS',
+                  { latestReadingUpdate: lastUpdatedReadingsTime[type] ?? '' },
+                )}
                 predictedXAxisLabel={predictedXAxisLabel}
                 xAxisLabel={xAxisLabel[type]}
                 activeReadingTypes={activeReadingTypes}

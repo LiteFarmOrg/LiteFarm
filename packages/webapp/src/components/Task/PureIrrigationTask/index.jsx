@@ -35,6 +35,7 @@ export default function PureIrrigationTask({
   reset,
   watch,
   formState,
+  getFieldState = {},
   disabled = false,
   otherTaskType = false,
 }) {
@@ -90,17 +91,27 @@ export default function PureIrrigationTask({
 
   const onDismissWaterUseCalculatorModel = () => setShowWaterUseCalculatorModal(false);
   const handleModalSubmit = () => {
-    setValue(
-      ESTIMATED_WATER_USAGE,
-      measurement_type === 'VOLUME' ? totalVolumeWaterUsage : totalDepthWaterUsage,
-    );
-    setValue(
-      ESTIMATED_WATER_USAGE_UNIT,
-      ['ml', 'l'].includes(estimated_water_usage_unit.value)
-        ? getUnitOptionMap()['l']
-        : getUnitOptionMap()['gal'],
-    );
-    onDismissWaterUseCalculatorModel();
+    const isDepthCalculatorValid =
+      !getFieldState('irrigation_task.application_depth').invalid &&
+      !getFieldState('irrigation_task.default_location_application_depth').invalid;
+    const isVolumeCalculateValid =
+      !getFieldState('irrigation_task.estimated_flow_rate').invalid &&
+      !getFieldState('irrigation_task.estimated_duration').invalid;
+    const isModalValid =
+      measurement_type === 'DEPTH' ? isDepthCalculatorValid : isVolumeCalculateValid;
+    if (isModalValid) {
+      setValue(
+        ESTIMATED_WATER_USAGE,
+        measurement_type === 'VOLUME' ? totalVolumeWaterUsage : totalDepthWaterUsage,
+      );
+      setValue(
+        ESTIMATED_WATER_USAGE_UNIT,
+        ['ml', 'l'].includes(estimated_water_usage_unit.value)
+          ? getUnitOptionMap()['l']
+          : getUnitOptionMap()['gal'],
+      );
+      onDismissWaterUseCalculatorModel();
+    }
   };
 
   useEffect(() => {

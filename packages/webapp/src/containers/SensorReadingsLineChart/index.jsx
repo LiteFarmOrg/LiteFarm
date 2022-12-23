@@ -7,6 +7,7 @@ import { setSpotlightToShown } from '../Map/saga';
 import { useDispatch, useSelector } from 'react-redux';
 import styles from './styles.module.scss';
 import Spinner from '../../components/Spinner';
+import { Semibold } from '../../components/Typography';
 
 const SensorReadingsLineChart = ({
   title = '',
@@ -22,6 +23,7 @@ const SensorReadingsLineChart = ({
   lastUpdatedReadings = '',
   predictedXAxisLabel = '',
   activeReadingTypes = [],
+  noDataFoundMessage = '',
 }) => {
   const dispatch = useDispatch();
   const { sensor_reading_chart } = useSelector(showedSpotlightSelector);
@@ -41,33 +43,46 @@ const SensorReadingsLineChart = ({
     ambientTempFor,
     activeReadingTypes,
   );
-  return (
-    <>
-      {loading ? (
-        <div className={styles.loaderWrapper}>
-          <Spinner />
+  if (loading) {
+    return (
+      <div className={styles.loaderWrapper}>
+        <Spinner />
+      </div>
+    );
+  } else if (!sensorsReadings.length) {
+    return (
+      <div>
+        <div className={styles.titleWrapper}>
+          <label>
+            <Semibold className={styles.title}>{title}</Semibold>
+          </label>
         </div>
-      ) : (
-        <PureSensorReadingsLineChart
-          showSpotLight={!sensor_reading_chart}
-          resetSpotlight={resetSpotlight}
-          isReadingTypeActive={activeReadingTypes.includes(readingType)}
-          title={title}
-          subTitle={subTitle}
-          xAxisDataKey={xAxisDataKey}
-          yAxisDataKeys={yAxisDataKeys}
-          lineColors={lineColors}
-          xAxisLabel={xAxisLabel}
-          yAxisLabel={yAxisLabel}
-          chartData={sensorsReadings}
-          weatherStationName={weatherStationName}
-          lastUpdatedReadings={lastUpdatedReadings}
-          predictedXAxisLabel={predictedXAxisLabel}
-          readingType={readingType}
-        />
-      )}
-    </>
-  );
+        <div className={styles.emptyRect}>
+          <label className={styles.emptyRectMessasge}>{noDataFoundMessage}</label>
+        </div>
+      </div>
+    );
+  } else {
+    return (
+      <PureSensorReadingsLineChart
+        showSpotLight={!sensor_reading_chart}
+        resetSpotlight={resetSpotlight}
+        isReadingTypeActive={activeReadingTypes.includes(readingType)}
+        title={title}
+        subTitle={subTitle}
+        xAxisDataKey={xAxisDataKey}
+        yAxisDataKeys={yAxisDataKeys}
+        lineColors={lineColors}
+        xAxisLabel={xAxisLabel}
+        yAxisLabel={yAxisLabel}
+        chartData={sensorsReadings}
+        weatherStationName={weatherStationName}
+        lastUpdatedReadings={lastUpdatedReadings}
+        predictedXAxisLabel={predictedXAxisLabel}
+        readingType={readingType}
+      />
+    );
+  }
 };
 
 SensorReadingsLineChart.propTypes = {
@@ -84,6 +99,7 @@ SensorReadingsLineChart.propTypes = {
   lastUpdatedReadings: PropTypes.string.isRequired,
   predictedXAxisLabel: PropTypes.string.isRequired,
   activeReadingTypes: PropTypes.array.isRequired,
+  noDataFoundMessage: PropTypes.string.isRequired,
 };
 
 export default SensorReadingsLineChart;

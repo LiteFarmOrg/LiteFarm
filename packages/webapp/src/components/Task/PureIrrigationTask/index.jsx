@@ -6,7 +6,7 @@ import ReactSelect from '../../Form/ReactSelect';
 import Checkbox from '../../Form/Checkbox';
 import RadioGroup from '../../Form/RadioGroup';
 import styles from '../../Typography/typography.module.scss';
-import Input from '../../Form/Input';
+import Input, { getInputErrors } from '../../Form/Input';
 import Unit, { getUnitOptionMap } from '../../Form/Unit';
 import { waterUsage } from '../../../util/convert-units/unit';
 import PropTypes from 'prop-types';
@@ -34,10 +34,13 @@ export default function PureIrrigationTask({
   getValues,
   reset,
   watch,
+  formState,
+  getFieldState = {},
   disabled = false,
   otherTaskType = false,
 }) {
   const { t } = useTranslation();
+  const { errors, isValid } = formState;
   const [showWaterUseCalculatorModal, setShowWaterUseCalculatorModal] = useState(false);
   const { irrigationTaskTypes = [] } = useSelector(irrigationTaskTypesSliceSelector);
   const [irrigationTypeValue, setIrrigationTypeValue] = useState();
@@ -88,17 +91,27 @@ export default function PureIrrigationTask({
 
   const onDismissWaterUseCalculatorModel = () => setShowWaterUseCalculatorModal(false);
   const handleModalSubmit = () => {
-    setValue(
-      ESTIMATED_WATER_USAGE,
-      measurement_type === 'VOLUME' ? totalVolumeWaterUsage : totalDepthWaterUsage,
-    );
-    setValue(
-      ESTIMATED_WATER_USAGE_UNIT,
-      ['ml', 'l'].includes(estimated_water_usage_unit.value)
-        ? getUnitOptionMap()['l']
-        : getUnitOptionMap()['gal'],
-    );
-    onDismissWaterUseCalculatorModel();
+    const isDepthCalculatorValid =
+      !getFieldState('irrigation_task.application_depth').invalid &&
+      !getFieldState('irrigation_task.default_location_application_depth').invalid;
+    const isVolumeCalculateValid =
+      !getFieldState('irrigation_task.estimated_flow_rate').invalid &&
+      !getFieldState('irrigation_task.estimated_duration').invalid;
+    const isModalValid =
+      measurement_type === 'DEPTH' ? isDepthCalculatorValid : isVolumeCalculateValid;
+    if (isModalValid) {
+      setValue(
+        ESTIMATED_WATER_USAGE,
+        measurement_type === 'VOLUME' ? totalVolumeWaterUsage : totalDepthWaterUsage,
+      );
+      setValue(
+        ESTIMATED_WATER_USAGE_UNIT,
+        ['ml', 'l'].includes(estimated_water_usage_unit.value)
+          ? getUnitOptionMap()['l']
+          : getUnitOptionMap()['gal'],
+      );
+      onDismissWaterUseCalculatorModel();
+    }
   };
 
   useEffect(() => {
@@ -156,6 +169,7 @@ export default function PureIrrigationTask({
               message: t('ADD_TASK.IRRIGATION_VIEW.IRRIGATION_TYPE_CHAR_LIMIT'),
             },
           })}
+          errors={getInputErrors(errors, IRRIGATION_TYPE_OTHER)}
         />
       )}
       <Checkbox

@@ -121,10 +121,14 @@ function SensorReadings({ history, match }) {
                   readingType={type}
                   noDataText={noDataText}
                   ambientTempFor={ambientTempFor}
-                  lastUpdatedReadings={t(
-                    'SENSOR.TEMPERATURE_READINGS_OF_SENSOR.LAST_UPDATED_TEMPERATURE_READINGS',
-                    { latestReadingUpdate: lastUpdatedReadingsTime[type] ?? '' },
-                  )}
+                  lastUpdatedReadings={
+                    lastUpdatedReadingsTime[type] !== ''
+                      ? t(
+                          'SENSOR.TEMPERATURE_READINGS_OF_SENSOR.LAST_UPDATED_TEMPERATURE_READINGS',
+                          { latestReadingUpdate: lastUpdatedReadingsTime[type] ?? '' },
+                        )
+                      : ''
+                  }
                   predictedXAxisLabel={predictedXAxisLabel}
                   xAxisLabel={xAxisLabel[type]}
                   activeReadingTypes={activeReadingTypes}

@@ -151,6 +151,33 @@ _Note: Please make sure to run the commands in the following order:_
 - `pnpm dev` (in a new terminal from the `packages/webapp` folder)
 - `npm run nodemon` (in a new terminal from the `packages/api` folder)
 
+# Docker
+
+## Use cases for Docker
+
+Please see https://docs.docker.com/ for more general information about docker. 
+
+Use cases in which we currently utilize docker at LiteFarm include:
+- Simulating the server environment.
+- Building LiteFarm application using docker commands and supporting its components using containers.
+
+## Set up
+
+- Go to https://docs.docker.com/get-docker/ and install docker in your local system.
+- After installation, the docker CLI will be available where you can run the docker commands. 
+- create a .env file at the root directory of the project i.e. LiteFarm 
+- Add key-value pairs in the .env by referring to the docker-compose.[ENV].yml that contains the docker env keys.
+
+## Commands
+These commands can be run from the root of the repo.
+- `docker-compose -f docker-compose.[ENV].yml up --build -d` to build the docker containers in the detach mode.
+- `docker ps` to see the list of docker containers in the running state.
+- `docker logs --details [containers name]` to view the logs inside the container.
+
+_Note:
+- [container_name] are litefarm-db, litefarm-api and litefarm-web.
+- [ENV] are beta and prod
+
 ## How to Contribute
 
 Please email: community@litefarm.org for more details.

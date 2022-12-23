@@ -51,28 +51,30 @@ const WaterUseVolumeCalculator = ({ system, setTotalWaterUsage, totalWaterUsage,
   const estimated_water_usage_unit = getValues('irrigation_task.estimated_water_usage_unit');
 
   useEffect(() => {
-    if (estimated_flow_rate && estimated_duration) {
+    if (estimated_duration || estimated_flow_rate) {
+      const estimated_flow_rate_value = estimated_flow_rate ? estimated_flow_rate : 1;
+      const estimated_duration_value = estimated_duration ? estimated_duration : 1;
       setTotalWaterUsage(() => {
         if (
-          ['l/h', 'gal/h'].includes(estimated_flow_rate_unit.value) &&
-          estimated_duration_unit.label === 'h'
+          ['l/h', 'gal/h'].includes(estimated_flow_rate_unit?.value) &&
+          estimated_duration_unit?.label === 'h'
         )
-          return roundToTwoDecimal(estimated_flow_rate * estimated_duration);
+          return roundToTwoDecimal(estimated_flow_rate_value * estimated_duration_value);
         if (
-          ['l/min', 'gal/min'].includes(estimated_flow_rate_unit.value) &&
-          estimated_duration_unit.label === 'min'
+          ['l/min', 'gal/min'].includes(estimated_flow_rate_unit?.value) &&
+          estimated_duration_unit?.label === 'm'
         )
-          return roundToTwoDecimal(estimated_flow_rate * estimated_duration);
+          return roundToTwoDecimal(estimated_flow_rate_value * estimated_duration_value);
         if (
-          ['l/h', 'gal/h'].includes(estimated_flow_rate_unit.value) &&
-          estimated_duration_unit.label === 'min'
+          ['l/h', 'gal/h'].includes(estimated_flow_rate_unit?.value) &&
+          estimated_duration_unit?.label === 'm'
         )
-          return roundToTwoDecimal(estimated_flow_rate * (estimated_duration / 60));
+          return roundToTwoDecimal(estimated_flow_rate_value * (estimated_duration_value / 60));
         if (
-          ['l/min', 'gal/min'].includes(estimated_flow_rate_unit.value) &&
-          estimated_duration_unit.label === 'h'
+          ['l/min', 'gal/min'].includes(estimated_flow_rate_unit?.value) &&
+          estimated_duration_unit?.label === 'h'
         )
-          return roundToTwoDecimal(estimated_flow_rate * (estimated_duration * 60));
+          return roundToTwoDecimal(estimated_flow_rate_value * (estimated_duration_value * 60));
         return totalWaterUsage;
       });
     }
@@ -219,7 +221,7 @@ const WaterUseDepthCalculator = ({ system, setTotalWaterUsage, totalWaterUsage, 
         hookFromWatch={watch}
         name={APPLICATION_DEPTH}
         unitType={irrigation_depth}
-        max={999999.99}
+        max={999.9}
         system={system}
         control={control}
       />

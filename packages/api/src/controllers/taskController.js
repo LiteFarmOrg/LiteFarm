@@ -258,7 +258,7 @@ const taskController = {
         let data = req.body;
         const { user_id } = req.user;
         data.owner_user_id = user_id;
-        data = await this.checkCustomDependencies(typeOfTask, data, req.headers.farm_id);
+        data = await this.checkCustomDependencies({ typeOfTask, data, farm_id: req.headers.farm_id });
         const result = await TaskModel.transaction(async (trx) => {
           const { task_id } = await TaskModel.query(trx)
             .context({ user_id: req.user.user_id })
@@ -297,7 +297,7 @@ const taskController = {
     };
   },
 
-  async checkCustomDependencies(typeOfTask, data, farm_id) {
+  async checkCustomDependencies({ typeOfTask, data, farm_id }) {
     switch (typeOfTask) {
       case 'field_work_task': {
         return await this.checkAndAddCustomFieldWork(data, farm_id);
@@ -462,11 +462,11 @@ const taskController = {
         const wagePatchData = override_hourly_wage
           ? { wage_at_moment }
           : { wage_at_moment: wage.amount };
-        data = await this.checkCustomDependencies(
+        data = await this.checkCustomDependencies({
           typeOfTask,
-          (data = { ...data, owner_user_id: user_id }),
-          req.headers.farm_id,
-        );
+          data: { ...data, owner_user_id: user_id },
+          farm_id,
+        });
         const result = await TaskModel.transaction(async (trx) => {
           const task = await TaskModel.query(trx)
             .context({ user_id: req.user.user_id })

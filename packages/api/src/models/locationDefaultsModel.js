@@ -29,7 +29,7 @@ class LocationDefaultsModel extends BaseModel {
     const { user_id, ...rest } = location_defaults;
     await LocationDefaultsModel.query()
       .context({ user_id })
-      .upsertGraph({ ...rest });
+      .upsertGraph({ ...rest }, { insertMissing: true });
   }
 }
 export default LocationDefaultsModel;

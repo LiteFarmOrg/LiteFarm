@@ -6,7 +6,7 @@ import ReactSelect from '../../Form/ReactSelect';
 import Checkbox from '../../Form/Checkbox';
 import RadioGroup from '../../Form/RadioGroup';
 import styles from '../../Typography/typography.module.scss';
-import Input from '../../Form/Input';
+import Input, { getInputErrors } from '../../Form/Input';
 import Unit, { getUnitOptionMap } from '../../Form/Unit';
 import { waterUsage } from '../../../util/convert-units/unit';
 import PropTypes from 'prop-types';
@@ -15,6 +15,7 @@ import { convert } from '../../../util/convert-units/convert';
 import { getIrrigationTaskTypes } from '../../../containers/Task/IrrigationTaskTypes/saga';
 import { useDispatch, useSelector } from 'react-redux';
 import { irrigationTaskTypesSliceSelector } from '../../../containers/irrigationTaskTypesSlice';
+import InputAutoSize from '../../Form/InputAutoSize';
 
 const defaultIrrigationTaskTypes = [
   'HAND_WATERING',
@@ -34,10 +35,12 @@ export default function PureIrrigationTask({
   getValues,
   reset,
   watch,
+  formState,
   disabled = false,
   otherTaskType = false,
 }) {
   const { t } = useTranslation();
+  const { errors, isValid } = formState;
   const [showWaterUseCalculatorModal, setShowWaterUseCalculatorModal] = useState(false);
   const { irrigationTaskTypes = [] } = useSelector(irrigationTaskTypesSliceSelector);
   const [irrigationTypeValue, setIrrigationTypeValue] = useState();
@@ -156,6 +159,7 @@ export default function PureIrrigationTask({
               message: t('ADD_TASK.IRRIGATION_VIEW.IRRIGATION_TYPE_CHAR_LIMIT'),
             },
           })}
+          errors={getInputErrors(errors, IRRIGATION_TYPE_OTHER)}
         />
       )}
       <Checkbox

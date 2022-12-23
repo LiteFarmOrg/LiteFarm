@@ -38,6 +38,7 @@ import {
   getSoilWaterPotentialValue,
 } from '../../components/Map/PreviewPopup/utils.js';
 import { getLanguageFromLocalStorage } from '../../util/getLanguageFromLocalStorage';
+import { getLastUpdatedTime } from './utils';
 
 const sensorReadingsUrl = () => `${sensorUrl}/reading/visualization`;
 
@@ -90,7 +91,7 @@ export function* getSensorsReadingsSaga({ payload }) {
 
     const currentDT = parseInt(+new Date() / 1000);
 
-    let lastUpdatedReadingsTime = '';
+    let lastUpdatedReadingsTime = {};
     let xAxisLabel = {};
 
     let isFound = false;
@@ -184,14 +185,10 @@ export function* getSensorsReadingsSaga({ payload }) {
         if (result?.data?.sensorsPoints) {
           selectedSensorName = result?.data?.sensorsPoints[0]?.name;
         }
-        const lastUpdated = new Date(
-          Math.max(
-            ...Object.keys(ambientDataWithSensorsReadings)
-              .filter((e) => e < currentDT)
-              .map((e) => new Date(+e * 1000)),
-          ),
+
+        lastUpdatedReadingsTime[TEMPERATURE] = getLastUpdatedTime(
+          Object.keys(ambientDataWithSensorsReadings),
         );
-        lastUpdatedReadingsTime = moment(lastUpdated).startOf('day').fromNow();
 
         const allTimestamps = Object.keys(ambientDataWithSensorsReadings);
         if (allTimestamps.length) {
@@ -226,6 +223,11 @@ export function* getSensorsReadingsSaga({ payload }) {
           },
           {},
         );
+
+        lastUpdatedReadingsTime[SOIL_WATER_POTENTIAL] = getLastUpdatedTime(
+          Object.keys(soilWaterPotentialReadings),
+        );
+
         const soilWaterPotentialSensorReadings = Object.values(soilWaterPotentialReadings);
         sensorReadingData[SOIL_WATER_POTENTIAL] = soilWaterPotentialSensorReadings;
         if (soilWaterPotentialSensorReadings?.length) {

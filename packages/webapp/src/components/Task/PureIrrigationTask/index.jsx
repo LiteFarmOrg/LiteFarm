@@ -15,7 +15,6 @@ import { convert } from '../../../util/convert-units/convert';
 import { getIrrigationTaskTypes } from '../../../containers/Task/IrrigationTaskTypes/saga';
 import { useDispatch, useSelector } from 'react-redux';
 import { irrigationTaskTypesSliceSelector } from '../../../containers/irrigationTaskTypesSlice';
-import InputAutoSize from '../../Form/InputAutoSize';
 
 const defaultIrrigationTaskTypes = [
   'HAND_WATERING',

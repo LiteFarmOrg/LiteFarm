@@ -1591,11 +1591,10 @@ async function irrigation_taskFactory(
   { promisedTask = taskFactory() } = {},
   irrigationTask = fakeIrrigationTask(),
 ) {
-  const [activity, promisedFarm] = await Promise.all([promisedTask, farmFactory()]);
-  const [{ farm_id }] = promisedFarm;
+  const [activity] = await Promise.all([promisedTask]);
   const [{ task_id }] = activity;
   return knex('irrigation_task')
-    .insert({ task_id, farm_id, ...irrigationTask })
+    .insert({ task_id, ...irrigationTask })
     .returning('*');
 }
 

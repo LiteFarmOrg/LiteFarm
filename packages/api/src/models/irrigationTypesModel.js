@@ -81,10 +81,13 @@ class IrrigationTypesModel extends BaseModel {
 
   static async insertCustomIrrigationType(row) {
     await knex('irrigation_type').insert(row);
-    const irrigationType = await knex('irrigation_type')
+    return await IrrigationTypesModel.query()
       .select('irrigation_type_id')
-      .where({ irrigation_type_name: row.irrigation_type_name });
-    return irrigationType.length > 0 ? irrigationType[0] : [];
+      .where((builder) => {
+        builder.where('irrigation_type_name', row.irrigation_type_name);
+        builder.where({ farm_id: row.farm_id }).orWhereNull('farm_id');
+      })
+      .first();
   }
 
   static async updateIrrigationType(irrigationTypeValues) {

@@ -58,10 +58,7 @@ class IrrigationTypesModel extends BaseModel {
       irrigation_type_name: data.irrigation_task.irrigation_type_name,
       farm_id,
       default_measuring_type: data.irrigation_task.measuring_type,
-      created_by_user_id: data.owner_user_id,
-      updated_by_user_id: data.owner_user_id,
-      created_at: new Date().toISOString(),
-      updated_at: new Date().toISOString(),
+      user_id: data.owner_user_id,
     };
     const irrigationTypeExists = await IrrigationTypesModel.query()
       .select('irrigation_type_id')
@@ -80,7 +77,10 @@ class IrrigationTypesModel extends BaseModel {
   }
 
   static async insertCustomIrrigationType(row) {
-    await knex('irrigation_type').insert(row);
+    const { user_id, ...rest } = row;
+    await IrrigationTypesModel.query()
+      .context({ user_id })
+      .upsertGraph({ ...rest }, { insertMissing: true });
     return await IrrigationTypesModel.query()
       .select('irrigation_type_id')
       .where((builder) => {

@@ -66,6 +66,7 @@ class IrrigationTypesModel extends BaseModel {
     const irrigationTypeExists = await IrrigationTypesModel.query()
       .select('irrigation_type_id')
       .where((builder) => {
+        builder.where('irrigation_type_name', data.irrigation_task.irrigation_type_name);
         builder.where({ farm_id }).orWhereNull('farm_id');
       })
       .first();

@@ -6,7 +6,7 @@ import ReactSelect from '../../Form/ReactSelect';
 import Checkbox from '../../Form/Checkbox';
 import RadioGroup from '../../Form/RadioGroup';
 import styles from '../../Typography/typography.module.scss';
-import Input, { getInputErrors } from '../../Form/Input';
+import Input, { getInputErrors, numberOnKeyDown } from '../../Form/Input';
 import Unit, { getUnitOptionMap } from '../../Form/Unit';
 import { waterUsage } from '../../../util/convert-units/unit';
 import PropTypes from 'prop-types';
@@ -103,6 +103,7 @@ export default function PureIrrigationTask({
       setValue(
         ESTIMATED_WATER_USAGE,
         measurement_type === 'VOLUME' ? totalVolumeWaterUsage : totalDepthWaterUsage,
+        { shouldValidate: true, shouldDirty: true },
       );
       setValue(
         ESTIMATED_WATER_USAGE_UNIT,
@@ -227,6 +228,7 @@ export default function PureIrrigationTask({
         control={control}
         style={{ marginTop: '40px', marginBottom: `${disabled ? 40 : 0}px` }}
         disabled={disabled}
+        onKeyDown={numberOnKeyDown}
         onChangeUnitOption={(e) => {
           setEstimatedWaterUsageComputed(true);
           setValue(

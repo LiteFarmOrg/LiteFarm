@@ -31,7 +31,7 @@ class IrrigationTaskModel extends Model {
   static get jsonSchema() {
     return {
       type: 'object',
-      required: ['irrigation_type_name'],
+      required: ['irrigation_type_name', 'irrigation_type_id'],
 
       properties: {
         task_id: { type: 'integer' },

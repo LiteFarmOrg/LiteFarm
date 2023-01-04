@@ -59,7 +59,7 @@ export const up = function (knex) {
     knex('nomination_workflow').insert([
       {
         name: 'REJECTED',
-        group: 'NOMINATION_REVIEW',
+        group: 'CROP_NOMINATION',
         created_at: now,
         created_by_user_id: litefarmUserId,
         updated_at: now,
@@ -67,7 +67,7 @@ export const up = function (knex) {
       },
       {
         name: 'APPROVED',
-        group: 'NOMINATION_REVIEW',
+        group: 'CROP_NOMINATION',
         created_at: now,
         created_by_user_id: litefarmUserId,
         updated_at: now,
@@ -75,7 +75,7 @@ export const up = function (knex) {
       },
       {
         name: 'LF_REVIEW',
-        group: 'NOMINATION_REVIEW',
+        group: 'CROP_NOMINATION',
         created_at: now,
         created_by_user_id: litefarmUserId,
         updated_at: now,
@@ -83,7 +83,7 @@ export const up = function (knex) {
       },
       {
         name: 'NOMINATED',
-        group: 'NOMINATION_REVIEW',
+        group: 'CROP_NOMINATION',
         created_at: now,
         created_by_user_id: litefarmUserId,
         updated_at: now,
@@ -91,7 +91,7 @@ export const up = function (knex) {
       },
       {
         name: 'EXPERT_REVIEW',
-        group: 'NOMINATION_REVIEW',
+        group: 'CROP_NOMINATION',
         created_at: now,
         created_by_user_id: litefarmUserId,
         updated_at: now,

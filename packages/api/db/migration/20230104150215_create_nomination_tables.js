@@ -34,7 +34,7 @@ export const up = function(knex) {
             table.boolean('deleted').notNullable().defaultTo(false);
         }),
         knex.schema.createTable('nomination_status', (table) => {
-            table.uuid('status_id').primary();
+            table.uuid('status_id').primary().defaultTo(knex.raw('uuid_generate_v1()'));
             table.integer('nomination_id').references('nomination_id').inTable('nomination').notNullable();
             table.integer('status').references('id').inTable('nomination_workflow').notNullable();
             table.string('notes');

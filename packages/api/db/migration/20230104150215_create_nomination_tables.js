@@ -7,20 +7,20 @@ export const up = function(knex) {
         knex.schema.createTable('nomination_type', (table) => {
             table.string('name').primary();
             table.dateTime('created_at').notNullable();
-            table.foreign('created_by_user_id').references('user_id').inTable('users').notNullable();
+            table.string('created_by_user_id').references('user_id').inTable('users').notNullable();
             table.dateTime('updated_at').notNullable();
-            table.foreign('updated_by_user_id').references('user_id').inTable('users').notNullable();
+            table.string('updated_by_user_id').references('user_id').inTable('users').notNullable();
             table.boolean('deleted').notNullable().defaultTo(false);
         }),
         knex.schema.createTable('nomination', (table) => {
             table.increments('nomination_id').primary();
-            table.foreign('farm_id').references('farm_id').inTable('farm').notNullable();
+            table.uuid('farm_id').references('farm_id').inTable('farm').notNullable();
             table.string('nominated_id').notNullable();
-            table.foreign('nomination_type').references('name').inTable('nomination_type').notNullable();
+            table.string('nomination_type').references('name').inTable('nomination_type').notNullable();
             table.dateTime('created_at').notNullable();
-            table.foreign('created_by_user_id').references('user_id').inTable('users').notNullable();
+            table.string('created_by_user_id').references('user_id').inTable('users').notNullable();
             table.dateTime('updated_at').notNullable();
-            table.foreign('updated_by_user_id').references('user_id').inTable('users').notNullable();
+            table.string('updated_by_user_id').references('user_id').inTable('users').notNullable();
             table.boolean('deleted').notNullable().defaultTo(false);
         }),
         knex.schema.createTable('nomination_workflow', (table) => {
@@ -28,20 +28,20 @@ export const up = function(knex) {
             table.string('name').notNullable();
             table.string('group').notNullable();
             table.dateTime('created_at').notNullable();
-            table.uuid('created_by_user_id').references('user_id').inTable('users').notNullable();
+            table.string('created_by_user_id').references('user_id').inTable('users').notNullable();
             table.dateTime('updated_at').notNullable();
-            table.uuid('updated_by_user_id').references('user_id').inTable('users').notNullable();
+            table.string('updated_by_user_id').references('user_id').inTable('users').notNullable();
             table.boolean('deleted').notNullable().defaultTo(false);
         }),
         knex.schema.createTable('nomination_status', (table) => {
-            table.increments('status_id').primary();
-            table.foreign('nomination_id').references('nomination_id').inTable('nomination').notNullable();
-            table.foreign('status').references('id').inTable('nomination_workflow').notNullable;
+            table.uuid('status_id').primary();
+            table.integer('nomination_id').references('nomination_id').inTable('nomination').notNullable();
+            table.integer('status').references('id').inTable('nomination_workflow').notNullable();
             table.string('notes');
             table.datetime('created_at').notNullable();
-            table.uuid('created_by_user_id').references('user_id').inTable('users').notNullable();
+            table.string('created_by_user_id').references('user_id').inTable('users').notNullable();
             table.dateTime('updated_at').notNullable();
-            table.uuid('updated_by_user_id').references('user_id').inTable('users').notNullable();
+            table.string('updated_by_user_id').references('user_id').inTable('users').notNullable();
             table.boolean('deleted').notNullable().defaultTo(false);
         }),
         knex('nomination_type').insert([
@@ -100,9 +100,9 @@ export const up = function(knex) {
 
 export const down = function(knex) {
     return Promise.all([
-        knex.schema.dropTable('nomination_type'),
-        knex.schema.dropTable('nomination'),
-        knex.schema.dropTable('nomination_workflow'),
         knex.schema.dropTable('nomination_status'),
+        knex.schema.dropTable('nomination_workflow'),
+        knex.schema.dropTable('nomination'),
+        knex.schema.dropTable('nomination_type'),        
       ]);
 };

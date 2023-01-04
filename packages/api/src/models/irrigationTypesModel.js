@@ -57,6 +57,7 @@ class IrrigationTypesModel extends BaseModel {
     const customIrrigationType = {
       irrigation_type_name: data.irrigation_task.irrigation_type_name,
       farm_id,
+      irrigation_type_id: data.irrigation_task.irrigation_type_id,
       default_measuring_type: data.irrigation_task.measuring_type,
       created_by_user_id: data.owner_user_id,
       updated_by_user_id: data.owner_user_id,
@@ -68,6 +69,7 @@ class IrrigationTypesModel extends BaseModel {
         ...customIrrigationType,
       });
       data.irrigation_task.irrigation_type_id = irrigation_type.irrigation_type_id;
+      customIrrigationType.irrigation_type_id = irrigation_type.irrigation_type_id;
     }
     return {
       customIrrigationType,

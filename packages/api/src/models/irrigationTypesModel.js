@@ -82,7 +82,7 @@ class IrrigationTypesModel extends BaseModel {
       .select('irrigation_type_id')
       .where((builder) => {
         builder.where('irrigation_type_name', row.irrigation_type_name);
-        builder.where({ farm_id: row.farm_id });
+        builder.where({ farm_id: row.farm_id }).orWhereNull('farm_id');
       })
       .first();
   }

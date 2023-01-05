@@ -65,11 +65,11 @@ class IrrigationTypesModel extends BaseModel {
       updated_at: new Date().toISOString(),
     };
     if (!data.irrigation_task.irrigation_type_id) {
-      const irrigation_type = await IrrigationTypesModel.insertCustomIrrigationType({
+      const { irrigation_type_id } = await IrrigationTypesModel.insertCustomIrrigationType({
         ...customIrrigationType,
       });
-      data.irrigation_task.irrigation_type_id = irrigation_type.irrigation_type_id;
-      customIrrigationType.irrigation_type_id = irrigation_type.irrigation_type_id;
+      data.irrigation_task.irrigation_type_id = irrigation_type_id;
+      customIrrigationType.irrigation_type_id = irrigation_type_id;
     }
     return {
       customIrrigationType,

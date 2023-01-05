@@ -297,4 +297,6 @@ describe.only('LiteFarm end to end tests for tasks flow', () => {
       .invoke('val')
       .should('equal', Data.cleanTask.Notes, { matchCase: false });
   });
+
+  it('create a custom irrigate task with all options', () => {});
 });

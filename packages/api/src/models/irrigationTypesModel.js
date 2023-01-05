@@ -65,7 +65,7 @@ class IrrigationTypesModel extends BaseModel {
         created_at: new Date().toISOString(),
         updated_at: new Date().toISOString(),
       });
-      irrigation_type_id = result.irrigation_type_id;
+      irrigation_type_id = result.irrigation_type_id ? result.irrigation_type_id : null;
     }
     return {
       irrigation_type_id,
@@ -73,7 +73,6 @@ class IrrigationTypesModel extends BaseModel {
   }
 
   static async insertCustomIrrigationType(row) {
-    delete row.irrigation_type_id;
     const result = await knex('irrigation_type')
       .returning(['irrigation_type_id', 'irrigation_type_name'])
       .insert(row);

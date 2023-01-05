@@ -73,7 +73,6 @@ class IrrigationTypesModel extends BaseModel {
   }
 
   static async insertCustomIrrigationType(row) {
-    delete row.irrigation_type_id;
     const result = await knex('irrigation_type')
       .returning(['irrigation_type_id', 'irrigation_type_name'])
       .insert(row);

@@ -142,7 +142,34 @@ export default function PureAddNewCrop({
         hookFormRegister={register('crop_common_name', { required: true })}
         errors={getInputErrors(errors, 'crop_common_name')}
       />
-
+      <Input
+        data-cy="crop-cropGenus"
+        style={{ marginBottom: '40px' }}
+        label={t('CROP_CATALOGUE.GENUS')}
+        hookFormRegister={register('crop_genus', {
+          maxLength: { value: 200, message: t('FORM_VALIDATION.OVER_200_CHARS') },
+          setValueAs: (v) => {
+            return v.charAt(0).toUpperCase() + v.slice(1).toLowerCase();
+          },
+        })}
+        errors={getInputErrors(errors, 'crop_genus')}
+        optional
+        placeholder="Genus"
+      />
+      <Input
+        data-cy="crop-cropSpecies"
+        style={{ marginBottom: '40px' }}
+        label={t('CROP_CATALOGUE.SPECIES')}
+        hookFormRegister={register('crop_specie', {
+          maxLength: { value: 200, message: t('FORM_VALIDATION.OVER_200_CHARS') },
+          setValueAs: (v) => {
+            return v.toLowerCase();
+          },
+        })}
+        errors={getInputErrors(errors, 'crop_specie')}
+        optional
+        placeholder="species"
+      />
       <Controller
         control={control}
         name={'crop_group'}

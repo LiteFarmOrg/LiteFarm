@@ -2,7 +2,6 @@ import knex from '../util/knex.js';
 import BaseModel from './baseModel.js';
 import { Model } from 'objection';
 import IrrigationTaskModel from './irrigationTaskModel.js';
-import lodash from 'lodash';
 
 class IrrigationTypesModel extends BaseModel {
   static get tableName() {
@@ -67,7 +66,7 @@ class IrrigationTypesModel extends BaseModel {
     };
     if (!data.irrigation_task.irrigation_type_id) {
       const irrigation_type = await IrrigationTypesModel.insertCustomIrrigationType({
-        ...lodash.omit(customIrrigationType, ['irrigation_type_id']),
+        ...customIrrigationType,
       });
       data.irrigation_task.irrigation_type_id = irrigation_type.irrigation_type_id;
       customIrrigationType.irrigation_type_id = irrigation_type.irrigation_type_id;
@@ -78,14 +77,14 @@ class IrrigationTypesModel extends BaseModel {
   }
 
   static async insertCustomIrrigationType(row) {
+    delete row.irrigation_type_id;
     await knex('irrigation_type').insert(row);
-    return await IrrigationTypesModel.query()
+    const result = await IrrigationTypesModel.query()
       .select('irrigation_type_id')
-      .where((builder) => {
-        builder.where('irrigation_type_name', row.irrigation_type_name);
-        // builder.where({ farm_id: row.farm_id }).orWhereNull('farm_id');
-      })
+      .where('irrigation_type_name', row.irrigation_type_name)
       .first();
+    console.log(result);
+    return result;
   }
 
   static async updateIrrigationType(irrigationTypeValues) {

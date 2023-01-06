@@ -146,12 +146,12 @@ export const percentage_location = {
   metric: {
     units: ['deg'],
     defaultUnit: 'deg',
-    breakpoints: [1000],
+    breakpoints: [100],
   },
   imperial: {
     units: ['deg'],
     defaultUnit: 'deg',
-    breakpoints: [1000],
+    breakpoints: [100],
   },
   databaseUnit: databaseUnit.degree,
 };

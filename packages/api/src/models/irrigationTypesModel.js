@@ -54,31 +54,34 @@ class IrrigationTypesModel extends BaseModel {
     };
   }
   static async checkAndAddCustomIrrigationType(data, farm_id) {
-    let irrigation_type_id = data.irrigation_task.irrigation_type_id;
-    if (!data.irrigation_task.irrigation_type_id && data.irrigation_task.measuring_type) {
-      const result = await IrrigationTypesModel.insertCustomIrrigationType({
-        irrigation_type_name: data.irrigation_task.irrigation_type_name,
-        farm_id,
-        default_measuring_type: data.irrigation_task.measuring_type,
-        created_by_user_id: data.owner_user_id,
-        updated_by_user_id: data.owner_user_id,
-        created_at: new Date().toISOString(),
-        updated_at: new Date().toISOString(),
-      });
-      irrigation_type_id = result.irrigation_type_id;
-    }
+    const customIrrigationType = {
+      irrigation_type_name: data.irrigation_task.irrigation_type_name,
+      farm_id,
+      default_measuring_type: data.irrigation_task.measuring_type,
+      created_by_user_id: data.owner_user_id,
+      updated_by_user_id: data.owner_user_id,
+      created_at: new Date().toISOString(),
+      updated_at: new Date().toISOString(),
+    };
+    const irrigationTypeExists = await IrrigationTypesModel.query()
+      .select('irrigation_type_id')
+      .where({ irrigation_type_name: data.irrigation_task.irrigation_type_name })
+      .first();
+    const irrigation_type = irrigationTypeExists
+      ? irrigationTypeExists
+      : await IrrigationTypesModel.insertCustomIrrigationType({ ...customIrrigationType });
+    data.irrigation_task.irrigation_type_id = irrigation_type.irrigation_type_id;
     return {
-      irrigation_type_id,
+      customIrrigationType,
     };
   }
 
   static async insertCustomIrrigationType(row) {
-    const result = await knex('irrigation_type')
-      .returning(['irrigation_type_id', 'irrigation_type_name'])
-      .insert({ ...row });
-    return {
-      irrigation_type_id: result[0].irrigation_type_id,
-    };
+    await knex('irrigation_type').insert(row);
+    const irrigationType = await knex('irrigation_type')
+      .select('irrigation_type_id')
+      .where({ irrigation_type_name: row.irrigation_type_name });
+    return irrigationType.length > 0 ? irrigationType[0] : [];
   }
 
   static async updateIrrigationType(irrigationTypeValues) {

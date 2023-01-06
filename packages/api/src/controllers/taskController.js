@@ -306,17 +306,23 @@ const taskController = {
         return await (async () => {
           if (data.irrigation_task) {
             const {
-              irrigation_type_id,
+              customIrrigationType,
             } = await IrrigationTypesModel.checkAndAddCustomIrrigationType(data, farm_id);
             if (data.irrigation_task.default_irrigation_task_type_measurement) {
-              await IrrigationTypesModel.updateIrrigationType({
-                irrigation_type_id,
-                irrigation_type_name: data.irrigation_task.irrigation_type_name,
-                default_measuring_type: data.irrigation_task.measuring_type,
-                user_id: data.owner_user_id,
-              });
+              const {
+                checkFarmIrrigationTypeExists,
+              } = await IrrigationTypesModel.checkFarmIrrigationTypeExists(data, farm_id);
+              checkFarmIrrigationTypeExists
+                ? await IrrigationTypesModel.updateIrrigationType({
+                    irrigation_type_id: checkFarmIrrigationTypeExists.irrigation_type_id,
+                    irrigation_type_name: data.irrigation_task.irrigation_type_name,
+                    default_measuring_type: data.irrigation_task.measuring_type,
+                    user_id: data.owner_user_id,
+                  })
+                : await IrrigationTypesModel.insertCustomIrrigationType({
+                    ...customIrrigationType,
+                  });
             }
-            data.irrigation_task.irrigation_type_id = irrigation_type_id;
           }
           if (data.location_defaults) {
             await locationDefaultsModel.createOrUpdateLocationDefaults({

@@ -5,6 +5,20 @@ export const up = async function (knex) {
     table.boolean('default_irrigation_task_type_location').defaultTo(false);
     table.boolean('default_irrigation_task_type_measurement').defaultTo(false);
   });
+  const irrigation_task_type = await knex('irrigation_type').select(
+    'irrigation_type_id',
+    'irrigation_type_name',
+  );
+  await knex.schema.alterTable('irrigation_type', (table) => {
+    table.string('irrigation_type_translation_key');
+  });
+
+  for (const row of irrigation_task_type) {
+    const irrigation_type_translation_key = row.irrigation_type_name.toUpperCase().replace('', '_');
+    await knex('irrigation_type')
+      .update({ irrigation_type_id: row.irrigation_type.irrigation_type_id })
+      .where({ irrigation_type_translation_key });
+  }
 };
 
 export const down = async function (knex) {
@@ -13,5 +27,9 @@ export const down = async function (knex) {
     table.dropColumn('default_location_application_depth');
     table.dropColumn('default_irrigation_task_type_location');
     table.dropColumn('default_irrigation_task_type_measurement');
+  });
+
+  await knex.schema.alterTable('irrigation_type', (table) => {
+    table.dropColumn('irrigation_type_translation_key');
   });
 };

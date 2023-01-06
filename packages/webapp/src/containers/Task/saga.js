@@ -571,18 +571,21 @@ const getCompleteIrrigationTaskBody = (task_translation_key) => (data) => {
         ?.irrigation_task_type_other
         ? data.taskData[taskType]?.irrigation_task_type_other
         : data.taskData[taskType]?.irrigation_type_name;
-      data.taskData.location_defaults = {
-        location_id: data.location_id,
-        irrigation_task_type: data.taskData[taskType].default_irrigation_task_type_location
-          ? data.taskData[taskType].irrigation_type_name
-          : undefined,
-        ...(data.taskData[taskType].default_location_application_depth
-          ? pick(data.taskData[taskType], ['application_depth', 'application_depth_unit'])
-          : null),
-        ...(data.taskData[taskType].default_location_flow_rate
-          ? pick(data.taskData[taskType], ['estimated_flow_rate', 'estimated_flow_rate_unit'])
-          : null),
-      };
+      data.taskData[taskType].location_id = data.location_id;
+      data.taskData.location_defaults = [
+        {
+          location_id: data.location_id,
+          irrigation_task_type: data.taskData[taskType].default_irrigation_task_type_location
+            ? data.taskData[taskType].irrigation_type_name
+            : undefined,
+          ...(data.taskData[taskType].default_location_application_depth
+            ? pick(data.taskData[taskType], ['application_depth', 'application_depth_unit'])
+            : null),
+          ...(data.taskData[taskType].default_location_flow_rate
+            ? pick(data.taskData[taskType], ['estimated_flow_rate', 'estimated_flow_rate_unit'])
+            : null),
+        },
+      ];
 
       !data.taskData[taskType]?.estimated_water_usage &&
         delete data.taskData[taskType]?.estimated_water_usage_unit;

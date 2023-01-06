@@ -72,33 +72,19 @@ class Nomination extends baseModel {
       .patch({ ...rest });
   }
 
-  static async createNomination(row) {
-    const { user_id, ...rest } = irrigationTypeValues;
+  static async createNomination(data) {
+    const { user_id, ...rest } = data;
     return await Nomination.query()
       .context({ user_id })
       .insert({ ...rest });
   }
 
-  static async getNominationsByNominationType(nominationType) {
-    return Nomination.query()
-        .where('nomination_type', nominationType)
-  }
 
-  static async getNominationsByFarmId(farmId) {
-    return Nomination.query()
-        .where('nomination_type', nominationType)
-  }
-
-  static async getNominationsByUserId(userId) {
-
-  }
-
-  static async getAllStatusByNominationId(nominationId) {
-
-  }
-
-  static async getRecentStatusByNominationId(nominationId) {
-
+  static async getNominationByNominatedId(data) {
+    return await Nomination.query()
+      .select()
+      .where('nominated_id', data.nominatedId)
+      .andWhere('nomination_type', data.nominationType)
   }
 
 

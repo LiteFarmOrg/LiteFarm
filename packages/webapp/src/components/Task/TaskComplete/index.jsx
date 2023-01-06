@@ -14,6 +14,7 @@ import { getObjectInnerValues } from '../../../util';
 import Input from '../../Form/Input';
 import { getDateInputFormat } from '../../../util/moment';
 import { isNotInFuture } from '../../Form/Input/utils';
+import { useIsTaskType } from '../../../containers/Task/useIsTaskType';
 
 export default function PureTaskComplete({
   onSave,
@@ -54,6 +55,8 @@ export default function PureTaskComplete({
 
   const disabled = !isValid || (!happiness && !prefer_not_to_say);
 
+  const isIrrigationLocation = useIsTaskType('IRRIGATION_TASK');
+
   return (
     <Form
       buttonGroup={
@@ -85,6 +88,8 @@ export default function PureTaskComplete({
             actual_quantity_unit: persistedFormData?.actual_quantity_unit.value,
           };
         }
+        if (isIrrigationLocation)
+          data.location_id = persistedFormData.location_defaults[0].location_id;
         onSave(data);
       })}
     >

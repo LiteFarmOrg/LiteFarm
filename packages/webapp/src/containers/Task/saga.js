@@ -400,7 +400,8 @@ const getIrrigationTaskBody = (data, endpoint, managementPlanWithCurrentLocation
           ? pick(data.irrigation_task, ['estimated_flow_rate', 'estimated_flow_rate_unit'])
           : null),
       }));
-
+      !data.irrigation_task?.estimated_water_usage &&
+        delete data.irrigation_task?.estimated_water_usage_unit;
       for (const element in data.irrigation_task) {
         [
           'irrigation_task_type_other',

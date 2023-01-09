@@ -14,8 +14,8 @@
  */
 import { Model } from 'objection';
 import baseModel from './baseModel.js';
-import nominationStatusModel from 'nominationStatusModel.js';
-import nominationTypeModel from 'nominationTypeModel.js';
+import nominationStatusModel from './nominationStatusModel.js';
+import nominationTypeModel from './nominationTypeModel.js';
 
 // Describes the nomination table
 // Base model extends objection.js

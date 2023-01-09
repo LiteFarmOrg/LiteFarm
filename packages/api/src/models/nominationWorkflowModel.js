@@ -79,6 +79,22 @@ class NominationWorkflow extends baseModel {
       .returning(['id', 'name', 'group'])
       .insert([...workflows]);
   }
+
+  /**
+   * Gets the id of a desired workflow step.
+   * @param {string} name The workflow step name.
+   * @param {string} group The group the workflow step belongs to.
+   * @static
+   * @async
+   * @return {Promise<*>}
+   */
+  static async getWorkflowIdByNameAndGroup(name, group) {
+    return await nominationTypeModel
+      .query()
+      .select('id')
+      .where('name', name)
+      .andWhere('group', group);
+  }
 }
 
 export default NominationWorkflow;

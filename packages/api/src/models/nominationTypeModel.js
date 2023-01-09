@@ -77,6 +77,17 @@ class NominationType extends baseModel {
       .returning(['nomination_type', 'workflow_group'])
       .insert([...nominationTypes]);
   }
+
+  /**
+   * Gets the workflow group of a nomination type.
+   * @param {string} nomination_type The primary key name of the nomination type.
+   * @static
+   * @async
+   * @return {Promise<*>}
+   */
+  static async getWorkflowGroupByType(nomination_type) {
+    return await NominationType.query().select('group').where('nomination_type', nomination_type);
+  }
 }
 
 export default NominationType;

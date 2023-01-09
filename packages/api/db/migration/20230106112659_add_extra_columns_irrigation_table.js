@@ -22,6 +22,11 @@ export const up = async function (knex) {
       .update({ irrigation_type_translation_key })
       .where({ irrigation_type_id: row.irrigation_type_id });
   }
+
+  await knex.schema.alterTable('location_defaults', (table) => {
+    table.integer('irrigation_type_id').references('irrigation_type_id').inTable('irrigation_type');
+    table.dropColumn('irrigation_task_type');
+  });
 };
 
 export const down = async function (knex) {

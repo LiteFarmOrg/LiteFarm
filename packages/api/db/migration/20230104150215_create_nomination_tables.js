@@ -18,7 +18,7 @@ export const up = async function (knex) {
       .references('nomination_type')
       .inTable('nomination_type')
       .notNullable();
-    table.uuid('assignee_user_id').references('user_id').inTable('users').nullable();
+    table.string('assignee_user_id').references('user_id').inTable('users').nullable();
     table.dateTime('created_at').notNullable();
     table.string('created_by_user_id').references('user_id').inTable('users').notNullable();
     table.dateTime('updated_at').notNullable();

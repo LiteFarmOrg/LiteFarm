@@ -325,7 +325,7 @@ const taskController = {
             });
             delete data.location_defaults;
           }
-          delete data.irrigation_task?.default_irrigation_task_type_measurement;
+          console.log({ ...data });
           return data;
         })();
       default: {

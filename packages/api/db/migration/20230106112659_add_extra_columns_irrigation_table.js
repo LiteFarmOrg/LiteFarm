@@ -14,10 +14,13 @@ export const up = async function (knex) {
   });
 
   for (const row of irrigation_task_type) {
-    const irrigation_type_translation_key = row.irrigation_type_name.toUpperCase().replace('', '_');
+    const irrigation_type_translation_key = row.irrigation_type_name
+      .toUpperCase()
+      .split(' ')
+      .join('_');
     await knex('irrigation_type')
-      .update({ irrigation_type_id: row.irrigation_type.irrigation_type_id })
-      .where({ irrigation_type_translation_key });
+      .update({ irrigation_type_translation_key })
+      .where({ irrigation_type_id: row.irrigation_type_id });
   }
 };
 

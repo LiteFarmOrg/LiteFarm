@@ -3,7 +3,7 @@ export const up = async function (knex) {
   const litefarmUserId = 1;
 
   await knex.schema.createTable('nomination_type', (table) => {
-    table.string('name').primary();
+    table.string('nomination_type').primary();
     table.string('workflow_group').unique().notNullable();
     table.dateTime('created_at').notNullable();
     table.string('created_by_user_id').references('user_id').inTable('users').notNullable();
@@ -13,9 +13,11 @@ export const up = async function (knex) {
   });
   await knex.schema.createTable('nomination', (table) => {
     table.increments('nomination_id').primary();
-    table.uuid('farm_id').references('farm_id').inTable('farm').notNullable();
-    table.string('nominated_id').notNullable();
-    table.string('nomination_type').references('name').inTable('nomination_type').notNullable();
+    table
+      .string('nomination_type')
+      .references('nomination_type')
+      .inTable('nomination_type')
+      .notNullable();
     table.dateTime('created_at').notNullable();
     table.string('created_by_user_id').references('user_id').inTable('users').notNullable();
     table.dateTime('updated_at').notNullable();
@@ -45,7 +47,7 @@ export const up = async function (knex) {
   });
   await knex('nomination_type').insert([
     {
-      name: 'CROP',
+      nomination_type: 'CROP',
       workflow_group: 'CROP_NOMINATION',
       created_at: now,
       created_by_user_id: litefarmUserId,

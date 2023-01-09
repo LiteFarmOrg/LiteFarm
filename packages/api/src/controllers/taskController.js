@@ -325,7 +325,6 @@ const taskController = {
             });
             delete data.location_defaults;
           }
-          console.log({ ...data });
           return data;
         })();
       default: {

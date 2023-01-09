@@ -18,6 +18,7 @@ export const up = async function (knex) {
       .references('nomination_type')
       .inTable('nomination_type')
       .notNullable();
+    table.uuid('assignee_user_id').references('user_id').inTable('users').nullable();
     table.dateTime('created_at').notNullable();
     table.string('created_by_user_id').references('user_id').inTable('users').notNullable();
     table.dateTime('updated_at').notNullable();
@@ -28,6 +29,7 @@ export const up = async function (knex) {
     table.increments('id').primary();
     table.string('name').notNullable();
     table.string('group').references('workflow_group').inTable('nomination_type').notNullable();
+    table.unique(['name', 'group']);
     table.dateTime('created_at').notNullable();
     table.string('created_by_user_id').references('user_id').inTable('users').notNullable();
     table.dateTime('updated_at').notNullable();
@@ -37,8 +39,8 @@ export const up = async function (knex) {
   await knex.schema.createTable('nomination_status', (table) => {
     table.uuid('status_id').primary().defaultTo(knex.raw('uuid_generate_v1()'));
     table.integer('nomination_id').references('nomination_id').inTable('nomination').notNullable();
-    table.integer('status').references('id').inTable('nomination_workflow').notNullable();
-    table.string('notes');
+    table.integer('workflow_id').references('id').inTable('nomination_workflow').notNullable();
+    table.text('notes');
     table.datetime('created_at').notNullable();
     table.string('created_by_user_id').references('user_id').inTable('users').notNullable();
     table.dateTime('updated_at').notNullable();

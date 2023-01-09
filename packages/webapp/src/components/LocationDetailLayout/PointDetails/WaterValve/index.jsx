@@ -79,8 +79,12 @@ export function WaterValveDetailsChildren({ isViewLocationPage, system }) {
   } = useFormContext();
   return (
     <div>
-      <Label style={{ marginBottom: '25px' }}>{t('FARM_MAP.WATER_VALVE.WATER_VALVE_TYPE')}</Label>
-
+      <Label style={{ marginBottom: '25px' }}>
+        {t('FARM_MAP.WATER_VALVE.WATER_VALVE_TYPE')}
+        <Label sm style={{ marginLeft: '4px' }}>
+          {t('common:OPTIONAL')}
+        </Label>
+      </Label>
       <RadioGroup
         disabled={isViewLocationPage}
         hookFormControl={control}

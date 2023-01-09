@@ -6,7 +6,7 @@ import ReactSelect from '../../Form/ReactSelect';
 import Checkbox from '../../Form/Checkbox';
 import RadioGroup from '../../Form/RadioGroup';
 import styles from '../../Typography/typography.module.scss';
-import Input from '../../Form/Input';
+import Input, { getInputErrors, numberOnKeyDown } from '../../Form/Input';
 import Unit, { getUnitOptionMap } from '../../Form/Unit';
 import { waterUsage } from '../../../util/convert-units/unit';
 import PropTypes from 'prop-types';
@@ -35,12 +35,15 @@ export default function PureIrrigationTask({
   getValues,
   reset,
   watch,
+  formState,
+  getFieldState = {},
   disabled = false,
   locations,
   otherTaskType = false,
   createTask = false,
 }) {
   const { t } = useTranslation();
+  const { errors, isValid } = formState;
   const [showWaterUseCalculatorModal, setShowWaterUseCalculatorModal] = useState(false);
   const { irrigationTaskTypes = [] } = useSelector(irrigationTaskTypesSliceSelector);
 
@@ -63,12 +66,14 @@ export default function PureIrrigationTask({
           ? t(`ADD_TASK.IRRIGATION_VIEW.TYPE.${irrigationType.irrigation_type_name}`)
           : t(irrigationType.irrigation_type_name),
         default_measuring_type: irrigationType.default_measuring_type,
+        irrigation_type_id: irrigationType.irrigation_type_id,
       };
     });
     options.push({
       label: t('ADD_TASK.IRRIGATION_VIEW.TYPE.OTHER'),
       value: 'OTHER',
       default_measuring_type: 'VOLUME',
+      irrigation_type_id: null,
     });
     return options;
   }, [irrigationTaskTypes]);
@@ -81,6 +86,7 @@ export default function PureIrrigationTask({
     return { register, getValues, watch, control, setValue, reset };
   };
   const IRRIGATION_TYPE = 'irrigation_task.irrigation_type_name';
+  const IRRIGATION_TYPE_ID = 'irrigation_task.irrigation_type_id';
   const DEFAULT_IRRIGATION_TASK_LOCATION = 'irrigation_task.default_irrigation_task_type_location';
   const DEFAULT_IRRIGATION_MEASUREMENT = 'irrigation_task.default_irrigation_task_type_measurement';
   const IRRIGATION_TYPE_OTHER = 'irrigation_task.irrigation_task_type_other';
@@ -95,17 +101,28 @@ export default function PureIrrigationTask({
 
   const onDismissWaterUseCalculatorModel = () => setShowWaterUseCalculatorModal(false);
   const handleModalSubmit = () => {
-    setValue(
-      ESTIMATED_WATER_USAGE,
-      measurement_type === 'VOLUME' ? totalVolumeWaterUsage : totalDepthWaterUsage,
-    );
-    setValue(
-      ESTIMATED_WATER_USAGE_UNIT,
-      ['ml', 'l'].includes(estimated_water_usage_unit.value)
-        ? getUnitOptionMap()['l']
-        : getUnitOptionMap()['gal'],
-    );
-    onDismissWaterUseCalculatorModel();
+    const isDepthCalculatorValid =
+      !getFieldState('irrigation_task.application_depth').invalid &&
+      !getFieldState('irrigation_task.default_location_application_depth').invalid;
+    const isVolumeCalculateValid =
+      !getFieldState('irrigation_task.estimated_flow_rate').invalid &&
+      !getFieldState('irrigation_task.estimated_duration').invalid;
+    const isModalValid =
+      measurement_type === 'DEPTH' ? isDepthCalculatorValid : isVolumeCalculateValid;
+    if (isModalValid) {
+      setValue(
+        ESTIMATED_WATER_USAGE,
+        measurement_type === 'VOLUME' ? totalVolumeWaterUsage : totalDepthWaterUsage,
+        { shouldValidate: true, shouldDirty: true },
+      );
+      setValue(
+        ESTIMATED_WATER_USAGE_UNIT,
+        ['ml', 'l'].includes(estimated_water_usage_unit.value)
+          ? getUnitOptionMap()['l']
+          : getUnitOptionMap()['gal'],
+      );
+      onDismissWaterUseCalculatorModel();
+    }
   };
 
   useEffect(() => {
@@ -153,6 +170,10 @@ export default function PureIrrigationTask({
     }
   }, [showWaterUseCalculatorModal]);
 
+  const selectedIrrigationTypeOption = useMemo(() => {
+    return IrrigationTypeOptions.filter((options) => options.value === irrigation_type)[0];
+  }, [irrigation_type, IrrigationTypeOptions]);
+
   return (
     <>
       <Controller
@@ -170,6 +191,7 @@ export default function PureIrrigationTask({
                 onChange(e);
                 setIrrigationTypeValue(e.value);
                 setValue(MEASUREMENT_TYPE, e.default_measuring_type);
+                setValue(IRRIGATION_TYPE_ID, e.irrigation_type_id);
               }}
               isDisabled={disabled}
               value={IrrigationTypeOptions.find((options) => options.value === irrigation_type)}
@@ -191,6 +213,7 @@ export default function PureIrrigationTask({
               message: t('ADD_TASK.IRRIGATION_VIEW.IRRIGATION_TYPE_CHAR_LIMIT'),
             },
           })}
+          errors={getInputErrors(errors, IRRIGATION_TYPE_OTHER)}
         />
       )}
       <Checkbox
@@ -248,6 +271,7 @@ export default function PureIrrigationTask({
         control={control}
         style={{ marginTop: '40px', marginBottom: `${disabled ? 40 : 0}px` }}
         disabled={disabled}
+        onKeyDown={numberOnKeyDown}
         onChangeUnitOption={(e) => {
           setEstimatedWaterUsageComputed(true);
           setValue(

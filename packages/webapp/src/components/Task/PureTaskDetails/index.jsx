@@ -98,6 +98,7 @@ export default function PureTaskDetails({
     control,
     formState: { errors, isValid },
     reset,
+    getFieldState,
   } = formFunctions;
 
   const { historyCancel } = useHookFormPersist(getValues);
@@ -152,6 +153,7 @@ export default function PureTaskDetails({
             register,
             formState: { errors, isValid },
             reset,
+            getFieldState,
             otherTaskType,
             farm,
             system,

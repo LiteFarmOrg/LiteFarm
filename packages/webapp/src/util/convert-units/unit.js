@@ -47,7 +47,7 @@ export const area_perimeter = {
 export const water_valve_flow_rate = {
   metric: {
     units: ['l/h', 'l/min'],
-    defaultUnit: 'l/h',
+    defaultUnit: 'l/min',
     breakpoints: [60],
   },
   imperial: {
@@ -117,12 +117,12 @@ export const container_planting_depth = {
 export const irrigation_task_estimated_duration = {
   metric: {
     units: ['h', 'min'],
-    defaultUnit: 'h',
+    defaultUnit: 'min',
     breakpoints: [60],
   },
   imperial: {
     units: ['h', 'min'],
-    defaultUnit: 'h',
+    defaultUnit: 'min',
     breakpoints: [1],
   },
   databaseUnit: databaseUnit.time,
@@ -146,12 +146,12 @@ export const percentage_location = {
   metric: {
     units: ['deg'],
     defaultUnit: 'deg',
-    breakpoints: [100],
+    breakpoints: [1000],
   },
   imperial: {
     units: ['deg'],
     defaultUnit: 'deg',
-    breakpoints: [100],
+    breakpoints: [1000],
   },
   databaseUnit: databaseUnit.degree,
 };

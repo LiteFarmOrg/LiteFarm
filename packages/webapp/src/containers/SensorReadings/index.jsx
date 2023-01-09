@@ -48,12 +48,6 @@ function SensorReadings({ history, match }) {
       }),
       noDataText: t('SENSOR.TEMPERATURE_READINGS_OF_SENSOR.NO_DATA'),
       ambientTempFor: t('SENSOR.TEMPERATURE_READINGS_OF_SENSOR.AMBIENT_TEMPERATURE_FOR'),
-      lastUpdatedTemperatureReadings: t(
-        'SENSOR.TEMPERATURE_READINGS_OF_SENSOR.LAST_UPDATED_TEMPERATURE_READINGS',
-        {
-          latestReadingUpdate: lastUpdatedReadingsTime ?? '',
-        },
-      ),
       predictedXAxisLabel: predictedXAxisLabel,
       activeReadingTypes: reading_types,
     },
@@ -69,12 +63,6 @@ function SensorReadings({ history, match }) {
         soilWaterPotentialUnit: soilWaterPotentialUnit ?? 'kPa',
       }),
       noDataText: t('SENSOR.SOIL_WATER_POTENTIAL_READINGS_OF_SENSOR.NO_DATA'),
-      lastUpdatedTemperatureReadings: t(
-        'SENSOR.SOIL_WATER_POTENTIAL_READINGS_OF_SENSOR.LAST_UPDATED_TEMPERATURE_READINGS',
-        {
-          latestReadingUpdate: lastUpdatedReadingsTime ?? '',
-        },
-      ),
       predictedXAxisLabel: predictedXAxisLabel,
       activeReadingTypes: reading_types,
     },
@@ -105,39 +93,49 @@ function SensorReadings({ history, match }) {
           },
         ]}
       />
-      {reading_types.length > 0
-        ? reading_types.map((type, index) => {
-            const {
-              title,
-              subTitle,
-              weatherStationName,
-              xAxisDataKey,
-              yAxisLabel,
-              noDataText,
-              ambientTempFor,
-              lastUpdatedTemperatureReadings,
-              predictedXAxisLabel,
-              activeReadingTypes,
-            } = sensorVisualizationPropList[type];
-            return (
-              <SensorReadingsLineChart
-                key={index}
-                title={title}
-                subTitle={subTitle}
-                weatherStationName={weatherStationName}
-                xAxisDataKey={xAxisDataKey}
-                yAxisLabel={yAxisLabel}
-                locationIds={[location_id]}
-                readingType={type}
-                noDataText={noDataText}
-                ambientTempFor={ambientTempFor}
-                lastUpdatedTemperatureReadings={lastUpdatedTemperatureReadings}
-                predictedXAxisLabel={predictedXAxisLabel}
-                xAxisLabel={xAxisLabel[type]}
-                activeReadingTypes={activeReadingTypes}
-              />
-            );
-          })
+      {reading_types?.length > 0
+        ? [...reading_types]
+            ?.sort()
+            ?.reverse()
+            ?.map((type, index) => {
+              const {
+                title,
+                subTitle,
+                weatherStationName,
+                xAxisDataKey,
+                yAxisLabel,
+                noDataText,
+                ambientTempFor,
+                predictedXAxisLabel,
+                activeReadingTypes,
+              } = sensorVisualizationPropList[type];
+              return (
+                <SensorReadingsLineChart
+                  key={index}
+                  title={title}
+                  subTitle={subTitle}
+                  weatherStationName={weatherStationName}
+                  xAxisDataKey={xAxisDataKey}
+                  yAxisLabel={yAxisLabel}
+                  locationIds={[location_id]}
+                  readingType={type}
+                  noDataText={noDataText}
+                  ambientTempFor={ambientTempFor}
+                  lastUpdatedReadings={
+                    lastUpdatedReadingsTime[type] !== ''
+                      ? t(
+                          'SENSOR.TEMPERATURE_READINGS_OF_SENSOR.LAST_UPDATED_TEMPERATURE_READINGS',
+                          { latestReadingUpdate: lastUpdatedReadingsTime[type] ?? '' },
+                        )
+                      : ''
+                  }
+                  predictedXAxisLabel={predictedXAxisLabel}
+                  xAxisLabel={xAxisLabel[type]}
+                  activeReadingTypes={activeReadingTypes}
+                  noDataFoundMessage={t('SENSOR.NO_DATA_FOUND')}
+                />
+              );
+            })
         : null}
       {reading_types.length > 0 && (
         <>

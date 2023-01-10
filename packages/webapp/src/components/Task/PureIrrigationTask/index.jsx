@@ -164,6 +164,7 @@ export default function PureIrrigationTask({
       {(irrigationTypeValue === 'OTHER' ||
         irrigation_type?.label === t('ADD_TASK.IRRIGATION_VIEW.TYPE.OTHER')) && (
         <Input
+          data-cy="irrigateTask-type"
           style={{ marginTop: '6px' }}
           disabled={disabled}
           label={t('ADD_TASK.IRRIGATION_VIEW.WHAT_TYPE_OF_IRRIGATION')}
@@ -219,6 +220,7 @@ export default function PureIrrigationTask({
       />
 
       <Unit
+        data-cy="irrigateTask-usage"
         register={register}
         displayUnitName={ESTIMATED_WATER_USAGE_UNIT}
         label={t('ADD_TASK.IRRIGATION_VIEW.ESTIMATED_WATER_USAGE')}
@@ -245,7 +247,10 @@ export default function PureIrrigationTask({
         <>
           <Label style={{ marginTop: '4px', marginBottom: `${disabled ? 36 : 0}px` }}>
             {t('ADD_TASK.IRRIGATION_VIEW.NOT_SURE')}{' '}
-            <Underlined onClick={() => !disabled && setShowWaterUseCalculatorModal(true)}>
+            <Underlined
+              data-cy="irrigateTask-calculate"
+              onClick={() => !disabled && setShowWaterUseCalculatorModal(true)}
+            >
               {t('ADD_TASK.IRRIGATION_VIEW.CALCULATE_WATER_USAGE')}
             </Underlined>
           </Label>

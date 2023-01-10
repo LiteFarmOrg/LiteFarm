@@ -83,6 +83,7 @@ const WaterUseVolumeCalculator = ({ system, setTotalWaterUsage, totalWaterUsage,
   return (
     <>
       <Unit
+        data-cy="calculator-flowRate"
         register={register}
         displayUnitName={FLOW_RATE_UNIT}
         label={t('ADD_TASK.IRRIGATION_VIEW.ESTIMATED_FLOW_RATE')}
@@ -110,6 +111,7 @@ const WaterUseVolumeCalculator = ({ system, setTotalWaterUsage, totalWaterUsage,
       />
 
       <Unit
+        data-cy="calculator-duration"
         register={register}
         displayUnitName={ESTIMATED_DURATION_UNIT}
         label={t('ADD_TASK.IRRIGATION_VIEW.ESTIMATED_DURATION')}
@@ -132,6 +134,7 @@ const WaterUseVolumeCalculator = ({ system, setTotalWaterUsage, totalWaterUsage,
       />
 
       <TotalWaterUsage
+        data-cy="calculator-usage"
         totalWaterUsage={totalWaterUsage}
         estimated_water_usage_unit={estimated_water_usage_unit}
       />

@@ -17,26 +17,45 @@ import NominationModel from '../models/nominationModel.js';
 import NominationTypeModel from '../models/nominationTypeModel.js';
 import NominationStatusModel from '../models/nominationStatusModel.js';
 import NominationWorkflowModel from '../models/nominationWorkflowModel.js';
-import { transaction, Model, UniqueViolationError } from 'objection';
+import objection from 'objection';
+const { transaction, Model, UniqueViolationError } = objection;
 
 const nominationController = {
-  addNominationWithModel(nominationType) {
+  addNomination(nominationType, initialStatus) {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
       try {
         const data = req.body;
-        const nominationId = await NominationModel.createNomination(data.user_id, nominationType);
-        const workflowGroup = await NominationTypeModel.getWorkflowGroupByType(nominationType);
-        const workflowId = await NominationWorkflowModel.getWorkflowIdByNameAndGroup(
-          'NOMINATED',
-          workflowGroup,
+        data.nomination_type = nominationType;
+        // Add nomination
+        const { nomination_id, nomination_type } = await baseController.postWithResponse(
+          NominationModel,
+          data,
+          req,
+          {
+            trx,
+          },
         );
-        const statusId = await NominationStatusModel.createNominationStatus(
-          data.user_id,
-          nominationId,
-          workflowId,
+        data.nomination_id = nomination_id;
+        // Find workflow group based on type
+        const { workflow_group } = await NominationTypeModel.query(trx).findById(nomination_type);
+        //Get workflow id
+        const { id: workflow_id } = await NominationWorkflowModel.getWorkflowIdByNameAndGroup(
+          initialStatus,
+          workflow_group,
+          trx,
         );
-        const result = `A nomination for ${nominationType} type has been created with nomination id: ${nominationId} and status id: ${statusId}`;
+        data.workflow_id = workflow_id;
+        // Add status change entry
+        const { status_id } = await baseController.postWithResponse(
+          NominationStatusModel,
+          data,
+          req,
+          {
+            trx,
+          },
+        );
+        const result = { nomination_id, status_id };
         await trx.commit();
         res.status(201).send(result);
       } catch (error) {
@@ -50,7 +69,6 @@ const nominationController = {
             violationError,
           });
         }
-
         //handle more exceptions
         else {
           await trx.rollback();
@@ -63,26 +81,24 @@ const nominationController = {
     };
   },
 
-  addNominationWithBaseController(nominationType) {
+  updateNomination() {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
       try {
         const data = req.body;
-        const nomination = await baseController.postWithResponse(NominationModel, data, req, {
-          trx,
-        });
-        const workflowGroup = await NominationTypeModel.getWorkflowGroupByType(nominationType);
-        const workflowId = await NominationWorkflowModel.getWorkflowIdByNameAndGroup(
-          'NOMINATED',
-          workflowGroup,
+        const { nomination_type } = await NominationModel.query(trx).findById(data.nomination_id);
+        data.nomination_type = nomination_type;
+        const nomination = await baseController.put(
+          NominationModel,
+          data.nomination_id,
+          data,
+          req,
+          {
+            trx,
+          },
         );
-        data.nomination_id = nomination.nomination_id;
-        data.workflow_id = workflowId;
-        const status = await baseController.postWithResponse(NominationStatusModel, data, req, {
-          trx,
-        });
-        const result = `A nomination for ${nominationType} type has been created with nomination id: ${nomination.nomination_id} and status id: ${status.statusId}`;
-        await trx.commit();
+        const result = { nomination };
+        await trx.commit(result);
         res.status(201).send(result);
       } catch (error) {
         console.log(error);
@@ -95,7 +111,39 @@ const nominationController = {
             violationError,
           });
         }
+        //handle more exceptions
+        else {
+          await trx.rollback();
+          res.status(400).json({
+            error,
+            violationError,
+          });
+        }
+      }
+    };
+  },
 
+  deleteNomination() {
+    return async (req, res) => {
+      const trx = await transaction.start(Model.knex());
+      try {
+        const data = req.params;
+        const success = await baseController.delete(NominationModel, data.nomination_id, req, {
+          trx,
+        });
+        await trx.commit();
+        res.status(201).send({ success });
+      } catch (error) {
+        console.log(error);
+        let violationError = false;
+        if (error instanceof UniqueViolationError) {
+          violationError = true;
+          await trx.rollback();
+          res.status(400).json({
+            error,
+            violationError,
+          });
+        }
         //handle more exceptions
         else {
           await trx.rollback();

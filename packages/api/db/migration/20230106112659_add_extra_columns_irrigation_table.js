@@ -46,20 +46,7 @@ export const down = async function (knex) {
   });
 
   await knex.schema.alterTable('location_defaults', (table) => {
-    table.string('irrigation_task_type');
-  });
-
-  const location_defaults = await knex('location_defaults').select('irrigation_type_id');
-  for (const row of location_defaults) {
-    const irrigation_type = await knex('irrigation_type')
-      .select('*')
-      .where({ irrigation_type_id: row.irrigation_type_id });
-    await knex('location_defaults')
-      .update({ irrigation_task_type: irrigation_type.irrigation_type_name })
-      .where({ irrigation_type_id: row.irrigation_type_id });
-  }
-
-  await knex.schema.alterTable('location_defaults', (table) => {
     table.dropColumn('irrigation_type_id');
+    table.string('irrigation_task_type').nullable();
   });
 };

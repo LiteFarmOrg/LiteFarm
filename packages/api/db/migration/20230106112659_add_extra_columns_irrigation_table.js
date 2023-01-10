@@ -10,7 +10,7 @@ export const up = async function (knex) {
     'irrigation_type_name',
   );
   await knex.schema.alterTable('irrigation_type', (table) => {
-    table.string('irrigation_type_translation_key');
+    table.string('irrigation_type_translation_key').notNullable();
   });
 
   for (const row of irrigation_task_type) {

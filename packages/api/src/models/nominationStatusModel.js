@@ -34,8 +34,8 @@ class NominationStatus extends baseModel {
       required: ['nomination_id', 'workflow_id'],
       properties: {
         status_id: { type: 'integer' },
-        nomination_id: { type: 'string' },
-        workflow_id: { type: 'string' },
+        nomination_id: { type: 'integer' },
+        workflow_id: { type: 'integer' },
         notes: { type: 'text' },
         ...this.baseProperties,
       },
@@ -46,7 +46,7 @@ class NominationStatus extends baseModel {
   //How to choose a relation type: https://vincit.github.io/objection.js/guide/relations.html#examples
   static get relationMappings() {
     return {
-      nomination: {
+      nominations: {
         relation: Model.BelongsToOneRelation,
         modelClass: nominationModel,
         join: {
@@ -54,7 +54,7 @@ class NominationStatus extends baseModel {
           to: 'nomination.nomination_id',
         },
       },
-      nomination_workflow: {
+      workflows: {
         relation: Model.BelongsToOneRelation,
         modelClass: nominationWorkflowModel,
         join: {
@@ -66,30 +66,14 @@ class NominationStatus extends baseModel {
   }
 
   /**
-   * Inserts a new status into the nomination status table.
-   * @param {number} user_id Foreign key to the user table.
-   * @param {number} nomination_id Foreign key to nomination table.
-   * @param {number} workflow_id Foreign key to nomination workflow.
-   * @static
-   * @async
-   * @return {Promise<*>}
-   */
-  static async createNominationStatus(user_id, nomination_id, workflow_id) {
-    return await NominationStatus.query()
-      .context({ user_id })
-      .returning(['status_id'])
-      .insert({ nomination_id, workflow_id });
-  }
-
-  /**
    * Returns a list of status about the nomination.
    * @param {number} nomination_id Foreign key to the nomination table.
    * @static
    * @async
    * @return {Promise<*>}
    */
-  static async getAllStatusByNominationId(nomination_id) {
-    return await NominationStatus.query()
+  static async getAllStatusByNominationId(nomination_id, trx) {
+    return await NominationStatus.query(trx)
       .select()
       .where('nomination_id', nomination_id)
       .orderBy('created_date', 'desc');
@@ -102,8 +86,8 @@ class NominationStatus extends baseModel {
    * @async
    * @return {Promise<*>}
    */
-  static async getRecentStatusByNominationId(nomination_id) {
-    return await NominationStatus.query()
+  static async getRecentStatusByNominationId(nomination_id, trx) {
+    return await NominationStatus.query(trx)
       .select()
       .where('nomination_id', nomination_id)
       .orderBy('created_date', 'desc')

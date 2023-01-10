@@ -45,7 +45,7 @@ class NominationWorkflow extends baseModel {
   //How to choose a relation type: https://vincit.github.io/objection.js/guide/relations.html#examples
   static get relationMappings() {
     return {
-      nomination_type: {
+      group_type: {
         relation: Model.BelongsToOneRelation,
         modelClass: nominationTypeModel,
         join: {
@@ -53,7 +53,7 @@ class NominationWorkflow extends baseModel {
           to: 'nomination_type.workflow_group',
         },
       },
-      nomination_status: {
+      status: {
         relation: Model.HasManyRelation,
         modelClass: nominationStatusModel,
         join: {
@@ -65,22 +65,6 @@ class NominationWorkflow extends baseModel {
   }
 
   /**
-   * Inserts new nomination workflows into the nomination workflow table.
-   * @param {number} user_id Foreign key to the user table.
-   * @param {Object[]} workflows An array of workflows to add to the the table.
-   * @static
-   * @async
-   * @return {Promise<*>}
-   */
-  static async createNominationWorkflows(user_id, workflows) {
-    return await nominationTypeModel
-      .query()
-      .context({ user_id })
-      .returning(['id', 'name', 'group'])
-      .insert([...workflows]);
-  }
-
-  /**
    * Gets the id of a desired workflow step.
    * @param {string} name The workflow step name.
    * @param {string} group The group the workflow step belongs to.
@@ -88,12 +72,12 @@ class NominationWorkflow extends baseModel {
    * @async
    * @return {Promise<*>}
    */
-  static async getWorkflowIdByNameAndGroup(name, group) {
-    return await nominationTypeModel
-      .query()
+  static async getWorkflowIdByNameAndGroup(name, group, trx) {
+    return await NominationWorkflow.query(trx)
       .select('id')
       .where('name', name)
-      .andWhere('group', group);
+      .andWhere('group', group)
+      .first();
   }
 }
 

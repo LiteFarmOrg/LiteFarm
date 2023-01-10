@@ -44,7 +44,7 @@ class NominationType extends baseModel {
   //How to choose a relation type: https://vincit.github.io/objection.js/guide/relations.html#examples
   static get relationMappings() {
     return {
-      nomination: {
+      nominations: {
         relation: Model.HasManyRelation,
         modelClass: nominationModel,
         join: {
@@ -52,7 +52,7 @@ class NominationType extends baseModel {
           to: 'nomination.nomination_type',
         },
       },
-      nomination_workflow: {
+      workflows: {
         relation: Model.HasManyRelation,
         modelClass: nominationWorkflowModel,
         join: {
@@ -61,32 +61,6 @@ class NominationType extends baseModel {
         },
       },
     };
-  }
-
-  /**
-   * Inserts a new nomination type into the nomination type table.
-   * @param {number} user_id Foreign key to the user table.
-   * @param {Object[]} nominationTypes An array of Nomination types to be added.
-   * @static
-   * @async
-   * @return {Promise<*>}
-   */
-  static async createNominationTypes(user_id, nominationTypes) {
-    return await NominationType.query()
-      .context({ user_id })
-      .returning(['nomination_type', 'workflow_group'])
-      .insert([...nominationTypes]);
-  }
-
-  /**
-   * Gets the workflow group of a nomination type.
-   * @param {string} nomination_type The primary key name of the nomination type.
-   * @static
-   * @async
-   * @return {Promise<*>}
-   */
-  static async getWorkflowGroupByType(nomination_type) {
-    return await NominationType.query().select('group').where('nomination_type', nomination_type);
   }
 }
 

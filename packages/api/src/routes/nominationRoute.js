@@ -14,22 +14,29 @@
  */
 
 import nominationController from '../controllers/nominationController.js';
-
 import express from 'express';
 const router = express.Router();
 import hasFarmAccess from '../middleware/acl/hasFarmAccess.js';
 import checkScope from '../middleware/acl/checkScope.js';
 
 router.post(
-  '/model',
+  '/',
   hasFarmAccess({ body: 'farm_id' }),
   checkScope(['add:crops']),
-  nominationController.addNominationWithModel(),
+  nominationController.addNomination('CROP', 'NOMINATED'),
 );
 
-router.post(
-  '/basemodel',
+router.put(
+  '/update',
   hasFarmAccess({ body: 'farm_id' }),
-  checkScope(['add:crops']),
-  nominationController.addNominationWithBaseController(),
+  checkScope(['edit:crops']),
+  nominationController.updateNomination(),
 );
+
+router.delete(
+  '/delete/:nomination_id',
+  hasFarmAccess({ params: 'nomination_id' }),
+  nominationController.deleteNomination(),
+);
+
+export default router;

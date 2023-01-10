@@ -16,6 +16,7 @@ import { Model } from 'objection';
 import baseModel from './baseModel.js';
 import nominationTypeModel from './nominationTypeModel.js';
 import nominationStatusModel from './nominationStatusModel.js';
+import farmModel from './farmModel.js';
 
 // Describes the nomination table
 // Base model extends objection.js
@@ -31,10 +32,11 @@ class Nomination extends baseModel {
   static get jsonSchema() {
     return {
       type: 'object',
-      required: ['nomination_type'],
+      required: ['nomination_type', 'farm_id'],
       properties: {
         nomination_id: { type: 'integer' },
         nomination_type: { type: 'string' },
+        farm_id: { type: 'uuid' },
         assignee_user_id: { type: 'string' },
         ...this.baseProperties,
       },
@@ -45,15 +47,15 @@ class Nomination extends baseModel {
   //How to choose a relation type: https://vincit.github.io/objection.js/guide/relations.html#examples
   static get relationMappings() {
     return {
-      nomination_type: {
+      workflow: {
         relation: Model.BelongsToOneRelation,
         modelClass: nominationTypeModel,
         join: {
           from: 'nomination.nomination_type',
-          to: 'nomination_type.nomination_type',
+          to: 'nomination_type.name',
         },
       },
-      nomination_status: {
+      status: {
         relation: Model.HasManyRelation,
         modelClass: nominationStatusModel,
         join: {
@@ -61,33 +63,30 @@ class Nomination extends baseModel {
           to: 'nomination_status.nomination_id',
         },
       },
+      farm: {
+        relation: Model.BelongsToOneRelation,
+        modelClass: farmModel,
+        join: {
+          from: 'nomination.farm_id',
+          to: 'farm.farm_id',
+        },
+      },
     };
   }
 
   /**
-   * Inserts a new nomination into the nomination table.
-   * @param {number} user_id Foreign key to the user table.
-   * @param {string} nomination_type Foreign key to the nomination type table.
-   * @static
-   * @async
-   * @return {Promise<*>} Returns the nomination_id with the promise.
-   */
-  static async createNomination(user_id, nomination_type) {
-    return await Nomination.query()
-      .context({ user_id })
-      .returning('nomination_id')
-      .insert({ nomination_type });
-  }
-
-  /**
    * Returns a true or false value about the whether a nomination has been soft deleted.
-   * @param {number} nomination_id Primary key to the nomination table
+   * @param {number} nomination_id The primary key to the nomination table
    * @static
    * @async
    * @return {Promise<*>}
    */
-  static async getDeletedByNominationId(nomination_id) {
-    return await Nomination.query().select('deleted').where('nomination_id', nomination_id);
+  static async getDeletedByNominationId(nomination_id, trx) {
+    return await Nomination.query(trx)
+      .context({ showHidden: true })
+      .select('deleted')
+      .where('nomination_id', nomination_id)
+      .first();
   }
 }
 

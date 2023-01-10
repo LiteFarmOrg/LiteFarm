@@ -3,7 +3,7 @@ export const up = async function (knex) {
   const litefarmUserId = 1;
 
   await knex.schema.createTable('nomination_type', (table) => {
-    table.string('nomination_type').primary();
+    table.string('nomination_type').primary().notNullable();
     table.string('workflow_group').unique().notNullable();
     table.dateTime('created_at').notNullable();
     table.string('created_by_user_id').references('user_id').inTable('users').notNullable();
@@ -18,6 +18,7 @@ export const up = async function (knex) {
       .references('nomination_type')
       .inTable('nomination_type')
       .notNullable();
+    table.uuid('farm_id').references('farm_id').inTable('farm').notNullable();
     table.string('assignee_user_id').references('user_id').inTable('users').nullable();
     table.dateTime('created_at').notNullable();
     table.string('created_by_user_id').references('user_id').inTable('users').notNullable();

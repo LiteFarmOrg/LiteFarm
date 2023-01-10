@@ -34,11 +34,11 @@ export const up = async function (knex) {
 };
 
 export const down = async function (knex) {
-  await knex.schema.alterTable('irrigation_task', (table) => {
-    table.dropColumn('default_location_flow_rate');
-    table.dropColumn('default_location_application_depth');
-    table.dropColumn('default_irrigation_task_type_location');
-    table.dropColumn('default_irrigation_task_type_measurement');
+  await knex.schema.alterTable('irrigation_task', (t) => {
+    t.dropColumn('default_location_flow_rate');
+    t.dropColumn('default_location_application_depth');
+    t.dropColumn('default_irrigation_task_type_location');
+    t.dropColumn('default_irrigation_task_type_measurement');
   });
 
   await knex.schema.alterTable('irrigation_type', (table) => {

@@ -1,7 +1,9 @@
-import { Model } from 'objection';
 import knex from '../util/knex.js';
+import BaseModel from './baseModel.js';
+import { Model } from 'objection';
+import IrrigationTaskModel from './irrigationTaskModel.js';
 
-class IrrigationTypesModel extends Model {
+class IrrigationTypesModel extends BaseModel {
   static get tableName() {
     return 'irrigation_type';
   }
@@ -19,39 +21,82 @@ class IrrigationTypesModel extends Model {
         irrigation_type_name: { type: 'string' },
         farm_id: { type: 'string' },
         default_measuring_type: { type: 'string' },
+        ...this.baseProperties,
       },
       additionalProperties: false,
     };
   }
 
+  static get relationMappings() {
+    // Import models here to prevent require loops.
+    return {
+      irrigation_task: {
+        relation: Model.BelongsToOneRelation,
+        // The related model. This can be either a Model
+        // subclass constructor or an absolute file path
+        // to a module that exports one.
+        modelClass: IrrigationTaskModel,
+        join: {
+          from: 'irrigation_task.irrigation_type_id',
+          to: 'irrigation_type.irrigation_type_id',
+        },
+      },
+    };
+  }
+  static async checkFarmIrrigationTypeExists(data, farm_id) {
+    const checkFarmIrrigationTypeExists = await IrrigationTypesModel.query()
+      .select('irrigation_type_id')
+      .where('irrigation_type_name', data.irrigation_task.irrigation_type_name)
+      .andWhere('farm_id', farm_id)
+      .first();
+    return {
+      checkFarmIrrigationTypeExists,
+    };
+  }
+  static async checkAndAddCustomIrrigationType(data, farm_id) {
+    let irrigation_type_id = data.irrigation_task.irrigation_type_id;
+    if (!data.irrigation_task.irrigation_type_id && data.irrigation_task.measuring_type) {
+      const result = await IrrigationTypesModel.insertCustomIrrigationType({
+        irrigation_type_name: data.irrigation_task.irrigation_type_name,
+        farm_id,
+        default_measuring_type: data.irrigation_task.measuring_type,
+        created_by_user_id: data.owner_user_id,
+        updated_by_user_id: data.owner_user_id,
+        created_at: new Date().toISOString(),
+        updated_at: new Date().toISOString(),
+      });
+      irrigation_type_id = result.irrigation_type_id;
+    }
+    return {
+      irrigation_type_id,
+    };
+  }
+
   static async insertCustomIrrigationType(row) {
-    await knex('irrigation_type').insert(row);
-    const irrigationTypeNames = await knex('irrigation_type').select('irrigation_type_name');
-    const irrigationTaskTypes = await knex('irrigation_task').select('type');
-    const irrigationTypeEnums = irrigationTypeNames.map((type) => type.irrigation_type_name);
-    const irrigationTaskTypeEnums = irrigationTaskTypes.map((type) => type.type);
-    await knex.schema.raw(`ALTER TABLE irrigation_task DROP CONSTRAINT "irrigationLog_type_check";
-                          ALTER TABLE irrigation_task ADD CONSTRAINT "irrigationLog_type_check" 
-                           CHECK (type = ANY (ARRAY['${[
-                             ...new Set(irrigationTypeEnums.concat(irrigationTaskTypeEnums)),
-                           ].join(`'::text,'`)}'::text]))`);
+    const result = await knex('irrigation_type')
+      .returning(['irrigation_type_id', 'irrigation_type_name'])
+      .insert({ ...row });
+    return {
+      irrigation_type_id: result[0].irrigation_type_id,
+    };
   }
 
   static async updateIrrigationType(irrigationTypeValues) {
-    IrrigationTypesModel.query()
-      .where('irrigation_type_name', irrigationTypeValues.irrigation_type_name)
-      .patch({
-        default_measuring_type: irrigationTypeValues.default_measuring_type,
-        farm_id: irrigationTypeValues.farm_id,
-      })
-      .returning('*');
+    const { user_id, irrigation_type_id, ...rest } = irrigationTypeValues;
+    return await IrrigationTypesModel.query()
+      .context({ user_id })
+      .findById(irrigation_type_id)
+      .patch({ ...rest });
   }
+
   static async getAllIrrigationTaskTypesByFarmId(farm_id) {
-    return IrrigationTypesModel.query()
-      .select('*')
-      .where((builder) => {
-        builder.whereNull('farm_id').orWhere({ farm_id });
-      });
+    const data = await knex.raw(`SELECT * FROM (
+    SELECT DISTINCT ON ((irrigation_type_name)) it.*
+    FROM irrigation_type AS it
+    WHERE farm_id = '${farm_id}'
+    OR farm_id IS NULL) AS a
+    ORDER BY (UPPER(irrigation_type_name)) ASC;`);
+    return data.rows;
   }
 }
 export default IrrigationTypesModel;

@@ -39,21 +39,31 @@ export default function PureAddNewCrop({
   persistedFormData,
   useHookFormPersist,
   isPhysiologyAnatomyDropDownOpen,
+  imageUploader,
 }) {
   const { t } = useTranslation();
+  const CROP_PHOTO_URL = 'crop_photo_url';
   const {
     register,
     handleSubmit,
     setValue,
     control,
     getValues,
+    watch,
     formState: { isValid, errors },
   } = useForm({
     mode: 'onChange',
-    defaultValues: { ...persistedFormData },
+    defaultValues: {
+      crop_photo_url: `https://${
+        import.meta.env.VITE_DO_BUCKET_NAME
+      }.nyc3.digitaloceanspaces.com/default_crop/v2/default.webp`,
+      ...persistedFormData,
+    },
   });
   const { historyCancel } = useHookFormPersist(getValues);
   const allCropGroupAverages = useSelector(cropGroupAveragesSelector);
+  const cropImageUrlRegister = register(CROP_PHOTO_URL, { required: true });
+  const crop_photo_url = watch(CROP_PHOTO_URL);
 
   const cropGroupOptions = [
     { value: BEVERAGE_AND_SPICE_CROPS, label: t('crop_group:BEVERAGE_AND_SPICE_CROPS') },
@@ -98,7 +108,33 @@ export default function PureAddNewCrop({
         title={t('CROP.ADD_CROP')}
         value={progress}
       />
-
+      <img
+        src={crop_photo_url}
+        alt={t('translation:CROP.ADD_IMAGE')}
+        className={styles.circleImg}
+        onError={(e) => {
+          e.target.onerror = null;
+          e.target.src = 'crop-images/default.jpg';
+        }}
+      />
+      <div
+        style={{
+          marginLeft: 'auto',
+          marginRight: 'auto',
+          marginBottom: '24px',
+          display: 'flex',
+          width: 'fit-content',
+          fontSize: '16px',
+          color: 'var(--iconActive)',
+          lineHeight: '16px',
+          cursor: 'pointer',
+        }}
+      >
+        {React.cloneElement(imageUploader, {
+          hookFormRegister: cropImageUrlRegister,
+          targetRoute: 'crop',
+        })}
+      </div>
       <Input
         data-cy="crop-cropName"
         style={{ marginBottom: '40px' }}
@@ -106,7 +142,34 @@ export default function PureAddNewCrop({
         hookFormRegister={register('crop_common_name', { required: true })}
         errors={getInputErrors(errors, 'crop_common_name')}
       />
-
+      <Input
+        data-cy="crop-cropGenus"
+        style={{ marginBottom: '40px' }}
+        label={t('CROP_CATALOGUE.GENUS')}
+        hookFormRegister={register('crop_genus', {
+          maxLength: { value: 200, message: t('FORM_VALIDATION.OVER_200_CHARS') },
+          setValueAs: (v) => {
+            return v.charAt(0).toUpperCase() + v.slice(1).toLowerCase();
+          },
+        })}
+        errors={getInputErrors(errors, 'crop_genus')}
+        optional
+        placeholder="Genus"
+      />
+      <Input
+        data-cy="crop-cropSpecies"
+        style={{ marginBottom: '40px' }}
+        label={t('CROP_CATALOGUE.SPECIES')}
+        hookFormRegister={register('crop_specie', {
+          maxLength: { value: 200, message: t('FORM_VALIDATION.OVER_200_CHARS') },
+          setValueAs: (v) => {
+            return v.toLowerCase();
+          },
+        })}
+        errors={getInputErrors(errors, 'crop_specie')}
+        optional
+        placeholder="species"
+      />
       <Controller
         control={control}
         name={'crop_group'}

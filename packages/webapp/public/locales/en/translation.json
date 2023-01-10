@@ -117,7 +117,7 @@
       "BRAND_TOOLTIP": "This task is for watering your location. If you want to install irrigation, create a field work task instead.",
       "TYPE_OF_IRRIGATION": "Type of Irrigation",
       "WHAT_TYPE_OF_IRRIGATION": "What type of irrigation?",
-      "IRRIGATION_TYPE_CHAR_LIMIT": "Irrigation must be less than 100 characters",
+      "IRRIGATION_TYPE_CHAR_LIMIT": "Irrigation type must be less than 100 characters",
       "TYPE": {
         "HAND_WATERING": "Hand Watering",
         "CHANNEL": "Channel",
@@ -147,7 +147,7 @@
       "ESTIMATED_DURATION": "Estimated Duration",
       "ESTIMATED_APPLICATION_DEPTH": "Estimated application depth",
       "DEFAULT_APPLICATION_DEPTH": "Set as default application depth for this location",
-      "PERCENTAGE_LOCATION_TO_BE_IRRIGATED": "% of location to be irrigated.",
+      "PERCENTAGE_LOCATION_TO_BE_IRRIGATED": "% of location to be irrigated",
       "TOTAL_WATER_USAGE": "Total Water Usage",
       "LOCATION_SIZE": "Location size",
       "IRRIGATED_AREA": "Irrigated area"
@@ -330,12 +330,14 @@
       "TITLE": "Crop Catalogue Filter"
     },
     "FILTER_TITLE": "Crop Catalogue Filter",
+    "GENUS": "Genus",
     "HERE_YOU_CAN": "Here you can:",
     "LETS_BEGIN": "Let's begin",
     "NEW_CROP_NAME": "New Crop Name",
     "NO_RESULTS_FOUND": "No results found. Please change your filters.",
     "ON_YOUR_FARM": "On your farm",
-    "SELECT_A_CROP": "Select a crop to add it to your farm. Use search and filters to find crops more quickly."
+    "SELECT_A_CROP": "Select a crop to add it to your farm. Use search and filters to find crops more quickly.",
+    "SPECIES": "Species"
   },
   "CROP_DETAIL": {
     "ADD_PLAN": "Add a plan",
@@ -764,6 +766,9 @@
     "REVENUE": "Revenue",
     "VIEW_WITHIN_DATE_RANGE": "View revenue within this date range",
     "WHOLE_FARM_REVENUE": "Whole farm revenue"
+  },
+  "FORM_VALIDATION": {
+    "OVER_200_CHARS": "Text cannot exceed 200 characters"
   },
   "HELP": {
     "ATTACHMENT_LABEL": "Upload screenshot or file",
@@ -1477,6 +1482,7 @@
     "EXTERNAL_IDENTIFIER": "External identifier",
     "PART_NUMBER": "Part Number",
     "HARDWARE_VERSION": "Hardware version",
+    "NO_DATA_FOUND": "No sensor readings found",
     "DETAIL": {
       "RETIRE": "Retire",
       "EDIT": "Edit",
@@ -1513,6 +1519,13 @@
       "WEATHER_STATION": "Weather station: {{weatherStationLocation}}",
       "NO_DATA": "(no data)",
       "AMBIENT_TEMPERATURE_FOR": "Ambient temperature for",
+      "LAST_UPDATED_TEMPERATURE_READINGS": "Last updated {{latestReadingUpdate}}"
+    },
+    "SOIL_WATER_POTENTIAL_READINGS_OF_SENSOR": {
+      "TITLE": "Soil water potential",
+      "SUBTITLE": "MISSING",
+      "Y_AXIS_LABEL": "Soil water potential in {{soilWaterPotentialUnit}}",
+      "NO_DATA": "(no data)",
       "LAST_UPDATED_TEMPERATURE_READINGS": "Last updated {{latestReadingUpdate}}"
     },
     "READINGS_PREVIEW": {

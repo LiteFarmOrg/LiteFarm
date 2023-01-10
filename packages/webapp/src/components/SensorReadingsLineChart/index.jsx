@@ -18,6 +18,7 @@ import PropTypes from 'prop-types';
 import PredictedRect from './PredictedRect';
 import { getLanguageFromLocalStorage } from '../../util/getLanguageFromLocalStorage';
 import { SensorReadingChartSpotlightProvider } from './SensorReadingChartSpotlightProvider';
+import { TEMPERATURE } from '../../containers/SensorReadings/constants';
 
 const PureSensorReadingsLineChart = ({
   showSpotLight,
@@ -31,9 +32,10 @@ const PureSensorReadingsLineChart = ({
   yAxisLabel,
   chartData,
   weatherStationName,
-  lastUpdatedTemperatureReadings,
+  lastUpdatedReadings,
   predictedXAxisLabel,
   isReadingTypeActive,
+  readingType,
 }) => {
   const [legendsList, setLegendsList] = useState({});
 
@@ -140,13 +142,15 @@ const PureSensorReadingsLineChart = ({
               <Semibold className={styles.title}>{title}</Semibold>
             </label>
             <label>
-              <Semibold className={styles.titleLastUpdated}>
-                {lastUpdatedTemperatureReadings}
-              </Semibold>
+              <Semibold className={styles.titleLastUpdated}>{lastUpdatedReadings}</Semibold>
             </label>
           </div>
-          <Label className={styles.subTitle}>{subTitle}</Label>
-          <Label className={styles.subTitle}>{weatherStationName}</Label>
+          {readingType === TEMPERATURE && (
+            <>
+              <Label className={styles.subTitle}>{subTitle}</Label>
+              <Label className={styles.subTitle}>{weatherStationName}</Label>
+            </>
+          )}
           <ResponsiveContainer width="100%" height={380}>
             <LineChart
               data={chartData}
@@ -207,7 +211,13 @@ const PureSensorReadingsLineChart = ({
                       isAnimationActive={false}
                     />
                   ))}
-              <ReferenceArea fill={'#EBECED'} shape={<PredictedRect />} x1={predictedXAxisLabel} />
+              {readingType === TEMPERATURE ? (
+                <ReferenceArea
+                  fill={'#EBECED'}
+                  shape={<PredictedRect />}
+                  x1={predictedXAxisLabel}
+                />
+              ) : null}
             </LineChart>
           </ResponsiveContainer>
         </>
@@ -228,9 +238,10 @@ PureSensorReadingsLineChart.propTypes = {
   yAxisLabel: PropTypes.string.isRequired,
   chartData: PropTypes.array.isRequired,
   weatherStationName: PropTypes.string.isRequired,
-  lastUpdatedTemperatureReadings: PropTypes.string.isRequired,
+  lastUpdatedReadings: PropTypes.string.isRequired,
   predictedXAxisLabel: PropTypes.string.isRequired,
   isReadingTypeActive: PropTypes.bool.isRequired,
+  readingType: PropTypes.string.isRequired,
 };
 
 export default PureSensorReadingsLineChart;

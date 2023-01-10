@@ -81,8 +81,8 @@ export default function PureTaskReadOnly({
       return {
         date: getDateInputFormat(task.complete_date),
         dateLabel: t('TASK.COMPLETE.DATE'),
-        secondDate: null,
-        secondDateLabel: null,
+        secondDate: getDateInputFormat(task.due_date),
+        secondDateLabel: t('TASK.DUE_DATE'),
       };
     } else {
       return {
@@ -103,6 +103,7 @@ export default function PureTaskReadOnly({
     control,
     setValue,
     reset,
+    getFieldState,
     formState: { errors, isValid },
   } = useForm({
     mode: 'onChange',
@@ -296,6 +297,7 @@ export default function PureTaskReadOnly({
               register,
               errors,
               reset,
+              getFieldState,
               disabled: true,
               farm: user,
               system,
@@ -377,6 +379,7 @@ export default function PureTaskReadOnly({
           control,
           register,
           reset,
+          getFieldState,
           formState: { errors, isValid },
           errors,
           disabled: true,

@@ -84,7 +84,11 @@ export const PureHavestTaskCompleted = ({
             style={{ marginBottom: '40px' }}
             label={t('TASK.HARVEST_USE')}
             defaultValue={{
-              label: harvest_uses_type_map[use.harvest_use_type_id].harvest_use_type_name,
+              label: t(
+                `harvest_uses:${
+                  harvest_uses_type_map[use.harvest_use_type_id].harvest_use_type_translation_key
+                }`,
+              ),
               value: use.harvest_use_type_id,
             }}
             isDisabled={disabled}

@@ -16,11 +16,13 @@ const index = {
       return {
         tempUnit: 'ºC',
         speedUnit: 'km/h',
+        soilWaterPotentialUnit: 'kPa',
       };
     } else if (measurement === 'imperial') {
       return {
         tempUnit: 'ºF',
         speedUnit: 'mph',
+        soilWaterPotentialUnit: 'PSI',
       };
     }
     return { tempUnit: '', speedUnit: '' };

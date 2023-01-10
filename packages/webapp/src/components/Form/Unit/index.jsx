@@ -36,7 +36,7 @@ import { convert } from '../../../util/convert-units/convert';
 
 export const getUnitOptionMap = () => ({
   h: { label: 'h', value: 'h' },
-  min: { label: 'min', value: 'min' },
+  min: { label: 'm', value: 'min' },
   deg: { label: '%', value: '%' },
   mm: { label: 'mm', value: 'mm' },
   m2: { label: 'm²', value: 'm2' },
@@ -81,7 +81,7 @@ const getOnKeyDown = (measure) => {
   }
 };
 
-const DEFAULT_REACT_SELECT_WIDTH = 61;
+const DEFAULT_REACT_SELECT_WIDTH = 80;
 const DEFAULT_SELECT_ARROW_ICON_WIDTH = 20;
 
 const getReactSelectWidth = (measure) => {

@@ -20,6 +20,7 @@ import { useSelector } from 'react-redux';
 import { cropLocationsSelector } from '../../../containers/locationSlice';
 import { convert } from '../../../util/convert-units/convert';
 import modalStyles from './styles.module.scss';
+import { numberOnKeyDown } from '../../Form/Input';
 
 const TotalWaterUsage = ({ totalWaterUsage, estimated_water_usage_unit }) => {
   const { t } = useTranslation();
@@ -50,28 +51,30 @@ const WaterUseVolumeCalculator = ({ system, setTotalWaterUsage, totalWaterUsage,
   const estimated_water_usage_unit = getValues('irrigation_task.estimated_water_usage_unit');
 
   useEffect(() => {
-    if (estimated_flow_rate && estimated_duration) {
+    if (estimated_duration || estimated_flow_rate) {
+      const estimated_flow_rate_value = estimated_flow_rate ? estimated_flow_rate : 1;
+      const estimated_duration_value = estimated_duration ? estimated_duration : 1;
       setTotalWaterUsage(() => {
         if (
-          ['l/h', 'gal/h'].includes(estimated_flow_rate_unit.value) &&
-          estimated_duration_unit.label === 'h'
+          ['l/h', 'gal/h'].includes(estimated_flow_rate_unit?.value) &&
+          estimated_duration_unit?.label === 'h'
         )
-          return roundToTwoDecimal(estimated_flow_rate * estimated_duration);
+          return roundToTwoDecimal(estimated_flow_rate_value * estimated_duration_value);
         if (
-          ['l/min', 'gal/min'].includes(estimated_flow_rate_unit.value) &&
-          estimated_duration_unit.label === 'min'
+          ['l/min', 'gal/min'].includes(estimated_flow_rate_unit?.value) &&
+          estimated_duration_unit?.label === 'm'
         )
-          return roundToTwoDecimal(estimated_flow_rate * estimated_duration);
+          return roundToTwoDecimal(estimated_flow_rate_value * estimated_duration_value);
         if (
-          ['l/h', 'gal/h'].includes(estimated_flow_rate_unit.value) &&
-          estimated_duration_unit.label === 'min'
+          ['l/h', 'gal/h'].includes(estimated_flow_rate_unit?.value) &&
+          estimated_duration_unit?.label === 'm'
         )
-          return roundToTwoDecimal(estimated_flow_rate * (estimated_duration / 60));
+          return roundToTwoDecimal(estimated_flow_rate_value * (estimated_duration_value / 60));
         if (
-          ['l/min', 'gal/min'].includes(estimated_flow_rate_unit.value) &&
-          estimated_duration_unit.label === 'h'
+          ['l/min', 'gal/min'].includes(estimated_flow_rate_unit?.value) &&
+          estimated_duration_unit?.label === 'h'
         )
-          return roundToTwoDecimal(estimated_flow_rate * (estimated_duration * 60));
+          return roundToTwoDecimal(estimated_flow_rate_value * (estimated_duration_value * 60));
         return totalWaterUsage;
       });
     }
@@ -118,11 +121,12 @@ const WaterUseVolumeCalculator = ({ system, setTotalWaterUsage, totalWaterUsage,
         max={999999.99}
         system={system}
         control={control}
+        onKeyDown={numberOnKeyDown}
         style={{ paddingBottom: '32px' }}
         onChangeUnitOption={(e) => {
           setValue(
             ESTIMATED_DURATION,
-            convert(estimated_duration).from(estimated_duration_unit.label).to(e.label),
+            convert(estimated_duration).from(estimated_duration_unit.value).to(e.value),
           );
         }}
       />
@@ -147,8 +151,8 @@ const WaterUseDepthCalculator = ({ system, setTotalWaterUsage, totalWaterUsage, 
   const APPLICATION_DEPTH = 'irrigation_task.application_depth';
   const APPLICATION_DEPTH_UNIT = 'irrigation_task.application_depth_unit';
   const DEFAULT_LOCATION_APPLICATION_DEPTH = 'irrigation_task.default_location_application_depth';
-  const PERCENTAGE_LOCATION_IRRIGATED = 'irrigation_task.percentage_location_irrigated';
-  const PERCENTAGE_LOCATION_IRRIGATED_UNIT = 'irrigation_task.percentage_location_irrigated_unit';
+  const PERCENTAGE_LOCATION_IRRIGATED = 'irrigation_task.percent_of_location_irrigated';
+  const PERCENTAGE_LOCATION_IRRIGATED_UNIT = 'irrigation_task.percent_of_location_irrigated_unit';
   const LOCATION_SIZE = 'irrigation_task.location_size';
   const LOCATION_SIZE_UNIT = 'irrigation_task.location_size_unit';
   const IRRIGATED_AREA = 'irrigation_task.irrigated_area';
@@ -158,30 +162,50 @@ const WaterUseDepthCalculator = ({ system, setTotalWaterUsage, totalWaterUsage, 
   const irrigated_area = watch(IRRIGATED_AREA);
   const application_depth = watch(APPLICATION_DEPTH);
   const percentage_location_irrigated = watch(PERCENTAGE_LOCATION_IRRIGATED);
+  const application_depth_unit = watch(APPLICATION_DEPTH_UNIT);
 
   useEffect(() => {
+    if (['gal', 'fl-oz'].includes(getValues('irrigation_task').estimated_water_usage_unit?.value)) {
+      const conversion_unit = location.total_area_unit === 'ha' ? 'ft2' : 'ac';
+      setValue(LOCATION_SIZE_UNIT, getUnitOptionMap()[conversion_unit]);
+      setValue(IRRIGATED_AREA_UNIT, getUnitOptionMap()[conversion_unit]);
+    } else {
+      setValue(LOCATION_SIZE_UNIT, getUnitOptionMap()[location.total_area_unit]);
+      setValue(IRRIGATED_AREA_UNIT, getUnitOptionMap()[location.total_area_unit]);
+    }
     setLocationSize(location.total_area);
-    setValue(LOCATION_SIZE_UNIT, getUnitOptionMap()[location.total_area_unit]);
-    setValue(IRRIGATED_AREA_UNIT, getUnitOptionMap()[location.total_area_unit]);
   }, [location]);
 
   useEffect(() => {
-    const irrigatedArea = roundToTwoDecimal(
-      locationSize * (percentage_location_irrigated ? percentage_location_irrigated / 100 : 1),
-    );
-    setValue(IRRIGATED_AREA, irrigatedArea);
+    if (percentage_location_irrigated) {
+      const irrigatedArea = roundToTwoDecimal(
+        locationSize * (percentage_location_irrigated ? percentage_location_irrigated / 100 : 1),
+      );
+      setValue(IRRIGATED_AREA, irrigatedArea);
+    }
   }, [locationSize, percentage_location_irrigated]);
 
   useEffect(() => {
     if (irrigated_area && application_depth) {
       setTotalWaterUsage(() => {
+        if (application_depth_unit.value === 'in') {
+          const Irrigated_area_in_ft2 =
+            getValues(IRRIGATED_AREA_UNIT)?.value === 'ft2'
+              ? roundToTwoDecimal(irrigated_area)
+              : roundToTwoDecimal(convert(irrigated_area).from('ac').to('ft2')); // convert from ac to ft2
+          const volume_in_ft3 =
+            Irrigated_area_in_ft2 *
+            (application_depth ? convert(application_depth).from('in').to('ft') : 1); // convert depth from inc to ft
+          return roundToTwoDecimal(convert(volume_in_ft3).from('ft3').to('gal')); // convert ft3 to gallons
+        }
         const Irrigated_area_in_m_squared =
           getValues(IRRIGATED_AREA_UNIT)?.value === 'm2'
             ? roundToTwoDecimal(irrigated_area)
-            : roundToTwoDecimal(convert(irrigated_area).from('ha').to('m2'));
+            : roundToTwoDecimal(convert(irrigated_area).from('ha').to('m2')); // to convert from ha to m2
         const Volume_in_m_cubed =
-          Irrigated_area_in_m_squared * (application_depth ? application_depth / 1000 : 1);
-        return roundToTwoDecimal(Volume_in_m_cubed * 1000);
+          Irrigated_area_in_m_squared *
+          (application_depth ? convert(application_depth).from('mm').to('m') : 1); // to convert application depth from mm to m
+        return roundToTwoDecimal(convert(Volume_in_m_cubed).from('m3').to('l')); // to convert from m3 to litres
       });
     }
   }, [application_depth, percentage_location_irrigated, irrigated_area]);
@@ -197,7 +221,7 @@ const WaterUseDepthCalculator = ({ system, setTotalWaterUsage, totalWaterUsage, 
         hookFromWatch={watch}
         name={APPLICATION_DEPTH}
         unitType={irrigation_depth}
-        max={999999.99}
+        max={999.9}
         system={system}
         control={control}
       />

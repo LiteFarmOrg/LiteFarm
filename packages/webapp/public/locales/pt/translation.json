@@ -330,12 +330,14 @@
       "TITLE": "Título"
     },
     "FILTER_TITLE": "Filtro de catálogo de cultivo",
+    "GENUS": "MISSING",
     "HERE_YOU_CAN": "Aqui você pode:",
     "LETS_BEGIN": "Vamos começar!",
     "NEW_CROP_NAME": "Nome do cultivo",
     "NO_RESULTS_FOUND": "Nenhum resultado encontrado. Por favor, mude seus filtros.",
     "ON_YOUR_FARM": "Em sua fazenda",
-    "SELECT_A_CROP": "Selecione um cultivo para adicioná-lo à sua fazenda. Use a busca e os filtros para encontrar os cultivos mais rapidamente."
+    "SELECT_A_CROP": "Selecione um cultivo para adicioná-lo à sua fazenda. Use a busca e os filtros para encontrar os cultivos mais rapidamente.",
+    "SPECIES": "MISSING"
   },
   "CROP_DETAIL": {
     "ADD_PLAN": "Adicionar um plano",
@@ -763,6 +765,9 @@
     "REVENUE": "Receita",
     "VIEW_WITHIN_DATE_RANGE": "Veja a receita neste intervalo de datas",
     "WHOLE_FARM_REVENUE": "Receita de toda a propriedade"
+  },
+  "FORM_VALIDATION": {
+    "OVER_200_CHARS": "MISSING"
   },
   "HELP": {
     "ATTACHMENT_LABEL": "Carregar captura de tela ou arquivo",
@@ -1710,6 +1715,7 @@
     "EXTERNAL_IDENTIFIER": "MISSING",
     "PART_NUMBER": "MISSING",
     "HARDWARE_VERSION": "MISSING",
+    "NO_DATA_FOUND": "MISSING",
     "DETAIL": {
       "RETIRE": "MISSING",
       "EDIT": "MISSING",
@@ -1746,6 +1752,13 @@
       "WEATHER_STATION": "MISSING",
       "NO_DATA": "MISSING",
       "AMBIENT_TEMPERATURE_FOR": "MISSING",
+      "LAST_UPDATED_TEMPERATURE_READINGS": "MISSING"
+    },
+    "SOIL_WATER_POTENTIAL_READINGS_OF_SENSOR": {
+      "TITLE": "MISSING",
+      "SUBTITLE": "MISSING",
+      "Y_AXIS_LABEL": "MISSING",
+      "NO_DATA": "MISSING",
       "LAST_UPDATED_TEMPERATURE_READINGS": "MISSING"
     },
     "READINGS_PREVIEW": {

@@ -24,7 +24,11 @@ export const up = async function (knex) {
   }
 
   await knex.schema.alterTable('location_defaults', (table) => {
-    table.integer('irrigation_type_id').references('irrigation_type_id').inTable('irrigation_type');
+    table
+      .integer('irrigation_type_id')
+      .references('irrigation_type_id')
+      .inTable('irrigation_type')
+      .nullable();
     table.dropColumn('irrigation_task_type');
   });
 };

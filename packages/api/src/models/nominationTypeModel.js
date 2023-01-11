@@ -31,10 +31,9 @@ class NominationType extends baseModel {
   static get jsonSchema() {
     return {
       type: 'object',
-      required: ['nomination_type', 'workflow_group'],
+      required: ['nomination_type'],
       properties: {
         nomination_type: { type: 'string' },
-        workflow_group: { type: 'string' },
         ...this.baseProperties,
       },
       additionalProperties: false,
@@ -52,12 +51,12 @@ class NominationType extends baseModel {
           to: 'nomination.nomination_type',
         },
       },
-      workflows: {
+      workflow_states: {
         relation: Model.HasManyRelation,
         modelClass: nominationWorkflowModel,
         join: {
-          from: 'nomination_type.workflow_group',
-          to: 'nomination_workflow.workflow_group',
+          from: 'nomination_type.nomination_type',
+          to: 'nomination_workflow.type_group',
         },
       },
     };

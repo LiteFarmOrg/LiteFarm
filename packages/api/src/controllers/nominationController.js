@@ -14,48 +14,44 @@
  */
 import baseController from '../controllers/baseController.js';
 import NominationModel from '../models/nominationModel.js';
-import NominationTypeModel from '../models/nominationTypeModel.js';
+// import NominationTypeModel from '../models/nominationTypeModel.js';
 import NominationStatusModel from '../models/nominationStatusModel.js';
 import NominationWorkflowModel from '../models/nominationWorkflowModel.js';
 import objection from 'objection';
 const { transaction, Model, UniqueViolationError } = objection;
 
+/**
+ * This controller should be used to manipulate the set of nomination models
+ */
 const nominationController = {
-  addNomination(nominationType, initialStatus) {
+  /**
+   * This will add a new nomination to the table based on nomination type in body.
+   * @param {string} initialStatus This is the initial workflow status for the nomination status log.
+   * @returns The created nomination and status row.
+   */
+  addNomination(initialStatus) {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
       try {
         const data = req.body;
-        data.nomination_type = nominationType;
-        // Add nomination
-        const { nomination_id, nomination_type } = await baseController.postWithResponse(
-          NominationModel,
-          data,
-          req,
-          {
-            trx,
-          },
-        );
-        data.nomination_id = nomination_id;
-        // Find workflow group based on type
-        const { workflow_group } = await NominationTypeModel.query(trx).findById(nomination_type);
         //Get workflow id
-        const { id: workflow_id } = await NominationWorkflowModel.getWorkflowIdByNameAndGroup(
+        //TODO: Hopefully this gets changed/removed with workflow ranking
+        const { workflow_id } = await NominationWorkflowModel.getWorkflowIdByStatusAndTypeGroup(
           initialStatus,
-          workflow_group,
+          data.nomination_type,
           trx,
         );
         data.workflow_id = workflow_id;
+        // Add nomination
+        const nomination = await baseController.postWithResponse(NominationModel, data, req, {
+          trx,
+        });
+        data.nomination_id = nomination.nomination_id;
         // Add status change entry
-        const { status_id } = await baseController.postWithResponse(
-          NominationStatusModel,
-          data,
-          req,
-          {
-            trx,
-          },
-        );
-        const result = { nomination_id, status_id };
+        const status = await baseController.postWithResponse(NominationStatusModel, data, req, {
+          trx,
+        });
+        const result = { nomination, status };
         await trx.commit();
         res.status(201).send(result);
       } catch (error) {
@@ -68,9 +64,7 @@ const nominationController = {
             error,
             violationError,
           });
-        }
-        //handle more exceptions
-        else {
+        } else {
           await trx.rollback();
           res.status(400).json({
             error,
@@ -81,16 +75,19 @@ const nominationController = {
     };
   },
 
+  /**
+   * This updates a single nomination based on a nomination id and nomination type in body.
+   * @returns The updated nomination row.
+   */
   updateNomination() {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
       try {
         const data = req.body;
-        const { nomination_type } = await NominationModel.query(trx).findById(data.nomination_id);
-        data.nomination_type = nomination_type;
+        const params = req.params;
         const nomination = await baseController.put(
           NominationModel,
-          data.nomination_id,
+          params.nomination_id,
           data,
           req,
           {
@@ -123,12 +120,16 @@ const nominationController = {
     };
   },
 
+  /**
+   * Soft deletes a nomination based on nomination id
+   * @returns Boolean success
+   */
   deleteNomination() {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
       try {
-        const data = req.params;
-        const success = await baseController.delete(NominationModel, data.nomination_id, req, {
+        const params = req.params;
+        const success = await baseController.delete(NominationModel, params.nomination_id, req, {
           trx,
         });
         await trx.commit();

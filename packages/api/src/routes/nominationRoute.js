@@ -19,22 +19,23 @@ const router = express.Router();
 import hasFarmAccess from '../middleware/acl/hasFarmAccess.js';
 import checkScope from '../middleware/acl/checkScope.js';
 
+// This file represents the /nomination route
 router.post(
   '/',
   hasFarmAccess({ body: 'farm_id' }),
   checkScope(['add:crops']),
-  nominationController.addNomination('CROP', 'NOMINATED'),
+  nominationController.addNomination('NOMINATED'),
 );
 
 router.put(
-  '/update',
-  hasFarmAccess({ body: 'farm_id' }),
+  '/:nomination_id',
+  hasFarmAccess({ params: 'nomination_id' }),
   checkScope(['edit:crops']),
   nominationController.updateNomination(),
 );
 
 router.delete(
-  '/delete/:nomination_id',
+  '/:nomination_id',
   hasFarmAccess({ params: 'nomination_id' }),
   nominationController.deleteNomination(),
 );

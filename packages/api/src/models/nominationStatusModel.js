@@ -46,7 +46,7 @@ class NominationStatus extends baseModel {
   //How to choose a relation type: https://vincit.github.io/objection.js/guide/relations.html#examples
   static get relationMappings() {
     return {
-      nominations: {
+      nomination: {
         relation: Model.BelongsToOneRelation,
         modelClass: nominationModel,
         join: {
@@ -54,58 +54,15 @@ class NominationStatus extends baseModel {
           to: 'nomination.nomination_id',
         },
       },
-      workflows: {
+      workflow_status: {
         relation: Model.BelongsToOneRelation,
         modelClass: nominationWorkflowModel,
         join: {
           from: 'nomination_status.workflow_id',
-          to: 'nomination_workflow.id',
+          to: 'nomination_workflow.workflow_id',
         },
       },
     };
-  }
-
-  /**
-   * Returns a list of status about the nomination.
-   * @param {number} nomination_id Foreign key to the nomination table.
-   * @static
-   * @async
-   * @return {Promise<*>}
-   */
-  static async getAllStatusByNominationId(nomination_id, trx) {
-    return await NominationStatus.query(trx)
-      .select()
-      .where('nomination_id', nomination_id)
-      .orderBy('created_date', 'desc');
-  }
-
-  /**
-   * Returns the most recent status about the nomination.
-   * @param {number} nomination_id Foreign key to the nomination table.
-   * @static
-   * @async
-   * @return {Promise<*>}
-   */
-  static async getRecentStatusByNominationId(nomination_id, trx) {
-    return await NominationStatus.query(trx)
-      .select()
-      .where('nomination_id', nomination_id)
-      .orderBy('created_date', 'desc')
-      .first();
-  }
-
-  /**
-   * Returns a list of status about the nomination.
-   * @param {number} workflow_id Foreign key to the nomination workflow table .
-   * @static
-   * @async
-   * @return {Promise<*>}
-   */
-  static async getStatusWorkflowName(workflow_id) {
-    return await NominationStatus.query()
-      .withGraphFetched('nomination_workflow')
-      .select('nomination_workflow.name')
-      .where('nomination_workflow.id', workflow_id);
   }
 }
 

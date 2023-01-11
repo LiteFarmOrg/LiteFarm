@@ -37,7 +37,6 @@ class Nomination extends baseModel {
         nomination_id: { type: 'integer' },
         nomination_type: { type: 'string' },
         farm_id: { type: 'uuid' },
-        assignee_user_id: { type: 'string' },
         ...this.baseProperties,
       },
       additionalProperties: false,
@@ -47,15 +46,15 @@ class Nomination extends baseModel {
   //How to choose a relation type: https://vincit.github.io/objection.js/guide/relations.html#examples
   static get relationMappings() {
     return {
-      workflow: {
+      type: {
         relation: Model.BelongsToOneRelation,
         modelClass: nominationTypeModel,
         join: {
           from: 'nomination.nomination_type',
-          to: 'nomination_type.name',
+          to: 'nomination_type.nomination_type',
         },
       },
-      status: {
+      all_status: {
         relation: Model.HasManyRelation,
         modelClass: nominationStatusModel,
         join: {
@@ -72,21 +71,6 @@ class Nomination extends baseModel {
         },
       },
     };
-  }
-
-  /**
-   * Returns a true or false value about the whether a nomination has been soft deleted.
-   * @param {number} nomination_id The primary key to the nomination table
-   * @static
-   * @async
-   * @return {Promise<*>}
-   */
-  static async getDeletedByNominationId(nomination_id, trx) {
-    return await Nomination.query(trx)
-      .context({ showHidden: true })
-      .select('deleted')
-      .where('nomination_id', nomination_id)
-      .first();
   }
 }
 

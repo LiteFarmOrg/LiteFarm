@@ -31,11 +31,11 @@ class NominationWorkflow extends baseModel {
   static get jsonSchema() {
     return {
       type: 'object',
-      required: ['name', 'group'],
+      required: ['status', 'type_group'],
       properties: {
-        id: { type: 'integer' },
-        name: { type: 'string' },
-        group: { type: 'string' },
+        workflow_id: { type: 'integer' },
+        status: { type: 'string' },
+        type_group: { type: 'string' },
         ...this.baseProperties,
       },
       additionalProperties: false,
@@ -45,19 +45,19 @@ class NominationWorkflow extends baseModel {
   //How to choose a relation type: https://vincit.github.io/objection.js/guide/relations.html#examples
   static get relationMappings() {
     return {
-      group_type: {
+      workflow_group: {
         relation: Model.BelongsToOneRelation,
         modelClass: nominationTypeModel,
         join: {
-          from: 'nomination_workflow.group',
-          to: 'nomination_type.workflow_group',
+          from: 'nomination_workflow.type_group',
+          to: 'nomination_type.nomination_type',
         },
       },
-      status: {
+      all_this_status: {
         relation: Model.HasManyRelation,
         modelClass: nominationStatusModel,
         join: {
-          from: 'nomination_workflow.id',
+          from: 'nomination_workflow.workflow_id',
           to: 'nomination_status.status',
         },
       },
@@ -66,17 +66,17 @@ class NominationWorkflow extends baseModel {
 
   /**
    * Gets the id of a desired workflow step.
-   * @param {string} name The workflow step name.
-   * @param {string} group The group the workflow step belongs to.
+   * @param {string} status The workflow step name.
+   * @param {string} type_group The group name the workflow status belongs to.
    * @static
    * @async
    * @return {Promise<*>}
    */
-  static async getWorkflowIdByNameAndGroup(name, group, trx) {
+  static async getWorkflowIdByStatusAndTypeGroup(status, type_group, trx) {
     return await NominationWorkflow.query(trx)
-      .select('id')
-      .where('name', name)
-      .andWhere('group', group)
+      .select('workflow_id')
+      .where('status', status)
+      .andWhere('type_group', type_group)
       .first();
   }
 }

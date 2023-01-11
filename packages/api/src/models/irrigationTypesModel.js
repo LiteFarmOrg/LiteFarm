@@ -21,6 +21,7 @@ class IrrigationTypesModel extends BaseModel {
         irrigation_type_name: { type: 'string' },
         farm_id: { type: 'string' },
         default_measuring_type: { type: 'string' },
+        irrigation_type_translation_key: { type: 'string' },
         ...this.baseProperties,
       },
       additionalProperties: false,
@@ -55,16 +56,28 @@ class IrrigationTypesModel extends BaseModel {
   }
   static async checkAndAddCustomIrrigationType(data, farm_id) {
     let irrigation_type_id = data.irrigation_task.irrigation_type_id;
+    const irrigation_type_translation_key = data.irrigation_task.irrigation_type_name
+      .toUpperCase()
+      .split(' ')
+      .join('_');
     if (!data.irrigation_task.irrigation_type_id && data.irrigation_task.measuring_type) {
-      const result = await IrrigationTypesModel.insertCustomIrrigationType({
-        irrigation_type_name: data.irrigation_task.irrigation_type_name,
-        farm_id,
-        default_measuring_type: data.irrigation_task.measuring_type,
-        created_by_user_id: data.owner_user_id,
-        updated_by_user_id: data.owner_user_id,
-        created_at: new Date().toISOString(),
-        updated_at: new Date().toISOString(),
-      });
+      const irrigationTypeExists = await IrrigationTypesModel.query()
+        .select('irrigation_type_id')
+        .where({ irrigation_type_translation_key })
+        .andWhere({ farm_id })
+        .first();
+      const result = irrigationTypeExists
+        ? irrigationTypeExists
+        : await IrrigationTypesModel.insertCustomIrrigationType({
+            irrigation_type_name: data.irrigation_task.irrigation_type_name,
+            farm_id,
+            irrigation_type_translation_key,
+            default_measuring_type: data.irrigation_task.measuring_type,
+            created_by_user_id: data.owner_user_id,
+            updated_by_user_id: data.owner_user_id,
+            created_at: new Date().toISOString(),
+            updated_at: new Date().toISOString(),
+          });
       irrigation_type_id = result.irrigation_type_id;
     }
     return {
@@ -91,7 +104,7 @@ class IrrigationTypesModel extends BaseModel {
 
   static async getAllIrrigationTaskTypesByFarmId(farm_id) {
     const data = await knex.raw(`SELECT * FROM (
-    SELECT DISTINCT ON ((irrigation_type_name)) it.*
+    SELECT DISTINCT ON (UPPER(irrigation_type_name)) it.*
     FROM irrigation_type AS it
     WHERE farm_id = '${farm_id}'
     OR farm_id IS NULL) AS a

@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState, useRef } from 'react';
 import { Label, Underlined } from '../../Typography';
 import { useTranslation } from 'react-i18next';
 import { Controller } from 'react-hook-form';
@@ -15,6 +15,7 @@ import { convert } from '../../../util/convert-units/convert';
 import { getIrrigationTaskTypes } from '../../../containers/Task/IrrigationTaskTypes/saga';
 import { useDispatch, useSelector } from 'react-redux';
 import { irrigationTaskTypesSliceSelector } from '../../../containers/irrigationTaskTypesSlice';
+import { cropLocationsSelector } from '../../../containers/locationSlice';
 
 const defaultIrrigationTaskTypes = [
   'HAND_WATERING',
@@ -37,13 +38,30 @@ export default function PureIrrigationTask({
   formState,
   getFieldState = {},
   disabled = false,
+  locations,
   otherTaskType = false,
+  createTask = false,
 }) {
   const { t } = useTranslation();
   const { errors, isValid } = formState;
   const [showWaterUseCalculatorModal, setShowWaterUseCalculatorModal] = useState(false);
   const { irrigationTaskTypes = [] } = useSelector(irrigationTaskTypesSliceSelector);
-  const [irrigationTypeValue, setIrrigationTypeValue] = useState();
+  const cropLocations = useSelector(cropLocationsSelector);
+  const location_defaults =
+    locations &&
+    cropLocations.filter((cropLocation) => cropLocation.location_id === locations[0].location_id)[0]
+      ?.location_defaults;
+  const locationDefaults = [location_defaults]?.map((location) => {
+    return {
+      ...location,
+      ...irrigationTaskTypes?.filter(
+        (option) => option.irrigation_type_id === location?.irrigation_type_id,
+      )[0],
+    };
+  })[0];
+  const [irrigationTypeValue, setIrrigationTypeValue] = useState(() => {
+    if (locationDefaults?.irrigation_task_type) return locationDefaults?.irrigation_task_type;
+  });
   const [totalVolumeWaterUsage, setTotalVolumeWaterUsage] = useState();
   const [totalDepthWaterUsage, setTotalDepthWaterUSage] = useState();
   const [estimatedWaterUsageComputed, setEstimatedWaterUsageComputed] = useState(false);
@@ -119,6 +137,32 @@ export default function PureIrrigationTask({
   };
 
   useEffect(() => {
+    if (!createTask) return;
+    if (locationDefaults?.irrigation_type_id) {
+      setValue(
+        IRRIGATION_TYPE,
+        IrrigationTypeOptions.find(
+          (options) => options.irrigation_type_id === locationDefaults?.irrigation_type_id,
+        ),
+      );
+    }
+    if (locationDefaults?.default_measuring_type) {
+      setValue(MEASUREMENT_TYPE, locationDefaults?.default_measuring_type);
+    }
+  }, []);
+
+  const getDefaultIrrigationTypeOptions = () => {
+    if (locationDefaults?.irrigation_type_id) {
+      return IrrigationTypeOptions.find(
+        (options) => options.irrigation_type_id === locationDefaults?.irrigation_type_id,
+      );
+    } else {
+      return IrrigationTypeOptions.find(
+        (options) => options.irrigation_type_id === irrigation_type?.irrigation_type_id,
+      );
+    }
+  };
+  useEffect(() => {
     if (
       estimated_water_usage !== totalDepthWaterUsage &&
       otherTaskType &&
@@ -146,20 +190,25 @@ export default function PureIrrigationTask({
         control={control}
         name={IRRIGATION_TYPE}
         rules={{ required: true }}
-        render={({ field: { onChange, value } }) => (
-          <ReactSelect
-            label={t('ADD_TASK.IRRIGATION_VIEW.TYPE_OF_IRRIGATION')}
-            options={IrrigationTypeOptions}
-            onChange={(e) => {
-              onChange(e);
-              setIrrigationTypeValue(e.value);
-              setValue(MEASUREMENT_TYPE, e.default_measuring_type);
-              setValue(IRRIGATION_TYPE_ID, e.irrigation_type_id);
-            }}
-            isDisabled={disabled}
-            value={!value ? value : value?.value ? value : selectedIrrigationTypeOption}
-          />
-        )}
+        render={({ field: { onChange, onBlur, onFocus } }) => {
+          return (
+            <ReactSelect
+              onFocus={onFocus}
+              label={t('ADD_TASK.IRRIGATION_VIEW.TYPE_OF_IRRIGATION')}
+              options={IrrigationTypeOptions}
+              onBlur={onBlur}
+              onChange={(e) => {
+                onChange(e);
+                setIrrigationTypeValue(e.value);
+                setValue(MEASUREMENT_TYPE, e.default_measuring_type);
+                setValue(IRRIGATION_TYPE_ID, e.irrigation_type_id);
+              }}
+              isDisabled={disabled}
+              value={IrrigationTypeOptions.find((options) => options.value === irrigation_type)}
+              defaultValue={getDefaultIrrigationTypeOptions}
+            />
+          );
+        }}
       />
       {(irrigationTypeValue === 'OTHER' ||
         irrigation_type?.label === t('ADD_TASK.IRRIGATION_VIEW.TYPE.OTHER')) && (
@@ -263,6 +312,7 @@ export default function PureIrrigationTask({
           totalDepthWaterUsage={totalDepthWaterUsage}
           setTotalDepthWaterUSage={setTotalDepthWaterUSage}
           formState={stateController}
+          locationDefaults={locationDefaults}
         />
       )}
     </>
@@ -272,4 +322,5 @@ export default function PureIrrigationTask({
 PureIrrigationTask.propTypes = {
   system: PropTypes.oneOf(['imperial', 'metric']).isRequired,
   disabled: PropTypes.bool,
+  locations: PropTypes.array,
 };

@@ -4,7 +4,6 @@ import { pick } from '../../../util/pick';
 import { createSelector } from 'reselect';
 const irrigationTaskProperties = [
   'task_id',
-  'irrigation_type_name',
   'application_depth',
   'application_depth_unit',
   'measuring_type',
@@ -15,9 +14,17 @@ const irrigationTaskProperties = [
   'estimated_water_usage',
   'estimated_water_usage_unit',
   'irrigation_type',
+  'percent_of_location_irrigated',
+  'default_location_flow_rate',
+  'default_location_application_depth',
+  'default_irrigation_task_type_location',
+  'default_irrigation_task_type_measurement',
 ];
 const getIrrigationTask = (task) => {
-  return pick(task, irrigationTaskProperties);
+  return {
+    ...pick(task, irrigationTaskProperties),
+    ...pick(task.irrigation_type, ['irrigation_type_translation_key', 'irrigation_type_name']),
+  };
 };
 const irrigationTaskAdapter = createEntityAdapter({
   selectId: (irrigationTask) => irrigationTask.task_id,

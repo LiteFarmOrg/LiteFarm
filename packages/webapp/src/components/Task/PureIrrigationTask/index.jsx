@@ -15,7 +15,7 @@ import { convert } from '../../../util/convert-units/convert';
 import { getIrrigationTaskTypes } from '../../../containers/Task/IrrigationTaskTypes/saga';
 import { useDispatch, useSelector } from 'react-redux';
 import { irrigationTaskTypesSliceSelector } from '../../../containers/irrigationTaskTypesSlice';
-import { getLocationDefaultsByLocationId } from '../../../containers/taskSlice';
+import { cropLocationsSelector } from '../../../containers/locationSlice';
 
 const defaultIrrigationTaskTypes = [
   'HAND_WATERING',
@@ -46,8 +46,22 @@ export default function PureIrrigationTask({
   const { errors, isValid } = formState;
   const [showWaterUseCalculatorModal, setShowWaterUseCalculatorModal] = useState(false);
   const { irrigationTaskTypes = [] } = useSelector(irrigationTaskTypesSliceSelector);
-
-  const locationDefaults = useSelector(getLocationDefaultsByLocationId(locations));
+  const cropLocations = useSelector(cropLocationsSelector);
+  const { location_defaults } = cropLocations.filter(
+    (cropLocation) => cropLocation.location_id === locations[0].location_id,
+  )[0];
+  const locationDefaults = [location_defaults].map((location) => {
+    const options = irrigationTaskTypes?.filter(
+      (option) => option.irrigation_type_id === location.irrigation_type_id,
+    )[0];
+    const extraOptions = options?.farm_id ? options : {};
+    return {
+      ...location,
+      ...extraOptions,
+      default_location_flow_rate: !!location.estimated_flow_rate,
+      default_location_application_depth: !!location.application_depth,
+    };
+  })[0];
   const [irrigationTypeValue, setIrrigationTypeValue] = useState(() => {
     if (locationDefaults?.irrigation_task_type) return locationDefaults?.irrigation_task_type;
   });
@@ -127,12 +141,11 @@ export default function PureIrrigationTask({
 
   useEffect(() => {
     if (!createTask) return;
-
-    if (locationDefaults?.irrigation_task_type) {
+    if (locationDefaults?.irrigation_type_id) {
       setValue(
         IRRIGATION_TYPE,
         IrrigationTypeOptions.find(
-          (options) => options.value === locationDefaults?.irrigation_task_type,
+          (options) => options.irrigation_type_id === locationDefaults?.irrigation_type_id,
         ),
       );
       setValue(DEFAULT_IRRIGATION_TASK_LOCATION, true);
@@ -144,12 +157,14 @@ export default function PureIrrigationTask({
   }, []);
 
   const getDefaultIrrigationTypeOptions = () => {
-    if (locationDefaults?.irrigation_task_type) {
+    if (locationDefaults?.irrigation_type_id) {
       return IrrigationTypeOptions.find(
-        (options) => options.value === locationDefaults?.irrigation_task_type,
+        (options) => options.irrigation_type_id === locationDefaults?.irrigation_type_id,
       );
     } else {
-      return IrrigationTypeOptions.find((options) => options.value === irrigation_type?.value);
+      return IrrigationTypeOptions.find(
+        (options) => options.irrigation_type_id === irrigation_type?.irrigation_type_id,
+      );
     }
   };
   useEffect(() => {

@@ -6,7 +6,14 @@ export const areaProperties = [
   'perimeter_unit',
   'figure_id',
 ];
-export const locationProperties = ['farm_id', 'name', 'notes', 'location_id', 'deleted'];
+export const locationProperties = [
+  'farm_id',
+  'name',
+  'notes',
+  'location_id',
+  'deleted',
+  'location_defaults',
+];
 export const lineProperties = [
   'length',
   'width',

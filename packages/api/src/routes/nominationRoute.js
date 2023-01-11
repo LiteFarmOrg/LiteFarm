@@ -37,6 +37,7 @@ router.put(
 router.delete(
   '/:nomination_id',
   hasFarmAccess({ params: 'nomination_id' }),
+  checkScope(['delete:crops']),
   nominationController.deleteNomination(),
 );
 

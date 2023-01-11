@@ -298,7 +298,7 @@ describe.only('LiteFarm end to end tests for tasks flow', () => {
       .should('equal', Data.cleanTask.Notes, { matchCase: false });
   });
 
-  it('create a custom irrigate task with all options and some water use calculator testing', () => {
+  it.only('create a custom irrigate task with all options and some water use calculator testing', () => {
     const flowRate = 100; //l/m
     const duration = 60; //m
     const usage = flowRate * duration; //l
@@ -371,7 +371,18 @@ describe.only('LiteFarm end to end tests for tasks flow', () => {
     cy.get('[data-cy="task-date"]').invoke('val').should('equal', dueDate, { matchCase: false });
 
     cy.get('[data-cy="react-select"]').contains(customTask).should('exist');
-
+    cy.get('[type = "checkbox"]').eq(0).should('be.checked');
+    cy.get('[type="radio"]').first().should('be.checked');
+    cy.get('[type = "checkbox"]').eq(1).should('be.checked');
+    cy.get('[data-cy="irrigateTask-usage"]')
+      .invoke('val')
+      .should('equal', usage.toString(), { matchCase: false });
+    cy.get('.Unit-select')
+      .eq(0)
+      .then(($elem) => {
+        const text = $elem.text();
+        expect(text).to.equal('l');
+      });
     cy.get('[data-cy="task-notesReadOnly"]')
       .invoke('val')
       .should('equal', Data.cleanTask.Notes, { matchCase: false });

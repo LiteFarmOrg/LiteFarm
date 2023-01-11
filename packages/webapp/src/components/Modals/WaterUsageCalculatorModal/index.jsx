@@ -242,21 +242,16 @@ const WaterUseDepthCalculator = ({
   }, [application_depth, percentage_location_irrigated, irrigated_area]);
 
   useEffect(() => {
-    if (locationDefaults?.default_location_application_depth) {
-      setValue(
-        DEFAULT_LOCATION_APPLICATION_DEPTH,
-        locationDefaults?.default_location_application_depth,
-      );
-    }
-  }, []);
-
-  useEffect(() => {
     if (
       !watch(APPLICATION_DEPTH) &&
       locationDefaults?.application_depth &&
       locationDefaults?.application_depth_unit
     ) {
       setValue(APPLICATION_DEPTH, locationDefaults?.application_depth);
+      setValue(
+        DEFAULT_LOCATION_APPLICATION_DEPTH,
+        locationDefaults?.default_location_application_depth,
+      );
       setValue(
         APPLICATION_DEPTH_UNIT,
         getUnitOptionMap()[locationDefaults?.application_depth_unit],

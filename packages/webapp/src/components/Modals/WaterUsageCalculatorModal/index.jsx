@@ -87,14 +87,6 @@ const WaterUseVolumeCalculator = ({
   }, [estimated_duration, estimated_flow_rate]);
 
   useEffect(() => {
-    if (!watch(DEFAULT_LOCATION_FLOW_RATE) && !!locationDefaults?.default_location_flow_rate) {
-      setValue(DEFAULT_LOCATION_FLOW_RATE, locationDefaults?.default_location_flow_rate);
-    } else {
-      setValue(DEFAULT_LOCATION_FLOW_RATE, false);
-    }
-  }, []);
-
-  useEffect(() => {
     if (!watch(FLOW_RATE) && !!locationDefaults?.estimated_flow_rate) {
       if (locationDefaults?.estimated_flow_rate) {
         setValue(FLOW_RATE, locationDefaults?.estimated_flow_rate);
@@ -248,10 +240,6 @@ const WaterUseDepthCalculator = ({
       locationDefaults?.application_depth_unit
     ) {
       setValue(APPLICATION_DEPTH, locationDefaults?.application_depth);
-      setValue(
-        DEFAULT_LOCATION_APPLICATION_DEPTH,
-        locationDefaults?.default_location_application_depth,
-      );
       setValue(
         APPLICATION_DEPTH_UNIT,
         getUnitOptionMap()[locationDefaults?.application_depth_unit],

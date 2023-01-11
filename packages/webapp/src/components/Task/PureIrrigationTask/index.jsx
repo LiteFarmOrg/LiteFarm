@@ -54,13 +54,10 @@ export default function PureIrrigationTask({
     return {
       ...location,
       ...irrigationTaskTypes?.filter(
-        (option) => option.irrigation_type_id === location.irrigation_type_id,
+        (option) => option.irrigation_type_id === location?.irrigation_type_id,
       )[0],
-      default_location_flow_rate: !!location.estimated_flow_rate,
-      default_location_application_depth: !!location.application_depth,
     };
   })[0];
-  console.log(locationDefaults);
   const [irrigationTypeValue, setIrrigationTypeValue] = useState(() => {
     if (locationDefaults?.irrigation_task_type) return locationDefaults?.irrigation_task_type;
   });
@@ -151,7 +148,6 @@ export default function PureIrrigationTask({
     }
     if (locationDefaults?.default_measuring_type) {
       setValue(MEASUREMENT_TYPE, locationDefaults?.default_measuring_type);
-      locationDefaults.farm_id && setValue(DEFAULT_IRRIGATION_MEASUREMENT, true);
     }
   }, []);
 

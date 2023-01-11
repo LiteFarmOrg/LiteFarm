@@ -145,7 +145,6 @@ export default function PureIrrigationTask({
           (options) => options.irrigation_type_id === locationDefaults?.irrigation_type_id,
         ),
       );
-      setValue(DEFAULT_IRRIGATION_TASK_LOCATION, true);
     }
     if (locationDefaults?.default_measuring_type) {
       setValue(MEASUREMENT_TYPE, locationDefaults?.default_measuring_type);

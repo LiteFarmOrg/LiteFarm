@@ -15,7 +15,7 @@ class LocationDefaultsModel extends BaseModel {
       required: ['location_id'],
       properties: {
         location_id: { type: 'string' },
-        irrigation_task_type: { type: 'string' },
+        irrigation_type_id: { type: 'number' },
         estimated_flow_rate: { type: 'float' },
         estimated_flow_rate_unit: { type: 'string' },
         application_depth: { type: 'float' },
@@ -26,6 +26,7 @@ class LocationDefaultsModel extends BaseModel {
     };
   }
   static async createOrUpdateLocationDefaults(location_defaults) {
+    delete location_defaults.irrigation_task_type;
     const { user_id, ...rest } = location_defaults;
     await LocationDefaultsModel.query()
       .context({ user_id })

@@ -180,11 +180,13 @@ const WaterUseDepthCalculator = ({ system, setTotalWaterUsage, totalWaterUsage, 
   }, [location]);
 
   useEffect(() => {
-    if (percentage_location_irrigated) {
+    if (typeof percentage_location_irrigated === 'number') {
       const irrigatedArea = roundToTwoDecimal(
         locationSize * (percentage_location_irrigated ? percentage_location_irrigated / 100 : 1),
       );
       setValue(IRRIGATED_AREA, irrigatedArea);
+    } else {
+      setValue(IRRIGATED_AREA, '');
     }
   }, [locationSize, percentage_location_irrigated]);
 

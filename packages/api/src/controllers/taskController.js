@@ -318,14 +318,14 @@ const taskController = {
             }
             data.irrigation_task.irrigation_type_id = irrigation_type_id;
           }
-          if (data.location_defaults) {
+          if (data.location_defaults && data.location_defaults[0]?.irrigation_task_type) {
             await locationDefaultsModel.createOrUpdateLocationDefaults({
               ...data.location_defaults[0],
               irrigation_type_id: data.irrigation_task.irrigation_type_id,
               user_id: data.owner_user_id,
             });
-            delete data.location_defaults;
           }
+          delete data.location_defaults;
           return data;
         })();
       default: {

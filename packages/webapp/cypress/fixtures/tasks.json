@@ -6,5 +6,13 @@
     "Quantity": "30",
     "Water_Usage": "3000",
     "Notes": "This is a test"
+  },
+  "pestTask": {
+    "What": "caterpillars",
+    "method": "Soil fumigation",
+    "Product": "neem oil",
+    "Supplier": "Some supplier",
+    "Quantity": "30",
+    "Notes": "This is a test"
   }
 }

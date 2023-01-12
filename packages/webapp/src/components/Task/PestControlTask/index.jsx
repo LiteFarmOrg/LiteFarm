@@ -62,6 +62,7 @@ const PurePestControlTask = ({
   return (
     <>
       <Input
+        data-cy="pestTask-pest"
         label={t('ADD_TASK.PEST_CONTROL_VIEW.WHAT_PESTS')}
         style={{ marginBottom: '40px' }}
         name={PEST_TARGET}
@@ -90,6 +91,7 @@ const PurePestControlTask = ({
       />
       {controlMethodExposedValue?.value === 'other' && (
         <Input
+          data-cy="pestTask-otherMethod"
           label={t('ADD_TASK.PEST_CONTROL_VIEW.OTHER_PEST')}
           style={{ marginBottom: '24px' }}
           name={OTHER_PURPOSE}

@@ -298,7 +298,7 @@ describe.only('LiteFarm end to end tests for tasks flow', () => {
       .should('equal', Data.cleanTask.Notes, { matchCase: false });
   });
 
-  it.only('create a custom irrigate task with all options and some water use calculator testing', () => {
+  it('create a custom irrigate task with depth measurement type and uses water use calculator', () => {
     const flowRate = 100; //l/m
     const duration = 60; //m
     const usage = flowRate * duration; //l
@@ -386,5 +386,82 @@ describe.only('LiteFarm end to end tests for tasks flow', () => {
     cy.get('[data-cy="task-notesReadOnly"]')
       .invoke('val')
       .should('equal', Data.cleanTask.Notes, { matchCase: false });
+  });
+
+  it.only('create a pest control task with a custom method', () => {
+    cy.contains('Pest').click();
+
+    let productUnit;
+    const pestType = 'caterpillars';
+    const date = new Date();
+    date.setDate(date.getDate() + 1);
+    const dueDate = getDateInputFormat(date);
+
+    cy.get('[data-cy=addTask-taskDate]').should('exist').type(dueDate);
+    cy.get('[data-cy=addTask-continue]')
+      .should('exist')
+      .and('not.be.disabled')
+      .click({ force: true });
+    cy.wait(7000);
+    cy.get('[data-cy=map-selectLocation]').click(530, 216, {
+      force: false,
+    });
+    cy.get('[data-cy=addTask-locationContinue]')
+      .should('exist')
+      .and('not.be.disabled')
+      .click({ force: true });
+
+    cy.get('[data-cy="pestTask-pest"]').type(Data.pestTask.What);
+    cy.get('[data-cy="react-select"]').type(`${Data.pestTask.method}{enter}`);
+
+    cy.get('[data-cy="react-select"]').eq(1).type(`${Data.pestTask.Product}{enter}`);
+    cy.get('[data-cy=cleanTask-productSupplier]').type(Data.pestTask.Supplier);
+    cy.get('[data-cy=cleanTask-agentPermitted]').first().check({ force: true });
+    cy.get('[data-cy=soilAmendment-quantity]').type(Data.pestTask.Quantity);
+    cy.get('.Unit-select')
+      .eq(0)
+      .then(($elem) => {
+        productUnit = $elem.text();
+      });
+    cy.get('[data-cy=task-notes]').type(Data.pestTask.Notes);
+
+    cy.get('[data-cy=addTask-detailsContinue]')
+      .should('exist')
+      .and('not.be.disabled')
+      .click({ force: true });
+
+    cy.get('[data-cy=addTask-assignmentSave]')
+      .should('exist')
+      .and('not.be.disabled')
+      .click({ force: true });
+
+    cy.get('[data-cy="taskCard"]').eq(0).should('exist').click();
+
+    cy.get('[data-cy="task-assignee"]')
+      .invoke('val')
+      .should('equal', fullName, { matchCase: false });
+
+    cy.get('[data-cy="task-date"]').invoke('val').should('equal', dueDate, { matchCase: false });
+
+    cy.get('[data-cy="pestTask-pest"]')
+      .invoke('val')
+      .should('equal', Data.pestTask.What, { matchCase: false });
+    cy.get('[data-cy="react-select"]').contains(Data.pestTask.method).should('exist');
+
+    cy.get('[data-cy="react-select"]').contains(Data.pestTask.Product).should('exist');
+    cy.get('[data-cy=cleanTask-productSupplier]')
+      .invoke('val')
+      .should('equal', Data.pestTask.Supplier, { matchCase: false });
+    cy.get('[data-cy=soilAmendment-quantity]')
+      .invoke('val')
+      .should('equal', Data.pestTask.Quantity, { matchCase: false });
+    cy.get('.Unit-select')
+      .eq(0)
+      .then(($elem) => {
+        expect(productUnit).to.equal($elem.text());
+      });
+    cy.get('[data-cy="task-notesReadOnly"]')
+      .invoke('val')
+      .should('equal', Data.pestTask.Notes, { matchCase: false });
   });
 });

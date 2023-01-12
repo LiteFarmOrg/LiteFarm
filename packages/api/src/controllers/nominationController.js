@@ -76,6 +76,35 @@ const nominationController = {
   },
 
   /**
+   * This will add a new nomination to the table based from another controller using its transaction.
+   * @param {string} initialStatus This is the initial workflow status for the nomination status log.
+   * @returns The created nomination and status row.
+   */
+  async addNominationFromController(nominationType, initialStatus, req, trx) {
+    const data = req.body;
+    data.nomination_type = nominationType;
+    //Get workflow id
+    //TODO: Hopefully this gets changed/removed with workflow ranking
+    const { workflow_id } = await NominationWorkflowModel.getWorkflowIdByStatusAndTypeGroup(
+      initialStatus,
+      nominationType,
+      trx,
+    );
+    data.workflow_id = workflow_id;
+    // Add nomination
+    const nomination = await baseController.postWithResponse(NominationModel, data, req, {
+      trx,
+    });
+    data.nomination_id = nomination.nomination_id;
+    // Add status change entry
+    const status = await baseController.postWithResponse(NominationStatusModel, data, req, {
+      trx,
+    });
+    const result = { nomination, status };
+    return result;
+  },
+
+  /**
    * This updates a single nomination based on a nomination id and nomination type in body.
    * @returns The updated nomination row.
    */

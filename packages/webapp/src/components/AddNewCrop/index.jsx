@@ -142,6 +142,14 @@ export default function PureAddNewCrop({
         hookFormRegister={register('crop_common_name', { required: true })}
         errors={getInputErrors(errors, 'crop_common_name')}
       />
+      <Checkbox
+        data-cy="crop-nomination"
+        label="Nominate this crop type for inclusion in the LiteFarm crop catalogue"
+        style={{ marginTop: '6px', marginBottom: '40px' }}
+        hookFormRegister
+        errors
+        sm
+      />
       <Input
         data-cy="crop-cropGenus"
         style={{ marginBottom: '40px' }}

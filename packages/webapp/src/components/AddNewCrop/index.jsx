@@ -31,6 +31,7 @@ import { useSelector } from 'react-redux';
 import MultiStepPageTitle from '../PageTitle/MultiStepPageTitle';
 import RadioGroup from '../Form/RadioGroup';
 import styles from './styles.module.scss';
+import Checkbox from '../Form/Checkbox';
 
 export default function PureAddNewCrop({
   handleContinue,
@@ -144,10 +145,9 @@ export default function PureAddNewCrop({
       />
       <Checkbox
         data-cy="crop-nomination"
-        label="Nominate this crop type for inclusion in the LiteFarm crop catalogue"
-        style={{ marginTop: '6px', marginBottom: '40px' }}
-        hookFormRegister
-        errors
+        label={t('CROP_CATALOGUE.NOMINATE_CROP')}
+        style={{ marginBottom: '40px' }}
+        hookFormRegister={register('nominate_crop')}
         sm
       />
       <Input

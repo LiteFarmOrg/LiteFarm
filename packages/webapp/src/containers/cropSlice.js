@@ -73,6 +73,7 @@ const getCrop = (obj) => {
     'mid_kc',
     'mn',
     'na',
+    'nomination_id',
     'niacin',
     'nutrient_credits',
     'nutrient_notes',

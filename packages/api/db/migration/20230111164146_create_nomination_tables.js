@@ -47,7 +47,7 @@ export const up = async function (knex) {
       .references('workflow_id')
       .inTable('nomination_workflow')
       .notNullable();
-    table.text('notes');
+    table.text('notes').nullable();
     table.datetime('created_at').notNullable();
     table.string('created_by_user_id').references('user_id').inTable('users').notNullable();
     table.dateTime('updated_at').notNullable();

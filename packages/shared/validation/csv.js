@@ -71,6 +71,11 @@ const parseCsv = (
   }
 
   const headers = rows[0].split(regex).map((h) => h.trim());
+  //console.log(headers);
+  const validheaders = validators.map((v)=>headerTranslations[lang][v.key]);
+  validheaders.forEach((val, ind) => {
+    console.log(headers[ind], val);
+  })
   const requiredHeaders = validators
     .filter((v) => v.required)
     .map((v) => headerTranslations[lang][v.key]);

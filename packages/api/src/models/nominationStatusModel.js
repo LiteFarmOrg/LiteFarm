@@ -12,10 +12,7 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
-import { Model } from 'objection';
 import baseModel from './baseModel.js';
-import nominationModel from './nominationModel.js';
-import nominationWorkflowModel from './nominationWorkflowModel.js';
 
 // Describes the nomination table
 // Base model extends objection.js
@@ -40,28 +37,6 @@ class NominationStatus extends baseModel {
         ...this.baseProperties,
       },
       additionalProperties: false,
-    };
-  }
-
-  //How to choose a relation type: https://vincit.github.io/objection.js/guide/relations.html#examples
-  static get relationMappings() {
-    return {
-      nomination: {
-        relation: Model.BelongsToOneRelation,
-        modelClass: nominationModel,
-        join: {
-          from: 'nomination_status.nomination_id',
-          to: 'nomination.nomination_id',
-        },
-      },
-      workflow_status: {
-        relation: Model.BelongsToOneRelation,
-        modelClass: nominationWorkflowModel,
-        join: {
-          from: 'nomination_status.workflow_id',
-          to: 'nomination_workflow.workflow_id',
-        },
-      },
     };
   }
 }

@@ -12,10 +12,7 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
-import { Model } from 'objection';
 import baseModel from './baseModel.js';
-import nominationStatusModel from './nominationStatusModel.js';
-import nominationTypeModel from './nominationTypeModel.js';
 
 // Describes the nomination table
 // Base model extends objection.js
@@ -40,44 +37,6 @@ class NominationWorkflow extends baseModel {
       },
       additionalProperties: false,
     };
-  }
-
-  //How to choose a relation type: https://vincit.github.io/objection.js/guide/relations.html#examples
-  static get relationMappings() {
-    return {
-      workflow_group: {
-        relation: Model.BelongsToOneRelation,
-        modelClass: nominationTypeModel,
-        join: {
-          from: 'nomination_workflow.type_group',
-          to: 'nomination_type.nomination_type',
-        },
-      },
-      all_this_status: {
-        relation: Model.HasManyRelation,
-        modelClass: nominationStatusModel,
-        join: {
-          from: 'nomination_workflow.workflow_id',
-          to: 'nomination_status.status',
-        },
-      },
-    };
-  }
-
-  /**
-   * Gets the id of a desired workflow step.
-   * @param {string} status The workflow step name.
-   * @param {string} type_group The group name the workflow status belongs to.
-   * @static
-   * @async
-   * @return {Promise<*>}
-   */
-  static async getWorkflowIdByStatusAndTypeGroup(status, type_group, trx) {
-    return await NominationWorkflow.query(trx)
-      .select('workflow_id')
-      .where('status', status)
-      .andWhere('type_group', type_group)
-      .first();
   }
 }
 

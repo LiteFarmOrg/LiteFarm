@@ -35,12 +35,12 @@ const nominationController = {
       try {
         const data = req.body;
         //Get workflow id
-        //TODO: Hopefully this gets changed/removed with workflow ranking
-        const { workflow_id } = await NominationWorkflowModel.getWorkflowIdByStatusAndTypeGroup(
-          initialStatus,
-          data.nomination_type,
-          trx,
-        );
+        //TODO: Hopefully this gets changed with workflow ranking
+        const { workflow_id } = await NominationWorkflowModel.query(trx)
+          .select('workflow_id')
+          .where('status', initialStatus)
+          .where('type_group', data.nomination_type)
+          .first();
         data.workflow_id = workflow_id;
         // Add nomination
         const nomination = await baseController.postWithResponse(NominationModel, data, req, {

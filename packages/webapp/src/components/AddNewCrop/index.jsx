@@ -143,13 +143,6 @@ export default function PureAddNewCrop({
         hookFormRegister={register('crop_common_name', { required: true })}
         errors={getInputErrors(errors, 'crop_common_name')}
       />
-      <Checkbox
-        data-cy="crop-nomination"
-        label={t('CROP_CATALOGUE.NOMINATE_CROP')}
-        style={{ marginBottom: '40px' }}
-        hookFormRegister={register('nominate_crop')}
-        sm
-      />
       <Input
         data-cy="crop-cropGenus"
         style={{ marginBottom: '40px' }}
@@ -206,6 +199,13 @@ export default function PureAddNewCrop({
       <PhysiologyAnatomyDropDown
         register={register}
         isPhysiologyAnatomyDropDownOpen={isPhysiologyAnatomyDropDownOpen}
+      />
+      <Checkbox
+        data-cy="crop-nomination"
+        label={t('CROP_CATALOGUE.NOMINATE_CROP')}
+        style={{ marginTop: '40px', marginBottom: '8px' }}
+        hookFormRegister={register('nominate_crop')}
+        sm
       />
     </Form>
   );

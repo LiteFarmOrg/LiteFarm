@@ -186,30 +186,33 @@ export default function PureIrrigationTask({
 
   return (
     <>
-      <Controller
-        control={control}
-        name={IRRIGATION_TYPE}
-        rules={{ required: true }}
-        render={({ field: { onChange, onBlur, onFocus } }) => {
-          return (
-            <ReactSelect
-              onFocus={onFocus}
-              label={t('ADD_TASK.IRRIGATION_VIEW.TYPE_OF_IRRIGATION')}
-              options={IrrigationTypeOptions}
-              onBlur={onBlur}
-              onChange={(e) => {
-                onChange(e);
-                setIrrigationTypeValue(e.value);
-                setValue(MEASUREMENT_TYPE, e.default_measuring_type);
-                setValue(IRRIGATION_TYPE_ID, e.irrigation_type_id);
-              }}
-              isDisabled={disabled}
-              value={IrrigationTypeOptions.find((options) => options.value === irrigation_type)}
-              defaultValue={getDefaultIrrigationTypeOptions}
-            />
-          );
-        }}
-      />
+      {IrrigationTypeOptions.length >= defaultIrrigationTaskTypes.length && (
+        <Controller
+          control={control}
+          name={IRRIGATION_TYPE}
+          rules={{ required: true }}
+          render={({ field: { onChange, onBlur, onFocus } }) => {
+            return (
+              <ReactSelect
+                onFocus={onFocus}
+                label={t('ADD_TASK.IRRIGATION_VIEW.TYPE_OF_IRRIGATION')}
+                options={IrrigationTypeOptions}
+                onBlur={onBlur}
+                onChange={(e) => {
+                  onChange(e);
+                  setIrrigationTypeValue(e.value);
+                  setValue(MEASUREMENT_TYPE, e.default_measuring_type);
+                  setValue(IRRIGATION_TYPE_ID, e.irrigation_type_id);
+                }}
+                isDisabled={disabled}
+                value={IrrigationTypeOptions.find((options) => options.value === irrigation_type)}
+                defaultValue={getDefaultIrrigationTypeOptions}
+              />
+            );
+          }}
+        />
+      )}
+
       {(irrigationTypeValue === 'OTHER' ||
         irrigation_type?.label === t('ADD_TASK.IRRIGATION_VIEW.TYPE.OTHER')) && (
         <Input

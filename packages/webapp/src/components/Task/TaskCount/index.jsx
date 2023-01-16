@@ -6,7 +6,7 @@ import { useSelector } from 'react-redux';
 import { locationsSelector } from '../../../containers/locationSlice';
 import LocationCreationModal from '../../LocationCreationModal';
 
-export default function TaskCount({ count, handleAddTask }) {
+export default function TaskCount({ count, handleAddTask, isAdmin }) {
   const { t } = useTranslation();
   const locations = useSelector(locationsSelector);
   const [createLocation, setCreateLocation] = useState(false);
@@ -32,8 +32,11 @@ export default function TaskCount({ count, handleAddTask }) {
       {createLocation && (
         <LocationCreationModal
           title={t('LOCATION_CREATION.TASK_TITLE')}
-          body={t('LOCATION_CREATION.TASK_BODY')}
+          body={
+            isAdmin ? t('LOCATION_CREATION.TASK_BODY') : t('LOCATION_CREATION.TASK_BODY_WORKER')
+          }
           dismissModal={dismissLocationCreationModal}
+          isAdmin={isAdmin}
         />
       )}
     </div>

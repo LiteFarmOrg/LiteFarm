@@ -85,6 +85,8 @@ const nominationController = {
       try {
         const data = req.body;
         const params = req.params;
+        //overwrite verified farm_id
+        data.farm_id = req.headers.farm_id;
         const nomination = await baseController.put(
           NominationModel,
           params.nomination_id,

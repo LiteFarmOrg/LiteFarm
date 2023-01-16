@@ -172,8 +172,6 @@ export default function PureIrrigationTask({
         ...getValues(),
         irrigation_task: {
           ...getValues().irrigation_task,
-          application_depth: '',
-          percent_of_location_irrigated: '',
         },
       });
       setTotalDepthWaterUSage('');

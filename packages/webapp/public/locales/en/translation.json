@@ -818,6 +818,7 @@
       "TITLE": "Biodiversity"
     },
     "CURRENT": "Current",
+    "CLICK_TO_CALCULATE": "Click to calculate",
     "INFO": "Insights provides added data insights into what is happening on your farm. The more data you provide in the application, the more insights can be generated. See individual insights for further information.",
     "LABOUR_HAPPINESS": {
       "HEADER": "Tasks",

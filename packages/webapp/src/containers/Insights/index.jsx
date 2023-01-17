@@ -27,25 +27,25 @@ import prices from '../../assets/images/insights/prices.svg';
 //
 // actions
 import {
-  getBiodiversityData,
+  //getBiodiversityData,
   getLabourHappinessData,
   getPricesWithDistanceData,
   getSoilOMData,
 } from './actions';
 // selectors
 import {
-  biodiversityErrorSelector,
-  biodiversityLoadingSelector,
-  biodiversitySelector,
-  cropsNutritionSelector,
+  // biodiversityErrorSelector,
+  // biodiversityLoadingSelector,
+  // biodiversitySelector,
+  // cropsNutritionSelector,
   labourHappinessSelector,
-  nitrogenBalanceSelector,
-  nitrogenFrequencySelector,
+  // nitrogenBalanceSelector,
+  // nitrogenFrequencySelector,
   pricesDistanceSelector,
   pricesSelector,
   soilOMSelector,
-  waterBalanceScheduleSelector,
-  waterBalanceSelector,
+  // waterBalanceScheduleSelector,
+  // waterBalanceSelector,
 } from './selectors';
 import InfoBoxComponent from '../../components/InfoBoxComponent';
 import { BsChevronRight } from 'react-icons/all';
@@ -60,10 +60,10 @@ const Insights = () => {
   const pricesDistance = useSelector(pricesDistanceSelector);
   const soilOMData = useSelector(soilOMSelector);
   const labourHappinessData = useSelector(labourHappinessSelector);
-  const biodiversityData = useSelector(biodiversitySelector);
+  const biodiversityData = null;
   const pricesData = useSelector(pricesSelector);
-  const biodiversityLoading = useSelector(biodiversityLoadingSelector);
-  const biodiversityError = useSelector(biodiversityErrorSelector);
+  //const biodiversityLoading = useSelector(biodiversityLoadingSelector);
+  //const biodiversityError = useSelector(biodiversityErrorSelector);
 
   const dispatch = useDispatch();
   const { t } = useTranslation();
@@ -99,14 +99,14 @@ const Insights = () => {
     dispatch(getSoilOMData());
     dispatch(getLabourHappinessData());
     dispatch(getPricesWithDistanceData(farm.grid_points, pricesDistance));
-    if (
-      !(
-        biodiversityData.timeFetched &&
-        (Date.now() - biodiversityData.timeFetched) / (1000 * 60) < 30
-      )
-    ) {
-      dispatch(getBiodiversityData());
-    }
+    // if (
+    //   !(
+    //     biodiversityData.timeFetched &&
+    //     (Date.now() - biodiversityData.timeFetched) / (1000 * 60) < 30
+    //   )
+    // ) {
+    //   dispatch(getBiodiversityData());
+    // }
   }, []);
 
   const handleClick = (route) => {
@@ -126,7 +126,11 @@ const Insights = () => {
         />
         <div className={`itemText item-${index} ${styles.itemText}`}>
           <Semibold>{item.label}</Semibold>
-          <Text>{`${t('INSIGHTS.CURRENT')}: ${currentData ?? 0}`}</Text>
+          {item.label === t('INSIGHTS.BIODIVERSITY.TITLE') ? (
+            <Text>{currentData}</Text>
+          ) : (
+            <Text>{`${t('INSIGHTS.CURRENT')}: ${currentData ?? 0}`}</Text>
+          )}
         </div>
         <BsChevronRight className={styles.itemArrow} />
       </div>
@@ -140,15 +144,16 @@ const Insights = () => {
     insightData['LabourHappiness'] = labourHappinessData.preview
       ? labourHappinessData.preview + '/5'
       : t('INSIGHTS.UNAVAILABLE');
-    if (biodiversityLoading) {
-      insightData['Biodiversity'] = t('INSIGHTS.BIODIVERSITY.LOADING.PREVIEW');
-    } else if (biodiversityError) {
-      insightData['Biodiversity'] = t('INSIGHTS.BIODIVERSITY.ERROR.PREVIEW');
-    } else {
-      insightData['Biodiversity'] = t('INSIGHTS.BIODIVERSITY.SPECIES_COUNT', {
-        count: biodiversityData.preview,
-      });
-    }
+    // if (biodiversityLoading) {
+    //   insightData['Biodiversity'] = t('INSIGHTS.BIODIVERSITY.LOADING.PREVIEW');
+    // } else if (biodiversityError) {
+    //   insightData['Biodiversity'] = t('INSIGHTS.BIODIVERSITY.ERROR.PREVIEW');
+    // } else {
+    //   insightData['Biodiversity'] = t('INSIGHTS.BIODIVERSITY.SPECIES_COUNT', {
+    //     count: biodiversityData.preview,
+    //   });
+    // }
+    insightData['Biodiversity'] = t('INSIGHTS.CLICK_TO_CALCULATE');
     insightData['prices'] = pricesData.preview
       ? t('INSIGHTS.PRICES.PERCENT_OF_MARKET', { percentage: pricesData.preview })
       : t('INSIGHTS.UNAVAILABLE');

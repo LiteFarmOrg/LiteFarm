@@ -3,7 +3,7 @@ export const up = async function (knex) {
   await knex.raw(
     "BEGIN; LOCK TABLE permissions IN EXCLUSIVE MODE; SELECT setval('permissions_permission_id_seq', (SELECT COALESCE((SELECT MAX(permission_id)+1 FROM permissions), 1)), false); COMMIT;",
   );
-  const newRoles = await knex('permissions')
+  const newPermissions = await knex('permissions')
     .insert([
       { name: 'add:nomination', description: 'Nominate an piece of data' },
       { name: 'edit:nomination', description: 'Edit a nomination' },
@@ -11,12 +11,14 @@ export const up = async function (knex) {
     ])
     .returning('permission_id');
   //Copied role permissions for add, edit delete crop
-  for (const roleId of newRoles) {
-    await knex('rolePermissions').insert([
-      { role_id: 1, permission_id: roleId },
-      { role_id: 2, permission_id: roleId },
-      { role_id: 5, permission_id: roleId },
-    ]);
+  const allowedRoles = ['Owner', 'Manager', 'Extension Officer'];
+  const roleIds = await knex('role').select('role_id').whereIn('role', allowedRoles);
+  for (const roleId of roleIds) {
+    for (const permissionId of newPermissions) {
+      await knex('rolePermissions').insert([
+        { role_id: roleId.role_id, permission_id: permissionId },
+      ]);
+    }
   }
 };
 

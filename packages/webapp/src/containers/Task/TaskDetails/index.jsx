@@ -4,7 +4,7 @@ import { useEffect } from 'react';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { getProducts } from '../saga';
 import { productsSelector } from '../../productSlice';
-import { taskTypeIdNoCropsSelector, taskTypeSelector } from '../../taskTypeSlice';
+import { taskTypeSelector } from '../../taskTypeSlice';
 import { hookFormPersistSelector } from '../../hooks/useHookFormPersist/hookFormPersistSlice';
 import { userFarmSelector } from '../../userFarmSlice';
 import { certifierSurveySelector } from '../../OrganicCertifierSurvey/slice';
@@ -12,7 +12,7 @@ import {
   useManagementPlanTilesByLocationIds,
   useWildManagementPlanTiles,
 } from '../TaskCrops/useManagementPlanTilesByLocationIds';
-import { useIsTaskType } from '../useIsTaskType';
+//import { useIsTaskType } from '../useIsTaskType';
 
 function TaskDetails({ history, match, location }) {
   const continuePath = '/add_task/task_assignment';
@@ -26,7 +26,7 @@ function TaskDetails({ history, match, location }) {
   const { interested, farm_id } = useSelector(certifierSurveySelector, shallowEqual);
   const persistedFormData = useSelector(hookFormPersistSelector);
   const products = useSelector(productsSelector);
-  const taskTypesBypassCrops = useSelector(taskTypeIdNoCropsSelector);
+  //const taskTypesBypassCrops = useSelector(taskTypeIdNoCropsSelector);
   const selectedTaskType = useSelector(taskTypeSelector(persistedFormData.task_type_id));
   const managementPlanIds = persistedFormData.managementPlans?.map(
     ({ management_plan_id }) => management_plan_id,
@@ -40,7 +40,7 @@ function TaskDetails({ history, match, location }) {
 
   const persistedPaths = [goBackPath, continuePath, '/add_task/task_crops'];
 
-  const isTransplantTask = useIsTaskType('TRANSPLANT_TASK');
+  //const isTransplantTask = useIsTaskType('TRANSPLANT_TASK');
   const handleGoBack = () => {
     history.back();
   };

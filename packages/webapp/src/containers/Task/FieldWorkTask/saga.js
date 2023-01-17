@@ -34,7 +34,17 @@ export function* getFieldWorkTypesSaga() {
   try {
     yield put(fieldWorkLoading());
     const header = getHeader(user_id, farm_id);
-    const result = yield call(axios.get, getFieldWorkTypesURL(farm_id), header);
+    let result = yield call(axios.get, getFieldWorkTypesURL(farm_id), header);
+    // Sort the list of field work types here alphabetically
+    result.data.sort(function(a, b) {
+      // Compare list items with values in lower case 
+      const a_value = a.field_work_name.toLowerCase()
+      const b_value = b.field_work_name.toLowerCase()
+      if (a_value < b_value) { return -1 }
+      if (a_value > b_value) { return 1 }
+      return 0
+    })
+
     yield put(fieldWorkSuccess({ fieldWorkTypes: result.data }));
   } catch (error) {
     yield put(fieldWorkFailure());

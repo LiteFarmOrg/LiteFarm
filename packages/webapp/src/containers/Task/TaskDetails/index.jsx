@@ -12,7 +12,6 @@ import {
   useManagementPlanTilesByLocationIds,
   useWildManagementPlanTiles,
 } from '../TaskCrops/useManagementPlanTilesByLocationIds';
-//import { useIsTaskType } from '../useIsTaskType';
 
 function TaskDetails({ history, match, location }) {
   const continuePath = '/add_task/task_assignment';
@@ -26,7 +25,6 @@ function TaskDetails({ history, match, location }) {
   const { interested, farm_id } = useSelector(certifierSurveySelector, shallowEqual);
   const persistedFormData = useSelector(hookFormPersistSelector);
   const products = useSelector(productsSelector);
-  //const taskTypesBypassCrops = useSelector(taskTypeIdNoCropsSelector);
   const selectedTaskType = useSelector(taskTypeSelector(persistedFormData.task_type_id));
   const managementPlanIds = persistedFormData.managementPlans?.map(
     ({ management_plan_id }) => management_plan_id,
@@ -40,7 +38,6 @@ function TaskDetails({ history, match, location }) {
 
   const persistedPaths = [goBackPath, continuePath, '/add_task/task_crops'];
 
-  //const isTransplantTask = useIsTaskType('TRANSPLANT_TASK');
   const handleGoBack = () => {
     history.back();
   };

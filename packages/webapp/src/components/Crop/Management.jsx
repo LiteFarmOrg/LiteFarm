@@ -90,6 +90,7 @@ export default function PureCropManagement({
           title={t('LOCATION_CREATION.TITLE')}
           body={t('LOCATION_CREATION.CROP_PLAN_BODY')}
           dismissModal={dismissLocationCreationModal}
+          isAdmin={isAdmin}
         />
       )}
       {managementPlanCardContents && (

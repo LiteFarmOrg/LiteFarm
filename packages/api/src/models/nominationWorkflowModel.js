@@ -22,7 +22,7 @@ class NominationWorkflow extends baseModel {
   }
 
   static get idColumn() {
-    return 'id';
+    return 'workflow_id';
   }
 
   static get jsonSchema() {

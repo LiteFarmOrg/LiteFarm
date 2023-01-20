@@ -14,5 +14,12 @@
     "Supplier": "Some supplier",
     "Quantity": "30",
     "Notes": "This is a test"
+  },
+  "soilTask": {
+    "Purpose": "Structure",
+    "Product": "Compost",
+    "Supplier": "Self",
+    "Quantity": "1000",
+    "Notes": "This is a test"
   }
 }

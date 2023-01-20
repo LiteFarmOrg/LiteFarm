@@ -25,7 +25,7 @@ import { userFarmSelector } from '../../containers/userFarmSlice';
 import history from '../../history';
 import { setMapAddDrawerShow } from '../../containers/Map/mapAddDrawerSlice';
 
-export default function LocationCreationModal({ title, body, dismissModal }) {
+export default function LocationCreationModal({ title, body, dismissModal, isAdmin }) {
   const dispatch = useDispatch();
   const { t } = useTranslation();
   const { farm_id } = useSelector(userFarmSelector);
@@ -46,9 +46,11 @@ export default function LocationCreationModal({ title, body, dismissModal }) {
           <Button onClick={dismissModal} sm>
             {t('LOCATION_CREATION.GO_BACK_BUTTON')}
           </Button>
-          <Button onClick={onCreateLocation} sm>
-            {t('LOCATION_CREATION.CREATE_BUTTON')}
-          </Button>
+          {isAdmin && (
+            <Button onClick={onCreateLocation} sm>
+              {t('LOCATION_CREATION.CREATE_BUTTON')}
+            </Button>
+          )}
         </div>
       </div>
     </Modal>

@@ -818,6 +818,7 @@
       "TITLE": "Biodiversidade"
     },
     "CURRENT": "Atual",
+    "CLICK_TO_CALCULATE": "MISSING",
     "INFO": "Os relatórios fornecem informações adicionais sobre o que está acontecendo em sua fazenda. Quanto mais dados você fornecer no aplicativo, mais relatórios serão gerados. Veja os relatórios individuais para mais informações.",
     "LABOUR_HAPPINESS": {
       "HEADER": "Tarefas",
@@ -1163,6 +1164,7 @@
     "CROP_PLAN_BODY": "MISSING",
     "TASK_TITLE": "MISSING",
     "TASK_BODY": "MISSING",
+    "TASK_BODY_WORKER": "MISSING",
     "GO_BACK_BUTTON": "MISSING",
     "CREATE_BUTTON": "MISSING"
   },

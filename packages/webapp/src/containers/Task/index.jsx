@@ -187,7 +187,11 @@ export default function TaskPage({ history }) {
         onFilterOpen={onFilterOpen}
         isFilterActive={isFilterCurrentlyActive}
       />
-      <TaskCount count={taskCardContents.length} handleAddTask={onAddTask(dispatch, history, {})} />
+      <TaskCount
+        count={taskCardContents.length}
+        handleAddTask={onAddTask(dispatch, history, {})}
+        isAdmin={isAdmin}
+      />
 
       <MuiFullPagePopup open={isFilterOpen} onClose={onFilterClose}>
         <TasksFilterPage onGoBack={onFilterClose} />

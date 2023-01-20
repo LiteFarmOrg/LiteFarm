@@ -126,6 +126,7 @@ import rolesRoutes from './routes/rolesRoute.js';
 import organicCertifierSurveyRoutes from './routes/organicCertifierSurveyRoute.js';
 import passwordResetRoutes from './routes/passwordResetRoute.js';
 import showedSpotlightRoutes from './routes/showedSpotlightRoute.js';
+import nominationRoutes from './routes/nominationRoute.js';
 
 // const waterBalanceScheduler = require('./jobs/waterBalance/waterBalance');
 // const nitrogenBalanceScheduler = require('./jobs/nitrogenBalance/nitrogenBalance');
@@ -263,6 +264,7 @@ app
   .use('/document', documentRoute)
   .use('/task', taskRoute)
   .use('/product', productRoute)
+  .use('/nomination', nominationRoutes)
   .use('/notification_user', notificationUserRoute)
   .use('/time_notification', timeNotificationRoute)
   .use('/sensor', sensorRoute);

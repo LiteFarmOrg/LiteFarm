@@ -27,6 +27,7 @@ const entitiesGetters = {
   default_initial_location_id: fromLocation,
   task_id: fromTaskId,
   taskManagementPlanAndLocation: fromTaskManagementPlanAndLocation,
+  nomination_id: fromNomination,
 };
 import userFarmModel from '../../models/userFarmModel.js';
 
@@ -181,6 +182,10 @@ function fromCrop(cropId) {
 
 function fromFertilizer(fertilizerId) {
   return knex('fertilizer').where({ fertilizer_id: fertilizerId }).first();
+}
+
+function fromNomination(nominationId) {
+  return knex('nomination').where({ nomination_id: nominationId }).first();
 }
 
 async function fromLocations(locations) {

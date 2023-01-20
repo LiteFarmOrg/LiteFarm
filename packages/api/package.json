@@ -21,7 +21,7 @@
     "migrate:make:dev": "knex migrate:latest --knexfile=./.knex/knexfile.js",
     "migrate:make:rollback": "knex migrate:rollback --knexfile=./.knex/knexfile.js",
     "migrate:dev:seed": "knex seed:run --knexfile=./.knex/knexfile.js",
-    "migrate:pipeline:db": "set NODE_ENV=test && knex migrate:latest --env=pipeline --knexfile=./.knex/knexfile.js",
+    "migrate:pipeline:db": "set NODE_ENV=pipeline && knex migrate:latest --env=pipeline --knexfile=./.knex/knexfile.js",
     "migrate:testing:seed": "knex seed:run --env=test --knexfile=./.knex/knexfile.js",
     "migrate:rollback:testing:db": "set NODE_ENV=test && knex migrate:rollback --env=test --knexfile=./.knex/knexfile.js",
     "lint": "eslint src",

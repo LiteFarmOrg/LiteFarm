@@ -87,18 +87,15 @@ const nominationController = {
         const params = req.params;
         //overwrite verified farm_id
         data.farm_id = req.headers.farm_id;
-        const nomination = await baseController.put(
-          NominationModel,
-          params.nomination_id,
-          data,
-          req,
-          {
-            trx,
-          },
-        );
-        const result = { nomination };
-        await trx.commit(result);
-        res.status(201).send(result);
+        const updated = await baseController.put(NominationModel, params.nomination_id, data, req, {
+          trx,
+        });
+        await trx.commit();
+        if (!updated.length) {
+          res.sendStatus(404);
+        } else {
+          res.status(200).send(updated);
+        }
       } catch (error) {
         console.log(error);
         let violationError = false;
@@ -131,11 +128,15 @@ const nominationController = {
       const trx = await transaction.start(Model.knex());
       try {
         const params = req.params;
-        const success = await baseController.delete(NominationModel, params.nomination_id, req, {
+        const isDeleted = await baseController.delete(NominationModel, params.nomination_id, req, {
           trx,
         });
         await trx.commit();
-        res.status(201).send({ success });
+        if (isDeleted) {
+          res.sendStatus(200);
+        } else {
+          res.sendStatus(404);
+        }
       } catch (error) {
         console.log(error);
         let violationError = false;

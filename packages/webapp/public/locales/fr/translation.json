@@ -820,6 +820,7 @@
       "TITLE": "Biodiversité"
     },
     "CURRENT": "Courant",
+    "CLICK_TO_CALCULATE": "MISSING",
     "INFO": "Ces mesures fournissent de l’information supplémentaire sur ce qui se passe sur votre ferme. Plus vous entrez de données dans l’application, plus d’information est générée. Veuillez explorer les différentes mesures pour plus de détails.",
     "LABOUR_HAPPINESS": {
       "HEADER": "Tâches",
@@ -1164,6 +1165,7 @@
     "CROP_PLAN_BODY": "MISSING",
     "TASK_TITLE": "MISSING",
     "TASK_BODY": "MISSING",
+    "TASK_BODY_WORKER": "MISSING",
     "GO_BACK_BUTTON": "MISSING",
     "CREATE_BUTTON": "MISSING"
   },

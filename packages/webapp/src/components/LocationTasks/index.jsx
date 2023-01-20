@@ -19,6 +19,7 @@ export default function PureLocationTasks({
   tasks,
   count,
   hasReadings,
+  isAdmin,
 }) {
   const language = getLanguageFromLocalStorage();
   const { t } = useTranslation();
@@ -89,7 +90,11 @@ export default function PureLocationTasks({
         match={match}
         tabs={routerTabs}
       />
-      <TaskCount handleAddTask={onAddTask(dispatch, history, { location })} count={count} />
+      <TaskCount
+        handleAddTask={onAddTask(dispatch, history, { location })}
+        count={count}
+        isAdmin={isAdmin}
+      />
       {count > 0 ? (
         renderTasksByDay(tasks)
       ) : (

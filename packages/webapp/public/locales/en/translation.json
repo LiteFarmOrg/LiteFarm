@@ -819,6 +819,7 @@
       "TITLE": "Biodiversity"
     },
     "CURRENT": "Current",
+    "CLICK_TO_CALCULATE": "Click to calculate",
     "INFO": "Insights provides added data insights into what is happening on your farm. The more data you provide in the application, the more insights can be generated. See individual insights for further information.",
     "LABOUR_HAPPINESS": {
       "HEADER": "Tasks",
@@ -1160,6 +1161,7 @@
     "CROP_PLAN_BODY": "You’ll need a Field, Garden, Greenhouse, or Buffer Zone before you can finish this crop plan. Do you want to create one now?",
     "TASK_TITLE": "No locations for tasks",
     "TASK_BODY": "You’ll need at least one location before you can create a task. Do you want to create a location now?",
+    "TASK_BODY_WORKER": "You’ll need management to create at least one location before you can create a task.",
     "GO_BACK_BUTTON": "Go back",
     "CREATE_BUTTON": "Create location"
   },

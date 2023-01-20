@@ -318,14 +318,14 @@ const taskController = {
             }
             data.irrigation_task.irrigation_type_id = irrigation_type_id;
           }
-          if (data.location_defaults) {
+          if (data.location_defaults && data.location_defaults[0]?.irrigation_task_type) {
             await locationDefaultsModel.createOrUpdateLocationDefaults({
               ...data.location_defaults[0],
               irrigation_type_id: data.irrigation_task.irrigation_type_id,
               user_id: data.owner_user_id,
             });
-            delete data.location_defaults;
           }
+          delete data.location_defaults;
           return data;
         })();
       default: {
@@ -569,7 +569,7 @@ const taskController = {
         .whereNotDeleted()
         .withGraphFetched(
           `[locations.[location_defaults], managementPlans, soil_amendment_task, field_work_task.[field_work_task_type], cleaning_task, pest_control_task, 
-            harvest_task.[harvest_use], plant_task, transplant_task, irrigation_task.[irrigation_type] ]
+            harvest_task.[harvest_use], plant_task, transplant_task, irrigation_task.[irrigation_type]]
         `,
         )
         .whereIn('task_id', taskIds);

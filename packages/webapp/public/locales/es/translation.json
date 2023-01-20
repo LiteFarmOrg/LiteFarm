@@ -819,6 +819,7 @@
       "TITLE": "Biodiversidad"
     },
     "CURRENT": "Actual",
+    "CLICK_TO_CALCULATE": "MISSING",
     "INFO": "Las reflexiones son caracteristicas de datos de que esta pasando en su granja. Mientras mas data proveas en la aplicacion mas reflexiones pueden ser generadas. Mira las reflexiones individuales para mas información.",
     "LABOUR_HAPPINESS": {
       "HEADER": "Tareas",
@@ -1163,6 +1164,7 @@
     "CROP_PLAN_BODY": "MISSING",
     "TASK_TITLE": "MISSING",
     "TASK_BODY": "MISSING",
+    "TASK_BODY_WORKER": "MISSING",
     "GO_BACK_BUTTON": "MISSING",
     "CREATE_BUTTON": "MISSING"
   },

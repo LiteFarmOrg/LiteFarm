@@ -23,21 +23,22 @@ import checkScope from '../middleware/acl/checkScope.js';
 router.post(
   '/',
   hasFarmAccess({ body: 'farm_id' }),
-  checkScope(['add:crops']),
+  checkScope(['add:nomination']),
   nominationController.addNomination('NOMINATED'),
 );
 
 router.put(
   '/:nomination_id',
   hasFarmAccess({ params: 'nomination_id' }),
-  checkScope(['edit:crops']),
+  hasFarmAccess({ body: 'farm_id' }),
+  checkScope(['edit:nomination']),
   nominationController.updateNomination(),
 );
 
 router.delete(
   '/:nomination_id',
   hasFarmAccess({ params: 'nomination_id' }),
-  checkScope(['delete:crops']),
+  checkScope(['delete:nomination']),
   nominationController.deleteNomination(),
 );
 

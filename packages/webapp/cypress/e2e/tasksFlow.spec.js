@@ -159,14 +159,7 @@ describe.only('LiteFarm end to end tests for tasks flow', () => {
       .should('exist')
       .and('not.be.disabled')
       .click({ force: true });
-    cy.wait(20 * 1000);
-    cy.get('[data-cy=map-selectLocation]').click(530, 216, {
-      force: false,
-    });
-    cy.get('[data-cy=addTask-locationContinue]')
-      .should('exist')
-      .and('not.be.disabled')
-      .click({ force: true });
+    cy.selectTaskLocation();
 
     cy.get('[data-cy=cleanTask-whatInput]').type(Data.cleanTask.What);
     cy.get('[data-cy=cleanTask-willUseCleaner]').first().check({ force: true });
@@ -255,14 +248,8 @@ describe.only('LiteFarm end to end tests for tasks flow', () => {
       .should('exist')
       .and('not.be.disabled')
       .click({ force: true });
-    cy.wait(20 * 1000);
-    cy.get('[data-cy=map-selectLocation]').click(530, 216, {
-      force: false,
-    });
-    cy.get('[data-cy=addTask-locationContinue]')
-      .should('exist')
-      .and('not.be.disabled')
-      .click({ force: true });
+
+    cy.selectTaskLocation();
 
     cy.get('[data-cy="react-select"]').type(`Other{enter}`);
     cy.get('[data-cy=fieldWork-customTask]').should('exist').type(customTask);
@@ -315,14 +302,8 @@ describe.only('LiteFarm end to end tests for tasks flow', () => {
       .should('exist')
       .and('not.be.disabled')
       .click({ force: true });
-    cy.wait(20 * 1000);
-    cy.get('[data-cy=map-selectLocation]').click(530, 216, {
-      force: false,
-    });
-    cy.get('[data-cy=addTask-locationContinue]')
-      .should('exist')
-      .and('not.be.disabled')
-      .click({ force: true });
+
+    cy.selectTaskLocation();
 
     cy.get('[data-cy="react-select"]').type(`Other{enter}`);
     cy.get('[data-cy="irrigateTask-type"]').type(customTask);
@@ -353,7 +334,7 @@ describe.only('LiteFarm end to end tests for tasks flow', () => {
       .and('not.be.disabled')
       .click({ force: true });
 
-    cy.get('[type="radio"]').first().check({ force: true });
+    cy.get('[type="radio"]').eq(0).check({ force: true });
 
     cy.get('[data-cy="taskDetails-wageOverride"]').should('exist').type(wage);
 
@@ -402,14 +383,7 @@ describe.only('LiteFarm end to end tests for tasks flow', () => {
       .should('exist')
       .and('not.be.disabled')
       .click({ force: true });
-    cy.wait(7000);
-    cy.get('[data-cy=map-selectLocation]').click(530, 216, {
-      force: false,
-    });
-    cy.get('[data-cy=addTask-locationContinue]')
-      .should('exist')
-      .and('not.be.disabled')
-      .click({ force: true });
+    cy.selectTaskLocation();
 
     cy.get('[data-cy="pestTask-pest"]').type(Data.pestTask.What);
     cy.get('[data-cy="react-select"]').type(`${Data.pestTask.method}{enter}`);
@@ -465,7 +439,7 @@ describe.only('LiteFarm end to end tests for tasks flow', () => {
       .should('equal', Data.pestTask.Notes, { matchCase: false });
   });
 
-  it.only('create a soil amendment task', () => {
+  it('create a soil amendment task', () => {
     cy.contains('Soil').click();
 
     let productUnit;
@@ -478,14 +452,7 @@ describe.only('LiteFarm end to end tests for tasks flow', () => {
       .should('exist')
       .and('not.be.disabled')
       .click({ force: true });
-    cy.wait(7000);
-    cy.get('[data-cy=map-selectLocation]').click(530, 216, {
-      force: false,
-    });
-    cy.get('[data-cy=addTask-locationContinue]')
-      .should('exist')
-      .and('not.be.disabled')
-      .click({ force: true });
+    cy.selectTaskLocation();
 
     cy.get('[data-cy="react-select"]').eq(0).type(`${Data.soilTask.Purpose}{enter}`);
     cy.get('[data-cy="react-select"]').eq(1).type(`${Data.soilTask.Product}{enter}`);
@@ -535,5 +502,163 @@ describe.only('LiteFarm end to end tests for tasks flow', () => {
     cy.get('[data-cy="task-notesReadOnly"]')
       .invoke('val')
       .should('equal', Data.soilTask.Notes, { matchCase: false });
+  });
+
+  it.only('Create a crop management plan with equal length row method planting task', () => {
+    const date = new Date();
+    date.setDate(date.getDate() + 1);
+    const dueDate = getDateInputFormat(date);
+    let lengthUnit, spacingUnit, seedUnit, harvestUnit, depthUnit, rowWidthUnit, spaceBetweenUnit;
+    // Add a crop variety
+    cy.get('[data-cy=navbar-hamburger]').should('exist').click();
+    cy.contains('Crops').should('exist').click();
+    cy.url().should('include', '/crop_catalogue');
+    cy.get('[data-cy=spotlight-next]')
+      .contains('Next')
+      .should('exist')
+      .and('not.be.disabled')
+      .click();
+    cy.get('[data-cy=spotlight-next]')
+      .contains('Got it')
+      .should('exist')
+      .and('not.be.disabled')
+      .click();
+    cy.get('[data-cy=crop-addLink]')
+      .contains('Add a new crop')
+      .should('exist')
+      .and('not.be.disabled')
+      .click();
+
+    cy.url().should('include', '/crop/new');
+    cy.get('[data-cy=crop-cropName]').should('exist').type('Alfafa');
+    cy.contains('Select').should('exist').click({ force: true });
+    cy.contains('Cereals').should('exist').click();
+    cy.get('[type="radio"]').first().check({ force: true });
+    cy.get('[data-cy=crop-submit]').should('exist').and('not.be.disabled').click();
+    cy.wait(5 * 1000);
+    cy.url().should('include', '/crop/new/add_crop_variety');
+    cy.get('[data-cy=crop-variety]').should('exist').type('New Variety');
+    cy.get('[data-cy=crop-supplier]').should('exist').type('New Supplier');
+    cy.get('[type="radio"]').first().check({ force: true });
+    cy.get('[data-cy=variety-submit]').should('exist').and('not.be.disabled').click();
+
+    cy.url().should('include', '/crop/new/add_crop_variety/compliance');
+    cy.get('[data-cy=compliance-seed]').eq(1).should('exist').check({ force: true });
+    cy.get('[data-cy=compliance-seedAvailability]').eq(1).should('exist').check({ force: true });
+    cy.get('[data-cy=compliance-seedEngineered]').eq(0).should('exist').check({ force: true });
+    cy.get('[data-cy=compliance-seedTreated]').eq(2).should('exist').check({ force: true });
+    cy.get('[data-cy=compliance-newVarietySave]').should('exist').and('not.be.disabled').click();
+
+    cy.url().should('include', '/management');
+    cy.get('[data-cy=spotlight-next]', { timeout: 60 * 1000 })
+      .contains('Next')
+      .should('exist')
+      .and('not.be.disabled')
+      .click();
+    cy.get('[data-cy=spotlight-next]')
+      .contains(`Let's get started`)
+      .should('exist')
+      .and('not.be.disabled')
+      .click();
+
+    cy.contains('Add a plan').click();
+    cy.get('[type = "radio"]').first().check({ force: true });
+    cy.get('[data-cy="cropPlan-submit"]')
+      .should('exist')
+      .and('not.be.disabled')
+      .click({ force: true });
+
+    cy.get('[data-cy="cropPlan-transplantSubmit"]')
+      .should('exist')
+      .and('not.be.disabled')
+      .click({ force: true });
+
+    cy.get('[data-cy="cropPlan-plantDate"]').type(dueDate);
+
+    cy.get('[data-cy="cropPlan-seedGermination"]').type(Data.plantTaskRow.Germination);
+
+    cy.get('[data-cy="cropPlan-plantHarvest"]').type(Data.plantTaskRow.Harvest);
+
+    cy.get('[data-cy="plantDate-submit"]')
+      .should('exist')
+      .and('not.be.disabled')
+      .click({ force: true });
+
+    cy.wait(15000);
+    cy.get('[data-cy=map-selectLocation]').click(530, 216, {
+      force: false,
+    });
+    cy.get('[data-cy="cropPlan-locationSubmit"]').should('not.be.disabled').click();
+
+    cy.get('[type="radio"]').eq(0).check({ force: true });
+    cy.get('[data-cy="plantingMethod-submit"]').click({ force: true });
+    cy.wait(5000);
+    cy.get('[type="radio"]').first().check({ force: true });
+
+    cy.get('[data-cy="rowMethod-rows"]').type(Data.plantTaskRow.Rows);
+    cy.get('[data-cy="rowMethod-length"]').type(Data.plantTaskRow.Length);
+    cy.get('[data-cy="rowMethod-spacing"]').type(Data.plantTaskRow.Spacing);
+    cy.contains('spacing').click();
+    cy.get('[data-cy="rowMethod-seed"]').type(Data.plantTaskRow.Seed);
+    cy.get('[data-cy="rowMethod-yield"]').type(Data.plantTaskRow.Annual_Harvest);
+    cy.contains('spacing').click();
+    cy.get('.Unit-select')
+      .eq(0)
+      .then(($elem) => {
+        lengthUnit = $elem.text();
+        cy.log(lengthUnit);
+      });
+
+    cy.get('.Unit-select')
+      .eq(1)
+      .then(($elem) => {
+        spacingUnit = $elem.text();
+        cy.log(spacingUnit);
+      });
+
+    cy.get('.Unit-select')
+      .eq(2)
+      .then(($elem) => {
+        seedUnit = $elem.text();
+        cy.log(seedUnit);
+      });
+
+    cy.get('.Unit-select')
+      .eq(3)
+      .then(($elem) => {
+        harvestUnit = $elem.text();
+        cy.log(harvestUnit);
+      });
+    cy.get('[data-cy="rowMethod-submit"]').click();
+
+    cy.get('[data-cy="plantTask-specifyRow"]').type(Data.plantTaskRow.Specify_Rows);
+    cy.get('[data-cy="plantTask-plantingDepth"]').type(Data.plantTaskRow.Planting_Depth);
+    cy.get('[data-cy="plantTask-rowWidth"]').type(Data.plantTaskRow.Row_Width);
+    cy.get('[data-cy="plantTask-spaceRows"]').type(Data.plantTaskRow.Space_Between);
+    cy.get('[data-cy="plantTask-notes"]').type(Data.plantTaskRow.Notes);
+    cy.get('.Unit-select')
+      .eq(0)
+      .then(($elem) => {
+        depthUnit = $elem.text();
+        cy.log(depthUnit);
+      });
+
+    cy.get('.Unit-select')
+      .eq(1)
+      .then(($elem) => {
+        rowWidthUnit = $elem.text();
+        cy.log(rowWidthUnit);
+      });
+
+    cy.get('.Unit-select')
+      .eq(2)
+      .then(($elem) => {
+        spaceBetweenUnit = $elem.text();
+        cy.log(spaceBetweenUnit);
+      });
+
+    cy.get('[data-cy="planGuidance-submit"]').should('be.enabled').click();
+
+    cy.get('[data-cy="cropPlan-save"]').click();
   });
 });

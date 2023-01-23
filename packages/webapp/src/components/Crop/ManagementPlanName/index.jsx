@@ -63,6 +63,7 @@ export default function PureManagementPlanName({
       />
 
       <Input
+        data-cy="cropPlan-name"
         style={{ marginBottom: '40px' }}
         label={t('MANAGEMENT_PLAN.PLAN_NAME')}
         hookFormRegister={register(NAME, { required: true })}

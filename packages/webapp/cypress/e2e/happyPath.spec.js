@@ -437,7 +437,6 @@ describe.only('LiteFarm end to end test', () => {
       // Returns the elements from the cy.get command
       //expect(list).to.have.length(7);
       if (text.includes('Transplant')) {
-        cy.log(text);
         cy.contains('Transplant').should('exist').click();
         cy.get('[data-cy="rowMethod-rows"]')
           .invoke('val')

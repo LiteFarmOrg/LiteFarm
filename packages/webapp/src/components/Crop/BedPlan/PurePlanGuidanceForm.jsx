@@ -46,6 +46,7 @@ export function PurePlanGuidanceForm({
   return (
     <>
       <Input
+        data-cy="plantTask-specifyRow"
         toolTipContent={t('PLAN_GUIDANCE.TOOLTIP')}
         label={t('PLAN_GUIDANCE.SPECIFY', { types: TYPES })}
         hookFormRegister={register(SPECIFY, {
@@ -63,6 +64,7 @@ export function PurePlanGuidanceForm({
 
       <div style={{ marginBottom: '40px' }}>
         <Unit
+          data-cy="plantTask-plantingDepth"
           register={register}
           label={t('PLAN_GUIDANCE.PLANTING_DEPTH')}
           name={PLANTING_DEPTH}
@@ -80,6 +82,7 @@ export function PurePlanGuidanceForm({
 
       <div style={{ marginBottom: '40px' }}>
         <Unit
+          data-cy="plantTask-rowWidth"
           register={register}
           label={t('PLAN_GUIDANCE.WIDTH', { type: TYPE })}
           name={WIDTH}
@@ -97,6 +100,7 @@ export function PurePlanGuidanceForm({
 
       <div style={{ marginBottom: '40px' }}>
         <Unit
+          data-cy="plantTask-spaceRows"
           register={register}
           label={t('PLAN_GUIDANCE.SPACE_BETWEEN', { types: TYPES })}
           name={SPACING}
@@ -113,6 +117,7 @@ export function PurePlanGuidanceForm({
       </div>
 
       <InputAutoSize
+        data-cy="plantTask-notes"
         label={t('PLAN_GUIDANCE.NOTES')}
         hookFormRegister={register(PLANTING_NOTES, {
           maxLength: { value: 10000, message: t('MANAGEMENT_PLAN.NOTES_CHAR_LIMIT') },

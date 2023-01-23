@@ -69,6 +69,17 @@ Cypress.Commands.add('waitForGoogleApi', () => {
   }
 });
 
+Cypress.Commands.add('selectTaskLocation', () => {
+  cy.wait(7000);
+  cy.get('[data-cy=map-selectLocation]').click(530, 216, {
+    force: false,
+  });
+  cy.get('[data-cy=addTask-locationContinue]')
+    .should('exist')
+    .and('not.be.disabled')
+    .click({ force: true });
+});
+
 Cypress.Commands.add('loginFarmOwner', () => {
   const emailOwner = 'mbolokonya@litefarm.org';
   const password = 'P@ssword123';

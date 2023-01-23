@@ -208,6 +208,7 @@ export default function PureRowForm({
               >
                 {!isTransplant && (
                   <Unit
+                    data-cy="rowMethod-seed"
                     register={register}
                     label={t('MANAGEMENT_PLAN.ESTIMATED_SEED')}
                     name={ESTIMATED_SEED}

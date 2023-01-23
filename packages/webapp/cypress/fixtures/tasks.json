@@ -21,5 +21,19 @@
     "Supplier": "Self",
     "Quantity": "1000",
     "Notes": "This is a test"
+  },
+  "plantTaskRow": {
+    "Germination": "10",
+    "Harvest": "100",
+    "Rows": "10",
+    "Length": "50",
+    "Spacing": "30",
+    "Seed": "10",
+    "Annual_Harvest": "5000",
+    "Specify_Rows": "Rows 10 - 20",
+    "Planting_Depth": "10",
+    "Row_Width": "30",
+    "Space_Between": "50",
+    "Notes": "This is a sample planting task"
   }
 }

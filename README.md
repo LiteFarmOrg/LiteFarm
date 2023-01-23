@@ -19,38 +19,31 @@ LiteFarm is comprised of three applications which all reside in this monorepo.
 - `packages/api` is the back-end API server with entry point `src/server.js`
 - `packages/api/src/jobs` is the "jobs scheduler" for certification exports, with entry point `index.js` 
 
-## Preliminaries 
+## Preliminaries
 
-1. Check to see if you have Node.js installed. On a Mac use the command `node-v` in terminal. If it is installed, the version in use will be reported in the terminal. If not, install it from [node.js](https://nodejs.org/en/download/package-manager/).
-2. Check to see if you have pnpm installed. On a Mac use the command `pnpm -v`. If it is installed, the version will be reported. If you do not have it installed, run `npm install -g pnpm` in a terminal. 
-3. Check to see if you have NVM installed. On a Mac use the command `nvm -v`. If you do not have NVM (Node Version Manager) installed, install it using these instructions: [NVM](https://www.loginradius.com/blog/engineering/run-multiple-nodejs-version-on-the-same-machine/)
-4. Clone the repository from Github to your computer. On a Mac, in a Terminal window navigate to the directory you want to put the files in. Then use the command `git clone https://github.com/LiteFarmOrg/LiteFarm.git`.
-5. In a terminal, navigate to the root folder of the repo and run `npm install`.
-6. Navigate to the `packages/api` folder, and run `npm install`.
-   If trying to run this command results in the error, 
-   `npm ERR! code ERESOLVE
-   npm ERR! ERESOLVE could not resolve
-   npm ERR!
-   npm ERR! While resolving: objection@2.2.17...`
-   
-   Use nvm to install and use the Node version 16.15.0 with the commands, `nvm install 16.15.0` then `nvm use 16.15.0`. Then try again.
-7. Navigate to the `packages/webapp` folder, and run `pnpm install`.
+1. Clone the repository from Github to your computer. In a Terminal window navigate to the directory you want to put the files in. Then use the command `git clone https://github.com/LiteFarmOrg/LiteFarm.git`. 
+2. If on Mac, run `cd LiteFarm; ./setup.sh`
+3. If using Windows, install:
+    - [PostgreSQL](https://www.postgresql.org/download/)
+    - [node.js](https://nodejs.org/en/download/package-manager/)
+    - [nvm](https://github.com/nvm-sh/nvm)
+    - Run:
+```
+nvm install 16.15.0
+nvm use 16.15.0
+npm install
+cd packages/api
+npm install
+cp .env.default .env
+cd ../webapp
+pnpm install
+cp .env.default .env
+```
+    
 
 ## Database setup
 
-1. If using Windows, install PostgreSQL by downloading installers or packages from https://www.postgresql.org/download/. Mac and Linux users can use homebrew with the commands shown below (a link for installing Homebrew is below too!). The second command can take up to 10 minutes because it may trigger the compilation of a new binary.
-
-   In a Terminal window:  
-```      
-   # Install homebrew if you don't already have it with the command:
-   /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
-   # Install PostgreSQL.
-   brew install postgresql
-   # Start the Database Management Systems (DBMS) service.
-   brew services start postgresql
-```
-
-2. Set up the PostgreSQL role (account) and databases. Use the `psql` client program. If an installer asks you to choose a password for the `postgres` (superuser) account, use `postgres` for consistency with the contents of `.env.default`.
+1. Set up the PostgreSQL role (account) and databases. Use the `psql` client program. If an installer asks you to choose a password for the `postgres` (superuser) account, use `postgres` for consistency with the contents of `.env.default`.
 
    - On a Mac, type "psql" in the terminal to start the client.
 

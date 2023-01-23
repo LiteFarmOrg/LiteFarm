@@ -22,23 +22,24 @@ LiteFarm is comprised of three applications which all reside in this monorepo.
 ## Preliminaries
 
 1. Clone the repository from Github to your computer. In a Terminal window navigate to the directory you want to put the files in. Then use the command `git clone https://github.com/LiteFarmOrg/LiteFarm.git`. 
-2. If on Mac, run `cd LiteFarm; ./setup.sh`
+2. `cd LiteFarm`
+3. If on Mac, run `./setup.sh`
 3. If using Windows, install:
     - [PostgreSQL](https://www.postgresql.org/download/)
     - [node.js](https://nodejs.org/en/download/package-manager/)
     - [nvm](https://github.com/nvm-sh/nvm)
-    - Run:
-```
-nvm install 16.15.0
-nvm use 16.15.0
-npm install
-cd packages/api
-npm install
-cp .env.default .env
-cd ../webapp
-pnpm install
-cp .env.default .env
-```
+    - Run the following commands:
+        ```
+        nvm install 16.15.0
+        nvm use 16.15.0
+        npm install
+        cd packages/api
+        npm install
+        cp .env.default .env
+        cd ../webapp
+        pnpm install
+        cp .env.default .env
+        ```
     
 
 ## Database setup

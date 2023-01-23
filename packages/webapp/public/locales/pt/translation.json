@@ -510,7 +510,7 @@
         "LONGITUDE": "Longitude",
         "READING_TYPES": "tipos_de_medição",
         "SENSOR_EXTERNAL_ID": "ID_externo",
-        "DEPTH": "Profundidade",
+        "DEPTH": "Profundidade_cm",
         "BRAND": "Marca",
         "MODEL": "Modelo"
       },

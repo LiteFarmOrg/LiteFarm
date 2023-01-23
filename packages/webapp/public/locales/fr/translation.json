@@ -511,7 +511,7 @@
         "LONGITUDE": "Longitude",
         "READING_TYPES": "types_à_relevé",
         "SENSOR_EXTERNAL_ID": "ID_externe",
-        "DEPTH": "Profondeur",
+        "DEPTH": "Profondeur_cm",
         "BRAND": "Marque",
         "MODEL": "Modèle"
       },

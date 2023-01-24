@@ -168,6 +168,7 @@ export default function PureContainerForm({
 
           <div className={in_ground ? styles.row : styles.paddingBottom40}>
             <Unit
+              data-cy="cropPlan-plantingDepth"
               register={register}
               label={t('MANAGEMENT_PLAN.PLANTING_DEPTH')}
               name={PLANTING_DEPTH}
@@ -205,6 +206,7 @@ export default function PureContainerForm({
           {!in_ground && (
             <>
               <Input
+                data-cy="cropPlan-plantingSoil"
                 label={t('MANAGEMENT_PLAN.PLANTING_SOIL')}
                 hookFormRegister={register(PLANTING_SOIL, {
                   maxLength: hookFormMaxLengthValidation(),
@@ -216,6 +218,7 @@ export default function PureContainerForm({
                 disabled={disabled}
               />
               <Input
+                data-cy="cropPlan-containerType"
                 label={t('MANAGEMENT_PLAN.CONTAINER_TYPE')}
                 hookFormRegister={register(CONTAINER_TYPE, {
                   maxLength: hookFormMaxLengthValidation(),
@@ -236,6 +239,7 @@ export default function PureContainerForm({
             >
               {!isTransplant ? (
                 <Unit
+                  data-cy="cropPlan-estimatedSeed"
                   register={register}
                   label={t('MANAGEMENT_PLAN.ESTIMATED_SEED')}
                   name={ESTIMATED_SEED}
@@ -253,6 +257,7 @@ export default function PureContainerForm({
               ) : (
                 isFinalPage === false && (
                   <Unit
+                    data-cy="cropPlan-estimatedSeed"
                     register={register}
                     label={t('MANAGEMENT_PLAN.ESTIMATED_SEED')}
                     name={ESTIMATED_SEED}

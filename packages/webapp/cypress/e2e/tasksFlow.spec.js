@@ -504,11 +504,18 @@ describe.only('LiteFarm end to end tests for tasks flow', () => {
       .should('equal', Data.soilTask.Notes, { matchCase: false });
   });
 
-  it.only('Create a crop management plan with equal length row method planting task', () => {
+  it.only('Create a crop management plan with equal length row method transplant task and container transplant task', () => {
     const date = new Date();
     date.setDate(date.getDate() + 1);
     const dueDate = getDateInputFormat(date);
-    let lengthUnit, spacingUnit, seedUnit, harvestUnit, depthUnit, rowWidthUnit, spaceBetweenUnit;
+    let lengthUnit,
+      spacingUnit,
+      seedUnit,
+      harvestUnit,
+      depthUnit,
+      containerDepthUnit,
+      rowWidthUnit,
+      spaceBetweenUnit;
     // Add a crop variety
     cy.get('[data-cy=navbar-hamburger]').should('exist').click();
     cy.contains('Crops').should('exist').click();
@@ -567,7 +574,8 @@ describe.only('LiteFarm end to end tests for tasks flow', () => {
       .should('exist')
       .and('not.be.disabled')
       .click({ force: true });
-
+    cy.get('[data-cy="cropPlan-transplanted"]').eq(0).check({ force: true });
+    cy.get('[data-cy="cropPlan-cover"]').eq(1).check({ force: true });
     cy.get('[data-cy="cropPlan-transplantSubmit"]')
       .should('exist')
       .and('not.be.disabled')
@@ -575,16 +583,50 @@ describe.only('LiteFarm end to end tests for tasks flow', () => {
 
     cy.get('[data-cy="cropPlan-plantDate"]').type(dueDate);
 
-    cy.get('[data-cy="cropPlan-seedGermination"]').type(Data.plantTaskRow.Germination);
+    cy.get('[data-cy="cropPlan-seedGermination"]').type(Data.cropPlan.Germination);
 
-    cy.get('[data-cy="cropPlan-plantHarvest"]').type(Data.plantTaskRow.Harvest);
+    cy.get('[data-cy="cropPlan-plantTransplant"]').type(Data.cropPlan.Transplant);
+
+    cy.get('[data-cy="cropPlan-plantHarvest"]').type(Data.cropPlan.Harvest);
 
     cy.get('[data-cy="plantDate-submit"]')
       .should('exist')
       .and('not.be.disabled')
       .click({ force: true });
 
-    cy.wait(15000);
+    cy.get('[data-cy=spotlight-next]')
+      .contains('Got it')
+      .should('exist')
+      .and('not.be.disabled')
+      .click();
+
+    cy.get('._zoomIn_e5ede_9').should('be.visible');
+    cy.get('[data-cy=map-selectLocation]').click(530, 216, {
+      force: false,
+    });
+    cy.get('[data-cy="cropPlan-locationSubmit"]').should('not.be.disabled').click();
+
+    cy.get('[type="radio"]').eq(0).check({ force: true });
+    cy.get('[data-cy="cropPlan-numberContainers"]').type(Data.cropPlan.Containers);
+    cy.get('[data-cy="cropPlan-numberPlants"]').type(Data.cropPlan.Plants);
+    cy.get('[data-cy="cropPlan-plantingDepth"]').type(Data.cropPlan.Planting_Depth);
+    cy.get('[data-cy="cropPlan-plantingSoil"]').type(Data.cropPlan.Soil);
+    cy.get('[data-cy="cropPlan-containerType"]').type(Data.cropPlan.Container_Type);
+    cy.get('[data-cy="cropPlan-estimatedSeed"]').type(Data.cropPlan.Seed);
+    cy.get('.Unit-select')
+      .eq(0)
+      .then(($elem) => {
+        containerDepthUnit = $elem.text();
+      });
+    cy.get('.Unit-select')
+      .eq(1)
+      .then(($elem) => {
+        seedUnit = $elem.text();
+      });
+
+    cy.get('[data-cy="cropPlan-containerSubmit"]').should('be.enabled').click({ force: true });
+
+    cy.get('._zoomIn_e5ede_9').should('be.visible');
     cy.get('[data-cy=map-selectLocation]').click(530, 216, {
       force: false,
     });
@@ -595,12 +637,11 @@ describe.only('LiteFarm end to end tests for tasks flow', () => {
     cy.wait(5000);
     cy.get('[type="radio"]').first().check({ force: true });
 
-    cy.get('[data-cy="rowMethod-rows"]').type(Data.plantTaskRow.Rows);
-    cy.get('[data-cy="rowMethod-length"]').type(Data.plantTaskRow.Length);
-    cy.get('[data-cy="rowMethod-spacing"]').type(Data.plantTaskRow.Spacing);
+    cy.get('[data-cy="rowMethod-rows"]').type(Data.cropPlan.Rows);
+    cy.get('[data-cy="rowMethod-length"]').type(Data.cropPlan.Length);
+    cy.get('[data-cy="rowMethod-spacing"]').type(Data.cropPlan.Spacing);
     cy.contains('spacing').click();
-    cy.get('[data-cy="rowMethod-seed"]').type(Data.plantTaskRow.Seed);
-    cy.get('[data-cy="rowMethod-yield"]').type(Data.plantTaskRow.Annual_Harvest);
+    cy.get('[data-cy="rowMethod-yield"]').type(Data.cropPlan.Annual_Harvest);
     cy.contains('spacing').click();
     cy.get('.Unit-select')
       .eq(0)
@@ -619,23 +660,16 @@ describe.only('LiteFarm end to end tests for tasks flow', () => {
     cy.get('.Unit-select')
       .eq(2)
       .then(($elem) => {
-        seedUnit = $elem.text();
-        cy.log(seedUnit);
-      });
-
-    cy.get('.Unit-select')
-      .eq(3)
-      .then(($elem) => {
         harvestUnit = $elem.text();
         cy.log(harvestUnit);
       });
     cy.get('[data-cy="rowMethod-submit"]').click();
 
-    cy.get('[data-cy="plantTask-specifyRow"]').type(Data.plantTaskRow.Specify_Rows);
-    cy.get('[data-cy="plantTask-plantingDepth"]').type(Data.plantTaskRow.Planting_Depth);
-    cy.get('[data-cy="plantTask-rowWidth"]').type(Data.plantTaskRow.Row_Width);
-    cy.get('[data-cy="plantTask-spaceRows"]').type(Data.plantTaskRow.Space_Between);
-    cy.get('[data-cy="plantTask-notes"]').type(Data.plantTaskRow.Notes);
+    cy.get('[data-cy="plantTask-specifyRow"]').type(Data.cropPlan.Specify_Rows);
+    cy.get('[data-cy="plantTask-plantingDepth"]').type(Data.cropPlan.Planting_Depth);
+    cy.get('[data-cy="plantTask-rowWidth"]').type(Data.cropPlan.Row_Width);
+    cy.get('[data-cy="plantTask-spaceRows"]').type(Data.cropPlan.Space_Between);
+    cy.get('[data-cy="plantTask-notes"]').type(Data.cropPlan.Notes);
     cy.get('.Unit-select')
       .eq(0)
       .then(($elem) => {
@@ -660,5 +694,43 @@ describe.only('LiteFarm end to end tests for tasks flow', () => {
     cy.get('[data-cy="planGuidance-submit"]').should('be.enabled').click();
 
     cy.get('[data-cy="cropPlan-save"]').click();
+    cy.get('[data-cy="spotlight-next"]').click();
+
+    cy.get('[data-cy="taskCard"]').contains('Planting').should('exist').click();
+
+    cy.get('[data-cy="task-assignee"]')
+      .invoke('val')
+      .should('equal', 'Unassigned', { matchCase: false });
+
+    cy.get('[data-cy="task-date"]').invoke('val').should('equal', dueDate, { matchCase: false });
+
+    cy.get('[data-cy="cropPlan-numberContainers"]')
+      .invoke('val')
+      .should('equal', Data.cropPlan.Containers, { matchCase: false });
+    cy.get('[data-cy="cropPlan-numberPlants"]')
+      .invoke('val')
+      .should('equal', Data.cropPlan.Plants, { matchCase: false });
+    cy.get('[data-cy="cropPlan-plantingDepth"]')
+      .invoke('val')
+      .should('equal', Data.cropPlan.Planting_Depth, { matchCase: false });
+    cy.get('[data-cy="cropPlan-plantingSoil"]')
+      .invoke('val')
+      .should('equal', Data.cropPlan.Soil, { matchCase: false });
+    cy.get('[data-cy="cropPlan-containerType"]')
+      .invoke('val')
+      .should('equal', Data.cropPlan.Container_Type, { matchCase: false });
+    cy.get('[data-cy="cropPlan-estimatedSeed"]')
+      .invoke('val')
+      .should('equal', Data.cropPlan.Seed, { matchCase: false });
+    cy.get('.Unit-select')
+      .eq(0)
+      .then(($elem) => {
+        expect(containerDepthUnit).to.equal($elem.text());
+      });
+    cy.get('.Unit-select')
+      .eq(1)
+      .then(($elem) => {
+        expect(seedUnit).to.equal($elem.text());
+      });
   });
 });

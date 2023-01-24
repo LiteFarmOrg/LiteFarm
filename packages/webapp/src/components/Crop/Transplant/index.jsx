@@ -95,6 +95,7 @@ export default function PureTransplant({
             {t('MANAGEMENT_PLAN.COVER_OR_HARVEST')}
           </Main>
           <RadioGroup
+            data-cy="cropPlan-cover"
             hookFormControl={control}
             name={FOR_COVER}
             required={!can_be_cover_crop}

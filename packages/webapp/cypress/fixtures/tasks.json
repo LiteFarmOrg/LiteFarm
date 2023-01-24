@@ -22,9 +22,14 @@
     "Quantity": "1000",
     "Notes": "This is a test"
   },
-  "plantTaskRow": {
+  "cropPlan": {
     "Germination": "10",
+    "Transplant": "20",
     "Harvest": "100",
+    "Containers": "500",
+    "Plants": "5",
+    "Soil": "Acidic",
+    "Container_Type": "Tube",
     "Rows": "10",
     "Length": "50",
     "Spacing": "30",

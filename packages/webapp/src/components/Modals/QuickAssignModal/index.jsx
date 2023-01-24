@@ -14,6 +14,7 @@ import { useSelector } from 'react-redux';
 import { Label, Main } from '../../Typography';
 import { getCurrencyFromStore } from '../../../store/getFromReduxStore';
 import grabCurrencySymbol from '../../../util/grabCurrencySymbol';
+import { useEffect } from 'react';
 
 const HOURLY_WAGE = 'hourly_wage';
 const HOURLY_WAGE_OPTION = 'hourly_wage_option';
@@ -35,14 +36,20 @@ export default function TaskQuickAssignModal({
   user,
 }) {
   const { t } = useTranslation();
-  const selfOption = { label: `${user.first_name} ${user.last_name}`, value: user.user_id };
+
+  const selfOption = {
+    label: `${user.first_name} ${user.last_name}`,
+    value: user.user_id,
+    wage: user.wage,
+  };
   const unAssignedOption = { label: t('TASK.UNASSIGNED'), value: null, isDisabled: false };
   const options = useMemo(() => {
     if (user.is_admin) {
       const options = users
-        .map(({ first_name, last_name, user_id }) => ({
+        .map(({ first_name, last_name, user_id, wage }) => ({
           label: `${first_name} ${last_name}`,
           value: user_id,
+          wage,
         }))
         .sort((a, b) => (a.label > b.label ? 1 : b.label > a.label ? -1 : 0));
       unAssignedOption.isDisabled = !isAssigned;
@@ -53,6 +60,16 @@ export default function TaskQuickAssignModal({
 
   const [selectedWorker, setWorker] = useState(isAssigned ? unAssignedOption : selfOption);
   const [assignAll, setAssignAll] = useState(false);
+  const [isHourlyWageSet, setIsHourlyWageSet] = useState(false);
+
+  useEffect(() => {
+    if (!user.is_admin || !selectedWorker.wage) {
+      return;
+    }
+
+    const { type, amount } = selectedWorker.wage;
+    setIsHourlyWageSet(!!(type === 'hourly' && amount));
+  }, [selectedWorker]);
 
   const tasks = useSelector(tasksSelector);
   const {
@@ -69,7 +86,7 @@ export default function TaskQuickAssignModal({
   });
   const currencySymbol = grabCurrencySymbol(getCurrencyFromStore());
 
-  const override = watch(HOURLY_WAGE_OPTION);
+  const watchSelectedHourlyWageOption = watch(HOURLY_WAGE_OPTION);
   const checkUnassignedTaskForSameDate = () => {
     const selectedTask = tasks.find((t) => t.task_id == task_id);
     let isUnassignedTaskPresent = false;
@@ -102,6 +119,10 @@ export default function TaskQuickAssignModal({
     dismissModal();
   };
 
+  const unassigned = !selectedWorker || selectedWorker.label === unAssignedOption.label;
+  const showHourlyWageSection =
+    user.is_admin && !unassigned && !isHourlyWageSet && !selectedWorker?.wage?.doNotAskAgain;
+
   const radioOptions = [
     {
       label: t('ADD_TASK.SET_HOURLY_WAGE'),
@@ -126,6 +147,50 @@ export default function TaskQuickAssignModal({
   };
 
   const disabled = selectedWorker === null || !isValid || !isDirty;
+
+  const renderHourlyRangeSection = () => {
+    if (!showHourlyWageSection) {
+      return;
+    }
+
+    const noOptions = [hourlyWageOptions.NO, hourlyWageOptions.DO_NOT_ASK_AGAIN];
+    const willSetHourlyWage = noOptions.includes(watchSelectedHourlyWageOption);
+
+    return (
+      <>
+        <Label className={styles.warning} style={{ marginBottom: 24 }}>
+          {t('ADD_TASK.ASSIGNEE_WAGE_WARNING', { name: selectedWorker.label })}
+        </Label>
+        <Main style={{ marginBottom: 10 }}>{t('ADD_TASK.DO_YOU_WANT_TO_SET_HOURLY_WAGE')}</Main>
+        <RadioGroup
+          hookFormControl={control}
+          name={HOURLY_WAGE_OPTION}
+          radios={radioOptions}
+          data-cy="roleSelection-role"
+          style={{ marginBottom: 10 }}
+        />
+        {willSetHourlyWage && (
+          <Input
+            unit={currencySymbol + t('ADD_TASK.HR')}
+            data-cy="hourly-wage"
+            label={t('WAGE.HOURLY_WAGE')}
+            step="0.01"
+            type="number"
+            onKeyPress={numberOnKeyDown}
+            hookFormRegister={register(HOURLY_WAGE, {
+              min: { value: 0, message: t('WAGE.RANGE_ERROR') },
+              valueAsNumber: true,
+              max: { value: 999999999, message: t('WAGE.RANGE_ERROR') },
+            })}
+            style={{ marginBottom: '24px' }}
+            errors={errors[HOURLY_WAGE] && (errors[HOURLY_WAGE].message || t('WAGE.ERROR'))}
+            toolTipContent={t('WAGE.HOURLY_WAGE_TOOLTIP')}
+            optional
+          />
+        )}
+      </>
+    );
+  };
 
   return (
     <ModalComponent
@@ -160,34 +225,7 @@ export default function TaskQuickAssignModal({
         style={{ marginBottom: 10 }}
         isSearchable
       />
-      <Label className={styles.warning} style={{ marginBottom: 24 }}>
-        {t('ADD_TASK.ASSIGNEE_WAGE_WARNING', { name: selectedWorker.label })}
-      </Label>
-      <Main style={{ marginBottom: 10 }}>{t('ADD_TASK.DO_YOU_WANT_TO_SET_HOURLY_WAGE')}</Main>
-      <RadioGroup
-        hookFormControl={control}
-        name={HOURLY_WAGE_OPTION}
-        radios={radioOptions}
-        data-cy="roleSelection-role"
-        style={{ marginBottom: 10 }}
-      />
-      <Input
-        unit={currencySymbol + t('ADD_TASK.HR')}
-        data-cy="hourly-wage"
-        label={t('WAGE.HOURLY_WAGE')}
-        step="0.01"
-        type="number"
-        onKeyPress={numberOnKeyDown}
-        hookFormRegister={register(HOURLY_WAGE, {
-          min: { value: 0, message: t('WAGE.RANGE_ERROR') },
-          valueAsNumber: true,
-          max: { value: 999999999, message: t('WAGE.RANGE_ERROR') },
-        })}
-        style={{ marginBottom: '24px' }}
-        errors={errors[HOURLY_WAGE] && (errors[HOURLY_WAGE].message || t('WAGE.ERROR'))}
-        toolTipContent={t('WAGE.HOURLY_WAGE_TOOLTIP')}
-        optional
-      />
+      {renderHourlyRangeSection()}
       {/*TODO: properly fix checkbox label overflow ST-272*/}
       <Checkbox
         data-cy="quickAssign-assignAll"

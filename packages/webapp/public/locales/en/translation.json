@@ -26,10 +26,16 @@
     "ADD_CUSTOM_TASK": "Add custom task",
     "AFFECT_PLANS": "Will this task affect any plans?",
     "ASSIGN_ALL_TO_PERSON": "Assign all unassigned tasks on this date to this person",
+    "ASSIGN_ALL_ON_THIS_DATE_TO_PERSON": "Assign all tasks on this date to {{name}}",
     "ASSIGN_DATE": "Change task date",
     "ASSIGN_TASK": "Assign task",
     "ASSIGNEE": "Assignee",
     "CANCEL": "task creation",
+    "SET_HOURLY_WAGE": "Yes, set hourly wage",
+    "FOR_THIS_TASK": "Yes, just for this task",
+    "DONT_ASK": "Don't ask again",
+    "ASSIGNEE_WAGE_WARNING": "{{name}} doesn't currently have an hourly wage assigned.",
+    "DO_YOU_WANT_TO_SET_HOURLY_WAGE": "Would you like to set an hourly wage?",
     "CLEANING_VIEW": {
       "ESTIMATED_WATER": "Estimated water usage",
       "IS_PERMITTED": "Is the cleaning agent in the permitted substances list?",
@@ -1771,5 +1777,11 @@
   "CROP_STATUS_ORGANIC_MISMATCH_MODAL": {
     "TITLE": "You’ve selected an organic location!",
     "SUBTITLE": "You’ve indicated you’ll be planting a non-organic crop in an organic location. Do you want to proceed?"
+  },
+  "WAGE": {
+    "HOURLY_WAGE": "Hourly Wage",
+    "ERROR": "Wage must be a valid, non-negative decimal number",
+    "RANGE_ERROR": "Salary must be a positive number less than 999,999,999",
+    "HOURLY_WAGE_TOOLTIP": "Hourly wages can be set by selecting an individual on the People tab under 'my farm'."
   }
 }

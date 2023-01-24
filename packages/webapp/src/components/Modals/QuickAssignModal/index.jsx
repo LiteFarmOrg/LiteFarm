@@ -1,13 +1,28 @@
 import React, { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useForm } from 'react-hook-form';
 import ModalComponent from '../ModalComponent/v2';
 import styles from './styles.module.scss';
 import Button from '../../Form/Button';
 import ReactSelect from '../../Form/ReactSelect';
 import Checkbox from '../../Form/Checkbox';
+import Input, { numberOnKeyDown } from '../../Form/Input';
+import RadioGroup from '../../Form/RadioGroup';
 import { ReactComponent as Person } from '../../../assets/images/task/Person.svg';
 import { tasksSelector } from '../../../containers/taskSlice';
 import { useSelector } from 'react-redux';
+import { Label, Main } from '../../Typography';
+import { getCurrencyFromStore } from '../../../store/getFromReduxStore';
+import grabCurrencySymbol from '../../../util/grabCurrencySymbol';
+
+const HOURLY_WAGE = 'hourly_wage';
+const HOURLY_WAGE_OPTION = 'hourly_wage_option';
+const hourlyWageOptions = {
+  SET_HOURLY_WAGE: 'set_hourly_wage',
+  FOR_THIS_TASK: 'for_this_task',
+  NO: 'no',
+  DO_NOT_ASK_AGAIN: 'do_not_ask_agaiin',
+};
 
 export default function TaskQuickAssignModal({
   dismissModal,
@@ -40,9 +55,22 @@ export default function TaskQuickAssignModal({
   const [assignAll, setAssignAll] = useState(false);
 
   const tasks = useSelector(tasksSelector);
+  const {
+    control,
+    register,
+    watch,
+    formState: { isValid, isDirty, errors },
+  } = useForm({
+    mode: 'onTouched',
+    defaultValues: {
+      [HOURLY_WAGE_OPTION]: '',
+      [HOURLY_WAGE]: null,
+    },
+  });
+  const currencySymbol = grabCurrencySymbol(getCurrencyFromStore());
 
+  const override = watch(HOURLY_WAGE_OPTION);
   const checkUnassignedTaskForSameDate = () => {
-    console.log(tasks);
     const selectedTask = tasks.find((t) => t.task_id == task_id);
     let isUnassignedTaskPresent = false;
     for (let task of tasks) {
@@ -60,6 +88,7 @@ export default function TaskQuickAssignModal({
   };
 
   const onAssign = () => {
+    // TODO: update
     assignAll && checkUnassignedTaskForSameDate() && selectedWorker.value !== null
       ? onAssignTasksOnDate({
           task_id: task_id,
@@ -73,11 +102,30 @@ export default function TaskQuickAssignModal({
     dismissModal();
   };
 
+  const radioOptions = [
+    {
+      label: t('ADD_TASK.SET_HOURLY_WAGE'),
+      value: hourlyWageOptions.SET_HOURLY_WAGE,
+    },
+    {
+      label: t('ADD_TASK.FOR_THIS_TASK'),
+      value: hourlyWageOptions.FOR_THIS_TASK,
+    },
+    {
+      label: t('common:NO'),
+      value: hourlyWageOptions.NO,
+    },
+    {
+      label: t('ADD_TASK.DONT_ASK'),
+      value: hourlyWageOptions.DO_NOT_ASK_AGAIN,
+    },
+  ];
+
   const onCheckedAll = () => {
     setAssignAll(!assignAll);
   };
 
-  const disabled = selectedWorker === null;
+  const disabled = selectedWorker === null || !isValid || !isDirty;
 
   return (
     <ModalComponent
@@ -109,14 +157,42 @@ export default function TaskQuickAssignModal({
         label={t('ADD_TASK.ASSIGNEE')}
         options={options}
         onChange={setWorker}
-        style={{ marginBottom: '24px' }}
+        style={{ marginBottom: 10 }}
         isSearchable
+      />
+      <Label className={styles.warning} style={{ marginBottom: 24 }}>
+        {t('ADD_TASK.ASSIGNEE_WAGE_WARNING', { name: selectedWorker.label })}
+      </Label>
+      <Main style={{ marginBottom: 10 }}>{t('ADD_TASK.DO_YOU_WANT_TO_SET_HOURLY_WAGE')}</Main>
+      <RadioGroup
+        hookFormControl={control}
+        name={HOURLY_WAGE_OPTION}
+        radios={radioOptions}
+        data-cy="roleSelection-role"
+        style={{ marginBottom: 10 }}
+      />
+      <Input
+        unit={currencySymbol + t('ADD_TASK.HR')}
+        data-cy="hourly-wage"
+        label={t('WAGE.HOURLY_WAGE')}
+        step="0.01"
+        type="number"
+        onKeyPress={numberOnKeyDown}
+        hookFormRegister={register(HOURLY_WAGE, {
+          min: { value: 0, message: t('WAGE.RANGE_ERROR') },
+          valueAsNumber: true,
+          max: { value: 999999999, message: t('WAGE.RANGE_ERROR') },
+        })}
+        style={{ marginBottom: '24px' }}
+        errors={errors[HOURLY_WAGE] && (errors[HOURLY_WAGE].message || t('WAGE.ERROR'))}
+        toolTipContent={t('WAGE.HOURLY_WAGE_TOOLTIP')}
+        optional
       />
       {/*TODO: properly fix checkbox label overflow ST-272*/}
       <Checkbox
         data-cy="quickAssign-assignAll"
         style={{ paddingRight: '24px' }}
-        label={t('ADD_TASK.ASSIGN_ALL_TO_PERSON')}
+        label={t('ADD_TASK.ASSIGN_ALL_ON_THIS_DATE_TO_PERSON', { name: selectedWorker.label })}
         onChange={onCheckedAll}
       />
     </ModalComponent>

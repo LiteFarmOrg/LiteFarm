@@ -485,6 +485,34 @@ const userFarmController = {
     };
   },
 
+  setWageDoNotAskAgain() {
+    return async (req, res) => {
+      const trx = await transaction.start(Model.knex());
+      const farm_id = req.params.farm_id;
+      const user_id = req.params.user_id;
+
+      try {
+        const isPatched = await UserFarmModel.query(trx)
+          .where('farm_id', farm_id)
+          .andWhere('user_id', user_id)
+          .patch({ wage_do_not_ask_again: true });
+        if (isPatched) {
+          await trx.commit();
+          res.sendStatus(200);
+          return;
+        } else {
+          await trx.rollback();
+          res.sendStatus(404);
+          return;
+        }
+      } catch (error) {
+        // handle more exceptions
+        await trx.rollback();
+        res.status(400).send(error);
+      }
+    };
+  },
+
   upgradePseudoUser() {
     return async (req, res) => {
       const { user_id, farm_id } = req.params;

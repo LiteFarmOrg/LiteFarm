@@ -34,32 +34,33 @@ const useStyles = ({ arrowOffset = 0, isChildrenIcon = false }) =>
     },
     childrenContainer: {
       userSelect: 'none',
+      display: 'flex',
       '& svg': {
         color: colors.teal700,
-        fontSize: '16px',
+        fontSize: '16px !important',
       },
     },
   }));
 
 export type OverlayTooltipProps = Omit<TooltipProps, 'children' | 'title'> & {
-  content: TooltipProps['title'],
-  children?: ReactNode,
-  arrowOffset?: number,
-  autoOpen?: boolean,
-  isChildrenIcon?: boolean,
-  icon?: ReactNode,
-}
+  content: TooltipProps['title'];
+  children?: ReactNode;
+  arrowOffset?: number;
+  autoOpen?: boolean;
+  isChildrenIcon?: boolean;
+  icon?: ReactNode;
+};
 
 export default function OverlayTooltip({
-                                         children,
-                                         content,
-                                         placement,
-                                         arrowOffset,
-                                         autoOpen,
-                                         isChildrenIcon,
-                                         icon,
-                                         ...props
-                                       }: OverlayTooltipProps) {
+  children,
+  content,
+  placement,
+  arrowOffset,
+  autoOpen,
+  isChildrenIcon,
+  icon,
+  ...props
+}: OverlayTooltipProps) {
   const classes = useStyles({ arrowOffset, isChildrenIcon: !!icon || isChildrenIcon })();
   return (
     <Tooltip
@@ -75,4 +76,3 @@ export default function OverlayTooltip({
     </Tooltip>
   );
 }
-

@@ -1,6 +1,6 @@
-import React, { useMemo, useState } from 'react';
+import React, { useMemo, useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useForm } from 'react-hook-form';
+import { useForm, Controller } from 'react-hook-form';
 import ModalComponent from '../ModalComponent/v2';
 import styles from './styles.module.scss';
 import Button from '../../Form/Button';
@@ -14,15 +14,21 @@ import { useSelector } from 'react-redux';
 import { Label, Main } from '../../Typography';
 import { getCurrencyFromStore } from '../../../store/getFromReduxStore';
 import grabCurrencySymbol from '../../../util/grabCurrencySymbol';
-import { useEffect } from 'react';
 
+const ASSIGNEE = 'assignee';
 const HOURLY_WAGE = 'hourly_wage';
 const HOURLY_WAGE_OPTION = 'hourly_wage_option';
+const ASSIGN_ALL = 'assign_all';
 const hourlyWageOptions = {
   SET_HOURLY_WAGE: 'set_hourly_wage',
   FOR_THIS_TASK: 'for_this_task',
   NO: 'no',
-  DO_NOT_ASK_AGAIN: 'do_not_ask_agaiin',
+  DO_NOT_ASK_AGAIN: 'do_not_ask_again',
+};
+
+const isYesOptionSelected = (option) => {
+  const yesOptions = [hourlyWageOptions.SET_HOURLY_WAGE, hourlyWageOptions.FOR_THIS_TASK];
+  return yesOptions.includes(option);
 };
 
 export default function TaskQuickAssignModal({
@@ -58,35 +64,61 @@ export default function TaskQuickAssignModal({
     } else return [selfOption, unAssignedOption];
   }, []);
 
-  const [selectedWorker, setWorker] = useState(isAssigned ? unAssignedOption : selfOption);
-  const [assignAll, setAssignAll] = useState(false);
-  const [isHourlyWageSet, setIsHourlyWageSet] = useState(false);
+  const [hasHourlyWage, setHasHourlyWage] = useState(false);
+  const [showHourlyWageInput, setShowHourlyWageInput] = useState(false);
+
+  const {
+    control,
+    register,
+    resetField,
+    watch,
+    formState: { isValid, errors },
+  } = useForm({
+    mode: 'onTouched',
+    defaultValues: {
+      [ASSIGNEE]: isAssigned ? unAssignedOption : selfOption,
+      [HOURLY_WAGE_OPTION]: '',
+      [HOURLY_WAGE]: null,
+      [ASSIGN_ALL]: false,
+    },
+  });
+
+  const selectedWorker = watch(ASSIGNEE);
+  const selectedHourlyWageOption = watch(HOURLY_WAGE_OPTION);
+  const hourlyWage = watch(HOURLY_WAGE);
+  const assignAll = watch(ASSIGN_ALL);
 
   useEffect(() => {
     if (!user.is_admin || !selectedWorker.wage) {
       return;
     }
 
+    resetField(HOURLY_WAGE_OPTION);
+    resetField(HOURLY_WAGE);
+
     const { type, amount } = selectedWorker.wage;
-    setIsHourlyWageSet(!!(type === 'hourly' && amount));
+    setHasHourlyWage(!!(type === 'hourly' && amount));
   }, [selectedWorker]);
 
+  useEffect(() => {
+    let shouldShow = false;
+
+    if (selectedHourlyWageOption) {
+      shouldShow = isYesOptionSelected(selectedHourlyWageOption);
+    }
+
+    setShowHourlyWageInput(shouldShow);
+  }, [selectedHourlyWageOption]);
+
+  useEffect(() => {
+    if (!showHourlyWageInput) {
+      resetField(HOURLY_WAGE);
+    }
+  }, [showHourlyWageInput]);
+
   const tasks = useSelector(tasksSelector);
-  const {
-    control,
-    register,
-    watch,
-    formState: { isValid, isDirty, errors },
-  } = useForm({
-    mode: 'onTouched',
-    defaultValues: {
-      [HOURLY_WAGE_OPTION]: '',
-      [HOURLY_WAGE]: null,
-    },
-  });
   const currencySymbol = grabCurrencySymbol(getCurrencyFromStore());
 
-  const watchSelectedHourlyWageOption = watch(HOURLY_WAGE_OPTION);
   const checkUnassignedTaskForSameDate = () => {
     const selectedTask = tasks.find((t) => t.task_id == task_id);
     let isUnassignedTaskPresent = false;
@@ -105,7 +137,6 @@ export default function TaskQuickAssignModal({
   };
 
   const onAssign = () => {
-    // TODO: update
     assignAll && checkUnassignedTaskForSameDate() && selectedWorker.value !== null
       ? onAssignTasksOnDate({
           task_id: task_id,
@@ -116,12 +147,33 @@ export default function TaskQuickAssignModal({
           task_id: task_id,
           assignee_user_id: selectedWorker.value,
         });
+
+    switch (selectedHourlyWageOption) {
+      case hourlyWageOptions.SET_HOURLY_WAGE: {
+        console.log('update hourly wage:', hourlyWage);
+        break;
+      }
+
+      case hourlyWageOptions.FOR_THIS_TASK: {
+        console.log('set hourly wage for this task:', hourlyWage);
+        break;
+      }
+
+      case hourlyWageOptions.DO_NOT_ASK_AGAIN: {
+        console.log('do not ask again');
+        break;
+      }
+
+      default:
+        return;
+    }
+
     dismissModal();
   };
 
   const unassigned = !selectedWorker || selectedWorker.label === unAssignedOption.label;
   const showHourlyWageSection =
-    user.is_admin && !unassigned && !isHourlyWageSet && !selectedWorker?.wage?.doNotAskAgain;
+    user.is_admin && !unassigned && !hasHourlyWage && !selectedWorker?.wage?.doNotAskAgain;
 
   const radioOptions = [
     {
@@ -142,19 +194,12 @@ export default function TaskQuickAssignModal({
     },
   ];
 
-  const onCheckedAll = () => {
-    setAssignAll(!assignAll);
-  };
-
-  const disabled = selectedWorker === null || !isValid || !isDirty;
+  const disabled = !isValid;
 
   const renderHourlyRangeSection = () => {
     if (!showHourlyWageSection) {
       return;
     }
-
-    const noOptions = [hourlyWageOptions.NO, hourlyWageOptions.DO_NOT_ASK_AGAIN];
-    const willSetHourlyWage = noOptions.includes(watchSelectedHourlyWageOption);
 
     return (
       <>
@@ -169,7 +214,7 @@ export default function TaskQuickAssignModal({
           data-cy="roleSelection-role"
           style={{ marginBottom: 10 }}
         />
-        {willSetHourlyWage && (
+        {showHourlyWageInput && (
           <Input
             unit={currencySymbol + t('ADD_TASK.HR')}
             data-cy="hourly-wage"
@@ -216,22 +261,30 @@ export default function TaskQuickAssignModal({
       }
       icon={<Person />}
     >
-      <ReactSelect
-        data-cy="quickAssign-assignee"
-        defaultValue={selectedWorker}
-        label={t('ADD_TASK.ASSIGNEE')}
-        options={options}
-        onChange={setWorker}
-        style={{ marginBottom: 10 }}
-        isSearchable
+      <Controller
+        control={control}
+        name={ASSIGNEE}
+        render={({ field: { onChange } }) => (
+          <ReactSelect
+            data-cy="quickAssign-assignee"
+            defaultValue={selectedWorker}
+            label={t('ADD_TASK.ASSIGNEE')}
+            options={options}
+            onChange={onChange}
+            style={{ marginBottom: 10 }}
+            isSearchable
+          />
+        )}
       />
       {renderHourlyRangeSection()}
       {/*TODO: properly fix checkbox label overflow ST-272*/}
+      {/*TODO: LF-2932 - need to be able to unassign mutiple tasks at once */}
       <Checkbox
+        name={ASSIGN_ALL}
         data-cy="quickAssign-assignAll"
         style={{ paddingRight: '24px' }}
         label={t('ADD_TASK.ASSIGN_ALL_ON_THIS_DATE_TO_PERSON', { name: selectedWorker.label })}
-        onChange={onCheckedAll}
+        hookFormRegister={register(ASSIGN_ALL)}
       />
     </ModalComponent>
   );

@@ -21,7 +21,7 @@ LiteFarm is comprised of three applications which all reside in this monorepo.
 
 ## Preliminaries
 
-1. Clone the repository from Github to your computer. In a Terminal window navigate to the directory you want to put the files in. Then use the command `git clone https://github.com/LiteFarmOrg/LiteFarm.git`. 
+1. Clone the repository from Github to your computer. In a Terminal window navigate to the directory you want to put the files in. Then use the command `git clone git@github.com:LiteFarmOrg/LiteFarm.git`. 
 2. `cd LiteFarm`
 3. If on Mac, run `./setup.sh`
 3. If using Windows, install:

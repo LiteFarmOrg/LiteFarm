@@ -31,7 +31,14 @@ import { harvestUseTypesSelector } from '../../harvestUseTypeSlice';
 import { useReadonlyTask } from './useReadonlyTask';
 import { isTaskType } from '../useIsTaskType';
 import { useMaxZoom } from '../../Map/useMaxZoom';
-import { assignTask, assignTasksOnDate, changeTaskDate } from '../saga';
+import {
+  assignTask,
+  assignTasksOnDate,
+  changeTaskDate,
+  changeTaskWage,
+  updateUserFarmWage,
+  setUserFarmWageDoNotAskAgain,
+} from '../saga';
 
 function TaskReadOnly({ history, match, location }) {
   const task_id = match.params.task_id;
@@ -84,6 +91,14 @@ function TaskReadOnly({ history, match, location }) {
     dispatch(changeTaskDate({ task_id, due_date: date + 'T00:00:00.000' }));
   const onAssignTasksOnDate = (task) => dispatch(assignTasksOnDate(task));
   const onAssignTask = (task) => dispatch(assignTask(task));
+  const onChangeTaskWage = (wage) => {
+    dispatch(changeTaskWage({ task_id, wage_at_moment: wage }));
+  };
+  const onUpdateUserFarmWage = (user) => dispatch(updateUserFarmWage(user));
+  const onSetUserFarmWageDoNotAskAgain = (user) => {
+    dispatch(setUserFarmWageDoNotAskAgain(user));
+  };
+
   return (
     <>
       <PureTaskReadOnly
@@ -105,6 +120,10 @@ function TaskReadOnly({ history, match, location }) {
         onAssignTasksOnDate={onAssignTasksOnDate}
         onAssignTask={onAssignTask}
         onChangeTaskDate={onChangeTaskDate}
+        onChangeTaskWage={onChangeTaskWage}
+        onUpdateUserFarmWage={onUpdateUserFarmWage}
+        onSetUserFarmWageDoNotAskAgain={onSetUserFarmWageDoNotAskAgain}
+        wageAtMoment={task.wage_at_moment}
       />
     </>
   );

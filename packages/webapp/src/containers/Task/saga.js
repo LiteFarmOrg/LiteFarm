@@ -6,12 +6,7 @@ import i18n from '../../locales/i18n';
 import { loginSelector, putUserSuccess } from '../userFarmSlice';
 import history from '../../history';
 import { enqueueErrorSnackbar, enqueueSuccessSnackbar } from '../Snackbar/snackbarSlice';
-import {
-  addManyTasksFromGetReq,
-  putTasksSuccess,
-  putTaskSuccess,
-  taskSelector,
-} from '../taskSlice';
+import { addManyTasksFromGetReq, putTasksSuccess, putTaskSuccess } from '../taskSlice';
 import { getProductsSuccess, onLoadingProductFail, onLoadingProductStart } from '../productSlice';
 import {
   deleteTaskTypeSuccess,
@@ -184,7 +179,6 @@ export function* changeTaskWageSaga({ payload: { task_id, wage_at_moment } }) {
     yield call(axios.patch, `${taskUrl}/patch_wage/${task_id}`, { wage_at_moment }, header);
 
     yield put(putTaskSuccess({ wage_at_moment, task_id }));
-    yield put(enqueueSuccessSnackbar(i18n.t('message:ASSIGN_TASK.SUCCESS')));
   } catch (e) {
     console.log(e);
     yield put(enqueueErrorSnackbar(i18n.t('message:ASSIGN_TASK.ERROR')));

@@ -50,9 +50,6 @@ export default function PurePlantInContainer({
   const onError = () => {};
 
   const disabled = !isValid;
-  const testClearErrors = () => {
-    clearErrors();
-  };
 
   return (
     <Form
@@ -82,7 +79,6 @@ export default function PurePlantInContainer({
         system={system}
         crop_variety={crop_variety}
         persistedFormData={persistedFormData}
-        clearErrors={testClearErrors}
         {...{
           register,
           handleSubmit,
@@ -91,7 +87,7 @@ export default function PurePlantInContainer({
           control,
           setValue,
           errors,
-          //clearErrors,
+          clearErrors,
         }}
       />
     </Form>

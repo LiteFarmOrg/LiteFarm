@@ -205,7 +205,7 @@ export default function PureAddNewCrop({
         label={t('CROP_CATALOGUE.NOMINATE_CROP')}
         style={{ marginTop: '40px', marginBottom: '8px' }}
         hookFormRegister={register('nominate_crop')}
-        sm
+        tooltipContent={t('CROP_CATALOGUE.NOMINATE_CROP_TOOLTIP')}
       />
     </Form>
   );

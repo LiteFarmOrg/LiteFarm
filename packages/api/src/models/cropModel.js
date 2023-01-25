@@ -90,7 +90,7 @@ class Crop extends BaseModel {
         crop_variety: { type: 'string', minLength: 1, maxLength: 255 },
         crop_genus: { type: 'string', minLength: 1, maxLength: 255 },
         crop_specie: { type: 'string', minLength: 1, maxLength: 255 },
-        nomination_id: { type: 'integer' },
+        nomination_id: { type: 'integer, null' },
         crop_group: {
           type: 'string, null',
           enum: [

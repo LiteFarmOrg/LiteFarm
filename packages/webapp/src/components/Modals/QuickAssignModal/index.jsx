@@ -69,7 +69,7 @@ export default function TaskQuickAssignModal({
     } else return [selfOption, unAssignedOption];
   }, []);
 
-  const [hasWage, setHasWage] = useState(false);
+  const [showHourlyWageSection, setShowHourlyWageSection] = useState(false);
   const [showHourlyWageInput, setShowHourlyWageInput] = useState(false);
 
   const {
@@ -100,9 +100,6 @@ export default function TaskQuickAssignModal({
 
     resetField(HOURLY_WAGE_OPTION);
     resetField(HOURLY_WAGE);
-
-    const { amount } = selectedWorker.wage;
-    setHasWage(!!(amount || wageAtMoment));
   }, [selectedWorker]);
 
   useEffect(() => {
@@ -112,7 +109,9 @@ export default function TaskQuickAssignModal({
       shouldShow = isYesOptionSelected(selectedHourlyWageOption);
     }
 
-    setShowHourlyWageInput(shouldShow);
+    if (shouldShow !== showHourlyWageInput) {
+      setShowHourlyWageInput(shouldShow);
+    }
   }, [selectedHourlyWageOption]);
 
   useEffect(() => {
@@ -170,9 +169,20 @@ export default function TaskQuickAssignModal({
     dismissModal();
   };
 
-  const unassigned = !selectedWorker || selectedWorker.label === unAssignedOption.label;
-  const showHourlyWageSection =
-    user.is_admin && !unassigned && !hasWage && !selectedWorker?.doNotAskAgain;
+  useEffect(() => {
+    let shouldShow = false;
+
+    if (user.is_admin) {
+      const unassigned = !selectedWorker || selectedWorker.label === unAssignedOption.label;
+
+      if (selectedWorker && !unassigned) {
+        const { amount } = selectedWorker?.wage;
+        const hasWage = !!(amount || wageAtMoment);
+        shouldShow = !hasWage && !selectedWorker?.doNotAskAgain;
+      }
+    }
+    setShowHourlyWageSection(shouldShow);
+  }, [user.is_admin, selectedWorker, wageAtMoment]);
 
   const radioOptions = [
     {

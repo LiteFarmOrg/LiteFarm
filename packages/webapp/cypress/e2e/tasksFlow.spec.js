@@ -732,5 +732,28 @@ describe.only('LiteFarm end to end tests for tasks flow', () => {
       .then(($elem) => {
         expect(seedUnit).to.equal($elem.text());
       });
+
+    cy.get('[data-cy="taskReadOnly-pencil"]').click();
+    cy.get('[data-cy="quickAssign-update"]').click();
+    cy.get('[data-cy="taskReadOnly-complete"]').click();
+
+    cy.get('[data-cy="beforeComplete-changes"]').first().check({ force: true });
+    cy.get('[data-cy="beforeComplete-plantingMethod"]').eq(1).check({ force: true });
+    let plants = Data.cropPlan.Containers * Data.cropPlan.Plants;
+    cy.get('[data-cy="cropPlan-groundPlants"]').type(plants);
+    cy.get('[data-cy="cropPlan-groundSpacing"]').type(Data.cropPlan.Spacing);
+    cy.contains('spacing').click();
+    cy.get('.Unit-select')
+      .eq(0)
+      .then(($elem) => {
+        depthUnit = $elem.text();
+      });
+
+    cy.get('.Unit-select')
+      .eq(1)
+      .then(($elem) => {
+        spacingUnit = $elem.text();
+      });
+    cy.get('[data-cy="beforeComplete-submit"]').click();
   });
 });

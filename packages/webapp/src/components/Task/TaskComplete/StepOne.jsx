@@ -71,7 +71,12 @@ export default function PureCompleteStepOne({
       />
 
       <Main style={{ marginBottom: '24px' }}>{t('TASK.COMPLETE_TASK_CHANGES')}</Main>
-      <RadioGroup hookFormControl={control} required name={CHANGES_NEEDED} />
+      <RadioGroup
+        data-cy="beforeComplete-changes"
+        hookFormControl={control}
+        required
+        name={CHANGES_NEEDED}
+      />
       {taskType &&
         taskComponents[taskType]({
           setValue,

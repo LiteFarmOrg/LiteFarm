@@ -102,6 +102,7 @@ export default function PureContainerForm({
   return (
     <>
       <RadioGroup
+        data-cy="beforeComplete-plantingMethod"
         hookFormControl={control}
         name={IN_GROUND}
         radios={[
@@ -151,6 +152,7 @@ export default function PureContainerForm({
           )}
           {in_ground && (
             <Input
+              data-cy="cropPlan-groundPlants"
               label={t('MANAGEMENT_PLAN.TOTAL_PLANTS')}
               hookFormRegister={register(TOTAL_PLANTS, {
                 required: true,
@@ -185,6 +187,7 @@ export default function PureContainerForm({
             />
             {in_ground && (
               <Unit
+                data-cy="cropPlan-groundSpacing"
                 register={register}
                 label={t('MANAGEMENT_PLAN.PLANT_SPACING')}
                 name={PLANT_SPACING}

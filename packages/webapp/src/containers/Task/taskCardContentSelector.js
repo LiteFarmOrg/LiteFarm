@@ -23,6 +23,7 @@ const getTaskContents = (tasks, userFarmEntities, { farm_id }) => {
       happiness: task.happiness,
       abandon_date: task.abandon_date,
       date: task.abandon_date || task.complete_date || task.due_date,
+      wageAtMoment: task.wage_at_moment,
     };
   });
 };

@@ -38,8 +38,12 @@ export default function TaskQuickAssignModal({
   isAssigned,
   onAssignTasksOnDate,
   onAssignTask,
+  onUpdateUserFarmWage,
+  onChangeTaskWage,
+  onSetUserFarmWageDoNotAskAgain,
   users,
   user,
+  wageAtMoment,
 }) {
   const { t } = useTranslation();
 
@@ -52,10 +56,11 @@ export default function TaskQuickAssignModal({
   const options = useMemo(() => {
     if (user.is_admin) {
       const options = users
-        .map(({ first_name, last_name, user_id, wage }) => ({
+        .map(({ first_name, last_name, user_id, wage, wage_do_not_ask_again }) => ({
           label: `${first_name} ${last_name}`,
           value: user_id,
           wage,
+          doNotAskAgain: wage_do_not_ask_again || false,
         }))
         .sort((a, b) => (a.label > b.label ? 1 : b.label > a.label ? -1 : 0));
       unAssignedOption.isDisabled = !isAssigned;
@@ -64,7 +69,7 @@ export default function TaskQuickAssignModal({
     } else return [selfOption, unAssignedOption];
   }, []);
 
-  const [hasHourlyWage, setHasHourlyWage] = useState(false);
+  const [hasWage, setHasWage] = useState(false);
   const [showHourlyWageInput, setShowHourlyWageInput] = useState(false);
 
   const {
@@ -96,8 +101,8 @@ export default function TaskQuickAssignModal({
     resetField(HOURLY_WAGE_OPTION);
     resetField(HOURLY_WAGE);
 
-    const { type, amount } = selectedWorker.wage;
-    setHasHourlyWage(!!(type === 'hourly' && amount));
+    const { amount } = selectedWorker.wage;
+    setHasWage(!!(amount || wageAtMoment));
   }, [selectedWorker]);
 
   useEffect(() => {
@@ -137,35 +142,29 @@ export default function TaskQuickAssignModal({
   };
 
   const onAssign = () => {
-    assignAll && checkUnassignedTaskForSameDate() && selectedWorker.value !== null
+    const assigneeUserId = selectedWorker.value;
+
+    assignAll && checkUnassignedTaskForSameDate() && assigneeUserId !== null
       ? onAssignTasksOnDate({
           task_id: task_id,
           date: due_date,
-          assignee_user_id: selectedWorker.value,
+          assignee_user_id: assigneeUserId,
         })
       : onAssignTask({
           task_id: task_id,
-          assignee_user_id: selectedWorker.value,
+          assignee_user_id: assigneeUserId,
         });
 
-    switch (selectedHourlyWageOption) {
-      case hourlyWageOptions.SET_HOURLY_WAGE: {
-        console.log('update hourly wage:', hourlyWage);
-        break;
-      }
+    if (isYesOptionSelected(selectedHourlyWageOption)) {
+      const wage = +parseFloat(hourlyWage).toFixed(2);
 
-      case hourlyWageOptions.FOR_THIS_TASK: {
-        console.log('set hourly wage for this task:', hourlyWage);
-        break;
+      if (selectedHourlyWageOption === hourlyWageOptions.SET_HOURLY_WAGE) {
+        onUpdateUserFarmWage({ user_id: assigneeUserId, wage: { type: 'hourly', amount: wage } });
+      } else if (selectedHourlyWageOption === hourlyWageOptions.FOR_THIS_TASK) {
+        onChangeTaskWage(wage);
       }
-
-      case hourlyWageOptions.DO_NOT_ASK_AGAIN: {
-        console.log('do not ask again');
-        break;
-      }
-
-      default:
-        return;
+    } else if (selectedHourlyWageOption === hourlyWageOptions.DO_NOT_ASK_AGAIN) {
+      onSetUserFarmWageDoNotAskAgain({ user_id: assigneeUserId });
     }
 
     dismissModal();
@@ -173,7 +172,7 @@ export default function TaskQuickAssignModal({
 
   const unassigned = !selectedWorker || selectedWorker.label === unAssignedOption.label;
   const showHourlyWageSection =
-    user.is_admin && !unassigned && !hasHourlyWage && !selectedWorker?.wage?.doNotAskAgain;
+    user.is_admin && !unassigned && !hasWage && !selectedWorker?.doNotAskAgain;
 
   const radioOptions = [
     {

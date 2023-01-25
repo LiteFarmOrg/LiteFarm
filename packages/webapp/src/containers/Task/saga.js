@@ -3,7 +3,7 @@ import { createAction } from '@reduxjs/toolkit';
 import apiConfig from '../../apiConfig';
 import { axios, getHeader, getPlantingManagementPlansSuccessSaga, onReqSuccessSaga } from '../saga';
 import i18n from '../../locales/i18n';
-import { loginSelector } from '../userFarmSlice';
+import { loginSelector, putUserSuccess } from '../userFarmSlice';
 import history from '../../history';
 import { enqueueErrorSnackbar, enqueueSuccessSnackbar } from '../Snackbar/snackbarSlice';
 import {
@@ -70,6 +70,11 @@ import {
   onLoadingHarvestUseTypeStart,
 } from '../harvestUseTypeSlice';
 import { managementPlanWithCurrentLocationEntitiesSelector } from './TaskCrops/managementPlansWithLocationSelector';
+
+const { userFarmUrl } = apiConfig;
+const patchWageUrl = (farm_id, user_id) => `${userFarmUrl}/wage/farm/${farm_id}/user/${user_id}`;
+const patchWageDoNotAskAgainUrl = (farm_id, user_id) =>
+  `${userFarmUrl}/wage_do_not_ask_again/farm/${farm_id}/user/${user_id}`;
 
 const taskTypeEndpoint = [
   'cleaning_task',
@@ -147,6 +152,9 @@ export function* assignTaskOnDateSaga({ payload: { task_id, date, assignee_user_
 }
 
 export const changeTaskDate = createAction('changeTaskDateSaga');
+export const changeTaskWage = createAction('changeTaskWageSaga');
+export const updateUserFarmWage = createAction('updateUserFarmWageSaga');
+export const setUserFarmWageDoNotAskAgain = createAction('setUserFarmWageDoNotAskAgainSaga');
 
 export function* changeTaskDateSaga({ payload: { task_id, due_date } }) {
   const { taskUrl } = apiConfig;
@@ -165,6 +173,48 @@ export function* changeTaskDateSaga({ payload: { task_id, due_date } }) {
   } catch (e) {
     console.log(e);
     yield put(enqueueErrorSnackbar(i18n.t('message:ASSIGN_TASK.ERROR')));
+  }
+}
+
+export function* changeTaskWageSaga({ payload: { task_id, wage_at_moment } }) {
+  const { taskUrl } = apiConfig;
+  let { user_id, farm_id } = yield select(loginSelector);
+  const header = getHeader(user_id, farm_id);
+  try {
+    yield call(axios.patch, `${taskUrl}/patch_wage/${task_id}`, { wage_at_moment }, header);
+
+    yield put(putTaskSuccess({ wage_at_moment, task_id }));
+    yield put(enqueueSuccessSnackbar(i18n.t('message:ASSIGN_TASK.SUCCESS')));
+  } catch (e) {
+    console.log(e);
+    yield put(enqueueErrorSnackbar(i18n.t('message:ASSIGN_TASK.ERROR')));
+  }
+}
+
+export function* updateUserFarmWageSaga({ payload: user }) {
+  let target_user_id = user.user_id;
+  const { user_id, farm_id } = yield select(loginSelector);
+  const header = getHeader(user_id, farm_id);
+  try {
+    yield call(axios.patch, patchWageUrl(farm_id, target_user_id), user, header);
+    yield put(putUserSuccess({ ...user, farm_id }));
+  } catch (e) {
+    yield put(enqueueErrorSnackbar(i18n.t('message:USER.ERROR.UPDATE')));
+    console.error(e);
+  }
+}
+
+export function* setUserFarmWageDoNotAskAgainSaga({ payload: user }) {
+  let target_user_id = user.user_id;
+  const { user_id, farm_id } = yield select(loginSelector);
+  const header = getHeader(user_id, farm_id);
+  try {
+    yield call(axios.patch, patchWageDoNotAskAgainUrl(farm_id, target_user_id), user, header);
+    // TODO: should properly update userFarm data
+    yield put(putUserSuccess({ ...user, farm_id }));
+  } catch (e) {
+    yield put(enqueueErrorSnackbar(i18n.t('message:USER.ERROR.UPDATE')));
+    console.error(e);
   }
 }
 
@@ -772,6 +822,7 @@ export default function* taskSaga() {
   yield takeLeading(addCustomTaskType.type, addTaskTypeSaga);
   yield takeLeading(assignTask.type, assignTaskSaga);
   yield takeLeading(changeTaskDate.type, changeTaskDateSaga);
+  yield takeLeading(changeTaskWage.type, changeTaskWageSaga);
   yield takeLeading(createTask.type, createTaskSaga);
   yield takeLatest(getTaskTypes.type, getTaskTypesSaga);
   yield takeLeading(assignTasksOnDate.type, assignTaskOnDateSaga);
@@ -783,6 +834,8 @@ export default function* taskSaga() {
   yield takeLeading(deleteTaskType.type, deleteTaskTypeSaga);
   yield takeLatest(getHarvestUseTypes.type, getHarvestUseTypesSaga);
   yield takeLeading(addCustomHarvestUse.type, addCustomHarvestUseSaga);
+  yield takeLeading(updateUserFarmWage.type, updateUserFarmWageSaga);
+  yield takeLeading(setUserFarmWageDoNotAskAgain.type, setUserFarmWageDoNotAskAgainSaga);
   yield takeLatest(
     getTransplantTasksAndPlantingManagementPlansSuccess.type,
     getTransplantTasksAndPlantingManagementPlansSuccessSaga,

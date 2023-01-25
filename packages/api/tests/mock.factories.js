@@ -1063,6 +1063,7 @@ function fakeCropVariety(defaultData = {}) {
     ]),
     plant_spacing: faker.datatype.number(100),
     seeding_rate: faker.datatype.number(10000),
+    nominate_crop: faker.datatype.boolean(),
     ...defaultData,
   };
 }

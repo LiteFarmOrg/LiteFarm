@@ -511,7 +511,7 @@
         "LONGITUDE": "Longitude",
         "READING_TYPES": "Reading_types",
         "SENSOR_EXTERNAL_ID": "External_ID",
-        "DEPTH": "Depth",
+        "DEPTH": "Depth_cm",
         "BRAND": "Brand",
         "MODEL": "Model"
       },

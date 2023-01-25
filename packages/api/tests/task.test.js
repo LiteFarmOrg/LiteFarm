@@ -118,6 +118,16 @@ describe('Task tests', () => {
       .end(callback);
   }
 
+  function patchTaskWageRequest({ user_id, farm_id }, data, task_id, callback) {
+    chai
+      .request(server)
+      .patch(`/task/patch_wage/${task_id}`)
+      .set('user_id', user_id)
+      .set('farm_id', farm_id)
+      .send(data)
+      .end(callback);
+  }
+
   function completeTaskRequest({ user_id, farm_id }, data, task_id, type, callback) {
     chai
       .request(server)
@@ -2334,6 +2344,56 @@ describe('Task tests', () => {
       });
 
       patchTaskDateRequest({ user_id, farm_id }, patchTaskDateBody, task_id, async (err, res) => {
+        expect(res.status).toBe(403);
+        done();
+      });
+    });
+  });
+
+  describe('Patch task wage test', () => {
+    const testWithAdminRoleAndValidInput = async (userRoleId, wage_at_moment, done) => {
+      const patchTaskWageBody = { wage_at_moment };
+      const [{ user_id, farm_id }] = await mocks.userFarmFactory({}, fakeUserFarm(userRoleId));
+      const [{ task_id }] = await mocks.taskFactory({ promisedUser: [{ user_id }] });
+      const [{ location_id }] = await mocks.locationFactory({ promisedFarm: [{ farm_id }] });
+      await mocks.location_tasksFactory({
+        promisedTask: [{ task_id }],
+        promisedField: [{ location_id }],
+      });
+
+      patchTaskWageRequest({ user_id, farm_id }, patchTaskWageBody, task_id, async (err, res) => {
+        expect(res.status).toBe(200);
+        const updated_task = await getTask(task_id);
+        expect(updated_task.wage_at_moment).toBe(wage_at_moment);
+        done();
+      });
+    };
+
+    test.only('Farm owner must be able to patch task wage', async (done) => {
+      testWithAdminRoleAndValidInput(1, -33, done);
+    });
+
+    test('EO must be able to patch task wage', async (done) => {
+      testWithAdminRoleAndValidInput(5, 27, done);
+    });
+
+    test('Managers must be able to patch task wage', async (done) => {
+      testWithAdminRoleAndValidInput(2, 37, done);
+      const wage_at_moment = 37;
+    });
+
+    test('Farm worker must not be able to patch task due date', async (done) => {
+      const wage_at_moment = 20;
+      const patchTaskWageBody = { wage_at_moment };
+      const [{ user_id, farm_id }] = await mocks.userFarmFactory({}, fakeUserFarm(3));
+      const [{ task_id }] = await mocks.taskFactory({ promisedUser: [{ user_id }] });
+      const [{ location_id }] = await mocks.locationFactory({ promisedFarm: [{ farm_id }] });
+      await mocks.location_tasksFactory({
+        promisedTask: [{ task_id }],
+        promisedField: [{ location_id }],
+      });
+
+      patchTaskWageRequest({ user_id, farm_id }, patchTaskWageBody, task_id, async (err, res) => {
         expect(res.status).toBe(403);
         done();
       });

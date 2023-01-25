@@ -77,7 +77,8 @@ const nominationController = {
 
   /**
    * This will add a new nomination to the table based from another controller using its transaction.
-   * @param {string} initialStatus This is the initial workflow status for the nomination status log.
+   * @param {string} nominationType This is the workflow group name.
+   * @param {string} initialStatus This is the initial workflow status for the status log.
    * @returns The created nomination and status row.
    */
   async addNominationFromController(nominationType, initialStatus, req, trx) {
@@ -100,8 +101,7 @@ const nominationController = {
     const status = await baseController.postWithResponse(NominationStatusModel, data, req, {
       trx,
     });
-    const result = { nomination, status };
-    return result;
+    return { nomination, status };
   },
 
   /**

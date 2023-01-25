@@ -204,8 +204,7 @@ export function* setUserFarmWageDoNotAskAgainSaga({ payload: user }) {
   const header = getHeader(user_id, farm_id);
   try {
     yield call(axios.patch, patchWageDoNotAskAgainUrl(farm_id, target_user_id), user, header);
-    // TODO: should properly update userFarm data
-    yield put(putUserSuccess({ ...user, farm_id }));
+    yield put(putUserSuccess({ ...user, farm_id, wage_do_not_ask_again: true }));
   } catch (e) {
     yield put(enqueueErrorSnackbar(i18n.t('message:USER.ERROR.UPDATE')));
     console.error(e);

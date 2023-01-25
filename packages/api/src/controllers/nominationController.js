@@ -14,7 +14,7 @@
  */
 import baseController from '../controllers/baseController.js';
 import NominationModel from '../models/nominationModel.js';
-// import NominationTypeModel from '../models/nominationTypeModel.js';
+// Also available for control: import NominationTypeModel from '../models/nominationTypeModel.js';
 import NominationStatusModel from '../models/nominationStatusModel.js';
 import NominationWorkflowModel from '../models/nominationWorkflowModel.js';
 import objection from 'objection';
@@ -84,7 +84,6 @@ const nominationController = {
   async addNominationFromController(nominationType, initialStatus, req, trx) {
     const data = req.body;
     data.nomination_type = nominationType;
-    //Get workflow id
     //TODO: Hopefully this gets changed/removed with workflow ranking
     const { workflow_id } = await NominationWorkflowModel.query(trx)
       .select('workflow_id')
@@ -92,12 +91,9 @@ const nominationController = {
       .andWhere('type_group', nominationType)
       .first();
     data.workflow_id = workflow_id;
-    // Add nomination
     const nomination = await baseController.postWithResponse(NominationModel, data, req, {
       trx,
     });
-    data.nomination_id = nomination.nomination_id;
-    // Add status change entry
     const status = await baseController.postWithResponse(NominationStatusModel, data, req, {
       trx,
     });

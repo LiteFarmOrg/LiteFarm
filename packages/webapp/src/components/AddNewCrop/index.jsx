@@ -203,7 +203,7 @@ export default function PureAddNewCrop({
       <Checkbox
         data-cy="crop-nomination"
         label={t('CROP_CATALOGUE.NOMINATE_CROP')}
-        style={{ marginTop: '40px', marginBottom: '8px' }}
+        style={{ marginTop: '40px', marginBottom: '16px' }}
         hookFormRegister={register('nominate_crop')}
         tooltipContent={t('CROP_CATALOGUE.NOMINATE_CROP_TOOLTIP')}
       />

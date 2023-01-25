@@ -56,6 +56,7 @@ const Rating = ({
                 onMouseLeave={disabled ? () => {} : () => setHover(rating)}
               >
                 <RatingStar
+                  data-cy="taskComplete-rating"
                   style={{ width: '24px', height: '24px' }}
                   className={
                     index <= (hover || stars || rating) && !disabled ? styles.filled : styles.empty

@@ -120,6 +120,7 @@ export default function PureTaskComplete({
       <Main style={{ marginBottom: '24px' }}>{t('TASK.COMPLETE_TASK_DURATION')}</Main>
 
       <TimeSlider
+        data-cy="taskComplete-duration"
         style={{ marginBottom: '40px' }}
         label={t('TASK.DURATION')}
         setValue={(durationInMinutes) => setValue(DURATION, durationInMinutes)}
@@ -140,7 +141,7 @@ export default function PureTaskComplete({
       )}
 
       <Checkbox
-        data-cy="harvestComplete-rating"
+        data-cy="taskComplete-ratingCheckbox"
         style={{ marginBottom: '42px' }}
         label={t('TASK.PREFER_NOT_TO_SAY')}
         hookFormRegister={register(PREFER_NOT_TO_SAY)}

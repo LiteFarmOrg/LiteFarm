@@ -738,22 +738,33 @@ describe.only('LiteFarm end to end tests for tasks flow', () => {
     cy.get('[data-cy="taskReadOnly-complete"]').click();
 
     cy.get('[data-cy="beforeComplete-changes"]').first().check({ force: true });
-    cy.get('[data-cy="beforeComplete-plantingMethod"]').eq(1).check({ force: true });
-    let plants = Data.cropPlan.Containers * Data.cropPlan.Plants;
-    cy.get('[data-cy="cropPlan-groundPlants"]').type(plants);
-    cy.get('[data-cy="cropPlan-groundSpacing"]').type(Data.cropPlan.Spacing);
-    cy.contains('spacing').click();
+    cy.get('[data-cy="beforeComplete-plantingMethod"]').eq(0).check({ force: true });
+    let newContainers = 510;
+    let newPlants = 6;
+    let newDepth = 8;
+    let newSoil = 'Slightly alkaline';
+    let newContainer = 'pots';
+    let newSeed = 12;
+    cy.get('[data-cy="cropPlan-numberContainers"]').clear().type(newContainers);
+    cy.get('[data-cy="cropPlan-numberPlants"]').clear().type(newPlants);
+    cy.get('[data-cy="cropPlan-plantingDepth"]').clear().type(newDepth);
+    cy.get('[data-cy="cropPlan-plantingSoil"]').clear().type(newSoil);
+    cy.get('[data-cy="cropPlan-containerType"]').clear().type(newContainer);
+    cy.get('[data-cy="cropPlan-estimatedSeed"]').clear().type(newSeed);
     cy.get('.Unit-select')
       .eq(0)
       .then(($elem) => {
-        depthUnit = $elem.text();
+        containerDepthUnit = $elem.text();
       });
-
     cy.get('.Unit-select')
       .eq(1)
       .then(($elem) => {
-        spacingUnit = $elem.text();
+        seedUnit = $elem.text();
       });
     cy.get('[data-cy="beforeComplete-submit"]').click();
+
+    cy.get('[data-cy="taskComplete-duration"]').type('{rightarrow}');
+    cy.get('[data-cy="taskComplete-rating"]').eq(3).click();
+    cy.get('[data-cy="harvestComplete-save"]').click();
   });
 });

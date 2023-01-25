@@ -30,11 +30,6 @@
     "ASSIGN_TASK": "Assign task",
     "ASSIGNEE": "Assignee",
     "CANCEL": "task creation",
-    "SET_HOURLY_WAGE": "Yes, set hourly wage",
-    "FOR_THIS_TASK": "Yes, just for this task",
-    "DONT_ASK": "Don't ask again",
-    "ASSIGNEE_WAGE_WARNING": "{{name}} doesn't currently have an hourly wage assigned.",
-    "WANT_TO_SET_HOURLY_WAGE": "Would you like to set an hourly wage?",
     "CLEANING_VIEW": {
       "ESTIMATED_WATER": "Estimated water usage",
       "IS_PERMITTED": "Is the cleaning agent in the permitted substances list?",
@@ -69,6 +64,13 @@
     "GO_TO_CATALOGUE": "Go to Crop Catalogue",
     "HARVEST_EVERYTHING": "Harvest everything that is ready",
     "HARVESTING_INFO": "Each plan will generate an individual harvest task",
+    "HOURLY_WAGE": {
+      "ASSIGNEE_WAGE_WARNING": "{{name}} doesn't currently have an hourly wage assigned.",
+      "DONT_ASK": "Don't ask again",
+      "FOR_THIS_TASK": "Yes, just for this task",
+      "SET_HOURLY_WAGE": "Yes, set hourly wage",
+      "WANT_TO_SET_HOURLY_WAGE": "Would you like to set an hourly wage?"
+    },
     "HOW_MUCH_IS_HARVESTED": "How much is being harvested?",
     "HR": "/hr",
     "MANAGE_CUSTOM_TASKS": "Manage custom tasks",

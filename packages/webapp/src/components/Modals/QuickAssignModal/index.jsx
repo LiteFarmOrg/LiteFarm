@@ -176,11 +176,11 @@ export default function TaskQuickAssignModal({
 
   const radioOptions = [
     {
-      label: t('ADD_TASK.SET_HOURLY_WAGE'),
+      label: t('ADD_TASK.HOURLY_WAGE.SET_HOURLY_WAGE'),
       value: hourlyWageOptions.SET_HOURLY_WAGE,
     },
     {
-      label: t('ADD_TASK.FOR_THIS_TASK'),
+      label: t('ADD_TASK.HOURLY_WAGE.FOR_THIS_TASK'),
       value: hourlyWageOptions.FOR_THIS_TASK,
     },
     {
@@ -188,7 +188,7 @@ export default function TaskQuickAssignModal({
       value: hourlyWageOptions.NO,
     },
     {
-      label: t('ADD_TASK.DONT_ASK'),
+      label: t('ADD_TASK.HOURLY_WAGE.DONT_ASK'),
       value: hourlyWageOptions.DO_NOT_ASK_AGAIN,
     },
   ];
@@ -203,9 +203,11 @@ export default function TaskQuickAssignModal({
     return (
       <>
         <Label className={styles.warning} style={{ marginBottom: 24 }}>
-          {t('ADD_TASK.ASSIGNEE_WAGE_WARNING', { name: selectedWorker.label })}
+          {t('ADD_TASK.HOURLY_WAGE.ASSIGNEE_WAGE_WARNING', { name: selectedWorker.label })}
         </Label>
-        <Main style={{ marginBottom: 10 }}>{t('ADD_TASK.WANT_TO_SET_HOURLY_WAGE')}</Main>
+        <Main style={{ marginBottom: 10 }}>
+          {t('ADD_TASK.HOURLY_WAGE.WANT_TO_SET_HOURLY_WAGE')}
+        </Main>
         <RadioGroup
           hookFormControl={control}
           name={HOURLY_WAGE_OPTION}

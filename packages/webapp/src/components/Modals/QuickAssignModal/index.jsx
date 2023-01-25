@@ -205,7 +205,7 @@ export default function TaskQuickAssignModal({
         <Label className={styles.warning} style={{ marginBottom: 24 }}>
           {t('ADD_TASK.ASSIGNEE_WAGE_WARNING', { name: selectedWorker.label })}
         </Label>
-        <Main style={{ marginBottom: 10 }}>{t('ADD_TASK.DO_YOU_WANT_TO_SET_HOURLY_WAGE')}</Main>
+        <Main style={{ marginBottom: 10 }}>{t('ADD_TASK.WANT_TO_SET_HOURLY_WAGE')}</Main>
         <RadioGroup
           hookFormControl={control}
           name={HOURLY_WAGE_OPTION}
@@ -222,12 +222,14 @@ export default function TaskQuickAssignModal({
             type="number"
             onKeyPress={numberOnKeyDown}
             hookFormRegister={register(HOURLY_WAGE, {
-              min: { value: 0, message: t('WAGE.RANGE_ERROR') },
+              min: { value: 0, message: t('WAGE.HOURLY_WAGE_RANGE_ERROR') },
               valueAsNumber: true,
-              max: { value: 999999999, message: t('WAGE.RANGE_ERROR') },
+              max: { value: 999999999, message: t('WAGE.HOURLY_WAGE_RANGE_ERROR') },
             })}
             style={{ marginBottom: '24px' }}
-            errors={errors[HOURLY_WAGE] && (errors[HOURLY_WAGE].message || t('WAGE.ERROR'))}
+            errors={
+              errors[HOURLY_WAGE] && (errors[HOURLY_WAGE].message || t('WAGE.HOURLY_WAGE_ERROR'))
+            }
             toolTipContent={t('WAGE.HOURLY_WAGE_TOOLTIP')}
             optional
           />
@@ -282,7 +284,7 @@ export default function TaskQuickAssignModal({
         name={ASSIGN_ALL}
         data-cy="quickAssign-assignAll"
         style={{ paddingRight: '24px' }}
-        label={t('ADD_TASK.ASSIGN_ALL_ON_THIS_DATE_TO_PERSON', { name: selectedWorker.label })}
+        label={t('ADD_TASK.ASSIGN_ALL_TO_PERSON', { name: selectedWorker.label })}
         hookFormRegister={register(ASSIGN_ALL)}
       />
     </ModalComponent>

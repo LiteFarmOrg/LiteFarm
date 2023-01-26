@@ -17,7 +17,7 @@ import grabCurrencySymbol from '../../../util/grabCurrencySymbol';
 
 const ASSIGNEE = 'assignee';
 const HOURLY_WAGE = 'hourly_wage';
-const HOURLY_WAGE_ACTION = 'hourly_wage_ACTION';
+const HOURLY_WAGE_ACTION = 'hourly_wage_action';
 const ASSIGN_ALL = 'assign_all';
 const hourlyWageActions = {
   SET_HOURLY_WAGE: 'set_hourly_wage',
@@ -46,7 +46,6 @@ export default function TaskQuickAssignModal({
   wageAtMoment,
 }) {
   const { t } = useTranslation();
-
   const selfOption = {
     label: `${user.first_name} ${user.last_name}`,
     value: user.user_id,
@@ -142,16 +141,18 @@ export default function TaskQuickAssignModal({
     dismissModal();
   };
 
+  const disabled = !selectedWorker || !isValid;
+
   useEffect(() => {
     let shouldShowWageSection = false;
 
-    if (user.is_admin) {
-      const unassigned = !selectedWorker || selectedWorker.label === unAssignedOption.label;
+    if (user.is_admin && selectedWorker) {
+      const assigned = selectedWorker.label !== unAssignedOption.label;
 
-      if (selectedWorker && !unassigned) {
-        const { amount } = selectedWorker?.wage;
+      if (assigned) {
+        const { amount } = selectedWorker.wage;
         const hasWage = !!(amount || wageAtMoment);
-        shouldShowWageSection = !hasWage && !selectedWorker?.doNotAskAgain;
+        shouldShowWageSection = !hasWage && !selectedWorker.doNotAskAgain;
       }
     }
     setShowHourlyWageSection(shouldShowWageSection);
@@ -197,8 +198,6 @@ export default function TaskQuickAssignModal({
       value: hourlyWageActions.DO_NOT_ASK_AGAIN,
     },
   ];
-
-  const disabled = !selectedWorker || !isValid;
 
   const renderHourlyWageSection = () => {
     if (!showHourlyWageSection) {

@@ -167,7 +167,7 @@ export const changeTaskWage = createAction('changeTaskWageSaga');
 
 export function* changeTaskWageSaga({ payload: { task_id, wage_at_moment } }) {
   const { taskUrl } = apiConfig;
-  let { user_id, farm_id } = yield select(loginSelector);
+  const { user_id, farm_id } = yield select(loginSelector);
   const header = getHeader(user_id, farm_id);
   try {
     yield call(axios.patch, `${taskUrl}/patch_wage/${task_id}`, { wage_at_moment }, header);

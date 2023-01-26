@@ -16,7 +16,7 @@
 export const up = function (knex) {
   return Promise.all([
     knex.schema.table('userFarm', (table) => {
-      table.boolean('wage_do_not_ask_again').nullable();
+      table.boolean('wage_do_not_ask_again').nullable().defaultTo(false);
     }),
   ]);
 };

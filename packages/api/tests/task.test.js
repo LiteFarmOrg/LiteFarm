@@ -2369,8 +2369,8 @@ describe('Task tests', () => {
       });
     };
 
-    test.only('Farm owner must be able to patch task wage', async (done) => {
-      testWithAdminRoleAndValidInput(1, -33, done);
+    test('Farm owner must be able to patch task wage', async (done) => {
+      testWithAdminRoleAndValidInput(1, 33, done);
     });
 
     test('EO must be able to patch task wage', async (done) => {
@@ -2379,11 +2379,10 @@ describe('Task tests', () => {
 
     test('Managers must be able to patch task wage', async (done) => {
       testWithAdminRoleAndValidInput(2, 37, done);
-      const wage_at_moment = 37;
     });
 
     test('Farm worker must not be able to patch task due date', async (done) => {
-      const wage_at_moment = 20;
+      const wage_at_moment = 30;
       const patchTaskWageBody = { wage_at_moment };
       const [{ user_id, farm_id }] = await mocks.userFarmFactory({}, fakeUserFarm(3));
       const [{ task_id }] = await mocks.taskFactory({ promisedUser: [{ user_id }] });

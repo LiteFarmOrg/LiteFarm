@@ -488,8 +488,7 @@ const userFarmController = {
   setWageDoNotAskAgain() {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
-      const farm_id = req.params.farm_id;
-      const user_id = req.params.user_id;
+      const { farm_id, user_id } = req.params;
 
       try {
         const isPatched = await UserFarmModel.query(trx)
@@ -499,11 +498,9 @@ const userFarmController = {
         if (isPatched) {
           await trx.commit();
           res.sendStatus(200);
-          return;
         } else {
           await trx.rollback();
           res.sendStatus(404);
-          return;
         }
       } catch (error) {
         // handle more exceptions

@@ -37,14 +37,14 @@ const TaskCard = ({
   const onChangeTaskDate = (date) => {
     dispatch(changeTaskDate({ task_id, due_date: date + 'T00:00:00.000' }));
   };
-  const onChangeTaskWage = (wage) => {
-    dispatch(changeTaskWage({ task_id, wage_at_moment: wage }));
-  };
   const onAssignTasksOnDate = (task) => dispatch(assignTasksOnDate(task));
   const onAssignTask = (task) => dispatch(assignTask(task));
   const onUpdateUserFarmWage = (user) => dispatch(updateUserFarmWage(user));
   const onSetUserFarmWageDoNotAskAgain = (user) => {
     dispatch(setUserFarmWageDoNotAskAgain(user));
+  };
+  const onChangeTaskWage = (wage) => {
+    dispatch(changeTaskWage({ task_id, wage_at_moment: wage }));
   };
   const users = useSelector(userFarmsByFarmSelector).filter((user) => user.status !== 'Inactive');
   const user = useSelector(userFarmSelector);

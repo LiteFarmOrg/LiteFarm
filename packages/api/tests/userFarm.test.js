@@ -1044,19 +1044,19 @@ describe('User Farm Tests', () => {
         );
       };
 
-      test('Owner should be able to wage_do_not_ask_again', async (done) => {
+      test('Owner should be able to set wage_do_not_ask_again', async (done) => {
         testWithAdminRole(1, 3, done);
       });
 
-      test('Manager should be able to wage_do_not_ask_again', async (done) => {
+      test('Manager should be able to set wage_do_not_ask_again', async (done) => {
         testWithAdminRole(2, 3, done);
       });
 
-      test('EO should be able to wage_do_not_ask_again', async (done) => {
+      test('EO should be able to set wage_do_not_ask_again', async (done) => {
         testWithAdminRole(5, 3, done);
       });
 
-      test('Farm worker should not be able to wage_do_not_ask_again', async (done) => {
+      test('Farm worker should not be able to set wage_do_not_ask_again', async (done) => {
         const { user: owner, farm } = await setupUserFarm({ role_id: 3 });
         const worker = await createUserFarmAtFarm({ role_id: 3 }, farm);
         const target_user_id = worker.user_id;

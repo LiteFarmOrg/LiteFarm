@@ -25,7 +25,7 @@
     "ADD_A_TASK": "Adicione uma tarefa",
     "ADD_CUSTOM_TASK": "Adicionar tarefa personalizada",
     "AFFECT_PLANS": "Esta tarefa influenciará em algum plano",
-    "ASSIGN_ALL_TO_PERSON": "Atribuir todas as tarefas não atribuídas nesta data a esta pessoa",
+    "ASSIGN_ALL_TO_PERSON": "MISSING",
     "ASSIGN_DATE": "Atribuir data de vencimento",
     "ASSIGN_TASK": "Atribuir tarefa",
     "ASSIGNEE": "Responsável",
@@ -1788,8 +1788,8 @@
     "SUBTITLE": "MISSING"
   },
   "WAGE": {
+    "ERROR": "Salário/vencimento precisa ser um número decimal válido não-negativo",
     "HOURLY_WAGE": "MISSING",
-    "HOURLY_WAGE_ERROR": "Salário/vencimento precisa ser um número decimal válido não-negativo",
     "HOURLY_WAGE_RANGE_ERROR": "MISSING",
     "HOURLY_WAGE_TOOLTIP": "MISSING"
   }

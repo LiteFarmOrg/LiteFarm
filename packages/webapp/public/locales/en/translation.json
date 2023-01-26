@@ -1780,8 +1780,8 @@
     "SUBTITLE": "You’ve indicated you’ll be planting a non-organic crop in an organic location. Do you want to proceed?"
   },
   "WAGE": {
+    "ERROR": "Wage must be a valid, non-negative decimal number",
     "HOURLY_WAGE": "Hourly Wage",
-    "HOURLY_WAGE_ERROR": "Wage must be a valid, non-negative decimal number",
     "HOURLY_WAGE_RANGE_ERROR": "Hourly Wage must be a positive number less than 999,999,999",
     "HOURLY_WAGE_TOOLTIP": "Hourly wages can be set by selecting an individual on the People tab under 'my farm'."
   }

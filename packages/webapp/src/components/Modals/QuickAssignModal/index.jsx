@@ -17,9 +17,9 @@ import grabCurrencySymbol from '../../../util/grabCurrencySymbol';
 
 const ASSIGNEE = 'assignee';
 const HOURLY_WAGE = 'hourly_wage';
-const HOURLY_WAGE_OPTION = 'hourly_wage_option';
+const HOURLY_WAGE_ACTION = 'hourly_wage_ACTION';
 const ASSIGN_ALL = 'assign_all';
-const hourlyWageOptions = {
+const hourlyWageActions = {
   SET_HOURLY_WAGE: 'set_hourly_wage',
   FOR_THIS_TASK: 'for_this_task',
   NO: 'no',
@@ -27,7 +27,7 @@ const hourlyWageOptions = {
 };
 
 const isYesOptionSelected = (option) => {
-  const yesOptions = [hourlyWageOptions.SET_HOURLY_WAGE, hourlyWageOptions.FOR_THIS_TASK];
+  const yesOptions = [hourlyWageActions.SET_HOURLY_WAGE, hourlyWageActions.FOR_THIS_TASK];
   return yesOptions.includes(option);
 };
 
@@ -82,43 +82,16 @@ export default function TaskQuickAssignModal({
     mode: 'onTouched',
     defaultValues: {
       [ASSIGNEE]: isAssigned ? unAssignedOption : selfOption,
-      [HOURLY_WAGE_OPTION]: '',
+      [HOURLY_WAGE_ACTION]: '',
       [HOURLY_WAGE]: null,
       [ASSIGN_ALL]: false,
     },
   });
 
   const selectedWorker = watch(ASSIGNEE);
-  const selectedHourlyWageOption = watch(HOURLY_WAGE_OPTION);
+  const selectedHourlyWageAction = watch(HOURLY_WAGE_ACTION);
   const hourlyWage = watch(HOURLY_WAGE);
   const assignAll = watch(ASSIGN_ALL);
-
-  useEffect(() => {
-    if (!user.is_admin || !selectedWorker.wage) {
-      return;
-    }
-
-    resetField(HOURLY_WAGE_OPTION);
-    resetField(HOURLY_WAGE);
-  }, [selectedWorker]);
-
-  useEffect(() => {
-    let shouldShow = false;
-
-    if (selectedHourlyWageOption) {
-      shouldShow = isYesOptionSelected(selectedHourlyWageOption);
-    }
-
-    if (shouldShow !== showHourlyWageInput) {
-      setShowHourlyWageInput(shouldShow);
-    }
-  }, [selectedHourlyWageOption]);
-
-  useEffect(() => {
-    if (!showHourlyWageInput) {
-      resetField(HOURLY_WAGE);
-    }
-  }, [showHourlyWageInput]);
 
   const tasks = useSelector(tasksSelector);
   const currencySymbol = grabCurrencySymbol(getCurrencyFromStore());
@@ -154,15 +127,15 @@ export default function TaskQuickAssignModal({
           assignee_user_id: assigneeUserId,
         });
 
-    if (isYesOptionSelected(selectedHourlyWageOption)) {
+    if (isYesOptionSelected(selectedHourlyWageAction)) {
       const wage = +parseFloat(hourlyWage).toFixed(2);
 
-      if (selectedHourlyWageOption === hourlyWageOptions.SET_HOURLY_WAGE) {
+      if (selectedHourlyWageAction === hourlyWageActions.SET_HOURLY_WAGE) {
         onUpdateUserFarmWage({ user_id: assigneeUserId, wage: { type: 'hourly', amount: wage } });
-      } else if (selectedHourlyWageOption === hourlyWageOptions.FOR_THIS_TASK) {
+      } else if (selectedHourlyWageAction === hourlyWageActions.FOR_THIS_TASK) {
         onChangeTaskWage(wage);
       }
-    } else if (selectedHourlyWageOption === hourlyWageOptions.DO_NOT_ASK_AGAIN) {
+    } else if (selectedHourlyWageAction === hourlyWageActions.DO_NOT_ASK_AGAIN) {
       onSetUserFarmWageDoNotAskAgain({ user_id: assigneeUserId });
     }
 
@@ -170,7 +143,7 @@ export default function TaskQuickAssignModal({
   };
 
   useEffect(() => {
-    let shouldShow = false;
+    let shouldShowWageSection = false;
 
     if (user.is_admin) {
       const unassigned = !selectedWorker || selectedWorker.label === unAssignedOption.label;
@@ -178,34 +151,56 @@ export default function TaskQuickAssignModal({
       if (selectedWorker && !unassigned) {
         const { amount } = selectedWorker?.wage;
         const hasWage = !!(amount || wageAtMoment);
-        shouldShow = !hasWage && !selectedWorker?.doNotAskAgain;
+        shouldShowWageSection = !hasWage && !selectedWorker?.doNotAskAgain;
       }
     }
-    setShowHourlyWageSection(shouldShow);
+    setShowHourlyWageSection(shouldShowWageSection);
   }, [user.is_admin, selectedWorker, wageAtMoment]);
+
+  useEffect(() => {
+    if (!user.is_admin) {
+      return;
+    }
+
+    resetField(HOURLY_WAGE_ACTION);
+    resetField(HOURLY_WAGE);
+  }, [user.is_admin, selectedWorker]);
+
+  useEffect(() => {
+    let shouldShowWageInput = false;
+
+    if (selectedHourlyWageAction) {
+      shouldShowWageInput = isYesOptionSelected(selectedHourlyWageAction);
+    }
+    if (!shouldShowWageInput) {
+      resetField(HOURLY_WAGE);
+    }
+
+    setShowHourlyWageInput(shouldShowWageInput);
+  }, [selectedHourlyWageAction]);
 
   const radioOptions = [
     {
       label: t('ADD_TASK.HOURLY_WAGE.SET_HOURLY_WAGE'),
-      value: hourlyWageOptions.SET_HOURLY_WAGE,
+      value: hourlyWageActions.SET_HOURLY_WAGE,
     },
     {
       label: t('ADD_TASK.HOURLY_WAGE.FOR_THIS_TASK'),
-      value: hourlyWageOptions.FOR_THIS_TASK,
+      value: hourlyWageActions.FOR_THIS_TASK,
     },
     {
       label: t('common:NO'),
-      value: hourlyWageOptions.NO,
+      value: hourlyWageActions.NO,
     },
     {
       label: t('ADD_TASK.HOURLY_WAGE.DONT_ASK'),
-      value: hourlyWageOptions.DO_NOT_ASK_AGAIN,
+      value: hourlyWageActions.DO_NOT_ASK_AGAIN,
     },
   ];
 
-  const disabled = !isValid;
+  const disabled = !selectedWorker || !isValid;
 
-  const renderHourlyRangeSection = () => {
+  const renderHourlyWageSection = () => {
     if (!showHourlyWageSection) {
       return;
     }
@@ -220,28 +215,26 @@ export default function TaskQuickAssignModal({
         </Main>
         <RadioGroup
           hookFormControl={control}
-          name={HOURLY_WAGE_OPTION}
+          name={HOURLY_WAGE_ACTION}
           radios={radioOptions}
-          data-cy="roleSelection-role"
+          data-cy="quickAssign-hourlyWageAction"
           style={{ marginBottom: 10 }}
         />
         {showHourlyWageInput && (
           <Input
             unit={currencySymbol + t('ADD_TASK.HR')}
-            data-cy="hourly-wage"
+            data-cy="quickAssign-hourlyWage"
             label={t('WAGE.HOURLY_WAGE')}
             step="0.01"
             type="number"
             onKeyPress={numberOnKeyDown}
             hookFormRegister={register(HOURLY_WAGE, {
-              min: { value: 0, message: t('WAGE.HOURLY_WAGE_RANGE_ERROR') },
               valueAsNumber: true,
+              min: { value: 0, message: t('WAGE.HOURLY_WAGE_RANGE_ERROR') },
               max: { value: 999999999, message: t('WAGE.HOURLY_WAGE_RANGE_ERROR') },
             })}
-            style={{ marginBottom: '24px' }}
-            errors={
-              errors[HOURLY_WAGE] && (errors[HOURLY_WAGE].message || t('WAGE.HOURLY_WAGE_ERROR'))
-            }
+            style={{ marginBottom: 24 }}
+            errors={errors[HOURLY_WAGE] && (errors[HOURLY_WAGE].message || t('WAGE.ERROR'))}
             toolTipContent={t('WAGE.HOURLY_WAGE_TOOLTIP')}
             optional
           />
@@ -289,7 +282,7 @@ export default function TaskQuickAssignModal({
           />
         )}
       />
-      {renderHourlyRangeSection()}
+      {renderHourlyWageSection()}
       {/*TODO: properly fix checkbox label overflow ST-272*/}
       {/*TODO: LF-2932 - need to be able to unassign mutiple tasks at once */}
       <Checkbox

@@ -1787,8 +1787,8 @@
     "SUBTITLE": "MISSING"
   },
   "WAGE": {
+    "ERROR": "Salario debe ser válido, no números decimales negativos",
     "HOURLY_WAGE": "MISSING",
-    "HOURLY_WAGE_ERROR": "Salario debe ser válido, no números decimales negativos",
     "HOURLY_WAGE_RANGE_ERROR": "MISSING",
     "HOURLY_WAGE_TOOLTIP": "MISSING"
   }

@@ -46,6 +46,7 @@ function App() {
   const classes = useStyles();
   return (
     <>
+      <div>testing</div>
       <div className={clsx(classes.container, classes.defaultHeight, classes.webkitHeight)}>
         <NavBar history={history} />
         <div

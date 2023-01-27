@@ -174,7 +174,7 @@ export function* changeTaskWageSaga({ payload: { task_id, wage_at_moment } }) {
     yield put(putTaskSuccess({ wage_at_moment, task_id }));
   } catch (e) {
     console.log(e);
-    yield put(enqueueErrorSnackbar(i18n.t('message:ASSIGN_TASK.ERROR')));
+    yield put(enqueueErrorSnackbar(i18n.t('message:TASK.UPDATE.FAILED')));
   }
 }
 

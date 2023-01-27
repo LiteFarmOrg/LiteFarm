@@ -93,7 +93,7 @@
     "rimraf": "^3.0.2",
     "rxjs": "^6.6.3",
     "sinon": "^9.1.0",
-    "ua-parser-js": "^0.7.28",
+    "ua-parser-js": "^0.7.33",
     "uuid": "^8.3.0",
     "winston": "^3.8.2",
     "winston-daily-rotate-file": "^4.7.1",

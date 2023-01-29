@@ -12,7 +12,8 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
-
+import * as dotenv from 'dotenv';
+dotenv.config();
 const credentials = {
   WATER_BALANCE_DIR: './src/jobs/waterBalance/waterBalanceData/',
   GOOGLE_API_KEY: process.env.GOOGLE_API_KEY,

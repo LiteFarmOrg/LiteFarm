@@ -15,6 +15,7 @@
 
 import baseController from '../controllers/baseController.js';
 import nominationController from './nominationController.js';
+import NominationCrop from '../models/nominationCropModel.js';
 import CropModel from '../models/cropModel.js';
 import CropVarietyModel from '../models/cropVarietyModel.js';
 import objection from 'objection';
@@ -70,15 +71,6 @@ const cropController = {
         const { crop, variety } = req.body;
         crop.user_added = true;
         crop.crop_translation_key = crop.crop_common_name;
-        if (crop.nominate_crop) {
-          const newNomination = await nominationController.addNominationFromController(
-            'CROP_NOMINATION',
-            'NOMINATED',
-            req,
-            trx,
-          );
-          crop.nomination_id = newNomination.nomination.nomination_id;
-        }
         const newCrop = await baseController.postWithResponse(CropModel, crop, req, { trx });
         const newVariety = await baseController.postWithResponse(
           CropVarietyModel,
@@ -86,6 +78,15 @@ const cropController = {
           req,
           { trx },
         );
+        if (crop.nominate_crop) {
+          req.body.crop_id = newCrop.crop_id;
+          const nominationConfig = {nominationModel: NominationCrop , nominationType: 'CROP_NOMINATION', initialStatus: 'NOMINATED' };
+          await nominationController.addNominationFromController(
+            nominationConfig,
+            req,
+            { trx },
+          );
+        }
         await trx.commit();
         res.status(201).send({ crop: newCrop, variety: newVariety });
       } catch (error) {

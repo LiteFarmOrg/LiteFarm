@@ -81,7 +81,12 @@ const nominationController = {
    * @param {string} initialStatus This is the initial workflow status for the status log.
    * @returns The created nomination and status row.
    */
-  async addNominationFromController(nominationType, initialStatus, req, trx) {
+  async addNominationFromController(
+      nominationConfig = {nominationModel, nominationType, initialStatus},   
+      req,  
+      { trx, context = {} } = {}  
+    ) {
+    const { nominationModel, nominationType, initialStatus } = nominationConfig;
     const data = req.body;
     data.nomination_type = nominationType;
     //TODO: Hopefully this gets changed/removed with workflow ranking
@@ -94,10 +99,12 @@ const nominationController = {
     const nomination = await baseController.postWithResponse(NominationModel, data, req, {
       trx,
     });
-    const status = await baseController.postWithResponse(NominationStatusModel, data, req, {
+    data.nomination_id = nomination.nomination_id;
+    await baseController.postWithResponse(NominationStatusModel, data, req, {
       trx,
     });
-    return { nomination, status };
+    await baseController.post(nominationModel, data, req, { trx });
+    return;
   },
 
   /**

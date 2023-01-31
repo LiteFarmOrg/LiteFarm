@@ -77,16 +77,18 @@ const nominationController = {
 
   /**
    * This will add a new nomination to the table based from another controller using its transaction.
-   * @param {string} nominationType This is the workflow group name.
+   * @param {Object} nominationModel This is the junction model for nomination and nominated tables.
+   * @param {string} nominationType This is the type of nomination or workflow group name.
    * @param {string} initialStatus This is the initial workflow status for the status log.
    * @returns The created nomination and status row.
    */
   async addNominationFromController(
-      nominationConfig = {nominationModel, nominationType, initialStatus},   
-      req,  
-      { trx, context = {} } = {}  
-    ) {
-    const { nominationModel, nominationType, initialStatus } = nominationConfig;
+    nominationModel,
+    nominationType,
+    initialStatus,
+    req,
+    { trx } = {},
+  ) {
     const data = req.body;
     data.nomination_type = nominationType;
     //TODO: Hopefully this gets changed/removed with workflow ranking
@@ -104,6 +106,7 @@ const nominationController = {
       trx,
     });
     await baseController.post(nominationModel, data, req, { trx });
+
     return;
   },
 

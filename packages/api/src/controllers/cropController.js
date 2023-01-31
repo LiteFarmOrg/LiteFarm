@@ -80,13 +80,15 @@ const cropController = {
         );
         if (crop.nominate_crop) {
           req.body.crop_id = newCrop.crop_id;
-          const nominationConfig = {nominationModel: NominationCrop , nominationType: 'CROP_NOMINATION', initialStatus: 'NOMINATED' };
           await nominationController.addNominationFromController(
-            nominationConfig,
+            NominationCrop,
+            'CROP_NOMINATION',
+            'NOMINATED',
             req,
             { trx },
           );
         }
+
         await trx.commit();
         res.status(201).send({ crop: newCrop, variety: newVariety });
       } catch (error) {

@@ -42,6 +42,7 @@ const averagesList = [
   'vitk',
   'nutrient_credits',
 ];
+
 const getCrop = (obj) => {
   return pick(obj, [
     'ca',

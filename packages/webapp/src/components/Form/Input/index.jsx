@@ -62,19 +62,7 @@ const Input = ({
     try {
       input.current.showPicker();
     } catch (e) {
-      switch (e.type) {
-        case 'InvalidStateError':
-          console.log('The element may be disabled');
-          break;
-        case 'NotAllowedError':
-          console.log('This action must be triggered by a user action');
-          break;
-        case 'SecurityError':
-          console.log({ e });
-          break;
-        default:
-          console.log({ e });
-      }
+      console.log({ e });
     }
   };
 

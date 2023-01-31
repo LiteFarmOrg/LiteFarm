@@ -1023,7 +1023,7 @@ describe('User Farm Tests', () => {
     });
 
     describe('Set wage_do_not_ask_again', () => {
-      const testWithAdminRole = async (userRoleId, targetUserRoleId, done) => {
+      const testWithRole = async (userRoleId, targetUserRoleId, done) => {
         const { user: owner, farm } = await setupUserFarm({ role_id: userRoleId });
         const worker = await createUserFarmAtFarm({ role_id: targetUserRoleId }, farm);
         const target_user_id = worker.user_id;
@@ -1031,43 +1031,40 @@ describe('User Farm Tests', () => {
           { user_id: owner.user_id, farm_id: farm.farm_id },
           target_user_id,
           async (err, res) => {
-            expect(err).toEqual(null);
-            expect(res.status).toBe(200);
-            const updatedUserFarm = await userFarmModel
-              .query()
-              .where('farm_id', farm.farm_id)
-              .andWhere('user_id', target_user_id)
-              .first();
-            expect(updatedUserFarm.wage_do_not_ask_again).toEqual(true);
+            const adminRoles = [1, 2, 5];
+            if (adminRoles.includes(userRoleId)) {
+              expect(err).toEqual(null);
+              expect(res.status).toBe(200);
+              const updatedUserFarm = await userFarmModel
+                .query()
+                .where('farm_id', farm.farm_id)
+                .andWhere('user_id', target_user_id)
+                .first();
+              expect(updatedUserFarm.wage_do_not_ask_again).toEqual(true);
+              done();
+              return;
+            }
+
+            expect(res.status).toBe(403);
             done();
           },
         );
       };
 
       test('Owner should be able to set wage_do_not_ask_again', async (done) => {
-        testWithAdminRole(1, 3, done);
+        testWithRole(1, 3, done);
       });
 
       test('Manager should be able to set wage_do_not_ask_again', async (done) => {
-        testWithAdminRole(2, 3, done);
+        testWithRole(2, 3, done);
       });
 
       test('EO should be able to set wage_do_not_ask_again', async (done) => {
-        testWithAdminRole(5, 3, done);
+        testWithRole(5, 3, done);
       });
 
       test('Farm worker should not be able to set wage_do_not_ask_again', async (done) => {
-        const { user: owner, farm } = await setupUserFarm({ role_id: 3 });
-        const worker = await createUserFarmAtFarm({ role_id: 3 }, farm);
-        const target_user_id = worker.user_id;
-        setWageDoNotAskAgainRequest(
-          { user_id: owner.user_id, farm_id: farm.farm_id },
-          target_user_id,
-          async (err, res) => {
-            expect(res.status).toBe(403);
-            done();
-          },
-        );
+        testWithRole(3, 3, done);
       });
     });
 

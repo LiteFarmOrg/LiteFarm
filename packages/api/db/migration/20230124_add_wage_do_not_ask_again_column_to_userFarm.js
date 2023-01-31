@@ -1,5 +1,5 @@
 /*
- *  Copyright 2019, 2020, 2021, 2022 LiteFarm.org
+ *  Copyright 2019, 2020, 2021, 2022, 2023 LiteFarm.org
  *  This file is part of LiteFarm.
  *
  *  LiteFarm is free software: you can redistribute it and/or modify
@@ -15,7 +15,7 @@
 
 export const up = function (knex) {
   return Promise.all([
-    knex.schema.table('userFarm', (table) => {
+    knex.schema.alterTable('userFarm', (table) => {
       table.boolean('wage_do_not_ask_again').nullable().defaultTo(false);
     }),
   ]);
@@ -23,7 +23,7 @@ export const up = function (knex) {
 
 export const down = function (knex) {
   return Promise.all([
-    knex.schema.table('userFarm', (table) => {
+    knex.schema.alterTable('userFarm', (table) => {
       table.dropColumn('wage_do_not_ask_again');
     }),
   ]);

@@ -172,11 +172,6 @@ const taskController = {
       const { task_id } = req.params;
       const { wage_at_moment } = req.body;
 
-      //Ensure only adminRoles can modify task wage
-      if (!adminRoles.includes(req.role)) {
-        return res.status(403).send('Not authorized to change task wage');
-      }
-
       const result = await TaskModel.query()
         .context(req.user)
         .findById(task_id)

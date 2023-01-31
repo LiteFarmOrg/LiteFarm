@@ -58,6 +58,26 @@ const Input = ({
     setShowError(false);
   };
 
+  const showPickerHandler = () => {
+    try {
+      input.current.showPicker();
+    } catch (e) {
+      switch (e.type) {
+        case 'InvalidStateError':
+          console.log('The element may be disabled');
+          break;
+        case 'NotAllowedError':
+          console.log('This action must be triggered by a user action');
+          break;
+        case 'SecurityError':
+          console.log({ e });
+          break;
+        default:
+          console.log({ e });
+      }
+    }
+  };
+
   const onKeyDown = ['number', 'decimal'].includes(type) ? numberOnKeyDown : undefined;
 
   return (
@@ -106,6 +126,7 @@ const Input = ({
       {unit && <div className={styles.unit}>{unit}</div>}
       {currency && <div className={styles.currency}>{currency}</div>}
       <input
+        onFocus={inputType === 'date' ? showPickerHandler() : null}
         disabled={disabled}
         className={clsx(
           styles.input,

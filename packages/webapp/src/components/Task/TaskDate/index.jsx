@@ -58,6 +58,7 @@ export default function PureTaskDate({
       <Main style={{ marginBottom: '16px' }}>{t('TASK.SELECT_DATE')}</Main>
 
       <Input
+        autoFocus
         data-cy="addTask-taskDate"
         type={'date'}
         label={t('common:DATE')}

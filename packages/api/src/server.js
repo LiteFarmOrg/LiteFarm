@@ -26,17 +26,6 @@ import express from 'express';
 import bodyParser from 'body-parser';
 const app = express();
 
-import rateLimit from 'express-rate-limit';
-
-// set up rate limiter: each IP to maximum of ten requests per second
-const limiter = rateLimit({
-  windowMs: 1000, // 1 second
-  max: 10,
-});
-
-// apply rate limiter to all requests
-app.use(limiter);
-
 import expressOasGenerator from 'express-oas-generator';
 const environment = process.env.NODE_ENV || 'development';
 
@@ -208,7 +197,17 @@ app.set('json replacer', (key, value) => {
   return value;
 });
 
+import rateLimit from 'express-rate-limit';
+
+// set up rate limiter: each IP to maximum of ten requests per second
+const limiter = rateLimit({
+  windowMs: 1000, // 1 second
+  max: 10,
+});
+
 app
+  // apply rate limiter to all requests
+  .use(limiter)
   .use(bodyParser.json())
   .use(bodyParser.urlencoded({ extended: true }))
 

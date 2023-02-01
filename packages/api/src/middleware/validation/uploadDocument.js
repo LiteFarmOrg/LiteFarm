@@ -1,4 +1,5 @@
 import path from 'path';
+import escapeHtml from 'escape-html';
 
 async function validateFileExtension(req, res, next) {
   const { file } = req;
@@ -13,7 +14,9 @@ async function validateFileExtension(req, res, next) {
     return next();
   }
 
-  return res.status(400).send(`Do not support file type ${path.extname(file.originalname)}`);
+  return res
+    .status(400)
+    .send('Do not support file type ' + escapeHtml(path.extname(file.originalname)));
 }
 
 const allowedDocumentFormatSet = new Set([

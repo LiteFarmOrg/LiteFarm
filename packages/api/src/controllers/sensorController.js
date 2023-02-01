@@ -442,6 +442,11 @@ const sensorController = {
           }
           const unit = sensorInfo.unit;
 
+          // Fix for CodeQL:js/loopBoundInjection warning prevent DOS attack
+          if (!(sensorInfo.values instanceof Array)) {
+            return [];
+          }
+
           if (sensorInfo.values.length < sensorInfo.timestamps.length)
             return res.status(400).send('sensor values and timestamps are not in sync');
 

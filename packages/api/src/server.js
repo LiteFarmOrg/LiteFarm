@@ -239,9 +239,8 @@ app
     }
     next();
   })
-  .use(router)
+  .use(router, limiter)
   .set('json spaces', 2)
-  .use(limiter)
   .use('/login', loginRoutes)
   .use('/password_reset', passwordResetRoutes)
   // ACL middleware

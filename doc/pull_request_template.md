@@ -20,6 +20,8 @@ Please delete options that are not relevant.
 Please describe the tests that you ran to verify your changes. Provide instructions so we can reproduce. Please also list any relevant details for your test configuration
 
 - [ ] Passes test case
+- [ ] UI components visually reviewed on desktop view
+- [ ] UI components visually reviewed on mobile view
 - [ ] Other (please explain)
 
 ## Checklist:

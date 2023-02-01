@@ -21,10 +21,18 @@ import hasFarmAccess from '../middleware/acl/hasFarmAccess.js';
 import checkScope from '../middleware/acl/checkScope.js';
 import multerDiskUpload from '../util/fileUpload.js';
 import validateFileExtension from '../middleware/validation/uploadImage.js';
+import rateLimit from 'express-rate-limit';
 
+const limiter = rateLimit({
+  windowMs: 1000, // 1 second
+  max: 10,
+  standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
+  legacyHeaders: false, // Disable the `X-RateLimit-*` headers
+});
 // get an individual crop
 router.get(
   '/:crop_id',
+  limiter,
   hasFarmAccess({ params: 'crop_id' }),
   checkScope(['get:crops']),
   cropController.getIndividualCrop(),
@@ -32,24 +40,28 @@ router.get(
 // get all crop INCLUDING crops farm added
 router.get(
   '/farm/:farm_id',
+  limiter,
   hasFarmAccess({ params: 'farm_id' }),
   checkScope(['get:crops']),
   cropController.getAllCrop(),
 );
 router.post(
   '/',
+  limiter,
   hasFarmAccess({ body: 'farm_id' }),
   checkScope(['add:crops']),
   cropController.addCropWithFarmID(),
 );
 router.post(
   '/crop_variety',
+  limiter,
   hasFarmAccess({ body: 'farm_id' }),
   checkScope(['add:crops']),
   cropController.addCropAndVarietyWithFarmId(),
 );
 router.put(
   '/:crop_id',
+  limiter,
   hasFarmAccess({ params: 'crop_id' }),
   checkScope(['edit:crops']),
   cropController.updateCrop(),
@@ -57,12 +69,14 @@ router.put(
 // only user added crop can be deleted
 router.delete(
   '/:crop_id',
+  limiter,
   hasFarmAccess({ params: 'crop_id' }),
   checkScope(['delete:crops']),
   cropController.delCrop(),
 );
 router.post(
   '/upload/farm/:farm_id',
+  limiter,
   hasFarmAccess({ params: 'farm_id' }),
   checkScope(['add:crops']),
   multerDiskUpload,

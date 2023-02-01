@@ -207,6 +207,13 @@ const limiter = rateLimit({
   legacyHeaders: false, // Disable the `X-RateLimit-*` headers
 });
 
+const apiLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100, // Limit each IP to 100 requests per `window` (here, per 15 minutes)
+  standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
+  legacyHeaders: false, // Disable the `X-RateLimit-*` headers
+});
+
 app
   // apply rate limiter to all requests
   .use(limiter)
@@ -243,8 +250,8 @@ app
   // routes
   .use('/location', locationRoute)
   .use('/userLog', userLogRoute)
-  .use('/crop', cropRoutes)
-  .use('/crop_variety', cropVarietyRoutes)
+  .use('/crop', apiLimiter, cropRoutes)
+  .use('/crop_variety', apiLimiter, cropVarietyRoutes)
   .use('/field', fieldRoutes)
   // .use('/plan', planRoutes)
   .use('/sale', saleRoutes)

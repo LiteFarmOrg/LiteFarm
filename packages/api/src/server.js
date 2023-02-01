@@ -25,6 +25,18 @@ import './dotenvConfig.js';
 import express from 'express';
 import bodyParser from 'body-parser';
 const app = express();
+
+import RateLimit from 'express-rate-limit';
+
+// set up rate limiter: maximum of ten requests per second
+const limiter = new RateLimit({
+  windowMs: 1000, // 1 second
+  max: 10,
+});
+
+// apply rate limiter to all requests
+app.use(limiter);
+
 import expressOasGenerator from 'express-oas-generator';
 const environment = process.env.NODE_ENV || 'development';
 

@@ -25,7 +25,6 @@ import './dotenvConfig.js';
 import express from 'express';
 import bodyParser from 'body-parser';
 const app = express();
-
 import expressOasGenerator from 'express-oas-generator';
 const environment = process.env.NODE_ENV || 'development';
 
@@ -89,7 +88,6 @@ import promiseRouter from 'express-promise-router';
 import { Model } from 'objection';
 import checkJwt from './middleware/acl/checkJwt.js';
 import cors from 'cors';
-
 import { rateLimiterUsingThirdParty } from './middleware/rateLimiter.js';
 
 // initialize knex
@@ -223,6 +221,8 @@ app
     }
     next();
   })
+  // apply rate limiter to all requests
+  .use(rateLimiterUsingThirdParty)
   .use(router)
   .set('json spaces', 2)
   .use('/login', loginRoutes)
@@ -231,46 +231,46 @@ app
   .use(checkJwt)
 
   // routes
-  .use('/location', rateLimiterUsingThirdParty, locationRoute)
-  .use('/userLog', rateLimiterUsingThirdParty, userLogRoute)
-  .use('/crop', rateLimiterUsingThirdParty, cropRoutes)
-  .use('/crop_variety', rateLimiterUsingThirdParty, cropVarietyRoutes)
-  .use('/field', rateLimiterUsingThirdParty, fieldRoutes)
-  // .use('/plan', rateLimiterUsingThirdParty, planRoutes)
-  .use('/sale', rateLimiterUsingThirdParty, saleRoutes)
-  //.use('/shift_task', rateLimiterUsingThirdParty, shiftTaskRoutes)
-  .use('/task_type', rateLimiterUsingThirdParty, taskTypeRoutes)
-  // .use('/todo', rateLimiterUsingThirdParty, todoRoutes)
-  .use('/user', rateLimiterUsingThirdParty, userRoutes)
-  .use('/expense', rateLimiterUsingThirdParty, farmExpenseRoute)
-  .use('/expense_type', rateLimiterUsingThirdParty, farmExpenseTypeRoute)
-  // .use('/notification', rateLimiterUsingThirdParty, notificationRoutes)
-  .use('/farm', rateLimiterUsingThirdParty, farmRoutes)
-  .use('/log', rateLimiterUsingThirdParty, logRoutes)
-  .use('/shift', rateLimiterUsingThirdParty, shiftRoutes)
-  // .use('/notification_setting', rateLimiterUsingThirdParty, notificationSettingRoutes)
-  .use('/management_plan', rateLimiterUsingThirdParty, managementPlanRoute)
-  .use('/fertilizer', rateLimiterUsingThirdParty, fertilizerRoutes)
-  .use('/disease', rateLimiterUsingThirdParty, diseaseRoutes)
-  .use('/pesticide', rateLimiterUsingThirdParty, pesticideRoutes)
-  .use('/yield', rateLimiterUsingThirdParty, yieldRoutes)
-  .use('/price', rateLimiterUsingThirdParty, priceRoutes)
-  .use('/insight', rateLimiterUsingThirdParty, insightRoutes)
-  .use('/farmdata', rateLimiterUsingThirdParty, userFarmDataRoute)
-  .use('/user_farm', rateLimiterUsingThirdParty, userFarmRoute)
-  .use('/roles', rateLimiterUsingThirdParty, rolesRoutes)
-  .use('/organic_certifier_survey', rateLimiterUsingThirdParty, organicCertifierSurveyRoutes)
-  .use('/support_ticket', rateLimiterUsingThirdParty, supportTicketRoute)
-  .use('/export', rateLimiterUsingThirdParty, exportRoute)
-  .use('/showed_spotlight', rateLimiterUsingThirdParty, showedSpotlightRoutes)
-  .use('/farm_token', rateLimiterUsingThirdParty, farmTokenRoute)
-  .use('/document', rateLimiterUsingThirdParty, documentRoute)
-  .use('/task', rateLimiterUsingThirdParty, taskRoute)
-  .use('/product', rateLimiterUsingThirdParty, productRoute)
-  .use('/nomination', rateLimiterUsingThirdParty, nominationRoutes)
-  .use('/notification_user', rateLimiterUsingThirdParty, notificationUserRoute)
-  .use('/time_notification', rateLimiterUsingThirdParty, timeNotificationRoute)
-  .use('/sensor', rateLimiterUsingThirdParty, sensorRoute);
+  .use('/location', locationRoute)
+  .use('/userLog', userLogRoute)
+  .use('/crop', cropRoutes)
+  .use('/crop_variety', cropVarietyRoutes)
+  .use('/field', fieldRoutes)
+  // .use('/plan', planRoutes)
+  .use('/sale', saleRoutes)
+  //.use('/shift_task', shiftTaskRoutes)
+  .use('/task_type', taskTypeRoutes)
+  // .use('/todo', todoRoutes)
+  .use('/user', userRoutes)
+  .use('/expense', farmExpenseRoute)
+  .use('/expense_type', farmExpenseTypeRoute)
+  // .use('/notification', notificationRoutes)
+  .use('/farm', farmRoutes)
+  .use('/log', logRoutes)
+  .use('/shift', shiftRoutes)
+  // .use('/notification_setting', notificationSettingRoutes)
+  .use('/management_plan', managementPlanRoute)
+  .use('/fertilizer', fertilizerRoutes)
+  .use('/disease', diseaseRoutes)
+  .use('/pesticide', pesticideRoutes)
+  .use('/yield', yieldRoutes)
+  .use('/price', priceRoutes)
+  .use('/insight', insightRoutes)
+  .use('/farmdata', userFarmDataRoute)
+  .use('/user_farm', userFarmRoute)
+  .use('/roles', rolesRoutes)
+  .use('/organic_certifier_survey', organicCertifierSurveyRoutes)
+  .use('/support_ticket', supportTicketRoute)
+  .use('/export', exportRoute)
+  .use('/showed_spotlight', showedSpotlightRoutes)
+  .use('/farm_token', farmTokenRoute)
+  .use('/document', documentRoute)
+  .use('/task', taskRoute)
+  .use('/product', productRoute)
+  .use('/nomination', nominationRoutes)
+  .use('/notification_user', notificationUserRoute)
+  .use('/time_notification', timeNotificationRoute)
+  .use('/sensor', sensorRoute);
 
 expressOasGenerator.handleRequests();
 

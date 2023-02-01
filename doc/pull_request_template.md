@@ -22,14 +22,6 @@ Please describe the tests that you ran to verify your changes. Provide instructi
 - [ ] Passes test case
 - [ ] Other (please explain)
 
-
-
-**Test Configuration**:
-* Firmware version:
-* Hardware:
-* Toolchain:
-* SDK:
-
 ## Checklist:
 
 - [ ] My code follows the style guidelines of this project

@@ -25,7 +25,6 @@ import './dotenvConfig.js';
 import express from 'express';
 import bodyParser from 'body-parser';
 const app = express();
-
 import expressOasGenerator from 'express-oas-generator';
 const environment = process.env.NODE_ENV || 'development';
 
@@ -199,7 +198,6 @@ app.set('json replacer', (key, value) => {
 });
 
 app
-  // apply rate limiter to all requests
   .use(bodyParser.json())
   .use(bodyParser.urlencoded({ extended: true }))
 
@@ -223,6 +221,7 @@ app
     }
     next();
   })
+  // apply rate limiter to all requests
   .use(rateLimiterUsingThirdParty)
   .use(router)
   .set('json spaces', 2)

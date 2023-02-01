@@ -199,21 +199,6 @@ app.set('json replacer', (key, value) => {
 
 import rateLimit from 'express-rate-limit';
 
-// set up rate limiter: each IP to maximum of ten requests per second
-const limiter = rateLimit({
-  windowMs: 1000, // 1 second
-  max: 10,
-  standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
-  legacyHeaders: false, // Disable the `X-RateLimit-*` headers
-});
-
-const apiLimiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 100, // Limit each IP to 100 requests per `window` (here, per 15 minutes)
-  standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
-  legacyHeaders: false, // Disable the `X-RateLimit-*` headers
-});
-
 app
   // apply rate limiter to all requests
   .use(bodyParser.json())
@@ -239,7 +224,15 @@ app
     }
     next();
   })
-  .use(router, limiter)
+  .use(router)
+  .use(
+    rateLimit({
+      windowMs: 15 * 60 * 1000, // 15 minutes
+      max: 100, // Limit each IP to 100 requests per `window` (here, per 15 minutes)
+      standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
+      legacyHeaders: false, // Disable the `X-RateLimit-*` headers
+    }),
+  )
   .set('json spaces', 2)
   .use('/login', loginRoutes)
   .use('/password_reset', passwordResetRoutes)
@@ -249,8 +242,8 @@ app
   // routes
   .use('/location', locationRoute)
   .use('/userLog', userLogRoute)
-  .use('/crop', apiLimiter, cropRoutes)
-  .use('/crop_variety', apiLimiter, cropVarietyRoutes)
+  .use('/crop', cropRoutes)
+  .use('/crop_variety', cropVarietyRoutes)
   .use('/field', fieldRoutes)
   // .use('/plan', planRoutes)
   .use('/sale', saleRoutes)

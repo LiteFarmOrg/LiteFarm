@@ -13,13 +13,10 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-// import rateLimit from 'express-rate-limit';
-import { createRequire } from 'module';
-const require = createRequire(import.meta.url);
-const RateLimit = require('express-rate-limit');
+import rateLimit from 'express-rate-limit';
 
 // set up rate limiter: each IP to maximum of ten requests per second
-export const rateLimiterUsingThirdParty = RateLimit({
+export const rateLimiterUsingThirdParty = rateLimit({
   windowMs: 1000, // 1 second
   max: 10,
   message: 'You have exceeded the 10 requests in 1 second limit!',

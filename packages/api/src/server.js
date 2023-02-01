@@ -216,7 +216,6 @@ const apiLimiter = rateLimit({
 
 app
   // apply rate limiter to all requests
-  .use(limiter)
   .use(bodyParser.json())
   .use(bodyParser.urlencoded({ extended: true }))
 
@@ -242,6 +241,7 @@ app
   })
   .use(router)
   .set('json spaces', 2)
+  .use(limiter)
   .use('/login', loginRoutes)
   .use('/password_reset', passwordResetRoutes)
   // ACL middleware

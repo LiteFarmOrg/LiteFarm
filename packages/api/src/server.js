@@ -88,7 +88,7 @@ import promiseRouter from 'express-promise-router';
 import { Model } from 'objection';
 import checkJwt from './middleware/acl/checkJwt.js';
 import cors from 'cors';
-// import { rateLimiterUsingThirdParty } from './middleware/rateLimiter.js';
+import { rateLimiterUsingThirdParty } from './middleware/rateLimiter.js';
 
 // initialize knex
 import knex from './util/knex.js';
@@ -197,6 +197,11 @@ app.set('json replacer', (key, value) => {
   return value;
 });
 
+// apply rate limiter to all requests
+if (['production', 'integration'].includes(environment)) {
+  app.use(rateLimiterUsingThirdParty);
+}
+
 app
   .use(bodyParser.json())
   .use(bodyParser.urlencoded({ extended: true }))
@@ -221,8 +226,7 @@ app
     }
     next();
   })
-  // apply rate limiter to all requests
-  // .use(rateLimiterUsingThirdParty)
+
   .use(router)
   .set('json spaces', 2)
   .use('/login', loginRoutes)

@@ -33,7 +33,7 @@ const validStatusChanges = {
 
 const userFarmController = {
   getUserFarmByUserID() {
-    return async (req, res) => {
+    return async (req, res, next) => {
       try {
         const user_id = req.params.user_id;
         const rows = await UserFarmModel.query()
@@ -53,7 +53,7 @@ const userFarmController = {
         }
       } catch (error) {
         //handle more exceptions
-        res.status(400).send(error);
+        next({ status: 400, error });
       }
     };
   },

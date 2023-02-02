@@ -282,6 +282,10 @@ app
     next(error);
   })
   .use((error, req, res, next) => {
+    // temporary fix for CodeQL alerts
+    if (error.error) {
+      return res.status(error.status).send(error.error);
+    }
     res.status(error.status || 500);
     res.json({
       error: {

@@ -211,7 +211,7 @@ const limiter = rateLimit({
 });
 
 // Apply the rate limiting middleware to all requests
-app.all(limiter);
+app.all('*', limiter);
 
 app
   .use(bodyParser.json())

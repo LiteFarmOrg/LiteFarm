@@ -203,15 +203,12 @@ app.set('json replacer', (key, value) => {
 //   app.use(rateLimiterUsingThirdParty);
 // }
 
-const limiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 100, // Limit each IP to 100 requests per `window` (here, per 15 minutes)
-  standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
-  legacyHeaders: false, // Disable the `X-RateLimit-*` headers
-});
-
-// Apply the rate limiting middleware to all requests
-app.all('*', limiter);
+// const limiter = rateLimit({
+//   windowMs: 15 * 60 * 1000, // 15 minutes
+//   max: 100, // Limit each IP to 100 requests per `window` (here, per 15 minutes)
+//   standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
+//   legacyHeaders: false, // Disable the `X-RateLimit-*` headers
+// });
 
 app
   .use(bodyParser.json())
@@ -239,6 +236,14 @@ app
   })
 
   .use(router)
+  .use(
+    rateLimit({
+      windowMs: 15 * 60 * 1000, // 15 minutes
+      max: 100, // Limit each IP to 100 requests per `window` (here, per 15 minutes)
+      standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
+      legacyHeaders: false, // Disable the `X-RateLimit-*` headers
+    }),
+  )
   .set('json spaces', 2)
   .use('/login', loginRoutes)
   .use('/password_reset', passwordResetRoutes)

@@ -35,8 +35,8 @@ const environment = process.env.NODE_ENV || 'development';
 
  Version-controlled JSON files contain official documentation.
  To update them, define env var UPDATE_OAS_FILES (any value), run automated tests, and commit.
- EOG serves the documentation at public URL /api-docs.
 
+ EOG serves the documentation at public URL /api-docs.
  When running in production mode, the documentation is only the contents of the JSON files.
  In other modes, EOG incorporates changes and additions it detects, but does not save them unless the env var is set.
 

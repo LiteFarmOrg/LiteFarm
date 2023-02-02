@@ -45,6 +45,7 @@ export function PureProfileFloaterComponent({
         clickFn={onTutorials}
         iconText={t('PROFILE_FLOATER.TUTORIALS')}
         icon={<VideoIcon />}
+        isExternalLink
       />
 
       <ListOption

@@ -611,7 +611,7 @@ const taskController = {
       return res.status(400).send({ error });
     }
   },
-  async getIrrigationTaskTypes(req, res) {
+  async getIrrigationTaskTypes(req, res, next) {
     const { farm_id } = req.params;
     try {
       const irrigationTaskTypes = await IrrigationTypesModel.getAllIrrigationTaskTypesByFarmId(
@@ -619,7 +619,7 @@ const taskController = {
       );
       res.status(200).json(irrigationTaskTypes);
     } catch (error) {
-      return res.status(400).send(error);
+      next({ status: 400, error });
     }
   },
 };

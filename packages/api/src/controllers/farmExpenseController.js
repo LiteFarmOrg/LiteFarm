@@ -20,7 +20,7 @@ import { transaction, Model } from 'objection';
 
 const farmExpenseController = {
   addFarmExpense() {
-    return async (req, res) => {
+    return async (req, res, next) => {
       const trx = await transaction.start(Model.knex());
       try {
         const expenses = req.body;
@@ -37,7 +37,7 @@ const farmExpenseController = {
       } catch (error) {
         //handle more exceptions
         await trx.rollback();
-        res.status(400).send(error);
+        next({ status: 400, error });
       }
     };
   },

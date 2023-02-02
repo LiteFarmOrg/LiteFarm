@@ -63,7 +63,7 @@ const farmController = {
         //handle more exceptions
         console.log(error);
         await trx.rollback();
-        res.status(400).send(error);
+        next({ status: 400, error });
         return next();
       }
     };

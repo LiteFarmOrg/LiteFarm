@@ -98,7 +98,7 @@ const userController = {
     }
   },
 
-  async addInvitedUser(req, res) {
+  async addInvitedUser(req, res, next) {
     const {
       last_name,
       email: reqEmail,
@@ -223,7 +223,7 @@ const userController = {
       }
     } catch (error) {
       await trx.rollback();
-      return res.status(400).send(error);
+      next({ status: 400, error });
     }
   },
 
@@ -304,7 +304,7 @@ const userController = {
     }
   },
 
-  async getUserByID(req, res) {
+  async getUserByID(req, res, next) {
     try {
       const id = req.params.user_id;
 
@@ -330,7 +330,7 @@ const userController = {
     } catch (error) {
       //handle more exceptions
       console.log(error);
-      res.status(400).send(error);
+      next({ status: 400, error });
     }
   },
 

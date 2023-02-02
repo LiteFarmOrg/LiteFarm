@@ -501,7 +501,7 @@ const sensorController = {
     }
   },
 
-  async getReadingsByFarmId(req, res) {
+  async getReadingsByFarmId(req, res, next) {
     try {
       const { farm_id } = req.params;
       if (!farm_id) {
@@ -510,7 +510,7 @@ const sensorController = {
       const result = await SensorReadingModel.getSensorReadingsInDaysByFarmId(farm_id);
       res.status(200).send(result);
     } catch (error) {
-      res.status(400).send(error);
+      next({ status: 400, error });
     }
   },
 
@@ -528,7 +528,7 @@ const sensorController = {
       });
     }
   },
-  async getAllSensorReadingsByLocationIds(req, res) {
+  async getAllSensorReadingsByLocationIds(req, res, next) {
     try {
       const { locationIds = [], readingTypes = [], endDate = '' } = req.body;
 
@@ -559,7 +559,7 @@ const sensorController = {
         .status(200)
         .send({ length: result.length, sensorReading: result, sensorsPoints: sensorsPoints.rows });
     } catch (error) {
-      res.status(400).send(error);
+      next({ status: 400, error });
     }
   },
   async retireSensor(req, res) {

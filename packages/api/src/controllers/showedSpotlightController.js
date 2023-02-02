@@ -53,7 +53,7 @@ const showedSpotlightController = {
     };
   },
   updateSpotlightFlags() {
-    return async (req, res) => {
+    return async (req, res, next) => {
       const { user_id } = req.user;
       try {
         const isPatched = await baseController.updateIndividualById(
@@ -68,7 +68,7 @@ const showedSpotlightController = {
           return res.sendStatus(404);
         }
       } catch (error) {
-        return res.status(400).send(error);
+        next({ status: 400, error });
       }
     };
   },

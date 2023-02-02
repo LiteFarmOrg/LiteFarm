@@ -26,28 +26,29 @@ const checkOwnership = (relation) => {
       const user_id = req.user.user_id;
       // console.log(`check ${relation}_id`, user_id, id);
 
+      // TODO: come back later
       switch (relation) {
         case 'shift':
         case 'log':
         case 'notification':
           sqlQuery = `SELECT DISTINCT u.user_id
-        FROM "${relation}" r, "users" u
-        WHERE u.user_id = '${user_id}' AND r.${relation}_id = '${id}' AND u.user_id = r.user_id`;
+        FROM ? r, "users" u
+        WHERE u.user_id = ? AND r.?_id = ? AND u.user_id = r.user_id`;
           break;
         case 'sale':
           sqlQuery = `SELECT DISTINCT u.user_id
-        FROM "${relation}" s, "users" u
-        WHERE u.user_id = '${user_id}' AND s.${relation}_id = '${id}' AND u.farm_id = s.farm_id`;
+        FROM ? s, "users" u
+        WHERE u.user_id = ? AND s.?_id = ? AND u.farm_id = s.farm_id`;
           break;
         case 'managementPlan':
           sqlQuery = `SELECT DISTINCT u.user_id
-        FROM "${relation}" r, "users" u, "field" f
-        WHERE u.user_id = '${user_id}' AND r.management_plan_id = '${id}' AND f.field_id = r.field_id AND f.farm_id = u.farm_id`;
+        FROM ? r, "users" u, "field" f
+        WHERE u.user_id = ? AND r.management_plan_id = ? AND f.field_id = r.field_id AND f.farm_id = u.farm_id`;
           break;
         case 'nitrogenSchedule':
           sqlQuery = `SELECT DISTINCT u.user_id
-        FROM "${relation}" r, "users" u
-        WHERE u.user_id = '${user_id}' AND r.nitrogen_schedule_id = '${id}' AND u.farm_id = r.farm_id`;
+        FROM ? r, "users" u
+        WHERE u.user_id = ? AND r.nitrogen_schedule_id = ? AND u.farm_id = r.farm_id`;
           break;
         //TODO potential bug
         default:

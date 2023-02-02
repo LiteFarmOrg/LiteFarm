@@ -33,7 +33,7 @@ const validStatusChanges = {
 
 const userFarmController = {
   getUserFarmByUserID() {
-    return async (req, res) => {
+    return async (req, res, next) => {
       try {
         const user_id = req.params.user_id;
         const rows = await UserFarmModel.query()
@@ -53,13 +53,13 @@ const userFarmController = {
         }
       } catch (error) {
         //handle more exceptions
-        res.status(400).send(error);
+        next({ status: 400, error });
       }
     };
   },
 
   getUserFarmsByFarmID() {
-    return async (req, res) => {
+    return async (req, res, next) => {
       try {
         const farm_id = req.params.farm_id;
         const user_id = req.headers.user_id;
@@ -97,13 +97,13 @@ const userFarmController = {
         }
         res.status(200).send(rows);
       } catch (error) {
-        res.status(400).send(error);
+        next({ status: 400, error });
       }
     };
   },
 
   getActiveUserFarmsByFarmID() {
-    return async (req, res) => {
+    return async (req, res, next) => {
       try {
         const farm_id = req.params.farm_id;
         const user_id = req.headers.user_id;
@@ -140,13 +140,13 @@ const userFarmController = {
         }
         res.status(200).send(rows);
       } catch (error) {
-        res.status(400).send(error);
+        next({ status: 400, error });
       }
     };
   },
 
   getFarmInfo() {
-    return async (req, res) => {
+    return async (req, res, next) => {
       try {
         const user_id = req.params.user_id;
         const farm_id = req.params.farm_id;
@@ -186,13 +186,13 @@ const userFarmController = {
         }
         return res.status(200).send(rows);
       } catch (error) {
-        res.status(400).send(error);
+        next({ status: 400, error });
       }
     };
   },
 
   updateConsent() {
-    return async (req, res) => {
+    return async (req, res, next) => {
       try {
         const { user_id, farm_id } = req.params;
         const { has_consent, consent_version } = req.body;
@@ -233,13 +233,13 @@ const userFarmController = {
           console.log(e);
         }
       } catch (error) {
-        return res.status(400).send(error);
+        next({ status: 400, error });
       }
     };
   },
 
   updateOnboardingFlags() {
-    return async (req, res) => {
+    return async (req, res, next) => {
       const trx = await transaction.start(Model.knex());
       const user_id = req.params.user_id;
       const farm_id = req.params.farm_id;
@@ -284,13 +284,13 @@ const userFarmController = {
       } catch (error) {
         //handle more exceptions
         await trx.rollback();
-        res.status(400).send(error);
+        next({ status: 400, error });
       }
     };
   },
 
   updateRole() {
-    return async (req, res) => {
+    return async (req, res, next) => {
       try {
         const farm_id = req.params.farm_id;
         const user_id = req.params.user_id;
@@ -329,14 +329,14 @@ const userFarmController = {
         return isPatched ? res.sendStatus(200) : res.status(404).send('User not found');
       } catch (error) {
         console.log(error);
-        return res.status(400).send(error);
+        next({ status: 400, error });
       }
     };
   },
 
   updateStatus() {
     //TODO clean up
-    return async (req, res) => {
+    return async (req, res, next) => {
       const farm_id = req.params.farm_id;
       const user_id = req.params.user_id;
       const { status } = req.body;
@@ -408,7 +408,7 @@ const userFarmController = {
         }
       } catch (error) {
         // handle more exceptions
-        return res.status(400).send(error);
+        next({ status: 400, error });
       }
     };
   },
@@ -455,7 +455,7 @@ const userFarmController = {
   },
 
   updateWage() {
-    return async (req, res) => {
+    return async (req, res, next) => {
       const trx = await transaction.start(Model.knex());
       const farm_id = req.params.farm_id;
       const user_id = req.params.user_id;
@@ -480,7 +480,7 @@ const userFarmController = {
       } catch (error) {
         // handle more exceptions
         await trx.rollback();
-        res.status(400).send(error);
+        next({ status: 400, error });
       }
     };
   },

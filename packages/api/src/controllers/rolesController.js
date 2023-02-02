@@ -2,7 +2,7 @@ import RoleModel from '../models/roleModel.js';
 
 const rolesController = {
   getRoles() {
-    return async (req, res) => {
+    return async (req, res, next) => {
       try {
         const data = await RoleModel.query().whereNot('role_id', 4);
         res.status(200).send(data);
@@ -10,7 +10,7 @@ const rolesController = {
           res.sendStatus(404);
         }
       } catch (error) {
-        res.status(400).send(error);
+        next({ status: 400, error });
       }
     };
   },

@@ -103,12 +103,15 @@ class IrrigationTypesModel extends BaseModel {
   }
 
   static async getAllIrrigationTaskTypesByFarmId(farm_id) {
-    const data = await knex.raw(`SELECT * FROM (
-    SELECT DISTINCT ON (UPPER(irrigation_type_name)) it.*
-    FROM irrigation_type AS it
-    WHERE farm_id = '${farm_id}'
-    OR farm_id IS NULL) AS a
-    ORDER BY (UPPER(irrigation_type_name)) ASC;`);
+    const data = await knex.raw(
+      `SELECT * FROM (
+      SELECT DISTINCT ON (UPPER(irrigation_type_name)) it.*
+      FROM irrigation_type AS it
+      WHERE farm_id = ?
+      OR farm_id IS NULL) AS a
+      ORDER BY (UPPER(irrigation_type_name)) ASC;`,
+      [farm_id],
+    );
     return data.rows;
   }
 }

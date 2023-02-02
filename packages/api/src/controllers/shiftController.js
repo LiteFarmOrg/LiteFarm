@@ -85,7 +85,7 @@ const shiftController = {
   },
 
   delShift() {
-    return async (req, res) => {
+    return async (req, res, next) => {
       const trx = await transaction.start(Model.knex());
       try {
         const sID = req.params.shift_id.toString();
@@ -103,7 +103,7 @@ const shiftController = {
         }
       } catch (error) {
         await trx.rollback();
-        res.status(400).send(error);
+        next({ status: 400, error });
       }
     };
   },

@@ -21,7 +21,7 @@ import FarmDataScheduleModel from '../models/farmDataScheduleModel.js';
 
 const userFarmDataController = {
   registerFarm() {
-    return async (req, res) => {
+    return async (req, res, next) => {
       try {
         const farm_id = req.body.farm_id;
         const user_id = req.body.user_id;
@@ -32,13 +32,13 @@ const userFarmDataController = {
         res.sendStatus(200);
       } catch (error) {
         //handle more exceptions
-        res.status(400).send(error);
+        next({ status: 400, error });
       }
     };
   },
 
   getSchedule() {
-    return async (req, res) => {
+    return async (req, res, next) => {
       try {
         const farm_id = req.params.farm_id;
         const data = await FarmDataScheduleModel.query()
@@ -52,7 +52,7 @@ const userFarmDataController = {
       } catch (error) {
         //handle more exceptions
         console.log(error);
-        res.status(400).send(error);
+        next({ status: 400, error });
       }
     };
   },

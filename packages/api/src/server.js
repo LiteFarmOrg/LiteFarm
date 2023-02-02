@@ -25,7 +25,6 @@ import './dotenvConfig.js';
 import express from 'express';
 import bodyParser from 'body-parser';
 const app = express();
-
 import expressOasGenerator from 'express-oas-generator';
 const environment = process.env.NODE_ENV || 'development';
 
@@ -89,6 +88,7 @@ import promiseRouter from 'express-promise-router';
 import { Model } from 'objection';
 import checkJwt from './middleware/acl/checkJwt.js';
 import cors from 'cors';
+import { rateLimiterUsingThirdParty } from './middleware/rateLimiter.js';
 
 // initialize knex
 import knex from './util/knex.js';
@@ -197,26 +197,12 @@ app.set('json replacer', (key, value) => {
   return value;
 });
 
-import rateLimit from 'express-rate-limit';
-
-// set up rate limiter: each IP to maximum of ten requests per second
-const limiter = rateLimit({
-  windowMs: 1000, // 1 second
-  max: 10,
-  standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
-  legacyHeaders: false, // Disable the `X-RateLimit-*` headers
-});
-
-const apiLimiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 100, // Limit each IP to 100 requests per `window` (here, per 15 minutes)
-  standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
-  legacyHeaders: false, // Disable the `X-RateLimit-*` headers
-});
+// apply rate limiter to all requests
+if (['production', 'integration'].includes(environment)) {
+  app.use(rateLimiterUsingThirdParty);
+}
 
 app
-  // apply rate limiter to all requests
-  .use(limiter)
   .use(bodyParser.json())
   .use(bodyParser.urlencoded({ extended: true }))
 
@@ -240,6 +226,7 @@ app
     }
     next();
   })
+
   .use(router)
   .set('json spaces', 2)
   .use('/login', loginRoutes)
@@ -250,8 +237,8 @@ app
   // routes
   .use('/location', locationRoute)
   .use('/userLog', userLogRoute)
-  .use('/crop', apiLimiter, cropRoutes)
-  .use('/crop_variety', apiLimiter, cropVarietyRoutes)
+  .use('/crop', cropRoutes)
+  .use('/crop_variety', cropVarietyRoutes)
   .use('/field', fieldRoutes)
   // .use('/plan', planRoutes)
   .use('/sale', saleRoutes)
@@ -299,6 +286,10 @@ app
     next(error);
   })
   .use((error, req, res, next) => {
+    // temporary fix for CodeQL alerts
+    if (error.error) {
+      return res.status(error.status).send(error.error);
+    }
     res.status(error.status || 500);
     res.json({
       error: {

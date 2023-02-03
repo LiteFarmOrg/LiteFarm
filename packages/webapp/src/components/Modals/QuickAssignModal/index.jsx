@@ -206,10 +206,10 @@ export default function TaskQuickAssignModal({
 
     return (
       <div className={styles.hourlyWageSection}>
-        <Label className={styles.warning} style={{ marginBottom: 24 }}>
+        <Label className={styles.warning} style={{ marginBottom: '24px' }}>
           {t('ADD_TASK.HOURLY_WAGE.ASSIGNEE_WAGE_WARNING', { name: selectedWorker.label })}
         </Label>
-        <Main style={{ marginBottom: 10 }}>
+        <Main style={{ marginBottom: '10px' }}>
           {t('ADD_TASK.HOURLY_WAGE.WANT_TO_SET_HOURLY_WAGE')}
         </Main>
         <RadioGroup
@@ -217,7 +217,7 @@ export default function TaskQuickAssignModal({
           name={HOURLY_WAGE_ACTION}
           radios={radioOptions}
           data-cy="quickAssign-hourlyWageAction"
-          style={{ marginBottom: 10 }}
+          style={{ marginBottom: '10px' }}
         />
         {showHourlyWageInput && (
           <Input
@@ -232,7 +232,7 @@ export default function TaskQuickAssignModal({
               min: { value: 0, message: t('WAGE.HOURLY_WAGE_RANGE_ERROR') },
               max: { value: 999999999, message: t('WAGE.HOURLY_WAGE_RANGE_ERROR') },
             })}
-            style={{ marginBottom: 24 }}
+            style={{ marginBottom: '24px' }}
             errors={errors[HOURLY_WAGE] && (errors[HOURLY_WAGE].message || t('WAGE.ERROR'))}
             toolTipContent={t('WAGE.HOURLY_WAGE_TOOLTIP')}
             optional
@@ -276,7 +276,7 @@ export default function TaskQuickAssignModal({
             label={t('ADD_TASK.ASSIGNEE')}
             options={options}
             onChange={onChange}
-            style={{ marginBottom: 10 }}
+            style={{ marginBottom: '10px' }}
             isSearchable
           />
         )}

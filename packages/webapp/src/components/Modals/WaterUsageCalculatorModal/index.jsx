@@ -199,9 +199,7 @@ const WaterUseDepthCalculator = ({
 
   useEffect(() => {
     if (percentage_location_irrigated) {
-      const irrigatedArea = roundToTwoDecimal(
-        locationSize * (percentage_location_irrigated ? percentage_location_irrigated / 100 : 1),
-      );
+      const irrigatedArea = roundToTwoDecimal(locationSize * (percentage_location_irrigated / 100));
       setValue(IRRIGATED_AREA, irrigatedArea);
     } else {
       setValue(IRRIGATED_AREA, '');

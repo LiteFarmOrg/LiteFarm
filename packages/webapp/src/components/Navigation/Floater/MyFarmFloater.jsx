@@ -20,7 +20,7 @@ export function PureMyFarmFloaterComponent({
   return (
     <div
       style={{
-        maxWidth: '148px',
+        maxWidth: '163px',
         minWidth: '138px',
         backgroundColor: 'white',
         borderRadius: '4px',

@@ -38,8 +38,9 @@ export default function ListOption({
       paddingBottom: '0.4rem',
       paddingTop: '0.5rem',
       fontFamily: '"Open Sans"," SansSerif", serif',
-      fontSize: '0.88rem',
+      fontSize: '16px',
       marginBottom: '0px',
+      marginRight: '10px',
       cursor: 'pointer',
       display: 'flex',
       alignItems: 'center',
@@ -60,7 +61,7 @@ export default function ListOption({
       <div data-cy='navbar-option' style={paragraphStyle}>
         <div style={iconStyle} >{icon}</div>
         {iconText}
-        {isExternalLink && <LaunchIcon />}
+        {isExternalLink && <LaunchIcon style={{ marginLeft: '4px' }} />}
       </div>
     </span>
   );

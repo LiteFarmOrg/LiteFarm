@@ -34,7 +34,6 @@ const useStyles = ({ arrowOffset = 0, isChildrenIcon = false }) =>
     },
     childrenContainer: {
       userSelect: 'none',
-      display: 'flex',
       '& svg': {
         color: colors.teal700,
         fontSize: '16px',

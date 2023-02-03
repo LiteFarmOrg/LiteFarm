@@ -35,6 +35,9 @@
 
 // TODO: improve this in LF-2938
 .hourlyWageSection {
+  span:has(> svg) {
+    display: flex;
+  }
   svg {
     font-size: 16px;
   }

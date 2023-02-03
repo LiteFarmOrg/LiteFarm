@@ -1031,8 +1031,8 @@ describe('User Farm Tests', () => {
           { user_id: owner.user_id, farm_id: farm.farm_id },
           target_user_id,
           async (err, res) => {
-            const adminRoles = [1, 2, 5];
-            if (adminRoles.includes(userRoleId)) {
+            const allowedRoles = [1, 2, 3, 5];
+            if (allowedRoles.includes(userRoleId)) {
               expect(err).toEqual(null);
               expect(res.status).toBe(200);
               const updatedUserFarm = await userFarmModel
@@ -1063,7 +1063,7 @@ describe('User Farm Tests', () => {
         testWithRole(5, 3, done);
       });
 
-      test('Farm worker should not be able to set wage_do_not_ask_again', async (done) => {
+      test('Farm worker should be able to set wage_do_not_ask_again', async (done) => {
         testWithRole(3, 3, done);
       });
     });

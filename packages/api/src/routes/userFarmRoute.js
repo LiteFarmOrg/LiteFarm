@@ -113,7 +113,7 @@ router.patch(
 router.patch(
   '/wage_do_not_ask_again/farm/:farm_id/user/:user_id',
   hasFarmAccess({ params: 'farm_id' }),
-  checkScope(['edit:user_wage']),
+  checkScope(['edit:users']),
   userFarmController.setWageDoNotAskAgain(),
 );
 

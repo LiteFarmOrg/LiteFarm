@@ -32,3 +32,10 @@
 .warning {
   color: var(--brown700);
 }
+
+// TODO: improve this in LF-2938
+.hourlyWageSection {
+  svg {
+    font-size: 16px;
+  }
+}

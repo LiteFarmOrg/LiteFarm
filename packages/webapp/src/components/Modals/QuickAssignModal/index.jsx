@@ -205,7 +205,7 @@ export default function TaskQuickAssignModal({
     }
 
     return (
-      <>
+      <div className={styles.hourlyWageSection}>
         <Label className={styles.warning} style={{ marginBottom: 24 }}>
           {t('ADD_TASK.HOURLY_WAGE.ASSIGNEE_WAGE_WARNING', { name: selectedWorker.label })}
         </Label>
@@ -238,7 +238,7 @@ export default function TaskQuickAssignModal({
             optional
           />
         )}
-      </>
+      </div>
     );
   };
 

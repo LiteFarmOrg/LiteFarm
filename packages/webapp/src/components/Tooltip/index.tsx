@@ -37,7 +37,7 @@ const useStyles = ({ arrowOffset = 0, isChildrenIcon = false }) =>
       display: 'flex',
       '& svg': {
         color: colors.teal700,
-        fontSize: '16px !important',
+        fontSize: '16px',
       },
     },
   }));

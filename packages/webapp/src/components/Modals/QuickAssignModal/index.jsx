@@ -217,7 +217,7 @@ export default function TaskQuickAssignModal({
           name={HOURLY_WAGE_ACTION}
           radios={radioOptions}
           data-cy="quickAssign-hourlyWageAction"
-          style={{ marginBottom: '10px' }}
+          style={{ marginBottom: '20px' }}
         />
         {showHourlyWageInput && (
           <Input
@@ -276,7 +276,7 @@ export default function TaskQuickAssignModal({
             label={t('ADD_TASK.ASSIGNEE')}
             options={options}
             onChange={onChange}
-            style={{ marginBottom: '10px' }}
+            style={{ marginTop: '8px', marginBottom: '6px' }}
             isSearchable
           />
         )}

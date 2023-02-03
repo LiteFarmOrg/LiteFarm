@@ -12,8 +12,7 @@
     "chromatic-local": "./node_modules/.bin/chromatic --project-token 594bdec1c518",
     "format": "npx prettier --write ./src",
     "storybook": "start-storybook -p 6006 public",
-    "build-storybook": "build-storybook",
-    "precommit": "lint-staged"
+    "build-storybook": "build-storybook"
   },
   "lint-staged": {
     "*.{js, jsx}": [

@@ -39,22 +39,22 @@ const useTaskAssignForm = ({ user, users, isAssigned, additionalFields = {}, wag
    * @property {function} control - function returned by useForm
    * @property {function} register - function returned by useForm
    * @property {function} watch - function returned by useForm
-   * @property {object} errors - errors of form
+   * @property {object} errors - errors returned by useForm
    * @property {boolean} disabled - true if form is not ready to be submitted
-   * @property {AssigneeOption[]} assigneeOptions - options used in ReactSelect component
+   * @property {AssigneeOption[]} assigneeOptions - assignee options used in ReactSelect component
    * @property {AssigneeOption} selectedWorker - selected assignee option
-   * @property {string} [selectedHourlyWageAction] - 'set_hourly_wage', 'for_this_task', 'no', 'do_not_ask_again' or null
+   * @property {string} [selectedHourlyWageAction] - 'set_hourly_wage', 'for_this_task', 'no', 'do_not_ask_again' or ''
    * @property {number} [hourlyWage] - wage inputted by user
    * @property {string} currency - currency for the farm
    * @property {boolean} showHourlyWageInputs - whether to show HourlyWageInputs component or not
    * @property {boolean} shouldSetWage - whether user needs to set wage or not
    *
    * @param {Object} props - hook properties
-   * @param {Object} props.user - logged in user
+   * @param {User} props.user - logged in user
    * @param {User[]} props.users - users for the farm
    * @param {boolean} props.isAssigned - whether the task is assigned or not
-   * @param {Object.<string, any>} [props.additionalFields={}] - any inputs needed in addition to assignee, hourly wage action and hourly wage.
-   *     ex. { [ASSIGN_ALL]: false }
+   * @param {Object.<string, any>} [props.additionalFields={}] - any inputs with default values needed in the form
+   *     in addition to assignee, hourly wage action and hourly wage. ex. { [ASSIGN_ALL]: false }
    * @param {number} [props.wage_at_moment] - wage for the task
    *
    * @returns {ReturnedObject}

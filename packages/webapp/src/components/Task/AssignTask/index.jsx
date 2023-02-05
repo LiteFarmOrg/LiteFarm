@@ -14,16 +14,16 @@
  */
 import { useTranslation } from 'react-i18next';
 import { Controller } from 'react-hook-form';
-import { Label, Main } from '../../Typography';
+import { Label } from '../../Typography';
 import ReactSelect from '../../Form/ReactSelect';
 import HourlyWageInputs from './HourlyWageInputs';
 import { ASSIGNEE } from './constants';
 import styles from './styles.module.scss';
 
 const AssignTask = ({
-  leadText,
+  intro,
   optional,
-  bodyForWorkerWithWage,
+  contentForWorkerWithWage,
   additionalContent,
   assigneeOptions,
   register,
@@ -36,7 +36,7 @@ const AssignTask = ({
 }) => {
   const { t } = useTranslation(['translation']);
 
-  const AssigneeInput = (
+  const AssigneeSelect = (
     <div className={styles.mb24}>
       <Controller
         control={control}
@@ -65,8 +65,8 @@ const AssignTask = ({
 
   return (
     <>
-      {leadText && <Main>{leadText}</Main>}
-      {AssigneeInput}
+      {intro}
+      {AssigneeSelect}
       {showHourlyWageInputs ? (
         <HourlyWageInputs
           control={control}
@@ -76,7 +76,7 @@ const AssignTask = ({
           currency={currency}
         />
       ) : (
-        bodyForWorkerWithWage
+        contentForWorkerWithWage
       )}
       {additionalContent}
     </>

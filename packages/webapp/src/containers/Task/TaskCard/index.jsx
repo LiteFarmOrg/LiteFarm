@@ -28,7 +28,7 @@ const TaskCard = ({
   selected,
   happiness,
   classes = { card: {} },
-  wageAtMoment,
+  wage_at_moment,
   ...props
 }) => {
   const [showTaskAssignModal, setShowTaskAssignModal] = useState();
@@ -103,7 +103,7 @@ const TaskCard = ({
           users={users}
           user={user}
           dismissModal={() => setShowTaskAssignModal(false)}
-          wageAtMoment={wageAtMoment}
+          wage_at_moment={wage_at_moment}
         />
       )}
       {showDateAssignModal && (

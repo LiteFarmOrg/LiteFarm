@@ -23,7 +23,7 @@ export default function TaskQuickAssignModal({
   onSetUserFarmWageDoNotAskAgain,
   users,
   user,
-  wageAtMoment,
+  wage_at_moment,
 }) {
   const { t } = useTranslation();
 
@@ -45,7 +45,7 @@ export default function TaskQuickAssignModal({
     users,
     isAssigned,
     additionalFields: { [ASSIGN_ALL]: false },
-    wageAtMoment,
+    wage_at_moment,
   });
 
   const assignAll = watch(ASSIGN_ALL);

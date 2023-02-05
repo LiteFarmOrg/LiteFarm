@@ -21,7 +21,7 @@ const isYesOptionSelected = (option) => {
   return [hourlyWageActions.SET_HOURLY_WAGE, hourlyWageActions.FOR_THIS_TASK].includes(option);
 };
 
-const useTaskAssignForm = ({ user, users, isAssigned, additionalFields = {}, wageAtMoment }) => {
+const useTaskAssignForm = ({ user, users, isAssigned, additionalFields = {}, wage_at_moment }) => {
   /**
    * Custom hook to interact with AssignTask component.
    *
@@ -124,11 +124,11 @@ const useTaskAssignForm = ({ user, users, isAssigned, additionalFields = {}, wag
         wage_do_not_ask_again,
       } = userData;
 
-      const hasWage = !!(amount || wageAtMoment);
+      const hasWage = !!(amount || wage_at_moment);
       shouldShow = !hasWage && !wage_do_not_ask_again;
     }
     return shouldShow;
-  }, [user.is_admin, selectedWorker, wageAtMoment, assigned]);
+  }, [user.is_admin, selectedWorker, wage_at_moment, assigned]);
 
   useEffect(() => {
     if (!user.is_admin) {

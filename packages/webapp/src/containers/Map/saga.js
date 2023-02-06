@@ -135,6 +135,7 @@ export function* bulkUploadSensorsInfoFileSaga({ payload: { file } }) {
       case 200: {
         yield put(bulkSensorsUploadSuccess());
         yield put(postManySensorsSuccess(fileUploadResponse?.data?.sensors));
+        yield put(getAllSensorReadingTypes());
         yield put(
           setSuccessMessage([
             i18n.t('FARM_MAP.MAP_FILTER.SENSOR'),

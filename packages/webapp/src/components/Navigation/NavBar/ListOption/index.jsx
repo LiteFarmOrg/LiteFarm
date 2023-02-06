@@ -40,7 +40,7 @@ export default function ListOption({
       fontFamily: '"Open Sans"," SansSerif", serif',
       fontSize: '16px',
       marginBottom: '0px',
-      marginRight: '10px',
+      paddingRight: '10px',
       cursor: 'pointer',
       display: 'flex',
       alignItems: 'center',

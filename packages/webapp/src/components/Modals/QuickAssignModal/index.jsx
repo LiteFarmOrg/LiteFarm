@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import ModalComponent from '../ModalComponent/v2';
 import styles from './styles.module.scss';
@@ -84,7 +84,7 @@ export default function TaskQuickAssignModal({
         });
 
     if (shouldSetWage) {
-      const wage = +parseFloat(hourlyWage).toFixed(2);
+      const wage = +hourlyWage.toFixed(2);
 
       if (selectedHourlyWageAction === hourlyWageActions.SET_HOURLY_WAGE) {
         onUpdateUserFarmWage({ user_id: assigneeUserId, wage: { type: 'hourly', amount: wage } });
@@ -102,15 +102,17 @@ export default function TaskQuickAssignModal({
     /*TODO: properly fix checkbox label overflow ST-272*/
     /*TODO: LF-2932 - need to be able to unassign mutiple tasks at once */
   }
-  const assignAllCheckbox = (
-    <Checkbox
-      name={ASSIGN_ALL}
-      data-cy="quickAssign-assignAll"
-      style={{ paddingRight: '24px' }}
-      label={t('ADD_TASK.ASSIGN_ALL_TO_PERSON', { name: selectedWorker.label })}
-      hookFormRegister={register(ASSIGN_ALL)}
-    />
-  );
+  const assignAllCheckbox = useMemo(() => {
+    return (
+      <Checkbox
+        name={ASSIGN_ALL}
+        data-cy="quickAssign-assignAll"
+        style={{ paddingRight: '24px' }}
+        label={t('ADD_TASK.ASSIGN_ALL_TO_PERSON', { name: selectedWorker.label })}
+        hookFormRegister={register(ASSIGN_ALL)}
+      />
+    );
+  }, [selectedWorker.label]);
 
   return (
     <ModalComponent

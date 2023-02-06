@@ -12,6 +12,7 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
+import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Controller } from 'react-hook-form';
 import { Label } from '../../Typography';
@@ -36,32 +37,34 @@ const AssignTask = ({
 }) => {
   const { t } = useTranslation(['translation']);
 
-  const AssigneeSelect = (
-    <div className={styles.mb24}>
-      <Controller
-        control={control}
-        name={ASSIGNEE}
-        render={({ field: { onChange, ref, value } }) => (
-          <ReactSelect
-            data-cy="assignTask-assignee"
-            label={t('ADD_TASK.ASSIGNEE')}
-            options={assigneeOptions}
-            onChange={onChange}
-            style={{ marginTop: '8px', marginBottom: '6px' }}
-            isSearchable
-            optional={optional}
-            inputRef={ref}
-            value={value}
-          />
+  const AssigneeSelect = useMemo(() => {
+    return (
+      <div className={styles.mb24}>
+        <Controller
+          control={control}
+          name={ASSIGNEE}
+          render={({ field: { onChange, ref, value } }) => (
+            <ReactSelect
+              data-cy="assignTask-assignee"
+              label={t('ADD_TASK.ASSIGNEE')}
+              options={assigneeOptions}
+              onChange={onChange}
+              style={{ marginTop: '8px', marginBottom: '6px' }}
+              isSearchable
+              optional={optional}
+              inputRef={ref}
+              value={value}
+            />
+          )}
+        />
+        {showHourlyWageInputs && (
+          <Label className={styles.warning}>
+            {t('ADD_TASK.HOURLY_WAGE.ASSIGNEE_WAGE_WARNING', { name: selectedWorker.label })}
+          </Label>
         )}
-      />
-      {showHourlyWageInputs && (
-        <Label className={styles.warning}>
-          {t('ADD_TASK.HOURLY_WAGE.ASSIGNEE_WAGE_WARNING', { name: selectedWorker.label })}
-        </Label>
-      )}
-    </div>
-  );
+      </div>
+    );
+  }, [assigneeOptions, optional, showHourlyWageInputs, selectedWorker.label, control]);
 
   return (
     <>

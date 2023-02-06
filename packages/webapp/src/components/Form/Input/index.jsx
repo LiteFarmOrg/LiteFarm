@@ -70,7 +70,6 @@ const Input = ({
   const onKeyDown = ['number', 'decimal'].includes(type) ? numberOnKeyDown : undefined;
 
   useEffect(() => {
-    console.log(name);
     name === 'due_date' ? showPickerHandler() : null;
   }, []);
 
@@ -120,7 +119,6 @@ const Input = ({
       {unit && <div className={styles.unit}>{unit}</div>}
       {currency && <div className={styles.currency}>{currency}</div>}
       <input
-        //onFocus={}
         disabled={disabled}
         className={clsx(
           styles.input,

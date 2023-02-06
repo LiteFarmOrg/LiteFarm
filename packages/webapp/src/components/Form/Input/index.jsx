@@ -12,6 +12,7 @@ import { ReactComponent as Leaf } from '../../../assets/images/signUp/leaf.svg';
 import Infoi from '../../Tooltip/Infoi';
 import { get } from 'react-hook-form';
 import i18n from '../../../locales/i18n';
+import { use } from 'i18next';
 
 const Input = ({
   disabled = false,
@@ -68,6 +69,11 @@ const Input = ({
 
   const onKeyDown = ['number', 'decimal'].includes(type) ? numberOnKeyDown : undefined;
 
+  useEffect(() => {
+    console.log(name);
+    name === 'due_date' ? showPickerHandler() : null;
+  }, []);
+
   return (
     <div
       className={clsx(styles.container)}
@@ -114,7 +120,7 @@ const Input = ({
       {unit && <div className={styles.unit}>{unit}</div>}
       {currency && <div className={styles.currency}>{currency}</div>}
       <input
-        onFocus={name === 'due_date' ? showPickerHandler() : null}
+        //onFocus={}
         disabled={disabled}
         className={clsx(
           styles.input,

@@ -69,7 +69,7 @@ export default function PureTaskReadOnly({
   onUpdateUserFarmWage,
   onChangeTaskWage,
   onSetUserFarmWageDoNotAskAgain,
-  wageAtMoment,
+  wage_at_moment,
 }) {
   const { t } = useTranslation();
   const taskType = task.taskType;
@@ -420,7 +420,7 @@ export default function PureTaskReadOnly({
           users={users}
           user={user}
           dismissModal={() => setShowTaskAssignModal(false)}
-          wageAtMoment={wageAtMoment}
+          wage_at_moment={wage_at_moment}
         />
       )}
       {showDueDateModal && (

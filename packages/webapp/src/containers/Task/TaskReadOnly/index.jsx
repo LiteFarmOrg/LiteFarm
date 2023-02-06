@@ -123,7 +123,7 @@ function TaskReadOnly({ history, match, location }) {
         onChangeTaskWage={onChangeTaskWage}
         onUpdateUserFarmWage={onUpdateUserFarmWage}
         onSetUserFarmWageDoNotAskAgain={onSetUserFarmWageDoNotAskAgain}
-        wageAtMoment={task.wage_at_moment}
+        wage_at_moment={task.wage_at_moment}
       />
     </>
   );

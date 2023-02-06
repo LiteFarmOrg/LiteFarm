@@ -342,6 +342,8 @@
     "LETS_BEGIN": "Commencer",
     "NEW_CROP_NAME": "Nouveau nom de culture",
     "NO_RESULTS_FOUND": "Aucun résultat trouvé. Veuillez modifier vos filtres.",
+    "NOMINATE_CROP": "MISSING",
+    "NOMINATE_CROP_TOOLTIP": "MISSING",
     "ON_YOUR_FARM": "Sur votre ferme",
     "SELECT_A_CROP": "Sélectionnez une culture pour l'ajouter à votre ferme. Utilisez la recherche et les filtres pour trouver les récoltes plus rapidement.",
     "SPECIES": "MISSING"

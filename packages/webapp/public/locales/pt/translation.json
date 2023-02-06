@@ -342,6 +342,8 @@
     "LETS_BEGIN": "Vamos começar!",
     "NEW_CROP_NAME": "Nome do cultivo",
     "NO_RESULTS_FOUND": "Nenhum resultado encontrado. Por favor, mude seus filtros.",
+    "NOMINATE_CROP": "MISSING",
+    "NOMINATE_CROP_TOOLTIP": "MISSING",
     "ON_YOUR_FARM": "Em sua fazenda",
     "SELECT_A_CROP": "Selecione um cultivo para adicioná-lo à sua fazenda. Use a busca e os filtros para encontrar os cultivos mais rapidamente.",
     "SPECIES": "MISSING"

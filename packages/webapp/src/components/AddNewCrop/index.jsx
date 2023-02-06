@@ -1,3 +1,18 @@
+/*
+ *  Copyright 2019, 2020, 2021, 2022, 2023 LiteFarm.org
+ *  This file is part of LiteFarm.
+ *
+ *  LiteFarm is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  LiteFarm is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
+ */
+
 import Button from '../Form/Button';
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
@@ -31,6 +46,7 @@ import { useSelector } from 'react-redux';
 import MultiStepPageTitle from '../PageTitle/MultiStepPageTitle';
 import RadioGroup from '../Form/RadioGroup';
 import styles from './styles.module.scss';
+import Checkbox from '../Form/Checkbox';
 
 export default function PureAddNewCrop({
   handleContinue,
@@ -198,6 +214,13 @@ export default function PureAddNewCrop({
       <PhysiologyAnatomyDropDown
         register={register}
         isPhysiologyAnatomyDropDownOpen={isPhysiologyAnatomyDropDownOpen}
+      />
+      <Checkbox
+        data-cy="crop-nomination"
+        label={t('CROP_CATALOGUE.NOMINATE_CROP')}
+        style={{ marginTop: '40px', marginBottom: '16px' }}
+        hookFormRegister={register('nominate_crop')}
+        tooltipContent={t('CROP_CATALOGUE.NOMINATE_CROP_TOOLTIP')}
       />
     </Form>
   );

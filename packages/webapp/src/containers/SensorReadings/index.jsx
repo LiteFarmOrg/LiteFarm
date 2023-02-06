@@ -98,6 +98,10 @@ function SensorReadings({ history, match }) {
             ?.sort()
             ?.reverse()
             ?.map((type, index) => {
+              if (!sensorVisualizationPropList[type]) {
+                return null;
+              }
+
               const {
                 title,
                 subTitle,

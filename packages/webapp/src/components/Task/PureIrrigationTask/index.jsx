@@ -63,7 +63,7 @@ export default function PureIrrigationTask({
     if (locationDefaults?.irrigation_task_type) return locationDefaults?.irrigation_task_type;
   });
   const [totalVolumeWaterUsage, setTotalVolumeWaterUsage] = useState();
-  const [totalDepthWaterUsage, setTotalDepthWaterUSage] = useState();
+  const [totalDepthWaterUsage, setTotalDepthWaterUsage] = useState();
   const [estimatedWaterUsageComputed, setEstimatedWaterUsageComputed] = useState(false);
 
   const dispatch = useDispatch();
@@ -174,7 +174,7 @@ export default function PureIrrigationTask({
           ...getValues().irrigation_task,
         },
       });
-      setTotalDepthWaterUSage('');
+      setTotalDepthWaterUsage('');
     }
   }, [showWaterUseCalculatorModal]);
 
@@ -308,7 +308,7 @@ export default function PureIrrigationTask({
           totalVolumeWaterUsage={totalVolumeWaterUsage}
           setTotalVolumeWaterUsage={setTotalVolumeWaterUsage}
           totalDepthWaterUsage={totalDepthWaterUsage}
-          setTotalDepthWaterUSage={setTotalDepthWaterUSage}
+          setTotalDepthWaterUsage={setTotalDepthWaterUsage}
           formState={stateController}
           locationDefaults={locationDefaults}
         />

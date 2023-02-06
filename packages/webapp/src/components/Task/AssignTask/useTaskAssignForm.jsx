@@ -12,7 +12,7 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
-import { useMemo, useEffect } from 'react';
+import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useForm } from 'react-hook-form';
 import { ASSIGNEE, HOURLY_WAGE, HOURLY_WAGE_ACTION, hourlyWageActions } from './constants';
@@ -72,7 +72,6 @@ const useTaskAssignForm = ({ user, users, isAssigned, additionalFields = {}, wag
   const {
     control,
     register,
-    resetField,
     watch,
     formState: { isValid, errors },
   } = useForm({
@@ -130,23 +129,11 @@ const useTaskAssignForm = ({ user, users, isAssigned, additionalFields = {}, wag
     return shouldShow;
   }, [user.is_admin, selectedWorker, wage_at_moment, assigned]);
 
-  useEffect(() => {
-    if (!user.is_admin) {
-      return;
-    }
-
-    resetField(HOURLY_WAGE_ACTION);
-    resetField(HOURLY_WAGE);
-  }, [user.is_admin, selectedWorker]);
-
   const shouldSetWage = useMemo(() => {
     let shouldSet = false;
 
     if (selectedHourlyWageAction) {
       shouldSet = isYesOptionSelected(selectedHourlyWageAction);
-    }
-    if (!shouldSet) {
-      resetField(HOURLY_WAGE);
     }
 
     return shouldSet;

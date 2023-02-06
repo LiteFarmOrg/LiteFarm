@@ -114,7 +114,7 @@ const Input = ({
       {unit && <div className={styles.unit}>{unit}</div>}
       {currency && <div className={styles.currency}>{currency}</div>}
       <input
-        onFocus={inputType === 'date' ? showPickerHandler() : null}
+        onFocus={name === 'due_date' ? showPickerHandler() : null}
         disabled={disabled}
         className={clsx(
           styles.input,

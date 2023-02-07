@@ -6,7 +6,7 @@ import MultiStepPageTitle from '../../PageTitle/MultiStepPageTitle';
 import { Main } from '../../Typography';
 import styles from '../../CertificationReportingPeriod/styles.module.scss';
 import RadioGroup from '../../Form/RadioGroup';
-import Input, { getInputErrors, numberOnKeyDown } from '../../Form/Input';
+import Input, { numberOnKeyDown } from '../../Form/Input';
 import AssignTask from '../AssignTask';
 
 const PureTaskAssignment = ({
@@ -19,6 +19,7 @@ const PureTaskAssignment = ({
   override,
   control,
   register,
+  watch,
   errors,
   disabled,
   assigneeOptions,
@@ -33,6 +34,7 @@ const PureTaskAssignment = ({
   const { t } = useTranslation();
   const OVERRIDE_HOURLY_WAGE = 'override_hourly_wage';
   const WAGE_OVERRIDE = 'wage_at_moment';
+  const wageOverride = watch(WAGE_OVERRIDE);
 
   const { historyCancel } = useHookFormPersist(getValues);
 
@@ -40,7 +42,6 @@ const PureTaskAssignment = ({
     if (isFarmWorker) {
       return null;
     }
-
     return (
       <>
         <Main className={styles.mainText} style={{ paddingTop: '35px' }}>
@@ -72,19 +73,20 @@ const PureTaskAssignment = ({
               hookFormRegister={register(WAGE_OVERRIDE, {
                 required: true,
                 valueAsNumber: true,
+                min: { value: 0, message: t('WAGE.HOURLY_WAGE_RANGE_ERROR') },
+                max: { value: 999999999, message: t('WAGE.HOURLY_WAGE_RANGE_ERROR') },
               })}
+              step="0.01"
               type={'number'}
-              onKeyDown={numberOnKeyDown}
-              max={100000000}
-              errors={getInputErrors(errors, WAGE_OVERRIDE)}
-              name={WAGE_OVERRIDE}
+              onKeyPress={numberOnKeyDown}
+              errors={errors[WAGE_OVERRIDE] && (errors[WAGE_OVERRIDE].message || t('WAGE.ERROR'))}
               hookFormSetValue={setValue}
             />
           </div>
         )}
       </>
     );
-  }, [override, control]);
+  }, [override, control, errors[WAGE_OVERRIDE], wageOverride]);
 
   return (
     <>

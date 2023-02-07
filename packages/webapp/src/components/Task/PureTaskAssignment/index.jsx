@@ -8,6 +8,7 @@ import styles from '../../CertificationReportingPeriod/styles.module.scss';
 import RadioGroup from '../../Form/RadioGroup';
 import Input, { numberOnKeyDown } from '../../Form/Input';
 import AssignTask from '../AssignTask';
+import { WAGE_OVERRIDE, OVERRIDE_HOURLY_WAGE } from '../AssignTask/constants';
 
 const PureTaskAssignment = ({
   onSubmit,
@@ -32,8 +33,6 @@ const PureTaskAssignment = ({
   setValue,
 }) => {
   const { t } = useTranslation();
-  const OVERRIDE_HOURLY_WAGE = 'override_hourly_wage';
-  const WAGE_OVERRIDE = 'wage_at_moment';
   const wageOverride = watch(WAGE_OVERRIDE);
 
   const { historyCancel } = useHookFormPersist(getValues);

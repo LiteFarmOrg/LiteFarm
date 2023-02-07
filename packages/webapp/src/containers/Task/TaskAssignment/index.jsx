@@ -1,14 +1,19 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import PureTaskAssignment from '../../../components/Task/PureTaskAssignment';
 import { loginSelector, userFarmEntitiesSelector, userFarmSelector } from '../../userFarmSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import grabCurrencySymbol from '../../../util/grabCurrencySymbol';
-import { getCurrencyFromStore } from '../../../store/getFromReduxStore';
 import { HookFormPersistProvider } from '../../hooks/useHookFormPersist/HookFormPersistProvider';
-import { taskTypeSelector } from '../../taskTypeSlice';
 import { hookFormPersistSelector } from '../../hooks/useHookFormPersist/hookFormPersistSlice';
 import { createTask } from '../saga';
 import { useTranslation } from 'react-i18next';
+import { updateUserFarmWage, setUserFarmWageDoNotAskAgain } from '../../../containers/Task/saga';
+import { cloneObject } from '../../../util';
+import { hourlyWageActions } from '../../../components/Task/AssignTask/constants';
+import useTaskAssignForm from '../../../components/Task/AssignTask/useTaskAssignForm';
+
+const OVERRIDE_HOURLY_WAGE = 'override_hourly_wage';
+const WAGE_OVERRIDE = 'wage_at_moment';
 
 export default function TaskManagement({ history, match, location }) {
   const userFarms = useSelector(userFarmEntitiesSelector);
@@ -19,58 +24,89 @@ export default function TaskManagement({ history, match, location }) {
   const users = userFarms[farm_id];
   const userData = Object.values(users).filter((user) => user.status !== 'Inactive');
   const persistedFormData = useSelector(hookFormPersistSelector);
-  const selectedTaskType = useSelector(taskTypeSelector(persistedFormData.task_type_id));
-  const isCustomType = !!selectedTaskType.farm_id;
-  const [options, setOptions] = useState([{ label: t('TASK.UNASSIGNED'), value: null }]);
-  const [wageData, setWageData] = useState([
-    { 0: { currency: null, hourly_wage: null, currencySymbol: null } },
-  ]);
   const [isFarmWorker] = useState(userFarm.role_id === 3);
-  const currencySymbol = grabCurrencySymbol(getCurrencyFromStore());
   const worker = users[userFarm.user_id];
 
-  useEffect(() => {
-    let wage_data = [];
-    let innerOptions = [];
-    if (userFarm.role_id === 3) {
-      let obj = { label: worker.first_name + ' ' + worker.last_name, value: worker.user_id };
-      let wageObj = {
-        [worker.user_id]: {
-          currency: worker.units.currency,
-          hourly_wage: worker.wage.amount,
-          currencySymbol: currencySymbol,
-        },
-      };
-      innerOptions.push(obj);
-      wage_data.push(wageObj);
-    } else {
-      for (let i = 0; i < userData.length; i++) {
-        let obj = {
-          label: userData[i].first_name + ' ' + userData[i].last_name,
-          value: userData[i].user_id,
+  const defaultAssignee = useMemo(() => {
+    let { assignee } = persistedFormData;
+    if (!assignee) {
+      if (isFarmWorker || users.length === 1) {
+        // "current user" if he/she is a farm worker or if he/she is the only user at the farm
+        assignee = {
+          label: worker.first_name + ' ' + worker.last_name,
+          value: worker.user_id,
         };
-        innerOptions.push(obj);
-        let wageObj = {
-          [userData[i].user_id]: {
-            currency: userData[i].units.currency,
-            hourly_wage: userData[i].wage.amount,
-            currencySymbol: currencySymbol,
-          },
-        };
-        wage_data.push(wageObj);
+      } else {
+        // “Unassigned” if more than one user exists
+        assignee = { label: t('TASK.UNASSIGNED'), value: null };
       }
     }
-    setOptions(options.concat(innerOptions));
-    setWageData(wageData.concat(wage_data));
-  }, []);
+    return assignee;
+  }, [persistedFormData, isFarmWorker, users, worker]);
+
+  const taskAssignForm = useTaskAssignForm({
+    user: userFarm,
+    users: userData,
+    defaultAssignee,
+    additionalFields: {
+      [OVERRIDE_HOURLY_WAGE]: persistedFormData[OVERRIDE_HOURLY_WAGE] || false,
+      [WAGE_OVERRIDE]: persistedFormData[WAGE_OVERRIDE] || null,
+      ...cloneObject(persistedFormData),
+    },
+  });
+
+  const {
+    watch,
+    selectedWorker,
+    showHourlyWageInputs,
+    setValue,
+    clearErrors,
+    currency,
+    userFarmWage,
+  } = taskAssignForm;
+
+  const currencySymbol = grabCurrencySymbol(currency);
+  const override = watch(OVERRIDE_HOURLY_WAGE);
+
+  useEffect(() => {
+    // when assignee is changed, show user farm wage as default for "wage override" input
+    if (selectedWorker.label !== t('TASK.UNASSIGNED') && userFarmWage) {
+      setValue(WAGE_OVERRIDE, userFarmWage);
+      clearErrors(WAGE_OVERRIDE);
+    }
+  }, [selectedWorker, userFarmWage]);
 
   const onSubmit = (data) => {
+    const { hourly_wage_action, assignee, hourly_wage, override_hourly_wage, wage_at_moment } =
+      data;
+    const override =
+      (!showHourlyWageInputs && override_hourly_wage) || // user has a wage but wants to override
+      (showHourlyWageInputs && hourly_wage_action === hourlyWageActions.FOR_THIS_TASK); // no user wage and set wage for this task
+
     const postData = {
       ...persistedFormData,
-      ...data,
+      ...{
+        assignee_user_id: assignee,
+        override_hourly_wage: override,
+        wage_at_moment: override
+          ? +(showHourlyWageInputs ? +hourly_wage.toFixed(2) : wage_at_moment)
+          : null,
+      },
       returnPath: location.state ? location.state.pathname : null,
     };
     dispatch(createTask(postData));
+
+    // for user who does not have a wage set, take the hourly wage action
+    if (showHourlyWageInputs) {
+      if (hourly_wage_action === hourlyWageActions.SET_HOURLY_WAGE) {
+        const wage = +hourly_wage.toFixed(2);
+        dispatch(
+          updateUserFarmWage({ user_id: assignee.value, wage: { type: 'hourly', amount: wage } }),
+        );
+      } else if (hourly_wage_action === hourlyWageActions.DO_NOT_ASK_AGAIN) {
+        dispatch(setUserFarmWageDoNotAskAgain({ user_id: assignee.value }));
+      }
+    }
   };
 
   const handleGoBack = () => {
@@ -87,10 +123,10 @@ export default function TaskManagement({ history, match, location }) {
         onSubmit={onSubmit}
         handleGoBack={handleGoBack}
         onError={onError}
-        userFarmOptions={options}
-        wageData={wageData}
         isFarmWorker={isFarmWorker}
         currencySymbol={currencySymbol}
+        override={override}
+        {...taskAssignForm}
       />
     </HookFormPersistProvider>
   );

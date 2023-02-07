@@ -1,16 +1,14 @@
 import React from 'react';
-import GoogleLogin from 'react-google-login';
+import { GoogleOAuthProvider, GoogleLogin } from '@react-oauth/google';
 import { useDispatch } from 'react-redux';
 import { loginWithGoogle } from './saga';
-import styles from './googleLoginButton.module.scss';
 import { useTranslation } from 'react-i18next';
-import clsx from 'clsx';
 
 function GoogleLoginButton({ disabled }) {
   const dispatch = useDispatch();
   const clientId = import.meta.env.VITE_GOOGLE_OAUTH_CLIENT_ID;
   const onSuccess = (res) => {
-    dispatch(loginWithGoogle(res.tokenObj.id_token));
+    dispatch(loginWithGoogle(res.credential));
   };
   const onFailure = (res) => {
     console.log(res);
@@ -18,22 +16,33 @@ function GoogleLoginButton({ disabled }) {
   const { t } = useTranslation();
 
   return (
-    <GoogleLogin
-      buttonText="Login"
-      data-cy="continueGoogle"
-      onSuccess={onSuccess}
-      onFailure={onFailure}
-      disabled={disabled}
-      clientId={clientId}
-      className={clsx(styles.googleButton, 'google-login-button')}
-    >
-      {t('SIGNUP.GOOGLE_BUTTON')}
-    </GoogleLogin>
+    <GoogleOAuthProvider clientId={clientId}>
+      <GoogleLogin
+        buttonText="Login"
+        data-cy="continueGoogle"
+        onSuccess={onSuccess}
+        onFailure={onFailure}
+        disabled={disabled}
+        text="continue_with"
+        width={312}
+      >
+        {t('SIGNUP.GOOGLE_BUTTON')}
+      </GoogleLogin>
+    </GoogleOAuthProvider>
   );
 }
 
+/* New Google response object (Google Identity Services via @react-oauth/google)
+{ 
+  credential: <equivalent to previous id_token below>,
+  clientId: <same as the one imported from .env file above>,
+  select_by: "btn"
+}
+
+*/
+
 /**
- Google res shape
+ Original Google response shape (Google Sign In, discontinued March 31, 2023, via react-google-login)
  res:{
   profileObj:{
     email: "litefarmdev0@gmail.com"

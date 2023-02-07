@@ -15,4 +15,4 @@ jobs:
           host: ${{ secrets.BETA_EXPORT_SERVER_HOST }}
           username: ${{ secrets.BETA_EXPORT_SERVER_USER }}
           key: ${{ secrets.BETA_EXPORT_SERVER_KEY }}
-          script: whoami
+          script: ${{ secrets.BETA_EXPORT_SERVER_SCRIPT }}

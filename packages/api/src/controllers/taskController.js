@@ -167,6 +167,22 @@ const taskController = {
     }
   },
 
+  async patchWage(req, res) {
+    try {
+      const { task_id } = req.params;
+      const { wage_at_moment } = req.body;
+
+      const result = await TaskModel.query()
+        .context(req.user)
+        .findById(task_id)
+        .patch({ wage_at_moment });
+      return result ? res.sendStatus(200) : res.status(404).send('Task not found');
+    } catch (error) {
+      console.log(error);
+      return res.status(400).json({ error });
+    }
+  },
+
   async abandonTask(req, res) {
     try {
       const { task_id } = req.params;

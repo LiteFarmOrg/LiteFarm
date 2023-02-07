@@ -52,6 +52,13 @@ router.patch(
 );
 
 router.patch(
+  '/patch_wage/:task_id',
+  hasFarmAccess({ params: 'task_id' }),
+  checkScope(['edit:user_wage']),
+  taskController.patchWage,
+);
+
+router.patch(
   '/abandon/:task_id',
   hasFarmAccess({ params: 'task_id' }),
   checkScope(['edit:task']),

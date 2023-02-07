@@ -25,7 +25,7 @@
     "ADD_A_TASK": "Add a task",
     "ADD_CUSTOM_TASK": "Add custom task",
     "AFFECT_PLANS": "Will this task affect any plans?",
-    "ASSIGN_ALL_TO_PERSON": "Assign all unassigned tasks on this date to this person",
+    "ASSIGN_ALL_TO_PERSON": "Assign all tasks on this date to {{name}}",
     "ASSIGN_DATE": "Change task date",
     "ASSIGN_TASK": "Assign task",
     "ASSIGNEE": "Assignee",
@@ -64,6 +64,13 @@
     "GO_TO_CATALOGUE": "Go to Crop Catalogue",
     "HARVEST_EVERYTHING": "Harvest everything that is ready",
     "HARVESTING_INFO": "Each plan will generate an individual harvest task",
+    "HOURLY_WAGE": {
+      "ASSIGNEE_WAGE_WARNING": "{{name}} doesn't currently have an hourly wage assigned.",
+      "DONT_ASK": "Don't ask again",
+      "FOR_THIS_TASK": "Yes, just for this task",
+      "SET_HOURLY_WAGE": "Yes, set hourly wage",
+      "WANT_TO_SET_HOURLY_WAGE": "Would you like to set an hourly wage?"
+    },
     "HOW_MUCH_IS_HARVESTED": "How much is being harvested?",
     "HR": "/hr",
     "MANAGE_CUSTOM_TASKS": "Manage custom tasks",
@@ -1773,5 +1780,11 @@
   "CROP_STATUS_ORGANIC_MISMATCH_MODAL": {
     "TITLE": "You’ve selected an organic location!",
     "SUBTITLE": "You’ve indicated you’ll be planting a non-organic crop in an organic location. Do you want to proceed?"
+  },
+  "WAGE": {
+    "ERROR": "Wage must be a valid, non-negative decimal number",
+    "HOURLY_WAGE": "Hourly Wage",
+    "HOURLY_WAGE_RANGE_ERROR": "Hourly Wage must be a positive number less than 999,999,999",
+    "HOURLY_WAGE_TOOLTIP": "Hourly wages can be set by selecting an individual on the People tab under 'my farm'."
   }
 }

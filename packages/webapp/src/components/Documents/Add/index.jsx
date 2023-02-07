@@ -92,12 +92,14 @@ function PureDocumentDetailView({
     let validUntil = data.valid_until ? data.valid_until : null;
     data.type = data.type ? data.type.value : data.type;
     validUntil = data.no_expiration ? null : validUntil;
+    const noExpiration = !data?.valid_until ? true : data.no_expiration;
     submit({
       ...data,
       thumbnail_url: getDocumentThumbnailUrl(uploadedFiles),
       files: uploadedFiles.map((file, i) => ({
         ...file,
       })),
+      no_expiration: noExpiration,
       valid_until: validUntil,
     });
   };

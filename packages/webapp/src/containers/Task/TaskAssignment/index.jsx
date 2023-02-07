@@ -9,11 +9,13 @@ import { createTask } from '../saga';
 import { useTranslation } from 'react-i18next';
 import { updateUserFarmWage, setUserFarmWageDoNotAskAgain } from '../../../containers/Task/saga';
 import { cloneObject } from '../../../util';
-import { hourlyWageActions } from '../../../components/Task/AssignTask/constants';
 import useTaskAssignForm from '../../../components/Task/AssignTask/useTaskAssignForm';
-
-const OVERRIDE_HOURLY_WAGE = 'override_hourly_wage';
-const WAGE_OVERRIDE = 'wage_at_moment';
+import {
+  hourlyWageActions,
+  WAGE_OVERRIDE,
+  OVERRIDE_HOURLY_WAGE,
+  assignTaskFields,
+} from '../../../components/Task/AssignTask/constants';
 
 export default function TaskManagement({ history, match, location }) {
   const userFarms = useSelector(userFarmEntitiesSelector);
@@ -30,7 +32,7 @@ export default function TaskManagement({ history, match, location }) {
   const defaultAssignee = useMemo(() => {
     let { assignee } = persistedFormData;
     if (!assignee) {
-      if (isFarmWorker || users.length === 1) {
+      if (isFarmWorker || userData.length === 1) {
         // "current user" if he/she is a farm worker or if he/she is the only user at the farm
         assignee = {
           label: worker.first_name + ' ' + worker.last_name,
@@ -94,6 +96,11 @@ export default function TaskManagement({ history, match, location }) {
       },
       returnPath: location.state ? location.state.pathname : null,
     };
+    Object.keys((key) => {
+      if (assignTaskFields.includes[key]) {
+        delete postData[key];
+      }
+    });
     dispatch(createTask(postData));
 
     // for user who does not have a wage set, take the hourly wage action

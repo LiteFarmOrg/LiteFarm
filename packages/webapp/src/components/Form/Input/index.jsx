@@ -12,7 +12,6 @@ import { ReactComponent as Leaf } from '../../../assets/images/signUp/leaf.svg';
 import Infoi from '../../Tooltip/Infoi';
 import { get } from 'react-hook-form';
 import i18n from '../../../locales/i18n';
-import { use } from 'i18next';
 
 const Input = ({
   disabled = false,
@@ -63,7 +62,7 @@ const Input = ({
     try {
       input.current.showPicker();
     } catch (e) {
-      console.log({ e });
+      console.log(e);
     }
   };
 

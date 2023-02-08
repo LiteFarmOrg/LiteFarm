@@ -96,6 +96,7 @@ export default function TaskManagement({ history, match, location }) {
       },
       returnPath: location.state ? location.state.pathname : null,
     };
+    // delete data(HOURLY_WAGE_ACTION, SELECT_ALL etc) that should not be included in API request
     Object.keys((key) => {
       if (assignTaskFields.includes[key]) {
         delete postData[key];

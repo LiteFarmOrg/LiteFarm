@@ -164,6 +164,10 @@
     "CREATE": {
       "FAILED": "Failed to create task",
       "SUCCESS": "Successfully created task"
+    },
+    "UPDATE": {
+      "FAILED": "Failed to update task",
+      "SUCCESS": "Successfully updated task"
     }
   },
   "TASK_TYPE": {

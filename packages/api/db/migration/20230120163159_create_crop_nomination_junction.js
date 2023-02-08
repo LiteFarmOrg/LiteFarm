@@ -1,5 +1,5 @@
 /*
- *  Copyright 2019, 2020, 2021, 2022 LiteFarm.org
+ *  Copyright 2019, 2020, 2021, 2022, 2023 LiteFarm.org
  *  This file is part of LiteFarm.
  *
  *  LiteFarm is free software: you can redistribute it and/or modify
@@ -12,22 +12,14 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
-
-import './loadEnv.js';
-import sendOnSchedule from './notifications/index.js';
-import processExports from './certification/index.js';
-
-import logger from '../common/logger.js';
-
-const redisConf = {
-  redis: {
-    host: process.env.REDIS_HOST,
-    port: process.env.REDIS_PORT,
-    password: process.env.REDIS_PASSWORD,
-  },
+export const up = async function (knex) {
+  return await knex.schema.createTable('nomination_crop', (table) => {
+    table.integer('nomination_id').references('nomination_id').inTable('nomination').notNullable();
+    table.integer('crop_id').references('crop_id').inTable('crop').notNullable();
+    table.primary(['nomination_id', 'crop_id']);
+  });
 };
 
-logger.info('starting job scheduler');
-
-processExports(redisConf);
-sendOnSchedule(redisConf);
+export const down = async function (knex) {
+  return await knex.schema.dropTable('nomination_crop');
+};

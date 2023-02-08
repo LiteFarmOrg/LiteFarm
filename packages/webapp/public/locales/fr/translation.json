@@ -25,7 +25,7 @@
     "ADD_A_TASK": "Ajouter une tâche",
     "ADD_CUSTOM_TASK": "Ajouter une tâche personnalisée",
     "AFFECT_PLANS": "Cette tâche affectera-t-elle les plans\u00a0?",
-    "ASSIGN_ALL_TO_PERSON": "Attribuez toutes les tâches non assignées à cette date à cette personne",
+    "ASSIGN_ALL_TO_PERSON": "MISSING",
     "ASSIGN_DATE": "Attribuer une date d'échéance",
     "ASSIGN_TASK": "Attribuer une tâche",
     "ASSIGNEE": "Personne responsable",
@@ -64,6 +64,13 @@
     "GO_TO_CATALOGUE": "Aller au catalogue de cultures",
     "HARVEST_EVERYTHING": "Récolter tout ce qui est prêt",
     "HARVESTING_INFO": "Chaque plan générera une tâche de récolte individuelle",
+    "HOURLY_WAGE": {
+      "ASSIGNEE_WAGE_WARNING": "MISSING",
+      "DONT_ASK": "MISSING",
+      "FOR_THIS_TASK": "MISSING",
+      "SET_HOURLY_WAGE": "MISSING",
+      "WANT_TO_SET_HOURLY_WAGE": "MISSING"
+    },
     "HOW_MUCH_IS_HARVESTED": "Combien est récolté ?",
     "HR": "/h",
     "MANAGE_CUSTOM_TASKS": "Gérer les tâches personnalisées",
@@ -335,6 +342,8 @@
     "LETS_BEGIN": "Commencer",
     "NEW_CROP_NAME": "Nouveau nom de culture",
     "NO_RESULTS_FOUND": "Aucun résultat trouvé. Veuillez modifier vos filtres.",
+    "NOMINATE_CROP": "MISSING",
+    "NOMINATE_CROP_TOOLTIP": "MISSING",
     "ON_YOUR_FARM": "Sur votre ferme",
     "SELECT_A_CROP": "Sélectionnez une culture pour l'ajouter à votre ferme. Utilisez la recherche et les filtres pour trouver les récoltes plus rapidement.",
     "SPECIES": "MISSING"
@@ -1779,5 +1788,11 @@
   "CROP_STATUS_ORGANIC_MISMATCH_MODAL": {
     "TITLE": "MISSING",
     "SUBTITLE": "MISSING"
+  },
+  "WAGE": {
+    "ERROR": "Le salaire doit être un nombre décimal valide et non négatif",
+    "HOURLY_WAGE": "MISSING",
+    "HOURLY_WAGE_RANGE_ERROR": "MISSING",
+    "HOURLY_WAGE_TOOLTIP": "MISSING"
   }
 }

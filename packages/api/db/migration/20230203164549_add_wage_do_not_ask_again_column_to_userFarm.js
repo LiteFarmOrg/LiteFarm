@@ -1,5 +1,5 @@
 /*
- *  Copyright 2019, 2020, 2021, 2022 LiteFarm.org
+ *  Copyright 2019, 2020, 2021, 2022, 2023 LiteFarm.org
  *  This file is part of LiteFarm.
  *
  *  LiteFarm is free software: you can redistribute it and/or modify
@@ -13,21 +13,18 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import './loadEnv.js';
-import sendOnSchedule from './notifications/index.js';
-import processExports from './certification/index.js';
-
-import logger from '../common/logger.js';
-
-const redisConf = {
-  redis: {
-    host: process.env.REDIS_HOST,
-    port: process.env.REDIS_PORT,
-    password: process.env.REDIS_PASSWORD,
-  },
+export const up = function (knex) {
+  return Promise.all([
+    knex.schema.alterTable('userFarm', (table) => {
+      table.boolean('wage_do_not_ask_again').nullable();
+    }),
+  ]);
 };
 
-logger.info('starting job scheduler');
-
-processExports(redisConf);
-sendOnSchedule(redisConf);
+export const down = function (knex) {
+  return Promise.all([
+    knex.schema.alterTable('userFarm', (table) => {
+      table.dropColumn('wage_do_not_ask_again');
+    }),
+  ]);
+};

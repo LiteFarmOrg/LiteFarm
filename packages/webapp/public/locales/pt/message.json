@@ -164,6 +164,10 @@
     "CREATE": {
       "FAILED": "Erro ao completar tarefa",
       "SUCCESS": "Tarefa concluída com sucesso"
+    },
+    "UPDATE": {
+      "FAILED": "MISSING",
+      "SUCCESS": "MISSING"
     }
   },
   "TASK_TYPE": {

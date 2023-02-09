@@ -164,6 +164,10 @@
     "CREATE": {
       "FAILED": "Impossible de créer une tâche",
       "SUCCESS": "Tâche créée avec succès"
+    },
+    "UPDATE": {
+      "FAILED": "MISSING",
+      "SUCCESS": "MISSING"
     }
   },
   "TASK_TYPE": {

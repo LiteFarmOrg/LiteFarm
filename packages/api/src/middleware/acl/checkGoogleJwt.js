@@ -9,6 +9,18 @@ async function checkGoogleJwt(req, res, next) {
   }
   const token = authorization.replace('Bearer ', '');
 
+  // For implicit flow from @react-oauth useGoogleLogin() hook from the email invite view
+  if (req.body.isAccessToken) {
+    try {
+      const tokenInfo = await client.getTokenInfo(token);
+      req.user = { email: tokenInfo.email, sub: tokenInfo.sub };
+      return next();
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  // Original flow & Sign in with Google Button on main login page
   try {
     const ticket = await client.verifyIdToken({
       idToken: token,

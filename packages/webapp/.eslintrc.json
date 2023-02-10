@@ -24,7 +24,7 @@
     "amd": true,
     "node": true
   },
-  "extends": ["eslint:recommended", "plugin:react/recommended"],
+  "extends": ["eslint:recommended", "plugin:react/recommended", "plugin:storybook/recommended"],
   "rules": {
     "react/react-in-jsx-scope": "off",
     "react/prop-types": "off",

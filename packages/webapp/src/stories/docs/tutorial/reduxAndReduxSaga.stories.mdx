@@ -4,7 +4,6 @@ import TechStackNavigation from '../teckStackNavigation';
 import DocLink from '../DocLink';
 import cropSchema from '../../assets/redux/cropTable.png';
 import { FcDown } from 'react-icons/fc'; import DocCard from '../DocCard';
-const containerStyle = { display: 'flex', flexDirection: 'column', alignItems: 'center', flexGrow: 1 }
 
 <Meta title="Docs/tutorial/8.Redux and redux saga" />
 
@@ -23,7 +22,7 @@ const containerStyle = { display: 'flex', flexDirection: 'column', alignItems: '
 
 
 
-<div style={containerStyle}>
+<div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', flexGrow: 1 }}>
   <img src={cropSchema} />
   <FcDown style={{ fontSize: '30px' }} />
   <Title>Express endpoint <code>api.litefarm.org/crop/31</code></Title>
@@ -42,7 +41,7 @@ const containerStyle = { display: 'flex', flexDirection: 'column', alignItems: '
   }
 ```
 
-<div style={containerStyle}>
+<div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', flexGrow: 1 }}>
   <FcDown style={{ fontSize: '30px' }} />
   <Title>Redux Saga action <code>getCropByIdSaga</code> and toolkit action <code>getCropByIdSuccess</code></Title>
   <FcDown style={{ fontSize: '30px' }} />
@@ -66,7 +65,7 @@ const containerStyle = { display: 'flex', flexDirection: 'column', alignItems: '
       }
     }
 ```
-<div style={containerStyle}>
+<div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', flexGrow: 1 }}>
   <FcDown style={{ fontSize: '30px' }} />
   <Title>Consume store data through selector in a Container</Title>
   <FcDown style={{ fontSize: '30px' }} />
@@ -92,7 +91,7 @@ function CropCatalogue({history}){
 }
 ```
 
-<div style={containerStyle}>
+<div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', flexGrow: 1 }}>
   <FcDown style={{ fontSize: '30px' }} />
 </div>
 

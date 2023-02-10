@@ -8,8 +8,8 @@ import { VitePWA } from 'vite-plugin-pwa';
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
+    { enforce: 'pre', ...mdx({ providerImportSource: '@mdx-js/react' }) },
     react(),
-    mdx({ providerImportSource: '@mdx-js/react' }),
     svgrPlugin({
       svgrOptions: {
         icon: false,

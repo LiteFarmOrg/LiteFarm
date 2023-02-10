@@ -1,13 +1,16 @@
-import { StepType, TourProvider } from '@reactour/tour';
+import {
+  PopoverContentProps,
+  StepType,
+  TourProps,
+  TourProvider,
+  ProviderProps,
+} from '@reactour/tour';
 import React, { ReactNode, useMemo } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
 import { useTranslation } from 'react-i18next';
 import { Label, Semibold } from '../Typography';
 import { colors } from '../../assets/theme';
 import Button from '../Form/Button';
-import { ProviderProps, TourProps } from '@reactour/tour/dist/types';
-import { ContentProps } from '@reactour/tour/src/types';
-import { keyframes } from '@emotion/react';
+import styles from './styles.module.scss';
 
 const opositeSide = {
   top: 'bottom',
@@ -36,20 +39,12 @@ const getStyles = ({
 }: getStylesProps): TourProps['styles'] => ({
   maskArea: (base, state) => ({ ...base, rx: 8, display: showMaskArea ? undefined : 'none' }),
   popover: (base, state) => {
-    const fadein = keyframes`
-      0%, 50% {
-        opacity: 0;
-      }
-      100% {
-        opacity: 100%;
-      }`;
     const baseStyles = {
       borderRadius: 8,
       display: 'flex',
       maxWidth: '500px',
       background: colors.grey100,
       padding: '16px',
-      animation: `${fadein} 0.5s ease`,
       ...popoverStyles,
     };
     const position: Position = state?.position;
@@ -82,19 +77,12 @@ const getStyles = ({
       flexDirection: 'column',
       ...baseStyles,
       ...getPopoverOffset(),
-      '&::after': {
-        content: "''",
-        width: 0,
-        height: 0,
-        position: 'absolute',
-        [isVertical ? 'borderLeft' : 'borderTop']: `${width / 2}px solid transparent`,
-        [isVertical ? 'borderRight' : 'borderBottom']: `${width / 2}px solid transparent`,
-        [`border${position[0].toUpperCase()}${position.substring(
-          1,
-        )}`]: `${height}px solid ${colors.grey100}`,
-        [isVertical ? opositeSide[horizontalAlign] : verticalAlign]: height - 10 + arrowOffset,
-        [opositeSide[position]]: -height,
-      },
+      [`--rtp-arrow-${isVertical ? opositeSide[horizontalAlign] : verticalAlign}`]:
+        height - 10 + arrowOffset + 'px',
+      [`--rtp-arrow-${opositeSide[position]}`]: -height + 'px',
+      [`--rtp-arrow-border-${isVertical ? 'left' : 'top'}`]: `${width / 2}px solid transparent`,
+      [`--rtp-arrow-border-${isVertical ? 'right' : 'bottom'}`]: `${width / 2}px solid transparent`,
+      [`--rtp-arrow-border-${position}`]: `${height}px solid ${colors.grey100}`,
     };
   },
 });
@@ -136,7 +124,7 @@ export function TourProviderWrapper({
           popoverStyles,
           maskStyles,
         }),
-        content: (props: ContentProps) => (
+        content: (props: PopoverContentProps) => (
           <TourContentBody
             onFinish={onFinish}
             isLastStep={steps.length === props.currentStep + 1}
@@ -162,6 +150,7 @@ export function TourProviderWrapper({
       showCloseButton={false}
       defaultOpen={open}
       steps={processedSteps}
+      className={styles.popover}
       {...props}
     >
       <ReactourChildrenWrapper open={open}>{children}</ReactourChildrenWrapper>
@@ -178,33 +167,15 @@ function ReactourChildrenWrapper({ open, children }: ReactourChildrenWrapperProp
   return <>{children}</>;
 }
 
-const useStyles = makeStyles((theme) => ({
-  container: {
-    display: 'flex',
-    flexDirection: 'column',
-    maxWidth: '500px',
-    width: 'calc(100vw - 48px)',
-    background: '#fafafd',
-    borderRadius: '7.05466px',
-    position: 'relative',
-    padding: '16px',
-  },
-  contentsContainer: {
-    display: 'grid',
-    gap: '8px',
-  },
-  buttonGroup: {
-    marginTop: '16px',
-    display: 'flex',
-  },
-}));
-
-type TourContentBodyProps = ContentProps & {
+type TourContentBodyProps = {
   step: TourContentBodyStep;
   continuous?: boolean;
   primaryProps?: object;
   isLastStep?: boolean;
   onFinish?(): void;
+  setCurrentStep: PopoverContentProps['setCurrentStep'];
+  currentStep: PopoverContentProps['currentStep'];
+  setIsOpen: PopoverContentProps['setIsOpen'];
 };
 
 export function TourContentBody({
@@ -218,7 +189,6 @@ export function TourContentBody({
   onFinish,
 }: TourContentBodyProps) {
   const { t } = useTranslation();
-  const classes = useStyles();
   const onClick = () => {
     if (isLastStep) {
       setIsOpen(false);
@@ -243,9 +213,9 @@ export function TourContentBody({
           {title}
         </Semibold>
       )}
-      <div data-cy="spotlight-contents" className={classes.contentsContainer}>
+      <div data-cy="spotlight-contents" className={styles.contentsContainer}>
         {contents && !!contents.length && (
-          <div className={classes.contentsContainer}>
+          <div className={styles.contentsContainer}>
             {contents?.map((line, index) => (
               <Label style={{ lineHeight: '20px' }} key={index}>
                 {line}
@@ -254,7 +224,7 @@ export function TourContentBody({
           </div>
         )}
         {list && !!list.length && (
-          <List classes={classes} isOrdered={isOrdered}>
+          <List classes={styles} isOrdered={isOrdered}>
             {list?.map((line, index) => (
               <Label style={{ lineHeight: '20px' }} key={index}>
                 <li>{line}</li>
@@ -266,8 +236,14 @@ export function TourContentBody({
 
       {children}
       {
-        <div className={classes.buttonGroup}>
-          <Button data-cy='spotlight-next' onClick={onClick} sm id={continuous ? 'next' : 'close'} {...primaryProps}>
+        <div className={styles.buttonGroup}>
+          <Button
+            data-cy="spotlight-next"
+            onClick={onClick}
+            sm
+            id={continuous ? 'next' : 'close'}
+            {...primaryProps}
+          >
             {buttonText || (isLastStep ? t('common:GOT_IT') : t('common:NEXT'))}
           </Button>
         </div>

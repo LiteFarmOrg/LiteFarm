@@ -3,30 +3,30 @@ import styles from './button.module.scss';
 import clsx from 'clsx';
 
 type ButtonProps = {
-  color?: | 'primary' | 'secondary' | 'success' | 'none',
-  children?: ReactNode,
-  sm?: boolean,
-  disabled?: boolean,
-  fullLength?: boolean,
-  className?: string,
-  onClick?(): void,
-  type?: 'button' | 'submit' | 'reset',
-  inputRef?: any,
-  id?: string
-}
+  color?: 'primary' | 'secondary' | 'success' | 'none';
+  children?: ReactNode;
+  sm?: boolean;
+  disabled?: boolean;
+  fullLength?: boolean;
+  className?: string;
+  onClick?(): void;
+  type?: 'button' | 'submit' | 'reset';
+  inputRef?: any;
+  id?: string;
+};
 
 const Button = ({
-                  color = 'primary',
-                  children = 'Button',
-                  sm,
-                  disabled = false,
-                  fullLength = false,
-                  className,
-                  onClick,
-                  type,
-                  inputRef,
-                  ...props
-                }: ButtonProps) => {
+  color = 'primary',
+  children = 'Button',
+  sm,
+  disabled = false,
+  fullLength = false,
+  className,
+  onClick,
+  type,
+  inputRef,
+  ...props
+}: ButtonProps) => {
   return (
     <button
       disabled={disabled}

@@ -10,48 +10,50 @@ const Template = (args) => <ActiveFilterBox {...args} />;
 
 export const Primary = Template.bind({});
 Primary.args = {
-  activeFilters: [
-    {
-      filterKey: 'STATUS',
-      value: 'active',
-      label: 'Active',
+  pageFilter: {
+    STATUS: {
+      ACTIVE: {
+        active: false,
+        label: 'Active',
+      },
+      ABANDONED: {
+        active: false,
+        label: 'Abandoned',
+      },
+      PLANNED: {
+        active: true,
+        label: 'Planned',
+      },
+      COMPLETE: {
+        active: false,
+        label: 'Complete',
+      },
+      NEEDS_PLAN: {
+        active: false,
+        label: 'Needs plan',
+      },
     },
-    {
-      filterKey: 'LOCATION',
-      value: 'buckerfields id',
-      label: 'Buckerfields',
+    LOCATION: {
+      '6caeac92-73b6-11ed-ac0f-7bd8b506ce4c': {
+        active: true,
+        label: 'field2',
+      },
+      '7ef87edc-73b6-11ed-ac0f-7bd8b506ce4c': {
+        active: false,
+        label: 'field',
+      },
+      'a2f9778c-73b6-11ed-ac0f-7bd8b506ce4c': {
+        active: true,
+        label: 'garden',
+      },
     },
-    {
-      filterKey: 'LOCATION',
-      value: 'field 3 id',
-      label: 'Field 3',
+    SUPPLIERS: {
+      '': {
+        active: false,
+        label: '',
+      },
     },
-    {
-      filterKey: 'LOCATION',
-      value: 'field 4 id',
-      label: 'Field 4',
-    },
-    {
-      filterKey: 'LOCATION',
-      value: 'field 5 id',
-      label: 'Field 5',
-    },
-    {
-      filterKey: 'LOCATION',
-      value: 'Greenhouse 1 id',
-      label: 'Greenhouse 1',
-    },
-    {
-      filterKey: 'STATUS',
-      value: 'needs_plan',
-      label: 'Needs Plan',
-    },
-    {
-      filterKey: 'LOCATION',
-      value: 'veggie garden id',
-      label: 'Veggie Garden',
-    },
-  ],
+  },
 };
 Primary.parameters = {
   chromatic: { disable: true },

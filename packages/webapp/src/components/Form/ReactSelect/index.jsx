@@ -179,7 +179,10 @@ const ReactSelect = React.forwardRef(function ReactSelect(
             )}
           </Label>
           {toolTipContent && (
-            <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+            <div
+              data-cy="reactSelect-option"
+              style={{ display: 'flex', justifyContent: 'flex-end' }}
+            >
               <Infoi content={toolTipContent} autoOpen={autoOpen} />
             </div>
           )}

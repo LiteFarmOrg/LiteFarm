@@ -1,7 +1,6 @@
 import React, { ReactNode } from 'react';
 import styles from './button.module.scss';
 import clsx from 'clsx';
-import { useIsOffline } from '../../../containers/hooks/useOfflineDetector/useIsOffline';
 
 type ButtonProps = {
   color?: 'primary' | 'secondary' | 'success' | 'none';
@@ -13,9 +12,8 @@ type ButtonProps = {
   onClick?(): void;
   type?: 'button' | 'submit' | 'reset';
   inputRef?: any;
-  getIsOffline?: () => boolean;
   id?: string;
-} & React.ButtonHTMLAttributes<HTMLButtonElement>;
+};
 
 const Button = ({
   color = 'primary',
@@ -27,14 +25,11 @@ const Button = ({
   onClick,
   type,
   inputRef,
-  getIsOffline = useIsOffline,
   ...props
 }: ButtonProps) => {
-  const isOffline = getIsOffline();
-  const isDisabled = disabled || (isOffline && color === 'primary' && !sm);
   return (
     <button
-      disabled={isDisabled}
+      disabled={disabled}
       className={clsx(
         styles.btn,
         color && styles[color],

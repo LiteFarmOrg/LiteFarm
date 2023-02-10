@@ -11,14 +11,9 @@ const snackbarSlice = createSlice({
       const key = `success-${new Date().getTime()}`;
       state.notifications = [...state.notifications, { message, key }];
     },
-    /**
-     * {@link OfflineDetector} If offline, all error snackbar will be disabled
-     */
     enqueueErrorSnackbar: (state, { payload: message }) => {
-      if (navigator.onLine) {
-        const key = `error-${new Date().getTime()}`;
-        state.notifications = [...state.notifications, { message, key }];
-      }
+      const key = `error-${new Date().getTime()}`;
+      state.notifications = [...state.notifications, { message, key }];
     },
     closeSnackbar: (state, { payload: key }) => {
       state.notifications = state.notifications.map((notification) => ({

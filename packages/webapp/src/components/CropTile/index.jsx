@@ -47,7 +47,7 @@ export default function PureCropTile({
     } else {
       return <div className={clsx(styles.img, styles.imgPlaceHolder)} />;
     }
-  }, [showImage]);
+  }, [showImage, src, alt, styles.img]);
   return (
     <div
       data-cy="crop-tile"

@@ -25,7 +25,7 @@
     "ADD_A_TASK": "Add a task",
     "ADD_CUSTOM_TASK": "Add custom task",
     "AFFECT_PLANS": "Will this task affect any plans?",
-    "ASSIGN_ALL_TO_PERSON": "Assign all unassigned tasks on this date to this person",
+    "ASSIGN_ALL_TO_PERSON": "Assign all tasks on this date to {{name}}",
     "ASSIGN_DATE": "Change task date",
     "ASSIGN_TASK": "Assign task",
     "ASSIGNEE": "Assignee",
@@ -64,6 +64,13 @@
     "GO_TO_CATALOGUE": "Go to Crop Catalogue",
     "HARVEST_EVERYTHING": "Harvest everything that is ready",
     "HARVESTING_INFO": "Each plan will generate an individual harvest task",
+    "HOURLY_WAGE": {
+      "ASSIGNEE_WAGE_WARNING": "{{name}} doesn't currently have an hourly wage assigned.",
+      "DONT_ASK": "Don't ask again",
+      "FOR_THIS_TASK": "Yes, just for this task",
+      "SET_HOURLY_WAGE": "Yes, set hourly wage",
+      "WANT_TO_SET_HOURLY_WAGE": "Would you like to set an hourly wage?"
+    },
     "HOW_MUCH_IS_HARVESTED": "How much is being harvested?",
     "HR": "/hr",
     "MANAGE_CUSTOM_TASKS": "Manage custom tasks",
@@ -335,6 +342,8 @@
     "LETS_BEGIN": "Let's begin",
     "NEW_CROP_NAME": "New Crop Name",
     "NO_RESULTS_FOUND": "No results found. Please change your filters.",
+    "NOMINATE_CROP": "Nominate this crop for inclusion in the LiteFarm crop catalogue",
+    "NOMINATE_CROP_TOOLTIP": "Nominating this crop for inclusion in the LiteFarm crop catalogue grants the LiteFarm team permission to share information about this crop with a specialist in your region. Approved crops will become part of the crop catalogue shown to all users.",
     "ON_YOUR_FARM": "On your farm",
     "SELECT_A_CROP": "Select a crop to add it to your farm. Use search and filters to find crops more quickly.",
     "SPECIES": "Species"
@@ -511,7 +520,7 @@
         "LONGITUDE": "Longitude",
         "READING_TYPES": "Reading_types",
         "SENSOR_EXTERNAL_ID": "External_ID",
-        "DEPTH": "Depth",
+        "DEPTH": "Depth_cm",
         "BRAND": "Brand",
         "MODEL": "Model"
       },
@@ -1775,5 +1784,11 @@
   "CROP_STATUS_ORGANIC_MISMATCH_MODAL": {
     "TITLE": "You’ve selected an organic location!",
     "SUBTITLE": "You’ve indicated you’ll be planting a non-organic crop in an organic location. Do you want to proceed?"
+  },
+  "WAGE": {
+    "ERROR": "Wage must be a valid, non-negative decimal number",
+    "HOURLY_WAGE": "Hourly Wage",
+    "HOURLY_WAGE_RANGE_ERROR": "Hourly Wage must be a positive number less than 999,999,999",
+    "HOURLY_WAGE_TOOLTIP": "Hourly wages can be set by selecting an individual on the People tab under 'my farm'."
   }
 }

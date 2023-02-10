@@ -57,32 +57,32 @@ const WaterUseVolumeCalculator = ({
   const estimated_water_usage_unit = getValues('irrigation_task.estimated_water_usage_unit');
 
   useEffect(() => {
-    if (estimated_duration || estimated_flow_rate) {
-      const estimated_flow_rate_value = estimated_flow_rate ? estimated_flow_rate : 1;
-      const estimated_duration_value = estimated_duration ? estimated_duration : 1;
+    if (estimated_duration && estimated_flow_rate) {
       setTotalWaterUsage(() => {
         if (
           ['l/h', 'gal/h'].includes(estimated_flow_rate_unit?.value) &&
           estimated_duration_unit?.label === 'h'
         )
-          return roundToTwoDecimal(estimated_flow_rate_value * estimated_duration_value);
+          return roundToTwoDecimal(estimated_flow_rate * estimated_duration);
         if (
           ['l/min', 'gal/min'].includes(estimated_flow_rate_unit?.value) &&
           estimated_duration_unit?.label === 'm'
         )
-          return roundToTwoDecimal(estimated_flow_rate_value * estimated_duration_value);
+          return roundToTwoDecimal(estimated_flow_rate * estimated_duration);
         if (
           ['l/h', 'gal/h'].includes(estimated_flow_rate_unit?.value) &&
           estimated_duration_unit?.label === 'm'
         )
-          return roundToTwoDecimal(estimated_flow_rate_value * (estimated_duration_value / 60));
+          return roundToTwoDecimal(estimated_flow_rate * (estimated_duration / 60));
         if (
           ['l/min', 'gal/min'].includes(estimated_flow_rate_unit?.value) &&
           estimated_duration_unit?.label === 'h'
         )
-          return roundToTwoDecimal(estimated_flow_rate_value * (estimated_duration_value * 60));
+          return roundToTwoDecimal(estimated_flow_rate * (estimated_duration * 60));
         return totalWaterUsage;
       });
+    } else {
+      setTotalWaterUsage('');
     }
   }, [estimated_duration, estimated_flow_rate]);
 
@@ -198,10 +198,8 @@ const WaterUseDepthCalculator = ({
   }, [location]);
 
   useEffect(() => {
-    if (typeof percentage_location_irrigated === 'number') {
-      const irrigatedArea = roundToTwoDecimal(
-        locationSize * (percentage_location_irrigated ? percentage_location_irrigated / 100 : 1),
-      );
+    if (percentage_location_irrigated) {
+      const irrigatedArea = roundToTwoDecimal(locationSize * (percentage_location_irrigated / 100));
       setValue(IRRIGATED_AREA, irrigatedArea);
     } else {
       setValue(IRRIGATED_AREA, '');
@@ -230,6 +228,8 @@ const WaterUseDepthCalculator = ({
           (application_depth ? convert(application_depth).from('mm').to('m') : 1); // to convert application depth from mm to m
         return roundToTwoDecimal(convert(Volume_in_m_cubed).from('m3').to('l')); // to convert from m3 to litres
       });
+    } else {
+      setTotalWaterUsage('');
     }
   }, [application_depth, percentage_location_irrigated, irrigated_area]);
 
@@ -338,7 +338,7 @@ const WaterUseModal = ({
   totalVolumeWaterUsage,
   setTotalVolumeWaterUsage,
   totalDepthWaterUsage,
-  setTotalDepthWaterUSage,
+  setTotalDepthWaterUsage,
   formState,
   locationDefaults,
 }) => {
@@ -357,7 +357,7 @@ const WaterUseModal = ({
       <WaterUseDepthCalculator
         system={system}
         totalWaterUsage={totalDepthWaterUsage}
-        setTotalWaterUsage={setTotalDepthWaterUSage}
+        setTotalWaterUsage={setTotalDepthWaterUsage}
         formState={formState}
         locationDefaults={locationDefaults}
       />
@@ -372,7 +372,7 @@ export default function WaterUsageCalculatorModal({
   totalVolumeWaterUsage,
   setTotalVolumeWaterUsage,
   totalDepthWaterUsage,
-  setTotalDepthWaterUSage,
+  setTotalDepthWaterUsage,
   formState,
   locationDefaults,
 }) {
@@ -411,7 +411,7 @@ export default function WaterUsageCalculatorModal({
         totalVolumeWaterUsage={totalVolumeWaterUsage}
         setTotalVolumeWaterUsage={setTotalVolumeWaterUsage}
         totalDepthWaterUsage={totalDepthWaterUsage}
-        setTotalDepthWaterUSage={setTotalDepthWaterUSage}
+        setTotalDepthWaterUsage={setTotalDepthWaterUsage}
         formState={formState}
         locationDefaults={locationDefaults}
       />

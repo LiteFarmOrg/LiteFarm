@@ -1,5 +1,5 @@
 /*
- *  Copyright 2019, 2020, 2021, 2022 LiteFarm.org
+ *  Copyright 2019, 2020, 2021, 2022, 2023 LiteFarm.org
  *  This file is part of LiteFarm.
  *
  *  LiteFarm is free software: you can redistribute it and/or modify
@@ -12,22 +12,19 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
+.mb24 {
+  margin-bottom: 24px;
+}
 
-import './loadEnv.js';
-import sendOnSchedule from './notifications/index.js';
-import processExports from './certification/index.js';
+.warning {
+  color: var(--brown700);
+}
 
-import logger from '../common/logger.js';
-
-const redisConf = {
-  redis: {
-    host: process.env.REDIS_HOST,
-    port: process.env.REDIS_PORT,
-    password: process.env.REDIS_PASSWORD,
-  },
-};
-
-logger.info('starting job scheduler');
-
-processExports(redisConf);
-sendOnSchedule(redisConf);
+.hourlyWageInputs {
+  span:has(> svg) {
+    display: flex;
+  }
+  svg {
+    font-size: 16px;
+  }
+}

@@ -1,5 +1,5 @@
 /*
- *  Copyright 2019, 2020, 2021, 2022 LiteFarm.org
+ *  Copyright 2019, 2020, 2021, 2022, 2023 LiteFarm.org
  *  This file is part of LiteFarm.
  *
  *  LiteFarm is free software: you can redistribute it and/or modify
@@ -12,22 +12,14 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
+export const ASSIGNEE = 'assignee';
+export const HOURLY_WAGE = 'hourly_wage';
+export const HOURLY_WAGE_ACTION = 'hourly_wage_action';
+export const ASSIGN_ALL = 'assign_all';
 
-import './loadEnv.js';
-import sendOnSchedule from './notifications/index.js';
-import processExports from './certification/index.js';
-
-import logger from '../common/logger.js';
-
-const redisConf = {
-  redis: {
-    host: process.env.REDIS_HOST,
-    port: process.env.REDIS_PORT,
-    password: process.env.REDIS_PASSWORD,
-  },
+export const hourlyWageActions = {
+  SET_HOURLY_WAGE: 'set_hourly_wage',
+  FOR_THIS_TASK: 'for_this_task',
+  NO: 'no',
+  DO_NOT_ASK_AGAIN: 'do_not_ask_again',
 };
-
-logger.info('starting job scheduler');
-
-processExports(redisConf);
-sendOnSchedule(redisConf);

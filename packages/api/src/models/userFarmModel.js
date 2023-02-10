@@ -93,6 +93,7 @@ class userFarm extends Model {
         step_four_end: { type: ['string', 'null'] },
         step_five: { type: ['boolean', 'null'] },
         step_five_end: { type: ['string', 'null'] },
+        wage_do_not_ask_again: { type: ['boolean', 'null'] },
       },
       additionalProperties: false,
     };

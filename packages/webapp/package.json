@@ -93,7 +93,7 @@
     "babel-loader": "^8.3.0",
     "check-code-coverage": "^1.10.4",
     "chromatic": "^6.11.4",
-    "cypress": "^10.11.0",
+    "cypress": "^12.5.1",
     "cypress-get-table": "^1.0.1",
     "cypress-react-selector": "^2.3.20",
     "eslint": "^8.28.0",

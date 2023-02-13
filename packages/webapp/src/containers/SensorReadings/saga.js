@@ -77,7 +77,7 @@ export function* getSensorsReadingsSaga({ payload }) {
     };
 
     const header = getHeader(farm_id);
-    const endDate = moment(new Date().setDate(new Date().getDate() + 1)).format('MM-DD-YYYY');
+    const endDate = moment(new Date().setDate(new Date().getDate() + 2)).format('MM-DD-YYYY');
     const postData = {
       farm_id,
       locationIds,

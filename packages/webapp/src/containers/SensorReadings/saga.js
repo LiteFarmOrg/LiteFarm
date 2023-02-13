@@ -100,10 +100,21 @@ export function* getSensorsReadingsSaga({ payload }) {
     let latestTemperatureReadings = {};
     let selectedSensorName = '';
     let ambientDataWithSensorsReadings = {};
+    let latestActualReadTimes = [];
 
     let sensorReadingData = {};
 
     for (let readingType of readingTypes) {
+      latestActualReadTimes = result?.data?.sensorReading[readingType].reduce((acc, cv) => {
+        if (cv.value) {
+          const dt = new Date(cv.actual_read_time).valueOf() / 1000;
+          acc.push(dt);
+        }
+        return acc;
+      }, []);
+
+      lastUpdatedReadingsTime[readingType] = getLastUpdatedTime(latestActualReadTimes);
+
       if (readingType === TEMPERATURE) {
         params = {
           ...params,
@@ -186,10 +197,6 @@ export function* getSensorsReadingsSaga({ payload }) {
           selectedSensorName = result?.data?.sensorsPoints[0]?.name;
         }
 
-        lastUpdatedReadingsTime[TEMPERATURE] = getLastUpdatedTime(
-          Object.keys(ambientDataWithSensorsReadings),
-        );
-
         const allTimestamps = Object.keys(ambientDataWithSensorsReadings);
         if (allTimestamps.length) {
           const startDateObj = new Date(+allTimestamps[0] * 1000);
@@ -222,10 +229,6 @@ export function* getSensorsReadingsSaga({ payload }) {
             return acc;
           },
           {},
-        );
-
-        lastUpdatedReadingsTime[SOIL_WATER_POTENTIAL] = getLastUpdatedTime(
-          Object.keys(soilWaterPotentialReadings),
         );
 
         const soilWaterPotentialSensorReadings = Object.values(soilWaterPotentialReadings);

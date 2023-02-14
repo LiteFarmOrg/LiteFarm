@@ -168,7 +168,7 @@ export function* getSensorsReadingsSaga({ payload }) {
               value = getTemperatureValue(cv.value, measurement);
             }
             if (acc[dt] && dt < currentDT) {
-              acc[dt][cv.name] = value;
+              acc[dt][cv.name] = value ? value : '(no data)';
             }
             return acc;
           },
@@ -222,7 +222,9 @@ export function* getSensorsReadingsSaga({ payload }) {
               if (!acc[dt]) acc[dt] = {};
               acc[dt] = {
                 ...acc[dt],
-                [cv?.name]: getSoilWaterPotentialValue(cv?.value, measurement),
+                [cv?.name]: getSoilWaterPotentialValue(cv?.value, measurement)
+                  ? getSoilWaterPotentialValue(cv?.value, measurement)
+                  : '(no data)',
                 [CURRENT_DATE_TIME]: currentDateTime,
               };
             }

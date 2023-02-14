@@ -1487,6 +1487,7 @@
     "PART_NUMBER": "Part Number",
     "HARDWARE_VERSION": "Hardware version",
     "NO_DATA_FOUND": "No sensor readings found",
+    "NO_DATA": "(no data)",
     "DETAIL": {
       "RETIRE": "Retire",
       "EDIT": "Edit",

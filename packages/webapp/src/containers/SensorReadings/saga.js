@@ -39,6 +39,7 @@ import {
 } from '../../components/Map/PreviewPopup/utils.js';
 import { getLanguageFromLocalStorage } from '../../util/getLanguageFromLocalStorage';
 import { getLastUpdatedTime } from './utils';
+import i18n from '../../locales/i18n';
 
 const sensorReadingsUrl = () => `${sensorUrl}/reading/visualization`;
 
@@ -168,7 +169,7 @@ export function* getSensorsReadingsSaga({ payload }) {
               value = getTemperatureValue(cv.value, measurement);
             }
             if (acc[dt] && dt < currentDT) {
-              acc[dt][cv.name] = value ? value : '(no data)';
+              acc[dt][cv.name] = isNaN(value) ? i18n.t('translation:SENSOR.NO_DATA') : value;
             }
             return acc;
           },
@@ -222,9 +223,9 @@ export function* getSensorsReadingsSaga({ payload }) {
               if (!acc[dt]) acc[dt] = {};
               acc[dt] = {
                 ...acc[dt],
-                [cv?.name]: getSoilWaterPotentialValue(cv?.value, measurement)
-                  ? getSoilWaterPotentialValue(cv?.value, measurement)
-                  : '(no data)',
+                [cv?.name]: isNaN(getSoilWaterPotentialValue(cv?.value, measurement))
+                  ? i18n.t('translation:SENSOR.NO_DATA')
+                  : getSoilWaterPotentialValue(cv?.value, measurement),
                 [CURRENT_DATE_TIME]: currentDateTime,
               };
             }

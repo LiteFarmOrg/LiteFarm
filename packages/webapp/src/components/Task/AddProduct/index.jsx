@@ -101,7 +101,7 @@ const AddProduct = ({
         value={productValue}
         style={{ marginBottom: '40px' }}
         creatable
-        icon={<Leaf />}
+        hasLeaf={true}
         isDisabled={disabled}
       />
       <input name={NAME} style={{ display: 'none' }} {...register(NAME, { required: true })} />

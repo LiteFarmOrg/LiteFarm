@@ -7,6 +7,7 @@ import { useTranslation } from 'react-i18next';
 import { colors } from '../../../assets/theme';
 import Infoi from '../../Tooltip/Infoi';
 import { BsX } from 'react-icons/bs';
+import { ReactComponent as Leaf } from '../../../assets/images/farmMapFilter/Leaf.svg';
 import scss from './reactSelect.module.scss';
 
 export const styles = {
@@ -144,6 +145,7 @@ const ReactSelect = React.forwardRef(function ReactSelect(
     placeholder,
     createPromptText,
     options,
+    hasLeaf,
     toolTipContent,
     icon,
     style,
@@ -172,6 +174,7 @@ const ReactSelect = React.forwardRef(function ReactSelect(
                 {t('common:OPTIONAL')}
               </Label>
             )}
+            {hasLeaf && <Leaf className={scss.leaf} />}
           </Label>
           {toolTipContent && (
             <div className={scss.tooltipIconContainer}>

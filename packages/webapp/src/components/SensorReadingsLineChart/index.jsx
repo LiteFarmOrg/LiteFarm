@@ -188,16 +188,14 @@ const PureSensorReadingsLineChart = ({
               />
               <YAxis label={{ value: yAxisLabel, position: 'insideCenter', angle: -90, dx: -20 }} />
               <Tooltip />
-              {yAxisDataKeys.length > 1 && (
-                <Legend
-                  layout="horizontal"
-                  verticalAlign="top"
-                  align="center"
-                  wrapperStyle={{ top: 10, left: 50 }}
-                  payload={Object.values(legendsList)}
-                  content={renderCusomizedLegend}
-                />
-              )}
+              <Legend
+                layout="horizontal"
+                verticalAlign="top"
+                align="center"
+                wrapperStyle={{ top: 10, left: 50 }}
+                payload={Object.values(legendsList)}
+                content={renderCusomizedLegend}
+              />
               {yAxisDataKeys.length &&
                 Object.values(legendsList)
                   .filter((l) => l.isActive)
@@ -211,13 +209,7 @@ const PureSensorReadingsLineChart = ({
                       isAnimationActive={false}
                     />
                   ))}
-              {readingType === TEMPERATURE ? (
-                <ReferenceArea
-                  fill={'#EBECED'}
-                  shape={<PredictedRect />}
-                  x1={predictedXAxisLabel}
-                />
-              ) : null}
+              <ReferenceArea fill={'#EBECED'} shape={<PredictedRect />} x1={predictedXAxisLabel} />
             </LineChart>
           </ResponsiveContainer>
         </>

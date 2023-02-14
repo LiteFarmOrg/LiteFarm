@@ -63,9 +63,7 @@ const PureSensorReadingsLineChart = ({
     setLegendsList((legends) => {
       const activeCount = Object.values(legends).filter((l) => l.isActive).length;
       const isActive = legends[entry.value].isActive;
-      if ((activeCount > 1 && isActive) || (activeCount >= 1 && !isActive)) {
-        legends[entry.value].isActive = !isActive;
-      }
+      legends[entry.value].isActive = !isActive;
       return { ...legends };
     });
   };

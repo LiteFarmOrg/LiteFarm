@@ -168,7 +168,7 @@ export function* getSensorsReadingsSaga({ payload }) {
             if (readingType === TEMPERATURE) {
               value = getTemperatureValue(cv.value, measurement);
             }
-            if (acc[dt] && dt < currentDT) {
+            if (acc[dt]) {
               acc[dt][cv.name] = isNaN(value) ? i18n.t('translation:SENSOR.NO_DATA') : value;
             }
             return acc;

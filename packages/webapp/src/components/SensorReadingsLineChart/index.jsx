@@ -61,7 +61,7 @@ const PureSensorReadingsLineChart = ({
 
   const handleLegendClick = (entry) => {
     setLegendsList((legends) => {
-      const activeCount = Object.values(legends).filter((l) => l.isActive).length;
+      console.log(yAxisDataKeys);
       const isActive = legends[entry.value].isActive;
       legends[entry.value].isActive = !isActive;
       return { ...legends };
@@ -184,7 +184,10 @@ const PureSensorReadingsLineChart = ({
                 scale="band"
                 xAxisId="quarter"
               />
-              <YAxis label={{ value: yAxisLabel, position: 'insideCenter', angle: -90, dx: -20 }} />
+              <YAxis
+                domain={['auto', 'auto']}
+                label={{ value: yAxisLabel, position: 'insideCenter', angle: -90, dx: -20 }}
+              />
               <Tooltip />
               <Legend
                 layout="horizontal"

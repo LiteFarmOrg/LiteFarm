@@ -167,10 +167,11 @@ const ReactSelect = React.forwardRef(function ReactSelect(
           style={{
             display: 'flex',
             justifyContent: 'space-between',
-            height: '20px',
+            minHeight: '20px',
+            position: 'relative',
           }}
         >
-          <Label>
+          <Label style={{ position: 'absolute', bottom: 0 }}>
             {label}
             {optional && (
               <Label sm className={styles.sm} style={{ marginLeft: '4px' }}>
@@ -179,7 +180,7 @@ const ReactSelect = React.forwardRef(function ReactSelect(
             )}
           </Label>
           {toolTipContent && (
-            <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+            <div style={{ display: 'flex', justifyContent: 'flex-end', width: '100%' }}>
               <Infoi content={toolTipContent} autoOpen={autoOpen} />
             </div>
           )}

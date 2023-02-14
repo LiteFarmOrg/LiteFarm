@@ -43,7 +43,7 @@ export const up = async function (knex) {
 					  JOIN location AS l
 					  ON l.location_id = sr.location_id
 					  WHERE sr.location_id = $3
-					  AND sr.read_time < $1 
+					  AND sr.read_time <= $1 
 					  AND sr.read_time > ($1 - $4::interval)
 					  AND sr.reading_type = $2
 				  ), 

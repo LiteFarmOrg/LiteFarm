@@ -14,6 +14,7 @@ import { get } from 'react-hook-form';
 import i18n from '../../../locales/i18n';
 
 const Input = ({
+  autoFocus,
   disabled = false,
   classes = {},
   style,
@@ -58,19 +59,18 @@ const Input = ({
     setShowError(false);
   };
 
-  const showPickerHandler = () => {
-    try {
-      input.current.showPicker();
-    } catch (e) {
-      console.log(e);
-    }
-  };
-
   const onKeyDown = ['number', 'decimal'].includes(type) ? numberOnKeyDown : undefined;
 
   useEffect(() => {
-    name === 'due_date' ? showPickerHandler() : null;
-  }, []);
+    if (autoFocus) {
+      try {
+        input.current.focus();
+        input.current.showPicker();
+      } catch (e) {
+        console.log(e);
+      }
+    }
+  }, [autoFocus]);
 
   return (
     <div

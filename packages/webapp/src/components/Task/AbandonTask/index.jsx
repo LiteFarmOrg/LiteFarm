@@ -139,13 +139,11 @@ const PureAbandonTask = ({
           label={t('TASK.ABANDON.WHICH_DATE')}
           hookFormRegister={register(ABANDON_DATE, {
             required: true,
-            validate: isNotInFuture,
           })}
-          errors={errors[ABANDON_DATE] ? isNotInFuture() : null}
           style={{ marginBottom: '24px' }}
           type={'date'}
-          max={getDateInputFormat()}
           required
+          autoFocus
         />
       )}
 

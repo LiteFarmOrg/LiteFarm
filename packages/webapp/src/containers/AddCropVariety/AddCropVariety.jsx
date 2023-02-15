@@ -6,7 +6,6 @@ import { postCropAndVarietal, postVarietal } from './saga';
 import { certifierSurveySelector } from '../OrganicCertifierSurvey/slice';
 import { hookFormPersistSelector } from '../hooks/useHookFormPersist/hookFormPersistSlice';
 import ImagePickerWrapper from '../ImagePickerWrapper';
-import { AddLink } from '../../components/Typography';
 import { useTranslation } from 'react-i18next';
 import { HookFormPersistProvider } from '../hooks/useHookFormPersist/HookFormPersistProvider';
 
@@ -53,11 +52,7 @@ function AddCropVarietyForm({ history, match }) {
         onError={onError}
         isSeekingCert={interested}
         crop={crop}
-        imageUploader={
-          <ImagePickerWrapper>
-            <AddLink>{t('CROP.ADD_IMAGE')}</AddLink>
-          </ImagePickerWrapper>
-        }
+        imageUploader={<ImagePickerWrapper></ImagePickerWrapper>}
         handleGoBack={() => history.back()}
       />
     </HookFormPersistProvider>

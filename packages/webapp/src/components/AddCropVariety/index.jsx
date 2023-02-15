@@ -9,6 +9,7 @@ import Radio from '../Form/Radio';
 import Form from '../Form';
 import { useForm } from 'react-hook-form';
 import MultiStepPageTitle from '../PageTitle/MultiStepPageTitle';
+import { AddLink } from '../../components/Typography';
 
 export default function PureAddCropVariety({
   match,
@@ -130,6 +131,7 @@ export default function PureAddCropVariety({
         optional={!isSeekingCert}
       />
 
+      <AddLink>{t('CROP.VARIETAL_IMAGE')}</AddLink>
       <div>
         <div style={{ marginTop: '16px', marginBottom: '20px' }}>
           <Label

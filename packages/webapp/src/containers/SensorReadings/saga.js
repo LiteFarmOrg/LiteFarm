@@ -30,7 +30,6 @@ import {
   bulkSensorReadingsFailure,
 } from '../bulkSensorReadingsSlice';
 import { sensorUrl } from '../../apiConfig';
-//import { getHeader } from '../../containers/saga';
 import { findCenter } from './utils';
 import { CURRENT_DATE_TIME, TEMPERATURE } from './constants';
 import {

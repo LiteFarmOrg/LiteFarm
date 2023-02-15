@@ -61,7 +61,6 @@ const PureSensorReadingsLineChart = ({
 
   const handleLegendClick = (entry) => {
     setLegendsList((legends) => {
-      console.log(yAxisDataKeys);
       const isActive = legends[entry.value].isActive;
       legends[entry.value].isActive = !isActive;
       return { ...legends };

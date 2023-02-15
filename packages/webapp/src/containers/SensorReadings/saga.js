@@ -16,7 +16,7 @@
 import { createAction } from '@reduxjs/toolkit';
 import { call, put, select, takeLeading, all } from 'redux-saga/effects';
 import moment from 'moment';
-import { axios } from '../saga';
+import { axios, getHeader } from '../saga';
 import { userFarmSelector } from '../userFarmSlice';
 import {
   GRAPH_TIMESTAMPS,
@@ -30,7 +30,7 @@ import {
   bulkSensorReadingsFailure,
 } from '../bulkSensorReadingsSlice';
 import { sensorUrl } from '../../apiConfig';
-import { getHeader } from '../../containers/saga';
+//import { getHeader } from '../../containers/saga';
 import { findCenter } from './utils';
 import { CURRENT_DATE_TIME, TEMPERATURE } from './constants';
 import {
@@ -49,6 +49,7 @@ export function* getSensorsReadingsSaga({ payload }) {
   const { locationIds = [], readingTypes = [], noDataText = '', ambientTempFor = '' } = payload;
   const {
     farm_id,
+    user_id,
     units: { measurement },
     language_preference: lang,
     grid_points: { lat, lng },
@@ -77,10 +78,11 @@ export function* getSensorsReadingsSaga({ payload }) {
       end: predictedEndDate,
     };
 
-    const header = getHeader(farm_id);
+    const header = getHeader(user_id, farm_id);
     const endDate = moment(new Date().setDate(new Date().getDate() + 2)).format('MM-DD-YYYY');
     const postData = {
       farm_id,
+      user_id,
       locationIds,
       readingTypes,
       endDate: endDate,

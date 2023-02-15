@@ -110,6 +110,13 @@ router.patch(
   userFarmController.updateWage(),
 );
 
+router.patch(
+  '/wage_do_not_ask_again/farm/:farm_id/user/:user_id',
+  hasFarmAccess({ params: 'farm_id' }),
+  checkScope(['edit:user_wage']),
+  userFarmController.setWageDoNotAskAgain(),
+);
+
 // Update step_one
 router.patch('/onboarding/farm/:farm_id/user/:user_id', userFarmController.updateOnboardingFlags());
 

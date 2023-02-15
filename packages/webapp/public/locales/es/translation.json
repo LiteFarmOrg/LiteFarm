@@ -25,7 +25,7 @@
     "ADD_A_TASK": "Agregar una tarea",
     "ADD_CUSTOM_TASK": "Agregar tarea personalizada",
     "AFFECT_PLANS": "¿Esta tarea afectará algún plan?",
-    "ASSIGN_ALL_TO_PERSON": "Asignar todas las tareas no asignadas en esta fecha a esta persona",
+    "ASSIGN_ALL_TO_PERSON": "MISSING",
     "ASSIGN_DATE": "Asignar fecha de vencimiento",
     "ASSIGN_TASK": "Asignar tarea",
     "ASSIGNEE": "Responsable",
@@ -64,6 +64,13 @@
     "GO_TO_CATALOGUE": "Ir al catálogo de cultivos",
     "HARVEST_EVERYTHING": "Cosecha todo lo que esté listo",
     "HARVESTING_INFO": "Cada plan generará una tarea individual de cosecha",
+    "HOURLY_WAGE": {
+      "ASSIGNEE_WAGE_WARNING": "MISSING",
+      "DONT_ASK": "MISSING",
+      "FOR_THIS_TASK": "MISSING",
+      "SET_HOURLY_WAGE": "MISSING",
+      "WANT_TO_SET_HOURLY_WAGE": "MISSING"
+    },
     "HOW_MUCH_IS_HARVESTED": "¿Cuánto se está cosechando?",
     "HR": "/h.",
     "MANAGE_CUSTOM_TASKS": "Administrar tareas personalizadas",
@@ -1781,5 +1788,11 @@
   "CROP_STATUS_ORGANIC_MISMATCH_MODAL": {
     "TITLE": "MISSING",
     "SUBTITLE": "MISSING"
+  },
+  "WAGE": {
+    "ERROR": "Salario debe ser válido, no números decimales negativos",
+    "HOURLY_WAGE": "MISSING",
+    "HOURLY_WAGE_RANGE_ERROR": "MISSING",
+    "HOURLY_WAGE_TOOLTIP": "MISSING"
   }
 }

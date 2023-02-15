@@ -10,6 +10,7 @@ import Form from '../Form';
 import { useForm } from 'react-hook-form';
 import MultiStepPageTitle from '../PageTitle/MultiStepPageTitle';
 import { AddLink } from '../../components/Typography';
+import Infoi from '../Tooltip/Infoi';
 
 export default function PureAddCropVariety({
   match,
@@ -131,7 +132,15 @@ export default function PureAddCropVariety({
         optional={!isSeekingCert}
       />
 
-      <AddLink>{t('CROP.VARIETAL_IMAGE')}</AddLink>
+      <AddLink>
+        {t('CROP.VARIETAL_IMAGE')}
+        <Infoi
+          style={{
+            marginLeft: '5px',
+          }}
+          content={t('CROP.VARIETAL_IMAGE_INFO')}
+        />
+      </AddLink>
       <div>
         <div style={{ marginTop: '16px', marginBottom: '20px' }}>
           <Label

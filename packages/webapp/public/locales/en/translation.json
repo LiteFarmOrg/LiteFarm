@@ -300,6 +300,7 @@
     "ADD_CROP": "Add a crop",
     "ADD_IMAGE": "Add Custom Image",
     "VARIETAL_IMAGE": "Customize image for varietal or cultivar",
+    "VARIETAL_IMAGE_INFO": "If you would like this varietal or cultivar to have a different image from the default crop, you can customize the image here.",
     "ANNUAL": "Annual",
     "ANNUAL_OR_PERENNIAL": "Is the crop an annual or perennial?",
     "EDIT_CROP": "Edit crop",

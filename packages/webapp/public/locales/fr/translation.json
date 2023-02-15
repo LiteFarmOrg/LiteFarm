@@ -300,6 +300,7 @@
     "ADD_CROP": "Ajouter une culture",
     "ADD_IMAGE": "Ajouter une image personnalisée",
     "VARIETAL_IMAGE": "MISSING",
+    "VARIETAL_IMAGE_INFO": "MISSING",
     "ANNUAL": "Annuelle",
     "ANNUAL_OR_PERENNIAL": "La culture est-elle annuelle ou vivace\u00a0?",
     "EDIT_CROP": "Modifier la culture",

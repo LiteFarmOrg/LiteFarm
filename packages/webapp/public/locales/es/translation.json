@@ -300,6 +300,7 @@
     "ADD_CROP": "Agregar un cultivo",
     "ADD_IMAGE": "Agregar imagen personalizada",
     "VARIETAL_IMAGE": "MISSING",
+    "VARIETAL_IMAGE_INFO": "MISSING",
     "ANNUAL": "Anual",
     "ANNUAL_OR_PERENNIAL": "¿El cultivo es anual o perenne?",
     "EDIT_CROP": "Editar cultivo",

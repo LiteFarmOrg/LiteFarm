@@ -30,7 +30,6 @@ const PureTaskAssignment = ({
   shouldSetWage,
   handleSubmit,
   getValues,
-  setValue,
 }) => {
   const { t } = useTranslation();
   const wageOverride = watch(WAGE_OVERRIDE);
@@ -79,7 +78,6 @@ const PureTaskAssignment = ({
               type={'number'}
               onKeyPress={numberOnKeyDown}
               errors={errors[WAGE_OVERRIDE] && (errors[WAGE_OVERRIDE].message || t('WAGE.ERROR'))}
-              hookFormSetValue={setValue}
             />
           </div>
         )}

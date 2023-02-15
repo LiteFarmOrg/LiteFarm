@@ -4,9 +4,11 @@ tunnels:
     webapp:
         addr: 3000
         proto: http
+        bind_tls: true
     api:
         addr: 5001
         proto: http
+        bind_tls: true
 version: "2"
 region: us
 authtoken: ?

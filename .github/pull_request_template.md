@@ -1,5 +1,3 @@
-_Please delete options that are not relevant._
-
 **Description**
 
 Please include a summary of the change and which issue is fixed. Please also include relevant motivation and context. List any dependencies that are required for this change.
@@ -24,6 +22,10 @@ Please describe the tests that you ran to verify your changes. Provide instructi
 
 **Checklist:**
 
+- [ ] I have commented my code, particularly in hard-to-understand areas
+- [ ] My changes generate no new warnings
+- [ ] I have added tests that prove my fix is effective or that my feature works
+- [ ] New and existing unit tests pass locally with my changes
 - [ ] The precommit and linting ran successfully
 - [ ] I have added or updated language tags for text that's part of the UI
 - [ ] I have added "MISSING" for all new language tags to languages I don't speak

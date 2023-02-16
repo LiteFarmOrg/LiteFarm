@@ -69,7 +69,7 @@ const Input = ({
         console.log(e);
       }
     }
-  }, []);
+  }, [openCalendar]);
 
   return (
     <div

@@ -15,7 +15,6 @@ import i18n from '../../../locales/i18n';
 
 const Input = ({
   openCalendar,
-  autoFocus,
   disabled = false,
   classes = {},
   style,
@@ -65,13 +64,12 @@ const Input = ({
   useEffect(() => {
     if (openCalendar) {
       try {
-        input.current.focus();
         input.current.showPicker();
       } catch (e) {
         console.log(e);
       }
     }
-  }, [autoFocus]);
+  }, []);
 
   return (
     <div

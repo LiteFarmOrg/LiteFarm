@@ -1,0 +1,18 @@
+name: 'Beta-Export-Server-Deploy'
+on:
+  push:
+    branches:
+      - integration
+
+jobs:
+  deploy:
+    name: Deploy on beta export server
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Deploy beta export server over SSH
+        uses: appleboy/ssh-action@v0.1.7
+        with:
+          host: ${{ secrets.BETA_EXPORT_SERVER_HOST }}
+          username: ${{ secrets.BETA_EXPORT_SERVER_USER }}
+          key: ${{ secrets.BETA_EXPORT_SERVER_KEY }}
+          script: ${{ secrets.BETA_EXPORT_SERVER_SCRIPT }}

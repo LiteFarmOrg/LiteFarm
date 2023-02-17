@@ -107,13 +107,9 @@ export function* getSensorsReadingsSaga({ payload }) {
     let sensorReadingData = {};
 
     for (let readingType of readingTypes) {
-      latestActualReadTimes = result?.data?.sensorReading[readingType].reduce((acc, cv) => {
-        if (cv.value) {
-          const dt = new Date(cv.actual_read_time).valueOf() / 1000;
-          acc.push(dt);
-        }
-        return acc;
-      }, []);
+      latestActualReadTimes = result?.data?.sensorReading[readingType]
+        .filter((cv) => (cv.value ? cv.value : false))
+        .map((cv) => new Date(cv.actual_read_time).valueOf() / 1000);
 
       lastUpdatedReadingsTime[readingType] = getLastUpdatedTime(latestActualReadTimes);
 
@@ -166,9 +162,7 @@ export function* getSensorsReadingsSaga({ payload }) {
           (acc, cv) => {
             const dt = new Date(cv.read_time).valueOf() / 1000;
             let value = 0;
-            if (readingType === TEMPERATURE) {
-              value = getTemperatureValue(cv.value, measurement);
-            }
+            value = getTemperatureValue(cv.value, measurement);
             if (acc[dt]) {
               acc[dt][cv.name] = isNaN(value) ? i18n.t('translation:SENSOR.NO_DATA') : value;
             }

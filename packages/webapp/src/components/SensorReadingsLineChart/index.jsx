@@ -19,6 +19,7 @@ import PredictedRect from './PredictedRect';
 import { getLanguageFromLocalStorage } from '../../util/getLanguageFromLocalStorage';
 import { SensorReadingChartSpotlightProvider } from './SensorReadingChartSpotlightProvider';
 import { TEMPERATURE } from '../../containers/SensorReadings/constants';
+import produce from 'immer';
 
 const PureSensorReadingsLineChart = ({
   showSpotLight,
@@ -60,11 +61,12 @@ const PureSensorReadingsLineChart = ({
   }, [yAxisDataKeys]);
 
   const handleLegendClick = (entry) => {
-    setLegendsList((legends) => {
-      const isActive = legends[entry.value].isActive;
-      legends[entry.value].isActive = !isActive;
-      return { ...legends };
-    });
+    setLegendsList(
+      produce((legends) => {
+        const isActive = legends[entry.value].isActive;
+        legends[entry.value].isActive = !isActive;
+      }),
+    );
   };
 
   const renderCusomizedLegend = ({ payload }) => {

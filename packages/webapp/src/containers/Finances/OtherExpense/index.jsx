@@ -129,7 +129,7 @@ class OtherExpense extends Component {
         let amount = parseFloat(e.value);
         subTotal += amount;
         detailedHistory.push({
-          date: moment(e.expense_date).toDate().toLocaleDateString(),
+          date: moment(e.expense_date),
           type: this.getExpenseType(e.expense_type_id),
           amount: this.state.currencySymbol + amount.toFixed(2).toString(),
           expense_date: e.expense_date,
@@ -178,6 +178,7 @@ class OtherExpense extends Component {
       {
         id: 'date',
         Header: this.props.t('SALE.LABOUR.TABLE.DATE'),
+        Cell: (d) => <span>{d.value.toDate().toLocaleDateString()}</span>,
         accessor: (d) => d.date,
         minWidth: 70,
         Footer: <div>{this.props.t('SALE.SUMMARY.SUBTOTAL')}</div>,

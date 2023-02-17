@@ -178,7 +178,6 @@ class OtherExpense extends Component {
       {
         id: 'date',
         Header: this.props.t('SALE.LABOUR.TABLE.DATE'),
-        //Cell: (d) => <span>{moment(d.value).format('YYYY-MM-DD')}</span>,
         accessor: (d) => d.date,
         minWidth: 70,
         Footer: <div>{this.props.t('SALE.SUMMARY.SUBTOTAL')}</div>,

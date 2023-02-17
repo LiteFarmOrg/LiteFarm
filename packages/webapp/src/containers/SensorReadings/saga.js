@@ -215,6 +215,12 @@ export function* getSensorsReadingsSaga({ payload }) {
             const isCorrectTimestamp = GRAPH_TIMESTAMPS?.find((g) => dateAndTimeInfo?.includes(g));
             if (isCorrectTimestamp && startDate < dt && dt < predictedEndDate) {
               const currentDateTime = `${dateAndTimeInfo?.split(':00:00')[0]}:00`;
+
+              if (!isFound && currentDT < dt) {
+                isFound = true;
+                predictedXAxisLabel = acc[Object.keys(acc).at(-1)][CURRENT_DATE_TIME];
+              }
+
               if (!acc[dt]) acc[dt] = {};
               acc[dt] = {
                 ...acc[dt],

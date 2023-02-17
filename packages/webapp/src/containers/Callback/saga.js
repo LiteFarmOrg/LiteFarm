@@ -18,7 +18,8 @@ import { call, put, select, takeLeading } from 'redux-saga/effects';
 import { url } from '../../apiConfig';
 import history from '../../history';
 import { acceptInvitationSuccess, userFarmSelector } from '../userFarmSlice';
-import jwt from '@tsndr/cloudflare-worker-jwt';
+// import jwt from '@tsndr/cloudflare-worker-jwt';
+import { decodeToken } from 'react-jwt';
 import i18n from '../../locales/i18n';
 import { logout } from '../../util/jwt';
 import { axios } from '../saga';
@@ -42,7 +43,7 @@ export function* validateResetTokenSaga({ payload: { reset_token } }) {
     });
     history.push('/password_reset', reset_token);
   } catch (e) {
-    const { email } = jwt.decode(reset_token);
+    const { email } = decodeToken(reset_token);
     history.push('/expired', { translation_key: 'RESET_PASSWORD', email });
   }
 }
@@ -79,7 +80,7 @@ export function* patchUserFarmStatusSaga({ payload }) {
       history.push('/accept_invitation/sign_up', invite_token);
     } else if (e?.response?.status === 401) {
       const { email: currentEmail } = yield select(userFarmSelector);
-      const { email } = jwt.decode(invite_token);
+      const { email } = decodeToken(invite_token);
       currentEmail !== email && logout();
       const translateKey =
         e.response.data === 'Invitation link is used'

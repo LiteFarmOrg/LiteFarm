@@ -3,7 +3,7 @@
   "version": "3.2.5",
   "description": "LiteFarm Web application",
   "scripts": {
-    "dev": "CYPRESS_COVERAGE=TRUE  vite",
+    "dev": "CYPRESS_COVERAGE=TRUE  vite --host",
     "build": "tsc && vite build",
     "preview": "vite preview",
     "lint": "eslint src",
@@ -72,6 +72,7 @@
     "react-hook-form": "^7.26.1",
     "react-i18next": "^11.15.4",
     "react-icons": "^4.3.1",
+    "react-jwt": "^1.1.8",
     "react-load-script": "^0.0.6",
     "react-redux": "^7.2.6",
     "react-redux-form": "^1.16.14",

@@ -18,7 +18,8 @@ import { call, put, takeLeading } from 'redux-saga/effects';
 import { url } from '../../apiConfig';
 import history from '../../history';
 import { loginSuccess } from '../userFarmSlice';
-import jwt from '@tsndr/cloudflare-worker-jwt';
+// import jwt from '@tsndr/cloudflare-worker-jwt';
+import { decodeToken } from 'react-jwt';
 import { axios } from '../saga';
 
 const resetPasswordUrl = () => `${url}/password_reset`;
@@ -43,7 +44,8 @@ export function* resetPasswordSaga({
     const { id_token } = result.data;
     localStorage.setItem('id_token', id_token);
 
-    const decoded = jwt.decode(id_token);
+    // const decoded = jwt.decode(id_token);
+    const decoded = decodeToken(id_token);
     const { user_id } = decoded;
 
     yield put(loginSuccess({ user_id }));

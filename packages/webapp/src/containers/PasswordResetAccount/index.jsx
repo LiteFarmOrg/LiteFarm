@@ -2,7 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import PureResetPasswordAccount from '../../components/PasswordResetAccount';
 import { resetPassword } from './saga';
-import jwt from '@tsndr/cloudflare-worker-jwt';
+// import jwt from '@tsndr/cloudflare-worker-jwt';
+import { decodeToken } from 'react-jwt';
 import ResetSuccessModal from '../../components/Modals/ResetPasswordSuccess';
 import { useTranslation } from 'react-i18next';
 import { getLanguageFromLocalStorage } from '../../util/getLanguageFromLocalStorage';
@@ -27,7 +28,8 @@ function PasswordResetAccount({ history }) {
   }, []);
 
   const getEmailFromToken = (reset_token) => {
-    const decoded = jwt.decode(reset_token);
+    // const decoded = jwt.decode(reset_token);
+    const decoded = decodeToken(reset_token);
     if (getLanguageFromLocalStorage() !== decoded.language_preference) {
       localStorage.setItem('litefarm_lang', decoded.language_preference);
       i18n.changeLanguage(getLanguageFromLocalStorage());

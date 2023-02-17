@@ -63,6 +63,7 @@ specifiers:
   react-hook-form: ^7.26.1
   react-i18next: ^11.15.4
   react-icons: ^4.3.1
+  react-jwt: ^1.1.8
   react-load-script: ^0.0.6
   react-redux: ^7.2.6
   react-redux-form: ^1.16.14
@@ -119,6 +120,7 @@ dependencies:
   react-hook-form: 7.26.1_react@17.0.2
   react-i18next: 11.15.4_3fb644aa30122a07f960d67fa51d6dc1
   react-icons: 4.3.1_react@17.0.2
+  react-jwt: 1.1.8_react@17.0.2
   react-load-script: 0.0.6_prop-types@15.8.1+react@17.0.2
   react-redux: 7.2.6_react-dom@17.0.2+react@17.0.2
   react-redux-form: 1.16.14_f6e797e462a5d147907673b81f4b71be
@@ -9686,7 +9688,6 @@ packages:
     engines: {node: ^8.16.0 || ^10.6.0 || >=11.0.0}
     os: [darwin]
     requiresBuild: true
-    dev: true
     optional: true
 
   /function-bind/1.1.1:
@@ -13643,6 +13644,17 @@ packages:
 
   /react-is/17.0.2:
     resolution: {integrity: sha512-w2GsyukL62IJnlaff/nRegPQR94C/XXamvMWmSHRJ4y7Ts/4ocGRmTHvOs8PSE6pB3dWOrD/nueuU5sduBsQ4w==}
+
+  /react-jwt/1.1.8_react@17.0.2:
+    resolution: {integrity: sha512-e6OPgkQutK8oZpAt7mPi2PcRVpev1c1JxvFwgLyGijVRznqNLWnYgMuW00THdzWPh6m7hzqhimz3UY7VfY1sEw==}
+    engines: {node: '>=10'}
+    peerDependencies:
+      react: ^16.0.0 || ^17.0.0 || ^18.0.0 || 17
+    dependencies:
+      react: 17.0.2
+    optionalDependencies:
+      fsevents: 2.3.2
+    dev: false
 
   /react-lifecycles-compat/3.0.4:
     resolution: {integrity: sha512-fBASbA6LnOU9dOU2eW7aQ8xmYBSXUIWr+UmF9b1efZBazGNO+rcXT/icdKnYm2pTwcRylVUYwW7H1PHfLekVzA==}

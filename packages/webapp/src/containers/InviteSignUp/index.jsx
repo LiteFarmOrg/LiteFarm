@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import PureInviteSignup from '../../components/InviteSignup';
-import jwt from '@tsndr/cloudflare-worker-jwt';
+// import jwt from '@tsndr/cloudflare-worker-jwt';
+import { decodeToken } from 'react-jwt';
 import { useTranslation } from 'react-i18next';
 import GoogleLogin from 'react-google-login';
 
@@ -29,7 +30,8 @@ function InviteSignUp({ history }) {
   }, []);
 
   function getTokenContent(token) {
-    const decoded = jwt.decode(token);
+    // const decoded = jwt.decode(token);
+    const decoded = decodeToken(token);
     return decoded;
   }
 

@@ -144,6 +144,7 @@ const PureAbandonTask = ({
           type={'date'}
           required
           autoFocus
+          openCalendar
         />
       )}
 

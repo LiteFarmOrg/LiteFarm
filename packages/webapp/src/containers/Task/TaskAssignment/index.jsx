@@ -5,9 +5,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import grabCurrencySymbol from '../../../util/grabCurrencySymbol';
 import { HookFormPersistProvider } from '../../hooks/useHookFormPersist/HookFormPersistProvider';
 import { hookFormPersistSelector } from '../../hooks/useHookFormPersist/hookFormPersistSlice';
-import { createTask } from '../saga';
+import { createTask, updateUserFarmWage, setUserFarmWageDoNotAskAgain } from '../saga';
 import { useTranslation } from 'react-i18next';
-import { updateUserFarmWage, setUserFarmWageDoNotAskAgain } from '../../../containers/Task/saga';
 import { cloneObject } from '../../../util';
 import useTaskAssignForm from '../../../components/Task/AssignTask/useTaskAssignForm';
 import {
@@ -97,8 +96,8 @@ export default function TaskManagement({ history, match, location }) {
       returnPath: location.state ? location.state.pathname : null,
     };
     // delete data(HOURLY_WAGE_ACTION, SELECT_ALL etc) that should not be included in API request
-    Object.keys((key) => {
-      if (assignTaskFields.includes[key]) {
+    Object.keys(data).forEach((key) => {
+      if (assignTaskFields.includes(key)) {
         delete postData[key];
       }
     });

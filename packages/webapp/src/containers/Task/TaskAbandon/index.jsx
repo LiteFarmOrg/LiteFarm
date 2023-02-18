@@ -1,11 +1,12 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import PureAbandonTask, {
+import PureAbandonTask from '../../../components/Task/AbandonTask';
+import {
   ABANDON_DATE_SELECTED,
   ANOTHER_DUE_DATE,
   ORIGINAL_DUE_DATE,
   TODAY_DUE_DATE,
-} from '../../../components/Task/AbandonTask';
+} from '../../../components/Task/AbandonTask/constants';
 import { getDateInputFormat } from '../../../util/moment';
 import { taskSelector } from '../../taskSlice';
 import { isAdminSelector, loginSelector } from '../../userFarmSlice';

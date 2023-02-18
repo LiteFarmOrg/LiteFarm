@@ -17,11 +17,13 @@ import { isNotInFuture } from '../../Form/Input/utils';
 import RadioGroup from '../../Form/RadioGroup';
 import styles from './styles.module.scss';
 import clsx from 'clsx';
+import {
+  ABANDON_DATE_SELECTED,
+  ORIGINAL_DUE_DATE,
+  TODAY_DUE_DATE,
+  ANOTHER_DUE_DATE,
+} from './constants';
 
-export const ABANDON_DATE_SELECTED = 'abandon_date_selected';
-export const ORIGINAL_DUE_DATE = 'original';
-export const TODAY_DUE_DATE = 'today';
-export const ANOTHER_DUE_DATE = 'another';
 const PureAbandonTask = ({
   onSubmit,
   onError,

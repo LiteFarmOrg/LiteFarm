@@ -13,7 +13,6 @@ import TimeSlider from '../../Form/Slider/TimeSlider';
 import Checkbox from '../../Form/Checkbox';
 import Rating from '../../Rating';
 import { getDateInputFormat } from '../../../util/moment';
-import { isNotInFuture } from '../../Form/Input/utils';
 import RadioGroup from '../../Form/RadioGroup';
 import styles from './styles.module.scss';
 import clsx from 'clsx';
@@ -174,7 +173,6 @@ const PureAbandonTask = ({
           hookFormRegister={register(OTHER_REASON_FOR_ABANDONMENT, { required: true })}
           style={{ marginBottom: '24px' }}
           required
-          onFocus={(e) => console.log('selected')}
         />
       )}
 

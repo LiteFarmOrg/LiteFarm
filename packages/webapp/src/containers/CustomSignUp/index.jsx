@@ -101,12 +101,6 @@ function CustomSignUp() {
       type: 'manual',
       message,
     });
-
-    if (customSignUpErrorKey === inlineErrors.sso) {
-      // TODO: Create custom google login button pass in React google login along with ref
-      const googleLoginButton = document.getElementsByClassName('google-login-button')[0];
-      googleLoginButton.click();
-    }
   }, [customSignUpErrorKey, errors]);
 
   const onSubmit = (data) => {

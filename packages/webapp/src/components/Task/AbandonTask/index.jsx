@@ -77,6 +77,39 @@ const PureAbandonTask = ({
     { label: t('TASK.ABANDON.REASON.OTHER'), value: 'OTHER' },
   ];
 
+  const abandonDateOptions = [
+    {
+      value: ORIGINAL_DUE_DATE,
+      label: (
+        <span
+          className={clsx(styles.radioLabel, {
+            [styles.active]: selectedAbandonOption === ORIGINAL_DUE_DATE,
+          })}
+        >
+          {t('TASK.ABANDON.DATE_ORIGINAL')}
+          <span>{getDateInputFormat(originalDueDate)}</span>
+        </span>
+      ),
+    },
+    {
+      value: TODAY_DUE_DATE,
+      label: (
+        <span
+          className={clsx(styles.radioLabel, {
+            [styles.active]: selectedAbandonOption === TODAY_DUE_DATE,
+          })}
+        >
+          {t('TASK.ABANDON.DATE_TODAY')}
+          <span>{getDateInputFormat()}</span>
+        </span>
+      ),
+    },
+    {
+      value: ANOTHER_DUE_DATE,
+      label: t('TASK.ABANDON.DATE_ANOTHER'),
+    },
+  ];
+
   return (
     <Layout
       buttonGroup={
@@ -102,38 +135,7 @@ const PureAbandonTask = ({
         name={ABANDON_DATE_SELECTED}
         disabled={false}
         style={{ paddingBottom: '16px' }}
-        radios={[
-          {
-            value: ORIGINAL_DUE_DATE,
-            label: (
-              <div
-                className={clsx(styles.radioLabel, {
-                  [styles.active]: selectedAbandonOption === ORIGINAL_DUE_DATE,
-                })}
-              >
-                {t('TASK.ABANDON.DATE_ORIGINAL')}
-                <span>{getDateInputFormat(originalDueDate)}</span>
-              </div>
-            ),
-          },
-          {
-            value: TODAY_DUE_DATE,
-            label: (
-              <div
-                className={clsx(styles.radioLabel, {
-                  [styles.active]: selectedAbandonOption === TODAY_DUE_DATE,
-                })}
-              >
-                {t('TASK.ABANDON.DATE_TODAY')}
-                <span>{getDateInputFormat()}</span>
-              </div>
-            ),
-          },
-          {
-            value: ANOTHER_DUE_DATE,
-            label: t('TASK.ABANDON.DATE_ANOTHER'),
-          },
-        ]}
+        radios={abandonDateOptions}
       />
 
       {showDatePicker && (

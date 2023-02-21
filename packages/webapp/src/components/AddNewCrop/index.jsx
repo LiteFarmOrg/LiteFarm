@@ -170,7 +170,7 @@ export default function PureAddNewCrop({
         })}
         errors={getInputErrors(errors, 'crop_genus')}
         optional
-        placeholder="Genus"
+        placeholder={t('CROP_CATALOGUE.GENUS')}
       />
       <Input
         data-cy="crop-cropSpecies"
@@ -184,7 +184,7 @@ export default function PureAddNewCrop({
         })}
         errors={getInputErrors(errors, 'crop_specie')}
         optional
-        placeholder="species"
+        placeholder={t('CROP_CATALOGUE.SPECIES')}
       />
       <Controller
         control={control}

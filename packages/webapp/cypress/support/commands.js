@@ -404,7 +404,7 @@ Cypress.Commands.add('createASoilAmendmentTask', () => {
   cy.get('.css-s115vr-Control2 > .css-b4qs0x-ValueContainer2 > .css-ujecln-Input2').type(
     'Lime{enter}',
   );
-  cy.get('._input_ugk5b_1').type('New Supplier');
+  cy.get('[data-cy=taskDetails-supplier]').type('New Supplier');
   cy.get('[type = "radio"]').eq(1).check({ force: true });
   cy.get('[data-cy="soilAmendment-quantity"]').type('30');
   cy.contains('Notes').click();

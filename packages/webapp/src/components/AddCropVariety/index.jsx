@@ -159,7 +159,7 @@ export default function PureAddCropVariety({
         </div>
       </div>
       <Input
-        data-cy="crop-commonName"
+        data-cy="crop-variety"
         style={{ marginBottom: '40px' }}
         label={t('CROP.VARIETY_COMMON_NAME')}
         type="text"

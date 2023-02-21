@@ -3,7 +3,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { Label, Underlined } from '../Typography';
-import Input, { integerOnKeyDown } from '../Form/Input';
+import Input, { integerOnKeyDown, getInputErrors } from '../Form/Input';
 import styles from './styles.module.scss';
 import Radio from '../Form/Radio';
 import Form from '../Form';
@@ -11,7 +11,6 @@ import { useForm } from 'react-hook-form';
 import MultiStepPageTitle from '../PageTitle/MultiStepPageTitle';
 import Infoi from '../Tooltip/Infoi';
 import { ReactComponent as ExternalLinkIcon } from '../../assets/images/ExternalLink.svg';
-
 export default function PureAddCropVariety({
   match,
   onSubmit,
@@ -53,12 +52,17 @@ export default function PureAddCropVariety({
   const disabled = !isValid;
 
   const commonNameRegister = register(COMMON_NAME, { required: true });
-  const varietalRegister = register(VARIETAL, { required: false });
-  const cultivarRegister = register(CULTIVAR, { required: false });
+  const varietalRegister = register(VARIETAL, {
+    maxLength: { value: 200, message: t('FORM_VALIDATION.OVER_200_CHARS') },
+    required: false,
+  });
+  const cultivarRegister = register(CULTIVAR, {
+    maxLength: { value: 200, message: t('FORM_VALIDATION.OVER_200_CHARS') },
+    required: false,
+  });
   const supplierRegister = register(SUPPLIER, { required: isSeekingCert ? true : false });
   const lifeCycleRegister = register(LIFE_CYCLE, { required: true });
   const imageUrlRegister = register(CROP_VARIETY_PHOTO_URL, { required: false });
-
   const crop_variety_photo_url = watch(CROP_VARIETY_PHOTO_URL);
   const cropTranslationKey = crop.crop_translation_key;
   const cropNameLabel = cropTranslationKey
@@ -168,6 +172,7 @@ export default function PureAddCropVariety({
         label={t('CROP.VARIETY_VARIETAL')}
         type="text"
         hookFormRegister={varietalRegister}
+        errors={getInputErrors(errors, 'crop_varietal')}
         hasLeaf={false}
         optional
         info={subText(t('CROP.VARIETAL_SUBTEXT'))}
@@ -179,6 +184,7 @@ export default function PureAddCropVariety({
         label={t('CROP.VARIETY_CULTIVAR')}
         type="text"
         hookFormRegister={cultivarRegister}
+        errors={getInputErrors(errors, 'crop_cultivar')}
         hasLeaf={false}
         optional
         info={subText(t('CROP.CULTIVAR_SUBTEXT'))}

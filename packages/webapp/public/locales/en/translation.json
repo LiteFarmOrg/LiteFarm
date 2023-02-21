@@ -777,7 +777,7 @@
     "WHOLE_FARM_REVENUE": "Whole farm revenue"
   },
   "FORM_VALIDATION": {
-    "OVER_200_CHARS": "Text cannot exceed 200 characters"
+    "OVER_255_CHARS": "Text cannot exceed 255 characters"
   },
   "HELP": {
     "ATTACHMENT_LABEL": "Upload screenshot or file",

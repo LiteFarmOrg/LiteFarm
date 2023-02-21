@@ -776,7 +776,7 @@
     "WHOLE_FARM_REVENUE": "Ingresos de toda la granja"
   },
   "FORM_VALIDATION": {
-    "OVER_200_CHARS": "MISSING"
+    "OVER_255_CHARS": "MISSING"
   },
   "HELP": {
     "ATTACHMENT_LABEL": "Cargue imagen de pantalla o archivo",

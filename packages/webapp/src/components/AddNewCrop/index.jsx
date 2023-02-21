@@ -163,7 +163,7 @@ export default function PureAddNewCrop({
         style={{ marginBottom: '40px' }}
         label={t('CROP_CATALOGUE.GENUS')}
         hookFormRegister={register('crop_genus', {
-          maxLength: { value: 200, message: t('FORM_VALIDATION.OVER_200_CHARS') },
+          maxLength: { value: 255, message: t('FORM_VALIDATION.OVER_255_CHARS') },
           setValueAs: (v) => {
             return v.charAt(0).toUpperCase() + v.slice(1).toLowerCase();
           },
@@ -177,7 +177,7 @@ export default function PureAddNewCrop({
         style={{ marginBottom: '40px' }}
         label={t('CROP_CATALOGUE.SPECIES')}
         hookFormRegister={register('crop_specie', {
-          maxLength: { value: 200, message: t('FORM_VALIDATION.OVER_200_CHARS') },
+          maxLength: { value: 255, message: t('FORM_VALIDATION.OVER_255_CHARS') },
           setValueAs: (v) => {
             return v.toLowerCase();
           },

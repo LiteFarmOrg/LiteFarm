@@ -7,6 +7,8 @@ import { useTranslation } from 'react-i18next';
 import { colors } from '../../../assets/theme';
 import Infoi from '../../Tooltip/Infoi';
 import { BsX } from 'react-icons/bs';
+import { ReactComponent as Leaf } from '../../../assets/images/farmMapFilter/Leaf.svg';
+import scss from './reactSelect.module.scss';
 
 export const styles = {
   option: (provided, state) => ({
@@ -143,6 +145,7 @@ const ReactSelect = React.forwardRef(function ReactSelect(
     placeholder,
     createPromptText,
     options,
+    hasLeaf,
     toolTipContent,
     icon,
     style,
@@ -161,35 +164,26 @@ const ReactSelect = React.forwardRef(function ReactSelect(
   if (!createPromptText) createPromptText = t('common:CREATE');
 
   return (
-    <div data-cy="react-select" style={style}>
+    <div data-cy="react-select" className={scss.container} style={style}>
       {(label || toolTipContent || icon) && (
-        <div
-          style={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            height: '20px',
-          }}
-        >
-          <Label>
+        <div className={scss.labelContainer}>
+          <Label className={scss.labelText}>
             {label}
             {optional && (
-              <Label sm className={styles.sm} style={{ marginLeft: '4px' }}>
+              <Label sm className={scss.sm}>
                 {t('common:OPTIONAL')}
               </Label>
             )}
+            {hasLeaf && <Leaf className={scss.leaf} />}
           </Label>
           {toolTipContent && (
-            <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+            <div className={scss.tooltipIconContainer}>
               <Infoi content={toolTipContent} autoOpen={autoOpen} />
             </div>
           )}
-          {icon && (
-            <span style={{ marginRight: 'auto', marginLeft: '8px' }} className={styles.icon}>
-              {icon}
-            </span>
-          )}
+          {icon && <span className={scss.icon}>{icon}</span>}
         </div>
-      )}{' '}
+      )}
       {creatable && (
         <CreatableSelect
           customStyles

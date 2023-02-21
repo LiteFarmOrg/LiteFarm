@@ -185,7 +185,11 @@ const getReadableValuesForReadingTypes = (lang, readingTypes) => {
 };
 
 const generateSensorKey = (sensor) => {
-  return `${sensor.brand ?? ''}:${sensor.external_id ?? ''}`;
+  if (sensor.brand.length !== 0 && sensor.external_id.length !== 0) {
+    return `${sensor.brand}:${sensor.external_id}`;
+  } else {
+    return sensor.name;
+  }
 };
 
 export const parseSensorCsv = (csvString, lang) => {

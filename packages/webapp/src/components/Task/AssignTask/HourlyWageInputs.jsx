@@ -65,6 +65,7 @@ const HourlyWageInputs = ({ register, control, errors, shouldSetWage, currency }
           type="number"
           onKeyPress={numberOnKeyDown}
           hookFormRegister={register(HOURLY_WAGE, {
+            required: true,
             valueAsNumber: true,
             min: { value: 0, message: t('WAGE.HOURLY_WAGE_RANGE_ERROR') },
             max: { value: 999999999, message: t('WAGE.HOURLY_WAGE_RANGE_ERROR') },

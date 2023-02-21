@@ -66,7 +66,7 @@
     "HARVESTING_INFO": "Each plan will generate an individual harvest task",
     "HOURLY_WAGE": {
       "ASSIGNEE_WAGE_WARNING": "{{name}} doesn't currently have an hourly wage assigned.",
-      "DONT_ASK": "Don't ask again",
+      "DONT_ASK": "No, do not ask again for this employee",
       "FOR_THIS_TASK": "Yes, just for this task",
       "SET_HOURLY_WAGE": "Yes, set hourly wage",
       "WANT_TO_SET_HOURLY_WAGE": "Would you like to set an hourly wage?"

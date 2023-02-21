@@ -2,15 +2,15 @@ import Button from '../Form/Button';
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
-import { Label } from '../Typography';
+import { Label, Underlined } from '../Typography';
 import Input, { integerOnKeyDown } from '../Form/Input';
 import styles from './styles.module.scss';
 import Radio from '../Form/Radio';
 import Form from '../Form';
 import { useForm } from 'react-hook-form';
 import MultiStepPageTitle from '../PageTitle/MultiStepPageTitle';
-import { AddLink } from '../../components/Typography';
 import Infoi from '../Tooltip/Infoi';
+import { ReactComponent as ExternalLinkIcon } from '../../assets/images/ExternalLink.svg';
 
 export default function PureAddCropVariety({
   match,
@@ -24,7 +24,9 @@ export default function PureAddCropVariety({
   handleGoBack,
 }) {
   const { t } = useTranslation(['translation', 'common', 'crop']);
-  const VARIETY = 'crop_variety_name';
+  const COMMON_NAME = 'crop_variety_name';
+  const VARIETAL = 'crop_varietal';
+  const CULTIVAR = 'crop_cultivar';
   const SUPPLIER = 'supplier';
   const LIFE_CYCLE = 'lifecycle';
   const CROP_VARIETY_PHOTO_URL = 'crop_variety_photo_url';
@@ -39,11 +41,7 @@ export default function PureAddCropVariety({
     mode: 'onChange',
     shouldUnregister: true,
     defaultValues: {
-      crop_variety_photo_url:
-        crop.crop_photo_url ||
-        `https://${
-          import.meta.env.VITE_DO_BUCKET_NAME
-        }.nyc3.digitaloceanspaces.com/default_crop/v2/default.webp`,
+      crop_variety_photo_url: null,
       [LIFE_CYCLE]: crop[LIFE_CYCLE],
       [HS_CODE_ID]: crop?.[HS_CODE_ID],
       ...persistedFormData,
@@ -54,18 +52,58 @@ export default function PureAddCropVariety({
 
   const disabled = !isValid;
 
-  const varietyRegister = register(VARIETY, { required: true });
+  const commonNameRegister = register(COMMON_NAME, { required: true });
+  const varietalRegister = register(VARIETAL, { required: false });
+  const cultivarRegister = register(CULTIVAR, { required: false });
   const supplierRegister = register(SUPPLIER, { required: isSeekingCert ? true : false });
   const lifeCycleRegister = register(LIFE_CYCLE, { required: true });
-  const imageUrlRegister = register(CROP_VARIETY_PHOTO_URL, { required: true });
+  const imageUrlRegister = register(CROP_VARIETY_PHOTO_URL, { required: false });
 
   const crop_variety_photo_url = watch(CROP_VARIETY_PHOTO_URL);
   const cropTranslationKey = crop.crop_translation_key;
   const cropNameLabel = cropTranslationKey
     ? t(`crop:${cropTranslationKey}`)
     : crop.crop_common_name;
+  const genusForLabel = () => {
+    if (crop.crop_genus) {
+      if (crop.crop_genus.length > 22) {
+        return crop.crop_genus.slice(0, 22) + '...';
+      }
 
+      return crop.crop_genus;
+    }
+
+    return '';
+  };
+  const specieForLabel = () => {
+    if (crop.crop_specie) {
+      if (crop.crop_specie.length > 22) {
+        return crop.crop_specie.slice(0, 22) + '...';
+      }
+
+      return crop.crop_specie;
+    }
+
+    return '';
+  };
+  const scientificNameLabel = genusForLabel() + ' ' + specieForLabel();
   const progress = 33;
+  const subText = (data) => {
+    return (
+      <>
+        <div style={{ width: 'fit-content', display: 'inline-block', height: '18px' }}>
+          {data}
+          <Underlined style={{ width: 'fit-content', display: 'inline-block', marginLeft: '3px' }}>
+            {' '}
+            here
+          </Underlined>
+          <ExternalLinkIcon
+            style={{ width: '15px', height: '15px', padding: '0px', margin: '0px' }}
+          />
+        </div>
+      </>
+    );
+  };
   return (
     <Form
       buttonGroup={
@@ -83,17 +121,78 @@ export default function PureAddCropVariety({
         value={progress}
       />
 
-      <div className={styles.cropLabel}>{cropNameLabel}</div>
-      <img
-        src={crop_variety_photo_url}
-        alt={crop.crop_common_name}
-        className={styles.circleImg}
-        onError={(e) => {
-          e.target.onerror = null;
-          e.target.src = 'crop-images/default.jpg';
-        }}
+      <div style={{ fontSize: '16px', marginBottom: '20px' }}>
+        <p>{t('translation:CROP.VARIETAL_SUBTITLE')}</p>
+      </div>
+      <div style={{ display: 'flex' }}>
+        <div style={{ width: 'fit-contents', display: 'inline-block', verticalAlign: 'top' }}>
+          <img
+            src={crop.crop_photo_url}
+            alt={crop.crop_common_name}
+            className={styles.circleImg}
+            onError={(e) => {
+              e.target.onerror = null;
+              e.target.src = 'crop-images/default.jpg';
+            }}
+          />
+        </div>
+        <div
+          className="nameLabel"
+          style={{ display: 'inline-block', marginLeft: '18px', marginTop: '10px' }}
+        >
+          <div
+            className="cropLabel"
+            style={{ weight: '600', fontSize: '18px', marginBottom: '0px' }}
+          >
+            {cropNameLabel}
+          </div>
+          <div
+            className="scientificNameLabel"
+            style={{ verticalAlign: 'top', fontStyle: 'italic', fontSize: '16px', height: '18px' }}
+          >
+            {scientificNameLabel}
+          </div>
+        </div>
+      </div>
+      <Input
+        data-cy="crop-commonName"
+        style={{ marginBottom: '40px' }}
+        label={t('CROP.VARIETY_COMMON_NAME')}
+        type="text"
+        hookFormRegister={commonNameRegister}
+        hasLeaf={false}
       />
-
+      <Input
+        data-cy="crop-varietal"
+        style={{ marginBottom: '40px' }}
+        label={t('CROP.VARIETY_VARIETAL')}
+        type="text"
+        hookFormRegister={varietalRegister}
+        hasLeaf={false}
+        optional
+        info={subText('Something about the varietal')}
+      />
+      <Input
+        data-cy="crop-cultivar"
+        style={{ marginBottom: '40px' }}
+        label={t('CROP.VARIETY_CULTIVAR')}
+        type="text"
+        hookFormRegister={cultivarRegister}
+        hasLeaf={false}
+        optional
+        info={subText('Something about the cultivar')}
+      />
+      {crop_variety_photo_url && (
+        <img
+          src={crop_variety_photo_url}
+          alt={crop.crop_common_name}
+          className={styles.circleImg}
+          onError={(e) => {
+            e.target.onerror = null;
+            e.target.src = 'crop-images/default.jpg';
+          }}
+        />
+      )}
       <div
         style={{
           marginLeft: 'auto',
@@ -109,18 +208,16 @@ export default function PureAddCropVariety({
       >
         {React.cloneElement(imageUploader, {
           hookFormRegister: imageUrlRegister,
-          targetRoute: 'crop_variety',
+          targetRoute: 'crop',
         })}
+        <Infoi
+          style={{
+            width: 'fit-content',
+            display: 'inline-block',
+          }}
+          content={t('CROP.VARIETAL_IMAGE_INFO')}
+        />
       </div>
-
-      <Input
-        data-cy="crop-variety"
-        style={{ marginBottom: '40px' }}
-        label={t('translation:FIELDS.EDIT_FIELD.VARIETY')}
-        type="text"
-        hookFormRegister={varietyRegister}
-        hasLeaf={true}
-      />
 
       <Input
         data-cy="crop-supplier"
@@ -132,15 +229,6 @@ export default function PureAddCropVariety({
         optional={!isSeekingCert}
       />
 
-      <AddLink>
-        {t('CROP.VARIETAL_IMAGE')}
-        <Infoi
-          style={{
-            marginLeft: '5px',
-          }}
-          content={t('CROP.VARIETAL_IMAGE_INFO')}
-        />
-      </AddLink>
       <div>
         <div style={{ marginTop: '16px', marginBottom: '20px' }}>
           <Label

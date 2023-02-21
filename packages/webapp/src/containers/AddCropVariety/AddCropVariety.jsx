@@ -8,6 +8,7 @@ import { hookFormPersistSelector } from '../hooks/useHookFormPersist/hookFormPer
 import ImagePickerWrapper from '../ImagePickerWrapper';
 import { useTranslation } from 'react-i18next';
 import { HookFormPersistProvider } from '../hooks/useHookFormPersist/HookFormPersistProvider';
+import { AddLink } from '../../components/Typography';
 
 function AddCropVarietyForm({ history, match }) {
   const { t } = useTranslation(['translation']);
@@ -30,6 +31,13 @@ function AddCropVarietyForm({ history, match }) {
       ...persistedFormData,
       ...data,
       crop_variety_name: data.crop_variety_name.trim(),
+      crop_varietal: data.crop_varietal.trim(),
+      crop_cultivar: data.crop_cultivar.trim(),
+      crop_variety_photo_url: data.crop_variety_photo_url
+        ? data.crop_variety_photo_url
+        : `https://${
+            import.meta.env.VITE_DO_BUCKET_NAME
+          }.nyc3.digitaloceanspaces.com/default_crop/v2/default.webp`,
       supplier: data.supplier.trim(),
       compliance_file_url: '',
       organic: null,
@@ -43,6 +51,18 @@ function AddCropVarietyForm({ history, match }) {
       dispatch(postVarietal({ ...cropData, crop_id: Number(crop_id) }));
     }
   };
+  const pickerOpts = {
+    types: [
+      {
+        description: 'Images',
+        accept: {
+          'image/*': ['.png', '.gif', '.jpeg', '.jpg'],
+        },
+      },
+    ],
+    excludeAcceptAllOption: true,
+    multiple: false,
+  };
 
   return (
     <HookFormPersistProvider>
@@ -52,7 +72,11 @@ function AddCropVarietyForm({ history, match }) {
         onError={onError}
         isSeekingCert={interested}
         crop={crop}
-        imageUploader={<ImagePickerWrapper></ImagePickerWrapper>}
+        imageUploader={
+          <ImagePickerWrapper>
+            <AddLink>{t('CROP.VARIETAL_IMAGE')}</AddLink>
+          </ImagePickerWrapper>
+        }
         handleGoBack={() => history.back()}
       />
     </HookFormPersistProvider>

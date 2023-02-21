@@ -83,6 +83,8 @@ class CropVariety extends BaseModel {
         crop_id: { type: 'integer' },
         farm_id: { type: 'string' },
         crop_variety_name: { type: ['string', null] },
+        crop_varietal: { type: ['string', null] },
+        crop_cultivar: { type: ['string', null] },
         supplier: { type: ['string', null] },
         seeding_type: { type: 'string', enum: ['SEED', 'SEEDLING_OR_PLANTING_STOCK'] },
         lifecycle: { type: 'string', enum: ['ANNUAL', 'PERENNIAL'] },

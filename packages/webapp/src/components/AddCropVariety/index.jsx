@@ -97,8 +97,12 @@ export default function PureAddCropVariety({
       <>
         <div style={{ width: 'fit-content', display: 'inline-block', height: '18px' }}>
           {data}
-          <Underlined style={{ width: 'fit-content', display: 'inline-block', marginLeft: '3px' }}>
-            {' '}
+          <Underlined
+            onClick={() =>
+              window.location.replace('https://www.litefarm.org/post/cultivars-and-varietals')
+            }
+            style={{ width: 'fit-content', display: 'inline-block', marginLeft: '3px' }}
+          >
             {t('common:HERE').toLowerCase()}
           </Underlined>
           <ExternalLinkIcon

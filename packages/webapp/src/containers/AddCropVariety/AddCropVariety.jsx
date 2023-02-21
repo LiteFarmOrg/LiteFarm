@@ -51,18 +51,6 @@ function AddCropVarietyForm({ history, match }) {
       dispatch(postVarietal({ ...cropData, crop_id: Number(crop_id) }));
     }
   };
-  const pickerOpts = {
-    types: [
-      {
-        description: 'Images',
-        accept: {
-          'image/*': ['.png', '.gif', '.jpeg', '.jpg'],
-        },
-      },
-    ],
-    excludeAcceptAllOption: true,
-    multiple: false,
-  };
 
   return (
     <HookFormPersistProvider>

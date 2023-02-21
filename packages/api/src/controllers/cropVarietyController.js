@@ -68,7 +68,6 @@ const cropVarietyController = {
   createCropVariety() {
     return async (req, res, next) => {
       try {
-        console.log(req.body);
         const { crop_id } = req.body;
         const [relatedCrop] = await CropModel.query()
           .context({ showHidden: true })

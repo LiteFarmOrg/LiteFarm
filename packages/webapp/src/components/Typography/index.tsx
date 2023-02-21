@@ -154,9 +154,9 @@ Error.propTypes = {
 
 export const Info = ({ children = 'Info', className = '', style, ...props }: TypographyProps) => {
   return (
-    <p className={clsx(styles.info, className)} style={style} {...props}>
+    <div className={clsx(styles.info, className)} style={style} {...props}>
       {children}
-    </p>
+    </div>
   );
 };
 

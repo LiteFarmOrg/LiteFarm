@@ -102,7 +102,7 @@ export default function PureAddCropVariety({
             {t('common:HERE').toLowerCase()}
           </Underlined>
           <ExternalLinkIcon
-            style={{ width: '15px', height: '15px', padding: '0px', margin: '0px' }}
+            style={{ width: '15px', height: '15px', padding: '0px', marginLeft: '2px' }}
           />
         </div>
       </>

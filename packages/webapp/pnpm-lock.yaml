@@ -9,6 +9,7 @@ specifiers:
   '@material-ui/icons': ^4.11.2
   '@mdx-js/mdx': ^1.6.22
   '@mdx-js/react': ^1.6.22
+  '@react-oauth/google': ^0.7.0
   '@reactour/tour': ^2.9.0
   '@reduxjs/toolkit': ^1.7.2
   '@sentry/react': ^6.4.1
@@ -89,6 +90,7 @@ dependencies:
   '@googlemaps/markerclusterer': 2.0.10
   '@material-ui/core': 4.12.3_b8fdba992ce7d797017dc07106486496
   '@material-ui/icons': 4.11.2_559d47d5a56c16e6435ddc61509dee08
+  '@react-oauth/google': 0.7.0_react-dom@17.0.2+react@17.0.2
   '@reactour/tour': 2.9.0_79c1490562c3c65ef55eb132a37e39b4
   '@reduxjs/toolkit': 1.7.2_react-redux@7.2.6+react@17.0.2
   '@sentry/react': 6.17.5_react@17.0.2
@@ -2994,6 +2996,16 @@ packages:
       '@react-types/shared': 3.10.1_react@17.0.2
       clsx: 1.1.1
       react: 17.0.2
+    dev: false
+
+  /@react-oauth/google/0.7.0_react-dom@17.0.2+react@17.0.2:
+    resolution: {integrity: sha512-KLLYlLYYpXf1zmcrsJPAxImvoq2b0Rs0Pi/6GYfdwjmTh66Pf6jkZ4fpO10tuJuUPWvEeqloPEC/i4BySgbYVQ==}
+    peerDependencies:
+      react: '>=16.8.0 || 17'
+      react-dom: '>=16.8.0 || 17'
+    dependencies:
+      react: 17.0.2
+      react-dom: 17.0.2_react@17.0.2
     dev: false
 
   /@react-stately/utils/3.3.0_react@17.0.2:

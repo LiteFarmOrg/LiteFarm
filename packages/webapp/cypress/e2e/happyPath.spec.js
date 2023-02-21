@@ -891,9 +891,9 @@ describe.only('LiteFarm end to end test', () => {
       },
     });
 
-    cy.contains('CONTINUER AVEC GOOGLE').should('exist');
+    cy.contains('CONTINUER AVEC GOOGLE', { matchCase: false }).should('exist');
     cy.get('[data-cy=email]').type('french@test.com');
-    cy.contains('Continue').should('exist').and('be.enabled').click();
+    cy.get('[data-cy=continue]').should('exist').and('be.enabled').click();
     cy.contains('Créer un nouveau compte utilisateur').should('exist');
   });
 });

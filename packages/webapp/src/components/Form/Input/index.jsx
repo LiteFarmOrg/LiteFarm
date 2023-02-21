@@ -14,6 +14,7 @@ import { get } from 'react-hook-form';
 import i18n from '../../../locales/i18n';
 
 const Input = ({
+  openCalendar,
   disabled = false,
   classes = {},
   style,
@@ -59,6 +60,16 @@ const Input = ({
   };
 
   const onKeyDown = ['number', 'decimal'].includes(type) ? numberOnKeyDown : undefined;
+
+  useEffect(() => {
+    if (openCalendar) {
+      try {
+        input.current.showPicker();
+      } catch (e) {
+        console.log(e);
+      }
+    }
+  }, [openCalendar]);
 
   return (
     <div

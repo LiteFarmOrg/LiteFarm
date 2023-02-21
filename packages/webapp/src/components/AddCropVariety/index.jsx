@@ -95,7 +95,7 @@ export default function PureAddCropVariety({
           {data}
           <Underlined style={{ width: 'fit-content', display: 'inline-block', marginLeft: '3px' }}>
             {' '}
-            here
+            {t('common:HERE').toLowerCase()}
           </Underlined>
           <ExternalLinkIcon
             style={{ width: '15px', height: '15px', padding: '0px', margin: '0px' }}
@@ -170,7 +170,8 @@ export default function PureAddCropVariety({
         hookFormRegister={varietalRegister}
         hasLeaf={false}
         optional
-        info={subText('Something about the varietal')}
+        info={subText(t('CROP.VARIETAL_SUBTEXT'))}
+        placeholder={t('CROP.VARIETAL_PLACEHOLDER')}
       />
       <Input
         data-cy="crop-cultivar"
@@ -180,7 +181,9 @@ export default function PureAddCropVariety({
         hookFormRegister={cultivarRegister}
         hasLeaf={false}
         optional
-        info={subText('Something about the cultivar')}
+        info={subText(t('CROP.CULTIVAR_SUBTEXT'))}
+        placeholder={t('CROP.CULTIVAR_PLACEHOLDER')}
+        hideOnFocus
       />
       {crop_variety_photo_url && (
         <img

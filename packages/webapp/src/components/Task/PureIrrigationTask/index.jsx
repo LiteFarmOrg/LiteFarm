@@ -17,16 +17,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { irrigationTaskTypesSliceSelector } from '../../../containers/irrigationTaskTypesSlice';
 import { cropLocationsSelector } from '../../../containers/locationSlice';
 
-const defaultIrrigationTaskTypes = [
-  'HAND_WATERING',
-  'CHANNEL',
-  'DRIP',
-  'FLOOD',
-  'PIVOT',
-  'SPRINKLER',
-  'SUB_SURFACE',
-  'OTHER',
-];
 export default function PureIrrigationTask({
   system,
   register,
@@ -44,7 +34,7 @@ export default function PureIrrigationTask({
   createTask = false,
 }) {
   const { t } = useTranslation();
-  const { errors, isValid } = formState;
+  const { errors } = formState;
   const [showWaterUseCalculatorModal, setShowWaterUseCalculatorModal] = useState(false);
   const { irrigationTaskTypes = [] } = useSelector(irrigationTaskTypesSliceSelector);
   const cropLocations = useSelector(cropLocationsSelector);
@@ -69,13 +59,25 @@ export default function PureIrrigationTask({
 
   const dispatch = useDispatch();
 
+  const getDefaultIrrigationTypes = () => {
+    let  defaultIrrigationTaskTypes = [];
+    for (let type of irrigationTaskTypes) {
+      if (type.farm_id === null) {
+        defaultIrrigationTaskTypes.push(type.irrigation_type_name);
+      }
+    }
+    return defaultIrrigationTaskTypes;
+  }
+
   const IrrigationTypeOptions = useMemo(() => {
     let options;
+    let defaultIrrigationTaskTypes = getDefaultIrrigationTypes()
     options = irrigationTaskTypes.map((irrigationType) => {
       return {
         value: irrigationType.irrigation_type_name,
         label: defaultIrrigationTaskTypes.includes(irrigationType.irrigation_type_name)
           ? t(`ADD_TASK.IRRIGATION_VIEW.TYPE.${irrigationType.irrigation_type_name}`)
+          // is the false case here really needed?
           : t(irrigationType.irrigation_type_name),
         default_measuring_type: irrigationType.default_measuring_type,
         irrigation_type_id: irrigationType.irrigation_type_id,
@@ -111,9 +113,9 @@ export default function PureIrrigationTask({
   const irrigation_type = watch(IRRIGATION_TYPE);
   const measurement_type = watch(MEASUREMENT_TYPE);
 
-  // If the task is being modified on completion then set the default flags to false in the form
+  // If the task is being modified on completion then set the "set default" flags to false in the form
   // this is to avoid overwriting default setting set by another task during that task's creation
-  // the 'set default' is only a visual reference for user to see this irrigation type was set as default during its creation
+  // the "set default" checkbox is only a visual reference for users to see this irrigation type was set as default during its creation
   useEffect(() => {
     if (isModified) {
       setValue(DEFAULT_IRRIGATION_TASK_LOCATION, false)

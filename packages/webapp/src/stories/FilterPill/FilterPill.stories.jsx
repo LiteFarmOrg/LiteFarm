@@ -20,6 +20,12 @@ Deselected.args = {
   selected: false,
 };
 
+export const Disabled = Template.bind({});
+Disabled.args = {
+  label: 'Disabled',
+  disabled: true,
+};
+
 export const Removable = Template.bind({});
 Removable.args = {
   label: 'Active',

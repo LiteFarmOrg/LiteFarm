@@ -19,3 +19,9 @@
   background-color: white;
   color: var(--grey600);
 }
+
+.disabled {
+  border: 1px solid var(--grey400);
+  background-color: var(--grey200);
+  color: var(--grey500);
+}

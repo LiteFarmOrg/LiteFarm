@@ -38,6 +38,7 @@ export default function PureIrrigationTask({
   formState,
   getFieldState = {},
   disabled = false,
+  isModified = false,
   locations,
   otherTaskType = false,
   createTask = false,
@@ -110,6 +111,16 @@ export default function PureIrrigationTask({
   const irrigation_type = watch(IRRIGATION_TYPE);
   const measurement_type = watch(MEASUREMENT_TYPE);
 
+  // If the task is being modified on completion then set the default flags to false in the form
+  // this is to avoid overwriting default setting set by another task during that task's creation
+  // the 'set default' is only a visual reference for user to see this irrigation type was set as default during its creation
+  useEffect(() => {
+    if (isModified) {
+      setValue(DEFAULT_IRRIGATION_TASK_LOCATION, false)
+      setValue(DEFAULT_IRRIGATION_MEASUREMENT, false)
+    }
+  });
+
   const onDismissWaterUseCalculatorModel = () => setShowWaterUseCalculatorModal(false);
   const handleModalSubmit = () => {
     const isDepthCalculatorValid =
@@ -178,9 +189,6 @@ export default function PureIrrigationTask({
     }
   }, [showWaterUseCalculatorModal]);
 
-  const selectedIrrigationTypeOption = useMemo(() => {
-    return IrrigationTypeOptions.filter((options) => options.value === irrigation_type)[0];
-  }, [irrigation_type, IrrigationTypeOptions]);
 
   return (
     <>
@@ -229,7 +237,7 @@ export default function PureIrrigationTask({
         sm
         style={{ marginTop: '6px', marginBottom: '40px' }}
         hookFormRegister={register(DEFAULT_IRRIGATION_TASK_LOCATION)}
-        disabled={disabled}
+        disabled={disabled || isModified}
       />
       <Label className={styles.label} style={{ marginBottom: '24px', fontSize: '16px' }}>
         {t('ADD_TASK.IRRIGATION_VIEW.HOW_DO_YOU_MEASURE_WATER_USE_FOR_THIS_IRRIGATION_TYPE')}
@@ -262,7 +270,7 @@ export default function PureIrrigationTask({
         label={t('ADD_TASK.IRRIGATION_VIEW.SET_AS_DEFAULT_MEASUREMENT_FOR_THIS_IRRIGATION_TYPE')}
         sm
         hookFormRegister={register(DEFAULT_IRRIGATION_MEASUREMENT)}
-        disabled={disabled}
+        disabled={disabled || isModified}
       />
 
       <Unit
@@ -321,4 +329,5 @@ PureIrrigationTask.propTypes = {
   system: PropTypes.oneOf(['imperial', 'metric']).isRequired,
   disabled: PropTypes.bool,
   locations: PropTypes.array,
+  isModified: PropTypes.bool,
 };

@@ -16,7 +16,6 @@ import { getDateInputFormat } from '../../../util/moment';
 import RadioGroup from '../../Form/RadioGroup';
 import Pill from '../../Filter/Pill';
 import styles from './styles.module.scss';
-import clsx from 'clsx';
 import {
   ABANDON_DATE_SELECTED,
   ORIGINAL_DUE_DATE,
@@ -85,25 +84,25 @@ const PureAbandonTask = ({
     {
       value: ORIGINAL_DUE_DATE,
       label: (
-        <div className={clsx(styles.radioLabel)}>
-          <span>{t('TASK.ABANDON.DATE_ORIGINAL')}</span>
+        <>
+          <span className={styles.radioLabelText}>{t('TASK.ABANDON.DATE_ORIGINAL')}</span>
           <Pill
             label={getDateInputFormat(originalDueDate)}
             {...pillStatus(selectedAbandonOption === ORIGINAL_DUE_DATE)}
           />
-        </div>
+        </>
       ),
     },
     {
       value: TODAY_DUE_DATE,
       label: (
-        <div className={clsx(styles.radioLabel)}>
-          <span>{t('TASK.ABANDON.DATE_TODAY')}</span>
+        <>
+          <span className={styles.radioLabelText}>{t('TASK.ABANDON.DATE_TODAY')}</span>
           <Pill
             label={getDateInputFormat()}
             {...pillStatus(selectedAbandonOption === TODAY_DUE_DATE)}
           />
-        </div>
+        </>
       ),
     },
     {

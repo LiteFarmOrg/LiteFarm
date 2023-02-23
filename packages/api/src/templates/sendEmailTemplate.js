@@ -46,6 +46,26 @@ function homeUrl(defaultUrl = 'http://localhost:3000') {
   return homeUrl;
 }
 
+function gmailAuth() {
+  const environment = process.env.NODE_ENV || 'development';
+  if (environment === 'development' && process.env.DEV_GMAIL) {
+    return {
+      user: process.env.DEV_GMAIL,
+      pass: process.env.DEV_GMAIL_APP_PASSWORD,
+    };
+  }
+  return {
+    type: 'OAuth2',
+    clientId: credentials.LiteFarm_Service_Gmail.client_id,
+    clientSecret: credentials.LiteFarm_Service_Gmail.client_secret,
+    user:
+      environment === 'development'
+        ? credentials.LiteFarm_Service_Gmail.user || 'system@litefarm.org'
+        : 'system@litefarm.org',
+    refreshToken: credentials.LiteFarm_Service_Gmail.refresh_token,
+  };
+}
+
 const emailTransporter = new EmailTemplates({
   views: {
     root: path.join(dir, 'emails'),
@@ -63,13 +83,7 @@ const emailTransporter = new EmailTemplates({
     port: 465,
     secure: true,
     service: 'gmail',
-    auth: {
-      type: 'OAuth2',
-      clientId: credentials.LiteFarm_Service_Gmail.client_id,
-      clientSecret: credentials.LiteFarm_Service_Gmail.client_secret,
-      user: 'system@litefarm.org',
-      refreshToken: credentials.LiteFarm_Service_Gmail.refresh_token,
-    },
+    auth: gmailAuth(),
   },
 });
 

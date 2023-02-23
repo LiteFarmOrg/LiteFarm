@@ -21,46 +21,58 @@ const isYesOptionSelected = (option) => {
   return [hourlyWageActions.SET_HOURLY_WAGE, hourlyWageActions.FOR_THIS_TASK].includes(option);
 };
 
-const useTaskAssignForm = ({ user, users, isAssigned, additionalFields = {}, wage_at_moment }) => {
-  /**
-   * Custom hook to interact with AssignTask component.
-   *
-   * @typedef User
-   * @type {object}
-   *
-   * @typedef AssigneeOption
-   * @type {object}
-   * @property {string} label - user name
-   * @property {string} value - userId
-   * @property {boolean} [isDisabled] - whether the user is disabled or not
-   *
-   * @typedef ReturnedObject
-   * @type {object}
-   * @property {function} control - function returned by useForm
-   * @property {function} register - function returned by useForm
-   * @property {function} watch - function returned by useForm
-   * @property {object} errors - errors returned by useForm
-   * @property {boolean} disabled - true if form is not ready to be submitted
-   * @property {AssigneeOption[]} assigneeOptions - assignee options used in ReactSelect component
-   * @property {AssigneeOption} selectedWorker - selected assignee option
-   * @property {string} [selectedHourlyWageAction] - 'set_hourly_wage', 'for_this_task', 'no', 'do_not_ask_again' or ''
-   * @property {number} [hourlyWage] - wage inputted by user
-   * @property {string} currency - currency for the farm
-   * @property {boolean} showHourlyWageInputs - whether to show HourlyWageInputs component or not
-   * @property {boolean} shouldSetWage - whether user needs to set wage or not
-   *
-   * @param {Object} props - hook properties
-   * @param {User} props.user - logged in user
-   * @param {User[]} props.users - users for the farm
-   * @param {boolean} props.isAssigned - whether the task is assigned or not
-   * @param {Object.<string, any>} [props.additionalFields={}] - any inputs with default values needed in the form
-   *     in addition to assignee, hourly wage action and hourly wage. ex. { [ASSIGN_ALL]: false }
-   * @param {number} [props.wage_at_moment] - wage for the task
-   *
-   * @returns {ReturnedObject}
-   *
-   */
-
+/**
+ * Custom hook to interact with AssignTask component.
+ *
+ * @typedef User
+ * @type {object}
+ *
+ * @typedef AssigneeOption
+ * @type {object}
+ * @property {string} label - user name
+ * @property {string} value - userId
+ * @property {boolean} [isDisabled] - whether the user is disabled or not
+ *
+ * @typedef ReturnedObject
+ * @type {object}
+ * @property {function} control - function returned by useForm
+ * @property {function} register - function returned by useForm
+ * @property {function} watch - function returned by useForm
+ * @property {function} setValue - function returned by useForm
+ * @property {function} getValues - function returned by useForm
+ * @property {function} clearErrors - function returned by useForm
+ * @property {function} handleSubmit - function returned by useForm
+ * @property {object} errors - errors returned by useForm
+ * @property {boolean} disabled - true if form is not ready to be submitted
+ * @property {AssigneeOption[]} assigneeOptions - assignee options used in ReactSelect component
+ * @property {AssigneeOption} selectedWorker - selected assignee option
+ * @property {string} [selectedHourlyWageAction] - 'set_hourly_wage', 'for_this_task', 'no', 'do_not_ask_again' or ''
+ * @property {number} [hourlyWage] - wage inputted by user
+ * @property {string} currency - currency for the farm
+ * @property {number} userFarmWage - user's current wage for the farm
+ * @property {boolean} showHourlyWageInputs - whether to show HourlyWageInputs component or not
+ * @property {boolean} shouldSetWage - whether user needs to set wage or not
+ *
+ * @param {Object} props - hook properties
+ * @param {User} props.user - logged in user
+ * @param {User[]} props.users - users for the farm
+ * @param {AssigneeOption} props.defaultAssignee - whether the task is assigned or not
+ * @param {Object.<string, any>} [props.additionalFields={}] - any inputs with default values needed in the form
+ *     in addition to assignee, hourly wage action and hourly wage. ex. { [ASSIGN_ALL]: false }
+ * @param {number} [props.wage_at_moment] - wage for the task
+ * @param {boolean} [props.disableUnAssignedOption] - whether to disable the unassigned option
+ *
+ * @returns {ReturnedObject}
+ *
+ */
+const useTaskAssignForm = ({
+  user,
+  users,
+  additionalFields = {},
+  wage_at_moment,
+  defaultAssignee,
+  disableUnAssignedOption,
+}) => {
   const { t } = useTranslation();
 
   const selfOption = {
@@ -74,10 +86,14 @@ const useTaskAssignForm = ({ user, users, isAssigned, additionalFields = {}, wag
     register,
     watch,
     formState: { isValid, errors },
+    handleSubmit,
+    getValues,
+    setValue,
+    clearErrors,
   } = useForm({
     mode: 'onTouched',
     defaultValues: {
-      [ASSIGNEE]: isAssigned ? unAssignedOption : selfOption,
+      [ASSIGNEE]: defaultAssignee,
       [HOURLY_WAGE_ACTION]: '',
       [HOURLY_WAGE]: null,
       ...additionalFields,
@@ -99,7 +115,7 @@ const useTaskAssignForm = ({ user, users, isAssigned, additionalFields = {}, wag
           value: user_id,
         }))
         .sort((a, b) => (a.label > b.label ? 1 : b.label > a.label ? -1 : 0));
-      unAssignedOption.isDisabled = !isAssigned;
+      unAssignedOption.isDisabled = disableUnAssignedOption;
       options.unshift(unAssignedOption);
       return options;
     } else {
@@ -150,8 +166,13 @@ const useTaskAssignForm = ({ user, users, isAssigned, additionalFields = {}, wag
     selectedHourlyWageAction,
     hourlyWage,
     currency: userData.units?.currency,
+    userFarmWage: userData.wage?.amount,
     showHourlyWageInputs,
     shouldSetWage,
+    handleSubmit,
+    getValues,
+    setValue,
+    clearErrors,
   };
 };
 

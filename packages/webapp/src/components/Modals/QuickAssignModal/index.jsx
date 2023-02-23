@@ -27,6 +27,15 @@ export default function TaskQuickAssignModal({
 }) {
   const { t } = useTranslation();
 
+  const defaultAssignee = useMemo(() => {
+    return isAssigned
+      ? { label: t('TASK.UNASSIGNED'), value: null, isDisabled: false }
+      : {
+          label: `${user.first_name} ${user.last_name}`,
+          value: user.user_id,
+        };
+  }, [isAssigned, user]);
+
   const {
     control,
     register,
@@ -43,9 +52,10 @@ export default function TaskQuickAssignModal({
   } = useTaskAssignForm({
     user,
     users,
-    isAssigned,
     additionalFields: { [ASSIGN_ALL]: false },
     wage_at_moment,
+    defaultAssignee,
+    disableUnAssignedOption: !isAssigned,
   });
 
   const assignAll = watch(ASSIGN_ALL);

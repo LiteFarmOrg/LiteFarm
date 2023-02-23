@@ -776,7 +776,7 @@
     "WHOLE_FARM_REVENUE": "Receita de toda a propriedade"
   },
   "FORM_VALIDATION": {
-    "OVER_200_CHARS": "MISSING"
+    "OVER_255_CHARS": "MISSING"
   },
   "HELP": {
     "ATTACHMENT_LABEL": "Carregar captura de tela ou arquivo",

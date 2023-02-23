@@ -67,19 +67,21 @@ class Sensor extends Model {
     const trx = await transaction.start(Model.knex());
 
     try {
-      const existingSensor = await LocationModel.getSensorLocation(
-        farm_id,
-        partner_id,
-        sensor.external_id,
-        trx,
-      );
-      if (existingSensor) {
-        if (existingSensor.deleted) {
-          await LocationModel.unDeleteLocation(user_id, existingSensor.location_id, trx);
-          existingSensor.deleted = false;
+      if (partner_id !== 0) {
+        const existingSensor = await LocationModel.getSensorLocation(
+          farm_id,
+          partner_id,
+          sensor.external_id,
+          trx,
+        );
+        if (existingSensor) {
+          if (existingSensor.deleted) {
+            await LocationModel.unDeleteLocation(user_id, existingSensor.location_id, trx);
+            existingSensor.deleted = false;
+          }
+          await trx.commit();
+          return existingSensor;
         }
-        await trx.commit();
-        return existingSensor;
       }
       const readingTypes = await Promise.all(
         sensor.reading_types.map(async (r) => {

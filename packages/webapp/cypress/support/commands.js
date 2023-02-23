@@ -517,7 +517,7 @@ Cypress.Commands.add('newUserLogin', (email) => {
   cy.intercept('GET', '**/login/user/' + email, (req) => {
     delete req.headers['if-none-match'];
   }).as('emailLogin');
-  cy.contains('Continue').should('exist').and('be.enabled').click();
+  cy.get('[data-cy=continue]').should('exist').and('be.enabled').click();
 });
 
 Cypress.Commands.add('createAccount', (email, fullName, gender, language, birthYear, password) => {

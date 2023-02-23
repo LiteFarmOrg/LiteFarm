@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
       - name: Deploy beta export server over SSH
-        uses: appleboy/ssh-action@v0.1.7
+        uses: appleboy/ssh-action@v0.1.4
         with:
           host: ${{ secrets.BETA_EXPORT_SERVER_HOST }}
           username: ${{ secrets.BETA_EXPORT_SERVER_USER }}

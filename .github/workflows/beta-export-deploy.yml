@@ -10,9 +10,9 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
       - name: Deploy beta export server over SSH
-        uses: fifsky/ssh-action@master
+        uses: appleboy/ssh-action@v0.1.4
         with:
           host: ${{ secrets.BETA_EXPORT_SERVER_HOST }}
-          user: ${{ secrets.BETA_EXPORT_SERVER_USER }}
+          username: ${{ secrets.BETA_EXPORT_SERVER_USER }}
           key: ${{ secrets.BETA_EXPORT_SERVER_KEY }}
-          command: ${{ secrets.BETA_EXPORT_SERVER_SCRIPT }}
+          script: ${{ secrets.BETA_EXPORT_SERVER_SCRIPT }}

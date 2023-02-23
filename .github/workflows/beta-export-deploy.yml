@@ -2,7 +2,7 @@ name: 'Beta-Export-Server-Deploy'
 on:
   push:
     branches:
-      - integration
+      - LF-2758-export-server-CICD
 
 jobs:
   deploy:

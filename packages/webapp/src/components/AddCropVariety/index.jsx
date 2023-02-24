@@ -80,7 +80,7 @@ export default function PureAddCropVariety({
           {data}
           <Underlined
             onClick={() =>
-              window.location.replace('https://www.litefarm.org/post/cultivars-and-varietals')
+              window.open('https://www.litefarm.org/post/cultivars-and-varietals', '_blank')
             }
             style={{ width: 'fit-content', display: 'inline-block', marginLeft: '3px' }}
           >
@@ -110,9 +110,10 @@ export default function PureAddCropVariety({
         value={progress}
       />
 
-      <div style={{ fontSize: '16px', marginBottom: '20px' }}>
-        <p>{t('translation:CROP.VARIETAL_SUBTITLE')}</p>
-      </div>
+      <p style={{ fontSize: '16px', marginBottom: '20px' }}>
+        {t('translation:CROP.VARIETAL_SUBTITLE')}
+      </p>
+
       <div style={{ display: 'flex' }}>
         <div style={{ width: 'fit-contents', display: 'inline-block', verticalAlign: 'top' }}>
           <img
@@ -127,20 +128,17 @@ export default function PureAddCropVariety({
         </div>
         <div
           className="nameLabel"
-          style={{ display: 'inline-block', marginLeft: '18px', marginTop: '10px' }}
+          style={{ display: 'inline-block', marginLeft: '18px', marginTop: '6px' }}
         >
-          <div
-            className="cropLabel"
-            style={{ weight: '600', fontSize: '18px', marginBottom: '0px' }}
-          >
+          <p className="cropLabel" style={{ weight: '600', fontSize: '18px', marginBottom: '0px' }}>
             {cropNameLabel}
-          </div>
-          <div
+          </p>
+          <p
             className="scientificNameLabel"
             style={{ verticalAlign: 'top', fontStyle: 'italic', fontSize: '16px', height: '18px' }}
           >
             {scientificNameLabel}
-          </div>
+          </p>
         </div>
       </div>
       <Input

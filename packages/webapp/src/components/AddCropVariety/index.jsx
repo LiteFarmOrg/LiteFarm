@@ -11,6 +11,7 @@ import { useForm } from 'react-hook-form';
 import MultiStepPageTitle from '../PageTitle/MultiStepPageTitle';
 import Infoi from '../Tooltip/Infoi';
 import { ReactComponent as ExternalLinkIcon } from '../../assets/images/ExternalLink.svg';
+import { truncateCropVarietalText } from '../../util';
 export default function PureAddCropVariety({
   match,
   onSubmit,
@@ -68,29 +69,9 @@ export default function PureAddCropVariety({
   const cropNameLabel = cropTranslationKey
     ? t(`crop:${cropTranslationKey}`)
     : crop.crop_common_name;
-  const genusForLabel = () => {
-    if (crop.crop_genus) {
-      if (crop.crop_genus.length > 22) {
-        return crop.crop_genus.slice(0, 22) + '...';
-      }
 
-      return crop.crop_genus;
-    }
-
-    return '';
-  };
-  const specieForLabel = () => {
-    if (crop.crop_specie) {
-      if (crop.crop_specie.length > 22) {
-        return crop.crop_specie.slice(0, 22) + '...';
-      }
-
-      return crop.crop_specie;
-    }
-
-    return '';
-  };
-  const scientificNameLabel = genusForLabel() + ' ' + specieForLabel();
+  const scientificNameLabel =
+    truncateCropVarietalText(crop.crop_genus) + ' ' + truncateCropVarietalText(crop.crop_specie);
   const progress = 33;
   const subText = (data) => {
     return (

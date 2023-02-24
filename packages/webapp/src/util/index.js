@@ -65,8 +65,9 @@ const getConvertedString = (
 ) => {
   return measurement === METRIC
     ? `${value} ${metricSymbol ? metricSymbol : convertUnitMetric}`
-    : `${Math.round(convert(value).from(convertUnitMetric).to(convertUnitImperial))} ${imperialSymbol ? imperialSymbol : convertUnitImperial
-    }`;
+    : `${Math.round(convert(value).from(convertUnitMetric).to(convertUnitImperial))} ${
+        imperialSymbol ? imperialSymbol : convertUnitImperial
+      }`;
 };
 
 export const getFirstNameLastName = (fullName) => {
@@ -130,4 +131,14 @@ export const getObjectInnerValues = (data) => {
     }
     return { ...reduced, [k]: data[k] };
   }, {});
+};
+
+export const truncateCropVarietalText = (data) => {
+  if (data) {
+    if (data.length > 22) {
+      return data.slice(0, 22) + '...';
+    }
+    return data;
+  }
+  return '';
 };

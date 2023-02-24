@@ -3,6 +3,14 @@ import fs from 'fs';
 import rp from 'request-promise';
 const surveyStackURL = 'https://app.surveystack.io/api/';
 
+// Add cookies to the SurveyStack requests
+rp.defaults({ jar: true });
+const cookiejar = rp.jar();
+cookiejar.setCookie(
+  `user=${process.env.SURVEY_USER}; token=${process.env.SURVEY_TOKEN};`,
+  'https://app.surveystack.io',
+);
+
 export default (nextQueue, emailQueue) => async (job) => {
   console.log('STEP 3 > PDF');
   const {

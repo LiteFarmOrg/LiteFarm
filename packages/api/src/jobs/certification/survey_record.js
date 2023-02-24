@@ -2,6 +2,14 @@ import XlsxPopulate from 'xlsx-populate';
 import rp from 'request-promise';
 const surveyStackURL = 'https://app.surveystack.io/api/';
 
+// Add cookies to the SurveyStack requests
+rp.defaults({ jar: true });
+const cookiejar = rp.jar();
+cookiejar.setCookie(
+  `user=${process.env.SURVEY_USER}; token=${process.env.SURVEY_TOKEN};`,
+  'https://app.surveystack.io',
+);
+
 export default async (emailQueue, submission, exportId, organicCertifierSurvey) => {
   if (!submission) {
     emailQueue.add({ fail: true });

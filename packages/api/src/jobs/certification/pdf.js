@@ -4,12 +4,9 @@ import rp from 'request-promise';
 const surveyStackURL = 'https://app.surveystack.io/api/';
 
 // Add cookies to the SurveyStack requests
-rp.defaults({ jar: true });
 const cookiejar = rp.jar();
-cookiejar.setCookie(
-  `user=${process.env.SURVEY_USER}; token=${process.env.SURVEY_TOKEN};`,
-  'https://app.surveystack.io',
-);
+cookiejar.setCookie(`user=${process.env.SURVEY_USER}`, 'https://app.surveystack.io');
+cookiejar.setCookie(`token=${process.env.SURVEY_TOKEN}`, 'https://app.surveystack.io');
 
 export default (nextQueue, emailQueue) => async (job) => {
   console.log('STEP 3 > PDF');
@@ -27,15 +24,24 @@ export default (nextQueue, emailQueue) => async (job) => {
   const submission = await rp({
     uri: `${surveyStackURL}/submissions/${job.data.submission}`,
     json: true,
+    jar: cookiejar,
   });
+
   const survey = await rp({
     uri: `${surveyStackURL}/surveys/${submission.meta.survey.id}`,
     json: true,
+    jar: cookiejar,
   });
+
   if (!submission || !survey) {
     emailQueue.add({ fail: true });
     return Promise.resolve();
   }
+
+  if (!Object.keys(submission.data).length) {
+    console.error(`No data was returned from submission ${job.data.submission}`);
+  }
+
   const questionAnswerMap = survey.revisions[survey.revisions.length - 1].controls.reduce(
     (obj, { label, name }) => ({
       ...obj,

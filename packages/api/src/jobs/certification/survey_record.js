@@ -3,12 +3,9 @@ import rp from 'request-promise';
 const surveyStackURL = 'https://app.surveystack.io/api/';
 
 // Add cookies to the SurveyStack requests
-rp.defaults({ jar: true });
 const cookiejar = rp.jar();
-cookiejar.setCookie(
-  `user=${process.env.SURVEY_USER}; token=${process.env.SURVEY_TOKEN};`,
-  'https://app.surveystack.io',
-);
+cookiejar.setCookie(`user=${process.env.SURVEY_USER}`, 'https://app.surveystack.io');
+cookiejar.setCookie(`token=${process.env.SURVEY_TOKEN}`, 'https://app.surveystack.io');
 
 export default async (emailQueue, submission, exportId, organicCertifierSurvey) => {
   if (!submission) {
@@ -19,11 +16,13 @@ export default async (emailQueue, submission, exportId, organicCertifierSurvey) 
   const submissionData = await rp({
     uri: `${surveyStackURL}/submissions/${submission}`,
     json: true,
+    jar: cookiejar,
   });
 
   const survey = await rp({
     uri: `${surveyStackURL}/surveys/${submissionData.meta.survey.id}`,
     json: true,
+    jar: cookiejar,
   });
 
   const ignoredQuestions = [

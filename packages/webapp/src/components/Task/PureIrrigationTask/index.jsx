@@ -77,8 +77,7 @@ export default function PureIrrigationTask({
         value: irrigationType.irrigation_type_name,
         label: defaultIrrigationTaskTypes.includes(irrigationType.irrigation_type_name)
           ? t(`ADD_TASK.IRRIGATION_VIEW.TYPE.${irrigationType.irrigation_type_name}`)
-          // is the false case here really needed?
-          : t(irrigationType.irrigation_type_name),
+          : irrigationType.irrigation_type_name,
         default_measuring_type: irrigationType.default_measuring_type,
         irrigation_type_id: irrigationType.irrigation_type_id,
       };

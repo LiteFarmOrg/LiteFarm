@@ -7,20 +7,20 @@ const cookiejar = rp.jar();
 cookiejar.setCookie(`user=${process.env.SURVEY_USER}`, 'https://app.surveystack.io');
 cookiejar.setCookie(`token=${process.env.SURVEY_TOKEN}`, 'https://app.surveystack.io');
 
-export default async (emailQueue, submission, exportId, organicCertifierSurvey) => {
+export default async (emailQueue, submission, exportId, organicCertifierSurvey, certifier) => {
   if (!submission) {
     emailQueue.add({ fail: true });
     return Promise.resolve();
   }
 
-  const submissionData = await rp({
-    uri: `${surveyStackURL}/submissions/${submission}`,
+  const [submissionData] = await rp({
+    uri: `${surveyStackURL}/submissions?survey=${certifier.survey_id}&match={"_id":{"$oid":"${submission}"}}`,
     json: true,
     jar: cookiejar,
   });
 
   const survey = await rp({
-    uri: `${surveyStackURL}/surveys/${submissionData.meta.survey.id}`,
+    uri: `${surveyStackURL}/surveys/${certifier.survey_id}`,
     json: true,
     jar: cookiejar,
   });

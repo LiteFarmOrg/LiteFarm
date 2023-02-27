@@ -21,14 +21,15 @@ export default (nextQueue, emailQueue) => async (job) => {
     headless: true,
     ignoreDefaultArgs: ['--disable-extensions'],
   });
-  const submission = await rp({
-    uri: `${surveyStackURL}/submissions/${job.data.submission}`,
+
+  const [submission] = await rp({
+    uri: `${surveyStackURL}/submissions?survey=${certifier.survey_id}&match={"_id":{"$oid":"${job.data.submission}"}}`,
     json: true,
     jar: cookiejar,
   });
 
   const survey = await rp({
-    uri: `${surveyStackURL}/surveys/${submission.meta.survey.id}`,
+    uri: `${surveyStackURL}/surveys/${certifier.survey_id}`,
     json: true,
     jar: cookiejar,
   });

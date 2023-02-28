@@ -76,7 +76,7 @@ export default function PureAddCropVariety({
   const subText = (data) => {
     return (
       <>
-        <div style={{ width: 'fit-content', display: 'inline-block', height: '18px' }}>
+        <div style={{ width: 'fit-content', display: 'inline-block' }}>
           {data}
           <Underlined
             onClick={() =>
@@ -87,7 +87,13 @@ export default function PureAddCropVariety({
             {t('common:HERE').toLowerCase()}
           </Underlined>
           <ExternalLinkIcon
-            style={{ width: '15px', height: '15px', padding: '0px', marginLeft: '2px' }}
+            style={{
+              width: '15px',
+              height: '15px',
+              marginLeft: '2px',
+              position: 'absolute',
+              bottom: '2px',
+            }}
           />
         </div>
       </>
@@ -114,8 +120,8 @@ export default function PureAddCropVariety({
         {t('translation:CROP.VARIETAL_SUBTITLE')}
       </p>
 
-      <div style={{ display: 'flex' }}>
-        <div style={{ width: 'fit-contents', display: 'inline-block', verticalAlign: 'top' }}>
+      <div style={{ display: 'flex', position: 'relative' }}>
+        <div style={{ width: 'fit-contents', display: 'inline-block' }}>
           <img
             src={crop.crop_photo_url}
             alt={crop.crop_common_name}
@@ -128,9 +134,18 @@ export default function PureAddCropVariety({
         </div>
         <div
           className="nameLabel"
-          style={{ display: 'inline-block', marginLeft: '18px', marginTop: '6px' }}
+          style={{
+            display: 'inline-block',
+            position: 'absolute',
+            top: '48%',
+            transform: 'translateY(-50%)',
+            left: '140px',
+          }}
         >
-          <p className="cropLabel" style={{ weight: '600', fontSize: '18px', marginBottom: '0px' }}>
+          <p
+            className="cropLabel"
+            style={{ fontWeight: '600', fontSize: '18px', marginBottom: '0px' }}
+          >
             {cropNameLabel}
           </p>
           <p
@@ -143,7 +158,7 @@ export default function PureAddCropVariety({
       </div>
       <Input
         data-cy="crop-variety"
-        style={{ marginBottom: '40px' }}
+        style={{ marginBottom: '40px', marginTop: '40px' }}
         label={t('CROP.VARIETY_COMMON_NAME')}
         type="text"
         hookFormRegister={commonNameRegister}
@@ -189,9 +204,9 @@ export default function PureAddCropVariety({
         style={{
           marginLeft: 'auto',
           marginRight: 'auto',
-          marginBottom: '24px',
+          marginBottom: '45px',
           display: 'flex',
-          width: 'fit-content',
+          width: 'inherit',
           fontSize: '16px',
           color: 'var(--iconActive)',
           lineHeight: '16px',
@@ -202,13 +217,7 @@ export default function PureAddCropVariety({
           hookFormRegister: imageUrlRegister,
           targetRoute: 'crop',
         })}
-        <Infoi
-          style={{
-            width: 'fit-content',
-            display: 'inline-block',
-          }}
-          content={t('CROP.VARIETAL_IMAGE_INFO')}
-        />
+        <Infoi content={t('CROP.VARIETAL_IMAGE_INFO')} />
       </div>
 
       <Input

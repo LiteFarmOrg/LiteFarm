@@ -8,7 +8,7 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: 'row',
     justifyContent: 'space-between',
     minWidth: 200,
-    padding: 5,
+    padding: '8px 8px 2px 8px',
   },
   highlight: {
     display: 'flex',

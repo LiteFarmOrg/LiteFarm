@@ -5,6 +5,8 @@ import PropTypes from 'prop-types';
 import Infoi from '../Tooltip/Infoi';
 import { ReactComponent as Leaf } from '../../assets/images/farmMapFilter/Leaf.svg';
 import { ReactComponent as Pencil } from '../../assets/images/managementPlans/pencil.svg';
+import { useTranslation } from 'react-i18next';
+import { ReactComponent as ExternalLinkIcon } from '../../assets/images/ExternalLink.svg';
 
 type TypographyProps = {
   style?: object;
@@ -203,5 +205,34 @@ export const Text = ({ children = 'Text', className = '', style, ...props }: Typ
     <p className={clsx(styles.text, className)} style={style} {...props}>
       {children}
     </p>
+  );
+};
+
+export const SubText = ({ children = 'SubText', className = '', style, ...props }) => {
+  const { t } = useTranslation(['translation', 'common', 'crop']);
+
+  return (
+    <>
+      <div style={{ width: 'fit-content', display: 'inline-block' }}>
+        {children}
+        <Underlined
+          onClick={() =>
+            window.open('https://www.litefarm.org/post/cultivars-and-varietals', '_blank')
+          }
+          style={{ width: 'fit-content', display: 'inline-block', marginLeft: '3px' }}
+        >
+          {t('common:HERE').toLowerCase()}
+        </Underlined>
+        <ExternalLinkIcon
+          style={{
+            width: '15px',
+            height: '15px',
+            marginLeft: '2px',
+            position: 'absolute',
+            bottom: '2px',
+          }}
+        />
+      </div>
+    </>
   );
 };

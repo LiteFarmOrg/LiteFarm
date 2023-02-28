@@ -10,7 +10,6 @@ import Form from '../Form';
 import { useForm } from 'react-hook-form';
 import MultiStepPageTitle from '../PageTitle/MultiStepPageTitle';
 import Infoi from '../Tooltip/Infoi';
-import { ReactComponent as ExternalLinkIcon } from '../../assets/images/ExternalLink.svg';
 import { truncateCropVarietalText } from '../../util';
 export default function PureAddCropVariety({
   match,
@@ -73,32 +72,7 @@ export default function PureAddCropVariety({
   const scientificNameLabel =
     truncateCropVarietalText(crop.crop_genus) + ' ' + truncateCropVarietalText(crop.crop_specie);
   const progress = 33;
-  const subText = (data) => {
-    return (
-      <>
-        <div style={{ width: 'fit-content', display: 'inline-block' }}>
-          {data}
-          <Underlined
-            onClick={() =>
-              window.open('https://www.litefarm.org/post/cultivars-and-varietals', '_blank')
-            }
-            style={{ width: 'fit-content', display: 'inline-block', marginLeft: '3px' }}
-          >
-            {t('common:HERE').toLowerCase()}
-          </Underlined>
-          <ExternalLinkIcon
-            style={{
-              width: '15px',
-              height: '15px',
-              marginLeft: '2px',
-              position: 'absolute',
-              bottom: '2px',
-            }}
-          />
-        </div>
-      </>
-    );
-  };
+
   return (
     <Form
       buttonGroup={
@@ -173,7 +147,7 @@ export default function PureAddCropVariety({
         errors={getInputErrors(errors, 'crop_varietal')}
         hasLeaf={false}
         optional
-        info={subText(t('CROP.VARIETAL_SUBTEXT'))}
+        subText={t('CROP.VARIETAL_SUBTEXT')}
         placeholder={t('CROP.VARIETAL_PLACEHOLDER')}
       />
       <Input
@@ -185,7 +159,7 @@ export default function PureAddCropVariety({
         errors={getInputErrors(errors, 'crop_cultivar')}
         hasLeaf={false}
         optional
-        info={subText(t('CROP.CULTIVAR_SUBTEXT'))}
+        subText={t('CROP.CULTIVAR_SUBTEXT')}
         placeholder={t('CROP.CULTIVAR_PLACEHOLDER')}
         hideOnFocus
       />

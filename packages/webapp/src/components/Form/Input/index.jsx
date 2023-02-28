@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import styles from './input.module.scss';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
-import { Error, Info, Label } from '../../Typography';
+import { Error, Info, Label, SubText } from '../../Typography';
 import { Cross } from '../../Icons';
 import { MdVisibility, MdVisibilityOff } from 'react-icons/md';
 import { BiSearchAlt2 } from 'react-icons/bi';
@@ -14,6 +14,7 @@ import { get } from 'react-hook-form';
 import i18n from '../../../locales/i18n';
 
 const Input = ({
+  subText,
   openCalendar,
   disabled = false,
   classes = {},
@@ -165,6 +166,7 @@ const Input = ({
           {errors}
         </Error>
       ) : null}
+      {subText ? <SubText>{subText}</SubText> : null}
     </div>
   );
 };

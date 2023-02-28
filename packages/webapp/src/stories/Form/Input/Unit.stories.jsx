@@ -1,5 +1,6 @@
 import React from 'react';
-import Unit, { getUnitOptionMap } from '../../../components/Form/Unit';
+import Unit from '../../../components/Form/Unit';
+import { getUnitOptionMap } from '../../../util/convert-units/getUnitOptionMap';
 import { componentDecorators } from '../../Pages/config/Decorators';
 import { bufferZoneEnum, fieldEnum, waterValveEnum } from '../../../containers/constants';
 import {

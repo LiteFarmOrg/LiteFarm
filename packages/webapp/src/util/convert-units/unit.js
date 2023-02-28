@@ -1,4 +1,4 @@
-import { getUnitOptionMap } from '../../components/Form/Unit';
+import { getUnitOptionMap } from './getUnitOptionMap';
 import { convert } from './convert';
 
 const METRIC = 'metric';

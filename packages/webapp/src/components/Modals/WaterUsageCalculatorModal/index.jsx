@@ -5,7 +5,8 @@ import { ReactComponent as Calculator } from '../../../assets/images/task/Calcul
 import styles from '../QuickAssignModal/styles.module.scss';
 import Button from '../../Form/Button';
 import PropTypes from 'prop-types';
-import Unit, { getUnitOptionMap } from '../../Form/Unit';
+import Unit from '../../Form/Unit';
+import { getUnitOptionMap } from '../../../util/convert-units/getUnitOptionMap';
 import {
   irrigation_task_estimated_duration,
   irrigation_depth,

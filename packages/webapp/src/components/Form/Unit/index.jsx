@@ -13,65 +13,22 @@
  *  GNU General Public License for more details, see <<https://www.gnu.org/licenses/>.>
  */
 
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useMemo } from 'react';
 import styles from './unit.module.scss';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import { Error, Info, Label } from '../../Typography';
 import { Cross } from '../../Icons';
 import { useTranslation } from 'react-i18next';
-import i18n from '../../../locales/i18n';
 import { integerOnKeyDown, numberOnKeyDown, preventNumberScrolling } from '../Input';
 import Select from 'react-select';
 import { styles as reactSelectDefaultStyles } from '../ReactSelect';
-import {
-  area_total_area,
-  getDefaultUnit,
-  roundToTwoDecimal,
-} from '../../../util/convert-units/unit';
+import { area_total_area } from '../../../util/convert-units/unit';
 import Infoi from '../../Tooltip/Infoi';
-import { Controller, get, useFormState } from 'react-hook-form';
+import { Controller } from 'react-hook-form';
 import { ReactComponent as Leaf } from '../../../assets/images/signUp/leaf.svg';
-import { convert } from '../../../util/convert-units/convert';
+import useUnit from './useUnit';
 
-export const getUnitOptionMap = () => ({
-  h: { label: 'h', value: 'h' },
-  min: { label: 'm', value: 'min' },
-  deg: { label: '%', value: '%' },
-  mm: { label: 'mm', value: 'mm' },
-  m2: { label: 'm²', value: 'm2' },
-  ha: { label: 'ha', value: 'ha' },
-  ft2: { label: 'ft²', value: 'ft2' },
-  ac: { label: 'ac', value: 'ac' },
-  cm: { label: 'cm', value: 'cm' },
-  m: { label: 'm', value: 'm' },
-  km: { label: 'km', value: 'km' },
-  in: { label: 'in', value: 'in' },
-  ft: { label: 'ft', value: 'ft' },
-  'fl-oz': { label: 'fl oz', value: 'fl-oz' },
-  gal: { label: 'gal', value: 'gal' },
-  l: { label: 'l', value: 'l' },
-  ml: { label: 'ml', value: 'ml' },
-  mi: { label: 'mi', value: 'mi' },
-  'l/min': { label: 'l/m', value: 'l/min' },
-  'l/h': { label: 'l/h', value: 'l/h' },
-  'gal/min': { label: 'g/m', value: 'gal/min' },
-  'gal/h': { label: 'g/h', value: 'gal/h' },
-  g: { label: 'g', value: 'g' },
-  kg: { label: 'kg', value: 'kg' },
-  mt: { label: 'mt', value: 'mt' },
-  oz: { label: 'oz', value: 'oz' },
-  lb: { label: 'lb', value: 'lb' },
-  t: { label: 't', value: 't' },
-  d: { label: i18n.t('UNIT.TIME.DAY'), value: 'd' },
-  year: { label: i18n.t('UNIT.TIME.YEAR'), value: 'year' },
-  week: { label: i18n.t('UNIT.TIME.WEEK'), value: 'week' },
-  month: { label: i18n.t('UNIT.TIME.MONTH'), value: 'month' },
-});
-
-const getOptions = (unitType = area_total_area, system) => {
-  return unitType[system].units.map((unit) => getUnitOptionMap()[unit]);
-};
 const getOnKeyDown = (measure) => {
   switch (measure) {
     case 'time':
@@ -168,143 +125,38 @@ const Unit = ({
   ...props
 }) => {
   const { t } = useTranslation(['translation', 'common']);
-  const onClear = () => {
-    setVisibleInputValue('');
-    hookFormSetHiddenValue('', { shouldClearError: !optional, shouldValidate: optional });
-  };
-
-  const [showError, setShowError] = useState();
-  const [isDirty, setDirty] = useState();
-  const { errors } = useFormState({ control });
-  const error = get(errors, name);
-
-  useEffect(() => {
-    setShowError(!!error && !disabled && isDirty);
-  }, [error]);
 
   const {
-    displayUnit,
-    displayValue,
+    onClear,
+    showError,
     options,
-    databaseUnit,
     isSelectDisabled,
+    visibleInputValue,
+    inputOnChange,
+    getMax,
     measure,
-    reactSelectWidth,
-  } = useMemo(() => {
-    const databaseUnit = defaultValueUnit ?? unitType.databaseUnit;
-    const options = getOptions(unitType, system);
-    const hookFormValue = hookFormGetValue(name);
-    const value = hookFormValue || (hookFormValue === 0 ? 0 : defaultValue);
-    const isSelectDisabled = options.length <= 1;
-    const measure = convert().describe(databaseUnit)?.measure;
-    const reactSelectWidth = getReactSelectWidth(measure);
-    return to && convert().describe(to)?.system === system
-      ? {
-          displayUnit: to,
-          displayValue: defaultValue && roundToTwoDecimal(convert(value).from(databaseUnit).to(to)),
-          options,
-          databaseUnit,
-          isSelectDisabled,
-          measure,
-          reactSelectWidth,
-        }
-      : {
-          ...getDefaultUnit(unitType, value, system, databaseUnit),
-          options,
-          databaseUnit,
-          isSelectDisabled,
-          measure,
-          reactSelectWidth,
-        };
-  }, []);
+    hookFormValue,
+  } = useUnit({
+    disabled,
+    name,
+    displayUnitName,
+    hookFormSetValue,
+    hookFormGetValue,
+    hookFromWatch,
+    defaultValue,
+    system,
+    control,
+    unitType,
+    from: defaultValueUnit,
+    to,
+    required,
+    optional,
+    mode,
+    max,
+  });
+
+  const reactSelectWidth = getReactSelectWidth(measure);
   const reactSelectStyles = useReactSelectStyles(disabled, { reactSelectWidth });
-
-  const hookFormUnitOption = hookFromWatch(displayUnitName);
-  const hookFormUnit = databaseUnit;
-  useEffect(() => {
-    if (typeof hookFormUnitOption === 'string' && getUnitOptionMap()[hookFormUnitOption]) {
-      hookFormSetValue(displayUnitName, getUnitOptionMap()[hookFormUnitOption]);
-    }
-  }, []);
-  useEffect(() => {
-    if (hookFormUnit && convert().describe(hookFormUnit)?.system !== system && measure !== 'time') {
-      hookFormSetValue(displayUnitName, getUnitOptionMap()[displayUnit]);
-    }
-  }, [hookFormUnit]);
-
-  useEffect(() => {
-    !hookFormGetValue(displayUnitName) &&
-      hookFormSetValue(displayUnitName, getUnitOptionMap()[displayUnit]);
-  }, []);
-
-  const [visibleInputValue, setVisibleInputValue] = useState(displayValue);
-  const hookFormValue = hookFromWatch(name, defaultValue);
-
-  useEffect(() => {
-    hookFormSetHiddenValue(hookFormValue, { shouldValidate: true, shouldDirty: false });
-  }, []);
-
-  useEffect(() => {
-    if (hookFormUnit && hookFormValue !== undefined) {
-      setVisibleInputValue(
-        roundToTwoDecimal(convert(hookFormValue).from(databaseUnit).to(hookFormUnit)),
-      );
-      //Trigger validation
-      (hookFormValue === 0 || hookFormValue > 0) && hookFormSetHiddenValue(hookFormValue);
-    }
-  }, [hookFormUnit]);
-
-  const inputOnChange = (e) => {
-    setVisibleInputValue(e.target.value);
-    mode === 'onChange' && inputOnBlur(e);
-  };
-
-  const hookFormSetHiddenValue = useCallback(
-    (value, { shouldDirty = false, shouldValidate = true, shouldClearError } = {}) => {
-      //FIXME: walk around for racing condition on add management plan pages LF-1883
-      hookFormSetValue(name, value, {
-        shouldValidate: false,
-        shouldDirty: false,
-      });
-      //TODO: refactor location form pages to use hookForm default value and <HookFormPersistProvider/>
-      !disabled &&
-        setTimeout(() => {
-          hookFormSetValue(name, value, {
-            shouldValidate: !shouldClearError && shouldValidate,
-            shouldDirty,
-          });
-          shouldClearError && setShowError(false);
-        }, 0);
-    },
-    [name],
-  );
-
-  const inputOnBlur = (e) => {
-    if (required && e.target.value === '') {
-      hookFormSetHiddenValue('');
-    } else if (e.target.value === '') {
-      hookFormSetValue(name, '', { shouldValidate: true });
-      setVisibleInputValue('');
-    } else {
-      hookFormSetHiddenValue(convert(e.target.value).from(hookFormUnit).to(databaseUnit), {
-        shouldDirty: true,
-      });
-    }
-    if (!isDirty) setDirty(true);
-  };
-  useEffect(() => {
-    if (databaseUnit && hookFormUnit) {
-      setVisibleInputValue(
-        hookFormValue > 0 || hookFormValue === 0
-          ? roundToTwoDecimal(convert(hookFormValue).from(databaseUnit).to(hookFormUnit))
-          : '',
-      );
-    }
-  }, [hookFormValue]);
-
-  const getMax = useCallback(() => {
-    return hookFormUnit ? convert(max).from(hookFormUnit).to(databaseUnit) : max;
-  }, [hookFormUnit, max, databaseUnit]);
 
   return (
     <div className={clsx(styles.container)} style={{ ...style, ...classes.container }}>

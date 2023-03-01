@@ -3,11 +3,6 @@ import fs from 'fs';
 import rp from 'request-promise';
 const surveyStackURL = 'https://app.surveystack.io/api/';
 
-// Add cookies to the SurveyStack requests
-const cookiejar = rp.jar();
-cookiejar.setCookie(`user=${process.env.SURVEY_USER}`, 'https://app.surveystack.io');
-cookiejar.setCookie(`token=${process.env.SURVEY_TOKEN}`, 'https://app.surveystack.io');
-
 export default (nextQueue, emailQueue) => async (job) => {
   console.log('STEP 3 > PDF');
   const {
@@ -25,13 +20,13 @@ export default (nextQueue, emailQueue) => async (job) => {
   const [submission] = await rp({
     uri: `${surveyStackURL}/submissions?survey=${certifier.survey_id}&match={"_id":{"$oid":"${job.data.submission}"}}`,
     json: true,
-    jar: cookiejar,
+    headers: { Authorization: `${process.env.SURVEY_USER} ${process.env.SURVEY_TOKEN}` },
   });
 
   const survey = await rp({
     uri: `${surveyStackURL}/surveys/${certifier.survey_id}`,
     json: true,
-    jar: cookiejar,
+    headers: { Authorization: `${process.env.SURVEY_USER} ${process.env.SURVEY_TOKEN}` },
   });
 
   if (!submission || !survey) {

@@ -89,7 +89,7 @@ export default function PureTaskComplete({
           };
         }
         if (isIrrigationLocation)
-          data.location_id = persistedFormData.location_defaults[0].location_id;
+          data.location_id = persistedFormData.locations[0].location_id;
         onSave(data);
       })}
     >

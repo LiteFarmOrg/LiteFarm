@@ -20,6 +20,10 @@ export default async (emailQueue, submission, exportId, organicCertifierSurvey, 
     headers: { Authorization: `${process.env.SURVEY_USER} ${process.env.SURVEY_TOKEN}` },
   });
 
+  if (!Object.keys(submissionData.data).length) {
+    console.error(`No data was returned from submission ${submission}`);
+  }
+
   const ignoredQuestions = [
     'geoJSON',
     'script',

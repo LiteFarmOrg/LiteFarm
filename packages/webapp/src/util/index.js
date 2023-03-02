@@ -133,12 +133,12 @@ export const getObjectInnerValues = (data) => {
   }, {});
 };
 
-export const truncateCropVarietalText = (data) => {
-  if (data) {
-    if (data.length > 22) {
-      return data.slice(0, 22) + '...';
+export const truncateText = (text, length) => {
+  if (text) {
+    if (text.length > length) {
+      return text.slice(0, 22) + '...';
     }
-    return data;
+    return text;
   }
   return '';
 };

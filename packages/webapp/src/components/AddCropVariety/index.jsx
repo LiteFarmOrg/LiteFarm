@@ -10,7 +10,7 @@ import Form from '../Form';
 import { useForm } from 'react-hook-form';
 import MultiStepPageTitle from '../PageTitle/MultiStepPageTitle';
 import Infoi from '../Tooltip/Infoi';
-import { truncateCropVarietalText } from '../../util';
+import { truncateText } from '../../util';
 export default function PureAddCropVariety({
   match,
   onSubmit,
@@ -70,7 +70,7 @@ export default function PureAddCropVariety({
     : crop.crop_common_name;
 
   const scientificNameLabel =
-    truncateCropVarietalText(crop.crop_genus) + ' ' + truncateCropVarietalText(crop.crop_specie);
+    truncateText(crop.crop_genus, 22) + ' ' + truncateText(crop.crop_specie, 22);
   const progress = 33;
 
   return (

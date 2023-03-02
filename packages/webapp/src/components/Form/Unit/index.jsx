@@ -137,6 +137,7 @@ const Unit = ({
     measure,
     hookFormValue,
     inputOnBlur,
+    isDirty,
     setDirty,
     error,
   } = useUnit({

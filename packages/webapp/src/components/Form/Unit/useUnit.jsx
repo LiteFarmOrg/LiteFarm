@@ -183,6 +183,7 @@ const useUnit = ({
     getMax,
     measure,
     hookFormValue,
+    isDirty,
     setDirty,
     inputOnBlur,
     error,

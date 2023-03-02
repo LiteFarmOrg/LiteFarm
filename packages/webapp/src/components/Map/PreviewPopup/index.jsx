@@ -38,7 +38,7 @@ const useStyles = makeStyles((theme) => ({
   tooltip: {
     position: 'absolute',
     left: -104,
-    top: 10,
+    top: 30,
     pointerEvents: 'initial',
     backgroundColor: 'white',
     boxShadow: '2px 6px 12px rgba(102, 115, 138, 0.2)',
@@ -56,9 +56,18 @@ const useStyles = makeStyles((theme) => ({
     width: '290px',
     left: -140,
   },
+  header: {
+    padding: '8px 8px 0 8px',
+  },
+  title: {
+    paddingBottom: '8px',
+    fontWeight: 'bold',
+    borderBottom: '1px solid',
+    borderBottomColor: 'var(--grey400)',
+  },
   body: {
     position: 'relative',
-    padding: 5,
+    paddingBottom: 8,
   },
 }));
 
@@ -110,6 +119,9 @@ export default function PurePreviewPopup({ location, history, sensorReadings, st
           style={styleOverride}
         >
           <div className={classes.arrow} />
+          <div className={classes.header}>
+            <div className={classes.title}>{location.name}</div>
+          </div>
           <div className={classes.body}>
             {reading_types?.includes(TEMPERATURE) && (
               <CompactPreview

@@ -183,17 +183,20 @@ const useUnit = ({
     getMax,
     measure,
     hookFormValue,
+    setDirty,
+    inputOnBlur,
+    error,
   };
 };
 
 useUnit.propTypes = {
   disabled: PropTypes.bool,
   name: PropTypes.string,
-  displayUnitName: '?',
+  displayUnitName: PropTypes.string,
   hookFormSetValue: PropTypes.func,
   hookFormGetValue: PropTypes.func,
   hookFromWatch: PropTypes.func,
-  defaultValue: '?',
+  defaultValue: PropTypes.number,
   system: PropTypes.oneOf(['imperial', 'metric']).isRequired,
   control: PropTypes.func,
   unitType: PropTypes.shape({

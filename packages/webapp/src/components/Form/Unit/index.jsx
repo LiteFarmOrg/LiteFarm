@@ -136,6 +136,9 @@ const Unit = ({
     getMax,
     measure,
     hookFormValue,
+    inputOnBlur,
+    setDirty,
+    error,
   } = useUnit({
     disabled,
     name,

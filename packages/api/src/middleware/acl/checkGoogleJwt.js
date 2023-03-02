@@ -20,7 +20,7 @@ async function checkGoogleJwt(req, res, next) {
     }
   }
 
-  // Original flow & Sign in with Google Button on main login page
+  // Sign in with Google Button on main login page
   try {
     const ticket = await client.verifyIdToken({
       idToken: token,

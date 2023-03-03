@@ -1,6 +1,7 @@
-import { createSlice, createEntityAdapter } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
+  loading: false,
   sensorsReadings: {},
   selectedSensorName: '',
   latestMinTemperature: null,
@@ -12,74 +13,64 @@ const initialState = {
   activeReadingTypes: [],
 };
 
-const sensorReadingAdapter = createEntityAdapter({
-  selectId: (sensorReading) => sensorReading.reading_id,
-});
-
 const bulkSensorsReadingsSlice = createSlice({
   name: 'bulkSensorsReadingsReducer',
-  initialState: sensorReadingAdapter.getInitialState({
-    loading: false,
-    error: undefined,
-    loaded: false,
-    ...initialState,
-  }),
+  initialState,
   reducers: {
-    resetBulkSensorReadingsStates: (state, { payload }) => {
-      state.loading = false;
-      state.error = null;
-      state.loaded = true;
-      state.sensorsReadings = {};
-      state.selectedSensorName = '';
-      state.latestMinTemperature = null;
-      state.latestMaxTemperature = null;
-      state.nearestStationName = '';
-      state.lastUpdatedReadingsTime = {};
-      state.predictedXAxisLabel = '';
-      state.xAxisLabel = {};
-      state.activeReadingTypes = [];
+    resetBulkSensorReadingsStates: (state, action) => {
+      Object.assign(state, {
+        loading: false,
+        sensorsReadings: {},
+        selectedSensorName: '',
+        latestMinTemperature: null,
+        latestMaxTemperature: null,
+        nearestStationName: '',
+        lastUpdatedReadingsTime: {},
+        predictedXAxisLabel: '',
+        xAxisLabel: {},
+        activeReadingTypes: [],
+      });
     },
-    bulkSensorReadingsLoading: (state, { payload }) => {
-      state.loading = true;
-      state.error = null;
-      state.loaded = false;
-      state.sensorsReadings = {};
-      state.selectedSensorName = '';
-      state.latestMinTemperature = null;
-      state.latestMaxTemperature = null;
-      state.nearestStationName = '';
-      state.lastUpdatedReadingsTime = {};
-      state.predictedXAxisLabel = '';
-      state.xAxisLabel = {};
-      state.activeReadingTypes = [];
+    bulkSensorReadingsLoading: (state, action) => {
+      Object.assign(state, {
+        loading: true,
+        sensorsReadings: {},
+        selectedSensorName: '',
+        latestMinTemperature: null,
+        latestMaxTemperature: null,
+        nearestStationName: '',
+        lastUpdatedReadingsTime: {},
+        predictedXAxisLabel: '',
+        xAxisLabel: {},
+        activeReadingTypes: [],
+      });
     },
     bulkSensorReadingsSuccess: (state, { payload }) => {
-      state.loading = false;
-      state.error = null;
-      state.sensorsReadings = payload?.sensorReadings;
-      state.selectedSensorName = payload?.selectedSensorName;
-      state.latestMinTemperature = payload?.latestTemperatureReadings?.tempMin;
-      state.latestMaxTemperature = payload?.latestTemperatureReadings?.tempMax;
-      state.nearestStationName = payload?.nearestStationName;
-      state.lastUpdatedReadingsTime = payload?.lastUpdatedReadingsTime;
-      state.predictedXAxisLabel = payload?.predictedXAxisLabel;
-      state.xAxisLabel = payload?.xAxisLabel;
-      state.activeReadingTypes = payload?.activeReadingTypes;
-      state.loaded = true;
+      if (state.loading) {
+        Object.assign(state, {
+          loading: false,
+          sensorsReadings: payload?.sensorReadings,
+          selectedSensorName: payload?.selectedSensorName,
+          latestMinTemperature: payload?.latestTemperatureReadings?.tempMin,
+          latestMaxTemperature: payload?.latestTemperatureReadings?.tempMax,
+          nearestStationName: payload?.nearestStationName,
+          lastUpdatedReadingsTime: payload?.lastUpdatedReadingsTime,
+          predictedXAxisLabel: payload?.predictedXAxisLabel,
+          xAxisLabel: payload?.xAxisLabel,
+          activeReadingTypes: payload?.activeReadingTypes,
+        });
+      }
     },
-    bulkSensorReadingsFailure: (state, { payload: error }) => {
-      state.loading = false;
-      state.error = error;
-      state.loaded = true;
+    bulkSensorReadingsFailure: (state, action) => {
+      state.loading = true;
       state.sensorsReadings = {};
       state.selectedSensorName = '';
-      state.latestMinTemperature = null;
-      state.latestMaxTemperature = null;
       state.nearestStationName = '';
       state.lastUpdatedReadingsTime = {};
       state.predictedXAxisLabel = '';
       state.xAxisLabel = {};
       state.activeReadingTypes = [];
+      (state.latestMinTemperature = null), (state.latestMaxTemperature = null);
     },
   },
 });

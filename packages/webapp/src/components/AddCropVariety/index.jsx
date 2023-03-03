@@ -193,7 +193,12 @@ export default function PureAddCropVariety({
           hookFormRegister: imageUrlRegister,
           targetRoute: 'crop',
         })}
-        <Infoi content={t('CROP.VARIETAL_IMAGE_INFO')} />
+        <Infoi
+          style={{
+            marginLeft: '6px',
+          }}
+          content={t('CROP.VARIETAL_IMAGE_INFO')}
+        />
       </div>
 
       <Input

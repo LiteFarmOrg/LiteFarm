@@ -208,20 +208,19 @@ export const Text = ({ children = 'Text', className = '', style, ...props }: Typ
   );
 };
 
-export const SubText = ({ children = 'SubText', className = '', style, ...props }) => {
-  const { t } = useTranslation(['translation', 'common', 'crop']);
-
+export const ExternalLink = ({ children = 'Link', className = '', style, link, ...props }) => {
   return (
     <>
-      <div style={{ width: 'fit-content', display: 'inline-block' }}>
-        {children}
+      <div
+        className={clsx(styles.text, className)}
+        style={{ width: 'fit-content', display: 'inline-block', ...style }} // I'm not sure about style...
+        {...props}
+      >
         <Underlined
-          onClick={() =>
-            window.open('https://www.litefarm.org/post/cultivars-and-varietals', '_blank')
-          }
+          onClick={() => window.open(link, '_blank')}
           style={{ width: 'fit-content', display: 'inline-block', marginLeft: '3px' }}
         >
-          {t('common:HERE').toLowerCase()}
+          {children}
         </Underlined>
         <ExternalLinkIcon
           style={{
@@ -229,9 +228,31 @@ export const SubText = ({ children = 'SubText', className = '', style, ...props 
             height: '15px',
             marginLeft: '2px',
             position: 'absolute',
-            bottom: '2px',
+            bottom: '4px',
           }}
         />
+      </div>
+    </>
+  );
+};
+
+export const TextWithExternalLink = ({
+  children = 'SubText',
+  className = '',
+  style,
+  link,
+  ...props
+}) => {
+  const { t } = useTranslation(['translation', 'common', 'crop']);
+
+  return (
+    <>
+      <div style={{ width: 'fit-content', display: 'inline-block' }} {...props}>
+        {children}
+
+        <ExternalLink link={link} style={''} {...props}>
+          {t('common:HERE').toLowerCase()}
+        </ExternalLink>
       </div>
     </>
   );

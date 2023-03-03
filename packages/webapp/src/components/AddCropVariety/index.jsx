@@ -148,6 +148,7 @@ export default function PureAddCropVariety({
         hasLeaf={false}
         optional
         subText={t('CROP.VARIETAL_SUBTEXT')}
+        link={'https://www.litefarm.org/post/cultivars-and-varietals'}
         placeholder={t('CROP.VARIETAL_PLACEHOLDER')}
       />
       <Input
@@ -160,6 +161,7 @@ export default function PureAddCropVariety({
         hasLeaf={false}
         optional
         subText={t('CROP.CULTIVAR_SUBTEXT')}
+        link={'https://www.litefarm.org/post/cultivars-and-varietals'}
         placeholder={t('CROP.CULTIVAR_PLACEHOLDER')}
         hideOnFocus
       />

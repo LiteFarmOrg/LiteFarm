@@ -105,10 +105,10 @@ export function* getSensorsReadingsSaga({ payload }) {
     let latestActualReadTimes = [];
 
     let sensorReadingData = {};
-
+    console.log(new Date('2023-03-03T06:00:00.000Z').valueOf() / 1000);
     for (let readingType of readingTypes) {
       latestActualReadTimes = result?.data?.sensorReading[readingType]
-        .filter((cv) => (cv.value ? cv.value : false))
+        .filter((cv) => (cv.value ? cv.value : cv.value === 0))
         .map((cv) => new Date(cv.actual_read_time).valueOf() / 1000);
 
       lastUpdatedReadingsTime[readingType] = getLastUpdatedTime(latestActualReadTimes);
@@ -208,34 +208,39 @@ export function* getSensorsReadingsSaga({ payload }) {
         }
         sensorReadingData[TEMPERATURE] = Object.values(ambientDataWithSensorsReadings);
       } else if (readingType === SOIL_WATER_POTENTIAL) {
-        const soilWaterPotentialReadings = result?.data?.sensorReading[SOIL_WATER_POTENTIAL].reduce(
-          (acc, cv) => {
-            const dt = new Date(cv?.read_time).getTime() / 1000;
-            let dateAndTimeInfo = new Date(dt * 1000).toString();
-            const isCorrectTimestamp = GRAPH_TIMESTAMPS?.find((g) => dateAndTimeInfo?.includes(g));
-            if (isCorrectTimestamp && startDate < dt && dt < predictedEndDate) {
-              const currentDateTime = `${dateAndTimeInfo?.split(':00:00')[0]}:00`;
+        let soilWaterPotentialReadings = [];
+        if (!result?.data?.sensorReading[SOIL_WATER_POTENTIAL].every((cv) => cv.value === null)) {
+          soilWaterPotentialReadings = result?.data?.sensorReading[SOIL_WATER_POTENTIAL].reduce(
+            (acc, cv) => {
+              const dt = new Date(cv?.read_time).getTime() / 1000;
+              let dateAndTimeInfo = new Date(dt * 1000).toString();
+              const isCorrectTimestamp = GRAPH_TIMESTAMPS?.find((g) =>
+                dateAndTimeInfo?.includes(g),
+              );
+              if (isCorrectTimestamp && startDate < dt && dt < predictedEndDate) {
+                const currentDateTime = `${dateAndTimeInfo?.split(':00:00')[0]}:00`;
 
-              if (!isFound && currentDT < dt) {
-                isFound = true;
-                predictedXAxisLabel = acc[Object.keys(acc).at(-1)][CURRENT_DATE_TIME];
+                if (!isFound && currentDT < dt) {
+                  isFound = true;
+                  predictedXAxisLabel = acc[Object.keys(acc).at(-1)][CURRENT_DATE_TIME];
+                }
+
+                if (!acc[dt]) acc[dt] = {};
+                acc[dt] = {
+                  ...acc[dt],
+                  [cv?.name]: isNaN(getSoilWaterPotentialValue(cv?.value, measurement))
+                    ? i18n.t('translation:SENSOR.NO_DATA')
+                    : getSoilWaterPotentialValue(cv?.value, measurement),
+                  [CURRENT_DATE_TIME]: currentDateTime,
+                };
               }
-
-              if (!acc[dt]) acc[dt] = {};
-              acc[dt] = {
-                ...acc[dt],
-                [cv?.name]: isNaN(getSoilWaterPotentialValue(cv?.value, measurement))
-                  ? i18n.t('translation:SENSOR.NO_DATA')
-                  : getSoilWaterPotentialValue(cv?.value, measurement),
-                [CURRENT_DATE_TIME]: currentDateTime,
-              };
-            }
-            return acc;
-          },
-          {},
-        );
-
-        const soilWaterPotentialSensorReadings = Object.values(soilWaterPotentialReadings);
+              return acc;
+            },
+            {},
+          );
+        }
+        const soilWaterPotentialSensorReadings =
+          Object.values(soilWaterPotentialReadings) ?? soilWaterPotentialReadings;
         sensorReadingData[SOIL_WATER_POTENTIAL] = soilWaterPotentialSensorReadings;
         if (soilWaterPotentialSensorReadings?.length) {
           let startDateXAxisLabel =

@@ -90,12 +90,10 @@ export function* getSensorsReadingsSaga({ payload }) {
     const allSensorNames = result?.data?.sensorsPoints.map((s) => s.name);
     const centerPoint = findCenter(result?.data?.sensorsPoints.map((s) => s?.point));
     const activeReadingTypes = result?.data?.sensorsPoints[0].reading_type;
-
     const currentDT = parseInt(+new Date() / 1000);
 
     let lastUpdatedReadingsTime = {};
     let xAxisLabel = {};
-
     let isFound = false;
     let predictedXAxisLabel = '';
     let stationName = '';
@@ -103,9 +101,8 @@ export function* getSensorsReadingsSaga({ payload }) {
     let selectedSensorName = '';
     let ambientDataWithSensorsReadings = {};
     let latestActualReadTimes = [];
-
     let sensorReadingData = {};
-    console.log(new Date('2023-03-03T06:00:00.000Z').valueOf() / 1000);
+
     for (let readingType of readingTypes) {
       latestActualReadTimes = result?.data?.sensorReading[readingType]
         .filter((cv) => (cv.value ? cv.value : cv.value === 0))

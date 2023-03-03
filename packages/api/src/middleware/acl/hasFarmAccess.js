@@ -193,9 +193,7 @@ async function fromLocations(locations) {
   if (!locations || !locations.length) {
     return {};
   }
-  const location_ids = locations
-    ? locations.map((location) => location.location_id ?? location)
-    : undefined;
+  const location_ids = locations ? locations.map((location) => location.location_id) : undefined;
   try {
     const userFarms = await knex('location')
       .join('userFarm', 'location.farm_id', 'userFarm.farm_id')

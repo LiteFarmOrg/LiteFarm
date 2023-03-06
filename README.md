@@ -13,17 +13,19 @@ If you’re a farmer and would like to join LiteFarm you can sign up today at ap
 
 # Setup
 
-LiteFarm is comprised of three applications which all reside in this monorepo.
+LiteFarm is comprised of three applications which all reside in this monorepo:
 
-- `packages/webapp` is the client-facing application
-- `packages/api` is the back-end API server with entry point `src/server.js`
-- `packages/api/src/jobs` is the "jobs scheduler" for certification exports, with entry point `index.js`
+- `packages/webapp` is the client-facing application ([read more](https://lite-farm.atlassian.net/wiki/spaces/LITEFARM/pages/1190428675/The+api+package))
+- `packages/api` is the back-end API server with entry point `src/server.js` ([read more](https://lite-farm.atlassian.net/wiki/spaces/LITEFARM/pages/1190166533/The+webapp+package))
+- `packages/api/src/jobs` is the "jobs scheduler" for certification exports, with entry point `index.js` ([read more](https://lite-farm.atlassian.net/wiki/spaces/LITEFARM/pages/1190101039/The+export+jobs+pseudo-package))
+
+Additionally, `packages/shared` contains utilities that both the API server and the front end code relies upon ([read more](https://lite-farm.atlassian.net/wiki/spaces/LITEFARM/pages/1221820417/The+shared+package)).
 
 ## Preliminaries
 
 ### Set up a supported version of Node.js
 
-1. Check to see if you have Node.js installed. On a Mac or Linux, use the command `node-v` in terminal. If it is installed, the version in use will be reported in the terminal. If not, install it from [node.js](https://nodejs.org/en/download/package-manager/).
+1. Check to see if you have Node.js installed. On a Mac or Linux, use the command `node -v` in terminal. If it is installed, the version in use will be reported in the terminal. If not, install it from [node.js](https://nodejs.org/en/download/package-manager/).
 
 2. Check to see if you have NVM installed. On a Mac use the command `nvm -v`. If you do not have NVM (Node Version Manager) installed, install it using these instructions: [NVM](https://www.loginradius.com/blog/engineering/run-multiple-nodejs-version-on-the-same-machine/).
 
@@ -33,9 +35,9 @@ LiteFarm is comprised of three applications which all reside in this monorepo.
 
 1. Clone the repository from Github to your computer. On a Mac or Linux, in a Terminal window navigate to the directory you want to put the files in. Then use the command `git clone https://github.com/LiteFarmOrg/LiteFarm.git`.
 
-   Note: when pushing the changes back to a git repo [cloned using HTTPS URL](https://docs.github.com/en/get-started/getting-started-with-git/about-remote-repositories#cloning-with-https-urls), the `git push` command will ask ypur GitHub username and password. A [personal access token](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token) should be entered instead of password.
+   Note: when pushing the changes back to a git repo [cloned using HTTPS URL](https://docs.github.com/en/get-started/getting-started-with-git/about-remote-repositories#cloning-with-https-urls), the `git push` command will ask your GitHub username and password. A [personal access token](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token) should be entered instead of password.
 
-2. In a terminal, navigate to the root folder of the repo and run `nvm install` followed by `nvm use` to ensure that a supported version of Node.js is in use during the subsequent steps (it was `v16.15.0` at the time of writing).
+2. In a terminal, navigate to the root folder of the repo and run `nvm install` followed by `nvm use` to ensure that a supported version of Node.js is in use during the subsequent steps (`v16.15.0` at the time of writing).
 
    - At the root of the project, a `.nvmrc` file exists containing the version of Node.js, known to work well with LiteFarm. Please, keep the contents of `.nvmrc` up to date.
 

@@ -15,17 +15,8 @@
 import { useMemo } from 'react';
 import { styles as reactSelectDefaultStyles } from '../ReactSelect';
 
-const DEFAULT_REACT_SELECT_WIDTH = 80;
-
-const getReactSelectWidth = (measure) => {
-  if (measure === 'time') return 93;
-  return DEFAULT_REACT_SELECT_WIDTH;
-};
-
-const useReactSelectStyles = (disabled, { measure } = {}) => {
+const useReactSelectStyles = (disabled, { reactSelectWidth } = {}) => {
   return useMemo(() => {
-    const reactSelectWidth = getReactSelectWidth(measure);
-
     const reactSelectStyles = {
       ...reactSelectDefaultStyles,
       container: (provided, state) => ({
@@ -72,8 +63,8 @@ const useReactSelectStyles = (disabled, { measure } = {}) => {
       }),
     };
 
-    return { reactSelectStyles, reactSelectWidth };
-  }, [disabled, measure]);
+    return { reactSelectStyles };
+  }, [disabled, reactSelectWidth]);
 };
 
 export default useReactSelectStyles;

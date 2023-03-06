@@ -20,7 +20,7 @@ import PropTypes from 'prop-types';
 import { Error, Info, Label } from '../../Typography';
 import { Cross } from '../../Icons';
 import { useTranslation } from 'react-i18next';
-import { integerOnKeyDown, numberOnKeyDown, preventNumberScrolling } from '../Input';
+import { preventNumberScrolling } from '../Input';
 import Select from 'react-select';
 import { area_total_area } from '../../../util/convert-units/unit';
 import Infoi from '../../Tooltip/Infoi';
@@ -28,17 +28,6 @@ import { Controller } from 'react-hook-form';
 import { ReactComponent as Leaf } from '../../../assets/images/signUp/leaf.svg';
 import useUnit from './useUnit';
 import useReactSelectStyles from './useReactSelectStyles';
-
-const getOnKeyDown = (measure) => {
-  switch (measure) {
-    case 'time':
-      return integerOnKeyDown;
-    default:
-      return numberOnKeyDown;
-  }
-};
-
-const DEFAULT_SELECT_ARROW_ICON_WIDTH = 20;
 
 const Unit = ({
   disabled = false,
@@ -78,12 +67,13 @@ const Unit = ({
     visibleInputValue,
     inputOnChange,
     getMax,
-    measure,
-    hookFormValue,
+    defaultHiddenInputValue,
     inputOnBlur,
-    isDirty,
-    setDirty,
     error,
+    onKeyDown,
+    getOnChangeUnitOption,
+    reactSelectWidth,
+    dividerWidth,
   } = useUnit({
     disabled,
     name,
@@ -101,9 +91,11 @@ const Unit = ({
     optional,
     mode,
     max,
+    onBlur,
+    onChangeUnitOption,
   });
 
-  const { reactSelectStyles, reactSelectWidth } = useReactSelectStyles(disabled, { measure });
+  const { reactSelectStyles } = useReactSelectStyles(disabled, { reactSelectWidth });
 
   return (
     <div className={clsx(styles.container)} style={{ ...style, ...classes.container }}>
@@ -136,15 +128,8 @@ const Unit = ({
             type={'number'}
             value={visibleInputValue}
             size={1}
-            onKeyDown={getOnKeyDown(measure)}
-            onBlur={
-              mode === 'onBlur'
-                ? (e) => {
-                    inputOnBlur(e);
-                    onBlur && onBlur(e);
-                  }
-                : onBlur
-            }
+            onKeyDown={onKeyDown}
+            onBlur={inputOnBlur}
             onChange={inputOnChange}
             onWheel={preventNumberScrolling}
             {...props}
@@ -159,18 +144,14 @@ const Unit = ({
             <Select
               data-cy="unit-select"
               onBlur={onBlur}
-              onChange={(e) => {
-                onChange(e);
-                onChangeUnitOption(e);
-                if (!isDirty) setDirty(true);
-              }}
+              onChange={getOnChangeUnitOption(onChange)}
               value={value}
               ref={ref}
               customStyles
               styles={reactSelectStyles}
               isSearchable={false}
               options={options}
-              isDisabled={isSelectDisabled || disabled}
+              isDisabled={isSelectDisabled}
             />
           )}
         />
@@ -179,21 +160,15 @@ const Unit = ({
             className={clsx(
               styles.verticleDivider,
               showError && styles.inputError,
-              (isSelectDisabled || disabled) && styles.none,
+              isSelectDisabled && styles.none,
             )}
-            style={{
-              width: `${
-                isSelectDisabled
-                  ? reactSelectWidth - DEFAULT_SELECT_ARROW_ICON_WIDTH
-                  : reactSelectWidth
-              }px`,
-            }}
+            style={{ width: dividerWidth }}
           />
         </div>
       </div>
       <input
         className={styles.hiddenInput}
-        defaultValue={defaultValue || hookFormValue || ''}
+        defaultValue={defaultHiddenInputValue}
         type={'number'}
         {...register(name, {
           required: required && t('common:REQUIRED'),

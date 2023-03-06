@@ -15,6 +15,7 @@
 import { useCallback, useEffect, useState, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { get, useFormState } from 'react-hook-form';
+import { integerOnKeyDown, numberOnKeyDown } from '../Input';
 import {
   area_total_area,
   getDefaultUnit,
@@ -25,6 +26,15 @@ import { getUnitOptionMap } from '../../../util/convert-units/getUnitOptionMap';
 
 const getOptions = (unitType = area_total_area, system) => {
   return unitType[system].units.map((unit) => getUnitOptionMap()[unit]);
+};
+
+const getOnKeyDown = (measure) => {
+  return measure === 'time' ? integerOnKeyDown : numberOnKeyDown;
+};
+
+const getReactSelectWidth = (measure) => {
+  const DEFAULT_REACT_SELECT_WIDTH = 80;
+  return measure === 'time' ? 93 : DEFAULT_REACT_SELECT_WIDTH;
 };
 
 const useUnit = ({
@@ -44,6 +54,8 @@ const useUnit = ({
   optional,
   mode,
   max,
+  onBlur,
+  onChangeUnitOption,
 }) => {
   const onClear = () => {
     setVisibleInputValue('');
@@ -59,32 +71,49 @@ const useUnit = ({
     setShowError(!!error && !disabled && isDirty);
   }, [error]);
 
-  const { displayUnit, displayValue, options, databaseUnit, isSelectDisabled, measure } =
-    useMemo(() => {
-      const databaseUnit = defaultValueUnit ?? unitType.databaseUnit;
-      const options = getOptions(unitType, system);
-      const hookFormValue = hookFormGetValue(name);
-      const value = hookFormValue || (hookFormValue === 0 ? 0 : defaultValue);
-      const isSelectDisabled = options.length <= 1;
-      const measure = convert().describe(databaseUnit)?.measure;
-      return to && convert().describe(to)?.system === system
-        ? {
-            displayUnit: to,
-            displayValue:
-              defaultValue && roundToTwoDecimal(convert(value).from(databaseUnit).to(to)),
-            options,
-            databaseUnit,
-            isSelectDisabled,
-            measure,
-          }
-        : {
-            ...getDefaultUnit(unitType, value, system, databaseUnit),
-            options,
-            databaseUnit,
-            isSelectDisabled,
-            measure,
-          };
-    }, []);
+  const {
+    displayUnit,
+    displayValue,
+    options,
+    databaseUnit,
+    isSelectDisabled,
+    reactSelectWidth,
+    dividerWidth,
+    onKeyDown,
+  } = useMemo(() => {
+    const databaseUnit = defaultValueUnit ?? unitType.databaseUnit;
+    const options = getOptions(unitType, system);
+    const hookFormValue = hookFormGetValue(name);
+    const value = hookFormValue || (hookFormValue === 0 ? 0 : defaultValue);
+    const isSelectDisabled = options.length <= 1 || disabled;
+    const measure = convert().describe(databaseUnit)?.measure;
+    const reactSelectWidth = getReactSelectWidth(measure);
+    const onKeyDown = getOnKeyDown(measure);
+    const dividerWidth = isSelectDisabled
+      ? reactSelectWidth - DEFAULT_SELECT_ARROW_ICON_WIDTH
+      : reactSelectWidth;
+
+    return to && convert().describe(to)?.system === system
+      ? {
+          displayUnit: to,
+          displayValue: defaultValue && roundToTwoDecimal(convert(value).from(databaseUnit).to(to)),
+          options,
+          databaseUnit,
+          isSelectDisabled,
+          reactSelectWidth,
+          dividerWidth,
+          onKeyDown,
+        }
+      : {
+          ...getDefaultUnit(unitType, value, system, databaseUnit),
+          options,
+          databaseUnit,
+          isSelectDisabled,
+          reactSelectWidth,
+          dividerWidth,
+          onKeyDown,
+        };
+  }, []);
 
   const hookFormUnitOption = hookFromWatch(displayUnitName);
   const hookFormUnit = databaseUnit;
@@ -123,7 +152,7 @@ const useUnit = ({
 
   const inputOnChange = (e) => {
     setVisibleInputValue(e.target.value);
-    mode === 'onChange' && inputOnBlur(e);
+    mode === 'onChange' && onBlurForHook(e);
   };
 
   const hookFormSetHiddenValue = useCallback(
@@ -146,7 +175,7 @@ const useUnit = ({
     [name],
   );
 
-  const inputOnBlur = (e) => {
+  const onBlurForHook = (e) => {
     if (required && e.target.value === '') {
       hookFormSetHiddenValue('');
     } else if (e.target.value === '') {
@@ -158,6 +187,16 @@ const useUnit = ({
       });
     }
     if (!isDirty) setDirty(true);
+  };
+
+  const inputOnBlur = (e) => {
+    if (mode === 'onBlur') {
+      onBlurForHook(e);
+    }
+    // function from parent component
+    if (onBlur) {
+      onBlur(e);
+    }
   };
   useEffect(() => {
     if (databaseUnit && hookFormUnit) {
@@ -173,6 +212,19 @@ const useUnit = ({
     return hookFormUnit ? convert(max).from(hookFormUnit).to(databaseUnit) : max;
   }, [hookFormUnit, max, databaseUnit]);
 
+  const getOnChangeUnitOption = (onChange) => {
+    return (e) => {
+      // function from react-hook-form Controller's render
+      onChange(e);
+
+      // function from parent component
+      onChangeUnitOption(e);
+      if (!isDirty) {
+        setDirty(true);
+      }
+    };
+  };
+
   return {
     onClear,
     showError,
@@ -181,12 +233,13 @@ const useUnit = ({
     visibleInputValue,
     inputOnChange,
     getMax,
-    measure,
-    hookFormValue,
-    isDirty,
-    setDirty,
+    defaultHiddenInputValue: defaultValue || hookFormValue || '',
     inputOnBlur,
     error,
+    getOnChangeUnitOption,
+    reactSelectWidth,
+    dividerWidth,
+    onKeyDown,
   };
 };
 

@@ -158,8 +158,7 @@ export function* getSensorsReadingsSaga({ payload }) {
         ambientDataWithSensorsReadings = result?.data?.sensorReading[TEMPERATURE].reduce(
           (acc, cv) => {
             const dt = new Date(cv.read_time).valueOf() / 1000;
-            let value = 0;
-            value = getTemperatureValue(cv.value, measurement);
+            const value = getTemperatureValue(cv.value, measurement);
             if (acc[dt]) {
               acc[dt][cv.name] = isNaN(value) ? i18n.t('translation:SENSOR.NO_DATA') : value;
             }
@@ -205,7 +204,7 @@ export function* getSensorsReadingsSaga({ payload }) {
         }
         sensorReadingData[TEMPERATURE] = Object.values(ambientDataWithSensorsReadings);
       } else if (readingType === SOIL_WATER_POTENTIAL) {
-        let soilWaterPotentialReadings = [];
+        let soilWaterPotentialReadings = {};
         if (!result?.data?.sensorReading[SOIL_WATER_POTENTIAL].every((cv) => cv.value === null)) {
           soilWaterPotentialReadings = result?.data?.sensorReading[SOIL_WATER_POTENTIAL].reduce(
             (acc, cv) => {
@@ -236,8 +235,7 @@ export function* getSensorsReadingsSaga({ payload }) {
             {},
           );
         }
-        const soilWaterPotentialSensorReadings =
-          Object.values(soilWaterPotentialReadings) ?? soilWaterPotentialReadings;
+        const soilWaterPotentialSensorReadings = Object.values(soilWaterPotentialReadings);
         sensorReadingData[SOIL_WATER_POTENTIAL] = soilWaterPotentialSensorReadings;
         if (soilWaterPotentialSensorReadings?.length) {
           let startDateXAxisLabel =

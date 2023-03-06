@@ -83,6 +83,7 @@
     "@storybook/addon-essentials": "^7.0.0-beta.45",
     "@storybook/addon-interactions": "^7.0.0-beta.45",
     "@storybook/addon-links": "^7.0.0-beta.45",
+    "@storybook/jest": "^0.0.10",
     "@storybook/react": "^7.0.0-beta.45",
     "@storybook/react-vite": "^7.0.0-beta.45",
     "@storybook/testing-library": "^0.0.14-next.1",

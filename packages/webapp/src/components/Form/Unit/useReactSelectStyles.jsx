@@ -16,7 +16,7 @@ import { useMemo } from 'react';
 import { styles as reactSelectDefaultStyles } from '../ReactSelect';
 
 const useReactSelectStyles = (disabled, { reactSelectWidth } = {}) => {
-  return useMemo(() => {
+  return useMemo(
     () => ({
       ...reactSelectDefaultStyles,
       container: (provided, state) => ({
@@ -61,8 +61,9 @@ const useReactSelectStyles = (disabled, { reactSelectWidth } = {}) => {
         padding: ' 14px 0 12px 0',
         transform: 'translateX(-4px)',
       }),
-    });
-  }, [disabled, reactSelectWidth]);
+    }),
+    [disabled, reactSelectWidth],
+  );
 };
 
 export default useReactSelectStyles;

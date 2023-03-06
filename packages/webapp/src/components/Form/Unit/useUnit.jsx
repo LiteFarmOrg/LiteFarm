@@ -24,6 +24,9 @@ import {
 import { convert } from '../../../util/convert-units/convert';
 import { getUnitOptionMap } from '../../../util/convert-units/getUnitOptionMap';
 
+const DEFAULT_REACT_SELECT_WIDTH = 80;
+const DEFAULT_SELECT_ARROW_ICON_WIDTH = 20;
+
 const getOptions = (unitType = area_total_area, system) => {
   return unitType[system].units.map((unit) => getUnitOptionMap()[unit]);
 };
@@ -33,7 +36,6 @@ const getOnKeyDown = (measure) => {
 };
 
 const getReactSelectWidth = (measure) => {
-  const DEFAULT_REACT_SELECT_WIDTH = 80;
   return measure === 'time' ? 93 : DEFAULT_REACT_SELECT_WIDTH;
 };
 

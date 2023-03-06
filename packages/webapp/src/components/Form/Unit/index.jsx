@@ -95,7 +95,7 @@ const Unit = ({
     onChangeUnitOption,
   });
 
-  const { reactSelectStyles } = useReactSelectStyles(disabled, { reactSelectWidth });
+  const reactSelectStyles = useReactSelectStyles(disabled, { reactSelectWidth });
 
   return (
     <div className={clsx(styles.container)} style={{ ...style, ...classes.container }}>

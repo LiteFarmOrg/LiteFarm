@@ -218,7 +218,9 @@ const useUnit = ({
       onChange(e);
 
       // function from parent component
-      onChangeUnitOption(e);
+      if (onChangeUnitOption) {
+        onChangeUnitOption(e);
+      }
       if (!isDirty) {
         setDirty(true);
       }

@@ -32,7 +32,10 @@ LiteFarm is comprised of three applications which all reside in this monorepo.
 ### Get the code and install dependencies
 
 1. Clone the repository from Github to your computer. On a Mac or Linux, in a Terminal window navigate to the directory you want to put the files in. Then use the command `git clone https://github.com/LiteFarmOrg/LiteFarm.git`.
-2. In a terminal, navigate to the root folder of the repo and run `nvm install` followed by `nvm use` to ensure that a supported version of Node.js is in use during the subsequent steps (it was `v16.15.0` at the time of writting).
+
+   Note: when pushing the changes back to a git repo [cloned using HTTPS URL](https://docs.github.com/en/get-started/getting-started-with-git/about-remote-repositories#cloning-with-https-urls), the `git push` command will ask ypur GitHub username and password. A [personal access token](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token) should be entered instead of password.
+
+2. In a terminal, navigate to the root folder of the repo and run `nvm install` followed by `nvm use` to ensure that a supported version of Node.js is in use during the subsequent steps (it was `v16.15.0` at the time of writing).
 
    - At the root of the project, a `.nvmrc` file exists containing the version of Node.js, known to work well with LiteFarm. Please, keep the contents of `.nvmrc` up to date.
 
@@ -48,7 +51,7 @@ LiteFarm is comprised of three applications which all reside in this monorepo.
    npm ERR!
    npm ERR! While resolving: objection@2.2.17...
    ```
-   invoke `nvm install` and `nvm use` from the `packages/api` folder to ensure a supported version of Nide.js is active. Then try again.
+   invoke `nvm install` and `nvm use` from the `packages/api` folder to ensure a supported version of Nide.js is active. Then try `npm install` again.
 
 4. Navigate to the `packages/shared` folder, and run `npm install` - without that, test suite for `packages/api` would not be able to run.
 

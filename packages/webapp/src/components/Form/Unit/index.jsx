@@ -186,10 +186,15 @@ const Unit = ({
 };
 
 Unit.propTypes = {
+  /** whether the input is disabled */
   disabled: PropTypes.bool,
+  /** label for the input */
   label: PropTypes.string,
+  /** whether the input is optional */
   optional: PropTypes.bool,
+  /** content shown below the input */
   info: PropTypes.string,
+  /** objects to style elements */
   classes: PropTypes.exact({
     input: PropTypes.object,
     label: PropTypes.object,
@@ -197,23 +202,50 @@ Unit.propTypes = {
     info: PropTypes.object,
     errors: PropTypes.object,
   }),
+  /** object to style the container */
   style: PropTypes.object,
+  /** setValue function returned by useForm */
   hookFormSetValue: PropTypes.func,
+  /** getValues function returned by useForm */
   hookFormGetValue: PropTypes.func,
+  /** watch function returned by useForm */
   hookFromWatch: PropTypes.func,
+  /** register function returned by useForm */
+  register: PropTypes.func,
+  /** control function returned by useForm */
+  control: PropTypes.func,
+  /** name of the (hidden) input which is used to register */
   name: PropTypes.string,
+  /** user's preferred farm unit system */
   system: PropTypes.oneOf(['imperial', 'metric']).isRequired,
+  /** when to validate user inputs */
   mode: PropTypes.oneOf(['onBlur', 'onChange']),
+  /** one of the objects defined in '/packages/webapp/src/util/convert-units/unit.js' */
   unitType: PropTypes.shape({
     metric: PropTypes.object,
     imperial: PropTypes.object,
     databaseUnit: PropTypes.string,
   }).isRequired,
+  /** databaseUnit */
   from: PropTypes.string,
+  /** default display unit */
   to: PropTypes.string,
+  /** whether the input is required */
   required: PropTypes.bool,
+  /** content of the tooltip */
   toolTipContent: PropTypes.string,
+  /** whether the input should have the leaf icon */
   hasLeaf: PropTypes.bool,
+  /** name of the unit select */
+  displayUnitName: PropTypes.string,
+  /** default hidden value */
+  defaultValue: PropTypes.number,
+  /** the maximum number accepted */
+  max: PropTypes.number,
+  /** function called when unit option is changed */
+  onChangeUnitOption: PropTypes.func,
+  /** function called on blur */
+  onBlur: PropTypes.func,
 };
 
 export default Unit;

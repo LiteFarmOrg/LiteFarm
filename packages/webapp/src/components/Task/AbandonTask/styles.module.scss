@@ -19,8 +19,10 @@
     border: 1px solid var(--grey400);
     background-color: var(--grey200);
     color: var(--grey500);
-    margin-left: 4px;
+    margin-left: 6px;
     font-size: .875rem;
+    font-weight: 600;
+    line-height: 24px;
 }
 .radioLabel.active > span{
     border: 1px solid var(--teal700);

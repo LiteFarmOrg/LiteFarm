@@ -2,7 +2,7 @@ name: 'Beta-Export-Server-Deploy'
 on:
   push:
     branches:
-      - integration
+      - LF-2758-export-server-CICD
 
 jobs:
   deploy:
@@ -15,4 +15,5 @@ jobs:
           host: ${{ secrets.BETA_EXPORT_SERVER_HOST }}
           username: ${{ secrets.BETA_EXPORT_SERVER_USER }}
           key: ${{ secrets.BETA_EXPORT_SERVER_KEY }}
+          script_stop: true
           script: ${{ secrets.BETA_EXPORT_SERVER_SCRIPT }}

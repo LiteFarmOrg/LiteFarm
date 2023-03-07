@@ -107,9 +107,61 @@ Additionally, `packages/shared` contains utilities that both the API server and 
 
 The applications are configured with environment variables stored in `.env` files. Configuration information includes secrets like API keys, so the `.env` files are not included in this git repository.
 
- This repository only contains `.env.default` files for api and webapp. To join the LiteFarm team and recieve full versions of the environment files contact community@litefarm.org.
+This repository only contains `.env.default` files for api and webapp. To join the LiteFarm team and recieve full versions of the environment files contact community@litefarm.org.
 
- Once you recieve the `.env` files, you will have to rename them correctly and place them in the right folders.
+Once you recieve the `.env` files, you will have to rename them correctly and place them in the right folders.
+
+## Setting up external services
+
+The LiteFram application relies upon several external services (APIs) and should be configured in `packages/api/.env` and / or `packages/webapp/.env`. While not all of them are required to develop the application locally, at least the following ones could be helpful for most use cases and would be briefly listed below.
+
+### Google Maps API
+
+Maps are used extensively throughout the application and relies upon Google [Maps JavaScript API](https://console.cloud.google.com/apis/library/maps-backend.googleapis.com).
+
+To begin with, create your own Google API key at https://console.cloud.google.com/apis/library/maps-backend.googleapis.com.
+
+Before enabling Maps API, Google might ask for credit card details to confirm identity, but a generous monthly credit applies and in most scenarios it should be possible to stay within limits of free usage.
+
+Please, update these settings with the obtained API:
+* in `packages/api/.env`: `GOOGLE_API_KEY`
+* in `packages/webapp/.env`: `VITE_GOOGLE_MAPS_API_KEY`
+
+### OpenWeatherMap API
+
+Create your own free or student OpenWeather API key at https://openweathermap.org/price. Then navigate to https://home.openweathermap.org/api_keys to generate a new API key for use with LiteFarm and update the following settings with it:
+
+* in `packages/api/.env`: `OPEN_WEATHER_APP_ID`
+* in `packages/webapp/.env`: `VITE_WEATHER_API_KEY`
+
+### Google OAuth
+
+Although not required for development, useful to test and troubleshoot signing in and up using Google account.
+
+[Follow this link to Google Identity platform](https://developers.google.com/identity/oauth2/web/guides/get-google-api-clientid) to begin the setup and choose "Configure a project".
+
+Choose "Web browser" at the "Configure your OAuth client" step and leave the *Authorized Javascript Origin* field empty for now as Google will not permit a `http://localhost:3000` as a valid origin URI yet.
+
+Click "Create" and note down at least the `Client ID` and update these settings with it:
+
+* in `packages/api/.env`: `GOOGLE_OAUTH_CLIENT_ID`
+* in `packages/webapp/.env`: `VITE_GOOGLE_OAUTH_CLIENT_ID`
+
+#### Configure Google OAuth
+
+In order for Google to accept authentication attempts from locally developed LiteFarm front end, head over to https://console.cloud.google.com/apis/credentials and choose "Oauth client" under "OAuth 2.0 Client IDs" section.
+
+Add `http://localhost:3000` and `http://localhost` as "Authorized JavaScript origins", and save the changes.
+
+*Note: you might like to specify additional URIs here if your local version of LiteFarm webapp is exposed with [ngrok](#use-cases-for-ngrok).*
+
+### GMail for outgoing emails (optional)
+
+[Follow the instructions here](https://support.google.com/mail/answer/185833) to create an App Password for sending transactional emails using your own personal gmail account and update `packages/api/.env` with:
+* `DEV_GMAIL=true`
+* set value of `DEV_GMAIL_APP_PASSWORD` to generated App Password for GMail.
+
+*Note that [2-step verification](https://support.google.com/accounts/answer/185839) should be enabled for your Google account for this to work.*
 
 # Running the apps
 

@@ -1,0 +1,68 @@
+version: "3.7"
+
+# A simple docker compose stack to developers who prefer to run persistence
+# related services (PostgreSQL database for product and testing, and Redis cache)
+# in Docker containers locally (e.g., in case if another PostgreSQL version is
+# already installed on the host).
+
+x-pg-healthcheck: &pg-healthcheck
+    healthcheck:
+      test: [ "CMD", "pg_isready", "-U", "postgres" ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+services:
+  db:
+    <<: *pg-healthcheck
+    container_name: litefarm-db
+    image: postgres:13
+    ports:
+      - "${DEV_DATABASE_PORT:-5432}:5432"
+    environment:
+      POSTGRES_PASSWORD: ${DEV_DATABASE_PASSWORD}
+      POSTGRES_USER: ${DEV_DATABASE_USER}
+      POSTGRES_DB: ${DEV_DATABASE}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  db-test:
+    <<: *pg-healthcheck
+    container_name: litefarm-db-test
+    image: postgres:13
+    ports:
+      - "${TEST_DATABASE_PORT:-6432}:5432"
+    environment:
+      POSTGRES_PASSWORD: ${TEST_DATABASE_PASSWORD}
+      POSTGRES_USER: ${TEST_DATABASE_USER}
+      POSTGRES_DB: ${TEST_DATABASE}
+    volumes:
+      - pgdata-test:/var/lib/postgresql/data
+
+  # Organic certifier survey related code uses Redis as a queue.
+  # Adding to queue can happen locally (in dev environment).
+  # Processing queue contents locally might be possible if bucket storage
+  # would not be fixed to Digital Ocean spaces, but could, for example,
+  # use something like Min.io (https://min.io/docs/minio/container/index.html).
+  redis:
+    container_name: litefarm-redis
+    # NOTE: using "bitnami/redis" instead of official "redis" image
+    #  as it allows fine-grained configuration on startup via env variables
+    #  and works well with $REDIS_PASSWORD being either set or absent/empty
+    #  in the packages/api/.env
+    #
+    # If in doubt, please, see "Why use Bitnami Images?" section in
+    # https://hub.docker.com/r/bitnami/redis/
+    image: bitnami/redis
+    ports:
+      - "${REDIS_PORT}:6379"
+    environment:
+      REDIS_PASSWORD: ${REDIS_PASSWORD}
+    volumes:
+      - redis:/var/lib/redis/data
+
+volumes:
+  # docker volume create pgdata redis
+  pgdata:
+  pgdata-test:
+  redis:

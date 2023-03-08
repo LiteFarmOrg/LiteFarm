@@ -15,7 +15,7 @@ import i18n from '../../../locales/i18n';
 
 const Input = ({
   link,
-  subText,
+  textWithExternalLink,
   openCalendar,
   disabled = false,
   classes = {},
@@ -167,7 +167,9 @@ const Input = ({
           {errors}
         </Error>
       ) : null}
-      {subText ? <TextWithExternalLink link={link}>{subText}</TextWithExternalLink> : null}
+      {textWithExternalLink ? (
+        <TextWithExternalLink link={link}>{textWithExternalLink}</TextWithExternalLink>
+      ) : null}
     </div>
   );
 };

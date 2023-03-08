@@ -213,7 +213,7 @@ export const ExternalLink = ({ children = 'Link', className = '', style, link, .
     <>
       <div
         className={clsx(styles.text, className)}
-        style={{ width: 'fit-content', display: 'inline-block', ...style }} // I'm not sure about style...
+        style={{ width: 'fit-content', display: 'inline-block', ...style }}
         {...props}
       >
         <Underlined

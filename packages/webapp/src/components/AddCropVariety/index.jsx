@@ -90,11 +90,9 @@ export default function PureAddCropVariety({
         value={progress}
       />
 
-      <p style={{ fontSize: '16px', marginBottom: '20px' }}>
-        {t('translation:CROP.VARIETAL_SUBTITLE')}
-      </p>
+      <p className={styles.varietalSubtitle}>{t('translation:CROP.VARIETAL_SUBTITLE')}</p>
 
-      <div style={{ display: 'flex', position: 'relative' }}>
+      <div className={styles.banner}>
         <div style={{ width: 'fit-contents', display: 'inline-block' }}>
           <img
             src={crop.crop_photo_url}
@@ -106,28 +104,9 @@ export default function PureAddCropVariety({
             }}
           />
         </div>
-        <div
-          className="nameLabel"
-          style={{
-            display: 'inline-block',
-            position: 'absolute',
-            top: '48%',
-            transform: 'translateY(-50%)',
-            left: '140px',
-          }}
-        >
-          <p
-            className="cropLabel"
-            style={{ fontWeight: '600', fontSize: '18px', marginBottom: '0px' }}
-          >
-            {cropNameLabel}
-          </p>
-          <p
-            className="scientificNameLabel"
-            style={{ verticalAlign: 'top', fontStyle: 'italic', fontSize: '16px', height: '18px' }}
-          >
-            {scientificNameLabel}
-          </p>
+        <div className={styles.nameLabel}>
+          <p className={styles.cropLabel}>{cropNameLabel}</p>
+          <p className={styles.scientificNameLabel}>{scientificNameLabel}</p>
         </div>
       </div>
       <Input
@@ -147,7 +126,7 @@ export default function PureAddCropVariety({
         errors={getInputErrors(errors, 'crop_varietal')}
         hasLeaf={false}
         optional
-        subText={t('CROP.VARIETAL_SUBTEXT')}
+        textWithExternalLink={t('CROP.VARIETAL_SUBTEXT')}
         link={'https://www.litefarm.org/post/cultivars-and-varietals'}
         placeholder={t('CROP.VARIETAL_PLACEHOLDER')}
       />
@@ -160,10 +139,9 @@ export default function PureAddCropVariety({
         errors={getInputErrors(errors, 'crop_cultivar')}
         hasLeaf={false}
         optional
-        subText={t('CROP.CULTIVAR_SUBTEXT')}
+        textWithExternalLink={t('CROP.CULTIVAR_SUBTEXT')}
         link={'https://www.litefarm.org/post/cultivars-and-varietals'}
         placeholder={t('CROP.CULTIVAR_PLACEHOLDER')}
-        hideOnFocus
       />
       {crop_variety_photo_url && (
         <img

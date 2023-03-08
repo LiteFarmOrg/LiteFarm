@@ -1,4 +1,6 @@
 import React from 'react';
+import { within, userEvent } from '@storybook/testing-library';
+import { expect } from '@storybook/jest';
 import Unit, { getUnitOptionMap } from '../../../components/Form/Unit';
 import { componentDecorators } from '../../Pages/config/Decorators';
 import { bufferZoneEnum, fieldEnum, waterValveEnum } from '../../../containers/constants';
@@ -58,6 +60,15 @@ Default.args = {
   unitType: area_total_area,
   system: 'imperial',
   required: true,
+};
+Default.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+
+  const input = canvas.getByRole('spinbutton');
+  await userEvent.clear(input);
+  await userEvent.type(input, '2');
+
+  expect(input).toHaveValue(2);
 };
 
 export const HasLeaf = Template.bind({});

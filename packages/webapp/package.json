@@ -14,7 +14,8 @@
     "format": "npx prettier --write ./src",
     "storybook": "storybook dev -p 6006 public",
     "build-storybook": "storybook build",
-    "precommit": "lint-staged"
+    "precommit": "lint-staged",
+    "test-storybook": "test-storybook"
   },
   "lint-staged": {
     "*.{js, jsx}": [
@@ -83,8 +84,10 @@
     "@storybook/addon-essentials": "^7.0.0-beta.45",
     "@storybook/addon-interactions": "^7.0.0-beta.45",
     "@storybook/addon-links": "^7.0.0-beta.45",
+    "@storybook/jest": "^0.0.10",
     "@storybook/react": "^7.0.0-beta.45",
     "@storybook/react-vite": "^7.0.0-beta.45",
+    "@storybook/test-runner": "^0.9.4",
     "@storybook/testing-library": "^0.0.14-next.1",
     "@types/d3": "^7.4.0",
     "@types/react": "^18.0.25",

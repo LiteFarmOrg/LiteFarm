@@ -12,7 +12,6 @@ export default {
 
 const Template = (args) => (
   <FormProvider {...useForm()}>
-    {' '}
     <LineDetails {...args} />
   </FormProvider>
 );

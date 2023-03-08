@@ -1737,14 +1737,14 @@ export default {
     },
     bulkSensorsReadingsReducer: {
       loading: false,
-      sensorsReadingsOfTemperature: [],
+      sensorsReadings: {},
       selectedSensorName: '',
       latestMinTemperature: null,
       latestMaxTemperature: null,
       nearestStationName: '',
-      lastUpdatedReadingsTime: '',
+      lastUpdatedReadingsTime: {},
       predictedXAxisLabel: '',
-      xAxisLabel: '',
+      xAxisLabel: {},
       activeReadingTypes: [],
     },
     mapAddDrawerReducer: {

@@ -30,8 +30,6 @@ Dependendo de quais partes da plataforma LiteFarm você usar, poderemos coletar 
 
 - Informações de contato (nome, endereço, número de telefone, endereço de e-mail)
 
-<<<<<<< HEAD
-
 - Dados demográficos (gênero, ano de nascimento, idioma de preferência, país, moeda corrente)
 
 - Fotos

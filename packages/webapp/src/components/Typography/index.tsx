@@ -247,7 +247,11 @@ export const TextWithExternalLink = ({
 
   return (
     <>
-      <div style={{ width: 'fit-content', display: 'inline-block' }} {...props}>
+      <div
+        className={styles.info}
+        style={{ width: 'fit-content', display: 'inline-block' }}
+        {...props}
+      >
         {children}
 
         <ExternalLink link={link} style={''} {...props}>

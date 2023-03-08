@@ -1736,6 +1736,7 @@
     "PART_NUMBER": "MISSING",
     "HARDWARE_VERSION": "MISSING",
     "NO_DATA_FOUND": "MISSING",
+    "NO_DATA": "MISSING",
     "DETAIL": {
       "RETIRE": "MISSING",
       "EDIT": "MISSING",

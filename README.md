@@ -11,32 +11,97 @@ LiteFarm version 1.0.0 was released to the public in July 2020. The LiteFarm app
 
 If you’re a farmer and would like to join LiteFarm you can sign up today at app.litefarm.org. If you are a researcher or would like to find out more about this project you can contact the [UBC Centre for Sustainable Food Systems](https://ubcfarm.ubc.ca/litefarm/). If you're a developer, welcome to the team! All the details on how you can contribute to this project are right here.
 
-# Setup 
+# Setup
 
 LiteFarm is comprised of three applications which all reside in this monorepo.
 
-- `packages/webapp` is the client-facing application 
+- `packages/webapp` is the client-facing application
 - `packages/api` is the back-end API server with entry point `src/server.js`
-- `packages/api/src/jobs` is the "jobs scheduler" for certification exports, with entry point `index.js` 
+- `packages/api/src/jobs` is the "jobs scheduler" for certification exports, with entry point `index.js`
 
-## Preliminaries 
+## Preliminaries
 
 1. Check to see if you have Node.js installed. On a Mac use the command `node-v` in terminal. If it is installed, the version in use will be reported in the terminal. If not, install it from [node.js](https://nodejs.org/en/download/package-manager/).
-2. Check to see if you have pnpm installed. On a Mac use the command `pnpm -v`. If it is installed, the version will be reported. If you do not have it installed, run `npm install -g pnpm` in a terminal. 
+2. Check to see if you have pnpm installed. On a Mac use the command `pnpm -v`. If it is installed, the version will be reported. If you do not have it installed, run `npm install -g pnpm` in a terminal.
 3. Check to see if you have NVM installed. On a Mac use the command `nvm -v`. If you do not have NVM (Node Version Manager) installed, install it using these instructions: [NVM](https://www.loginradius.com/blog/engineering/run-multiple-nodejs-version-on-the-same-machine/)
 4. Clone the repository from Github to your computer. On a Mac, in a Terminal window navigate to the directory you want to put the files in. Then use the command `git clone https://github.com/LiteFarmOrg/LiteFarm.git`.
 5. In a terminal, navigate to the root folder of the repo and run `npm install`.
 6. Navigate to the `packages/api` folder, and run `npm install`.
-   If trying to run this command results in the error, 
+   If trying to run this command results in the error,
    `npm ERR! code ERESOLVE
    npm ERR! ERESOLVE could not resolve
    npm ERR!
    npm ERR! While resolving: objection@2.2.17...`
-   
+
    Use nvm to install and use the Node version 16.15.0 with the commands, `nvm install 16.15.0` then `nvm use 16.15.0`. Then try again.
 7. Navigate to the `packages/webapp` folder, and run `pnpm install`.
 
 ## Database setup
+
+Depending on preferences and existing ecosystem on your development machine, the persistence layer, consisting of two PostgreSQL databases and, optionally, a Redis queue, can be run either in docker containers, or be installed directly on the host.
+
+### Running database in docker
+
+As soon as you have [docker installed](#set-up-1) on your development machine, setting the database up should be as simple as:
+
+0. Open the terminal of your choice
+1. Navigate to `packages/api` folder
+2. It is recommended to have the environment for the `api` package set up at first - please, see the next section on [how to obtain and prepare .env files for development](#adding-environment-files).
+
+  However, default settings in `packages/api/env.default` are already suitable for getting the database(s) up and running - if you are in a haste, just execute the following command and skip to step 5:
+
+  ```bash
+  # In packages/api folder:
+  TEST_DATABASE_PORT=6432 docker-compose -f ./docker-compose.local.yaml --env-file ./.env.default up -d
+  ```
+
+
+3. Open `packages/api/.env` and edit or add the following setting:
+
+  ```bash
+  # Any other free port apart from standard PostgreSQL port, 5432, would do
+  TEST_DATABASE_PORT=6432
+  ```
+
+4. Still in the `packages/api` folder, execute:
+
+  ```bash
+  docker-compose -f ./docker-compose.local.yaml up -d
+  ```
+
+  This would create and start three containers in the background:
+
+  - `litefarm-db`: the LiteFarm web application would store it's data here
+  - `litefarm-redis`: organic certifier survey feature uses this as a [task / message queue](https://redis.com/solutions/use-cases/messaging/)
+  - `litefarm-db-test`: [tests suite](#testing) relies upon it to prepare and clean up persistent application state while running the tests.
+
+  To directly execute SQL statements from PostgreSQL shell at any time:
+
+  ```bash
+  (set -a && source .env &&  docker-compose -f ./docker-compose.local.yaml exec db psql -U ${DEV_DATABASE_USER} ${DEV_DATABASE});
+  ```
+
+  To stop either all or some of the containers:
+
+  ```bash
+  docker-compose -f ./docker-compose.local.yaml stop [service]
+    ```
+
+    where `[service]` optionally is `db`, `db-test` or `redis`.
+
+5. Set up database schema and [migrate](https://knexjs.org/#Migrations) it to a state, expected by the app:
+
+  in the `packages/api` folder execute the following terminal command:
+
+  ```bash
+  npm run migrate:dev:db
+  ```
+
+  Note: _this command can and should be invoked every time the local code branch had been updated with changes that augments database structure or contents (migrations or seeds in `packages/api/db` had been updated)._
+
+### Installing database manually
+
+If you prefer to have PostgreSQL installed on your host machine directly and have both the development (application) database and database used for automated tests in the same PostgreSQL server, the following recipe would be helpful.
 
 1. If using Windows, install PostgreSQL by downloading installers or packages from https://www.postgresql.org/download/. Mac and Linux users can use homebrew with the commands shown below (a link for installing Homebrew is below too!). The second command can take up to 10 minutes because it may trigger the compilation of a new binary.
 
@@ -72,7 +137,7 @@ LiteFarm is comprised of three applications which all reside in this monorepo.
 
        CREATE DATABASE "pg-litefarm";
        CREATE DATABASE test_farm;
-       
+
    Then exit with,
        exit;       
 
@@ -84,7 +149,7 @@ LiteFarm is comprised of three applications which all reside in this monorepo.
 
 The applications are configured with environment variables stored in `.env` files. Configuration information includes secrets like API keys, so the `.env` files are not included in this git repository.
 
- This repository only contains `.env.default` files for api and webapp. To join the LiteFarm team and recieve full versions of the environment files contact community@litefarm.org. 
+ This repository only contains `.env.default` files for api and webapp. To join the LiteFarm team and recieve full versions of the environment files contact community@litefarm.org.
 
  Once you recieve the `.env` files, you will have to rename them correctly and place them in the right folders.
 
@@ -108,7 +173,7 @@ To run [ESLint](https://eslint.org/) checks execute `npm run lint`
 
 The [chai.js](https://www.chaijs.com/) and [jest](https://jestjs.io/) libraries automate tests that run real database operations using [JWT](https://jwt.io/introduction). The tests use a dedicated database named `test_farm`, distinct from the `pg-litefarm` database that the app normally uses .
 
-1. In a terminal, navigate to the `packages/api` folder. 
+1. In a terminal, navigate to the `packages/api` folder.
 2. Execute `npm run migrate:testing:db` to set up the test database.
 3. Execute `npm test` to launch the tests. Or, to generate test coverage information, run `npm test -- --coverage .` and then see the `coverage/index.html` file.
 
@@ -124,7 +189,7 @@ Since this is a mobile web application, webapp should be viewed in a mobile view
 
 ## Use cases for ngrok
 
-Please see https://ngrok.com/ for more general information about ngrok. 
+Please see https://ngrok.com/ for more general information about ngrok.
 
 Use cases in which we currently utilize ngrok at LiteFarm include:
 - Testing local changes on phones or different devices
@@ -155,7 +220,7 @@ _Note: Please make sure to run the commands in the following order:_
 
 ## Use cases for Docker
 
-Please see https://docs.docker.com/ for more general information about docker. 
+Please see https://docs.docker.com/ for more general information about docker.
 
 Use cases in which we currently utilize docker at LiteFarm include:
 - Simulating the server environment.
@@ -164,8 +229,8 @@ Use cases in which we currently utilize docker at LiteFarm include:
 ## Set up
 
 - Go to https://docs.docker.com/get-docker/ and install docker in your local system.
-- After installation, the docker CLI will be available where you can run the docker commands. 
-- create a .env file at the root directory of the project i.e. LiteFarm 
+- After installation, the docker CLI will be available where you can run the docker commands.
+- create a .env file at the root directory of the project i.e. LiteFarm
 - Add key-value pairs in the .env by referring to the docker-compose.[ENV].yml that contains the docker env keys.
 
 ## Commands

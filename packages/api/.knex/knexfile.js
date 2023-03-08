@@ -13,7 +13,6 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 // import path from 'path';
-// import { fileURLToPath } from 'url';
 
 const dotenv = require('dotenv');
 const path = require('path');
@@ -22,21 +21,30 @@ dotenv.config({ path: path.resolve(__dirname, '../.env') });
 
 const root = path.resolve(__dirname, '../');
 
+const DEFAULT_POSTGRES_PORT = 5432;
+
+// Default location where database schema migrations and seeds could be found
+// (same for most of the environments / stages).
+const cfgMigrationAndSeeds = {
+  migrations: {
+    directory: root + '/db/migration',
+  },
+  seeds: {
+    directory: root + '/db/seeds',
+  },
+};
+
 module.exports = {
   development: {
     client: 'postgresql',
     connection: {
       host: process.env.DEV_DATABASE_HOST,
+      port: process.env.DEV_DATABASE_PORT || DEFAULT_POSTGRES_PORT,
       database: process.env.DEV_DATABASE,
       user: process.env.DEV_DATABASE_USER,
       password: process.env.DEV_DATABASE_PASSWORD,
     },
-    migrations: {
-      directory: root + '/db/migration',
-    },
-    seeds: {
-      directory: root + '/db/seeds',
-    },
+    ...cfgMigrationAndSeeds,
   },
 
   ci: {
@@ -47,12 +55,7 @@ module.exports = {
       user: 'postgres',
       password: 'postgres',
     },
-    migrations: {
-      directory: root + '/db/migration',
-    },
-    seeds: {
-      directory: root + '/db/seeds',
-    },
+    ...cfgMigrationAndSeeds,
   },
 
   integration: {
@@ -60,48 +63,35 @@ module.exports = {
     debug: true,
     connection: {
       host: process.env.DEV_DATABASE_HOST,
+      port: process.env.DEV_DATABASE_PORT || DEFAULT_POSTGRES_PORT,
       database: process.env.DEV_DATABASE,
       user: process.env.DEV_DATABASE_USER,
       password: process.env.DEV_DATABASE_PASSWORD,
       ssl: { rejectUnauthorized: false },
     },
-    migrations: {
-      directory: root + '/db/migration',
-    },
-    seeds: {
-      directory: root + '/db/seeds',
-    },
+    ...cfgMigrationAndSeeds,
   },
 
   production: {
     client: 'postgresql',
     debug: true,
     connection: process.env.DATABASE_URL,
-    migrations: {
-      directory: root + '/db/migration',
-    },
-    seeds: {
-      directory: root + '/db/seeds',
-    },
     ssl: {
       rejectUnauthorized: false,
     },
+    ...cfgMigrationAndSeeds,
   },
   test: {
     client: 'postgresql',
     connection: {
       host: process.env.TEST_DATABASE_HOST,
+      port: process.env.TEST_DATABASE_PORT || DEFAULT_POSTGRES_PORT,
       database: process.env.TEST_DATABASE,
       user: process.env.TEST_DATABASE_USER,
       password: process.env.TEST_DATABASE_PASSWORD,
     },
     pool: { min: 0, max: 100 },
-    migrations: {
-      directory: root + '/db/migration',
-    },
-    seeds: {
-      directory: root + '/db/seeds',
-    },
+    ...cfgMigrationAndSeeds,
   },
   pipeline: {
     client: 'postgresql',
@@ -113,11 +103,6 @@ module.exports = {
       password: 'pipeline',
     },
     pool: { min: 0, max: 100 },
-    migrations: {
-      directory: root + '/db/migration',
-    },
-    seeds: {
-      directory: root + '/db/seeds',
-    },
+    ...cfgMigrationAndSeeds,
   },
 };

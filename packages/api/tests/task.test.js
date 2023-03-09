@@ -2367,6 +2367,7 @@ describe('Task tests', () => {
           expect(res.status).toBe(200);
           const updated_task = await getTask(task_id);
           expect(updated_task.wage_at_moment).toBe(wage_at_moment);
+          expect(updated_task.override_hourly_wage).toBe(true);
           done();
         });
         return;

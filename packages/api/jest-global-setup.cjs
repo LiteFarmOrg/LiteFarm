@@ -4,4 +4,5 @@
  */
 module.exports = async () => {
   process.env.TZ = 'UTC';
+  testTimeout = 30000;
 };

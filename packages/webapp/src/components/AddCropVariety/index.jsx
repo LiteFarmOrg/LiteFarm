@@ -2,7 +2,7 @@ import Button from '../Form/Button';
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
-import { Label, Underlined } from '../Typography';
+import { Label } from '../Typography';
 import Input, { integerOnKeyDown, getInputErrors } from '../Form/Input';
 import styles from './styles.module.scss';
 import Radio from '../Form/Radio';
@@ -53,11 +53,11 @@ export default function PureAddCropVariety({
 
   const commonNameRegister = register(COMMON_NAME, { required: true });
   const varietalRegister = register(VARIETAL, {
-    maxLength: { value: 200, message: t('FORM_VALIDATION.OVER_200_CHARS') },
+    maxLength: { value: 255, message: t('FORM_VALIDATION.OVER_255_CHARS') },
     required: false,
   });
   const cultivarRegister = register(CULTIVAR, {
-    maxLength: { value: 200, message: t('FORM_VALIDATION.OVER_200_CHARS') },
+    maxLength: { value: 255, message: t('FORM_VALIDATION.OVER_255_CHARS') },
     required: false,
   });
   const supplierRegister = register(SUPPLIER, { required: isSeekingCert ? true : false });

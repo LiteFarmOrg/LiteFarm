@@ -6,7 +6,7 @@ import Infoi from '../Tooltip/Infoi';
 import { ReactComponent as Leaf } from '../../assets/images/farmMapFilter/Leaf.svg';
 import { ReactComponent as Pencil } from '../../assets/images/managementPlans/pencil.svg';
 import { useTranslation } from 'react-i18next';
-import { ReactComponent as ExternalLinkIcon } from '../../assets/images/ExternalLink.svg';
+import { ReactComponent as ExternalLinkIcon } from '../../assets/images/icon_external_link.svg';
 
 type TypographyProps = {
   style?: object;

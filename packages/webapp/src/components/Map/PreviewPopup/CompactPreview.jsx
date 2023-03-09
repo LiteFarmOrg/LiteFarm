@@ -88,8 +88,6 @@ export default function CompactPreview({ location, readings, readingType }) {
     if (isClicked) setTimeout(loadReadingView, 250);
   };
 
-  console.log('entra');
-
   return (
     <div
       className={isClicked ? classes.highlight : classes.container}

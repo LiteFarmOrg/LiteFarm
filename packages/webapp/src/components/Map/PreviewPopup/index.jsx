@@ -88,7 +88,7 @@ export default function PurePreviewPopup({ location, history, sensorReadings, st
               /**
                * Add other reading types in the if below when other compact components are added to CompactPreview
                */
-              if (reading_type === TEMPERATURE || reading_type === SOIL_WATER_POTENTIAL) {
+              if ([TEMPERATURE, SOIL_WATER_POTENTIAL].includes(reading_type)) {
                 return (
                   <CompactPreview
                     key={idx}

@@ -169,7 +169,7 @@ export default function PureAddCropVariety({
       >
         {React.cloneElement(imageUploader, {
           hookFormRegister: imageUrlRegister,
-          targetRoute: 'crop',
+          targetRoute: 'crop_variety',
         })}
         <Infoi
           style={{

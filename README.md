@@ -53,7 +53,7 @@ Additionally, `packages/shared` contains utilities that both the API server and 
    npm ERR!
    npm ERR! While resolving: objection@2.2.17...
    ```
-   invoke `nvm install` and `nvm use` from the `packages/api` folder to ensure a supported version of Nide.js is active. Then try `npm install` again.
+   invoke `nvm install` and `nvm use` from the `packages/api` folder to ensure a supported version of Node.js is active. Then try `npm install` again.
 
 4. Navigate to the `packages/shared` folder, and run `npm install` - without that, test suite for `packages/api` would not be able to run.
 
@@ -199,7 +199,7 @@ navigate to the `packages/shared` folder, run `npm install` and then try to swit
 
 To run [ESLint](https://eslint.org/) checks execute `pnpm lint`
 
-Sicne this web application is meant to be used on mobile devices, webapp should be viewed in a mobile view in the browser.
+Since this web application is meant to be used on mobile devices, webapp should be viewed in a mobile view in the browser.
 
 # ngrok
 

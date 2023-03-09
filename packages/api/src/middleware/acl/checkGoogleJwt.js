@@ -2,6 +2,7 @@ import { OAuth2Client } from 'google-auth-library';
 const client_id = process.env.GOOGLE_OAUTH_CLIENT_ID;
 const client = new OAuth2Client(client_id);
 
+// Token returned from the Sign in with Google button on main login page
 async function checkGoogleJwt(req, res, next) {
   const authorization = req.headers['authorization'];
   if (!authorization) {
@@ -9,18 +10,6 @@ async function checkGoogleJwt(req, res, next) {
   }
   const token = authorization.replace('Bearer ', '');
 
-  // For implicit flow from @react-oauth useGoogleLogin() hook from the email invite view
-  if (req.body.isAccessToken) {
-    try {
-      const tokenInfo = await client.getTokenInfo(token);
-      req.user = { email: tokenInfo.email, sub: tokenInfo.sub };
-      return next();
-    } catch (error) {
-      console.error(error);
-    }
-  }
-
-  // Sign in with Google Button on main login page
   try {
     const ticket = await client.verifyIdToken({
       idToken: token,

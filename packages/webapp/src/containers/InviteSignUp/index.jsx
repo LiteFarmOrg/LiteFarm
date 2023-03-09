@@ -46,7 +46,6 @@ function InviteSignUp({ history }) {
         name: data.name,
         gender,
         birth_year,
-        isAccessToken: true,
       });
     } else {
       setShowError(true);

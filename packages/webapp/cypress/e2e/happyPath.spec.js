@@ -182,6 +182,7 @@ describe.only('LiteFarm end to end test', () => {
     cy.goToPeopleView('English');
     cy.url().should('include', '/people');
     cy.get('[data-cy=people-inviteUser]').should('exist').and('not.be.disabled').click();
+    cy.wait(2000);
     cy.inviteUser(
       'Farm Worker',
       workerName,

@@ -60,18 +60,18 @@ export default function PureIrrigationTask({
   const dispatch = useDispatch();
 
   const getDefaultIrrigationTypes = () => {
-    let  defaultIrrigationTaskTypes = [];
+    const defaultIrrigationTaskTypes = [];
     for (let type of irrigationTaskTypes) {
       if (type.farm_id === null) {
         defaultIrrigationTaskTypes.push(type.irrigation_type_name);
       }
     }
     return defaultIrrigationTaskTypes;
-  }
+  };
 
   const IrrigationTypeOptions = useMemo(() => {
     let options;
-    let defaultIrrigationTaskTypes = getDefaultIrrigationTypes()
+    const defaultIrrigationTaskTypes = getDefaultIrrigationTypes();
     options = irrigationTaskTypes.map((irrigationType) => {
       return {
         value: irrigationType.irrigation_type_name,
@@ -117,10 +117,10 @@ export default function PureIrrigationTask({
   // the "set default" checkbox is only a visual reference for users to see this irrigation type was set as default during its creation
   useEffect(() => {
     if (isModified) {
-      setValue(DEFAULT_IRRIGATION_TASK_LOCATION, false)
-      setValue(DEFAULT_IRRIGATION_MEASUREMENT, false)
+      setValue(DEFAULT_IRRIGATION_TASK_LOCATION, false);
+      setValue(DEFAULT_IRRIGATION_MEASUREMENT, false);
     }
-  });
+  }, [isModified]);
 
   const onDismissWaterUseCalculatorModel = () => setShowWaterUseCalculatorModal(false);
   const handleModalSubmit = () => {
@@ -189,7 +189,6 @@ export default function PureIrrigationTask({
       setTotalDepthWaterUsage('');
     }
   }, [showWaterUseCalculatorModal]);
-
 
   return (
     <>

@@ -82,6 +82,7 @@ const useUnit = ({
     reactSelectWidth,
     dividerWidth,
     onKeyDown,
+    measure,
   } = useMemo(() => {
     const databaseUnit = defaultValueUnit ?? unitType.databaseUnit;
     const options = getOptions(unitType, system);
@@ -102,6 +103,7 @@ const useUnit = ({
           options,
           databaseUnit,
           isSelectDisabled,
+          measure,
           reactSelectWidth,
           dividerWidth,
           onKeyDown,
@@ -111,6 +113,7 @@ const useUnit = ({
           options,
           databaseUnit,
           isSelectDisabled,
+          measure,
           reactSelectWidth,
           dividerWidth,
           onKeyDown,

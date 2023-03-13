@@ -1,5 +1,5 @@
 /*
- *  Copyright 2019, 2020, 2021, 2022 LiteFarm.org
+ *  Copyright 2019, 2020, 2021, 2022, 2023 LiteFarm.org
  *  This file is part of LiteFarm.
  *
  *  LiteFarm is free software: you can redistribute it and/or modify
@@ -12,22 +12,7 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
-
-import './loadEnv.js';
-import sendOnSchedule from './notifications/index.js';
-import processExports from './certification/index.js';
-
-import logger from '../common/logger.js';
-
-const redisConf = {
-  redis: {
-    host: process.env.REDIS_HOST,
-    port: process.env.REDIS_PORT,
-    password: process.env.REDIS_PASSWORD,
-  },
-};
-
-logger.info('starting job scheduler');
-
-processExports(redisConf);
-sendOnSchedule(redisConf);
+export const ABANDON_DATE_SELECTED = 'abandon_date_selected';
+export const ORIGINAL_DUE_DATE = 'original';
+export const TODAY_DUE_DATE = 'today';
+export const ANOTHER_DUE_DATE = 'another';

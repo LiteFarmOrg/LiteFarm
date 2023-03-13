@@ -19,6 +19,7 @@ import PredictedRect from './PredictedRect';
 import { getLanguageFromLocalStorage } from '../../util/getLanguageFromLocalStorage';
 import { SensorReadingChartSpotlightProvider } from './SensorReadingChartSpotlightProvider';
 import { TEMPERATURE } from '../../containers/SensorReadings/constants';
+import produce from 'immer';
 
 const PureSensorReadingsLineChart = ({
   showSpotLight,
@@ -60,14 +61,12 @@ const PureSensorReadingsLineChart = ({
   }, [yAxisDataKeys]);
 
   const handleLegendClick = (entry) => {
-    setLegendsList((legends) => {
-      const activeCount = Object.values(legends).filter((l) => l.isActive).length;
-      const isActive = legends[entry.value].isActive;
-      if ((activeCount > 1 && isActive) || (activeCount >= 1 && !isActive)) {
+    setLegendsList(
+      produce((legends) => {
+        const isActive = legends[entry.value].isActive;
         legends[entry.value].isActive = !isActive;
-      }
-      return { ...legends };
-    });
+      }),
+    );
   };
 
   const renderCusomizedLegend = ({ payload }) => {
@@ -186,18 +185,19 @@ const PureSensorReadingsLineChart = ({
                 scale="band"
                 xAxisId="quarter"
               />
-              <YAxis label={{ value: yAxisLabel, position: 'insideCenter', angle: -90, dx: -20 }} />
+              <YAxis
+                domain={['auto', 'auto']}
+                label={{ value: yAxisLabel, position: 'insideCenter', angle: -90, dx: -20 }}
+              />
               <Tooltip />
-              {yAxisDataKeys.length > 1 && (
-                <Legend
-                  layout="horizontal"
-                  verticalAlign="top"
-                  align="center"
-                  wrapperStyle={{ top: 10, left: 50 }}
-                  payload={Object.values(legendsList)}
-                  content={renderCusomizedLegend}
-                />
-              )}
+              <Legend
+                layout="horizontal"
+                verticalAlign="top"
+                align="center"
+                wrapperStyle={{ top: 10, left: 50 }}
+                payload={Object.values(legendsList)}
+                content={renderCusomizedLegend}
+              />
               {yAxisDataKeys.length &&
                 Object.values(legendsList)
                   .filter((l) => l.isActive)
@@ -211,13 +211,7 @@ const PureSensorReadingsLineChart = ({
                       isAnimationActive={false}
                     />
                   ))}
-              {readingType === TEMPERATURE ? (
-                <ReferenceArea
-                  fill={'#EBECED'}
-                  shape={<PredictedRect />}
-                  x1={predictedXAxisLabel}
-                />
-              ) : null}
+              <ReferenceArea fill={'#EBECED'} shape={<PredictedRect />} x1={predictedXAxisLabel} />
             </LineChart>
           </ResponsiveContainer>
         </>

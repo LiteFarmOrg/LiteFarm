@@ -88,7 +88,7 @@ const useUnit = ({
     const options = getOptions(unitType, system);
     const hookFormValue = hookFormGetValue(name);
     const value = hookFormValue || (hookFormValue === 0 ? 0 : defaultValue);
-    const isSelectDisabled = options.length <= 1 || disabled;
+    const isSelectDisabled = options.length <= 1;
     const measure = convert().describe(databaseUnit)?.measure;
     const reactSelectWidth = getReactSelectWidth(measure);
     const onKeyDown = getOnKeyDown(measure);
@@ -236,7 +236,7 @@ const useUnit = ({
     onClear,
     showError,
     options,
-    isSelectDisabled,
+    isSelectDisabled: isSelectDisabled || disabled,
     visibleInputValue,
     inputOnChange,
     getMax,

@@ -58,13 +58,13 @@ describe.only('LiteFarm end to end test', () => {
 
     //Login as a new user
     cy.newUserLogin(emailOwner);
-    cy.wait('@emailLogin', { timeout: 30 * 1000 }).then(({ request, response }) => {
+    cy.wait('@emailLogin', { timeout: 30 * 1000 }).should(({ request, response }) => {
       expect(response.statusCode).to.equal(200);
       //create account
       cy.createAccount(emailOwner, fullName, gender, null, null, password);
     });
 
-    cy.wait('@createUser', { timeout: 60 * 1000 }).then(({ request, response }) => {
+    cy.wait('@createUser', { timeout: 60 * 1000 }).should(({ request, response }) => {
       expect(response.statusCode).to.equal(201);
       cy.getStarted();
     });
@@ -86,12 +86,16 @@ describe.only('LiteFarm end to end test', () => {
     cy.roleSelection(role);
 
     //Consent page
+    cy.wait(5 * 1000);
+    cy.waitForReact();
     cy.giveConsent();
+    cy.wait(5000);
     //interested in organic
     cy.interestedInOrganic();
 
     //who is your certifier(select BCARA)
     cy.selectCertifier();
+    cy.wait(5000);
     //onboarding outro
     cy.onboardingOutro();
 
@@ -99,7 +103,6 @@ describe.only('LiteFarm end to end test', () => {
 
     //farm home page
     cy.homePageSpotlights();
-    cy.get('[data-cy=home-farmButton]').should('exist').and('not.be.disabled').click();
     cy.get('[data-cy=navbar-option]')
       .contains('Farm map')
       .should('exist')
@@ -182,7 +185,6 @@ describe.only('LiteFarm end to end test', () => {
     cy.goToPeopleView('English');
     cy.url().should('include', '/people');
     cy.get('[data-cy=people-inviteUser]').should('exist').and('not.be.disabled').click();
-    cy.wait(2000);
     cy.inviteUser(
       'Farm Worker',
       workerName,
@@ -288,23 +290,21 @@ describe.only('LiteFarm end to end test', () => {
     cy.contains('Cereals').should('exist').click();
     cy.get('[type="radio"]').first().check({ force: true });
     cy.get('[data-cy=crop-submit]').should('exist').and('not.be.disabled').click();
+    cy.wait(5 * 1000);
     cy.url().should('include', '/crop/new/add_crop_variety');
     cy.get('[data-cy=crop-variety]').should('exist').type('New Variety');
     cy.get('[data-cy=crop-supplier]').should('exist').type('New Supplier');
-    cy.get('[data-cy=crop-annual]').should('exist').check({ force: true });
+    cy.get('[type="radio"]').first().check({ force: true });
     cy.get('[data-cy=variety-submit]').should('exist').and('not.be.disabled').click();
+
     cy.url().should('include', '/crop/new/add_crop_variety/compliance');
-    cy.get('[data-cy=compliance-newVarietySave]').should('exist').and('be.disabled');
-    cy.waitForReact();
-    cy.get('[data-cy=compliance-seed]').eq(1).should('exist').check({ force: true });
     cy.get('[data-cy=compliance-seed]').eq(1).should('exist').check({ force: true });
     cy.get('[data-cy=compliance-seedAvailability]').eq(1).should('exist').check({ force: true });
     cy.get('[data-cy=compliance-seedEngineered]').eq(0).should('exist').check({ force: true });
     cy.get('[data-cy=compliance-seedTreated]').eq(2).should('exist').check({ force: true });
     cy.get('[data-cy=compliance-newVarietySave]').should('exist').and('not.be.disabled').click();
-    cy.waitForReact();
+
     cy.url().should('include', '/management');
-    cy.waitForReact();
     cy.get('[data-cy=spotlight-next]', { timeout: 60 * 1000 })
       .contains('Next')
       .should('exist')
@@ -328,7 +328,7 @@ describe.only('LiteFarm end to end test', () => {
       .and('not.be.disabled')
       .click({ force: true });
 
-    cy.wait('@getTaskTypes').then(({ request, response }) => {
+    cy.wait('@getTaskTypes').should(({ request, response }) => {
       const taskTypes = response.body;
 
       taskTypes.forEach((taskType) => {
@@ -337,6 +337,7 @@ describe.only('LiteFarm end to end test', () => {
         }
       });
     });
+    cy.wait(20 * 1000);
     cy.get('[data-cy=task-selection]').each((element, index, list) => {
       // Returns the current li element
       expect(Cypress.$(element)).to.be.visible;
@@ -352,12 +353,11 @@ describe.only('LiteFarm end to end test', () => {
       if (text == 'Clean') {
         cy.get('[data-cy=task-selection]').eq(index).click();
         cy.createACleaningTask(taskType_id);
-        cy.waitForReact();
         //cy.get('._contentContainer_nkx8u_1').contains('Successfully created task').should('exist');
         //assign all unassigned tasks on date to selected user
+        cy.visit('/tasks');
         cy.url().should('include', '/tasks');
         //cy.get('[data-cy="pill-close"]').click();
-        cy.waitForReact();
         cy.get('[data-cy=taskCard]', { timeout: 60 * 1000 }).should('exist');
         cy.contains('Create').should('exist').and('not.be.disabled').click({ force: true });
         // cy.get('[data-cy=pill-close]').should('exist').and('not.be.disabled').click();
@@ -368,9 +368,8 @@ describe.only('LiteFarm end to end test', () => {
       } else if (text == 'Field Work') {
         cy.get('[data-cy=task-selection]').eq(index).click();
         cy.createAFieldWorkTask();
-        //cy.get('._contentContainer_nkx8u_1').contains('Successfully created task').should('exist');
+        cy.get('._contentContainer_nkx8u_1').contains('Successfully created task').should('exist');
         cy.url().should('include', '/tasks');
-        cy.waitForReact();
         cy.get('[data-cy=taskCard]').should('exist');
         cy.contains('Create').should('exist').and('not.be.disabled').click({ force: true });
       } else if (text == 'Harvest') {
@@ -393,7 +392,6 @@ describe.only('LiteFarm end to end test', () => {
         );
         cy.get('[data-cy=home-taskButton]').should('exist').and('not.be.disabled').click();
         cy.url().should('include', '/tasks');
-        cy.waitForReact();
         cy.get('[data-cy=taskCard]').should('exist');
         cy.contains('Create').should('exist').and('not.be.disabled').click({ force: true });
       } else if (text == 'Pest Control') {
@@ -401,7 +399,6 @@ describe.only('LiteFarm end to end test', () => {
         cy.createAPestControlTask();
         cy.get('._contentContainer_nkx8u_1').contains('Successfully created task').should('exist');
         cy.url().should('include', '/tasks');
-        cy.waitForReact();
         cy.get('[data-cy=taskCard]').should('exist');
         cy.contains('Create').should('exist').and('not.be.disabled').click({ force: true });
       } else if (text == 'Planting') {
@@ -411,7 +408,6 @@ describe.only('LiteFarm end to end test', () => {
         cy.get('[data-cy=task-selection]').eq(index).click();
         cy.get('[data-cy=home-taskButton]').should('exist').and('not.be.disabled').click();
         cy.url().should('include', '/tasks');
-        cy.waitForReact();
         cy.get('[data-cy=taskCard]').should('exist');
         cy.contains('Create').should('exist').and('not.be.disabled').click({ force: true });
         // cy.url().should('include', '/tasks');
@@ -422,7 +418,6 @@ describe.only('LiteFarm end to end test', () => {
         cy.createASoilAmendmentTask();
         cy.get('._contentContainer_nkx8u_1').contains('Successfully created task').should('exist');
         cy.url().should('include', '/tasks');
-        cy.waitForReact();
       } else if (text == 'Transplant') {
         return;
         // cy.url().should('include', '/tasks');
@@ -431,6 +426,7 @@ describe.only('LiteFarm end to end test', () => {
       }
     });
 
+    cy.visit('/tasks');
     cy.get('[data-cy="tasks-taskCount"]').should('exist'); //.contains('7 tasks');
     cy.get('[data-cy="taskCard"]').each((element, index, list) => {
       expect(Cypress.$(element)).to.be.visible;

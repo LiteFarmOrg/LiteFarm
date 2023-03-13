@@ -58,13 +58,13 @@ describe.only('LiteFarm end to end test', () => {
 
     //Login as a new user
     cy.newUserLogin(emailOwner);
-    cy.wait('@emailLogin', { timeout: 30 * 1000 }).should(({ request, response }) => {
+    cy.wait('@emailLogin', { timeout: 30 * 1000 }).then(({ request, response }) => {
       expect(response.statusCode).to.equal(200);
       //create account
       cy.createAccount(emailOwner, fullName, gender, null, null, password);
     });
 
-    cy.wait('@createUser', { timeout: 60 * 1000 }).should(({ request, response }) => {
+    cy.wait('@createUser', { timeout: 60 * 1000 }).then(({ request, response }) => {
       expect(response.statusCode).to.equal(201);
       cy.getStarted();
     });
@@ -328,7 +328,7 @@ describe.only('LiteFarm end to end test', () => {
       .and('not.be.disabled')
       .click({ force: true });
 
-    cy.wait('@getTaskTypes').should(({ request, response }) => {
+    cy.wait('@getTaskTypes').then(({ request, response }) => {
       const taskTypes = response.body;
 
       taskTypes.forEach((taskType) => {

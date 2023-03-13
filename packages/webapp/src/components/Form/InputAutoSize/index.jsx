@@ -9,8 +9,8 @@ import { useTranslation } from 'react-i18next';
 
 export default function InputAutoSize({
   classes = {},
-  rowsMax = 4,
-  rowsMin = 1,
+  maxRows = 4,
+  minRows = 1,
   style,
   label,
   hookFormRegister,
@@ -41,8 +41,8 @@ export default function InputAutoSize({
       )}
 
       <TextareaAutosize
-        rowsMax={rowsMax}
-        rowsMin={rowsMin}
+        maxRows={maxRows}
+        minRows={minRows}
         name={name}
         className={clsx(styles.textArea, errors && styles.inputError)}
         ref={mergeRefs(hookFormRegister?.ref, input)}
@@ -78,8 +78,8 @@ InputAutoSize.propTypes = {
   onChange: PropTypes.func,
   onBlur: PropTypes.func,
   style: PropTypes.object,
-  rowsMin: PropTypes.number,
-  rowsMax: PropTypes.number,
+  minRows: PropTypes.number,
+  maxRows: PropTypes.number,
   optional: PropTypes.bool,
   errors: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
 };

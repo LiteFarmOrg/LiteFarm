@@ -14,7 +14,8 @@
     "format": "npx prettier --write ./src",
     "storybook": "storybook dev -p 6006 public",
     "build-storybook": "storybook build",
-    "precommit": "lint-staged"
+    "precommit": "lint-staged",
+    "cypress": "cypress open"
   },
   "lint-staged": {
     "*.{js, jsx}": [

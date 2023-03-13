@@ -78,7 +78,7 @@ const useUnit = ({
     displayValue,
     options,
     databaseUnit,
-    isSelectDisabled,
+    defaultIsSelectDisabled,
     reactSelectWidth,
     dividerWidth,
     onKeyDown,
@@ -88,11 +88,11 @@ const useUnit = ({
     const options = getOptions(unitType, system);
     const hookFormValue = hookFormGetValue(name);
     const value = hookFormValue || (hookFormValue === 0 ? 0 : defaultValue);
-    const isSelectDisabled = options.length <= 1;
+    const defaultIsSelectDisabled = options.length <= 1;
     const measure = convert().describe(databaseUnit)?.measure;
     const reactSelectWidth = getReactSelectWidth(measure);
     const onKeyDown = getOnKeyDown(measure);
-    const dividerWidth = isSelectDisabled
+    const dividerWidth = defaultIsSelectDisabled
       ? reactSelectWidth - DEFAULT_SELECT_ARROW_ICON_WIDTH
       : reactSelectWidth;
 
@@ -102,7 +102,7 @@ const useUnit = ({
           displayValue: defaultValue && roundToTwoDecimal(convert(value).from(databaseUnit).to(to)),
           options,
           databaseUnit,
-          isSelectDisabled,
+          defaultIsSelectDisabled,
           measure,
           reactSelectWidth,
           dividerWidth,
@@ -112,7 +112,7 @@ const useUnit = ({
           ...getDefaultUnit(unitType, value, system, databaseUnit),
           options,
           databaseUnit,
-          isSelectDisabled,
+          defaultIsSelectDisabled,
           measure,
           reactSelectWidth,
           dividerWidth,
@@ -236,7 +236,7 @@ const useUnit = ({
     onClear,
     showError,
     options,
-    isSelectDisabled: isSelectDisabled || disabled,
+    isSelectDisabled: defaultIsSelectDisabled || disabled,
     visibleInputValue,
     inputOnChange,
     getMax,

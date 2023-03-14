@@ -10,6 +10,7 @@ import {
   getTemperatureUnit,
   getTemperatureValue,
 } from './utils';
+import { isTouchDevice } from '../../../util/device';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -36,7 +37,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function CompactPreview({ location, readings, readingType }) {
+export default function CompactPreview({ location, readings, readingType, history }) {
   const classes = useStyles();
   const { t } = useTranslation();
   const { units } = useSelector(userFarmSelector);
@@ -85,14 +86,25 @@ export default function CompactPreview({ location, readings, readingType }) {
   };
 
   const onMouseUp = () => {
-    if (isClicked) setTimeout(loadReadingView, 250);
+    if (isClicked) loadReadingView();
   };
 
   return (
     <div
       className={isClicked ? classes.highlight : classes.container}
-      onMouseDown={onMouseDown}
-      onMouseUp={onMouseUp}
+      {...(isTouchDevice()
+        ? {
+            onTouchStart: (e) => {
+              onMouseDown(e);
+            },
+            onTouchEnd: () => onMouseUp(),
+          }
+        : {
+            onMouseDown: (e) => {
+              onMouseDown(e);
+            },
+            onMouseUp: () => onMouseUp(),
+          })}
     >
       <div className={classes.title}>{title}:</div>
       <div className={value ? classes.value : classes.error}>

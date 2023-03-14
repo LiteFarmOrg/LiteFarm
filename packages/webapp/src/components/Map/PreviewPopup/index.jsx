@@ -95,6 +95,7 @@ export default function PurePreviewPopup({ location, history, sensorReadings, st
                     location={location}
                     readings={sensorReadings}
                     readingType={reading_type}
+                    history={history}
                   />
                 );
               }

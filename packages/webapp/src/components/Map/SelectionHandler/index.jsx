@@ -213,6 +213,7 @@ export default function PureSelectionHandler({ locations, history, sensorReading
                           location={location}
                           readings={sensorReadings}
                           readingType={type}
+                          history={history}
                         />
                       );
                     }

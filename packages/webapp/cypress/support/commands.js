@@ -156,7 +156,6 @@ Cypress.Commands.add('createACleaningTask', (taskType_id) => {
   cy.get('[data-cy=map-selectLocation]').click(530, 216, {
     force: false,
   });
-
   cy.get('[data-cy=addTask-locationContinue]')
     .should('exist')
     .and('not.be.disabled')
@@ -192,6 +191,7 @@ Cypress.Commands.add('createAFieldWorkTask', () => {
     .should('exist')
     .and('not.be.disabled')
     .click({ force: true });
+  cy.waitForReact();
   cy.get('[data-cy=addTask-detailsContinue]').should('exist').and('not.be.disabled');
   cy.contains('Select') // find react-select component
     .click({ force: true }); // click to open dropdown
@@ -653,6 +653,7 @@ Cypress.Commands.add('interestedInOrganic', () => {
   cy.url().should('include', '/certification/selection');
   cy.get('[data-cy=certificationSelection-continue]').should('exist').and('be.disabled');
   cy.get('[data-cy=certificationSelection-type]').should('exist');
+  cy.waitForReact();
   cy.get('[type="radio"]').first().check({ force: true });
   cy.get('[data-cy=certificationSelection-continue]').should('not.be.disabled').click();
 });

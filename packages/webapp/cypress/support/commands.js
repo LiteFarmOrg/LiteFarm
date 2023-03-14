@@ -220,10 +220,10 @@ Cypress.Commands.add('createAFieldWorkTask', () => {
     .click({ force: true });
   cy.contains('Select') // find react-select component
     .click({ force: true }); // click to open dropdown
-  cy.get('.css-1plh46m-MenuList2') // find all options
-    .eq(0)
-    .click(); // click on first option
-
+  // cy.get('.css-1plh46m-MenuList2') // find all options
+  //   .eq(0)
+  //   .click(); // click on first option
+  cy.contains('Pruning').click();
   cy.get('[data-cy=addTask-detailsContinue]')
     .should('exist')
     .and('not.be.disabled')

@@ -1,8 +1,9 @@
 import React, { useState, useRef } from 'react';
 import PropTypes from 'prop-types';
+import clsx from 'clsx';
 import { areaImgDict, lineImgDict, pointImgDict } from '../LocationMapping';
 import { ReactComponent as ShowMore } from '../../../assets/images/map/arrowDown.svg';
-import { containsCrops, longPress } from '../../../containers/Map/constants';
+import { containsCrops } from '../../../containers/Map/constants';
 import { makeStyles } from '@material-ui/core/styles';
 import { colors } from '../../../assets/theme';
 import CompactPreview from '../PreviewPopup/CompactPreview';
@@ -60,9 +61,26 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     justifyContent: 'space-between',
   },
-  body: {
-    position: 'relative',
+  sensorBody: {
     paddingBottom: 8,
+    height: 'auto',
+    transition: 'max-height 1s',
+    overflow: 'hidden',
+  },
+  bodyClosed: {
+    maxHeight: 0,
+  },
+  bodyOpen: {
+    maxHeight: '100px',
+  },
+  sensorArrow: {
+    display: 'flex',
+    flexDirection: 'row',
+    alginSelf: 'center',
+    transition: 'transform 1s',
+  },
+  sensorArrowUp: {
+    transform: 'rotate(-180deg)',
   },
 }));
 
@@ -92,10 +110,7 @@ export default function PureSelectionHandler({ locations, history, sensorReading
     return icon;
   };
 
-  const [isSensor, setIsSensor] = useState(false);
   const [sensorIdx, setSensorIdx] = useState(null);
-  const longPressed = useRef(false);
-
   const locationSensors = locations.filter((location) => location.type === SENSOR);
 
   const readingTypes = useSelector(sensorReadingTypesByMultipleLocations(locationSensors));
@@ -108,19 +123,15 @@ export default function PureSelectionHandler({ locations, history, sensorReading
     );
   };
 
-  const handleMouseDown = (location, idx) => {
-    longPressed.current = false;
-    setTimeout(function () {
-      longPressed.current = true;
-      if (location.type === SENSOR && longPressed.current) {
-        setIsSensor(true);
-        setSensorIdx(idx);
-      }
-    }, longPress);
-  };
-
-  const handleMouseUp = (location) => {
-    if (!longPressed.current) {
+  const handleMouseUp = (location, idx) => {
+    if (sensorIdx === idx) {
+      setSensorIdx(null);
+      return;
+    }
+    if (location.type === SENSOR) {
+      setSensorIdx(idx);
+    } else {
+      setSensorIdx(null);
       loadEditView(location);
     }
   };
@@ -128,8 +139,6 @@ export default function PureSelectionHandler({ locations, history, sensorReading
   const loadEditView = (location) => {
     if (containsCrops(location.type)) {
       history.push(`/${location.type}/${location.id}/crops`);
-    } else if (location.type === SENSOR) {
-      history.push(`/${location.type}/${location.id}/readings`);
     } else {
       history.push(`/${location.type}/${location.id}/details`);
     }
@@ -160,37 +169,55 @@ export default function PureSelectionHandler({ locations, history, sensorReading
                 ? {
                     onTouchStart: (e) => {
                       e.stopPropagation();
-                      handleMouseDown(location, idx);
                     },
-                    onTouchEnd: () => handleMouseUp(location),
+                    onTouchEnd: () => handleMouseUp(location, idx),
                   }
                 : {
                     onMouseDown: (e) => {
                       e.stopPropagation();
-                      handleMouseDown(location, idx);
                     },
-                    onMouseUp: () => handleMouseUp(location),
+                    onMouseUp: () => handleMouseUp(location, idx),
                   })}
             >
               <div className={classes.title}>
                 <div> {icon} </div>
                 <div style={{ flexGrow: 1 }}>{name}</div>
-                {showDetails(location.id) && <div> {<ShowMore />} </div>}
-              </div>
-              {readingTypes
-                .find((sensor) => sensor.location_id === location.id)
-                ?.reading_types.map((type, rid) => {
-                  if ([TEMPERATURE, SOIL_WATER_POTENTIAL].includes(type)) {
-                    return (
-                      <CompactPreview
-                        key={rid}
-                        location={location}
-                        readings={sensorReadings}
-                        readingType={type}
+                {showDetails(location.id) && (
+                  <div>
+                    {' '}
+                    {
+                      <ShowMore
+                        className={clsx(
+                          classes.sensorArrow,
+                          sensorIdx === idx && classes.sensorArrowUp,
+                        )}
                       />
-                    );
-                  }
-                })}
+                    }{' '}
+                  </div>
+                )}
+              </div>
+              <div
+                className={clsx(
+                  classes.sensorBody,
+                  sensorIdx === idx && classes.bodyOpen,
+                  sensorIdx !== idx && classes.bodyClosed,
+                )}
+              >
+                {readingTypes
+                  .find((sensor) => sensor.location_id === location.id)
+                  ?.reading_types.map((type, rid) => {
+                    if ([TEMPERATURE, SOIL_WATER_POTENTIAL].includes(type)) {
+                      return (
+                        <CompactPreview
+                          key={rid}
+                          location={location}
+                          readings={sensorReadings}
+                          readingType={type}
+                        />
+                      );
+                    }
+                  })}
+              </div>
             </div>
           );
         })}

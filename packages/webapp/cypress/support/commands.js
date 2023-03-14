@@ -7,130 +7,133 @@ let fieldLocation_id;
 let fieldName;
 var apiUrl = Cypress.env('apiUrl');
 
-Cypress.Commands.add('loginByGoogleApi', () => {
-  cy.log(process.env.REACT_APP_GOOGLE_CLIENTID);
-  cy.log('Logging in to Google');
-  cy.request({
-    method: 'POST',
-    url: 'https://www.googleapis.com/oauth2/v4/token',
-    body: {
-      grant_type: 'refresh_token',
-      client_id: Cypress.env('REACT_APP_GOOGLE_CLIENTID'),
-      client_secret: Cypress.env('REACT_APP_GOOGLE_CLIENT_SECRET'),
-      refresh_token: Cypress.env('GOOGLE_REFRESH_TOKEN'),
-    },
-  }).then(({ body }) => {
-    const { access_token, id_token } = body;
+// Cypress.Commands.add('loginByGoogleApi', () => {
+//   cy.log(process.env.REACT_APP_GOOGLE_CLIENTID);
+//   cy.log('Logging in to Google');
+//   cy.request({
+//     method: 'POST',
+//     url: 'https://www.googleapis.com/oauth2/v4/token',
+//     body: {
+//       grant_type: 'refresh_token',
+//       client_id: Cypress.env('REACT_APP_GOOGLE_CLIENTID'),
+//       client_secret: Cypress.env('REACT_APP_GOOGLE_CLIENT_SECRET'),
+//       refresh_token: Cypress.env('GOOGLE_REFRESH_TOKEN'),
+//     },
+//   }).then(({ body }) => {
+//     const { access_token, id_token } = body;
 
-    cy.request({
-      method: 'GET',
-      url: 'https://www.googleapis.com/oauth2/v3/userinfo',
-      headers: { Authorization: `Bearer ${access_token}` },
-    }).then(({ body }) => {
-      cy.log(body);
-      const userItem = {
-        token: id_token,
-        user: {
-          googleId: body.sub,
-          email: body.email,
-          givenName: body.given_name,
-          familyName: body.family_name,
-          imageUrl: body.picture,
-        },
-      };
+//     cy.request({
+//       method: 'GET',
+//       url: 'https://www.googleapis.com/oauth2/v3/userinfo',
+//       headers: { Authorization: `Bearer ${access_token}` },
+//     }).then(({ body }) => {
+//       cy.log(body);
+//       const userItem = {
+//         token: id_token,
+//         user: {
+//           googleId: body.sub,
+//           email: body.email,
+//           givenName: body.given_name,
+//           familyName: body.family_name,
+//           imageUrl: body.picture,
+//         },
+//       };
 
-      window.localStorage.setItem('id_token', userItem.token);
-    });
-  });
-});
+//       window.localStorage.setItem('id_token', userItem.token);
+//     });
+//   });
+// });
 
-Cypress.Commands.add('waitForGoogleApi', () => {
-  let mapWaitCount = 0;
-  const mapWaitMax = 5;
+// Cypress.Commands.add('waitForGoogleApi', () => {
+//   let mapWaitCount = 0;
+//   const mapWaitMax = 5;
 
-  cyMapLoad();
+//   cyMapLoad();
 
-  function cyMapLoad() {
-    mapWaitCount++;
+//   function cyMapLoad() {
+//     mapWaitCount++;
 
-    cy.window().then((win) => {
-      if (typeof win.google != 'undefined') {
-        console.log(`Done at attempt #${mapWaitCount}:`, win);
-        return true;
-      } else if (mapWaitCount <= mapWaitMax) {
-        console.log('Waiting attempt #' + mapWaitCount); // just log
-        cy.wait(2000);
-        cyMapLoad();
-      } else if (mapWaitCount > mapWaitMax) {
-        console.log('Failed to load google api');
-        return false;
-      }
-    });
-  }
-});
+//     cy.window().then((win) => {
+//       if (typeof win.google != 'undefined') {
+//         console.log(`Done at attempt #${mapWaitCount}:`, win);
+//         return true;
+//       } else if (mapWaitCount <= mapWaitMax) {
+//         console.log('Waiting attempt #' + mapWaitCount); // just log
+//         cy.wait(2000);
+//         cyMapLoad();
+//       } else if (mapWaitCount > mapWaitMax) {
+//         console.log('Failed to load google api');
+//         return false;
+//       }
+//     });
+//   }
+// });
 
-Cypress.Commands.add('loginFarmOwner', () => {
-  const emailOwner = 'mbolokonya@litefarm.org';
-  const password = 'P@ssword123';
+// Cypress.Commands.add('loginFarmOwner', () => {
+//   const emailOwner = 'mbolokonya@litefarm.org';
+//   const password = 'P@ssword123';
 
-  //Enter password page
-  cy.get('[data-cy=email]').type(emailOwner);
-  cy.contains('Continue').should('exist').and('be.enabled').click();
-  cy.get('[data-cy=enterPassword-password]').type(password);
-  cy.get('[data-cy=enterPassword-submit]').should('exist').and('be.enabled').click();
+//   //Enter password page
+//   cy.get('[data-cy=email]').type(emailOwner);
+//   cy.contains('Continue').should('exist').and('be.enabled').click();
+//   cy.get('[data-cy=enterPassword-password]').type(password);
+//   cy.get('[data-cy=enterPassword-submit]').should('exist').and('be.enabled').click();
 
-  cy.get('[data-cy=chooseFarm-ubc]').eq(0).should('exist').click('right');
-  cy.get('[data-cy="chooseFarm-proceed"]').should('exist').and('be.enabled').click();
-});
+//   cy.get('[data-cy=chooseFarm-ubc]').eq(0).should('exist').click('right');
+//   cy.get('[data-cy="chooseFarm-proceed"]').should('exist').and('be.enabled').click();
+// });
 
-Cypress.Commands.add('loginFarmWorker', () => {
-  const emailOwner = 'worker@example.com';
-  const password = 'P@ssword123';
+// Cypress.Commands.add('loginFarmWorker', () => {
+//   const emailOwner = 'worker@example.com';
+//   const password = 'P@ssword123';
 
-  //Enter password page
-  cy.get('[data-cy=email]').type(emailOwner);
-  cy.contains('Continue').should('exist').and('be.enabled').click();
-  cy.get('[data-cy=enterPassword-password]').type(password);
-  cy.get('[data-cy=enterPassword-submit]').should('exist').and('be.enabled').click();
+//   //Enter password page
+//   cy.get('[data-cy=email]').type(emailOwner);
+//   cy.contains('Continue').should('exist').and('be.enabled').click();
+//   cy.get('[data-cy=enterPassword-password]').type(password);
+//   cy.get('[data-cy=enterPassword-submit]').should('exist').and('be.enabled').click();
 
-  cy.get('[data-cy=chooseFarm-ubc]').eq(0).should('exist').click('right');
-  cy.get('[data-cy=chooseFarm-proceed]').should('exist').and('be.enabled').click();
-});
+//   cy.get('[data-cy=chooseFarm-ubc]').eq(0).should('exist').click('right');
+//   cy.get('[data-cy=chooseFarm-proceed]').should('exist').and('be.enabled').click();
+// });
 
-Cypress.Commands.add('createSudoUser', () => {
-  cy.get('[data-cy=home-farmButton]')
-    .should('exist')
-    //.and('not.be.disabled')
-    .click();
-  cy.get('[data-cy=navbar-option]')
-    .contains('People')
-    .should('exist')
-    .and('not.be.disabled')
-    .click();
-  cy.url().should('include', '/people');
-  cy.get('[data-cy=people-inviteUser]').should('exist').and('not.be.disabled').click();
+// UNUSED CODE
+// Cypress.Commands.add('createSudoUser', () => {
+//   cy.get('[data-cy=home-farmButton]')
+//     .should('exist')
+//     .and('not.be.disabled')
+//     .click();
+//   cy.get('[data-cy=navbar-option]')
+//     .contains('People')
+//     .should('exist')
+//     .and('not.be.disabled')
+//     .click();
+//   cy.url().should('include', '/people');
+//   cy.get('[data-cy=people-inviteUser]').should('exist').and('not.be.disabled').click();
 
-  cy.url().should('include', '/invite_user');
-  cy.get('[data-cy=invite-fullName]').should('exist').type('Sudo User');
-  cy.contains('Choose Role').should('exist').click({ force: true });
-  cy.contains('Farm Worker').should('exist').click();
-  cy.get('[data-cy=invite-submit]').should('exist').and('not.be.disabled').click();
-});
+//   cy.url().should('include', '/invite_user');
+//   cy.get('[data-cy=invite-fullName]').should('exist').type('Sudo User');
+//   cy.contains('Choose Role').should('exist').click({ force: true });
+//   cy.contains('Farm Worker').should('exist').click();
+//   cy.get('[data-cy=invite-submit]').should('exist').and('not.be.disabled').click();
+// });
 
 Cypress.Commands.add('selectDropdown', () => {
   cy.get('.css-tj5bde-Svg').should('exist');
 });
-Cypress.Commands.add('selectOptions', () => {
-  cy.get('.css-1plh46m-MenuList2').should('exist');
-});
 
-Cypress.Commands.add('genderOptions', () => {
-  cy.get('.css-14sfozv-menu').should('exist');
-});
+// UNUSED CODE
+// Cypress.Commands.add('selectOptions', () => {
+//   cy.get('.css-1plh46m-MenuList2').should('exist');
+// });
 
-Cypress.Commands.add('insights', () => {
-  cy.get('._infoTextLine_avdgi_23').should('exist');
-});
+// Cypress.Commands.add('genderOptions', () => {
+//   cy.get('.css-14sfozv-menu').should('exist');
+// });
+
+// Cypress.Commands.add('insights', () => {
+//   cy.get('._infoTextLine_avdgi_23').should('exist');
+// });
 
 Cypress.Commands.add('createUserGender', () => {
   cy.get(
@@ -421,79 +424,79 @@ Cypress.Commands.add('createASoilAmendmentTask', () => {
     .click({ force: true });
 });
 
-Cypress.Commands.add('createTaskToday', () => {
-  //Create an unassigned cleaning task due today
-  cy.contains('Create').should('exist').and('not.be.disabled').click({ force: true });
-  cy.contains('Clean').should('exist').and('not.be.disabled').click({ force: true });
+// Cypress.Commands.add('createTaskToday', () => {
+//   //Create an unassigned cleaning task due today
+//   cy.contains('Create').should('exist').and('not.be.disabled').click({ force: true });
+//   cy.contains('Clean').should('exist').and('not.be.disabled').click({ force: true });
 
-  const date = new Date();
-  const dueDate = getDateInputFormat(date);
+//   const date = new Date();
+//   const dueDate = getDateInputFormat(date);
 
-  cy.get('[data-cy=addTask-taskDate]').should('exist').type(dueDate);
+//   cy.get('[data-cy=addTask-taskDate]').should('exist').type(dueDate);
 
-  cy.get('[data-cy=addTask-continue]')
-    .should('exist')
-    .and('not.be.disabled')
-    .click({ force: true });
-  cy.wait(2000);
-  cy.get('[data-cy=map-selectLocation]').click(530, 216, {
-    force: false,
-  });
-  cy.get('[data-cy=addTask-locationContinue]')
-    .should('exist')
-    .and('not.be.disabled')
-    .click({ force: true });
-  cy.get('[data-cy="addTask-cropsContinue"]')
-    .should('exist')
-    .and('not.be.disabled')
-    .click({ force: true });
-  cy.get('[data-cy=addTask-detailsContinue]')
-    .should('exist')
-    .and('not.be.disabled')
-    .click({ force: true });
-  cy.get('.css-ujecln-Input2').click();
-  cy.contains('Test Farmer').click({ force: true });
-  cy.get('[data-cy=addTask-assignmentSave]')
-    .should('exist')
-    .and('not.be.disabled')
-    .click({ force: true });
-});
+//   cy.get('[data-cy=addTask-continue]')
+//     .should('exist')
+//     .and('not.be.disabled')
+//     .click({ force: true });
+//   cy.wait(2000);
+//   cy.get('[data-cy=map-selectLocation]').click(530, 216, {
+//     force: false,
+//   });
+//   cy.get('[data-cy=addTask-locationContinue]')
+//     .should('exist')
+//     .and('not.be.disabled')
+//     .click({ force: true });
+//   cy.get('[data-cy="addTask-cropsContinue"]')
+//     .should('exist')
+//     .and('not.be.disabled')
+//     .click({ force: true });
+//   cy.get('[data-cy=addTask-detailsContinue]')
+//     .should('exist')
+//     .and('not.be.disabled')
+//     .click({ force: true });
+//   cy.get('.css-ujecln-Input2').click();
+//   cy.contains('Test Farmer').click({ force: true });
+//   cy.get('[data-cy=addTask-assignmentSave]')
+//     .should('exist')
+//     .and('not.be.disabled')
+//     .click({ force: true });
+// });
 
-Cypress.Commands.add('createUnassignedTaskThisWeek', () => {
-  //Create an unassigned cleaning task due today
-  cy.contains('Create').should('exist').and('not.be.disabled').click({ force: true });
-  cy.contains('Clean').should('exist').and('not.be.disabled').click({ force: true });
+// Cypress.Commands.add('createUnassignedTaskThisWeek', () => {
+//   //Create an unassigned cleaning task due today
+//   cy.contains('Create').should('exist').and('not.be.disabled').click({ force: true });
+//   cy.contains('Clean').should('exist').and('not.be.disabled').click({ force: true });
 
-  const date = new Date();
-  const dueDate = getDateInputFormat(date);
+//   const date = new Date();
+//   const dueDate = getDateInputFormat(date);
 
-  cy.get('[data-cy=addTask-taskDate]').should('exist').type(dueDate);
+//   cy.get('[data-cy=addTask-taskDate]').should('exist').type(dueDate);
 
-  cy.get('[data-cy=addTask-continue]')
-    .should('exist')
-    .and('not.be.disabled')
-    .click({ force: true });
-  cy.wait(2000);
-  cy.get('[data-cy=map-selectLocation]').click(530, 216, {
-    force: false,
-  });
-  cy.get('[data-cy=addTask-locationContinue]')
-    .should('exist')
-    .and('not.be.disabled')
-    .click({ force: true });
-  cy.get('[data-cy="addTask-cropsContinue"]')
-    .should('exist')
-    .and('not.be.disabled')
-    .click({ force: true });
-  cy.get('[data-cy=addTask-detailsContinue]')
-    .should('exist')
-    .and('not.be.disabled')
-    .click({ force: true });
-  cy.get('[data-cy=addTask-assignmentSave]')
-    .should('exist')
-    .and('not.be.disabled')
-    .click({ force: true });
-});
+//   cy.get('[data-cy=addTask-continue]')
+//     .should('exist')
+//     .and('not.be.disabled')
+//     .click({ force: true });
+//   cy.wait(2000);
+//   cy.get('[data-cy=map-selectLocation]').click(530, 216, {
+//     force: false,
+//   });
+//   cy.get('[data-cy=addTask-locationContinue]')
+//     .should('exist')
+//     .and('not.be.disabled')
+//     .click({ force: true });
+//   cy.get('[data-cy="addTask-cropsContinue"]')
+//     .should('exist')
+//     .and('not.be.disabled')
+//     .click({ force: true });
+//   cy.get('[data-cy=addTask-detailsContinue]')
+//     .should('exist')
+//     .and('not.be.disabled')
+//     .click({ force: true });
+//   cy.get('[data-cy=addTask-assignmentSave]')
+//     .should('exist')
+//     .and('not.be.disabled')
+//     .click({ force: true });
+// });
 
 Cypress.Commands.add('getEmail', () => {
   // get and check the test email only once before the tests
@@ -531,19 +534,19 @@ Cypress.Commands.add('createAccount', (email, fullName, gender, language, birthY
   cy.contains('Create Account').should('exist').and('be.enabled').click();
 });
 
-Cypress.Commands.add('userCreationEmail', () => {
-  cy.wait(10 * 1000);
-  cy.task('getLastEmail')
-    .its('html')
-    .then((html) => {
-      cy.document({ log: false }).invoke({ log: false }, 'write', html);
-    });
-  cy.get('[data-cy=button-logIn]')
-    .invoke('attr', 'href')
-    .then((href) => {
-      cy.visit(href);
-    });
-});
+// Cypress.Commands.add('userCreationEmail', () => {
+//   cy.wait(10 * 1000);
+//   cy.task('getLastEmail')
+//     .its('html')
+//     .then((html) => {
+//       cy.document({ log: false }).invoke({ log: false }, 'write', html);
+//     });
+//   cy.get('[data-cy=button-logIn]')
+//     .invoke('attr', 'href')
+//     .then((href) => {
+//       cy.visit(href);
+//     });
+// });
 
 Cypress.Commands.add('addFarm', (farmName, location) => {
   cy.url().should('include', '/add_farm');
@@ -677,20 +680,20 @@ Cypress.Commands.add('onboardingOutro', () => {
   cy.get('[data-cy=outro-finish]').should('exist').and('not.be.disabled').click();
 });
 
-Cypress.Commands.add('confirmationEmail', () => {
-  cy.wait(10 * 1000);
-  cy.task('getLastEmail')
-    .its('html')
-    .then((html) => {
-      cy.document({ log: false }).invoke({ log: false }, 'write', html);
-    });
+// Cypress.Commands.add('confirmationEmail', () => {
+//   cy.wait(10 * 1000);
+//   cy.task('getLastEmail')
+//     .its('html')
+//     .then((html) => {
+//       cy.document({ log: false }).invoke({ log: false }, 'write', html);
+//     });
 
-  cy.get('[data-cy=congrats-email-logIn]')
-    .invoke('attr', 'href')
-    .then((href) => {
-      cy.visit(href);
-    });
-});
+//   cy.get('[data-cy=congrats-email-logIn]')
+//     .invoke('attr', 'href')
+//     .then((href) => {
+//       cy.visit(href);
+//     });
+// });
 
 Cypress.Commands.add('homePageSpotlights', () => {
   cy.get('[data-cy=spotlight-next]')
@@ -713,10 +716,7 @@ Cypress.Commands.add('homePageSpotlights', () => {
     .should('exist')
     .and('not.be.disabled')
     .click();
-  cy.get('[data-cy=home-farmButton]')
-    .should('exist')
-    //.and('not.be.disabled')
-    .click();
+  cy.get('[data-cy=home-farmButton]').should('exist').and('not.be.disabled').click();
 });
 
 Cypress.Commands.add('addField', () => {
@@ -765,7 +765,7 @@ Cypress.Commands.add('goToPeopleView', (lang) => {
   if (lang == 'English') {
     cy.get('[data-cy=home-farmButton]')
       .should('exist')
-      //.and('not.be.disabled')
+      .and('not.be.disabled')
       .click({ force: true });
     cy.get('[data-cy=navbar-option]')
       .eq(2)
@@ -777,7 +777,7 @@ Cypress.Commands.add('goToPeopleView', (lang) => {
   } else if (lang == 'French') {
     cy.get('[data-cy=home-farmButton]')
       .should('exist')
-      //.and('not.be.disabled')
+      .and('not.be.disabled')
       .click({ force: true });
     cy.get('[data-cy=navbar-option]')
       .eq(2)
@@ -789,7 +789,7 @@ Cypress.Commands.add('goToPeopleView', (lang) => {
   } else if (lang == 'Spanish') {
     cy.get('[data-cy=home-farmButton]')
       .should('exist')
-      //.and('not.be.disabled')
+      .and('not.be.disabled')
       .click({ force: true });
     cy.get('[data-cy=navbar-option]')
       .eq(2)
@@ -801,7 +801,7 @@ Cypress.Commands.add('goToPeopleView', (lang) => {
   } else if (lang == 'Portuguese') {
     cy.get('[data-cy=home-farmButton]')
       .should('exist')
-      //.and('not.be.disabled')
+      .and('not.be.disabled')
       .click({ force: true });
     cy.get('[data-cy=navbar-option]')
       .eq(2)
@@ -853,49 +853,49 @@ Cypress.Commands.add(
   },
 );
 
-Cypress.Commands.add('logOut', () => {
-  cy.get('[data-cy=home-profileButton]').should('exist').click();
-  cy.get('[data-cy=navbar-option]')
-    .contains('Log Out')
-    .should('exist')
-    .and('not.be.disabled')
-    .click();
-});
+// Cypress.Commands.add('logOut', () => {
+//   cy.get('[data-cy=home-profileButton]').should('exist').click();
+//   cy.get('[data-cy=navbar-option]')
+//     .contains('Log Out')
+//     .should('exist')
+//     .and('not.be.disabled')
+//     .click();
+// });
 
-Cypress.Commands.add('acceptInviteEmail', (lang) => {
-  cy.task('getLastEmail', { timeout: 60 * 1000 })
-    .its('html', { timeout: 60 * 1000 })
-    .then((html) => {
-      cy.document({ log: false }).invoke({ log: false }, 'write', html);
-    });
+// Cypress.Commands.add('acceptInviteEmail', (lang) => {
+//   cy.task('getLastEmail', { timeout: 60 * 1000 })
+//     .its('html', { timeout: 60 * 1000 })
+//     .then((html) => {
+//       cy.document({ log: false }).invoke({ log: false }, 'write', html);
+//     });
 
-  if (lang == 'English') {
-    cy.get('[data-cy=invite-joinButton]').contains('Join');
-    cy.get('[data-cy=invite-joinButton]')
-      .invoke('attr', 'href')
-      .then((href) => {
-        cy.visit(href);
-      });
-  } else if (lang == 'French') {
-    cy.get('[data-cy=invite-joinButton]').contains('Rejoindre');
-    cy.get('[data-cy=invite-joinButton]')
-      .invoke('attr', 'href')
-      .then((href) => {
-        cy.visit(href);
-      });
-  } else if (lang == 'Spanish') {
-    cy.get('[data-cy=invite-joinButton]').contains('Unete');
-    cy.get('[data-cy=invite-joinButton]')
-      .invoke('attr', 'href')
-      .then((href) => {
-        cy.visit(href);
-      });
-  } else if (lang == 'Portuguese') {
-    cy.get('[data-cy=invite-joinButton]').contains('Junte');
-    cy.get('[data-cy=invite-joinButton]')
-      .invoke('attr', 'href')
-      .then((href) => {
-        cy.visit(href);
-      });
-  }
-});
+//   if (lang == 'English') {
+//     cy.get('[data-cy=invite-joinButton]').contains('Join');
+//     cy.get('[data-cy=invite-joinButton]')
+//       .invoke('attr', 'href')
+//       .then((href) => {
+//         cy.visit(href);
+//       });
+//   } else if (lang == 'French') {
+//     cy.get('[data-cy=invite-joinButton]').contains('Rejoindre');
+//     cy.get('[data-cy=invite-joinButton]')
+//       .invoke('attr', 'href')
+//       .then((href) => {
+//         cy.visit(href);
+//       });
+//   } else if (lang == 'Spanish') {
+//     cy.get('[data-cy=invite-joinButton]').contains('Unete');
+//     cy.get('[data-cy=invite-joinButton]')
+//       .invoke('attr', 'href')
+//       .then((href) => {
+//         cy.visit(href);
+//       });
+//   } else if (lang == 'Portuguese') {
+//     cy.get('[data-cy=invite-joinButton]').contains('Junte');
+//     cy.get('[data-cy=invite-joinButton]')
+//       .invoke('attr', 'href')
+//       .then((href) => {
+//         cy.visit(href);
+//       });
+//   }
+// });

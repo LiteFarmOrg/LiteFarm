@@ -75,6 +75,7 @@ const PurePestControlTask = ({
         rules={{ required: true }}
         render={({ field: { onChange, value } }) => (
           <ReactSelect
+            data-cy="pestControlTask-typeSelect"
             label={t('ADD_TASK.PEST_CONTROL_VIEW.PEST_CONTROL_METHOD')}
             style={{ marginBottom: '40px' }}
             onChange={(e) => {

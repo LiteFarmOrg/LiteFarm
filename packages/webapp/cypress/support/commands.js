@@ -218,11 +218,12 @@ Cypress.Commands.add('createAFieldWorkTask', () => {
     .should('exist')
     .and('not.be.disabled')
     .click({ force: true });
-  cy.contains('Select') // find react-select component
-    .click({ force: true }); // click to open dropdown
-  cy.get('.css-1m0sg79-MenuPortal2') // find all options
-    .eq(0)
-    .click(); // click on first option
+  cy.get('[data-cy=fieldWorkTask-typeSelect]') // find react-select component
+    .click({ force: true })
+    .type('Pruning{enter}'); // click on first option; // click to open dropdown
+  // cy.get('.css-1m0sg79-MenuPortal2') // find all options
+  //   .eq(0)
+  //   .click(); // click on first option
   cy.get('[data-cy=addTask-detailsContinue]')
     .should('exist')
     .and('not.be.disabled')
@@ -371,8 +372,10 @@ Cypress.Commands.add('createAPestControlTask', () => {
   cy.selectDropdown() // find all options
     .eq(0)
     .click(); // click on first option
-
-  cy.get('.css-i863x9-MenuPortal2').eq(0).click();
+  cy.get('[data-cy=pestControlTask-typeSelect]') // find react-select component
+    .click({ force: true })
+    .type('Pruning{enter}'); // click on first option; // click to open dropdown
+  // cy.get('.css-i863x9-MenuPortal2').eq(0).click();
   cy.get('[data-cy=addTask-detailsContinue]')
     .should('exist')
     .and('not.be.disabled')

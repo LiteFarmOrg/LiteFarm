@@ -220,10 +220,9 @@ Cypress.Commands.add('createAFieldWorkTask', () => {
     .click({ force: true });
   cy.contains('Select') // find react-select component
     .click({ force: true }); // click to open dropdown
-  // cy.get('.css-1plh46m-MenuList2') // find all options
-  //   .eq(0)
-  //   .click(); // click on first option
-  cy.contains('Pruning').click();
+  cy.get('.css-1m0sg79-MenuPortal2') // find all options
+    .eq(0)
+    .click(); // click on first option
   cy.get('[data-cy=addTask-detailsContinue]')
     .should('exist')
     .and('not.be.disabled')
@@ -373,7 +372,7 @@ Cypress.Commands.add('createAPestControlTask', () => {
     .eq(0)
     .click(); // click on first option
 
-  cy.get('.css-9p5joy-MenuList2').eq(0).click();
+  cy.get('.css-i863x9-MenuPortal2').eq(0).click();
   cy.get('[data-cy=addTask-detailsContinue]')
     .should('exist')
     .and('not.be.disabled')

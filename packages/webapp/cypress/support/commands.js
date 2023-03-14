@@ -186,11 +186,12 @@ Cypress.Commands.add('createAFieldWorkTask', () => {
   cy.get('[data-cy=map-selectLocation]').click(530, 216, {
     force: false,
   });
+  cy.wait(2000);
   cy.get('[data-cy=addTask-locationContinue]')
     .should('exist')
     .and('not.be.disabled')
     .click({ force: true });
-  cy.waitForReact();
+  cy.wait(2000);
   cy.get('[data-cy=addTask-detailsContinue]').should('exist').and('not.be.disabled');
   cy.contains('Select') // find react-select component
     .click({ force: true }); // click to open dropdown

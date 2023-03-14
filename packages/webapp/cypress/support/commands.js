@@ -408,9 +408,10 @@ Cypress.Commands.add('createASoilAmendmentTask', () => {
   cy.contains('pH').click({ force: true });
   cy.selectDropdown().eq(1).click();
   // cy.get('[data-cy="addTask-product"] input').type('Lime{enter}');
-  cy.get('.css-s115vr-Control2 > .css-b4qs0x-ValueContainer2 > .css-ujecln-Input2').type(
-    'Lime{enter}',
-  );
+  // cy.get('.css-s115vr-Control2 > .css-b4qs0x-ValueContainer2 > .css-ujecln-Input2').type(
+  //   'Lime{enter}',
+  // );
+  cy.get('input').eq(1).type('Lime{enter}');
   cy.get('[data-cy=addTask-supplier] input').type('New Supplier');
   cy.get('[type = "radio"]').eq(1).check({ force: true });
   cy.get('[data-cy="soilAmendment-quantity"]').type('30');

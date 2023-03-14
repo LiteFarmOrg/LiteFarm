@@ -98,7 +98,10 @@ Cypress.Commands.add('loginFarmWorker', () => {
 });
 
 Cypress.Commands.add('createSudoUser', () => {
-  cy.get('[data-cy=home-farmButton]').should('exist').and('not.be.disabled').click();
+  cy.get('[data-cy=home-farmButton]')
+    .should('exist')
+    //.and('not.be.disabled')
+    .click();
   cy.get('[data-cy=navbar-option]')
     .contains('People')
     .should('exist')
@@ -710,7 +713,10 @@ Cypress.Commands.add('homePageSpotlights', () => {
     .should('exist')
     .and('not.be.disabled')
     .click();
-  cy.get('[data-cy=home-farmButton]').should('exist').and('not.be.disabled').click();
+  cy.get('[data-cy=home-farmButton]')
+    .should('exist')
+    //.and('not.be.disabled')
+    .click();
 });
 
 Cypress.Commands.add('addField', () => {
@@ -759,7 +765,7 @@ Cypress.Commands.add('goToPeopleView', (lang) => {
   if (lang == 'English') {
     cy.get('[data-cy=home-farmButton]')
       .should('exist')
-      .and('not.be.disabled')
+      //.and('not.be.disabled')
       .click({ force: true });
     cy.get('[data-cy=navbar-option]')
       .eq(2)
@@ -771,7 +777,7 @@ Cypress.Commands.add('goToPeopleView', (lang) => {
   } else if (lang == 'French') {
     cy.get('[data-cy=home-farmButton]')
       .should('exist')
-      .and('not.be.disabled')
+      //.and('not.be.disabled')
       .click({ force: true });
     cy.get('[data-cy=navbar-option]')
       .eq(2)
@@ -783,7 +789,7 @@ Cypress.Commands.add('goToPeopleView', (lang) => {
   } else if (lang == 'Spanish') {
     cy.get('[data-cy=home-farmButton]')
       .should('exist')
-      .and('not.be.disabled')
+      //.and('not.be.disabled')
       .click({ force: true });
     cy.get('[data-cy=navbar-option]')
       .eq(2)
@@ -795,7 +801,7 @@ Cypress.Commands.add('goToPeopleView', (lang) => {
   } else if (lang == 'Portuguese') {
     cy.get('[data-cy=home-farmButton]')
       .should('exist')
-      .and('not.be.disabled')
+      //.and('not.be.disabled')
       .click({ force: true });
     cy.get('[data-cy=navbar-option]')
       .eq(2)

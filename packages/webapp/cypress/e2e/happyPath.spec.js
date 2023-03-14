@@ -318,7 +318,7 @@ describe.only('LiteFarm end to end test', () => {
 
     cy.get('[data-cy=home-taskButton]')
       .should('exist')
-      // .and('not.be.disabled')
+      .and('not.be.disabled')
       .click({ force: true });
     cy.intercept('GET', '**/task_type/farm/**', (req) => {
       delete req.headers['if-none-match'];
@@ -390,10 +390,7 @@ describe.only('LiteFarm end to end test', () => {
           harvest,
           harvestUnit,
         );
-        cy.get('[data-cy=home-taskButton]')
-          .should('exist')
-          // .and('not.be.disabled')
-          .click();
+        cy.get('[data-cy=home-taskButton]').should('exist').and('not.be.disabled').click();
         cy.url().should('include', '/tasks');
         cy.get('[data-cy=taskCard]').should('exist');
         cy.contains('Create').should('exist').and('not.be.disabled').click({ force: true });
@@ -409,10 +406,7 @@ describe.only('LiteFarm end to end test', () => {
         cy.get('[data-cy=tasks-plantingModalCheckBox]').click({ force: true });
         cy.get('[data-cy=tasks-plantingModalCancel]').click();
         cy.get('[data-cy=task-selection]').eq(index).click();
-        cy.get('[data-cy=home-taskButton]')
-          .should('exist')
-          // .and('not.be.disabled')
-          .click();
+        cy.get('[data-cy=home-taskButton]').should('exist').and('not.be.disabled').click();
         cy.url().should('include', '/tasks');
         cy.get('[data-cy=taskCard]').should('exist');
         cy.contains('Create').should('exist').and('not.be.disabled').click({ force: true });
@@ -553,7 +547,7 @@ describe.only('LiteFarm end to end test', () => {
 
     cy.get('[data-cy=home-taskButton]')
       .should('exist')
-      // .and('not.be.disabled')
+      .and('not.be.disabled')
       .click({ force: true });
 
     cy.get('._filter_4bpr4_19').click();

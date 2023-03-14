@@ -51,27 +51,43 @@ const useStyles = makeStyles((theme) => ({
     left: -140,
   },
   itemHeader: {
-    padding: '8px 8px 0 8px',
+    padding: '0 8px 0 8px',
   },
   title: {
-    paddingBottom: '8px',
+    padding: '8px 0 0 0',
     fontWeight: 'bold',
     borderBottom: '1px solid',
     borderBottomColor: 'var(--grey400)',
     display: 'flex',
     justifyContent: 'space-between',
   },
+  itemIcon: {
+    padding: '0 8px',
+    height: 24,
+  },
+  sensorIcon: {
+    '& svg': {
+      width: 24,
+      height: 24,
+      transform: 'scale(1.25)',
+    },
+  },
+  itemName: {
+    flexGrow: 1,
+    padding: '0 8px',
+    lineBreak: 'auto',
+  },
   sensorBody: {
-    paddingBottom: 8,
     height: 'auto',
-    transition: 'max-height 1s',
+    transition: 'all 1s',
     overflow: 'hidden',
   },
   bodyClosed: {
     maxHeight: 0,
   },
   bodyOpen: {
-    maxHeight: '100px',
+    maxHeight: '65px',
+    paddingBottom: '8px',
   },
   sensorArrow: {
     display: 'flex',
@@ -180,8 +196,13 @@ export default function PureSelectionHandler({ locations, history, sensorReading
                   })}
             >
               <div className={classes.title}>
-                <div> {icon} </div>
-                <div style={{ flexGrow: 1 }}>{name}</div>
+                <div
+                  className={clsx(classes.itemIcon, showDetails(location.id) && classes.sensorIcon)}
+                >
+                  {' '}
+                  {icon}{' '}
+                </div>
+                <div className={classes.itemName}>{name}</div>
                 {showDetails(location.id) && (
                   <div>
                     {' '}
@@ -196,29 +217,29 @@ export default function PureSelectionHandler({ locations, history, sensorReading
                   </div>
                 )}
               </div>
-              <div
-                className={clsx(
-                  classes.sensorBody,
-                  sensorIdx === idx && classes.bodyOpen,
-                  sensorIdx !== idx && classes.bodyClosed,
-                )}
-              >
-                {readingTypes
-                  .find((sensor) => sensor.location_id === location.id)
-                  ?.reading_types.map((type, rid) => {
-                    if ([TEMPERATURE, SOIL_WATER_POTENTIAL].includes(type)) {
-                      return (
+              {readingTypes
+                .find((sensor) => sensor.location_id === location.id)
+                ?.reading_types.map((type, rid) => {
+                  if ([TEMPERATURE, SOIL_WATER_POTENTIAL].includes(type)) {
+                    return (
+                      <div
+                        key={rid}
+                        className={clsx(
+                          classes.sensorBody,
+                          sensorIdx === idx && classes.bodyOpen,
+                          sensorIdx !== idx && classes.bodyClosed,
+                        )}
+                      >
                         <CompactPreview
-                          key={rid}
                           location={location}
                           readings={sensorReadings}
                           readingType={type}
                           history={history}
                         />
-                      );
-                    }
-                  })}
-              </div>
+                      </div>
+                    );
+                  }
+                })}
             </div>
           );
         })}

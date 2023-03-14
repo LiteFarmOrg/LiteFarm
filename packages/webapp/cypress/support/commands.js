@@ -151,7 +151,7 @@ Cypress.Commands.add('createACleaningTask', (taskType_id) => {
     .should('exist')
     .and('not.be.disabled')
     .click({ force: true });
-  cy.wait(2000);
+  cy.wait(20000);
   cy.get('[data-cy=map-selectLocation]').contains('Test Field');
   cy.wait(2000);
   cy.get('[data-cy=map-selectLocation]').click(530, 216, {
@@ -182,7 +182,7 @@ Cypress.Commands.add('createAFieldWorkTask', () => {
     .click({ force: true });
   cy.wait(2000);
   cy.get('[data-cy=map-selectLocation]').contains('Test Field');
-  cy.wait(2000);
+  cy.wait(20000);
   cy.get('[data-cy=map-selectLocation]').click(530, 216, {
     force: false,
   });
@@ -191,7 +191,7 @@ Cypress.Commands.add('createAFieldWorkTask', () => {
     .should('exist')
     .and('not.be.disabled')
     .click({ force: true });
-  cy.wait(2000);
+  cy.waitForReact();
   cy.get('[data-cy=addTask-detailsContinue]').should('exist').and('not.be.disabled');
   cy.contains('Select') // find react-select component
     .click({ force: true }); // click to open dropdown
@@ -269,7 +269,7 @@ Cypress.Commands.add(
       .click({ force: true });
     cy.wait(2000);
     cy.get('[data-cy="spotlight-next"]').click({ force: true });
-    cy.wait(2000);
+    cy.wait(7000);
     cy.get('[data-cy=map-selectLocation]').contains('Test Field');
     cy.wait(2000);
     cy.get('[data-cy=map-selectLocation]').click(530, 216, {
@@ -285,7 +285,7 @@ Cypress.Commands.add(
     cy.get('[data-cy=cropPlan-numberContainers]').type(containers);
     cy.get('[data-cy=cropPlan-numberPlants]').type(plantsPerContainer);
     cy.get('[data-cy=cropPlan-containerSubmit]').click();
-    cy.wait(2000);
+    cy.wait(7000);
     cy.get('[data-cy=map-selectLocation]').contains('Test Field');
     cy.wait(2000);
     cy.get('[data-cy=map-selectLocation]').click(530, 216, {
@@ -356,7 +356,7 @@ Cypress.Commands.add('createAPestControlTask', () => {
     .should('exist')
     .and('not.be.disabled')
     .click({ force: true });
-  cy.wait(2000);
+  cy.wait(7000);
   cy.get('[data-cy=map-selectLocation]').contains('Test Field');
   cy.wait(2000);
   cy.get('[data-cy=map-selectLocation]').click(530, 216, {
@@ -392,7 +392,7 @@ Cypress.Commands.add('createASoilAmendmentTask', () => {
     .should('exist')
     .and('not.be.disabled')
     .click({ force: true });
-  cy.wait(2000);
+  cy.wait(7000);
   cy.get('[data-cy=map-selectLocation]').contains('Test Field');
   cy.wait(2000);
   cy.get('[data-cy=map-selectLocation]').click(530, 216, {

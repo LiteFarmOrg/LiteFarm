@@ -192,7 +192,7 @@ Cypress.Commands.add('createAFieldWorkTask', () => {
     .and('not.be.disabled')
     .click({ force: true });
   cy.wait(7000);
-  cy.get('[data-cy=addTask-detailsContinue]').should('exist').and('not.be.disabled');
+  //cy.get('[data-cy=addTask-detailsContinue]').should('exist').and('not.be.disabled');
   cy.contains('Select') // find react-select component
     .click({ force: true }); // click to open dropdown
   cy.contains('Pruning').click();

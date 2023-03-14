@@ -192,6 +192,7 @@ Cypress.Commands.add('createAFieldWorkTask', () => {
     .should('exist')
     .and('not.be.disabled')
     .click({ force: true });
+  cy.waitForReact();
   cy.get('[data-cy=addTask-detailsContinue]').should('exist').and('not.be.disabled');
   cy.contains('Select') // find react-select component
     .click({ force: true }); // click to open dropdown
@@ -402,7 +403,6 @@ Cypress.Commands.add('createASoilAmendmentTask', () => {
   cy.wait(100);
   cy.contains('pH').click({ force: true });
   cy.selectDropdown().eq(1).click();
-  // cy.wait(500);
   cy.waitForReact();
   cy.get('input').eq(1).type('Lime{enter}');
   // cy.get('.css-s115vr-Control2 > .css-b4qs0x-ValueContainer2 > .css-ujecln-Input2').type(
@@ -628,6 +628,7 @@ Cypress.Commands.add('roleSelection', (role) => {
   cy.url().should('include', '/role_selection');
   cy.tick();
   cy.get('[data-cy=roleSelection-continue]').should('exist').and('be.disabled');
+  cy.waitForReact();
   cy.get('[data-cy=roleSelection-role]').should('exist').check(role, { force: true });
   cy.get('[data-cy=roleSelection-continue]').should('not.be.disabled').click();
   cy.clock().then((clock) => {
@@ -657,6 +658,7 @@ Cypress.Commands.add('interestedInOrganic', () => {
   cy.url().should('include', '/certification/selection');
   cy.get('[data-cy=certificationSelection-continue]').should('exist').and('be.disabled');
   cy.get('[data-cy=certificationSelection-type]').should('exist');
+  cy.waitForReact();
   cy.get('[type="radio"]').first().check({ force: true });
   cy.get('[data-cy=certificationSelection-continue]').should('not.be.disabled').click();
 });

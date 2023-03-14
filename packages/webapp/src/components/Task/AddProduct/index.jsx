@@ -91,6 +91,7 @@ const AddProduct = ({
   return (
     <>
       <ReactSelect
+        data-cy="addTask-product"
         label={t('ADD_PRODUCT.PRODUCT_LABEL')}
         options={transformProductsToLabel(productsOfType)}
         onChange={(e) => {

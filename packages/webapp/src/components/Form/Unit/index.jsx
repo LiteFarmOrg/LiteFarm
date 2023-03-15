@@ -96,6 +96,7 @@ const Unit = ({
   });
 
   const reactSelectStyles = useReactSelectStyles(disabled, { reactSelectWidth });
+  const testId = props['data-testid'] || '';
 
   return (
     <div className={clsx(styles.container)} style={{ ...style, ...classes.container }}>
@@ -137,6 +138,7 @@ const Unit = ({
           {showError && <Cross onClick={onClear} className={styles.crossWrapper} />}
         </div>
 
+        {/* TODO: add id to react-select */}
         <Controller
           control={control}
           name={displayUnitName}
@@ -176,6 +178,7 @@ const Unit = ({
           max: { value: getMax(), message: t('UNIT.VALID_VALUE') + max },
           min: { value: 0, message: t('UNIT.VALID_VALUE') + max },
         })}
+        data-testid={`${testId}-hiddeninput`}
       />
       {info && !showError && <Info style={classes.info}>{info}</Info>}
       {showError ? (
@@ -246,6 +249,8 @@ Unit.propTypes = {
   onChangeUnitOption: PropTypes.func,
   /** function called on blur */
   onBlur: PropTypes.func,
+  /** testId used for component testing */
+  'data-testid': PropTypes.string,
 };
 
 export default Unit;

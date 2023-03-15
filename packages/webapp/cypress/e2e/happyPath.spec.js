@@ -86,12 +86,16 @@ describe.only('LiteFarm end to end test', () => {
     cy.roleSelection(role);
 
     //Consent page
+    cy.wait(5 * 1000);
+    cy.waitForReact();
     cy.giveConsent();
+    cy.wait(5000);
     //interested in organic
     cy.interestedInOrganic();
 
     //who is your certifier(select BCARA)
     cy.selectCertifier();
+    cy.wait(5000);
     //onboarding outro
     cy.onboardingOutro();
 
@@ -286,6 +290,7 @@ describe.only('LiteFarm end to end test', () => {
     cy.contains('Select').should('exist').click({ force: true });
     cy.contains('Cereals').should('exist').click();
     cy.get('[type="radio"]').first().check({ force: true });
+    cy.wait(5 * 1000);
     cy.get('[data-cy=crop-submit]').should('exist').and('not.be.disabled').click();
     cy.url().should('include', '/crop/new/add_crop_variety');
     cy.get('[data-cy=crop-variety]').should('exist').type('New Variety');
@@ -336,6 +341,7 @@ describe.only('LiteFarm end to end test', () => {
         }
       });
     });
+    cy.wait(20 * 1000);
     cy.get('[data-cy=task-selection]').each((element, index, list) => {
       // Returns the current li element
       expect(Cypress.$(element)).to.be.visible;
@@ -495,8 +501,9 @@ describe.only('LiteFarm end to end test', () => {
           .should('equal', plantsPerContainer);
 
         cy.contains('Abandon this task').should('exist').click();
-        cy.selectDropdown().click();
-        cy.contains('Weather').click();
+        // cy.selectDropdown().click();
+        // cy.contains('Weather').click();
+        cy.get('input').eq(1).type('Weather{enter}');
         cy.get('[data-cy="abandon-save"]').click();
         cy.get('[data-cy="status-label"]').eq(6).contains('Abandoned').should('exist');
       }

@@ -16,6 +16,7 @@
 import express from 'express';
 
 import multer from 'multer';
+import hasFarmAccess from '../middleware/acl/hasFarmAccess.js';
 import checkScope from '../middleware/acl/checkScope.js';
 import validateRequest from '../middleware/validation/validateWebhook.js';
 import SensorController from '../controllers/sensorController.js';
@@ -47,5 +48,10 @@ router.post('/unclaim', SensorController.retireSensor);
 router.get('/:location_id/reading_type', SensorController.getSensorReadingTypes);
 router.get('/farm/:farm_id/reading_type', SensorController.getAllSensorReadingTypes);
 router.get('/partner/:partner_id/brand_name', SensorController.getBrandName);
-router.post('/reading/visualization', SensorController.getAllSensorReadingsByLocationIds);
+router.post(
+  '/reading/visualization',
+  hasFarmAccess({ body: 'farm_id' }),
+  hasFarmAccess({ body: 'locationIds' }),
+  SensorController.getAllSensorReadingsByLocationIds,
+);
 export default router;

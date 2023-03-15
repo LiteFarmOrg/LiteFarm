@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import Layout from '../../Layout';
 import PageTitle from '../../PageTitle/v2';
@@ -13,7 +13,15 @@ import TimeSlider from '../../Form/Slider/TimeSlider';
 import Checkbox from '../../Form/Checkbox';
 import Rating from '../../Rating';
 import { getDateInputFormat } from '../../../util/moment';
-import { isNotInFuture } from '../../Form/Input/utils';
+import RadioGroup from '../../Form/RadioGroup';
+import styles from './styles.module.scss';
+import clsx from 'clsx';
+import {
+  ABANDON_DATE_SELECTED,
+  ORIGINAL_DUE_DATE,
+  TODAY_DUE_DATE,
+  ANOTHER_DUE_DATE,
+} from './constants';
 
 const PureAbandonTask = ({
   onSubmit,
@@ -21,6 +29,7 @@ const PureAbandonTask = ({
   onGoBack,
   hasAssignee,
   isAssigneeTheLoggedInUser,
+  originalDueDate,
 }) => {
   const REASON_FOR_ABANDONMENT = 'reason_for_abandonment';
   const OTHER_REASON_FOR_ABANDONMENT = 'other_abandonment_reason';
@@ -41,10 +50,12 @@ const PureAbandonTask = ({
   } = useForm({
     mode: 'onChange',
     defaultValues: {
-      [ABANDON_DATE]: getDateInputFormat(),
+      [ABANDON_DATE]: '',
       [PREFER_NOT_TO_SAY]: !isAssigneeTheLoggedInUser,
+      [ABANDON_DATE_SELECTED]: ORIGINAL_DUE_DATE,
     },
   });
+  const [selectedAbandonOption, setSelectedAbandonOption] = useState(ORIGINAL_DUE_DATE);
 
   const reason_for_abandonment = watch(REASON_FOR_ABANDONMENT);
   const prefer_not_to_say = watch(PREFER_NOT_TO_SAY);
@@ -52,6 +63,7 @@ const PureAbandonTask = ({
   const happiness = watch(HAPPINESS);
 
   const disabled = !isValid || (hasAssignee && !happiness && !prefer_not_to_say);
+  const showDatePicker = selectedAbandonOption === ANOTHER_DUE_DATE;
 
   // TODO: bring the options up to the smart component (eventually will be an api call + selector)
   const abandonmentReasonOptions = [
@@ -62,6 +74,39 @@ const PureAbandonTask = ({
     { label: t('TASK.ABANDON.REASON.MACHINERY_ISSUE'), value: 'MACHINERY_ISSUE' },
     { label: t('TASK.ABANDON.REASON.SCHEDULING_ISSUE'), value: 'SCHEDULING_ISSUE' },
     { label: t('TASK.ABANDON.REASON.OTHER'), value: 'OTHER' },
+  ];
+
+  const abandonDateOptions = [
+    {
+      value: ORIGINAL_DUE_DATE,
+      label: (
+        <span
+          className={clsx(styles.radioLabel, {
+            [styles.active]: selectedAbandonOption === ORIGINAL_DUE_DATE,
+          })}
+        >
+          {t('TASK.ABANDON.DATE_ORIGINAL')}
+          <span>{getDateInputFormat(originalDueDate)}</span>
+        </span>
+      ),
+    },
+    {
+      value: TODAY_DUE_DATE,
+      label: (
+        <span
+          className={clsx(styles.radioLabel, {
+            [styles.active]: selectedAbandonOption === TODAY_DUE_DATE,
+          })}
+        >
+          {t('TASK.ABANDON.DATE_TODAY')}
+          <span>{getDateInputFormat()}</span>
+        </span>
+      ),
+    },
+    {
+      value: ANOTHER_DUE_DATE,
+      label: t('TASK.ABANDON.DATE_ANOTHER'),
+    },
   ];
 
   return (
@@ -83,18 +128,28 @@ const PureAbandonTask = ({
 
       <Main style={{ marginBottom: '24px' }}>{t('TASK.ABANDON.WHEN')}</Main>
 
-      <Input
-        label={t('TASK.ABANDON.DATE')}
-        hookFormRegister={register(ABANDON_DATE, {
-          required: true,
-          validate: isNotInFuture,
-        })}
-        errors={errors[ABANDON_DATE] ? isNotInFuture() : null}
-        style={{ marginBottom: '24px' }}
-        type={'date'}
-        max={getDateInputFormat()}
-        required
+      <RadioGroup
+        hookFormControl={control}
+        onChange={(e) => setSelectedAbandonOption(e.target.value)}
+        name={ABANDON_DATE_SELECTED}
+        disabled={false}
+        style={{ paddingBottom: '16px' }}
+        radios={abandonDateOptions}
       />
+
+      {showDatePicker && (
+        <Input
+          label={t('TASK.ABANDON.WHICH_DATE')}
+          hookFormRegister={register(ABANDON_DATE, {
+            required: true,
+          })}
+          style={{ marginBottom: '24px' }}
+          type={'date'}
+          required
+          autoFocus
+          openCalendar
+        />
+      )}
 
       <Controller
         control={control}
@@ -182,6 +237,7 @@ PureAbandonTask.prototype = {
   items: PropTypes.array,
   onGoBack: PropTypes.func,
   isAssigneeTheLoggedInUser: PropTypes.bool,
+  originalDueDate: PropTypes.string,
 };
 
 export default PureAbandonTask;

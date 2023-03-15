@@ -18,16 +18,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { irrigationTaskTypesSliceSelector } from '../../../containers/irrigationTaskTypesSlice';
 import { cropLocationsSelector } from '../../../containers/locationSlice';
 
-const defaultIrrigationTaskTypes = [
-  'HAND_WATERING',
-  'CHANNEL',
-  'DRIP',
-  'FLOOD',
-  'PIVOT',
-  'SPRINKLER',
-  'SUB_SURFACE',
-  'OTHER',
-];
 export default function PureIrrigationTask({
   system,
   register,
@@ -39,12 +29,13 @@ export default function PureIrrigationTask({
   formState,
   getFieldState = {},
   disabled = false,
+  isModified = false,
   locations,
   otherTaskType = false,
   createTask = false,
 }) {
   const { t } = useTranslation();
-  const { errors, isValid } = formState;
+  const { errors } = formState;
   const [showWaterUseCalculatorModal, setShowWaterUseCalculatorModal] = useState(false);
   const { irrigationTaskTypes = [] } = useSelector(irrigationTaskTypesSliceSelector);
   const cropLocations = useSelector(cropLocationsSelector);
@@ -69,14 +60,25 @@ export default function PureIrrigationTask({
 
   const dispatch = useDispatch();
 
+  const getDefaultIrrigationTypes = () => {
+    const defaultIrrigationTaskTypes = [];
+    for (let type of irrigationTaskTypes) {
+      if (type.farm_id === null) {
+        defaultIrrigationTaskTypes.push(type.irrigation_type_name);
+      }
+    }
+    return defaultIrrigationTaskTypes;
+  };
+
   const IrrigationTypeOptions = useMemo(() => {
     let options;
+    const defaultIrrigationTaskTypes = getDefaultIrrigationTypes();
     options = irrigationTaskTypes.map((irrigationType) => {
       return {
         value: irrigationType.irrigation_type_name,
         label: defaultIrrigationTaskTypes.includes(irrigationType.irrigation_type_name)
           ? t(`ADD_TASK.IRRIGATION_VIEW.TYPE.${irrigationType.irrigation_type_name}`)
-          : t(irrigationType.irrigation_type_name),
+          : irrigationType.irrigation_type_name,
         default_measuring_type: irrigationType.default_measuring_type,
         irrigation_type_id: irrigationType.irrigation_type_id,
       };
@@ -110,6 +112,16 @@ export default function PureIrrigationTask({
   const estimated_water_usage_unit = watch(ESTIMATED_WATER_USAGE_UNIT);
   const irrigation_type = watch(IRRIGATION_TYPE);
   const measurement_type = watch(MEASUREMENT_TYPE);
+
+  // If the task is being modified on completion then set the "set default" flags to false in the form
+  // this is to avoid overwriting default setting set by another task during that task's creation
+  // the "set default" checkbox is only a visual reference for users to see this irrigation type was set as default during its creation
+  useEffect(() => {
+    if (isModified) {
+      setValue(DEFAULT_IRRIGATION_TASK_LOCATION, false);
+      setValue(DEFAULT_IRRIGATION_MEASUREMENT, false);
+    }
+  }, [isModified]);
 
   const onDismissWaterUseCalculatorModel = () => setShowWaterUseCalculatorModal(false);
   const handleModalSubmit = () => {
@@ -179,10 +191,6 @@ export default function PureIrrigationTask({
     }
   }, [showWaterUseCalculatorModal]);
 
-  const selectedIrrigationTypeOption = useMemo(() => {
-    return IrrigationTypeOptions.filter((options) => options.value === irrigation_type)[0];
-  }, [irrigation_type, IrrigationTypeOptions]);
-
   return (
     <>
       <Controller
@@ -230,7 +238,7 @@ export default function PureIrrigationTask({
         sm
         style={{ marginTop: '6px', marginBottom: '40px' }}
         hookFormRegister={register(DEFAULT_IRRIGATION_TASK_LOCATION)}
-        disabled={disabled}
+        disabled={disabled || isModified}
       />
       <Label className={styles.label} style={{ marginBottom: '24px', fontSize: '16px' }}>
         {t('ADD_TASK.IRRIGATION_VIEW.HOW_DO_YOU_MEASURE_WATER_USE_FOR_THIS_IRRIGATION_TYPE')}
@@ -263,7 +271,7 @@ export default function PureIrrigationTask({
         label={t('ADD_TASK.IRRIGATION_VIEW.SET_AS_DEFAULT_MEASUREMENT_FOR_THIS_IRRIGATION_TYPE')}
         sm
         hookFormRegister={register(DEFAULT_IRRIGATION_MEASUREMENT)}
-        disabled={disabled}
+        disabled={disabled || isModified}
       />
 
       <Unit
@@ -322,4 +330,5 @@ PureIrrigationTask.propTypes = {
   system: PropTypes.oneOf(['imperial', 'metric']).isRequired,
   disabled: PropTypes.bool,
   locations: PropTypes.array,
+  isModified: PropTypes.bool,
 };

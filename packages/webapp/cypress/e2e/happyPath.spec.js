@@ -180,22 +180,22 @@ describe.only('LiteFarm end to end test', () => {
     //Add a farm worker to the farm
     cy.goToPeopleView('English');
     cy.url().should('include', '/people');
-    // cy.get('[data-cy=people-inviteUser]').should('exist').and('not.be.disabled').click();
-    // cy.inviteUser(
-    //   'Farm Worker',
-    //   workerName,
-    //   emailWorker,
-    //   emailOwner,
-    //   'Female',
-    //   lang,
-    //   25,
-    //   1970,
-    //   180012345,
-    // );
+    cy.get('[data-cy=people-inviteUser]').should('exist').and('not.be.disabled').click();
+    cy.inviteUser(
+      'Farm Worker',
+      workerName,
+      emailWorker,
+      emailOwner,
+      'Female',
+      lang,
+      25,
+      1970,
+      180012345,
+    );
 
     // cy.url().should('include', '/people');
     //cy.get('.ReactTable').eq(1).should('eq', true);
-    // cy.contains(workerName).should('exist');
+    cy.contains(workerName).should('exist');
 
     //logout
     // cy.logOut();
@@ -429,84 +429,88 @@ describe.only('LiteFarm end to end test', () => {
       }
     });
 
-    // Note for Mwaya: for some reason this section is selecting Harvest Task and getting stuck. For now I am going to comment it out.
-    // cy.get('[data-cy="tasks-taskCount"]').should('exist'); //.contains('7 tasks');
-    // cy.get('[data-cy="taskCard"]').each((element, index, list) => {
-    //   expect(Cypress.$(element)).to.be.visible;
-    //   const text = element.text();
-    //   // Returns the index of the loop
-    //   expect(index).to.be.greaterThan(-1);
+    cy.get('[data-cy="tasks-taskCount"]').should('exist'); //.contains('7 tasks');
+    cy.waitForReact();
+    cy.get('[data-cy="taskCard"]').each((element, index, list) => {
+      cy.wait(300);
+      expect(Cypress.$(element)).to.be.visible;
+      const text = element.text();
+      // Returns the index of the loop
+      expect(index).to.be.greaterThan(-1);
 
-    // Returns the elements from the cy.get command
-    //expect(list).to.have.length(7);
-    // if (text.includes('Transplant')) {
-    //   cy.log(text);
-    //   cy.contains('Transplant').should('exist').click();
-    //   cy.get('[data-cy="rowMethod-rows"]')
-    //     .invoke('val')
-    //     .then(parseInt)
-    //     .should('be.a', 'number')
-    //     .should('equal', rows);
-    //   cy.get('[data-cy="rowMethod-length"]')
-    //     .invoke('val')
-    //     .then(parseInt)
-    //     .should('be.a', 'number')
-    //     .should('equal', length);
-    //   cy.get('.css-3iigni-container')
-    //     .eq(0)
-    //     .then((val) => {
-    //       const unit = val.text();
+      // Returns the elements from the cy.get command
+      // expect(list).to.have.length(7);
+      if (text.includes('Transplant')) {
+        cy.log(text);
+        cy.contains('Transplant').should('exist').click();
+        cy.get('[data-cy="rowMethod-rows"]')
+          .invoke('val')
+          .then(parseInt)
+          .should('be.a', 'number')
+          .should('equal', rows);
+        cy.get('[data-cy="rowMethod-length"]')
+          .invoke('val')
+          .then(parseInt)
+          .should('be.a', 'number')
+          .should('equal', length);
+        cy.get('.css-3iigni-container')
+          .eq(0)
+          .then((val) => {
+            const unit = val.text();
 
-    //       expect(unit).to.equal(lengthUnit);
-    //     });
-    //   cy.get('[data-cy="rowMethod-spacing"]')
-    //     .invoke('val')
-    //     .then(parseInt)
-    //     .should('be.a', 'number')
-    //     .should('equal', spacing);
-    //   cy.get('.css-3iigni-container')
-    //     .eq(1)
-    //     .then((val) => {
-    //       const unit = val.text();
+            expect(unit).to.equal(lengthUnit);
+          });
+        cy.get('[data-cy="rowMethod-spacing"]')
+          .invoke('val')
+          .then(parseInt)
+          .should('be.a', 'number')
+          .should('equal', spacing);
+        cy.get('.css-3iigni-container')
+          .eq(1)
+          .then((val) => {
+            const unit = val.text();
 
-    //       expect(unit).to.equal(spacingUnit);
-    //     });
-    //   cy.get('[data-cy="taskReadOnly-pencil"]').click();
-    //   cy.get('[data-cy="quickAssign-update"]').click();
-    //   cy.get('[data-cy="taskReadOnly-complete"]').click();
-    //   cy.get('[data-cy="beforeComplete-submit"]').click();
-    //   cy.get('[type = "checkbox"]').check({ force: true });
-    //   cy.get('[data-cy="harvestComplete-save"]').click();
-    //   cy.get('[data-cy="status-label"]').eq(6).contains('Completed').should('exist');
-    // }
+            expect(unit).to.equal(spacingUnit);
+          });
+        cy.get('[data-cy="taskReadOnly-pencil"]').click();
+        cy.get('[data-cy="quickAssign-update"]').click();
+        cy.get('[data-cy="taskReadOnly-complete"]').click();
+        cy.get('[data-cy="beforeComplete-submit"]').click();
+        cy.get('[type = "checkbox"]').check({ force: true });
+        cy.get('[data-cy="harvestComplete-save"]').click();
+        cy.get('[data-cy="status-label"]').eq(6).contains('Completed').should('exist');
+      }
 
-    //   if (text.includes('Planting')) {
-    //     cy.log(text);
-    //     cy.contains('Planting').should('exist').click();
-    //     cy.get('[data-cy="cropPlan-numberContainers"]')
-    //       .invoke('val')
-    //       .then(parseInt)
-    //       .should('be.a', 'number')
-    //       .should('equal', containers);
-    //     cy.get('[data-cy="cropPlan-numberPlants"]')
-    //       .invoke('val')
-    //       .then(parseInt)
-    //       .should('be.a', 'number')
-    //       .should('equal', plantsPerContainer);
+      if (text.includes('Planting')) {
+        cy.log(text);
+        cy.contains('Planting').should('exist').click();
+        cy.get('[data-cy="cropPlan-numberContainers"]')
+          .invoke('val')
+          .then(parseInt)
+          .should('be.a', 'number')
+          .should('equal', containers);
+        cy.get('[data-cy="cropPlan-numberPlants"]')
+          .invoke('val')
+          .then(parseInt)
+          .should('be.a', 'number')
+          .should('equal', plantsPerContainer);
 
-    //     cy.contains('Abandon this task').should('exist').click();
-    //     cy.selectDropdown().click();
-    //     cy.contains('Weather').click();
-    //     cy.get('[data-cy="abandon-save"]').click();
-    //     cy.get('[data-cy="status-label"]').eq(6).contains('Abandoned').should('exist');
-    //   }
+        cy.contains('Abandon this task').should('exist').click();
+        cy.contains('Select') // find react-select component
+          .click({ force: true }); // click to open dropdown
+        cy.contains('Weather').click();
+        cy.get('[data-cy="abandon-save"]').click();
+        cy.get('[data-cy="status-label"]').eq(6).contains('Abandoned').should('exist');
+      }
 
-    //   cy.contains('Test Field').should('exist').click({ force: true });
-    //   // Which element is this?
-    //   // cy.get('._buttonContainer_ws78e_1', { timeout: 60 * 1000 })
-    //   //   .should('exist')
-    //   //   .click();
-    // });
+      cy.wait(2000);
+      cy.contains('Test Field').should('exist').click({ force: true });
+
+      // Mwaya: I'm not sure exactly what this is supposed to be selecting. Can you please update the selector when you get the chance?
+      cy.get('._buttonContainer_ws78e_1', { timeout: 60 * 1000 })
+        .should('exist')
+        .click();
+    });
     //modify the management plan with quick assign modal
     cy.get('[data-cy=taskCard-dueDate]').eq(0).should('exist').and('not.be.disabled').click();
     cy.get('[data-cy=dateAssign-update]').should('exist').and('be.disabled');

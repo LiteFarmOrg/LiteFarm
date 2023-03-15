@@ -503,6 +503,7 @@ describe.only('LiteFarm end to end test', () => {
         cy.contains('Abandon this task').should('exist').click();
         // cy.selectDropdown().click();
         // cy.contains('Weather').click();
+        cy.selectDropdown().eq(1).click();
         cy.get('input').eq(1).type('Weather{enter}');
         cy.get('[data-cy="abandon-save"]').click();
         cy.get('[data-cy="status-label"]').eq(6).contains('Abandoned').should('exist');

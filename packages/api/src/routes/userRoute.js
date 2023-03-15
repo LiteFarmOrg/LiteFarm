@@ -23,7 +23,7 @@ const checkInviteJwt = require('../middleware/acl/checkInviteJwt');
 const checkInvitationTokenContent = require('../middleware/acl/checkInviteTokenContent');
 const checkInvitationAndGoogleJwtContent = require('../middleware/acl/checkInviteAndGoogleJwtContent');
 const checkPasswordCreated = require('../middleware/acl/checkPasswordCreated');
-const checkGoogleJwt = require('../middleware/acl/checkGoogleJwt');
+const checkGoogleAccessToken = require('../middleware/acl/checkGoogleAccessToken');
 
 router.post('/', userController.addUser);
 
@@ -51,7 +51,7 @@ router.post(
 
 router.put(
   '/accept_invitation',
-  checkGoogleJwt,
+  checkGoogleAccessToken,
   checkInvitationAndGoogleJwtContent,
   checkPasswordCreated,
   userController.acceptInvitationWithGoogleAccount,

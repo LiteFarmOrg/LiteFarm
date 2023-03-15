@@ -1,7 +1,8 @@
 const { OAuth2Client } = require('google-auth-library');
-const client_id =process.env.GOOGLE_OAUTH_CLIENT_ID;
+const client_id = process.env.GOOGLE_OAUTH_CLIENT_ID;
 const client = new OAuth2Client(client_id);
 
+// Token returned from the Sign in with Google button on main login page
 async function checkGoogleJwt(req, res, next) {
   const authorization = req.headers['authorization'];
   if (!authorization) {
@@ -9,14 +10,14 @@ async function checkGoogleJwt(req, res, next) {
   }
   const token = authorization.replace('Bearer ', '');
 
-  try{
+  try {
     const ticket = await client.verifyIdToken({
       idToken: token,
       audience: client_id,
     });
     req.user = ticket.getPayload();
     return next();
-  }catch (e){
+  } catch (e) {
     console.log(e);
     return res.status(401).send('Not authenticated');
   }

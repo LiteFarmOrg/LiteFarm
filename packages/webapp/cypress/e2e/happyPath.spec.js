@@ -507,7 +507,7 @@ describe.only('LiteFarm end to end test', () => {
         cy.get('[data-cy="abandon-save"]').click();
         cy.get('[data-cy="status-label"]').eq(6).contains('Abandoned').should('exist');
       }
-
+      cy.wait(2000);
       cy.contains('Test Field').should('exist').click({ force: true });
       cy.get('._buttonContainer_ws78e_1', { timeout: 60 * 1000 })
         .should('exist')

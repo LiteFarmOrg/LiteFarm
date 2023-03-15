@@ -13,89 +13,22 @@
  *  GNU General Public License for more details, see <<https://www.gnu.org/licenses/>.>
  */
 
-import React, { useMemo } from 'react';
+import React from 'react';
 import styles from './unit.module.scss';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import { Error, Info, Label } from '../../Typography';
 import { Cross } from '../../Icons';
 import { useTranslation } from 'react-i18next';
-import { integerOnKeyDown, numberOnKeyDown, preventNumberScrolling } from '../Input';
+import { preventNumberScrolling } from '../Input';
 import Select from 'react-select';
-import { styles as reactSelectDefaultStyles } from '../ReactSelect';
 import { area_total_area } from '../../../util/convert-units/unit';
 import Infoi from '../../Tooltip/Infoi';
 import { Controller } from 'react-hook-form';
 import { ReactComponent as Leaf } from '../../../assets/images/signUp/leaf.svg';
 import useUnit from './useUnit';
+import useReactSelectStyles from './useReactSelectStyles';
 
-const getOnKeyDown = (measure) => {
-  switch (measure) {
-    case 'time':
-      return integerOnKeyDown;
-    default:
-      return numberOnKeyDown;
-  }
-};
-
-const DEFAULT_REACT_SELECT_WIDTH = 80;
-const DEFAULT_SELECT_ARROW_ICON_WIDTH = 20;
-
-const getReactSelectWidth = (measure) => {
-  if (measure === 'time') return 93;
-  return DEFAULT_REACT_SELECT_WIDTH;
-};
-
-const useReactSelectStyles = (disabled, { reactSelectWidth = DEFAULT_REACT_SELECT_WIDTH } = {}) => {
-  return useMemo(
-    () => ({
-      ...reactSelectDefaultStyles,
-      container: (provided, state) => ({
-        ...provided,
-      }),
-      control: (provided, state) => ({
-        display: 'flex',
-        border: `none`,
-        boxShadow: 'none',
-        boxSizing: 'border-box',
-        borderRadius: '4px',
-        height: '48px',
-        paddingLeft: '0',
-        fontSize: '16px',
-        lineHeight: '24px',
-        color: 'var(--fontColor)',
-        background: 'transparent',
-      }),
-      valueContainer: (provided, state) => ({
-        ...provided,
-        padding: '0',
-        width: `${reactSelectWidth - 19}px`,
-        display: 'flex',
-        justifyContent: 'center',
-        background: disabled ? 'var(--inputDisabled)' : 'inherit',
-      }),
-      singleValue: (provided, state) => ({
-        fontSize: '16px',
-        lineHeight: '24px',
-        color: state.isDisabled ? 'var(--grey600)' : 'var(--fontColor)',
-        fontStyle: 'normal',
-        fontWeight: 'normal',
-        fontFamily: '"Open Sans", "SansSerif", serif',
-        overflowX: 'hidden',
-      }),
-      placeholder: () => ({
-        display: 'none',
-      }),
-      dropdownIndicator: (provided, state) => ({
-        ...provided,
-        display: state.isDisabled ? 'none' : 'flex',
-        padding: ' 14px 0 12px 0',
-        transform: 'translateX(-4px)',
-      }),
-    }),
-    [disabled, reactSelectWidth],
-  );
-};
 const Unit = ({
   disabled = false,
   classes = { container: {} },
@@ -119,7 +52,7 @@ const Unit = ({
   mode = 'onBlur',
   max = 1000000000,
   toolTipContent,
-  onChangeUnitOption = () => {},
+  onChangeUnitOption,
   onBlur,
   hasLeaf,
   ...props
@@ -134,12 +67,13 @@ const Unit = ({
     visibleInputValue,
     inputOnChange,
     getMax,
-    measure,
-    hookFormValue,
+    defaultHiddenInputValue,
     inputOnBlur,
-    isDirty,
-    setDirty,
     error,
+    onKeyDown,
+    getOnChangeUnitOption,
+    reactSelectWidth,
+    dividerWidth,
   } = useUnit({
     disabled,
     name,
@@ -157,9 +91,10 @@ const Unit = ({
     optional,
     mode,
     max,
+    onBlur,
+    onChangeUnitOption,
   });
 
-  const reactSelectWidth = getReactSelectWidth(measure);
   const reactSelectStyles = useReactSelectStyles(disabled, { reactSelectWidth });
 
   return (
@@ -193,15 +128,8 @@ const Unit = ({
             type={'number'}
             value={visibleInputValue}
             size={1}
-            onKeyDown={getOnKeyDown(measure)}
-            onBlur={
-              mode === 'onBlur'
-                ? (e) => {
-                    inputOnBlur(e);
-                    onBlur && onBlur(e);
-                  }
-                : onBlur
-            }
+            onKeyDown={onKeyDown}
+            onBlur={inputOnBlur}
             onChange={inputOnChange}
             onWheel={preventNumberScrolling}
             {...props}
@@ -212,22 +140,18 @@ const Unit = ({
         <Controller
           control={control}
           name={displayUnitName}
-          render={({ field: { onChange, onBlur, value, name, ref } }) => (
+          render={({ field: { onChange, onBlur, value, ref } }) => (
             <Select
               data-cy="unit-select"
               onBlur={onBlur}
-              onChange={(e) => {
-                onChange(e);
-                onChangeUnitOption(e);
-                if (!isDirty) setDirty(true);
-              }}
+              onChange={getOnChangeUnitOption(onChange)}
               value={value}
               ref={ref}
               customStyles
               styles={reactSelectStyles}
               isSearchable={false}
               options={options}
-              isDisabled={isSelectDisabled || disabled}
+              isDisabled={isSelectDisabled}
             />
           )}
         />
@@ -236,21 +160,15 @@ const Unit = ({
             className={clsx(
               styles.verticleDivider,
               showError && styles.inputError,
-              (isSelectDisabled || disabled) && styles.none,
+              isSelectDisabled && styles.none,
             )}
-            style={{
-              width: `${
-                isSelectDisabled
-                  ? reactSelectWidth - DEFAULT_SELECT_ARROW_ICON_WIDTH
-                  : reactSelectWidth
-              }px`,
-            }}
+            style={{ width: dividerWidth }}
           />
         </div>
       </div>
       <input
         className={styles.hiddenInput}
-        defaultValue={defaultValue || hookFormValue || ''}
+        defaultValue={defaultHiddenInputValue}
         type={'number'}
         {...register(name, {
           required: required && t('common:REQUIRED'),

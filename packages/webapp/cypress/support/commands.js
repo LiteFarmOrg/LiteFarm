@@ -821,9 +821,6 @@ Cypress.Commands.add(
   'inviteUser',
   (role, fullName, email, existingUser, gender, language, wage, birthYear, phoneNumber) => {
     //from people view
-    Cypress.on('uncaught:exception', (err, runnable) => {
-      return false;
-    });
     const invalidEmail = 'Invalid email';
     cy.url().should('include', '/invite_user');
     cy.get('[data-cy=invite-fullName]').click();

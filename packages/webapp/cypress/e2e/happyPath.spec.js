@@ -105,6 +105,7 @@ describe.only('LiteFarm end to end test', () => {
       .should('exist')
       .and('not.be.disabled')
       .click();
+
     //arrive at farm map page and draw a field
     cy.url().should('include', '/map');
     cy.get('[data-cy=spotlight-next]', { timeout: 60 * 1000 })
@@ -193,7 +194,7 @@ describe.only('LiteFarm end to end test', () => {
       180012345,
     );
 
-    // cy.url().should('include', '/people');
+    cy.url().should('include', '/people');
     //cy.get('.ReactTable').eq(1).should('eq', true);
     cy.contains(workerName).should('exist');
 
@@ -506,7 +507,6 @@ describe.only('LiteFarm end to end test', () => {
       cy.wait(2000);
       cy.contains('Test Field').should('exist').click({ force: true });
 
-      // Mwaya: I'm not sure exactly what this is supposed to be selecting. Can you please update the selector when you get the chance?
       cy.get('._buttonContainer_ws78e_1', { timeout: 60 * 1000 })
         .should('exist')
         .click();

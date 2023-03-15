@@ -1664,6 +1664,10 @@
     "ABANDON": {
       "ABANDON": "Abandon",
       "DATE": "Abandonment date",
+      "WHICH_DATE": "Which date?",
+      "DATE_ORIGINAL": "The original due date",
+      "DATE_TODAY": "Today",
+      "DATE_ANOTHER": "Another",
       "INFO": "Abandoning this task will change its' status to abandoned and remove it from all users ‘To do’ and ‘Unassigned’ lists.",
       "NOTES": "Task abandonment notes",
       "NOTES_CHAR_LIMIT": "Notes must be less than 10,000 characters",

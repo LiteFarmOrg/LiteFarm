@@ -10,8 +10,11 @@ import PropTypes from 'prop-types';
 import { Floater } from './Floater';
 
 export function PureProfileFloaterComponent({
-  onInfo, onSwitchFarm, onHelp,
-  onTutorials, onLogout,
+  onInfo,
+  onSwitchFarm,
+  onHelp,
+  onTutorials,
+  onLogout,
 }) {
   const { t } = useTranslation();
   return (
@@ -23,11 +26,7 @@ export function PureProfileFloaterComponent({
         borderRadius: '4px',
       }}
     >
-      <ListOption
-        clickFn={onInfo}
-        iconText={t('PROFILE_FLOATER.INFO')}
-        icon={<MyInfoIcon />}
-      />
+      <ListOption clickFn={onInfo} iconText={t('PROFILE_FLOATER.INFO')} icon={<MyInfoIcon />} />
 
       <ListOption
         clickFn={onSwitchFarm}
@@ -35,11 +34,7 @@ export function PureProfileFloaterComponent({
         icon={<SwitchFarmIcon style={{ transform: 'translateX(1px)' }} />}
       />
 
-      <ListOption
-        clickFn={onHelp}
-        iconText={t('PROFILE_FLOATER.HELP')}
-        icon={<HelpIcon />}
-      />
+      <ListOption clickFn={onHelp} iconText={t('PROFILE_FLOATER.HELP')} icon={<HelpIcon />} />
 
       <ListOption
         clickFn={onTutorials}

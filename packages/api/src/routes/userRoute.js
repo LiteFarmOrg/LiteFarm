@@ -24,7 +24,7 @@ import checkInviteJwt from '../middleware/acl/checkInviteJwt.js';
 import checkInvitationTokenContent from '../middleware/acl/checkInviteTokenContent.js';
 import checkInvitationAndGoogleJwtContent from '../middleware/acl/checkInviteAndGoogleJwtContent.js';
 import checkPasswordCreated from '../middleware/acl/checkPasswordCreated.js';
-import checkGoogleJwt from '../middleware/acl/checkGoogleJwt.js';
+import checkGoogleAccessToken from '../middleware/acl/checkGoogleAccessToken.js';
 
 router.post('/', userController.addUser);
 
@@ -52,7 +52,7 @@ router.post(
 
 router.put(
   '/accept_invitation',
-  checkGoogleJwt,
+  checkGoogleAccessToken,
   checkInvitationAndGoogleJwtContent,
   checkPasswordCreated,
   userController.acceptInvitationWithGoogleAccount,

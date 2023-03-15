@@ -1585,6 +1585,10 @@
     "ABANDON": {
       "ABANDON": "Abandonar",
       "DATE": "Fecha de abandono",
+      "WHICH_DATE": "MISSING",
+      "DATE_ORIGINAL": "MISSING",
+      "DATE_TODAY": "MISSING",
+      "DATE_ANOTHER": "MISSING",
       "INFO": "Abandonar esta tarea cambiará su estado a abandonada y la eliminará de todas las listas de ‘Tareas pendientes’ y ‘No asignadas’ de todos los usuarios.",
       "NOTES": "Notas de abandono de tarea",
       "NOTES_CHAR_LIMIT": "Las notas deben tener menos de 10,000 caracteres",

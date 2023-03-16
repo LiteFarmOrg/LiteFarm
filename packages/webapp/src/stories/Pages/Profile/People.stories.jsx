@@ -13,6 +13,8 @@ const Template = (args) => <PurePeople {...args} />;
 
 export const Primary = Template.bind({});
 Primary.args = {
+  history: { location: { pathname: '/people' } },
+
   users: [
     {
       first_name: 'first',
@@ -23,7 +25,6 @@ Primary.args = {
       email: 'example@litefarm.org',
     },
   ],
-  history: {},
   isAdmin: true,
 };
 Primary.parameters = {

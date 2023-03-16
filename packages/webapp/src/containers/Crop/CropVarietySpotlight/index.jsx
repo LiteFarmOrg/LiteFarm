@@ -26,13 +26,13 @@ export default function CropVarietySpotlight({ children }) {
             t('MANAGEMENT_PLAN.MANAGEMENT_SPOTLIGHT_3'),
           ],
           selector: managementId,
-          position: 'bottom',
+          position: 'center',
         },
         {
           title: t('MANAGEMENT_PLAN.DETAIL_SPOTLIGHT_TITLE'),
           contents: [t('MANAGEMENT_PLAN.DETAIL_SPOTLIGHT_CONTENTS')],
           selector: detailId,
-          position: 'bottom',
+          position: 'center',
           buttonText: t('MANAGEMENT_PLAN.STARTED'),
         },
       ]}

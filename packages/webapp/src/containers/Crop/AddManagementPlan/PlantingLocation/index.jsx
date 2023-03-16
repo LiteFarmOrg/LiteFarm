@@ -6,11 +6,13 @@ import { cropLocationsSelector } from '../../../locationSlice';
 import { userFarmSelector } from '../../../userFarmSlice';
 import { hookFormPersistSelector } from '../../../hooks/useHookFormPersist/hookFormPersistSlice';
 import TransplantSpotlight from './TransplantSpotlight';
+import { cropVarietySelector } from '../../../cropVarietySlice.js';
 
 export default function PlantingLocation({ history, match }) {
   const isFinalLocationPage =
     match?.path === '/crop/:variety_id/add_management_plan/choose_final_planting_location';
   const variety_id = match.params.variety_id;
+  const crop = useSelector(cropVarietySelector(variety_id));
   const cropLocations = useSelector(cropLocationsSelector);
   const { default_initial_location_id } = useSelector(userFarmSelector);
   const {
@@ -28,6 +30,7 @@ export default function PlantingLocation({ history, match }) {
           cropLocations={cropLocations}
           default_initial_location_id={default_initial_location_id}
           farmCenterCoordinate={grid_points}
+          isCropOrganic={crop.organic}
         />
       </HookFormPersistProvider>
       {needs_transplant && !already_in_ground && <TransplantSpotlight is_seed={is_seed} />}

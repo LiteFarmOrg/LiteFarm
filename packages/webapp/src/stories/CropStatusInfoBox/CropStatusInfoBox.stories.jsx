@@ -14,7 +14,9 @@ Default.args = {
   status: {
     active: 8,
     planned: 8,
-    past: 8,
+    abandoned: 0,
+    completed: 8,
+    noPlans: 0,
   },
   // defaultDate: 'Sept 12, 2021',
 };

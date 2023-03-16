@@ -15,4 +15,5 @@ Primary.args = {
   germination_date: '06-30-2021',
   harvest_date: '04-30-2022',
   transplant_date: '07-30-2021',
+  initial: 'seed_date',
 };

@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import { areaImgDict, lineImgDict, pointImgDict } from '../LocationMapping';
@@ -159,15 +159,6 @@ export default function PureSelectionHandler({ locations, history, sensorReading
       history.push(`/${location.type}/${location.id}/details`);
     }
   };
-
-  const removeSelect = isTouchDevice()
-    ? {
-        userSelect: 'none',
-        WebkitUserSelect: 'none',
-        msUserSelect: 'none',
-        MozUserSelect: 'none',
-      }
-    : {};
 
   return (
     <div className={classes.container}>

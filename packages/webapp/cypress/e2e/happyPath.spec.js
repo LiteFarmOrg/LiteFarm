@@ -431,14 +431,16 @@ describe.only('LiteFarm end to end test', () => {
     });
 
     cy.get('[data-cy="tasks-taskCount"]').should('exist'); //.contains('7 tasks');
+    cy.waitForReact();
     cy.get('[data-cy="taskCard"]').each((element, index, list) => {
+      cy.wait(300);
       expect(Cypress.$(element)).to.be.visible;
       const text = element.text();
       // Returns the index of the loop
       expect(index).to.be.greaterThan(-1);
 
       // Returns the elements from the cy.get command
-      //expect(list).to.have.length(7);
+      // expect(list).to.have.length(7);
       if (text.includes('Transplant')) {
         cy.log(text);
         cy.contains('Transplant').should('exist').click();
@@ -495,13 +497,16 @@ describe.only('LiteFarm end to end test', () => {
           .should('equal', plantsPerContainer);
 
         cy.contains('Abandon this task').should('exist').click();
-        cy.selectDropdown().click();
+        cy.contains('Select') // find react-select component
+          .click({ force: true }); // click to open dropdown
         cy.contains('Weather').click();
         cy.get('[data-cy="abandon-save"]').click();
         cy.get('[data-cy="status-label"]').eq(6).contains('Abandoned').should('exist');
       }
 
+      cy.wait(2000);
       cy.contains('Test Field').should('exist').click({ force: true });
+
       cy.get('._buttonContainer_ws78e_1', { timeout: 60 * 1000 })
         .should('exist')
         .click();

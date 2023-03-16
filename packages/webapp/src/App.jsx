@@ -21,6 +21,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
 import { SnackbarProvider } from 'notistack';
 import { NotistackSnackbar } from './containers/Snackbar/NotistackSnackbar';
+import { OfflineDetector } from './containers/hooks/useOfflineDetector/OfflineDetector';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -58,6 +59,7 @@ function App() {
             flexDirection: 'column',
           }}
         >
+          <OfflineDetector />
           <SnackbarProvider
             anchorOrigin={{
               vertical: 'bottom',

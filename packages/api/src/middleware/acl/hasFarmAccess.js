@@ -13,6 +13,7 @@ const entitiesGetters = {
   expense_type_id: fromFarmExpenseType,
   nitrogen_schedule_id: fromNitrogenSchedule,
   farm_id: (farm_id) => ({ farm_id }),
+  locationIds: fromLocationIds,
   locations: fromLocations,
   activity_id: fromActivity,
   sale_id: fromSale,
@@ -193,6 +194,22 @@ async function fromLocations(locations) {
     return {};
   }
   const location_ids = locations ? locations.map((location) => location.location_id) : undefined;
+  try {
+    const userFarms = await knex('location')
+      .join('userFarm', 'location.farm_id', 'userFarm.farm_id')
+      .whereIn('location.location_id', location_ids)
+      .distinct('location.farm_id');
+    if (userFarms.length !== 1) return {};
+    return userFarms[0];
+  } catch (e) {
+    return {};
+  }
+}
+
+async function fromLocationIds(location_ids) {
+  if (!location_ids || !location_ids.length) {
+    return {};
+  }
   try {
     const userFarms = await knex('location')
       .join('userFarm', 'location.farm_id', 'userFarm.farm_id')

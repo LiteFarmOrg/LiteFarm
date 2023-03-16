@@ -1,6 +1,6 @@
 import React from 'react';
 import styles from './listOption.module.scss';
-import { ReactComponent as LaunchIcon } from '../../../../assets/images/icon_launch.svg'
+import { ReactComponent as LaunchIcon } from '../../../../assets/images/icon_launch.svg';
 
 export default function ListOption({
   iconText,
@@ -10,7 +10,7 @@ export default function ListOption({
   customIconStyle = {},
   isBeingIntroduced = false,
   isIntroductionActive = false,
-  isExternalLink
+  isExternalLink,
 }) {
   if (isIntroductionActive) {
     let alterStyles;
@@ -58,8 +58,8 @@ export default function ListOption({
   );
   return (
     <span className={styles.listOption} onClick={clickFn}>
-      <div data-cy='navbar-option' style={paragraphStyle}>
-        <div style={iconStyle} >{icon}</div>
+      <div data-cy="navbar-option" style={paragraphStyle}>
+        <div style={iconStyle}>{icon}</div>
         {iconText}
         {isExternalLink && <LaunchIcon style={{ marginLeft: '4px' }} />}
       </div>

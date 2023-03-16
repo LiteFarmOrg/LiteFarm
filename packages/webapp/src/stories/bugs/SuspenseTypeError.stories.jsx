@@ -1,5 +1,5 @@
 import React, { lazy, Suspense } from 'react';
-import ConsentEnglish from '../../containers/Consent/locales/en/Owner.Consent.md';
+// import ConsentEnglish from '../../containers/Consent/locales/en/Owner.Consent.md';
 
 const Button = lazy(() => import('../../components/Form/Button'));
 const PureConsent = lazy(() => import('../../components/Consent'));
@@ -23,12 +23,11 @@ export const I18Lazyload = ({ ...args }) => (
 );
 
 I18Lazyload.args = {
-  onSubmit: () => {
-  },
-  onGoBack: () => {
-  },
+  onSubmit: () => {},
+  onGoBack: () => {},
   checkboxArgs: { label: 'I Agree' },
-  consent: <ConsentEnglish />,
+  // TODO: import consent when https://github.com/storybookjs/storybook/issues/11981#issuecomment-673562202 is fixed
+  // consent: <ConsentEnglish />,
 };
 I18Lazyload.parameters = {
   chromatic: { disable: true },

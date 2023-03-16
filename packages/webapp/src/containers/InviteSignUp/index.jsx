@@ -2,7 +2,8 @@ import React, { useEffect, useState } from 'react';
 import PureInviteSignup from '../../components/InviteSignup';
 import jwt from '@tsndr/cloudflare-worker-jwt';
 import { useTranslation } from 'react-i18next';
-import GoogleLogin from 'react-google-login';
+import { useGoogleLogin } from '@react-oauth/google';
+import axios from 'axios';
 
 import Button from '../../components/Form/Button';
 import { isChrome } from '../../util';
@@ -10,7 +11,6 @@ import { isChrome } from '../../util';
 function InviteSignUp({ history }) {
   const invite_token = history.location.state;
   const GOOGLE = 1;
-  const LITEFARM = 2;
   const [selectedKey, setSelectedKey] = useState(0);
   const { i18n, t } = useTranslation(['translation', 'common']);
   const [email, setEmail] = useState();
@@ -37,13 +37,13 @@ function InviteSignUp({ history }) {
     setSelectedKey(selectedKey);
   };
 
-  const onSuccessGoogle = (res) => {
-    if (res.profileObj.email === email) {
+  const onSuccessGoogle = (data, token) => {
+    if (data.email === email) {
       history.push('/accept_invitation/create_account', {
         email,
-        google_id_token: res.tokenObj.id_token,
+        google_id_token: token.access_token,
         invite_token,
-        name: res.profileObj.name,
+        name: data.name,
         gender,
         birth_year,
       });
@@ -51,12 +51,10 @@ function InviteSignUp({ history }) {
       setShowError(true);
     }
   };
-  const onFailureGoogle = (res) => {
-    console.log(res);
-  };
-  const onClickGoogle = (renderProps) => () => {
+
+  const onClickProceed = () => {
     if (selectedKey === GOOGLE) {
-      renderProps.onClick();
+      login();
     } else {
       const { email, first_name, last_name } = getTokenContent(invite_token);
       history.push('/accept_invitation/create_account', {
@@ -68,37 +66,66 @@ function InviteSignUp({ history }) {
       });
     }
   };
-  const clientId = import.meta.env.VITE_GOOGLE_OAUTH_CLIENT_ID;
+
+  const login = useGoogleLogin({
+    onSuccess: async (tokenResponse) => {
+      try {
+        const userInfo = await axios.get('https://www.googleapis.com/oauth2/v3/userinfo', {
+          headers: { Authorization: `Bearer ${tokenResponse.access_token}` },
+        });
+        onSuccessGoogle(userInfo.data, tokenResponse);
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    onError: (errorResponse) => console.log(errorResponse),
+  });
+
+  /* Shape of response object from hook:
+
+      { 
+        access_token: ...,
+        authuser: "2",
+        expires_in: 3599
+        prompt: "none",
+        scope: "email profile ...",
+        token_type: "Bearer"
+      }
+
+
+    Shape of response from https://www.googleapis.com/oauth2/v3/userinfo using the access_token above:
+
+      { 
+        email: ...
+        email_verified: true,
+        family_name: ...
+        given_name: ...
+        locale: ...,
+        name: ...
+        picture: <link>
+        sub: ...
+      }
+
+  */
 
   return (
-    <>
-      <PureInviteSignup
-        googleButton={
-          <GoogleLogin
-            render={(renderProps) => (
-              <Button
-                data-cy="invitedUser-proceed"
-                onClick={onClickGoogle(renderProps)}
-                disabled={(selectedKey === GOOGLE && renderProps.disabled) || !selectedKey}
-                fullLength
-              >
-                {t('common:PROCEED')}
-              </Button>
-            )}
-            onSuccess={onSuccessGoogle}
-            onFailure={onFailureGoogle}
-            clientId={clientId}
-          >
-            {t('SIGNUP.GOOGLE_BUTTON')}
-          </GoogleLogin>
-        }
-        showError={showError}
-        selectedKey={selectedKey}
-        email={email}
-        onClick={onClick}
-        isChrome={isChrome()}
-      />
-    </>
+    <PureInviteSignup
+      googleButton={
+        <Button
+          data-cy="invitedUser-proceed"
+          onClick={onClickProceed}
+          disabled={!selectedKey}
+          fullLength
+        >
+          {t('common:PROCEED')}
+        </Button>
+      }
+      showError={showError}
+      selectedKey={selectedKey}
+      email={email}
+      onClick={onClick}
+      isChrome={isChrome()}
+    />
   );
 }
 

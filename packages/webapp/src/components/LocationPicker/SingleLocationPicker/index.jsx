@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import PropTypes from 'prop-types';
 import CustomZoom from '../../Map/CustomZoom';
 import CustomCompass from '../../Map/CustomCompass';
@@ -260,18 +260,19 @@ const LocationPicker = ({
     };
 
     const zoomControlDiv = document.createElement('div');
-    ReactDOM.render(
+    const rootZoomControlDiv = createRoot(zoomControlDiv);
+    rootZoomControlDiv.render(
       <CustomZoom
         style={{ margin: '12px' }}
         onClickZoomIn={() => map.setZoom(map.getZoom() + 1)}
         onClickZoomOut={() => map.setZoom(map.getZoom() - 1)}
       />,
-      zoomControlDiv,
     );
     map.controls[maps.ControlPosition.RIGHT_BOTTOM].push(zoomControlDiv);
 
     const compassControlDiv = document.createElement('div');
-    ReactDOM.render(<CustomCompass style={{ marginRight: '12px' }} />, compassControlDiv);
+    const rootCompassControlDiv = createRoot(compassControlDiv);
+    rootCompassControlDiv.render(<CustomCompass style={{ marginRight: '12px' }} />);
     map.controls[maps.ControlPosition.RIGHT_BOTTOM].push(compassControlDiv);
 
     // Drawing locations on map

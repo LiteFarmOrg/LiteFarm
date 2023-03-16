@@ -1,10 +1,10 @@
 // cypress/plugins/email-account.js
-const nodemailer = require('nodemailer');
-const imaps = require('imap-simple');
+import nodemailer from 'nodemailer';
+import imaps from 'imap-simple';
 // used to parse emails from the inbox
-const simpleParser = require('mailparser').simpleParser;
+import { simpleParser } from 'mailparser';
 
-const makeEmailAccount = async () => {
+export const makeEmailAccount = async () => {
   const testAccount = await nodemailer.createTestAccount();
   // use testAccount.user and testAccount.pass
   // to log in into the email inbox
@@ -74,4 +74,3 @@ const makeEmailAccount = async () => {
 
   return userEmail;
 };
-module.exports = makeEmailAccount;

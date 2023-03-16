@@ -28,6 +28,7 @@ import mocks from './mock.factories.js';
 const { usersFactory, farmFactory, userFarmFactory } = mocks;
 import { createToken, tokenType } from '../src/util/jwt.js';
 import checkGoogleJwt from '../src/middleware/acl/checkGoogleJwt.js';
+import checkGoogleAccessToken from '../src/middleware/acl/checkGoogleAccessToken.js';
 import userFarmModel from '../src/models/userFarmModel.js';
 import userModel from '../src/models/userModel.js';
 import showedSpotlightModel from '../src/models/showedSpotlightModel.js';
@@ -36,6 +37,7 @@ jest.mock('jsdom');
 jest.mock('../src/util/jwt.js');
 jest.mock('../src/templates/sendEmailTemplate.js');
 jest.mock('../src/middleware/acl/checkGoogleJwt.js');
+jest.mock('../src/middleware/acl/checkGoogleAccessToken.js');
 
 describe('JWT Tests', () => {
   let newUser;
@@ -435,6 +437,10 @@ describe('JWT Tests', () => {
       });
       googleUser = fakeGoogleTokenContent();
       checkGoogleJwt.mockImplementation(async (req, res, next) => {
+        req.user = { ...googleUser };
+        return next();
+      });
+      checkGoogleAccessToken.mockImplementation(async (req, res, next) => {
         req.user = { ...googleUser };
         return next();
       });

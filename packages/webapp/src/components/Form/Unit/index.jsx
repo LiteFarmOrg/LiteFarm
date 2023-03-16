@@ -71,7 +71,7 @@ const Unit = ({
     inputOnBlur,
     error,
     onKeyDown,
-    getOnChangeUnitOption,
+    onChangeUnit,
     reactSelectWidth,
     dividerWidth,
   } = useUnit({
@@ -144,7 +144,7 @@ const Unit = ({
             <Select
               data-cy="unit-select"
               onBlur={onBlur}
-              onChange={getOnChangeUnitOption(onChange)}
+              onChange={onChangeUnit}
               value={value}
               ref={ref}
               customStyles

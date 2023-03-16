@@ -217,19 +217,16 @@ const useUnit = ({
     return hookFormUnit ? convert(max).from(hookFormUnit).to(databaseUnit) : max;
   }, [hookFormUnit, max, databaseUnit]);
 
-  const getOnChangeUnitOption = (onChange) => {
-    return (e) => {
-      // function from react-hook-form Controller's render
-      onChange(e);
+  const onChangeUnit = (e) => {
+    hookFormSetValue(displayUnitName, e);
 
-      // function from parent component
-      if (onChangeUnitOption) {
-        onChangeUnitOption(e);
-      }
-      if (!isDirty) {
-        setDirty(true);
-      }
-    };
+    // function from parent component
+    if (onChangeUnitOption) {
+      onChangeUnitOption(e);
+    }
+    if (!isDirty) {
+      setDirty(true);
+    }
   };
 
   return {
@@ -243,7 +240,7 @@ const useUnit = ({
     defaultHiddenInputValue: defaultValue || hookFormValue || '',
     inputOnBlur,
     error,
-    getOnChangeUnitOption,
+    onChangeUnit,
     reactSelectWidth,
     dividerWidth,
     onKeyDown,

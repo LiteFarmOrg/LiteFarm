@@ -27,7 +27,16 @@ export default defineConfig({
     }),
   ],
   build: {
-    sourcemap: true,
+    rollupOptions: {
+      output: {
+        sourcemap: true,
+        manualChunks: (id) => {
+          if (id.includes('node_modules')) {
+            return 'vendor';
+          }
+        },
+      },
+    },
   },
   server: {
     port: 3000,

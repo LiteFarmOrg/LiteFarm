@@ -55,6 +55,7 @@ const Unit = ({
   onChangeUnitOption,
   onBlur,
   hasLeaf,
+  autoConversion,
   ...props
 }) => {
   const { t } = useTranslation(['translation', 'common']);
@@ -93,6 +94,7 @@ const Unit = ({
     max,
     onBlur,
     onChangeUnitOption,
+    autoConversion,
   });
 
   const reactSelectStyles = useReactSelectStyles(disabled, { reactSelectWidth });

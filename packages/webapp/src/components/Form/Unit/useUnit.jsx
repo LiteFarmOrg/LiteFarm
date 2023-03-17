@@ -39,6 +39,8 @@ const getReactSelectWidth = (measure) => {
   return measure === 'time' ? 93 : DEFAULT_REACT_SELECT_WIDTH;
 };
 
+const noValue = (value) => (value !== 0 && !value) || isNaN(value);
+
 const useUnit = ({
   disabled,
   name,
@@ -58,6 +60,7 @@ const useUnit = ({
   max,
   onBlur,
   onChangeUnitOption,
+  autoConversion = false,
 }) => {
   const onClear = () => {
     setVisibleInputValue('');
@@ -73,21 +76,24 @@ const useUnit = ({
     setShowError(!!error && !disabled && isDirty);
   }, [error]);
 
+  // 1. Determine default visibleInputValue + default displayUnit.
   const {
-    displayUnit,
-    displayValue,
+    displayUnit: defaultDisplayUnit,
+    displayValue: defaultVisibleInputValue,
     options,
     databaseUnit,
     defaultIsSelectDisabled,
     reactSelectWidth,
     dividerWidth,
     onKeyDown,
-    measure,
   } = useMemo(() => {
     const databaseUnit = defaultValueUnit ?? unitType.databaseUnit;
     const options = getOptions(unitType, system);
-    const hookFormValue = hookFormGetValue(name);
+    const hookFormValue = hookFormGetValue(name); // get the value set from the parent component
     const value = hookFormValue || (hookFormValue === 0 ? 0 : defaultValue);
+    // hookFormGetValue(displayUnitName) could be 'm' or {lable: 'm', value: 'm'}
+    let hookFormDisplayUnit = hookFormGetValue(displayUnitName); // get the unit set from the parent component
+    hookFormDisplayUnit = hookFormDisplayUnit?.value || hookFormDisplayUnit;
     const defaultIsSelectDisabled = options.length <= 1;
     const measure = convert().describe(databaseUnit)?.measure;
     const reactSelectWidth = getReactSelectWidth(measure);
@@ -95,63 +101,59 @@ const useUnit = ({
     const dividerWidth = defaultIsSelectDisabled
       ? reactSelectWidth - DEFAULT_SELECT_ARROW_ICON_WIDTH
       : reactSelectWidth;
+    const displayUnit = to || hookFormDisplayUnit;
+    const values = {
+      options,
+      databaseUnit,
+      defaultIsSelectDisabled,
+      reactSelectWidth,
+      dividerWidth,
+      onKeyDown,
+    };
 
-    return to && convert().describe(to)?.system === system
-      ? {
-          displayUnit: to,
-          displayValue: defaultValue && roundToTwoDecimal(convert(value).from(databaseUnit).to(to)),
-          options,
-          databaseUnit,
-          defaultIsSelectDisabled,
-          measure,
-          reactSelectWidth,
-          dividerWidth,
-          onKeyDown,
-        }
-      : {
-          ...getDefaultUnit(unitType, value, system, databaseUnit),
-          options,
-          databaseUnit,
-          defaultIsSelectDisabled,
-          measure,
-          reactSelectWidth,
-          dividerWidth,
-          onKeyDown,
-        };
+    // read/edit: displayUnit has been set in the parent component and it's identical with user's preferred unit system
+    if (displayUnit && (measure === 'time' || convert().describe(displayUnit)?.system === system)) {
+      return {
+        ...values,
+        displayUnit,
+        displayValue: value && roundToTwoDecimal(convert(value).from(databaseUnit).to(displayUnit)),
+      };
+    }
+
+    // system generated/create/unit system unmatch: let the function determine a unit based on the guidance
+    return { ...values, ...getDefaultUnit(unitType, value, system, databaseUnit) };
   }, []);
 
   const hookFormUnitOption = hookFromWatch(displayUnitName);
-  const hookFormUnit = databaseUnit;
-  useEffect(() => {
-    if (typeof hookFormUnitOption === 'string' && getUnitOptionMap()[hookFormUnitOption]) {
-      hookFormSetValue(displayUnitName, getUnitOptionMap()[hookFormUnitOption]);
-    }
-  }, []);
-  useEffect(() => {
-    if (hookFormUnit && convert().describe(hookFormUnit)?.system !== system && measure !== 'time') {
-      hookFormSetValue(displayUnitName, getUnitOptionMap()[displayUnit]);
-    }
-  }, [hookFormUnit]);
+  const hookFormUnit = hookFormUnitOption?.value;
 
+  // 2. Set defaultDisplayUnit
   useEffect(() => {
-    !hookFormGetValue(displayUnitName) &&
-      hookFormSetValue(displayUnitName, getUnitOptionMap()[displayUnit]);
+    const unit = getUnitOptionMap()[defaultDisplayUnit];
+    hookFormSetValue(displayUnitName, unit);
   }, []);
 
-  const [visibleInputValue, setVisibleInputValue] = useState(displayValue);
+  // 3. set default visibleInputValue
+  const [visibleInputValue, setVisibleInputValue] = useState(defaultVisibleInputValue);
+
   const hookFormValue = hookFromWatch(name, defaultValue);
 
   useEffect(() => {
-    hookFormSetHiddenValue(hookFormValue, { shouldValidate: true, shouldDirty: false });
-  }, []);
+    if (!hookFormUnit || noValue(hookFormValue)) {
+      return;
+    }
 
-  useEffect(() => {
-    if (hookFormUnit && hookFormValue !== undefined) {
+    // if autoConversion is true, update visible value. if false, update hidden value
+    if (autoConversion) {
       setVisibleInputValue(
         roundToTwoDecimal(convert(hookFormValue).from(databaseUnit).to(hookFormUnit)),
       );
       //Trigger validation
       (hookFormValue === 0 || hookFormValue > 0) && hookFormSetHiddenValue(hookFormValue);
+    } else {
+      hookFormSetHiddenValue(convert(visibleInputValue).from(hookFormUnit).to(databaseUnit), {
+        shouldDirty: true,
+      });
     }
   }, [hookFormUnit]);
 
@@ -162,20 +164,14 @@ const useUnit = ({
 
   const hookFormSetHiddenValue = useCallback(
     (value, { shouldDirty = false, shouldValidate = true, shouldClearError } = {}) => {
-      //FIXME: walk around for racing condition on add management plan pages LF-1883
-      hookFormSetValue(name, value, {
-        shouldValidate: false,
-        shouldDirty: false,
-      });
       //TODO: refactor location form pages to use hookForm default value and <HookFormPersistProvider/>
-      !disabled &&
-        setTimeout(() => {
-          hookFormSetValue(name, value, {
-            shouldValidate: !shouldClearError && shouldValidate,
-            shouldDirty,
-          });
-          shouldClearError && setShowError(false);
-        }, 0);
+      if (!disabled) {
+        hookFormSetValue(name, value, {
+          shouldValidate: !shouldClearError && shouldValidate,
+          shouldDirty,
+        });
+        shouldClearError && setShowError(false);
+      }
     },
     [name],
   );
@@ -203,13 +199,17 @@ const useUnit = ({
       onBlur(e);
     }
   };
+
+  // set visible value when hidden input is updated from the parent component
+  // (this happens when the component shows a result of a calculation)
   useEffect(() => {
-    if (databaseUnit && hookFormUnit) {
-      setVisibleInputValue(
-        hookFormValue > 0 || hookFormValue === 0
-          ? roundToTwoDecimal(convert(hookFormValue).from(databaseUnit).to(hookFormUnit))
-          : '',
-      );
+    if ((noValue(visibleInputValue) && noValue(hookFormValue)) || !databaseUnit || !hookFormUnit) {
+      return;
+    }
+
+    const newValue = roundToTwoDecimal(convert(hookFormValue).from(databaseUnit).to(hookFormUnit));
+    if (newValue !== visibleInputValue) {
+      setVisibleInputValue(hookFormValue > 0 || hookFormValue === 0 ? newValue : '');
     }
   }, [hookFormValue]);
 

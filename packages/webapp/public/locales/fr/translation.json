@@ -1680,7 +1680,10 @@
     "TODO": "À faire",
     "TRANSPLANT": "Transplantation",
     "TRANSPLANT_LOCATIONS": "Sélectionnez un lieu de transplantation",
-    "UNASSIGNED": "Non attribué"
+    "UNASSIGNED": "Non attribué",
+    "DELETE": {
+      "DELETE_TASK": "MISSING"
+    }
   },
   "UNIT": {
     "TIME": {

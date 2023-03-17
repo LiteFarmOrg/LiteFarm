@@ -99,6 +99,9 @@ function TaskReadOnly({ history, match, location }) {
     dispatch(changeTaskWage({ task_id, wage_at_moment: wage }));
   };
 
+  const onDelete = () => {
+    console.log('deleted task');
+  };
   return (
     <>
       <PureTaskReadOnly
@@ -107,6 +110,7 @@ function TaskReadOnly({ history, match, location }) {
         onComplete={onComplete}
         onEdit={onEdit}
         onAbandon={onAbandon}
+        onDelete={onDelete}
         task={task}
         users={users}
         user={user}

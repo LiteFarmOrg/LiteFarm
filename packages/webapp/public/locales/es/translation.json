@@ -1679,7 +1679,10 @@
     "TODO": "Para hacer",
     "TRANSPLANT": "Trasplantar",
     "TRANSPLANT_LOCATIONS": "Seleccione una ubicación para el trasplante",
-    "UNASSIGNED": "Sin asignar"
+    "UNASSIGNED": "Sin asignar",
+    "DELETE": {
+      "DELETE_TASK": "Borrar tarea"
+    }
   },
   "UNIT": {
     "TIME": {

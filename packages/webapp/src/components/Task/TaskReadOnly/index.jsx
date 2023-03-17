@@ -20,7 +20,7 @@ import { useTranslation } from 'react-i18next';
 import PageTitle from '../../PageTitle/v2';
 import Input from '../../Form/Input';
 import InputAutoSize from '../../Form/InputAutoSize';
-import { Label, Main, Semibold, Underlined } from '../../Typography';
+import { Label, Main, Semibold, IconLink } from '../../Typography';
 import styles from './styles.module.scss';
 import PureManagementPlanTile from '../../CropTile/ManagementPlanTile';
 import PureCropTileContainer from '../../CropTile/CropTileContainer';
@@ -44,6 +44,7 @@ import { TransplantLocationLabel } from './TransplantLocationLabel/TransplantLoc
 import { isTaskType } from '../../../containers/Task/useIsTaskType';
 import ReactSelect from '../../Form/ReactSelect';
 import { BiPencil } from 'react-icons/bi';
+import { ReactComponent as TrashIcon } from '../../../assets/images/document/trash.svg';
 import TaskQuickAssignModal from '../../Modals/QuickAssignModal';
 import { getDateInputFormat } from '../../../util/moment';
 import UpdateTaskDateModal from '../../Modals/UpdateTaskDateModal';
@@ -54,6 +55,7 @@ export default function PureTaskReadOnly({
   onComplete,
   onEdit,
   onAbandon,
+  onDelete,
   task,
   users,
   user,
@@ -416,9 +418,22 @@ export default function PureTaskReadOnly({
 
       {(user.user_id === task.assignee_user_id || user.user_id === owner_user_id || isAdmin) &&
         isCurrent && (
-          <Underlined style={{ marginBottom: '16px' }} onClick={onAbandon}>
-            {t('TASK.ABANDON_TASK')}
-          </Underlined>
+          <IconLink
+            className={styles.deleteText}
+            style={{ color: 'var(--grey600)' }}
+            icon={
+              <TrashIcon
+                style={{
+                  fill: 'var(--grey600)',
+                  stroke: 'var(--grey600)',
+                  transform: 'translate(0px, 6px)',
+                }}
+              />
+            }
+            onClick={onDelete}
+          >
+            {t('TASK.DELETE.DELETE_TASK')}
+          </IconLink>
         )}
       {showTaskAssignModal && (
         <TaskQuickAssignModal

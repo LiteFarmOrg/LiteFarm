@@ -1757,7 +1757,10 @@
     "TODO": "To do",
     "TRANSPLANT": "Transplant",
     "TRANSPLANT_LOCATIONS": "Select a transplant location",
-    "UNASSIGNED": "Unassigned"
+    "UNASSIGNED": "Unassigned",
+    "DELETE": {
+      "DELETE_TASK": "Delete task"
+    }
   },
   "UNIT": {
     "TIME": {

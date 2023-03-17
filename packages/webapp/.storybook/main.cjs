@@ -11,6 +11,9 @@ module.exports = {
   async viteFinal(config) {
     return {
       ...config,
+      build: {
+        sourcemap: false,
+      },
       plugins: [...config.plugins.filter(plugin => !['@mdx-js/rollup'].includes(plugin.name))],
       optimizeDeps: {
         ...config.optimizeDeps,

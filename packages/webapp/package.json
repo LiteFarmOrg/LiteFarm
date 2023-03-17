@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "CYPRESS_COVERAGE=TRUE vite --host",
-    "build": "NODE_OPTIONS=--max_old_space_size=32768 tsc && vite build",
+    "build": "tsc && vite build",
     "preview": "vite preview",
     "lint": "eslint src",
     "i18n": "npx i18next 'src/**/*.{js,jsx,ts,tsx}' -c 'src/locales/i18next-parser.config.js'",

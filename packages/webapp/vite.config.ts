@@ -30,11 +30,6 @@ export default defineConfig({
     rollupOptions: {
       output: {
         sourcemap: true,
-        manualChunks: (id) => {
-          if (id.includes('node_modules')) {
-            return 'vendor';
-          }
-        },
       },
     },
   },

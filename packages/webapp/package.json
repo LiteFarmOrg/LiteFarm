@@ -1,6 +1,6 @@
 {
   "name": "litefarm-webapp",
-  "version": "3.2.5",
+  "version": "3.2.6",
   "description": "LiteFarm Web application",
   "scripts": {
     "dev": "CYPRESS_COVERAGE=TRUE  vite",
@@ -42,6 +42,7 @@
     "@googlemaps/markerclustererplus": "^1.1.0",
     "@material-ui/core": "^4.11.3",
     "@material-ui/icons": "^4.11.2",
+    "@react-oauth/google": "^0.7.0",
     "@reactour/tour": "^2.9.0",
     "@reduxjs/toolkit": "^1.7.2",
     "@sentry/react": "^6.4.1",

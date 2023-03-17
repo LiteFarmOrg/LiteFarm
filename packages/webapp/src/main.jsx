@@ -73,6 +73,9 @@ import App from './App';
 import { sagaMiddleware } from './store/sagaMiddleware';
 import { persistor, store } from './store/store';
 import { GlobalScss } from './components/GlobalScss';
+import { GoogleOAuthProvider } from '@react-oauth/google';
+
+const clientId = import.meta.env.VITE_GOOGLE_OAUTH_CLIENT_ID;
 
 if (import.meta.env.VITE_SENTRY_DSN) {
   Sentry.init({
@@ -140,11 +143,13 @@ ReactDOM.render(
         <>
           <GlobalScss />
           <CssBaseline />
-          <Router history={history}>
-            <>
-              <App />
-            </>
-          </Router>
+          <GoogleOAuthProvider clientId={clientId}>
+            <Router history={history}>
+              <>
+                <App />
+              </>
+            </Router>
+          </GoogleOAuthProvider>
         </>
       </ThemeProvider>
     </PersistGate>

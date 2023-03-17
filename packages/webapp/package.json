@@ -1,6 +1,6 @@
 {
   "name": "litefarm-webapp",
-  "version": "3.2.5",
+  "version": "3.2.6",
   "description": "LiteFarm Web application",
   "scripts": {
     "dev": "CYPRESS_COVERAGE=TRUE  vite",

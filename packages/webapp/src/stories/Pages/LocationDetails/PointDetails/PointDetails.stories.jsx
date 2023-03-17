@@ -2,6 +2,7 @@ import React from 'react';
 import PointDetails from '../../../../components/LocationDetailLayout/PointDetails/PointDetails';
 import decorator from '../../config/Decorators';
 import { chromaticSmallScreen } from '../../config/chromatic';
+import { FormProvider, useForm } from 'react-hook-form';
 
 export default {
   title: 'Form/Location/Point/PointDetails',
@@ -9,7 +10,11 @@ export default {
   component: PointDetails,
 };
 
-const Template = (args) => <PointDetails {...args} />;
+const Template = (args) => (
+  <FormProvider {...useForm()}>
+    <PointDetails {...args} />
+  </FormProvider>
+);
 
 export const Post = Template.bind({});
 Post.args = {
@@ -21,6 +26,7 @@ Post.args = {
   setValue: (data) => {},
   handleSubmit: (data) => {},
   history: (data) => {},
+  match: { params: { location_id: 1 } },
   onError: (data) => {},
   register: (data) => {},
   disabled: false,

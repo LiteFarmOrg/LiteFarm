@@ -15,7 +15,7 @@ export const Primary = Template.bind({});
 Primary.args = {
   history: {},
   system: 'metric',
-  variety: { average_seed_weight: 10, yield_per_plant: 10 },
+  crop_variety: { average_seed_weight: 10, yield_per_plant: 10 },
   useHookFormPersist: () => ({}),
   persistedFormData: {
     crop_management_plan: {
@@ -34,7 +34,7 @@ export const HistoricalInitial = Template.bind({});
 HistoricalInitial.args = {
   history: {},
   system: 'metric',
-  variety: { average_seed_weight: 10, yield_per_plant: 10 },
+  crop_variety: { average_seed_weight: 10, yield_per_plant: 10 },
   useHookFormPersist: () => ({}),
   persistedFormData: {
     crop_management_plan: {
@@ -55,7 +55,7 @@ export const HistoricalFinal = Template.bind({});
 HistoricalFinal.args = {
   history: {},
   system: 'metric',
-  variety: { average_seed_weight: 10, yield_per_plant: 10 },
+  crop_variety: { average_seed_weight: 10, yield_per_plant: 10 },
   useHookFormPersist: () => ({}),
   persistedFormData: {
     crop_management_plan: {
@@ -76,7 +76,7 @@ export const FinalSameLength = Template.bind({});
 FinalSameLength.args = {
   history: {},
   system: 'metric',
-  variety: { average_seed_weight: 10, yield_per_plant: 10 },
+  crop_variety: { average_seed_weight: 10, yield_per_plant: 10 },
   useHookFormPersist: () => ({}),
   persistedFormData: {
     crop_management_plan: {
@@ -102,7 +102,7 @@ export const InitialDifferentLength = Template.bind({});
 InitialDifferentLength.args = {
   history: {},
   system: 'metric',
-  variety: { average_seed_weight: 10, yield_per_plant: 10 },
+  crop_variety: { average_seed_weight: 10, yield_per_plant: 10 },
   useHookFormPersist: () => ({}),
   persistedFormData: {
     crop_management_plan: {

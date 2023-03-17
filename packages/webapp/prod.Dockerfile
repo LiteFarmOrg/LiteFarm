@@ -10,6 +10,8 @@ COPY ./webapp/ /usr/src/app/
 
 COPY ./shared/ /usr/src/shared/
 
+ENV NODE_OPTIONS=--max_old_space_size=4096
+
 RUN pnpm run build
 
 FROM nginx:1.15

@@ -146,6 +146,19 @@ export default function PureTaskReadOnly({
         canCompleteTask &&
         isCurrent && (
           <>
+            {(user.user_id === task.assignee_user_id ||
+              user.user_id === owner_user_id ||
+              isAdmin) &&
+              isCurrent && (
+                <Button
+                  data-cy="taskReadOnly-abandon"
+                  color={'secondary'}
+                  onClick={onAbandon}
+                  fullLength
+                >
+                  {t('TASK.ABANDON.ABANDON')}
+                </Button>
+              )}
             <Button
               data-cy="taskReadOnly-complete"
               color={'primary'}

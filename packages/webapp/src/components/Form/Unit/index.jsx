@@ -142,7 +142,7 @@ const Unit = ({
         <Controller
           control={control}
           name={displayUnitName}
-          render={({ field: { onChange, onBlur, value, ref } }) => (
+          render={({ field: { onBlur, value, ref } }) => (
             <Select
               data-cy="unit-select"
               onBlur={onBlur}

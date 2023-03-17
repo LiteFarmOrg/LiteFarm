@@ -89,10 +89,10 @@ const useUnit = ({
   } = useMemo(() => {
     const databaseUnit = defaultValueUnit ?? unitType.databaseUnit;
     const options = getOptions(unitType, system);
-    const hookFormValue = hookFormGetValue(name); // get the value set from the parent component
+    const hookFormValue = hookFormGetValue(name); // get the value set from parent component
     const value = hookFormValue || (hookFormValue === 0 ? 0 : defaultValue);
     // hookFormGetValue(displayUnitName) could be 'm' or {lable: 'm', value: 'm'}
-    let hookFormDisplayUnit = hookFormGetValue(displayUnitName); // get the unit set from the parent component
+    let hookFormDisplayUnit = hookFormGetValue(displayUnitName); // get the unit set from parent component
     hookFormDisplayUnit = hookFormDisplayUnit?.value || hookFormDisplayUnit;
     const defaultIsSelectDisabled = options.length <= 1;
     const measure = convert().describe(databaseUnit)?.measure;
@@ -111,7 +111,7 @@ const useUnit = ({
       onKeyDown,
     };
 
-    // read/edit: displayUnit has been set in the parent component and it's identical with user's preferred unit system
+    // read/edit: displayUnit has been set in parent component and it's identical with user's preferred unit system
     if (displayUnit && (measure === 'time' || convert().describe(displayUnit)?.system === system)) {
       return {
         ...values,
@@ -200,7 +200,7 @@ const useUnit = ({
     }
   };
 
-  // set visible value when hidden input is updated from the parent component
+  // set visible value when hidden input is updated from parent component
   // (this happens when the component shows a result of a calculation)
   useEffect(() => {
     if ((noValue(visibleInputValue) && noValue(hookFormValue)) || !databaseUnit || !hookFormUnit) {

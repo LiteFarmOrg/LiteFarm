@@ -3,7 +3,7 @@ import styles from './button.module.scss';
 import clsx from 'clsx';
 
 type ButtonProps = {
-  color?: 'primary' | 'secondary' | 'success' | 'none';
+  color?: 'primary' | 'secondary' | 'success' | 'error' | 'none';
   children?: ReactNode;
   sm?: boolean;
   disabled?: boolean;

@@ -49,6 +49,7 @@ import TaskQuickAssignModal from '../../Modals/QuickAssignModal';
 import { getDateInputFormat } from '../../../util/moment';
 import UpdateTaskDateModal from '../../Modals/UpdateTaskDateModal';
 import PureIrrigationTask from '../PureIrrigationTask';
+import ConfirmDelete from './ConfirmDelete';
 
 export default function PureTaskReadOnly({
   onGoBack,
@@ -138,9 +139,14 @@ export default function PureTaskReadOnly({
 
   const [showTaskAssignModal, setShowTaskAssignModal] = useState(false);
   const [showDueDateModal, setShowDueDateModal] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
 
   const canCompleteTask =
     user.user_id === task.assignee_user_id || (assignedToPseudoUser && user.is_admin);
+
+  const preDelete = () => {
+    setIsDeleting(true);
+  };
 
   return (
     <Layout
@@ -417,7 +423,8 @@ export default function PureTaskReadOnly({
       )}
 
       {(user.user_id === task.assignee_user_id || user.user_id === owner_user_id || isAdmin) &&
-        isCurrent && (
+        isCurrent &&
+        !isDeleting && (
           <IconLink
             className={styles.deleteText}
             style={{ color: 'var(--grey600)' }}
@@ -430,7 +437,7 @@ export default function PureTaskReadOnly({
                 }}
               />
             }
-            onClick={onDelete}
+            onClick={preDelete}
           >
             {t('TASK.DELETE.DELETE_TASK')}
           </IconLink>
@@ -458,6 +465,7 @@ export default function PureTaskReadOnly({
           dismissModal={() => setShowDueDateModal(false)}
         />
       )}
+      {isDeleting && <ConfirmDelete onDelete={onDelete} onCancel={() => setIsDeleting(false)} />}
     </Layout>
   );
 }

@@ -1681,7 +1681,10 @@
     "TRANSPLANT_LOCATIONS": "Seleccione una ubicación para el trasplante",
     "UNASSIGNED": "Sin asignar",
     "DELETE": {
-      "DELETE_TASK": "Borrar tarea"
+      "DELETE_TASK": "Eliminar tarea",
+      "DELETE_TASK_QUESTION": "¿Eliminar tarea?",
+      "DELETE_TASK_MESSAGE": "Esta tarea será eliminada de su granja. Si desea mantener regístro de esta tarea, en lugar de eliminar use el botón \"Abandonar\".",
+      "CONFIRM_DELETION": "Confirmar eliminado"
     }
   },
   "UNIT": {

@@ -1759,7 +1759,10 @@
     "TRANSPLANT_LOCATIONS": "Select a transplant location",
     "UNASSIGNED": "Unassigned",
     "DELETE": {
-      "DELETE_TASK": "Delete task"
+      "DELETE_TASK": "Delete task",
+      "DELETE_TASK_QUESTION": "Delete task?",
+      "DELETE_TASK_MESSAGE": "This task will be removed from your farm. If you would like to keep a record of this task, click \"Abandon\" instead.",
+      "CONFIRM_DELETION": "Confirm deletion"
     }
   },
   "UNIT": {

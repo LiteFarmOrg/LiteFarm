@@ -1682,7 +1682,10 @@
     "TRANSPLANT_LOCATIONS": "Sélectionnez un lieu de transplantation",
     "UNASSIGNED": "Non attribué",
     "DELETE": {
-      "DELETE_TASK": "MISSING"
+      "DELETE_TASK": "MISSING",
+      "DELETE_TASK_QUESTION": "MISSING",
+      "DELETE_TASK_MESSAGE": "MISSING",
+      "CONFIRM_DELETION": "MISSING"
     }
   },
   "UNIT": {

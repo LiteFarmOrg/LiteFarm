@@ -50,6 +50,7 @@ import { getDateInputFormat } from '../../../util/moment';
 import UpdateTaskDateModal from '../../Modals/UpdateTaskDateModal';
 import PureIrrigationTask from '../PureIrrigationTask';
 import ConfirmDelete from './ConfirmDelete';
+import UnableDelete from './UnableDelete';
 
 export default function PureTaskReadOnly({
   onGoBack,
@@ -465,7 +466,12 @@ export default function PureTaskReadOnly({
           dismissModal={() => setShowDueDateModal(false)}
         />
       )}
-      {isDeleting && <ConfirmDelete onDelete={onDelete} onCancel={() => setIsDeleting(false)} />}
+      {isDeleting && isTaskType(taskType, 'PLANT_TASK') && (
+        <UnableDelete onAbandon={onAbandon} onCancel={() => setIsDeleting(false)} />
+      )}
+      {isDeleting && !isTaskType(taskType, 'PLANT_TASK') && (
+        <ConfirmDelete onDelete={onDelete} onCancel={() => setIsDeleting(false)} />
+      )}
     </Layout>
   );
 }

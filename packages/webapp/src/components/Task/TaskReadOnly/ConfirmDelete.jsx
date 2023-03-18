@@ -16,6 +16,7 @@
 import Button from '../../Form/Button';
 import { useTranslation } from 'react-i18next';
 import { makeStyles } from '@material-ui/core/styles';
+import { ReactComponent as TrashIcon } from '../../../assets/images/document/trash.svg';
 
 const useStyles = makeStyles({
   deleteBox: {
@@ -28,6 +29,11 @@ const useStyles = makeStyles({
   title: {
     color: 'var(--red700)',
     paddingBottom: '10px',
+    '& svg': {
+      fill: 'var(--red700)',
+      stroke: 'var(--red700)',
+      transform: 'translate(0px, 5px)',
+    },
   },
   buttons: {
     display: 'flex',
@@ -36,7 +42,6 @@ const useStyles = makeStyles({
     flexFlow: 'row wrap',
     '& button': {
       margin: '30px 8px 8px 8px',
-      width: 'auto',
     },
     '& button:nth-of-type(1)': {
       flexGrow: 1,
@@ -47,18 +52,21 @@ const useStyles = makeStyles({
   },
 });
 
-export default function ConfirmDelete(onDelete, onCancel) {
+export default function ConfirmDelete({ onDelete, onCancel }) {
   const { t } = useTranslation();
   const classes = useStyles();
   return (
     <div className={classes.deleteBox}>
-      <h3 className={classes.title}>{t('TASK.DELETE.DELETE_TASK_QUESTION')}</h3>
+      <h3 className={classes.title}>
+        <TrashIcon />
+        {t('TASK.DELETE.DELETE_TASK_QUESTION')}
+      </h3>
       <p>{t('TASK.DELETE.DELETE_TASK_MESSAGE')}</p>
       <div className={classes.buttons}>
-        <Button data-cy="taskReadOnly-complete" color={'secondary'} onClick={onCancel} fullLength>
+        <Button data-cy="taskReadOnly-complete" color={'secondary'} onClick={onCancel}>
           {t('common:CANCEL')}
         </Button>
-        <Button data-cy="taskReadOnly-complete" color={'error'} onClick={onDelete} fullLength>
+        <Button data-cy="taskReadOnly-complete" color={'error'} onClick={onDelete}>
           {t('TASK.DELETE.CONFIRM_DELETION')}
         </Button>
       </div>

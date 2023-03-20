@@ -208,34 +208,6 @@ export const Text = ({ children = 'Text', className = '', style, ...props }: Typ
   );
 };
 
-export const ExternalLink = ({ children = 'Link', className = '', style, link, ...props }) => {
-  return (
-    <>
-      <div
-        className={clsx(styles.text, className)}
-        style={{ width: 'fit-content', display: 'inline-block', ...style }}
-        {...props}
-      >
-        <Underlined
-          onClick={() => window.open(link, '_blank')}
-          style={{ width: 'fit-content', display: 'inline-block', marginLeft: '3px' }}
-        >
-          {children}
-        </Underlined>
-        <ExternalLinkIcon
-          style={{
-            width: '15px',
-            height: '15px',
-            marginLeft: '2px',
-            position: 'absolute',
-            bottom: '4px',
-          }}
-        />
-      </div>
-    </>
-  );
-};
-
 export const TextWithExternalLink = ({
   children = 'SubText',
   className = '',
@@ -254,9 +226,27 @@ export const TextWithExternalLink = ({
       >
         {children}
 
-        <ExternalLink link={link} style={''} {...props}>
-          {t('common:HERE').toLowerCase()}
-        </ExternalLink>
+        <div
+          className={clsx(styles.text, className)}
+          style={{ width: 'fit-content', display: 'inline-block', ...style }}
+          {...props}
+        >
+          <Underlined
+            onClick={() => window.open(link, '_blank')}
+            style={{ width: 'fit-content', display: 'inline-block', marginLeft: '3px' }}
+          >
+            {t('common:HERE').toLowerCase()}
+          </Underlined>
+          <ExternalLinkIcon
+            style={{
+              width: '15px',
+              height: '15px',
+              marginLeft: '2px',
+              position: 'absolute',
+              bottom: '4px',
+            }}
+          />
+        </div>
       </div>
     </>
   );

@@ -173,7 +173,6 @@ const Unit = ({
               isSelectDisabled && styles.none,
             )}
             style={{ width: dividerWidth }}
-            data-testid={`${testId}-divider`}
           />
         </div>
       </div>

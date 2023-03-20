@@ -26,12 +26,8 @@ const snackbarSlice = createSlice({
     },
   },
 });
-export const {
-  enqueueSuccessSnackbar,
-  enqueueErrorSnackbar,
-  closeSnackbar,
-  removeSnackbar,
-} = snackbarSlice.actions;
+export const { enqueueSuccessSnackbar, enqueueErrorSnackbar, closeSnackbar, removeSnackbar } =
+  snackbarSlice.actions;
 export default snackbarSlice.reducer;
 
 export const snackbarSelector = (state) => state.tempStateReducer[snackbarSlice.name].notifications;

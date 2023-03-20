@@ -107,7 +107,7 @@ const AddProduct = ({
       <input name={NAME} style={{ display: 'none' }} {...register(NAME, { required: true })} />
       <input name={PRODUCT_ID} style={{ display: 'none' }} {...register(PRODUCT_ID)} />
       <Input
-        data-cy="taskDetails-supplier"
+        data-cy={'addTask-supplier'}
         name={SUPPLIER}
         label={t('ADD_PRODUCT.SUPPLIER_LABEL')}
         hookFormRegister={register(SUPPLIER, { required: interested })}

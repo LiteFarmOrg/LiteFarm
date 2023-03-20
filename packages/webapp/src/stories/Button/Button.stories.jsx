@@ -14,7 +14,7 @@ const TemplateWithText = (args) => (
     <p>
       Override button style by passing style object to style prop or by passing in a className
       string. To remove background color and pass in a global css className, color need to be set to
-      'none'
+      &apos;none&apos;
     </p>
     <Button {...args} />
   </>

@@ -15,13 +15,13 @@ export const Post = Template.bind({});
 Post.args = {
   isCreateLocationPage: true,
   history: (data) => {},
+  match: { params: { location_id: 1 } },
   submitForm: (data) => {},
   areaType: (data) => {},
   system: 'metric',
   isAdmin: true,
-  useHookFormPersist: () => ({
-    persistedData: { grid_points: {}, total_area: 1, perimeter: 2 },
-  }),
+
+  persistedFormData: { name: 'location', grid_points: {}, total_area: 1, perimeter: 2 },
 };
 Post.parameters = {
   ...chromaticSmallScreen,
@@ -35,9 +35,8 @@ View.args = {
   submitForm: (data) => {},
   system: 'metric',
   isAdmin: true,
-  useHookFormPersist: () => ({
-    persistedData: { grid_points: {}, total_area: 1, perimeter: 2 },
-  }),
+
+  persistedFormData: { name: 'location', grid_points: {}, total_area: 1, perimeter: 2 },
 };
 View.parameters = {
   ...chromaticSmallScreen,
@@ -45,13 +44,13 @@ View.parameters = {
 
 export const Edit = Template.bind({});
 Edit.args = {
+  match: { params: {} },
   isEditLocationPage: true,
   submitForm: (data) => {},
   system: 'metric',
   isAdmin: true,
-  useHookFormPersist: () => ({
-    persistedData: { grid_points: {}, total_area: 1, perimeter: 2 },
-  }),
+
+  persistedFormData: { name: 'location', grid_points: {}, total_area: 1, perimeter: 2 },
 };
 Edit.parameters = {
   ...chromaticSmallScreen,

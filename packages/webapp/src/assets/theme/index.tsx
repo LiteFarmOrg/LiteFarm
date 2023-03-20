@@ -1,5 +1,5 @@
 import { createTheme, ThemeProvider } from '@material-ui/core';
-import React, { FC } from 'react';
+import React, { FC, ReactNode } from 'react';
 
 export const colors = {
   teal900: '#085d50',
@@ -112,6 +112,6 @@ const theme = createTheme({
 
 export default theme;
 const defaultTheme = createTheme({});
-export const DefaultThemeProvider: FC = ({ children }) => (
+export const DefaultThemeProvider: FC<{ children: ReactNode }> = ({ children }) => (
   <ThemeProvider theme={defaultTheme}>{children}</ThemeProvider>
 );

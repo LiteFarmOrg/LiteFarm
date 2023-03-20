@@ -53,10 +53,11 @@ export default function useHookFormPersist(getValues = () => ({}), persistedPath
       } else {
         if (history.action === 'PUSH') {
           const pathname = history.location.pathname;
+          const state = history.location.state;
           const unlisten = history.listen(() => {
             if (history.action === 'POP') {
               unlisten();
-              history.push(pathname);
+              history.push(pathname, state);
               dispatch(resetAndUnLockFormData());
             }
           });

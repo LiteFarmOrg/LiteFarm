@@ -203,7 +203,12 @@ export default function PureAddCropVariety({
           </Label>
         </div>
         <div>
-          <Radio label={t('CROP.ANNUAL')} value={'ANNUAL'} hookFormRegister={lifeCycleRegister} />
+          <Radio
+            data-cy="crop-annual"
+            label={t('CROP.ANNUAL')}
+            value={'ANNUAL'}
+            hookFormRegister={lifeCycleRegister}
+          />
         </div>
         <div>
           <Radio

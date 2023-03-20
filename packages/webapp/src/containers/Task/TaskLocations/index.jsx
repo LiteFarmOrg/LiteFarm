@@ -13,7 +13,10 @@ import {
   cropLocationsSelector,
   locationsSelector,
 } from '../../locationSlice';
-import { useActiveAndCurrentManagementPlanTilesByLocationIds } from '../TaskCrops/useManagementPlanTilesByLocationIds';
+import {
+  useActiveAndCurrentManagementPlanTilesByLocationIds,
+  useCurrentWildManagementPlanTiles,
+} from '../TaskCrops/useManagementPlanTilesByLocationIds';
 import { useIsTaskType } from '../useIsTaskType';
 import { useTranslation } from 'react-i18next';
 import { useReadOnlyPinCoordinates } from '../useReadOnlyPinCoordinates';
@@ -21,14 +24,14 @@ import { useMaxZoom } from '../../Map/useMaxZoom';
 import { managementPlanSelector } from '../../managementPlanSlice';
 
 export default function TaskLocationsSwitch({ history, match, location }) {
-  const isHarvestLocation = useIsTaskType('HARVEST_TASK') ;
+  const isHarvestLocation = useIsTaskType('HARVEST_TASK');
   const isIrrigationLocation = useIsTaskType('IRRIGATION_TASK');
   const isTransplantLocation = useIsTaskType('TRANSPLANT_TASK');
-  
+
   if (isHarvestLocation) {
     return <TaskActiveAndPlannedCropLocations history={history} location={location} />;
-  } 
-  
+  }
+
   if (isTransplantLocation) {
     return <TaskTransplantLocations history={history} location={location} />;
   }
@@ -36,7 +39,7 @@ export default function TaskLocationsSwitch({ history, match, location }) {
   if (isIrrigationLocation) {
     return <TaskIrrigationLocations history={history} location={location} />;
   }
-  
+
   return <TaskAllLocations history={history} location={location} />;
 }
 
@@ -114,11 +117,20 @@ function TaskAllLocations({ history, location }) {
   const persistedFormData = useSelector(hookFormPersistSelector);
   const taskTypesBypassCrops = useSelector(taskTypeIdNoCropsSelector);
   const readOnlyPinCoordinates = useReadOnlyPinCoordinates();
+  const activeAndCurrentManagementPlansByLocationIds =
+    useActiveAndCurrentManagementPlanTilesByLocationIds(locations);
+  const wildManagementPlanTiles = useCurrentWildManagementPlanTiles();
 
-  const onContinue = () => {
+  const onContinue = (formData) => {
+    const hasLocationManagementPlans = formData.locations.some(
+      ({ location_id }) => activeAndCurrentManagementPlansByLocationIds[location_id]?.length,
+    );
+    const hasWildManagementPlans = formData.show_wild_crop && wildManagementPlanTiles.length;
+    const hasManagementPlans = hasLocationManagementPlans || hasWildManagementPlans;
     if (
-      taskTypesBypassCrops.includes(persistedFormData.task_type_id) &&
-      !readOnlyPinCoordinates?.length
+      (taskTypesBypassCrops.includes(persistedFormData.task_type_id) &&
+        !readOnlyPinCoordinates?.length) ||
+      !hasManagementPlans
     ) {
       dispatch(setManagementPlansData([]));
       return history.push('/add_task/task_details', location?.state);
@@ -154,7 +166,7 @@ function TaskLocations({
   const onGoBack = () => {
     history.back();
   };
-  
+
   return (
     <HookFormPersistProvider>
       <PureTaskLocations

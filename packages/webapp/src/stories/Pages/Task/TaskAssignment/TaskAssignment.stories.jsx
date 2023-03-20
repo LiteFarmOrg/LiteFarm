@@ -41,6 +41,7 @@ TaskAssignment.args = {
   handleCancel: () => console.log('handleCancel called'),
   onError: () => console.log('onError called'),
   userFarmOptions: userFarmOptions,
+  persistedFormData: {},
 };
 
 export const TaskAssignmentFarmWorker = Template.bind({});
@@ -52,6 +53,7 @@ TaskAssignmentFarmWorker.args = {
   onError: () => console.log('onError called'),
   userFarmOptions: oneUser,
   isFarmWorker: true,
+  persistedFormData: {},
 };
 
 export const TaskAssignmentOneUser = Template.bind({});
@@ -62,13 +64,16 @@ TaskAssignmentOneUser.args = {
   handleCancel: () => console.log('handleCancel called'),
   onError: () => console.log('onError called'),
   userFarmOptions: oneUser,
+  persistedFormData: {},
 };
 
 export const TaskAssignmentMoreThanEightUsers = Template.bind({});
 TaskAssignmentMoreThanEightUsers.args = {
+  useHookFormPersist: () => ({}),
   onSubmit: () => console.log('onSave called'),
   handleGoBack: () => console.log('handleGoBack called'),
   handleCancel: () => console.log('handleCancel called'),
   onError: () => console.log('onError called'),
   userFarmOptions: moreThanEightUsers,
+  persistedFormData: {},
 };

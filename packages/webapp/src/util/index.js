@@ -117,6 +117,9 @@ export const isChrome = () => {
   return isChrome;
 };
 
+/**
+ * @deprecated Use structuredClone instead
+ */
 export const cloneObject = (obj) => JSON.parse(JSON.stringify(obj));
 
 export const getObjectInnerValues = (data) => {

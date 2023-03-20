@@ -23,7 +23,6 @@ export default function PureCompleteStepOne({
   farm,
   system,
   products,
-
   useHookFormPersist,
 }) {
   const { t } = useTranslation();
@@ -88,6 +87,7 @@ export default function PureCompleteStepOne({
           farm,
           task: selectedTask,
           disabled: !changesRequired,
+          isModified: changesRequired,
         })}
     </Form>
   );

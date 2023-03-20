@@ -139,7 +139,7 @@ export const getObjectInnerValues = (data) => {
 export const truncateText = (text, length) => {
   if (text) {
     if (text.length > length) {
-      return text.slice(0, 22) + '...';
+      return text.slice(0, length) + '...';
     }
     return text;
   }

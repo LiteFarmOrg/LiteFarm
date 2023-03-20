@@ -191,7 +191,12 @@ const Unit = ({
       />
       {info && !showError && <Info style={classes.info}>{info}</Info>}
       {showError ? (
-        <Error style={{ position: 'relative', ...classes.errors }}>{error?.message}</Error>
+        <Error
+          style={{ position: 'relative', ...classes.errors }}
+          data-testid={`${testId}-errormessage`}
+        >
+          {error?.message}
+        </Error>
       ) : null}
     </div>
   );

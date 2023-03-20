@@ -67,7 +67,7 @@ const PureFieldWorkTask = ({
       <Controller
         control={control}
         name={FIELD_WORK_TYPE}
-        rules={{ required: true }}
+        rules={{ validate: (option) => !!option.value }}
         render={({ field: { onChange, value } }) => (
           <ReactSelect
             data-cy="fieldWorkTask-typeSelect"

@@ -96,7 +96,7 @@ const Unit = ({
   });
 
   const reactSelectStyles = useReactSelectStyles(disabled, { reactSelectWidth });
-  const testId = props['data-testid'] || '';
+  const testId = props['data-testid'] || 'unit';
 
   return (
     <div className={clsx(styles.container)} style={{ ...style, ...classes.container }}>
@@ -133,30 +133,38 @@ const Unit = ({
             onBlur={inputOnBlur}
             onChange={inputOnChange}
             onWheel={preventNumberScrolling}
+            data-testid={testId}
             {...props}
           />
-          {showError && <Cross onClick={onClear} className={styles.crossWrapper} />}
-        </div>
-
-        {/* TODO: add id to react-select */}
-        <Controller
-          control={control}
-          name={displayUnitName}
-          render={({ field: { onChange, onBlur, value, ref } }) => (
-            <Select
-              data-cy="unit-select"
-              onBlur={onBlur}
-              onChange={getOnChangeUnitOption(onChange)}
-              value={value}
-              ref={ref}
-              customStyles
-              styles={reactSelectStyles}
-              isSearchable={false}
-              options={options}
-              isDisabled={isSelectDisabled}
+          {showError && (
+            <Cross
+              onClick={onClear}
+              className={styles.crossWrapper}
+              data-testid={`${testId}-errorclearbutton`}
             />
           )}
-        />
+        </div>
+
+        <div data-testid={`${testId}-select`}>
+          <Controller
+            control={control}
+            name={displayUnitName}
+            render={({ field: { onChange, onBlur, value, ref } }) => (
+              <Select
+                data-cy="unit-select"
+                onBlur={onBlur}
+                onChange={getOnChangeUnitOption(onChange)}
+                value={value}
+                ref={ref}
+                customStyles
+                styles={reactSelectStyles}
+                isSearchable={false}
+                options={options}
+                isDisabled={isSelectDisabled}
+              />
+            )}
+          />
+        </div>
         <div className={clsx(styles.pseudoInputContainer, showError && styles.inputError)}>
           <div
             className={clsx(
@@ -165,6 +173,7 @@ const Unit = ({
               isSelectDisabled && styles.none,
             )}
             style={{ width: dividerWidth }}
+            data-testid={`${testId}-divider`}
           />
         </div>
       </div>

@@ -41,6 +41,36 @@ const getReactSelectWidth = (measure) => {
 
 const noValue = (value) => (value !== 0 && !value) || isNaN(value);
 
+/**
+ * Custom hook to interact with Unit component.
+ *
+ * @typedef LabelOption
+ * @type {object}
+ * @property {string} label - label of a unit option
+ * @property {string} value - value of a unit option
+ *
+ * @typedef ReturnedObject
+ * @type {object}
+ * @property {function} onClear - function that clears visible and hidden values
+ * @property {boolean} showError - whether to show error or not
+ * @property {LabelOption[]} options - options used for the unit select
+ * @property {boolean} isSelectDisabled - whether the unit select is disabled or not
+ * @property {number} visibleInputValue - value of the visible input
+ * @property {function} inputOnChange - function called when the value of the visible input changes
+ * @property {function} getMax - function that returns a maximum allowed number of the hidden value
+ * @property {number} defaultHiddenInputValue - default value of the hidden input
+ * @property {function} inputOnBlur - function called on blur
+ * @property {object} error - error returned by "get(errors, name)" (react-hook-form)
+ * @property {function} getOnChangeUnitOption - function called when unit option is changed
+ * @property {number} reactSelectWidth - width of the reactSelect
+ * @property {number} dividerWidth - width of the vertical divider
+ * @property {function} onKeyDown - function called on key down
+ *
+ * @param {object} props - hook properties
+ *
+ * @returns {ReturnedObject}
+ *
+ */
 const useUnit = ({
   disabled,
   name,

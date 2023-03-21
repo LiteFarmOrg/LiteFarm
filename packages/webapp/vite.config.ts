@@ -24,6 +24,9 @@ export default defineConfig({
     }),
     VitePWA({
       registerType: 'autoUpdate',
+      workbox: {
+        cleanupOutdatedCaches: true,
+      },
     }),
   ],
   build: {

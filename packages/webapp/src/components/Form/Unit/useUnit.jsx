@@ -61,7 +61,7 @@ const noValue = (value) => (value !== 0 && !value) || isNaN(value);
  * @property {number} defaultHiddenInputValue - default value of the hidden input
  * @property {function} inputOnBlur - function called on blur
  * @property {object} error - error returned by "get(errors, name)" (react-hook-form)
- * @property {function} getOnChangeUnitOption - function called when unit option is changed
+ * @property {function} onChangeUnit - function called when unit option is changed
  * @property {number} reactSelectWidth - width of the reactSelect
  * @property {number} dividerWidth - width of the vertical divider
  * @property {function} onKeyDown - function called on key down

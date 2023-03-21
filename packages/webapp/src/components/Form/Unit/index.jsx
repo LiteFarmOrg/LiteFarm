@@ -96,6 +96,7 @@ const Unit = ({
   });
 
   const reactSelectStyles = useReactSelectStyles(disabled, { reactSelectWidth });
+  const testId = props['data-testid'] || 'unit';
 
   return (
     <div className={clsx(styles.container)} style={{ ...style, ...classes.container }}>
@@ -132,29 +133,38 @@ const Unit = ({
             onBlur={inputOnBlur}
             onChange={inputOnChange}
             onWheel={preventNumberScrolling}
+            data-testid={testId}
             {...props}
           />
-          {showError && <Cross onClick={onClear} className={styles.crossWrapper} />}
-        </div>
-
-        <Controller
-          control={control}
-          name={displayUnitName}
-          render={({ field: { onChange, onBlur, value, ref } }) => (
-            <Select
-              data-cy="unit-select"
-              onBlur={onBlur}
-              onChange={getOnChangeUnitOption(onChange)}
-              value={value}
-              ref={ref}
-              customStyles
-              styles={reactSelectStyles}
-              isSearchable={false}
-              options={options}
-              isDisabled={isSelectDisabled}
+          {showError && (
+            <Cross
+              onClick={onClear}
+              className={styles.crossWrapper}
+              data-testid={`${testId}-errorclearbutton`}
             />
           )}
-        />
+        </div>
+
+        <div data-testid={`${testId}-select`}>
+          <Controller
+            control={control}
+            name={displayUnitName}
+            render={({ field: { onChange, onBlur, value, ref } }) => (
+              <Select
+                data-cy="unit-select"
+                onBlur={onBlur}
+                onChange={getOnChangeUnitOption(onChange)}
+                value={value}
+                ref={ref}
+                customStyles
+                styles={reactSelectStyles}
+                isSearchable={false}
+                options={options}
+                isDisabled={isSelectDisabled}
+              />
+            )}
+          />
+        </div>
         <div className={clsx(styles.pseudoInputContainer, showError && styles.inputError)}>
           <div
             className={clsx(
@@ -176,20 +186,31 @@ const Unit = ({
           max: { value: getMax(), message: t('UNIT.VALID_VALUE') + max },
           min: { value: 0, message: t('UNIT.VALID_VALUE') + max },
         })}
+        data-testid={`${testId}-hiddeninput`}
       />
       {info && !showError && <Info style={classes.info}>{info}</Info>}
       {showError ? (
-        <Error style={{ position: 'relative', ...classes.errors }}>{error?.message}</Error>
+        <Error
+          style={{ position: 'relative', ...classes.errors }}
+          data-testid={`${testId}-errormessage`}
+        >
+          {error?.message}
+        </Error>
       ) : null}
     </div>
   );
 };
 
 Unit.propTypes = {
+  /** whether the input is disabled */
   disabled: PropTypes.bool,
+  /** label for the input */
   label: PropTypes.string,
+  /** whether the input is optional */
   optional: PropTypes.bool,
+  /** content shown below the input */
   info: PropTypes.string,
+  /** objects to style elements */
   classes: PropTypes.exact({
     input: PropTypes.object,
     label: PropTypes.object,
@@ -197,23 +218,52 @@ Unit.propTypes = {
     info: PropTypes.object,
     errors: PropTypes.object,
   }),
+  /** object to style the container */
   style: PropTypes.object,
+  /** setValue function returned by useForm */
   hookFormSetValue: PropTypes.func,
+  /** getValues function returned by useForm */
   hookFormGetValue: PropTypes.func,
+  /** watch function returned by useForm */
   hookFromWatch: PropTypes.func,
+  /** register function returned by useForm */
+  register: PropTypes.func,
+  /** control function returned by useForm */
+  control: PropTypes.func,
+  /** name of the (hidden) input which is used to register */
   name: PropTypes.string,
+  /** user's preferred farm unit system */
   system: PropTypes.oneOf(['imperial', 'metric']).isRequired,
+  /** when to validate user inputs */
   mode: PropTypes.oneOf(['onBlur', 'onChange']),
+  /** one of the objects defined in '/packages/webapp/src/util/convert-units/unit.js' */
   unitType: PropTypes.shape({
     metric: PropTypes.object,
     imperial: PropTypes.object,
     databaseUnit: PropTypes.string,
   }).isRequired,
+  /** databaseUnit */
   from: PropTypes.string,
+  /** default display unit */
   to: PropTypes.string,
+  /** whether the input is required */
   required: PropTypes.bool,
+  /** content of the tooltip */
   toolTipContent: PropTypes.string,
+  /** whether the input should have the leaf icon */
   hasLeaf: PropTypes.bool,
+  /** name of the unit select */
+  displayUnitName: PropTypes.string,
+  /** default hidden value */
+  defaultValue: PropTypes.number,
+  /** the maximum number accepted */
+  max: PropTypes.number,
+  /** function called when unit option is changed */
+  onChangeUnitOption: PropTypes.func,
+  /** function called on blur */
+  onBlur: PropTypes.func,
+  /** testId used for component testing */
+  'data-testid': PropTypes.string,
 };
 
 export default Unit;

@@ -1,4 +1,4 @@
-version: "3.7"
+version: '3.7'
 
 volumes:
   postgres-data:
@@ -9,13 +9,13 @@ services:
     container_name: litefarm-db
     image: postgres:13
     ports:
-      - "5433:5432"
+      - '5433:5432'
     environment:
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_DB: ${POSTGRES_DB}
     healthcheck:
-      test: [ "CMD", "pg_isready", "-U", "postgres" ]
+      test: ['CMD', 'pg_isready', '-U', 'postgres']
       interval: 5s
       timeout: 5s
       retries: 5
@@ -31,12 +31,12 @@ services:
       context: ./packages/
       dockerfile: ./api/prod.Dockerfile
     volumes:
-      - /etc/letsencrypt:/usr/src/letsencrypt
+      - ~/letsencrypt:/usr/src/letsencrypt
     ports:
-      - "5000:5000"
+      - '5000:5000'
     environment:
-      WAIT_HOSTS: litefarm-db:5432
-      NODE_ENV: integration
+      WAIT_HOSTS: host.docker.internal
+      NODE_ENV: development
       DEV_DATABASE_HOST: ${DEV_DATABASE_HOST}
       DEV_DATABASE: ${DEV_DATABASE}
       DEV_DATABASE_USER: ${DEV_DATABASE_USER}
@@ -47,7 +47,7 @@ services:
       context: ./packages/
       dockerfile: ./webapp/prod.Dockerfile
     volumes:
-      - /etc/letsencrypt:/etc/letsencrypt
+      - ~/letsencrypt:/etc/letsencrypt
     ports:
-      - "80:80"
-      - "443:443"
+      - '80:80'
+      - '443:443'

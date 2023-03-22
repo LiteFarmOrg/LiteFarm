@@ -6,9 +6,9 @@ import { postCropAndVarietal, postVarietal } from './saga';
 import { certifierSurveySelector } from '../OrganicCertifierSurvey/slice';
 import { hookFormPersistSelector } from '../hooks/useHookFormPersist/hookFormPersistSlice';
 import ImagePickerWrapper from '../ImagePickerWrapper';
-import { AddLink } from '../../components/Typography';
 import { useTranslation } from 'react-i18next';
 import { HookFormPersistProvider } from '../hooks/useHookFormPersist/HookFormPersistProvider';
+import { AddLink } from '../../components/Typography';
 
 function AddCropVarietyForm({ history, match }) {
   const { t } = useTranslation(['translation']);
@@ -31,6 +31,13 @@ function AddCropVarietyForm({ history, match }) {
       ...persistedFormData,
       ...data,
       crop_variety_name: data.crop_variety_name.trim(),
+      crop_varietal: data.crop_varietal.trim(),
+      crop_cultivar: data.crop_cultivar.trim(),
+      crop_variety_photo_url: data.crop_variety_photo_url
+        ? data.crop_variety_photo_url
+        : `https://${
+            import.meta.env.VITE_DO_BUCKET_NAME
+          }.nyc3.digitaloceanspaces.com/default_crop/v2/default.webp`,
       supplier: data.supplier.trim(),
       compliance_file_url: '',
       organic: null,
@@ -55,7 +62,7 @@ function AddCropVarietyForm({ history, match }) {
         crop={crop}
         imageUploader={
           <ImagePickerWrapper>
-            <AddLink>{t('CROP.ADD_IMAGE')}</AddLink>
+            <AddLink>{t('CROP.VARIETAL_IMAGE')}</AddLink>
           </ImagePickerWrapper>
         }
         handleGoBack={() => history.back()}

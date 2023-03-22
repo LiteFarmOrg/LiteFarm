@@ -1014,6 +1014,8 @@ async function crop_varietyFactory(
 function fakeCropVariety(defaultData = {}) {
   return {
     crop_variety_name: faker.lorem.word(),
+    crop_varietal: faker.lorem.word(),
+    crop_cultivar: faker.lorem.word(),
     supplier: faker.lorem.word(),
     seeding_type: faker.helpers.arrayElement(['SEED', 'SEEDLING_OR_PLANTING_STOCK']),
     lifecycle: faker.helpers.arrayElement(['ANNUAL', 'PERENNIAL']),

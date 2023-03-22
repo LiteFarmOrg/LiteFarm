@@ -23,6 +23,10 @@
   color: var(--grey500);
 }
 
+input:focus::placeholder {
+  color: transparent;
+}
+
 .input:disabled {
   background-color: var(--inputDisabled) !important;
   color: var(--grey600);

@@ -208,13 +208,17 @@ export const Text = ({ children = 'Text', className = '', style, ...props }: Typ
   );
 };
 
+type TextWithExternalLinkProps = TypographyProps & {
+  link: string;
+};
+
 export const TextWithExternalLink = ({
   children = 'SubText',
   className = '',
   style,
   link,
   ...props
-}) => {
+}: TextWithExternalLinkProps) => {
   const { t } = useTranslation(['translation', 'common', 'crop']);
 
   return (

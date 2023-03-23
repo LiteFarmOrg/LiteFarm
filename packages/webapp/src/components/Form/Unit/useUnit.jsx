@@ -14,7 +14,7 @@
  */
 import { useCallback, useEffect, useState, useMemo } from 'react';
 import PropTypes from 'prop-types';
-import { get, useFormState } from 'react-hook-form';
+import { get, useFormState, useController } from 'react-hook-form';
 import { integerOnKeyDown, numberOnKeyDown } from '../Input';
 import {
   area_total_area,
@@ -96,6 +96,8 @@ const useUnit = ({
     setVisibleInputValue('');
     hookFormSetHiddenValue('', { shouldClearError: !optional, shouldValidate: optional });
   };
+
+  const { field } = useController({ name: displayUnitName, control });
 
   const [showError, setShowError] = useState(false);
   const [isDirty, setDirty] = useState(false);
@@ -248,7 +250,7 @@ const useUnit = ({
   }, [hookFormUnit, max, databaseUnit]);
 
   const onChangeUnit = (e) => {
-    hookFormSetValue(displayUnitName, e);
+    field.onChange(e);
 
     // function from parent component
     if (onChangeUnitOption) {

@@ -1,0 +1,27 @@
+#!/bin/bash
+#####
+# NAME
+#   logs - show compose project logs
+#
+# SYNOPSIS
+#   logs [LOGS_ARG...]
+#
+# LOGS_ARGS
+#   Any arguments are passed to docker-compose logs
+
+# NOTE
+#   When containers are started idle, eg when using commands idle/serve/web/api,
+#   the log will only show the output of the idle command. In such cases relevant logs
+#   are instead shown directly from running foreground processes initiated by sh.
+#
+# EXAMPLES
+#   logs          Print project logs
+#   logs -f       Follow project logs
+#   logs db       Print db logs
+#   logs -f db    Follow db logs
+#
+# SEE ALSO
+#   docker-compose logs --help
+#####
+
+lfcli compose logs "$@"

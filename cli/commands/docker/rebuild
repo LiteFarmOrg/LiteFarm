@@ -1,0 +1,41 @@
+#!/bin/bash
+#####
+# NAME
+#   rebuild - rebuild docker images and prompt to prune any dangeling images
+#
+# SYNOPSIS
+#   rebuild [OPTION...] [SERVICE...]
+#
+# OPTIONS
+#   -f: force prune dangeling images without confirmation prompt
+#
+# DESCRIPTION
+#   Rebuild images through docker-compose up -d --build
+#   This ensures that all containers attach properly to the new images
+#   and that the old images can be removed when pruning.
+#
+# EXAMPLES
+#   rebuild         Rebuild all containers and prompt for pruning
+#   rebuild -f web  Rebuild web and prune images without confirmation prompt
+#
+# SEE ALSO
+#   compose, docker image prune --help
+#####
+source "$LITEFARM_CLI_HELPERS_DIR/docker_service.sh"
+
+while [ $# != 0 ]; do
+  case "$1" in
+  "-f")
+    prune_opts=(-f) && shift 1;;
+  *)
+    validate_service "$@" && services=("$@") && break;;
+  esac
+done
+
+[ "${#services[@]}" == 0 ] && service_msg="all services" || service_msg="services: ${services[*]}"
+lflog "Rebuilding $service_msg"
+# Building through startup ensures containers attach to new images
+lfcli compose up -d --no-deps --build "${services[@]}"
+
+lflog "Removing any dangeling images"
+lflog_and_run docker image prune "${prune_opts[@]}"

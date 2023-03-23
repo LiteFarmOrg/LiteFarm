@@ -1,0 +1,16 @@
+#!/bin/bash
+#####
+# NAME
+#   web - serve web and ensure api is ready to be served in a second terminal
+#
+# SYNOPSIS
+#   web [SERVE_OPTION...]
+#
+# SERVE_OPTIONS
+#   See `serve` for available options
+#
+# SEE ALSO
+#   serve, api
+#####
+
+lfcli serve -i api "$@" web

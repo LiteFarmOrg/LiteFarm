@@ -1,0 +1,35 @@
+#!/bin/bash
+#####
+# NAME
+#   compose - run project compose command
+#
+# SYNOPSIS
+#   compose [COMPOSE_ARG...]
+#
+# COMPOSE_ARGS
+#   Any arguments are passed to project base docker-compose command
+#
+# CONFIG
+#   $LITEFARM_DOCKER_ENV
+#     Determines the base docker-compose file
+#   $LITEFARM_DOCKER_START_ADMINER
+#     Determines if adminer db manager will be included in the project
+#
+# EXAMPLES
+#   compose           Print base compose command
+#   compose ps        List running services in compose project
+#   compose config    Show compose project config
+#
+# SEE ALSO
+#   docker-compose --help
+#####
+
+repo="$LITEFARM_REPO_ROOT"
+cmd=(docker-compose --env-file "$repo/packages/api/.env" -f "$repo/docker-compose.$LITEFARM_DOCKER_ENV.yml")
+$LITEFARM_DOCKER_START_ADMINER && cmd+=(-f "$repo/docker-compose.adminer.yml")
+
+if [ $# == 0 ]; then
+  echo "${cmd[*]}"
+else
+  lflog_and_run "${cmd[@]}" "$@"
+fi

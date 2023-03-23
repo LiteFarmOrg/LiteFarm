@@ -1,0 +1,35 @@
+#!/bin/bash
+#####
+# NAME
+#   idle - start services in an idle state
+#
+# SYNOPSIS
+#   idle [OPTION...] SERVICE...
+#
+# OPTIONS
+#   -r, --force-recreate: Force recreate service containers
+#
+# DESCRIPTION
+#   Start services in an idle state by building a temporary file,
+#   docker-compose.idle.yml, that overwrites the startup command.
+#   The file is then appended to the compose command at startup.
+#
+# EXAMPLES
+#   idle api      # Start api idle
+#   idle -r api   # Force recreate api idle
+#####
+source "$LITEFARM_CLI_HELPERS_DIR/docker_service.sh"
+
+while [ $# != 0 ]; do
+  case "$1" in
+  -r|--force-recreate)
+    up_opts+=(--force-recreate) && shift;;
+  *)
+    services=("$@") && break;;
+  esac
+done
+
+validate_service "${services[@]}"
+idle_yml="$(build_idle_yml "${services[@]}")"
+
+lfcli compose -f "$idle_yml" up -d "${up_opts[@]}" "${services[@]}"

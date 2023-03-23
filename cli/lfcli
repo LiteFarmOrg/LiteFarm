@@ -1,0 +1,105 @@
+#!/bin/bash
+#####
+# NAME
+#   lfcli - litefarm command line interface
+#
+# SYNOPSIS
+#   lfcli [OPTION...] COMMAND [COMMAND_OPTION...]
+#
+# INVOCATION
+#   1. Direct script call eg: /path/to/lfcli help
+#
+#   2. Using an alias
+#     To make lfcli globally available in your shell you can define an alias eg:
+#       alias lfcli="/absolute/path/to/lfcli"
+#
+#     To make it persistent, place it in your shell initialization script, eg:
+#       ~/.bashrc or ~/.zshrc
+#
+#     Now you can invoke lfcli from anywhere through the name of your alias:
+#       lfcli help
+#
+# GUIDING PRINCIPLES
+#   Instead of writing documentation about which commands to run,
+#   why not create a script that actually runs those commands,
+#   and generates its own documentation.
+#
+#   A helper, not a dependency.
+#     - The cli is completely self-contained inside the cli directory.
+#     - Conventional application management commands should continue to work alongside the cli.
+#
+#   As light and simple as possible, yet scalable.
+#     - The cli core is about 50 lines of code.
+#     - All the documentation is generated in about 100 lines.
+#     - Add 20 more lines to bring some color to the logs.
+#     - The rest is command files, many of which are one-liners.
+#     - To add a new command, just create a new script file in a commands directory.
+#
+# DESCRIPTION
+#   lfcli functions as an interface between the command line and regular script files.
+#   Commands are defined by, and run their corresponding scripts.
+#
+#   The main functions of the cli are to:
+#
+#   PREPARE EXECUTION ENVIRONMENT
+#     Load global config variables in the following order of priority:
+#       1. Inline option arguments.
+#       2. cli/.env.
+#       3. cli/.env.default.
+#
+#     Load global helpers:
+#       - lfcli. Make nested calls to lfcli.
+#       - lftitle, lfsubtitle, lfmsg, lfdebug. Print formatted messages.
+#       - lflog. Add log messages, only visible when verbose.
+#       - lflog_and_run. Log and run a command.
+#       - lfraise, lfraise_invalid_arg. Raise error and exit.
+#
+#   RUN COMMAND SCRIPTS
+#     - lfcli forwards commands to corresponding script files found in commands directories.
+#     - Developers can experiment with their own commands by setting the $LITEFARM_USER_COMMANDS_DIR config variable.
+#     - If the file name starts with - it is categorized as an option. Options are handled in the same
+#       way as commands, except that lfcli continues to call the command that follows after parsing.
+#
+#   GENERATE DOCUMENTATION
+#     - Documentation about commands is generated based on the file structure in defined commands directories.
+#     - Documentation for individual commands are defined in the command file between the docmarks: #####
+#       The NAME section is also used for describing the command in the commands list.
+#
+#   IMPROVE WORKFLOW AND ONBOARDING
+#     - Easy access to well documented, standardized processes can save time, help new developers get involved
+#       and reduce unexpected failures.
+#
+# EXAMPLES
+#   lfcli man           Read cli documentation
+#   lfcli config        Show loaded cli config
+#   lfcli help          Show help for all cli commands
+#   lfcli help web api  Show help docs for web and api commands
+#####
+
+# Enable shell option to temporarily export all sourced variables and functions
+# This makes them available throughout all internal scripts
+set -o allexport
+
+# Get script context
+LITEFARM_REPO_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
+LITEFARM_CLI_DIR="$LITEFARM_REPO_ROOT/cli"
+LITEFARM_CLI_COMMANDS_DIR="$LITEFARM_CLI_DIR/commands"
+LITEFARM_CLI_OPTIONS_DIR="$LITEFARM_CLI_DIR/options"
+LITEFARM_CLI_HELPERS_DIR="$LITEFARM_CLI_DIR/helpers"
+
+# Untracked
+LITEFARM_CLI_UNTRACKED_DIR="$LITEFARM_CLI_DIR/untracked"
+LITEFARM_CLI_BUILD_DIR="$LITEFARM_CLI_UNTRACKED_DIR/build"
+
+# Load cli environment variables
+source "$LITEFARM_CLI_DIR/.env.default" # Start getting default variables
+source "$LITEFARM_CLI_DIR/.env" # That are then overwritten by .env
+
+# Source all global helpers, global variable or function names should start with `lf`
+for f in "$LITEFARM_CLI_HELPERS_DIR/global/"*; do source "$f"; done; unset f
+
+# Disable export once done
+set +o allexport
+
+# Forward call and arguments to main lfcli function
+lfcli "$@"

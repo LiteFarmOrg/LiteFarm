@@ -1,0 +1,25 @@
+#!/bin/bash
+#####
+# NAME
+#   rm - remove containers with confirmation prompt
+#
+# SYNOPSIS
+#   rm [RM_ARG...]
+#
+# RM_ARGS
+#   Any arguments are passed to docker-compose rm
+#
+# DESCRIPTION
+#   Removing containers is safe as data is persisted through system volumes
+#   Only temporary container modifications would be lost
+#   Note that containers have to be stopped first
+#
+# EXAMPLES
+#   rm           Rm all containers with confirmation prompt
+#   rm -f api    Rm api container without confirmation prompt
+#
+# SEE ALSO
+#   compose, docker-compose rm --help
+#####
+
+lfcli compose rm "$@"

@@ -1,0 +1,63 @@
+#!/bin/bash
+#####
+# NAME
+#   serve - start project with web or api idle, then run server cmd in foreground
+#
+# SYNOPSIS
+#   serve [OPTION...] web|api
+#
+# OPTIONS
+#   -i: [stringArray] idle services. Start additional services idle
+#   -r, --force-recreate: Force recreate service containers
+#   -R, --remove-orphans: Remove any orphan containers
+#   -f, force serve, kill any running server before serving
+#
+# DESCRIPTION
+#   Instead of using the server command as the container startup command,
+#   we start it in an idle state, and run the server command explicitly.
+#   The benefit of this is that the server command will run in the foreground
+#   and that the container won't be dependent on the continuous success of the server
+#   to keep running. If the server is stopped or dies unexpectedly, you can still
+#   enter a running container, fix any issues and run serve again -
+#   without having to restart the container.
+#
+# EXAMPLES
+#   serve web           Start project and run web server in foreground
+#   serve -r web        Restart project and serve api foreground
+#   serve -i api web    Start developing web, leaving api idle, see `web`
+#                       This makes it faster to `serve api` afterwards in a second terminal
+#                       as api container is already prepared in an idle state
+# SEE ALSO
+#   web, api, sh, compose
+######
+source "$LITEFARM_CLI_HELPERS_DIR/docker_service.sh"
+
+available_services=(web api)
+
+while [ $# != 0 ]; do
+  case "$1" in
+  -i)
+    idle_services+=("$2") && shift 2;;
+  -r|--force-recreate)
+    up_opts+=(--force-recreate) && start_msg="Recreating" && shift;;
+  -R|--remove-orphans)
+    up_opts+=(--remove-orphans) && shift;;
+  -f)
+    serve_opts+=(-f) && shift;;
+  *)
+    service="$1" && shift && break;;
+  esac
+done
+
+[ $# != 0 ] && lfraise_invalid_arg "$1"
+validate_supported_service "$service" "${available_services[*]}" && shift
+
+idle_services=("$service" "${idle_services[@]}")
+validate_service "${idle_services[@]}"
+idle_yml="$(build_idle_yml "${idle_services[@]}")"
+
+lflog "${start_msg-Starting} project with idle services: ${idle_services[@]}"
+lfcli compose -f "$idle_yml" up -d "${up_opts[@]}"
+
+lflog "Serving $service"
+lfcli sh "$service" serve "${serve_opts[@]}"

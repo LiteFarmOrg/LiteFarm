@@ -1,0 +1,20 @@
+#!/bin/bash
+#####
+# NAME
+#   stop - stop containers with confirmation prompt
+#
+# SYNOPSIS
+#   stop [STOP_ARG...]
+#
+# STOP_ARGS
+#   Any arguments are passed to docker-compose stop
+#
+# EXAMPLES
+#   stop        Stop all containers
+#   stop api    Stop api container
+#
+# SEE ALSO
+#   compose, docker-compose stop --help
+#####
+
+lfcli compose stop "$@"

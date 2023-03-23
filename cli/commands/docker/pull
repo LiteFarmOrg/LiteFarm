@@ -1,0 +1,36 @@
+#!/bin/bash
+#####
+# NAME
+#   pull - pull docker images and prompt to prune any dangeling images
+#
+# SYNOPSIS
+#   pull [OPTION...] [SERVICE...]
+#
+# OPTIONS
+#   -f: force prune dangeling images without confirmation prompt
+
+# DESCRIPTION
+#   Pulls project images from remote repositories.
+#   This will not affect services that only build images locally, see rebuild
+#
+# EXAMPLES
+#   pull          Pull all images and prompt for pruning
+#   pull -f db    Pull db and prune images without confirmation prompt
+#
+# SEE ALSO
+#   compose, docker image prune --help
+#####
+
+while [ $# != 0 ]; do
+  case "$1" in
+  "-f")
+    prune_opts=(-f) && shift 1;;
+  *)
+    validate_service "$@" && services=("$@") && break;;
+  esac
+done
+
+lfcli compose pull "${services[@]}"
+
+lflog "Removing any dangeling images"
+lflog_and_run docker image prune "${prune_opts[@]}"

@@ -1,0 +1,16 @@
+#!/bin/bash
+#####
+# NAME
+#   precompile - precompile web assets in a separate, detached container
+#
+# SYNOPSIS
+#   precompile
+#
+# DESCRIPTION
+#   Mostly useful in production
+#
+# SEE ALSO
+#   sh
+#####
+lftitle "Precompiling web assets"
+lfcli sh -d web precompile

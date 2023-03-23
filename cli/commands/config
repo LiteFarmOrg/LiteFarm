@@ -1,0 +1,25 @@
+#!/bin/bash
+#####
+# NAME
+#   config - show loaded cli config variables
+#
+# SYNOPSIS
+#   config
+#
+# CONFIG VARIABLES
+#   The cli config variables are set with the following order of priority
+#     1. Any inline cli options eg: -v
+#     2. cli/.env
+#     3. cli/.env.default
+#
+# SEE ALSO
+#   cli/.env.default
+#####
+
+config_vars=($(cat "$LITEFARM_CLI_DIR/.env.default" | grep '^[a-zA-Z0-9_]\+=' | cut -d '=' -f1))
+
+for var in "${config_vars[@]}"; do
+  msg+="$(printf "%-35s %s %s" $var "${!var}")\n"
+done
+
+echo -e "${msg[*]}"

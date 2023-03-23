@@ -1,0 +1,24 @@
+#!/bin/bash
+#####
+# NAME
+#   up - start containers with the classic docker-compose up command
+#
+# SYNOPSIS
+#   up [UP_ARG...]
+#
+# UP_ARGS
+#   Any arguments are passed to docker-compose up
+#
+# EXAMPLES
+#   up -d                         Start all containers in background
+#   up -d --force-recreate api    Recreate and start api in background
+#   up -d --remove-orphans        Start and remove any orphan containers
+#
+# DESCRIPTION
+#   Classic startup with docker-compose up, mostly useful in production.
+#   For development, consider using web/api commands instead
+#
+# SEE ALSO
+#   compose, docker-compose up --help
+#####
+lfcli compose up "$@"

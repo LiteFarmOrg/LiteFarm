@@ -1,0 +1,27 @@
+#!/bin/bash
+#####
+# NAME
+#   install - run package installs in detached containers
+#
+# SYNOPSIS 
+#   install [web|api]
+#
+# EXAMPLES
+#   install       Run install scripts for web and api
+#   install api   Run installs in api only
+#
+# SEE ALSO
+#   sh
+#####
+source "$LITEFARM_CLI_HELPERS_DIR/docker_service.sh"
+
+available_services=(web api)
+services=("$@")
+[ -z "${services[*]}" ] && services=("${available_services[@]}")
+validate_supported_service "${services[*]}" "${available_services[*]}"
+
+for service in "${services[@]}"; do
+  lftitle "Installing $service"
+  lfcli sh -d "$service" install
+  [[ $service != ${services[-1]} ]] && echo # Add newline unless last
+done

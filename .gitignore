@@ -19,3 +19,5 @@ packages/webapp/cypress/integration/2-advanced-examples
 ngrok/ngrok.yml
 
 docker/data/
+cli/.env
+cli/untracked/

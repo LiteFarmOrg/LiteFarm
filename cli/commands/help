@@ -1,0 +1,42 @@
+#!/bin/bash
+#####
+# NAME
+#   help - show available cmds. Pass cmds for cmd docs eg: help config
+#
+# SYNOPSIS
+#   help [COMMAND...]
+#
+# DESCRIPTION
+#   Commands and options are collected from defined commands directories.
+#   Help for specific commands are derived from their doc comments.
+#   Doc comments are defined in the corresponding file between the docmarks: ##### 
+#
+# EXAMPLES
+#   help              Show help for all commands
+#   help help config  Show help for help and config cmds
+#   help -v           Show help for verbose command option
+#####
+source "$LITEFARM_CLI_HELPERS_DIR/help.sh"
+LITEFARM_VERBOSE=false # Hide any log messages when showing help
+
+# Show command docs for specific commands if provided
+[ $# != 0 ] && help_specific_cmds "$@" && exit
+
+lf_get_cmd_dirs cmd_dirs
+
+# Loop through command directories in reverse to show core commands first
+# Even though eg user commands have higher priority when calling commands
+for (( i=${#cmd_dirs[@]}-1; i>=0; i-- )); do
+  cmd_dir="${cmd_dirs[$i]}"
+  opts_msg_current="$(help_cmds_dir "$cmd_dir" -name '-*')"
+  cmds_msg_current="$(help_cmds_dir "$cmd_dir" ! -name '-*')"
+  
+  # Add newlines between if there are previous and current cmds/opts 
+  [ -n "$opts_msg" ] && [ -n "$opts_msg_current" ] && opts_msg+="\n\n" 
+  [ -n "$cmds_msg" ] && [ -n "$cmds_msg_current" ] && cmds_msg+="\n\n" 
+  opts_msg+="$opts_msg_current"
+  cmds_msg+="$cmds_msg_current"
+done
+
+# Show help for all available options first
+echo -e "$(lftitlestyle "OPTIONS")\n$opts_msg\n\n$(lftitlestyle "COMMANDS")\n$cmds_msg"

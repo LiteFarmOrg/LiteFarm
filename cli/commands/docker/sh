@@ -1,0 +1,64 @@
+#!/bin/bash
+#####
+# NAME
+#   sh - enter container shell or send shell command to container
+#
+# SYNOPSIS
+#   sh [OPTION...] SERVICE [COMMAND...]
+#
+# OPTIONS
+#   -d: run command in a disposable detached container
+#   -u: [string] container user
+#
+# EXAMPLES
+#   sh web                 Enter web container shell as default user
+#   sh -u root web         Enter web container as root
+#   sh web ls              Run ls command in web container
+#   sh -d web bash         Start bash shell in a disposable detached container
+#   sh web declare -f      Show defined function definitions in web container, loaded from .bashrc
+#   sh web declare -F      Show names of defined functions in web container
+#
+# SEE ALSO
+#   compose, docker-compose exec --help, docker-compose run --help
+#####
+source "$LITEFARM_CLI_HELPERS_DIR/docker_service.sh"
+
+detached=false
+
+while [ $# != 0 ]; do
+  case "$1" in
+  -d)
+    detached=true && shift;;
+  -u)
+    user="$2" && shift 2;;
+  *)
+    break;;
+  esac
+done
+
+service="$1" && shift
+user_cmd="$@"
+
+if $detached; then
+  validate_service "$service"
+  container_state="detached" && cmd=(run --rm)
+else
+  validate_service_running "$service"
+  container_state="running" && cmd=(exec)
+fi
+
+cmd+=(-it "$service")
+[ -n "$user" ] && cmd+=(-u "$user")
+bash_or_sh_cmd_msg="Using bash if available, otherwise sh"
+bash_or_sh_cmd=("\$(which bash || which sh)")
+
+if [ -n "$user_cmd" ]; then
+  lflog "Running user command in $container_state $service container. $bash_or_sh_cmd_msg"
+  bash_or_sh_cmd+=("-ci \"$user_cmd\"")
+else
+  lflog "Entering $container_state $service shell. $bash_or_sh_cmd_msg"
+fi
+
+cmd+=(sh -c "${bash_or_sh_cmd[*]}")
+
+lfcli compose "${cmd[@]}"

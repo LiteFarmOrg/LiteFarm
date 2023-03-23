@@ -1,0 +1,58 @@
+version: "3.7"
+
+services:
+  web:
+    container_name: litefarm-web
+    user: node # https://github.com/nodejs/docker-node/blob/main/docs/BestPractices.md#non-root-user
+    working_dir: /usr/src/app
+    command: bash -c '. ~/.bashrc; serve'
+    logging:
+      options:
+        max-size: "1m" # 10000 100 char lines given 1b/char
+    build:
+      dockerfile: ./docker/web/dev.Dockerfile
+    volumes:
+      - ./packages/webapp:/usr/src/app
+      - ./packages/shared:/usr/src/shared
+      - ./docker/web/.bashrc:/home/node/.bashrc # Will be sourced in node user bash shell
+    ports:
+      - "3000:3000"
+  api:
+    container_name: litefarm-api
+    user: node
+    working_dir: /usr/src/app
+    command: bash -c '. ~/.bashrc; serve'
+    image: node:16.15.0
+    logging:
+      options:
+        max-size: "1m"
+    depends_on:
+     - db
+    volumes:
+      - ./packages/api:/usr/src/app
+      - ./packages/shared:/usr/src/shared
+      - ./docker/api/.bashrc:/home/node/.bashrc
+    ports:
+      - "5001:5001"
+      - "9230:9230" # Node debug port
+    environment:
+      WAIT_HOSTS: litefarm-db:5432
+      NODE_ENV: $NODE_ENV
+      DEV_DATABASE_HOST: db
+      DEV_DATABASE: $DEV_DATABASE
+      DEV_DATABASE_USER: $DEV_DATABASE_USER
+      DEV_DATABASE_PASSWORD: $DEV_DATABASE_PASSWORD
+  db:
+    container_name: litefarm-db
+    image: postgres:13
+    logging:
+      options:
+        max-size: "1m"
+    ports:
+      - "5433:5432"
+    environment:
+      POSTGRES_PASSWORD: $DEV_DATABASE_PASSWORD
+      POSTGRES_USER: $DEV_DATABASE_USER
+      POSTGRES_DB: $DEV_DATABASE
+    volumes:
+      - ./docker/data/db.dev:/var/lib/postgresql/data

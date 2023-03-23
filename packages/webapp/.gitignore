@@ -8,6 +8,9 @@
 
 # production
 /build
+dist/
+.pnpm-store
+vite.config.ts.timestamp*
 
 # misc
 .DS_Store

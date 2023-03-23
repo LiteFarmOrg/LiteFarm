@@ -1,0 +1,10 @@
+version: "3.7"
+
+services:
+  adminer:
+    container_name: litefarm-adminer
+    image: adminer
+    ports:
+      - 8080:8080
+    environment:
+      ADMINER_PLUGINS: 'tables-filter tinymce'

@@ -179,7 +179,7 @@ const useUnit = ({
         roundToTwoDecimal(convert(hookFormValue).from(databaseUnit).to(hookFormUnit)),
       );
       //Trigger validation
-      (hookFormValue === 0 || hookFormValue > 0) && hookFormSetHiddenValue(hookFormValue);
+      hookFormSetHiddenValue(hookFormValue);
     } else {
       hookFormSetHiddenValue(convert(visibleInputValue).from(hookFormUnit).to(databaseUnit), {
         shouldDirty: true,

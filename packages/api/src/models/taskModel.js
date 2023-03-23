@@ -361,6 +361,18 @@ class TaskModel extends BaseModel {
         builder.where('task.deleted', false);
       });
   }
+
+  static async deleteTask(task_id, user) {
+    try {
+      const deleteResponse = await TaskModel.query()
+        .context(user)
+        .patch({ deleted: true })
+        .where('task_id', task_id);
+      return deleteResponse;
+    } catch (error) {
+      return error;
+    }
+  }
 }
 
 export default TaskModel;

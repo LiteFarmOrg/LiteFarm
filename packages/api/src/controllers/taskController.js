@@ -638,6 +638,47 @@ const taskController = {
       return res.status(400).send(error);
     }
   },
+  async delTask(req, res) {
+    try {
+      const { task_id } = req.params;
+      const { user_id } = req.headers;
+
+      const checkTaskStatus = await TaskModel.getTaskStatus(task_id);
+      if (checkTaskStatus.complete_date || checkTaskStatus.abandon_date) {
+        return res.status(400).send('Task has already been completed or abandoned');
+      }
+
+      const {
+        owner_user_id,
+        assignee_user_id,
+      } = await TaskModel.query()
+        .select('owner_user_id', 'assignee_user_id')
+        .where({ task_id })
+        .first();
+      const isUserTaskOwner = user_id === owner_user_id;
+      const isUserTaskAssignee = user_id === assignee_user_id;
+      //const hasAssignee = assignee_user_id !== null;
+      // TODO: move to middleware
+      // cannot abandon task if user is worker and not assignee and not creator
+      if (!adminRoles.includes(req.role) && !isUserTaskOwner && !isUserTaskAssignee) {
+        return res
+          .status(403)
+          .send('A worker who is not assignee or owner of task cannot abandon it');
+      }
+
+      // cannot abandon an unassigned task with rating or duration
+      /*
+      if (!hasAssignee && (happiness || duration)) {
+        return res.status(400).send('An unassigned task should not be rated or have time clocked');
+      }*/
+
+      const result = await TaskModel.deleteTask(task_id, req.user);
+      if (!result) return res.send(404).send('Task not found');
+      return res.sendStatus(200)
+    } catch (error) {
+      return res.status(400).json({ error });
+    }
+  },
 };
 
 //TODO: tests where location and management_plan inserts should fail

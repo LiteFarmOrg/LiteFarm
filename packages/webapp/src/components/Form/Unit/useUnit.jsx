@@ -175,14 +175,17 @@ const useUnit = ({
       return;
     }
 
+    const newVisibleInputValue = roundToTwoDecimal(
+      convert(hookFormValue).from(databaseUnit).to(hookFormUnit),
+    );
+
     // if autoConversion is true, update visible value. if false, update hidden value
     if (autoConversion) {
-      setVisibleInputValue(
-        roundToTwoDecimal(convert(hookFormValue).from(databaseUnit).to(hookFormUnit)),
-      );
+      setVisibleInputValue(newVisibleInputValue);
       //Trigger validation
       hookFormSetHiddenValue(hookFormValue);
-    } else {
+    } else if (newVisibleInputValue !== visibleInputValue) {
+      // this should not be called right after the component is rendered (the hidden value would be rounded)
       hookFormSetHiddenValue(convert(visibleInputValue).from(hookFormUnit).to(databaseUnit), {
         shouldDirty: true,
       });

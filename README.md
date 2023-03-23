@@ -19,7 +19,37 @@ LiteFarm is comprised of three applications which all reside in this monorepo.
 - `packages/api` is the back-end API server with entry point `src/server.js`
 - `packages/api/src/jobs` is the "jobs scheduler" for certification exports, with entry point `index.js` 
 
-## Preliminaries 
+
+## Docker
+
+Start developing quickly with `docker-compose`
+
+1. Install docker and start the docker service https://docs.docker.com/get-docker/
+2. Fork LiteFarm (recommended) https://github.com/LiteFarmOrg/LiteFarm
+   - Otherwise `git clone git@github.com:LiteFarmOrg/LiteFarm.git` 
+3. Clone your fork: `git clone git@github.com:me/LiteFarm.git`
+
+```BASH
+cd LiteFarm
+git remote add upstream git@github.com:LiteFarmOrg/LiteFarm.git
+cp packages/api/.env.default packages/api/.env
+cp packages/webapp/.env.default packages/webapp/.env
+cp cli/.env.default cli/.env
+# Update env variables and add missing api keys as needed
+
+cli/lfcli man      # Check the invocation section in the cli manual
+cli/lfcli help     # Show cli commands
+cli/lfcli install  # Install containers and dependencies
+cli/lfcli migrate  # Migrate db
+cli/lfcli web      # Serve web in 1st terminal
+cli/lfcli api      # Serve api in 2nd terminal when project is up
+```
+
+## Native
+
+The native installation guide will help you install all required dependecies to your own system.
+
+### Preliminaries 
 
 1. Check to see if you have Node.js installed. On a Mac use the command `node-v` in terminal. If it is installed, the version in use will be reported in the terminal. If not, install it from [node.js](https://nodejs.org/en/download/package-manager/).
 2. Check to see if you have pnpm installed. On a Mac use the command `pnpm -v`. If it is installed, the version will be reported. If you do not have it installed, run `npm install -g pnpm` in a terminal. 
@@ -36,7 +66,7 @@ LiteFarm is comprised of three applications which all reside in this monorepo.
    Use nvm to install and use the Node version 16.15.0 with the commands, `nvm install 16.15.0` then `nvm use 16.15.0`. Then try again.
 7. Navigate to the `packages/webapp` folder, and run `pnpm install`.
 
-## Database setup
+### Database setup
 
 1. If using Windows, install PostgreSQL by downloading installers or packages from https://www.postgresql.org/download/. Mac and Linux users can use homebrew with the commands shown below (a link for installing Homebrew is below too!). The second command can take up to 10 minutes because it may trigger the compilation of a new binary.
 
@@ -80,7 +110,7 @@ LiteFarm is comprised of three applications which all reside in this monorepo.
 
 3. In a terminal, navigate to the `packages/api` folder. Execute `npm run migrate:dev:db` to run the [migrations](https://knexjs.org/#Migrations) that set up the PostgreSQL database used by the app.
 
-## Adding environment files
+### Adding environment files
 
 The applications are configured with environment variables stored in `.env` files. Configuration information includes secrets like API keys, so the `.env` files are not included in this git repository.
 
@@ -150,33 +180,6 @@ _Note: Please make sure to run the commands in the following order:_
 - `npm run ngrok:setup` (in a new terminal)
 - `pnpm dev` (in a new terminal from the `packages/webapp` folder)
 - `npm run nodemon` (in a new terminal from the `packages/api` folder)
-
-# Docker
-
-## Use cases for Docker
-
-Please see https://docs.docker.com/ for more general information about docker. 
-
-Use cases in which we currently utilize docker at LiteFarm include:
-- Simulating the server environment.
-- Building LiteFarm application using docker commands and supporting its components using containers.
-
-## Set up
-
-- Go to https://docs.docker.com/get-docker/ and install docker in your local system.
-- After installation, the docker CLI will be available where you can run the docker commands. 
-- create a .env file at the root directory of the project i.e. LiteFarm 
-- Add key-value pairs in the .env by referring to the docker-compose.[ENV].yml that contains the docker env keys.
-
-## Commands
-These commands can be run from the root of the repo.
-- `docker-compose -f docker-compose.[ENV].yml up --build -d` to build the docker containers in the detach mode.
-- `docker ps` to see the list of docker containers in the running state.
-- `docker logs --details [containers name]` to view the logs inside the container.
-
-_Note:
-- [container_name] are litefarm-db, litefarm-api and litefarm-web.
-- [ENV] are beta and prod
 
 ## How to Contribute
 

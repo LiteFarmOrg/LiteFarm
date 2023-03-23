@@ -230,7 +230,7 @@ Unit.propTypes = {
   /** register function returned by useForm */
   register: PropTypes.func,
   /** control function returned by useForm */
-  control: PropTypes.func,
+  control: PropTypes.object,
   /** name of the (hidden) input which is used to register */
   name: PropTypes.string,
   /** user's preferred farm unit system */

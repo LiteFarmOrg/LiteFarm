@@ -286,7 +286,7 @@ useUnit.propTypes = {
   hookFromWatch: PropTypes.func,
   defaultValue: PropTypes.number,
   system: PropTypes.oneOf(['imperial', 'metric']).isRequired,
-  control: PropTypes.func,
+  control: PropTypes.object,
   unitType: PropTypes.shape({
     metric: PropTypes.object,
     imperial: PropTypes.object,

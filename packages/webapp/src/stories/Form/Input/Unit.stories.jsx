@@ -12,6 +12,7 @@ import {
   length_of_bed_or_row,
   soilAmounts,
   waterUsage,
+  seedYield,
 } from '../../../util/convert-units/unit';
 import { useForm } from 'react-hook-form';
 import { convert } from '../../../util/convert-units/convert';
@@ -681,6 +682,48 @@ StringAsUnit.play = async ({ canvasElement }) => {
   await test.testVisibleValue(test.convertDBValueToDisplayValue(1200, 'm2'));
   await test.testSelectedUnit(UnitTest.getUnitLabelByValue('m2'));
   await test.testDisabledStatus();
+};
+
+export const MetricDefaultValueWithDecimals = Template.bind({});
+MetricDefaultValueWithDecimals.args = {
+  label: 'Estimated seed',
+  name: 'estimated_seed',
+  displayUnitName: 'estimated_seed_unit',
+  unitType: seedYield,
+  system: 'metric',
+  optional: true,
+  defaultValues: {
+    estimated_seed: 0.0425,
+    estimated_seed_unit: 'kg',
+  },
+};
+MetricDefaultValueWithDecimals.play = async ({ canvasElement }) => {
+  const test = new UnitTest(canvasElement, 'unit');
+
+  await test.testVisibleValue(0.04);
+  await test.testHiddenValue(0.0425);
+  await test.testSelectedUnit('kg');
+};
+
+export const ImperialDefaultValueWithDecimals = Template.bind({});
+ImperialDefaultValueWithDecimals.args = {
+  label: 'Estimated seed',
+  name: 'estimated_seed',
+  displayUnitName: 'estimated_seed_unit',
+  unitType: seedYield,
+  system: 'imperial',
+  optional: true,
+  defaultValues: {
+    estimated_seed: 0.0425,
+    estimated_seed_unit: 'lb',
+  },
+};
+ImperialDefaultValueWithDecimals.play = async ({ canvasElement }) => {
+  const test = new UnitTest(canvasElement, 'unit', seedYield);
+
+  await test.testVisibleValue(test.convertDBValueToDisplayValue(0.0425, 'lb'));
+  await test.testHiddenValue(0.0425);
+  await test.testSelectedUnit('lb');
 };
 
 export const ImeprialAreaTotalAreaAutoConversion = Template.bind({});

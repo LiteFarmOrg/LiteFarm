@@ -8,6 +8,8 @@ import clsx from 'clsx';
 function CropHeader({
   crop_translation_key,
   crop_variety_name,
+  crop_scientific_name,
+  crop_cultivar,
   supplier,
   crop_variety_photo_url,
   onBackClick,
@@ -23,15 +25,16 @@ function CropHeader({
           </Title>
         </div>
         <div className={styles.headerAttributesContainer}>
-          <Label className={styles.textOverFlowBehaviour}>
-            {t('MANAGEMENT_PLAN.VARIETY')}:{' '}
-            <Text className={styles.attributeText}>
-              {' '}
-              {crop_variety_name ?? t(`crop:${crop_translation_key}`)}{' '}
-            </Text>
+          <Label className={clsx(styles.textOverFlowBehaviour, styles.italicText)}>
+            {crop_scientific_name}
           </Label>
         </div>
         <div className={styles.headerAttributesContainer}>
+          <Label className={clsx(styles.textOverFlowBehaviour, styles.italicText)}>
+            var. {crop_variety_name.toLowerCase() + " '" + crop_cultivar + "'"}
+          </Label>
+        </div>
+        <div className={clsx(styles.headerAttributesContainer, styles.supplierContainer)}>
           <Label className={styles.textOverFlowBehaviour}>
             {t('MANAGEMENT_PLAN.SUPPLIER')}:{' '}
             <Text className={styles.attributeText}> {supplier} </Text>

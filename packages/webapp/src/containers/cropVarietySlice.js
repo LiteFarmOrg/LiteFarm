@@ -11,6 +11,8 @@ const getCropVariety = (obj) => {
     'crop_id',
     'farm_id',
     'crop_variety_name',
+    'crop_varietal',
+    'crop_cultivar',
     'supplier',
     'seeding_type',
     'lifecycle',

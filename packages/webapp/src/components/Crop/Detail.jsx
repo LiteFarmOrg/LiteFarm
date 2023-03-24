@@ -10,6 +10,7 @@ import RadioGroup from '../Form/RadioGroup';
 import styles from './styles.module.scss';
 import Layout from '../Layout';
 import Input, { integerOnKeyDown } from '../Form/Input';
+import { truncateText } from '../../util';
 
 function PureCropDetail({
   history,
@@ -38,6 +39,8 @@ function PureCropDetail({
   const GENETICALLY_ENGINEERED = 'genetically_engineered';
   const HS_CODE_ID = 'hs_code_id';
   const isOrganic = isEditing ? watch(ORGANIC) : variety.organic;
+  const scientificNameLabel = variety.crop_genus + ' ' + variety.crop_specie;
+
   return (
     <Layout
       buttonGroup={
@@ -57,7 +60,9 @@ function PureCropDetail({
       <CropHeader
         onBackClick={() => history.back()}
         crop_translation_key={variety.crop_translation_key}
-        crop_variety_name={variety.crop_variety_name}
+        crop_variety_name={variety.crop_varietal}
+        crop_cultivar={variety.crop_cultivar}
+        crop_scientific_name={scientificNameLabel}
         crop_variety_photo_url={variety.crop_variety_photo_url}
         supplier={variety.supplier}
       />

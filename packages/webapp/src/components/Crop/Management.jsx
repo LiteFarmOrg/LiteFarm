@@ -50,9 +50,19 @@ export default function PureCropManagement({
     }
   };
 
+  const scientificNameLabel = variety.crop_genus + ' ' + variety.crop_specie;
+
   return (
     <Layout>
-      <CropHeader {...variety} onBackClick={onBack} />
+      <CropHeader
+        crop_translation_key={variety.crop_translation_key}
+        crop_variety_name={variety.crop_varietal}
+        crop_cultivar={variety.crop_cultivar}
+        crop_scientific_name={scientificNameLabel}
+        crop_variety_photo_url={variety.crop_variety_photo_url}
+        supplier={variety.supplier}
+        onBackClick={onBack}
+      />
       <RouterTab
         classes={{ container: { margin: '24px 0 26px 0' } }}
         history={history}

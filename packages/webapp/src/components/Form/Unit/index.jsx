@@ -55,6 +55,7 @@ const Unit = ({
   onChangeUnitOption,
   onBlur,
   hasLeaf,
+  autoConversion,
   ...props
 }) => {
   const { t } = useTranslation(['translation', 'common']);
@@ -71,7 +72,7 @@ const Unit = ({
     inputOnBlur,
     error,
     onKeyDown,
-    getOnChangeUnitOption,
+    onChangeUnit,
     reactSelectWidth,
     dividerWidth,
   } = useUnit({
@@ -93,6 +94,7 @@ const Unit = ({
     max,
     onBlur,
     onChangeUnitOption,
+    autoConversion,
   });
 
   const reactSelectStyles = useReactSelectStyles(disabled, { reactSelectWidth });
@@ -144,16 +146,15 @@ const Unit = ({
             />
           )}
         </div>
-
         <div data-testid={`${testId}-select`}>
           <Controller
             control={control}
             name={displayUnitName}
-            render={({ field: { onChange, onBlur, value, ref } }) => (
+            render={({ field: { onBlur, value, ref } }) => (
               <Select
                 data-cy="unit-select"
                 onBlur={onBlur}
-                onChange={getOnChangeUnitOption(onChange)}
+                onChange={onChangeUnit}
                 value={value}
                 ref={ref}
                 customStyles
@@ -229,7 +230,7 @@ Unit.propTypes = {
   /** register function returned by useForm */
   register: PropTypes.func,
   /** control function returned by useForm */
-  control: PropTypes.func,
+  control: PropTypes.object,
   /** name of the (hidden) input which is used to register */
   name: PropTypes.string,
   /** user's preferred farm unit system */

@@ -110,12 +110,6 @@ const WaterUseVolumeCalculator = ({
         max={999999.99}
         system={system}
         control={control}
-        onChangeUnitOption={(e) => {
-          setValue(
-            FLOW_RATE,
-            convert(estimated_flow_rate).from(estimated_flow_rate_unit.value).to(e.value),
-          );
-        }}
       />
 
       <Checkbox
@@ -139,12 +133,6 @@ const WaterUseVolumeCalculator = ({
         control={control}
         onKeyDown={numberOnKeyDown}
         style={{ paddingBottom: '32px' }}
-        onChangeUnitOption={(e) => {
-          setValue(
-            ESTIMATED_DURATION,
-            convert(estimated_duration).from(estimated_duration_unit.value).to(e.value),
-          );
-        }}
       />
 
       <TotalWaterUsage

@@ -15,7 +15,7 @@ import {
 } from '../../../util/convert-units/unit';
 import { useForm } from 'react-hook-form';
 import { convert } from '../../../util/convert-units/convert';
-import UnitTest from '../../../testUtils/storybook/unit';
+import UnitTest, { getSystemUnmatchTestArgsAndPlay } from '../../../testUtils/storybook/unit';
 
 const UnitWithHookForm = (props) => {
   const {
@@ -821,52 +821,123 @@ ImperialFlowRateAutoConversion.play = async ({ canvasElement }) => {
 // when user's preferred farm unit and the unit saved in the DB do not match,
 // display unit should be determined based on the guidance
 export const ImperialAreaTotalAreaSystemUnmatch = Template.bind({});
+const imperialAreaTotalAreaSystemUnmatchArgsAndPlay = getSystemUnmatchTestArgsAndPlay(
+  'imperial',
+  area_total_area,
+  1020,
+  'ac',
+);
+ImperialAreaTotalAreaSystemUnmatch.args = imperialAreaTotalAreaSystemUnmatchArgsAndPlay.args;
+ImperialAreaTotalAreaSystemUnmatch.play = imperialAreaTotalAreaSystemUnmatchArgsAndPlay.play;
+
 export const MetricAreaTotalAreaSystemUnmatch = Template.bind({});
+const metricAreaTotalAreaSystemUnmatchArgsAndPlay = getSystemUnmatchTestArgsAndPlay(
+  'metric',
+  area_total_area,
+  1000,
+  'ha',
+);
+MetricAreaTotalAreaSystemUnmatch.args = metricAreaTotalAreaSystemUnmatchArgsAndPlay.args;
+MetricAreaTotalAreaSystemUnmatch.play = metricAreaTotalAreaSystemUnmatchArgsAndPlay.play;
+
 export const ImperialAreaPerimeterSystemUnmatch = Template.bind({});
+const imperialAreaPerimeterSystemUnmatchArgsAndPlay = getSystemUnmatchTestArgsAndPlay(
+  'imperial',
+  area_perimeter,
+  460,
+  'mi',
+);
+ImperialAreaPerimeterSystemUnmatch.args = imperialAreaPerimeterSystemUnmatchArgsAndPlay.args;
+ImperialAreaPerimeterSystemUnmatch.play = imperialAreaPerimeterSystemUnmatchArgsAndPlay.play;
+
 export const MetricAreaPerimeterSystemUnmatch = Template.bind({});
+const metricAreaPerimeterSystemUnmatchArgsAndPlay = getSystemUnmatchTestArgsAndPlay(
+  'metric',
+  area_perimeter,
+  1500,
+  'km',
+);
+MetricAreaPerimeterSystemUnmatch.args = metricAreaPerimeterSystemUnmatchArgsAndPlay.args;
+MetricAreaPerimeterSystemUnmatch.play = metricAreaPerimeterSystemUnmatchArgsAndPlay.play;
+
 export const ImperialWaterValvFlowRateSystemUnmatch = Template.bind({});
+const imperialWaterValvFlowRateSystemUnmatchArgsAndPlay = getSystemUnmatchTestArgsAndPlay(
+  'imperial',
+  water_valve_flow_rate,
+  0.5,
+  'gal/h',
+);
+ImperialWaterValvFlowRateSystemUnmatch.args =
+  imperialWaterValvFlowRateSystemUnmatchArgsAndPlay.args;
+ImperialWaterValvFlowRateSystemUnmatch.play =
+  imperialWaterValvFlowRateSystemUnmatchArgsAndPlay.play;
+
 export const MetricWaterValvFlowRateSystemUnmatch = Template.bind({});
+const metricWaterValvFlowRateSystemUnmatchArgsAndPlay = getSystemUnmatchTestArgsAndPlay(
+  'metric',
+  water_valve_flow_rate,
+  50,
+  'l/h',
+);
+MetricWaterValvFlowRateSystemUnmatch.args = metricWaterValvFlowRateSystemUnmatchArgsAndPlay.args;
+MetricWaterValvFlowRateSystemUnmatch.play = metricWaterValvFlowRateSystemUnmatchArgsAndPlay.play;
+
 export const ImperialLengthOfBedOrRowSystemUnmatch = Template.bind({});
+const imperialLengthOfBedOrRowSystemUnmatchArgsAndPlay = getSystemUnmatchTestArgsAndPlay(
+  'imperial',
+  length_of_bed_or_row,
+  15,
+  'ft',
+);
+ImperialLengthOfBedOrRowSystemUnmatch.args = imperialLengthOfBedOrRowSystemUnmatchArgsAndPlay.args;
+ImperialLengthOfBedOrRowSystemUnmatch.play = imperialLengthOfBedOrRowSystemUnmatchArgsAndPlay.play;
+
 export const MetricLengthOfBedOrRowSystemUnmatch = Template.bind({});
+const metricLengthOfBedOrRowSystemUnmatchArgsAndPlay = getSystemUnmatchTestArgsAndPlay(
+  'metric',
+  length_of_bed_or_row,
+  150,
+  'm',
+);
+MetricLengthOfBedOrRowSystemUnmatch.args = metricLengthOfBedOrRowSystemUnmatchArgsAndPlay.args;
+MetricLengthOfBedOrRowSystemUnmatch.play = metricLengthOfBedOrRowSystemUnmatchArgsAndPlay.play;
+
 export const ImperialSoilAmountsSystemUnmatch = Template.bind({});
+const imperialSoilAmountsSystemUnmatchArgsAndPlay = getSystemUnmatchTestArgsAndPlay(
+  'imperial',
+  soilAmounts,
+  15000,
+  'lb',
+);
+ImperialSoilAmountsSystemUnmatch.args = imperialSoilAmountsSystemUnmatchArgsAndPlay.args;
+ImperialSoilAmountsSystemUnmatch.play = imperialSoilAmountsSystemUnmatchArgsAndPlay.play;
+
 export const MetricSoilAmountsSystemUnmatch = Template.bind({});
+const metricSoilAmountsSystemUnmatchArgsAndPlay = getSystemUnmatchTestArgsAndPlay(
+  'metric',
+  soilAmounts,
+  1000,
+  'mt',
+);
+MetricSoilAmountsSystemUnmatch.args = metricSoilAmountsSystemUnmatchArgsAndPlay.args;
+MetricSoilAmountsSystemUnmatch.play = metricSoilAmountsSystemUnmatchArgsAndPlay.play;
+
 export const ImperialWaterUsageSystemUnmatch = Template.bind({});
+const imperialWaterUsageSystemUnmatchArgsAndPlay = getSystemUnmatchTestArgsAndPlay(
+  'imperial',
+  waterUsage,
+  500,
+  'fl-oz',
+);
+ImperialWaterUsageSystemUnmatch.args = imperialWaterUsageSystemUnmatchArgsAndPlay.args;
+ImperialWaterUsageSystemUnmatch.play = imperialWaterUsageSystemUnmatchArgsAndPlay.play;
+
 export const MetricWaterUsageSystemUnmatch = Template.bind({});
-[
-  [ImperialAreaTotalAreaSystemUnmatch, 'imperial', area_total_area, 1020, 'ac'],
-  [MetricAreaTotalAreaSystemUnmatch, 'metric', area_total_area, 1000, 'ha'],
-  [ImperialAreaPerimeterSystemUnmatch, 'imperial', area_perimeter, 460, 'mi'],
-  [MetricAreaPerimeterSystemUnmatch, 'metric', area_perimeter, 1500, 'km'],
-  [ImperialWaterValvFlowRateSystemUnmatch, 'imperial', water_valve_flow_rate, 0.5, 'gal/h'],
-  [MetricWaterValvFlowRateSystemUnmatch, 'metric', water_valve_flow_rate, 50, 'l/h'],
-  [ImperialLengthOfBedOrRowSystemUnmatch, 'imperial', length_of_bed_or_row, 15, 'ft'],
-  [MetricLengthOfBedOrRowSystemUnmatch, 'metric', length_of_bed_or_row, 150, 'm'],
-  [ImperialSoilAmountsSystemUnmatch, 'imperial', soilAmounts, 15000, 'lb'],
-  [MetricSoilAmountsSystemUnmatch, 'metric', soilAmounts, 1000, 'mt'],
-  [ImperialWaterUsageSystemUnmatch, 'imperial', waterUsage, 500, 'fl-oz'],
-  [MetricWaterUsageSystemUnmatch, 'metric', waterUsage, 1200, 'l'],
-].forEach(([func, system, unitType, valueInDB, expectedUnit]) => {
-  const { databaseUnit } = unitType;
-  const recordSystem = system === 'imperial' ? 'metric' : 'imperial';
-  const recordUnit = unitType[recordSystem].units[0]; // the first unit of the other system
-
-  func.args = {
-    label: `Record unit: "${recordUnit}", DB data: "${valueInDB} ${databaseUnit}"`,
-    name: 'value_name',
-    displayUnitName: 'unit_name',
-    unitType,
-    system,
-    required: true,
-    defaultValues: {
-      value_name: valueInDB,
-      unit_name: recordUnit,
-    },
-  };
-  func.play = async ({ canvasElement }) => {
-    const test = new UnitTest(canvasElement, 'unit', unitType);
-
-    await test.testVisibleValue(test.convertDBValueToDisplayValue(valueInDB, expectedUnit));
-    await test.testHiddenValue(valueInDB);
-    await test.testSelectedUnit(UnitTest.getUnitLabelByValue(expectedUnit));
-  };
-});
+const metricWaterUsageSystemUnmatchArgsAndPlay = getSystemUnmatchTestArgsAndPlay(
+  'metric',
+  waterUsage,
+  1200,
+  'l',
+);
+MetricWaterUsageSystemUnmatch.args = metricWaterUsageSystemUnmatchArgsAndPlay.args;
+MetricWaterUsageSystemUnmatch.play = metricWaterUsageSystemUnmatchArgsAndPlay.play;

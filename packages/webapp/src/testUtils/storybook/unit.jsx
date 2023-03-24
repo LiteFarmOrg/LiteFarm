@@ -131,3 +131,30 @@ export default class UnitTest {
     return getUnitOptionMap()[value].label;
   }
 }
+
+export const getSystemUnmatchTestArgsAndPlay = (system, unitType, valueInDB, expectedUnit) => {
+  const { databaseUnit } = unitType;
+  const recordSystem = system === 'imperial' ? 'metric' : 'imperial';
+  const recordUnit = unitType[recordSystem].units[0]; // the first unit of the other system
+  return {
+    args: {
+      label: `Record unit: "${recordUnit}", DB data: "${valueInDB} ${databaseUnit}"`,
+      name: 'value_name',
+      displayUnitName: 'unit_name',
+      unitType,
+      system,
+      required: true,
+      defaultValues: {
+        value_name: valueInDB,
+        unit_name: recordUnit,
+      },
+    },
+    play: async ({ canvasElement }) => {
+      const test = new UnitTest(canvasElement, 'unit', unitType);
+
+      await test.testVisibleValue(test.convertDBValueToDisplayValue(valueInDB, expectedUnit));
+      await test.testHiddenValue(valueInDB);
+      await test.testSelectedUnit(UnitTest.getUnitLabelByValue(expectedUnit));
+    },
+  };
+};

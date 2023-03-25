@@ -106,6 +106,7 @@ export default function PureIrrigationTask({
   const MEASUREMENT_TYPE = 'irrigation_task.measuring_type';
   const ESTIMATED_WATER_USAGE = 'irrigation_task.estimated_water_usage';
   const ESTIMATED_WATER_USAGE_UNIT = 'irrigation_task.estimated_water_usage_unit';
+  const IS_MODIFIED_ON_COMPLETION = 'irrigation_task.is_modified_on_completion';
 
   const estimated_water_usage = watch(ESTIMATED_WATER_USAGE);
   const estimated_water_usage_unit = watch(ESTIMATED_WATER_USAGE_UNIT);
@@ -115,10 +116,12 @@ export default function PureIrrigationTask({
   // If the task is being modified on completion then set the "set default" flags to false in the form
   // this is to avoid overwriting default setting set by another task during that task's creation
   // the "set default" checkbox is only a visual reference for users to see this irrigation type was set as default during its creation
+  // UPDATE: this logic is now handled in redux saga before the api call is made
   useEffect(() => {
     if (isModified) {
-      setValue(DEFAULT_IRRIGATION_TASK_LOCATION, false);
-      setValue(DEFAULT_IRRIGATION_MEASUREMENT, false);
+      setValue(IS_MODIFIED_ON_COMPLETION, true);
+    } else {
+      setValue(IS_MODIFIED_ON_COMPLETION, false);
     }
   }, [isModified]);
 

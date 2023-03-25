@@ -616,6 +616,12 @@ const getCompleteIrrigationTaskBody = (task_translation_key) => (data) => {
         ? data.taskData[taskType]?.irrigation_task_type_other
         : data.taskData[taskType]?.irrigation_type_name;
       data.taskData[taskType].location_id = data.location_id;
+      if (data.taskData[taskType]?.is_modified_on_completion) {
+        if (data.taskData[taskType]?.default_irrigation_task_type_location)
+          data.taskData[taskType].default_irrigation_task_type_location = false;
+        if (data.taskData[taskType]?.default_irrigation_task_type_measurement)
+          data.taskData[taskType].default_irrigation_task_type_measurement = false;
+      }
       data.taskData.location_defaults = [
         {
           location_id: data.location_id,
@@ -643,6 +649,7 @@ const getCompleteIrrigationTaskBody = (task_translation_key) => (data) => {
           'location_size_unit',
           'irrigation_type',
           'irrigation_type_translation_key',
+          'is_modified_on_completion',
         ].includes(element) && delete data.taskData[taskType][element];
       }
     }

@@ -186,7 +186,7 @@ class AddExpense extends Component {
                             <Control.text
                               type="text"
                               model={`.expenseDetail[${k}][${i}].note`}
-                              maxLength="25"
+                              maxLength="100"
                             />
                           </div>
 

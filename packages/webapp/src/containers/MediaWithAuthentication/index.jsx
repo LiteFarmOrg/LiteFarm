@@ -24,8 +24,8 @@ export function MediaWithAuthentication({
         if (import.meta.env.VITE_ENV === 'development') {
           subscribed && setMediaUrl(fileUrl);
         } else {
-          url.hostname = 'images.litefarm.workers.dev';
           const url = new URL(fileUrl);
+          url.hostname = 'images.litefarm.workers.dev';
           const response = await fetch(url.toString(), config);
           const blobFile = await response.blob();
           subscribed && setMediaUrl(URL.createObjectURL(blobFile));

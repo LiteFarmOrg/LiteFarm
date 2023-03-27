@@ -96,7 +96,7 @@ import knex from './util/knex.js';
 Model.knex(knex);
 
 // import logger
-import logger from './common/logger.js';
+import logger, {routerLoggingMiddleware} from './common/logger.js';
 
 // import routes
 import loginRoutes from './routes/loginRoute.js';
@@ -221,6 +221,7 @@ app
     next();
   })
   .use(router)
+  .use(routerLoggingMiddleware)
   .set('json spaces', 2)
   .use('/login', loginRoutes)
   .use('/password_reset', passwordResetRoutes)

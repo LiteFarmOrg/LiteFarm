@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import { useTranslation } from 'react-i18next';
 import styles from './styles.module.scss';
 import GoogleMap from 'google-map-react';
@@ -303,18 +303,19 @@ export default function Map({ history }) {
 
     // Adding custom map components
     const zoomControlDiv = document.createElement('div');
-    ReactDOM.render(
+    const rootZoomControlDiv = createRoot(zoomControlDiv);
+    rootZoomControlDiv.render(
       <CustomZoom
         style={{ margin: '12px' }}
         onClickZoomIn={() => map.setZoom(map.getZoom() + 1)}
         onClickZoomOut={() => map.setZoom(map.getZoom() - 1)}
       />,
-      zoomControlDiv,
     );
     map.controls[maps.ControlPosition.RIGHT_BOTTOM].push(zoomControlDiv);
 
     const compassControlDiv = document.createElement('div');
-    ReactDOM.render(<CustomCompass style={{ marginRight: '12px' }} />, compassControlDiv);
+    const rootCompassControlDiv = createRoot(compassControlDiv);
+    rootCompassControlDiv.render(<CustomCompass style={{ marginRight: '12px' }} />);
     map.controls[maps.ControlPosition.RIGHT_BOTTOM].push(compassControlDiv);
 
     // Drawing locations on map

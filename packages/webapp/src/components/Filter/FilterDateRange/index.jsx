@@ -28,7 +28,7 @@ export function FilterDateRange({
     }
   }, [fromDate]);
   useEffect(() => {
-    if (filterRef.current) {
+    if (filterRef?.current) {
       filterRef.current.TO_DATE = toDate || undefined;
     }
   }, [toDate]);

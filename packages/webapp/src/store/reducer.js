@@ -68,6 +68,7 @@ import showedSpotlightReducer from '../containers/showedSpotlightSlice';
 import bulkSensorsUploadReducer from '../containers/bulkSensorUploadSlice';
 import bulkSensorsReadingsReducer from '../containers/bulkSensorReadingsSlice';
 import hookFormPersistReducer from '../containers/hooks/useHookFormPersist/hookFormPersistSlice';
+import offlineDetectorReducer from '../containers/hooks/useOfflineDetector/offlineDetectorSlice';
 import filterReducer from '../containers/filterSlice';
 import managementPlanReducer from '../containers/managementPlanSlice';
 import cropManagementPlanReducer from '../containers/cropManagementPlanSlice';
@@ -230,6 +231,7 @@ const tempStateReducer = combineReducers({
   filterReducer,
   snackbarReducer,
   customSignUpReducer,
+  offlineDetectorReducer,
 });
 
 // combine all reducers here and pass it to application

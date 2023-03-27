@@ -1,7 +1,7 @@
 import React from 'react';
 import AreaDetails from '../../../../components/LocationDetailLayout/AreaDetails/AreaDetails';
 import decorator from '../../config/Decorators';
-import { useForm } from 'react-hook-form';
+import { FormProvider, useForm } from 'react-hook-form';
 import { chromaticSmallScreen } from '../../config/chromatic';
 
 export default {
@@ -24,18 +24,20 @@ const Template = (args) => {
   } = useForm({
     mode: 'onChange',
   });
+  const formMethods = {
+    register,
+    watch,
+    setValue,
+    getValues,
+    setError,
+    control,
+    handleSubmit,
+    formState: { errors },
+  };
   return (
-    <AreaDetails
-      {...args}
-      register={register}
-      control={control}
-      setError={setError}
-      errors={errors}
-      setValue={setValue}
-      getValues={getValues}
-      watch={watch}
-      handleSubmit={handleSubmit}
-    />
+    <FormProvider {...formMethods}>
+      <AreaDetails {...args} />
+    </FormProvider>
   );
 };
 
@@ -55,6 +57,7 @@ Post.args = {
   setError: (data) => {},
   control: (data) => {},
   history: (data) => {},
+  match: { params: { location_id: 1 } },
   children: (data) => {},
   errors: (data) => {},
   areaType: (data) => {},

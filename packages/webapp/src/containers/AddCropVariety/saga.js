@@ -50,6 +50,8 @@ export function* postCropAndVarietalSaga({ payload: cropData }) {
   const varietyKeys = [
     'compliance_file_url',
     'crop_variety_name',
+    'crop_varietal',
+    'crop_cultivar',
     'crop_variety_photo_url',
     'genetically_engineered',
     'lifecycle',

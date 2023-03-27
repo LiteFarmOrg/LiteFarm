@@ -144,7 +144,6 @@ import {
 import notificationSaga, { getNotification } from './Notification/saga';
 import { appVersionSelector, setAppVersion } from './appSettingSlice';
 import { APP_VERSION } from '../util/constants';
-import { hookFormPersistHistoryStackSelector } from './hooks/useHookFormPersist/hookFormPersistSlice';
 import axiosWithoutInterceptors from 'axios';
 import produce from 'immer';
 import { resetTasksFilter } from './filterSlice';
@@ -596,12 +595,7 @@ export function* selectFarmAndFetchAllSaga({ payload: farm }) {
 }
 
 export function* onReqSuccessSaga({ pathname, state, message }) {
-  const historyStack = yield select(hookFormPersistHistoryStackSelector);
-  const unlisten = history.listen(() => {
-    unlisten();
-    history.push(pathname, state);
-  });
-  history.go(-historyStack.length);
+  history.push(pathname, state);
   yield delay(100);
   if (message) {
     yield put(enqueueSuccessSnackbar(message));

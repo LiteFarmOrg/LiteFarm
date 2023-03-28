@@ -19,7 +19,6 @@ import { userFarmSelector } from '../../../userFarmSlice';
 import { withTranslation } from 'react-i18next';
 import { numberOnKeyDown } from '../../../../components/Form/Input';
 import grabCurrencySymbol from '../../../../util/grabCurrencySymbol';
-// import InputAutoSize from '../../../../components/Form/InputAutoSize';
 import { TextareaAutosize } from '@material-ui/core';
 
 class AddExpense extends Component {

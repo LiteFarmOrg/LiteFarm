@@ -31,8 +31,8 @@ function AddCropVarietyForm({ history, match }) {
       ...persistedFormData,
       ...data,
       crop_variety_name: data.crop_variety_name.trim(),
-      crop_varietal: data.crop_varietal.trim(),
-      crop_cultivar: data.crop_cultivar.trim(),
+      crop_varietal: data.crop_varietal.length != 0 ? data.crop_varietal.trim() : null,
+      crop_cultivar: data.crop_cultivar.length != 0 ? data.crop_cultivar.trim() : null,
       crop_variety_photo_url: data.crop_variety_photo_url
         ? data.crop_variety_photo_url
         : `https://${
@@ -45,6 +45,7 @@ function AddCropVarietyForm({ history, match }) {
       genetically_engineered: null,
       searched: null,
     };
+
     if (isNewCrop) {
       dispatch(postCropAndVarietal(cropData));
     } else {

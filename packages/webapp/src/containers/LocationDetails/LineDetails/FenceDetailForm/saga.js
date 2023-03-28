@@ -36,7 +36,7 @@ export function* postFenceLocationSaga({ payload: data }) {
       setSuccessMessage([i18n.t('FARM_MAP.MAP_FILTER.FENCE'), i18n.t('message:MAP.SUCCESS_POST')]),
     );
     yield put(canShowSuccessHeader(true));
-    history.back();
+    history.push('/map');
   } catch (e) {
     history.push(
       {

@@ -40,7 +40,7 @@ export default function PureIrrigationTask({
   const cropLocations = useSelector(cropLocationsSelector);
   const location_defaults =
     locations &&
-    cropLocations.filter((cropLocation) => cropLocation.location_id === locations[0].location_id)[0]
+    cropLocations.filter((cropLocation) => cropLocation.location_id === locations[0]?.location_id)[0]
       ?.location_defaults;
   const locationDefaults = [location_defaults]?.map((location) => {
     return {

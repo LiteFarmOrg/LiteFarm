@@ -183,8 +183,7 @@ class AddExpense extends Component {
                               <br />
                               {this.props.t('EXPENSE.NAME')}
                             </label>
-                            <Control.text
-                              type="text"
+                            <Control.textarea
                               model={`.expenseDetail[${k}][${i}].note`}
                               maxLength="100"
                             />

@@ -13,10 +13,21 @@ export default (nextQueue, emailQueue) => (job, done) => {
     `s3://${getPrivateS3BucketName()}/${farm_id}/document`, // location
     `temp/${exportId}`, // destination
     '--recursive',
-    '--endpoint=https://nyc3.digitaloceanspaces.com',
+    `--endpoint=${
+      process.env.NODE_ENV === 'development'
+        ? process.env.MINIO_ENDPOINT
+        : 'https://nyc3.digitaloceanspaces.com'
+    }`,
     '--exclude=*',
   ].concat(files.map(({ url }) => `--include=${url.split('/').pop()}`));
+
   const awsCopyProcess = spawn('aws', args, { cwd: process.env.EXPORT_WD });
+
+  // Receive informative error messages from the child process
+  awsCopyProcess.stderr.on('data', (data) => {
+    console.error(`stderr: ${data}`);
+  });
+
   awsCopyProcess.on(
     'exit',
     childProcessExitCheck(

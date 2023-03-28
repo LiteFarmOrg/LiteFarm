@@ -71,9 +71,13 @@
     border: 1px solid #efefef;
     box-sizing: border-box;
     border-radius: 4px;
-    padding: 1% 5%;
+    padding:   5%;
     resize: none;
-    font-size: 18px;
+    font-family: 'Open Sans', 'SansSerif', serif;
+    font-size: 16px;
+    line-height: 16px;
+    padding-top: 11px;
+    padding-bottom: 11px;
   }
   display: flex;
   flex-direction: row;
@@ -93,13 +97,5 @@
   width: 100%;
 }
 
-// .txta {
-//   width: 100%;
-//   max-width: 500px;
-//   min-height: 100px;
-//   font-family: Arial, sans-serif;
-//   font-size: 16px;
-//   overflow: hidden;
-//   line-height: 1.4;
-// }
+
 

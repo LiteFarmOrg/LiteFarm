@@ -19,6 +19,8 @@ import { userFarmSelector } from '../../../userFarmSlice';
 import { withTranslation } from 'react-i18next';
 import { numberOnKeyDown } from '../../../../components/Form/Input';
 import grabCurrencySymbol from '../../../../util/grabCurrencySymbol';
+// import InputAutoSize from '../../../../components/Form/InputAutoSize';
+import { TextareaAutosize } from '@material-ui/core';
 
 class AddExpense extends Component {
   constructor(props) {
@@ -183,9 +185,11 @@ class AddExpense extends Component {
                               <br />
                               {this.props.t('EXPENSE.NAME')}
                             </label>
-                            <Control.textarea
+                            <Control
+                              component={TextareaAutosize}
                               model={`.expenseDetail[${k}][${i}].note`}
                               maxLength="100"
+                              maxRows={3}
                             />
                           </div>
 

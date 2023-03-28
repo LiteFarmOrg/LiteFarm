@@ -39,7 +39,7 @@ export function* postWatercourseLocationSaga({ payload: data }) {
       ]),
     );
     yield put(canShowSuccessHeader(true));
-    history.back();
+    history.push('/map');
   } catch (e) {
     history.push(
       {

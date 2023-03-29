@@ -150,6 +150,7 @@ function HarvestForm({
           control={control}
           disabled={is_harvest_everything}
           optional
+          data-testid={`harvesttask-quantity-${index}`}
         />
         <Checkbox
           defaultChecked={field[HARVEST_EVERYTHING]}

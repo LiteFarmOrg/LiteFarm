@@ -1,8 +1,10 @@
 import React from 'react';
+import { within, userEvent } from '@storybook/testing-library';
 import decorators from '../../config/Decorators';
 import { chromaticSmallScreen } from '../../config/chromatic';
 import PureTaskDetails from '../../../../components/Task/PureTaskDetails';
 import UnitTest from '../../../../test-utils/storybook/unit';
+import { harvestAmounts } from '../../../../util/convert-units/unit';
 
 export default {
   title: 'Page/AddCleaningTask',
@@ -816,23 +818,13 @@ HarvestTask.args = {
     type: 8,
     due_date: '2021-08-23',
     locations: [
-      {
-        location_id: '1f31e024-2e98-44e4-9837-80f52d8ab010',
-      },
-      {
-        location_id: '61f7cd2c-c09d-43cf-9687-a0502236acfd',
-      },
+      { location_id: '1f31e024-2e98-44e4-9837-80f52d8ab010' },
+      { location_id: '61f7cd2c-c09d-43cf-9687-a0502236acfd' },
     ],
     managementPlans: [
-      {
-        management_plan_id: 1166,
-      },
-      {
-        management_plan_id: 1177,
-      },
-      {
-        management_plan_id: 1179,
-      },
+      { management_plan_id: 1166 },
+      { management_plan_id: 1177 },
+      { management_plan_id: 1179 },
     ],
     harvest_tasks: [],
   },
@@ -849,4 +841,52 @@ HarvestTask.args = {
 };
 HarvestTask.parameters = {
   ...chromaticSmallScreen,
+};
+HarvestTask.play = async ({ canvasElement }) => {
+  const quantityTest0 = new UnitTest(canvasElement, 'harvesttask-quantity-0', harvestAmounts);
+  const quantityTest1 = new UnitTest(canvasElement, 'harvesttask-quantity-1', harvestAmounts);
+
+  const canvas = within(canvasElement);
+  const [abiuCheckbox, achachaCheckbox] = canvas.getAllByRole('checkbox');
+
+  await quantityTest0.testNoInput();
+  await quantityTest1.testNoInput();
+  await quantityTest0.testSelectedUnit('kg');
+  await quantityTest1.testSelectedUnit('kg');
+  await quantityTest0.testEnabledStatus();
+  await quantityTest1.testEnabledStatus();
+
+  await quantityTest0.inputValueAndBlur('0.5');
+  await quantityTest0.testVisibleValue(0.5);
+  await quantityTest0.testHiddenValue(0.5);
+  await quantityTest1.testNoInput();
+
+  await quantityTest0.selectUnit('mt');
+  await quantityTest0.testSelectedUnit('mt');
+  await quantityTest0.testVisibleValue(0.5);
+  await quantityTest0.testHiddenValue(quantityTest0.convertDisplayValueToHiddenValue(0.5, 'mt'));
+  await quantityTest1.testNoInput();
+  await quantityTest1.testSelectedUnit('kg');
+
+  await userEvent.click(abiuCheckbox);
+  await quantityTest0.testNoInput();
+  await quantityTest0.testDisabledStatus();
+  await quantityTest0.testSelectedUnit('mt');
+
+  await userEvent.click(achachaCheckbox);
+  await quantityTest1.testNoInput();
+  await quantityTest1.testSelectedUnit('kg');
+  await quantityTest1.testDisabledStatus();
+
+  await userEvent.click(achachaCheckbox);
+  await quantityTest1.testNoInput();
+  await quantityTest1.testSelectedUnit('kg');
+  await quantityTest1.testEnabledStatus();
+
+  await quantityTest1.inputValueAndBlur('20');
+  await quantityTest1.testVisibleValue(20);
+  await quantityTest1.testHiddenValue(20);
+  await quantityTest0.testNoInput();
+  await quantityTest0.testDisabledStatus();
+  await quantityTest0.testSelectedUnit('mt');
 };

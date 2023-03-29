@@ -29,7 +29,9 @@ import { axios, getHeader } from '../saga';
 import { createAction } from '@reduxjs/toolkit';
 import i18n from '../../locales/i18n';
 import { enqueueErrorSnackbar } from '../Snackbar/snackbarSlice';
+import { getEmailUrl } from '../../util';
 
+const SUPPORT_EMAIL = 'support@litefarm.org';
 const patchRoleUrl = (farm_id, user_id) => `${userFarmUrl}/role/farm/${farm_id}/user/${user_id}`;
 const patchFarmUrl = (farm_id) => `${farmUrl}/owner_operated/${farm_id}`;
 const patchStepUrl = (farm_id, user_id) =>
@@ -82,8 +84,17 @@ export function* postFarmSaga({ payload: { showFarmNameCharacterLimitExceededErr
     if (isFarmNameError) {
       showFarmNameCharacterLimitExceededError();
     } else {
-      console.log(e);
-      yield put(enqueueErrorSnackbar(i18n.t('message:FARM.ERROR.ADD')));
+      console.error(e);
+      yield put(
+        enqueueErrorSnackbar({
+          message: i18n.t('message:FARM.ERROR.ADD'),
+          action: {
+            type: 'link',
+            text: SUPPORT_EMAIL,
+            url: getEmailUrl(SUPPORT_EMAIL, i18n.t('message:FARM.ERROR.ADD_EMAIL_SUBJECT')),
+          },
+        }),
+      );
     }
   }
 }
@@ -121,7 +132,16 @@ export function* patchFarmSaga({ payload: { showFarmNameCharacterLimitExceededEr
       showFarmNameCharacterLimitExceededError();
     } else {
       console.error(e);
-      yield put(enqueueErrorSnackbar(i18n.t('message:FARM.ERROR.ADD')));
+      yield put(
+        enqueueErrorSnackbar({
+          message: i18n.t('message:FARM.ERROR.ADD'),
+          action: {
+            type: 'link',
+            text: SUPPORT_EMAIL,
+            url: getEmailUrl(SUPPORT_EMAIL, i18n.t('message:FARM.ERROR.ADD_EMAIL_SUBJECT')),
+          },
+        }),
+      );
     }
   }
 }

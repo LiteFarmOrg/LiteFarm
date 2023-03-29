@@ -58,7 +58,8 @@
   },
   "FARM": {
     "ERROR": {
-      "ADD": "No se pudo agregar finca. Por favor contacte LiteFarm por asistencia",
+      "ADD": "MISSING",
+      "ADD_EMAIL_SUBJECT": "MISSING",
       "FETCH": "No se pudo extraer la finca desde la base de datos",
       "UPDATE": "No se pudo actualizar la información sobre la finca"
     },

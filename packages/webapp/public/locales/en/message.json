@@ -58,7 +58,8 @@
   },
   "FARM": {
     "ERROR": {
-      "ADD": "Failed to add farm, please contact litefarm for assistance",
+      "ADD": "Failed to add farm, contact support?",
+      "ADD_EMAIL_SUBJECT": "Unable to create a farm",
       "FETCH": "failed to fetch farm from database",
       "UPDATE": "Failed to update farm info"
     },

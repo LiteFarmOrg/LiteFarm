@@ -6,14 +6,36 @@ import { ReactComponent as Checkmark } from '../../assets/images/map/checkmark.s
 import clsx from 'clsx';
 import ProgressBar from '../Map/ProgressBar';
 import { VscWarning } from 'react-icons/vsc';
+import CopyButton from '../ButtonGroup/CopyButton';
 
 function Icon({ type = 'success' }) {
   if (type === 'error') return <VscWarning className={styles.errorIcon} />;
   if (type === 'success') return <Checkmark className={styles.button} />;
 }
 
-export function PureSnackbarWithoutBorder({ className, onDismiss, title, type }) {
+const getActionComponent = (action) => {
+  if (action.type === 'link') {
+    return (
+      <span className={styles.actionContainer}>
+        <a href={action.url}>{action.text}</a>
+        <CopyButton text={action.text} />
+      </span>
+    );
+  }
+};
+
+export function PureSnackbarWithoutBorder({ className, onDismiss, message, type }) {
   const [dismissProgressBar, setDismissProgressBar] = useState(false);
+
+  let title,
+    action = null;
+  if (typeof message === 'string') title = message;
+  else {
+    title = message.message;
+    action = getActionComponent(message.action);
+  }
+
+  const hideProgressBar = typeof message !== 'string' || dismissProgressBar;
 
   return (
     <div
@@ -25,14 +47,17 @@ export function PureSnackbarWithoutBorder({ className, onDismiss, title, type })
       <div className={clsx(styles.contentContainer)}>
         <div className={styles.headerText}>
           <Icon type={type} />
-          <span style={{ paddingLeft: '10px' }}>{title}</span>
+          <span style={{ paddingLeft: '10px' }}>
+            {title}
+            {action}
+          </span>
         </div>
         <div style={{ paddingTop: '5px' }}>
           <Cross className={styles.button} onClick={onDismiss} />
         </div>
       </div>
       <div className={styles.progressBarContainer}>
-        {!dismissProgressBar && <ProgressBar type={type} onDismiss={onDismiss} />}
+        {!hideProgressBar && <ProgressBar type={type} onDismiss={onDismiss} />}
       </div>
     </div>
   );
@@ -40,7 +65,7 @@ export function PureSnackbarWithoutBorder({ className, onDismiss, title, type })
 
 export const PureSnackbar = forwardRef(({ message, type, onDismiss }, ref) => (
   <div className={clsx(styles.container, styles[type])} ref={ref}>
-    <PureSnackbarWithoutBorder title={message} onDismiss={onDismiss} type={type} />
+    <PureSnackbarWithoutBorder message={message} onDismiss={onDismiss} type={type} />
   </div>
 ));
 

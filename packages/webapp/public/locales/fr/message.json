@@ -58,7 +58,8 @@
   },
   "FARM": {
     "ERROR": {
-      "ADD": "Impossible d'ajouter une ferme. Veuillez contacter LiteFarm pour obtenir de l'aide",
+      "ADD": "MISSING",
+      "ADD_EMAIL_SUBJECT": "MISSING",
       "FETCH": "Impossible de récupérer la ferme à partir de la base de données",
       "UPDATE": "Impossible de mettre à jour les informations de la ferme"
     },

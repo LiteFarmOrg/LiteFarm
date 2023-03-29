@@ -145,3 +145,53 @@ export const truncateText = (text, length) => {
   }
   return '';
 };
+
+export const getEmailUrl = (email, subject, body) => {
+  if (!email) {
+    throw new Error('email is required');
+  }
+  if (!document) {
+    throw new Error('browser environment is required');
+  }
+
+  let url = `mailto:${email}`;
+  if (subject && body) {
+    url += `?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+  } else if (subject) {
+    url += `?subject=${encodeURIComponent(subject)}`;
+  } else if (body) {
+    url += `?body=${encodeURIComponent(body)}`;
+  }
+
+  return url;
+};
+
+const copyTextToClipboardPolyfill = (text) => {
+  const textArea = document.createElement('textarea');
+  textArea.value = text;
+  textArea.style.top = '0';
+  textArea.style.left = '0';
+  textArea.style.position = 'fixed';
+  document.body.appendChild(textArea);
+  textArea.focus();
+  textArea.select();
+
+  let result = true;
+  try {
+    if (!document.execCommand('copy')) {
+      throw new Error('Failed to copy');
+    }
+  } catch (err) {
+    result = false;
+  }
+
+  document.body.removeChild(textArea);
+  return result ? Promise.resolve() : Promise.reject();
+};
+
+export const copyTextToClipboard = (text) => {
+  if (!navigator.clipboard) {
+    return copyTextToClipboardPolyfill(text);
+  }
+  return navigator.clipboard.writeText(text);
+};

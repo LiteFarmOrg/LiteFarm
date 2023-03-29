@@ -2,11 +2,11 @@
 
 .contentContainer {
   display: flex;
-  height: 48px;
+  min-height: 48px;
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  padding: 15px 24px;
+  padding: 10px 24px;
 }
 
 .headerText {
@@ -56,5 +56,9 @@
   transform: translateY(4px);
 }
 
+.actionContainer {
+  margin-left: 4px;
+  white-space: nowrap;
+}
 
 

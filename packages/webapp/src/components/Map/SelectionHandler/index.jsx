@@ -190,21 +190,17 @@ export default function PureSelectionHandler({ locations, history, sensorReading
                 <div
                   className={clsx(classes.itemIcon, showDetails(location.id) && classes.sensorIcon)}
                 >
-                  {' '}
-                  {icon}{' '}
+                  {icon}
                 </div>
                 <div className={classes.itemName}>{name}</div>
                 {showDetails(location.id) && (
                   <div>
-                    {' '}
-                    {
-                      <ShowMore
-                        className={clsx(
-                          classes.sensorArrow,
-                          sensorIdx === idx && classes.sensorArrowUp,
-                        )}
-                      />
-                    }{' '}
+                    <ShowMore
+                      className={clsx(
+                        classes.sensorArrow,
+                        sensorIdx === idx && classes.sensorArrowUp,
+                      )}
+                    />
                   </div>
                 )}
               </div>

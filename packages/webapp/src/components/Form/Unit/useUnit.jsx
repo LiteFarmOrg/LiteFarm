@@ -20,6 +20,7 @@ import {
   area_total_area,
   getDefaultUnit,
   roundToTwoDecimal,
+  convertFn,
 } from '../../../util/convert-units/unit';
 import { convert } from '../../../util/convert-units/convert';
 import { getUnitOptionMap } from '../../../util/convert-units/getUnitOptionMap';
@@ -148,7 +149,8 @@ const useUnit = ({
       return {
         ...values,
         displayUnit,
-        displayValue: value && roundToTwoDecimal(convert(value).from(databaseUnit).to(displayUnit)),
+        displayValue:
+          value && roundToTwoDecimal(convertFn(unitType, value, databaseUnit, displayUnit)),
       };
     }
 
@@ -176,7 +178,7 @@ const useUnit = ({
     }
 
     const convertedCurrentHiddenValue = roundToTwoDecimal(
-      convert(hookFormValue).from(databaseUnit).to(hookFormUnit),
+      convertFn(unitType, hookFormValue, databaseUnit, hookFormUnit),
     );
 
     // if autoConversion is true, update visible value. if false, update hidden value
@@ -186,7 +188,7 @@ const useUnit = ({
       hookFormSetHiddenValue(hookFormValue);
     } else if (convertedCurrentHiddenValue !== visibleInputValue) {
       // this should not be called right after the component is rendered (the hidden value would be rounded)
-      hookFormSetHiddenValue(convert(visibleInputValue).from(hookFormUnit).to(databaseUnit), {
+      hookFormSetHiddenValue(convertFn(unitType, visibleInputValue, hookFormUnit, databaseUnit), {
         shouldDirty: true,
       });
     }
@@ -218,9 +220,12 @@ const useUnit = ({
       hookFormSetValue(name, '', { shouldValidate: true });
       setVisibleInputValue('');
     } else {
-      hookFormSetHiddenValue(convert(e.target.value).from(hookFormUnit).to(databaseUnit), {
-        shouldDirty: true,
-      });
+      hookFormSetHiddenValue(
+        roundToTwoDecimal(convertFn(unitType, e.target.value, hookFormUnit, databaseUnit)),
+        {
+          shouldDirty: true,
+        },
+      );
     }
     if (!isDirty) setDirty(true);
   };
@@ -242,15 +247,17 @@ const useUnit = ({
       return;
     }
 
-    const newValue = roundToTwoDecimal(convert(hookFormValue).from(databaseUnit).to(hookFormUnit));
+    const newValue = roundToTwoDecimal(
+      convertFn(unitType, hookFormValue, databaseUnit, hookFormUnit),
+    );
     if (newValue !== visibleInputValue) {
       setVisibleInputValue(hookFormValue > 0 || hookFormValue === 0 ? newValue : '');
     }
   }, [hookFormValue]);
 
   const getMax = useCallback(() => {
-    return hookFormUnit ? convert(max).from(hookFormUnit).to(databaseUnit) : max;
-  }, [hookFormUnit, max, databaseUnit]);
+    return hookFormUnit ? convertFn(unitType, max, hookFormUnit, databaseUnit) : max;
+  }, [hookFormUnit, max, databaseUnit, unitType]);
 
   const onChangeUnit = (e) => {
     field.onChange(e);

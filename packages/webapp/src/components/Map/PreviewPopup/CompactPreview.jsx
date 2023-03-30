@@ -58,7 +58,7 @@ export default function CompactPreview({ location, readings, readingType, histor
   sixHoursBefore.setHours(sixHoursBefore.getHours() - 6);
 
   if (readings.length) {
-    sensorData = sensorReadings.filter(
+    sensorData = readings.filter(
       (sensorReading) =>
         sensorReading.reading_type === readingType &&
         sensorReading.location_id === location.id &&

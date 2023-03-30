@@ -139,6 +139,11 @@ export default function PureSelectionHandler({ locations, history, sensorReading
     );
   };
 
+  const isSensor = (id) => {
+    let sensor = readingTypes.find((sensor) => sensor.location_id === id);
+    return sensor?.reading_types;
+  };
+
   const handleMouseUp = (location, idx) => {
     if (sensorIdx === idx) {
       setSensorIdx(null);
@@ -188,7 +193,7 @@ export default function PureSelectionHandler({ locations, history, sensorReading
             >
               <div className={classes.title}>
                 <div
-                  className={clsx(classes.itemIcon, showDetails(location.id) && classes.sensorIcon)}
+                  className={clsx(classes.itemIcon, isSensor(location.id) && classes.sensorIcon)}
                 >
                   {icon}
                 </div>

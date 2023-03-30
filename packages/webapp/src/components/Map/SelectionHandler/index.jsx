@@ -149,7 +149,7 @@ export default function PureSelectionHandler({ locations, history, sensorReading
       setSensorIdx(null);
       return;
     }
-    if (location.type === SENSOR) {
+    if (showDetails(location.id)) {
       setSensorIdx(idx);
     } else {
       setSensorIdx(null);
@@ -160,6 +160,8 @@ export default function PureSelectionHandler({ locations, history, sensorReading
   const loadEditView = (location) => {
     if (containsCrops(location.type)) {
       history.push(`/${location.type}/${location.id}/crops`);
+    } else if (location.type === SENSOR) {
+      history.push(`/${location.type}/${location.id}/readings`);
     } else {
       history.push(`/${location.type}/${location.id}/details`);
     }

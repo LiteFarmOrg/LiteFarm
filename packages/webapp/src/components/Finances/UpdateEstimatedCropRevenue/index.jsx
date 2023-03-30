@@ -115,6 +115,7 @@ function PureUpdateEstimatedCropRevenue({ system, managementPlan, onGoBack, onSu
         hookFormGetValue={getValues}
         hookFromWatch={watch}
         control={control}
+        currency={grabCurrencySymbol()}
         style={{ marginBottom: '40px' }}
         onBlur={calculateRevenue}
       />

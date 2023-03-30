@@ -8,8 +8,7 @@ import { useForm } from 'react-hook-form';
 import { Semibold, Text } from '../../Typography';
 import Input, { getInputErrors } from '../../Form/Input';
 import Unit from '../../Form/Unit';
-import { pricePerSeedYield, seedYield } from '../../../util/convert-units/unit';
-import { convert } from '../../../util/convert-units/convert';
+import { pricePerSeedYield, seedYield, convertFn } from '../../../util/convert-units/unit';
 import { roundToTwoDecimal } from '../../../util';
 import grabCurrencySymbol from '../../../util/grabCurrencySymbol';
 
@@ -65,17 +64,17 @@ function PureUpdateEstimatedCropRevenue({ system, managementPlan, onGoBack, onSu
     const annualYieldUnit = getValues(ESTIMATED_ANNUAL_YIELD_UNIT);
     if (!pricePerMass || !annualYield) return;
     const convertedPricePerMass = roundToTwoDecimal(
-      convert(pricePerMass).from(seedYield.databaseUnit).to(pricePerMassUnit.value),
+      convertFn(seedYield, pricePerMass, seedYield.databaseUnit, pricePerMassUnit.value),
     );
     const convertedAnnualYield = roundToTwoDecimal(
-      convert(annualYield).from(seedYield.databaseUnit).to(annualYieldUnit.value),
+      convertFn(seedYield, annualYield, seedYield.databaseUnit, annualYieldUnit.value),
     );
     if (pricePerMassUnit.value === annualYieldUnit.value) {
       const revenue = roundToTwoDecimal(convertedPricePerMass * convertedAnnualYield);
       setValue(ESTIMATED_ANNUAL_REVENUE, revenue);
     } else {
       const adjustedAnnualYield = roundToTwoDecimal(
-        convert(convertedAnnualYield).from(annualYieldUnit.value).to(pricePerMassUnit.value),
+        convertFn(seedYield, convertedAnnualYield, annualYieldUnit.value, pricePerMassUnit.value),
       );
       const revenue = roundToTwoDecimal(convertedPricePerMass * adjustedAnnualYield);
       setValue(ESTIMATED_ANNUAL_REVENUE, revenue);

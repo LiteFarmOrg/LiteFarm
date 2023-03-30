@@ -5,8 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { PriceCropContainer } from './PriceCropContainer/PriceCropContainer';
 import { useComponentWidth } from '../../../containers/hooks/useComponentWidthHeight';
 import ReactSelect from '../../Form/ReactSelect';
-import { convert } from '../../../util/convert-units/convert';
-import { roundToTwoDecimal } from '../../../util/convert-units/unit';
+import { roundToTwoDecimal, seedYield, convertFn } from '../../../util/convert-units/unit';
 import { Label, Semibold } from '../../Typography';
 import styles from './styles.module.scss';
 import { colors } from '../../../assets/theme';
@@ -40,8 +39,10 @@ export function PriceCropCharts({ cropsWithPriceInfo, currencySymbol, isImperial
         })
         .map((pricePoint) => ({
           ...pricePoint,
-          own_price: roundToTwoDecimal(convert(pricePoint.crop_price).from('kg').to(unit)),
-          network_price: roundToTwoDecimal(convert(pricePoint.network_price).from('kg').to(unit)),
+          own_price: roundToTwoDecimal(convertFn(seedYield, pricePoint.crop_price, 'kg', unit)),
+          network_price: roundToTwoDecimal(
+            convertFn(seedYield, pricePoint.network_price, 'kg', unit),
+          ),
         }));
       if (pricePoints.length > 0) {
         filteredPricePoints[crop_translation_key] = {};

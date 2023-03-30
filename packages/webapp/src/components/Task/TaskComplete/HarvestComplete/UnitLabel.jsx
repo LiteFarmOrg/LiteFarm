@@ -2,8 +2,7 @@ import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { colors } from '../../../../assets/theme';
 import clsx from 'clsx';
-import { convert } from '../../../../util/convert-units/convert';
-import { roundToTwoDecimal } from '../../../../util/convert-units/unit';
+import { roundToTwoDecimal, seedYield, convertFn } from '../../../../util/convert-units/unit';
 
 const useStyles = makeStyles({
   container: {
@@ -33,7 +32,7 @@ const UnitLabel = ({ unitLabel = 'kg', amount, style }) => {
   const status = Math.abs(amount) < 0.01 ? 'zero' : amount > 0 ? 'positive' : 'negative';
   return (
     <div className={clsx(classes.container, classes[status])} style={style}>{`${roundToTwoDecimal(
-      convert(amount).from('kg').to(unitLabel),
+      convertFn(seedYield, amount, 'kg', unitLabel),
     )} ${unitLabel}`}</div>
   );
 };

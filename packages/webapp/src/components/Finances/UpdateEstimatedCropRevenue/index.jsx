@@ -10,7 +10,7 @@ import Input, { getInputErrors } from '../../Form/Input';
 import Unit from '../../Form/Unit';
 import { pricePerSeedYield, seedYield, convertFn } from '../../../util/convert-units/unit';
 import { roundToTwoDecimal } from '../../../util';
-import grabCurrencySymbol from '../../../util/grabCurrencySymbol';
+import { useCurrencySymbol } from '../../../containers/hooks/useCurrencySymbol';
 
 function PureUpdateEstimatedCropRevenue({ system, managementPlan, onGoBack, onSubmit }) {
   const { t } = useTranslation();
@@ -115,7 +115,7 @@ function PureUpdateEstimatedCropRevenue({ system, managementPlan, onGoBack, onSu
         hookFormGetValue={getValues}
         hookFromWatch={watch}
         control={control}
-        currency={grabCurrencySymbol()}
+        currency={useCurrencySymbol()}
         style={{ marginBottom: '40px' }}
         onBlur={calculateRevenue}
       />
@@ -142,7 +142,7 @@ function PureUpdateEstimatedCropRevenue({ system, managementPlan, onGoBack, onSu
           required: true,
           valueAsNumber: true,
         })}
-        currency={grabCurrencySymbol()}
+        currency={useCurrencySymbol()}
         errors={getInputErrors(errors, ESTIMATED_ANNUAL_REVENUE)}
         style={{ marginBottom: '40px' }}
       />

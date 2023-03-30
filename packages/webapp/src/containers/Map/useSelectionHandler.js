@@ -80,7 +80,7 @@ const useSelectionHandler = () => {
         } else {
           const locationArray = [];
           overlappedLocations.point.forEach((point) => {
-            if (locationArray.length < 4) locationArray.push(point);
+            locationArray.push(point);
           });
           overlappedLocations.line.forEach((line) => {
             if (locationArray.length < 4) locationArray.push(line);

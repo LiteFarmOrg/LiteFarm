@@ -74,7 +74,7 @@ export default function CompactPreview({ location, readings, readingType, histor
     unit = sensorData?.length ? getTemperatureUnit(units?.measurement) : null;
     value = getTemperatureValue(latestSensorData?.value, units?.measurement);
   } else {
-    unit = sensorData?.lengt ? getSoilWaterPotentialUnit(units?.measurement) : null;
+    unit = sensorData?.length ? getSoilWaterPotentialUnit(units?.measurement) : null;
     value = getSoilWaterPotentialValue(latestSensorData?.value, units?.measurement);
   }
 
@@ -94,16 +94,12 @@ export default function CompactPreview({ location, readings, readingType, histor
       className={isClicked ? classes.highlight : classes.container}
       {...(isTouchDevice()
         ? {
-            onTouchStart: (e) => {
-              onMouseDown(e);
-            },
-            onTouchEnd: () => onMouseUp(),
+            onTouchStart: onMouseDown,
+            onTouchEnd: onMouseUp,
           }
         : {
-            onMouseDown: (e) => {
-              onMouseDown(e);
-            },
-            onMouseUp: () => onMouseUp(),
+            onMouseDown: onMouseDown,
+            onMouseUp: onMouseUp,
           })}
     >
       <div className={classes.title}>{title}:</div>

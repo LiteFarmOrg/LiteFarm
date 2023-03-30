@@ -49,15 +49,13 @@ export const decorators = [
       { useSuspense: false },
     );
     return (
-      <Suspense fallback={<p>Loading...</p>}>
-        <Provider store={store}>
-          <ThemeProvider theme={theme}>
-            <GlobalScss />
-            <CssBaseline />
-            <Story />
-          </ThemeProvider>
-        </Provider>
-      </Suspense>
+      <Provider store={store}>
+        <ThemeProvider theme={theme}>
+          <GlobalScss />
+          <CssBaseline />
+          <Story />
+        </ThemeProvider>
+      </Provider>
     );
   },
 ];

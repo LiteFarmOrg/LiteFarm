@@ -9,9 +9,9 @@ import {
   crop_age,
   line_width,
   water_valve_flow_rate,
+  convertFn,
 } from '../../../util/convert-units/unit';
 import { useForm } from 'react-hook-form';
-import { convert } from '../../../util/convert-units/convert';
 
 const UnitWithHookForm = (props) => {
   const {
@@ -145,7 +145,12 @@ AcreAreaTotalArea.args = {
   name: fieldEnum?.total_area,
   displayUnitName: fieldEnum?.total_area_unit,
   defaultValue:
-    convert(1).from(area_total_area.imperial.defaultUnit).to(area_total_area.databaseUnit) * 10890,
+    convertFn(
+      area_total_area,
+      1,
+      area_total_area.imperial.defaultUnit,
+      area_total_area.databaseUnit,
+    ) * 10890,
   unitType: area_total_area,
   system: 'imperial',
   required: true,
@@ -167,7 +172,8 @@ InchLineWidth.args = {
   label: 'Inch',
   name: bufferZoneEnum.length,
   displayUnitName: bufferZoneEnum.length_unit,
-  defaultValue: convert(1).from(line_width.imperial.defaultUnit).to(line_width.databaseUnit) * 19,
+  defaultValue:
+    convertFn(line_width, 1, line_width.imperial.defaultUnit, line_width.databaseUnit) * 19,
   unitType: line_width,
   system: 'imperial',
   required: true,
@@ -179,7 +185,8 @@ FeetAreaPerimeter.args = {
   name: fieldEnum?.perimeter,
   displayUnitName: fieldEnum?.perimeter_unit,
   defaultValue:
-    convert(1).from(area_perimeter.imperial.defaultUnit).to(area_perimeter.databaseUnit) * 1319,
+    convertFn(area_perimeter, 1, area_perimeter.imperial.defaultUnit, area_perimeter.databaseUnit) *
+    1319,
   unitType: area_perimeter,
   system: 'imperial',
   required: true,
@@ -191,7 +198,8 @@ MileAreaPerimeter.args = {
   name: fieldEnum?.perimeter,
   displayUnitName: fieldEnum?.perimeter_unit,
   defaultValue:
-    convert(1).from(area_perimeter.imperial.defaultUnit).to(area_perimeter.databaseUnit) * 1320,
+    convertFn(area_perimeter, 1, area_perimeter.imperial.defaultUnit, area_perimeter.databaseUnit) *
+    1320,
   unitType: area_perimeter,
   system: 'imperial',
   required: true,
@@ -203,9 +211,12 @@ LitrePerHourWaterValveFlowRate.args = {
   name: waterValveEnum.flow_rate,
   displayUnitName: waterValveEnum.flow_rate_unit,
   defaultValue:
-    convert(1)
-      .from(water_valve_flow_rate.metric.defaultUnit)
-      .to(water_valve_flow_rate.databaseUnit) * 59,
+    convertFn(
+      water_valve_flow_rate,
+      1,
+      water_valve_flow_rate.metric.defaultUnit,
+      water_valve_flow_rate.databaseUnit,
+    ) * 59,
   unitType: water_valve_flow_rate,
   system: 'metric',
   required: true,
@@ -217,9 +228,12 @@ gallonPerHourWaterValveFlowRate.args = {
   name: waterValveEnum.flow_rate,
   displayUnitName: waterValveEnum.flow_rate_unit,
   defaultValue:
-    convert(1)
-      .from(water_valve_flow_rate.imperial.defaultUnit)
-      .to(water_valve_flow_rate.databaseUnit) * 0.99,
+    convertFn(
+      water_valve_flow_rate,
+      1,
+      water_valve_flow_rate.imperial.defaultUnit,
+      water_valve_flow_rate.databaseUnit,
+    ) * 0.99,
   unitType: water_valve_flow_rate,
   system: 'imperial',
   required: true,
@@ -231,9 +245,12 @@ gallonPerMinWaterValveFlowRate.args = {
   name: waterValveEnum.flow_rate,
   displayUnitName: waterValveEnum.flow_rate_unit,
   defaultValue:
-    convert(1)
-      .from(water_valve_flow_rate.imperial.defaultUnit)
-      .to(water_valve_flow_rate.databaseUnit) * 1,
+    convertFn(
+      water_valve_flow_rate,
+      1,
+      water_valve_flow_rate.imperial.defaultUnit,
+      water_valve_flow_rate.databaseUnit,
+    ) * 1,
   unitType: water_valve_flow_rate,
   system: 'imperial',
   required: true,

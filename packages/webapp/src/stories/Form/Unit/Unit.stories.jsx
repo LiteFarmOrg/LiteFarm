@@ -59,7 +59,7 @@ const UnitWithHookForm = (props) => {
 };
 
 export default {
-  title: 'Form/Unit',
+  title: 'Components/Form/Unit',
   component: UnitWithHookForm,
   decorators: componentDecorators,
 };

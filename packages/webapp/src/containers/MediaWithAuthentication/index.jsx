@@ -21,11 +21,15 @@ export function MediaWithAuthentication({
     const fetchMediaUrl = async () => {
       try {
         subscribed = true;
-        const url = new URL(fileUrl);
-        url.hostname = 'images.litefarm.workers.dev';
-        const response = await fetch(url.toString(), config);
-        const blobFile = await response.blob();
-        subscribed && setMediaUrl(URL.createObjectURL(blobFile));
+        if (import.meta.env.VITE_ENV === 'development') {
+          subscribed && setMediaUrl(fileUrl);
+        } else {
+          const url = new URL(fileUrl);
+          url.hostname = 'images.litefarm.workers.dev';
+          const response = await fetch(url.toString(), config);
+          const blobFile = await response.blob();
+          subscribed && setMediaUrl(URL.createObjectURL(blobFile));
+        }
       } catch (e) {
         console.log(e);
       }

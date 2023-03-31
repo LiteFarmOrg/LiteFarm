@@ -114,7 +114,7 @@ export default class UnitTest {
     await waitFor(() => {
       const clearButton = this.canvas.queryByTestId(`${this.testId}-errorclearbutton`);
       const requiredErrorElement = this.canvas.queryByText('Required');
-      const maxValueErrorElement = this.canvas.queryByTestId(`${this.testId}-errorclearbutton`);
+      const maxValueErrorElement = this.canvas.queryByText(/Please enter a value between 0-[0-9]./);
       expect(clearButton).not.toBeInTheDocument();
       expect(requiredErrorElement).not.toBeInTheDocument();
       expect(maxValueErrorElement).not.toBeInTheDocument();

@@ -43,7 +43,7 @@ services:
     volumes:
       - ~/letsencrypt:/usr/src/letsencrypt
     ports:
-      - '5000:5000'
+      - '5001:5001'
     environment:
       WAIT_HOSTS: host.docker.internal
       NODE_ENV: development

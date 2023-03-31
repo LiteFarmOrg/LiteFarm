@@ -87,7 +87,6 @@ export default class UnitTest {
 
   async inputNotToHaveValue() {
     await waitFor(() => {
-      console.log(this.visibleInput, this.hiddenInput);
       expect(this.visibleInput).toHaveValue(null);
       expect(this.hiddenInput).toHaveValue(null);
     });

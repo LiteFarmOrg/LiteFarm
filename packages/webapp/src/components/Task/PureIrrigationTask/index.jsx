@@ -37,7 +37,8 @@ export default function PureIrrigationTask({
   const { t } = useTranslation();
   const { errors } = formState;
   const [showWaterUseCalculatorModal, setShowWaterUseCalculatorModal] = useState(false);
-  const { irrigationTaskTypes = [] } = useSelector(irrigationTaskTypesSliceSelector);
+  const irrigationTaskTypes =
+    useSelector(irrigationTaskTypesSliceSelector)?.irrigationTaskTypes || [];
   const cropLocations = useSelector(cropLocationsSelector);
   const location_defaults =
     locations &&

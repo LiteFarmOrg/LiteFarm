@@ -8,6 +8,7 @@ import { Main } from '../../Typography';
 import TimeSlider from '../../Form/Slider/TimeSlider';
 import Checkbox from '../../Form/Checkbox';
 import InputAutoSize from '../../Form/InputAutoSize';
+import RadioGroup from '../../Form/RadioGroup';
 import Rating from '../../Rating';
 import styles from './styles.module.scss';
 import { getObjectInnerValues } from '../../../util';
@@ -26,9 +27,16 @@ export default function PureTaskComplete({
   const COMPLETION_NOTES = 'completion_notes';
   const HAPPINESS = 'happiness';
   const PREFER_NOT_TO_SAY = 'prefer_not_to_say';
-  const COMPLETE_DATE = 'complete_date';
+  const DATE_CHOICE = 'date_choice';
+  const ANOTHER_DATE = 'date_another';
 
   const { t } = useTranslation();
+
+  // Prepare dates
+  const date_due = getDateInputFormat(persistedFormData.due_date);
+  const date_today = getDateInputFormat();
+  const dueDateDisabled = date_due >= date_today;
+  const date_default = dueDateDisabled ? date_today : date_due;
 
   const {
     register,
@@ -36,12 +44,20 @@ export default function PureTaskComplete({
     watch,
     getValues,
     setValue,
+    control,
     formState: { errors, isValid },
   } = useForm({
     mode: 'onChange',
     shouldUnregister: false,
-    defaultValues: { [COMPLETE_DATE]: getDateInputFormat(), ...persistedFormData },
+    defaultValues: { 
+      [DATE_CHOICE]: date_default,
+      [ANOTHER_DATE]: date_default,
+      ...persistedFormData,
+    },
   });
+
+  const date_choice = watch(DATE_CHOICE); // Radiobox Group choice
+  const date_another = watch(ANOTHER_DATE); // Datepicker date, if date_choice == ANOTHER_DATE
 
   const { historyCancel } = useHookFormPersist(getValues);
 
@@ -70,7 +86,7 @@ export default function PureTaskComplete({
             duration: duration,
             happiness: prefer_not_to_say ? null : happiness,
             completion_notes: notes,
-            complete_date: formData.complete_date,
+            complete_date: date_choice == ANOTHER_DATE ? date_another : date_choice,
           },
           task_translation_key: persistedFormData?.taskType.task_translation_key,
           isCustomTaskType: !!persistedFormData?.taskType.farm_id,
@@ -104,18 +120,50 @@ export default function PureTaskComplete({
 
       <Main style={{ marginBottom: '24px' }}>{t('TASK.COMPLETE.WHEN')}</Main>
 
-      <Input
-        label={t('TASK.COMPLETE.DATE')}
-        hookFormRegister={register(COMPLETE_DATE, {
-          required: true,
-          validate: isNotInFuture,
-        })}
-        errors={errors[COMPLETE_DATE] ? isNotInFuture() : null}
-        style={{ marginBottom: '24px' }}
-        type={'date'}
-        max={getDateInputFormat()}
-        required
+      <RadioGroup 
+        hookFormControl={control} 
+        required 
+        style={{ marginBottom: date_choice == ANOTHER_DATE ? '12px' : '24px' }}
+        name={DATE_CHOICE}
+        radios={[
+          {
+            label: t('TASK.ABANDON.DATE_ORIGINAL'),
+            disabled: dueDateDisabled,
+            pill:  date_due,
+            // Avoid duplicate keys when date_due == date_today
+            value: dueDateDisabled ? false : date_due,
+          },
+          {
+            label: t('TASK.ABANDON.DATE_TODAY'),
+            pill: date_today,
+            value: date_today,
+          },
+          {
+            label: t('TASK.ABANDON.DATE_ANOTHER'),
+            value: ANOTHER_DATE,
+          },
+        ]}
       />
+
+      {date_choice == ANOTHER_DATE &&
+        <Input
+          autoFocus
+          hookFormRegister={register(ANOTHER_DATE, {
+            required: true,
+            validate: isNotInFuture,
+          })}
+          label={t('TASK.ABANDON.WHICH_DATE')}
+          errors={errors[ANOTHER_DATE] ? isNotInFuture() : null}
+          style={{ marginBottom: '24px' }}
+          type={'date'}
+          max={date_today}
+          // Remove any error with try catch block if showPicker isn't supported.
+          // It also fails on non-user-activated focus eg refresh after
+          // having selected Another date => non-user-activated autofocus
+          onFocus={e => { try {e.target.showPicker()} catch {} }}
+          required
+        />
+      }
 
       <Main style={{ marginBottom: '24px' }}>{t('TASK.COMPLETE_TASK_DURATION')}</Main>
 

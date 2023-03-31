@@ -3,6 +3,7 @@ import styles from './radio.module.scss';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import Infoi from '../../Tooltip/Infoi';
+import Pill from '../../Pill';
 
 const Radio = ({
   label = 'label',
@@ -18,6 +19,9 @@ const Radio = ({
   ...props
 }) => {
   const name = hookFormRegister?.name ?? props?.name;
+  const pill = props?.pill;
+  const checked = props?.checked;
+
   return (
     <label
       className={clsx(styles.container, disabled && styles.disabled)}
@@ -40,6 +44,7 @@ const Radio = ({
       />
       <p className={clsx(styles.label)} style={classes.label}>
         {label}
+        {pill && <Pill body={pill} spaceBefore={!!label} active={checked}></Pill>}
       </p>
       {toolTipContent && <Infoi content={toolTipContent} />}
 

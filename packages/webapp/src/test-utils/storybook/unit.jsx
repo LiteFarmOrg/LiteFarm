@@ -59,12 +59,12 @@ export default class UnitTest {
     await selectEvent.select(within(this.select).getByRole('combobox'), unit);
   }
 
-  async testSelectedUnit(selectedUnit) {
+  async selectedUnitToBeInTheDocument(selectedUnit) {
     const unit = await within(this.select).findByText(selectedUnit);
     expect(unit).toBeInTheDocument();
   }
 
-  async testVisibleValue(value) {
+  async visibleInputToHaveValue(value) {
     await waitFor(() => {
       expect(this.visibleInput).toHaveValue(value);
     });
@@ -77,7 +77,7 @@ export default class UnitTest {
    * @param {string} [databaseUnit] - Database unit. Should not be passed with hidden value.
    * @return void
    */
-  async testHiddenValue(value, selectedUnit, databaseUnit) {
+  async hiddenInputToHaveValue(value, selectedUnit, databaseUnit) {
     let hiddenValue = value;
     if (value && selectedUnit && databaseUnit) {
       hiddenValue = convert(value).from(selectedUnit).to(databaseUnit);
@@ -85,7 +85,7 @@ export default class UnitTest {
     await waitFor(() => expect(this.hiddenInput).toHaveValue(hiddenValue));
   }
 
-  async testNoInput() {
+  async inputNotToHaveValue() {
     await waitFor(() => {
       console.log(this.visibleInput, this.hiddenInput);
       expect(this.visibleInput).toHaveValue(null);
@@ -93,24 +93,24 @@ export default class UnitTest {
     });
   }
 
-  async testDisabledStatus() {
+  async visibleInputAndComboxIsDisabled() {
     await waitFor(() => {
       expect(this.visibleInput).toBeDisabled();
       expect(within(this.select).getByRole('combobox')).toBeDisabled();
     });
   }
 
-  async testRequiredError() {
+  async haveRequiredError() {
     const errorContainer = await this.canvas.findByTestId(`${this.testId}-errormessage`);
     expect(errorContainer).toHaveTextContent('Required');
   }
 
-  async testMaxValueError() {
+  async haveMaxValueError() {
     const errorContainer = await this.canvas.findByTestId(`${this.testId}-errormessage`);
     expect(errorContainer).toHaveTextContent(/Please enter a value between 0-[0-9]./);
   }
 
-  async testNoError() {
+  async haveNoError() {
     await waitFor(() => {
       const clearButton = this.canvas.queryByTestId(`${this.testId}-errorclearbutton`);
       const requiredErrorElement = this.canvas.queryByText('Required');
@@ -166,9 +166,11 @@ export const getSystemUnmatchTestArgsAndPlay = (system, unitType, valueInDB, exp
     play: async ({ canvasElement }) => {
       const test = new UnitTest(canvasElement, 'unit', unitType);
 
-      await test.testVisibleValue(test.convertDBValueToDisplayValue(valueInDB, expectedUnit));
-      await test.testHiddenValue(valueInDB);
-      await test.testSelectedUnit(UnitTest.getUnitLabelByValue(expectedUnit));
+      await test.visibleInputToHaveValue(
+        test.convertDBValueToDisplayValue(valueInDB, expectedUnit),
+      );
+      await test.hiddenInputToHaveValue(valueInDB);
+      await test.selectedUnitToBeInTheDocument(UnitTest.getUnitLabelByValue(expectedUnit));
     },
   };
 };

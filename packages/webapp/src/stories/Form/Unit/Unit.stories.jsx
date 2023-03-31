@@ -65,34 +65,34 @@ Default.args = {
 Default.play = async ({ canvasElement }) => {
   const test = new UnitTest(canvasElement, 'unit');
 
-  await test.testSelectedUnit(UnitTest.getUnitLabelByValue('ft2'));
-  await test.testNoInput();
+  await test.selectedUnitToBeInTheDocument(UnitTest.getUnitLabelByValue('ft2'));
+  await test.inputNotToHaveValue();
 
   await test.selectUnit('ac');
-  await test.testSelectedUnit('ac');
-  await test.testNoError();
+  await test.selectedUnitToBeInTheDocument('ac');
+  await test.haveNoError();
 
   await test.inputValueAndBlur('2');
-  await test.testVisibleValue(2);
-  await test.testHiddenValue(2, 'ac', area_total_area.databaseUnit);
+  await test.visibleInputToHaveValue(2);
+  await test.hiddenInputToHaveValue(2, 'ac', area_total_area.databaseUnit);
 
   await test.clearInputAndBlur();
-  await test.testRequiredError();
+  await test.haveRequiredError();
 
   await test.clearError();
-  await test.testNoError();
+  await test.haveNoError();
 
   await test.inputValueAndBlur('1000000001');
-  await test.testMaxValueError();
+  await test.haveMaxValueError();
 
   await test.inputValueAndBlur('1000000000');
-  await test.testNoError();
+  await test.haveNoError();
 
   await test.inputValueAndBlur('1000000000000');
-  await test.testMaxValueError();
+  await test.haveMaxValueError();
 
   await test.clearError();
-  await test.testNoError();
+  await test.haveNoError();
 };
 
 export const HasLeaf = Template.bind({});
@@ -120,9 +120,9 @@ Disabled.args = {
 Disabled.play = async ({ canvasElement }) => {
   const test = new UnitTest(canvasElement, 'unit', area_total_area);
 
-  await test.testSelectedUnit(UnitTest.getUnitLabelByValue('ft2'));
-  await test.testVisibleValue(test.convertDBValueToDisplayValue(999, 'ft2'));
-  await test.testDisabledStatus();
+  await test.selectedUnitToBeInTheDocument(UnitTest.getUnitLabelByValue('ft2'));
+  await test.visibleInputToHaveValue(test.convertDBValueToDisplayValue(999, 'ft2'));
+  await test.visibleInputAndComboxIsDisabled();
 };
 
 export const Optional = Template.bind({});
@@ -139,11 +139,11 @@ Optional.play = async ({ canvasElement }) => {
   const test = new UnitTest(canvasElement, 'unit', area_total_area);
 
   await test.inputValueAndBlur('1000');
-  await test.testVisibleValue(1000);
-  await test.testMaxValueError();
+  await test.visibleInputToHaveValue(1000);
+  await test.haveMaxValueError();
 
   await test.clearInputAndBlur();
-  await test.testNoError();
+  await test.haveNoError();
 };
 
 export const WithOneUnit = Template.bind({});
@@ -158,11 +158,11 @@ WithOneUnit.args = {
 WithOneUnit.play = async ({ canvasElement }) => {
   const test = new UnitTest(canvasElement, 'unit');
 
-  await test.testSelectedUnit('ft');
+  await test.selectedUnitToBeInTheDocument('ft');
 
   await test.inputValueAndBlur('100');
-  await test.testVisibleValue(100);
-  await test.testHiddenValue(100, 'ft', line_width.databaseUnit);
+  await test.visibleInputToHaveValue(100);
+  await test.hiddenInputToHaveValue(100, 'ft', line_width.databaseUnit);
 };
 
 export const WithOneUnitDisabled = Template.bind({});
@@ -179,9 +179,9 @@ WithOneUnitDisabled.args = {
 WithOneUnitDisabled.play = async ({ canvasElement }) => {
   const test = new UnitTest(canvasElement, 'unit', line_width);
 
-  await test.testVisibleValue(test.convertDBValueToDisplayValue(999, 'ft'));
-  await test.testSelectedUnit('ft');
-  await test.testDisabledStatus();
+  await test.visibleInputToHaveValue(test.convertDBValueToDisplayValue(999, 'ft'));
+  await test.selectedUnitToBeInTheDocument('ft');
+  await test.visibleInputAndComboxIsDisabled();
 };
 
 export const WithToolTip = Template.bind({});
@@ -209,18 +209,18 @@ SquareMeterAreaTotalArea.play = async ({ canvasElement }) => {
   const test = new UnitTest(canvasElement, 'unit', area_total_area);
 
   const m2Label = UnitTest.getUnitLabelByValue('m2');
-  await test.testVisibleValue(test.convertDBValueToDisplayValue(999, 'm2'));
-  await test.testSelectedUnit(m2Label);
+  await test.visibleInputToHaveValue(test.convertDBValueToDisplayValue(999, 'm2'));
+  await test.selectedUnitToBeInTheDocument(m2Label);
 
   await test.inputValueAndBlur('1001');
-  await test.testVisibleValue(1001);
-  await test.testSelectedUnit(m2Label);
-  await test.testHiddenValue(1001, 'm2', area_total_area.databaseUnit);
+  await test.visibleInputToHaveValue(1001);
+  await test.selectedUnitToBeInTheDocument(m2Label);
+  await test.hiddenInputToHaveValue(1001, 'm2', area_total_area.databaseUnit);
 
   await test.selectUnit('ha');
-  await test.testVisibleValue(1001);
-  await test.testSelectedUnit('ha');
-  await test.testHiddenValue(1001, 'ha', area_total_area.databaseUnit);
+  await test.visibleInputToHaveValue(1001);
+  await test.selectedUnitToBeInTheDocument('ha');
+  await test.hiddenInputToHaveValue(1001, 'ha', area_total_area.databaseUnit);
 };
 
 export const HectareAreaTotalArea = Template.bind({});
@@ -236,19 +236,19 @@ HectareAreaTotalArea.args = {
 HectareAreaTotalArea.play = async ({ canvasElement }) => {
   const test = new UnitTest(canvasElement, 'unit', area_total_area);
 
-  await test.testVisibleValue(test.convertDBValueToDisplayValue(1001, 'ha'));
-  await test.testSelectedUnit('ha');
+  await test.visibleInputToHaveValue(test.convertDBValueToDisplayValue(1001, 'ha'));
+  await test.selectedUnitToBeInTheDocument('ha');
 
   await test.inputValueAndBlur('0.08');
-  await test.testVisibleValue(0.08);
-  await test.testSelectedUnit('ha');
-  await test.testHiddenValue(0.08, 'ha', area_total_area.databaseUnit);
+  await test.visibleInputToHaveValue(0.08);
+  await test.selectedUnitToBeInTheDocument('ha');
+  await test.hiddenInputToHaveValue(0.08, 'ha', area_total_area.databaseUnit);
 
   const m2Label = UnitTest.getUnitLabelByValue('m2');
   await test.selectUnit(m2Label);
-  await test.testSelectedUnit(m2Label);
-  await test.testVisibleValue(0.08);
-  await test.testHiddenValue(0.08, 'm2', area_total_area.databaseUnit);
+  await test.selectedUnitToBeInTheDocument(m2Label);
+  await test.visibleInputToHaveValue(0.08);
+  await test.hiddenInputToHaveValue(0.08, 'm2', area_total_area.databaseUnit);
 };
 
 export const AcreAreaTotalArea = Template.bind({});
@@ -267,19 +267,19 @@ AcreAreaTotalArea.play = async ({ canvasElement }) => {
   const defaultValue =
     convert(1).from(area_total_area.imperial.defaultUnit).to(area_total_area.databaseUnit) * 10890;
 
-  await test.testVisibleValue(test.convertDBValueToDisplayValue(defaultValue, 'ac'));
-  await test.testSelectedUnit('ac');
+  await test.visibleInputToHaveValue(test.convertDBValueToDisplayValue(defaultValue, 'ac'));
+  await test.selectedUnitToBeInTheDocument('ac');
 
   await test.inputValueAndBlur('0.05');
-  await test.testVisibleValue(0.05);
-  await test.testSelectedUnit('ac');
-  await test.testHiddenValue(0.05, 'ac', area_total_area.databaseUnit);
+  await test.visibleInputToHaveValue(0.05);
+  await test.selectedUnitToBeInTheDocument('ac');
+  await test.hiddenInputToHaveValue(0.05, 'ac', area_total_area.databaseUnit);
 
   const ft2Label = UnitTest.getUnitLabelByValue('ft2');
   await test.selectUnit(ft2Label);
-  await test.testVisibleValue(0.05);
-  await test.testSelectedUnit(ft2Label);
-  await test.testHiddenValue(0.05, 'ft2', area_total_area.databaseUnit);
+  await test.visibleInputToHaveValue(0.05);
+  await test.selectedUnitToBeInTheDocument(ft2Label);
+  await test.hiddenInputToHaveValue(0.05, 'ft2', area_total_area.databaseUnit);
 };
 
 export const MeterAreaPerimeter = Template.bind({});
@@ -295,18 +295,18 @@ MeterAreaPerimeter.args = {
 MeterAreaPerimeter.play = async ({ canvasElement }) => {
   const test = new UnitTest(canvasElement, 'unit', area_perimeter);
 
-  await test.testVisibleValue(999);
-  await test.testSelectedUnit('m');
+  await test.visibleInputToHaveValue(999);
+  await test.selectedUnitToBeInTheDocument('m');
 
   await test.inputValueAndBlur('1001');
-  await test.testVisibleValue(1001);
-  await test.testSelectedUnit('m');
-  await test.testHiddenValue(1001, 'm', area_perimeter.databaseUnit);
+  await test.visibleInputToHaveValue(1001);
+  await test.selectedUnitToBeInTheDocument('m');
+  await test.hiddenInputToHaveValue(1001, 'm', area_perimeter.databaseUnit);
 
   await test.selectUnit('km');
-  await test.testVisibleValue(1001);
-  await test.testSelectedUnit('km');
-  await test.testHiddenValue(1001, 'km', area_perimeter.databaseUnit);
+  await test.visibleInputToHaveValue(1001);
+  await test.selectedUnitToBeInTheDocument('km');
+  await test.hiddenInputToHaveValue(1001, 'km', area_perimeter.databaseUnit);
 };
 
 export const MeterLineWidth = Template.bind({});
@@ -322,13 +322,13 @@ MeterLineWidth.args = {
 MeterLineWidth.play = async ({ canvasElement }) => {
   const test = new UnitTest(canvasElement, 'unit', line_width);
 
-  await test.testVisibleValue(50);
-  await test.testHiddenValue(50);
-  await test.testSelectedUnit('m');
+  await test.visibleInputToHaveValue(50);
+  await test.hiddenInputToHaveValue(50);
+  await test.selectedUnitToBeInTheDocument('m');
 
   await test.inputValueAndBlur('100');
-  await test.testVisibleValue(100);
-  await test.testHiddenValue(100);
+  await test.visibleInputToHaveValue(100);
+  await test.hiddenInputToHaveValue(100);
 };
 
 export const FeetAreaPerimeter = Template.bind({});
@@ -347,19 +347,19 @@ FeetAreaPerimeter.play = async ({ canvasElement }) => {
 
   const defaultValue =
     convert(1).from(area_perimeter.imperial.defaultUnit).to(area_perimeter.databaseUnit) * 1319;
-  await test.testVisibleValue(test.convertDBValueToDisplayValue(defaultValue, 'ft'));
-  await test.testHiddenValue(defaultValue);
-  await test.testSelectedUnit('ft');
+  await test.visibleInputToHaveValue(test.convertDBValueToDisplayValue(defaultValue, 'ft'));
+  await test.hiddenInputToHaveValue(defaultValue);
+  await test.selectedUnitToBeInTheDocument('ft');
 
   await test.inputValueAndBlur('1320');
-  await test.testVisibleValue(1320);
-  await test.testSelectedUnit('ft');
-  await test.testHiddenValue(1320, 'ft', area_perimeter.databaseUnit);
+  await test.visibleInputToHaveValue(1320);
+  await test.selectedUnitToBeInTheDocument('ft');
+  await test.hiddenInputToHaveValue(1320, 'ft', area_perimeter.databaseUnit);
 
   await test.selectUnit('mi');
-  await test.testVisibleValue(1320);
-  await test.testSelectedUnit('mi');
-  await test.testHiddenValue(1320, 'mi', area_perimeter.databaseUnit);
+  await test.visibleInputToHaveValue(1320);
+  await test.selectedUnitToBeInTheDocument('mi');
+  await test.hiddenInputToHaveValue(1320, 'mi', area_perimeter.databaseUnit);
 };
 
 export const MileAreaPerimeter = Template.bind({});
@@ -378,19 +378,19 @@ MileAreaPerimeter.play = async ({ canvasElement }) => {
 
   const defaultValue =
     convert(1).from(area_perimeter.imperial.defaultUnit).to(area_perimeter.databaseUnit) * 1320;
-  await test.testVisibleValue(test.convertDBValueToDisplayValue(defaultValue, 'mi'));
-  await test.testHiddenValue(defaultValue);
-  await test.testSelectedUnit('mi');
+  await test.visibleInputToHaveValue(test.convertDBValueToDisplayValue(defaultValue, 'mi'));
+  await test.hiddenInputToHaveValue(defaultValue);
+  await test.selectedUnitToBeInTheDocument('mi');
 
   await test.inputValueAndBlur('0.1');
-  await test.testVisibleValue(0.1);
-  await test.testSelectedUnit('mi');
-  await test.testHiddenValue(0.1, 'mi', area_perimeter.databaseUnit);
+  await test.visibleInputToHaveValue(0.1);
+  await test.selectedUnitToBeInTheDocument('mi');
+  await test.hiddenInputToHaveValue(0.1, 'mi', area_perimeter.databaseUnit);
 
   await test.selectUnit('ft');
-  await test.testVisibleValue(0.1);
-  await test.testSelectedUnit('ft');
-  await test.testHiddenValue(0.1, 'ft', area_perimeter.databaseUnit);
+  await test.visibleInputToHaveValue(0.1);
+  await test.selectedUnitToBeInTheDocument('ft');
+  await test.hiddenInputToHaveValue(0.1, 'ft', area_perimeter.databaseUnit);
 };
 
 export const LitrePerHourWaterValveFlowRate = Template.bind({});
@@ -414,9 +414,9 @@ LitrePerHourWaterValveFlowRate.play = async ({ canvasElement }) => {
       .from(water_valve_flow_rate.metric.defaultUnit)
       .to(water_valve_flow_rate.databaseUnit) * 59;
 
-  await test.testSelectedUnit('l/h');
-  await test.testVisibleValue(test.convertDBValueToDisplayValue(defaultValue, 'l/h'));
-  await test.testHiddenValue(defaultValue);
+  await test.selectedUnitToBeInTheDocument('l/h');
+  await test.visibleInputToHaveValue(test.convertDBValueToDisplayValue(defaultValue, 'l/h'));
+  await test.hiddenInputToHaveValue(defaultValue);
 };
 
 export const gallonPerHourWaterValveFlowRate = Template.bind({});
@@ -440,9 +440,9 @@ gallonPerHourWaterValveFlowRate.play = async ({ canvasElement }) => {
       .from(water_valve_flow_rate.imperial.defaultUnit)
       .to(water_valve_flow_rate.databaseUnit) * 0.99;
 
-  await test.testSelectedUnit('g/h');
-  await test.testVisibleValue(test.convertDBValueToDisplayValue(defaultValue, 'gal/h'));
-  await test.testHiddenValue(defaultValue);
+  await test.selectedUnitToBeInTheDocument('g/h');
+  await test.visibleInputToHaveValue(test.convertDBValueToDisplayValue(defaultValue, 'gal/h'));
+  await test.hiddenInputToHaveValue(defaultValue);
 };
 
 export const gallonPerMinWaterValveFlowRate = Template.bind({});
@@ -466,9 +466,9 @@ gallonPerMinWaterValveFlowRate.play = async ({ canvasElement }) => {
       .from(water_valve_flow_rate.imperial.defaultUnit)
       .to(water_valve_flow_rate.databaseUnit) * 1;
 
-  await test.testSelectedUnit('g/m');
-  await test.testVisibleValue(test.convertDBValueToDisplayValue(defaultValue, 'gal/min'));
-  await test.testHiddenValue(defaultValue);
+  await test.selectedUnitToBeInTheDocument('g/m');
+  await test.visibleInputToHaveValue(test.convertDBValueToDisplayValue(defaultValue, 'gal/min'));
+  await test.hiddenInputToHaveValue(defaultValue);
 };
 
 export const CreateMetricWaterValveFlowRate = Template.bind({});
@@ -484,29 +484,29 @@ CreateMetricWaterValveFlowRate.args = {
 CreateMetricWaterValveFlowRate.play = async ({ canvasElement }) => {
   const test = new UnitTest(canvasElement, 'unit');
 
-  await test.testNoInput();
-  await test.testSelectedUnit('l/m');
+  await test.inputNotToHaveValue();
+  await test.selectedUnitToBeInTheDocument('l/m');
 
   await test.inputValueAndBlur('61');
-  await test.testVisibleValue(61);
-  await test.testSelectedUnit('l/m');
-  await test.testHiddenValue(61);
+  await test.visibleInputToHaveValue(61);
+  await test.selectedUnitToBeInTheDocument('l/m');
+  await test.hiddenInputToHaveValue(61);
 
   await test.inputValueAndBlur('150');
-  await test.testVisibleValue(150);
-  await test.testSelectedUnit('l/m');
-  await test.testHiddenValue(150, 'l/min', water_valve_flow_rate.databaseUnit);
+  await test.visibleInputToHaveValue(150);
+  await test.selectedUnitToBeInTheDocument('l/m');
+  await test.hiddenInputToHaveValue(150, 'l/min', water_valve_flow_rate.databaseUnit);
 
   await test.selectUnit('l/h');
-  await test.testSelectedUnit('l/h');
-  await test.testVisibleValue(150);
-  await test.testHiddenValue(150, 'l/h', water_valve_flow_rate.databaseUnit);
+  await test.selectedUnitToBeInTheDocument('l/h');
+  await test.visibleInputToHaveValue(150);
+  await test.hiddenInputToHaveValue(150, 'l/h', water_valve_flow_rate.databaseUnit);
 
   await test.inputValueAndBlur('1000000');
-  await test.testMaxValueError();
+  await test.haveMaxValueError();
 
   await test.clearError();
-  await test.testNoError();
+  await test.haveNoError();
 };
 
 export const CreateImperialWaterValveFlowRate = Template.bind({});
@@ -522,29 +522,29 @@ CreateImperialWaterValveFlowRate.args = {
 CreateImperialWaterValveFlowRate.play = async ({ canvasElement }) => {
   const test = new UnitTest(canvasElement, 'unit');
 
-  await test.testNoInput();
-  await test.testSelectedUnit('g/m');
+  await test.inputNotToHaveValue();
+  await test.selectedUnitToBeInTheDocument('g/m');
 
   await test.inputValueAndBlur('0.5');
-  await test.testVisibleValue(0.5);
-  await test.testSelectedUnit('g/m');
-  await test.testHiddenValue(0.5, 'gal/min', water_valve_flow_rate.databaseUnit);
+  await test.visibleInputToHaveValue(0.5);
+  await test.selectedUnitToBeInTheDocument('g/m');
+  await test.hiddenInputToHaveValue(0.5, 'gal/min', water_valve_flow_rate.databaseUnit);
 
   await test.inputValueAndBlur('100000');
-  await test.testVisibleValue(100000);
-  await test.testHiddenValue(100000, 'gal/min', water_valve_flow_rate.databaseUnit);
-  await test.testNoError();
+  await test.visibleInputToHaveValue(100000);
+  await test.hiddenInputToHaveValue(100000, 'gal/min', water_valve_flow_rate.databaseUnit);
+  await test.haveNoError();
 
   await test.selectUnit('g/h');
-  await test.testSelectedUnit('g/h');
-  await test.testVisibleValue(100000);
-  await test.testHiddenValue(100000, 'gal/h', water_valve_flow_rate.databaseUnit);
+  await test.selectedUnitToBeInTheDocument('g/h');
+  await test.visibleInputToHaveValue(100000);
+  await test.hiddenInputToHaveValue(100000, 'gal/h', water_valve_flow_rate.databaseUnit);
 
   await test.inputValueAndBlur('1000000');
-  await test.testMaxValueError();
+  await test.haveMaxValueError();
 
   await test.clearError();
-  await test.testNoError();
+  await test.haveNoError();
 };
 
 export const WeeksCropAge = Template.bind({});
@@ -561,46 +561,46 @@ WeeksCropAge.args = {
 WeeksCropAge.play = async ({ canvasElement }) => {
   const test = new UnitTest(canvasElement, 'unit');
 
-  await test.testSelectedUnit('weeks');
+  await test.selectedUnitToBeInTheDocument('weeks');
 
   await test.inputValueAndBlur('4');
-  await test.testVisibleValue(4);
-  await test.testHiddenValue(4, 'week', 'd');
+  await test.visibleInputToHaveValue(4);
+  await test.hiddenInputToHaveValue(4, 'week', 'd');
 
   await test.inputValueAndBlur('40');
-  await test.testVisibleValue(40);
-  await test.testHiddenValue(40, 'week', 'd');
-  await test.testSelectedUnit('weeks');
+  await test.visibleInputToHaveValue(40);
+  await test.hiddenInputToHaveValue(40, 'week', 'd');
+  await test.selectedUnitToBeInTheDocument('weeks');
 
   await test.selectUnit('months');
-  await test.testSelectedUnit('months');
-  await test.testVisibleValue(40);
-  await test.testHiddenValue(40, 'month', 'd');
+  await test.selectedUnitToBeInTheDocument('months');
+  await test.visibleInputToHaveValue(40);
+  await test.hiddenInputToHaveValue(40, 'month', 'd');
 
   await test.inputValueAndBlur('10');
-  await test.testVisibleValue(10);
-  await test.testHiddenValue(10, 'month', 'd');
-  await test.testSelectedUnit('months');
+  await test.visibleInputToHaveValue(10);
+  await test.hiddenInputToHaveValue(10, 'month', 'd');
+  await test.selectedUnitToBeInTheDocument('months');
 
   await test.selectUnit('years');
-  await test.testSelectedUnit('years');
-  await test.testVisibleValue(10);
-  await test.testHiddenValue(10, 'year', 'd');
+  await test.selectedUnitToBeInTheDocument('years');
+  await test.visibleInputToHaveValue(10);
+  await test.hiddenInputToHaveValue(10, 'year', 'd');
 
   await test.inputValueAndBlur('1');
-  await test.testVisibleValue(1);
-  await test.testHiddenValue(1, 'year', 'd');
-  await test.testSelectedUnit('years');
+  await test.visibleInputToHaveValue(1);
+  await test.hiddenInputToHaveValue(1, 'year', 'd');
+  await test.selectedUnitToBeInTheDocument('years');
 
   await test.selectUnit('days');
-  await test.testSelectedUnit('days');
-  await test.testVisibleValue(1);
-  await test.testHiddenValue(1);
+  await test.selectedUnitToBeInTheDocument('days');
+  await test.visibleInputToHaveValue(1);
+  await test.hiddenInputToHaveValue(1);
 
   await test.inputValueAndBlur('14');
-  await test.testVisibleValue(14);
-  await test.testHiddenValue(14);
-  await test.testSelectedUnit('days');
+  await test.visibleInputToHaveValue(14);
+  await test.hiddenInputToHaveValue(14);
+  await test.selectedUnitToBeInTheDocument('days');
 };
 
 export const DaysCropAge = Template.bind({});
@@ -618,22 +618,22 @@ DaysCropAge.args = {
 DaysCropAge.play = async ({ canvasElement }) => {
   const test = new UnitTest(canvasElement, 'unit');
 
-  await test.testSelectedUnit('days');
+  await test.selectedUnitToBeInTheDocument('days');
 
   await test.inputValueAndBlur('1000');
-  await test.testMaxValueError();
+  await test.haveMaxValueError();
 
   await test.selectUnit('weeks');
-  await test.testMaxValueError();
+  await test.haveMaxValueError();
 
   await test.selectUnit('months');
-  await test.testMaxValueError();
+  await test.haveMaxValueError();
 
   await test.selectUnit('years');
-  await test.testMaxValueError();
+  await test.haveMaxValueError();
 
   await test.clearError();
-  await test.testNoError();
+  await test.haveNoError();
 };
 
 export const DisabledWithDefaultValues = Template.bind({});
@@ -653,9 +653,9 @@ DisabledWithDefaultValues.args = {
 DisabledWithDefaultValues.play = async ({ canvasElement }) => {
   const test = new UnitTest(canvasElement, 'unit', area_total_area);
 
-  await test.testVisibleValue(test.convertDBValueToDisplayValue(1200, 'm2'));
-  await test.testSelectedUnit(UnitTest.getUnitLabelByValue('m2'));
-  await test.testDisabledStatus();
+  await test.visibleInputToHaveValue(test.convertDBValueToDisplayValue(1200, 'm2'));
+  await test.selectedUnitToBeInTheDocument(UnitTest.getUnitLabelByValue('m2'));
+  await test.visibleInputAndComboxIsDisabled();
 };
 
 export const StringAsUnit = Template.bind({});
@@ -675,9 +675,9 @@ StringAsUnit.args = {
 StringAsUnit.play = async ({ canvasElement }) => {
   const test = new UnitTest(canvasElement, 'unit', area_total_area);
 
-  await test.testVisibleValue(test.convertDBValueToDisplayValue(1200, 'm2'));
-  await test.testSelectedUnit(UnitTest.getUnitLabelByValue('m2'));
-  await test.testDisabledStatus();
+  await test.visibleInputToHaveValue(test.convertDBValueToDisplayValue(1200, 'm2'));
+  await test.selectedUnitToBeInTheDocument(UnitTest.getUnitLabelByValue('m2'));
+  await test.visibleInputAndComboxIsDisabled();
 };
 
 export const MetricDefaultValueWithDecimals = Template.bind({});
@@ -696,9 +696,9 @@ MetricDefaultValueWithDecimals.args = {
 MetricDefaultValueWithDecimals.play = async ({ canvasElement }) => {
   const test = new UnitTest(canvasElement, 'unit');
 
-  await test.testVisibleValue(0.04);
-  await test.testHiddenValue(0.0425);
-  await test.testSelectedUnit('kg');
+  await test.visibleInputToHaveValue(0.04);
+  await test.hiddenInputToHaveValue(0.0425);
+  await test.selectedUnitToBeInTheDocument('kg');
 };
 
 export const ImperialDefaultValueWithDecimals = Template.bind({});
@@ -717,9 +717,9 @@ ImperialDefaultValueWithDecimals.args = {
 ImperialDefaultValueWithDecimals.play = async ({ canvasElement }) => {
   const test = new UnitTest(canvasElement, 'unit', seedYield);
 
-  await test.testVisibleValue(test.convertDBValueToDisplayValue(0.0425, 'lb'));
-  await test.testHiddenValue(0.0425);
-  await test.testSelectedUnit('lb');
+  await test.visibleInputToHaveValue(test.convertDBValueToDisplayValue(0.0425, 'lb'));
+  await test.hiddenInputToHaveValue(0.0425);
+  await test.selectedUnitToBeInTheDocument('lb');
 };
 
 export const ImperialAreaTotalAreaAutoConversion = Template.bind({});
@@ -739,13 +739,13 @@ ImperialAreaTotalAreaAutoConversion.args = {
 ImperialAreaTotalAreaAutoConversion.play = async ({ canvasElement }) => {
   const test = new UnitTest(canvasElement, 'unit', area_total_area);
 
-  await test.testVisibleValue(test.convertDBValueToDisplayValue(10890, 'ft2'));
-  await test.testSelectedUnit(UnitTest.getUnitLabelByValue('ft2'));
+  await test.visibleInputToHaveValue(test.convertDBValueToDisplayValue(10890, 'ft2'));
+  await test.selectedUnitToBeInTheDocument(UnitTest.getUnitLabelByValue('ft2'));
 
   await test.selectUnit('ac');
-  await test.testSelectedUnit('ac');
-  await test.testVisibleValue(test.convertDBValueToDisplayValue(10890, 'ac'));
-  await test.testHiddenValue(10890);
+  await test.selectedUnitToBeInTheDocument('ac');
+  await test.visibleInputToHaveValue(test.convertDBValueToDisplayValue(10890, 'ac'));
+  await test.hiddenInputToHaveValue(10890);
 };
 
 export const MetricAreaTotalAreaAutoConversion = Template.bind({});
@@ -765,13 +765,13 @@ MetricAreaTotalAreaAutoConversion.args = {
 MetricAreaTotalAreaAutoConversion.play = async ({ canvasElement }) => {
   const test = new UnitTest(canvasElement, 'unit', area_total_area);
 
-  await test.testVisibleValue(test.convertDBValueToDisplayValue(10890, 'm2'));
-  await test.testSelectedUnit(UnitTest.getUnitLabelByValue('m2'));
+  await test.visibleInputToHaveValue(test.convertDBValueToDisplayValue(10890, 'm2'));
+  await test.selectedUnitToBeInTheDocument(UnitTest.getUnitLabelByValue('m2'));
 
   await test.selectUnit('ha');
-  await test.testSelectedUnit('ha');
-  await test.testVisibleValue(test.convertDBValueToDisplayValue(10890, 'ha'));
-  await test.testHiddenValue(10890);
+  await test.selectedUnitToBeInTheDocument('ha');
+  await test.visibleInputToHaveValue(test.convertDBValueToDisplayValue(10890, 'ha'));
+  await test.hiddenInputToHaveValue(10890);
 };
 
 export const MetricFlowRateAutoConversion = Template.bind({});
@@ -786,36 +786,36 @@ MetricFlowRateAutoConversion.args = {
 MetricFlowRateAutoConversion.play = async ({ canvasElement }) => {
   const test = new UnitTest(canvasElement, 'unit', water_valve_flow_rate);
 
-  await test.testNoInput();
-  await test.testSelectedUnit('l/m');
+  await test.inputNotToHaveValue();
+  await test.selectedUnitToBeInTheDocument('l/m');
 
   await test.selectUnit('l/h');
-  await test.testSelectedUnit('l/h');
+  await test.selectedUnitToBeInTheDocument('l/h');
 
   let hiddenValue = test.convertDisplayValueToHiddenValue(60, 'l/h');
   await test.inputValueAndBlur('60');
-  await test.testVisibleValue(60);
-  await test.testHiddenValue(hiddenValue);
+  await test.visibleInputToHaveValue(60);
+  await test.hiddenInputToHaveValue(hiddenValue);
 
   await test.selectUnit('l/m');
-  await test.testSelectedUnit('l/m');
-  await test.testVisibleValue(test.convertDBValueToDisplayValue(hiddenValue, 'l/min'));
-  await test.testHiddenValue(hiddenValue);
+  await test.selectedUnitToBeInTheDocument('l/m');
+  await test.visibleInputToHaveValue(test.convertDBValueToDisplayValue(hiddenValue, 'l/min'));
+  await test.hiddenInputToHaveValue(hiddenValue);
 
   await test.selectUnit('l/h');
-  await test.testSelectedUnit('l/h');
+  await test.selectedUnitToBeInTheDocument('l/h');
   await test.inputValueAndBlur('60');
-  await test.testVisibleValue(60);
+  await test.visibleInputToHaveValue(60);
 
   hiddenValue = test.convertDisplayValueToHiddenValue(0.5, 'l/h');
   await test.inputValueAndBlur('0.5');
-  await test.testVisibleValue(0.5);
-  await test.testHiddenValue(hiddenValue);
+  await test.visibleInputToHaveValue(0.5);
+  await test.hiddenInputToHaveValue(hiddenValue);
 
   await test.selectUnit('l/m');
-  await test.testSelectedUnit('l/m');
-  await test.testVisibleValue(test.convertDBValueToDisplayValue(hiddenValue, 'l/min'));
-  await test.testHiddenValue(hiddenValue);
+  await test.selectedUnitToBeInTheDocument('l/m');
+  await test.visibleInputToHaveValue(test.convertDBValueToDisplayValue(hiddenValue, 'l/min'));
+  await test.hiddenInputToHaveValue(hiddenValue);
 };
 
 export const ImperialFlowRateAutoConversion = Template.bind({});
@@ -830,29 +830,29 @@ ImperialFlowRateAutoConversion.args = {
 ImperialFlowRateAutoConversion.play = async ({ canvasElement }) => {
   const test = new UnitTest(canvasElement, 'unit', water_valve_flow_rate);
 
-  await test.testNoInput();
-  await test.testSelectedUnit('g/m');
+  await test.inputNotToHaveValue();
+  await test.selectedUnitToBeInTheDocument('g/m');
 
   await test.selectUnit('g/h');
-  await test.testSelectedUnit('g/h');
+  await test.selectedUnitToBeInTheDocument('g/h');
 
   let hiddenValue = test.convertDisplayValueToHiddenValue(60, 'gal/h');
   await test.inputValueAndBlur('60');
-  await test.testVisibleValue(60);
-  await test.testHiddenValue(hiddenValue);
+  await test.visibleInputToHaveValue(60);
+  await test.hiddenInputToHaveValue(hiddenValue);
 
   await test.selectUnit('g/m');
-  await test.testSelectedUnit('g/m');
-  await test.testVisibleValue(test.convertDBValueToDisplayValue(hiddenValue, 'gal/min'));
-  await test.testHiddenValue(hiddenValue);
+  await test.selectedUnitToBeInTheDocument('g/m');
+  await test.visibleInputToHaveValue(test.convertDBValueToDisplayValue(hiddenValue, 'gal/min'));
+  await test.hiddenInputToHaveValue(hiddenValue);
 
   hiddenValue = test.convertDisplayValueToHiddenValue(90, 'gal/min');
   await test.inputValueAndBlur('90');
-  await test.testVisibleValue(90);
-  await test.testHiddenValue(hiddenValue);
+  await test.visibleInputToHaveValue(90);
+  await test.hiddenInputToHaveValue(hiddenValue);
 
   await test.selectUnit('g/h');
-  await test.testSelectedUnit('g/h');
-  await test.testVisibleValue(test.convertDBValueToDisplayValue(hiddenValue, 'gal/h'));
-  await test.testHiddenValue(hiddenValue);
+  await test.selectedUnitToBeInTheDocument('g/h');
+  await test.visibleInputToHaveValue(test.convertDBValueToDisplayValue(hiddenValue, 'gal/h'));
+  await test.hiddenInputToHaveValue(hiddenValue);
 };

@@ -51,124 +51,122 @@ const Template = (args) => <UnitWithHookForm {...args} />;
 
 // when user's preferred farm unit and the unit saved in the DB do not match,
 // display unit should be determined based on the guidance
-export const ImperialAreaTotalAreaSystemUnmatch = Template.bind({});
-const imperialAreaTotalAreaSystemUnmatchArgsAndPlay = getSystemUnmatchTestArgsAndPlay(
+export const ImperialAreaTotalArea = Template.bind({});
+const imperialAreaTotalAreaArgsAndPlay = getSystemUnmatchTestArgsAndPlay(
   'imperial',
   area_total_area,
   1020,
   'ac',
 );
-ImperialAreaTotalAreaSystemUnmatch.args = imperialAreaTotalAreaSystemUnmatchArgsAndPlay.args;
-ImperialAreaTotalAreaSystemUnmatch.play = imperialAreaTotalAreaSystemUnmatchArgsAndPlay.play;
+ImperialAreaTotalArea.args = imperialAreaTotalAreaArgsAndPlay.args;
+ImperialAreaTotalArea.play = imperialAreaTotalAreaArgsAndPlay.play;
 
-export const MetricAreaTotalAreaSystemUnmatch = Template.bind({});
-const metricAreaTotalAreaSystemUnmatchArgsAndPlay = getSystemUnmatchTestArgsAndPlay(
+export const MetricAreaTotalArea = Template.bind({});
+const metricAreaTotalAreaArgsAndPlay = getSystemUnmatchTestArgsAndPlay(
   'metric',
   area_total_area,
   1000,
   'ha',
 );
-MetricAreaTotalAreaSystemUnmatch.args = metricAreaTotalAreaSystemUnmatchArgsAndPlay.args;
-MetricAreaTotalAreaSystemUnmatch.play = metricAreaTotalAreaSystemUnmatchArgsAndPlay.play;
+MetricAreaTotalArea.args = metricAreaTotalAreaArgsAndPlay.args;
+MetricAreaTotalArea.play = metricAreaTotalAreaArgsAndPlay.play;
 
-export const ImperialAreaPerimeterSystemUnmatch = Template.bind({});
-const imperialAreaPerimeterSystemUnmatchArgsAndPlay = getSystemUnmatchTestArgsAndPlay(
+export const ImperialAreaPerimeter = Template.bind({});
+const imperialAreaPerimeterArgsAndPlay = getSystemUnmatchTestArgsAndPlay(
   'imperial',
   area_perimeter,
   460,
   'mi',
 );
-ImperialAreaPerimeterSystemUnmatch.args = imperialAreaPerimeterSystemUnmatchArgsAndPlay.args;
-ImperialAreaPerimeterSystemUnmatch.play = imperialAreaPerimeterSystemUnmatchArgsAndPlay.play;
+ImperialAreaPerimeter.args = imperialAreaPerimeterArgsAndPlay.args;
+ImperialAreaPerimeter.play = imperialAreaPerimeterArgsAndPlay.play;
 
-export const MetricAreaPerimeterSystemUnmatch = Template.bind({});
-const metricAreaPerimeterSystemUnmatchArgsAndPlay = getSystemUnmatchTestArgsAndPlay(
+export const MetricAreaPerimeter = Template.bind({});
+const metricAreaPerimeterArgsAndPlay = getSystemUnmatchTestArgsAndPlay(
   'metric',
   area_perimeter,
   1500,
   'km',
 );
-MetricAreaPerimeterSystemUnmatch.args = metricAreaPerimeterSystemUnmatchArgsAndPlay.args;
-MetricAreaPerimeterSystemUnmatch.play = metricAreaPerimeterSystemUnmatchArgsAndPlay.play;
+MetricAreaPerimeter.args = metricAreaPerimeterArgsAndPlay.args;
+MetricAreaPerimeter.play = metricAreaPerimeterArgsAndPlay.play;
 
-export const ImperialWaterValvFlowRateSystemUnmatch = Template.bind({});
-const imperialWaterValvFlowRateSystemUnmatchArgsAndPlay = getSystemUnmatchTestArgsAndPlay(
+export const ImperialWaterValvFlowRate = Template.bind({});
+const imperialWaterValvFlowRateArgsAndPlay = getSystemUnmatchTestArgsAndPlay(
   'imperial',
   water_valve_flow_rate,
   0.5,
   'gal/h',
 );
-ImperialWaterValvFlowRateSystemUnmatch.args =
-  imperialWaterValvFlowRateSystemUnmatchArgsAndPlay.args;
-ImperialWaterValvFlowRateSystemUnmatch.play =
-  imperialWaterValvFlowRateSystemUnmatchArgsAndPlay.play;
+ImperialWaterValvFlowRate.args = imperialWaterValvFlowRateArgsAndPlay.args;
+ImperialWaterValvFlowRate.play = imperialWaterValvFlowRateArgsAndPlay.play;
 
-export const MetricWaterValvFlowRateSystemUnmatch = Template.bind({});
-const metricWaterValvFlowRateSystemUnmatchArgsAndPlay = getSystemUnmatchTestArgsAndPlay(
+export const MetricWaterValvFlowRate = Template.bind({});
+const metricWaterValvFlowRateArgsAndPlay = getSystemUnmatchTestArgsAndPlay(
   'metric',
   water_valve_flow_rate,
   50,
   'l/h',
 );
-MetricWaterValvFlowRateSystemUnmatch.args = metricWaterValvFlowRateSystemUnmatchArgsAndPlay.args;
-MetricWaterValvFlowRateSystemUnmatch.play = metricWaterValvFlowRateSystemUnmatchArgsAndPlay.play;
+MetricWaterValvFlowRate.args = metricWaterValvFlowRateArgsAndPlay.args;
+MetricWaterValvFlowRate.play = metricWaterValvFlowRateArgsAndPlay.play;
 
-export const ImperialLengthOfBedOrRowSystemUnmatch = Template.bind({});
-const imperialLengthOfBedOrRowSystemUnmatchArgsAndPlay = getSystemUnmatchTestArgsAndPlay(
+export const ImperialLengthOfBedOrRow = Template.bind({});
+const imperialLengthOfBedOrRowArgsAndPlay = getSystemUnmatchTestArgsAndPlay(
   'imperial',
   length_of_bed_or_row,
   15,
   'ft',
 );
-ImperialLengthOfBedOrRowSystemUnmatch.args = imperialLengthOfBedOrRowSystemUnmatchArgsAndPlay.args;
-ImperialLengthOfBedOrRowSystemUnmatch.play = imperialLengthOfBedOrRowSystemUnmatchArgsAndPlay.play;
+ImperialLengthOfBedOrRow.args = imperialLengthOfBedOrRowArgsAndPlay.args;
+ImperialLengthOfBedOrRow.play = imperialLengthOfBedOrRowArgsAndPlay.play;
 
-export const MetricLengthOfBedOrRowSystemUnmatch = Template.bind({});
-const metricLengthOfBedOrRowSystemUnmatchArgsAndPlay = getSystemUnmatchTestArgsAndPlay(
+export const MetricLengthOfBedOrRow = Template.bind({});
+const metricLengthOfBedOrRowArgsAndPlay = getSystemUnmatchTestArgsAndPlay(
   'metric',
   length_of_bed_or_row,
   150,
   'm',
 );
-MetricLengthOfBedOrRowSystemUnmatch.args = metricLengthOfBedOrRowSystemUnmatchArgsAndPlay.args;
-MetricLengthOfBedOrRowSystemUnmatch.play = metricLengthOfBedOrRowSystemUnmatchArgsAndPlay.play;
+MetricLengthOfBedOrRow.args = metricLengthOfBedOrRowArgsAndPlay.args;
+MetricLengthOfBedOrRow.play = metricLengthOfBedOrRowArgsAndPlay.play;
 
-export const ImperialSoilAmountsSystemUnmatch = Template.bind({});
-const imperialSoilAmountsSystemUnmatchArgsAndPlay = getSystemUnmatchTestArgsAndPlay(
+export const ImperialSoilAmounts = Template.bind({});
+const imperialSoilAmountsArgsAndPlay = getSystemUnmatchTestArgsAndPlay(
   'imperial',
   soilAmounts,
   15000,
   'lb',
 );
-ImperialSoilAmountsSystemUnmatch.args = imperialSoilAmountsSystemUnmatchArgsAndPlay.args;
-ImperialSoilAmountsSystemUnmatch.play = imperialSoilAmountsSystemUnmatchArgsAndPlay.play;
+ImperialSoilAmounts.args = imperialSoilAmountsArgsAndPlay.args;
+ImperialSoilAmounts.play = imperialSoilAmountsArgsAndPlay.play;
 
-export const MetricSoilAmountsSystemUnmatch = Template.bind({});
-const metricSoilAmountsSystemUnmatchArgsAndPlay = getSystemUnmatchTestArgsAndPlay(
+export const MetricSoilAmount = Template.bind({});
+const metricSoilAmountArgsAndPlay = getSystemUnmatchTestArgsAndPlay(
   'metric',
   soilAmounts,
   1000,
   'mt',
 );
-MetricSoilAmountsSystemUnmatch.args = metricSoilAmountsSystemUnmatchArgsAndPlay.args;
-MetricSoilAmountsSystemUnmatch.play = metricSoilAmountsSystemUnmatchArgsAndPlay.play;
+MetricSoilAmount.args = metricSoilAmountArgsAndPlay.args;
+MetricSoilAmount.play = metricSoilAmountArgsAndPlay.play;
 
-export const ImperialWaterUsageSystemUnmatch = Template.bind({});
-const imperialWaterUsageSystemUnmatchArgsAndPlay = getSystemUnmatchTestArgsAndPlay(
+export const ImperialWaterUsage = Template.bind({});
+const imperialWaterUsageArgsAndPlay = getSystemUnmatchTestArgsAndPlay(
   'imperial',
   waterUsage,
   500,
   'fl-oz',
 );
-ImperialWaterUsageSystemUnmatch.args = imperialWaterUsageSystemUnmatchArgsAndPlay.args;
-ImperialWaterUsageSystemUnmatch.play = imperialWaterUsageSystemUnmatchArgsAndPlay.play;
+ImperialWaterUsage.args = imperialWaterUsageArgsAndPlay.args;
+ImperialWaterUsage.play = imperialWaterUsageArgsAndPlay.play;
 
-export const MetricWaterUsageSystemUnmatch = Template.bind({});
-const metricWaterUsageSystemUnmatchArgsAndPlay = getSystemUnmatchTestArgsAndPlay(
+export const MetricWaterUsage = Template.bind({});
+const metricWaterUsageArgsAndPlay = getSystemUnmatchTestArgsAndPlay(
   'metric',
   waterUsage,
   1200,
   'l',
 );
-MetricWaterUsageSystemUnmatch.args = metricWaterUsageSystemUnmatchArgsAndPlay.args;
-MetricWaterUsageSystemUnmatch.play = metricWaterUsageSystemUnmatchArgsAndPlay.play;
+MetricWaterUsage.args = metricWaterUsageArgsAndPlay.args;
+MetricWaterUsage.play = metricWaterUsageArgsAndPlay.play;

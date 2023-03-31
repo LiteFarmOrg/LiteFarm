@@ -6,7 +6,6 @@ import styles from '../QuickAssignModal/styles.module.scss';
 import Button from '../../Form/Button';
 import PropTypes from 'prop-types';
 import Unit, { getUnitOptionMap } from '../../Form/Unit';
-import Input, { getInputErrors } from '../../Form/Input';
 import {
   irrigation_task_estimated_duration,
   irrigation_depth,
@@ -20,7 +19,7 @@ import { useSelector } from 'react-redux';
 import { cropLocationsSelector } from '../../../containers/locationSlice';
 import { convert } from '../../../util/convert-units/convert';
 import modalStyles from './styles.module.scss';
-import { numberOnKeyDown } from '../../Form/Input';
+import Input, { getInputErrors, numberOnKeyDown } from '../../Form/Input';
 
 const TotalWaterUsage = ({ totalWaterUsage, estimated_water_usage_unit }) => {
   const { t } = useTranslation();

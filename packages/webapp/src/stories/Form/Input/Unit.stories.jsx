@@ -726,8 +726,8 @@ ImperialDefaultValueWithDecimals.play = async ({ canvasElement }) => {
   await test.testSelectedUnit('lb');
 };
 
-export const ImeprialAreaTotalAreaAutoConversion = Template.bind({});
-ImeprialAreaTotalAreaAutoConversion.args = {
+export const ImperialAreaTotalAreaAutoConversion = Template.bind({});
+ImperialAreaTotalAreaAutoConversion.args = {
   label: 'SquareFeet',
   name: fieldEnum?.total_area,
   displayUnitName: fieldEnum?.total_area_unit,
@@ -740,7 +740,7 @@ ImeprialAreaTotalAreaAutoConversion.args = {
   },
   autoConversion: true,
 };
-ImeprialAreaTotalAreaAutoConversion.play = async ({ canvasElement }) => {
+ImperialAreaTotalAreaAutoConversion.play = async ({ canvasElement }) => {
   const test = new UnitTest(canvasElement, 'unit', area_total_area);
 
   await test.testVisibleValue(test.convertDBValueToDisplayValue(10890, 'ft2'));

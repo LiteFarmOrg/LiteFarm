@@ -1686,8 +1686,10 @@
       "DELETE_TASK_MESSAGE": "Esta tarea será eliminada de su granja. Si desea mantener regístro de esta tarea, en lugar de eliminar use el botón \"Abandonar\".",
       "CONFIRM_DELETION": "Confirmar eliminado",
       "CANT_DELETE_PLANTING_TASK": "No se puede eliminar tarea de plantar",
-      "CANT_DELETE_ABANDON_INSTEAD": "MISSING",
-      "CANT_DELETE_ABANDON": "Abandonar plan de cultivo"
+      "CANT_DELETE_ABANDON_INSTEAD": "¿Desea abandonarla en su lugar?",
+      "CANT_DELETE_ABANDON": "Abandonar plan de cultivo",
+      "SUCCESS": "La tarea ha sido eliminada",
+      "FAILED": "Error al eliminar la tarea"
     }
   },
   "UNIT": {

@@ -366,8 +366,7 @@ class TaskModel extends BaseModel {
     try {
       const deleteResponse = await TaskModel.query()
         .context(user)
-        .patch({ deleted: true })
-        .where('task_id', task_id);
+        .patchAndFetchById(task_id, { deleted: true });
       return deleteResponse;
     } catch (error) {
       return error;

@@ -1765,7 +1765,9 @@
       "CONFIRM_DELETION": "Confirm deletion",
       "CANT_DELETE_PLANTING_TASK": "Can't delete planting task",
       "CANT_DELETE_ABANDON_INSTEAD": "Do you want to abandon the crop plan instead?",
-      "CANT_DELETE_ABANDON": "Abandon crop plan"
+      "CANT_DELETE_ABANDON": "Abandon crop plan",
+      "SUCCESS": "Task successfully deleted",
+      "FAILED": "MISSING"
     }
   },
   "UNIT": {

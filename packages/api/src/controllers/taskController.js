@@ -648,10 +648,7 @@ const taskController = {
         return res.status(400).send('Task has already been completed or abandoned');
       }
 
-      const {
-        owner_user_id,
-        assignee_user_id,
-      } = await TaskModel.query()
+      const { owner_user_id, assignee_user_id } = await TaskModel.query()
         .select('owner_user_id', 'assignee_user_id')
         .where({ task_id })
         .first();
@@ -673,8 +670,8 @@ const taskController = {
       }*/
 
       const result = await TaskModel.deleteTask(task_id, req.user);
-      if (!result) return res.send(404).send('Task not found');
-      return res.sendStatus(200)
+      if (!result) return res.status(404).send('Task not found');
+      return res.status(200).send(result);
     } catch (error) {
       return res.status(400).json({ error });
     }

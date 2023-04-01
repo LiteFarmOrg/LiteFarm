@@ -38,6 +38,7 @@ import {
   changeTaskWage,
   updateUserFarmWage,
   setUserFarmWageDoNotAskAgain,
+  deleteTask,
 } from '../saga';
 
 function TaskReadOnly({ history, match, location }) {
@@ -100,7 +101,7 @@ function TaskReadOnly({ history, match, location }) {
   };
 
   const onDelete = () => {
-    console.log('deleted task');
+    dispatch(deleteTask({ task_id }));
   };
   return (
     <>

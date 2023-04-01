@@ -26,6 +26,7 @@ services:
     build:
       context: ./packages/
       dockerfile: ./webapp/prod.Dockerfile
+      no_cache: true
     volumes:
       - /etc/letsencrypt:/etc/letsencrypt
     ports:

@@ -15,9 +15,8 @@
 import { within, userEvent, waitFor } from '@storybook/testing-library';
 import { expect } from '@storybook/jest';
 import selectEvent from 'react-select-event';
-import { convert } from '../../util/convert-units/convert';
+import { roundToTwoDecimal, convertFn } from '../../util/convert-units/unit';
 import { getUnitOptionMap } from '../../util/convert-units/getUnitOptionMap';
-import { roundToTwoDecimal } from '../../util';
 
 /** Class used for testing Unit component. */
 export default class UnitTest {
@@ -80,7 +79,7 @@ export default class UnitTest {
   async hiddenInputToHaveValue(value, selectedUnit, databaseUnit) {
     let hiddenValue = value;
     if (value && selectedUnit && databaseUnit) {
-      hiddenValue = convert(value).from(selectedUnit).to(databaseUnit);
+      hiddenValue = convertFn(this.unitType, value, selectedUnit, databaseUnit);
     }
     await waitFor(() => expect(this.hiddenInput).toHaveValue(hiddenValue));
   }
@@ -127,7 +126,9 @@ export default class UnitTest {
    * @return {number} A display value.
    */
   convertDBValueToDisplayValue(value, displayUnit) {
-    return roundToTwoDecimal(convert(value).from(this.unitType.databaseUnit).to(displayUnit));
+    return roundToTwoDecimal(
+      convertFn(this.unitType, value, this.unitType.databaseUnit, displayUnit),
+    );
   }
 
   /**
@@ -137,7 +138,7 @@ export default class UnitTest {
    * @return {number} A hidden value.
    */
   convertDisplayValueToHiddenValue(value, displayUnit) {
-    return convert(value).from(displayUnit).to(this.unitType.databaseUnit);
+    return convertFn(this.unitType, value, displayUnit, this.unitType.databaseUnit);
   }
 
   static getUnitLabelByValue(value) {

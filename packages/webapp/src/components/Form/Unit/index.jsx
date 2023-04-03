@@ -121,7 +121,11 @@ const Unit = ({
           )}
         </div>
       )}
-      {currency && <div className={styles.currency}>{currency}</div>}
+      {currency && (
+        <div className={styles.currency} data-testid={`${testId}-currency`}>
+          {currency}
+        </div>
+      )}
       <div className={styles.inputContainer}>
         <div className={styles.inputWrapper}>
           <input

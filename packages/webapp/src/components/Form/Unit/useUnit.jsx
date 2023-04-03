@@ -220,12 +220,9 @@ const useUnit = ({
       hookFormSetValue(name, '', { shouldValidate: true });
       setVisibleInputValue('');
     } else {
-      hookFormSetHiddenValue(
-        roundToTwoDecimal(convertFn(unitType, e.target.value, hookFormUnit, databaseUnit)),
-        {
-          shouldDirty: true,
-        },
-      );
+      hookFormSetHiddenValue(convertFn(unitType, e.target.value, hookFormUnit, databaseUnit), {
+        shouldDirty: true,
+      });
     }
     if (!isDirty) setDirty(true);
   };

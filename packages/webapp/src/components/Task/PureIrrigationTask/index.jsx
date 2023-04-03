@@ -9,9 +9,10 @@ import styles from '../../Typography/typography.module.scss';
 import Input, { getInputErrors, numberOnKeyDown } from '../../Form/Input';
 import Unit from '../../Form/Unit';
 import { getUnitOptionMap } from '../../../util/convert-units/getUnitOptionMap';
-import { waterUsage, convertFn } from '../../../util/convert-units/unit';
+import { waterUsage } from '../../../util/convert-units/unit';
 import PropTypes from 'prop-types';
 import WaterUsageCalculatorModal from '../../Modals/WaterUsageCalculatorModal';
+import { convert } from '../../../util/convert-units/convert';
 import { getIrrigationTaskTypes } from '../../../containers/Task/IrrigationTaskTypes/saga';
 import { useDispatch, useSelector } from 'react-redux';
 import { irrigationTaskTypesSliceSelector } from '../../../containers/irrigationTaskTypesSlice';
@@ -292,7 +293,7 @@ export default function PureIrrigationTask({
           setEstimatedWaterUsageComputed(true);
           setValue(
             ESTIMATED_WATER_USAGE,
-            convertFn(waterUsage, estimated_water_usage, estimated_water_usage_unit.value, e.value),
+            convert(estimated_water_usage).from(estimated_water_usage_unit.value).to(e.value),
           );
         }}
       />

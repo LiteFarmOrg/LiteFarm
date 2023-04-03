@@ -5,13 +5,9 @@ import { Label } from '../../Typography';
 import Input from '../../Form/Input';
 import InputAutoSize from '../../Form/InputAutoSize';
 import { get } from 'react-hook-form';
-import {
-  area_total_area,
-  getDefaultUnit,
-  seedYield,
-  convertFn,
-} from '../../../util/convert-units/unit';
+import { area_total_area, getDefaultUnit, seedYield } from '../../../util/convert-units/unit';
 import clsx from 'clsx';
+import { convert } from '../../../util/convert-units/convert';
 import Unit from '../../Form/Unit';
 import { getUnitOptionMap } from '../../../util/convert-units/getUnitOptionMap';
 import PropTypes from 'prop-types';
@@ -103,12 +99,7 @@ export function PureBroadcastForm({
 
   useEffect(() => {
     if (areaUsedUnit?.value) {
-      const newDisplayedSize = convertFn(
-        area_total_area,
-        locationSize,
-        'm2',
-        areaUsedUnit.value,
-      ).toFixed(2);
+      const newDisplayedSize = convert(locationSize).from('m2').to(areaUsedUnit.value).toFixed(2);
       setDisplayedLocationSize(newDisplayedSize);
     }
   }, [areaUsedUnit]);

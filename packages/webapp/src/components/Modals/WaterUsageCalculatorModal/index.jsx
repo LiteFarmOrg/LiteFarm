@@ -11,16 +11,15 @@ import {
   irrigation_task_estimated_duration,
   irrigation_depth,
   location_area,
-  waterUsage,
   percentage_location,
   roundToTwoDecimal,
   water_valve_flow_rate,
-  convertFn,
 } from '../../../util/convert-units/unit';
 import Checkbox from '../../Form/Checkbox';
 import { Label } from '../../Typography';
 import { useSelector } from 'react-redux';
 import { cropLocationsSelector } from '../../../containers/locationSlice';
+import { convert } from '../../../util/convert-units/convert';
 import modalStyles from './styles.module.scss';
 import { numberOnKeyDown } from '../../Form/Input';
 
@@ -203,20 +202,20 @@ const WaterUseDepthCalculator = ({
           const Irrigated_area_in_ft2 =
             getValues(IRRIGATED_AREA_UNIT)?.value === 'ft2'
               ? roundToTwoDecimal(irrigated_area)
-              : roundToTwoDecimal(convertFn(location_area, irrigated_area, 'ac', 'ft2')); // convert from ac to ft2
+              : roundToTwoDecimal(convert(irrigated_area).from('ac').to('ft2')); // convert from ac to ft2
           const volume_in_ft3 =
             Irrigated_area_in_ft2 *
-            (application_depth ? convertFn(irrigation_depth, application_depth, 'in', 'ft') : 1); // convert depth from inc to ft
-          return roundToTwoDecimal(convertFn(waterUsage, volume_in_ft3, 'ft3', 'gal')); // convert ft3 to gallons
+            (application_depth ? convert(application_depth).from('in').to('ft') : 1); // convert depth from inc to ft
+          return roundToTwoDecimal(convert(volume_in_ft3).from('ft3').to('gal')); // convert ft3 to gallons
         }
         const Irrigated_area_in_m_squared =
           getValues(IRRIGATED_AREA_UNIT)?.value === 'm2'
             ? roundToTwoDecimal(irrigated_area)
-            : roundToTwoDecimal(convertFn(location_area, irrigated_area, 'ha', 'm2')); // to convert from ha to m2
+            : roundToTwoDecimal(convert(irrigated_area).from('ha').to('m2')); // to convert from ha to m2
         const Volume_in_m_cubed =
           Irrigated_area_in_m_squared *
-          (application_depth ? convertFn(irrigation_depth, application_depth, 'mm', 'm') : 1); // to convert application depth from mm to m
-        return roundToTwoDecimal(convertFn(waterUsage, Volume_in_m_cubed, 'm3', 'l')); // to convert from m3 to litres
+          (application_depth ? convert(application_depth).from('mm').to('m') : 1); // to convert application depth from mm to m
+        return roundToTwoDecimal(convert(Volume_in_m_cubed).from('m3').to('l')); // to convert from m3 to litres
       });
     } else {
       setTotalWaterUsage('');

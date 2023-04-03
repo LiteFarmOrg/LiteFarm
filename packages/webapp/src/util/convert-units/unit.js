@@ -407,6 +407,14 @@ export const getDurationInDaysDefaultUnit = (days) => {
   return getUnitOptionMap()['d'];
 };
 
+/**
+ * Selects convert function based on unitType.invertedUnit.
+ * @param {object} unitType - Unit definition.
+ * @param {number} value - Value to convert.
+ * @param {string} from - Unit to convert from.
+ * @param {string} to - Unit to convert to.
+ * @returns {number} Converted value.
+ */
 export const convertFn = (unitType, value, from, to) => {
   return unitType.invertedUnit
     ? Math.pow(convert(Math.pow(value, -1)).from(from).to(to), -1)

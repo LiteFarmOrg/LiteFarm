@@ -257,12 +257,12 @@ export const pricePerSeedYield = {
   metric: {
     units: ['kg', 'mt'],
     defaultUnit: 'kg',
-    breakpoints: [1000],
+    breakpoints: [],
   },
   imperial: {
     units: ['lb', 't'],
     defaultUnit: 'lb',
-    breakpoints: [2000],
+    breakpoints: [],
   },
   databaseUnit: databaseUnit.mass,
   invertedUnit: true,

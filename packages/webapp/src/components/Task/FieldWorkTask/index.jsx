@@ -8,17 +8,10 @@ import { getFieldWorkTypes } from '../../../containers/Task/FieldWorkTask/saga';
 import { useDispatch, useSelector } from 'react-redux';
 import { fieldWorkSliceSliceSelector } from '../../../containers/fieldWorkSlice';
 
-const PureFieldWorkTask = ({
-  register,
-  control,
-  setValue,
-  // getValues,
-  watch,
-  disabled = false,
-}) => {
+const PureFieldWorkTask = ({ register, control, setValue, watch, disabled = false }) => {
   const { t } = useTranslation();
 
-  const { fieldWorkTypes = [] } = useSelector(fieldWorkSliceSliceSelector);
+  const fieldWorkTypes = useSelector(fieldWorkSliceSliceSelector)?.fieldWorkTypes || [];
   const dispatch = useDispatch();
   const [fieldWorkTypeOptions, setFieldWorkTypeOptions] = useState([]);
 

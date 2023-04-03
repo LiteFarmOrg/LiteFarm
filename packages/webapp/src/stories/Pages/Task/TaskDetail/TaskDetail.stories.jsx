@@ -649,9 +649,9 @@ MetricCleaningTask.parameters = {
   ...chromaticSmallScreen,
 };
 MetricCleaningTask.play = async ({ canvasElement }) => {
-  const quantityTest = new UnitTest(canvasElement, 'unit');
-  await quantityTest.inputNotToHaveValue();
-  await quantityTest.selectedUnitToBeInTheDocument('l');
+  const waterUsageTest = new UnitTest(canvasElement, 'unit');
+  await waterUsageTest.inputNotToHaveValue();
+  await waterUsageTest.selectedUnitToBeInTheDocument('l');
 };
 
 export const ImperialCleaningTask = Template.bind({});
@@ -660,9 +660,9 @@ ImperialCleaningTask.parameters = {
   ...chromaticSmallScreen,
 };
 ImperialCleaningTask.play = async ({ canvasElement }) => {
-  const quantityTest = new UnitTest(canvasElement, 'unit');
-  await quantityTest.inputNotToHaveValue();
-  await quantityTest.selectedUnitToBeInTheDocument('gal');
+  const waterUsageTest = new UnitTest(canvasElement, 'unit');
+  await waterUsageTest.inputNotToHaveValue();
+  await waterUsageTest.selectedUnitToBeInTheDocument('gal');
 };
 
 export const PestControlTask = Template.bind({});

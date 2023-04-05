@@ -319,6 +319,7 @@ export default function PureIrrigationTask({
           setTotalDepthWaterUsage={setTotalDepthWaterUsage}
           formState={stateController}
           locationDefaults={locationDefaults}
+          errors={errors}
         />
       )}
     </>

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import ModalComponent from '../ModalComponent/v2';
 import { ReactComponent as Calculator } from '../../../assets/images/task/Calculator.svg';
@@ -30,11 +30,6 @@ const totalWaterUsageUnit = {
 
 const TotalWaterUsage = ({ totalWaterUsage, system }) => {
   const { t } = useTranslation();
-
-  if (!system) {
-    return null;
-  }
-
   const value =
     totalWaterUsage &&
     roundToTwoDecimal(convert(totalWaterUsage).from('l').to(totalWaterUsageUnit[system]));
@@ -158,12 +153,10 @@ const WaterUseDepthCalculator = ({
   const LOCATION_SIZE_UNIT = 'irrigation_task.location_size_unit';
   const IRRIGATED_AREA = 'irrigation_task.irrigated_area';
   const IRRIGATED_AREA_UNIT = 'irrigation_task.irrigated_area_unit';
-  const estimated_water_usage_unit = getValues('irrigation_task.estimated_water_usage_unit');
 
   const irrigated_area = watch(IRRIGATED_AREA);
   const application_depth = watch(APPLICATION_DEPTH);
   const percentage_location_irrigated = watch(PERCENTAGE_LOCATION_IRRIGATED);
-  const application_depth_unit = watch(APPLICATION_DEPTH_UNIT);
 
   useEffect(() => {
     let irrigatedArea = null;
@@ -182,26 +175,7 @@ const WaterUseDepthCalculator = ({
 
   useEffect(() => {
     if (irrigated_area && application_depth) {
-      setTotalWaterUsage(() => {
-        if (application_depth_unit.value === 'in') {
-          const Irrigated_area_in_ft2 =
-            getValues(IRRIGATED_AREA_UNIT)?.value === 'ft2'
-              ? roundToTwoDecimal(irrigated_area)
-              : roundToTwoDecimal(convert(irrigated_area).from('ac').to('ft2')); // convert from ac to ft2
-          const volume_in_ft3 =
-            Irrigated_area_in_ft2 *
-            (application_depth ? convert(application_depth).from('in').to('ft') : 1); // convert depth from inc to ft
-          return roundToTwoDecimal(convert(volume_in_ft3).from('ft3').to('gal')); // convert ft3 to gallons
-        }
-        const Irrigated_area_in_m_squared =
-          getValues(IRRIGATED_AREA_UNIT)?.value === 'm2'
-            ? roundToTwoDecimal(irrigated_area)
-            : roundToTwoDecimal(convert(irrigated_area).from('ha').to('m2')); // to convert from ha to m2
-        const Volume_in_m_cubed =
-          Irrigated_area_in_m_squared *
-          (application_depth ? convert(application_depth).from('mm').to('m') : 1); // to convert application depth from mm to m
-        return roundToTwoDecimal(convert(Volume_in_m_cubed).from('m3').to('l')); // to convert from m3 to litres
-      });
+      setTotalWaterUsage(irrigated_area * application_depth);
     } else {
       setTotalWaterUsage('');
     }
@@ -209,7 +183,7 @@ const WaterUseDepthCalculator = ({
 
   useEffect(() => {
     if (
-      !watch(APPLICATION_DEPTH) &&
+      !application_depth &&
       locationDefaults?.application_depth &&
       locationDefaults?.application_depth_unit
     ) {
@@ -300,10 +274,7 @@ const WaterUseDepthCalculator = ({
           disabled={true}
         />
       </div>
-      <TotalWaterUsage
-        totalWaterUsage={totalWaterUsage}
-        estimated_water_usage_unit={estimated_water_usage_unit}
-      />
+      <TotalWaterUsage totalWaterUsage={totalWaterUsage} system={system} />
     </>
   );
 };

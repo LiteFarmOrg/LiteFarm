@@ -13,6 +13,7 @@ import {
   location_area,
   roundToTwoDecimal,
   water_valve_flow_rate,
+  getDefaultUnit,
 } from '../../../util/convert-units/unit';
 import Checkbox from '../../Form/Checkbox';
 import { Label } from '../../Typography';
@@ -165,23 +166,18 @@ const WaterUseDepthCalculator = ({
   const application_depth_unit = watch(APPLICATION_DEPTH_UNIT);
 
   useEffect(() => {
-    if (['gal', 'fl-oz'].includes(getValues('irrigation_task').estimated_water_usage_unit?.value)) {
-      const conversion_unit = location.total_area_unit === 'ha' ? 'ft2' : 'ac';
-      setValue(IRRIGATED_AREA_UNIT, getUnitOptionMap()[conversion_unit]);
-    } else {
-      setValue(IRRIGATED_AREA_UNIT, getUnitOptionMap()[location.total_area_unit]);
-    }
-  }, [location]);
-
-  useEffect(() => {
+    let irrigatedArea = null;
     if (percentage_location_irrigated) {
-      const irrigatedArea = roundToTwoDecimal(
+      irrigatedArea = roundToTwoDecimal(
         location.total_area * (percentage_location_irrigated / 100),
       );
-      setValue(IRRIGATED_AREA, irrigatedArea);
-    } else {
-      setValue(IRRIGATED_AREA, '');
     }
+    setValue(IRRIGATED_AREA, irrigatedArea);
+    setValue(
+      IRRIGATED_AREA_UNIT,
+      getUnitOptionMap()[getDefaultUnit(location_area, irrigatedArea, system).displayUnit],
+      { shouldValidate: true },
+    );
   }, [location, percentage_location_irrigated]);
 
   useEffect(() => {

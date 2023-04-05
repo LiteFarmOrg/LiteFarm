@@ -144,7 +144,6 @@ const WaterUseDepthCalculator = ({
 }) => {
   const { t } = useTranslation();
   const { register, getValues, watch, control, setValue } = formState();
-  const [locationSize, setLocationSize] = useState();
 
   const location = useSelector(cropLocationsSelector).filter(
     (location) => location?.location_id === getValues().locations[0]?.location_id,
@@ -168,23 +167,22 @@ const WaterUseDepthCalculator = ({
   useEffect(() => {
     if (['gal', 'fl-oz'].includes(getValues('irrigation_task').estimated_water_usage_unit?.value)) {
       const conversion_unit = location.total_area_unit === 'ha' ? 'ft2' : 'ac';
-      setValue(LOCATION_SIZE_UNIT, getUnitOptionMap()[conversion_unit]);
       setValue(IRRIGATED_AREA_UNIT, getUnitOptionMap()[conversion_unit]);
     } else {
-      setValue(LOCATION_SIZE_UNIT, getUnitOptionMap()[location.total_area_unit]);
       setValue(IRRIGATED_AREA_UNIT, getUnitOptionMap()[location.total_area_unit]);
     }
-    setLocationSize(location.total_area);
   }, [location]);
 
   useEffect(() => {
     if (percentage_location_irrigated) {
-      const irrigatedArea = roundToTwoDecimal(locationSize * (percentage_location_irrigated / 100));
+      const irrigatedArea = roundToTwoDecimal(
+        location.total_area * (percentage_location_irrigated / 100),
+      );
       setValue(IRRIGATED_AREA, irrigatedArea);
     } else {
       setValue(IRRIGATED_AREA, '');
     }
-  }, [locationSize, percentage_location_irrigated]);
+  }, [location, percentage_location_irrigated]);
 
   useEffect(() => {
     if (irrigated_area && application_depth) {
@@ -287,7 +285,7 @@ const WaterUseDepthCalculator = ({
           hookFormGetValue={getValues}
           hookFromWatch={watch}
           control={control}
-          value={locationSize}
+          defaultValue={location.total_area}
           disabled
         />
 

@@ -144,9 +144,9 @@ export const irrigation_depth = {
 
 export const location_area = {
   metric: {
-    units: ['ha', 'm2'],
-    defaultUnit: 'ha',
-    breakpoints: [10000],
+    units: ['m2', 'ha'],
+    defaultUnit: 'm2',
+    breakpoints: [1000],
   },
   imperial: {
     units: ['ft2', 'ac'],

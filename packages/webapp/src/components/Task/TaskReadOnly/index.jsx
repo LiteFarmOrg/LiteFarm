@@ -44,13 +44,13 @@ import { TransplantLocationLabel } from './TransplantLocationLabel/TransplantLoc
 import { isTaskType } from '../../../containers/Task/useIsTaskType';
 import ReactSelect from '../../Form/ReactSelect';
 import { BiPencil } from 'react-icons/bi';
+import { FiAlertTriangle } from 'react-icons/fi';
 import { ReactComponent as TrashIcon } from '../../../assets/images/document/trash.svg';
 import TaskQuickAssignModal from '../../Modals/QuickAssignModal';
 import { getDateInputFormat } from '../../../util/moment';
 import UpdateTaskDateModal from '../../Modals/UpdateTaskDateModal';
 import PureIrrigationTask from '../PureIrrigationTask';
-import ConfirmDelete from './ConfirmDelete';
-import UnableDelete from './UnableDelete';
+import DeleteBox from './ConfirmDelete';
 
 export default function PureTaskReadOnly({
   onGoBack,
@@ -467,10 +467,26 @@ export default function PureTaskReadOnly({
         />
       )}
       {isDeleting && isTaskType(taskType, 'PLANT_TASK') && (
-        <UnableDelete onAbandon={onAbandon} onCancel={() => setIsDeleting(false)} />
+        <DeleteBox
+          color="warning"
+          onOk={onAbandon}
+          onCancel={() => setIsDeleting(false)}
+          header={t('TASK.DELETE.CANT_DELETE_PLANTING_TASK')}
+          headerIcon={<FiAlertTriangle />}
+          message={t('TASK.DELETE.CANT_DELETE_ABANDON_INSTEAD')}
+          primaryButtonLabel={t('TASK.DELETE.CANT_DELETE_ABANDON')}
+        />
       )}
       {isDeleting && !isTaskType(taskType, 'PLANT_TASK') && (
-        <ConfirmDelete onDelete={onDelete} onCancel={() => setIsDeleting(false)} />
+        <DeleteBox
+          color="error"
+          onOk={onDelete}
+          onCancel={() => setIsDeleting(false)}
+          header={t('TASK.DELETE.DELETE_TASK_QUESTION')}
+          headerIcon={<TrashIcon />}
+          message={t('TASK.DELETE.DELETE_TASK_MESSAGE')}
+          primaryButtonLabel={t('TASK.DELETE.CONFIRM_DELETION')}
+        />
       )}
     </Layout>
   );

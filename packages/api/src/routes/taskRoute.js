@@ -273,7 +273,7 @@ router.delete(
   '/:task_id',
   hasFarmAccess({ params: 'task_id' }),
   checkScope(['delete:task']),
-  taskController.delTask,
+  taskController.deleteTask,
 );
 
 export default router;

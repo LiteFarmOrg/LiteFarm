@@ -27,13 +27,22 @@ const totalWaterUsageUnit = {
   imperial: 'gal',
 };
 
-const TotalWaterUsage = ({ totalWaterUsage, unit }) => {
+const TotalWaterUsage = ({ totalWaterUsage, system }) => {
   const { t } = useTranslation();
+
+  if (!system) {
+    return null;
+  }
+
+  const value =
+    totalWaterUsage &&
+    roundToTwoDecimal(convert(totalWaterUsage).from('l').to(totalWaterUsageUnit[system]));
+
   return (
     <div className={modalStyles.labelContainer}>
       <Label className={modalStyles.label}>{t('ADD_TASK.IRRIGATION_VIEW.TOTAL_WATER_USAGE')}</Label>
       <Label className={modalStyles.label}>
-        {totalWaterUsage} {unit}
+        {value} {totalWaterUsageUnit[system]}
       </Label>
     </div>
   );
@@ -61,17 +70,11 @@ const WaterUseVolumeCalculator = ({
 
   useEffect(() => {
     if (estimated_duration && estimated_flow_rate && estimated_flow_rate_unit) {
-      setTotalWaterUsage(() => {
-        // flow rate database unit: l/min
-        const durationInMin = convert(estimated_duration)
-          .from(irrigation_task_estimated_duration.databaseUnit)
-          .to('min');
-        return roundToTwoDecimal(
-          convert(estimated_flow_rate * durationInMin)
-            .from('l')
-            .to(totalWaterUsageUnit[system]),
-        );
-      });
+      // flow rate database unit: l/min
+      const durationInMin = convert(estimated_duration)
+        .from(irrigation_task_estimated_duration.databaseUnit)
+        .to('min');
+      setTotalWaterUsage(estimated_flow_rate * durationInMin);
     } else {
       setTotalWaterUsage('');
     }
@@ -126,7 +129,7 @@ const WaterUseVolumeCalculator = ({
         style={{ paddingBottom: '32px' }}
       />
 
-      <TotalWaterUsage totalWaterUsage={totalWaterUsage} unit={totalWaterUsageUnit[system]} />
+      <TotalWaterUsage totalWaterUsage={totalWaterUsage} system={system} />
     </>
   );
 };

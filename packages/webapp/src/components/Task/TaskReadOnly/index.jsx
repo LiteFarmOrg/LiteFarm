@@ -423,26 +423,24 @@ export default function PureTaskReadOnly({
         />
       )}
 
-      {(user.user_id === task.assignee_user_id || user.user_id === owner_user_id || isAdmin) &&
-        isCurrent &&
-        !isDeleting && (
-          <IconLink
-            className={styles.deleteText}
-            style={{ color: 'var(--grey600)' }}
-            icon={
-              <TrashIcon
-                style={{
-                  fill: 'var(--grey600)',
-                  stroke: 'var(--grey600)',
-                  transform: 'translate(0px, 6px)',
-                }}
-              />
-            }
-            onClick={preDelete}
-          >
-            {t('TASK.DELETE.DELETE_TASK')}
-          </IconLink>
-        )}
+      {isAdmin && isCurrent && !isDeleting && (
+        <IconLink
+          className={styles.deleteText}
+          style={{ color: 'var(--grey600)' }}
+          icon={
+            <TrashIcon
+              style={{
+                fill: 'var(--grey600)',
+                stroke: 'var(--grey600)',
+                transform: 'translate(0px, 6px)',
+              }}
+            />
+          }
+          onClick={preDelete}
+        >
+          {t('TASK.DELETE.DELETE_TASK')}
+        </IconLink>
+      )}
       {showTaskAssignModal && (
         <TaskQuickAssignModal
           task_id={task.task_id}

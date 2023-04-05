@@ -19,4 +19,5 @@ jobs:
           username: ${{ secrets.BETA_SSH_USER }}
           passphrase: ${{ secrets.BETA_SSH_PASS }}
           key: ${{ secrets.BETA_SSH_KEY }}
+          command_timeout: 20m
           script: ${{ secrets.DEPLOYMENT_SCRIPT }}

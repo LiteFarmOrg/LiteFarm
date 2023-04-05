@@ -11,7 +11,6 @@ import {
   irrigation_task_estimated_duration,
   irrigation_depth,
   location_area,
-  percentage_location,
   roundToTwoDecimal,
   water_valve_flow_rate,
 } from '../../../util/convert-units/unit';
@@ -21,7 +20,7 @@ import { useSelector } from 'react-redux';
 import { cropLocationsSelector } from '../../../containers/locationSlice';
 import { convert } from '../../../util/convert-units/convert';
 import modalStyles from './styles.module.scss';
-import { numberOnKeyDown } from '../../Form/Input';
+import Input, { getInputErrors, numberOnKeyDown } from '../../Form/Input';
 
 const TotalWaterUsage = ({ totalWaterUsage, estimated_water_usage_unit }) => {
   const { t } = useTranslation();
@@ -149,6 +148,7 @@ const WaterUseDepthCalculator = ({
   totalWaterUsage,
   formState,
   locationDefaults,
+  errors,
 }) => {
   const { t } = useTranslation();
   const { register, getValues, watch, control, setValue } = formState();
@@ -162,7 +162,6 @@ const WaterUseDepthCalculator = ({
   const APPLICATION_DEPTH_UNIT = 'irrigation_task.application_depth_unit';
   const DEFAULT_LOCATION_APPLICATION_DEPTH = 'irrigation_task.default_location_application_depth';
   const PERCENTAGE_LOCATION_IRRIGATED = 'irrigation_task.percent_of_location_irrigated';
-  const PERCENTAGE_LOCATION_IRRIGATED_UNIT = 'irrigation_task.percent_of_location_irrigated_unit';
   const LOCATION_SIZE = 'irrigation_task.location_size';
   const LOCATION_SIZE_UNIT = 'irrigation_task.location_size_unit';
   const IRRIGATED_AREA = 'irrigation_task.irrigated_area';
@@ -258,18 +257,20 @@ const WaterUseDepthCalculator = ({
         style={{ marginTop: '10px', marginBottom: '30px' }}
         hookFormRegister={register(DEFAULT_LOCATION_APPLICATION_DEPTH)}
       />
-      <Unit
-        register={register}
-        displayUnitName={PERCENTAGE_LOCATION_IRRIGATED_UNIT}
+      <Input
         label={t('ADD_TASK.IRRIGATION_VIEW.PERCENTAGE_LOCATION_TO_BE_IRRIGATED')}
-        hookFormSetValue={setValue}
-        hookFormGetValue={getValues}
-        hookFromWatch={watch}
-        name={PERCENTAGE_LOCATION_IRRIGATED}
-        unitType={percentage_location}
+        type="number"
+        unit="%"
+        min={0}
         max={100}
-        system={system}
-        control={control}
+        onKeyPress={numberOnKeyDown}
+        hookFormRegister={register(PERCENTAGE_LOCATION_IRRIGATED, {
+          min: { value: 0, message: t('UNIT.VALID_VALUE') + 100 },
+          max: { value: 100, message: t('UNIT.VALID_VALUE') + 100 },
+          valueAsNumber: true,
+        })}
+        errors={getInputErrors(errors, PERCENTAGE_LOCATION_IRRIGATED)}
+        optional
       />
 
       <div
@@ -330,6 +331,7 @@ const WaterUseModal = ({
   setTotalDepthWaterUsage,
   formState,
   locationDefaults,
+  errors,
 }) => {
   if (measurementType === 'VOLUME')
     return (
@@ -349,6 +351,7 @@ const WaterUseModal = ({
         setTotalWaterUsage={setTotalDepthWaterUsage}
         formState={formState}
         locationDefaults={locationDefaults}
+        errors={errors}
       />
     );
 };
@@ -364,6 +367,7 @@ export default function WaterUsageCalculatorModal({
   setTotalDepthWaterUsage,
   formState,
   locationDefaults,
+  errors,
 }) {
   const { t } = useTranslation();
   return (
@@ -403,6 +407,7 @@ export default function WaterUsageCalculatorModal({
         setTotalDepthWaterUsage={setTotalDepthWaterUsage}
         formState={formState}
         locationDefaults={locationDefaults}
+        errors={errors}
       />
     </ModalComponent>
   );

@@ -76,7 +76,6 @@ const WaterUseVolumeCalculator = ({
     }
   }, [estimated_duration, estimated_flow_rate]);
 
-  // TODO: when does locationDefaults?.estimated_flow_rate have value?
   useEffect(() => {
     if (!estimated_flow_rate && !!locationDefaults?.estimated_flow_rate) {
       if (locationDefaults?.estimated_flow_rate) {

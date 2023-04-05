@@ -22,13 +22,18 @@ import { convert } from '../../../util/convert-units/convert';
 import modalStyles from './styles.module.scss';
 import Input, { getInputErrors, numberOnKeyDown } from '../../Form/Input';
 
-const TotalWaterUsage = ({ totalWaterUsage, estimated_water_usage_unit }) => {
+const totalWaterUsageUnit = {
+  metric: 'l',
+  imperial: 'gal',
+};
+
+const TotalWaterUsage = ({ totalWaterUsage, unit }) => {
   const { t } = useTranslation();
   return (
     <div className={modalStyles.labelContainer}>
       <Label className={modalStyles.label}>{t('ADD_TASK.IRRIGATION_VIEW.TOTAL_WATER_USAGE')}</Label>
       <Label className={modalStyles.label}>
-        {totalWaterUsage} {['ml', 'l'].includes(estimated_water_usage_unit?.value) ? 'l' : 'gal'}
+        {totalWaterUsage} {unit}
       </Label>
     </div>
   );
@@ -53,41 +58,28 @@ const WaterUseVolumeCalculator = ({
   const estimated_flow_rate = watch(FLOW_RATE);
   const estimated_flow_rate_unit = watch(FLOW_RATE_UNIT);
   const estimated_duration = watch(ESTIMATED_DURATION);
-  const estimated_duration_unit = watch(ESTIMATED_DURATION_UNIT);
-  const estimated_water_usage_unit = getValues('irrigation_task.estimated_water_usage_unit');
 
   useEffect(() => {
-    if (estimated_duration && estimated_flow_rate) {
+    if (estimated_duration && estimated_flow_rate && estimated_flow_rate_unit) {
       setTotalWaterUsage(() => {
-        if (
-          ['l/h', 'gal/h'].includes(estimated_flow_rate_unit?.value) &&
-          estimated_duration_unit?.label === 'h'
-        )
-          return roundToTwoDecimal(estimated_flow_rate * estimated_duration);
-        if (
-          ['l/min', 'gal/min'].includes(estimated_flow_rate_unit?.value) &&
-          estimated_duration_unit?.label === 'm'
-        )
-          return roundToTwoDecimal(estimated_flow_rate * estimated_duration);
-        if (
-          ['l/h', 'gal/h'].includes(estimated_flow_rate_unit?.value) &&
-          estimated_duration_unit?.label === 'm'
-        )
-          return roundToTwoDecimal(estimated_flow_rate * (estimated_duration / 60));
-        if (
-          ['l/min', 'gal/min'].includes(estimated_flow_rate_unit?.value) &&
-          estimated_duration_unit?.label === 'h'
-        )
-          return roundToTwoDecimal(estimated_flow_rate * (estimated_duration * 60));
-        return totalWaterUsage;
+        // flow rate database unit: l/min
+        const durationInMin = convert(estimated_duration)
+          .from(irrigation_task_estimated_duration.databaseUnit)
+          .to('min');
+        return roundToTwoDecimal(
+          convert(estimated_flow_rate * durationInMin)
+            .from('l')
+            .to(totalWaterUsageUnit[system]),
+        );
       });
     } else {
       setTotalWaterUsage('');
     }
   }, [estimated_duration, estimated_flow_rate]);
 
+  // TODO: when does locationDefaults?.estimated_flow_rate have value?
   useEffect(() => {
-    if (!watch(FLOW_RATE) && !!locationDefaults?.estimated_flow_rate) {
+    if (!estimated_flow_rate && !!locationDefaults?.estimated_flow_rate) {
       if (locationDefaults?.estimated_flow_rate) {
         setValue(FLOW_RATE, locationDefaults?.estimated_flow_rate);
         setValue(FLOW_RATE_UNIT, getUnitOptionMap()[locationDefaults?.estimated_flow_rate_unit]);
@@ -134,10 +126,7 @@ const WaterUseVolumeCalculator = ({
         style={{ paddingBottom: '32px' }}
       />
 
-      <TotalWaterUsage
-        totalWaterUsage={totalWaterUsage}
-        estimated_water_usage_unit={estimated_water_usage_unit}
-      />
+      <TotalWaterUsage totalWaterUsage={totalWaterUsage} unit={totalWaterUsageUnit[system]} />
     </>
   );
 };

@@ -74,15 +74,6 @@ const WaterUseVolumeCalculator = ({
     }
   }, [estimated_duration, estimated_flow_rate]);
 
-  useEffect(() => {
-    if (!estimated_flow_rate && !!locationDefaults?.estimated_flow_rate) {
-      if (locationDefaults?.estimated_flow_rate) {
-        setValue(FLOW_RATE, locationDefaults?.estimated_flow_rate);
-        setValue(FLOW_RATE_UNIT, getUnitOptionMap()[locationDefaults?.estimated_flow_rate_unit]);
-      }
-    }
-  }, [locationDefaults]);
-
   return (
     <>
       <Unit
@@ -97,6 +88,8 @@ const WaterUseVolumeCalculator = ({
         max={999999.99}
         system={system}
         control={control}
+        defaultValue={locationDefaults?.estimated_flow_rate || null}
+        to={locationDefaults?.estimated_flow_rate_unit || ''}
       />
 
       <Checkbox
@@ -175,20 +168,6 @@ const WaterUseDepthCalculator = ({
     }
   }, [application_depth, percentage_location_irrigated, irrigated_area]);
 
-  useEffect(() => {
-    if (
-      !application_depth &&
-      locationDefaults?.application_depth &&
-      locationDefaults?.application_depth_unit
-    ) {
-      setValue(APPLICATION_DEPTH, locationDefaults?.application_depth);
-      setValue(
-        APPLICATION_DEPTH_UNIT,
-        getUnitOptionMap()[locationDefaults?.application_depth_unit],
-      );
-    }
-  }, [locationDefaults]);
-
   return (
     <>
       <Unit
@@ -203,6 +182,8 @@ const WaterUseDepthCalculator = ({
         max={999.9}
         system={system}
         control={control}
+        defaultValue={locationDefaults?.application_depth || null}
+        to={locationDefaults?.application_depth_unit || ''}
       />
 
       <Checkbox

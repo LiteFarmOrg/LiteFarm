@@ -958,7 +958,7 @@
     "TITLE": "Inviter un utilisateur",
     "WAGE": "Salaire",
     "WAGE_ERROR": "Le salaire doit être un nombre décimal valide et non négatif",
-    "WAGE_RANGE_ERROR": "Le salaire doit être un nombre positif inférieur à 999 999 999 999"
+    "WAGE_RANGE_ERROR": "Le salaire doit être un nombre positif inférieur à 999 999 999"
   },
   "JOIN_FARM_SUCCESS": {
     "IMPORTANT_THINGS": "Laissez-nous vous montrer quelques choses importantes\u00a0!",
@@ -1804,7 +1804,7 @@
   "WAGE": {
     "ERROR": "Le salaire doit être un nombre décimal valide et non négatif",
     "HOURLY_WAGE": "Salaire horaire",
-    "HOURLY_WAGE_RANGE_ERROR": "Le salaire horaire doit être un nombre positif inférieur à 999 999 999 999",
+    "HOURLY_WAGE_RANGE_ERROR": "Le salaire horaire doit être un nombre positif inférieur à 999 999 999",
     "HOURLY_WAGE_TOOLTIP": "Les salaires horaires peuvent être établis en sélectionnant une personne à l’onglet Employés sous 'ma ferme'."
   }
 }

@@ -149,3 +149,15 @@
   transform: translate(4px, 3px);
   margin-left: 4px;
 }
+
+.currency {
+  font-size: 16px;
+  line-height: 20px;
+  color: var(--labels);
+  font-style: normal;
+  font-weight: normal;
+  font-family: 'Open Sans', 'SansSerif', serif;
+  position: absolute;
+  left: 0;
+  transform: translate(8px, 13px);
+}

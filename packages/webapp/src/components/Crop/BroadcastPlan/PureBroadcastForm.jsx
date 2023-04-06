@@ -12,7 +12,8 @@ import {
   seedYield,
 } from '../../../util/convert-units/unit';
 import clsx from 'clsx';
-import Unit, { getUnitOptionMap } from '../../Form/Unit';
+import Unit from '../../Form/Unit';
+import { getUnitOptionMap } from '../../../util/convert-units/getUnitOptionMap';
 import PropTypes from 'prop-types';
 
 export function PureBroadcastForm({

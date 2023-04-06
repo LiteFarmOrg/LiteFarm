@@ -5,7 +5,8 @@ import { ReactComponent as Calculator } from '../../../assets/images/task/Calcul
 import styles from '../QuickAssignModal/styles.module.scss';
 import Button from '../../Form/Button';
 import PropTypes from 'prop-types';
-import Unit, { getUnitOptionMap } from '../../Form/Unit';
+import Unit from '../../Form/Unit';
+import { getUnitOptionMap } from '../../../util/convert-units/getUnitOptionMap';
 import {
   irrigation_task_estimated_duration,
   irrigation_depth,
@@ -108,12 +109,6 @@ const WaterUseVolumeCalculator = ({
         max={999999.99}
         system={system}
         control={control}
-        onChangeUnitOption={(e) => {
-          setValue(
-            FLOW_RATE,
-            convert(estimated_flow_rate).from(estimated_flow_rate_unit.value).to(e.value),
-          );
-        }}
       />
 
       <Checkbox
@@ -137,12 +132,6 @@ const WaterUseVolumeCalculator = ({
         control={control}
         onKeyDown={numberOnKeyDown}
         style={{ paddingBottom: '32px' }}
-        onChangeUnitOption={(e) => {
-          setValue(
-            ESTIMATED_DURATION,
-            convert(estimated_duration).from(estimated_duration_unit.value).to(e.value),
-          );
-        }}
       />
 
       <TotalWaterUsage

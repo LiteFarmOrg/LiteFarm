@@ -45,6 +45,7 @@ const Unit = ({
   system,
   control,
   unitType = area_total_area,
+  currency,
   from: defaultValueUnit,
   to,
   required,
@@ -120,13 +121,20 @@ const Unit = ({
           )}
         </div>
       )}
-
       <div className={styles.inputContainer}>
         <div className={styles.inputWrapper}>
+          {currency && (
+            <div className={styles.currency} data-testid={`${testId}-currency`}>
+              {currency}
+            </div>
+          )}
           <input
             disabled={disabled}
             className={clsx(styles.input)}
-            style={{ ...classes.input }}
+            style={{
+              paddingLeft: currency ? `${currency.length * 8 + 12}px` : undefined,
+              ...classes.input,
+            }}
             aria-invalid={showError ? 'true' : 'false'}
             type={'number'}
             value={visibleInputValue}
@@ -243,6 +251,8 @@ Unit.propTypes = {
     imperial: PropTypes.object,
     databaseUnit: PropTypes.string,
   }).isRequired,
+  /** currency used in the farm's country */
+  currency: PropTypes.string,
   /** databaseUnit */
   from: PropTypes.string,
   /** default display unit */

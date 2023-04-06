@@ -164,11 +164,15 @@ const WaterUseDepthCalculator = ({
 
   useEffect(() => {
     if (irrigated_area && application_depth) {
-      setTotalWaterUsage(irrigated_area * application_depth);
+      setTotalWaterUsage(
+        convert(irrigated_area * application_depth)
+          .from('m3')
+          .to('l'),
+      );
     } else {
       setTotalWaterUsage('');
     }
-  }, [application_depth, percentage_location_irrigated, irrigated_area]);
+  }, [application_depth, irrigated_area]);
 
   return (
     <>

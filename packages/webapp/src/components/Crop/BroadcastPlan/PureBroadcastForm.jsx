@@ -109,7 +109,6 @@ export function PureBroadcastForm({
           valueAsNumber: true,
           min: { value: 0, message: t('UNIT.VALID_VALUE') + 100 },
           max: { value: 100, message: t('UNIT.VALID_VALUE') + 100 },
-          valueAsNumber: true,
         })}
         unit="%"
         min={0}

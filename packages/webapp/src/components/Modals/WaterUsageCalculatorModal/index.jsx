@@ -90,6 +90,7 @@ const WaterUseVolumeCalculator = ({
         control={control}
         defaultValue={locationDefaults?.estimated_flow_rate || null}
         to={locationDefaults?.estimated_flow_rate_unit || ''}
+        data-testid="volumecalculator-flowrate"
       />
 
       <Checkbox
@@ -113,6 +114,7 @@ const WaterUseVolumeCalculator = ({
         control={control}
         onKeyDown={numberOnKeyDown}
         style={{ paddingBottom: '32px' }}
+        data-testid="volumecalculator-duration"
       />
 
       <TotalWaterUsage totalWaterUsage={totalWaterUsage} system={system} />
@@ -184,6 +186,7 @@ const WaterUseDepthCalculator = ({
         control={control}
         defaultValue={locationDefaults?.application_depth || null}
         to={locationDefaults?.application_depth_unit || ''}
+        data-testid="depthcalculator-depth"
       />
 
       <Checkbox
@@ -232,6 +235,7 @@ const WaterUseDepthCalculator = ({
           control={control}
           defaultValue={location.total_area}
           disabled
+          data-testid="depthcalculator-locationsize"
         />
 
         <Unit
@@ -247,6 +251,7 @@ const WaterUseDepthCalculator = ({
           hookFromWatch={watch}
           control={control}
           disabled={true}
+          data-testid="depthcalculator-irrigatedarea"
         />
       </div>
       <TotalWaterUsage totalWaterUsage={totalWaterUsage} system={system} />

@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import styles from './styles.module.scss';
 import { useTranslation } from 'react-i18next';
 import { Label } from '../../Typography';
-import Input from '../../Form/Input';
+import Input, { getInputErrors } from '../../Form/Input';
 import InputAutoSize from '../../Form/InputAutoSize';
 import { get } from 'react-hook-form';
 import {
@@ -106,13 +106,16 @@ export function PureBroadcastForm({
         hookFormRegister={register(PERCENTAGE_PLANTED, {
           required: true,
           valueAsNumber: true,
-          min: 1,
-          max: 100,
+          min: { value: 0, message: t('UNIT.VALID_VALUE') + 100 },
+          max: { value: 100, message: t('UNIT.VALID_VALUE') + 100 },
+          valueAsNumber: true,
         })}
+        unit="%"
+        min={0}
         max={100}
         type={'number'}
         style={{ paddingBottom: '40px' }}
-        errors={getErrorMessage(PERCENTAGE_PLANTED, 1, 100)}
+        errors={getInputErrors(errors, PERCENTAGE_PLANTED)}
         label={t('BROADCAST_PLAN.PERCENTAGE_LABEL')}
         disabled={disabled}
       />

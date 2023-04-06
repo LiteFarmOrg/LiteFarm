@@ -5,9 +5,13 @@ import { Label } from '../../Typography';
 import Input from '../../Form/Input';
 import InputAutoSize from '../../Form/InputAutoSize';
 import { get } from 'react-hook-form';
-import { area_total_area, getDefaultUnit, seedYield } from '../../../util/convert-units/unit';
+import {
+  location_area,
+  area_total_area,
+  getDefaultUnit,
+  seedYield,
+} from '../../../util/convert-units/unit';
 import clsx from 'clsx';
-import { convert } from '../../../util/convert-units/convert';
 import Unit, { getUnitOptionMap } from '../../Form/Unit';
 import PropTypes from 'prop-types';
 
@@ -28,7 +32,6 @@ export function PureBroadcastForm({
   const { t } = useTranslation(['translation']);
 
   const shouldValidate = { shouldValidate: true };
-  const [displayedLocationSize, setDisplayedLocationSize] = useState(null);
   const [initialSeedingRate, setInitialSeedingRate] = useState(null);
   const KgHaToKgM2 = 1 / 10000;
   const KgHaToLbAc = 2.20462 / 2.47105;
@@ -36,6 +39,8 @@ export function PureBroadcastForm({
   const seedingRateUnit = system === 'metric' ? 'kg/ha' : 'lb/ac';
   const PERCENTAGE_PLANTED = `${prefix}.broadcast_method.percentage_planted`;
   const SEEDING_RATE = `${prefix}.broadcast_method.seeding_rate`;
+  const LOCATION_SIZE = `${prefix}.broadcast_method.location_size`;
+  const LOCATION_SIZE_UNIT = `${prefix}.broadcast_method.location_size_unit`;
   const AREA_USED = `${prefix}.broadcast_method.area_used`;
   const AREA_USED_UNIT = `${prefix}.broadcast_method.area_used_unit`;
   const ESTIMATED_YIELD = `crop_management_plan.estimated_yield`;
@@ -48,7 +53,6 @@ export function PureBroadcastForm({
   const percentageOfAreaPlanted = watch(PERCENTAGE_PLANTED);
   const seedingRateFormInKgM2 = watch(SEEDING_RATE);
   const areaUsed = watch(AREA_USED);
-  const areaUsedUnit = watch(AREA_USED_UNIT);
 
   const getErrorMessage = (name, min, max) => {
     const type = get(errors, name)?.type;
@@ -96,13 +100,6 @@ export function PureBroadcastForm({
     }
   }, [seedingRateFormInKgM2, areaUsed]);
 
-  useEffect(() => {
-    if (areaUsedUnit?.value) {
-      const newDisplayedSize = convert(locationSize).from('m2').to(areaUsedUnit.value).toFixed(2);
-      setDisplayedLocationSize(newDisplayedSize);
-    }
-  }, [areaUsedUnit]);
-
   return (
     <>
       <Input
@@ -119,20 +116,25 @@ export function PureBroadcastForm({
         label={t('BROADCAST_PLAN.PERCENTAGE_LABEL')}
         disabled={disabled}
       />
-      {/*TODO: refactor and create new unit component with 2 disabled input field*/}
       <div className={clsx(styles.row, styles.paddingBottom40)}>
         <div style={{ flex: '1 1 0px' }}>
-          <Label>{t('BROADCAST_PLAN.LOCATION_SIZE')}</Label>
-          <Input
-            value={displayedLocationSize}
+          <Unit
+            register={register}
             classes={{
-              input: {
-                borderTopRightRadius: '0px',
-                borderBottomRightRadius: '0px',
-                ...greenInput,
-              },
+              input: { borderTopLeftRadius: '0px', borderBottomLeftRadius: '0px', ...greenInput },
             }}
-            disabled={true}
+            label={t('BROADCAST_PLAN.LOCATION_SIZE')}
+            name={LOCATION_SIZE}
+            displayUnitName={LOCATION_SIZE_UNIT}
+            unitType={location_area}
+            disabled
+            system={system}
+            hookFormSetValue={setValue}
+            hookFormGetValue={getValues}
+            hookFromWatch={watch}
+            control={control}
+            style={{ flex: '1 1 0px' }}
+            defaultValue={locationSize}
           />
         </div>
         <Unit

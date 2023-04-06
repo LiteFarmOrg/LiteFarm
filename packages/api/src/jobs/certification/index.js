@@ -18,27 +18,28 @@ import retrieveFn from './do_retrieve.js';
 import uploadFn from './upload.js';
 import excelFn from './recordD.js';
 import zipFn from './zip.js';
-import pdfFn from './pdf.js';
+// import pdfFn from './pdf.js';
 import emailFn from './email.js';
 
 const processExports = (queueConfig) => {
   const retrieveQueue = new Queue('retrieve', queueConfig);
   const excelQueue = new Queue('excel', queueConfig);
   const zipQueue = new Queue('zip', queueConfig);
-  const pdfQueue = new Queue('pdf', queueConfig);
+  // const pdfQueue = new Queue('pdf', queueConfig);
   const emailQueue = new Queue('email', queueConfig);
   const uploadQueue = new Queue('upload', queueConfig);
 
   retrieveQueue.process(retrieveFn(excelQueue, emailQueue));
-  excelQueue.process(excelFn(pdfQueue, zipQueue, emailQueue));
-  pdfQueue.process(pdfFn(zipQueue, emailQueue));
+  excelQueue.process(excelFn(zipQueue, zipQueue, emailQueue));
+  // excelQueue.process(excelFn(pdfQueue, zipQueue, emailQueue));
+  // pdfQueue.process(pdfFn(zipQueue, emailQueue));
   zipQueue.process(zipFn(uploadQueue, emailQueue));
   uploadQueue.process(uploadFn(emailQueue));
   emailQueue.process(emailFn);
 
   retrieveQueue.on('error', (e) => console.error(e));
   excelQueue.on('error', (e) => console.error(e));
-  pdfQueue.on('error', (e) => console.error(e));
+  // pdfQueue.on('error', (e) => console.error(e));
   emailQueue.on('error', (e) => console.error(e));
   uploadQueue.on('error', (e) => console.error(e));
   zipQueue.on('error', (e) => console.error(e));

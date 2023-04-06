@@ -17,8 +17,6 @@ import {
 } from '../../../util/convert-units/unit';
 import Checkbox from '../../Form/Checkbox';
 import { Label } from '../../Typography';
-import { useSelector } from 'react-redux';
-import { cropLocationsSelector } from '../../../containers/locationSlice';
 import { convert } from '../../../util/convert-units/convert';
 import modalStyles from './styles.module.scss';
 import Input, { getInputErrors, numberOnKeyDown } from '../../Form/Input';
@@ -135,14 +133,11 @@ const WaterUseDepthCalculator = ({
   totalWaterUsage,
   formState,
   locationDefaults,
+  location,
   errors,
 }) => {
   const { t } = useTranslation();
   const { register, getValues, watch, control, setValue } = formState();
-
-  const location = useSelector(cropLocationsSelector).filter(
-    (location) => location?.location_id === getValues().locations[0]?.location_id,
-  )[0];
 
   const APPLICATION_DEPTH = 'irrigation_task.application_depth';
   const APPLICATION_DEPTH_UNIT = 'irrigation_task.application_depth_unit';
@@ -287,6 +282,7 @@ const WaterUseModal = ({
   setTotalDepthWaterUsage,
   formState,
   locationDefaults,
+  location,
   errors,
 }) => {
   if (measurementType === 'VOLUME')
@@ -307,6 +303,7 @@ const WaterUseModal = ({
         setTotalWaterUsage={setTotalDepthWaterUsage}
         formState={formState}
         locationDefaults={locationDefaults}
+        location={location}
         errors={errors}
       />
     );
@@ -323,6 +320,7 @@ export default function WaterUsageCalculatorModal({
   setTotalDepthWaterUsage,
   formState,
   locationDefaults,
+  location,
   errors,
 }) {
   const { t } = useTranslation();
@@ -363,6 +361,7 @@ export default function WaterUsageCalculatorModal({
         setTotalDepthWaterUsage={setTotalDepthWaterUsage}
         formState={formState}
         locationDefaults={locationDefaults}
+        location={location}
         errors={errors}
       />
     </ModalComponent>

@@ -39,10 +39,12 @@ export default function PureIrrigationTask({
   const [showWaterUseCalculatorModal, setShowWaterUseCalculatorModal] = useState(false);
   const { irrigationTaskTypes = [] } = useSelector(irrigationTaskTypesSliceSelector);
   const cropLocations = useSelector(cropLocationsSelector);
-  const location_defaults =
+  const location =
     locations &&
-    cropLocations.filter((cropLocation) => cropLocation.location_id === locations[0].location_id)[0]
-      ?.location_defaults;
+    cropLocations.filter(
+      (cropLocation) => cropLocation.location_id === locations[0].location_id,
+    )[0];
+  const location_defaults = location?.location_defaults;
   const locationDefaults = [location_defaults]?.map((location) => {
     return {
       ...location,
@@ -320,6 +322,7 @@ export default function PureIrrigationTask({
           setTotalDepthWaterUsage={setTotalDepthWaterUsage}
           formState={stateController}
           locationDefaults={locationDefaults}
+          location={location}
           errors={errors}
         />
       )}

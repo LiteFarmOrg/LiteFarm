@@ -95,6 +95,10 @@ const args = {
 export const VolumeMetric = Template.bind({});
 VolumeMetric.args = { ...args, measurementType: 'VOLUME', system: 'metric' };
 VolumeMetric.play = async ({ canvasElement }) => {
+  // Wait for elements to be ready. Without this, these tests will fail when using jest-runner.
+  const flowRateInput = await screen.findByTestId('volumecalculator-flowrate');
+  expect(flowRateInput).toBeInTheDocument();
+
   const flowRateTest = new UnitTest(null, 'volumecalculator-flowrate', water_valve_flow_rate);
   const durationTest = new UnitTest(
     null,

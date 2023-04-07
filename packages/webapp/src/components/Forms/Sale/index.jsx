@@ -25,7 +25,7 @@ const SaleForm = ({
   farm,
   sale,
 }) => {
-  const formatSales = sale.crop_variety_sale.reduce(
+  const formatSales = sale?.crop_variety_sale.reduce(
     (acc, cur) => ({
       ...acc,
       [cur.crop_variety_id]: {
@@ -45,7 +45,7 @@ const SaleForm = ({
     filterKey: STATUS,
     options: cropVarietyOptions.map((cvs) => ({
       value: cvs.label,
-      default: formatSales[cvs.value] ? true : false,
+      default: formatSales?.[cvs.value] ? true : false,
       label: cvs.label,
     })),
   };
@@ -78,7 +78,7 @@ const SaleForm = ({
     defaultValues: {
       [SALE_DATE]: getDateInputFormat(sale?.sale_date) || getDateInputFormat(), //sale?.sale_date
       customer_name: sale?.customer_name,
-      crop_variety_sale: formatSales,
+      crop_variety_sale: formatSales ?? undefined,
       sale_id: sale?.sale_id,
       farm_id: sale?.farm_id,
     },
@@ -99,9 +99,9 @@ const SaleForm = ({
 
   useEffect(() => {
     const activeOptions = cropVarietyOptions.filter((cvs) =>
-      formatSales[cvs.value] ? true : false,
+      formatSales?.[cvs.value] ? true : false,
     );
-    activeOptions.length ? setIsFilterValid(true) : setIsFilterValid(false);
+    activeOptions.length ?? setIsFilterValid(true);
     let otherRegister = {};
     // Input does not support registering like Unit, dynamically register here
     activeOptions.forEach((option) => {
@@ -156,7 +156,7 @@ const SaleForm = ({
       buttonGroup={
         <>
           {onClickDelete && (
-            <Button color={'secondary'} fullLength onClick={onClickDelete}>
+            <Button color={'secondary'} fullLength onClick={onClickDelete} type={'button'}>
               {t('common:DELETE')}
             </Button>
           )}
@@ -227,8 +227,8 @@ const SaleForm = ({
                     control={control}
                     style={{ marginBottom: '40px' }}
                     required
-                    defaultValue={formatSales[c.value].quantity}
-                    from={formatSales[c.value].quantity_unit}
+                    defaultValue={formatSales?.[c.value].quantity}
+                    from={formatSales?.[c.value].quantity_unit}
                   />
                 </div>
                 <div className={styles.rightcolumn}>

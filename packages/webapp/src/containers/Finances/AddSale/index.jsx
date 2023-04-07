@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import defaultStyles from '../styles.module.scss';
-import SaleForm from '../../../components/Forms/Sale/update';
+import SaleForm from '../../../components/Forms/Sale';
 import { addOrUpdateSale } from '../actions';
 import { userFarmSelector, measurementSelector } from '../../userFarmSlice';
 import { currentAndPlannedManagementPlansSelector } from '../../managementPlanSlice';
@@ -33,7 +33,6 @@ function AddSale({}) {
       farm_id: farm.farm_id,
       crop_variety_sale: crop_variety_sale,
     };
-    console.log(newSale);
     dispatch(addOrUpdateSale(newSale));
   };
 

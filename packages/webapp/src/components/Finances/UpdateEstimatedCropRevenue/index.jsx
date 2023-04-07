@@ -8,10 +8,10 @@ import { useForm } from 'react-hook-form';
 import { Semibold, Text } from '../../Typography';
 import Input, { getInputErrors } from '../../Form/Input';
 import Unit from '../../Form/Unit';
-import { seedYield } from '../../../util/convert-units/unit';
+import { pricePerSeedYield, seedYield } from '../../../util/convert-units/unit';
 import { convert } from '../../../util/convert-units/convert';
 import { roundToTwoDecimal } from '../../../util';
-import grabCurrencySymbol from '../../../util/grabCurrencySymbol';
+import { useCurrencySymbol } from '../../../containers/hooks/useCurrencySymbol';
 
 function PureUpdateEstimatedCropRevenue({ system, managementPlan, onGoBack, onSubmit }) {
   const { t } = useTranslation();
@@ -110,12 +110,13 @@ function PureUpdateEstimatedCropRevenue({ system, managementPlan, onGoBack, onSu
         label={t('FINANCES.ESTIMATED_REVENUE.ESTIMATED_PRICE_PER_UNIT')}
         name={ESTIMATED_PRICE_PER_UNIT}
         displayUnitName={ESTIMATED_PRICE_PER_UNIT_UNIT}
-        unitType={seedYield}
+        unitType={pricePerSeedYield}
         system={system}
         hookFormSetValue={setValue}
         hookFormGetValue={getValues}
         hookFromWatch={watch}
         control={control}
+        currency={useCurrencySymbol()}
         style={{ marginBottom: '40px' }}
         onBlur={calculateRevenue}
       />
@@ -142,7 +143,7 @@ function PureUpdateEstimatedCropRevenue({ system, managementPlan, onGoBack, onSu
           required: true,
           valueAsNumber: true,
         })}
-        currency={grabCurrencySymbol()}
+        currency={useCurrencySymbol()}
         errors={getInputErrors(errors, ESTIMATED_ANNUAL_REVENUE)}
         style={{ marginBottom: '40px' }}
       />

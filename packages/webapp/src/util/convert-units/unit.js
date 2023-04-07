@@ -142,20 +142,6 @@ export const irrigation_depth = {
   databaseUnit: databaseUnit.length,
 };
 
-export const percentage_location = {
-  metric: {
-    units: ['deg'],
-    defaultUnit: 'deg',
-    breakpoints: [1000],
-  },
-  imperial: {
-    units: ['deg'],
-    defaultUnit: 'deg',
-    breakpoints: [1000],
-  },
-  databaseUnit: databaseUnit.degree,
-};
-
 export const location_area = {
   metric: {
     units: ['ha', 'm2'],
@@ -257,12 +243,12 @@ export const pricePerSeedYield = {
   metric: {
     units: ['kg', 'mt'],
     defaultUnit: 'kg',
-    breakpoints: [1000],
+    breakpoints: [],
   },
   imperial: {
     units: ['lb', 't'],
     defaultUnit: 'lb',
-    breakpoints: [2000],
+    breakpoints: [],
   },
   databaseUnit: databaseUnit.mass,
   invertedUnit: true,

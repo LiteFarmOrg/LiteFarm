@@ -121,13 +121,13 @@ const Unit = ({
           )}
         </div>
       )}
-      {currency && (
-        <div className={styles.currency} data-testid={`${testId}-currency`}>
-          {currency}
-        </div>
-      )}
       <div className={styles.inputContainer}>
         <div className={styles.inputWrapper}>
+          {currency && (
+            <div className={styles.currency} data-testid={`${testId}-currency`}>
+              {currency}
+            </div>
+          )}
           <input
             disabled={disabled}
             className={clsx(styles.input)}

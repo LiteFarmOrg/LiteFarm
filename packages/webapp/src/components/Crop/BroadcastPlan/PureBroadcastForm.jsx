@@ -73,6 +73,16 @@ export function PureBroadcastForm({
   };
 
   useEffect(() => {
+    if (locationSize !== getValues(LOCATION_SIZE)) {
+      setValue(LOCATION_SIZE, locationSize);
+      setValue(
+        LOCATION_SIZE_UNIT,
+        getUnitOptionMap()[getDefaultUnit(location_area, locationSize, system).displayUnit],
+      );
+    }
+  }, []);
+
+  useEffect(() => {
     if (seedingRateFormInKgM2) {
       setInitialSeedingRate(
         system === 'metric'
@@ -91,6 +101,7 @@ export function PureBroadcastForm({
       shouldValidate,
     );
   }, [percentageOfAreaPlanted]);
+
   const shouldSkipEstimatedValueCalculationRef = useRef(true);
   useEffect(() => {
     if (shouldSkipEstimatedValueCalculationRef.current) {
@@ -137,7 +148,6 @@ export function PureBroadcastForm({
             hookFromWatch={watch}
             control={control}
             style={{ flex: '1 1 0px' }}
-            defaultValue={locationSize}
           />
         </div>
         <Unit

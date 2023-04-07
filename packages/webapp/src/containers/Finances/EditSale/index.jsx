@@ -1,25 +1,23 @@
 import React, { useState } from 'react';
 import defaultStyles from '../styles.module.scss';
 import SaleForm from '../../../components/Forms/Sale';
-import { selectedSaleSelector } from '../selectors';
-import { deleteSale, updateSale } from '../actions';
 import ConfirmModal from '../../../components/Modals/Confirm';
+import { deleteSale, updateSale } from '../actions';
+import { selectedSaleSelector } from '../selectors';
 import { userFarmSelector, measurementSelector } from '../../userFarmSlice';
 import { currentAndPlannedManagementPlansSelector } from '../../managementPlanSlice';
-
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { useCurrencySymbol } from '../../hooks/useCurrencySymbol';
 
 function EditSale({ history }) {
   const { t } = useTranslation();
-
   const dispatch = useDispatch();
   const managementPlans = useSelector(currentAndPlannedManagementPlansSelector) || [];
   const farm = useSelector(userFarmSelector);
   const system = useSelector(measurementSelector);
-
   const sale = useSelector(selectedSaleSelector) || {};
+
   const [showModal, setShowModal] = useState(false);
 
   const onSubmit = (data) => {
@@ -33,10 +31,10 @@ function EditSale({ history }) {
     });
 
     const editedSale = {
-      sale_id: data.sale_id,
+      sale_id: sale.sale_id,
       customer_name: data.customer_name,
       sale_date: data.sale_date,
-      farm_id: data.farm_id,
+      farm_id: farm.farm_id,
       crop_variety_sale,
     };
     dispatch(updateSale(editedSale));
@@ -69,19 +67,19 @@ function EditSale({ history }) {
   };
 
   const cropVarietyOptions = getCropVarietyOptions(managementPlans);
-  console.log(showModal);
+
   return (
     <div className={defaultStyles.financesContainer}>
       <SaleForm
         cropVarietyOptions={cropVarietyOptions}
         onSubmit={onSubmit}
-        system={system}
-        onClickDelete={() => setShowModal(true)}
-        sale={sale}
-        currency={useCurrencySymbol()}
         title={t('SALE.EDIT_SALE.TITLE')}
         dateLabel={t('SALE.EDIT_SALE.DATE')}
         customerLabel={t('SALE.ADD_SALE.CUSTOMER_NAME')}
+        system={system}
+        currency={useCurrencySymbol()}
+        onClickDelete={() => setShowModal(true)}
+        sale={sale}
       />
       <ConfirmModal
         open={showModal}

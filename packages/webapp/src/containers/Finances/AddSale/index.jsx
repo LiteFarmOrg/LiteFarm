@@ -1,17 +1,15 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React from 'react';
 import defaultStyles from '../styles.module.scss';
 import SaleForm from '../../../components/Forms/Sale';
 import { addOrUpdateSale } from '../actions';
 import { userFarmSelector, measurementSelector } from '../../userFarmSlice';
 import { currentAndPlannedManagementPlansSelector } from '../../managementPlanSlice';
-import { useCurrencySymbol } from '../../hooks/useCurrencySymbol';
-
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
+import { useCurrencySymbol } from '../../hooks/useCurrencySymbol';
 
 function AddSale({}) {
   const { t } = useTranslation();
-
   const dispatch = useDispatch();
   const managementPlans = useSelector(currentAndPlannedManagementPlansSelector) || [];
   const farm = useSelector(userFarmSelector);
@@ -27,13 +25,13 @@ function AddSale({}) {
       };
     });
 
-    const newSale = {
+    const addSale = {
       customer_name: data.customer_name,
       sale_date: data.sale_date,
       farm_id: farm.farm_id,
       crop_variety_sale: crop_variety_sale,
     };
-    dispatch(addOrUpdateSale(newSale));
+    dispatch(addOrUpdateSale(addSale));
   };
 
   const getCropVarietyOptions = (managementPlans) => {
@@ -73,7 +71,6 @@ function AddSale({}) {
         customerLabel={t('SALE.ADD_SALE.CUSTOMER_NAME')}
         system={system}
         currency={useCurrencySymbol()}
-        farm={farm}
       />
     </div>
   );

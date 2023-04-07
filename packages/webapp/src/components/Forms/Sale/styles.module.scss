@@ -51,3 +51,67 @@
   height: 1px;
   margin-bottom: 18px;
 }
+
+.dateContainer {
+  label {
+    font-style: normal;
+    font-weight: normal;
+    color: var(--labels);
+    font-size: 14px;
+    line-height: 16px;
+    font-family: 'Open Sans', 'SansSerif', serif;
+    margin-bottom: 4px;
+  }
+  padding-top: 10px;
+  width: 100%;
+  margin: 0 0 18px;
+}
+
+.date {
+  input {
+    font-size: 1.8rem;
+    border: 1px solid #d3d3d3;
+    width: 125px;
+    border-radius: 5px;
+    background-color: hsl(0, 0%, 98%);
+  }
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  ::placeholder {
+    color: #00756a;
+  }
+}
+
+.saleContainer {
+  width: 100%;
+}
+
+.sale {
+  display: flex;
+}
+
+.leftColumn {
+  flex-basis: 30%;
+  padding-right: 4%;
+}
+
+.middleColumn {
+  flex-basis: 35%;
+  max-width: 35%;
+  padding-right: 5px;
+}
+
+.rightcolumn {
+  flex-basis: 35%;
+  max-width: 35%;
+
+  // no input label - translation adjustment
+  [class*="currency"] {
+    transform: translate(8px, 13px);
+  }
+  [class*="cross"] {
+    transform: translate(-17px, -5px) !important;
+  }
+
+}

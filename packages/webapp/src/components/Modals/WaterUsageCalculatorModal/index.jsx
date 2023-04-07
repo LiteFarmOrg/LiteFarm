@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import ModalComponent from '../ModalComponent/v2';
 import { ReactComponent as Calculator } from '../../../assets/images/task/Calculator.svg';
@@ -62,6 +62,19 @@ const WaterUseVolumeCalculator = ({
   const estimated_flow_rate_unit = watch(FLOW_RATE_UNIT);
   const estimated_duration = watch(ESTIMATED_DURATION);
 
+  const flowRateDefaultValues = useMemo(() => {
+    if (getValues(FLOW_RATE)) {
+      return { defaultValue: getValues(FLOW_RATE), to: getValues(FLOW_RATE_UNIT).value };
+    }
+    if (locationDefaults?.estimated_flow_rate) {
+      return {
+        defaultValue: locationDefaults.estimated_flow_rate,
+        to: locationDefaults.estimated_flow_rate_unit,
+      };
+    }
+    return {};
+  }, []);
+
   useEffect(() => {
     if (estimated_duration && estimated_flow_rate && estimated_flow_rate_unit) {
       // flow rate database unit: l/min
@@ -88,8 +101,7 @@ const WaterUseVolumeCalculator = ({
         max={999999.99}
         system={system}
         control={control}
-        defaultValue={locationDefaults?.estimated_flow_rate || null}
-        to={locationDefaults?.estimated_flow_rate_unit || ''}
+        {...flowRateDefaultValues}
         data-testid="volumecalculator-flowrate"
       />
 

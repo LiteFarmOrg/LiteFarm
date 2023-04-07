@@ -76,7 +76,7 @@
     "i18next-fs-backend": "^1.1.4",
     "jsdom": "^16.4.0",
     "json-2-csv": "^3.14.4",
-    "jsonwebtoken": "^8.5.1",
+    "jsonwebtoken": "^9.0.0",
     "jwks-rsa": "^1.12.1",
     "knex": "^0.95.15",
     "lodash": "^4.17.20",

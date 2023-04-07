@@ -148,6 +148,16 @@ const WaterUseDepthCalculator = ({
   const percentage_location_irrigated = watch(PERCENTAGE_LOCATION_IRRIGATED);
 
   useEffect(() => {
+    if (location.total_area !== getValues(LOCATION_SIZE)) {
+      setValue(LOCATION_SIZE, location.total_area);
+      setValue(
+        LOCATION_SIZE_UNIT,
+        getUnitOptionMap()[getDefaultUnit(location_area, location.total_area, system).displayUnit],
+      );
+    }
+  }, []);
+
+  useEffect(() => {
     let irrigatedArea = null;
     if (percentage_location_irrigated) {
       irrigatedArea = roundToTwoDecimal(
@@ -237,7 +247,6 @@ const WaterUseDepthCalculator = ({
           hookFormGetValue={getValues}
           hookFromWatch={watch}
           control={control}
-          defaultValue={location.total_area}
           disabled
           data-testid="depthcalculator-locationsize"
         />

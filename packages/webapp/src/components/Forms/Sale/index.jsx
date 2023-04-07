@@ -32,7 +32,6 @@ const SaleForm = ({
         crop_variety_id: cur.crop_variety_id,
         quantity: cur.quantity,
         quantity_unit: cur.quantity_unit,
-        sale_id: cur.sale_id,
         sale_value: cur.sale_value,
       },
     }),
@@ -223,8 +222,8 @@ const SaleForm = ({
                     control={control}
                     style={{ marginBottom: '40px' }}
                     required
-                    defaultValue={existingSales?.[c.value].quantity}
-                    from={existingSales?.[c.value].quantity_unit}
+                    //defaultValue={existingSales?.[c.value].quantity}
+                    //from={existingSales?.[c.value].quantity_unit}
                   />
                 </div>
                 <div className={styles.rightcolumn}>

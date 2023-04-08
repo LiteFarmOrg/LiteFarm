@@ -12,7 +12,7 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
-import { within, userEvent, waitFor } from '@storybook/testing-library';
+import { within, userEvent, waitFor, screen } from '@storybook/testing-library';
 import { expect } from '@storybook/jest';
 import selectEvent from 'react-select-event';
 import { roundToTwoDecimal, convertFn } from '../../util/convert-units/unit';
@@ -21,10 +21,10 @@ import { getUnitOptionMap } from '../../util/convert-units/getUnitOptionMap';
 /** Class used for testing Unit component. */
 export default class UnitTest {
   constructor(canvasElement, testId, unitType = {}) {
-    this.canvas = within(canvasElement);
-    this.visibleInput = this.canvas.getByTestId(testId);
-    this.hiddenInput = this.canvas.getByTestId(`${testId}-hiddeninput`);
-    this.select = this.canvas.getByTestId(`${testId}-select`);
+    this.element = canvasElement ? within(canvasElement) : screen;
+    this.visibleInput = this.element.getByTestId(testId);
+    this.hiddenInput = this.element.getByTestId(`${testId}-hiddeninput`);
+    this.select = this.element.getByTestId(`${testId}-select`);
     this.testId = testId;
     this.unitType = unitType;
   }
@@ -39,7 +39,7 @@ export default class UnitTest {
   }
 
   async clearError() {
-    const clearButton = await this.canvas.findByTestId(`${this.testId}-errorclearbutton`);
+    const clearButton = await this.element.findByTestId(`${this.testId}-errorclearbutton`);
     await userEvent.click(clearButton);
   }
 
@@ -99,20 +99,22 @@ export default class UnitTest {
   }
 
   async haveRequiredError() {
-    const errorContainer = await this.canvas.findByTestId(`${this.testId}-errormessage`);
+    const errorContainer = await this.element.findByTestId(`${this.testId}-errormessage`);
     expect(errorContainer).toHaveTextContent('Required');
   }
 
   async haveMaxValueError() {
-    const errorContainer = await this.canvas.findByTestId(`${this.testId}-errormessage`);
+    const errorContainer = await this.element.findByTestId(`${this.testId}-errormessage`);
     expect(errorContainer).toHaveTextContent(/Please enter a value between 0-[0-9]./);
   }
 
   async haveNoError() {
     await waitFor(() => {
-      const clearButton = this.canvas.queryByTestId(`${this.testId}-errorclearbutton`);
-      const requiredErrorElement = this.canvas.queryByText('Required');
-      const maxValueErrorElement = this.canvas.queryByText(/Please enter a value between 0-[0-9]./);
+      const clearButton = this.element.queryByTestId(`${this.testId}-errorclearbutton`);
+      const requiredErrorElement = this.element.queryByText('Required');
+      const maxValueErrorElement = this.element.queryByText(
+        /Please enter a value between 0-[0-9]./,
+      );
       expect(clearButton).not.toBeInTheDocument();
       expect(requiredErrorElement).not.toBeInTheDocument();
       expect(maxValueErrorElement).not.toBeInTheDocument();

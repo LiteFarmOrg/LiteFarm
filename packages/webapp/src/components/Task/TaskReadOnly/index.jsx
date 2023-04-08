@@ -145,6 +145,9 @@ export default function PureTaskReadOnly({
   const canCompleteTask =
     user.user_id === task.assignee_user_id || (assignedToPseudoUser && user.is_admin);
 
+  const canAbandonTask =
+    user.user_id === task.assignee_user_id || user.user_id === owner_user_id || isAdmin;
+
   const preDelete = () => {
     setIsDeleting(true);
   };
@@ -152,27 +155,24 @@ export default function PureTaskReadOnly({
   return (
     <Layout
       buttonGroup={
-        canCompleteTask &&
+        (canCompleteTask || canAbandonTask) &&
         isCurrent && (
           <>
-            {(user.user_id === task.assignee_user_id ||
-              user.user_id === owner_user_id ||
-              isAdmin) &&
-              isCurrent && (
-                <Button
-                  data-cy="taskReadOnly-abandon"
-                  color={'secondary'}
-                  onClick={onAbandon}
-                  fullLength
-                >
-                  {t('TASK.ABANDON.ABANDON')}
-                </Button>
-              )}
+            <Button
+              data-cy="taskReadOnly-abandon"
+              color={'secondary'}
+              onClick={onAbandon}
+              fullLength
+              disabled={!canAbandonTask}
+            >
+              {t('TASK.ABANDON.ABANDON')}
+            </Button>
             <Button
               data-cy="taskReadOnly-complete"
               color={'primary'}
               onClick={onComplete}
               fullLength
+              disabled={!canCompleteTask}
             >
               {t('common:MARK_COMPLETE')}
             </Button>

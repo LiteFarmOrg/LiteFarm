@@ -10,9 +10,7 @@ import {
   addManyTasksFromGetReq,
   putTasksSuccess,
   putTaskSuccess,
-  deleteTaskStart,
   deleteTaskSuccess,
-  deleteTaskFail,
 } from '../taskSlice';
 import { getProductsSuccess, onLoadingProductFail, onLoadingProductStart } from '../productSlice';
 import {
@@ -697,7 +695,6 @@ export function* completeTaskSaga({ payload: { task_id, data, returnPath } }) {
 export const abandonTask = createAction('abandonTaskSaga');
 
 export function* abandonTaskSaga({ payload: data }) {
-  console.log(data);
   const { taskUrl } = apiConfig;
   let { user_id, farm_id } = yield select(loginSelector);
   const { task_id, patchData, returnPath } = data;
@@ -827,7 +824,6 @@ export function* deleteTaskSaga({ payload: data }) {
   const { task_id } = data;
   const header = getHeader(user_id, farm_id);
   try {
-    yield put(deleteTaskStart());
     const result = yield call(axios.delete, `${taskUrl}/${task_id}`, header);
     if (result) {
       history.back();
@@ -836,7 +832,6 @@ export function* deleteTaskSaga({ payload: data }) {
     }
   } catch (e) {
     console.log(e);
-    yield put(deleteTaskFail());
     yield put(enqueueErrorSnackbar(i18n.t('TASK.DELETE.FAILED')));
   }
 }

@@ -115,9 +115,7 @@ const taskSlice = createSlice({
     putTaskSuccess: upsertOneTask,
     putTasksSuccess: updateManyTasks,
     createTaskSuccess: taskAdapter.addOne,
-    deleteTaskStart: onLoadingStart,
     deleteTaskSuccess: removeOne,
-    deleteTaskFail: onLoadingFail,
   },
 });
 export const {
@@ -127,9 +125,7 @@ export const {
   putTaskSuccess,
   putTasksSuccess,
   createTaskSuccess,
-  deleteTaskStart,
   deleteTaskSuccess,
-  deleteTaskFail,
 } = taskSlice.actions;
 export default taskSlice.reducer;
 

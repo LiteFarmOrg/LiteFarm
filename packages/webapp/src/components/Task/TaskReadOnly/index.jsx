@@ -50,7 +50,7 @@ import TaskQuickAssignModal from '../../Modals/QuickAssignModal';
 import { getDateInputFormat } from '../../../util/moment';
 import UpdateTaskDateModal from '../../Modals/UpdateTaskDateModal';
 import PureIrrigationTask from '../PureIrrigationTask';
-import DeleteBox from './ConfirmDelete';
+import DeleteBox from './DeleteBox';
 
 export default function PureTaskReadOnly({
   onGoBack,

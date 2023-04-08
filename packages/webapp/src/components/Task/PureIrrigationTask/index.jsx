@@ -7,11 +7,11 @@ import Checkbox from '../../Form/Checkbox';
 import RadioGroup from '../../Form/RadioGroup';
 import styles from '../../Typography/typography.module.scss';
 import Input, { getInputErrors, numberOnKeyDown } from '../../Form/Input';
-import Unit, { getUnitOptionMap } from '../../Form/Unit';
+import Unit from '../../Form/Unit';
+import { getUnitOptionMap } from '../../../util/convert-units/getUnitOptionMap';
 import { waterUsage } from '../../../util/convert-units/unit';
 import PropTypes from 'prop-types';
 import WaterUsageCalculatorModal from '../../Modals/WaterUsageCalculatorModal';
-import { convert } from '../../../util/convert-units/convert';
 import { getIrrigationTaskTypes } from '../../../containers/Task/IrrigationTaskTypes/saga';
 import { useDispatch, useSelector } from 'react-redux';
 import { irrigationTaskTypesSliceSelector } from '../../../containers/irrigationTaskTypesSlice';
@@ -38,10 +38,12 @@ export default function PureIrrigationTask({
   const [showWaterUseCalculatorModal, setShowWaterUseCalculatorModal] = useState(false);
   const { irrigationTaskTypes = [] } = useSelector(irrigationTaskTypesSliceSelector);
   const cropLocations = useSelector(cropLocationsSelector);
-  const location_defaults =
+  const location =
     locations &&
-    cropLocations.filter((cropLocation) => cropLocation.location_id === locations[0].location_id)[0]
-      ?.location_defaults;
+    cropLocations.filter(
+      (cropLocation) => cropLocation.location_id === locations[0].location_id,
+    )[0];
+  const location_defaults = location?.location_defaults;
   const locationDefaults = [location_defaults]?.map((location) => {
     return {
       ...location,
@@ -288,13 +290,7 @@ export default function PureIrrigationTask({
         style={{ marginTop: '40px', marginBottom: `${disabled ? 40 : 0}px` }}
         disabled={disabled}
         onKeyDown={numberOnKeyDown}
-        onChangeUnitOption={(e) => {
-          setEstimatedWaterUsageComputed(true);
-          setValue(
-            ESTIMATED_WATER_USAGE,
-            convert(estimated_water_usage).from(estimated_water_usage_unit.value).to(e.value),
-          );
-        }}
+        onChangeUnitOption={() => setEstimatedWaterUsageComputed(true)}
       />
       {!disabled && (
         <>
@@ -319,6 +315,8 @@ export default function PureIrrigationTask({
           setTotalDepthWaterUsage={setTotalDepthWaterUsage}
           formState={stateController}
           locationDefaults={locationDefaults}
+          location={location}
+          errors={errors}
         />
       )}
     </>

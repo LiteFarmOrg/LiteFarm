@@ -53,13 +53,6 @@ const SaleForm = ({
   const SALE_DATE = 'sale_date';
   const SALE_CUSTOMER = 'customer_name';
   const CHOSEN_VARIETIES = 'crop_variety_sale';
-  let CROP_VARIETY_VALUES = {};
-  cropVarietyOptions.forEach((cv) => {
-    CROP_VARIETY_VALUES[cv.value] = {
-      CROP_VARIETY_ID: `${CHOSEN_VARIETIES}.${cv.value}.crop_variety_id`,
-      SALE_VALUE: `${CHOSEN_VARIETIES}.${cv.value}.sale_value`,
-    };
-  });
 
   const {
     register,
@@ -85,9 +78,10 @@ const SaleForm = ({
   register(CHOSEN_VARIETIES, { required: true });
 
   const [isDirty, setIsDirty] = useState(false);
-  const [filterState, setFilterState] = useState(filter);
+  const [filterState, setFilterState] = useState({});
   const [isFilterValid, setIsFilterValid] = useState(true);
   const [chosenOptions, setChosenOptions] = useState([]);
+  const [cropVarietyRegisterNames, setCropVarietyRegisterNames] = useState({});
   const [cropVarietyRegisters, setCropVarietyRegisters] = useState({});
 
   // Run once and do not assess filter validity -- needed for edit sale
@@ -97,19 +91,25 @@ const SaleForm = ({
     );
     activeOptions.length ?? setIsFilterValid(true);
     // Input does not support registering like Unit, dynamically register here
+    let dynamicRegisterNames = {};
     let dynamicRegister = {};
     activeOptions.forEach((option) => {
+      dynamicRegisterNames[option.value] = {
+        CROP_VARIETY_ID: `${CHOSEN_VARIETIES}.${option.value}.crop_variety_id`,
+        SALE_VALUE: `${CHOSEN_VARIETIES}.${option.value}.sale_value`,
+      };
       dynamicRegister[option.value] = {
-        cropVarietyIdRegister: register(CROP_VARIETY_VALUES[option.value].CROP_VARIETY_ID, {
+        cropVarietyIdRegister: register(dynamicRegisterNames[option.value].CROP_VARIETY_ID, {
           required: true,
           value: option.value,
         }),
-        saleValueRegister: register(CROP_VARIETY_VALUES[option.value].SALE_VALUE, {
+        saleValueRegister: register(dynamicRegisterNames[option.value].SALE_VALUE, {
           required: true,
           valueAsNumber: true,
         }),
       };
     });
+    setCropVarietyRegisterNames(dynamicRegisterNames);
     setCropVarietyRegisters(dynamicRegister);
     setChosenOptions(activeOptions);
   }, []);
@@ -125,21 +125,27 @@ const SaleForm = ({
       const activeOptions = cropVarietyOptions.filter(
         (cvs) => filterState[STATUS][cvs.label].active,
       );
+      let dynamicRegisterNames = {};
+      let dynamicRegister = {};
       activeOptions.length ? setIsFilterValid(true) : setIsFilterValid(false);
       // Input does not support registering like Unit, dynamically register here
-      let dynamicRegister = {};
       activeOptions.forEach((option) => {
+        dynamicRegisterNames[option.value] = {
+          CROP_VARIETY_ID: `${CHOSEN_VARIETIES}.${option.value}.crop_variety_id`,
+          SALE_VALUE: `${CHOSEN_VARIETIES}.${option.value}.sale_value`,
+        };
         dynamicRegister[option.value] = {
-          cropVarietyIdRegister: register(CROP_VARIETY_VALUES[option.value].CROP_VARIETY_ID, {
+          cropVarietyIdRegister: register(dynamicRegisterNames[option.value].CROP_VARIETY_ID, {
             required: true,
             value: option.value,
           }),
-          saleValueRegister: register(CROP_VARIETY_VALUES[option.value].SALE_VALUE, {
+          saleValueRegister: register(dynamicRegisterNames[option.value].SALE_VALUE, {
             required: true,
             valueAsNumber: true,
           }),
         };
       });
+      setCropVarietyRegisterNames(dynamicRegisterNames);
       setCropVarietyRegisters(dynamicRegister);
       setChosenOptions(activeOptions);
     }
@@ -205,7 +211,10 @@ const SaleForm = ({
                     value={c.label}
                     hookFormRegister={cropVarietyRegisters[c.value].cropVarietyIdRegister}
                     style={{ marginBottom: '40px' }}
-                    errors={getInputErrors(errors, CROP_VARIETY_VALUES[c.value].CROP_VARIETY_ID)}
+                    errors={getInputErrors(
+                      errors,
+                      cropVarietyRegisterNames[c.value].CROP_VARIETY_ID,
+                    )}
                     disabled
                   />
                 </div>
@@ -222,8 +231,6 @@ const SaleForm = ({
                     control={control}
                     style={{ marginBottom: '40px' }}
                     required
-                    //defaultValue={existingSales?.[c.value].quantity}
-                    //from={existingSales?.[c.value].quantity_unit}
                   />
                 </div>
                 <div className={styles.rightcolumn}>
@@ -232,7 +239,7 @@ const SaleForm = ({
                     hookFormRegister={cropVarietyRegisters[c.value].saleValueRegister}
                     currency={currency}
                     style={{ marginBottom: '40px' }}
-                    errors={getInputErrors(errors, CROP_VARIETY_VALUES[c.value].SALE_VALUE)}
+                    errors={getInputErrors(errors, cropVarietyRegisterNames[c.value].SALE_VALUE)}
                   />
                 </div>
               </div>

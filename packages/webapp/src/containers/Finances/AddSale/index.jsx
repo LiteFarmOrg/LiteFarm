@@ -34,7 +34,7 @@ function AddSale({}) {
     dispatch(addOrUpdateSale(addSale));
   };
 
-  const getCropVarietyOptions = (managementPlans) => {
+  const getCropVarietyOptions = () => {
     if (!managementPlans || managementPlans.length === 0) {
       return;
     }
@@ -59,7 +59,7 @@ function AddSale({}) {
     return cropVarietyOptions;
   };
 
-  const cropVarietyOptions = getCropVarietyOptions(managementPlans);
+  const cropVarietyOptions = getCropVarietyOptions();
 
   return (
     <div className={defaultStyles.financesContainer}>

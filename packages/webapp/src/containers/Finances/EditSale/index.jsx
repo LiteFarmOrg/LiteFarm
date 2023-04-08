@@ -41,7 +41,7 @@ function EditSale({ history }) {
     history.push('/finances');
   };
 
-  const getCropVarietyOptions = (managementPlans) => {
+  const getCropVarietyOptions = () => {
     if (!managementPlans || managementPlans.length === 0) {
       return;
     }
@@ -66,7 +66,7 @@ function EditSale({ history }) {
     return cropVarietyOptions;
   };
 
-  const cropVarietyOptions = getCropVarietyOptions(managementPlans);
+  const cropVarietyOptions = getCropVarietyOptions();
 
   return (
     <div className={defaultStyles.financesContainer}>

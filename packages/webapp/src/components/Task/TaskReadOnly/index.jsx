@@ -441,6 +441,28 @@ export default function PureTaskReadOnly({
           {t('TASK.DELETE.DELETE_TASK')}
         </IconLink>
       )}
+      {isDeleting && isTaskType(taskType, 'PLANT_TASK') && (
+        <DeleteBox
+          color="warning"
+          onOk={onAbandon}
+          onCancel={() => setIsDeleting(false)}
+          header={t('TASK.DELETE.CANT_DELETE_PLANTING_TASK')}
+          headerIcon={<FiAlertTriangle />}
+          message={t('TASK.DELETE.CANT_DELETE_ABANDON_INSTEAD')}
+          primaryButtonLabel={t('TASK.DELETE.CANT_DELETE_ABANDON')}
+        />
+      )}
+      {isDeleting && !isTaskType(taskType, 'PLANT_TASK') && (
+        <DeleteBox
+          color="error"
+          onOk={onDelete}
+          onCancel={() => setIsDeleting(false)}
+          header={t('TASK.DELETE.DELETE_TASK_QUESTION')}
+          headerIcon={<TrashIcon />}
+          message={t('TASK.DELETE.DELETE_TASK_MESSAGE')}
+          primaryButtonLabel={t('TASK.DELETE.CONFIRM_DELETION')}
+        />
+      )}
       {showTaskAssignModal && (
         <TaskQuickAssignModal
           task_id={task.task_id}
@@ -462,28 +484,6 @@ export default function PureTaskReadOnly({
           due_date={date}
           onChangeTaskDate={onChangeTaskDate}
           dismissModal={() => setShowDueDateModal(false)}
-        />
-      )}
-      {isDeleting && isTaskType(taskType, 'PLANT_TASK') && (
-        <DeleteBox
-          color="warning"
-          onOk={onAbandon}
-          onCancel={() => setIsDeleting(false)}
-          header={t('TASK.DELETE.CANT_DELETE_PLANTING_TASK')}
-          headerIcon={<FiAlertTriangle />}
-          message={t('TASK.DELETE.CANT_DELETE_ABANDON_INSTEAD')}
-          primaryButtonLabel={t('TASK.DELETE.CANT_DELETE_ABANDON')}
-        />
-      )}
-      {isDeleting && !isTaskType(taskType, 'PLANT_TASK') && (
-        <DeleteBox
-          color="error"
-          onOk={onDelete}
-          onCancel={() => setIsDeleting(false)}
-          header={t('TASK.DELETE.DELETE_TASK_QUESTION')}
-          headerIcon={<TrashIcon />}
-          message={t('TASK.DELETE.DELETE_TASK_MESSAGE')}
-          primaryButtonLabel={t('TASK.DELETE.CONFIRM_DELETION')}
         />
       )}
     </Layout>

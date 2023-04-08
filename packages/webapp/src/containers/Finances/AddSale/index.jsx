@@ -14,7 +14,6 @@ function AddSale({}) {
   const managementPlans = useSelector(currentAndPlannedManagementPlansSelector) || [];
   const farm = useSelector(userFarmSelector);
   const system = useSelector(measurementSelector);
-
   const onSubmit = (data) => {
     const crop_variety_sale = Object.values(data.crop_variety_sale).map((c) => {
       return {
@@ -71,6 +70,7 @@ function AddSale({}) {
         customerLabel={t('SALE.ADD_SALE.CUSTOMER_NAME')}
         system={system}
         currency={useCurrencySymbol()}
+        managementPlans={managementPlans}
       />
     </div>
   );

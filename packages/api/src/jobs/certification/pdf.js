@@ -16,18 +16,28 @@ export default (nextQueue, emailQueue) => async (job) => {
     headless: true,
     ignoreDefaultArgs: ['--disable-extensions'],
   });
-  const submission = await rp({
-    uri: `${surveyStackURL}/submissions/${job.data.submission}`,
+
+  const [submission] = await rp({
+    uri: `${surveyStackURL}/submissions?survey=${certifier.survey_id}&match={"_id":{"$oid":"${job.data.submission}"}}`,
     json: true,
+    headers: { Authorization: `${process.env.SURVEY_USER} ${process.env.SURVEY_TOKEN}` },
   });
+
   const survey = await rp({
-    uri: `${surveyStackURL}/surveys/${submission.meta.survey.id}`,
+    uri: `${surveyStackURL}/surveys/${certifier.survey_id}`,
     json: true,
+    headers: { Authorization: `${process.env.SURVEY_USER} ${process.env.SURVEY_TOKEN}` },
   });
+
   if (!submission || !survey) {
     emailQueue.add({ fail: true });
     return Promise.resolve();
   }
+
+  if (!Object.keys(submission.data).length) {
+    console.error(`No data was returned from submission ${job.data.submission}`);
+  }
+
   const questionAnswerMap = survey.revisions[survey.revisions.length - 1].controls.reduce(
     (obj, { label, name }) => ({
       ...obj,

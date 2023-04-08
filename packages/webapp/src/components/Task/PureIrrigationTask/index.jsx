@@ -7,7 +7,8 @@ import Checkbox from '../../Form/Checkbox';
 import RadioGroup from '../../Form/RadioGroup';
 import styles from '../../Typography/typography.module.scss';
 import Input, { getInputErrors, numberOnKeyDown } from '../../Form/Input';
-import Unit, { getUnitOptionMap } from '../../Form/Unit';
+import Unit from '../../Form/Unit';
+import { getUnitOptionMap } from '../../../util/convert-units/getUnitOptionMap';
 import { waterUsage } from '../../../util/convert-units/unit';
 import PropTypes from 'prop-types';
 import WaterUsageCalculatorModal from '../../Modals/WaterUsageCalculatorModal';
@@ -319,6 +320,7 @@ export default function PureIrrigationTask({
           setTotalDepthWaterUsage={setTotalDepthWaterUsage}
           formState={stateController}
           locationDefaults={locationDefaults}
+          errors={errors}
         />
       )}
     </>

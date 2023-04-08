@@ -135,3 +135,13 @@ export const getObjectInnerValues = (data) => {
     return { ...reduced, [k]: data[k] };
   }, {});
 };
+
+export const truncateText = (text, length) => {
+  if (text) {
+    if (text.length > length) {
+      return text.slice(0, length) + '...';
+    }
+    return text;
+  }
+  return '';
+};

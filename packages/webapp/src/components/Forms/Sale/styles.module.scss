@@ -91,27 +91,12 @@
   display: flex;
 }
 
-.leftColumn {
-  flex-basis: 30%;
-  padding-right: 4%;
+.harvestDetails {
+  display: flex;
 }
 
-.middleColumn {
-  flex-basis: 35%;
-  max-width: 35%;
-  padding-right: 5px;
-}
-
-.rightcolumn {
-  flex-basis: 35%;
-  max-width: 35%;
-
-  // no input label - translation adjustment
-  [class*="currency"] {
-    transform: translate(8px, 13px);
-  }
-  [class*="cross"] {
-    transform: translate(-17px, -5px) !important;
-  }
-
+.harvestInputs {
+  min-width: 200px;
+  flex-grow: 1;
+  margin-left: 24px
 }

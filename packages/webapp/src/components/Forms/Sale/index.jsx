@@ -5,6 +5,7 @@ import Form from '../../Form';
 import Button from '../../Form/Button';
 import Input, { getInputErrors } from '../../Form/Input';
 import Unit from '../../Form/Unit';
+import PureManagementPlanTile from '../../CropTile/ManagementPlanTile';
 import { useForm } from 'react-hook-form';
 import PageTitle from '../../PageTitle/v2';
 import FilterPillSelect from '../../Filter/FilterPillSelect';
@@ -22,6 +23,7 @@ const SaleForm = ({
   system,
   currency,
   sale,
+  managementPlans,
 }) => {
   // Reformat selector to match component format
   // TODO: match component to selector format
@@ -178,7 +180,7 @@ const SaleForm = ({
       <Input
         label={customerLabel}
         hookFormRegister={saleCustomerRegister}
-        style={{ marginBottom: '40px', marginTop: '40px' }}
+        style={{ marginBottom: '40px' }}
         errors={getInputErrors(errors, SALE_CUSTOMER)}
         type={'text'}
       />
@@ -195,53 +197,44 @@ const SaleForm = ({
         <Error style={{ marginBottom: '32px' }}>{t('SALE.ADD_SALE.CROP_REQUIRED')}</Error>
       )}
       <hr className={styles.thinHr} />
-      <div className={styles.banner}>
-        <p>{t('SALE.ADD_SALE.TABLE_HEADERS.CROP_VARIETIES')}</p>
-        <p>{t('SALE.ADD_SALE.TABLE_HEADERS.QUANTITY')}</p>
-        <p>{`${t('SALE.ADD_SALE.TABLE_HEADERS.TOTAL')} (${currency})`}</p>
-      </div>
-      <hr className={styles.thinHr2} />
       {chosenOptions &&
         chosenOptions.map((c) => {
+          const managementPlan = managementPlans.find((mp) => mp.crop_variety_id == c.value);
           return (
-            <div className={styles.saleContainer} key={c.value}>
-              <div className={styles.sale}>
-                <div className={styles.leftColumn}>
-                  <Input
-                    value={c.label}
-                    hookFormRegister={cropVarietyRegisters[c.value].cropVarietyIdRegister}
-                    style={{ marginBottom: '40px' }}
-                    errors={getInputErrors(
-                      errors,
-                      cropVarietyRegisterNames[c.value].CROP_VARIETY_ID,
-                    )}
-                    disabled
-                  />
-                </div>
-                <div className={styles.middleColumn}>
-                  <Unit
-                    register={register}
-                    name={`${CHOSEN_VARIETIES}.${c.value}.quantity`}
-                    displayUnitName={`${CHOSEN_VARIETIES}.${c.value}.quantity_unit`}
-                    unitType={harvestAmounts}
-                    system={system}
-                    hookFormSetValue={setValue}
-                    hookFormGetValue={getValues}
-                    hookFromWatch={watch}
-                    control={control}
-                    style={{ marginBottom: '40px' }}
-                    required
-                  />
-                </div>
-                <div className={styles.rightcolumn}>
-                  <Input
-                    type="number"
-                    hookFormRegister={cropVarietyRegisters[c.value].saleValueRegister}
-                    currency={currency}
-                    style={{ marginBottom: '40px' }}
-                    errors={getInputErrors(errors, cropVarietyRegisterNames[c.value].SALE_VALUE)}
-                  />
-                </div>
+            <div
+              key={c.label}
+              className={styles.harvestDetails}
+              style={{ marginTop: '32px', marginBottom: '32px' }}
+            >
+              <PureManagementPlanTile
+                key={managementPlan.management_plan_id}
+                managementPlan={managementPlan}
+                date={managementPlan.firstTaskDate}
+                status={managementPlan.status}
+              />
+              <div className={styles.harvestInputs}>
+                <Unit
+                  label={t('SALE.ADD_SALE.TABLE_HEADERS.QUANTITY')}
+                  register={register}
+                  name={`${CHOSEN_VARIETIES}.${c.value}.quantity`}
+                  displayUnitName={`${CHOSEN_VARIETIES}.${c.value}.quantity_unit`}
+                  unitType={harvestAmounts}
+                  system={system}
+                  hookFormSetValue={setValue}
+                  hookFormGetValue={getValues}
+                  hookFromWatch={watch}
+                  control={control}
+                  style={{ marginBottom: '40px' }}
+                  required
+                />
+                <Input
+                  label={`${t('SALE.ADD_SALE.TABLE_HEADERS.TOTAL')} (${currency})`}
+                  type="number"
+                  hookFormRegister={cropVarietyRegisters[c.value].saleValueRegister}
+                  currency={currency}
+                  style={{ marginBottom: '40px' }}
+                  errors={getInputErrors(errors, cropVarietyRegisterNames[c.value].SALE_VALUE)}
+                />
               </div>
             </div>
           );

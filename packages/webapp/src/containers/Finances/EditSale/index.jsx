@@ -80,6 +80,7 @@ function EditSale({ history }) {
         currency={useCurrencySymbol()}
         onClickDelete={() => setShowModal(true)}
         sale={sale}
+        managementPlans={managementPlans}
       />
       <ConfirmModal
         open={showModal}

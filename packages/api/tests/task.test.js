@@ -2169,7 +2169,7 @@ describe('Task tests', () => {
     });
   });
 
-  describe.only('DELETE task tests', () => {
+  describe('DELETE task tests', () => {
     test('Owner should be able to delete a task', async (done) => {
       const [{ user_id, farm_id }] = await mocks.userFarmFactory({}, fakeUserFarm(1));
       const date = faker.date.future().toISOString().split('T')[0];

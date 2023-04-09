@@ -647,11 +647,6 @@ const taskController = {
         return res.status(400).send('Task has already been completed or abandoned');
       }
 
-      // TODO: move to middleware
-      if (!adminRoles.includes(req.role)) {
-        return res.status(403).send('A worker cannot delete it');
-      }
-
       const result = await TaskModel.deleteTask(task_id, req.user);
       if (!result) return res.status(404).send('Task not found');
       return res.status(200).send(result);

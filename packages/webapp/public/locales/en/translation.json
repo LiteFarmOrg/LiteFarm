@@ -1400,7 +1400,7 @@
         "TOTAL": "Total"
       },
       "TITLE": "Add new sale",
-      "SALE_VALUE_ERROR": "Salary must be a positive number less than 999,999,999"
+      "SALE_VALUE_ERROR": "Sale value must be a positive number less than 999,999,999"
     },
     "DETAIL": {
       "ACTION": "Action",

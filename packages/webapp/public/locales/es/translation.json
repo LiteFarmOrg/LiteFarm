@@ -1403,7 +1403,7 @@
         "TOTAL": "Total"
       },
       "TITLE": "Agregue nueva venta",
-      "SALE_VALUE_ERROR": "Salary must be a positive number less than 999,999,999"
+      "SALE_VALUE_ERROR": "MISSING"
     },
     "DETAIL": {
       "ACTION": "Accion",

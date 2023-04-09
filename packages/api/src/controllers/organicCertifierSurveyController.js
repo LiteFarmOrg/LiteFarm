@@ -291,6 +291,7 @@ const organicCertifierSurveyController = {
                  (due_date::date <= :to_date::date AND due_date::date >= :from_date::date))
             AND abandon_date IS NULL
             AND p.farm_id = :farm_id
+            AND t.deleted = false
       `,
       { to_date, from_date, farm_id },
     );
@@ -337,6 +338,7 @@ const organicCertifierSurveyController = {
                  (due_date::date <= :to_date::date AND due_date::date >= :from_date::date))
             AND abandon_date IS NULL
             AND p.farm_id = :farm_id
+            AND t.deleted = false
       `,
       { to_date, from_date, farm_id },
     );
@@ -649,7 +651,9 @@ const organicCertifierSurveyController = {
                          WHERE organic_status != 'Non-Organic') lu ON lu.location_id = l.location_id
           WHERE ((complete_date::date <= :to_date::date AND complete_date::date >= :from_date::date) OR
                  (due_date::date <= :to_date::date AND due_date::date >= :from_date::date))
-            AND p.farm_id = :farm_id`,
+            AND p.farm_id = :farm_id
+            AND t.deleted = false
+      `,
       { to_date, from_date, farm_id },
     );
   },
@@ -703,7 +707,9 @@ const organicCertifierSurveyController = {
                          FROM residence) lu ON lu.location_id = l.location_id
           WHERE ((complete_date::date <= :to_date::date AND complete_date::date >= :from_date::date) OR
                  (due_date::date <= :to_date::date AND due_date::date >= :from_date::date))
-            AND p.farm_id = :farm_id`,
+            AND p.farm_id = :farm_id
+            AND t.deleted = false
+      `,
       { to_date, from_date, farm_id },
     );
   },

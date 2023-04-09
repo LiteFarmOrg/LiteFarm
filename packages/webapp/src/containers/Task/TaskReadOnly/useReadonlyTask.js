@@ -29,6 +29,7 @@ const getManagementPlanTile = (managementPlan, tasksByManagementPlanId) =>
 
 export const useReadonlyTask = (task_id) => {
   const task = useSelector(taskWithProductSelector(task_id));
+  if (task === undefined) return undefined;
   const tasksByManagementPlanId = useSelector(taskEntitiesByManagementPlanIdSelector);
 
   const getTransplantTask = (task) => {

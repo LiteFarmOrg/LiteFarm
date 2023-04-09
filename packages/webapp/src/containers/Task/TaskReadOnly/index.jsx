@@ -45,6 +45,7 @@ function TaskReadOnly({ history, match, location }) {
   const dispatch = useDispatch();
   const system = useSelector(measurementSelector);
   const task = useReadonlyTask(task_id);
+  if (task === undefined) history.push('/unknown_record');
   const products = useSelector(productsSelector);
   const users = useSelector(userFarmsByFarmSelector).filter((user) => user.status !== 'Inactive');
   const user = useSelector(userFarmSelector);

@@ -144,6 +144,8 @@ const SaleForm = ({
           saleValueRegister: register(dynamicRegisterNames[option.value].SALE_VALUE, {
             required: true,
             valueAsNumber: true,
+            min: { value: 0, message: t('SALE.ADD_SALE.SALE_VALUE_ERROR') },
+            max: { value: 999999999, message: t('SALE.ADD_SALE.SALE_VALUE_ERROR') },
           }),
         };
       });

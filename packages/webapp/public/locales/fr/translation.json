@@ -1403,7 +1403,8 @@
         "QUANTITY": "Quantité",
         "TOTAL": "Total"
       },
-      "TITLE": "Ajouter nouvelle vente"
+      "TITLE": "Ajouter nouvelle vente",
+      "SALE_VALUE_ERROR": "Salary must be a positive number less than 999,999,999"
     },
     "DETAIL": {
       "ACTION": "Action",

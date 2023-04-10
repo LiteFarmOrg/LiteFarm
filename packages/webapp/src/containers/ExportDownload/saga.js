@@ -21,20 +21,30 @@ import i18n from '../../locales/i18n';
 export const downloadExport = createAction('downloadExportSaga');
 
 export function* downloadExportSaga({ payload }) {
-  const {
-    farm_name
-  } = yield select(userFarmSelector);
+  const { farm_name } = yield select(userFarmSelector);
   try {
-    const fileName = farm_name ? `${farm_name} ${i18n.t('CERTIFICATIONS.EXPORT_FILE_TITLE')} ${payload.from} - ${payload.to}.zip` : undefined;
-    const config = {
-      headers: {
-        Authorization: 'Bearer ' + localStorage.getItem('farm_token'),
-      },
-      responseType: 'arraybuffer',
-      method: 'GET',
-    };
+    const fileName = farm_name
+      ? `${farm_name} ${i18n.t('CERTIFICATIONS.EXPORT_FILE_TITLE')} ${payload.from} - ${
+          payload.to
+        }.zip`
+      : undefined;
+
     const url = new URL(payload.file);
-    url.hostname = 'images.litefarm.workers.dev';
+
+    let config = {};
+
+    if (import.meta.env.VITE_ENV !== 'development') {
+      config = {
+        headers: {
+          Authorization: 'Bearer ' + localStorage.getItem('farm_token'),
+        },
+        responseType: 'arraybuffer',
+        method: 'GET',
+      };
+
+      url.hostname = 'images.litefarm.workers.dev';
+    }
+
     const res = yield fetch(url, config);
     if (res.status !== 403) {
       const blob = yield res.blob();

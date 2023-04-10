@@ -29,6 +29,12 @@ const getRowMethodReqBody = (row_method) =>
     return row_method;
   });
 
+const getBroadcastMethodReqBody = (broadcast_method) =>
+  produce(broadcast_method, (broadcast_method) => {
+    delete broadcast_method.location_size;
+    delete broadcast_method.location_size_unit;
+  });
+
 const plantingManagementPlanPropertiesV0 = [
   'notes',
   'planting_method',
@@ -50,11 +56,16 @@ export const getPlantingMethodReqBody = (plantingManagementPlan, propertiesOverW
       ...pick(plantingManagementPlan, plantingManagementPlanPropertiesV0),
       ...propertiesOverWrite,
     };
+  } else if (plantingManagementPlan.planting_method === 'BROADCAST_METHOD') {
+    return {
+      broadcast_method: getBroadcastMethodReqBody(plantingManagementPlan.broadcast_method),
+      ...pick(plantingManagementPlan, plantingManagementPlanPropertiesV0),
+      ...propertiesOverWrite,
+    };
   } else {
     return {
-      [plantingManagementPlan.planting_method.toLowerCase()]: plantingManagementPlan[
-        plantingManagementPlan.planting_method.toLowerCase()
-      ],
+      [plantingManagementPlan.planting_method.toLowerCase()]:
+        plantingManagementPlan[plantingManagementPlan.planting_method.toLowerCase()],
       ...pick(plantingManagementPlan, plantingManagementPlanPropertiesV0),
       ...propertiesOverWrite,
     };
@@ -202,13 +213,8 @@ const getManagementPlanReqBody = (formData) => ({
 });
 
 export const getDefaultLocationReqBody = (formData) => {
-  const {
-    already_in_ground,
-    is_wild,
-    for_cover,
-    needs_transplant,
-    is_seed,
-  } = formData.crop_management_plan;
+  const { already_in_ground, is_wild, for_cover, needs_transplant, is_seed } =
+    formData.crop_management_plan;
   return {
     farm:
       needs_transplant &&

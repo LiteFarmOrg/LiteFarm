@@ -32,3 +32,69 @@
 .rating {
   display: table-row;
 }
+
+.deleteText {
+  padding-bottom: 16px;
+
+  span {
+    text-decoration: none;
+  }
+}
+
+.deleteBox {
+  border-radius: 4px;
+  padding: 22px 29px 21px 29px;
+  margin-bottom: 24px;
+  background: var(--grey100);
+}
+
+.errorBox {
+  border: 1px var(--red700) solid;
+}
+
+.warningBox {
+  border: 1px var(--brown700) solid;
+}
+
+.deleteBoxTitle {
+  padding-bottom: 10px;
+}
+
+.errorTitle {
+  color: var(--red700);
+
+  svg {
+    fill: var(--red700);
+    stroke: var(--red700);
+    transform: translate(0px, 5px);
+  }
+}
+
+.warningTitle {
+  color: var(--brown700);
+
+  svg {
+    transform: translate(0px, 3px);
+    margin-right: 8px,
+  }
+}
+
+.deleteBoxButtons {
+  display: flex;
+  align-items: stretch;
+  justify-content: space-around;
+  flex-flow: row wrap;
+
+  button {
+    font-size: 14px;
+    min-height: 36px;
+    margin-top: 23px;
+  }
+  button:nth-of-type(1) {
+    flex-grow: 1;
+    margin-right: 16px;
+  }
+  button:nth-of-type(2) {
+    flex-grow: 2;
+  }
+}

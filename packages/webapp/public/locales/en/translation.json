@@ -1768,7 +1768,18 @@
     "TODO": "To do",
     "TRANSPLANT": "Transplant",
     "TRANSPLANT_LOCATIONS": "Select a transplant location",
-    "UNASSIGNED": "Unassigned"
+    "UNASSIGNED": "Unassigned",
+    "DELETE": {
+      "DELETE_TASK": "Delete task",
+      "DELETE_TASK_QUESTION": "Delete task?",
+      "DELETE_TASK_MESSAGE": "This task will be removed from your farm. If you would like to keep a record of this task, click \"Abandon\" instead.",
+      "CONFIRM_DELETION": "Confirm deletion",
+      "CANT_DELETE_PLANTING_TASK": "Can't delete planting task",
+      "CANT_DELETE_ABANDON_INSTEAD": "Do you want to abandon the crop plan instead?",
+      "CANT_DELETE_ABANDON": "Go to crop plan",
+      "SUCCESS": "Task successfully deleted",
+      "FAILED": "Failed to delete task"
+    }
   },
   "UNIT": {
     "TIME": {

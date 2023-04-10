@@ -6,7 +6,12 @@ import i18n from '../../locales/i18n';
 import { loginSelector, putUserSuccess } from '../userFarmSlice';
 import history from '../../history';
 import { enqueueErrorSnackbar, enqueueSuccessSnackbar } from '../Snackbar/snackbarSlice';
-import { addManyTasksFromGetReq, putTasksSuccess, putTaskSuccess } from '../taskSlice';
+import {
+  addManyTasksFromGetReq,
+  putTasksSuccess,
+  putTaskSuccess,
+  deleteTaskSuccess,
+} from '../taskSlice';
 import { getProductsSuccess, onLoadingProductFail, onLoadingProductStart } from '../productSlice';
 import {
   deleteTaskTypeSuccess,
@@ -691,7 +696,6 @@ export function* completeTaskSaga({ payload: { task_id, data, returnPath } }) {
 export const abandonTask = createAction('abandonTaskSaga');
 
 export function* abandonTaskSaga({ payload: data }) {
-  console.log(data);
   const { taskUrl } = apiConfig;
   let { user_id, farm_id } = yield select(loginSelector);
   const { task_id, patchData, returnPath } = data;
@@ -813,6 +817,26 @@ export function* addCustomHarvestUseSaga({ payload: data }) {
   }
 }
 
+export const deleteTask = createAction('deleteTasksSaga');
+
+export function* deleteTaskSaga({ payload: data }) {
+  const { taskUrl } = apiConfig;
+  let { user_id, farm_id } = yield select(loginSelector);
+  const { task_id } = data;
+  const header = getHeader(user_id, farm_id);
+  try {
+    const result = yield call(axios.delete, `${taskUrl}/${task_id}`, header);
+    if (result) {
+      history.back();
+      yield put(deleteTaskSuccess(result.data));
+      yield put(enqueueSuccessSnackbar(i18n.t('TASK.DELETE.SUCCESS')));
+    }
+  } catch (e) {
+    console.log(e);
+    yield put(enqueueErrorSnackbar(i18n.t('TASK.DELETE.FAILED')));
+  }
+}
+
 export default function* taskSaga() {
   yield takeLeading(addCustomTaskType.type, addTaskTypeSaga);
   yield takeLeading(assignTask.type, assignTaskSaga);
@@ -839,4 +863,5 @@ export default function* taskSaga() {
     getPlantingTasksAndPlantingManagementPlansSuccess.type,
     getPlantingTasksAndPlantingManagementPlansSuccessSaga,
   );
+  yield takeLeading(deleteTask.type, deleteTaskSaga);
 }

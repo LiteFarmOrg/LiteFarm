@@ -1691,7 +1691,18 @@
     "TODO": "A fazer",
     "TRANSPLANT": "Transplantar",
     "TRANSPLANT_LOCATIONS": "Selecione um local de transplante",
-    "UNASSIGNED": "Não atribuída"
+    "UNASSIGNED": "Não atribuída",
+    "DELETE": {
+      "DELETE_TASK": "MISSING",
+      "DELETE_TASK_QUESTION": "MISSING",
+      "DELETE_TASK_MESSAGE": "MISSING",
+      "CONFIRM_DELETION": "MISSING",
+      "CANT_DELETE_PLANTING_TASK": "MISSING",
+      "CANT_DELETE_ABANDON_INSTEAD": "MISSING",
+      "CANT_DELETE_ABANDON": "MISSING",
+      "SUCCESS": "MISSING",
+      "FAILED": "MISSING"
+    }
   },
   "UNIT": {
     "TIME": {

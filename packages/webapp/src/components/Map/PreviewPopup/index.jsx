@@ -5,18 +5,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import { colors } from '../../../assets/theme';
 import CompactPreview from './CompactPreview';
 import { TEMPERATURE, SOIL_WATER_POTENTIAL } from '../../../containers/SensorReadings/constants';
-import {
-  getSoilWaterPotentialUnit,
-  getSoilWaterPotentialValue,
-  getTemperatureUnit,
-  getTemperatureValue,
-} from './utils';
-import { userFarmSelector } from '../../../containers/userFarmSlice';
 import { useSelector } from 'react-redux';
-import {
-  sensorReadingTypesByLocationSelector,
-  sensorReadingTypesSelector,
-} from '../../../containers/sensorReadingTypesSlice';
+import { sensorReadingTypesByLocationSelector } from '../../../containers/sensorReadingTypesSlice';
 import clsx from 'clsx';
 
 const useStyles = makeStyles((theme) => ({
@@ -74,41 +64,12 @@ const useStyles = makeStyles((theme) => ({
 export default function PurePreviewPopup({ location, history, sensorReadings, styleOverride }) {
   const classes = useStyles();
   const { t } = useTranslation();
-  const { units } = useSelector(userFarmSelector);
   const { reading_types = [] } = useSelector(sensorReadingTypesByLocationSelector(location.id));
 
-  const loadReadingView = () => {
-    history.push(`/${location.type}/${location.id}/readings`);
-  };
+  const displayPopup =
+    reading_types?.includes(TEMPERATURE) || reading_types?.includes(SOIL_WATER_POTENTIAL);
 
-  let temperatureData = [];
-  let soilWaterPotentialData = [];
-  let sixHoursBefore = new Date();
-  sixHoursBefore.setHours(sixHoursBefore.getHours() - 6);
-
-  if (sensorReadings.length) {
-    temperatureData = sensorReadings.filter(
-      (sensorReading) =>
-        sensorReading.reading_type === TEMPERATURE &&
-        sensorReading.location_id === location.id &&
-        new Date(sensorReading.read_time) > sixHoursBefore,
-    );
-    soilWaterPotentialData = sensorReadings.filter(
-      (sensorReading) =>
-        sensorReading.reading_type === SOIL_WATER_POTENTIAL &&
-        sensorReading.location_id === location.id &&
-        new Date(sensorReading.read_time) > sixHoursBefore,
-    );
-  }
-
-  const latestTemperatureData = temperatureData[0];
-  const latestSoilWaterPotentialData = soilWaterPotentialData[0];
-
-  /**
-   * Add other reading types in the "includes" clause when other compact components are developed.
-   * This will allow the PreviewPopup component to only render if a sensor has reading data matching its reading type.
-   */
-  if (reading_types?.includes(TEMPERATURE) || reading_types?.includes(SOIL_WATER_POTENTIAL)) {
+  if (displayPopup) {
     return (
       <div className={classes.container}>
         <div
@@ -123,38 +84,22 @@ export default function PurePreviewPopup({ location, history, sensorReadings, st
             <div className={classes.title}>{location.name}</div>
           </div>
           <div className={classes.body}>
-            {reading_types?.includes(TEMPERATURE) && (
-              <CompactPreview
-                title={t('SENSOR.READINGS_PREVIEW.TEMPERATURE')}
-                value={
-                  temperatureData?.length
-                    ? getTemperatureValue(latestTemperatureData?.value, units?.measurement)
-                    : null
-                }
-                unit={temperatureData?.length ? getTemperatureUnit(units?.measurement) : null}
-                loadReadingView={loadReadingView}
-              />
-            )}
-            {reading_types?.includes(SOIL_WATER_POTENTIAL) && (
-              <CompactPreview
-                title={t('SENSOR.READINGS_PREVIEW.SOIL_WATER_POTENTIAL')}
-                value={
-                  soilWaterPotentialData?.length
-                    ? getSoilWaterPotentialValue(
-                        latestSoilWaterPotentialData?.value,
-                        units?.measurement,
-                      )
-                    : null
-                }
-                unit={
-                  soilWaterPotentialData?.length
-                    ? getSoilWaterPotentialUnit(units?.measurement)
-                    : null
-                }
-                loadReadingView={loadReadingView}
-              />
-            )}
-            {/*other compact views*/}
+            {reading_types.map((reading_type, idx) => {
+              /**
+               * Add other reading types in the if below when other compact components are added to CompactPreview
+               */
+              if ([TEMPERATURE, SOIL_WATER_POTENTIAL].includes(reading_type)) {
+                return (
+                  <CompactPreview
+                    key={idx}
+                    location={location}
+                    readings={sensorReadings}
+                    readingType={reading_type}
+                    history={history}
+                  />
+                );
+              }
+            })}
           </div>
         </div>
       </div>

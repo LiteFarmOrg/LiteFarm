@@ -545,7 +545,7 @@
         "SENSOR_NAME": "Nombre del sensor no válido, debe estar entre 1 y 100 caracteres.",
         "SENSOR_LATITUDE": "Valor de latitud no válido, debe estar entre -90 y 90. y menos de 10 decimales.",
         "SENSOR_LONGITUDE": "Valor de longitud no válido, debe estar entre -180 y 180. y menos de 10 decimales.",
-        "SENSOR_READING_TYPES": "Tipo de lectura no válido detectado: {{ tipos_de_lectura }} los valores válidos incluyen: soil_water_content, soil_water_potential, temperature.",
+        "SENSOR_READING_TYPES": "Tipo de lectura no válido detectado: {{ reading_types }} los valores válidos incluyen: soil_water_content, soil_water_potential, temperature.",
         "SENSOR_DEPTH": "Valor de profundidad no válido, debe estar entre 0 y 1000.",
         "SENSOR_BRAND": "Nombre de marca no válido, debe tener entre 1 y 100 caracteres.",
         "SENSOR_MODEL": "Nombre de modelo no válido, debe tener entre 1 y 100 caracteres.",

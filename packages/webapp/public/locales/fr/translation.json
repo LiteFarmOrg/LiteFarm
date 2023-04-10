@@ -1403,7 +1403,8 @@
         "QUANTITY": "Quantité",
         "TOTAL": "Total"
       },
-      "TITLE": "Ajouter nouvelle vente"
+      "TITLE": "Ajouter nouvelle vente",
+      "SALE_VALUE_ERROR": "MISSING"
     },
     "DETAIL": {
       "ACTION": "Action",

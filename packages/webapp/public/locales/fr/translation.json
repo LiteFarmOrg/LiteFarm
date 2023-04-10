@@ -25,7 +25,7 @@
     "ADD_A_TASK": "Ajouter une tâche",
     "ADD_CUSTOM_TASK": "Ajouter une tâche personnalisée",
     "AFFECT_PLANS": "Cette tâche affectera-t-elle les plans\u00a0?",
-    "ASSIGN_ALL_TO_PERSON": "MISSING",
+    "ASSIGN_ALL_TO_PERSON": "Assigner toutes les tâches à cette date à {{name}}",
     "ASSIGN_DATE": "Attribuer une date d'échéance",
     "ASSIGN_TASK": "Attribuer une tâche",
     "ASSIGNEE": "Personne responsable",
@@ -47,7 +47,7 @@
     "EDIT_CUSTOM_TASK": "Modifier la tâche personnalisée",
     "FIELD_WORK_VIEW": {
       "OTHER_TYPE_OF_FIELD_WORK": "Décrivez le type de travail sur le terrain",
-      "FIELD_WORK_TASK": "MISSING",
+      "FIELD_WORK_TASK": "travail sur le terrain",
       "TYPE": {
         "COVERING_SOIL": "Terre de couverture",
         "FENCING": "Cloturation",
@@ -65,11 +65,11 @@
     "HARVEST_EVERYTHING": "Récolter tout ce qui est prêt",
     "HARVESTING_INFO": "Chaque plan générera une tâche de récolte individuelle",
     "HOURLY_WAGE": {
-      "ASSIGNEE_WAGE_WARNING": "MISSING",
-      "DONT_ASK": "MISSING",
-      "FOR_THIS_TASK": "MISSING",
-      "SET_HOURLY_WAGE": "MISSING",
-      "WANT_TO_SET_HOURLY_WAGE": "MISSING"
+      "ASSIGNEE_WAGE_WARNING": "{{name}} n'a pas de salaire horaire",
+      "DONT_ASK": "Non, ne demandez plus pour cet employé",
+      "FOR_THIS_TASK": "Oui, juste pour cette tâche",
+      "SET_HOURLY_WAGE": "Oui, fixer leur salaire horaire",
+      "WANT_TO_SET_HOURLY_WAGE": "Voulez-vous fixer leur salaire horaire?"
     },
     "HOW_MUCH_IS_HARVESTED": "Combien est récolté ?",
     "HR": "/h",
@@ -120,44 +120,44 @@
     "WHAT_PLANTING_METHOD": "Quelle est la méthode de repiquage\u00a0?",
     "WILD_CROP": "Cultures sauvages",
     "IRRIGATION_VIEW": {
-      "TELL_US_ABOUT_YOUR_IRRIGATION_TASK": "MISSING",
-      "BRAND_TOOLTIP": "MISSING",
-      "TYPE_OF_IRRIGATION": "MISSING",
-      "WHAT_TYPE_OF_IRRIGATION": "MISSING",
-      "IRRIGATION_TYPE_CHAR_LIMIT": "MISSING",
+      "TELL_US_ABOUT_YOUR_IRRIGATION_TASK": "Parlez-nous de votre tâche d’irrigation",
+      "BRAND_TOOLTIP": "Cette tâche est d'arroser votre emplacement. Pour configuer l'irrigation, créez plutôt une tâche de terrain.",
+      "TYPE_OF_IRRIGATION": "Type d'arrosage",
+      "WHAT_TYPE_OF_IRRIGATION": "Quel type d'arrosage?",
+      "IRRIGATION_TYPE_CHAR_LIMIT": "L’irrigation doit comporter moins de 100 caractères",
       "TYPE": {
-        "HAND_WATERING": "MISSING",
-        "CHANNEL": "MISSING",
-        "DRIP": "MISSING",
-        "FLOOD": "MISSING",
-        "PIVOT": "MISSING",
-        "SPRINKLER": "MISSING",
-        "SUB_SURFACE": "MISSING",
-        "OTHER": "MISSING"
+        "HAND_WATERING": "Arrosage manuel",
+        "CHANNEL": "Irrigation des canaux",
+        "DRIP": "Irrigation goutte à goutte",
+        "FLOOD": "Irrigation par inondation",
+        "PIVOT": "D'irrigation par pivot",
+        "SPRINKLER": "Irrigation par aspersion",
+        "SUB_SURFACE": "Irrigation souterraine",
+        "OTHER": "Autre type d'irrigation"
       },
-      "SET_AS_DEFAULT_TYPE_FOR_THIS_LOCATION": "MISSING",
-      "HOW_DO_YOU_MEASURE_WATER_USE_FOR_THIS_IRRIGATION_TYPE": "MISSING",
-      "VOLUME": "MISSING",
-      "DEPTH": "MISSING",
-      "SET_AS_DEFAULT_MEASUREMENT_FOR_THIS_IRRIGATION_TYPE": "MISSING",
-      "ESTIMATED_WATER_USAGE": "MISSING",
-      "NOT_SURE": "MISSING",
-      "CALCULATE_WATER_USAGE": "MISSING",
-      "WATER_USE_CALCULATOR": "MISSING",
+      "SET_AS_DEFAULT_TYPE_FOR_THIS_LOCATION": "Sélectionnée ce type par défaut pour cet emplacement",
+      "HOW_DO_YOU_MEASURE_WATER_USE_FOR_THIS_IRRIGATION_TYPE": "Comment mesurez-vous l'utilisation de l'eau pour ce type d'irrigation?",
+      "VOLUME": "Volume",
+      "DEPTH": "Profondeur",
+      "SET_AS_DEFAULT_MEASUREMENT_FOR_THIS_IRRIGATION_TYPE": "Sélectionnée ce type de mesure par défaut pour ce type d'irrigation?",
+      "ESTIMATED_WATER_USAGE": "Utilisation estimée de l’eau",
+      "NOT_SURE": "Pas sûre?",
+      "CALCULATE_WATER_USAGE": "Calculer la consommation d'eau",
+      "WATER_USE_CALCULATOR": "Calculateur d'utilisation de l'eau",
       "WATER_USE_CALCULATOR_INFO": {
-        "PHRASE1": "MISSING",
-        "PHRASE2": "MISSING",
-        "PHRASE3": "MISSING"
+        "PHRASE1": "Cette calculatrice vous aide à calculer la consommation d’eau en fonction de ",
+        "PHRASE2": "Si vous préférez calculer sur",
+        "PHRASE3": "veuillez revenir en arrière et sélectionner"
       },
-      "ESTIMATED_FLOW_RATE": "MISSING",
-      "DEFAULT_LOCATION_FLOW_RATE": "MISSING",
-      "ESTIMATED_DURATION": "MISSING",
-      "ESTIMATED_APPLICATION_DEPTH": "MISSING",
-      "DEFAULT_APPLICATION_DEPTH": "MISSING",
-      "PERCENTAGE_LOCATION_TO_BE_IRRIGATED": "MISSING.",
-      "TOTAL_WATER_USAGE": "MISSING",
-      "LOCATION_SIZE": "MISSING",
-      "IRRIGATED_AREA": "MISSING"
+      "ESTIMATED_FLOW_RATE": "Débit estimé",
+      "DEFAULT_LOCATION_FLOW_RATE": "Sélectionnée ce débit par défaut pour cet emplacement",
+      "ESTIMATED_DURATION": "Durée estimée",
+      "ESTIMATED_APPLICATION_DEPTH": "Profondeur d’application estimée",
+      "DEFAULT_APPLICATION_DEPTH": "Sélectionnée ce profondeur d'application par défaut pour cet emplacement",
+      "PERCENTAGE_LOCATION_TO_BE_IRRIGATED": "% de l’emplacement à irriguer",
+      "TOTAL_WATER_USAGE": "Utilisation totale de l’eau",
+      "LOCATION_SIZE": "Taille de l'emplacement",
+      "IRRIGATED_AREA": "Superficie irriguée"
     }
   },
   "BED_PLAN": {
@@ -299,16 +299,16 @@
     "ADD_COMPLIANCE_FILE": "Lien vers un dossier de conformité",
     "ADD_CROP": "Ajouter une culture",
     "ADD_IMAGE": "Ajouter une image personnalisée",
-    "VARIETAL_IMAGE": "MISSING",
-    "VARIETAL_SUBTITLE": "MISSING",
-    "VARIETAL_IMAGE_INFO": "MISSING",
-    "VARIETY_COMMON_NAME": "MISSING",
-    "VARIETY_VARIETAL": "MISSING",
-    "VARIETY_CULTIVAR": "MISSING",
-    "CULTIVAR_PLACEHOLDER": "MISSING",
-    "VARIETAL_PLACEHOLDER": "MISSING",
-    "CULTIVAR_SUBTEXT": "MISSING",
-    "VARIETAL_SUBTEXT": "MISSING",
+    "VARIETAL_SUBTITLE": "Parlez-nous de la variété ou du cultivar que vous avez l’intention de cultiver",
+    "VARIETAL_IMAGE": "Personnaliser l’image pour la variété ou le cultivar",
+    "VARIETAL_IMAGE_INFO": "Si vous souhaitez que cette variété ou ce cultivar ait une image différente de la culture par défaut, vous pouvez personnaliser l’image ici.",
+    "VARIETY_COMMON_NAME": "Nom commun",
+    "VARIETY_VARIETAL": "Variété",
+    "VARIETY_CULTIVAR": "Cultivar",
+    "CULTIVAR_SUBTEXT": "En savoir plus sur les cultivars",
+    "VARIETAL_SUBTEXT": "En savoir plus sur les variétés",
+    "CULTIVAR_PLACEHOLDER": "P. ex. Rouge Délicieuse",
+    "VARIETAL_PLACEHOLDER": "P. ex. Cabernet sauvignon",
     "ANNUAL": "Annuelle",
     "ANNUAL_OR_PERENNIAL": "La culture est-elle annuelle ou vivace\u00a0?",
     "EDIT_CROP": "Modifier la culture",
@@ -347,16 +347,16 @@
       "TITLE": "Filtre de catalogue de cultures"
     },
     "FILTER_TITLE": "Recadrer le filtre du catalogue",
-    "GENUS": "MISSING",
+    "GENUS": "Genre",
     "HERE_YOU_CAN": "Ici, vous pouvez\u00a0:",
     "LETS_BEGIN": "Commencer",
     "NEW_CROP_NAME": "Nouveau nom de culture",
     "NO_RESULTS_FOUND": "Aucun résultat trouvé. Veuillez modifier vos filtres.",
-    "NOMINATE_CROP": "MISSING",
-    "NOMINATE_CROP_TOOLTIP": "MISSING",
+    "NOMINATE_CROP": "Proposer cette culture pour inclusion dans le catalogue de cultures LiteFarm",
+    "NOMINATE_CROP_TOOLTIP": "La mise en candidature de cette culture pour inclusion dans le catalogue LiteFarm permet à l’équipe LiteFarm de partager des informations sur cette culture avec un spécialiste de votre région. Les cultures approuvées feront partie du catalogue des cultures présenté à tous les utilisateurs.",
     "ON_YOUR_FARM": "Sur votre ferme",
     "SELECT_A_CROP": "Sélectionnez une culture pour l'ajouter à votre ferme. Utilisez la recherche et les filtres pour trouver les récoltes plus rapidement.",
-    "SPECIES": "MISSING"
+    "SPECIES": "Espèces"
   },
   "CROP_DETAIL": {
     "ADD_PLAN": "Ajouter un plan",
@@ -520,8 +520,8 @@
       "UPLOAD_INSTRUCTION_MESSAGE": "pour un formatage correct.",
       "UPLOAD_PLACEHOLDER": "Téléverser le fichier CSV",
       "UPLOAD_ERROR_MESSAGE": "Il y avait qulques problèmes avec votre téléchargement. ",
-      "INVALID_FILE_TYPE": "MISSING - Fr - Upload file must be a csv,",
-      "DOWNLOAD_TEMPLATE_LINK_MESSAGE": "MISSING - Fr - click here to download the template",
+      "INVALID_FILE_TYPE": "Le fichier téléchargé doit être un fichier csv",
+      "DOWNLOAD_TEMPLATE_LINK_MESSAGE": "Cliquez ici pour télécharger le modèle",
       "UPLOAD_ERROR_LINK": "Cliquez ici pour les voir.",
       "EMPTY_FILE_UPLOAD_ERROR_MESSAGE": "Aucun capteur trouvé, veuillez vérifier votre téléchargment et essayez à nouveau.",
       "SENSOR_FIELDS": {
@@ -560,7 +560,7 @@
       "DOWNLOAD_FILE": {
         "ROW": "[Ligne: {{ row }}][Colonne: {{ column }}] {{- errorMessage }} {{ value }}\n",
         "PARTIAL_SUCCESS_TOP_TEXT": "Les capteurs suivants dans votre fichier on téléchargé avec succès ou existent déjà sur votre ferme:\n\n",
-        "PARTIAL_SUCCESS_BOTTOM_TEXT": "MISSING - Fr - They should now be visible on your farm map. These sensors will be ignored in future uploads\n\n",
+        "PARTIAL_SUCCESS_BOTTOM_TEXT": "Ils devraient maintenant être visibles sur votre carte de ferme. Ces capteurs seront ignorés dans les téléchargements futurs\n\n",
         "SOME_ERRORS": "Malheureusement, il y a eu quelques erreurs avec votre téléchargement:\n\n",
         "DEFAULT": "Quelque chose a mal tourné. Veuillez contacter support@litefarm.org pour obtenir de l'aide."
       }
@@ -673,7 +673,7 @@
       "TITLE": "Filtrer votre carte",
       "WATERCOURSE": "Flux d'eau",
       "WV": "Vanne à eau",
-      "SENSOR": "MISSING"
+      "SENSOR": "Capteur"
     },
     "NATURAL_AREA": {
       "EDIT_TITLE": "Modifier l'espace naturel",
@@ -759,7 +759,7 @@
   "FIELDS": {
     "EDIT_FIELD": {
       "VARIETY": "Variété",
-      "SUPPLIER": "MISSING"
+      "SUPPLIER": "Fournisseur"
     }
   },
   "FILE_SIZE_MODAL": {
@@ -787,7 +787,7 @@
     "WHOLE_FARM_REVENUE": "Revenu total de la ferme"
   },
   "FORM_VALIDATION": {
-    "OVER_255_CHARS": "MISSING"
+    "OVER_255_CHARS": "Le texte ne peut pas dépasser 255 caractères"
   },
   "HELP": {
     "ATTACHMENT_LABEL": "Télécharger une capture d'écran ou un fichier",
@@ -838,7 +838,7 @@
       "TITLE": "Biodiversité"
     },
     "CURRENT": "Courant",
-    "CLICK_TO_CALCULATE": "MISSING",
+    "CLICK_TO_CALCULATE": "Cliquez pour calculer",
     "INFO": "Ces mesures fournissent de l’information supplémentaire sur ce qui se passe sur votre ferme. Plus vous entrez de données dans l’application, plus d’information est générée. Veuillez explorer les différentes mesures pour plus de détails.",
     "LABOUR_HAPPINESS": {
       "HEADER": "Tâches",
@@ -958,7 +958,7 @@
     "TITLE": "Inviter un utilisateur",
     "WAGE": "Salaire",
     "WAGE_ERROR": "Le salaire doit être un nombre décimal valide et non négatif",
-    "WAGE_RANGE_ERROR": "MISSING"
+    "WAGE_RANGE_ERROR": "Le salaire doit être un nombre positif inférieur à 999 999 999"
   },
   "JOIN_FARM_SUCCESS": {
     "IMPORTANT_THINGS": "Laissez-nous vous montrer quelques choses importantes\u00a0!",
@@ -1051,7 +1051,7 @@
       "COMPLETE_PLAN": "Plan complet",
       "DATE_OF_CHANGE": "Date de changement de statut",
       "NOTES_CHAR_LIMIT": "Les notes doivent comporter moins de 10 000 caractères",
-      "FUTURE_DATE_INVALID": "MISSING",
+      "FUTURE_DATE_INVALID": "Cette date pourrait ne pas être dans le futur",
       "RATING": "Évaluez ce plan de gestion",
       "REASON": {
         "CROP_FAILURE": "Échec de la récolte",
@@ -1179,13 +1179,13 @@
     "WILD_CROP": "Récoltez-vous une culture sauvage\u00a0?"
   },
   "LOCATION_CREATION": {
-    "TITLE": "MISSING",
-    "CROP_PLAN_BODY": "MISSING",
-    "TASK_TITLE": "MISSING",
-    "TASK_BODY": "MISSING",
-    "TASK_BODY_WORKER": "MISSING",
-    "GO_BACK_BUTTON": "MISSING",
-    "CREATE_BUTTON": "MISSING"
+    "TITLE": "Aucun emplacement trouvé!",
+    "CROP_PLAN_BODY": "Vous aurez besoin d’un champ, d’un jardin, d’une serre ou d’une zone tampon avant de pouvoir terminer ce plan de culture. Voulez-vous en créer un maintenant?",
+    "TASK_TITLE": "Aucun emplacement pour les tâches",
+    "TASK_BODY": "Vous aurez besoin d’au moins un emplacement avant de pouvoir créer une tâche. Voulez-vous créer un emplacement maintenant?",
+    "TASK_BODY_WORKER": "Vous aurez besoin de la direction pour créer au moins un emplacement avant de pouvoir créer une tâche.",
+    "GO_BACK_BUTTON": "Retourner",
+    "CREATE_BUTTON": "Créer l'emplacement"
   },
   "MY_FARM": {
     "CERTIFICATIONS": "Certifications",
@@ -1259,12 +1259,12 @@
       "TITLE": "Tâches non attribuées"
     },
     "SENSOR_BULK_UPLOAD_SUCCESS": {
-      "BODY": "MISSING",
-      "TITLE": "MISSING"
+      "BODY": "Le chargement de votre capteur a terminé avec succès",
+      "TITLE": "Chargement du capteur terminé"
     },
     "SENSOR_BULK_UPLOAD_FAIL": {
-      "BODY": "MISSING",
-      "TITLE": "MISSING"
+      "BODY": "Votre téléchargement de capteur a quelques erreurs. Cliquez sur “Emmenez-moi là” pour voir les détails.",
+      "TITLE": "Erreurs de téléchargement du capteur"
     }
   },
   "OUTRO": {
@@ -1324,11 +1324,11 @@
     },
     "ACCOUNT_TAB": "Compte",
     "ERROR": {
-      "PHONE_NUMBER_LENGTH": "MISSING",
-      "FARM_NAME_LENGTH": "MISSING",
-      "FIRST_NAME_LENGTH": "MISSING",
-      "LAST_NAME_LENGTH": "MISSING",
-      "USER_ADDRESS_LENGTH": "MISSING"
+      "PHONE_NUMBER_LENGTH": "Le numéro de téléphone doit compter moins de 20 caractères",
+      "FARM_NAME_LENGTH": "Le nom de la ferme ne peut pas dépasser 255 caractères",
+      "FIRST_NAME_LENGTH": "Le prénom ne peut pas dépasser 255 caractères",
+      "LAST_NAME_LENGTH": "Le nom de famille ne peut pas dépasser 255 caractères",
+      "USER_ADDRESS_LENGTH": "L’adresse utilisateur ne peut pas dépasser 255 caractères"
     },
     "FARM": {
       "ADDRESS": "Adresse",
@@ -1351,8 +1351,8 @@
       "PAY": "Payer",
       "RESTORE_ACCESS": "Restaurer l'accès utilisateur",
       "REVOKE_ACCESS": "Révoquer l'accès utilisateur",
-      "INVALID_REVOKE_ACCESS": "MISSING",
-      "LAST_ADMIN_ERROR": "MISSING",
+      "INVALID_REVOKE_ACCESS": "Impossible de révoquer l’accès",
+      "LAST_ADMIN_ERROR": "Nous ne pouvons pas révoquer l’accès à cet utilisateur parce qu’il est le dernier gestionnaire de cette ferme. Si vous souhaitez supprimer votre ferme, créez un billet en cliquant <1>ici</1>.",
       "ROLE": "Rôle",
       "ROLE_CHANGE_ALERT": "Le changement de rôle prendra pleinement effet lors de la prochaine connexion. Les travailleurs ne peuvent pas se définir comme administrateurs.",
       "SEARCH": "Chercher",
@@ -1403,7 +1403,8 @@
         "QUANTITY": "Quantité",
         "TOTAL": "Total"
       },
-      "TITLE": "Ajouter nouvelle vente"
+      "TITLE": "Ajouter nouvelle vente",
+      "SALE_VALUE_ERROR": "MISSING"
     },
     "DETAIL": {
       "ACTION": "Action",
@@ -1586,10 +1587,10 @@
     "ABANDON": {
       "ABANDON": "Abandonner",
       "DATE": "Date d'abandon",
-      "WHICH_DATE": "MISSING",
-      "DATE_ORIGINAL": "MISSING",
-      "DATE_TODAY": "MISSING",
-      "DATE_ANOTHER": "MISSING",
+      "WHICH_DATE": "Quelle date?",
+      "DATE_ORIGINAL": "La date d'échéance initiale",
+      "DATE_TODAY": "Aujourd'hui",
+      "DATE_ANOTHER": "Autre",
       "INFO": "Abandonner cette tâche changera son statut à Abandonné et la supprimera de tous utilisateurs sure les listes 'À faire' et 'non-assigné'.",
       "NOTES": "Notes d'abandon de tâche",
       "NOTES_CHAR_LIMIT": "Les notes doivent comporter moins de 10 000 caractères",
@@ -1603,14 +1604,14 @@
         "WEATHER": "Météo"
       },
       "REASON_FOR_ABANDONMENT": "Raison de l'abandon",
-      "EXPLANATION": "MISSING",
+      "EXPLANATION": "Explication",
       "TITLE": "Abandonner la tâche",
       "WHAT_HAPPENED": "Que s'est-il passé\u00a0?",
       "WHEN": "Quand la tâche a-t-elle été abandonnée ?"
     },
     "ABANDON_TASK": "Laisser cette tâche",
     "ABANDON_TASK_DURATION": "Des travaux ont-ils été réalisés pour cette tâche ?",
-    "ABANDON_TASK_HELPTEXT": "MISSING",
+    "ABANDON_TASK_HELPTEXT": "Les travaux effectués pour cette tâche abandonnée seront intégrés aux coûts de main-d’œuvre. Si aucun travail n’a été effectué, veuillez plutôt le sélectionner.",
     "ABANDONMENT_DETAILS": "Détails de l'abandon de tâche",
     "ADD_CUSTOM_HARVEST_USE": "Créer une utilisation de récolte personnalisée",
     "ADD_HARVEST_USE": "Ajouter une autre utilisation de récolte",
@@ -1661,7 +1662,7 @@
     "HARVEST_USE": "Utilisation de la récolte",
     "HARVEST_USE_ALREADY_EXISTS": "L'utilisation de la récolteexiste déjà",
     "HOW_WILL_HARVEST_BE_USED": "Comment la récolte sera-t-elle utilisée\u00a0?",
-    "IRRIGATION_LOCATION": "MISSING",
+    "IRRIGATION_LOCATION": "Sélectionner un emplacement d’irrigation",
     "LOCATIONS": "Emplacement(s)",
     "NO_TASKS_TO_DISPLAY": "Il n'y a aucune tâche à afficher.",
     "NO_WORK_DONE": "Aucun travail n'a été terminé",
@@ -1690,7 +1691,18 @@
     "TODO": "À faire",
     "TRANSPLANT": "Transplantation",
     "TRANSPLANT_LOCATIONS": "Sélectionnez un lieu de transplantation",
-    "UNASSIGNED": "Non attribué"
+    "UNASSIGNED": "Non attribué",
+    "DELETE": {
+      "DELETE_TASK": "MISSING",
+      "DELETE_TASK_QUESTION": "MISSING",
+      "DELETE_TASK_MESSAGE": "MISSING",
+      "CONFIRM_DELETION": "MISSING",
+      "CANT_DELETE_PLANTING_TASK": "MISSING",
+      "CANT_DELETE_ABANDON_INSTEAD": "MISSING",
+      "CANT_DELETE_ABANDON": "MISSING",
+      "SUCCESS": "MISSING",
+      "FAILED": "MISSING"
+    }
   },
   "UNIT": {
     "TIME": {
@@ -1712,102 +1724,99 @@
     "TITLE": "Selectionnez une année"
   },
   "SENSOR": {
-    "SENSOR_NAME": "MISSING",
-    "LATITUDE": "MISSING",
-    "LONGTITUDE": "MISSING",
+    "SENSOR_NAME": "Nom du capteur",
+    "LATITUDE": "Latitude",
+    "LONGTITUDE": "Longitude",
     "READING": {
-      "TYPES": "MISSING",
-      "SOIL_WATER_CONTENT": "MISSING",
-      "SOIL_WATER_POTENTIAL": "MISSING",
-      "TEMPERATURE": "MISSING",
-      "UNKNOWN": "MISSING"
+      "TYPES": "Types de lecture des capteurs",
+      "SOIL_WATER_CONTENT": "Teneur en eau du sol",
+      "SOIL_WATER_POTENTIAL": "Potentiel hydrique du sol",
+      "TEMPERATURE": "Température",
+      "UNKNOWN": "Inconnue"
     },
-    "DEPTH": "MISSING",
-    "BRAND": "MISSING",
+    "DEPTH": "Profondeur",
+    "BRAND": "Marque",
     "VALIDATION": {
-      "SENSOR_LATITUDE": "MISSING",
-      "SENSOR_LONGITUDE": "MISSING",
-      "NAME": "MISSING",
-      "READING_TYPES": "Sensor reading types are required"
+      "READING_TYPES": "Les types de lecture des capteurs sont requis"
     },
     "MODAL": {
-      "TITLE": "MISSING",
-      "BODY": "MISSING"
+      "TITLE": "Changer les types de lecture?",
+      "BODY": "Chaging les types de lecture pour ce capteur va modifier ce que LiteFarm lectures peut montrer. Voulez-vous continuer?"
     },
-    "BRAND_HELPTEXT": "MISSING",
-    "MODEL": "MISSING",
-    "MODEL_HELPTEXT": "MISSING",
-    "EXTERNAL_IDENTIFIER": "MISSING",
-    "PART_NUMBER": "MISSING",
-    "HARDWARE_VERSION": "MISSING",
-    "NO_DATA_FOUND": "MISSING",
-    "NO_DATA": "MISSING",
+    "BRAND_HELPTEXT": "Les marques avec lesquelles LiteFarm peut s’intégrer sont indiquées ci-dessous. Si vous ne souhaitez plus utiliser cette branche de capteur, essayez de retirer ce capteur.",
+    "MODEL": "Modèle",
+    "MODEL_HELPTEXT": "Cet identifiant est utilisé pour identifier uniquement le capteur dans d’autres systèmes intégrés et ne peut pas être modifié. S’il n’est plus utilisé, essayez de retirer ce capteur et d’en ajouter un nouveau.",
+    "EXTERNAL_IDENTIFIER": "Identifiant externe",
+    "PART_NUMBER": "Numéro de pièce",
+    "HARDWARE_VERSION": "Version matérielle",
+    "NO_DATA_FOUND": "Aucun données des capteurs trouvé.",
+    "NO_DATA": "(aucune donnée)",
     "DETAIL": {
-      "RETIRE": "MISSING",
-      "EDIT": "MISSING",
-      "NAME": "MISSING",
-      "LATITUDE": "MISSING",
-      "LONGITUDE": "MISSING",
-      "MODEL": "MISSING",
-      "PART_NUMBER": "MISSING",
-      "HARDWARE_VERSION": "MISSING",
-      "EXTERNAL_ID_TOOLTIP": "MISSING",
-      "EXTERNAL_IDENTIFIER": "MISSING",
-      "DEPTH": "MISSING",
-      "BRAND": "MISSING",
-      "BRAND_TOOLTIP": "MISSING",
-      "READING_TYPES": "MISSING"
+      "RETIRE": "Retirer",
+      "EDIT": "Modifier",
+      "NAME": "Nom du capteur",
+      "LATITUDE": "Latitude",
+      "LONGITUDE": "Longitude",
+      "MODEL": "Modèle",
+      "PART_NUMBER": "Numéro de pièce",
+      "HARDWARE_VERSION": "Version matérielle",
+      "EXTERNAL_ID_TOOLTIP": "Cet identifiant est utilisé pour identifier uniquement le capteur dans d’autres systèmes intégrés et ne peut pas être modifié. S’il n’est plus utilisé, essayez de retirer ce capteur et d’en ajouter un nouveau.",
+      "EXTERNAL_IDENTIFIER": "Identifiant externe",
+      "DEPTH": "Profondeur",
+      "BRAND": "Marque",
+      "BRAND_TOOLTIP": "Les marques avec lesquelles LiteFarm peut s’intégrer sont indiquées ci-dessous. Si vous ne souhaitez plus utiliser cette branche de capteur, essayez de retirer ce capteur.",
+      "READING_TYPES": "Types de lectures"
     },
     "VIEW_HEADER": {
-      "READINGS": "MISSING",
-      "TASKS": "MISSING",
-      "DETAILS": "MISSING"
+      "READINGS": "Lectures",
+      "TASKS": "Tâches",
+      "DETAILS": "Détails"
     },
     "RETIRE": {
-      "TITLE": "MISSING",
-      "RETIRE": "MISSING",
-      "CANCEL": "MISSING",
-      "BODY": "MISSING",
-      "RETIRE_SUCCESS": "MISSING",
-      "RETIRE_FAILURE": "MISSING"
+      "TITLE": "Retirer le capteur?",
+      "RETIRE": "Retirer",
+      "CANCEL": "Annuler",
+      "BODY": "La mise hors service de ce capteur l’enlèvera de votre ferme ainsi que de toute connexion avec le fournisseur de capteurs. Voulez-vous commencer?",
+      "RETIRE_SUCCESS": "Retrait réussi du capteur",
+      "RETIRE_FAILURE": "Il y a eu une erreur lors du retrait de ce capteur"
     },
     "TEMPERATURE_READINGS_OF_SENSOR": {
-      "TITLE": "MISSING",
-      "SUBTITLE": "MISSING",
-      "Y_AXIS_LABEL": "MISSING",
-      "WEATHER_STATION": "MISSING",
-      "NO_DATA": "MISSING",
-      "AMBIENT_TEMPERATURE_FOR": "MISSING",
-      "LAST_UPDATED_TEMPERATURE_READINGS": "MISSING"
+      "TITLE": "Température du sol",
+      "SUBTITLE": "Température ambiante actuelle élevée et basse: {{high}}{{tempUnit}} / {{low}}{{tempUnit}}",
+      "Y_AXIS_LABEL": "Température en {{tempUnit}}",
+      "WEATHER_STATION": "Station météorologique: {{weatherStationLocation}}",
+      "NO_DATA": "(aucune donnée)",
+      "AMBIENT_TEMPERATURE_FOR": "Température ambiante pour",
+      "LAST_UPDATED_TEMPERATURE_READINGS": "Dernière mise à jour à {{latestReadingUpdate}}"
     },
     "SOIL_WATER_POTENTIAL_READINGS_OF_SENSOR": {
-      "TITLE": "MISSING",
+      "TITLE": "Potentiel hydrique du sol",
       "SUBTITLE": "MISSING",
-      "Y_AXIS_LABEL": "MISSING",
-      "NO_DATA": "MISSING",
-      "LAST_UPDATED_TEMPERATURE_READINGS": "MISSING"
+      "Y_AXIS_LABEL": "potentiel hydrique du sol en {{soilWaterPotentialUnit}}",
+      "NO_DATA": "(aucune donnée)",
+      "LAST_UPDATED_TEMPERATURE_READINGS": "Dernière mise à jour à {{latestReadingUpdate}}"
     },
     "READINGS_PREVIEW": {
-      "TEMPERATURE": "MISSING",
-      "SOIL_WATER_POTENTIAL": "MISSING"
+      "TEMPERATURE": "Température actuelle du sol",
+      "SOIL_WATER_POTENTIAL": "Potentiel hydrique actuel du sol"
     },
     "SENSOR_READING_CHART_SPOTLIGHT": {
-      "TITLE": "MISSING",
-      "CONTENT": "MISSING"
+      "TITLE": "Les séries peuvent être masquées",
+      "CONTENT": "Les capteurs individuels peuvent être affichés ou masqués en cliquant sur leurs étiquettes ici."
     }
   },
   "CROP_STATUS_NON_ORGANIC_MISMATCH_MODAL": {
-    "TITLE": "MISSING",
-    "SUBTITLE": "MISSING"
+    "TITLE": "Vous avez choisi un emplacement non biologique!",
+    "SUBTITLE": "Vous avez dit que vous allez planter une culture biologique dans un endroit non biologique. Voulez-vous commencer?"
   },
   "CROP_STATUS_ORGANIC_MISMATCH_MODAL": {
-    "TITLE": "MISSING",
-    "SUBTITLE": "MISSING"
+    "TITLE": "Vous avez choisi un emplacement biologique!",
+    "SUBTITLE": "Vous avez dit que vous allez planter une culture biologique dans un endroit non biologique. Voulez-vous commencer?"
   },
   "WAGE": {
     "ERROR": "Le salaire doit être un nombre décimal valide et non négatif",
-    "HOURLY_WAGE": "MISSING",
-    "HOURLY_WAGE_RANGE_ERROR": "MISSING",
-    "HOURLY_WAGE_TOOLTIP": "MISSING"
+    "HOURLY_WAGE": "Salaire horaire",
+    "HOURLY_WAGE_RANGE_ERROR": "Le salaire horaire doit être un nombre positif inférieur à 999 999 999",
+    "HOURLY_WAGE_TOOLTIP": "Les salaires horaires peuvent être établis en sélectionnant une personne à l’onglet Employés sous 'ma ferme'."
   }
 }

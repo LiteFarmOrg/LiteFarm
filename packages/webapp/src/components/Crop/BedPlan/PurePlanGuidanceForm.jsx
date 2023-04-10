@@ -75,6 +75,7 @@ export function PurePlanGuidanceForm({
           control={control}
           optional={true}
           disabled={disabled}
+          data-testid="planGuidance-plantingDepth"
         />
       </div>
 
@@ -92,6 +93,7 @@ export function PurePlanGuidanceForm({
           control={control}
           optional={true}
           disabled={disabled}
+          data-testid="planGuidance-rowWidth"
         />
       </div>
 
@@ -109,6 +111,7 @@ export function PurePlanGuidanceForm({
           control={control}
           optional={true}
           disabled={disabled}
+          data-testid="planGuidance-spaceBetween"
         />
       </div>
 

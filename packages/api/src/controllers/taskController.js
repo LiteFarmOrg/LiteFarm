@@ -638,6 +638,22 @@ const taskController = {
       return res.status(400).send(error);
     }
   },
+  async deleteTask(req, res) {
+    try {
+      const { task_id } = req.params;
+
+      const checkTaskStatus = await TaskModel.getTaskStatus(task_id);
+      if (checkTaskStatus.complete_date || checkTaskStatus.abandon_date) {
+        return res.status(400).send('Task has already been completed or abandoned');
+      }
+
+      const result = await TaskModel.deleteTask(task_id, req.user);
+      if (!result) return res.status(404).send('Task not found');
+      return res.status(200).send(result);
+    } catch (error) {
+      return res.status(400).json({ error });
+    }
+  },
 };
 
 //TODO: tests where location and management_plan inserts should fail

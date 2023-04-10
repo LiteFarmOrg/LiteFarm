@@ -54,7 +54,6 @@ function TaskReadOnly({ history, match, location }) {
 
   const selectedTaskType = task.taskType;
   const isHarvest = isTaskType(selectedTaskType, 'HARVEST_TASK');
-  const isPlant = isTaskType(selectedTaskType, 'PLANT_TASK');
   const harvestUseTypes = useSelector(harvestUseTypesSelector);
 
   const onGoBack = () => {
@@ -85,13 +84,16 @@ function TaskReadOnly({ history, match, location }) {
   };
 
   const onAbandon = () => {
-    let path = '';
-    if (isPlant) {
-      const { crop_variety_id, planting_management_plan } = task.managementPlans[0];
-      path = `/crop/${crop_variety_id}/${planting_management_plan.management_plan_id}/abandon_management_plan`;
-    }
-    history.push(path || `/tasks/${task_id}/abandon`, location?.state);
+    history.push(`/tasks/${task_id}/abandon`, location?.state);
   };
+
+  const onGoToCropPlan = () => {
+    const { crop_variety_id, planting_management_plan } = task.managementPlans[0];
+    const path = `/crop/${crop_variety_id}/management_plan/${planting_management_plan.management_plan_id}/tasks`;
+
+    history.push(path, location?.state);
+  };
+
   const { maxZoomRef, getMaxZoom } = useMaxZoom();
 
   const onChangeTaskDate = (date) =>
@@ -117,6 +119,7 @@ function TaskReadOnly({ history, match, location }) {
         onComplete={onComplete}
         onEdit={onEdit}
         onAbandon={onAbandon}
+        onGoToCropPlan={onGoToCropPlan}
         onDelete={onDelete}
         task={task}
         users={users}

@@ -57,6 +57,7 @@ export default function PureTaskReadOnly({
   onComplete,
   onEdit,
   onAbandon,
+  onGoToCropPlan,
   onDelete,
   task,
   users,
@@ -444,7 +445,7 @@ export default function PureTaskReadOnly({
       {isDeleting && isTaskType(taskType, 'PLANT_TASK') && (
         <DeleteBox
           color="warning"
-          onOk={onAbandon}
+          onOk={onGoToCropPlan}
           onCancel={() => setIsDeleting(false)}
           header={t('TASK.DELETE.CANT_DELETE_PLANTING_TASK')}
           headerIcon={<FiAlertTriangle />}

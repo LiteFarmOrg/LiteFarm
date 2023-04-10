@@ -432,7 +432,7 @@
     "NOTES_CHAR_LIMIT": "Las notas deben tener menos de 10,000 caracteres",
     "SPOTLIGHT": {
       "CDC": "Cuando llegue el momento de generar su exportación de certificación, LiteFarm exportará automáticamente todos los documentos de cumplimiento que sean válidos en la fecha de exportación que especifique. Los documentos de cumplimiento se archivarán automáticamente cuando expiran.",
-      "HERE_YOU_CAN": "Aca uno puede:",
+      "HERE_YOU_CAN": "Aqui uno puede:",
       "YOU_CAN_ONE": "Cargar los documentos que desee incluir en la exportación de su certificación.",
       "YOU_CAN_THREE": "Archivar documentos innecesarios",
       "YOU_CAN_TWO": "Clasificar y controlar las fechas de vencimiento de su documento"
@@ -1422,7 +1422,7 @@
     "ESTIMATED_REVENUE": {
       "CALCULATION": "Cálculo",
       "CALCULATION_DESCRIPTION": "Calculamos los ingresos estimados utilizando la fecha de término de los cultivos estimada en el módulo de campos. Para incluir un cultivo en su cálculo de ingresos estimados, asegúrese de ingresar la fecha de finalización dentro de la fecha de finalización de su informe financiero.",
-      "TITLE": "Ganancia Estimada"
+      "TITLE": "Ingreso Estimado"
     },
     "EXPENSE_DETAIL": {
       "ACTION": "Acción",
@@ -1445,7 +1445,7 @@
       "FINANCE_HELP": "Ayuda financiera",
       "LABOUR_LABEL": "Trabajo",
       "OTHER_EXPENSES_LABEL": "Otros gastos",
-      "REVENUE": "Ganancias",
+      "REVENUE": "Ingresos",
       "TITLE": "Finanzas",
       "UNALLOCATED_CROP": "No asignada",
       "UNALLOCATED_TIP": "Que es no asignada?"
@@ -1459,7 +1459,7 @@
         "CROP": "Cultivo",
         "DATE": "Fecha",
         "EMPLOYEE": "Empleado",
-        "EST_REVENUE": "Ganancia estimada",
+        "EST_REVENUE": "Ingreso estimado",
         "LABOUR_COST": "Costo de trabajo",
         "TASK": "Tarea",
         "TIME": "Tiempo",

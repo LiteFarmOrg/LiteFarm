@@ -20,7 +20,7 @@
   },
   "BULK_UPLOAD": {
     "ERROR": {
-      "UPLOAD": "MISSING"
+      "UPLOAD": "Falha ao carregar o arquivo CSV"
     }
   },
   "CROP": {
@@ -99,7 +99,7 @@
     "SUCCESS_DELETE": " retirado/a com sucesso",
     "SUCCESS_PATCH": " atualizado/a com sucesso",
     "SUCCESS_POST": " salvo/a com sucesso",
-    "SUCCESS_UPLOAD": "MISSING"
+    "SUCCESS_UPLOAD": "Carregado com sucesso"
   },
   "ORGANIC_CERTIFIER_SURVEY": {
     "ERROR": {
@@ -166,8 +166,8 @@
       "SUCCESS": "Tarefa concluída com sucesso"
     },
     "UPDATE": {
-      "FAILED": "MISSING",
-      "SUCCESS": "MISSING"
+      "FAILED": "Falha ao atualizar a tarefa",
+      "SUCCESS": "Tarefa atualizada com sucesso"
     }
   },
   "TASK_TYPE": {
@@ -201,7 +201,7 @@
     }
   },
   "SENSOR": {
-    "SUCCESSFUL_UPDATE": "MISSING",
-    "ERROR_UPDATE": "MISSING"
+    "SUCCESSFUL_UPDATE": "Sensor atualizado com sucesso",
+    "ERROR_UPDATE": "Erro ao atualizar sensor"
   }
 }

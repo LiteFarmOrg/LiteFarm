@@ -205,7 +205,7 @@ const SaleForm = ({
           return (
             <div
               key={c.label}
-              className={styles.harvestDetails}
+              className={styles.saleDetails}
               style={{ marginTop: '32px', marginBottom: '32px' }}
             >
               <PureManagementPlanTile
@@ -214,7 +214,7 @@ const SaleForm = ({
                 date={managementPlan.firstTaskDate}
                 status={managementPlan.status}
               />
-              <div className={styles.harvestInputs}>
+              <div className={styles.saleInputs}>
                 <Unit
                   label={t('SALE.ADD_SALE.TABLE_HEADERS.QUANTITY')}
                   register={register}

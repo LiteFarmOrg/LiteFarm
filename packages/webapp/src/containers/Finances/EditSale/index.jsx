@@ -66,10 +66,10 @@ function EditSale({ history }) {
     return cropVarietyOptions;
   };
 
-  const cropVarietyOptions = getCropVarietyOptions();
+  const cropVarietyOptions = getCropVarietyOptions() || [];
 
   return (
-    <div className={defaultStyles.financesContainer}>
+    <>
       <SaleForm
         cropVarietyOptions={cropVarietyOptions}
         onSubmit={onSubmit}
@@ -88,7 +88,7 @@ function EditSale({ history }) {
         onConfirm={() => dispatch(deleteSale(sale))}
         message={t('SALE.EDIT_SALE.DELETE_CONFIRMATION')}
       />
-    </div>
+    </>
   );
 }
 

@@ -58,21 +58,19 @@ function AddSale({}) {
     return cropVarietyOptions;
   };
 
-  const cropVarietyOptions = getCropVarietyOptions();
+  const cropVarietyOptions = getCropVarietyOptions() || [];
 
   return (
-    <div className={defaultStyles.financesContainer}>
-      <SaleForm
-        cropVarietyOptions={cropVarietyOptions}
-        onSubmit={onSubmit}
-        title={t('SALE.ADD_SALE.TITLE')}
-        dateLabel={t('SALE.ADD_SALE.DATE')}
-        customerLabel={t('SALE.ADD_SALE.CUSTOMER_NAME')}
-        system={system}
-        currency={useCurrencySymbol()}
-        managementPlans={managementPlans}
-      />
-    </div>
+    <SaleForm
+      cropVarietyOptions={cropVarietyOptions}
+      onSubmit={onSubmit}
+      title={t('SALE.ADD_SALE.TITLE')}
+      dateLabel={t('SALE.ADD_SALE.DATE')}
+      customerLabel={t('SALE.ADD_SALE.CUSTOMER_NAME')}
+      system={system}
+      currency={useCurrencySymbol()}
+      managementPlans={managementPlans}
+    />
   );
 }
 

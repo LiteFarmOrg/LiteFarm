@@ -166,8 +166,8 @@
       "SUCCESS": "Tâche créée avec succès"
     },
     "UPDATE": {
-      "FAILED": "MISSING",
-      "SUCCESS": "MISSING"
+      "FAILED": "Échec de la mise à jour de la tâche",
+      "SUCCESS": "Tâche mise à jour avec succès"
     }
   },
   "TASK_TYPE": {

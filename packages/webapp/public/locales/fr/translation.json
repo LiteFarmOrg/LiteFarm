@@ -546,7 +546,7 @@
         "SENSOR_NAME": "Nom de capteur non valide, if doit être compris entre 1 et 100 caractères.",
         "SENSOR_LATITUDE": "La valeur de latitude est non valable, elle doit être comprise entre -90 et 90 et avec moins de 10 décimales.",
         "SENSOR_LONGITUDE": "La valeur de longitude est non valable, elle doit être comprise entre -180 et 180 et avec moins de 10 décimales.",
-        "SENSOR_READING_TYPES": "Type à relevé non valide détecté. Les valeurs valides comprennent: teneur_en_eau_du_sol, potential_hydrique_du_sol, température.",
+        "SENSOR_READING_TYPES": "Type à relevé non valide détecté: {{ reading_types }}. Les valeurs valides comprennent: teneur_en_eau_du_sol, potential_hydrique_du_sol, température.",
         "SENSOR_DEPTH": "Valeur de profondeur non valide, il doit être compris entre 0 et 1000.",
         "SENSOR_BRAND": "Nom de marque non valide, il doit être compris entre 1 et 100 caractères.",
         "SENSOR_MODEL": "Nom de modèle non valide, il doit être compris entre 1 et 100 caractères.",

@@ -24,6 +24,8 @@ import {
   line_width,
   water_valve_flow_rate,
   seedYield,
+  pricePerSeedYield,
+  convertFn,
 } from '../../../util/convert-units/unit';
 import { useForm } from 'react-hook-form';
 import { convert } from '../../../util/convert-units/convert';
@@ -869,4 +871,39 @@ ImperialFlowRateAutoConversion.play = async ({ canvasElement }) => {
   await test.selectedUnitToBeInTheDocument('g/h');
   await test.visibleInputToHaveValue(test.convertDBValueToDisplayValue(hiddenValue, 'gal/h'));
   await test.hiddenInputToHaveValue(hiddenValue);
+};
+
+export const InvertedUnit = Template.bind({});
+InvertedUnit.args = {
+  label: 'PricePerKilogram',
+  name: 'price_per_mass',
+  displayUnitName: 'price_per_mass_unit',
+  unitType: pricePerSeedYield,
+  system: 'metric',
+  defaultValues: {
+    price_per_mass: 20.3,
+    price_per_mass_unit: 'kg',
+  },
+};
+InvertedUnit.play = async ({ canvasElement }) => {
+  const test = new UnitTest(canvasElement, 'unit', pricePerSeedYield);
+
+  await test.visibleInputToHaveValue(test.convertDBValueToDisplayValue(20.3, 'kg'));
+  await test.hiddenInputToHaveValue(20.3);
+  await test.selectedUnitToBeInTheDocument('kg');
+
+  await test.selectUnit('mt');
+  await test.visibleInputToHaveValue(20.3);
+  await test.selectedUnitToBeInTheDocument('mt');
+  await test.hiddenInputToHaveValue(20.3, 'mt', pricePerSeedYield.databaseUnit);
+};
+
+export const Currency = Template.bind({});
+Currency.args = {
+  label: 'PricePerKilogram',
+  name: 'price_per_mass',
+  displayUnitName: pricePerSeedYield.databaseUnit,
+  unitType: pricePerSeedYield,
+  system: 'metric',
+  currency: '$',
 };

@@ -69,6 +69,7 @@ export default function ComplianceInfo({
         style={{
           marginBottom: '23px',
         }}
+        cancelModalTitle={t('CROP_CATALOGUE.CANCEL')}
       />
 
       <div>

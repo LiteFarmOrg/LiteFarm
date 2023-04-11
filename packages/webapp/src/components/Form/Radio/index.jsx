@@ -38,9 +38,9 @@ const Radio = ({
         {...props}
         disabled={disabled}
       />
-      <p className={clsx(styles.label)} style={classes.label}>
+      <span className={clsx(styles.label)} style={classes.label}>
         {label}
-      </p>
+      </span>
       {toolTipContent && <Infoi content={toolTipContent} />}
 
       <span className={clsx(styles.checkmark)} style={classes.checkbox} />

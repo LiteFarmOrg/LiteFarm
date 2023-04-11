@@ -210,7 +210,7 @@ const useUnit = ({
         shouldClearError && setShowError(false);
       }
     },
-    [name],
+    [name, disabled],
   );
 
   const onBlurForHook = (e) => {

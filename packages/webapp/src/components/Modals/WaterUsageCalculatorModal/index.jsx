@@ -76,6 +76,10 @@ const WaterUseVolumeCalculator = ({
   }, []);
 
   useEffect(() => {
+    setValue('FLOW_RATE', '');
+  });
+
+  useEffect(() => {
     if (estimated_duration && estimated_flow_rate && estimated_flow_rate_unit) {
       // flow rate database unit: l/min
       const durationInMin = convert(estimated_duration)

@@ -491,6 +491,7 @@
     "VALUE": "Valeur"
   },
   "EXPIRED_TOKEN": {
+    "RESET_PASSWORD": "MISSING",
     "RESET_PASSWORD_LINK": "Envoyer un nouveau lien de mot de passe."
   },
   "FARM_MAP": {

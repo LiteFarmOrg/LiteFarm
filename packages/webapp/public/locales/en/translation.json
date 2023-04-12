@@ -491,6 +491,7 @@
     "VALUE": "Value"
   },
   "EXPIRED_TOKEN": {
+    "RESET_PASSWORD": "This link has expired.",
     "RESET_PASSWORD_LINK": "Send new password link."
   },
   "FARM_MAP": {

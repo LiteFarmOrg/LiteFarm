@@ -8,17 +8,22 @@ import { getFieldWorkTypes } from '../../../containers/Task/FieldWorkTask/saga';
 import { useDispatch, useSelector } from 'react-redux';
 import { fieldWorkSliceSliceSelector } from '../../../containers/fieldWorkSlice';
 
-const PureFieldWorkTask = ({
-  register,
-  control,
-  setValue,
-  // getValues,
-  watch,
-  disabled = false,
-}) => {
+const formatDefaultTypeValue = (typeValue) => {
+  const { farm_id, field_work_name, field_work_type_id, field_work_type_translation_key } =
+    typeValue[0];
+  return {
+    field_work_type_id,
+    farm_id,
+    label: field_work_name,
+    value: field_work_type_translation_key,
+    field_work_name,
+  };
+};
+
+const PureFieldWorkTask = ({ register, control, setValue, watch, disabled = false }) => {
   const { t } = useTranslation();
 
-  const { fieldWorkTypes = [] } = useSelector(fieldWorkSliceSliceSelector);
+  const fieldWorkTypes = useSelector(fieldWorkSliceSliceSelector)?.fieldWorkTypes || [];
   const dispatch = useDispatch();
   const [fieldWorkTypeOptions, setFieldWorkTypeOptions] = useState([]);
 
@@ -36,6 +41,12 @@ const PureFieldWorkTask = ({
   useEffect(() => {
     if (fieldWorkTypeExposedValue?.value !== 'OTHER') setValue(FIELD_WORK_OTHER_TYPE, null);
   }, [fieldWorkTypeExposedValue]);
+
+  useEffect(() => {
+    if (typeValue?.length) {
+      setValue(FIELD_WORK_TYPE, formatDefaultTypeValue(typeValue));
+    }
+  }, []);
 
   useEffect(() => {
     setFieldWorkTypeOptions((allOptions) => {

@@ -496,7 +496,7 @@ describe.only('LiteFarm end to end test', () => {
           .should('be.a', 'number')
           .should('equal', plantsPerContainer);
 
-        cy.contains('Abandon this task').should('exist').click();
+        cy.contains('Abandon').should('exist').click();
         cy.contains('Select') // find react-select component
           .click({ force: true }); // click to open dropdown
         cy.contains('Weather').click();

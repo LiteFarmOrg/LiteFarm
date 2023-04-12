@@ -33,9 +33,7 @@ function AddCropVarietyForm({ history, match }) {
       crop_variety_name: data.crop_variety_name.trim(),
       crop_variety_photo_url: data.crop_variety_photo_url
         ? data.crop_variety_photo_url
-        : `https://${
-            import.meta.env.VITE_DO_BUCKET_NAME
-          }.nyc3.digitaloceanspaces.com/default_crop/v2/default.webp`,
+        : crop.crop_photo_url,
       supplier: data.supplier.trim(),
       compliance_file_url: '',
       organic: null,

@@ -39,7 +39,11 @@ function PureCropDetail({
   const GENETICALLY_ENGINEERED = 'genetically_engineered';
   const HS_CODE_ID = 'hs_code_id';
   const isOrganic = isEditing ? watch(ORGANIC) : variety.organic;
-  const scientificNameLabel = variety.crop_genus + ' ' + variety.crop_specie;
+  const scientificNameLabel = variety.crop_genus
+    ? variety.crop_genus
+    : '' + ' ' + variety.crop_specie
+    ? variety.crop_specie
+    : '';
 
   return (
     <Layout

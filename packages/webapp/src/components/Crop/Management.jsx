@@ -50,7 +50,11 @@ export default function PureCropManagement({
     }
   };
 
-  const scientificNameLabel = variety.crop_genus + ' ' + variety.crop_specie;
+  const scientificNameLabel = variety.crop_genus
+    ? variety.crop_genus
+    : '' + ' ' + variety.crop_specie
+    ? variety.crop_specie
+    : '';
 
   return (
     <Layout>

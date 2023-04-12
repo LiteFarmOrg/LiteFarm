@@ -8,6 +8,18 @@ import { getFieldWorkTypes } from '../../../containers/Task/FieldWorkTask/saga';
 import { useDispatch, useSelector } from 'react-redux';
 import { fieldWorkSliceSliceSelector } from '../../../containers/fieldWorkSlice';
 
+const formatDefaultTypeValue = (typeValue) => {
+  const [{ farm_id, field_work_name, field_work_type_id, field_work_type_translation_key }] =
+    typeValue;
+  return {
+    field_work_type_id,
+    farm_id,
+    label: field_work_name,
+    value: field_work_type_translation_key,
+    field_work_name,
+  };
+};
+
 const PureFieldWorkTask = ({ register, control, setValue, watch, disabled = false }) => {
   const { t } = useTranslation();
 
@@ -40,17 +52,14 @@ const PureFieldWorkTask = ({ register, control, setValue, watch, disabled = fals
         value: !type.farm_id ? type.field_work_type_id : type.value,
       }))
       .concat({ label: t('ADD_TASK.FIELD_WORK_VIEW.TYPE.OTHER'), value: 'OTHER' });
-    if (Array.isArray(typeValue)) {
-      const newValue =
-        options.find((option) => option.field_work_type_id === typeValue[0].field_work_type_id) ??
-        typeValue;
-      setValue(FIELD_WORK_TYPE, newValue, { shouldValidate: true });
-    }
     setFieldWorkTypeOptions(options);
   }, [fieldWorkTypes]);
 
   useEffect(() => {
     dispatch(getFieldWorkTypes());
+    if (typeValue?.length) {
+      setValue(FIELD_WORK_TYPE, formatDefaultTypeValue(typeValue));
+    }
   }, []);
   const displayLabel = (values) => {
     if (!values.length) return '';

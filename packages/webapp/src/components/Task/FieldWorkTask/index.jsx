@@ -31,6 +31,8 @@ const PureFieldWorkTask = ({ register, control, setValue, watch, disabled = fals
   }, [fieldWorkTypeExposedValue]);
 
   useEffect(() => {
+    // Go through the field work types and add the translation to the label
+    // Match the value to the field_work_type_id if it is a default type otherwise to its value
     const options = fieldWorkTypes
       .map((type) => ({
         ...type,
@@ -39,11 +41,9 @@ const PureFieldWorkTask = ({ register, control, setValue, watch, disabled = fals
       }))
       .concat({ label: t('ADD_TASK.FIELD_WORK_VIEW.TYPE.OTHER'), value: 'OTHER' });
     if (Array.isArray(typeValue)) {
-      console.log(options);
       const newValue =
         options.find((option) => option.field_work_type_id === typeValue[0].field_work_type_id) ??
         typeValue;
-      console.log(newValue);
       setValue(FIELD_WORK_TYPE, newValue, { shouldValidate: true });
     }
     setFieldWorkTypeOptions(options);

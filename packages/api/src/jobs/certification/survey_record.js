@@ -85,6 +85,11 @@ export default async (emailQueue, submission, exportId, organicCertifierSurvey, 
     for (const group of parentGroups) {
       if (group != null) {
         answer = answer[group];
+
+        if (answer == undefined) {
+          // i.e. parent group had no answer
+          return undefined;
+        }
       }
     }
     return answer[name]?.value;

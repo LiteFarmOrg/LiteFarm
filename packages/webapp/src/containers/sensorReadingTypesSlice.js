@@ -78,3 +78,16 @@ export const sensorReadingTypesByLocationSelector = (locationId) => {
     },
   );
 };
+
+export const sensorReadingTypesByMultipleLocations = (locations) => {
+  return createSelector(
+    [sensorReadingTypesSelectors.selectEntities],
+    (sensorReadingTypesEntities) => {
+      const readingTypes = [];
+      locations.forEach((location) => {
+        readingTypes.push(sensorReadingTypesEntities[location.id]);
+      });
+      return readingTypes;
+    },
+  );
+};

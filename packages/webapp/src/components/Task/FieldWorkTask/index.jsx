@@ -31,19 +31,27 @@ const PureFieldWorkTask = ({ register, control, setValue, watch, disabled = fals
   }, [fieldWorkTypeExposedValue]);
 
   useEffect(() => {
-    setFieldWorkTypeOptions((allOptions) => {
-      let options = fieldWorkTypes.map((f) =>
-        f.farm_id === null ? { ...f, label: t(f.label) } : { ...f, label: f.field_work_name },
-      );
-      options.push({ label: t('ADD_TASK.FIELD_WORK_VIEW.TYPE.OTHER'), value: 'OTHER' });
-      return options;
-    });
+    const options = fieldWorkTypes
+      .map((type) => ({
+        ...type,
+        label: !type.farm_id ? t(type.label) : type.field_work_name,
+        value: !type.farm_id ? type.field_work_type_id : type.value,
+      }))
+      .concat({ label: t('ADD_TASK.FIELD_WORK_VIEW.TYPE.OTHER'), value: 'OTHER' });
+    if (Array.isArray(typeValue)) {
+      console.log(options);
+      const newValue =
+        options.find((option) => option.field_work_type_id === typeValue[0].field_work_type_id) ??
+        typeValue;
+      console.log(newValue);
+      setValue(FIELD_WORK_TYPE, newValue, { shouldValidate: true });
+    }
+    setFieldWorkTypeOptions(options);
   }, [fieldWorkTypes]);
 
   useEffect(() => {
     dispatch(getFieldWorkTypes());
   }, []);
-
   const displayLabel = (values) => {
     if (!values.length) return '';
     const value = values[0]?.field_work_name || '';

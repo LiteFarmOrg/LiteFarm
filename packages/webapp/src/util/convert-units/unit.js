@@ -18,7 +18,7 @@ const databaseUnit = {
   degree: 'deg',
 };
 
-// These constants are used to determine a unit based on the guideline.
+// These constants are used to determine units based on the guideline.
 export const area_total_area = {
   metric: {
     units: ['m2', 'ha'],
@@ -186,6 +186,8 @@ export const container_plant_spacing = {
   databaseUnit: databaseUnit.length,
 };
 
+// crop_age is not stored in the database.
+// databaseUnit is used for calculation.
 export const crop_age = {
   metric: {
     units: ['d', 'week', 'month', 'year'],
@@ -197,7 +199,7 @@ export const crop_age = {
     defaultUnit: 'week',
     breakpoints: [7, 30, 365],
   },
-  databaseUnit: databaseUnit.time,
+  databaseUnit: 'd',
 };
 
 export const seedAmounts = {

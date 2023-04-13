@@ -187,6 +187,7 @@
       "EXISTS": "Usuario ya existe en la red de trabajo de LiteFarm",
       "INVITE": "Error al crear cuenta de usuario. Por favor contacte LiteFarm por asistencia.",
       "NOTHING_CHANGED": "Nada ha cambiado",
+      "MAX_RESET_EMAILS": "MISSING",
       "RESET_PASSWORD": "Error al enviar email para cambiar contraseña. Por favor contacte LiteFarm por asistencia.",
       "RESTORE": "Hubo un error al restaurar acceso",
       "REVOKE": "Hubo un error al revocar acceso",

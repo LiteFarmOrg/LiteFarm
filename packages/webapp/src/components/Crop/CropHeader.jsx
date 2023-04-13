@@ -19,12 +19,11 @@ function CropHeader({ variety, onBackClick }) {
   } = variety;
 
   const crop_scientific_name = () => {
-    console.log(crop_genus);
     const genus = crop_genus
-      ? crop_genus.charAt(0).toUpperCase() + crop_genus.slice(1).toLowerCase()
+      ? crop_genus.charAt(0).toUpperCase() + crop_genus.slice(1).toLowerCase() + ' '
       : '';
     const species = crop_specie ? crop_specie : '';
-    return `${genus} ${species}`;
+    return `${genus}${species}`;
   };
 
   const varietalDetails = () => {

@@ -203,7 +203,6 @@ Input.propTypes = {
   }),
   onChange: PropTypes.func,
   onBlur: PropTypes.func,
-  onFocus: PropTypes.func,
   hasLeaf: PropTypes.bool,
   max: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   min: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),

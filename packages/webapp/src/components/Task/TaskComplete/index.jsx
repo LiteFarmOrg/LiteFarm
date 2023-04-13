@@ -49,9 +49,9 @@ export default function PureTaskComplete({
   } = useForm({
     mode: 'onChange',
     shouldUnregister: false,
-    defaultValues: { 
+    defaultValues: {
       [DATE_CHOICE]: date_default,
-      [ANOTHER_DATE]: date_default,
+      [ANOTHER_DATE]: '',
       ...persistedFormData,
     },
   });
@@ -104,8 +104,7 @@ export default function PureTaskComplete({
             actual_quantity_unit: persistedFormData?.actual_quantity_unit.value,
           };
         }
-        if (isIrrigationLocation)
-          data.location_id = persistedFormData.locations[0].location_id;
+        if (isIrrigationLocation) data.location_id = persistedFormData.locations[0].location_id;
         onSave(data);
       })}
     >
@@ -120,16 +119,16 @@ export default function PureTaskComplete({
 
       <Main style={{ marginBottom: '24px' }}>{t('TASK.COMPLETE.WHEN')}</Main>
 
-      <RadioGroup 
-        hookFormControl={control} 
-        required 
+      <RadioGroup
+        hookFormControl={control}
+        required
         style={{ marginBottom: date_choice == ANOTHER_DATE ? '12px' : '24px' }}
         name={DATE_CHOICE}
         radios={[
           {
             label: t('TASK.ABANDON.DATE_ORIGINAL'),
             disabled: dueDateDisabled,
-            pill:  date_due,
+            pill: date_due,
             // Avoid duplicate keys when date_due == date_today
             value: dueDateDisabled ? false : date_due,
           },
@@ -145,25 +144,19 @@ export default function PureTaskComplete({
         ]}
       />
 
-      {date_choice == ANOTHER_DATE &&
+      {date_choice == ANOTHER_DATE && (
         <Input
           autoFocus
           hookFormRegister={register(ANOTHER_DATE, {
             required: true,
-            validate: isNotInFuture,
           })}
           label={t('TASK.ABANDON.WHICH_DATE')}
-          errors={errors[ANOTHER_DATE] ? isNotInFuture() : null}
           style={{ marginBottom: '24px' }}
           type={'date'}
-          max={date_today}
-          // Remove any error with try catch block if showPicker isn't supported.
-          // It also fails on non-user-activated focus eg refresh after
-          // having selected Another date => non-user-activated autofocus
-          onFocus={e => { try {e.target.showPicker()} catch {} }}
           required
+          openCalendar
         />
-      }
+      )}
 
       <Main style={{ marginBottom: '24px' }}>{t('TASK.COMPLETE_TASK_DURATION')}</Main>
 

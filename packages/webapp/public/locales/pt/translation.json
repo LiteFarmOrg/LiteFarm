@@ -1592,7 +1592,7 @@
       "WHICH_DATE": "Qual data?",
       "DATE_ORIGINAL": "A data de vencimento original",
       "DATE_TODAY": "Hoje",
-      "DATE_ANOTHER": "Outro",
+      "DATE_ANOTHER": "MISSING",
       "INFO": "Abandonar esta tarefa mudará seu estado para abandonado e a removerá das listas de 'Tarefas' e 'Não atribuídas' de todos os usuários.",
       "NOTES": "Observações de abandono de tarefa",
       "NOTES_CHAR_LIMIT": "Observações não devem exceder 10.000 caractéres",

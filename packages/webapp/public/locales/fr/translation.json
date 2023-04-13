@@ -1592,7 +1592,7 @@
       "WHICH_DATE": "Quelle date?",
       "DATE_ORIGINAL": "La date d'échéance initiale",
       "DATE_TODAY": "Aujourd'hui",
-      "DATE_ANOTHER": "Autre",
+      "DATE_ANOTHER": "MISSING",
       "INFO": "Abandonner cette tâche changera son statut à Abandonné et la supprimera de tous utilisateurs sure les listes 'À faire' et 'non-assigné'.",
       "NOTES": "Notes d'abandon de tâche",
       "NOTES_CHAR_LIMIT": "Les notes doivent comporter moins de 10 000 caractères",

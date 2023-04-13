@@ -6,16 +6,19 @@ const IMPERIAL = 'imperial';
 /**
  * seeding_rate: kg/m2
  */
+// DO NOT CHANGE!
+// Any change to this will lead to need for database backfilling.
 const databaseUnit = {
   area: 'm2',
   length: 'm',
   mass: 'kg',
   volumeFlowRate: 'l/min',
   volume: 'l',
-  time: 'd',
+  time: 'min',
   degree: 'deg',
 };
 
+// These constants are used to determine a unit based on the guideline.
 export const area_total_area = {
   metric: {
     units: ['m2', 'ha'],

@@ -1620,7 +1620,7 @@
     "EXPIRED_ERROR": "We've updated our infrastructure and you'll need to reset your password. Check your inbox to proceed.",
     "EXPIRED_INVITATION_LINK_ERROR": "Invalid or expired invitation",
     "GOOGLE_BUTTON": "CONTINUE WITH GOOGLE",
-    "INVITED_ERROR": "We've updated our infrastructure and you'll need to check your inbox for a farm invitation to proceed.",
+    "INVITED_ERROR": "A farm invitation has been emailed to you, please check your inbox and spam folder.",
     "LITEFARM_UPDATED": "We've updated LiteFarm!",
     "PASSWORD_ERROR": "Password incorrect",
     "SIGN_IN": "Sign In",

@@ -1542,7 +1542,7 @@
     "EXPIRED_ERROR": "NÃO EXISTE",
     "EXPIRED_INVITATION_LINK_ERROR": "Convite expirado ou inválido",
     "GOOGLE_BUTTON": "CONTINUE COM O GOOGLE",
-    "INVITED_ERROR": "NÃO EXISTE",
+    "INVITED_ERROR": "MISSING",
     "LITEFARM_UPDATED": "Nós atualizamos o LiteFarm!",
     "PASSWORD_ERROR": "Senha incorreta",
     "SIGN_IN": "Conecte-se",

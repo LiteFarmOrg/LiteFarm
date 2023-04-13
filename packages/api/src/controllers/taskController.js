@@ -356,18 +356,21 @@ const taskController = {
       data.field_work_task,
       'field_work_task_type',
     );
-    if (containsFieldWorkTask) {
+    if (containsFieldWorkTask && typeof data.field_work_task.field_work_task_type !== 'number') {
       const field_work_task_type = data.field_work_task.field_work_task_type;
       const row = {
         farm_id,
         field_work_name: field_work_task_type.field_work_name,
-        field_work_type_translation_key: field_work_task_type.field_work_type_translation_key,
+        field_work_type_translation_key: field_work_task_type.field_work_name.toUpperCase().trim(),
         created_by_user_id: data.owner_user_id,
         updated_by_user_id: data.owner_user_id,
       };
       const fieldWork = await FieldWorkTypeModel.insertCustomFieldWorkType(row);
       delete data.field_work_task.field_work_task_type;
       data.field_work_task.field_work_type_id = fieldWork.field_work_type_id;
+    } else if (containsFieldWorkTask) {
+      data.field_work_task.field_work_type_id = data.field_work_task.field_work_task_type;
+      delete data.field_work_task.field_work_task_type;
     }
     return data;
   },
@@ -474,7 +477,7 @@ const taskController = {
           : { wage_at_moment: wage.amount };
         data = await this.checkCustomDependencies(
           typeOfTask,
-          (data = { ...data, owner_user_id: user_id }),
+          { ...data, owner_user_id: user_id },
           req.headers.farm_id,
         );
         const result = await TaskModel.transaction(async (trx) => {

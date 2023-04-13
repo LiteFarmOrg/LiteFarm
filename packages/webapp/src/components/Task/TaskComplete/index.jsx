@@ -14,6 +14,7 @@ import styles from './styles.module.scss';
 import { getObjectInnerValues } from '../../../util';
 import Input from '../../Form/Input';
 import { getDateInputFormat } from '../../../util/moment';
+import { isNotInFuture } from '../../Form/Input/utils';
 import { useIsTaskType } from '../../../containers/Task/useIsTaskType';
 import { ORIGINAL_DUE_DATE, TODAY_DUE_DATE, ANOTHER_DUE_DATE } from '../AbandonTask/constants';
 
@@ -158,10 +159,13 @@ export default function PureTaskComplete({
           autoFocus
           hookFormRegister={register(ANOTHER_DATE, {
             required: true,
+            validate: isNotInFuture,
           })}
           label={t('TASK.ABANDON.WHICH_DATE')}
+          errors={errors[ANOTHER_DATE] ? isNotInFuture() : null}
           style={{ marginBottom: '24px' }}
           type={'date'}
+          max={date_today}
           required
           openCalendar
         />

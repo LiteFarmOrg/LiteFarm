@@ -9,6 +9,7 @@ import ReactSelect from '../../Form/ReactSelect';
 import { Controller, useForm } from 'react-hook-form';
 import InputAutoSize from '../../Form/InputAutoSize';
 import Input from '../../Form/Input';
+import { isNotInFuture } from '../../Form/Input/utils';
 import TimeSlider from '../../Form/Slider/TimeSlider';
 import Checkbox from '../../Form/Checkbox';
 import Rating from '../../Rating';
@@ -142,12 +143,15 @@ const PureAbandonTask = ({
           label={t('TASK.ABANDON.WHICH_DATE')}
           hookFormRegister={register(ABANDON_DATE, {
             required: true,
+            validate: isNotInFuture,
           })}
           style={{ marginBottom: '24px' }}
           type={'date'}
           required
           autoFocus
           openCalendar
+          errors={errors[ABANDON_DATE] ? isNotInFuture() : null}
+          max={getDateInputFormat()}
         />
       )}
 

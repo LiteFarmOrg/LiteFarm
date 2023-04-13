@@ -76,8 +76,13 @@ export default function PureTaskComplete({
           isCustomTaskType: !!persistedFormData?.taskType.farm_id,
         };
         let task_type_name = persistedFormData?.taskType.task_translation_key.toLowerCase();
-        if (persistedFormData?.need_changes) {
+        const isNotOtherFieldWork =
+          task_type_name === 'field_work_task' &&
+          persistedFormData?.field_work_task?.field_work_task_type.value !== 'OTHER';
+        if (persistedFormData?.need_changes && isNotOtherFieldWork) {
           data.taskData[task_type_name] = getObjectInnerValues(persistedFormData[task_type_name]);
+        } else if (!isNotOtherFieldWork) {
+          data.taskData[task_type_name] = { ...persistedFormData[task_type_name] };
         }
         //TODO: replace with useIsTaskType
         if (task_type_name === 'harvest_task') {
@@ -88,8 +93,7 @@ export default function PureTaskComplete({
             actual_quantity_unit: persistedFormData?.actual_quantity_unit.value,
           };
         }
-        if (isIrrigationLocation)
-          data.location_id = persistedFormData.locations[0].location_id;
+        if (isIrrigationLocation) data.location_id = persistedFormData.locations[0].location_id;
         onSave(data);
       })}
     >

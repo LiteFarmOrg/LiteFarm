@@ -9,8 +9,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fieldWorkSliceSliceSelector } from '../../../containers/fieldWorkSlice';
 
 const formatDefaultTypeValue = (typeValue) => {
-  const { farm_id, field_work_name, field_work_type_id, field_work_type_translation_key } =
-    typeValue[0];
+  const [{ farm_id, field_work_name, field_work_type_id, field_work_type_translation_key }] =
+    typeValue;
   return {
     field_work_type_id,
     farm_id,
@@ -43,25 +43,24 @@ const PureFieldWorkTask = ({ register, control, setValue, watch, disabled = fals
   }, [fieldWorkTypeExposedValue]);
 
   useEffect(() => {
-    if (typeValue?.length) {
-      setValue(FIELD_WORK_TYPE, formatDefaultTypeValue(typeValue));
-    }
-  }, []);
-
-  useEffect(() => {
-    setFieldWorkTypeOptions((allOptions) => {
-      let options = fieldWorkTypes.map((f) =>
-        f.farm_id === null ? { ...f, label: t(f.label) } : { ...f, label: f.field_work_name },
-      );
-      options.push({ label: t('ADD_TASK.FIELD_WORK_VIEW.TYPE.OTHER'), value: 'OTHER' });
-      return options;
-    });
+    // Go through the field work types and add the translation to the label
+    // Match the value to the field_work_type_id if it is a default type otherwise to its value
+    const options = fieldWorkTypes
+      .map((type) => ({
+        ...type,
+        label: !type.farm_id ? t(type.label) : type.field_work_name,
+        value: !type.farm_id ? type.field_work_type_id : type.value,
+      }))
+      .concat({ label: t('ADD_TASK.FIELD_WORK_VIEW.TYPE.OTHER'), value: 'OTHER' });
+    setFieldWorkTypeOptions(options);
   }, [fieldWorkTypes]);
 
   useEffect(() => {
     dispatch(getFieldWorkTypes());
+    if (typeValue?.length) {
+      setValue(FIELD_WORK_TYPE, formatDefaultTypeValue(typeValue));
+    }
   }, []);
-
   const displayLabel = (values) => {
     if (!values.length) return '';
     const value = values[0]?.field_work_name || '';

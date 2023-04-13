@@ -36,6 +36,7 @@ export default function PureTaskComplete({
   // Prepare dates
   const date_due = getDateInputFormat(persistedFormData.due_date);
   const date_today = getDateInputFormat();
+  const dueDateDisabled = date_due >= date_today;
 
   const {
     register,
@@ -49,7 +50,7 @@ export default function PureTaskComplete({
     mode: 'onChange',
     shouldUnregister: false,
     defaultValues: {
-      [DATE_CHOICE]: ORIGINAL_DUE_DATE,
+      [DATE_CHOICE]: dueDateDisabled ? TODAY_DUE_DATE : ORIGINAL_DUE_DATE,
       [ANOTHER_DATE]: '',
       ...persistedFormData,
     },
@@ -139,6 +140,7 @@ export default function PureTaskComplete({
         radios={[
           {
             label: t('TASK.ABANDON.DATE_ORIGINAL'),
+            disabled: dueDateDisabled,
             pill: date_due,
             value: ORIGINAL_DUE_DATE,
           },

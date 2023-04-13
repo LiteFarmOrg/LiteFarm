@@ -128,6 +128,7 @@ RadioGroup.propTypes = {
     PropTypes.shape({
       style: PropTypes.object,
       label: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
+      pill: PropTypes.string,
       defaultChecked: PropTypes.bool,
       value: PropTypes.oneOfType([PropTypes.string, PropTypes.bool, PropTypes.number]),
     }),

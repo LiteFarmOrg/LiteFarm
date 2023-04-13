@@ -11,6 +11,11 @@ class emailTokenModel extends Model {
     return ['invitation_id'];
   }
 
+  async $beforeUpdate(opt, context) {
+    await super.$beforeUpdate(opt, context);
+    this.updated_at = new Date().toISOString();
+  }
+
   // Optional JSON schema. This is not the database schema! Nothing is generated
   // based on this. This is only used for validation. Whenever a model instance
   // is created it is checked against this schema. http://json-schema.org/.

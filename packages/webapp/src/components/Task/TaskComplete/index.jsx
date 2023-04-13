@@ -14,8 +14,8 @@ import styles from './styles.module.scss';
 import { getObjectInnerValues } from '../../../util';
 import Input from '../../Form/Input';
 import { getDateInputFormat } from '../../../util/moment';
-import { isNotInFuture } from '../../Form/Input/utils';
 import { useIsTaskType } from '../../../containers/Task/useIsTaskType';
+import { ORIGINAL_DUE_DATE, TODAY_DUE_DATE, ANOTHER_DUE_DATE } from '../AbandonTask/constants';
 
 export default function PureTaskComplete({
   onSave,
@@ -35,8 +35,6 @@ export default function PureTaskComplete({
   // Prepare dates
   const date_due = getDateInputFormat(persistedFormData.due_date);
   const date_today = getDateInputFormat();
-  const dueDateDisabled = date_due >= date_today;
-  const date_default = dueDateDisabled ? date_today : date_due;
 
   const {
     register,
@@ -50,14 +48,13 @@ export default function PureTaskComplete({
     mode: 'onChange',
     shouldUnregister: false,
     defaultValues: {
-      [DATE_CHOICE]: date_default,
+      [DATE_CHOICE]: ORIGINAL_DUE_DATE,
       [ANOTHER_DATE]: '',
       ...persistedFormData,
     },
   });
 
   const date_choice = watch(DATE_CHOICE); // Radiobox Group choice
-  const date_another = watch(ANOTHER_DATE); // Datepicker date, if date_choice == ANOTHER_DATE
 
   const { historyCancel } = useHookFormPersist(getValues);
 
@@ -81,12 +78,26 @@ export default function PureTaskComplete({
         </Button>
       }
       onSubmit={handleSubmit((formData) => {
+        let completeDate = '';
+        switch (formData[DATE_CHOICE]) {
+          case TODAY_DUE_DATE:
+            completeDate = date_today;
+            break;
+          case ANOTHER_DUE_DATE:
+            completeDate = formData[ANOTHER_DATE];
+            break;
+          case ORIGINAL_DUE_DATE:
+          default:
+            completeDate = date_due;
+            break;
+        }
+
         let data = {
           taskData: {
             duration: duration,
             happiness: prefer_not_to_say ? null : happiness,
             completion_notes: notes,
-            complete_date: date_choice == ANOTHER_DATE ? date_another : date_choice,
+            complete_date: completeDate,
           },
           task_translation_key: persistedFormData?.taskType.task_translation_key,
           isCustomTaskType: !!persistedFormData?.taskType.farm_id,
@@ -122,29 +133,27 @@ export default function PureTaskComplete({
       <RadioGroup
         hookFormControl={control}
         required
-        style={{ marginBottom: date_choice == ANOTHER_DATE ? '12px' : '24px' }}
+        style={{ marginBottom: date_choice == ANOTHER_DUE_DATE ? '12px' : '24px' }}
         name={DATE_CHOICE}
         radios={[
           {
             label: t('TASK.ABANDON.DATE_ORIGINAL'),
-            disabled: dueDateDisabled,
             pill: date_due,
-            // Avoid duplicate keys when date_due == date_today
-            value: dueDateDisabled ? false : date_due,
+            value: ORIGINAL_DUE_DATE,
           },
           {
             label: t('TASK.ABANDON.DATE_TODAY'),
             pill: date_today,
-            value: date_today,
+            value: TODAY_DUE_DATE,
           },
           {
             label: t('TASK.ABANDON.DATE_ANOTHER'),
-            value: ANOTHER_DATE,
+            value: ANOTHER_DUE_DATE,
           },
         ]}
       />
 
-      {date_choice == ANOTHER_DATE && (
+      {date_choice == ANOTHER_DUE_DATE && (
         <Input
           autoFocus
           hookFormRegister={register(ANOTHER_DATE, {

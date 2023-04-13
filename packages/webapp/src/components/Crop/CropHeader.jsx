@@ -5,16 +5,34 @@ import { useTranslation } from 'react-i18next';
 import styles from './styles.module.scss';
 import clsx from 'clsx';
 
-function CropHeader({
-  crop_translation_key,
-  crop_variety_name,
-  crop_scientific_name,
-  crop_cultivar,
-  supplier,
-  crop_variety_photo_url,
-  onBackClick,
-}) {
+function CropHeader({ variety, onBackClick }) {
   const { t } = useTranslation(['translation', 'crop']);
+  const {
+    crop_variety_name,
+    crop_genus,
+    crop_specie,
+    crop_varietal,
+    crop_cultivar,
+    supplier,
+    crop_variety_photo_url,
+    crop_translation_key,
+  } = variety;
+
+  const crop_scientific_name = () => {
+    console.log(crop_genus);
+    const genus = crop_genus
+      ? crop_genus.charAt(0).toUpperCase() + crop_genus.slice(1).toLowerCase()
+      : '';
+    const species = crop_specie ? crop_specie : '';
+    return `${genus} ${species}`;
+  };
+
+  const varietalDetails = () => {
+    const varietal = crop_varietal ? `var. ${crop_varietal.toLowerCase()}` : '';
+    const cultivar = crop_cultivar ? `'${crop_cultivar}'` : '';
+    return `${varietal} ${cultivar}`;
+  };
+
   return (
     <div className={styles.headerContainer}>
       <div className={styles.headerInfoWrapper}>
@@ -26,12 +44,12 @@ function CropHeader({
         </div>
         <div className={styles.headerAttributesContainer}>
           <Label className={clsx(styles.textOverFlowBehaviour, styles.italicText)}>
-            {crop_scientific_name}
+            {crop_scientific_name()}
           </Label>
         </div>
         <div className={styles.headerAttributesContainer}>
           <Label className={clsx(styles.textOverFlowBehaviour, styles.italicText)}>
-            var. {crop_variety_name.toLowerCase() + " '" + crop_cultivar + "'"}
+            {varietalDetails()}
           </Label>
         </div>
         <div className={clsx(styles.headerAttributesContainer, styles.supplierContainer)}>

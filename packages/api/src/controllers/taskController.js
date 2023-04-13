@@ -361,7 +361,7 @@ const taskController = {
       const row = {
         farm_id,
         field_work_name: field_work_task_type.field_work_name,
-        field_work_type_translation_key: field_work_task_type.field_work_type_translation_key,
+        field_work_type_translation_key: field_work_task_type.field_work_name.toUpperCase().trim(),
         created_by_user_id: data.owner_user_id,
         updated_by_user_id: data.owner_user_id,
       };

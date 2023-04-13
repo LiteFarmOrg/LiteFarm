@@ -16,11 +16,11 @@ const Radio = ({
   onBlur,
   inputRef,
   toolTipContent,
+  pill,
+  checked,
   ...props
 }) => {
   const name = hookFormRegister?.name ?? props?.name;
-  const pill = props?.pill;
-  const checked = props?.checked;
 
   return (
     <label
@@ -41,6 +41,7 @@ const Radio = ({
         type={'radio'}
         {...props}
         disabled={disabled}
+        checked={checked}
       />
       <span className={clsx(styles.label)} style={classes.label}>
         {label}
@@ -56,6 +57,7 @@ const Radio = ({
 
 Radio.propTypes = {
   label: PropTypes.node,
+  checked: PropTypes.bool,
   disabled: PropTypes.bool,
   classes: PropTypes.exact({
     checkbox: PropTypes.object,
@@ -71,6 +73,7 @@ Radio.propTypes = {
   }),
   onChange: PropTypes.func,
   onBlur: PropTypes.func,
+  pill: PropTypes.string,
 };
 
 export default Radio;

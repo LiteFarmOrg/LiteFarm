@@ -25,16 +25,14 @@ export default function useStringFilteredCrops(
         ?.toLowerCase()
         .normalize('NFD')
         .replace(/\p{Diacritic}/gu, '')
-        .replace(/\W/g, '')
-        .replace(/_/g, '')
+        .replace(/[^\p{L}0-9]/gu, '')
         .trim() || '';
     const check = (name: string | null | undefined) => {
       return name
         ?.toLowerCase()
         .normalize('NFD')
         .replace(/\p{Diacritic}/gu, '')
-        .replace(/\W/g, '')
-        .replace(/_/g, '')
+        .replace(/[^\p{L}0-9}]/gu, '')
         .trim()
         .includes(lowerCaseFilter);
     };

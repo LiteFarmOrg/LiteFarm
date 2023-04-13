@@ -1,4 +1,4 @@
-##### Version 4.0:
+##### Version 5.0:
 
 #### Formulário de Consentimento Livre e Esclarecido e Política de Privacidade (Versão para Trabalhadores Agrícolas)
 
@@ -14,7 +14,7 @@ A equipe LiteFarm é um grupo interdisciplinar de cientistas, pesquisadores, pro
 
 #### Quem financia a LiteFarm?
 
-A LiteFarm é financiada pelo Centro em prol dos Sistemas Alimentares Sustentáveis da UBC e outras fontes. Para ver uma lista completa, visite: https://ubcfarm.ubc.ca/litefarm/. Nossos financiadores não têm influência sobre a operação e a gestão da LiteFarm e não conseguem acessar nenhuma das informações pessoais contidas na plataforma. Atualmente, nosso modelo de financiamento é direcionado para doadores e doações.
+A LiteFarm é financiada pelo Centro em prol dos Sistemas Alimentares Sustentáveis da UBC e outras fontes. Para ver uma lista completa, visite: https://www.litefarm.org/community-1. Nossos financiadores não têm influência sobre a operação e a gestão da LiteFarm e não conseguem acessar nenhuma das informações pessoais contidas na plataforma. Atualmente, nosso modelo de financiamento é direcionado para doadores e doações.
 
 #### Por que estamos conduzindo este projeto?
 
@@ -66,7 +66,7 @@ A LiteFarm usa as informações de gestão que você insere no aplicativo para g
 
 **Dados de uso**
 
-Coletamos dados de uso (ou seja, estatísticas gerais sobre usuários, padrões de tráfego e como os usuários respondem a diversas características do site) para melhorar a qualidade dos serviços que prestamos a você. Estes tipos de dados incluem: quando você faz login na LiteFarm, páginas que você solicita, por quanto tempo você visita osite, como você interage com o aplicativo e detalhes técnicos sobre seu dispositivo (ex. navegador, tipo de tela e processador). Esses dados serão associados a seu nome de usuário da LiteFarm (se você tiver feito login no aplicativo) ou a seu endereço IP (se não tiver feito login). Poderemos usar softwares como o Google Analytics para coletar esses dados; porém, nesses casos, todas as informações pessoais serão anonimizadas.
+Coletamos dados de uso (ou seja, estatísticas gerais sobre usuários, padrões de tráfego e como os usuários respondem a diversas características do site) para melhorar a qualidade dos serviços que prestamos a você. Estes tipos de dados incluem: quando você faz login na LiteFarm, páginas que você solicita, por quanto tempo você visita osite, como você interage com o aplicativo e detalhes técnicos sobre seu dispositivo (ex. navegador, tipo de tela e processador). Esses dados serão associados a seu nome de usuário da LiteFarm (se você tiver feito login no aplicativo) ou a seu endereço IP (se não tiver feito login). Poderemos usar softwares como o Google Analytics para coletar e analisar esses dados; porém, nesses casos, todas as informações pessoais serão anonimizadas.
 
 **Como usamos os dados?**
 
@@ -75,7 +75,7 @@ As informações fornecidas por você sobre a conclusão das tarefas são aprese
 
 **O que compartilhamos?**
 
-Compartilharemos seus dados com terceiros somente se eles forem anônimos (isto é, se não contiverem informações pessoais) e se forem necessários para atingir as metas de nossas pesquisas ou validar descobertas científicas. Especificamente, poderemos compartilhar dados anônimos, em algum momento futuro, com outros pesquisadores com fins de pesquisa acadêmica não comercial. Todas as solicitações de uso dos dados da LiteFarm por pesquisadores acadêmicos terceiros serão submetidas a uma análise interna e serão avaliados sob nossos padrões éticos e de segurança. Por causa dos padrões de publicação para reprodutibilidade científica, os dados anônimos que forem usados para pesquisas acadêmicas poderão ser direcionados para repositórios públicos. Cópias de edições não públicas de dados anônimos poderão ser compartilhadas com pesquisadores acadêmicos para fins de pesquisa nãocomerciais, sob licenças confidenciais de uso único e tempo limitado. Se o uso de uma pesquisa acadêmica incluir o uso de fotos transferidas para a LiteFarm por upload, todas as características identificáveis que revelem informações pessoais (ex.: rostos de pessoas) serão desfocados nas fotos antes que elas sejam compartilhadas. Não compartilhamos nenhuma informação pessoal com serviços de análise de terceiros, como o Google Analytics. Por meio de nossos protocolos de segurança, protegemos a vulnerabilidade das informações pessoais contidas no site da LiteFarm e usamos protocolos de anonimização de IP para prevenir a identificação e a geolocalização por terceiros. A LiteFarm não alugará nem venderá a ninguém suas informações pessoais, nem os dados coletados através do site da LiteFarm.
+Compartilharemos seus dados com terceiros somente se eles forem anônimos (isto é, se não contiverem informações pessoais) e se forem necessários para atingir as metas de nossas pesquisas ou validar descobertas científicas. Especificamente, poderemos compartilhar dados anônimos, em algum momento futuro, com outros pesquisadores com fins de pesquisa acadêmica não comercial. Todas as solicitações de uso dos dados da LiteFarm por pesquisadores acadêmicos terceiros serão submetidas a uma análise interna e serão avaliados sob nossos padrões éticos e de segurança. Por causa dos padrões de publicação para reprodutibilidade científica, os dados anônimos que forem usados para pesquisas acadêmicas poderão ser direcionados para repositórios públicos. Cópias de edições não públicas de dados anônimos poderão ser compartilhadas com pesquisadores acadêmicos para fins de pesquisa nãocomerciais, sob licenças confidenciais de uso único e tempo limitado. Se o uso de uma pesquisa acadêmica incluir o uso de fotos transferidas para a LiteFarm por upload, todas as características identificáveis que revelem informações pessoais (ex.: rostos de pessoas) serão desfocados nas fotos antes que elas sejam compartilhadas. Não compartilhamos nenhuma informação pessoal com serviços de análise de terceiros, como o Google Analytics. Por meio de nossos protocolos de segurança, protegemos a vulnerabilidade das informações pessoais contidas no site da LiteFarm e usamos protocolos de anonimização de IP para prevenir a identificação e a geolocalização por terceiros.
 
 **Como usamos os cookies**
 
@@ -87,7 +87,7 @@ Nosso aplicativo está hospedado no Digital Ocean para atender nosso site de for
 
 **Como protegemos os seus dados?**
 
-Seguimos as melhores práticas do setor para proteger os dados dos usuários, e construímos e continuamos mantendo nosso aplicativo alinhado ao Padrão de Verificação de Segurança de Aplicativos Comentado de Nível 2, do Projeto de Segurança de Aplicativos da Web Aberta. O acesso à base de dados é limitado aos membros da equipe LiteFarm que passaram pelo treinamento de ética (Declaração da Política do Conselho Triplo: Conduta Ética para Pesquisas Envolvendo Seres Humanos, TCPS2) e que assinaram acordos de confidencialidade. Entretanto, não podemos garantir que os dados transmitidos pela Internet estarão sempre seguros. Como resultado, embora nos esforcemos para proteger suas informações pessoais, não podemos garantir que alguma informação não possa ser transmitida durante o uso da LiteFarm.
+Seguimos as melhores práticas do setor para proteger os dados dos usuários, e construímos e continuamos mantendo o aplicativo LiteFarm alinhado ao Padrão de Verificação de Segurança de Aplicativos Comentado de Nível 2, do Projeto de Segurança de Aplicativos da Web Aberta. O acesso à base de dados de LiteFarm é limitado aos membros da equipe LiteFarm que passaram pelo treinamento de ética (Declaração da Política do Conselho Triplo: Conduta Ética para Pesquisas Envolvendo Seres Humanos, TCPS2) e que assinaram acordos de confidencialidade. Entretanto, não podemos garantir que os dados transmitidos pela Internet estarão sempre seguros. Como resultado, embora nos esforcemos para proteger suas informações pessoais, não podemos garantir que alguma informação não possa ser transmitida durante o uso da LiteFarm.
 
 **Quais outros riscos estão envolvidos no uso da LiteFarm?**
 

@@ -47,8 +47,9 @@ export default function UnknownRecord({ history }) {
       />
       <DoesNotExistSplash
         style={{
+          maxHeight: '65vh',
           width: '100%',
-          height: 'auto',
+          height: '100%',
           display: 'flex',
           justifyContent: 'center',
         }}

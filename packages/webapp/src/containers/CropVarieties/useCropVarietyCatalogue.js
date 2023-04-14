@@ -104,12 +104,12 @@ export default function useCropVarietyCatalogue(filterString, crop_id) {
         managementPlansByCropId[managementPlan.crop_variety_id][status].push(managementPlan);
       }
     }
-    // calcluates the needs plans values from crop varieties without management plan
+    // calculates the needs plans values from crop varieties without management plan
     // and merges it with the crop with the management plan
     const managementPlansByCropIdWithNoPlans = Object.values(managementPlansByCropId).reduce(
       (acc, currentValue) => {
         const noPlanFoundCropVariety = withoutManagementPlanListByCropId.filter(
-          (np) => np.crop_variety_name.trim() === currentValue.crop_variety_name.trim(),
+          (np) => np.crop_variety_id.trim() === currentValue.crop_variety_id.trim(),
         );
         if (!noPlanFoundCropVariety) {
           acc.push({ ...currentValue, noPlans: [] });
@@ -200,7 +200,7 @@ export default function useCropVarietyCatalogue(filterString, crop_id) {
         acc.push({ ...currentValue, noPlansCount: 1 });
       } else {
         let noPlanFoundCropVariety = acc.find((pre) => {
-          return pre.crop_variety_name === currentValue.crop_variety_name;
+          return pre.crop_variety_id.trim() === currentValue.crop_variety_id.trim();
         });
         if (!noPlanFoundCropVariety) {
           acc.push({ ...currentValue, noPlansCount: 1 });
@@ -220,7 +220,7 @@ export default function useCropVarietyCatalogue(filterString, crop_id) {
   const sortedCropCatalogueWithNeedsPlanPropList = sortedCropCatalogueWithNeedsPlanProp.reduce(
     (acc, currentValue) => {
       const noPlanFoundCropVariety = filteredCropsWithoutManagementPlanList.find(
-        (np) => np.crop_variety_name.trim() === currentValue.crop_variety_name.trim(),
+        (np) => np.crop_variety_id.trim() === currentValue.crop_variety_id.trim(),
       );
       const noPlanFoundCropVarietyIndex =
         filteredCropsWithoutManagementPlanList.indexOf(noPlanFoundCropVariety);

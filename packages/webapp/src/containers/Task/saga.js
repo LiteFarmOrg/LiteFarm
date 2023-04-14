@@ -613,46 +613,57 @@ const getCompletePlantingTaskBody = (task_translation_key) => (data) => {
 };
 
 const getCompleteIrrigationTaskBody = (task_translation_key) => (data) => {
-  return produce(data, (data) => {
-    const taskType = task_translation_key.toLowerCase();
-    const irrigation_task = data.taskData[taskType];
-    if (irrigation_task) {
-      data.taskData[taskType].irrigation_type_name = data.taskData[taskType]
-        ?.irrigation_task_type_other
-        ? data.taskData[taskType]?.irrigation_task_type_other
-        : data.taskData[taskType]?.irrigation_type_name;
-      data.taskData[taskType].location_id = data.location_id;
-      data.taskData.location_defaults = [
-        {
-          location_id: data.location_id,
-          irrigation_task_type: data.taskData[taskType].default_irrigation_task_type_location
-            ? data.taskData[taskType].irrigation_type_name
-            : undefined,
-          ...(data.taskData[taskType].default_location_application_depth
-            ? pick(data.taskData[taskType], ['application_depth', 'application_depth_unit'])
-            : null),
-          ...(data.taskData[taskType].default_location_flow_rate
-            ? pick(data.taskData[taskType], ['estimated_flow_rate', 'estimated_flow_rate_unit'])
-            : null),
-        },
-      ];
+  return getObjectInnerValues(
+    produce(data, (data) => {
+      const taskType = task_translation_key.toLowerCase();
+      const irrigation_task = data.taskData[taskType];
+      if (irrigation_task) {
+        if (typeof data.taskData[taskType].irrigation_type_name === 'string') {
+          data.taskData[taskType].irrigation_type_name = data.taskData[taskType]
+            ?.irrigation_task_type_other
+            ? data.taskData[taskType]?.irrigation_task_type_other
+            : data.taskData[taskType]?.irrigation_type_name;
+        } else {
+          data.taskData[taskType].irrigation_type_name =
+            data.taskData[taskType].irrigation_type_name.value === 'OTHER'
+              ? data.taskData[taskType].irrigation_task_type_other
+              : data.taskData[taskType].irrigation_type_name.value;
+        }
+        data.taskData[taskType].location_id = data.location_id;
+        data.taskData.location_defaults = [
+          {
+            location_id: data.location_id,
+            irrigation_task_type: data.taskData[taskType].default_irrigation_task_type_location
+              ? data.taskData[taskType].irrigation_type_name
+              : undefined,
+            ...(data.taskData[taskType].default_location_application_depth
+              ? pick(data.taskData[taskType], ['application_depth', 'application_depth_unit'])
+              : null),
+            ...(data.taskData[taskType].default_location_flow_rate
+              ? pick(data.taskData[taskType], ['estimated_flow_rate', 'estimated_flow_rate_unit'])
+              : null),
+          },
+        ];
 
-      !data.taskData[taskType]?.estimated_water_usage &&
-        delete data.taskData[taskType]?.estimated_water_usage_unit;
-      delete data.location_id;
-      for (const element in data.taskData[taskType]) {
-        [
-          'irrigation_task_type_other',
-          'percent_of_location_irrigated_unit',
-          'irrigated_area',
-          'irrigated_area_unit',
-          'location_size_unit',
-          'irrigation_type',
-          'irrigation_type_translation_key',
-        ].includes(element) && delete data.taskData[taskType][element];
+        !data.taskData[taskType].estimated_water_usage &&
+          delete data.taskData[taskType]?.estimated_water_usage_unit;
+
+        delete data.location_id;
+        for (const element in data.taskData[taskType]) {
+          [
+            'irrigation_task_type_other',
+            'percent_of_location_irrigated_unit',
+            'irrigated_area',
+            'irrigated_area_unit',
+            'location_size',
+            'location_size_unit',
+            'irrigation_type',
+            'irrigation_type_translation_key',
+          ].includes(element) && delete data.taskData[taskType][element];
+        }
       }
-    }
-  }).taskData;
+    }).taskData,
+  );
 };
 
 const taskTypeGetCompleteTaskBodyFunctionMap = {

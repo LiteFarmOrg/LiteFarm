@@ -1255,6 +1255,10 @@
       "BODY": "{{editor}} ha marcado {{taskType}} tarea como no asignada.",
       "TITLE": "Tarea sin asignar"
     },
+    "TASK_DELETED": {
+      "BODY": "MISSING",
+      "TITLE": "MISSING"
+    },
     "WEEKLY_UNASSIGNED_TASKS": {
       "BODY": "Tiene tareas sin asignar que vencen esta semana.",
       "TITLE": "Tareas sin responables"

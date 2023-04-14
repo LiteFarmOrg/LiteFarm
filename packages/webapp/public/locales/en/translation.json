@@ -1252,6 +1252,10 @@
       "BODY": "{{editor}} has marked a {{taskType}} task as unassigned.",
       "TITLE": "Task unassigned"
     },
+    "TASK_DELETED": {
+      "BODY": "A {{taskType}} task assigned to you has been deleted by {{abandoner}}.",
+      "TITLE": "Task deleted"
+    },
     "WEEKLY_UNASSIGNED_TASKS": {
       "BODY": "You have unassigned tasks due this week.",
       "TITLE": "Unassigned tasks"

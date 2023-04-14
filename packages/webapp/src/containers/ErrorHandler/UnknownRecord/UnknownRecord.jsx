@@ -41,12 +41,9 @@ export default function UnknownRecord({ history }) {
       }
     >
       <PageTitle
-        onGoBack={() => console.log('back')}
+        onGoBack={goBack}
         style={{ marginBottom: '24px' }}
         title={t('UNKNOWN_RECORD.UNKNOWN_RECORD')}
-        onClick={() => {
-          goBack();
-        }}
       />
       <DoesNotExistSplash
         style={{

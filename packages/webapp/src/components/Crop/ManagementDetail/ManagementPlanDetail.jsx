@@ -92,7 +92,13 @@ export default function PureManagementDetail({
         )
       }
     >
-      <CropHeader onBackClick={() => history.back()} variety={variety} />
+      <CropHeader
+        onBackClick={() => history.back()}
+        crop_translation_key={variety.crop_translation_key}
+        crop_variety_name={variety.crop_variety_name}
+        crop_variety_photo_url={variety.crop_variety_photo_url}
+        supplier={variety.supplier}
+      />
 
       <div className={styles.titlewrapper}>
         <Label className={styles.title} style={{ marginTop: '24px' }}>

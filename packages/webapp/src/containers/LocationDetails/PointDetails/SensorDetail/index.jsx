@@ -27,10 +27,14 @@ export default function SensorDetail({ history, user, match }) {
   const sensorInfo = useSelector(sensorsSelector(location_id));
   const system = useSelector(measurementSelector);
   const isAdmin = useSelector(isAdminSelector);
-  const { partner_id } = sensorInfo;
+
+  if (sensorInfo === undefined) {
+    history.replace('/unknown_record');
+  }
 
   useEffect(() => {
     dispatch(getSensorReadingTypes({ location_id }));
+    const partner_id = sensorInfo?.partner_id;
     dispatch(getSensorBrand({ location_id, partner_id }));
   }, []);
 

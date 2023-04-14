@@ -77,11 +77,8 @@ const WaterUseVolumeCalculator = ({
 
   useEffect(() => {
     if (estimated_duration && estimated_flow_rate && estimated_flow_rate_unit) {
-      // flow rate database unit: l/min
-      const durationInMin = convert(estimated_duration)
-        .from(irrigation_task_estimated_duration.databaseUnit)
-        .to('min');
-      setTotalWaterUsage(estimated_flow_rate * durationInMin);
+      // flow rate database unit: l/min, duration database unit: min
+      setTotalWaterUsage(estimated_flow_rate * estimated_duration);
     } else {
       setTotalWaterUsage('');
     }

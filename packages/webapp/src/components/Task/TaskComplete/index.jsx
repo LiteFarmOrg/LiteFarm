@@ -105,12 +105,12 @@ export default function PureTaskComplete({
           isCustomTaskType: !!persistedFormData?.taskType.farm_id,
         };
         let task_type_name = persistedFormData?.taskType.task_translation_key.toLowerCase();
-        const isNotOtherFieldWork =
-          task_type_name === 'field_work_task' &&
-          persistedFormData?.field_work_task?.field_work_task_type.value !== 'OTHER';
-        if (persistedFormData?.need_changes && isNotOtherFieldWork) {
+        const isFieldWork = task_type_name === 'field_work_task';
+        const isOtherFieldWork =
+          isFieldWork && persistedFormData?.field_work_task?.field_work_task_type.value === 'OTHER';
+        if (persistedFormData?.need_changes && !isOtherFieldWork) {
           data.taskData[task_type_name] = getObjectInnerValues(persistedFormData[task_type_name]);
-        } else if (!isNotOtherFieldWork) {
+        } else if (isOtherFieldWork) {
           data.taskData[task_type_name] = { ...persistedFormData[task_type_name] };
         }
         //TODO: replace with useIsTaskType

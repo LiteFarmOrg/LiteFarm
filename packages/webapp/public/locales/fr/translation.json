@@ -1569,8 +1569,8 @@
   },
   "SWITCH_OUTRO": {
     "BUTTON": "Allons-y !",
-    "DESCRIPTION_BOTTOM": "Dirigions vers: ",
-    "DESCRIPTION_TOP": "La porte de la grange est sécuritaire.",
+    "DESCRIPTION_BOTTOM": "Direction: ",
+    "DESCRIPTION_TOP": "La grange est bien fermée",
     "TITLE": "Échangement de Fermes"
   },
   "TABLE": {

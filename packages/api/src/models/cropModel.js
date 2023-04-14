@@ -81,8 +81,8 @@ class Crop extends BaseModel {
   static get jsonSchema() {
     return {
       type: 'object',
-      required: ['crop_common_name', 'farm_id'],
-
+      // genus and species are required for database uniqueness
+      required: ['crop_common_name', 'farm_id', 'crop_genus', 'crop_specie'],
       properties: {
         crop_id: { type: 'integer' },
         farm_id: { type: 'string' },

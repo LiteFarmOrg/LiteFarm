@@ -1,6 +1,6 @@
 ##### Version 5.0:
 
-#### Formulaire de consentement éclairé et politique de confidentialité (version pour ouvrières et ouvriers)
+#### Formulaire de consentement éclairé et politique de confidentialité (version pour travailleurs et travailleuses agricoles)
 
 Bienvenue à LiteFarm !
 Nous comprenons que la confidentialité et la protection de vos données sont importantes. Nous avons créé ce formulaire de consentement éclairé et cette politique de confidentialité pour vous aider à comprendre comment et quand nous collectons, utilisons, et partageons vos données et pour d'assurer que nous avons votre consentement pour le faire. Votre compréhension est essentielle pour le consentement.

@@ -16,11 +16,26 @@ const useStyles = makeStyles((theme) => ({
 export default function UnknownRecord({ history }) {
   const { t } = useTranslation();
   const classes = useStyles();
+  const goBack = () => {
+    if (history.action === 'POP') {
+      history.push('/home');
+      return;
+    } else {
+      history.back();
+    }
+  };
 
   return (
     <Layout
       buttonGroup={
-        <Button data-cy="recordNotFound-goBack" color={'primary'} fullLength>
+        <Button
+          data-cy="recordNotFound-goBack"
+          color={'primary'}
+          fullLength
+          onClick={() => {
+            goBack();
+          }}
+        >
           {t('common:BACK')}
         </Button>
       }
@@ -29,6 +44,9 @@ export default function UnknownRecord({ history }) {
         onGoBack={() => console.log('back')}
         style={{ marginBottom: '24px' }}
         title={t('UNKNOWN_RECORD.UNKNOWN_RECORD')}
+        onClick={() => {
+          goBack();
+        }}
       />
       <DoesNotExistSplash
         style={{

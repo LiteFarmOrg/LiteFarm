@@ -36,7 +36,8 @@ function SensorReadings({ history, match }) {
     if (sensorInfo === undefined || reading_types === undefined) {
       history.replace('/unknown_record');
     } else {
-      setReadingTypes(reading_types.reading_types);
+      const loadedReadingTypes = reading_types.reading_types;
+      setReadingTypes(loadedReadingTypes);
       setSensorVisualizationPropList({
         [TEMPERATURE]: {
           title: t('SENSOR.TEMPERATURE_READINGS_OF_SENSOR.TITLE'),
@@ -56,7 +57,7 @@ function SensorReadings({ history, match }) {
           noDataText: t('SENSOR.TEMPERATURE_READINGS_OF_SENSOR.NO_DATA'),
           ambientTempFor: t('SENSOR.TEMPERATURE_READINGS_OF_SENSOR.AMBIENT_TEMPERATURE_FOR'),
           predictedXAxisLabel: predictedXAxisLabel,
-          activeReadingTypes: reading_types,
+          activeReadingTypes: loadedReadingTypes,
         },
         [SOIL_WATER_POTENTIAL]: {
           title: t('SENSOR.SOIL_WATER_POTENTIAL_READINGS_OF_SENSOR.TITLE'),
@@ -71,7 +72,7 @@ function SensorReadings({ history, match }) {
           }),
           noDataText: t('SENSOR.SOIL_WATER_POTENTIAL_READINGS_OF_SENSOR.NO_DATA'),
           predictedXAxisLabel: predictedXAxisLabel,
-          activeReadingTypes: reading_types,
+          activeReadingTypes: loadedReadingTypes,
         },
       });
     }
@@ -121,6 +122,7 @@ function SensorReadings({ history, match }) {
                 predictedXAxisLabel,
                 activeReadingTypes,
               } = sensorVisualizationPropList[type];
+              console.log('aqui', sensorVisualizationPropList[type]);
               return (
                 <SensorReadingsLineChart
                   key={index}

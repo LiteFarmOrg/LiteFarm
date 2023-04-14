@@ -38,7 +38,8 @@ function PureNotificationReadOnly({ onGoBack, notification, relatedNotifications
         !notification.ref?.entity?.id) &&
       (!notification.ref?.error_download ||
         !notification.ref?.error_download?.errors ||
-        !notification.ref?.error_download?.file_name));
+        !notification.ref?.error_download?.file_name)) ||
+    notification.body.translation_key === 'NOTIFICATION.TASK_DELETED.BODY';
 
   const onTakeMeThere = () => {
     let route;

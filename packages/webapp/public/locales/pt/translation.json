@@ -1256,6 +1256,10 @@
       "BODY": "{{editor}} marcou uma tarefa {{taskType}} como não atribuída.",
       "TITLE": "Tarefa não atribuída"
     },
+    "TASK_DELETED": {
+      "BODY": "MISSING",
+      "TITLE": "MISSING"
+    },
     "WEEKLY_UNASSIGNED_TASKS": {
       "BODY": "Você tem tarefas não atribuídas para esta semana.",
       "TITLE": "Tarefas não atribuídas"

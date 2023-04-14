@@ -644,6 +644,7 @@ const taskController = {
   async deleteTask(req, res) {
     try {
       const { task_id } = req.params;
+      const { user_id, farm_id } = req.headers;
 
       const checkTaskStatus = await TaskModel.getTaskStatus(task_id);
       if (checkTaskStatus.complete_date || checkTaskStatus.abandon_date) {
@@ -652,6 +653,16 @@ const taskController = {
 
       const result = await TaskModel.deleteTask(task_id, req.user);
       if (!result) return res.status(404).send('Task not found');
+
+      await sendTaskNotification(
+        [result.assignee_user_id],
+        user_id,
+        task_id,
+        TaskNotificationTypes.TASK_DELETED,
+        checkTaskStatus.task_translation_key,
+        farm_id,
+      );
+
       return res.status(200).send(result);
     } catch (error) {
       return res.status(400).json({ error });
@@ -787,6 +798,7 @@ const TaskNotificationTypes = {
   TASK_REASSIGNED: 'TASK_REASSIGNED',
   TASK_COMPLETED_BY_OTHER_USER: 'TASK_COMPLETED_BY_OTHER_USER',
   TASK_UNASSIGNED: 'TASK_UNASSIGNED',
+  TASK_DELETED: 'TASK_DELETED',
 };
 
 const TaskNotificationUserTypes = {
@@ -795,6 +807,7 @@ const TaskNotificationUserTypes = {
   TASK_REASSIGNED: 'assigner',
   TASK_COMPLETED_BY_OTHER_USER: 'assigner',
   TASK_UNASSIGNED: 'editor',
+  TASK_DELETED: 'abandoner',
 };
 
 /**

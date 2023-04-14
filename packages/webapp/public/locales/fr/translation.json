@@ -1256,6 +1256,10 @@
       "BODY": "{{editor}} a marqué une tâche de {{taskType}} comme non attribuée.",
       "TITLE": "Tâche non attribuée"
     },
+    "TASK_DELETED": {
+      "BODY": "MISSING",
+      "TITLE": "MISSING"
+    },
     "WEEKLY_UNASSIGNED_TASKS": {
       "BODY": "Vous avez des tâches non attribuées à accomplir cette semaine.",
       "TITLE": "Tâches non attribuées"

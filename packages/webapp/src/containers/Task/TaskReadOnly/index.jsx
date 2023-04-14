@@ -66,8 +66,6 @@ function TaskReadOnly({ history, match, location }) {
     }
   }, [task, history]);
 
-  if (task === undefined) return null;
-
   const onGoBack = () => {
     history.back();
   };
@@ -125,32 +123,34 @@ function TaskReadOnly({ history, match, location }) {
   };
   return (
     <>
-      <PureTaskReadOnly
-        task_id={task_id}
-        onGoBack={onGoBack}
-        onComplete={onComplete}
-        onEdit={onEdit}
-        onAbandon={onAbandon}
-        onGoToCropPlan={onGoToCropPlan}
-        onDelete={onDelete}
-        task={task}
-        users={users}
-        user={user}
-        isAdmin={isAdmin}
-        system={system}
-        products={products}
-        harvestUseTypes={harvestUseTypes}
-        isTaskTypeCustom={isTaskTypeCustom}
-        maxZoomRef={maxZoomRef}
-        getMaxZoom={getMaxZoom}
-        onAssignTasksOnDate={onAssignTasksOnDate}
-        onAssignTask={onAssignTask}
-        onChangeTaskDate={onChangeTaskDate}
-        onChangeTaskWage={onChangeTaskWage}
-        onUpdateUserFarmWage={onUpdateUserFarmWage}
-        onSetUserFarmWageDoNotAskAgain={onSetUserFarmWageDoNotAskAgain}
-        wage_at_moment={wageAtMoment}
-      />
+      {task && (
+        <PureTaskReadOnly
+          task_id={task_id}
+          onGoBack={onGoBack}
+          onComplete={onComplete}
+          onEdit={onEdit}
+          onAbandon={onAbandon}
+          onGoToCropPlan={onGoToCropPlan}
+          onDelete={onDelete}
+          task={task}
+          users={users}
+          user={user}
+          isAdmin={isAdmin}
+          system={system}
+          products={products}
+          harvestUseTypes={harvestUseTypes}
+          isTaskTypeCustom={isTaskTypeCustom}
+          maxZoomRef={maxZoomRef}
+          getMaxZoom={getMaxZoom}
+          onAssignTasksOnDate={onAssignTasksOnDate}
+          onAssignTask={onAssignTask}
+          onChangeTaskDate={onChangeTaskDate}
+          onChangeTaskWage={onChangeTaskWage}
+          onUpdateUserFarmWage={onUpdateUserFarmWage}
+          onSetUserFarmWageDoNotAskAgain={onSetUserFarmWageDoNotAskAgain}
+          wage_at_moment={wageAtMoment}
+        />
+      )}
     </>
   );
 }

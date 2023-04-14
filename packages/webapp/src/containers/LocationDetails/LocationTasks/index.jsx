@@ -18,6 +18,9 @@ export default function LocationTasks({ history, match, location: { pathname } }
   const { user_id, farm_id } = useSelector(userFarmSelector);
   const { location_id } = match.params;
   const location = useSelector(locationByIdSelector(location_id));
+  if (location === undefined) {
+    history.replace('/unknown_record');
+  }
 
   const areCropEnabled = ['field', 'garden', 'greenhouse', 'buffer_zone'];
   const areReadingEnabled = ['sensor'];

@@ -19,7 +19,6 @@ import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { Semibold } from '../Typography';
 import Input, { getInputErrors } from '../Form/Input';
-//import styles from './styles.module.scss';
 import Form from '../Form';
 import { Controller, useForm } from 'react-hook-form';
 import ReactSelect from '../Form/ReactSelect';
@@ -166,7 +165,7 @@ export default function PureAddNewCrop({
         hookFormRegister={register('crop_genus', {
           maxLength: { value: 255, message: t('FORM_VALIDATION.OVER_255_CHARS') },
           setValueAs: (v) => {
-            return v.charAt(0).toUpperCase() + v.slice(1).toLowerCase();
+            return v.charAt(0).toUpperCase() + v.slice(1).toLowerCase() || ' ';
           },
         })}
         errors={getInputErrors(errors, 'crop_genus')}
@@ -180,7 +179,7 @@ export default function PureAddNewCrop({
         hookFormRegister={register('crop_specie', {
           maxLength: { value: 255, message: t('FORM_VALIDATION.OVER_255_CHARS') },
           setValueAs: (v) => {
-            return v.toLowerCase();
+            return v?.toLowerCase() || ' ';
           },
         })}
         errors={getInputErrors(errors, 'crop_specie')}

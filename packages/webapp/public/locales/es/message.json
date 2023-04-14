@@ -20,7 +20,7 @@
   },
   "BULK_UPLOAD": {
     "ERROR": {
-      "UPLOAD": "MISSING"
+      "UPLOAD": "No se pudo subir el archivo CSV"
     }
   },
   "CROP": {
@@ -99,7 +99,7 @@
     "SUCCESS_DELETE": " retirada/o con éxito",
     "SUCCESS_PATCH": " actualizo/a con éxito.",
     "SUCCESS_POST": " creo/a con éxito.",
-    "SUCCESS_UPLOAD": "MISSING"
+    "SUCCESS_UPLOAD": "Subido con éxito"
   },
   "ORGANIC_CERTIFIER_SURVEY": {
     "ERROR": {
@@ -166,8 +166,8 @@
       "SUCCESS": "Tarea creada con éxito"
     },
     "UPDATE": {
-      "FAILED": "MISSING",
-      "SUCCESS": "MISSING"
+      "FAILED": "No se pudo completar la tarea",
+      "SUCCESS": "Tarea creada con éxito"
     }
   },
   "TASK_TYPE": {
@@ -187,6 +187,7 @@
       "EXISTS": "Usuario ya existe en la red de trabajo de LiteFarm",
       "INVITE": "Error al crear cuenta de usuario. Por favor contacte LiteFarm por asistencia.",
       "NOTHING_CHANGED": "Nada ha cambiado",
+      "MAX_RESET_EMAILS": "MISSING",
       "RESET_PASSWORD": "Error al enviar email para cambiar contraseña. Por favor contacte LiteFarm por asistencia.",
       "RESTORE": "Hubo un error al restaurar acceso",
       "REVOKE": "Hubo un error al revocar acceso",
@@ -201,7 +202,7 @@
     }
   },
   "SENSOR": {
-    "SUCCESSFUL_UPDATE": "MISSING",
-    "ERROR_UPDATE": "MISSING"
+    "SUCCESSFUL_UPDATE": "Sensor actualizado con éxito",
+    "ERROR_UPDATE": "No se pudo actualizar el sensor"
   }
 }

@@ -76,6 +76,14 @@ const updateManyTasks = (state, { payload: tasks }) => {
   taskAdapter.updateMany(state, tasks);
 };
 
+const removeOne = (state, { payload: task }) => {
+  const { task_id } = task;
+  state.loading = false;
+  state.error = null;
+  state.loaded = true;
+  taskAdapter.removeOne(state, task_id);
+};
+
 const taskAdapter = createEntityAdapter({
   selectId: (task) => task.task_id,
 });
@@ -107,7 +115,7 @@ const taskSlice = createSlice({
     putTaskSuccess: upsertOneTask,
     putTasksSuccess: updateManyTasks,
     createTaskSuccess: taskAdapter.addOne,
-    deleteTaskSuccess: taskAdapter.removeOne,
+    deleteTaskSuccess: removeOne,
   },
 });
 export const {
@@ -116,8 +124,8 @@ export const {
   addManyTasksFromGetReq,
   putTaskSuccess,
   putTasksSuccess,
-  deleteTaskSuccess,
   createTaskSuccess,
+  deleteTaskSuccess,
 } = taskSlice.actions;
 export default taskSlice.reducer;
 

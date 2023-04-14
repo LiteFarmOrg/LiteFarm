@@ -269,4 +269,11 @@ router.get(
   taskController.getIrrigationTaskTypes,
 );
 
+router.delete(
+  '/:task_id',
+  hasFarmAccess({ params: 'task_id' }),
+  checkScope(['delete:task']),
+  taskController.deleteTask,
+);
+
 export default router;

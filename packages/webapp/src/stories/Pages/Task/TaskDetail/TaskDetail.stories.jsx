@@ -2,6 +2,7 @@ import React from 'react';
 import decorators from '../../config/Decorators';
 import { chromaticSmallScreen } from '../../config/chromatic';
 import PureTaskDetails from '../../../../components/Task/PureTaskDetails';
+import UnitTest from '../../../../test-utils/storybook/unit';
 
 export default {
   title: 'Page/AddCleaningTask',
@@ -746,8 +747,7 @@ FieldWorkTask.parameters = {
   ...chromaticSmallScreen,
 };
 
-export const SoilAmendmentTask = Template.bind({});
-SoilAmendmentTask.args = {
+const soilAmendmentTaskArgs = {
   handleGoBack: () => console.log('handleGoBack called'),
   onSubmit: () => console.log('onSave called'),
   handleCancel: () => console.log('handleCancel called'),
@@ -757,23 +757,13 @@ SoilAmendmentTask.args = {
     type: 6,
     due_date: '2021-08-23',
     locations: [
-      {
-        location_id: '1f31e024-2e98-44e4-9837-80f52d8ab010',
-      },
-      {
-        location_id: '61f7cd2c-c09d-43cf-9687-a0502236acfd',
-      },
+      { location_id: '1f31e024-2e98-44e4-9837-80f52d8ab010' },
+      { location_id: '61f7cd2c-c09d-43cf-9687-a0502236acfd' },
     ],
     managementPlans: [
-      {
-        management_plan_id: 1166,
-      },
-      {
-        management_plan_id: 1177,
-      },
-      {
-        management_plan_id: 1179,
-      },
+      { management_plan_id: 1166 },
+      { management_plan_id: 1177 },
+      { management_plan_id: 1179 },
     ],
   },
   selectedTaskType: {
@@ -792,8 +782,27 @@ SoilAmendmentTask.args = {
   system: 'metric',
   managementPlanByLocations: managementPlansByLocationIds,
 };
-SoilAmendmentTask.parameters = {
+
+export const MetricSoilAmendmentTask = Template.bind({});
+MetricSoilAmendmentTask.args = soilAmendmentTaskArgs;
+MetricSoilAmendmentTask.parameters = {
   ...chromaticSmallScreen,
+};
+MetricSoilAmendmentTask.play = async ({ canvasElement }) => {
+  const quantityTest = new UnitTest(canvasElement, 'unit');
+  await quantityTest.inputNotToHaveValue();
+  await quantityTest.selectedUnitToBeInTheDocument('kg');
+};
+
+export const imperialSoilAmendmentTask = Template.bind({});
+imperialSoilAmendmentTask.args = { ...soilAmendmentTaskArgs, system: 'imperial' };
+imperialSoilAmendmentTask.parameters = {
+  ...chromaticSmallScreen,
+};
+imperialSoilAmendmentTask.play = async ({ canvasElement }) => {
+  const quantityTest = new UnitTest(canvasElement, 'unit');
+  await quantityTest.inputNotToHaveValue();
+  await quantityTest.selectedUnitToBeInTheDocument('lb');
 };
 
 export const HarvestTask = Template.bind({});

@@ -6,16 +6,19 @@ const IMPERIAL = 'imperial';
 /**
  * seeding_rate: kg/m2
  */
+// DO NOT CHANGE!
+// Any change to this will lead to need for database backfilling.
 const databaseUnit = {
   area: 'm2',
   length: 'm',
   mass: 'kg',
   volumeFlowRate: 'l/min',
   volume: 'l',
-  time: 'd',
+  time: 'min',
   degree: 'deg',
 };
 
+// These constants are used to determine units based on the guideline.
 export const area_total_area = {
   metric: {
     units: ['m2', 'ha'],
@@ -144,9 +147,9 @@ export const irrigation_depth = {
 
 export const location_area = {
   metric: {
-    units: ['ha', 'm2'],
-    defaultUnit: 'ha',
-    breakpoints: [10000],
+    units: ['m2', 'ha'],
+    defaultUnit: 'm2',
+    breakpoints: [1000],
   },
   imperial: {
     units: ['ft2', 'ac'],
@@ -183,6 +186,8 @@ export const container_plant_spacing = {
   databaseUnit: databaseUnit.length,
 };
 
+// crop_age is not stored in the database.
+// databaseUnit is used for calculation.
 export const crop_age = {
   metric: {
     units: ['d', 'week', 'month', 'year'],
@@ -194,7 +199,7 @@ export const crop_age = {
     defaultUnit: 'week',
     breakpoints: [7, 30, 365],
   },
-  databaseUnit: databaseUnit.time,
+  databaseUnit: 'd',
 };
 
 export const seedAmounts = {

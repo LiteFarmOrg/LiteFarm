@@ -333,6 +333,7 @@
     "ADD_CROPS_T0_YOUR_FARM": "Add crops to your farm",
     "ADD_TO_YOUR_FARM": "Add to your farm",
     "CAN_NOT_FIND": "Can't find what you're looking for?",
+    "CANCEL": "crop creation",
     "COVER_CROP": "Can this be grown as a cover crop?",
     "CREATE_MANAGEMENT_PLANS": "Create crop plans",
     "CROP_CATALOGUE": "Crop catalogue",
@@ -491,6 +492,7 @@
     "VALUE": "Value"
   },
   "EXPIRED_TOKEN": {
+    "RESET_PASSWORD": "This link has expired.",
     "RESET_PASSWORD_LINK": "Send new password link."
   },
   "FARM_MAP": {
@@ -1399,7 +1401,8 @@
         "QUANTITY": "Quantity",
         "TOTAL": "Total"
       },
-      "TITLE": "Add new sale"
+      "TITLE": "Add new sale",
+      "SALE_VALUE_ERROR": "Sale value must be a positive number less than 999,999,999"
     },
     "DETAIL": {
       "ACTION": "Action",
@@ -1617,7 +1620,7 @@
     "EXPIRED_ERROR": "We've updated our infrastructure and you'll need to reset your password. Check your inbox to proceed.",
     "EXPIRED_INVITATION_LINK_ERROR": "Invalid or expired invitation",
     "GOOGLE_BUTTON": "CONTINUE WITH GOOGLE",
-    "INVITED_ERROR": "We've updated our infrastructure and you'll need to check your inbox for a farm invitation to proceed.",
+    "INVITED_ERROR": "A farm invitation has been emailed to you, please check your inbox and spam folder.",
     "LITEFARM_UPDATED": "We've updated LiteFarm!",
     "PASSWORD_ERROR": "Password incorrect",
     "SIGN_IN": "Sign In",
@@ -1667,7 +1670,7 @@
       "WHICH_DATE": "Which date?",
       "DATE_ORIGINAL": "The original due date",
       "DATE_TODAY": "Today",
-      "DATE_ANOTHER": "Another",
+      "DATE_ANOTHER": "Another date",
       "INFO": "Abandoning this task will change its' status to abandoned and remove it from all users ‘To do’ and ‘Unassigned’ lists.",
       "NOTES": "Task abandonment notes",
       "NOTES_CHAR_LIMIT": "Notes must be less than 10,000 characters",
@@ -1767,7 +1770,18 @@
     "TODO": "To do",
     "TRANSPLANT": "Transplant",
     "TRANSPLANT_LOCATIONS": "Select a transplant location",
-    "UNASSIGNED": "Unassigned"
+    "UNASSIGNED": "Unassigned",
+    "DELETE": {
+      "DELETE_TASK": "Delete task",
+      "DELETE_TASK_QUESTION": "Delete task?",
+      "DELETE_TASK_MESSAGE": "This task will be removed from your farm. If you would like to keep a record of this task, click \"Abandon\" instead.",
+      "CONFIRM_DELETION": "Confirm deletion",
+      "CANT_DELETE_PLANTING_TASK": "Can't delete planting task",
+      "CANT_DELETE_ABANDON_INSTEAD": "Do you want to abandon the crop plan instead?",
+      "CANT_DELETE_ABANDON": "Go to crop plan",
+      "SUCCESS": "Task successfully deleted",
+      "FAILED": "Failed to delete task"
+    }
   },
   "UNIT": {
     "TIME": {

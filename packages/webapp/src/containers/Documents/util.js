@@ -25,7 +25,6 @@ export function useStringFilteredDocuments(documents, filterString) {
         .normalize('NFD')
         .replace(/\p{Diacritic}/gu, '')
         .replace(/[^\p{L}0-9]/gu, '')
-        .replace(/_/g, '')
         .trim() || '';
     const check = (names) => {
       for (const name of names) {
@@ -35,7 +34,6 @@ export function useStringFilteredDocuments(documents, filterString) {
             .normalize('NFD')
             .replace(/\p{Diacritic}/gu, '')
             .replace(/[^\p{L}0-9]/gu, '')
-            .replace(/_/g, '')
             .trim()
             .includes(lowerCaseFilter)
         )

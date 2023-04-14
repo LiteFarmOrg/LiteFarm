@@ -617,11 +617,18 @@ const getCompleteIrrigationTaskBody = (task_translation_key) => (data) => {
     const taskType = task_translation_key.toLowerCase();
     const irrigation_task = data.taskData[taskType];
     if (irrigation_task) {
-      data.taskData[taskType].irrigation_type_name = data.taskData[taskType]
-        ?.irrigation_task_type_other
-        ? data.taskData[taskType]?.irrigation_task_type_other
-        : data.taskData[taskType]?.irrigation_type_name;
-      data.taskData[taskType].location_id = data.location_id;
+      if (typeof data.taskData[taskType].irrigation_type_name === 'string') {
+        data.taskData[taskType].irrigation_type_name = data.taskData[taskType]
+          ?.irrigation_task_type_other
+          ? data.taskData[taskType]?.irrigation_task_type_other
+          : data.taskData[taskType]?.irrigation_type_name;
+      } else {
+        data.taskData[taskType].irrigation_type_name =
+          data.taskData[taskType].irrigation_type_name.value === 'OTHER'
+            ? data.taskData[taskType].irrigation_task_type_other
+            : data.taskData[taskType].irrigation_type_name.value;
+        data.taskData[taskType].location_id = data.location_id;
+      }
       data.taskData.location_defaults = [
         {
           location_id: data.location_id,
@@ -637,8 +644,13 @@ const getCompleteIrrigationTaskBody = (task_translation_key) => (data) => {
         },
       ];
 
-      !data.taskData[taskType]?.estimated_water_usage &&
+      if (data.taskData[taskType].estimated_water_usage) {
+        data.taskData[taskType].estimated_water_usage_unit =
+          data.taskData[taskType].estimated_water_usage_unit.value;
+      } else {
         delete data.taskData[taskType]?.estimated_water_usage_unit;
+      }
+
       delete data.location_id;
       for (const element in data.taskData[taskType]) {
         [

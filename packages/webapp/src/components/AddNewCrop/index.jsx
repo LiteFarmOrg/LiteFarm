@@ -179,7 +179,7 @@ export default function PureAddNewCrop({
         hookFormRegister={register('crop_specie', {
           maxLength: { value: 255, message: t('FORM_VALIDATION.OVER_255_CHARS') },
           setValueAs: (v) => {
-            return v?.toLowerCase() || ' ';
+            return v.toLowerCase() || ' ';
           },
         })}
         errors={getInputErrors(errors, 'crop_specie')}

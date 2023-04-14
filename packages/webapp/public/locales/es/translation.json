@@ -333,7 +333,7 @@
     "ADD_CROPS_T0_YOUR_FARM": "Agregar un cultivo a su granja",
     "ADD_TO_YOUR_FARM": "Agregar a su granja",
     "CAN_NOT_FIND": "¿No encuentra lo que busca?",
-    "CANCEL": "MISSING",
+    "CANCEL": "Ceración de cultivo",
     "COVER_CROP": "¿Se puede cultivar como cultivo de cobertura?",
     "CREATE_MANAGEMENT_PLANS": "Crear plan de cultivo",
     "CROP_CATALOGUE": "Catálogo de cultivos",
@@ -491,7 +491,7 @@
     "VALUE": "Valor"
   },
   "EXPIRED_TOKEN": {
-    "RESET_PASSWORD": "MISSING",
+    "RESET_PASSWORD": "Este enlace ha caducado.",
     "RESET_PASSWORD_LINK": "Envíar enlace para nueva contraseña."
   },
   "FARM_MAP": {
@@ -1409,7 +1409,7 @@
         "TOTAL": "Total"
       },
       "TITLE": "Agregue nueva venta",
-      "SALE_VALUE_ERROR": "MISSING"
+      "SALE_VALUE_ERROR": "El valor de venta debe ser un número positivo menor a 999,999,999"
     },
     "DETAIL": {
       "ACTION": "Accion",
@@ -1545,7 +1545,7 @@
     "EXPIRED_ERROR": "Hemos actualizado nuestra infraestructura y deberá restablecer su contraseña. Revise su bandeja de entrada para continuar.",
     "EXPIRED_INVITATION_LINK_ERROR": "La invitación no está válida o caducada",
     "GOOGLE_BUTTON": "Continúe con Google",
-    "INVITED_ERROR": "MISSING",
+    "INVITED_ERROR": "Se te ha enviado una invitación a una granja, por favor, revisa tu bandeja de entrada y carpeta de spam",
     "LITEFARM_UPDATED": "¡Hemos actualizado LiteFarm!",
     "PASSWORD_ERROR": "Contraseña incorrecta",
     "SIGN_IN": "Registrarse",
@@ -1595,7 +1595,7 @@
       "WHICH_DATE": "¿Qué fecha?",
       "DATE_ORIGINAL": "Fecha de vencimiento original",
       "DATE_TODAY": "Hoy",
-      "DATE_ANOTHER": "MISSING",
+      "DATE_ANOTHER": "Otra fecha",
       "INFO": "Abandonar esta tarea cambiará su estado a abandonada y la eliminará de todas las listas de ‘Tareas pendientes’ y ‘No asignadas’ de todos los usuarios.",
       "NOTES": "Notas de abandono de tarea",
       "NOTES_CHAR_LIMIT": "Las notas deben tener menos de 10,000 caracteres",
@@ -1704,7 +1704,7 @@
       "CONFIRM_DELETION": "Confirmar eliminado",
       "CANT_DELETE_PLANTING_TASK": "No se puede eliminar tarea de plantar",
       "CANT_DELETE_ABANDON_INSTEAD": "¿Desea abandonarla en su lugar?",
-      "CANT_DELETE_ABANDON": "MISSING",
+      "CANT_DELETE_ABANDON": "Ir al plan de cultivo",
       "SUCCESS": "La tarea ha sido eliminada",
       "FAILED": "Error al eliminar la tarea"
     }

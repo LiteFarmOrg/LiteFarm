@@ -27,9 +27,9 @@ function CropHeader({ variety, onBackClick }) {
   };
 
   const varietalDetails = () => {
-    const varietal = crop_varietal ? `var. ${crop_varietal.toLowerCase()}` : '';
+    const varietal = crop_varietal ? `var. ${crop_varietal.toLowerCase()} ` : '';
     const cultivar = crop_cultivar ? `'${crop_cultivar}'` : '';
-    return `${varietal} ${cultivar}`;
+    return `${varietal}${cultivar}`;
   };
 
   return (

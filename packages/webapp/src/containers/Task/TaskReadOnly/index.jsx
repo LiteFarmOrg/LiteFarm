@@ -38,6 +38,7 @@ import {
   changeTaskWage,
   updateUserFarmWage,
   setUserFarmWageDoNotAskAgain,
+  deleteTask,
 } from '../saga';
 
 function TaskReadOnly({ history, match, location }) {
@@ -85,6 +86,14 @@ function TaskReadOnly({ history, match, location }) {
   const onAbandon = () => {
     history.push(`/tasks/${task_id}/abandon`, location?.state);
   };
+
+  const onGoToCropPlan = () => {
+    const { crop_variety_id, planting_management_plan } = task.managementPlans[0];
+    const path = `/crop/${crop_variety_id}/management_plan/${planting_management_plan.management_plan_id}/tasks`;
+
+    history.push(path, location?.state);
+  };
+
   const { maxZoomRef, getMaxZoom } = useMaxZoom();
 
   const onChangeTaskDate = (date) =>
@@ -99,6 +108,9 @@ function TaskReadOnly({ history, match, location }) {
     dispatch(changeTaskWage({ task_id, wage_at_moment: wage }));
   };
 
+  const onDelete = () => {
+    dispatch(deleteTask({ task_id }));
+  };
   return (
     <>
       <PureTaskReadOnly
@@ -107,6 +119,8 @@ function TaskReadOnly({ history, match, location }) {
         onComplete={onComplete}
         onEdit={onEdit}
         onAbandon={onAbandon}
+        onGoToCropPlan={onGoToCropPlan}
+        onDelete={onDelete}
         task={task}
         users={users}
         user={user}

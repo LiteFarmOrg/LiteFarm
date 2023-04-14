@@ -62,7 +62,7 @@ const bulkSensorsReadingsSlice = createSlice({
       }
     },
     bulkSensorReadingsFailure: (state, action) => {
-      state.loading = true;
+      state.loading = false;
       state.sensorsReadings = {};
       state.selectedSensorName = '';
       state.nearestStationName = '';

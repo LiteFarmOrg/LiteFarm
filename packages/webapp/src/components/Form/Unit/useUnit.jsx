@@ -170,7 +170,9 @@ const useUnit = ({
   // 3. set default visibleInputValue
   const [visibleInputValue, setVisibleInputValue] = useState(defaultVisibleInputValue);
 
-  const hookFormValue = hookFromWatch(name, defaultValue);
+  // when the hidden input is empty, hookFormValue becomes NaN.
+  // Set initial value to NaN when defaultValue is undefined to avoid triggering useEffect unnecessarily
+  const hookFormValue = hookFromWatch(name, defaultValue || NaN);
 
   useEffect(() => {
     if (!hookFormUnit || noValue(hookFormValue)) {
@@ -210,7 +212,7 @@ const useUnit = ({
         shouldClearError && setShowError(false);
       }
     },
-    [name],
+    [name, disabled],
   );
 
   const onBlurForHook = (e) => {

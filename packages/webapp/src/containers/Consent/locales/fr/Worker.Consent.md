@@ -1,6 +1,6 @@
-##### Version 4.0:
+##### Version 5.0:
 
-#### Formulaire de consentement éclairé et politique de confidentialité (version pour ouvrières et ouvriers)
+#### Formulaire de consentement éclairé et politique de confidentialité (version pour travailleurs et travailleuses agricoles)
 
 Bienvenue à LiteFarm !
 Nous comprenons que la confidentialité et la protection de vos données sont importantes. Nous avons créé ce formulaire de consentement éclairé et cette politique de confidentialité pour vous aider à comprendre comment et quand nous collectons, utilisons, et partageons vos données et pour d'assurer que nous avons votre consentement pour le faire. Votre compréhension est essentielle pour le consentement.
@@ -19,8 +19,9 @@ L'équipe LiteFarm est un groupe interdisciplinaire de scientifiques, de cherche
 
 #### Qui finance LiteFarm ?
 
-LiteFarm est financé par le Centre pour les systèmes alimentaires durable [Center for Sustainable Food Systems] à UBC et d'autres subventions. Pour une liste complète, veuillez visiter : https://www.litefarm.org/partners.
-Nos bailleurs de fonds n'ont pas leur mot à dire dans le fonctionnement et la gestion de LiteFarm et ne peuvent accéder à aucune des informations personnelles hébergées sur la plateforme. Présentement, les donateurs et bourses de recherche fournissent le financement pour le logiciel et l'équipe LiteFarm.
+LiteFarm est financé par le Centre pour les systèmes alimentaires durable [Center for Sustainable Food Systems] à UBC et d'autres subventions. Pour une liste complète, veuillez visiter: https://www.litefarm.org/community-1  
+
+Nos bailleurs de fonds n'ont pas leur mot à dire dans le fonctionnement et la gestion de LiteFarm et ne peuvent accéder à aucune des informations personnelles hébergées sur la plateforme. Présentement, les donateurs et bourses de recherche fournissent le financement pour le logiciel et l'équipe LiteFarm. 
 
 #### Pourquoi menons-nous ce projet ?
 
@@ -83,11 +84,9 @@ Les informations que vous fournissez sur l'achèvement des tâches sont affiché
 
 **Que partageons-nous?**
 
-Nous ne partagerons vos données avec des tierces personnes que si elles sont à la fois anonymisées (c'est-à-dire qu'elles ne contiennent aucune information personnelle) et nécessaires pour atteindre nos objectifs de recherche ou valider des découvertes scientifiques. Plus précisément, nous pouvons partager des données anonymisées à un moment donné dans le futur avec d'autres chercheurs à des fins de recherche universitaire non commerciale. Tout chercheur universitaire externe qui demande l'utilisation des données de LiteFarm sera soumis à un examen interne et sera évalué selon nos normes d'éthique et de sécurité existantes. En raison des normes de publication en matière de reproductibilité scientifique, les données anonymisées utilisées pour la recherche universitaire peuvent être déposées dans des référentiels publics.
+Nous ne partagerons vos données avec des tierces personnes que si elles sont à la fois anonymisées (c'est-à-dire qu'elles ne contiennent aucune information personnelle) et nécessaires pour atteindre nos objectifs de recherche ou valider des découvertes scientifiques. Plus précisément, nous pouvons partager des données anonymisées à un moment donné dans le futur avec d'autres chercheurs à des fins de recherche universitaire non commerciale. Tout chercheur universitaire externe qui demande l'utilisation des données de LiteFarm sera soumis à un examen interne et sera évalué selon nos normes d'éthique et de sécurité existantes. En raison des normes de publication en matière de reproductibilité scientifique, les données anonymisées utilisées pour la recherche universitaire peuvent être déposées dans des référentiels publics. 
 
 Des copies de diffusions non publiques de données anonymisées peuvent être partagées avec des chercheurs universitaires à des fins de recherche non commerciales, dans le cadre de licences à usage unique confidentielles et limitées dans le temps. Si une utilisation de recherche universitaire inclut l'utilisation de photos téléchargées sur LiteFarm, toutes les caractéristiques identifiables qui divulguent des informations personnelles (par exemple, les visages des personnes) seront estompées des photos avant qu'elles ne soient partagées. Nous ne partageons aucune information personnelle avec des services d'analyse tiers, tels que Google Analytics. Grâce à nos protocoles de sécurité, nous protégeons la vulnérabilité des informations personnelles sur le site web LiteFarm et nous utilisons des protocoles d'anonymisation IP pour empêcher l'identification et la géolocalisation par des tierces parties.
-
-LiteFarm ne louera ni ne vendra vos informations personnelles ou toute donnée collectée via le site web de LiteFarm à qui que ce soit sans votre consentement.
 
 **Comment nous utilisons les « cookies »?**
 
@@ -105,7 +104,7 @@ En plus de notre stockage en nuage, une copie locale de la base de données Lite
 
 **Comment protégeons-nous vos données?**
 
-Nous suivons les meilleures pratiques de l'industrie pour sécuriser les données des utilisateurs, et nous avons construit et continuons à maintenir notre application conformément à la norme de vérification de la sécurité des applications annotées de niveau 2 du projet Open Web Application Security.
+Nous suivons les meilleures pratiques de l'industrie pour sécuriser les données des utilisateurs, et nous avons construit et continuons à maintenir LiteFarm conformément à la norme de vérification de la sécurité des applications annotées de niveau 2 du projet Open Web Application Security.  
 
 L'accès à la base de données est limité aux membres de l'équipe LiteFarm qui ont suivi une formation en éthique (Énoncé de politique des trois Conseils : Éthique de la recherche avec des êtres humains, EPTC2) et ont signé des ententes de confidentialité. Cependant, nous ne pouvons pas garantir que les données transmises sur Internet seront toujours sécurisées. Malgré le fait que nous nous efforçons de protéger vos informations personnelles, l’utilisation des applications et des données infonuagiques présente toujours une certaine mesure de risque de piratage.
 

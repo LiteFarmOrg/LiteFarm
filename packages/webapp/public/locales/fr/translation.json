@@ -1575,10 +1575,10 @@
     "TITLE": "{{certification}} certification de {{certifier}}"
   },
   "SWITCH_OUTRO": {
-    "BUTTON": "Allons-y\u00a0!",
-    "DESCRIPTION_BOTTOM": "Direction\u00a0: ",
-    "DESCRIPTION_TOP": "La grange est bien fermée.",
-    "TITLE": "Changement de Ferme"
+    "BUTTON": "Allons-y !",
+    "DESCRIPTION_BOTTOM": "Direction: ",
+    "DESCRIPTION_TOP": "La grange est bien fermée",
+    "TITLE": "Échangement de Fermes"
   },
   "TABLE": {
     "LOADING_TEXT": "Chargement en cours...",

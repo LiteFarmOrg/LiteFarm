@@ -130,7 +130,7 @@ export default function PurePlantingLocation({
         content.title = t('CROP_STATUS_ORGANIC_MISMATCH_MODAL.TITLE');
         content.subTitle = t('CROP_STATUS_ORGANIC_MISMATCH_MODAL.SUBTITLE');
       } else if (!isSelectedLocationOrganic && isCropOrganic == null) {
-        // Do not trigger modal on organic locations for organic status null crops
+        // Do not trigger modal on non-organic locations for organic status null crops
         proceedToNextStep();
       } else {
         content.title = t('CROP_STATUS_NON_ORGANIC_MISMATCH_MODAL.TITLE');

@@ -25,6 +25,7 @@ export default function PurePlantingLocation({
   default_initial_location_id,
   farmCenterCoordinate,
   isCropOrganic,
+  isPursuingCertification,
 }) {
   const { t } = useTranslation(['translation', 'common', 'crop']);
   const { getValues, watch, setValue } = useForm({
@@ -123,11 +124,14 @@ export default function PurePlantingLocation({
       getValues()?.crop_management_plan?.planting_management_plans[locationPrefix]?.location_id;
     const selectedLocation = cropLocations.find((c) => c.location_id === selectedLocationId);
     const isSelectedLocationOrganic = selectedLocation?.organic_status?.toLowerCase() === ORGANIC;
-    if (isCropOrganic !== isSelectedLocationOrganic) {
+    if (isCropOrganic !== isSelectedLocationOrganic && isPursuingCertification) {
       let content = {};
       if (isSelectedLocationOrganic) {
         content.title = t('CROP_STATUS_ORGANIC_MISMATCH_MODAL.TITLE');
         content.subTitle = t('CROP_STATUS_ORGANIC_MISMATCH_MODAL.SUBTITLE');
+      } else if (!isSelectedLocationOrganic && isCropOrganic == null) {
+        // Do not trigger modal on organic locations for organic status null crops
+        proceedToNextStep();
       } else {
         content.title = t('CROP_STATUS_NON_ORGANIC_MISMATCH_MODAL.TITLE');
         content.subTitle = t('CROP_STATUS_NON_ORGANIC_MISMATCH_MODAL.SUBTITLE');

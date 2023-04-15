@@ -43,7 +43,6 @@ import {
 } from './constants';
 import {
   cropGroupAverages as cropGroupAveragesSelector,
-  cropsSelector,
   cropsOnMyFarmSelector,
 } from '../../containers/cropSlice';
 import { useSelector } from 'react-redux';

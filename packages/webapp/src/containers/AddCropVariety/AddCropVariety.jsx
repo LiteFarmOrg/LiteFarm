@@ -2,6 +2,7 @@ import React from 'react';
 import PureAddCropVariety from '../../components/AddCropVariety';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { cropSelector } from '../cropSlice';
+import { cropVarietiesSelector } from '../cropVarietySlice';
 import { postCropAndVarietal, postVarietal } from './saga';
 import { certifierSurveySelector } from '../OrganicCertifierSurvey/slice';
 import { hookFormPersistSelector } from '../hooks/useHookFormPersist/hookFormPersistSlice';
@@ -25,6 +26,8 @@ function AddCropVarietyForm({ history, match }) {
   const onContinue = (data) => {
     history.push(`/crop/${crop_id}/add_crop_variety/compliance`);
   };
+
+  const farmCropVarieties = useSelector(cropVarietiesSelector);
 
   const onSubmit = (data) => {
     const cropData = {
@@ -63,6 +66,7 @@ function AddCropVarietyForm({ history, match }) {
           </ImagePickerWrapper>
         }
         handleGoBack={() => history.back()}
+        farmCropVarieties={farmCropVarieties}
       />
     </HookFormPersistProvider>
   );

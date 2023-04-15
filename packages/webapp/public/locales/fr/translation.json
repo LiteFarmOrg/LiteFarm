@@ -303,6 +303,7 @@
     "VARIETAL_IMAGE": "Personnaliser l’image pour la variété ou le cultivar",
     "VARIETAL_IMAGE_INFO": "Si vous souhaitez que cette variété ou ce cultivar ait une image différente de la culture par défaut, vous pouvez personnaliser l’image ici.",
     "VARIETY_COMMON_NAME": "Nom commun",
+    "DUPLICATE_VARIETY": "MISSING",
     "VARIETY_VARIETAL": "Variété",
     "VARIETY_CULTIVAR": "Cultivar",
     "CULTIVAR_SUBTEXT": "En savoir plus sur les cultivars",

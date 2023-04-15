@@ -303,6 +303,7 @@
     "VARIETAL_SUBTITLE": "Cuéntenos sobre la variedad o cultivar específico que pretende cultivar",
     "VARIETAL_IMAGE_INFO": "Si desea que este varietal o cultivar tenga una imagen diferente del recorte predeterminado, puede personalizar la imagen aquí.",
     "VARIETY_COMMON_NAME": "Nombre común",
+    "DUPLICATE_VARIETY": "MISSING",
     "VARIETY_VARIETAL": "Varietal",
     "VARIETY_CULTIVAR": "Cultivar",
     "CULTIVAR_SUBTEXT": "Aprender más sobre cultivares",

@@ -21,6 +21,7 @@ export default function PureAddCropVariety({
   crop,
   imageUploader,
   handleGoBack,
+  farmCropVarieties,
 }) {
   const { t } = useTranslation(['translation', 'common', 'crop']);
   const COMMON_NAME = 'crop_variety_name';
@@ -35,6 +36,7 @@ export default function PureAddCropVariety({
     handleSubmit,
     getValues,
     watch,
+    setError,
     formState: { errors, isValid },
   } = useForm({
     mode: 'onChange',
@@ -73,6 +75,33 @@ export default function PureAddCropVariety({
     truncateText(crop.crop_genus, 22) + ' ' + truncateText(crop.crop_specie, 22);
   const progress = 33;
 
+  const uniqueVarietyName = () => {
+    const formVarietyName = getValues('crop_variety_name');
+
+    const hasRepeatedVarieties = farmCropVarieties.some((variety) => {
+      const commonNameMatch = variety.crop_variety_name === formVarietyName;
+      const cropMatch = variety.crop_id === crop.crop_id;
+      return commonNameMatch && cropMatch;
+    });
+
+    return !hasRepeatedVarieties;
+  };
+
+  const showDuplicateVarietyError = () => {
+    setError(
+      'crop_variety_name',
+      {
+        type: 'custom',
+        message: t('CROP.DUPLICATE_VARIETY'),
+      },
+      { shouldFocus: true },
+    );
+  };
+
+  const checkUniqueVarietyAndSubmit = () => {
+    uniqueVarietyName() ? onSubmit() : showDuplicateVarietyError();
+  };
+
   return (
     <Form
       buttonGroup={
@@ -80,7 +109,7 @@ export default function PureAddCropVariety({
           {isSeekingCert ? t('common:CONTINUE') : t('common:SAVE')}
         </Button>
       }
-      onSubmit={handleSubmit(onSubmit, onError)}
+      onSubmit={handleSubmit(checkUniqueVarietyAndSubmit)}
     >
       <MultiStepPageTitle
         style={{ marginBottom: '24px' }}
@@ -117,6 +146,7 @@ export default function PureAddCropVariety({
         type="text"
         hookFormRegister={commonNameRegister}
         hasLeaf={false}
+        errors={getInputErrors(errors, 'crop_variety_name')}
       />
       <Input
         data-cy="crop-varietal"

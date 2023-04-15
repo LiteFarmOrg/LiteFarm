@@ -8,24 +8,32 @@ import { useTranslation } from 'react-i18next';
 
 export default function ProfileLayout({ children, buttonGroup, onSubmit, history }) {
   const { t } = useTranslation();
+  const onKeyDown = (e) => {
+    if (e.keyCode === 13) {
+      e.preventDefault();
+    }
+  };
+
   return (
-    <form onSubmit={onSubmit} className={styles.form}>
+    <form onSubmit={onSubmit} className={styles.form} onKeyDown={onKeyDown}>
       <div className={styles.container}>
-        <RouterTab history={history}
-                   tabs={[
-                     {
-                       label: t('PROFILE.ACCOUNT_TAB'),
-                       path: `/profile`,
-                     },
-                     {
-                       label: t('PROFILE.PEOPLE_TAB'),
-                       path: `/people`,
-                     },
-                     {
-                       label: t('PROFILE.FARM_TAB'),
-                       path: `/farm`,
-                     },
-                   ]} />
+        <RouterTab
+          history={history}
+          tabs={[
+            {
+              label: t('PROFILE.ACCOUNT_TAB'),
+              path: `/profile`,
+            },
+            {
+              label: t('PROFILE.PEOPLE_TAB'),
+              path: `/people`,
+            },
+            {
+              label: t('PROFILE.FARM_TAB'),
+              path: `/farm`,
+            },
+          ]}
+        />
         {children}
       </div>
       <Footer>{buttonGroup}</Footer>

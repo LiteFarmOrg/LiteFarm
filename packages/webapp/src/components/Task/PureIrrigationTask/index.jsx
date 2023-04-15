@@ -39,7 +39,7 @@ export default function PureIrrigationTask({
   const { irrigationTaskTypes = [] } = useSelector(irrigationTaskTypesSliceSelector);
   const cropLocations = useSelector(cropLocationsSelector);
   const location =
-    locations &&
+    locations?.length &&
     cropLocations.filter(
       (cropLocation) => cropLocation.location_id === locations[0].location_id,
     )[0];
@@ -193,6 +193,11 @@ export default function PureIrrigationTask({
     }
   }, [showWaterUseCalculatorModal]);
 
+  const waterCalculatorDisabled =
+    !showWaterUseCalculatorModal ||
+    !measurement_type ||
+    (measurement_type === 'DEPTH' && !location);
+
   return (
     <>
       <Controller
@@ -308,7 +313,7 @@ export default function PureIrrigationTask({
         </>
       )}
 
-      {showWaterUseCalculatorModal && measurement_type && (
+      {!waterCalculatorDisabled && (
         <WaterUsageCalculatorModal
           dismissModal={onDismissWaterUseCalculatorModel}
           measurementType={measurement_type}

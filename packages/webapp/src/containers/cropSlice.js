@@ -176,6 +176,10 @@ export const cropsSelector = createSelector(
   },
 );
 
+export const cropsOnMyFarmSelector = createSelector(cropsSelector, (crops) =>
+  crops.filter((crop) => crop.farm_id),
+);
+
 export const cropSelector = (crop_id) => (state) => cropSelectors.selectById(state, crop_id);
 
 export const cropStatusSelector = createSelector([cropReducerSelector], ({ loading, error }) => {

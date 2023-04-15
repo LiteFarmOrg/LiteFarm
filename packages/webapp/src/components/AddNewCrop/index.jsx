@@ -105,10 +105,14 @@ export default function PureAddNewCrop({
   };
 
   const showDuplicateCropError = () => {
-    setError('crop_common_name', {
-      type: 'custom',
-      message: t('CROP_CATALOGUE.DUPLICATE_CROP'),
-    });
+    setError(
+      'crop_common_name',
+      {
+        type: 'custom',
+        message: t('CROP_CATALOGUE.DUPLICATE_CROP'),
+      },
+      { shouldFocus: true },
+    );
   };
 
   const checkUniqueCropAndSubmit = () => {

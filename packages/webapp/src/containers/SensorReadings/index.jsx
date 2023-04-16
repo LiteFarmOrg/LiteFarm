@@ -33,7 +33,7 @@ function SensorReadings({ history, match }) {
   const [sensorVisualizationPropList, setSensorVisualizationPropList] = useState({});
 
   useEffect(() => {
-    if (sensorInfo === undefined || reading_types === undefined) {
+    if (sensorInfo === undefined || reading_types === undefined || sensorInfo?.deleted) {
       history.replace('/unknown_record');
     } else {
       const loadedReadingTypes = reading_types.reading_types;
@@ -79,96 +79,100 @@ function SensorReadings({ history, match }) {
   }, [sensorInfo, reading_types, history]);
 
   return (
-    <div style={{ padding: '24px 16px 24px 24px', height: '100%' }}>
-      <PageTitle
-        title={sensorInfo?.name || ''}
-        onGoBack={() => history.push('/map')}
-        style={{ marginBottom: '24px' }}
-      />
-      <RouterTab
-        classes={{ container: { margin: '30px 8px 26px 0px' } }}
-        history={history}
-        tabs={[
-          {
-            label: t('SENSOR.VIEW_HEADER.READINGS'),
-            path: `/sensor/${location_id}/readings`,
-          },
-          {
-            label: t('SENSOR.VIEW_HEADER.TASKS'),
-            path: `/sensor/${location_id}/tasks`,
-          },
-          {
-            label: t('SENSOR.VIEW_HEADER.DETAILS'),
-            path: `/sensor/${location_id}/details`,
-          },
-        ]}
-      />
-      {readingTypes?.length > 0
-        ? [...readingTypes]
-            ?.sort()
-            ?.reverse()
-            ?.map((type, index) => {
-              if (!sensorVisualizationPropList[type]) {
-                return null;
-              }
-              const {
-                title,
-                subTitle,
-                weatherStationName,
-                xAxisDataKey,
-                yAxisLabel,
-                noDataText,
-                ambientTempFor,
-                predictedXAxisLabel,
-                activeReadingTypes,
-              } = sensorVisualizationPropList[type];
-              return (
-                <SensorReadingsLineChart
-                  key={index}
-                  title={title}
-                  subTitle={subTitle}
-                  weatherStationName={weatherStationName}
-                  xAxisDataKey={xAxisDataKey}
-                  yAxisLabel={yAxisLabel}
-                  locationIds={[location_id]}
-                  readingType={type}
-                  noDataText={noDataText}
-                  ambientTempFor={ambientTempFor}
-                  lastUpdatedReadings={
-                    lastUpdatedReadingsTime[type] !== ''
-                      ? t(
-                          'SENSOR.TEMPERATURE_READINGS_OF_SENSOR.LAST_UPDATED_TEMPERATURE_READINGS',
-                          { latestReadingUpdate: lastUpdatedReadingsTime[type] ?? '' },
-                        )
-                      : ''
+    <>
+      {sensorInfo && !sensorInfo.deleted && (
+        <div style={{ padding: '24px 16px 24px 24px', height: '100%' }}>
+          <PageTitle
+            title={sensorInfo?.name || ''}
+            onGoBack={() => history.push('/map')}
+            style={{ marginBottom: '24px' }}
+          />
+          <RouterTab
+            classes={{ container: { margin: '30px 8px 26px 0px' } }}
+            history={history}
+            tabs={[
+              {
+                label: t('SENSOR.VIEW_HEADER.READINGS'),
+                path: `/sensor/${location_id}/readings`,
+              },
+              {
+                label: t('SENSOR.VIEW_HEADER.TASKS'),
+                path: `/sensor/${location_id}/tasks`,
+              },
+              {
+                label: t('SENSOR.VIEW_HEADER.DETAILS'),
+                path: `/sensor/${location_id}/details`,
+              },
+            ]}
+          />
+          {readingTypes?.length > 0
+            ? [...readingTypes]
+                ?.sort()
+                ?.reverse()
+                ?.map((type, index) => {
+                  if (!sensorVisualizationPropList[type]) {
+                    return null;
                   }
-                  predictedXAxisLabel={predictedXAxisLabel}
-                  xAxisLabel={xAxisLabel[type]}
-                  activeReadingTypes={activeReadingTypes}
-                  noDataFoundMessage={t('SENSOR.NO_DATA_FOUND')}
-                />
-              );
-            })
-        : null}
-      {readingTypes?.length > 0 && (
-        <>
-          {readingTypes.reduce((acc, cv, i) => {
-            if (cv === TEMPERATURE || cv === SOIL_WATER_POTENTIAL) return acc;
-            acc.push(
-              <div key={i}>
-                <div className={styles.titleWrapper}>
-                  <label>
-                    <Semibold className={styles.title}>{cv.replace(/_/g, ' ')}</Semibold>
-                  </label>
-                </div>
-                <div className={styles.emptyRect}></div>
-              </div>,
-            );
-            return acc;
-          }, [])}
-        </>
+                  const {
+                    title,
+                    subTitle,
+                    weatherStationName,
+                    xAxisDataKey,
+                    yAxisLabel,
+                    noDataText,
+                    ambientTempFor,
+                    predictedXAxisLabel,
+                    activeReadingTypes,
+                  } = sensorVisualizationPropList[type];
+                  return (
+                    <SensorReadingsLineChart
+                      key={index}
+                      title={title}
+                      subTitle={subTitle}
+                      weatherStationName={weatherStationName}
+                      xAxisDataKey={xAxisDataKey}
+                      yAxisLabel={yAxisLabel}
+                      locationIds={[location_id]}
+                      readingType={type}
+                      noDataText={noDataText}
+                      ambientTempFor={ambientTempFor}
+                      lastUpdatedReadings={
+                        lastUpdatedReadingsTime[type] !== ''
+                          ? t(
+                              'SENSOR.TEMPERATURE_READINGS_OF_SENSOR.LAST_UPDATED_TEMPERATURE_READINGS',
+                              { latestReadingUpdate: lastUpdatedReadingsTime[type] ?? '' },
+                            )
+                          : ''
+                      }
+                      predictedXAxisLabel={predictedXAxisLabel}
+                      xAxisLabel={xAxisLabel[type]}
+                      activeReadingTypes={activeReadingTypes}
+                      noDataFoundMessage={t('SENSOR.NO_DATA_FOUND')}
+                    />
+                  );
+                })
+            : null}
+          {readingTypes?.length > 0 && (
+            <>
+              {readingTypes.reduce((acc, cv, i) => {
+                if (cv === TEMPERATURE || cv === SOIL_WATER_POTENTIAL) return acc;
+                acc.push(
+                  <div key={i}>
+                    <div className={styles.titleWrapper}>
+                      <label>
+                        <Semibold className={styles.title}>{cv.replace(/_/g, ' ')}</Semibold>
+                      </label>
+                    </div>
+                    <div className={styles.emptyRect}></div>
+                  </div>,
+                );
+                return acc;
+              }, [])}
+            </>
+          )}
+        </div>
       )}
-    </div>
+    </>
   );
 }
 

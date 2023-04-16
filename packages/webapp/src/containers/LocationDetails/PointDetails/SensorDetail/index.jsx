@@ -29,7 +29,7 @@ export default function SensorDetail({ history, user, match }) {
   const isAdmin = useSelector(isAdminSelector);
 
   useEffect(() => {
-    if (sensorInfo === undefined) {
+    if (sensorInfo === undefined || sensorInfo?.deleted) {
       history.replace('/unknown_record');
     } else {
       dispatch(getSensorReadingTypes({ location_id }));
@@ -44,7 +44,7 @@ export default function SensorDetail({ history, user, match }) {
 
   return (
     <>
-      {sensorInfo && (
+      {sensorInfo && !sensorInfo.deleted && (
         <PureSensorDetail
           history={history}
           isAdmin={isAdmin}

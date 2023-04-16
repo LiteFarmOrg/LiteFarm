@@ -98,8 +98,8 @@ export default function PureAddCropVariety({
     );
   };
 
-  const checkUniqueVarietyAndSubmit = () => {
-    uniqueVarietyName() ? onSubmit() : showDuplicateVarietyError();
+  const checkUniqueVarietyAndSubmit = (data) => {
+    uniqueVarietyName(data) ? onSubmit(data) : showDuplicateVarietyError();
   };
 
   return (

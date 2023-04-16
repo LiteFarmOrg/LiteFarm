@@ -316,8 +316,8 @@
       "BODY": "A edição deste cultivo não modificará nenhum plano de cultivo de cultivo existente. Apenas os planos de cultivo criados após suas edições serão afetados. Continuar com a edição?",
       "TITLE": "Editar cultivo?"
     },
-    "IS_GENETICALLY_ENGINEERED": "Este cultivo é geneticamente modificada?",
-    "IS_ORGANIC": "A semente ou cultivo é orgânica certificada?",
+    "IS_GENETICALLY_ENGINEERED": "Este cultivo é geneticamente modificado?",
+    "IS_ORGANIC": "A semente ou o cultivo tem certificação orgânica?",
     "NEED_DOCUMENT_GENETICALLY_ENGINEERED": "Sua certificadora pode solicitar documentação que comprove sua afirmação de que este cultivo não foi geneticamente modificado.",
     "NEED_DOCUMENT_PERFORM_SEARCH": "Sua certificadora pode solicitar documentação de suporte à sua busca.",
     "NEED_DOCUMENT_TREATED": "Sua certificadora pode solicitar documentação descrevendo quaisquer tratamentos.",
@@ -370,7 +370,7 @@
     "HS_CODE": "Código HS",
     "MANAGEMENT_PLANS": "Planos de cultivo",
     "MANAGEMENT_TAB": "Manejo",
-    "ORGANIC": "A semente ou cultivo é orgânica certificada?",
+    "ORGANIC": "A semente ou o cultivo tem certificação orgânica?",
     "PERENNIAL": "Perene",
     "TREATED": "As sementes deste cultivo foram tratadas?"
   },
@@ -503,11 +503,11 @@
     },
     "BARN": {
       "ANIMALS": "Esta área é usada para abrigar animais?",
-      "COLD_STORAGE": "Este galpão tem câmara fria?",
-      "EDIT_TITLE": "Editar galpão",
-      "NAME": "Nome do galpão",
-      "TITLE": "Adicionar galpão",
-      "WASH_PACK": "Este galpão tem uma estação de lavação e embalagem?"
+      "COLD_STORAGE": "Este celeiro tem câmara fria?",
+      "EDIT_TITLE": "Editar celeiro",
+      "NAME": "Nome do celeiro",
+      "TITLE": "Adicionar celeiro",
+      "WASH_PACK": "Este celeiro tem uma estação de lavação e embalagem?"
     },
     "BUFFER_ZONE": {
       "EDIT_TITLE": "Editar zona de amortecimento/proteção",
@@ -576,7 +576,7 @@
       "TITLE": "Adicionar área cerimonial"
     },
     "CONFIRM_RETIRE": {
-      "BODY": "Remover esta área fará com que seja retirado do mapa do sítio/fazenda.",
+      "BODY": "Remover esta área fará com que ela seja retirada do mapa do sítio/fazenda.",
       "TITLE": "Remover área?"
     },
     "DRAWING_MANAGER": {
@@ -653,7 +653,7 @@
     "MAP_FILTER": {
       "ADD_TITLE": "Adicionar ao seu mapa",
       "AREAS": "Áreas",
-      "BARN": "Galpão",
+      "BARN": "Celeiro",
       "BZ": "Zona de amortecimento/proteção",
       "CA": "Área cerimonial",
       "FENCE": "Cerca",
@@ -945,7 +945,7 @@
     "DEFAULT_LANGUAGE": "Português",
     "DEFAULT_LANGUAGE_VALUE": "pt",
     "EMAIL": "Email",
-    "EMAIL_INFO": "Usuário sem um email não conseguirão entrar no aplicativo",
+    "EMAIL_INFO": "Usuários sem um e-mail não conseguirão entrar no aplicativo",
     "FULL_NAME": "Nome completo",
     "GENDER": "Gênero",
     "GENDER_TOOLTIP": "As informações de gênero são coletadas apenas para fins de pesquisa e só serão utilizadas com as informações de identificação pessoal removidas",
@@ -1206,7 +1206,7 @@
       "MANAGE_EMPLOYEE": "Orientar seus funcionários",
       "MANAGE_TASK": "Administrar suas tarefas",
       "MAP_FARM": "Mapear sua fazenda",
-      "SEE_UPDATES": "Veja atualizações importantes",
+      "SEE_UPDATES": "Ver atualizações importantes",
       "NOTIFICATION": "Aqui você pode:, • Administrar suas tarefas, • Ver o que mais está acontecendo, • Coordenar as atividades da fazenda",
       "NOTIFICATION_TITLE": "Este é o seu centro de notificações",
       "PROFILE": "Aqui você encontrará :, • Suas informações, • Dicas úteis, • O botão de logout",
@@ -1410,7 +1410,7 @@
         "TOTAL": "Total"
       },
       "TITLE": "Adicionar nova venda",
-      "SALE_VALUE_ERROR": "MISSING"
+      "SALE_VALUE_ERROR": "O valor da venda deve ser um número acima de 0 e abaixo de 999,999,999"
     },
     "DETAIL": {
       "ACTION": "Ação",
@@ -1699,15 +1699,15 @@
     "TRANSPLANT_LOCATIONS": "Selecione um local de transplante",
     "UNASSIGNED": "Não atribuída",
     "DELETE": {
-      "DELETE_TASK": "MISSING",
-      "DELETE_TASK_QUESTION": "MISSING",
-      "DELETE_TASK_MESSAGE": "MISSING",
-      "CONFIRM_DELETION": "MISSING",
-      "CANT_DELETE_PLANTING_TASK": "MISSING",
-      "CANT_DELETE_ABANDON_INSTEAD": "MISSING",
-      "CANT_DELETE_ABANDON": "MISSING",
-      "SUCCESS": "MISSING",
-      "FAILED": "MISSING"
+      "DELETE_TASK": "Remover tarefa",
+      "DELETE_TASK_QUESTION": "Remover tarefa?",
+      "DELETE_TASK_MESSAGE": "Esta tarefa será removida de sua fazenda. Se deseja manter um registro dessa tarefa, clique em \"Abandon\". ",
+      "CONFIRM_DELETION": "Confirmar exclusão",
+      "CANT_DELETE_PLANTING_TASK": "Não é possível deletar tarefas de plantio",
+      "CANT_DELETE_ABANDON_INSTEAD": "Você quer abandonar o plano de cultivo?",
+      "CANT_DELETE_ABANDON": "Ir ao plano de cultivo",
+      "SUCCESS": "Tarefa removida com sucesso",
+      "FAILED": "Falha ao remover tarefa"
     }
   },
   "UNIT": {

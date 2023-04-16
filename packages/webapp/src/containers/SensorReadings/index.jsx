@@ -122,7 +122,6 @@ function SensorReadings({ history, match }) {
                 predictedXAxisLabel,
                 activeReadingTypes,
               } = sensorVisualizationPropList[type];
-              console.log('aqui', sensorVisualizationPropList[type]);
               return (
                 <SensorReadingsLineChart
                   key={index}

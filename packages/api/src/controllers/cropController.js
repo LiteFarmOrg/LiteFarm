@@ -77,6 +77,7 @@ const cropController = {
           deleted: false,
         });
         if (isDuplicateCrop) {
+          await trx.rollback();
           return res.status(400).json({
             error: 'This crop already exists, please edit your crop name, genus or species',
           });

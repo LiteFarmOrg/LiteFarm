@@ -629,7 +629,7 @@ const getCompleteIrrigationTaskBody = (task_translation_key) => (data) => {
               ? data.taskData[taskType].irrigation_task_type_other
               : data.taskData[taskType].irrigation_type_name.value;
         }
-        data.taskData[taskType].location_id = data.location_id;
+
         data.taskData.location_defaults = [
           {
             location_id: data.location_id,
@@ -648,7 +648,11 @@ const getCompleteIrrigationTaskBody = (task_translation_key) => (data) => {
         !data.taskData[taskType].estimated_water_usage &&
           delete data.taskData[taskType]?.estimated_water_usage_unit;
 
-        delete data.location_id;
+        if (data.location_id) {
+          data.taskData[taskType].location_id = data.location_id;
+          delete data.location_id;
+        }
+
         for (const element in data.taskData[taskType]) {
           [
             'irrigation_task_type_other',

@@ -96,9 +96,7 @@ export function* postCropAndVarietalSaga({ payload: cropData }) {
   } catch (e) {
     if (e.response.data.violationError) {
       yield put(enqueueErrorSnackbar(i18n.t('message:CROP_VARIETY.ERROR.ADD_ALREADY_EXISTS')));
-      console.log('failed to add varietal to database');
     } else {
-      console.log('failed to add varietal to database');
       yield put(enqueueErrorSnackbar(i18n.t('message:CROP_VARIETY.ERROR.ADD')));
     }
   }

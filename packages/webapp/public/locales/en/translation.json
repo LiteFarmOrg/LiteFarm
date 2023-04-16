@@ -1821,5 +1821,10 @@
     "HOURLY_WAGE": "Hourly Wage",
     "HOURLY_WAGE_RANGE_ERROR": "Hourly Wage must be a positive number less than 999,999,999",
     "HOURLY_WAGE_TOOLTIP": "Hourly wages can be set by selecting an individual on the People tab under 'my farm'."
+  },
+  "UNKNOWN_RECORD": {
+    "UNKNOWN_RECORD": "Unknown record",
+    "CANT_FIND": "Oops! We weren’t able to find that.",
+    "MAYBE_LATER": "Maybe it’ll turnip later."
   }
 }

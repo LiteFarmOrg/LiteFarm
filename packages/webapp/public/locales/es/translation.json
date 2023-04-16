@@ -1825,5 +1825,10 @@
     "HOURLY_WAGE": "Salario por hora",
     "HOURLY_WAGE_RANGE_ERROR": "El salario por hora debe ser un número positivo inferior a 999,999,999",
     "HOURLY_WAGE_TOOLTIP": "Los salarios por hora se pueden establecer mediante la selección de un individuo en la pestaña Personas bajo 'mi granja'."
+  },
+  "UNKNOWN_RECORD": {
+    "UNKNOWN_RECORD": "Registro desconocido",
+    "CANT_FIND": "¡Ups! No pudimos encontrar eso.",
+    "MAYBE_LATER": "Tal vez aparezca más tarde."
   }
 }

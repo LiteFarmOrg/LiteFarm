@@ -104,7 +104,7 @@ export function* postCropAndVarietalSaga({ payload: cropData }) {
 
 export const patchVarietal = createAction(`patchVarietalSaga`);
 
-export function* patchVarietalSaga({ payload: { variety_id, data } }) {
+export function* patchVarietalSaga({ payload: { variety_id, crop_id, data } }) {
   const { cropVarietyURL } = apiConfig;
   let { user_id, farm_id } = yield select(loginSelector);
   const header = getHeader(user_id, farm_id);
@@ -113,15 +113,21 @@ export function* patchVarietalSaga({ payload: { variety_id, data } }) {
     const result = yield call(
       axios.patch,
       `${cropVarietyURL}/${variety_id}`,
-      { ...data, farm_id },
+      { ...data, farm_id, crop_id },
       header,
     );
     yield put(putCropVarietySuccess({ crop_variety_id: variety_id, ...data }));
     history.push(`/crop/${variety_id}/detail`);
     yield put(enqueueSuccessSnackbar(i18n.t('message:CROP_VARIETY.SUCCESS.UPDATE')));
   } catch (e) {
-    yield put(enqueueErrorSnackbar(i18n.t('message:CROP_VARIETY.ERROR.UPDATE')));
-    console.log('failed to update crop variety');
+    if (
+      e.response.data.error ===
+      'This crop variety already exists, please choose a different variety name'
+    ) {
+      yield put(enqueueErrorSnackbar(i18n.t('translation:CROP.DUPLICATE_VARIETY')));
+    } else {
+      yield put(enqueueErrorSnackbar(i18n.t('message:CROP_VARIETY.ERROR.UPDATE')));
+    }
   }
 }
 

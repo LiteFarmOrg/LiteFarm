@@ -358,7 +358,7 @@
     "ON_YOUR_FARM": "On your farm",
     "SELECT_A_CROP": "Select a crop to add it to your farm. Use search and filters to find crops more quickly.",
     "SPECIES": "Species",
-    "DUPLICATE_CROP": "A crop with the same Name, Genus, and Species already exists on your farm"
+    "DUPLICATE_CROP": "A crop with the same name, genus, and species already exists on your farm"
   },
   "CROP_DETAIL": {
     "ADD_PLAN": "Add a plan",

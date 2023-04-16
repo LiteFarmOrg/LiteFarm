@@ -80,7 +80,7 @@ const cropVarietyController = {
         });
         if (isDuplicateVariety) {
           return res.status(400).json({
-            error: 'This crop variety already exists, please choose a different crop name',
+            error: 'This crop variety already exists, please choose a different variety name',
           });
         }
         const result = await post(CropVarietyModel, { ...relatedCrop, ...req.body }, req);
@@ -106,7 +106,7 @@ const cropVarietyController = {
           });
         if (isDuplicateVariety) {
           return res.status(400).json({
-            error: 'This crop variety already exists, please choose a different crop name',
+            error: 'This crop variety already exists, please choose a different variety name',
           });
         }
         const result = await CropVarietyModel.query()

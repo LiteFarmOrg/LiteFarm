@@ -19,9 +19,9 @@ L'équipe LiteFarm est un groupe interdisciplinaire de scientifiques, de cherche
 
 #### Qui finance LiteFarm ?
 
-LiteFarm est financé par le Centre pour les systèmes alimentaires durable [Center for Sustainable Food Systems] à UBC et d'autres subventions. Pour une liste complète, veuillez visiter: https://www.litefarm.org/community-1.  
+LiteFarm est financé par le Centre pour les systèmes alimentaires durable [Center for Sustainable Food Systems] à UBC et d'autres subventions. Pour une liste complète, veuillez visiter: https://www.litefarm.org/community-1.
 
-Les organisations et personnes qui nous financent n'ont pas leur mot à dire dans le fonctionnement et la gestion de LiteFarm et ne peuvent accéder à aucune des informations personnelles hébergées sur la plateforme. Notre modèle économique repose actuellement sur des donateurs et des bourses de recherche pour le logiciel et l'équipe LiteFarm. 
+Les organisations et personnes qui nous financent n'ont pas leur mot à dire dans le fonctionnement et la gestion de LiteFarm et ne peuvent accéder à aucune des informations personnelles hébergées sur la plateforme. Notre modèle économique repose actuellement sur des donateurs et des bourses de recherche pour le logiciel et l'équipe LiteFarm.
 
 #### Pourquoi menons-nous ce projet ?
 
@@ -79,7 +79,7 @@ Ces données comprennent:
 
 **Données d'utilisation**
 
-Nous recueillons des données d'utilisation (c'est-à-dire des statistiques générales sur les utilisateurs, les modèles de trafic et la façon dont les utilisateurs réagissent aux diverses fonctionnalités du site) pour améliorer la qualité des services que nous vous fournissons. Ce type de données comprend : le temps de la journée où vous vous connectez à l’application LiteFarm, les pages que vous demandez, la durée de votre visite sur le site, la façon dont vous interagissez avec l'application et les détails techniques concernant votre appareil (par exemple, le navigateur, le type d'écran et le processeur). 
+Nous recueillons des données d'utilisation (c'est-à-dire des statistiques générales sur les utilisateurs, les modèles de trafic et la façon dont les utilisateurs réagissent aux diverses fonctionnalités du site) pour améliorer la qualité des services que nous vous fournissons. Ce type de données comprend : le temps de la journée où vous vous connectez à l’application LiteFarm, les pages que vous demandez, la durée de votre visite sur le site, la façon dont vous interagissez avec l'application et les détails techniques concernant votre appareil (par exemple, le navigateur, le type d'écran et le processeur).
 
 Ces données seront soit associées à votre nom d'utilisateur avec LiteFarm (si vous êtes connecté à l'application) ou à votre adresse IP (si vous n'êtes pas connecté). Nous pouvons utiliser des logiciels tels que Google Analytics pour collecter et analyser ces données d’utilisation, mais dans ce cas, toutes les informations personnelles seront anonymisées.
 
@@ -89,10 +89,9 @@ Nous utilisons vos données d'utilisation (c'est-à-dire des informations géné
 
 Les informations que vous fournissez sur l'achèvement des tâches sont affichées sous forme agrégée (sans aucune information personnellement identifiable) aux gestionnaires de ferme et à des fins de recherche.
 
-
 **Que partageons-nous ?**
 
-Nous ne partagerons vos données avec des tierces personnes que si elles sont à la fois anonymisées (c'est-à-dire qu'elles ne contiennent aucune information personnelle) et nécessaires pour atteindre nos objectifs de recherche ou valider des découvertes scientifiques. Plus précisément, nous pouvons partager des données anonymisées à un moment donné dans le futur avec d'autres chercheurs à des fins de recherche universitaire non commerciale. Tout chercheur universitaire externe qui demande l'utilisation des données de LiteFarm sera soumis à un examen interne et sera évalué selon nos normes d'éthique et de sécurité existantes. En raison des normes de publication en matière de reproductibilité scientifique, les données anonymisées utilisées pour la recherche universitaire peuvent être déposées dans des référentiels publics. 
+Nous ne partagerons vos données avec des tierces personnes que si elles sont à la fois anonymisées (c'est-à-dire qu'elles ne contiennent aucune information personnelle) et nécessaires pour atteindre nos objectifs de recherche ou valider des découvertes scientifiques. Plus précisément, nous pouvons partager des données anonymisées à un moment donné dans le futur avec d'autres chercheurs à des fins de recherche universitaire non commerciale. Tout chercheur universitaire externe qui demande l'utilisation des données de LiteFarm sera soumis à un examen interne et sera évalué selon nos normes d'éthique et de sécurité existantes. En raison des normes de publication en matière de reproductibilité scientifique, les données anonymisées utilisées pour la recherche universitaire peuvent être déposées dans des référentiels publics.
 
 Des copies de diffusions non publiques de données anonymisées peuvent être partagées avec des chercheurs universitaires à des fins de recherche non commerciales, dans le cadre de licences à usage unique confidentielles et limitées dans le temps. Si une utilisation de recherche universitaire inclut l'utilisation de photos téléchargées sur LiteFarm, toutes les caractéristiques identifiables qui divulguent des informations personnelles (par exemple, les visages des personnes) seront estompées des photos avant qu'elles ne soient partagées. Nous ne partageons aucune information personnelle avec des services d'analyse tiers, tels que Google Analytics. Grâce à nos protocoles de sécurité, nous protégeons la vulnérabilité des informations personnelles sur le site web LiteFarm et nous utilisons des protocoles d'anonymisation IP pour empêcher l'identification et la géolocalisation par des tierces parties.
 
@@ -104,15 +103,15 @@ La plupart des navigateurs web acceptent automatiquement les cookies, mais vous 
 
 **Où stockons-nous vos données ?**
 
-Notre application est hébergée sur Digital Ocean pour servir rapidement et de manière fiable notre site web à un nombre imprévisible de personnes. Cela signifie que vos données seront potentiellement stockées dans plusieurs centres de données et emplacements au Canada et aux États-Unis d'Amérique.  
+Notre application est hébergée sur Digital Ocean pour servir rapidement et de manière fiable notre site web à un nombre imprévisible de personnes. Cela signifie que vos données seront potentiellement stockées dans plusieurs centres de données et emplacements au Canada et aux États-Unis d'Amérique.
 
-Bien que notre application ne soit pas commerciale, nous notons que Digital Ocean participe au programme « Privacy Shield » développé par le Département du commerce des États-Unis et l'Union Européenne (UE) et offre des services de conformité au Règlement général sur la protection des données (RGPD) de l'UE.  
+Bien que notre application ne soit pas commerciale, nous notons que Digital Ocean participe au programme « Privacy Shield » développé par le Département du commerce des États-Unis et l'Union Européenne (UE) et offre des services de conformité au Règlement général sur la protection des données (RGPD) de l'UE.
 
-En plus de notre stockage en nuage, une copie locale de la base de données LiteFarm est hébergée sur un serveur crypté et protégé par mot de passe à l'Université de la Colombie-Britannique (UBC). Des copies anonymisées de la base de données LiteFarm peuvent être stockées sur des référentiels publics conformément aux normes de publication pour la reproductibilité scientifique. 
+En plus de notre stockage en nuage, une copie locale de la base de données LiteFarm est hébergée sur un serveur crypté et protégé par mot de passe à l'Université de la Colombie-Britannique (UBC). Des copies anonymisées de la base de données LiteFarm peuvent être stockées sur des référentiels publics conformément aux normes de publication pour la reproductibilité scientifique.
 
 **Comment protégeons-nous vos données ?**
 
-Nous suivons les meilleures pratiques de l'industrie pour sécuriser les données des utilisateurs, et nous avons construit et continuons à maintenir LiteFarm conformément à la norme de vérification de la sécurité des applications annotées de niveau 2 du projet Open Web Application Security.  
+Nous suivons les meilleures pratiques de l'industrie pour sécuriser les données des utilisateurs, et nous avons construit et continuons à maintenir LiteFarm conformément à la norme de vérification de la sécurité des applications annotées de niveau 2 du projet Open Web Application Security.
 
 L'accès à la base de données est limité aux membres de l'équipe LiteFarm qui ont suivi une formation en éthique (Énoncé de politique des trois Conseils : Éthique de la recherche avec des êtres humains, EPTC2) et ont signé des accords de confidentialité. Cependant, nous ne pouvons pas toujours garantir la sécurité des données transmises sur Internet. Malgré tous nos efforts pour protéger vos informations personnelles, nous ne pouvons assurer la sécurité des informations que vous transmettez lors de votre utilisation de LiteFarm.
 

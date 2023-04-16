@@ -1627,7 +1627,7 @@
     "EXPIRED_INVITATION_LINK_ERROR": "Invalid or expired invitation",
     "GOOGLE_BUTTON": "CONTINUE WITH GOOGLE",
     "INVITED_ERROR": "A farm invitation has been emailed to you, please check your inbox and spam folder.",
-    "LITEFARM_UPDATED": "We've updated LiteFarm!",
+    "LITEFARM_UPDATED": "LiteFarm v3.3 is now available!",
     "PASSWORD_ERROR": "Password incorrect",
     "SIGN_IN": "Sign In",
     "SSO_ERROR": "Please login by clicking the Google button above",

@@ -72,7 +72,7 @@ const cropVarietyController = {
         const [relatedCrop] = await CropModel.query()
           .context({ showHidden: true })
           .where({ crop_id });
-        if ((farm_id, crop_id, crop_variety_name)) {
+        if (farm_id && crop_id && crop_variety_name) {
           const duplicateVariety = await CropVarietyModel.query().findOne({
             farm_id,
             crop_id,
@@ -98,7 +98,7 @@ const cropVarietyController = {
       const { crop_variety_id } = req.params;
       const { farm_id, crop_id, crop_variety_name } = req.body;
       try {
-        if ((farm_id, crop_id, crop_variety_name, crop_variety_id)) {
+        if (farm_id && crop_id && crop_variety_name && crop_variety_id) {
           const duplicateVariety = await CropVarietyModel.query()
             .whereNot('crop_variety_id', crop_variety_id)
             .findOne({

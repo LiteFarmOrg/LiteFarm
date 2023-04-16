@@ -303,7 +303,7 @@
     "VARIETAL_SUBTITLE": "Conte-nos sobre a variedade ou cultivar específica que você pretende cultivar",
     "VARIETAL_IMAGE_INFO": "Se você deseja que esta variedade ou cultivar tenha uma imagem diferente da cultura padrão, você pode personalizar a imagem aqui.",
     "VARIETY_COMMON_NAME": "Nome Comum",
-    "DUPLICATE_VARIETY": "MISSING",
+    "DUPLICATE_VARIETY": "Já existe na sua fazenda uma variedade deste cultivo com o mesmo nome",
     "VARIETY_VARIETAL": "Variedade",
     "VARIETY_CULTIVAR": "Cultivar",
     "CULTIVAR_SUBTEXT": "Saiba mais sobre cultivares",
@@ -359,7 +359,7 @@
     "ON_YOUR_FARM": "Em sua fazenda",
     "SELECT_A_CROP": "Selecione um cultivo para adicioná-lo à sua fazenda. Use a busca e os filtros para encontrar os cultivos mais rapidamente.",
     "SPECIES": "Espécies",
-    "DUPLICATE_CROP": "MISSING"
+    "DUPLICATE_CROP": "Já existe um cultivo com o mesmo nome, gênero e espécie em sua fazenda"
   },
   "CROP_DETAIL": {
     "ADD_PLAN": "Adicionar um plano",
@@ -1549,7 +1549,7 @@
     "EXPIRED_INVITATION_LINK_ERROR": "Convite expirado ou inválido",
     "GOOGLE_BUTTON": "CONTINUE COM O GOOGLE",
     "INVITED_ERROR": "Um convite de fazenda foi enviado para você, por favor verifique sua caixa de entrada e pasta de spam.",
-    "LITEFARM_UPDATED": "MISSING",
+    "LITEFARM_UPDATED": "LiteFarm v3.3 já está disponível!",
     "PASSWORD_ERROR": "Senha incorreta",
     "SIGN_IN": "Conecte-se",
     "SSO_ERROR": "Faça login clicando no botão do Google acima",

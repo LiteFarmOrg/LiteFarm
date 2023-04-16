@@ -357,7 +357,8 @@
     "NOMINATE_CROP_TOOLTIP": "La inclusión de este cultivo en el catálogo de cultivos de LiteFarm permite al equipo de LiteFarm compartir información sobre este cultivo con un especialista de su región. Los cultivos aprobados pasarán a formar parte del catálogo de cultivos mostrado a todos los usuarios.",
     "ON_YOUR_FARM": "En su granja",
     "SELECT_A_CROP": "Seleccione un cultivo para agregar a su granja. Utilice la barra de búsqueda y los filtros para encontrar cultivos rápidamente.",
-    "SPECIES": "Especies"
+    "SPECIES": "Especies",
+    "DUPLICATE_CROP": "MISSING"
   },
   "CROP_DETAIL": {
     "ADD_PLAN": "Agregar un plan",

@@ -357,7 +357,8 @@
     "NOMINATE_CROP_TOOLTIP": "La mise en candidature de cette culture pour inclusion dans le catalogue LiteFarm permet à l’équipe LiteFarm de partager des informations sur cette culture avec un spécialiste de votre région. Les cultures approuvées feront partie du catalogue des cultures présenté à tous les utilisateurs.",
     "ON_YOUR_FARM": "Sur votre ferme",
     "SELECT_A_CROP": "Sélectionnez une culture pour l'ajouter à votre ferme. Utilisez la recherche et les filtres pour trouver les récoltes plus rapidement.",
-    "SPECIES": "Espèces"
+    "SPECIES": "Espèces",
+    "DUPLICATE_CROP": "MISSING"
   },
   "CROP_DETAIL": {
     "ADD_PLAN": "Ajouter un plan",

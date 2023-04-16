@@ -68,10 +68,21 @@ const cropVarietyController = {
   createCropVariety() {
     return async (req, res, next) => {
       try {
-        const { crop_id } = req.body;
+        const { crop_id, crop_variety_name, farm_id } = req.body;
         const [relatedCrop] = await CropModel.query()
           .context({ showHidden: true })
           .where({ crop_id });
+        const isDuplicateVariety = await CropVarietyModel.query().findOne({
+          farm_id,
+          crop_id,
+          crop_variety_name,
+          deleted: false,
+        });
+        if (isDuplicateVariety) {
+          return res.status(400).json({
+            error: 'This crop variety already exists, please choose a different crop name',
+          });
+        }
         const result = await post(CropVarietyModel, { ...relatedCrop, ...req.body }, req);
         return res.status(201).json(result);
       } catch (error) {
@@ -83,7 +94,21 @@ const cropVarietyController = {
   updateCropVariety() {
     return async (req, res, next) => {
       const { crop_variety_id } = req.params;
+      const { farm_id, crop_id, crop_variety_name } = req.body;
       try {
+        const isDuplicateVariety = await CropVarietyModel.query()
+          .whereNot('crop_variety_id', crop_variety_id)
+          .findOne({
+            farm_id,
+            crop_id,
+            crop_variety_name,
+            deleted: false,
+          });
+        if (isDuplicateVariety) {
+          return res.status(400).json({
+            error: 'This crop variety already exists, please choose a different crop name',
+          });
+        }
         const result = await CropVarietyModel.query()
           .context(req.user)
           .findById(crop_variety_id)

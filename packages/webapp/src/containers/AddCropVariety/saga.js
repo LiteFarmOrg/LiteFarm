@@ -106,7 +106,7 @@ export function* postCropAndVarietalSaga({ payload: cropData }) {
 
 export const patchVarietal = createAction(`patchVarietalSaga`);
 
-export function* patchVarietalSaga({ payload: { variety_id, data } }) {
+export function* patchVarietalSaga({ payload: { variety_id, crop_id, data } }) {
   const { cropVarietyURL } = apiConfig;
   let { user_id, farm_id } = yield select(loginSelector);
   const header = getHeader(user_id, farm_id);
@@ -115,7 +115,7 @@ export function* patchVarietalSaga({ payload: { variety_id, data } }) {
     const result = yield call(
       axios.patch,
       `${cropVarietyURL}/${variety_id}`,
-      { ...data, farm_id },
+      { ...data, farm_id, crop_id },
       header,
     );
     yield put(putCropVarietySuccess({ crop_variety_id: variety_id, ...data }));

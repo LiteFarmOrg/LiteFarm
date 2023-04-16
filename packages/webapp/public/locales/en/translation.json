@@ -303,7 +303,7 @@
     "VARIETAL_IMAGE": "Customize image for varietal or cultivar",
     "VARIETAL_IMAGE_INFO": "If you would like this varietal or cultivar to have a different image from the default crop, you can customize the image here.",
     "VARIETY_COMMON_NAME": "Common Name",
-    "DUPLICATE_VARIETY": "A variety of this crop with this name already exists on your farm",
+    "DUPLICATE_VARIETY": "A variety of this crop with the same name already exists on your farm",
     "VARIETY_VARIETAL": "Varietal",
     "VARIETY_CULTIVAR": "Cultivar",
     "CULTIVAR_SUBTEXT": "Learn more about cultivars",

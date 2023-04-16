@@ -210,8 +210,8 @@ const userFarmController = {
           .where({ user_id, farm_id })
           .patch({ has_consent, consent_version });
         res.sendStatus(200);
-        const { step_two_end, step_three_end, step_five_end } = userFarm;
-        const isWelcomeEmailSent = !!step_two_end && !!step_three_end && !step_five_end;
+        const { step_two_end, step_three_end } = userFarm;
+        const isWelcomeEmailSent = !!step_two_end && !!step_three_end;
         if (isWelcomeEmailSent) return;
         try {
           let template_path;

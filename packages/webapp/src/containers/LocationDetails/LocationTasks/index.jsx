@@ -56,16 +56,18 @@ export default function LocationTasks({ history, match, location: { pathname } }
 
   return (
     <>
-      <PureLocationTasks
-        history={history}
-        match={match}
-        location={location}
-        isAdmin={isAdmin}
-        tasks={tasks}
-        count={count}
-        hasCrops={hasCrops}
-        hasReadings={hasReadings}
-      />
+      {location && !location?.deleted && (
+        <PureLocationTasks
+          history={history}
+          match={match}
+          location={location}
+          isAdmin={isAdmin}
+          tasks={tasks}
+          count={count}
+          hasCrops={hasCrops}
+          hasReadings={hasReadings}
+        />
+      )}
     </>
   );
 }

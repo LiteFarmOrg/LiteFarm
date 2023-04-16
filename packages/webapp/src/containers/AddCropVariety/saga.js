@@ -122,8 +122,14 @@ export function* patchVarietalSaga({ payload: { variety_id, crop_id, data } }) {
     history.push(`/crop/${variety_id}/detail`);
     yield put(enqueueSuccessSnackbar(i18n.t('message:CROP_VARIETY.SUCCESS.UPDATE')));
   } catch (e) {
-    yield put(enqueueErrorSnackbar(i18n.t('message:CROP_VARIETY.ERROR.UPDATE')));
-    console.log('failed to update crop variety');
+    if (
+      e.response.data.error ===
+      'This crop variety already exists, please choose a different variety name'
+    ) {
+      yield put(enqueueErrorSnackbar(i18n.t('translation:CROP.DUPLICATE_VARIETY')));
+    } else {
+      yield put(enqueueErrorSnackbar(i18n.t('message:CROP_VARIETY.ERROR.UPDATE')));
+    }
   }
 }
 

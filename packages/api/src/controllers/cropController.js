@@ -69,14 +69,14 @@ const cropController = {
       const trx = await transaction.start(Model.knex());
       try {
         const { crop, variety, farm_id } = req.body;
-        const isDuplicateCrop = await CropModel.query().findOne({
+        const duplicateCrop = await CropModel.query().findOne({
           farm_id,
           crop_common_name: crop.crop_common_name,
           crop_genus: crop.crop_genus || null, // Use null if the value is undefined
           crop_specie: crop.crop_specie || null, // Use null if the value is undefined
           deleted: false,
         });
-        if (isDuplicateCrop) {
+        if (duplicateCrop) {
           await trx.rollback();
           return res.status(400).json({
             error: 'This crop already exists, please edit your crop name, genus or species',

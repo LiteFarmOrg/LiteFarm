@@ -1257,8 +1257,8 @@
       "TITLE": "Tarea sin asignar"
     },
     "TASK_DELETED": {
-      "BODY": "MISSING",
-      "TITLE": "MISSING"
+      "BODY": "Una tarea de {{taskType}} que se te asignó ha sido eliminada por {{abandoner}}.",
+      "TITLE": "Tarea eliminada"
     },
     "WEEKLY_UNASSIGNED_TASKS": {
       "BODY": "Tiene tareas sin asignar que vencen esta semana.",

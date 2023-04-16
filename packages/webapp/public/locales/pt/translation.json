@@ -333,7 +333,7 @@
     "ADD_CROPS_T0_YOUR_FARM": "Adicionar cultivos à sua fazenda",
     "ADD_TO_YOUR_FARM": "Adicionar à sua fazenda",
     "CAN_NOT_FIND": "Não consegue encontrar o que está procurando?",
-    "CANCEL": "MISSING",
+    "CANCEL": "criação de cultivo",
     "COVER_CROP": "Isso pode ser cultivado como uma cultivo de cobertura?",
     "CREATE_MANAGEMENT_PLANS": "Criar um plano de cultivo",
     "CROP_CATALOGUE": "Catálogo de cultivo",
@@ -492,8 +492,8 @@
     "VALUE": "Valor"
   },
   "EXPIRED_TOKEN": {
-    "RESET_PASSWORD": "MISSING",
-    "RESET_PASSWORD_LINK": "Enviar novo link de senha/password"
+    "RESET_PASSWORD": "Este link expirou.",
+    "RESET_PASSWORD_LINK": "Enviar novo link de senha/password."
   },
   "FARM_MAP": {
     "TUTORIALS": "Tutoriais de mapas",
@@ -1258,8 +1258,8 @@
       "TITLE": "Tarefa não atribuída"
     },
     "TASK_DELETED": {
-      "BODY": "MISSING",
-      "TITLE": "MISSING"
+      "BODY": "Uma tarefa de {{taskType}} atribuída a você foi excluída por {{abandoner}}.",
+      "TITLE": "Tarefa excluída"
     },
     "WEEKLY_UNASSIGNED_TASKS": {
       "BODY": "Você tem tarefas não atribuídas para esta semana.",
@@ -1547,7 +1547,7 @@
     "EXPIRED_ERROR": "NÃO EXISTE",
     "EXPIRED_INVITATION_LINK_ERROR": "Convite expirado ou inválido",
     "GOOGLE_BUTTON": "CONTINUE COM O GOOGLE",
-    "INVITED_ERROR": "MISSING",
+    "INVITED_ERROR": "Um convite de fazenda foi enviado para você, por favor verifique sua caixa de entrada e pasta de spam.",
     "LITEFARM_UPDATED": "Nós atualizamos o LiteFarm!",
     "PASSWORD_ERROR": "Senha incorreta",
     "SIGN_IN": "Conecte-se",
@@ -1597,7 +1597,7 @@
       "WHICH_DATE": "Qual data?",
       "DATE_ORIGINAL": "A data de vencimento original",
       "DATE_TODAY": "Hoje",
-      "DATE_ANOTHER": "MISSING",
+      "DATE_ANOTHER": "Outra data",
       "INFO": "Abandonar esta tarefa mudará seu estado para abandonado e a removerá das listas de 'Tarefas' e 'Não atribuídas' de todos os usuários.",
       "NOTES": "Observações de abandono de tarefa",
       "NOTES_CHAR_LIMIT": "Observações não devem exceder 10.000 caractéres",

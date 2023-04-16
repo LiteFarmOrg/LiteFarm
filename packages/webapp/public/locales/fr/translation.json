@@ -333,7 +333,7 @@
     "ADD_CROPS_T0_YOUR_FARM": "Ajouter des cultures à votre ferme",
     "ADD_TO_YOUR_FARM": "Ajouter à votre ferme",
     "CAN_NOT_FIND": "Vous ne trouvez pas ce que vous cherchez\u00a0?",
-    "CANCEL": "MISSING",
+    "CANCEL": "création de culture",
     "COVER_CROP": "Est-ce que cela peut être cultivé comme plante de couverture\u00a0?",
     "CREATE_MANAGEMENT_PLANS": "Créer des plans de gestion",
     "CROP_CATALOGUE": "Catalogue des cultures",
@@ -493,7 +493,7 @@
     "VALUE": "Valeur"
   },
   "EXPIRED_TOKEN": {
-    "RESET_PASSWORD": "MISSING",
+    "RESET_PASSWORD": "Ce lien a expiré",
     "RESET_PASSWORD_LINK": "Envoyer un nouveau lien de mot de passe."
   },
   "FARM_MAP": {
@@ -1258,8 +1258,8 @@
       "TITLE": "Tâche non attribuée"
     },
     "TASK_DELETED": {
-      "BODY": "MISSING",
-      "TITLE": "MISSING"
+      "BODY": "La {{taskType}} tâche qu'on vous a envoyée a été annulée par {{abandoner}}.",
+      "TITLE": "Tâche annulée"
     },
     "WEEKLY_UNASSIGNED_TASKS": {
       "BODY": "Vous avez des tâches non attribuées à accomplir cette semaine.",
@@ -1411,7 +1411,7 @@
         "TOTAL": "Total"
       },
       "TITLE": "Ajouter nouvelle vente",
-      "SALE_VALUE_ERROR": "MISSING"
+      "SALE_VALUE_ERROR": "La valeur de vente doit être un nombre positif moins que 999,999,999"
     },
     "DETAIL": {
       "ACTION": "Action",
@@ -1547,7 +1547,7 @@
     "EXPIRED_ERROR": "Nous avons mis à jour notre infrastructure et vous devriez réinitialiser votre mot de passe. Vérifiez votre boîte de courriels pour continuer.",
     "EXPIRED_INVITATION_LINK_ERROR": "Invitation invalide ou expirée",
     "GOOGLE_BUTTON": "CONTINUER AVEC GOOGLE",
-    "INVITED_ERROR": "MISSING",
+    "INVITED_ERROR": "L'invitation à la ferme vous a été envoyée par e-mail, veuillez vérifier votre boîte de réception et votre dossier spam.",
     "LITEFARM_UPDATED": "Nous avons mis à jour LiteFarm\u00a0!",
     "PASSWORD_ERROR": "Mot de passe incorrect",
     "SIGN_IN": "Se Connecter",
@@ -1597,7 +1597,7 @@
       "WHICH_DATE": "Quelle date\u00a0?",
       "DATE_ORIGINAL": "La date d'échéance initiale",
       "DATE_TODAY": "Aujourd'hui",
-      "DATE_ANOTHER": "MISSING",
+      "DATE_ANOTHER": "Une autre date",
       "INFO": "Abandonner cette tâche changera son statut à Abandonné et la supprimera de tous utilisateurs sure les listes 'À faire' et 'non-assigné'.",
       "NOTES": "Notes d'abandon de tâche",
       "NOTES_CHAR_LIMIT": "Les notes doivent comporter moins de 10 000 caractères",

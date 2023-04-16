@@ -9,7 +9,7 @@ import { useTranslation } from 'react-i18next';
 export default function ProfileLayout({ children, buttonGroup, onSubmit, history }) {
   const { t } = useTranslation();
   const onKeyDown = (e) => {
-    if (e.keyCode === 13) {
+    if (document.activeElement.tagName !== 'BUTTON' && e.keyCode === 13) {
       e.preventDefault();
     }
   };

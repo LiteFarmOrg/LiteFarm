@@ -73,7 +73,7 @@ export function PureCompleteManagementPlan({
       }
       onSubmit={handleSubmit(isAbandonPage ? () => setShowAbandonModal(true) : onSubmit)}
     >
-      <CropHeader {...crop_variety} onBackClick={onGoBack} />
+      <CropHeader variety={crop_variety} onBackClick={onGoBack} />
       <Title
         style={{
           marginTop: '24px',

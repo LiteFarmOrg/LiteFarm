@@ -1,4 +1,4 @@
-##### Version 4.0:
+##### Version 5.0:
 
 #### Formulario de Consentimiento Informado y Política de Privacidad (Versión para losTrabajadores Agrícolas)
 
@@ -14,7 +14,7 @@ El equipo de LiteFarm es un grupo multidisciplinario de científicos(as), invest
 
 #### ¿Quién financia Litefarm?
 
-LiteFarm es financiado por el Centro de Sistemas de Alimentación Sostenibles de UBC y por otras subvenciones. Para conocer la lista completa, por favor visite: https://www.litefarm.org/community-1. Nuestros patrocinadores no tienen voz en la operación y administración de LiteFarm, y no cuentan con acceso a la información personal almacenada en la plataforma. Nuestro modelo de financiación es actualmente impulsado por donantes y subvenciones. 
+LiteFarm es financiado por el Centro de Sistemas de Alimentación Sostenibles de UBC y por otras subvenciones. Para conocer la lista completa, por favor visite: https://www.litefarm.org/community-1. Nuestros patrocinadores no tienen voz en la operación y administración de LiteFarm, y no cuentan con acceso a la información personal almacenada en la plataforma. Nuestro modelo de financiación es actualmente impulsado por donantes y subvenciones.
 
 #### ¿Por qué realizamos este proyecto?
 
@@ -85,7 +85,7 @@ Nuestra aplicación está alojada en Digital Ocean para servir nuestro sitio web
 
 **¿Cómo protegemos sus datos?**
 
-Seguimos las mejores prácticas para proteger los datos de los usuarios, y hemos construido y continuamos manteniendo nuestra aplicación LiteFarm en línea con el estándar de verificación de seguridad de aplicaciones de Nivel 2 del Estándar de Verificación de Seguridad de Aplicaciones Anotadas de Open Web Application Security. El acceso a la base de datos de LiteFarm está limitado a los miembros del personal de LiteFarm que hayan recibido capacitación en ética (Declaración de Política del Consejo Triple: Conducta Ética para Investigaciones que Involucra a Seres Humanos, TCPS2) y que hayan firmado acuerdos de confidencialidad. Sin embargo, no podemos garantizar que los datos transmitidos a través de internet sean siempre seguros. Como resultado, aunque nos esforzamos por proteger su información personel, no podemos garantizar que no se pueda transmitir ninguna información mientras se usa LiteFarm.  
+Seguimos las mejores prácticas para proteger los datos de los usuarios, y hemos construido y continuamos manteniendo nuestra aplicación LiteFarm en línea con el estándar de verificación de seguridad de aplicaciones de Nivel 2 del Estándar de Verificación de Seguridad de Aplicaciones Anotadas de Open Web Application Security. El acceso a la base de datos de LiteFarm está limitado a los miembros del personal de LiteFarm que hayan recibido capacitación en ética (Declaración de Política del Consejo Triple: Conducta Ética para Investigaciones que Involucra a Seres Humanos, TCPS2) y que hayan firmado acuerdos de confidencialidad. Sin embargo, no podemos garantizar que los datos transmitidos a través de internet sean siempre seguros. Como resultado, aunque nos esforzamos por proteger su información personel, no podemos garantizar que no se pueda transmitir ninguna información mientras se usa LiteFarm.
 
 **¿Qué otros potenciales riesgos involucra el uso de LiteFarm?**
 

@@ -41,7 +41,10 @@ import {
   SUGAR_CROPS,
   VEGETABLE_AND_MELONS,
 } from './constants';
-import { cropGroupAverages as cropGroupAveragesSelector } from '../../containers/cropSlice';
+import {
+  cropGroupAverages as cropGroupAveragesSelector,
+  cropsOnMyFarmSelector,
+} from '../../containers/cropSlice';
 import { useSelector } from 'react-redux';
 import MultiStepPageTitle from '../PageTitle/MultiStepPageTitle';
 import RadioGroup from '../Form/RadioGroup';
@@ -66,6 +69,7 @@ export default function PureAddNewCrop({
     control,
     getValues,
     watch,
+    setError,
     formState: { isValid, errors },
   } = useForm({
     mode: 'onChange',
@@ -80,6 +84,40 @@ export default function PureAddNewCrop({
   const allCropGroupAverages = useSelector(cropGroupAveragesSelector);
   const cropImageUrlRegister = register(CROP_PHOTO_URL, { required: true });
   const crop_photo_url = watch(CROP_PHOTO_URL);
+
+  const farmCrops = useSelector(cropsOnMyFarmSelector);
+
+  const uniqueCropName = () => {
+    const formCommonName = getValues('crop_common_name');
+    const formGenus = getValues('crop_genus');
+    const formSpecie = getValues('crop_specie');
+
+    const hasRepeatedCrops = farmCrops.some((crop) => {
+      const commonNameMatch = crop.crop_common_name === formCommonName;
+      const genusMatch =
+        (formGenus === '' && crop.crop_genus === null) || crop.crop_genus === formGenus;
+      const specieMatch =
+        (formSpecie === '' && crop.crop_specie === null) || crop.crop_specie === formSpecie;
+      return commonNameMatch && genusMatch && specieMatch;
+    });
+
+    return !hasRepeatedCrops;
+  };
+
+  const showDuplicateCropError = () => {
+    setError(
+      'crop_common_name',
+      {
+        type: 'custom',
+        message: t('CROP_CATALOGUE.DUPLICATE_CROP'),
+      },
+      { shouldFocus: true },
+    );
+  };
+
+  const checkUniqueCropAndSubmit = () => {
+    uniqueCropName() ? handleContinue() : showDuplicateCropError();
+  };
 
   const cropGroupOptions = [
     { value: BEVERAGE_AND_SPICE_CROPS, label: t('crop_group:BEVERAGE_AND_SPICE_CROPS') },
@@ -115,7 +153,7 @@ export default function PureAddNewCrop({
           {t('common:CONTINUE')}
         </Button>
       }
-      onSubmit={handleSubmit(handleContinue)}
+      onSubmit={handleSubmit(checkUniqueCropAndSubmit)}
     >
       <MultiStepPageTitle
         style={{ marginBottom: '24px' }}

@@ -187,7 +187,7 @@
       "EXISTS": "L'utilisateur existe déjà dans le réseau LiteFarm",
       "INVITE": "Erreur lors de la création du compte utilisateur; veuillez contacter LiteFarm pour obtenir de l'aide",
       "NOTHING_CHANGED": "Aucune donnée n'a changé",
-      "MAX_RESET_EMAILS": "MISSING",
+      "MAX_RESET_EMAILS": "Un lien de réinitialisation de mot de passe vous a été envoyé par e-mail, veuillez vérifier votre boîte de réception et votre dossier spam.",
       "RESET_PASSWORD": "Il y a un problème avec la réinitialisation du mot de passe par courriel; veuillez contacter LiteFarm pour obtenir de l'aide.",
       "RESTORE": "Une erreur s'est produite lors de la restauration de l'accès",
       "REVOKE": "Une erreur s'est produite lors de la révocation de l'accès",

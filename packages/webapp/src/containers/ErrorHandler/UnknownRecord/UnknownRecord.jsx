@@ -25,6 +25,7 @@ import { ReactComponent as Sunglasses } from '../../../assets/images/miscs/smili
 const useStyles = makeStyles((theme) => ({
   line: {
     textAlign: 'center',
+    fontSize: '2em',
   },
 }));
 
@@ -62,7 +63,7 @@ export default function UnknownRecord({ history }) {
       />
       <DoesNotExistSplash
         style={{
-          maxHeight: '68vh',
+          maxHeight: '50vh',
           width: '100%',
           height: '100%',
           display: 'flex',

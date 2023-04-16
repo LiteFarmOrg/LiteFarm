@@ -1826,8 +1826,8 @@
     "HOURLY_WAGE_TOOLTIP": "Les salaires horaires peuvent être établis en sélectionnant une personne à l’onglet Employés sous 'ma ferme'."
   },
   "UNKNOWN_RECORD": {
-    "UNKNOWN_RECORD": "MISSING",
-    "CANT_FIND": "MISSING",
-    "MAYBE_LATER": "MISSING"
+    "UNKNOWN_RECORD": "Enregistrement inconnu",
+    "CANT_FIND": "Oups\u00a0! Nous n'avons pas réussi a  trouver cela.",
+    "MAYBE_LATER": "Espérons le trouver plus tard."
   }
 }

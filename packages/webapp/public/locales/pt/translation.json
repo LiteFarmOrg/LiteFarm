@@ -1826,8 +1826,8 @@
     "HOURLY_WAGE_TOOLTIP": "Os salários por hora podem ser definidos selecionando um indivíduo na guia Pessoas em 'minha fazenda'"
   },
   "UNKNOWN_RECORD": {
-    "UNKNOWN_RECORD": "MISSING",
-    "CANT_FIND": "MISSING",
-    "MAYBE_LATER": "MISSING"
+    "UNKNOWN_RECORD": "Registro desconhecido",
+    "CANT_FIND": "Ops! Não conseguimos encontrar isso.",
+    "MAYBE_LATER": "Talvez apareça mais tarde."
   }
 }

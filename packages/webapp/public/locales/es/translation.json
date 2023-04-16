@@ -1825,8 +1825,8 @@
     "HOURLY_WAGE_TOOLTIP": "Los salarios por hora se pueden establecer mediante la selección de un individuo en la pestaña Personas bajo 'mi granja'."
   },
   "UNKNOWN_RECORD": {
-    "UNKNOWN_RECORD": "MISSING",
-    "CANT_FIND": "MISSING",
-    "MAYBE_LATER": "MISSING"
+    "UNKNOWN_RECORD": "Registro desconocido",
+    "CANT_FIND": "¡Ups! No pudimos encontrar eso.",
+    "MAYBE_LATER": "Tal vez aparezca más tarde."
   }
 }

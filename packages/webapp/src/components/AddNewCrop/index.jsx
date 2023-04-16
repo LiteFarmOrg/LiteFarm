@@ -85,14 +85,14 @@ export default function PureAddNewCrop({
   const cropImageUrlRegister = register(CROP_PHOTO_URL, { required: true });
   const crop_photo_url = watch(CROP_PHOTO_URL);
 
-  const farmCropsSelector = useSelector(cropsOnMyFarmSelector);
+  const farmCrops = useSelector(cropsOnMyFarmSelector);
 
   const uniqueCropName = () => {
     const formCommonName = getValues('crop_common_name');
     const formGenus = getValues('crop_genus');
     const formSpecie = getValues('crop_specie');
 
-    const hasRepeatedCrops = farmCropsSelector.some((crop) => {
+    const hasRepeatedCrops = farmCrops.some((crop) => {
       const commonNameMatch = crop.crop_common_name === formCommonName;
       const genusMatch =
         (formGenus === '' && crop.crop_genus === null) || crop.crop_genus === formGenus;

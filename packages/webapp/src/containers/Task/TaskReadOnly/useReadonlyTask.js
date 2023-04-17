@@ -32,7 +32,6 @@ export const useReadonlyTask = (task_id) => {
   const tasksByManagementPlanId = useSelector(taskEntitiesByManagementPlanIdSelector);
 
   const getTransplantTask = (task) => {
-    if (task === undefined) return undefined;
     const managementPlan = task.managementPlans[0];
     // prev_planting_management_plan will default to planting_management_plan if undefined
     const { planting_management_plan, prev_planting_management_plan = planting_management_plan } =
@@ -55,7 +54,6 @@ export const useReadonlyTask = (task_id) => {
     task.selectedLocationIds = [planting_management_plan.location_id];
   };
   const getTask = (task) => {
-    if (task === undefined) return undefined;
     task.pinCoordinates = [];
     task.managementPlansByPinCoordinate = task.managementPlans.reduce(
       (managementPlansByLocation, managementPlan) => {
@@ -86,7 +84,8 @@ export const useReadonlyTask = (task_id) => {
   };
 
   return useMemo(() => {
-    return produce(task, task?.transplant_task ? getTransplantTask : getTask);
+    if (task === undefined) return undefined;
+    return produce(task, task.transplant_task ? getTransplantTask : getTask);
   }, [task]);
 };
 

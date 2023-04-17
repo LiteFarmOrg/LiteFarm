@@ -29,7 +29,6 @@ const getManagementPlanTile = (managementPlan, tasksByManagementPlanId) =>
 
 export const useReadonlyTask = (task_id) => {
   const task = useSelector(taskWithProductSelector(task_id));
-  if (task === undefined) return undefined;
   const tasksByManagementPlanId = useSelector(taskEntitiesByManagementPlanIdSelector);
 
   const getTransplantTask = (task) => {
@@ -85,6 +84,7 @@ export const useReadonlyTask = (task_id) => {
   };
 
   return useMemo(() => {
+    if (task === undefined) return undefined;
     return produce(task, task.transplant_task ? getTransplantTask : getTask);
   }, [task]);
 };

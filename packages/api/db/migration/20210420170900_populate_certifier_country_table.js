@@ -18,11 +18,10 @@ const certifier_country = [
   { certifier_id: 17, country_id: 63 },
 ];
 
-exports.up = async function(knex) {
+export const up = async function (knex) {
   await knex.batchInsert('certifier_country', certifier_country);
-
 };
 
-exports.down = function(knex) {
-  return Promise.all(certifier_country.map(row => knex('certifier_country').where(row).delete()));
+export const down = function (knex) {
+  return Promise.all(certifier_country.map((row) => knex('certifier_country').where(row).delete()));
 };

@@ -102,6 +102,12 @@ const PostWaterValveForm = React.lazy(() =>
   import('./containers/LocationDetails/PointDetails/WaterValveDetailForm/PostWaterValve'),
 );
 const WaterValveDetails = React.lazy(() => import('./routes/WaterValveDetailsRoutes'));
+const SensorDetail = React.lazy(() =>
+  import('./containers/LocationDetails/PointDetails/SensorDetail/index'),
+);
+const EditSensor = React.lazy(() =>
+  import('./containers/LocationDetails/PointDetails/SensorDetail/EditSensor'),
+);
 
 const PostBarnForm = React.lazy(() =>
   import('./containers/LocationDetails/AreaDetails/BarnDetailForm/PostBarn'),
@@ -150,6 +156,7 @@ const PostWatercourseForm = React.lazy(() =>
   import('./containers/LocationDetails/LineDetails/WatercourseDetailForm/PostWatercourse'),
 );
 const WatercourseDetails = React.lazy(() => import('./routes/WatercourseDetailsRoutes'));
+const SensorDetails = React.lazy(() => import('./routes/SensorDetailsRoutes'));
 
 const CropCatalogue = React.lazy(() => import('./containers/CropCatalogue'));
 const CropVarieties = React.lazy(() => import('./containers/CropVarieties'));
@@ -289,6 +296,9 @@ const NotificationReadOnly = React.lazy(() =>
   import('./containers/Notification/NotificationReadOnly'),
 );
 const Forbidden = React.lazy(() => import('./containers/ErrorHandler/Forbidden/Forbidden'));
+const UnknownRecord = React.lazy(() =>
+  import('./containers/ErrorHandler/UnknownRecord/UnknownRecord'),
+);
 
 const Routes = () => {
   useScrollToTop();
@@ -544,7 +554,8 @@ const Routes = () => {
             <Route path="/fence/:location_id" component={FenceDetails} />
             <Route path="/buffer_zone/:location_id" component={BufferZoneDetails} />
             <Route path="/watercourse/:location_id" component={WatercourseDetails} />
-
+            <Route path="/sensor/:location_id" component={SensorDetails} />
+            <Route path="/sensor/:location_id/edit" exact component={EditSensor} />
             <Route path="/finances" exact component={Finances} />
             <Route path="/insights" exact component={Insights} />
             <Route path="/insights/peoplefed" exact component={PeopleFed} />
@@ -629,6 +640,7 @@ const Routes = () => {
               component={NotificationReadOnly}
             />
             <Route path="/403" exact component={Forbidden} />
+            <Route path="/unknown_record" exact component={UnknownRecord} />
             <Redirect
               to={'/'}
               //TODO change to 404
@@ -825,6 +837,7 @@ const Routes = () => {
             <Route path="/fence/:location_id" component={FenceDetails} />
             <Route path="/buffer_zone/:location_id" component={BufferZoneDetails} />
             <Route path="/watercourse/:location_id" component={WatercourseDetails} />
+            <Route path="/sensor/:location_id" component={SensorDetails} />
 
             <Route path="/finances" exact component={Finances} />
             {/* <Route path="/sales_summary" exact component={SalesSummary} /> */}
@@ -927,6 +940,7 @@ const Routes = () => {
               component={NotificationReadOnly}
             />
             <Route path="/403" exact component={Forbidden} />
+            <Route path="/unknown_record" exact component={UnknownRecord} />
             <Redirect to={'/'} />
           </Switch>
         </Suspense>
@@ -970,6 +984,7 @@ const Routes = () => {
             <Route path="/fence/:location_id" component={FenceDetails} />
             <Route path="/buffer_zone/:location_id" component={BufferZoneDetails} />
             <Route path="/watercourse/:location_id" component={WatercourseDetails} />
+            <Route path="/sensor/:location_id" component={SensorDetails} />
 
             <Route path="/farm_selection" exact component={ChooseFarm} />
             <Route path="/insights" exact component={Insights} />
@@ -1025,6 +1040,7 @@ const Routes = () => {
               component={NotificationReadOnly}
             />
             <Route path="/403" exact component={Forbidden} />
+            <Route path="/unknown_record" exact component={UnknownRecord} />
             <Redirect to={'/'} />
           </Switch>
         </Suspense>

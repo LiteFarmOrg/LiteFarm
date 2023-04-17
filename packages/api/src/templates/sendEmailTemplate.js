@@ -13,9 +13,13 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const credentials = require('../credentials');
-const path = require('path');
-const EmailTemplates = require('email-templates');
+import credentials from '../credentials.js';
+
+const dir = path.dirname(fileURLToPath(import.meta.url));
+
+import path from 'path';
+import EmailTemplates from 'email-templates';
+import { fileURLToPath } from 'url';
 
 const emails = {
   INVITATION: { path: 'invitation_to_farm_email' },
@@ -42,13 +46,33 @@ function homeUrl(defaultUrl = 'http://localhost:3000') {
   return homeUrl;
 }
 
+function gmailAuth() {
+  const environment = process.env.NODE_ENV || 'development';
+  if (environment === 'development' && process.env.DEV_GMAIL) {
+    return {
+      user: process.env.DEV_GMAIL,
+      pass: process.env.DEV_GMAIL_APP_PASSWORD,
+    };
+  }
+  return {
+    type: 'OAuth2',
+    clientId: credentials.LiteFarm_Service_Gmail.client_id,
+    clientSecret: credentials.LiteFarm_Service_Gmail.client_secret,
+    user:
+      environment === 'development'
+        ? credentials.LiteFarm_Service_Gmail.user || 'system@litefarm.org'
+        : 'system@litefarm.org',
+    refreshToken: credentials.LiteFarm_Service_Gmail.refresh_token,
+  };
+}
+
 const emailTransporter = new EmailTemplates({
   views: {
-    root: path.join(__dirname, 'emails'),
+    root: path.join(dir, 'emails'),
   },
   i18n: {
     locales: ['en', 'es', 'fr', 'pt'],
-    directory: path.join(__dirname, 'locales'),
+    directory: path.join(dir, 'locales'),
     objectNotation: true,
   },
   send: true,
@@ -59,13 +83,7 @@ const emailTransporter = new EmailTemplates({
     port: 465,
     secure: true,
     service: 'gmail',
-    auth: {
-      type: 'OAuth2',
-      clientId: credentials.LiteFarm_Service_Gmail.client_id,
-      clientSecret: credentials.LiteFarm_Service_Gmail.client_secret,
-      user: 'system@litefarm.org',
-      refreshToken: credentials.LiteFarm_Service_Gmail.refresh_token,
-    },
+    auth: gmailAuth(),
   },
 });
 
@@ -78,6 +96,7 @@ function sendEmail(
   try {
     replacements.url = homeUrl();
     replacements.year = new Date().getFullYear();
+    replacements.dateTime = new Date().toISOString().replace('T', ' ');
     replacements.buttonLink = buttonLink
       ? `${homeUrl()}${buttonLink}`
       : `${homeUrl()}/?email=${encodeURIComponent(email_to)}`;
@@ -109,7 +128,4 @@ function sendEmail(
   }
 }
 
-module.exports = {
-  emails,
-  sendEmail,
-};
+export { emails, sendEmail };

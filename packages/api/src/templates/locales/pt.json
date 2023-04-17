@@ -14,7 +14,7 @@
     "TYPE_HEADER": "Tipo de suporte",
     "MESSAGE_HEADER": "Mensagem",
     "CONTACT_METHOD_HEADER": "Método de contato preferido",
-    "SUBJECT": "Seu pedido de ajuda da LiteFarm",
+    "SUBJECT": "Seu pedido de ajuda para LiteFarm às",
     "REQUEST_INFORMATION": "Pedir informação",
     "REPORT_A_BUG": "Reportar um erro",
     "REQUEST_A_FEATURE": "Solicite um recurso",
@@ -57,7 +57,7 @@
     "SUBJECT": "Você juntou com sucesso a"
   },
   "CREATE_ACCOUNT_CONFIRMATION": {
-    "WELCOME": "Bem-vindo(a) a LiteFarm! LiteFarm é um software de código aberto e uma ferramenta para ajudar agricultoras a manejar seus sítios. Você pode ler mais sobre o LiteFarm em",
+    "WELCOME": "Bem-vindo(a) a LiteFarm! LiteFarm é um software de código aberto e uma ferramenta para ajudar agricultores(as) a manejar seus sítios. Você pode ler mais sobre o LiteFarm em",
     "CLICK_BELOW": "Você também pode entrar (em qualquer dispositivo) clicando no botão abaixo",
     "SUBJECT": "Bem-vindo(a) a LiteFarm!"
   },

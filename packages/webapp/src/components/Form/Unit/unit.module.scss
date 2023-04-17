@@ -1,4 +1,22 @@
 
+.inputWrapper {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: row;
+  position: relative;
+}
+
+.crossWrapper {
+  top: 2px;
+  position: absolute;
+  right: 0;
+  line-height: 40px;
+  cursor: pointer;
+  width: 37px;
+  display: flex;
+  justify-content: center;
+  background-color: white;
+}
 
 .input {
   flex-grow: 1;
@@ -10,7 +28,6 @@
   font-family: 'Open Sans', 'SansSerif', serif;
   background: transparent;
   min-width: 0;
-  z-index: 1;
 }
 
 .input[type='number'] {
@@ -54,7 +71,7 @@
   flex-direction: column;
   overflow: visible;
   position: relative;
-  justify-content: space-between;
+  justify-content: start;
 }
 
 .sm {
@@ -76,7 +93,6 @@
 .labelContainer {
   display: flex;
   justify-content: space-between;
-  height: 20px;
   position: relative;
 }
 
@@ -97,15 +113,14 @@
   height: 100%;
   position: absolute;
   width: 100%;
-  z-index: 0;
   display: flex;
   justify-content: flex-end;
   pointer-events: none;
 }
 
 .verticleDivider {
-  width: 61px;
   border-left: 1px solid var(--grey400);
+  padding-left: 80px;
 }
 
 .inputError {
@@ -118,10 +133,6 @@
 
 .none {
   display: none;
-}
-
-.disableBackground {
-  background-color: var(--inputDisabled);
 }
 
 .noBorderRadius {
@@ -137,4 +148,16 @@
 .leaf {
   transform: translate(4px, 3px);
   margin-left: 4px;
+}
+
+.currency {
+  font-size: 16px;
+  line-height: 20px;
+  color: var(--labels);
+  font-style: normal;
+  font-weight: normal;
+  font-family: 'Open Sans', 'SansSerif', serif;
+  position: absolute;
+  left: 0;
+  transform: translate(8px, 13.5px);
 }

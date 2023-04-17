@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux';
 import { deleteUploadedFile } from '../../hooks/useHookFormPersist/hookFormPersistSlice';
 import { postDocument } from '../saga';
 import useHookFormPersist from '../../hooks/useHookFormPersist';
-import { ImageWithAuthentication } from '../../ImageWithAuthentication';
+import { MediaWithAuthentication } from '../../../containers/MediaWithAuthentication';
 import { DocumentUploader } from '../DocumentUploader';
 
 function AddDocument({ history }) {
@@ -18,7 +18,6 @@ function AddDocument({ history }) {
     history.back();
   };
 
-
   const deleteImage = (url) => {
     dispatch(deleteUploadedFile({ url }));
   };
@@ -29,7 +28,7 @@ function AddDocument({ history }) {
       submit={handleSubmit}
       deleteImage={deleteImage}
       useHookFormPersist={useHookFormPersist}
-      imageComponent={(props) => <ImageWithAuthentication {...props} />}
+      imageComponent={(props) => <MediaWithAuthentication {...props} />}
       documentUploader={(props) => <DocumentUploader {...props} />}
       isEdit={false}
       persistedPath={[]}

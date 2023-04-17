@@ -4,7 +4,7 @@ import PageTitle from '../../components/PageTitle/v2';
 import PageBreak from '../../components/PageBreak';
 import PureSearchbarAndFilter from '../../components/PopupFilter/PureSearchbarAndFilter';
 import CropStatusInfoBox from '../../components/CropCatalogue/CropStatusInfoBox';
-import { AddLink, Semibold, Text } from '../../components/Typography';
+import { AddLink, Semibold, Text, Underlined } from '../../components/Typography';
 import { useDispatch, useSelector } from 'react-redux';
 import { cropsSelector } from '../cropSlice';
 import useCropTileListGap from '../../components/CropTile/useCropTileListGap';
@@ -19,6 +19,7 @@ import {
   cropCatalogueFilterSelector,
   isFilterCurrentlyActiveSelector,
   setCropCatalogueFilterDate,
+  resetCropCatalogueFilter,
 } from '../filterSlice';
 import { isAdminSelector } from '../userFarmSlice';
 import useCropCatalogue from './useCropCatalogue';
@@ -39,7 +40,7 @@ export default function CropCatalogue({ history }) {
 
   const [filterString, setFilterString] = useState('');
   const filterStringOnChange = (e) => setFilterString(e.target.value);
-  const { active, planned, past, noPlans, sum, cropCatalogue, filteredCropsWithoutManagementPlan } =
+  const { active, abandoned, planned, completed, noPlans, sum, cropCatalogue, filteredCropsWithoutManagementPlan } =
     useCropCatalogue(filterString);
   const crops = useStringFilteredCrops(
     useSortByCropTranslation(useSelector(cropsSelector)),
@@ -79,6 +80,7 @@ export default function CropCatalogue({ history }) {
     );
     history.push('/crop/new');
   };
+  const resetFilter = () => dispatch(resetCropCatalogueFilter());
   return (
     <Layout classes={{ container: { backgroundColor: 'white' } }}>
       <PageTitle title={t('CROP_CATALOGUE.CROP_CATALOGUE')} style={{ paddingBottom: '20px' }} />
@@ -97,11 +99,14 @@ export default function CropCatalogue({ history }) {
       </MuiFullPagePopup>
 
       {isFilterCurrentlyActive && (
-        <ActiveFilterBox
-          pageFilter={cropCatalogueFilter}
-          pageFilterKey={'cropCatalogue'}
-          style={{ marginBottom: '32px' }}
-        />
+        <div style={{ marginBottom: '32px' }}>
+          <ActiveFilterBox pageFilter={cropCatalogueFilter} pageFilterKey={'cropCatalogue'} />
+          <div style={{ marginTop: '12px' }}>
+            <Underlined style={{ color: '#AA5F04' }} onClick={resetFilter}>
+              {t('FILTER.CLEAR_ALL_FILTERS')}
+            </Underlined>
+          </div>
+        </div>
       )}
 
       <div ref={containerRef}>
@@ -109,7 +114,7 @@ export default function CropCatalogue({ history }) {
           <>
             <PageBreak style={{ paddingBottom: '16px' }} label={t('CROP_CATALOGUE.ON_YOUR_FARM')} />
             <CropStatusInfoBox
-              status={{ active, past, planned, noPlans }}
+              status={{ active, abandoned, completed, planned, noPlans }}
               style={{ marginBottom: '16px' }}
               date={date}
               setDate={setDate}
@@ -137,8 +142,9 @@ export default function CropCatalogue({ history }) {
                 const {
                   crop_translation_key,
                   active,
+                  abandoned,
                   planned,
-                  past,
+                  completed,
                   imageKey,
                   crop_photo_url,
                   crop_id,
@@ -150,8 +156,9 @@ export default function CropCatalogue({ history }) {
                     key={crop_translation_key}
                     cropCount={{
                       active: active.length,
+                      abandoned: abandoned.length,
                       planned: planned.length,
-                      past: past.length,
+                      completed: completed.length,
                       noPlans: cropCatalog?.noPlans?.length,
                     }}
                     needsPlan={needsPlan}

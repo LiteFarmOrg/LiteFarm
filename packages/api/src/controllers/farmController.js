@@ -13,30 +13,33 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const baseController = require('../controllers/baseController');
-const farmModel = require('../models/farmModel');
-const userModel = require('../models/userModel');
-const userFarmModel = require('../models/userFarmModel');
-const { transaction, Model } = require('objection');
-const knex = Model.knex();
-const { Client } = require('@googlemaps/google-maps-services-js');
+import baseController from '../controllers/baseController.js';
+
+import FarmModel from '../models/farmModel.js';
+import UserModel from '../models/userModel.js';
+import UserFarmModel from '../models/userFarmModel.js';
+import { transaction, Model } from 'objection';
+import knex from '../util/knex.js';
+import { Client } from '@googlemaps/google-maps-services-js';
 const client = new Client({});
 
 const farmController = {
   addFarm() {
-    return async (req, res) => {
+    return async (req, res, next) => {
       const trx = await transaction.start(Model.knex());
       try {
         const { country } = req.body;
         if (!country) {
           await trx.rollback();
-          return res.status(400).send('No country selected');
+          res.status(400).send('No country selected');
+          return next();
         }
 
         const { id, ...units } = await this.getCountry(country);
         if (!units) {
           await trx.rollback();
-          return res.status(400).send('No unit info for given country');
+          res.status(400).send('No unit info for given country');
+          return next();
         }
 
         const utc_offset = await this.getUTCOffsetFromGridPoints(req.body.grid_points);
@@ -49,17 +52,19 @@ const farmController = {
           country_id: id,
           utc_offset,
         };
-        const result = await baseController.postWithResponse(farmModel, infoBody, req, { trx });
+        const result = await baseController.postWithResponse(FarmModel, infoBody, req, { trx });
         // update user with new farm
         const new_user = await farmController.getUser(req, trx);
         const userFarm = await farmController.insertUserFarm(new_user[0], result.farm_id, trx);
         await trx.commit();
-        return res.status(201).send(Object.assign({}, result, userFarm));
+        res.status(201).send(Object.assign({}, result, userFarm));
+        return next();
       } catch (error) {
         //handle more exceptions
         console.log(error);
         await trx.rollback();
-        return res.status(400).send(error);
+        res.status(400).send(error);
+        return next();
       }
     };
   },
@@ -67,7 +72,7 @@ const farmController = {
   getAllFarms() {
     return async (req, res) => {
       try {
-        const rows = await baseController.get(farmModel);
+        const rows = await baseController.get(FarmModel);
         if (!rows.length) {
           res.sendStatus(404);
         } else {
@@ -86,7 +91,7 @@ const farmController = {
     return async (req, res) => {
       try {
         const id = req.params.farm_id;
-        const row = await baseController.getIndividual(farmModel, id);
+        const row = await baseController.getIndividual(FarmModel, id);
         if (!row.length) {
           res.sendStatus(404);
         } else {
@@ -104,8 +109,7 @@ const farmController = {
   async getFarmsByOffsetRange(req, res) {
     try {
       const [min, max] = [req.params.min, req.params.max];
-      const farms = await farmModel
-        .query()
+      const farms = await FarmModel.query()
         .select('farm_id')
         .where('utc_offset', '>=', min)
         .where('utc_offset', '<=', max);
@@ -122,7 +126,7 @@ const farmController = {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
       try {
-        const isDeleted = await baseController.delete(farmModel, req.params.farm_id, req, { trx });
+        const isDeleted = await baseController.delete(FarmModel, req.params.farm_id, req, { trx });
         await trx.commit();
         if (isDeleted) {
           res.sendStatus(200);
@@ -152,7 +156,7 @@ const farmController = {
           req.body.utc_offset = utc_offset;
           delete req.body.country;
         }
-        const updated = await baseController.put(farmModel, req.params.farm_id, req.body, req, {
+        const updated = await baseController.put(FarmModel, req.params.farm_id, req.body, req, {
           trx,
         });
 
@@ -176,8 +180,7 @@ const farmController = {
       try {
         const { default_initial_location_id } = req.body;
         const user_id = req.user.user_id;
-        const updated = await farmModel
-          .query()
+        const updated = await FarmModel.query()
           .context({ user_id })
           .findById(req.params.farm_id)
           .patch({ default_initial_location_id })
@@ -201,8 +204,7 @@ const farmController = {
       try {
         const { owner_operated } = req.body;
         const user_id = req.user.user_id;
-        const updated = await farmModel
-          .query(trx)
+        const updated = await FarmModel.query(trx)
           .context({ user_id })
           .where({ farm_id: req.params.farm_id })
           .patch({ owner_operated })
@@ -227,13 +229,12 @@ const farmController = {
     if (req.user) {
       const uid = req.user.user_id;
 
-      return await userModel.query(trx).where(userModel.idColumn, uid).returning('*');
+      return await UserModel.query(trx).where(UserModel.idColumn, uid).returning('*');
     }
   },
 
   async insertUserFarm(user, farm_id, trx) {
-    return userFarmModel
-      .query(trx)
+    return UserFarmModel.query(trx)
       .insert({
         user_id: user.user_id,
         farm_id,
@@ -292,4 +293,4 @@ const farmController = {
   },
 };
 
-module.exports = farmController;
+export default farmController;

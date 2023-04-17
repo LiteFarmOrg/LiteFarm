@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const baseModel = require('./baseModel');
+import baseModel from './baseModel.js';
 
 class ProductModel extends baseModel {
   static get tableName() {
@@ -35,8 +35,14 @@ class ProductModel extends baseModel {
         name: { type: 'string' },
         product_translation_key: { type: 'string' },
         supplier: { type: 'string' },
-        on_permitted_substances_list:  { type: ['string', null], enum: ['YES', 'NO', 'NOT_SURE', null] },
-        type: { type: 'string', enu: ['soil_amendment_task', 'pest_control_task', 'cleaning_task'] },
+        on_permitted_substances_list: {
+          type: ['string', null],
+          enum: ['YES', 'NO', 'NOT_SURE', null],
+        },
+        type: {
+          type: 'string',
+          enu: ['soil_amendment_task', 'pest_control_task', 'cleaning_task'],
+        },
         farm_id: { type: 'string' },
         ...this.baseProperties,
       },
@@ -45,4 +51,4 @@ class ProductModel extends baseModel {
   }
 }
 
-module.exports = ProductModel;
+export default ProductModel;

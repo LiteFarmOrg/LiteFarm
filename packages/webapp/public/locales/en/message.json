@@ -18,6 +18,11 @@
       "UPDATE": "Successfully updated document"
     }
   },
+  "BULK_UPLOAD": {
+    "ERROR": {
+      "UPLOAD": "Failed to upload the CSV file"
+    }
+  },
   "CROP": {
     "ERROR": {
       "DELETE": "Failed To Delete Field Crop"
@@ -93,7 +98,8 @@
     "FAIL_POST": "Failed to add new",
     "SUCCESS_DELETE": "Successfully retired",
     "SUCCESS_PATCH": "Successfully updated",
-    "SUCCESS_POST": "Successfully saved"
+    "SUCCESS_POST": "Successfully saved",
+    "SUCCESS_UPLOAD": "Successfully uploaded"
   },
   "ORGANIC_CERTIFIER_SURVEY": {
     "ERROR": {
@@ -158,6 +164,10 @@
     "CREATE": {
       "FAILED": "Failed to create task",
       "SUCCESS": "Successfully created task"
+    },
+    "UPDATE": {
+      "FAILED": "Failed to update task",
+      "SUCCESS": "Successfully updated task"
     }
   },
   "TASK_TYPE": {
@@ -177,6 +187,7 @@
       "EXISTS": "User already exists in LiteFarm Network",
       "INVITE": "Error creating user account, please contact LiteFarm for assistance.",
       "NOTHING_CHANGED": "No data has changed",
+      "MAX_RESET_EMAILS": "A password reset link has been emailed to you, please check your inbox and spam folder.",
       "RESET_PASSWORD": "Error with sending password reset email, please contact LiteFarm for assistance.",
       "RESTORE": "There was an error restoring access",
       "REVOKE": "There was an error revoking access",
@@ -189,5 +200,9 @@
       "REVOKE": "User access revoked!",
       "UPDATE": "Successfully updated user info!"
     }
+  },
+  "SENSOR": {
+    "SUCCESSFUL_UPDATE": "Sensor successfully updated",
+    "ERROR_UPDATE": "Error updating sensor"
   }
 }

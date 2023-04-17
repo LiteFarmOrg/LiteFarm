@@ -12,6 +12,7 @@
     "CERTIFIED": "certifié organique",
     "CROPS_OR_ANIMALS": "Cultures ou types d'animaux par unité",
     "CURRENT_STATUS": "Situation actuelle - marquer un par unité",
+    "EXPORT_DOCUMENT_NAME": "DOSSIER A",
     "HEADER": "DOSSIER A - IDENTIFICATION DES SITES",
     "HECTARES": "Hectares",
     "INDIVIDUAL_PRODUCTION_UNIT": "pour chaque unité de production individuelle (p. ex. site/terrain/serre/zone définie - comme approprié pour votre exploitation et indiquée sur votre carte)",
@@ -37,6 +38,7 @@
   },
   "RECORD_D": {
     "DATE_COMPLETED": "Date d'achèvement",
+    "EXPORT_DOCUMENT_NAME": "DOSSIER D",
     "FROM": "De",
     "HEADER": "Dossier D - Semences et matériel de plantation",
     "NOTE": {
@@ -68,6 +70,7 @@
   "RECORD_I": {
     "CLEANERS": "Nettoyants",
     "CROP_PRODUCTION_AIDS": "Auxiliaires pour la production végétale",
+    "EXPORT_DOCUMENT_NAME": "DOSSIER I",
     "HEADER": "Dossier I",
     "INPUT_CATEGORY": "Catégorie du intrant",
     "LOCATIONS": "Emplacement(s)",

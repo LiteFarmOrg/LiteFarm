@@ -2,14 +2,18 @@
   "devDependencies": {
     "cypress": "^9.5.3",
     "husky": "^7.0.4",
-    "lerna": "^4.0.0"
+    "lerna": "^5.0.0"
   },
   "scripts": {
     "test": "lerna run test",
     "lint": "lerna run lint",
     "start": "lerna run start",
     "bootstrap": "lerna bootstrap",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "ngrok": "ngrok start --config=./ngrok/ngrok.yml --all",
+    "ngrok:setup": "node ./ngrok/ngrok-setup.js",
+    "ngrok:api": "ngrok start --config=./ngrok/ngrok.yml api",
+    "ngrok:webapp": "ngrok start --config=./ngrok/ngrok.yml webapp"
   },
   "jest": {
     "testPathIgnorePatterns": [

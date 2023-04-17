@@ -8,7 +8,7 @@ on:
 jobs:
   automated_tests:
     runs-on: ubuntu-20.04
-    container: node:16.13.2
+    container: node:16.15.0
     services:
       postgres:
         image: postgres:13
@@ -38,7 +38,7 @@ jobs:
         uses: actions/checkout@v3
       # Install all the dependencies
       - name: Install dependencies
-        run: cd packages/api && npm ci
+        run: cd packages/api && npm ci && cd ../shared && npm ci
       # Run migrations on the database
       - name: Setup database
         run: cd packages/api && npm run migrate:pipeline:db

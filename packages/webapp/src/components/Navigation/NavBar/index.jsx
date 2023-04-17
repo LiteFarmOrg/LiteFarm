@@ -49,9 +49,9 @@ const useStyles = makeStyles((theme) => ({
     background:
       'linear-gradient(96.68deg,#78c99e -4.29%,#c7efd3 24.32%,#e3f8ec 35.52%,#e3f8ec 64.28%,#c7efd3 80.81%,#78c99e 125.09%)',
     boxShadow: 'none',
-    minHeight: '54px',
+    height: 'var(--global-navbar-height)',
     [theme.breakpoints.up('md')]: {
-      minHeight: '72px',
+      '--global-navbar-height': '72px',
     },
   },
   toolbar: {

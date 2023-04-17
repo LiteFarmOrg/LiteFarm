@@ -1,4 +1,4 @@
-exports.up = function(knex) {
+export const up = function (knex) {
   return Promise.all([
     knex.schema.raw(`
     ALTER TABLE "water_valve"
@@ -9,10 +9,9 @@ exports.up = function(knex) {
     ALTER "flow_rate_unit" SET DEFAULT 'l/h';
   `),
   ]);
-
 };
 
-exports.down = function(knex) {
+export const down = function (knex) {
   return Promise.all([
     knex.schema.raw(`
     ALTER TABLE "water_valve"

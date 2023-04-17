@@ -10,7 +10,7 @@ import { ReactComponent as Clean } from '../../../assets/images/task/Clean.svg';
 import { ReactComponent as Fertilize } from '../../../assets/images/task/Fertilize.svg';
 import { ReactComponent as FieldWork } from '../../../assets/images/task/FieldWork.svg';
 import { ReactComponent as Harvest } from '../../../assets/images/task/Harvest.svg';
-import { ReactComponent as Irrigate } from '../../../assets/images/task/Irrigate.svg';
+import { ReactComponent as Irrigation } from '../../../assets/images/task/Irrigation.svg';
 import { ReactComponent as Maintenance } from '../../../assets/images/task/Maintenance.svg';
 import { ReactComponent as PestControl } from '../../../assets/images/task/PestControl.svg';
 import { ReactComponent as Plant } from '../../../assets/images/task/Plant.svg';
@@ -34,7 +34,7 @@ const icons = {
   SOIL_AMENDMENT_TASK: <SoilAmendment />,
   FIELD_WORK_TASK: <FieldWork />,
   HARVEST_TASK: <Harvest />,
-  IRRIGATION_TASK: <Irrigate />,
+  IRRIGATION_TASK: <Irrigation />,
   PEST_CONTROL_TASK: <PestControl />,
   PLANT_TASK: <Plant />,
   SOIL_TASK: <RecordSoilSample />,
@@ -132,6 +132,7 @@ export const PureTaskTypeSelection = ({
               const { task_translation_key, task_type_id, farm_id } = taskType;
               return (
                 <div
+                  data-cy="task-selection"
                   onClick={() => {
                     onTileClick(taskType);
                   }}

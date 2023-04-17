@@ -13,8 +13,24 @@
  *  GNU General Public License for more details, see <<https://www.gnu.org/licenses/>.>
  */
 
-const Model = require('objection').Model;
-const BaseModel = require('./baseModel');
+import { Model } from 'objection';
+
+import BaseModel from './baseModel.js';
+import soilAmendmentTaskModel from './soilAmendmentTaskModel.js';
+import pestControlTask from './pestControlTask.js';
+import irrigationTaskModel from './irrigationTaskModel.js';
+import scoutingTaskModel from './scoutingTaskModel.js';
+import soilTaskModel from './soilTaskModel.js';
+import fieldWorkTaskModel from './fieldWorkTaskModel.js';
+import harvestTaskModel from './harvestTaskModel.js';
+import cleaningTaskModel from './cleaningTaskModel.js';
+import taskTypeModel from './taskTypeModel.js';
+import plantTaskModel from './plantTaskModel.js';
+import transplantTaskModel from './transplantTaskModel.js';
+import plantingManagementPlanModel from './plantingManagementPlanModel.js';
+import managementTasksModel from './managementTasksModel.js';
+import locationModel from './locationModel.js';
+import locationTasksModel from './locationTasksModel.js';
 
 class TaskModel extends BaseModel {
   static get tableName() {
@@ -75,7 +91,7 @@ class TaskModel extends BaseModel {
     return {
       soil_amendment_task: {
         relation: Model.HasOneRelation,
-        modelClass: require('./soilAmendmentTaskModel'),
+        modelClass: soilAmendmentTaskModel,
         join: {
           from: 'task.task_id',
           to: 'soil_amendment_task.task_id',
@@ -83,7 +99,7 @@ class TaskModel extends BaseModel {
       },
       pest_control_task: {
         relation: Model.HasOneRelation,
-        modelClass: require('./pestControlTask'),
+        modelClass: pestControlTask,
         join: {
           from: 'task.task_id',
           to: 'pest_control_task.task_id',
@@ -91,7 +107,7 @@ class TaskModel extends BaseModel {
       },
       irrigation_task: {
         relation: Model.HasOneRelation,
-        modelClass: require('./irrigationTaskModel'),
+        modelClass: irrigationTaskModel,
         join: {
           from: 'task.task_id',
           to: 'irrigation_task.task_id',
@@ -99,7 +115,7 @@ class TaskModel extends BaseModel {
       },
       scouting_task: {
         relation: Model.HasOneRelation,
-        modelClass: require('./scoutingTaskModel'),
+        modelClass: scoutingTaskModel,
         join: {
           from: 'task.task_id',
           to: 'scouting_task.task_id',
@@ -107,7 +123,7 @@ class TaskModel extends BaseModel {
       },
       soil_task: {
         relation: Model.HasOneRelation,
-        modelClass: require('./soilTaskModel'),
+        modelClass: soilTaskModel,
         join: {
           from: 'task.task_id',
           to: 'soil_task.task_id',
@@ -115,7 +131,7 @@ class TaskModel extends BaseModel {
       },
       field_work_task: {
         relation: Model.HasOneRelation,
-        modelClass: require('./fieldWorkTaskModel'),
+        modelClass: fieldWorkTaskModel,
         join: {
           from: 'task.task_id',
           to: 'field_work_task.task_id',
@@ -123,7 +139,7 @@ class TaskModel extends BaseModel {
       },
       harvest_task: {
         relation: Model.HasOneRelation,
-        modelClass: require('./harvestTaskModel'),
+        modelClass: harvestTaskModel,
         join: {
           from: 'task.task_id',
           to: 'harvest_task.task_id',
@@ -131,7 +147,7 @@ class TaskModel extends BaseModel {
       },
       cleaning_task: {
         relation: Model.HasOneRelation,
-        modelClass: require('./cleaningTaskModel'),
+        modelClass: cleaningTaskModel,
         join: {
           from: 'task.task_id',
           to: 'cleaning_task.task_id',
@@ -140,7 +156,7 @@ class TaskModel extends BaseModel {
 
       taskType: {
         relation: Model.BelongsToOneRelation,
-        modelClass: require('./taskTypeModel'),
+        modelClass: taskTypeModel,
         join: {
           from: 'task.task_type_id',
           to: 'task_type.task_type_id',
@@ -148,7 +164,7 @@ class TaskModel extends BaseModel {
       },
       plant_task: {
         relation: Model.HasOneRelation,
-        modelClass: require('./plantTaskModel'),
+        modelClass: plantTaskModel,
         join: {
           from: 'task.task_id',
           to: 'plant_task.task_id',
@@ -156,7 +172,7 @@ class TaskModel extends BaseModel {
       },
       transplant_task: {
         relation: Model.HasOneRelation,
-        modelClass: require('./transplantTaskModel'),
+        modelClass: transplantTaskModel,
         join: {
           from: 'task.task_id',
           to: 'transplant_task.task_id',
@@ -164,12 +180,12 @@ class TaskModel extends BaseModel {
       },
       //TODO: rename to plantingManagementPlans
       managementPlans: {
-        modelClass: require('./plantingManagementPlanModel'),
+        modelClass: plantingManagementPlanModel,
         relation: Model.ManyToManyRelation,
         join: {
           from: 'task.task_id',
           through: {
-            modelClass: require('./managementTasksModel'),
+            modelClass: managementTasksModel,
             from: 'management_tasks.task_id',
             to: 'management_tasks.planting_management_plan_id',
           },
@@ -177,12 +193,12 @@ class TaskModel extends BaseModel {
         },
       },
       locations: {
-        modelClass: require('./locationModel'),
+        modelClass: locationModel,
         relation: Model.ManyToManyRelation,
         join: {
           from: 'task.task_id',
           through: {
-            modelClass: require('./locationTasksModel'),
+            modelClass: locationTasksModel,
             from: 'location_tasks.task_id',
             to: 'location_tasks.location_id',
           },
@@ -345,6 +361,17 @@ class TaskModel extends BaseModel {
         builder.where('task.deleted', false);
       });
   }
+
+  static async deleteTask(task_id, user) {
+    try {
+      const deleteResponse = await TaskModel.query()
+        .context(user)
+        .patchAndFetchById(task_id, { deleted: true });
+      return deleteResponse;
+    } catch (error) {
+      return error;
+    }
+  }
 }
 
-module.exports = TaskModel;
+export default TaskModel;

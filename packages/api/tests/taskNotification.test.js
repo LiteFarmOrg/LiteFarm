@@ -13,15 +13,22 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const chai = require('chai');
-const chaiHttp = require('chai-http');
+import chai from 'chai';
+
+import chaiHttp from 'chai-http';
 chai.use(chaiHttp);
-const server = require('../src/server');
-const knex = require('../src/util/knex');
+import server from '../src/server.js';
+import knex from '../src/util/knex.js';
 jest.mock('jsdom');
-jest.mock('../src/middleware/acl/checkJwt');
-const mocks = require('./mock.factories');
-const { tableCleanup } = require('./testEnvironment');
+jest.mock('../src/middleware/acl/checkJwt.js', () =>
+  jest.fn((req, res, next) => {
+    req.user = {};
+    req.user.user_id = req.get('user_id');
+    next();
+  }),
+);
+import mocks from './mock.factories.js';
+import { tableCleanup } from './testEnvironment.js';
 
 describe('Task Notification Tests', () => {
   let farmOwner;
@@ -30,13 +37,13 @@ describe('Task Notification Tests', () => {
   let farmWorker2;
 
   beforeEach(async () => {
-    const middleware = require('../src/middleware/acl/checkJwt');
-
-    middleware.mockImplementation((req, res, next) => {
-      req.user = {};
-      req.user.user_id = req.get('user_id');
-      next();
-    });
+    // const middleware = require('../src/middleware/acl/checkJwt');
+    //
+    // middleware.mockImplementation((req, res, next) => {
+    //   req.user = {};
+    //   req.user.user_id = req.get('user_id');
+    //   next();
+    // });
 
     [farmOwner] = await mocks.usersFactory();
     [farm] = await mocks.farmFactory();
@@ -231,6 +238,95 @@ describe('Task Notification Tests', () => {
               'notification.deleted': false,
             });
           expect(notifications.length).toBe(0);
+          done();
+        },
+      );
+    });
+    test('Owner will receive a notification when a task in unassigned', async (done) => {
+      const [{ task_type_id }] = await mocks.task_typeFactory({
+        promisedFarm: [{ farm_id: farm.farm_id }],
+      });
+      const [{ location_id }] = await mocks.locationFactory({
+        promisedFarm: [{ farm_id: farm.farm_id }],
+      });
+
+      const [{ task_id }] = await mocks.taskFactory(
+        { promisedUser: [{ user_id: farmOwner.user_id }], promisedTaskType: [{ task_type_id }] },
+        mocks.fakeTask({
+          assignee_user_id: farmWorker.user_id,
+        }),
+      );
+
+      await mocks.location_tasksFactory({
+        promisedTask: [{ task_id }],
+        promisedField: [{ location_id }],
+      });
+
+      patchAssignTaskRequest(
+        { user_id: farmOwner.user_id, farm_id: farm.farm_id },
+        { assignee_user_id: null },
+        task_id,
+        async (err, res) => {
+          expect(res.status).toBe(200);
+          const notifications = await knex('notification_user')
+            .join(
+              'notification',
+              'notification.notification_id',
+              'notification_user.notification_id',
+            )
+            .where({
+              'notification_user.user_id': farmOwner.user_id,
+              'notification_user.deleted': false,
+              'notification.deleted': false,
+            });
+          expect(notifications.length).toBe(1);
+          expect(notifications[0].title.translation_key).toBe('NOTIFICATION.TASK_UNASSIGNED.TITLE');
+          expect(notifications[0].body.translation_key).toBe('NOTIFICATION.TASK_UNASSIGNED.BODY');
+          done();
+        },
+      );
+    });
+
+    test('Worker does not receive a task unassigned notification', async (done) => {
+      const [{ task_type_id }] = await mocks.task_typeFactory({
+        promisedFarm: [{ farm_id: farm.farm_id }],
+      });
+      const [{ location_id }] = await mocks.locationFactory({
+        promisedFarm: [{ farm_id: farm.farm_id }],
+      });
+
+      const [{ task_id }] = await mocks.taskFactory(
+        { promisedUser: [{ user_id: farmOwner.user_id }], promisedTaskType: [{ task_type_id }] },
+        mocks.fakeTask({
+          assignee_user_id: farmWorker.user_id,
+        }),
+      );
+
+      await mocks.location_tasksFactory({
+        promisedTask: [{ task_id }],
+        promisedField: [{ location_id }],
+      });
+
+      patchAssignTaskRequest(
+        { user_id: farmOwner.user_id, farm_id: farm.farm_id },
+        { assignee_user_id: null },
+        task_id,
+        async (err, res) => {
+          expect(res.status).toBe(200);
+          const notifications = await knex('notification_user')
+            .join(
+              'notification',
+              'notification.notification_id',
+              'notification_user.notification_id',
+            )
+            .where({
+              'notification_user.user_id': farmWorker.user_id,
+              'notification_user.deleted': false,
+              'notification.deleted': false,
+            });
+          expect(notifications.length).toBe(1);
+          expect(notifications[0].title.translation_key).toBe('NOTIFICATION.TASK_REASSIGNED.TITLE');
+          expect(notifications[0].body.translation_key).toBe('NOTIFICATION.TASK_REASSIGNED.BODY');
           done();
         },
       );

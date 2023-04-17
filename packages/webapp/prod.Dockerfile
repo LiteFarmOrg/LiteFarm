@@ -1,12 +1,14 @@
-FROM node:16.13.2 as build
+FROM node:16.15.0 as build
 
 WORKDIR /usr/src/app
 
-COPY ./package.json ./.npmrc ./pnpm-lock.yaml /usr/src/app/
+COPY ./webapp/package.json ./webapp/.npmrc ./webapp/pnpm-lock.yaml /usr/src/app/
 
 RUN npm install pnpm -g && pnpm install
 
-COPY ./ /usr/src/app/
+COPY ./webapp/ /usr/src/app/
+
+COPY ./shared/ /usr/src/shared/
 
 RUN pnpm run build
 

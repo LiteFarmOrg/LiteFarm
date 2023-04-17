@@ -13,8 +13,10 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const Model = require('objection').Model;
-const baseModel = require('./baseModel');
+import { Model } from 'objection';
+
+import baseModel from './baseModel.js';
+import cropVarietySaleModel from './cropVarietySaleModel.js';
 
 class Sale extends baseModel {
   static get tableName() {
@@ -31,7 +33,7 @@ class Sale extends baseModel {
   static get jsonSchema() {
     return {
       type: 'object',
-      required: [ 'customer_name', 'sale_date', 'farm_id'],
+      required: ['customer_name', 'sale_date', 'farm_id'],
 
       properties: {
         sale_id: { type: 'integer' },
@@ -64,14 +66,14 @@ class Sale extends baseModel {
         // The related model. This can be either a Model
         // subclass constructor or an absolute file path
         // to a module that exports one.
-        modelClass: require('./cropVarietySaleModel'),
+        modelClass: cropVarietySaleModel,
         join: {
           from: 'sale.sale_id',
           to: 'crop_variety_sale.sale_id',
         },
       },
-    }
+    };
   }
 }
 
-module.exports = Sale;
+export default Sale;

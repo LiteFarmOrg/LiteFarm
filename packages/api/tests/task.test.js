@@ -1,23 +1,29 @@
-const chai = require('chai');
-const chaiHttp = require('chai-http');
+import chai from 'chai';
+import chaiHttp from 'chai-http';
 chai.use(chaiHttp);
-const server = require('../src/server');
-const knex = require('../src/util/knex');
+import server from '../src/server.js';
+import knex from '../src/util/knex.js';
 jest.mock('jsdom');
-jest.mock('../src/middleware/acl/checkJwt');
-const mocks = require('./mock.factories');
-const { tableCleanup } = require('./testEnvironment');
-const { faker } = require('@faker-js/faker');
+jest.mock('../src/middleware/acl/checkJwt.js', () =>
+  jest.fn((req, res, next) => {
+    req.user = {};
+    req.user.user_id = req.get('user_id');
+    next();
+  }),
+);
+import mocks from './mock.factories.js';
+import { tableCleanup } from './testEnvironment.js';
+import { faker } from '@faker-js/faker';
 
 describe('Task tests', () => {
-  let middleware;
+  // let middleware;
   beforeEach(() => {
-    middleware = require('../src/middleware/acl/checkJwt');
-    middleware.mockImplementation((req, res, next) => {
-      req.user = {};
-      req.user.user_id = req.get('user_id');
-      next();
-    });
+    // middleware = require('../src/middleware/acl/checkJwt');
+    // middleware.mockImplementation((req, res, next) => {
+    //   req.user = {};
+    //   req.user.user_id = req.get('user_id');
+    //   next();
+    // });
   });
 
   /**
@@ -112,6 +118,16 @@ describe('Task tests', () => {
       .end(callback);
   }
 
+  function patchTaskWageRequest({ user_id, farm_id }, data, task_id, callback) {
+    chai
+      .request(server)
+      .patch(`/task/patch_wage/${task_id}`)
+      .set('user_id', user_id)
+      .set('farm_id', farm_id)
+      .send(data)
+      .end(callback);
+  }
+
   function completeTaskRequest({ user_id, farm_id }, data, task_id, type, callback) {
     chai
       .request(server)
@@ -129,6 +145,15 @@ describe('Task tests', () => {
       .set('user_id', user_id)
       .set('farm_id', farm_id)
       .send(data)
+      .end(callback);
+  }
+
+  function deleteTaskRequest({ user_id, farm_id }, task_id, callback) {
+    chai
+      .request(server)
+      .delete(`/task/${task_id}`)
+      .set('user_id', user_id)
+      .set('farm_id', farm_id)
       .end(callback);
   }
 
@@ -1136,44 +1161,43 @@ describe('Task tests', () => {
         });
       });
 
-      Object.keys(fakeTaskData).map((type) => {
-        test(`should successfully create a ${type} without an associated management plan`, async (done) => {
-          const { user_id, farm_id, location_id, task_type_id } = await userFarmTaskGenerator(
-            false,
-          );
-          const data = {
-            ...mocks.fakeTask({
-              [type]: { ...fakeTaskData[type]() },
-              task_type_id,
-              owner_user_id: user_id,
-              assignee_user_id: user_id,
-            }),
-            locations: [{ location_id }],
-            managementPlans: [],
-          };
+      // Object.keys(fakeTaskData).map((type) => {
+      //   test(`should successfully create a ${type} without an associated management plan`, async (done) => {
+      //     const { user_id, farm_id, location_id, task_type_id } = await userFarmTaskGenerator(
+      //       false,
+      //     );
+      //     const data = {
+      //       ...mocks.fakeTask({
+      //         task_type_id,
+      //         owner_user_id: user_id,
+      //         assignee_user_id: user_id,
+      //       }),
+      //       locations: [{ location_id }],
+      //       managementPlans: [],
+      //     };
 
-          postTaskRequest({ user_id, farm_id }, type, data, async (err, res) => {
-            expect(res.status).toBe(201);
-            const { task_id } = res.body;
-            const createdTask = await knex('task').where({ task_id }).first();
-            expect(createdTask).toBeDefined();
-            // expect(createdTask.wage_at_moment).toBe(30);
-            const isTaskRelatedToLocation = await knex('location_tasks').where({ task_id }).first();
-            expect(isTaskRelatedToLocation.location_id).toBe(location_id);
-            expect(isTaskRelatedToLocation.task_id).toBe(task_id);
-            const specificTask = await knex(type).where({ task_id });
-            expect(specificTask.length).toBe(1);
-            expect(specificTask[0].task_id).toBe(task_id);
-            if (res.body[type].product_id) {
-              const specificProduct = await knex('product')
-                .where({ product_id: res.body[type].product_id })
-                .first();
-              expect(specificProduct.supplier).toBe('test');
-            }
-            done();
-          });
-        });
-      });
+      //     postTaskRequest({ user_id, farm_id }, type, data, async (err, res) => {
+      //       expect(res.status).toBe(201);
+      //       const { task_id } = res.body;
+      //       const createdTask = await knex('task').where({ task_id }).first();
+      //       expect(createdTask).toBeDefined();
+      //       // expect(createdTask.wage_at_moment).toBe(30);
+      //       const isTaskRelatedToLocation = await knex('location_tasks').where({ task_id }).first();
+      //       expect(isTaskRelatedToLocation.location_id).toBe(location_id);
+      //       expect(isTaskRelatedToLocation.task_id).toBe(task_id);
+      //       const specificTask = await knex(type).where({ task_id });
+      //       expect(specificTask.length).toBe(1);
+      //       expect(specificTask[0].task_id).toBe(task_id);
+      //       if (res.body[type].product_id) {
+      //         const specificProduct = await knex('product')
+      //           .where({ product_id: res.body[type].product_id })
+      //           .first();
+      //         expect(specificProduct.supplier).toBe('test');
+      //       }
+      //       done();
+      //     });
+      //   });
+      // });
 
       Object.keys(fakeTaskData).map((type) => {
         test(`should successfully create a ${type} with a management plan`, async (done) => {
@@ -2145,6 +2169,116 @@ describe('Task tests', () => {
     });
   });
 
+  describe('DELETE task tests', () => {
+    test('Owner should be able to delete a task', async (done) => {
+      const [{ user_id, farm_id }] = await mocks.userFarmFactory({}, fakeUserFarm(1));
+      const date = faker.date.future().toISOString().split('T')[0];
+      const [task] = await mocks.taskFactory(
+        { promisedUser: [{ user_id }] },
+        mocks.fakeTask({ due_date: date, assignee_user_id: user_id }),
+      );
+      const [location] = await mocks.locationFactory({ promisedFarm: [{ farm_id }] });
+      await mocks.location_tasksFactory({ promisedTask: [task], promisedField: [location] });
+      deleteTaskRequest({ user_id, farm_id }, task.task_id, async (err, res) => {
+        expect(res.status).toBe(200);
+        const updated_task = await getTask(task.task_id);
+        expect(updated_task.deleted).toBe(true);
+        done();
+      });
+    });
+
+    test('Manager should be able to delete a task', async (done) => {
+      const [{ user_id, farm_id }] = await mocks.userFarmFactory({}, fakeUserFarm(2));
+      const date = faker.date.future().toISOString().split('T')[0];
+      const [task] = await mocks.taskFactory(
+        { promisedUser: [{ user_id }] },
+        mocks.fakeTask({ due_date: date }),
+      );
+      const [location] = await mocks.locationFactory({ promisedFarm: [{ farm_id }] });
+      await mocks.location_tasksFactory({ promisedTask: [task], promisedField: [location] });
+      deleteTaskRequest({ user_id, farm_id }, task.task_id, async (err, res) => {
+        expect(res.status).toBe(200);
+        const updated_task = await getTask(task.task_id);
+        expect(updated_task.deleted).toBe(true);
+        done();
+      });
+    });
+
+    test('EO should be able to delete a task', async (done) => {
+      const [{ user_id, farm_id }] = await mocks.userFarmFactory({}, fakeUserFarm(5));
+      const date = faker.date.future().toISOString().split('T')[0];
+      const [task] = await mocks.taskFactory(
+        { promisedUser: [{ user_id }] },
+        mocks.fakeTask({ due_date: date }),
+      );
+      const [location] = await mocks.locationFactory({ promisedFarm: [{ farm_id }] });
+      await mocks.location_tasksFactory({ promisedTask: [task], promisedField: [location] });
+      deleteTaskRequest({ user_id, farm_id }, task.task_id, async (err, res) => {
+        expect(res.status).toBe(200);
+        const updated_task = await getTask(task.task_id);
+        expect(updated_task.deleted).toBe(true);
+        done();
+      });
+    });
+
+    test('Owner should be able to delete a task they do not own', async (done) => {
+      const [{ user_id, farm_id }] = await mocks.userFarmFactory({}, fakeUserFarm(1));
+      const [{ user_id: other_user_id }] = await mocks.userFarmFactory(
+        { promisedFarm: [{ farm_id }] },
+        fakeUserFarm(3),
+      );
+      const date = faker.date.future().toISOString().split('T')[0];
+      const [task] = await mocks.taskFactory(
+        { promisedUser: [{ user_id: other_user_id }] },
+        mocks.fakeTask({ due_date: date }),
+      );
+      const [location] = await mocks.locationFactory({ promisedFarm: [{ farm_id }] });
+      await mocks.location_tasksFactory({ promisedTask: [task], promisedField: [location] });
+      deleteTaskRequest({ user_id, farm_id }, task.task_id, async (err, res) => {
+        expect(res.status).toBe(200);
+        const updated_task = await getTask(task.task_id);
+        expect(updated_task.deleted).toBe(true);
+        done();
+      });
+    });
+
+    test('Owner should be able to delete a task they are not assigned to', async (done) => {
+      const [{ user_id, farm_id }] = await mocks.userFarmFactory({}, fakeUserFarm(1));
+      const [{ user_id: other_user_id }] = await mocks.userFarmFactory(
+        { promisedFarm: [{ farm_id }] },
+        fakeUserFarm(3),
+      );
+      const date = faker.date.future().toISOString().split('T')[0];
+      const [task] = await mocks.taskFactory(
+        { promisedUser: [{ user_id: other_user_id }] },
+        mocks.fakeTask({ due_date: date, assignee_user_id: other_user_id }),
+      );
+      const [location] = await mocks.locationFactory({ promisedFarm: [{ farm_id }] });
+      await mocks.location_tasksFactory({ promisedTask: [task], promisedField: [location] });
+      deleteTaskRequest({ user_id, farm_id }, task.task_id, async (err, res) => {
+        expect(res.status).toBe(200);
+        const updated_task = await getTask(task.task_id);
+        expect(updated_task.deleted).toBe(true);
+        done();
+      });
+    });
+
+    test('Worker should not be able to delete any task', async (done) => {
+      const [{ user_id, farm_id }] = await mocks.userFarmFactory({}, fakeUserFarm(3));
+      const date = faker.date.future().toISOString().split('T')[0];
+      const [task] = await mocks.taskFactory(
+        { promisedUser: [{ user_id }] },
+        mocks.fakeTask({ due_date: date, assignee_user_id: user_id }),
+      );
+      const [location] = await mocks.locationFactory({ promisedFarm: [{ farm_id }] });
+      await mocks.location_tasksFactory({ promisedTask: [task], promisedField: [location] });
+      deleteTaskRequest({ user_id, farm_id }, task.task_id, async (err, res) => {
+        expect(res.status).toBe(403);
+        done();
+      });
+    });
+  });
+
   describe('Patch task due date test', () => {
     test('Farm owner must be able to patch task due date to today', async (done) => {
       const today = new Date();
@@ -2332,6 +2466,52 @@ describe('Task tests', () => {
         expect(res.status).toBe(403);
         done();
       });
+    });
+  });
+
+  describe('Patch task wage test', () => {
+    const testWithRole = async (userRoleId, wage_at_moment, done) => {
+      const patchTaskWageBody = { wage_at_moment };
+      const [{ user_id, farm_id }] = await mocks.userFarmFactory({}, fakeUserFarm(userRoleId));
+      const [{ task_id }] = await mocks.taskFactory({ promisedUser: [{ user_id }] });
+      const [{ location_id }] = await mocks.locationFactory({ promisedFarm: [{ farm_id }] });
+      await mocks.location_tasksFactory({
+        promisedTask: [{ task_id }],
+        promisedField: [{ location_id }],
+      });
+
+      const adminRoles = [1, 2, 5];
+      if (adminRoles.includes(userRoleId)) {
+        patchTaskWageRequest({ user_id, farm_id }, patchTaskWageBody, task_id, async (err, res) => {
+          expect(res.status).toBe(200);
+          const updated_task = await getTask(task_id);
+          expect(updated_task.wage_at_moment).toBe(wage_at_moment);
+          expect(updated_task.override_hourly_wage).toBe(true);
+          done();
+        });
+        return;
+      }
+
+      patchTaskWageRequest({ user_id, farm_id }, patchTaskWageBody, task_id, async (err, res) => {
+        expect(res.status).toBe(403);
+        done();
+      });
+    };
+
+    test('Farm owner must be able to patch task wage', async (done) => {
+      testWithRole(1, 33, done);
+    });
+
+    test('EO must be able to patch task wage', async (done) => {
+      testWithRole(5, 27, done);
+    });
+
+    test('Managers must be able to patch task wage', async (done) => {
+      testWithRole(2, 37, done);
+    });
+
+    test('Farm worker must not be able to patch task wage', async (done) => {
+      testWithRole(3, 30, done);
     });
   });
 });

@@ -13,16 +13,16 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const baseController = require('../controllers/baseController');
-const showedSpotlightModel = require('../models/showedSpotlightModel');
+import baseController from '../controllers/baseController.js';
+
+import ShowedSpotlightModel from '../models/showedSpotlightModel.js';
 
 const showedSpotlightController = {
   getSpotlightFlags() {
     return async (req, res) => {
       try {
         const { user_id } = req.user;
-        const data = await showedSpotlightModel
-          .query()
+        const data = await ShowedSpotlightModel.query()
           .select(
             'map',
             'draw_area',
@@ -39,9 +39,11 @@ const showedSpotlightController = {
             'compliance_docs_and_certification',
             'transplant',
             'management_plan_creation',
+            'sensor_reading_chart',
           )
           .findById(user_id);
         res.status(200).send(data);
+        console.log(data);
       } catch (error) {
         //handle more exceptions
         res.status(400).json({
@@ -55,7 +57,7 @@ const showedSpotlightController = {
       const { user_id } = req.user;
       try {
         const isPatched = await baseController.updateIndividualById(
-          showedSpotlightModel,
+          ShowedSpotlightModel,
           user_id,
           req.body,
           req,
@@ -72,4 +74,4 @@ const showedSpotlightController = {
   },
 };
 
-module.exports = showedSpotlightController;
+export default showedSpotlightController;

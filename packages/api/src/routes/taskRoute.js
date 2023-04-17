@@ -13,17 +13,18 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const express = require('express');
+import express from 'express';
+
 const router = express.Router();
-const hasFarmAccess = require('../middleware/acl/hasFarmAccess');
-const checkScope = require('../middleware/acl/checkScope');
-const { modelMapping, isWorkerToSelfOrAdmin } = require('../middleware/validation/task');
-const {
+import hasFarmAccess from '../middleware/acl/hasFarmAccess.js';
+import checkScope from '../middleware/acl/checkScope.js';
+import { modelMapping, isWorkerToSelfOrAdmin } from '../middleware/validation/task.js';
+import {
   validateAssigneeId,
   checkTaskStatusForAssignment,
-} = require('../middleware/validation/assignTask');
-const taskController = require('../controllers/taskController');
-const { createOrPatchProduct } = require('../middleware/validation/product');
+} from '../middleware/validation/assignTask.js';
+import taskController from '../controllers/taskController.js';
+import { createOrPatchProduct } from '../middleware/validation/product.js';
 
 router.patch(
   '/assign/:task_id',
@@ -48,6 +49,13 @@ router.patch(
   hasFarmAccess({ params: 'task_id' }),
   checkScope(['edit:task']),
   taskController.patchTaskDate,
+);
+
+router.patch(
+  '/patch_wage/:task_id',
+  hasFarmAccess({ params: 'task_id' }),
+  checkScope(['edit:user_wage']),
+  taskController.patchWage,
 );
 
 router.patch(
@@ -249,4 +257,23 @@ router.get(
   taskController.getHarvestUsesByFarmId,
 );
 
-module.exports = router;
+router.get(
+  '/get_field_work_types/:farm_id',
+  hasFarmAccess({ params: 'farm_id' }),
+  taskController.getFieldWorkTypes,
+);
+
+router.get(
+  '/irrigation_task_types/:farm_id',
+  hasFarmAccess({ params: 'farm_id' }),
+  taskController.getIrrigationTaskTypes,
+);
+
+router.delete(
+  '/:task_id',
+  hasFarmAccess({ params: 'task_id' }),
+  checkScope(['delete:task']),
+  taskController.deleteTask,
+);
+
+export default router;

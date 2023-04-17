@@ -13,7 +13,8 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const Model = require('objection').Model;
+import { Model } from 'objection';
+import taskModel from './taskModel.js';
 
 class SoilTaskModel extends Model {
   static get tableName() {
@@ -35,9 +36,23 @@ class SoilTaskModel extends Model {
         start_depth: { type: 'integer' },
         end_depth: { type: 'integer' },
         depth_cm: { type: 'string' },
-        texture: { type: 'string', enum:['sand', 'loamySand', 'sandyLoam', 'loam',
-          'siltLoam', 'silt', 'sandyClayLoam', 'clayLoam', 'siltyClayLoam',
-          'sandyClay', 'siltyClay', 'clay'] },
+        texture: {
+          type: 'string',
+          enum: [
+            'sand',
+            'loamySand',
+            'sandyLoam',
+            'loam',
+            'siltLoam',
+            'silt',
+            'sandyClayLoam',
+            'clayLoam',
+            'siltyClayLoam',
+            'sandyClay',
+            'siltyClay',
+            'clay',
+          ],
+        },
         k: { type: 'float' },
         p: { type: 'float' },
         n: { type: 'float' },
@@ -71,16 +86,14 @@ class SoilTaskModel extends Model {
         // The related model. This can be either a Model
         // subclass constructor or an absolute file path
         // to a module that exports one.
-        modelClass: require('./taskModel'),
+        modelClass: taskModel,
         join: {
           from: 'soil_task.task_id',
           to: 'task.task_id',
         },
-
       },
-
     };
   }
 }
 
-module.exports = SoilTaskModel;
+export default SoilTaskModel;

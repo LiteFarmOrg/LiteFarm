@@ -46,6 +46,7 @@ export default function PureSearchbarAndFilter({
     <>
       <div className={classes.container}>
         <Input
+          data-cy="crops-search"
           isSearchBar
           classes={{ container: { flexGrow: 1 } }}
           value={value}

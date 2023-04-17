@@ -13,6 +13,7 @@ import { Controller, useForm } from 'react-hook-form';
 import CertifierSelectionMenuItem from '../../OrganicCertifierSurvey/CertifierSelection/CertifierSelectionMenu/CertiferSelectionMenuItem';
 import { Loading } from '../../Loading/Loading';
 import { ContainerWithIcon } from '../../ContainerWithIcon/ContainerWithIcon';
+import { mediaEnum } from '../../../containers/MediaWithAuthentication/constants';
 
 function PureDocumentDetailView({
   submit,
@@ -88,15 +89,17 @@ function PureDocumentDetailView({
       }
       return undefined;
     };
-    let validUntil = !!data.valid_until ? data.valid_until : null;
-    data.type = !!data.type ? data.type.value : data.type;
+    let validUntil = data.valid_until ? data.valid_until : null;
+    data.type = data.type ? data.type.value : data.type;
     validUntil = data.no_expiration ? null : validUntil;
+    const noExpiration = !data?.valid_until ? true : data.no_expiration;
     submit({
       ...data,
       thumbnail_url: getDocumentThumbnailUrl(uploadedFiles),
       files: uploadedFiles.map((file, i) => ({
         ...file,
       })),
+      no_expiration: noExpiration,
       valid_until: validUntil,
     });
   };
@@ -214,7 +217,8 @@ function PureDocumentDetailView({
                 width: '100%',
                 style: { width: '100%', height: '100%' },
                 height: '100%',
-                src: thumbnail_url,
+                fileUrl: thumbnail_url,
+                mediaType: mediaEnum.IMAGE,
               })
             ) : (
               <CertifierSelectionMenuItem certifierName={file_name} />

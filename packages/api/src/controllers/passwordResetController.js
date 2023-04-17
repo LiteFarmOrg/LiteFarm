@@ -13,13 +13,11 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const baseController = require('../controllers/baseController');
-const userModel = require('../models/userModel');
-const passwordModel = require('../models/passwordModel');
-const { sendEmailTemplate, emails, sendEmail } = require('../templates/sendEmailTemplate');
-const bcrypt = require('bcryptjs');
-const { createToken } = require('../util/jwt');
-
+import UserModel from '../models/userModel.js';
+import PasswordModel from '../models/passwordModel.js';
+import { emails, sendEmail } from '../templates/sendEmailTemplate.js';
+import bcrypt from 'bcryptjs';
+import { createToken } from '../util/jwt.js';
 
 const passwordResetController = {
   sendResetEmail() {
@@ -27,15 +25,20 @@ const passwordResetController = {
       const { email } = req.body;
 
       try {
-        const userData = await userModel.query().select('user_id', 'first_name', 'language_preference').where('email', email).first();
+        const userData = await UserModel.query()
+          .select('user_id', 'first_name', 'language_preference')
+          .where('email', email)
+          .first();
 
         if (!userData) {
           return res.status(404).send('Email is not registered in LiteFarm');
         }
 
-        const pwData = await passwordModel.query().select('*').where('user_id', userData.user_id).first();
+        const pwData = await PasswordModel.query()
+          .select('*')
+          .where('user_id', userData.user_id)
+          .first();
         let { reset_token_version, created_at } = pwData;
-
 
         const sendEmailDate = new Date();
         const diffDays = Math.abs(sendEmailDate - created_at) / (1000 * 60 * 60 * 24);
@@ -48,13 +51,12 @@ const passwordResetController = {
           reset_token_version++;
         }
 
-
         const updateData = {
           reset_token_version,
           created_at: created_at.toISOString(),
         };
 
-        await passwordModel.query().findById(userData.user_id).patch(updateData);
+        await PasswordModel.query().findById(userData.user_id).patch(updateData);
 
         const tokenPayload = {
           ...userData,
@@ -64,7 +66,6 @@ const passwordResetController = {
         };
         const token = await createToken('passwordReset', tokenPayload);
 
-
         const template_path = emails.PASSWORD_RESET;
         const replacements = {
           first_name: userData.first_name,
@@ -72,7 +73,8 @@ const passwordResetController = {
         };
         const sender = 'system@litefarm.org';
         sendEmail(template_path, replacements, email, {
-          sender, buttonLink: `/callback/?reset_token=${token}`,
+          sender,
+          buttonLink: `/callback/?reset_token=${token}`,
         });
 
         return res.status(200).send('Email successfully sent');
@@ -102,7 +104,7 @@ const passwordResetController = {
           reset_token_version: 0,
           created_at: new Date().toISOString(),
         };
-        await passwordModel.query().findById(user_id).patch(pwData);
+        await PasswordModel.query().findById(user_id).patch(pwData);
 
         const id_token = await createToken('access', { user_id });
 
@@ -113,9 +115,10 @@ const passwordResetController = {
         };
         const sender = 'system@litefarm.org';
         sendEmail(template_path, replacements, email, {
-          sender, buttonLink: `/?email=${encodeURIComponent(email)}`,
+          sender,
+          buttonLink: `/?email=${encodeURIComponent(email)}`,
         });
-        await userModel.query().findById(user_id).patch({ status_id: 1 });
+        await UserModel.query().findById(user_id).patch({ status_id: 1 });
 
         return res.status(200).send({ id_token });
       } catch (error) {
@@ -127,4 +130,4 @@ const passwordResetController = {
   },
 };
 
-module.exports = passwordResetController;
+export default passwordResetController;

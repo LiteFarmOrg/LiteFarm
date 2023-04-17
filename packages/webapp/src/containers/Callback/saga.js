@@ -18,7 +18,7 @@ import { call, put, select, takeLeading } from 'redux-saga/effects';
 import { url } from '../../apiConfig';
 import history from '../../history';
 import { acceptInvitationSuccess, userFarmSelector } from '../userFarmSlice';
-import jwt from '@tsndr/cloudflare-worker-jwt';
+import { decodeToken } from 'react-jwt';
 import i18n from '../../locales/i18n';
 import { logout } from '../../util/jwt';
 import { axios } from '../saga';
@@ -42,20 +42,20 @@ export function* validateResetTokenSaga({ payload: { reset_token } }) {
     });
     history.push('/password_reset', reset_token);
   } catch (e) {
-    const { email } = jwt.decode(reset_token);
+    const { email } = decodeToken(reset_token);
     history.push('/expired', { translation_key: 'RESET_PASSWORD', email });
   }
 }
 
 export const patchUserFarmStatus = createAction('patchUserFarmStatusSaga');
 
-export function* patchUserFarmStatusSaga({ payload: invite_token }) {
+export function* patchUserFarmStatusSaga({ payload }) {
+  const { invite_token, language } = payload;
   try {
-    const language_preference = getLanguageFromLocalStorage();
     const result = yield call(
       axios.patch,
       patchUserFarmStatusUrl(),
-      { language_preference },
+      {},
       {
         headers: {
           Authorization: `Bearer ${invite_token}`,
@@ -65,6 +65,7 @@ export function* patchUserFarmStatusSaga({ payload: invite_token }) {
     const { user: userFarm, id_token } = result.data;
     localStorage.setItem('id_token', id_token);
     localStorage.setItem('litefarm_lang', userFarm.language_preference);
+    i18n.changeLanguage(userFarm.language_preference);
     purgeState();
     yield put(acceptInvitationSuccess(userFarm));
     yield put(startInvitationFlow(userFarm.farm_id));
@@ -73,10 +74,12 @@ export function* patchUserFarmStatusSaga({ payload: invite_token }) {
     if (e?.response?.status === 404) {
       // and message === 'user does not exist
       console.log(e);
+      localStorage.setItem('litefarm_lang', language);
+      i18n.changeLanguage(language);
       history.push('/accept_invitation/sign_up', invite_token);
     } else if (e?.response?.status === 401) {
       const { email: currentEmail } = yield select(userFarmSelector);
-      const { email } = jwt.decode(invite_token);
+      const { email } = decodeToken(invite_token);
       currentEmail !== email && logout();
       const translateKey =
         e.response.data === 'Invitation link is used'

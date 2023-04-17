@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import AreaDetails from '../AreaDetails';
 import { useForm, useFormContext } from 'react-hook-form';
@@ -92,6 +92,7 @@ export function GreenhouseDetailsChildren({ isViewLocationPage }) {
   const { t } = useTranslation();
   const { register, watch, control } = useFormContext();
   const greenhouseTypeSelection = watch(greenhouseEnum.organic_status);
+  const [transitionalDate, setTransitionalDate] = useState(watch(greenhouseEnum.transition_date));
   return (
     <div>
       <div style={{ marginBottom: '20px' }}>
@@ -129,6 +130,8 @@ export function GreenhouseDetailsChildren({ isViewLocationPage }) {
             hookFormRegister={register(greenhouseEnum.transition_date, { required: true })}
             style={{ paddingTop: '16px', paddingBottom: '20px' }}
             disabled={isViewLocationPage}
+            onChange={(e) => setTransitionalDate(e.target.value)}
+            value={transitionalDate}
           />
         )}
       </div>

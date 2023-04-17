@@ -13,6 +13,7 @@ const Template = (args) => <PureAccount {...args} />;
 
 export const Primary = Template.bind({});
 Primary.args = {
+  history: { location: { pathname: '/profile' } },
   userFarm: {
     first_name: 'first',
     last_name: 'last',

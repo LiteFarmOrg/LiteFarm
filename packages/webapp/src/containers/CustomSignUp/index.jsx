@@ -53,7 +53,7 @@ function CustomSignUp() {
     mode: 'onTouched',
   });
   const { user, component: componentToShow } = history.location?.state || {};
-  const validEmailRegex = RegExp(/^$|^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i);
+  const validEmailRegex = RegExp(/^$|^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,6}$/i);
   const EMAIL = 'email';
   const emailRegister = register(EMAIL, { pattern: validEmailRegex });
   const dispatch = useDispatch();
@@ -66,6 +66,7 @@ function CustomSignUp() {
   const { t, i18n, ready } = useTranslation(['translation', 'common'], { useSuspense: false });
 
   const customSignUpErrorKey = useSelector(customSignUpErrorKeySelector);
+  const [submittedEmail, setSubmittedEmail] = useState('');
 
   const forgotPassword = () => {
     dispatch(sendResetPasswordEmail(email));
@@ -96,8 +97,6 @@ function CustomSignUp() {
     if (!customSignUpErrorKey) return;
     const message = t(customSignUpErrorKey);
 
-    console.log(errors);
-
     setError(EMAIL, {
       type: 'manual',
       message,
@@ -106,6 +105,7 @@ function CustomSignUp() {
 
   const onSubmit = (data) => {
     const { email } = data;
+    setSubmittedEmail(email);
     dispatch(customSignUp({ email: email?.toLowerCase() }));
   };
 
@@ -156,7 +156,7 @@ function CustomSignUp() {
           <PureCreateUserAccount
             onSignUp={onSignUp}
             onGoBack={createUserAccountOnGoBack}
-            email={email}
+            email={submittedEmail}
           />
         </Hidden>
       </Suspense>

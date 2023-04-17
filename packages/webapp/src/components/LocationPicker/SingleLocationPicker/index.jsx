@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import PropTypes from 'prop-types';
 import CustomZoom from '../../Map/CustomZoom';
 import CustomCompass from '../../Map/CustomCompass';
@@ -40,6 +40,7 @@ const LocationPicker = ({
   const onSelectLocationRef = usePropRef(onSelectLocation);
   const setPinCoordinateRef = usePropRef(setPinCoordinate);
   const clearLocationsRef = usePropRef(clearLocations);
+  const selectedLocationIdsRef = usePropRef(selectedLocationIds);
 
   const pinMarkerRef = useRef();
   useEffect(() => {
@@ -60,6 +61,16 @@ const LocationPicker = ({
       });
     }
   }, [isPinMode, isGoogleMapInitiated]);
+
+  useEffect(() => {
+    if (markerClusterRef?.current?.markers?.length > 0) {
+      // hack to get around weird shallow copy caused by the readonly typescript definition
+      const markers = [...markerClusterRef.current.markers];
+      // this forces the clusters to rerender, so that the colours update
+      markerClusterRef?.current?.clearMarkers();
+      markerClusterRef?.current?.addMarkers(markers);
+    }
+  }, [selectedLocationIds]);
 
   const prevSelectedLocationIdsRef = useRef([]);
   useEffect(() => {
@@ -134,30 +145,23 @@ const LocationPicker = ({
         maps.event.addListener(assetGeometry.polygon, 'click', (e) => areaOnClick(e.latLng, maps));
       }
     });
-    markerClusterRef.current = createMarkerClusters(
+    createMarkerClusters(
       maps,
       map,
       Object.values(geometriesRef.current).filter(({ location: { type } }) => isPoint(type)),
+      selectedLocationIdsRef,
+      markerClusterRef,
     );
     maps.event.addListener(markerClusterRef.current, 'click', (cluster) => {
-      if (map.getZoom() >= (maxZoomRef?.current || 20) && cluster.markers_.length > 1) {
+      if (map.getZoom() >= (maxZoomRef?.current || 20) && cluster.markers.length > 1) {
         setOverlappedPositions(
-          cluster.markers_.map((marker) => ({
+          cluster.markers.map((marker) => ({
             location_id: marker.location_id,
             name: marker.name,
             type: marker.type,
           })),
         );
       }
-    });
-    markerClusterRef.current.setCalculator(function (markers, numStyles) {
-      const isSelected = !!markers.find(({ location_id }) =>
-        prevSelectedLocationIdsRef.current.includes(location_id),
-      );
-      return {
-        text: markers.length,
-        index: isSelected ? 2 : 1,
-      };
     });
   };
 
@@ -256,18 +260,19 @@ const LocationPicker = ({
     };
 
     const zoomControlDiv = document.createElement('div');
-    ReactDOM.render(
+    const rootZoomControlDiv = createRoot(zoomControlDiv);
+    rootZoomControlDiv.render(
       <CustomZoom
         style={{ margin: '12px' }}
         onClickZoomIn={() => map.setZoom(map.getZoom() + 1)}
         onClickZoomOut={() => map.setZoom(map.getZoom() - 1)}
       />,
-      zoomControlDiv,
     );
     map.controls[maps.ControlPosition.RIGHT_BOTTOM].push(zoomControlDiv);
 
     const compassControlDiv = document.createElement('div');
-    ReactDOM.render(<CustomCompass style={{ marginRight: '12px' }} />, compassControlDiv);
+    const rootCompassControlDiv = createRoot(compassControlDiv);
+    rootCompassControlDiv.render(<CustomCompass style={{ marginRight: '12px' }} />);
     map.controls[maps.ControlPosition.RIGHT_BOTTOM].push(compassControlDiv);
 
     // Drawing locations on map

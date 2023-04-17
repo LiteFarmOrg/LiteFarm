@@ -13,7 +13,9 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const Model = require('objection').Model;
+import { Model } from 'objection';
+import harvestTaskModel from './harvestTaskModel.js';
+import harvestUseModel from './harvestUseModel.js';
 
 class HarvestUseType extends Model {
   static get tableName() {
@@ -30,7 +32,7 @@ class HarvestUseType extends Model {
   static get jsonSchema() {
     return {
       type: 'object',
-      required: [ 'harvest_use_type_name' ],
+      required: ['harvest_use_type_name'],
 
       properties: {
         harvest_use_type_id: { type: 'integer' },
@@ -45,27 +47,23 @@ class HarvestUseType extends Model {
   static get relationMappings() {
     // Import models here to prevent require loops.
     return {
-
       harvestTask: {
-
-        modelClass: require('./harvestTaskModel'),
+        modelClass: harvestTaskModel,
         relation: Model.ManyToManyRelation,
 
         join: {
           from: 'harvest_use_type.harvest_use_type_id',
           through: {
-            modelClass: require('./harvestUseModel'),
+            modelClass: harvestUseModel,
             from: 'harvest_use.task_id',
             to: 'harvest_use.harvest_use_type_id',
           },
 
           to: 'harvest_task.task_id',
         },
-
       },
-
     };
   }
 }
 
-module.exports = HarvestUseType;
+export default HarvestUseType;

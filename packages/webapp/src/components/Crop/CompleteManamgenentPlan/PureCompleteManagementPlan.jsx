@@ -12,6 +12,7 @@ import Input from '../../Form/Input';
 import { getDateInputFormat } from '../../../util/moment';
 import AbandonManagementPlanModal from '../../Modals/AbandonManagementPlanModal';
 import i18n from '../../../locales/i18n';
+import { isNotInFuture } from '../../Form/Input/utils';
 
 export const SOMETHING_ELSE = 'Something Else';
 export const defaultAbandonManagementPlanReasonOptions = [
@@ -62,6 +63,7 @@ export function PureCompleteManagementPlan({
   const [showAbandonModal, setShowAbandonModal] = useState(false);
 
   const disabled = !isValid;
+
   return (
     <Form
       buttonGroup={
@@ -71,7 +73,7 @@ export function PureCompleteManagementPlan({
       }
       onSubmit={handleSubmit(isAbandonPage ? () => setShowAbandonModal(true) : onSubmit)}
     >
-      <CropHeader {...crop_variety} onBackClick={onGoBack} />
+      <CropHeader variety={crop_variety} onBackClick={onGoBack} />
       <Title
         style={{
           marginTop: '24px',
@@ -85,7 +87,11 @@ export function PureCompleteManagementPlan({
       <Input
         style={{ marginBottom: '40px' }}
         label={t('MANAGEMENT_PLAN.COMPLETE_PLAN.DATE_OF_CHANGE')}
-        hookFormRegister={register(DATE)}
+        hookFormRegister={register(DATE, {
+          required: true,
+          validate: isNotInFuture,
+        })}
+        errors={errors[DATE] ? isNotInFuture() : null}
         type={'date'}
         max={getDateInputFormat()}
         min={start_date}

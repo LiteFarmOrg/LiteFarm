@@ -13,20 +13,61 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const cropController = require('../controllers/cropController');
-const express = require('express');
+import cropController from '../controllers/cropController.js';
+
+import express from 'express';
 const router = express.Router();
-const hasFarmAccess = require('../middleware/acl/hasFarmAccess');
-const checkScope = require('../middleware/acl/checkScope');
+import hasFarmAccess from '../middleware/acl/hasFarmAccess.js';
+import checkScope from '../middleware/acl/checkScope.js';
+import multerDiskUpload from '../util/fileUpload.js';
+import validateFileExtension from '../middleware/validation/uploadImage.js';
 
 // get an individual crop
-router.get('/:crop_id', hasFarmAccess({ params: 'crop_id' }), checkScope(['get:crops']), cropController.getIndividualCrop());
+router.get(
+  '/:crop_id',
+  hasFarmAccess({ params: 'crop_id' }),
+  checkScope(['get:crops']),
+  cropController.getIndividualCrop(),
+);
 // get all crop INCLUDING crops farm added
-router.get('/farm/:farm_id', hasFarmAccess({ params: 'farm_id' }), checkScope(['get:crops']), cropController.getAllCrop());
-router.post('/', hasFarmAccess({ body: 'farm_id' }), checkScope(['add:crops']), cropController.addCropWithFarmID());
-router.post('/crop_variety', hasFarmAccess({ body: 'farm_id' }), checkScope(['add:crops']), cropController.addCropAndVarietyWithFarmId())
-router.put('/:crop_id', hasFarmAccess({ params: 'crop_id' }), checkScope(['edit:crops']), cropController.updateCrop());
+router.get(
+  '/farm/:farm_id',
+  hasFarmAccess({ params: 'farm_id' }),
+  checkScope(['get:crops']),
+  cropController.getAllCrop(),
+);
+router.post(
+  '/',
+  hasFarmAccess({ body: 'farm_id' }),
+  checkScope(['add:crops']),
+  cropController.addCropWithFarmID(),
+);
+router.post(
+  '/crop_variety',
+  hasFarmAccess({ body: 'farm_id' }),
+  checkScope(['add:crops']),
+  cropController.addCropAndVarietyWithFarmId(),
+);
+router.put(
+  '/:crop_id',
+  hasFarmAccess({ params: 'crop_id' }),
+  checkScope(['edit:crops']),
+  cropController.updateCrop(),
+);
 // only user added crop can be deleted
-router.delete('/:crop_id', hasFarmAccess({ params: 'crop_id' }), checkScope(['delete:crops']), cropController.delCrop());
+router.delete(
+  '/:crop_id',
+  hasFarmAccess({ params: 'crop_id' }),
+  checkScope(['delete:crops']),
+  cropController.delCrop(),
+);
+router.post(
+  '/upload/farm/:farm_id',
+  hasFarmAccess({ params: 'farm_id' }),
+  checkScope(['add:crops']),
+  multerDiskUpload,
+  validateFileExtension,
+  cropController.uploadCropImage(),
+);
 
-module.exports = router;
+export default router;

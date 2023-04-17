@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const jwt = require('express-jwt');
+import jwt from 'express-jwt';
 
 const checkJwt = jwt({
   secret: process.env.JWT_SECRET,
@@ -28,7 +28,10 @@ const checkJwt = jwt({
     '/notification_user/subscribe',
     /\/time_notification\//i,
     /\/farm\/utc_offset_by_range\//i,
+    /\/sensor\/reading\/partner\/\d+\/farm\/*/,
+    /\/api-docs\/*/,
+    /\/api-spec\/*/,
   ],
 });
 
-module.exports = checkJwt;
+export default checkJwt;

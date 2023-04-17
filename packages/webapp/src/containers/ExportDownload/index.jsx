@@ -24,12 +24,27 @@ export default function DownloadExport({ match }) {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(downloadExport({
-      file: `https://${import.meta.env.VITE_DO_BUCKET_NAME}.nyc3.digitaloceanspaces.com/${fileSrc}.zip`,
-      from,
-      to,
-    }));
-  }, [])
+    const file =
+      import.meta.env.VITE_ENV === 'development'
+        ? `http://${import.meta.env.VITE_DEV_ENDPOINT}/${
+            import.meta.env.VITE_DEV_BUCKET_NAME
+          }/${fileSrc}.zip`
+        : `https://${
+            import.meta.env.VITE_DO_BUCKET_NAME
+          }.nyc3.digitaloceanspaces.com/${fileSrc}.zip`;
 
-  return <p style={{ marginLeft: '8px', marginTop: '24px' }}>{i18n.t('CERTIFICATIONS.EXPORT_DOWNLOADING_MESSAGE')}</p>;
+    dispatch(
+      downloadExport({
+        file,
+        from,
+        to,
+      }),
+    );
+  }, []);
+
+  return (
+    <p style={{ marginLeft: '8px', marginTop: '24px' }}>
+      {i18n.t('CERTIFICATIONS.EXPORT_DOWNLOADING_MESSAGE')}
+    </p>
+  );
 }

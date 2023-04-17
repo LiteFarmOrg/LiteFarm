@@ -13,12 +13,12 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const express = require('express');
+import express from 'express';
+
 const router = express.Router();
-const supportTicketController = require('../controllers/supportTicketController');
-const multerDiskUpload = require('../util/fileUpload');
+import supportTicketController from '../controllers/supportTicketController.js';
+import multerDiskUpload from '../util/fileUpload.js';
 
-router.post('/', multerDiskUpload, supportTicketController.addSupportTicket());
+router.post('/', multerDiskUpload, supportTicketController.addSupportTicket);
 
-
-module.exports = router;
+export default router;

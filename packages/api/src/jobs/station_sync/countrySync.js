@@ -1,8 +1,7 @@
-const { from } = require('rxjs');
-const { delay, concatMap, catchError, finalize } = require('rxjs/operators');
-const rp = require('request-promise');
-
-const endPoints = require('../../endPoints');
+import { from } from 'rxjs';
+import { delay, concatMap, catchError, finalize } from 'rxjs/operators/index.js';
+import rp from 'request-promise';
+import endPoints from '../../endPoints.js';
 
 async function mapFarmsToCountryId(knex) {
   const countries = await knex('countries').select('id', 'country_name');
@@ -66,6 +65,4 @@ async function insertCountryIdToFarm(knex, farm, country, countries) {
   }
 }
 
-module.exports = {
-  mapFarmsToCountryId,
-};
+export { mapFarmsToCountryId };

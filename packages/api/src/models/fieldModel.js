@@ -13,7 +13,8 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const Model = require('objection').Model;
+import { Model } from 'objection';
+import organicHistoryModel from './organicHistoryModel.js';
 
 class Field extends Model {
   static get tableName() {
@@ -45,7 +46,7 @@ class Field extends Model {
     // Import models here to prevent require loops.
     return {
       organic_history: {
-        modelClass: require('./organicHistoryModel'),
+        modelClass: organicHistoryModel,
         relation: Model.HasManyRelation,
         join: {
           from: 'field.location_id',
@@ -56,4 +57,4 @@ class Field extends Model {
   }
 }
 
-module.exports = Field;
+export default Field;

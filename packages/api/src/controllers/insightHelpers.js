@@ -13,12 +13,14 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const rp = require('request-promise');
-const endPoints = require('../endPoints');
+import rp from 'request-promise';
+
+import endPoints from '../endPoints.js';
+
 // helper functions
 // people_fed helpers:
 // average the people fed meals for the main page of insights
-exports.averagePeopleFedMeals = (data) => {
+export const averagePeopleFedMeals = (data) => {
   let finalAverage = 0;
   data.forEach((data) => {
     finalAverage += data['val'];
@@ -27,7 +29,7 @@ exports.averagePeopleFedMeals = (data) => {
   return Math.round((finalAverage / data.length) * 100) / 100;
 };
 
-exports.getNutritionalData = (cropNutritionData) => {
+export const getNutritionalData = (cropNutritionData) => {
   // @TODO, a simpler way to do this???
   // generates the data for displaying a chart
   // cal, prot, fats, vitc, vita
@@ -94,7 +96,7 @@ exports.getNutritionalData = (cropNutritionData) => {
 
 // helpers for Soil OM
 
-exports.getSoilOM = async (data) => {
+export const getSoilOM = async (data) => {
   const returnValue = {
     preview: 0,
     data: [],
@@ -204,7 +206,7 @@ const callSoilGridAPI = async (data) => {
 
 /* Helpers for Labour Happiness */
 
-exports.getLabourHappiness = (data) => {
+export const getLabourHappiness = (data) => {
   const returnValue = {
     preview: 0,
     data: [],
@@ -303,7 +305,7 @@ const makePolygon = (points) => {
   return polygonString.concat(`${points[0].lng} ${points[0].lat}))`);
 };
 
-exports.getBiodiversityAPI = async (pointData, countData) => {
+export const getBiodiversityAPI = async (pointData, countData) => {
   const resultData = {
     preview: 0,
     data: [],
@@ -411,7 +413,7 @@ exports.getBiodiversityAPI = async (pointData, countData) => {
   return resultData;
 };
 
-exports.formatPricesData = (data) => {
+export const formatPricesData = (data) => {
   const returnData = {
     preview: 0,
     data: [], // data will be generated as json files with month and value
@@ -454,7 +456,7 @@ exports.formatPricesData = (data) => {
   return returnData;
 };
 
-exports.formatPricesNearbyData = (myFarmID, data) => {
+export const formatPricesNearbyData = (myFarmID, data) => {
   const returnData = {
     preview: 0,
     data: [], // data will be generated as json files with month and value
@@ -562,7 +564,7 @@ exports.formatPricesNearbyData = (myFarmID, data) => {
   return returnData;
 };
 
-exports.formatWaterBalanceData = async (dataPoints) => {
+export const formatWaterBalanceData = async (dataPoints) => {
   const returnData = {
     preview: 0,
     data: [],
@@ -594,7 +596,7 @@ exports.formatWaterBalanceData = async (dataPoints) => {
   return returnData;
 };
 
-exports.formatNitrogenBalanceData = async (dataPoints) => {
+export const formatNitrogenBalanceData = async (dataPoints) => {
   const returnData = {
     preview: 0,
     data: [],
@@ -611,7 +613,7 @@ exports.formatNitrogenBalanceData = async (dataPoints) => {
   return returnData;
 };
 
-exports.formatPreviousDate = (date, mode) => {
+export const formatPreviousDate = (date, mode) => {
   const d = new Date(date);
   let year = d.getFullYear(),
     month = '' + (d.getMonth() + 1),
@@ -640,7 +642,7 @@ exports.formatPreviousDate = (date, mode) => {
 //:::                                                                         :::
 //:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
-exports.distance = (lat1, lon1, lat2, lon2, unit = 'KM') => {
+export const distance = (lat1, lon1, lat2, lon2, unit = 'KM') => {
   if (lat1 === lat2 && lon1 === lon2) {
     return 0;
   } else {

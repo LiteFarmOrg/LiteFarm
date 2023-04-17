@@ -1,4 +1,4 @@
-import Input, { getInputErrors } from '../../Form/Input';
+import Input, { getInputErrors, integerOnKeyDown } from '../../Form/Input';
 import { Controller, useForm } from 'react-hook-form';
 import ReactSelect from '../../Form/ReactSelect';
 import { useTranslation } from 'react-i18next';
@@ -8,7 +8,10 @@ import PropTypes from 'prop-types';
 import Form from '../../Form';
 import PageTitle from '../../PageTitle/v2';
 import RevokeUserAccessModal from '../../Modals/RevokeUserAccessModal';
+import InvalidRevokeUserAccessModal from '../../Modals/InvalidRevokeUserAccessModal';
 import Checkbox from '../../Form/Checkbox';
+import { useSelector } from 'react-redux';
+import { userFarmsByFarmSelector } from '../../../containers/userFarmSlice';
 
 export default function PureEditUser({
   userFarm,
@@ -25,20 +28,63 @@ export default function PureEditUser({
   const ROLE = 'role_id';
   const WAGE = 'wage.amount';
   const EMAIL = 'email';
+  const GENDER = 'gender';
+  const LANGUAGE = 'language';
+  const BIRTHYEAR = 'birth_year';
+  const PHONE = 'phone_number';
   const dropDownMap = {
     1: t('role:OWNER'),
     2: t('role:MANAGER'),
     3: t('role:WORKER'),
     5: t('role:EXTENSION_OFFICER'),
   };
+  const userFarms = useSelector(userFarmsByFarmSelector);
+  const adminRoles = [1, 2, 5];
+
+  const genderOptions = [
+    { value: 'MALE', label: t('gender:MALE') },
+    { value: 'FEMALE', label: t('gender:FEMALE') },
+    { value: 'OTHER', label: t('gender:OTHER') },
+    { value: 'PREFER_NOT_TO_SAY', label: t('gender:PREFER_NOT_TO_SAY') },
+  ];
+  const languageOptions = [
+    { value: 'en', label: t('PROFILE.ACCOUNT.ENGLISH') },
+    { value: 'es', label: t('PROFILE.ACCOUNT.SPANISH') },
+    { value: 'pt', label: t('PROFILE.ACCOUNT.PORTUGUESE') },
+    { value: 'fr', label: t('PROFILE.ACCOUNT.FRENCH') },
+  ];
+  const isPseudoUser = userFarm.role_id === 4;
   const roleOptions = Object.keys(dropDownMap).map((role_id) => ({
     value: role_id,
     label: dropDownMap[role_id],
   }));
-  const roleOption =
-    userFarm.role_id !== 4
-      ? { value: userFarm.role_id, label: dropDownMap[userFarm.role_id] }
-      : { value: 3, label: dropDownMap[3] };
+  const roleOption = isPseudoUser
+    ? { value: 3, label: dropDownMap[3] }
+    : { value: userFarm.role_id, label: dropDownMap[userFarm.role_id] };
+
+  const getDefaultGender = () => {
+    switch (userFarm.gender) {
+      case 'MALE':
+        return genderOptions[0];
+      case 'FEMALE':
+        return genderOptions[1];
+      case 'OTHER':
+        return genderOptions[2];
+      case 'PREFER_NOT_TO_SAY':
+        return genderOptions[3];
+    }
+  };
+
+  const isUserLastAdmin = () => {
+    if (userFarm.status === 'Invited') return false;
+
+    let adminCount = 0;
+    userFarms.forEach((user) => {
+      if (adminRoles.includes(user.role_id) && user.status === 'Active') adminCount++;
+    });
+
+    return adminCount === 1 && adminRoles.includes(userFarm.role_id);
+  };
 
   const {
     register,
@@ -50,12 +96,12 @@ export default function PureEditUser({
     formState: { isValid, isDirty, errors },
   } = useForm({
     mode: 'onChange',
-    defaultValues: { ...userFarm, role_id: roleOption },
+    defaultValues: { ...userFarm, role_id: roleOption, gender: getDefaultGender() },
     shouldUnregister: true,
   });
 
   const [showRevokeUserAccessModal, setShowRevokeUserAccessModal] = useState();
-  const isPseudoUser = userFarm.role_id === 4;
+  const [showInvalidRevokeUserAccessModal, setShowInvalidRevokeUserAccessModal] = useState(false);
   const [shouldInvitePseudoUser, setShouldInvitePseudoUser] = useState(false);
   const onInviteUserCheckboxClick = () => {
     setValue(EMAIL, shouldInvitePseudoUser ? userFarm.email : '');
@@ -85,9 +131,16 @@ export default function PureEditUser({
     ],
   );
 
+  const onSubmit = (data) => {
+    data[GENDER] = data?.[GENDER]?.value || 'PREFER_NOT_TO_SAY';
+    data[ROLE] = data?.[ROLE]?.value;
+    data[LANGUAGE] = data?.[LANGUAGE]?.value || t('INVITE_USER.DEFAULT_LANGUAGE_VALUE');
+    onInvite({ ...data, email });
+  };
+
   return (
     <Form
-      onSubmit={handleSubmit(shouldInvitePseudoUser ? onInvite : onUpdate, (e) => console.log(e))}
+      onSubmit={handleSubmit(shouldInvitePseudoUser ? onSubmit : onUpdate, (e) => console.log(e))}
       buttonGroup={
         <>
           {userFarm.status === 'Inactive' ? (
@@ -98,7 +151,9 @@ export default function PureEditUser({
             <Button
               type={'button'}
               onClick={() => {
-                setShowRevokeUserAccessModal(true);
+                isUserLastAdmin()
+                  ? setShowInvalidRevokeUserAccessModal(true)
+                  : setShowRevokeUserAccessModal(true);
               }}
               fullLength
               color={'secondary'}
@@ -118,18 +173,21 @@ export default function PureEditUser({
         title={t('PROFILE.ACCOUNT.EDIT_USER')}
       />
       <Input
+        data-cy="editUser-firstName"
         label={t('PROFILE.ACCOUNT.FIRST_NAME')}
         value={userFarm.first_name}
         style={{ marginBottom: '24px' }}
         disabled
       />
       <Input
+        data-cy="editUser-lastName"
         label={t('PROFILE.ACCOUNT.LAST_NAME')}
         value={userFarm.last_name}
         style={{ marginBottom: '24px' }}
         disabled
       />
       <Input
+        data-cy="editUser-email"
         label={t('INVITE_USER.EMAIL')}
         hookFormRegister={register(EMAIL, {
           required: true,
@@ -172,15 +230,90 @@ export default function PureEditUser({
           disabled={!isAdmin || isCurrentUser}
         />
       )}
+      {isPseudoUser && shouldInvitePseudoUser && (
+        <Controller
+          control={control}
+          name={GENDER}
+          render={({ field }) => (
+            <ReactSelect
+              label={t('INVITE_USER.GENDER')}
+              options={genderOptions}
+              toolTipContent={t('INVITE_USER.GENDER_TOOLTIP')}
+              style={{ marginBottom: '24px' }}
+              defaultValue={genderOptions[3]}
+              {...field}
+              optional
+            />
+          )}
+        />
+      )}
+      {isPseudoUser && shouldInvitePseudoUser && (
+        <Controller
+          control={control}
+          name={LANGUAGE}
+          render={({ field }) => (
+            <ReactSelect
+              label={t('INVITE_USER.LANGUAGE_OF_INVITE')}
+              options={languageOptions}
+              style={{ marginBottom: '24px' }}
+              defaultValue={{
+                value: t('INVITE_USER.DEFAULT_LANGUAGE_VALUE'),
+                label: t('INVITE_USER.DEFAULT_LANGUAGE'),
+              }}
+              {...field}
+              required
+            />
+          )}
+        />
+      )}
+      {isPseudoUser && shouldInvitePseudoUser && (
+        <Input
+          label={t('INVITE_USER.BIRTH_YEAR')}
+          type="number"
+          onKeyPress={integerOnKeyDown}
+          hookFormRegister={register(BIRTHYEAR, {
+            min: 1900,
+            max: new Date().getFullYear(),
+            valueAsNumber: true,
+          })}
+          toolTipContent={t('INVITE_USER.BIRTH_YEAR_TOOLTIP')}
+          style={{ marginBottom: '24px' }}
+          placeholder={'xxxx'}
+          errors={
+            errors[BIRTHYEAR] &&
+            (errors[BIRTHYEAR].message ||
+              `${t('INVITE_USER.BIRTH_YEAR_ERROR')} ${new Date().getFullYear()}`)
+          }
+          optional
+        />
+      )}
       <Input
+        data-cy="editUser-wage"
         label={t('INVITE_USER.WAGE')}
         step="0.01"
         type="number"
-        hookFormRegister={register(WAGE, { min: 0, valueAsNumber: true })}
-        style={{ marginBottom: '40px' }}
-        errors={errors[WAGE] && (errors[WAGE].message || t('INVITE_USER.WAGE_ERROR'))}
+        hookFormRegister={register(WAGE, {
+          min: { value: 0, message: t('INVITE_USER.WAGE_RANGE_ERROR') },
+          valueAsNumber: true,
+          max: { value: 999999999, message: t('INVITE_USER.WAGE_RANGE_ERROR') },
+        })}
+        style={{ marginBottom: '24px' }}
+        errors={
+          errors?.wage?.amount && (errors?.wage?.amount?.message || t('INVITE_USER.WAGE_ERROR'))
+        }
         optional
       />
+      {isPseudoUser && shouldInvitePseudoUser && (
+        <Input
+          style={{ marginBottom: '24px' }}
+          label={t('INVITE_USER.PHONE')}
+          type={'number'}
+          onKeyPress={integerOnKeyDown}
+          hookFormRegister={register(PHONE)}
+          errors={errors[PHONE] && (errors[PHONE].message || t('INVITE_USER.PHONE_ERROR'))}
+          optional
+        />
+      )}
       {isPseudoUser && (
         <Checkbox
           label={t('PROFILE.ACCOUNT.CONVERT_TO_HAVE_ACCOUNT')}
@@ -194,6 +327,13 @@ export default function PureEditUser({
             setShowRevokeUserAccessModal(false);
           }}
           onRevoke={onRevoke}
+        />
+      )}
+      {showInvalidRevokeUserAccessModal && (
+        <InvalidRevokeUserAccessModal
+          dismissModal={() => {
+            setShowInvalidRevokeUserAccessModal(false);
+          }}
         />
       )}
     </Form>

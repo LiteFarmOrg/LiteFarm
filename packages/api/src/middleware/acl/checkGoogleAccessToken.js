@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const { OAuth2Client } = require('google-auth-library');
+import { OAuth2Client } from 'google-auth-library';
 const client_id = process.env.GOOGLE_OAUTH_CLIENT_ID;
 const client = new OAuth2Client(client_id);
 
@@ -35,4 +35,4 @@ async function checkGoogleAccessToken(req, res, next) {
   }
 }
 
-module.exports = checkGoogleAccessToken;
+export default checkGoogleAccessToken;

@@ -1,4 +1,4 @@
-exports.up = function(knex) {
+export const up = function (knex) {
   return Promise.all([
     knex.schema.alterTable('cropSale', (table) => {
       table.dropForeign('field_crop_id');
@@ -8,12 +8,14 @@ exports.up = function(knex) {
   ]);
 };
 
-exports.down = function(knex) {
+export const down = function (knex) {
   return Promise.all([
     knex.schema.alterTable('cropSale', (table) => {
-      table.integer('field_crop_id')
+      table
+        .integer('field_crop_id')
         .references('field_crop_id')
-        .inTable('fieldCrop').onDelete('CASCADE');
+        .inTable('fieldCrop')
+        .onDelete('CASCADE');
       table.uuid('farm_id');
     }),
   ]);

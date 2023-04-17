@@ -1,4 +1,4 @@
-const { sign } = require('jsonwebtoken');
+import jwt from 'jsonwebtoken';
 
 const ACCESS_TOKEN_EXPIRES_IN = '7d';
 const RESET_PASSWORD_TOKEN_EXPIRES_IN = '1d';
@@ -20,14 +20,10 @@ const expireTime = {
 };
 
 function createToken(type, payload) {
-  return sign(payload, tokenType[type], {
+  return jwt.sign(payload, tokenType[type], {
     expiresIn: expireTime[type],
     algorithm: 'HS256',
   });
 }
 
-module.exports = {
-  createToken,
-  expireTime,
-  tokenType,
-};
+export { createToken, expireTime, tokenType };

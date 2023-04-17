@@ -1,9 +1,9 @@
-const { spawn } = require('child_process');
-const fs = require('fs');
-const path = require('path');
-const { getPrivateS3BucketName } = require('../../util/digitalOceanSpaces');
+import { spawn } from 'child_process';
+import fs from 'fs';
+import path from 'path';
+import { getPrivateS3BucketName } from '../../util/digitalOceanSpaces.js';
 
-module.exports = (emailQueue) => (job, done) => {
+export default (emailQueue) => (job, done) => {
   console.log('STEP 5 > Upload', job.id);
   const { exportId, farm_id, email } = job.data;
   const dateIdentifier = Date.now();
@@ -13,9 +13,19 @@ module.exports = (emailQueue) => (job, done) => {
     'cp', //sub command
     `temp/${exportId}.zip`, // location
     `s3://${fileIdentifier}.zip`, // destination
-    '--endpoint=https://nyc3.digitaloceanspaces.com',
+    `--endpoint=${
+      process.env.NODE_ENV === 'development'
+        ? process.env.MINIO_ENDPOINT
+        : 'https://nyc3.digitaloceanspaces.com'
+    }`,
   ];
   const awsCopyProcess = spawn('aws', args, { cwd: process.env.EXPORT_WD });
+
+  // Receive informative error messages from the child process
+  awsCopyProcess.stderr.on('data', (data) => {
+    console.error(`stderr: ${data}`);
+  });
+
   awsCopyProcess.on(
     'exit',
     childProcessExitCheck(

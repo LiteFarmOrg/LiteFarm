@@ -21,8 +21,8 @@ const credentials = {
     user: process.env.CONTACT_FORM_EMAIL,
     pass: process.env.CONTACT_FORM_PASSWORD,
   },
-  STATS_TOKENS: { 'Zia': process.env.STATS_TOKENS_ZIA, 'Mollie': process.env.STATS_TOKENS_MOLLIE },
-  LiteFarm_Service_Gmail:{
+  STATS_TOKENS: { Zia: process.env.STATS_TOKENS_ZIA, Mollie: process.env.STATS_TOKENS_MOLLIE },
+  LiteFarm_Service_Gmail: {
     user: process.env.LITEFARM_SERVICE_EMAIL,
     pass: process.env.LITEFARM_SERVICE_EMAIL_PASSWORD,
     client_id: process.env.GMAIL_API_CLIENT_ID,
@@ -31,4 +31,4 @@ const credentials = {
   },
 };
 
-module.exports = credentials;
+export default credentials;

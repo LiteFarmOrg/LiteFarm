@@ -1,0 +1,76 @@
+.lineChartWrapper{
+  max-height: 650px;
+}
+.title {
+  font-style: normal;
+  font-weight: normal;
+  color: var(--green);
+  font-size: 20px;
+  line-height: 24px;
+  font-family: 'Open Sans', 'SansSerif', serif;
+  text-transform: capitalize;
+}
+
+.subTitle{
+  font-style: normal;
+  font-weight: normal;
+  color: var(--grey900);
+  font-size: 16px;
+  line-height: 24px;
+  font-family: 'Open Sans', 'SansSerif', serif;
+  margin-left: 12px;
+  margin-top: 8px;
+}
+
+.legendWrapper{
+  display: flex;
+  margin-right: 32px;
+  justify-content: start;
+  flex-wrap: wrap;
+}
+
+@media (min-width: 500px) {
+  .legendWrapper{
+    display: flex;
+    margin-right: 32px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+}
+
+.legendContainer{
+  margin-right: 10px;
+  cursor: pointer;
+}
+
+.titleLastUpdated {
+  font-style: normal;
+  font-weight: normal;
+  color: var(--grey600);
+  font-size: 14px;
+  line-height: 24px;
+  font-family: 'Open Sans', 'SansSerif', serif;
+}
+
+.titleWrapper{
+  margin: 24px 24px 0 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  flex-wrap: wrap;
+}
+
+.graphWrapper{
+  display: flex;
+  flex-direction: row;
+  height: 100%;
+  overflow-x: scroll;
+  overflow-y: hidden;
+}
+
+.yAxisWrapper {
+  background: white;
+  position: sticky;
+  left: 0;
+  z-index: 3;
+}

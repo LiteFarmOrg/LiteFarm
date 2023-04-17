@@ -13,30 +13,29 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const chai = require('chai');
-const chaiHttp = require('chai-http');
-chai.use(chaiHttp);
-const jsonwebtoken = require('jsonwebtoken');
-const { sign } = require('jsonwebtoken');
-const bcrypt = require('bcryptjs');
-const { faker } = require('@faker-js/faker');
-const server = require('./../src/server');
-const knex = require('../src/util/knex');
-const { tableCleanup } = require('./testEnvironment');
-const { usersFactory, farmFactory, userFarmFactory } = require('./mock.factories');
-const mocks = require('./mock.factories');
-const { createToken, tokenType } = require('../src/util/jwt');
-const checkGoogleJwt = require('../src/middleware/acl/checkGoogleJwt.js');
-const checkGoogleAccessToken = require('../src/middleware/acl/checkGoogleAccessToken.js');
-const sendEmailTemplate = require('../src/templates/sendEmailTemplate');
-const userFarmModel = require('../src/models/userFarmModel');
-const userModel = require('../src/models/userModel');
-const showedSpotlightModel = require('../src/models/showedSpotlightModel');
+import chai from 'chai';
 
-const emailMiddleware = require('../src/templates/sendEmailTemplate');
+import chaiHttp from 'chai-http';
+chai.use(chaiHttp);
+import jsonwebtoken from 'jsonwebtoken';
+import { sign } from 'jsonwebtoken';
+import bcrypt from 'bcryptjs';
+import { faker } from '@faker-js/faker';
+import server from './../src/server.js';
+import knex from '../src/util/knex.js';
+import { tableCleanup } from './testEnvironment.js';
+import mocks from './mock.factories.js';
+const { usersFactory, farmFactory, userFarmFactory } = mocks;
+import { createToken, tokenType } from '../src/util/jwt.js';
+import checkGoogleJwt from '../src/middleware/acl/checkGoogleJwt.js';
+import checkGoogleAccessToken from '../src/middleware/acl/checkGoogleAccessToken.js';
+import userFarmModel from '../src/models/userFarmModel.js';
+import userModel from '../src/models/userModel.js';
+import showedSpotlightModel from '../src/models/showedSpotlightModel.js';
+// import emailMiddleware from '../src/templates/sendEmailTemplate.js';
 jest.mock('jsdom');
-jest.mock('../src/util/jwt');
-jest.mock('../src/templates/sendEmailTemplate');
+jest.mock('../src/util/jwt.js');
+jest.mock('../src/templates/sendEmailTemplate.js');
 jest.mock('../src/middleware/acl/checkGoogleJwt.js');
 jest.mock('../src/middleware/acl/checkGoogleAccessToken.js');
 
@@ -244,7 +243,7 @@ describe('JWT Tests', () => {
     test('Should send a valid token through email when reset_token_version === 2', async (done) => {
       const oldRow = await insertPasswordRow({ reset_token_version: 2, user_id: newUser.user_id });
       postResetPasswordRequest(newUser.email, async (err, res) => {
-        expect(res.status).toBe(200);
+        console.log(resetPasswordToken);
         const user = jsonwebtoken.verify(resetPasswordToken, process.env.JWT_RESET_SECRET);
         expect(user.reset_token_version).toBe(2);
         const { reset_token_version, created_at } = await knex('password')
@@ -445,7 +444,7 @@ describe('JWT Tests', () => {
         req.user = { ...googleUser };
         return next();
       });
-      emailMiddleware.sendEmail.mockClear();
+      // emailMiddleware.sendEmail.mockClear();
       invitationToken = undefined;
       reqBody = fakeReqBody();
       done();

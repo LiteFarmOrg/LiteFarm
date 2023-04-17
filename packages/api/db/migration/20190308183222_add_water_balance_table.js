@@ -13,25 +13,19 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-exports.up = function(knex) {
+export const up = function (knex) {
   return Promise.all([
     knex.schema.createTable('waterBalance', (table) => {
       table.increments('water_balance_id');
-      table.integer('crop_id')
-        .references('crop_id')
-        .inTable('crop').notNullable();
-      table.uuid('field_id')
-        .references('field_id')
-        .inTable('field').onDelete('CASCADE').nullable();
+      table.integer('crop_id').references('crop_id').inTable('crop').notNullable();
+      table.uuid('field_id').references('field_id').inTable('field').onDelete('CASCADE').nullable();
       table.timestamp('created_at').defaultTo(knex.fn.now());
       table.float('soil_water').notNullable();
       table.float('plant_available_water').notNullable();
     }),
-  ])
+  ]);
 };
 
-exports.down = function(knex) {
-  return Promise.all([
-    knex.schema.dropTable('waterBalance'),
-  ])
+export const down = function (knex) {
+  return Promise.all([knex.schema.dropTable('waterBalance')]);
 };

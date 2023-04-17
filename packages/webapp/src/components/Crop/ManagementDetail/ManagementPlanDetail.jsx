@@ -64,6 +64,7 @@ export default function PureManagementDetail({
   });
 
   const isAbandoned = plan.abandon_date ? true : false;
+  const isCompleted = plan.complete_date ? true : false;
   const DATE_OF_STATUS_CHANGE = isAbandoned ? 'abandon_date' : 'complete_date';
   const ABANDON_REASON = 'abandon_reason';
   const DATE = isAbandoned ? 'ABANDON_DATE' : 'COMPLETE_DATE';
@@ -91,13 +92,7 @@ export default function PureManagementDetail({
         )
       }
     >
-      <CropHeader
-        onBackClick={() => history.back()}
-        crop_translation_key={variety.crop_translation_key}
-        crop_variety_name={variety.crop_variety_name}
-        crop_variety_photo_url={variety.crop_variety_photo_url}
-        supplier={variety.supplier}
-      />
+      <CropHeader onBackClick={() => history.back()} variety={variety} />
 
       <div className={styles.titlewrapper}>
         <Label className={styles.title} style={{ marginTop: '24px' }}>
@@ -120,21 +115,27 @@ export default function PureManagementDetail({
         ]}
       />
 
-      <InputAutoSize
-        style={{ marginBottom: '40px' }}
-        label={t(`MANAGEMENT_PLAN.COMPLETE_PLAN.${DATE}`)}
-        hookFormRegister={register(DATE_OF_STATUS_CHANGE)}
-        errors={errors[DATE_OF_STATUS_CHANGE]?.message}
-        disabled
-      />
+      {(isAbandoned || isCompleted) && (
+        <InputAutoSize
+          style={{ marginBottom: '40px' }}
+          label={t(`MANAGEMENT_PLAN.COMPLETE_PLAN.${DATE}`)}
+          hookFormRegister={register(DATE_OF_STATUS_CHANGE)}
+          errors={errors[DATE_OF_STATUS_CHANGE]?.message}
+          disabled
+        />
+      )}
 
-      <Rating
-        className={styles.rating}
-        style={{ marginBottom: '34px' }}
-        label={t('MANAGEMENT_PLAN.RATE_THIS_MANAGEMENT_PLAN')}
-        stars={plan.rating}
-        onRate={() => {}}
-      />
+      {(isAbandoned || isCompleted) && (
+        <div>
+          <Rating
+            className={styles.rating}
+            style={{ marginBottom: '34px', width: '24px', height: '24px' }}
+            label={t('MANAGEMENT_PLAN.RATE_THIS_MANAGEMENT_PLAN')}
+            stars={plan.rating}
+            viewOnly={true}
+          />
+        </div>
+      )}
 
       {isAbandoned && (
         <InputAutoSize
@@ -148,19 +149,21 @@ export default function PureManagementDetail({
         />
       )}
 
-      <InputAutoSize
-        style={{ marginBottom: '40px' }}
-        label={
-          isAbandoned
-            ? t('MANAGEMENT_PLAN.COMPLETE_PLAN.ABANDON_NOTES')
-            : t('MANAGEMENT_PLAN.COMPLETION_NOTES')
-        }
-        hookFormRegister={register(COMPLETE_NOTES, {
-          maxLength: { value: 10000, message: t('MANAGEMENT_PLAN.NOTES_CHAR_LIMIT') },
-        })}
-        errors={errors[COMPLETE_NOTES]?.message}
-        disabled
-      />
+      {(isAbandoned || isCompleted) && (
+        <InputAutoSize
+          style={{ marginBottom: '40px' }}
+          label={
+            isAbandoned
+              ? t('MANAGEMENT_PLAN.COMPLETE_PLAN.ABANDON_NOTES')
+              : t('MANAGEMENT_PLAN.COMPLETION_NOTES')
+          }
+          hookFormRegister={register(COMPLETE_NOTES, {
+            maxLength: { value: 10000, message: t('MANAGEMENT_PLAN.NOTES_CHAR_LIMIT') },
+          })}
+          errors={errors[COMPLETE_NOTES]?.message}
+          disabled
+        />
+      )}
 
       <InputAutoSize
         style={{ marginBottom: '40px' }}

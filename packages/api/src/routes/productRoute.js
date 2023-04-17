@@ -13,15 +13,25 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const express = require('express');
+import express from 'express';
+
 const router = express.Router();
-const checkScope = require('../middleware/acl/checkScope');
-const productController = require('./../controllers/productController');
-const hasFarmAccess = require('../middleware/acl/hasFarmAccess');
+import checkScope from '../middleware/acl/checkScope.js';
+import productController from './../controllers/productController.js';
+import hasFarmAccess from '../middleware/acl/hasFarmAccess.js';
 
 // Get the crop on a bed
-router.get('/farm/:farm_id', hasFarmAccess({ params: 'farm_id' }), productController.getProductsByFarm());
+router.get(
+  '/farm/:farm_id',
+  hasFarmAccess({ params: 'farm_id' }),
+  productController.getProductsByFarm(),
+);
 
-router.post('/', hasFarmAccess({ body: 'farm_id' }), checkScope(['add:product']), productController.addProduct());
+router.post(
+  '/',
+  hasFarmAccess({ body: 'farm_id' }),
+  checkScope(['add:product']),
+  productController.addProduct(),
+);
 
-module.exports = router;
+export default router;

@@ -1,9 +1,9 @@
-const { spawn } = require('child_process');
-const fs = require('fs').promises;
-const path = require('path');
-const { getPrivateS3BucketName } = require('../../util/digitalOceanSpaces');
+import { spawn } from 'child_process';
+import { promises as fs } from 'fs';
+import path from 'path';
+import { getPrivateS3BucketName } from '../../util/digitalOceanSpaces.js';
 
-module.exports = (nextQueue, emailQueue) => (job, done) => {
+export default (nextQueue, emailQueue) => (job, done) => {
   console.log('JOB DATA', JSON.stringify(job.data));
   console.log('STEP 1 > RETRIEVE DO', job.id);
   const { exportId, farm_id, files, email } = job.data;
@@ -13,10 +13,21 @@ module.exports = (nextQueue, emailQueue) => (job, done) => {
     `s3://${getPrivateS3BucketName()}/${farm_id}/document`, // location
     `temp/${exportId}`, // destination
     '--recursive',
-    '--endpoint=https://nyc3.digitaloceanspaces.com',
+    `--endpoint=${
+      process.env.NODE_ENV === 'development'
+        ? process.env.MINIO_ENDPOINT
+        : 'https://nyc3.digitaloceanspaces.com'
+    }`,
     '--exclude=*',
   ].concat(files.map(({ url }) => `--include=${url.split('/').pop()}`));
+
   const awsCopyProcess = spawn('aws', args, { cwd: process.env.EXPORT_WD });
+
+  // Receive informative error messages from the child process
+  awsCopyProcess.stderr.on('data', (data) => {
+    console.error(`stderr: ${data}`);
+  });
+
   awsCopyProcess.on(
     'exit',
     childProcessExitCheck(

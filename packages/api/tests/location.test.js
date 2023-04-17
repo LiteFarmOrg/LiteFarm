@@ -1,14 +1,29 @@
-const chai = require('chai');
-const chaiHttp = require('chai-http');
+import chai from 'chai';
+import chaiHttp from 'chai-http';
 chai.use(chaiHttp);
-const server = require('./../src/server');
-const knex = require('../src/util/knex');
-const { tableCleanup } = require('./testEnvironment');
+import server from './../src/server.js';
+import knex from '../src/util/knex.js';
+import { tableCleanup } from './testEnvironment.js';
 jest.mock('jsdom');
-jest.mock('../src/middleware/acl/checkJwt');
-const mocks = require('./mock.factories');
-const { figureMapping, promiseMapper } = require('./../src/middleware/validation/location');
-const { faker } = require('@faker-js/faker');
+jest.mock('../src/middleware/acl/checkJwt.js', () =>
+  jest.fn((req, res, next) => {
+    req.user = {};
+    req.user.user_id = req.get('user_id');
+    next();
+  }),
+);
+import mocks from './mock.factories.js';
+import {
+  figureMapping as origFigureMapping,
+  promiseMapper,
+} from './../src/middleware/validation/location.js';
+import { faker } from '@faker-js/faker';
+
+const figureMapping = Object.keys(origFigureMapping)
+  .filter((t) => t !== 'sensor')
+  .reduce((prev, currElement) => {
+    return { ...prev, [currElement]: origFigureMapping[currElement] };
+  }, {});
 
 const locations = {
   BARN: 'barn',
@@ -68,14 +83,14 @@ const assetSpecificMock = {
 };
 
 describe('Location tests', () => {
-  let middleware;
+  // let middleware;
   beforeAll(() => {
-    middleware = require('../src/middleware/acl/checkJwt');
-    middleware.mockImplementation((req, res, next) => {
-      req.user = {};
-      req.user.user_id = req.get('user_id');
-      next();
-    });
+    // middleware = require('../src/middleware/acl/checkJwt');
+    // middleware.mockImplementation((req, res, next) => {
+    //   req.user = {};
+    //   req.user.user_id = req.get('user_id');
+    //   next();
+    // });
   });
 
   afterAll(async (done) => {
@@ -156,7 +171,8 @@ describe('Location tests', () => {
     });
 
     test('should GET 2 fields linked to that farm', async (done) => {
-      await appendFieldToFarm(farm, 2);
+      const result = await appendFieldToFarm(farm, 2);
+      console.log(result);
       getLocationsInFarm({ user_id: user, farm_id: farm }, farm, (err, res) => {
         expect(res.status).toBe(200);
         expect(res.body.length).toBe(2);

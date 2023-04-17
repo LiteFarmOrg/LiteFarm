@@ -1,13 +1,15 @@
-import React, { useMemo, useState } from 'react';
+import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import ModalComponent from '../ModalComponent/v2';
 import styles from './styles.module.scss';
 import Button from '../../Form/Button';
-import ReactSelect from '../../Form/ReactSelect';
 import Checkbox from '../../Form/Checkbox';
 import { ReactComponent as Person } from '../../../assets/images/task/Person.svg';
 import { tasksSelector } from '../../../containers/taskSlice';
 import { useSelector } from 'react-redux';
+import AssignTask from '../../Task/AssignTask';
+import useTaskAssignForm from '../../Task/AssignTask/useTaskAssignForm';
+import { hourlyWageActions, ASSIGN_ALL } from '../../Task/AssignTask/constants';
 
 export default function TaskQuickAssignModal({
   dismissModal,
@@ -16,31 +18,51 @@ export default function TaskQuickAssignModal({
   isAssigned,
   onAssignTasksOnDate,
   onAssignTask,
+  onUpdateUserFarmWage,
+  onChangeTaskWage,
+  onSetUserFarmWageDoNotAskAgain,
   users,
   user,
+  wage_at_moment,
 }) {
   const { t } = useTranslation();
-  const selfOption = { label: `${user.first_name} ${user.last_name}`, value: user.user_id };
-  const unAssignedOption = { label: t('TASK.UNASSIGNED'), value: null, isDisabled: false };
-  const options = useMemo(() => {
-    if (user.is_admin) {
-      const options = users.map(({ first_name, last_name, user_id }) => ({
-        label: `${first_name} ${last_name}`,
-        value: user_id,
-      }));
-      unAssignedOption.isDisabled = !isAssigned;
-      options.unshift(unAssignedOption);
-      return options;
-    } else return [selfOption, unAssignedOption];
-  }, []);
 
-  const [selectedWorker, setWorker] = useState(isAssigned ? unAssignedOption : selfOption);
-  const [assignAll, setAssignAll] = useState(false);
+  const defaultAssignee = useMemo(() => {
+    return isAssigned
+      ? { label: t('TASK.UNASSIGNED'), value: null, isDisabled: false }
+      : {
+          label: `${user.first_name} ${user.last_name}`,
+          value: user.user_id,
+        };
+  }, [isAssigned, user]);
+
+  const {
+    control,
+    register,
+    watch,
+    errors,
+    disabled,
+    assigneeOptions,
+    selectedWorker,
+    selectedHourlyWageAction,
+    hourlyWage,
+    currency,
+    showHourlyWageInputs,
+    shouldSetWage,
+  } = useTaskAssignForm({
+    user,
+    users,
+    additionalFields: { [ASSIGN_ALL]: false },
+    wage_at_moment,
+    defaultAssignee,
+    disableUnAssignedOption: !isAssigned,
+  });
+
+  const assignAll = watch(ASSIGN_ALL);
 
   const tasks = useSelector(tasksSelector);
 
   const checkUnassignedTaskForSameDate = () => {
-    console.log(tasks);
     const selectedTask = tasks.find((t) => t.task_id == task_id);
     let isUnassignedTaskPresent = false;
     for (let task of tasks) {
@@ -58,24 +80,49 @@ export default function TaskQuickAssignModal({
   };
 
   const onAssign = () => {
-    assignAll && checkUnassignedTaskForSameDate() && selectedWorker.value !== null
+    const assigneeUserId = selectedWorker.value;
+
+    assignAll && checkUnassignedTaskForSameDate() && assigneeUserId !== null
       ? onAssignTasksOnDate({
           task_id: task_id,
           date: due_date,
-          assignee_user_id: selectedWorker.value,
+          assignee_user_id: assigneeUserId,
         })
       : onAssignTask({
           task_id: task_id,
-          assignee_user_id: selectedWorker.value,
+          assignee_user_id: assigneeUserId,
         });
+
+    if (shouldSetWage) {
+      const wage = +hourlyWage.toFixed(2);
+
+      if (selectedHourlyWageAction === hourlyWageActions.SET_HOURLY_WAGE) {
+        onUpdateUserFarmWage({ user_id: assigneeUserId, wage: { type: 'hourly', amount: wage } });
+      } else if (selectedHourlyWageAction === hourlyWageActions.FOR_THIS_TASK) {
+        onChangeTaskWage(wage);
+      }
+    } else if (selectedHourlyWageAction === hourlyWageActions.DO_NOT_ASK_AGAIN) {
+      onSetUserFarmWageDoNotAskAgain({ user_id: assigneeUserId });
+    }
+
     dismissModal();
   };
 
-  const onCheckedAll = () => {
-    setAssignAll(!assignAll);
-  };
-
-  const disabled = selectedWorker === null;
+  {
+    /*TODO: properly fix checkbox label overflow ST-272*/
+    /*TODO: LF-2932 - need to be able to unassign mutiple tasks at once */
+  }
+  const assignAllCheckbox = useMemo(() => {
+    return (
+      <Checkbox
+        name={ASSIGN_ALL}
+        data-cy="quickAssign-assignAll"
+        style={{ paddingRight: '24px' }}
+        label={t('ADD_TASK.ASSIGN_ALL_TO_PERSON', { name: selectedWorker.label })}
+        hookFormRegister={register(ASSIGN_ALL)}
+      />
+    );
+  }, [selectedWorker.label]);
 
   return (
     <ModalComponent
@@ -101,21 +148,17 @@ export default function TaskQuickAssignModal({
       }
       icon={<Person />}
     >
-      <ReactSelect
-        data-cy="quickAssign-assignee"
-        defaultValue={selectedWorker}
-        label={t('ADD_TASK.ASSIGNEE')}
-        options={options}
-        onChange={setWorker}
-        style={{ marginBottom: '24px' }}
-        isSearchable
-      />
-      {/*TODO: properly fix checkbox label overflow ST-272*/}
-      <Checkbox
-        data-cy="quickAssign-assignAll"
-        style={{ paddingRight: '24px' }}
-        label={t('ADD_TASK.ASSIGN_ALL_TO_PERSON')}
-        onChange={onCheckedAll}
+      <AssignTask
+        assigneeOptions={assigneeOptions}
+        control={control}
+        selectedWorker={selectedWorker}
+        optional={true}
+        additionalContent={assignAllCheckbox}
+        register={register}
+        errors={errors}
+        showHourlyWageInputs={showHourlyWageInputs}
+        shouldSetWage={shouldSetWage}
+        currency={currency}
       />
     </ModalComponent>
   );

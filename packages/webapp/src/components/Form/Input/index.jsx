@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import styles from './input.module.scss';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
-import { Error, Info, Label } from '../../Typography';
+import { Error, Info, Label, TextWithExternalLink } from '../../Typography';
 import { Cross } from '../../Icons';
 import { MdVisibility, MdVisibilityOff } from 'react-icons/md';
 import { BiSearchAlt2 } from 'react-icons/bi';
@@ -12,9 +12,11 @@ import { ReactComponent as Leaf } from '../../../assets/images/signUp/leaf.svg';
 import Infoi from '../../Tooltip/Infoi';
 import { get } from 'react-hook-form';
 import i18n from '../../../locales/i18n';
-import { getLanguageFromLocalStorage } from '../../../util/getLanguageFromLocalStorage';
 
 const Input = ({
+  link,
+  textWithExternalLink,
+  openCalendar,
   disabled = false,
   classes = {},
   style,
@@ -60,6 +62,16 @@ const Input = ({
   };
 
   const onKeyDown = ['number', 'decimal'].includes(type) ? numberOnKeyDown : undefined;
+
+  useEffect(() => {
+    if (openCalendar) {
+      try {
+        input.current.showPicker();
+      } catch (e) {
+        console.log(e);
+      }
+    }
+  }, [openCalendar]);
 
   return (
     <div
@@ -150,7 +162,14 @@ const Input = ({
         {...props}
       />
       {info && !showError && <Info style={classes.info}>{info}</Info>}
-      {showError ? <Error style={classes.errors}>{errors}</Error> : null}
+      {showError ? (
+        <Error data-cy="error" style={classes.errors}>
+          {errors}
+        </Error>
+      ) : null}
+      {textWithExternalLink ? (
+        <TextWithExternalLink link={link}>{textWithExternalLink}</TextWithExternalLink>
+      ) : null}
     </div>
   );
 };

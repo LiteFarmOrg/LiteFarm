@@ -23,8 +23,12 @@ yarn-error.log*
 
 ./cypress/screenshots*
 ./cypress/videos*
+./cypress/downloads*
 ./cypress/integration/__snapshots__
 ./cypress.env.json
+
+.nyc_output
+.nyc_output/out.json
 
 public/locales/*/*_old.json
 
@@ -33,3 +37,4 @@ build-storybook.log
 storybook-static/*
 
 packages/.DS_Store
+packages/webapp/.pnpm-debug.log

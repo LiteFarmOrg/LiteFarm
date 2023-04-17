@@ -1,6 +1,6 @@
-const { createToken } = require('../util/jwt');
-const { emails, sendEmail } = require('../templates/sendEmailTemplate');
-const Model = require('objection').Model;
+import { createToken } from '../util/jwt.js';
+import { emails, sendEmail } from '../templates/sendEmailTemplate.js';
+import { Model } from 'objection';
 
 class emailTokenModel extends Model {
   static get tableName() {
@@ -9,6 +9,11 @@ class emailTokenModel extends Model {
 
   static get idColumn() {
     return ['invitation_id'];
+  }
+
+  async $beforeUpdate(opt, context) {
+    await super.$beforeUpdate(opt, context);
+    this.updated_at = new Date().toISOString();
   }
 
   // Optional JSON schema. This is not the database schema! Nothing is generated
@@ -41,9 +46,21 @@ class emailTokenModel extends Model {
         farm_id: userFarm.farm_id,
       })
       .first();
+
+    // Reset times_sent if the last invitation was sent more than 24 hours ago
+    let hasBeenReset;
+    const now = new Date();
+    const diffDays = Math.abs(now - emailSent?.updated_at) / (1000 * 60 * 60 * 24);
+    if (diffDays > 1) {
+      emailSent.times_sent = 0;
+      hasBeenReset = true;
+    }
+
     if (!emailSent || emailSent.times_sent < 3) {
       const timesSent = emailSent && emailSent.times_sent ? ++emailSent.times_sent : 1;
-      if (timesSent === 1) {
+
+      if (timesSent === 1 && !hasBeenReset) {
+        // If this is the first email, insert a new record into the emailToken table
         const emailToken = await emailTokenModel
           .query()
           .insert({
@@ -58,6 +75,7 @@ class emailTokenModel extends Model {
           invitation_id: emailToken.invitation_id,
         });
       } else {
+        // If subsequent email, patch the existing record
         const [emailToken] = await emailTokenModel
           .query()
           .patch({ times_sent: timesSent })
@@ -83,9 +101,12 @@ class emailTokenModel extends Model {
       template_path,
       { first_name: user.first_name, farm, locale: user.language_preference, farm_name: farm },
       user.email,
-      { sender, buttonLink: `/callback/?invite_token=${token}` },
+      {
+        sender,
+        buttonLink: `/callback/?invite_token=${token}&language=${user.language_preference}`,
+      },
     );
   }
 }
 
-module.exports = emailTokenModel;
+export default emailTokenModel;

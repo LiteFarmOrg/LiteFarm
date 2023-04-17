@@ -13,22 +13,32 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const chai = require('chai');
-const chaiHttp = require('chai-http');
+import chai from 'chai';
+
+import chaiHttp from 'chai-http';
 chai.use(chaiHttp);
-const server = require('./../src/server');
-const knex = require('../src/util/knex');
-const { tableCleanup } = require('./testEnvironment');
+import server from './../src/server.js';
+import knex from '../src/util/knex.js';
+import { tableCleanup } from './testEnvironment.js';
 jest.mock('jsdom');
-jest.mock('../src/middleware/acl/checkJwt');
-jest.mock('../src/templates/sendEmailTemplate');
-const mocks = require('./mock.factories');
-const { faker } = require('@faker-js/faker');
-const userFarmModel = require('../src/models/userFarmModel');
-const userModel = require('../src/models/userModel');
+jest.mock('../src/middleware/acl/checkJwt.js', () =>
+  jest.fn((req, res, next) => {
+    req.user = {};
+    req.user.user_id = req.get('user_id');
+    next();
+  }),
+);
+jest.mock('../src/templates/sendEmailTemplate.js', () => ({
+  sendEmail: jest.fn(),
+  emails: { INVITATION: { path: 'invitation_to_farm_email' } },
+}));
+import mocks from './mock.factories.js';
+import { faker } from '@faker-js/faker';
+import userFarmModel from '../src/models/userFarmModel.js';
+import userModel from '../src/models/userModel.js';
 
 describe('User Farm Tests', () => {
-  let middleware;
+  // let middleware;
 
   function getUserFarmsOfUserRequest({ user_id }, callback) {
     chai.request(server).get(`/user_farm/user/${user_id}`).end(callback);
@@ -127,6 +137,15 @@ describe('User Farm Tests', () => {
       .end(callback);
   }
 
+  function setWageDoNotAskAgainRequest({ user_id, farm_id }, target_user_id, callback) {
+    chai
+      .request(server)
+      .patch(`/user_farm/wage_do_not_ask_again/farm/${farm_id}/user/${target_user_id}`)
+      .set('user_id', user_id)
+      .set('farm_id', farm_id)
+      .end(callback);
+  }
+
   function invitePseudoUserRequest(
     data,
     { user_id, farm_id, params_user_id, params_farm_id },
@@ -202,12 +221,12 @@ describe('User Farm Tests', () => {
   }
 
   beforeEach(async () => {
-    middleware = require('../src/middleware/acl/checkJwt');
-    middleware.mockImplementation((req, res, next) => {
-      req.user = {};
-      req.user.user_id = req.get('user_id');
-      next();
-    });
+    // middleware = require('../src/middleware/acl/checkJwt');
+    // middleware.mockImplementation((req, res, next) => {
+    //   req.user = {};
+    //   req.user.user_id = req.get('user_id');
+    //   next();
+    // });
   });
 
   afterAll(async (done) => {
@@ -1000,6 +1019,52 @@ describe('User Farm Tests', () => {
             done();
           },
         );
+      });
+    });
+
+    describe('Set wage_do_not_ask_again', () => {
+      const testWithRole = async (userRoleId, targetUserRoleId, done) => {
+        const { user: owner, farm } = await setupUserFarm({ role_id: userRoleId });
+        const worker = await createUserFarmAtFarm({ role_id: targetUserRoleId }, farm);
+        const target_user_id = worker.user_id;
+        setWageDoNotAskAgainRequest(
+          { user_id: owner.user_id, farm_id: farm.farm_id },
+          target_user_id,
+          async (err, res) => {
+            const adminRoles = [1, 2, 5];
+            if (adminRoles.includes(userRoleId)) {
+              expect(err).toEqual(null);
+              expect(res.status).toBe(200);
+              const updatedUserFarm = await userFarmModel
+                .query()
+                .where('farm_id', farm.farm_id)
+                .andWhere('user_id', target_user_id)
+                .first();
+              expect(updatedUserFarm.wage_do_not_ask_again).toEqual(true);
+              done();
+              return;
+            }
+
+            expect(res.status).toBe(403);
+            done();
+          },
+        );
+      };
+
+      test('Owner should be able to set wage_do_not_ask_again', async (done) => {
+        testWithRole(1, 3, done);
+      });
+
+      test('Manager should be able to set wage_do_not_ask_again', async (done) => {
+        testWithRole(2, 3, done);
+      });
+
+      test('EO should be able to set wage_do_not_ask_again', async (done) => {
+        testWithRole(5, 3, done);
+      });
+
+      test('Farm worker should not be able to set wage_do_not_ask_again', async (done) => {
+        testWithRole(3, 3, done);
       });
     });
 

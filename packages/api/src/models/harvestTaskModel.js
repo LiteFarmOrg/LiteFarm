@@ -13,7 +13,9 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const Model = require('objection').Model;
+import { Model } from 'objection';
+import taskModel from './taskModel.js';
+import harvestUseModel from './harvestUseModel.js';
 
 class HarvestTaskModel extends Model {
   static get tableName() {
@@ -51,25 +53,23 @@ class HarvestTaskModel extends Model {
         // The related model. This can be either a Model
         // subclass constructor or an absolute file path
         // to a module that exports one.
-        modelClass: require('./taskModel'),
+        modelClass: taskModel,
         join: {
           from: 'harvest_task.task_id',
           to: 'task.task_id',
         },
-
       },
       //TODO: revert back to harvestUses
       harvest_use: {
-        modelClass: require('./harvestUseModel'),
+        modelClass: harvestUseModel,
         relation: Model.HasManyRelation,
         join: {
           from: 'harvest_task.task_id',
           to: 'harvest_use.task_id',
         },
       },
-
     };
   }
 }
 
-module.exports = HarvestTaskModel;
+export default HarvestTaskModel;

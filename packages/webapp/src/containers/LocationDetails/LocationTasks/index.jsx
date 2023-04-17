@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useEffect } from 'react';
 import {
   manualFilteredTaskCardContentSelector,
   taskCardContentSelector,
@@ -19,9 +19,17 @@ export default function LocationTasks({ history, match, location: { pathname } }
   const { location_id } = match.params;
   const location = useSelector(locationByIdSelector(location_id));
 
+  useEffect(() => {
+    if (location === undefined) {
+      history.replace('/unknown_record');
+    }
+  }, [location]);
+
   const areCropEnabled = ['field', 'garden', 'greenhouse', 'buffer_zone'];
+  const areReadingEnabled = ['sensor'];
 
   const hasCrops = areCropEnabled.includes(pathname.split('/')[1]);
+  const hasReadings = areReadingEnabled.includes(pathname.split('/')[1]);
 
   const filter = (taskList) => {
     const activeStatus = ['planned', 'late'];
@@ -51,15 +59,18 @@ export default function LocationTasks({ history, match, location: { pathname } }
 
   return (
     <>
-      <PureLocationTasks
-        history={history}
-        match={match}
-        location={location}
-        isAdmin={isAdmin}
-        tasks={tasks}
-        count={count}
-        hasCrops={hasCrops}
-      />
+      {location && !location?.deleted && (
+        <PureLocationTasks
+          history={history}
+          match={match}
+          location={location}
+          isAdmin={isAdmin}
+          tasks={tasks}
+          count={count}
+          hasCrops={hasCrops}
+          hasReadings={hasReadings}
+        />
+      )}
     </>
   );
 }

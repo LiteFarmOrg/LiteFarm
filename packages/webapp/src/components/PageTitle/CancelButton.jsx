@@ -18,6 +18,7 @@ export function CancelButton({ onCancel, cancelModalTitle }) {
         />
       )}
       <Semibold
+        data-cy="cancel-flow"
         sm
         style={{ color: colors.teal700 }}
         onClick={() => (!!cancelModalTitle ? setShowConfirmCancelModal(true) : onCancel())}

@@ -175,6 +175,15 @@ FullYearCalendarView.prototype = {
   harvest_date: PropTypes.string,
   transplant_date: PropTypes.string,
   termination_date: PropTypes.string,
+  plant_date: PropTypes.string,
+  initial: PropTypes.oneOf([
+    'seed_date',
+    'germination_date',
+    'harvest_date',
+    'transplant_date',
+    'termination_date',
+    'plant_date',
+  ]),
 };
 
 export default FullYearCalendarView;

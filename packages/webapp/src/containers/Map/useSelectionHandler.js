@@ -1,4 +1,4 @@
-import { containsCrops, isArea, isAreaLine, isLine, isPoint } from './constants';
+import { containsCrops, isArea, isAreaLine, isLine, isPoint, locationEnum } from './constants';
 import { useEffect, useState } from 'react';
 import { canShowSelection, canShowSelectionSelector, locations } from '../mapSlice';
 import { useDispatch, useSelector } from 'react-redux';
@@ -58,13 +58,29 @@ const useSelectionHandler = () => {
         );
       } else {
         if (overlappedLocations.point.length === 1) {
-          history.push(
-            `/${overlappedLocations.point[0].type}/${overlappedLocations.point[0].id}/details`,
-          );
+          if (
+            overlappedLocations.point[0].type === locationEnum.sensor &&
+            overlappedLocations.point[0].preview
+          ) {
+            const locationArray = [];
+            overlappedLocations.point.forEach((point) => {
+              if (locationArray.length < 4) locationArray.push(point);
+            });
+            dispatch(canShowSelection(true));
+            dispatch(locations(locationArray));
+          } else if (overlappedLocations.point[0].type === locationEnum.sensor) {
+            history.push(
+              `/${overlappedLocations.point[0].type}/${overlappedLocations.point[0].id}/readings`,
+            );
+          } else {
+            history.push(
+              `/${overlappedLocations.point[0].type}/${overlappedLocations.point[0].id}/details`,
+            );
+          }
         } else {
           const locationArray = [];
           overlappedLocations.point.forEach((point) => {
-            if (locationArray.length < 4) locationArray.push(point);
+            locationArray.push(point);
           });
           overlappedLocations.line.forEach((line) => {
             if (locationArray.length < 4) locationArray.push(line);
@@ -79,7 +95,14 @@ const useSelectionHandler = () => {
     }
   }, [overlappedLocations, dismissSelection]);
 
-  const handleSelection = (latLng, locationAssets, maps, isLocationAsset, isLocationCluster) => {
+  const handleSelection = (
+    latLng,
+    locationAssets,
+    maps,
+    isLocationAsset,
+    isLocationCluster,
+    isSensor,
+  ) => {
     let overlappedLocationsCopy = cloneObject(initOverlappedLocations);
     if (isLocationAsset) {
       Object.keys(locationAssets).map((locationType) => {
@@ -113,12 +136,32 @@ const useSelectionHandler = () => {
           });
         } else if (isPoint(locationType)) {
           if (isLocationCluster) {
+            locationAssets[locationType]
+              .sort((a, b) => {
+                if (a.location_name < b.location_name) {
+                  return -1;
+                } else if (b.location_name > a.location_name) {
+                  return 1;
+                } else {
+                  return 0;
+                }
+              })
+              .forEach((point) => {
+                overlappedLocationsCopy.point.push({
+                  id: point.location_id,
+                  name: point.location_name,
+                  asset: point.asset,
+                  type: point.type,
+                });
+              });
+          } else if (isSensor) {
             locationAssets[locationType].forEach((point) => {
               overlappedLocationsCopy.point.push({
                 id: point.location_id,
                 name: point.location_name,
                 asset: point.asset,
                 type: point.type,
+                preview: true,
               });
             });
           } else {

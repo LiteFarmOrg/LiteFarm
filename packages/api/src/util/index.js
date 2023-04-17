@@ -16,15 +16,15 @@
 const findAuth0Uri = () => {
   const environment = process.env.NODE_ENV || 'development';
   switch (environment) {
-  case 'ci':
-  case 'integration':
-    return 'https://litefarm.auth0.com';
-  case 'production':
-    return 'https://litefarm-production.auth0.com';
-  case 'development':
-  default:
-    return 'https://litefarm-dev.auth0.com';
+    case 'ci':
+    case 'integration':
+      return 'https://litefarm.auth0.com';
+    case 'production':
+      return 'https://litefarm-production.auth0.com';
+    case 'development':
+    default:
+      return 'https://litefarm-dev.auth0.com';
   }
 };
 
-module.exports = findAuth0Uri;
+export default findAuth0Uri;

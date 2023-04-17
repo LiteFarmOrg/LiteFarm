@@ -34,7 +34,8 @@ export default function PureEditCropVariety({
     defaultValues: {
       crop_variety_photo_url:
         cropVariety.crop_variety_photo_url ||
-        cropVariety.crop_photo_url`https://${
+        cropVariety.crop_photo_url ||
+        `https://${
           import.meta.env.VITE_DO_BUCKET_NAME
         }.nyc3.digitaloceanspaces.com//default_crop/v2/default.webp`,
       ...(({
@@ -125,7 +126,7 @@ export default function PureEditCropVariety({
       >
         {React.cloneElement(imageUploader, {
           hookFormRegister: imageUrlRegister,
-          uploadDirectory: 'crop_variety/',
+          targetRoute: 'crop_variety',
         })}
       </div>
 
@@ -139,7 +140,7 @@ export default function PureEditCropVariety({
 
       <Input
         style={{ marginBottom: '40px' }}
-        label={'Supplier'}
+        label={t('translation:FIELDS.EDIT_FIELD.SUPPLIER')}
         type="text"
         hookFormRegister={supplierRegister}
         hasLeaf={true}

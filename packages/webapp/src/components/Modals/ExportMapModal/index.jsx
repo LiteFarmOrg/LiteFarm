@@ -48,15 +48,11 @@ export function PureExportMapModal({
   return (
     <div className={styles.container}>
       <Title>{t('FARM_MAP.EXPORT_MODAL.TITLE')}</Title>
-      {!isiOS() && (
-        <>
-          <Main>{t('FARM_MAP.EXPORT_MODAL.BODY')}</Main>
-          <Button color="secondary" className={styles.button} onClick={onClickDownload}>
-            <DownloadIcon className={styles.downloadSvg} />
-            <div>{t('FARM_MAP.EXPORT_MODAL.DOWNLOAD')}</div>
-          </Button>
-        </>
-      )}
+      <Main>{t('FARM_MAP.EXPORT_MODAL.BODY')}</Main>
+      <Button color="secondary" className={styles.button} onClick={onClickDownload}>
+        <DownloadIcon className={styles.downloadSvg} />
+        <div>{t('FARM_MAP.EXPORT_MODAL.DOWNLOAD')}</div>
+      </Button>
       <Button
         color="secondary"
         disabled={isEmailing}

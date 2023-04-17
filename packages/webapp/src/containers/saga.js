@@ -75,6 +75,7 @@ import {
   onLoadingWaterValveFail,
   onLoadingWaterValveStart,
 } from './waterValveSlice';
+import { getSensorSuccess, onLoadingSensorFail, onLoadingSensorStart } from './sensorSlice';
 import { getGatesSuccess, onLoadingGateFail, onLoadingGateStart } from './gateSlice';
 import { getAllCropsSuccess, onLoadingCropFail, onLoadingCropStart } from './cropSlice';
 import {
@@ -143,7 +144,6 @@ import {
 import notificationSaga, { getNotification } from './Notification/saga';
 import { appVersionSelector, setAppVersion } from './appSettingSlice';
 import { APP_VERSION } from '../util/constants';
-import { hookFormPersistHistoryStackSelector } from './hooks/useHookFormPersist/hookFormPersistSlice';
 import axiosWithoutInterceptors from 'axios';
 import produce from 'immer';
 import { resetTasksFilter } from './filterSlice';
@@ -320,6 +320,7 @@ export function* onLoadingLocationStartSaga() {
   yield put(onLoadingFenceStart());
   yield put(onLoadingGateStart());
   yield put(onLoadingWaterValveStart());
+  yield put(onLoadingSensorStart());
 }
 
 export const getLocations = createAction('getLocationsSaga');
@@ -371,6 +372,7 @@ const figureTypeActionMap = {
   fence: { success: getFencesSuccess, fail: onLoadingFenceFail },
   gate: { success: getGatesSuccess, fail: onLoadingGateFail },
   water_valve: { success: getWaterValvesSuccess, fail: onLoadingWaterValveFail },
+  sensor: { success: getSensorSuccess, fail: onLoadingSensorFail },
 };
 
 export function* onLoadingManagementPlanAndPlantingMethodStartSaga() {
@@ -593,12 +595,7 @@ export function* selectFarmAndFetchAllSaga({ payload: farm }) {
 }
 
 export function* onReqSuccessSaga({ pathname, state, message }) {
-  const historyStack = yield select(hookFormPersistHistoryStackSelector);
-  const unlisten = history.listen(() => {
-    unlisten();
-    history.push(pathname, state);
-  });
-  history.go(-historyStack.length);
+  history.push(pathname, state);
   yield delay(100);
   if (message) {
     yield put(enqueueSuccessSnackbar(message));

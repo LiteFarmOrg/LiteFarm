@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-exports.up = function(knex) {
+export const up = function (knex) {
   return Promise.all([
     knex.schema.table('farmExpenseType', (table) => {
       table.dropColumn('expense_type_id');
@@ -21,19 +21,19 @@ exports.up = function(knex) {
     knex.schema.table('farmExpenseType', (table) => {
       table.uuid('expense_type_id').primary().defaultTo(knex.raw('uuid_generate_v1()'));
     }),
-  ])
+  ]);
 };
 
-exports.down = function(knex) {
+export const down = function (knex) {
   return Promise.resolve(
     knex.schema.table('farmExpenseType', (table) => {
       table.dropColumn('expense_type_id');
-    })
+    }),
   ).then(() => {
     return Promise.resolve(
       knex.schema.table('farmExpenseType', (table) => {
         table.increments('expense_type_id').primary();
       }),
-    )
-  })
+    );
+  });
 };

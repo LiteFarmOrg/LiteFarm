@@ -65,14 +65,14 @@ export default function PurePeople({ users, history, isAdmin }) {
         .normalize('NFD')
         .replace(/\p{Diacritic}/gu, '')
         .toLowerCase()
-        .replace(/\W/g, '')
+        .replace(/[^\p{L}0-9]/gu, '')
         .trim()
         .includes(
           searchString
             .normalize('NFD')
             .replace(/\p{Diacritic}/gu, '')
             .toLowerCase()
-            .replace(/\W/g, '')
+            .replace(/[^\p{L}0-9]/gu, '')
             .trim(),
         );
     });
@@ -130,6 +130,7 @@ export default function PurePeople({ users, history, isAdmin }) {
         defaultPageSize={5}
         className="-striped -highlight"
         getTdProps={onRowEdit}
+        orderDesc={false}
       />
     </ProfileLayout>
   );

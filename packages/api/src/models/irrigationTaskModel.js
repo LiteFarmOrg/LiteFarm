@@ -13,7 +13,9 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const Model = require('objection').Model;
+import { Model } from 'objection';
+import taskModel from './taskModel.js';
+import IrrigationTypesModel from './irrigationTypesModel.js';
 
 class IrrigationTaskModel extends Model {
   static get tableName() {
@@ -29,21 +31,27 @@ class IrrigationTaskModel extends Model {
   static get jsonSchema() {
     return {
       type: 'object',
-      required: ['type'],
+      required: ['irrigation_type_name'],
 
       properties: {
         task_id: { type: 'integer' },
-        type: {
-          type: 'string',
-          enum:['sprinkler', 'drip', 'subsurface', 'flood'],
-
-        },
-        'flow_rate_l/min': {
-          type: 'float',
-        },
-        hours: {
-          type: 'float',
-        },
+        irrigation_type_id: { type: 'number' },
+        irrigation_type_name: { type: 'string' },
+        estimated_duration: { type: 'number' },
+        estimated_duration_unit: { type: 'string' },
+        estimated_flow_rate: { type: 'number' },
+        estimated_flow_rate_unit: { type: 'string' },
+        location_id: { type: 'string' },
+        estimated_water_usage: { type: 'number' },
+        estimated_water_usage_unit: { type: 'string' },
+        application_depth: { type: 'number' },
+        application_depth_unit: { type: 'string' },
+        measuring_type: { type: 'string' },
+        percent_of_location_irrigated: { type: 'number' },
+        default_location_flow_rate: { type: 'boolean' },
+        default_location_application_depth: { type: 'boolean' },
+        default_irrigation_task_type_location: { type: 'boolean' },
+        default_irrigation_task_type_measurement: { type: 'boolean' },
       },
       additionalProperties: false,
     };
@@ -57,16 +65,25 @@ class IrrigationTaskModel extends Model {
         // The related model. This can be either a Model
         // subclass constructor or an absolute file path
         // to a module that exports one.
-        modelClass: require('./taskModel'),
+        modelClass: taskModel,
         join: {
           from: 'irrigation_task.task_id',
           to: 'task.task_id',
         },
-
       },
-
+      irrigation_type: {
+        relation: Model.BelongsToOneRelation,
+        // The related model. This can be either a Model
+        // subclass constructor or an absolute file path
+        // to a module that exports one.
+        modelClass: IrrigationTypesModel,
+        join: {
+          from: 'irrigation_type.irrigation_type_id',
+          to: 'irrigation_task.irrigation_type_id',
+        },
+      },
     };
   }
 }
 
-module.exports = IrrigationTaskModel;
+export default IrrigationTaskModel;

@@ -13,8 +13,9 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const userFarmModel = require('../../models/userFarmModel');
-const TaskModel = require('../../models/taskModel');
+import userFarmModel from '../../models/userFarmModel.js';
+
+import TaskModel from '../../models/taskModel.js';
 
 const adminRoles = [1, 2, 5];
 
@@ -48,6 +49,11 @@ async function checkTaskStatusForAssignment(req, res, next) {
   const { task_id } = req.params;
 
   const checkTaskStatus = await TaskModel.getTaskStatus(task_id);
+
+  if (!checkTaskStatus) {
+    return res.status(404).send('Task not found');
+  }
+
   if (checkTaskStatus.complete_date || checkTaskStatus.abandon_date) {
     return res.status(400).send('Task has already been completed or abandoned');
   }
@@ -67,4 +73,4 @@ async function checkTaskStatusForAssignment(req, res, next) {
   next();
 }
 
-module.exports = { validateAssigneeId, checkTaskStatusForAssignment };
+export { validateAssigneeId, checkTaskStatusForAssignment };

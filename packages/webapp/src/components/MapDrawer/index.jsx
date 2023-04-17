@@ -20,6 +20,7 @@ import { ReactComponent as Watercourse } from '../../assets/images/farmMapFilter
 import { ReactComponent as Fence } from '../../assets/images/farmMapFilter/Fence.svg';
 import { ReactComponent as Gate } from '../../assets/images/farmMapFilter/Gate.svg';
 import { ReactComponent as WaterValve } from '../../assets/images/farmMapFilter/WaterValve.svg';
+import { ReactComponent as Sensor } from '../../assets/images/farmMapFilter/Sensor.svg';
 import { Drawer } from '@material-ui/core';
 import { colors } from '../../assets/theme';
 import { useTranslation } from 'react-i18next';
@@ -207,6 +208,14 @@ export default function MapDrawer({
           icon: () => <WaterValve className={classes.icon} />,
           key: locationEnum.water_valve,
         },
+        // Disabling temporarily for April 2023 (3.3) Release
+        // {
+        //   name: t('FARM_MAP.MAP_FILTER.SENSOR'),
+        //   icon: () => (
+        //     <Sensor className={classes.icon} style={{ transform: 'translate(-5px, 5px)' }} />
+        //   ),
+        //   key: locationEnum.sensor,
+        // },
       ]
         .sort((firstLocationType, secondLocationType) =>
           firstLocationType.name.localeCompare(secondLocationType.name),

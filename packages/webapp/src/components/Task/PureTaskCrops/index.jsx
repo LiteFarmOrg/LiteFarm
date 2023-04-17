@@ -19,7 +19,6 @@ const PureTaskCrops = ({
   onError,
   persistedFormData,
   onContinue,
-  bypass,
   useHookFormPersist,
   managementPlansByLocationIds,
   wildManagementPlanTiles,
@@ -53,14 +52,12 @@ const PureTaskCrops = ({
 
   const locationIds = Object.keys(managementPlansByLocationIds);
 
-  if (bypass) {
-    history.replace('/add_task/task_locations', location.state);
-    onContinue();
-  }
-
   const filterManagementPlansByCropVarietyName = (mp) =>
-    mp.crop_variety_name.toLowerCase().includes(filter?.toLowerCase()) ||
-    mp.crop_common_name.toLowerCase().includes(filter?.toLowerCase());
+    mp?.crop_variety_name?.toLowerCase().includes(filter?.trim()?.toLowerCase()) ||
+    t(`crop:${mp?.crop?.crop_translation_key}`)
+      ?.toLowerCase()
+      .includes(filter?.trim()?.toLowerCase());
+
   const managementPlansFilteredByInput = useMemo(() => {
     if (!filter) {
       return managementPlansByLocationIds;

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useLayoutEffect, useState } from 'react';
 import { areaStyles, icons, lineStyles } from './mapStyles';
 import { isArea, isLine, isPoint, locationEnum, polygonPath } from './constants';
 import { useSelector } from 'react-redux';
@@ -25,6 +25,8 @@ export default function useDrawingManager() {
   const [onBackPressed, setOnBackPressed] = useState(false);
   const [onSteppedBack, setOnSteppedBack] = useState(false);
 
+  const [showZeroAreaWarning, setZeroAreaWarning] = useState(false);
+  const [showZeroLengthWarning, setShowZeroLengthWarning] = useState(false);
   const [showAdjustAreaSpotlightModal, setShowAdjustAreaSpotlightModal] = useState(false);
   const [showAdjustLineSpotlightModal, setShowAdjustLineSpotlightModal] = useState(false);
 
@@ -109,17 +111,17 @@ export default function useDrawingManager() {
     setOnSteppedBack(false);
   }, [onSteppedBack, map, maps, overlayData]);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (drawingToCheck) {
-      if (isArea(drawLocationType) && !showedSpotlight.adjust_area)
+      if (isArea(drawLocationType) && !showedSpotlight.adjust_area && !showZeroAreaWarning)
         setShowAdjustAreaSpotlightModal(true);
-      if (isLine(drawLocationType) && !showedSpotlight.adjust_line)
+      if (isLine(drawLocationType) && !showedSpotlight.adjust_line && !showZeroLengthWarning)
         setShowAdjustLineSpotlightModal(true);
     } else {
       setShowAdjustAreaSpotlightModal(false);
       setShowAdjustLineSpotlightModal(false);
     }
-  }, [drawingToCheck]);
+  }, [drawingToCheck, showZeroAreaWarning, showZeroLengthWarning]);
 
   const initDrawingState = (map, maps, drawingManagerInit, drawingModes) => {
     setMap(map);
@@ -224,6 +226,8 @@ export default function useDrawingManager() {
     drawingToCheck,
     showAdjustAreaSpotlightModal,
     showAdjustLineSpotlightModal,
+    showZeroLengthWarning,
+    showZeroAreaWarning,
   };
 
   const drawingFunctions = {
@@ -238,6 +242,8 @@ export default function useDrawingManager() {
     setLineWidth,
     setShowAdjustAreaSpotlightModal,
     setShowAdjustLineSpotlightModal,
+    setZeroAreaWarning,
+    setShowZeroLengthWarning,
   };
 
   return [drawingState, drawingFunctions];

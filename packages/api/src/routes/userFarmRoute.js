@@ -13,15 +13,16 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const express = require('express');
+import express from 'express';
+
 const router = express.Router();
-const userFarmController = require('../controllers/userFarmController');
-const hasFarmAccess = require('../middleware/acl/hasFarmAccess');
-const checkScope = require('../middleware/acl/checkScope');
-const isSelf = require('../middleware/acl/isSelf');
-const checkInviteJwt = require('../middleware/acl/checkInviteJwt');
-const checkInvitationTokenContent = require('../middleware/acl/checkInviteTokenContent');
-const checkUserFarmStatus = require('../middleware/acl/checkUserFarmStatus');
+import userFarmController from '../controllers/userFarmController.js';
+import hasFarmAccess from '../middleware/acl/hasFarmAccess.js';
+import checkScope from '../middleware/acl/checkScope.js';
+import isSelf from '../middleware/acl/isSelf.js';
+import checkInviteJwt from '../middleware/acl/checkInviteJwt.js';
+import checkInvitationTokenContent from '../middleware/acl/checkInviteTokenContent.js';
+import checkUserFarmStatus from '../middleware/acl/checkUserFarmStatus.js';
 
 // Get all userFarms for a specified user
 // no permission limits
@@ -98,7 +99,7 @@ router.post(
   '/invite/farm/:farm_id/user/:user_id',
   hasFarmAccess({ params: 'farm_id' }),
   checkScope(['edit:users']),
-  userFarmController.patchPseudoUserEmail(),
+  userFarmController.upgradePseudoUser(),
 );
 
 // Update wage of userFarm
@@ -109,7 +110,14 @@ router.patch(
   userFarmController.updateWage(),
 );
 
+router.patch(
+  '/wage_do_not_ask_again/farm/:farm_id/user/:user_id',
+  hasFarmAccess({ params: 'farm_id' }),
+  checkScope(['edit:user_wage']),
+  userFarmController.setWageDoNotAskAgain(),
+);
+
 // Update step_one
 router.patch('/onboarding/farm/:farm_id/user/:user_id', userFarmController.updateOnboardingFlags());
 
-module.exports = router;
+export default router;

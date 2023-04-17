@@ -6,7 +6,14 @@ import { userFarmsByFarmSelector, userFarmSelector } from '../../userFarmSlice';
 import { PureTaskCard } from '../../../components/CardWithStatus/TaskCard/TaskCard';
 import TaskQuickAssignModal from '../../../components/Modals/QuickAssignModal';
 import UpdateTaskDateModal from '../../../components/Modals/UpdateTaskDateModal';
-import { assignTask, assignTasksOnDate, changeTaskDate } from '../saga';
+import {
+  assignTask,
+  assignTasksOnDate,
+  changeTaskDate,
+  changeTaskWage,
+  updateUserFarmWage,
+  setUserFarmWageDoNotAskAgain,
+} from '../saga';
 
 const TaskCard = ({
   task_id,
@@ -21,6 +28,7 @@ const TaskCard = ({
   selected,
   happiness,
   classes = { card: {} },
+  wage_at_moment,
   ...props
 }) => {
   const [showTaskAssignModal, setShowTaskAssignModal] = useState();
@@ -31,6 +39,13 @@ const TaskCard = ({
   };
   const onAssignTasksOnDate = (task) => dispatch(assignTasksOnDate(task));
   const onAssignTask = (task) => dispatch(assignTask(task));
+  const onUpdateUserFarmWage = (user) => dispatch(updateUserFarmWage(user));
+  const onSetUserFarmWageDoNotAskAgain = (user) => {
+    dispatch(setUserFarmWageDoNotAskAgain(user));
+  };
+  const onChangeTaskWage = (wage) => {
+    dispatch(changeTaskWage({ task_id, wage_at_moment: wage }));
+  };
   const users = useSelector(userFarmsByFarmSelector).filter((user) => user.status !== 'Inactive');
   const user = useSelector(userFarmSelector);
   const immutableStatus = ['completed', 'abandoned'];
@@ -60,7 +75,7 @@ const TaskCard = ({
         style={style}
         onClick={onClick}
         onClickAssignee={() => {
-          if ((!immutableStatus.includes(status) && isAssignee) || isAdmin || taskUnassigned) {
+          if (!immutableStatus.includes(status) && (isAssignee || isAdmin || taskUnassigned)) {
             setShowTaskAssignModal(true);
           }
         }}
@@ -82,9 +97,13 @@ const TaskCard = ({
           isAssigned={!!assignee}
           onAssignTasksOnDate={onAssignTasksOnDate}
           onAssignTask={onAssignTask}
+          onUpdateUserFarmWage={onUpdateUserFarmWage}
+          onChangeTaskWage={onChangeTaskWage}
+          onSetUserFarmWageDoNotAskAgain={onSetUserFarmWageDoNotAskAgain}
           users={users}
           user={user}
           dismissModal={() => setShowTaskAssignModal(false)}
+          wage_at_moment={wage_at_moment}
         />
       )}
       {showDateAssignModal && (

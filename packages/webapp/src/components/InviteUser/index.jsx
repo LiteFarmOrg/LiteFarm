@@ -1,6 +1,7 @@
 import Form from '../Form';
 import Button from '../Form/Button';
 import Input, { getInputErrors, integerOnKeyDown, numberOnKeyDown } from '../Form/Input';
+import { isValidName } from '../Form/Input/utils';
 import React, { useEffect } from 'react';
 import { Title } from '../Typography';
 import PropTypes from 'prop-types';
@@ -9,7 +10,7 @@ import ReactSelect from '../Form/ReactSelect';
 import { useTranslation } from 'react-i18next';
 import { getFirstNameLastName } from '../../util';
 
-export default function PureInviteUser({ onInvite, onGoBack, roleOptions = [] }) {
+export default function PureInviteUser({ onInvite, onGoBack, userFarmEmails, roleOptions = [] }) {
   const {
     register,
     handleSubmit,
@@ -80,7 +81,7 @@ export default function PureInviteUser({ onInvite, onGoBack, roleOptions = [] })
         data-cy="invite-fullName"
         style={{ marginBottom: '28px' }}
         label={t('INVITE_USER.FULL_NAME')}
-        hookFormRegister={register(NAME, { required: true })}
+        hookFormRegister={register(NAME, { required: true, validate: isValidName })}
         errors={getInputErrors(errors, NAME)}
       />
       <Controller
@@ -104,8 +105,20 @@ export default function PureInviteUser({ onInvite, onGoBack, roleOptions = [] })
         hookFormRegister={register(EMAIL, {
           required: selectedRoleId !== 3,
           pattern: {
-            value: /^$|^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
+            value: /^$|^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/,
             message: t('INVITE_USER.INVALID_EMAIL_ERROR'),
+          },
+          validate: {
+            existing: (value) => {
+              if (role.value === 3 && !value) {
+                return true;
+              } else {
+                return (
+                  (value && !userFarmEmails.includes(value.toLowerCase())) ||
+                  t('INVITE_USER.ALREADY_EXISTING_EMAIL_ERROR')
+                );
+              }
+            },
           },
         })}
         errors={getInputErrors(errors, EMAIL)}
@@ -146,6 +159,7 @@ export default function PureInviteUser({ onInvite, onGoBack, roleOptions = [] })
         )}
       />
       <Input
+        data-cy="invite-birthYear"
         label={t('INVITE_USER.BIRTH_YEAR')}
         type="number"
         onKeyPress={integerOnKeyDown}
@@ -165,16 +179,22 @@ export default function PureInviteUser({ onInvite, onGoBack, roleOptions = [] })
         optional
       />
       <Input
+        data-cy="invite-wage"
         label={t('INVITE_USER.WAGE')}
         step="0.01"
         type="number"
         onKeyPress={numberOnKeyDown}
-        hookFormRegister={register(WAGE, { min: 0, valueAsNumber: true })}
+        hookFormRegister={register(WAGE, {
+          min: { value: 0, message: t('INVITE_USER.WAGE_RANGE_ERROR') },
+          valueAsNumber: true,
+          max: { value: 999999999, message: t('INVITE_USER.WAGE_RANGE_ERROR') },
+        })}
         style={{ marginBottom: '24px' }}
         errors={errors[WAGE] && (errors[WAGE].message || t('INVITE_USER.WAGE_ERROR'))}
         optional
       />
       <Input
+        data-cy="invite-phoneNumber"
         style={{ marginBottom: '24px' }}
         label={t('INVITE_USER.PHONE')}
         type={'number'}

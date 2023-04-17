@@ -13,7 +13,10 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const Model = require('objection').Model;
+import { Model } from 'objection';
+import areaModel from './areaModel.js';
+import pointModel from './pointModel.js';
+import lineModel from './lineModel.js';
 
 class Figure extends Model {
   static get tableName() {
@@ -32,8 +35,24 @@ class Figure extends Model {
       properties: {
         type: {
           type: 'string',
-          enum: ['gate', 'water_valve', 'farm_site_boundary', 'field', 'garden', 'buffer_zone', 'watercourse', 'fence', 'ceremonial_area',
-            'residence', 'surface_water', 'natural_area', 'greenhouse', 'barn', 'pin'],
+          enum: [
+            'gate',
+            'water_valve',
+            'farm_site_boundary',
+            'field',
+            'garden',
+            'buffer_zone',
+            'watercourse',
+            'fence',
+            'ceremonial_area',
+            'residence',
+            'surface_water',
+            'natural_area',
+            'greenhouse',
+            'barn',
+            'pin',
+            'sensor',
+          ],
         },
         location_id: { type: 'string' },
         figure_id: { type: 'string' },
@@ -47,7 +66,7 @@ class Figure extends Model {
     return {
       area: {
         relation: Model.HasOneRelation,
-        modelClass: require('./areaModel'),
+        modelClass: areaModel,
         join: {
           from: 'figure.figure_id',
           to: 'area.figure_id',
@@ -56,7 +75,7 @@ class Figure extends Model {
 
       point: {
         relation: Model.HasOneRelation,
-        modelClass: require('./pointModel'),
+        modelClass: pointModel,
         join: {
           from: 'figure.figure_id',
           to: 'point.figure_id',
@@ -64,15 +83,14 @@ class Figure extends Model {
       },
       line: {
         relation: Model.HasOneRelation,
-        modelClass: require('./lineModel'),
+        modelClass: lineModel,
         join: {
           from: 'figure.figure_id',
           to: 'line.figure_id',
         },
       },
-
     };
   }
 }
 
-module.exports = Figure;
+export default Figure;

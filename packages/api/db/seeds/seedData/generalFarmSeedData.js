@@ -1,19 +1,20 @@
-/* 
- *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>   
+/*
+ *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>
  *  This file (generalFarmSeedData.js) is part of LiteFarm.
- *  
+ *
  *  LiteFarm is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
  *  (at your option) any later version.
- *  
+ *
  *  LiteFarm is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-require('dotenv').config();
+import * as dotenv from 'dotenv';
+dotenv.config();
 
 const seedFarmData = [
   {
@@ -71,25 +72,28 @@ const seedFarmData = [
 
   {
     table: 'fieldCrop',
-    data: [{
-      field_crop_id: 100,
-      field_id: 'ad949da6-a4f8-4521-95ff-6a9073e71a0b',
-      crop_id: 101,
-      start_date: '2018-09-24 03:04:00-07',
-      end_date: '2019-09-24 04:04:00-07',
-      area_used: 50,
-      estimated_production: 500,
-      estimated_revenue: 50000,
-    }, {
-      field_crop_id: 101,
-      field_id: 'ad949da6-a4f8-4521-95ff-6a9073e71a0b',
-      crop_id: 102,
-      start_date: '2018-09-24 03:04:00-07',
-      end_date: '2019-09-24 04:04:00-07',
-      area_used: 50,
-      estimated_production: 500,
-      estimated_revenue: 50000,
-    }],
+    data: [
+      {
+        field_crop_id: 100,
+        field_id: 'ad949da6-a4f8-4521-95ff-6a9073e71a0b',
+        crop_id: 101,
+        start_date: '2018-09-24 03:04:00-07',
+        end_date: '2019-09-24 04:04:00-07',
+        area_used: 50,
+        estimated_production: 500,
+        estimated_revenue: 50000,
+      },
+      {
+        field_crop_id: 101,
+        field_id: 'ad949da6-a4f8-4521-95ff-6a9073e71a0b',
+        crop_id: 102,
+        start_date: '2018-09-24 03:04:00-07',
+        end_date: '2019-09-24 04:04:00-07',
+        area_used: 50,
+        estimated_production: 500,
+        estimated_revenue: 50000,
+      },
+    ],
   },
 
   {
@@ -151,33 +155,39 @@ const seedFarmData = [
 
   {
     table: 'price',
-    data: [{
-      crop_id: 101,
-      'value_$/kg': 100,
-      date: '2019-09-30 21:26:02.536-07',
-      farm_id: '5be5faae-d608-4700-8b05-ae08e9edf747',
-    }, {
-      crop_id: 100,
-      'value_$/kg': 100,
-      date: '2019-09-30 21:26:02.536-07',
-      farm_id: '5be5faae-d608-4700-8b05-ae08e9edf747',
-    }],
+    data: [
+      {
+        crop_id: 101,
+        'value_$/kg': 100,
+        date: '2019-09-30 21:26:02.536-07',
+        farm_id: '5be5faae-d608-4700-8b05-ae08e9edf747',
+      },
+      {
+        crop_id: 100,
+        'value_$/kg': 100,
+        date: '2019-09-30 21:26:02.536-07',
+        farm_id: '5be5faae-d608-4700-8b05-ae08e9edf747',
+      },
+    ],
   },
 
   {
     table: 'yield',
-    data: [{
-      crop_id: 101,
-      'quantity_kg/m2': 10,
-      date: '2019-09-30 21:26:02.536-07',
-      farm_id: '5be5faae-d608-4700-8b05-ae08e9edf747',
-    }, {
-      crop_id: 100,
-      'quantity_kg/m2': 10,
-      date: '2019-09-30 21:26:02.536-07',
-      farm_id: '5be5faae-d608-4700-8b05-ae08e9edf747',
-    }],
+    data: [
+      {
+        crop_id: 101,
+        'quantity_kg/m2': 10,
+        date: '2019-09-30 21:26:02.536-07',
+        farm_id: '5be5faae-d608-4700-8b05-ae08e9edf747',
+      },
+      {
+        crop_id: 100,
+        'quantity_kg/m2': 10,
+        date: '2019-09-30 21:26:02.536-07',
+        farm_id: '5be5faae-d608-4700-8b05-ae08e9edf747',
+      },
+    ],
   },
 ];
 
-module.exports = seedFarmData;
+export default seedFarmData;

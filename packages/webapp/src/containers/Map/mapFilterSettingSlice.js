@@ -20,6 +20,7 @@ const initialState = {
   farm_site_boundary: true,
   map_background: true,
   label: true,
+  sensor: true,
 };
 
 const mapFilterSettingAdapter = createEntityAdapter({
@@ -56,11 +57,8 @@ const mapFilterSettingSlice = createSlice({
     },
   },
 });
-export const {
-  setMapFilterSetting,
-  setMapFilterShowAll,
-  setMapFilterHideAll,
-} = mapFilterSettingSlice.actions;
+export const { setMapFilterSetting, setMapFilterShowAll, setMapFilterHideAll } =
+  mapFilterSettingSlice.actions;
 export default mapFilterSettingSlice.reducer;
 
 export const mapFilterSettingReducerSelector = (state) =>
@@ -83,4 +81,9 @@ export const availableFilterSettingsSelector = createSelector(
       point: Object.keys(point).filter((key) => point[key].length),
     };
   },
+);
+export const isMapFilterSettingActiveSelector = createSelector(
+  [mapFilterSettingSelector],
+  (mapFilterSettingEntities) =>
+    !Object.keys(mapFilterSettingEntities).every((key) => mapFilterSettingEntities[key]),
 );

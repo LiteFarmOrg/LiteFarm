@@ -22,11 +22,22 @@ import { useTranslation } from 'react-i18next';
 import PageTitle from '../../PageTitle/v2';
 import Checkbox from '../../Form/Checkbox';
 import CertifierSelectionMenuItem from '../../OrganicCertifierSurvey/CertifierSelection/CertifierSelectionMenu/CertiferSelectionMenuItem';
+import styles from './styles.module.scss';
+import { mediaEnum } from '../../../containers/MediaWithAuthentication/constants';
 
-function MainDocumentView({ onRetire, onUpdate, onGoBack, document, imageComponent }) {
+function MainDocumentView({
+  onRetire,
+  onUpdate,
+  onGoBack,
+  document,
+  imageComponent,
+  fileDownloadComponent,
+}) {
   const { t } = useTranslation();
   const isArchived = document.valid_until !== null && new Date(document.valid_until) < new Date();
   const validUntil = document.valid_until?.split('T')[0];
+  const documentTypeValue = document.type ? t(`DOCUMENTS.TYPE.${document.type}`) : '';
+
   return (
     <Layout
       buttonGroup={
@@ -45,6 +56,13 @@ function MainDocumentView({ onRetire, onUpdate, onGoBack, document, imageCompone
         label={t('DOCUMENTS.ADD.DOCUMENT_NAME')}
         classes={{ container: { paddingBottom: '32px' } }}
         value={document.name}
+        disabled
+      />
+      <Input
+        label={t('DOCUMENTS.ADD.TYPE')}
+        classes={{ container: { paddingBottom: '32px' } }}
+        value={documentTypeValue}
+        optional
         disabled
       />
       {document.valid_until && (
@@ -77,11 +95,19 @@ function MainDocumentView({ onRetire, onUpdate, onGoBack, document, imageCompone
       >
         {document.files?.map(({ thumbnail_url, file_name, url }, index) =>
           thumbnail_url ? (
-            imageComponent({
-              style: { width: '100%', maxWidth: '312px', position: 'relative', zIndex: 0 },
-              src: thumbnail_url,
-              key: index,
-            })
+            <div className={styles.previewWrapper} key={index}>
+              {fileDownloadComponent({
+                className: styles.downloadContainer,
+                title: `${document.name}.${url.split('.').at(-1)}`,
+                fileUrl: url,
+                mediaType: mediaEnum.DOCUMENT,
+              })}
+              {imageComponent({
+                style: { width: '100%', maxWidth: '312px', position: 'relative', zIndex: 0 },
+                fileUrl: thumbnail_url,
+                mediaType: mediaEnum.IMAGE,
+              })}
+            </div>
           ) : (
             <CertifierSelectionMenuItem key={index} certifierName={file_name} />
           ),

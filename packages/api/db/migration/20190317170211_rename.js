@@ -13,14 +13,10 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-exports.up = function(knex) {
-  return Promise.all([
-    knex.schema.renameTable('fieldworkLog', 'fieldWorkLog'),
-  ])
+export const up = function (knex) {
+  return Promise.all([knex.schema.renameTable('fieldworkLog', 'fieldWorkLog')]);
 };
 
-exports.down = function(knex) {
-  return Promise.all([
-    knex.schema.renameTable('fieldWorkLog', 'fieldworkLog'),
-  ])
+export const down = function (knex) {
+  return Promise.all([knex.schema.renameTable('fieldWorkLog', 'fieldworkLog')]);
 };

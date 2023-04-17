@@ -63,6 +63,10 @@
   font-weight: 600;
   font-size: 12px;
   line-height: 16px;
+  -webkit-hyphens: auto;
+  -moz-hyphens: auto;
+  hyphens: auto;
+  overflow-wrap: break-word;
 }
 
 .infoBody {
@@ -106,4 +110,8 @@
   text-overflow: ellipsis;
   margin-bottom: 2px;
   white-space: nowrap;
+}
+
+.imgPlaceHolder {
+  background-color: var(--grey200);
 }

@@ -13,9 +13,8 @@ import {
   lineStyles,
   selectedIcons,
 } from '../../../containers/Map/mapStyles';
-import styles, { defaultColour } from '../../../containers/Map/styles.module.scss';
-import MarkerClusterer from '@googlemaps/markerclustererplus';
-import clsx from 'clsx';
+import { defaultColour } from '../../../containers/Map/styles.module.scss';
+import CreateMarkerCluster, { markerSVG } from '../../Map/MarkerCluster';
 
 export const SELECTED_POLYGON_OPACITY = 1.0;
 export const DEFAULT_POLYGON_OPACITY = 0.5;
@@ -221,7 +220,7 @@ const drawPoint = (map, maps, mapBounds, location) => {
   };
 };
 
-export const createMarkerClusters = (maps, map, points) => {
+export const createMarkerClusters = (maps, map, points, selectedLocationsRef, markerClusterRef) => {
   const markers = points.map((point) => {
     point.marker.location_id = point.location.location_id;
     point.marker.name = point.location.name;
@@ -229,38 +228,27 @@ export const createMarkerClusters = (maps, map, points) => {
     return point.marker;
   });
 
-  const clusterStyle = {
-    textSize: 20,
-    textLineHeight: 20,
-    height: 28,
-    width: 28,
-    className: styles.clusterIcon,
-  };
-  const selectedClusterStyle = {
-    textSize: 20,
-    textLineHeight: 20,
-    height: 28,
-    width: 28,
-    className: styles.selectedClusterIcon,
-  };
-  const clusterStyles = [clusterStyle, selectedClusterStyle];
-
-  const markerCluster = new MarkerClusterer(map, markers, {
-    ignoreHidden: true,
-    styles: clusterStyles,
-  });
-
-  markerCluster.addMarkers(markers, true);
-
-  maps.event.addListener(markerCluster, 'mouseover', function (c) {
-    c.clusterIcon_.div_.className = clsx(c.clusterIcon_.div_.className, styles.hoveredClusterIcon);
-  });
-
-  maps.event.addListener(markerCluster, 'mouseout', function (c) {
-    c.clusterIcon_.div_.className = c.clusterIcon_.div_.className
-      .replace(styles.hoveredClusterIcon, '')
-      .trim();
-  });
-
-  return markerCluster;
+  return CreateMarkerCluster(
+    map,
+    maps,
+    markers,
+    [
+      {
+        event: 'mouseover',
+        callbackFunction: (marker) => () => {
+          const svg = markerSVG('#028577', '#E3F8EC');
+          marker.setIcon({ url: `data:image/svg+xml;base64,${svg}` });
+        },
+      },
+      {
+        event: 'mouseout',
+        callbackFunction: (marker) => () => {
+          const svg = markerSVG('#028577', '#ffffff');
+          marker.setIcon({ url: `data:image/svg+xml;base64,${svg}` });
+        },
+      },
+    ],
+    markerClusterRef,
+    selectedLocationsRef,
+  );
 };

@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const baseModel = require('./baseModel');
+import baseModel from './baseModel.js';
 
 class ShiftTask extends baseModel {
   static get tableName() {
@@ -45,4 +45,4 @@ class ShiftTask extends baseModel {
   }
 }
 
-module.exports = ShiftTask;
+export default ShiftTask;

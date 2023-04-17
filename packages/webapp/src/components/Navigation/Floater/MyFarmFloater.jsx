@@ -9,39 +9,21 @@ import { useSelector } from 'react-redux';
 import { userFarmSelector } from '../../../containers/userFarmSlice';
 import { Floater } from './Floater';
 
-export function PureMyFarmFloaterComponent({
-  farmInfo,
-  farmMap,
-  people,
-  certification,
-  isAdmin,
-}) {
+export function PureMyFarmFloaterComponent({ farmInfo, farmMap, people, certification, isAdmin }) {
   const { t } = useTranslation();
   return (
     <div
       style={{
-        maxWidth: '148px',
+        maxWidth: '163px',
         minWidth: '138px',
         backgroundColor: 'white',
         borderRadius: '4px',
         marginRight: '-4px',
       }}
     >
-      <ListOption
-        clickFn={farmInfo}
-        iconText={t('MY_FARM.FARM_INFO')}
-        icon={<FarmInfoIcon />}
-      />
-      <ListOption
-        clickFn={farmMap}
-        iconText={t('MY_FARM.FARM_MAP')}
-        icon={<FarmMapIcon />}
-      />
-      <ListOption
-        clickFn={people}
-        iconText={t('MY_FARM.PEOPLE')}
-        icon={<PeopleIcon />}
-      />
+      <ListOption clickFn={farmInfo} iconText={t('MY_FARM.FARM_INFO')} icon={<FarmInfoIcon />} />
+      <ListOption clickFn={farmMap} iconText={t('MY_FARM.FARM_MAP')} icon={<FarmMapIcon />} />
+      <ListOption clickFn={people} iconText={t('MY_FARM.PEOPLE')} icon={<PeopleIcon />} />
       {isAdmin && (
         <ListOption
           clickFn={certification}
@@ -72,11 +54,7 @@ export default function PureMyFarmFloater({
     />
   );
   return (
-    <Floater
-      body={Wrapper}
-      placement={'bottom-end'}
-      open={openProfile}
-    >
+    <Floater body={Wrapper} placement={'bottom-end'} open={openProfile}>
       {children}
     </Floater>
   );

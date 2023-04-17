@@ -14,7 +14,7 @@
  */
 
 import React from 'react';
-import ReactDOM from 'react-dom';
+import ReactDOM from 'react-dom/client';
 import * as Sentry from '@sentry/react';
 import { Integrations } from '@sentry/tracing';
 import { Router } from 'react-router-dom';
@@ -27,6 +27,7 @@ import resetUserPasswordSaga from './containers/PasswordResetAccount/saga';
 import outroSaga from './containers/Outro/saga';
 import locationSaga from './containers/LocationDetails/saga';
 import fieldLocationSaga from './containers/LocationDetails/AreaDetails/FieldDetailForm/saga';
+import sensorDetailSaga from './containers/LocationDetails/PointDetails/SensorDetail/saga';
 import documentSaga from './containers/Documents/saga';
 import managementPlanSaga from './containers/Crop/saga';
 import gardenSaga from './containers/LocationDetails/AreaDetails/GardenDetailForm/saga';
@@ -52,6 +53,7 @@ import consentSaga from './containers/Consent/saga';
 import callbackSaga from './containers/Callback/saga';
 import inviteUserSaga from './containers/InviteUser/saga';
 import exportSaga from './containers/ExportDownload/saga';
+import fieldWorkTaskSaga from './containers/Task/FieldWorkTask/saga';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/lib/integration/react';
 import loginSaga from './containers/GoogleLoginButton/saga';
@@ -60,10 +62,11 @@ import SSOInfoSaga from './containers/SSOUserCreateAccountInfo/saga';
 import weatherSaga from './containers/WeatherBoard/saga';
 import alertSaga from './containers/Navigation/Alert/saga';
 import mapSaga from './containers/Map/saga';
+import sensorReadingsSaga from './containers/SensorReadings/saga';
 import uploadDocumentSaga from './containers/Documents/DocumentUploader/saga';
 import { CssBaseline, ThemeProvider } from '@material-ui/core';
 import theme from './assets/theme';
-import cropVarietyImageUploaderSaga from './containers/ImagePickerWrapper/saga';
+import imageUploaderSaga from './containers/ImagePickerWrapper/saga';
 import certificationsSaga from './containers/Certifications/saga';
 import taskSaga from './containers/Task/saga';
 import abandonAndCompleteManagementPlanSaga from './containers/Crop/CompleteManagementPlan/saga';
@@ -73,6 +76,7 @@ import App from './App';
 import { sagaMiddleware } from './store/sagaMiddleware';
 import { persistor, store } from './store/store';
 import { GlobalScss } from './components/GlobalScss';
+import irrigationTaskTypesSaga from './containers/Task/IrrigationTaskTypes/saga';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 
 const clientId = import.meta.env.VITE_GOOGLE_OAUTH_CLIENT_ID;
@@ -97,6 +101,7 @@ sagaMiddleware.run(resetUserPasswordSaga);
 sagaMiddleware.run(outroSaga);
 sagaMiddleware.run(locationSaga);
 sagaMiddleware.run(fieldLocationSaga);
+sagaMiddleware.run(sensorDetailSaga);
 sagaMiddleware.run(managementPlanSaga);
 sagaMiddleware.run(gardenSaga);
 sagaMiddleware.run(gateSaga);
@@ -127,16 +132,19 @@ sagaMiddleware.run(alertSaga);
 sagaMiddleware.run(notificationSaga);
 sagaMiddleware.run(inviteUserSaga);
 sagaMiddleware.run(mapSaga);
+sagaMiddleware.run(sensorReadingsSaga);
 sagaMiddleware.run(uploadDocumentSaga);
 sagaMiddleware.run(documentSaga);
-sagaMiddleware.run(cropVarietyImageUploaderSaga);
+sagaMiddleware.run(imageUploaderSaga);
 sagaMiddleware.run(certificationsSaga);
 sagaMiddleware.run(taskSaga);
 sagaMiddleware.run(abandonAndCompleteManagementPlanSaga);
 sagaMiddleware.run(exportSaga);
 sagaMiddleware.run(errorHandlerSaga);
+sagaMiddleware.run(fieldWorkTaskSaga);
+sagaMiddleware.run(irrigationTaskTypesSaga);
 
-ReactDOM.render(
+ReactDOM.createRoot(document.getElementById('root')).render(
   <Provider store={store}>
     <PersistGate loading={null} persistor={persistor}>
       <ThemeProvider theme={theme}>
@@ -154,7 +162,6 @@ ReactDOM.render(
       </ThemeProvider>
     </PersistGate>
   </Provider>,
-  document.getElementById('root'),
 );
 
 if (window.Cypress) {

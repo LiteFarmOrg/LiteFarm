@@ -1,8 +1,12 @@
-exports.up = async function(knex) {
+export const up = async function (knex) {
   const deletedPlans = await knex('management_plan').where({ deleted: true });
-  await knex('management_tasks').whereIn('management_plan_id', deletedPlans.map(({ management_plan_id }) => management_plan_id)).delete();
+  await knex('management_tasks')
+    .whereIn(
+      'management_plan_id',
+      deletedPlans.map(({ management_plan_id }) => management_plan_id),
+    )
+    .delete();
 };
 
-exports.down = function(knex) {
-
-};
+// eslint-disable-next-line no-unused-vars
+export const down = function (knex) {};

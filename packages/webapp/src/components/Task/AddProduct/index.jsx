@@ -25,10 +25,10 @@ const AddProduct = ({
   const { t } = useTranslation();
   const { farm_id, interested, country_id } = farm;
 
-  const productsOfType = useMemo(() => products.filter((product) => product.type === type), [
-    products.length,
-    type,
-  ]);
+  const productsOfType = useMemo(
+    () => products.filter((product) => product.type === type),
+    [products.length, type],
+  );
 
   const [productValue, setProductValue] = useState(null);
   const typesOfProduct = {
@@ -70,10 +70,10 @@ const AddProduct = ({
       setValue(PERMITTED, null);
     }
   };
-  const isInterestedInCanada = useMemo(() => interested && country_id === CANADA, [
-    country_id,
-    interested,
-  ]);
+  const isInterestedInCanada = useMemo(
+    () => interested && country_id === CANADA,
+    [country_id, interested],
+  );
   const transformProductsToLabel = (products) =>
     products.map(({ product_id, name }) => ({ label: name, value: product_id }));
 
@@ -101,12 +101,13 @@ const AddProduct = ({
         value={productValue}
         style={{ marginBottom: '40px' }}
         creatable
-        icon={<Leaf />}
+        hasLeaf={true}
         isDisabled={disabled}
       />
       <input name={NAME} style={{ display: 'none' }} {...register(NAME, { required: true })} />
       <input name={PRODUCT_ID} style={{ display: 'none' }} {...register(PRODUCT_ID)} />
       <Input
+        data-cy={'addTask-supplier'}
         name={SUPPLIER}
         label={t('ADD_PRODUCT.SUPPLIER_LABEL')}
         hookFormRegister={register(SUPPLIER, { required: interested })}
@@ -132,6 +133,7 @@ const AddProduct = ({
       )}
       <Unit
         label={t('ADD_PRODUCT.QUANTITY')}
+        data-cy="soilAmendment-quantity"
         hasLeaf
         style={{ marginBottom: '40px' }}
         register={register}

@@ -13,25 +13,31 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const chai = require('chai');
-const chaiHttp = require('chai-http');
-const moment = require('moment');
-chai.use(chaiHttp);
-const server = require('./../src/server');
-const knex = require('../src/util/knex');
-const { tableCleanup } = require('./testEnvironment');
-jest.mock('jsdom');
-jest.mock('../src/middleware/acl/checkJwt');
-const mocks = require('./mock.factories');
-const { faker } = require('@faker-js/faker');
-const lodash = require('lodash');
+import chai from 'chai';
 
-const managementPlanModel = require('../src/models/managementPlanModel');
-const locationModel = require('../src/models/locationModel');
-const cropManagementPlanModel = require('../src/models/cropManagementPlanModel');
+import chaiHttp from 'chai-http';
+import moment from 'moment';
+chai.use(chaiHttp);
+import server from './../src/server.js';
+import knex from '../src/util/knex.js';
+import { tableCleanup } from './testEnvironment.js';
+jest.mock('jsdom');
+jest.mock('../src/middleware/acl/checkJwt.js', () =>
+  jest.fn((req, res, next) => {
+    req.user = {};
+    req.user.user_id = req.get('user_id');
+    next();
+  }),
+);
+import mocks from './mock.factories.js';
+import { faker } from '@faker-js/faker';
+import lodash from 'lodash';
+import managementPlanModel from '../src/models/managementPlanModel.js';
+import locationModel from '../src/models/locationModel.js';
+import cropManagementPlanModel from '../src/models/cropManagementPlanModel.js';
 
 describe('ManagementPlan Tests', () => {
-  let middleware;
+  let token;
   let owner;
   let field;
   let farm;
@@ -138,12 +144,12 @@ describe('ManagementPlan Tests', () => {
       .findById(location.location_id).withGraphFetched(`[
           figure.[area], field]`);
 
-    middleware = require('../src/middleware/acl/checkJwt');
-    middleware.mockImplementation((req, res, next) => {
-      req.user = {};
-      req.user.user_id = req.get('user_id');
-      next();
-    });
+    // middleware = require('../src/middleware/acl/checkJwt');
+    // middleware.mockImplementation((req, res, next) => {
+    //   req.user = {};
+    //   req.user.user_id = req.get('user_id');
+    //   next();
+    // });
   });
 
   afterAll(async (done) => {
@@ -1014,7 +1020,7 @@ describe('ManagementPlan Tests', () => {
       });
     });
 
-    //TODO: post management plan middle ware that checks there are maximum 1 plant_task and 1 transplant_task
+    // //TODO: post management plan middle ware that checks there are maximum 1 plant_task and 1 transplant_task
     xtest('should not allow multiple types of plantation', async (done) => {
       const managementPlantWith4plantingManagementPlan = getBody(
         'broadcast_method',

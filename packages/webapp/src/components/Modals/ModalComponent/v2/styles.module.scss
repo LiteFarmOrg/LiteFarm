@@ -3,7 +3,7 @@
   flex-direction: column;
   max-width: 500px;
   width: calc(100vw - 48px);
-  background: #fafafd;
+  background: var(--modalPrimary);
   border-radius: 7.05466px;
   position: relative;
   padding: 24px;

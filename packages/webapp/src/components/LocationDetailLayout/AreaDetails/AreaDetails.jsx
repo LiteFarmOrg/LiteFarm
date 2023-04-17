@@ -56,7 +56,7 @@ export default function AreaDetails({
         </PureWarningBox>
       )}
       <Input
-        data-cy="createField-fieldName"
+        data-cy="areaDetails-name"
         label={`${name}`}
         type="text"
         style={{ marginBottom: '40px' }}

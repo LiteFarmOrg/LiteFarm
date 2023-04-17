@@ -77,6 +77,9 @@ const filterSliceReducer = createSlice({
     setDocumentsFilter: (state, { payload: documentsFilter }) => {
       Object.assign(state.documents, documentsFilter);
     },
+    clearTasksFilter: (state) => {
+      state.tasks = intialTasksFilter;
+    },
     resetTasksFilter: (state, { payload: { user_id, userFarms } }) => {
       state.tasks = {
         ...intialTasksFilter,
@@ -143,6 +146,7 @@ const filterSliceReducer = createSlice({
       state.tasks = {
         ...state.tasks,
         ASSIGNEE: {
+          unassigned: { active: false, label: t('TASK.UNASSIGNED') },
           ...activeUsers.reduce((prev, curr) => {
             prev[curr.user_id] = {
               active: false,
@@ -189,6 +193,7 @@ export const {
   resetDocumentsFilter,
   setDocumentsFilter,
   resetTasksFilter,
+  clearTasksFilter,
   setTasksFilter,
   setTasksFilterUnassignedDueThisWeek,
   setTasksFilterDueToday,

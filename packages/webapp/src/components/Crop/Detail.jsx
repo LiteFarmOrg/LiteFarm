@@ -38,6 +38,7 @@ function PureCropDetail({
   const GENETICALLY_ENGINEERED = 'genetically_engineered';
   const HS_CODE_ID = 'hs_code_id';
   const isOrganic = isEditing ? watch(ORGANIC) : variety.organic;
+
   return (
     <Layout
       buttonGroup={
@@ -54,13 +55,7 @@ function PureCropDetail({
         )
       }
     >
-      <CropHeader
-        onBackClick={() => history.back()}
-        crop_translation_key={variety.crop_translation_key}
-        crop_variety_name={variety.crop_variety_name}
-        crop_variety_photo_url={variety.crop_variety_photo_url}
-        supplier={variety.supplier}
-      />
+      <CropHeader onBackClick={() => history.back()} variety={variety} />
       {!isEditing && (
         <>
           <RouterTab

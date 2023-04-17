@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-exports.up = async function(knex) {
+export const up = async function (knex) {
   await knex.raw(`
   UPDATE "userFarm" uf
   SET role_id = 
@@ -33,6 +33,5 @@ exports.up = async function(knex) {
   `);
 };
 
-exports.down = function(knex) {
-
-};
+// eslint-disable-next-line no-unused-vars
+export const down = function (knex) {};

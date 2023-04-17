@@ -13,15 +13,15 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const express = require('express');
-const router = express.Router();
-const checkScope = require('../middleware/acl/checkScope');
-const hasFarmAccess = require('../middleware/acl/hasFarmAccess');
-const validateFilesLength = require('../middleware/validation/createDocument');
-const validateFileExtension = require('../middleware/validation/uploadDocument');
+import express from 'express';
 
-const documentController = require('../controllers/documentController');
-const multerDiskUpload = require('../util/fileUpload');
+const router = express.Router();
+import checkScope from '../middleware/acl/checkScope.js';
+import hasFarmAccess from '../middleware/acl/hasFarmAccess.js';
+import validateFilesLength from '../middleware/validation/createDocument.js';
+import validateFileExtension from '../middleware/validation/uploadDocument.js';
+import documentController from '../controllers/documentController.js';
+import multerDiskUpload from '../util/fileUpload.js';
 
 router.get(
   '/farm/:farm_id',
@@ -62,4 +62,4 @@ router.put(
   documentController.updateDocument(),
 );
 
-module.exports = router;
+export default router;

@@ -1,10 +1,11 @@
-const recordDGenerator = require('./record_d_generation');
-const recordAGenerator = require('./record_a_generation');
-const recordIGeneration = require('./record_i_generation');
-const readmeGeneration = require('./readmeGeneration');
-const surveyRecordGeneration = require('./survey_record');
-const i18n = require('../locales/i18n');
-module.exports = (nextQueue, zipQueue, emailQueue) => (job) => {
+import recordDGenerator from './record_d_generation.js';
+import recordAGenerator from './record_a_generation.js';
+import recordIGeneration from './record_i_generation.js';
+import readmeGeneration from './readmeGeneration.js';
+import surveyRecordGeneration from './survey_record.js';
+import i18n from '../locales/i18n.js';
+
+export default (nextQueue, zipQueue, emailQueue) => (job) => {
   console.log('STEP 2 > EXCEL GENERATE', job.id);
   const {
     recordD,
@@ -19,6 +20,7 @@ module.exports = (nextQueue, zipQueue, emailQueue) => (job) => {
     language_preference,
     submission,
     organicCertifierSurvey,
+    certifier,
   } = job.data;
   return i18n
     .changeLanguage(language_preference)
@@ -29,7 +31,7 @@ module.exports = (nextQueue, zipQueue, emailQueue) => (job) => {
         recordAGenerator(recordA, exportId, from_date, to_date, farm_name, measurement),
         recordIGeneration(recordICleaners, exportId, from_date, to_date, farm_name, measurement),
         readmeGeneration(exportId, language_preference),
-        surveyRecordGeneration(emailQueue, submission, exportId, organicCertifierSurvey),
+        surveyRecordGeneration(emailQueue, submission, exportId, organicCertifierSurvey, certifier),
       ]),
     )
     .then(() => {

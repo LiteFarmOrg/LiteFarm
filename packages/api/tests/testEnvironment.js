@@ -13,30 +13,36 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const NodeEnvironment = require('jest-environment-node');
-
-class TestEnvironment extends NodeEnvironment {
-  constructor(config) {
-    super(config);
-  }
-
-  async setup() {
-    await super.setup();
-  }
-  async teardown() {
-    await super.teardown();
-  }
-
-  runScript(script) {
-    return super.runScript(script);
-  }
-}
+// import NodeEnvironment from 'jest-environment-node';
+//
+// class TestEnvironment extends NodeEnvironment {
+//   constructor(config) {
+//     super(config);
+//   }
+//
+//   async setup() {
+//     await super.setup();
+//   }
+//   async teardown() {
+//     await super.teardown();
+//   }
+//
+//   runScript(script) {
+//     return super.runScript(script);
+//   }
+// }
 
 async function tableCleanup(knex) {
   await knex('farm')
     .whereNotNull('default_initial_location_id')
     .update({ default_initial_location_id: null });
   return knex.raw(`
+    DELETE FROM "partner_reading_type";
+    DELETE FROM "farm_external_integration";
+    DELETE FROM "integrating_partner";
+    DELETE FROM "sensor_reading_type";
+    DELETE FROM "sensor_reading";
+    DELETE FROM "sensor";
     DELETE FROM "notification_user";
     DELETE FROM "notification";
     DELETE FROM "supportTicket";
@@ -120,4 +126,4 @@ async function tableCleanup(knex) {
   `);
 }
 
-module.exports = { TestEnvironment, tableCleanup };
+export { tableCleanup };

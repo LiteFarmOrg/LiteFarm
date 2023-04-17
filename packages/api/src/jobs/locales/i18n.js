@@ -1,5 +1,5 @@
-const i18n = require('i18next');
-const Backend = require('i18next-fs-backend');
+import i18n from 'i18next';
+import Backend from 'i18next-fs-backend';
 
 i18n.use(Backend).init(
   {
@@ -17,4 +17,4 @@ i18n.use(Backend).init(
   },
 );
 
-module.exports = i18n;
+export default i18n;

@@ -13,9 +13,12 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const Model = require('objection').Model;
+import { Model } from 'objection';
+import taskModel from './taskModel.js';
+import BaseModel from './baseModel.js';
+import FieldWorkTypeModel from './fieldWorkTypeModel.js';
 
-class FieldWorkTaskModel extends Model {
+class FieldWorkTaskModel extends BaseModel {
   static get tableName() {
     return 'field_work_task';
   }
@@ -29,15 +32,10 @@ class FieldWorkTaskModel extends Model {
   static get jsonSchema() {
     return {
       type: 'object',
-
       properties: {
         task_id: { type: 'integer' },
-        type: {
-          type: 'string',
-          enum:['COVERING_SOIL', 'FENCING', 'PREPARING_BEDS_OR_ROWS', 'PRUNING',
-            'SHADE_CLOTH', 'TERMINATION', 'TILLAGE', 'WEEDING', 'OTHER'],
-        },
-        other_type: { type: ['string', null] },
+        field_work_type_id: { type: 'integer' },
+        ...this.baseProperties,
       },
       additionalProperties: false,
     };
@@ -51,16 +49,22 @@ class FieldWorkTaskModel extends Model {
         // The related model. This can be either a Model
         // subclass constructor or an absolute file path
         // to a module that exports one.
-        modelClass: require('./taskModel'),
+        modelClass: taskModel,
         join: {
           from: 'field_work_task.task_id',
           to: 'task.task_id',
         },
-
       },
-
+      field_work_task_type: {
+        modelClass: FieldWorkTypeModel,
+        relation: Model.HasManyRelation,
+        join: {
+          from: 'field_work_task.field_work_type_id',
+          to: 'field_work_type.field_work_type_id',
+        },
+      },
     };
   }
 }
 
-module.exports = FieldWorkTaskModel;
+export default FieldWorkTaskModel;

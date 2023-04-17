@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const Model = require('objection').Model;
+import { Model } from 'objection';
 
 class SurfaceWater extends Model {
   static get tableName() {
@@ -42,4 +42,4 @@ class SurfaceWater extends Model {
   }
 }
 
-module.exports = SurfaceWater;
+export default SurfaceWater;

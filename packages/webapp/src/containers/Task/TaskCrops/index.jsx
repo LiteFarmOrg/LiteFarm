@@ -11,11 +11,11 @@ import { useIsTaskType } from '../useIsTaskType';
 
 export default function ManagementPlanSelector({ history, match, location }) {
   const isTransplantTask = useIsTaskType('TRANSPLANT_TASK');
-  return isTransplantTask ? (
-    <TransplantManagementPlansSelector history={history} match={match} location={location} />
-  ) : (
-    <TaskCrops history={history} match={match} location={location} />
-  );
+  if (isTransplantTask)
+    return (
+      <TransplantManagementPlansSelector history={history} match={match} location={location} />
+    );
+  return <TaskCrops history={history} match={match} location={location} />;
 }
 
 function TransplantManagementPlansSelector({ history, match, location }) {
@@ -44,11 +44,9 @@ function TaskCrops({
   location,
 }) {
   const persistedPaths = [goBackPath, onContinuePath];
-
   const handleGoBack = () => {
     history.back();
   };
-
   const onContinue = () => {
     history.push(onContinuePath, location?.state);
   };
@@ -64,10 +62,6 @@ function TaskCrops({
       showWildCrops,
     );
 
-  const bypass =
-    !Object.keys(activeAndCurrentManagementPlansByLocationIds).length &&
-    !persistedFormData.show_wild_crop;
-
   const isRequired =
     isHarvestTask || isTransplantTask || (showWildCrops && !persistedFormData.locations?.length);
   return (
@@ -75,7 +69,6 @@ function TaskCrops({
       <PureTaskCrops
         handleGoBack={handleGoBack}
         onError={onError}
-        onSubmit={onContinue}
         persistedPaths={persistedPaths}
         managementPlansByLocationIds={activeAndCurrentManagementPlansByLocationIds}
         onContinue={onContinue}
@@ -85,7 +78,6 @@ function TaskCrops({
         defaultManagementPlanId={location?.state?.management_plan_id ?? null}
         history={history}
         location={location}
-        bypass={bypass}
       />
     </HookFormPersistProvider>
   );

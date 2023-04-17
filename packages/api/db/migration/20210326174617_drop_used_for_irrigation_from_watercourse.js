@@ -13,19 +13,18 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-exports.up = function(knex) {
-    return Promise.all([
-      knex.schema.table('watercourse', (table) => {
-        table.dropColumn('includes_riparian_buffer');
-      }),
-    ])
-  };
-  
-  exports.down = function(knex) {
-    return Promise.all([
-      knex.schema.table('watercourse', (table) => {
-        table.string('includes_riparian_buffer');
-      }),
-    ])
-  };
-  
+export const up = function (knex) {
+  return Promise.all([
+    knex.schema.table('watercourse', (table) => {
+      table.dropColumn('includes_riparian_buffer');
+    }),
+  ]);
+};
+
+export const down = function (knex) {
+  return Promise.all([
+    knex.schema.table('watercourse', (table) => {
+      table.string('includes_riparian_buffer');
+    }),
+  ]);
+};

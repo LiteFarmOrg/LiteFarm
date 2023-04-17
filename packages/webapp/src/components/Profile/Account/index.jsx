@@ -32,7 +32,7 @@ export default function PureAccount({ userFarm, onSubmit, history, isAdmin }) {
     handleSubmit,
     control,
     setValue,
-    formState: { isValid, isDirty },
+    formState: { isValid, isDirty, errors },
   } = useForm({
     mode: 'onChange',
     defaultValues: userFarm,
@@ -53,7 +53,7 @@ export default function PureAccount({ userFarm, onSubmit, history, isAdmin }) {
       onSubmit={handleSubmit(onSubmit)}
       history={history}
       buttonGroup={
-        <Button fullLength type={'submit'} disabled={disabled}>
+        <Button data-cy="account-submit" fullLength type={'submit'} disabled={disabled}>
           {t('common:SAVE')}
         </Button>
       }
@@ -62,15 +62,17 @@ export default function PureAccount({ userFarm, onSubmit, history, isAdmin }) {
         label={t('PROFILE.ACCOUNT.FIRST_NAME')}
         hookFormRegister={register(userFarmEnum.first_name, {
           required: true,
-          pattern: /^[A-Za-zÀ-ÖØ-öø-ÿ]+/g,
+          maxLength: { value: 255, message: t('PROFILE.ERROR.FIRST_NAME_LENGTH') },
         })}
+        errors={errors[userFarmEnum.first_name] && errors[userFarmEnum.first_name].message}
       />
       <Input
         label={t('PROFILE.ACCOUNT.LAST_NAME')}
         hookFormRegister={register(userFarmEnum.last_name, {
           required: false,
-          pattern: /^[A-Za-zÀ-ÖØ-öø-ÿ]+/g,
+          maxLength: { value: 255, message: t('PROFILE.ERROR.LAST_NAME_LENGTH') },
         })}
+        errors={errors[userFarmEnum.last_name] && errors[userFarmEnum.last_name].message}
       />
       <Input
         label={t('PROFILE.ACCOUNT.EMAIL')}
@@ -80,8 +82,13 @@ export default function PureAccount({ userFarm, onSubmit, history, isAdmin }) {
       <Input
         type={'number'}
         label={t('PROFILE.ACCOUNT.PHONE_NUMBER')}
-        hookFormRegister={register(userFarmEnum.phone_number, { required: false })}
+        hookFormRegister={register(userFarmEnum.phone_number, {
+          required: false,
+          maxLength: { value: 20, message: t('PROFILE.ERROR.PHONE_NUMBER_LENGTH') },
+        })}
         onKeyDown={integerOnKeyDown}
+        errors={errors[userFarmEnum.phone_number] && errors[userFarmEnum.phone_number].message}
+        optional
       />
       <Controller
         control={control}
@@ -92,7 +99,12 @@ export default function PureAccount({ userFarm, onSubmit, history, isAdmin }) {
       />
       <Input
         label={t('PROFILE.ACCOUNT.USER_ADDRESS')}
-        hookFormRegister={register(userFarmEnum.user_address, { required: false })}
+        hookFormRegister={register(userFarmEnum.user_address, {
+          required: false,
+          maxLength: { value: 255, message: t('PROFILE.ERROR.USER_ADDRESS_LENGTH') },
+        })}
+        errors={errors[userFarmEnum.user_address] && errors[userFarmEnum.user_address].message}
+        optional
       />
     </ProfileLayout>
   );

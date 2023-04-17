@@ -1,4 +1,5 @@
-exports.up = function(knex, Promise) {
+// eslint-disable-next-line no-unused-vars
+export const up = function (knex, Promise) {
   return knex.schema.raw(`
     ALTER TABLE "document"
     DROP CONSTRAINT "document_type_check",
@@ -10,7 +11,8 @@ exports.up = function(knex, Promise) {
   `);
 };
 
-exports.down = function(knex, Promise) {
+// eslint-disable-next-line no-unused-vars
+export const down = function (knex, Promise) {
   return knex.schema.raw(`
     ALTER TABLE "document"
     DROP CONSTRAINT "document_type_check",

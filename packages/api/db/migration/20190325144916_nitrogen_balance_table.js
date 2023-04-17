@@ -13,12 +13,17 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-exports.up = function(knex) {
+export const up = function (knex) {
   return Promise.all([
     knex.schema.createTable('nitrogenBalance', (table) => {
       table.increments('nitrogen_id');
       table.timestamp('created_at').defaultTo(knex.fn.now());
-      table.uuid('field_id').references('field_id').inTable('field').onDelete('CASCADE').notNullable();
+      table
+        .uuid('field_id')
+        .references('field_id')
+        .inTable('field')
+        .onDelete('CASCADE')
+        .notNullable();
       table.float('nitrogen_value');
     }),
     knex.schema.createTable('nitrogenSchedule', (table) => {
@@ -27,12 +32,12 @@ exports.up = function(knex) {
       table.timestamp('scheduled_at');
       table.uuid('farm_id').references('farm_id').inTable('farm').notNullable();
     }),
-  ])
+  ]);
 };
 
-exports.down = function(knex) {
+export const down = function (knex) {
   return Promise.all([
     knex.schema.dropTable('nitrogenBalance'),
     knex.schema.dropTable('nitrogenSchedule'),
-  ])
+  ]);
 };

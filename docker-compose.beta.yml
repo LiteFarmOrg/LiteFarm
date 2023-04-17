@@ -21,6 +21,16 @@ services:
       retries: 5
     volumes:
       - ~/docker/volumes/postgres:/var/lib/postgresql/data
+  frontend:
+    container_name: litefarm-web
+    build:
+      context: ./packages/
+      dockerfile: ./webapp/prod.Dockerfile
+    volumes:
+      - /etc/letsencrypt:/etc/letsencrypt
+    ports:
+      - "80:80"
+      - "443:443"
   backend:
     container_name: litefarm-api
     deploy:
@@ -28,8 +38,8 @@ services:
         condition: on-failure
         max_attempts: 3
     build:
-      context: ./packages/api
-      dockerfile: prod.Dockerfile
+      context: ./packages/
+      dockerfile: ./api/prod.Dockerfile
     volumes:
       - /etc/letsencrypt:/usr/src/letsencrypt
     ports:
@@ -41,13 +51,3 @@ services:
       DEV_DATABASE: ${DEV_DATABASE}
       DEV_DATABASE_USER: ${DEV_DATABASE_USER}
       DEV_DATABASE_PASSWORD: ${DEV_DATABASE_PASSWORD}
-  frontend:
-    container_name: litefarm-web
-    build:
-      context: ./packages/webapp
-      dockerfile: prod.Dockerfile
-    volumes:
-      - /etc/letsencrypt:/etc/letsencrypt
-    ports:
-      - "80:80"
-      - "443:443"

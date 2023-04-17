@@ -1,8 +1,8 @@
-const S3 = require('aws-sdk/clients/s3');
-const axios = require('axios');
-const FormData = require('form-data');
-const { v4: uuidv4 } = require('uuid');
-const path = require('path');
+import S3 from 'aws-sdk/clients/s3.js';
+import axios from 'axios';
+import FormData from 'form-data';
+import { v4 as uuidv4 } from 'uuid';
+import path from 'path';
 
 function getPrivateS3BucketName() {
   if (process.env.PRIVATE_BUCKET_NAME) return process.env.PRIVATE_BUCKET_NAME;
@@ -35,11 +35,13 @@ function getImaginaryUrl(
 }
 
 const DO_ENDPOINT = 'nyc3.digitaloceanspaces.com';
+const MINIO_ENDPOINT = process.env.MINIO_ENDPOINT;
 
 const s3 = new S3({
-  endpoint: DO_ENDPOINT,
+  endpoint: process.env.NODE_ENV === 'development' ? MINIO_ENDPOINT : DO_ENDPOINT,
   accessKeyId: process.env.DO_SPACES_ACCESS_KEY_ID,
   secretAccessKey: process.env.DO_SPACES_SECRET_ACCESS_KEY,
+  s3ForcePathStyle: process.env.NODE_ENV === 'development' ? true : false,
 });
 
 async function imaginaryPost(
@@ -98,14 +100,20 @@ function getRandomFileName(file) {
 }
 
 function getPrivateS3Url() {
+  if (process.env.NODE_ENV === 'development') {
+    return `${MINIO_ENDPOINT}/${getPrivateS3BucketName()}`;
+  }
   return `https://${getPrivateS3BucketName()}.${DO_ENDPOINT}`;
 }
 
 function getPublicS3Url() {
+  if (process.env.NODE_ENV === 'development') {
+    return `${MINIO_ENDPOINT}/${getPublicS3BucketName()}`;
+  }
   return `https://${getPublicS3BucketName()}.${DO_ENDPOINT}`;
 }
 
-module.exports = {
+export {
   getPublicS3BucketName,
   getPrivateS3BucketName,
   getImaginaryUrl,

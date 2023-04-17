@@ -12,6 +12,7 @@
     "CERTIFIED": "Certificado",
     "CROPS_OR_ANIMALS": "Cultivo (s) o tipo de animal por unidad",
     "CURRENT_STATUS": "Estatus actual - marque uno por unidad",
+    "EXPORT_DOCUMENT_NAME": "REGISTRO A",
     "HEADER": "REGISTRO A - IDENTIFICACIÓN DEL SITIO",
     "HECTARES": "Hectáreas",
     "INDIVIDUAL_PRODUCTION_UNIT": "para cada unidad de producción individual (por ejemplo, Sitio/Campo/INV/Área definida -   según corresponda para su operación y etiquetado en su mapa)",
@@ -37,6 +38,7 @@
   },
   "RECORD_D": {
     "DATE_COMPLETED": "Fecha de Finalización",
+    "EXPORT_DOCUMENT_NAME": "REGISTRO D",
     "FROM": "Desde",
     "HEADER": "Registro D- Semilla y Plántula",
     "NOTE": {
@@ -68,6 +70,7 @@
   "RECORD_I": {
     "CLEANERS": "Productos de limpieza",
     "CROP_PRODUCTION_AIDS": "Ayudas a la producción de cultivos",
+    "EXPORT_DOCUMENT_NAME": "REGISTRO I",
     "HEADER": "Registro I",
     "INPUT_CATEGORY": "Categoría de insumo",
     "LOCATIONS": "Ubicación(es)",

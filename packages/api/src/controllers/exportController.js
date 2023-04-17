@@ -13,9 +13,10 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const userModel = require('../models/userModel');
-const { emails, sendEmail } = require('../templates/sendEmailTemplate');
-const farmModel = require('../models/farmModel');
+import UserModel from '../models/userModel.js';
+
+import { emails, sendEmail } from '../templates/sendEmailTemplate.js';
+import FarmModel from '../models/farmModel.js';
 
 const exportController = {
   sendMapToEmail() {
@@ -23,8 +24,8 @@ const exportController = {
       try {
         const user_id = req.user.user_id;
         const { farm_id } = req.params;
-        const user = await userModel.query().findById(user_id);
-        const { farm_name } = await farmModel.query().findById(farm_id);
+        const user = await UserModel.query().findById(user_id);
+        const { farm_name } = await FarmModel.query().findById(farm_id);
         const replacements = {
           first_name: user.first_name,
           locale: user.language_preference,
@@ -46,4 +47,4 @@ const exportController = {
   },
 };
 
-module.exports = exportController;
+export default exportController;

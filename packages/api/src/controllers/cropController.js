@@ -1,6 +1,6 @@
 /*
- *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>
- *  This file (cropController.js) is part of LiteFarm.
+ *  Copyright 2019, 2020, 2021, 2022, 2023 LiteFarm.org
+ *  This file is part of LiteFarm.
  *
  *  LiteFarm is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -13,13 +13,23 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const baseController = require('../controllers/baseController');
-const cropModel = require('../models/cropModel');
-const cropVarietyModel = require('../models/cropVarietyModel');
-const { transaction, Model, UniqueViolationError } = require('objection');
+import baseController from '../controllers/baseController.js';
+import nominationController from './nominationController.js';
+import NominationCrop from '../models/nominationCropModel.js';
+import CropModel from '../models/cropModel.js';
+import CropVarietyModel from '../models/cropVarietyModel.js';
+import objection from 'objection';
+import {
+  getPublicS3BucketName,
+  s3,
+  imaginaryPost,
+  getPublicS3Url,
+} from '../util/digitalOceanSpaces.js';
+import { v4 as uuidv4 } from 'uuid';
+
+const { transaction, Model, UniqueViolationError } = objection;
 
 const cropController = {
-
   addCropWithFarmID() {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
@@ -27,7 +37,7 @@ const cropController = {
         const data = req.body;
         data.user_added = true;
         data.crop_translation_key = data.crop_common_name;
-        const result = await baseController.postWithResponse(cropModel, data, req, { trx });
+        const result = await baseController.postWithResponse(CropModel, data, req, { trx });
         await trx.commit();
         res.status(201).send(result);
       } catch (error) {
@@ -40,7 +50,6 @@ const cropController = {
             error,
             violationError,
           });
-
         }
 
         //handle more exceptions
@@ -51,7 +60,6 @@ const cropController = {
             violationError,
           });
         }
-
       }
     };
   },
@@ -60,11 +68,40 @@ const cropController = {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
       try {
-        const { crop, variety } = req.body;
+        const { crop, variety, farm_id } = req.body;
+        const duplicateCrop = await CropModel.query().findOne({
+          farm_id,
+          crop_common_name: crop.crop_common_name,
+          crop_genus: crop.crop_genus || null, // Use null if the value is undefined
+          crop_specie: crop.crop_specie || null, // Use null if the value is undefined
+          deleted: false,
+        });
+        if (duplicateCrop) {
+          await trx.rollback();
+          return res.status(400).json({
+            error: 'This crop already exists, please edit your crop name, genus or species',
+          });
+        }
         crop.user_added = true;
         crop.crop_translation_key = crop.crop_common_name;
-        const newCrop = await baseController.postWithResponse(cropModel, crop, req, { trx });
-        const newVariety = await baseController.postWithResponse(cropVarietyModel, { ...newCrop, ...variety }, req, { trx });
+        const newCrop = await baseController.postWithResponse(CropModel, crop, req, { trx });
+        const newVariety = await baseController.postWithResponse(
+          CropVarietyModel,
+          { ...newCrop, ...variety },
+          req,
+          { trx },
+        );
+        if (crop.nominate_crop) {
+          req.body.crop_id = newCrop.crop_id;
+          await nominationController.addNominationFromController(
+            NominationCrop,
+            'CROP_NOMINATION',
+            'NOMINATED',
+            req,
+            { trx },
+          );
+        }
+
         await trx.commit();
         res.status(201).send({ crop: newCrop, variety: newVariety });
       } catch (error) {
@@ -76,7 +113,6 @@ const cropController = {
             error,
             violationError,
           });
-
         }
 
         //handle more exceptions
@@ -87,7 +123,6 @@ const cropController = {
             violationError,
           });
         }
-
       }
     };
   },
@@ -96,11 +131,13 @@ const cropController = {
     return async (req, res) => {
       try {
         const farm_id = req.params.farm_id;
-        const rows = req.query?.fetch_all === 'false' ? await cropModel.query().whereNotDeleted().where({
-            farm_id,
-          })
-          : await cropController.get(farm_id);
-          return res.status(200).send(rows);
+        const rows =
+          req.query?.fetch_all === 'false'
+            ? await CropModel.query().whereNotDeleted().where({
+                farm_id,
+              })
+            : await cropController.get(farm_id);
+        return res.status(200).send(rows);
       } catch (error) {
         //handle more exceptions
         return res.status(400).json({
@@ -114,7 +151,7 @@ const cropController = {
     return async (req, res) => {
       try {
         const id = req.params.crop_id;
-        const row = await baseController.getIndividual(cropModel, id);
+        const row = await baseController.getIndividual(CropModel, id);
         if (!row.length) {
           res.sendStatus(404);
         } else {
@@ -154,17 +191,16 @@ const cropController = {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
       try {
-        const user_id = req.user.user_id;
+        // const user_id = req.user.user_id;
         const data = req.body;
         data.crop_translation_key = data.crop_common_name;
-        const updated = await baseController.put(cropModel, req.params.crop_id, data, req, { trx });
+        const updated = await baseController.put(CropModel, req.params.crop_id, data, req, { trx });
         await trx.commit();
         if (!updated.length) {
           res.sendStatus(404);
         } else {
           res.status(200).send(updated);
         }
-
       } catch (error) {
         console.log(error);
         await trx.rollback();
@@ -175,16 +211,62 @@ const cropController = {
     };
   },
 
+  uploadCropImage() {
+    return async (req, res, next) => {
+      try {
+        const TYPE = 'webp';
+        const fileName = `crop/${uuidv4()}.${TYPE}`;
+
+        const THUMBNAIL_FORMAT = 'webp';
+        const LENGTH = '208';
+
+        const compressedImage = await imaginaryPost(
+          req.file,
+          {
+            width: LENGTH,
+            height: LENGTH,
+            type: THUMBNAIL_FORMAT,
+            aspectratio: '1:1',
+          },
+          { endpoint: 'smartcrop' },
+        );
+
+        await s3
+          .putObject({
+            Body: compressedImage.data,
+            Bucket: getPublicS3BucketName(),
+            Key: fileName,
+            ACL: 'public-read',
+          })
+          .promise();
+
+        return res.status(201).json({
+          url: `${getPublicS3Url()}/${fileName}`,
+        });
+      } catch (error) {
+        console.log(error);
+        return res.status(400).send('Fail to upload image');
+      }
+    };
+  },
+
   async get(farm_id) {
     //TODO fix user added flag
-    return await cropModel.query().whereNotDeleted().where('reviewed', true).orWhere({ farm_id, deleted: false });
+    return await CropModel.query()
+      .whereNotDeleted()
+      .where('reviewed', true)
+      .orWhere({ farm_id, deleted: false });
   },
 
   async del(req, trx) {
     const id = req.params.crop_id;
-    const table_id = cropModel.idColumn;
-    return await cropModel.query(trx).context({ user_id: req.user.user_id }).where(table_id, id).andWhere('user_added', true).delete();
+    const table_id = CropModel.idColumn;
+    return await CropModel.query(trx)
+      .context({ user_id: req.user.user_id })
+      .where(table_id, id)
+      .andWhere('user_added', true)
+      .delete();
   },
 };
 
-module.exports = cropController;
+export default cropController;

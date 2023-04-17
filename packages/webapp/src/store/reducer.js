@@ -42,6 +42,7 @@ import watercourseReducer from '../containers/watercourseSlice';
 import fenceReducer from '../containers/fenceSlice';
 import gateReducer from '../containers/gateSlice';
 import waterValveReducer from '../containers/waterValveSlice';
+import sensorReducer from '../containers/sensorSlice';
 
 import cropReducer from '../containers/cropSlice';
 import cropVarietyReducer from '../containers/cropVarietySlice';
@@ -59,9 +60,15 @@ import productReducer from '../containers/productSlice';
 import homeReducer from '../containers/Home/homeSlice';
 import mapLocationReducer from '../containers/mapSlice';
 import mapFilterSettingReducer from '../containers/Map/mapFilterSettingSlice';
+import mapAddDrawerReducer from '../containers/Map/mapAddDrawerSlice';
 import mapCacheReducer from '../containers/Map/mapCacheSlice';
+import mapSensorReducer from '../containers/Map/mapSensorSlice';
+import sensorReadingTypesReducer from '../containers/sensorReadingTypesSlice';
 import showedSpotlightReducer from '../containers/showedSpotlightSlice';
+import bulkSensorsUploadReducer from '../containers/bulkSensorUploadSlice';
+import bulkSensorsReadingsReducer from '../containers/bulkSensorReadingsSlice';
 import hookFormPersistReducer from '../containers/hooks/useHookFormPersist/hookFormPersistSlice';
+import offlineDetectorReducer from '../containers/hooks/useOfflineDetector/offlineDetectorSlice';
 import filterReducer from '../containers/filterSlice';
 import managementPlanReducer from '../containers/managementPlanSlice';
 import cropManagementPlanReducer from '../containers/cropManagementPlanSlice';
@@ -76,6 +83,9 @@ import certifierReducer from '../containers/OrganicCertifierSurvey/certifierSlic
 import snackbarReducer from '../containers/Snackbar/snackbarSlice';
 import appSettingReducer from '../containers/appSettingSlice';
 import customSignUpReducer from '../containers/customSignUpSlice';
+import fieldWorkReducer from '../containers/fieldWorkSlice';
+import irrigationTaskReducer from '../containers/slice/taskSlice/irrigationTaskSlice';
+import irrigationTaskTypesReducer from '../containers/irrigationTaskTypesSlice';
 
 import { ActionTypes } from './actionTypes';
 // all the initial state for the forms
@@ -169,7 +179,10 @@ const entitiesReducer = combineReducers({
   fenceReducer,
   gateReducer,
   waterValveReducer,
+  sensorReducer,
   showedSpotlightReducer,
+  bulkSensorsUploadReducer,
+  bulkSensorsReadingsReducer,
   managementPlanReducer,
   cropManagementPlanReducer,
   plantingManagementPlanReducer,
@@ -191,6 +204,10 @@ const entitiesReducer = combineReducers({
   taskTypeReducer,
   harvestUseTypeReducer,
   productReducer,
+  mapAddDrawerReducer,
+  fieldWorkReducer,
+  irrigationTaskReducer,
+  irrigationTaskTypesReducer,
 });
 
 const farmStateReducer = combineReducers({
@@ -202,6 +219,8 @@ const persistedStateReducer = combineReducers({
   chooseFarmFlowReducer,
   mapFilterSettingReducer,
   mapCacheReducer,
+  mapSensorReducer,
+  sensorReadingTypesReducer,
   appSettingReducer,
 });
 
@@ -212,6 +231,7 @@ const tempStateReducer = combineReducers({
   filterReducer,
   snackbarReducer,
   customSignUpReducer,
+  offlineDetectorReducer,
 });
 
 // combine all reducers here and pass it to application

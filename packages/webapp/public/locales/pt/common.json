@@ -1,5 +1,6 @@
 {
   "ABANDON": "Abandonar",
+  "ABANDONED": "Abandonado",
   "ACTIVE": "Ativo",
   "ADD": "Adicionar",
   "ALL": "Tudo",
@@ -53,7 +54,11 @@
   "SUBMIT": "Enviar",
   "SUBMITTING": "Enviando...",
   "UPDATE": "Atualizar",
+  "UPLOAD": "Carregar",
+  "UPLOADING": "Carregando",
   "WORD_LIMIT_ERROR": "Somente {{value}} caractéres podem ser exibidos",
   "YEAR": "Ano",
-  "YES": "Sim"
+  "YES": "Sim",
+  "GO_BACK": "Voltar",
+  "THATS_FINE": "Está bom"
 }

@@ -43,8 +43,16 @@ export default function CropVarieties({ history, match, location }) {
     dispatch(resetAndUnLockFormData());
   }, []);
 
-  const { active, planned, past, noPlans, sum, cropCatalogue, filteredCropsWithoutManagementPlan } =
-    useCropVarietyCatalogue(filterString, crop_id);
+  const {
+    active,
+    abandoned,
+    planned,
+    completed,
+    noPlans,
+    sum,
+    cropCatalogue,
+    filteredCropsWithoutManagementPlan,
+  } = useCropVarietyCatalogue(filterString, crop_id);
 
   const {
     ref: containerRef,
@@ -90,6 +98,7 @@ export default function CropVarieties({ history, match, location }) {
         onFilterOpen={onFilterOpen}
         value={filterString}
         onChange={filterStringOnChange}
+        isFilterActive={isFilterCurrentlyActive}
       />
       <MuiFullPagePopup open={isFilterOpen} onClose={onFilterClose}>
         <CropVarietyFilterPage cropId={crop_id} onGoBack={onFilterClose} />
@@ -110,7 +119,7 @@ export default function CropVarieties({ history, match, location }) {
           <>
             <PageBreak style={{ paddingBottom: '16px' }} label={t('CROP_CATALOGUE.ON_YOUR_FARM')} />
             <CropStatusInfoBox
-              status={{ active, past, planned, noPlans }}
+              status={{ active, abandoned, completed, planned, noPlans }}
               style={{ marginBottom: '16px' }}
               date={date}
               setDate={setDate}
@@ -121,6 +130,7 @@ export default function CropVarieties({ history, match, location }) {
                   crop_translation_key,
                   crop_photo_url,
                   crop_id,
+                  crop_variety_photo_url,
                   crop_variety_name,
                   crop_variety_id,
                   noPlansCount,
@@ -131,7 +141,7 @@ export default function CropVarieties({ history, match, location }) {
                   <PureCropTile
                     key={crop_variety_id}
                     title={crop_variety_name}
-                    src={crop_photo_url}
+                    src={crop_variety_photo_url ?? crop_photo_url}
                     alt={imageKey}
                     style={{ width: cardWidth }}
                     onClick={() => goToVarietyManagement(crop_variety_id)}
@@ -145,14 +155,16 @@ export default function CropVarieties({ history, match, location }) {
                 const {
                   crop_translation_key,
                   active,
+                  abandoned,
                   planned,
-                  past,
+                  completed,
                   imageKey,
                   crop_photo_url,
                   crop_id,
                   needsPlan,
                   noPlans,
                   noPlansCount,
+                  crop_variety_photo_url,
                   crop_variety_name,
                   crop_variety_id,
                 } = cropCatalog;
@@ -162,13 +174,14 @@ export default function CropVarieties({ history, match, location }) {
                     key={crop_variety_id}
                     cropCount={{
                       active: active.length,
+                      abandoned: abandoned.length,
                       planned: planned.length,
-                      past: past.length,
+                      completed: completed.length,
                       noPlans: noPlans.length,
                     }}
                     needsPlan={!!noPlansCount}
                     title={crop_variety_name}
-                    src={crop_photo_url}
+                    src={crop_variety_photo_url ?? crop_photo_url}
                     alt={imageKey}
                     style={{ width: cardWidth }}
                     onClick={() => goToVarietyManagement(crop_variety_id)}

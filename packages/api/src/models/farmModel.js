@@ -13,8 +13,11 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const Model = require('objection').Model;
-const baseModel = require('./baseModel');
+import { Model } from 'objection';
+
+import baseModel from './baseModel.js';
+import priceModel from './priceModel.js';
+import yieldModel from './yieldModel.js';
 
 class Farm extends baseModel {
   static get tableName() {
@@ -256,7 +259,7 @@ class Farm extends baseModel {
         // The related model. This can be either a Model
         // subclass constructor or an absolute file path
         // to a module that exports one.
-        modelClass: require('./priceModel'),
+        modelClass: priceModel,
         join: {
           from: 'farm.farm_id',
           to: 'price.farm_id',
@@ -267,7 +270,7 @@ class Farm extends baseModel {
         // The related model. This can be either a Model
         // subclass constructor or an absolute file path
         // to a module that exports one.
-        modelClass: require('./yieldModel'),
+        modelClass: yieldModel,
         join: {
           from: 'farm.farm_id',
           to: 'yield.farm_id',
@@ -275,6 +278,21 @@ class Farm extends baseModel {
       },
     };
   }
+
+  /**
+   * Returns a farm and country object by farm id.
+   * @param {uuid} farmId
+   * @static
+   * @async
+   * @return {Promise<*>}
+   */
+  static async getFarmById(farmId) {
+    return Farm.query()
+      .join('countries', 'farm.country_id', 'countries.id')
+      .select(['farm.*', 'countries.*'])
+      .where('farm_id', farmId)
+      .first();
+  }
 }
 
-module.exports = Farm;
+export default Farm;

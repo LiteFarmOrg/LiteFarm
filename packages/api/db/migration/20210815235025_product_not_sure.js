@@ -1,5 +1,4 @@
-
-exports.up = async function(knex) {
+export const up = async function (knex) {
   await knex.schema.alterTable('product', (t) => {
     t.dropColumn('on_permitted_substances_list');
   });
@@ -8,7 +7,7 @@ exports.up = async function(knex) {
   });
 };
 
-exports.down = async function(knex) {
+export const down = async function (knex) {
   await knex.schema.alterTable('product', (t) => {
     t.dropColumn('on_permitted_substances_list');
   });

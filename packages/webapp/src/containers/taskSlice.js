@@ -20,6 +20,7 @@ import { taskTypeEntitiesSelector } from './taskTypeSlice';
 import { plantTaskEntitiesSelector } from './slice/taskSlice/plantTaskSlice';
 import { transplantTaskEntitiesSelector } from './slice/taskSlice/transplantTaskSlice';
 import { plantingManagementPlanEntitiesSelector } from './plantingManagementPlanSlice';
+import { irrigationTaskEntitiesSelector } from './slice/taskSlice/irrigationTaskSlice';
 
 export const getTask = (obj) => {
   const task = pick(obj, [
@@ -44,6 +45,7 @@ export const getTask = (obj) => {
     'abandonment_reason',
     'other_abandonment_reason',
     'abandonment_notes',
+    'location_defaults',
   ]);
   //TODO: investigate why incomplete tasks wage_at_moment are null
   if (task.wage_at_moment === null) task.wage_at_moment = 0;
@@ -74,6 +76,14 @@ const updateManyTasks = (state, { payload: tasks }) => {
   taskAdapter.updateMany(state, tasks);
 };
 
+const removeOne = (state, { payload: task }) => {
+  const { task_id } = task;
+  state.loading = false;
+  state.error = null;
+  state.loaded = true;
+  taskAdapter.removeOne(state, task_id);
+};
+
 const taskAdapter = createEntityAdapter({
   selectId: (task) => task.task_id,
 });
@@ -93,6 +103,8 @@ const taskSlice = createSlice({
         payload: tasks.map((task) => ({
           ...task,
           locations: task.locations?.map(({ location_id }) => location_id) || [],
+          location_defaults:
+            task.locations?.map(({ location_defaults }) => location_defaults) || [],
           managementPlans:
             task.managementPlans?.map(({ management_plan_id, planting_management_plan_id }) => ({
               management_plan_id,
@@ -103,7 +115,7 @@ const taskSlice = createSlice({
     putTaskSuccess: upsertOneTask,
     putTasksSuccess: updateManyTasks,
     createTaskSuccess: taskAdapter.addOne,
-    deleteTaskSuccess: taskAdapter.removeOne,
+    deleteTaskSuccess: removeOne,
   },
 });
 export const {
@@ -112,8 +124,8 @@ export const {
   addManyTasksFromGetReq,
   putTaskSuccess,
   putTasksSuccess,
-  deleteTaskSuccess,
   createTaskSuccess,
+  deleteTaskSuccess,
 } = taskSlice.actions;
 export default taskSlice.reducer;
 
@@ -133,6 +145,7 @@ export const taskEntitiesSelector = createSelector(
     locationEntitiesSelector,
     cleaningTaskEntitiesSelector,
     fieldWorkTaskEntitiesSelector,
+    irrigationTaskEntitiesSelector,
     harvestTaskEntitiesSelector,
     pestControlTaskEntitiesSelector,
     soilAmendmentTaskEntitiesSelector,
@@ -149,6 +162,7 @@ export const taskEntitiesSelector = createSelector(
     locationEntities,
     cleaningTaskEntities,
     fieldWorkTaskEntities,
+    irrigationTaskEntities,
     harvestTaskEntities,
     pestControlTaskEntities,
     soilAmendmentTaskEntities,
@@ -159,6 +173,7 @@ export const taskEntitiesSelector = createSelector(
     const subTaskEntities = {
       ...cleaningTaskEntities,
       ...fieldWorkTaskEntities,
+      ...irrigationTaskEntities,
       ...harvestTaskEntities,
       ...pestControlTaskEntities,
       ...soilAmendmentTaskEntities,
@@ -286,6 +301,7 @@ export const abandonedTasksSelector = createSelector([tasksSelector], getAbandon
 
 export const taskWithProductSelector = (task_id) =>
   createSelector([taskSelector(task_id), productsSelector], (task, products) => {
+    if (task === undefined) return undefined;
     const taskTypeLowerCase = task.taskType.task_translation_key.toLowerCase();
     const taskHasProduct = !!task[taskTypeLowerCase]?.product_id;
     if (taskHasProduct) {

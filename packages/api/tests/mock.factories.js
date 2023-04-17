@@ -1,5 +1,5 @@
-const { faker } = require('@faker-js/faker');
-const knex = require('../src/util/knex');
+import { faker } from '@faker-js/faker';
+import knex from '../src/util/knex';
 
 function weather_stationFactory(station = fakeStation()) {
   return knex('weather_station').insert(station).returning('*');
@@ -1014,6 +1014,8 @@ async function crop_varietyFactory(
 function fakeCropVariety(defaultData = {}) {
   return {
     crop_variety_name: faker.lorem.word(),
+    crop_varietal: faker.lorem.word(),
+    crop_cultivar: faker.lorem.word(),
     supplier: faker.lorem.word(),
     seeding_type: faker.helpers.arrayElement(['SEED', 'SEEDLING_OR_PLANTING_STOCK']),
     lifecycle: faker.helpers.arrayElement(['ANNUAL', 'PERENNIAL']),
@@ -1534,17 +1536,6 @@ async function field_work_taskFactory(
 
 function fakeFieldWorkTask(defaultData = {}) {
   return {
-    type: faker.helpers.arrayElement([
-      'COVERING_SOIL',
-      'FENCING',
-      'PREPARING_BEDS_OR_ROWS',
-      'PRUNING',
-      'SHADE_CLOTH',
-      'TERMINATION',
-      'TILLAGE',
-      'WEEDING',
-      'OTHER',
-    ]),
     ...defaultData,
   };
 }
@@ -1611,9 +1602,8 @@ async function irrigation_taskFactory(
 
 function fakeIrrigationTask(defaultData = {}) {
   return {
-    type: faker.helpers.arrayElement(['sprinkler', 'drip', 'subsurface', 'flood']),
-    hours: faker.datatype.number(10),
-    'flow_rate_l/min': faker.datatype.number(10),
+    irrigation_type_name: faker.helpers.arrayElement(['HAND_WATERING']),
+    estimated_duration: faker.datatype.number(10),
     ...defaultData,
   };
 }
@@ -2169,7 +2159,7 @@ function fakeNotification(defaultData = {}) {
   };
 }
 
-module.exports = {
+export default {
   weather_stationFactory,
   fakeStation,
   usersFactory,

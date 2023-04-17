@@ -12,6 +12,8 @@ import Checkbox from '../../Form/Checkbox';
 import { useForm } from 'react-hook-form';
 import { cloneObject } from '../../../util';
 import { getPlantingLocationPaths } from '../getAddManagementPlanPath';
+import OrganicStatusMismatchModal from '../../Modals/OrganicStatusMismatchModal';
+import { buttonStatusEnum } from '../../Modals/OrganicStatusMismatchModal/constants';
 
 export default function PurePlantingLocation({
   persistedFormData,
@@ -22,6 +24,8 @@ export default function PurePlantingLocation({
   cropLocations,
   default_initial_location_id,
   farmCenterCoordinate,
+  isCropOrganic,
+  isPursuingCertification,
 }) {
   const { t } = useTranslation(['translation', 'common', 'crop']);
   const { getValues, watch, setValue } = useForm({
@@ -42,6 +46,7 @@ export default function PurePlantingLocation({
   }, []);
 
   const locationPrefix = isFinalLocationPage ? 'final' : 'initial';
+  const ORGANIC = 'organic';
   const LOCATION_ID = `crop_management_plan.planting_management_plans.${locationPrefix}.location_id`;
   const PIN_COORDINATE = `crop_management_plan.planting_management_plans.${locationPrefix}.pin_coordinate`;
   const DEFAULT_INITIAL_LOCATION_ID = 'farm.default_initial_location_id';
@@ -49,6 +54,8 @@ export default function PurePlantingLocation({
   const selectedLocationId = watch(LOCATION_ID);
   const pinCoordinate = watch(PIN_COORDINATE);
   const defaultInitialLocationId = watch(DEFAULT_INITIAL_LOCATION_ID);
+  const [showOrganicStatusMismatchModal, setShowOrganicStatusMismatchModal] = useState(false);
+  const [modalContent, setModalContent] = useState({});
 
   const setLocationId = (location_id) => {
     if (selectedLocationId === location_id) {
@@ -99,10 +106,45 @@ export default function PurePlantingLocation({
     setPinToggle((pinToggle) => !pinToggle);
   };
 
-  const onSubmit = () =>
+  const proceedToNextStep = () =>
     history.push(
       getPlantingLocationPaths(variety_id, persistedFormData, isFinalLocationPage).submitPath,
     );
+
+  const checkAndClearLocations = (dismissStatus) => {
+    if (dismissStatus === buttonStatusEnum.THATS_FINE) {
+      proceedToNextStep();
+      return;
+    }
+    setValue(LOCATION_ID, null);
+  };
+
+  const onSubmit = () => {
+    const selectedLocationId =
+      getValues()?.crop_management_plan?.planting_management_plans[locationPrefix]?.location_id;
+    const selectedLocation = cropLocations.find((c) => c.location_id === selectedLocationId);
+    const isSelectedLocationOrganic = selectedLocation?.organic_status?.toLowerCase() === ORGANIC;
+    if (isCropOrganic !== isSelectedLocationOrganic && isPursuingCertification) {
+      let content = {};
+      if (isSelectedLocationOrganic) {
+        content.title = t('CROP_STATUS_ORGANIC_MISMATCH_MODAL.TITLE');
+        content.subTitle = t('CROP_STATUS_ORGANIC_MISMATCH_MODAL.SUBTITLE');
+      } else if (!isSelectedLocationOrganic && isCropOrganic == null) {
+        // Do not trigger modal on non-organic locations for organic status null crops
+        proceedToNextStep();
+      } else {
+        content.title = t('CROP_STATUS_NON_ORGANIC_MISMATCH_MODAL.TITLE');
+        content.subTitle = t('CROP_STATUS_NON_ORGANIC_MISMATCH_MODAL.SUBTITLE');
+      }
+      setShowOrganicStatusMismatchModal((status) => {
+        setModalContent(content);
+        return true;
+      });
+    } else {
+      proceedToNextStep();
+    }
+  };
+
   const onGoBack = () => {
     history.back();
     ``;
@@ -181,6 +223,15 @@ export default function PurePlantingLocation({
             onChange={defaultLocationCheckboxOnChange}
           />
         )}
+        {showOrganicStatusMismatchModal && (
+          <OrganicStatusMismatchModal
+            modalContent={modalContent}
+            dismissModal={(dismissStatus) => {
+              checkAndClearLocations(dismissStatus);
+              setShowOrganicStatusMismatchModal(false);
+            }}
+          />
+        )}
       </Layout>
     </>
   );
@@ -194,4 +245,5 @@ PurePlantingLocation.prototype = {
   history: PropTypes.object,
   locations: PropTypes.object,
   farmCenterCoordinate: PropTypes.object,
+  isCropOrganic: PropTypes.bool,
 };

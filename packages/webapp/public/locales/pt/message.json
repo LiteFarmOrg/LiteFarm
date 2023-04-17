@@ -18,6 +18,11 @@
       "UPDATE": "Documento atualizado com sucesso"
     }
   },
+  "BULK_UPLOAD": {
+    "ERROR": {
+      "UPLOAD": "Falha ao carregar o arquivo CSV"
+    }
+  },
   "CROP": {
     "ERROR": {
       "DELETE": "Falha na exclusão do cultivo de campo"
@@ -93,7 +98,8 @@
     "FAIL_POST": "Falha ao adicionar novo/a",
     "SUCCESS_DELETE": " retirado/a com sucesso",
     "SUCCESS_PATCH": " atualizado/a com sucesso",
-    "SUCCESS_POST": " salvo/a com sucesso"
+    "SUCCESS_POST": " salvo/a com sucesso",
+    "SUCCESS_UPLOAD": "Carregado com sucesso"
   },
   "ORGANIC_CERTIFIER_SURVEY": {
     "ERROR": {
@@ -158,6 +164,10 @@
     "CREATE": {
       "FAILED": "Erro ao completar tarefa",
       "SUCCESS": "Tarefa concluída com sucesso"
+    },
+    "UPDATE": {
+      "FAILED": "Falha ao atualizar a tarefa",
+      "SUCCESS": "Tarefa atualizada com sucesso"
     }
   },
   "TASK_TYPE": {
@@ -177,6 +187,7 @@
       "EXISTS": "O usuário já existe na rede de LiteFarm",
       "INVITE": "Erro ao criar conta de usuário, entre em contato com LiteFarm para assistência.",
       "NOTHING_CHANGED": "Nada mudou",
+      "MAX_RESET_EMAILS": "Um link de redefinição de senha foi enviado para você, por favor verifique sua caixa de entrada e pasta de spam.",
       "RESET_PASSWORD": "Erro ao enviar e-mail de redefinição de senha, favor entrar em contato com a LiteFarm para obter assistência.",
       "RESTORE": "Ocorreu um erro, o acesso não foi restaurado",
       "REVOKE": "Ocorreu um erro, o acesso não foi revogado",
@@ -189,5 +200,9 @@
       "REVOKE": "Acesso do usuário revogado!",
       "UPDATE": "Informações do usuário atualizadas com sucesso!"
     }
+  },
+  "SENSOR": {
+    "SUCCESSFUL_UPDATE": "Sensor atualizado com sucesso",
+    "ERROR_UPDATE": "Erro ao atualizar sensor"
   }
 }

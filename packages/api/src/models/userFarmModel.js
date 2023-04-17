@@ -13,7 +13,10 @@
  *  GNU General Public License for more details, see <<https://www.gnu.org/licenses/>.>
  */
 
-const Model = require('objection').Model;
+import { Model } from 'objection';
+import UserModel from './userModel.js';
+import FarmModel from './farmModel.js';
+import RoleModel from './roleModel.js';
 
 class userFarm extends Model {
   static get tableName() {
@@ -90,6 +93,7 @@ class userFarm extends Model {
         step_four_end: { type: ['string', 'null'] },
         step_five: { type: ['boolean', 'null'] },
         step_five_end: { type: ['string', 'null'] },
+        wage_do_not_ask_again: { type: ['boolean', 'null'] },
       },
       additionalProperties: false,
     };
@@ -98,7 +102,7 @@ class userFarm extends Model {
   static get relationMappings() {
     return {
       user: {
-        modelClass: require('./userModel'),
+        modelClass: UserModel,
         relation: Model.HasOneRelation,
         join: {
           from: 'userFarm.user_id',
@@ -106,7 +110,7 @@ class userFarm extends Model {
         },
       },
       farm: {
-        modelClass: require('./farmModel'),
+        modelClass: FarmModel,
         relation: Model.HasOneRelation,
         join: {
           from: 'userFarm.farm_id',
@@ -114,7 +118,7 @@ class userFarm extends Model {
         },
       },
       role: {
-        modelClass: require('./roleModel'),
+        modelClass: RoleModel,
         relation: Model.HasOneRelation,
         join: {
           from: 'userFarm.role_id',
@@ -182,7 +186,7 @@ class userFarm extends Model {
    * @returns {Object} Object {userId} of FM/FO/EO
    */
   static async getFarmManagementByFarmId(farmId) {
-    return await userFarm
+    return userFarm
       .query()
       .select('user_id')
       .whereIn('role_id', [1, 2, 5])
@@ -197,7 +201,7 @@ class userFarm extends Model {
    * @returns {Array} Array [user_id]
    */
   static async getActiveUsersFromFarmId(farmId) {
-    return await userFarm
+    return userFarm
       .query()
       .select('userFarm.user_id')
       .join('users', 'userFarm.user_id', 'users.user_id')
@@ -206,4 +210,4 @@ class userFarm extends Model {
   }
 }
 
-module.exports = userFarm;
+export default userFarm;

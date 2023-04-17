@@ -13,18 +13,19 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const baseController = require('../controllers/baseController');
-const userModel = require('../models/userModel');
-const userFarmModel = require('../models/userFarmModel');
-const passwordModel = require('../models/passwordModel');
-const emailTokenModel = require('../models/emailTokenModel');
-const shiftModel = require('../models/shiftModel');
-const farmModel = require('../models/farmModel');
-const { transaction, Model } = require('objection');
-const bcrypt = require('bcryptjs');
-const { createToken } = require('../util/jwt');
-const { emails, sendEmail } = require('../templates/sendEmailTemplate');
-const showedSpotlightModel = require('../models/showedSpotlightModel');
+import baseController from '../controllers/baseController.js';
+
+import UserModel from '../models/userModel.js';
+import UserFarmModel from '../models/userFarmModel.js';
+import PasswordModel from '../models/passwordModel.js';
+import EmailTokenModel from '../models/emailTokenModel.js';
+import ShiftModel from '../models/shiftModel.js';
+import FarmModel from '../models/farmModel.js';
+import { transaction, Model } from 'objection';
+import bcrypt from 'bcryptjs';
+import { createToken } from '../util/jwt.js';
+import { emails, sendEmail } from '../templates/sendEmailTemplate.js';
+import ShowedSpotlightModel from '../models/showedSpotlightModel.js';
 
 const userController = {
   async addUser(req, res) {
@@ -53,7 +54,7 @@ const userController = {
       const password_hash = await bcrypt.hash(password, salt);
 
       // persist user data
-      const userResult = await baseController.post(userModel, userData, req, { trx });
+      const userResult = await baseController.post(UserModel, userData, req, { trx });
 
       const { user_id } = userResult;
 
@@ -61,8 +62,8 @@ const userController = {
         user_id,
         password_hash,
       };
-      await baseController.post(passwordModel, pwData, req, { trx });
-      await baseController.post(showedSpotlightModel, { user_id }, req, { trx });
+      await baseController.post(PasswordModel, pwData, req, { trx });
+      await baseController.post(ShowedSpotlightModel, { user_id }, req, { trx });
       await trx.commit();
 
       // generate token, set to last a week
@@ -135,7 +136,7 @@ const userController = {
       return res.status(400).send(errorMessage);
     }
 
-    const validEmailRegex = RegExp(/^$|^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i);
+    const validEmailRegex = RegExp(/^$|^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,6}$/i);
     if (!validEmailRegex.test(email)) {
       return res.status(400).send('Invalid email');
     }
@@ -150,10 +151,10 @@ const userController = {
     }
 
     console.log('Checking if user is created');
-    const isUserAlreadyCreated = await userModel.getUserByEmail(email);
+    const isUserAlreadyCreated = await UserModel.getUserByEmail(email);
     const created_user_id = isUserAlreadyCreated ? isUserAlreadyCreated.user_id : null;
     console.log('Checking if user is on farm');
-    const userExistOnThisFarm = await userFarmModel.checkIfUserExistsOnFarm(
+    const userExistOnThisFarm = await UserFarmModel.checkIfUserExistsOnFarm(
       created_user_id,
       farm_id,
     );
@@ -162,13 +163,13 @@ const userController = {
       res.status(400).send({ error: 'User already exists on this farm' });
       return;
     }
-    const { farm_name } = await farmModel.query().where('farm_id', farm_id).first();
+    const { farm_name } = await FarmModel.query().where('farm_id', farm_id).first();
     const trx = await transaction.start(Model.knex());
     try {
       let user;
       if (!isUserAlreadyCreated) {
         user = await baseController.post(
-          userModel,
+          UserModel,
           {
             email,
             first_name,
@@ -186,7 +187,7 @@ const userController = {
         first_name = user.first_name;
       }
       const { user_id } = user;
-      await userFarmModel.query(trx).insert({
+      await UserFarmModel.query(trx).insert({
         user_id,
         farm_id,
         status: 'Invited',
@@ -200,12 +201,12 @@ const userController = {
         step_four: true,
         step_five: true,
       });
-      const userFarm = await userFarmModel.getUserFarmByEmail(email, farm_id, trx);
+      const userFarm = await UserFarmModel.getUserFarmByEmail(email, farm_id, trx);
       await trx.commit();
       res.status(201).send({ ...user, ...userFarm });
       try {
         const { language_preference } = isUserAlreadyCreated ?? { language_preference: language };
-        await emailTokenModel.createTokenSendEmail(
+        await EmailTokenModel.createTokenSendEmail(
           {
             email,
             first_name,
@@ -271,8 +272,8 @@ const userController = {
         return res.status(400).send('Current app version only allows hourly wage');
       }
       /* End of input validation */
-      await baseController.post(userModel, req.body, req, { trx });
-      await userFarmModel.query(trx).insert({
+      const user = await baseController.post(UserModel, req.body, req, { trx });
+      await UserFarmModel.query(trx).insert({
         user_id,
         farm_id,
         status: 'Active',
@@ -285,8 +286,7 @@ const userController = {
         step_four: true,
         step_five: true,
       });
-      const userFarm = await userFarmModel
-        .query(trx)
+      const userFarm = await UserFarmModel.query(trx)
         .join('users', 'userFarm.user_id', '=', 'users.user_id')
         .join('farm', 'farm.farm_id', '=', 'userFarm.farm_id')
         .join('role', 'userFarm.role_id', '=', 'role.role_id')
@@ -294,7 +294,7 @@ const userController = {
         .first()
         .select('*');
       await trx.commit();
-      res.status(201).send(userFarm);
+      res.status(201).send({ ...user, ...userFarm });
     } catch (error) {
       // handle more exceptions
       await trx.rollback();
@@ -308,8 +308,7 @@ const userController = {
     try {
       const id = req.params.user_id;
 
-      const data = await userModel
-        .query()
+      const data = await UserModel.query()
         .context({ user_id: req.user.user_id })
         .findById(id)
         .select(
@@ -340,8 +339,7 @@ const userController = {
     const template_path = emails.ACCESS_REVOKE;
     const trx = await transaction.start(Model.knex());
     try {
-      const rows = await userFarmModel
-        .query()
+      const rows = await UserFarmModel.query()
         .select('*')
         .where('userFarm.user_id', user_id)
         .leftJoin('role', 'userFarm.role_id', 'role.role_id')
@@ -354,7 +352,7 @@ const userController = {
         farm_name: rows[0].farm_name,
       };
       const sender = 'help@litefarm.org';
-      const isUserFarmPatched = await userFarmModel.query(trx).where('user_id', user_id).patch({
+      const isUserFarmPatched = await UserFarmModel.query(trx).where('user_id', user_id).patch({
         status: 'Inactive',
       });
       await trx.commit();
@@ -383,7 +381,7 @@ const userController = {
     const trx = await transaction.start(Model.knex());
     const user_id = req.params.id;
     try {
-      const updated = await userModel.query(trx).where('user_id', user_id).patch({
+      const updated = await UserModel.query(trx).where('user_id', user_id).patch({
         has_consent: true,
       });
       await trx.commit();
@@ -402,7 +400,7 @@ const userController = {
     const trx = await transaction.start(Model.knex());
     try {
       delete req.body.status_id;
-      const updated = await baseController.put(userModel, req.params.user_id, req.body, req, {
+      const updated = await baseController.put(UserModel, req.params.user_id, req.body, req, {
         trx,
       });
       await trx.commit();
@@ -426,9 +424,9 @@ const userController = {
       const { user_id, farm_id } = req.user;
       const salt = await bcrypt.genSalt(10);
       const password_hash = await bcrypt.hash(password, salt);
-      await userModel.transaction(async (trx) => {
-        await passwordModel.query(trx).insert({ user_id, password_hash });
-        await userModel.query(trx).findById(user_id).patch({
+      await UserModel.transaction(async (trx) => {
+        await PasswordModel.query(trx).insert({ user_id, password_hash });
+        await UserModel.query(trx).findById(user_id).patch({
           first_name,
           last_name,
           gender,
@@ -436,8 +434,7 @@ const userController = {
           language_preference,
           status_id: 1,
         });
-        await userFarmModel
-          .query(trx)
+        await UserFarmModel.query(trx)
           .where({
             user_id,
             farm_id,
@@ -445,11 +442,10 @@ const userController = {
           .patch({ status: 'Active' })
           .returning('*')
           .first();
-        await showedSpotlightModel.query(trx).insert({ user_id });
+        await ShowedSpotlightModel.query(trx).insert({ user_id });
       });
 
-      result = await userFarmModel
-        .query()
+      result = await UserFarmModel.query()
         .withGraphFetched('[role, farm, user]')
         .findById([user_id, farm_id]);
       result = { ...result.user, ...result, ...result.role, ...result.farm };
@@ -474,9 +470,8 @@ const userController = {
     const { sub, user_id, farm_id, email } = req.user;
     const { first_name, last_name, gender, birth_year, language_preference } = req.body;
     try {
-      await userModel.transaction(async (trx) => {
-        const user = await userModel
-          .query(trx)
+      await UserModel.transaction(async (trx) => {
+        const user = await UserModel.query(trx)
           .context({
             showHidden: true,
             shouldUpdateEmail: true,
@@ -487,7 +482,7 @@ const userController = {
         delete user.profile_picture;
         delete user.user_address;
         user.phone_number = user.phone_number ? user.phone_number : undefined;
-        await userModel.query(trx).insert({
+        await UserModel.query(trx).insert({
           ...user,
           user_id: sub,
           status_id: 1,
@@ -498,29 +493,26 @@ const userController = {
           birth_year,
           language_preference,
         });
-        await userFarmModel
-          .query(trx)
+        await UserFarmModel.query(trx)
           .where({
             user_id,
             farm_id,
           })
           .patch({ status: 'Active' });
-        const userFarms = await userFarmModel.query(trx).where({ user_id });
-        await userFarmModel
-          .query(trx)
-          .insert(userFarms.map((userFarm) => ({ ...userFarm, user_id: sub })));
-        await shiftModel
-          .query(trx)
+        const userFarms = await UserFarmModel.query(trx).where({ user_id });
+        await UserFarmModel.query(trx).insert(
+          userFarms.map((userFarm) => ({ ...userFarm, user_id: sub })),
+        );
+        await ShiftModel.query(trx)
           .context({ user_id: sub })
           .where({ user_id })
           .patch({ user_id: sub });
-        await emailTokenModel.query(trx).where({ user_id }).patch({ user_id: sub });
-        await showedSpotlightModel.query(trx).insert({ user_id: sub });
-        await userFarmModel.query(trx).where({ user_id }).delete();
-        await userModel.query(trx).findById(user_id).delete();
+        await EmailTokenModel.query(trx).where({ user_id }).patch({ user_id: sub });
+        await ShowedSpotlightModel.query(trx).insert({ user_id: sub });
+        await UserFarmModel.query(trx).where({ user_id }).delete();
+        await UserModel.query(trx).findById(user_id).delete();
       });
-      result = await userFarmModel
-        .query()
+      result = await UserFarmModel.query()
         .withGraphFetched('[role, farm, user]')
         .findById([sub, farm_id]);
       result = { ...result.user, ...result, ...result.role, ...result.farm };
@@ -540,4 +532,4 @@ const userController = {
   },
 };
 
-module.exports = userController;
+export default userController;

@@ -13,17 +13,18 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const express = require('express');
+import express from 'express';
+
 const router = express.Router();
-const userController = require('../controllers/userController');
-const checkScope = require('../middleware/acl/checkScope');
-const isSelf = require('../middleware/acl/isSelf');
-const hasFarmAccess = require('../middleware/acl/hasFarmAccess');
-const checkInviteJwt = require('../middleware/acl/checkInviteJwt');
-const checkInvitationTokenContent = require('../middleware/acl/checkInviteTokenContent');
-const checkInvitationAndGoogleJwtContent = require('../middleware/acl/checkInviteAndGoogleJwtContent');
-const checkPasswordCreated = require('../middleware/acl/checkPasswordCreated');
-const checkGoogleAccessToken = require('../middleware/acl/checkGoogleAccessToken');
+import userController from '../controllers/userController.js';
+import checkScope from '../middleware/acl/checkScope.js';
+import isSelf from '../middleware/acl/isSelf.js';
+import hasFarmAccess from '../middleware/acl/hasFarmAccess.js';
+import checkInviteJwt from '../middleware/acl/checkInviteJwt.js';
+import checkInvitationTokenContent from '../middleware/acl/checkInviteTokenContent.js';
+import checkInvitationAndGoogleJwtContent from '../middleware/acl/checkInviteAndGoogleJwtContent.js';
+import checkPasswordCreated from '../middleware/acl/checkPasswordCreated.js';
+import checkGoogleAccessToken from '../middleware/acl/checkGoogleAccessToken.js';
 
 router.post('/', userController.addUser);
 
@@ -61,4 +62,4 @@ router.get('/:user_id', isSelf, userController.getUserByID);
 
 router.put('/:user_id', isSelf, userController.updateUser);
 
-module.exports = router;
+export default router;

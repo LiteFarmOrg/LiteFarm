@@ -12,6 +12,7 @@ import PureFieldWorkTask from '../FieldWorkTask';
 import PurePestControlTask from '../PestControlTask';
 import { cloneObject } from '../../../util';
 import { PurePlantingTask } from '../PlantingTask';
+import PureIrrigationTask from '../PureIrrigationTask';
 
 export default function PureCompleteStepOne({
   persistedFormData,
@@ -22,8 +23,6 @@ export default function PureCompleteStepOne({
   farm,
   system,
   products,
-
-
   useHookFormPersist,
 }) {
   const { t } = useTranslation();
@@ -37,6 +36,8 @@ export default function PureCompleteStepOne({
     getValues,
     control,
     setValue,
+    reset,
+    getFieldState,
     formState: { errors, isValid },
   } = useForm({
     mode: 'onChange',
@@ -53,7 +54,7 @@ export default function PureCompleteStepOne({
   return (
     <Form
       buttonGroup={
-        <Button type={'submit'} disabled={!isValid} fullLength>
+        <Button data-cy="beforeComplete-submit" type={'submit'} disabled={!isValid} fullLength>
           {t('common:CONTINUE')}
         </Button>
       }
@@ -77,6 +78,8 @@ export default function PureCompleteStepOne({
           watch,
           control,
           register,
+          reset,
+          getFieldState,
           formState: { errors, isValid },
           errors,
           system,
@@ -84,6 +87,8 @@ export default function PureCompleteStepOne({
           farm,
           task: selectedTask,
           disabled: !changesRequired,
+          isModified: changesRequired,
+          locations: selectedTask.locations,
         })}
     </Form>
   );
@@ -96,4 +101,5 @@ const taskComponents = {
   PEST_CONTROL_TASK: (props) => <PurePestControlTask {...props} />,
   PLANT_TASK: (props) => <PurePlantingTask disabled isPlantTask={true} {...props} />,
   TRANSPLANT_TASK: (props) => <PurePlantingTask disabled isPlantTask={false} {...props} />,
+  IRRIGATION_TASK: (props) => <PureIrrigationTask {...props} />,
 };

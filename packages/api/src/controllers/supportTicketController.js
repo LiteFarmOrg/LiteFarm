@@ -13,87 +13,96 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const baseController = require('../controllers/baseController');
-const supportTicketModel = require('../models/supportTicketModel');
-const userModel = require('../models/userModel');
-const { sendEmailTemplate, emails, sendEmail } = require('../templates/sendEmailTemplate');
+// const baseController = require('../controllers/baseController');
+import SupportTicketModel from '../models/supportTicketModel.js';
+
+import UserModel from '../models/userModel.js';
+import { emails, sendEmail } from '../templates/sendEmailTemplate.js';
 
 const supportTicketController = {
   // Disabled
-  getSupportTicketsByFarmId() {
-    return async (req, res) => {
-      try {
-        const farm_id = req.params.farm_id;
-        const result = await supportTicketModel.query().whereNotDeleted().where({ farm_id });
-        if (!result) {
-          res.sendStatus(404);
-        } else {
-          res.status(200).send(result);
-        }
-      } catch (error) {
-        //handle more exceptions
-        res.status(400).json({
-          error,
-        });
-      }
-    };
-  },
+  // getSupportTicketsByFarmId() {
+  //   return async (req, res) => {
+  //     try {
+  //       const farm_id = req.params.farm_id;
+  //       const result = await supportTicketModel.query().whereNotDeleted().where({ farm_id });
+  //       if (!result) {
+  //         res.sendStatus(404);
+  //       } else {
+  //         res.status(200).send(result);
+  //       }
+  //     } catch (error) {
+  //       //handle more exceptions
+  //       res.status(400).json({
+  //         error,
+  //       });
+  //     }
+  //   };
+  // },
 
-  addSupportTicket() {
-    return async (req, res) => {
-      try {
-        const data = JSON.parse(req.body.data);
-        data.attachments = [];
-        const user_id = req.user.user_id;
-        const user = await userModel.query().findById(user_id);
-        const result = await supportTicketModel.query().context({ user_id }).insert(data).returning('*');
-        const replacements = {
-          first_name: user.first_name,
-          support_type: result.support_type,
-          message: result.message,
-          contact_method: capitalize(result.contact_method),
-          contact: result[result.contact_method],
-          locale: user.language_preference,
-        };
-        const email = data.contact_method === 'email' && data.email;
-        sendEmail(emails.HELP_REQUEST_EMAIL, replacements, user.email, {
+  async addSupportTicket(req, res) {
+    try {
+      const data = JSON.parse(req.body.data);
+      data.attachments = [];
+      const user_id = req.user.user_id;
+      const user = await UserModel.query().findById(user_id);
+      const result = await SupportTicketModel.query()
+        .context({ user_id })
+        .insert(data)
+        .returning('*');
+      const replacements = {
+        first_name: user.first_name,
+        support_type: result.support_type,
+        message: result.message,
+        contact_method: capitalize(result.contact_method),
+        contact: result[result.contact_method],
+        locale: user.language_preference,
+      };
+      const email = data.contact_method === 'email' && data.email;
+      if (email && email !== user.email) {
+        await sendEmail(emails.HELP_REQUEST_EMAIL, replacements, email, {
           sender: 'system@litefarm.org',
           attachments: [req.file],
         });
-        email && email !== user.email && sendEmail(emails.HELP_REQUEST_EMAIL, replacements, email, {
+      } else {
+        await sendEmail(emails.HELP_REQUEST_EMAIL, replacements, user.email, {
           sender: 'system@litefarm.org',
           attachments: [req.file],
-        });
-        res.status(201).send(result);
-      } catch (error) {
-        console.log(error);
-        res.status(400).json({
-          error,
         });
       }
-    };
+      res.status(201).send(result);
+    } catch (error) {
+      console.log(error);
+      res.status(400).json({
+        error,
+      });
+    }
   },
 
   // Disabled
-  patchStatus() {
-    return async (req, res) => {
-      const support_ticket_id = req.params.support_ticket_id;
-      try {
-        const user_id = req.user.user_id;
-        const status = req.body.status;
-        const result = await supportTicketModel.query().context({ user_id }).findById(support_ticket_id).patch({ status });
-        res.sendStatus(200);
-      } catch (error) {
-        res.status(400).json({
-          error,
-        });
-      }
-    };
-  },
+  // patchStatus() {
+  //   return async (req, res) => {
+  //     const support_ticket_id = req.params.support_ticket_id;
+  //     try {
+  //       const user_id = req.user.user_id;
+  //       const status = req.body.status;
+  //       await supportTicketModel
+  //         .query()
+  //         .context({ user_id })
+  //         .findById(support_ticket_id)
+  //         .patch({ status });
+  //       res.sendStatus(200);
+  //     } catch (error) {
+  //       res.status(400).json({
+  //         error,
+  //       });
+  //     }
+  //   };
+  // },
 };
 
-const capitalize = string => {
+const capitalize = (string) => {
   return string[0].toUpperCase() + string.slice(1);
 };
 
-module.exports = supportTicketController;
+export default supportTicketController;

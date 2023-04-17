@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const Model = require('objection').Model;
+import { Model } from 'objection';
 
 class FarmSiteBoundary extends Model {
   static get tableName() {
@@ -41,4 +41,4 @@ class FarmSiteBoundary extends Model {
   }
 }
 
-module.exports = FarmSiteBoundary;
+export default FarmSiteBoundary;

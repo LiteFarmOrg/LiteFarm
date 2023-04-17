@@ -3,7 +3,4 @@ function processManagementPlanReq(req, res, next) {
   return next();
 }
 
-
-module.exports = {
-  processManagementPlanReq,
-};
+export { processManagementPlanReq };

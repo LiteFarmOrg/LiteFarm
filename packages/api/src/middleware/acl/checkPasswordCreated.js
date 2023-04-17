@@ -13,16 +13,24 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const passwordModel = require('../../models/passwordModel');
-const userModel = require('../../models/userModel');
+import passwordModel from '../../models/passwordModel.js';
+
+import userModel from '../../models/userModel.js';
 
 async function checkPasswordCreated(req, res, next) {
-  const passwordRows = await passwordModel.query().whereIn('user_id', [req.user.sub || req.user.user_id, req.user.user_id]);
-  const userRows = await userModel.query().whereIn('user_id', [req.user.sub || req.user.user_id, req.user.user_id]);
-  if (passwordRows.length || userRows.reduce((notValid, user)=> notValid || user.status_id !== 2, false)) {
+  const passwordRows = await passwordModel
+    .query()
+    .whereIn('user_id', [req.user.sub || req.user.user_id, req.user.user_id]);
+  const userRows = await userModel
+    .query()
+    .whereIn('user_id', [req.user.sub || req.user.user_id, req.user.user_id]);
+  if (
+    passwordRows.length ||
+    userRows.reduce((notValid, user) => notValid || user.status_id !== 2, false)
+  ) {
     return res.status(401).send('Invitation link is used');
   }
   return next();
 }
 
-module.exports = checkPasswordCreated;
+export default checkPasswordCreated;

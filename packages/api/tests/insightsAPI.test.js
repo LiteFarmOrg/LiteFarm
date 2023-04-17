@@ -13,34 +13,41 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const chai = require('chai');
-const chaiHttp = require('chai-http');
+import chai from 'chai';
+
+import chaiHttp from 'chai-http';
 chai.use(chaiHttp);
 const chai_assert = chai.assert; // Using Assert style
 const chai_expect = chai.expect; // Using Expect style
 const chai_should = chai.should(); // Using Should style
-const knex = require('../src/util/knex');
-const server = require('./../src/server');
-const mocks = require('./mock.factories');
-const { tableCleanup } = require('./testEnvironment');
-const insightHelpers = require('../src/controllers/insightHelpers.js');
+import knex from '../src/util/knex.js';
+import server from './../src/server.js';
+import mocks from './mock.factories.js';
+import { tableCleanup } from './testEnvironment.js';
+import insightHelpers from '../src/controllers/insightHelpers.js';
 jest.mock('jsdom');
-jest.mock('../src/middleware/acl/checkJwt');
-const { faker } = require('@faker-js/faker');
-const moment = require('moment');
-const insigntController = require('../src/controllers/insightController');
+jest.mock('../src/middleware/acl/checkJwt.js', () =>
+  jest.fn((req, res, next) => {
+    req.user = {};
+    req.user.user_id = req.get('user_id');
+    next();
+  }),
+);
+import { faker } from '@faker-js/faker';
+import moment from 'moment';
+import insigntController from '../src/controllers/insightController';
 
 xdescribe('insights test', () => {
-  let middleware;
+  // let middleware;
   const emptyNutrients = { energy: 0, lipid: 0, protein: 0, vitc: 0, vita_rae: 0 };
 
   beforeAll(() => {
-    middleware = require('../src/middleware/acl/checkJwt');
-    middleware.mockImplementation((req, res, next) => {
-      req.user = {};
-      req.user.user_id = req.get('user_id');
-      next();
-    });
+    // middleware = require('../src/middleware/acl/checkJwt');
+    // middleware.mockImplementation((req, res, next) => {
+    //   req.user = {};
+    //   req.user.user_id = req.get('user_id');
+    //   next();
+    // });
   });
 
   afterAll(async (done) => {

@@ -32,6 +32,7 @@ export default function PureContainerForm({
   errors,
   disabled,
   clearErrors,
+  persistedFormData,
 }) {
   const { t } = useTranslation();
   const IN_GROUND = `${prefix}.container_method.in_ground`;
@@ -49,12 +50,16 @@ export default function PureContainerForm({
   const ESTIMATED_SEED = `${prefix}.estimated_seeds`;
   const ESTIMATED_SEED_UNIT = `${prefix}.estimated_seeds_unit`;
   const NOTES = `${prefix}.notes`;
+  const TASK_TYPE = `taskType.task_translation_key`;
 
   const in_ground = watch(IN_GROUND);
   const number_of_container = watch(NUMBER_OF_CONTAINERS);
   const plants_per_container = watch(PLANTS_PER_CONTAINER);
   const total_plants = watch(TOTAL_PLANTS);
   const plant_spacing = watch(PLANT_SPACING);
+  const task_type = watch(TASK_TYPE);
+  const isTransplant =
+    persistedFormData?.crop_management_plan?.needs_transplant || task_type === 'TRANSPLANT_TASK';
 
   const isPlantSpacingRequired = ![1, 0].includes(total_plants);
 
@@ -115,6 +120,7 @@ export default function PureContainerForm({
           {!in_ground && (
             <div className={styles.row}>
               <Input
+                data-cy="cropPlan-numberContainers"
                 label={t('MANAGEMENT_PLAN.NUMBER_OF_CONTAINER')}
                 hookFormRegister={register(NUMBER_OF_CONTAINERS, {
                   required: true,
@@ -128,6 +134,7 @@ export default function PureContainerForm({
                 disabled={disabled}
               />
               <Input
+                data-cy="cropPlan-numberPlants"
                 label={t('MANAGEMENT_PLAN.PLANTS_PER_CONTAINER')}
                 hookFormRegister={register(PLANTS_PER_CONTAINER, {
                   required: true,
@@ -221,22 +228,47 @@ export default function PureContainerForm({
             </>
           )}
           {showEstimatedValue && (
-            <div className={clsx(showEstimatedYield && styles.row, styles.paddingBottom40)}>
-              <Unit
-                register={register}
-                label={t('MANAGEMENT_PLAN.ESTIMATED_SEED')}
-                name={ESTIMATED_SEED}
-                displayUnitName={ESTIMATED_SEED_UNIT}
-                errors={errors[ESTIMATED_SEED]}
-                unitType={seedYield}
-                system={system}
-                hookFormSetValue={setValue}
-                hookFormGetValue={getValues}
-                hookFromWatch={watch}
-                control={control}
-                required={false}
-                disabled={disabled}
-              />
+            <div
+              className={clsx(
+                showEstimatedYield && styles.row,
+                (isFinalPage !== undefined || !isTransplant) && styles.paddingBottom40,
+              )}
+            >
+              {!isTransplant ? (
+                <Unit
+                  register={register}
+                  label={t('MANAGEMENT_PLAN.ESTIMATED_SEED')}
+                  name={ESTIMATED_SEED}
+                  displayUnitName={ESTIMATED_SEED_UNIT}
+                  errors={errors[ESTIMATED_SEED]}
+                  unitType={seedYield}
+                  system={system}
+                  hookFormSetValue={setValue}
+                  hookFormGetValue={getValues}
+                  hookFromWatch={watch}
+                  control={control}
+                  required={false}
+                  disabled={disabled}
+                />
+              ) : (
+                isFinalPage === false && (
+                  <Unit
+                    register={register}
+                    label={t('MANAGEMENT_PLAN.ESTIMATED_SEED')}
+                    name={ESTIMATED_SEED}
+                    displayUnitName={ESTIMATED_SEED_UNIT}
+                    errors={errors[ESTIMATED_SEED]}
+                    unitType={seedYield}
+                    system={system}
+                    hookFormSetValue={setValue}
+                    hookFormGetValue={getValues}
+                    hookFromWatch={watch}
+                    control={control}
+                    required={false}
+                    disabled={disabled}
+                  />
+                )
+              )}
               {showEstimatedYield && (
                 <Unit
                   register={register}

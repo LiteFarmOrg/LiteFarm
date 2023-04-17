@@ -1,22 +1,28 @@
-const XlsxPopulate = require('xlsx-populate');
-const rp = require('request-promise');
+import XlsxPopulate from 'xlsx-populate';
+import rp from 'request-promise';
 const surveyStackURL = 'https://app.surveystack.io/api/';
 
-module.exports = async (emailQueue, submission, exportId, organicCertifierSurvey) => {
+export default async (emailQueue, submission, exportId, organicCertifierSurvey, certifier) => {
   if (!submission) {
     emailQueue.add({ fail: true });
     return Promise.resolve();
   }
 
-  const submissionData = await rp({
-    uri: `${surveyStackURL}/submissions/${submission}`,
+  const [submissionData] = await rp({
+    uri: `${surveyStackURL}/submissions?survey=${certifier.survey_id}&match={"_id":{"$oid":"${submission}"}}`,
     json: true,
+    headers: { Authorization: `${process.env.SURVEY_USER} ${process.env.SURVEY_TOKEN}` },
   });
 
   const survey = await rp({
-    uri: `${surveyStackURL}/surveys/${submissionData.meta.survey.id}`,
+    uri: `${surveyStackURL}/surveys/${certifier.survey_id}`,
     json: true,
+    headers: { Authorization: `${process.env.SURVEY_USER} ${process.env.SURVEY_TOKEN}` },
   });
+
+  if (!Object.keys(submissionData.data).length) {
+    console.error(`No data was returned from submission ${submission}`);
+  }
 
   const ignoredQuestions = [
     'geoJSON',
@@ -79,6 +85,11 @@ module.exports = async (emailQueue, submission, exportId, organicCertifierSurvey
     for (const group of parentGroups) {
       if (group != null) {
         answer = answer[group];
+
+        if (answer == undefined) {
+          // i.e. parent group had no answer
+          return undefined;
+        }
       }
     }
     return answer[name]?.value;

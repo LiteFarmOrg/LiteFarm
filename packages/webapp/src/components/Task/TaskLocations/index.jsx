@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import Button from '../../Form/Button';
 import LocationPicker from '../../LocationPicker/SingleLocationPicker';
 import { useTranslation } from 'react-i18next';
@@ -9,7 +9,6 @@ import PropTypes from 'prop-types';
 import { useForm } from 'react-hook-form';
 import { cloneObject } from '../../../util';
 import Checkbox from '../../Form/Checkbox';
-
 export default function PureTaskLocations({
   locations,
   readOnlyPinCoordinates,
@@ -56,6 +55,15 @@ export default function PureTaskLocations({
   );
 
   const onSelectLocation = (location_id) => {
+    if (!isMulti) {
+      if (getValues('show_wild_crop')) {
+        setValue(SHOW_WILD_CROP, false);
+      }
+      if (selectedLocations[0]?.location_id === location_id) {
+        setValue(LOCATIONS, []);
+        return;
+      }
+    }
     setValue(
       LOCATIONS,
       isMulti ? getSelectedLocations(location_id, selectedLocations) : [{ location_id }],
@@ -71,6 +79,12 @@ export default function PureTaskLocations({
   useEffect(() => {
     setValue(SHOW_WILD_CROP, targetsWildCrop);
   }, []);
+
+  const onChange = (e) => {
+    if (!isMulti && e.target.checked) {
+      clearLocations();
+    }
+  };
 
   const getSelectedLocations = (location_id, selectedLocations) => {
     const isSelected = selectedLocations
@@ -93,7 +107,7 @@ export default function PureTaskLocations({
             <Button
               data-cy="addTask-locationContinue"
               disabled={!selectedLocations?.length && !(showWildCropCheckBox && show_wild_crop)}
-              onClick={onContinue}
+              onClick={() => onContinue(getValues())}
               fullLength
             >
               {t('common:CONTINUE')}
@@ -127,6 +141,7 @@ export default function PureTaskLocations({
             label={t('TASK.SELECT_WILD_CROP')}
             style={{ paddingBottom: '25px' }}
             hookFormRegister={register(SHOW_WILD_CROP)}
+            onChange={onChange}
           />
         )}
       </Layout>
@@ -134,7 +149,7 @@ export default function PureTaskLocations({
   );
 }
 
-PureTaskLocations.prototype = {
+PureTaskLocations.propTypes = {
   onContinue: PropTypes.func,
   onGoBack: PropTypes.func,
   storedLocations: PropTypes.array,
@@ -147,4 +162,5 @@ PureTaskLocations.prototype = {
   readOnlyPinCoordinates: PropTypes.array,
   maxZoomRef: PropTypes.object,
   getMaxZoom: PropTypes.func,
+  targetsWildCrop: PropTypes.bool,
 };

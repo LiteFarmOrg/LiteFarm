@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo, useState } from 'react';
 import styles from './styles.module.scss';
 import clsx from 'clsx';
 import Square from '../Square';
@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 import { StatusLabel } from '../CardWithStatus/StatusLabel';
 import { managementPlanStatusTranslateKey } from '../CardWithStatus/ManagementPlanCard/ManagementPlanCard';
 import { useTranslation } from 'react-i18next';
+import { useIsOffline } from '../../containers/hooks/useOfflineDetector/useIsOffline';
 
 export default function PureCropTile({
   className,
@@ -21,11 +22,35 @@ export default function PureCropTile({
   children,
   isSelected,
   status,
+  getIsOffline = useIsOffline,
 }) {
-  const { active = 0, planned = 0, past = 0, noPlans = 0 } = cropCount;
+  const { active = 0, abandoned = 0, planned = 0, completed = 0, noPlans = 0 } = cropCount;
   const { t } = useTranslation();
+  const isOffline = getIsOffline();
+  const [hasError, setHasError] = useState();
+  const showImage = !(isOffline && hasError);
+  const image = useMemo(() => {
+    if (showImage) {
+      return (
+        <img
+          src={src}
+          alt={alt}
+          loading="lazy"
+          className={styles.img}
+          onError={(e) => {
+            e.target.onerror = null;
+            e.target.src = 'crop-images/default.jpg';
+            setHasError(true);
+          }}
+        />
+      );
+    } else {
+      return <div className={clsx(styles.img, styles.imgPlaceHolder)} />;
+    }
+  }, [showImage, src, alt, styles.img]);
   return (
     <div
+      data-cy="crop-tile"
       className={clsx(
         styles.container,
         isPastVariety && styles.pastVarietyContainer,
@@ -36,25 +61,15 @@ export default function PureCropTile({
       style={style}
       onClick={onClick}
     >
-      <img
-        src={src}
-        alt={alt}
-        loading="lazy"
-        className={styles.img}
-        onError={(e) => {
-          e.target.onerror = null;
-          e.target.src = 'crop-images/default.jpg';
-        }}
-      />
-
-      {planned + past + active !== 0 && (
+      {image}
+      {planned + completed + abandoned + active !== 0 && (
         <div className={styles.cropCountContainer}>
           <Square isCropTile>{active}</Square>
           <Square color={'planned'} isCropTile>
             {planned}
           </Square>
           <Square color={'past'} isCropTile>
-            {past}
+            {completed + abandoned}
           </Square>
         </div>
       )}
@@ -70,7 +85,6 @@ export default function PureCropTile({
           />
         </div>
       )}
-
       {noPlans !== 0 && (
         <div className={styles.needsPlanContainer}>
           <Square color={'needsPlan'} isCropTile style={{ borderBottomRightRadius: '4px' }}>
@@ -78,9 +92,10 @@ export default function PureCropTile({
           </Square>
         </div>
       )}
-
       <div className={styles.info}>
-        <div className={styles.infoMain}>{title}</div>
+        <div data-cy="crop-name" className={styles.infoMain}>
+          {title}
+        </div>
         {children}
       </div>
     </div>
@@ -92,9 +107,10 @@ PureCropTile.prototype = {
   onClick: PropTypes.func,
   style: PropTypes.object,
   cropCount: PropTypes.exact({
+    abandoned: PropTypes.number,
     active: PropTypes.number,
     planned: PropTypes.number,
-    past: PropTypes.number,
+    completed: PropTypes.number,
   }),
   needsPlan: PropTypes.bool,
   title: PropTypes.string,

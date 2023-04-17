@@ -1,7 +1,3 @@
-import moment from 'moment';
-import 'moment/locale/pt';
-import 'moment/locale/es';
-import 'moment/locale/fr';
 import { icons } from './icons';
 
 const index = {
@@ -20,20 +16,23 @@ const index = {
       return {
         tempUnit: 'ºC',
         speedUnit: 'km/h',
+        soilWaterPotentialUnit: 'kPa',
       };
     } else if (measurement === 'imperial') {
       return {
         tempUnit: 'ºF',
         speedUnit: 'mph',
+        soilWaterPotentialUnit: 'PSI',
       };
     }
     return { tempUnit: '', speedUnit: '' };
   },
   formatDate(lang, dte) {
-    if (dte && moment(dte).isValid()) {
-      return moment.unix(dte).locale(lang).format('ddd D MMMM');
-    }
-    return '';
+    return new Date(dte * 1000).toLocaleDateString(lang, {
+      weekday: 'short',
+      day: 'numeric',
+      month: 'long',
+    });
   },
 };
 

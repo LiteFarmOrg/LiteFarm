@@ -20,6 +20,8 @@ import UserFarmModel from '../models/userFarmModel.js';
 import PasswordModel from '../models/passwordModel.js';
 import EmailTokenModel from '../models/emailTokenModel.js';
 import ShiftModel from '../models/shiftModel.js';
+import TaskModel from '../models/taskModel.js';
+import NotificationUserModel from '../models/notificationUserModel.js';
 import FarmModel from '../models/farmModel.js';
 import { transaction, Model } from 'objection';
 import bcrypt from 'bcryptjs';
@@ -504,6 +506,14 @@ const userController = {
           userFarms.map((userFarm) => ({ ...userFarm, user_id: sub })),
         );
         await ShiftModel.query(trx)
+          .context({ user_id: sub })
+          .where({ user_id })
+          .patch({ user_id: sub });
+        await TaskModel.query(trx)
+          .context({ user_id: sub })
+          .where({ assignee_user_id: user_id })
+          .patch({ assignee_user_id: sub });
+        await NotificationUserModel.query(trx)
           .context({ user_id: sub })
           .where({ user_id })
           .patch({ user_id: sub });

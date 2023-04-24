@@ -118,6 +118,16 @@ describe('Task tests', () => {
       .end(callback);
   }
 
+  function patchTaskWageRequest({ user_id, farm_id }, data, task_id, callback) {
+    chai
+      .request(server)
+      .patch(`/task/patch_wage/${task_id}`)
+      .set('user_id', user_id)
+      .set('farm_id', farm_id)
+      .send(data)
+      .end(callback);
+  }
+
   function completeTaskRequest({ user_id, farm_id }, data, task_id, type, callback) {
     chai
       .request(server)
@@ -135,6 +145,15 @@ describe('Task tests', () => {
       .set('user_id', user_id)
       .set('farm_id', farm_id)
       .send(data)
+      .end(callback);
+  }
+
+  function deleteTaskRequest({ user_id, farm_id }, task_id, callback) {
+    chai
+      .request(server)
+      .delete(`/task/${task_id}`)
+      .set('user_id', user_id)
+      .set('farm_id', farm_id)
       .end(callback);
   }
 
@@ -2150,6 +2169,116 @@ describe('Task tests', () => {
     });
   });
 
+  describe('DELETE task tests', () => {
+    test('Owner should be able to delete a task', async (done) => {
+      const [{ user_id, farm_id }] = await mocks.userFarmFactory({}, fakeUserFarm(1));
+      const date = faker.date.future().toISOString().split('T')[0];
+      const [task] = await mocks.taskFactory(
+        { promisedUser: [{ user_id }] },
+        mocks.fakeTask({ due_date: date, assignee_user_id: user_id }),
+      );
+      const [location] = await mocks.locationFactory({ promisedFarm: [{ farm_id }] });
+      await mocks.location_tasksFactory({ promisedTask: [task], promisedField: [location] });
+      deleteTaskRequest({ user_id, farm_id }, task.task_id, async (err, res) => {
+        expect(res.status).toBe(200);
+        const updated_task = await getTask(task.task_id);
+        expect(updated_task.deleted).toBe(true);
+        done();
+      });
+    });
+
+    test('Manager should be able to delete a task', async (done) => {
+      const [{ user_id, farm_id }] = await mocks.userFarmFactory({}, fakeUserFarm(2));
+      const date = faker.date.future().toISOString().split('T')[0];
+      const [task] = await mocks.taskFactory(
+        { promisedUser: [{ user_id }] },
+        mocks.fakeTask({ due_date: date }),
+      );
+      const [location] = await mocks.locationFactory({ promisedFarm: [{ farm_id }] });
+      await mocks.location_tasksFactory({ promisedTask: [task], promisedField: [location] });
+      deleteTaskRequest({ user_id, farm_id }, task.task_id, async (err, res) => {
+        expect(res.status).toBe(200);
+        const updated_task = await getTask(task.task_id);
+        expect(updated_task.deleted).toBe(true);
+        done();
+      });
+    });
+
+    test('EO should be able to delete a task', async (done) => {
+      const [{ user_id, farm_id }] = await mocks.userFarmFactory({}, fakeUserFarm(5));
+      const date = faker.date.future().toISOString().split('T')[0];
+      const [task] = await mocks.taskFactory(
+        { promisedUser: [{ user_id }] },
+        mocks.fakeTask({ due_date: date }),
+      );
+      const [location] = await mocks.locationFactory({ promisedFarm: [{ farm_id }] });
+      await mocks.location_tasksFactory({ promisedTask: [task], promisedField: [location] });
+      deleteTaskRequest({ user_id, farm_id }, task.task_id, async (err, res) => {
+        expect(res.status).toBe(200);
+        const updated_task = await getTask(task.task_id);
+        expect(updated_task.deleted).toBe(true);
+        done();
+      });
+    });
+
+    test('Owner should be able to delete a task they do not own', async (done) => {
+      const [{ user_id, farm_id }] = await mocks.userFarmFactory({}, fakeUserFarm(1));
+      const [{ user_id: other_user_id }] = await mocks.userFarmFactory(
+        { promisedFarm: [{ farm_id }] },
+        fakeUserFarm(3),
+      );
+      const date = faker.date.future().toISOString().split('T')[0];
+      const [task] = await mocks.taskFactory(
+        { promisedUser: [{ user_id: other_user_id }] },
+        mocks.fakeTask({ due_date: date }),
+      );
+      const [location] = await mocks.locationFactory({ promisedFarm: [{ farm_id }] });
+      await mocks.location_tasksFactory({ promisedTask: [task], promisedField: [location] });
+      deleteTaskRequest({ user_id, farm_id }, task.task_id, async (err, res) => {
+        expect(res.status).toBe(200);
+        const updated_task = await getTask(task.task_id);
+        expect(updated_task.deleted).toBe(true);
+        done();
+      });
+    });
+
+    test('Owner should be able to delete a task they are not assigned to', async (done) => {
+      const [{ user_id, farm_id }] = await mocks.userFarmFactory({}, fakeUserFarm(1));
+      const [{ user_id: other_user_id }] = await mocks.userFarmFactory(
+        { promisedFarm: [{ farm_id }] },
+        fakeUserFarm(3),
+      );
+      const date = faker.date.future().toISOString().split('T')[0];
+      const [task] = await mocks.taskFactory(
+        { promisedUser: [{ user_id: other_user_id }] },
+        mocks.fakeTask({ due_date: date, assignee_user_id: other_user_id }),
+      );
+      const [location] = await mocks.locationFactory({ promisedFarm: [{ farm_id }] });
+      await mocks.location_tasksFactory({ promisedTask: [task], promisedField: [location] });
+      deleteTaskRequest({ user_id, farm_id }, task.task_id, async (err, res) => {
+        expect(res.status).toBe(200);
+        const updated_task = await getTask(task.task_id);
+        expect(updated_task.deleted).toBe(true);
+        done();
+      });
+    });
+
+    test('Worker should not be able to delete any task', async (done) => {
+      const [{ user_id, farm_id }] = await mocks.userFarmFactory({}, fakeUserFarm(3));
+      const date = faker.date.future().toISOString().split('T')[0];
+      const [task] = await mocks.taskFactory(
+        { promisedUser: [{ user_id }] },
+        mocks.fakeTask({ due_date: date, assignee_user_id: user_id }),
+      );
+      const [location] = await mocks.locationFactory({ promisedFarm: [{ farm_id }] });
+      await mocks.location_tasksFactory({ promisedTask: [task], promisedField: [location] });
+      deleteTaskRequest({ user_id, farm_id }, task.task_id, async (err, res) => {
+        expect(res.status).toBe(403);
+        done();
+      });
+    });
+  });
+
   describe('Patch task due date test', () => {
     test('Farm owner must be able to patch task due date to today', async (done) => {
       const today = new Date();
@@ -2337,6 +2466,52 @@ describe('Task tests', () => {
         expect(res.status).toBe(403);
         done();
       });
+    });
+  });
+
+  describe('Patch task wage test', () => {
+    const testWithRole = async (userRoleId, wage_at_moment, done) => {
+      const patchTaskWageBody = { wage_at_moment };
+      const [{ user_id, farm_id }] = await mocks.userFarmFactory({}, fakeUserFarm(userRoleId));
+      const [{ task_id }] = await mocks.taskFactory({ promisedUser: [{ user_id }] });
+      const [{ location_id }] = await mocks.locationFactory({ promisedFarm: [{ farm_id }] });
+      await mocks.location_tasksFactory({
+        promisedTask: [{ task_id }],
+        promisedField: [{ location_id }],
+      });
+
+      const adminRoles = [1, 2, 5];
+      if (adminRoles.includes(userRoleId)) {
+        patchTaskWageRequest({ user_id, farm_id }, patchTaskWageBody, task_id, async (err, res) => {
+          expect(res.status).toBe(200);
+          const updated_task = await getTask(task_id);
+          expect(updated_task.wage_at_moment).toBe(wage_at_moment);
+          expect(updated_task.override_hourly_wage).toBe(true);
+          done();
+        });
+        return;
+      }
+
+      patchTaskWageRequest({ user_id, farm_id }, patchTaskWageBody, task_id, async (err, res) => {
+        expect(res.status).toBe(403);
+        done();
+      });
+    };
+
+    test('Farm owner must be able to patch task wage', async (done) => {
+      testWithRole(1, 33, done);
+    });
+
+    test('EO must be able to patch task wage', async (done) => {
+      testWithRole(5, 27, done);
+    });
+
+    test('Managers must be able to patch task wage', async (done) => {
+      testWithRole(2, 37, done);
+    });
+
+    test('Farm worker must not be able to patch task wage', async (done) => {
+      testWithRole(3, 30, done);
     });
   });
 });

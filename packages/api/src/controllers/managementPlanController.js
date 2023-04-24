@@ -18,6 +18,7 @@ import CropManagementPlanModel from '../models/cropManagementPlanModel.js';
 import ManagementTasksModel from '../models/managementTasksModel.js';
 import TaskModel from '../models/taskModel.js';
 import TaskTypeModel from '../models/taskTypeModel.js';
+import FieldWorkTypeModel from '../models/fieldWorkTypeModel.js';
 import TransplantTaskModel from '../models/transplantTaskModel.js';
 import PlantTaskModel from '../models/plantTaskModel.js';
 import { raw } from 'objection';
@@ -145,11 +146,15 @@ const managementPlanController = {
                 task_translation_key: 'FIELD_WORK_TASK',
               })
               .first();
+            const fieldWorkType = await FieldWorkTypeModel.query(trx)
+              .select('field_work_type_id')
+              .where({ field_work_type_translation_key: 'TERMINATION' })
+              .first();
             const fieldWorkTask = await TaskModel.query(trx)
               .context(req.user)
               .upsertGraph(
                 getTask(due_date, fieldWorkTaskType.task_type_id, {
-                  field_work_task: { type: 'TERMINATION' },
+                  field_work_task: fieldWorkType,
                   ...taskManagementPlansAndLocations,
                 }),
                 {

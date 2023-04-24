@@ -485,6 +485,24 @@ const userFarmController = {
     };
   },
 
+  setWageDoNotAskAgain() {
+    return async (req, res) => {
+      const { farm_id, user_id } = req.params;
+
+      try {
+        const isPatched = await UserFarmModel.query()
+          .where('farm_id', farm_id)
+          .andWhere('user_id', user_id)
+          .patch({ wage_do_not_ask_again: true });
+
+        return res.sendStatus(isPatched ? 200 : 404);
+      } catch (error) {
+        // handle more exceptions
+        res.status(400).send(error);
+      }
+    };
+  },
+
   upgradePseudoUser() {
     return async (req, res) => {
       const { user_id, farm_id } = req.params;

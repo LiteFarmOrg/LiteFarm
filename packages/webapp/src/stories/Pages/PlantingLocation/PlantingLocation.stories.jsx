@@ -173,6 +173,7 @@ FinalInGround.args = {
     lat: 49.26886611583817,
     lng: -123.18239233683167,
   },
+  isCropOrganic: true,
 };
 FinalInGround.parameters = {
   ...chromaticSmallScreen,

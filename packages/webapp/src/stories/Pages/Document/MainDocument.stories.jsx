@@ -23,10 +23,12 @@ Primary.args = {
     files: [
       {
         thumbnail_url: 'https://litefarm.nyc3.digitaloceanspaces.com/default_crop/v2/default.webp',
+        url: 'https://litefarm.nyc3.digitaloceanspaces.com/default_crop/v2/default.webp',
       },
     ],
   },
-  imageComponent: (props) => <img {...props} />,
+  imageComponent: (props) => <img src={props.fileUrl} />,
+  fileDownloadComponent: (props) => <img src={props.fileUrl} />,
   onGoBack: () => {},
 };
 

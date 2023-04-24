@@ -52,6 +52,13 @@ router.patch(
 );
 
 router.patch(
+  '/patch_wage/:task_id',
+  hasFarmAccess({ params: 'task_id' }),
+  checkScope(['edit:user_wage']),
+  taskController.patchWage,
+);
+
+router.patch(
   '/abandon/:task_id',
   hasFarmAccess({ params: 'task_id' }),
   checkScope(['edit:task']),
@@ -260,6 +267,13 @@ router.get(
   '/irrigation_task_types/:farm_id',
   hasFarmAccess({ params: 'farm_id' }),
   taskController.getIrrigationTaskTypes,
+);
+
+router.delete(
+  '/:task_id',
+  hasFarmAccess({ params: 'task_id' }),
+  checkScope(['delete:task']),
+  taskController.deleteTask,
 );
 
 export default router;

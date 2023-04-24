@@ -30,7 +30,7 @@ function EditCropVarietyForm({ history, match }) {
       treated: null,
       ...data,
     };
-    dispatch(patchVarietal({ variety_id, data: varietyData }));
+    dispatch(patchVarietal({ variety_id, crop_id: cropVariety.crop_id, data: varietyData }));
   };
 
   // TODO - Add persisted path (LF-1430)

@@ -13,13 +13,12 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import * as dotenv from 'dotenv';
+import './loadEnv.js';
 import sendOnSchedule from './notifications/index.js';
 import processExports from './certification/index.js';
 
 import logger from '../common/logger.js';
 
-dotenv.config();
 const redisConf = {
   redis: {
     host: process.env.REDIS_HOST,

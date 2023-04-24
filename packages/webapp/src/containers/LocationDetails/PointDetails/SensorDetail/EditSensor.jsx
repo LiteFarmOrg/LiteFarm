@@ -78,7 +78,6 @@ export default function UpdateSensor({ history, match }) {
       data.farm_id = sensorInfo.farm_id;
       data.location_id = sensorInfo.location_id;
     });
-    console.log(sensorData);
     dispatch(patchSensor(getProcessedFormData(sensorData)));
   };
 

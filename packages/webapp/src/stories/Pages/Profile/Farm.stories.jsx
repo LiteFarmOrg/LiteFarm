@@ -13,6 +13,7 @@ const Template = (args) => <PureFarm {...args} />;
 
 export const Primary = Template.bind({});
 Primary.args = {
+  history: { location: { pathname: '/farm' } },
   userFarm: {
     farm_name: 'liteFarm',
     last_name: 'last',

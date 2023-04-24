@@ -20,7 +20,7 @@ import { useTranslation } from 'react-i18next';
 import PageTitle from '../../PageTitle/v2';
 import Input from '../../Form/Input';
 import InputAutoSize from '../../Form/InputAutoSize';
-import { Label, Main, Semibold, Underlined } from '../../Typography';
+import { Label, Main, Semibold, IconLink } from '../../Typography';
 import styles from './styles.module.scss';
 import PureManagementPlanTile from '../../CropTile/ManagementPlanTile';
 import PureCropTileContainer from '../../CropTile/CropTileContainer';
@@ -44,16 +44,21 @@ import { TransplantLocationLabel } from './TransplantLocationLabel/TransplantLoc
 import { isTaskType } from '../../../containers/Task/useIsTaskType';
 import ReactSelect from '../../Form/ReactSelect';
 import { BiPencil } from 'react-icons/bi';
+import { FiAlertTriangle } from 'react-icons/fi';
+import { ReactComponent as TrashIcon } from '../../../assets/images/document/trash.svg';
 import TaskQuickAssignModal from '../../Modals/QuickAssignModal';
 import { getDateInputFormat } from '../../../util/moment';
 import UpdateTaskDateModal from '../../Modals/UpdateTaskDateModal';
 import PureIrrigationTask from '../PureIrrigationTask';
+import DeleteBox from './DeleteBox';
 
 export default function PureTaskReadOnly({
   onGoBack,
   onComplete,
   onEdit,
   onAbandon,
+  onGoToCropPlan,
+  onDelete,
   task,
   users,
   user,
@@ -66,6 +71,10 @@ export default function PureTaskReadOnly({
   onAssignTasksOnDate,
   onAssignTask,
   onChangeTaskDate,
+  onUpdateUserFarmWage,
+  onChangeTaskWage,
+  onSetUserFarmWageDoNotAskAgain,
+  wage_at_moment,
 }) {
   const { t } = useTranslation();
   const taskType = task.taskType;
@@ -132,21 +141,39 @@ export default function PureTaskReadOnly({
 
   const [showTaskAssignModal, setShowTaskAssignModal] = useState(false);
   const [showDueDateModal, setShowDueDateModal] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
 
   const canCompleteTask =
     user.user_id === task.assignee_user_id || (assignedToPseudoUser && user.is_admin);
 
+  const canAbandonTask =
+    user.user_id === task.assignee_user_id || user.user_id === owner_user_id || isAdmin;
+
+  const preDelete = () => {
+    setIsDeleting(true);
+  };
+
   return (
     <Layout
       buttonGroup={
-        canCompleteTask &&
+        (canCompleteTask || canAbandonTask) &&
         isCurrent && (
           <>
+            <Button
+              data-cy="taskReadOnly-abandon"
+              color={'secondary'}
+              onClick={onAbandon}
+              fullLength
+              disabled={!canAbandonTask}
+            >
+              {t('TASK.ABANDON.ABANDON')}
+            </Button>
             <Button
               data-cy="taskReadOnly-complete"
               color={'primary'}
               onClick={onComplete}
               fullLength
+              disabled={!canCompleteTask}
             >
               {t('common:MARK_COMPLETE')}
             </Button>
@@ -399,12 +426,47 @@ export default function PureTaskReadOnly({
         />
       )}
 
-      {(user.user_id === task.assignee_user_id || user.user_id === owner_user_id || isAdmin) &&
-        isCurrent && (
-          <Underlined style={{ marginBottom: '16px' }} onClick={onAbandon}>
-            {t('TASK.ABANDON_TASK')}
-          </Underlined>
-        )}
+      {isAdmin && isCurrent && !isDeleting && (
+        <IconLink
+          className={styles.deleteText}
+          style={{ color: 'var(--grey600)' }}
+          icon={
+            <TrashIcon
+              style={{
+                fill: 'var(--grey600)',
+                stroke: 'var(--grey600)',
+                transform: 'translate(0px, 6px)',
+              }}
+            />
+          }
+          onClick={preDelete}
+          isIconClickable
+        >
+          {t('TASK.DELETE.DELETE_TASK')}
+        </IconLink>
+      )}
+      {isDeleting && isTaskType(taskType, 'PLANT_TASK') && (
+        <DeleteBox
+          color="warning"
+          onOk={onGoToCropPlan}
+          onCancel={() => setIsDeleting(false)}
+          header={t('TASK.DELETE.CANT_DELETE_PLANTING_TASK')}
+          headerIcon={<FiAlertTriangle />}
+          message={t('TASK.DELETE.CANT_DELETE_ABANDON_INSTEAD')}
+          primaryButtonLabel={t('TASK.DELETE.CANT_DELETE_ABANDON')}
+        />
+      )}
+      {isDeleting && !isTaskType(taskType, 'PLANT_TASK') && (
+        <DeleteBox
+          color="error"
+          onOk={onDelete}
+          onCancel={() => setIsDeleting(false)}
+          header={t('TASK.DELETE.DELETE_TASK_QUESTION')}
+          headerIcon={<TrashIcon />}
+          message={t('TASK.DELETE.DELETE_TASK_MESSAGE')}
+          primaryButtonLabel={t('TASK.DELETE.CONFIRM_DELETION')}
+        />
+      )}
       {showTaskAssignModal && (
         <TaskQuickAssignModal
           task_id={task.task_id}
@@ -412,9 +474,13 @@ export default function PureTaskReadOnly({
           isAssigned={!!task?.assignee}
           onAssignTasksOnDate={onAssignTasksOnDate}
           onAssignTask={onAssignTask}
+          onUpdateUserFarmWage={onUpdateUserFarmWage}
+          onChangeTaskWage={onChangeTaskWage}
+          onSetUserFarmWageDoNotAskAgain={onSetUserFarmWageDoNotAskAgain}
           users={users}
           user={user}
           dismissModal={() => setShowTaskAssignModal(false)}
+          wage_at_moment={wage_at_moment}
         />
       )}
       {showDueDateModal && (

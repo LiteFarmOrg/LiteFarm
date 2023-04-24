@@ -17,6 +17,7 @@ TaskCompleteCleaning.args = {
   onSave: () => {},
   useHookFormPersist: () => ({}),
   persistedFormData: {
+    need_changes: true,
     cleaning_task: {
       cleaning_target: 'target',
       agent_used: true,
@@ -34,7 +35,7 @@ TaskCompleteCleaning.args = {
       },
     },
   },
-  selectedTaskType: { task_translation_key: 'CLEANING' },
+  selectedTaskType: { task_translation_key: 'CLEANING_TASK' },
   farm: '1231456',
   system: 'metric',
   products: [

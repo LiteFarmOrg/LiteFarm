@@ -14,26 +14,26 @@ export const WithDefaultValue = Template.bind({});
 WithDefaultValue.args = {
   label: 'default value',
   defaultValue: 'default value',
-  rowsMax: 4,
+  maxRows: 4,
 };
 
 export const Optional = Template.bind({});
 Optional.args = {
   label: 'optional',
-  rowsMax: 4,
+  maxRows: 4,
   optional: true,
 };
 
 export const Primary = Template.bind({});
 Primary.args = {
   label: 'primary',
-  rowsMax: 4,
+  maxRows: 4,
 };
 
 export const Disabled = Template.bind({});
 Disabled.args = {
   label: 'disabled',
-  rowsMax: 4,
+  maxRows: 4,
   disabled: true,
   defaultValue: 'disabled',
 };
@@ -41,13 +41,13 @@ Disabled.args = {
 export const WithError = Template.bind({});
 WithError.args = {
   label: 'error',
-  rowsMax: 4,
+  maxRows: 4,
   errors: 'error',
 };
 
 export const MultiRow = Template.bind({});
 MultiRow.args = {
   label: 'multi row',
-  rowsMax: 4,
+  maxRows: 4,
   defaultValue: 'multi row, '.repeat(100),
 };

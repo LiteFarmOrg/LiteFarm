@@ -29,6 +29,10 @@
   text-overflow: ellipsis;
 }
 
+.italicText{
+  font-style: italic;
+}
+
 .headerTitleContainer {
   margin-top: 15px;
   padding-left: 25px;
@@ -64,4 +68,7 @@
 
 .radioToLabelDistance {
   margin-bottom: 34px;
+}
+.supplierContainer{
+  margin-top:5px;
 }

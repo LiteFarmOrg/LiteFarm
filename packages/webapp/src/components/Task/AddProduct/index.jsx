@@ -101,13 +101,13 @@ const AddProduct = ({
         value={productValue}
         style={{ marginBottom: '40px' }}
         creatable
-        icon={<Leaf />}
+        hasLeaf={true}
         isDisabled={disabled}
       />
       <input name={NAME} style={{ display: 'none' }} {...register(NAME, { required: true })} />
       <input name={PRODUCT_ID} style={{ display: 'none' }} {...register(PRODUCT_ID)} />
       <Input
-        data-cy="cleanTask-productSupplier"
+        data-cy={'addTask-supplier'}
         name={SUPPLIER}
         label={t('ADD_PRODUCT.SUPPLIER_LABEL')}
         hookFormRegister={register(SUPPLIER, { required: interested })}

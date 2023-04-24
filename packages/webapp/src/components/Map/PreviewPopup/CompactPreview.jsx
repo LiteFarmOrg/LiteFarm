@@ -1,6 +1,16 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { makeStyles } from '@material-ui/core/styles';
+import { userFarmSelector } from '../../../containers/userFarmSlice';
+import { useSelector } from 'react-redux';
+import { TEMPERATURE, SOIL_WATER_POTENTIAL } from '../../../containers/SensorReadings/constants';
+import {
+  getSoilWaterPotentialUnit,
+  getSoilWaterPotentialValue,
+  getTemperatureUnit,
+  getTemperatureValue,
+} from './utils';
+import { isTouchDevice } from '../../../util/device';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -8,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: 'row',
     justifyContent: 'space-between',
     minWidth: 200,
-    padding: 5,
+    padding: '8px 8px 2px 8px',
   },
   highlight: {
     display: 'flex',
@@ -27,9 +37,46 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function CompactPreview({ title, value, unit, loadReadingView }) {
+export default function CompactPreview({ location, readings, readingType, history }) {
   const classes = useStyles();
   const { t } = useTranslation();
+  const { units } = useSelector(userFarmSelector);
+
+  let title = '';
+  if (readingType === TEMPERATURE) {
+    title = t('SENSOR.READINGS_PREVIEW.TEMPERATURE');
+  } else if (readingType === SOIL_WATER_POTENTIAL) {
+    title = t('SENSOR.READINGS_PREVIEW.SOIL_WATER_POTENTIAL');
+  }
+
+  const loadReadingView = () => {
+    history.push(`/${location.type}/${location.id}/readings`);
+  };
+
+  let sensorData = [];
+  let sixHoursBefore = new Date();
+  sixHoursBefore.setHours(sixHoursBefore.getHours() - 6);
+
+  if (readings.length) {
+    sensorData = readings.filter(
+      (sensorReading) =>
+        sensorReading.reading_type === readingType &&
+        sensorReading.location_id === location.id &&
+        new Date(sensorReading.read_time) > sixHoursBefore,
+    );
+  }
+
+  const latestSensorData = sensorData[0];
+
+  let unit = null;
+  let value = null;
+  if (readingType === TEMPERATURE) {
+    unit = sensorData?.length ? getTemperatureUnit(units?.measurement) : null;
+    value = getTemperatureValue(latestSensorData?.value, units?.measurement);
+  } else {
+    unit = sensorData?.length ? getSoilWaterPotentialUnit(units?.measurement) : null;
+    value = getSoilWaterPotentialValue(latestSensorData?.value, units?.measurement);
+  }
 
   const [isClicked, setIsClicked] = useState(false);
 
@@ -39,14 +86,21 @@ export default function CompactPreview({ title, value, unit, loadReadingView }) 
   };
 
   const onMouseUp = () => {
-    if (isClicked) setTimeout(loadReadingView, 250);
+    if (isClicked) loadReadingView();
   };
 
   return (
     <div
       className={isClicked ? classes.highlight : classes.container}
-      onMouseDown={onMouseDown}
-      onMouseUp={onMouseUp}
+      {...(isTouchDevice()
+        ? {
+            onTouchStart: onMouseDown,
+            onTouchEnd: onMouseUp,
+          }
+        : {
+            onMouseDown: onMouseDown,
+            onMouseUp: onMouseUp,
+          })}
     >
       <div className={classes.title}>{title}:</div>
       <div className={value ? classes.value : classes.error}>

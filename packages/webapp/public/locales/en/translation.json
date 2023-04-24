@@ -25,7 +25,7 @@
     "ADD_A_TASK": "Add a task",
     "ADD_CUSTOM_TASK": "Add custom task",
     "AFFECT_PLANS": "Will this task affect any plans?",
-    "ASSIGN_ALL_TO_PERSON": "Assign all unassigned tasks on this date to this person",
+    "ASSIGN_ALL_TO_PERSON": "Assign all tasks on this date to {{name}}",
     "ASSIGN_DATE": "Change task date",
     "ASSIGN_TASK": "Assign task",
     "ASSIGNEE": "Assignee",
@@ -64,6 +64,13 @@
     "GO_TO_CATALOGUE": "Go to Crop Catalogue",
     "HARVEST_EVERYTHING": "Harvest everything that is ready",
     "HARVESTING_INFO": "Each plan will generate an individual harvest task",
+    "HOURLY_WAGE": {
+      "ASSIGNEE_WAGE_WARNING": "{{name}} doesn't currently have an hourly wage assigned.",
+      "DONT_ASK": "No, do not ask again for this employee",
+      "FOR_THIS_TASK": "Yes, just for this task",
+      "SET_HOURLY_WAGE": "Yes, set hourly wage",
+      "WANT_TO_SET_HOURLY_WAGE": "Would you like to set an hourly wage?"
+    },
     "HOW_MUCH_IS_HARVESTED": "How much is being harvested?",
     "HR": "/hr",
     "MANAGE_CUSTOM_TASKS": "Manage custom tasks",
@@ -292,6 +299,17 @@
     "ADD_COMPLIANCE_FILE": "Link to a compliance file",
     "ADD_CROP": "Add a crop",
     "ADD_IMAGE": "Add Custom Image",
+    "VARIETAL_SUBTITLE": "Tell us about the specific varietal or cultivar you intend to grow",
+    "VARIETAL_IMAGE": "Customize image for varietal or cultivar",
+    "VARIETAL_IMAGE_INFO": "If you would like this varietal or cultivar to have a different image from the default crop, you can customize the image here.",
+    "VARIETY_COMMON_NAME": "Common Name",
+    "DUPLICATE_VARIETY": "A variety of this crop with the same name already exists on your farm",
+    "VARIETY_VARIETAL": "Varietal",
+    "VARIETY_CULTIVAR": "Cultivar",
+    "CULTIVAR_SUBTEXT": "Learn more about cultivars",
+    "VARIETAL_SUBTEXT": "Learn more about varietals",
+    "CULTIVAR_PLACEHOLDER": "Ex. Red Delicious",
+    "VARIETAL_PLACEHOLDER": "Ex. Cabernet sauvignon",
     "ANNUAL": "Annual",
     "ANNUAL_OR_PERENNIAL": "Is the crop an annual or perennial?",
     "EDIT_CROP": "Edit crop",
@@ -316,6 +334,7 @@
     "ADD_CROPS_T0_YOUR_FARM": "Add crops to your farm",
     "ADD_TO_YOUR_FARM": "Add to your farm",
     "CAN_NOT_FIND": "Can't find what you're looking for?",
+    "CANCEL": "crop creation",
     "COVER_CROP": "Can this be grown as a cover crop?",
     "CREATE_MANAGEMENT_PLANS": "Create crop plans",
     "CROP_CATALOGUE": "Crop catalogue",
@@ -335,9 +354,12 @@
     "LETS_BEGIN": "Let's begin",
     "NEW_CROP_NAME": "New Crop Name",
     "NO_RESULTS_FOUND": "No results found. Please change your filters.",
+    "NOMINATE_CROP": "Nominate this crop for inclusion in the LiteFarm crop catalogue",
+    "NOMINATE_CROP_TOOLTIP": "Nominating this crop for inclusion in the LiteFarm crop catalogue grants the LiteFarm team permission to share information about this crop with a specialist in your region. Approved crops will become part of the crop catalogue shown to all users.",
     "ON_YOUR_FARM": "On your farm",
     "SELECT_A_CROP": "Select a crop to add it to your farm. Use search and filters to find crops more quickly.",
-    "SPECIES": "Species"
+    "SPECIES": "Species",
+    "DUPLICATE_CROP": "A crop with the same name, genus, and species already exists on your farm"
   },
   "CROP_DETAIL": {
     "ADD_PLAN": "Add a plan",
@@ -472,6 +494,7 @@
     "VALUE": "Value"
   },
   "EXPIRED_TOKEN": {
+    "RESET_PASSWORD": "This link has expired.",
     "RESET_PASSWORD_LINK": "Send new password link."
   },
   "FARM_MAP": {
@@ -768,7 +791,7 @@
     "WHOLE_FARM_REVENUE": "Whole farm revenue"
   },
   "FORM_VALIDATION": {
-    "OVER_200_CHARS": "Text cannot exceed 200 characters"
+    "OVER_255_CHARS": "Text cannot exceed 255 characters"
   },
   "HELP": {
     "ATTACHMENT_LABEL": "Upload screenshot or file",
@@ -1231,6 +1254,10 @@
       "BODY": "{{editor}} has marked a {{taskType}} task as unassigned.",
       "TITLE": "Task unassigned"
     },
+    "TASK_DELETED": {
+      "BODY": "A {{taskType}} task assigned to you has been deleted by {{abandoner}}.",
+      "TITLE": "Task deleted"
+    },
     "WEEKLY_UNASSIGNED_TASKS": {
       "BODY": "You have unassigned tasks due this week.",
       "TITLE": "Unassigned tasks"
@@ -1380,7 +1407,8 @@
         "QUANTITY": "Quantity",
         "TOTAL": "Total"
       },
-      "TITLE": "Add new sale"
+      "TITLE": "Add new sale",
+      "SALE_VALUE_ERROR": "Sale value must be a positive number less than 999,999,999"
     },
     "DETAIL": {
       "ACTION": "Action",
@@ -1485,6 +1513,7 @@
     "PART_NUMBER": "Part Number",
     "HARDWARE_VERSION": "Hardware version",
     "NO_DATA_FOUND": "No sensor readings found",
+    "NO_DATA": "(no data)",
     "DETAIL": {
       "RETIRE": "Retire",
       "EDIT": "Edit",
@@ -1597,8 +1626,8 @@
     "EXPIRED_ERROR": "We've updated our infrastructure and you'll need to reset your password. Check your inbox to proceed.",
     "EXPIRED_INVITATION_LINK_ERROR": "Invalid or expired invitation",
     "GOOGLE_BUTTON": "CONTINUE WITH GOOGLE",
-    "INVITED_ERROR": "We've updated our infrastructure and you'll need to check your inbox for a farm invitation to proceed.",
-    "LITEFARM_UPDATED": "We've updated LiteFarm!",
+    "INVITED_ERROR": "A farm invitation has been emailed to you, please check your inbox and spam folder.",
+    "LITEFARM_UPDATED": "LiteFarm v3.3 is now available!",
     "PASSWORD_ERROR": "Password incorrect",
     "SIGN_IN": "Sign In",
     "SSO_ERROR": "Please login by clicking the Google button above",
@@ -1644,6 +1673,10 @@
     "ABANDON": {
       "ABANDON": "Abandon",
       "DATE": "Abandonment date",
+      "WHICH_DATE": "Which date?",
+      "DATE_ORIGINAL": "The original due date",
+      "DATE_TODAY": "Today",
+      "DATE_ANOTHER": "Another date",
       "INFO": "Abandoning this task will change its' status to abandoned and remove it from all users ‘To do’ and ‘Unassigned’ lists.",
       "NOTES": "Task abandonment notes",
       "NOTES_CHAR_LIMIT": "Notes must be less than 10,000 characters",
@@ -1743,7 +1776,18 @@
     "TODO": "To do",
     "TRANSPLANT": "Transplant",
     "TRANSPLANT_LOCATIONS": "Select a transplant location",
-    "UNASSIGNED": "Unassigned"
+    "UNASSIGNED": "Unassigned",
+    "DELETE": {
+      "DELETE_TASK": "Delete task",
+      "DELETE_TASK_QUESTION": "Delete task?",
+      "DELETE_TASK_MESSAGE": "This task will be removed from your farm. If you would like to keep a record of this task, click \"Abandon\" instead.",
+      "CONFIRM_DELETION": "Confirm deletion",
+      "CANT_DELETE_PLANTING_TASK": "Can't delete planting task",
+      "CANT_DELETE_ABANDON_INSTEAD": "Do you want to abandon the crop plan instead?",
+      "CANT_DELETE_ABANDON": "Go to crop plan",
+      "SUCCESS": "Task successfully deleted",
+      "FAILED": "Failed to delete task"
+    }
   },
   "UNIT": {
     "TIME": {
@@ -1771,5 +1815,16 @@
   "CROP_STATUS_ORGANIC_MISMATCH_MODAL": {
     "TITLE": "You’ve selected an organic location!",
     "SUBTITLE": "You’ve indicated you’ll be planting a non-organic crop in an organic location. Do you want to proceed?"
+  },
+  "WAGE": {
+    "ERROR": "Wage must be a valid, non-negative decimal number",
+    "HOURLY_WAGE": "Hourly Wage",
+    "HOURLY_WAGE_RANGE_ERROR": "Hourly Wage must be a positive number less than 999,999,999",
+    "HOURLY_WAGE_TOOLTIP": "Hourly wages can be set by selecting an individual on the People tab under 'my farm'."
+  },
+  "UNKNOWN_RECORD": {
+    "UNKNOWN_RECORD": "Unknown record",
+    "CANT_FIND": "Oops! We weren’t able to find that.",
+    "MAYBE_LATER": "Maybe it’ll turnip later."
   }
 }

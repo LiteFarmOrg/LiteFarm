@@ -7,26 +7,16 @@ import Checkbox from '../../Form/Checkbox';
 import RadioGroup from '../../Form/RadioGroup';
 import styles from '../../Typography/typography.module.scss';
 import Input, { getInputErrors, numberOnKeyDown } from '../../Form/Input';
-import Unit, { getUnitOptionMap } from '../../Form/Unit';
+import Unit from '../../Form/Unit';
+import { getUnitOptionMap } from '../../../util/convert-units/getUnitOptionMap';
 import { waterUsage } from '../../../util/convert-units/unit';
 import PropTypes from 'prop-types';
 import WaterUsageCalculatorModal from '../../Modals/WaterUsageCalculatorModal';
-import { convert } from '../../../util/convert-units/convert';
 import { getIrrigationTaskTypes } from '../../../containers/Task/IrrigationTaskTypes/saga';
 import { useDispatch, useSelector } from 'react-redux';
 import { irrigationTaskTypesSliceSelector } from '../../../containers/irrigationTaskTypesSlice';
 import { cropLocationsSelector } from '../../../containers/locationSlice';
 
-const defaultIrrigationTaskTypes = [
-  'HAND_WATERING',
-  'CHANNEL',
-  'DRIP',
-  'FLOOD',
-  'PIVOT',
-  'SPRINKLER',
-  'SUB_SURFACE',
-  'OTHER',
-];
 export default function PureIrrigationTask({
   system,
   register,
@@ -38,19 +28,22 @@ export default function PureIrrigationTask({
   formState,
   getFieldState = {},
   disabled = false,
+  isModified = false,
   locations,
   otherTaskType = false,
   createTask = false,
 }) {
   const { t } = useTranslation();
-  const { errors, isValid } = formState;
+  const { errors } = formState;
   const [showWaterUseCalculatorModal, setShowWaterUseCalculatorModal] = useState(false);
   const { irrigationTaskTypes = [] } = useSelector(irrigationTaskTypesSliceSelector);
   const cropLocations = useSelector(cropLocationsSelector);
-  const location_defaults =
-    locations &&
-    cropLocations.filter((cropLocation) => cropLocation.location_id === locations[0].location_id)[0]
-      ?.location_defaults;
+  const location =
+    locations?.length &&
+    cropLocations.filter(
+      (cropLocation) => cropLocation.location_id === locations[0].location_id,
+    )[0];
+  const location_defaults = location?.location_defaults;
   const locationDefaults = [location_defaults]?.map((location) => {
     return {
       ...location,
@@ -63,19 +56,30 @@ export default function PureIrrigationTask({
     if (locationDefaults?.irrigation_task_type) return locationDefaults?.irrigation_task_type;
   });
   const [totalVolumeWaterUsage, setTotalVolumeWaterUsage] = useState();
-  const [totalDepthWaterUsage, setTotalDepthWaterUSage] = useState();
+  const [totalDepthWaterUsage, setTotalDepthWaterUsage] = useState();
   const [estimatedWaterUsageComputed, setEstimatedWaterUsageComputed] = useState(false);
 
   const dispatch = useDispatch();
 
+  const getDefaultIrrigationTypes = () => {
+    const defaultIrrigationTaskTypes = [];
+    for (let type of irrigationTaskTypes) {
+      if (type.farm_id === null) {
+        defaultIrrigationTaskTypes.push(type.irrigation_type_name);
+      }
+    }
+    return defaultIrrigationTaskTypes;
+  };
+
   const IrrigationTypeOptions = useMemo(() => {
     let options;
+    const defaultIrrigationTaskTypes = getDefaultIrrigationTypes();
     options = irrigationTaskTypes.map((irrigationType) => {
       return {
         value: irrigationType.irrigation_type_name,
         label: defaultIrrigationTaskTypes.includes(irrigationType.irrigation_type_name)
           ? t(`ADD_TASK.IRRIGATION_VIEW.TYPE.${irrigationType.irrigation_type_name}`)
-          : t(irrigationType.irrigation_type_name),
+          : irrigationType.irrigation_type_name,
         default_measuring_type: irrigationType.default_measuring_type,
         irrigation_type_id: irrigationType.irrigation_type_id,
       };
@@ -109,6 +113,16 @@ export default function PureIrrigationTask({
   const estimated_water_usage_unit = watch(ESTIMATED_WATER_USAGE_UNIT);
   const irrigation_type = watch(IRRIGATION_TYPE);
   const measurement_type = watch(MEASUREMENT_TYPE);
+
+  // If the task is being modified on completion then set the "set default" flags to false in the form
+  // this is to avoid overwriting default setting set by another task during that task's creation
+  // the "set default" checkbox is only a visual reference for users to see this irrigation type was set as default during its creation
+  useEffect(() => {
+    if (isModified) {
+      setValue(DEFAULT_IRRIGATION_TASK_LOCATION, false);
+      setValue(DEFAULT_IRRIGATION_MEASUREMENT, false);
+    }
+  }, [isModified]);
 
   const onDismissWaterUseCalculatorModel = () => setShowWaterUseCalculatorModal(false);
   const handleModalSubmit = () => {
@@ -145,6 +159,7 @@ export default function PureIrrigationTask({
           (options) => options.irrigation_type_id === locationDefaults?.irrigation_type_id,
         ),
       );
+      setValue(IRRIGATION_TYPE_ID, locationDefaults.irrigation_type_id);
     }
     if (locationDefaults?.default_measuring_type) {
       setValue(MEASUREMENT_TYPE, locationDefaults?.default_measuring_type);
@@ -174,13 +189,14 @@ export default function PureIrrigationTask({
           ...getValues().irrigation_task,
         },
       });
-      setTotalDepthWaterUSage('');
+      setTotalDepthWaterUsage('');
     }
   }, [showWaterUseCalculatorModal]);
 
-  const selectedIrrigationTypeOption = useMemo(() => {
-    return IrrigationTypeOptions.filter((options) => options.value === irrigation_type)[0];
-  }, [irrigation_type, IrrigationTypeOptions]);
+  const waterCalculatorDisabled =
+    !showWaterUseCalculatorModal ||
+    !measurement_type ||
+    (measurement_type === 'DEPTH' && !location);
 
   return (
     <>
@@ -228,10 +244,13 @@ export default function PureIrrigationTask({
       <Checkbox
         label={t('ADD_TASK.IRRIGATION_VIEW.SET_AS_DEFAULT_TYPE_FOR_THIS_LOCATION')}
         sm
-        style={{ marginTop: '6px', marginBottom: '40px' }}
+        // style={{ marginTop: '6px', marginBottom: '40px' }}
+        style={{ display: 'none' }} // temporarily hiding for April 2023 release
         hookFormRegister={register(DEFAULT_IRRIGATION_TASK_LOCATION)}
-        disabled={disabled}
+        disabled={disabled || isModified}
       />
+      <div style={{ paddingBlock: '10px' }} />
+
       <Label className={styles.label} style={{ marginBottom: '24px', fontSize: '16px' }}>
         {t('ADD_TASK.IRRIGATION_VIEW.HOW_DO_YOU_MEASURE_WATER_USE_FOR_THIS_IRRIGATION_TYPE')}
       </Label>
@@ -263,7 +282,8 @@ export default function PureIrrigationTask({
         label={t('ADD_TASK.IRRIGATION_VIEW.SET_AS_DEFAULT_MEASUREMENT_FOR_THIS_IRRIGATION_TYPE')}
         sm
         hookFormRegister={register(DEFAULT_IRRIGATION_MEASUREMENT)}
-        disabled={disabled}
+        disabled={disabled || isModified}
+        style={{ display: 'none' }} // temporarily hiding for April 2023 release
       />
 
       <Unit
@@ -282,13 +302,7 @@ export default function PureIrrigationTask({
         style={{ marginTop: '40px', marginBottom: `${disabled ? 40 : 0}px` }}
         disabled={disabled}
         onKeyDown={numberOnKeyDown}
-        onChangeUnitOption={(e) => {
-          setEstimatedWaterUsageComputed(true);
-          setValue(
-            ESTIMATED_WATER_USAGE,
-            convert(estimated_water_usage).from(estimated_water_usage_unit.value).to(e.value),
-          );
-        }}
+        onChangeUnitOption={() => setEstimatedWaterUsageComputed(true)}
       />
       {!disabled && (
         <>
@@ -304,7 +318,7 @@ export default function PureIrrigationTask({
         </>
       )}
 
-      {showWaterUseCalculatorModal && measurement_type && (
+      {!waterCalculatorDisabled && (
         <WaterUsageCalculatorModal
           dismissModal={onDismissWaterUseCalculatorModel}
           measurementType={measurement_type}
@@ -313,9 +327,11 @@ export default function PureIrrigationTask({
           totalVolumeWaterUsage={totalVolumeWaterUsage}
           setTotalVolumeWaterUsage={setTotalVolumeWaterUsage}
           totalDepthWaterUsage={totalDepthWaterUsage}
-          setTotalDepthWaterUSage={setTotalDepthWaterUSage}
+          setTotalDepthWaterUsage={setTotalDepthWaterUsage}
           formState={stateController}
           locationDefaults={locationDefaults}
+          location={location}
+          errors={errors}
         />
       )}
     </>
@@ -326,4 +342,5 @@ PureIrrigationTask.propTypes = {
   system: PropTypes.oneOf(['imperial', 'metric']).isRequired,
   disabled: PropTypes.bool,
   locations: PropTypes.array,
+  isModified: PropTypes.bool,
 };

@@ -1,6 +1,6 @@
 /*
- *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>
- *  This file (cropController.js) is part of LiteFarm.
+ *  Copyright 2019, 2020, 2021, 2022, 2023 LiteFarm.org
+ *  This file is part of LiteFarm.
  *
  *  LiteFarm is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -14,6 +14,8 @@
  */
 
 import baseController from '../controllers/baseController.js';
+import nominationController from './nominationController.js';
+import NominationCrop from '../models/nominationCropModel.js';
 import CropModel from '../models/cropModel.js';
 import CropVarietyModel from '../models/cropVarietyModel.js';
 import objection from 'objection';
@@ -66,7 +68,20 @@ const cropController = {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
       try {
-        const { crop, variety } = req.body;
+        const { crop, variety, farm_id } = req.body;
+        const duplicateCrop = await CropModel.query().findOne({
+          farm_id,
+          crop_common_name: crop.crop_common_name,
+          crop_genus: crop.crop_genus || null, // Use null if the value is undefined
+          crop_specie: crop.crop_specie || null, // Use null if the value is undefined
+          deleted: false,
+        });
+        if (duplicateCrop) {
+          await trx.rollback();
+          return res.status(400).json({
+            error: 'This crop already exists, please edit your crop name, genus or species',
+          });
+        }
         crop.user_added = true;
         crop.crop_translation_key = crop.crop_common_name;
         const newCrop = await baseController.postWithResponse(CropModel, crop, req, { trx });
@@ -76,6 +91,17 @@ const cropController = {
           req,
           { trx },
         );
+        if (crop.nominate_crop) {
+          req.body.crop_id = newCrop.crop_id;
+          await nominationController.addNominationFromController(
+            NominationCrop,
+            'CROP_NOMINATION',
+            'NOMINATED',
+            req,
+            { trx },
+          );
+        }
+
         await trx.commit();
         res.status(201).send({ crop: newCrop, variety: newVariety });
       } catch (error) {

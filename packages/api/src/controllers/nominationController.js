@@ -1,5 +1,5 @@
 /*
- *  Copyright 2019, 2020, 2021, 2022 LiteFarm.org
+ *  Copyright 2019, 2020, 2021, 2022, 2023 LiteFarm.org
  *  This file is part of LiteFarm.
  *
  *  LiteFarm is free software: you can redistribute it and/or modify
@@ -12,9 +12,10 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
+
 import baseController from '../controllers/baseController.js';
 import NominationModel from '../models/nominationModel.js';
-// import NominationTypeModel from '../models/nominationTypeModel.js';
+// Also available for control: import NominationTypeModel from '../models/nominationTypeModel.js';
 import NominationStatusModel from '../models/nominationStatusModel.js';
 import NominationWorkflowModel from '../models/nominationWorkflowModel.js';
 import objection from 'objection';
@@ -73,6 +74,41 @@ const nominationController = {
         }
       }
     };
+  },
+
+  /**
+   * This will add a new nomination to the table based from another controller using its transaction.
+   * @param {Object} nominationModel This is the junction model for nomination and nominated tables.
+   * @param {string} nominationType This is the type of nomination or workflow group name.
+   * @param {string} initialStatus This is the initial workflow status for the status log.
+   * @returns The created nomination and status row.
+   */
+  async addNominationFromController(
+    nominationModel,
+    nominationType,
+    initialStatus,
+    req,
+    { trx } = {},
+  ) {
+    const data = req.body;
+    data.nomination_type = nominationType;
+    //TODO: Hopefully this gets changed/removed with workflow ranking
+    const { workflow_id } = await NominationWorkflowModel.query(trx)
+      .select('workflow_id')
+      .where('status', initialStatus)
+      .andWhere('type_group', nominationType)
+      .first();
+    data.workflow_id = workflow_id;
+    const nomination = await baseController.postWithResponse(NominationModel, data, req, {
+      trx,
+    });
+    data.nomination_id = nomination.nomination_id;
+    await baseController.postWithResponse(NominationStatusModel, data, req, {
+      trx,
+    });
+    await baseController.post(nominationModel, data, req, { trx });
+
+    return;
   },
 
   /**

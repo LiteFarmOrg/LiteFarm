@@ -17,8 +17,8 @@ const Template = (args) => (
 export const Variety = Template.bind({});
 Variety.args = {
   title: 'Document Name I have a very long name, hahaha',
-  type: 'Crop Compliance',
+  type: 'CROP_COMPLIANCE',
   date: "May 01 21'",
   preview: `https://litefarm.nyc3.cdn.digitaloceanspaces.com/default_crop/v2/blueberry.webp`,
-  imageComponent: (props) => <img {...props} />,
+  imageComponent: ({ fileUrl }) => <img src={fileUrl} />,
 };

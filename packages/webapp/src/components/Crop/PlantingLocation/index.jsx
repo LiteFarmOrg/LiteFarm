@@ -12,8 +12,6 @@ import Checkbox from '../../Form/Checkbox';
 import { useForm } from 'react-hook-form';
 import { cloneObject } from '../../../util';
 import { getPlantingLocationPaths } from '../getAddManagementPlanPath';
-import { cropVarietySelector } from '../../../containers/cropVarietySlice';
-import { useSelector } from 'react-redux';
 import OrganicStatusMismatchModal from '../../Modals/OrganicStatusMismatchModal';
 import { buttonStatusEnum } from '../../Modals/OrganicStatusMismatchModal/constants';
 
@@ -26,6 +24,8 @@ export default function PurePlantingLocation({
   cropLocations,
   default_initial_location_id,
   farmCenterCoordinate,
+  isCropOrganic,
+  isPursuingCertification,
 }) {
   const { t } = useTranslation(['translation', 'common', 'crop']);
   const { getValues, watch, setValue } = useForm({
@@ -105,7 +105,6 @@ export default function PurePlantingLocation({
   const handlePinMode = () => {
     setPinToggle((pinToggle) => !pinToggle);
   };
-  const crop = useSelector(cropVarietySelector(variety_id));
 
   const proceedToNextStep = () =>
     history.push(
@@ -124,13 +123,15 @@ export default function PurePlantingLocation({
     const selectedLocationId =
       getValues()?.crop_management_plan?.planting_management_plans[locationPrefix]?.location_id;
     const selectedLocation = cropLocations.find((c) => c.location_id === selectedLocationId);
-    const isCropOrganic = crop.organic ?? false;
     const isSelectedLocationOrganic = selectedLocation?.organic_status?.toLowerCase() === ORGANIC;
-    if (isCropOrganic !== isSelectedLocationOrganic) {
+    if (isCropOrganic !== isSelectedLocationOrganic && isPursuingCertification) {
       let content = {};
       if (isSelectedLocationOrganic) {
         content.title = t('CROP_STATUS_ORGANIC_MISMATCH_MODAL.TITLE');
         content.subTitle = t('CROP_STATUS_ORGANIC_MISMATCH_MODAL.SUBTITLE');
+      } else if (!isSelectedLocationOrganic && isCropOrganic == null) {
+        // Do not trigger modal on non-organic locations for organic status null crops
+        proceedToNextStep();
       } else {
         content.title = t('CROP_STATUS_NON_ORGANIC_MISMATCH_MODAL.TITLE');
         content.subTitle = t('CROP_STATUS_NON_ORGANIC_MISMATCH_MODAL.SUBTITLE');
@@ -244,4 +245,5 @@ PurePlantingLocation.prototype = {
   history: PropTypes.object,
   locations: PropTypes.object,
   farmCenterCoordinate: PropTypes.object,
+  isCropOrganic: PropTypes.bool,
 };

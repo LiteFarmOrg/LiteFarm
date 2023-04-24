@@ -1,3 +1,18 @@
+/*
+ *  Copyright 2019, 2020, 2021, 2022, 2023 LiteFarm.org
+ *  This file is part of LiteFarm.
+ *
+ *  LiteFarm is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  LiteFarm is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
+ */
+
 import Button from '../Form/Button';
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
@@ -26,11 +41,15 @@ import {
   SUGAR_CROPS,
   VEGETABLE_AND_MELONS,
 } from './constants';
-import { cropGroupAverages as cropGroupAveragesSelector } from '../../containers/cropSlice';
+import {
+  cropGroupAverages as cropGroupAveragesSelector,
+  cropsOnMyFarmSelector,
+} from '../../containers/cropSlice';
 import { useSelector } from 'react-redux';
 import MultiStepPageTitle from '../PageTitle/MultiStepPageTitle';
 import RadioGroup from '../Form/RadioGroup';
 import styles from './styles.module.scss';
+import Checkbox from '../Form/Checkbox';
 
 export default function PureAddNewCrop({
   handleContinue,
@@ -50,6 +69,7 @@ export default function PureAddNewCrop({
     control,
     getValues,
     watch,
+    setError,
     formState: { isValid, errors },
   } = useForm({
     mode: 'onChange',
@@ -64,6 +84,40 @@ export default function PureAddNewCrop({
   const allCropGroupAverages = useSelector(cropGroupAveragesSelector);
   const cropImageUrlRegister = register(CROP_PHOTO_URL, { required: true });
   const crop_photo_url = watch(CROP_PHOTO_URL);
+
+  const farmCrops = useSelector(cropsOnMyFarmSelector);
+
+  const uniqueCropName = () => {
+    const formCommonName = getValues('crop_common_name');
+    const formGenus = getValues('crop_genus');
+    const formSpecie = getValues('crop_specie');
+
+    const hasRepeatedCrops = farmCrops.some((crop) => {
+      const commonNameMatch = crop.crop_common_name === formCommonName;
+      const genusMatch =
+        (formGenus === '' && crop.crop_genus === null) || crop.crop_genus === formGenus;
+      const specieMatch =
+        (formSpecie === '' && crop.crop_specie === null) || crop.crop_specie === formSpecie;
+      return commonNameMatch && genusMatch && specieMatch;
+    });
+
+    return !hasRepeatedCrops;
+  };
+
+  const showDuplicateCropError = () => {
+    setError(
+      'crop_common_name',
+      {
+        type: 'custom',
+        message: t('CROP_CATALOGUE.DUPLICATE_CROP'),
+      },
+      { shouldFocus: true },
+    );
+  };
+
+  const checkUniqueCropAndSubmit = () => {
+    uniqueCropName() ? handleContinue() : showDuplicateCropError();
+  };
 
   const cropGroupOptions = [
     { value: BEVERAGE_AND_SPICE_CROPS, label: t('crop_group:BEVERAGE_AND_SPICE_CROPS') },
@@ -99,7 +153,7 @@ export default function PureAddNewCrop({
           {t('common:CONTINUE')}
         </Button>
       }
-      onSubmit={handleSubmit(handleContinue)}
+      onSubmit={handleSubmit(checkUniqueCropAndSubmit)}
     >
       <MultiStepPageTitle
         style={{ marginBottom: '24px' }}
@@ -107,6 +161,7 @@ export default function PureAddNewCrop({
         onCancel={historyCancel}
         title={t('CROP.ADD_CROP')}
         value={progress}
+        cancelModalTitle={t('CROP_CATALOGUE.CANCEL')}
       />
       <img
         src={crop_photo_url}
@@ -147,28 +202,28 @@ export default function PureAddNewCrop({
         style={{ marginBottom: '40px' }}
         label={t('CROP_CATALOGUE.GENUS')}
         hookFormRegister={register('crop_genus', {
-          maxLength: { value: 200, message: t('FORM_VALIDATION.OVER_200_CHARS') },
+          maxLength: { value: 255, message: t('FORM_VALIDATION.OVER_255_CHARS') },
           setValueAs: (v) => {
             return v.charAt(0).toUpperCase() + v.slice(1).toLowerCase();
           },
         })}
         errors={getInputErrors(errors, 'crop_genus')}
         optional
-        placeholder="Genus"
+        placeholder={t('CROP_CATALOGUE.GENUS')}
       />
       <Input
         data-cy="crop-cropSpecies"
         style={{ marginBottom: '40px' }}
         label={t('CROP_CATALOGUE.SPECIES')}
         hookFormRegister={register('crop_specie', {
-          maxLength: { value: 200, message: t('FORM_VALIDATION.OVER_200_CHARS') },
+          maxLength: { value: 255, message: t('FORM_VALIDATION.OVER_255_CHARS') },
           setValueAs: (v) => {
             return v.toLowerCase();
           },
         })}
         errors={getInputErrors(errors, 'crop_specie')}
         optional
-        placeholder="species"
+        placeholder={t('CROP_CATALOGUE.SPECIES')}
       />
       <Controller
         control={control}
@@ -198,6 +253,13 @@ export default function PureAddNewCrop({
       <PhysiologyAnatomyDropDown
         register={register}
         isPhysiologyAnatomyDropDownOpen={isPhysiologyAnatomyDropDownOpen}
+      />
+      <Checkbox
+        data-cy="crop-nomination"
+        label={t('CROP_CATALOGUE.NOMINATE_CROP')}
+        style={{ marginTop: '40px', marginBottom: '16px' }}
+        hookFormRegister={register('nominate_crop')}
+        tooltipContent={t('CROP_CATALOGUE.NOMINATE_CROP_TOOLTIP')}
       />
     </Form>
   );

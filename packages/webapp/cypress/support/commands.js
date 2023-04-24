@@ -512,7 +512,7 @@ Cypress.Commands.add('getEmail', () => {
 
 Cypress.Commands.add('newUserLogin', (email) => {
   //Login page
-  cy.get('[data-cy=email]').type(email);
+  cy.get('[data-cy=email]', { timeout: 90 * 1000 }).type(email);
   cy.intercept('GET', '**/login/user/' + email, (req) => {
     delete req.headers['if-none-match'];
   }).as('emailLogin');

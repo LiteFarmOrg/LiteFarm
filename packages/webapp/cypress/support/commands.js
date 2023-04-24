@@ -151,7 +151,7 @@ Cypress.Commands.add('createACleaningTask', (taskType_id) => {
     .should('exist')
     .and('not.be.disabled')
     .click({ force: true });
-  cy.wait(2000);
+  cy.get('._zoomIn_e5ede_9', { timeout: 90 * 1000 }).should('exist');
   cy.get('[data-cy=map-selectLocation]').contains('Test Field');
   cy.get('[data-cy=map-selectLocation]').click(530, 216, {
     force: false,
@@ -267,7 +267,7 @@ Cypress.Commands.add(
       .should('exist')
       .and('not.be.disabled')
       .click({ force: true });
-    cy.wait(2000);
+    cy.get('._zoomIn_e5ede_9', { timeout: 90 * 1000 }).should('exist');
     cy.get('[data-cy="spotlight-next"]').click({ force: true });
     cy.get('[data-cy=map-selectLocation]').contains('Test Field');
     cy.get('[data-cy=map-selectLocation]').click(530, 216, {
@@ -619,9 +619,9 @@ Cypress.Commands.add('getStarted', () => {
 
 Cypress.Commands.add('roleSelection', (role) => {
   cy.contains('What is your role on the farm').should('exist');
-  cy.clock();
+  //cy.clock();
   cy.url().should('include', '/role_selection');
-  cy.tick();
+  //cy.tick();
   cy.get('[data-cy=roleSelection-continue]').should('exist').and('be.disabled');
   cy.waitForReact();
   cy.get('[data-cy=roleSelection-role]').should('exist').check(role, { force: true });

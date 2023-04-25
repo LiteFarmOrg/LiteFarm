@@ -84,7 +84,7 @@ LiteFarm is comprised of three applications which all reside in this monorepo.
 
 The applications are configured with environment variables stored in `.env` files. Configuration information includes secrets like API keys, so the `.env` files are not included in this git repository.
 
- This repository contains a `.env.default` file for api and webapp. These files contain directions to acquire the personal keys needed to get LiteFarm running locally. Please note you will want to rename these files to `.env` once you have the keys in place. 
+ This repository contains a `.env.default` file for api and webapp. These files contain directions to acquire the personal keys needed to get LiteFarm running locally. Please note you will want to copy `.env.default` and rename the file to `.env`. Only after adding the `.env` file should you proceed to add the new keys. If you add your api keys to `.env.default` you may accidentally expose your keys since this file is tracked on git.
  
  If you have questions about the other api keys, or wish to join the LiteFarm team, please contact community@litefarm.org. 
 

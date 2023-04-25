@@ -49,8 +49,17 @@ export default function useStringFilteredCrops(
         'crop_cultivar', // crop_variety.crop_cultivar
       ];
       for (let i = 0; i < keys.length; i++) {
-        if (keys[i] in crop && check(crop[keys[i] as keyof typeof crop])) {
-          return true;
+        if (keys[i] in crop) {
+          if (!i) {
+            const scientificName =
+              crop[keys[0] as keyof typeof crop] + (crop[keys[1] as keyof typeof crop] || '');
+            if (scientificName && check(scientificName)) {
+              return true;
+            }
+            i++;
+          } else if (check(crop[keys[i] as keyof typeof crop])) {
+            return true;
+          }
         }
       }
       return false;

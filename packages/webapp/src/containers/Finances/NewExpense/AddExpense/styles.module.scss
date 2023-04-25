@@ -65,6 +65,16 @@
     border-radius: 4px;
     padding: 0 5%;
   }
+  .textArea {
+    font-size: 16px;
+    line-height: 24px;
+    font-family: 'Open Sans', 'SansSerif', serif;
+    height: 37px;
+    border: 1px solid #efefef;
+    box-sizing: border-box;
+    border-radius: 4px;
+    padding: 0 5%;
+  }
   display: flex;
   flex-direction: row;
   width: 100%;
@@ -82,3 +92,5 @@
   color: #ef3b7d;
   width: 100%;
 }
+
+

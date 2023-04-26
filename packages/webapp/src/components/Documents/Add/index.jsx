@@ -152,6 +152,7 @@ function PureDocumentDetailView({
           value={66}
           title={t('DOCUMENTS.ADD.TITLE')}
           style={{ marginBottom: '24px' }}
+          cancelModalTitle={t('DOCUMENTS.CANCEL')}
         />
       )}
       <Input

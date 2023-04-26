@@ -229,7 +229,7 @@ function PureDocumentDetailView({
           <Loading style={{ minHeight: '192px', width: '100%', maxWidth: '312px' }} />
         )}
       </div>
-      {uploadedFiles?.length <= 5 &&
+      {uploadedFiles?.length < 5 &&
         documentUploader({
           style: { paddingBottom: '32px' },
           linkText: t('DOCUMENTS.ADD.ADD_MORE_PAGES'),

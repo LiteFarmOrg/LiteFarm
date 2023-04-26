@@ -766,7 +766,7 @@
     }
   },
   "FILE_SIZE_MODAL": {
-    "BODY": "Os arquivos não podem exceder 10 MB ou 5 páginas.",
+    "BODY": "Os arquivos não podem exceder 10 MB.",
     "TITLE": "Tamanho de arquivo muito grande"
   },
   "FILTER": {

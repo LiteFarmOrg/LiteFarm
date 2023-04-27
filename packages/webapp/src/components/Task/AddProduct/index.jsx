@@ -115,6 +115,7 @@ const AddProduct = ({
         disabled={disabled}
         hasLeaf={true}
         errors={getInputErrors(errors, SUPPLIER)}
+        optional={!interested}
       />
       {isInterestedInCanada && (
         <>

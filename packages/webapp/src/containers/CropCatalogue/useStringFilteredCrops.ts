@@ -56,7 +56,6 @@ export default function useStringFilteredCrops(
             if (scientificName && check(scientificName)) {
               return true;
             }
-            i++;
           } else if (check(crop[keys[i] as keyof typeof crop])) {
             return true;
           }

@@ -41,24 +41,21 @@ export default function useStringFilteredCrops(
       if (check(t(`crop:${crop.crop_translation_key}`))) {
         return true;
       }
+      const scientificName =
+        (crop['crop_genus' as keyof typeof crop] || '') +
+        (crop['crop_specie' as keyof typeof crop] || '');
+      if (scientificName && check(scientificName)) {
+        return true;
+      }
+
       const keys = [
-        'crop_genus', // crop.crop_genus
-        'crop_specie', // crop.crop_specie
         'crop_variety_name', // crop_variety.crop_variety_name
         'crop_varietal', // crop_variety.crop_varietal
         'crop_cultivar', // crop_variety.crop_cultivar
       ];
       for (let i = 0; i < keys.length; i++) {
-        if (keys[i] in crop) {
-          if (!i) {
-            const scientificName =
-              crop[keys[0] as keyof typeof crop] + (crop[keys[1] as keyof typeof crop] || '');
-            if (scientificName && check(scientificName)) {
-              return true;
-            }
-          } else if (check(crop[keys[i] as keyof typeof crop])) {
-            return true;
-          }
+        if (keys[i] in crop && check(crop[keys[i] as keyof typeof crop])) {
+          return true;
         }
       }
       return false;

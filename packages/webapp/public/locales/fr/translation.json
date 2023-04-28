@@ -425,6 +425,7 @@
     "ARCHIVE_DOCUMENT_TEXT": "L'archivage de ce document le déplacera vers la section archivée de vos documents, mais ne le supprimera pas. Les documents archivés ne seront pas exportés pour vos certifications. Voulez-vous continuer\u00a0?",
     "ARCHIVED": "Archivé",
     "CANCEL": "Annuler",
+    "CANCEL_MODAL": "MISSING",
     "COMPLIANCE_DOCUMENTS_AND_CERTIFICATION": "Documents de conformité et votre certification",
     "DOCUMENTS": "Documents",
     "EDIT_DOCUMENT": "Modifier le document",

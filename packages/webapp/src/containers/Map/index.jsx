@@ -63,6 +63,8 @@ import {
   resetAndUnLockFormData,
   setPersistedPaths,
   upsertFormData,
+  setIsRedrawing,
+  hookFormPersistIsRedrawingSelector,
 } from '../hooks/useHookFormPersist/hookFormPersistSlice';
 import {
   bulkSensorsUploadSliceSelector,
@@ -93,6 +95,7 @@ export default function Map({ history }) {
   const [gMap, setGMap] = useState(null);
   const [gMaps, setGMaps] = useState(null);
   const [gMapBounds, setGMapBounds] = useState(null);
+  const isRedrawing = useSelector(hookFormPersistIsRedrawingSelector);
 
   const lineTypesWithWidth = [locationEnum.buffer_zone, locationEnum.watercourse];
   const { t } = useTranslation();
@@ -435,7 +438,10 @@ export default function Map({ history }) {
     setShowingConfirmButtons(false);
     if (!isLineWithWidth()) {
       const locationData = getOverlayInfo();
-      dispatch(upsertFormData(locationData));
+      if (Object.keys(overlayData).length === 0 || isRedrawing === true) {
+        dispatch(upsertFormData(locationData));
+        dispatch(setIsRedrawing(false));
+      }
       history.push(`/create_location/${drawingState.type}`);
     }
   };
@@ -522,6 +528,7 @@ export default function Map({ history }) {
                   resetDrawing();
                   startDrawing(drawingState.type);
                   setShowingConfirmButtons(false);
+                  dispatch(setIsRedrawing(true));
                 }}
                 onClickConfirm={handleConfirm}
                 showZeroAreaWarning={showZeroAreaWarning}

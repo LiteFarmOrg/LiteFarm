@@ -448,7 +448,7 @@ export default function Map({ history }) {
 
   const handleLineConfirm = (lineData) => {
     setShowingConfirmButtons(false);
-    const data = { ...getOverlayInfo(), ...lineData };
+    const data = { ...lineData, ...getOverlayInfo() };
     dispatch(upsertFormData(data));
     history.push(`/create_location/${drawingState.type}`);
   };

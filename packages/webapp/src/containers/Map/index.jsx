@@ -448,8 +448,12 @@ export default function Map({ history }) {
 
   const handleLineConfirm = (lineData) => {
     setShowingConfirmButtons(false);
-    const data = { ...lineData, ...getOverlayInfo() };
-    dispatch(upsertFormData(data));
+    if (!overlayData.hasOwnProperty('type') || isRedrawing === true) {
+      dispatch(upsertFormData({ ...lineData, ...getOverlayInfo() }));
+      dispatch(setIsRedrawing(false));
+    } else {
+      dispatch(upsertFormData({ ...lineData }));
+    }
     history.push(`/create_location/${drawingState.type}`);
   };
 
@@ -538,6 +542,9 @@ export default function Map({ history }) {
                 system={system}
                 lineData={overlayData}
                 typeOfLine={drawingState.type}
+                onLineParameterChange={() => {
+                  dispatch(setIsRedrawing(true));
+                }}
               />
             </div>
           )}

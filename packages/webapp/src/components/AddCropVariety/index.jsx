@@ -52,9 +52,6 @@ export default function PureAddCropVariety({
   });
 
   const [showSpinner, setShowSpinner] = useState(false);
-  const handleSpinnerState = (state) => {
-    setShowSpinner(state);
-  };
 
   const { historyCancel } = useHookFormPersist(getValues);
 
@@ -212,7 +209,7 @@ export default function PureAddCropVariety({
         {React.cloneElement(imageUploader, {
           hookFormRegister: imageUrlRegister,
           targetRoute: 'crop_variety',
-          onLoading: handleSpinnerState,
+          onLoading: setShowSpinner,
         })}
         <Infoi
           style={{

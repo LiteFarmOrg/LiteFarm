@@ -87,9 +87,6 @@ export default function PureAddNewCrop({
   const crop_photo_url = watch(CROP_PHOTO_URL);
 
   const [showSpinner, setShowSpinner] = useState(false);
-  const handleSpinnerState = (state) => {
-    setShowSpinner(state);
-  };
 
   const farmCrops = useSelector(cropsOnMyFarmSelector);
 
@@ -199,7 +196,7 @@ export default function PureAddNewCrop({
         {React.cloneElement(imageUploader, {
           hookFormRegister: cropImageUrlRegister,
           targetRoute: 'crop',
-          onLoading: handleSpinnerState,
+          onLoading: setShowSpinner,
         })}
       </div>
       <Input

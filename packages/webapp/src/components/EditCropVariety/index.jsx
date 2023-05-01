@@ -87,9 +87,6 @@ export default function PureEditCropVariety({
     : cropVariety.crop_common_name;
 
   const [showSpinner, setShowSpinner] = useState(false);
-  const handleSpinnerState = (state) => {
-    setShowSpinner(state);
-  };
 
   return (
     <Form
@@ -140,7 +137,7 @@ export default function PureEditCropVariety({
         {React.cloneElement(imageUploader, {
           hookFormRegister: imageUrlRegister,
           targetRoute: 'crop_variety',
-          onLoading: handleSpinnerState,
+          onLoading: setShowSpinner,
         })}
       </div>
 

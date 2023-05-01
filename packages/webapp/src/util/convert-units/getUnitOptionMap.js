@@ -16,7 +16,7 @@ import i18n from '../../locales/i18n';
 
 export const getUnitOptionMap = () => ({
   h: { label: 'h', value: 'h' },
-  min: { label: 'm', value: 'min' },
+  min: { label: 'min', value: 'min' },
   deg: { label: '%', value: '%' },
   mm: { label: 'mm', value: 'mm' },
   m2: { label: 'm²', value: 'm2' },
@@ -33,9 +33,9 @@ export const getUnitOptionMap = () => ({
   l: { label: 'l', value: 'l' },
   ml: { label: 'ml', value: 'ml' },
   mi: { label: 'mi', value: 'mi' },
-  'l/min': { label: 'l/m', value: 'l/min' },
+  'l/min': { label: 'l/min', value: 'l/min' },
   'l/h': { label: 'l/h', value: 'l/h' },
-  'gal/min': { label: 'g/m', value: 'gal/min' },
+  'gal/min': { label: 'g/min', value: 'gal/min' },
   'gal/h': { label: 'g/h', value: 'gal/h' },
   g: { label: 'g', value: 'g' },
   kg: { label: 'kg', value: 'kg' },

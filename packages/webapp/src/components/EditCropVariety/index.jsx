@@ -1,5 +1,5 @@
 import Button from '../Form/Button';
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { Label } from '../Typography';
@@ -12,6 +12,7 @@ import PageTitle from '../PageTitle/v2';
 import RadioGroup from '../Form/RadioGroup';
 import Infoi from '../Tooltip/Infoi';
 import Leaf from '../../assets/images/farmMapFilter/Leaf.svg';
+import Spinner from '../Spinner';
 
 export default function PureEditCropVariety({
   onSubmit,
@@ -85,6 +86,11 @@ export default function PureEditCropVariety({
     ? t(`crop:${cropTranslationKey}`)
     : cropVariety.crop_common_name;
 
+  const [showSpinner, setShowSpinner] = useState(false);
+  const handleSpinnerState = (state) => {
+    setShowSpinner(state);
+  };
+
   return (
     <Form
       buttonGroup={
@@ -101,15 +107,22 @@ export default function PureEditCropVariety({
       />
 
       <div className={styles.cropLabel}>{cropNameLabel}</div>
-      <img
-        src={crop_variety_photo_url}
-        alt={cropVariety.crop_common_name}
-        className={styles.circleImg}
-        onError={(e) => {
-          e.target.onerror = null;
-          e.target.src = 'crop-images/default.jpg';
-        }}
-      />
+
+      {showSpinner ? (
+        <div style={{ height: 'fit-content' }}>
+          <Spinner />
+        </div>
+      ) : (
+        <img
+          src={crop_variety_photo_url}
+          alt={cropVariety.crop_common_name}
+          className={styles.circleImg}
+          onError={(e) => {
+            e.target.onerror = null;
+            e.target.src = 'crop-images/default.jpg';
+          }}
+        />
+      )}
 
       <div
         style={{
@@ -127,6 +140,7 @@ export default function PureEditCropVariety({
         {React.cloneElement(imageUploader, {
           hookFormRegister: imageUrlRegister,
           targetRoute: 'crop_variety',
+          onLoading: handleSpinnerState,
         })}
       </div>
 

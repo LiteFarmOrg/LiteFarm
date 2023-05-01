@@ -168,6 +168,10 @@ export default function Map({ history }) {
   ] = useDrawingManager();
 
   useEffect(() => {
+    if (drawingState.pointChanged) dispatch(setIsRedrawing(true));
+  }, [drawingState.pointChanged]);
+
+  useEffect(() => {
     dispatch(getLocations());
   }, []);
 

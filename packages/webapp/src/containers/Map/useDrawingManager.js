@@ -30,6 +30,8 @@ export default function useDrawingManager() {
   const [showAdjustAreaSpotlightModal, setShowAdjustAreaSpotlightModal] = useState(false);
   const [showAdjustLineSpotlightModal, setShowAdjustLineSpotlightModal] = useState(false);
 
+  const [pointChanged, setPointChanged] = useState(false);
+
   const showedSpotlight = useSelector(showedSpotlightSelector);
   const overlayData = useSelector(hookFormPersistSelector);
 
@@ -75,6 +77,9 @@ export default function useDrawingManager() {
         ...getDrawingOptions(type).polygonOptions,
       });
       redrawnPolygon.setMap(map);
+      maps.event.addListener(redrawnPolygon.getPath(), 'set_at', () => {
+        setPointChanged(true);
+      });
       setDrawingToCheck({
         type: maps.drawing.OverlayType.POLYGON,
         overlay: redrawnPolygon,
@@ -101,6 +106,9 @@ export default function useDrawingManager() {
         draggable: true,
       });
       redrawnMarker.setMap(map);
+      maps.event.addListener(redrawnMarker, 'dragend', () => {
+        setPointChanged(true);
+      });
       setDrawingToCheck({
         type: maps.drawing.OverlayType.MARKER,
         overlay: redrawnMarker,
@@ -147,6 +155,7 @@ export default function useDrawingManager() {
   const addLineListeners = (drawing, innerMap) => {
     const { overlay } = drawing;
     innerMap.event.addListener(overlay.getPath(), 'set_at', (redrawnLine) => {
+      setPointChanged(true);
       setDrawingToCheck({ ...drawing });
     });
     innerMap.event.addListener(overlay.getPath(), 'insert_at', (redrawnLine) => {
@@ -228,6 +237,7 @@ export default function useDrawingManager() {
     showAdjustLineSpotlightModal,
     showZeroLengthWarning,
     showZeroAreaWarning,
+    pointChanged: pointChanged,
   };
 
   const drawingFunctions = {

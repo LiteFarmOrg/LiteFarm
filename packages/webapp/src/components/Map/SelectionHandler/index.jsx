@@ -72,6 +72,13 @@ const useStyles = makeStyles((theme) => ({
       transform: 'scale(1.25)',
     },
   },
+  areaIcon: {
+    '& svg': {
+      width: 24,
+      height: 24,
+      transform: 'scale(0.75)',
+    },
+  },
   itemName: {
     flexGrow: 1,
     padding: '0 8px',
@@ -174,7 +181,6 @@ export default function PureSelectionHandler({ locations, history, sensorReading
         {locations.map((location, idx) => {
           const { type, asset, name } = { ...location };
           let icon = imgMapping(asset, type);
-
           return (
             <div
               className={classes.itemHeader}
@@ -195,7 +201,11 @@ export default function PureSelectionHandler({ locations, history, sensorReading
             >
               <div className={classes.title}>
                 <div
-                  className={clsx(classes.itemIcon, isSensor(location.id) && classes.sensorIcon)}
+                  className={clsx(
+                    classes.itemIcon,
+                    isSensor(location.id) && classes.sensorIcon,
+                    location.asset === 'area' && classes.areaIcon,
+                  )}
                 >
                   {icon}
                 </div>

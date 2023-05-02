@@ -67,6 +67,7 @@ export default function useDrawingManager() {
 
   useEffect(() => {
     if (!onSteppedBack) return;
+    let polygonDragListener, markerDragListener;
     let bounds;
     const { type } = overlayData;
     setDrawLocationType(type);
@@ -77,7 +78,7 @@ export default function useDrawingManager() {
         ...getDrawingOptions(type).polygonOptions,
       });
       redrawnPolygon.setMap(map);
-      maps.event.addListener(redrawnPolygon.getPath(), 'set_at', () => {
+      polygonDragListener = maps.event.addListener(redrawnPolygon.getPath(), 'set_at', () => {
         setPointChanged(true);
       });
       setDrawingToCheck({
@@ -106,7 +107,7 @@ export default function useDrawingManager() {
         draggable: true,
       });
       redrawnMarker.setMap(map);
-      maps.event.addListener(redrawnMarker, 'dragend', () => {
+      markerDragListener = maps.event.addListener(redrawnMarker, 'dragend', () => {
         setPointChanged(true);
       });
       setDrawingToCheck({
@@ -116,7 +117,13 @@ export default function useDrawingManager() {
       bounds = getBounds(maps, [overlayData.point]);
     }
     map.fitBounds(bounds);
-    setOnSteppedBack(false);
+
+    return () => {
+      if (!onSteppedBack) return;
+      if (polygonDragListener) maps.event.removeListener(polygonDragListener);
+      if (markerDragListener) maps.event.removeListener(markerDragListener);
+      setOnSteppedBack(false);
+    };
   }, [onSteppedBack, map, maps, overlayData]);
 
   useLayoutEffect(() => {
@@ -164,6 +171,7 @@ export default function useDrawingManager() {
   };
 
   const resetDrawing = (wasBackPressed = false) => {
+    if (wasBackPressed) setOnSteppedBack(false);
     setOnBackPressed(wasBackPressed);
     drawingToCheck?.overlay.setMap(null);
     setDrawingToCheck(null);

@@ -51,10 +51,15 @@ export default function ImagePickerWrapper({
       const isNotImage = !/^image\/.*/.test(blob.type);
       if (isNotImage) {
         dispatch(enqueueErrorSnackbar(i18n.t('message:ATTACHMENTS.ERROR.FAILED_UPLOAD')));
-        onLoading?.(false);
+        onUploadFail('Not an image file');
       } else if (blob.size < 200000) {
         dispatch(
-          uploadImage({ file: blob, onUploadSuccess, targetRoute: targetRoute ?? uploadDirectory }),
+          uploadImage({
+            file: blob,
+            onUploadSuccess,
+            onUploadFail,
+            targetRoute: targetRoute ?? uploadDirectory,
+          }),
         );
       } else {
         const Compressor = await import('compressorjs').then((Compressor) => Compressor.default);
@@ -66,13 +71,13 @@ export default function ImagePickerWrapper({
               uploadImage({
                 file: compressedBlob,
                 onUploadSuccess,
+                onUploadFail,
                 targetRoute: targetRoute ?? uploadDirectory,
               }),
             );
           },
           error(err) {
-            console.log(err.message);
-            onLoading?.(false);
+            onUploadFail(err.message);
           },
           ...compressorProps,
         });
@@ -86,6 +91,10 @@ export default function ImagePickerWrapper({
     input.current.value = url;
     onChange?.({ target: input.current });
     hookFormRegister?.onChange({ target: input.current });
+    onLoading?.(false);
+  };
+  const onUploadFail = (error) => {
+    if (error) console.log(error);
     onLoading?.(false);
   };
   return (

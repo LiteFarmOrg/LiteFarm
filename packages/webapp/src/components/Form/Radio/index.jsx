@@ -49,7 +49,12 @@ const Radio = ({
       </span>
       {toolTipContent && <Infoi content={toolTipContent} />}
 
-      <span className={clsx(styles.checkmark)} style={classes.checkbox} />
+      <span className={clsx(styles.checkmark)} style={classes.checkbox}>
+        <svg viewBox="0 0 16 16">
+          <circle cx="8" cy="8" r="7" />
+          <circle cx="8" cy="8" r="4" />
+        </svg>
+      </span>
       {children}
     </label>
   );

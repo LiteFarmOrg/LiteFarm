@@ -39,7 +39,7 @@ export default function PureCropTile({
           className={styles.img}
           onError={(e) => {
             e.target.onerror = null;
-            e.target.src = 'crop-images/default.jpg';
+            e.target.src = '/crop-images/default.jpg';
             setHasError(true);
           }}
         />

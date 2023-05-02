@@ -134,7 +134,7 @@ export default function PureAddCropVariety({
             className={styles.circleImg}
             onError={(e) => {
               e.target.onerror = null;
-              e.target.src = 'crop-images/default.jpg';
+              e.target.src = '/crop-images/default.jpg';
             }}
           />
         </div>
@@ -188,7 +188,7 @@ export default function PureAddCropVariety({
             className={styles.circleImg}
             onError={(e) => {
               e.target.onerror = null;
-              e.target.src = 'crop-images/default.jpg';
+              e.target.src = '/crop-images/default.jpg';
             }}
           />
         )

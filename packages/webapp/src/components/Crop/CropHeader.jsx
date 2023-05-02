@@ -59,7 +59,14 @@ function CropHeader({ variety, onBackClick }) {
         </div>
       </div>
       <div className={styles.imgContainer}>
-        <img src={crop_variety_photo_url} style={{ borderRadius: '100px' }} />
+        <img
+          src={crop_variety_photo_url}
+          style={{ borderRadius: '100px' }}
+          onError={(e) => {
+            e.target.onerror = null;
+            e.target.src = '/crop-images/default.jpg';
+          }}
+        />
       </div>
     </div>
   );

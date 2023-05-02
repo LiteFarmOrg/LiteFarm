@@ -116,7 +116,7 @@ export default function PureEditCropVariety({
           className={styles.circleImg}
           onError={(e) => {
             e.target.onerror = null;
-            e.target.src = 'crop-images/default.jpg';
+            e.target.src = '/crop-images/default.jpg';
           }}
         />
       )}

@@ -67,7 +67,7 @@ export default function useDrawingManager() {
 
   useEffect(() => {
     if (!onSteppedBack) return;
-    let polygonDragListener, markerDragListener;
+    let polygonDragListener, markerDragListener, polygonNewPointDragListener;
     let bounds;
     const { type } = overlayData;
     setDrawLocationType(type);
@@ -81,6 +81,13 @@ export default function useDrawingManager() {
       polygonDragListener = maps.event.addListener(redrawnPolygon.getPath(), 'set_at', () => {
         setPointChanged(true);
       });
+      polygonNewPointDragListener = maps.event.addListener(
+        redrawnPolygon.getPath(),
+        'insert_at',
+        () => {
+          setPointChanged(true);
+        },
+      );
       setDrawingToCheck({
         type: maps.drawing.OverlayType.POLYGON,
         overlay: redrawnPolygon,
@@ -121,6 +128,7 @@ export default function useDrawingManager() {
     return () => {
       if (!onSteppedBack) return;
       if (polygonDragListener) maps.event.removeListener(polygonDragListener);
+      if (polygonNewPointDragListener) maps.event.removeListener(polygonNewPointDragListener);
       if (markerDragListener) maps.event.removeListener(markerDragListener);
       setOnSteppedBack(false);
     };
@@ -166,6 +174,7 @@ export default function useDrawingManager() {
       setDrawingToCheck({ ...drawing });
     });
     innerMap.event.addListener(overlay.getPath(), 'insert_at', (redrawnLine) => {
+      setPointChanged(true);
       setDrawingToCheck({ ...drawing });
     });
   };

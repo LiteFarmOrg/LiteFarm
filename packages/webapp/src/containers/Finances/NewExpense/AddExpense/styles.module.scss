@@ -58,12 +58,12 @@
     color: #4d4d4d;
   }
   input, textarea {
+    font-size: 16px;
     width: 60%;
     border: 1px solid #efefef;
     box-sizing: border-box;
     border-radius: 4px;
-    padding: 0 5%;
-    line-height: 37px;
+    padding: 2% 5%;
     font-family: 'Open Sans', 'SansSerif', serif;
   }
   display: flex;

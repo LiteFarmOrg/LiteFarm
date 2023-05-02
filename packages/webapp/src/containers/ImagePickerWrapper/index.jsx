@@ -37,6 +37,7 @@ export default function ImagePickerWrapper({
   uploadDirectory, //deprecated but supported for storybook
   targetRoute,
   compressorProps = {},
+  onLoading,
   ...props
 }) {
   const classes = useStyles();
@@ -44,13 +45,13 @@ export default function ImagePickerWrapper({
   const name = hookFormRegister?.name ?? props?.name;
   const dispatch = useDispatch();
   const onFileUpload = async (e) => {
-    props.onLoading?.(true);
+    onLoading?.(true);
     if (e?.target?.files?.[0]) {
       const blob = e.target.files[0];
       const isNotImage = !/^image\/.*/.test(blob.type);
       if (isNotImage) {
         dispatch(enqueueErrorSnackbar(i18n.t('message:ATTACHMENTS.ERROR.FAILED_UPLOAD')));
-        props.onLoading?.(false);
+        onLoading?.(false);
       } else if (blob.size < 200000) {
         dispatch(
           uploadImage({ file: blob, onUploadSuccess, targetRoute: targetRoute ?? uploadDirectory }),
@@ -71,21 +72,21 @@ export default function ImagePickerWrapper({
           },
           error(err) {
             console.log(err.message);
-            props.onLoading?.(false);
+            onLoading?.(false);
           },
           ...compressorProps,
         });
       }
     } else {
       // E.g. file picker is cancelled so no files are present
-      props.onLoading?.(false);
+      onLoading?.(false);
     }
   };
   const onUploadSuccess = (url) => {
     input.current.value = url;
     onChange?.({ target: input.current });
     hookFormRegister?.onChange({ target: input.current });
-    props.onLoading?.(false);
+    onLoading?.(false);
   };
   return (
     <div className={className} style={style}>
@@ -136,4 +137,5 @@ ImagePickerWrapper.propTypes = {
   uploadDirectory: PropTypes.string,
   targetRoute: PropTypes.string,
   compressorProps: PropTypes.object,
+  onLoading: PropTypes.func,
 };

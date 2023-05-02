@@ -19,7 +19,6 @@ import { userFarmSelector } from '../../../userFarmSlice';
 import { withTranslation } from 'react-i18next';
 import { numberOnKeyDown } from '../../../../components/Form/Input';
 import grabCurrencySymbol from '../../../../util/grabCurrencySymbol';
-import InputAutoSize from '../../../../components/Form/InputAutoSize';
 
 class AddExpense extends Component {
   constructor(props) {
@@ -184,14 +183,11 @@ class AddExpense extends Component {
                               <br />
                               {this.props.t('EXPENSE.NAME')}
                             </label>
-                            <InputAutoSize
+                            <Control.textarea
                               type="text"
-                              className={styles.textArea}
                               model={`.expenseDetail[${k}][${i}].note`}
                               maxLength="100"
-                              style={{ width: '60%' }}
-                              maxRows={4}
-                              minRows={1}
+                              rows={1}
                             />
                           </div>
 

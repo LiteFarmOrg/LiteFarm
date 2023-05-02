@@ -57,23 +57,14 @@
     letter-spacing: 0.324px;
     color: #4d4d4d;
   }
-  input {
+  input, textarea {
     width: 60%;
-    height: 37px;
     border: 1px solid #efefef;
     box-sizing: border-box;
     border-radius: 4px;
     padding: 0 5%;
-  }
-  .textArea {
-    font-size: 16px;
-    line-height: 24px;
+    line-height: 37px;
     font-family: 'Open Sans', 'SansSerif', serif;
-    height: 37px;
-    border: 1px solid #efefef;
-    box-sizing: border-box;
-    border-radius: 4px;
-    padding: 0 5%;
   }
   display: flex;
   flex-direction: row;

@@ -50,6 +50,7 @@ import MultiStepPageTitle from '../PageTitle/MultiStepPageTitle';
 import RadioGroup from '../Form/RadioGroup';
 import styles from './styles.module.scss';
 import Checkbox from '../Form/Checkbox';
+import Spinner from '../Spinner';
 
 export default function PureAddNewCrop({
   handleContinue,
@@ -84,6 +85,8 @@ export default function PureAddNewCrop({
   const allCropGroupAverages = useSelector(cropGroupAveragesSelector);
   const cropImageUrlRegister = register(CROP_PHOTO_URL, { required: true });
   const crop_photo_url = watch(CROP_PHOTO_URL);
+
+  const [showSpinner, setShowSpinner] = useState(false);
 
   const farmCrops = useSelector(cropsOnMyFarmSelector);
 
@@ -163,15 +166,20 @@ export default function PureAddNewCrop({
         value={progress}
         cancelModalTitle={t('CROP_CATALOGUE.CANCEL')}
       />
-      <img
-        src={crop_photo_url}
-        alt={t('translation:CROP.ADD_IMAGE')}
-        className={styles.circleImg}
-        onError={(e) => {
-          e.target.onerror = null;
-          e.target.src = 'crop-images/default.jpg';
-        }}
-      />
+      {showSpinner ? (
+        <Spinner />
+      ) : (
+        <img
+          src={crop_photo_url}
+          alt={t('translation:CROP.ADD_IMAGE')}
+          className={styles.circleImg}
+          onError={(e) => {
+            e.target.onerror = null;
+            e.target.src = 'crop-images/default.jpg';
+          }}
+        />
+      )}
+
       <div
         style={{
           marginLeft: 'auto',
@@ -188,6 +196,7 @@ export default function PureAddNewCrop({
         {React.cloneElement(imageUploader, {
           hookFormRegister: cropImageUrlRegister,
           targetRoute: 'crop',
+          onLoading: setShowSpinner,
         })}
       </div>
       <Input

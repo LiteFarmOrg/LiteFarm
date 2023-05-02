@@ -39,7 +39,7 @@ export default function PureAddCropVariety({
     getValues,
     watch,
     setError,
-    formState: { errors, isValid, dirtyFields },
+    formState: { errors, isValid },
   } = useForm({
     mode: 'onChange',
     shouldUnregister: true,
@@ -182,7 +182,7 @@ export default function PureAddCropVariety({
         <Spinner />
       ) : (
         crop_variety_photo_url &&
-        dirtyFields.crop_variety_photo_url && (
+        crop_variety_photo_url != crop.crop_photo_url && (
           <img
             src={crop_variety_photo_url}
             alt={crop.crop_common_name}

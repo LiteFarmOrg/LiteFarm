@@ -20,6 +20,7 @@ import {
   area_total_area,
   getDefaultUnit,
   roundToTwoDecimal,
+  convertFn,
 } from '../../../util/convert-units/unit';
 import { convert } from '../../../util/convert-units/convert';
 import { getUnitOptionMap } from '../../../util/convert-units/getUnitOptionMap';
@@ -148,7 +149,8 @@ const useUnit = ({
       return {
         ...values,
         displayUnit,
-        displayValue: value && roundToTwoDecimal(convert(value).from(databaseUnit).to(displayUnit)),
+        displayValue:
+          value && roundToTwoDecimal(convertFn(unitType, value, databaseUnit, displayUnit)),
       };
     }
 
@@ -168,7 +170,9 @@ const useUnit = ({
   // 3. set default visibleInputValue
   const [visibleInputValue, setVisibleInputValue] = useState(defaultVisibleInputValue);
 
-  const hookFormValue = hookFromWatch(name, defaultValue);
+  // when the hidden input is empty, hookFormValue becomes NaN.
+  // Set initial value to NaN when defaultValue is undefined to avoid triggering useEffect unnecessarily
+  const hookFormValue = hookFromWatch(name, defaultValue || NaN);
 
   useEffect(() => {
     if (!hookFormUnit || noValue(hookFormValue)) {
@@ -176,7 +180,7 @@ const useUnit = ({
     }
 
     const convertedCurrentHiddenValue = roundToTwoDecimal(
-      convert(hookFormValue).from(databaseUnit).to(hookFormUnit),
+      convertFn(unitType, hookFormValue, databaseUnit, hookFormUnit),
     );
 
     // if autoConversion is true, update visible value. if false, update hidden value
@@ -186,7 +190,7 @@ const useUnit = ({
       hookFormSetHiddenValue(hookFormValue);
     } else if (convertedCurrentHiddenValue !== visibleInputValue) {
       // this should not be called right after the component is rendered (the hidden value would be rounded)
-      hookFormSetHiddenValue(convert(visibleInputValue).from(hookFormUnit).to(databaseUnit), {
+      hookFormSetHiddenValue(convertFn(unitType, visibleInputValue, hookFormUnit, databaseUnit), {
         shouldDirty: true,
       });
     }
@@ -208,7 +212,7 @@ const useUnit = ({
         shouldClearError && setShowError(false);
       }
     },
-    [name],
+    [name, disabled],
   );
 
   const onBlurForHook = (e) => {
@@ -218,7 +222,7 @@ const useUnit = ({
       hookFormSetValue(name, '', { shouldValidate: true });
       setVisibleInputValue('');
     } else {
-      hookFormSetHiddenValue(convert(e.target.value).from(hookFormUnit).to(databaseUnit), {
+      hookFormSetHiddenValue(convertFn(unitType, e.target.value, hookFormUnit, databaseUnit), {
         shouldDirty: true,
       });
     }
@@ -238,19 +242,29 @@ const useUnit = ({
   // set visible value when hidden input is updated from parent component
   // (this happens when the component shows a result of a calculation)
   useEffect(() => {
-    if ((noValue(visibleInputValue) && noValue(hookFormValue)) || !databaseUnit || !hookFormUnit) {
+    // hookFormValue is sometimes not up to date with the actual value right after rendering.
+    // call hookFormGetValue to use the current value.
+    const currentHookFormValue = hookFormGetValue(name);
+
+    if (
+      (noValue(visibleInputValue) && noValue(currentHookFormValue)) ||
+      !databaseUnit ||
+      !hookFormUnit
+    ) {
       return;
     }
 
-    const newValue = roundToTwoDecimal(convert(hookFormValue).from(databaseUnit).to(hookFormUnit));
+    const newValue = roundToTwoDecimal(
+      convertFn(unitType, currentHookFormValue, databaseUnit, hookFormUnit),
+    );
     if (newValue !== visibleInputValue) {
-      setVisibleInputValue(hookFormValue > 0 || hookFormValue === 0 ? newValue : '');
+      setVisibleInputValue(currentHookFormValue > 0 || currentHookFormValue === 0 ? newValue : '');
     }
   }, [hookFormValue]);
 
   const getMax = useCallback(() => {
-    return hookFormUnit ? convert(max).from(hookFormUnit).to(databaseUnit) : max;
-  }, [hookFormUnit, max, databaseUnit]);
+    return hookFormUnit ? convertFn(unitType, max, hookFormUnit, databaseUnit) : max;
+  }, [hookFormUnit, max, databaseUnit, unitType]);
 
   const onChangeUnit = (e) => {
     field.onChange(e);

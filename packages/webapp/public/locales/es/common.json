@@ -1,6 +1,6 @@
 {
   "ABANDON": "Abandonar",
-  "ABANDONED": "MISSING",
+  "ABANDONED": "Abandonado",
   "ACTIVE": "Activo",
   "ADD": "Agregar",
   "ALL": "Todo",
@@ -52,13 +52,13 @@
   "SKIP": "Omitir",
   "SORRY": "Disculpa",
   "SUBMIT": "Enviar",
-  "SUBMITTING": "Submitting...",
+  "SUBMITTING": "Enviando...",
   "UPDATE": "Actualizar",
-  "UPLOAD": "MISSING",
-  "UPLOADING": "MISSING",
+  "UPLOAD": "Subir",
+  "UPLOADING": "Subiendo",
   "WORD_LIMIT_ERROR": "Solo se pueden mostrar {{value}} caracteres",
   "YEAR": "Año",
   "YES": "Sí",
-  "GO_BACK": "MISSING",
-  "THATS_FINE": "MISSING"
+  "GO_BACK": "Volver",
+  "THATS_FINE": "Está bien"
 }

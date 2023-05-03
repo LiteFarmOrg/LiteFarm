@@ -187,7 +187,7 @@ class AddExpense extends Component {
                               type="text"
                               model={`.expenseDetail[${k}][${i}].note`}
                               maxLength="100"
-                              rows={1}
+                              rows={3}
                             />
                           </div>
 

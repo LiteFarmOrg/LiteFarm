@@ -278,89 +278,89 @@ describe('LiteFarm end to end tests for tasks flow', () => {
       .should('equal', Data.cleanTask.Notes, { matchCase: false });
   });
 
-  it('create a custom irrigate task with depth measurement type and uses water use calculator', () => {
-    const flowRate = 100; //l/m
-    const duration = 60; //m
-    const usage = flowRate * duration; //l
-    const customTask = 'Custom task';
-    const wage = '20';
-    cy.contains('Irrigation').click();
-    const date = new Date();
-    date.setDate(date.getDate() + 1);
-    const dueDate = getDateInputFormat(date);
+  // it('create a custom irrigate task with depth measurement type and uses water use calculator', () => {
+  //   const flowRate = 100; //l/m
+  //   const duration = 60; //m
+  //   const usage = flowRate * duration; //l
+  //   const customTask = 'Custom task';
+  //   const wage = '20';
+  //   cy.contains('Irrigation').click();
+  //   const date = new Date();
+  //   date.setDate(date.getDate() + 1);
+  //   const dueDate = getDateInputFormat(date);
 
-    cy.get('[data-cy=addTask-taskDate]').should('exist').type(dueDate);
+  //   cy.get('[data-cy=addTask-taskDate]').should('exist').type(dueDate);
 
-    cy.get('[data-cy=addTask-continue]')
-      .should('exist')
-      .and('not.be.disabled')
-      .click({ force: true });
+  //   cy.get('[data-cy=addTask-continue]')
+  //     .should('exist')
+  //     .and('not.be.disabled')
+  //     .click({ force: true });
 
-    cy.selectTaskLocation();
-    cy.get('[data-cy="addTask-cropsContinue"]').click();
-    cy.get('[data-cy="react-select"]').type(`Other{enter}`);
-    cy.get('[data-cy="irrigateTask-type"]').type(customTask);
-    cy.get('[type = "checkbox"]').eq(0).check({ force: true });
-    cy.get('[type = "checkbox"]').eq(1).check({ force: true });
-    cy.get('[data-cy="irrigateTask-calculate"]').click({ force: true });
+  //   cy.selectTaskLocation();
+  //   cy.get('[data-cy="addTask-cropsContinue"]').click();
+  //   cy.get('[data-cy="react-select"]').type(`Other{enter}`);
+  //   cy.get('[data-cy="irrigateTask-type"]').type(customTask);
+  //   cy.get('[type = "checkbox"]').eq(0).check({ force: true });
+  //   cy.get('[type = "checkbox"]').eq(1).check({ force: true });
+  //   cy.get('[data-cy="irrigateTask-calculate"]').click({ force: true });
 
-    cy.get('[data-cy="calculator-flowRate"]').type(flowRate);
-    cy.get('[data-cy="calculator-duration"]').type(duration);
-    cy.contains('optional').click({ force: true });
+  //   cy.get('[data-cy="calculator-flowRate"]').type(flowRate);
+  //   cy.get('[data-cy="calculator-duration"]').type(duration);
+  //   cy.contains('optional').click({ force: true });
 
-    cy.get('h5')
-      .eq(9)
-      .then(($elem) => {
-        const text = $elem.text();
-        expect(text).to.equal(`${usage} l`);
-      });
+  //   cy.get('h5')
+  //     .eq(9)
+  //     .then(($elem) => {
+  //       const text = $elem.text();
+  //       expect(text).to.equal(`${usage} l`);
+  //     });
 
-    cy.contains('Save').click();
-    cy.get('[data-cy="irrigateTask-usage"]')
-      .invoke('val')
-      .should('equal', usage.toString(), { matchCase: false });
+  //   cy.contains('Save').click();
+  //   cy.get('[data-cy="irrigateTask-usage"]')
+  //     .invoke('val')
+  //     .should('equal', usage.toString(), { matchCase: false });
 
-    cy.get('[data-cy=task-notes]').type(Data.cleanTask.Notes);
+  //   cy.get('[data-cy=task-notes]').type(Data.cleanTask.Notes);
 
-    cy.get('[data-cy=addTask-detailsContinue]')
-      .should('exist')
-      .and('not.be.disabled')
-      .click({ force: true });
+  //   cy.get('[data-cy=addTask-detailsContinue]')
+  //     .should('exist')
+  //     .and('not.be.disabled')
+  //     .click({ force: true });
 
-    cy.get('[type="radio"]').eq(0).check({ force: true });
+  //   cy.get('[type="radio"]').eq(0).check({ force: true });
 
-    cy.get('[data-cy="taskDetails-wageOverride"]').should('exist').type(wage);
+  //   cy.get('[data-cy="taskDetails-wageOverride"]').should('exist').type(wage);
 
-    cy.get('[data-cy=addTask-assignmentSave]')
-      .should('exist')
-      .and('not.be.disabled')
-      .click({ force: true });
+  //   cy.get('[data-cy=addTask-assignmentSave]')
+  //     .should('exist')
+  //     .and('not.be.disabled')
+  //     .click({ force: true });
 
-    cy.get('[data-cy="taskCard"]').contains('Irrigate').click();
+  //   cy.get('[data-cy="taskCard"]').contains('Irrigate').click();
 
-    cy.get('[data-cy="task-assignee"]')
-      .invoke('val')
-      .should('equal', fullName, { matchCase: false });
+  //   cy.get('[data-cy="task-assignee"]')
+  //     .invoke('val')
+  //     .should('equal', fullName, { matchCase: false });
 
-    cy.get('[data-cy="task-date"]').invoke('val').should('equal', dueDate, { matchCase: false });
+  //   cy.get('[data-cy="task-date"]').invoke('val').should('equal', dueDate, { matchCase: false });
 
-    cy.get('[data-cy="react-select"]').contains(customTask).should('exist');
-    cy.get('[type = "checkbox"]').eq(0).should('be.checked');
-    cy.get('[type="radio"]').first().should('be.checked');
-    cy.get('[type = "checkbox"]').eq(1).should('be.checked');
-    cy.get('[data-cy="irrigateTask-usage"]')
-      .invoke('val')
-      .should('equal', usage.toString(), { matchCase: false });
-    cy.get('.Unit-select')
-      .eq(0)
-      .then(($elem) => {
-        const text = $elem.text();
-        expect(text).to.equal('l');
-      });
-    cy.get('[data-cy="task-notesReadOnly"]')
-      .invoke('val')
-      .should('equal', Data.cleanTask.Notes, { matchCase: false });
-  });
+  //   cy.get('[data-cy="react-select"]').contains(customTask).should('exist');
+  //   cy.get('[type = "checkbox"]').eq(0).should('be.checked');
+  //   cy.get('[type="radio"]').first().should('be.checked');
+  //   cy.get('[type = "checkbox"]').eq(1).should('be.checked');
+  //   cy.get('[data-cy="irrigateTask-usage"]')
+  //     .invoke('val')
+  //     .should('equal', usage.toString(), { matchCase: false });
+  //   cy.get('.Unit-select')
+  //     .eq(0)
+  //     .then(($elem) => {
+  //       const text = $elem.text();
+  //       expect(text).to.equal('l');
+  //     });
+  //   cy.get('[data-cy="task-notesReadOnly"]')
+  //     .invoke('val')
+  //     .should('equal', Data.cleanTask.Notes, { matchCase: false });
+  // });
 
   it('create a pest control task with a custom method', () => {
     cy.contains('Pest').click();

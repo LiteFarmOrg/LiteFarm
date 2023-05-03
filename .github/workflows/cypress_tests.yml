@@ -65,7 +65,7 @@ jobs:
           VITE_GOOGLE_OAUTH_CLIENT_ID: ${{secrets.VITE_GOOGLE_OAUTH_CLIENT_ID}}
           VITE_DO_BUCKET_NAME: litefarm
           NODE_ENV: development
-          VITE_API_URL: http://localhost:5000
+          VITE_API_URL: http://localhost:5001
           CYPRESS_RECORD_KEY: "2630f414-4914-48b0-907d-aa3a9cc6a30b"
         uses: cypress-io/github-action@v4.2.0 
         with:

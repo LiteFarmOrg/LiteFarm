@@ -84,6 +84,7 @@ export const useReadonlyTask = (task_id) => {
   };
 
   return useMemo(() => {
+    if (task === undefined) return undefined;
     return produce(task, task.transplant_task ? getTransplantTask : getTask);
   }, [task]);
 };

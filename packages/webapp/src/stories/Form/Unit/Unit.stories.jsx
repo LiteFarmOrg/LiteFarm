@@ -25,7 +25,6 @@ import {
   water_valve_flow_rate,
   seedYield,
   pricePerSeedYield,
-  convertFn,
 } from '../../../util/convert-units/unit';
 import { useForm } from 'react-hook-form';
 import { convert } from '../../../util/convert-units/convert';
@@ -638,15 +637,19 @@ DaysCropAge.play = async ({ canvasElement }) => {
 
   await test.inputValueAndBlur('1000');
   await test.haveMaxValueError();
+  await test.hiddenInputToHaveValue(1000);
 
   await test.selectUnit('weeks');
   await test.haveMaxValueError();
+  await test.hiddenInputToHaveValue(1000, 'week', 'd');
 
   await test.selectUnit('months');
   await test.haveMaxValueError();
+  await test.hiddenInputToHaveValue(1000, 'month', 'd');
 
   await test.selectUnit('years');
   await test.haveMaxValueError();
+  await test.hiddenInputToHaveValue(1000, 'year', 'd');
 
   await test.clearError();
   await test.haveNoError();

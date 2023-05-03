@@ -187,6 +187,7 @@
       "EXISTS": "O usuário já existe na rede de LiteFarm",
       "INVITE": "Erro ao criar conta de usuário, entre em contato com LiteFarm para assistência.",
       "NOTHING_CHANGED": "Nada mudou",
+      "MAX_RESET_EMAILS": "Um link de redefinição de senha foi enviado para você, por favor verifique sua caixa de entrada e pasta de spam.",
       "RESET_PASSWORD": "Erro ao enviar e-mail de redefinição de senha, favor entrar em contato com a LiteFarm para obter assistência.",
       "RESTORE": "Ocorreu um erro, o acesso não foi restaurado",
       "REVOKE": "Ocorreu um erro, o acesso não foi revogado",

@@ -2,6 +2,7 @@ import React from 'react';
 import PureAddCropVariety from '../../components/AddCropVariety';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { cropSelector } from '../cropSlice';
+import { cropVarietiesSelector } from '../cropVarietySlice';
 import { postCropAndVarietal, postVarietal } from './saga';
 import { certifierSurveySelector } from '../OrganicCertifierSurvey/slice';
 import { hookFormPersistSelector } from '../hooks/useHookFormPersist/hookFormPersistSlice';
@@ -26,6 +27,8 @@ function AddCropVarietyForm({ history, match }) {
     history.push(`/crop/${crop_id}/add_crop_variety/compliance`);
   };
 
+  const farmCropVarieties = useSelector(cropVarietiesSelector);
+
   const onSubmit = (data) => {
     const cropData = {
       ...persistedFormData,
@@ -33,9 +36,7 @@ function AddCropVarietyForm({ history, match }) {
       crop_variety_name: data.crop_variety_name.trim(),
       crop_variety_photo_url: data.crop_variety_photo_url
         ? data.crop_variety_photo_url
-        : `https://${
-            import.meta.env.VITE_DO_BUCKET_NAME
-          }.nyc3.digitaloceanspaces.com/default_crop/v2/default.webp`,
+        : crop.crop_photo_url,
       supplier: data.supplier.trim(),
       compliance_file_url: '',
       organic: null,
@@ -65,6 +66,7 @@ function AddCropVarietyForm({ history, match }) {
           </ImagePickerWrapper>
         }
         handleGoBack={() => history.back()}
+        farmCropVarieties={farmCropVarieties}
       />
     </HookFormPersistProvider>
   );

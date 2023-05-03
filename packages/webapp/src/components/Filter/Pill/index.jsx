@@ -6,7 +6,7 @@ import { BsX } from 'react-icons/bs';
 
 const Pill = ({ className, label, selected, removable, onRemovePill }) => {
   return (
-    <div className={clsx(className, styles.pill, selected ? styles.selected : styles.deselected)}>
+    <span className={clsx(className, styles.pill, selected ? styles.selected : styles.deselected)}>
       {label}
       {removable && (
         <BsX
@@ -18,7 +18,7 @@ const Pill = ({ className, label, selected, removable, onRemovePill }) => {
           onClick={onRemovePill}
         />
       )}
-    </div>
+    </span>
   );
 };
 

@@ -438,6 +438,7 @@ export default function PureTaskReadOnly({
             />
           }
           onClick={preDelete}
+          isIconClickable
         >
           {t('TASK.DELETE.DELETE_TASK')}
         </IconLink>

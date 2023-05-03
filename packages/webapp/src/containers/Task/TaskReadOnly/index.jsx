@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <<https://www.gnu.org/licenses/>.>
  */
 
-import React from 'react';
+import { React, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import PureTaskReadOnly from '../../../components/Task/TaskReadOnly';
 import {
@@ -50,11 +50,21 @@ function TaskReadOnly({ history, match, location }) {
   const users = useSelector(userFarmsByFarmSelector).filter((user) => user.status !== 'Inactive');
   const user = useSelector(userFarmSelector);
   const isAdmin = useSelector(isAdminSelector);
-  const isTaskTypeCustom = !!task.taskType.farm_id;
-
-  const selectedTaskType = task.taskType;
-  const isHarvest = isTaskType(selectedTaskType, 'HARVEST_TASK');
   const harvestUseTypes = useSelector(harvestUseTypesSelector);
+
+  const [isTaskTypeCustom, setIsTaskTypeCustom] = useState(false);
+  const [isHarvest, setIsHarvest] = useState(undefined);
+  const [wageAtMoment, setWageAtMoment] = useState(undefined);
+
+  useEffect(() => {
+    if (task === undefined) {
+      history.replace('/unknown_record');
+    } else {
+      setIsTaskTypeCustom(!!task.taskType.farm_id);
+      setIsHarvest(isTaskType(task.taskType, 'HARVEST_TASK'));
+      setWageAtMoment(task.wage_at_moment);
+    }
+  }, [task, history]);
 
   const onGoBack = () => {
     history.back();
@@ -113,32 +123,34 @@ function TaskReadOnly({ history, match, location }) {
   };
   return (
     <>
-      <PureTaskReadOnly
-        task_id={task_id}
-        onGoBack={onGoBack}
-        onComplete={onComplete}
-        onEdit={onEdit}
-        onAbandon={onAbandon}
-        onGoToCropPlan={onGoToCropPlan}
-        onDelete={onDelete}
-        task={task}
-        users={users}
-        user={user}
-        isAdmin={isAdmin}
-        system={system}
-        products={products}
-        harvestUseTypes={harvestUseTypes}
-        isTaskTypeCustom={isTaskTypeCustom}
-        maxZoomRef={maxZoomRef}
-        getMaxZoom={getMaxZoom}
-        onAssignTasksOnDate={onAssignTasksOnDate}
-        onAssignTask={onAssignTask}
-        onChangeTaskDate={onChangeTaskDate}
-        onChangeTaskWage={onChangeTaskWage}
-        onUpdateUserFarmWage={onUpdateUserFarmWage}
-        onSetUserFarmWageDoNotAskAgain={onSetUserFarmWageDoNotAskAgain}
-        wage_at_moment={task.wage_at_moment}
-      />
+      {task && (
+        <PureTaskReadOnly
+          task_id={task_id}
+          onGoBack={onGoBack}
+          onComplete={onComplete}
+          onEdit={onEdit}
+          onAbandon={onAbandon}
+          onGoToCropPlan={onGoToCropPlan}
+          onDelete={onDelete}
+          task={task}
+          users={users}
+          user={user}
+          isAdmin={isAdmin}
+          system={system}
+          products={products}
+          harvestUseTypes={harvestUseTypes}
+          isTaskTypeCustom={isTaskTypeCustom}
+          maxZoomRef={maxZoomRef}
+          getMaxZoom={getMaxZoom}
+          onAssignTasksOnDate={onAssignTasksOnDate}
+          onAssignTask={onAssignTask}
+          onChangeTaskDate={onChangeTaskDate}
+          onChangeTaskWage={onChangeTaskWage}
+          onUpdateUserFarmWage={onUpdateUserFarmWage}
+          onSetUserFarmWageDoNotAskAgain={onSetUserFarmWageDoNotAskAgain}
+          wage_at_moment={wageAtMoment}
+        />
+      )}
     </>
   );
 }

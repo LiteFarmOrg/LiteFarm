@@ -303,6 +303,7 @@
     "VARIETAL_IMAGE": "Customize image for varietal or cultivar",
     "VARIETAL_IMAGE_INFO": "If you would like this varietal or cultivar to have a different image from the default crop, you can customize the image here.",
     "VARIETY_COMMON_NAME": "Common Name",
+    "DUPLICATE_VARIETY": "A variety of this crop with the same name already exists on your farm",
     "VARIETY_VARIETAL": "Varietal",
     "VARIETY_CULTIVAR": "Cultivar",
     "CULTIVAR_SUBTEXT": "Learn more about cultivars",
@@ -333,6 +334,7 @@
     "ADD_CROPS_T0_YOUR_FARM": "Add crops to your farm",
     "ADD_TO_YOUR_FARM": "Add to your farm",
     "CAN_NOT_FIND": "Can't find what you're looking for?",
+    "CANCEL": "crop creation",
     "COVER_CROP": "Can this be grown as a cover crop?",
     "CREATE_MANAGEMENT_PLANS": "Create crop plans",
     "CROP_CATALOGUE": "Crop catalogue",
@@ -356,7 +358,8 @@
     "NOMINATE_CROP_TOOLTIP": "Nominating this crop for inclusion in the LiteFarm crop catalogue grants the LiteFarm team permission to share information about this crop with a specialist in your region. Approved crops will become part of the crop catalogue shown to all users.",
     "ON_YOUR_FARM": "On your farm",
     "SELECT_A_CROP": "Select a crop to add it to your farm. Use search and filters to find crops more quickly.",
-    "SPECIES": "Species"
+    "SPECIES": "Species",
+    "DUPLICATE_CROP": "A crop with the same name, genus, and species already exists on your farm"
   },
   "CROP_DETAIL": {
     "ADD_PLAN": "Add a plan",
@@ -422,6 +425,7 @@
     "ARCHIVE_DOCUMENT_TEXT": "Archiving this document will move it to the archived section of your documents, but not delete it. Archived documents will not be exported for your certifications. Do you want to proceed?",
     "ARCHIVED": "Archived",
     "CANCEL": "Cancel",
+    "CANCEL_MODAL": "document creation",
     "COMPLIANCE_DOCUMENTS_AND_CERTIFICATION": "Compliance documents and your certification",
     "DOCUMENTS": "Documents",
     "EDIT_DOCUMENT": "Edit document",
@@ -491,6 +495,7 @@
     "VALUE": "Value"
   },
   "EXPIRED_TOKEN": {
+    "RESET_PASSWORD": "This link has expired.",
     "RESET_PASSWORD_LINK": "Send new password link."
   },
   "FARM_MAP": {
@@ -763,7 +768,7 @@
     }
   },
   "FILE_SIZE_MODAL": {
-    "BODY": "Files can not exceed 25MB or 5 pages.",
+    "BODY": "Files cannot be larger than 10MB.",
     "TITLE": "File size too large"
   },
   "FILTER": {
@@ -1250,6 +1255,10 @@
       "BODY": "{{editor}} has marked a {{taskType}} task as unassigned.",
       "TITLE": "Task unassigned"
     },
+    "TASK_DELETED": {
+      "BODY": "A {{taskType}} task assigned to you has been deleted by {{abandoner}}.",
+      "TITLE": "Task deleted"
+    },
     "WEEKLY_UNASSIGNED_TASKS": {
       "BODY": "You have unassigned tasks due this week.",
       "TITLE": "Unassigned tasks"
@@ -1618,8 +1627,8 @@
     "EXPIRED_ERROR": "We've updated our infrastructure and you'll need to reset your password. Check your inbox to proceed.",
     "EXPIRED_INVITATION_LINK_ERROR": "Invalid or expired invitation",
     "GOOGLE_BUTTON": "CONTINUE WITH GOOGLE",
-    "INVITED_ERROR": "We've updated our infrastructure and you'll need to check your inbox for a farm invitation to proceed.",
-    "LITEFARM_UPDATED": "We've updated LiteFarm!",
+    "INVITED_ERROR": "A farm invitation has been emailed to you, please check your inbox and spam folder.",
+    "LITEFARM_UPDATED": "LiteFarm v3.3 is now available!",
     "PASSWORD_ERROR": "Password incorrect",
     "SIGN_IN": "Sign In",
     "SSO_ERROR": "Please login by clicking the Google button above",
@@ -1668,7 +1677,7 @@
       "WHICH_DATE": "Which date?",
       "DATE_ORIGINAL": "The original due date",
       "DATE_TODAY": "Today",
-      "DATE_ANOTHER": "Another",
+      "DATE_ANOTHER": "Another date",
       "INFO": "Abandoning this task will change its' status to abandoned and remove it from all users ‘To do’ and ‘Unassigned’ lists.",
       "NOTES": "Task abandonment notes",
       "NOTES_CHAR_LIMIT": "Notes must be less than 10,000 characters",
@@ -1813,5 +1822,10 @@
     "HOURLY_WAGE": "Hourly Wage",
     "HOURLY_WAGE_RANGE_ERROR": "Hourly Wage must be a positive number less than 999,999,999",
     "HOURLY_WAGE_TOOLTIP": "Hourly wages can be set by selecting an individual on the People tab under 'my farm'."
+  },
+  "UNKNOWN_RECORD": {
+    "UNKNOWN_RECORD": "Unknown record",
+    "CANT_FIND": "Oops! We weren’t able to find that.",
+    "MAYBE_LATER": "Maybe it’ll turnip later."
   }
 }

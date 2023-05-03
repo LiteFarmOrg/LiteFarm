@@ -303,6 +303,7 @@
     "VARIETAL_SUBTITLE": "Cuéntenos sobre la variedad o cultivar específico que pretende cultivar",
     "VARIETAL_IMAGE_INFO": "Si desea que este varietal o cultivar tenga una imagen diferente del recorte predeterminado, puede personalizar la imagen aquí.",
     "VARIETY_COMMON_NAME": "Nombre común",
+    "DUPLICATE_VARIETY": "Ya existe en tu finca una variedad de este cultivo con el mismo nombre",
     "VARIETY_VARIETAL": "Varietal",
     "VARIETY_CULTIVAR": "Cultivar",
     "CULTIVAR_SUBTEXT": "Aprender más sobre cultivares",
@@ -333,6 +334,7 @@
     "ADD_CROPS_T0_YOUR_FARM": "Agregar un cultivo a su granja",
     "ADD_TO_YOUR_FARM": "Agregar a su granja",
     "CAN_NOT_FIND": "¿No encuentra lo que busca?",
+    "CANCEL": "Ceración de cultivo",
     "COVER_CROP": "¿Se puede cultivar como cultivo de cobertura?",
     "CREATE_MANAGEMENT_PLANS": "Crear plan de cultivo",
     "CROP_CATALOGUE": "Catálogo de cultivos",
@@ -348,15 +350,16 @@
     },
     "FILTER_TITLE": "Filtro de catálogo de cultivos ",
     "GENUS": "Género",
-    "HERE_YOU_CAN": "Acá uno puede",
+    "HERE_YOU_CAN": "Acá puede",
     "LETS_BEGIN": "Vamos a comenzar",
     "NEW_CROP_NAME": "Nombre de nuevo cultivo",
     "NO_RESULTS_FOUND": "No se han encontrado resultados. Por favor, cambie sus filtros.",
     "NOMINATE_CROP": "Nominar este cultivo para su inclusión en el catálogo de cultivos LiteFarm",
     "NOMINATE_CROP_TOOLTIP": "La inclusión de este cultivo en el catálogo de cultivos de LiteFarm permite al equipo de LiteFarm compartir información sobre este cultivo con un especialista de su región. Los cultivos aprobados pasarán a formar parte del catálogo de cultivos mostrado a todos los usuarios.",
     "ON_YOUR_FARM": "En su granja",
-    "SELECT_A_CROP": "Seleccione un cultivo para agregarlo a su granja. Utilice la búsqueda y los filtros para encontrar cultivos más rápidamente.",
-    "SPECIES": "Especies"
+    "SELECT_A_CROP": "Seleccione un cultivo para agregar a su granja. Utilice la barra de búsqueda y los filtros para encontrar cultivos rápidamente.",
+    "SPECIES": "Especies",
+    "DUPLICATE_CROP": "Ya existe un cultivo con el mismo nombre, género y especie en tu finca"
   },
   "CROP_DETAIL": {
     "ADD_PLAN": "Agregar un plan",
@@ -368,7 +371,7 @@
     "GENETICALLY_ENGINEERED": "¿Este cultivo está modificado genéticamente?",
     "HS_CODE": "Código de SA",
     "MANAGEMENT_PLANS": "Planes de cultivo",
-    "MANAGEMENT_TAB": "Manejo",
+    "MANAGEMENT_TAB": "Administrar",
     "ORGANIC": "¿La semilla o el cultivo están certificados como orgánicos?",
     "PERENNIAL": "Perenne",
     "TREATED": "¿Se han tratado las semillas de este cultivo?"
@@ -421,6 +424,7 @@
     "ARCHIVE_DOCUMENT_TEXT": "Archivar este documento lo moverá a la sección de archivado de sus documentos, pero no lo eliminará. Los documentos archivados no se exportarán para sus certificaciones. Quiere proceder?",
     "ARCHIVED": "Archivado",
     "CANCEL": "Cancelar",
+    "CANCEL_MODAL": "MISSING",
     "COMPLIANCE_DOCUMENTS_AND_CERTIFICATION": "Documentos de cumplimiento y su certificación",
     "DOCUMENTS": "Documentos",
     "EDIT_DOCUMENT": "Editar documento",
@@ -490,6 +494,7 @@
     "VALUE": "Valor"
   },
   "EXPIRED_TOKEN": {
+    "RESET_PASSWORD": "Este enlace ha caducado.",
     "RESET_PASSWORD_LINK": "Envíar enlace para nueva contraseña."
   },
   "FARM_MAP": {
@@ -578,7 +583,7 @@
       "TITLE": "Retirar ubicación?"
     },
     "DRAWING_MANAGER": {
-      "REDRAW": "Repintar",
+      "REDRAW": "Rehacer",
       "ZERO_AREA_DETECTED": "Campo sin area detectado. Por favor, agrega mas puntos o comienza de nuevo.",
       "ZERO_LENGTH_DETECTED": "Línea sin longitud detectada. Por favor dibuja de nuevo."
     },
@@ -650,10 +655,10 @@
     "LOCATION_CREATION_FLOW": "creación de ubicación",
     "MAP_FILTER": {
       "ADD_TITLE": "Agregar a su mapa",
-      "AREAS": "Areas",
+      "AREAS": "Áreas",
       "BARN": "Granero",
       "BZ": "Zona delimitada",
-      "CA": "Area ceremonial",
+      "CA": "Área ceremonial",
       "FENCE": "Cerca",
       "FIELD": "Campo",
       "FSB": "Limites de granja",
@@ -663,7 +668,7 @@
       "HIDE_ALL": "Esconde todo",
       "LABEL": "Etiqueta",
       "LINES": "Lineas",
-      "NA": "Area natural",
+      "NA": "Área natural",
       "POINTS": "Puntos",
       "RESIDENCE": "Residencia",
       "SATELLITE": "Imagen de Satelite",
@@ -675,9 +680,9 @@
       "SENSOR": "Sensor"
     },
     "NATURAL_AREA": {
-      "EDIT_TITLE": "Editar area natural",
-      "NAME": "Nombre de area natural",
-      "TITLE": "Agregar area natural"
+      "EDIT_TITLE": "Editar área natural",
+      "NAME": "Nombre de área natural",
+      "TITLE": "Agregar área natural"
     },
     "NOTES_CHAR_LIMIT": "Las notas deben tener menos de 10,000 caracteres",
     "RESIDENCE": {
@@ -696,7 +701,7 @@
     },
     "SURFACE_WATER": {
       "EDIT_TITLE": "Editar agua de superficie",
-      "IRRIGATION": "Es esta area usada para riego?",
+      "IRRIGATION": "Es esta área usada para riego?",
       "NAME": "Nombre de agua de superficie",
       "TITLE": "Agregar agua de superficie"
     },
@@ -709,8 +714,8 @@
     "TITLE": "Mapa de granja",
     "TUTORIAL": {
       "ADJUST_AREA": {
-        "TEXT": "Clickea y arrastra los puntos para ajustar el area",
-        "TITLE": "Ajustar area"
+        "TEXT": "Clickea y arrastra los puntos para ajustar el área",
+        "TITLE": "Ajustar área"
       },
       "ADJUST_LINE": {
         "TEXT": "Clickea y arrastra los puntos para ajustar la linea",
@@ -719,8 +724,8 @@
       "AREA": {
         "STEP_ONE": "Clickea donde quieras para empezar a dibujar",
         "STEP_THREE": "Clickea y arrastra los puntos para ajustar la figura",
-        "STEP_TWO": "Clickea el punto inicial para cerrar el area",
-        "TITLE": "Dibuja un area"
+        "STEP_TWO": "Clickea el punto inicial para cerrar el área",
+        "TITLE": "Dibuja un área"
       },
       "LINE": {
         "STEP_FOUR": "(Para algunas lineas) agrega un ancho",
@@ -762,7 +767,7 @@
     }
   },
   "FILE_SIZE_MODAL": {
-    "BODY": "Los archivos no pueden exceder los 25 MB o 5 páginas.",
+    "BODY": "Los archivos no pueden exceder los 10 MB.",
     "TITLE": "Tamaño de archivo demasiado grande"
   },
   "FILTER": {
@@ -820,12 +825,12 @@
         "TITLE": "Había un problema"
       },
       "HEADER": "Numero de especies",
-      "INFO": "La biodiversidad es excelente para las personas y el planeta. Contamos la riqueza de especies de todos los registros conocidos de biodiversidad en su finca desde los límites de su finca. Puede aumentar la biodiversidad de los cultivos en su granja agregando cultivos adicionales. Puede aumentar el recuento de biodiversidad no agrícola en su granja registrando ubicaciones en https://www.inaturalist.org/app.",
+      "INFO": "La biodiversidad es excelente para las personas y el planeta. Contamos la riqueza de especies en su granja desde conocidos registros de biodiversidad. Puede aumentar la biodiversidad de los cultivos en su granja agregando mayor cantidad de cultivos. Puede aumentar el recuento de biodiversidad no agrícola en su granja registrando ubicaciones en https://www.inaturalist.org/app.",
       "INSECTS": "Insectos",
       "LOADING": {
-        "BODY": "Estamos generando las últimas reflexiones sobre biodiversidad para su granja. Esto puede tardar hasta 60 segundos.",
+        "BODY": "Estamos generando los últimos reportes sobre biodiversidad de su granja. Esto puede tardar hasta 60 segundos.",
         "PREVIEW": "Cargando...",
-        "TITLE": "Generando las reflexiones más recientes sobre biodiversidad..."
+        "TITLE": "Generando los reportes más recientes sobre biodiversidad..."
       },
       "MAMMALS": "Mamíferos",
       "PLANTS": "Plantas",
@@ -838,11 +843,11 @@
     },
     "CURRENT": "Actual",
     "CLICK_TO_CALCULATE": "Haga clic para calcular",
-    "INFO": "Las reflexiones son caracteristicas de datos de que esta pasando en su granja. Mientras mas data proveas en la aplicacion mas reflexiones pueden ser generadas. Mira las reflexiones individuales para mas información.",
+    "INFO": "Los reportes son estadísticas de datos de lo que está pasando en su granja. Mientras más datos proveas en la aplicación más reportes pueden ser generadas. Mira los reportes individuales para más información.",
     "LABOUR_HAPPINESS": {
       "HEADER": "Tareas",
-      "INFO": "Estimamos el impacto de las diferentes tareas en la satisfaccion con el trabajo usando los puntajes de satisfaccion y las horas trabajadas en cada turno.",
-      "TITLE": "Satisfaccion del Trabajo"
+      "INFO": "Estimamos la satisfacción laboral tomando como referencia los puntajes de satisfacción de cada tarea y las horas trabajadas.",
+      "TITLE": "Satisfaccion Laboral"
     },
     "NITROGEN_BALANCE": {
       "ABANDON": "Retirar programacion",
@@ -879,7 +884,7 @@
       "VITAMIN_C": "Vitamina C"
     },
     "PRICES": {
-      "INFO": "Se mostramos la trayectoria de sus precios de venta contra el precio de venta de los mismos bienes en una distancia dada de su granja, recolectadas a traves de la red de Litefarm.",
+      "INFO": "Le mostramos la trayectoria de sus precios de venta en comparacion a los precios de venta de los mismos bienes cerca de su granja. Esta información es recolectada a través de la red de LiteFarm.",
       "NEARBY_FARMS": "El precio del mercado se basa en {{count}} granjas en su área local",
       "NEARBY_FARMS_one": "El precio del mercado se basa en {{count}} granja en su área local",
       "NEARBY_FARMS_many": "El precio del mercado se basa en {{count}} granjas en su área local",
@@ -896,10 +901,10 @@
     "SOIL_OM": {
       "ALTERNATE_TITLE": "Contenido de MO del Suelo",
       "HEADER": "Materia Organica del Suelo",
-      "INFO": "La materia organica en el suelo es necesaria para mantener un ambiente saludable para su cultivo. Nosotros tomamos esta data desde sus registros de suelo mas recientes. Si no tienes data en sus registros, predecimos la materia organica potencial en su suelo para su ubicacion global.",
+      "INFO": "La materia orgánica en el suelo es necesaria para mantener un ambiente saludable para su cultivo. Generamos estos datos con los registros de suelo más recientes. Si no posee registros, predecimos la materia orgánica con las ubicación global.",
       "TITLE": "MO del Suelo"
     },
-    "TITLE": "Reflexiones",
+    "TITLE": "Reportes",
     "UNAVAILABLE": "No Disponible",
     "WATER_BALANCE": {
       "FIRST_TIME": "Parece que es la primera vez que llega aca! Para mas información en que hace esto, por favor cliquea el boton de información.",
@@ -1102,7 +1107,7 @@
     "MANAGEMENT_SPOTLIGHT_1": "Crear nuevos planes para este cultivo",
     "MANAGEMENT_SPOTLIGHT_2": "Ver y modificar planes para este cultivo",
     "MANAGEMENT_SPOTLIGHT_3": "Crear y asigna tareas",
-    "MANAGEMENT_SPOTLIGHT_TITLE": "Manejo",
+    "MANAGEMENT_SPOTLIGHT_TITLE": "Administrar",
     "NEXT_HARVEST": "¿Cuándo espera su próxima cosecha?",
     "NOTES_CHAR_LIMIT": "Las notas deben tener menos de 10,000 caracteres",
     "NUMBER_OF_CONTAINER": "# de macetas",
@@ -1122,7 +1127,7 @@
     "PLANTING_NOTE": "Notas de la siembra",
     "PLANTING_SOIL": "Suelo de siembra que se utilizará",
     "PLANTS_PER_CONTAINER": "# de plantas/maceta",
-    "RATE_THIS_MANAGEMENT_PLAN": "Valora este plan de manejo",
+    "RATE_THIS_MANAGEMENT_PLAN": "Valora este plan de administración",
     "REMOVE_PIN": "Quitar el pin",
     "ROW_METHOD": {
       "HISTORICAL_SAME_LENGTH": "¿Tenían todas las filas la misma longitud?",
@@ -1252,6 +1257,10 @@
     "TASK_UNASSIGNED": {
       "BODY": "{{editor}} ha marcado {{taskType}} tarea como no asignada.",
       "TITLE": "Tarea sin asignar"
+    },
+    "TASK_DELETED": {
+      "BODY": "Una tarea de {{taskType}} que se te asignó ha sido eliminada por {{abandoner}}.",
+      "TITLE": "Tarea eliminada"
     },
     "WEEKLY_UNASSIGNED_TASKS": {
       "BODY": "Tiene tareas sin asignar que vencen esta semana.",
@@ -1403,7 +1412,7 @@
         "TOTAL": "Total"
       },
       "TITLE": "Agregue nueva venta",
-      "SALE_VALUE_ERROR": "MISSING"
+      "SALE_VALUE_ERROR": "El valor de venta debe ser un número positivo menor a 999,999,999"
     },
     "DETAIL": {
       "ACTION": "Accion",
@@ -1539,8 +1548,8 @@
     "EXPIRED_ERROR": "Hemos actualizado nuestra infraestructura y deberá restablecer su contraseña. Revise su bandeja de entrada para continuar.",
     "EXPIRED_INVITATION_LINK_ERROR": "La invitación no está válida o caducada",
     "GOOGLE_BUTTON": "Continúe con Google",
-    "INVITED_ERROR": "Faltante",
-    "LITEFARM_UPDATED": "¡Hemos actualizado LiteFarm!",
+    "INVITED_ERROR": "Se te ha enviado una invitación a una granja, por favor, revisa tu bandeja de entrada y carpeta de spam",
+    "LITEFARM_UPDATED": "LiteFarm v3.3 ya está disponible!",
     "PASSWORD_ERROR": "Contraseña incorrecta",
     "SIGN_IN": "Registrarse",
     "SSO_ERROR": "Por favor inicie sesión haciendo clic el boton Google de arriba",
@@ -1553,8 +1562,8 @@
     "CROPS": "Cultivos",
     "DOCUMENTS": "Documentos",
     "FINANCES": "Finanzas",
-    "INSIGHTS": "Reflexiones",
-    "MANAGE": "Manejo",
+    "INSIGHTS": "Reportes",
+    "MANAGE": "Administrar",
     "TASKS": "Tareas"
   },
   "STATUS": {
@@ -1698,7 +1707,7 @@
       "CONFIRM_DELETION": "Confirmar eliminado",
       "CANT_DELETE_PLANTING_TASK": "No se puede eliminar tarea de plantar",
       "CANT_DELETE_ABANDON_INSTEAD": "¿Desea abandonarla en su lugar?",
-      "CANT_DELETE_ABANDON": "MISSING",
+      "CANT_DELETE_ABANDON": "Ir al plan de cultivo",
       "SUCCESS": "La tarea ha sido eliminada",
       "FAILED": "Error al eliminar la tarea"
     }
@@ -1817,5 +1826,10 @@
     "HOURLY_WAGE": "Salario por hora",
     "HOURLY_WAGE_RANGE_ERROR": "El salario por hora debe ser un número positivo inferior a 999,999,999",
     "HOURLY_WAGE_TOOLTIP": "Los salarios por hora se pueden establecer mediante la selección de un individuo en la pestaña Personas bajo 'mi granja'."
+  },
+  "UNKNOWN_RECORD": {
+    "UNKNOWN_RECORD": "Registro desconocido",
+    "CANT_FIND": "¡Ups! No pudimos encontrar eso.",
+    "MAYBE_LATER": "Tal vez aparezca más tarde."
   }
 }

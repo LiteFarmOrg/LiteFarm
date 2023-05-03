@@ -1,4 +1,4 @@
-##### Version 4.0:
+##### Version 5.0:
 
 #### Informed Consent Form and Privacy Policy (Farm Worker Version)
 
@@ -14,7 +14,7 @@ The LiteFarm team is a cross-disciplinary group of scientists, researchers, farm
 
 #### Who funds Litefarm?
 
-LiteFarm is funded by the Centre for Sustainable Food Systems at UBC and other grants. For a complete list, please visit: https://www.litefarm.org/partners. Our funders have no say in the operation and management of LiteFarm, and are unable to access any of the personal information housed on the platform. Our funding model is currently donor and grant-driven.
+LiteFarm is funded by the Centre for Sustainable Food Systems at UBC and other grants. For a complete list, please visit: https://www.litefarm.org/community-1. Our funders have no say in the operation and management of LiteFarm, and are unable to access any of the personal information housed on the platform. Our funding model is currently donor and grant-driven.
 
 #### Why are we conducting this project ?
 
@@ -74,7 +74,7 @@ Information you provide about task completion is displayed in aggregate (without
 
 **What do we share?**
 
-We will only share your data with third parties if it is both anonymized (i.e., contains no personal information) and necessary to accomplish our research goals or validate scientific findings. Specifically, we may share anonymized data at some point in the future with other researchers for non-commercial academic research purposes. Any third-party academic researchers who request use of LiteFarm data will undergo internal review, and will be assessed under our existing ethics and security standards. Due to publishing standards for scientific reproducibility, anonymized data that is used for academic research may be served on public repositories. Copies of non-public releases of anonymized data can be shared with academic researchers for non-commercial research purposes, under time-limited and confidential single-use licenses. If an academic research use includes the use of photos uploaded to LiteFarm, any identifiable features that disclose personal information (e.g., faces of people) will be blurred out of the photos before they are shared. We do not share any personal information to third party analytics services, such as Google Analytics. Through our security protocols, we safeguard the vulnerability of personal information within the LiteFarm website, and we use IP anonymization protocols to prevent identification and geolocation by third parties. LiteFarm will not rent or sell your personal information or any data collected through LiteFarm website to anyone without your express consent.
+We will only share your data with third parties if it is both anonymized (i.e., contains no personal information) and necessary to accomplish our research goals or validate scientific findings. Specifically, we may share anonymized data at some point in the future with other researchers for non-commercial academic research purposes. Any third-party academic researchers who request use of LiteFarm data will undergo internal review, and will be assessed under our existing ethics and security standards. Due to publishing standards for scientific reproducibility, anonymized data that is used for academic research may be served on public repositories. Copies of non-public releases of anonymized data can be shared with academic researchers for non-commercial research purposes, under time-limited and confidential single-use licenses. If an academic research use includes the use of photos uploaded to LiteFarm, any identifiable features that disclose personal information (e.g., faces of people) will be blurred out of the photos before they are shared. We do not share any personal information to third party analytics services, such as Google Analytics. Through our security protocols, we safeguard the vulnerability of personal information within the LiteFarm website, and we use IP anonymization protocols to prevent identification and geolocation by third parties.
 
 **How we use cookies**
 
@@ -86,7 +86,7 @@ Our application is hosted on Digital Ocean to quickly and reliably serve our web
 
 **How do we protect your data?**
 
-We follow industry best practices to secure user data, and we have built and continue to maintain our application in line with Open Web Application Security Project’s Annotated Application Security Verification Standard Level 2. Access to the database is limited to members of the LiteFarm team who have undergone ethics training (Tri-Council Policy Statement: Ethical Conduct for Research Involving Humans, TCPS2), and have signed confidentiality agreements. However, we cannot guarantee that data transmitted over the internet will always be secure. As a result, though we strive to protect your personal information, we cannot ensure the security of any information you transmit while using LiteFarm.
+We follow industry best practices to secure user data, and we have built and continue to maintain the LiteFarm application in line with Open Web Application Security Project’s Annotated Application Security Verification Standard Level 2. Access to the LiteFarm database is limited to members of the LiteFarm team who have undergone ethics training (Tri-Council Policy Statement: Ethical Conduct for Research Involving Humans, TCPS2), and have signed confidentiality agreements. However, we cannot guarantee that data transmitted over the internet will always be secure. As a result, though we strive to protect your personal information, we cannot ensure the security of any information you transmit while using LiteFarm.   
 
 **What other potential risks are involved with using LiteFarm?**
 

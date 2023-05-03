@@ -15,11 +15,13 @@ export function DocumentUploader({ style, linkstyle, onUpload, linkText, onUploa
     const file = e?.target?.files?.[0];
     if (!isValidFile(file)) {
       dispatch(enqueueErrorSnackbar(i18n.t('message:ATTACHMENTS.ERROR.FAILED_UPLOAD')));
-    } else if (e?.target?.files?.[0]?.size > 26214400) {
+    } else if (e?.target?.files?.[0]?.size > 10485760) {
       setShowErrorModal(true);
+      e.target.value = '';
     } else if (e?.target?.files?.[0]) {
       onUpload?.();
       dispatch(uploadDocument({ file: e.target.files[0], onUploadEnd }));
+      e.target.value = '';
     }
   };
 

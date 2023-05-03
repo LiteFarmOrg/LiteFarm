@@ -303,6 +303,7 @@
     "VARIETAL_SUBTITLE": "Conte-nos sobre a variedade ou cultivar específica que você pretende cultivar",
     "VARIETAL_IMAGE_INFO": "Se você deseja que esta variedade ou cultivar tenha uma imagem diferente da cultura padrão, você pode personalizar a imagem aqui.",
     "VARIETY_COMMON_NAME": "Nome Comum",
+    "DUPLICATE_VARIETY": "Já existe na sua fazenda uma variedade deste cultivo com o mesmo nome",
     "VARIETY_VARIETAL": "Variedade",
     "VARIETY_CULTIVAR": "Cultivar",
     "CULTIVAR_SUBTEXT": "Saiba mais sobre cultivares",
@@ -316,8 +317,8 @@
       "BODY": "A edição deste cultivo não modificará nenhum plano de cultivo de cultivo existente. Apenas os planos de cultivo criados após suas edições serão afetados. Continuar com a edição?",
       "TITLE": "Editar cultivo?"
     },
-    "IS_GENETICALLY_ENGINEERED": "Este cultivo é geneticamente modificada?",
-    "IS_ORGANIC": "A semente ou cultivo é orgânica certificada?",
+    "IS_GENETICALLY_ENGINEERED": "Este cultivo é geneticamente modificado?",
+    "IS_ORGANIC": "A semente ou o cultivo tem certificação orgânica?",
     "NEED_DOCUMENT_GENETICALLY_ENGINEERED": "Sua certificadora pode solicitar documentação que comprove sua afirmação de que este cultivo não foi geneticamente modificado.",
     "NEED_DOCUMENT_PERFORM_SEARCH": "Sua certificadora pode solicitar documentação de suporte à sua busca.",
     "NEED_DOCUMENT_TREATED": "Sua certificadora pode solicitar documentação descrevendo quaisquer tratamentos.",
@@ -333,6 +334,7 @@
     "ADD_CROPS_T0_YOUR_FARM": "Adicionar cultivos à sua fazenda",
     "ADD_TO_YOUR_FARM": "Adicionar à sua fazenda",
     "CAN_NOT_FIND": "Não consegue encontrar o que está procurando?",
+    "CANCEL": "criação de cultivo",
     "COVER_CROP": "Isso pode ser cultivado como uma cultivo de cobertura?",
     "CREATE_MANAGEMENT_PLANS": "Criar um plano de cultivo",
     "CROP_CATALOGUE": "Catálogo de cultivo",
@@ -356,7 +358,8 @@
     "NOMINATE_CROP_TOOLTIP": "Nomear este cultivo para inclusão no catálogo do LiteFarm concede à equipe LiteFarm permissão para compartilhar informações sobre este cultivo com um especialista em sua região. Os cultivos aprovadas farão parte do catálogo mostrado a todos os usuários.",
     "ON_YOUR_FARM": "Em sua fazenda",
     "SELECT_A_CROP": "Selecione um cultivo para adicioná-lo à sua fazenda. Use a busca e os filtros para encontrar os cultivos mais rapidamente.",
-    "SPECIES": "Espécies"
+    "SPECIES": "Espécies",
+    "DUPLICATE_CROP": "Já existe um cultivo com o mesmo nome, gênero e espécie em sua fazenda"
   },
   "CROP_DETAIL": {
     "ADD_PLAN": "Adicionar um plano",
@@ -369,7 +372,7 @@
     "HS_CODE": "Código HS",
     "MANAGEMENT_PLANS": "Planos de cultivo",
     "MANAGEMENT_TAB": "Manejo",
-    "ORGANIC": "A semente ou cultivo é orgânica certificada?",
+    "ORGANIC": "A semente ou o cultivo tem certificação orgânica?",
     "PERENNIAL": "Perene",
     "TREATED": "As sementes deste cultivo foram tratadas?"
   },
@@ -421,6 +424,7 @@
     "ARCHIVE_DOCUMENT_TEXT": "Arquivar este documento o moverá para a seção arquivada de seus documentos, mas não o excluirá. Os documentos arquivados não serão exportados para suas certificações. Você quer prosseguir?",
     "ARCHIVED": "Arquivado",
     "CANCEL": "Cancelar",
+    "CANCEL_MODAL": "MISSING",
     "COMPLIANCE_DOCUMENTS_AND_CERTIFICATION": "Documentos de conformidade e sua certificação",
     "DOCUMENTS": "Documentos",
     "EDIT_DOCUMENT": "Editar documento",
@@ -490,7 +494,8 @@
     "VALUE": "Valor"
   },
   "EXPIRED_TOKEN": {
-    "RESET_PASSWORD_LINK": "Enviar novo link de senha/password"
+    "RESET_PASSWORD": "Este link expirou.",
+    "RESET_PASSWORD_LINK": "Enviar novo link de senha/password."
   },
   "FARM_MAP": {
     "TUTORIALS": "Tutoriais de mapas",
@@ -501,11 +506,11 @@
     },
     "BARN": {
       "ANIMALS": "Esta área é usada para abrigar animais?",
-      "COLD_STORAGE": "Este galpão tem câmara fria?",
-      "EDIT_TITLE": "Editar galpão",
-      "NAME": "Nome do galpão",
-      "TITLE": "Adicionar galpão",
-      "WASH_PACK": "Este galpão tem uma estação de lavação e embalagem?"
+      "COLD_STORAGE": "Este celeiro tem câmara fria?",
+      "EDIT_TITLE": "Editar celeiro",
+      "NAME": "Nome do celeiro",
+      "TITLE": "Adicionar celeiro",
+      "WASH_PACK": "Este celeiro tem uma estação de lavação e embalagem?"
     },
     "BUFFER_ZONE": {
       "EDIT_TITLE": "Editar zona de amortecimento/proteção",
@@ -574,7 +579,7 @@
       "TITLE": "Adicionar área cerimonial"
     },
     "CONFIRM_RETIRE": {
-      "BODY": "Remover esta área fará com que seja retirado do mapa do sítio/fazenda.",
+      "BODY": "Remover esta área fará com que ela seja retirada do mapa do sítio/fazenda.",
       "TITLE": "Remover área?"
     },
     "DRAWING_MANAGER": {
@@ -651,7 +656,7 @@
     "MAP_FILTER": {
       "ADD_TITLE": "Adicionar ao seu mapa",
       "AREAS": "Áreas",
-      "BARN": "Galpão",
+      "BARN": "Celeiro",
       "BZ": "Zona de amortecimento/proteção",
       "CA": "Área cerimonial",
       "FENCE": "Cerca",
@@ -762,7 +767,7 @@
     }
   },
   "FILE_SIZE_MODAL": {
-    "BODY": "Os arquivos não podem exceder 25 MB ou 5 páginas.",
+    "BODY": "Os arquivos não podem exceder 10 MB.",
     "TITLE": "Tamanho de arquivo muito grande"
   },
   "FILTER": {
@@ -943,7 +948,7 @@
     "DEFAULT_LANGUAGE": "Português",
     "DEFAULT_LANGUAGE_VALUE": "pt",
     "EMAIL": "Email",
-    "EMAIL_INFO": "Usuário sem um email não conseguirão entrar no aplicativo",
+    "EMAIL_INFO": "Usuários sem um e-mail não conseguirão entrar no aplicativo",
     "FULL_NAME": "Nome completo",
     "GENDER": "Gênero",
     "GENDER_TOOLTIP": "As informações de gênero são coletadas apenas para fins de pesquisa e só serão utilizadas com as informações de identificação pessoal removidas",
@@ -1204,7 +1209,7 @@
       "MANAGE_EMPLOYEE": "Orientar seus funcionários",
       "MANAGE_TASK": "Administrar suas tarefas",
       "MAP_FARM": "Mapear sua fazenda",
-      "SEE_UPDATES": "Veja atualizações importantes",
+      "SEE_UPDATES": "Ver atualizações importantes",
       "NOTIFICATION": "Aqui você pode:, • Administrar suas tarefas, • Ver o que mais está acontecendo, • Coordenar as atividades da fazenda",
       "NOTIFICATION_TITLE": "Este é o seu centro de notificações",
       "PROFILE": "Aqui você encontrará :, • Suas informações, • Dicas úteis, • O botão de logout",
@@ -1253,6 +1258,10 @@
     "TASK_UNASSIGNED": {
       "BODY": "{{editor}} marcou uma tarefa {{taskType}} como não atribuída.",
       "TITLE": "Tarefa não atribuída"
+    },
+    "TASK_DELETED": {
+      "BODY": "Uma tarefa de {{taskType}} atribuída a você foi excluída por {{abandoner}}.",
+      "TITLE": "Tarefa excluída"
     },
     "WEEKLY_UNASSIGNED_TASKS": {
       "BODY": "Você tem tarefas não atribuídas para esta semana.",
@@ -1404,7 +1413,7 @@
         "TOTAL": "Total"
       },
       "TITLE": "Adicionar nova venda",
-      "SALE_VALUE_ERROR": "MISSING"
+      "SALE_VALUE_ERROR": "O valor da venda deve ser um número acima de 0 e abaixo de 999,999,999"
     },
     "DETAIL": {
       "ACTION": "Ação",
@@ -1540,8 +1549,8 @@
     "EXPIRED_ERROR": "NÃO EXISTE",
     "EXPIRED_INVITATION_LINK_ERROR": "Convite expirado ou inválido",
     "GOOGLE_BUTTON": "CONTINUE COM O GOOGLE",
-    "INVITED_ERROR": "NÃO EXISTE",
-    "LITEFARM_UPDATED": "Nós atualizamos o LiteFarm!",
+    "INVITED_ERROR": "Um convite de fazenda foi enviado para você, por favor verifique sua caixa de entrada e pasta de spam.",
+    "LITEFARM_UPDATED": "LiteFarm v3.3 já está disponível!",
     "PASSWORD_ERROR": "Senha incorreta",
     "SIGN_IN": "Conecte-se",
     "SSO_ERROR": "Faça login clicando no botão do Google acima",
@@ -1590,7 +1599,7 @@
       "WHICH_DATE": "Qual data?",
       "DATE_ORIGINAL": "A data de vencimento original",
       "DATE_TODAY": "Hoje",
-      "DATE_ANOTHER": "Outro",
+      "DATE_ANOTHER": "Outra data",
       "INFO": "Abandonar esta tarefa mudará seu estado para abandonado e a removerá das listas de 'Tarefas' e 'Não atribuídas' de todos os usuários.",
       "NOTES": "Observações de abandono de tarefa",
       "NOTES_CHAR_LIMIT": "Observações não devem exceder 10.000 caractéres",
@@ -1693,15 +1702,15 @@
     "TRANSPLANT_LOCATIONS": "Selecione um local de transplante",
     "UNASSIGNED": "Não atribuída",
     "DELETE": {
-      "DELETE_TASK": "MISSING",
-      "DELETE_TASK_QUESTION": "MISSING",
-      "DELETE_TASK_MESSAGE": "MISSING",
-      "CONFIRM_DELETION": "MISSING",
-      "CANT_DELETE_PLANTING_TASK": "MISSING",
-      "CANT_DELETE_ABANDON_INSTEAD": "MISSING",
-      "CANT_DELETE_ABANDON": "MISSING",
-      "SUCCESS": "MISSING",
-      "FAILED": "MISSING"
+      "DELETE_TASK": "Remover tarefa",
+      "DELETE_TASK_QUESTION": "Remover tarefa?",
+      "DELETE_TASK_MESSAGE": "Esta tarefa será removida de sua fazenda. Se deseja manter um registro dessa tarefa, clique em \"Abandon\". ",
+      "CONFIRM_DELETION": "Confirmar exclusão",
+      "CANT_DELETE_PLANTING_TASK": "Não é possível deletar tarefas de plantio",
+      "CANT_DELETE_ABANDON_INSTEAD": "Você quer abandonar o plano de cultivo?",
+      "CANT_DELETE_ABANDON": "Ir ao plano de cultivo",
+      "SUCCESS": "Tarefa removida com sucesso",
+      "FAILED": "Falha ao remover tarefa"
     }
   },
   "UNIT": {
@@ -1818,5 +1827,10 @@
     "HOURLY_WAGE": "Salário por hora",
     "HOURLY_WAGE_RANGE_ERROR": "O salário por hora deve ser um número positivo menor que 999.999.999",
     "HOURLY_WAGE_TOOLTIP": "Os salários por hora podem ser definidos selecionando um indivíduo na guia Pessoas em 'minha fazenda'"
+  },
+  "UNKNOWN_RECORD": {
+    "UNKNOWN_RECORD": "Registro desconhecido",
+    "CANT_FIND": "Ops! Não conseguimos encontrar isso.",
+    "MAYBE_LATER": "Talvez apareça mais tarde."
   }
 }

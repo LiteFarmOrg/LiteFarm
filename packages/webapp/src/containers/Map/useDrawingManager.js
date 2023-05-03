@@ -30,6 +30,8 @@ export default function useDrawingManager() {
   const [showAdjustAreaSpotlightModal, setShowAdjustAreaSpotlightModal] = useState(false);
   const [showAdjustLineSpotlightModal, setShowAdjustLineSpotlightModal] = useState(false);
 
+  const [pointChanged, setPointChanged] = useState(false);
+
   const showedSpotlight = useSelector(showedSpotlightSelector);
   const overlayData = useSelector(hookFormPersistSelector);
 
@@ -65,6 +67,7 @@ export default function useDrawingManager() {
 
   useEffect(() => {
     if (!onSteppedBack) return;
+    let polygonDragListener, markerDragListener, polygonNewPointDragListener;
     let bounds;
     const { type } = overlayData;
     setDrawLocationType(type);
@@ -75,6 +78,16 @@ export default function useDrawingManager() {
         ...getDrawingOptions(type).polygonOptions,
       });
       redrawnPolygon.setMap(map);
+      polygonDragListener = maps.event.addListener(redrawnPolygon.getPath(), 'set_at', () => {
+        setPointChanged(true);
+      });
+      polygonNewPointDragListener = maps.event.addListener(
+        redrawnPolygon.getPath(),
+        'insert_at',
+        () => {
+          setPointChanged(true);
+        },
+      );
       setDrawingToCheck({
         type: maps.drawing.OverlayType.POLYGON,
         overlay: redrawnPolygon,
@@ -101,6 +114,9 @@ export default function useDrawingManager() {
         draggable: true,
       });
       redrawnMarker.setMap(map);
+      markerDragListener = maps.event.addListener(redrawnMarker, 'dragend', () => {
+        setPointChanged(true);
+      });
       setDrawingToCheck({
         type: maps.drawing.OverlayType.MARKER,
         overlay: redrawnMarker,
@@ -108,7 +124,14 @@ export default function useDrawingManager() {
       bounds = getBounds(maps, [overlayData.point]);
     }
     map.fitBounds(bounds);
-    setOnSteppedBack(false);
+
+    return () => {
+      if (!onSteppedBack) return;
+      if (polygonDragListener) maps.event.removeListener(polygonDragListener);
+      if (polygonNewPointDragListener) maps.event.removeListener(polygonNewPointDragListener);
+      if (markerDragListener) maps.event.removeListener(markerDragListener);
+      setOnSteppedBack(false);
+    };
   }, [onSteppedBack, map, maps, overlayData]);
 
   useLayoutEffect(() => {
@@ -147,14 +170,17 @@ export default function useDrawingManager() {
   const addLineListeners = (drawing, innerMap) => {
     const { overlay } = drawing;
     innerMap.event.addListener(overlay.getPath(), 'set_at', (redrawnLine) => {
+      setPointChanged(true);
       setDrawingToCheck({ ...drawing });
     });
     innerMap.event.addListener(overlay.getPath(), 'insert_at', (redrawnLine) => {
+      setPointChanged(true);
       setDrawingToCheck({ ...drawing });
     });
   };
 
   const resetDrawing = (wasBackPressed = false) => {
+    if (wasBackPressed) setOnSteppedBack(false);
     setOnBackPressed(wasBackPressed);
     drawingToCheck?.overlay.setMap(null);
     setDrawingToCheck(null);
@@ -228,6 +254,7 @@ export default function useDrawingManager() {
     showAdjustLineSpotlightModal,
     showZeroLengthWarning,
     showZeroAreaWarning,
+    pointChanged: pointChanged,
   };
 
   const drawingFunctions = {

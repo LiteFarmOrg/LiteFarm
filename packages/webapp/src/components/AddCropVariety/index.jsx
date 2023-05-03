@@ -1,5 +1,5 @@
 import Button from '../Form/Button';
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { Label } from '../Typography';
@@ -11,6 +11,8 @@ import { useForm } from 'react-hook-form';
 import MultiStepPageTitle from '../PageTitle/MultiStepPageTitle';
 import Infoi from '../Tooltip/Infoi';
 import { truncateText } from '../../util';
+import Spinner from '../Spinner';
+
 export default function PureAddCropVariety({
   match,
   onSubmit,
@@ -21,6 +23,7 @@ export default function PureAddCropVariety({
   crop,
   imageUploader,
   handleGoBack,
+  farmCropVarieties,
 }) {
   const { t } = useTranslation(['translation', 'common', 'crop']);
   const COMMON_NAME = 'crop_variety_name';
@@ -35,6 +38,7 @@ export default function PureAddCropVariety({
     handleSubmit,
     getValues,
     watch,
+    setError,
     formState: { errors, isValid },
   } = useForm({
     mode: 'onChange',
@@ -46,6 +50,8 @@ export default function PureAddCropVariety({
       ...persistedFormData,
     },
   });
+
+  const [showSpinner, setShowSpinner] = useState(false);
 
   const { historyCancel } = useHookFormPersist(getValues);
 
@@ -73,6 +79,33 @@ export default function PureAddCropVariety({
     truncateText(crop.crop_genus, 22) + ' ' + truncateText(crop.crop_specie, 22);
   const progress = 33;
 
+  const uniqueVarietyName = () => {
+    const formVarietyName = getValues('crop_variety_name');
+
+    const hasRepeatedVarieties = farmCropVarieties.some((variety) => {
+      const commonNameMatch = variety.crop_variety_name === formVarietyName;
+      const cropMatch = variety.crop_id === crop.crop_id;
+      return commonNameMatch && cropMatch;
+    });
+
+    return !hasRepeatedVarieties;
+  };
+
+  const showDuplicateVarietyError = () => {
+    setError(
+      'crop_variety_name',
+      {
+        type: 'custom',
+        message: t('CROP.DUPLICATE_VARIETY'),
+      },
+      { shouldFocus: true },
+    );
+  };
+
+  const checkUniqueVarietyAndSubmit = (data) => {
+    uniqueVarietyName(data) ? onSubmit(data) : showDuplicateVarietyError();
+  };
+
   return (
     <Form
       buttonGroup={
@@ -80,13 +113,14 @@ export default function PureAddCropVariety({
           {isSeekingCert ? t('common:CONTINUE') : t('common:SAVE')}
         </Button>
       }
-      onSubmit={handleSubmit(onSubmit, onError)}
+      onSubmit={handleSubmit(checkUniqueVarietyAndSubmit)}
     >
       <MultiStepPageTitle
         style={{ marginBottom: '24px' }}
         onGoBack={handleGoBack}
         onCancel={historyCancel}
         title={t('CROP.ADD_CROP')}
+        cancelModalTitle={t('CROP_CATALOGUE.CANCEL')}
         value={progress}
       />
 
@@ -116,6 +150,7 @@ export default function PureAddCropVariety({
         type="text"
         hookFormRegister={commonNameRegister}
         hasLeaf={false}
+        errors={getInputErrors(errors, 'crop_variety_name')}
       />
       <Input
         data-cy="crop-varietal"
@@ -143,16 +178,20 @@ export default function PureAddCropVariety({
         link={'https://www.litefarm.org/post/cultivars-and-varietals'}
         placeholder={t('CROP.CULTIVAR_PLACEHOLDER')}
       />
-      {crop_variety_photo_url && (
-        <img
-          src={crop_variety_photo_url}
-          alt={crop.crop_common_name}
-          className={styles.circleImg}
-          onError={(e) => {
-            e.target.onerror = null;
-            e.target.src = 'crop-images/default.jpg';
-          }}
-        />
+      {showSpinner ? (
+        <Spinner />
+      ) : (
+        crop_variety_photo_url && (
+          <img
+            src={crop_variety_photo_url}
+            alt={crop.crop_common_name}
+            className={styles.circleImg}
+            onError={(e) => {
+              e.target.onerror = null;
+              e.target.src = 'crop-images/default.jpg';
+            }}
+          />
+        )
       )}
       <div
         style={{
@@ -170,6 +209,7 @@ export default function PureAddCropVariety({
         {React.cloneElement(imageUploader, {
           hookFormRegister: imageUrlRegister,
           targetRoute: 'crop_variety',
+          onLoading: setShowSpinner,
         })}
         <Infoi
           style={{

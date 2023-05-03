@@ -208,13 +208,14 @@ export default function MapDrawer({
           icon: () => <WaterValve className={classes.icon} />,
           key: locationEnum.water_valve,
         },
-        {
-          name: t('FARM_MAP.MAP_FILTER.SENSOR'),
-          icon: () => (
-            <Sensor className={classes.icon} style={{ transform: 'translate(-5px, 5px)' }} />
-          ),
-          key: locationEnum.sensor,
-        },
+        // Disabling temporarily for April 2023 (3.3) Release
+        // {
+        //   name: t('FARM_MAP.MAP_FILTER.SENSOR'),
+        //   icon: () => (
+        //     <Sensor className={classes.icon} style={{ transform: 'translate(-5px, 5px)' }} />
+        //   ),
+        //   key: locationEnum.sensor,
+        // },
       ]
         .sort((firstLocationType, secondLocationType) =>
           firstLocationType.name.localeCompare(secondLocationType.name),

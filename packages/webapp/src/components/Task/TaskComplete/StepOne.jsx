@@ -88,6 +88,7 @@ export default function PureCompleteStepOne({
           task: selectedTask,
           disabled: !changesRequired,
           isModified: changesRequired,
+          locations: selectedTask.locations,
         })}
     </Form>
   );

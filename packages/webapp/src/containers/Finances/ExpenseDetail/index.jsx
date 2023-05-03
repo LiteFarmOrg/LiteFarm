@@ -179,7 +179,7 @@ class ExpenseDetail extends Component {
             <Semibold>{expense.type}</Semibold>
           </div>
           <div key={expense.note + expense.amount.toString()} className={styles.itemContainer}>
-            <div>{'- ' + expense.note}</div>
+            <div style={{ overflowWrap: 'anywhere' }}>{'- ' + expense.note}</div>
             <div className={styles.greenText}>{expense.amount}</div>
           </div>
         </div>

@@ -866,6 +866,14 @@ Cypress.Commands.add('logOut', () => {
     .click();
 });
 
+Cypress.Commands.add('selectTaskLocation', () => {
+  cy.get('._zoomIn_e5ede_9').should('be.visible');
+  cy.get('[data-cy=map-selectLocation]').click(530, 216, {
+    force: false,
+  });
+  cy.get('[data-cy="addTask-locationContinue"]').click();
+});
+
 Cypress.Commands.add('acceptInviteEmail', (lang) => {
   cy.task('getLastEmail', { timeout: 60 * 1000 })
     .its('html', { timeout: 60 * 1000 })

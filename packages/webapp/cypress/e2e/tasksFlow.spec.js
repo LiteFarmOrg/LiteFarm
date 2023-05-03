@@ -59,16 +59,8 @@ before(() => {
 
       //Login as a new user
       cy.newUserLogin(emailOwner);
-      cy.wait('@emailLogin').should(({ request, response }) => {
-        expect(response.statusCode).to.equal(200);
-        //create account
-        cy.createAccount(emailOwner, fullName, gender, null, null, password);
-      });
-
-      cy.wait('@createUser').should(({ request, response }) => {
-        expect(response.statusCode).to.equal(201);
-        cy.getStarted();
-      });
+      cy.createAccount(emailOwner, fullName, gender, null, null, password);
+      cy.getStarted();
 
       //Add farm page
       cy.addFarm(farmName, location);
@@ -94,6 +86,7 @@ before(() => {
 
       //farm home page
       cy.homePageSpotlights();
+      cy.get('[data-cy="home-farmButton"]').click();
       cy.get('[data-cy=navbar-option]')
         .contains('Farm map')
         .should('exist')
@@ -144,7 +137,7 @@ beforeEach(() => {
     .click({ force: true });
 });
 
-describe.only('LiteFarm end to end tests for tasks flow', () => {
+describe('LiteFarm end to end tests for tasks flow', () => {
   it('create a cleaning task with all inputs user system of measurement preference metric', () => {
     let productUnit;
     let waterUnit;
@@ -164,16 +157,16 @@ describe.only('LiteFarm end to end tests for tasks flow', () => {
     cy.get('[data-cy=cleanTask-whatInput]').type(Data.cleanTask.What);
     cy.get('[data-cy=cleanTask-willUseCleaner]').first().check({ force: true });
     cy.get('[data-cy="react-select"]').type(`${Data.cleanTask.Product}{enter}`);
-    cy.get('[data-cy=cleanTask-productSupplier]').type(Data.cleanTask.Supplier);
+    cy.get('[data-cy="addTask-supplier"]').type(Data.cleanTask.Supplier);
     cy.get('[data-cy=cleanTask-agentPermitted]').first().check({ force: true });
     cy.get('[data-cy=soilAmendment-quantity]').type(Data.cleanTask.Quantity);
-    cy.get('.Unit-select')
+    cy.get('[data-testid="unit-select"]')
       .eq(0)
       .then(($elem) => {
         productUnit = $elem.text();
       });
     cy.get('[data-cy=cleanTask-waterUsage]').type(Data.cleanTask.Water_Usage);
-    cy.get('.Unit-select')
+    cy.get('[data-testid="unit-select"]')
       .eq(1)
       .then(($elem) => {
         waterUnit = $elem.text();
@@ -205,14 +198,14 @@ describe.only('LiteFarm end to end tests for tasks flow', () => {
 
     cy.get('[data-cy="react-select"]').contains(Data.cleanTask.Product).should('exist');
 
-    cy.get('[data-cy="cleanTask-productSupplier"]')
+    cy.get('[data-cy="addTask-supplier"]')
       .invoke('val')
       .should('equal', Data.cleanTask.Supplier, { matchCase: false });
 
     cy.get('[data-cy="soilAmendment-quantity"]')
       .invoke('val')
       .should('equal', Data.cleanTask.Quantity, { matchCase: false });
-    cy.get('.Unit-select')
+    cy.get('[data-testid="unit-select"]')
       .eq(0)
       .then(($elem) => {
         const text = $elem.text();
@@ -222,7 +215,7 @@ describe.only('LiteFarm end to end tests for tasks flow', () => {
     cy.get('[data-cy="cleanTask-waterUsage"]')
       .invoke('val')
       .should('equal', Data.cleanTask.Water_Usage, { matchCase: false });
-    cy.get('.Unit-select')
+    cy.get('[data-testid="unit-select"]')
       .eq(1)
       .then(($elem) => {
         const text = $elem.text();
@@ -263,7 +256,7 @@ describe.only('LiteFarm end to end tests for tasks flow', () => {
 
     cy.get('[type="radio"]').first().check({ force: true });
 
-    cy.get('[data-cy="taskDetails-wageOverride"]').should('exist').type(wage);
+    cy.get('[data-cy="hourlyWageInputs-wage"]').should('exist').type(wage);
 
     cy.get('[data-cy=addTask-assignmentSave]')
       .should('exist')
@@ -291,7 +284,7 @@ describe.only('LiteFarm end to end tests for tasks flow', () => {
     const usage = flowRate * duration; //l
     const customTask = 'Custom task';
     const wage = '20';
-    cy.contains('Irrigate').click();
+    cy.contains('Irrigation').click();
     const date = new Date();
     date.setDate(date.getDate() + 1);
     const dueDate = getDateInputFormat(date);
@@ -304,7 +297,7 @@ describe.only('LiteFarm end to end tests for tasks flow', () => {
       .click({ force: true });
 
     cy.selectTaskLocation();
-
+    cy.get('[data-cy="addTask-cropsContinue"]').click();
     cy.get('[data-cy="react-select"]').type(`Other{enter}`);
     cy.get('[data-cy="irrigateTask-type"]').type(customTask);
     cy.get('[type = "checkbox"]').eq(0).check({ force: true });
@@ -389,10 +382,10 @@ describe.only('LiteFarm end to end tests for tasks flow', () => {
     cy.get('[data-cy="react-select"]').type(`${Data.pestTask.method}{enter}`);
 
     cy.get('[data-cy="react-select"]').eq(1).type(`${Data.pestTask.Product}{enter}`);
-    cy.get('[data-cy=cleanTask-productSupplier]').type(Data.pestTask.Supplier);
+    cy.get('[data-cy="addTask-supplier"]').type(Data.pestTask.Supplier);
     cy.get('[data-cy=cleanTask-agentPermitted]').first().check({ force: true });
     cy.get('[data-cy=soilAmendment-quantity]').type(Data.pestTask.Quantity);
-    cy.get('.Unit-select')
+    cy.get('[data-testid="unit-select"]')
       .eq(0)
       .then(($elem) => {
         productUnit = $elem.text();
@@ -423,13 +416,13 @@ describe.only('LiteFarm end to end tests for tasks flow', () => {
     cy.get('[data-cy="react-select"]').contains(Data.pestTask.method).should('exist');
 
     cy.get('[data-cy="react-select"]').contains(Data.pestTask.Product).should('exist');
-    cy.get('[data-cy=cleanTask-productSupplier]')
+    cy.get('[data-cy="addTask-supplier"]')
       .invoke('val')
       .should('equal', Data.pestTask.Supplier, { matchCase: false });
     cy.get('[data-cy=soilAmendment-quantity]')
       .invoke('val')
       .should('equal', Data.pestTask.Quantity, { matchCase: false });
-    cy.get('.Unit-select')
+    cy.get('[data-testid="unit-select"]')
       .eq(0)
       .then(($elem) => {
         expect(productUnit).to.equal($elem.text());
@@ -457,10 +450,10 @@ describe.only('LiteFarm end to end tests for tasks flow', () => {
     cy.get('[data-cy="react-select"]').eq(0).type(`${Data.soilTask.Purpose}{enter}`);
     cy.get('[data-cy="react-select"]').eq(1).type(`${Data.soilTask.Product}{enter}`);
 
-    cy.get('[data-cy=cleanTask-productSupplier]').type(Data.soilTask.Supplier);
+    cy.get('[data-cy="addTask-supplier"]').type(Data.soilTask.Supplier);
     cy.get('[type= "radio"]').first().check({ force: true });
     cy.get('[data-cy=soilAmendment-quantity]').type(Data.soilTask.Quantity);
-    cy.get('.Unit-select')
+    cy.get('[data-testid="unit-select"]')
       .eq(0)
       .then(($elem) => {
         productUnit = $elem.text();
@@ -488,13 +481,13 @@ describe.only('LiteFarm end to end tests for tasks flow', () => {
     cy.get('[data-cy="react-select"]').eq(0).contains(Data.soilTask.Purpose).should('exist');
     cy.get('[data-cy="react-select"]').eq(1).contains(Data.soilTask.Product).should('exist');
 
-    cy.get('[data-cy=cleanTask-productSupplier]')
+    cy.get('[data-cy="addTask-supplier"]')
       .invoke('val')
       .should('equal', Data.soilTask.Supplier, { matchCase: false });
     cy.get('[data-cy=soilAmendment-quantity]')
       .invoke('val')
       .should('equal', Data.soilTask.Quantity, { matchCase: false });
-    cy.get('.Unit-select')
+    cy.get('[data-testid="unit-select"]')
       .eq(0)
       .then(($elem) => {
         expect(productUnit).to.equal($elem.text());
@@ -504,7 +497,7 @@ describe.only('LiteFarm end to end tests for tasks flow', () => {
       .should('equal', Data.soilTask.Notes, { matchCase: false });
   });
 
-  it.only('Create a crop management plan with equal length row method transplant task and container transplant task', () => {
+  it('Create a crop management plan with equal length row method transplant task and container transplant task', () => {
     const date = new Date();
     date.setDate(date.getDate() + 1);
     const dueDate = getDateInputFormat(date);
@@ -539,7 +532,7 @@ describe.only('LiteFarm end to end tests for tasks flow', () => {
     cy.url().should('include', '/crop/new');
     cy.get('[data-cy=crop-cropName]').should('exist').type('Alfafa');
     cy.contains('Select').should('exist').click({ force: true });
-    cy.contains('Cereals').should('exist').click();
+    cy.contains('Cereals').should('exist').click({ force: true });
     cy.get('[type="radio"]').first().check({ force: true });
     cy.get('[data-cy=crop-submit]').should('exist').and('not.be.disabled').click();
     cy.wait(5 * 1000);
@@ -575,7 +568,7 @@ describe.only('LiteFarm end to end tests for tasks flow', () => {
       .and('not.be.disabled')
       .click({ force: true });
     cy.get('[data-cy="cropPlan-transplanted"]').eq(0).check({ force: true });
-    cy.get('[data-cy="cropPlan-cover"]').eq(1).check({ force: true });
+    cy.get('[data-cy="cropPlan-coverCrop"]').eq(1).check({ force: true });
     cy.get('[data-cy="cropPlan-transplantSubmit"]')
       .should('exist')
       .and('not.be.disabled')
@@ -613,12 +606,12 @@ describe.only('LiteFarm end to end tests for tasks flow', () => {
     cy.get('[data-cy="cropPlan-plantingSoil"]').type(Data.cropPlan.Soil);
     cy.get('[data-cy="cropPlan-containerType"]').type(Data.cropPlan.Container_Type);
     cy.get('[data-cy="cropPlan-estimatedSeed"]').type(Data.cropPlan.Seed);
-    cy.get('.Unit-select')
+    cy.get('[data-testid="unit-select"]')
       .eq(0)
       .then(($elem) => {
         containerDepthUnit = $elem.text();
       });
-    cy.get('.Unit-select')
+    cy.get('[data-testid="unit-select"]')
       .eq(1)
       .then(($elem) => {
         seedUnit = $elem.text();
@@ -643,21 +636,21 @@ describe.only('LiteFarm end to end tests for tasks flow', () => {
     cy.contains('spacing').click();
     cy.get('[data-cy="rowMethod-yield"]').type(Data.cropPlan.Annual_Harvest);
     cy.contains('spacing').click();
-    cy.get('.Unit-select')
+    cy.get('[data-testid="unit-select"]')
       .eq(0)
       .then(($elem) => {
         lengthUnit = $elem.text();
         cy.log(lengthUnit);
       });
 
-    cy.get('.Unit-select')
+    cy.get('[data-testid="unit-select"]')
       .eq(1)
       .then(($elem) => {
         spacingUnit = $elem.text();
         cy.log(spacingUnit);
       });
 
-    cy.get('.Unit-select')
+    cy.get('[data-testid="unit-select"]')
       .eq(2)
       .then(($elem) => {
         harvestUnit = $elem.text();
@@ -670,27 +663,26 @@ describe.only('LiteFarm end to end tests for tasks flow', () => {
     cy.get('[data-cy="plantTask-rowWidth"]').type(Data.cropPlan.Row_Width);
     cy.get('[data-cy="plantTask-spaceRows"]').type(Data.cropPlan.Space_Between);
     cy.get('[data-cy="plantTask-notes"]').type(Data.cropPlan.Notes);
-    cy.get('.Unit-select')
-      .eq(0)
+    cy.get('[data-testid')
+      .eq(1)
       .then(($elem) => {
         depthUnit = $elem.text();
         cy.log(depthUnit);
       });
 
-    cy.get('.Unit-select')
-      .eq(1)
+    cy.get('[data-testid')
+      .eq(4)
       .then(($elem) => {
         rowWidthUnit = $elem.text();
         cy.log(rowWidthUnit);
       });
 
-    cy.get('.Unit-select')
-      .eq(2)
+    cy.get('[data-testid')
+      .eq(7)
       .then(($elem) => {
         spaceBetweenUnit = $elem.text();
         cy.log(spaceBetweenUnit);
       });
-
     cy.get('[data-cy="planGuidance-submit"]').should('be.enabled').click();
 
     cy.get('[data-cy="cropPlan-save"]').click();
@@ -722,13 +714,14 @@ describe.only('LiteFarm end to end tests for tasks flow', () => {
     cy.get('[data-cy="cropPlan-estimatedSeed"]')
       .invoke('val')
       .should('equal', Data.cropPlan.Seed, { matchCase: false });
-    cy.get('.Unit-select')
-      .eq(0)
+    cy.get('[data-testid')
+      .eq(1)
       .then(($elem) => {
         expect(containerDepthUnit).to.equal($elem.text());
       });
-    cy.get('.Unit-select')
-      .eq(1)
+    cy.wait(3 * 1000);
+    cy.get('[data-testid')
+      .eq(4)
       .then(($elem) => {
         expect(seedUnit).to.equal($elem.text());
       });
@@ -751,13 +744,13 @@ describe.only('LiteFarm end to end tests for tasks flow', () => {
     cy.get('[data-cy="cropPlan-plantingSoil"]').clear().type(newSoil);
     cy.get('[data-cy="cropPlan-containerType"]').clear().type(newContainer);
     cy.get('[data-cy="cropPlan-estimatedSeed"]').clear().type(newSeed);
-    cy.get('.Unit-select')
-      .eq(0)
+    cy.get('[data-testid')
+      .eq(1)
       .then(($elem) => {
         containerDepthUnit = $elem.text();
       });
-    cy.get('.Unit-select')
-      .eq(1)
+    cy.get('[data-testid')
+      .eq(4)
       .then(($elem) => {
         seedUnit = $elem.text();
       });

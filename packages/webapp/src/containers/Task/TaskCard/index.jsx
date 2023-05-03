@@ -75,7 +75,7 @@ const TaskCard = ({
         style={style}
         onClick={onClick}
         onClickAssignee={() => {
-          if ((!immutableStatus.includes(status) && isAssignee) || isAdmin || taskUnassigned) {
+          if (!immutableStatus.includes(status) && (isAssignee || isAdmin || taskUnassigned)) {
             setShowTaskAssignModal(true);
           }
         }}

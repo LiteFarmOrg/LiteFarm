@@ -118,6 +118,7 @@ export function PureLocationDetailLayout({
           history={history}
           match={match}
           onCancel={historyCancel}
+          formMethods={formMethods}
         />
         {isViewLocationPage && (
           <RouterTab

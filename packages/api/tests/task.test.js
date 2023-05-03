@@ -148,6 +148,15 @@ describe('Task tests', () => {
       .end(callback);
   }
 
+  function deleteTaskRequest({ user_id, farm_id }, task_id, callback) {
+    chai
+      .request(server)
+      .delete(`/task/${task_id}`)
+      .set('user_id', user_id)
+      .set('farm_id', farm_id)
+      .end(callback);
+  }
+
   function fakeUserFarm(role = 1) {
     return { ...mocks.fakeUserFarm(), role_id: role };
   }
@@ -2154,6 +2163,116 @@ describe('Task tests', () => {
       const [location] = await mocks.locationFactory({ promisedFarm: [{ farm_id }] });
       await mocks.location_tasksFactory({ promisedTask: [task], promisedField: [location] });
       abandonTaskRequest({ user_id, farm_id }, abandonTaskBody, task.task_id, async (err, res) => {
+        expect(res.status).toBe(403);
+        done();
+      });
+    });
+  });
+
+  describe('DELETE task tests', () => {
+    test('Owner should be able to delete a task', async (done) => {
+      const [{ user_id, farm_id }] = await mocks.userFarmFactory({}, fakeUserFarm(1));
+      const date = faker.date.future().toISOString().split('T')[0];
+      const [task] = await mocks.taskFactory(
+        { promisedUser: [{ user_id }] },
+        mocks.fakeTask({ due_date: date, assignee_user_id: user_id }),
+      );
+      const [location] = await mocks.locationFactory({ promisedFarm: [{ farm_id }] });
+      await mocks.location_tasksFactory({ promisedTask: [task], promisedField: [location] });
+      deleteTaskRequest({ user_id, farm_id }, task.task_id, async (err, res) => {
+        expect(res.status).toBe(200);
+        const updated_task = await getTask(task.task_id);
+        expect(updated_task.deleted).toBe(true);
+        done();
+      });
+    });
+
+    test('Manager should be able to delete a task', async (done) => {
+      const [{ user_id, farm_id }] = await mocks.userFarmFactory({}, fakeUserFarm(2));
+      const date = faker.date.future().toISOString().split('T')[0];
+      const [task] = await mocks.taskFactory(
+        { promisedUser: [{ user_id }] },
+        mocks.fakeTask({ due_date: date }),
+      );
+      const [location] = await mocks.locationFactory({ promisedFarm: [{ farm_id }] });
+      await mocks.location_tasksFactory({ promisedTask: [task], promisedField: [location] });
+      deleteTaskRequest({ user_id, farm_id }, task.task_id, async (err, res) => {
+        expect(res.status).toBe(200);
+        const updated_task = await getTask(task.task_id);
+        expect(updated_task.deleted).toBe(true);
+        done();
+      });
+    });
+
+    test('EO should be able to delete a task', async (done) => {
+      const [{ user_id, farm_id }] = await mocks.userFarmFactory({}, fakeUserFarm(5));
+      const date = faker.date.future().toISOString().split('T')[0];
+      const [task] = await mocks.taskFactory(
+        { promisedUser: [{ user_id }] },
+        mocks.fakeTask({ due_date: date }),
+      );
+      const [location] = await mocks.locationFactory({ promisedFarm: [{ farm_id }] });
+      await mocks.location_tasksFactory({ promisedTask: [task], promisedField: [location] });
+      deleteTaskRequest({ user_id, farm_id }, task.task_id, async (err, res) => {
+        expect(res.status).toBe(200);
+        const updated_task = await getTask(task.task_id);
+        expect(updated_task.deleted).toBe(true);
+        done();
+      });
+    });
+
+    test('Owner should be able to delete a task they do not own', async (done) => {
+      const [{ user_id, farm_id }] = await mocks.userFarmFactory({}, fakeUserFarm(1));
+      const [{ user_id: other_user_id }] = await mocks.userFarmFactory(
+        { promisedFarm: [{ farm_id }] },
+        fakeUserFarm(3),
+      );
+      const date = faker.date.future().toISOString().split('T')[0];
+      const [task] = await mocks.taskFactory(
+        { promisedUser: [{ user_id: other_user_id }] },
+        mocks.fakeTask({ due_date: date }),
+      );
+      const [location] = await mocks.locationFactory({ promisedFarm: [{ farm_id }] });
+      await mocks.location_tasksFactory({ promisedTask: [task], promisedField: [location] });
+      deleteTaskRequest({ user_id, farm_id }, task.task_id, async (err, res) => {
+        expect(res.status).toBe(200);
+        const updated_task = await getTask(task.task_id);
+        expect(updated_task.deleted).toBe(true);
+        done();
+      });
+    });
+
+    test('Owner should be able to delete a task they are not assigned to', async (done) => {
+      const [{ user_id, farm_id }] = await mocks.userFarmFactory({}, fakeUserFarm(1));
+      const [{ user_id: other_user_id }] = await mocks.userFarmFactory(
+        { promisedFarm: [{ farm_id }] },
+        fakeUserFarm(3),
+      );
+      const date = faker.date.future().toISOString().split('T')[0];
+      const [task] = await mocks.taskFactory(
+        { promisedUser: [{ user_id: other_user_id }] },
+        mocks.fakeTask({ due_date: date, assignee_user_id: other_user_id }),
+      );
+      const [location] = await mocks.locationFactory({ promisedFarm: [{ farm_id }] });
+      await mocks.location_tasksFactory({ promisedTask: [task], promisedField: [location] });
+      deleteTaskRequest({ user_id, farm_id }, task.task_id, async (err, res) => {
+        expect(res.status).toBe(200);
+        const updated_task = await getTask(task.task_id);
+        expect(updated_task.deleted).toBe(true);
+        done();
+      });
+    });
+
+    test('Worker should not be able to delete any task', async (done) => {
+      const [{ user_id, farm_id }] = await mocks.userFarmFactory({}, fakeUserFarm(3));
+      const date = faker.date.future().toISOString().split('T')[0];
+      const [task] = await mocks.taskFactory(
+        { promisedUser: [{ user_id }] },
+        mocks.fakeTask({ due_date: date, assignee_user_id: user_id }),
+      );
+      const [location] = await mocks.locationFactory({ promisedFarm: [{ farm_id }] });
+      await mocks.location_tasksFactory({ promisedTask: [task], promisedField: [location] });
+      deleteTaskRequest({ user_id, farm_id }, task.task_id, async (err, res) => {
         expect(res.status).toBe(403);
         done();
       });

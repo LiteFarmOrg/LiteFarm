@@ -80,13 +80,13 @@ const useSelectionHandler = () => {
         } else {
           const locationArray = [];
           overlappedLocations.point.forEach((point) => {
-            if (locationArray.length < 4) locationArray.push(point);
+            locationArray.push(point);
           });
           overlappedLocations.line.forEach((line) => {
-            if (locationArray.length < 4) locationArray.push(line);
+            locationArray.push(line);
           });
           overlappedLocations.area.forEach((area) => {
-            if (locationArray.length < 4) locationArray.push(area);
+            locationArray.push(area);
           });
           dispatch(canShowSelection(true));
           dispatch(locations(locationArray));
@@ -136,14 +136,24 @@ const useSelectionHandler = () => {
           });
         } else if (isPoint(locationType)) {
           if (isLocationCluster) {
-            locationAssets[locationType].forEach((point) => {
-              overlappedLocationsCopy.point.push({
-                id: point.location_id,
-                name: point.location_name,
-                asset: point.asset,
-                type: point.type,
+            locationAssets[locationType]
+              .sort((a, b) => {
+                if (a.location_name < b.location_name) {
+                  return -1;
+                } else if (b.location_name > a.location_name) {
+                  return 1;
+                } else {
+                  return 0;
+                }
+              })
+              .forEach((point) => {
+                overlappedLocationsCopy.point.push({
+                  id: point.location_id,
+                  name: point.location_name,
+                  asset: point.asset,
+                  type: point.type,
+                });
               });
-            });
           } else if (isSensor) {
             locationAssets[locationType].forEach((point) => {
               overlappedLocationsCopy.point.push({

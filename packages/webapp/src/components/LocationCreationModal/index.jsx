@@ -43,7 +43,7 @@ export default function LocationCreationModal({ title, body, dismissModal, isAdm
         </div>
         <Info className={styles.body}>{body}</Info>
         <div className={styles.buttonContainer}>
-          <Button onClick={dismissModal} sm>
+          <Button onClick={dismissModal} sm color="secondary">
             {t('LOCATION_CREATION.GO_BACK_BUTTON')}
           </Button>
           {isAdmin && (

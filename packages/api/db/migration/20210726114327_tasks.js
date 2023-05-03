@@ -126,8 +126,8 @@ export const up = async function (knex) {
     t.integer('task_id').references('task_id').inTable('task').primary();
   });
   // Updating task "type" to match activityKind
-  logTypeToTaskId.soilData = soil;
-  logTypeToTaskId.irrigation = irrigation;
+  logTypeToTaskId.soilData = soil.task_id;
+  logTypeToTaskId.irrigation = irrigation.task_id;
   Object.keys(logTypeToTaskId).map(async (k) => {
     await logTypeUpdate(knex, k, logTypeToTaskId[k]);
   });

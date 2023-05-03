@@ -1,6 +1,6 @@
 {
   "ABANDON": "Abandonner",
-  "ABANDONED": "MISSING",
+  "ABANDONED": "Abandonné",
   "ACTIVE": "Actif",
   "ADD": "Ajouter",
   "ALL": "Tout",
@@ -59,6 +59,6 @@
   "WORD_LIMIT_ERROR": "Seulement les charactères{{value}} peuvent être affichés",
   "YEAR": "Année",
   "YES": "Oui",
-  "GO_BACK": "MISSING",
-  "THATS_FINE": "MISSING"
+  "GO_BACK": "Retourner",
+  "THATS_FINE": "C'est bien"
 }

@@ -9,6 +9,7 @@ import ReactSelect from '../../Form/ReactSelect';
 import { Controller, useForm } from 'react-hook-form';
 import InputAutoSize from '../../Form/InputAutoSize';
 import Input from '../../Form/Input';
+import { isNotInFuture } from '../../Form/Input/utils';
 import TimeSlider from '../../Form/Slider/TimeSlider';
 import Checkbox from '../../Form/Checkbox';
 import Rating from '../../Rating';
@@ -40,6 +41,12 @@ const PureAbandonTask = ({
   const NO_WORK_COMPLETED = 'no_work_completed';
   const PREFER_NOT_TO_SAY = 'prefer_not_to_say';
   const { t } = useTranslation();
+
+  const dueDate = getDateInputFormat(originalDueDate);
+  const today = getDateInputFormat();
+  const dueDateDisabled = dueDate >= today;
+  const defaultDateOption = dueDateDisabled ? TODAY_DUE_DATE : ORIGINAL_DUE_DATE;
+
   const {
     register,
     handleSubmit,
@@ -52,10 +59,10 @@ const PureAbandonTask = ({
     defaultValues: {
       [ABANDON_DATE]: '',
       [PREFER_NOT_TO_SAY]: !isAssigneeTheLoggedInUser,
-      [ABANDON_DATE_SELECTED]: ORIGINAL_DUE_DATE,
+      [ABANDON_DATE_SELECTED]: defaultDateOption,
     },
   });
-  const [selectedAbandonOption, setSelectedAbandonOption] = useState(ORIGINAL_DUE_DATE);
+  const [selectedAbandonOption, setSelectedAbandonOption] = useState(defaultDateOption);
 
   const reason_for_abandonment = watch(REASON_FOR_ABANDONMENT);
   const prefer_not_to_say = watch(PREFER_NOT_TO_SAY);
@@ -86,9 +93,10 @@ const PureAbandonTask = ({
           })}
         >
           {t('TASK.ABANDON.DATE_ORIGINAL')}
-          <span>{getDateInputFormat(originalDueDate)}</span>
+          <span>{dueDate}</span>
         </span>
       ),
+      disabled: dueDateDisabled,
     },
     {
       value: TODAY_DUE_DATE,
@@ -99,7 +107,7 @@ const PureAbandonTask = ({
           })}
         >
           {t('TASK.ABANDON.DATE_TODAY')}
-          <span>{getDateInputFormat()}</span>
+          <span>{today}</span>
         </span>
       ),
     },
@@ -142,12 +150,15 @@ const PureAbandonTask = ({
           label={t('TASK.ABANDON.WHICH_DATE')}
           hookFormRegister={register(ABANDON_DATE, {
             required: true,
+            validate: isNotInFuture,
           })}
           style={{ marginBottom: '24px' }}
           type={'date'}
           required
           autoFocus
           openCalendar
+          errors={errors[ABANDON_DATE] ? isNotInFuture() : null}
+          max={today}
         />
       )}
 

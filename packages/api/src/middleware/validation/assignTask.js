@@ -49,6 +49,11 @@ async function checkTaskStatusForAssignment(req, res, next) {
   const { task_id } = req.params;
 
   const checkTaskStatus = await TaskModel.getTaskStatus(task_id);
+
+  if (!checkTaskStatus) {
+    return res.status(404).send('Task not found');
+  }
+
   if (checkTaskStatus.complete_date || checkTaskStatus.abandon_date) {
     return res.status(400).send('Task has already been completed or abandoned');
   }

@@ -39,6 +39,7 @@ export function* postDocumentSaga({ payload: documentData }) {
     yield put(postDocumentSuccess(result.data));
     yield call(onReqSuccessSaga, {
       message: i18n.t('message:ATTACHMENTS.SUCCESS.CREATE'),
+      pathname: '/documents',
     });
   } catch (e) {
     yield put(enqueueErrorSnackbar(i18n.t('message:ATTACHMENTS.ERROR.CREATE')));

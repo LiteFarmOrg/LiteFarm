@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <<https://www.gnu.org/licenses/>.>
  */
 
-import React from 'react';
+import React, { useRef } from 'react';
 import styles from './unit.module.scss';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
@@ -28,6 +28,7 @@ import { Controller } from 'react-hook-form';
 import { ReactComponent as Leaf } from '../../../assets/images/signUp/leaf.svg';
 import useUnit from './useUnit';
 import useReactSelectStyles from './useReactSelectStyles';
+import useElementWidth from '../../hooks/useElementWidth';
 
 const Unit = ({
   disabled = false,
@@ -45,6 +46,7 @@ const Unit = ({
   system,
   control,
   unitType = area_total_area,
+  currency,
   from: defaultValueUnit,
   to,
   required,
@@ -99,6 +101,8 @@ const Unit = ({
 
   const reactSelectStyles = useReactSelectStyles(disabled, { reactSelectWidth });
   const testId = props['data-testid'] || 'unit';
+  const currencyRef = useRef(null);
+  const { elementWidth } = useElementWidth(currencyRef);
 
   return (
     <div className={clsx(styles.container)} style={{ ...style, ...classes.container }}>
@@ -120,13 +124,20 @@ const Unit = ({
           )}
         </div>
       )}
-
       <div className={styles.inputContainer}>
         <div className={styles.inputWrapper}>
+          {currency && (
+            <div ref={currencyRef} className={styles.currency} data-testid={`${testId}-currency`}>
+              {currency}
+            </div>
+          )}
           <input
             disabled={disabled}
             className={clsx(styles.input)}
-            style={{ ...classes.input }}
+            style={{
+              paddingLeft: currency ? `${elementWidth + 12}px` : undefined,
+              ...classes.input,
+            }}
             aria-invalid={showError ? 'true' : 'false'}
             type={'number'}
             value={visibleInputValue}
@@ -243,6 +254,8 @@ Unit.propTypes = {
     imperial: PropTypes.object,
     databaseUnit: PropTypes.string,
   }).isRequired,
+  /** currency used in the farm's country */
+  currency: PropTypes.string,
   /** databaseUnit */
   from: PropTypes.string,
   /** default display unit */

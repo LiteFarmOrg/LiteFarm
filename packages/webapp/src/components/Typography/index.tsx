@@ -30,6 +30,7 @@ export const Underlined = ({
 
 type IconLinkProps = TypographyProps & {
   icon?: ReactNode;
+  isIconClickable?: boolean;
 };
 export const IconLink = ({
   children = 'IconLink',
@@ -37,12 +38,21 @@ export const IconLink = ({
   style,
   onClick,
   icon,
+  isIconClickable = false,
   ...props
 }: IconLinkProps) => {
   return (
-    <p style={style} className={clsx(styles.addLinkContainer, className)} {...props}>
+    <p
+      style={style}
+      className={clsx(styles.addLinkContainer, className, isIconClickable && styles.clickable)}
+      onClick={isIconClickable ? onClick : undefined}
+      {...props}
+    >
       {icon}{' '}
-      <span className={clsx(styles.underlined, styles.iconLinkText)} onClick={onClick}>
+      <span
+        className={clsx(styles.underlined, styles.iconLinkText)}
+        onClick={isIconClickable ? undefined : onClick}
+      >
         {children}
       </span>
     </p>

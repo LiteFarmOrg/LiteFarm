@@ -26,6 +26,7 @@ export default function PureDrawingManager({
   system,
   typeOfLine,
   lineData,
+  onLineParameterChange,
 }) {
   const { t } = useTranslation();
   const showConfirmButtons =
@@ -74,6 +75,7 @@ export default function PureDrawingManager({
                   onClickTryAgain={onClickTryAgain}
                   onClickBack={onClickBack}
                   typeOfLine={typeOfLine}
+                  onLineParameterChange={onLineParameterChange}
                 />
               </>
             )}

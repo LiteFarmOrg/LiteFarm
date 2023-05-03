@@ -23,6 +23,7 @@ export default function PureLineBox({
   onClickTryAgain,
   onClickBack,
   locationData,
+  onLineParameterChange,
   ...props
 }) {
   const {
@@ -68,6 +69,10 @@ export default function PureLineBox({
         (bufferWidthValue ? (bufferWidthValue <= maxValue ? bufferWidthValue : maxValue) : 0),
     );
   }, [widthValue, bufferWidthValue]);
+
+  useEffect(() => {
+    if (isDirty) onLineParameterChange();
+  }, [isDirty]);
 
   return (
     <div className={clsx(styles.box)} {...props}>

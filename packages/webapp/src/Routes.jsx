@@ -296,6 +296,9 @@ const NotificationReadOnly = React.lazy(() =>
   import('./containers/Notification/NotificationReadOnly'),
 );
 const Forbidden = React.lazy(() => import('./containers/ErrorHandler/Forbidden/Forbidden'));
+const UnknownRecord = React.lazy(() =>
+  import('./containers/ErrorHandler/UnknownRecord/UnknownRecord'),
+);
 
 const Routes = () => {
   useScrollToTop();
@@ -637,6 +640,7 @@ const Routes = () => {
               component={NotificationReadOnly}
             />
             <Route path="/403" exact component={Forbidden} />
+            <Route path="/unknown_record" exact component={UnknownRecord} />
             <Redirect
               to={'/'}
               //TODO change to 404
@@ -936,6 +940,7 @@ const Routes = () => {
               component={NotificationReadOnly}
             />
             <Route path="/403" exact component={Forbidden} />
+            <Route path="/unknown_record" exact component={UnknownRecord} />
             <Redirect to={'/'} />
           </Switch>
         </Suspense>
@@ -1035,6 +1040,7 @@ const Routes = () => {
               component={NotificationReadOnly}
             />
             <Route path="/403" exact component={Forbidden} />
+            <Route path="/unknown_record" exact component={UnknownRecord} />
             <Redirect to={'/'} />
           </Switch>
         </Suspense>

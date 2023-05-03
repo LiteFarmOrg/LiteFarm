@@ -4,9 +4,9 @@ import { createSelector } from 'reselect';
 
 export const initialState = {
   formData: {},
-
   persistedPaths: [],
   historyStack: [],
+  isRedrawing: false,
 };
 
 const getCorrectedPayload = (payload) => {
@@ -82,6 +82,9 @@ const hookFormPersistSlice = createSlice({
     replaceHistoryStack(state, { payload: path }) {
       state.historyStack[state.historyStack.length - 1] = path;
     },
+    setIsRedrawing: (state, { payload: isRedrawing }) => {
+      state.isRedrawing = isRedrawing;
+    },
   },
 });
 
@@ -101,6 +104,7 @@ export const {
   pushHistoryStack,
   popHistoryStack,
   replaceHistoryStack,
+  setIsRedrawing,
 } = hookFormPersistSlice.actions;
 export default hookFormPersistSlice.reducer;
 const hookFormPersistReducerSelector = (state) =>
@@ -113,3 +117,5 @@ export const hookFormPersistedPathsSetSelector = createSelector(
 );
 export const hookFormPersistHistoryStackSelector = (state) =>
   state?.tempStateReducer[hookFormPersistSlice.name].historyStack;
+export const hookFormPersistIsRedrawingSelector = (state) =>
+  state?.tempStateReducer[hookFormPersistSlice.name].isRedrawing;

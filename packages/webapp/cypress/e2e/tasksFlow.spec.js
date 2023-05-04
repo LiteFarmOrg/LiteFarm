@@ -6,6 +6,10 @@ let Data;
 let userData;
 
 before(() => {
+  cy.fixture('user').then((user) => {
+    userData = user;
+  });
+
   cy.getEmail().then((email) => {
     userEmail = email;
     cy.log(userEmail);
@@ -16,12 +20,6 @@ before(() => {
       cy.fixture('tasks').then((data) => {
         Data = data;
       });
-
-      cy.fixture('user').then((data) => {
-        userData = data;
-      });
-
-      cy.log(userData);
       cy.visit('/');
       cy.get('[data-cy=email]', { timeout: 60 * 1000 }).should('exist');
       cy.get('[data-cy=continue]').should('exist');

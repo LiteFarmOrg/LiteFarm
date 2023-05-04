@@ -38,25 +38,6 @@ before(() => {
       const lang = 'English';
       let taskType_id;
 
-      const date = new Date();
-      //Inputs for crop plan
-      const daysGermination = 10;
-      const daysTransplant = 20;
-      const daysHarvest = 40;
-
-      //Planting task inputs
-      const containers = 50;
-      const plantsPerContainer = 10;
-
-      //Transplant task inputs
-      const rows = 10;
-      const length = 30;
-      const lengthUnit = 'm';
-      const spacing = 15;
-      const spacingUnit = 'cm';
-      const harvest = 1500;
-      const harvestUnit = 'kg';
-
       //Login as a new user
       cy.newUserLogin(emailOwner);
       cy.createAccount(emailOwner, fullName, gender, null, null, password);
@@ -110,9 +91,6 @@ before(() => {
         .should('exist')
         .and('not.be.disabled')
         .click();
-
-      let initialWidth;
-      let initialHeight;
 
       cy.addField();
     });
@@ -303,11 +281,6 @@ describe('LiteFarm end to end tests for tasks flow', () => {
     cy.get('[data-cy="irrigateTask-type"]').type(customTask);
     cy.get('[type = "checkbox"]').eq(0).check({ force: true });
     cy.get('[type = "checkbox"]').eq(1).check({ force: true });
-    //cy.get('[data-cy="irrigateTask-calculate"]').click({ force: true });
-
-    //cy.get('[data-cy="calculator-flowRate"]').type(flowRate);
-    //cy.get('[data-cy="calculator-duration"]').type(duration);
-    //cy.contains('optional').click({ force: true });
     cy.get('[data-cy="irrigateTask-usage"]').type(flowRate * duration);
     cy.get('[data-testid]')
       .eq(1)
@@ -315,12 +288,6 @@ describe('LiteFarm end to end tests for tasks flow', () => {
         waterUsageUnit = $elem.text();
       });
     cy.get('[data-cy="addTask-detailsContinue"]').click();
-    // cy.get('h5')
-    //   .eq(9)
-    //   .then(($elem) => {
-    //     const text = $elem.text();
-    //     expect(text).to.equal(`${usage} l`);
-    //   });
     cy.get('[data-cy="addTask-assignmentSave"]').click();
     cy.get('[data-cy="taskCard"]').contains('Irrigation').should('exist').click();
 

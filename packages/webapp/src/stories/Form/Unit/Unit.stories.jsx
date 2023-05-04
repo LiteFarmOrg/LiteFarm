@@ -580,41 +580,41 @@ WeeksCropAge.play = async ({ canvasElement }) => {
 
   await test.inputValueAndBlur('4');
   await test.visibleInputToHaveValue(4);
-  await test.hiddenInputToHaveValue(4, 'week', 'min');
+  await test.hiddenInputToHaveValue(4, 'week', 'd');
 
   await test.inputValueAndBlur('40');
   await test.visibleInputToHaveValue(40);
-  await test.hiddenInputToHaveValue(40, 'week', 'min');
+  await test.hiddenInputToHaveValue(40, 'week', 'd');
   await test.selectedUnitToBeInTheDocument('weeks');
 
   await test.selectUnit('months');
   await test.selectedUnitToBeInTheDocument('months');
   await test.visibleInputToHaveValue(40);
-  await test.hiddenInputToHaveValue(40, 'month', 'min');
+  await test.hiddenInputToHaveValue(40, 'month', 'd');
 
   await test.inputValueAndBlur('10');
   await test.visibleInputToHaveValue(10);
-  await test.hiddenInputToHaveValue(10, 'month', 'min');
+  await test.hiddenInputToHaveValue(10, 'month', 'd');
   await test.selectedUnitToBeInTheDocument('months');
 
   await test.selectUnit('years');
   await test.selectedUnitToBeInTheDocument('years');
   await test.visibleInputToHaveValue(10);
-  await test.hiddenInputToHaveValue(10, 'year', 'min');
+  await test.hiddenInputToHaveValue(10, 'year', 'd');
 
   await test.inputValueAndBlur('1');
   await test.visibleInputToHaveValue(1);
-  await test.hiddenInputToHaveValue(1, 'year', 'min');
+  await test.hiddenInputToHaveValue(1, 'year', 'd');
   await test.selectedUnitToBeInTheDocument('years');
 
   await test.selectUnit('days');
   await test.selectedUnitToBeInTheDocument('days');
   await test.visibleInputToHaveValue(1);
-  await test.hiddenInputToHaveValue(1, 'd', 'min');
+  await test.hiddenInputToHaveValue(1);
 
   await test.inputValueAndBlur('14');
   await test.visibleInputToHaveValue(14);
-  await test.hiddenInputToHaveValue(14, 'd', 'min');
+  await test.hiddenInputToHaveValue(14);
   await test.selectedUnitToBeInTheDocument('days');
 };
 
@@ -637,19 +637,19 @@ DaysCropAge.play = async ({ canvasElement }) => {
 
   await test.inputValueAndBlur('1000');
   await test.haveMaxValueError();
-  await test.hiddenInputToHaveValue(1000, 'd', 'min');
+  await test.hiddenInputToHaveValue(1000);
 
   await test.selectUnit('weeks');
   await test.haveMaxValueError();
-  await test.hiddenInputToHaveValue(1000, 'week', 'min');
+  await test.hiddenInputToHaveValue(1000, 'week', 'd');
 
   await test.selectUnit('months');
   await test.haveMaxValueError();
-  await test.hiddenInputToHaveValue(1000, 'month', 'min');
+  await test.hiddenInputToHaveValue(1000, 'month', 'd');
 
   await test.selectUnit('years');
   await test.haveMaxValueError();
-  await test.hiddenInputToHaveValue(1000, 'year', 'min');
+  await test.hiddenInputToHaveValue(1000, 'year', 'd');
 
   await test.clearError();
   await test.haveNoError();

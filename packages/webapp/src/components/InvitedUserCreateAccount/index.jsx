@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import { Controller, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import ReactSelect from '../Form/ReactSelect';
-import Input, { getInputErrors } from '../Form/Input';
+import Input, { getInputErrors, integerOnKeyDown } from '../Form/Input';
 import { PasswordError } from '../Form/Errors';
 import { validatePasswordWithErrors } from '../Signup/utils';
 
@@ -116,6 +116,7 @@ export default function PureInvitedUserCreateAccountPage({
       <Input
         label={t('INVITATION.BIRTH_YEAR')}
         type="number"
+        onKeyPress={integerOnKeyDown}
         hookFormRegister={register(BIRTHYEAR, {
           min: 1900,
           max: new Date().getFullYear(),

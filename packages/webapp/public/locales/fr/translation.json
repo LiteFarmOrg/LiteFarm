@@ -425,6 +425,7 @@
     "ARCHIVE_DOCUMENT_TEXT": "L'archivage de ce document le déplacera vers la section archivée de vos documents, mais ne le supprimera pas. Les documents archivés ne seront pas exportés pour vos certifications. Voulez-vous continuer\u00a0?",
     "ARCHIVED": "Archivé",
     "CANCEL": "Annuler",
+    "CANCEL_MODAL": "création de document",
     "COMPLIANCE_DOCUMENTS_AND_CERTIFICATION": "Documents de conformité et votre certification",
     "DOCUMENTS": "Documents",
     "EDIT_DOCUMENT": "Modifier le document",
@@ -767,7 +768,7 @@
     }
   },
   "FILE_SIZE_MODAL": {
-    "BODY": "Les fichiers ne peuvent pas dépasser 25MB ou 5 pages.",
+    "BODY": "Les fichiers ne peuvent pas dépasser 10MB.",
     "TITLE": "Taille du fichier trop grande"
   },
   "FILTER": {

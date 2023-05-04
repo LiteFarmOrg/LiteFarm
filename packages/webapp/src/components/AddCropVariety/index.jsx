@@ -1,5 +1,5 @@
 import Button from '../Form/Button';
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { Label } from '../Typography';
@@ -11,6 +11,8 @@ import { useForm } from 'react-hook-form';
 import MultiStepPageTitle from '../PageTitle/MultiStepPageTitle';
 import Infoi from '../Tooltip/Infoi';
 import { truncateText } from '../../util';
+import Spinner from '../Spinner';
+
 export default function PureAddCropVariety({
   match,
   onSubmit,
@@ -42,12 +44,14 @@ export default function PureAddCropVariety({
     mode: 'onChange',
     shouldUnregister: true,
     defaultValues: {
-      crop_variety_photo_url: null,
+      crop_variety_photo_url: crop.crop_photo_url,
       [LIFE_CYCLE]: crop[LIFE_CYCLE],
       [HS_CODE_ID]: crop?.[HS_CODE_ID],
       ...persistedFormData,
     },
   });
+
+  const [showSpinner, setShowSpinner] = useState(false);
 
   const { historyCancel } = useHookFormPersist(getValues);
 
@@ -174,16 +178,21 @@ export default function PureAddCropVariety({
         link={'https://www.litefarm.org/post/cultivars-and-varietals'}
         placeholder={t('CROP.CULTIVAR_PLACEHOLDER')}
       />
-      {crop_variety_photo_url && (
-        <img
-          src={crop_variety_photo_url}
-          alt={crop.crop_common_name}
-          className={styles.circleImg}
-          onError={(e) => {
-            e.target.onerror = null;
-            e.target.src = 'crop-images/default.jpg';
-          }}
-        />
+      {showSpinner ? (
+        <Spinner />
+      ) : (
+        crop_variety_photo_url &&
+        crop_variety_photo_url != crop.crop_photo_url && (
+          <img
+            src={crop_variety_photo_url}
+            alt={crop.crop_common_name}
+            className={styles.circleImg}
+            onError={(e) => {
+              e.target.onerror = null;
+              e.target.src = 'crop-images/default.jpg';
+            }}
+          />
+        )
       )}
       <div
         style={{
@@ -201,6 +210,7 @@ export default function PureAddCropVariety({
         {React.cloneElement(imageUploader, {
           hookFormRegister: imageUrlRegister,
           targetRoute: 'crop_variety',
+          onLoading: setShowSpinner,
         })}
         <Infoi
           style={{

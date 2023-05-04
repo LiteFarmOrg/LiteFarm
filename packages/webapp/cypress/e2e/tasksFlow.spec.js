@@ -3,7 +3,7 @@ import { getDateInputFormat } from '../../src/util/moment';
 let userEmail;
 let userPassword;
 let Data;
-let fullName;
+let userData;
 
 before(() => {
   cy.getEmail().then((email) => {
@@ -16,6 +16,12 @@ before(() => {
       cy.fixture('tasks').then((data) => {
         Data = data;
       });
+
+      cy.fixture('user').then((data) => {
+        userData = data;
+      });
+
+      cy.log(userData);
       cy.visit('/');
       cy.get('[data-cy=email]', { timeout: 60 * 1000 }).should('exist');
       cy.get('[data-cy=continue]').should('exist');
@@ -24,33 +30,21 @@ before(() => {
 
       //create test data
       const emailOwner = userEmail;
-      const usrname = emailOwner.indexOf('@');
-      const emailWorker = emailOwner.slice(0, usrname) + '+1' + emailOwner.slice(usrname);
-      const gender = 'Male';
-      fullName = 'Test Farmer';
       const password = userPassword;
-      const farmName = 'UBC FARM';
-      const location = '49.250833, -123.2410777';
-      const fieldName = 'Test Field';
-      const workerName = 'John Worker';
-      const testCrop = 'New Crop';
-      const role = 'Manager';
-      const lang = 'English';
-      let taskType_id;
 
       //Login as a new user
       cy.newUserLogin(emailOwner);
-      cy.createAccount(emailOwner, fullName, gender, null, null, password);
+      cy.createAccount(emailOwner, userData.fullName, userData.gender, null, null, password);
       cy.getStarted();
 
       //Add farm page
-      cy.addFarm(farmName, location);
+      cy.addFarm(userData.farmName, userData.location);
       cy.newUserLogin(emailOwner);
       cy.get('[data-cy="enterPassword-password"]').type(password);
       cy.get('[data-cy="enterPassword-submit"]').click();
       cy.get('[data-cy="chooseFarm-proceed"]').click();
       //role selection page
-      cy.roleSelection(role);
+      cy.roleSelection(userData.role);
 
       //Consent page
 
@@ -164,7 +158,7 @@ describe('LiteFarm end to end tests for tasks flow', () => {
 
     cy.get('[data-cy="task-assignee"]')
       .invoke('val')
-      .should('equal', fullName, { matchCase: false });
+      .should('equal', userData.fullName, { matchCase: false });
 
     cy.get('[data-cy="task-date"]').invoke('val').should('equal', dueDate, { matchCase: false });
 
@@ -245,7 +239,7 @@ describe('LiteFarm end to end tests for tasks flow', () => {
 
     cy.get('[data-cy="task-assignee"]')
       .invoke('val')
-      .should('equal', fullName, { matchCase: false });
+      .should('equal', userData.fullName, { matchCase: false });
 
     cy.get('[data-cy="task-date"]').invoke('val').should('equal', dueDate, { matchCase: false });
 
@@ -281,7 +275,7 @@ describe('LiteFarm end to end tests for tasks flow', () => {
     cy.get('[data-cy="irrigateTask-type"]').type(customTask);
     cy.get('[type = "checkbox"]').eq(0).check({ force: true });
     cy.get('[type = "checkbox"]').eq(1).check({ force: true });
-    cy.get('[data-cy="irrigateTask-usage"]').type(flowRate * duration);
+    cy.get('[data-cy="irrigateTask-usage"]').type(usage);
     cy.get('[data-testid]')
       .eq(1)
       .then(($elem) => {
@@ -293,15 +287,13 @@ describe('LiteFarm end to end tests for tasks flow', () => {
 
     cy.get('[data-cy="task-assignee"]')
       .invoke('val')
-      .should('equal', fullName, { matchCase: false });
+      .should('equal', userData.fullName, { matchCase: false });
 
     cy.get('[data-cy="task-date"]').invoke('val').should('equal', dueDate, { matchCase: false });
     cy.get('[data-cy="react-select"]').contains(customTask).should('exist');
     cy.get('[type="radio"]').first().should('be.checked');
 
-    cy.get('[data-cy="irrigateTask-usage"]')
-      .invoke('val')
-      .should('equal', (flowRate * duration).toString());
+    cy.get('[data-cy="irrigateTask-usage"]').invoke('val').should('equal', usage.toString());
     cy.get('[data-testid]')
       .eq(1)
       .then(($elem) => {
@@ -320,7 +312,6 @@ describe('LiteFarm end to end tests for tasks flow', () => {
     cy.contains('Pest').click();
 
     let productUnit;
-    const pestType = 'caterpillars';
     const date = new Date();
     date.setDate(date.getDate() + 1);
     const dueDate = getDateInputFormat(date);
@@ -360,7 +351,7 @@ describe('LiteFarm end to end tests for tasks flow', () => {
 
     cy.get('[data-cy="task-assignee"]')
       .invoke('val')
-      .should('equal', fullName, { matchCase: false });
+      .should('equal', userData.fullName, { matchCase: false });
 
     cy.get('[data-cy="task-date"]').invoke('val').should('equal', dueDate, { matchCase: false });
 
@@ -428,7 +419,7 @@ describe('LiteFarm end to end tests for tasks flow', () => {
 
     cy.get('[data-cy="task-assignee"]')
       .invoke('val')
-      .should('equal', fullName, { matchCase: false });
+      .should('equal', userData.fullName, { matchCase: false });
 
     cy.get('[data-cy="task-date"]').invoke('val').should('equal', dueDate, { matchCase: false });
 

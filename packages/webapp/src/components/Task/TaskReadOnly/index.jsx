@@ -428,6 +428,7 @@ export default function PureTaskReadOnly({
 
       {isAdmin && isCurrent && !isDeleting && (
         <IconLink
+          data-cy="delete-link"
           className={styles.deleteText}
           style={{ color: 'var(--grey600)' }}
           icon={

@@ -424,6 +424,7 @@
     "ARCHIVE_DOCUMENT_TEXT": "Arquivar este documento o moverá para a seção arquivada de seus documentos, mas não o excluirá. Os documentos arquivados não serão exportados para suas certificações. Você quer prosseguir?",
     "ARCHIVED": "Arquivado",
     "CANCEL": "Cancelar",
+    "CANCEL_MODAL": "criação de documento",
     "COMPLIANCE_DOCUMENTS_AND_CERTIFICATION": "Documentos de conformidade e sua certificação",
     "DOCUMENTS": "Documentos",
     "EDIT_DOCUMENT": "Editar documento",
@@ -766,7 +767,7 @@
     }
   },
   "FILE_SIZE_MODAL": {
-    "BODY": "Os arquivos não podem exceder 25 MB ou 5 páginas.",
+    "BODY": "Os arquivos não podem exceder 10 MB.",
     "TITLE": "Tamanho de arquivo muito grande"
   },
   "FILTER": {

@@ -51,14 +51,14 @@
     letter-spacing: 0.324px;
     color: #4d4d4d;
   }
-
-  input {
+  input, textarea {
+    font-size: 16px;
     width: 60%;
-    height: 37px;
     border: 1px solid #efefef;
     box-sizing: border-box;
     border-radius: 4px;
-    padding: 0 5%;
+    padding: 2% 5%;
+    font-family: 'Open Sans', 'SansSerif', serif;
   }
 
   display: flex;

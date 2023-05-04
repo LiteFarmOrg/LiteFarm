@@ -1,6 +1,6 @@
 import Form from '../Form';
 import Button from '../Form/Button';
-import Input from '../Form/Input';
+import Input, { integerOnKeyDown } from '../Form/Input';
 import React, { useEffect, useState } from 'react';
 import { Title } from '../Typography';
 import PropTypes from 'prop-types';
@@ -151,6 +151,7 @@ export default function PureCreateUserAccount({ onSignUp, email, onGoBack }) {
         data-cy="createUser-birthYear"
         label={t('CREATE_USER.BIRTH_YEAR')}
         type="number"
+        onKeyPress={integerOnKeyDown}
         hookFormRegister={register(BIRTHYEAR, {
           min: 1900,
           max: new Date().getFullYear(),

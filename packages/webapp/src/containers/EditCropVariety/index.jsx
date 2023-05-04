@@ -47,7 +47,7 @@ function EditCropVarietyForm({ history, match }) {
             <AddLink>{t('CROP.ADD_IMAGE')}</AddLink>
           </ImagePickerWrapper>
         }
-        handleGoBack={() => history.push(`/crop/${variety_id}/detail`)}
+        handleGoBack={() => history.back()}
         cropVariety={cropVariety}
         persistedPath={persistedPath}
       />

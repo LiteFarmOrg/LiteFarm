@@ -1,5 +1,5 @@
 /*
- *  Copyright 2019, 2020, 2021, 2022 LiteFarm.org
+ *  Copyright 2019, 2020, 2021, 2022, 2023 LiteFarm.org
  *  This file is part of LiteFarm.
  *
  *  LiteFarm is free software: you can redistribute it and/or modify
@@ -13,36 +13,14 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-.container {
-  display: flex;
-  flex-direction: column;
-  max-width: 350px;
-  width: 90vw;
-  background: #fafafd;
-  border-radius: 7.05466px;
-  position: relative;
-  padding: 24px;
-}
+export const up = async function (knex) {
+  await knex('countries')
+    .where('country_name', 'Cook Islands')
+    .update({ currency: 'New Zealand dollar', iso: 'NZD' });
+};
 
-.title {
-  color: var(--teal700);
-  line-height: 24px;
-  margin-bottom: 4px;
-}
-
-.body {
-  color: var(grey600);
-  margin-bottom: 20px;
-}
-
-.buttonContainer {
-  display: flex;
-  flex-direction: row;
-  gap: 8px;
-}
-
-.modalHeaderWrapper {
-  display: flex;
-  margin-bottom: 16px;
-  align-items: center;
-}
+export const down = async function (knex) {
+  await knex('countries')
+    .where('country_name', 'Cook Islands')
+    .update({ currency: 'Cook Islands dollar', iso: 'CKD[G]' });
+};

@@ -12,6 +12,7 @@ import { ReactComponent as Leaf } from '../../../assets/images/signUp/leaf.svg';
 import Infoi from '../../Tooltip/Infoi';
 import { get } from 'react-hook-form';
 import i18n from '../../../locales/i18n';
+import useElementWidth from '../../hooks/useElementWidth';
 
 const Input = ({
   link,
@@ -42,6 +43,7 @@ const Input = ({
 }) => {
   const { t } = useTranslation(['translation', 'common']);
   const name = hookFormRegister?.name ?? props?.name;
+  const currencyRef = useRef(null);
 
   const [inputType, setType] = useState(type);
   const isPassword = type === 'password';
@@ -72,6 +74,8 @@ const Input = ({
       }
     }
   }, [openCalendar]);
+
+  const { elementWidth } = useElementWidth(currencyRef);
 
   return (
     <div
@@ -117,7 +121,11 @@ const Input = ({
           <MdVisibilityOff className={styles.visibilityIcon} onClick={setVisibility} />
         ))}
       {unit && <div className={styles.unit}>{unit}</div>}
-      {currency && <div className={styles.currency}>{currency}</div>}
+      {currency && (
+        <div ref={currencyRef} className={styles.currency}>
+          {currency}
+        </div>
+      )}
       <input
         disabled={disabled}
         className={clsx(
@@ -127,7 +135,7 @@ const Input = ({
         )}
         style={{
           paddingRight: `${unit ? unit.length * 8 + 8 : 4}px`,
-          paddingLeft: currency ? `${currency.length * 8 + 12}px` : undefined,
+          paddingLeft: currency ? `${elementWidth + 12}px` : undefined,
           ...classes.input,
         }}
         aria-invalid={showError ? 'true' : 'false'}

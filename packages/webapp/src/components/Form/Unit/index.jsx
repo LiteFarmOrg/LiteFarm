@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <<https://www.gnu.org/licenses/>.>
  */
 
-import React from 'react';
+import React, { useRef } from 'react';
 import styles from './unit.module.scss';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
@@ -28,6 +28,7 @@ import { Controller } from 'react-hook-form';
 import { ReactComponent as Leaf } from '../../../assets/images/signUp/leaf.svg';
 import useUnit from './useUnit';
 import useReactSelectStyles from './useReactSelectStyles';
+import useElementWidth from '../../hooks/useElementWidth';
 
 const Unit = ({
   disabled = false,
@@ -100,6 +101,8 @@ const Unit = ({
 
   const reactSelectStyles = useReactSelectStyles(disabled, { reactSelectWidth });
   const testId = props['data-testid'] || 'unit';
+  const currencyRef = useRef(null);
+  const { elementWidth } = useElementWidth(currencyRef);
 
   return (
     <div className={clsx(styles.container)} style={{ ...style, ...classes.container }}>
@@ -124,7 +127,7 @@ const Unit = ({
       <div className={styles.inputContainer}>
         <div className={styles.inputWrapper}>
           {currency && (
-            <div className={styles.currency} data-testid={`${testId}-currency`}>
+            <div ref={currencyRef} className={styles.currency} data-testid={`${testId}-currency`}>
               {currency}
             </div>
           )}
@@ -132,7 +135,7 @@ const Unit = ({
             disabled={disabled}
             className={clsx(styles.input)}
             style={{
-              paddingLeft: currency ? `${currency.length * 8 + 12}px` : undefined,
+              paddingLeft: currency ? `${elementWidth + 12}px` : undefined,
               ...classes.input,
             }}
             aria-invalid={showError ? 'true' : 'false'}

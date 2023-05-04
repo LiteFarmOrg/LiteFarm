@@ -1,5 +1,5 @@
 /*
- *  Copyright 2019, 2020, 2021, 2022 LiteFarm.org
+ *  Copyright 2019, 2020, 2021, 2022, 2023 LiteFarm.org
  *  This file is part of LiteFarm.
  *
  *  LiteFarm is free software: you can redistribute it and/or modify
@@ -12,37 +12,18 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
+import { useMemo } from 'react';
 
-.container {
-  display: flex;
-  flex-direction: column;
-  max-width: 350px;
-  width: 90vw;
-  background: #fafafd;
-  border-radius: 7.05466px;
-  position: relative;
-  padding: 24px;
-}
+const useElementWidth = (ref) => {
+  const elementWidth = useMemo(() => {
+    if (!ref?.current) {
+      return;
+    }
 
-.title {
-  color: var(--teal700);
-  line-height: 24px;
-  margin-bottom: 4px;
-}
+    return ref.current.offsetWidth;
+  }, [ref.current]);
 
-.body {
-  color: var(grey600);
-  margin-bottom: 20px;
-}
+  return { elementWidth };
+};
 
-.buttonContainer {
-  display: flex;
-  flex-direction: row;
-  gap: 8px;
-}
-
-.modalHeaderWrapper {
-  display: flex;
-  margin-bottom: 16px;
-  align-items: center;
-}
+export default useElementWidth;

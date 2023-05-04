@@ -1,7 +1,7 @@
 @import '../../../assets/mixin';
 .container {
-  display: inline-block;
-  position: relative;
+  display: flex;
+  gap: 7px;
   cursor: pointer;
   -webkit-user-select: none;
   -moz-user-select: none;
@@ -10,7 +10,8 @@
 }
 
 .label {
-  transform: translate(25px, -3px);
+  transform: translate(0, -3px);
+  flex: 1;
 }
 
 .smallLabel {
@@ -28,9 +29,7 @@
 
 /* Create a custom Checkbox */
 .checkmark {
-  position: absolute;
-  top: 0;
-  left: 0;
+  position: relative;
   height: 18px;
   width: 18px;
   background-color: white;

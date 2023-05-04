@@ -126,9 +126,9 @@ export default function PureContainerForm({
                 hookFormRegister={register(NUMBER_OF_CONTAINERS, {
                   required: true,
                   valueAsNumber: true,
-                  max: hookFormMaxValidation(9999),
+                  max: hookFormMaxValidation(99999),
                 })}
-                max={9999}
+                max={99999}
                 type={'number'}
                 onKeyDown={integerOnKeyDown}
                 errors={getInputErrors(errors, NUMBER_OF_CONTAINERS)}
@@ -156,10 +156,10 @@ export default function PureContainerForm({
               label={t('MANAGEMENT_PLAN.TOTAL_PLANTS')}
               hookFormRegister={register(TOTAL_PLANTS, {
                 required: true,
-                max: hookFormMaxValidation(9999),
+                max: hookFormMaxValidation(99999),
                 valueAsNumber: true,
               })}
-              max={9999}
+              max={99999}
               style={{ paddingBottom: '40px' }}
               type={'number'}
               onKeyDown={integerOnKeyDown}

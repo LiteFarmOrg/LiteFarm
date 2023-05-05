@@ -1805,6 +1805,13 @@
       "NO_DATA": "(aucune donnée)",
       "LAST_UPDATED_TEMPERATURE_READINGS": "Dernière mise à jour à {{latestReadingUpdate}}"
     },
+    "SOIL_WATER_CONTENT_READINGS_OF_SENSOR": {
+      "TITLE": "MISSING",
+      "SUBTITLE": "MISSING",
+      "Y_AXIS_LABEL": "MISSING",
+      "NO_DATA": "MISSING",
+      "LAST_UPDATED_SOIL_WATER_CONTENT_READINGS": "MISSING"
+    },
     "READINGS_PREVIEW": {
       "TEMPERATURE": "Température actuelle du sol",
       "SOIL_WATER_POTENTIAL": "Potentiel hydrique actuel du sol"

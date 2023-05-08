@@ -12,7 +12,8 @@ import PageTitle from '../../components/PageTitle/v2';
 import RouterTab from '../../components/RouterTab';
 import { bulkSensorsReadingsSliceSelector } from '../bulkSensorReadingsSlice';
 import { sensorsSelector } from '../sensorSlice';
-import utils from '../WeatherBoard/utils';
+import { ambientTemperature, soilWaterPotential } from '../../util/convert-units/unit';
+import { getUnitOptionMap } from '../../util/convert-units/getUnitOptionMap';
 import { measurementSelector } from '../../containers/userFarmSlice';
 import styles from './styles.module.scss';
 import { Semibold } from '../../components/Typography';
@@ -20,8 +21,10 @@ import { sensorReadingTypesByLocationSelector } from '../../containers/sensorRea
 
 function SensorReadings({ history, match }) {
   const { t } = useTranslation();
-
   const { location_id = '' } = match?.params;
+  const [readingTypes, setReadingTypes] = useState([]);
+  const [sensorVisualizationPropList, setSensorVisualizationPropList] = useState({});
+
   const sensorInfo = useSelector(sensorsSelector(location_id));
   const {
     latestMinTemperature = '',
@@ -31,12 +34,8 @@ function SensorReadings({ history, match }) {
     predictedXAxisLabel = '',
     xAxisLabel = {},
   } = useSelector(bulkSensorsReadingsSliceSelector);
-  const measurementUnit = useSelector(measurementSelector);
-  const { tempUnit, soilWaterPotentialUnit, soilWaterContentUnit } =
-    utils.getUnits(measurementUnit);
-  const [readingTypes, setReadingTypes] = useState([]);
+  const unitSystem = useSelector(measurementSelector);
   const reading_types = useSelector(sensorReadingTypesByLocationSelector(location_id));
-  const [sensorVisualizationPropList, setSensorVisualizationPropList] = useState({});
 
   useEffect(() => {
     if (sensorInfo === undefined || reading_types === undefined || sensorInfo?.deleted) {
@@ -50,7 +49,7 @@ function SensorReadings({ history, match }) {
           subTitle: t('SENSOR.TEMPERATURE_READINGS_OF_SENSOR.SUBTITLE', {
             high: latestMaxTemperature,
             low: latestMinTemperature,
-            tempUnit: tempUnit ?? 'C',
+            tempUnit: getUnitOptionMap()[ambientTemperature[unitSystem].defaultUnit].label ?? 'C',
           }),
           weatherStationName: t('SENSOR.TEMPERATURE_READINGS_OF_SENSOR.WEATHER_STATION', {
             weatherStationLocation: nearestStationName,
@@ -58,7 +57,7 @@ function SensorReadings({ history, match }) {
 
           xAxisDataKey: CURRENT_DATE_TIME,
           yAxisLabel: t('SENSOR.TEMPERATURE_READINGS_OF_SENSOR.Y_AXIS_LABEL', {
-            tempUnit: tempUnit ?? 'C',
+            tempUnit: getUnitOptionMap()[ambientTemperature[unitSystem].defaultUnit].label ?? 'C',
           }),
           noDataText: t('SENSOR.TEMPERATURE_READINGS_OF_SENSOR.NO_DATA'),
           ambientTempFor: t('SENSOR.TEMPERATURE_READINGS_OF_SENSOR.AMBIENT_TEMPERATURE_FOR'),
@@ -70,11 +69,13 @@ function SensorReadings({ history, match }) {
           subTitle: t('SENSOR.SOIL_WATER_POTENTIAL_READINGS_OF_SENSOR.SUBTITLE', {
             high: latestMaxTemperature,
             low: latestMinTemperature,
-            soilWaterPotentialUnit: soilWaterPotentialUnit ?? 'kPa',
+            soilWaterPotentialUnit:
+              getUnitOptionMap()[soilWaterPotential[unitSystem].defaultUnit].label ?? 'kPa',
           }),
           xAxisDataKey: CURRENT_DATE_TIME,
           yAxisLabel: t('SENSOR.SOIL_WATER_POTENTIAL_READINGS_OF_SENSOR.Y_AXIS_LABEL', {
-            soilWaterPotentialUnit: soilWaterPotentialUnit ?? 'kPa',
+            soilWaterPotentialUnit:
+              getUnitOptionMap()[soilWaterPotential[unitSystem].defaultUnit].label ?? 'kPa',
           }),
           noDataText: t('SENSOR.SOIL_WATER_POTENTIAL_READINGS_OF_SENSOR.NO_DATA'),
           predictedXAxisLabel: predictedXAxisLabel,
@@ -85,11 +86,11 @@ function SensorReadings({ history, match }) {
           subTitle: t('SENSOR.SOIL_WATER_CONTENT_READINGS_OF_SENSOR.SUBTITLE', {
             high: latestMaxTemperature,
             low: latestMinTemperature,
-            soilWaterContentUnit: soilWaterContentUnit ?? '%',
+            soilWaterContentUnit: '%',
           }),
           xAxisDataKey: CURRENT_DATE_TIME,
           yAxisLabel: t('SENSOR.SOIL_WATER_CONTENT_READINGS_OF_SENSOR.Y_AXIS_LABEL', {
-            soilWaterContentUnit: soilWaterContentUnit ?? '%',
+            soilWaterContentUnit: '%',
           }),
           noDataText: t('SENSOR.SOIL_WATER_CONTENT_READINGS_OF_SENSOR.NO_DATA'),
           predictedXAxisLabel: predictedXAxisLabel,

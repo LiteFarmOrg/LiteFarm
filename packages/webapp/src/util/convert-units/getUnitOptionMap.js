@@ -47,4 +47,8 @@ export const getUnitOptionMap = () => ({
   year: { label: i18n.t('UNIT.TIME.YEAR'), value: 'year' },
   week: { label: i18n.t('UNIT.TIME.WEEK'), value: 'week' },
   month: { label: i18n.t('UNIT.TIME.MONTH'), value: 'month' },
+  C: { label: 'ºC', value: 'C' },
+  F: { label: 'ºF', value: 'F' },
+  kPa: { label: 'kPa', value: 'kPa' },
+  psi: { label: 'PSI', value: 'psi' },
 });

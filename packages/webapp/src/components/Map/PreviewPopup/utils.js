@@ -15,7 +15,7 @@ export const getTemperatureUnit = (unit) => {
 };
 
 const convertCelsiusToFahrenheit = (temperature) => {
-  const fahrenheit = temperature * 1.8 + 32;
+  const fahrenheit = typeof temperature === 'number' ? temperature * 1.8 + 32 : null;
   return roundToTwo(fahrenheit);
 };
 

@@ -16,12 +16,20 @@ export function useMaxZoom() {
   const getMaxZoom = async (maps, map = null) => {
     if (!maxZoom) {
       const mapService = new maps.MaxZoomService();
-      const allPoints = [
-        { point: grid_points },
-        ...points.gate,
-        ...points.water_valve,
-        ...points.sensor,
-      ];
+      const allPoints = [{ point: grid_points }];
+      const pointsCollections = [points.gate, points.water_valve, points.sensor];
+      pointsCollections.forEach((collection) => {
+        collection.forEach((element) => {
+          if (
+            !allPoints.some(
+              (item) =>
+                item.point.lat === element.point.lat && item.point.lng === element.point.lng,
+            )
+          ) {
+            allPoints.push({ point: element.point });
+          }
+        });
+      });
       const promises = allPoints.map(function (point) {
         return new Promise(function (resolve, reject) {
           mapService?.getMaxZoomAtLatLng(point.point, function (result) {

@@ -87,7 +87,7 @@ const SensorReadingsLineChart = ({
 
 SensorReadingsLineChart.propTypes = {
   title: PropTypes.string.isRequired,
-  subTitle: PropTypes.string.isRequired,
+  subTitle: PropTypes.string,
   xAxisDataKey: PropTypes.string.isRequired,
   xAxisLabel: PropTypes.string,
   yAxisLabel: PropTypes.string.isRequired,

@@ -196,7 +196,6 @@ export default function Map({ history }) {
       gestureHandling: 'greedy',
       disableDoubleClickZoom: false,
       minZoom: 1,
-      maxZoom: 80,
       tilt: 0,
       mapTypeId: !roadview ? maps.MapTypeId.SATELLITE : maps.MapTypeId.ROADMAP,
       mapTypeControlOptions: {
@@ -221,7 +220,7 @@ export default function Map({ history }) {
   });
   const { getMaxZoom } = useMaxZoom();
   const handleGoogleMapApi = (map, maps) => {
-    getMaxZoom(maps);
+    getMaxZoom(maps, map);
     maps.Polygon.prototype.getPolygonBounds = function () {
       var bounds = new maps.LatLngBounds();
       this.getPath().forEach(function (element, index) {

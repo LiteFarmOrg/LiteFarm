@@ -2,21 +2,48 @@ import { useDispatch, useSelector } from 'react-redux';
 import { mapCacheSelector, setMapCache } from './mapCacheSlice';
 import { userFarmSelector } from '../userFarmSlice';
 import { usePropRef } from '../../components/LocationPicker/SingleLocationPicker/usePropRef';
+import { pointSelector } from '../locationSlice';
 
 export function useMaxZoom() {
   const { maxZoom } = useSelector(mapCacheSelector);
   const { farm_id, grid_points } = useSelector(userFarmSelector);
   const dispatch = useDispatch();
-  const setMaxZoom = maxZoom => {
+  const setMaxZoom = (maxZoom) => {
     dispatch(setMapCache({ maxZoom, farm_id }));
   };
-  const getMaxZoom = maps => {
+  const points = useSelector(pointSelector);
+
+  const getMaxZoom = async (maps, map = null) => {
     if (!maxZoom) {
-      new maps.MaxZoomService()?.getMaxZoomAtLatLng(grid_points, (result) => {
-        if (result.status === 'OK') {
-          setMaxZoom(result.zoom);
-        }
+      const mapService = new maps.MaxZoomService();
+      const allPoints = [
+        { point: grid_points },
+        ...points.gate,
+        ...points.water_valve,
+        ...points.sensor,
+      ];
+      const promises = allPoints.map(function (point) {
+        return new Promise(function (resolve, reject) {
+          mapService?.getMaxZoomAtLatLng(point.point, function (result) {
+            if (result.status === 'OK') {
+              resolve(result.zoom);
+            } else {
+              console.log('failed maps service promise', result.status);
+              reject(result.status);
+            }
+          });
+        });
       });
+      Promise.all(promises)
+        .then(function (results) {
+          const minNumber = Math.min(...results);
+          setMaxZoom(minNumber);
+          if (map) map.setOptions({ maxZoom: minNumber });
+        })
+        .catch(function (error) {
+          console.log('Error getting available zooms');
+          setMaxZoom(20);
+        });
     }
   };
   const maxZoomRef = usePropRef(maxZoom);

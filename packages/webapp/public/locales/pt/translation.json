@@ -1760,6 +1760,7 @@
     "HARDWARE_VERSION": "Versão do Hardware",
     "NO_DATA_FOUND": "Nenhuma leitura do sensor encontrada",
     "NO_DATA": "(sem dados))",
+    "LAST_UPDATED": "Última atualização {{latestReadingUpdate}}",
     "DETAIL": {
       "RETIRE": "Remover",
       "EDIT": "Editar",
@@ -1791,26 +1792,18 @@
     },
     "TEMPERATURE_READINGS_OF_SENSOR": {
       "TITLE": "Temperatura do solo",
-      "SUBTITLE": "Temperatura ambiente máxima e mínima de hoje: {{high}}{{tempUnit}} / {{low}}{{tempUnit}}",
-      "Y_AXIS_LABEL": "Temperatura em {{tempUnit}}",
+      "SUBTITLE": "Temperatura ambiente máxima e mínima de hoje: {{high}}{{units}} / {{low}}{{units}}",
+      "Y_AXIS_LABEL": "Temperatura em {{units}}",
       "WEATHER_STATION": "Estação meteorológica: {{weatherStationLocation}}",
-      "NO_DATA": "(sem dados))",
-      "AMBIENT_TEMPERATURE_FOR": "Temperatura ambiente para",
-      "LAST_UPDATED_TEMPERATURE_READINGS": "Última atualização {{latestReadingUpdate}}"
+      "AMBIENT_TEMPERATURE_FOR": "Temperatura ambiente para"
     },
     "SOIL_WATER_POTENTIAL_READINGS_OF_SENSOR": {
       "TITLE": "Potencial hídrico do solo",
-      "SUBTITLE": "MISSING",
-      "Y_AXIS_LABEL": "Potencial hídrico do solo em {{soilWaterPotentialUnit}}",
-      "NO_DATA": "(sem dados))",
-      "LAST_UPDATED_TEMPERATURE_READINGS": "Última atualização {{latestReadingUpdate}}"
+      "Y_AXIS_LABEL": "Potencial hídrico do solo em {{units}}"
     },
     "SOIL_WATER_CONTENT_READINGS_OF_SENSOR": {
       "TITLE": "MISSING",
-      "SUBTITLE": "MISSING",
-      "Y_AXIS_LABEL": "MISSING",
-      "NO_DATA": "MISSING",
-      "LAST_UPDATED_SOIL_WATER_CONTENT_READINGS": "MISSING"
+      "Y_AXIS_LABEL": "MISSING"
     },
     "READINGS_PREVIEW": {
       "TEMPERATURE": "Temperatura atual do solo",

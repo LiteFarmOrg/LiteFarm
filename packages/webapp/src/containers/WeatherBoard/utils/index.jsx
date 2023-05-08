@@ -24,7 +24,7 @@ const index = {
         tempUnit: 'ºF',
         speedUnit: 'mph',
         soilWaterPotentialUnit: 'PSI',
-        soilWaterContentUnit: 'kPa',
+        soilWaterContentUnit: '%',
       };
     }
     return { tempUnit: '', speedUnit: '' };

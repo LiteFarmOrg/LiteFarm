@@ -150,7 +150,7 @@ const useMapAssetRenderer = ({ isClickable, showingConfirmButtons, drawingState 
 
     markerClusterRef.current.addMarkers(markers, true);
     maps.event.addListener(markerClusterRef.current, 'click', (cluster) => {
-      if (map.getZoom() > (maxZoomRef?.current || 20) && cluster.markers.length > 1) {
+      if (map.getZoom() >= (maxZoomRef?.current || 20) && cluster.markers.length > 1) {
         const pointAssets = {
           gate: [],
           water_valve: [],

@@ -150,7 +150,11 @@ export function* sendResetPasswordEmailSaga({ payload: email }) {
   try {
     const result = yield call(axios.post, resetPasswordUrl(), { email });
   } catch (e) {
-    yield put(enqueueErrorSnackbar(i18n.t('message:USER.ERROR.RESET_PASSWORD')));
+    if (e.response.data === 'Reached maximum number of available reset tokens') {
+      yield put(enqueueErrorSnackbar(i18n.t('message:USER.ERROR.MAX_RESET_EMAILS')));
+    } else {
+      yield put(enqueueErrorSnackbar(i18n.t('message:USER.ERROR.RESET_PASSWORD')));
+    }
   }
 }
 

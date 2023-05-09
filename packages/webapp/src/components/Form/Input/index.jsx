@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import styles from './input.module.scss';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
-import { Error, Info, Label } from '../../Typography';
+import { Error, Info, Label, TextWithExternalLink } from '../../Typography';
 import { Cross } from '../../Icons';
 import { MdVisibility, MdVisibilityOff } from 'react-icons/md';
 import { BiSearchAlt2 } from 'react-icons/bi';
@@ -12,8 +12,11 @@ import { ReactComponent as Leaf } from '../../../assets/images/signUp/leaf.svg';
 import Infoi from '../../Tooltip/Infoi';
 import { get } from 'react-hook-form';
 import i18n from '../../../locales/i18n';
+import useElementWidth from '../../hooks/useElementWidth';
 
 const Input = ({
+  link,
+  textWithExternalLink,
   openCalendar,
   disabled = false,
   classes = {},
@@ -40,6 +43,7 @@ const Input = ({
 }) => {
   const { t } = useTranslation(['translation', 'common']);
   const name = hookFormRegister?.name ?? props?.name;
+  const currencyRef = useRef(null);
 
   const [inputType, setType] = useState(type);
   const isPassword = type === 'password';
@@ -70,6 +74,8 @@ const Input = ({
       }
     }
   }, [openCalendar]);
+
+  const { elementWidth } = useElementWidth(currencyRef);
 
   return (
     <div
@@ -115,7 +121,11 @@ const Input = ({
           <MdVisibilityOff className={styles.visibilityIcon} onClick={setVisibility} />
         ))}
       {unit && <div className={styles.unit}>{unit}</div>}
-      {currency && <div className={styles.currency}>{currency}</div>}
+      {currency && (
+        <div ref={currencyRef} className={styles.currency}>
+          {currency}
+        </div>
+      )}
       <input
         disabled={disabled}
         className={clsx(
@@ -125,7 +135,7 @@ const Input = ({
         )}
         style={{
           paddingRight: `${unit ? unit.length * 8 + 8 : 4}px`,
-          paddingLeft: currency ? `${currency.length * 8 + 12}px` : undefined,
+          paddingLeft: currency ? `${elementWidth + 12}px` : undefined,
           ...classes.input,
         }}
         aria-invalid={showError ? 'true' : 'false'}
@@ -164,6 +174,9 @@ const Input = ({
         <Error data-cy="error" style={classes.errors}>
           {errors}
         </Error>
+      ) : null}
+      {textWithExternalLink ? (
+        <TextWithExternalLink link={link}>{textWithExternalLink}</TextWithExternalLink>
       ) : null}
     </div>
   );

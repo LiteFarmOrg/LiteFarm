@@ -36,6 +36,8 @@ function MainDocumentView({
   const { t } = useTranslation();
   const isArchived = document.valid_until !== null && new Date(document.valid_until) < new Date();
   const validUntil = document.valid_until?.split('T')[0];
+  const documentTypeValue = document.type ? t(`DOCUMENTS.TYPE.${document.type}`) : '';
+
   return (
     <Layout
       buttonGroup={
@@ -54,6 +56,13 @@ function MainDocumentView({
         label={t('DOCUMENTS.ADD.DOCUMENT_NAME')}
         classes={{ container: { paddingBottom: '32px' } }}
         value={document.name}
+        disabled
+      />
+      <Input
+        label={t('DOCUMENTS.ADD.TYPE')}
+        classes={{ container: { paddingBottom: '32px' } }}
+        value={documentTypeValue}
+        optional
         disabled
       />
       {document.valid_until && (

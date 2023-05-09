@@ -84,9 +84,9 @@ LiteFarm is comprised of three applications which all reside in this monorepo.
 
 The applications are configured with environment variables stored in `.env` files. Configuration information includes secrets like API keys, so the `.env` files are not included in this git repository.
 
- This repository only contains `.env.default` files for api and webapp. To join the LiteFarm team and recieve full versions of the environment files contact community@litefarm.org. 
-
- Once you recieve the `.env` files, you will have to rename them correctly and place them in the right folders.
+ This repository contains a `.env.default` file for api and webapp. These files contain directions to acquire the personal keys needed to get LiteFarm running locally. Please note you will want to copy `.env.default` and rename the file to `.env`. Only after adding the `.env` file should you proceed to add the new keys. If you add your api keys to `.env.default` you may accidentally expose your keys since this file is tracked on git.
+ 
+ If you have questions about the other api keys, or wish to join the LiteFarm team, please contact community@litefarm.org. 
 
 # Running the apps
 
@@ -119,6 +119,55 @@ While the tests do attempt to clean up after themselves, it's a good idea to per
 To run [ESLint](https://eslint.org/) checks execute `pnpm lint`
 
 Since this is a mobile web application, webapp should be viewed in a mobile view in the browser.
+
+You can also test LiteFarm on your actual mobile device using the network adddress returned by `vite --host` when you start the webapp in development mode. To do this, also update `VITE_API_URL` in your `webapp/.env` file from localhost to that address (or your computer's network name) and the appropriate API port. Most of LiteFarm can be tested like this, but please note that Google SSO and some other functionality will not work over the local network.
+
+## export server
+
+Certification document export is handled by a Node.js application that runs separately from the api and connects to a Digital Ocean Space (AWS S3 bucket). It can be tested locally by setting up a Redis database for the job queue and using MinIO, a free and open-source drop-in replacement for AWS S3 that can be run on your own machine.
+
+<details>
+  <summary>Full instructions for running the export server locally</summary>
+
+1. Create and run a local Redis database on the default port with password "test"
+2. Install and configure MinIO. You will want to create a Single-Node Single-Drive (Standalone) MinIO installation. The MinIO website lists instructions for [Docker](https://min.io/docs/minio/container/index.html) and [MacOS](https://min.io/docs/minio/macos/index.html) along with other operating systems. Use the default port.
+3. Use the MinIO console to
+   - create a new bucket and set its access policy to "public"
+   - generate an access key. Record both key + secret
+4. Download [aws-cli](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html) and configure it with your MinIO access key + secret directly in the terminal using:
+   ```
+   aws configure
+   ```
+   Make sure that the region name is either removed from your aws configuration or set up correspondingly in your MinIO admin panel.
+5. Connect MinIO to LiteFarm:
+
+   in `packages/api/.env` make sure you have the following variables set:
+
+   ```
+   MINIO_ENDPOINT=http://localhost:9000
+   PRIVATE_BUCKET_NAME=<MinIO bucket name here>
+   PUBLIC_BUCKET_NAME=<MinIO bucket name here>
+   ```
+
+   in `packages/webapp/.env`:
+
+   ```
+   VITE_DEV_BUCKET_NAME=<MinIO bucket name here>
+   VITE_DEV_ENDPOINT=localhost:9000
+   ```
+
+6. Add an `exports/` directory to LiteFarm `packages/api`
+7. Make sure both the LiteFarm api and webapp are already running, then run the export server from `packages/api` using
+   ```
+   npm run scheduler
+   ```
+
+</details>
+
+A [detailed walkthrough](https://lite-farm.atlassian.net/wiki/spaces/LITEFARM/pages/1190101039/The+export+jobs+pseudo-package#Running-the-export-server-locally) (with screenshots) is also available on the LiteFarm Confluence.
+
+You can also use the same MinIO bucket to store documents (but not, currently, images) uploaded from the Documents view of the webapp. To configure this, set up MinIO as above, and add the access key credentials to `/api/.env` under
+`DO_SPACES_ACCESS_KEY_ID` and `DO_SPACES_SECRET_ACCESS_KEY`.
 
 # ngrok
 

@@ -27,24 +27,32 @@ export default function SensorDetail({ history, user, match }) {
   const sensorInfo = useSelector(sensorsSelector(location_id));
   const system = useSelector(measurementSelector);
   const isAdmin = useSelector(isAdminSelector);
-  const { partner_id } = sensorInfo;
 
   useEffect(() => {
-    dispatch(getSensorReadingTypes({ location_id }));
-    dispatch(getSensorBrand({ location_id, partner_id }));
-  }, []);
+    if (sensorInfo === undefined || sensorInfo?.deleted) {
+      history.replace('/unknown_record');
+    } else {
+      dispatch(getSensorReadingTypes({ location_id }));
+      const partner_id = sensorInfo?.partner_id;
+      dispatch(getSensorBrand({ location_id, partner_id }));
+    }
+  }, [sensorInfo]);
 
   const confirmRetire = () => {
     dispatch(retireSensor({ sensorInfo }));
   };
 
   return (
-    <PureSensorDetail
-      history={history}
-      isAdmin={isAdmin}
-      system={system}
-      sensorInfo={sensorInfo}
-      handleRetire={confirmRetire}
-    />
+    <>
+      {sensorInfo && !sensorInfo.deleted && (
+        <PureSensorDetail
+          history={history}
+          isAdmin={isAdmin}
+          system={system}
+          sensorInfo={sensorInfo}
+          handleRetire={confirmRetire}
+        />
+      )}
+    </>
   );
 }

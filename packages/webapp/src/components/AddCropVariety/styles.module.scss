@@ -5,15 +5,24 @@
   justify-content: stretch;
 }
 .cropLabel {
-  margin: 0 auto;
-  margin-bottom: 20px;
   font-weight: 600;
-  font-size: 20px;
-  line-height: 18px;
-  color: var(--grey700);
-  overflow-wrap: break-word;
-  hyphens: auto;
-  width: 100%;
+  font-size: 18px;
+  margin-bottom: 0px;
+}
+
+.nameLabel{
+    display: inline-block;
+    position: absolute;
+    top: 48%;
+    transform: translateY(-50%);
+    left: 140px;
+}
+
+.scientificNameLabel{
+  vertical-align: top;
+  font-style: italic;
+  font-size: 16px;
+  height: 18px;
 }
 
 .label {
@@ -59,4 +68,14 @@
   height: 120px;
   width: 120px;
   border-radius: 70%;
+}
+
+.varietalSubtitle {
+  font-size: 16px; 
+  margin-bottom: 20px
+}
+
+.banner{
+  display: flex;
+  position: relative;
 }

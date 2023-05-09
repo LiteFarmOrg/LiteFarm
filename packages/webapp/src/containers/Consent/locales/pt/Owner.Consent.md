@@ -1,4 +1,4 @@
-##### Version 4.0:
+##### Version 5.0:
 
 #### Formulário de Consentimento Livre e Esclarecido e Política de Privacidade (Versão para Produtores Rurais e Gerentes Rurais)
 
@@ -15,8 +15,7 @@ Universidade da Colúmbia Britânica (UBC) e cresceu para incluir uma rede parti
 
 #### Quem financia a LiteFarm?
 
-A LiteFarm é financiada pelo Centro em prol dos Sistemas Alimentares Sustentáveis da
-UBC e outras fontes. Para ver uma lista completa, visite: https://ubcfarm.ubc.ca/litefarm/. Nossos financiadores não têm influência sobre a operação e a gestão da LiteFarm e não conseguem acessar nenhuma das informações pessoais contidas na plataforma. Atualmente, nosso modelo de financiamento é direcionado para doadores e doações.
+A LiteFarm é financiada pelo Centro em prol dos Sistemas Alimentares Sustentáveis da UBC e outras fontes. Para ver uma lista completa, visite: https://www.litefarm.org/community-1. Nossos financiadores não têm influência sobre a operação e a gestão da LiteFarm e não conseguem acessar nenhuma das informações pessoais contidas na plataforma. Atualmente, nosso modelo de financiamento é direcionado para doadores e doações.
 
 #### Por que estamos conduzindo este projeto?
 
@@ -86,7 +85,7 @@ A LiteFarm usa as informações de gestão que você insere no aplicativo para g
 
 **Dados de uso**
 
-Coletamos dados de uso (ou seja, estatísticas gerais sobre usuários, padrões de tráfego e como os usuários respondem a diversas características do site) para melhorar a qualidade dos serviços que prestamos a você. Estes tipos de dados incluem: quando você faz login na LiteFarm, páginas que você solicita, por quanto tempo você visita o site, como você interage com o aplicativo e detalhes técnicos sobre seu dispositivo (ex. navegador, tipo de tela e processador). Esses dados serão associados a seu nome de usuário da LiteFarm (se você tiver feito login no aplicativo) ou a seu endereço IP (se não tiver feito login). Poderemos usar softwares como o Google Analytics para coletar esses dados; porém, nesses casos, todas as informações pessoais serão anonimizadas.
+Coletamos dados de uso (ou seja, estatísticas gerais sobre usuários, padrões de tráfego e como os usuários respondem a diversas características do site) para melhorar a qualidade dos serviços que prestamos a você. Estes tipos de dados incluem: quando você faz login na LiteFarm, páginas que você solicita, por quanto tempo você visita o site, como você interage com o aplicativo e detalhes técnicos sobre seu dispositivo (ex. navegador, tipo de tela e processador). Esses dados serão associados a seu nome de usuário da LiteFarm (se você tiver feito login no aplicativo) ou a seu endereço IP (se não tiver feito login). Poderemos usar softwares como o Google Analytics para coletar e analisar esses dados; porém, nesses casos, todas as informações pessoais serão anonimizadas.
 
 **Como usamos os dados?**
 
@@ -110,9 +109,13 @@ Em algumas áreas de nosso site, é possível que um cookie seja colocado em seu
 
 Nosso aplicativo está hospedado no Digital Ocean para atender nosso site de forma rápida e confiável a um número imprevisível de pessoas. Isso significa que seus dados serão potencialmente armazenados em vários centros de dados e locais no Canadá e nos Estados unidos da América (EUA). Embora nosso aplicativo não seja comercial, observamos que a Digital Ocean participa do Programa Privacy Shield (Escudo de Proteção da Privacidade) desenvolvido pelo Departamento de Comércio dos EUA e União Europeia (EU) e oferece serviços em conformidade com o Regulamento Geral de Proteção de Dados (GDPR) da EU. Além de nosso armazenamento na nuvem, uma cópia local do banco de dados LiteFarm está alojada em um servidor criptografado e protegido por senha na Universidade da Colúmbia Britânica. Cópias anônimas do banco de dados LiteFarm podem ser armazenadas em repositórios públicos de acordo com os padrões de publicação para reprodutibilidade científica.
 
+Os agricultores que participam de uma rede de certificação podem optar por exportar os dados que inseriram no LiteFarm em um relatório para download que podem compartilhar com uma parte externa (por exemplo, uma certificadora orgânica). Alguns certificadores podem independentemente solicitar ao agricultor perguntas adicionais relacionadas ao seu processo de certificação, às quais os agricultores podem opcionalmente optar por responder como parte de seu download de certificação dentro do aplicativo LiteFarm. A fim de facilitar a integração de perguntas de certificadoras independentes, o LiteFarm contém uma integração com o SurveyStack, uma plataforma de questionário de pesquisa de código aberto e de acesso aberto. Ao concordar com esta política de privacidade, você não é obrigado a fazer uso da integração com o SurveyStack. Este é um recurso opcional para facilitar o processo de certificação entre sua fazenda e sua certificadora.
+
+Os dados inseridos através da integração SurveyStack são armazenados na infra-estrutura do SurveyStack usando o MongoDB no Amazon Web Services (AWS) através do serviço MongoDB Cloud Atlas. SurveyStack tem como objetivo criar um ecossistema de dados aberto. Portanto, todos os dados submetidos na plataforma são públicos por padrão, exceto os dados associados aos campos de pesquisa marcados como privados, que só são acessíveis pela pessoa que completa a pesquisa e pelo criador da pesquisa (por exemplo, um certificador). As certificadoras são encorajadas a tornar suas pesquisas privadas, mas a equipe LiteFarm não tem controle sobre se elas o fazem.
+
 **Como protegemos os seus dados?**
 
-Seguimos as melhores práticas do setor para proteger os dados dos usuários, e construímos e continuamos mantendo nosso aplicativo alinhado ao Padrão de Verificação de Segurança de Aplicativos Comentado de Nível 2, do Projeto de Segurança de Aplicativos da Web Aberta. O acesso à base de dados é limitado aos membros da equipe LiteFarm que passaram pelo treinamento de ética (Declaração da Política do Conselho Triplo: Conduta Ética para Pesquisas Envolvendo Seres Humanos, TCPS2) e que assinaram acordos de confidencialidade. Entretanto, não podemos garantir que os dados transmitidos pela Internet estarão sempre seguros. Como resultado, embora nos esforcemos para proteger suas informações pessoais, não podemos garantir que alguma informação não possa ser transmitida durante o uso da LiteFarm.
+Seguimos as melhores práticas do setor para proteger os dados dos usuários, e construímos e continuamos mantendo o aplicativo LiteFarm alinhado ao Padrão de Verificação de Segurança de Aplicativos Comentado de Nível 2, do Projeto de Segurança de Aplicativos da Web Aberta. O acesso à base de dados da LiteFarm é limitado aos membros da equipe LiteFarm que passaram pelo treinamento de ética (Declaração da Política do Conselho Triplo: Conduta Ética para Pesquisas Envolvendo Seres Humanos, TCPS2) e que assinaram acordos de confidencialidade. Entretanto, não podemos garantir que os dados transmitidos pela Internet estarão sempre seguros. Como resultado, embora nos esforcemos para proteger suas informações pessoais, não podemos garantir que alguma informação não possa ser transmitida durante o uso da LiteFarm.
 
 **Que outros riscos potenciais estão envolvidos no uso da LiteFarm?**
 

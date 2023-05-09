@@ -133,6 +133,7 @@ export default function Map({ history }) {
   useEffect(() => {
     if (bulkSensorsUploadResponse?.isBulkUploadSuccessful) {
       setShowBulkSensorUploadModal(false);
+      getMaxZoom(gMaps, gMap);
     }
   }, [bulkSensorsUploadResponse?.isBulkUploadSuccessful]);
 

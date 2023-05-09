@@ -127,7 +127,7 @@ const useMapAssetRenderer = ({ isClickable, showingConfirmButtons, drawingState 
       : drawPoint;
   };
 
-  const { maxZoom } = useMaxZoom();
+  const { maxZoomRef } = useMaxZoom();
   const markerClusterRef = useRef();
   useEffect(() => {
     dismissSelectionModal();
@@ -146,11 +146,11 @@ const useMapAssetRenderer = ({ isClickable, showingConfirmButtons, drawingState 
       markers.push(point.marker);
     });
 
-    CreateMarkerCluster(map, maps, markers, [], markerClusterRef, null, maxZoom);
+    CreateMarkerCluster(map, maps, markers, [], markerClusterRef, null, maxZoomRef?.current);
 
     markerClusterRef.current.addMarkers(markers, true);
     maps.event.addListener(markerClusterRef.current, 'click', (cluster) => {
-      if (map.getZoom() >= (maxZoom || 20) && cluster.markers.length > 1) {
+      if (map.getZoom() >= (maxZoomRef?.current || 20) && cluster.markers.length > 1) {
         const pointAssets = {
           gate: [],
           water_valve: [],

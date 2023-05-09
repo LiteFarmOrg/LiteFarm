@@ -209,7 +209,6 @@ const LocationPicker = ({
       gestureHandling: 'greedy',
       disableDoubleClickZoom: false,
       minZoom: 1,
-      maxZoom: 80,
       tilt: 0,
       mapTypeId: maps.MapTypeId.SATELLITE,
       mapTypeControlOptions: {
@@ -230,7 +229,7 @@ const LocationPicker = ({
 
   const handleGoogleMapApi = (map, maps) => {
     mapRef.current = map;
-    getMaxZoom?.(maps);
+    getMaxZoom?.(maps, map);
     const mapBounds = new maps.LatLngBounds();
     mapBounds.extend(farmCenterCoordinate);
     pinMarkerRef.current = new maps.Marker({

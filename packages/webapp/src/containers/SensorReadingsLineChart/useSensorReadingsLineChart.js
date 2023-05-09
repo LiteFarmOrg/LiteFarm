@@ -20,15 +20,45 @@ export function useSensorReadingsLineChart(readingType) {
   const unitSystem = useSelector(measurementSelector);
   const data = useSelector(bulkSensorsReadingsSliceSelector);
 
-  const [labels, setLabels] = useState({});
-
-  const { latestMaxTemperature, latestMinTemperature, nearestStationName } = data;
+  const [chartLabels, setChartLabels] = useState({});
+  const [chartData, setChartData] = useState({});
+  const {
+    latestMaxTemperature,
+    latestMinTemperature,
+    nearestStationName,
+    xAxisLabel,
+    predictedXAxisLabel,
+    lastUpdatedReadingsTime,
+    loading,
+  } = data;
 
   useEffect(() => {
-    setLabels(
-      getLabels(readingType, latestMaxTemperature, latestMinTemperature, nearestStationName),
-    );
-  }, [readingType, latestMaxTemperature, latestMinTemperature, nearestStationName]);
+    if (readingType) {
+      setChartLabels(
+        getChartLabels(
+          readingType,
+          latestMaxTemperature,
+          latestMinTemperature,
+          nearestStationName,
+          xAxisLabel,
+          predictedXAxisLabel,
+          lastUpdatedReadingsTime,
+        ),
+      );
+    }
+  }, [
+    readingType,
+    latestMaxTemperature,
+    latestMinTemperature,
+    nearestStationName,
+    lastUpdatedReadingsTime,
+  ]);
+
+  useEffect(() => {
+    if (data) {
+      setChartData(getChartData(data));
+    }
+  }, [data]);
 
   const getYAxisDataKeys = () => {
     if (data?.sensorsReadings[readingType]?.length) {
@@ -43,7 +73,7 @@ export function useSensorReadingsLineChart(readingType) {
     }
   };
 
-  const getLabels = (readingType) => {
+  const getChartLabels = (readingType) => {
     if (readingType === TEMPERATURE) {
       return {
         title: t('SENSOR.TEMPERATURE_READINGS_OF_SENSOR.TITLE'),
@@ -58,6 +88,9 @@ export function useSensorReadingsLineChart(readingType) {
         yAxisLabel: t('SENSOR.TEMPERATURE_READINGS_OF_SENSOR.Y_AXIS_LABEL', {
           units: getUnitOptionMap()[ambientTemperature[unitSystem].defaultUnit].label,
         }),
+        xAxisLabel: xAxisLabel[readingType],
+        predictedXAxisLabel: predictedXAxisLabel,
+        lastUpdatedReadings: lastUpdatedReadingsTime[readingType],
       };
     }
     if (readingType === SOIL_WATER_POTENTIAL) {
@@ -66,6 +99,9 @@ export function useSensorReadingsLineChart(readingType) {
         yAxisLabel: t('SENSOR.SOIL_WATER_POTENTIAL_READINGS_OF_SENSOR.Y_AXIS_LABEL', {
           units: getUnitOptionMap()[soilWaterPotential[unitSystem].defaultUnit].label,
         }),
+        xAxisLabel: xAxisLabel[readingType],
+        predictedXAxisLabel: predictedXAxisLabel,
+        lastUpdatedReadings: lastUpdatedReadingsTime[readingType],
       };
     }
     if (readingType === SOIL_WATER_CONTENT) {
@@ -74,25 +110,24 @@ export function useSensorReadingsLineChart(readingType) {
         yAxisLabel: t('SENSOR.SOIL_WATER_CONTENT_READINGS_OF_SENSOR.Y_AXIS_LABEL', {
           units: '%',
         }),
+        xAxisLabel: xAxisLabel[readingType],
+        predictedXAxisLabel: predictedXAxisLabel,
+        lastUpdatedReadings: lastUpdatedReadingsTime[readingType],
       };
     }
   };
 
+  const getChartData = (data) => {
+    return {
+      sensorsReadings: data.sensorsReadings[readingType],
+      yAxisDataKeys: getYAxisDataKeys(),
+      lineColors: CHART_LINE_COLORS,
+      xAxisDataKey: CURRENT_DATE_TIME,
+    };
+  };
   return {
-    sensorsReadings: data?.sensorsReadings[readingType],
-    yAxisDataKeys: getYAxisDataKeys(),
-    lineColors: CHART_LINE_COLORS,
-    loading: data?.loading,
-
-    weatherStationName: data?.nearestStationName,
-    predictedXAxisLabel: data?.predictedXAxisLabel,
-    xAxisLabel: data?.xAxisLabel,
-    labels,
-    xAxisDataKey: CURRENT_DATE_TIME,
-    lastUpdatedReadings: data?.lastUpdatedReadingsTime[readingType]
-      ? t('SENSOR.LAST_UPDATED', {
-          latestReadingUpdate: data?.lastUpdatedReadingsTime[readingType],
-        })
-      : '',
+    loading,
+    chartLabels,
+    chartData,
   };
 }

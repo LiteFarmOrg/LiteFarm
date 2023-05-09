@@ -71,7 +71,6 @@ function SensorReadings({ history, match }) {
                   return (
                     <SensorReadingsLineChart
                       readingType={type}
-                      noDataText={t('SENSOR.NO_DATA')}
                       noDataFoundMessage={t('SENSOR.NO_DATA_FOUND')}
                       key={type}
                     />

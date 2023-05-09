@@ -153,7 +153,7 @@ export default function UpdateSensor({
               // check if latitude is within -85 - +85 and within 10 decimal places
               pattern: {
                 value:
-                  /^(\+|-)?(?:85(?:(?:\.0{1,10})?)|(?:[0-9]|[1-7][0-9]|8[0-4])(?:(?:\.[0-9]{1,10})?))$/,
+                  /^(\+|-)?(?:85(?:\.0{1,10})?|(?:[0-9]|[1-7][0-9]|8[0-4])(?:\.[0-9]{1,10})?)$/,
                 message: t('FARM_MAP.BULK_UPLOAD_SENSORS.VALIDATION.SENSOR_LATITUDE'),
               },
               required: true,

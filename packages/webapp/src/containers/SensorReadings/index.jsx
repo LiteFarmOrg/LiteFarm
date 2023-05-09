@@ -52,6 +52,7 @@ function SensorReadings({ history, match }) {
           }),
           weatherStationName: t('SENSOR.TEMPERATURE_READINGS_OF_SENSOR.WEATHER_STATION', {
             weatherStationLocation: nearestStationName,
+            interpolation: { escapeValue: false },
           }),
           yAxisLabel: t('SENSOR.TEMPERATURE_READINGS_OF_SENSOR.Y_AXIS_LABEL', {
             units: getUnitOptionMap()[ambientTemperature[unitSystem].defaultUnit].label,

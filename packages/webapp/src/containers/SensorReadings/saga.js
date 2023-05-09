@@ -45,7 +45,7 @@ const sensorReadingsUrl = () => `${sensorUrl}/reading/visualization`;
 export const getSensorsReadings = createAction(`getSensorsReadingsSaga`);
 
 export function* getSensorsReadingsSaga({ payload }) {
-  const { locationIds = [], readingTypes = [], noDataText = '', ambientTempFor = '' } = payload;
+  const { locationIds = [], readingTypes = [] } = payload;
   const {
     farm_id,
     user_id,
@@ -145,7 +145,9 @@ export function* getSensorsReadingsSaga({ payload }) {
             if (!acc[tempInfo?.dt]) acc[tempInfo?.dt] = {};
             acc[tempInfo?.dt] = {
               ...acc[tempInfo?.dt],
-              [`${ambientTempFor} ${stationName}`]: tempInfo?.main?.temp,
+              [`${i18n.t(
+                'SENSOR.TEMPERATURE_READINGS_OF_SENSOR.AMBIENT_TEMPERATURE_FOR',
+              )} ${stationName}`]: tempInfo?.main?.temp,
               [CURRENT_DATE_TIME]: currentDateTime,
             };
             for (const s of allSensorNames) {
@@ -173,7 +175,7 @@ export function* getSensorsReadingsSaga({ payload }) {
               delete ambientDataReading[cv];
               return {
                 ...ambientDataReading,
-                [`${cv} ${noDataText}`]: null,
+                [`${cv} ${i18n.t('SENSOR.NO_DATA')}`]: null,
               };
             });
           }

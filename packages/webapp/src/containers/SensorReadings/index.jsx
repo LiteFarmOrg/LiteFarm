@@ -1,20 +1,20 @@
 import { React, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import SensorReadingsLineChart from '../SensorReadingsLineChart';
 import PageTitle from '../../components/PageTitle/v2';
 import RouterTab from '../../components/RouterTab';
-import { bulkSensorsReadingsSliceSelector } from '../bulkSensorReadingsSlice';
 import { sensorsSelector } from '../sensorSlice';
 import { sensorReadingTypesByLocationSelector } from '../../containers/sensorReadingTypesSlice';
+import { getSensorsReadings } from '../SensorReadings/saga';
 
 function SensorReadings({ history, match }) {
   const { t } = useTranslation();
-  const { location_id = '' } = match?.params;
+  const dispatch = useDispatch();
+  const { location_id } = match?.params;
   const [readingTypes, setReadingTypes] = useState([]);
 
   const sensorInfo = useSelector(sensorsSelector(location_id));
-  const derivedSensorInfo = useSelector(bulkSensorsReadingsSliceSelector);
   const reading_types = useSelector(sensorReadingTypesByLocationSelector(location_id));
 
   useEffect(() => {
@@ -24,6 +24,17 @@ function SensorReadings({ history, match }) {
       setReadingTypes(reading_types.reading_types);
     }
   }, [sensorInfo, reading_types]);
+
+  useEffect(() => {
+    if (location_id && readingTypes.length) {
+      dispatch(
+        getSensorsReadings({
+          locationIds: [location_id],
+          readingTypes,
+        }),
+      );
+    }
+  }, [readingTypes, location_id]);
 
   return (
     <>
@@ -59,11 +70,8 @@ function SensorReadings({ history, match }) {
                 ?.map((type) => {
                   return (
                     <SensorReadingsLineChart
-                      locationIds={[location_id]}
                       readingType={type}
-                      derivedSensorInfo={derivedSensorInfo}
                       noDataText={t('SENSOR.NO_DATA')}
-                      activeReadingTypes={readingTypes}
                       noDataFoundMessage={t('SENSOR.NO_DATA_FOUND')}
                       key={type}
                     />

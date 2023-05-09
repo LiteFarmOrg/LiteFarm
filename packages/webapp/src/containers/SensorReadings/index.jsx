@@ -72,7 +72,14 @@ function SensorReadings({ history, match }) {
         },
       });
     }
-  }, [sensorInfo, reading_types, history, latestMaxTemperature, latestMinTemperature]);
+  }, [
+    sensorInfo,
+    reading_types,
+    history,
+    latestMaxTemperature,
+    latestMinTemperature,
+    nearestStationName,
+  ]);
 
   return (
     <>

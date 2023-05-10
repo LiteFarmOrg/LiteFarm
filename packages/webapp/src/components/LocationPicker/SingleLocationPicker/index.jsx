@@ -31,8 +31,12 @@ const LocationPicker = ({
   readOnlyPinCoordinates,
   maxZoomRef,
   getMaxZoom,
+  maxZoom,
 }) => {
   const [isGoogleMapInitiated, setGoogleMapInitiated] = useState(false);
+  const [gMap, setGMap] = useState(null);
+  const [gMaps, setGMaps] = useState(null);
+  const [gMapBounds, setGMapBounds] = useState(null);
   const geometriesRef = useRef({});
   const markerClusterRef = useRef();
   const mapRef = useRef();
@@ -61,6 +65,12 @@ const LocationPicker = ({
       });
     }
   }, [isPinMode, isGoogleMapInitiated]);
+
+  useEffect(() => {
+    if (maxZoom && gMap && gMaps && gMapBounds) {
+      drawLocations(gMap, gMaps, gMapBounds);
+    }
+  }, [maxZoom]);
 
   useEffect(() => {
     if (markerClusterRef?.current?.markers?.length > 0) {
@@ -151,6 +161,7 @@ const LocationPicker = ({
       Object.values(geometriesRef.current).filter(({ location: { type } }) => isPoint(type)),
       selectedLocationIdsRef,
       markerClusterRef,
+      maxZoom,
     );
     maps.event.addListener(markerClusterRef.current, 'click', (cluster) => {
       if (map.getZoom() >= (maxZoomRef?.current || 20) && cluster.markers.length > 1) {
@@ -278,7 +289,9 @@ const LocationPicker = ({
     drawWildCropPins(map, maps, mapBounds);
     drawLocations(map, maps, mapBounds);
     map.fitBounds(mapBounds);
-
+    setGMap(map);
+    setGMaps(maps);
+    setGMapBounds(mapBounds);
     setGoogleMapInitiated(true);
   };
 

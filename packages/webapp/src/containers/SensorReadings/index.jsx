@@ -7,16 +7,27 @@ import RouterTab from '../../components/RouterTab';
 import { sensorsSelector } from '../sensorSlice';
 import { sensorReadingTypesByLocationSelector } from '../../containers/sensorReadingTypesSlice';
 import { getSensorsReadings } from '../SensorReadings/saga';
+import { bulkSensorsReadingsSliceSelector } from '../bulkSensorReadingsSlice';
 
 function SensorReadings({ history, match }) {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const { location_id } = match?.params;
   const [readingTypes, setReadingTypes] = useState([]);
+  const [locationData, setLocationData] = useState();
 
   const sensorInfo = useSelector(sensorsSelector(location_id));
   const reading_types = useSelector(sensorReadingTypesByLocationSelector(location_id));
+  const { loading, sensorDataByLocationIds } = useSelector(bulkSensorsReadingsSliceSelector);
 
+  //Keeps sensor readings up to date for location
+  useEffect(() => {
+    if (sensorDataByLocationIds[location_id] && location_id) {
+      setLocationData(sensorDataByLocationIds[location_id]);
+    }
+  }, [sensorDataByLocationIds, location_id]);
+
+  // Handles unknown records and keeping readingTypes up to date
   useEffect(() => {
     if (sensorInfo === undefined || reading_types === undefined || sensorInfo?.deleted) {
       history.replace('/unknown_record');
@@ -25,6 +36,7 @@ function SensorReadings({ history, match }) {
     }
   }, [sensorInfo, reading_types]);
 
+  //Runs the saga update store
   useEffect(() => {
     if (location_id && readingTypes.length) {
       dispatch(
@@ -63,15 +75,17 @@ function SensorReadings({ history, match }) {
               },
             ]}
           />
-          {readingTypes?.length > 0
+          {locationData && readingTypes?.length > 0
             ? [...readingTypes]
-                ?.sort()
-                ?.reverse()
-                ?.map((type) => {
+                .sort()
+                .reverse()
+                .map((type) => {
                   return (
                     <SensorReadingsLineChart
                       readingType={type}
+                      data={locationData[type]}
                       noDataFoundMessage={t('SENSOR.NO_DATA_FOUND')}
+                      loading={loading}
                       key={type}
                     />
                   );

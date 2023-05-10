@@ -21,18 +21,22 @@ import { SensorReadingChartSpotlightProvider } from './SensorReadingChartSpotlig
 import produce from 'immer';
 import { useTranslation } from 'react-i18next';
 
-const PureSensorReadingsLineChart = ({ showSpotLight, resetSpotlight, labels, data }) => {
+const PureSensorReadingsLineChart = ({
+  showSpotLight,
+  resetSpotlight,
+  sensorReadings,
+  title,
+  subTitle,
+  weatherStationName,
+  yAxisLabel,
+  xAxisLabel,
+  predictedXAxisLabel,
+  lastUpdatedReadings,
+  xAxisDataKey,
+  yAxisDataKeys,
+  lineColors,
+}) => {
   const { t } = useTranslation();
-  const {
-    title,
-    subTitle,
-    lastUpdatedReadings,
-    yAxisLabel,
-    xAxisLabel,
-    weatherStationName,
-    predictedXAxisLabel,
-  } = labels;
-  const { sensorsReadings, yAxisDataKeys, lineColors, xAxisDataKey } = data;
   const [legendsList, setLegendsList] = useState({});
 
   const language = getLanguageFromLocalStorage();
@@ -148,7 +152,7 @@ const PureSensorReadingsLineChart = ({ showSpotLight, resetSpotlight, labels, da
 
       <ResponsiveContainer width="100%" height={380}>
         <LineChart
-          data={sensorsReadings}
+          data={sensorReadings}
           margin={{
             top: 20,
             right: 30,
@@ -215,21 +219,17 @@ const PureSensorReadingsLineChart = ({ showSpotLight, resetSpotlight, labels, da
 };
 
 PureSensorReadingsLineChart.propTypes = {
-  labels: PropTypes.shape({
-    title: PropTypes.string.isRequired,
-    subTitle: PropTypes.string,
-    lastUpdatedReadings: PropTypes.string,
-    yAxisLabel: PropTypes.string.isRequired,
-    xAxisLabel: PropTypes.string.isRequired,
-    weatherStationName: PropTypes.string,
-    predictedXAxisLabel: PropTypes.string.isRequired,
-  }),
-  data: PropTypes.shape({
-    sensorsReadings: PropTypes.array.isRequired,
-    yAxisDataKeys: PropTypes.array.isRequired,
-    lineColors: PropTypes.array.isRequired,
-    xAxisDataKey: PropTypes.string.isRequired,
-  }),
+  title: PropTypes.string.isRequired,
+  subTitle: PropTypes.string,
+  lastUpdatedReadings: PropTypes.string,
+  yAxisLabel: PropTypes.string.isRequired,
+  xAxisLabel: PropTypes.string.isRequired,
+  weatherStationName: PropTypes.string,
+  predictedXAxisLabel: PropTypes.string.isRequired,
+  yAxisDataKeys: PropTypes.array.isRequired,
+  lineColors: PropTypes.array.isRequired,
+  xAxisDataKey: PropTypes.string.isRequired,
+  sensorReadings: PropTypes.array.isRequired,
 };
 
 export default PureSensorReadingsLineChart;

@@ -164,7 +164,7 @@ const LocationPicker = ({
       maxZoom,
     );
     maps.event.addListener(markerClusterRef.current, 'click', (cluster) => {
-      if (map.getZoom() >= (maxZoomRef?.current || 20) && cluster.markers.length > 1) {
+      if (map.getZoom() >= (maxZoomRef?.current || 18) && cluster.markers.length > 1) {
         setOverlappedPositions(
           cluster.markers.map((marker) => ({
             location_id: marker.location_id,

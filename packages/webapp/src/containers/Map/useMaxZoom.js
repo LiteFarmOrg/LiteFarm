@@ -50,7 +50,7 @@ export function useMaxZoom() {
         })
         .catch(function (error) {
           console.log('Error getting available zooms');
-          setMaxZoom(20);
+          setMaxZoom(18);
         });
     } else if (map) {
       map.setOptions({ maxZoom: maxZoom });

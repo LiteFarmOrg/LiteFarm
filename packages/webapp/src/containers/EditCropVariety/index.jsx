@@ -30,7 +30,7 @@ function EditCropVarietyForm({ history, match }) {
       treated: null,
       ...data,
     };
-    dispatch(patchVarietal({ variety_id, data: varietyData }));
+    dispatch(patchVarietal({ variety_id, crop_id: cropVariety.crop_id, data: varietyData }));
   };
 
   // TODO - Add persisted path (LF-1430)
@@ -47,7 +47,7 @@ function EditCropVarietyForm({ history, match }) {
             <AddLink>{t('CROP.ADD_IMAGE')}</AddLink>
           </ImagePickerWrapper>
         }
-        handleGoBack={() => history.push(`/crop/${variety_id}/detail`)}
+        handleGoBack={() => history.back()}
         cropVariety={cropVariety}
         persistedPath={persistedPath}
       />

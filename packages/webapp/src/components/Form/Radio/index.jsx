@@ -3,6 +3,7 @@ import styles from './radio.module.scss';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import Infoi from '../../Tooltip/Infoi';
+import Pill from '../../Pill';
 
 const Radio = ({
   label = 'label',
@@ -15,9 +16,12 @@ const Radio = ({
   onBlur,
   inputRef,
   toolTipContent,
+  pill,
+  checked,
   ...props
 }) => {
   const name = hookFormRegister?.name ?? props?.name;
+
   return (
     <label
       className={clsx(styles.container, disabled && styles.disabled)}
@@ -37,13 +41,20 @@ const Radio = ({
         type={'radio'}
         {...props}
         disabled={disabled}
+        checked={checked}
       />
-      <p className={clsx(styles.label)} style={classes.label}>
+      <span className={clsx(styles.label)} style={classes.label}>
         {label}
-      </p>
+        {pill && <Pill body={pill} spaceBefore={!!label} active={checked}></Pill>}
+      </span>
       {toolTipContent && <Infoi content={toolTipContent} />}
 
-      <span className={clsx(styles.checkmark)} style={classes.checkbox} />
+      <span className={clsx(styles.checkmark)} style={classes.checkbox}>
+        <svg viewBox="0 0 16 16">
+          <circle cx="8" cy="8" r="7" />
+          <circle cx="8" cy="8" r="4" />
+        </svg>
+      </span>
       {children}
     </label>
   );
@@ -51,6 +62,7 @@ const Radio = ({
 
 Radio.propTypes = {
   label: PropTypes.node,
+  checked: PropTypes.bool,
   disabled: PropTypes.bool,
   classes: PropTypes.exact({
     checkbox: PropTypes.object,
@@ -66,6 +78,7 @@ Radio.propTypes = {
   }),
   onChange: PropTypes.func,
   onBlur: PropTypes.func,
+  pill: PropTypes.string,
 };
 
 export default Radio;

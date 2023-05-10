@@ -1,6 +1,6 @@
 {
   "name": "litefarm-api",
-  "version": "3.2.5",
+  "version": "3.3.1",
   "description": "LiteFarm API server",
   "main": "./api/src/server.js",
   "type": "module",
@@ -76,9 +76,9 @@
     "i18next-fs-backend": "^1.1.4",
     "jsdom": "^16.4.0",
     "json-2-csv": "^3.14.4",
-    "jsonwebtoken": "^8.5.1",
+    "jsonwebtoken": "^9.0.0",
     "jwks-rsa": "^1.12.1",
-    "knex": "^0.95.15",
+    "knex": "^2.4.0",
     "lodash": "^4.17.20",
     "multer": "^1.4.2",
     "node-schedule": "^1.3.2",
@@ -114,7 +114,7 @@
     "i18next-parser": "^5.3.0",
     "jest": "^26.4.2",
     "lint-staged": "^10.5.3",
-    "nodemon": "^2.0.7",
+    "nodemon": "^2.0.22",
     "prettier": "2.2.1",
     "start-server-and-test": "^1.11.7"
   },

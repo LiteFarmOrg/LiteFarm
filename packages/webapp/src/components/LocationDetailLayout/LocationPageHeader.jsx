@@ -6,6 +6,7 @@ import {
   setZoomLevel,
   setZoomLevelSelector,
 } from '../../containers/mapSlice';
+import { upsertFormData } from '../../containers/hooks/useHookFormPersist/hookFormPersistSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 
@@ -17,6 +18,7 @@ export default function LocationPageHeader({
   isEditLocationPage,
   title,
   onCancel,
+  formMethods,
 }) {
   const { t } = useTranslation();
   const dispatch = useDispatch();
@@ -25,7 +27,10 @@ export default function LocationPageHeader({
   const onGoBack = () => {
     dispatch(setZoomLevel(null));
     dispatch(setPosition(null));
-    isCreateLocationPage && history.replace('/map', { isStepBack: true, hideLocationPin: true });
+    if (isCreateLocationPage) {
+      dispatch(upsertFormData(formMethods.getValues()));
+      history.replace('/map', { isStepBack: true, hideLocationPin: true });
+    }
     isViewLocationPage &&
       history.replace('/map', { cameraInfo: { zoom: currentZoomLevel, location: position } });
     isEditLocationPage && history.back();

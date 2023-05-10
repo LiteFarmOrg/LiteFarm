@@ -1,4 +1,5 @@
 @import '../../../assets/mixin';
+
 .container {
   display: flex;
   column-gap: 4px;
@@ -27,58 +28,55 @@
   left: 0;
   height: 16px;
   width: 16px;
-  background-color: white;
-  border-radius: 50%;
-  border: solid 2px var(--grey600);
 }
 
-/* When the radio button is checked, add a blue background */
-.container input:checked ~ .checkmark {
-  border: solid 2px var(--teal700);
+.checkmark svg {
+  overflow: visible; /* To fix the SVG bounding box slightly cutting off the stroke in Safari at some zoom levels */
+}
+
+/* The outer circle */
+.checkmark svg circle:first-child {
+  stroke: var(--grey600);
+  stroke-width: 2;
+  fill: white;
+}
+
+/* Create the indicator (the dot/circle - hidden when not checked) */
+.checkmark svg circle:last-child {
+  fill: var(--teal700);
+  visibility: hidden;
+}
+
+/* Show the indicator (dot/circle) when checked */
+.container input:checked ~ .checkmark svg circle:last-child {
+  visibility: visible;
 }
 
 .container input:checked ~ .label {
   color: var(--grey900);
 }
 
-/* Create the indicator (the dot/circle - hidden when not checked) */
-.checkmark:after {
-  content: '';
-  position: absolute;
-  display: none;
-}
-
-/* Show the indicator (dot/circle) when checked */
-.container input:checked ~ .checkmark:after {
-  display: block;
-}
-
-/* Style the indicator (dot/circle) */
-.container .checkmark:after {
-  top: 2px;
-  left: 2px;
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background-color: var(--teal700);
+/* When the radio button is checked, make border blue */
+.container input:checked ~ .checkmark svg circle:first-child {
+  stroke: var(--teal700);
 }
 
 .disabled {
   cursor: auto;
 }
 
-.container input:disabled ~ .checkmark {
-  background-color: var(--grey200);
-  border: solid 2px var(--grey400);
+.container input:disabled ~ .checkmark svg circle:first-child {
+  fill: var(--grey200);
+  stroke: var(--grey400);
 }
 
 .container input:disabled ~ .label {
   color: var(--grey600);
 }
 
-.container input[disabled]:checked ~ .checkmark {
-  background-color: var(--teal500);
-  border: solid 2px var(--teal700);
+.container input[disabled]:checked ~ .checkmark svg circle:first-child {
+  fill: var(--teal500);
+  stroke: var(--teal700);
 }
 
 .label {

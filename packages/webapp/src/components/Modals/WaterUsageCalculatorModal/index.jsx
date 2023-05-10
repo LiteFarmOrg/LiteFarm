@@ -77,11 +77,8 @@ const WaterUseVolumeCalculator = ({
 
   useEffect(() => {
     if (estimated_duration && estimated_flow_rate && estimated_flow_rate_unit) {
-      // flow rate database unit: l/min
-      const durationInMin = convert(estimated_duration)
-        .from(irrigation_task_estimated_duration.databaseUnit)
-        .to('min');
-      setTotalWaterUsage(estimated_flow_rate * durationInMin);
+      // flow rate database unit: l/min, duration database unit: min
+      setTotalWaterUsage(estimated_flow_rate * estimated_duration);
     } else {
       setTotalWaterUsage('');
     }
@@ -108,9 +105,11 @@ const WaterUseVolumeCalculator = ({
       <Checkbox
         label={t('ADD_TASK.IRRIGATION_VIEW.DEFAULT_LOCATION_FLOW_RATE')}
         sm
-        style={{ marginTop: '10px', marginBottom: '30px' }}
+        // style={{ marginTop: '10px', marginBottom: '30px' }}
+        style={{ display: 'none' }} // temporarily hiding for April 2023 release
         hookFormRegister={register(DEFAULT_LOCATION_FLOW_RATE)}
       />
+      <div style={{ paddingBlock: '10px' }} />
 
       <Unit
         register={register}
@@ -218,9 +217,12 @@ const WaterUseDepthCalculator = ({
       <Checkbox
         label={t('ADD_TASK.IRRIGATION_VIEW.DEFAULT_APPLICATION_DEPTH')}
         sm
-        style={{ marginTop: '10px', marginBottom: '30px' }}
+        // style={{ marginTop: '10px', marginBottom: '30px' }}
+        style={{ display: 'none' }} // temporarily hiding for April 2023 release
         hookFormRegister={register(DEFAULT_LOCATION_APPLICATION_DEPTH)}
       />
+      <div style={{ paddingBlock: '10px' }} />
+
       <Input
         label={t('ADD_TASK.IRRIGATION_VIEW.PERCENTAGE_LOCATION_TO_BE_IRRIGATED')}
         type="number"

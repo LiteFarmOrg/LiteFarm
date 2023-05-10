@@ -170,7 +170,9 @@ const useUnit = ({
   // 3. set default visibleInputValue
   const [visibleInputValue, setVisibleInputValue] = useState(defaultVisibleInputValue);
 
-  const hookFormValue = hookFromWatch(name, defaultValue);
+  // when the hidden input is empty, hookFormValue becomes NaN.
+  // Set initial value to NaN when defaultValue is undefined to avoid triggering useEffect unnecessarily
+  const hookFormValue = hookFromWatch(name, defaultValue || NaN);
 
   useEffect(() => {
     if (!hookFormUnit || noValue(hookFormValue)) {
@@ -210,7 +212,7 @@ const useUnit = ({
         shouldClearError && setShowError(false);
       }
     },
-    [name],
+    [name, disabled],
   );
 
   const onBlurForHook = (e) => {
@@ -240,15 +242,23 @@ const useUnit = ({
   // set visible value when hidden input is updated from parent component
   // (this happens when the component shows a result of a calculation)
   useEffect(() => {
-    if ((noValue(visibleInputValue) && noValue(hookFormValue)) || !databaseUnit || !hookFormUnit) {
+    // hookFormValue is sometimes not up to date with the actual value right after rendering.
+    // call hookFormGetValue to use the current value.
+    const currentHookFormValue = hookFormGetValue(name);
+
+    if (
+      (noValue(visibleInputValue) && noValue(currentHookFormValue)) ||
+      !databaseUnit ||
+      !hookFormUnit
+    ) {
       return;
     }
 
     const newValue = roundToTwoDecimal(
-      convertFn(unitType, hookFormValue, databaseUnit, hookFormUnit),
+      convertFn(unitType, currentHookFormValue, databaseUnit, hookFormUnit),
     );
     if (newValue !== visibleInputValue) {
-      setVisibleInputValue(hookFormValue > 0 || hookFormValue === 0 ? newValue : '');
+      setVisibleInputValue(currentHookFormValue > 0 || currentHookFormValue === 0 ? newValue : '');
     }
   }, [hookFormValue]);
 

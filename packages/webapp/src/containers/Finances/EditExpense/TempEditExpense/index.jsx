@@ -85,7 +85,12 @@ class TempEditExpense extends Component {
                       <br />
                       {this.props.t('EXPENSE.NAME')}
                     </label>
-                    <Control.text type="text" model={`.expenseDetail.note`} maxLength="25" />
+                    <Control.textarea
+                      type="text"
+                      model={`.expenseDetail.note`}
+                      maxLength="100"
+                      rows={3}
+                    />
                   </div>
                   <div className={styles.labelInput}>
                     <label>{this.props.t('EXPENSE.VALUE')}</label>

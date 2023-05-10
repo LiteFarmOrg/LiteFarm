@@ -37,6 +37,7 @@ export default function ImagePickerWrapper({
   uploadDirectory, //deprecated but supported for storybook
   targetRoute,
   compressorProps = {},
+  onLoading,
   ...props
 }) {
   const classes = useStyles();
@@ -44,14 +45,21 @@ export default function ImagePickerWrapper({
   const name = hookFormRegister?.name ?? props?.name;
   const dispatch = useDispatch();
   const onFileUpload = async (e) => {
+    onLoading?.(true);
     if (e?.target?.files?.[0]) {
       const blob = e.target.files[0];
       const isNotImage = !/^image\/.*/.test(blob.type);
       if (isNotImage) {
         dispatch(enqueueErrorSnackbar(i18n.t('message:ATTACHMENTS.ERROR.FAILED_UPLOAD')));
+        onUploadFail('Not an image file');
       } else if (blob.size < 200000) {
         dispatch(
-          uploadImage({ file: blob, onUploadSuccess, targetRoute: targetRoute ?? uploadDirectory }),
+          uploadImage({
+            file: blob,
+            onUploadSuccess,
+            onUploadFail,
+            targetRoute: targetRoute ?? uploadDirectory,
+          }),
         );
       } else {
         const Compressor = await import('compressorjs').then((Compressor) => Compressor.default);
@@ -63,22 +71,31 @@ export default function ImagePickerWrapper({
               uploadImage({
                 file: compressedBlob,
                 onUploadSuccess,
+                onUploadFail,
                 targetRoute: targetRoute ?? uploadDirectory,
               }),
             );
           },
           error(err) {
-            console.log(err.message);
+            onUploadFail(err.message);
           },
           ...compressorProps,
         });
       }
+    } else {
+      // E.g. file picker is cancelled so no files are present
+      onLoading?.(false);
     }
   };
   const onUploadSuccess = (url) => {
     input.current.value = url;
     onChange?.({ target: input.current });
     hookFormRegister?.onChange({ target: input.current });
+    onLoading?.(false);
+  };
+  const onUploadFail = (error) => {
+    if (error) console.log(error);
+    onLoading?.(false);
   };
   return (
     <div className={className} style={style}>
@@ -129,4 +146,5 @@ ImagePickerWrapper.propTypes = {
   uploadDirectory: PropTypes.string,
   targetRoute: PropTypes.string,
   compressorProps: PropTypes.object,
+  onLoading: PropTypes.func,
 };

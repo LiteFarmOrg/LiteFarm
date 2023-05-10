@@ -39,7 +39,7 @@ export default function PureIrrigationTask({
   const { irrigationTaskTypes = [] } = useSelector(irrigationTaskTypesSliceSelector);
   const cropLocations = useSelector(cropLocationsSelector);
   const location =
-    locations &&
+    locations?.length &&
     cropLocations.filter(
       (cropLocation) => cropLocation.location_id === locations[0].location_id,
     )[0];
@@ -159,6 +159,7 @@ export default function PureIrrigationTask({
           (options) => options.irrigation_type_id === locationDefaults?.irrigation_type_id,
         ),
       );
+      setValue(IRRIGATION_TYPE_ID, locationDefaults.irrigation_type_id);
     }
     if (locationDefaults?.default_measuring_type) {
       setValue(MEASUREMENT_TYPE, locationDefaults?.default_measuring_type);
@@ -191,6 +192,11 @@ export default function PureIrrigationTask({
       setTotalDepthWaterUsage('');
     }
   }, [showWaterUseCalculatorModal]);
+
+  const waterCalculatorDisabled =
+    !showWaterUseCalculatorModal ||
+    !measurement_type ||
+    (measurement_type === 'DEPTH' && !location);
 
   return (
     <>
@@ -237,10 +243,13 @@ export default function PureIrrigationTask({
       <Checkbox
         label={t('ADD_TASK.IRRIGATION_VIEW.SET_AS_DEFAULT_TYPE_FOR_THIS_LOCATION')}
         sm
-        style={{ marginTop: '6px', marginBottom: '40px' }}
+        // style={{ marginTop: '6px', marginBottom: '40px' }}
+        style={{ display: 'none' }} // temporarily hiding for April 2023 release
         hookFormRegister={register(DEFAULT_IRRIGATION_TASK_LOCATION)}
         disabled={disabled || isModified}
       />
+      <div style={{ paddingBlock: '10px' }} />
+
       <Label className={styles.label} style={{ marginBottom: '24px', fontSize: '16px' }}>
         {t('ADD_TASK.IRRIGATION_VIEW.HOW_DO_YOU_MEASURE_WATER_USE_FOR_THIS_IRRIGATION_TYPE')}
       </Label>
@@ -273,6 +282,7 @@ export default function PureIrrigationTask({
         sm
         hookFormRegister={register(DEFAULT_IRRIGATION_MEASUREMENT)}
         disabled={disabled || isModified}
+        style={{ display: 'none' }} // temporarily hiding for April 2023 release
       />
 
       <Unit
@@ -303,7 +313,7 @@ export default function PureIrrigationTask({
         </>
       )}
 
-      {showWaterUseCalculatorModal && measurement_type && (
+      {!waterCalculatorDisabled && (
         <WaterUsageCalculatorModal
           dismissModal={onDismissWaterUseCalculatorModel}
           measurementType={measurement_type}

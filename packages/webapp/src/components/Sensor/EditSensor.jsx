@@ -150,10 +150,10 @@ export default function UpdateSensor({
             style={{ minWidth: '100px' }}
             label={t('SENSOR.LATITUDE')}
             hookFormRegister={register(LATITUDE, {
-              // check if latitude is within -90 - +90 and within 10 decimal places
+              // check if latitude is within -85 - +85 and within 10 decimal places
               pattern: {
                 value:
-                  /^(\+|-)?(?:90(?:(?:\.0{1,10})?)|(?:[0-9]|[1-8][0-9])(?:(?:\.[0-9]{1,10})?))$/,
+                  /^(\+|-)?(?:85(?:\.0{1,10})?|(?:[0-9]|[1-7][0-9]|8[0-4])(?:\.[0-9]{1,10})?)$/,
                 message: t('FARM_MAP.BULK_UPLOAD_SENSORS.VALIDATION.SENSOR_LATITUDE'),
               },
               required: true,

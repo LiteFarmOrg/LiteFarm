@@ -22,9 +22,6 @@ import { sensorReadingTypesByLocationSelector } from '../../containers/sensorRea
 function SensorReadings({ history, match }) {
   const { t } = useTranslation();
   const { location_id = '' } = match?.params;
-  const [readingTypes, setReadingTypes] = useState([]);
-  const [sensorVisualizationPropList, setSensorVisualizationPropList] = useState({});
-
   const sensorInfo = useSelector(sensorsSelector(location_id));
   const {
     latestMinTemperature = '',
@@ -34,8 +31,10 @@ function SensorReadings({ history, match }) {
     predictedXAxisLabel = '',
     xAxisLabel = {},
   } = useSelector(bulkSensorsReadingsSliceSelector);
+  const [readingTypes, setReadingTypes] = useState([]);
   const unitSystem = useSelector(measurementSelector);
   const reading_types = useSelector(sensorReadingTypesByLocationSelector(location_id));
+  const [sensorVisualizationPropList, setSensorVisualizationPropList] = useState({});
 
   useEffect(() => {
     if (sensorInfo === undefined || reading_types === undefined || sensorInfo?.deleted) {

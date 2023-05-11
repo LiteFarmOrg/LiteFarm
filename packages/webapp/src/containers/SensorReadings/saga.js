@@ -19,7 +19,7 @@ import moment from 'moment';
 import { axios, getHeader } from '../saga';
 import { userFarmSelector } from '../userFarmSlice';
 import {
-  GRAPH_TIMESTAMPS,
+  CHOSEN_GRAPH_DATAPOINTS,
   OPEN_WEATHER_API_URL_FOR_SENSORS,
   HOUR,
   SOIL_WATER_POTENTIAL,
@@ -42,6 +42,65 @@ import i18n from '../../locales/i18n';
 
 const sensorReadingsUrl = () => `${sensorUrl}/reading/visualization`;
 
+const getDates = () => {
+  let currentUnixTime = new Date();
+  let currentUnixDate = parseInt(+currentUnixTime / 1000);
+
+  let predictedUnixTime = new Date().setDate(currentUnixTime.getDate() + 2);
+  predictedUnixTime = new Date(predictedUnixTime).setHours(0, 0, 0, 0);
+  let predictedUnixDate = parseInt(+predictedUnixTime / 1000);
+
+  let historicalUnixTime = new Date().setDate(currentUnixTime.getDate() - 3);
+  historicalUnixTime = new Date(historicalUnixTime).setHours(0, 0, 0, 0);
+  let historicalUnixDate = parseInt(+historicalUnixTime / 1000);
+
+  return {
+    predictedUnixDate,
+    predictedUnixTime,
+    historicalUnixDate,
+    historicalUnixTime,
+    currentUnixDate,
+    currentUnixTime,
+  };
+};
+
+const roundDownToNearestChosenPoint = (currentUnixTime) => {
+  const currentHour = new Date(currentUnixTime).getHours();
+  const chosenHours = CHOSEN_GRAPH_DATAPOINTS.map((point) => {
+    const arr = point.split(':');
+    return parseInt(+arr[0]);
+  });
+  let hour = 0;
+  if (currentHour < chosenHours[0]) {
+    hour = chosenHours.slice(-1)[0];
+  }
+  if (currentHour >= chosenHours.slice(-1)[0]) {
+    hour = chosenHours.slice(-1)[0];
+  }
+  let i = 0;
+  while (
+    currentHour >= chosenHours[i] &&
+    !(currentHour >= chosenHours.slice(-1)[0]) &&
+    !(currentHour < chosenHours[0])
+  ) {
+    hour = chosenHours[i];
+    i++;
+  }
+  const nearestChosenUnixTime = new Date(currentUnixTime).setHours(hour, 0, 0, 0);
+
+  return moment(nearestChosenUnixTime).format('ddd MMMM D YYYY HH:mm');
+};
+
+const convertValues = (type, value, measurement) => {
+  if (type === TEMPERATURE) {
+    return getTemperatureValue(value, measurement);
+  }
+  if (type === SOIL_WATER_POTENTIAL) {
+    return getSoilWaterPotentialValue(value, measurement);
+  }
+  return value;
+};
+
 export const getSensorsReadings = createAction(`getSensorsReadingsSaga`);
 
 export function* getSensorsReadingsSaga({ payload }) {
@@ -53,215 +112,139 @@ export function* getSensorsReadingsSaga({ payload }) {
     language_preference: lang,
     grid_points: { lat, lng },
   } = yield select(userFarmSelector);
+
   try {
-    let currentDate = new Date();
-    currentDate.setHours(0, 0, 0, 0);
-
-    let predictedEndDate = new Date().setDate(currentDate.getDate() + 2);
-    predictedEndDate = new Date(predictedEndDate).setHours(0, 0, 0, 0);
-    predictedEndDate = predictedEndDate / 1000;
-
-    let startDate = new Date().setDate(currentDate.getDate() - 3);
-    startDate = new Date(startDate).setHours(0, 0, 0, 0);
-    startDate = parseInt(+startDate / 1000);
-
-    const start = parseInt(+new Date().setDate(new Date().getDate() - 4) / 1000);
     yield put(bulkSensorReadingsLoading());
-    const apikey = import.meta.env.VITE_WEATHER_API_KEY;
-    let params = {
-      appid: apikey,
-      lang: lang,
-      units: measurement,
-      type: HOUR,
-      start: start,
-      end: predictedEndDate,
-    };
+    const {
+      predictedUnixDate,
+      predictedUnixTime,
+      historicalUnixDate,
+      historicalUnixTime,
+      currentUnixDate,
+      currentUnixTime,
+    } = getDates();
+    const formattedEndDate = moment(predictedUnixTime).format('MM-DD-YYYY');
 
     const header = getHeader(user_id, farm_id);
-    const endDate = moment(new Date().setDate(new Date().getDate() + 2)).format('MM-DD-YYYY');
     const postData = {
       farm_id,
       user_id,
       locationIds,
       readingTypes,
-      endDate: endDate,
+      endDate: formattedEndDate,
     };
-    const result = yield call(axios.post, sensorReadingsUrl(), postData, header);
-    const allSensorNames = result?.data?.sensorsPoints.map((s) => s.name);
-    const centerPoint = findCenter(result?.data?.sensorsPoints.map((s) => s?.point));
-    const activeReadingTypes = result?.data?.sensorsPoints[0].reading_type;
-    const currentDT = parseInt(+new Date() / 1000);
 
-    let lastUpdatedReadingsTime = {};
-    let xAxisLabel = {};
-    let predictedXAxisLabel = '';
-    let stationName = '';
-    let latestTemperatureReadings = {};
-    let selectedSensorName = '';
-    let ambientDataWithSensorsReadings = {};
-    let latestActualReadTimes = [];
-    let sensorReadingData = {};
+    const result = yield call(axios.post, sensorReadingsUrl(), postData, header);
+    const data = result?.data;
     let sensorDataByLocationIds = {};
 
     for (let locationId of locationIds) {
       sensorDataByLocationIds[locationId] = {};
       for (let type of readingTypes) {
         sensorDataByLocationIds[locationId][type] = {};
-        let isFound;
-        let locType = sensorDataByLocationIds[locationId][type];
-        locType.latestActualReadTimes = result?.data?.sensorReading[type]
-          .filter((cv) => (cv.value ? cv.value : cv.value === 0))
-          .map((cv) => new Date(cv.actual_read_time).valueOf() / 1000);
 
-        locType.lastUpdatedReadingsTime = getLastUpdatedTime(locType.latestActualReadTimes);
+        let readings = sensorDataByLocationIds[locationId][type];
+        readings.selectedSensorName = data?.sensorsPoints[0]?.name;
+        readings.lastUpdatedReadingsTime = getLastUpdatedTime(
+          data?.sensorReading[type]
+            .filter((cv) => (cv.value ? cv.value : cv.value === 0))
+            .map((cv) => new Date(cv.actual_read_time).valueOf() / 1000),
+        );
+        readings.predictedXAxisLabel = roundDownToNearestChosenPoint(currentUnixTime);
+
+        // reduce sensor data
+        let typeReadings = {};
+        typeReadings = data?.sensorReading[type].reduce((acc, cv) => {
+          const currentValueUnixDate = new Date(cv?.read_time).getTime() / 1000;
+          const currentValueUnixTime = new Date(currentValueUnixDate * 1000).toString();
+          const isChosenTimestamp = CHOSEN_GRAPH_DATAPOINTS?.find((g) =>
+            currentValueUnixTime?.includes(g),
+          );
+          if (
+            isChosenTimestamp &&
+            historicalUnixDate < currentValueUnixDate &&
+            currentValueUnixDate < predictedUnixDate
+          ) {
+            const currentDateTime = `${currentValueUnixTime?.split(':00:00')[0]}:00`;
+            if (!acc[currentValueUnixDate]) acc[currentValueUnixDate] = {};
+            acc[currentValueUnixDate] = {
+              ...acc[currentValueUnixDate],
+              [cv?.name]: isNaN(convertValues(type, cv?.value, measurement))
+                ? i18n.t('translation:SENSOR.NO_DATA')
+                : convertValues(type, cv?.value, measurement),
+              [CURRENT_DATE_TIME]: currentDateTime,
+            };
+          }
+          return acc;
+        }, {});
         if (type === TEMPERATURE) {
-          params = {
-            ...params,
+          // Call OpenWeather
+          const centerPoint = findCenter(data?.sensorsPoints.map((s) => s?.point));
+          const params = {
+            appid: import.meta.env.VITE_WEATHER_API_KEY,
+            lang: lang,
+            units: measurement,
+            type: HOUR,
+            start: historicalUnixDate,
+            end: predictedUnixDate,
             lat: centerPoint?.lat ?? lat,
             lon: centerPoint?.lng ?? lng,
           };
           const openWeatherPromiseList = [];
           for (const weatherURL of OPEN_WEATHER_API_URL_FOR_SENSORS) {
             const openWeatherUrl = new URL(weatherURL);
-
             for (const key in params) {
               openWeatherUrl.searchParams.append(key, params[key]);
             }
             openWeatherPromiseList.push(call(axios.get, openWeatherUrl?.toString()));
           }
-
           const [currentDayWeatherResponse, openWeatherResponse, predictedWeatherResponse] =
             yield all(openWeatherPromiseList);
-          locType.stationName = currentDayWeatherResponse?.data?.name;
-          const weatherResData = [
-            ...openWeatherResponse.data.list,
-            ...predictedWeatherResponse.data.list,
-          ];
 
-          const ambientData = weatherResData.reduce((acc, tempInfo) => {
-            let dateAndTimeInfo = new Date(tempInfo?.dt * 1000).toString();
-            const isCorrectTimestamp = GRAPH_TIMESTAMPS?.find((g) => dateAndTimeInfo?.includes(g));
-            if (isCorrectTimestamp && startDate < tempInfo?.dt && tempInfo?.dt < predictedEndDate) {
-              const currentDateTime = `${dateAndTimeInfo?.split(':00:00')[0]}:00`;
-              if (!isFound && currentDT < tempInfo?.dt) {
-                isFound = true;
-                locType.predictedXAxisLabel = acc[Object.keys(acc).at(-1)][CURRENT_DATE_TIME];
-              }
-              if (!acc[tempInfo?.dt]) acc[tempInfo?.dt] = {};
-              acc[tempInfo?.dt] = {
-                ...acc[tempInfo?.dt],
-                [`${locType.stationName}`]: tempInfo?.main?.temp,
-                [CURRENT_DATE_TIME]: currentDateTime,
-              };
-              for (const s of allSensorNames) {
-                acc[tempInfo?.dt][s] = null;
-              }
-            }
-            return acc;
-          }, {});
-          locType.ambientDataWithSensorsReadings = result?.data?.sensorReading[TEMPERATURE].reduce(
-            (acc, cv) => {
-              const dt = new Date(cv.read_time).valueOf() / 1000;
-              const value = getTemperatureValue(cv.value, measurement);
-              if (acc[dt]) {
-                acc[dt][cv.name] = isNaN(value) ? i18n.t('translation:SENSOR.NO_DATA') : value;
-              }
-              return acc;
-            },
-            ambientData,
-          );
-
-          locType.ambientDataWithSensorsReadings = allSensorNames.reduce((acc, cv) => {
-            if (Object.values(acc).every((ambientDataReading) => ambientDataReading[cv] === null)) {
-              acc = Object.values(acc).map((ambientDataReading) => {
-                delete ambientDataReading[cv];
-                return {
-                  ...ambientDataReading,
-                  [`${cv} ${i18n.t('SENSOR.NO_DATA')}`]: null,
-                };
-              });
-            }
-            return acc;
-          }, locType.ambientDataWithSensorsReadings);
-
-          locType.latestTemperatureReadings = {
+          readings.stationName = currentDayWeatherResponse?.data?.name;
+          readings.latestTemperatureReadings = {
             tempMin: currentDayWeatherResponse?.data?.main?.temp_min,
             tempMax: currentDayWeatherResponse?.data?.main?.temp_max,
           };
 
-          if (result?.data?.sensorsPoints) {
-            locType.selectedSensorName = result?.data?.sensorsPoints[0]?.name;
-          }
-
-          const allTimestamps = Object.keys(locType.ambientDataWithSensorsReadings);
-          if (allTimestamps.length) {
-            const startDateObj = new Date(+allTimestamps[0] * 1000);
-            const endDateObj = new Date(+allTimestamps.at(-1) * 1000);
-
-            const language = getLanguageFromLocalStorage();
-            const options = { month: 'short', day: '2-digit' };
-            const dateTimeFormat = new Intl.DateTimeFormat(language, options);
-
-            let startDateXAxisLabel = dateTimeFormat.format(startDateObj);
-            let endDateXAxisLabel = dateTimeFormat.format(endDateObj);
-            locType.xAxisLabel = `${startDateXAxisLabel} - ${endDateXAxisLabel}`;
-          }
-          locType.sensorReadingData = Object.values(locType.ambientDataWithSensorsReadings);
-        } else if (type === SOIL_WATER_POTENTIAL) {
-          let soilWaterPotentialReadings = {};
-          if (!result?.data?.sensorReading[SOIL_WATER_POTENTIAL].every((cv) => cv.value === null)) {
-            soilWaterPotentialReadings = result?.data?.sensorReading[SOIL_WATER_POTENTIAL].reduce(
-              (acc, cv) => {
-                const dt = new Date(cv?.read_time).getTime() / 1000;
-                let dateAndTimeInfo = new Date(dt * 1000).toString();
-                const isCorrectTimestamp = GRAPH_TIMESTAMPS?.find((g) =>
-                  dateAndTimeInfo?.includes(g),
-                );
-                if (isCorrectTimestamp && startDate < dt && dt < predictedEndDate) {
-                  const currentDateTime = `${dateAndTimeInfo?.split(':00:00')[0]}:00`;
-
-                  if (!isFound && currentDT < dt) {
-                    isFound = true;
-                    locType.predictedXAxisLabel = acc[Object.keys(acc).at(-1)][CURRENT_DATE_TIME];
-                  }
-
-                  if (!acc[dt]) acc[dt] = {};
-                  acc[dt] = {
-                    ...acc[dt],
-                    [cv?.name]: isNaN(getSoilWaterPotentialValue(cv?.value, measurement))
-                      ? i18n.t('translation:SENSOR.NO_DATA')
-                      : getSoilWaterPotentialValue(cv?.value, measurement),
-                    [CURRENT_DATE_TIME]: currentDateTime,
-                  };
-                }
-                return acc;
-              },
-              {},
-            );
-          }
-          if (result?.data?.sensorsPoints) {
-            locType.selectedSensorName = result?.data?.sensorsPoints[0]?.name;
-          }
-          const soilWaterPotentialSensorReadings = Object.values(soilWaterPotentialReadings);
-          locType.sensorReadingData = soilWaterPotentialSensorReadings;
-          if (soilWaterPotentialSensorReadings?.length) {
-            let startDateXAxisLabel =
-              soilWaterPotentialSensorReadings[0].current_date_time.split(' ');
-            startDateXAxisLabel = `${startDateXAxisLabel[1]} ${startDateXAxisLabel[2]}`;
-            let endDateXAxisLabel = soilWaterPotentialSensorReadings
-              .at(-1)
-              .current_date_time.split(' ');
-            endDateXAxisLabel = `${endDateXAxisLabel[1]} ${endDateXAxisLabel[2]}`;
-            locType.xAxisLabel = `${startDateXAxisLabel} - ${endDateXAxisLabel}`;
-          }
+          // Reduce weather data
+          const weatherResData = [
+            ...openWeatherResponse.data.list,
+            ...predictedWeatherResponse.data.list,
+          ];
+          typeReadings = weatherResData.reduce((acc, cv) => {
+            const currentValueUnixDate = cv?.dt;
+            if (acc[currentValueUnixDate]) {
+              acc[currentValueUnixDate] = {
+                ...acc[currentValueUnixDate],
+                [`${readings.stationName}`]: cv?.main?.temp,
+              };
+            }
+            return acc;
+          }, typeReadings);
         }
+
+        // Set readings based values
+        const allTimestamps = Object.keys(typeReadings);
+        if (allTimestamps.length) {
+          const startDateObj = new Date(+allTimestamps[0] * 1000);
+          const endDateObj = new Date(+allTimestamps.at(-1) * 1000);
+
+          const language = getLanguageFromLocalStorage();
+          const options = { month: 'short', day: '2-digit' };
+          const dateTimeFormat = new Intl.DateTimeFormat(language, options);
+
+          let startDateXAxisLabel = dateTimeFormat.format(startDateObj);
+          let endDateXAxisLabel = dateTimeFormat.format(endDateObj);
+          readings.xAxisLabel = `${startDateXAxisLabel} - ${endDateXAxisLabel}`;
+        }
+        readings.sensorReadingData = Object.values(typeReadings);
       }
     }
 
     yield put(
       bulkSensorReadingsSuccess({
         sensorDataByLocationIds,
-        activeReadingTypes,
       }),
     );
   } catch (error) {

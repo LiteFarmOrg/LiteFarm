@@ -11,6 +11,7 @@ import {
 } from '../../../waterValveSlice';
 import history from '../../../../history';
 import { canShowSuccessHeader, setSuccessMessage } from '../../../mapSlice';
+import { setMapCache } from '../../../Map/mapCacheSlice';
 import i18n from '../../../../locales/i18n';
 
 export const postWaterValveLocation = createAction(`postWaterValveLocationSaga`);
@@ -30,6 +31,7 @@ export function* postWaterValveLocationSaga({ payload: data }) {
       locationObject,
       header,
     );
+    yield put(setMapCache({ maxZoom: undefined, farm_id }));
     yield put(postWaterValveSuccess(result.data));
 
     yield put(

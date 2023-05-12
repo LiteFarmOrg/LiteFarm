@@ -1,11 +1,11 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { mapCacheSelector, setMapCache } from './mapCacheSlice';
+import { mapCacheSelector, setMapCache, setRetrievedPoints } from './mapCacheSlice';
 import { userFarmSelector } from '../userFarmSlice';
 import { usePropRef } from '../../components/LocationPicker/SingleLocationPicker/usePropRef';
 import { pointSelector } from '../locationSlice';
 
 export function useMaxZoom() {
-  const { maxZoom } = useSelector(mapCacheSelector);
+  const { maxZoom, previousMaxZoom, retrievedPoints } = useSelector(mapCacheSelector);
   const { farm_id, grid_points } = useSelector(userFarmSelector);
   const dispatch = useDispatch();
   const setMaxZoom = (maxZoom) => {
@@ -16,23 +16,28 @@ export function useMaxZoom() {
   const getMaxZoom = async (maps, map = null) => {
     if (!maxZoom) {
       const mapService = new maps.MaxZoomService();
-      const allPoints = [{ point: grid_points }];
-      const pointsCollections = [points.gate, points.water_valve, points.sensor];
-      pointsCollections.forEach((collection) => {
-        collection.forEach((element) => {
-          if (
-            !allPoints.some(
-              (item) =>
-                item.point.lat === element.point.lat && item.point.lng === element.point.lng,
-            )
-          ) {
-            allPoints.push({ point: element.point });
-          }
-        });
+      const pointsToQuery = [];
+      const pointsCollections = [
+        { point: grid_points },
+        ...points.gate,
+        ...points.water_valve,
+        ...points.sensor,
+      ];
+      pointsCollections.forEach((element) => {
+        if (
+          !pointsToQuery.some(
+            (item) => item.lat === element.point.lat && item.lng === element.point.lng,
+          ) &&
+          !retrievedPoints.some(
+            (item) => item.lat === element.point.lat && item.lng === element.point.lng,
+          )
+        ) {
+          pointsToQuery.push(element.point);
+        }
       });
-      const promises = allPoints.map(function (point) {
+      const promises = pointsToQuery.map(function (point) {
         return new Promise(function (resolve, reject) {
-          mapService?.getMaxZoomAtLatLng(point.point, function (result) {
+          mapService?.getMaxZoomAtLatLng(point, function (result) {
             if (result.status === 'OK') {
               resolve(result.zoom);
             } else {
@@ -44,13 +49,24 @@ export function useMaxZoom() {
       });
       Promise.all(promises)
         .then(function (results) {
-          const minNumber = Math.min(...results);
+          const maxZooms = previousMaxZoom ? [...results, previousMaxZoom] : results;
+          const minNumber = Math.min(...maxZooms);
           setMaxZoom(minNumber);
+          dispatch(
+            setRetrievedPoints({
+              farm_id,
+              retrievedPoints: [...pointsToQuery, ...retrievedPoints],
+            }),
+          );
           if (map) map.setOptions({ maxZoom: minNumber });
         })
         .catch(function (error) {
           console.log('Error getting available zooms');
-          setMaxZoom(18);
+          if (previousMaxZoom) {
+            setMaxZoom(previousMaxZoom);
+          } else {
+            setMaxZoom(18);
+          }
         });
     } else if (map) {
       map.setOptions({ maxZoom: maxZoom });

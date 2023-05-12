@@ -206,16 +206,20 @@ const sensorController = {
         );
 
         // Save sensors in database
-        const sensorLocations = await Promise.allSettled(
-          registeredSensors.map(async (sensor) => {
-            return await SensorModel.createSensor(
+        const sensorLocations = [];
+        for (const sensor of registeredSensors) {
+          try {
+            const value = await SensorModel.createSensor(
               sensor,
               farm_id,
               user_id,
               esids.includes(sensor.external_id) ? 1 : 0,
             );
-          }),
-        );
+            sensorLocations.push({ status: 'fulfilled', value });
+          } catch (error) {
+            sensorLocations.push({ status: 'rejected', reason: error });
+          }
+        }
 
         const successSensors = sensorLocations.reduce((prev, curr, idx) => {
           if (curr.status === 'fulfilled') {

@@ -58,7 +58,7 @@ const sensorCsvHeaderTranslations = {
     name: "Nom",
     latitude: "Latitude",
     longitude: "Longitude",
-    reading_types: "types_à_relevé",
+    reading_types: "Type_de_données_relevées",
     external_id: "ID_externe",
     depth: "Profondeur_cm",
     brand: "Marque",
@@ -89,7 +89,7 @@ const readingTypeTranslations = {
   },
   fr: {
     soil_water_content: "teneur_en_eau_du_sol",
-    soil_water_potential: "potential_hydrique_du_sol",
+    soil_water_potential: "potentiel_hydrique_du_sol",
     temperature: "température",
   },
   pt: {

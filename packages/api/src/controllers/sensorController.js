@@ -221,11 +221,13 @@ const sensorController = {
           if (curr.status === 'fulfilled') {
             prev.push(curr.value);
           } else {
+            // These are sensors that were not saved to the database as locations
             errorSensors.push({
               row: data.findIndex((elem) => elem === registeredSensors[idx]) + 2,
-              column: 'External_ID',
               translation_key: sensorErrors.INTERNAL_ERROR,
-              variables: { sensorId: registeredSensors[idx].external_id },
+              variables: {
+                sensorId: registeredSensors[idx].external_id || registeredSensors[idx].name,
+              },
             });
           }
           return prev;
@@ -249,7 +251,7 @@ const sensorController = {
                   error_download: {
                     errors: errorSensors,
                     file_name: 'sensor-upload-outcomes.txt',
-                    success: successSensors.map((s) => s.sensor?.external_id), // Notification download needs an array of only ESIDs
+                    success: successSensors.map((s) => s.sensor?.external_id || s.name), // Notification download needs an array of only ESIDs
                     error_type: 'claim',
                   },
                 },

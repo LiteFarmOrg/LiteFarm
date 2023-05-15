@@ -891,4 +891,11 @@ HarvestTask.play = async ({ canvasElement }) => {
   await quantityTest0.inputNotToHaveValue();
   await quantityTest0.visibleInputAndComboxIsDisabled();
   await quantityTest0.selectedUnitToBeInTheDocument('mt');
+
+  await quantityTest1.inputValueAndBlur('1000000001');
+  await quantityTest1.haveMaxValueError();
+
+  await userEvent.click(achachaCheckbox);
+  await quantityTest1.inputNotToHaveValue();
+  await quantityTest1.haveNoError();
 };

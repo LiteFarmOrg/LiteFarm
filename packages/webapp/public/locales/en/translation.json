@@ -539,11 +539,6 @@
         "BRAND": "Brand",
         "MODEL": "Model"
       },
-      "SENSOR_READING_TYPES": {
-        "SOIL_MOISTURE_CONTENT": "soil_water_content",
-        "SOIL_WATER_POTENTIAL": "soil_water_potential",
-        "TEMPERATURE": "temperature"
-      },
       "VALIDATION": {
         "FILE_ROW_LIMIT_EXCEEDED": "File row limit exceeded. The max number of sensors that can be uploaded from a file is 100.",
         "MISSING_COLUMNS": "Columns are required/missing.",

@@ -533,16 +533,11 @@
         "NAME": "Nom",
         "LATITUDE": "Latitude",
         "LONGITUDE": "Longitude",
-        "READING_TYPES": "Type_de_donnees_relevees",
+        "READING_TYPES": "Type_de_données_relevées",
         "SENSOR_EXTERNAL_ID": "ID_externe",
         "DEPTH": "Profondeur_cm",
         "BRAND": "Marque",
         "MODEL": "Modele"
-      },
-      "SENSOR_READING_TYPES": {
-        "SOIL_MOISTURE_CONTENT": "teneur_en_eau_du_sol",
-        "SOIL_WATER_POTENTIAL": "potentiel_hydrique_du_sol",
-        "TEMPERATURE": "temperature"
       },
       "VALIDATION": {
         "FILE_ROW_LIMIT_EXCEEDED": "Limite de lignes du fichier dépassée. Le nombre maximum de capteurs téléchargeable dans un fichier est de 100.",
@@ -551,7 +546,7 @@
         "SENSOR_NAME": "Nom de capteur non valide, if doit être compris entre 1 et 100 caractères.",
         "SENSOR_LATITUDE": "La valeur de latitude n'est pas valide, elle doit être comprise entre -85 et 85 et avec moins de 10 décimales.",
         "SENSOR_LONGITUDE": "La valeur de longitude n'est pas valide, elle doit être comprise entre -180 et 180 et avec moins de 10 décimales.",
-        "SENSOR_READING_TYPES": "Type de données relevées non valide détecté\u00a0: {{ reading_types }}. Les valeurs valides sont\u00a0: teneur_en_eau_du_sol, potentiel_hydrique_du_sol, temperature.",
+        "SENSOR_READING_TYPES": "Type de données relevées non valide détecté\u00a0: {{ reading_types }}. Les valeurs valides sont\u00a0: teneur_en_eau_du_sol, potentiel_hydrique_du_sol, température.",
         "SENSOR_DEPTH": "Valeur de profondeur non valide, elle doit être comprise entre 0 et 1000.",
         "SENSOR_BRAND": "Nom de marque non valide, il doit être compris entre 1 et 100 caractères.",
         "SENSOR_MODEL": "Nom de modèle non valide, il doit être compris entre 1 et 100 caractères.",

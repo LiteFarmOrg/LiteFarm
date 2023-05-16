@@ -1,19 +1,19 @@
+import { convert } from '../../../util/convert-units/convert';
+
 const metric = ['metric', 'celsius', 'kpa'];
 const imperial = ['imperial', 'fahrenheit', 'psi'];
 
 export const getTemperatureValue = (value, unit) => {
-  if (imperial.includes(unit.toLowerCase())) return convertCelsiusToFahrenheit(value);
-  return roundToTwo(value);
+  if (typeof value !== 'number') {
+    return NaN;
+  }
+  const to = imperial.includes(unit.toLowerCase()) ? 'F' : 'C';
+  return roundToTwo(convert(value).from('C').to(to));
 };
 
 export const getTemperatureUnit = (unit) => {
   if (imperial.includes(unit.toLowerCase())) return 'º F';
   return 'º C';
-};
-
-const convertCelsiusToFahrenheit = (temperature) => {
-  const fahrenheit = temperature * 1.8 + 32;
-  return roundToTwo(fahrenheit);
 };
 
 const roundToTwo = (num) => {

@@ -548,7 +548,7 @@
         "MISSING_COLUMNS": "Colunas são necessárias/ausentes.",
         "EXTERNAL_ID": "ID externo inválido, deve ter entre 1 e 20 caracteres.",
         "SENSOR_NAME": "Nome do sensor inválido, deve ter entre 1 e 100 caracteres.",
-        "SENSOR_LATITUDE": "Valor de latitude inválido, deve estar entre -90 e 90 e menos de 10 casas decimais.",
+        "SENSOR_LATITUDE": "Valor de latitude inválido, deve estar entre -85 e 85 e menos de 10 casas decimais.",
         "SENSOR_LONGITUDE": " Valor de longitude inválido, deve estar entre -180 e 180. e menos de 10 casas decimais.",
         "SENSOR_READING_TYPES": "Tipo de leitura inválido detectado: {{ reading_types }}. Vvalores válidos incluem: solo_água_conteúdo, solo_água_potencial, temperatura.",
         "SENSOR_DEPTH": "Valor de profundidade inválido, deve estar entre 0 e 1000.",

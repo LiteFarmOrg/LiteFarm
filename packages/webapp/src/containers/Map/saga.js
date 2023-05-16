@@ -169,7 +169,7 @@ export function* bulkUploadSensorsInfoFileSaga({ payload: { file } }) {
             }
             yield put(
               bulkSensorsUploadFailure({
-                success: success.map((s) => s?.sensor?.external_id),
+                success: success.map((s) => s?.sensor?.external_id || s?.name),
                 errorSensors,
               }),
             );

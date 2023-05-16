@@ -23,7 +23,6 @@ import './dotenvConfig.js';
 // dotenv.config();
 // dotenv.config({ path: path.resolve(process.cwd(), '.env.local') });
 import express from 'express';
-import bodyParser from 'body-parser';
 const app = express();
 import expressOasGenerator from 'express-oas-generator';
 const environment = process.env.NODE_ENV || 'development';
@@ -196,9 +195,29 @@ app.set('json replacer', (key, value) => {
   return value;
 });
 
+// Apply default express.json() request size limit to all routes except sensor
+const applyExpressJSON = (req, res, next) => {
+  if (req.path.startsWith('/sensor')) return next();
+
+  const jsonMiddleware = express.json({ limit: '100kB' });
+  jsonMiddleware(req, res, next);
+};
+
+// Refuse GET or DELETE requests with a request body
+const rejectBodyInGetAndDelete = (req, res, next) => {
+  if (
+    (req.method === 'DELETE' || req.method === 'GET') &&
+    req.body &&
+    Object.keys(req.body).length > 0
+  ) {
+    return res.sendStatus(400);
+  }
+  next();
+};
+
 app
-  .use(bodyParser.json())
-  .use(bodyParser.urlencoded({ extended: true }))
+  .use(applyExpressJSON)
+  .use(express.urlencoded({ extended: true }))
 
   // prevent CORS errors
   .use(cors())
@@ -211,14 +230,9 @@ app
     if (req.method === 'OPTIONS') {
       res.header('Access-Control-Allow-Methods', 'PUT, POST, PATCH, DELETE, GET');
       return res.status(200).json({});
-    } else if (
-      (req.method === 'DELETE' || req.method === 'GET') &&
-      Object.keys(req.body).length > 0
-    ) {
-      // TODO: Find new bugs caused by this change
-      return res.sendStatus(400);
     }
-    next();
+
+    rejectBodyInGetAndDelete(req, res, next);
   })
   .use(router)
   .set('json spaces', 2)
@@ -266,8 +280,10 @@ app
   .use('/product', productRoute)
   .use('/nomination', nominationRoutes)
   .use('/notification_user', notificationUserRoute)
-  .use('/time_notification', timeNotificationRoute)
-  .use('/sensor', sensorRoute);
+  .use('/time_notification', timeNotificationRoute);
+
+// Allow a 1MB limit on sensors to match incoming Ensemble data
+app.use('/sensor', express.json({ limit: '1MB' }), rejectBodyInGetAndDelete, sensorRoute);
 
 expressOasGenerator.handleRequests();
 

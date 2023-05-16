@@ -7,7 +7,6 @@ import RouterTab from '../../components/RouterTab';
 import Spinner from '../../components/Spinner';
 import { sensorsSelector } from '../sensorSlice';
 import { measurementSelector } from '../../containers/userFarmSlice';
-import { Label } from '../../components/Typography';
 import { sensorReadingTypesByLocationSelector } from '../../containers/sensorReadingTypesSlice';
 import { getSensorsReadings } from '../SensorReadings/saga';
 import { bulkSensorsReadingsSliceSelector } from '../bulkSensorReadingsSlice';
@@ -64,21 +63,21 @@ function SensorReadings({ history, match }) {
     const { latestTemperatureReadings, stationName } = locationData.temperature;
     const unit = getUnitOptionMap()[ambientTemperature[unitSystem].defaultUnit].label;
     return (
-      <>
-        <Label className={styles.subTitle}>{t('SENSOR.SENSOR_FORECAST.TITLE')}</Label>
-        <Label className={styles.subTitle}>
+      <div className={styles.forecastInfo}>
+        <div className={styles.forecastInfoTitle}>{t('SENSOR.SENSOR_FORECAST.TITLE')}</div>
+        <div>
           {t('SENSOR.SENSOR_FORECAST.HIGH_AND_LOW_TEMPERATURE', {
             high: latestTemperatureReadings.tempMax,
             low: latestTemperatureReadings.tempMin,
             unit: unit,
           })}
-        </Label>
-        <Label className={styles.subTitle}>
+        </div>
+        <div>
           {t('SENSOR.SENSOR_FORECAST.WEATHER_STATION', {
             weatherStationLocation: stationName,
           })}
-        </Label>
-      </>
+        </div>
+      </div>
     );
   }, [styles, locationData]);
 

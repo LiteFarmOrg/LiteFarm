@@ -1,0 +1,22 @@
+name: Docker Compose Workflow
+
+on:   
+  pull_request:
+    branches:
+      - integration
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up Docker Compose
+        uses: isbang/compose-action@v1.4.1
+        with:
+          compose-file: docker-compose.beta.yml
+
+      - name: Build and start containers
+        run: docker-compose up -d

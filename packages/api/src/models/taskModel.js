@@ -31,6 +31,7 @@ import plantingManagementPlanModel from './plantingManagementPlanModel.js';
 import managementTasksModel from './managementTasksModel.js';
 import locationModel from './locationModel.js';
 import locationTasksModel from './locationTasksModel.js';
+import taskPinModel from './taskPinModel';
 
 class TaskModel extends BaseModel {
   static get tableName() {
@@ -203,6 +204,16 @@ class TaskModel extends BaseModel {
             to: 'location_tasks.location_id',
           },
           to: 'location.location_id',
+        },
+      },
+
+      // Task pins
+      pinned: {
+        modelClass: taskPinModel,
+        relation: Model.HasOneRelation,
+        join: {
+          from: 'task.task_id',
+          to: 'task_pins.task_id',
         },
       },
     };

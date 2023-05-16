@@ -19,4 +19,4 @@ jobs:
           compose-file: docker-compose.beta.yml
 
       - name: Build and start containers
-        run: docker-compose up -d
+        run: docker-compose -f docker-compose.beta.yml up -d

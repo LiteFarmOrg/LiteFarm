@@ -29,6 +29,7 @@ import {
   locationEnum,
   polygonPath,
   longPress,
+  DEFAULT_MAX_ZOOM,
 } from './constants';
 import useSelectionHandler from './useSelectionHandler';
 import { useMaxZoom } from './useMaxZoom';
@@ -150,7 +151,10 @@ const useMapAssetRenderer = ({ isClickable, showingConfirmButtons, drawingState 
 
     markerClusterRef.current.addMarkers(markers, true);
     maps.event.addListener(markerClusterRef.current, 'click', (cluster) => {
-      if (map.getZoom() >= (maxZoomRef?.current || 18) && cluster.markers.length > 1) {
+      if (
+        map.getZoom() >= (maxZoomRef?.current || DEFAULT_MAX_ZOOM) &&
+        cluster.markers.length > 1
+      ) {
         const pointAssets = {
           gate: [],
           water_valve: [],

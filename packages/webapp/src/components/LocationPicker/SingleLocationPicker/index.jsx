@@ -4,7 +4,12 @@ import PropTypes from 'prop-types';
 import CustomZoom from '../../Map/CustomZoom';
 import CustomCompass from '../../Map/CustomCompass';
 import GoogleMap from 'google-map-react';
-import { DEFAULT_ZOOM, GMAPS_API_KEY, isPoint } from '../../../containers/Map/constants';
+import {
+  DEFAULT_ZOOM,
+  GMAPS_API_KEY,
+  isPoint,
+  DEFAULT_MAX_ZOOM,
+} from '../../../containers/Map/constants';
 import MapPin from '../../../assets/images/map/map_pin.svg';
 import {
   createMarkerClusters,
@@ -164,7 +169,10 @@ const LocationPicker = ({
       maxZoom,
     );
     maps.event.addListener(markerClusterRef.current, 'click', (cluster) => {
-      if (map.getZoom() >= (maxZoomRef?.current || 18) && cluster.markers.length > 1) {
+      if (
+        map.getZoom() >= (maxZoomRef?.current || DEFAULT_MAX_ZOOM) &&
+        cluster.markers.length > 1
+      ) {
         setOverlappedPositions(
           cluster.markers.map((marker) => ({
             location_id: marker.location_id,

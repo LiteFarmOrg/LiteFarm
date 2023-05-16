@@ -3,6 +3,7 @@ import { mapCacheSelector, setMapCache, setRetrievedPoints } from './mapCacheSli
 import { userFarmSelector } from '../userFarmSlice';
 import { usePropRef } from '../../components/LocationPicker/SingleLocationPicker/usePropRef';
 import { pointSelector } from '../locationSlice';
+import { DEFAULT_MAX_ZOOM } from './constants';
 
 export function useMaxZoom() {
   const { maxZoom, previousMaxZoom, retrievedPoints } = useSelector(mapCacheSelector);
@@ -65,7 +66,7 @@ export function useMaxZoom() {
           if (previousMaxZoom) {
             setMaxZoom(previousMaxZoom);
           } else {
-            setMaxZoom(18);
+            setMaxZoom(DEFAULT_MAX_ZOOM);
           }
         });
     } else if (map) {

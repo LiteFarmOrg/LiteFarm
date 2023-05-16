@@ -32,7 +32,6 @@ const SensorReadingsLineChart = ({ readingType, noDataFoundMessage, data }) => {
   );
   let isActive = readingTypeDataExists ? true : false;
   let unit;
-
   if (readingType === TEMPERATURE) {
     unit = getUnitOptionMap()[ambientTemperature[unitSystem].defaultUnit].value;
     const weatherStationDataExists = data?.sensorReadingData?.find(

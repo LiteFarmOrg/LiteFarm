@@ -1,4 +1,4 @@
-import { React, useEffect, useState } from 'react';
+import { React, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSelector, useDispatch } from 'react-redux';
 import SensorReadingsLineChart from '../SensorReadingsLineChart';
@@ -6,10 +6,15 @@ import PageTitle from '../../components/PageTitle/v2';
 import RouterTab from '../../components/RouterTab';
 import Spinner from '../../components/Spinner';
 import { sensorsSelector } from '../sensorSlice';
+import { measurementSelector } from '../../containers/userFarmSlice';
+import { Label } from '../../components/Typography';
 import { sensorReadingTypesByLocationSelector } from '../../containers/sensorReadingTypesSlice';
 import { getSensorsReadings } from '../SensorReadings/saga';
 import { bulkSensorsReadingsSliceSelector } from '../bulkSensorReadingsSlice';
 import styles from './styles.module.scss';
+import { TEMPERATURE } from './constants';
+import { getUnitOptionMap } from '../../util/convert-units/getUnitOptionMap';
+import { ambientTemperature } from '../../util/convert-units/unit';
 
 function SensorReadings({ history, match }) {
   const { t } = useTranslation();
@@ -21,6 +26,7 @@ function SensorReadings({ history, match }) {
   const sensorInfo = useSelector(sensorsSelector(location_id));
   const reading_types = useSelector(sensorReadingTypesByLocationSelector(location_id));
   const { loading, sensorDataByLocationIds } = useSelector(bulkSensorsReadingsSliceSelector);
+  const unitSystem = useSelector(measurementSelector);
 
   //Keeps sensor readings up to date for location
   useEffect(() => {
@@ -49,6 +55,32 @@ function SensorReadings({ history, match }) {
       );
     }
   }, [readingTypes, location_id]);
+
+  const forecastInfo = useMemo(() => {
+    if (!readingTypes.includes(TEMPERATURE) || !locationData) {
+      return null;
+    }
+
+    const { latestTemperatureReadings, stationName } = locationData.temperature;
+    const unit = getUnitOptionMap()[ambientTemperature[unitSystem].defaultUnit].label;
+    return (
+      <>
+        <Label className={styles.subTitle}>{t('SENSOR.SENSOR_FORECAST.TITLE')}</Label>
+        <Label className={styles.subTitle}>
+          {t('SENSOR.SENSOR_FORECAST.HIGH_AND_LOW_TEMPERATURE', {
+            high: latestTemperatureReadings.tempMax,
+            low: latestTemperatureReadings.tempMin,
+            unit: unit,
+          })}
+        </Label>
+        <Label className={styles.subTitle}>
+          {t('SENSOR.SENSOR_FORECAST.WEATHER_STATION', {
+            weatherStationLocation: stationName,
+          })}
+        </Label>
+      </>
+    );
+  }, [styles, locationData]);
 
   return (
     <>
@@ -82,6 +114,7 @@ function SensorReadings({ history, match }) {
               <Spinner />
             </div>
           )}
+          {!loading && forecastInfo}
           {!loading && locationData && readingTypes?.length > 0
             ? [...readingTypes]
                 .sort()

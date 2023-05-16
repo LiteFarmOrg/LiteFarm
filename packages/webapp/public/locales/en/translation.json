@@ -1540,14 +1540,19 @@
       "RETIRE_SUCCESS": "Successfully retired sensor",
       "RETIRE_FAILURE": "There was an error retiring this sensor"
     },
+    "SENSOR_FORECAST": {
+      "TITLE": "Today's forecast",
+      "HIGH_AND_LOW_TEMPERATURE": "High and low temperature: {{high}}{{unit}} / {{low}}{{unit}}",
+      "WEATHER_STATION": "Weather station: {{weatherStationLocation}}"
+    },
     "TEMPERATURE_READINGS_OF_SENSOR": {
       "TITLE": "Soil temperature",
-      "SUBTITLE": "Today’s forecasted ambient high and low temperature: {{high}}{{units}} / {{low}}{{units}}",
       "Y_AXIS_LABEL": "in {{units}}",
       "C": "Celsius (°C)",
       "F": "Fahrenheit (°F)",
       "WEATHER_STATION": "Weather station: {{weatherStationLocation}}",
-      "AMBIENT_TEMPERATURE_FOR": "Ambient temperature for"
+      "AMBIENT_TEMPERATURE_FOR": "Ambient temperature for",
+      "LAST_UPDATED_TEMPERATURE_READINGS": "Last updated {{latestReadingUpdate}}"
     },
     "SOIL_WATER_POTENTIAL_READINGS_OF_SENSOR": {
       "TITLE": "Soil water potential",

@@ -20,3 +20,18 @@ jobs:
 
       - name: Build and start containers
         run: docker-compose -f docker-compose.beta.yml up -d
+
+      - name: Wait for containers to start
+        run: sleep 10s  # Adjust the sleep duration as needed to allow containers to start
+
+      - name: Run cypress tests
+        uses: cypress-io/github-action@v4.2.0 
+        with:
+          working-directory: packages/webapp
+          start: pnpm dev
+          headed: true
+          browser: chrome
+          record: true
+          parallel: true
+          group: 'UI - Chrome'
+          spec: cypress/e2e/happyPath.spec.js

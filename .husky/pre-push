@@ -1,5 +1,0 @@
-#!/bin/sh
-
-echo "Running Cypress tests..."
-cd packages/webapp
-pnpm cypress run --spec "cypress/e2e/tasksFlow.spec.js" --headed

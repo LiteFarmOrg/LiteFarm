@@ -21,16 +21,14 @@ const roundToTwo = (num) => {
 };
 
 export const getSoilWaterPotentialValue = (value, unit) => {
-  if (imperial.includes(unit.toLowerCase())) return convertKPaToPsi(value);
-  return roundToTwo(value);
+  if (typeof value !== 'number') {
+    return NaN;
+  }
+  const to = imperial.includes(unit.toLowerCase()) ? 'psi' : 'kPa';
+  return roundToTwo(convert(value).from('kPa').to(to));
 };
 
 export const getSoilWaterPotentialUnit = (unit) => {
   if (imperial.includes(unit.toLowerCase())) return ' psi';
   return ' kPa';
-};
-
-const convertKPaToPsi = (soilWaterPotentialInKPa) => {
-  const soilWaterPotentialInPSI = soilWaterPotentialInKPa * 0.1450377377;
-  return roundToTwo(soilWaterPotentialInPSI);
 };

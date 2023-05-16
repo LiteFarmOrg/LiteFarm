@@ -195,9 +195,9 @@ app.set('json replacer', (key, value) => {
   return value;
 });
 
-// Apply default express.json() request size limit to all routes except sensor
+// Apply default express.json() request size limit to all routes except sensor webhook
 const applyExpressJSON = (req, res, next) => {
-  if (req.path.startsWith('/sensor')) return next();
+  if (req.path.startsWith('/sensor/reading/partner/1/farm/')) return next();
 
   const jsonMiddleware = express.json({ limit: '100kB' });
   jsonMiddleware(req, res, next);

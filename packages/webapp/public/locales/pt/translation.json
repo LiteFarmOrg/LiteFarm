@@ -1711,6 +1711,16 @@
       "CANT_DELETE_ABANDON": "Ir ao plano de cultivo",
       "SUCCESS": "Tarefa removida com sucesso",
       "FAILED": "Falha ao remover tarefa"
+    },
+    "PIN": {
+      "ACTION": "Fixar",
+      "SUCCESS": "Tarefa fixada com sucesso",
+      "FAILED": "Não foi possível fixar a tarefa"
+    },
+    "UNPIN": {
+      "ACTION": "Desafixar",
+      "SUCCESS": "Tarefa desafixada com sucesso",
+      "FAILED": "Falha ao desafixar a tarefa"
     }
   },
   "UNIT": {

@@ -1710,6 +1710,16 @@
       "CANT_DELETE_ABANDON": "Ir al plan de cultivo",
       "SUCCESS": "La tarea ha sido eliminada",
       "FAILED": "Error al eliminar la tarea"
+    },
+    "PIN": {
+      "ACTION": "Anclar",
+      "SUCCESS": "Tarea anclada con éxito",
+      "FAILED": "No se pudo anclar la tarea"
+    },
+    "UNPIN": {
+      "ACTION": "Desanclar",
+      "SUCCESS": "Tarea desanclada con éxito",
+      "FAILED": "Error al desanclar la tarea"
     }
   },
   "UNIT": {

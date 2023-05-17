@@ -1711,6 +1711,16 @@
       "CANT_DELETE_ABANDON": "Aller au plan de culture",
       "SUCCESS": "Tâche supprimée avec succès",
       "FAILED": "Echec de la suppression de la tâche"
+    },
+    "PIN": {
+      "ACTION": "Épingler",
+      "SUCCESS": "Tâche épinglée avec succès",
+      "FAILED": "Impossible d'épingler la tâche"
+    },
+    "UNPIN": {
+      "ACTION": "Désépingler",
+      "SUCCESS": "Task désépinglée avec succès",
+      "FAILED": "Impossible de désépingler la tâche"
     }
   },
   "UNIT": {

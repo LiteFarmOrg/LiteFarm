@@ -1788,6 +1788,16 @@
       "CANT_DELETE_ABANDON": "Go to crop plan",
       "SUCCESS": "Task successfully deleted",
       "FAILED": "Failed to delete task"
+    },
+    "PIN": {
+      "ACTION": "Pin",
+      "SUCCESS": "Task successfully pinned",
+      "FAILED": "Failed to pin task"
+    },
+    "UNPIN": {
+      "ACTION": "Unpin",
+      "SUCCESS": "Task successfully unpinned",
+      "FAILED": "Failed to unpin task"
     }
   },
   "UNIT": {

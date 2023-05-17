@@ -23,7 +23,10 @@ jobs:
 
       - name: Wait for containers to start
         run: sleep 10s  # Adjust the sleep duration as needed to allow containers to start
-
+      
+      - name: List running containers
+        run: docker ps
+      
       - name: Install pnpm
         uses: pnpm/action-setup@v2
         with:

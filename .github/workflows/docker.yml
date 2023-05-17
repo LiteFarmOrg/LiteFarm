@@ -29,7 +29,7 @@ jobs:
           compose-file: docker-compose.beta.yml
 
       - name: Build and start containers
-        run: docker-compose -f docker-compose.beta.yml up -d
+        run: docker-compose -f docker-compose.ci.yml up -d
 
       - name: Wait for containers to start
         run: sleep 30s  # Adjust the sleep duration as needed to allow containers to start

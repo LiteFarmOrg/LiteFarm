@@ -19,7 +19,7 @@ const mapCacheSlice = createSlice({
     setMapCache: (state, { payload }) => {
       const { farm_id } = payload;
       const entity = state.entities[farm_id];
-      if (entity && entity?.maxZoom) {
+      if (entity?.maxZoom) {
         mapCacheAdapter.updateOne(state, {
           id: farm_id,
           changes: { previousMaxZoom: entity.maxZoom },

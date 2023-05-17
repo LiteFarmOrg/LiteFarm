@@ -24,6 +24,11 @@ jobs:
       - name: Wait for containers to start
         run: sleep 10s  # Adjust the sleep duration as needed to allow containers to start
 
+      - name: Install pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: latest
+          
       - name: Install Cypress dependencies
         working-directory: packages/webapp
         run: pnpm i

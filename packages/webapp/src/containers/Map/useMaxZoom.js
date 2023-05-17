@@ -24,16 +24,13 @@ export function useMaxZoom() {
         ...points.water_valve,
         ...points.sensor,
       ];
-      pointsCollections.forEach((element) => {
+      pointsCollections.forEach(({ point }) => {
         if (
-          !pointsToQuery.some(
-            (item) => item.lat === element.point.lat && item.lng === element.point.lng,
-          ) &&
-          !retrievedPoints.some(
-            (item) => item.lat === element.point.lat && item.lng === element.point.lng,
+          ![...pointsToQuery, ...retrievedPoints].some(
+            (item) => item.lat === point.lat && item.lng === point.lng,
           )
         ) {
-          pointsToQuery.push(element.point);
+          pointsToQuery.push(point);
         }
       });
       const promises = pointsToQuery.map(function (point) {

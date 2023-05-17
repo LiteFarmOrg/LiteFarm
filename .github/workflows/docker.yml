@@ -26,7 +26,13 @@ jobs:
       
       - name: List running containers
         run: docker ps
-      
+
+      - name: View frontend container logs
+        run: docker logs litefarm-web
+
+      - name: View backend container logs
+        run: docker logs litefarm-api
+
       - name: Install pnpm
         uses: pnpm/action-setup@v2
         with:

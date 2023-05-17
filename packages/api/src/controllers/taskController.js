@@ -676,8 +676,21 @@ const taskController = {
     const { task_id } = req.params;
 
     // Admin role (1, 2, or 5) should already have been validated by the checkScope(['pin:task']) middleware at this point
-
-    await taskPinModel.query().context(req.user).insert({ task_id }).onConflict('task_id').ignore();
+    try {
+      await taskPinModel
+        .query()
+        .context(req.user)
+        .insert({
+          task_id: parseInt(task_id),
+          created_at: new Date(),
+          created_by_user_id: req.user.user_id,
+        })
+        .onConflict('task_id')
+        .ignore();
+    } catch (e) {
+      console.error('Pin task error ->', e);
+      return res.status(500).send();
+    }
 
     // Note that here, we cannot assess from the result whether something was inserted because we're doing an upsert
 
@@ -688,8 +701,12 @@ const taskController = {
     const { task_id } = req.params;
 
     // Admin role (1, 2, or 5) should already have been validated by the checkScope(['pin:task']) middleware at this point
-
-    await taskPinModel.deleteById(task_id);
+    try {
+      await taskPinModel.deleteById(parseInt(task_id));
+    } catch (e) {
+      console.error('Unpin task error ->', e);
+      return res.status(500).send();
+    }
 
     return res.sendStatus(200);
   },

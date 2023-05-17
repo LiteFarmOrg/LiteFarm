@@ -279,16 +279,16 @@ router.delete(
 // Pins
 
 router.post(
-  '/pins/task/:task_id',
-  hasFarmAccess({ params: 'task_id' }),
-  checkScope(['pin:task']),
+  '/pins/:task_id',
+  // hasFarmAccess({ params: 'task_id' }),
+  // checkScope(['pin:task']),
   taskController.pinTask,
 );
 
 router.delete(
-  '/pins/task/:task_id',
-  hasFarmAccess({ params: 'task_id' }),
-  checkScope(['pin:task']),
+  '/pins/:task_id',
+  // hasFarmAccess({ params: 'task_id' }),
+  // checkScope(['pin:task']),
   taskController.unpinTask,
 );
 

@@ -25,6 +25,8 @@ services:
       dockerfile: ./webapp/prod.Dockerfile
     ports:
       - "80:80"
+    environment:
+      - NODE_ENV=integration
 
   backend:
     container_name: litefarm-api

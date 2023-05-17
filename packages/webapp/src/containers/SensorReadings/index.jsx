@@ -14,6 +14,7 @@ import styles from './styles.module.scss';
 import { TEMPERATURE } from './constants';
 import { getUnitOptionMap } from '../../util/convert-units/getUnitOptionMap';
 import { ambientTemperature } from '../../util/convert-units/unit';
+import { ReactComponent as Themometer } from '../../assets/images/themometer.svg';
 
 function SensorReadings({ history, match }) {
   const { t } = useTranslation();
@@ -64,7 +65,10 @@ function SensorReadings({ history, match }) {
     const unit = getUnitOptionMap()[ambientTemperature[unitSystem].defaultUnit].label;
     return (
       <div className={styles.forecastInfo}>
-        <div className={styles.forecastInfoTitle}>{t('SENSOR.SENSOR_FORECAST.TITLE')}</div>
+        <div className={styles.forecastInfoTitle}>
+          <Themometer className={styles.themometerIcon} />
+          {t('SENSOR.SENSOR_FORECAST.TITLE')}
+        </div>
         <div>
           {t('SENSOR.SENSOR_FORECAST.HIGH_AND_LOW_TEMPERATURE', {
             high: latestTemperatureReadings.tempMax,

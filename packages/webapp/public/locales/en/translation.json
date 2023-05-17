@@ -1510,6 +1510,7 @@
     "HARDWARE_VERSION": "Hardware version",
     "NO_DATA_FOUND": "No sensor readings found",
     "NO_DATA": "(no data)",
+    "LAST_UPDATED": "Last updated {{latestReadingUpdate}}",
     "DETAIL": {
       "RETIRE": "Retire",
       "EDIT": "Edit",
@@ -1541,19 +1542,18 @@
     },
     "TEMPERATURE_READINGS_OF_SENSOR": {
       "TITLE": "Soil temperature",
-      "SUBTITLE": "Today’s forecasted ambient high and low temperature: {{high}}{{tempUnit}} / {{low}}{{tempUnit}}",
-      "Y_AXIS_LABEL": "Temperature in {{tempUnit}}",
+      "SUBTITLE": "Today’s forecasted ambient high and low temperature: {{high}}{{units}} / {{low}}{{units}}",
+      "Y_AXIS_LABEL": "Temperature in {{units}}",
       "WEATHER_STATION": "Weather station: {{weatherStationLocation}}",
-      "NO_DATA": "(no data)",
-      "AMBIENT_TEMPERATURE_FOR": "Ambient temperature for",
-      "LAST_UPDATED_TEMPERATURE_READINGS": "Last updated {{latestReadingUpdate}}"
+      "AMBIENT_TEMPERATURE_FOR": "Ambient temperature for"
     },
     "SOIL_WATER_POTENTIAL_READINGS_OF_SENSOR": {
       "TITLE": "Soil water potential",
-      "SUBTITLE": "MISSING",
-      "Y_AXIS_LABEL": "Soil water potential in {{soilWaterPotentialUnit}}",
-      "NO_DATA": "(no data)",
-      "LAST_UPDATED_TEMPERATURE_READINGS": "Last updated {{latestReadingUpdate}}"
+      "Y_AXIS_LABEL": "Soil water potential in {{units}}"
+    },
+    "SOIL_WATER_CONTENT_READINGS_OF_SENSOR": {
+      "TITLE": "Soil water content",
+      "Y_AXIS_LABEL": "Soil water content in {{units}}"
     },
     "READINGS_PREVIEW": {
       "TEMPERATURE": "Current soil temp",

@@ -1755,6 +1755,7 @@
     "HARDWARE_VERSION": "Version matérielle",
     "NO_DATA_FOUND": "Aucun donnée de capteurs trouvé.",
     "NO_DATA": "(aucune donnée)",
+    "LAST_UPDATED": "Dernière mise à jour à {{latestReadingUpdate}}",
     "DETAIL": {
       "RETIRE": "Retirer",
       "EDIT": "Modifier",
@@ -1786,19 +1787,18 @@
     },
     "TEMPERATURE_READINGS_OF_SENSOR": {
       "TITLE": "Température du sol",
-      "SUBTITLE": "Température MISSING ambiante haute et basse d'aujourd'hui\u00a0: {{high}}{{tempUnit}} / {{low}}{{tempUnit}}",
-      "Y_AXIS_LABEL": "Température en {{tempUnit}}",
+      "SUBTITLE": "Température MISSING ambiante haute et basse d'aujourd'hui\u00a0: {{high}}{{units}} / {{low}}{{units}}",
+      "Y_AXIS_LABEL": "Température en {{units}}",
       "WEATHER_STATION": "Station météorologique\u00a0: {{weatherStationLocation}}",
-      "NO_DATA": "(aucune donnée)",
-      "AMBIENT_TEMPERATURE_FOR": "Température ambiante pour",
-      "LAST_UPDATED_TEMPERATURE_READINGS": "Dernière mise à jour à {{latestReadingUpdate}}"
+      "AMBIENT_TEMPERATURE_FOR": "Température ambiante pour"
     },
     "SOIL_WATER_POTENTIAL_READINGS_OF_SENSOR": {
       "TITLE": "Potentiel hydrique du sol",
-      "SUBTITLE": "MISSING",
-      "Y_AXIS_LABEL": "potentiel hydrique du sol en {{soilWaterPotentialUnit}}",
-      "NO_DATA": "(aucune donnée)",
-      "LAST_UPDATED_TEMPERATURE_READINGS": "Dernière mise à jour à {{latestReadingUpdate}}"
+      "Y_AXIS_LABEL": "potentiel hydrique du sol en {{units}}"
+    },
+    "SOIL_WATER_CONTENT_READINGS_OF_SENSOR": {
+      "TITLE": "MISSING",
+      "Y_AXIS_LABEL": "MISSING"
     },
     "READINGS_PREVIEW": {
       "TEMPERATURE": "Température actuelle du sol",

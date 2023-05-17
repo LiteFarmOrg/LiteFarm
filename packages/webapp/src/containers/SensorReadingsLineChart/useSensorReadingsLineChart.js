@@ -1,8 +1,6 @@
 import { useEffect } from 'react';
 import { bulkSensorsReadingsSliceSelector } from '../bulkSensorReadingsSlice';
 import { useDispatch, useSelector } from 'react-redux';
-import { weatherSelector } from '../WeatherBoard/weatherSlice';
-import utils from '../WeatherBoard/utils';
 import { getSensorsReadings } from '../SensorReadings/saga';
 
 import {
@@ -20,8 +18,6 @@ export function useSensorReadingsLineChart(
 ) {
   const bulkSensorsReadingsSliceSelectorData = useSelector(bulkSensorsReadingsSliceSelector);
 
-  const { measurement } = useSelector(weatherSelector);
-  const { tempUnit } = utils.getUnits(measurement);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -52,7 +48,6 @@ export function useSensorReadingsLineChart(
     sensorsReadings: bulkSensorsReadingsSliceSelectorData?.sensorsReadings[readingType],
     yAxisDataKeys: getYAxisDataKeys(),
     lineColors: CHART_LINE_COLORS,
-    tempUnit,
     loading: bulkSensorsReadingsSliceSelectorData?.loading,
   };
 }

@@ -24,13 +24,8 @@ jobs:
       - name: Wait for containers to start
         run: sleep 10s  # Adjust the sleep duration as needed to allow containers to start
 
-      - name: Run cypress tests
-        uses: cypress-io/github-action@v4.2.0 
-        with:
-          working-directory: packages/webapp
-          headed: true
-          browser: chrome
-          record: true
-          parallel: true
-          group: 'UI - Chrome'
-          spec: cypress/e2e/happyPath.spec.js
+      - name: Install Cypress dependencies
+        run: npm ci
+
+      - name: Run Cypress tests
+        run: npx cypress run --config baseUrl=http://localhost:3000

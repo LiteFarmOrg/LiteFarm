@@ -21,6 +21,8 @@ export const up = function (knex) {
       table.integer('task_id').references('task_id').inTable('task').primary().notNullable();
       table.dateTime('created_at').notNullable();
       table.string('created_by_user_id').references('user_id').inTable('users').notNullable();
+      table.dateTime('updated_at').notNullable();
+      table.string('updated_by_user_id').references('user_id').inTable('users').notNullable();
     }),
     // Create a new permission for pinning/unpinning tasks
     knex('permissions').insert([

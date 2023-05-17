@@ -58,8 +58,8 @@ jobs:
           docker run --network=host --rm appropriate/curl -s --retry-connrefused --retry-seconds 10 --retry-max-time 60 --retry-delay 5s \
             --retry-on HTTP/1.1\ 500\ Internal\ Server\ Error \
             --retry-on HTTP/1.1\ 503\ Service\ Unavailable \
-            http://localhost:3000
+            http://localhost:80
 
       - name: Run Cypress tests
         working-directory: packages/webapp
-        run: npx cypress run --config baseUrl=http://localhost:3000
+        run: npx cypress run --config baseUrl=http://localhost:80

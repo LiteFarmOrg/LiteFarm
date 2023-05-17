@@ -28,7 +28,7 @@ import IrrigationTypesModel from '../models/irrigationTypesModel.js';
 import FieldWorkTypeModel from '../models/fieldWorkTypeModel.js';
 import locationDefaultsModel from '../models/locationDefaultsModel.js';
 
-import taskPinModel from '../models/taskPinModel';
+import taskPinModel from '../models/taskPinModel.js';
 
 const adminRoles = [1, 2, 5];
 // const isDateInPast = (date) => {

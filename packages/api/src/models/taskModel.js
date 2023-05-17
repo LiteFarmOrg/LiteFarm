@@ -31,7 +31,7 @@ import plantingManagementPlanModel from './plantingManagementPlanModel.js';
 import managementTasksModel from './managementTasksModel.js';
 import locationModel from './locationModel.js';
 import locationTasksModel from './locationTasksModel.js';
-import taskPinModel from './taskPinModel';
+import taskPinModel from './taskPinModel.js';
 
 class TaskModel extends BaseModel {
   static get tableName() {

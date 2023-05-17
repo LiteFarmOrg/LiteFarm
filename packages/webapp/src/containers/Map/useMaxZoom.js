@@ -35,7 +35,7 @@ export function useMaxZoom() {
       });
       const promises = pointsToQuery.map(function (point) {
         return new Promise(function (resolve, reject) {
-          mapService?.getMaxZoomAtLatLng(point, function (result) {
+          mapService.getMaxZoomAtLatLng(point, function (result) {
             if (result.status === 'OK') {
               resolve(result.zoom);
             } else {
@@ -60,11 +60,9 @@ export function useMaxZoom() {
         })
         .catch(function (error) {
           console.log('Error getting available zooms');
-          if (previousMaxZoom) {
-            setMaxZoom(previousMaxZoom);
-          } else {
-            setMaxZoom(DEFAULT_MAX_ZOOM);
-          }
+          const fallbackZoom = previousMaxZoom || DEFAULT_MAX_ZOOM;
+          setMaxZoom(fallbackZoom);
+          if (map) map.setOptions({ maxZoom: fallbackZoom });
         });
     } else if (map) {
       map.setOptions({ maxZoom: maxZoom });

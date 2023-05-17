@@ -25,7 +25,9 @@ jobs:
         run: sleep 10s  # Adjust the sleep duration as needed to allow containers to start
 
       - name: Install Cypress dependencies
-        run: npm ci
+        working-directory: packages/webapp
+        run: pnpm i
 
       - name: Run Cypress tests
+        working-directory: packages/webapp
         run: npx cypress run --config baseUrl=http://localhost:3000

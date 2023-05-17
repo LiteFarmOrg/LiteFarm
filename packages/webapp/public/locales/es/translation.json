@@ -1785,7 +1785,7 @@
     },
     "TEMPERATURE_READINGS_OF_SENSOR": {
       "TITLE": "Temperatura del suelo",
-      "SUBTITLE": "Temperatura ambiente alta y baja de hoy: {{high}}{{tempUnit}} / {{low}}{{tempUnit}}",
+      "SUBTITLE": "Temperatura MISSING ambiente alta y baja de hoy: {{high}}{{tempUnit}} / {{low}}{{tempUnit}}",
       "Y_AXIS_LABEL": "Temperatura en {{tempUnit}}",
       "WEATHER_STATION": "Estación meteorológica: {{weatherStationLocation}}",
       "NO_DATA": "(sin datos)",

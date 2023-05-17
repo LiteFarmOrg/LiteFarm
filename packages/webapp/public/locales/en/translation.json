@@ -1541,7 +1541,7 @@
     },
     "TEMPERATURE_READINGS_OF_SENSOR": {
       "TITLE": "Soil temperature",
-      "SUBTITLE": "Today’s ambient high and low temperature: {{high}}{{tempUnit}} / {{low}}{{tempUnit}}",
+      "SUBTITLE": "Today’s forecasted ambient high and low temperature: {{high}}{{tempUnit}} / {{low}}{{tempUnit}}",
       "Y_AXIS_LABEL": "Temperature in {{tempUnit}}",
       "WEATHER_STATION": "Weather station: {{weatherStationLocation}}",
       "NO_DATA": "(no data)",

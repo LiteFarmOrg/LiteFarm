@@ -1786,7 +1786,7 @@
     },
     "TEMPERATURE_READINGS_OF_SENSOR": {
       "TITLE": "Temperatura do solo",
-      "SUBTITLE": "Temperatura ambiente máxima e mínima de hoje: {{high}}{{tempUnit}} / {{low}}{{tempUnit}}",
+      "SUBTITLE": "Temperatura MISSING ambiente máxima e mínima de hoje: {{high}}{{tempUnit}} / {{low}}{{tempUnit}}",
       "Y_AXIS_LABEL": "Temperatura em {{tempUnit}}",
       "WEATHER_STATION": "Estação meteorológica: {{weatherStationLocation}}",
       "NO_DATA": "(sem dados))",

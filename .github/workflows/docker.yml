@@ -28,10 +28,10 @@ jobs:
         uses: pnpm/action-setup@v2
         with:
           version: latest
-          
+
       - name: Install Cypress dependencies
         working-directory: packages/webapp
-        run: pnpm i
+        run: pnpm install --config.auto-install-peers=true --no-frozen-lockfile --force
 
       - name: Run Cypress tests
         working-directory: packages/webapp

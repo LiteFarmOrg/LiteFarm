@@ -539,17 +539,12 @@
         "BRAND": "Brand",
         "MODEL": "Model"
       },
-      "SENSOR_READING_TYPES": {
-        "SOIL_MOISTURE_CONTENT": "soil_water_content",
-        "SOIL_WATER_POTENTIAL": "soil_water_potential",
-        "TEMPERATURE": "temperature"
-      },
       "VALIDATION": {
         "FILE_ROW_LIMIT_EXCEEDED": "File row limit exceeded. The max number of sensors that can be uploaded from a file is 100.",
         "MISSING_COLUMNS": "Columns are required/missing.",
         "EXTERNAL_ID": "Invalid external id, must be between 1 and 40 characters.",
         "SENSOR_NAME": "Invalid sensor name, must be between 1 and 100 characters.",
-        "SENSOR_LATITUDE": "Invalid latitude value, must be between -90 and 90. and fewer than 10 decimals.",
+        "SENSOR_LATITUDE": "Invalid latitude value, must be between -85 and 85. and fewer than 10 decimals.",
         "SENSOR_LONGITUDE": "Invalid longitude value, must be between -180 and 180. and fewer than 10 decimals.",
         "SENSOR_READING_TYPES": "Invalid reading type detected: {{ reading_types }}. Valid values include: soil_water_content, soil_water_potential, temperature.",
         "SENSOR_DEPTH": "Invalid depth value, must be between 0 and 1000.",
@@ -1547,7 +1542,7 @@
     },
     "TEMPERATURE_READINGS_OF_SENSOR": {
       "TITLE": "Soil temperature",
-      "SUBTITLE": "Today’s ambient high and low temperature: {{high}}{{units}} / {{low}}{{units}}",
+      "SUBTITLE": "Today’s forecasted ambient high and low temperature: {{high}}{{units}} / {{low}}{{units}}",
       "Y_AXIS_LABEL": "Temperature in {{units}}",
       "WEATHER_STATION": "Weather station: {{weatherStationLocation}}",
       "AMBIENT_TEMPERATURE_FOR": "Ambient temperature for"

@@ -150,12 +150,13 @@ function HarvestForm({
           control={control}
           disabled={is_harvest_everything}
           optional
+          data-testid={`harvesttask-quantity-${index}`}
         />
         <Checkbox
           defaultChecked={field[HARVEST_EVERYTHING]}
           label={t('ADD_TASK.HARVEST_EVERYTHING')}
           hookFormRegister={register(`harvest_tasks.${index}.` + HARVEST_EVERYTHING)}
-          onChange={(e) => e.target.checked && setValue(quantityName, '')}
+          onChange={(e) => e.target.checked && setValue(quantityName, '', { shouldValidate: true })}
           sm
         />
         <Input

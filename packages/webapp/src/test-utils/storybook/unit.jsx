@@ -91,6 +91,13 @@ export default class UnitTest {
     });
   }
 
+  async visibleInputAndComboboxIsEnabled() {
+    await waitFor(() => {
+      expect(this.visibleInput).toBeEnabled();
+      expect(within(this.select).getByRole('combobox')).toBeEnabled();
+    });
+  }
+
   async visibleInputAndComboxIsDisabled() {
     await waitFor(() => {
       expect(this.visibleInput).toBeDisabled();

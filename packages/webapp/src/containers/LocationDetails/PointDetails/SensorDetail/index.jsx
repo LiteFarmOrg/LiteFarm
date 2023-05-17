@@ -15,13 +15,12 @@
 import PureSensorDetail from '../../../../components/LocationDetailLayout/PointDetails/Sensor/index';
 import { measurementSelector } from '../../../userFarmSlice';
 import { useSelector, useDispatch } from 'react-redux';
-import { useTranslation } from 'react-i18next';
 import { useEffect } from 'react';
 import { sensorsSelector } from '../../../sensorSlice';
 import { isAdminSelector } from '../../../userFarmSlice';
 import { getSensorReadingTypes, getSensorBrand, retireSensor } from './saga';
 
-export default function SensorDetail({ history, user, match }) {
+export default function SensorDetail({ history, match }) {
   const dispatch = useDispatch();
   const location_id = match.params.location_id;
   const sensorInfo = useSelector(sensorsSelector(location_id));
@@ -36,7 +35,7 @@ export default function SensorDetail({ history, user, match }) {
       const partner_id = sensorInfo?.partner_id;
       dispatch(getSensorBrand({ location_id, partner_id }));
     }
-  }, [sensorInfo]);
+  }, [sensorInfo?.partner_id]);
 
   const confirmRetire = () => {
     dispatch(retireSensor({ sensorInfo }));

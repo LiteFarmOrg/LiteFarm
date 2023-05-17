@@ -538,19 +538,14 @@
         "BRAND": "Marca",
         "MODEL": "Modelo"
       },
-      "SENSOR_READING_TYPES": {
-        "SOIL_MOISTURE_CONTENT": "contenido_de_agua_en_el_suelo",
-        "SOIL_WATER_POTENTIAL": "potencial_hídrico_del_suelo",
-        "TEMPERATURE": "temperatura"
-      },
       "VALIDATION": {
         "FILE_ROW_LIMIT_EXCEEDED": "Límite de fila de archivos superado. El número máximo de sensores que se pueden cargar desde un archivo es 100.",
         "MISSING_COLUMNS": "Se requieren columnas/faltan.",
         "EXTERNAL_ID": "Identificación externa no válida, debe tener entre 1 y 20 caracteres.",
         "SENSOR_NAME": "Nombre del sensor no válido, debe estar entre 1 y 100 caracteres.",
-        "SENSOR_LATITUDE": "Valor de latitud no válido, debe estar entre -90 y 90. y menos de 10 decimales.",
+        "SENSOR_LATITUDE": "Valor de latitud no válido, debe estar entre -85 y 85. y menos de 10 decimales.",
         "SENSOR_LONGITUDE": "Valor de longitud no válido, debe estar entre -180 y 180. y menos de 10 decimales.",
-        "SENSOR_READING_TYPES": "Tipo de lectura no válido detectado: {{ reading_types }} los valores válidos incluyen: soil_water_content, soil_water_potential, temperature.",
+        "SENSOR_READING_TYPES": "Tipo de lectura no válido detectado: {{ reading_types }} los valores válidos incluyen: contenido_de_agua_en_el_suelo, potencial_hídrico_del_suelo, temperatura.",
         "SENSOR_DEPTH": "Valor de profundidad no válido, debe estar entre 0 y 1000.",
         "SENSOR_BRAND": "Nombre de marca no válido, debe tener entre 1 y 100 caracteres.",
         "SENSOR_MODEL": "Nombre de modelo no válido, debe tener entre 1 y 100 caracteres.",
@@ -1745,7 +1740,7 @@
     "DEPTH": "Profundidad",
     "BRAND": "Marca",
     "VALIDATION": {
-      "READING_TYPES": "Sensor reading types are required"
+      "READING_TYPES": "MISSING"
     },
     "MODAL": {
       "TITLE": "¿Cambiar los tipos de lectura?",
@@ -1791,7 +1786,7 @@
     },
     "TEMPERATURE_READINGS_OF_SENSOR": {
       "TITLE": "Temperatura del suelo",
-      "SUBTITLE": "Temperatura ambiente alta y baja de hoy: {{high}}{{units}} / {{low}}{{units}}",
+      "SUBTITLE": "Temperatura MISSING ambiente alta y baja de hoy: {{high}}{{units}} / {{low}}{{units}}",
       "Y_AXIS_LABEL": "Temperatura en {{units}}",
       "WEATHER_STATION": "Estación meteorológica: {{weatherStationLocation}}",
       "AMBIENT_TEMPERATURE_FOR": "Temperatura ambiente para"

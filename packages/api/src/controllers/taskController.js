@@ -27,6 +27,9 @@ import { typesOfTask } from './../middleware/validation/task.js';
 import IrrigationTypesModel from '../models/irrigationTypesModel.js';
 import FieldWorkTypeModel from '../models/fieldWorkTypeModel.js';
 import locationDefaultsModel from '../models/locationDefaultsModel.js';
+
+import taskPinModel from '../models/taskPinModel';
+
 const adminRoles = [1, 2, 5];
 // const isDateInPast = (date) => {
 //   const today = new Date();
@@ -667,6 +670,28 @@ const taskController = {
     } catch (error) {
       return res.status(400).json({ error });
     }
+  },
+
+  async pinTask(req, res) {
+    const { task_id } = req.params;
+
+    // Admin role (1, 2, or 5) should already have been validated by the checkScope(['pin:task']) middleware at this point
+
+    await taskPinModel.query().context(req.user).insert({ task_id }).onConflict('task_id').ignore();
+
+    // Note that here, we cannot assess from the result whether something was inserted because we're doing an upsert
+
+    return res.sendStatus(200);
+  },
+
+  async unpinTask(req, res) {
+    const { task_id } = req.params;
+
+    // Admin role (1, 2, or 5) should already have been validated by the checkScope(['pin:task']) middleware at this point
+
+    await taskPinModel.deleteById(task_id);
+
+    return res.sendStatus(200);
   },
 };
 

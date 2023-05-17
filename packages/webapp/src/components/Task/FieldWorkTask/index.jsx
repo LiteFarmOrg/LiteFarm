@@ -1,6 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import i18next from 'i18next';
 import Input from '../../Form/Input';
 import ReactSelect from '../../Form/ReactSelect';
 import { Controller } from 'react-hook-form';
@@ -8,7 +7,16 @@ import { getFieldWorkTypes } from '../../../containers/Task/FieldWorkTask/saga';
 import { useDispatch, useSelector } from 'react-redux';
 import { fieldWorkSliceSliceSelector } from '../../../containers/fieldWorkSlice';
 
-const formatDefaultTypeValue = (typeValue) => {
+const formatDefaultTypeValue = (typeValue, fieldWorkTypeOptions) => {
+  // in read-only view, typeValue is an array at first.
+  const option = fieldWorkTypeOptions.filter(({ field_work_type_id }) => {
+    return field_work_type_id === typeValue[0].field_work_type_id;
+  });
+  if (option.length) {
+    return option[0];
+  }
+
+  // This is for a task with a new custom type that has not been added to "fieldWorkTypeOptions".
   const [{ farm_id, field_work_name, field_work_type_id, field_work_type_translation_key }] =
     typeValue;
   return {
@@ -57,20 +65,13 @@ const PureFieldWorkTask = ({ register, control, setValue, watch, disabled = fals
 
   useEffect(() => {
     dispatch(getFieldWorkTypes());
-    if (typeValue?.length) {
-      setValue(FIELD_WORK_TYPE, formatDefaultTypeValue(typeValue));
-    }
   }, []);
-  const displayLabel = (values) => {
-    if (!values.length) return '';
-    const value = values[0]?.field_work_name || '';
-    const translationKey = `ADD_TASK.FIELD_WORK_VIEW.TYPE.${value}`;
-    if (i18next.exists(translationKey)) {
-      return t(translationKey);
-    } else {
-      return value;
+
+  useEffect(() => {
+    if (typeValue?.length && fieldWorkTypeOptions?.length) {
+      setValue(FIELD_WORK_TYPE, formatDefaultTypeValue(typeValue, fieldWorkTypeOptions));
     }
-  };
+  }, [fieldWorkTypeOptions, typeValue]);
 
   return (
     <>
@@ -89,11 +90,7 @@ const PureFieldWorkTask = ({ register, control, setValue, watch, disabled = fals
               setValue(FIELD_WORK_TYPE, e, { shouldValidate: true });
             }}
             isDisabled={disabled}
-            value={
-              // TODO: refactor value reading here and in pest control
-              // this solution keeps placeholder while accommodating the read-only view
-              !value ? value : value?.value ? value : { value, label: displayLabel(value) }
-            }
+            value={value}
           />
         )}
       />

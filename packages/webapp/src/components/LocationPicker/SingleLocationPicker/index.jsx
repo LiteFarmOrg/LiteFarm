@@ -75,7 +75,7 @@ const LocationPicker = ({
     if (maxZoom && gMap && gMaps && gMapBounds) {
       drawLocations(gMap, gMaps, gMapBounds);
     }
-  }, [maxZoom]);
+  }, [maxZoom, gMap, gMaps, gMapBounds]);
 
   useEffect(() => {
     if (markerClusterRef?.current?.markers?.length > 0) {

@@ -8,7 +8,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fieldWorkSliceSliceSelector } from '../../../containers/fieldWorkSlice';
 
 const formatDefaultTypeValue = (typeValue, fieldWorkTypeOptions) => {
-  // in read-only view, typeValue is an array at first.
   const option = fieldWorkTypeOptions.filter(({ field_work_type_id }) => {
     return field_work_type_id === typeValue[0].field_work_type_id;
   });
@@ -16,7 +15,8 @@ const formatDefaultTypeValue = (typeValue, fieldWorkTypeOptions) => {
     return option[0];
   }
 
-  // This is for a task with a new custom type that has not been added to "fieldWorkTypeOptions".
+  // This is for a task with a brand-new custom type.
+  // The new type has not been added to "fieldWorkTypeOptions" by the time this function gets called.
   const [{ farm_id, field_work_name, field_work_type_id, field_work_type_translation_key }] =
     typeValue;
   return {
@@ -69,9 +69,10 @@ const PureFieldWorkTask = ({ register, control, setValue, watch, disabled = fals
 
   useEffect(() => {
     if (typeValue?.length && fieldWorkTypeOptions?.length) {
+      // in read-only and before_complete views, default typeValue is an array which needs to be formatted.
       setValue(FIELD_WORK_TYPE, formatDefaultTypeValue(typeValue, fieldWorkTypeOptions));
     }
-  }, [fieldWorkTypeOptions, typeValue]);
+  }, [typeValue, fieldWorkTypeOptions]);
 
   return (
     <>

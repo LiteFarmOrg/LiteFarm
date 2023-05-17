@@ -7,6 +7,7 @@ import { loginSelector, putUserSuccess } from '../userFarmSlice';
 import history from '../../history';
 import { enqueueErrorSnackbar, enqueueSuccessSnackbar } from '../Snackbar/snackbarSlice';
 import {
+  taskSelector,
   addManyTasksFromGetReq,
   putTasksSuccess,
   putTaskSuccess,
@@ -852,6 +853,52 @@ export function* deleteTaskSaga({ payload: data }) {
   }
 }
 
+export const pinTask = createAction('pinTask');
+
+export function* pinTaskSaga({ payload: data }) {
+  const { taskUrl } = apiConfig;
+  let { user_id, farm_id } = yield select(loginSelector);
+  const { task_id } = data;
+  const header = getHeader(user_id, farm_id);
+
+  try {
+    yield call(axios.post, `${taskUrl}/pins/task/${task_id}`, header);
+
+    // Since we don't recieve any payload from the endpoint (only an HTTP status),
+    // then we update the store with the new pinned status of the task
+    const task = yield select(taskSelector(task_id));
+    const updatedTask = { ...task, pinned: true };
+
+    yield put(putTaskSuccess(updatedTask));
+  } catch (e) {
+    console.error('Could not pin task:', e);
+    yield put(enqueueErrorSnackbar(i18n.t('TASK.PIN.FAILED')));
+  }
+}
+
+export const unpinTask = createAction('unpinTask');
+
+export function* unpinTaskSaga({ payload: data }) {
+  const { taskUrl } = apiConfig;
+  let { user_id, farm_id } = yield select(loginSelector);
+  const { task_id } = data;
+  const header = getHeader(user_id, farm_id);
+
+  try {
+    yield call(axios.delete, `${taskUrl}/pins/task/${task_id}`, header);
+
+    // Since we don't recieve any payload from the endpoint (only an HTTP status),
+    // then we update the store with the new pinned status of the task
+    const task = yield select(taskSelector(task_id));
+    const updatedTask = { ...task, pinned: false };
+
+    yield put(putTaskSuccess(updatedTask));
+  } catch (e) {
+    console.error('Could not unpin task:', e);
+    yield put(enqueueErrorSnackbar(i18n.t('TASK.UNPIN.FAILED')));
+  }
+}
+
 export default function* taskSaga() {
   yield takeLeading(addCustomTaskType.type, addTaskTypeSaga);
   yield takeLeading(assignTask.type, assignTaskSaga);
@@ -879,4 +926,7 @@ export default function* taskSaga() {
     getPlantingTasksAndPlantingManagementPlansSuccessSaga,
   );
   yield takeLeading(deleteTask.type, deleteTaskSaga);
+
+  yield takeLatest(pinTask, pinTaskSaga);
+  yield takeLatest(unpinTask, unpinTaskSaga);
 }

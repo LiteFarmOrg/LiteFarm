@@ -36,6 +36,9 @@ jobs:
       
       - name: find db container ip address
         run: docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' litefarm-db
+
+      - name: connect to db container using ip address
+        run: psql -h <container_ip_address> -p 5432 -U postgres
         
       - name: Install pnpm
         uses: pnpm/action-setup@v2

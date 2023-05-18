@@ -39,7 +39,10 @@ jobs:
       - name: Install Cypress dependencies
         working-directory: packages/webapp
         run: pnpm install --config.auto-install-peers=true --no-frozen-lockfile --force
-
+      
+      - name: List running containers
+        run: docker inspect litefarm-db
+        
       - name: List running containers
         run: docker ps
 

@@ -34,8 +34,9 @@ jobs:
       - name: List running containers
         run: docker ps
       
-      - name: check docker network
-        run: docker network ls
+      - name: attempt to connect to the db
+        run: docker run -it --network litefarm_default --rm postgres:13 psql -h litefarm-db -p 5432 -U postgres
+
         
       - name: Install pnpm
         uses: pnpm/action-setup@v2

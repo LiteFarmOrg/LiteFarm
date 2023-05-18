@@ -45,7 +45,7 @@ jobs:
           
       - name: connect to db container using ip address
         run: |
-          psql -h ${{ env.CONTAINER_IP }} -p 5432 -U postgres -W
+          psql -h ${{ env.CONTAINER_IP }} -p 5432 -U postgres -W <<< "${{ secrets.DB_PASSWORD }}"
         
       - name: Install pnpm
         uses: pnpm/action-setup@v2

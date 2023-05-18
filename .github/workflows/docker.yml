@@ -37,15 +37,11 @@ jobs:
       - name: find db container ip address
         id: get_ip
         run: |
-          CONTAINER_IP=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' litefarm-db) 
+          CONTAINER_IP=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' litefarm-web) 
           echo "CONTAINER_IP=$CONTAINER_IP" >> $GITHUB_ENV
 
       - name: check db container logs
         run: docker logs litefarm-db
-          
-      - name: connect to db container using ip address
-        run: |
-          psql -h ${{ env.CONTAINER_IP }} -p 5432 -U postgres -W <<< "postgres"
         
       - name: Install pnpm
         uses: pnpm/action-setup@v2
@@ -64,4 +60,4 @@ jobs:
 
       - name: Run Cypress tests
         working-directory: packages/webapp
-        run: npx cypress run --config baseUrl=http://localhost:80
+        run: npx cypress run --config baseUrl=${{ env.CONTAINER_IP }}:80

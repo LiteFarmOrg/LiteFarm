@@ -35,7 +35,7 @@ jobs:
         run: docker ps
       
       - name: attempt to connect to the db
-        run: docker exec -it litefarm-db psql -U postgres
+        run: docker exec -it litefarm-db bash -c 'psql -U postgres'
         
       - name: Install pnpm
         uses: pnpm/action-setup@v2

@@ -862,14 +862,9 @@ export function* pinTaskSaga({ payload: data }) {
   const header = getHeader(user_id, farm_id);
 
   try {
-    yield call(axios.post, `${taskUrl}/pins/task/${task_id}`, header);
+    yield call(axios.post, `${taskUrl}/pins/${task_id}`, {}, header);
 
-    // Since we don't recieve any payload from the endpoint (only an HTTP status),
-    // then we update the store with the new pinned status of the task
-    const task = yield select(taskSelector(task_id));
-    const updatedTask = { ...task, pinned: true };
-
-    yield put(putTaskSuccess(updatedTask));
+    yield put(putTaskSuccess({ task_id, pinned: true }));
   } catch (e) {
     console.error('Could not pin task:', e);
     yield put(enqueueErrorSnackbar(i18n.t('TASK.PIN.FAILED')));
@@ -885,14 +880,9 @@ export function* unpinTaskSaga({ payload: data }) {
   const header = getHeader(user_id, farm_id);
 
   try {
-    yield call(axios.delete, `${taskUrl}/pins/task/${task_id}`, header);
+    yield call(axios.delete, `${taskUrl}/pins/${task_id}`, header);
 
-    // Since we don't recieve any payload from the endpoint (only an HTTP status),
-    // then we update the store with the new pinned status of the task
-    const task = yield select(taskSelector(task_id));
-    const updatedTask = { ...task, pinned: false };
-
-    yield put(putTaskSuccess(updatedTask));
+    yield put(putTaskSuccess({ task_id, pinned: false }));
   } catch (e) {
     console.error('Could not unpin task:', e);
     yield put(enqueueErrorSnackbar(i18n.t('TASK.UNPIN.FAILED')));

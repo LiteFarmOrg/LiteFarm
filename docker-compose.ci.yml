@@ -40,8 +40,8 @@ services:
     ports:
       - "5000:5000"
     environment:
-      WAIT_HOSTS: localhost:5433
-      NODE_ENV: integration
+      WAIT_HOSTS: localhost:5432
+      NODE_ENV: development
       DEV_DATABASE_HOST: ${DEV_DATABASE_HOST}
       DEV_DATABASE: ${DEV_DATABASE}
       DEV_DATABASE_USER: ${DEV_DATABASE_USER}

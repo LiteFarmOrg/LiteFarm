@@ -13,6 +13,8 @@ import {
   changeTaskWage,
   updateUserFarmWage,
   setUserFarmWageDoNotAskAgain,
+  pinTask,
+  unpinTask,
 } from '../saga';
 
 const TaskCard = ({
@@ -29,6 +31,7 @@ const TaskCard = ({
   happiness,
   classes = { card: {} },
   wage_at_moment,
+  pinned,
   ...props
 }) => {
   const [showTaskAssignModal, setShowTaskAssignModal] = useState();
@@ -62,6 +65,21 @@ const TaskCard = ({
     taskUnassigned = true;
   }
 
+  // We put this in its own variable in case the condition for "pinnability" were to change.
+  // For now, only admins (roles 1, 2, 5; i.e.: Owners, Managers, Extension officers) can pin/unpin.
+  const canPin = isAdmin;
+
+  // This will handle pinning
+  // Note: this does not take concurrent pinnings/un-pinnings into account.
+  // TODO-ish: maybe improve condition?  To discuss/think about.
+  const handlePin = () => {
+    if (pinned) {
+      dispatch(unpinTask({ task_id }));
+    } else {
+      dispatch(pinTask({ task_id }));
+    }
+  };
+
   return (
     <>
       <PureTaskCard
@@ -89,6 +107,10 @@ const TaskCard = ({
         classes={classes}
         isAdmin={isAdmin}
         isAssignee={isAssignee}
+        task_id={task_id}
+        pinned={pinned}
+        pinnable={canPin}
+        handlePin={handlePin}
       />
       {showTaskAssignModal && (
         <TaskQuickAssignModal
@@ -132,6 +154,7 @@ TaskCard.propTypes = {
   onClickCompleteOrDueDate: PropTypes.func,
   selected: PropTypes.bool,
   task_id: PropTypes.number,
+  pinned: PropTypes.bool,
 };
 
 export default TaskCard;

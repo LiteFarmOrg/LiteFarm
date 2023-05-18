@@ -21,6 +21,41 @@
   flex-direction: column;
 }
 
+.titleAndPin {
+  display: flex;
+  align-items: center;
+
+  .pinPopoverContainer {
+    .pinPopoverToggle {
+      height: 18px; // Not sure why I need to hardcode it
+      display: block;
+
+      margin-left: 5px;
+      border: 1px solid var(--grey400);
+      padding: 0px 5px;
+      border-radius: 5px;
+      background-color: var(--grey400);
+    }
+  }
+
+  .pinMarker {
+    margin-left: 5px;
+    color: var(--teal700);
+  }
+}
+
+.pinPopoverContent {
+  margin-left: 5px;
+  cursor: pointer;
+  padding: 5px 10px;
+  display: flex;
+  align-items: center;
+
+  svg {
+    margin-left: 5px;
+  }
+}
+
 .mainTypographySansColor {
   font-size: 16px;
   line-height: 24px;

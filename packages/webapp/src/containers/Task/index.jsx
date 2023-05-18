@@ -148,6 +148,7 @@ export default function TaskPage({ history }) {
     if (myTask) return 'myTask';
     return 'all';
   }, [tasksFilter.ASSIGNEE]);
+
   const onAssigneeChange = (e) => {
     const assigneeValue = e.target.value;
     dispatch(
@@ -165,6 +166,7 @@ export default function TaskPage({ history }) {
       ),
     );
   };
+
   const onDateOrderChange = (e) => {
     const dateOrderValue = e.target.value;
     dispatch(
@@ -175,7 +177,9 @@ export default function TaskPage({ history }) {
       ),
     );
   };
+
   const resetFilter = () => dispatch(clearTasksFilter());
+
   return (
     <Layout classes={{ container: { backgroundColor: 'white' } }}>
       <PageTitle title={t('TASK.PAGE_TITLE')} style={{ paddingBottom: '20px' }} />

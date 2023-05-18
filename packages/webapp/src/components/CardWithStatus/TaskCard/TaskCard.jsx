@@ -1,5 +1,10 @@
-import React from 'react';
+import React, { useState, useRef } from 'react';
 import PropTypes from 'prop-types';
+
+import { MdMoreHoriz } from 'react-icons/md';
+import { BsPinAngle, BsPinAngleFill } from 'react-icons/bs';
+import { Popover } from '@material-ui/core';
+
 import { ReactComponent as CalendarIcon } from '../../../assets/images/task/Calendar.svg';
 import { ReactComponent as UnassignedIcon } from '../../../assets/images/task/Unassigned.svg';
 import styles from './styles.module.scss';
@@ -48,9 +53,17 @@ export const PureTaskCard = ({
   classes = { card: {} },
   isAdmin,
   isAssignee,
+  task_id,
+  pinnable,
+  pinned,
+  handlePin,
   ...props
 }) => {
   const { t } = useTranslation();
+
+  const [popoverOpen, setPopoverOpen] = useState(false);
+  const [anchor, setAnchor] = useState(null);
+
   const isCustomType = !!taskType.farm_id;
   const TaskIcon = getTaskTypeIcon(isCustomType ? 'CUSTOM_TASK' : taskType.task_translation_key);
   const onAssignTask = (e) => {
@@ -67,6 +80,19 @@ export const PureTaskCard = ({
     let [day, month, date, year] = new Date(props['abandonDate']).toDateString().split(' ');
     trueDate = `${month} ${date}, ${year}`;
   }
+
+  const togglePinPopover = (event) => {
+    // Stop propagation so we're not redirected
+    event.stopPropagation();
+
+    setPopoverOpen((currentlyOpen) => !currentlyOpen);
+  };
+
+  const handlePinClick = () => {
+    setPopoverOpen(false);
+
+    handlePin();
+  };
 
   return (
     <CardWithStatus
@@ -91,8 +117,38 @@ export const PureTaskCard = ({
     >
       <TaskIcon className={styles.taskIcon} />
       <div className={styles.info}>
-        <div className={styles.mainTypographySansColor}>
-          {t(`task:${taskType.task_translation_key}`)}
+        <div className={styles.titleAndPin}>
+          <div className={styles.mainTypographySansColor}>
+            {t(`task:${taskType.task_translation_key}`)}
+          </div>
+          {pinned && <BsPinAngleFill className={styles.pinMarker} />}
+          {pinnable && (
+            <div className={styles.pinPopoverContainer} onClick={togglePinPopover}>
+              <div className={styles.pinPopoverToggle}>
+                <MdMoreHoriz />
+              </div>
+              <div ref={(r) => setAnchor(r)}>
+                <Popover
+                  id={`pin-popover-${task_id}`}
+                  open={popoverOpen}
+                  anchorEl={anchor}
+                  onClose={() => setPopoverOpen(false)}
+                  anchorOrigin={{
+                    vertical: 'bottom',
+                    horizontal: 'left',
+                  }}
+                  transformOrigin={{
+                    left: 5,
+                  }}
+                >
+                  <div className={styles.pinPopoverContent} onClick={handlePinClick}>
+                    {pinned ? t('TASK.UNPIN.ACTION') : t('TASK.PIN.ACTION')}
+                    <BsPinAngle />
+                  </div>
+                </Popover>
+              </div>
+            </div>
+          )}
         </div>
         <div className={styles.subMain}>
           {locationName || t('TASK.CARD.MULTIPLE_LOCATIONS')}
@@ -154,4 +210,8 @@ PureTaskCard.propTypes = {
   onClickAssignee: PropTypes.func,
   onClickCompleteOrDueDate: PropTypes.func,
   selected: PropTypes.bool,
+  task_id: PropTypes.number,
+  pinned: PropTypes.bool,
+  pinnable: PropTypes.bool,
+  handlePin: PropTypes.func,
 };

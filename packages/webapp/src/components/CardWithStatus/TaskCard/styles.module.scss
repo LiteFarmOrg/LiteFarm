@@ -36,11 +36,6 @@
       background-color: var(--grey400);
     }
   }
-
-  .pinMarker {
-    margin-right: 5px;
-    color: var(--teal700);
-  }
 }
 
 .pinPopoverContent {
@@ -52,6 +47,10 @@
   svg {
     margin-left: 5px;
   }
+}
+
+.pinMarker {
+  color: var(--teal700);
 }
 
 .mainTypographySansColor {

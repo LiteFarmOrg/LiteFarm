@@ -121,7 +121,7 @@ export const PureTaskCard = ({
           <div className={styles.mainTypographySansColor}>
             {t(`task:${taskType.task_translation_key}`)}
           </div>
-          {pinned && <BsPinAngleFill className={styles.pinMarker} />}
+          {pinned && <BsPinAngleFill className={styles.pinMarker} style={{ marginRight: '5px' }} />}
           {pinnable && (
             <div className={styles.pinPopoverContainer} onClick={togglePinPopover}>
               <div className={styles.pinPopoverToggle}>
@@ -139,7 +139,7 @@ export const PureTaskCard = ({
                 >
                   <div className={styles.pinPopoverContent} onClick={handlePinClick}>
                     {pinned ? t('TASK.UNPIN.ACTION') : t('TASK.PIN.ACTION')}
-                    <BsPinAngle />
+                    {pinned ? <BsPinAngle /> : <BsPinAngleFill className={styles.pinMarker} />}
                   </div>
                 </Popover>
               </div>

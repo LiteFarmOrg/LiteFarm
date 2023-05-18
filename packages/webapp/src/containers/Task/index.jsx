@@ -58,7 +58,7 @@ export default function TaskPage({ history }) {
   const { t } = useTranslation();
   const isAdmin = useSelector(isAdminSelector);
   const { user_id, farm_id, first_name, last_name } = useSelector(userFarmSelector);
-  const taskCardContents = useSelector(filteredTaskCardContentSelector);
+  const fullTaskCardContents = useSelector(filteredTaskCardContentSelector);
   const dispatch = useDispatch();
   const activeUsers = useSelector(userFarmsByFarmSelector).filter(
     (user) => user.status !== 'Inactive',
@@ -131,6 +131,19 @@ export default function TaskPage({ history }) {
         break;
     }
   }, []);
+
+  const [pinnedTasks, nonPinnedTasks] = fullTaskCardContents.reduce(
+    ([foundPinnedTasks, foundNonPinnedTasks], task) => {
+      if (task.pinned) {
+        foundPinnedTasks.push(task);
+      } else {
+        foundNonPinnedTasks.push(task);
+      }
+      return [foundPinnedTasks, foundNonPinnedTasks];
+    },
+    [[], []],
+  );
+  const taskCardContents = [...pinnedTasks, ...nonPinnedTasks];
 
   const assigneeValue = useMemo(() => {
     let unassigned;

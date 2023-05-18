@@ -31,8 +31,8 @@ jobs:
       - name: Build and start containers
         run: docker-compose -f docker-compose.ci.yml up -d
 
-      - name: Wait for containers to start
-        run: sleep 30s  # Adjust the sleep duration as needed to allow containers to start
+      - name: Inspect db container
+        run: docker inspect litefarm-db
       
       - name: List running containers
         run: docker ps

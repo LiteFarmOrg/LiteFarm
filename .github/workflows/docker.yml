@@ -43,8 +43,8 @@ jobs:
         working-directory: packages/webapp
         run: pnpm install --config.auto-install-peers=true --no-frozen-lockfile --force
       
-      - name: inspect db container
-        run: docker inspect litefarm-db
+      - name: inspect api logs
+        run: docker logs litefarm-api
         
       - name: List running containers
         run: docker ps

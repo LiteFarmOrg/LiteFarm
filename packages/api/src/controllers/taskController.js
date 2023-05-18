@@ -694,7 +694,7 @@ const taskController = {
 
     // Note that here, we cannot assess from the result whether something was inserted because we're doing an upsert
 
-    return res.sendStatus(200);
+    return res.status(200).send({ task_id });
   },
 
   async unpinTask(req, res) {
@@ -702,13 +702,15 @@ const taskController = {
 
     // Admin role (1, 2, or 5) should already have been validated by the checkScope(['pin:task']) middleware at this point
     try {
-      await taskPinModel.deleteById(parseInt(task_id));
+      await taskPinModel
+        .knex()
+        .raw(`DELETE FROM task_pins WHERE task_id = ?;`, [parseInt(task_id)]); // How does one do hard deletes with Objection/knex ?  It makes no sense to soft-delete here.
     } catch (e) {
       console.error('Unpin task error ->', e);
       return res.status(500).send();
     }
 
-    return res.sendStatus(200);
+    return res.status(200).send({ task_id });
   },
 };
 

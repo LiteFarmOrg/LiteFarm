@@ -31,6 +31,9 @@ jobs:
       - name: Build and start containers
         run: docker-compose -f docker-compose.ci.yml up -d
 
+      - name: List running containers
+        run: docker ps
+
       - name: Install pnpm
         uses: pnpm/action-setup@v2
         with:

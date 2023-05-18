@@ -132,13 +132,9 @@ export const PureTaskCard = ({
                   id={`pin-popover-${task_id}`}
                   open={popoverOpen}
                   anchorEl={anchor}
-                  onClose={() => setPopoverOpen(false)}
                   anchorOrigin={{
                     vertical: 'bottom',
                     horizontal: 'left',
-                  }}
-                  transformOrigin={{
-                    left: 5,
                   }}
                 >
                   <div className={styles.pinPopoverContent} onClick={handlePinClick}>

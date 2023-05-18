@@ -864,6 +864,7 @@ export function* pinTaskSaga({ payload: data }) {
   try {
     yield call(axios.post, `${taskUrl}/pins/${task_id}`, {}, header);
 
+    // Here we update the task's pinned status without reloading the task, since the endpoint only returns the task_id on success
     yield put(putTaskSuccess({ task_id, pinned: true }));
   } catch (e) {
     console.error('Could not pin task:', e);
@@ -882,6 +883,7 @@ export function* unpinTaskSaga({ payload: data }) {
   try {
     yield call(axios.delete, `${taskUrl}/pins/${task_id}`, header);
 
+    // Here we update the task's pinned status without reloading the task, since the endpoint only returns the task_id on success
     yield put(putTaskSuccess({ task_id, pinned: false }));
   } catch (e) {
     console.error('Could not unpin task:', e);

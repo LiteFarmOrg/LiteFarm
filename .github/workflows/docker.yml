@@ -34,8 +34,8 @@ jobs:
       - name: List running containers
         run: docker ps
       
-      - name: attempt to connect to the db
-        run: docker exec -it litefarm-db bash -c 'psql -U postgres'
+      - name: find db container ip address
+        run: docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' litefarm-db
         
       - name: Install pnpm
         uses: pnpm/action-setup@v2

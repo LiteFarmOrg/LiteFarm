@@ -15,7 +15,7 @@ jobs:
       
       - name: Set up .env file
         run: |
-          echo "DEV_DATABASE_HOST=litefarm-db:5433" >> .env
+          echo "DEV_DATABASE_HOST=litefarm-db" >> .env
           echo "DEV_DATABASE=pg-litefarm" >> .env
           echo "DEV_DATABASE_USER=postgres" >> .env
           echo "DEV_DATABASE_PASSWORD=postgres" >> .env
@@ -33,7 +33,10 @@ jobs:
 
       - name: List running containers
         run: docker ps
-
+      
+      - name: check docker network
+        run: docker network ls
+        
       - name: Install pnpm
         uses: pnpm/action-setup@v2
         with:

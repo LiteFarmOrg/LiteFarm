@@ -25,6 +25,7 @@ services:
       dockerfile: ./webapp/prod.Dockerfile
     ports:
       - "80:80"
+      - "443:443"
     environment:
       - NODE_ENV=integration
 
@@ -40,7 +41,7 @@ services:
     ports:
       - "5000:5000"
     environment:
-      WAIT_HOSTS: localhost:5432
+      WAIT_HOSTS: litefarm-db:5432
       NODE_ENV: development
       DEV_DATABASE_HOST: ${DEV_DATABASE_HOST}
       DEV_DATABASE: ${DEV_DATABASE}

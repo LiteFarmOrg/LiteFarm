@@ -145,9 +145,10 @@ export function useValidateBulkSensorData(onUpload, t) {
         setUploadErrorMessage(t('FARM_MAP.BULK_UPLOAD_SENSORS.EMPTY_FILE_UPLOAD_ERROR_MESSAGE'));
       }
 
-      setErrorCount(data.length === 0 ? 1 : translatedErrors.length);
+      const newErrorCount = data.length === 0 ? 1 : translatedErrors.length;
+      setErrorCount(newErrorCount);
       setSheetErrors(translatedErrors);
-      setDisabled(() => (translatedErrors.length === 0 ? 1 : 0));
+      setDisabled(() => (newErrorCount === 0 ? 1 : 0));
     } catch (err) {
       console.error(err);
     }

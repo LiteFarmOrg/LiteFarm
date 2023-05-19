@@ -1562,7 +1562,12 @@
     "SENSOR_READING_CHART_SPOTLIGHT": {
       "TITLE": "Series can be hidden",
       "CONTENT": "Individual sensors can be shown or hidden by clicking their labels here."
-    }
+    },
+    "SECONDS_AGO": "{{time}} seconds ago",
+    "MINUTES_AGO": "{{time}} minutes ago",
+    "HOURS_AGO": "{{time}} hours ago",
+    "DAYS_AGO": "{{time}} days ago",
+    "MONTHS_AGO": "{{time}} months ago"
   },
   "SHIFT": {
     "ACTION": "Action",

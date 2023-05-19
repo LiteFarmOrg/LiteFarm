@@ -1806,7 +1806,12 @@
     "SENSOR_READING_CHART_SPOTLIGHT": {
       "TITLE": "La serie puede estar oculta",
       "CONTENT": "Los sensores individuales se pueden mostrar u ocultar haciendo clic en sus etiquetas aquí."
-    }
+    },
+    "SECONDS_AGO": "MISSING",
+    "MINUTES_AGO": "MISSING",
+    "HOURS_AGO": "MISSING",
+    "DAYS_AGO": "MISSING",
+    "MONTHS_AGO": "MISSING"
   },
   "CROP_STATUS_NON_ORGANIC_MISMATCH_MODAL": {
     "TITLE": "¡Has seleccionado una ubicación no orgánica!",

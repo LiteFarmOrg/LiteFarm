@@ -49,7 +49,6 @@ jobs:
             echo "VITE_GOOGLE_OAUTH_CLIENT_ID=${{ secrets.VITE_GOOGLE_OAUTH_CLIENT_ID }}" >> packages/webapp/.env
             echo "VITE_DO_BUCKET_NAME=litefarm" >> packages/webapp/.env
             echo "NODE_ENV=development" >> packages/webapp/.env
-            echo "VITE_API_URL=http://litefarm-api:5000" >> packages/webapp/.env
 
 
       - name: Set up Docker Compose

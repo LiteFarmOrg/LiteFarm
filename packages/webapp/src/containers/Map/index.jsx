@@ -72,7 +72,6 @@ import {
 } from '../../containers/bulkSensorUploadSlice';
 import LocationSelectionModal from './LocationSelectionModal';
 import { useMaxZoom } from './useMaxZoom';
-import { pointSelector } from '../locationSlice';
 import {
   mapAddDrawerSelector,
   setMapAddDrawerHide,
@@ -91,7 +90,6 @@ export default function Map({ history }) {
   const system = useSelector(measurementSelector);
   const overlayData = useSelector(hookFormPersistSelector);
   const bulkSensorsUploadResponse = useSelector(bulkSensorsUploadSliceSelector);
-  const pointAssets = useSelector(pointSelector);
   const [gMap, setGMap] = useState(null);
   const [gMaps, setGMaps] = useState(null);
   const [gMapBounds, setGMapBounds] = useState(null);
@@ -134,11 +132,11 @@ export default function Map({ history }) {
   }, []);
 
   useEffect(() => {
-    if (bulkSensorsUploadResponse?.isBulkUploadSuccessful) {
-      setShowBulkSensorUploadModal(false);
+    if (bulkSensorsUploadResponse?.isBulkUploadSuccessful && gMaps && gMap) {
       getMaxZoom(gMaps, gMap);
+      setShowBulkSensorUploadModal(false);
     }
-  }, [bulkSensorsUploadResponse?.isBulkUploadSuccessful]);
+  }, [bulkSensorsUploadResponse?.isBulkUploadSuccessful, gMaps, gMap]);
 
   useEffect(() => {
     setShowBulkSensorUploadModal(false);
@@ -226,7 +224,7 @@ export default function Map({ history }) {
     drawingState: drawingState,
     showingConfirmButtons: showingConfirmButtons,
   });
-  const { getMaxZoom } = useMaxZoom();
+  const { getMaxZoom, maxZoom } = useMaxZoom();
   const handleGoogleMapApi = (map, maps) => {
     getMaxZoom(maps, map);
     maps.Polygon.prototype.getPolygonBounds = function () {
@@ -417,11 +415,11 @@ export default function Map({ history }) {
   };
 
   useEffect(() => {
-    if (gMap && gMaps && gMapBounds) {
+    if (maxZoom && gMap && gMaps && gMapBounds) {
       const newBounds = drawAssets(gMap, gMaps, gMapBounds);
       setGMapBounds(newBounds);
     }
-  }, [pointAssets]);
+  }, [maxZoom]);
 
   const handleDownload = () => {
     html2canvas(mapWrapperRef.current, { useCORS: true }).then((canvas) => {

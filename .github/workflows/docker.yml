@@ -21,6 +21,9 @@ jobs:
           echo "POSTGRES_PASSWORD=postgres" >> .env
           echo "POSTGRES_USER=postgres" >> .env
           echo "POSTGRES_DB=pg-litefarm" >> .env
+
+      - name: View .env file
+        run: cat .env
         
       - name: Set up backend .env file
         run: |

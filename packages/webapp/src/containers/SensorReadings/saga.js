@@ -45,7 +45,6 @@ const sensorReadingsUrl = () => `${sensorUrl}/reading/visualization`;
 
 const getDates = () => {
   let currentUnixTime = new Date();
-  let currentUnixDate = parseInt(+currentUnixTime / 1000);
 
   let predictedUnixTime = new Date().setDate(currentUnixTime.getDate() + 2);
   predictedUnixTime = new Date(predictedUnixTime).setHours(0, 0, 0, 0);
@@ -55,13 +54,13 @@ const getDates = () => {
   historicalUnixTime = new Date(historicalUnixTime).setHours(0, 0, 0, 0);
   let historicalUnixDate = parseInt(+historicalUnixTime / 1000);
 
+  const formattedPredictedDate = moment(predictedUnixTime).format('MM-DD-YYYY');
+
   return {
     predictedUnixDate,
-    predictedUnixTime,
     historicalUnixDate,
-    historicalUnixTime,
-    currentUnixDate,
     currentUnixTime,
+    formattedPredictedDate,
   };
 };
 
@@ -69,19 +68,20 @@ const roundDownToNearestChosenPoint = (currentUnixTime) => {
   const currentHour = new Date(currentUnixTime).getHours();
   const chosenHours = CHOSEN_GRAPH_DATAPOINTS.map((point) => {
     const arr = point.split(':');
-    return parseInt(+arr[0]);
+    return +arr[0];
   });
+  const lastPoint = chosenHours[chosenHours.length - 1];
   let hour = 0;
   if (currentHour < chosenHours[0]) {
-    hour = chosenHours.slice(-1)[0];
+    hour = lastPoint;
   }
-  if (currentHour >= chosenHours.slice(-1)[0]) {
-    hour = chosenHours.slice(-1)[0];
+  if (currentHour >= lastPoint) {
+    hour = lastPoint;
   }
   let i = 0;
   while (
     currentHour >= chosenHours[i] &&
-    !(currentHour >= chosenHours.slice(-1)[0]) &&
+    !(currentHour >= lastPoint) &&
     !(currentHour < chosenHours[0])
   ) {
     hour = chosenHours[i];
@@ -116,15 +116,8 @@ export function* getSensorsReadingsSaga({ payload }) {
 
   try {
     yield put(bulkSensorReadingsLoading());
-    const {
-      predictedUnixDate,
-      predictedUnixTime,
-      historicalUnixDate,
-      historicalUnixTime,
-      currentUnixDate,
-      currentUnixTime,
-    } = getDates();
-    const formattedEndDate = moment(predictedUnixTime).format('MM-DD-YYYY');
+    const { predictedUnixDate, historicalUnixDate, currentUnixTime, formattedPredictedDate } =
+      getDates();
 
     const header = getHeader(user_id, farm_id);
     const postData = {
@@ -132,7 +125,7 @@ export function* getSensorsReadingsSaga({ payload }) {
       user_id,
       locationIds,
       readingTypes,
-      endDate: formattedEndDate,
+      endDate: formattedPredictedDate,
     };
 
     const result = yield call(axios.post, sensorReadingsUrl(), postData, header);
@@ -154,8 +147,7 @@ export function* getSensorsReadingsSaga({ payload }) {
         readings.predictedXAxisLabel = roundDownToNearestChosenPoint(currentUnixTime);
 
         // reduce sensor data
-        let typeReadings = {};
-        typeReadings = data?.sensorReading[type].reduce((acc, cv) => {
+        let typeReadings = data?.sensorReading[type].reduce((acc, cv) => {
           const currentValueUnixDate = new Date(cv?.read_time).getTime() / 1000;
           const currentValueUnixTime = new Date(currentValueUnixDate * 1000).toString();
           const isChosenTimestamp = CHOSEN_GRAPH_DATAPOINTS?.find((g) =>

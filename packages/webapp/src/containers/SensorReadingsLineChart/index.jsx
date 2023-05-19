@@ -4,8 +4,6 @@ import PureSensorReadingsLineChart from '../../components/SensorReadingsLineChar
 import { showedSpotlightSelector } from '../showedSpotlightSlice';
 import { setSpotlightToShown } from '../Map/saga';
 import { useDispatch, useSelector } from 'react-redux';
-import styles from './styles.module.scss';
-import Spinner from '../../components/Spinner';
 import { Semibold } from '../../components/Typography';
 import { measurementSelector } from '../../containers/userFarmSlice';
 import { ambientTemperature, soilWaterPotential } from '../../util/convert-units/unit';
@@ -18,8 +16,9 @@ import {
   TEMPERATURE,
 } from '../SensorReadings/constants';
 import { useTranslation } from 'react-i18next';
+import styles from './styles.module.scss';
 
-const SensorReadingsLineChart = ({ readingType, noDataFoundMessage, data, loading }) => {
+const SensorReadingsLineChart = ({ readingType, noDataFoundMessage, data }) => {
   const dispatch = useDispatch();
   const { t } = useTranslation();
   const { sensor_reading_chart } = useSelector(showedSpotlightSelector);
@@ -35,22 +34,21 @@ const SensorReadingsLineChart = ({ readingType, noDataFoundMessage, data, loadin
   let unit;
   let subTitle;
   let weatherStationName;
-
   // Reading type differences --
   if (readingType === TEMPERATURE) {
     const weatherStationDataExists = data?.sensorReadingData?.find(
       (rd) => rd[data.stationName] != '(no data)',
     );
     unit = getUnitOptionMap()[ambientTemperature[unitSystem].defaultUnit].label;
-    isActive = weatherStationDataExists || readingTypeDataExists ? true : false;
+    isActive = weatherStationDataExists || isActive;
     subTitle = t(`SENSOR.${readingType.toUpperCase()}_READINGS_OF_SENSOR.SUBTITLE`, {
-      high: data.latestTemperatureReadings.tempMax,
-      low: data.latestTemperatureReadings.tempMin,
+      high: data?.latestTemperatureReadings.tempMax,
+      low: data?.latestTemperatureReadings.tempMin,
       units: unit,
     });
     weatherStationName =
       t(`SENSOR.${readingType.toUpperCase()}_READINGS_OF_SENSOR.WEATHER_STATION`, {
-        weatherStationLocation: data.stationName,
+        weatherStationLocation: data?.stationName,
       }) || null;
   }
   if (readingType === SOIL_WATER_POTENTIAL)
@@ -59,11 +57,6 @@ const SensorReadingsLineChart = ({ readingType, noDataFoundMessage, data, loadin
 
   return (
     <>
-      {loading && (
-        <div className={styles.loaderWrapper}>
-          <Spinner />
-        </div>
-      )}
       {!isActive && (
         <>
           <div className={styles.titleWrapper}>
@@ -104,6 +97,18 @@ const SensorReadingsLineChart = ({ readingType, noDataFoundMessage, data, loadin
 SensorReadingsLineChart.propTypes = {
   readingType: PropTypes.string.isRequired,
   noDataFoundMessage: PropTypes.string.isRequired,
+  data: PropTypes.shape({
+    lastUpdatedReadingsTime: PropTypes.string.isRequired,
+    latestTemperatureReadings: PropTypes.shape({
+      tempMin: PropTypes.number,
+      tempMax: PropTypes.number,
+    }),
+    predictedXAxisLabel: PropTypes.string.isRequired,
+    selectedSensorName: PropTypes.string.isRequired,
+    sensorReadingData: PropTypes.array.isRequired,
+    stationName: PropTypes.string,
+    xAxisLabel: PropTypes.string.isRequired,
+  }),
 };
 
 export default SensorReadingsLineChart;

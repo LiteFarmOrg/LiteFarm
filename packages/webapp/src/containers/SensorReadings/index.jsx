@@ -4,10 +4,12 @@ import { useSelector, useDispatch } from 'react-redux';
 import SensorReadingsLineChart from '../SensorReadingsLineChart';
 import PageTitle from '../../components/PageTitle/v2';
 import RouterTab from '../../components/RouterTab';
+import Spinner from '../../components/Spinner';
 import { sensorsSelector } from '../sensorSlice';
 import { sensorReadingTypesByLocationSelector } from '../../containers/sensorReadingTypesSlice';
 import { getSensorsReadings } from '../SensorReadings/saga';
 import { bulkSensorsReadingsSliceSelector } from '../bulkSensorReadingsSlice';
+import styles from './styles.module.scss';
 
 function SensorReadings({ history, match }) {
   const { t } = useTranslation();
@@ -75,6 +77,11 @@ function SensorReadings({ history, match }) {
               },
             ]}
           />
+          {loading && (
+            <div className={styles.loaderWrapper}>
+              <Spinner />
+            </div>
+          )}
           {locationData && readingTypes?.length > 0
             ? [...readingTypes]
                 .sort()
@@ -85,7 +92,6 @@ function SensorReadings({ history, match }) {
                       readingType={type}
                       data={locationData[type]}
                       noDataFoundMessage={t('SENSOR.NO_DATA_FOUND')}
-                      loading={loading}
                       key={type}
                     />
                   );

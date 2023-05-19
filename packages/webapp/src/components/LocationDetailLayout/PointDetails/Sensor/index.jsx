@@ -12,7 +12,6 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
-import { useState } from 'react';
 import Button from '../../../Form/Button';
 import { useTranslation } from 'react-i18next';
 import RouterTab from '../../../RouterTab';
@@ -20,14 +19,6 @@ import PageTitle from '../../../PageTitle/v2';
 import Input from '../../../Form/Input';
 import ReactSelect from '../../../Form/ReactSelect';
 import RetireSensorModal from '../../../Modals/RetireSensor';
-import { useDispatch } from 'react-redux';
-import {
-  enqueueErrorSnackbar,
-  enqueueSuccessSnackbar,
-} from '../../../../containers/Snackbar/snackbarSlice';
-import axios from 'axios';
-import { getAccessToken } from '../../../../util/jwt';
-import { sensorUrl } from '../../../../apiConfig';
 import { container_planting_depth } from '../../../../util/convert-units/unit';
 import Unit from '../../../Form/Unit';
 import { useForm } from 'react-hook-form';
@@ -48,18 +39,10 @@ export default function PureSensorDetail({
   setShowCannotRetireModal,
 }) {
   const { t } = useTranslation();
-  const dispatch = useDispatch();
 
   const { location_id, name, brand_name, depth, external_id, model, point, sensor_reading_types } =
     sensorInfo;
-  const {
-    register,
-    getValues,
-    watch,
-    control,
-    setValue,
-    formState: { errors, isValid },
-  } = useForm({
+  const { register, getValues, watch, control, setValue } = useForm({
     defaultValues: {
       brand_name: 'ensemble_scientific',
       sensor_name: 'Input container data',

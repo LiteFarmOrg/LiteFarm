@@ -67,6 +67,15 @@ jobs:
 
       - name: check docker network
         run: docker network ls
+
+      - name: Inspect network
+        run: docker network inspect bridge
+      
+      - name: Inspect network
+        run: docker network inspect host
+
+      - name: Inspect network
+        run: docker network inspect litefarm_default
       
       # - name: find db container ip address
       #   id: get_ip

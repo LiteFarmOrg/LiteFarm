@@ -1,6 +1,6 @@
 name: Docker Compose Workflow
 
-on:   
+on:
   pull_request:
     branches:
       - integration
@@ -22,6 +22,16 @@ jobs:
           echo "POSTGRES_PASSWORD=postgres" >> .env
           echo "POSTGRES_USER=postgres" >> .env
           echo "POSTGRES_DB=pg-litefarm" >> .env
+          echo "JWT_INVITE_SECRET=${{ secrets.JWT_INVITE_SECRET }}" >> .env
+          echo "JWT_RESET_SECRET=${{ secrets.JWT_RESET_SECRET }}" >> .env
+          echo "JWT_SCHEDULER_SECRET=${{ secrets.JWT_SCHEDULER_SECRET }}" >> .env
+          echo "JWT_SECRET=${{ secrets.JWT_SECRET }}" >> .env
+          echo "TEST_USER=${{ secrets.TEST_USER }}" >> .env
+          echo "TEST_USER_ID=${{ secrets.TEST_USER_ID }}" >> .env
+          echo "GOOGLE_API_KEY=${{ secrets.VITE_GOOGLE_MAPS_API_KEY }}" >> .env
+          echo "VITE_GOOGLE_MAPS_API_KEY=${{ secrets.VITE_GOOGLE_MAPS_API_KEY }}" >> .env
+          echo "VITE_WEATHER_API_KEY=${{ secrets.VITE_WEATHER_API_KEY }}" >> .env
+          echo "NODE_ENV=development" >> .env
 
       - name: Set up Docker Compose
         uses: isbang/compose-action@v1.4.1
@@ -34,7 +44,7 @@ jobs:
       - name: List running containers
         run: docker ps
       
-      - name: find db container ip address
+      - name: Find db container IP address
         id: get_ip
         run: |
           CONTAINER_IP=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' litefarm-web) 
@@ -57,10 +67,10 @@ jobs:
         run: npx cypress run --browser chrome --config baseUrl=http://${{ env.CONTAINER_IP }}:80 --record --key 2630f414-4914-48b0-907d-aa3a9cc6a30b
         continue-on-error: true
 
-      - name: check db container logs
+      - name: Check db container logs
         if: always()
         run: docker logs litefarm-db
 
-      - name: inspect api logs
+      - name: Inspect API logs
         if: always()
         run: docker logs litefarm-api

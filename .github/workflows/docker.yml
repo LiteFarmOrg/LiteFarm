@@ -8,22 +8,6 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    env:
-      JWT_INVITE_SECRET: ${{secrets.JWT_INVITE_SECRET}}
-      JWT_RESET_SECRET: ${{secrets.JWT_RESET_SECRET}}
-      JWT_SCHEDULER_SECRET: ${{secrets.JWT_SCHEDULER_SECRET}}
-      JWT_SECRET: ${{secrets.JWT_SECRET}}
-      TEST_USER: ${{secrets.TEST_USER}}
-      TEST_USER_ID: ${{secrets.TEST_USER_ID}}
-      DEV_DATABASE_HOST: litefarm-db
-      DEV_DATABASE: pg-litefarm
-      DEV_DATABASE_USER: postgres
-      DEV_DATABASE_PASSWORD: postgres
-      GOOGLE_API_KEY: ${{secrets.VITE_GOOGLE_MAPS_API_KEY}}
-      VITE_GOOGLE_MAPS_API_KEY: ${{secrets.VITE_GOOGLE_MAPS_API_KEY}}
-      VITE_WEATHER_API_KEY: ${{secrets.VITE_WEATHER_API_KEY}}
-      NODE_ENV: development
-    
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
@@ -37,6 +21,36 @@ jobs:
           echo "POSTGRES_PASSWORD=postgres" >> .env
           echo "POSTGRES_USER=postgres" >> .env
           echo "POSTGRES_DB=pg-litefarm" >> .env
+        
+      - name: Set up backend .env file
+        run: |
+            echo "DEV_DATABASE_HOST=litefarm-db" >> packages/api/.env
+            echo "DEV_DATABASE=pg-litefarm" >> packages/api/.env
+            echo "DEV_DATABASE_USER=postgres" >> packages/api/.env
+            echo "DEV_DATABASE_PASSWORD=postgres" >> packages/api/.env
+            echo "POSTGRES_PASSWORD=postgres" >> packages/api/.env
+            echo "POSTGRES_USER=postgres" >> packages/api/.env
+            echo "POSTGRES_DB=pg-litefarm" >> packages/api/.env
+            echo "JWT_INVITE_SECRET=${{ secrets.JWT_INVITE_SECRET }}" >> packages/api/.env
+            echo "JWT_RESET_SECRET=${{ secrets.JWT_RESET_SECRET }}" >> packages/api/.env
+            echo "JWT_SCHEDULER_SECRET=${{ secrets.JWT_SCHEDULER_SECRET }}" >> packages/api/.env
+            echo "JWT_SECRET=${{ secrets.JWT_SECRET }}" >> packages/api/.env
+            echo "TEST_USER=${{ secrets.TEST_USER }}" >> packages/api/.env
+            echo "TEST_USER_ID=${{ secrets.TEST_USER_ID }}" >> packages/api/.env
+            echo "GOOGLE_API_KEY=${{ secrets.VITE_GOOGLE_MAPS_API_KEY }}" >> packages/api/.env
+            echo "VITE_GOOGLE_MAPS_API_KEY=${{ secrets.VITE_GOOGLE_MAPS_API_KEY }}" >> packages/api/.env
+            echo "VITE_WEATHER_API_KEY=${{ secrets.VITE_WEATHER_API_KEY }}" >> packages/api/.env
+            echo "NODE_ENV=development" >> packages/api/.env
+  
+      - name: Set up frontend .env file
+        run: |
+            echo "VITE_WEATHER_API_KEY=${{ secrets.VITE_WEATHER_API_KEY }}" >> packages/webapp/.env
+            echo "VITE_ENV=development" >> packages/webapp/.env
+            echo "VITE_GOOGLE_OAUTH_CLIENT_ID=${{ secrets.VITE_GOOGLE_OAUTH_CLIENT_ID }}" >> packages/webapp/.env
+            echo "VITE_DO_BUCKET_NAME=litefarm" >> packages/webapp/.env
+            echo "NODE_ENV=development" >> packages/webapp/.env
+            echo "VITE_API_URL=http://litefarm-api:5000" >> packages/webapp/.env
+
 
       - name: Set up Docker Compose
         uses: isbang/compose-action@v1.4.1

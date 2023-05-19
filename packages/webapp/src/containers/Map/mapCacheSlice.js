@@ -4,7 +4,6 @@ import { loginSelector } from '../userFarmSlice';
 
 const initialState = {
   maxZoom: undefined,
-  previousMaxZoom: undefined,
   retrievedPoints: [],
 };
 
@@ -17,14 +16,6 @@ const mapCacheSlice = createSlice({
   initialState: mapCacheAdapter.getInitialState(),
   reducers: {
     setMapCache: (state, { payload }) => {
-      const { farm_id } = payload;
-      const entity = state.entities[farm_id];
-      if (entity?.maxZoom) {
-        mapCacheAdapter.updateOne(state, {
-          id: farm_id,
-          changes: { previousMaxZoom: entity.maxZoom },
-        });
-      }
       mapCacheAdapter.upsertOne(state, payload);
     },
     setRetrievedPoints: (state, { payload }) => {

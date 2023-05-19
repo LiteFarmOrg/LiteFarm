@@ -29,6 +29,7 @@ async function validateLocationDependency(req, res, next) {
         WHERE lt.location_id = :location_id
           AND t.complete_date is null
           AND t.abandon_date is null
+          AND t.deleted = false
         UNION
         SELECT DISTINCT mt.task_id, pmp.location_id
         FROM management_tasks mt
@@ -37,6 +38,7 @@ async function validateLocationDependency(req, res, next) {
         WHERE pmp.location_id = :location_id
           AND t.complete_date is null
           AND t.abandon_date is null
+          AND t.deleted = false
         UNION
         SELECT DISTINCT pt.task_id, pmp.location_id
         from plant_task pt
@@ -45,6 +47,7 @@ async function validateLocationDependency(req, res, next) {
         WHERE pmp.location_id = :location_id
           AND t.complete_date is null
           AND t.abandon_date is null
+          AND t.deleted = false
         UNION
         SELECT DISTINCT tt.task_id, pmp.location_id
         from transplant_task tt
@@ -53,6 +56,7 @@ async function validateLocationDependency(req, res, next) {
         WHERE pmp.location_id = :location_id
           AND t.complete_date is null
           AND t.abandon_date is null
+          AND t.deleted = false
     `,
     { location_id },
   );

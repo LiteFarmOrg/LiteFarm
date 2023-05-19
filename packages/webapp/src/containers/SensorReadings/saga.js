@@ -15,7 +15,6 @@
 
 import { createAction } from '@reduxjs/toolkit';
 import { call, put, select, takeLeading, all } from 'redux-saga/effects';
-import moment from 'moment';
 import { axios, getHeader } from '../saga';
 import { userFarmSelector } from '../userFarmSlice';
 import {
@@ -38,59 +37,10 @@ import {
   getSoilWaterPotentialValue,
 } from '../../components/Map/PreviewPopup/utils.js';
 import { getLanguageFromLocalStorage } from '../../util/getLanguageFromLocalStorage';
-import { getLastUpdatedTime } from './utils';
+import { getLastUpdatedTime, getDates, roundDownToNearestChosenPoint } from './utils';
 import i18n from '../../locales/i18n';
 
 const sensorReadingsUrl = () => `${sensorUrl}/reading/visualization`;
-
-const getDates = () => {
-  let currentUnixTime = new Date();
-
-  let predictedUnixTime = new Date().setDate(currentUnixTime.getDate() + 2);
-  predictedUnixTime = new Date(predictedUnixTime).setHours(0, 0, 0, 0);
-  let predictedUnixDate = parseInt(+predictedUnixTime / 1000);
-
-  let historicalUnixTime = new Date().setDate(currentUnixTime.getDate() - 3);
-  historicalUnixTime = new Date(historicalUnixTime).setHours(0, 0, 0, 0);
-  let historicalUnixDate = parseInt(+historicalUnixTime / 1000);
-
-  const formattedPredictedDate = moment(predictedUnixTime).format('MM-DD-YYYY');
-
-  return {
-    predictedUnixDate,
-    historicalUnixDate,
-    currentUnixTime,
-    formattedPredictedDate,
-  };
-};
-
-const roundDownToNearestChosenPoint = (currentUnixTime) => {
-  const currentHour = new Date(currentUnixTime).getHours();
-  const chosenHours = CHOSEN_GRAPH_DATAPOINTS.map((point) => {
-    const arr = point.split(':');
-    return +arr[0];
-  });
-  const lastPoint = chosenHours[chosenHours.length - 1];
-  let hour = 0;
-  if (currentHour < chosenHours[0]) {
-    hour = lastPoint;
-  }
-  if (currentHour >= lastPoint) {
-    hour = lastPoint;
-  }
-  let i = 0;
-  while (
-    currentHour >= chosenHours[i] &&
-    !(currentHour >= lastPoint) &&
-    !(currentHour < chosenHours[0])
-  ) {
-    hour = chosenHours[i];
-    i++;
-  }
-  const nearestChosenUnixTime = new Date(currentUnixTime).setHours(hour, 0, 0, 0);
-
-  return moment(nearestChosenUnixTime).format('ddd MMMM D YYYY HH:mm');
-};
 
 const convertValues = (type, value, measurement) => {
   if (type === TEMPERATURE) {
@@ -116,8 +66,7 @@ export function* getSensorsReadingsSaga({ payload }) {
 
   try {
     yield put(bulkSensorReadingsLoading());
-    const { predictedUnixDate, historicalUnixDate, currentUnixTime, formattedPredictedDate } =
-      getDates();
+    const { startUnixTime, endUnixTime, currentDateTime, formattedEndDate } = getDates();
 
     const header = getHeader(user_id, farm_id);
     const postData = {
@@ -125,7 +74,7 @@ export function* getSensorsReadingsSaga({ payload }) {
       user_id,
       locationIds,
       readingTypes,
-      endDate: formattedPredictedDate,
+      endDate: formattedEndDate,
     };
 
     const result = yield call(axios.post, sensorReadingsUrl(), postData, header);
@@ -144,24 +93,23 @@ export function* getSensorsReadingsSaga({ payload }) {
             .filter((cv) => (cv.value ? cv.value : cv.value === 0))
             .map((cv) => new Date(cv.actual_read_time).valueOf() / 1000),
         );
-        readings.predictedXAxisLabel = roundDownToNearestChosenPoint(currentUnixTime);
+        readings.predictedXAxisLabel = roundDownToNearestChosenPoint(currentDateTime);
 
         // reduce sensor data
         let typeReadings = data?.sensorReading[type].reduce((acc, cv) => {
-          const currentValueUnixDate = new Date(cv?.read_time).getTime() / 1000;
-          const currentValueUnixTime = new Date(currentValueUnixDate * 1000).toString();
-          const isChosenTimestamp = CHOSEN_GRAPH_DATAPOINTS?.find((g) =>
-            currentValueUnixTime?.includes(g),
+          const currentValueUnixTime = new Date(cv?.read_time).getTime() / 1000;
+          const currentValueUnixTimeMsString = new Date(currentValueUnixTime * 1000).toString();
+          const matchingChosenTimestamp = CHOSEN_GRAPH_DATAPOINTS?.find((g) =>
+            currentValueUnixTimeMsString?.includes(g),
           );
           if (
-            isChosenTimestamp &&
-            historicalUnixDate < currentValueUnixDate &&
-            currentValueUnixDate < predictedUnixDate
+            matchingChosenTimestamp &&
+            startUnixTime <= currentValueUnixTime &&
+            currentValueUnixTime < endUnixTime
           ) {
-            const currentDateTime = `${currentValueUnixTime?.split(':00:00')[0]}:00`;
-            if (!acc[currentValueUnixDate]) acc[currentValueUnixDate] = {};
-            acc[currentValueUnixDate] = {
-              ...acc[currentValueUnixDate],
+            const currentDateTime = `${currentValueUnixTimeMsString?.split(':00:00')[0]}:00`;
+            if (!acc[currentValueUnixTime]) acc[currentValueUnixTime] = {};
+            acc[currentValueUnixTime] = {
               [cv?.name]: isNaN(convertValues(type, cv?.value, measurement))
                 ? i18n.t('translation:SENSOR.NO_DATA')
                 : convertValues(type, cv?.value, measurement),
@@ -178,8 +126,8 @@ export function* getSensorsReadingsSaga({ payload }) {
             lang: lang,
             units: measurement,
             type: HOUR,
-            start: historicalUnixDate,
-            end: predictedUnixDate,
+            start: startUnixTime,
+            end: endUnixTime,
             lat: centerPoint?.lat ?? lat,
             lon: centerPoint?.lng ?? lng,
           };
@@ -209,10 +157,10 @@ export function* getSensorsReadingsSaga({ payload }) {
             ...predictedWeatherResponse.data.list,
           ];
           typeReadings = weatherResData.reduce((acc, cv) => {
-            const currentValueUnixDate = cv?.dt;
-            if (acc[currentValueUnixDate]) {
-              acc[currentValueUnixDate] = {
-                ...acc[currentValueUnixDate],
+            const currentValueUnixTime = cv?.dt;
+            if (acc[currentValueUnixTime]) {
+              acc[currentValueUnixTime] = {
+                ...acc[currentValueUnixTime],
                 [`${readings.stationName}`]: cv?.main?.temp,
               };
             }

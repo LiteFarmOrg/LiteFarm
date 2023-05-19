@@ -84,9 +84,9 @@ const SensorReadingsLineChart = ({ readingType, noDataFoundMessage, data }) => {
           sensorReadings={data.sensorReadingData}
           lastUpdatedReadings={data.lastUpdatedReadingsTime}
           xAxisDataKey={CURRENT_DATE_TIME}
-          yAxisDataKeys={Object.keys(data.sensorReadingData[0])
-            .filter((f) => f !== CURRENT_DATE_TIME)
-            .sort()} // or != xAxisDataKey
+          yAxisDataKeys={Object.keys(data.sensorReadingData[0]).filter(
+            (f) => f !== CURRENT_DATE_TIME,
+          )} // or != xAxisDataKey
           lineColors={CHART_LINE_COLORS}
         />
       )}

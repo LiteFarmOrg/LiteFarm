@@ -87,7 +87,7 @@ export function* getSensorBrandSaga({ payload: { location_id, partner_id } }) {
   }
 }
 
-export function* retireSensorSaga({ payload: { sensorInfo } }) {
+export function* retireSensorSaga({ payload: { sensorInfo, onFailureWithIncompleteTasks } }) {
   let { user_id, farm_id } = yield select(loginSelector);
   const header = getHeader(user_id, farm_id);
   const { location_id } = sensorInfo;
@@ -96,6 +96,10 @@ export function* retireSensorSaga({ payload: { sensorInfo } }) {
     yield put(deleteSensorSuccess(location_id));
     yield put(enqueueSuccessSnackbar(i18n.t('SENSOR.RETIRE.RETIRE_SUCCESS')));
   } catch (error) {
+    if (error.response?.data === 'Location cannot be deleted when it has incomplete tasks') {
+      onFailureWithIncompleteTasks();
+      return;
+    }
     yield put(enqueueErrorSnackbar(i18n.t('SENSOR.RETIRE.RETIRE_FAILURE')));
     console.log(error);
   }

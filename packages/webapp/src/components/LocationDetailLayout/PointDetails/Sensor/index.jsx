@@ -34,9 +34,19 @@ import { useForm } from 'react-hook-form';
 import Pill from '../../../Filter/Pill';
 import styles from './styles.module.scss';
 import clsx from 'clsx';
+import UnableToRetireModal from '../../../../components/Modals/UnableToRetireModal';
 
-export default function PureSensorDetail({ history, isAdmin, system, sensorInfo, handleRetire }) {
-  const [showRetireModal, setShowRetireModal] = useState(false);
+export default function PureSensorDetail({
+  history,
+  isAdmin,
+  system,
+  sensorInfo,
+  handleRetire,
+  showRetireModal,
+  setShowRetireModal,
+  showCannotRetireModal,
+  setShowCannotRetireModal,
+}) {
   const { t } = useTranslation();
   const dispatch = useDispatch();
 
@@ -219,6 +229,9 @@ export default function PureSensorDetail({ history, isAdmin, system, sensorInfo,
             {t(`SENSOR.DETAIL.EDIT`)}
           </Button>
         </div>
+      )}
+      {showCannotRetireModal && (
+        <UnableToRetireModal dismissModal={() => setShowCannotRetireModal(false)} />
       )}
       {showRetireModal && (
         <RetireSensorModal dismissModal={() => setShowRetireModal(false)} onRetire={handleRetire} />

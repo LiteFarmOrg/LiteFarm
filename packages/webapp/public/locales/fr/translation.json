@@ -533,16 +533,11 @@
         "NAME": "Nom",
         "LATITUDE": "Latitude",
         "LONGITUDE": "Longitude",
-        "READING_TYPES": "Type_de_donnees_relevees",
+        "READING_TYPES": "Type_de_données_relevées",
         "SENSOR_EXTERNAL_ID": "ID_externe",
         "DEPTH": "Profondeur_cm",
         "BRAND": "Marque",
         "MODEL": "Modele"
-      },
-      "SENSOR_READING_TYPES": {
-        "SOIL_MOISTURE_CONTENT": "teneur_en_eau_du_sol",
-        "SOIL_WATER_POTENTIAL": "potentiel_hydrique_du_sol",
-        "TEMPERATURE": "temperature"
       },
       "VALIDATION": {
         "FILE_ROW_LIMIT_EXCEEDED": "Limite de lignes du fichier dépassée. Le nombre maximum de capteurs téléchargeable dans un fichier est de 100.",
@@ -551,7 +546,7 @@
         "SENSOR_NAME": "Nom de capteur non valide, if doit être compris entre 1 et 100 caractères.",
         "SENSOR_LATITUDE": "La valeur de latitude n'est pas valide, elle doit être comprise entre -85 et 85 et avec moins de 10 décimales.",
         "SENSOR_LONGITUDE": "La valeur de longitude n'est pas valide, elle doit être comprise entre -180 et 180 et avec moins de 10 décimales.",
-        "SENSOR_READING_TYPES": "Type de données relevées non valide détecté\u00a0: {{ reading_types }}. Les valeurs valides sont\u00a0: teneur_en_eau_du_sol, potentiel_hydrique_du_sol, temperature.",
+        "SENSOR_READING_TYPES": "Type de données relevées non valide détecté\u00a0: {{ reading_types }}. Les valeurs valides sont\u00a0: teneur_en_eau_du_sol, potentiel_hydrique_du_sol, température.",
         "SENSOR_DEPTH": "Valeur de profondeur non valide, elle doit être comprise entre 0 et 1000.",
         "SENSOR_BRAND": "Nom de marque non valide, il doit être compris entre 1 et 100 caractères.",
         "SENSOR_MODEL": "Nom de modèle non valide, il doit être compris entre 1 et 100 caractères.",
@@ -1760,6 +1755,7 @@
     "HARDWARE_VERSION": "Version matérielle",
     "NO_DATA_FOUND": "Aucun donnée de capteurs trouvé.",
     "NO_DATA": "(aucune donnée)",
+    "LAST_UPDATED": "Dernière mise à jour à {{latestReadingUpdate}}",
     "DETAIL": {
       "RETIRE": "Retirer",
       "EDIT": "Modifier",
@@ -1791,19 +1787,18 @@
     },
     "TEMPERATURE_READINGS_OF_SENSOR": {
       "TITLE": "Température du sol",
-      "SUBTITLE": "Température ambiante haute et basse d'aujourd'hui\u00a0: {{high}}{{tempUnit}} / {{low}}{{tempUnit}}",
-      "Y_AXIS_LABEL": "Température en {{tempUnit}}",
+      "SUBTITLE": "Température MISSING ambiante haute et basse d'aujourd'hui\u00a0: {{high}}{{units}} / {{low}}{{units}}",
+      "Y_AXIS_LABEL": "Température en {{units}}",
       "WEATHER_STATION": "Station météorologique\u00a0: {{weatherStationLocation}}",
-      "NO_DATA": "(aucune donnée)",
-      "AMBIENT_TEMPERATURE_FOR": "Température ambiante pour",
-      "LAST_UPDATED_TEMPERATURE_READINGS": "Dernière mise à jour à {{latestReadingUpdate}}"
+      "AMBIENT_TEMPERATURE_FOR": "Température ambiante pour"
     },
     "SOIL_WATER_POTENTIAL_READINGS_OF_SENSOR": {
       "TITLE": "Potentiel hydrique du sol",
-      "SUBTITLE": "MISSING",
-      "Y_AXIS_LABEL": "potentiel hydrique du sol en {{soilWaterPotentialUnit}}",
-      "NO_DATA": "(aucune donnée)",
-      "LAST_UPDATED_TEMPERATURE_READINGS": "Dernière mise à jour à {{latestReadingUpdate}}"
+      "Y_AXIS_LABEL": "potentiel hydrique du sol en {{units}}"
+    },
+    "SOIL_WATER_CONTENT_READINGS_OF_SENSOR": {
+      "TITLE": "MISSING",
+      "Y_AXIS_LABEL": "MISSING"
     },
     "READINGS_PREVIEW": {
       "TEMPERATURE": "Température actuelle du sol",

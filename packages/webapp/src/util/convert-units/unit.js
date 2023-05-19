@@ -16,6 +16,8 @@ const databaseUnit = {
   volume: 'l',
   time: 'min',
   degree: 'deg',
+  temperature: 'C',
+  pressure: 'kPa',
 };
 
 // These constants are used to determine units based on the guideline.
@@ -357,6 +359,34 @@ const volumeFlowRateUnits = {
     breakpoints: [1],
   },
   databaseUnit: databaseUnit.volumeFlowRate,
+};
+
+export const ambientTemperature = {
+  metric: {
+    units: ['C'],
+    defaultUnit: 'C',
+    breakpoints: [],
+  },
+  imperial: {
+    units: ['F'],
+    defaultUnit: 'F',
+    breakpoints: [],
+  },
+  databaseUnit: databaseUnit.temperature,
+};
+
+export const soilWaterPotential = {
+  metric: {
+    units: ['kPa'],
+    defaultUnit: 'kPa',
+    breakpoints: [],
+  },
+  imperial: {
+    units: ['psi'],
+    defaultUnit: 'psi',
+    breakpoints: [],
+  },
+  databaseUnit: databaseUnit.pressure,
 };
 
 export const getDefaultUnit = (unitType = area_total_area, value, system, unit) => {

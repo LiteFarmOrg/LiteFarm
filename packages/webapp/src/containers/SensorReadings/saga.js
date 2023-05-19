@@ -23,6 +23,7 @@ import {
   OPEN_WEATHER_API_URL_FOR_SENSORS,
   HOUR,
   SOIL_WATER_POTENTIAL,
+  DAILY_FORECAST_API_URL,
 } from './constants';
 import {
   bulkSensorReadingsLoading,
@@ -122,12 +123,15 @@ export function* getSensorsReadingsSaga({ payload }) {
           for (const key in params) {
             openWeatherUrl.searchParams.append(key, params[key]);
           }
+          if (weatherURL === DAILY_FORECAST_API_URL) {
+            openWeatherUrl.searchParams.append('cnt', 1);
+          }
           openWeatherPromiseList.push(call(axios.get, openWeatherUrl?.toString()));
         }
 
-        const [currentDayWeatherResponse, openWeatherResponse, predictedWeatherResponse] =
+        const [openWeatherResponse, predictedWeatherResponse, predictedDailyWeatherResponse] =
           yield all(openWeatherPromiseList);
-        stationName = currentDayWeatherResponse?.data?.name;
+        stationName = predictedDailyWeatherResponse?.data?.city.name;
         const weatherResData = [
           ...openWeatherResponse.data.list,
           ...predictedWeatherResponse.data.list,
@@ -181,8 +185,8 @@ export function* getSensorsReadingsSaga({ payload }) {
         }, ambientDataWithSensorsReadings);
 
         latestTemperatureReadings = {
-          tempMin: currentDayWeatherResponse?.data?.main?.temp_min,
-          tempMax: currentDayWeatherResponse?.data?.main?.temp_max,
+          tempMin: predictedDailyWeatherResponse?.data?.list?.[0]?.temp?.min,
+          tempMax: predictedDailyWeatherResponse?.data?.list?.[0]?.temp?.max,
         };
 
         if (result?.data?.sensorsPoints) {

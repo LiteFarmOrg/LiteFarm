@@ -539,11 +539,6 @@
         "BRAND": "Brand",
         "MODEL": "Model"
       },
-      "SENSOR_READING_TYPES": {
-        "SOIL_MOISTURE_CONTENT": "soil_water_content",
-        "SOIL_WATER_POTENTIAL": "soil_water_potential",
-        "TEMPERATURE": "temperature"
-      },
       "VALIDATION": {
         "FILE_ROW_LIMIT_EXCEEDED": "File row limit exceeded. The max number of sensors that can be uploaded from a file is 100.",
         "MISSING_COLUMNS": "Columns are required/missing.",
@@ -1515,6 +1510,7 @@
     "HARDWARE_VERSION": "Hardware version",
     "NO_DATA_FOUND": "No sensor readings found",
     "NO_DATA": "(no data)",
+    "LAST_UPDATED": "Last updated {{latestReadingUpdate}}",
     "DETAIL": {
       "RETIRE": "Retire",
       "EDIT": "Edit",
@@ -1546,19 +1542,18 @@
     },
     "TEMPERATURE_READINGS_OF_SENSOR": {
       "TITLE": "Soil temperature",
-      "SUBTITLE": "Today’s ambient high and low temperature: {{high}}{{tempUnit}} / {{low}}{{tempUnit}}",
-      "Y_AXIS_LABEL": "Temperature in {{tempUnit}}",
+      "SUBTITLE": "Today’s forecasted ambient high and low temperature: {{high}}{{units}} / {{low}}{{units}}",
+      "Y_AXIS_LABEL": "Temperature in {{units}}",
       "WEATHER_STATION": "Weather station: {{weatherStationLocation}}",
-      "NO_DATA": "(no data)",
-      "AMBIENT_TEMPERATURE_FOR": "Ambient temperature for",
-      "LAST_UPDATED_TEMPERATURE_READINGS": "Last updated {{latestReadingUpdate}}"
+      "AMBIENT_TEMPERATURE_FOR": "Ambient temperature for"
     },
     "SOIL_WATER_POTENTIAL_READINGS_OF_SENSOR": {
       "TITLE": "Soil water potential",
-      "SUBTITLE": "MISSING",
-      "Y_AXIS_LABEL": "Soil water potential in {{soilWaterPotentialUnit}}",
-      "NO_DATA": "(no data)",
-      "LAST_UPDATED_TEMPERATURE_READINGS": "Last updated {{latestReadingUpdate}}"
+      "Y_AXIS_LABEL": "Soil water potential in {{units}}"
+    },
+    "SOIL_WATER_CONTENT_READINGS_OF_SENSOR": {
+      "TITLE": "Soil water content",
+      "Y_AXIS_LABEL": "Soil water content in {{units}}"
     },
     "READINGS_PREVIEW": {
       "TEMPERATURE": "Current soil temp",

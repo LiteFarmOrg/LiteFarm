@@ -82,7 +82,7 @@ function SensorReadings({ history, match }) {
               <Spinner />
             </div>
           )}
-          {locationData && readingTypes?.length > 0
+          {!loading && locationData && readingTypes?.length > 0
             ? [...readingTypes]
                 .sort()
                 .reverse()

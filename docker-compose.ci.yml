@@ -27,7 +27,7 @@ services:
       - "80:80"
       - "443:443"
     environment:
-      - NODE_ENV=integration
+      - NODE_ENV=development
 
   backend:
     container_name: litefarm-api

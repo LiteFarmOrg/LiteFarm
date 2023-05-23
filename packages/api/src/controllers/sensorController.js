@@ -25,7 +25,6 @@ import PointModel from '../models/pointModel.js';
 import FigureModel from '../models/figureModel.js';
 import UserModel from '../models/userModel.js';
 import PartnerReadingTypeModel from '../models/PartnerReadingTypeModel.js';
-import convert from 'convert-units';
 
 import { transaction, Model } from 'objection';
 
@@ -451,23 +450,20 @@ const sensorController = {
           // Reconcile incoming units with stored as units and conversion function keys
           const system = ENSEMBLE_UNITS_MAPPING[sensorInfo.unit]?.system;
           const unit = ENSEMBLE_UNITS_MAPPING[sensorInfo.unit]?.conversionKey;
-          const storedAsUnit = databaseUnit[readingType] ?? undefined;
-          const isStoredAsUnit = unit === storedAsUnit[readingType];
+          const readingTypeStoredAsUnit = databaseUnit[readingType] ?? undefined;
+          const isStoredAsUnit = unit == readingTypeStoredAsUnit;
 
           if (sensorInfo.values.length < sensorInfo.timestamps.length) {
             return res.status(400).send('sensor values and timestamps are not in sync');
           }
-          if (!system || !unit || !storedAsUnit) {
+          if (!system || !unit || !readingTypeStoredAsUnit || !isStoredAsUnit) {
             return res.status(400).send('provided units are not supported');
           }
           for (let k = 0; k < sensorInfo.values.length; ++k) {
-            const value = isStoredAsUnit
-              ? sensorInfo.values[k]
-              : convert(sensorInfo.values[k]).from(unit).to(storedAsUnit);
             infoBody.push({
               read_time: sensorInfo.timestamps[k] || '',
               location_id: corresponding_sensor.location_id,
-              value,
+              value: sensorInfo.values[k],
               reading_type: readingType,
               valid: sensorInfo.validated[k] || false,
               unit,

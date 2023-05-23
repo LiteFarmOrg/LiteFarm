@@ -45,19 +45,11 @@ if (process.env.NODE_ENV === 'integration') {
   baseUrl = 'http://localhost:' + process.env.PORT;
 }
 
-//Known aliases for units from ensemble
+//Known aliases for units from ensemble mapping to convert-units representation
 const ENSEMBLE_UNITS_MAPPING = {
-  Fahrenheit: {
-    conversionKey: 'F',
-    system: 'imperial',
-  },
   Celsius: {
     conversionKey: 'C',
     system: 'metric',
-  },
-  PSI: {
-    conversionKey: 'psi',
-    system: 'imperial',
   },
   kPa: {
     conversionKey: 'kPa',

@@ -1,44 +1,43 @@
-.lineChartWrapper{
+.lineChartWrapper {
   max-height: 650px;
 }
 .title {
   font-style: normal;
   font-weight: normal;
-  color: var(--green);
-  font-size: 20px;
+  font-size: 24px;
   line-height: 24px;
   font-family: 'Open Sans', 'SansSerif', serif;
   text-transform: capitalize;
 }
 
-.subTitle{
+.subTitle {
   font-style: normal;
   font-weight: normal;
-  color: var(--grey900);
-  font-size: 16px;
+  color: var(--grey600);
+  font-size: 18px;
   line-height: 24px;
   font-family: 'Open Sans', 'SansSerif', serif;
-  margin-left: 12px;
-  margin-top: 8px;
+  margin-block: 8px;
 }
 
-.legendWrapper{
+.legendWrapper {
   display: flex;
-  margin-right: 32px;
+  flex-flow: column nowrap;
   justify-content: start;
-  flex-wrap: wrap;
+  margin-top: 30px;
+  margin-left: 50px;
+  line-height: 24px;
 }
 
 @media (min-width: 500px) {
-  .legendWrapper{
+  .legendWrapper {
     display: flex;
-    margin-right: 32px;
+    flex-flow: row wrap;
     justify-content: center;
-    flex-wrap: wrap;
   }
 }
 
-.legendContainer{
+.legendContainer {
   margin-right: 10px;
   cursor: pointer;
 }
@@ -50,17 +49,19 @@
   font-size: 14px;
   line-height: 24px;
   font-family: 'Open Sans', 'SansSerif', serif;
+  padding-top: 8px;
 }
 
-.titleWrapper{
-  margin: 24px 24px 0 12px;
+.titleWrapper {
+  margin: 60px 24px 10px 12px;
   display: flex;
   justify-content: space-between;
   align-items: baseline;
   flex-wrap: wrap;
+  gap: 8px;
 }
 
-.graphWrapper{
+.graphWrapper {
   display: flex;
   flex-direction: row;
   height: 100%;

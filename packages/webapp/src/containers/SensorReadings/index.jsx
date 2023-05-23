@@ -53,14 +53,14 @@ function SensorReadings({ history, match }) {
   return (
     <>
       {sensorInfo && !sensorInfo.deleted && (
-        <div style={{ padding: '24px 16px 24px 24px', height: '100%' }}>
+        <div className={styles.container}>
           <PageTitle
             title={sensorInfo?.name || ''}
             onGoBack={() => history.push('/map')}
             style={{ marginBottom: '24px' }}
           />
           <RouterTab
-            classes={{ container: { margin: '30px 8px 26px 0px' } }}
+            classes={{ container: { margin: '30px 8px 26px 8px' } }}
             history={history}
             tabs={[
               {

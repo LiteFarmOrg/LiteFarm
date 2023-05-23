@@ -32,27 +32,13 @@ const SensorReadingsLineChart = ({ readingType, noDataFoundMessage, data }) => {
   );
   let isActive = readingTypeDataExists ? true : false;
   let unit;
-  let subTitle;
-  let weatherStationName;
-  // Reading type differences --
+
   if (readingType === TEMPERATURE) {
-    const weatherStationDataExists = data?.sensorReadingData?.find(
-      (rd) => rd[data.stationName] != '(no data)',
-    );
-    unit = getUnitOptionMap()[ambientTemperature[unitSystem].defaultUnit].label;
-    isActive = weatherStationDataExists || isActive;
-    subTitle = t(`SENSOR.${readingType.toUpperCase()}_READINGS_OF_SENSOR.SUBTITLE`, {
-      high: data?.latestTemperatureReadings.tempMax,
-      low: data?.latestTemperatureReadings.tempMin,
-      units: unit,
-    });
-    weatherStationName =
-      t(`SENSOR.${readingType.toUpperCase()}_READINGS_OF_SENSOR.WEATHER_STATION`, {
-        weatherStationLocation: data?.stationName,
-      }) || null;
+    unit = getUnitOptionMap()[ambientTemperature[unitSystem].defaultUnit].value;
   }
-  if (readingType === SOIL_WATER_POTENTIAL)
-    unit = getUnitOptionMap()[soilWaterPotential[unitSystem].defaultUnit].label;
+  if (readingType === SOIL_WATER_POTENTIAL) {
+    unit = getUnitOptionMap()[soilWaterPotential[unitSystem].defaultUnit].value;
+  }
   if (readingType === SOIL_WATER_CONTENT) unit = '%';
 
   return (
@@ -74,12 +60,11 @@ const SensorReadingsLineChart = ({ readingType, noDataFoundMessage, data }) => {
           showSpotLight={!sensor_reading_chart}
           resetSpotlight={resetSpotlight}
           title={title}
-          subTitle={subTitle}
-          weatherStationName={weatherStationName}
-          yAxisLabel={t(`SENSOR.${readingType.toUpperCase()}_READINGS_OF_SENSOR.Y_AXIS_LABEL`, {
-            units: unit,
+          subTitle={t(`SENSOR.${readingType.toUpperCase()}_READINGS_OF_SENSOR.Y_AXIS_LABEL`, {
+            units: t(
+              `SENSOR.${readingType.toUpperCase()}_READINGS_OF_SENSOR.${unit.toUpperCase()}`,
+            ),
           })}
-          xAxisLabel={data.xAxisLabel}
           predictedXAxisLabel={data.predictedXAxisLabel}
           sensorReadings={data.sensorReadingData}
           lastUpdatedReadings={data.lastUpdatedReadingsTime}

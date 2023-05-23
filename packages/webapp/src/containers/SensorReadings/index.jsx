@@ -12,7 +12,7 @@ import { bulkSensorsReadingsSliceSelector } from '../bulkSensorReadingsSlice';
 import styles from './styles.module.scss';
 import { TEMPERATURE } from './constants';
 import { getUnitOptionMap } from '../../util/convert-units/getUnitOptionMap';
-import { ReactComponent as Themometer } from '../../assets/images/themometer.svg';
+import { ReactComponent as Themometer } from '../../assets/images/map/themometer.svg';
 
 function SensorReadings({ history, match }) {
   const { t } = useTranslation();

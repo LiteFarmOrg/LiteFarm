@@ -54,11 +54,6 @@ jobs:
             echo "NODE_ENV=development" >> packages/webapp/.env
 
 
-      - name: Set up Docker Compose
-        uses: isbang/compose-action@v1.4.1
-        with:
-          compose-file: docker-compose.ci.yml
-
       - name: Build and start containers
         run: docker-compose -f docker-compose.ci.yml up -d
 

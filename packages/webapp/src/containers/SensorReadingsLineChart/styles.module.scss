@@ -1,4 +1,4 @@
-.titleWrapper{
+.titleWrapper {
   margin: 24px 24px 0 12px;
   display: flex;
   justify-content: space-between;
@@ -9,14 +9,13 @@
 .title {
   font-style: normal;
   font-weight: normal;
-  color: var(--green);
-  font-size: 20px;
+  font-size: 24px;
   line-height: 24px;
   text-transform: capitalize;
   font-family: 'Open Sans', 'SansSerif', serif;
 }
 
-.emptyRect{
+.emptyRect {
   margin-top: 12px;
   width: 100%;
   height: 100px;
@@ -27,6 +26,6 @@
   align-items: center;
 }
 
-.emptyRectMessasge{
+.emptyRectMessasge {
   font-size: 16px;
 }

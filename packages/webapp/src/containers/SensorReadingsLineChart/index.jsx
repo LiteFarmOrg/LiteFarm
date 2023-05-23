@@ -35,6 +35,10 @@ const SensorReadingsLineChart = ({ readingType, noDataFoundMessage, data }) => {
 
   if (readingType === TEMPERATURE) {
     unit = getUnitOptionMap()[ambientTemperature[unitSystem].defaultUnit].value;
+    const weatherStationDataExists = data?.sensorReadingData?.find(
+      (rd) => rd[data.stationName] != '(no data)',
+    );
+    isActive = weatherStationDataExists || isActive;
   }
   if (readingType === SOIL_WATER_POTENTIAL) {
     unit = getUnitOptionMap()[soilWaterPotential[unitSystem].defaultUnit].value;

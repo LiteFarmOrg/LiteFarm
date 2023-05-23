@@ -72,11 +72,17 @@ jobs:
       - name: Inspect network
         run: docker network inspect litefarm_default
       
-      - name: find db container ip address
-        id: get_ip
+      - name: Get frontend container ip address
+        id: get_frontend_ip
         run: |
-           CONTAINER_IP=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' litefarm-web) 
-           echo "CONTAINER_IP=$CONTAINER_IP" >> $GITHUB_ENV
+           FRONT_CONTAINER_IP=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' litefarm-web) 
+           echo "FRONTCONTAINER_IP=$FRONT_CONTAINER_IP" >> $GITHUB_ENV
+      
+      - name: Get backend container ip address
+        id: get_backend_ip
+        run: |
+              BACK_CONTAINER_IP=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' litefarm-api) 
+              echo "BACK_CONTAINER_IP=$BACK_CONTAINER_IP" >> $GITHUB_ENV
 
       - name: Install pnpm
         uses: pnpm/action-setup@v2
@@ -92,7 +98,7 @@ jobs:
 
       - name: Run Cypress tests
         working-directory: packages/webapp
-        run: npx cypress run --browser chrome --config baseUrl=http://${{ env.CONTAINER_IP }}:3000 --record --key 2630f414-4914-48b0-907d-aa3a9cc6a30b
+        run: npx cypress run --browser chrome --config baseUrl=http://${{ env.FRONT_CONTAINER_IP }}:3000,api_server=http://${{ env.BACK_CONTAINER_IP }}:5000  --record --key 2630f414-4914-48b0-907d-aa3a9cc6a30b
         continue-on-error: true
 
       - name: check db container logs

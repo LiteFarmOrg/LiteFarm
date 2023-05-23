@@ -1795,9 +1795,7 @@
       "Y_AXIS_LABEL": "em {{units}}",
       "C": "Celsius (°C)",
       "F": "Fahrenheit (°F)",
-      "WEATHER_STATION": "Estação meteorológica: {{weatherStationLocation}}",
-      "AMBIENT_TEMPERATURE_FOR": "Temperatura ambiente para",
-      "LAST_UPDATED_TEMPERATURE_READINGS": "Última atualização {{latestReadingUpdate}}"
+      "AMBIENT_TEMPERATURE_FOR": "Temperatura ambiente para"
     },
     "SOIL_WATER_POTENTIAL_READINGS_OF_SENSOR": {
       "TITLE": "Potencial hídrico do solo",

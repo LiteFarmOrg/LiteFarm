@@ -25,6 +25,7 @@ import PointModel from '../models/pointModel.js';
 import FigureModel from '../models/figureModel.js';
 import UserModel from '../models/userModel.js';
 import PartnerReadingTypeModel from '../models/PartnerReadingTypeModel.js';
+import convert from 'convert-units';
 
 import { transaction, Model } from 'objection';
 
@@ -33,8 +34,9 @@ import {
   registerOrganizationWebhook,
   bulkSensorClaim,
   unclaimSensor,
+  ENSEMBLE_UNITS_MAPPING,
 } from '../util/ensemble.js';
-
+import { databaseUnit } from '../util/unit.js';
 import { sensorErrors, parseSensorCsv } from '../../../shared/validation/sensorCSV.js';
 import syncAsyncResponse from '../util/syncAsyncResponse.js';
 import knex from '../util/knex.js';
@@ -446,16 +448,26 @@ const sensorController = {
             );
             continue;
           }
-          const unit = sensorInfo.unit;
+          // Reconcile incoming units with stored as units and conversion function keys
+          const system = ENSEMBLE_UNITS_MAPPING[sensorInfo.unit]?.system;
+          const unit = ENSEMBLE_UNITS_MAPPING[sensorInfo.unit]?.conversionKey;
+          const storedAsUnit = databaseUnit[readingType] ?? undefined;
+          const isStoredAsUnit = unit === storedAsUnit[readingType];
 
-          if (sensorInfo.values.length < sensorInfo.timestamps.length)
+          if (sensorInfo.values.length < sensorInfo.timestamps.length) {
             return res.status(400).send('sensor values and timestamps are not in sync');
-
+          }
+          if (!system || !unit || !storedAsUnit) {
+            return res.status(400).send('provided units are not supported');
+          }
           for (let k = 0; k < sensorInfo.values.length; ++k) {
+            const value = isStoredAsUnit
+              ? sensorInfo.values[k]
+              : convert(sensorInfo.values[k]).from(unit).to(storedAsUnit);
             infoBody.push({
               read_time: sensorInfo.timestamps[k] || '',
               location_id: corresponding_sensor.location_id,
-              value: sensorInfo.values[k],
+              value,
               reading_type: readingType,
               valid: sensorInfo.validated[k] || false,
               unit,
@@ -463,6 +475,7 @@ const sensorController = {
           }
         }
       }
+
       if (infoBody.length === 0) {
         return res.status(200).json({
           error: 'No records of sensor readings added to the Litefarm.',

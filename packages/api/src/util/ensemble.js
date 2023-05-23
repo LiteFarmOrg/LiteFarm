@@ -45,6 +45,26 @@ if (process.env.NODE_ENV === 'integration') {
   baseUrl = 'http://localhost:' + process.env.PORT;
 }
 
+//Known aliases for units from ensemble
+const ENSEMBLE_UNITS_MAPPING = {
+  Fahrenheit: {
+    conversionKey: 'F',
+    system: 'imperial',
+  },
+  Celsius: {
+    conversionKey: 'C',
+    system: 'metric',
+  },
+  PSI: {
+    conversionKey: 'psi',
+    system: 'imperial',
+  },
+  kPa: {
+    conversionKey: 'kPa',
+    system: 'metric',
+  },
+};
+
 /**
  * Sends a request to the Ensemble API for an organization to claim sensors
  * @param {String} accessToken - a JWT token for accessing the Ensemble API
@@ -313,4 +333,10 @@ async function unclaimSensor(org_id, external_id, access_token) {
   }
 }
 
-export { bulkSensorClaim, registerOrganizationWebhook, createOrganization, unclaimSensor };
+export {
+  bulkSensorClaim,
+  registerOrganizationWebhook,
+  createOrganization,
+  unclaimSensor,
+  ENSEMBLE_UNITS_MAPPING,
+};

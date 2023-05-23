@@ -1,6 +1,39 @@
-.loaderWrapper{
+.loaderWrapper {
   height: 65vh;
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.container {
+  padding-block: 24px;
+  padding-inline: 16px;
+  height: '100%';
+}
+
+@media (min-width: 500px) {
+  .container {
+    padding: 24px;
+  }
+}
+
+.forecastInfo {
+  border: solid 1px var(--grey400);
+  color: var(--grey900);
+  border-radius: 4px;
+  padding: 24px 20px;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 18px;
+}
+
+.forecastInfoTitle {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 10px;
+  display: flex;
+}
+
+.themometerIcon {
+  margin: 1px 4px 0 4px;
 }

@@ -1,4 +1,4 @@
-import { React, useEffect, useState } from 'react';
+import { React, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSelector, useDispatch } from 'react-redux';
 import SensorReadingsLineChart from '../SensorReadingsLineChart';
@@ -10,6 +10,9 @@ import { sensorReadingTypesByLocationSelector } from '../../containers/sensorRea
 import { getSensorsReadings } from '../SensorReadings/saga';
 import { bulkSensorsReadingsSliceSelector } from '../bulkSensorReadingsSlice';
 import styles from './styles.module.scss';
+import { TEMPERATURE } from './constants';
+import { getUnitOptionMap } from '../../util/convert-units/getUnitOptionMap';
+import { ReactComponent as Themometer } from '../../assets/images/map/themometer.svg';
 
 function SensorReadings({ history, match }) {
   const { t } = useTranslation();
@@ -50,17 +53,46 @@ function SensorReadings({ history, match }) {
     }
   }, [readingTypes, location_id]);
 
+  const forecastInfo = useMemo(() => {
+    if (!readingTypes.includes(TEMPERATURE) || !locationData) {
+      return null;
+    }
+
+    const { latestTemperatureReadings, stationName, unit } = locationData.temperature;
+    return (
+      <div className={styles.forecastInfo}>
+        <div className={styles.forecastInfoTitle}>
+          <Themometer className={styles.themometerIcon} />
+          {t('SENSOR.SENSOR_FORECAST.TITLE')}
+        </div>
+        <div>
+          {t('SENSOR.SENSOR_FORECAST.HIGH_AND_LOW_TEMPERATURE', {
+            high: latestTemperatureReadings.tempMax,
+            low: latestTemperatureReadings.tempMin,
+            unit: getUnitOptionMap()[unit].label,
+          })}
+        </div>
+        <div>
+          {t('SENSOR.SENSOR_FORECAST.WEATHER_STATION', {
+            weatherStationLocation: stationName,
+            interpolation: { escapeValue: false },
+          })}
+        </div>
+      </div>
+    );
+  }, [styles, locationData]);
+
   return (
     <>
       {sensorInfo && !sensorInfo.deleted && (
-        <div style={{ padding: '24px 16px 24px 24px', height: '100%' }}>
+        <div className={styles.container}>
           <PageTitle
             title={sensorInfo?.name || ''}
             onGoBack={() => history.push('/map')}
             style={{ marginBottom: '24px' }}
           />
           <RouterTab
-            classes={{ container: { margin: '30px 8px 26px 0px' } }}
+            classes={{ container: { margin: '30px 8px 26px 8px' } }}
             history={history}
             tabs={[
               {
@@ -82,6 +114,7 @@ function SensorReadings({ history, match }) {
               <Spinner />
             </div>
           )}
+          {!loading && forecastInfo}
           {!loading && locationData && readingTypes?.length > 0
             ? [...readingTypes]
                 .sort()

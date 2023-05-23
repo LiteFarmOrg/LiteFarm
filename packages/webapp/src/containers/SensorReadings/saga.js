@@ -21,7 +21,10 @@ import {
   CHOSEN_GRAPH_DATAPOINTS,
   OPEN_WEATHER_API_URL_FOR_SENSORS,
   HOUR,
+  CURRENT_DATE_TIME,
+  TEMPERATURE,
   SOIL_WATER_POTENTIAL,
+  SOIL_WATER_CONTENT,
   DAILY_FORECAST_API_URL,
 } from './constants';
 import {
@@ -31,7 +34,6 @@ import {
 } from '../bulkSensorReadingsSlice';
 import { sensorUrl } from '../../apiConfig';
 import { findCenter } from './utils';
-import { CURRENT_DATE_TIME, TEMPERATURE } from './constants';
 import {
   getTemperatureValue,
   getSoilWaterPotentialValue,
@@ -39,6 +41,8 @@ import {
 import { getLanguageFromLocalStorage } from '../../util/getLanguageFromLocalStorage';
 import { getLastUpdatedTime, getDates, roundDownToNearestChosenPoint } from './utils';
 import i18n from '../../locales/i18n';
+import { getUnitOptionMap } from '../../util/convert-units/getUnitOptionMap';
+import { ambientTemperature, soilWaterPotential } from '../../util/convert-units/unit';
 
 const sensorReadingsUrl = () => `${sensorUrl}/reading/visualization`;
 
@@ -50,6 +54,14 @@ const convertValues = (type, value, measurement) => {
     return getSoilWaterPotentialValue(value, measurement);
   }
   return value;
+};
+
+const getUnit = (system) => {
+  return {
+    [TEMPERATURE]: getUnitOptionMap()[ambientTemperature[system].defaultUnit].value,
+    [SOIL_WATER_POTENTIAL]: getUnitOptionMap()[soilWaterPotential[system].defaultUnit].value,
+    [SOIL_WATER_CONTENT]: '%',
+  };
 };
 
 export const getSensorsReadings = createAction(`getSensorsReadingsSaga`);
@@ -94,6 +106,7 @@ export function* getSensorsReadingsSaga({ payload }) {
             .map((cv) => new Date(cv.actual_read_time).valueOf() / 1000),
         );
         readings.predictedXAxisLabel = roundDownToNearestChosenPoint(currentDateTime);
+        readings.unit = getUnit(measurement)[type];
 
         // reduce sensor data
         let typeReadings = data?.sensorReading[type].reduce((acc, cv) => {
@@ -142,10 +155,14 @@ export function* getSensorsReadingsSaga({ payload }) {
             }
             openWeatherPromiseList.push(call(axios.get, openWeatherUrl?.toString()));
           }
-          const [openWeatherResponse, predictedWeatherResponse, predictedDailyWeatherResponse] =
-            yield all(openWeatherPromiseList);
+          const [
+            openWeatherResponse,
+            predictedWeatherResponse,
+            predictedDailyWeatherResponse,
+            geocodingResponse,
+          ] = yield all(openWeatherPromiseList);
 
-          readings.stationName = predictedDailyWeatherResponse?.data?.city.name;
+          readings.stationName = geocodingResponse?.data?.[0].name;
           readings.latestTemperatureReadings = {
             tempMin: predictedDailyWeatherResponse?.data?.list?.[0]?.temp?.min,
             tempMax: predictedDailyWeatherResponse?.data?.list?.[0]?.temp?.max,
@@ -161,7 +178,9 @@ export function* getSensorsReadingsSaga({ payload }) {
             if (acc[currentValueUnixTime]) {
               acc[currentValueUnixTime] = {
                 ...acc[currentValueUnixTime],
-                [`${readings.stationName}`]: cv?.main?.temp,
+                [`${i18n.t('SENSOR.TEMPERATURE_READINGS_OF_SENSOR.AMBIENT_TEMPERATURE_FOR')} ${
+                  readings.stationName
+                }`]: cv?.main?.temp,
               };
             }
             return acc;

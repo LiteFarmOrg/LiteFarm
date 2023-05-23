@@ -15,7 +15,7 @@
 import PureSensorDetail from '../../../../components/LocationDetailLayout/PointDetails/Sensor/index';
 import { measurementSelector } from '../../../userFarmSlice';
 import { useSelector, useDispatch } from 'react-redux';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { sensorsSelector } from '../../../sensorSlice';
 import { isAdminSelector } from '../../../userFarmSlice';
 import { getSensorReadingTypes, getSensorBrand, retireSensor } from './saga';
@@ -27,6 +27,9 @@ export default function SensorDetail({ history, match }) {
   const system = useSelector(measurementSelector);
   const isAdmin = useSelector(isAdminSelector);
 
+  const [showRetireModal, setShowRetireModal] = useState(false);
+  const [showCannotRetireModal, setShowCannotRetireModal] = useState(false);
+
   useEffect(() => {
     if (sensorInfo === undefined || sensorInfo?.deleted) {
       history.replace('/unknown_record');
@@ -37,8 +40,13 @@ export default function SensorDetail({ history, match }) {
     }
   }, [sensorInfo?.partner_id]);
 
+  const onFailureWithIncompleteTasks = () => {
+    setShowRetireModal(false);
+    setShowCannotRetireModal(true);
+  };
+
   const confirmRetire = () => {
-    dispatch(retireSensor({ sensorInfo }));
+    dispatch(retireSensor({ sensorInfo, onFailureWithIncompleteTasks }));
   };
 
   return (
@@ -50,6 +58,10 @@ export default function SensorDetail({ history, match }) {
           system={system}
           sensorInfo={sensorInfo}
           handleRetire={confirmRetire}
+          showRetireModal={showRetireModal}
+          setShowRetireModal={setShowRetireModal}
+          showCannotRetireModal={showCannotRetireModal}
+          setShowCannotRetireModal={setShowCannotRetireModal}
         />
       )}
     </>

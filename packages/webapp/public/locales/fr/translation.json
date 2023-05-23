@@ -1785,16 +1785,25 @@
       "RETIRE_SUCCESS": "Retrait du capteur réussi",
       "RETIRE_FAILURE": "Il y a eu une erreur lors du retrait de ce capteur"
     },
+    "SENSOR_FORECAST": {
+      "TITLE": "MISSING",
+      "HIGH_AND_LOW_TEMPERATURE": "MISSING: {{high}}{{unit}} / {{low}}{{unit}}",
+      "WEATHER_STATION": "Station météorologique\u00a0: {{weatherStationLocation}}"
+    },
     "TEMPERATURE_READINGS_OF_SENSOR": {
       "TITLE": "Température du sol",
-      "SUBTITLE": "Température MISSING ambiante haute et basse d'aujourd'hui\u00a0: {{high}}{{units}} / {{low}}{{units}}",
-      "Y_AXIS_LABEL": "Température en {{units}}",
+      "Y_AXIS_LABEL": "en {{units}}",
+      "C": "Celsius (°C)",
+      "F": "Fahrenheit (°F)",
       "WEATHER_STATION": "Station météorologique\u00a0: {{weatherStationLocation}}",
-      "AMBIENT_TEMPERATURE_FOR": "Température ambiante pour"
+      "AMBIENT_TEMPERATURE_FOR": "Température ambiante pour",
+      "LAST_UPDATED_TEMPERATURE_READINGS": "Dernière mise à jour à {{latestReadingUpdate}}"
     },
     "SOIL_WATER_POTENTIAL_READINGS_OF_SENSOR": {
       "TITLE": "Potentiel hydrique du sol",
-      "Y_AXIS_LABEL": "potentiel hydrique du sol en {{units}}"
+      "Y_AXIS_LABEL": "en {{units}}",
+      "KPA": "kilopascals (kPa)",
+      "PSI": "livres par pouce carré (psi)"
     },
     "SOIL_WATER_CONTENT_READINGS_OF_SENSOR": {
       "TITLE": "MISSING",

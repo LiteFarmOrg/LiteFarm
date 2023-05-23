@@ -22,7 +22,7 @@ services:
     container_name: litefarm-web
     build:
       context: ./packages/
-      dockerfile: ./webapp/prod.Dockerfile
+      dockerfile: ./webapp/dev.Dockerfile
     ports:
       - "80:80"
       - "443:443"

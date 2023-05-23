@@ -92,7 +92,7 @@ jobs:
 
       - name: Run Cypress tests
         working-directory: packages/webapp
-        run: npx cypress run --browser chrome --config baseUrl=http://${{ env.CONTAINER_IP }}:3000 --record --key 2630f414-4914-48b0-907d-aa3a9cc6a30b
+        run: npx cypress run --browser chrome --config baseUrl=http://${{ env.CONTAINER_IP }}:443 --record --key 2630f414-4914-48b0-907d-aa3a9cc6a30b
         continue-on-error: true
 
       - name: check db container logs

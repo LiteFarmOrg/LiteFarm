@@ -53,24 +53,19 @@ jobs:
             echo "VITE_DO_BUCKET_NAME=litefarm" >> packages/webapp/.env
             echo "NODE_ENV=development" >> packages/webapp/.env
 
+      - name: Cache package dependencies
+        uses: actions/cache@v2
+        with:
+              path: |
+                packages/api/node_modules
+                packages/webapp/node_modules
+              key: ${{ runner.os }}-node-${{ hashFiles('**/pnpm-lock.yaml') }}
 
       - name: Build and start containers
         run: docker-compose -f docker-compose.ci.yml up -d
 
       - name: List running containers
         run: docker ps
-
-      - name: check docker network
-        run: docker network ls
-
-      - name: Inspect network
-        run: docker network inspect bridge
-      
-      - name: Inspect network
-        run: docker network inspect host
-
-      - name: Inspect network
-        run: docker network inspect litefarm_default
       
       - name: Get frontend container ip address
         id: get_frontend_ip

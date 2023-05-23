@@ -1754,6 +1754,7 @@
     "HARDWARE_VERSION": "Versión de hardware",
     "NO_DATA_FOUND": "No se encontraron lecturas del sensor",
     "NO_DATA": "(sin datos)",
+    "LAST_UPDATED": "Última actualización {{latestReadingUpdate}}",
     "DETAIL": {
       "RETIRE": "Retirar",
       "EDIT": "Editar",
@@ -1785,19 +1786,18 @@
     },
     "TEMPERATURE_READINGS_OF_SENSOR": {
       "TITLE": "Temperatura del suelo",
-      "SUBTITLE": "Temperatura ambiente alta y baja de hoy: {{high}}{{tempUnit}} / {{low}}{{tempUnit}}",
-      "Y_AXIS_LABEL": "Temperatura en {{tempUnit}}",
+      "SUBTITLE": "Temperatura MISSING ambiente alta y baja de hoy: {{high}}{{units}} / {{low}}{{units}}",
+      "Y_AXIS_LABEL": "Temperatura en {{units}}",
       "WEATHER_STATION": "Estación meteorológica: {{weatherStationLocation}}",
-      "NO_DATA": "(sin datos)",
-      "AMBIENT_TEMPERATURE_FOR": "Temperatura ambiente para",
-      "LAST_UPDATED_TEMPERATURE_READINGS": "Última actualización {{latestReadingUpdate}}"
+      "AMBIENT_TEMPERATURE_FOR": "Temperatura ambiente para"
     },
     "SOIL_WATER_POTENTIAL_READINGS_OF_SENSOR": {
       "TITLE": "Potencial de agua del suelo",
-      "SUBTITLE": "MISSING",
-      "Y_AXIS_LABEL": "Potencial de agua del suelo en {{soilWaterPotentialUnit}}",
-      "NO_DATA": "(sin datos)",
-      "LAST_UPDATED_TEMPERATURE_READINGS": "Última actualización {{latestReadingUpdate}}"
+      "Y_AXIS_LABEL": "Potencial de agua del suelo en {{units}}"
+    },
+    "SOIL_WATER_CONTENT_READINGS_OF_SENSOR": {
+      "TITLE": "MISSING",
+      "Y_AXIS_LABEL": "MISSING"
     },
     "READINGS_PREVIEW": {
       "TEMPERATURE": "Temperatura actual del suelo",

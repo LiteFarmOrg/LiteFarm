@@ -35,6 +35,7 @@ export const patchSensor = createAction(`patchSensorSaga`);
 export const getSensorReadingTypes = createAction('getSensorReadingTypesSaga');
 export const getSensorBrand = createAction('getSensorBrandSaga');
 export const retireSensor = createAction('retireSensorSaga');
+import { setMapCache } from '../../../Map/mapCacheSlice';
 
 export function* patchSensorSaga({ payload: sensorData }) {
   let { user_id, farm_id } = yield select(loginSelector);
@@ -93,6 +94,7 @@ export function* retireSensorSaga({ payload: { sensorInfo } }) {
   const { location_id } = sensorInfo;
   try {
     yield call(axios.post, `${sensorUrl}/unclaim`, { location_id }, header);
+    yield put(setMapCache({ maxZoom: undefined, farm_id }));
     yield put(deleteSensorSuccess(location_id));
     yield put(enqueueSuccessSnackbar(i18n.t('SENSOR.RETIRE.RETIRE_SUCCESS')));
   } catch (error) {

@@ -6,7 +6,14 @@ export const DEFAULT_ZOOM = 15;
 export const GMAPS_API_KEY = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
 export const ENVIRONMENT = import.meta.env.NODE_ENV;
 export const CHART_LINE_COLORS = ['#3ea992', '#8f26f0', '#f58282', '#AA5F04', '#0669e1', '#3E2723'];
-export const CHOSEN_GRAPH_DATAPOINTS = ['02:00:00', '08:00:00', '14:00:00', '20:00:00'];
+
+// Graph datapoints should by an array of hours in 'HH:MM:SS' format, e.g. ['02:00:00', '08:00:00', '14:00:00', '20:00:00']
+export const CHOSEN_GRAPH_DATAPOINTS = [];
+for (let i = 0; i < 24; i++) {
+  const twoDigitHour = i < 10 ? '0' + i : i;
+  CHOSEN_GRAPH_DATAPOINTS.push(twoDigitHour + ':00:00');
+}
+
 export const AMBIENT_TEMPERATURE = 'Ambient temperature';
 export const CURRENT_DATE_TIME = 'current_date_time';
 

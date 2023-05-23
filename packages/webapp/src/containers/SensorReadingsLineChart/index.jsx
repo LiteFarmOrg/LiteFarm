@@ -14,6 +14,7 @@ import {
   SOIL_WATER_POTENTIAL,
   SOIL_WATER_CONTENT,
   TEMPERATURE,
+  CHOSEN_GRAPH_DATAPOINTS,
 } from '../SensorReadings/constants';
 import { useTranslation } from 'react-i18next';
 import styles from './styles.module.scss';
@@ -88,6 +89,7 @@ const SensorReadingsLineChart = ({ readingType, noDataFoundMessage, data }) => {
             (f) => f !== CURRENT_DATE_TIME,
           )} // or != xAxisDataKey
           lineColors={CHART_LINE_COLORS}
+          graphDatapoints={CHOSEN_GRAPH_DATAPOINTS}
         />
       )}
     </>
@@ -108,6 +110,7 @@ SensorReadingsLineChart.propTypes = {
     sensorReadingData: PropTypes.array.isRequired,
     stationName: PropTypes.string,
     xAxisLabel: PropTypes.string.isRequired,
+    graphDatapoints: PropTypes.arrayOf(PropTypes.string),
   }),
 };
 

@@ -1,5 +1,4 @@
 import moment from 'moment';
-import { CHOSEN_GRAPH_DATAPOINTS } from './constants';
 
 export const getMiddle = (prop, markers) => {
   let values = markers.map((m) => m[prop]);
@@ -55,21 +54,9 @@ export const getDates = () => {
   };
 };
 
-export const roundDownToNearestChosenPoint = (currentUnixTime) => {
+export const roundDownToNearestHour = (currentUnixTime) => {
   const currentHour = new Date(currentUnixTime).getHours();
-  const chosenHours = CHOSEN_GRAPH_DATAPOINTS.map((point) => {
-    const arr = point.split(':');
-    return +arr[0];
-  });
-
-  let hour = chosenHours[chosenHours.length - 1];
-  for (let i = 0; i < chosenHours.length; i++) {
-    if (currentHour < chosenHours[i]) {
-      break;
-    }
-    hour = chosenHours[i];
-  }
-  const nearestChosenUnixTime = new Date(currentUnixTime).setHours(hour, 0, 0, 0);
+  const nearestChosenUnixTime = new Date(currentUnixTime).setHours(currentHour, 0, 0, 0);
 
   return moment(nearestChosenUnixTime).format('ddd MMMM D YYYY HH:mm');
 };

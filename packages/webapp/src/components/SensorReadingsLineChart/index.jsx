@@ -36,7 +36,6 @@ const PureSensorReadingsLineChart = ({
   xAxisDataKey,
   yAxisDataKeys,
   lineColors,
-  graphDatapoints,
 }) => {
   const { t } = useTranslation();
   const [legendsList, setLegendsList] = useState({});
@@ -110,7 +109,8 @@ const PureSensorReadingsLineChart = ({
     const displayDate = dateFormat.format(tickDate);
     const displayDay = dayFormat.format(tickDate);
 
-    if (index % graphDatapoints.length == graphDatapoints.length / 2) {
+    // Hourly datapoints
+    if (index % 24 == 12) {
       return (
         <>
           <text x={x} y={y - 16} textAnchor="middle">
@@ -123,7 +123,7 @@ const PureSensorReadingsLineChart = ({
       );
     }
 
-    if (index % graphDatapoints.length === 0 && index !== 0) {
+    if (index % 24 === 0 && index !== 0) {
       const pathX = Math.floor(x) + 0.5;
 
       return <path d={`M${pathX},${y - 22}v${-16}`} stroke="black" />;

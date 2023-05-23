@@ -1,105 +1,115 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { useSensorReadingsLineChart } from './useSensorReadingsLineChart';
 import PureSensorReadingsLineChart from '../../components/SensorReadingsLineChart';
 import { showedSpotlightSelector } from '../showedSpotlightSlice';
 import { setSpotlightToShown } from '../Map/saga';
 import { useDispatch, useSelector } from 'react-redux';
-import styles from './styles.module.scss';
-import Spinner from '../../components/Spinner';
 import { Semibold } from '../../components/Typography';
+import { measurementSelector } from '../../containers/userFarmSlice';
+import { ambientTemperature, soilWaterPotential } from '../../util/convert-units/unit';
+import { getUnitOptionMap } from '../../util/convert-units/getUnitOptionMap';
+import {
+  CHART_LINE_COLORS,
+  CURRENT_DATE_TIME,
+  SOIL_WATER_POTENTIAL,
+  SOIL_WATER_CONTENT,
+  TEMPERATURE,
+} from '../SensorReadings/constants';
+import { useTranslation } from 'react-i18next';
+import styles from './styles.module.scss';
 
-const SensorReadingsLineChart = ({
-  title = '',
-  subTitle = '',
-  xAxisDataKey = '',
-  xAxisLabel = '',
-  yAxisLabel = '',
-  locationIds = [],
-  readingType = '',
-  weatherStationName = '',
-  noDataText = '',
-  ambientTempFor = '',
-  lastUpdatedReadings = '',
-  predictedXAxisLabel = '',
-  activeReadingTypes = [],
-  noDataFoundMessage = '',
-}) => {
+const SensorReadingsLineChart = ({ readingType, noDataFoundMessage, data }) => {
   const dispatch = useDispatch();
+  const { t } = useTranslation();
   const { sensor_reading_chart } = useSelector(showedSpotlightSelector);
-
   const resetSpotlight = () => {
     dispatch(setSpotlightToShown('sensor_reading_chart'));
   };
-  const {
-    sensorsReadings = [],
-    yAxisDataKeys = [],
-    lineColors = [],
-    loading = true,
-  } = useSensorReadingsLineChart(
-    locationIds,
-    readingType,
-    noDataText,
-    ambientTempFor,
-    activeReadingTypes,
+  const unitSystem = useSelector(measurementSelector);
+  const title = t(`SENSOR.${readingType.toUpperCase()}_READINGS_OF_SENSOR.TITLE`);
+  const readingTypeDataExists = data?.sensorReadingData?.find(
+    (rd) => rd[data.selectedSensorName] && rd[data.selectedSensorName] != '(no data)',
   );
-  if (loading) {
-    return (
-      <div className={styles.loaderWrapper}>
-        <Spinner />
-      </div>
+  let isActive = readingTypeDataExists ? true : false;
+  let unit;
+  let subTitle;
+  let weatherStationName;
+  // Reading type differences --
+  if (readingType === TEMPERATURE) {
+    const weatherStationDataExists = data?.sensorReadingData?.find(
+      (rd) => rd[data.stationName] != '(no data)',
     );
-  } else if (!sensorsReadings.length) {
-    return (
-      <div>
-        <div className={styles.titleWrapper}>
-          <label>
-            <Semibold className={styles.title}>{title}</Semibold>
-          </label>
-        </div>
-        <div className={styles.emptyRect}>
-          <label className={styles.emptyRectMessasge}>{noDataFoundMessage}</label>
-        </div>
-      </div>
-    );
-  } else {
-    return (
-      <PureSensorReadingsLineChart
-        showSpotLight={!sensor_reading_chart}
-        resetSpotlight={resetSpotlight}
-        isReadingTypeActive={activeReadingTypes.includes(readingType)}
-        title={title}
-        subTitle={subTitle}
-        xAxisDataKey={xAxisDataKey}
-        yAxisDataKeys={yAxisDataKeys}
-        lineColors={lineColors}
-        xAxisLabel={xAxisLabel}
-        yAxisLabel={yAxisLabel}
-        chartData={sensorsReadings}
-        weatherStationName={weatherStationName}
-        lastUpdatedReadings={lastUpdatedReadings}
-        predictedXAxisLabel={predictedXAxisLabel}
-        readingType={readingType}
-      />
-    );
+    unit = getUnitOptionMap()[ambientTemperature[unitSystem].defaultUnit].label;
+    isActive = weatherStationDataExists || isActive;
+    subTitle = t(`SENSOR.${readingType.toUpperCase()}_READINGS_OF_SENSOR.SUBTITLE`, {
+      high: data?.latestTemperatureReadings.tempMax,
+      low: data?.latestTemperatureReadings.tempMin,
+      units: unit,
+    });
+    weatherStationName =
+      t(`SENSOR.${readingType.toUpperCase()}_READINGS_OF_SENSOR.WEATHER_STATION`, {
+        weatherStationLocation: data?.stationName,
+        interpolation: { escapeValue: false },
+      }) || null;
   }
+  if (readingType === SOIL_WATER_POTENTIAL)
+    unit = getUnitOptionMap()[soilWaterPotential[unitSystem].defaultUnit].label;
+  if (readingType === SOIL_WATER_CONTENT) unit = '%';
+
+  return (
+    <>
+      {!isActive && (
+        <>
+          <div className={styles.titleWrapper}>
+            <label>
+              <Semibold className={styles.title}>{title}</Semibold>
+            </label>
+          </div>
+          <div className={styles.emptyRect}>
+            <label className={styles.emptyRectMessasge}>{noDataFoundMessage}</label>
+          </div>
+        </>
+      )}
+      {isActive && data && data.sensorReadingData?.length && unit && (
+        <PureSensorReadingsLineChart
+          showSpotLight={!sensor_reading_chart}
+          resetSpotlight={resetSpotlight}
+          title={title}
+          subTitle={subTitle}
+          weatherStationName={weatherStationName}
+          yAxisLabel={t(`SENSOR.${readingType.toUpperCase()}_READINGS_OF_SENSOR.Y_AXIS_LABEL`, {
+            units: unit,
+          })}
+          xAxisLabel={data.xAxisLabel}
+          predictedXAxisLabel={data.predictedXAxisLabel}
+          sensorReadings={data.sensorReadingData}
+          lastUpdatedReadings={data.lastUpdatedReadingsTime}
+          xAxisDataKey={CURRENT_DATE_TIME}
+          yAxisDataKeys={Object.keys(data.sensorReadingData[0]).filter(
+            (f) => f !== CURRENT_DATE_TIME,
+          )} // or != xAxisDataKey
+          lineColors={CHART_LINE_COLORS}
+        />
+      )}
+    </>
+  );
 };
 
 SensorReadingsLineChart.propTypes = {
-  title: PropTypes.string.isRequired,
-  subTitle: PropTypes.string,
-  xAxisDataKey: PropTypes.string.isRequired,
-  xAxisLabel: PropTypes.string,
-  yAxisLabel: PropTypes.string.isRequired,
-  locationIds: PropTypes.array.isRequired,
   readingType: PropTypes.string.isRequired,
-  weatherStationName: PropTypes.string,
-  noDataText: PropTypes.string.isRequired,
-  ambientTempFor: PropTypes.string,
-  lastUpdatedReadings: PropTypes.string.isRequired,
-  predictedXAxisLabel: PropTypes.string.isRequired,
-  activeReadingTypes: PropTypes.array.isRequired,
   noDataFoundMessage: PropTypes.string.isRequired,
+  data: PropTypes.shape({
+    lastUpdatedReadingsTime: PropTypes.string.isRequired,
+    latestTemperatureReadings: PropTypes.shape({
+      tempMin: PropTypes.number,
+      tempMax: PropTypes.number,
+    }),
+    predictedXAxisLabel: PropTypes.string.isRequired,
+    selectedSensorName: PropTypes.string.isRequired,
+    sensorReadingData: PropTypes.array.isRequired,
+    stationName: PropTypes.string,
+    xAxisLabel: PropTypes.string.isRequired,
+  }),
 };
 
 export default SensorReadingsLineChart;

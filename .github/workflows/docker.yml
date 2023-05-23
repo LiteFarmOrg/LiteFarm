@@ -56,10 +56,16 @@ jobs:
       - name: Cache package dependencies
         uses: actions/cache@v2
         with:
-              path: |
+          path: |
                 packages/api/node_modules
                 packages/webapp/node_modules
-              key: ${{ runner.os }}-node-${{ hashFiles('**/pnpm-lock.yaml') }}
+          key: ${{ runner.os }}-node-${{ hashFiles('**/pnpm-lock.yaml') }}
+
+      - name: Cache Docker layers
+        uses: actions/cache@v2
+        with:
+          path: /var/lib/docker
+          key: ${{ runner.os }}-docker-${{ hashFiles('**/Dockerfile') }}
 
       - name: Build and start containers
         run: docker-compose -f docker-compose.ci.yml up -d

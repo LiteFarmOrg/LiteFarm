@@ -45,7 +45,7 @@ const PureSensorReadingsLineChart = ({
   const dayFormat = new Intl.DateTimeFormat(language, { weekday: 'short' });
 
   const chartRef = useRef(null);
-  const { chartWidth } = useElementWidth(chartRef);
+  const { elementWidth: chartWidth } = useElementWidth(chartRef);
 
   useEffect(() => {
     if (yAxisDataKeys.length) {
@@ -154,7 +154,7 @@ const PureSensorReadingsLineChart = ({
 
   return (
     <>
-      <div className={styles.titleWrapper}>
+      <div className={styles.titleWrapper} ref={chartRef}>
         <label>
           <Semibold className={styles.title}>{title}</Semibold>
         </label>
@@ -171,7 +171,7 @@ const PureSensorReadingsLineChart = ({
       {subTitle && <Label className={styles.subTitle}>{subTitle}</Label>}
       {weatherStationName && <Label className={styles.subTitle}>{weatherStationName}</Label>}
 
-      <ResponsiveContainer width="100%" height={380} ref={chartRef}>
+      <ResponsiveContainer width="100%" height={380}>
         <LineChart
           data={sensorReadings}
           margin={{

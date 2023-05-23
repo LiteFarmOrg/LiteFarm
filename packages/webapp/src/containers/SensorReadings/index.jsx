@@ -6,14 +6,12 @@ import PageTitle from '../../components/PageTitle/v2';
 import RouterTab from '../../components/RouterTab';
 import Spinner from '../../components/Spinner';
 import { sensorsSelector } from '../sensorSlice';
-import { measurementSelector } from '../../containers/userFarmSlice';
 import { sensorReadingTypesByLocationSelector } from '../../containers/sensorReadingTypesSlice';
 import { getSensorsReadings } from '../SensorReadings/saga';
 import { bulkSensorsReadingsSliceSelector } from '../bulkSensorReadingsSlice';
 import styles from './styles.module.scss';
 import { TEMPERATURE } from './constants';
 import { getUnitOptionMap } from '../../util/convert-units/getUnitOptionMap';
-import { ambientTemperature } from '../../util/convert-units/unit';
 import { ReactComponent as Themometer } from '../../assets/images/themometer.svg';
 
 function SensorReadings({ history, match }) {
@@ -26,7 +24,6 @@ function SensorReadings({ history, match }) {
   const sensorInfo = useSelector(sensorsSelector(location_id));
   const reading_types = useSelector(sensorReadingTypesByLocationSelector(location_id));
   const { loading, sensorDataByLocationIds } = useSelector(bulkSensorsReadingsSliceSelector);
-  const unitSystem = useSelector(measurementSelector);
 
   //Keeps sensor readings up to date for location
   useEffect(() => {
@@ -61,8 +58,7 @@ function SensorReadings({ history, match }) {
       return null;
     }
 
-    const { latestTemperatureReadings, stationName } = locationData.temperature;
-    const unit = getUnitOptionMap()[ambientTemperature[unitSystem].defaultUnit].label;
+    const { latestTemperatureReadings, stationName, unit } = locationData.temperature;
     return (
       <div className={styles.forecastInfo}>
         <div className={styles.forecastInfoTitle}>
@@ -73,7 +69,7 @@ function SensorReadings({ history, match }) {
           {t('SENSOR.SENSOR_FORECAST.HIGH_AND_LOW_TEMPERATURE', {
             high: latestTemperatureReadings.tempMax,
             low: latestTemperatureReadings.tempMin,
-            unit: unit,
+            unit: getUnitOptionMap()[unit].label,
           })}
         </div>
         <div>

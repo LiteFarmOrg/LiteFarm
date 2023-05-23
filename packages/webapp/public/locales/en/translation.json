@@ -1550,9 +1550,7 @@
       "Y_AXIS_LABEL": "in {{units}}",
       "C": "Celsius (°C)",
       "F": "Fahrenheit (°F)",
-      "WEATHER_STATION": "Weather station: {{weatherStationLocation}}",
-      "AMBIENT_TEMPERATURE_FOR": "Ambient temperature for",
-      "LAST_UPDATED_TEMPERATURE_READINGS": "Last updated {{latestReadingUpdate}}"
+      "AMBIENT_TEMPERATURE_FOR": "Ambient temperature for"
     },
     "SOIL_WATER_POTENTIAL_READINGS_OF_SENSOR": {
       "TITLE": "Soil water potential",

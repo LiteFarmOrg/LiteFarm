@@ -1795,9 +1795,7 @@
       "Y_AXIS_LABEL": "en {{units}}",
       "C": "Celsius (°C)",
       "F": "Fahrenheit (°F)",
-      "WEATHER_STATION": "Station météorologique\u00a0: {{weatherStationLocation}}",
-      "AMBIENT_TEMPERATURE_FOR": "Température ambiante pour",
-      "LAST_UPDATED_TEMPERATURE_READINGS": "Dernière mise à jour à {{latestReadingUpdate}}"
+      "AMBIENT_TEMPERATURE_FOR": "Température ambiante pour"
     },
     "SOIL_WATER_POTENTIAL_READINGS_OF_SENSOR": {
       "TITLE": "Potentiel hydrique du sol",

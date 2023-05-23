@@ -161,7 +161,9 @@ export function* getSensorsReadingsSaga({ payload }) {
             if (acc[currentValueUnixTime]) {
               acc[currentValueUnixTime] = {
                 ...acc[currentValueUnixTime],
-                [`${readings.stationName}`]: cv?.main?.temp,
+                [`${i18n.t('SENSOR.TEMPERATURE_READINGS_OF_SENSOR.AMBIENT_TEMPERATURE_FOR')} ${
+                  readings.stationName
+                }`]: cv?.main?.temp,
               };
             }
             return acc;

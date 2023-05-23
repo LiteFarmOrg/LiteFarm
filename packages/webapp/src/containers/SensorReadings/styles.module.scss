@@ -1,6 +1,18 @@
-.loaderWrapper{
+.loaderWrapper {
   height: 65vh;
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.container {
+  padding-block: 24px;
+  padding-inline: 16px;
+  height: '100%';
+}
+
+@media (min-width: 500px) {
+  .container {
+    padding: 24px;
+  }
 }

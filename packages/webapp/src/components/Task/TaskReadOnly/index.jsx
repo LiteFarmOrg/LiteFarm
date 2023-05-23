@@ -16,6 +16,7 @@
 import Layout from '../../Layout';
 import Button from '../../Form/Button';
 import React, { useMemo, useState } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import PageTitle from '../../PageTitle/v2';
 import Input from '../../Form/Input';
@@ -51,6 +52,8 @@ import { getDateInputFormat } from '../../../util/moment';
 import UpdateTaskDateModal from '../../Modals/UpdateTaskDateModal';
 import PureIrrigationTask from '../PureIrrigationTask';
 import DeleteBox from './DeleteBox';
+import { userFarmSelector } from '../../../containers/userFarmSlice';
+import { certifierSurveySelector } from '../../../containers/OrganicCertifierSurvey/slice';
 
 export default function PureTaskReadOnly({
   onGoBack,
@@ -142,6 +145,9 @@ export default function PureTaskReadOnly({
   const [showTaskAssignModal, setShowTaskAssignModal] = useState(false);
   const [showDueDateModal, setShowDueDateModal] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
+
+  const { country_id } = useSelector(userFarmSelector);
+  const { interested, farm_id } = useSelector(certifierSurveySelector, shallowEqual);
 
   const canCompleteTask =
     user.user_id === task.assignee_user_id || (assignedToPseudoUser && user.is_admin);
@@ -410,7 +416,7 @@ export default function PureTaskReadOnly({
           formState: { errors, isValid },
           errors,
           disabled: true,
-          farm: user,
+          farm: { farm_id, country_id, interested },
           system,
           products,
           task,

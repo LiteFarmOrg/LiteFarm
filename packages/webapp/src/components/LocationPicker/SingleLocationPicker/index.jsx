@@ -4,7 +4,12 @@ import PropTypes from 'prop-types';
 import CustomZoom from '../../Map/CustomZoom';
 import CustomCompass from '../../Map/CustomCompass';
 import GoogleMap from 'google-map-react';
-import { DEFAULT_ZOOM, GMAPS_API_KEY, isPoint } from '../../../containers/Map/constants';
+import {
+  DEFAULT_ZOOM,
+  GMAPS_API_KEY,
+  isPoint,
+  DEFAULT_MAX_ZOOM,
+} from '../../../containers/Map/constants';
 import MapPin from '../../../assets/images/map/map_pin.svg';
 import {
   createMarkerClusters,
@@ -31,8 +36,12 @@ const LocationPicker = ({
   readOnlyPinCoordinates,
   maxZoomRef,
   getMaxZoom,
+  maxZoom,
 }) => {
   const [isGoogleMapInitiated, setGoogleMapInitiated] = useState(false);
+  const [gMap, setGMap] = useState(null);
+  const [gMaps, setGMaps] = useState(null);
+  const [gMapBounds, setGMapBounds] = useState(null);
   const geometriesRef = useRef({});
   const markerClusterRef = useRef();
   const mapRef = useRef();
@@ -61,6 +70,12 @@ const LocationPicker = ({
       });
     }
   }, [isPinMode, isGoogleMapInitiated]);
+
+  useEffect(() => {
+    if (maxZoom && gMap && gMaps && gMapBounds) {
+      drawLocations(gMap, gMaps, gMapBounds);
+    }
+  }, [maxZoom, gMap, gMaps, gMapBounds]);
 
   useEffect(() => {
     if (markerClusterRef?.current?.markers?.length > 0) {
@@ -151,9 +166,13 @@ const LocationPicker = ({
       Object.values(geometriesRef.current).filter(({ location: { type } }) => isPoint(type)),
       selectedLocationIdsRef,
       markerClusterRef,
+      maxZoom,
     );
     maps.event.addListener(markerClusterRef.current, 'click', (cluster) => {
-      if (map.getZoom() >= (maxZoomRef?.current || 20) && cluster.markers.length > 1) {
+      if (
+        map.getZoom() >= (maxZoomRef?.current || DEFAULT_MAX_ZOOM) &&
+        cluster.markers.length > 1
+      ) {
         setOverlappedPositions(
           cluster.markers.map((marker) => ({
             location_id: marker.location_id,
@@ -209,7 +228,6 @@ const LocationPicker = ({
       gestureHandling: 'greedy',
       disableDoubleClickZoom: false,
       minZoom: 1,
-      maxZoom: 80,
       tilt: 0,
       mapTypeId: maps.MapTypeId.SATELLITE,
       mapTypeControlOptions: {
@@ -230,7 +248,7 @@ const LocationPicker = ({
 
   const handleGoogleMapApi = (map, maps) => {
     mapRef.current = map;
-    getMaxZoom?.(maps);
+    getMaxZoom?.(maps, map);
     const mapBounds = new maps.LatLngBounds();
     mapBounds.extend(farmCenterCoordinate);
     pinMarkerRef.current = new maps.Marker({
@@ -279,7 +297,9 @@ const LocationPicker = ({
     drawWildCropPins(map, maps, mapBounds);
     drawLocations(map, maps, mapBounds);
     map.fitBounds(mapBounds);
-
+    setGMap(map);
+    setGMaps(maps);
+    setGMapBounds(mapBounds);
     setGoogleMapInitiated(true);
   };
 

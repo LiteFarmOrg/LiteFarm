@@ -11,6 +11,7 @@ import {
 } from '../../../gateSlice';
 import history from '../../../../history';
 import { canShowSuccessHeader, setSuccessMessage } from '../../../mapSlice';
+import { setMapCache } from '../../../Map/mapCacheSlice';
 import i18n from '../../../../locales/i18n';
 
 export const postGateLocation = createAction(`postGateLocationSaga`);
@@ -30,6 +31,7 @@ export function* postGateLocationSaga({ payload: data }) {
       locationObject,
       header,
     );
+    yield put(setMapCache({ maxZoom: undefined, farm_id }));
     yield put(postGateSuccess(result.data));
 
     yield put(
@@ -101,6 +103,7 @@ export function* deleteGateLocationSaga({ payload: data }) {
 
   try {
     const result = yield call(axios.delete, `${locationURL}/${location_id}`, header);
+    yield put(setMapCache({ maxZoom: undefined, farm_id }));
     yield put(deleteGateSuccess(location_id));
     yield put(
       setSuccessMessage([i18n.t('FARM_MAP.MAP_FILTER.GATE'), i18n.t('message:MAP.SUCCESS_DELETE')]),

@@ -47,6 +47,7 @@ import {
   onLoadingSensorReadingTypesFail,
   onLoadingSensorReadingTypesStart,
 } from '../sensorReadingTypesSlice';
+import { setMapCache } from './mapCacheSlice';
 
 const sendMapToEmailUrl = (farm_id) => `${url}/export/map/farm/${farm_id}`;
 const showedSpotlightUrl = () => `${url}/showed_spotlight`;
@@ -133,6 +134,7 @@ export function* bulkUploadSensorsInfoFileSaga({ payload: { file } }) {
 
     switch (fileUploadResponse.status) {
       case 200: {
+        yield put(setMapCache({ maxZoom: undefined, farm_id }));
         yield put(bulkSensorsUploadSuccess());
         yield put(postManySensorsSuccess(fileUploadResponse?.data?.sensors));
         yield put(getAllSensorReadingTypes());

@@ -75,6 +75,7 @@ function SensorReadings({ history, match }) {
         <div>
           {t('SENSOR.SENSOR_FORECAST.WEATHER_STATION', {
             weatherStationLocation: stationName,
+            interpolation: { escapeValue: false },
           })}
         </div>
       </div>

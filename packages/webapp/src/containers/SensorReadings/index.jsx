@@ -54,7 +54,7 @@ function SensorReadings({ history, match }) {
   }, [readingTypes, location_id]);
 
   const forecastInfo = useMemo(() => {
-    if (!readingTypes.includes(TEMPERATURE) || !locationData) {
+    if (!readingTypes.includes(TEMPERATURE) || !locationData?.temperature) {
       return null;
     }
 
@@ -69,7 +69,7 @@ function SensorReadings({ history, match }) {
           {t('SENSOR.SENSOR_FORECAST.HIGH_AND_LOW_TEMPERATURE', {
             high: latestTemperatureReadings.tempMax,
             low: latestTemperatureReadings.tempMin,
-            unit: getUnitOptionMap()[unit].label,
+            unit: getUnitOptionMap()[unit]?.label,
           })}
         </div>
         <div>

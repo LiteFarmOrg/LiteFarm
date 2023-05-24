@@ -98,7 +98,7 @@ export const PureTaskCard = ({
           {locationName || t('TASK.CARD.MULTIPLE_LOCATIONS')}
           {cropVarietyName && ` | ${cropVarietyName}`}
         </div>
-        <div data-cy="taskCard-dueDate" onClick={onAssignDate} className={styles.dateUserContainer}>
+        <div onClick={onAssignDate} className={styles.dateUserContainer}>
           <div
             className={
               status === 'completed' || status === 'abandoned' || !isAdmin
@@ -107,7 +107,7 @@ export const PureTaskCard = ({
             }
           >
             <CalendarIcon />
-            <div>{trueDate}</div>
+            <div data-cy="taskCard-dueDate">{trueDate}</div>
           </div>
           {assignee ? (
             <div

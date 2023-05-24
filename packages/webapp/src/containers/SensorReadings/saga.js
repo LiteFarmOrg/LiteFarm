@@ -18,7 +18,6 @@ import { call, put, select, takeLeading, all } from 'redux-saga/effects';
 import { axios, getHeader } from '../saga';
 import { userFarmSelector } from '../userFarmSlice';
 import {
-  CHOSEN_GRAPH_DATAPOINTS,
   OPEN_WEATHER_API_URL_FOR_SENSORS,
   HOUR,
   CURRENT_DATE_TIME,
@@ -39,7 +38,7 @@ import {
   getSoilWaterPotentialValue,
 } from '../../components/Map/PreviewPopup/utils.js';
 import { getLanguageFromLocalStorage } from '../../util/getLanguageFromLocalStorage';
-import { getLastUpdatedTime, getDates, roundDownToNearestChosenPoint } from './utils';
+import { getLastUpdatedTime, getDates, roundDownToNearestHour } from './utils';
 import i18n from '../../locales/i18n';
 import { getUnitOptionMap } from '../../util/convert-units/getUnitOptionMap';
 import { ambientTemperature, soilWaterPotential } from '../../util/convert-units/unit';
@@ -105,22 +104,16 @@ export function* getSensorsReadingsSaga({ payload }) {
             .filter((cv) => (cv.value ? cv.value : cv.value === 0))
             .map((cv) => new Date(cv.actual_read_time).valueOf() / 1000),
         );
-        readings.predictedXAxisLabel = roundDownToNearestChosenPoint(currentDateTime);
+        readings.predictedXAxisLabel = roundDownToNearestHour(currentDateTime);
         readings.unit = getUnit(measurement)[type];
 
         // reduce sensor data
         let typeReadings = data?.sensorReading[type].reduce((acc, cv) => {
           const currentValueUnixTime = new Date(cv?.read_time).getTime() / 1000;
-          const currentValueUnixTimeMsString = new Date(currentValueUnixTime * 1000).toString();
-          const matchingChosenTimestamp = CHOSEN_GRAPH_DATAPOINTS?.find((g) =>
-            currentValueUnixTimeMsString?.includes(g),
-          );
-          if (
-            matchingChosenTimestamp &&
-            startUnixTime <= currentValueUnixTime &&
-            currentValueUnixTime < endUnixTime
-          ) {
-            const currentDateTime = `${currentValueUnixTimeMsString?.split(':00:00')[0]}:00`;
+          const currentValueDateTimeString = new Date(currentValueUnixTime * 1000).toString();
+
+          if (startUnixTime <= currentValueUnixTime && currentValueUnixTime < endUnixTime) {
+            const currentDateTime = `${currentValueDateTimeString?.split(':00:00')[0]}:00`;
             if (!acc[currentValueUnixTime]) acc[currentValueUnixTime] = {};
             acc[currentValueUnixTime] = {
               [cv?.name]: isNaN(convertValues(type, cv?.value, measurement))

@@ -417,7 +417,7 @@ const sensorController = {
     }
     try {
       const infoBody = [];
-      const partnerId = parseInt(req.params.partner_id) || 1;
+      const partnerId = parseInt(req.params.partner_id);
       const farmId = req.params.farm_id || '';
       if (!farmId.length) return res.status(400).send('farm id not found');
       const {

@@ -1,5 +1,5 @@
 import moment from 'moment';
-import { CHOSEN_GRAPH_DATAPOINTS } from './constants';
+import i18n from '../../locales/i18n';
 
 export const getMiddle = (prop, markers) => {
   let values = markers.map((m) => m[prop]);
@@ -55,21 +55,9 @@ export const getDates = () => {
   };
 };
 
-export const roundDownToNearestChosenPoint = (currentUnixTime) => {
+export const roundDownToNearestHour = (currentUnixTime) => {
   const currentHour = new Date(currentUnixTime).getHours();
-  const chosenHours = CHOSEN_GRAPH_DATAPOINTS.map((point) => {
-    const arr = point.split(':');
-    return +arr[0];
-  });
-
-  let hour = chosenHours[chosenHours.length - 1];
-  for (let i = 0; i < chosenHours.length; i++) {
-    if (currentHour < chosenHours[i]) {
-      break;
-    }
-    hour = chosenHours[i];
-  }
-  const nearestChosenUnixTime = new Date(currentUnixTime).setHours(hour, 0, 0, 0);
+  const nearestChosenUnixTime = new Date(currentUnixTime).setHours(currentHour, 0, 0, 0);
 
   return moment(nearestChosenUnixTime).format('ddd MMMM D YYYY HH:mm');
 };
@@ -84,15 +72,15 @@ const timeDifference = (current, previous) => {
   var elapsed = current - previous;
 
   if (elapsed < msPerMinute) {
-    return Math.round(elapsed / 1000) + ' seconds ago';
+    return i18n.t('translation:SENSOR.SECONDS_AGO', { time: Math.round(elapsed / 1000) });
   } else if (elapsed < msPerHour) {
-    return Math.round(elapsed / msPerMinute) + ' minutes ago';
+    return i18n.t('translation:SENSOR.MINUTES_AGO', { time: Math.round(elapsed / msPerMinute) });
   } else if (elapsed < msPerDay) {
-    return Math.round(elapsed / msPerHour) + ' hours ago';
+    return i18n.t('translation:SENSOR.HOURS_AGO', { time: Math.round(elapsed / msPerHour) });
   } else if (elapsed < msPerMonth) {
-    return Math.round(elapsed / msPerDay) + ' days ago';
+    return i18n.t('translation:SENSOR.DAYS_AGO', { time: Math.round(elapsed / msPerDay) });
   } else if (elapsed < msPerYear) {
-    return Math.round(elapsed / msPerMonth) + ' months ago';
+    return i18n.t('translation:SENSOR.MONTHS_AGO', { time: Math.round(elapsed / msPerMonth) });
   } else {
     return '';
   }

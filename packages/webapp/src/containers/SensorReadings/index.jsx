@@ -1,6 +1,7 @@
-import { React, useEffect, useMemo, useState } from 'react';
+import { React, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSelector, useDispatch } from 'react-redux';
+import ForecastInfo from './ForecastInfo';
 import SensorReadingsLineChart from '../SensorReadingsLineChart';
 import PageTitle from '../../components/PageTitle/v2';
 import RouterTab from '../../components/RouterTab';
@@ -9,10 +10,8 @@ import { sensorsSelector } from '../sensorSlice';
 import { sensorReadingTypesByLocationSelector } from '../../containers/sensorReadingTypesSlice';
 import { getSensorsReadings } from '../SensorReadings/saga';
 import { bulkSensorsReadingsSliceSelector } from '../bulkSensorReadingsSlice';
-import styles from './styles.module.scss';
 import { TEMPERATURE } from './constants';
-import { getUnitOptionMap } from '../../util/convert-units/getUnitOptionMap';
-import { ReactComponent as Themometer } from '../../assets/images/map/themometer.svg';
+import styles from './styles.module.scss';
 
 function SensorReadings({ history, match }) {
   const { t } = useTranslation();
@@ -53,35 +52,6 @@ function SensorReadings({ history, match }) {
     }
   }, [readingTypes, location_id]);
 
-  const forecastInfo = useMemo(() => {
-    if (!readingTypes.includes(TEMPERATURE) || !locationData?.temperature) {
-      return null;
-    }
-
-    const { latestTemperatureReadings, stationName, unit } = locationData.temperature;
-    return (
-      <div className={styles.forecastInfo}>
-        <div className={styles.forecastInfoTitle}>
-          <Themometer className={styles.themometerIcon} />
-          {t('SENSOR.SENSOR_FORECAST.TITLE')}
-        </div>
-        <div>
-          {t('SENSOR.SENSOR_FORECAST.HIGH_AND_LOW_TEMPERATURE', {
-            high: latestTemperatureReadings.tempMax,
-            low: latestTemperatureReadings.tempMin,
-            unit: getUnitOptionMap()[unit]?.label,
-          })}
-        </div>
-        <div>
-          {t('SENSOR.SENSOR_FORECAST.WEATHER_STATION', {
-            weatherStationLocation: stationName,
-            interpolation: { escapeValue: false },
-          })}
-        </div>
-      </div>
-    );
-  }, [styles, locationData]);
-
   return (
     <>
       {sensorInfo && !sensorInfo.deleted && (
@@ -114,7 +84,9 @@ function SensorReadings({ history, match }) {
               <Spinner />
             </div>
           )}
-          {!loading && forecastInfo}
+          {!loading && readingTypes.includes(TEMPERATURE) && locationData?.temperature && (
+            <ForecastInfo data={locationData.temperature} />
+          )}
           {!loading && locationData && readingTypes?.length > 0
             ? [...readingTypes]
                 .sort()

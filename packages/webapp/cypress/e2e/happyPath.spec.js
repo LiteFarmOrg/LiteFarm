@@ -559,301 +559,304 @@ describe.only('LiteFarm end to end test', () => {
 
     cy.get('._filter_4bpr4_19').click();
 
-    // cy.get('[data-cy=home-farmButton]').should('exist').and('not.be.disabled').click();
-    // cy.get('[data-cy=navbar-option]')
-    //   .contains('Farm map')
-    //   .should('exist')
-    //   .and('not.be.disabled')
-    //   .click();
+    cy.get('[data-cy=home-farmButton]').should('exist').and('not.be.disabled').click();
+    cy.get('[data-cy=navbar-option]')
+      .contains('Farm map')
+      .should('exist')
+      .and('not.be.disabled')
+      .click();
+    cy.get('._zoomIn_e5ede_9').should('be.visible');
+    cy.get('[data-cy=map-addFeature]').should('exist').and('not.be.disabled').click();
+    cy.get('[data-cy=map-addFeature]').should('exist').and('not.be.disabled').click();
+    cy.get('[data-cy=map-drawer]').contains('Barn').should('exist').and('not.be.disabled').click();
 
-    // cy.get('[data-cy=map-addFeature]').should('exist').and('not.be.disabled').click();
-    // cy.get('[data-cy=map-drawer]').contains('Barn').should('exist').and('not.be.disabled').click();
+    cy.waitForGoogleApi().then(() => {
+      // here comes the code to execute after loading the google Apis
 
-    // cy.waitForGoogleApi().then(() => {
-    //   // here comes the code to execute after loading the google Apis
+      cy.wait(5000);
+      cy.get('[data-cy="mapTutorial-continue"]').click();
+      cy.get('[data-cy=map-mapContainer]').click(656, 372);
+      cy.wait(500);
+      cy.get('[data-cy=map-mapContainer]').click(672, 350);
+      cy.wait(500);
+      cy.get('[data-cy=map-mapContainer]').click(704, 378);
+      cy.wait(500);
+      cy.get('[data-cy=map-mapContainer]').click(656, 372);
+      cy.get('[data-cy="mapTutorial-continue"]').click();
+      cy.get('[data-cy="map-drawCompleteContinue"]').click();
+    });
 
-    //   cy.wait(5000);
-    //   cy.get('[data-cy=map-mapContainer]').click(656, 372);
-    //   cy.wait(500);
-    //   cy.get('[data-cy=map-mapContainer]').click(672, 350);
-    //   cy.wait(500);
-    //   cy.get('[data-cy=map-mapContainer]').click(704, 378);
-    //   cy.wait(500);
-    //   cy.get('[data-cy=map-mapContainer]').click(656, 372);
-    //   cy.get('[data-cy="map-drawCompleteContinue"]').click();
-    // });
+    cy.get('[data-cy="areaDetails-name"]').type('Barn 1');
+    cy.get('[data-cy="createField-save"]').should('be.enabled').click();
 
-    // cy.get('[data-cy="areaDetails-name"]').type('Barn 1');
-    // cy.get('[data-cy="createField-save"]').should('be.enabled').click();
+    cy.get('[data-cy=map-addFeature]').should('exist').and('not.be.disabled').click();
+    cy.get('[data-cy=map-drawer]')
+      .contains('Ceremonial')
+      .should('exist')
+      .and('not.be.disabled')
+      .click();
 
-    // cy.get('[data-cy=map-addFeature]').should('exist').and('not.be.disabled').click();
-    // cy.get('[data-cy=map-drawer]')
-    //   .contains('Ceremonial')
-    //   .should('exist')
-    //   .and('not.be.disabled')
-    //   .click();
+    cy.waitForGoogleApi().then(() => {
+      // here comes the code to execute after loading the google Apis
 
-    // cy.waitForGoogleApi().then(() => {
-    //   // here comes the code to execute after loading the google Apis
+      cy.wait(5000);
+      cy.get('[data-cy=map-mapContainer]').click(414, 411);
+      cy.wait(500);
+      cy.get('[data-cy=map-mapContainer]').click(459, 426);
+      cy.wait(500);
+      cy.get('[data-cy=map-mapContainer]').click(421, 488);
+      cy.wait(500);
+      cy.get('[data-cy=map-mapContainer]').click(414, 411);
+      cy.get('[data-cy="map-drawCompleteContinue"]').click();
+    });
 
-    //   cy.wait(5000);
-    //   cy.get('[data-cy=map-mapContainer]').click(414, 411);
-    //   cy.wait(500);
-    //   cy.get('[data-cy=map-mapContainer]').click(459, 426);
-    //   cy.wait(500);
-    //   cy.get('[data-cy=map-mapContainer]').click(421, 488);
-    //   cy.wait(500);
-    //   cy.get('[data-cy=map-mapContainer]').click(414, 411);
-    //   cy.get('[data-cy="map-drawCompleteContinue"]').click();
-    // });
+    cy.get('[data-cy="areaDetails-name"]').type('Ceremonial Area 1');
+    cy.get('[data-cy="createField-save"]').should('be.enabled').click();
 
-    // cy.get('[data-cy="areaDetails-name"]').type('Ceremonial Area 1');
-    // cy.get('[data-cy="createField-save"]').should('be.enabled').click();
+    cy.get('[data-cy=map-addFeature]').should('exist').and('not.be.disabled').click();
+    cy.get('[data-cy=map-drawer]')
+      .contains('boundary')
+      .should('exist')
+      .and('not.be.disabled')
+      .click();
 
-    // cy.get('[data-cy=map-addFeature]').should('exist').and('not.be.disabled').click();
-    // cy.get('[data-cy=map-drawer]')
-    //   .contains('boundary')
-    //   .should('exist')
-    //   .and('not.be.disabled')
-    //   .click();
+    cy.waitForGoogleApi().then(() => {
+      // here comes the code to execute after loading the google Apis
 
-    // cy.waitForGoogleApi().then(() => {
-    //   // here comes the code to execute after loading the google Apis
+      cy.wait(5000);
+      cy.get('[data-cy=map-mapContainer]').click(169, 130);
+      cy.wait(500);
+      cy.get('[data-cy=map-mapContainer]').click(30, 303);
+      cy.wait(500);
+      cy.get('[data-cy=map-mapContainer]').click(98, 510);
+      cy.wait(500);
+      cy.get('[data-cy=map-mapContainer]').click(406, 361);
+      cy.wait(500);
+      cy.get('[data-cy=map-mapContainer]').click(169, 130);
+      cy.wait(500);
+      cy.get('[data-cy="map-drawCompleteContinue"]').click();
+    });
 
-    //   cy.wait(5000);
-    //   cy.get('[data-cy=map-mapContainer]').click(169, 130);
-    //   cy.wait(500);
-    //   cy.get('[data-cy=map-mapContainer]').click(30, 303);
-    //   cy.wait(500);
-    //   cy.get('[data-cy=map-mapContainer]').click(98, 510);
-    //   cy.wait(500);
-    //   cy.get('[data-cy=map-mapContainer]').click(406, 361);
-    //   cy.wait(500);
-    //   cy.get('[data-cy=map-mapContainer]').click(169, 130);
-    //   cy.wait(500);
-    //   cy.get('[data-cy="map-drawCompleteContinue"]').click();
-    // });
+    cy.get('[data-cy="areaDetails-name"]').type('Boundary 1');
+    cy.get('[data-cy="createField-save"]').should('be.enabled').click();
 
-    // cy.get('[data-cy="areaDetails-name"]').type('Boundary 1');
-    // cy.get('[data-cy="createField-save"]').should('be.enabled').click();
+    cy.get('[data-cy=map-addFeature]').should('exist').and('not.be.disabled').click();
+    cy.get('[data-cy=map-drawer]')
+      .contains('Garden')
+      .should('exist')
+      .and('not.be.disabled')
+      .click();
 
-    // cy.get('[data-cy=map-addFeature]').should('exist').and('not.be.disabled').click();
-    // cy.get('[data-cy=map-drawer]')
-    //   .contains('Garden')
-    //   .should('exist')
-    //   .and('not.be.disabled')
-    //   .click();
+    cy.waitForGoogleApi().then(() => {
+      // here comes the code to execute after loading the google Apis
 
-    // cy.waitForGoogleApi().then(() => {
-    //   // here comes the code to execute after loading the google Apis
+      cy.wait(5000);
+      cy.get('[data-cy=map-mapContainer]').click(422, 375);
+      cy.wait(500);
+      cy.get('[data-cy=map-mapContainer]').click(455, 383);
+      cy.wait(500);
+      cy.get('[data-cy=map-mapContainer]').click(434, 409);
+      cy.wait(500);
+      cy.get('[data-cy=map-mapContainer]').click(422, 375);
+      cy.wait(500);
+      cy.get('[data-cy="map-drawCompleteContinue"]').click();
+    });
 
-    //   cy.wait(5000);
-    //   cy.get('[data-cy=map-mapContainer]').click(422, 375);
-    //   cy.wait(500);
-    //   cy.get('[data-cy=map-mapContainer]').click(455, 383);
-    //   cy.wait(500);
-    //   cy.get('[data-cy=map-mapContainer]').click(434, 409);
-    //   cy.wait(500);
-    //   cy.get('[data-cy=map-mapContainer]').click(422, 375);
-    //   cy.wait(500);
-    //   cy.get('[data-cy="map-drawCompleteContinue"]').click();
-    // });
+    cy.get('[data-cy="areaDetails-name"]').type('Garden 1');
+    cy.get('[data-cy="createField-save"]').should('be.enabled').click();
 
-    // cy.get('[data-cy="areaDetails-name"]').type('Garden 1');
-    // cy.get('[data-cy="createField-save"]').should('be.enabled').click();
+    cy.get('[data-cy=map-addFeature]').should('exist').and('not.be.disabled').click();
+    cy.get('[data-cy=map-drawer]')
+      .contains('Greenhouse')
+      .should('exist')
+      .and('not.be.disabled')
+      .click();
 
-    // cy.get('[data-cy=map-addFeature]').should('exist').and('not.be.disabled').click();
-    // cy.get('[data-cy=map-drawer]')
-    //   .contains('Greenhouse')
-    //   .should('exist')
-    //   .and('not.be.disabled')
-    //   .click();
+    cy.waitForGoogleApi().then(() => {
+      // here comes the code to execute after loading the google Apis
 
-    // cy.waitForGoogleApi().then(() => {
-    //   // here comes the code to execute after loading the google Apis
+      cy.wait(5000);
+      cy.get('[data-cy=map-mapContainer]').click(289, 321);
+      cy.wait(500);
+      cy.get('[data-cy=map-mapContainer]').click(325, 329);
+      cy.wait(500);
+      cy.get('[data-cy=map-mapContainer]').click(295, 363);
+      cy.wait(500);
+      cy.get('[data-cy=map-mapContainer]').click(289, 321);
+      cy.wait(500);
+      cy.get('[data-cy="map-drawCompleteContinue"]').click();
+    });
 
-    //   cy.wait(5000);
-    //   cy.get('[data-cy=map-mapContainer]').click(289, 321);
-    //   cy.wait(500);
-    //   cy.get('[data-cy=map-mapContainer]').click(325, 329);
-    //   cy.wait(500);
-    //   cy.get('[data-cy=map-mapContainer]').click(295, 363);
-    //   cy.wait(500);
-    //   cy.get('[data-cy=map-mapContainer]').click(289, 321);
-    //   cy.wait(500);
-    //   cy.get('[data-cy="map-drawCompleteContinue"]').click();
-    // });
+    cy.get('[data-cy="areaDetails-name"]').type('Greenhouse 1');
+    cy.get('[data-cy="createField-save"]').should('be.enabled').click();
 
-    // cy.get('[data-cy="areaDetails-name"]').type('Greenhouse 1');
-    // cy.get('[data-cy="createField-save"]').should('be.enabled').click();
+    cy.get('[data-cy=map-addFeature]').should('exist').and('not.be.disabled').click();
+    cy.get('[data-cy=map-drawer]')
+      .contains('Natural')
+      .should('exist')
+      .and('not.be.disabled')
+      .click();
 
-    // cy.get('[data-cy=map-addFeature]').should('exist').and('not.be.disabled').click();
-    // cy.get('[data-cy=map-drawer]')
-    //   .contains('Natural')
-    //   .should('exist')
-    //   .and('not.be.disabled')
-    //   .click();
+    cy.waitForGoogleApi().then(() => {
+      cy.wait(5000);
+      cy.get('[data-cy=map-mapContainer]').click(381, 400);
+      cy.wait(500);
+      cy.get('[data-cy=map-mapContainer]').click(330, 352);
+      cy.wait(500);
+      cy.get('[data-cy=map-mapContainer]').click(378, 500);
+      cy.wait(500);
+      cy.get('[data-cy=map-mapContainer]').click(381, 400);
+      cy.wait(500);
+      cy.get('[data-cy="map-drawCompleteContinue"]').click();
+    });
 
-    // cy.waitForGoogleApi().then(() => {
-    //   cy.wait(5000);
-    //   cy.get('[data-cy=map-mapContainer]').click(381, 400);
-    //   cy.wait(500);
-    //   cy.get('[data-cy=map-mapContainer]').click(330, 352);
-    //   cy.wait(500);
-    //   cy.get('[data-cy=map-mapContainer]').click(378, 500);
-    //   cy.wait(500);
-    //   cy.get('[data-cy=map-mapContainer]').click(381, 400);
-    //   cy.wait(500);
-    //   cy.get('[data-cy="map-drawCompleteContinue"]').click();
-    // });
+    cy.get('[data-cy="areaDetails-name"]').type('Natural 1');
+    cy.get('[data-cy="createField-save"]').should('be.enabled').click();
 
-    // cy.get('[data-cy="areaDetails-name"]').type('Natural 1');
-    // cy.get('[data-cy="createField-save"]').should('be.enabled').click();
+    cy.get('[data-cy=map-addFeature]').should('exist').and('not.be.disabled').click();
+    cy.get('[data-cy=map-drawer]')
+      .contains('Residence')
+      .should('exist')
+      .and('not.be.disabled')
+      .click();
 
-    // cy.get('[data-cy=map-addFeature]').should('exist').and('not.be.disabled').click();
-    // cy.get('[data-cy=map-drawer]')
-    //   .contains('Residence')
-    //   .should('exist')
-    //   .and('not.be.disabled')
-    //   .click();
+    cy.waitForGoogleApi().then(() => {
+      // here comes the code to execute after loading the google Apis
 
-    // cy.waitForGoogleApi().then(() => {
-    //   // here comes the code to execute after loading the google Apis
+      cy.wait(5000);
+      cy.get('[data-cy=map-mapContainer]').click(184, 400);
+      cy.wait(500);
+      cy.get('[data-cy=map-mapContainer]').click(215, 350);
+      cy.wait(500);
+      cy.get('[data-cy=map-mapContainer]').click(193, 352);
+      cy.wait(500);
+      cy.get('[data-cy=map-mapContainer]').click(184, 400);
+      cy.wait(500);
+      cy.get('[data-cy="map-drawCompleteContinue"]').click();
+    });
 
-    //   cy.wait(5000);
-    //   cy.get('[data-cy=map-mapContainer]').click(184, 400);
-    //   cy.wait(500);
-    //   cy.get('[data-cy=map-mapContainer]').click(215, 350);
-    //   cy.wait(500);
-    //   cy.get('[data-cy=map-mapContainer]').click(193, 352);
-    //   cy.wait(500);
-    //   cy.get('[data-cy=map-mapContainer]').click(184, 400);
-    //   cy.wait(500);
-    //   cy.get('[data-cy="map-drawCompleteContinue"]').click();
-    // });
+    cy.get('[data-cy="areaDetails-name"]').type('Farm house');
+    cy.get('[data-cy="createField-save"]').should('be.enabled').click();
 
-    // cy.get('[data-cy="areaDetails-name"]').type('Farm house');
-    // cy.get('[data-cy="createField-save"]').should('be.enabled').click();
+    cy.get('[data-cy=map-addFeature]').should('exist').and('not.be.disabled').click();
+    cy.get('[data-cy=map-drawer]')
+      .contains('Surface')
+      .should('exist')
+      .and('not.be.disabled')
+      .click();
 
-    // cy.get('[data-cy=map-addFeature]').should('exist').and('not.be.disabled').click();
-    // cy.get('[data-cy=map-drawer]')
-    //   .contains('Surface')
-    //   .should('exist')
-    //   .and('not.be.disabled')
-    //   .click();
+    cy.waitForGoogleApi().then(() => {
+      // here comes the code to execute after loading the google Apis
 
-    // cy.waitForGoogleApi().then(() => {
-    //   // here comes the code to execute after loading the google Apis
+      cy.wait(5000);
+      cy.get('[data-cy=map-mapContainer]').click(188, 299);
+      cy.wait(500);
+      cy.get('[data-cy=map-mapContainer]').click(203, 301);
+      cy.wait(500);
+      cy.get('[data-cy=map-mapContainer]').click(194, 326);
+      cy.wait(500);
+      cy.get('[data-cy=map-mapContainer]').click(172, 328);
+      cy.wait(500);
+      cy.get('[data-cy=map-mapContainer]').click(188, 299);
+      cy.get('[data-cy="map-drawCompleteContinue"]').click();
+    });
 
-    //   cy.wait(5000);
-    //   cy.get('[data-cy=map-mapContainer]').click(188, 299);
-    //   cy.wait(500);
-    //   cy.get('[data-cy=map-mapContainer]').click(203, 301);
-    //   cy.wait(500);
-    //   cy.get('[data-cy=map-mapContainer]').click(194, 326);
-    //   cy.wait(500);
-    //   cy.get('[data-cy=map-mapContainer]').click(172, 328);
-    //   cy.wait(500);
-    //   cy.get('[data-cy=map-mapContainer]').click(188, 299);
-    //   cy.get('[data-cy="map-drawCompleteContinue"]').click();
-    // });
+    cy.get('[data-cy="areaDetails-name"]').type('Pond');
+    cy.get('[data-cy="createField-save"]').should('be.enabled').click();
 
-    // cy.get('[data-cy="areaDetails-name"]').type('Pond');
-    // cy.get('[data-cy="createField-save"]').should('be.enabled').click();
+    cy.get('[data-cy=map-addFeature]').should('exist').and('not.be.disabled').click();
+    cy.get('[data-cy=map-drawer]')
+      .contains('Buffer')
+      .should('exist')
+      .and('not.be.disabled')
+      .click();
 
-    // cy.get('[data-cy=map-addFeature]').should('exist').and('not.be.disabled').click();
-    // cy.get('[data-cy=map-drawer]')
-    //   .contains('Buffer')
-    //   .should('exist')
-    //   .and('not.be.disabled')
-    //   .click();
+    cy.get('[data-cy="mapTutorial-continue"]').click();
+    cy.waitForGoogleApi().then(() => {
+      // here comes the code to execute after loading the google Apis
 
-    // cy.get('[data-cy="mapTutorial-continue"]').click();
-    // cy.waitForGoogleApi().then(() => {
-    //   // here comes the code to execute after loading the google Apis
+      cy.wait(5000);
+      cy.get('[data-cy=map-mapContainer]').click(180, 400);
+      cy.wait(500);
+      cy.get('[data-cy=map-mapContainer]').click(400, 301);
+      cy.wait(500);
+      cy.get('[data-cy=map-mapContainer]').click(400, 301);
+      cy.get('[data-cy="mapTutorial-continue"]').click();
+      cy.contains('Confirm').click();
+    });
 
-    //   cy.wait(5000);
-    //   cy.get('[data-cy=map-mapContainer]').click(180, 400);
-    //   cy.wait(500);
-    //   cy.get('[data-cy=map-mapContainer]').click(400, 301);
-    //   cy.wait(500);
-    //   cy.get('[data-cy=map-mapContainer]').click(400, 301);
-    //   cy.get('[data-cy="mapTutorial-continue"]').click();
-    //   cy.contains('Confirm').click();
-    // });
+    cy.get('[data-cy="lineDetails-name"]').type('Buffer 1');
+    cy.get('[data-cy="createField-save"]').should('be.enabled').click();
 
-    // cy.get('[data-cy="lineDetails-name"]').type('Buffer 1');
-    // cy.get('[data-cy="createField-save"]').should('be.enabled').click();
+    cy.get('[data-cy=map-addFeature]').should('exist').and('not.be.disabled').click();
+    cy.get('[data-cy=map-drawer]').contains('Fence').should('exist').and('not.be.disabled').click();
 
-    // cy.get('[data-cy=map-addFeature]').should('exist').and('not.be.disabled').click();
-    // cy.get('[data-cy=map-drawer]').contains('Fence').should('exist').and('not.be.disabled').click();
+    cy.waitForGoogleApi().then(() => {
+      // here comes the code to execute after loading the google Apis
 
-    // cy.waitForGoogleApi().then(() => {
-    //   // here comes the code to execute after loading the google Apis
+      cy.wait(5000);
+      cy.get('[data-cy=map-mapContainer]').click(280, 400);
+      cy.wait(500);
+      cy.get('[data-cy=map-mapContainer]').click(400, 400);
+      cy.wait(500);
+      cy.get('[data-cy=map-mapContainer]').click(400, 400);
+      cy.get('[data-cy="map-drawCompleteContinue"]').click();
+    });
 
-    //   cy.wait(5000);
-    //   cy.get('[data-cy=map-mapContainer]').click(280, 400);
-    //   cy.wait(500);
-    //   cy.get('[data-cy=map-mapContainer]').click(400, 400);
-    //   cy.wait(500);
-    //   cy.get('[data-cy=map-mapContainer]').click(400, 400);
-    //   cy.get('[data-cy="map-drawCompleteContinue"]').click();
-    // });
+    cy.get('[data-cy="lineDetails-name"]').type('Fence 1');
+    cy.get('[data-cy="createField-save"]').should('be.enabled').click();
 
-    // cy.get('[data-cy="lineDetails-name"]').type('Fence 1');
-    // cy.get('[data-cy="createField-save"]').should('be.enabled').click();
+    cy.get('[data-cy=map-addFeature]').should('exist').and('not.be.disabled').click();
+    cy.get('[data-cy=map-drawer]')
+      .contains('Watercourse')
+      .should('exist')
+      .and('not.be.disabled')
+      .click();
 
-    // cy.get('[data-cy=map-addFeature]').should('exist').and('not.be.disabled').click();
-    // cy.get('[data-cy=map-drawer]')
-    //   .contains('Watercourse')
-    //   .should('exist')
-    //   .and('not.be.disabled')
-    //   .click();
+    cy.waitForGoogleApi().then(() => {
+      // here comes the code to execute after loading the google Apis
 
-    // cy.waitForGoogleApi().then(() => {
-    //   // here comes the code to execute after loading the google Apis
+      cy.wait(5000);
+      cy.get('[data-cy=map-mapContainer]').click(70, 80);
+      cy.wait(500);
+      cy.get('[data-cy=map-mapContainer]').click(400, 80);
+      cy.wait(500);
+      cy.get('[data-cy=map-mapContainer]').click(400, 80);
+      cy.contains('Confirm').click();
+    });
 
-    //   cy.wait(5000);
-    //   cy.get('[data-cy=map-mapContainer]').click(70, 80);
-    //   cy.wait(500);
-    //   cy.get('[data-cy=map-mapContainer]').click(400, 80);
-    //   cy.wait(500);
-    //   cy.get('[data-cy=map-mapContainer]').click(400, 80);
-    //   cy.contains('Confirm').click();
-    // });
+    cy.get('[data-cy="lineDetails-name"]').type('Watercourse 1');
+    cy.get('[data-cy="createField-save"]').should('be.enabled').click();
 
-    // cy.get('[data-cy="lineDetails-name"]').type('Watercourse 1');
-    // cy.get('[data-cy="createField-save"]').should('be.enabled').click();
+    cy.get('[data-cy=map-addFeature]').should('exist').and('not.be.disabled').click();
+    cy.get('[data-cy=map-drawer]').contains('Gate').should('exist').and('not.be.disabled').click();
 
-    // cy.get('[data-cy=map-addFeature]').should('exist').and('not.be.disabled').click();
-    // cy.get('[data-cy=map-drawer]').contains('Gate').should('exist').and('not.be.disabled').click();
+    cy.waitForGoogleApi().then(() => {
+      // here comes the code to execute after loading the google Apis
 
-    // cy.waitForGoogleApi().then(() => {
-    //   // here comes the code to execute after loading the google Apis
+      cy.wait(5000);
+      cy.get('[data-cy=map-mapContainer]').click(95, 95);
+      cy.contains('Confirm').click();
+    });
+    cy.get('[data-cy="pointDetails-name"]').type('Gate 1');
+    cy.get('[data-cy="createField-save"]').should('be.enabled').click();
 
-    //   cy.wait(5000);
-    //   cy.get('[data-cy=map-mapContainer]').click(95, 95);
-    //   cy.contains('Confirm').click();
-    // });
-    // cy.get('[data-cy="pointDetails-name"]').type('Gate 1');
-    // cy.get('[data-cy="createField-save"]').should('be.enabled').click();
+    cy.get('[data-cy=map-addFeature]').should('exist').and('not.be.disabled').click();
+    cy.get('[data-cy=map-drawer]')
+      .contains('Water valve')
+      .should('exist')
+      .and('not.be.disabled')
+      .click();
 
-    // cy.get('[data-cy=map-addFeature]').should('exist').and('not.be.disabled').click();
-    // cy.get('[data-cy=map-drawer]')
-    //   .contains('Water valve')
-    //   .should('exist')
-    //   .and('not.be.disabled')
-    //   .click();
+    cy.waitForGoogleApi().then(() => {
+      // here comes the code to execute after loading the google Apis
 
-    // cy.waitForGoogleApi().then(() => {
-    //   // here comes the code to execute after loading the google Apis
-
-    //   cy.wait(5000);
-    //   cy.get('[data-cy=map-mapContainer]').click(305, 95);
-    //   cy.contains('Confirm').click();
-    // });
-    // cy.get('[data-cy="pointDetails-name"]').type('Valve 1');
-    // cy.get('[data-cy="createField-save"]').should('be.enabled').click();
+      cy.wait(5000);
+      cy.get('[data-cy=map-mapContainer]').click(305, 95);
+      cy.contains('Confirm').click();
+    });
+    cy.get('[data-cy="pointDetails-name"]').type('Valve 1');
+    cy.get('[data-cy="createField-save"]').should('be.enabled').click();
 
     // cy.get('[data-cy=map-addFeature]').should('exist').and('not.be.disabled').click();
     // cy.get('[data-cy=map-drawer]')

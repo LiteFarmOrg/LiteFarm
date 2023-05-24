@@ -55,6 +55,10 @@ const ENSEMBLE_UNITS_MAPPING = {
     conversionKey: 'kPa',
     system: 'metric',
   },
+  Percent: {
+    conversionKey: '%',
+    system: 'all',
+  },
 };
 
 /**

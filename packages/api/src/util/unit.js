@@ -5,4 +5,5 @@
 export const databaseUnit = {
   temperature: 'C',
   soil_water_potential: 'kPa',
+  soil_water_content: '%',
 };

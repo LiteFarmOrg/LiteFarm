@@ -358,7 +358,7 @@
     "NOMINATE_CROP_TOOLTIP": "Nomear este cultivo para inclusão no catálogo do LiteFarm concede à equipe LiteFarm permissão para compartilhar informações sobre este cultivo com um especialista em sua região. Os cultivos aprovadas farão parte do catálogo mostrado a todos os usuários.",
     "ON_YOUR_FARM": "Em sua fazenda",
     "SELECT_A_CROP": "Selecione um cultivo para adicioná-lo à sua fazenda. Use a busca e os filtros para encontrar os cultivos mais rapidamente.",
-    "SPECIES": "Espécies",
+    "SPECIES": "Espécie",
     "DUPLICATE_CROP": "Já existe um cultivo com o mesmo nome, gênero e espécie em sua fazenda"
   },
   "CROP_DETAIL": {

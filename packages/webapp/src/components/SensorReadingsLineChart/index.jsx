@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import styles from './styles.module.scss';
 import {
   LineChart,
@@ -20,6 +20,7 @@ import { getLanguageFromLocalStorage } from '../../util/getLanguageFromLocalStor
 import { SensorReadingChartSpotlightProvider } from './SensorReadingChartSpotlightProvider';
 import produce from 'immer';
 import { useTranslation } from 'react-i18next';
+import useElementWidth from '../hooks/useElementWidth';
 
 const PureSensorReadingsLineChart = ({
   showSpotLight,
@@ -39,6 +40,9 @@ const PureSensorReadingsLineChart = ({
   const language = getLanguageFromLocalStorage();
   const dateFormat = new Intl.DateTimeFormat(language, { day: '2-digit' });
   const dayFormat = new Intl.DateTimeFormat(language, { weekday: 'short' });
+
+  const chartRef = useRef(null);
+  const { elementWidth: chartWidth } = useElementWidth(chartRef);
 
   useEffect(() => {
     if (yAxisDataKeys.length) {
@@ -97,12 +101,13 @@ const PureSensorReadingsLineChart = ({
 
   const renderDateOnXAxis = (tickProps) => {
     const { x, y, payload, index } = tickProps;
-    const { value, offset } = payload;
+    const { value } = payload;
     const tickDate = new Date(value);
     const displayDate = dateFormat.format(tickDate);
     const displayDay = dayFormat.format(tickDate);
 
-    if (index % 4 == 2) {
+    // Hourly datapoints
+    if (index % 24 == 12) {
       return (
         <>
           <text x={x} y={y - 16} textAnchor="middle">
@@ -114,8 +119,10 @@ const PureSensorReadingsLineChart = ({
         </>
       );
     }
-    if (index % 4 === 0 && index !== 0) {
-      const pathX = Math.floor(x + offset) + 0.5;
+
+    if (index % 24 === 0 && index !== 0) {
+      const pathX = Math.floor(x) + 0.5;
+
       return <path d={`M${pathX},${y - 22}v${-16}`} stroke="black" />;
     }
     return null;
@@ -128,9 +135,23 @@ const PureSensorReadingsLineChart = ({
     return tickArr.join(' ');
   };
 
+  // Returns density of specified data in datapoints / hour
+  const dataDensity = (data, sensorName) => {
+    const validDatapoints = data.filter((datapoint) => typeof datapoint[sensorName] === 'number');
+
+    if (validDatapoints?.length <= 1) return 0; // one or no datapoints
+
+    const firstTimestamp = new Date(validDatapoints[0]?.current_date_time);
+    const lastTimestamp = new Date(validDatapoints[validDatapoints.length - 1]?.current_date_time);
+
+    const totalIntervalinHours = (lastTimestamp - firstTimestamp) / (1000 * 60 * 60);
+
+    return (validDatapoints.length - 1) / totalIntervalinHours;
+  };
+
   return (
     <>
-      <div className={styles.titleWrapper}>
+      <div className={styles.titleWrapper} ref={chartRef}>
         <label>
           <Semibold className={styles.title}>{title}</Semibold>
           <Semibold className={styles.subTitle}>{subTitle}</Semibold>
@@ -176,7 +197,6 @@ const PureSensorReadingsLineChart = ({
             interval={0}
             tick={renderDateOnXAxis}
             height={1}
-            scale="band"
             xAxisId="quarter"
           />
           <YAxis domain={['auto', 'auto']} />
@@ -197,8 +217,16 @@ const PureSensorReadingsLineChart = ({
                   strokeWidth={2}
                   dataKey={attribute.value}
                   stroke={attribute.color}
-                  activeDot={{ r: 6 }}
                   isAnimationActive={false}
+                  activeDot={{ r: 5 }}
+                  dot={dataDensity(sensorReadings, attribute.value) < 0.9}
+                  type={
+                    dataDensity(sensorReadings, attribute.value) >= 0.9 ||
+                    (chartWidth < 400 && dataDensity(sensorReadings, attribute.value) > 0.5)
+                      ? 'natural'
+                      : 'linear'
+                  }
+                  connectNulls
                 />
               ))}
           <ReferenceArea fill={'#EBECED'} shape={<PredictedRect />} x1={predictedXAxisLabel} />

@@ -13,7 +13,7 @@ import {
   Symbols,
   ReferenceArea,
 } from 'recharts';
-import { Label, Semibold } from '../Typography';
+import { Semibold } from '../Typography';
 import PropTypes from 'prop-types';
 import PredictedRect from './PredictedRect';
 import { getLanguageFromLocalStorage } from '../../util/getLanguageFromLocalStorage';
@@ -28,9 +28,6 @@ const PureSensorReadingsLineChart = ({
   sensorReadings,
   title,
   subTitle,
-  weatherStationName,
-  yAxisLabel,
-  xAxisLabel,
   predictedXAxisLabel,
   lastUpdatedReadings,
   xAxisDataKey,
@@ -157,6 +154,7 @@ const PureSensorReadingsLineChart = ({
       <div className={styles.titleWrapper} ref={chartRef}>
         <label>
           <Semibold className={styles.title}>{title}</Semibold>
+          <Semibold className={styles.subTitle}>{subTitle}</Semibold>
         </label>
         {lastUpdatedReadings && (
           <label>
@@ -168,17 +166,14 @@ const PureSensorReadingsLineChart = ({
           </label>
         )}
       </div>
-      {subTitle && <Label className={styles.subTitle}>{subTitle}</Label>}
-      {weatherStationName && <Label className={styles.subTitle}>{weatherStationName}</Label>}
-
       <ResponsiveContainer width="100%" height={380}>
         <LineChart
           data={sensorReadings}
           margin={{
             top: 20,
-            right: 30,
-            left: 20,
-            bottom: 60,
+            right: 10,
+            left: -30,
+            bottom: 20,
           }}
         >
           <pattern
@@ -196,7 +191,6 @@ const PureSensorReadingsLineChart = ({
           <CartesianGrid strokeDasharray="1 1" />
           <XAxis dataKey={xAxisDataKey} tick={false} tickFormatter={dateTickFormatter} />
           <XAxis
-            label={{ value: xAxisLabel, position: 'insideBottom', dy: 45 }}
             dataKey={xAxisDataKey}
             axisLine={false}
             tickLine={false}
@@ -205,16 +199,12 @@ const PureSensorReadingsLineChart = ({
             height={1}
             xAxisId="quarter"
           />
-          <YAxis
-            domain={['auto', 'auto']}
-            label={{ value: yAxisLabel, position: 'insideCenter', angle: -90, dx: -20 }}
-          />
+          <YAxis domain={['auto', 'auto']} />
           <Tooltip />
           <Legend
             layout="horizontal"
-            verticalAlign="top"
+            verticalAlign="bottom"
             align="center"
-            wrapperStyle={{ top: 10, left: 50 }}
             payload={Object.values(legendsList)}
             content={renderCusomizedLegend}
           />
@@ -250,9 +240,6 @@ PureSensorReadingsLineChart.propTypes = {
   title: PropTypes.string.isRequired,
   subTitle: PropTypes.string,
   lastUpdatedReadings: PropTypes.string,
-  yAxisLabel: PropTypes.string.isRequired,
-  xAxisLabel: PropTypes.string.isRequired,
-  weatherStationName: PropTypes.string,
   predictedXAxisLabel: PropTypes.string.isRequired,
   yAxisDataKeys: PropTypes.array.isRequired,
   lineColors: PropTypes.array.isRequired,

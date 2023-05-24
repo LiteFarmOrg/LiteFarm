@@ -18,7 +18,7 @@ import { Model } from 'objection';
 import managementPlanModel from '../../models/managementPlanModel.js';
 
 async function validateLocationDependency(req, res, next) {
-  const location_id = req?.params?.location_id;
+  const location_id = req?.params?.location_id || req?.body?.location_id;
 
   const tasks = await Model.knex().raw(
     `

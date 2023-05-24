@@ -1788,13 +1788,17 @@
     "TEMPERATURE_READINGS_OF_SENSOR": {
       "TITLE": "Température du sol",
       "SUBTITLE": "Température MISSING ambiante haute et basse d'aujourd'hui\u00a0: {{high}}{{units}} / {{low}}{{units}}",
-      "Y_AXIS_LABEL": "Température en {{units}}",
+      "Y_AXIS_LABEL": "en {{units}}",
+      "C": "Celsius (°C)",
+      "F": "Fahrenheit (°F)",
       "WEATHER_STATION": "Station météorologique\u00a0: {{weatherStationLocation}}",
       "AMBIENT_TEMPERATURE_FOR": "Température ambiante pour"
     },
     "SOIL_WATER_POTENTIAL_READINGS_OF_SENSOR": {
       "TITLE": "Potentiel hydrique du sol",
-      "Y_AXIS_LABEL": "potentiel hydrique du sol en {{units}}"
+      "Y_AXIS_LABEL": "en {{units}}",
+      "KPA": "kilopascals (kPa)",
+      "PSI": "livres par pouce carré (psi)"
     },
     "SOIL_WATER_CONTENT_READINGS_OF_SENSOR": {
       "TITLE": "MISSING",
@@ -1807,7 +1811,12 @@
     "SENSOR_READING_CHART_SPOTLIGHT": {
       "TITLE": "Les séries peuvent être masquées",
       "CONTENT": "Les capteurs individuels peuvent être affichés ou masqués en cliquant sur leurs étiquettes ici."
-    }
+    },
+    "SECONDS_AGO": "MISSING",
+    "MINUTES_AGO": "MISSING",
+    "HOURS_AGO": "MISSING",
+    "DAYS_AGO": "MISSING",
+    "MONTHS_AGO": "MISSING"
   },
   "CROP_STATUS_NON_ORGANIC_MISMATCH_MODAL": {
     "TITLE": "Vous avez choisi un emplacement non biologique\u00a0!",

@@ -1,6 +1,6 @@
 {
   "HELP_REQUEST": {
-    "RESPONSE": "Gracias por contactarnos. Alguien de nuestro equipo de ayuda lo/la contactará dentro de las próximas 48 horas. Puede encontrar un resumen de su solicitud más abajo.",
+    "RESPONSE": "Gracias por contactarnos. Alguien de nuestro equipo de ayuda le contactará dentro de las próximas 48 horas. Puede encontrar un resumen de su solicitud más abajo.",
     "TYPE_HEADER": "Tipo de soporte",
     "MESSAGE_HEADER": "Mensaje",
     "CONTACT_METHOD_HEADER": "Método de contacto preferido",

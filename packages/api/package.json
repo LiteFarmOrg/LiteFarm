@@ -28,7 +28,8 @@
     "scheduler": "cp ../webapp/public/locales/en/crop.json src/jobs/locales/en && cp ../webapp/public/locales/es/crop.json src/jobs/locales/es && cp ../webapp/public/locales/pt/crop.json src/jobs/locales/pt && cp ../webapp/public/locales/fr/crop.json src/jobs/locales/fr && node src/jobs/index.js",
     "lint": "eslint src",
     "fix-lint": "eslint src --fix",
-    "precommit": "lint-staged"
+    "precommit": "lint-staged",
+    "check:translation": "jsonlint --quiet src/templates/locales/*.json"
   },
   "jest": {
     "verbose": true,
@@ -112,6 +113,7 @@
     "eslint-config-prettier": "^7.0.0",
     "i18next-parser": "^5.3.0",
     "jest": "^26.4.2",
+    "jsonlint": "1.6.3",
     "lint-staged": "^10.5.3",
     "nodemon": "^2.0.22",
     "prettier": "2.2.1",

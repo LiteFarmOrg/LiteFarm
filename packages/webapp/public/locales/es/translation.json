@@ -1732,7 +1732,7 @@
     "LONGTITUDE": "Longtitude",
     "READING": {
       "TYPES": "Tipos de lectura",
-      "SOIL_WATER_CONTENT": "Contenido de agua del suelo",
+      "SOIL_WATER_CONTENT": "Contenido hídrico del suelo",
       "SOIL_WATER_POTENTIAL": "Potencial hídrico del suelo",
       "TEMPERATURE": "Temperatura",
       "UNKNOWN": "Desconocido"
@@ -1794,28 +1794,28 @@
       "AMBIENT_TEMPERATURE_FOR": "Temperatura ambiente para"
     },
     "SOIL_WATER_POTENTIAL_READINGS_OF_SENSOR": {
-      "TITLE": "Potencial de agua del suelo",
+      "TITLE": "Potencial hídrico del suelo",
       "Y_AXIS_LABEL": "en {{units}}",
       "KPA": "kilopascales (kPa)",
       "PSI": "libras por pulgada cuadrada (psi)"
     },
     "SOIL_WATER_CONTENT_READINGS_OF_SENSOR": {
-      "TITLE": "MISSING",
-      "Y_AXIS_LABEL": "MISSING"
+      "TITLE": "Contenido hídrico del suelo",
+      "Y_AXIS_LABEL": "en {{units}}"
     },
     "READINGS_PREVIEW": {
       "TEMPERATURE": "Temperatura actual del suelo",
-      "SOIL_WATER_POTENTIAL": "Potencial actual de agua del suelo"
+      "SOIL_WATER_POTENTIAL": "Potencial hídrico actual del suelo"
     },
     "SENSOR_READING_CHART_SPOTLIGHT": {
       "TITLE": "La serie puede estar oculta",
       "CONTENT": "Los sensores individuales se pueden mostrar u ocultar haciendo clic en sus etiquetas aquí."
     },
-    "SECONDS_AGO": "MISSING",
-    "MINUTES_AGO": "MISSING",
-    "HOURS_AGO": "MISSING",
-    "DAYS_AGO": "MISSING",
-    "MONTHS_AGO": "MISSING"
+    "SECONDS_AGO": "{{time}} segundo(s) atrás",
+    "MINUTES_AGO": "{{time}} minuto(s) atrás",
+    "HOURS_AGO": "{{time}} hora(s) atrás",
+    "DAYS_AGO": "{{time}} día(s) atrás",
+    "MONTHS_AGO": "{{time}} mes(es) atrás"
   },
   "CROP_STATUS_NON_ORGANIC_MISMATCH_MODAL": {
     "TITLE": "¡Has seleccionado una ubicación no orgánica!",

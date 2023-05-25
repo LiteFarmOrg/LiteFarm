@@ -638,7 +638,6 @@ Cypress.Commands.add('giveConsent', () => {
   cy.get('[data-cy=consentPage-content]').should('exist');
   cy.get('[data-cy=consent-continue]').should('exist').and('be.disabled');
   cy.get('[data-cy=checkbox-component]').should('exist').click();
-  //cy.get('[data-cy=consent-agree]').should('exist').check({ force: true });
   cy.get('[data-cy=consent-continue]').should('not.be.disabled').click();
 });
 

@@ -151,7 +151,7 @@ Cypress.Commands.add('createACleaningTask', (taskType_id) => {
     .should('exist')
     .and('not.be.disabled')
     .click({ force: true });
-  cy.wait(2000);
+  cy.get('._zoomIn_e5ede_9').should('be.visible');
   cy.get('[data-cy=map-selectLocation]').contains('Test Field');
   cy.get('[data-cy=map-selectLocation]').click(530, 216, {
     force: false,

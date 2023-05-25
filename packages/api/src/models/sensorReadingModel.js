@@ -101,7 +101,7 @@ class SensorReading extends Model {
   ) {
     const durationType = '1 hour';
     const startDate = new Date(endDate);
-    startDate.setDate(endDate.getDate() - 5);
+    startDate.setDate(endDate.getDate() - 6);
     const sensorReadingsResponsePromises = [];
     for (const readingType of readingTypes) {
       sensorReadingsResponsePromises.push(

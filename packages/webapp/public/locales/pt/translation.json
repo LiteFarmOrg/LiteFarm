@@ -1786,8 +1786,8 @@
       "RETIRE_FAILURE": "Ocorreu um erro ao desativar este sensor"
     },
     "SENSOR_FORECAST": {
-      "TITLE": "MISSING",
-      "HIGH_AND_LOW_TEMPERATURE": "MISSING: {{high}}{{unit}} / {{low}}{{unit}}",
+      "TITLE": "Previsão de hoje",
+      "HIGH_AND_LOW_TEMPERATURE": "Temperatura máxima e mínima: {{high}}{{unit}} / {{low}}{{unit}}",
       "WEATHER_STATION": "Estação meteorológica: {{weatherStationLocation}}"
     },
     "TEMPERATURE_READINGS_OF_SENSOR": {

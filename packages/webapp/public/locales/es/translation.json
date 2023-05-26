@@ -1804,7 +1804,7 @@
     },
     "SOIL_WATER_CONTENT_READINGS_OF_SENSOR": {
       "TITLE": "Contenido de agua en el suelo",
-      "Y_AXIS_LABEL": "Contenido de agua en el suelo en {{units}}"
+      "Y_AXIS_LABEL": "en {{units}}"
     },
     "READINGS_PREVIEW": {
       "TEMPERATURE": "Temperatura actual del suelo",

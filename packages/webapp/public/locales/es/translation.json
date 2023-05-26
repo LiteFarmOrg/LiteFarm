@@ -1732,7 +1732,7 @@
     "LONGTITUDE": "Longtitude",
     "READING": {
       "TYPES": "Tipos de lectura",
-      "SOIL_WATER_CONTENT": "Contenido de agua del suelo",
+      "SOIL_WATER_CONTENT": "Contenido hídrico del suelo",
       "SOIL_WATER_POTENTIAL": "Potencial hídrico del suelo",
       "TEMPERATURE": "Temperatura",
       "UNKNOWN": "Desconocido"
@@ -1797,7 +1797,7 @@
       "AMBIENT_TEMPERATURE_FOR": "Temperatura ambiente para"
     },
     "SOIL_WATER_POTENTIAL_READINGS_OF_SENSOR": {
-      "TITLE": "Potencial de agua del suelo",
+      "TITLE": "Potencial hídrico del suelo",
       "Y_AXIS_LABEL": "en {{units}}",
       "KPA": "kilopascales (kPa)",
       "PSI": "libras por pulgada cuadrada (psi)"
@@ -1808,17 +1808,17 @@
     },
     "READINGS_PREVIEW": {
       "TEMPERATURE": "Temperatura actual del suelo",
-      "SOIL_WATER_POTENTIAL": "Potencial actual de agua del suelo"
+      "SOIL_WATER_POTENTIAL": "Potencial hídrico actual del suelo"
     },
     "SENSOR_READING_CHART_SPOTLIGHT": {
       "TITLE": "La serie puede estar oculta",
       "CONTENT": "Los sensores individuales se pueden mostrar u ocultar haciendo clic en sus etiquetas aquí."
     },
-    "SECONDS_AGO": "hace {{time}} segundos",
-    "MINUTES_AGO": "hace {{time}} minutos",
-    "HOURS_AGO": "hace {{time}} horas",
-    "DAYS_AGO": "hace {{time}} días",
-    "MONTHS_AGO": "hace {{time}} meses"
+    "SECONDS_AGO": "hace {{time}} segundo(s)",
+    "MINUTES_AGO": "hace {{time}} minuto(s)",
+    "HOURS_AGO": "hace {{time}} hora(s)",
+    "DAYS_AGO": "hace {{time}} día(s)",
+    "MONTHS_AGO": "hace {{time}} mese(s)"
   },
   "CROP_STATUS_NON_ORGANIC_MISMATCH_MODAL": {
     "TITLE": "¡Has seleccionado una ubicación no orgánica!",

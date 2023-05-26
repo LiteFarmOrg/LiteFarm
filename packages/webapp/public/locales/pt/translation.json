@@ -358,7 +358,7 @@
     "NOMINATE_CROP_TOOLTIP": "Nomear este cultivo para inclusão no catálogo do LiteFarm concede à equipe LiteFarm permissão para compartilhar informações sobre este cultivo com um especialista em sua região. Os cultivos aprovadas farão parte do catálogo mostrado a todos os usuários.",
     "ON_YOUR_FARM": "Em sua fazenda",
     "SELECT_A_CROP": "Selecione um cultivo para adicioná-lo à sua fazenda. Use a busca e os filtros para encontrar os cultivos mais rapidamente.",
-    "SPECIES": "Espécies",
+    "SPECIES": "Espécie",
     "DUPLICATE_CROP": "Já existe um cultivo com o mesmo nome, gênero e espécie em sua fazenda"
   },
   "CROP_DETAIL": {
@@ -1804,8 +1804,8 @@
       "PSI": "libras por polegada quadrada (psi)"
     },
     "SOIL_WATER_CONTENT_READINGS_OF_SENSOR": {
-      "TITLE": "MISSING",
-      "Y_AXIS_LABEL": "MISSING"
+      "TITLE": "Teor de água no solo",
+      "Y_AXIS_LABEL": "em {{units}}"
     },
     "READINGS_PREVIEW": {
       "TEMPERATURE": "Temperatura atual do solo",
@@ -1815,11 +1815,11 @@
       "TITLE": "As séries podem ser ocultadas",
       "CONTENT": "Sensores individuais podem ser exibidos ou ocultados clicando em seus rótulos aqui."
     },
-    "SECONDS_AGO": "MISSING",
-    "MINUTES_AGO": "MISSING",
-    "HOURS_AGO": "MISSING",
-    "DAYS_AGO": "MISSING",
-    "MONTHS_AGO": "MISSING"
+    "SECONDS_AGO": "{{time}} segundo(s) atrás",
+    "MINUTES_AGO": "{{time}} minuto(s) atrás",
+    "HOURS_AGO": "{{time}} hora(s) atrás",
+    "DAYS_AGO": "{{time}} dias(s) atrás",
+    "MONTHS_AGO": "{{time}} months(s) atrás"
   },
   "CROP_STATUS_NON_ORGANIC_MISMATCH_MODAL": {
     "TITLE": "Você selecionou uma área não orgânica!",

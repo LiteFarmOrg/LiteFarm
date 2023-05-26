@@ -270,6 +270,7 @@ Cypress.Commands.add(
     cy.wait(2000);
     cy.get('[data-cy="spotlight-next"]').click({ force: true });
     cy.get('[data-cy=map-selectLocation]').contains('Test Field');
+    cy.get('._zoomIn_e5ede_9').should('be.visible');
     cy.get('[data-cy=map-selectLocation]').click(530, 216, {
       force: false,
     });

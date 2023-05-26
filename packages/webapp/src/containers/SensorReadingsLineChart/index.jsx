@@ -18,12 +18,13 @@ const SensorReadingsLineChart = ({ readingType, noDataFoundMessage, data }) => {
   };
   const title = t(`SENSOR.${readingType.toUpperCase()}_READINGS_OF_SENSOR.TITLE`);
   const readingTypeDataExists = data?.sensorReadingData?.find(
-    (rd) => rd[data.selectedSensorName] && rd[data.selectedSensorName] != '(no data)',
+    (rd) =>
+      rd[data.selectedSensorName] && rd[data.selectedSensorName] != t('translation:SENSOR.NO_DATA'),
   );
   let isActive = readingTypeDataExists ? true : false;
   if (readingType === TEMPERATURE) {
     const weatherStationDataExists = data?.sensorReadingData?.find(
-      (rd) => rd[data.stationName] != '(no data)',
+      (rd) => rd[data.stationName] != t('translation:SENSOR.NO_DATA'),
     );
     isActive = weatherStationDataExists || isActive;
   }

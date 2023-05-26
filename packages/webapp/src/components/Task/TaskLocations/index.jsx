@@ -21,6 +21,7 @@ export default function PureTaskLocations({
   title,
   maxZoomRef,
   getMaxZoom,
+  maxZoom,
   defaultLocation,
   targetsWildCrop,
 }) {
@@ -135,6 +136,7 @@ export default function PureTaskLocations({
           readOnlyPinCoordinates={readOnlyPinCoordinates}
           maxZoomRef={maxZoomRef}
           getMaxZoom={getMaxZoom}
+          maxZoom={maxZoom}
         />
         {showWildCropCheckBox && (
           <Checkbox

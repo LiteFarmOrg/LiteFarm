@@ -1571,7 +1571,7 @@
       "CONTENT": "Individual sensors can be shown or hidden by clicking their labels here."
     },
     "SECONDS_AGO": "{{time}} second(s) ago",
-    "MINUTES_AGO": "{{time}} minutes(s) ago",
+    "MINUTES_AGO": "{{time}} minute(s) ago",
     "HOURS_AGO": "{{time}} hour(s) ago",
     "DAYS_AGO": "{{time}} day(s) ago",
     "MONTHS_AGO": "{{time}} month(s) ago"

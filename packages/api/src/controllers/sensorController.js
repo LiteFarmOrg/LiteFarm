@@ -33,8 +33,9 @@ import {
   registerOrganizationWebhook,
   bulkSensorClaim,
   unclaimSensor,
+  ENSEMBLE_UNITS_MAPPING,
 } from '../util/ensemble.js';
-
+import { databaseUnit } from '../util/unit.js';
 import { sensorErrors, parseSensorCsv } from '../../../shared/validation/sensorCSV.js';
 import syncAsyncResponse from '../util/syncAsyncResponse.js';
 import knex from '../util/knex.js';
@@ -446,11 +447,18 @@ const sensorController = {
             );
             continue;
           }
-          const unit = sensorInfo.unit;
+          // Reconcile incoming units with stored as units and conversion function keys
+          const system = ENSEMBLE_UNITS_MAPPING[sensorInfo.unit]?.system;
+          const unit = ENSEMBLE_UNITS_MAPPING[sensorInfo.unit]?.conversionKey;
+          const readingTypeStoredAsUnit = databaseUnit[readingType] ?? undefined;
+          const isStoredAsUnit = unit == readingTypeStoredAsUnit;
 
-          if (sensorInfo.values.length < sensorInfo.timestamps.length)
+          if (sensorInfo.values.length < sensorInfo.timestamps.length) {
             return res.status(400).send('sensor values and timestamps are not in sync');
-
+          }
+          if (!system || !unit || !readingTypeStoredAsUnit || !isStoredAsUnit) {
+            return res.status(400).send('provided units are not supported');
+          }
           for (let k = 0; k < sensorInfo.values.length; ++k) {
             infoBody.push({
               read_time: sensorInfo.timestamps[k] || '',
@@ -463,6 +471,7 @@ const sensorController = {
           }
         }
       }
+
       if (infoBody.length === 0) {
         return res.status(200).json({
           error: 'No records of sensor readings added to the Litefarm.',

@@ -70,7 +70,9 @@ const PureFieldWorkTask = ({ register, control, setValue, watch, disabled = fals
   useEffect(() => {
     if (typeValue?.length && fieldWorkTypeOptions?.length) {
       // in read-only and before_complete views, default typeValue is an array which needs to be formatted.
-      setValue(FIELD_WORK_TYPE, formatDefaultTypeValue(typeValue, fieldWorkTypeOptions));
+      setValue(FIELD_WORK_TYPE, formatDefaultTypeValue(typeValue, fieldWorkTypeOptions), {
+        shouldValidate: true,
+      });
     }
   }, [typeValue, fieldWorkTypeOptions]);
 

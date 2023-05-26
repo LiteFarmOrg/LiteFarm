@@ -1818,7 +1818,7 @@
     "MINUTES_AGO": "hace {{time}} minuto(s)",
     "HOURS_AGO": "hace {{time}} hora(s)",
     "DAYS_AGO": "hace {{time}} día(s)",
-    "MONTHS_AGO": "hace {{time}} mese(s)"
+    "MONTHS_AGO": "hace {{time}} mes(es)"
   },
   "CROP_STATUS_NON_ORGANIC_MISMATCH_MODAL": {
     "TITLE": "¡Has seleccionado una ubicación no orgánica!",

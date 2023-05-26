@@ -540,7 +540,7 @@
       },
       "VALIDATION": {
         "FILE_ROW_LIMIT_EXCEEDED": "Límite de fila de archivos superado. El número máximo de sensores que se pueden cargar desde un archivo es 100.",
-        "MISSING_COLUMNS": "Se requieren columnas/faltan.",
+        "MISSING_COLUMNS": "Se requieren/faltan columnas.",
         "EXTERNAL_ID": "Identificación externa no válida, debe tener entre 1 y 20 caracteres.",
         "SENSOR_NAME": "Nombre del sensor no válido, debe estar entre 1 y 100 caracteres.",
         "SENSOR_LATITUDE": "Valor de latitud no válido, debe estar entre -85 y 85. y menos de 10 decimales.",
@@ -1740,7 +1740,7 @@
     "DEPTH": "Profundidad",
     "BRAND": "Marca",
     "VALIDATION": {
-      "READING_TYPES": "MISSING"
+      "READING_TYPES": "Tipos de lecturas"
     },
     "MODAL": {
       "TITLE": "¿Cambiar los tipos de lectura?",
@@ -1784,13 +1784,16 @@
       "RETIRE_SUCCESS": "Sensor retirado con éxito",
       "RETIRE_FAILURE": "Hubo un error al retirar este sensor"
     },
+    "SENSOR_FORECAST": {
+      "TITLE": "Pronóstico del día",
+      "HIGH_AND_LOW_TEMPERATURE": "Temperatura máxima y mínima: {{high}}{{unit}} / {{low}}{{unit}}",
+      "WEATHER_STATION": "Estación meteorológica: {{weatherStationLocation}}"
+    },
     "TEMPERATURE_READINGS_OF_SENSOR": {
       "TITLE": "Temperatura del suelo",
-      "SUBTITLE": "Temperatura MISSING ambiente alta y baja de hoy: {{high}}{{units}} / {{low}}{{units}}",
       "Y_AXIS_LABEL": "en {{units}}",
       "C": "Celsius (°C)",
       "F": "Fahrenheit (°F)",
-      "WEATHER_STATION": "Estación meteorológica: {{weatherStationLocation}}",
       "AMBIENT_TEMPERATURE_FOR": "Temperatura ambiente para"
     },
     "SOIL_WATER_POTENTIAL_READINGS_OF_SENSOR": {
@@ -1800,8 +1803,8 @@
       "PSI": "libras por pulgada cuadrada (psi)"
     },
     "SOIL_WATER_CONTENT_READINGS_OF_SENSOR": {
-      "TITLE": "Contenido hídrico del suelo",
-      "Y_AXIS_LABEL": "en {{units}}"
+      "TITLE": "Contenido de agua en el suelo",
+      "Y_AXIS_LABEL": "Contenido de agua en el suelo en {{units}}"
     },
     "READINGS_PREVIEW": {
       "TEMPERATURE": "Temperatura actual del suelo",
@@ -1811,11 +1814,11 @@
       "TITLE": "La serie puede estar oculta",
       "CONTENT": "Los sensores individuales se pueden mostrar u ocultar haciendo clic en sus etiquetas aquí."
     },
-    "SECONDS_AGO": "{{time}} segundo(s) atrás",
-    "MINUTES_AGO": "{{time}} minuto(s) atrás",
-    "HOURS_AGO": "{{time}} hora(s) atrás",
-    "DAYS_AGO": "{{time}} día(s) atrás",
-    "MONTHS_AGO": "{{time}} mes(es) atrás"
+    "SECONDS_AGO": "hace {{time}} segundo(s)",
+    "MINUTES_AGO": "hace {{time}} minuto(s)",
+    "HOURS_AGO": "hace {{time}} hora(s)",
+    "DAYS_AGO": "hace {{time}} día(s)",
+    "MONTHS_AGO": "hace {{time}} mese(s)"
   },
   "CROP_STATUS_NON_ORGANIC_MISMATCH_MODAL": {
     "TITLE": "¡Has seleccionado una ubicación no orgánica!",

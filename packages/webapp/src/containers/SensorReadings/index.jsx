@@ -1,6 +1,7 @@
 import { React, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSelector, useDispatch } from 'react-redux';
+import ForecastInfo from './ForecastInfo';
 import SensorReadingsLineChart from '../SensorReadingsLineChart';
 import PageTitle from '../../components/PageTitle/v2';
 import RouterTab from '../../components/RouterTab';
@@ -9,6 +10,7 @@ import { sensorsSelector } from '../sensorSlice';
 import { sensorReadingTypesByLocationSelector } from '../../containers/sensorReadingTypesSlice';
 import { getSensorsReadings } from '../SensorReadings/saga';
 import { bulkSensorsReadingsSliceSelector } from '../bulkSensorReadingsSlice';
+import { TEMPERATURE } from './constants';
 import styles from './styles.module.scss';
 
 function SensorReadings({ history, match }) {
@@ -81,6 +83,9 @@ function SensorReadings({ history, match }) {
             <div className={styles.loaderWrapper}>
               <Spinner />
             </div>
+          )}
+          {!loading && readingTypes.includes(TEMPERATURE) && locationData?.temperature && (
+            <ForecastInfo data={locationData.temperature} />
           )}
           {!loading && locationData && readingTypes?.length > 0
             ? [...readingTypes]

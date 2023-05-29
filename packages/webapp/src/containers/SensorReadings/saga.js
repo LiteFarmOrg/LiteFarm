@@ -38,7 +38,7 @@ import {
   getSoilWaterPotentialValue,
 } from '../../components/Map/PreviewPopup/utils.js';
 import { getLanguageFromLocalStorage } from '../../util/getLanguageFromLocalStorage';
-import { getLastUpdatedTime, getDates, roundDownToNearestHour } from './utils';
+import { getLastUpdatedTime, getDates, roundDownToNearestTimepoint } from './utils';
 import i18n from '../../locales/i18n';
 import { getUnitOptionMap } from '../../util/convert-units/getUnitOptionMap';
 import { ambientTemperature, soilWaterPotential } from '../../util/convert-units/unit';
@@ -111,7 +111,10 @@ export function* getSensorsReadingsSaga({ payload }) {
             .filter((cv) => (cv.value ? cv.value : cv.value === 0))
             .map((cv) => new Date(cv.actual_read_time).valueOf() / 1000),
         );
-        readings.predictedXAxisLabel = roundDownToNearestHour(currentDateTime);
+        readings.predictedXAxisLabel = roundDownToNearestTimepoint(
+          currentDateTime,
+          hourlyTimezoneOffsetMin,
+        );
         readings.unit = getUnit(measurement)[type];
 
         // reduce sensor data

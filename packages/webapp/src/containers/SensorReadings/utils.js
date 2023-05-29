@@ -57,9 +57,14 @@ export const getDates = () => {
   };
 };
 
-export const roundDownToNearestHour = (currentUnixTime) => {
+export const roundDownToNearestTimepoint = (currentUnixTime, hourlyTimezoneOffsetMin) => {
   const currentHour = new Date(currentUnixTime).getHours();
-  const nearestChosenUnixTime = new Date(currentUnixTime).setHours(currentHour, 0, 0, 0);
+  const nearestChosenUnixTime = new Date(currentUnixTime).setHours(
+    currentHour,
+    Math.abs(hourlyTimezoneOffsetMin),
+    0,
+    0,
+  );
 
   return moment(nearestChosenUnixTime).format('ddd MMMM D YYYY HH:mm');
 };

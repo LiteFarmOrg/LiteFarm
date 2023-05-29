@@ -20,14 +20,7 @@ import insightController from '../controllers/insightController.js';
 import checkOwnership from '../middleware/acl/checkOwnership.js';
 import checkScope from '../middleware/acl/checkScope.js';
 import hasFarmAccess from '../middleware/acl/hasFarmAccess.js';
-// people fed specific stuff
-// get all the nutritional data that is displayed as a view on People Fed Module
-router.get(
-  '/people_fed/:farm_id',
-  hasFarmAccess({ params: 'farm_id' }),
-  checkScope(['get:insights']),
-  insightController.getPeopleFedData(),
-);
+
 // get one single number for generating meals page on the main insight page
 
 // soil om submodule

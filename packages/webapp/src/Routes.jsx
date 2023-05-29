@@ -47,7 +47,6 @@ const JoinFarmSuccessScreen = React.lazy(() => import('./containers/JoinFarmSucc
 const InviteUser = React.lazy(() => import('./containers/InviteUser'));
 // Insights imports
 const Insights = React.lazy(() => import('./containers/Insights'));
-const PeopleFed = React.lazy(() => import('./containers/Insights/PeopleFed'));
 const SoilOM = React.lazy(() => import('./containers/Insights/SoilOM'));
 const LabourHappiness = React.lazy(() => import('./containers/Insights/LabourHappiness'));
 const Biodiversity = React.lazy(() => import('./containers/Insights/Biodiversity'));
@@ -558,7 +557,6 @@ const Routes = () => {
             <Route path="/sensor/:location_id/edit" exact component={EditSensor} />
             <Route path="/finances" exact component={Finances} />
             <Route path="/insights" exact component={Insights} />
-            <Route path="/insights/peoplefed" exact component={PeopleFed} />
             <Route path="/insights/soilom" exact component={SoilOM} />
             <Route path="/insights/labourhappiness" exact component={LabourHappiness} />
             <Route path="/insights/biodiversity" exact component={Biodiversity} />
@@ -868,7 +866,6 @@ const Routes = () => {
             <Route path="/sale_detail" exact component={SaleDetail} />
             <Route path="/farm_selection" exact component={ChooseFarm} />
             <Route path="/insights" exact component={Insights} />
-            <Route path="/insights/peoplefed" exact component={PeopleFed} />
             <Route path="/insights/soilom" exact component={SoilOM} />
             <Route path="/insights/labourhappiness" exact component={LabourHappiness} />
             <Route path="/insights/biodiversity" exact component={Biodiversity} />
@@ -988,7 +985,6 @@ const Routes = () => {
 
             <Route path="/farm_selection" exact component={ChooseFarm} />
             <Route path="/insights" exact component={Insights} />
-            <Route path="/insights/peoplefed" exact component={PeopleFed} />
             <Route path="/insights/soilom" exact component={SoilOM} />
             <Route path="/insights/labourhappiness" exact component={LabourHappiness} />
             <Route path="/insights/biodiversity" exact component={Biodiversity} />

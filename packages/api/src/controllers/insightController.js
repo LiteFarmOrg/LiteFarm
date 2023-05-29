@@ -24,64 +24,6 @@ import waterBalanceScheduler from '../jobs/waterBalance/waterBalance.js';
 // TODO: put nitrogen scheduler here for when we want to put it back
 
 const insightController = {
-  // this is for the People Fed module
-  getPeopleFedData() {
-    return async (req, res) => {
-      try {
-        const farmID = req.params.farm_id;
-        const saleData = await knex.raw(
-          `SELECT DISTINCT cs.sale_id as id, cs.quantity_kg, c.percentrefuse, c.crop_common_name, c.energy, c.protein, 
-            c.lipid, c.vitc, c.vita_rae
-              FROM "cropSale" cs JOIN "sale" s ON cs.sale_id = s.sale_id
-              JOIN "crop" c ON cs.crop_id = c.crop_id
-              WHERE s.farm_id = ? AND s.deleted = FALSE`,
-          [farmID],
-        );
-        const harvestData = await knex.raw(
-          `SELECT DISTINCT hu.harvest_use_id as id, hu.quantity_kg, c.percentrefuse, c.crop_common_name, c.energy, 
-            c.protein, c.lipid, c.vitc, c.vita_rae
-                FROM "harvestUse" hu 
-                JOIN "task" al ON hu.task_id = al.task_id
-                JOIN "management_tasks" mt ON hu.task_id = mt.task_id 
-                JOIN "planting_management_plan" pmp ON mt.planting_management_plan_id = pmp.planting_management_plan_id
-                JOIN "management_plan" mp ON mp.management_plan_id = pmp.management_plan_id
-                JOIN "location" ON mp.location_id = location.location_id
-                JOIN "crop_variety" ON mp.crop_variety_id = crop_variety.crop_variety_id
-                JOIN "crop" c ON mp.crop_id = c.crop_id
-                WHERE location.farm_id = ? AND al.deleted = FALSE
-                AND hu.harvest_use_type_id IN (2,5,6)`,
-          [farmID],
-        );
-        const data = saleData.rows.concat(harvestData.rows);
-        if (data) {
-          const people_fed_data = insightHelpers.getNutritionalData(data);
-          const meals = insightHelpers.averagePeopleFedMeals(people_fed_data);
-          const body = {
-            preview: meals,
-            data: people_fed_data,
-          };
-          res.status(200).send(body);
-        } else {
-          res.status(200).send({
-            preview: 0,
-            data: [
-              { label: 'Calories', val: 0, percentage: 0 },
-              { label: 'Protein', val: 0, percentage: 0 },
-              { label: 'Fat', val: 0, percentage: 0 },
-              { label: 'Vitamin C', val: 0, percentage: 0 },
-              { label: 'Vitamin A', val: 0, percentage: 0 },
-            ],
-          });
-        }
-      } catch (error) {
-        console.log(error);
-        res.status(400).json({
-          error,
-        });
-      }
-    };
-  },
-
   // this is for the soil om submodule
   getSoilDataByFarmID() {
     return async (req, res) => {

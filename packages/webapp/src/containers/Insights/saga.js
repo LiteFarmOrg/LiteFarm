@@ -19,7 +19,6 @@ import {
   setBiodiversityData,
   setBiodiversityError,
   setBiodiversityLoading,
-  setCropsSoldNutritionInState,
   setFrequencyNitrogenBalance,
   setLabourHappinessData,
   setNitrogenBalanceData,
@@ -33,7 +32,6 @@ import {
   CREATE_FREQUENCY_WATER_BALANCE,
   DEL_FREQUENCY_NITROGEN_BALANCE,
   GET_BIODIVERSITY_DATA,
-  GET_CROPS_SOLD_NUTRITION,
   GET_FREQUENCY_NITROGEN_BALANCE,
   GET_FREQUENCY_WATER_BALANCE,
   GET_LABOUR_HAPPINESS_DATA,
@@ -46,21 +44,6 @@ import {
 import { loginSelector } from '../userFarmSlice';
 import { axios, getHeader } from '../saga';
 import { biodiversitySelector } from './selectors';
-
-export function* getCropsSoldNutrition() {
-  const { insightUrl } = apiConfig;
-  let { user_id, farm_id } = yield select(loginSelector);
-  const header = getHeader(user_id, farm_id);
-
-  try {
-    const result = yield call(axios.get, insightUrl + '/people_fed/' + farm_id, header);
-    if (result) {
-      yield put(setCropsSoldNutritionInState(result.data));
-    }
-  } catch (e) {
-    console.log('failed to fetch fields from db');
-  }
-}
 
 export function* getSoldOMData() {
   const { insightUrl } = apiConfig;
@@ -313,7 +296,6 @@ const formatDate = (date) => {
 };
 
 export default function* insightSaga() {
-  yield takeLatest(GET_CROPS_SOLD_NUTRITION, getCropsSoldNutrition);
   yield takeLatest(GET_SOLD_OM_DATA, getSoldOMData);
   yield takeLatest(GET_LABOUR_HAPPINESS_DATA, getLabourHappinessData);
   yield takeLatest(GET_BIODIVERSITY_DATA, getBiodiversityData);

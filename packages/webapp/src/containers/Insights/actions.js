@@ -14,8 +14,6 @@
  */
 
 import {
-  GET_CROPS_SOLD_NUTRITION,
-  SET_CROPS_SOLD_NUTRITION,
   GET_SOLD_OM_DATA,
   SET_SOLD_OM_DATA,
   GET_LABOUR_HAPPINESS_DATA,
@@ -42,19 +40,6 @@ import {
   GET_BIODIVERSITY_ERROR,
   SET_BIODIVERSITY_ERROR,
 } from './constants';
-
-export const getCropsSoldNutrition = () => {
-  return {
-    type: GET_CROPS_SOLD_NUTRITION,
-  };
-};
-
-export const setCropsSoldNutritionInState = (cropNutritionData) => {
-  return {
-    type: SET_CROPS_SOLD_NUTRITION,
-    cropNutritionData,
-  };
-};
 
 export const getSoilOMData = () => {
   return {

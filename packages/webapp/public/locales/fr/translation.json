@@ -863,22 +863,6 @@
       "SELECT_FREQUENCY": "Sélectionner la fréquence",
       "TITLE": "Bilan de l'azote"
     },
-    "PEOPLE_FED": {
-      "CALORIES": "Calories",
-      "FAT": "Gras",
-      "HEADER": "Nombre de repas",
-      "INFO": "Nous estimons le nombre de repas potentiels fournis par votre ferme sur la base des données de soldes et des bases de données sur la composition des cultures. Nous supposons que les besoins quotidiens sont répartis également sur trois repas par jour.",
-      "MEAL_COUNT": "{{count}} repas",
-      "MEAL_COUNT_one": "{{count}} repas",
-      "MEAL_COUNT_many": "{{count}} repas",
-      "MEAL_COUNT_other": "{{count}} repas",
-      "MEAL_COUNT_plural": "{{count}} repas",
-      "MEALS": "repas",
-      "PROTEIN": "Protéine",
-      "TITLE": "Personnes nourries",
-      "VITAMIN_A": "Vitamine A",
-      "VITAMIN_C": "Vitamine C"
-    },
     "PRICES": {
       "INFO": "Nous vous montrons la tendance de vos prix de vente pour chacun de vos produits, et la comparons aux prix de ventes des mêmes produits rapportés par d’autres fermes proches de vous qui font partie du réseau LiteFarm.",
       "NEARBY_FARMS": "Le prix moyen du réseau est basé sur les prix de {{count}} autres fermes dans votre région",

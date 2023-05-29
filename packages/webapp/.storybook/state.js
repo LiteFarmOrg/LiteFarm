@@ -1802,10 +1802,6 @@ export default {
   },
   baseReducer: {},
   insightReducer: {
-    cropNutritionData: {
-      preview: 0,
-      data: [],
-    },
     soilOMData: {
       preview: 0,
       data: [],

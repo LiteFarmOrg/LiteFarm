@@ -861,21 +861,6 @@
       "SELECT_FREQUENCY": "Select Frequency",
       "TITLE": "Nitrogen Balance"
     },
-    "PEOPLE_FED": {
-      "CALORIES": "Calories",
-      "FAT": "Fat",
-      "HEADER": "Number of Meals",
-      "INFO": "We estimate the number of potential meals provided by your farm based on sales data, and crop composition databases. We assume that daily requirements are divided equally across three meals a day.",
-      "MEAL_COUNT": "{{count}} meal",
-      "MEAL_COUNT_one": "{{count}} meal",
-      "MEAL_COUNT_other": "{{count}} meals",
-      "MEAL_COUNT_plural": "{{count}} meals",
-      "MEALS": "meals",
-      "PROTEIN": "Protein",
-      "TITLE": "People Fed",
-      "VITAMIN_A": "Vitamin A",
-      "VITAMIN_C": "Vitamin C"
-    },
     "PRICES": {
       "INFO": "We show you the trajectory of your sales prices against the sales prices for the same goods within a given distance of you, collected across the LiteFarm network.",
       "NEARBY_FARMS": "Network price is based on {{count}} farms in your local area",

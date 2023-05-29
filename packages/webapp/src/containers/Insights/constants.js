@@ -13,9 +13,6 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-export const GET_CROPS_SOLD_NUTRITION = 'GET_CROPS_SOLD_NUTRITION';
-export const SET_CROPS_SOLD_NUTRITION = 'SET_CROPS_SOLD_NUTRITION';
-
 export const GET_SOLD_OM_DATA = 'GET_SOLD_OM_DATA';
 export const SET_SOLD_OM_DATA = 'SET_SOLD_OM_DATA';
 

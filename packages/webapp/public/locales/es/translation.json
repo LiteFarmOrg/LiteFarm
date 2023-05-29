@@ -862,22 +862,6 @@
       "SELECT_FREQUENCY": "Seleccione una frecuencia",
       "TITLE": "Balance de Nitrogeno"
     },
-    "PEOPLE_FED": {
-      "CALORIES": "Calorias",
-      "FAT": "Grasa",
-      "HEADER": "Numero de comidas",
-      "INFO": "Estimamos el numero de comidas potenciales provistas por su granja basandonos en los datos de sus ventas y la base de datos de la composicion de cultivos. Asumimos que los requerimientos diarios se dividen en partes iguales en 3 comidas al dia.",
-      "MEAL_COUNT": "{{count}} comida",
-      "MEAL_COUNT_one": "{{count}} comida",
-      "MEAL_COUNT_many": "{{count}} comidas",
-      "MEAL_COUNT_other": "{{count}} comidas",
-      "MEAL_COUNT_plural": "{{count}} comidas",
-      "MEALS": "Comidas",
-      "PROTEIN": "Proteina",
-      "TITLE": "Personas alimentadas",
-      "VITAMIN_A": "Vitamina A",
-      "VITAMIN_C": "Vitamina C"
-    },
     "PRICES": {
       "INFO": "Le mostramos la trayectoria de sus precios de venta en comparacion a los precios de venta de los mismos bienes cerca de su granja. Esta información es recolectada a través de la red de LiteFarm.",
       "NEARBY_FARMS": "El precio del mercado se basa en {{count}} granjas en su área local",

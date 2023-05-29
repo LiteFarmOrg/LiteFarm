@@ -14195,26 +14195,6 @@
         ]
       }
     },
-    "/insight/people_fed/{farm_id}": {
-      "get": {
-        "summary": "/insight/people_fed/{farm_id}",
-        "parameters": [
-          {
-            "name": "farm_id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {},
-        "tags": [
-          "farm",
-          "insight"
-        ]
-      }
-    },
     "/insight/soil_om/{farm_id}": {
       "get": {
         "summary": "/insight/soil_om/{farm_id}",

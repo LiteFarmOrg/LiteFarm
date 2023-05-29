@@ -17,8 +17,6 @@ import { createSelector } from 'reselect/es';
 
 const insightSelector = (state) => state.insightReducer || {};
 
-const cropsNutritionSelector = createSelector(insightSelector, (state) => state.cropNutritionData);
-
 const soilOMSelector = createSelector(insightSelector, (state) => state.soilOMData);
 
 const labourHappinessSelector = createSelector(
@@ -60,7 +58,6 @@ const nitrogenFrequencySelector = createSelector(
 );
 
 export {
-  cropsNutritionSelector,
   soilOMSelector,
   labourHappinessSelector,
   biodiversitySelector,

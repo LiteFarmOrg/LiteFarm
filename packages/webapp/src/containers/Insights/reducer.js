@@ -14,7 +14,6 @@
  */
 
 import {
-  SET_CROPS_SOLD_NUTRITION,
   SET_SOLD_OM_DATA,
   SET_LABOUR_HAPPINESS_DATA,
   SET_BIODIVERSITY_DATA,
@@ -29,7 +28,6 @@ import {
 } from './constants';
 
 const initialState = {
-  cropNutritionData: { preview: 0, data: [] },
   soilOMData: { preview: 0, data: [] },
   labourHappinessData: { preview: 0, data: [] },
   biodiversityData: { preview: 0, data: [] },
@@ -45,11 +43,6 @@ const initialState = {
 
 function insightReducer(state = initialState, action) {
   switch (action.type) {
-    case SET_CROPS_SOLD_NUTRITION:
-      return Object.assign({}, state, {
-        cropNutritionData: action.cropNutritionData,
-      });
-
     case SET_SOLD_OM_DATA:
       return Object.assign({}, state, {
         soilOMData: action.soilOMData,

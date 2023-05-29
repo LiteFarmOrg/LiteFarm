@@ -862,22 +862,6 @@
       "SELECT_FREQUENCY": "selecione uma  frequência",
       "TITLE": "Balanço de Nitrogênio"
     },
-    "PEOPLE_FED": {
-      "CALORIES": "Calorias",
-      "FAT": "Gordura",
-      "HEADER": "Número de refeições",
-      "INFO": "Nós estimamos o número de refeições potencialmente fornecidas por sua fazenda com base nos dados de vendas e na composição nutricional dos cultivos. Assumimos que as necessidades nutricionais diárias são divididas igualmente em três refeições por dia",
-      "MEAL_COUNT": "{{count}} refeição",
-      "MEAL_COUNT_one": "{{count}} refeição",
-      "MEAL_COUNT_many": "{{count}} refeições",
-      "MEAL_COUNT_other": "{{count}} refeições",
-      "MEAL_COUNT_plural": "{{count}} refeições",
-      "MEALS": "refeições",
-      "PROTEIN": "Proteínas",
-      "TITLE": "Pessoas Alimentadas",
-      "VITAMIN_A": "Vitamina A",
-      "VITAMIN_C": "Vitamina C"
-    },
     "PRICES": {
       "INFO": "Mostramos a trajetória comparativa entre seus preços de venda em relação aos preços de venda dos mesmos produtos encontrados a uma determinada distância de você, utilizando dados coletados na rede LiteFarm.",
       "NEARBY_FARMS": "O preço de mercado é baseado em {{count}} fazendas na sua região",

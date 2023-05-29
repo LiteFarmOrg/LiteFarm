@@ -8,7 +8,7 @@ class InsightsInfoComponent extends Component {
     const { title, value, valueLabel, percent } = this.props;
 
     return (
-      <div className={'peopleFedItem'}>
+      <div>
         <div className={sharedStyles.infoTextLine}>
           <Main>{title}</Main>
           <Main className={sharedStyles.rightText}>

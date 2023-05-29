@@ -59,7 +59,6 @@
     "chai-http": "^4.3.0",
     "core-js": "^3.24.1",
     "cors": "^2.8.5",
-    "crypto-js": "^4.0.0",
     "csvtojson": "^2.0.10",
     "dotenv": "^8.2.0",
     "email-templates": "^8.0.4",

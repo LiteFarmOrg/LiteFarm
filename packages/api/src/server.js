@@ -129,7 +129,6 @@ import nominationRoutes from './routes/nominationRoute.js';
 
 // const waterBalanceScheduler = require('./jobs/waterBalance/waterBalance');
 // const nitrogenBalanceScheduler = require('./jobs/nitrogenBalance/nitrogenBalance');
-// const farmDataScheduler = require('./jobs/sendFarmData/sendFarmData');
 import userLogRoute from './routes/userLogRoute.js';
 
 import supportTicketRoute from './routes/supportTicketRoute.js';
@@ -318,7 +317,6 @@ if (
   //
   // nitrogenBalanceScheduler.registerDailyJob();
 
-  // farmDataScheduler.registerJob();
   // eslint-disable-next-line no-console
   // console.log('LiteFarm Water Balance Scheduler Enabled');
 }

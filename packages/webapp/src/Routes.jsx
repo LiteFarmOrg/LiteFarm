@@ -52,7 +52,6 @@ const LabourHappiness = React.lazy(() => import('./containers/Insights/LabourHap
 const Biodiversity = React.lazy(() => import('./containers/Insights/Biodiversity'));
 const Prices = React.lazy(() => import('./containers/Insights/Prices'));
 const WaterBalance = React.lazy(() => import('./containers/Insights/WaterBalance'));
-const Erosion = React.lazy(() => import('./containers/Insights/Erosion'));
 const NitrogenBalance = React.lazy(() => import('./containers/Insights/NitrogenBalance'));
 const SalesSummary = React.lazy(() => import('./containers/Finances/SalesSummary'));
 const AddSale = React.lazy(() => import('./containers/Finances/AddSale'));
@@ -562,7 +561,6 @@ const Routes = () => {
             <Route path="/insights/biodiversity" exact component={Biodiversity} />
             <Route path="/insights/prices" exact component={Prices} />
             {/* <Route path="/insights/waterbalance" exact component={WaterBalance} /> */}
-            <Route path="/insights/erosion" exact component={Erosion} />
             {/* <Route path="/insights/nitrogenbalance" exact component={NitrogenBalance} /> */}
             <Route path="/help" exact component={HelpRequest} />
             {/* <Route path="/sales_summary" exact component={SalesSummary} /> */}
@@ -871,7 +869,6 @@ const Routes = () => {
             <Route path="/insights/biodiversity" exact component={Biodiversity} />
             <Route path="/insights/prices" exact component={Prices} />
             {/* <Route path="/insights/waterbalance" exact component={WaterBalance} /> */}
-            <Route path="/insights/erosion" exact component={Erosion} />
             {/* <Route path="/insights/nitrogenbalance" exact component={NitrogenBalance} /> */}
             <Route path="/farm_selection" exact component={ChooseFarm} />
             <Route path="/callback" component={Callback} />
@@ -990,7 +987,6 @@ const Routes = () => {
             <Route path="/insights/biodiversity" exact component={Biodiversity} />
             <Route path="/insights/prices" exact component={Prices} />
             {/* <Route path="/insights/waterbalance" exact component={WaterBalance} /> */}
-            <Route path="/insights/erosion" exact component={Erosion} />
             {/* <Route path="/insights/nitrogenbalance" exact component={NitrogenBalance} /> */}
             <Route path="/callback" component={Callback} />
             <Route path="/accept_invitation/sign_up" component={InviteSignUp} />

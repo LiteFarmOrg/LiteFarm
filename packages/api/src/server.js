@@ -126,8 +126,6 @@ import organicCertifierSurveyRoutes from './routes/organicCertifierSurveyRoute.j
 import passwordResetRoutes from './routes/passwordResetRoute.js';
 import showedSpotlightRoutes from './routes/showedSpotlightRoute.js';
 import nominationRoutes from './routes/nominationRoute.js';
-
-// const waterBalanceScheduler = require('./jobs/waterBalance/waterBalance');
 // const nitrogenBalanceScheduler = require('./jobs/nitrogenBalance/nitrogenBalance');
 import userLogRoute from './routes/userLogRoute.js';
 
@@ -312,13 +310,10 @@ if (
     // eslint-disable-next-line no-console
     logger.info('LiteFarm Backend listening on port ' + port);
   });
-  // waterBalanceScheduler.registerHourlyJob();
-  // waterBalanceScheduler.registerDailyJob();
   //
   // nitrogenBalanceScheduler.registerDailyJob();
 
   // eslint-disable-next-line no-console
-  // console.log('LiteFarm Water Balance Scheduler Enabled');
 }
 
 app.on('close', () => {

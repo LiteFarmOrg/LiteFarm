@@ -885,15 +885,7 @@
       "TITLE": "Matière organique du Sol"
     },
     "TITLE": "Mesures additionnelles",
-    "UNAVAILABLE": "Indisponible",
-    "WATER_BALANCE": {
-      "FIRST_TIME": "On dirait que c'est la première fois que vous exécutez cela\u00a0! Pour plus d'informations sur ce que cela fait, veuillez cliquer sur le bouton d'information pour voir.",
-      "INFO_1": "Le bilan hydrique vous indique si vos cultures ont trop ou pas assez d'eau. Il s'appuie sur les données météorologiques, et il est mis à jour par vos données d'irrigation et de texture du sol à partir de vos journaux d'analyse de sol.",
-      "INFO_2": "Cette fonctionnalité n'a pas été largement testée dans les fermes avec une faible densité de stations météorologiques environnantes, donc utilisez-la avec prudence. Nous apprécions les commentaires sur ses performances pour votre ferme.",
-      "NO_SCHEDULE_RUN": "Votre bilan hydrique programmé n'a pas encore été exécuté, veuillez vérifier dans deux jours et vous assurer d'avoir au moins une analyse de sol qui enregistre la texture du sol pour un champ pour voir les données de bilan hydrique pour les cultures dans ce champ. Si le le problème persiste, veuillez contacter LiteFarm.",
-      "REGISTER_FARM": "Enregistrer la ferme",
-      "TITLE": "Equilibre de l'eau"
-    }
+    "UNAVAILABLE": "Indisponible"
   },
   "INTRODUCE_MAP": {
     "BODY": "La carte de la ferme intègre de nouvelles fonctionnalités. Elle se trouve maintenant dans le menu Ma Ferme.",

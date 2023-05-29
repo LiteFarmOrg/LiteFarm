@@ -1819,11 +1819,6 @@ export default {
       amountOfFarms: 0,
       data: [],
     },
-    waterBalanceData: {
-      preview: 0,
-      data: [],
-    },
-    waterBalanceSchedule: {},
     nitrogenBalanceData: {
       preview: 0,
       data: [],

@@ -75,7 +75,6 @@ async function tableCleanup(knex) {
     DELETE FROM "price";
     DELETE FROM "crop_variety_sale";
     DELETE FROM "sale";
-    DELETE FROM "waterBalance";
     DELETE FROM "nitrogenBalance";
     DELETE FROM "broadcast_method";
     DELETE FROM "container_method";
@@ -116,12 +115,9 @@ async function tableCleanup(knex) {
     DELETE FROM "task_type";
     DELETE FROM "farmDataSchedule";
     DELETE FROM "userFarm";
-    DELETE FROM "waterBalanceSchedule";
     DELETE FROM "nitrogenSchedule";
     DELETE FROM "farm";
     DELETE FROM "users" WHERE user_id <> '1';
-    DELETE FROM "weatherHourly";
-    DELETE FROM "weather";
     DELETE FROM "weather_station";
   `);
 }

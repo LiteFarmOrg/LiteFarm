@@ -20,10 +20,8 @@ import {
   SET_BIODIVERSITY_LOADING,
   SET_PRICES_DATA,
   SET_PRICES_DISTANCE,
-  SET_WATER_BALANCE_DATA,
   SET_NITROGEN_BALANCE_DATA,
   SET_FREQUENCY_NITROGEN_BALANCE,
-  SET_FREQUENCY_WATER_BALANCE,
   SET_BIODIVERSITY_ERROR,
 } from './constants';
 
@@ -34,8 +32,6 @@ const initialState = {
   biodiversityLoading: false,
   biodiversityError: false,
   pricesData: { preview: 0, amountOfFarms: 0, data: [] },
-  waterBalanceData: { preview: 0, data: [] },
-  waterBalanceSchedule: {},
   nitrogenBalanceData: { preview: 0, data: [] },
   nitrogenFrequencyData: {},
   pricesDistance: 5,
@@ -75,16 +71,6 @@ function insightReducer(state = initialState, action) {
     case SET_PRICES_DATA:
       return Object.assign({}, state, {
         pricesData: action.pricesData,
-      });
-
-    case SET_WATER_BALANCE_DATA:
-      return Object.assign({}, state, {
-        waterBalanceData: action.waterBalanceData,
-      });
-
-    case SET_FREQUENCY_WATER_BALANCE:
-      return Object.assign({}, state, {
-        waterBalanceSchedule: action.waterBalanceSchedule,
       });
 
     case SET_NITROGEN_BALANCE_DATA:

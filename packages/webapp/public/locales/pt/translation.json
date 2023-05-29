@@ -884,15 +884,7 @@
       "TITLE": "Matéria Orgânica do Solo"
     },
     "TITLE": "Insights",
-    "UNAVAILABLE": "Unavailable",
-    "WATER_BALANCE": {
-      "FIRST_TIME": "Parece que esta é sua primeira vez executando isso! Para obter mais informações sobre o balanço hídrico, clique no botão de informações",
-      "INFO_1": "O balanço hídrico informa se seus cultivos têm pouca ou muita água. Ele se baseia em dados meteorológicos e é atualizado pelos dados de irrigação e textura do solo de seus registros de análise de solo.",
-      "INFO_2": "Este recurso não foi amplamente testado em fazendas com baixa densidade de estação meteorológica ao redor, portanto, use com cuidado. Agradecemos os comentários sobre o desempenho dele em sua fazenda.",
-      "NO_SCHEDULE_RUN": "Seu balanço hídrico programado ainda não foi executado. Verifique novamente em dois dias e certifique-se de ter pelo menos uma análise de solo que registre a textura do solo para um campo para ver os dados do balanço hídrico para os cultivos naquele campo. Se o problema persistir, entre em contato com a LiteFarm.",
-      "REGISTER_FARM": "Registre Fazenda",
-      "TITLE": "Balanço hídrico"
-    }
+    "UNAVAILABLE": "Unavailable"
   },
   "INTRODUCE_MAP": {
     "BODY": "O mapa da fazenda tem novos recursos. Ele agora se encontra no menu Minha Fazenda.",

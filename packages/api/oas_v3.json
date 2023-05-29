@@ -14276,46 +14276,6 @@
         ]
       }
     },
-    "/insight/waterbalance/{farm_id}": {
-      "get": {
-        "summary": "/insight/waterbalance/{farm_id}",
-        "parameters": [
-          {
-            "name": "farm_id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {},
-        "tags": [
-          "farm",
-          "insight"
-        ]
-      }
-    },
-    "/insight/waterbalance/schedule/{farm_id}": {
-      "get": {
-        "summary": "/insight/waterbalance/schedule/{farm_id}",
-        "parameters": [
-          {
-            "name": "farm_id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {},
-        "tags": [
-          "farm",
-          "insight"
-        ]
-      }
-    },
     "/insight/nitrogenbalance/{farm_id}": {
       "get": {
         "summary": "/insight/nitrogenbalance/{farm_id}",
@@ -14352,24 +14312,6 @@
         "responses": {},
         "tags": [
           "farm",
-          "insight"
-        ]
-      }
-    },
-    "/insight/waterbalance": {
-      "post": {
-        "summary": "/insight/waterbalance",
-        "responses": {},
-        "tags": [
-          "insight"
-        ]
-      }
-    },
-    "/insight/waterbalance/schedule": {
-      "post": {
-        "summary": "/insight/waterbalance/schedule",
-        "responses": {},
-        "tags": [
           "insight"
         ]
       }

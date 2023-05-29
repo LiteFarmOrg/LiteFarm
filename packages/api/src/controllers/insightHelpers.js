@@ -489,38 +489,6 @@ export const formatPricesNearbyData = (myFarmID, data) => {
   return returnData;
 };
 
-export const formatWaterBalanceData = async (dataPoints) => {
-  const returnData = {
-    preview: 0,
-    data: [],
-  };
-
-  if (dataPoints.length === 0) return returnData;
-
-  const cropsByField = {};
-  const amountOfCrops = dataPoints.length;
-  let runningTotal = 0;
-  dataPoints.forEach((crop) => {
-    const fieldKeyName = crop['field_id'] + ' ' + crop['field_name'];
-    const cropObject = {
-      crop: crop['crop_common_name'],
-      plantAvailableWater: crop['plant_available_water'],
-    };
-    runningTotal += crop['plant_available_water'];
-    if (Array.isArray(cropsByField[fieldKeyName])) {
-      cropsByField[fieldKeyName].push(cropObject);
-    } else {
-      cropsByField[fieldKeyName] = [cropObject];
-    }
-  });
-  for (const key in cropsByField) {
-    returnData['data'].push({ [key]: cropsByField[key] });
-  }
-  returnData['preview'] = Math.round((runningTotal / amountOfCrops) * 100) / 100;
-
-  return returnData;
-};
-
 export const formatNitrogenBalanceData = async (dataPoints) => {
   const returnData = {
     preview: 0,

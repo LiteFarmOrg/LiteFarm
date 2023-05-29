@@ -9181,46 +9181,6 @@
         ]
       }
     },
-    "/insight/waterbalance/{farm_id}": {
-      "get": {
-        "summary": "/insight/waterbalance/{farm_id}",
-        "consumes": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "farm_id",
-            "in": "path",
-            "required": true
-          }
-        ],
-        "responses": {},
-        "tags": [
-          "farm",
-          "insight"
-        ]
-      }
-    },
-    "/insight/waterbalance/schedule/{farm_id}": {
-      "get": {
-        "summary": "/insight/waterbalance/schedule/{farm_id}",
-        "consumes": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "farm_id",
-            "in": "path",
-            "required": true
-          }
-        ],
-        "responses": {},
-        "tags": [
-          "farm",
-          "insight"
-        ]
-      }
-    },
     "/insight/nitrogenbalance/{farm_id}": {
       "get": {
         "summary": "/insight/nitrogenbalance/{farm_id}",
@@ -9257,32 +9217,6 @@
         "responses": {},
         "tags": [
           "farm",
-          "insight"
-        ]
-      }
-    },
-    "/insight/waterbalance": {
-      "post": {
-        "summary": "/insight/waterbalance",
-        "consumes": [
-          "application/json"
-        ],
-        "parameters": [],
-        "responses": {},
-        "tags": [
-          "insight"
-        ]
-      }
-    },
-    "/insight/waterbalance/schedule": {
-      "post": {
-        "summary": "/insight/waterbalance/schedule",
-        "consumes": [
-          "application/json"
-        ],
-        "parameters": [],
-        "responses": {},
-        "tags": [
           "insight"
         ]
       }

@@ -15,12 +15,10 @@
 
 import { transaction, Model } from 'objection';
 
-import WaterBalanceModel from '../models/waterBalanceModel.js';
 import NitrogenScheduleModel from '../models/nitrogenScheduleModel.js';
 import baseController from '../controllers/baseController.js';
 import knex from '../util/knex.js';
 import * as insightHelpers from '../controllers/insightHelpers.js';
-import waterBalanceScheduler from '../jobs/waterBalance/waterBalance.js';
 // TODO: put nitrogen scheduler here for when we want to put it back
 
 const insightController = {
@@ -265,68 +263,6 @@ const insightController = {
     );
   },
 
-  getWaterBalance() {
-    return async (req, res) => {
-      try {
-        const farmID = req.params.farm_id;
-        const prevDate = await insightHelpers.formatPreviousDate(new Date(), 'day');
-        const dataPoints = await knex.raw(
-          `SELECT c.crop_common_name, location.name, location.location_id, w.plant_available_water
-          FROM "management_plan" mp, "location", "waterBalance" w, "crop" c, "crop_variety"
-          WHERE mp.location_id = location.location_id and location.farm_id = ? 
-           AND c.crop_id = w.crop_id and w.location_id = location.location_id 
-           AND mp.crop_variety_id = crop_variety.crop_variety_id 
-           AND crop_variety.crop_id = w.crop_id 
-           AND to_char(date(w.created_at), 'YYYY-MM-DD') = ?`,
-          [farmID, prevDate],
-        );
-        if (dataPoints.rows) {
-          const body = await insightHelpers.formatWaterBalanceData(dataPoints.rows);
-          res.status(200).send(body);
-        } else {
-          res.status(200).send({ preview: 0, data: {} });
-        }
-      } catch (error) {
-        console.log(error);
-        res.status(400).json({ error });
-      }
-    };
-  },
-
-  addWaterBalanceSchedule() {
-    return async (req, res) => {
-      try {
-        const body = req.body;
-        await waterBalanceScheduler.registerFarmID(body.farm_id);
-        res.status(200).send({ preview: 0, data: 'Registered Farm ID' });
-      } catch (e) {
-        res.status(400).json({ e });
-      }
-    };
-  },
-
-  getWaterSchedule() {
-    return async (req, res) => {
-      try {
-        const farmID = req.params.farm_id;
-        const dataPoints = await knex.raw(
-          `SELECT *
-          FROM "waterBalanceSchedule" w
-          WHERE w.farm_id = ?`,
-          [farmID],
-        );
-        if (dataPoints.rows.length > 0) {
-          const body = dataPoints.rows[0];
-          res.status(200).send(body);
-        } else {
-          res.status(200).send({});
-        }
-      } catch (e) {
-        res.status(400).json({ e });
-      }
-    };
-  },
-
   getNitrogenBalance() {
     return async (req, res) => {
       try {
@@ -371,27 +307,6 @@ const insightController = {
           res.status(404).json({ error: 'no data' });
         }
       } catch (error) {
-        res.status(400).json({ error });
-      }
-    };
-  },
-
-  addWaterBalance() {
-    let trx;
-    return async (req, res) => {
-      const body = req.body;
-      trx = await transaction.start(Model.knex());
-      try {
-        const waterBalanceResult = await baseController.postWithResponse(
-          WaterBalanceModel,
-          body,
-          req,
-          { trx },
-        );
-        await trx.commit();
-        res.status(201).send(waterBalanceResult);
-      } catch (error) {
-        await trx.rollback();
         res.status(400).json({ error });
       }
     };

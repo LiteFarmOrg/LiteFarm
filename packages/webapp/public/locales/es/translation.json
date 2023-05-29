@@ -884,15 +884,7 @@
       "TITLE": "MO del Suelo"
     },
     "TITLE": "Reportes",
-    "UNAVAILABLE": "No Disponible",
-    "WATER_BALANCE": {
-      "FIRST_TIME": "Parece que es la primera vez que llega aca! Para mas información en que hace esto, por favor cliquea el boton de información.",
-      "INFO_1": "El balance de agua se dice si sus cultivos tienen deficiencia de agua o exceso. Depende de los datos meterologicos, y es actualizado por sus registros de riego .",
-      "INFO_2": "Esta funcionalidad no ha sido probada ampliamente en las granjas con una baja densidad de estaciones metereologicas  alrededor de ellas asi que uselo con precaucion. Por favor, cuentanos como funciona en su granja",
-      "NO_SCHEDULE_RUN": "Su balance de agua agendado aun no ha corrido, por favor, chequea en 2 dias y asegurate que tienes al menos un registro de textura de suelo para un campo para ver datos de balance de agua para cultivos en ese campo . Si el problema persiste, contacta a Litefarm.",
-      "REGISTER_FARM": "Registra su granja",
-      "TITLE": "Balance de agua"
-    }
+    "UNAVAILABLE": "No Disponible"
   },
   "INTRODUCE_MAP": {
     "BODY": "El mapa tiene funcionalidades nuevas. Ahora puede conseguirlo debajo del menu de Mi granja.",

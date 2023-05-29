@@ -22,8 +22,6 @@ import {
   SET_BIODIVERSITY_DATA,
   GET_PRICES_DATA,
   SET_PRICES_DATA,
-  GET_WATER_BALANCE_DATA,
-  SET_WATER_BALANCE_DATA,
   SET_NITROGEN_BALANCE_DATA,
   GET_NITROGEN_BALANCE_DATA,
   CREATE_FREQUENCY_NITROGEN_BALANCE,
@@ -32,9 +30,6 @@ import {
   DEL_FREQUENCY_NITROGEN_BALANCE,
   SET_PRICES_DISTANCE,
   GET_PRICES_WITH_DISTANCE_DATA,
-  GET_FREQUENCY_WATER_BALANCE,
-  SET_FREQUENCY_WATER_BALANCE,
-  CREATE_FREQUENCY_WATER_BALANCE,
   GET_BIODIVERSITY_LOADING,
   SET_BIODIVERSITY_LOADING,
   GET_BIODIVERSITY_ERROR,
@@ -135,38 +130,6 @@ export const setPricesDistance = (distance) => {
   return {
     type: SET_PRICES_DISTANCE,
     distance,
-  };
-};
-
-export const getWaterBalanceData = () => {
-  return {
-    type: GET_WATER_BALANCE_DATA,
-  };
-};
-
-export const setWaterBalanceData = (waterBalanceData) => {
-  return {
-    type: SET_WATER_BALANCE_DATA,
-    waterBalanceData,
-  };
-};
-
-export const getWaterBalanceSchedule = () => {
-  return {
-    type: GET_FREQUENCY_WATER_BALANCE,
-  };
-};
-
-export const setWaterBalanceSchedule = (waterBalanceSchedule) => {
-  return {
-    type: SET_FREQUENCY_WATER_BALANCE,
-    waterBalanceSchedule,
-  };
-};
-
-export const createWaterBalanceSchedule = () => {
-  return {
-    type: CREATE_FREQUENCY_WATER_BALANCE,
   };
 };
 

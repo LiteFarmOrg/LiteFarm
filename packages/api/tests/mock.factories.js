@@ -1709,26 +1709,6 @@ function fakeExpenseType(defaultData = {}) {
   };
 }
 
-function fakeWaterBalance(defaultData = {}) {
-  return {
-    created_at: faker.date.future(),
-    soil_water: faker.datatype.number(2000),
-    plant_available_water: faker.datatype.number(2000),
-    ...defaultData,
-  };
-}
-
-// async function waterBalanceFactory(
-//   { promisedManagementPlan = management_planFactory() } = {},
-//   waterBalance = fakeWaterBalance(),
-// ) {
-//   const [managementPlan] = await Promise.all([promisedManagementPlan]);
-//   const [{ field_id, crop_id }] = managementPlan;
-//   return knex('waterBalance')
-//     .insert({ field_id, crop_id, ...waterBalance })
-//     .returning('*');
-// }
-
 function fakeNitrogenSchedule(defaultData = {}) {
   return {
     created_at: faker.date.past(),
@@ -2238,7 +2218,6 @@ export default {
   fakeYield,
   priceFactory,
   fakePrice,
-  fakeWaterBalance,
   fakeCropVarietySale,
   crop_variety_saleFactory,
   farmExpenseTypeFactory,

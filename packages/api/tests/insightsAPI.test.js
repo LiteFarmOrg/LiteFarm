@@ -522,128 +522,6 @@ xdescribe('insights test', () => {
     });
   });
 
-  describe('waterbalance', () => {
-    describe('GET', () => {
-      test('Should get waterbalance if Im on my farm as an owner', async (done) => {
-        const [{ user_id, farm_id }] = await createUserFarm(1);
-        getInsight(farm_id, user_id, 'waterbalance', (err, res) => {
-          expect(res.status).toBe(200);
-          done();
-        });
-      });
-      test('Should get waterbalance if Im on my farm as a manager', async (done) => {
-        const [{ user_id, farm_id }] = await createUserFarm(2);
-        getInsight(farm_id, user_id, 'waterbalance', (err, res) => {
-          expect(res.status).toBe(200);
-          done();
-        });
-      });
-
-      test('Should get waterbalance if Im on my farm as a worker', async (done) => {
-        const [{ user_id, farm_id }] = await createUserFarm(3);
-        getInsight(farm_id, user_id, 'waterbalance', (err, res) => {
-          expect(res.status).toBe(200);
-          done();
-        });
-      });
-    });
-
-    describe('POST', () => {
-      test('should create a water balance if Im on my farm as an owner', async (done) => {
-        const [{ user_id, farm_id }] = await createUserFarm(1);
-        const [field] = await mocks.fieldFactory({ promisedFarm: [{ farm_id }] });
-        const [{ crop_id, location_id }] = await mocks.management_planFactory({
-          promisedField: [field],
-        });
-        const waterBalance = { ...mocks.fakeWaterBalance(), crop_id, location_id };
-        postWaterBalance(waterBalance, { farm_id, user_id }, (err, res) => {
-          expect(res.status).toBe(201);
-          done();
-        });
-      });
-
-      test('should create a water balance if Im on my farm as a manager', async (done) => {
-        const [{ user_id, farm_id }] = await createUserFarm(2);
-        const [field] = await mocks.fieldFactory({ promisedFarm: [{ farm_id }] });
-        const [{ crop_id, location_id }] = await mocks.management_planFactory({
-          promisedField: [field],
-        });
-        const waterBalance = { ...mocks.fakeWaterBalance(), crop_id, location_id };
-        postWaterBalance(waterBalance, { farm_id, user_id }, (err, res) => {
-          expect(res.status).toBe(201);
-          done();
-        });
-      });
-
-      test('should fail to create  a water balance if Im on my farm as a Worker', async (done) => {
-        const [{ user_id, farm_id }] = await createUserFarm(3);
-        const [field] = await mocks.fieldFactory({ promisedFarm: [{ farm_id }] });
-        const [{ crop_id, location_id }] = await mocks.management_planFactory({
-          promisedField: [field],
-        });
-        const waterBalance = { ...mocks.fakeWaterBalance(), crop_id, location_id };
-        postWaterBalance(waterBalance, { farm_id, user_id }, (err, res) => {
-          expect(res.status).toBe(403);
-          done();
-        });
-      });
-    });
-  });
-
-  describe('waterbalance schedule', () => {
-    describe('GET', () => {
-      test('Should get waterbalance schedule if Im on my farm as an owner', async (done) => {
-        const [{ user_id, farm_id }] = await createUserFarm(1);
-        getInsight(farm_id, user_id, 'waterbalance/schedule', (err, res) => {
-          expect(res.status).toBe(200);
-          done();
-        });
-      });
-      test('Should get waterbalance schedule if Im on my farm as a manager', async (done) => {
-        const [{ user_id, farm_id }] = await createUserFarm(2);
-        getInsight(farm_id, user_id, 'waterbalance/schedule', (err, res) => {
-          expect(res.status).toBe(200);
-          done();
-        });
-      });
-      test('Should get waterbalance schedule if Im on my farm as a worker', async (done) => {
-        const [{ user_id, farm_id }] = await createUserFarm(3);
-        getInsight(farm_id, user_id, 'waterbalance/schedule', (err, res) => {
-          expect(res.status).toBe(200);
-          done();
-        });
-      });
-    });
-    describe('POST', () => {
-      test('Should register my farm to the water balance schedule as an owner', async (done) => {
-        const [{ user_id, farm_id }] = await createUserFarm(1);
-        postWaterBalanceSchedule({ farm_id, user_id }, async (err, res) => {
-          expect(res.status).toBe(200);
-          const schedule = await knex('waterBalanceSchedule').where({ farm_id }).first();
-          expect(schedule.farm_id).toBe(farm_id);
-          done();
-        });
-      });
-      test('Should register my farm to the water balance schedule as a manager', async (done) => {
-        const [{ user_id, farm_id }] = await createUserFarm(2);
-        postWaterBalanceSchedule({ farm_id, user_id }, async (err, res) => {
-          expect(res.status).toBe(200);
-          const schedule = await knex('waterBalanceSchedule').where({ farm_id }).first();
-          expect(schedule.farm_id).toBe(farm_id);
-          done();
-        });
-      });
-
-      test('Should fail to register my farm to the water balance schedule as a worker', async (done) => {
-        const [{ user_id, farm_id }] = await createUserFarm(3);
-        postWaterBalanceSchedule({ farm_id, user_id }, async (err, res) => {
-          expect(res.status).toBe(403);
-          done();
-        });
-      });
-    });
-  });
-
   describe('nitrogenbalance', () => {
     test('Should get nitrogenbalance if Im on my farm as an owner', async (done) => {
       const [{ user_id, farm_id }] = await createUserFarm(1);
@@ -788,16 +666,6 @@ function getInsightWithQuery(farmId, userId, route, query, callback) {
     .end(callback);
 }
 
-function postWaterBalance(data, { farm_id, user_id }, callback) {
-  chai
-    .request(server)
-    .post(`/insight/waterbalance`)
-    .set('farm_id', farm_id)
-    .set('user_id', user_id)
-    .send(data)
-    .end(callback);
-}
-
 function postNitrogenSchedule(data, { farm_id, user_id }, callback) {
   chai
     .request(server)
@@ -805,16 +673,6 @@ function postNitrogenSchedule(data, { farm_id, user_id }, callback) {
     .set('farm_id', farm_id)
     .set('user_id', user_id)
     .send(data)
-    .end(callback);
-}
-
-function postWaterBalanceSchedule({ farm_id, user_id }, callback) {
-  chai
-    .request(server)
-    .post(`/insight/waterbalance/schedule`)
-    .set('farm_id', farm_id)
-    .set('user_id', user_id)
-    .send({ farm_id })
     .end(callback);
 }
 

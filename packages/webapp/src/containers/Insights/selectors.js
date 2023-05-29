@@ -40,13 +40,6 @@ const pricesSelector = createSelector(insightSelector, (state) => state.pricesDa
 
 const pricesDistanceSelector = createSelector(insightSelector, (state) => state.pricesDistance);
 
-const waterBalanceSelector = createSelector(insightSelector, (state) => state.waterBalanceData);
-
-const waterBalanceScheduleSelector = createSelector(
-  insightSelector,
-  (state) => state.waterBalanceSchedule,
-);
-
 const nitrogenBalanceSelector = createSelector(
   insightSelector,
   (state) => state.nitrogenBalanceData,
@@ -65,8 +58,6 @@ export {
   biodiversityErrorSelector,
   pricesSelector,
   pricesDistanceSelector,
-  waterBalanceSelector,
-  waterBalanceScheduleSelector,
   nitrogenBalanceSelector,
   nitrogenFrequencySelector,
 };

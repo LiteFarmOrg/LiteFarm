@@ -45,13 +45,15 @@ export const getDates = () => {
   let startMidnightUnixTimeMs = new Date(startUnixTimeMs).setHours(0, 0, 0, 0);
   let startUnixTime = parseInt(+startMidnightUnixTimeMs / 1000);
 
-  const formattedEndDate = moment(endMidnightUnixTimeMs).format('MM-DD-YYYY');
+  let hourlyTimezoneOffsetMin = currentDateTime.getTimezoneOffset() % 60;
+  let hourlyTimezoneOffsetUnix = hourlyTimezoneOffsetMin * 60;
 
   return {
     endUnixTime,
     startUnixTime,
     currentDateTime,
-    formattedEndDate,
+    hourlyTimezoneOffsetMin,
+    hourlyTimezoneOffsetUnix,
   };
 };
 

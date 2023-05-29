@@ -77,7 +77,13 @@ export function* getSensorsReadingsSaga({ payload }) {
 
   try {
     yield put(bulkSensorReadingsLoading());
-    const { startUnixTime, endUnixTime, currentDateTime, formattedEndDate } = getDates();
+    const {
+      startUnixTime,
+      endUnixTime,
+      currentDateTime,
+      hourlyTimezoneOffsetMin,
+      hourlyTimezoneOffsetUnix,
+    } = getDates();
 
     const header = getHeader(user_id, farm_id);
     const postData = {
@@ -85,7 +91,8 @@ export function* getSensorsReadingsSaga({ payload }) {
       user_id,
       locationIds,
       readingTypes,
-      endDate: formattedEndDate,
+      startUnixTime: startUnixTime + hourlyTimezoneOffsetUnix,
+      endUnixTime: endUnixTime + hourlyTimezoneOffsetUnix,
     };
 
     const result = yield call(axios.post, sensorReadingsUrl(), postData, header);
@@ -113,7 +120,11 @@ export function* getSensorsReadingsSaga({ payload }) {
           const currentValueDateTimeString = new Date(currentValueUnixTime * 1000).toString();
 
           if (startUnixTime <= currentValueUnixTime && currentValueUnixTime < endUnixTime) {
-            const currentDateTime = `${currentValueDateTimeString?.split(':00:00')[0]}:00`;
+            const hourlyTimezoneOffsetString =
+              hourlyTimezoneOffsetMin === 0 ? '00' : Math.abs(hourlyTimezoneOffsetMin).toString();
+            const currentDateTime = `${
+              currentValueDateTimeString?.split(`:${hourlyTimezoneOffsetString}:00`)[0]
+            }:${hourlyTimezoneOffsetString}`;
             if (!acc[currentValueUnixTime]) acc[currentValueUnixTime] = {};
             acc[currentValueUnixTime] = {
               [cv?.name]: isNaN(convertValues(type, cv?.value, measurement))

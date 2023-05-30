@@ -51,7 +51,6 @@ const SoilOM = React.lazy(() => import('./containers/Insights/SoilOM'));
 const LabourHappiness = React.lazy(() => import('./containers/Insights/LabourHappiness'));
 const Biodiversity = React.lazy(() => import('./containers/Insights/Biodiversity'));
 const Prices = React.lazy(() => import('./containers/Insights/Prices'));
-const SalesSummary = React.lazy(() => import('./containers/Finances/SalesSummary'));
 const AddSale = React.lazy(() => import('./containers/Finances/AddSale'));
 const EditSale = React.lazy(() => import('./containers/Finances/EditSale'));
 const LegacyEstimatedRevenue = React.lazy(() =>
@@ -559,7 +558,6 @@ const Routes = () => {
             <Route path="/insights/biodiversity" exact component={Biodiversity} />
             <Route path="/insights/prices" exact component={Prices} />
             <Route path="/help" exact component={HelpRequest} />
-            {/* <Route path="/sales_summary" exact component={SalesSummary} /> */}
             <Route path="/finances/actual_revenue" exact component={ActualRevenue} />
             <Route
               path="/finances/estimated_revenue/plan/:management_plan_id"
@@ -832,7 +830,6 @@ const Routes = () => {
             <Route path="/sensor/:location_id" component={SensorDetails} />
 
             <Route path="/finances" exact component={Finances} />
-            {/* <Route path="/sales_summary" exact component={SalesSummary} /> */}
             <Route path="/finances/actual_revenue" exact component={ActualRevenue} />
             <Route
               path="/finances/estimated_revenue/plan/:management_plan_id"

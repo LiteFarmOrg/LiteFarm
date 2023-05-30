@@ -126,7 +126,6 @@ import organicCertifierSurveyRoutes from './routes/organicCertifierSurveyRoute.j
 import passwordResetRoutes from './routes/passwordResetRoute.js';
 import showedSpotlightRoutes from './routes/showedSpotlightRoute.js';
 import nominationRoutes from './routes/nominationRoute.js';
-// const nitrogenBalanceScheduler = require('./jobs/nitrogenBalance/nitrogenBalance');
 import userLogRoute from './routes/userLogRoute.js';
 
 import supportTicketRoute from './routes/supportTicketRoute.js';
@@ -310,10 +309,6 @@ if (
     // eslint-disable-next-line no-console
     logger.info('LiteFarm Backend listening on port ' + port);
   });
-  //
-  // nitrogenBalanceScheduler.registerDailyJob();
-
-  // eslint-disable-next-line no-console
 }
 
 app.on('close', () => {

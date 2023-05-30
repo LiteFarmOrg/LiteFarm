@@ -13,13 +13,8 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { transaction, Model } from 'objection';
-
-import NitrogenScheduleModel from '../models/nitrogenScheduleModel.js';
-import baseController from '../controllers/baseController.js';
 import knex from '../util/knex.js';
 import * as insightHelpers from '../controllers/insightHelpers.js';
-// TODO: put nitrogen scheduler here for when we want to put it back
 
 const insightController = {
   // this is for the soil om submodule
@@ -261,102 +256,6 @@ const insightController = {
           ORDER BY year_month, c.crop_common_name`,
       [startDate, farmID],
     );
-  },
-
-  getNitrogenBalance() {
-    return async (req, res) => {
-      try {
-        const farmID = req.params.farm_id;
-        const prevDate = insightHelpers.formatPreviousDate(new Date(), 'year');
-        const dataPoints = await knex.raw(
-          `SELECT location.location_id, location.name, AVG(n.nitrogen_value) as nitrogen_value
-            FROM "location", "nitrogenBalance" n
-            WHERE location.farm_id = ? and n.location_id = location.location_id 
-             AND to_char(date(n.created_at), 'YYYY-MM-DD') >= ?
-            GROUP BY location.location_id`,
-          [farmID, prevDate],
-        );
-        if (dataPoints.rows.length > 0) {
-          const body = await insightHelpers.formatNitrogenBalanceData(dataPoints.rows);
-          res.status(200).send(body);
-        } else {
-          res.status(200).send({ preview: 0, data: 'No data yet' });
-        }
-      } catch (error) {
-        console.log(error);
-        res.status(400).json({ error });
-      }
-    };
-  },
-
-  getNitrogenSchedule() {
-    return async (req, res) => {
-      try {
-        const farmID = req.params.farm_id;
-        const dataPoints = await knex.raw(
-          `SELECT *
-          FROM "nitrogenSchedule" n
-          WHERE n.farm_id = ?
-          ORDER BY n.scheduled_at DESC`,
-          [farmID],
-        );
-        if (dataPoints.rows) {
-          const body = dataPoints.rows[0];
-          res.status(200).send(body);
-        } else {
-          res.status(404).json({ error: 'no data' });
-        }
-      } catch (error) {
-        res.status(400).json({ error });
-      }
-    };
-  },
-
-  addNitrogenSchedule() {
-    let trx;
-    return async (req, res) => {
-      const body = req.body;
-      trx = await transaction.start(Model.knex());
-      try {
-        const nitrogenScheduleResult = await baseController.postWithResponse(
-          NitrogenScheduleModel,
-          body,
-          req,
-          { trx },
-        );
-        await trx.commit();
-        res.status(201).send(nitrogenScheduleResult);
-      } catch (error) {
-        await trx.rollback();
-        res.status(400).json({ error });
-      }
-    };
-  },
-
-  delNitrogenSchedule() {
-    return async (req, res) => {
-      const trx = await transaction.start(Model.knex());
-      const { nitrogen_schedule_id } = req.params;
-      try {
-        const isDeleted = await baseController.delete(
-          NitrogenScheduleModel,
-          nitrogen_schedule_id,
-          req,
-          { trx },
-        );
-        await trx.commit();
-        if (isDeleted) {
-          res.sendStatus(200);
-        } else {
-          res.sendStatus(404);
-        }
-      } catch (error) {
-        await trx.rollback();
-        res.status(400).json({
-          error,
-        });
-      }
-    };
   },
 };
 

@@ -19,19 +19,13 @@ import {
   setBiodiversityData,
   setBiodiversityError,
   setBiodiversityLoading,
-  setFrequencyNitrogenBalance,
   setLabourHappinessData,
-  setNitrogenBalanceData,
   setPricesData,
   setSoilOMData,
 } from './actions';
 import {
-  CREATE_FREQUENCY_NITROGEN_BALANCE,
-  DEL_FREQUENCY_NITROGEN_BALANCE,
   GET_BIODIVERSITY_DATA,
-  GET_FREQUENCY_NITROGEN_BALANCE,
   GET_LABOUR_HAPPINESS_DATA,
-  GET_NITROGEN_BALANCE_DATA,
   GET_PRICES_DATA,
   GET_PRICES_WITH_DISTANCE_DATA,
   GET_SOLD_OM_DATA,
@@ -138,88 +132,6 @@ export function* getPricesWithDistanceData(data) {
   }
 }
 
-export function* getNitrogenBalanceData() {
-  const { insightUrl } = apiConfig;
-  let { user_id, farm_id } = yield select(loginSelector);
-  const header = getHeader(user_id, farm_id);
-
-  try {
-    const result = yield call(axios.get, insightUrl + '/nitrogenbalance/' + farm_id, header);
-    if (result) {
-      yield put(setNitrogenBalanceData(result.data));
-    }
-  } catch (e) {
-    console.log('failed to fetch nitrogen data from db');
-  }
-}
-
-export function* getNitrogenBalanceFrequency() {
-  const { insightUrl } = apiConfig;
-  let { user_id, farm_id } = yield select(loginSelector);
-  const header = getHeader(user_id, farm_id);
-
-  try {
-    const result = yield call(
-      axios.get,
-      insightUrl + '/nitrogenbalance/schedule/' + farm_id,
-      header,
-    );
-    if (result) {
-      yield put(setFrequencyNitrogenBalance(result.data));
-    }
-  } catch (e) {
-    console.log('failed to fetch schedule nitrogen balance from db');
-  }
-}
-
-export function* postNitrogenBalanceFrequency(action) {
-  const { insightUrl } = apiConfig;
-  let { user_id, farm_id } = yield select(loginSelector);
-  const header = getHeader(user_id, farm_id);
-
-  const data = {
-    farm_id: farm_id,
-    created_at: action.nitrogenFrequency.created_at,
-    scheduled_at: action.nitrogenFrequency.scheduled_at,
-    frequency: action.nitrogenFrequency.frequency,
-  };
-  try {
-    const result = yield call(axios.post, insightUrl + '/nitrogenbalance/schedule', data, header);
-    if (result) {
-      const result = yield call(
-        axios.get,
-        insightUrl + '/nitrogenbalance/schedule/' + farm_id,
-        header,
-      );
-      if (result) {
-        yield put(setFrequencyNitrogenBalance(result.data));
-      }
-    }
-  } catch (error) {
-    console.log(error + ' Could not emit postNitrogenFrequency action');
-  }
-}
-
-export function* deleteNitrogenBalanceFrequency(action) {
-  let frequencyID = action.nitrogenBalanceID;
-  const { insightUrl } = apiConfig;
-  let { user_id, farm_id } = yield select(loginSelector);
-  const header = getHeader(user_id, farm_id);
-
-  try {
-    const result = yield call(
-      axios.delete,
-      insightUrl + '/nitrogenbalance/schedule/' + frequencyID,
-      header,
-    );
-    if (result) {
-      console.log('Eyy, its deleted ' + result);
-    }
-  } catch (error) {
-    console.log(error + ' could not emit deleteNitrogenFrequencyAction');
-  }
-}
-
 const formatDate = (date) => {
   let dd = date.getDate();
   let mm = date.getMonth() + 1;
@@ -241,8 +153,4 @@ export default function* insightSaga() {
   yield takeLatest(GET_BIODIVERSITY_DATA, getBiodiversityData);
   yield takeLatest(GET_PRICES_DATA, getPricesData);
   yield takeLatest(GET_PRICES_WITH_DISTANCE_DATA, getPricesWithDistanceData);
-  yield takeLatest(GET_NITROGEN_BALANCE_DATA, getNitrogenBalanceData);
-  yield takeLatest(GET_FREQUENCY_NITROGEN_BALANCE, getNitrogenBalanceFrequency);
-  yield takeLeading(CREATE_FREQUENCY_NITROGEN_BALANCE, postNitrogenBalanceFrequency);
-  yield takeLeading(DEL_FREQUENCY_NITROGEN_BALANCE, deleteNitrogenBalanceFrequency);
 }

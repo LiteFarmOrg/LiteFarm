@@ -20,8 +20,6 @@ import {
   SET_BIODIVERSITY_LOADING,
   SET_PRICES_DATA,
   SET_PRICES_DISTANCE,
-  SET_NITROGEN_BALANCE_DATA,
-  SET_FREQUENCY_NITROGEN_BALANCE,
   SET_BIODIVERSITY_ERROR,
 } from './constants';
 
@@ -32,8 +30,6 @@ const initialState = {
   biodiversityLoading: false,
   biodiversityError: false,
   pricesData: { preview: 0, amountOfFarms: 0, data: [] },
-  nitrogenBalanceData: { preview: 0, data: [] },
-  nitrogenFrequencyData: {},
   pricesDistance: 5,
 };
 
@@ -71,16 +67,6 @@ function insightReducer(state = initialState, action) {
     case SET_PRICES_DATA:
       return Object.assign({}, state, {
         pricesData: action.pricesData,
-      });
-
-    case SET_NITROGEN_BALANCE_DATA:
-      return Object.assign({}, state, {
-        nitrogenBalanceData: action.nitrogenBalanceData,
-      });
-
-    case SET_FREQUENCY_NITROGEN_BALANCE:
-      return Object.assign({}, state, {
-        nitrogenFrequencyData: action.data,
       });
 
     case SET_PRICES_DISTANCE:

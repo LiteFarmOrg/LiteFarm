@@ -11,7 +11,6 @@ const entitiesGetters = {
   price_id: fromPrice,
   farm_expense_id: fromFarmExpense,
   expense_type_id: fromFarmExpenseType,
-  nitrogen_schedule_id: fromNitrogenSchedule,
   farm_id: (farm_id) => ({ farm_id }),
   locationIds: fromLocationIds,
   locations: fromLocations,
@@ -145,10 +144,6 @@ function fromShift(shiftId) {
 
 function fromPesticide(pesticideId) {
   return knex('pesticide').where({ pesticide_id: pesticideId }).first();
-}
-
-function fromNitrogenSchedule(nitrogenScheduleId) {
-  return knex('nitrogenSchedule').where({ nitrogen_schedule_id: nitrogenScheduleId }).first();
 }
 
 async function fromCropManagement(crop_management_plan, next) {

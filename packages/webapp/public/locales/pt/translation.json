@@ -844,24 +844,6 @@
       "INFO": "Estimamos o impacto de diferentes tarefas na satisfação laboral usando as pontuações de satisfação e as horas de trabalho gastas em cada tarefa nos registros de turnos.",
       "TITLE": "Satisfação laboral"
     },
-    "NITROGEN_BALANCE": {
-      "ABANDON": "Abandonar programação",
-      "CHOOSE_A_FREQUENCY": "Escolha uma frequência",
-      "CHOOSE_FREQUENCY": "Escolha uma frequência...",
-      "COUNT_MONTHS": "{{count}} mês",
-      "COUNT_MONTHS_one": "{{count}} mês",
-      "COUNT_MONTHS_many": "{{count}} meses",
-      "COUNT_MONTHS_other": "{{count}} meses",
-      "COUNT_MONTHS_plural": "{{count}} meses",
-      "CYCLE_INDICATOR": "Your Nitrogen Balance is on a {{frequency}} months cycle and data will show on: {{refreshDate}}",
-      "FIRST_TIME": "Parece que esta é sua primeira vez executando isso! Por favor, selecione uma frequência para calcular o seu balanço de nitrogênio.",
-      "GO_BACK": "Volte",
-      "HEADER": "cada {{frequency}} mês: {{refreshDate}}",
-      "INFO_1": "O balanço de nitrogênio informa se você aplicou muito ou pouco fertilizante. Esta informação depende dos seus registros de colheita, registros de fertilização e dos créditos de nitrogênio das leguminosas. Você pode receber o balanço no intervalo de tempo desejado.",
-      "INFO_2": "Clique no botão excluir para redefinir sua programação.",
-      "SELECT_FREQUENCY": "selecione uma  frequência",
-      "TITLE": "Balanço de Nitrogênio"
-    },
     "PRICES": {
       "INFO": "Mostramos a trajetória comparativa entre seus preços de venda em relação aos preços de venda dos mesmos produtos encontrados a uma determinada distância de você, utilizando dados coletados na rede LiteFarm.",
       "NEARBY_FARMS": "O preço de mercado é baseado em {{count}} fazendas na sua região",

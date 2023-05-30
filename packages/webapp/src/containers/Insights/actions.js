@@ -22,12 +22,6 @@ import {
   SET_BIODIVERSITY_DATA,
   GET_PRICES_DATA,
   SET_PRICES_DATA,
-  SET_NITROGEN_BALANCE_DATA,
-  GET_NITROGEN_BALANCE_DATA,
-  CREATE_FREQUENCY_NITROGEN_BALANCE,
-  GET_FREQUENCY_NITROGEN_BALANCE,
-  SET_FREQUENCY_NITROGEN_BALANCE,
-  DEL_FREQUENCY_NITROGEN_BALANCE,
   SET_PRICES_DISTANCE,
   GET_PRICES_WITH_DISTANCE_DATA,
   GET_BIODIVERSITY_LOADING,
@@ -130,45 +124,5 @@ export const setPricesDistance = (distance) => {
   return {
     type: SET_PRICES_DISTANCE,
     distance,
-  };
-};
-
-export const getNitrogenBalanceData = () => {
-  return {
-    type: GET_NITROGEN_BALANCE_DATA,
-  };
-};
-
-export const setNitrogenBalanceData = (nitrogenBalanceData) => {
-  return {
-    type: SET_NITROGEN_BALANCE_DATA,
-    nitrogenBalanceData,
-  };
-};
-
-export const getFrequencyNitrogenBalance = () => {
-  return {
-    type: GET_FREQUENCY_NITROGEN_BALANCE,
-  };
-};
-
-export const setFrequencyNitrogenBalance = (data) => {
-  return {
-    type: SET_FREQUENCY_NITROGEN_BALANCE,
-    data,
-  };
-};
-
-export const createFrequencyNitrogenBalance = (nitrogenFrequency) => {
-  return {
-    type: CREATE_FREQUENCY_NITROGEN_BALANCE,
-    nitrogenFrequency,
-  };
-};
-
-export const delFrequencyNitrogenBalance = (nitrogenBalanceID) => {
-  return {
-    type: DEL_FREQUENCY_NITROGEN_BALANCE,
-    nitrogenBalanceID,
   };
 };

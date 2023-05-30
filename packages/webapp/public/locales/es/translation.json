@@ -844,24 +844,6 @@
       "INFO": "Estimamos la satisfacción laboral tomando como referencia los puntajes de satisfacción de cada tarea y las horas trabajadas.",
       "TITLE": "Satisfaccion Laboral"
     },
-    "NITROGEN_BALANCE": {
-      "ABANDON": "Retirar programacion",
-      "CHOOSE_A_FREQUENCY": "Escoja una frecuencia",
-      "CHOOSE_FREQUENCY": "Escoja Frecuencia...",
-      "COUNT_MONTHS": "{{count}} mese",
-      "COUNT_MONTHS_one": "{{count}} mese",
-      "COUNT_MONTHS_many": "{{count}} meses",
-      "COUNT_MONTHS_other": "{{count}} meses",
-      "COUNT_MONTHS_plural": "{{count}} meses",
-      "CYCLE_INDICATOR": "Su balance de nitrogeno esta en {{frequency}} meses por ciclo y la data se vera en: {{refreshDate}}",
-      "FIRST_TIME": "Parece que es la primera vez que corres esto! Por favor, selecciona una frecuencia para calcular su balance de nitrogeno",
-      "GO_BACK": "Atras",
-      "HEADER": "Cada {{frequency}} meses: {{refreshDate}}",
-      "INFO_1": "El balance de nitrogeno se dice si aplicaste mucho o muy poco fertilizante. Depende en sus registros de cosecha, creditos de nitrogeno de legumbres, y registro de fertilizacion. Puedes correr el balance en su intervalo de tiempo deseado.",
-      "INFO_2": "Cliquea el boton de borrar para resetear la frecuencia de calculo.",
-      "SELECT_FREQUENCY": "Seleccione una frecuencia",
-      "TITLE": "Balance de Nitrogeno"
-    },
     "PRICES": {
       "INFO": "Le mostramos la trayectoria de sus precios de venta en comparacion a los precios de venta de los mismos bienes cerca de su granja. Esta información es recolectada a través de la red de LiteFarm.",
       "NEARBY_FARMS": "El precio del mercado se basa en {{count}} granjas en su área local",

@@ -1709,26 +1709,6 @@ function fakeExpenseType(defaultData = {}) {
   };
 }
 
-function fakeNitrogenSchedule(defaultData = {}) {
-  return {
-    created_at: faker.date.past(),
-    scheduled_at: faker.date.future(),
-    frequency: faker.datatype.number(10),
-    ...defaultData,
-  };
-}
-
-async function nitrogenScheduleFactory(
-  { promisedFarm = farmFactory() } = {},
-  nitrogenSchedule = fakeNitrogenSchedule(),
-) {
-  const [farm] = await Promise.all([promisedFarm]);
-  const [{ farm_id }] = farm;
-  return knex('nitrogenSchedule')
-    .insert({ farm_id, ...nitrogenSchedule })
-    .returning('*');
-}
-
 function fakeCropVarietySale(defaultData = {}) {
   return {
     sale_value: faker.datatype.number(1000),
@@ -2233,8 +2213,6 @@ export default {
   lineFactory,
   management_tasksFactory,
   location_tasksFactory,
-  fakeNitrogenSchedule,
-  nitrogenScheduleFactory,
   fakeFarmDataSchedule,
   farmDataScheduleFactory,
   fakePriceInsightForTests,

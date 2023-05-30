@@ -44,11 +44,6 @@ const checkOwnership = (relation) => {
         FROM "${relation}" r, "users" u, "field" f
         WHERE u.user_id = '${user_id}' AND r.management_plan_id = '${id}' AND f.field_id = r.field_id AND f.farm_id = u.farm_id`;
           break;
-        case 'nitrogenSchedule':
-          sqlQuery = `SELECT DISTINCT u.user_id
-        FROM "${relation}" r, "users" u
-        WHERE u.user_id = '${user_id}' AND r.nitrogen_schedule_id = '${id}' AND u.farm_id = r.farm_id`;
-          break;
         //TODO potential bug
         default:
           sqlQuery = `SELECT DISTINCT u.user_id

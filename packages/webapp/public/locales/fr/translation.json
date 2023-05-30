@@ -845,24 +845,6 @@
       "INFO": "Nous estimons l'impact de différentes tâches sur la satisfaction au travail en utilisant les scores de satisfaction et les heures de travail consacrées à chaque tâche à partir des tâches.",
       "TITLE": "Satisfaction au travail"
     },
-    "NITROGEN_BALANCE": {
-      "ABANDON": "Abandonner l'horaire",
-      "CHOOSE_A_FREQUENCY": "Choisissez une fréquence",
-      "CHOOSE_FREQUENCY": "Choisir la fréquence...",
-      "COUNT_MONTHS": "{{count}} mois",
-      "COUNT_MONTHS_one": "{{count}} mois",
-      "COUNT_MONTHS_many": "{{count}} mois",
-      "COUNT_MONTHS_other": "{{count}} mois",
-      "COUNT_MONTHS_plural": "{{count}} mois",
-      "CYCLE_INDICATOR": "Votre balance d'azote est sur un cycle de {{fréquence}} mois et les données s'afficheront le\u00a0: {{refreshDate}}",
-      "FIRST_TIME": "On dirait que c'est la première fois que vous utilisez cela\u00a0! Veuillez sélectionner une fréquence pour calculer votre bilan d'azote.",
-      "GO_BACK": "Retour",
-      "HEADER": "Tous les {{fréquence}} mois\u00a0: {{refreshDate}}",
-      "INFO_1": "Le bilan d'azote vous indique si vous avez appliqué trop ou trop peu d'engrais. Il repose sur vos journaux de récolte, les crédits d'azote des légumineuses et les journaux de fertilisation. Vous pouvez exécuter le bilan sur l'intervalle de temps souhaité.",
-      "INFO_2": "Cliquez sur le bouton Supprimer pour réinitialiser votre emploi du temps.",
-      "SELECT_FREQUENCY": "Sélectionner la fréquence",
-      "TITLE": "Bilan de l'azote"
-    },
     "PRICES": {
       "INFO": "Nous vous montrons la tendance de vos prix de vente pour chacun de vos produits, et la comparons aux prix de ventes des mêmes produits rapportés par d’autres fermes proches de vous qui font partie du réseau LiteFarm.",
       "NEARBY_FARMS": "Le prix moyen du réseau est basé sur les prix de {{count}} autres fermes dans votre région",

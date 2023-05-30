@@ -1819,12 +1819,6 @@ export default {
       amountOfFarms: 0,
       data: [],
     },
-    nitrogenBalanceData: {
-      preview: 0,
-      data: [],
-    },
-    nitrogenFrequencyData: {},
-    pricesDistance: 5,
   },
   financeReducer: {
     forms: {

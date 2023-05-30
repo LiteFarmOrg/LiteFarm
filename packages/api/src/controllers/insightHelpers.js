@@ -489,23 +489,6 @@ export const formatPricesNearbyData = (myFarmID, data) => {
   return returnData;
 };
 
-export const formatNitrogenBalanceData = async (dataPoints) => {
-  const returnData = {
-    preview: 0,
-    data: [],
-  };
-  let runningTotal = 0;
-  if (dataPoints.length === 0) return returnData;
-  dataPoints.forEach((row) => {
-    runningTotal += row['nitrogen_value'];
-    returnData['data'].push({
-      [row['field_id'] + ' ' + row['field_name']]: Math.round(row['nitrogen_value'] * 100) / 100,
-    });
-  });
-  returnData['preview'] = Math.round((runningTotal / dataPoints.length) * 100) / 100;
-  return returnData;
-};
-
 export const formatPreviousDate = (date, mode) => {
   const d = new Date(date);
   let year = d.getFullYear(),

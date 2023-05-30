@@ -844,23 +844,6 @@
       "INFO": "LiteFarm estimates labour happiness by averaging the satisfaction scores individuals enter when marking a task as completed.",
       "TITLE": "Labour Happiness"
     },
-    "NITROGEN_BALANCE": {
-      "ABANDON": "Abandon schedule",
-      "CHOOSE_A_FREQUENCY": "Choose a frequency",
-      "CHOOSE_FREQUENCY": "Choose Frequency...",
-      "COUNT_MONTHS": "{{count}} month",
-      "COUNT_MONTHS_one": "{{count}} month",
-      "COUNT_MONTHS_other": "{{count}} months",
-      "COUNT_MONTHS_plural": "{{count}} months",
-      "CYCLE_INDICATOR": "Your Nitrogen Balance is on a {{frequency}} months cycle and data will show on: {{refreshDate}}",
-      "FIRST_TIME": "It looks like it's your first time running this! Please select a frequency to calculate your nitrogen balance.",
-      "GO_BACK": "Go back",
-      "HEADER": "Every {{frequency}} months: {{refreshDate}}",
-      "INFO_1": "The nitrogen balance tells you if you have applied too little or too much fertilizer. It relies on your harvest logs, nitrogen credits from legumes, and fertilization logs. You can run the balance on your desired time interval.",
-      "INFO_2": "Click the delete button to reset your schedule.",
-      "SELECT_FREQUENCY": "Select Frequency",
-      "TITLE": "Nitrogen Balance"
-    },
     "PRICES": {
       "INFO": "We show you the trajectory of your sales prices against the sales prices for the same goods within a given distance of you, collected across the LiteFarm network.",
       "NEARBY_FARMS": "Network price is based on {{count}} farms in your local area",

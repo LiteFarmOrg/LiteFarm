@@ -17,7 +17,6 @@ import express from 'express';
 
 const router = express.Router();
 import insightController from '../controllers/insightController.js';
-import checkOwnership from '../middleware/acl/checkOwnership.js';
 import checkScope from '../middleware/acl/checkScope.js';
 import hasFarmAccess from '../middleware/acl/hasFarmAccess.js';
 
@@ -52,37 +51,6 @@ router.get(
   hasFarmAccess({ params: 'farm_id' }),
   checkScope(['get:insights']),
   insightController.getPricesNearbyByFarmID(),
-);
-
-router.get(
-  '/nitrogenbalance/:farm_id',
-  hasFarmAccess({ params: 'farm_id' }),
-  checkScope(['get:insights']),
-  insightController.getNitrogenBalance(),
-);
-
-router.get(
-  '/nitrogenbalance/schedule/:farm_id',
-  hasFarmAccess({ params: 'farm_id' }),
-  checkScope(['get:insights']),
-  insightController.getNitrogenSchedule(),
-);
-
-// add calls
-router.post(
-  '/nitrogenbalance/schedule',
-  hasFarmAccess({ body: 'farm_id' }),
-  checkScope(['add:insights']),
-  insightController.addNitrogenSchedule(),
-);
-
-// delete calls
-router.delete(
-  '/nitrogenbalance/schedule/:nitrogen_schedule_id',
-  hasFarmAccess({ params: 'nitrogen_schedule_id' }),
-  checkOwnership('nitrogenSchedule'),
-  checkScope(['delete:insights']),
-  insightController.delNitrogenSchedule(),
 );
 
 export default router;

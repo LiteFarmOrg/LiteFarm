@@ -15,7 +15,7 @@
     "storybook": "storybook dev -p 6006 public",
     "build-storybook": "storybook build",
     "test-storybook": "test-storybook",
-    "precommit": "lint-staged"
+    "precommit": "tsc --noEmit && lint-staged"
   },
   "lint-staged": {
     "*.{js, jsx}": [

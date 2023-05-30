@@ -14,6 +14,7 @@ jobs:
       - name: Deploy beta export server over SSH
         uses: appleboy/ssh-action@v0.1.7
         with:
+          script_stop: true
           host: ${{ secrets.BETA_EXPORT_SERVER_HOST }}
           username: ${{ secrets.BETA_EXPORT_SERVER_USER }}
           key: ${{ secrets.BETA_EXPORT_SERVER_KEY }}

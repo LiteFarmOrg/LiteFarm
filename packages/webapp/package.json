@@ -15,13 +15,7 @@
     "storybook": "storybook dev -p 6006 public",
     "build-storybook": "storybook build",
     "test-storybook": "test-storybook",
-    "precommit": "tsc --noEmit && lint-staged"
-  },
-  "lint-staged": {
-    "*.{js, jsx}": [
-      "eslint --quiet --fix"
-    ],
-    "*.{js,jsx,ts,tsx,json,md,html}": "prettier --write"
+    "precommit": "lint-staged"
   },
   "dependencies": {
     "@emotion/react": "^11.10.5",

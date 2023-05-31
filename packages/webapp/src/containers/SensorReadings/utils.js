@@ -66,7 +66,7 @@ export const roundDownToNearestTimepoint = (currentUnixTime, hourlyTimezoneOffse
     0,
   );
 
-  return moment(nearestChosenUnixTime).format('ddd MMMM D YYYY HH:mm');
+  return moment(nearestChosenUnixTime).format('ddd MMM DD YYYY HH:mm');
 };
 
 const timeDifference = (current, previous) => {

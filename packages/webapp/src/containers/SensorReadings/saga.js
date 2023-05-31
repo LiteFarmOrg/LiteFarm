@@ -125,7 +125,7 @@ export function* getSensorsReadingsSaga({ payload }) {
           if (startUnixTime <= currentValueUnixTime && currentValueUnixTime < endUnixTime) {
             const hourlyTimezoneOffsetString =
               hourlyTimezoneOffsetMin === 0 ? '00' : Math.abs(hourlyTimezoneOffsetMin).toString();
-            const currentDateTime = `${
+            const formattedCurrentValueDateTimeString = `${
               currentValueDateTimeString?.split(`:${hourlyTimezoneOffsetString}:00`)[0]
             }:${hourlyTimezoneOffsetString}`;
             if (!acc[currentValueUnixTime]) acc[currentValueUnixTime] = {};
@@ -133,7 +133,7 @@ export function* getSensorsReadingsSaga({ payload }) {
               [cv?.name]: isNaN(convertValues(type, cv?.value, measurement))
                 ? i18n.t('translation:SENSOR.NO_DATA')
                 : convertValues(type, cv?.value, measurement),
-              [CURRENT_DATE_TIME]: currentDateTime,
+              [CURRENT_DATE_TIME]: formattedCurrentValueDateTimeString,
             };
           }
           return acc;

@@ -45,23 +45,31 @@ export const getDates = () => {
   let startMidnightUnixTimeMs = new Date(startUnixTimeMs).setHours(0, 0, 0, 0);
   let startUnixTime = parseInt(+startMidnightUnixTimeMs / 1000);
 
-  let hourlyTimezoneOffsetMin = currentDateTime.getTimezoneOffset() % 60;
-  let hourlyTimezoneOffsetUnix = hourlyTimezoneOffsetMin * 60;
+  // E.g. Nepal Time (UTC+5:45) utcOffsetMinutes = -45
+  // E.g. IF Inverse Nepal Time existed (UTC-5:45) utcOffsetMinutes = 45
+  let utcOffsetMinutes = currentDateTime.getTimezoneOffset() % 60;
+  // E.g. Nepal Time (UTC+5:45) forwardUtcOffsetMinutes = 45,
+  // E.g. IF Inverse Nepal Time existed (UTC-5:45) forwardUtcOffsetMinutes = 15
+  let forwardUtcOffsetMinutes = (60 - utcOffsetMinutes) % 60;
+  let backUtcOffsetMinutes = (60 + utcOffsetMinutes) % 60;
+  let forwardAdjustmentUnix = forwardUtcOffsetMinutes * 60;
+  let backAdjustmentUnix = backUtcOffsetMinutes * 60;
 
   return {
     endUnixTime,
     startUnixTime,
     currentDateTime,
-    hourlyTimezoneOffsetMin,
-    hourlyTimezoneOffsetUnix,
+    forwardUtcOffsetMinutes,
+    forwardAdjustmentUnix,
+    backAdjustmentUnix,
   };
 };
 
-export const roundDownToNearestTimepoint = (currentUnixTime, hourlyTimezoneOffsetMin) => {
+export const roundDownToNearestTimepoint = (currentUnixTime, utcOffsetMinutes) => {
   const currentHour = new Date(currentUnixTime).getHours();
   const nearestChosenUnixTime = new Date(currentUnixTime).setHours(
     currentHour,
-    Math.abs(hourlyTimezoneOffsetMin),
+    Math.abs(utcOffsetMinutes),
     0,
     0,
   );

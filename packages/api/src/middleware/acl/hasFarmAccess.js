@@ -372,10 +372,11 @@ async function fromTaskManagementPlanAndLocation(req) {
       locationIds.add(managementPlan.location_id);
     }
   }
-  const locations = await knex('location')
+  const farmIds = await knex('location')
     .whereIn('location_id', [...locationIds])
     .pluck('farm_id');
-  if (new Set(locations).size !== 1 || locations[0] !== farm_id) {
+
+  if (new Set(farmIds).size !== 1 || farmIds[0] !== farm_id) {
     return {};
   }
 

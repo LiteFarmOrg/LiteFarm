@@ -355,7 +355,8 @@ async function fromTaskManagementPlanAndLocation(req) {
   const tasks = req.body.length ? req.body : [req.body];
   const locationIds = new Set();
   for (const { managementPlans, locations } of tasks) {
-    locationIds.add(...locations.map(({ location_id }) => location_id));
+    locations.forEach(({ location_id }) => locationIds.add(location_id));
+
     for (const { planting_management_plan_id } of managementPlans || []) {
       const managementPlan = await knex('management_plan')
         .join(

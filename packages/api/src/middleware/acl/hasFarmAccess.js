@@ -353,11 +353,9 @@ async function fromTaskManagementPlanAndLocation(req) {
   const farm_id = req.headers.farm_id;
   // harvest_tasks POST request body is an array
   const tasks = req.body.length ? req.body : [req.body];
+  const locationIds = new Set();
   for (const { managementPlans, locations } of tasks) {
-    for (const { location_id } of locations || []) {
-      const location = await knex('location').where({ location_id }).first();
-      if (location.farm_id !== farm_id) return {};
-    }
+    locationIds.add(...locations.map(({ location_id }) => location_id));
     for (const { planting_management_plan_id } of managementPlans || []) {
       const managementPlan = await knex('management_plan')
         .join(
@@ -370,11 +368,15 @@ async function fromTaskManagementPlanAndLocation(req) {
         .first();
       if (managementPlan.farm_id !== farm_id) return {};
 
-      const location = await knex('location')
-        .where({ location_id: managementPlan.location_id })
-        .first();
-      if (location.farm_id !== farm_id) return {};
+      locationIds.add(managementPlan.location_id);
     }
   }
+  const locations = await knex('location')
+    .whereIn('location_id', [...locationIds])
+    .pluck('farm_id');
+  if (new Set(locations).size !== 1 || locations[0] !== farm_id) {
+    return {};
+  }
+
   return { farm_id };
 }

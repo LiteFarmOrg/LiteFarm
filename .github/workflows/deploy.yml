@@ -21,4 +21,9 @@ jobs:
           passphrase: ${{ secrets.BETA_SSH_PASS }}
           key: ${{ secrets.BETA_SSH_KEY }}
           command_timeout: 20m
-          script: ${{ secrets.DEPLOYMENT_SCRIPT }}
+          script: |
+            set -eu
+            cd ~/LiteFarm
+            git checkout integration
+            git pull origin integration
+            docker-compose -f docker-compose.beta.yml up --build -d

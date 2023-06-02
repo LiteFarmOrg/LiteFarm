@@ -376,7 +376,11 @@ async function fromTaskManagementPlanAndLocation(req) {
     .whereIn('location_id', [...locationIds])
     .pluck('farm_id');
 
-  if (new Set(farmIds).size !== 1 || farmIds[0] !== farm_id) {
+  if (
+    farmIds.length !== locationIds.size || // check if all locationIds exist in the DB
+    new Set(farmIds).size !== 1 ||
+    farmIds[0] !== farm_id
+  ) {
     return {};
   }
 

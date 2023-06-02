@@ -42,11 +42,8 @@ export const generateClaimSensorErrorFile = (errors, success) => {
   let errorText = '';
   if (success.length > 0) {
     errorText += i18n.t('FARM_MAP.BULK_UPLOAD_SENSORS.DOWNLOAD_FILE.PARTIAL_SUCCESS_TOP_TEXT');
-    errorText += success.reduce((acc, e, i) => {
-      const ending = i === success.length - 1 ? '\n\n' : ', ';
-      acc += e + ending;
-      return acc;
-    }, '');
+    errorText += success.join(', ');
+    errorText += '\n\n';
     errorText += i18n.t('FARM_MAP.BULK_UPLOAD_SENSORS.DOWNLOAD_FILE.PARTIAL_SUCCESS_BOTTOM_TEXT');
   }
   errorText += i18n.t('FARM_MAP.BULK_UPLOAD_SENSORS.DOWNLOAD_FILE.SOME_ERRORS');

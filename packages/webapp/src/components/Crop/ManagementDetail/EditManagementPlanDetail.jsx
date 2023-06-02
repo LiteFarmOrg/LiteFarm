@@ -55,13 +55,7 @@ export default function PureEditManagementDetail({ onBack, variety, plan, system
         </>
       }
     >
-      <CropHeader
-        onBackClick={onBack}
-        crop_translation_key={variety.crop_translation_key}
-        crop_variety_name={variety.crop_variety_name}
-        crop_variety_photo_url={variety.crop_variety_photo_url}
-        supplier={variety.supplier}
-      />
+      <CropHeader onBackClick={onBack} variety={variety} />
 
       <div className={styles.titlewrapper}>
         <Label className={styles.title} style={{ marginTop: '24px', marginBottom: '28px' }}>

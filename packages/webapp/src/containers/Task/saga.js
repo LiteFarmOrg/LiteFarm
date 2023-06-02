@@ -6,7 +6,12 @@ import i18n from '../../locales/i18n';
 import { loginSelector, putUserSuccess } from '../userFarmSlice';
 import history from '../../history';
 import { enqueueErrorSnackbar, enqueueSuccessSnackbar } from '../Snackbar/snackbarSlice';
-import { addManyTasksFromGetReq, putTasksSuccess, putTaskSuccess } from '../taskSlice';
+import {
+  addManyTasksFromGetReq,
+  putTasksSuccess,
+  putTaskSuccess,
+  deleteTaskSuccess,
+} from '../taskSlice';
 import { getProductsSuccess, onLoadingProductFail, onLoadingProductStart } from '../productSlice';
 import {
   deleteTaskTypeSuccess,
@@ -457,6 +462,7 @@ const getIrrigationTaskBody = (data, endpoint, managementPlanWithCurrentLocation
           'percent_of_location_irrigated_unit',
           'irrigated_area',
           'irrigated_area_unit',
+          'location_size',
           'location_size_unit',
         ].includes(element) && delete data.irrigation_task[element];
       }
@@ -607,46 +613,61 @@ const getCompletePlantingTaskBody = (task_translation_key) => (data) => {
 };
 
 const getCompleteIrrigationTaskBody = (task_translation_key) => (data) => {
-  return produce(data, (data) => {
-    const taskType = task_translation_key.toLowerCase();
-    const irrigation_task = data.taskData[taskType];
-    if (irrigation_task) {
-      data.taskData[taskType].irrigation_type_name = data.taskData[taskType]
-        ?.irrigation_task_type_other
-        ? data.taskData[taskType]?.irrigation_task_type_other
-        : data.taskData[taskType]?.irrigation_type_name;
-      data.taskData[taskType].location_id = data.location_id;
-      data.taskData.location_defaults = [
-        {
-          location_id: data.location_id,
-          irrigation_task_type: data.taskData[taskType].default_irrigation_task_type_location
-            ? data.taskData[taskType].irrigation_type_name
-            : undefined,
-          ...(data.taskData[taskType].default_location_application_depth
-            ? pick(data.taskData[taskType], ['application_depth', 'application_depth_unit'])
-            : null),
-          ...(data.taskData[taskType].default_location_flow_rate
-            ? pick(data.taskData[taskType], ['estimated_flow_rate', 'estimated_flow_rate_unit'])
-            : null),
-        },
-      ];
+  return getObjectInnerValues(
+    produce(data, (data) => {
+      const taskType = task_translation_key.toLowerCase();
+      const irrigation_task = data.taskData[taskType];
+      if (irrigation_task) {
+        if (typeof data.taskData[taskType].irrigation_type_name === 'string') {
+          data.taskData[taskType].irrigation_type_name = data.taskData[taskType]
+            ?.irrigation_task_type_other
+            ? data.taskData[taskType]?.irrigation_task_type_other
+            : data.taskData[taskType]?.irrigation_type_name;
+        } else {
+          data.taskData[taskType].irrigation_type_name =
+            data.taskData[taskType].irrigation_type_name.value === 'OTHER'
+              ? data.taskData[taskType].irrigation_task_type_other
+              : data.taskData[taskType].irrigation_type_name.value;
+        }
 
-      !data.taskData[taskType]?.estimated_water_usage &&
-        delete data.taskData[taskType]?.estimated_water_usage_unit;
-      delete data.location_id;
-      for (const element in data.taskData[taskType]) {
-        [
-          'irrigation_task_type_other',
-          'percent_of_location_irrigated_unit',
-          'irrigated_area',
-          'irrigated_area_unit',
-          'location_size_unit',
-          'irrigation_type',
-          'irrigation_type_translation_key',
-        ].includes(element) && delete data.taskData[taskType][element];
+        data.taskData.location_defaults = [
+          {
+            location_id: data.location_id,
+            irrigation_task_type: data.taskData[taskType].default_irrigation_task_type_location
+              ? data.taskData[taskType].irrigation_type_name
+              : undefined,
+            ...(data.taskData[taskType].default_location_application_depth
+              ? pick(data.taskData[taskType], ['application_depth', 'application_depth_unit'])
+              : null),
+            ...(data.taskData[taskType].default_location_flow_rate
+              ? pick(data.taskData[taskType], ['estimated_flow_rate', 'estimated_flow_rate_unit'])
+              : null),
+          },
+        ];
+
+        !data.taskData[taskType].estimated_water_usage &&
+          delete data.taskData[taskType]?.estimated_water_usage_unit;
+
+        if (data.location_id) {
+          data.taskData[taskType].location_id = data.location_id;
+          delete data.location_id;
+        }
+
+        for (const element in data.taskData[taskType]) {
+          [
+            'irrigation_task_type_other',
+            'percent_of_location_irrigated_unit',
+            'irrigated_area',
+            'irrigated_area_unit',
+            'location_size',
+            'location_size_unit',
+            'irrigation_type',
+            'irrigation_type_translation_key',
+          ].includes(element) && delete data.taskData[taskType][element];
+        }
       }
-    }
-  }).taskData;
+    }).taskData,
+  );
 };
 
 const taskTypeGetCompleteTaskBodyFunctionMap = {
@@ -690,7 +711,6 @@ export function* completeTaskSaga({ payload: { task_id, data, returnPath } }) {
 export const abandonTask = createAction('abandonTaskSaga');
 
 export function* abandonTaskSaga({ payload: data }) {
-  console.log(data);
   const { taskUrl } = apiConfig;
   let { user_id, farm_id } = yield select(loginSelector);
   const { task_id, patchData, returnPath } = data;
@@ -812,6 +832,26 @@ export function* addCustomHarvestUseSaga({ payload: data }) {
   }
 }
 
+export const deleteTask = createAction('deleteTasksSaga');
+
+export function* deleteTaskSaga({ payload: data }) {
+  const { taskUrl } = apiConfig;
+  let { user_id, farm_id } = yield select(loginSelector);
+  const { task_id } = data;
+  const header = getHeader(user_id, farm_id);
+  try {
+    const result = yield call(axios.delete, `${taskUrl}/${task_id}`, header);
+    if (result) {
+      history.back();
+      yield put(deleteTaskSuccess(result.data));
+      yield put(enqueueSuccessSnackbar(i18n.t('TASK.DELETE.SUCCESS')));
+    }
+  } catch (e) {
+    console.log(e);
+    yield put(enqueueErrorSnackbar(i18n.t('TASK.DELETE.FAILED')));
+  }
+}
+
 export default function* taskSaga() {
   yield takeLeading(addCustomTaskType.type, addTaskTypeSaga);
   yield takeLeading(assignTask.type, assignTaskSaga);
@@ -838,4 +878,5 @@ export default function* taskSaga() {
     getPlantingTasksAndPlantingManagementPlansSuccess.type,
     getPlantingTasksAndPlantingManagementPlansSuccessSaga,
   );
+  yield takeLeading(deleteTask.type, deleteTaskSaga);
 }

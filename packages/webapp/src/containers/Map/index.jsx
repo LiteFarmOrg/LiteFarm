@@ -63,6 +63,8 @@ import {
   resetAndUnLockFormData,
   setPersistedPaths,
   upsertFormData,
+  setIsRedrawing,
+  hookFormPersistIsRedrawingSelector,
 } from '../hooks/useHookFormPersist/hookFormPersistSlice';
 import {
   bulkSensorsUploadSliceSelector,
@@ -70,7 +72,6 @@ import {
 } from '../../containers/bulkSensorUploadSlice';
 import LocationSelectionModal from './LocationSelectionModal';
 import { useMaxZoom } from './useMaxZoom';
-import { sensorSelector } from '../sensorSlice';
 import {
   mapAddDrawerSelector,
   setMapAddDrawerHide,
@@ -89,10 +90,10 @@ export default function Map({ history }) {
   const system = useSelector(measurementSelector);
   const overlayData = useSelector(hookFormPersistSelector);
   const bulkSensorsUploadResponse = useSelector(bulkSensorsUploadSliceSelector);
-  const sensors = useSelector(sensorSelector);
   const [gMap, setGMap] = useState(null);
   const [gMaps, setGMaps] = useState(null);
   const [gMapBounds, setGMapBounds] = useState(null);
+  const isRedrawing = useSelector(hookFormPersistIsRedrawingSelector);
 
   const lineTypesWithWidth = [locationEnum.buffer_zone, locationEnum.watercourse];
   const { t } = useTranslation();
@@ -131,10 +132,11 @@ export default function Map({ history }) {
   }, []);
 
   useEffect(() => {
-    if (bulkSensorsUploadResponse?.isBulkUploadSuccessful) {
+    if (bulkSensorsUploadResponse?.isBulkUploadSuccessful && gMaps && gMap) {
+      getMaxZoom(gMaps, gMap);
       setShowBulkSensorUploadModal(false);
     }
-  }, [bulkSensorsUploadResponse?.isBulkUploadSuccessful]);
+  }, [bulkSensorsUploadResponse?.isBulkUploadSuccessful, gMaps, gMap]);
 
   useEffect(() => {
     setShowBulkSensorUploadModal(false);
@@ -163,6 +165,10 @@ export default function Map({ history }) {
       setShowZeroLengthWarning,
     },
   ] = useDrawingManager();
+
+  useEffect(() => {
+    if (drawingState.pointChanged) dispatch(setIsRedrawing(true));
+  }, [drawingState.pointChanged]);
 
   useEffect(() => {
     dispatch(getLocations());
@@ -196,7 +202,6 @@ export default function Map({ history }) {
       gestureHandling: 'greedy',
       disableDoubleClickZoom: false,
       minZoom: 1,
-      maxZoom: 80,
       tilt: 0,
       mapTypeId: !roadview ? maps.MapTypeId.SATELLITE : maps.MapTypeId.ROADMAP,
       mapTypeControlOptions: {
@@ -219,9 +224,9 @@ export default function Map({ history }) {
     drawingState: drawingState,
     showingConfirmButtons: showingConfirmButtons,
   });
-  const { getMaxZoom } = useMaxZoom();
+  const { getMaxZoom, maxZoom } = useMaxZoom();
   const handleGoogleMapApi = (map, maps) => {
-    getMaxZoom(maps);
+    getMaxZoom(maps, map);
     maps.Polygon.prototype.getPolygonBounds = function () {
       var bounds = new maps.LatLngBounds();
       this.getPath().forEach(function (element, index) {
@@ -410,11 +415,11 @@ export default function Map({ history }) {
   };
 
   useEffect(() => {
-    if (gMap && gMaps && gMapBounds) {
+    if (maxZoom && gMap && gMaps && gMapBounds) {
       const newBounds = drawAssets(gMap, gMaps, gMapBounds);
       setGMapBounds(newBounds);
     }
-  }, [sensors]);
+  }, [maxZoom]);
 
   const handleDownload = () => {
     html2canvas(mapWrapperRef.current, { useCORS: true }).then((canvas) => {
@@ -435,15 +440,22 @@ export default function Map({ history }) {
     setShowingConfirmButtons(false);
     if (!isLineWithWidth()) {
       const locationData = getOverlayInfo();
-      dispatch(upsertFormData(locationData));
+      if (Object.keys(overlayData).length === 0 || isRedrawing === true) {
+        dispatch(upsertFormData(locationData));
+        dispatch(setIsRedrawing(false));
+      }
       history.push(`/create_location/${drawingState.type}`);
     }
   };
 
   const handleLineConfirm = (lineData) => {
     setShowingConfirmButtons(false);
-    const data = { ...getOverlayInfo(), ...lineData };
-    dispatch(upsertFormData(data));
+    if (!overlayData.hasOwnProperty('type') || isRedrawing === true) {
+      dispatch(upsertFormData({ ...lineData, ...getOverlayInfo() }));
+      dispatch(setIsRedrawing(false));
+    } else {
+      dispatch(upsertFormData({ ...lineData }));
+    }
     history.push(`/create_location/${drawingState.type}`);
   };
 
@@ -522,6 +534,7 @@ export default function Map({ history }) {
                   resetDrawing();
                   startDrawing(drawingState.type);
                   setShowingConfirmButtons(false);
+                  dispatch(setIsRedrawing(true));
                 }}
                 onClickConfirm={handleConfirm}
                 showZeroAreaWarning={showZeroAreaWarning}
@@ -531,6 +544,9 @@ export default function Map({ history }) {
                 system={system}
                 lineData={overlayData}
                 typeOfLine={drawingState.type}
+                onLineParameterChange={() => {
+                  dispatch(setIsRedrawing(true));
+                }}
               />
             </div>
           )}

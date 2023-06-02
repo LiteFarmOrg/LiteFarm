@@ -16,7 +16,9 @@ const imageRouteURL = {
 
 export const uploadImage = createAction(`uploadImageSaga`);
 
-export function* uploadImageSaga({ payload: { file, onUploadSuccess, targetRoute } }) {
+export function* uploadImageSaga({
+  payload: { file, onUploadSuccess, onUploadFail, targetRoute },
+}) {
   let { user_id, farm_id } = yield select(loginSelector);
   const header = getHeader(user_id, farm_id, {
     headers: { 'Content-Type': 'multipart/form-data' },
@@ -26,14 +28,11 @@ export function* uploadImageSaga({ payload: { file, onUploadSuccess, targetRoute
     const formData = new FormData();
     formData.append('_file_', file);
     const result = yield call(axios.post, `${imageRoute}/upload/farm/${farm_id}`, formData, header);
-    if (result) {
-      onUploadSuccess?.(result.data.url);
-    } else {
-      yield put(enqueueErrorSnackbar(i18n.t('message:ATTACHMENTS.ERROR.FAILED_UPLOAD')));
-    }
+    onUploadSuccess?.(result.data.url);
   } catch (e) {
     yield put(enqueueErrorSnackbar(i18n.t('message:ATTACHMENTS.ERROR.FAILED_UPLOAD')));
     console.log(e);
+    onUploadFail?.(e.response?.data);
   }
 }
 

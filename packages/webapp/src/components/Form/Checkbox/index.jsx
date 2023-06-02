@@ -39,14 +39,15 @@ const Checkbox = ({
         {...props}
         disabled={disabled}
       />
+      <span className={clsx(styles.checkmark)} style={classes.checkbox} />
       <Main
         className={clsx(styles.label, sm && styles.smallLabel)}
         style={classes.label}
         tooltipContent={tooltipContent}
+        data-cy="checkbox-component"
       >
         {label}
       </Main>
-      <span className={clsx(styles.checkmark)} style={classes.checkbox} />
       {errors ? (
         <Error className={clsx(styles.error)} style={classes.error}>
           {errors}

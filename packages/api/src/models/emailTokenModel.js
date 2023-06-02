@@ -11,6 +11,11 @@ class emailTokenModel extends Model {
     return ['invitation_id'];
   }
 
+  async $beforeUpdate(opt, context) {
+    await super.$beforeUpdate(opt, context);
+    this.updated_at = new Date().toISOString();
+  }
+
   // Optional JSON schema. This is not the database schema! Nothing is generated
   // based on this. This is only used for validation. Whenever a model instance
   // is created it is checked against this schema. http://json-schema.org/.
@@ -41,9 +46,21 @@ class emailTokenModel extends Model {
         farm_id: userFarm.farm_id,
       })
       .first();
+
+    // Reset times_sent if the last invitation was sent more than 24 hours ago
+    let hasBeenReset;
+    const now = new Date();
+    const diffDays = Math.abs(now - emailSent?.updated_at) / (1000 * 60 * 60 * 24);
+    if (diffDays > 1) {
+      emailSent.times_sent = 0;
+      hasBeenReset = true;
+    }
+
     if (!emailSent || emailSent.times_sent < 3) {
       const timesSent = emailSent && emailSent.times_sent ? ++emailSent.times_sent : 1;
-      if (timesSent === 1) {
+
+      if (timesSent === 1 && !hasBeenReset) {
+        // If this is the first email, insert a new record into the emailToken table
         const emailToken = await emailTokenModel
           .query()
           .insert({
@@ -58,6 +75,7 @@ class emailTokenModel extends Model {
           invitation_id: emailToken.invitation_id,
         });
       } else {
+        // If subsequent email, patch the existing record
         const [emailToken] = await emailTokenModel
           .query()
           .patch({ times_sent: timesSent })

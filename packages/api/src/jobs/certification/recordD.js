@@ -20,6 +20,7 @@ export default (nextQueue, zipQueue, emailQueue) => (job) => {
     language_preference,
     submission,
     organicCertifierSurvey,
+    certifier,
   } = job.data;
   return i18n
     .changeLanguage(language_preference)
@@ -30,7 +31,7 @@ export default (nextQueue, zipQueue, emailQueue) => (job) => {
         recordAGenerator(recordA, exportId, from_date, to_date, farm_name, measurement),
         recordIGeneration(recordICleaners, exportId, from_date, to_date, farm_name, measurement),
         readmeGeneration(exportId, language_preference),
-        surveyRecordGeneration(emailQueue, submission, exportId, organicCertifierSurvey),
+        surveyRecordGeneration(emailQueue, submission, exportId, organicCertifierSurvey, certifier),
       ]),
     )
     .then(() => {

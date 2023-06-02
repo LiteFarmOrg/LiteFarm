@@ -26,6 +26,23 @@
   box-shadow: 0px 2px 4px rgba(102, 115, 138, 0.3);
 }
 
+.error {
+  background-color: var(--error);
+  color: white;
+  text-decoration: none;
+  box-shadow: 0 2px 8px rgba(102, 115, 138, 0.3);
+  border: none;
+}
+
+.warning {
+  background-color: var(--brown700);
+  color: white;
+  text-decoration: none;
+  box-shadow: 0 2px 8px rgba(102, 115, 138, 0.3);
+  border: none;
+}
+
+
 .btn {
   border-radius: 4px;
   font-weight: 600;

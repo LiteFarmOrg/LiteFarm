@@ -299,6 +299,17 @@
     "ADD_COMPLIANCE_FILE": "Link to a compliance file",
     "ADD_CROP": "Add a crop",
     "ADD_IMAGE": "Add Custom Image",
+    "VARIETAL_SUBTITLE": "Tell us about the specific varietal or cultivar you intend to grow",
+    "VARIETAL_IMAGE": "Customize image for varietal or cultivar",
+    "VARIETAL_IMAGE_INFO": "If you would like this varietal or cultivar to have a different image from the default crop, you can customize the image here.",
+    "VARIETY_COMMON_NAME": "Common Name",
+    "DUPLICATE_VARIETY": "A variety of this crop with the same name already exists on your farm",
+    "VARIETY_VARIETAL": "Varietal",
+    "VARIETY_CULTIVAR": "Cultivar",
+    "CULTIVAR_SUBTEXT": "Learn more about cultivars",
+    "VARIETAL_SUBTEXT": "Learn more about varietals",
+    "CULTIVAR_PLACEHOLDER": "Ex. Red Delicious",
+    "VARIETAL_PLACEHOLDER": "Ex. Cabernet sauvignon",
     "ANNUAL": "Annual",
     "ANNUAL_OR_PERENNIAL": "Is the crop an annual or perennial?",
     "EDIT_CROP": "Edit crop",
@@ -323,6 +334,7 @@
     "ADD_CROPS_T0_YOUR_FARM": "Add crops to your farm",
     "ADD_TO_YOUR_FARM": "Add to your farm",
     "CAN_NOT_FIND": "Can't find what you're looking for?",
+    "CANCEL": "crop creation",
     "COVER_CROP": "Can this be grown as a cover crop?",
     "CREATE_MANAGEMENT_PLANS": "Create crop plans",
     "CROP_CATALOGUE": "Crop catalogue",
@@ -346,7 +358,8 @@
     "NOMINATE_CROP_TOOLTIP": "Nominating this crop for inclusion in the LiteFarm crop catalogue grants the LiteFarm team permission to share information about this crop with a specialist in your region. Approved crops will become part of the crop catalogue shown to all users.",
     "ON_YOUR_FARM": "On your farm",
     "SELECT_A_CROP": "Select a crop to add it to your farm. Use search and filters to find crops more quickly.",
-    "SPECIES": "Species"
+    "SPECIES": "Species",
+    "DUPLICATE_CROP": "A crop with the same name, genus, and species already exists on your farm"
   },
   "CROP_DETAIL": {
     "ADD_PLAN": "Add a plan",
@@ -412,6 +425,7 @@
     "ARCHIVE_DOCUMENT_TEXT": "Archiving this document will move it to the archived section of your documents, but not delete it. Archived documents will not be exported for your certifications. Do you want to proceed?",
     "ARCHIVED": "Archived",
     "CANCEL": "Cancel",
+    "CANCEL_MODAL": "document creation",
     "COMPLIANCE_DOCUMENTS_AND_CERTIFICATION": "Compliance documents and your certification",
     "DOCUMENTS": "Documents",
     "EDIT_DOCUMENT": "Edit document",
@@ -481,6 +495,7 @@
     "VALUE": "Value"
   },
   "EXPIRED_TOKEN": {
+    "RESET_PASSWORD": "This link has expired.",
     "RESET_PASSWORD_LINK": "Send new password link."
   },
   "FARM_MAP": {
@@ -524,17 +539,12 @@
         "BRAND": "Brand",
         "MODEL": "Model"
       },
-      "SENSOR_READING_TYPES": {
-        "SOIL_MOISTURE_CONTENT": "soil_water_content",
-        "SOIL_WATER_POTENTIAL": "soil_water_potential",
-        "TEMPERATURE": "temperature"
-      },
       "VALIDATION": {
         "FILE_ROW_LIMIT_EXCEEDED": "File row limit exceeded. The max number of sensors that can be uploaded from a file is 100.",
         "MISSING_COLUMNS": "Columns are required/missing.",
         "EXTERNAL_ID": "Invalid external id, must be between 1 and 40 characters.",
         "SENSOR_NAME": "Invalid sensor name, must be between 1 and 100 characters.",
-        "SENSOR_LATITUDE": "Invalid latitude value, must be between -90 and 90. and fewer than 10 decimals.",
+        "SENSOR_LATITUDE": "Invalid latitude value, must be between -85 and 85. and fewer than 10 decimals.",
         "SENSOR_LONGITUDE": "Invalid longitude value, must be between -180 and 180. and fewer than 10 decimals.",
         "SENSOR_READING_TYPES": "Invalid reading type detected: {{ reading_types }}. Valid values include: soil_water_content, soil_water_potential, temperature.",
         "SENSOR_DEPTH": "Invalid depth value, must be between 0 and 1000.",
@@ -753,7 +763,7 @@
     }
   },
   "FILE_SIZE_MODAL": {
-    "BODY": "Files can not exceed 25MB or 5 pages.",
+    "BODY": "Files cannot be larger than 10MB.",
     "TITLE": "File size too large"
   },
   "FILTER": {
@@ -1240,6 +1250,10 @@
       "BODY": "{{editor}} has marked a {{taskType}} task as unassigned.",
       "TITLE": "Task unassigned"
     },
+    "TASK_DELETED": {
+      "BODY": "A {{taskType}} task assigned to you has been deleted by {{abandoner}}.",
+      "TITLE": "Task deleted"
+    },
     "WEEKLY_UNASSIGNED_TASKS": {
       "BODY": "You have unassigned tasks due this week.",
       "TITLE": "Unassigned tasks"
@@ -1389,7 +1403,8 @@
         "QUANTITY": "Quantity",
         "TOTAL": "Total"
       },
-      "TITLE": "Add new sale"
+      "TITLE": "Add new sale",
+      "SALE_VALUE_ERROR": "Sale value must be a positive number less than 999,999,999"
     },
     "DETAIL": {
       "ACTION": "Action",
@@ -1495,6 +1510,7 @@
     "HARDWARE_VERSION": "Hardware version",
     "NO_DATA_FOUND": "No sensor readings found",
     "NO_DATA": "(no data)",
+    "LAST_UPDATED": "Last updated {{latestReadingUpdate}}",
     "DETAIL": {
       "RETIRE": "Retire",
       "EDIT": "Edit",
@@ -1524,21 +1540,27 @@
       "RETIRE_SUCCESS": "Successfully retired sensor",
       "RETIRE_FAILURE": "There was an error retiring this sensor"
     },
+    "SENSOR_FORECAST": {
+      "TITLE": "Today's forecast",
+      "HIGH_AND_LOW_TEMPERATURE": "High and low temperature: {{high}}{{unit}} / {{low}}{{unit}}",
+      "WEATHER_STATION": "Weather station: {{weatherStationLocation}}"
+    },
     "TEMPERATURE_READINGS_OF_SENSOR": {
       "TITLE": "Soil temperature",
-      "SUBTITLE": "Today’s ambient high and low temperature: {{high}}{{tempUnit}} / {{low}}{{tempUnit}}",
-      "Y_AXIS_LABEL": "Temperature in {{tempUnit}}",
-      "WEATHER_STATION": "Weather station: {{weatherStationLocation}}",
-      "NO_DATA": "(no data)",
-      "AMBIENT_TEMPERATURE_FOR": "Ambient temperature for",
-      "LAST_UPDATED_TEMPERATURE_READINGS": "Last updated {{latestReadingUpdate}}"
+      "Y_AXIS_LABEL": "in {{units}}",
+      "C": "Celsius (°C)",
+      "F": "Fahrenheit (°F)",
+      "AMBIENT_TEMPERATURE_FOR": "Ambient temperature for"
     },
     "SOIL_WATER_POTENTIAL_READINGS_OF_SENSOR": {
       "TITLE": "Soil water potential",
-      "SUBTITLE": "MISSING",
-      "Y_AXIS_LABEL": "Soil water potential in {{soilWaterPotentialUnit}}",
-      "NO_DATA": "(no data)",
-      "LAST_UPDATED_TEMPERATURE_READINGS": "Last updated {{latestReadingUpdate}}"
+      "Y_AXIS_LABEL": "in {{units}}",
+      "KPA": "kilopascals (kPa)",
+      "PSI": "pounds per square inch (psi)"
+    },
+    "SOIL_WATER_CONTENT_READINGS_OF_SENSOR": {
+      "TITLE": "Soil water content",
+      "Y_AXIS_LABEL": "in {{units}}"
     },
     "READINGS_PREVIEW": {
       "TEMPERATURE": "Current soil temp",
@@ -1547,7 +1569,12 @@
     "SENSOR_READING_CHART_SPOTLIGHT": {
       "TITLE": "Series can be hidden",
       "CONTENT": "Individual sensors can be shown or hidden by clicking their labels here."
-    }
+    },
+    "SECONDS_AGO": "{{time}} second(s) ago",
+    "MINUTES_AGO": "{{time}} minute(s) ago",
+    "HOURS_AGO": "{{time}} hour(s) ago",
+    "DAYS_AGO": "{{time}} day(s) ago",
+    "MONTHS_AGO": "{{time}} month(s) ago"
   },
   "SHIFT": {
     "ACTION": "Action",
@@ -1607,8 +1634,8 @@
     "EXPIRED_ERROR": "We've updated our infrastructure and you'll need to reset your password. Check your inbox to proceed.",
     "EXPIRED_INVITATION_LINK_ERROR": "Invalid or expired invitation",
     "GOOGLE_BUTTON": "CONTINUE WITH GOOGLE",
-    "INVITED_ERROR": "We've updated our infrastructure and you'll need to check your inbox for a farm invitation to proceed.",
-    "LITEFARM_UPDATED": "We've updated LiteFarm!",
+    "INVITED_ERROR": "A farm invitation has been emailed to you, please check your inbox and spam folder.",
+    "LITEFARM_UPDATED": "LiteFarm v3.3 is now available!",
     "PASSWORD_ERROR": "Password incorrect",
     "SIGN_IN": "Sign In",
     "SSO_ERROR": "Please login by clicking the Google button above",
@@ -1657,7 +1684,7 @@
       "WHICH_DATE": "Which date?",
       "DATE_ORIGINAL": "The original due date",
       "DATE_TODAY": "Today",
-      "DATE_ANOTHER": "Another",
+      "DATE_ANOTHER": "Another date",
       "INFO": "Abandoning this task will change its' status to abandoned and remove it from all users ‘To do’ and ‘Unassigned’ lists.",
       "NOTES": "Task abandonment notes",
       "NOTES_CHAR_LIMIT": "Notes must be less than 10,000 characters",
@@ -1757,7 +1784,18 @@
     "TODO": "To do",
     "TRANSPLANT": "Transplant",
     "TRANSPLANT_LOCATIONS": "Select a transplant location",
-    "UNASSIGNED": "Unassigned"
+    "UNASSIGNED": "Unassigned",
+    "DELETE": {
+      "DELETE_TASK": "Delete task",
+      "DELETE_TASK_QUESTION": "Delete task?",
+      "DELETE_TASK_MESSAGE": "This task will be removed from your farm. If you would like to keep a record of this task, click \"Abandon\" instead.",
+      "CONFIRM_DELETION": "Confirm deletion",
+      "CANT_DELETE_PLANTING_TASK": "Can't delete planting task",
+      "CANT_DELETE_ABANDON_INSTEAD": "Do you want to abandon the crop plan instead?",
+      "CANT_DELETE_ABANDON": "Go to crop plan",
+      "SUCCESS": "Task successfully deleted",
+      "FAILED": "Failed to delete task"
+    }
   },
   "UNIT": {
     "TIME": {
@@ -1791,5 +1829,10 @@
     "HOURLY_WAGE": "Hourly Wage",
     "HOURLY_WAGE_RANGE_ERROR": "Hourly Wage must be a positive number less than 999,999,999",
     "HOURLY_WAGE_TOOLTIP": "Hourly wages can be set by selecting an individual on the People tab under 'my farm'."
+  },
+  "UNKNOWN_RECORD": {
+    "UNKNOWN_RECORD": "Unknown record",
+    "CANT_FIND": "Oops! We weren’t able to find that.",
+    "MAYBE_LATER": "Maybe it’ll turnip later."
   }
 }

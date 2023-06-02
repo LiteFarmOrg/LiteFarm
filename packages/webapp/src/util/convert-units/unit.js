@@ -1,4 +1,4 @@
-import { getUnitOptionMap } from '../../components/Form/Unit';
+import { getUnitOptionMap } from './getUnitOptionMap';
 import { convert } from './convert';
 
 const METRIC = 'metric';
@@ -6,16 +6,21 @@ const IMPERIAL = 'imperial';
 /**
  * seeding_rate: kg/m2
  */
+// DO NOT CHANGE!
+// Any change to this will lead to need for database backfilling.
 const databaseUnit = {
   area: 'm2',
   length: 'm',
   mass: 'kg',
   volumeFlowRate: 'l/min',
   volume: 'l',
-  time: 'd',
+  time: 'min',
   degree: 'deg',
+  temperature: 'C',
+  pressure: 'kPa',
 };
 
+// These constants are used to determine units based on the guideline.
 export const area_total_area = {
   metric: {
     units: ['m2', 'ha'],
@@ -142,25 +147,11 @@ export const irrigation_depth = {
   databaseUnit: databaseUnit.length,
 };
 
-export const percentage_location = {
-  metric: {
-    units: ['deg'],
-    defaultUnit: 'deg',
-    breakpoints: [1000],
-  },
-  imperial: {
-    units: ['deg'],
-    defaultUnit: 'deg',
-    breakpoints: [1000],
-  },
-  databaseUnit: databaseUnit.degree,
-};
-
 export const location_area = {
   metric: {
-    units: ['ha', 'm2'],
-    defaultUnit: 'ha',
-    breakpoints: [10000],
+    units: ['m2', 'ha'],
+    defaultUnit: 'm2',
+    breakpoints: [1000],
   },
   imperial: {
     units: ['ft2', 'ac'],
@@ -197,6 +188,8 @@ export const container_plant_spacing = {
   databaseUnit: databaseUnit.length,
 };
 
+// crop_age is not stored in the database.
+// databaseUnit is used for calculation.
 export const crop_age = {
   metric: {
     units: ['d', 'week', 'month', 'year'],
@@ -208,7 +201,7 @@ export const crop_age = {
     defaultUnit: 'week',
     breakpoints: [7, 30, 365],
   },
-  databaseUnit: databaseUnit.time,
+  databaseUnit: 'd',
 };
 
 export const seedAmounts = {
@@ -251,6 +244,21 @@ export const seedYield = {
     breakpoints: [2000],
   },
   databaseUnit: databaseUnit.mass,
+};
+
+export const pricePerSeedYield = {
+  metric: {
+    units: ['kg', 'mt'],
+    defaultUnit: 'kg',
+    breakpoints: [],
+  },
+  imperial: {
+    units: ['lb', 't'],
+    defaultUnit: 'lb',
+    breakpoints: [],
+  },
+  databaseUnit: databaseUnit.mass,
+  invertedUnit: true,
 };
 
 export const waterUsage = {
@@ -353,6 +361,34 @@ const volumeFlowRateUnits = {
   databaseUnit: databaseUnit.volumeFlowRate,
 };
 
+export const ambientTemperature = {
+  metric: {
+    units: ['C'],
+    defaultUnit: 'C',
+    breakpoints: [],
+  },
+  imperial: {
+    units: ['F'],
+    defaultUnit: 'F',
+    breakpoints: [],
+  },
+  databaseUnit: databaseUnit.temperature,
+};
+
+export const soilWaterPotential = {
+  metric: {
+    units: ['kPa'],
+    defaultUnit: 'kPa',
+    breakpoints: [],
+  },
+  imperial: {
+    units: ['psi'],
+    defaultUnit: 'psi',
+    breakpoints: [],
+  },
+  databaseUnit: databaseUnit.pressure,
+};
+
 export const getDefaultUnit = (unitType = area_total_area, value, system, unit) => {
   if (value) {
     let displayValue;
@@ -360,7 +396,7 @@ export const getDefaultUnit = (unitType = area_total_area, value, system, unit) 
     const defaultDisplayUnit = unitType[system].defaultUnit;
     const from = unit ?? unitType.databaseUnit;
     const defaultDisplayValue =
-      defaultDisplayUnit === from ? value : convert(value).from(from).to(defaultDisplayUnit);
+      defaultDisplayUnit === from ? value : convertFn(unitType, value, from, defaultDisplayUnit);
     let i = 0;
     for (; i < unitType[system].breakpoints.length; i++) {
       if (defaultDisplayValue < unitType[system].breakpoints[i]) {
@@ -376,7 +412,7 @@ export const getDefaultUnit = (unitType = area_total_area, value, system, unit) 
     displayValue =
       displayUnit === defaultDisplayUnit
         ? defaultDisplayValue
-        : convert(value).from(from).to(displayUnit);
+        : convertFn(unitType, value, from, displayUnit);
     return { displayUnit, displayValue: roundToTwoDecimal(displayValue) };
   } else {
     return { displayUnit: unitType[system].defaultUnit, displayValue: '' };
@@ -390,4 +426,18 @@ export const getDurationInDaysDefaultUnit = (days) => {
   if (days % 30 === 0 && days >= 30) return getUnitOptionMap()['month'];
   if (days % 7 === 0 && days >= 7) return getUnitOptionMap()['week'];
   return getUnitOptionMap()['d'];
+};
+
+/**
+ * Selects convert function based on unitType.invertedUnit.
+ * @param {object} unitType - Unit definition.
+ * @param {number} value - Value to convert.
+ * @param {string} from - Unit to convert from.
+ * @param {string} to - Unit to convert to.
+ * @returns {number} Converted value.
+ */
+export const convertFn = (unitType, value, from, to) => {
+  return unitType.invertedUnit
+    ? Math.pow(convert(Math.pow(value, -1)).from(from).to(to), -1)
+    : convert(value).from(from).to(to);
 };

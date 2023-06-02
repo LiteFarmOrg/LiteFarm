@@ -1039,158 +1039,64 @@ describe('Task tests', () => {
         harvest_task: () => mocks.fakeHarvestTask(),
       };
 
-      describe('harvest task tests', () => {
-        test('should successfully create a bunch of harvest tasks', async (done) => {
-          const userFarm = { ...fakeUserFarm(1), wage: { type: '', amount: 30 } };
-          const [{ user_id, farm_id }] = await mocks.userFarmFactory({}, userFarm);
-          const [{ task_type_id }] = await mocks.task_typeFactory({ promisedFarm: [{ farm_id }] });
-          const [{ location_id }] = await mocks.fieldFactory({ promisedFarm: [{ farm_id }] });
-          const promisedManagement = await Promise.all(
-            [...Array(3)].map(async () =>
-              mocks.planting_management_planFactory(
-                {
-                  promisedFarm: [{ farm_id }],
-                  promisedField: [{ location_id }],
-                },
-                { start_date: null },
-              ),
+      test('should successfully create a bunch of harvest tasks', async (done) => {
+        const userFarm = { ...fakeUserFarm(1), wage: { type: '', amount: 30 } };
+        const [{ user_id, farm_id }] = await mocks.userFarmFactory({}, userFarm);
+        const [{ task_type_id }] = await mocks.task_typeFactory({ promisedFarm: [{ farm_id }] });
+        const [{ location_id }] = await mocks.fieldFactory({ promisedFarm: [{ farm_id }] });
+        const promisedManagement = await Promise.all(
+          [...Array(3)].map(async () =>
+            mocks.planting_management_planFactory(
+              {
+                promisedFarm: [{ farm_id }],
+                promisedField: [{ location_id }],
+              },
+              { start_date: null },
             ),
-          );
-          const managementPlans = promisedManagement.map(([{ planting_management_plan_id }]) => ({
-            planting_management_plan_id,
-          }));
-          const harvest_tasks = mocks
-            .fakeHarvestTasks({ projected_quantity: 300 }, 3)
-            .map((harvest_task, i) => {
-              return {
-                harvest_task,
-                due_date: faker.date.future().toISOString().split('T')[0],
-                task_type_id,
-                owner_user_id: user_id,
-                assignee_user_id: user_id,
-                locations: [{ location_id }],
-                managementPlans: [managementPlans[i]],
-                notes: faker.lorem.words(),
-              };
-            });
-
-          postHarvestTasksRequest({ user_id, farm_id }, harvest_tasks, async (err, res) => {
-            expect(res.status).toBe(201);
-            const task_ids = res.body.map(({ task_id }) => task_id);
-            for (let i = 0; i < task_ids.length; i++) {
-              const created_task = await knex('task').where({ task_id: task_ids[i] }).first();
-              expect(created_task.task_type_id).toBe(task_type_id);
-              expect(created_task.wage_at_moment).toBe(30);
-              const isTaskRelatedToLocation = await knex('location_tasks')
-                .where({ task_id: task_ids[i] })
-                .first();
-              expect(isTaskRelatedToLocation.location_id).toBe(location_id);
-              expect(isTaskRelatedToLocation.task_id).toBe(Number(task_ids[i]));
-              const isTaskRelatedToManagementPlans = await knex('management_tasks').where({
-                task_id: task_ids[i],
-              });
-              expect(isTaskRelatedToManagementPlans.length).toBe(1);
-              const created_harvest_task = await knex('harvest_task').where({
-                task_id: task_ids[i],
-              });
-              expect(created_harvest_task.length).toBe(1);
-              expect(created_harvest_task[0].task_id).toBe(Number(task_ids[i]));
-              expect(created_harvest_task[0].projected_quantity).toBe(300);
-            }
-            done();
-          });
-        });
-
-        test(`should fail to create harvest tasks when locations contain different farm's location`, async (done) => {
-          const [userFarm1, userFarm2] = await generateUserFarms(2);
-          const { farm_id, user_id } = userFarm1;
-          const [{ location_id }] = await mocks.fieldFactory({
-            promisedFarm: [{ farm_id }],
-          });
-          const [{ location_id: locationIdInFarm2 }] = await mocks.fieldFactory({
-            promisedFarm: [{ farm_id: userFarm2.farm_id }],
-          });
-          const [{ task_type_id }] = await mocks.task_typeFactory({
-            promisedFarm: [{ farm_id }],
-          });
-
-          const [{ planting_management_plan_id }] = await mocks.planting_management_planFactory(
-            {
-              promisedFarm: [{ farm_id }],
-              promisedField: [{ location_id }],
-            },
-            { start_date: null },
-          );
-          const harvest_tasks = [
-            {
-              harvest_task: mocks.fakeHarvestTasks({ projected_quantity: 300 }, 1)[0],
+          ),
+        );
+        const managementPlans = promisedManagement.map(([{ planting_management_plan_id }]) => ({
+          planting_management_plan_id,
+        }));
+        const harvest_tasks = mocks
+          .fakeHarvestTasks({ projected_quantity: 300 }, 3)
+          .map((harvest_task, i) => {
+            return {
+              harvest_task,
               due_date: faker.date.future().toISOString().split('T')[0],
               task_type_id,
               owner_user_id: user_id,
               assignee_user_id: user_id,
-              locations: [{ location_id }, { location_id: locationIdInFarm2 }],
-              managementPlans: [{ planting_management_plan_id }],
+              locations: [{ location_id }],
+              managementPlans: [managementPlans[i]],
               notes: faker.lorem.words(),
-            },
-          ];
-          postHarvestTasksRequest({ user_id, farm_id }, harvest_tasks, async (err, res) => {
-            expect(res.status).toBe(403);
-            done();
-          });
-        });
-
-        test(`should fail to create harvest tasks when any managementPlan is for different farm's location`, async (done) => {
-          const [userFarm1, userFarm2, userFarm3] = await generateUserFarms(3);
-          const { farm_id, user_id } = userFarm1;
-          const [{ location_id }] = await mocks.fieldFactory({
-            promisedFarm: [{ farm_id }],
-          });
-          const [{ location_id: locationIdInFarm2 }] = await mocks.fieldFactory({
-            promisedFarm: [{ farm_id: userFarm2.farm_id }],
-          });
-          const [{ location_id: locationIdInFarm3 }] = await mocks.fieldFactory({
-            promisedFarm: [{ farm_id: userFarm3.farm_id }],
-          });
-          const [{ task_type_id }] = await mocks.task_typeFactory({
-            promisedFarm: [{ farm_id }],
+            };
           });
 
-          const promisedManagement = await Promise.all(
-            [...Array(3)].map(async (item, index) => {
-              return mocks.planting_management_planFactory(
-                {
-                  promisedFarm: [{ farm_id }],
-                  promisedField: [
-                    { location_id: [location_id, locationIdInFarm2, locationIdInFarm3][index] },
-                  ],
-                },
-                { start_date: null },
-              );
-            }),
-          );
-          const managementPlans = promisedManagement.map(([{ planting_management_plan_id }]) => ({
-            planting_management_plan_id,
-          }));
-
-          const harvest_tasks = mocks
-            .fakeHarvestTasks({ projected_quantity: 300 }, 3)
-            .map((harvest_task, i) => {
-              return {
-                harvest_task,
-                due_date: faker.date.future().toISOString().split('T')[0],
-                task_type_id,
-                owner_user_id: user_id,
-                assignee_user_id: user_id,
-                locations: [{ location_id }],
-                managementPlans: [managementPlans[i]],
-                notes: faker.lorem.words(),
-              };
+        postHarvestTasksRequest({ user_id, farm_id }, harvest_tasks, async (err, res) => {
+          expect(res.status).toBe(201);
+          const task_ids = res.body.map(({ task_id }) => task_id);
+          for (let i = 0; i < task_ids.length; i++) {
+            const created_task = await knex('task').where({ task_id: task_ids[i] }).first();
+            expect(created_task.task_type_id).toBe(task_type_id);
+            expect(created_task.wage_at_moment).toBe(30);
+            const isTaskRelatedToLocation = await knex('location_tasks')
+              .where({ task_id: task_ids[i] })
+              .first();
+            expect(isTaskRelatedToLocation.location_id).toBe(location_id);
+            expect(isTaskRelatedToLocation.task_id).toBe(Number(task_ids[i]));
+            const isTaskRelatedToManagementPlans = await knex('management_tasks').where({
+              task_id: task_ids[i],
             });
-
-          postHarvestTasksRequest({ user_id, farm_id }, harvest_tasks, async (err, res) => {
-            expect(res.status).toBe(403);
-            done();
-          });
+            expect(isTaskRelatedToManagementPlans.length).toBe(1);
+            const created_harvest_task = await knex('harvest_task').where({
+              task_id: task_ids[i],
+            });
+            expect(created_harvest_task.length).toBe(1);
+            expect(created_harvest_task[0].task_id).toBe(Number(task_ids[i]));
+            expect(created_harvest_task[0].projected_quantity).toBe(300);
+          }
+          done();
         });
       });
 

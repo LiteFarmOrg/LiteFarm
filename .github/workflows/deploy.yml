@@ -12,6 +12,9 @@ jobs:
   deploy:
     runs-on: ubuntu-20.04
     steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
       - name: Deploy over SSH
         uses: appleboy/ssh-action@v0.1.7
         with:
@@ -21,9 +24,4 @@ jobs:
           passphrase: ${{ secrets.BETA_SSH_PASS }}
           key: ${{ secrets.BETA_SSH_KEY }}
           command_timeout: 20m
-          script: |
-            set -eu
-            cd ~/LiteFarm
-            git checkout integration
-            git pull origin integration
-            docker-compose -f docker-compose.beta.yml up --build -d
+          script: ${{ github.workspace }}/beta-deploy.sh

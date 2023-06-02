@@ -17,12 +17,6 @@
     "test-storybook": "test-storybook",
     "precommit": "lint-staged"
   },
-  "lint-staged": {
-    "*.{js, jsx}": [
-      "eslint --quiet --fix"
-    ],
-    "*.{js,jsx,ts,tsx,json,md,html}": "prettier --write"
-  },
   "dependencies": {
     "@emotion/react": "^11.10.5",
     "@googlemaps/markerclusterer": "^2.0.14",

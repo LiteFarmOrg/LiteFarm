@@ -11,26 +11,14 @@ jobs:
     name: Deploy on beta export server
     runs-on: ubuntu-20.04
     steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
       - name: Deploy beta export server over SSH
         uses: appleboy/ssh-action@v0.1.7
         with:
-          script_stop: true
           host: ${{ secrets.BETA_EXPORT_SERVER_HOST }}
           username: ${{ secrets.BETA_EXPORT_SERVER_USER }}
           key: ${{ secrets.BETA_EXPORT_SERVER_KEY }}
           script_stop: true
-          script: |
-            cd LiteFarm 
-            git add -A .
-            git stash
-            git pull origin integration
-            export NVM_DIR=~/.nvm
-            source ~/.nvm/nvm.sh
-            nvm use 16.15.0
-            node -v
-            cd packages/api
-            npm install
-            pm2 list
-            pm2 delete all
-            pm2 start npm --name "queue" -- run "scheduler" 
-            pm2 list
+          script: ${{ github.workspace }}/beta-export-deploy.sh

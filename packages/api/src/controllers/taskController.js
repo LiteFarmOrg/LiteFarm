@@ -316,7 +316,7 @@ const taskController = {
   async checkCustomDependencies(typeOfTask, data, farm_id) {
     switch (typeOfTask) {
       case 'field_work_task': {
-        if (!data.field_work_task.field_work_task_type.field_work_name) {
+        if (!data.field_work_task?.field_work_task_type?.field_work_name) {
           return await this.checkforCompleteCustomFieldWork(data, farm_id);
         }
 

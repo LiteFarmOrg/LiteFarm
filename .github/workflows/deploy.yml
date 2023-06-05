@@ -15,6 +15,12 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v3
 
+      - name: Read deploy script contents
+        id: script
+        uses: andstor/file-reader-action@v1
+        with:
+          path: beta-deploy.sh
+
       - name: Deploy over SSH
         uses: appleboy/ssh-action@v0.1.7
         with:
@@ -24,4 +30,4 @@ jobs:
           passphrase: ${{ secrets.BETA_SSH_PASS }}
           key: ${{ secrets.BETA_SSH_KEY }}
           command_timeout: 20m
-          script: ${{ github.workspace }}/beta-deploy.sh
+          script: ${{ steps.script.outputs.contents }}

@@ -29,6 +29,7 @@ const entitiesGetters = {
   task_id: fromTaskId,
   taskManagementPlanAndLocation: fromTaskManagementPlanAndLocation,
   nomination_id: fromNomination,
+  transplant_task: fromTransPlantTask,
 };
 import userFarmModel from '../../models/userFarmModel.js';
 
@@ -372,6 +373,48 @@ async function fromTaskManagementPlanAndLocation(req) {
       locationIds.add(managementPlan.location_id);
     }
   }
+  const farmIds = await knex('location')
+    .whereIn('location_id', [...locationIds])
+    .pluck('farm_id');
+
+  if (
+    farmIds.length !== locationIds.size || // check if all locationIds exist in the DB
+    new Set(farmIds).size !== 1 ||
+    farmIds[0] !== farm_id
+  ) {
+    return {};
+  }
+
+  return { farm_id };
+}
+
+async function fromTransPlantTask(req) {
+  const farm_id = req.headers.farm_id;
+  const { planting_management_plan, prev_planting_management_plan_id } = req.body.transplant_task;
+
+  const { location_id, management_plan_id } = planting_management_plan;
+  const locationIds = new Set([location_id]);
+
+  const prevManagementPlan = await knex('management_plan')
+    .join(
+      'planting_management_plan',
+      'planting_management_plan.management_plan_id',
+      'management_plan.management_plan_id',
+    )
+    .join('crop_variety', 'crop_variety.crop_variety_id', 'management_plan.crop_variety_id')
+    .where('planting_management_plan.planting_management_plan_id', prev_planting_management_plan_id)
+    .first();
+  locationIds.add(prevManagementPlan.location_id);
+
+  const managementPlan = await knex('management_plan')
+    .join('crop_variety', 'crop_variety.crop_variety_id', 'management_plan.crop_variety_id')
+    .where('management_plan.management_plan_id', management_plan_id)
+    .first();
+
+  for (const plan of [managementPlan, prevManagementPlan]) {
+    if (plan.farm_id !== farm_id) return {};
+  }
+
   const farmIds = await knex('location')
     .whereIn('location_id', [...locationIds])
     .pluck('farm_id');

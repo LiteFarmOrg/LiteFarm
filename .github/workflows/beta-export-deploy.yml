@@ -14,6 +14,12 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v3
 
+      - name: Read deploy script contents
+        id: script
+        uses: andstor/file-reader-action@v1
+        with:
+          path: beta-export-deploy.sh
+
       - name: Deploy beta export server over SSH
         uses: appleboy/ssh-action@v0.1.7
         with:
@@ -21,4 +27,4 @@ jobs:
           username: ${{ secrets.BETA_EXPORT_SERVER_USER }}
           key: ${{ secrets.BETA_EXPORT_SERVER_KEY }}
           script_stop: true
-          script: ${{ github.workspace }}/beta-export-deploy.sh
+          script: ${{ steps.script.outputs.contents }}

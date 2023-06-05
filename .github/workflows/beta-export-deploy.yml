@@ -16,7 +16,7 @@ jobs:
 
       - name: Read deploy script contents
         id: script
-        uses: andstor/file-reader-action@v1
+        uses: juliangruber/read-file-action@v1
         with:
           path: beta-export-deploy.sh
 
@@ -27,4 +27,4 @@ jobs:
           username: ${{ secrets.BETA_EXPORT_SERVER_USER }}
           key: ${{ secrets.BETA_EXPORT_SERVER_KEY }}
           script_stop: true
-          script: ${{ steps.script.outputs.contents }}
+          script: ${{ steps.script.outputs.content }}

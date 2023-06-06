@@ -73,7 +73,6 @@ class Labour extends Component {
         text: this.props.t('SALE.LABOUR.EMPLOYEES'),
         onClick: () => this.sortBy('EMPLOYEES'),
       },
-      // { text: this.props.t('SALE.LABOUR.CROPS'), onClick: () => this.sortBy('CROPS') },
       { text: this.props.t('SALE.LABOUR.TASKS'), onClick: () => this.sortBy('TASKS') },
     ];
 

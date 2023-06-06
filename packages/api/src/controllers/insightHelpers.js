@@ -489,21 +489,6 @@ export const formatPricesNearbyData = (myFarmID, data) => {
   return returnData;
 };
 
-export const formatPreviousDate = (date, mode) => {
-  const d = new Date(date);
-  let year = d.getFullYear(),
-    month = '' + (d.getMonth() + 1),
-    day = '' + d.getDate();
-
-  if (mode === 'day') day = '' + (day - 1);
-  else if (mode === 'month') month = '' + (month - 1);
-  else if (mode === 'year') year = '' + (year - 1);
-  if (month.length < 2) month = '0' + month;
-  if (day.length < 2) day = '0' + day;
-
-  return [year, month, day].join('-');
-};
-
 //:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 //:::  Passed to function:                                                    :::
 //:::    lat1, lon1 = Latitude and Longitude of point 1 (in decimal degrees)  :::

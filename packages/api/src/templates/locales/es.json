@@ -1,9 +1,9 @@
 {
   "HELP_REQUEST": {
-    "RESPONSE": "Gracias por contactarnos. Alguien de nuestro equipo de ayuda lo/la contactará dentro de las próximas 48 horas. Puede encontrar un resumen de su solicitud más abajo.",
+    "RESPONSE": "Gracias por contactarnos. Alguien de nuestro equipo de ayuda le contactará dentro de las próximas 48 horas. Puede encontrar un resumen de su solicitud más abajo.",
     "TYPE_HEADER": "Tipo de soporte",
     "MESSAGE_HEADER": "Mensaje",
-    "CONTACT_METHOD_HEADER": "Metodo de contacto preferido",
+    "CONTACT_METHOD_HEADER": "Método de contacto preferido",
     "SUBJECT": "Su solicitud de ayuda a LiteFarm a las",
     "REQUEST_INFORMATION": "Solicitar Información",
     "REPORT_A_BUG": "Reportar un error",
@@ -18,17 +18,17 @@
     "GET_IN_TOUCH": "Para ponerse en contacto con nosotros, haga clic en",
     "HELP": "Ayuda",
     "OR": "o",
-    "CONTACT": "Contacta con nosotres"
+    "CONTACT": "Contacte con nosotres"
   },
   "INVITE": {
     "GREAT_FOLK": "Las personas de",
-    "YOU_CAN_ACCEPT": "le invitan a registrar su finca en Litefarm! Litefarm es una herramienta de software de código abierto creado para ayudar a los agricultores y campesinos a manejar sus fincas. Puedes conocer más sobre Litefarm en",
-    "INVITED_YOU": "Puedes aceptar esta invitación (desde cualquier dispositivo electrónico) usando el botón de abajo",
-    "SUBJECT0": "Has sido invitado a unirte a",
+    "YOU_CAN_ACCEPT": "le invitan a registrar su finca en LiteFarm! LiteFarm es una herramienta de software de código abierto creado para ayudar a los agricultores y campesinos a manejar sus fincas. Puede conocer más sobre LiteFarm en",
+    "INVITED_YOU": "Puede aceptar esta invitación (desde cualquier dispositivo electrónico) usando el botón de abajo",
+    "SUBJECT0": "Has sido invitado a unirse a",
     "SUBJECT1": "en LiteFarm!"
   },
   "COMMON": {
-    "JOIN": "Unete",
+    "JOIN": "Únase",
     "LOG_IN": "Iniciar Sesión",
     "OWNER": "Dueño/a",
     "EXTENSION_OFFICER": "Oficial de extensión",
@@ -36,13 +36,13 @@
     "MANAGER": "Gerente"
   },
   "PASSWORD_RESET_REQUEST": {
-    "DID_YOU_FORGET": "Olvidó su clave en Litefarm? No se preocupe! Haga clic en el botón de Cambiar y su acceso será restaurado pronto.",
+    "DID_YOU_FORGET": "Olvidó su clave en LiteFarm? No se preocupe! Haga clic en el botón de Cambiar y su acceso será restaurado pronto.",
     "RESET": "Cambiar contraseña",
-    "IGNORE": "Si no solicitó que le enviaramos este correo, por favor ignórelo. No habrá cambios en su cuenta.",
-    "SUBJECT": "Solicitud de recuperacion de clave"
+    "IGNORE": "Si Ud. no solicitó que le enviaramos este correo, por favor ignórelo. No habrá cambios en su cuenta.",
+    "SUBJECT": "Solicitud de recuperación de clave"
   },
   "CREATE_ACCOUNT_CONFIRMATION": {
-    "WELCOME": "Bienvenido/a a Litefarm! Litefarm es una herramienta de software de código abierto creado para ayudar a los/las agricultores y campesinos/as a manejar sus fincas. Puede conocer más acerca de Litefarm en",
+    "WELCOME": "Bienvenido/a a LiteFarm! LiteFarm es una herramienta de software de código abierto creado para ayudar a los/las agricultores y campesinos/as a manejar sus fincas. Puede conocer más acerca de LiteFarm en",
     "CLICK_BELOW": "También puede iniciar sesión (en cualquier dispositivo electrónico) usando el botón de abajo",
     "SUBJECT": "Bienvenido a LiteFarm!"
   },
@@ -50,16 +50,16 @@
     "CONGRATS": "Felicitaciones! Se ha convertido en el/la nuevo/a",
     "AT": "en",
     "CLICK_BELOW": "Puede iniciar sesión (en cualquier dispositivo electrónico) haciendo clic en el botón de abajo",
-    "SUBJECT": "Se uniste exitosamente"
+    "SUBJECT": "Se unió exitosamente"
   },
   "PASSWORD_RESET_CONFIRMATION": {
-    "UPDATED": "Hemos actualizado su clave en Litefarm. Haz click en `Iniciar Sesion` abajo para acceder a su cuenta.",
-    "SUBJECT": "Su clave en litefarm ha cambiado"
+    "UPDATED": "Hemos actualizado su clave en LiteFarm. Haga click en `Iniciar Sesión` abajo para acceder a su cuenta.",
+    "SUBJECT": "Su clave en LiteFarm ha cambiado"
   },
   "REVOKE_ACCESS": {
     "ADMIN": "Al parece desde",
-    "REVOKE": "han revocado el acceso a su finca en Litefarm. Si ésto resulta inesperado, por favor contacte a su administrador para resolver el problema.",
-    "SUBJECT0": "Has perdido acceso a",
+    "REVOKE": "han revocado el acceso a su finca en LiteFarm. Si ha habido un error, por favor contacte a su administrador para resolver el problema.",
+    "SUBJECT0": "Ha perdido acceso a",
     "SUBJECT1": "en LiteFarm!"
   },
   "RESTORE_ACCESS": {
@@ -71,9 +71,9 @@
   },
   "WITHHOLD_CONSENT": {
     "RECENT": "Recientemente, mientra formaba parte de",
-    "WITHHOLD": "en Litefarm, Ud. decidió retirar su consentimiento acerca de la politica de privacidad de Litefarm. Este es su absoluto derecho. Sin embargo, ésto también significa que no podrá volver a acceder a este programa. Lo lamentamos mucho.",
+    "WITHHOLD": "en LiteFarm, Ud. decidió retirar su consentimiento acerca de la política de privacidad de LiteFarm. Está en su absoluto derecho. Sin embargo, ésto también significa que no podrá volver a acceder a este programa. Lo lamentamos mucho.",
     "DEACTIVATE": "Hemos desactivado su participación en",
-    "HOWEVER": "Sin embargo, todavia contamos con la información básica que Ud. compartió con nosotros al momento de crear su cuenta. Si estaba asociado/a a otra finca(s), también contamos con la información que Ud. ingresó trabajando en esas fincas.",
+    "HOWEVER": "Sin embargo, todavía contamos con la información básica que Ud. compartió con nosotros al momento de crear su cuenta. Si estaba asociado/a a otra finca(s), también contamos con la información que Ud. registró trabajando en esas fincas.",
     "RIGHT": "Ud. tiene los siguientes derechos acerca de la información proporcionada",
     "COPY": "Conocer qué datos tenemos sobre Ud., y solicitar una copia de ellos",
     "UPDATE": "Actualizar o corregir cualquier información que tengamos sobre Ud.",
@@ -83,24 +83,24 @@
     "TO_REQUEST": "Para solicitar cualquiera de las acciones descritas, por favor envíenos un correo electrónico con su solicitud a",
     "SUPPORT": "y la procesaremos.",
     "OTHERWISE": "De otra manera, si Ud. luego decide reincorporarse a nuestro programa (desde cualquier dispositivo electrónico) puede hacerlo en cualquier momento aceptando nuestra política de privacidad. Para ésto, haga clic en el botón de abajo",
-    "RESTORE": "Si así lo hace, podrá acceder al programa Litefarm nuevamente.",
-    "SUBJECT": "No aceptaste la politica de privacidad de Litefarm - está son sus opciones"
+    "RESTORE": "Si así lo hace, podrá acceder al programa LiteFarm nuevamente.",
+    "SUBJECT": "No ha aceptado la politica de privacidad de LiteFarm - está son sus opciones"
   },
   "EXPORT_MAP": {
     "EXPORT": "Aquí está la exportación del mapa de la granja para",
     "REQUESTED": "que solicitó en LiteFarm.",
-    "GREETING": "¡Qué tengas un lindo día!",
+    "GREETING": "¡Que tenga un lindo día!",
     "SUBJECT0": "Aquí está el mapa de su granja para",
     "SUBJECT1": "en LiteFarm"
   },
   "EXPORT": {
-    "SEASON": "Esperamos que hayas tenido una increible temporada en",
-    "CERTIFICATION": "Puedes hacer clic en el link de abajo para descargar el zip con sus documentos de certificacion y todos los documentos adicionales ( imagenes de empaques de semillas, escaneos de sus facturas de insumos, etc.) Para su periodo de reporte.",
-    "PRIVACY": "En Litefarm, tomamos su privacidad enserio, asi que tendras que tener su sesion iniciada antes de poder acceder a sus documentos. Disculpa por los inconvenientes ocasionados. Buena suerte con su certificacion y gracias por usar Litefarm!",
+    "SEASON": "Esperamos que haya tenido una increíble temporada en",
+    "CERTIFICATION": "Puede hacer clic en el link de abajo para descargar el zip con sus documentos de certificación y todos los documentos adicionales (imágenes de empaques de semillas, escaneos de sus facturas de insumos, etc.) Para su periodo de reporte.",
+    "PRIVACY": "En LiteFarm, tomamos su privacidad enserio, asi que tendrá que tener su sesión iniciada antes de poder acceder a sus documentos. Disculpe por los inconvenientes ocasionados. Buena suerte con su certificación y gracias por usar LiteFarm!",
     "GET_EXPORT": "Obtener sus documentos",
-    "SUBJECT": "sus documentos de certificacion de Litefarm",
+    "SUBJECT": "sus documentos de certificación de LiteFarm",
     "HI": "Hola",
     "GET_YOUR_EXPORT": "Obtener documentos",
-    "LANGUAGE_DELAY": "Los cultivos e insumos en el reporte estan en Ingles, pero muy pronto estara disponible en Español. Pedimos disculpas por los inconvenientes."
+    "LANGUAGE_DELAY": "Los cultivos e insumos en el reporte estan en inglés, pero muy pronto estara disponible en español. Pedimos disculpas por los inconvenientes."
   }
 }

@@ -1785,13 +1785,16 @@
       "RETIRE_SUCCESS": "Retrait du capteur réussi",
       "RETIRE_FAILURE": "Il y a eu une erreur lors du retrait de ce capteur"
     },
+    "SENSOR_FORECAST": {
+      "TITLE": "La météo d'aujourd'hui",
+      "HIGH_AND_LOW_TEMPERATURE": "Haute et basse température\u00a0: {{high}}{{unit}} / {{low}}{{unit}}",
+      "WEATHER_STATION": "Station météorologique\u00a0: {{weatherStationLocation}}"
+    },
     "TEMPERATURE_READINGS_OF_SENSOR": {
       "TITLE": "Température du sol",
-      "SUBTITLE": "Température MISSING ambiante haute et basse d'aujourd'hui\u00a0: {{high}}{{units}} / {{low}}{{units}}",
       "Y_AXIS_LABEL": "en {{units}}",
       "C": "Celsius (°C)",
       "F": "Fahrenheit (°F)",
-      "WEATHER_STATION": "Station météorologique\u00a0: {{weatherStationLocation}}",
       "AMBIENT_TEMPERATURE_FOR": "Température ambiante pour"
     },
     "SOIL_WATER_POTENTIAL_READINGS_OF_SENSOR": {
@@ -1801,8 +1804,8 @@
       "PSI": "livres par pouce carré (psi)"
     },
     "SOIL_WATER_CONTENT_READINGS_OF_SENSOR": {
-      "TITLE": "MISSING",
-      "Y_AXIS_LABEL": "MISSING"
+      "TITLE": "Teneur en eau du sol",
+      "Y_AXIS_LABEL": "en {{units}}"
     },
     "READINGS_PREVIEW": {
       "TEMPERATURE": "Température actuelle du sol",
@@ -1812,11 +1815,11 @@
       "TITLE": "Les séries peuvent être masquées",
       "CONTENT": "Les capteurs individuels peuvent être affichés ou masqués en cliquant sur leurs étiquettes ici."
     },
-    "SECONDS_AGO": "MISSING",
-    "MINUTES_AGO": "MISSING",
-    "HOURS_AGO": "MISSING",
-    "DAYS_AGO": "MISSING",
-    "MONTHS_AGO": "MISSING"
+    "SECONDS_AGO": "il y a {{time}} seconde(s)",
+    "MINUTES_AGO": "il y a {{time}} minute(s)",
+    "HOURS_AGO": "il y a {{time}} heure(s)",
+    "DAYS_AGO": "il y a {{time}} jour(s)",
+    "MONTHS_AGO": "il y a {{time}} mois"
   },
   "CROP_STATUS_NON_ORGANIC_MISMATCH_MODAL": {
     "TITLE": "Vous avez choisi un emplacement non biologique\u00a0!",

@@ -12,10 +12,14 @@ export const CURRENT_DATE_TIME = 'current_date_time';
 
 export const DAILY_FORECAST_API_URL = 'https://api.openweathermap.org/data/2.5/forecast/daily';
 
+// https://openweathermap.org/api/geocoding-api#reverse - the most relevant values (array) based on coordinates are returned
+export const REVERSE_GEOCODING_API_URL = 'https://api.openweathermap.org/geo/1.0/reverse';
+
 export const OPEN_WEATHER_API_URL_FOR_SENSORS = [
   'https://history.openweathermap.org/data/2.5/history/city',
   'https://pro.openweathermap.org/data/2.5/forecast/hourly',
   DAILY_FORECAST_API_URL,
+  REVERSE_GEOCODING_API_URL,
 ];
 export const HOUR = 'hour';
 export const TEMPERATURE = 'temperature';

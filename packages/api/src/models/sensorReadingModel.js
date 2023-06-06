@@ -95,13 +95,12 @@ class SensorReading extends Model {
    * @returns {Object} list of sensor readings
    */
   static async getSensorReadingsByLocationIds(
-    endDate = new Date(),
     locationIds = [],
     readingTypes = [],
+    endDateTime = new Date(),
+    startDateTime = new Date(),
   ) {
     const durationType = '1 hour';
-    const startDate = new Date(endDate);
-    startDate.setDate(endDate.getDate() - 5);
     const sensorReadingsResponsePromises = [];
     for (const readingType of readingTypes) {
       sensorReadingsResponsePromises.push(
@@ -116,7 +115,7 @@ class SensorReading extends Model {
           name 
         FROM get_average_sensor_readings_by_reading_type(?,?,?,?,?,?);
       `,
-          [readingType, false, startDate, endDate, locationIds, durationType],
+          [readingType, false, startDateTime, endDateTime, locationIds, durationType],
         ),
       );
     }

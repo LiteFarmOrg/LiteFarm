@@ -1540,13 +1540,16 @@
       "RETIRE_SUCCESS": "Successfully retired sensor",
       "RETIRE_FAILURE": "There was an error retiring this sensor"
     },
+    "SENSOR_FORECAST": {
+      "TITLE": "Today's forecast",
+      "HIGH_AND_LOW_TEMPERATURE": "High and low temperature: {{high}}{{unit}} / {{low}}{{unit}}",
+      "WEATHER_STATION": "Weather station: {{weatherStationLocation}}"
+    },
     "TEMPERATURE_READINGS_OF_SENSOR": {
       "TITLE": "Soil temperature",
-      "SUBTITLE": "Today’s forecasted ambient high and low temperature: {{high}}{{units}} / {{low}}{{units}}",
       "Y_AXIS_LABEL": "in {{units}}",
       "C": "Celsius (°C)",
       "F": "Fahrenheit (°F)",
-      "WEATHER_STATION": "Weather station: {{weatherStationLocation}}",
       "AMBIENT_TEMPERATURE_FOR": "Ambient temperature for"
     },
     "SOIL_WATER_POTENTIAL_READINGS_OF_SENSOR": {
@@ -1557,7 +1560,7 @@
     },
     "SOIL_WATER_CONTENT_READINGS_OF_SENSOR": {
       "TITLE": "Soil water content",
-      "Y_AXIS_LABEL": "Soil water content in {{units}}"
+      "Y_AXIS_LABEL": "in {{units}}"
     },
     "READINGS_PREVIEW": {
       "TEMPERATURE": "Current soil temp",
@@ -1567,11 +1570,11 @@
       "TITLE": "Series can be hidden",
       "CONTENT": "Individual sensors can be shown or hidden by clicking their labels here."
     },
-    "SECONDS_AGO": "{{time}} seconds ago",
-    "MINUTES_AGO": "{{time}} minutes ago",
-    "HOURS_AGO": "{{time}} hours ago",
-    "DAYS_AGO": "{{time}} days ago",
-    "MONTHS_AGO": "{{time}} months ago"
+    "SECONDS_AGO": "{{time}} second(s) ago",
+    "MINUTES_AGO": "{{time}} minute(s) ago",
+    "HOURS_AGO": "{{time}} hour(s) ago",
+    "DAYS_AGO": "{{time}} day(s) ago",
+    "MONTHS_AGO": "{{time}} month(s) ago"
   },
   "SHIFT": {
     "ACTION": "Action",

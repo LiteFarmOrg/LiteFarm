@@ -1,5 +1,5 @@
 /*
- *  Copyright 2019, 2020, 2021, 2022, 2023 LiteFarm.org
+ *  Copyright 2023 LiteFarm.org
  *  This file is part of LiteFarm.
  *
  *  LiteFarm is free software: you can redistribute it and/or modify
@@ -16,14 +16,14 @@
 export const up = async function (knex) {
   return Promise.all([
     await knex.raw(
-      `DROP FUNCTION IF EXISTS public.get_nearest_sensor_readings_by_reading_type(text, boolean, date, date, uuid[], text);`,
+      `DROP FUNCTION IF EXISTS public.get_nearest_sensor_readings_by_reading_type(text, boolean, timestamp with time zone, timestamp with time zone, uuid[], text);`,
     ),
-    await knex.raw(`
-      CREATE OR REPLACE FUNCTION public.get_average_sensor_readings_by_reading_type(
+    await knex.raw(
+      `CREATE OR REPLACE FUNCTION public.get_average_sensor_readings_by_reading_type(
 		readingtype text DEFAULT 'soil_water_potential'::text,
 		valid boolean DEFAULT false,
-		startdate date DEFAULT '2022-11-02'::date,
-		enddate date DEFAULT '2022-12-02'::date,
+		startdate timestamp with time zone DEFAULT '2023-05-22 20:01:02.112924-04'::timestamp with time zone,
+		enddate timestamp with time zone DEFAULT '2023-05-22 20:01:03.112924-04'::timestamp with time zone,
 		location_ids uuid[] DEFAULT '{}'::uuid[],
 		intervalduration text DEFAULT '1 hour'::text)
 		  RETURNS TABLE(
@@ -109,21 +109,22 @@ export const up = async function (knex) {
 	  END LOOP;
 	  END LOOP;
 	END
-   $BODY$;`),
+   $BODY$;`,
+    ),
   ]);
 };
 
 export const down = async function (knex) {
   return Promise.all([
     await knex.raw(
-      `DROP FUNCTION IF EXISTS public.get_average_sensor_readings_by_reading_type(text, boolean, date, date, uuid[], text);`,
+      `DROP FUNCTION IF EXISTS public.get_average_sensor_readings_by_reading_type(text, boolean, timestamp with time zone, timestamp with time zone, uuid[], text)`,
     ),
-    await knex.raw(`
-    CREATE OR REPLACE FUNCTION public.get_nearest_sensor_readings_by_reading_type(
+    await knex.raw(
+      `CREATE OR REPLACE FUNCTION public.get_nearest_sensor_readings_by_reading_type(
 		readingtype text DEFAULT 'soil_water_potential'::text,
 		valid boolean DEFAULT false,
-		startdate date DEFAULT '2022-11-02'::date,
-		enddate date DEFAULT '2022-12-02'::date,
+		startdate timestamp with time zone DEFAULT '2023-05-22 20:01:02.112924-04'::timestamp with time zone,
+		enddate timestamp with time zone DEFAULT '2023-05-22 20:01:03.112924-04'::timestamp with time zone,
 		location_ids uuid[] DEFAULT '{}'::uuid[],
 		intervalduration text DEFAULT '1 hour'::text)
 		  RETURNS TABLE(nearest_read_time timestamp with time zone, read_time timestamp with time zone, value real, u character varying, location_id uuid, name character varying, rank bigint) 
@@ -189,6 +190,7 @@ export const down = async function (knex) {
 	  END LOOP;
 	  END LOOP;
 	END
-   $BODY$;`),
+	$BODY$;`,
+    ),
   ]);
 };

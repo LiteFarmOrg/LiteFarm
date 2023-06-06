@@ -37,31 +37,31 @@ export const userUrl = `${URI}/user`;
 export const pseudoUserUrl = `${URI}/user/pseudo`;
 export const farmUrl = `${URI}/farm`;
 export const inviteUserUrl = `${URI}/user/invite`;
-export const fieldURL = `${URI}/field`;
+//export const fieldURL = `${URI}/field`;
 export const locationURL = `${URI}/location`;
 export const cropURL = `${URI}/crop`;
 export const cropVarietyURL = `${URI}/crop_variety`;
 export const logURL = `${URI}/log`;
-export const fertUrl = `${URI}/fertilizer`;
+//export const fertUrl = `${URI}/fertilizer`;
 export const managementPlanURL = `${URI}/management_plan`;
-export const pesticideUrl = `${URI}/pesticide`;
-export const diseaseUrl = `${URI}/disease`;
+//export const pesticideUrl = `${URI}/pesticide`;
+//export const diseaseUrl = `${URI}/disease`;
 export const taskTypeUrl = `${URI}/task_type`;
-export const priceURL = `${URI}/price`;
-export const yieldURL = `${URI}/yield`;
+//export const priceURL = `${URI}/price`;
+//export const yieldURL = `${URI}/yield`;
 export const insightUrl = `${URI}/insight`;
 export const documentUrl = `${URI}/document`;
 export const salesURL = URI + '/sale';
-export const cropSalesURL = URI + '/crop_sale';
+//export const cropSalesURL = URI + '/crop_sale';
 export const expenseUrl = URI + '/expense';
 export const expenseTypeDefaultUrl = URI + '/expense_type';
-export const contactURL = URI + '/contact';
-export const farmDataUrl = URI + '/farmdata';
+//export const contactURL = URI + '/contact';
+//export const farmDataUrl = URI + '/farmdata';
 export const userFarmUrl = `${URI}/user_farm`;
 export const weatherAPIKey = import.meta.env.VITE_WEATHER_API_KEY;
 // export const   userFarm = URI + '/user_farm';
 export const rolesUrl = URI + '/roles';
-export const signUpUrl = `${URI}/sign_up`;
+//export const signUpUrl = `${URI}/sign_up`;
 export const loginUrl = `${URI}/login`;
 export const resetPasswordUrl = `${URI}/password_reset`;
 export const spotlightUrl = `${URI}/showed_spotlight`;
@@ -78,31 +78,31 @@ export default {
   pseudoUserUrl,
   farmUrl,
   inviteUserUrl,
-  fieldURL,
+  //fieldURL,
   locationURL,
   cropURL,
   cropVarietyURL,
   logURL,
-  fertUrl,
+  //fertUrl,
   managementPlanURL,
-  pesticideUrl,
-  diseaseUrl,
+  //pesticideUrl,
+  //diseaseUrl,
   taskTypeUrl,
-  priceURL,
-  yieldURL,
+  //priceURL,
+  //yieldURL,
   insightUrl,
   documentUrl,
   salesURL,
-  cropSalesURL,
+  //cropSalesURL,
   expenseUrl,
   expenseTypeDefaultUrl,
-  contactURL,
-  farmDataUrl,
+  //contactURL,
+  //farmDataUrl,
   userFarmUrl,
   weatherAPIKey,
   // userFarm,
   rolesUrl,
-  signUpUrl,
+  //signUpUrl,
   loginUrl,
   resetPasswordUrl,
   spotlightUrl,

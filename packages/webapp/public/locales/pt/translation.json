@@ -1444,57 +1444,6 @@
       "VALUE": "Valor"
     }
   },
-  "SHIFT": {
-    "ACTION": "Açao",
-    "ADD_NEW": "Adicionar Novo Turno",
-    "EDIT_SHIFT": {
-      "ADD_CUSTOM_TASK": "Adicionar Tarefa Personalizada",
-      "ADD_TASK": "Adicionar uma Tarefa",
-      "ALL": "Tudo",
-      "ALL_CROPS": "Todas os Cultivos",
-      "ASSIGN_TIME_TO_TASK": "Atribuir tempo para a tarefa por",
-      "CHOOSE_DATE": "Escolha uma data",
-      "CHOOSE_WORKERS": "Escolha trabalhador(a)",
-      "CROPS": "Cultivos",
-      "CROPS_LABEL": "Cultivos",
-      "DID_NOT_PROVIDE_ANSWER": "Não forneceu resposta",
-      "HAPPY": "Contente",
-      "INDIVIDUAL_CROPS": "Cultivos individuais",
-      "LOCATIONS": "Locais",
-      "LOCATIONS_LABEL": "Locais",
-      "MOOD": "Como você se sentiu durante este turno?",
-      "NAME_TASK": "Nome da tarefa personalizada",
-      "NEUTRAL": "Neutra(o)",
-      "RATHER_NOT_SAY": "Prefiro não dizer",
-      "SAD": "Descontente",
-      "SELECT_ALL": "Selecionar tudo",
-      "SELECT_CROPS": "Selecionar Cultivo",
-      "SELECT_FIELDS": "Selecionar Campo",
-      "VERY_HAPPY": "Muito contente",
-      "VERY_SAD": "Muito descontente",
-      "WHAT_TASKS_YOU_DID": "Que tarefas você fez hoje?",
-      "WORKER": "Trabalhador",
-      "WORKER_MOOD": "Como este trabalhador se sentiu durante este turno?"
-    },
-    "MY_SHIFT": {
-      "DELETE_CONFIRMATION": "Tem certeza que deseja deletar este turno?",
-      "DURATION": "Duração",
-      "LOCATION_CROPS": "Localizações/Cultivos",
-      "SUBMITTED_FOR": "Insira para",
-      "TASK": "Tarefa",
-      "TITLE": "Detalhes do turno"
-    },
-    "NAME": "Nome",
-    "NEW_SHIFT": {
-      "STEP_ONE": "Novo turno de trabalho",
-      "STEP_TWO": "Novo turno de trabalho"
-    },
-    "RETIRED": "Retirada",
-    "SHIFT_DATE": "Data do turno de trabalho",
-    "SHIFT_HISTORY": "Histórico de turnos",
-    "TIME_TOTAL": "Total",
-    "TITLE": "Turnos"
-  },
   "SIGNUP": {
     "CHANGES": "Leia sobre as mudanças",
     "EMAIL_INVALID": "Email é inválido",

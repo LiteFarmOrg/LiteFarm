@@ -22,12 +22,11 @@ import {
   GET_DEFAULT_EXPENSE_TYPE,
   GET_EXPENSE,
   GET_SALES,
-  GET_SHIFT_FINANCE,
   TEMP_DELETE_EXPENSE,
   TEMP_EDIT_EXPENSE,
   UPDATE_SALE,
 } from './constants';
-import { setDefaultExpenseType, setExpense, setSalesInState, setShifts } from './actions';
+import { setDefaultExpenseType, setExpense, setSalesInState } from './actions';
 import { call, put, select, takeLatest, takeLeading, race, take } from 'redux-saga/effects';
 import apiConfig from './../../apiConfig';
 import { loginSelector } from '../userFarmSlice';
@@ -107,21 +106,6 @@ export function* deleteSale(action) {
   } catch (e) {
     console.log(`failed to delete sale`);
     yield put(enqueueErrorSnackbar(i18n.t('message:SALE.ERROR.DELETE')));
-  }
-}
-
-export function* getShiftsSaga() {
-  const { farmShiftUrl } = apiConfig;
-  let { user_id, farm_id } = yield select(loginSelector);
-  const header = getHeader(user_id, farm_id);
-
-  try {
-    const result = yield call(axios.get, farmShiftUrl + farm_id, header);
-    if (result) {
-      yield put(setShifts(result.data));
-    }
-  } catch (e) {
-    console.log('failed to fetch shifts from database');
   }
 }
 
@@ -281,7 +265,6 @@ export function* patchEstimatedCropRevenueSaga({ payload: managementPlan }) {
 export default function* financeSaga() {
   yield takeLatest(GET_SALES, getSales);
   yield takeLeading(ADD_OR_UPDATE_SALE, addSale);
-  yield takeLatest(GET_SHIFT_FINANCE, getShiftsSaga);
   yield takeLatest(GET_EXPENSE, getExpenseSaga);
   yield takeLatest(GET_DEFAULT_EXPENSE_TYPE, getDefaultExpenseTypeSaga);
   yield takeLeading(ADD_EXPENSES, addExpensesSaga);

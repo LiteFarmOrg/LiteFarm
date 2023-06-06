@@ -1626,66 +1626,6 @@ function fakeScoutingTask(defaultData = {}) {
   };
 }
 
-async function shiftFactory({ promisedUserFarm = userFarmFactory() } = {}, shift = fakeShift()) {
-  const [userFarm] = await Promise.all([promisedUserFarm]);
-  const [{ user_id, farm_id }] = userFarm;
-  const base = baseProperties(user_id);
-  return knex('shift')
-    .insert({ user_id, farm_id, ...base, ...shift })
-    .returning('*');
-}
-
-function fakeShift(defaultData = {}) {
-  return {
-    shift_date: new Date().toISOString().split('T')[0],
-    mood: faker.helpers.arrayElement(['happy', 'neutral', 'very happy', 'sad', 'very sad', 'na']),
-    wage_at_moment: faker.datatype.number(20),
-    ...defaultData,
-  };
-}
-
-async function shiftTaskFactory(
-  {
-    promisedShift = shiftFactory(),
-    promisedManagementPlan = management_planFactory(),
-    promisedLocation = locationFactory(),
-    promisedTaskType = task_typeFactory(),
-    promisedUser = usersFactory(),
-  } = {},
-  shiftTask = fakeShiftTask(),
-) {
-  const [shift, managementPlan, field, task, user] = await Promise.all([
-    promisedShift,
-    promisedManagementPlan,
-    promisedLocation,
-    promisedTaskType,
-    promisedUser,
-  ]);
-  const [{ shift_id }] = shift;
-  const [{ management_plan_id }] = managementPlan;
-  const [{ location_id }] = field;
-  const [{ task_type_id }] = task;
-  const [{ user_id }] = user;
-  return knex('shiftTask')
-    .insert({
-      shift_id,
-      location_id,
-      management_plan_id,
-      task_id: task_type_id,
-      ...shiftTask,
-      ...baseProperties(user_id),
-    })
-    .returning('*');
-}
-
-function fakeShiftTask(defaultData = {}) {
-  return {
-    is_location: faker.datatype.boolean(),
-    duration: faker.datatype.number(200),
-    ...defaultData,
-  };
-}
-
 async function saleFactory({ promisedUserFarm = userFarmFactory() } = {}, sale = fakeSale()) {
   const [userFarm] = await Promise.all([promisedUserFarm]);
   const [{ user_id, farm_id }] = userFarm;
@@ -2183,10 +2123,6 @@ export default {
   fakeIrrigationTask,
   scouting_taskFactory,
   fakeScoutingTask,
-  shiftFactory,
-  fakeShift,
-  shiftTaskFactory,
-  fakeShiftTask,
   saleFactory,
   fakeSale,
   locationFactory,

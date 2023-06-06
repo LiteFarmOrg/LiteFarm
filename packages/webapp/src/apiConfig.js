@@ -47,14 +47,12 @@ export const managementPlanURL = `${URI}/management_plan`;
 export const pesticideUrl = `${URI}/pesticide`;
 export const diseaseUrl = `${URI}/disease`;
 export const taskTypeUrl = `${URI}/task_type`;
-export const shiftUrl = `${URI}/shift`;
 export const priceURL = `${URI}/price`;
 export const yieldURL = `${URI}/yield`;
 export const insightUrl = `${URI}/insight`;
 export const documentUrl = `${URI}/document`;
 export const salesURL = URI + '/sale';
 export const cropSalesURL = URI + '/crop_sale';
-export const farmShiftUrl = URI + '/shift/farm/';
 export const expenseUrl = URI + '/expense';
 export const expenseTypeDefaultUrl = URI + '/expense_type';
 export const contactURL = URI + '/contact';
@@ -90,14 +88,12 @@ export default {
   pesticideUrl,
   diseaseUrl,
   taskTypeUrl,
-  shiftUrl,
   priceURL,
   yieldURL,
   insightUrl,
   documentUrl,
   salesURL,
   cropSalesURL,
-  farmShiftUrl,
   expenseUrl,
   expenseTypeDefaultUrl,
   contactURL,

@@ -1444,57 +1444,6 @@
       "VALUE": "Valeur"
     }
   },
-  "SHIFT": {
-    "ACTION": "Action",
-    "ADD_NEW": "Ajouter nouveau poste de travail",
-    "EDIT_SHIFT": {
-      "ADD_CUSTOM_TASK": "Ajouter une tâche personnalisée",
-      "ADD_TASK": "Ajouter une tâche",
-      "ALL": "Tous les emplacements",
-      "ALL_CROPS": "Toutes les cultures",
-      "ASSIGN_TIME_TO_TASK": "Attribuer l'heure à la tâche par",
-      "CHOOSE_DATE": "Choisissez une date",
-      "CHOOSE_WORKERS": "Choisissez un travailleur",
-      "CROPS": "Cultures",
-      "CROPS_LABEL": "Cultures",
-      "DID_NOT_PROVIDE_ANSWER": "Aucune réponse entrée",
-      "HAPPY": "Content",
-      "INDIVIDUAL_CROPS": "Cultures individuelles",
-      "LOCATIONS": "Emplacements",
-      "LOCATIONS_LABEL": "Emplacements",
-      "MOOD": "Comment sentez vous après cette tâche\u00a0?",
-      "NAME_TASK": "Nom de la tâche personnalisée",
-      "NEUTRAL": "Neutre",
-      "RATHER_NOT_SAY": "Je préfère ne pas en parler",
-      "SAD": "Triste",
-      "SELECT_ALL": "Tout sélectionner",
-      "SELECT_CROPS": "Sélectionner les cultures",
-      "SELECT_FIELDS": "Sélectionner les emplacements",
-      "VERY_HAPPY": "Très heureux",
-      "VERY_SAD": "Très triste",
-      "WHAT_TASKS_YOU_DID": "Quelles tâches avez-vous effectuées aujourd'hui\u00a0?",
-      "WORKER": "Travailleur",
-      "WORKER_MOOD": "Comment se sentait cet travailleur pendant qu'il travaillait\u00a0?"
-    },
-    "MY_SHIFT": {
-      "DELETE_CONFIRMATION": "Êtes-vous certains que vous voulez supprimer cette poste\u00a0?",
-      "DURATION": "Duration",
-      "LOCATION_CROPS": "Emplacements des cultures",
-      "SUBMITTED_FOR": "Soumis pour",
-      "TASK": "Tâche",
-      "TITLE": "Détails de poste"
-    },
-    "NAME": "Nom",
-    "NEW_SHIFT": {
-      "STEP_ONE": "Ajouter un poste de travail",
-      "STEP_TWO": "Ajouter un poste de travail"
-    },
-    "RETIRED": "Zone Retiré",
-    "SHIFT_DATE": "Date",
-    "SHIFT_HISTORY": "Histoire du poste de travail",
-    "TIME_TOTAL": "Totale",
-    "TITLE": "Postes"
-  },
   "SIGNUP": {
     "CHANGES": "En savoir plus sur les changements",
     "EMAIL_INVALID": "Courriel non-valide",

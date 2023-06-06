@@ -1536,57 +1536,6 @@
     "DAYS_AGO": "{{time}} days ago",
     "MONTHS_AGO": "{{time}} months ago"
   },
-  "SHIFT": {
-    "ACTION": "Action",
-    "ADD_NEW": "Add New Shift",
-    "EDIT_SHIFT": {
-      "ADD_CUSTOM_TASK": "Add Custom Task",
-      "ADD_TASK": "Add a Task",
-      "ALL": "All locations",
-      "ALL_CROPS": "All crops",
-      "ASSIGN_TIME_TO_TASK": "Assign time to task by",
-      "CHOOSE_DATE": "Choose a Date",
-      "CHOOSE_WORKERS": "Choose worker",
-      "CROPS": "Crops",
-      "CROPS_LABEL": "Crops",
-      "DID_NOT_PROVIDE_ANSWER": "Did not provide answer",
-      "HAPPY": "Happy",
-      "INDIVIDUAL_CROPS": "Individual Crops",
-      "LOCATIONS": "Locations",
-      "LOCATIONS_LABEL": "Locations",
-      "MOOD": "How did this shift make you feel?",
-      "NAME_TASK": "Name of the custom task",
-      "NEUTRAL": "Neutral",
-      "RATHER_NOT_SAY": "Rather Not Say",
-      "SAD": "Sad",
-      "SELECT_ALL": "Select All",
-      "SELECT_CROPS": "Select crops",
-      "SELECT_FIELDS": "Select locations",
-      "VERY_HAPPY": "Very Happy",
-      "VERY_SAD": "Very Sad",
-      "WHAT_TASKS_YOU_DID": "What tasks did you do today?",
-      "WORKER": "Worker",
-      "WORKER_MOOD": "How did this worker feel during this shift?"
-    },
-    "MY_SHIFT": {
-      "DELETE_CONFIRMATION": "Are you sure you want to delete this shift?",
-      "DURATION": "Duration",
-      "LOCATION_CROPS": "Locations/Crops",
-      "SUBMITTED_FOR": "Submitted For",
-      "TASK": "Task",
-      "TITLE": "Shift Detail"
-    },
-    "NAME": "Name",
-    "NEW_SHIFT": {
-      "STEP_ONE": "Add a shift",
-      "STEP_TWO": "Add a shift"
-    },
-    "RETIRED": "Location Retired",
-    "SHIFT_DATE": "Date",
-    "SHIFT_HISTORY": "Shift History",
-    "TIME_TOTAL": "Total",
-    "TITLE": "Shifts"
-  },
   "SIGNUP": {
     "CHANGES": "Read about the changes",
     "EMAIL_INVALID": "Email is invalid",

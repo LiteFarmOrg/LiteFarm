@@ -1102,22 +1102,6 @@ describe('User Farm Tests', () => {
           { promisedFarm: [farm] },
           { ...mocks.fakeUserFarm(), role_id: 4 },
         );
-        const [shift0] = await mocks.shiftFactory(
-          { promisedUserFarm: [psedoUserFarm] },
-          {
-            ...mocks.fakeShift(),
-            created_by_user_id: owner.user_id,
-            updated_by_user_id: owner.user_id,
-          },
-        );
-        const [shift1] = await mocks.shiftFactory(
-          { promisedUserFarm: [psedoUserFarm] },
-          {
-            ...mocks.fakeShift(),
-            created_by_user_id: owner.user_id,
-            updated_by_user_id: owner.user_id,
-          },
-        );
         const email = faker.internet.email().toLowerCase();
         const [existingUser] = await mocks.usersFactory({
           ...mocks.fakeUser(),
@@ -1147,10 +1131,6 @@ describe('User Farm Tests', () => {
             expect(updatedUserFarm.status_id).toBe(1);
             expect(updatedUserFarm.wage).toEqual(wage);
             expect(updatedUserFarm.role_id).toBe(role_id);
-            const updatedShift0 = await knex('shift').where({ shift_id: shift0.shift_id }).first();
-            expect(updatedShift0.user_id).toBe(existingUser.user_id);
-            const updatedShift1 = await knex('shift').where({ shift_id: shift1.shift_id }).first();
-            expect(updatedShift1.user_id).toBe(existingUser.user_id);
             done();
           },
         );
@@ -1162,29 +1142,12 @@ describe('User Farm Tests', () => {
           { promisedFarm: [farm] },
           { ...mocks.fakeUserFarm(), role_id: 4 },
         );
-        const [shift0] = await mocks.shiftFactory(
-          { promisedUserFarm: [psedoUserFarm] },
-          {
-            ...mocks.fakeShift(),
-            created_by_user_id: owner.user_id,
-            updated_by_user_id: owner.user_id,
-          },
-        );
-        const [shift1] = await mocks.shiftFactory(
-          { promisedUserFarm: [psedoUserFarm] },
-          {
-            ...mocks.fakeShift(),
-            created_by_user_id: owner.user_id,
-            updated_by_user_id: owner.user_id,
-          },
-        );
         const email = faker.internet.email().toLowerCase();
         const [existingUser] = await mocks.usersFactory({ ...mocks.fakeUser(), email });
         const [existringUserFarm] = await mocks.userFarmFactory({
           promisedFarm: [farm],
           promisedUser: [existingUser],
         });
-        const [existingShift] = await mocks.shiftFactory({ promisedUserFarm: [existringUserFarm] });
         const { wage, role_id } = mocks.fakeUserFarm();
         invitePseudoUserRequest(
           { email, role_id, wage },

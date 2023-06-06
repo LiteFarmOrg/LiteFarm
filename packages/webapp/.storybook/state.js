@@ -1938,7 +1938,6 @@ export default {
     financeReducer: {
       sales: null,
       cropSales: null,
-      shifts: null,
     },
   },
   farmReducer: {

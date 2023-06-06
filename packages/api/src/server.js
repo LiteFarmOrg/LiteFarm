@@ -70,7 +70,6 @@ expressOasGenerator.handleResponses(app, {
     'roles',
     'sale',
     'sensors',
-    'shift',
     'signup',
     'spotlight',
     'support',
@@ -110,7 +109,6 @@ import farmExpenseRoute from './routes/farmExpenseRoute.js';
 import farmExpenseTypeRoute from './routes/farmExpenseTypeRoute.js';
 import farmRoutes from './routes/farmRoute.js';
 import logRoutes from './routes/logRoute.js';
-import shiftRoutes from './routes/shiftRoute.js';
 import managementPlanRoute from './routes/managementPlanRoute.js';
 import fertilizerRoutes from './routes/fertilizerRoute.js';
 import diseaseRoutes from './routes/diseaseRoute.js';
@@ -169,7 +167,6 @@ app.set('json replacer', (key, value) => {
     'harvest_date',
     'plant_date',
     'seed_date',
-    'shift_date',
     'start_date',
     'termination_date',
     'transition_date',
@@ -245,7 +242,6 @@ app
   .use('/field', fieldRoutes)
   // .use('/plan', planRoutes)
   .use('/sale', saleRoutes)
-  //.use('/shift_task', shiftTaskRoutes)
   .use('/task_type', taskTypeRoutes)
   // .use('/todo', todoRoutes)
   .use('/user', userRoutes)
@@ -254,7 +250,6 @@ app
   // .use('/notification', notificationRoutes)
   .use('/farm', farmRoutes)
   .use('/log', logRoutes)
-  .use('/shift', shiftRoutes)
   // .use('/notification_setting', notificationSettingRoutes)
   .use('/management_plan', managementPlanRoute)
   .use('/fertilizer', fertilizerRoutes)

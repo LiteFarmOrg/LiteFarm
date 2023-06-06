@@ -15,7 +15,6 @@ const entitiesGetters = {
   locationIds: fromLocationIds,
   locations: fromLocations,
   sale_id: fromSale,
-  shift_id: fromShift,
   location_id: fromLocation,
   crop_management_plan: fromCropManagement,
   //TODO remove
@@ -135,10 +134,6 @@ function fromTask(taskTypeId) {
 
 function fromDocument(document_id) {
   return knex('document').where({ document_id }).first();
-}
-
-function fromShift(shiftId) {
-  return knex('shift').where({ shift_id: shiftId }).first();
 }
 
 function fromPesticide(pesticideId) {

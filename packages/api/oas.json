@@ -7212,117 +7212,6 @@
         ]
       }
     },
-    "/shift": {
-      "post": {
-        "summary": "/shift",
-        "consumes": [
-          "application/json"
-        ],
-        "parameters": [],
-        "responses": {},
-        "tags": [
-          "shift"
-        ]
-      }
-    },
-    "/shift/{shift_id}": {
-      "delete": {
-        "summary": "/shift/{shift_id}",
-        "consumes": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "shift_id",
-            "in": "path",
-            "required": true
-          }
-        ],
-        "responses": {},
-        "tags": [
-          "shift"
-        ]
-      },
-      "get": {
-        "summary": "/shift/{shift_id}",
-        "consumes": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "shift_id",
-            "in": "path",
-            "required": true
-          }
-        ],
-        "responses": {},
-        "tags": [
-          "shift"
-        ]
-      }
-    },
-    "/shift/user/{user_id}": {
-      "get": {
-        "summary": "/shift/user/{user_id}",
-        "consumes": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "user_id",
-            "in": "path",
-            "required": true
-          }
-        ],
-        "responses": {},
-        "tags": [
-          "shift",
-          "user"
-        ]
-      }
-    },
-    "/shift/farm/{farm_id}": {
-      "get": {
-        "summary": "/shift/farm/{farm_id}",
-        "consumes": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "farm_id",
-            "in": "path",
-            "required": true
-          }
-        ],
-        "responses": {},
-        "tags": [
-          "farm",
-          "shift"
-        ]
-      }
-    },
-    "/shift/userFarm/{farm_id}": {
-      "get": {
-        "summary": "/shift/userFarm/{farm_id}",
-        "consumes": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "farm_id",
-            "in": "path",
-            "required": true
-          }
-        ],
-        "responses": {},
-        "tags": [
-          "farm",
-          "shift",
-          "user",
-          "userFarm"
-        ]
-      }
-    },
     "/management_plan/{management_plan_id}": {
       "get": {
         "summary": "/management_plan/{management_plan_id}",
@@ -13825,9 +13714,6 @@
     },
     {
       "name": "sensors"
-    },
-    {
-      "name": "shift"
     },
     {
       "name": "signup"

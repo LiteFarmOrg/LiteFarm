@@ -1,6 +1,5 @@
 import knex from '../../util/knex.js';
 const entitiesGetters = {
-  activity_id: fromActivity,
   shift_id: fromShift,
   user_id: (user_id) => ({ user_id }),
 };
@@ -21,10 +20,6 @@ function sameUser(object, { user_id, farm_id }) {
   return object.farm_id
     ? object.farm_id === farm_id && object.user_id === user_id
     : object.user_id === user_id;
-}
-
-async function fromActivity(activityId) {
-  return knex('activityLog').where({ activity_id: activityId }).first();
 }
 
 async function fromShift(shiftId) {

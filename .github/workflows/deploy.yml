@@ -17,7 +17,7 @@ jobs:
 
       - name: Read deploy script contents
         id: script
-        uses: andstor/file-reader-action@v1
+        uses: juliangruber/read-file-action@v1
         with:
           path: beta-deploy.sh
 
@@ -30,4 +30,4 @@ jobs:
           passphrase: ${{ secrets.BETA_SSH_PASS }}
           key: ${{ secrets.BETA_SSH_KEY }}
           command_timeout: 20m
-          script: ${{ steps.script.outputs.contents }}
+          script: ${{ steps.script.outputs.content }}

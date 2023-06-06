@@ -45,21 +45,36 @@ export const getDates = () => {
   let startMidnightUnixTimeMs = new Date(startUnixTimeMs).setHours(0, 0, 0, 0);
   let startUnixTime = parseInt(+startMidnightUnixTimeMs / 1000);
 
-  const formattedEndDate = moment(endMidnightUnixTimeMs).format('MM-DD-YYYY');
+  // E.g. Nepal Time (UTC+5:45) utcOffsetMinutes = -45
+  // E.g. IF Inverse Nepal Time existed (UTC-5:45) utcOffsetMinutes = 45
+  let utcOffsetMinutes = currentDateTime.getTimezoneOffset() % 60;
+  // E.g. Nepal Time (UTC+5:45) forwardUtcOffsetMinutes = 45,
+  // E.g. IF Inverse Nepal Time existed (UTC-5:45) forwardUtcOffsetMinutes = 15
+  let forwardUtcOffsetMinutes = (60 - utcOffsetMinutes) % 60;
+  let backUtcOffsetMinutes = (60 + utcOffsetMinutes) % 60;
+  let forwardAdjustmentUnix = forwardUtcOffsetMinutes * 60;
+  let backAdjustmentUnix = backUtcOffsetMinutes * 60;
 
   return {
     endUnixTime,
     startUnixTime,
     currentDateTime,
-    formattedEndDate,
+    forwardUtcOffsetMinutes,
+    forwardAdjustmentUnix,
+    backAdjustmentUnix,
   };
 };
 
-export const roundDownToNearestHour = (currentUnixTime) => {
+export const roundDownToNearestTimepoint = (currentUnixTime, utcOffsetMinutes) => {
   const currentHour = new Date(currentUnixTime).getHours();
-  const nearestChosenUnixTime = new Date(currentUnixTime).setHours(currentHour, 0, 0, 0);
+  const nearestChosenUnixTime = new Date(currentUnixTime).setHours(
+    currentHour,
+    Math.abs(utcOffsetMinutes),
+    0,
+    0,
+  );
 
-  return moment(nearestChosenUnixTime).format('ddd MMMM D YYYY HH:mm');
+  return moment(nearestChosenUnixTime).format('ddd MMM DD YYYY HH:mm');
 };
 
 const timeDifference = (current, previous) => {

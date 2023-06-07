@@ -1840,7 +1840,6 @@ describe('Task tests', () => {
       await mocks.field_work_taskFactory({ promisedTask: [{ task_id }] });
 
       const new_field_work_task = customFieldWorkTask(faker.lorem.words(2));
-      console.log(new_field_work_task);
       completeTaskRequest(
         { user_id, farm_id },
         {
@@ -1850,7 +1849,6 @@ describe('Task tests', () => {
         task_id,
         'field_work_task',
         async (err, res) => {
-          console.log(res.body);
           expect(res.status).toBe(200);
           const completed_task = await knex('task').where({ task_id }).first();
           expect(toLocal8601Extended(completed_task.complete_date)).toBe(complete_date);

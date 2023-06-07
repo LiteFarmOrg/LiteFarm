@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "test": "jest --runInBand --detectOpenHandles",
-    "test-ci": "NODE_ENV=pipeline jest --runInBand --forceExit",
+    "test-ci": "NODE_ENV=pipeline jest --runInBand --detectOpenHandles --forceExit",
     "test-end2end": "jest endToEnd",
     "jest-w": "jest --watch",
     "start": "set NODE_ENV=development&& node src/server.js",

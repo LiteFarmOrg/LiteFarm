@@ -81,8 +81,9 @@ export function* getSensorsReadingsSaga({ payload }) {
       startUnixTime,
       endUnixTime,
       currentDateTime,
-      hourlyTimezoneOffsetMin,
-      hourlyTimezoneOffsetUnix,
+      forwardUtcOffsetMinutes,
+      forwardAdjustmentUnix,
+      backAdjustmentUnix,
     } = getDates();
 
     const header = getHeader(user_id, farm_id);
@@ -91,8 +92,10 @@ export function* getSensorsReadingsSaga({ payload }) {
       user_id,
       locationIds,
       readingTypes,
-      startUnixTime: startUnixTime + hourlyTimezoneOffsetUnix,
-      endUnixTime: endUnixTime + hourlyTimezoneOffsetUnix,
+      // Adjustments necessary to align with limitations on OpenWeatherAPI response
+      // OpenWeather time sampling resolution is only hourly on UTC hours
+      startUnixTime: startUnixTime + forwardAdjustmentUnix,
+      endUnixTime: endUnixTime + backAdjustmentUnix,
     };
 
     const result = yield call(axios.post, sensorReadingsUrl(), postData, header);
@@ -113,7 +116,7 @@ export function* getSensorsReadingsSaga({ payload }) {
         );
         readings.predictedXAxisLabel = roundDownToNearestTimepoint(
           currentDateTime,
-          hourlyTimezoneOffsetMin,
+          forwardUtcOffsetMinutes,
         );
         readings.unit = getUnit(measurement)[type];
 
@@ -124,8 +127,8 @@ export function* getSensorsReadingsSaga({ payload }) {
 
           if (startUnixTime <= currentValueUnixTime && currentValueUnixTime < endUnixTime) {
             const hourlyTimezoneOffsetString =
-              hourlyTimezoneOffsetMin === 0 ? '00' : Math.abs(hourlyTimezoneOffsetMin).toString();
-            const currentDateTime = `${
+              forwardUtcOffsetMinutes === 0 ? '00' : Math.abs(forwardUtcOffsetMinutes).toString();
+            const formattedCurrentValueDateTimeString = `${
               currentValueDateTimeString?.split(`:${hourlyTimezoneOffsetString}:00`)[0]
             }:${hourlyTimezoneOffsetString}`;
             if (!acc[currentValueUnixTime]) acc[currentValueUnixTime] = {};
@@ -133,7 +136,7 @@ export function* getSensorsReadingsSaga({ payload }) {
               [cv?.name]: isNaN(convertValues(type, cv?.value, measurement))
                 ? i18n.t('translation:SENSOR.NO_DATA')
                 : convertValues(type, cv?.value, measurement),
-              [CURRENT_DATE_TIME]: currentDateTime,
+              [CURRENT_DATE_TIME]: formattedCurrentValueDateTimeString,
             };
           }
           return acc;

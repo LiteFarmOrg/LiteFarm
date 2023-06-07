@@ -12,12 +12,22 @@ jobs:
   deploy:
     runs-on: ubuntu-20.04
     steps:
-      - name: Deploy over SSH
-        uses: appleboy/ssh-action@v0.1.3
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Read deploy script contents
+        id: script
+        uses: juliangruber/read-file-action@v1
         with:
+          path: beta-deploy.sh
+
+      - name: Deploy over SSH
+        uses: appleboy/ssh-action@v0.1.7
+        with:
+          script_stop: true
           host: ${{ secrets.BETA_SSH_HOST }}
           username: ${{ secrets.BETA_SSH_USER }}
           passphrase: ${{ secrets.BETA_SSH_PASS }}
           key: ${{ secrets.BETA_SSH_KEY }}
           command_timeout: 20m
-          script: ${{ secrets.DEPLOYMENT_SCRIPT }}
+          script: ${{ steps.script.outputs.content }}

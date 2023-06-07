@@ -1,6 +1,6 @@
 {
   "name": "litefarm-api",
-  "version": "3.3.1",
+  "version": "3.3.2",
   "description": "LiteFarm API server",
   "main": "./api/src/server.js",
   "type": "module",
@@ -54,7 +54,6 @@
     "aws-sdk": "^2.931.0",
     "axios": "^0.21.4",
     "bcryptjs": "^2.4.3",
-    "body-parser": "^1.19.0",
     "bull": "^3.22.9",
     "chai": "^4.2.0",
     "chai-http": "^4.3.0",

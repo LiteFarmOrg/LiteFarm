@@ -389,11 +389,10 @@ async function fromTaskManagementPlanAndLocation(req) {
 }
 
 async function fromTransPlantTask(req) {
-  const farm_id = req.headers.farm_id;
+  const { farm_id } = req.headers;
   const { planting_management_plan, prev_planting_management_plan_id } = req.body.transplant_task;
 
   const { location_id, management_plan_id } = planting_management_plan;
-  const locationIds = new Set([location_id]);
 
   const prevManagementPlan = await knex('management_plan')
     .join(
@@ -404,7 +403,6 @@ async function fromTransPlantTask(req) {
     .join('crop_variety', 'crop_variety.crop_variety_id', 'management_plan.crop_variety_id')
     .where('planting_management_plan.planting_management_plan_id', prev_planting_management_plan_id)
     .first();
-  locationIds.add(prevManagementPlan.location_id);
 
   const managementPlan = await knex('management_plan')
     .join('crop_variety', 'crop_variety.crop_variety_id', 'management_plan.crop_variety_id')
@@ -414,6 +412,13 @@ async function fromTransPlantTask(req) {
   for (const plan of [managementPlan, prevManagementPlan]) {
     if (plan.farm_id !== farm_id) return {};
   }
+
+  const locationIds = [location_id, prevManagementPlan.location_id].reduce((acc, id) => {
+    if (id) {
+      acc.add(id);
+    }
+    return acc;
+  }, new Set());
 
   const farmIds = await knex('location')
     .whereIn('location_id', [...locationIds])

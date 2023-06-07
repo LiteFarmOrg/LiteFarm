@@ -15,7 +15,7 @@ import Checkbox from '../../Form/Checkbox';
 import Rating from '../../Rating';
 import { getDateInputFormat } from '../../../util/moment';
 import RadioGroup from '../../Form/RadioGroup';
-import Pill from '../../Pill';
+import Pill from '../../Filter/Pill';
 import {
   ABANDON_DATE_SELECTED,
   ORIGINAL_DUE_DATE,
@@ -89,9 +89,9 @@ const PureAbandonTask = ({
         <>
           {t('TASK.ABANDON.DATE_ORIGINAL')}
           <Pill
-            body={dueDate}
-            active={selectedAbandonOption === ORIGINAL_DUE_DATE}
-            spaceBefore
+            label={dueDate}
+            style={{ marginLeft: '6px' }}
+            selected={selectedAbandonOption === ORIGINAL_DUE_DATE}
           ></Pill>
         </>
       ),
@@ -102,7 +102,11 @@ const PureAbandonTask = ({
       label: (
         <>
           {t('TASK.ABANDON.DATE_TODAY')}
-          <Pill body={today} active={selectedAbandonOption === TODAY_DUE_DATE} spaceBefore></Pill>
+          <Pill
+            label={today}
+            style={{ marginLeft: '6px' }}
+            selected={selectedAbandonOption === TODAY_DUE_DATE}
+          ></Pill>
         </>
       ),
     },

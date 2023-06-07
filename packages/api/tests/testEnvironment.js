@@ -51,6 +51,7 @@ async function tableCleanup(knex) {
     DELETE FROM "showedSpotlight";
     DELETE FROM "userLog";
     DELETE FROM "location_tasks";
+    DELETE FROM "field_work_type";
     DELETE FROM "field_work_task";
     DELETE FROM "harvest_use";
     DELETE FROM "harvest_task";

@@ -113,7 +113,7 @@ class SensorReading extends Model {
           u AS unit,
           location_id,
           name 
-        FROM get_nearest_sensor_readings_by_reading_type(?,?,?,?,?,?) WHERE nearest_read_time - read_time < INTERVAL '2 hour';
+        FROM get_average_sensor_readings_by_reading_type(?,?,?,?,?,?);
       `,
           [readingType, false, startDateTime, endDateTime, locationIds, durationType],
         ),

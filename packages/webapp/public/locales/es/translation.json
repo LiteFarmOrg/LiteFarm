@@ -540,7 +540,7 @@
       },
       "VALIDATION": {
         "FILE_ROW_LIMIT_EXCEEDED": "Límite de fila de archivos superado. El número máximo de sensores que se pueden cargar desde un archivo es 100.",
-        "MISSING_COLUMNS": "Se requieren columnas/faltan.",
+        "MISSING_COLUMNS": "Se requieren/faltan columnas.",
         "EXTERNAL_ID": "Identificación externa no válida, debe tener entre 1 y 20 caracteres.",
         "SENSOR_NAME": "Nombre del sensor no válido, debe estar entre 1 y 100 caracteres.",
         "SENSOR_LATITUDE": "Valor de latitud no válido, debe estar entre -85 y 85. y menos de 10 decimales.",
@@ -1639,7 +1639,7 @@
     "LONGTITUDE": "Longtitude",
     "READING": {
       "TYPES": "Tipos de lectura",
-      "SOIL_WATER_CONTENT": "Contenido de agua del suelo",
+      "SOIL_WATER_CONTENT": "Contenido hídrico del suelo",
       "SOIL_WATER_POTENTIAL": "Potencial hídrico del suelo",
       "TEMPERATURE": "Temperatura",
       "UNKNOWN": "Desconocido"
@@ -1647,7 +1647,7 @@
     "DEPTH": "Profundidad",
     "BRAND": "Marca",
     "VALIDATION": {
-      "READING_TYPES": "MISSING"
+      "READING_TYPES": "Tipos de lecturas"
     },
     "MODAL": {
       "TITLE": "¿Cambiar los tipos de lectura?",
@@ -1692,8 +1692,8 @@
       "RETIRE_FAILURE": "Hubo un error al retirar este sensor"
     },
     "SENSOR_FORECAST": {
-      "TITLE": "MISSING",
-      "HIGH_AND_LOW_TEMPERATURE": "MISSING: {{high}}{{unit}} / {{low}}{{unit}}",
+      "TITLE": "Pronóstico del día",
+      "HIGH_AND_LOW_TEMPERATURE": "Temperatura máxima y mínima: {{high}}{{unit}} / {{low}}{{unit}}",
       "WEATHER_STATION": "Estación meteorológica: {{weatherStationLocation}}"
     },
     "TEMPERATURE_READINGS_OF_SENSOR": {
@@ -1704,28 +1704,28 @@
       "AMBIENT_TEMPERATURE_FOR": "Temperatura ambiente para"
     },
     "SOIL_WATER_POTENTIAL_READINGS_OF_SENSOR": {
-      "TITLE": "Potencial de agua del suelo",
+      "TITLE": "Potencial hídrico del suelo",
       "Y_AXIS_LABEL": "en {{units}}",
       "KPA": "kilopascales (kPa)",
       "PSI": "libras por pulgada cuadrada (psi)"
     },
     "SOIL_WATER_CONTENT_READINGS_OF_SENSOR": {
-      "TITLE": "MISSING",
-      "Y_AXIS_LABEL": "MISSING"
+      "TITLE": "Contenido de agua en el suelo",
+      "Y_AXIS_LABEL": "en {{units}}"
     },
     "READINGS_PREVIEW": {
       "TEMPERATURE": "Temperatura actual del suelo",
-      "SOIL_WATER_POTENTIAL": "Potencial actual de agua del suelo"
+      "SOIL_WATER_POTENTIAL": "Potencial hídrico actual del suelo"
     },
     "SENSOR_READING_CHART_SPOTLIGHT": {
       "TITLE": "La serie puede estar oculta",
       "CONTENT": "Los sensores individuales se pueden mostrar u ocultar haciendo clic en sus etiquetas aquí."
     },
-    "SECONDS_AGO": "MISSING",
-    "MINUTES_AGO": "MISSING",
-    "HOURS_AGO": "MISSING",
-    "DAYS_AGO": "MISSING",
-    "MONTHS_AGO": "MISSING"
+    "SECONDS_AGO": "hace {{time}} segundo(s)",
+    "MINUTES_AGO": "hace {{time}} minuto(s)",
+    "HOURS_AGO": "hace {{time}} hora(s)",
+    "DAYS_AGO": "hace {{time}} día(s)",
+    "MONTHS_AGO": "hace {{time}} mes(es)"
   },
   "CROP_STATUS_NON_ORGANIC_MISMATCH_MODAL": {
     "TITLE": "¡Has seleccionado una ubicación no orgánica!",

@@ -358,7 +358,7 @@
     "NOMINATE_CROP_TOOLTIP": "Nomear este cultivo para inclusão no catálogo do LiteFarm concede à equipe LiteFarm permissão para compartilhar informações sobre este cultivo com um especialista em sua região. Os cultivos aprovadas farão parte do catálogo mostrado a todos os usuários.",
     "ON_YOUR_FARM": "Em sua fazenda",
     "SELECT_A_CROP": "Selecione um cultivo para adicioná-lo à sua fazenda. Use a busca e os filtros para encontrar os cultivos mais rapidamente.",
-    "SPECIES": "Espécies",
+    "SPECIES": "Espécie",
     "DUPLICATE_CROP": "Já existe um cultivo com o mesmo nome, gênero e espécie em sua fazenda"
   },
   "CROP_DETAIL": {
@@ -545,7 +545,7 @@
         "SENSOR_NAME": "Nome do sensor inválido, deve ter entre 1 e 100 caracteres.",
         "SENSOR_LATITUDE": "Valor de latitude inválido, deve estar entre -85 e 85 e menos de 10 casas decimais.",
         "SENSOR_LONGITUDE": " Valor de longitude inválido, deve estar entre -180 e 180. e menos de 10 casas decimais.",
-        "SENSOR_READING_TYPES": "Tipo de leitura inválido detectado: {{ reading_types }}. Vvalores válidos incluem: teor_de_água_no_solo, potencial_de_água_do_solo, temperatura.",
+        "SENSOR_READING_TYPES": "Tipo de leitura inválido detectado: {{ reading_types }}. Valores válidos incluem: teor_de_água_no_solo, potencial_de_água_do_solo, temperatura.",
         "SENSOR_DEPTH": "Valor de profundidade inválido, deve estar entre 0 e 1000.",
         "SENSOR_BRAND": "Nome de marca inválido, deve ter entre 1 e 100 caracteres.",
         "SENSOR_MODEL": "Nome de modelo inválido, deve ter entre 1 e 100 caracteres.",
@@ -1641,7 +1641,7 @@
     "READING": {
       "TYPES": "Tipos de leitura",
       "SOIL_WATER_CONTENT": "Teor de água no solo",
-      "SOIL_WATER_POTENTIAL": "Potencial hídrico no solo",
+      "SOIL_WATER_POTENTIAL": "Potencial de água no solo",
       "TEMPERATURE": "Temperatura",
       "UNKNOWN": "Desconhecido"
     },
@@ -1693,8 +1693,8 @@
       "RETIRE_FAILURE": "Ocorreu um erro ao desativar este sensor"
     },
     "SENSOR_FORECAST": {
-      "TITLE": "MISSING",
-      "HIGH_AND_LOW_TEMPERATURE": "MISSING: {{high}}{{unit}} / {{low}}{{unit}}",
+      "TITLE": "Previsão de hoje",
+      "HIGH_AND_LOW_TEMPERATURE": "Temperatura máxima e mínima: {{high}}{{unit}} / {{low}}{{unit}}",
       "WEATHER_STATION": "Estação meteorológica: {{weatherStationLocation}}"
     },
     "TEMPERATURE_READINGS_OF_SENSOR": {
@@ -1705,14 +1705,14 @@
       "AMBIENT_TEMPERATURE_FOR": "Temperatura ambiente para"
     },
     "SOIL_WATER_POTENTIAL_READINGS_OF_SENSOR": {
-      "TITLE": "Potencial hídrico do solo",
+      "TITLE": "Potencial de água do solo",
       "Y_AXIS_LABEL": "em {{units}}",
       "KPA": "quilopascals (kPa)",
       "PSI": "libras por polegada quadrada (psi)"
     },
     "SOIL_WATER_CONTENT_READINGS_OF_SENSOR": {
-      "TITLE": "MISSING",
-      "Y_AXIS_LABEL": "MISSING"
+      "TITLE": "Teor de água no solo",
+      "Y_AXIS_LABEL": "em {{units}}"
     },
     "READINGS_PREVIEW": {
       "TEMPERATURE": "Temperatura atual do solo",
@@ -1722,11 +1722,11 @@
       "TITLE": "As séries podem ser ocultadas",
       "CONTENT": "Sensores individuais podem ser exibidos ou ocultados clicando em seus rótulos aqui."
     },
-    "SECONDS_AGO": "MISSING",
-    "MINUTES_AGO": "MISSING",
-    "HOURS_AGO": "MISSING",
-    "DAYS_AGO": "MISSING",
-    "MONTHS_AGO": "MISSING"
+    "SECONDS_AGO": "{{time}} segundo(s) atrás",
+    "MINUTES_AGO": "{{time}} minuto(s) atrás",
+    "HOURS_AGO": "{{time}} hora(s) atrás",
+    "DAYS_AGO": "{{time}} dias(s) atrás",
+    "MONTHS_AGO": "{{time}} months(s) atrás"
   },
   "CROP_STATUS_NON_ORGANIC_MISMATCH_MODAL": {
     "TITLE": "Você selecionou uma área não orgânica!",

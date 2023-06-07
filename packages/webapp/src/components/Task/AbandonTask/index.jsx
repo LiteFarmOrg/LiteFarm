@@ -15,8 +15,7 @@ import Checkbox from '../../Form/Checkbox';
 import Rating from '../../Rating';
 import { getDateInputFormat } from '../../../util/moment';
 import RadioGroup from '../../Form/RadioGroup';
-import styles from './styles.module.scss';
-import clsx from 'clsx';
+import Pill from '../../Filter/Pill';
 import {
   ABANDON_DATE_SELECTED,
   ORIGINAL_DUE_DATE,
@@ -87,28 +86,28 @@ const PureAbandonTask = ({
     {
       value: ORIGINAL_DUE_DATE,
       label: (
-        <span
-          className={clsx(styles.radioLabel, {
-            [styles.active]: selectedAbandonOption === ORIGINAL_DUE_DATE,
-          })}
-        >
+        <>
           {t('TASK.ABANDON.DATE_ORIGINAL')}
-          <span>{dueDate}</span>
-        </span>
+          <Pill
+            label={dueDate}
+            style={{ marginLeft: '6px' }}
+            selected={selectedAbandonOption === ORIGINAL_DUE_DATE}
+          ></Pill>
+        </>
       ),
       disabled: dueDateDisabled,
     },
     {
       value: TODAY_DUE_DATE,
       label: (
-        <span
-          className={clsx(styles.radioLabel, {
-            [styles.active]: selectedAbandonOption === TODAY_DUE_DATE,
-          })}
-        >
+        <>
           {t('TASK.ABANDON.DATE_TODAY')}
-          <span>{today}</span>
-        </span>
+          <Pill
+            label={today}
+            style={{ marginLeft: '6px' }}
+            selected={selectedAbandonOption === TODAY_DUE_DATE}
+          ></Pill>
+        </>
       ),
     },
     {

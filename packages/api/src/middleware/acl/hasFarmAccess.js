@@ -370,7 +370,9 @@ async function fromTaskManagementPlanAndLocation(req) {
         .first();
       if (managementPlan.farm_id !== farm_id) return {};
 
-      locationIds.add(managementPlan.location_id);
+      if (managementPlan.location_id) {
+        locationIds.add(managementPlan.location_id);
+      }
     }
   }
   const farmIds = await knex('location')

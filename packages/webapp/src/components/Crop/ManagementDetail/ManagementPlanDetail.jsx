@@ -92,7 +92,7 @@ export default function PureManagementDetail({
         )
       }
     >
-      <CropHeader onBackClick={() => history.back()} variety={variety} />
+      <CropHeader onBackClick={onBack} variety={variety} />
 
       <div className={styles.titlewrapper}>
         <Label className={styles.title} style={{ marginTop: '24px' }}>

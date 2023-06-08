@@ -3,6 +3,7 @@ export const DEFAULT_CENTER = {
   lng: -123.237421,
 };
 export const DEFAULT_ZOOM = 15;
+export const DEFAULT_MAX_ZOOM = 18; //This was set to 20 before but there are points on the map that have smaller numbers so 18 would cover more cases by default.  The value is used as fallback only, so maps usually will have a more accurate value calculated for each farm.
 export const GMAPS_API_KEY = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
 export const ENVIRONMENT = import.meta.env.NODE_ENV;
 export const longPress = 500;

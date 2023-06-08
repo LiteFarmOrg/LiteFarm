@@ -539,17 +539,12 @@
         "BRAND": "Brand",
         "MODEL": "Model"
       },
-      "SENSOR_READING_TYPES": {
-        "SOIL_MOISTURE_CONTENT": "soil_water_content",
-        "SOIL_WATER_POTENTIAL": "soil_water_potential",
-        "TEMPERATURE": "temperature"
-      },
       "VALIDATION": {
         "FILE_ROW_LIMIT_EXCEEDED": "File row limit exceeded. The max number of sensors that can be uploaded from a file is 100.",
         "MISSING_COLUMNS": "Columns are required/missing.",
         "EXTERNAL_ID": "Invalid external id, must be between 1 and 40 characters.",
         "SENSOR_NAME": "Invalid sensor name, must be between 1 and 100 characters.",
-        "SENSOR_LATITUDE": "Invalid latitude value, must be between -90 and 90. and fewer than 10 decimals.",
+        "SENSOR_LATITUDE": "Invalid latitude value, must be between -85 and 85. and fewer than 10 decimals.",
         "SENSOR_LONGITUDE": "Invalid longitude value, must be between -180 and 180. and fewer than 10 decimals.",
         "SENSOR_READING_TYPES": "Invalid reading type detected: {{ reading_types }}. Valid values include: soil_water_content, soil_water_potential, temperature.",
         "SENSOR_DEPTH": "Invalid depth value, must be between 0 and 1000.",
@@ -1515,6 +1510,7 @@
     "HARDWARE_VERSION": "Hardware version",
     "NO_DATA_FOUND": "No sensor readings found",
     "NO_DATA": "(no data)",
+    "LAST_UPDATED": "Last updated {{latestReadingUpdate}}",
     "DETAIL": {
       "RETIRE": "Retire",
       "EDIT": "Edit",
@@ -1544,21 +1540,27 @@
       "RETIRE_SUCCESS": "Successfully retired sensor",
       "RETIRE_FAILURE": "There was an error retiring this sensor"
     },
+    "SENSOR_FORECAST": {
+      "TITLE": "Today's forecast",
+      "HIGH_AND_LOW_TEMPERATURE": "High and low temperature: {{high}}{{unit}} / {{low}}{{unit}}",
+      "WEATHER_STATION": "Weather station: {{weatherStationLocation}}"
+    },
     "TEMPERATURE_READINGS_OF_SENSOR": {
       "TITLE": "Soil temperature",
-      "SUBTITLE": "Today’s ambient high and low temperature: {{high}}{{tempUnit}} / {{low}}{{tempUnit}}",
-      "Y_AXIS_LABEL": "Temperature in {{tempUnit}}",
-      "WEATHER_STATION": "Weather station: {{weatherStationLocation}}",
-      "NO_DATA": "(no data)",
-      "AMBIENT_TEMPERATURE_FOR": "Ambient temperature for",
-      "LAST_UPDATED_TEMPERATURE_READINGS": "Last updated {{latestReadingUpdate}}"
+      "Y_AXIS_LABEL": "in {{units}}",
+      "C": "Celsius (°C)",
+      "F": "Fahrenheit (°F)",
+      "AMBIENT_TEMPERATURE_FOR": "Ambient temperature for"
     },
     "SOIL_WATER_POTENTIAL_READINGS_OF_SENSOR": {
       "TITLE": "Soil water potential",
-      "SUBTITLE": "MISSING",
-      "Y_AXIS_LABEL": "Soil water potential in {{soilWaterPotentialUnit}}",
-      "NO_DATA": "(no data)",
-      "LAST_UPDATED_TEMPERATURE_READINGS": "Last updated {{latestReadingUpdate}}"
+      "Y_AXIS_LABEL": "in {{units}}",
+      "KPA": "kilopascals (kPa)",
+      "PSI": "pounds per square inch (psi)"
+    },
+    "SOIL_WATER_CONTENT_READINGS_OF_SENSOR": {
+      "TITLE": "Soil water content",
+      "Y_AXIS_LABEL": "in {{units}}"
     },
     "READINGS_PREVIEW": {
       "TEMPERATURE": "Current soil temp",
@@ -1567,7 +1569,12 @@
     "SENSOR_READING_CHART_SPOTLIGHT": {
       "TITLE": "Series can be hidden",
       "CONTENT": "Individual sensors can be shown or hidden by clicking their labels here."
-    }
+    },
+    "SECONDS_AGO": "{{time}} second(s) ago",
+    "MINUTES_AGO": "{{time}} minute(s) ago",
+    "HOURS_AGO": "{{time}} hour(s) ago",
+    "DAYS_AGO": "{{time}} day(s) ago",
+    "MONTHS_AGO": "{{time}} month(s) ago"
   },
   "SHIFT": {
     "ACTION": "Action",

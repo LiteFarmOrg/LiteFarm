@@ -33,8 +33,9 @@ import {
   registerOrganizationWebhook,
   bulkSensorClaim,
   unclaimSensor,
+  ENSEMBLE_UNITS_MAPPING,
 } from '../util/ensemble.js';
-
+import { databaseUnit } from '../util/unit.js';
 import { sensorErrors, parseSensorCsv } from '../../../shared/validation/sensorCSV.js';
 import syncAsyncResponse from '../util/syncAsyncResponse.js';
 import knex from '../util/knex.js';
@@ -206,26 +207,32 @@ const sensorController = {
         );
 
         // Save sensors in database
-        const sensorLocations = await Promise.allSettled(
-          registeredSensors.map(async (sensor) => {
-            return await SensorModel.createSensor(
+        const sensorLocations = [];
+        for (const sensor of registeredSensors) {
+          try {
+            const value = await SensorModel.createSensor(
               sensor,
               farm_id,
               user_id,
               esids.includes(sensor.external_id) ? 1 : 0,
             );
-          }),
-        );
+            sensorLocations.push({ status: 'fulfilled', value });
+          } catch (error) {
+            sensorLocations.push({ status: 'rejected', reason: error });
+          }
+        }
 
         const successSensors = sensorLocations.reduce((prev, curr, idx) => {
           if (curr.status === 'fulfilled') {
             prev.push(curr.value);
           } else {
+            // These are sensors that were not saved to the database as locations
             errorSensors.push({
               row: data.findIndex((elem) => elem === registeredSensors[idx]) + 2,
-              column: 'External_ID',
               translation_key: sensorErrors.INTERNAL_ERROR,
-              variables: { sensorId: registeredSensors[idx].external_id },
+              variables: {
+                sensorId: registeredSensors[idx].external_id || registeredSensors[idx].name,
+              },
             });
           }
           return prev;
@@ -249,7 +256,7 @@ const sensorController = {
                   error_download: {
                     errors: errorSensors,
                     file_name: 'sensor-upload-outcomes.txt',
-                    success: successSensors.map((s) => s.sensor?.external_id), // Notification download needs an array of only ESIDs
+                    success: successSensors.map((s) => s.sensor?.external_id || s.name), // Notification download needs an array of only ESIDs
                     error_type: 'claim',
                   },
                 },
@@ -411,7 +418,7 @@ const sensorController = {
     }
     try {
       const infoBody = [];
-      const partnerId = parseInt(req.params.partner_id) || 1;
+      const partnerId = parseInt(req.params.partner_id);
       const farmId = req.params.farm_id || '';
       if (!farmId.length) return res.status(400).send('farm id not found');
       const {
@@ -440,11 +447,18 @@ const sensorController = {
             );
             continue;
           }
-          const unit = sensorInfo.unit;
+          // Reconcile incoming units with stored as units and conversion function keys
+          const system = ENSEMBLE_UNITS_MAPPING[sensorInfo.unit]?.system;
+          const unit = ENSEMBLE_UNITS_MAPPING[sensorInfo.unit]?.conversionKey;
+          const readingTypeStoredAsUnit = databaseUnit[readingType] ?? undefined;
+          const isStoredAsUnit = unit == readingTypeStoredAsUnit;
 
-          if (sensorInfo.values.length < sensorInfo.timestamps.length)
+          if (sensorInfo.values.length < sensorInfo.timestamps.length) {
             return res.status(400).send('sensor values and timestamps are not in sync');
-
+          }
+          if (!system || !unit || !readingTypeStoredAsUnit || !isStoredAsUnit) {
+            return res.status(400).send('provided units are not supported');
+          }
           for (let k = 0; k < sensorInfo.values.length; ++k) {
             infoBody.push({
               read_time: sensorInfo.timestamps[k] || '',
@@ -457,6 +471,7 @@ const sensorController = {
           }
         }
       }
+
       if (infoBody.length === 0) {
         return res.status(200).json({
           error: 'No records of sensor readings added to the Litefarm.',
@@ -530,7 +545,7 @@ const sensorController = {
   },
   async getAllSensorReadingsByLocationIds(req, res) {
     try {
-      const { locationIds = [], readingTypes = [], endDate = '' } = req.body;
+      const { locationIds = [], readingTypes = [], endUnixTime = 0, startUnixTime = 0 } = req.body;
 
       if (!locationIds.length || !Array.isArray(locationIds)) {
         return res.status(400).send('No location ids are present');
@@ -543,15 +558,21 @@ const sensorController = {
       if (!readingTypes.length) {
         return res.status(400).send('No read type is present');
       }
-
-      if (!endDate.length) {
+      if (!endUnixTime) {
         return res.status(400).send('No end date is present');
       }
 
+      if (!startUnixTime) {
+        return res.status(400).send('No start date is present');
+      }
+      const startDateTime = new Date(startUnixTime * 1000);
+      const endDateTime = new Date(endUnixTime * 1000);
+
       const result = await SensorReadingModel.getSensorReadingsByLocationIds(
-        new Date(endDate),
         locationIds,
         readingTypes,
+        endDateTime,
+        startDateTime,
       );
 
       const sensorsPoints = await SensorModel.getSensorLocationByLocationIds(locationIds);

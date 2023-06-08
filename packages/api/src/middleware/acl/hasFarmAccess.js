@@ -350,23 +350,39 @@ function notAuthorizedResponse(res) {
 }
 
 async function fromTaskManagementPlanAndLocation(req) {
-  const { managementPlans, locations } = req.body;
   const farm_id = req.headers.farm_id;
-  for (const { location_id } of locations || []) {
-    const location = await knex('location').where({ location_id }).first();
-    if (location.farm_id !== farm_id) return {};
+  // harvest_tasks POST request body is an array
+  const tasks = req.body.length ? req.body : [req.body];
+  const locationIds = new Set();
+  for (const { managementPlans, locations } of tasks) {
+    locations.forEach(({ location_id }) => locationIds.add(location_id));
+
+    for (const { planting_management_plan_id } of managementPlans || []) {
+      const managementPlan = await knex('management_plan')
+        .join(
+          'planting_management_plan',
+          'planting_management_plan.management_plan_id',
+          'management_plan.management_plan_id',
+        )
+        .join('crop_variety', 'crop_variety.crop_variety_id', 'management_plan.crop_variety_id')
+        .where('planting_management_plan.planting_management_plan_id', planting_management_plan_id)
+        .first();
+      if (managementPlan.farm_id !== farm_id) return {};
+
+      locationIds.add(managementPlan.location_id);
+    }
   }
-  for (const { planting_management_plan_id } of managementPlans || []) {
-    const managementPlan = await knex('management_plan')
-      .join(
-        'planting_management_plan',
-        'planting_management_plan.management_plan_id',
-        'management_plan.management_plan_id',
-      )
-      .join('crop_variety', 'crop_variety.crop_variety_id', 'management_plan.crop_variety_id')
-      .where('planting_management_plan.planting_management_plan_id', planting_management_plan_id)
-      .first();
-    if (managementPlan.farm_id !== farm_id) return {};
+  const farmIds = await knex('location')
+    .whereIn('location_id', [...locationIds])
+    .pluck('farm_id');
+
+  if (
+    farmIds.length !== locationIds.size || // check if all locationIds exist in the DB
+    new Set(farmIds).size !== 1 ||
+    farmIds[0] !== farm_id
+  ) {
+    return {};
   }
+
   return { farm_id };
 }

@@ -1736,16 +1736,8 @@ export default {
       defaultFailure: false,
     },
     bulkSensorsReadingsReducer: {
+      sensorDataByLocationIds: {},
       loading: false,
-      sensorsReadings: {},
-      selectedSensorName: '',
-      latestMinTemperature: null,
-      latestMaxTemperature: null,
-      nearestStationName: '',
-      lastUpdatedReadingsTime: {},
-      predictedXAxisLabel: '',
-      xAxisLabel: {},
-      activeReadingTypes: [],
     },
     mapAddDrawerReducer: {
       ids: [],

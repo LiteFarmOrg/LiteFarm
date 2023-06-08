@@ -72,7 +72,6 @@ import {
 } from '../../containers/bulkSensorUploadSlice';
 import LocationSelectionModal from './LocationSelectionModal';
 import { useMaxZoom } from './useMaxZoom';
-import { sensorSelector } from '../sensorSlice';
 import {
   mapAddDrawerSelector,
   setMapAddDrawerHide,
@@ -91,7 +90,6 @@ export default function Map({ history }) {
   const system = useSelector(measurementSelector);
   const overlayData = useSelector(hookFormPersistSelector);
   const bulkSensorsUploadResponse = useSelector(bulkSensorsUploadSliceSelector);
-  const sensors = useSelector(sensorSelector);
   const [gMap, setGMap] = useState(null);
   const [gMaps, setGMaps] = useState(null);
   const [gMapBounds, setGMapBounds] = useState(null);
@@ -134,10 +132,11 @@ export default function Map({ history }) {
   }, []);
 
   useEffect(() => {
-    if (bulkSensorsUploadResponse?.isBulkUploadSuccessful) {
+    if (bulkSensorsUploadResponse?.isBulkUploadSuccessful && gMaps && gMap) {
+      getMaxZoom(gMaps, gMap);
       setShowBulkSensorUploadModal(false);
     }
-  }, [bulkSensorsUploadResponse?.isBulkUploadSuccessful]);
+  }, [bulkSensorsUploadResponse?.isBulkUploadSuccessful, gMaps, gMap]);
 
   useEffect(() => {
     setShowBulkSensorUploadModal(false);
@@ -203,7 +202,6 @@ export default function Map({ history }) {
       gestureHandling: 'greedy',
       disableDoubleClickZoom: false,
       minZoom: 1,
-      maxZoom: 80,
       tilt: 0,
       mapTypeId: !roadview ? maps.MapTypeId.SATELLITE : maps.MapTypeId.ROADMAP,
       mapTypeControlOptions: {
@@ -226,9 +224,9 @@ export default function Map({ history }) {
     drawingState: drawingState,
     showingConfirmButtons: showingConfirmButtons,
   });
-  const { getMaxZoom } = useMaxZoom();
+  const { getMaxZoom, maxZoom } = useMaxZoom();
   const handleGoogleMapApi = (map, maps) => {
-    getMaxZoom(maps);
+    getMaxZoom(maps, map);
     maps.Polygon.prototype.getPolygonBounds = function () {
       var bounds = new maps.LatLngBounds();
       this.getPath().forEach(function (element, index) {
@@ -417,11 +415,11 @@ export default function Map({ history }) {
   };
 
   useEffect(() => {
-    if (gMap && gMaps && gMapBounds) {
+    if (maxZoom && gMap && gMaps && gMapBounds) {
       const newBounds = drawAssets(gMap, gMaps, gMapBounds);
       setGMapBounds(newBounds);
     }
-  }, [sensors]);
+  }, [maxZoom]);
 
   const handleDownload = () => {
     html2canvas(mapWrapperRef.current, { useCORS: true }).then((canvas) => {

@@ -19,6 +19,7 @@ import multer from 'multer';
 import hasFarmAccess from '../middleware/acl/hasFarmAccess.js';
 import checkScope from '../middleware/acl/checkScope.js';
 import validateRequest from '../middleware/validation/validateWebhook.js';
+import validateLocationDependency from '../middleware/validation/deleteLocation.js';
 import SensorController from '../controllers/sensorController.js';
 
 const storage = multer.memoryStorage();
@@ -44,7 +45,13 @@ router.post(
 router.get('/:location_id/reading', SensorController.getAllReadingsByLocationId);
 router.get('/reading/farm/:farm_id', SensorController.getReadingsByFarmId);
 router.post('/reading/invalidate', SensorController.invalidateReadings);
-router.post('/unclaim', SensorController.retireSensor);
+router.post(
+  '/unclaim',
+  hasFarmAccess({ body: 'location_id' }),
+  checkScope(['delete:fields']),
+  validateLocationDependency,
+  SensorController.retireSensor,
+);
 router.get('/:location_id/reading_type', SensorController.getSensorReadingTypes);
 router.get('/farm/:farm_id/reading_type', SensorController.getAllSensorReadingTypes);
 router.get('/partner/:partner_id/brand_name', SensorController.getBrandName);

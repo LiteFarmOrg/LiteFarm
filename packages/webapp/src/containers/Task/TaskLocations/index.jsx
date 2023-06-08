@@ -159,7 +159,7 @@ function TaskLocations({
   location,
 }) {
   const { grid_points } = useSelector(userFarmSelector);
-  const { maxZoomRef, getMaxZoom } = useMaxZoom();
+  const { maxZoomRef, getMaxZoom, maxZoom } = useMaxZoom();
   const managementPlan = location?.state?.management_plan_id
     ? useSelector(managementPlanSelector(location.state.management_plan_id))
     : null;
@@ -179,6 +179,7 @@ function TaskLocations({
         readOnlyPinCoordinates={readOnlyPinCoordinates}
         maxZoomRef={maxZoomRef}
         getMaxZoom={getMaxZoom}
+        maxZoom={maxZoom}
         defaultLocation={location?.state?.location ?? null}
         targetsWildCrop={managementPlan?.crop_management_plan?.is_wild ?? false}
       />

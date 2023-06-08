@@ -34,9 +34,6 @@ function AddCropVarietyForm({ history, match }) {
       ...persistedFormData,
       ...data,
       crop_variety_name: data.crop_variety_name.trim(),
-      crop_variety_photo_url: data.crop_variety_photo_url
-        ? data.crop_variety_photo_url
-        : crop.crop_photo_url,
       supplier: data.supplier.trim(),
       compliance_file_url: '',
       organic: null,

@@ -14,12 +14,13 @@ const CreateMarkerCluster = (
   eventListeners,
   clustererRef,
   selectedLocationsRef = null,
+  maxZoom,
 ) => {
   // return clusterer and marker
   clustererRef.current = new MarkerClusterer({
     map,
     markers,
-    algorithm: new SuperClusterAlgorithm({ maxZoom: 20, radius: 45.5 }),
+    algorithm: new SuperClusterAlgorithm({ maxZoom: maxZoom, radius: 45.5 }),
     renderer: {
       render: ({ count, position, markers }) => {
         let fill = selectedLocationsRef?.current ? '#ffffff' : '#028577';

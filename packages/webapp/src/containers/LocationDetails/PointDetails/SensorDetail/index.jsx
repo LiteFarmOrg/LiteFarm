@@ -15,18 +15,20 @@
 import PureSensorDetail from '../../../../components/LocationDetailLayout/PointDetails/Sensor/index';
 import { measurementSelector } from '../../../userFarmSlice';
 import { useSelector, useDispatch } from 'react-redux';
-import { useTranslation } from 'react-i18next';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { sensorsSelector } from '../../../sensorSlice';
 import { isAdminSelector } from '../../../userFarmSlice';
 import { getSensorReadingTypes, getSensorBrand, retireSensor } from './saga';
 
-export default function SensorDetail({ history, user, match }) {
+export default function SensorDetail({ history, match }) {
   const dispatch = useDispatch();
   const location_id = match.params.location_id;
   const sensorInfo = useSelector(sensorsSelector(location_id));
   const system = useSelector(measurementSelector);
   const isAdmin = useSelector(isAdminSelector);
+
+  const [showRetireModal, setShowRetireModal] = useState(false);
+  const [showCannotRetireModal, setShowCannotRetireModal] = useState(false);
 
   useEffect(() => {
     if (sensorInfo === undefined || sensorInfo?.deleted) {
@@ -36,10 +38,15 @@ export default function SensorDetail({ history, user, match }) {
       const partner_id = sensorInfo?.partner_id;
       dispatch(getSensorBrand({ location_id, partner_id }));
     }
-  }, [sensorInfo]);
+  }, [sensorInfo?.partner_id]);
+
+  const onFailureWithIncompleteTasks = () => {
+    setShowRetireModal(false);
+    setShowCannotRetireModal(true);
+  };
 
   const confirmRetire = () => {
-    dispatch(retireSensor({ sensorInfo }));
+    dispatch(retireSensor({ sensorInfo, onFailureWithIncompleteTasks }));
   };
 
   return (
@@ -51,6 +58,10 @@ export default function SensorDetail({ history, user, match }) {
           system={system}
           sensorInfo={sensorInfo}
           handleRetire={confirmRetire}
+          showRetireModal={showRetireModal}
+          setShowRetireModal={setShowRetireModal}
+          showCannotRetireModal={showCannotRetireModal}
+          setShowCannotRetireModal={setShowCannotRetireModal}
         />
       )}
     </>

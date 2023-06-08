@@ -220,7 +220,14 @@ const drawPoint = (map, maps, mapBounds, location) => {
   };
 };
 
-export const createMarkerClusters = (maps, map, points, selectedLocationsRef, markerClusterRef) => {
+export const createMarkerClusters = (
+  maps,
+  map,
+  points,
+  selectedLocationsRef,
+  markerClusterRef,
+  maxZoom,
+) => {
   const markers = points.map((point) => {
     point.marker.location_id = point.location.location_id;
     point.marker.name = point.location.name;
@@ -250,5 +257,6 @@ export const createMarkerClusters = (maps, map, points, selectedLocationsRef, ma
     ],
     markerClusterRef,
     selectedLocationsRef,
+    maxZoom,
   );
 };

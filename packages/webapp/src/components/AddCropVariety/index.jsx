@@ -44,7 +44,7 @@ export default function PureAddCropVariety({
     mode: 'onChange',
     shouldUnregister: true,
     defaultValues: {
-      crop_variety_photo_url: null,
+      crop_variety_photo_url: crop.crop_photo_url,
       [LIFE_CYCLE]: crop[LIFE_CYCLE],
       [HS_CODE_ID]: crop?.[HS_CODE_ID],
       ...persistedFormData,
@@ -181,7 +181,8 @@ export default function PureAddCropVariety({
       {showSpinner ? (
         <Spinner />
       ) : (
-        crop_variety_photo_url && (
+        crop_variety_photo_url &&
+        crop_variety_photo_url != crop.crop_photo_url && (
           <img
             src={crop_variety_photo_url}
             alt={crop.crop_common_name}

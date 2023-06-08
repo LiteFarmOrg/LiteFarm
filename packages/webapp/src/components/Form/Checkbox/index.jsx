@@ -44,6 +44,7 @@ const Checkbox = ({
         className={clsx(styles.label, sm && styles.smallLabel)}
         style={classes.label}
         tooltipContent={tooltipContent}
+        data-cy="checkbox-component"
       >
         {label}
       </Main>

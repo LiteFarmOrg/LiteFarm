@@ -51,7 +51,7 @@
     "@googlemaps/google-maps-services-js": "^3.3.14",
     "adm-zip": "^0.4.16",
     "async-file": "^2.0.2",
-    "aws-sdk": "^2.931.0",
+    "aws-sdk": "^2.1395.0",
     "axios": "^0.21.4",
     "bcryptjs": "^2.4.3",
     "bull": "^3.22.9",

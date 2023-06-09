@@ -18,7 +18,7 @@ import { connect } from 'react-redux';
 import styles from './styles.module.scss';
 import DescriptiveButton from '../../components/Inputs/DescriptiveButton';
 import history from '../../history';
-import { dateRangeSelector, expenseSelector, salesSelector, shiftSelector } from './selectors';
+import { dateRangeSelector, expenseSelector, salesSelector } from './selectors';
 import { getDefaultExpenseType, getExpense, getSales, setDateRange } from './actions';
 import { calcOtherExpense, calcTotalLabour, calcActualRevenue } from './util';
 import Moment from 'moment';
@@ -42,7 +42,6 @@ class Finances extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      balanceByCrop: [],
       startDate: moment().startOf('year'),
       endDate: moment().endOf('year'),
       dButtonStyle: {
@@ -60,8 +59,6 @@ class Finances extends Component {
       currencySymbol: grabCurrencySymbol(),
     };
     this.getEstimatedRevenue = this.getEstimatedRevenue.bind(this);
-    // this.calcBalanceByCrop = this.calcBalanceByCrop.bind(this);
-    this.getShiftCropOnField = this.getShiftCropOnField.bind(this);
     this.toggleTip = this.toggleTip.bind(this);
     this.changeDate = this.changeDate.bind(this);
   }
@@ -86,18 +83,15 @@ class Finances extends Component {
         }),
       );
     }
-    // this.calcBalanceByCrop();
   }
 
   componentDidUpdate(prevProps) {
     // Typical usage (don't forget to compare props):
     if (
-      this.props.shifts !== prevProps.shifts ||
       this.props.sales !== prevProps.sales ||
       this.props.expenses !== prevProps.expenses ||
       this.props.dateRange !== prevProps.dateRange
     ) {
-      // this.calcBalanceByCrop();
     }
   }
 
@@ -162,117 +156,6 @@ class Finances extends Component {
     return total;
   };
 
-  // TODO: currently commented out all usages of this function, until ful refactor to crop variety
-  calcBalanceByCrop() {
-    const { shifts, sales, expenses } = this.props;
-    const { startDate, endDate } = this.state;
-
-    if (!(shifts || sales || expenses)) return;
-
-    let final = Object.assign({}, {}); // crop: crop name, profit: number
-
-    let unAllocated = 0;
-    let unAllocatedShifts = {};
-
-    let totalExpense = this.getTotalExpense();
-
-    if (shifts && shifts.length) {
-      for (let s of shifts) {
-        let management_plan_id = s.management_plan_id;
-        const shiftDate = moment(s.shift_date);
-        if (shiftDate.isSameOrAfter(startDate, 'day') && shiftDate.isSameOrBefore(endDate, 'day')) {
-          if (management_plan_id !== null) {
-            if (final.hasOwnProperty(management_plan_id)) {
-              final[management_plan_id].profit =
-                final[management_plan_id].profit +
-                Number(s.wage_at_moment) * (Number(s.duration) / 60) * -1;
-            } else {
-              final[management_plan_id] = {
-                profit: Number(s.wage_at_moment) * (Number(s.duration) / 60) * -1,
-                crop_translation_key: s.crop_translation_key,
-                location_id: s.location_id,
-                crop_id: s.crop_id,
-                management_plan_id: s.management_plan_id,
-              };
-            }
-          }
-          // else it's unallocated
-          else {
-            if (unAllocatedShifts.hasOwnProperty(s.location_id)) {
-              unAllocatedShifts[s.location_id].value =
-                unAllocatedShifts[s.location_id].value +
-                Number(s.wage_at_moment) * (Number(s.duration) / 60);
-            } else {
-              unAllocatedShifts = Object.assign(unAllocatedShifts, {
-                [s.location_id]: {
-                  value: Number(s.wage_at_moment) * (Number(s.duration) / 60),
-                  hasAllocated: false,
-                },
-              });
-            }
-          }
-        }
-      }
-    }
-
-    // balance by crop used to be sorted by field crop,
-    // i'm keeping the original code, and will modify the <final> object to make it sorted by crop
-    final = this.convertToCropID(final);
-
-    // allocate unallocated to used-to-be fields
-    let ukeys = Object.keys(unAllocatedShifts);
-    for (let uk of ukeys) {
-      // uk = location_id
-      let uShift = unAllocatedShifts[uk];
-
-      // a list of crop ids
-      let waitForAllocate = this.getCropsByFieldID(uk);
-
-      let avg = Number(parseFloat(uShift.value / waitForAllocate.length).toFixed(2));
-
-      let fkeys = Object.keys(final);
-
-      for (let wa of waitForAllocate) {
-        for (let fk of fkeys) {
-          if (Number(fk) === Number(wa)) {
-            final[fk].profit -= avg;
-          }
-        }
-      }
-
-      if (waitForAllocate.length > 0) {
-        unAllocatedShifts[uk].hasAllocated = true;
-      }
-    }
-
-    let cropKeys = Object.keys(final);
-    let averageExpense = Number(parseFloat(totalExpense / cropKeys.length).toFixed(2));
-    // apply expense evenly to each crop
-    for (let ck of cropKeys) {
-      final[ck].profit -= averageExpense;
-    }
-
-    for (let uk of ukeys) {
-      let uShift = unAllocatedShifts[uk];
-      if (!uShift.hasAllocated) {
-        unAllocated += uShift.value;
-      }
-    }
-
-    if (unAllocated !== 0) {
-      final = Object.assign(final, {
-        unallocated: {
-          crop: this.props.t('SALE.FINANCES.UNALLOCATED_CROP'),
-          profit: unAllocated * -1,
-        },
-      });
-    }
-
-    this.setState({
-      balanceByCrop: Object.values(final),
-    });
-  }
-
   getCropsByFieldID = (location_id) => {
     const { managementPlans } = this.props;
 
@@ -331,20 +214,6 @@ class Finances extends Component {
     return result;
   };
 
-  getShiftCropOnField(location_id) {
-    const { shifts } = this.props;
-
-    let crops = [];
-
-    for (let s of shifts) {
-      if (s.location_id === location_id && s.crop_id) {
-        crops.push(s.crop_id);
-      }
-    }
-
-    return crops;
-  }
-
   toggleTip() {
     let { showUnTip } = this.state;
     let unTipButton;
@@ -366,8 +235,7 @@ class Finances extends Component {
     ).toFixed(2);
     const estimatedRevenue = this.getEstimatedRevenue(this.props.managementPlans);
     const { tasks, expenses } = this.props;
-    const { balanceByCrop, startDate, endDate, hasUnAllocated, showUnTip, unTipButton } =
-      this.state;
+    const { startDate, endDate, hasUnAllocated, showUnTip, unTipButton } = this.state;
     const labourExpense = roundToTwoDecimal(calcTotalLabour(tasks, startDate, endDate));
     const otherExpense = calcOtherExpense(expenses, startDate, endDate);
     const totalExpense = (parseFloat(otherExpense) + parseFloat(labourExpense)).toFixed(2);
@@ -463,22 +331,7 @@ class Finances extends Component {
             </div>
           </div>
 
-          {/* <Semibold style={{ marginBottom: '8px', textAlign: 'left' }}>
-            {this.props.t('SALE.FINANCES.BALANCE_BY_CROP')}
-          </Semibold>
-
-          <div className={styles.greyBox}>
-            {balanceByCrop.map((b) => {
-              return (
-                <div key={b.crop} className={styles.balanceDetail}>
-                  <p>{b.crop}</p>
-                  <p>{this.state.currencySymbol + b.profit.toFixed(2)}</p>
-                </div>
-              );
-            })}
-            {balanceByCrop.length < 1 && (
-              <h4>{this.props.t('SALE.FINANCES.ENSURE_ONE_CROP_WARNING')}</h4>
-            )}
+          {/* 
             {hasUnAllocated && (
               <div className={styles.tipButton} onClick={() => this.toggleTip()}>
                 {unTipButton}
@@ -540,7 +393,6 @@ class Finances extends Component {
 const mapStateToProps = (state) => {
   return {
     sales: salesSelector(state),
-    shifts: shiftSelector(state),
     tasks: tasksSelector(state),
     expenses: expenseSelector(state),
     managementPlans: managementPlansSelector(state),

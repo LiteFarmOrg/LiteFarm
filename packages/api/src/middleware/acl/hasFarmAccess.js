@@ -11,13 +11,10 @@ const entitiesGetters = {
   price_id: fromPrice,
   farm_expense_id: fromFarmExpense,
   expense_type_id: fromFarmExpenseType,
-  nitrogen_schedule_id: fromNitrogenSchedule,
   farm_id: (farm_id) => ({ farm_id }),
   locationIds: fromLocationIds,
   locations: fromLocations,
-  activity_id: fromActivity,
   sale_id: fromSale,
-  shift_id: fromShift,
   location_id: fromLocation,
   crop_management_plan: fromCropManagement,
   //TODO remove
@@ -139,16 +136,8 @@ function fromDocument(document_id) {
   return knex('document').where({ document_id }).first();
 }
 
-function fromShift(shiftId) {
-  return knex('shift').where({ shift_id: shiftId }).first();
-}
-
 function fromPesticide(pesticideId) {
   return knex('pesticide').where({ pesticide_id: pesticideId }).first();
-}
-
-function fromNitrogenSchedule(nitrogenScheduleId) {
-  return knex('nitrogenSchedule').where({ nitrogen_schedule_id: nitrogenScheduleId }).first();
 }
 
 async function fromCropManagement(crop_management_plan, next) {
@@ -220,90 +209,6 @@ async function fromLocationIds(location_ids) {
   } catch (e) {
     return {};
   }
-}
-
-async function fromActivity(req) {
-  const user_id = req.user.user_id;
-  const { activity_id } = req.params;
-  const { farm_id } = req.headers;
-
-  if (req.body.locations) {
-    const locations = [];
-    let managementPlans;
-    for (const location of req.body.locations) {
-      if (!location.location_id) {
-        return {};
-      }
-      locations.push(location.location_id);
-    }
-    if (locations.length === 0) {
-      return {};
-    }
-
-    if (req.body.crops && req.body.crops.length) {
-      managementPlans = [];
-      for (const managementPlan of req.body.crops) {
-        if (!managementPlan.management_plan_id) {
-          return {};
-        }
-        managementPlans.push(managementPlan.management_plan_id);
-      }
-    }
-
-    const sameFarm = managementPlans?.length
-      ? await userFarmModel
-          .query()
-          .distinct(
-            'userFarm.user_id',
-            'userFarm.farm_id',
-            'location.location_id',
-            'location.location_id',
-            'managementPlan.management_plan_id',
-          )
-          .join('location', 'userFarm.farm_id', 'location.farm_id')
-          .join('managementPlan', 'managementPlan.location_id', 'location.location_id')
-          .skipUndefined()
-          .whereIn('location.location_id', locations)
-          .whereIn('managementPlan.management_plan_id', managementPlans)
-          .where('userFarm.user_id', user_id)
-          .where('userFarm.farm_id', farm_id)
-      : await userFarmModel
-          .query()
-          .distinct(
-            'userFarm.user_id',
-            'userFarm.farm_id',
-            'location.location_id',
-            'location.location_id',
-          )
-          .join('location', 'userFarm.farm_id', 'location.farm_id')
-          .skipUndefined()
-          .whereIn('location.location_id', locations)
-          .where('userFarm.user_id', user_id)
-          .where('userFarm.farm_id', farm_id);
-
-    if (!sameFarm.length || sameFarm.length < (managementPlans ? managementPlans.length : 0)) {
-      return {};
-    }
-  }
-  const userFarm = await userFarmModel
-    .query()
-    .distinct(
-      'activityLog.activity_id',
-      'userFarm.user_id',
-      'userFarm.farm_id',
-      'location.location_id',
-    )
-    .join('location', 'userFarm.farm_id', 'location.farm_id')
-    .join('activityFields', 'activityFields.location_id', 'location.location_id')
-    .join('activityLog', 'activityFields.activity_id', 'activityLog.activity_id')
-    .skipUndefined()
-    .where('activityLog.activity_id', activity_id)
-    .where('userFarm.user_id', user_id)
-    .where('userFarm.farm_id', farm_id)
-    .first();
-  if (!userFarm) return {};
-
-  return userFarm;
 }
 
 function fromManagementPlan(managementPlanId) {

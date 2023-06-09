@@ -14,7 +14,6 @@
  */
 
 const credentials = {
-  WATER_BALANCE_DIR: './src/jobs/waterBalance/waterBalanceData/',
   GOOGLE_API_KEY: process.env.GOOGLE_API_KEY,
   OPEN_WEATHER_APP_ID: process.env.OPEN_WEATHER_APP_ID,
   CONTACT_FORM: {

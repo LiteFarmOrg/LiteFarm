@@ -135,23 +135,6 @@
       "UPDATE": "Venta actualizada exitosamente"
     }
   },
-  "SHIFT": {
-    "ERROR": {
-      "ADD": "No se pudo agregar nuevo turno",
-      "CROP_FIELDS_EACH": "Por favor asigne cultivos o campos para cada tarea",
-      "DELETE": "No se pudo borrar el turno",
-      "DURATION_FOR_CROPS": "Por favor asigne una duración para cada cultvo.",
-      "ONLY_INTEGERS_DURATIONS": "Por favor asigne sólo numeros durationes",
-      "REQUIRED_TASK": "Se requiere un nombre para la tarea",
-      "SUBMIT_SHIFT": "No se pudo enviar turno con cultivos. Este es un problema de LiteFarm.",
-      "UPDATE": "No se pudo actualizar turno"
-    },
-    "SUCCESS": {
-      "ADD": "Nuevo turno agregado exitosamente!",
-      "DELETE": "Borrar turno!",
-      "UPDATE": "Turno agregado exitosamente!"
-    }
-  },
   "TASK": {
     "ABANDON": {
       "FAILED": "No se pudo abandonar la tarea",

@@ -135,23 +135,6 @@
       "UPDATE": "Vente mise à jour avec succès"
     }
   },
-  "SHIFT": {
-    "ERROR": {
-      "ADD": "Incapable d'ajouter un nouveau quart de travail",
-      "CROP_FIELDS_EACH": "Veuillez attribuer des cultures ou des champs pour chaque tâche",
-      "DELETE": "Impossible de supprimer le quart de travail",
-      "DURATION_FOR_CROPS": "Veuillez attribuer une durée pour chaque culture",
-      "ONLY_INTEGERS_DURATIONS": "Veuillez n'attribuer des numéros qu'aux durées",
-      "REQUIRED_TASK": "Un nom de tâche est requis",
-      "SUBMIT_SHIFT": "La soumission du quart de travail a échoué; c'est le problème de LiteFarm.",
-      "UPDATE": "Le quart de travail n'est pas mis à jour"
-    },
-    "SUCCESS": {
-      "ADD": "Quart de travail ajouté avec succès !",
-      "DELETE": "Quart de travail supprimé avec succès !",
-      "UPDATE": "Quart de travail mis à jour avec succès "
-    }
-  },
   "TASK": {
     "ABANDON": {
       "FAILED": "Impossible d'abandonner une tâche",

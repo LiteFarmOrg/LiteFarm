@@ -19,30 +19,7 @@ import express from 'express';
 const router = express.Router();
 import checkScope from '../middleware/acl/checkScope.js';
 import hasFarmAccess from '../middleware/acl/hasFarmAccess.js';
-import isCreator from '../middleware/acl/isCreator.js';
-import conditionallyApplyMiddleware from '../middleware/acl/conditionally.apply.js';
-import validateLogLocationId from '../middleware/validation/logLocationId.js';
 
-router.post(
-  '/',
-  hasFarmAccess({ body: 'locations' }),
-  checkScope(['add:logs']),
-  validateLogLocationId,
-  logController.addLog(),
-);
-//TODO get log by id specification
-router.get(
-  '/:activity_id',
-  hasFarmAccess({ mixed: 'activity_id' }),
-  checkScope(['get:logs']),
-  logController.getLogByActivityId(),
-);
-router.get(
-  '/farm/:farm_id',
-  hasFarmAccess({ params: 'farm_id' }),
-  checkScope(['get:logs']),
-  logController.getLogByFarmId(),
-);
 router.get(
   '/harvest_use_types/farm/:farm_id',
   hasFarmAccess({ params: 'farm_id' }),
@@ -54,31 +31,6 @@ router.post(
   hasFarmAccess({ params: 'farm_id' }),
   checkScope(['add:harvest_use']),
   logController.addHarvestUseType(),
-);
-
-router.put(
-  '/:activity_id',
-  checkScope(['edit:logs']),
-  (req, res, next) =>
-    conditionallyApplyMiddleware(
-      req.role === 3,
-      isCreator({ params: 'activity_id' }),
-      hasFarmAccess({ mixed: 'activity_id' }),
-    )(req, res, next),
-  validateLogLocationId,
-  logController.putLog(),
-);
-
-router.delete(
-  '/:activity_id',
-  checkScope(['delete:logs']),
-  (req, res, next) =>
-    conditionallyApplyMiddleware(
-      req.role === 3,
-      isCreator({ params: 'activity_id' }),
-      hasFarmAccess({ mixed: 'activity_id' }),
-    )(req, res, next),
-  logController.deleteLog(),
 );
 
 export default router;

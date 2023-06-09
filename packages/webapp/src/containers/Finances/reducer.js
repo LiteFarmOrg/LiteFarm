@@ -25,7 +25,6 @@ import {
   SET_SELECTED_EDIT_EXPENSE,
   SET_SELECTED_EXPENSE_TYPE,
   SET_SELECTED_SALE,
-  SET_SHIFT_FINANCE,
   TEMP_SET_EXPENSE_TO_EDIT,
 } from './constants';
 
@@ -35,7 +34,6 @@ import { combineReducers } from 'redux';
 const initialState = {
   sales: null,
   cropSales: null,
-  shifts: null,
 };
 
 function financeReducer(state = initialState, action) {
@@ -51,10 +49,6 @@ function financeReducer(state = initialState, action) {
     case SET_SELECTED_SALE:
       return Object.assign({}, state, {
         selectedSale: action.sale,
-      });
-    case SET_SHIFT_FINANCE:
-      return Object.assign({}, state, {
-        shifts: action.shifts,
       });
     case SET_EXPENSE:
       return Object.assign({}, state, {

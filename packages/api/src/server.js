@@ -70,7 +70,6 @@ expressOasGenerator.handleResponses(app, {
     'roles',
     'sale',
     'sensors',
-    'shift',
     'signup',
     'spotlight',
     'support',
@@ -110,7 +109,6 @@ import farmExpenseRoute from './routes/farmExpenseRoute.js';
 import farmExpenseTypeRoute from './routes/farmExpenseTypeRoute.js';
 import farmRoutes from './routes/farmRoute.js';
 import logRoutes from './routes/logRoute.js';
-import shiftRoutes from './routes/shiftRoute.js';
 import managementPlanRoute from './routes/managementPlanRoute.js';
 import fertilizerRoutes from './routes/fertilizerRoute.js';
 import diseaseRoutes from './routes/diseaseRoute.js';
@@ -126,10 +124,6 @@ import organicCertifierSurveyRoutes from './routes/organicCertifierSurveyRoute.j
 import passwordResetRoutes from './routes/passwordResetRoute.js';
 import showedSpotlightRoutes from './routes/showedSpotlightRoute.js';
 import nominationRoutes from './routes/nominationRoute.js';
-
-// const waterBalanceScheduler = require('./jobs/waterBalance/waterBalance');
-// const nitrogenBalanceScheduler = require('./jobs/nitrogenBalance/nitrogenBalance');
-// const farmDataScheduler = require('./jobs/sendFarmData/sendFarmData');
 import userLogRoute from './routes/userLogRoute.js';
 
 import supportTicketRoute from './routes/supportTicketRoute.js';
@@ -173,7 +167,6 @@ app.set('json replacer', (key, value) => {
     'harvest_date',
     'plant_date',
     'seed_date',
-    'shift_date',
     'start_date',
     'termination_date',
     'transition_date',
@@ -247,19 +240,13 @@ app
   .use('/crop', cropRoutes)
   .use('/crop_variety', cropVarietyRoutes)
   .use('/field', fieldRoutes)
-  // .use('/plan', planRoutes)
   .use('/sale', saleRoutes)
-  //.use('/shift_task', shiftTaskRoutes)
   .use('/task_type', taskTypeRoutes)
-  // .use('/todo', todoRoutes)
   .use('/user', userRoutes)
   .use('/expense', farmExpenseRoute)
   .use('/expense_type', farmExpenseTypeRoute)
-  // .use('/notification', notificationRoutes)
   .use('/farm', farmRoutes)
   .use('/log', logRoutes)
-  .use('/shift', shiftRoutes)
-  // .use('/notification_setting', notificationSettingRoutes)
   .use('/management_plan', managementPlanRoute)
   .use('/fertilizer', fertilizerRoutes)
   .use('/disease', diseaseRoutes)
@@ -313,14 +300,6 @@ if (
     // eslint-disable-next-line no-console
     logger.info('LiteFarm Backend listening on port ' + port);
   });
-  // waterBalanceScheduler.registerHourlyJob();
-  // waterBalanceScheduler.registerDailyJob();
-  //
-  // nitrogenBalanceScheduler.registerDailyJob();
-
-  // farmDataScheduler.registerJob();
-  // eslint-disable-next-line no-console
-  // console.log('LiteFarm Water Balance Scheduler Enabled');
 }
 
 app.on('close', () => {

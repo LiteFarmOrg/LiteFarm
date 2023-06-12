@@ -1,0 +1,18 @@
+version: '3.7'
+
+services:
+  export:
+    build:
+      context: .
+      dockerfile: ./packages/api/local-export-server.Dockerfile
+    volumes:
+      - ./packages/api:/usr/src/app/packages/api
+      - ./packages/webapp/public/locales:/usr/src/app/packages/webapp/public/locales
+    environment:
+      - AWS_ACCESS_KEY_ID=minioaccesskey
+      - AWS_SECRET_ACCESS_KEY=miniosecretkey
+      - MINIO_ENDPOINT=http://host.docker.internal:9000
+      - API_URL=host.docker.internal
+      - REDIS_HOST=host.docker.internal
+      - REPORT_URL=http://host.docker.internal:3000/render_survey
+    restart: unless-stopped

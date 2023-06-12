@@ -1,5 +1,5 @@
 import { useForm } from 'react-hook-form';
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Script from 'react-load-script';
 import GoogleMap from 'google-map-react';
 import { VscLocation } from 'react-icons/vsc';
@@ -144,6 +144,12 @@ const AddFarm = () => {
       isGettingLocation ? 0 : 500,
     );
   };
+
+  useEffect(() => {
+    if (scriptLoaded && gridPoints && !getValues(COUNTRY)) {
+      setCountryFromLatLng(gridPoints);
+    }
+  }, [scriptLoaded]);
 
   const parseLatLng = (latLngString) => {
     const coordRegex = /^(-?\d+(?:\.\d+)?)[,\s]\s*(-?\d+(\.\d+)?)$/;

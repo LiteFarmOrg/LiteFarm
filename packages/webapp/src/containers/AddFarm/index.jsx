@@ -48,6 +48,7 @@ const AddFarm = () => {
 
   const gridPoints = watch(GRID_POINTS);
   const disabled = !isValid;
+  const [scriptLoaded, setScriptLoaded] = useState(false);
   const [isGettingLocation, setIsGettingLocation] = useState(false);
   const farmNameRegister = register(FARMNAME, {
     required: { value: true, message: t('ADD_FARM.FARM_IS_REQUIRED') },
@@ -112,6 +113,7 @@ const AddFarm = () => {
 
     // Fire Event when a suggested name is selected
     placesAutocompleteRef.current.addListener('place_changed', handlePlaceChanged);
+    setScriptLoaded(true);
   };
 
   const geocoderRef = useRef();
@@ -265,6 +267,7 @@ const AddFarm = () => {
         ]}
         map={
           <Map
+            scriptLoaded={scriptLoaded}
             gridPoints={gridPoints || {}}
             isGettingLocation={isGettingLocation}
             errors={addressErrors}
@@ -275,7 +278,7 @@ const AddFarm = () => {
   );
 };
 
-function Map({ gridPoints, errors, isGettingLocation }) {
+function Map({ scriptLoaded, gridPoints, errors, isGettingLocation }) {
   return (
     <div
       style={{
@@ -290,7 +293,7 @@ function Map({ gridPoints, errors, isGettingLocation }) {
         display: 'flex',
       }}
     >
-      {(!isGettingLocation && gridPoints && gridPoints.lat && (
+      {(scriptLoaded && !isGettingLocation && gridPoints && gridPoints.lat && (
         <GoogleMap
           style={{ flexGrow: 1 }}
           center={gridPoints}

@@ -22,7 +22,12 @@ function getPublicS3BucketName() {
 
 function getImaginaryUrl(
   { url, type = 'webp', width, ...imaginaryQueries } = {},
-  { endpoint = 'thumbnail', serverUrl = 'https://image.litefarm.org' } = {},
+  {
+    endpoint = 'thumbnail',
+    serverUrl = `${
+      process.env.LOCAL_IMAGINARY ? process.env.LOCAL_IMAGINARY : 'https://image.litefarm.org'
+    }`,
+  } = {},
 ) {
   const reqUrl = new URL(`${serverUrl}/${endpoint}`);
   width && reqUrl.searchParams.append('width', width);
@@ -47,7 +52,12 @@ const s3 = new S3({
 async function imaginaryPost(
   { buffer, originalname },
   { width, type, ...imaginaryQueries } = {},
-  { endpoint = 'thumbnail', serverUrl = 'https://image.litefarm.org' } = {},
+  {
+    endpoint = 'thumbnail',
+    serverUrl = `${
+      process.env.LOCAL_IMAGINARY ? process.env.LOCAL_IMAGINARY : 'https://image.litefarm.org'
+    }`,
+  } = {},
 ) {
   const form = new FormData();
   form.append('file', buffer, { filename: originalname });
@@ -74,7 +84,12 @@ async function imaginaryPost(
 async function imaginaryGet(
   url,
   { width, type, ...imaginaryQueries } = {},
-  { endpoint = 'thumbnail', serverUrl = 'https://image.litefarm.org' } = {},
+  {
+    endpoint = 'thumbnail',
+    serverUrl = `${
+      process.env.LOCAL_IMAGINARY ? process.env.LOCAL_IMAGINARY : 'https://image.litefarm.org'
+    }`,
+  } = {},
 ) {
   return axios.post(
     getImaginaryUrl(

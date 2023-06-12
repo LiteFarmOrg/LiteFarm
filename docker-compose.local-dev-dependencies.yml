@@ -51,3 +51,14 @@ services:
       - REDIS_PORT=6379
       - REDIS_PASSWORD=test
       - REPORT_URL=http://host.docker.internal:3000/render_survey
+
+  imaginary:
+    image: h2non/imaginary
+    ports:
+      - 8088:8088
+    environment:
+      - PORT=8088
+    command: >
+      -concurrency 5
+      -disable-endpoints form
+      -key localonlytoken

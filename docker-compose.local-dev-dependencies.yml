@@ -1,10 +1,18 @@
 version: '3.7'
 
 services:
-  export:
+  redis:
+    image: redis:7.0-alpine
+    restart: unless-stopped
+    command: redis-server --requirepass test
+    volumes:
+      - ~/redis-data-litefarm:/data
+
+  export_server:
     build:
       context: .
       dockerfile: ./packages/api/local-export-server.Dockerfile
+    restart: unless-stopped
     volumes:
       - ./packages/api:/usr/src/app/packages/api
       - ./packages/webapp/public/locales:/usr/src/app/packages/webapp/public/locales
@@ -12,7 +20,6 @@ services:
       - AWS_ACCESS_KEY_ID=minioaccesskey
       - AWS_SECRET_ACCESS_KEY=miniosecretkey
       - MINIO_ENDPOINT=http://host.docker.internal:9000
-      - API_URL=host.docker.internal
-      - REDIS_HOST=host.docker.internal
+      - API_URL=http://host.docker.internal
+      - REDIS_HOST=redis
       - REPORT_URL=http://host.docker.internal:3000/render_survey
-    restart: unless-stopped

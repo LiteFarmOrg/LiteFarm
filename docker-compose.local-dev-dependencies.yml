@@ -1,12 +1,38 @@
 version: '3.7'
 
 services:
+  minio:
+    image: minio/minio
+    restart: unless-stopped
+    ports:
+      - 9000:9000
+      - 9090:9090
+    volumes:
+      - ~/minio-data-litefarm:/data
+    environment:
+      - MINIO_ROOT_USER=myminioadmin
+      - MINIO_ROOT_PASSWORD=myminioadmin
+      - CONSOLE_ADDRESS=9090
+    command: server /data --console-address ":9090"
+
+  create_minio_bucket:
+    image: minio/mc
+    depends_on:
+      - minio
+    entrypoint: >
+      /bin/sh -c "
+      /usr/bin/mc alias set myminio http://minio:9000 myminioadmin myminioadmin;
+      /usr/bin/mc mb myminio/minio-test;
+      /usr/bin/mc anonymous set public myminio/minio-test;"
+
   redis:
     image: redis:7.0-alpine
     restart: unless-stopped
-    command: redis-server --requirepass test
-    volumes:
+    command: redis-server --requirepass test --loglevel warning
+    volumes: # Persisted volume required by bull
       - ~/redis-data-litefarm:/data
+    ports:
+      - 6379:6379
 
   export_server:
     build:
@@ -17,9 +43,11 @@ services:
       - ./packages/api:/usr/src/app/packages/api
       - ./packages/webapp/public/locales:/usr/src/app/packages/webapp/public/locales
     environment:
-      - AWS_ACCESS_KEY_ID=minioaccesskey
-      - AWS_SECRET_ACCESS_KEY=miniosecretkey
+      - AWS_ACCESS_KEY_ID=myminioadmin
+      - AWS_SECRET_ACCESS_KEY=myminioadmin
       - MINIO_ENDPOINT=http://host.docker.internal:9000
-      - API_URL=http://host.docker.internal
+      - API_URL=http://host.docker.internal:5001
       - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - REDIS_PASSWORD=test
       - REPORT_URL=http://host.docker.internal:3000/render_survey

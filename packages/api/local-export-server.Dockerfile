@@ -2,14 +2,15 @@ FROM node:16.15.0
 
 WORKDIR /usr/src/app/packages/api
 
+# Install zip
+RUN apt-get update && apt-get install -y zip
+
+# Install aws-cli
+RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" && unzip awscliv2.zip
+RUN ./aws/install && aws --version
+
 COPY ./package*.json ./
 
 RUN npm install
-
-# Install zip and AWS CLI
-RUN apt-get update && \
-    apt-get install -y zip python3-pip && \
-    pip3 install --upgrade pip && \
-    pip3 --no-cache-dir install --upgrade awscli
 
 CMD ["npm", "run", "scheduler"]

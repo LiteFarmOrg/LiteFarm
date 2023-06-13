@@ -117,5 +117,12 @@
     "vite-plugin-istanbul": "^4.0.0",
     "vite-plugin-pwa": "^0.14.3",
     "vite-plugin-svgr": "^2.4.0"
+  },
+  "pnpm": {
+    "overrides": {
+      "trim@<0.0.3": ">=0.0.3",
+      "glob-parent@<5.1.2": ">=5.1.2",
+      "vite@>=4.2.0 <4.2.3": ">=4.2.3"
+    }
   }
 }

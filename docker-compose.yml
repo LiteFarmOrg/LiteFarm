@@ -1,0 +1,62 @@
+version: "3.7"
+
+volumes:
+  postgres-data:
+
+services:
+  db:
+    container_name: litefarm-db
+    image: postgres:13
+    ports:
+      - "5433:5432"
+    environment:
+      POSTGRES_PASSWORD: "postgres"
+    volumes:
+      - ./initdb.d:/docker-entrypoint-initdb.d
+      - postgres-data:/var/lib/postgresql/data
+  api:
+    container_name: litefarm-api
+    image: node:16.15.0
+    volumes:
+      - ./packages/shared:/shared
+      - ./packages/api:/api
+    working_dir: /api
+    entrypoint: ./dev.sh
+    user: node
+    restart: unless-stopped
+    environment:
+      - DEV_DATABASE_HOST=db
+      - DEV_DATABASE=pg-litefarm
+      - DEV_DATABASE_USER=postgres
+      - DEV_DATABASE_PASSWORD=postgres
+      - TEST_DATABASE_HOST=db
+      - TEST_DATABASE=test_farm
+      - TEST_DATABASE_USER=postgres
+      - TEST_DATABASE_PASSWORD=postgres
+      - WAIT_HOSTS=db:5432
+      - NODE_ENV=development
+      - PORT=5000
+    depends_on:
+      - db
+    ports:
+      - "5000:5000"
+  webapp:
+    container_name: litefarm-webapp
+    image: node:16.15.0
+    volumes:
+      - ./packages/shared:/shared
+      - ./packages/webapp:/webapp
+    working_dir: /webapp
+    entrypoint: ./dev.sh
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+      - "6006:6006"
+  # pgadmin4:
+  #   container_name: pgadmin
+  #   image: dpage/pgadmin4:6.21
+  #   environment:
+  #     - PGADMIN_DEFAULT_EMAIL=admin@litefarm.org
+  #     - PGADMIN_DEFAULT_PASSWORD=postgres
+  #   ports:
+  #     - "8080:80"

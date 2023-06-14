@@ -39,7 +39,7 @@ services:
       - 6379:6379
 
   export_server:
-    image: sleavely/node-awscli:14.x
+    image: kathyavini/node-awscli-lf
     restart: unless-stopped
     volumes:
       - ./packages/api:/packages/api
@@ -49,6 +49,7 @@ services:
     entrypoint: ./dev.export.sh
     depends_on:
       - redis
+      - create_minio_bucket
     environment:
       - AWS_ACCESS_KEY_ID=myminioadmin
       - AWS_SECRET_ACCESS_KEY=myminioadmin
@@ -58,6 +59,8 @@ services:
       - REDIS_PORT=6379
       - REDIS_PASSWORD=test
       - REPORT_URL=http://host.docker.internal:3000/render_survey
+    ports:
+      - 9229:9229 # for debugging
 
   imaginary:
     image: h2non/imaginary:1

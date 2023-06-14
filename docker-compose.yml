@@ -39,7 +39,7 @@ services:
       - 6379:6379
 
   export_server:
-    image: kathyavini/node-awscli-lf
+    image: kathyavini/node-awscli-lf:chromium
     restart: unless-stopped
     volumes:
       - ./packages/api:/packages/api

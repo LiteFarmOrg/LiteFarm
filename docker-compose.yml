@@ -1,8 +1,12 @@
 version: '3.7'
 
+volumes:
+  redis-data:
+  export-node-modules:
+
 services:
   minio:
-    image: minio/minio
+    image: minio/minio:RELEASE.2023-06-09T07-32-12Z
     restart: unless-stopped
     ports:
       - 9000:9000
@@ -16,7 +20,7 @@ services:
     command: server /data --console-address ":9090"
 
   create_minio_bucket:
-    image: minio/mc
+    image: minio/mc:RELEASE.2023-06-06T13-48-56Z
     depends_on:
       - minio
     entrypoint: >
@@ -30,18 +34,21 @@ services:
     restart: unless-stopped
     command: redis-server --requirepass test --loglevel warning
     volumes: # Persisted volume required by bull
-      - ~/redis-data-litefarm:/data
+      - redis-data:/data
     ports:
       - 6379:6379
 
   export_server:
-    build:
-      context: .
-      dockerfile: ./packages/api/local-export-server.Dockerfile
+    image: sleavely/node-awscli:14.x
     restart: unless-stopped
     volumes:
-      - ./packages/api:/usr/src/app/packages/api
-      - ./packages/webapp/public/locales:/usr/src/app/packages/webapp/public/locales
+      - ./packages/api:/packages/api
+      - ./packages/webapp/public/locales:/packages/webapp/public/locales
+      - export-node-modules:/packages/api/node_modules
+    working_dir: /packages/api
+    entrypoint: ./dev.export.sh
+    depends_on:
+      - redis
     environment:
       - AWS_ACCESS_KEY_ID=myminioadmin
       - AWS_SECRET_ACCESS_KEY=myminioadmin
@@ -53,7 +60,7 @@ services:
       - REPORT_URL=http://host.docker.internal:3000/render_survey
 
   imaginary:
-    image: h2non/imaginary
+    image: h2non/imaginary:1
     ports:
       - 8088:8088
     environment:

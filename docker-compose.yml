@@ -52,11 +52,11 @@ services:
     ports:
       - "3000:3000"
       - "6006:6006"
-  # pgadmin4:
-  #   container_name: pgadmin
-  #   image: dpage/pgadmin4:6.21
-  #   environment:
-  #     - PGADMIN_DEFAULT_EMAIL=admin@litefarm.org
-  #     - PGADMIN_DEFAULT_PASSWORD=postgres
-  #   ports:
-  #     - "8080:80"
+  pgadmin4:
+    container_name: pgadmin
+    image: dpage/pgadmin4:7.3
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=admin@litefarm.org
+      - PGADMIN_DEFAULT_PASSWORD=postgres
+    ports:
+      - "8080:80"

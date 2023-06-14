@@ -29,7 +29,7 @@
     "lint": "eslint src",
     "fix-lint": "eslint src --fix",
     "precommit": "lint-staged"
-  },
+ },
   "jest": {
     "verbose": true,
     "testEnvironment": "node",
@@ -120,5 +120,8 @@
     "*.js": [
       "eslint --quiet --fix"
     ]
+  },
+  "overrides": {
+    "glob-parent@<5.1.2": ">=5.1.2"
   }
 }

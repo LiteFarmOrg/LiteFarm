@@ -44,7 +44,7 @@ const supportTicketController = {
     try {
       const data = JSON.parse(req.body.data);
       data.attachments = [];
-      const user_id = req.user.user_id;
+      const user_id = req.auth.user_id;
       const user = await UserModel.query().findById(user_id);
       const result = await SupportTicketModel.query()
         .context({ user_id })
@@ -84,7 +84,7 @@ const supportTicketController = {
   //   return async (req, res) => {
   //     const support_ticket_id = req.params.support_ticket_id;
   //     try {
-  //       const user_id = req.user.user_id;
+  //       const user_id = req.auth.user_id;
   //       const status = req.body.status;
   //       await supportTicketModel
   //         .query()

@@ -117,7 +117,7 @@ const organicCertifierSurveyController = {
   addOrganicCertifierSurvey() {
     return async (req, res) => {
       try {
-        const user_id = req.user.user_id;
+        const user_id = req.auth.user_id;
         const result = await OrganicCertifierSurveyModel.query()
           .context({ user_id })
           .insert(req.body)
@@ -134,7 +134,7 @@ const organicCertifierSurveyController = {
   putOrganicCertifierSurvey() {
     return async (req, res) => {
       try {
-        const user_id = req.user.user_id;
+        const user_id = req.auth.user_id;
         const result = await OrganicCertifierSurveyModel.query()
           .context({ user_id })
           .findById(req.body.survey_id)
@@ -180,7 +180,7 @@ const organicCertifierSurveyController = {
         })
         .where({ archived: false })
         .andWhere({ farm_id });
-      const user_id = req.user.user_id;
+      const user_id = req.auth.user_id;
       const files = documents
         .map(({ files, name }) =>
           files.map(({ url, file_name }) => ({
@@ -718,7 +718,7 @@ const organicCertifierSurveyController = {
     return async (req, res) => {
       const survey_id = req.params.survey_id;
       try {
-        const user_id = req.user.user_id;
+        const user_id = req.auth.user_id;
         await OrganicCertifierSurveyModel.query().context({ user_id }).findById(survey_id).delete();
         res.sendStatus(200);
       } catch (error) {

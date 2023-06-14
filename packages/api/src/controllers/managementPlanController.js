@@ -31,7 +31,7 @@ const managementPlanController = {
         //TODO: add none getNonModifiable
         const result = await ManagementPlanModel.transaction(async (trx) => {
           const management_plan = await ManagementPlanModel.query(trx)
-            .context({ user_id: req.user.user_id })
+            .context({ user_id: req.auth.user_id })
             .upsertGraph(req.body, {
               noUpdate: true,
               noDelete: true,
@@ -43,7 +43,7 @@ const managementPlanController = {
             return {
               due_date,
               task_type_id,
-              owner_user_id: req.user.user_id,
+              owner_user_id: req.auth.user_id,
               ...task,
             };
           };
@@ -64,7 +64,7 @@ const managementPlanController = {
               })
               .first();
             const plantTask = await TaskModel.query(trx)
-              .context(req.user)
+              .context(req.auth)
               .upsertGraph(
                 getTask(due_date, plantTaskType.task_type_id, {
                   plant_task: { planting_management_plan_id },
@@ -95,7 +95,7 @@ const managementPlanController = {
               })
               .first();
             const transplantTask = await TaskModel.query(trx)
-              .context(req.user)
+              .context(req.auth)
               .upsertGraph(
                 getTask(due_date, transplantTaskType.task_type_id, {
                   transplant_task: {
@@ -127,7 +127,7 @@ const managementPlanController = {
               })
               .first();
             const harvestTask = await TaskModel.query(trx)
-              .context(req.user)
+              .context(req.auth)
               .upsertGraph(
                 getTask(due_date, harvestTaskType.task_type_id, {
                   harvest_task: { harvest_everything: true },
@@ -151,7 +151,7 @@ const managementPlanController = {
               .where({ field_work_type_translation_key: 'TERMINATION' })
               .first();
             const fieldWorkTask = await TaskModel.query(trx)
-              .context(req.user)
+              .context(req.auth)
               .upsertGraph(
                 getTask(due_date, fieldWorkTaskType.task_type_id, {
                   field_work_task: fieldWorkType,
@@ -180,7 +180,7 @@ const managementPlanController = {
     return async (req, res) => {
       try {
         const isDeleted = await ManagementPlanModel.query()
-          .context(req.user)
+          .context(req.auth)
           .where({ management_plan_id: req.params.management_plan_id })
           .delete();
         if (isDeleted) {
@@ -201,7 +201,7 @@ const managementPlanController = {
     return async (req, res) => {
       try {
         const result = await ManagementPlanModel.query()
-          .context(req.user)
+          .context(req.auth)
           .where({ management_plan_id: req.params.management_plan_id })
           .patch(lodash.pick(req.body, ['complete_date', 'complete_notes', 'rating']));
         if (result) {
@@ -282,7 +282,7 @@ const managementPlanController = {
             ...plantTasks,
           ].map(({ task_id }) => task_id);
           await TaskModel.query(trx)
-            .context(req.user)
+            .context(req.auth)
             .whereIn('task_id', taskIdsRelatedToOneManagementPlan)
             .patch({
               abandon_date: req.body.abandon_date,
@@ -299,7 +299,7 @@ const managementPlanController = {
               [management_plan_id, taskIdsRelatedToManyManagementPlans],
             ));
           return await ManagementPlanModel.query()
-            .context(req.user)
+            .context(req.auth)
             .where({ management_plan_id })
             .patch(
               lodash.pick(req.body, ['abandon_date', 'complete_notes', 'rating', 'abandon_reason']),
@@ -342,12 +342,12 @@ const managementPlanController = {
         const management_plan = { name, notes };
         const result = await ManagementPlanModel.transaction(async (trx) => {
           await ManagementPlanModel.query(trx)
-            .context({ user_id: req.user.user_id })
+            .context({ user_id: req.auth.user_id })
             .findById(management_plan_id)
             .patch(management_plan)
             .returning('*');
           return await CropManagementPlanModel.query(trx)
-            .context(req.user)
+            .context(req.auth)
             .findById(management_plan_id)
             .patch(crop_management_plan)
             .returning('*');

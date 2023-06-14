@@ -26,8 +26,8 @@ jest.mock('jsdom');
 jest.mock('bull');
 jest.mock('../src/middleware/acl/checkJwt.js', () =>
   jest.fn((req, res, next) => {
-    req.user = {};
-    req.user.user_id = req.get('user_id');
+    req.auth = {};
+    req.auth.user_id = req.get('user_id');
     next();
   }),
 );
@@ -51,8 +51,8 @@ describe('organic certification Tests', () => {
   beforeAll(() => {
     // middleware = require('../src/middleware/acl/checkJwt');
     // middleware.mockImplementation((req, res, next) => {
-    //   req.user = {};
-    //   req.user.user_id = req.get('user_id');
+    //   req.auth = {};
+    //   req.auth.user_id = req.get('user_id');
     //   next();
     // });
     // email = require('../src/templates/sendEmailTemplate');

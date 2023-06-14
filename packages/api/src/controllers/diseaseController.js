@@ -37,7 +37,7 @@ const diseaseController = {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
       try {
-        // const user_id = req.user.user_id;
+        // const user_id = req.auth.user_id;
         const data = req.body;
         data.disease_name_translation_key = data.disease_common_name;
         data.disease_group_translation_key = data.disease_group;

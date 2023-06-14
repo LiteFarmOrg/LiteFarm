@@ -53,7 +53,7 @@ function isWorkerToSelfOrAdmin({ hasManyTasks = false } = {}) {
   }
 
   function checkReq(req, res, next) {
-    const { user_id } = req.user;
+    const { user_id } = req.auth;
     try {
       if (hasManyTasks) {
         req.body.map((task) => checkWageAndAssignee(task, user_id));
@@ -68,7 +68,7 @@ function isWorkerToSelfOrAdmin({ hasManyTasks = false } = {}) {
 
   return async (req, res, next) => {
     const { farm_id } = req.headers;
-    const { user_id } = req.user;
+    const { user_id } = req.auth;
     const AdminRoles = [1, 2, 5];
     const { role_id } = await knex('userFarm').where({ user_id, farm_id }).first();
     if (AdminRoles.includes(role_id)) {

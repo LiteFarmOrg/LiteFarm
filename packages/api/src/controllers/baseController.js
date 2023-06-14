@@ -25,13 +25,13 @@ import lodash from 'lodash';
 //
 //   async post(model, data, req, { trx, context = {} } = {}) {
 //     data = removeAdditionalProperties(model, data);
-//     return await model.query(trx).context({ user_id: req?.user?.user_id, ...context }).insert(data);
+//     return await model.query(trx).context({ user_id: req?.auth?.user_id, ...context }).insert(data);
 //   },
 //
 //   // send back the resource that was just created
 //   async postWithResponse(model, data, req, { trx, context = {} } = {}) {
 //     // TODO: replace removeAdditionalProperties. Additional properties should trigger an error.
-//     return model.query(trx).context({ user_id: req?.user?.user_id, ...context })
+//     return model.query(trx).context({ user_id: req?.auth?.user_id, ...context })
 //       .insert(removeAdditionalProperties(model, data)).returning('*');
 //   },
 //
@@ -42,7 +42,7 @@ import lodash from 'lodash';
 //
 //     if (!lodash.isEmpty(data)) {
 //       return await model
-//         .$relatedQuery(subModel.tableName, trx).context({ user_id: req?.user?.user_id, ...context })
+//         .$relatedQuery(subModel.tableName, trx).context({ user_id: req?.auth?.user_id, ...context })
 //         .insert(data);
 //     } else {
 //       return;
@@ -80,13 +80,13 @@ import lodash from 'lodash';
 //     // put to database
 //     const table_id = model.idColumn;
 //     // check if path id matches id provided from body
-//     return await model.query(trx).context({ user_id: req?.user?.user_id, ...context })
+//     return await model.query(trx).context({ user_id: req?.auth?.user_id, ...context })
 //       .where(table_id, id).update(resource).returning('*');
 //   },
 //
 //   async delete(model, id, req, { trx = null, context = {} } = {}) {
 //     const table_id = model.idColumn;
-//     return await model.query(trx).context({ user_id: req?.user?.user_id, ...context }).where(table_id, id).delete();
+//     return await model.query(trx).context({ user_id: req?.auth?.user_id, ...context }).where(table_id, id).delete();
 //   },
 //
 //   async getIndividual(model, id) {
@@ -117,7 +117,7 @@ import lodash from 'lodash';
 //   async updateIndividualById(model, id, updatedLog, req, { trx = null, context = {} } = {}) {
 //     const filteredObject = removeAdditionalProperties(model, updatedLog);
 //     if (!lodash.isEmpty(updatedLog)) {
-//       return await model.query(trx).context({ user_id: req?.user?.user_id, ...context })
+//       return await model.query(trx).context({ user_id: req?.auth?.user_id, ...context })
 //         .patchAndFetchById(id, filteredObject);
 //     }
 //
@@ -130,7 +130,7 @@ import lodash from 'lodash';
 //   // insert object and insert, update, or delete related objects
 //   // see http://vincit.github.io/objection.js/#graph-upserts
 //   async upsertGraph(model, data, req, { trx, context = {} } = {}) {
-//     return await model.query(trx).context({ user_id: req?.user?.user_id, ...context }).upsertGraph(data, { insertMissing: true });
+//     return await model.query(trx).context({ user_id: req?.auth?.user_id, ...context }).upsertGraph(data, { insertMissing: true });
 //   },
 //
 //   // fetch an object and all of its related objects
@@ -164,7 +164,7 @@ export default {
     data = removeAdditionalProperties(model, data);
     return await model
       .query(trx)
-      .context({ user_id: req?.user?.user_id, ...context })
+      .context({ user_id: req?.auth?.user_id, ...context })
       .insert(data);
   },
 
@@ -174,7 +174,7 @@ export default {
     // TODO: replace removeAdditionalProperties. Additional properties should trigger an error.
     return model
       .query(trx)
-      .context({ user_id: req?.user?.user_id, ...context })
+      .context({ user_id: req?.auth?.user_id, ...context })
       .insert(removeAdditionalProperties(model, data))
       .returning('*');
   },
@@ -188,7 +188,7 @@ export default {
     if (!lodash.isEmpty(data)) {
       return await model
         .$relatedQuery(subModel.tableName, trx)
-        .context({ user_id: req?.user?.user_id, ...context })
+        .context({ user_id: req?.auth?.user_id, ...context })
         .insert(data);
     } else {
       return;
@@ -227,7 +227,7 @@ export default {
     // check if path id matches id provided from body
     return await model
       .query(trx)
-      .context({ user_id: req?.user?.user_id, ...context })
+      .context({ user_id: req?.auth?.user_id, ...context })
       .where(table_id, id)
       .update(resource)
       .returning('*');
@@ -237,7 +237,7 @@ export default {
     const table_id = model.idColumn;
     return await model
       .query(trx)
-      .context({ user_id: req?.user?.user_id, ...context })
+      .context({ user_id: req?.auth?.user_id, ...context })
       .where(table_id, id)
       .delete();
   },
@@ -272,7 +272,7 @@ export default {
     if (!lodash.isEmpty(updatedLog)) {
       return await model
         .query(trx)
-        .context({ user_id: req?.user?.user_id, ...context })
+        .context({ user_id: req?.auth?.user_id, ...context })
         .patchAndFetchById(id, filteredObject);
     }
   },
@@ -286,7 +286,7 @@ export default {
   async upsertGraph(model, data, req, { trx, context = {} } = {}) {
     return await model
       .query(trx)
-      .context({ user_id: req?.user?.user_id, ...context })
+      .context({ user_id: req?.auth?.user_id, ...context })
       .upsertGraph(data, { insertMissing: true });
   },
 

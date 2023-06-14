@@ -22,7 +22,7 @@ const exportController = {
   sendMapToEmail() {
     return async (req, res) => {
       try {
-        const user_id = req.user.user_id;
+        const user_id = req.auth.user_id;
         const { farm_id } = req.params;
         const user = await UserModel.query().findById(user_id);
         const { farm_name } = await FarmModel.query().findById(farm_id);

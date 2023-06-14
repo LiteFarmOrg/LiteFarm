@@ -40,7 +40,7 @@ const pesticideController = {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
       try {
-        // const user_id = req.user.user_id;
+        // const user_id = req.auth.user_id;
         const result = await baseController.postWithResponse(PesticideModel, req.body, req, {
           trx,
         });

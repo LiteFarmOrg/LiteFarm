@@ -24,8 +24,8 @@ import { tableCleanup } from './testEnvironment.js';
 jest.mock('jsdom');
 jest.mock('../src/middleware/acl/checkJwt.js', () =>
   jest.fn((req, res, next) => {
-    req.user = {};
-    req.user.user_id = req.get('user_id');
+    req.auth = {};
+    req.auth.user_id = req.get('user_id');
     next();
   }),
 );
@@ -140,8 +140,8 @@ describe('Expense Tests', () => {
 
     // middleware = require('../src/middleware/acl/checkJwt');
     // middleware.mockImplementation((req, res, next) => {
-    //   req.user = {};
-    //   req.user.user_id = req.get('user_id');
+    //   req.auth = {};
+    //   req.auth.user_id = req.get('user_id');
     //   next();
     // });
   });

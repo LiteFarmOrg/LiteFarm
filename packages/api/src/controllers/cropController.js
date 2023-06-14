@@ -191,7 +191,7 @@ const cropController = {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
       try {
-        // const user_id = req.user.user_id;
+        // const user_id = req.auth.user_id;
         const data = req.body;
         data.crop_translation_key = data.crop_common_name;
         const updated = await baseController.put(CropModel, req.params.crop_id, data, req, { trx });
@@ -262,7 +262,7 @@ const cropController = {
     const id = req.params.crop_id;
     const table_id = CropModel.idColumn;
     return await CropModel.query(trx)
-      .context({ user_id: req.user.user_id })
+      .context({ user_id: req.auth.user_id })
       .where(table_id, id)
       .andWhere('user_added', true)
       .delete();

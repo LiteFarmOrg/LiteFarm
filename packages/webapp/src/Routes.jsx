@@ -47,15 +47,10 @@ const JoinFarmSuccessScreen = React.lazy(() => import('./containers/JoinFarmSucc
 const InviteUser = React.lazy(() => import('./containers/InviteUser'));
 // Insights imports
 const Insights = React.lazy(() => import('./containers/Insights'));
-const PeopleFed = React.lazy(() => import('./containers/Insights/PeopleFed'));
 const SoilOM = React.lazy(() => import('./containers/Insights/SoilOM'));
 const LabourHappiness = React.lazy(() => import('./containers/Insights/LabourHappiness'));
 const Biodiversity = React.lazy(() => import('./containers/Insights/Biodiversity'));
 const Prices = React.lazy(() => import('./containers/Insights/Prices'));
-const WaterBalance = React.lazy(() => import('./containers/Insights/WaterBalance'));
-const Erosion = React.lazy(() => import('./containers/Insights/Erosion'));
-const NitrogenBalance = React.lazy(() => import('./containers/Insights/NitrogenBalance'));
-const SalesSummary = React.lazy(() => import('./containers/Finances/SalesSummary'));
 const AddSale = React.lazy(() => import('./containers/Finances/AddSale'));
 const EditSale = React.lazy(() => import('./containers/Finances/EditSale'));
 const LegacyEstimatedRevenue = React.lazy(() =>
@@ -558,16 +553,11 @@ const Routes = () => {
             <Route path="/sensor/:location_id/edit" exact component={EditSensor} />
             <Route path="/finances" exact component={Finances} />
             <Route path="/insights" exact component={Insights} />
-            <Route path="/insights/peoplefed" exact component={PeopleFed} />
             <Route path="/insights/soilom" exact component={SoilOM} />
             <Route path="/insights/labourhappiness" exact component={LabourHappiness} />
             <Route path="/insights/biodiversity" exact component={Biodiversity} />
             <Route path="/insights/prices" exact component={Prices} />
-            {/* <Route path="/insights/waterbalance" exact component={WaterBalance} /> */}
-            <Route path="/insights/erosion" exact component={Erosion} />
-            {/* <Route path="/insights/nitrogenbalance" exact component={NitrogenBalance} /> */}
             <Route path="/help" exact component={HelpRequest} />
-            {/* <Route path="/sales_summary" exact component={SalesSummary} /> */}
             <Route path="/finances/actual_revenue" exact component={ActualRevenue} />
             <Route
               path="/finances/estimated_revenue/plan/:management_plan_id"
@@ -840,7 +830,6 @@ const Routes = () => {
             <Route path="/sensor/:location_id" component={SensorDetails} />
 
             <Route path="/finances" exact component={Finances} />
-            {/* <Route path="/sales_summary" exact component={SalesSummary} /> */}
             <Route path="/finances/actual_revenue" exact component={ActualRevenue} />
             <Route
               path="/finances/estimated_revenue/plan/:management_plan_id"
@@ -868,14 +857,10 @@ const Routes = () => {
             <Route path="/sale_detail" exact component={SaleDetail} />
             <Route path="/farm_selection" exact component={ChooseFarm} />
             <Route path="/insights" exact component={Insights} />
-            <Route path="/insights/peoplefed" exact component={PeopleFed} />
             <Route path="/insights/soilom" exact component={SoilOM} />
             <Route path="/insights/labourhappiness" exact component={LabourHappiness} />
             <Route path="/insights/biodiversity" exact component={Biodiversity} />
             <Route path="/insights/prices" exact component={Prices} />
-            {/* <Route path="/insights/waterbalance" exact component={WaterBalance} /> */}
-            <Route path="/insights/erosion" exact component={Erosion} />
-            {/* <Route path="/insights/nitrogenbalance" exact component={NitrogenBalance} /> */}
             <Route path="/farm_selection" exact component={ChooseFarm} />
             <Route path="/callback" component={Callback} />
             <Route path="/accept_invitation/sign_up" component={InviteSignUp} />
@@ -985,17 +970,12 @@ const Routes = () => {
             <Route path="/buffer_zone/:location_id" component={BufferZoneDetails} />
             <Route path="/watercourse/:location_id" component={WatercourseDetails} />
             <Route path="/sensor/:location_id" component={SensorDetails} />
-
             <Route path="/farm_selection" exact component={ChooseFarm} />
             <Route path="/insights" exact component={Insights} />
-            <Route path="/insights/peoplefed" exact component={PeopleFed} />
             <Route path="/insights/soilom" exact component={SoilOM} />
             <Route path="/insights/labourhappiness" exact component={LabourHappiness} />
             <Route path="/insights/biodiversity" exact component={Biodiversity} />
             <Route path="/insights/prices" exact component={Prices} />
-            {/* <Route path="/insights/waterbalance" exact component={WaterBalance} /> */}
-            <Route path="/insights/erosion" exact component={Erosion} />
-            {/* <Route path="/insights/nitrogenbalance" exact component={NitrogenBalance} /> */}
             <Route path="/callback" component={Callback} />
             <Route path="/accept_invitation/sign_up" component={InviteSignUp} />
             <Route path="/accept_invitation/create_account" component={InvitedUserCreateAccount} />

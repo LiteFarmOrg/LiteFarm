@@ -4,9 +4,12 @@ import styles from './styles.module.scss';
 import clsx from 'clsx';
 import { BsX } from 'react-icons/bs';
 
-const Pill = ({ className, label, selected, removable, onRemovePill }) => {
+const Pill = ({ className, style, label, selected, removable, onRemovePill }) => {
   return (
-    <span className={clsx(className, styles.pill, selected ? styles.selected : styles.deselected)}>
+    <span
+      className={clsx(className, styles.pill, selected ? styles.selected : styles.deselected)}
+      style={style}
+    >
       {label}
       {removable && (
         <BsX

@@ -1182,6 +1182,34 @@ describe('Task tests', () => {
             });
           });
         });
+
+        test(`should fail to create a transplant task when plan's location is for a different farm`, async (done) => {
+          const [userFarm2] = await generateUserFarms(1);
+          const [{ location_id: locationIdInFarm2 }] = await mocks.fieldFactory({
+            promisedFarm: [{ farm_id: userFarm2.farm_id }],
+          });
+
+          const { transplant_task, userFarm } = await getBody('row_method');
+          transplant_task.transplant_task.planting_management_plan.location_id = locationIdInFarm2;
+          postTransplantTaskRequest(userFarm, transplant_task, async (err, res) => {
+            expect(res.status).toBe(403);
+            done();
+          });
+        });
+
+        test(`should fail to create a transplant task when previous plan is for different farm's location`, async (done) => {
+          const [userFarm2] = await generateUserFarms(1);
+          const { transplant_task, userFarm } = await getBody('row_method');
+          const [
+            { planting_management_plan_id: prev_planting_management_plan_id },
+          ] = await mocks.planting_management_planFactory({ promisedFarm: [userFarm2] });
+          transplant_task.transplant_task.prev_planting_management_plan_id = prev_planting_management_plan_id;
+
+          postTransplantTaskRequest(userFarm, transplant_task, async (err, res) => {
+            expect(res.status).toBe(403);
+            done();
+          });
+        });
       });
 
       // Object.keys(fakeTaskData).map((type) => {

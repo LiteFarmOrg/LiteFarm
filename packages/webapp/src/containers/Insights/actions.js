@@ -14,8 +14,6 @@
  */
 
 import {
-  GET_CROPS_SOLD_NUTRITION,
-  SET_CROPS_SOLD_NUTRITION,
   GET_SOLD_OM_DATA,
   SET_SOLD_OM_DATA,
   GET_LABOUR_HAPPINESS_DATA,
@@ -24,37 +22,13 @@ import {
   SET_BIODIVERSITY_DATA,
   GET_PRICES_DATA,
   SET_PRICES_DATA,
-  GET_WATER_BALANCE_DATA,
-  SET_WATER_BALANCE_DATA,
-  SET_NITROGEN_BALANCE_DATA,
-  GET_NITROGEN_BALANCE_DATA,
-  CREATE_FREQUENCY_NITROGEN_BALANCE,
-  GET_FREQUENCY_NITROGEN_BALANCE,
-  SET_FREQUENCY_NITROGEN_BALANCE,
-  DEL_FREQUENCY_NITROGEN_BALANCE,
   SET_PRICES_DISTANCE,
   GET_PRICES_WITH_DISTANCE_DATA,
-  GET_FREQUENCY_WATER_BALANCE,
-  SET_FREQUENCY_WATER_BALANCE,
-  CREATE_FREQUENCY_WATER_BALANCE,
   GET_BIODIVERSITY_LOADING,
   SET_BIODIVERSITY_LOADING,
   GET_BIODIVERSITY_ERROR,
   SET_BIODIVERSITY_ERROR,
 } from './constants';
-
-export const getCropsSoldNutrition = () => {
-  return {
-    type: GET_CROPS_SOLD_NUTRITION,
-  };
-};
-
-export const setCropsSoldNutritionInState = (cropNutritionData) => {
-  return {
-    type: SET_CROPS_SOLD_NUTRITION,
-    cropNutritionData,
-  };
-};
 
 export const getSoilOMData = () => {
   return {
@@ -150,77 +124,5 @@ export const setPricesDistance = (distance) => {
   return {
     type: SET_PRICES_DISTANCE,
     distance,
-  };
-};
-
-export const getWaterBalanceData = () => {
-  return {
-    type: GET_WATER_BALANCE_DATA,
-  };
-};
-
-export const setWaterBalanceData = (waterBalanceData) => {
-  return {
-    type: SET_WATER_BALANCE_DATA,
-    waterBalanceData,
-  };
-};
-
-export const getWaterBalanceSchedule = () => {
-  return {
-    type: GET_FREQUENCY_WATER_BALANCE,
-  };
-};
-
-export const setWaterBalanceSchedule = (waterBalanceSchedule) => {
-  return {
-    type: SET_FREQUENCY_WATER_BALANCE,
-    waterBalanceSchedule,
-  };
-};
-
-export const createWaterBalanceSchedule = () => {
-  return {
-    type: CREATE_FREQUENCY_WATER_BALANCE,
-  };
-};
-
-export const getNitrogenBalanceData = () => {
-  return {
-    type: GET_NITROGEN_BALANCE_DATA,
-  };
-};
-
-export const setNitrogenBalanceData = (nitrogenBalanceData) => {
-  return {
-    type: SET_NITROGEN_BALANCE_DATA,
-    nitrogenBalanceData,
-  };
-};
-
-export const getFrequencyNitrogenBalance = () => {
-  return {
-    type: GET_FREQUENCY_NITROGEN_BALANCE,
-  };
-};
-
-export const setFrequencyNitrogenBalance = (data) => {
-  return {
-    type: SET_FREQUENCY_NITROGEN_BALANCE,
-    data,
-  };
-};
-
-export const createFrequencyNitrogenBalance = (nitrogenFrequency) => {
-  return {
-    type: CREATE_FREQUENCY_NITROGEN_BALANCE,
-    nitrogenFrequency,
-  };
-};
-
-export const delFrequencyNitrogenBalance = (nitrogenBalanceID) => {
-  return {
-    type: DEL_FREQUENCY_NITROGEN_BALANCE,
-    nitrogenBalanceID,
   };
 };

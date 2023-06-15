@@ -844,40 +844,6 @@
       "INFO": "Estimamos la satisfacción laboral tomando como referencia los puntajes de satisfacción de cada tarea y las horas trabajadas.",
       "TITLE": "Satisfaccion Laboral"
     },
-    "NITROGEN_BALANCE": {
-      "ABANDON": "Retirar programacion",
-      "CHOOSE_A_FREQUENCY": "Escoja una frecuencia",
-      "CHOOSE_FREQUENCY": "Escoja Frecuencia...",
-      "COUNT_MONTHS": "{{count}} mese",
-      "COUNT_MONTHS_one": "{{count}} mese",
-      "COUNT_MONTHS_many": "{{count}} meses",
-      "COUNT_MONTHS_other": "{{count}} meses",
-      "COUNT_MONTHS_plural": "{{count}} meses",
-      "CYCLE_INDICATOR": "Su balance de nitrogeno esta en {{frequency}} meses por ciclo y la data se vera en: {{refreshDate}}",
-      "FIRST_TIME": "Parece que es la primera vez que corres esto! Por favor, selecciona una frecuencia para calcular su balance de nitrogeno",
-      "GO_BACK": "Atras",
-      "HEADER": "Cada {{frequency}} meses: {{refreshDate}}",
-      "INFO_1": "El balance de nitrogeno se dice si aplicaste mucho o muy poco fertilizante. Depende en sus registros de cosecha, creditos de nitrogeno de legumbres, y registro de fertilizacion. Puedes correr el balance en su intervalo de tiempo deseado.",
-      "INFO_2": "Cliquea el boton de borrar para resetear la frecuencia de calculo.",
-      "SELECT_FREQUENCY": "Seleccione una frecuencia",
-      "TITLE": "Balance de Nitrogeno"
-    },
-    "PEOPLE_FED": {
-      "CALORIES": "Calorias",
-      "FAT": "Grasa",
-      "HEADER": "Numero de comidas",
-      "INFO": "Estimamos el numero de comidas potenciales provistas por su granja basandonos en los datos de sus ventas y la base de datos de la composicion de cultivos. Asumimos que los requerimientos diarios se dividen en partes iguales en 3 comidas al dia.",
-      "MEAL_COUNT": "{{count}} comida",
-      "MEAL_COUNT_one": "{{count}} comida",
-      "MEAL_COUNT_many": "{{count}} comidas",
-      "MEAL_COUNT_other": "{{count}} comidas",
-      "MEAL_COUNT_plural": "{{count}} comidas",
-      "MEALS": "Comidas",
-      "PROTEIN": "Proteina",
-      "TITLE": "Personas alimentadas",
-      "VITAMIN_A": "Vitamina A",
-      "VITAMIN_C": "Vitamina C"
-    },
     "PRICES": {
       "INFO": "Le mostramos la trayectoria de sus precios de venta en comparacion a los precios de venta de los mismos bienes cerca de su granja. Esta información es recolectada a través de la red de LiteFarm.",
       "NEARBY_FARMS": "El precio del mercado se basa en {{count}} granjas en su área local",
@@ -900,15 +866,7 @@
       "TITLE": "MO del Suelo"
     },
     "TITLE": "Reportes",
-    "UNAVAILABLE": "No Disponible",
-    "WATER_BALANCE": {
-      "FIRST_TIME": "Parece que es la primera vez que llega aca! Para mas información en que hace esto, por favor cliquea el boton de información.",
-      "INFO_1": "El balance de agua se dice si sus cultivos tienen deficiencia de agua o exceso. Depende de los datos meterologicos, y es actualizado por sus registros de riego .",
-      "INFO_2": "Esta funcionalidad no ha sido probada ampliamente en las granjas con una baja densidad de estaciones metereologicas  alrededor de ellas asi que uselo con precaucion. Por favor, cuentanos como funciona en su granja",
-      "NO_SCHEDULE_RUN": "Su balance de agua agendado aun no ha corrido, por favor, chequea en 2 dias y asegurate que tienes al menos un registro de textura de suelo para un campo para ver datos de balance de agua para cultivos en ese campo . Si el problema persiste, contacta a Litefarm.",
-      "REGISTER_FARM": "Registra su granja",
-      "TITLE": "Balance de agua"
-    }
+    "UNAVAILABLE": "No Disponible"
   },
   "INTRODUCE_MAP": {
     "BODY": "El mapa tiene funcionalidades nuevas. Ahora puede conseguirlo debajo del menu de Mi granja.",
@@ -1484,57 +1442,6 @@
       "TYPE": "Tipo",
       "VALUE": "Valor"
     }
-  },
-  "SHIFT": {
-    "ACTION": "Acción",
-    "ADD_NEW": "Agregar nuevo turno",
-    "EDIT_SHIFT": {
-      "ADD_CUSTOM_TASK": "Agregar tarea habitual",
-      "ADD_TASK": "Agregar tarea",
-      "ALL": "Todo",
-      "ALL_CROPS": "Todos los cultivos",
-      "ASSIGN_TIME_TO_TASK": "Asignar tiempo para una tarea por",
-      "CHOOSE_DATE": "Elección de fecha",
-      "CHOOSE_WORKERS": "Elegir trabajador",
-      "CROPS": "Cultivos",
-      "CROPS_LABEL": "Cultivos",
-      "DID_NOT_PROVIDE_ANSWER": "No entregó respuesta",
-      "HAPPY": "Feliz",
-      "INDIVIDUAL_CROPS": "Cultivos individuales",
-      "LOCATIONS": "Ubicaciones",
-      "LOCATIONS_LABEL": "Ubicaciones",
-      "MOOD": "Cómo se sintió haciendo esta tarea?",
-      "NAME_TASK": "Nombre de la tarea habitual",
-      "NEUTRAL": "Neutral",
-      "RATHER_NOT_SAY": "Prefiero no decirlo",
-      "SAD": "Triste",
-      "SELECT_ALL": "Seleccionar todos",
-      "SELECT_CROPS": "Seleccionar cultivos",
-      "SELECT_FIELDS": "Seleccionar Campos",
-      "VERY_HAPPY": "Muy feliz",
-      "VERY_SAD": "Muy triste",
-      "WHAT_TASKS_YOU_DID": "Qué tareas hizo hoy?",
-      "WORKER": "Trabajador",
-      "WORKER_MOOD": "Como se sintio el trabajador en este turno?"
-    },
-    "MY_SHIFT": {
-      "DELETE_CONFIRMATION": "Está seguro(a) que quiere eliminar este turno?",
-      "DURATION": "Duración",
-      "LOCATION_CROPS": "Ubicaciones/Cultivos",
-      "SUBMITTED_FOR": "Enviado para",
-      "TASK": "Tarea",
-      "TITLE": "Detalle de turno"
-    },
-    "NAME": "Nombre",
-    "NEW_SHIFT": {
-      "STEP_ONE": "Agregar turno",
-      "STEP_TWO": "Agregar turno"
-    },
-    "RETIRED": "Retirado",
-    "SHIFT_DATE": "Fecha",
-    "SHIFT_HISTORY": "Historia del turno",
-    "TIME_TOTAL": "Total",
-    "TITLE": "Turnos"
   },
   "SIGNUP": {
     "CHANGES": "Leer sobre los cambios",

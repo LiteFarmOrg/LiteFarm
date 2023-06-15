@@ -21,8 +21,6 @@ const salesSelector = createSelector(financeSelector, (state) => state.sales);
 
 const selectedSaleSelector = createSelector(financeSelector, (state) => state.selectedSale);
 
-const shiftSelector = createSelector(financeSelector, (state) => state.shifts);
-
 const expenseSelector = createSelector(financeSelector, (state) => state.expenses);
 
 const expenseTypeSelector = createSelector(financeSelector, (state) => state.expense_types);
@@ -57,7 +55,6 @@ const dateRangeSelector = createSelector(financeSelector, (state) => state.date_
 export {
   salesSelector,
   selectedSaleSelector,
-  shiftSelector,
   expenseSelector,
   expenseTypeSelector,
   expenseDetailDateSelector,

@@ -19,7 +19,6 @@ import UserModel from '../models/userModel.js';
 import UserLogModel from '../models/userLogModel.js';
 import PasswordModel from '../models/passwordModel.js';
 import RoleModel from '../models/roleModel.js';
-import ShiftModel from '../models/shiftModel.js';
 import EmailModel from '../models/emailTokenModel.js';
 import { transaction, Model } from 'objection';
 import { emails, sendEmail } from '../templates/sendEmailTemplate.js';
@@ -537,10 +536,6 @@ const userFarmController = {
               has_consent: false,
               ...roleIdAndWage,
             });
-            await ShiftModel.query(trx)
-              .context({ user_id: newUserId })
-              .where({ user_id })
-              .patch({ user_id: newUserId });
             await UserFarmModel.query(trx).where({ user_id }).delete();
             await UserLogModel.query(trx).where({ user_id }).delete();
             await UserModel.query(trx).findById(user_id).delete();

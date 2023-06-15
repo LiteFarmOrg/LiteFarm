@@ -30,8 +30,6 @@ import TechStackNavigation from '../teckStackNavigation';
 
 - crop.test.js
 
-- shift.test.js
-
 - disease.test.js
 
 - expense.test.js
@@ -61,8 +59,6 @@ These tests are more abstracted. They are difficult to read/debug/modify. You sh
 - price.test.js
 
 - logs.test.js
-
-- shift.test.js
 
 ### 2. Set up database before each test cases
 
@@ -118,7 +114,7 @@ async function tableCleanup(knex) {
 
 There are two ways to set up
 
-- Create set up functions and use them in each test (example: `location.test.js` or `shift.test.js`).
+- Create set up functions and use them in each test (example: `location.test.js`).
 
 ```js
   function appendFieldToFarm(farm_id, n = 1) {

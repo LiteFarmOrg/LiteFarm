@@ -17,8 +17,6 @@ import { createSelector } from 'reselect/es';
 
 const insightSelector = (state) => state.insightReducer || {};
 
-const cropsNutritionSelector = createSelector(insightSelector, (state) => state.cropNutritionData);
-
 const soilOMSelector = createSelector(insightSelector, (state) => state.soilOMData);
 
 const labourHappinessSelector = createSelector(
@@ -42,25 +40,7 @@ const pricesSelector = createSelector(insightSelector, (state) => state.pricesDa
 
 const pricesDistanceSelector = createSelector(insightSelector, (state) => state.pricesDistance);
 
-const waterBalanceSelector = createSelector(insightSelector, (state) => state.waterBalanceData);
-
-const waterBalanceScheduleSelector = createSelector(
-  insightSelector,
-  (state) => state.waterBalanceSchedule,
-);
-
-const nitrogenBalanceSelector = createSelector(
-  insightSelector,
-  (state) => state.nitrogenBalanceData,
-);
-
-const nitrogenFrequencySelector = createSelector(
-  insightSelector,
-  (state) => state.nitrogenFrequencyData,
-);
-
 export {
-  cropsNutritionSelector,
   soilOMSelector,
   labourHappinessSelector,
   biodiversitySelector,
@@ -68,8 +48,4 @@ export {
   biodiversityErrorSelector,
   pricesSelector,
   pricesDistanceSelector,
-  waterBalanceSelector,
-  waterBalanceScheduleSelector,
-  nitrogenBalanceSelector,
-  nitrogenFrequencySelector,
 };

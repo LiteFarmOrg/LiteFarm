@@ -1802,10 +1802,6 @@ export default {
   },
   baseReducer: {},
   insightReducer: {
-    cropNutritionData: {
-      preview: 0,
-      data: [],
-    },
     soilOMData: {
       preview: 0,
       data: [],
@@ -1823,17 +1819,6 @@ export default {
       amountOfFarms: 0,
       data: [],
     },
-    waterBalanceData: {
-      preview: 0,
-      data: [],
-    },
-    waterBalanceSchedule: {},
-    nitrogenBalanceData: {
-      preview: 0,
-      data: [],
-    },
-    nitrogenFrequencyData: {},
-    pricesDistance: 5,
   },
   financeReducer: {
     forms: {
@@ -1953,7 +1938,6 @@ export default {
     financeReducer: {
       sales: null,
       cropSales: null,
-      shifts: null,
     },
   },
   farmReducer: {

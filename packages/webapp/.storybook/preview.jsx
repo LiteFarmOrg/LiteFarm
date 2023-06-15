@@ -2,7 +2,7 @@ import React, { Suspense } from 'react';
 import state from './state';
 import { action } from '@storybook/addon-actions';
 import theme from '../src/assets/theme';
-import { CssBaseline, ThemeProvider } from '@material-ui/core';
+import { CssBaseline, ThemeProvider, StyledEngineProvider } from '@mui/material';
 import { Provider } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { GlobalScss } from '../src/components/GlobalScss';
@@ -50,11 +50,13 @@ export const decorators = [
     );
     return (
       <Provider store={store}>
-        <ThemeProvider theme={theme}>
-          <GlobalScss />
-          <CssBaseline />
-          <Story />
-        </ThemeProvider>
+        <StyledEngineProvider injectFirst>
+          <ThemeProvider theme={theme}>
+            <GlobalScss />
+            <CssBaseline />
+            <Story />
+          </ThemeProvider>
+        </StyledEngineProvider>
       </Provider>
     );
   },

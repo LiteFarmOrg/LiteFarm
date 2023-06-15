@@ -1,6 +1,6 @@
 import React from 'react';
-import { withStyles } from '@material-ui/core';
-import LinearProgress from '@material-ui/core/LinearProgress';
+import { withStyles } from '@mui/material';
+import LinearProgress from '@mui/material/LinearProgress';
 
 const CustomProgress = withStyles((theme) => ({
   root: {
@@ -8,7 +8,7 @@ const CustomProgress = withStyles((theme) => ({
     borderRadius: 3,
   },
   colorPrimary: {
-    backgroundColor: theme.palette.grey[theme.palette.type === 'light' ? 200 : 700],
+    backgroundColor: theme.palette.grey[theme.palette.mode === 'light' ? 200 : 700],
   },
   bar: {
     borderRadius: 5,

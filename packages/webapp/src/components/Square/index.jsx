@@ -1,4 +1,4 @@
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@mui/styles';
 import { colors } from '../../assets/theme';
 import { FaExclamation } from 'react-icons/all';
 import PropTypes from 'prop-types';

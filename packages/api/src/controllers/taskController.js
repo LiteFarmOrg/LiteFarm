@@ -353,10 +353,6 @@ const taskController = {
   async checkAndAddCustomFieldWork(data, farm_id) {
     if (!data.field_work_task) return data;
 
-    // if (!data.field_work_task?.field_work_task_type?.field_work_name) {
-    //   return data;
-    // }
-
     const containsFieldWorkTask = Object.prototype.hasOwnProperty.call(
       data.field_work_task,
       'field_work_task_type',

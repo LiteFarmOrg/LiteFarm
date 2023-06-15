@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { Model } from 'objection';
+import Model from './baseFormatModel.js';
 import UserModel from './userModel.js';
 
 class userLogModel extends Model {
@@ -41,23 +41,23 @@ class userLogModel extends Model {
         user_log_id: { type: 'string' },
         user_id: { type: 'string' },
         farm_id: { type: 'string' },
-        ip: { type: ['string', null] },
+        ip: { type: ['string', 'null'] },
         languages: {
           type: 'array',
           items: {
             type: 'string',
           },
         },
-        browser: { type: ['string', null] },
-        browser_version: { type: ['string', null] },
-        os: { type: ['string', null] },
-        os_version: { type: ['string', null] },
-        device_vendor: { type: ['string', null] },
-        device_model: { type: ['string', null] },
-        device_type: { type: ['string', null] },
-        created_at: { type: 'date-time' },
-        screen_width: { type: ['number', null] },
-        screen_height: { type: ['number', null] },
+        browser: { type: ['string', 'null'] },
+        browser_version: { type: ['string', 'null'] },
+        os: { type: ['string', 'null'] },
+        os_version: { type: ['string', 'null'] },
+        device_vendor: { type: ['string', 'null'] },
+        device_model: { type: ['string', 'null'] },
+        device_type: { type: ['string', 'null'] },
+        created_at: { type: 'string', format: 'date-time' },
+        screen_width: { type: ['number', 'null'] },
+        screen_height: { type: ['number', 'null'] },
         reason_for_failure: { type: 'string' },
       },
       additionalProperties: false,

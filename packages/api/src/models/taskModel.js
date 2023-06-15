@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <<https://www.gnu.org/licenses/>.>
  */
 
-import { Model } from 'objection';
+import Model from './baseFormatModel.js';
 
 import BaseModel from './baseModel.js';
 import soilAmendmentTaskModel from './soilAmendmentTaskModel.js';
@@ -52,19 +52,19 @@ class TaskModel extends BaseModel {
       properties: {
         task_id: { type: 'integer' },
         task_type_id: { type: 'integer' },
-        due_date: { type: 'date-time' },
-        notes: { type: ['string', null], maxLength: 10000 },
-        completion_notes: { type: ['string', null], maxLength: 10000 },
+        due_date: { type: 'string', format: 'date-time' },
+        notes: { type: ['string', 'null'], maxLength: 10000 },
+        completion_notes: { type: ['string', 'null'], maxLength: 10000 },
         owner_user_id: { type: 'string' },
-        assignee_user_id: { type: ['string', null] },
+        assignee_user_id: { type: ['string', 'null'] },
         coordinates: { type: 'object' },
-        duration: { type: ['number', null] },
-        wage_at_moment: { type: ['number', null] },
+        duration: { type: ['number', 'null'] },
+        wage_at_moment: { type: ['number', 'null'] },
         happiness: { anyOf: [{ type: 'integer', minimum: 0, maximum: 5 }, { type: 'null' }] },
         complete_date: { anyOf: [{ type: 'null' }, { type: 'date' }] },
-        late_time: { type: ['date-time', null] },
-        for_review_time: { type: ['date-time', null] },
-        abandon_date: { anyOf: [{ type: 'null' }, { type: 'date' }] },
+        late_time: { type: ['string', 'null'], format: 'date-time' },
+        for_review_time: { type: ['string', 'null'], format: 'date-time' },
+        abandon_date: { anyOf: [{ type: 'null' }, { type: 'string' }], format: 'date' },
         abandonment_reason: {
           type: 'string',
           enum: [
@@ -77,8 +77,8 @@ class TaskModel extends BaseModel {
             'SCHEDULING_ISSUE',
           ],
         },
-        other_abandonment_reason: { type: ['string', null] },
-        abandonment_notes: { type: ['string', null], maxLength: 10000 },
+        other_abandonment_reason: { type: ['string', 'null'] },
+        abandonment_notes: { type: ['string', 'null'], maxLength: 10000 },
         override_hourly_wage: { type: 'boolean' },
         ...super.baseProperties,
       },

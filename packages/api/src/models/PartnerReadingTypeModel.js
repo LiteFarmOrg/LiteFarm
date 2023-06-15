@@ -15,7 +15,7 @@
 
 import BaseModel from './baseModel.js';
 
-import { Model } from 'objection';
+import Model from './baseFormatModel.js';
 import IntegratingPartners from './integratingPartnersModel.js';
 
 class PartnerReadingTypeModel extends BaseModel {

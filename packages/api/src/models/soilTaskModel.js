@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { Model } from 'objection';
+import Model from './baseFormatModel.js';
 import taskModel from './taskModel.js';
 
 class SoilTaskModel extends Model {
@@ -53,26 +53,26 @@ class SoilTaskModel extends Model {
             'clay',
           ],
         },
-        k: { type: 'float' },
-        p: { type: 'float' },
-        n: { type: 'float' },
-        na: { type: 'float' },
-        om: { type: 'float' },
-        ph: { type: 'float' },
-        'bulk_density_kg/m3': { type: 'float' },
-        organic_carbon: { type: 'float' },
-        inorganic_carbon: { type: 'float' },
-        total_carbon: { type: 'float' },
-        s: { type: 'float' },
-        ca: { type: 'float' },
-        mg: { type: 'float' },
-        zn: { type: 'float' },
-        mn: { type: 'float' },
-        fe: { type: 'float' },
-        cu: { type: 'float' },
-        b: { type: 'float' },
-        c: { type: 'float' },
-        cec: { type: 'float' },
+        k: { type: 'number', format: 'float' },
+        p: { type: 'number', format: 'float' },
+        n: { type: 'number', format: 'float' },
+        na: { type: 'number', format: 'float' },
+        om: { type: 'number', format: 'float' },
+        ph: { type: 'number', format: 'float' },
+        'bulk_density_kg/m3': { type: 'number', format: 'float' },
+        organic_carbon: { type: 'number', format: 'float' },
+        inorganic_carbon: { type: 'number', format: 'float' },
+        total_carbon: { type: 'number', format: 'float' },
+        s: { type: 'number', format: 'float' },
+        ca: { type: 'number', format: 'float' },
+        mg: { type: 'number', format: 'float' },
+        zn: { type: 'number', format: 'float' },
+        mn: { type: 'number', format: 'float' },
+        fe: { type: 'number', format: 'float' },
+        cu: { type: 'number', format: 'float' },
+        b: { type: 'number', format: 'float' },
+        c: { type: 'number', format: 'float' },
+        cec: { type: 'number', format: 'float' },
       },
       additionalProperties: false,
     };

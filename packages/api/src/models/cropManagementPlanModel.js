@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { Model } from 'objection';
+import Model from './baseFormatModel.js';
 import plantingManagementPlanModel from './plantingManagementPlanModel.js';
 
 class CropManagementPlanModel extends Model {
@@ -38,15 +38,15 @@ class CropManagementPlanModel extends Model {
         harvest_date: { anyOf: [{ type: 'null' }, { type: 'date' }] },
         termination_date: { anyOf: [{ type: 'null' }, { type: 'date' }] },
         already_in_ground: { type: 'boolean' },
-        is_seed: { type: ['boolean', null] },
+        is_seed: { type: ['boolean', 'null'] },
         needs_transplant: { type: 'boolean' },
-        for_cover: { type: ['boolean', null] },
-        is_wild: { type: ['boolean', null] },
+        for_cover: { type: ['boolean', 'null'] },
+        is_wild: { type: ['boolean', 'null'] },
         //TODO: deprecate estimated_revenue
-        estimated_revenue: { type: ['number', null] },
-        estimated_yield: { type: ['number', null] },
+        estimated_revenue: { type: ['number', 'null'] },
+        estimated_yield: { type: ['number', 'null'] },
         estimated_yield_unit: { type: ['string'], enum: ['kg', 'lb', 'mt', 't'] },
-        estimated_price_per_mass: { type: ['number', null] },
+        estimated_price_per_mass: { type: ['number', 'null'] },
         estimated_price_per_mass_unit: { type: ['string'], enum: ['kg', 'lb', 'mt', 't'] },
       },
       additionalProperties: false,

@@ -131,8 +131,8 @@ const loginController = {
         if (isUserNew) {
           const newUser = { user_id, email, first_name, last_name, language_preference };
           await UserModel.transaction(async (trx) => {
-            await UserModel.query(trx).insert(newUser);
-            await ShowedSpotlightModel.query(trx).insert({ user_id });
+            await UserModel.query(trx).insert(newUser).debug();
+            await ShowedSpotlightModel.query(trx).insert({ user_id }).debug();
           });
         }
         const isPasswordNeeded = !ssoUser && passwordUser;

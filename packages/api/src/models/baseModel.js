@@ -1,4 +1,4 @@
-import { Model } from 'objection';
+import Model from './baseFormatModel.js';
 import softDelete from 'objection-soft-delete';
 
 class BaseModel extends softDelete({ columnName: 'deleted' })(Model) {
@@ -59,8 +59,14 @@ class BaseModel extends softDelete({ columnName: 'deleted' })(Model) {
     return {
       created_by_user_id: { type: 'string' },
       updated_by_user_id: { type: 'string' },
-      created_at: { type: 'date-time' },
-      updated_at: { type: 'date-time' },
+      created_at: {
+        type: 'string',
+        format: 'date-time',
+      },
+      updated_at: {
+        type: 'string',
+        format: 'date-time',
+      },
       deleted: { type: 'boolean' },
     };
   }

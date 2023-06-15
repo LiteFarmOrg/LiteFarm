@@ -1,6 +1,6 @@
 import knex from '../util/knex.js';
 import BaseModel from './baseModel.js';
-import { Model } from 'objection';
+import Model from './baseFormatModel.js';
 import IrrigationTaskModel from './irrigationTaskModel.js';
 
 class IrrigationTypesModel extends BaseModel {

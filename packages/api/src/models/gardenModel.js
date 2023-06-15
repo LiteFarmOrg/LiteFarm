@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { Model } from 'objection';
+import Model from './baseFormatModel.js';
 import organicHistoryModel from './organicHistoryModel.js';
 
 class Garden extends Model {
@@ -36,7 +36,10 @@ class Garden extends Model {
         location_id: { type: 'string' },
         organic_status: { type: 'string', enum: ['Non-Organic', 'Transitional', 'Organic'] },
         station_id: { type: 'number' },
-        transition_date: { type: 'date' },
+        transition_date: {
+          type: 'string',
+          format: 'date',
+        },
       },
       additionalProperties: false,
     };

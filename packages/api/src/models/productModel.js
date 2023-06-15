@@ -36,8 +36,8 @@ class ProductModel extends baseModel {
         product_translation_key: { type: 'string' },
         supplier: { type: 'string' },
         on_permitted_substances_list: {
-          type: ['string', null],
-          enum: ['YES', 'NO', 'NOT_SURE', null],
+          type: ['string', 'null'],
+          enum: ['YES', 'NO', 'NOT_SURE', 'null'],
         },
         type: {
           type: 'string',

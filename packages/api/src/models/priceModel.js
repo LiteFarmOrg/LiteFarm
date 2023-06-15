@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { Model } from 'objection';
+import Model from './baseFormatModel.js';
 
 import softDelete from 'objection-soft-delete';
 
@@ -37,7 +37,7 @@ class Price extends softDelete({ columnName: 'deleted' })(Model) {
         price_id: { type: 'integer' },
         crop_id: { type: 'integer' },
         'value_$/kg': { type: 'integer' },
-        date: { type: 'date-time' },
+        date: { type: 'string', format: 'date-time' },
         farm_id: { type: 'string' },
         deleted: { type: 'boolean' },
       },

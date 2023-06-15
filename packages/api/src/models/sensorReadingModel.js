@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { Model } from 'objection';
+import Model from './baseFormatModel.js';
 import knex from '../util/knex.js';
 
 class SensorReading extends Model {
@@ -43,11 +43,11 @@ class SensorReading extends Model {
       ],
       properties: {
         reading_id: { type: 'string' },
-        read_time: { type: 'timestamp' },
-        created_at: { type: 'timestamp' },
+        read_time: { type: 'string', format: 'timestamp' },
+        created_at: { type: 'string', format: 'timestamp' },
         location_id: { type: 'string' },
         reading_type: { type: 'string', minLength: 1, maxLength: 255 },
-        value: { type: 'float' },
+        value: { type: 'number', format: 'float' },
         unit: { type: 'string', minLength: 1, maxLength: 255 },
         valid: { type: 'boolean' },
       },

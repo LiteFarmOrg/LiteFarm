@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { Model } from 'objection';
+import Model from './baseFormatModel.js';
 import organicHistoryModel from './organicHistoryModel.js';
 
 class Greenhouse extends Model {
@@ -32,10 +32,13 @@ class Greenhouse extends Model {
       properties: {
         location_id: { type: 'string' },
         organic_status: { type: 'string', enum: ['Non-Organic', 'Transitional', 'Organic'] },
-        transition_date: { type: 'date' },
-        supplemental_lighting: { type: ['boolean', null] },
-        co2_enrichment: { type: ['boolean', null] },
-        greenhouse_heated: { type: ['boolean', null] },
+        transition_date: {
+          type: 'string',
+          format: 'date',
+        },
+        supplemental_lighting: { type: ['boolean', 'null'] },
+        co2_enrichment: { type: ['boolean', 'null'] },
+        greenhouse_heated: { type: ['boolean', 'null'] },
       },
       additionalProperties: false,
     };

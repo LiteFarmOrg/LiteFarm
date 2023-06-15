@@ -35,7 +35,7 @@ class OrganicHistory extends baseModel {
         organic_history_id: { type: 'string' },
         location_id: { type: 'string' },
         organic_status: { type: 'string', enum: ['Non-Organic', 'Transitional', 'Organic'] },
-        effective_date: { type: 'date' },
+        effective_date: { type: 'string', format: 'date' },
         ...this.baseProperties,
       },
       additionalProperties: false,

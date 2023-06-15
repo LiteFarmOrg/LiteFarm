@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { Model } from 'objection';
+import Model from './baseFormatModel.js';
 import areaModel from './areaModel.js';
 import pointModel from './pointModel.js';
 import lineModel from './lineModel.js';

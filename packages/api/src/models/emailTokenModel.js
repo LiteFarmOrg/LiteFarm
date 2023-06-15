@@ -1,6 +1,6 @@
 import { createToken } from '../util/jwt.js';
 import { emails, sendEmail } from '../templates/sendEmailTemplate.js';
-import { Model } from 'objection';
+import Model from './baseFormatModel.js';
 
 class emailTokenModel extends Model {
   static get tableName() {
@@ -29,8 +29,14 @@ class emailTokenModel extends Model {
         farm_id: { type: 'string' },
         invitation_id: { type: 'string' },
         times_sent: { type: 'integer' },
-        created_at: { type: 'date-time' },
-        updated_at: { type: 'date-time' },
+        created_at: {
+          type: 'string',
+          format: 'date-time',
+        },
+        updated_at: {
+          type: 'string',
+          format: 'date-time',
+        },
       },
       additionalProperties: false,
     };

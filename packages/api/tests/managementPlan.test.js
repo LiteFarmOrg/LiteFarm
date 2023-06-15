@@ -711,7 +711,6 @@ describe('ManagementPlan Tests', () => {
         });
 
         completeManagementPlanRequest(reqBody, {}, async (err, res) => {
-          console.log(res);
           expect(res.status).toBe(200);
           const newManagementPlan = await managementPlanModel
             .query()

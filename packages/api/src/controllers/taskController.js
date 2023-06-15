@@ -316,10 +316,6 @@ const taskController = {
   async checkCustomDependencies(typeOfTask, data, farm_id) {
     switch (typeOfTask) {
       case 'field_work_task': {
-        if (!data.field_work_task?.field_work_task_type?.field_work_name) {
-          return await this.checkforCompleteCustomFieldWork(data, farm_id);
-        }
-
         return await this.checkAndAddCustomFieldWork(data, farm_id);
       }
       case 'irrigation_task':
@@ -356,44 +352,37 @@ const taskController = {
 
   async checkAndAddCustomFieldWork(data, farm_id) {
     if (!data.field_work_task) return data;
-    const containsFieldWorkTask = Object.prototype.hasOwnProperty.call(
-      data.field_work_task,
-      'field_work_task_type',
-    );
-    if (containsFieldWorkTask && typeof data.field_work_task.field_work_task_type !== 'number') {
-      const field_work_task_type = data.field_work_task.field_work_task_type;
-      const row = {
-        farm_id,
-        field_work_name: field_work_task_type.field_work_name,
-        field_work_type_translation_key: field_work_task_type.field_work_name.toUpperCase().trim(),
-        created_by_user_id: data.owner_user_id,
-        updated_by_user_id: data.owner_user_id,
-      };
-      const fieldWork = await FieldWorkTypeModel.insertCustomFieldWorkType(row);
-      delete data.field_work_task.field_work_task_type;
-      data.field_work_task.field_work_type_id = fieldWork.field_work_type_id;
-    } else if (containsFieldWorkTask) {
-      data.field_work_task.field_work_type_id = data.field_work_task.field_work_task_type;
-      delete data.field_work_task.field_work_task_type;
-    }
-    return data;
-  },
 
-  async checkforCompleteCustomFieldWork(data, farm_id) {
-    if (!data.field_work_task) return data;
+    // if (!data.field_work_task?.field_work_task_type?.field_work_name) {
+    //   return data;
+    // }
+
     const containsFieldWorkTask = Object.prototype.hasOwnProperty.call(
       data.field_work_task,
       'field_work_task_type',
     );
     if (containsFieldWorkTask && typeof data.field_work_task.field_work_task_type !== 'number') {
       const field_work_task_type = data.field_work_task.field_work_task_type;
-      const row = {
-        farm_id,
-        field_work_name: field_work_task_type,
-        field_work_type_translation_key: field_work_task_type.toUpperCase().trim(),
-        created_by_user_id: data.owner_user_id,
-        updated_by_user_id: data.owner_user_id,
-      };
+      let row;
+      if (!field_work_task_type.field_work_name) {
+        row = {
+          farm_id,
+          field_work_name: field_work_task_type,
+          field_work_type_translation_key: field_work_task_type.toUpperCase().trim(),
+          created_by_user_id: data.owner_user_id,
+          updated_by_user_id: data.owner_user_id,
+        };
+      } else {
+        row = {
+          farm_id,
+          field_work_name: field_work_task_type.field_work_name,
+          field_work_type_translation_key: field_work_task_type.field_work_name
+            .toUpperCase()
+            .trim(),
+          created_by_user_id: data.owner_user_id,
+          updated_by_user_id: data.owner_user_id,
+        };
+      }
       const fieldWork = await FieldWorkTypeModel.insertCustomFieldWorkType(row);
       delete data.field_work_task.field_work_task_type;
       data.field_work_task.field_work_type_id = fieldWork.field_work_type_id;

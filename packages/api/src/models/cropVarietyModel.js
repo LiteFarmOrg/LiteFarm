@@ -13,8 +13,6 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import Model from './baseFormatModel.js';
-
 import BaseModel from './baseModel.js';
 import cropModel from './cropModel.js';
 
@@ -90,7 +88,7 @@ class CropVariety extends BaseModel {
         lifecycle: { type: 'string', enum: ['ANNUAL', 'PERENNIAL'] },
         compliance_file_url: { type: ['string', 'null'] },
         organic: { type: ['boolean', 'null'] },
-        treated: { type: ['string', 'null'], enum: ['YES', 'NO', 'NOT_SURE', 'null'] },
+        treated: { type: ['string', 'null'], enum: ['YES', 'NO', 'NOT_SURE', null] },
         genetically_engineered: { type: ['boolean', 'null'] },
         searched: { type: ['boolean', 'null'] },
         protein: { type: ['number', 'null'] },
@@ -117,7 +115,7 @@ class CropVariety extends BaseModel {
         crop_variety_photo_url: { type: 'string' },
         planting_method: {
           type: ['string', 'null'],
-          enum: ['BROADCAST_METHOD', 'CONTAINER_METHOD', 'BED_METHOD', 'ROW_METHOD', 'null'],
+          enum: ['BROADCAST_METHOD', 'CONTAINER_METHOD', 'BED_METHOD', 'ROW_METHOD', null],
         },
         can_be_cover_crop: { type: ['boolean', 'null'] },
         planting_depth: { type: ['number', 'null'] },
@@ -141,7 +139,7 @@ class CropVariety extends BaseModel {
   static get relationMappings() {
     return {
       crop: {
-        relation: Model.BelongsToOneRelation,
+        relation: BaseModel.BelongsToOneRelation,
         modelClass: cropModel,
         join: {
           from: 'crop_variety.crop_id',

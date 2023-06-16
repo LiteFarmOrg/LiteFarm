@@ -13,8 +13,6 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import Model from './baseFormatModel.js';
-
 import baseModel from './baseModel.js';
 import moment from 'moment';
 import cropVarietyModel from './cropVarietyModel.js';
@@ -68,7 +66,7 @@ class ManagementPlan extends baseModel {
   static get relationMappings() {
     return {
       crop_variety: {
-        relation: Model.BelongsToOneRelation,
+        relation: baseModel.BelongsToOneRelation,
         modelClass: cropVarietyModel,
         join: {
           from: 'management_plan.crop_variety_id',
@@ -77,7 +75,7 @@ class ManagementPlan extends baseModel {
       },
       crop_management_plan: {
         modelClass: cropManagementPlanModel,
-        relation: Model.HasOneRelation,
+        relation: baseModel.HasOneRelation,
         join: {
           from: 'management_plan.management_plan_id',
           to: 'crop_management_plan.management_plan_id',

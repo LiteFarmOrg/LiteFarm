@@ -692,6 +692,36 @@ describe('ManagementPlan Tests', () => {
           done();
         });
       });
+
+      test('Complete management plan with deleted and completed tasks', async (done)  => {
+        const reqBody = getCompleteReqBody();
+        const deletedTask = await mocks.management_tasksFactory({
+          promisedManagementPlan: [transplantManagementPlan],
+          promisedTask: mocks.taskFactory(
+            { promisedUser: [owner] },
+            { ...mocks.fakeTask({ deleted: true, complete_date: null, abandon_date: null }) },
+          ),
+        });
+        const completedTask = await mocks.management_tasksFactory({
+          promisedManagementPlan: [transplantManagementPlan],
+          promisedTask: mocks.taskFactory(
+            { promisedUser: [owner] },
+            { ...mocks.fakeTask({ complete_date: faker.date.past() }) },
+          ),
+        });
+
+        completeManagementPlanRequest(reqBody, {}, async (err, res) => {
+          expect(res.status).toBe(200);
+          const newManagementPlan = await managementPlanModel
+            .query()
+            .context({ showHidden: true })
+            .where('management_plan_id', transplantManagementPlan.management_plan_id)
+            .first();
+          expect(newManagementPlan.complete_notes).toBe(reqBody.complete_notes);
+          done();
+        });
+      });
+
       const getDateInputFormat = (date) => moment(date).format('YYYY-MM-DD');
 
       test('Abandon management plan with one pending task that reference this management plan and another management_plan', async (done) => {

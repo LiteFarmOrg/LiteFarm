@@ -1,3 +1,3 @@
-export default {
-  '*.{md}': 'prettier --write',
+module.exports = {
+  '*.md': 'prettier --write',
 };

@@ -1,5 +1,5 @@
 import React from 'react';
-import { withStyles } from '@mui/material';
+import { withStyles } from '@mui/styles';
 import LinearProgress from '@mui/material/LinearProgress';
 
 const CustomProgress = withStyles((theme) => ({

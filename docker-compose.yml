@@ -37,10 +37,10 @@ services:
     volumes: # Persisted volume required by bull
       - redis-data:/data
     ports:
-      - 6379:6379
+      - 6380:6379
 
   export_server:
-    image: kathyavini/node-awscli-lf:chromium
+    image: litefarm/node-awscli:0.0.1
     restart: unless-stopped
     volumes:
       - ./packages/api:/packages/api

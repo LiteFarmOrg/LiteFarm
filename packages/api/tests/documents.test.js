@@ -15,16 +15,6 @@ import mocks from './mock.factories.js';
 import { tableCleanup } from './testEnvironment.js';
 
 describe('Document tests', () => {
-  // let middleware;
-  beforeEach(() => {
-    // middleware = require('../src/middleware/acl/checkJwt');
-    // middleware.mockImplementation((req, res, next) => {
-    //   req.auth = {};
-    //   req.auth.user_id = req.get('user_id');
-    //   next();
-    // });
-  });
-
   function getRequest(url, { user_id, farm_id }, callback) {
     chai.request(server).get(url).set('user_id', user_id).set('farm_id', farm_id).end(callback);
   }

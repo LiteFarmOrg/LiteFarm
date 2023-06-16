@@ -44,12 +44,6 @@ describe('Farm Tests', () => {
 
   beforeEach(async () => {
     [newUser] = await usersFactory();
-    // middleware = require('../src/middleware/acl/checkJwt');
-    // middleware.mockImplementation((req, res, next) => {
-    //   req.auth = {};
-    //   req.auth.user_id = newUser.user_id;
-    //   next();
-    // });
   });
 
   afterAll(async (done) => {

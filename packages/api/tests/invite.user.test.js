@@ -22,20 +22,7 @@ import mocks from './mock.factories.js';
 import { tableCleanup } from './testEnvironment.js';
 
 describe('Invite user', () => {
-  let token;
-  let email;
   let axios;
-  beforeAll(() => {
-    // middleware = require('../src/middleware/acl/checkJwt');
-    // email = require('../src/templates/sendEmailTemplate');
-    //
-    // middleware.mockImplementation((req, res, next) => {
-    //   req.auth = {};
-    //   req.auth.user_id = req.get('user_id');
-    //   next();
-    // });
-    // emailMiddleware.sendEmail.mockClear();
-  });
 
   afterAll(async (done) => {
     await tableCleanup(knex);

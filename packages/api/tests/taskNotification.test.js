@@ -37,14 +37,6 @@ describe('Task Notification Tests', () => {
   let farmWorker2;
 
   beforeEach(async () => {
-    // const middleware = require('../src/middleware/acl/checkJwt');
-    //
-    // middleware.mockImplementation((req, res, next) => {
-    //   req.auth = {};
-    //   req.auth.user_id = req.get('user_id');
-    //   next();
-    // });
-
     [farmOwner] = await mocks.usersFactory();
     [farm] = await mocks.farmFactory();
     [farmWorker] = await mocks.usersFactory();

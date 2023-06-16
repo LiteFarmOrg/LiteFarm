@@ -191,7 +191,6 @@ const cropController = {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
       try {
-        // const user_id = req.auth.user_id;
         const data = req.body;
         data.crop_translation_key = data.crop_common_name;
         const updated = await baseController.put(CropModel, req.params.crop_id, data, req, { trx });

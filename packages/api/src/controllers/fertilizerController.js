@@ -56,7 +56,6 @@ const fertilizerController = {
         if (farm_id !== body_farm_id) {
           res.status(400).send({ error: 'farm_id does not match in params and body' });
         }
-        // const user_id = req.auth.user_id;
         const result = await baseController.postWithResponse(FertilizerModel, data, req, { trx });
         await trx.commit();
         res.status(201).send(result);

@@ -125,13 +125,6 @@ describe('Price Tests', () => {
     [farm] = await mocks.farmFactory();
     [newOwner] = await mocks.usersFactory();
     [crop] = await mocks.cropFactory({ promisedFarm: [farm] });
-
-    // middleware = require('../src/middleware/acl/checkJwt');
-    // middleware.mockImplementation((req, res, next) => {
-    //   req.auth = {};
-    //   req.auth.user_id = req.get('user_id');
-    //   next();
-    // });
   });
 
   afterAll(async (done) => {

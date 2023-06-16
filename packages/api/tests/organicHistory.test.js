@@ -62,13 +62,6 @@ describe('Location organic history tests', () => {
       fakeUserFarm(1),
     );
     [location] = await mocks.locationFactory({ promisedFarm: [farm] });
-
-    // const middleware = require('../src/middleware/acl/checkJwt');
-    // middleware.mockImplementation((req, res, next) => {
-    //   req.auth = {};
-    //   req.auth.user_id = req.get('user_id');
-    //   next();
-    // });
   });
 
   afterAll(async (done) => {

@@ -64,15 +64,6 @@ describe('Product Tests', () => {
     return { ...fertilizer, farm_id };
   }
 
-  beforeEach(async () => {
-    // middleware = require('../src/middleware/acl/checkJwt');
-    // middleware.mockImplementation((req, res, next) => {
-    //   req.auth = {};
-    //   req.auth.user_id = req.get('user_id');
-    //   next();
-    // });
-  });
-
   afterAll(async (done) => {
     await tableCleanup(knex);
     await knex.destroy();

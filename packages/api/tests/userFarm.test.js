@@ -79,15 +79,6 @@ describe('User Farm Tests', () => {
       .end(callback);
   }
 
-  // function addUserFarmRequest(data, { user_id = owner.user_id, farm_id = farm.farm_id }, callback) {
-  //   chai.request(server).post('/user_farm')
-  //     .set('Content-Type', 'application/json')
-  //     .set('user_id', user_id)
-  //     .set('farm_id', farm_id)
-  //     .send(data)
-  //     .end(callback);
-  // }
-
   function getUserFarmsOfFarmRequest({ user_id, farm_id }, callback) {
     chai
       .request(server)
@@ -160,15 +151,6 @@ describe('User Farm Tests', () => {
       .end(callback);
   }
 
-  // function fakeUserFarm(role_id=1, status='Active', has_consent=true) {
-  //   return ({
-  //     ...mocks.fakeUserFarm(),
-  //     role_id,
-  //     status,
-  //     has_consent,
-  //   });
-  // }
-
   // initialize a user and a farm
   async function setupUserFarm({ role_id = 1, status = 'Active', has_consent = true }) {
     const userFarmInfo = {
@@ -219,15 +201,6 @@ describe('User Farm Tests', () => {
     const inactiveUser = await createUserFarmAtFarm({ role_id: 3, status: 'Inactive' }, farm);
     return { owner, manager, worker, inactiveUser, farm };
   }
-
-  beforeEach(async () => {
-    // middleware = require('../src/middleware/acl/checkJwt');
-    // middleware.mockImplementation((req, res, next) => {
-    //   req.auth = {};
-    //   req.auth.user_id = req.get('user_id');
-    //   next();
-    // });
-  });
 
   afterAll(async (done) => {
     console.time('cleanup');

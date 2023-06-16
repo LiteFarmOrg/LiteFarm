@@ -43,13 +43,6 @@ describe('Notification tests', () => {
     [user] = await mocks.usersFactory();
     [farm] = await mocks.farmFactory();
     [userFarm] = await mocks.userFarmFactory({ promisedUser: [user], promisedFarm: [farm] });
-
-    // const middleware = require('../src/middleware/acl/checkJwt');
-    // middleware.mockImplementation((req, res, next) => {
-    //   req.auth = {};
-    //   req.auth.user_id = req.get('user_id');
-    //   next();
-    // });
   });
 
   afterAll(async (done) => {

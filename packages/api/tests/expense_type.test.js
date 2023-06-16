@@ -126,13 +126,6 @@ describe('Expense Type Tests', () => {
     [farm] = await mocks.farmFactory();
     [farm1] = await mocks.farmFactory();
     [newOwner] = await mocks.usersFactory();
-
-    // middleware = require('../src/middleware/acl/checkJwt');
-    // middleware.mockImplementation((req, res, next) => {
-    //   req.auth = {};
-    //   req.auth.user_id = req.get('user_id');
-    //   next();
-    // });
   });
 
   afterAll(async (done) => {

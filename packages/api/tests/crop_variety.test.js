@@ -99,13 +99,6 @@ describe('CropVariety Tests', () => {
       },
       fakeUserFarm(1),
     );
-
-    // middleware = require('../src/middleware/acl/checkJwt');
-    // middleware.mockImplementation((req, res, next) => {
-    //   req.auth = {};
-    //   req.auth.user_id = req.get('user_id');
-    //   next();
-    // });
   });
 
   afterAll(async (done) => {

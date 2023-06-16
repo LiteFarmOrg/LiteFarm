@@ -83,16 +83,6 @@ const assetSpecificMock = {
 };
 
 describe('Location tests', () => {
-  // let middleware;
-  beforeAll(() => {
-    // middleware = require('../src/middleware/acl/checkJwt');
-    // middleware.mockImplementation((req, res, next) => {
-    //   req.auth = {};
-    //   req.auth.user_id = req.get('user_id');
-    //   next();
-    // });
-  });
-
   afterAll(async (done) => {
     await tableCleanup(knex);
     await knex.destroy();

@@ -24,8 +24,8 @@ import { tableCleanup } from './testEnvironment.js';
 jest.mock('jsdom');
 jest.mock('../src/middleware/acl/checkJwt.js', () =>
   jest.fn((req, res, next) => {
-    req.user = {};
-    req.user.user_id = req.get('user_id');
+    req.auth = {};
+    req.auth.user_id = req.get('user_id');
     next();
   }),
 );
@@ -143,13 +143,6 @@ describe('ManagementPlan Tests', () => {
       .whereNotDeleted()
       .findById(location.location_id).withGraphFetched(`[
           figure.[area], field]`);
-
-    // middleware = require('../src/middleware/acl/checkJwt');
-    // middleware.mockImplementation((req, res, next) => {
-    //   req.user = {};
-    //   req.user.user_id = req.get('user_id');
-    //   next();
-    // });
   });
 
   afterAll(async (done) => {

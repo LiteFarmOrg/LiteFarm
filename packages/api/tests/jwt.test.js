@@ -437,11 +437,11 @@ describe('JWT Tests', () => {
       });
       googleUser = fakeGoogleTokenContent();
       checkGoogleJwt.mockImplementation(async (req, res, next) => {
-        req.user = { ...googleUser };
+        req.auth = { ...googleUser };
         return next();
       });
       checkGoogleAccessToken.mockImplementation(async (req, res, next) => {
-        req.user = { ...googleUser };
+        req.auth = { ...googleUser };
         return next();
       });
       // emailMiddleware.sendEmail.mockClear();

@@ -48,7 +48,7 @@ const documentController = {
       try {
         const result = await DocumentModel.transaction(async (trx) => {
           return await DocumentModel.query(trx)
-            .context({ user_id: req.user.user_id })
+            .context({ user_id: req.auth.user_id })
             .upsertGraph(req.body, { noUpdate: true, noDelete: true });
         });
         return res.status(201).send(result);
@@ -66,7 +66,7 @@ const documentController = {
       const { document_id } = req.params;
       try {
         const result = await DocumentModel.query()
-          .context(req.user)
+          .context(req.auth)
           .findById(document_id)
           .patch({ archived: req.body.archived });
         return result ? res.sendStatus(200) : res.status(404).send('Document not found');
@@ -82,7 +82,7 @@ const documentController = {
         const { document_id } = req.params;
         const result = await DocumentModel.transaction(async (trx) => {
           return await DocumentModel.query(trx)
-            .context({ user_id: req.user.user_id })
+            .context({ user_id: req.auth.user_id })
             .upsertGraph({ document_id, ...req.body });
         });
         return res.status(201).send(result);

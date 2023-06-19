@@ -20,7 +20,7 @@ const userLogController = {
   addUserLog() {
     return async (req, res) => {
       // uses email to identify which user is attempting to log in, can also use user_id for this
-      const { user_id } = req.user;
+      const { user_id } = req.auth;
       const { screen_width, screen_height, farm_id } = req.body;
       try {
         const ip = req.headers['x-forwarded-for']?.split(',').shift() || req.socket?.remoteAddress;

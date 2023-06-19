@@ -71,7 +71,6 @@ const fieldController = {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
       try {
-        // const user_id = req.user.user_id;
         const updated = await baseController.put(fieldModel, req.params.field_id, req.body, req, {
           trx,
         });
@@ -125,7 +124,6 @@ const fieldController = {
   async postWithResponse(req, trx) {
     const id_column = fieldModel.idColumn;
     req.body[id_column] = uuidv4();
-    // const user_id = req.user.user_id;
     return await baseController.postWithResponse(fieldModel, req.body, req, { trx });
   },
 

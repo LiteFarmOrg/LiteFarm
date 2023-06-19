@@ -13,9 +13,9 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import jwt from 'express-jwt';
+import { expressjwt } from 'express-jwt';
 
-const checkSchedulerJwt = jwt({
+const checkSchedulerJwt = expressjwt({
   secret: process.env.JWT_SCHEDULER_SECRET,
   algorithms: ['HS256'],
   requestProperty: 'auth',

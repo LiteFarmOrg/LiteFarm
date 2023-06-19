@@ -48,7 +48,7 @@ const LocationController = {
         // after the validation middleware.
         const result = await LocationModel.transaction(async (trx) => {
           return await LocationModel.query(trx)
-            .context({ user_id: req.user.user_id })
+            .context({ user_id: req.auth.user_id })
             .upsertGraph(req.body, { noUpdate: true, noDelete: true, noInsert: nonModifiable });
         });
         return res.status(200).send(result);
@@ -65,7 +65,7 @@ const LocationController = {
       try {
         const result = await LocationModel.transaction(async (trx) => {
           return await LocationModel.query(trx)
-            .context({ user_id: req.user.user_id })
+            .context({ user_id: req.auth.user_id })
             .upsertGraph(
               { ...req.body, location_id: req.params.location_id },
               {

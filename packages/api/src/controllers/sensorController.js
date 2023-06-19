@@ -95,7 +95,7 @@ const sensorController = {
     }
     const { sendResponse } = syncAsyncResponse(res, timeLimit);
     const { farm_id } = req.headers;
-    const { user_id } = req.user;
+    const { user_id } = req.auth;
     try {
       const { access_token } = await IntegratingPartnersModel.getAccessAndRefreshTokens(
         'Ensemble Scientific',
@@ -601,7 +601,7 @@ const sensorController = {
       );
       const { partner_name } = brand[0];
 
-      const user_id = req.user.user_id;
+      const user_id = req.auth.user_id;
       const { access_token } = await IntegratingPartnersModel.getAccessAndRefreshTokens(
         'Ensemble Scientific',
       );

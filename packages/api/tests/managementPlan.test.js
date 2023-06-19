@@ -693,7 +693,7 @@ describe('ManagementPlan Tests', () => {
         });
       });
 
-      test('Complete management plan with deleted and completed tasks', async (done)  => {
+      test('Complete management plan with deleted and completed tasks', async (done) => {
         const reqBody = getCompleteReqBody();
         const deletedTask = await mocks.management_tasksFactory({
           promisedManagementPlan: [transplantManagementPlan],

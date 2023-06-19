@@ -1,0 +1,88 @@
+version: '3.7'
+
+volumes:
+  redis-data:
+  minio-data:
+  export-node-modules:
+  postgres-data:
+
+services:
+  db:
+    container_name: litefarm-db
+    image: postgres:13
+    ports:
+      - '5433:5432'
+    environment:
+      POSTGRES_PASSWORD: 'postgres'
+    volumes:
+      - ./initdb.d:/docker-entrypoint-initdb.d
+      - postgres-data:/var/lib/postgresql/data
+  minio:
+    image: minio/minio:RELEASE.2023-06-09T07-32-12Z
+    restart: unless-stopped
+    ports:
+      - 9000:9000
+      - 9090:9090
+    volumes:
+      - minio-data:/data
+    environment:
+      - MINIO_ROOT_USER=myminioadmin
+      - MINIO_ROOT_PASSWORD=myminioadmin
+      - CONSOLE_ADDRESS=9090
+    command: server /data --console-address ":9090"
+
+  create_minio_bucket:
+    image: minio/mc:RELEASE.2023-06-06T13-48-56Z
+    depends_on:
+      - minio
+    entrypoint: >
+      /bin/sh -c "
+      /usr/bin/mc alias set myminio http://minio:9000 myminioadmin myminioadmin;
+      /usr/bin/mc mb myminio/minio-dev;
+      /usr/bin/mc anonymous set public myminio/minio-dev;"
+
+  redis:
+    image: redis:7.0-alpine
+    restart: unless-stopped
+    command: redis-server --requirepass test --loglevel warning
+    volumes: # Persisted volume required by bull
+      - redis-data:/data
+    ports:
+      - 6380:6379
+
+  export_server:
+    image: litefarm/node-awscli:0.0.1
+    restart: unless-stopped
+    volumes:
+      - ./packages/api:/packages/api
+      - ./packages/webapp/public/locales:/packages/webapp/public/locales
+      - export-node-modules:/packages/api/node_modules
+    working_dir: /packages/api
+    entrypoint: ./dev.export.sh
+    depends_on:
+      - redis
+      - minio
+    environment:
+      - AWS_ACCESS_KEY_ID=myminioadmin
+      - AWS_SECRET_ACCESS_KEY=myminioadmin
+      - MINIO_ENDPOINT=http://host.docker.internal:9000
+      - API_URL=http://host.docker.internal:5001
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - REDIS_PASSWORD=test
+      - REPORT_URL=http://host.docker.internal:3000/render_survey
+    ports:
+      - 9229:9229 # for debugging
+    extra_hosts:
+      - 'host.docker.internal:host-gateway'
+
+  imaginary:
+    image: h2non/imaginary:1.2.4
+    ports:
+      - 8088:8088
+    environment:
+      - PORT=8088
+    command: >
+      -concurrency 5
+      -disable-endpoints form
+      -key localonlytoken

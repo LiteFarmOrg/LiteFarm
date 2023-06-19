@@ -29,7 +29,7 @@ import expressOasGenerator from 'express-oas-generator';
 const environment = process.env.NODE_ENV || 'development';
 
 Sentry.init({
-  dsn: process.env.UPDATE_OAS_FILES,
+  dsn: process.env.SENTRY_DSN,
   integrations: [
     // enable HTTP calls tracing
     new Sentry.Integrations.Http({ tracing: true }),

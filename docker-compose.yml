@@ -11,9 +11,9 @@ services:
     container_name: litefarm-db
     image: postgres:13
     ports:
-      - "5433:5432"
+      - '5433:5432'
     environment:
-      POSTGRES_PASSWORD: "postgres"
+      POSTGRES_PASSWORD: 'postgres'
     volumes:
       - ./initdb.d:/docker-entrypoint-initdb.d
       - postgres-data:/var/lib/postgresql/data
@@ -73,6 +73,8 @@ services:
       - REPORT_URL=http://host.docker.internal:3000/render_survey
     ports:
       - 9229:9229 # for debugging
+    extra_hosts:
+      - 'host.docker.internal:host-gateway'
 
   imaginary:
     image: h2non/imaginary:1.2.4

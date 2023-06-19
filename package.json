@@ -2,7 +2,9 @@
   "devDependencies": {
     "cypress": "^9.5.3",
     "husky": "^7.0.4",
-    "lerna": "^5.0.0"
+    "lerna": "^5.0.0",
+    "lint-staged": "^13.2.2",
+    "prettier": "^2.8.8"
   },
   "scripts": {
     "test": "lerna run test",

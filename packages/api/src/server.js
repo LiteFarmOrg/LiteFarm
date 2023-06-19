@@ -211,6 +211,7 @@ const rejectBodyInGetAndDelete = (req, res, next) => {
 app
   .use(applyExpressJSON)
   .use(express.urlencoded({ extended: true }))
+  .disable('x-powered-by')
 
   // prevent CORS errors
   .use(cors())

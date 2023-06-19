@@ -121,7 +121,7 @@ const loginController = {
   loginWithGoogle() {
     return async (req, res) => {
       try {
-        const { sub: user_id, email, given_name: first_name, family_name: last_name } = req.user;
+        const { sub: user_id, email, given_name: first_name, family_name: last_name } = req.auth;
         const { language_preference } = req.body;
         // TODO optimize this query
         const ssoUser = await UserModel.query().findById(user_id);

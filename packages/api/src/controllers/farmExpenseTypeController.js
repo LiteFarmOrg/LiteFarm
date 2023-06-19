@@ -23,7 +23,6 @@ const farmExpenseTypeController = {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
       try {
-        // const user_id = req.user.user_id;
         const data = req.body;
         data.expense_translation_key = data.expense_name;
         const result = await baseController.postWithResponse(ExpenseTypeModel, data, req, { trx });

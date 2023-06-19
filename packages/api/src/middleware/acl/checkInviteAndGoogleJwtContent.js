@@ -34,10 +34,10 @@ async function checkInvitationTokenContent(req, res, next) {
   if (status !== 'Invited') {
     return res.status(401).send('Invitation link is used');
   }
-  if (req.user.email !== invitation_token_content.email) {
+  if (req.auth.email !== invitation_token_content.email) {
     return res.status(403).send('Incorrect email address');
   }
-  req.user = { ...req.user, ...invitation_token_content, farm_id, user_id };
+  req.auth = { ...req.auth, ...invitation_token_content, farm_id, user_id };
 
   return next();
 }

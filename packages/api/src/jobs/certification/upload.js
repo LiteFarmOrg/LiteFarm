@@ -32,7 +32,7 @@ export default (emailQueue) => (job, done) => {
       () => {
         done();
         emailQueue.add({ ...job.data, file: fileIdentifier }, { removeOnComplete: true });
-        fs.rmdir(path.join(process.env.EXPORT_WD, 'temp', exportId), { recursive: true }, (err) => {
+        fs.rm(path.join(process.env.EXPORT_WD, 'temp', exportId), { recursive: true }, (err) => {
           if (!err) console.log('deleted temp folder for export id', exportId);
         });
         fs.rm(

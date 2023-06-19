@@ -36,7 +36,7 @@ const userFarmController = {
       try {
         const user_id = req.params.user_id;
         const rows = await UserFarmModel.query()
-          .context({ user_id: req.user.user_id })
+          .context({ user_id: req.auth.user_id })
           .select('*')
           .where('userFarm.user_id', user_id)
           .andWhereNot('farm.deleted', 'true')
@@ -69,7 +69,7 @@ const userFarmController = {
         let rows;
         if (userFarm.role_id === 3) {
           rows = await UserFarmModel.query()
-            .context({ user_id: req.user.user_id })
+            .context({ user_id: req.auth.user_id })
             .select(
               'users.first_name',
               'users.last_name',
@@ -87,7 +87,7 @@ const userFarmController = {
             .leftJoin('users', 'userFarm.user_id', 'users.user_id');
         } else {
           rows = await UserFarmModel.query()
-            .context({ user_id: req.user.user_id })
+            .context({ user_id: req.auth.user_id })
             .select('*')
             .where('userFarm.farm_id', farm_id)
             .leftJoin('role', 'userFarm.role_id', 'role.role_id')
@@ -113,7 +113,7 @@ const userFarmController = {
         let rows;
         if (userFarm.role_id === 3) {
           rows = await UserFarmModel.query()
-            .context({ user_id: req.user.user_id })
+            .context({ user_id: req.auth.user_id })
             .select(
               'users.first_name',
               'users.last_name',
@@ -156,7 +156,7 @@ const userFarmController = {
         let rows;
         if (userFarm.role_id === 3) {
           rows = await UserFarmModel.query()
-            .context({ user_id: req.user.user_id })
+            .context({ user_id: req.auth.user_id })
             .select(
               'users.first_name',
               'users.last_name',
@@ -175,7 +175,7 @@ const userFarmController = {
             .leftJoin('users', 'userFarm.user_id', 'users.user_id');
         } else {
           rows = await UserFarmModel.query()
-            .context({ user_id: req.user.user_id })
+            .context({ user_id: req.auth.user_id })
             .select('*')
             .where('userFarm.user_id', user_id)
             .andWhere('userFarm.farm_id', farm_id)
@@ -415,7 +415,7 @@ const userFarmController = {
   acceptInvitation() {
     return async (req, res) => {
       let result;
-      const { user_id, farm_id } = req.user;
+      const { user_id, farm_id } = req.auth;
       const { language_preference } = req.body;
       if (!/^\d+$/.test(user_id)) {
         const user = await UserModel.query()
@@ -448,7 +448,7 @@ const userFarmController = {
   acceptInvitationWithAccessToken() {
     return async (req, res) => {
       const { farm_id } = req.params;
-      req.user.farm_id = farm_id;
+      req.auth.farm_id = farm_id;
       return await userFarmController.acceptInvitation()(req, res);
     };
   },

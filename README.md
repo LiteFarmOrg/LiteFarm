@@ -103,6 +103,91 @@ In a terminal, navigate to the `packages/webapp` folder and run `pnpm dev`. This
 
 Load the frontend app in your browser at http://localhost:3000.
 
+## services (local development dependencies)
+
+<details>
+  <summary>Background & Details</summary>
+
+### Images, documents, and certification export
+
+In beta and production, images, uploaded files, and certification exports are all stored on Digital Ocean Spaces (AWS S3-SDK compatible buckets). Organic certification document creation is handled by a node.js application that runs separately from the API alongside an image compression microservice called the imaginary, both hosted on Digital Ocean Droplets.
+
+In the local development environment, we use MinIO, a free and open-source drop-in replacement for AWS S3. MinIO, the export server, and the export server's dependency Redis (used to manage its job queue) can all be run in either Docker containers or natively, depending on developer preference. The easier method is to use Docker and let the `docker-compose.yml` file handle the configuration.
+
+### Instructions:
+
+</details>
+
+Run `docker compose up` in the root directory of the project.
+
+Make sure that your `.env` variables are configured as outlined in the `.env.default` files (see [section above](#adding-environment-files)). When exporting certification documents, both the webapp and API need to be running.
+
+Also see the section below [on using Docker](#docker).
+
+<details>
+  <summary>Instructions for running image, document, and certification services natively</summary>
+
+#### Running the export server natively/directly
+
+1. Create and run a local Redis database with password "test". Make sure to record the correct port under `REDIS_PORT` in `packages/api/.env` -- the default is 6379
+2. Install and configure MinIO. You will want to create a Single-Node Single-Drive (Standalone) MinIO installation. The MinIO website lists instructions for [MacOS](https://min.io/docs/minio/macos/index.html) along with other operating systems. Use the default port.
+3. Use the MinIO console to
+   - create a new bucket called `minio-dev` and set its access policy to "public"
+   - generate an access key. Record both key + secret
+   - Note: for local use you may instead use the default username and password -- both `myminioadmin` -- in place of keys
+4. Download [aws-cli](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html) and configure it with your MinIO access key + secret directly in the terminal using:
+   ```
+   aws configure
+   ```
+   Make sure that the region name is either removed from your aws configuration or set up correspondingly in your MinIO admin panel.
+5. Connect MinIO to LiteFarm:
+
+   in `packages/api/.env` make sure you have the following variables set:
+
+   ```
+   MINIO_ENDPOINT=http://localhost:9000
+   PRIVATE_BUCKET_NAME=minio-dev
+   PUBLIC_BUCKET_NAME=minio-dev
+   ```
+
+   in `packages/webapp/.env`:
+
+   ```
+   VITE_DEV_BUCKET_NAME=minio-dev
+   VITE_DEV_ENDPOINT=localhost:9000
+   ```
+
+6. Make sure both the LiteFarm api and webapp are already running, then run the export server from `packages/api` using
+   ```
+   npm run scheduler
+   ```
+
+A [detailed walkthrough](https://lite-farm.atlassian.net/wiki/spaces/LITEFARM/pages/1190101039/The+export+jobs+pseudo-package#Running-the-export-server-locally) (with screenshots) is also available on the LiteFarm Confluence.
+
+#### Image and document storage natively/directly
+
+You can also use the same MinIO bucket to store documents uploaded from the Documents view of the webapp. To configure this, set up MinIO as described above, add the access key credentials to `/api/.env`, e.g.
+
+```
+DO_SPACES_ACCESS_KEY_ID=myminioadmin
+DO_SPACES_SECRET_ACCESS_KEY=myminioadmin
+```
+
+#### Imaginary
+
+The imaginary only exists as a Docker container (both in production and for development), and we highly recommend running it with `docker compose up imaginary`
+
+You will need these variables set in your `/api/.env`:
+
+```
+IMAGINARY_TOKEN=localonlytoken
+LOCAL_IMAGINARY=http://localhost:8088
+```
+
+If you are unable to use Docker, please contact a core team member to get instructions on using the production Imaginary.
+
+</details>
+
 # Testing
 
 ## api
@@ -124,53 +209,6 @@ To run [ESLint](https://eslint.org/) checks execute `pnpm lint`
 Since this is a mobile web application, webapp should be viewed in a mobile view in the browser.
 
 You can also test LiteFarm on your actual mobile device using the network adddress returned by `vite --host` when you start the webapp in development mode. To do this, also update `VITE_API_URL` in your `webapp/.env` file from localhost to that address (or your computer's network name) and the appropriate API port. Most of LiteFarm can be tested like this, but please note that Google SSO and some other functionality will not work over the local network.
-
-## export server
-
-Certification document export is handled by a Node.js application that runs separately from the api and connects to a Digital Ocean Space (AWS S3 bucket). It can be tested locally by setting up a Redis database for the job queue and using MinIO, a free and open-source drop-in replacement for AWS S3 that can be run on your own machine.
-
-<details>
-  <summary>Full instructions for running the export server locally</summary>
-
-1. Create and run a local Redis database on the default port with password "test"
-2. Install and configure MinIO. You will want to create a Single-Node Single-Drive (Standalone) MinIO installation. The MinIO website lists instructions for [Docker](https://min.io/docs/minio/container/index.html) and [MacOS](https://min.io/docs/minio/macos/index.html) along with other operating systems. Use the default port.
-3. Use the MinIO console to
-   - create a new bucket and set its access policy to "public"
-   - generate an access key. Record both key + secret
-4. Download [aws-cli](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html) and configure it with your MinIO access key + secret directly in the terminal using:
-   ```
-   aws configure
-   ```
-   Make sure that the region name is either removed from your aws configuration or set up correspondingly in your MinIO admin panel.
-5. Connect MinIO to LiteFarm:
-
-   in `packages/api/.env` make sure you have the following variables set:
-
-   ```
-   MINIO_ENDPOINT=http://localhost:9000
-   PRIVATE_BUCKET_NAME=<MinIO bucket name here>
-   PUBLIC_BUCKET_NAME=<MinIO bucket name here>
-   ```
-
-   in `packages/webapp/.env`:
-
-   ```
-   VITE_DEV_BUCKET_NAME=<MinIO bucket name here>
-   VITE_DEV_ENDPOINT=localhost:9000
-   ```
-
-6. Add an `exports/` directory to LiteFarm `packages/api`
-7. Make sure both the LiteFarm api and webapp are already running, then run the export server from `packages/api` using
-   ```
-   npm run scheduler
-   ```
-
-</details>
-
-A [detailed walkthrough](https://lite-farm.atlassian.net/wiki/spaces/LITEFARM/pages/1190101039/The+export+jobs+pseudo-package#Running-the-export-server-locally) (with screenshots) is also available on the LiteFarm Confluence.
-
-You can also use the same MinIO bucket to store documents (but not, currently, images) uploaded from the Documents view of the webapp. To configure this, set up MinIO as above, and add the access key credentials to `/api/.env` under
-`DO_SPACES_ACCESS_KEY_ID` and `DO_SPACES_SECRET_ACCESS_KEY`.
 
 # ngrok
 
@@ -215,6 +253,7 @@ Please see https://docs.docker.com/ for more general information about docker.
 
 Use cases in which we currently utilize docker at LiteFarm include:
 
+- Managing services for working with images, files, and exports in the local development environment.
 - Simulating the server environment.
 - Building LiteFarm application using docker commands and supporting its components using containers.
 
@@ -222,19 +261,22 @@ Use cases in which we currently utilize docker at LiteFarm include:
 
 - Go to https://docs.docker.com/get-docker/ and install docker in your local system.
 - After installation, the docker CLI will be available where you can run the docker commands.
-- create a .env file at the root directory of the project i.e. LiteFarm
-- Add key-value pairs in the .env by referring to the docker-compose.[ENV].yml that contains the docker env keys.
+- create a `.env` file at the root directory of the project i.e. LiteFarm
+- Add key-value pairs in the `.env` by referring to the `docker-compose.[ENV].yml` that contains the docker env keys.
 
 ## Commands
 
 These commands can be run from the root of the repo.
 
+- `docker compose up` to run all the local development services, OR
+- `docker compose up [service names]` to run one or more particular services
 - `docker-compose -f docker-compose.[ENV].yml up --build -d` to build the docker containers in the detach mode.
 - `docker ps` to see the list of docker containers in the running state.
 - `docker logs --details [containers name]` to view the logs inside the container.
 
-\_Note:
+Notes:
 
+- [service names] are minio, redis, export_server, and imaginary
 - [container_name] are litefarm-db, litefarm-api and litefarm-web.
 - [ENV] are beta and prod
 

@@ -179,7 +179,7 @@ const farmController = {
     return async (req, res) => {
       try {
         const { default_initial_location_id } = req.body;
-        const user_id = req.user.user_id;
+        const user_id = req.auth.user_id;
         const updated = await FarmModel.query()
           .context({ user_id })
           .findById(req.params.farm_id)
@@ -203,7 +203,7 @@ const farmController = {
       const trx = await transaction.start(Model.knex());
       try {
         const { owner_operated } = req.body;
-        const user_id = req.user.user_id;
+        const user_id = req.auth.user_id;
         const updated = await FarmModel.query(trx)
           .context({ user_id })
           .where({ farm_id: req.params.farm_id })
@@ -226,8 +226,8 @@ const farmController = {
 
   async getUser(req, trx) {
     // check if a user is making this call
-    if (req.user) {
-      const uid = req.user.user_id;
+    if (req.auth) {
+      const uid = req.auth.user_id;
 
       return await UserModel.query(trx).where(UserModel.idColumn, uid).returning('*');
     }

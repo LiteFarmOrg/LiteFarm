@@ -51,9 +51,8 @@ const checkScope = (expectedScopes, { checkConsent = true } = {}) => {
     if (expectedScopes.length === 0) {
       return next();
     }
-    //TODO user_id should comes from token. const user_id = req.user.user_id
     const { headers } = req;
-    const { user_id } = req.user;
+    const { user_id } = req.auth;
     const { farm_id } = headers; // these are the minimum props needed for most endpoints' authorization
 
     if (!user_id || user_id === 'undefined')

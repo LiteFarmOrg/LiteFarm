@@ -24,8 +24,8 @@ jest.mock('../src/middleware/acl/checkJwt.js', () =>
   jest.fn((req, res, next) => {
     console.log('Mocked!');
     console.log(req.get('user_id'));
-    req.user = {};
-    req.user.user_id = req.get('user_id');
+    req.auth = {};
+    req.auth.user_id = req.get('user_id');
     next();
   }),
 );
@@ -115,12 +115,6 @@ xdescribe('Authorization Tests', () => {
       },
       fakeUserFarm(1),
     );
-    // middleware = require('../src/middleware/acl/checkJwt');
-    // middleware.mockImplementation((req, res, next) => {
-    //   req.user = {};
-    //   req.user.user_id = req.get('user_id');
-    //   next();
-    // });
   });
 
   afterAll(async (done) => {

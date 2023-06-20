@@ -37,12 +37,23 @@ npm ERR! While resolving: objection@2.2.17...`
    Use nvm to install and use the Node version 16.15.0 with the commands, `nvm install 16.15.0` then `nvm use 16.15.0`. Then try again.
 
 7. Navigate to the `packages/webapp` folder, and run `pnpm install`.
+8. (Highly recommended) Go to [Get Docker | Docker Documentation](https://docs.docker.com/get-docker/) and install Docker. Docker is the recommended method for setting up development dependencies, but alternative instructions will be provided as well if you are unable to use Docker.
 
 ## Database setup
 
+Run `docker compose up` in the root directory to configure and start all development dependencies, including the database.
+
+For more information, see [services (local development dependencies)](#services-local-development-dependencies) below.
+
+Once the database container is running and the `.env` files have been configured [as described below](#adding-environment-files), in a terminal navigate to the `packages/api` folder. Execute `npm run migrate:dev:db` to run the [migrations](https://knexjs.org/#Migrations) that set up the PostgreSQL database used by the app.
+
+### Database - Native installation
+
+<details>
+  <summary>Instructions</summary>
 1. If using Windows, install PostgreSQL by downloading installers or packages from https://www.postgresql.org/download/. Mac and Linux users can use homebrew with the commands shown below (a link for installing Homebrew is below too!). The second command can take up to 10 minutes because it may trigger the compilation of a new binary.
 
-   In a Terminal window:
+In a Terminal window:
 
 ```
    # Install homebrew if you don't already have it with the command:
@@ -81,7 +92,11 @@ npm ERR! While resolving: objection@2.2.17...`
 
    For Windows, the ALTER ROLE command is not used because the password is set using the wizard installer downloaded.
 
-3. In a terminal, navigate to the `packages/api` folder. Execute `npm run migrate:dev:db` to run the [migrations](https://knexjs.org/#Migrations) that set up the PostgreSQL database used by the app.
+3. Set the value of `DEV_DATABASE_PORT` in `packages/api/.env` to the correct port of your PostgreSQL installation. The default port is `5432`
+
+4. In a terminal, navigate to the `packages/api` folder. Execute `npm run migrate:dev:db` to run the [migrations](https://knexjs.org/#Migrations) that set up the PostgreSQL database used by the app.
+
+</details>
 
 ## Adding environment files
 
@@ -107,6 +122,12 @@ Load the frontend app in your browser at http://localhost:3000.
 
 <details>
   <summary>Background & Details</summary>
+
+### PostgreSQL Database
+
+The LiteFarm database can be run either directly on your local machine or, for ease of setup, in a pre-configured Docker container. We recommend using Docker, and so the database is included by default in the `docker-compose.yml` file. Please note the docker-compose exposes port `5433` to the host machine for connecting your Postgres client of choice (e.g. Postico/pgAdmin4).
+
+If you prefer to install and use Postgres natively, instructions for different operating systems are provided above under [Database Setup - Native installation](#database---native-installation).
 
 ### Images, documents, and certification export
 
@@ -253,7 +274,7 @@ Please see https://docs.docker.com/ for more general information about docker.
 
 Use cases in which we currently utilize docker at LiteFarm include:
 
-- Managing services for working with images, files, and exports in the local development environment.
+- Managing development dependencies in the local development environment, including the database and services for working with images, files, and exports
 - Simulating the server environment.
 - Building LiteFarm application using docker commands and supporting its components using containers.
 
@@ -270,13 +291,15 @@ These commands can be run from the root of the repo.
 
 - `docker compose up` to run all the local development services, OR
 - `docker compose up [service names]` to run one or more particular services
+- `docker compose down` to stop and remove all containers defined in `docker-compose.yml`
+- `docker compose down --volumes` to stop and remove all containers and volumes defined in `docker-compose.yml`
 - `docker-compose -f docker-compose.[ENV].yml up --build -d` to build the docker containers in the detach mode.
 - `docker ps` to see the list of docker containers in the running state.
 - `docker logs --details [containers name]` to view the logs inside the container.
 
 Notes:
 
-- [service names] are minio, redis, export_server, and imaginary
+- [service names] are db, minio, redis, export_server, and imaginary
 - [container_name] are litefarm-db, litefarm-api and litefarm-web.
 - [ENV] are beta and prod
 

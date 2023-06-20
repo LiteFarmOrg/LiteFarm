@@ -37,7 +37,7 @@ class Document extends baseModel {
         farm_id: { type: 'string' },
         name: { type: 'string' },
         thumbnail_url: { type: ['string', 'null'] },
-        valid_until: { anyOf: [{ type: 'null' }, { type: 'date' }] },
+        valid_until: { type: ['string', 'null'], format: 'date' },
         notes: { type: ['string', 'null'] },
         no_expiration: { type: ['boolean', 'null'] },
         type: {

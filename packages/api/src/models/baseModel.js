@@ -2,6 +2,18 @@ import Model from './baseFormatModel.js';
 import softDelete from 'objection-soft-delete';
 
 class BaseModel extends softDelete({ columnName: 'deleted' })(Model) {
+  // Returned Date-time object from db is not compatible with ajv format types
+  $parseJson(json, opt) {
+    json = super.$parseJson(json, opt);
+    if (json.created_at && typeof json.created_at === 'object') {
+      json.created_at = json.created_at.toISOString();
+    }
+    if (json.updated_at && typeof json.updated_at === 'object') {
+      json.updated_at = json.updated_at.toISOString();
+    }
+    return json;
+  }
+
   async $beforeInsert(context) {
     await super.$beforeInsert(context);
     const user_id = context.user_id;
@@ -10,6 +22,7 @@ class BaseModel extends softDelete({ columnName: 'deleted' })(Model) {
       this.created_by_user_id = user_id;
       this.updated_by_user_id = user_id;
     }
+    // BeforeInsert not validated with jsonSchema, thus null type allowance
     this.created_at = new Date().toISOString();
     this.updated_at = this.created_at;
   }
@@ -60,11 +73,11 @@ class BaseModel extends softDelete({ columnName: 'deleted' })(Model) {
       created_by_user_id: { type: 'string' },
       updated_by_user_id: { type: 'string' },
       created_at: {
-        type: 'string',
+        type: ['string'],
         format: 'date-time',
       },
       updated_at: {
-        type: 'string',
+        type: ['string'],
         format: 'date-time',
       },
       deleted: { type: 'boolean' },

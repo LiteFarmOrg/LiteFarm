@@ -1,22 +1,30 @@
-version: '3.7'
+version: "3.7"
 
 volumes:
   redis-data:
   minio-data:
   export-node-modules:
   postgres-data:
+  api-nodemodules:
+  shared-nodemodules:
 
 services:
   db:
     container_name: litefarm-db
     image: postgres:13
+    env_file:
+      - .env # make sure to have .env file in the root folder
     ports:
-      - '5433:5432'
-    environment:
-      POSTGRES_PASSWORD: 'postgres'
+      - "${POSTGRES_PORT:-5432}:5432"
     volumes:
-      - ./initdb.d:/docker-entrypoint-initdb.d
+      # - ./initdb.d:/docker-entrypoint-initdb.d
       - postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test:
+        ["CMD", "pg_isready", "-d", "${POSTGRES_DB}", "-U", "${POSTGRES_USER}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
   minio:
     image: minio/minio:RELEASE.2023-06-09T07-32-12Z
     restart: unless-stopped
@@ -74,7 +82,7 @@ services:
     ports:
       - 9229:9229 # for debugging
     extra_hosts:
-      - 'host.docker.internal:host-gateway'
+      - "host.docker.internal:host-gateway"
 
   imaginary:
     image: h2non/imaginary:1.2.4
@@ -86,3 +94,31 @@ services:
       -concurrency 5
       -disable-endpoints form
       -key localonlytoken
+
+  backend:
+    container_name: litefarm-api
+    build:
+      context: ./packages/
+      dockerfile: ./api/local.Dockerfile
+      target: base
+    volumes:
+      - ./packages/api/:/usr/src/app/
+      - ./packages/shared/:/usr/src/shared/
+      # Caching node_modules
+      - api-nodemodules:/usr/src/app/node_modules
+      - shared-nodemodules:/usr/src/shared/node_modules
+    ports:
+      - "${API_PORT}:5001"
+    links:
+      - db
+    depends_on:
+      db:
+        condition: service_healthy
+    env_file:
+      - .env # make sure to have .env file in the root folder
+    environment:
+      WAIT_HOSTS: litefarm-db:5432
+    command: >
+      sh -c "npm run migrate:dev:db && 
+             npm run migrate:dev:seed || 
+             npm run dev:watch"

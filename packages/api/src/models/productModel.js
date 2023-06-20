@@ -41,7 +41,7 @@ class ProductModel extends baseModel {
         },
         type: {
           type: 'string',
-          enu: ['soil_amendment_task', 'pest_control_task', 'cleaning_task'],
+          enum: ['soil_amendment_task', 'pest_control_task', 'cleaning_task'],
         },
         farm_id: { type: 'string' },
         ...this.baseProperties,

@@ -13,9 +13,9 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import jwt from 'express-jwt';
+import { expressjwt } from 'express-jwt';
 
-const checkResetPasswordJwt = jwt({
+const checkResetPasswordJwt = expressjwt({
   secret: process.env.JWT_RESET_SECRET,
   algorithms: ['HS256'],
 });

@@ -9,8 +9,8 @@ jest.mock('jsdom');
 jest.mock('axios');
 jest.mock('../src/middleware/acl/checkJwt.js', () =>
   jest.fn((req, res, next) => {
-    req.user = {};
-    req.user.user_id = req.get('user_id');
+    req.auth = {};
+    req.auth.user_id = req.get('user_id');
     next();
   }),
 );
@@ -22,20 +22,7 @@ import mocks from './mock.factories.js';
 import { tableCleanup } from './testEnvironment.js';
 
 describe('Invite user', () => {
-  let token;
-  let email;
   let axios;
-  beforeAll(() => {
-    // middleware = require('../src/middleware/acl/checkJwt');
-    // email = require('../src/templates/sendEmailTemplate');
-    //
-    // middleware.mockImplementation((req, res, next) => {
-    //   req.user = {};
-    //   req.user.user_id = req.get('user_id');
-    //   next();
-    // });
-    // emailMiddleware.sendEmail.mockClear();
-  });
 
   afterAll(async (done) => {
     await tableCleanup(knex);

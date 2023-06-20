@@ -20,31 +20,11 @@ import UserModel from '../models/userModel.js';
 import { emails, sendEmail } from '../templates/sendEmailTemplate.js';
 
 const supportTicketController = {
-  // Disabled
-  // getSupportTicketsByFarmId() {
-  //   return async (req, res) => {
-  //     try {
-  //       const farm_id = req.params.farm_id;
-  //       const result = await supportTicketModel.query().whereNotDeleted().where({ farm_id });
-  //       if (!result) {
-  //         res.sendStatus(404);
-  //       } else {
-  //         res.status(200).send(result);
-  //       }
-  //     } catch (error) {
-  //       //handle more exceptions
-  //       res.status(400).json({
-  //         error,
-  //       });
-  //     }
-  //   };
-  // },
-
   async addSupportTicket(req, res) {
     try {
       const data = JSON.parse(req.body.data);
       data.attachments = [];
-      const user_id = req.user.user_id;
+      const user_id = req.auth.user_id;
       const user = await UserModel.query().findById(user_id);
       const result = await SupportTicketModel.query()
         .context({ user_id })
@@ -78,27 +58,6 @@ const supportTicketController = {
       });
     }
   },
-
-  // Disabled
-  // patchStatus() {
-  //   return async (req, res) => {
-  //     const support_ticket_id = req.params.support_ticket_id;
-  //     try {
-  //       const user_id = req.user.user_id;
-  //       const status = req.body.status;
-  //       await supportTicketModel
-  //         .query()
-  //         .context({ user_id })
-  //         .findById(support_ticket_id)
-  //         .patch({ status });
-  //       res.sendStatus(200);
-  //     } catch (error) {
-  //       res.status(400).json({
-  //         error,
-  //       });
-  //     }
-  //   };
-  // },
 };
 
 const capitalize = (string) => {

@@ -24,8 +24,8 @@ import { tableCleanup } from './testEnvironment.js';
 jest.mock('jsdom');
 jest.mock('../src/middleware/acl/checkJwt.js', () =>
   jest.fn((req, res, next) => {
-    req.user = {};
-    req.user.user_id = req.get('user_id');
+    req.auth = {};
+    req.auth.user_id = req.get('user_id');
     next();
   }),
 );
@@ -41,18 +41,11 @@ import * as emailMiddleware from '../src/templates/sendEmailTemplate.js';
 describe('Sign Up Tests', () => {
   let token;
   let crop;
-  // let emailMiddleware;
-  // const mockEmail = jest.fn();
   let farm;
   let newOwner;
 
   beforeAll(() => {
-    // emailMiddleware = require('../src/templates/sendEmailTemplate');
     token = global.token;
-  });
-
-  beforeEach(() => {
-    // emailMiddleware.sendEmail.mockClear();
   });
 
   // FUNCTIONS
@@ -66,13 +59,6 @@ describe('Sign Up Tests', () => {
     [newOwner] = await mocks.usersFactory();
     [crop] = await mocks.cropFactory({ promisedFarm: [farm] });
     emailMiddleware.sendEmail.mockClear();
-
-    // middleware = require('../src/middleware/acl/checkJwt');
-    // middleware.mockImplementation((req, res, next) => {
-    //   req.user = {};
-    //   req.user.sub = '|' + req.get('user_id');
-    //   next();
-    // });
   });
 
   afterAll(async (done) => {

@@ -18,10 +18,10 @@ import userFarmModel from '../../models/userFarmModel.js';
 import emailTokenModel from '../../models/emailTokenModel.js';
 
 async function checkInvitationTokenContent(req, res, next) {
-  const emailToken = await emailTokenModel.query().findById(req.user.invitation_id);
+  const emailToken = await emailTokenModel.query().findById(req.auth.invitation_id);
   const { user_id, farm_id } = emailToken;
-  req.user.user_id = user_id;
-  req.user.farm_id = farm_id;
+  req.auth.user_id = user_id;
+  req.auth.farm_id = farm_id;
   const { status } = await userFarmModel
     .query()
     .where({

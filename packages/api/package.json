@@ -11,7 +11,7 @@
     "jest-w": "jest --watch",
     "start": "set NODE_ENV=development&& node src/server.js",
     "start:prod": "node src/server.js",
-    "nodemon": "set NODE_ENV=development&& nodemon src/server.js",
+    "nodemon": "set NODE_ENV=development && nodemon --inspect=0.0.0.0:9230 src/server.js",
     "debug-email-template": "set NODE_ENV=development&& DEBUG=email-templates nodemon src/server.js",
     "debug-i18n": "set NODE_ENV=development&& DEBUG=i18n:* nodemon src/server.js",
     "production": "NODE_ENV=production node src/server.js",
@@ -29,7 +29,7 @@
     "lint": "eslint src",
     "fix-lint": "eslint src --fix",
     "precommit": "lint-staged"
-  },
+ },
   "jest": {
     "verbose": true,
     "testEnvironment": "node",
@@ -63,7 +63,7 @@
     "dotenv": "^8.2.0",
     "email-templates": "^8.0.4",
     "express": "^4.17.1",
-    "express-jwt": "^6.0.0",
+    "express-jwt": "^8.4.1",
     "express-jwt-authz": "^2.4.1",
     "express-oas-generator": "^1.0.44",
     "express-promise-router": "^4.0.1",
@@ -74,7 +74,7 @@
     "jsdom": "^16.4.0",
     "json-2-csv": "^3.14.4",
     "jsonwebtoken": "^9.0.0",
-    "jwks-rsa": "^1.12.1",
+    "jwks-rsa": "^3.0.1",
     "knex": "^2.4.0",
     "lodash": "^4.17.20",
     "multer": "^1.4.2",
@@ -120,5 +120,8 @@
     "*.js": [
       "eslint --quiet --fix"
     ]
+  },
+  "overrides": {
+    "glob-parent@<5.1.2": ">=5.1.2"
   }
 }

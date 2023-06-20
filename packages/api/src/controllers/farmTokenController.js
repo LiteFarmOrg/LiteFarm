@@ -21,7 +21,7 @@ const farmTokenController = {
   getFarmToken() {
     return async (req, res) => {
       const { farm_id } = req.params;
-      const { user_id } = req.user;
+      const { user_id } = req.auth;
       const userFarm = await UserFarmModel.query().findById([user_id, farm_id]);
       if (!userFarm) return res.sendStatus(404);
       const farm_token = createToken('farm', { user_id, farm_id, role_id: userFarm?.role_id });

@@ -42,7 +42,7 @@ const cropVarietyController = {
       try {
         const result = await CropVarietyModel.transaction(async (trx) => {
           const deletedManagementPlans = await ManagementPlanModel.query(trx)
-            .context(req.user)
+            .context(req.auth)
             .where({ crop_variety_id })
             .delete()
             .returning('management_plan_id');
@@ -53,7 +53,7 @@ const cropVarietyController = {
               [deletedManagementPlans.map(({ management_plan_id }) => management_plan_id)],
             ));
           return await CropVarietyModel.query(trx)
-            .context(req.user)
+            .context(req.auth)
             .findById(crop_variety_id)
             .delete();
         });
@@ -114,7 +114,7 @@ const cropVarietyController = {
           }
         }
         const result = await CropVarietyModel.query()
-          .context(req.user)
+          .context(req.auth)
           .findById(crop_variety_id)
           .patch(req.body);
         return result

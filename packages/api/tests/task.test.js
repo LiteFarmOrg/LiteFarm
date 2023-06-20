@@ -6,8 +6,8 @@ import knex from '../src/util/knex.js';
 jest.mock('jsdom');
 jest.mock('../src/middleware/acl/checkJwt.js', () =>
   jest.fn((req, res, next) => {
-    req.user = {};
-    req.user.user_id = req.get('user_id');
+    req.auth = {};
+    req.auth.user_id = req.get('user_id');
     next();
   }),
 );
@@ -16,16 +16,6 @@ import { tableCleanup } from './testEnvironment.js';
 import { faker } from '@faker-js/faker';
 
 describe('Task tests', () => {
-  // let middleware;
-  beforeEach(() => {
-    // middleware = require('../src/middleware/acl/checkJwt');
-    // middleware.mockImplementation((req, res, next) => {
-    //   req.user = {};
-    //   req.user.user_id = req.get('user_id');
-    //   next();
-    // });
-  });
-
   /**
    * Converts a given Date to the local date in ISO-8601 extended format (YYYY-MM-DD).
    * Date.prototype.toISOString() returns the same format of the UTC (not local) date.

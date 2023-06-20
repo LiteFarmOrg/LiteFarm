@@ -23,8 +23,8 @@ import { tableCleanup } from './testEnvironment.js';
 jest.mock('jsdom');
 jest.mock('../src/middleware/acl/checkJwt.js', () =>
   jest.fn((req, res, next) => {
-    req.user = {};
-    req.user.user_id = req.get('user_id');
+    req.auth = {};
+    req.auth.user_id = req.get('user_id');
     next();
   }),
 );
@@ -126,13 +126,6 @@ describe('Expense Type Tests', () => {
     [farm] = await mocks.farmFactory();
     [farm1] = await mocks.farmFactory();
     [newOwner] = await mocks.usersFactory();
-
-    // middleware = require('../src/middleware/acl/checkJwt');
-    // middleware.mockImplementation((req, res, next) => {
-    //   req.user = {};
-    //   req.user.user_id = req.get('user_id');
-    //   next();
-    // });
   });
 
   afterAll(async (done) => {

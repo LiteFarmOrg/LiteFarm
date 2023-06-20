@@ -15,7 +15,7 @@ async function checkGoogleJwt(req, res, next) {
       idToken: token,
       audience: client_id,
     });
-    req.user = ticket.getPayload();
+    req.auth = ticket.getPayload();
     return next();
   } catch (e) {
     console.log(e);

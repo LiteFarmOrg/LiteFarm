@@ -52,7 +52,7 @@ class TaskModel extends BaseModel {
       properties: {
         task_id: { type: 'integer' },
         task_type_id: { type: 'integer' },
-        due_date: { type: 'string', format: 'date-time' },
+        due_date: { type: 'string', format: 'date' },
         notes: { type: ['string', 'null'], maxLength: 10000 },
         completion_notes: { type: ['string', 'null'], maxLength: 10000 },
         owner_user_id: { type: 'string' },

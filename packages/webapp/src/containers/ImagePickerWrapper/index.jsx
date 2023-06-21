@@ -87,7 +87,11 @@ export default function ImagePickerWrapper({
       onLoading?.(false);
     }
   };
-  const onUploadSuccess = (url) => {
+  const onUploadSuccess = (returnedUrl) => {
+    const url = new URL(returnedUrl);
+    if (import.meta.env.VITE_ENV === 'development') {
+      url.hostname = import.meta.env.FILE_HOST || 'localhost';
+    }
     input.current.value = url;
     onChange?.({ target: input.current });
     hookFormRegister?.onChange({ target: input.current });

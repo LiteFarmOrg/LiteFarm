@@ -24,5 +24,8 @@
     "verbose": true,
     "testURL": "http://localhost/",
     "testEnvironment": "node"
+  },
+  "dependencies": {
+    "@sentry/node": "^7.56.0"
   }
 }

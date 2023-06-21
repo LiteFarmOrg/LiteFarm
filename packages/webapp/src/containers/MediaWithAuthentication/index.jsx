@@ -22,7 +22,9 @@ export function MediaWithAuthentication({
       try {
         subscribed = true;
         if (import.meta.env.VITE_ENV === 'development') {
-          subscribed && setMediaUrl(fileUrl);
+          const url = new URL(fileUrl);
+          url.hostname = import.meta.env.FILE_HOST || 'localhost';
+          subscribed && setMediaUrl(url);
         } else {
           const url = new URL(fileUrl);
           url.hostname = 'images.litefarm.workers.dev';

@@ -6,7 +6,10 @@ set -eu
 # Install pnpm globally
 command -v pnpm > /dev/null 2>&1 || { echo "Installing pnpm..."; npm install -g pnpm; }
 
-# Install node modules as `node` user
-[[ ! -d "node_modules" ]] && { echo "Installing modules"; su node -c "pnpm install"; }
+# Set .pnpm-store location
+pnpm config set store-dir /webapp/node_modules/.pnpm-store
 
-su node -c "pnpm dev"
+echo "Installing modules"
+
+pnpm install --frozen-lockfile
+pnpm dev

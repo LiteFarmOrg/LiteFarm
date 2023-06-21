@@ -193,7 +193,7 @@ class Crop extends BaseModel {
           type: ['string', 'null'],
           enum: ['SEED', 'SEEDLING_OR_PLANTING_STOCK', 'null'],
         },
-        lifecycle: { type: ['string', 'null'], enum: ['ANNUAL', 'PERENNIAL', 'null'] },
+        lifecycle: { type: ['string', 'null'], enum: ['ANNUAL', 'PERENNIAL', null] },
         needs_transplant: { type: ['boolean', 'null'] },
         germination_days: { type: ['integer', 'null'] },
         transplant_days: { type: ['integer', 'null'] },
@@ -201,7 +201,7 @@ class Crop extends BaseModel {
         termination_days: { type: ['integer', 'null'] },
         planting_method: {
           type: ['string', 'null'],
-          enum: ['BROADCAST_METHOD', 'CONTAINER_METHOD', 'BED_METHOD', 'ROW_METHOD', 'null'],
+          enum: ['BROADCAST_METHOD', 'CONTAINER_METHOD', 'BED_METHOD', 'ROW_METHOD', null],
         },
         plant_spacing: { type: ['number', 'null'] },
         seeding_rate: { type: ['number', 'null'] },

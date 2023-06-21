@@ -42,7 +42,7 @@ class plantingManagementPlanModel extends Model {
         is_final_planting_management_plan: { type: 'boolean' },
         planting_task_type: {
           type: ['string', 'null'],
-          enum: ['TRANSPLANT_TASK', 'PLANT_TASK', 'null'],
+          enum: ['TRANSPLANT_TASK', 'PLANT_TASK', null],
         },
         planting_method: {
           type: ['string', 'null'],

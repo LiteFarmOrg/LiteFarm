@@ -33,7 +33,7 @@ class NominationStatus extends baseModel {
         status_id: { type: 'integer' },
         nomination_id: { type: 'integer' },
         workflow_id: { type: 'integer' },
-        notes: { type: 'string', format: 'text' },
+        notes: { type: 'string' },
         ...this.baseProperties,
       },
       additionalProperties: false,

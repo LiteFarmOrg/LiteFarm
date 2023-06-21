@@ -25,10 +25,12 @@ const validateManagementPlanTasks = async (req, res, next) => {
       'management_tasks.planting_management_plan_id',
     )
     .where('planting_management_plan.management_plan_id', req.params.management_plan_id)
+    .where('deleted', false)
     .whereNull('complete_date')
     .whereNull('abandon_date');
-  if (tasks.length)
+  if (tasks.length) {
     return res.status(400).send(`Can't complete or abandon management plans with pending tasks`);
+  }
   return next();
 };
 

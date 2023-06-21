@@ -19,7 +19,7 @@ export default {
   addOrganicHistory() {
     return async (req, res) => {
       try {
-        const result = await OrganicHistoryModel.query().context(req.user).insert(req.body);
+        const result = await OrganicHistoryModel.query().context(req.auth).insert(req.body);
         return res.status(201).send(result);
       } catch (error) {
         return res.status(400).json({ error });

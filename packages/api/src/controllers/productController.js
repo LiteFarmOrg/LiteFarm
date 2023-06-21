@@ -24,7 +24,7 @@ const productController = {
       try {
         const farm_id = req.params.farm_id;
         const rows = await ProductModel.query()
-          .context({ user_id: req.user.user_id })
+          .context({ user_id: req.auth.user_id })
           .whereNotDeleted()
           .where({
             farm_id,

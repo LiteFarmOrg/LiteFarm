@@ -23,10 +23,35 @@ import './dotenvConfig.js';
 // dotenv.config();
 // dotenv.config({ path: path.resolve(process.cwd(), '.env.local') });
 import express from 'express';
+import * as Sentry from '@sentry/node';
 const app = express();
 import expressOasGenerator from 'express-oas-generator';
 const environment = process.env.NODE_ENV || 'development';
 
+if (process.env.SENTRY_DSN) {
+  Sentry.init({
+    dsn: process.env.SENTRY_DSN,
+    integrations: [
+      // enable HTTP calls tracing
+      new Sentry.Integrations.Http({ tracing: true }),
+      // enable Express.js middleware tracing
+      new Sentry.Integrations.Express({ app }),
+      // Automatically instrument Node.js libraries and frameworks
+      ...Sentry.autoDiscoverNodePerformanceMonitoringIntegrations(),
+    ],
+
+    // Set tracesSampleRate to 1.0 to capture 100%
+    // of transactions for performance monitoring.
+    // We recommend adjusting this value in production
+    tracesSampleRate: 1.0,
+  });
+
+  // RequestHandler creates a separate execution context, so that all
+  // transactions/spans/breadcrumbs are isolated across requests
+  app.use(Sentry.Handlers.requestHandler());
+  // TracingHandler creates a trace for every incoming request
+  app.use(Sentry.Handlers.tracingHandler());
+}
 /*
  expressOasGenerator (EOG) automatically creates API documentation.
  Endpoint documentation is generated from route definitions.
@@ -211,7 +236,7 @@ const rejectBodyInGetAndDelete = (req, res, next) => {
 app
   .use(applyExpressJSON)
   .use(express.urlencoded({ extended: true }))
-  .disable("x-powered-by")
+  .disable('x-powered-by')
 
   // prevent CORS errors
   .use(cors())
@@ -273,6 +298,10 @@ app
 // Allow a 1MB limit on sensors to match incoming Ensemble data
 app.use('/sensor', express.json({ limit: '1MB' }), rejectBodyInGetAndDelete, sensorRoute);
 
+if (process.env.SENTRY_DSN) {
+  // The error handler must be before any other error middleware and after all controllers
+  app.use(Sentry.Handlers.errorHandler());
+}
 expressOasGenerator.handleRequests();
 
 // handle errors

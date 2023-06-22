@@ -4,6 +4,8 @@ volumes:
   redis-data:
   minio-data:
   export-node-modules:
+  api-node-modules:
+  webapp-node-modules:
   postgres-data:
 
 services:
@@ -17,6 +19,55 @@ services:
     volumes:
       - ./initdb.d:/docker-entrypoint-initdb.d
       - postgres-data:/var/lib/postgresql/data
+
+  api:
+    container_name: litefarm-api
+    image: node:18.16.0
+    volumes:
+      - ./packages/shared:/shared
+      - ./packages/api:/api
+      - api-node-modules:/packages/api/node_modules
+    working_dir: /api
+    entrypoint: ./dev.sh
+    user: node
+    restart: unless-stopped
+    environment:
+      - DEV_DATABASE_HOST=db
+      - DEV_DATABASE=pg-litefarm
+      - DEV_DATABASE_USER=postgres
+      - DEV_DATABASE_PASSWORD=postgres
+      - TEST_DATABASE_HOST=db
+      - TEST_DATABASE=test_farm
+      - TEST_DATABASE_USER=postgres
+      - TEST_DATABASE_PASSWORD=postgres
+      - IMAGINARY_TOKEN=localonlytoken
+      - LOCAL_IMAGINARY=http://imaginary:8088
+      - MINIO_ENDPOINT=http://minio:9000
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - WAIT_HOSTS=db:5432
+      - NODE_ENV=development
+      - PORT=5001
+    depends_on:
+      - db
+    ports:
+      - "5001:5001"
+
+  webapp:
+    container_name: litefarm-webapp
+    image: node:18.16.0
+    user: root
+    volumes:
+      - ./packages/shared:/shared
+      - ./packages/webapp:/webapp
+      - webapp-node-modules:/webapp/node_modules
+    working_dir: /webapp
+    entrypoint: ./dev.sh
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+      - "6006:6006" # Storybook
+
   minio:
     image: minio/minio:RELEASE.2023-06-09T07-32-12Z
     restart: unless-stopped
@@ -51,7 +102,7 @@ services:
       - 6380:6379
 
   export_server:
-    image: litefarm/node-awscli:0.0.1
+    image: kathyavini/node-awscli-lf:18.16.0
     restart: unless-stopped
     volumes:
       - ./packages/api:/packages/api

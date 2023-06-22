@@ -1,5 +1,5 @@
 // ***********************************************************
-// This example support/index.js is processed and
+// This example support/e2e.js is processed and
 // loaded automatically before your test files.
 //
 // This is a great place to put global configuration and
@@ -14,13 +14,7 @@
 // ***********************************************************
 
 // Import commands.js using ES2015 syntax:
-import './commands';
-import '@cypress/code-coverage/support';
-import 'cypress-react-selector';
+import './commands'
+
 // Alternatively you can use CommonJS syntax:
 // require('./commands')
-Cypress.on('uncaught:exception', (err, runnable) => {
-  // returning false here prevents Cypress from
-  // failing the test
-  return false;
-});

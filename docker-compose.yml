@@ -36,6 +36,7 @@ services:
       - DEV_DATABASE=pg-litefarm
       - DEV_DATABASE_USER=postgres
       - DEV_DATABASE_PASSWORD=postgres
+      - DEV_DATABASE_PORT=5432
       - TEST_DATABASE_HOST=db
       - TEST_DATABASE=test_farm
       - TEST_DATABASE_USER=postgres

@@ -26,8 +26,8 @@ jest.mock('jsdom');
 jest.mock('bull');
 jest.mock('../src/middleware/acl/checkJwt.js', () =>
   jest.fn((req, res, next) => {
-    req.user = {};
-    req.user.user_id = req.get('user_id');
+    req.auth = {};
+    req.auth.user_id = req.get('user_id');
     next();
   }),
 );
@@ -43,19 +43,11 @@ jest.mock('../src/templates/sendEmailTemplate.js', () => ({
 import organicCertifierSurveyModel from '../src/models/organicCertifierSurveyModel';
 
 describe('organic certification Tests', () => {
-  let middleware;
   let owner;
   let farm;
   let ownerFarm;
 
   beforeAll(() => {
-    // middleware = require('../src/middleware/acl/checkJwt');
-    // middleware.mockImplementation((req, res, next) => {
-    //   req.user = {};
-    //   req.user.user_id = req.get('user_id');
-    //   next();
-    // });
-    // email = require('../src/templates/sendEmailTemplate');
     emailTemplate.sendEmail.mockClear();
   });
 

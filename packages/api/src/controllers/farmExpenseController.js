@@ -75,7 +75,7 @@ const farmExpenseController = {
     return async (req, res) => {
       const data = req.body;
       const { farm_expense_id } = req.params;
-      const { user_id } = req.user;
+      const { user_id } = req.auth;
 
       const trx = await transaction.start(Model.knex());
       try {

@@ -237,7 +237,7 @@ const userFarmController = {
       try {
         const user_id = req.params.user_id;
         const farm_id = req.params.farm_id;
-        const rows = await userFarmModel.query().context({ user_id: req.user.user_id }).select('*')
+        const rows = await userFarmModel.query().context({ user_id: req.auth.user_id }).select('*')
         .where('userFarm.user_id', user_id).andWhere('userFarm.farm_id', farm_id)
           .leftJoin('role', 'userFarm.role_id', 'role.role_id')
           .leftJoin('users', 'userFarm.user_id', 'users.user_id')
@@ -263,7 +263,7 @@ const newEntityController = {
   addNewEntity() {
     return async (req, res, next) => {
       try{
-        const result = await NewEntityModel.query().context(req.user).insert(req.body);
+        const result = await NewEntityModel.query().context(req.auth).insert(req.body);
         return res.status(201).send(result);
       }catch(error){
         return res.status(400).json({ error });
@@ -276,7 +276,7 @@ module.exports = newEntityController;
 ```
 
 <DocCard>
-  <Text><code>NewEntityModel.query().context(req.user)</code> is required when <code>NewEntityModel</code> extends
+  <Text><code>NewEntityModel.query().context(req.auth)</code> is required when <code>NewEntityModel</code> extends
     baseModel so that <code>updated_by_user_id</code> <code>created_by_user_id</code> can be populated</Text>
   <Text>Post request should return inserted object.</Text>
 </DocCard>
@@ -294,7 +294,7 @@ const LocationController = {
     return async (req, res, next) => {
       try {
         const result = await LocationModel.transaction(async trx => {
-          return await LocationModel.query(trx).context(req.user).upsertGraph(
+          return await LocationModel.query(trx).context(req.auth).upsertGraph(
             req.body, { noUpdate: true, noDelete: true, noInsert: nonModifiable });
         });
         return res.status(200).send(result);

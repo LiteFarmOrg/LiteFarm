@@ -29,7 +29,7 @@
     "lint": "eslint src",
     "fix-lint": "eslint src --fix",
     "precommit": "lint-staged"
- },
+  },
   "jest": {
     "verbose": true,
     "testEnvironment": "node",
@@ -49,6 +49,7 @@
   },
   "dependencies": {
     "@googlemaps/google-maps-services-js": "^3.3.14",
+    "@sentry/node": "^7.56.0",
     "adm-zip": "^0.4.16",
     "async-file": "^2.0.2",
     "aws-sdk": "^2.931.0",

@@ -51,7 +51,8 @@ services:
     depends_on:
       - db
     ports:
-      - "5001:5001"
+      - 5001:5001
+      - 9230:9230 # for debugging
 
   webapp:
     container_name: litefarm-webapp
@@ -101,7 +102,7 @@ services:
     ports:
       - 6380:6379
 
-  export_server:
+  export-server:
     image: kathyavini/node-awscli-lf:18.16.0
     restart: unless-stopped
     volumes:

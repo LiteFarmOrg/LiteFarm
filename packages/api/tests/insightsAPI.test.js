@@ -402,7 +402,7 @@ xdescribe('insights test', () => {
           const crop0TotalPrice =
             crop0Sales[0].sale_value + crop0Sales[1].sale_value + crop0Sales[7].sale_value;
           const crop0TotalQuantity =
-            crop0Sales[0].quantity_kg + crop0Sales[1].quantity_kg + crop0Sales[7].quantity_kg;
+            crop0Sales[0].quantity + crop0Sales[1].quantity + crop0Sales[7].quantity;
 
           const crop1CommonName = crops[1].crop_common_name;
           const crop1TotalPrice =
@@ -411,15 +411,14 @@ xdescribe('insights test', () => {
             crop1Sales[2].sale_value +
             crop1Sales[3].sale_value;
           const crop1TotalQuantity =
-            crop1Sales[0].quantity_kg +
-            crop1Sales[1].quantity_kg +
-            crop1Sales[2].quantity_kg +
-            crop1Sales[3].quantity_kg;
+            crop1Sales[0].quantity +
+            crop1Sales[1].quantity +
+            crop1Sales[2].quantity +
+            crop1Sales[3].quantity;
 
           const crop12020CommonName = crops[1].crop_common_name;
           const crop12020TotalPrice = crop12020Sales[0].sale_value + crop12020Sales[1].sale_value;
-          const crop12020TotalQuantity =
-            crop12020Sales[0].quantity_kg + crop12020Sales[1].quantity_kg;
+          const crop12020TotalQuantity = crop12020Sales[0].quantity + crop12020Sales[1].quantity;
           const data = res.body.data;
           for (const cropSaleRes of data) {
             if (cropSaleRes[crop0CommonName]) {
@@ -428,7 +427,7 @@ xdescribe('insights test', () => {
               );
               expect(
                 cropSaleRes[crop0CommonName][0].crop_price -
-                  crop0Sales[0].sale_value / crop0Sales[0].quantity_kg,
+                  crop0Sales[0].sale_value / crop0Sales[0].quantity,
               ).toBeLessThan(0.01);
               expect(
                 cropSaleRes[crop0CommonName][0].network_price -
@@ -440,7 +439,7 @@ xdescribe('insights test', () => {
               );
               expect(
                 cropSaleRes[crop1CommonName][0].crop_price -
-                  crop12020Sales[0].sale_value / crop12020Sales[0].quantity_kg,
+                  crop12020Sales[0].sale_value / crop12020Sales[0].quantity,
               ).toBeLessThan(0.01);
               expect(
                 cropSaleRes[crop1CommonName][0].network_price -
@@ -450,7 +449,7 @@ xdescribe('insights test', () => {
               expect(
                 cropSaleRes[crop1CommonName][1].crop_price -
                   (crop1Sales[0].sale_value + crop1Sales[1].sale_value) /
-                    (crop1Sales[0].quantity_kg + crop1Sales[1].quantity_kg),
+                    (crop1Sales[0].quantity + crop1Sales[1].quantity),
               ).toBeLessThan(0.01);
               expect(
                 cropSaleRes[crop1CommonName][1].network_price -
@@ -468,10 +467,10 @@ xdescribe('insights test', () => {
               crop0Sales[2].sale_value +
               crop0Sales[7].sale_value;
             const crop0TotalQuantity =
-              crop0Sales[0].quantity_kg +
-              crop0Sales[1].quantity_kg +
-              crop0Sales[2].quantity_kg +
-              crop0Sales[7].quantity_kg;
+              crop0Sales[0].quantity +
+              crop0Sales[1].quantity +
+              crop0Sales[2].quantity +
+              crop0Sales[7].quantity;
             const data = res.body.data;
             for (const cropSaleRes of data) {
               if (cropSaleRes[crop0CommonName]) {
@@ -480,7 +479,7 @@ xdescribe('insights test', () => {
                 );
                 expect(
                   cropSaleRes[crop0CommonName][0].crop_price -
-                    crop0Sales[0].sale_value / crop0Sales[0].quantity_kg,
+                    crop0Sales[0].sale_value / crop0Sales[0].quantity,
                 ).toBeLessThan(0.01);
                 expect(
                   cropSaleRes[crop0CommonName][0].network_price -

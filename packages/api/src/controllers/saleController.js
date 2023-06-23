@@ -47,9 +47,12 @@ const SaleController = {
       const { sale_id } = req.params;
       const { customer_name, sale_date } = req.body;
       const saleData = {};
-
-      if (customer_name) saleData.customer_name = customer_name;
-      if (sale_date) saleData.sale_date = sale_date;
+      if (customer_name) {
+        saleData.customer_name = customer_name;
+      }
+      if (sale_date) {
+        saleData.sale_date = sale_date;
+      }
 
       const trx = await transaction.start(Model.knex());
       try {

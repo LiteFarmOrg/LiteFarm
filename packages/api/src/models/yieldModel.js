@@ -14,8 +14,11 @@
  */
 
 import Model from './baseFormatModel.js';
-
+// TODO: Deprecate objection soft delete
 import softDelete from 'objection-soft-delete';
+// Patch for mergeContext deprecation from objection
+import { QueryBuilder } from 'objection';
+QueryBuilder.prototype.mergeContext = QueryBuilder.prototype.context;
 
 class Yield extends softDelete({ columnName: 'deleted' })(Model) {
   static get tableName() {

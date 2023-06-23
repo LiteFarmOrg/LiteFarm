@@ -11,6 +11,18 @@ class emailTokenModel extends Model {
     return ['invitation_id'];
   }
 
+  // Returned Date-time object from db is not compatible with ajv format types
+  $parseJson(json, opt) {
+    json = super.$parseJson(json, opt);
+    if (json.created_at && typeof json.created_at === 'object') {
+      json.created_at = json.created_at.toISOString();
+    }
+    if (json.updated_at && typeof json.updated_at === 'object') {
+      json.updated_at = json.updated_at.toISOString();
+    }
+    return json;
+  }
+
   async $beforeUpdate(opt, context) {
     await super.$beforeUpdate(opt, context);
     this.updated_at = new Date().toISOString();

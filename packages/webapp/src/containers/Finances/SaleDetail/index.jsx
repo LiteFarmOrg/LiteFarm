@@ -99,7 +99,7 @@ class SaleDetail extends Component {
                   <div className={styles.cropQuantVal}>
                     {roundToTwoDecimal(
                       convertFromMetric(
-                        cs.quantity_kg.toString(),
+                        cs.quantity.toString(),
                         this.state.quantity_unit,
                         'kg',
                       ).toString(),

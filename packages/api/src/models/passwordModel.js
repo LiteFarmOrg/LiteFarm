@@ -53,6 +53,14 @@ class Password extends Model {
       },
     };
   }
+  // Returned Date-time object from db is not compatible with ajv format types
+  $parseJson(json, opt) {
+    json = super.$parseJson(json, opt);
+    if (json.created_at && typeof json.created_at === 'object') {
+      json.created_at = json.created_at.toISOString();
+    }
+    return json;
+  }
 
   async $beforeInsert(context) {
     await super.$beforeInsert(context);

@@ -247,7 +247,7 @@ describe('Document tests', () => {
         return { ...document, files };
       }
 
-      const fakeDate = new Date(0);
+      const fakeDate = new Date(0).toISOString().split('T')[0];
 
       test('Owner should be able to edit a document, add files', async (done) => {
         const [{ user_id, farm_id }] = await mocks.userFarmFactory({}, fakeUserFarm(1));
@@ -260,7 +260,8 @@ describe('Document tests', () => {
           const document = await knex('document').where({ document_id: res.body.document_id });
           expect(document[0].name).toBe(newDocument.name);
           expect(document[0].type).toBe(newDocument.type);
-          expect(document[0].valid_until).toEqual(fakeDate);
+          //dates returned are not what is stored see LF-3396
+          expect(document[0].valid_until.toISOString().split('T')[0]).toEqual(fakeDate);
           const files = await knex('file').where({ document_id: res.body.document_id });
           expect(files.length).toBe(2);
           done();
@@ -278,7 +279,8 @@ describe('Document tests', () => {
           const document = await knex('document').where({ document_id: res.body.document_id });
           expect(document[0].name).toBe(newDocument.name);
           expect(document[0].type).toBe(newDocument.type);
-          expect(document[0].valid_until).toEqual(fakeDate);
+          //dates returned are not what is stored see LF-3396
+          expect(document[0].valid_until.toISOString().split('T')[0]).toEqual(fakeDate);
           const files = await knex('file').where({ document_id: res.body.document_id });
           expect(files.length).toBe(1);
           done();
@@ -296,7 +298,8 @@ describe('Document tests', () => {
           const document = await knex('document').where({ document_id: res.body.document_id });
           expect(document[0].name).toBe(newDocument.name);
           expect(document[0].type).toBe(newDocument.type);
-          expect(document[0].valid_until).toEqual(fakeDate);
+          //dates returned are not what is stored see LF-3396
+          expect(document[0].valid_until.toISOString().split('T')[0]).toEqual(fakeDate);
           const files = await knex('file').where({ document_id: res.body.document_id });
           expect(files.length).toBe(1);
           done();
@@ -314,7 +317,8 @@ describe('Document tests', () => {
           const document = await knex('document').where({ document_id: res.body.document_id });
           expect(document[0].name).toBe(newDocument.name);
           expect(document[0].type).toBe(newDocument.type);
-          expect(document[0].valid_until).toEqual(fakeDate);
+          //dates returned are not what is stored see LF-3396
+          expect(document[0].valid_until.toISOString().split('T')[0]).toEqual(fakeDate);
           const files = await knex('file').where({ document_id: res.body.document_id });
           expect(files.length).toBe(1);
           done();

@@ -472,14 +472,17 @@ const userController = {
     const { first_name, last_name, gender, birth_year, language_preference } = req.body;
     try {
       await UserModel.transaction(async (trx) => {
+        // TODO: consider just deleting user and using the returned data
+        // A substitute email is applied to the temporary user
         const user = await UserModel.query(trx)
           .context({
             showHidden: true,
             shouldUpdateEmail: true,
           })
           .findById(user_id)
-          .patch({ email: user_id })
+          .patch({ email: 'fakeemail@litefarm.org' })
           .returning('*');
+        delete user.email;
         delete user.profile_picture;
         delete user.user_address;
         user.phone_number = user.phone_number ? user.phone_number : undefined;

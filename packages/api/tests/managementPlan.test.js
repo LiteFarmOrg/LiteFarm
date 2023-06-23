@@ -49,6 +49,7 @@ describe('ManagementPlan Tests', () => {
 
   beforeAll(async () => {
     await mocks.populateTaskTypes();
+    await mocks.populateFieldWorkTaskTypes();
   });
 
   function postManagementPlanRequest(

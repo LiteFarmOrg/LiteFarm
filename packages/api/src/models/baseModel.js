@@ -8,6 +8,7 @@ QueryBuilder.prototype.mergeContext = QueryBuilder.prototype.context;
 
 class BaseModel extends softDelete({ columnName: 'deleted' })(Model) {
   // Returned Date-time object from db is not compatible with ajv format types
+  // Server.js function changes date to datetime -- here we change it back: see LF-3396
   $parseJson(json, opt) {
     json = super.$parseJson(json, opt);
     if (json.created_at && typeof json.created_at === 'object') {
@@ -15,6 +16,28 @@ class BaseModel extends softDelete({ columnName: 'deleted' })(Model) {
     }
     if (json.updated_at && typeof json.updated_at === 'object') {
       json.updated_at = json.updated_at.toISOString();
+    }
+    const pgDateTypeFields = [
+      'abandon_date',
+      'complete_date',
+      'due_date',
+      'effective_date',
+      'germination_date',
+      'harvest_date',
+      'plant_date',
+      'seed_date',
+      'start_date',
+      'termination_date',
+      'transition_date',
+      'transplant_date',
+      'valid_until',
+    ];
+    if (Object.keys(json).some((e) => pgDateTypeFields.includes(e))) {
+      Object.keys(json).forEach((key) => {
+        if (pgDateTypeFields.includes(key) && json[key]) {
+          json[key] = json[key].split('T')[0];
+        }
+      });
     }
     return json;
   }

@@ -17,6 +17,20 @@ import Model from './baseFormatModel.js';
 import organicHistoryModel from './organicHistoryModel.js';
 
 class Garden extends Model {
+  // Server.js function changes date to datetime -- here we change it back: see LF-3396
+  $parseJson(json, opt) {
+    json = super.$parseJson(json, opt);
+    const pgDateTypeFields = ['transition_date'];
+    if (Object.keys(json).some((e) => pgDateTypeFields.includes(e))) {
+      Object.keys(json).forEach((key) => {
+        if (pgDateTypeFields.includes(key) && json[key]) {
+          json[key] = json[key].split('T')[0];
+        }
+      });
+    }
+    return json;
+  }
+
   static get tableName() {
     return 'garden';
   }

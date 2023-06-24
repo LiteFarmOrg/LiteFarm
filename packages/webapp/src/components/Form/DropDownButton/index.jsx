@@ -5,7 +5,7 @@ import Paper from '@mui/material/Paper';
 import Popper from '@mui/material/Popper';
 import MenuItem from '@mui/material/MenuItem';
 import MenuList from '@mui/material/MenuList';
-import { MdArrowDropDown } from 'react-icons/all';
+import { MdArrowDropDown } from 'react-icons/md';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@mui/styles';
 

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Modal } from '../';
 import { ReactComponent as DownloadIcon } from '../../../assets/images/map/download.svg';
-import { AiOutlineMail } from 'react-icons/all';
+import { AiOutlineMail } from 'react-icons/ai';
 import styles from './styles.module.scss';
 import { Main, Title } from '../../Typography';
 import Button from '../../Form/Button';

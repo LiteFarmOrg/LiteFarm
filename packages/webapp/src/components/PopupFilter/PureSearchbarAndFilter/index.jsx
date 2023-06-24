@@ -1,4 +1,4 @@
-import { FiFilter } from 'react-icons/all';
+import { FiFilter } from 'react-icons/fi';
 import Input from '../../Form/Input';
 import { makeStyles } from '@mui/styles';
 import { colors } from '../../../assets/theme';

@@ -13,7 +13,7 @@ import {
   Underlined,
 } from '../../components/Typography';
 import { componentDecorators } from '../Pages/config/Decorators';
-import { FiSlash } from 'react-icons/all';
+import { FiSlash } from 'react-icons/fi';
 
 export default {
   title: 'Components/Typography',

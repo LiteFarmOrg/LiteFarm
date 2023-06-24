@@ -1,4 +1,4 @@
-import { FiFilter } from 'react-icons/all';
+import { FiFilter } from 'react-icons/fi';
 import { colors } from '../../../assets/theme';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';

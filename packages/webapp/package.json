@@ -66,12 +66,10 @@
     "redux-persist": "^6.0.0",
     "redux-saga": "^1.2.1",
     "reselect": "^4.1.7",
-    "uuid": "^8.3.2",
-    "xlsx": "^0.18.5"
+    "uuid": "^8.3.2"
   },
   "devDependencies": {
     "@babel/core": "^7.20.5",
-    "@cypress/code-coverage": "^3.10.0",
     "@emotion/babel-plugin": "^11.10.5",
     "@mdx-js/react": "^1.6.22",
     "@mdx-js/rollup": "^2.3.0",
@@ -98,9 +96,6 @@
     "babel-loader": "^8.3.0",
     "check-code-coverage": "^1.10.4",
     "chromatic": "^6.11.4",
-    "cypress": "^12.5.1",
-    "cypress-get-table": "^1.0.1",
-    "cypress-react-selector": "^2.3.20",
     "eslint": "^8.28.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-prettier": "^4.2.1",
@@ -119,5 +114,12 @@
     "vite-plugin-istanbul": "^4.0.0",
     "vite-plugin-pwa": "^0.14.3",
     "vite-plugin-svgr": "^2.4.0"
+  },
+  "pnpm": {
+    "overrides": {
+      "trim@<0.0.3": ">=0.0.3",
+      "glob-parent@<5.1.2": ">=5.1.2",
+      "vite@>=4.2.0 <4.2.3": ">=4.2.3"
+    }
   }
 }

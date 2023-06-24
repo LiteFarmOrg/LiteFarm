@@ -28,8 +28,8 @@ import insightHelpers from '../src/controllers/insightHelpers.js';
 jest.mock('jsdom');
 jest.mock('../src/middleware/acl/checkJwt.js', () =>
   jest.fn((req, res, next) => {
-    req.user = {};
-    req.user.user_id = req.get('user_id');
+    req.auth = {};
+    req.auth.user_id = req.get('user_id');
     next();
   }),
 );
@@ -38,17 +38,7 @@ import moment from 'moment';
 import insigntController from '../src/controllers/insightController';
 
 xdescribe('insights test', () => {
-  // let middleware;
   const emptyNutrients = { energy: 0, lipid: 0, protein: 0, vitc: 0, vita_rae: 0 };
-
-  beforeAll(() => {
-    // middleware = require('../src/middleware/acl/checkJwt');
-    // middleware.mockImplementation((req, res, next) => {
-    //   req.user = {};
-    //   req.user.user_id = req.get('user_id');
-    //   next();
-    // });
-  });
 
   afterAll(async (done) => {
     await tableCleanup(knex);

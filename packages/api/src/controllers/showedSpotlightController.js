@@ -21,7 +21,7 @@ const showedSpotlightController = {
   getSpotlightFlags() {
     return async (req, res) => {
       try {
-        const { user_id } = req.user;
+        const { user_id } = req.auth;
         const data = await ShowedSpotlightModel.query()
           .select(
             'map',
@@ -54,7 +54,7 @@ const showedSpotlightController = {
   },
   updateSpotlightFlags() {
     return async (req, res) => {
-      const { user_id } = req.user;
+      const { user_id } = req.auth;
       try {
         const isPatched = await baseController.updateIndividualById(
           ShowedSpotlightModel,

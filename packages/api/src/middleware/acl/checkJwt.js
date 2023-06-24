@@ -13,9 +13,9 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import jwt from 'express-jwt';
+import { expressjwt } from 'express-jwt';
 
-const checkJwt = jwt({
+const checkJwt = expressjwt({
   secret: process.env.JWT_SECRET,
   algorithms: ['HS256'],
 }).unless({

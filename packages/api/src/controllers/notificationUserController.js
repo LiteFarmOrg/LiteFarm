@@ -145,7 +145,7 @@ export default {
     try {
       const notifications = await NotificationUser.getNotificationsForFarmUser(
         req.headers.farm_id,
-        req.user.user_id,
+        req.auth.user_id,
       );
       res.status(200).send(notifications);
     } catch (error) {
@@ -164,7 +164,7 @@ export default {
     const payload = { ...req.body };
     delete payload.notification_ids;
     try {
-      await NotificationUser.update(req.user.user_id, req.body.notification_ids, payload);
+      await NotificationUser.update(req.auth.user_id, req.body.notification_ids, payload);
       res.sendStatus(200);
     } catch (error) {
       console.log(error);
@@ -181,7 +181,7 @@ export default {
   async clearAlerts(req, res) {
     try {
       await NotificationUser.clearAlerts(
-        req.user.user_id,
+        req.auth.user_id,
         req.headers.farm_id,
         req.body.notification_ids,
       );

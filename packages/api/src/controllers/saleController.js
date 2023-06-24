@@ -24,7 +24,6 @@ const SaleController = {
   addOrUpdateSale() {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
-      // const { user_id } = req.user;
       try {
         // post to sale and crop sale table
         const result = await baseController.upsertGraph(SaleModel, req.body, req, { trx });
@@ -57,7 +56,7 @@ const SaleController = {
       const trx = await transaction.start(Model.knex());
       try {
         const saleResult = await SaleModel.query(trx)
-          .context(req.user)
+          .context(req.auth)
           .where('sale_id', sale_id)
           .patch(saleData)
           .returning('*');
@@ -81,7 +80,7 @@ const SaleController = {
         }
         for (const cvs of crop_variety_sale) {
           cvs.sale_id = parseInt(sale_id);
-          await CropVarietySaleModel.query(trx).context(req.user).insert(cvs);
+          await CropVarietySaleModel.query(trx).context(req.auth).insert(cvs);
         }
 
         await trx.commit();
@@ -131,7 +130,6 @@ const SaleController = {
 
   delSale() {
     return async (req, res) => {
-      // const { user_id } = req.user;
       const trx = await transaction.start(Model.knex());
       try {
         const isDeleted = await baseController.delete(SaleModel, req.params.sale_id, req, { trx });

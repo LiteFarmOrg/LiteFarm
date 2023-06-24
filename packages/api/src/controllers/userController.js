@@ -310,7 +310,7 @@ const userController = {
       const id = req.params.user_id;
 
       const data = await UserModel.query()
-        .context({ user_id: req.user.user_id })
+        .context({ user_id: req.auth.user_id })
         .findById(id)
         .select(
           'first_name',
@@ -422,7 +422,7 @@ const userController = {
     let result;
     try {
       const { password, first_name, last_name, gender, birth_year, language_preference } = req.body;
-      const { user_id, farm_id } = req.user;
+      const { user_id, farm_id } = req.auth;
       const salt = await bcrypt.genSalt(10);
       const password_hash = await bcrypt.hash(password, salt);
       await UserModel.transaction(async (trx) => {
@@ -468,7 +468,7 @@ const userController = {
 
   async acceptInvitationWithGoogleAccount(req, res) {
     let result;
-    const { sub, user_id, farm_id, email } = req.user;
+    const { sub, user_id, farm_id, email } = req.auth;
     const { first_name, last_name, gender, birth_year, language_preference } = req.body;
     try {
       await UserModel.transaction(async (trx) => {

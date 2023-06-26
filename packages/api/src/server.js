@@ -28,7 +28,7 @@ import * as Sentry from '@sentry/node';
 import expressOasGenerator from 'express-oas-generator';
 const environment = process.env.NODE_ENV || 'development';
 
-if (process.env.SENTRY_DSN && environment !== 'development') {
+if (process.env.SENTRY_DSN) {
   Sentry.init({
     dsn: process.env.SENTRY_DSN,
     integrations: [
@@ -298,7 +298,7 @@ app
 // Allow a 1MB limit on sensors to match incoming Ensemble data
 app.use('/sensor', express.json({ limit: '1MB' }), rejectBodyInGetAndDelete, sensorRoute);
 
-if (process.env.SENTRY_DSN && environment !== 'development') {
+if (process.env.SENTRY_DSN) {
   // The error handler must be before any other error middleware and after all controllers
   app.use(Sentry.Handlers.errorHandler());
 }

@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import Model from './baseFormatModel.js';
+import { Model } from 'objection';
 import taskModel from './taskModel.js';
 import BaseModel from './baseModel.js';
 import FieldWorkTypeModel from './fieldWorkTypeModel.js';

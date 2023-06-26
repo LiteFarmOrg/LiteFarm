@@ -23,8 +23,8 @@ import './dotenvConfig.js';
 // dotenv.config();
 // dotenv.config({ path: path.resolve(process.cwd(), '.env.local') });
 import express from 'express';
-import * as Sentry from '@sentry/node';
 const app = express();
+import * as Sentry from '@sentry/node';
 import expressOasGenerator from 'express-oas-generator';
 const environment = process.env.NODE_ENV || 'development';
 

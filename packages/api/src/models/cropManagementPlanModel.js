@@ -17,6 +17,27 @@ import Model from './baseFormatModel.js';
 import plantingManagementPlanModel from './plantingManagementPlanModel.js';
 
 class CropManagementPlanModel extends Model {
+  // Server.js function changes date to datetime -- here we change it back: see LF-3396
+  $parseJson(json, opt) {
+    json = super.$parseJson(json, opt);
+    const pgDateTypeFields = [
+      'germination_date',
+      'harvest_date',
+      'plant_date',
+      'seed_date',
+      'termination_date',
+      'transplant_date',
+    ];
+    if (Object.keys(json).some((e) => pgDateTypeFields.includes(e))) {
+      Object.keys(json).forEach((key) => {
+        if (pgDateTypeFields.includes(key) && json[key]) {
+          json[key] = json[key].split('T')[0];
+        }
+      });
+    }
+    return json;
+  }
+
   static get tableName() {
     return 'crop_management_plan';
   }

@@ -35,6 +35,18 @@ class userFarm extends Model {
     return ['gender', 'birth_year', 'notification_setting'];
   }
 
+  // Returned Date-time object from db is not compatible with ajv format types
+  $parseJson(json, opt) {
+    json = super.$parseJson(json, opt);
+    if (json.created_at && typeof json.created_at === 'object') {
+      json.created_at = json.created_at.toISOString();
+    }
+    if (json.updated_at && typeof json.updated_at === 'object') {
+      json.updated_at = json.updated_at.toISOString();
+    }
+    return json;
+  }
+
   async $afterFind(queryContext) {
     await super.$afterFind(queryContext);
     const { hidden, hiddenFromOtherUsers } = this.constructor;

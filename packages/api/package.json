@@ -29,7 +29,7 @@
     "lint": "eslint src",
     "fix-lint": "eslint src --fix",
     "precommit": "lint-staged"
- },
+  },
   "jest": {
     "verbose": true,
     "testEnvironment": "node",

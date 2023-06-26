@@ -3,7 +3,7 @@ import { makeStyles } from '@mui/styles';
 import ListItem from '@mui/material/ListItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import { MdVisibility, MdVisibilityOff } from 'react-icons/all';
+import { MdVisibility, MdVisibilityOff } from 'react-icons/md';
 import { colors, DefaultThemeProvider } from '../../assets/theme';
 import PropTypes from 'prop-types';
 import { Main } from '../Typography';

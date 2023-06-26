@@ -174,7 +174,7 @@ export const Info = ({ children = 'Info', className = '', style, ...props }: Typ
 
 type MainProps = TypographyProps & {
   hasLeaf?: boolean;
-  tooltipContent?: boolean | React.ReactChild | React.ReactFragment | React.ReactPortal;
+  tooltipContent?: string | undefined;
 };
 
 export const Main = ({
@@ -206,7 +206,7 @@ Main.propTypes = {
   children: PropTypes.node,
   className: PropTypes.string,
   style: PropTypes.object,
-  tooltipContent: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
+  tooltipContent: PropTypes.string,
   hasLeaf: PropTypes.bool,
 };
 

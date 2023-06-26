@@ -4,7 +4,7 @@
   "description": "LiteFarm Web application",
   "type": "module",
   "scripts": {
-    "dev": "CYPRESS_COVERAGE=TRUE vite --host",
+    "dev": "vite --host",
     "build": "tsc && NODE_OPTIONS=--max_old_space_size=3000 vite build",
     "preview": "vite preview",
     "lint": "eslint src",
@@ -119,7 +119,7 @@
     "overrides": {
       "trim@<0.0.3": ">=0.0.3",
       "glob-parent@<5.1.2": ">=5.1.2",
-      "vite@>=4.2.0 <4.2.3": ">=4.2.3"
+      "semver@<7.5.2": ">=7.5.2"
     }
   }
 }

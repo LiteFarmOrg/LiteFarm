@@ -366,9 +366,9 @@ describe('User Tests', () => {
         );
       });
 
-      xtest('Should post then get a valid user and user spotlight', async (done) => {
-        const fakeUser = mocks.fakeUser();
-
+      test('Should post then get a valid user and user spotlight', async (done) => {
+        jest.setTimeout(90000);
+        const fakeUser = await mocks.fakeUser();
         // don't need user_id or phone number when signing up user
         delete fakeUser.user_id;
         delete fakeUser.phone_number;

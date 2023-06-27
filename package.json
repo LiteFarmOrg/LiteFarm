@@ -7,7 +7,7 @@
   },
   "scripts": {
     "test": "lerna run test",
-    "lint": "lerna run lint && eslint end-to-end",
+    "lint": "lerna run lint",
     "start": "lerna run start",
     "bootstrap": "lerna bootstrap",
     "prepare": "husky install",

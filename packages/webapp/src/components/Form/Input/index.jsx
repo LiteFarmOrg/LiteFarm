@@ -4,7 +4,12 @@ import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import { Error, Info, Label, TextWithExternalLink } from '../../Typography';
 import { Cross } from '../../Icons';
-import { MdVisibility, MdVisibilityOff } from 'react-icons/md';
+import {
+  MdVisibility,
+  MdVisibilityOff,
+  MdKeyboardArrowUp,
+  MdKeyboardArrowDown,
+} from 'react-icons/md';
 import { BiSearchAlt2 } from 'react-icons/bi';
 import { mergeRefs } from '../utils';
 import { useTranslation } from 'react-i18next';
@@ -39,6 +44,7 @@ const Input = ({
   hasLeaf,
   placeholder,
   currency,
+  stepper = false,
   ...props
 }) => {
   const { t } = useTranslation(['translation', 'common']);
@@ -64,6 +70,18 @@ const Input = ({
   };
 
   const onKeyDown = ['number', 'decimal'].includes(type) ? numberOnKeyDown : undefined;
+
+  const increment = () => {
+    input.current.stepUp();
+    hookFormRegister?.onChange?.({ target: input.current });
+    onChange?.({ target: input.current });
+  };
+
+  const decrement = () => {
+    input.current.stepDown();
+    hookFormRegister?.onChange?.({ target: input.current });
+    onChange?.({ target: input.current });
+  };
 
   useEffect(() => {
     if (openCalendar) {
@@ -126,49 +144,57 @@ const Input = ({
           {currency}
         </div>
       )}
-      <input
-        disabled={disabled}
-        className={clsx(
-          styles.input,
-          showError && styles.inputError,
-          isSearchBar && styles.searchBar,
-        )}
-        style={{
-          paddingRight: `${unit ? unit.length * 8 + 8 : 4}px`,
-          paddingLeft: currency ? `${elementWidth + 12}px` : undefined,
-          ...classes.input,
-        }}
-        aria-invalid={showError ? 'true' : 'false'}
-        ref={mergeRefs(hookFormRegister?.ref, input)}
-        type={inputType}
-        min={inputType === 'date' ? min : undefined}
-        max={inputType === 'date' ? max || '9999-12-31' : undefined}
-        onKeyDown={onKeyDown}
-        name={name}
-        placeholder={(!disabled && placeholder) || (isSearchBar && t('common:SEARCH'))}
-        size={'1'}
-        onChange={(e) => {
-          onChange?.(e);
-          hookFormRegister?.onChange?.(e);
-        }}
-        onBlur={(e) => {
-          if (type === 'number') {
-            if (max !== undefined && e.target.value > max) {
-              input.current.value = max;
-              hookFormRegister?.onChange?.({ target: input.current });
-            } else if (min !== undefined && e.target.value < min) {
-              input.current.value = min;
-              hookFormRegister?.onChange?.({ target: input.current });
+      <div className={styles.inputWrapper}>
+        <input
+          disabled={disabled}
+          className={clsx(
+            styles.input,
+            showError && styles.inputError,
+            isSearchBar && styles.searchBar,
+          )}
+          style={{
+            paddingRight: `${unit ? unit.length * 8 + 8 : 4}px`,
+            paddingLeft: currency ? `${elementWidth + 12}px` : undefined,
+            ...classes.input,
+          }}
+          aria-invalid={showError ? 'true' : 'false'}
+          ref={mergeRefs(hookFormRegister?.ref, input)}
+          type={inputType}
+          min={inputType === 'date' ? min : undefined}
+          max={inputType === 'date' ? max || '9999-12-31' : undefined}
+          onKeyDown={onKeyDown}
+          name={name}
+          placeholder={(!disabled && placeholder) || (isSearchBar && t('common:SEARCH'))}
+          size={'1'}
+          onChange={(e) => {
+            onChange?.(e);
+            hookFormRegister?.onChange?.(e);
+          }}
+          onBlur={(e) => {
+            if (type === 'number') {
+              if (max !== undefined && e.target.value > max) {
+                input.current.value = max;
+                hookFormRegister?.onChange?.({ target: input.current });
+              } else if (min !== undefined && e.target.value < min) {
+                input.current.value = min;
+                hookFormRegister?.onChange?.({ target: input.current });
+              }
             }
-          }
-          onBlur?.(e);
-          hookFormRegister?.onChange?.({ target: input.current });
-          hookFormRegister?.onBlur?.(e);
-          i18n.t('common:REQUIRED') === errors && setShowError(true);
-        }}
-        onWheel={type === 'number' ? preventNumberScrolling : undefined}
-        {...props}
-      />
+            onBlur?.(e);
+            hookFormRegister?.onChange?.({ target: input.current });
+            hookFormRegister?.onBlur?.(e);
+            i18n.t('common:REQUIRED') === errors && setShowError(true);
+          }}
+          onWheel={type === 'number' ? preventNumberScrolling : undefined}
+          {...props}
+        />
+        {stepper && type === 'number' && (
+          <div className={styles.stepper}>
+            <MdKeyboardArrowUp className={styles.stepperIcons} onClick={increment} />
+            <MdKeyboardArrowDown className={styles.stepperIcons} onClick={decrement} />
+          </div>
+        )}
+      </div>
       {info && !showError && <Info style={classes.info}>{info}</Info>}
       {showError ? (
         <Error data-cy="error" style={classes.errors}>

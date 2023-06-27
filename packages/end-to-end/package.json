@@ -14,5 +14,8 @@
     "eslint": "^8.43.0",
     "eslint-plugin-prettier": "^4.2.1",
     "prettier": "^2.8.8"
+  },
+  "dependencies": {
+    "eslint-plugin-cypress": "^2.13.3"
   }
 }

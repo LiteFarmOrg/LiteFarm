@@ -32,6 +32,10 @@ export const taskStatusTranslateKey = {
   abandoned: 'ABANDONED',
 };
 
+const getDate = (date, language = 'en') => {
+  return new Intl.DateTimeFormat(language, { dateStyle: 'medium' }).format(new Date(date));
+};
+
 export const PureTaskCard = ({
   taskType,
   status,
@@ -48,6 +52,7 @@ export const PureTaskCard = ({
   classes = { card: {} },
   isAdmin,
   isAssignee,
+  language,
   ...props
 }) => {
   const { t } = useTranslation();
@@ -61,12 +66,6 @@ export const PureTaskCard = ({
     e.stopPropagation();
     onClickCompleteOrDueDate?.();
   };
-
-  let trueDate = completeOrDueDate;
-  if (status == 'abandoned') {
-    let [day, month, date, year] = new Date(props['abandonDate']).toDateString().split(' ');
-    trueDate = `${month} ${date}, ${year}`;
-  }
 
   return (
     <CardWithStatus
@@ -107,7 +106,9 @@ export const PureTaskCard = ({
             }
           >
             <CalendarIcon />
-            <div data-cy="taskCard-dueDate">{trueDate}</div>
+            <div data-cy="taskCard-dueDate">
+              {getDate(status === 'abandoned' ? props['abandonDate'] : completeOrDueDate, language)}
+            </div>
           </div>
           {assignee ? (
             <div
@@ -154,4 +155,5 @@ PureTaskCard.propTypes = {
   onClickAssignee: PropTypes.func,
   onClickCompleteOrDueDate: PropTypes.func,
   selected: PropTypes.bool,
+  language: PropTypes.oneOf(['en', 'es', 'fr', 'pt']),
 };

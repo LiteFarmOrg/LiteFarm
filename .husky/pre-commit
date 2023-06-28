@@ -6,11 +6,3 @@ npx lerna run --concurrency 1 --stream precommit --since HEAD --exclude-dependen
 
 # For root directory, which is not managed by lerna
 npx lint-staged
-
-# For subdirectory, only if there are changes
-if git diff --quiet --exit-code -- packages/end-to-end; then
-  exit 0
-else
-  cd packages/end-to-end 
-  npx lint-staged
-fi

@@ -65,7 +65,7 @@ const CountrySelect = ({
   classNames,
   country,
   labels,
-  iconComponent: Icon,
+  Icon,
   onChange,
   menuWidth,
   options,

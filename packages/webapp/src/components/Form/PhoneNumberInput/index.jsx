@@ -77,21 +77,21 @@ const PhoneNumberInput = ({ defaultCountry, labels, options }) => {
         onChange={onPhoneNumberChange}
         onFocus={onFocus}
         onBlur={onBlur}
-        countrySelectComponent={(props) => (
+        countrySelectComponent={({ iconComponent, onChange }) => (
           <CountrySelect
-            {...props}
             classNames={{
               control: () => CONTROL_CLASSNAME,
             }}
             country={country}
+            Icon={iconComponent}
             labels={labels}
+            options={options}
             menuWidth={wrapperWidth}
             onFocus={onFocus}
             onBlur={onBlur}
-            options={options}
             onChange={(country) => {
               setCountry(country || undefined);
-              props.onChange(country?.value || undefined);
+              onChange(country?.value || undefined);
             }}
           />
         )}

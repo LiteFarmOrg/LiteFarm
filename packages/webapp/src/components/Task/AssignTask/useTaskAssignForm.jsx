@@ -72,6 +72,8 @@ const useTaskAssignForm = ({
   wage_at_moment,
   defaultAssignee,
   disableUnAssignedOption,
+  mode = 'onTouched',
+  shouldUnregister,
 }) => {
   const { t } = useTranslation();
 
@@ -91,7 +93,8 @@ const useTaskAssignForm = ({
     setValue,
     clearErrors,
   } = useForm({
-    mode: 'onTouched',
+    mode: mode,
+    shouldUnregister,
     defaultValues: {
       [ASSIGNEE]: defaultAssignee,
       [HOURLY_WAGE_ACTION]: '',
@@ -160,6 +163,7 @@ const useTaskAssignForm = ({
     register,
     watch,
     errors,
+    isValid,
     disabled,
     assigneeOptions,
     selectedWorker,

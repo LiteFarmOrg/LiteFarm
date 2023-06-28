@@ -32,7 +32,11 @@ const managementPlanController = {
         const result = await ManagementPlanModel.transaction(async (trx) => {
           const management_plan = await ManagementPlanModel.query(trx)
             .context({ user_id: req.auth.user_id })
-            .upsertGraph(req.body, {
+            .upsertGraph({
+              crop_management_plan: req.body.crop_management_plan, 
+              crop_variety_id: req.body.crop_variety_id,
+              name: req.body.name, notes: req.body.notes
+            }, {
               noUpdate: true,
               noDelete: true,
               noInsert: ['location', 'crop_variety'],
@@ -44,6 +48,7 @@ const managementPlanController = {
               due_date,
               task_type_id,
               owner_user_id: req.auth.user_id,
+              assignee_user_id: req.body.assignee_user_id,
               ...task,
             };
           };

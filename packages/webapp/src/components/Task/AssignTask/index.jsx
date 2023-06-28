@@ -15,7 +15,7 @@
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Controller } from 'react-hook-form';
-import { Label } from '../../Typography';
+import { Info, Label } from '../../Typography';
 import ReactSelect from '../../Form/ReactSelect';
 import HourlyWageInputs from './HourlyWageInputs';
 import { ASSIGNEE } from './constants';
@@ -34,6 +34,7 @@ const AssignTask = ({
   showHourlyWageInputs,
   shouldSetWage,
   currency,
+  toolTipContent,
 }) => {
   const { t } = useTranslation(['translation']);
 
@@ -54,6 +55,7 @@ const AssignTask = ({
               optional={optional}
               inputRef={ref}
               value={value}
+              toolTipContent={toolTipContent}
             />
           )}
         />

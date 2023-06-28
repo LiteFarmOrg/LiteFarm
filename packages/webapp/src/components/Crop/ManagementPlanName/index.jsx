@@ -5,8 +5,12 @@ import { useTranslation } from 'react-i18next';
 import Input, { getInputErrors } from '../../Form/Input';
 import Form from '../../Form';
 import { useForm } from 'react-hook-form';
+import { useSelector } from 'react-redux';
+import { userFarmsByFarmSelector, userFarmSelector } from '../../../containers/userFarmSlice';
 import MultiStepPageTitle from '../../PageTitle/MultiStepPageTitle';
 import InputAutoSize from '../../Form/InputAutoSize';
+import AssignTask from '../../Task/AssignTask';
+import useTaskAssignForm from '../../Task/AssignTask/useTaskAssignForm';
 import { cloneObject } from '../../../util';
 
 export default function PureManagementPlanName({
@@ -24,16 +28,26 @@ export default function PureManagementPlanName({
   const NAME = 'name';
   const NOTES = 'notes';
 
+  const users = useSelector(userFarmsByFarmSelector).filter((user) => user.status !== 'Inactive');
+  const user = useSelector(userFarmSelector);
+
   const {
     register,
     handleSubmit,
     getValues,
-    watch,
-    formState: { errors, isValid },
-  } = useForm({
+    assigneeOptions,
+    selectedWorker,
+    control,
+    errors,
+    isValid,
+  } = useTaskAssignForm({
     mode: 'onChange',
     shouldUnregister: false,
-    defaultValues: {
+    user: user,
+    users: users,
+    defaultAssignee: { label: t('TASK.UNASSIGNED'), value: null, isDisabled: false },
+    disableUnAssignedOption: false,
+    additionalFields: {
       [NAME]: t('MANAGEMENT_PLAN.PLAN_AND_ID', { id: managementPlanCount }),
       ...cloneObject(persistedFormData),
     },
@@ -69,8 +83,18 @@ export default function PureManagementPlanName({
         errors={getInputErrors(errors, NAME)}
       />
 
+      <AssignTask
+        assigneeOptions={assigneeOptions}
+        control={control}
+        selectedWorker={selectedWorker}
+        optional={true}
+        register={register}
+        errors={errors}
+        toolTipContent={t('MANAGEMENT_PLAN.ASSIGN_ALL_TASKS')}
+      />
+
       <InputAutoSize
-        style={{ marginBottom: '40px' }}
+        style={{ marginTop: '16px', marginBottom: '40px' }}
         label={t('MANAGEMENT_PLAN.PLAN_NOTES')}
         hookFormRegister={register(NOTES, {
           maxLength: { value: 10000, message: t('MANAGEMENT_PLAN.NOTES_CHAR_LIMIT') },

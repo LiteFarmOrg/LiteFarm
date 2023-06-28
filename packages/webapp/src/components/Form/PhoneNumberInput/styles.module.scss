@@ -1,0 +1,66 @@
+/*
+ *  Copyright 2019, 2020, 2021, 2022, 2023 LiteFarm.org
+ *  This file is part of LiteFarm.
+ *
+ *  LiteFarm is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  LiteFarm is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
+ */
+ .wrapper {
+  height: fit-content;
+  width: -webkit-fill-available;
+  width: -moz-available;
+}
+
+.phoneNumberInput {
+  height: 48px;
+  align-items: stretch;
+
+  input {
+    border: solid 1px var(--grey400);
+    padding: 0 12px;
+    border-radius: 0 4px 4px 0;
+
+    &:focus {
+      outline: none;
+    }
+  }
+
+  img {
+    width: 32px;
+    height: 22px;
+    border: solid 1px rgba(0,0,0,0.5);
+  }
+
+  div {
+    box-shadow: none;
+  }
+}
+
+.option {
+  display: flex;
+  align-items: center;
+}
+
+.countryName {
+  margin-left: 10px;
+}
+
+.code {
+  color: var(--grey600);
+  margin-left: 10px;
+}
+
+.emptyDiv {
+  width: 72px;
+  height: 48px;
+  border: solid 1px var(--grey400);
+  padding: 0 12px;
+  border-radius: 0 4px 4px 0;
+}

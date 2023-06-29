@@ -41,6 +41,7 @@ export const PureHarvestingTaskReadOnly = ({
               control={control}
               optional
               disabled={disabled}
+              data-testid="harvest-quantity"
             />
           )}
           {harvest_everything && (
@@ -107,6 +108,7 @@ export const PureHavestTaskCompleted = ({
             hookFromWatch={watch}
             control={control}
             disabled={disabled}
+            data-testid={`harvestuse-quantity-${index}`}
           />
         </div>
       ))}

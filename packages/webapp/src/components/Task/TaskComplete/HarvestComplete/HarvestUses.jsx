@@ -152,6 +152,7 @@ export default function PureHarvestUses({
               hookFromWatch={watch}
               control={control}
               required
+              data-testid={`quantity-${index}`}
             />
             {fields.length > 1 && (
               <div>

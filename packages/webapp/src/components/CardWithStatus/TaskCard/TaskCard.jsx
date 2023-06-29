@@ -70,14 +70,15 @@ export const PureTaskCard = ({
 
   let assigneeName = '';
   let assigneeLabel = '';
+  let isAssigneeInactive = false;
   if (assignee !== null) {
+    isAssigneeInactive = assignee.status === 'Inactive';
     assigneeName = `${assignee.first_name} ${
       assignee.last_name.length > 0 ? assignee.last_name.charAt(0) + '.' : ''
     }`;
-    assigneeLabel =
-      assignee.status === 'Inactive'
-        ? `${assigneeName} (${assignee.status.toLowerCase()})`
-        : assigneeName;
+    assigneeLabel = isAssigneeInactive
+      ? `${assigneeName} (${assignee.status.toLowerCase()})`
+      : assigneeName;
   }
 
   return (
@@ -134,14 +135,12 @@ export const PureTaskCard = ({
                 className={clsx(
                   styles.firstInitial,
                   styles.icon,
-                  assignee.status === 'Inactive' ? styles.inactive : '',
+                  isAssigneeInactive ? styles.inactive : '',
                 )}
               >
                 {assignee.first_name.toUpperCase().charAt(0)}
               </div>
-              <div className={clsx(assignee.status === 'Inactive' ? styles.inactive : '')}>
-                {assigneeLabel}
-              </div>
+              <div className={clsx(isAssigneeInactive ? styles.inactive : '')}>{assigneeLabel}</div>
             </div>
           ) : (
             <div

@@ -160,6 +160,7 @@ import productRoute from './routes/productRoute.js';
 import notificationUserRoute from './routes/notificationUserRoute.js';
 import timeNotificationRoute from './routes/timeNotificationRoute.js';
 import sensorRoute from './routes/sensorRoute.js';
+import countryRoute from './routes/countryRoute.js';
 
 // register API
 const router = promiseRouter();
@@ -293,7 +294,8 @@ app
   .use('/product', productRoute)
   .use('/nomination', nominationRoutes)
   .use('/notification_user', notificationUserRoute)
-  .use('/time_notification', timeNotificationRoute);
+  .use('/time_notification', timeNotificationRoute)
+  .use('/country', countryRoute);
 
 // Allow a 1MB limit on sensors to match incoming Ensemble data
 app.use('/sensor', express.json({ limit: '1MB' }), rejectBodyInGetAndDelete, sensorRoute);

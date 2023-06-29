@@ -44,6 +44,10 @@ class Country extends Model {
     // Import models here to prevent require loops.
     return {};
   }
+
+  static async getCountries(columns) {
+    return Country.query().select(columns || '*');
+  }
 }
 
 export default Country;

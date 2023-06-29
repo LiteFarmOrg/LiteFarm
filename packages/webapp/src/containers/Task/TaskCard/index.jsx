@@ -14,6 +14,7 @@ import {
   updateUserFarmWage,
   setUserFarmWageDoNotAskAgain,
 } from '../saga';
+import { getLanguageFromLocalStorage } from '../../../util/getLanguageFromLocalStorage';
 
 const TaskCard = ({
   task_id,
@@ -52,6 +53,7 @@ const TaskCard = ({
   let isAssignee = false;
   let isAdmin = false;
   let taskUnassigned = false;
+  const language = getLanguageFromLocalStorage();
 
   if (user) {
     isAdmin = user.is_admin;
@@ -89,6 +91,7 @@ const TaskCard = ({
         classes={classes}
         isAdmin={isAdmin}
         isAssignee={isAssignee}
+        language={language}
       />
       {showTaskAssignModal && (
         <TaskQuickAssignModal

@@ -87,6 +87,7 @@
     "pg": "^8.5.1",
     "pug": "^3.0.2",
     "puppeteer": "^13.3.1",
+    "react-phone-number-input": "^3.2.25",
     "request": "^2.87.0",
     "request-promise": "^4.2.2",
     "rimraf": "^3.0.2",

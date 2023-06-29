@@ -36,12 +36,12 @@ class ProductModel extends baseModel {
         product_translation_key: { type: 'string' },
         supplier: { type: 'string' },
         on_permitted_substances_list: {
-          type: ['string', null],
+          type: ['string', 'null'],
           enum: ['YES', 'NO', 'NOT_SURE', null],
         },
         type: {
           type: 'string',
-          enu: ['soil_amendment_task', 'pest_control_task', 'cleaning_task'],
+          enum: ['soil_amendment_task', 'pest_control_task', 'cleaning_task'],
         },
         farm_id: { type: 'string' },
         ...this.baseProperties,

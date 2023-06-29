@@ -13,9 +13,21 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { Model } from 'objection';
+import Model from './baseFormatModel.js';
 
 class User extends Model {
+  // Returned Date-time object from db is not compatible with ajv format types
+  $parseJson(json, opt) {
+    json = super.$parseJson(json, opt);
+    if (json.created_at && typeof json.created_at === 'object') {
+      json.created_at = json.created_at.toISOString();
+    }
+    if (json.updated_at && typeof json.updated_at === 'object') {
+      json.updated_at = json.updated_at.toISOString();
+    }
+    return json;
+  }
+
   async $beforeUpdate(opt, queryContext) {
     await super.$beforeUpdate(opt, queryContext);
     this.updated_at = new Date().toISOString();
@@ -80,9 +92,9 @@ class User extends Model {
         first_name: { type: 'string', minLength: 1, maxLength: 255 },
         last_name: { type: 'string', maxLength: 255 },
         profile_picture: { type: 'string' },
-        phone_number: { type: ['string', null] },
-        user_address: { type: ['string', null] },
-        email: { type: 'email' },
+        phone_number: { type: ['string', 'null'] },
+        user_address: { type: ['string', 'null'] },
+        email: { type: 'string', format: 'email' },
         sandbox_user: { type: 'boolean' },
         notification_setting: {
           type: 'object',
@@ -108,14 +120,14 @@ class User extends Model {
           enum: ['OTHER', 'PREFER_NOT_TO_SAY', 'MALE', 'FEMALE'],
         },
         birth_year: {
-          type: ['number', null],
+          type: ['number', 'null'],
           multipleOf: 1.0,
           minimum: 1900,
           maximum: new Date().getFullYear(),
         },
         do_not_email: { type: 'boolean' },
-        created_at: { type: 'date-time' },
-        updated_at: { type: 'date-time' },
+        created_at: { type: 'string', format: 'date-time' },
+        updated_at: { type: 'string', format: 'date-time' },
       },
       additionalProperties: false,
     };

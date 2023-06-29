@@ -1,4 +1,4 @@
-import { FiFilter } from 'react-icons/all';
+import { FiFilter } from 'react-icons/fi';
 import { colors } from '../../../assets/theme';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
@@ -11,7 +11,7 @@ import { ReactComponent as CalendarDown } from '../../../assets/images/taskFilte
 import { ReactComponent as CalendarUp } from '../../../assets/images/taskFilter/CalendarUp.svg';
 import clsx from 'clsx';
 import PageBreak from '../../PageBreak';
-import { ClickAwayListener } from '@material-ui/core';
+import { ClickAwayListener } from '@mui/material';
 
 export default function PureTaskDropdownFilter({
   isDropDownOpen,

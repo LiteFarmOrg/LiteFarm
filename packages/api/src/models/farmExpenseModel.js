@@ -35,7 +35,10 @@ class Expense extends baseModel {
       properties: {
         farm_expense_id: { type: 'string' },
         farm_id: { type: 'string' },
-        expense_date: { type: 'date-time' },
+        expense_date: {
+          type: 'string',
+          format: 'date-time',
+        },
         value: { type: 'number' },
         picture: { type: 'string' },
         note: { type: 'string', minLength: 1, maxLength: 255 },

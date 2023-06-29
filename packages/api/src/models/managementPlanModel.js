@@ -13,8 +13,6 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { Model } from 'objection';
-
 import baseModel from './baseModel.js';
 import moment from 'moment';
 import cropVarietyModel from './cropVarietyModel.js';
@@ -52,13 +50,13 @@ class ManagementPlan extends baseModel {
         management_plan_id: { type: 'integer' },
         crop_variety_id: { type: 'string' },
         name: { type: 'string' },
-        notes: { type: ['string', null] },
-        abandon_date: { anyOf: [{ type: 'null' }, { type: 'date' }] },
-        start_date: { anyOf: [{ type: 'null' }, { type: 'date' }] },
-        complete_date: { anyOf: [{ type: 'null' }, { type: 'date' }] },
-        complete_notes: { type: ['string', null] },
-        rating: { type: ['integer', null], enum: [0, 1, 2, 3, 4, 5, null] },
-        abandon_reason: { type: ['string', null] },
+        notes: { type: ['string', 'null'] },
+        abandon_date: { type: ['string', 'null'], format: 'date' },
+        start_date: { type: ['string', 'null'], format: 'date' },
+        complete_date: { type: ['string', 'null'], format: 'date' },
+        complete_notes: { type: ['string', 'null'] },
+        rating: { type: ['integer', 'null'], enum: [0, 1, 2, 3, 4, 5, null] },
+        abandon_reason: { type: ['string', 'null'] },
         ...this.baseProperties,
       },
       additionalProperties: false,
@@ -68,7 +66,7 @@ class ManagementPlan extends baseModel {
   static get relationMappings() {
     return {
       crop_variety: {
-        relation: Model.BelongsToOneRelation,
+        relation: baseModel.BelongsToOneRelation,
         modelClass: cropVarietyModel,
         join: {
           from: 'management_plan.crop_variety_id',
@@ -77,7 +75,7 @@ class ManagementPlan extends baseModel {
       },
       crop_management_plan: {
         modelClass: cropManagementPlanModel,
-        relation: Model.HasOneRelation,
+        relation: baseModel.HasOneRelation,
         join: {
           from: 'management_plan.management_plan_id',
           to: 'crop_management_plan.management_plan_id',

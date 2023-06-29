@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import LinearProgress from '@material-ui/core/LinearProgress';
+import { makeStyles } from '@mui/styles';
+import LinearProgress from '@mui/material/LinearProgress';
 import { colors } from '../../../assets/theme';
 
 const useStyles = makeStyles({

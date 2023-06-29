@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { Model } from 'objection';
+import Model from './baseFormatModel.js';
 
 class ContainerMethodModel extends Model {
   static get tableName() {
@@ -31,15 +31,15 @@ class ContainerMethodModel extends Model {
       properties: {
         planting_management_plan_id: { type: 'string' },
         in_ground: { type: 'boolean' },
-        plant_spacing: { type: ['number', null] },
+        plant_spacing: { type: ['number', 'null'] },
         plant_spacing_unit: { type: 'string', enum: ['cm', 'm', 'in', 'ft'] },
-        total_plants: { type: ['integer', null] },
-        number_of_containers: { type: ['integer', null] },
-        plants_per_container: { type: ['integer', null] },
-        planting_depth: { type: ['number', null] },
+        total_plants: { type: ['integer', 'null'] },
+        number_of_containers: { type: ['integer', 'null'] },
+        plants_per_container: { type: ['integer', 'null'] },
+        planting_depth: { type: ['number', 'null'] },
         planting_depth_unit: { type: 'string', enum: ['cm', 'm', 'in', 'ft'] },
-        planting_soil: { type: ['string', null] },
-        container_type: { type: ['string', null] },
+        planting_soil: { type: ['string', 'null'] },
+        container_type: { type: ['string', 'null'] },
       },
       additionalProperties: false,
     };

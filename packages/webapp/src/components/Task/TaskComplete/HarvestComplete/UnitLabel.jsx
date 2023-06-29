@@ -1,5 +1,5 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@mui/styles';
 import { colors } from '../../../../assets/theme';
 import clsx from 'clsx';
 import { convert } from '../../../../util/convert-units/convert';

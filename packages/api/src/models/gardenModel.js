@@ -13,10 +13,24 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { Model } from 'objection';
+import Model from './baseFormatModel.js';
 import organicHistoryModel from './organicHistoryModel.js';
 
 class Garden extends Model {
+  // Server.js function changes date to datetime -- here we change it back: see LF-3396
+  $parseJson(json, opt) {
+    json = super.$parseJson(json, opt);
+    const pgDateTypeFields = ['transition_date'];
+    if (Object.keys(json).some((e) => pgDateTypeFields.includes(e))) {
+      Object.keys(json).forEach((key) => {
+        if (pgDateTypeFields.includes(key) && json[key]) {
+          json[key] = json[key].split('T')[0];
+        }
+      });
+    }
+    return json;
+  }
+
   static get tableName() {
     return 'garden';
   }
@@ -36,7 +50,10 @@ class Garden extends Model {
         location_id: { type: 'string' },
         organic_status: { type: 'string', enum: ['Non-Organic', 'Transitional', 'Organic'] },
         station_id: { type: 'number' },
-        transition_date: { type: 'date' },
+        transition_date: {
+          type: 'string',
+          format: 'date',
+        },
       },
       additionalProperties: false,
     };

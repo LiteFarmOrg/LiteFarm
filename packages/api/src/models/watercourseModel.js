@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { Model } from 'objection';
+import Model from './baseFormatModel.js';
 
 class Watercourse extends Model {
   static get tableName() {
@@ -30,7 +30,7 @@ class Watercourse extends Model {
       required: ['location_id'],
       properties: {
         location_id: { type: 'string' },
-        used_for_irrigation: { type: ['boolean', null] },
+        used_for_irrigation: { type: ['boolean', 'null'] },
         buffer_width: { type: 'number' },
         buffer_width_unit: { type: 'string', enum: ['cm', 'm', 'km', 'in', 'ft', 'mi'] },
       },

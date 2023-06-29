@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { Model } from 'objection';
+import Model from './baseFormatModel.js';
 
 class Barn extends Model {
   static get tableName() {
@@ -30,9 +30,9 @@ class Barn extends Model {
       required: ['location_id'],
       properties: {
         location_id: { type: 'string' },
-        wash_and_pack: { type: ['boolean', null] },
-        cold_storage: { type: ['boolean', null] },
-        used_for_animals: { type: ['boolean', null] },
+        wash_and_pack: { type: ['boolean', 'null'] },
+        cold_storage: { type: ['boolean', 'null'] },
+        used_for_animals: { type: ['boolean', 'null'] },
       },
       additionalProperties: false,
     };

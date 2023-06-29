@@ -6,7 +6,7 @@ import { Modal } from '../../index';
 import { VscWarning } from 'react-icons/vsc';
 
 import { colors } from '../../../../assets/theme';
-import { FiSlash } from 'react-icons/all';
+import { FiSlash } from 'react-icons/fi';
 import Infoi from '../../../Tooltip/Infoi';
 
 export default function ModalComponent({

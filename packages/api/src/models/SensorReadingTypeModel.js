@@ -1,5 +1,5 @@
 import PartnerReadingTypesModel from './PartnerReadingTypeModel.js';
-import { Model } from 'objection';
+import Model from './baseFormatModel.js';
 
 class SensorReadingTypeModel extends Model {
   /**

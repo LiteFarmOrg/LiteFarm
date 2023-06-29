@@ -1,6 +1,6 @@
 import { createToken } from '../util/jwt.js';
 import { emails, sendEmail } from '../templates/sendEmailTemplate.js';
-import { Model } from 'objection';
+import Model from './baseFormatModel.js';
 
 class emailTokenModel extends Model {
   static get tableName() {
@@ -9,6 +9,18 @@ class emailTokenModel extends Model {
 
   static get idColumn() {
     return ['invitation_id'];
+  }
+
+  // Returned Date-time object from db is not compatible with ajv format types
+  $parseJson(json, opt) {
+    json = super.$parseJson(json, opt);
+    if (json.created_at && typeof json.created_at === 'object') {
+      json.created_at = json.created_at.toISOString();
+    }
+    if (json.updated_at && typeof json.updated_at === 'object') {
+      json.updated_at = json.updated_at.toISOString();
+    }
+    return json;
   }
 
   async $beforeUpdate(opt, context) {
@@ -29,8 +41,14 @@ class emailTokenModel extends Model {
         farm_id: { type: 'string' },
         invitation_id: { type: 'string' },
         times_sent: { type: 'integer' },
-        created_at: { type: 'date-time' },
-        updated_at: { type: 'date-time' },
+        created_at: {
+          type: 'string',
+          format: 'date-time',
+        },
+        updated_at: {
+          type: 'string',
+          format: 'date-time',
+        },
       },
       additionalProperties: false,
     };

@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <<https://www.gnu.org/licenses/>.>
  */
 
-import { Model } from 'objection';
+import Model from './baseFormatModel.js';
 import UserModel from './userModel.js';
 import FarmModel from './farmModel.js';
 import RoleModel from './roleModel.js';
@@ -33,6 +33,18 @@ class userFarm extends Model {
 
   static get hiddenFromOtherUsers() {
     return ['gender', 'birth_year', 'notification_setting'];
+  }
+
+  // Returned Date-time object from db is not compatible with ajv format types
+  $parseJson(json, opt) {
+    json = super.$parseJson(json, opt);
+    if (json.created_at && typeof json.created_at === 'object') {
+      json.created_at = json.created_at.toISOString();
+    }
+    if (json.updated_at && typeof json.updated_at === 'object') {
+      json.updated_at = json.updated_at.toISOString();
+    }
+    return json;
   }
 
   async $afterFind(queryContext) {
@@ -67,20 +79,20 @@ class userFarm extends Model {
         role_id: { type: 'number' },
         has_consent: { type: ['boolean', 'null'] },
         status: {
-          type: 'enum',
+          type: 'string',
           enum: ['Active', 'Inactive', 'Invited'],
         },
         created_at: { type: 'string' },
         consent_version: { type: 'string' },
         wage: {
-          type: ['object', null],
+          type: ['object', 'null'],
           required: ['type', 'amount'],
           properties: {
             type: {
               type: 'string',
               enum: ['hourly', 'annually'],
             },
-            amount: { type: ['number', null] },
+            amount: { type: ['number', 'null'] },
           },
         },
         step_one: { type: ['boolean', 'null'] },

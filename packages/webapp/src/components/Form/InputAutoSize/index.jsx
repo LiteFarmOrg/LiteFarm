@@ -4,7 +4,7 @@ import React, { useRef } from 'react';
 import clsx from 'clsx';
 import styles from './styles.module.scss';
 import { mergeRefs } from '../utils';
-import { TextareaAutosize } from '@material-ui/core';
+import { TextareaAutosize } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 
 export default function InputAutoSize({

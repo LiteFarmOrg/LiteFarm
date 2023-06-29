@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { makeStyles, useTheme } from '@material-ui/core/styles';
-import useMediaQuery from '@material-ui/core/useMediaQuery';
+import { makeStyles, useTheme } from '@mui/styles';
+import useMediaQuery from '@mui/material/useMediaQuery';
 import PureProfileFloater from '../Floater/ProfileFloater';
 import { ReactComponent as NotificationIcon } from '../../../assets/images/notif.svg';
 import { ReactComponent as MyFarmIcon } from '../../../assets/images/my-farm.svg';
@@ -15,12 +15,12 @@ import { logout } from '../../../util/jwt';
 import { useTranslation } from 'react-i18next';
 import SmallerLogo from '../../../assets/images/smaller_logo.svg';
 import SmallLogo from '../../../assets/images/small_logo.svg';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import IconButton from '@material-ui/core/IconButton';
+import AppBar from '@mui/material/AppBar';
+import Toolbar from '@mui/material/Toolbar';
+import IconButton from '@mui/material/IconButton';
 import { BiMenu } from 'react-icons/bi';
 import { colors } from '../../../assets/theme';
-import { ClickAwayListener, SwipeableDrawer } from '@material-ui/core';
+import { ClickAwayListener, SwipeableDrawer } from '@mui/material';
 import SlideMenu from './slideMenu';
 import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
@@ -239,6 +239,7 @@ export default function PureNavBar({
           color="inherit"
           aria-label="open drawer"
           onClick={burgerMenuOnClick}
+          size="large"
         >
           <BiMenu className={classes.burgerMenu} />
         </IconButton>
@@ -274,6 +275,7 @@ export default function PureNavBar({
               onClick={notificationIconClick}
               className={classes.iconButton}
               classes={{ root: classes.notificationButton }}
+              size="large"
             >
               <NotificationIcon />
               <Alert />
@@ -293,6 +295,7 @@ export default function PureNavBar({
                 id="firstStepNavBar"
                 className={classes.iconButton}
                 onClick={farmButtonOnClick}
+                size="large"
               >
                 {getLanguageFarmIcon(selectedLanguage)}
               </IconButton>
@@ -306,6 +309,7 @@ export default function PureNavBar({
               onClick={taskIconClick}
               className={classes.iconButton}
               classes={{ root: classes.notificationButton }}
+              size="large"
             >
               <TaskIcon />
             </IconButton>
@@ -327,6 +331,7 @@ export default function PureNavBar({
                 id="thirdStepNavBar"
                 className={classes.iconButton}
                 classes={{ root: classes.profileButton }}
+                size="large"
               >
                 <ProfilePicture />
               </IconButton>

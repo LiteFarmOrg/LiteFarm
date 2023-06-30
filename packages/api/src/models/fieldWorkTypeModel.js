@@ -61,9 +61,13 @@ class FieldWorkTypeModel extends baseModel {
   static async insertCustomFieldWorkType(row) {
     const data = await Model.knex().raw(
       `
-      SELECT * FROM public.field_work_type WHERE LOWER(field_work_name) = ? AND  LOWER(field_work_type_translation_key) = ?;
+      SELECT * FROM public.field_work_type WHERE LOWER(field_work_name) = ? AND LOWER(field_work_type_translation_key) = ? AND farm_id = ?;
     `,
-      [row.field_work_name.toLowerCase(), row.field_work_type_translation_key.toLowerCase()],
+      [
+        row.field_work_name.toLowerCase(),
+        row.field_work_type_translation_key.toLowerCase(),
+        row.farm_id,
+      ],
     );
     if (data.rowCount > 0) {
       return data.rows[0];

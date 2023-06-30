@@ -71,6 +71,7 @@ import certificationsSaga from './containers/Certifications/saga';
 import taskSaga from './containers/Task/saga';
 import abandonAndCompleteManagementPlanSaga from './containers/Crop/CompleteManagementPlan/saga';
 import notificationSaga from './containers/Notification/saga';
+import countrySaga from './containers/Country/saga';
 import errorHandlerSaga from './containers/ErrorHandler/saga';
 import App from './App';
 import { sagaMiddleware } from './store/sagaMiddleware';
@@ -143,6 +144,7 @@ sagaMiddleware.run(exportSaga);
 sagaMiddleware.run(errorHandlerSaga);
 sagaMiddleware.run(fieldWorkTaskSaga);
 sagaMiddleware.run(irrigationTaskTypesSaga);
+sagaMiddleware.run(countrySaga);
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <Provider store={store}>

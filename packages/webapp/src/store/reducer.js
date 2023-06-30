@@ -86,6 +86,7 @@ import customSignUpReducer from '../containers/customSignUpSlice';
 import fieldWorkReducer from '../containers/fieldWorkSlice';
 import irrigationTaskReducer from '../containers/slice/taskSlice/irrigationTaskSlice';
 import irrigationTaskTypesReducer from '../containers/irrigationTaskTypesSlice';
+import countryReducer from '../containers/countrySlice';
 
 import { ActionTypes } from './actionTypes';
 // all the initial state for the forms
@@ -208,6 +209,7 @@ const entitiesReducer = combineReducers({
   fieldWorkReducer,
   irrigationTaskReducer,
   irrigationTaskTypesReducer,
+  countryReducer,
 });
 
 const farmStateReducer = combineReducers({

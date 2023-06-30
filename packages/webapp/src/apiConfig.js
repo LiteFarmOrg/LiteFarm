@@ -71,6 +71,7 @@ export const alertsUrl = `${URI}/notification_user/subscribe`;
 export const notificationsUrl = `${URI}/notification_user`;
 export const clearAlertsUrl = `${URI}/notification_user/clear_alerts`;
 export const sensorUrl = `${URI}/sensor`;
+export const countryUrl = `${URI}/country`;
 export const url = URI;
 
 export default {
@@ -111,5 +112,6 @@ export default {
   alertsUrl,
   notificationsUrl,
   sensorUrl,
+  countryUrl,
   url,
 };

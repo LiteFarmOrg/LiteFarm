@@ -67,6 +67,15 @@ export const PureTaskCard = ({
     onClickCompleteOrDueDate?.();
   };
 
+  let assigneeName = '';
+  let isAssigneeInactive = false;
+  if (assignee !== null) {
+    isAssigneeInactive = assignee.status === 'Inactive';
+    assigneeName = `${assignee.first_name} ${
+      assignee.last_name.length > 0 ? assignee.last_name.toUpperCase().charAt(0) + '.' : ''
+    }`;
+  }
+
   return (
     <CardWithStatus
       data-cy="taskCard"
@@ -119,10 +128,20 @@ export const PureTaskCard = ({
               }
               onClick={onAssignTask}
             >
-              <div className={clsx(styles.firstInitial, styles.icon)}>
+              <div
+                className={clsx(
+                  styles.firstInitial,
+                  styles.icon,
+                  isAssigneeInactive ? styles.inactive : '',
+                )}
+              >
                 {assignee.first_name.toUpperCase().charAt(0)}
               </div>
-              <div>{`${assignee.first_name} ${assignee.last_name.charAt(0)}.`}</div>
+              <div className={clsx(isAssigneeInactive ? styles.inactive : '')}>
+                {isAssigneeInactive
+                  ? `${assigneeName} (${t('STATUS.INACTIVE').toLowerCase()})`
+                  : assigneeName}
+              </div>
             </div>
           ) : (
             <div

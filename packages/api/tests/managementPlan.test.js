@@ -920,6 +920,7 @@ describe('ManagementPlan Tests', () => {
             [],
           ),
         },
+        assignee_user_id: undefined,
       };
     }
 
@@ -988,6 +989,25 @@ describe('ManagementPlan Tests', () => {
     test('should create a broadcast management plan with required data', async (done) => {
       postManagementPlanRequest(getBody('broadcast_method'), userFarm, async (err, res) => {
         await expectPlantingMethodPosted(res, 'broadcast_method');
+        done();
+      });
+    });
+
+    test('should create a broadcast management plan with required data and assigned to an assignee', async (done) => {
+      const request_body = getBody('broadcast_method');
+      request_body.assignee_user_id = owner.user_id;
+      postManagementPlanRequest(request_body, userFarm, async (err, res) => {
+        console.log(err);
+        await expectPlantingMethodPosted(res, 'broadcast_method');
+        const { planting_management_plan_id } = await knex('planting_management_plan')
+          .where({
+            management_plan_id: res.body.management_plan.management_plan_id,
+            planting_task_type: 'PLANT_TASK',
+          })
+          .first();
+        const plant_task = await knex('plant_task').where({ planting_management_plan_id }).first();
+        const task = await knex('task').where({ task_id: plant_task.task_id }).first();
+        expect(task.assignee_user_id).toBe(owner.user_id);
         done();
       });
     });

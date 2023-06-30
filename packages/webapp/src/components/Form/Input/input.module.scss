@@ -96,6 +96,7 @@ input:focus::placeholder {
   font-size: 22px;
   color: var(--iconDefault);
   cursor: pointer;
+  z-index: 10;
 }
 .labelContainer {
   display: flex;

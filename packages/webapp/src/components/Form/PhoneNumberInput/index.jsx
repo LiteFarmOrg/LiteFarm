@@ -22,7 +22,7 @@ import styles from './styles.module.scss';
 
 const CONTROL_CLASSNAME = 'phone-number-select-control';
 
-const PhoneNumberInput = ({ defaultCountry, labels, options }) => {
+const PhoneNumberInput = ({ defaultCountry, options }) => {
   const [phone, setPhone] = useState(null);
   const [country, setCountry] = useState({ value: defaultCountry, label: defaultCountry });
   const [wrapperWidth, setWrapperWidth] = useState(null);
@@ -84,7 +84,6 @@ const PhoneNumberInput = ({ defaultCountry, labels, options }) => {
             }}
             country={country}
             Icon={iconComponent}
-            labels={labels}
             options={options}
             menuWidth={wrapperWidth}
             onFocus={onFocus}
@@ -102,7 +101,6 @@ const PhoneNumberInput = ({ defaultCountry, labels, options }) => {
 
 PhoneNumberInput.propTypes = {
   defaultCountry: PropTypes.string,
-  labels: PropTypes.objectOf(PropTypes.string).isRequired,
   options: PropTypes.arrayOf(PropTypes.shape({ value: PropTypes.string, label: PropTypes.string }))
     .isRequired,
 };

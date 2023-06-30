@@ -20,7 +20,7 @@ import { getCountries } from 'react-phone-number-input';
 
 const options = getCountries().map((country) => {
   return {
-    label: country,
+    label: labels[country],
     value: country,
   };
 });
@@ -38,6 +38,5 @@ const Template = (args) => {
 export const Default = Template.bind({});
 Default.args = {
   defaultCountry: 'CA',
-  labels,
   options,
 };

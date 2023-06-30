@@ -64,7 +64,6 @@ const getStyles = (menuWidth) => ({
 const CountrySelect = ({
   classNames,
   country,
-  labels,
   Icon,
   onChange,
   menuWidth,
@@ -82,12 +81,12 @@ const CountrySelect = ({
         onChange={onChange}
         onFocus={onFocus}
         onBlur={onBlur}
-        formatOptionLabel={({ value }, meta) => {
+        formatOptionLabel={({ value, label }, meta) => {
           if (value && meta.context === 'menu') {
             return (
               <div className={styles.option}>
                 <Icon country={value} label={value} />
-                <span className={styles.countryName}>{labels[value]}</span>
+                <span className={styles.countryName}>{label}</span>
                 <span className={clsx(styles.code)}>+{value && getCountryCallingCode(value)}</span>
               </div>
             );
@@ -102,8 +101,7 @@ const CountrySelect = ({
 CountrySelect.propTypes = {
   classNames: PropTypes.object,
   country: PropTypes.shape({ value: PropTypes.string, label: PropTypes.string }),
-  labels: PropTypes.objectOf(PropTypes.string).isRequired,
-  iconComponent: PropTypes.func.isRequired,
+  Icon: PropTypes.func.isRequired,
   onChange: PropTypes.func.isRequired,
   options: PropTypes.arrayOf(PropTypes.shape({ value: PropTypes.string, label: PropTypes.string }))
     .isRequired,

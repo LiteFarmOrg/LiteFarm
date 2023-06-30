@@ -73,12 +73,22 @@ const Input = ({
 
   const increment = () => {
     input.current.stepUp();
+
+    if (max !== undefined && input.current.value > max) {
+      input.current.value = max;
+    }
+
     hookFormRegister?.onChange?.({ target: input.current });
     onChange?.({ target: input.current });
   };
 
   const decrement = () => {
     input.current.stepDown();
+
+    if (min !== undefined && input.current.value < min) {
+      input.current.value = min;
+    }
+
     hookFormRegister?.onChange?.({ target: input.current });
     onChange?.({ target: input.current });
   };

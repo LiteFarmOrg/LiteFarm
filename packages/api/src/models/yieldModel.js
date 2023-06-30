@@ -13,9 +13,12 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { Model } from 'objection';
-
+import Model from './baseFormatModel.js';
+// TODO: Deprecate objection soft delete
 import softDelete from 'objection-soft-delete';
+// Patch for mergeContext deprecation from objection
+import { QueryBuilder } from 'objection';
+QueryBuilder.prototype.mergeContext = QueryBuilder.prototype.context;
 
 class Yield extends softDelete({ columnName: 'deleted' })(Model) {
   static get tableName() {
@@ -36,7 +39,7 @@ class Yield extends softDelete({ columnName: 'deleted' })(Model) {
         yield_id: { type: 'integer' },
         crop_id: { type: 'integer' },
         'quantity_kg/m2': { type: 'integer' },
-        date: { type: 'date-time' },
+        date: { type: 'string', format: 'date-time' },
         farm_id: { type: 'string' },
         deleted: { type: 'boolean' },
       },

@@ -4,7 +4,7 @@ import clsx from 'clsx';
 import { areaImgDict, lineImgDict, pointImgDict } from '../LocationMapping';
 import { ReactComponent as ShowMore } from '../../../assets/images/map/arrowDown.svg';
 import { containsCrops } from '../../../containers/Map/constants';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@mui/styles';
 import { colors } from '../../../assets/theme';
 import CompactPreview from '../PreviewPopup/CompactPreview';
 import { SENSOR } from '../../../containers/SensorReadings/constants';

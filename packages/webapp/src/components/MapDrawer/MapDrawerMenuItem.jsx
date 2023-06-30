@@ -1,9 +1,9 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import { MdVisibility, MdVisibilityOff } from 'react-icons/all';
+import { makeStyles } from '@mui/styles';
+import ListItem from '@mui/material/ListItem';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import ListItemText from '@mui/material/ListItemText';
+import { MdVisibility, MdVisibilityOff } from 'react-icons/md';
 import { colors, DefaultThemeProvider } from '../../assets/theme';
 import PropTypes from 'prop-types';
 import { Main } from '../Typography';

@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { Model } from 'objection';
+import Model from './baseFormatModel.js';
 import locationModel from './locationModel.js';
 import broadcastMethodModel from './broadcastMethodModel.js';
 import containerMethodModel from './containerMethodModel.js';
@@ -41,21 +41,21 @@ class plantingManagementPlanModel extends Model {
         management_plan_id: { type: 'integer' },
         is_final_planting_management_plan: { type: 'boolean' },
         planting_task_type: {
-          type: ['string', null],
+          type: ['string', 'null'],
           enum: ['TRANSPLANT_TASK', 'PLANT_TASK', null],
         },
         planting_method: {
-          type: ['string', null],
+          type: ['string', 'null'],
           enum: ['BROADCAST_METHOD', 'CONTAINER_METHOD', 'BED_METHOD', 'ROW_METHOD', null],
         },
         is_planting_method_known: {
-          type: ['boolean', null],
+          type: ['boolean', 'null'],
         },
-        estimated_seeds: { type: ['number', null] },
+        estimated_seeds: { type: ['number', 'null'] },
         estimated_seeds_unit: { type: ['string'], enum: ['g', 'kg', 'mt', 'oz', 'lb', 't'] },
-        location_id: { type: ['string', null] },
+        location_id: { type: ['string', 'null'] },
         pin_coordinate: {
-          type: ['object', null],
+          type: ['object', 'null'],
           properties: {
             lat: { type: 'number' },
             lng: { type: 'number' },

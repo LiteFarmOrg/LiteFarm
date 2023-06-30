@@ -114,10 +114,10 @@ export default function PureHarvestLog({
     if (isEdit.isEditStepOne) {
       if (unit === 'lb') {
         return roundToTwoDecimal(
-          convertFromMetric(selectedLog.harvestLog.quantity_kg, unit, 'kg'),
+          convertFromMetric(selectedLog.harvestLog.quantity, unit, 'kg'),
         ).toString();
       }
-      return roundToTwoDecimal(selectedLog.harvestLog.quantity_kg).toString();
+      return roundToTwoDecimal(selectedLog.harvestLog.quantity).toString();
     }
     return defaultData.defaultQuantity ? defaultData.defaultQuantity : null;
   };
@@ -149,8 +149,8 @@ export default function PureHarvestLog({
         ? defaultData?.selectedUseTypes
         : selectedLog?.harvestUse?.map((harvestUse) => ({
             ...harvestUse,
-            quantity_kg: roundToTwoDecimal(
-              unit === 'lb' ? getMass(harvestUse.quantity_kg) : harvestUse.quantity_kg,
+            quantity: roundToTwoDecimal(
+              unit === 'lb' ? getMass(harvestUse.quantity) : harvestUse.quantity,
             ),
           }));
 

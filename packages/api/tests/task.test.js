@@ -151,6 +151,10 @@ describe('Task tests', () => {
     return { ...mocks.fakeUserFarm(), role_id: role };
   }
 
+  function customFieldWorkTask(task) {
+    return { ...mocks.fakeFieldWorkTask(), field_work_task_type: task };
+  }
+
   async function userFarmTaskGenerator(linkPlan = true) {
     const userFarm = { ...fakeUserFarm(1), wage: { type: '', amount: 30 } };
     const [{ user_id, farm_id }] = await mocks.userFarmFactory({}, userFarm);
@@ -1824,6 +1828,51 @@ describe('Task tests', () => {
           expect(patched_pest_control_task.control_method).toBe(
             new_pest_control_task.control_method,
           );
+          done();
+        },
+      );
+    });
+
+    test('should be able to complete a field work task with a new custom field work task type', async (done) => {
+      const userFarm = { ...fakeUserFarm(1), wage: { type: '', amount: 30 } };
+      const [{ user_id, farm_id }] = await mocks.userFarmFactory({}, userFarm);
+      const [{ task_type_id }] = await mocks.task_typeFactory({ promisedFarm: [{ farm_id }] });
+      const [{ location_id }] = await mocks.locationFactory({ promisedFarm: [{ farm_id }] });
+
+      const fakeTask = mocks.fakeTask({
+        task_type_id,
+        owner_user_id: user_id,
+        assignee_user_id: user_id,
+      });
+      const [{ task_id }] = await mocks.taskFactory(
+        {
+          promisedUser: [{ user_id }],
+          promisedTaskType: [{ task_type_id }],
+        },
+        fakeTask,
+      );
+      await mocks.location_tasksFactory({
+        promisedTask: [{ task_id }],
+        promisedField: [{ location_id }],
+      });
+      await mocks.field_work_taskFactory({ promisedTask: [{ task_id }] });
+
+      const new_field_work_task = customFieldWorkTask(faker.lorem.words(2));
+      completeTaskRequest(
+        { user_id, farm_id },
+        {
+          ...fakeCompletionData,
+          field_work_task: { task_id, ...new_field_work_task },
+        },
+        task_id,
+        'field_work_task',
+        async (err, res) => {
+          expect(res.status).toBe(200);
+          const completed_task = await knex('task').where({ task_id }).first();
+          expect(toLocal8601Extended(completed_task.complete_date)).toBe(complete_date);
+          expect(completed_task.duration).toBe(duration);
+          expect(completed_task.happiness).toBe(happiness);
+          expect(completed_task.completion_notes).toBe(notes);
           done();
         },
       );

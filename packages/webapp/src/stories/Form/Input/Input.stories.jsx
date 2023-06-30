@@ -22,6 +22,13 @@ Number.args = {
   type: 'number',
 };
 
+export const NumberWithStepper = Template.bind({});
+NumberWithStepper.args = {
+  label: 'number',
+  type: 'number',
+  stepper: true,
+};
+
 export const WithUnit = Template.bind({});
 WithUnit.args = {
   label: 'number',

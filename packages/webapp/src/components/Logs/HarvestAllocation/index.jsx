@@ -23,7 +23,7 @@ export default function PureHarvestAllocation({
       const key = type.harvest_use_type_name;
       const value =
         (defaultData.selectedUseTypes.length === 1 && defaultData.defaultQuantity) ||
-        type.quantity_kg ||
+        type.quantity ||
         '';
       defaultValues[key] = value;
     }
@@ -42,7 +42,7 @@ export default function PureHarvestAllocation({
     let tempProps = JSON.parse(JSON.stringify(defaultData));
     tempProps.selectedUseTypes.map((obj) => {
       if (obj.harvest_use_type_name in val) {
-        obj.quantity_kg = val[obj.harvest_use_type_name];
+        obj.quantity = val[obj.harvest_use_type_name];
       }
     });
 
@@ -53,7 +53,7 @@ export default function PureHarvestAllocation({
       sum < Number(tempProps.defaultQuantity) + 0.1
     ) {
       tempProps.selectedUseTypes.forEach((element) => {
-        element.quantity_kg = convertToMetric(element.quantity_kg, unit, 'kg');
+        element.quantity = convertToMetric(element.quantity, unit, 'kg');
       });
       onNext(tempProps);
     } else {
@@ -63,7 +63,7 @@ export default function PureHarvestAllocation({
   const handleChange = (typeName, quant) => {
     tempProps.selectedUseTypes.map((item) => {
       if (typeName === item.harvest_use_type_name) {
-        item.quantity_kg = quant;
+        item.quantity = quant;
       }
     });
   };
@@ -100,7 +100,7 @@ export default function PureHarvestAllocation({
         </div>
         {defaultData.selectedUseTypes.map((type, index) => {
           const typeName = t(`harvest_uses:${type.harvest_use_type_translation_key}`);
-          const quant = type.quantity_kg;
+          const quant = type.quantity;
           return (
             <div
               key={index}

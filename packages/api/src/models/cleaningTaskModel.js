@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { Model } from 'objection';
+import Model from './baseFormatModel.js';
 import taskModel from './taskModel.js';
 
 class CleaningTaskModel extends Model {
@@ -36,11 +36,11 @@ class CleaningTaskModel extends Model {
         task_id: { type: 'integer' },
         product_id: { type: 'integer' },
         other_purpose: { type: 'string' },
-        cleaning_target: { type: ['string', null] },
+        cleaning_target: { type: ['string', 'null'] },
         agent_used: { type: ['boolean'] },
         water_usage: { type: 'number' },
         water_usage_unit: { type: 'string', enum: ['ml', 'l', 'gal', 'fl-oz'] },
-        product_quantity: { type: ['number', null] },
+        product_quantity: { type: ['number', 'null'] },
         product_quantity_unit: { type: 'string', enum: ['ml', 'l', 'gal', 'fl-oz'] },
       },
       additionalProperties: false,

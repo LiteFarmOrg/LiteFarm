@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { Model } from 'objection';
+import Model from './baseFormatModel.js';
 
 class BroadcastMethodModel extends Model {
   static get tableName() {
@@ -33,9 +33,7 @@ class BroadcastMethodModel extends Model {
         percentage_planted: { type: 'number' },
         area_used: { type: 'number' },
         area_used_unit: { type: 'string', enum: ['m2', 'ha', 'ft2', 'ac'] },
-        seeding_rate: {
-          type: 'number',
-        },
+        seeding_rate: { type: 'number' },
       },
       additionalProperties: false,
     };

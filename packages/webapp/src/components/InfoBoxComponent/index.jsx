@@ -18,7 +18,7 @@ import styles from '../PageTitle/styles.module.scss';
 import { BsInfoCircleFill } from 'react-icons/bs';
 import { withTranslation } from 'react-i18next';
 import Button from '../Form/Button';
-import { Modal, Paper } from '@material-ui/core';
+import { Modal, Paper } from '@mui/material';
 import { Info, Semibold } from '../Typography';
 import { colors } from '../../assets/theme';
 

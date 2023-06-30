@@ -25,11 +25,7 @@ import biodiversity from '../../assets/images/insights/biodiversity.svg';
 import prices from '../../assets/images/insights/prices.svg';
 
 // actions
-import {
-  getLabourHappinessData,
-  getPricesWithDistanceData,
-  getSoilOMData,
-} from './actions';
+import { getLabourHappinessData, getPricesWithDistanceData, getSoilOMData } from './actions';
 // selectors
 import {
   labourHappinessSelector,
@@ -39,7 +35,7 @@ import {
 } from './selectors';
 
 import InfoBoxComponent from '../../components/InfoBoxComponent';
-import { BsChevronRight } from 'react-icons/all';
+import { BsChevronRight } from 'react-icons/bs';
 import { userFarmSelector } from '../userFarmSlice';
 import { Semibold, Text, Title } from '../../components/Typography';
 

@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { Model } from 'objection';
+import Model from './baseFormatModel.js';
 
 import baseModel from './baseModel.js';
 import farmModel from './farmModel.js';
@@ -36,12 +36,12 @@ class Document extends baseModel {
         document_id: { type: 'string' },
         farm_id: { type: 'string' },
         name: { type: 'string' },
-        thumbnail_url: { type: ['string', null] },
-        valid_until: { anyOf: [{ type: 'null' }, { type: 'date' }] },
-        notes: { type: ['string', null] },
-        no_expiration: { type: ['boolean', null] },
+        thumbnail_url: { type: ['string', 'null'] },
+        valid_until: { type: ['string', 'null'], format: 'date' },
+        notes: { type: ['string', 'null'] },
+        no_expiration: { type: ['boolean', 'null'] },
         type: {
-          type: ['string', null],
+          type: ['string', 'null'],
           enum: [
             'CLEANING_PRODUCT',
             'CROP_COMPLIANCE',

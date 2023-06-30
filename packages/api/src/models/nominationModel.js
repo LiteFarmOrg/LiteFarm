@@ -32,7 +32,7 @@ class Nomination extends baseModel {
       properties: {
         nomination_id: { type: 'integer' },
         nomination_type: { type: 'string' },
-        farm_id: { type: 'uuid' },
+        farm_id: { type: 'string', format: 'uuid' },
         ...this.baseProperties,
       },
       additionalProperties: false,

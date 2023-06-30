@@ -15,7 +15,7 @@ const Checkbox = ({
   hookFormRegister,
   errors,
   sm,
-  tooltipContent = null,
+  tooltipContent = undefined,
   ...props
 }) => {
   const name = hookFormRegister?.name ?? props?.name;

@@ -66,6 +66,7 @@ export const Abandoned = Template.bind({});
 Abandoned.args = {
   ...templateData,
   status: 'abandoned',
+  abandonDate: '2023-04-12T00:00:00.000',
 };
 
 export const ClickableCard = Template.bind({});
@@ -109,4 +110,5 @@ AbandonedSelected.args = {
   ...templateData,
   status: 'abandoned',
   selected: true,
+  abandonDate: '2023-04-12T00:00:00.000',
 };

@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { Model } from 'objection';
+import Model from './baseFormatModel.js';
 
 class WaterValve extends Model {
   static get tableName() {
@@ -34,7 +34,7 @@ class WaterValve extends Model {
           type: 'string',
           enum: ['Municipal water', 'Surface water', 'Groundwater', 'Rain water'],
         },
-        flow_rate: { type: ['number', null] },
+        flow_rate: { type: ['number', 'null'] },
         flow_rate_unit: { type: 'string', enum: ['l/min', 'l/h', 'gal/min', 'gal/h'] },
       },
       additionalProperties: false,

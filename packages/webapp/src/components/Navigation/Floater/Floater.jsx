@@ -1,4 +1,5 @@
-import { makeStyles, Tooltip } from '@material-ui/core';
+import { Tooltip } from '@mui/material';
+import { makeStyles } from '@mui/styles';
 import React from 'react';
 import { colors } from '../../../assets/theme';
 
@@ -35,19 +36,19 @@ const useStyle = makeStyles((theme) => ({
   },
 }));
 
-export function Floater({
-  body, children, open, arrow = true,
-  ...props
-}) {
+export function Floater({ body, children, open, arrow = true, ...props }) {
   const classes = useStyle();
-  return <Tooltip
-    title={body}
-    placement={'bottom-end'}
-    arrow={arrow}
-    classes={{ tooltip: classes.tooltip, arrow: classes.arrow }}
-    open={open}
-    {...props}
-  >
-    {children}
-  </Tooltip>;
+  return (
+    <Tooltip
+      disableInteractive
+      title={body}
+      placement={'bottom-end'}
+      arrow={arrow}
+      classes={{ tooltip: classes.tooltip, arrow: classes.arrow }}
+      open={open}
+      {...props}
+    >
+      {children}
+    </Tooltip>
+  );
 }

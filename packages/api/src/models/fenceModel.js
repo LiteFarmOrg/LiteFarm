@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { Model } from 'objection';
+import Model from './baseFormatModel.js';
 
 class Fence extends Model {
   static get tableName() {
@@ -30,7 +30,7 @@ class Fence extends Model {
       required: ['location_id'],
       properties: {
         location_id: { type: 'string' },
-        pressure_treated: { type: ['boolean', null] },
+        pressure_treated: { type: ['boolean', 'null'] },
       },
       additionalProperties: false,
     };

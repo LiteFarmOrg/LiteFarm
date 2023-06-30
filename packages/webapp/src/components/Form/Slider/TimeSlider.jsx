@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { Slider } from '@material-ui/core';
+import { Slider } from '@mui/material';
 import { getDuration } from './../../../util/index';
-import { withStyles } from '@material-ui/core/styles';
+import { withStyles } from '@mui/styles';
 import sliderStyles from './slider.module.scss';
 import { Label, Semibold } from '../../Typography';
 import styles from '../../Typography/typography.module.scss';

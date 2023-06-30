@@ -17,7 +17,7 @@ import React from 'react';
 import NavBar from './containers/Navigation';
 import history from './history';
 import Routes from './Routes.jsx';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@mui/styles';
 import clsx from 'clsx';
 import { SnackbarProvider } from 'notistack';
 import { NotistackSnackbar } from './containers/Snackbar/NotistackSnackbar';

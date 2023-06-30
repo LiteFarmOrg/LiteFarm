@@ -1,4 +1,4 @@
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@mui/styles';
 import { useDispatch } from 'react-redux';
 import { useRef } from 'react';
 import { mergeRefs } from '../../components/Form/utils';

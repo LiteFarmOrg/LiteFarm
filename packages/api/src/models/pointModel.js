@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { Model } from 'objection';
+import Model from './baseFormatModel.js';
 
 class Point extends Model {
   static get tableName() {
@@ -33,7 +33,6 @@ class Point extends Model {
         figure_id: { type: 'string' },
         point: {
           type: 'object',
-          required: true,
           properties: {
             lat: { type: 'number' },
             lng: { type: 'number' },

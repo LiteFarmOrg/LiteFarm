@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
+set -eu
 
 echo "Building backend docker image..."
-docker build --platform linux/amd64 -t litefarm/backend:latest -f ./packages/api/prod.Dockerfile ./packages/
+docker build --platform linux/amd64 --tag litefarm/backend:latest --file ./packages/api/prod.Dockerfile ./packages/
 
 echo "Building frontend docker image..."
-docker build -t litefarm/frontend:latest -f ./packages/webapp/prod.Dockerfile ./packages/
+docker build --platform linux/amd64 --tag litefarm/frontend:latest --file ./packages/webapp/prod.Dockerfile ./packages/

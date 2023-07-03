@@ -156,6 +156,25 @@ Password.args = {
   type: 'password',
 };
 
+Password.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+
+  const passwordField = canvas.getByTestId('input');
+  userEvent.type(passwordField, 'secret-password');
+
+  expect(passwordField).toHaveAttribute('type', 'password');
+
+  const showPasswordIcon = canvas.getByLabelText('show-password');
+  await userEvent.click(showPasswordIcon);
+
+  expect(passwordField).toHaveAttribute('type', 'text');
+
+  const hidePasswordIcon = canvas.getByLabelText('hide-password');
+  await userEvent.click(hidePasswordIcon);
+
+  expect(passwordField).toHaveAttribute('type', 'password');
+};
+
 export const PasswordWithLink = Template.bind({});
 PasswordWithLink.args = {
   label: 'Password',

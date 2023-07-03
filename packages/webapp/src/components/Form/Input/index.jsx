@@ -142,9 +142,17 @@ const Input = ({
       {isPassword &&
         !showError &&
         (showPassword ? (
-          <MdVisibility className={styles.visibilityIcon} onClick={setVisibility} />
+          <MdVisibility
+            aria-label="hide-password"
+            className={styles.visibilityIcon}
+            onClick={setVisibility}
+          />
         ) : (
-          <MdVisibilityOff className={styles.visibilityIcon} onClick={setVisibility} />
+          <MdVisibilityOff
+            aria-label="show-password"
+            className={styles.visibilityIcon}
+            onClick={setVisibility}
+          />
         ))}
       {unit && <div className={styles.unit}>{unit}</div>}
       {currency && (

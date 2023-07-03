@@ -2,6 +2,8 @@ import React from 'react';
 import Input from '../../../components/Form/Input';
 import { Underlined } from '../../../components/Typography';
 import { componentDecorators } from '../../Pages/config/Decorators';
+import { userEvent, within } from '@storybook/testing-library';
+import { expect } from '@storybook/jest';
 
 export default {
   title: 'Components/Input',
@@ -27,6 +29,56 @@ NumberWithStepper.args = {
   label: 'number',
   type: 'number',
   stepper: true,
+};
+
+NumberWithStepper.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+
+  const numberInput = canvas.getByTestId('input');
+
+  const stepperUp = canvas.getByLabelText('increase');
+  await userEvent.click(stepperUp);
+
+  expect(numberInput).toHaveValue(1);
+
+  const stepperDown = canvas.getByLabelText('decrease');
+  await userEvent.click(stepperDown);
+  await userEvent.click(stepperDown);
+
+  expect(numberInput).toHaveValue(-1);
+};
+
+export const NumberStepperMaxMin = Template.bind({});
+NumberStepperMaxMin.args = {
+  label: 'number',
+  type: 'number',
+  stepper: true,
+  max: 9,
+  min: 1,
+};
+
+NumberStepperMaxMin.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+
+  const numberInput = canvas.getByTestId('input');
+
+  await userEvent.type(numberInput, '8');
+  expect(numberInput).toHaveValue(8);
+
+  const stepperUp = canvas.getByLabelText('increase');
+  await userEvent.click(stepperUp);
+  await userEvent.click(stepperUp);
+
+  expect(numberInput).toHaveValue(9);
+
+  await userEvent.type(numberInput, '{backspace}');
+  expect(numberInput).toHaveValue(null);
+
+  const stepperDown = canvas.getByLabelText('decrease');
+  await userEvent.click(stepperDown);
+  await userEvent.click(stepperDown);
+
+  expect(numberInput).toHaveValue(1);
 };
 
 export const WithUnit = Template.bind({});

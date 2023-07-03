@@ -51,6 +51,8 @@ const Input = ({
   const name = hookFormRegister?.name ?? props?.name;
   const currencyRef = useRef(null);
 
+  const testId = props['data-testid'] || 'input';
+
   const [inputType, setType] = useState(type);
   const isPassword = type === 'password';
   const showPassword = inputType === 'text';
@@ -73,22 +75,18 @@ const Input = ({
 
   const increment = () => {
     input.current.stepUp();
-
     if (max !== undefined && input.current.value > max) {
       input.current.value = max;
     }
-
     hookFormRegister?.onChange?.({ target: input.current });
     onChange?.({ target: input.current });
   };
 
   const decrement = () => {
     input.current.stepDown();
-
     if (min !== undefined && input.current.value < min) {
       input.current.value = min;
     }
-
     hookFormRegister?.onChange?.({ target: input.current });
     onChange?.({ target: input.current });
   };
@@ -156,6 +154,7 @@ const Input = ({
       )}
       <div className={styles.inputWrapper}>
         <input
+          data-testid={testId}
           disabled={disabled}
           className={clsx(
             styles.input,
@@ -200,8 +199,16 @@ const Input = ({
         />
         {stepper && type === 'number' && (
           <div className={styles.stepper}>
-            <MdKeyboardArrowUp className={styles.stepperIcons} onClick={increment} />
-            <MdKeyboardArrowDown className={styles.stepperIcons} onClick={decrement} />
+            <MdKeyboardArrowUp
+              aria-label="increase"
+              className={styles.stepperIcons}
+              onClick={increment}
+            />
+            <MdKeyboardArrowDown
+              aria-label="decrease"
+              className={styles.stepperIcons}
+              onClick={decrement}
+            />
           </div>
         )}
       </div>

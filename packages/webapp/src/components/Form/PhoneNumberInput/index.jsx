@@ -12,7 +12,7 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
-import React, { useRef, useState, useCallback, useEffect } from 'react';
+import React, { useRef, useState, useCallback, useEffect, forwardRef } from 'react';
 import PropTypes from 'prop-types';
 import PhoneInput from 'react-phone-number-input';
 import 'react-phone-number-input/style.css';
@@ -22,8 +22,7 @@ import styles from './styles.module.scss';
 
 const CONTROL_CLASSNAME = 'phone-number-select-control';
 
-const PhoneNumberInput = ({ defaultCountry, options }) => {
-  const [phone, setPhone] = useState(null);
+const PhoneNumberInput = ({ defaultCountry, options, phone, setPhone }) => {
   const [country, setCountry] = useState({ value: defaultCountry, label: defaultCountry });
   const [wrapperWidth, setWrapperWidth] = useState(null);
 
@@ -58,8 +57,18 @@ const PhoneNumberInput = ({ defaultCountry, options }) => {
     setPhone(phone);
     // delay setting the color so that the change is reflected
     setTimeout(() => {
+      inputRef.current.focus();
       setReactSelectBorderColor(colors.teal500);
     }, 0);
+  };
+
+  // This is called when selected country is changed or country calling code in the phone number input is updated.
+  // Let the library auto-select a country and pass the appropriate "selected option" to react-select.
+  const onCountryChange = (countryCode) => {
+    const newCountry = countryCode
+      ? options.find(({ value }) => value === countryCode)
+      : { value: undefined, label: undefined };
+    setCountry(newCountry);
   };
 
   // work around of setting state when onFocus since it affects react-select's behaviour
@@ -70,6 +79,9 @@ const PhoneNumberInput = ({ defaultCountry, options }) => {
     <div ref={wrapperRef} className={styles.wrapper}>
       <PhoneInput
         ref={inputRef}
+        inputComponent={forwardRef(function (props, ref) {
+          return <input {...props} ref={ref} />;
+        })}
         className={styles.phoneNumberInput}
         international
         defaultCountry={defaultCountry}
@@ -77,23 +89,25 @@ const PhoneNumberInput = ({ defaultCountry, options }) => {
         onChange={onPhoneNumberChange}
         onFocus={onFocus}
         onBlur={onBlur}
-        countrySelectComponent={({ iconComponent, onChange }) => (
-          <CountrySelect
-            classNames={{
-              control: () => CONTROL_CLASSNAME,
-            }}
-            country={country}
-            Icon={iconComponent}
-            options={options}
-            menuWidth={wrapperWidth}
-            onFocus={onFocus}
-            onBlur={onBlur}
-            onChange={(country) => {
-              setCountry(country || undefined);
-              onChange(country?.value || undefined);
-            }}
-          />
-        )}
+        onCountryChange={onCountryChange}
+        countrySelectComponent={({ iconComponent, onChange }) => {
+          return (
+            <CountrySelect
+              classNames={{
+                control: () => CONTROL_CLASSNAME,
+              }}
+              country={country}
+              Icon={iconComponent}
+              options={options}
+              menuWidth={wrapperWidth}
+              onFocus={onFocus}
+              onBlur={onBlur}
+              onChange={(country) => {
+                onChange(country?.value || undefined);
+              }}
+            />
+          );
+        }}
       />
     </div>
   );
@@ -103,6 +117,8 @@ PhoneNumberInput.propTypes = {
   defaultCountry: PropTypes.string,
   options: PropTypes.arrayOf(PropTypes.shape({ value: PropTypes.string, label: PropTypes.string }))
     .isRequired,
+  phone: PropTypes.string,
+  setPhone: PropTypes.func,
 };
 
 export default PhoneNumberInput;

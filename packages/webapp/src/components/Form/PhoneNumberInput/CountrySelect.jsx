@@ -71,6 +71,17 @@ const CountrySelect = ({
   onFocus,
   onBlur,
 }) => {
+  const getFormattedCountryCallingCode = (value) => {
+    // getCountryCallingCode function does not support some country codes like "PN"
+    // https://github.com/google/libphonenumber/blob/master/FAQ.md#why-are-bouvet-island-bv-pitcairn-island-pn-antarctica-aq-etc-not-supported
+    try {
+      if (!value) {
+        return;
+      }
+      return `+${getCountryCallingCode(value)}`;
+    } catch (e) {}
+  };
+
   return (
     <Suspense fallback={<div className={styles.emptyDiv} />}>
       <ReactSelect
@@ -87,11 +98,11 @@ const CountrySelect = ({
               <div className={styles.option}>
                 <Icon country={value} label={value} />
                 <span className={styles.countryName}>{label}</span>
-                <span className={clsx(styles.code)}>+{value && getCountryCallingCode(value)}</span>
+                <span className={clsx(styles.code)}>{getFormattedCountryCallingCode(value)}</span>
               </div>
             );
           }
-          return <Icon country={value} label={value} />;
+          return <Icon country={value} label={value || 'international'} />;
         }}
       />
     </Suspense>

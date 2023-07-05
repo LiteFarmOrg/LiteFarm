@@ -16,6 +16,8 @@
 import React from 'react';
 import DaysOfWeekSelect from '../../../components/Form/DaysOfWeekSelect';
 import { componentDecorators } from '../../Pages/config/Decorators';
+import { userEvent, within } from '@storybook/testing-library';
+import { expect } from '@storybook/jest';
 
 export default {
   title: 'Components/DaysOfWeekSelect',
@@ -28,16 +30,55 @@ const Template = (args) => <DaysOfWeekSelect {...args} />;
 export const Default = Template.bind({});
 Default.args = {};
 
+Default.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+
+  // The label is translated so this will only pass with Storybook set to English
+  const Monday = canvas.getByLabelText('M');
+
+  await userEvent.click(Monday);
+
+  expect(Monday.checked).toBe(true);
+};
+
 export const Disabled = Template.bind({});
 Disabled.args = {
   disabled: true,
   defaultValue: ['Wednesday'],
 };
 
+Disabled.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+
+  const Monday = canvas.getByLabelText('M');
+
+  await userEvent.click(Monday);
+
+  expect(Monday.checked).toBe(false);
+};
+
 export const MaxTwo = Template.bind({});
 MaxTwo.args = {
   maxSelect: 2,
   defaultValue: ['Thursday', 'Sunday'],
+};
+
+MaxTwo.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+
+  const Friday = canvas.getByLabelText('F');
+
+  await userEvent.click(Friday);
+
+  expect(Friday.checked).toBe(false);
+
+  const Thursday = canvas.getAllByLabelText('T')[1];
+
+  await userEvent.click(Thursday);
+
+  await userEvent.click(Friday);
+
+  expect(Friday.checked).toBe(true);
 };
 
 export const WithError = Template.bind({});

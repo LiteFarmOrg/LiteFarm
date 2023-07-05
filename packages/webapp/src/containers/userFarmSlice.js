@@ -259,6 +259,11 @@ export const currencySelector = createSelector(
   (userFarm) => userFarm.units.currency || 'USD',
 );
 
+export const countryIdSelector = createSelector(
+  userFarmSelector,
+  (userFarm) => userFarm.country_id,
+);
+
 const getUserFarmsByUser = (byFarmIdUserId, user_id) => {
   let userFarms = [];
   for (let by_user of Object.values(byFarmIdUserId)) {

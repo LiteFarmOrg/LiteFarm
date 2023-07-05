@@ -77,7 +77,7 @@ describe('Farm Tests', () => {
         lat: 22.33,
         lng: 122.33,
       },
-      country: 'United States',
+      country: 'US',
     };
 
     test('should return 400 status if blank farm is posted', (done) => {
@@ -102,7 +102,7 @@ describe('Farm Tests', () => {
           farm_name: 'Test Farm',
           address: 'ANSOFANSOD',
           grid_points: { lat: 'sa', long: '212' },
-          country: 'Canada',
+          country: 'CA',
         },
         newUser.user_id,
         (err, res) => {

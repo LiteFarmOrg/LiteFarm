@@ -1,0 +1,28 @@
+version: "3.7"
+
+volumes:
+  postgres-data:
+    driver: local
+
+services:
+  backend:
+    container_name: ci-litefarm-api
+    deploy:
+      restart_policy:
+        condition: on-failure
+        max_attempts: 3
+    image: litefarm/backend:latest
+    platform: linux/amd64
+    ports:
+      - "5001:5001"
+    environment:
+      WAIT_HOSTS: litefarm-db:5432
+      NODE_ENV: production
+      DATABASE_URL: ${DATABASE_URL}
+
+  frontend:
+    container_name: ci-litefarm-web
+    image: litefarm/frontend:latest
+    ports:
+      - "80:80"
+      - "443:443"

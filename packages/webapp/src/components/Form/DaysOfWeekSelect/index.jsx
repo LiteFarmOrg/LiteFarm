@@ -74,6 +74,7 @@ const DaysOfWeekSelect = ({
         {daysOfWeek.map((day) => (
           <React.Fragment key={day.value}>
             <input
+              name={name}
               onChange={(e) => handleChange(e, day.value)}
               type={'checkbox'}
               disabled={disabled}

@@ -327,7 +327,10 @@
     "PERFORM_SEARCH": "¿Realizó una búsqueda de disponibilidad comercial?",
     "PHYSIOLOGY_AND_ANATOMY": "Fisiología y anatomía",
     "TREATED": "¿Se han tratado las semillas de este cultivo?",
-    "UPLOAD_LATER": "También puede cargar archivos en otro momento."
+    "UPLOAD_LATER": "También puede cargar archivos en otro momento.",
+    "REPEATED_PLANS_MODAL": {
+      "DELETED_PLANS": "MISSING"
+    }
   },
   "CROP_CATALOGUE": {
     "ADD_CROP": "Agregar un nuevo cultivo",

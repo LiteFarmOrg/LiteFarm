@@ -327,7 +327,10 @@
     "PERFORM_SEARCH": "Did you perform a commercial availability search?",
     "PHYSIOLOGY_AND_ANATOMY": "Physiology and Anatomy",
     "TREATED": "Have the seeds for this crop been treated?",
-    "UPLOAD_LATER": "You can upload files at a later time as well"
+    "UPLOAD_LATER": "You can upload files at a later time as well",
+    "REPEATED_PLANS_MODAL": {
+      "DELETED_PLANS": "Deleted crop plans that were part of this repetition won’t be shown."
+    }
   },
   "CROP_CATALOGUE": {
     "ADD_CROP": "Add a new crop",

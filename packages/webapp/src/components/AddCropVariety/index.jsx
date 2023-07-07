@@ -147,6 +147,7 @@ export default function PureAddCropVariety({
         data-cy="crop-variety"
         style={{ marginBottom: '40px', marginTop: '40px' }}
         label={t('CROP.VARIETY_COMMON_NAME')}
+        defaultValue={t('CROP.VARIETY_COMMON_NAME')}
         type="text"
         hookFormRegister={commonNameRegister}
         hasLeaf={false}

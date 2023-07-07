@@ -39,6 +39,7 @@ const Input = ({
   hasLeaf,
   placeholder,
   currency,
+  defaultValue,
   ...props
 }) => {
   const { t } = useTranslation(['translation', 'common']);
@@ -128,6 +129,7 @@ const Input = ({
       )}
       <input
         disabled={disabled}
+        defaultValue={defaultValue}
         className={clsx(
           styles.input,
           showError && styles.inputError,

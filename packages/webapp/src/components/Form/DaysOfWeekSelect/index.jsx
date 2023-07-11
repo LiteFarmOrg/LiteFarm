@@ -44,7 +44,7 @@ const DaysOfWeekSelect = ({
   const [selected, setSelected] = useState(defaultValue ? defaultValue : []);
 
   const handleChange = (e, day) => {
-    let updated = [...selected];
+    let updated;
 
     // When maxSelect is 1 (the default), always update to last selection
     if (maxSelect == 1 && e.target.checked) {

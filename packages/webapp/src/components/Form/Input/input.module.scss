@@ -74,6 +74,7 @@ input:focus::placeholder {
   top: -8px;
   color: var(--iconDefault);
 }
+
 .icon > * {
   cursor: pointer;
 }
@@ -96,8 +97,9 @@ input:focus::placeholder {
   font-size: 22px;
   color: var(--iconDefault);
   cursor: pointer;
-  z-index: 10;
+  z-index: 1;
 }
+
 .labelContainer {
   display: flex;
   justify-content: space-between;
@@ -174,4 +176,8 @@ input:focus::placeholder {
     background-color: var(--grey200);
     color: var(--grey600);
   }
+}
+
+.inputWrapper input:disabled + .stepper .stepperIcons {
+  pointer-events: none;
 }

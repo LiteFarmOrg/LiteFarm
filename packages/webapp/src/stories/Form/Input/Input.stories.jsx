@@ -81,6 +81,21 @@ NumberStepperMaxMin.play = async ({ canvasElement }) => {
   expect(numberInput).toHaveValue(1);
 };
 
+export const StepperDisabled = Template.bind({});
+StepperDisabled.args = {
+  label: 'number',
+  type: 'number',
+  stepper: true,
+  disabled: true,
+};
+
+StepperDisabled.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+
+  const stepperUp = canvas.getByLabelText('increase');
+  expect(stepperUp).toHaveStyle(`pointer-events: none`);
+};
+
 export const WithUnit = Template.bind({});
 WithUnit.args = {
   label: 'number',

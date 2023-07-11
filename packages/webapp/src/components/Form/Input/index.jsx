@@ -135,6 +135,7 @@ const Input = ({
             right: 0,
             transform: inputType === 'date' ? 'translate(-26px, 15px)' : 'translate(-17px, 15px)',
             cursor: 'pointer',
+            zIndex: 1,
           }}
         />
       )}

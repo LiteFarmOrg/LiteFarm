@@ -67,13 +67,12 @@ export const PureTaskCard = ({
     onClickCompleteOrDueDate?.();
   };
 
+  const isAssigneeInactive = assignee?.status === 'Inactive';
   let assigneeName = '';
-  let isAssigneeInactive = false;
   if (assignee !== null) {
-    isAssigneeInactive = assignee.status === 'Inactive';
-    assigneeName = `${assignee.first_name} ${
-      assignee.last_name.length > 0 ? assignee.last_name.toUpperCase().charAt(0) + '.' : ''
-    }`;
+    const lastName =
+      assignee.last_name.length > 0 ? assignee.last_name.toUpperCase().charAt(0) + '.' : '';
+    assigneeName = `${assignee.first_name} ${lastName}`;
   }
 
   return (

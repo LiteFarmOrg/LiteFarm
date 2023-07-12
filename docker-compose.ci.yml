@@ -6,18 +6,14 @@ volumes:
 
 services:
   backend:
-    container_name: ci-litefarm-api
     image: litefarm/backend:latest
     platform: linux/amd64
     ports:
       - "5001:5001"
-    environment:
-      WAIT_HOSTS: db:5432
-      NODE_ENV: production
-      DATABASE_URL: ${DATABASE_URL}
+    env_file:
+      - .env
 
   frontend:
-    container_name: ci-litefarm-web
     image: litefarm/frontend:latest
     ports:
       - "80:80"

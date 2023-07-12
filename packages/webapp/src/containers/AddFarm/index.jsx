@@ -131,7 +131,7 @@ const AddFarm = () => {
             results.find((place) =>
               place?.address_components?.find((component) => {
                 if (component?.types?.includes?.('country')) {
-                  country = component.long_name;
+                  country = component.short_name;
                   return true;
                 }
                 return false;
@@ -192,7 +192,7 @@ const AddFarm = () => {
     if (place?.geometry?.location) {
       const countryLookup = place.address_components.find((component) =>
         component.types.includes('country'),
-      )?.long_name;
+      )?.short_name;
 
       setValue(
         GRID_POINTS,

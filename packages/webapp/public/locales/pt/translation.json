@@ -409,6 +409,15 @@
     "REVENUE_HELP_TITLE": "Ajuda",
     "REVENUE_HELP_BODY": "Somente os planos que possuem uma tarefa de colheita planejada ou concluída dentro do intervalo de datas indicado serão mostrados."
   },
+  "DAYS_OF_WEEK_SELECT": {
+    "SUNDAY": "MISSING",
+    "MONDAY": "MISSING",
+    "TUESDAY": "MISSING",
+    "WEDNESDAY": "MISSING",
+    "THURSDAY": "MISSING",
+    "FRIDAY": "MISSING",
+    "SATURDAY": "MISSING"
+  },
   "DOCUMENTS": {
     "ADD": {
       "ADD_MORE_PAGES": "Adicionar mais páginas",

@@ -247,7 +247,7 @@ const farmController = {
   async getCountry(country) {
     const { iso, unit, id } = await knex('countries')
       .select('*')
-      .where('country_name', country)
+      .where('country_code', country)
       .first();
     return { currency: iso, measurement: unit.toLowerCase(), id };
   },

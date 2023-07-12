@@ -1,5 +1,5 @@
 /*
- *  Copyright 2019, 2020, 2021, 2022 LiteFarm.org
+ *  Copyright 2019, 2020, 2021, 2022, 2023 LiteFarm.org
  *  This file is part of LiteFarm.
  *
  *  LiteFarm is free software: you can redistribute it and/or modify
@@ -47,7 +47,7 @@ function TaskReadOnly({ history, match, location }) {
   const system = useSelector(measurementSelector);
   const task = useReadonlyTask(task_id);
   const products = useSelector(productsSelector);
-  const users = useSelector(userFarmsByFarmSelector).filter((user) => user.status !== 'Inactive');
+  const users = useSelector(userFarmsByFarmSelector);
   const user = useSelector(userFarmSelector);
   const isAdmin = useSelector(isAdminSelector);
   const harvestUseTypes = useSelector(harvestUseTypesSelector);

@@ -77,7 +77,7 @@ export default function PureManagementPlanName({
       />
 
       <Input
-        style={{ marginBottom: '40px' }}
+        style={{ marginBottom: '24px' }}
         label={t('MANAGEMENT_PLAN.PLAN_NAME')}
         hookFormRegister={register(NAME, { required: true })}
         errors={getInputErrors(errors, NAME)}
@@ -94,7 +94,7 @@ export default function PureManagementPlanName({
       />
 
       <InputAutoSize
-        style={{ marginTop: '16px', marginBottom: '40px' }}
+        style={{ marginBottom: '40px' }}
         label={t('MANAGEMENT_PLAN.PLAN_NOTES')}
         hookFormRegister={register(NOTES, {
           maxLength: { value: 10000, message: t('MANAGEMENT_PLAN.NOTES_CHAR_LIMIT') },

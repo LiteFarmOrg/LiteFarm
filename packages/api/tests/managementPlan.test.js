@@ -998,7 +998,6 @@ describe('ManagementPlan Tests', () => {
       const request_body = getBody('broadcast_method');
       request_body.assignee_user_id = owner.user_id;
       postManagementPlanRequest(request_body, userFarm, async (err, res) => {
-        console.log(err);
         await expectPlantingMethodPosted(res, 'broadcast_method');
         const { planting_management_plan_id } = await knex('planting_management_plan')
           .where({

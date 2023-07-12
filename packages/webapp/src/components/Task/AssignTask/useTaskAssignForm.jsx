@@ -52,7 +52,7 @@ const isYesOptionSelected = (option) => {
  * @property {number} userFarmWage - user's current wage for the farm
  * @property {boolean} showHourlyWageInputs - whether to show HourlyWageInputs component or not
  * @property {boolean} shouldSetWage - whether user needs to set wage or not
- *
+ * @property {boolean} isValid - true if form doesn't have errors 
  * @param {Object} props - hook properties
  * @param {User} props.user - logged in user
  * @param {User[]} props.users - users for the farm
@@ -61,7 +61,8 @@ const isYesOptionSelected = (option) => {
  *     in addition to assignee, hourly wage action and hourly wage. ex. { [ASSIGN_ALL]: false }
  * @param {number} [props.wage_at_moment] - wage for the task
  * @param {boolean} [props.disableUnAssignedOption] - whether to disable the unassigned option
- *
+ * @param {string} props.mode - validation strategy before submitting behaviour
+ * @param {boolean} props.shouldUnregister - enable and disable input unregister after unmount
  * @returns {ReturnedObject}
  *
  */

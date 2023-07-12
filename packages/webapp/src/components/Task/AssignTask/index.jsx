@@ -15,7 +15,7 @@
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Controller } from 'react-hook-form';
-import { Info, Label } from '../../Typography';
+import { Label } from '../../Typography';
 import ReactSelect from '../../Form/ReactSelect';
 import HourlyWageInputs from './HourlyWageInputs';
 import { ASSIGNEE } from './constants';
@@ -50,7 +50,6 @@ const AssignTask = ({
               label={t('ADD_TASK.ASSIGNEE')}
               options={assigneeOptions}
               onChange={onChange}
-              style={{ marginTop: '8px', marginBottom: '6px' }}
               isSearchable
               optional={optional}
               inputRef={ref}

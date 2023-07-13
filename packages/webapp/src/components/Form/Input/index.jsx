@@ -51,6 +51,8 @@ const Input = ({
   const name = hookFormRegister?.name ?? props?.name;
   const currencyRef = useRef(null);
 
+  const testId = props['data-testid'] || 'input';
+
   const [inputType, setType] = useState(type);
   const isPassword = type === 'password';
   const showPassword = inputType === 'text';
@@ -73,12 +75,18 @@ const Input = ({
 
   const increment = () => {
     input.current.stepUp();
+    if (max !== undefined && input.current.value > max) {
+      input.current.value = max;
+    }
     hookFormRegister?.onChange?.({ target: input.current });
     onChange?.({ target: input.current });
   };
 
   const decrement = () => {
     input.current.stepDown();
+    if (min !== undefined && input.current.value < min) {
+      input.current.value = min;
+    }
     hookFormRegister?.onChange?.({ target: input.current });
     onChange?.({ target: input.current });
   };
@@ -127,6 +135,7 @@ const Input = ({
             right: 0,
             transform: inputType === 'date' ? 'translate(-26px, 15px)' : 'translate(-17px, 15px)',
             cursor: 'pointer',
+            zIndex: 1,
           }}
         />
       )}
@@ -134,9 +143,17 @@ const Input = ({
       {isPassword &&
         !showError &&
         (showPassword ? (
-          <MdVisibility className={styles.visibilityIcon} onClick={setVisibility} />
+          <MdVisibility
+            aria-label="hide-password"
+            className={styles.visibilityIcon}
+            onClick={setVisibility}
+          />
         ) : (
-          <MdVisibilityOff className={styles.visibilityIcon} onClick={setVisibility} />
+          <MdVisibilityOff
+            aria-label="show-password"
+            className={styles.visibilityIcon}
+            onClick={setVisibility}
+          />
         ))}
       {unit && <div className={styles.unit}>{unit}</div>}
       {currency && (
@@ -146,6 +163,7 @@ const Input = ({
       )}
       <div className={styles.inputWrapper}>
         <input
+          data-testid={testId}
           disabled={disabled}
           className={clsx(
             styles.input,
@@ -190,8 +208,16 @@ const Input = ({
         />
         {stepper && type === 'number' && (
           <div className={styles.stepper}>
-            <MdKeyboardArrowUp className={styles.stepperIcons} onClick={increment} />
-            <MdKeyboardArrowDown className={styles.stepperIcons} onClick={decrement} />
+            <MdKeyboardArrowUp
+              aria-label="increase"
+              className={styles.stepperIcons}
+              onClick={increment}
+            />
+            <MdKeyboardArrowDown
+              aria-label="decrease"
+              className={styles.stepperIcons}
+              onClick={decrement}
+            />
           </div>
         )}
       </div>
@@ -225,6 +251,7 @@ Input.propTypes = {
   style: PropTypes.object,
   isSearchBar: PropTypes.bool,
   type: PropTypes.string,
+  stepper: PropTypes.boolean,
   toolTipContent: PropTypes.string,
   unit: PropTypes.string,
   currency: PropTypes.string,

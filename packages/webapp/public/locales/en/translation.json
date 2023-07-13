@@ -1132,7 +1132,9 @@
     "WHAT_WAS_PLANTING_METHOD_INFO": "Selecting the right planting method will help LiteFarm more accurately estimate the quantity of seed needed, yield, and other helpful insights.",
     "WHERE_START_LOCATION": "Where is your starting location?",
     "WHERE_TRANSPLANT_LOCATION": "Where will you transplant to?",
-    "WILD_CROP": "Are you harvesting a wild crop?"
+    "WILD_CROP": "Are you harvesting a wild crop?",
+    "CROP_PLAN_REPEAT": "This crop plan repeats",
+    "CROP_PLAN_REPEAT_SUBTEXT": "Clicking 'Save' will immediately save this crop plan. You'll then be prompted to describe how it repeats."
   },
   "LOCATION_CREATION": {
     "TITLE": "No locations found!",

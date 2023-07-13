@@ -12,7 +12,7 @@ COPY ./shared/ /usr/src/shared/
 
 RUN pnpm run build
 
-FROM nginx:1.25.1
+FROM nginx:1.15
 
 COPY --from=build /usr/src/app/dist /var/www/litefarm
 

@@ -11,7 +11,7 @@ const parseISOStringToLocalDate = (dateString) => {
   }
   // this string does not have a specified offset, so we should treat it as if it is in local time
   // note: by default, new Date(string) and Date.parse(String) WILL parse in UTC
-  const split = dateString.replace(/[zZ]$/, '').split(/\D/);
+  const split = dateString.split(/\D/);
   return new Date(split[0], split[1] - 1, ...split.slice(2));
 };
 

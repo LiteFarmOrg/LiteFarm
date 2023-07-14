@@ -52,8 +52,13 @@ export default ({ params = null, body = null, mixed = null }) => async (req, res
     return next();
   }
 
-  const { farm_id } = req.headers;
   try {
+    const { farm_id } = req.headers;
+
+    if (farm_id === undefined) {
+      return noFarmIdErrorResponse(res);
+    }
+
     const farmIdObjectFromEntity = await entitiesGetters[id_name](id, next);
     // Is getting a seeded table and accessing community data. Go through.
     if (
@@ -253,6 +258,10 @@ function sameFarm(object, farm) {
 
 function notAuthorizedResponse(res) {
   res.status(403).send('user not authorized to access farm');
+}
+
+function noFarmIdErrorResponse(res) {
+  res.status(400).json({ error: 'no farm_id given' });
 }
 
 async function fromTaskManagementPlanAndLocation(req) {

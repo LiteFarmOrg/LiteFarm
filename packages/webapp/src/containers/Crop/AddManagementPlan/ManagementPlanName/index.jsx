@@ -9,8 +9,15 @@ import { getDefaultLocationReqBody } from './getManagementPlanReqBody';
 export default function ManagementPlanName({ history, match }) {
   const dispatch = useDispatch();
   const onSubmit = (data) => {
+    //console.log(data); return ;
     const { management_plan, farm } = formatManagementPlanFormData(data);
-    dispatch(postManagementPlan({ ...management_plan, crop_variety_id: match.params.variety_id }));
+    dispatch(
+      postManagementPlan({
+        ...management_plan,
+        crop_variety_id: match.params.variety_id,
+        repeat_crop_plan: data.repeat_crop_plan || false,
+      }),
+    );
     farm && dispatch(patchFarmDefaultInitialLocation(farm));
   };
   const onError = () => {};

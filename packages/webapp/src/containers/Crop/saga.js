@@ -54,7 +54,8 @@ export function* getExpiredManagementPlansSaga() {
 
 export const postManagementPlan = createAction(`postManagementPlanSaga`);
 
-export function* postManagementPlanSaga({ payload: managementPlan }) {
+export function* postManagementPlanSaga({ payload: managementPlanData }) {
+  const { repeat_crop_plan, ...managementPlan } = managementPlanData;
   const { managementPlanURL } = apiConfig;
   let { user_id, farm_id } = yield select(loginSelector);
   const header = getHeader(user_id, farm_id);
@@ -65,8 +66,11 @@ export function* postManagementPlanSaga({ payload: managementPlan }) {
     });
     yield call(getTasksSuccessSaga, { payload: result.data.tasks });
     const management_plan_id = result.data.management_plan.management_plan_id;
+
+    // conditionally render pathname
+    const path = repeat_crop_plan ? 'repeat' : 'tasks';
     yield call(onReqSuccessSaga, {
-      pathname: `/crop/${managementPlan.crop_variety_id}/management_plan/${management_plan_id}/repeat`,
+      pathname: `/crop/${managementPlan.crop_variety_id}/management_plan/${management_plan_id}/${path}`,
       state: { fromCreation: true },
       message: i18n.t('message:MANAGEMENT_PLAN.SUCCESS.POST'),
     });

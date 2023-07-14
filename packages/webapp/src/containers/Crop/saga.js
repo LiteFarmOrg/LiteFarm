@@ -66,7 +66,7 @@ export function* postManagementPlanSaga({ payload: managementPlan }) {
     yield call(getTasksSuccessSaga, { payload: result.data.tasks });
     const management_plan_id = result.data.management_plan.management_plan_id;
     yield call(onReqSuccessSaga, {
-      pathname: `/crop/${managementPlan.crop_variety_id}/management_plan/${management_plan_id}/tasks`,
+      pathname: `/crop/${managementPlan.crop_variety_id}/management_plan/${management_plan_id}/repeat`,
       state: { fromCreation: true },
       message: i18n.t('message:MANAGEMENT_PLAN.SUCCESS.POST'),
     });

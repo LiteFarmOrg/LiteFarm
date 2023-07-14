@@ -410,6 +410,15 @@
     "REVENUE_HELP_TITLE": "Date Range Help",
     "REVENUE_HELP_BODY": "Only plans that have a planned or completed harvest task within the indicated date range will be shown."
   },
+  "DAYS_OF_WEEK_SELECT": {
+    "SUNDAY": "S",
+    "MONDAY": "M",
+    "TUESDAY": "T",
+    "WEDNESDAY": "W",
+    "THURSDAY": "T",
+    "FRIDAY": "F",
+    "SATURDAY": "S"
+  },
   "DOCUMENTS": {
     "ADD": {
       "ADD_MORE_PAGES": "Add more pages",

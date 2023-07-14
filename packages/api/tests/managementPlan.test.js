@@ -928,11 +928,8 @@ describe('ManagementPlan Tests', () => {
     async function expectPlantingMethodPosted(res, final_planting_method, initial_planting_method) {
       expect(res.status).toBe(201);
       const { management_plan_id } = res.body.management_plan;
-      const {
-        already_in_ground,
-        for_cover,
-        needs_transplant,
-      } = res.body.management_plan.crop_management_plan;
+      const { already_in_ground, for_cover, needs_transplant } =
+        res.body.management_plan.crop_management_plan;
       if (!already_in_ground) {
         const { planting_management_plan_id } = await knex('planting_management_plan')
           .where({
@@ -1020,7 +1017,8 @@ describe('ManagementPlan Tests', () => {
         .where('location.location_id', field.location_id)
         .first();
       broadcastData.crop_management_plan.planting_management_plans[0].broadcast_method.percentage_planted = 100;
-      broadcastData.crop_management_plan.planting_management_plans[0].broadcast_method.area_used = total_area;
+      broadcastData.crop_management_plan.planting_management_plans[0].broadcast_method.area_used =
+        total_area;
       postManagementPlanRequest(broadcastData, userFarm, async (err, res) => {
         await expectPlantingMethodPosted(res, 'broadcast_method');
         done();

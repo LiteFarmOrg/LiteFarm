@@ -32,15 +32,19 @@ const managementPlanController = {
         const result = await ManagementPlanModel.transaction(async (trx) => {
           const management_plan = await ManagementPlanModel.query(trx)
             .context({ user_id: req.auth.user_id })
-            .upsertGraph({
-              crop_management_plan: req.body.crop_management_plan, 
-              crop_variety_id: req.body.crop_variety_id,
-              name: req.body.name, notes: req.body.notes
-            }, {
-              noUpdate: true,
-              noDelete: true,
-              noInsert: ['location', 'crop_variety'],
-            });
+            .upsertGraph(
+              {
+                crop_management_plan: req.body.crop_management_plan,
+                crop_variety_id: req.body.crop_variety_id,
+                name: req.body.name,
+                notes: req.body.notes,
+              },
+              {
+                noUpdate: true,
+                noDelete: true,
+                noInsert: ['location', 'crop_variety'],
+              },
+            );
 
           const tasks = [];
           const getTask = (due_date, task_type_id, task = {}) => {
@@ -55,12 +59,11 @@ const managementPlanController = {
           if (!req.body.crop_management_plan.already_in_ground) {
             const due_date =
               req.body.crop_management_plan.plant_date || req.body.crop_management_plan.seed_date;
-            const {
-              planting_management_plan_id,
-            } = management_plan.crop_management_plan.planting_management_plans.find(
-              (planting_management_plan) =>
-                planting_management_plan.planting_task_type === 'PLANT_TASK',
-            );
+            const { planting_management_plan_id } =
+              management_plan.crop_management_plan.planting_management_plans.find(
+                (planting_management_plan) =>
+                  planting_management_plan.planting_task_type === 'PLANT_TASK',
+              );
 
             const plantTaskType = await TaskTypeModel.query(trx)
               .where({
@@ -80,18 +83,16 @@ const managementPlanController = {
 
           if (req.body.crop_management_plan.needs_transplant) {
             const due_date = req.body.crop_management_plan.transplant_date;
-            const {
-              planting_management_plan_id,
-            } = management_plan.crop_management_plan.planting_management_plans.find(
-              (planting_management_plan) =>
-                planting_management_plan.planting_task_type === 'TRANSPLANT_TASK',
-            );
-            const {
-              planting_management_plan_id: prev_planting_management_plan_id,
-            } = management_plan.crop_management_plan.planting_management_plans.find(
-              (planting_management_plan) =>
-                planting_management_plan.is_final_planting_management_plan === false,
-            );
+            const { planting_management_plan_id } =
+              management_plan.crop_management_plan.planting_management_plans.find(
+                (planting_management_plan) =>
+                  planting_management_plan.planting_task_type === 'TRANSPLANT_TASK',
+              );
+            const { planting_management_plan_id: prev_planting_management_plan_id } =
+              management_plan.crop_management_plan.planting_management_plans.find(
+                (planting_management_plan) =>
+                  planting_management_plan.is_final_planting_management_plan === false,
+              );
             //TODO: move get task_type_id to frontend LF-1965
             const transplantTaskType = await TaskTypeModel.query(trx)
               .where({

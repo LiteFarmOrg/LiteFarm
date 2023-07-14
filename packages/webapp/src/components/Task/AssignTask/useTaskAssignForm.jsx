@@ -52,7 +52,7 @@ const isYesOptionSelected = (option) => {
  * @property {number} userFarmWage - user's current wage for the farm
  * @property {boolean} showHourlyWageInputs - whether to show HourlyWageInputs component or not
  * @property {boolean} shouldSetWage - whether user needs to set wage or not
- * @property {boolean} isValid - true if form doesn't have errors 
+ * @property {boolean} isValid - true if form doesn't have errors
  * @param {Object} props - hook properties
  * @param {User} props.user - logged in user
  * @param {User[]} props.users - users for the farm

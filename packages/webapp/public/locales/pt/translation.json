@@ -1143,7 +1143,8 @@
     "WHAT_WAS_PLANTING_METHOD_INFO": "Selecionando corretamente o método de plantio vai ajudar o LiteFarm a estimar com mais precisão a quantidade de sementes necessárias, a produção e outros conhecimentos úteis.",
     "WHERE_START_LOCATION": "Onde é o seu local de partida?",
     "WHERE_TRANSPLANT_LOCATION": "Onde você fará o transplante?",
-    "WILD_CROP": "Você está colhendo uma planta silvestre?"
+    "WILD_CROP": "Você está colhendo uma planta silvestre?",
+    "ASSIGN_ALL_TASKS": "MISSING"
   },
   "LOCATION_CREATION": {
     "TITLE": "Nenhuma área encontrada",

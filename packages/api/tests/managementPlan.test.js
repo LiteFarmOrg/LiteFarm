@@ -921,17 +921,15 @@ describe('ManagementPlan Tests', () => {
             [],
           ),
         },
+        assignee_user_id: undefined,
       };
     }
 
     async function expectPlantingMethodPosted(res, final_planting_method, initial_planting_method) {
       expect(res.status).toBe(201);
       const { management_plan_id } = res.body.management_plan;
-      const {
-        already_in_ground,
-        for_cover,
-        needs_transplant,
-      } = res.body.management_plan.crop_management_plan;
+      const { already_in_ground, for_cover, needs_transplant } =
+        res.body.management_plan.crop_management_plan;
       if (!already_in_ground) {
         const { planting_management_plan_id } = await knex('planting_management_plan')
           .where({
@@ -993,6 +991,24 @@ describe('ManagementPlan Tests', () => {
       });
     });
 
+    test('should create a broadcast management plan with required data and assigned to an assignee', async (done) => {
+      const request_body = getBody('broadcast_method');
+      request_body.assignee_user_id = owner.user_id;
+      postManagementPlanRequest(request_body, userFarm, async (err, res) => {
+        await expectPlantingMethodPosted(res, 'broadcast_method');
+        const { planting_management_plan_id } = await knex('planting_management_plan')
+          .where({
+            management_plan_id: res.body.management_plan.management_plan_id,
+            planting_task_type: 'PLANT_TASK',
+          })
+          .first();
+        const plant_task = await knex('plant_task').where({ planting_management_plan_id }).first();
+        const task = await knex('task').where({ task_id: plant_task.task_id }).first();
+        expect(task.assignee_user_id).toBe(owner.user_id);
+        done();
+      });
+    });
+
     test('should create a broadcast management plan with 100% planted', async (done) => {
       const broadcastData = getBody('broadcast_method');
       const { total_area } = await knex('location')
@@ -1001,7 +1017,8 @@ describe('ManagementPlan Tests', () => {
         .where('location.location_id', field.location_id)
         .first();
       broadcastData.crop_management_plan.planting_management_plans[0].broadcast_method.percentage_planted = 100;
-      broadcastData.crop_management_plan.planting_management_plans[0].broadcast_method.area_used = total_area;
+      broadcastData.crop_management_plan.planting_management_plans[0].broadcast_method.area_used =
+        total_area;
       postManagementPlanRequest(broadcastData, userFarm, async (err, res) => {
         await expectPlantingMethodPosted(res, 'broadcast_method');
         done();

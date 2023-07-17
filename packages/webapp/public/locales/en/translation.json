@@ -1141,7 +1141,8 @@
     "WHAT_WAS_PLANTING_METHOD_INFO": "Selecting the right planting method will help LiteFarm more accurately estimate the quantity of seed needed, yield, and other helpful insights.",
     "WHERE_START_LOCATION": "Where is your starting location?",
     "WHERE_TRANSPLANT_LOCATION": "Where will you transplant to?",
-    "WILD_CROP": "Are you harvesting a wild crop?"
+    "WILD_CROP": "Are you harvesting a wild crop?",
+    "ASSIGN_ALL_TASKS": "All tasks generated as part of this crop plan will be assigned to this individual. You can modify this assignment later"
   },
   "LOCATION_CREATION": {
     "TITLE": "No locations found!",

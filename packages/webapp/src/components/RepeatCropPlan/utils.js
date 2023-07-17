@@ -75,7 +75,7 @@ export const calculateMonthlyOptions = async (planStartDate, repeatFrequency) =>
   const dt = parseISOStringToLocalDate(planStartDate);
   const weekday = RRULEDAYS[dt.toLocaleString('en', { weekday: 'long' })];
   const date = dt.getDate();
-  const occurrence = calculateWeekdayOrdinal(dt);
+  const ordinal = calculateWeekdayOrdinal(dt);
 
   const dateRule = new RRule({
     freq: RRule.MONTHLY,
@@ -90,7 +90,7 @@ export const calculateMonthlyOptions = async (planStartDate, repeatFrequency) =>
     freq: RRule.MONTHLY,
     dtstart: dt,
     bymonthday: [],
-    byweekday: [RRule[weekday].nth(occurrence)],
+    byweekday: [RRule[weekday].nth(ordinal)],
     interval: Number(repeatFrequency),
   });
 
@@ -102,7 +102,7 @@ export const calculateMonthlyOptions = async (planStartDate, repeatFrequency) =>
       label: dateString,
     },
     {
-      value: { occurrence, weekday },
+      value: { ordinal, weekday },
       label: dayWeekString,
     },
   ];
@@ -159,7 +159,7 @@ export const countOccurrences = ({
     // See stackoverflow.com/questions/35757778/rrule-for-repeating-monthly-on-the-31st-or-closest-day/35765662#35765662
     if (date > 28) {
       for (let i = 28; i <= date; i++) {
-        dayArray.push(i); // e.g. [28, 29, 31]
+        dayArray.push(i); // e.g. [28, 29, 30]
       }
     } else {
       dayArray.push(date);

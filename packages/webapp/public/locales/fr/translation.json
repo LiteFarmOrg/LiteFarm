@@ -1143,7 +1143,8 @@
     "WHAT_WAS_PLANTING_METHOD_INFO": "Sélectionner la bonne méthode de plantation aidera LiteFarm à estimer plus précisément la quantité de graines nécessaires, le rendement et d'autres informations utiles.",
     "WHERE_START_LOCATION": "Où est votre position de départ\u00a0?",
     "WHERE_TRANSPLANT_LOCATION": "Où allez-vous transplanter\u00a0?",
-    "WILD_CROP": "Récoltez-vous une culture sauvage\u00a0?"
+    "WILD_CROP": "Récoltez-vous une culture sauvage\u00a0?",
+    "ASSIGN_ALL_TASKS": "MISSING"
   },
   "LOCATION_CREATION": {
     "TITLE": "Aucun emplacement trouvé\u00a0!",

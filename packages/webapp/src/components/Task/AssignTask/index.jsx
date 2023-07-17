@@ -34,6 +34,7 @@ const AssignTask = ({
   showHourlyWageInputs,
   shouldSetWage,
   currency,
+  toolTipContent,
 }) => {
   const { t } = useTranslation(['translation']);
 
@@ -49,11 +50,11 @@ const AssignTask = ({
               label={t('ADD_TASK.ASSIGNEE')}
               options={assigneeOptions}
               onChange={onChange}
-              style={{ marginTop: '8px', marginBottom: '6px' }}
               isSearchable
               optional={optional}
               inputRef={ref}
               value={value}
+              toolTipContent={toolTipContent}
             />
           )}
         />

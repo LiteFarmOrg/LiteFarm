@@ -26,6 +26,7 @@ type Style = { [prop: string]: string };
 
 type getStylesProps = {
   arrowOffset: number;
+  offset: string;
   popoverStyles: Style;
   maskStyles: Style;
   showMaskArea?: boolean;
@@ -34,6 +35,7 @@ type getStylesProps = {
 const getStyles = ({
   showMaskArea,
   arrowOffset = 0,
+  offset = '',
   popoverStyles,
   maskStyles,
 }: getStylesProps): TourProps['styles'] => ({
@@ -83,6 +85,7 @@ const getStyles = ({
       [`--rtp-arrow-border-${isVertical ? 'left' : 'top'}`]: `${width / 2}px solid transparent`,
       [`--rtp-arrow-border-${isVertical ? 'right' : 'bottom'}`]: `${width / 2}px solid transparent`,
       [`--rtp-arrow-border-${position}`]: `${height}px solid ${colors.grey100}`,
+      top: offset
     };
   },
 });
@@ -115,12 +118,13 @@ export function TourProviderWrapper({
 }: TourProviderWrapperProps) {
   if (!open) return children;
   const processedSteps = useMemo(() => {
-    return steps.map(({ arrowOffset, popoverStyles, maskStyles, ...step }) => {
+    return steps.map(({ arrowOffset,offset, popoverStyles, maskStyles, ...step }) => {
       return {
         ...step,
         styles: getStyles({
           showMaskArea: !!step.selector,
           arrowOffset,
+          offset,
           popoverStyles,
           maskStyles,
         }),

@@ -2,6 +2,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import PureCropManagement from '../../../components/Crop/Management';
 import { cropVarietySelector } from '../../cropVarietySlice';
 import CropVarietySpotlight from '../CropVarietySpotlight';
+import RepeatedCropPlanSpotlight from '../RepeatedCropPlanSpotlight';
 import {
   setFormData,
   setPersistedPaths,
@@ -113,6 +114,7 @@ function CropManagement({ history, match, location }) {
   const isAdmin = useSelector(isAdminSelector);
   return (
     <CropVarietySpotlight>
+      <RepeatedCropPlanSpotlight>
       <PureCropManagement
         history={history}
         variety={selectedVariety}
@@ -123,6 +125,7 @@ function CropManagement({ history, match, location }) {
         isAdmin={isAdmin}
         location={location}
       />
+      </RepeatedCropPlanSpotlight>
     </CropVarietySpotlight>
   );
 }

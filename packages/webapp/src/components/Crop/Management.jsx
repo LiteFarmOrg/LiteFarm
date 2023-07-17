@@ -104,6 +104,7 @@ export default function PureCropManagement({
                 )
               }
               {...managementPlan}
+              indexKey={index}
               key={index}
             />
           ))}

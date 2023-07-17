@@ -33,6 +33,7 @@ export function ManagementPlanCard({
   classes = { card: {} },
   onClick,
   score,
+  indexKey,
 }) {
   const { t } = useTranslation();
 
@@ -47,7 +48,7 @@ export function ManagementPlanCard({
       score={score}
     >
       <div className={styles.info}>
-        <div className={styles.mainTypographySansColor}>{managementPlanName}</div>
+        <div id={`plan${indexKey}`} className={styles.mainTypographySansColor}>{managementPlanName}</div>
         <div className={styles.subMain}>
           {locationName} {notes ? ` | ${notes}` : ''}
         </div>

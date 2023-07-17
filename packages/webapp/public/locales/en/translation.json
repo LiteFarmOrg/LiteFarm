@@ -1347,6 +1347,29 @@
     "CLEAR": "Clear",
     "CLEAR_ALL": "Clear all"
   },
+  "REPEAT_PLAN": {
+    "TITLE": "Repeat a crop plan",
+    "REPEAT_PLAN_FLOW": "crop plan repetition",
+    "SUBTITLE": "Copy this crop plan and all its tasks according to the following schedule",
+    "PLAN_NAME": "Repeating crop plan name",
+    "REPETITIONS_OF": "Repetitions of {{planName}}",
+    "DUPLICATE_NAME": "A crop plan with this name already exists. Please choose another.",
+    "START_DATE": "Beginning",
+    "REPEAT_EVERY": "Repeat every",
+    "REPEAT_ON": "Repeat on",
+    "FINISH": "Finish",
+    "AFTER": "After",
+    "REPETITIONS": "repetitions",
+    "ON": "On",
+    "INTERVAL": {
+      "DAY": "day(s)",
+      "WEEK": "week(s)",
+      "MONTH": "month(s)",
+      "YEAR": "year(s)"
+    },
+    "REPEAT_LIMIT_ERROR": "Cannot repeat this plan more than 20 times",
+    "LATER_DATE_ERROR": "Please select a date after the starting date"
+  },
   "REQUEST_CONFIRMATION_MODAL": {
     "BUTTON": "Got it",
     "DESCRIPTION": "Someone will be in touch within 48 hours.",

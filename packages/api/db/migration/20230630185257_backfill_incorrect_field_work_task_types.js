@@ -61,23 +61,35 @@ export const up = async function (knex) {
       }
       continue;
     } else {
-      // Make a new field work task type
-      const newTypeId = await knex('field_work_type').insert(
-        {
-          farm_id: task.true_farm_id,
-          field_work_name: task.field_work_name,
-          field_work_type_translation_key: task.field_work_type_translation_key,
-        },
-        ['field_work_type_id'],
-      );
+      let fieldWorkTypeId;
+      // Checks for correct id already in database through some legacy process
+      const existingTypeId = await knex
+        .select('field_work_type_id')
+        .from('field_work_type')
+        .where('farm_id', '=', task.true_farm_id)
+        .andWhere('field_work_name', '=', task.field_work_name)
+        .andWhere('field_work_type_translation_key', '=', task.field_work_type_translation_key);
+      fieldWorkTypeId = existingTypeId;
+      if (!fieldWorkTypeId[0]) {
+        // Make a new field work task type
+        const newTypeId = await knex('field_work_type').insert(
+          {
+            farm_id: task.true_farm_id,
+            field_work_name: task.field_work_name,
+            field_work_type_translation_key: task.field_work_type_translation_key,
+          },
+          ['field_work_type_id'],
+        );
+        fieldWorkTypeId = newTypeId;
+      }
       // Update field work task
       const updatedFieldWorkTaskId = await knex('field_work_task')
         .where('task_id', task.task_id)
-        .update({ field_work_type_id: newTypeId[0].field_work_type_id }, ['task_id']);
+        .update({ field_work_type_id: fieldWorkTypeId[0].field_work_type_id }, ['task_id']);
       // Save new id for later use
       newTaskTypes[task.true_farm_id] = {
         ...newTaskTypes[task.true_farm_id],
-        [task.field_work_type_id]: newTypeId[0].field_work_type_id,
+        [task.field_work_type_id]: fieldWorkTypeId[0].field_work_type_id,
       };
       if (updatedFieldWorkTaskId[0].task_id) {
         repairCount++;

@@ -14,17 +14,28 @@
  */
 
 export const up = async function (knex) {
+  await knex.schema.createTable('management_plan_group', (t) => {
+    t.uuid('management_plan_group_id').primary().defaultTo(knex.raw('uuid_generate_v4()'));
+    t.string('created_by_user_id').references('user_id').inTable('users');
+    t.string('updated_by_user_id').references('user_id').inTable('users');
+    t.dateTime('created_at').notNullable();
+    t.dateTime('updated_at').notNullable();
+    t.smallint('repetition_count').notNullable();
+    t.boolean('deleted').notNullable().defaultTo(false);
+  });
   await knex.schema.alterTable('management_plan', (t) => {
-    t.integer('group_id').nullable().defaultTo(null);
-    t.smallint('repetition_number').nullable().defaultTo(null);
-    t.smallint('repetition_count').nullable().defaultTo(null);
+    t.uuid('management_plan_group_id')
+      .references('management_plan_group_id')
+      .inTable('management_plan_group')
+      .nullable();
+    t.smallint('repetition_number').nullable();
   });
 };
 
 export const down = async function (knex) {
+  await knex.schema.dropTable('management_plan_group');
   await knex.schema.alterTable('management_plan', (t) => {
-    t.dropColumn('group_id');
+    t.dropColumn('management_plan_group_id');
     t.dropColumn('repetition_number');
-    t.dropColumn('repetition_count');
   });
 };

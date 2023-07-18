@@ -117,11 +117,13 @@ const useTaskAssignForm = ({
   const assigneeOptions = useMemo(() => {
     if (user.is_admin) {
       const options = users
-        .map(({ first_name, last_name, user_id }) => ({
+        .map(({ first_name, last_name, user_id, status }) => ({
           label: `${first_name} ${last_name}`,
           value: user_id,
+          status,
         }))
-        .sort((a, b) => (a.label > b.label ? 1 : b.label > a.label ? -1 : 0));
+        .sort((a, b) => (a.label > b.label ? 1 : b.label > a.label ? -1 : 0))
+        .filter((u) => u.status !== 'Inactive');
       unAssignedOption.isDisabled = disableUnAssignedOption;
       options.unshift(unAssignedOption);
       return options;

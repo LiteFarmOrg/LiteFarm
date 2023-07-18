@@ -57,7 +57,7 @@ class TaskModel extends BaseModel {
         completion_notes: { type: ['string', 'null'], maxLength: 10000 },
         owner_user_id: { type: 'string' },
         assignee_user_id: { type: ['string', 'null'] },
-        coordinates: { type: 'object' },
+        coordinates: { type: ['object', 'null'] },
         duration: { type: ['number', 'null'] },
         wage_at_moment: { type: ['number', 'null'] },
         happiness: { type: ['integer', 'null'], minimum: 0, maximum: 5 },

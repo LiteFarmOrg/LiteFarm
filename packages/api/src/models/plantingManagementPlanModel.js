@@ -39,7 +39,7 @@ class plantingManagementPlanModel extends Model {
       properties: {
         planting_management_plan_id: { type: 'string' },
         management_plan_id: { type: 'integer' },
-        is_final_planting_management_plan: { type: 'boolean' },
+        is_final_planting_management_plan: { type: ['boolean', 'null'] }, //UNDO: null change transplant task violates this rule somehow
         planting_task_type: {
           type: ['string', 'null'],
           enum: ['TRANSPLANT_TASK', 'PLANT_TASK', null],
@@ -61,7 +61,7 @@ class plantingManagementPlanModel extends Model {
             lng: { type: 'number' },
           },
         },
-        notes: { type: 'string' },
+        notes: { type: ['string', 'null'] },
       },
       additionalProperties: false,
     };

@@ -59,6 +59,13 @@ router.post(
   managementPlanController.addManagementPlan(),
 );
 
+router.post(
+  '/repeat_plan',
+  //TODO ADD BACK ACCESS RESTRICTION
+  checkScope(['add:management_plan']),
+  managementPlanController.repeatManagementPlan(),
+);
+
 router.patch(
   '/:management_plan_id',
   hasFarmAccess({ params: 'management_plan_id' }),

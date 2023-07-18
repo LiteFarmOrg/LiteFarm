@@ -409,6 +409,15 @@
     "REVENUE_HELP_TITLE": "Ayuda con el rango de fechas",
     "REVENUE_HELP_BODY": "Solo se mostrarán los planes que tengan una tarea de cosecha planificada o completada dentro del rango de fechas indicado."
   },
+  "DAYS_OF_WEEK_SELECT": {
+    "SUNDAY": "D",
+    "MONDAY": "L",
+    "TUESDAY": "M",
+    "WEDNESDAY": "X",
+    "THURSDAY": "J",
+    "FRIDAY": "V",
+    "SATURDAY": "S"
+  },
   "DOCUMENTS": {
     "ADD": {
       "ADD_MORE_PAGES": "Agregar más páginas",

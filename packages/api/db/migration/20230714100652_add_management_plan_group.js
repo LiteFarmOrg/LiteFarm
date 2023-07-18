@@ -33,9 +33,9 @@ export const up = async function (knex) {
 };
 
 export const down = async function (knex) {
-  await knex.schema.dropTable('management_plan_group');
   await knex.schema.alterTable('management_plan', (t) => {
     t.dropColumn('management_plan_group_id');
     t.dropColumn('repetition_number');
   });
+  await knex.schema.dropTable('management_plan_group');
 };

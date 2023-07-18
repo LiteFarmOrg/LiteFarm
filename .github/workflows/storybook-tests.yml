@@ -25,6 +25,11 @@ jobs:
         working-directory: packages/webapp
         run: npm run storybook &
 
+      - name: Wait for Storybook to start
+        run: |
+          until nc -z 127.0.0.1 6006; do sleep 1; done
+          echo "Storybook is now running on port 6006."
+
       - name: Run storybook tests
         working-directory: packages/webapp
         run: npm run test-storybook

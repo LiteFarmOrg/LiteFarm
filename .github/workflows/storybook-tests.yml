@@ -1,0 +1,27 @@
+# .github/workflows/storybook-tests.yml
+
+name: "Storybook Tests"
+on: push
+jobs:
+  test:
+    timeout-minutes: 60
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: "18.16.1"
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: latest
+
+      - name: Install dependencies
+        run: cd packages/webapp pnpm install
+
+      - name: Run storybook
+        run: cd packages/webapp npm run storybook
+
+      - name: Run storybook tests
+        run: cd packages/webapp npm run test-storybook

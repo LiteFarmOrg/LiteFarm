@@ -15,11 +15,7 @@
 
 import React from 'react';
 import PureRepeatCropPlan from '../../../components/RepeatCropPlan';
-import { shallowEqual, useDispatch, useSelector } from 'react-redux';
-import { cropSelector } from '../../cropSlice';
-import { cropVarietiesSelector } from '../../cropVarietySlice';
-import { postManagementPlanSaga } from '../saga';
-import { certifierSurveySelector } from '../../OrganicCertifierSurvey/slice';
+import { useSelector } from 'react-redux';
 import { hookFormPersistSelector } from '../../hooks/useHookFormPersist/hookFormPersistSlice';
 import { useTranslation } from 'react-i18next';
 import { HookFormPersistProvider } from '../../hooks/useHookFormPersist/HookFormPersistProvider';
@@ -32,27 +28,16 @@ import { getDateInputFormat } from '../../../util/moment';
 
 function RepeatCropPlan({ history, match, location }) {
   const { t } = useTranslation(['translation']);
-  const dispatch = useDispatch();
-  const crop_id = match.params.crop_id;
 
-  const management_plan_id = match.params.management_plan_id;
-  const plan = useSelector(managementPlanSelector(management_plan_id));
-
-  const existingCropInfo = useSelector(cropSelector(crop_id));
-  const { interested } = useSelector(certifierSurveySelector, shallowEqual);
   const persistedFormData = useSelector(hookFormPersistSelector);
-  const isNewCrop = crop_id === 'new';
-  const crop = isNewCrop ? persistedFormData : existingCropInfo;
-  const onError = (error) => {
-    console.log(error);
-  };
+
   const onContinue = (data) => {
     // history.push(`/crop/${crop_id}/add_crop_variety/compliance`);
     console.log('Submitted data:', data);
   };
 
-  const farmCropVarieties = useSelector(cropVarietiesSelector);
-
+  const management_plan_id = match.params.management_plan_id;
+  const plan = useSelector(managementPlanSelector(management_plan_id));
   const farmManagementPlansForCropVariety = useSelector(
     managementPlansByCropVarietyIdSelector(plan.crop_variety_id),
   );
@@ -60,12 +45,10 @@ function RepeatCropPlan({ history, match, location }) {
   const taskCardContents = useSelector(
     taskCardContentByManagementPlanSelector(plan.management_plan_id),
   );
-
-  const onSubmit = (data) => {
-    console.log('Submitting data', data);
-  };
-
-  const firstTaskDate = getDateInputFormat(taskCardContents[0].date);
+  const sortedTaskCards = taskCardContents.sort((a, b) => {
+    return new Date(a.date) - new Date(b.date);
+  });
+  const firstTaskDate = getDateInputFormat(sortedTaskCards[0].date);
 
   return (
     <HookFormPersistProvider>
@@ -74,7 +57,7 @@ function RepeatCropPlan({ history, match, location }) {
         farmManagementPlansForCrop={farmManagementPlansForCropVariety}
         origStartDate={firstTaskDate}
         onGoBack={() => history.back()}
-        onContinue={onSubmit}
+        onContinue={onContinue}
         fromCreation={location?.state?.fromCreation}
         persistedFormData={persistedFormData}
       />

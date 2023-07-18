@@ -8,10 +8,7 @@ import PropTypes from 'prop-types';
 import styles from './styles.module.scss';
 import IncompleteTaskModal from '../../Modals/IncompleteTaskModal';
 import RouterTab from '../../RouterTab';
-import { managementPlansByCropVarietyIdSelector } from '../../../containers/managementPlanSlice.js';
-import { taskCardContentByManagementPlanSelector } from '../../../containers/Task/taskCardContentSelector';
-
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { setPersistedPaths } from '../../../containers/hooks/useHookFormPersist/hookFormPersistSlice';
 
 export default function PureManagementTasks({
@@ -34,22 +31,17 @@ export default function PureManagementTasks({
 
   const title = plan.name;
 
-  const farmManagementPlansForCropVariety = useSelector(
-    managementPlansByCropVarietyIdSelector(plan.crop_variety_id),
-  );
-
-  const taskCardContents = useSelector(
-    taskCardContentByManagementPlanSelector(plan.management_plan_id),
-  );
-
   const onRepeatPlan = (crop_id, plan_id) => {
     dispatch(
       setPersistedPaths([
-        `/crop/${crop_id}/management_plan/${plan_id}/details`,
         `/crop/${crop_id}/management_plan/${plan_id}/repeat`,
+        // second page of form here
       ]),
     );
-    history.push(`/crop/${crop_id}/management_plan/${plan_id}/repeat`, { fromCreation: false });
+    history.push(`/crop/${crop_id}/management_plan/${plan_id}/repeat`, {
+      // Rename state variable to avoid conflict with original fromCreation
+      fromCreation: false,
+    });
   };
 
   const [showCompleteFailModal, setShowCompleteFailModal] = useState(false);

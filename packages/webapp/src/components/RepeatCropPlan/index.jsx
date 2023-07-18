@@ -27,6 +27,17 @@ import ReactSelect from '../Form/ReactSelect';
 import DaysOfWeekSelect from '../Form/DaysOfWeekSelect';
 import { Label, Main, Error } from '../Typography';
 import { getWeekday, getDate, calculateMonthlyOptions, countOccurrences } from './utils';
+import {
+  CROP_PLAN_NAME,
+  PLAN_START_DATE,
+  REPEAT_FREQUENCY,
+  REPEAT_INTERVAL,
+  DAYS_OF_WEEK,
+  MONTH_REPEAT_ON,
+  FINISH,
+  AFTER_OCCURRENCES,
+  FINISH_ON_DATE,
+} from './constants';
 
 export default function PureRepeatCropPlan({
   cropPlan,
@@ -52,13 +63,15 @@ export default function PureRepeatCropPlan({
     mode: 'onChange',
     shouldUnregister: true,
     defaultValues: {
-      crop_plan_name: fromCreation ? cropPlan.name : '',
-      plan_start_date: origStartDate,
-      repeat_frequency: 1,
-      repeat_interval: { value: 'week', label: t('REPEAT_PLAN.INTERVAL.WEEK') },
-      days_of_week: [getWeekday(origStartDate)],
-      finish: 'after',
-      after_occurrences: 3,
+      [CROP_PLAN_NAME]: t('REPEAT_PLAN.REPETITIONS_OF', {
+        planName: cropPlan.name,
+      }),
+      [PLAN_START_DATE]: origStartDate,
+      [REPEAT_FREQUENCY]: 1,
+      [REPEAT_INTERVAL]: { value: 'week', label: t('REPEAT_PLAN.INTERVAL.WEEK') },
+      [DAYS_OF_WEEK]: [getWeekday(origStartDate)],
+      [FINISH]: 'after',
+      [AFTER_OCCURRENCES]: 3,
     },
   });
 
@@ -75,13 +88,13 @@ export default function PureRepeatCropPlan({
 
   const totalCount = useRef();
 
-  const planStartDate = watch('plan_start_date');
-  const repeatFrequency = watch('repeat_frequency');
-  const repeatInterval = watch('repeat_interval');
-  const daysOfWeek = watch('days_of_week');
-  const monthRepeatOn = watch('month_repeat_on');
-  const finish = watch('finish');
-  const finishOnDate = watch('finish_on_date');
+  const planStartDate = watch(PLAN_START_DATE);
+  const repeatFrequency = watch(REPEAT_FREQUENCY);
+  const repeatInterval = watch(REPEAT_INTERVAL);
+  const daysOfWeek = watch(DAYS_OF_WEEK);
+  const monthRepeatOn = watch(MONTH_REPEAT_ON);
+  const finish = watch(FINISH);
+  const finishOnDate = watch(FINISH_ON_DATE);
 
   // Populate monthly options React Select
   useEffect(() => {
@@ -91,7 +104,7 @@ export default function PureRepeatCropPlan({
     // Clear when planStartDate is cleared
     if (!planStartDate) {
       setMonthlyOptions([]);
-      setValue('month_repeat_on', null);
+      setValue(MONTH_REPEAT_ON, null);
       return;
     }
 
@@ -110,7 +123,7 @@ export default function PureRepeatCropPlan({
 
       // Persist original selection
       if (options[currentSelection]) {
-        setValue('month_repeat_on', options[currentSelection]);
+        setValue(MONTH_REPEAT_ON, options[currentSelection]);
       }
     };
     getAndSetMonthlyOptions();
@@ -134,20 +147,29 @@ export default function PureRepeatCropPlan({
 
     totalCount.current = count;
 
-    trigger('finish_on_date');
-  }, [planStartDate, repeatFrequency, repeatInterval, finishOnDate, monthRepeatOn]);
+    trigger(FINISH_ON_DATE);
+  }, [
+    planStartDate,
+    repeatFrequency,
+    repeatInterval,
+    finishOnDate,
+    monthRepeatOn,
+    daysOfWeek,
+    finish,
+  ]);
 
   // Custom validation for "finish on" date input
   const validateFinishOnDate = (value) => {
-    if (getValues('finish') === 'after') {
+    if (getValues(FINISH) === 'after') {
       return true;
     }
+
     // Validate only after interaction with input
     if (dirtyFields.finish_on_date && !value) {
       return t('common:REQUIRED');
 
       // End date must be > start date
-    } else if (value && value <= getValues('plan_start_date')) {
+    } else if (value && value <= getValues(PLAN_START_DATE)) {
       return t('REPEAT_PLAN.LATER_DATE_ERROR');
 
       // Total count must be 20 or less
@@ -205,34 +227,29 @@ export default function PureRepeatCropPlan({
         value={33}
         style={{ marginBottom: '24px' }}
       />
-      <Main>{[t('REPEAT_PLAN.SUBTITLE')]}</Main>
+      <Main>{t('REPEAT_PLAN.SUBTITLE')}</Main>
 
       <div className={styles.container}>
-        {!fromCreation && (
-          <Input
-            label={t('REPEAT_PLAN.PLAN_NAME')}
-            hookFormRegister={register('crop_plan_name', {
-              required: true,
-            })}
-            errors={getInputErrors(errors, 'crop_plan_name')}
-            placeholder={t('REPEAT_PLAN.REPETITIONS_OF', {
-              planName: cropPlan.name,
-            })}
-          />
-        )}
+        <Input
+          label={t('REPEAT_PLAN.PLAN_NAME')}
+          hookFormRegister={register(CROP_PLAN_NAME, {
+            required: true,
+          })}
+          errors={getInputErrors(errors, CROP_PLAN_NAME)}
+        />
 
         <Input
           type="date"
           label={t('REPEAT_PLAN.START_DATE')}
-          hookFormRegister={register('plan_start_date', { required: true })}
-          errors={getInputErrors(errors, 'plan_start_date')}
+          hookFormRegister={register(PLAN_START_DATE, { required: true })}
+          errors={getInputErrors(errors, PLAN_START_DATE)}
         />
 
         <div>
           <Label className={styles.label}>{t('REPEAT_PLAN.REPEAT_EVERY')}</Label>
           <div className={styles.repeatEvery}>
             <Input
-              hookFormRegister={register('repeat_frequency', {
+              hookFormRegister={register(REPEAT_FREQUENCY, {
                 required: true,
               })}
               type="number"
@@ -244,7 +261,7 @@ export default function PureRepeatCropPlan({
             />
             <Controller
               control={control}
-              name={'repeat_interval'}
+              name={REPEAT_INTERVAL}
               rules={{ required: true }}
               render={({ field: { onChange, value } }) => (
                 <ReactSelect
@@ -265,14 +282,14 @@ export default function PureRepeatCropPlan({
             <Label className={styles.label}>{t('REPEAT_PLAN.REPEAT_ON')}</Label>
             <Controller
               control={control}
-              name={'days_of_week'}
+              name={DAYS_OF_WEEK}
               rules={{ required: true }}
               render={({ field: { onChange, value } }) => (
                 <DaysOfWeekSelect
                   onChange={onChange}
                   defaultValue={value}
                   maxSelect={1}
-                  errors={getInputErrors(errors, 'days_of_week')}
+                  errors={getInputErrors(errors, DAYS_OF_WEEK)}
                 />
               )}
             />
@@ -283,7 +300,7 @@ export default function PureRepeatCropPlan({
           <div className={styles.monthlyOptionsSelect}>
             <Controller
               control={control}
-              name={'month_repeat_on'}
+              name={MONTH_REPEAT_ON}
               rules={{ required: true }}
               render={({ field: { onChange, value } }) => (
                 <ReactSelect
@@ -307,7 +324,7 @@ export default function PureRepeatCropPlan({
             name="finish"
             required
             onChange={() => {
-              trigger('finish_on_date');
+              trigger(FINISH_ON_DATE);
             }}
             radios={[
               {
@@ -324,7 +341,7 @@ export default function PureRepeatCropPlan({
                       max={20}
                       hookFormRegister={register('after_occurrences', {
                         validate: (value) => {
-                          if (!value && getValues('finish') === 'after') {
+                          if (!value && getValues(FINISH) === 'after') {
                             return t('common:REQUIRED');
                           }
                           return true;
@@ -332,8 +349,8 @@ export default function PureRepeatCropPlan({
                       })}
                       style={{ width: '72px' }}
                       onChange={() => {
-                        setValue('finish', 'after');
-                        trigger('finish_on_date');
+                        setValue(FINISH, 'after');
+                        trigger(FINISH_ON_DATE);
                       }}
                     />
                     <p>{t('REPEAT_PLAN.REPETITIONS')}</p>
@@ -348,10 +365,10 @@ export default function PureRepeatCropPlan({
                     <p>{t('REPEAT_PLAN.ON')}</p>
                     <Input
                       type="date"
-                      hookFormRegister={register('finish_on_date', {
+                      hookFormRegister={register(FINISH_ON_DATE, {
                         validate: validateFinishOnDate,
                       })}
-                      onChange={() => setValue('finish', 'on')}
+                      onChange={() => setValue(FINISH, 'on')}
                     />
                   </div>
                 ),
@@ -359,7 +376,7 @@ export default function PureRepeatCropPlan({
             ]}
           />
           <Error className={styles.finishOnDateErrors}>
-            {getInputErrors(errors, 'finish_on_date') ?? ''}
+            {getInputErrors(errors, FINISH_ON_DATE) ?? ''}
           </Error>
         </div>
       </div>

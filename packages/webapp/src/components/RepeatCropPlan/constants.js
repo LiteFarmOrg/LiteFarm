@@ -1,5 +1,5 @@
 /*
- *  Copyright 2023 LiteFarm.org
+ *  Copyright 2019, 2020, 2021, 2022, 2023 LiteFarm.org
  *  This file is part of LiteFarm.
  *
  *  LiteFarm is free software: you can redistribute it and/or modify
@@ -12,16 +12,12 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
-
-const languageFiles = {
-  fr: './fr.js',
-  pt: './pt.js',
-  es: './es.js',
-};
-
-export const getRruleLanguage = async (language) => {
-  if (!Object.keys(languageFiles).includes(language)) {
-    return { getText: (id) => id, language: null };
-  }
-  return await import(languageFiles[language]).then((language) => language.default);
-};
+export const CROP_PLAN_NAME = 'crop_plan_name';
+export const PLAN_START_DATE = 'plan_start_date';
+export const REPEAT_FREQUENCY = 'repeat_frequency';
+export const REPEAT_INTERVAL = 'repeat_interval';
+export const DAYS_OF_WEEK = 'days_of_week';
+export const MONTH_REPEAT_ON = 'month_repeat_on';
+export const FINISH = 'finish';
+export const AFTER_OCCURRENCES = 'after_occurrences';
+export const FINISH_ON_DATE = 'finish_on_date';

@@ -146,7 +146,7 @@ export const countOccurrences = ({
       freq: RRule.MONTHLY,
       dtstart: dtStart,
       bymonthday: [],
-      byweekday: [RRule[pattern.weekday].nth(pattern.occurrence)],
+      byweekday: [RRule[pattern.weekday].nth(pattern.ordinal)],
       interval: Number(repeatFrequency),
       until: dtEnd,
     });
@@ -154,7 +154,7 @@ export const countOccurrences = ({
     // Monthly pattern by date
   } else if (repeatInterval.value === 'month') {
     const date = monthRepeatOn.value;
-    let dayArray = [];
+    const dayArray = [];
 
     // See stackoverflow.com/questions/35757778/rrule-for-repeating-monthly-on-the-31st-or-closest-day/35765662#35765662
     if (date > 28) {

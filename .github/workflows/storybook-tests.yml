@@ -18,10 +18,13 @@ jobs:
           version: latest
 
       - name: Install dependencies
-        run: cd packages/webapp pnpm install
+        working-directory: packages/webapp
+        run: pnpm install
 
       - name: Run storybook
-        run: cd packages/webapp npm run storybook
+        working-directory: packages/webapp
+        run: npm run storybook
 
       - name: Run storybook tests
-        run: cd packages/webapp npm run test-storybook
+        working-directory: packages/webapp
+        run: npm run test-storybook

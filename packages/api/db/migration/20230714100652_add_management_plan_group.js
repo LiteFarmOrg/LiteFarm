@@ -21,6 +21,7 @@ export const up = async function (knex) {
     t.dateTime('created_at').notNullable();
     t.dateTime('updated_at').notNullable();
     t.smallint('repetition_count').notNullable();
+    t.jsonb('repetition_config').notNullable();
     t.boolean('deleted').notNullable().defaultTo(false);
   });
   await knex.schema.alterTable('management_plan', (t) => {

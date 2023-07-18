@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import Input, { getInputErrors } from '../../Form/Input';
 import Form from '../../Form';
-import { useForm } from 'react-hook-form';
 import { useSelector } from 'react-redux';
 import { userFarmsByFarmSelector, userFarmSelector } from '../../../containers/userFarmSlice';
 import MultiStepPageTitle from '../../PageTitle/MultiStepPageTitle';
@@ -12,6 +11,7 @@ import InputAutoSize from '../../Form/InputAutoSize';
 import AssignTask from '../../Task/AssignTask';
 import useTaskAssignForm from '../../Task/AssignTask/useTaskAssignForm';
 import { cloneObject } from '../../../util';
+import { ASSIGNEE } from '../../Task/AssignTask/constants';
 
 export default function PureManagementPlanName({
   onSubmit,
@@ -31,6 +31,8 @@ export default function PureManagementPlanName({
   const users = useSelector(userFarmsByFarmSelector).filter((user) => user.status !== 'Inactive');
   const user = useSelector(userFarmSelector);
 
+  const unassigned = { label: t('TASK.UNASSIGNED'), value: null, isDisabled: false };
+
   const {
     register,
     handleSubmit,
@@ -45,9 +47,13 @@ export default function PureManagementPlanName({
     shouldUnregister: false,
     user: user,
     users: users,
-    defaultAssignee: { label: t('TASK.UNASSIGNED'), value: null, isDisabled: false },
-    disableUnAssignedOption: false,
+    isAssigned: false,
+    defaultAssignee: unassigned,
     additionalFields: {
+      [ASSIGNEE]:
+        users.length === 1
+          ? { label: user.first_name, value: user.user_id, isDisabled: false }
+          : unassigned,
       [NAME]: t('MANAGEMENT_PLAN.PLAN_AND_ID', { id: managementPlanCount }),
       ...cloneObject(persistedFormData),
     },

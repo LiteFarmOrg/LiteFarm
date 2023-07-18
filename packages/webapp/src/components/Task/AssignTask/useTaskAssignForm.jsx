@@ -63,6 +63,7 @@ const isYesOptionSelected = (option) => {
  * @param {boolean} [props.disableUnAssignedOption] - whether to disable the unassigned option
  * @param {string} props.mode - validation strategy before submitting behaviour
  * @param {boolean} props.shouldUnregister - enable and disable input unregister after unmount
+ * @param {boolean} props.isAssigned - to set task to assigned or not
  * @returns {ReturnedObject}
  *
  */
@@ -75,6 +76,7 @@ const useTaskAssignForm = ({
   disableUnAssignedOption,
   mode = 'onTouched',
   shouldUnregister,
+  isAssigned = undefined,
 }) => {
   const { t } = useTranslation();
 
@@ -109,7 +111,8 @@ const useTaskAssignForm = ({
   const hourlyWage = watch(HOURLY_WAGE);
 
   const disabled = !selectedWorker || !isValid;
-  const assigned = selectedWorker.label !== unAssignedOption.label;
+  const assigned =
+    isAssigned === undefined ? selectedWorker.label !== unAssignedOption.label : isAssigned;
 
   const assigneeOptions = useMemo(() => {
     if (user.is_admin) {

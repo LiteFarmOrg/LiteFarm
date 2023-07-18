@@ -840,7 +840,7 @@ async function patchManagementPlanStartDate(trx, req, typeOfTask, task = req.bod
   }
 }
 
-const TaskNotificationTypes = {
+export const TaskNotificationTypes = {
   TASK_ASSIGNED: 'TASK_ASSIGNED',
   TASK_ABANDONED: 'TASK_ABANDONED',
   TASK_REASSIGNED: 'TASK_REASSIGNED',
@@ -868,7 +868,7 @@ const TaskNotificationUserTypes = {
  * @param {String} farmId
  * @return {Promise<void>}
  */
-async function sendTaskNotification(
+export async function sendTaskNotification(
   receiverIds,
   usernameVariableId,
   taskId,

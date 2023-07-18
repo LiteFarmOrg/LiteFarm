@@ -23,7 +23,7 @@ jobs:
 
       - name: Run storybook
         working-directory: packages/webapp
-        run: npm run storybook
+        run: npm run storybook &
 
       - name: Run storybook tests
         working-directory: packages/webapp

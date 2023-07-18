@@ -46,7 +46,6 @@ export default function PureRepeatCropPlan({
   onGoBack = () => {},
   onContinue = () => {},
   useHookFormPersist,
-  fromCreation = false,
 }) {
   const { t } = useTranslation(['translation', 'common']);
   const {
@@ -56,7 +55,6 @@ export default function PureRepeatCropPlan({
     getValues,
     setValue,
     watch,
-    setError,
     trigger,
     formState: { errors, isValid, dirtyFields },
   } = useForm({
@@ -96,6 +94,16 @@ export default function PureRepeatCropPlan({
   const finish = watch(FINISH);
   const finishOnDate = watch(FINISH_ON_DATE);
 
+  // Update DaysOfWeekSelect selection
+  useEffect(() => {
+    if (repeatInterval.value !== 'week') {
+      return;
+    }
+    const dayOfWeekString = getWeekday(planStartDate);
+
+    setValue(DAYS_OF_WEEK, [dayOfWeekString]);
+  }, [planStartDate, repeatInterval]);
+
   // Populate monthly options React Select
   useEffect(() => {
     if (repeatInterval.value !== 'month') {
@@ -121,9 +129,12 @@ export default function PureRepeatCropPlan({
 
       setMonthlyOptions(options);
 
-      // Persist original selection
+      // Persist original selection if there is one
       if (options[currentSelection]) {
         setValue(MONTH_REPEAT_ON, options[currentSelection]);
+      } else {
+        // or select first option by default
+        setValue(MONTH_REPEAT_ON, options[0]);
       }
     };
     getAndSetMonthlyOptions();
@@ -158,6 +169,18 @@ export default function PureRepeatCropPlan({
     finish,
   ]);
 
+  // Custom validation for crop plan name uniqueness
+  const validateUniquePlanName = (value) => {
+    const planNameExists = farmManagementPlansForCrop.some((plan) => {
+      return plan.name === value;
+    });
+
+    if (planNameExists) {
+      return t('REPEAT_PLAN.DUPLICATE_NAME');
+    }
+    return true;
+  };
+
   // Custom validation for "finish on" date input
   const validateFinishOnDate = (value) => {
     if (getValues(FINISH) === 'after') {
@@ -180,41 +203,10 @@ export default function PureRepeatCropPlan({
     return true;
   };
 
-  const uniquePlanName = () => {
-    if (fromCreation) {
-      return true; // uniqueness must be enforced at creation as the input is not shown here
-    }
-    const formPlanName = getValues('crop_plan_name');
-    const planNameExists = farmManagementPlansForCrop.some((plan) => {
-      return plan.name === formPlanName;
-    });
-    return !planNameExists;
-  };
-
-  const showDuplicatePlanError = () => {
-    setError(
-      'crop_plan_name',
-      {
-        type: 'custom',
-        message: t('REPEAT_PLAN.DUPLICATE_NAME'),
-      },
-      { shouldFocus: true },
-    );
-  };
-
-  const checkUniqueNameAndSubmit = (data) => {
-    uniquePlanName() ? onContinue(data) : showDuplicatePlanError();
-  };
-
   return (
     <Form
       buttonGroup={
-        <Button
-          disabled={!isValid}
-          onClick={handleSubmit(checkUniqueNameAndSubmit)}
-          type={'submit'}
-          fullLength
-        >
+        <Button disabled={!isValid} onClick={handleSubmit(onContinue)} type={'submit'} fullLength>
           {t('common:CONTINUE')}
         </Button>
       }
@@ -234,6 +226,7 @@ export default function PureRepeatCropPlan({
           label={t('REPEAT_PLAN.PLAN_NAME')}
           hookFormRegister={register(CROP_PLAN_NAME, {
             required: true,
+            validate: validateUniquePlanName,
           })}
           errors={getInputErrors(errors, CROP_PLAN_NAME)}
         />
@@ -309,7 +302,6 @@ export default function PureRepeatCropPlan({
                     onChange(e);
                   }}
                   value={value}
-                  placeholder={monthlyOptions?.[0]?.label}
                 />
               )}
             />

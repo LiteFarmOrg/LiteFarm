@@ -46,9 +46,3 @@ export const Primary = Template.bind({});
 Primary.args = {
   ...args,
 };
-
-export const FromPlanCreation = Template.bind({});
-FromPlanCreation.args = {
-  ...args,
-  fromCreation: true,
-};

@@ -478,7 +478,20 @@ const taskController = {
             noInsert: nonModifiable,
           });
       });
-      // N.B. Notification not needed; these tasks are never assigned at creation.
+
+      if (result.assignee_user_id) {
+        const { assignee_user_id, task_id, task_type_id } = result;
+        const taskTypeTranslation = await TaskTypeModel.getTaskTranslationKeyById(task_type_id);
+        await sendTaskNotification(
+          [assignee_user_id],
+          user_id,
+          task_id,
+          TaskNotificationTypes.TASK_ASSIGNED,
+          taskTypeTranslation.task_translation_key,
+          req.headers.farm_id,
+        );
+      }
+
       return res.status(201).send(result);
     } catch (error) {
       console.log(error);

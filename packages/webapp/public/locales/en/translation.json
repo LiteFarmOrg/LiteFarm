@@ -410,6 +410,15 @@
     "REVENUE_HELP_TITLE": "Date Range Help",
     "REVENUE_HELP_BODY": "Only plans that have a planned or completed harvest task within the indicated date range will be shown."
   },
+  "DAYS_OF_WEEK_SELECT": {
+    "SUNDAY": "S",
+    "MONDAY": "M",
+    "TUESDAY": "T",
+    "WEDNESDAY": "W",
+    "THURSDAY": "T",
+    "FRIDAY": "F",
+    "SATURDAY": "S"
+  },
   "DOCUMENTS": {
     "ADD": {
       "ADD_MORE_PAGES": "Add more pages",
@@ -1133,6 +1142,7 @@
     "WHERE_START_LOCATION": "Where is your starting location?",
     "WHERE_TRANSPLANT_LOCATION": "Where will you transplant to?",
     "WILD_CROP": "Are you harvesting a wild crop?",
+    "ASSIGN_ALL_TASKS": "All tasks generated as part of this crop plan will be assigned to this individual. You can modify this assignment later",
     "CROP_PLAN_REPEAT": "This crop plan repeats",
     "CROP_PLAN_REPEAT_SUBTEXT": "Clicking 'Save' will immediately save this crop plan. You'll then be prompted to describe how it repeats."
   },

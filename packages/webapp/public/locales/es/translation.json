@@ -409,6 +409,15 @@
     "REVENUE_HELP_TITLE": "Ayuda con el rango de fechas",
     "REVENUE_HELP_BODY": "Solo se mostrarán los planes que tengan una tarea de cosecha planificada o completada dentro del rango de fechas indicado."
   },
+  "DAYS_OF_WEEK_SELECT": {
+    "SUNDAY": "D",
+    "MONDAY": "L",
+    "TUESDAY": "M",
+    "WEDNESDAY": "X",
+    "THURSDAY": "J",
+    "FRIDAY": "V",
+    "SATURDAY": "S"
+  },
   "DOCUMENTS": {
     "ADD": {
       "ADD_MORE_PAGES": "Agregar más páginas",
@@ -1134,6 +1143,7 @@
     "WHERE_START_LOCATION": "¿Dónde está su ubicación inicial?",
     "WHERE_TRANSPLANT_LOCATION": "¿A dónde va a trasplantar?",
     "WILD_CROP": "¿Estás cosechando un cultivo silvestre?",
+    "ASSIGN_ALL_TASKS": "MISSING",
     "CROP_PLAN_REPEAT": "MISSING",
     "CROP_PLAN_REPEAT_SUBTEXT": "MISSING"
   },

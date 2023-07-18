@@ -409,6 +409,15 @@
     "REVENUE_HELP_TITLE": "Ajuda",
     "REVENUE_HELP_BODY": "Somente os planos que possuem uma tarefa de colheita planejada ou concluída dentro do intervalo de datas indicado serão mostrados."
   },
+  "DAYS_OF_WEEK_SELECT": {
+    "SUNDAY": "MISSING",
+    "MONDAY": "MISSING",
+    "TUESDAY": "MISSING",
+    "WEDNESDAY": "MISSING",
+    "THURSDAY": "MISSING",
+    "FRIDAY": "MISSING",
+    "SATURDAY": "MISSING"
+  },
   "DOCUMENTS": {
     "ADD": {
       "ADD_MORE_PAGES": "Adicionar mais páginas",
@@ -1135,6 +1144,7 @@
     "WHERE_START_LOCATION": "Onde é o seu local de partida?",
     "WHERE_TRANSPLANT_LOCATION": "Onde você fará o transplante?",
     "WILD_CROP": "Você está colhendo uma planta silvestre?",
+    "ASSIGN_ALL_TASKS": "MISSING",
     "CROP_PLAN_REPEAT": "MISSING",
     "CROP_PLAN_REPEAT_SUBTEXT": "MISSING"
   },

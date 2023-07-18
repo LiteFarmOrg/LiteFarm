@@ -410,6 +410,15 @@
     "REVENUE_HELP_TITLE": "Aide sur la plage de dates",
     "REVENUE_HELP_BODY": "Seuls les plans pour lesquels une tâche est prévue ou terminée dans la plage de dates indiquée s'afficheront."
   },
+  "DAYS_OF_WEEK_SELECT": {
+    "SUNDAY": "MISSING",
+    "MONDAY": "MISSING",
+    "TUESDAY": "MISSING",
+    "WEDNESDAY": "MISSING",
+    "THURSDAY": "MISSING",
+    "FRIDAY": "MISSING",
+    "SATURDAY": "MISSING"
+  },
   "DOCUMENTS": {
     "ADD": {
       "ADD_MORE_PAGES": "Ajouter plus de pages",
@@ -1135,6 +1144,7 @@
     "WHERE_START_LOCATION": "Où est votre position de départ\u00a0?",
     "WHERE_TRANSPLANT_LOCATION": "Où allez-vous transplanter\u00a0?",
     "WILD_CROP": "Récoltez-vous une culture sauvage\u00a0?",
+    "ASSIGN_ALL_TASKS": "MISSING",
     "CROP_PLAN_REPEAT": "MISSING",
     "CROP_PLAN_REPEAT_SUBTEXT": "MISSING"
   },

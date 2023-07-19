@@ -1,5 +1,3 @@
-# .github/workflows/storybook-tests.yml
-
 name: "Storybook Tests"
 on: push
 jobs:
@@ -23,7 +21,7 @@ jobs:
 
       - name: Run storybook
         working-directory: packages/webapp
-        run: npm run storybook &
+        run: pnpm run storybook &
 
       - name: Wait for Storybook to start
         run: |
@@ -33,3 +31,6 @@ jobs:
       - name: Run storybook tests
         working-directory: packages/webapp
         run: cat allowed-storybook-tests.txt | xargs -I {} bash -c 'pnpm test-storybook "$@"' _ {}
+
+      - name: Kill Storybook
+        run: pkill -f "pnpm run storybook"

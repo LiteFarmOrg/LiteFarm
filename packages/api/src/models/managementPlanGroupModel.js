@@ -50,7 +50,7 @@ class ManagementPlanGroup extends baseModel {
 
   static get relationMappings() {
     return {
-      management_plan: {
+      management_plans: {
         modelClass: ManagementPlan,
         relation: Model.HasManyRelation,
         join: {

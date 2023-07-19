@@ -188,7 +188,7 @@ export default function PureRepeatCropPlan({
     }
 
     // Validate only after interaction with input
-    if (dirtyFields.finish_on_date && !value) {
+    if (!value) {
       return t('common:REQUIRED');
 
       // End date must be > start date
@@ -331,7 +331,7 @@ export default function PureRepeatCropPlan({
                       onKeyDown={integerOnKeyDown}
                       min={1}
                       max={20}
-                      hookFormRegister={register('after_occurrences', {
+                      hookFormRegister={register(AFTER_OCCURRENCES, {
                         validate: (value) => {
                           if (!value && getValues(FINISH) === 'after') {
                             return t('common:REQUIRED');

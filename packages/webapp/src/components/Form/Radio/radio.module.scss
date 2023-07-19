@@ -12,10 +12,13 @@
   user-select: none;
   margin-bottom: 6px;
   width: fit-content;
+  display: flex;
+  flex-flow: row wrap;
+  align-items: center;
 }
 
 /* Hide the browser's default radio button */
-.container input {
+.defaultRadio {
   position: absolute;
   opacity: 0;
   cursor: pointer;
@@ -24,7 +27,7 @@
 /* Create a custom radio button */
 .checkmark {
   position: absolute;
-  top: 0;
+  top: calc(50% - 8px);
   left: 0;
   height: 16px;
   width: 16px;
@@ -80,7 +83,6 @@
 }
 
 .label {
-  transform: translateY(-5px);
   font-size: 16px;
   line-height: 24px;
   color: var(--grey900);

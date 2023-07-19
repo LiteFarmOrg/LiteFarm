@@ -1352,6 +1352,29 @@
     "CLEAR": "Supprimer",
     "CLEAR_ALL": "Supprimer tout"
   },
+  "REPEAT_PLAN": {
+    "TITLE": "MISSING",
+    "REPEAT_PLAN_FLOW": "MISSING",
+    "SUBTITLE": "MISSING",
+    "REPETITIONS_OF": "MISSING {{planName}}",
+    "PLAN_NAME": "MISSING",
+    "DUPLICATE_NAME": "MISSING",
+    "START_DATE": "MISSING",
+    "REPEAT_EVERY": "MISSING",
+    "REPEAT_ON": "MISSING",
+    "FINISH": "MISSING",
+    "AFTER": "MISSING",
+    "REPETITIONS": "MISSING",
+    "ON": "MISSING",
+    "INTERVAL": {
+      "DAY": "MISSING",
+      "WEEK": "MISSING",
+      "MONTH": "MISSING",
+      "YEAR": "MISSING"
+    },
+    "REPEAT_LIMIT_ERROR": "MISSING",
+    "LATER_DATE_ERROR": "MISSING"
+  },
   "REQUEST_CONFIRMATION_MODAL": {
     "BUTTON": "J'ai compris",
     "DESCRIPTION": "Vous serez contacté dans les 48 heures.",

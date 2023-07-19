@@ -1144,7 +1144,9 @@
     "WHERE_START_LOCATION": "Où est votre position de départ\u00a0?",
     "WHERE_TRANSPLANT_LOCATION": "Où allez-vous transplanter\u00a0?",
     "WILD_CROP": "Récoltez-vous une culture sauvage\u00a0?",
-    "ASSIGN_ALL_TASKS": "MISSING"
+    "ASSIGN_ALL_TASKS": "MISSING",
+    "CROP_PLAN_REPEAT": "MISSING",
+    "CROP_PLAN_REPEAT_SUBTEXT": "MISSING"
   },
   "LOCATION_CREATION": {
     "TITLE": "Aucun emplacement trouvé\u00a0!",

@@ -59,11 +59,12 @@ const managementPlanController = {
           if (!req.body.crop_management_plan.already_in_ground) {
             const due_date =
               req.body.crop_management_plan.plant_date || req.body.crop_management_plan.seed_date;
-            const { planting_management_plan_id } =
-              management_plan.crop_management_plan.planting_management_plans.find(
-                (planting_management_plan) =>
-                  planting_management_plan.planting_task_type === 'PLANT_TASK',
-              );
+            const {
+              planting_management_plan_id,
+            } = management_plan.crop_management_plan.planting_management_plans.find(
+              (planting_management_plan) =>
+                planting_management_plan.planting_task_type === 'PLANT_TASK',
+            );
 
             const plantTaskType = await TaskTypeModel.query(trx)
               .where({
@@ -83,16 +84,18 @@ const managementPlanController = {
 
           if (req.body.crop_management_plan.needs_transplant) {
             const due_date = req.body.crop_management_plan.transplant_date;
-            const { planting_management_plan_id } =
-              management_plan.crop_management_plan.planting_management_plans.find(
-                (planting_management_plan) =>
-                  planting_management_plan.planting_task_type === 'TRANSPLANT_TASK',
-              );
-            const { planting_management_plan_id: prev_planting_management_plan_id } =
-              management_plan.crop_management_plan.planting_management_plans.find(
-                (planting_management_plan) =>
-                  planting_management_plan.is_final_planting_management_plan === false,
-              );
+            const {
+              planting_management_plan_id,
+            } = management_plan.crop_management_plan.planting_management_plans.find(
+              (planting_management_plan) =>
+                planting_management_plan.planting_task_type === 'TRANSPLANT_TASK',
+            );
+            const {
+              planting_management_plan_id: prev_planting_management_plan_id,
+            } = management_plan.crop_management_plan.planting_management_plans.find(
+              (planting_management_plan) =>
+                planting_management_plan.is_final_planting_management_plan === false,
+            );
             //TODO: move get task_type_id to frontend LF-1965
             const transplantTaskType = await TaskTypeModel.query(trx)
               .where({

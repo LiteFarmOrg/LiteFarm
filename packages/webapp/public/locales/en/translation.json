@@ -1142,7 +1142,9 @@
     "WHERE_START_LOCATION": "Where is your starting location?",
     "WHERE_TRANSPLANT_LOCATION": "Where will you transplant to?",
     "WILD_CROP": "Are you harvesting a wild crop?",
-    "ASSIGN_ALL_TASKS": "All tasks generated as part of this crop plan will be assigned to this individual. You can modify this assignment later"
+    "ASSIGN_ALL_TASKS": "All tasks generated as part of this crop plan will be assigned to this individual. You can modify this assignment later",
+    "CROP_PLAN_REPEAT": "This crop plan repeats",
+    "CROP_PLAN_REPEAT_SUBTEXT": "Clicking 'Save' will immediately save this crop plan. You'll then be prompted to describe how it repeats."
   },
   "LOCATION_CREATION": {
     "TITLE": "No locations found!",

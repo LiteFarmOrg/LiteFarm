@@ -32,4 +32,4 @@ jobs:
 
       - name: Run storybook tests
         working-directory: packages/webapp
-        run: npm run test-storybook
+        run: cat allowed-storybook-tests.txt | xargs -I {} bash -c 'pnpm test-storybook "$@"' _ {}

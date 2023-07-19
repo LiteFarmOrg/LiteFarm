@@ -1143,7 +1143,9 @@
     "WHERE_START_LOCATION": "¿Dónde está su ubicación inicial?",
     "WHERE_TRANSPLANT_LOCATION": "¿A dónde va a trasplantar?",
     "WILD_CROP": "¿Estás cosechando un cultivo silvestre?",
-    "ASSIGN_ALL_TASKS": "MISSING"
+    "ASSIGN_ALL_TASKS": "MISSING",
+    "CROP_PLAN_REPEAT": "MISSING",
+    "CROP_PLAN_REPEAT_SUBTEXT": "MISSING"
   },
   "LOCATION_CREATION": {
     "TITLE": "No se ha encontrado la ubicación",
@@ -1348,6 +1350,29 @@
   "REACT_SELECT": {
     "CLEAR": "Borrar",
     "CLEAR_ALL": "Borrar todo"
+  },
+  "REPEAT_PLAN": {
+    "TITLE": "MISSING",
+    "REPEAT_PLAN_FLOW": "MISSING",
+    "SUBTITLE": "MISSING",
+    "REPETITIONS_OF": "MISSING {{planName}}",
+    "PLAN_NAME": "MISSING",
+    "DUPLICATE_NAME": "MISSING",
+    "START_DATE": "MISSING",
+    "REPEAT_EVERY": "MISSING",
+    "REPEAT_ON": "MISSING",
+    "FINISH": "MISSING",
+    "AFTER": "MISSING",
+    "REPETITIONS": "MISSING",
+    "ON": "MISSING",
+    "INTERVAL": {
+      "DAY": "MISSING",
+      "WEEK": "MISSING",
+      "MONTH": "MISSING",
+      "YEAR": "MISSING"
+    },
+    "REPEAT_LIMIT_ERROR": "MISSING",
+    "LATER_DATE_ERROR": "MISSING"
   },
   "REQUEST_CONFIRMATION_MODAL": {
     "BUTTON": "Entendido",

@@ -154,6 +154,9 @@ dependencies:
   reselect:
     specifier: ^4.1.7
     version: 4.1.7
+  rrule:
+    specifier: 2.7.2
+    version: 2.7.2
   uuid:
     specifier: ^8.3.2
     version: 8.3.2
@@ -17746,6 +17749,12 @@ packages:
     optionalDependencies:
       fsevents: 2.3.2
     dev: true
+
+  /rrule@2.7.2:
+    resolution: {integrity: sha512-NkBsEEB6FIZOZ3T8frvEBOB243dm46SPufpDckY/Ap/YH24V1zLeMmDY8OA10lk452NdrF621+ynDThE7FQU2A==}
+    dependencies:
+      tslib: 2.6.0
+    dev: false
 
   /rsvp@3.2.1:
     resolution: {integrity: sha512-Rf4YVNYpKjZ6ASAmibcwTNciQ5Co5Ztq6iZPEykHpkoflnD/K5ryE/rHehFsTm4NJj8nKDhbi3eKBWGogmNnkg==}

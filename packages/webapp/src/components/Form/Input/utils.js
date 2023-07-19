@@ -3,7 +3,7 @@ import i18n from '../../../locales/i18n';
 /* @param {string} dateString - a date string to parse to local time
  * @returns {Date}
  */
-const parseISOStringToLocalDate = (dateString) => {
+export const parseISOStringToLocalDate = (dateString) => {
   const offsetPattern = /([+-]\d{2}|Z):?(\d{2})?\s*$/;
   if (offsetPattern.test(dateString.slice(19))) {
     // this string can be parsed normally as it has a specified offset, and then formatted into local time

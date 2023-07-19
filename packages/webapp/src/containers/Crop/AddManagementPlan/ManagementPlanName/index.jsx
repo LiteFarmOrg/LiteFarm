@@ -15,6 +15,7 @@ export default function ManagementPlanName({ history, match }) {
         ...management_plan,
         crop_variety_id: match.params.variety_id,
         assignee_user_id: data.assignee.value,
+        repeat_crop_plan: data.repeat_crop_plan || false,
       }),
     );
     farm && dispatch(patchFarmDefaultInitialLocation(farm));

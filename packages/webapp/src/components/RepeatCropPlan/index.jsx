@@ -187,7 +187,6 @@ export default function PureRepeatCropPlan({
       return true;
     }
 
-    // Validate only after interaction with input
     if (!value) {
       return t('common:REQUIRED');
 

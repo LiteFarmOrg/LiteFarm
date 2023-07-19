@@ -88,3 +88,12 @@
   color: var(--red700);
   border-bottom: 1px solid var(--red700);
 }
+
+.inactive {
+  color: var(--grey500);
+}
+
+.firstInitial.inactive {
+  background-color: var(--grey500);
+  color: white;
+}

@@ -52,7 +52,7 @@ const isYesOptionSelected = (option) => {
  * @property {number} userFarmWage - user's current wage for the farm
  * @property {boolean} showHourlyWageInputs - whether to show HourlyWageInputs component or not
  * @property {boolean} shouldSetWage - whether user needs to set wage or not
- *
+ * @property {boolean} isValid - true if form doesn't have errors
  * @param {Object} props - hook properties
  * @param {User} props.user - logged in user
  * @param {User[]} props.users - users for the farm
@@ -61,7 +61,8 @@ const isYesOptionSelected = (option) => {
  *     in addition to assignee, hourly wage action and hourly wage. ex. { [ASSIGN_ALL]: false }
  * @param {number} [props.wage_at_moment] - wage for the task
  * @param {boolean} [props.disableUnAssignedOption] - whether to disable the unassigned option
- *
+ * @param {string} props.mode - validation strategy before submitting behaviour
+ * @param {boolean} props.shouldUnregister - enable and disable input unregister after unmount
  * @returns {ReturnedObject}
  *
  */
@@ -72,6 +73,8 @@ const useTaskAssignForm = ({
   wage_at_moment,
   defaultAssignee,
   disableUnAssignedOption,
+  mode = 'onTouched',
+  shouldUnregister,
 }) => {
   const { t } = useTranslation();
 
@@ -91,7 +94,8 @@ const useTaskAssignForm = ({
     setValue,
     clearErrors,
   } = useForm({
-    mode: 'onTouched',
+    mode: mode,
+    shouldUnregister,
     defaultValues: {
       [ASSIGNEE]: defaultAssignee,
       [HOURLY_WAGE_ACTION]: '',
@@ -110,11 +114,13 @@ const useTaskAssignForm = ({
   const assigneeOptions = useMemo(() => {
     if (user.is_admin) {
       const options = users
-        .map(({ first_name, last_name, user_id }) => ({
+        .map(({ first_name, last_name, user_id, status }) => ({
           label: `${first_name} ${last_name}`,
           value: user_id,
+          status,
         }))
-        .sort((a, b) => (a.label > b.label ? 1 : b.label > a.label ? -1 : 0));
+        .sort((a, b) => (a.label > b.label ? 1 : b.label > a.label ? -1 : 0))
+        .filter((u) => u.status !== 'Inactive');
       unAssignedOption.isDisabled = disableUnAssignedOption;
       options.unshift(unAssignedOption);
       return options;
@@ -160,6 +166,7 @@ const useTaskAssignForm = ({
     register,
     watch,
     errors,
+    isValid,
     disabled,
     assigneeOptions,
     selectedWorker,

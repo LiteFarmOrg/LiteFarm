@@ -38,10 +38,7 @@ export default function PureManagementTasks({
         `/crop/${crop_id}/management_plan/${plan_id}/repeat_confirmation`,
       ]),
     );
-    history.push(`/crop/${crop_id}/management_plan/${plan_id}/repeat`, {
-      // Rename state variable to avoid conflict with original fromCreation
-      fromCreation: false,
-    });
+    history.push(`/crop/${crop_id}/management_plan/${plan_id}/repeat`);
   };
 
   const [showCompleteFailModal, setShowCompleteFailModal] = useState(false);

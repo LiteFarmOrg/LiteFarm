@@ -17,7 +17,6 @@ import React from 'react';
 import PureRepeatCropPlan from '../../../components/RepeatCropPlan';
 import { useSelector } from 'react-redux';
 import { hookFormPersistSelector } from '../../hooks/useHookFormPersist/hookFormPersistSlice';
-import { useTranslation } from 'react-i18next';
 import { HookFormPersistProvider } from '../../hooks/useHookFormPersist/HookFormPersistProvider';
 import {
   managementPlanSelector,
@@ -26,13 +25,13 @@ import {
 import { taskCardContentByManagementPlanSelector } from '../../Task/taskCardContentSelector';
 import { getDateInputFormat } from '../../../util/moment';
 
-function RepeatCropPlan({ history, match, location }) {
-  const { t } = useTranslation(['translation']);
-
+function RepeatCropPlan({ history, match }) {
   const persistedFormData = useSelector(hookFormPersistSelector);
 
   const management_plan_id = match.params.management_plan_id;
+
   const plan = useSelector(managementPlanSelector(management_plan_id));
+
   const farmManagementPlansForCropVariety = useSelector(
     managementPlansByCropVarietyIdSelector(plan.crop_variety_id),
   );
@@ -59,7 +58,6 @@ function RepeatCropPlan({ history, match, location }) {
         origStartDate={firstTaskDate}
         onGoBack={() => history.back()}
         onContinue={onContinue}
-        fromCreation={location?.state?.fromCreation}
         persistedFormData={persistedFormData}
       />
     </HookFormPersistProvider>

@@ -379,7 +379,6 @@ PureRepeatCropPlan.prototype = {
   cropPlan: PropTypes.object,
   origStartDate: PropTypes.string,
   farmManagementPlansForCrop: PropTypes.array,
-  fromCreation: PropTypes.bool,
   useHookFormPersist: PropTypes.func,
   onGoBack: PropTypes.func,
   onContinue: PropTypes.func,

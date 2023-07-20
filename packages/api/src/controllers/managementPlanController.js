@@ -175,22 +175,20 @@ const managementPlanController = {
           }
 
           if (req.body.assignee_user_id) {
-            await Promise.all(
-              tasks.map(async (task) => {
-                const { assignee_user_id, task_type_id } = task;
-                const taskTypeTranslation = await TaskTypeModel.getTaskTranslationKeyById(
-                  task_type_id,
-                );
-                await sendTaskNotification(
-                  [assignee_user_id],
-                  req.auth.user_id,
-                  task.task_id,
-                  TaskNotificationTypes.TASK_ASSIGNED,
-                  taskTypeTranslation.task_translation_key,
-                  req.headers.farm_id,
-                );
-              }),
-            );
+            tasks.forEach(async (task) => {
+              const { assignee_user_id, task_type_id } = task;
+              const taskTypeTranslation = await TaskTypeModel.getTaskTranslationKeyById(
+                task_type_id,
+              );
+              await sendTaskNotification(
+                [assignee_user_id],
+                req.auth.user_id,
+                task.task_id,
+                TaskNotificationTypes.TASK_ASSIGNED,
+                taskTypeTranslation.task_translation_key,
+                req.headers.farm_id,
+              );
+            });
           }
 
           return { management_plan, tasks };

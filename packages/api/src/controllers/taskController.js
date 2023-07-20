@@ -396,7 +396,6 @@ const taskController = {
       const harvest_tasks = req.body;
       const { farm_id } = req.headers;
       const { user_id } = req.auth;
-      const notificationPromises = [];
 
       const result = await TaskModel.transaction(async (trx) => {
         const result = [];
@@ -431,23 +430,20 @@ const taskController = {
             if (!taskTypeTranslation) {
               taskTypeTranslation = await TaskTypeModel.getTaskTranslationKeyById(task_type_id);
             }
-            notificationPromises.push(
-              sendTaskNotification(
-                [assignee_user_id],
-                user_id,
-                task_id,
-                TaskNotificationTypes.TASK_ASSIGNED,
-                taskTypeTranslation.task_translation_key,
-                req.headers.farm_id,
-              ),
+            await sendTaskNotification(
+              [assignee_user_id],
+              user_id,
+              task_id,
+              TaskNotificationTypes.TASK_ASSIGNED,
+              taskTypeTranslation.task_translation_key,
+              req.headers.farm_id,
             );
           }
+
           result.push(removeNullTypes(task));
         }
         return result;
       });
-
-      await Promise.all(notificationPromises);
       return res.status(201).send(result);
     } catch (error) {
       console.log(error);

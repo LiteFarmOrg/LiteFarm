@@ -24,6 +24,7 @@ import TransplantTaskModel from '../models/transplantTaskModel.js';
 import PlantTaskModel from '../models/plantTaskModel.js';
 import objection, { raw } from 'objection';
 import lodash from 'lodash';
+import { sendTaskNotification, TaskNotificationTypes } from './taskController.js';
 import {
   omitKeysFromManagementPlan,
   editKeysFromManagementPlan,
@@ -437,11 +438,19 @@ const managementPlanController = {
           // Upsert manament plan
           const management_plan = await ManagementPlanModel.query(trx)
             .context({ user_id: req.auth.user_id })
-            .upsertGraph(req.body, {
-              noUpdate: true,
-              noDelete: true,
-              noInsert: ['location', 'crop_variety'],
-            });
+            .upsertGraph(
+              {
+                crop_management_plan: req.body.crop_management_plan,
+                crop_variety_id: req.body.crop_variety_id,
+                name: req.body.name,
+                notes: req.body.notes,
+              },
+              {
+                noUpdate: true,
+                noDelete: true,
+                noInsert: ['location', 'crop_variety'],
+              },
+            );
 
           const tasks = [];
           const getTask = (due_date, task_type_id, task = {}) => {
@@ -449,6 +458,7 @@ const managementPlanController = {
               due_date,
               task_type_id,
               owner_user_id: req.auth.user_id,
+              assignee_user_id: req.body.assignee_user_id,
               ...task,
             };
           };
@@ -572,6 +582,23 @@ const managementPlanController = {
                 },
               );
             tasks.push(fieldWorkTask);
+          }
+
+          if (req.body.assignee_user_id) {
+            tasks.forEach(async (task) => {
+              const { assignee_user_id, task_type_id } = task;
+              const taskTypeTranslation = await TaskTypeModel.getTaskTranslationKeyById(
+                task_type_id,
+              );
+              await sendTaskNotification(
+                [assignee_user_id],
+                req.auth.user_id,
+                task.task_id,
+                TaskNotificationTypes.TASK_ASSIGNED,
+                taskTypeTranslation.task_translation_key,
+                req.headers.farm_id,
+              );
+            });
           }
 
           return { management_plan, tasks };

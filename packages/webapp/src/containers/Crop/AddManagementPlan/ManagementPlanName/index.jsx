@@ -10,7 +10,14 @@ export default function ManagementPlanName({ history, match }) {
   const dispatch = useDispatch();
   const onSubmit = (data) => {
     const { management_plan, farm } = formatManagementPlanFormData(data);
-    dispatch(postManagementPlan({ ...management_plan, crop_variety_id: match.params.variety_id }));
+    dispatch(
+      postManagementPlan({
+        ...management_plan,
+        crop_variety_id: match.params.variety_id,
+        assignee_user_id: data.assignee.value,
+        repeat_crop_plan: data.repeat_crop_plan || false,
+      }),
+    );
     farm && dispatch(patchFarmDefaultInitialLocation(farm));
   };
   const onError = () => {};

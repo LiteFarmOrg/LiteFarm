@@ -13,10 +13,10 @@ export default {
 
 const Template = (args) => <Input {...args} />;
 
-export const Default = Template.bind({});
-Default.args = {
-  label: 'default',
-};
+// export const Default = Template.bind({});
+// Default.args = {
+//   label: 'default',
+// };
 
 export const Number = Template.bind({});
 Number.args = {
@@ -39,13 +39,13 @@ NumberWithStepper.play = async ({ canvasElement }) => {
   const stepperUp = canvas.getByLabelText('increase');
   await userEvent.click(stepperUp);
 
-  expect(numberInput).toHaveValue(1);
+  await expect(numberInput).toHaveValue(1);
 
   const stepperDown = canvas.getByLabelText('decrease');
   await userEvent.click(stepperDown);
   await userEvent.click(stepperDown);
 
-  expect(numberInput).toHaveValue(-1);
+  await expect(numberInput).toHaveValue(-1);
 };
 
 export const NumberStepperMaxMin = Template.bind({});
@@ -63,22 +63,22 @@ NumberStepperMaxMin.play = async ({ canvasElement }) => {
   const numberInput = canvas.getByTestId('input');
 
   await userEvent.type(numberInput, '8');
-  expect(numberInput).toHaveValue(8);
+  await expect(numberInput).toHaveValue(8);
 
   const stepperUp = canvas.getByLabelText('increase');
   await userEvent.click(stepperUp);
   await userEvent.click(stepperUp);
 
-  expect(numberInput).toHaveValue(9);
+  await expect(numberInput).toHaveValue(9);
 
   await userEvent.type(numberInput, '{backspace}');
-  expect(numberInput).toHaveValue(null);
+  await expect(numberInput).toHaveValue(null);
 
   const stepperDown = canvas.getByLabelText('decrease');
   await userEvent.click(stepperDown);
   await userEvent.click(stepperDown);
 
-  expect(numberInput).toHaveValue(1);
+  await expect(numberInput).toHaveValue(1);
 };
 
 export const StepperDisabled = Template.bind({});
@@ -93,7 +93,7 @@ StepperDisabled.play = async ({ canvasElement }) => {
   const canvas = within(canvasElement);
 
   const stepperUp = canvas.getByLabelText('increase');
-  expect(stepperUp).toHaveStyle(`pointer-events: none`);
+  await expect(stepperUp).toHaveStyle(`pointer-events: none`);
 };
 
 export const WithUnit = Template.bind({});
@@ -175,19 +175,19 @@ Password.play = async ({ canvasElement }) => {
   const canvas = within(canvasElement);
 
   const passwordField = canvas.getByTestId('input');
-  userEvent.type(passwordField, 'secret-password');
+  await userEvent.type(passwordField, 'secret-password');
 
-  expect(passwordField).toHaveAttribute('type', 'password');
+  await expect(passwordField).toHaveAttribute('type', 'password');
 
   const showPasswordIcon = canvas.getByLabelText('show-password');
   await userEvent.click(showPasswordIcon);
 
-  expect(passwordField).toHaveAttribute('type', 'text');
+  await expect(passwordField).toHaveAttribute('type', 'text');
 
   const hidePasswordIcon = canvas.getByLabelText('hide-password');
   await userEvent.click(hidePasswordIcon);
 
-  expect(passwordField).toHaveAttribute('type', 'password');
+  await expect(passwordField).toHaveAttribute('type', 'password');
 };
 
 export const PasswordWithLink = Template.bind({});

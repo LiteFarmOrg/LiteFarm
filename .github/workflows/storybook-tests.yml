@@ -31,4 +31,4 @@ jobs:
 
       - name: Run storybook tests
         working-directory: packages/webapp
-        run: cat allowed-storybook-tests.txt | xargs -I {} bash -c 'pnpm test-storybook "$@"' _ {}
+        run: cat allowed-storybook-tests.txt | xargs -I {} bash -c 'pnpm test-storybook --ci "$@"' _ {}

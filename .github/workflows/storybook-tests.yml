@@ -20,6 +20,7 @@ jobs:
         run: pnpm install
 
       - name: Serve Storybook and run tests
+        working-directory: packages/webapp
         run: |
           npx concurrently -k -s first -n "SB,TEST" -c "magenta,blue" \
             "npx http-server storybook-static --port 6006 --silent" \

@@ -22,7 +22,7 @@ import {
   managementPlanSelector,
   managementPlansByCropVarietyIdSelector,
 } from '../../managementPlanSlice.js';
-import { taskCardContentByManagementPlanSelector } from '../../Task/taskCardContentSelector';
+import { tasksByManagementPlanIdSelector } from '../../taskSlice';
 import { getDateInputFormat } from '../../../util/moment';
 
 function RepeatCropPlan({ history, match }) {
@@ -36,13 +36,13 @@ function RepeatCropPlan({ history, match }) {
     managementPlansByCropVarietyIdSelector(plan.crop_variety_id),
   );
 
-  const taskCardContents = useSelector(
-    taskCardContentByManagementPlanSelector(plan.management_plan_id),
-  );
-  const sortedTaskCards = taskCardContents.sort((a, b) => {
-    return new Date(a.date) - new Date(b.date);
+  const tasks = useSelector(tasksByManagementPlanIdSelector(plan.management_plan_id));
+
+  const sortedTasks = tasks.sort((a, b) => {
+    return new Date(a.due_date) - new Date(b.due_date);
   });
-  const firstTaskDate = getDateInputFormat(sortedTaskCards[0].date);
+
+  const firstTaskDate = getDateInputFormat(sortedTasks[0].complete_date || sortedTasks[0].due_date);
 
   const onContinue = () => {
     history.push(

@@ -39,6 +39,7 @@ import {
   editKeysFromPlantTask,
   omitKeysFromTransplantTask,
   editKeysFromTransplantTask,
+  editKeysFromPlantingMethods,
 } from '../util/copyCropPlanTemplate.js';
 const { transaction, Model } = objection;
 import { v4 as uuidv4 } from 'uuid';
@@ -250,7 +251,6 @@ const managementPlanController = {
                             field_work_task: null, //TODO cover case,
                             harvest_task: null, //TODO cover case,
                             cleaning_task: null, //TODO cover case
-                            //TODO: transplant task here too?
                           },
                         };
                       }),
@@ -304,6 +304,34 @@ const managementPlanController = {
                               ], // can this be done here ?
                           }
                         : null,
+                      bed_method: plan.bed_method
+                        ? {
+                            ...lodash.omit(plan.bed_method, editKeysFromPlantingMethods),
+                            planting_management_plan_id:
+                              newPlantingManagementPlanUUIDs[plan.planting_management_plan_id],
+                          }
+                        : null,
+                      container_method: plan.container_method
+                        ? {
+                            ...lodash.omit(plan.container_method, editKeysFromPlantingMethods),
+                            planting_management_plan_id:
+                              newPlantingManagementPlanUUIDs[plan.planting_management_plan_id],
+                          }
+                        : null,
+                      broadcast_method: plan.broadcast_method
+                        ? {
+                            ...lodash.omit(plan.broadcast_method, editKeysFromPlantingMethods),
+                            planting_management_plan_id:
+                              newPlantingManagementPlanUUIDs[plan.planting_management_plan_id],
+                          }
+                        : null,
+                      row_method: plan.row_method
+                        ? {
+                            ...lodash.omit(plan.row_method, editKeysFromPlantingMethods),
+                            planting_management_plan_id:
+                              newPlantingManagementPlanUUIDs[plan.planting_management_plan_id],
+                          }
+                        : null,
                     };
                   },
                 ),
@@ -323,7 +351,7 @@ const managementPlanController = {
         const newIds = [];
         const management_plan = await ManagementPlanModel.query(trx)
           .context({ user_id: req.auth.user_id })
-          .upsertGraph(newManagementPlans[2], {
+          .upsertGraph(newManagementPlans[3], {
             noUpdate: true,
             noDelete: true,
             noInsert: ['location', 'crop_variety'],

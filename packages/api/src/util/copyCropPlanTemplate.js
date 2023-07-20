@@ -36,12 +36,10 @@ export const editKeysFromCropManagementPlan = [
   'planting_management_plans',
 ];
 
-export const omitKeysFromPlantingManagementPlan = [
-  'planting_management_plan_id',
-  'management_plan_id',
-];
+export const omitKeysFromPlantingManagementPlan = ['management_plan_id'];
 
 export const editKeysFromPlantingManagementPlan = [
+  'planting_management_plan_id', //pre-generated due to transplant_task
   'location_id',
   'management_tasks',
   'plant_task',
@@ -54,18 +52,24 @@ export const editKeysFromPlantingManagementPlan = [
 
 //TASKS
 // Used on transplant task as well
-export const omitKeysFromPlantTask = ['task_id', 'planting_management_plan_id'];
+export const omitKeysFromPlantTask = ['task_id'];
 
-export const editKeysFromPlantTask = ['task'];
+export const editKeysFromPlantTask = [
+  'task',
+  'planting_management_plan_id', //pre-generated due to transplant_task
+];
 
 export const omitKeysFromTransplantTask = omitKeysFromPlantTask;
 
 export const editKeysFromTransplantTask = [
-  'prev_planting_management_plan_id',
+  'prev_planting_management_plan_id', //pre-generated due to transplant_task
   ...editKeysFromPlantTask,
 ];
 
-export const omitKeysFromManagementTask = ['task_id', 'planting_management_plan_id'];
+export const omitKeysFromManagementTask = [
+  'task_id',
+  'planting_management_plan_id', //pre-generated due to transplant_task
+];
 
 export const editKeysFromManagementTask = ['task'];
 
@@ -104,4 +108,6 @@ export const editKeysFromTasks = [
 //other tasks
 
 //planting management plans methods
-export const omitKeysFromPlantingMethods = ['planting_management_plan_id'];
+export const editKeysFromPlantingMethods = [
+  'planting_management_plan_id', //pre-generated due to transplant_task
+];

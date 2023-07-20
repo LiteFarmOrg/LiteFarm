@@ -14,13 +14,14 @@ export const omitKeysFromManagementPlan = [
   'complete_notes',
   'rating',
   'abandon_reason',
+  'start_date',
 ];
 
 export const editKeysFromManagementPlan = [
   'crop_management_plan',
   'notes',
   'name',
-  'group_id',
+  'management_plan_group_id',
   'repetition_number',
 ];
 

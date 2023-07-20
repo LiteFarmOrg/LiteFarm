@@ -57,6 +57,8 @@ class ManagementPlan extends baseModel {
         complete_notes: { type: ['string', 'null'] },
         rating: { type: ['integer', 'null'], enum: [0, 1, 2, 3, 4, 5, null] },
         abandon_reason: { type: ['string', 'null'] },
+        management_plan_group_id: { type: ['string', 'null'] },
+        repetition_number: { type: ['integer', 'null'] },
         ...this.baseProperties,
       },
       additionalProperties: false,

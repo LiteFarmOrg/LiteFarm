@@ -19,16 +19,8 @@ jobs:
         working-directory: packages/webapp
         run: pnpm install
 
-      - name: Run storybook
-        working-directory: packages/webapp
-        run: pnpm run storybook &
-
-      - name: Wait for Storybook to start
+      - name: Serve Storybook and run tests
         run: |
-          until nc -z 127.0.0.1 6006; do sleep 1; done
-          echo "Storybook is now running on port 6006."
-          sleep 15 # Add a short delay (adjust as needed) to ensure Storybook is fully ready
-
-      - name: Run storybook tests
-        working-directory: packages/webapp
-        run: cat allowed-storybook-tests.txt | xargs -I {} bash -c 'pnpm test-storybook "$@"' _ {}
+          npx concurrently -k -s first -n "SB,TEST" -c "magenta,blue" \
+            "npx http-server storybook-static --port 6006 --silent" \
+            "npx wait-on tcp:6006 && yarn test-storybook"

@@ -31,11 +31,6 @@ function RepeatCropPlan({ history, match, location }) {
 
   const persistedFormData = useSelector(hookFormPersistSelector);
 
-  const onContinue = (data) => {
-    // history.push(`/crop/${crop_id}/add_crop_variety/compliance`);
-    console.log('Submitted data:', data);
-  };
-
   const management_plan_id = match.params.management_plan_id;
   const plan = useSelector(managementPlanSelector(management_plan_id));
   const farmManagementPlansForCropVariety = useSelector(
@@ -49,6 +44,12 @@ function RepeatCropPlan({ history, match, location }) {
     return new Date(a.date) - new Date(b.date);
   });
   const firstTaskDate = getDateInputFormat(sortedTaskCards[0].date);
+
+  const onContinue = () => {
+    history.push(
+      `/crop/${plan.crop_variety_id}/management_plan/${management_plan_id}/repeat_confirmation`,
+    );
+  };
 
   return (
     <HookFormPersistProvider>

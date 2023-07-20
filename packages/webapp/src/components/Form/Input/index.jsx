@@ -251,7 +251,7 @@ Input.propTypes = {
   style: PropTypes.object,
   isSearchBar: PropTypes.bool,
   type: PropTypes.string,
-  stepper: PropTypes.boolean,
+  stepper: PropTypes.bool,
   toolTipContent: PropTypes.string,
   unit: PropTypes.string,
   currency: PropTypes.string,

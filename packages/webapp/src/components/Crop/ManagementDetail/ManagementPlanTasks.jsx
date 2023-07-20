@@ -35,7 +35,7 @@ export default function PureManagementTasks({
     dispatch(
       setPersistedPaths([
         `/crop/${crop_id}/management_plan/${plan_id}/repeat`,
-        // second page of form here
+        `/crop/${crop_id}/management_plan/${plan_id}/repeat_confirmation`,
       ]),
     );
     history.push(`/crop/${crop_id}/management_plan/${plan_id}/repeat`, {

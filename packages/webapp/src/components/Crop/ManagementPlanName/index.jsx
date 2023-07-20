@@ -12,7 +12,6 @@ import InputAutoSize from '../../Form/InputAutoSize';
 import AssignTask from '../../Task/AssignTask';
 import useTaskAssignForm from '../../Task/AssignTask/useTaskAssignForm';
 import { cloneObject } from '../../../util';
-import { ASSIGNEE } from '../../Task/AssignTask/constants';
 
 export default function PureManagementPlanName({
   onSubmit,
@@ -50,12 +49,11 @@ export default function PureManagementPlanName({
     user: user,
     users: users,
     isAssigned: false,
-    defaultAssignee: unassigned,
+    defaultAssignee:
+      users.length === 1
+        ? { label: `${user.first_name} ${user.last_name}`, value: user.user_id, isDisabled: false }
+        : unassigned,
     additionalFields: {
-      [ASSIGNEE]:
-        users.length === 1
-          ? { label: user.first_name, value: user.user_id, isDisabled: false }
-          : unassigned,
       [NAME]: t('MANAGEMENT_PLAN.PLAN_AND_ID', { id: managementPlanCount }),
       ...cloneObject(persistedFormData),
     },

@@ -37,8 +37,8 @@ import {
   editKeysFromTasks,
   omitKeysFromPlantTask,
   editKeysFromPlantTask,
-  //omitKeysFromTransplantTask,
-  //editKeysFromTransplantTask
+  omitKeysFromTransplantTask,
+  editKeysFromTransplantTask,
 } from '../util/copyCropPlanTemplate.js';
 const { transaction, Model } = objection;
 
@@ -125,6 +125,20 @@ const getAdjustedDate = (property, obj, firstTaskDate, date) => {
 //   }
 // }
 
+const getUUIDMap = async (trx, managementPlanGraph) => {
+  // make uuids
+  const uuidMap = {};
+  const num = managementPlanGraph.crop_management_plan.planting_management_plans.length;
+  const query = `select uuid_generate_v4() from generate_series(1,${num});`;
+  const uuids = await trx.raw(query);
+
+  // assign uuids to template uuids property
+  managementPlanGraph.crop_management_plan.planting_management_plans.forEach((plan, index) => {
+    uuidMap[plan.planting_management_plan_id] = uuids.rows[index].uuid_generate_v4;
+  });
+  return uuidMap;
+};
+
 const managementPlanController = {
   repeatManagementPlan() {
     return async (req, res) => {
@@ -144,12 +158,6 @@ const managementPlanController = {
 
         // Get template management plan
         const managementPlanGraph = await getManagementPlanGraph(managementPlanId, trx);
-        const {
-          notes,
-          name,
-          //group_id, // TODO: uncomment
-          //repetition_number // TODO: uncomment
-        } = managementPlanGraph;
 
         // Find the reference date
         const taskDates = getDatesFromManagementPlanGraph(managementPlanGraph);
@@ -158,127 +166,153 @@ const managementPlanController = {
         let newManagementPlans = [];
         if (templateIsPartOfGroup) {
           //if(group_id && repetition_number === 1){
-          newManagementPlans = startDates.map((date) => {
-            return {
-              ...lodash.omit(managementPlanGraph, [
-                ...omitKeysFromManagementPlan,
-                ...editKeysFromManagementPlan,
-              ]),
-              name,
-              notes,
-              crop_management_plan: {
-                ...lodash.omit(managementPlanGraph.crop_management_plan, [
-                  ...omitKeysFromCropManagementPlan,
-                  ...editKeysFromCropManagementPlan,
+          newManagementPlans = await Promise.all(
+            startDates.map(async (date) => {
+              const newPlantingManagementPlanUUIDs = await getUUIDMap(trx, managementPlanGraph);
+              return {
+                ...lodash.omit(managementPlanGraph, [
+                  ...omitKeysFromManagementPlan,
+                  ...editKeysFromManagementPlan,
                 ]),
-                seed_date: getAdjustedDate(
-                  'seed_date',
-                  managementPlanGraph.crop_management_plan,
-                  firstTaskDate,
-                  date,
-                ),
-                plant_date: getAdjustedDate(
-                  'plant_date',
-                  managementPlanGraph.crop_management_plan,
-                  firstTaskDate,
-                  date,
-                ),
-                germination_date: getAdjustedDate(
-                  'germination_date',
-                  managementPlanGraph.crop_management_plan,
-                  firstTaskDate,
-                  date,
-                ),
-                transplant_date: getAdjustedDate(
-                  'transplant_date',
-                  managementPlanGraph.crop_management_plan,
-                  firstTaskDate,
-                  date,
-                ),
-                harvest_date: getAdjustedDate(
-                  'harvest_date',
-                  managementPlanGraph.crop_management_plan,
-                  firstTaskDate,
-                  date,
-                ),
-                termination_date: getAdjustedDate(
-                  'termination_date',
-                  managementPlanGraph.crop_management_plan,
-                  firstTaskDate,
-                  date,
-                ),
-                planting_management_plans: managementPlanGraph.crop_management_plan.planting_management_plans.map(
-                  (plan) => {
-                    return {
-                      ...lodash.omit(plan, [
-                        ...omitKeysFromPlantingManagementPlan,
-                        ...editKeysFromPlantingManagementPlan,
-                      ]),
-                      location_id: plan.location_id, // TODO: Allow location changing
-                      managementTasks: plan.managementTasks.map((managementTask) => {
-                        return {
-                          ...lodash.omit(managementTask, [
-                            ...omitKeysFromManagementTask,
-                            ...editKeysFromManagementTask,
-                          ]),
-                          task: {
-                            ...lodash.omit(managementTask.task, [
-                              ...omitKeysFromTasks,
-                              ...editKeysFromTasks,
-                            ]),
-                            due_date: getAdjustedDate(
-                              'due_date',
-                              managementTask.task,
-                              firstTaskDate,
-                              date,
-                            ),
-                            coordinates: managementTask.task.coordinates, // TODO: Allow location changing
-                            pest_control_task: null, //TODO cover case
-                            irrigation_task: null, //TODO cover case,
-                            scouting_task: null, //TODO cover case,
-                            soil_task: null, //TODO cover case,
-                            field_work_task: null, //TODO cover case,
-                            harvest_task: null, //TODO cover case,
-                            cleaning_task: null, //TODO cover case
-                          },
-                        };
-                      }),
-                      plant_task: plan.plant_task
-                        ? {
-                            ...lodash.omit(plan.plant_task, [
-                              ...omitKeysFromPlantTask,
-                              ...editKeysFromPlantTask,
+                name: `${managementPlanGraph.name} ${date}`,
+                notes: managementPlanGraph.notes,
+                crop_management_plan: {
+                  ...lodash.omit(managementPlanGraph.crop_management_plan, [
+                    ...omitKeysFromCropManagementPlan,
+                    ...editKeysFromCropManagementPlan,
+                  ]),
+                  seed_date: getAdjustedDate(
+                    'seed_date',
+                    managementPlanGraph.crop_management_plan,
+                    firstTaskDate,
+                    date,
+                  ),
+                  plant_date: getAdjustedDate(
+                    'plant_date',
+                    managementPlanGraph.crop_management_plan,
+                    firstTaskDate,
+                    date,
+                  ),
+                  germination_date: getAdjustedDate(
+                    'germination_date',
+                    managementPlanGraph.crop_management_plan,
+                    firstTaskDate,
+                    date,
+                  ),
+                  transplant_date: getAdjustedDate(
+                    'transplant_date',
+                    managementPlanGraph.crop_management_plan,
+                    firstTaskDate,
+                    date,
+                  ),
+                  harvest_date: getAdjustedDate(
+                    'harvest_date',
+                    managementPlanGraph.crop_management_plan,
+                    firstTaskDate,
+                    date,
+                  ),
+                  termination_date: getAdjustedDate(
+                    'termination_date',
+                    managementPlanGraph.crop_management_plan,
+                    firstTaskDate,
+                    date,
+                  ),
+                  planting_management_plans: managementPlanGraph.crop_management_plan.planting_management_plans.map(
+                    (plan) => {
+                      return {
+                        ...lodash.omit(plan, [
+                          ...omitKeysFromPlantingManagementPlan,
+                          ...editKeysFromPlantingManagementPlan,
+                        ]),
+                        planting_management_plan_id:
+                          newPlantingManagementPlanUUIDs[plan.planting_management_plan_id],
+                        location_id: plan.location_id, // TODO: Allow location changing
+                        managementTasks: plan.managementTasks.map((managementTask) => {
+                          return {
+                            ...lodash.omit(managementTask, [
+                              ...omitKeysFromManagementTask,
+                              ...editKeysFromManagementTask,
                             ]),
                             task: {
-                              ...lodash.omit(plan.plant_task.task, [
+                              ...lodash.omit(managementTask.task, [
                                 ...omitKeysFromTasks,
                                 ...editKeysFromTasks,
                               ]),
                               due_date: getAdjustedDate(
                                 'due_date',
-                                plan.plant_task.task,
+                                managementTask.task,
                                 firstTaskDate,
                                 date,
                               ),
-                              coordinates: plan.plant_task.task.coordinates, // TODO: Allow location changing
+                              coordinates: managementTask.task.coordinates, // TODO: Allow location changing
+                              pest_control_task: null, //TODO cover case
+                              irrigation_task: null, //TODO cover case,
+                              scouting_task: null, //TODO cover case,
+                              soil_task: null, //TODO cover case,
+                              field_work_task: null, //TODO cover case,
+                              harvest_task: null, //TODO cover case,
+                              cleaning_task: null, //TODO cover case
+                              //TODO: transplant task here too?
                             },
-                          }
-                        : null,
-                      // transplant_task: plan.transplant_task ? {
-                      //   ...lodash.omit(plan.transplant_task, [...omitKeysFromTransplantTask, ...editKeysFromTransplantTask]),
-                      //   task: {
-                      //     ...lodash.omit(plan.transplant_task.task, [...omitKeysFromTasks, ...editKeysFromTasks]),
-                      //     due_date: getAdjustedDate("due_date", plan.transplant_task.task, firstTaskDate, date),
-                      //     coordinates: plan.transplant_task.task.coordinates, // TODO: Allow location changing
-                      //   },
-                      //   prev_planting_management_plan_id: null // can this be done here ?
-                      // } : null
-                    };
-                  },
-                ),
-              },
-            };
-          });
+                          };
+                        }),
+                        plant_task: plan.plant_task
+                          ? {
+                              ...lodash.omit(plan.plant_task, [
+                                ...omitKeysFromPlantTask,
+                                ...editKeysFromPlantTask,
+                              ]),
+                              planting_management_plan_id:
+                                newPlantingManagementPlanUUIDs[plan.planting_management_plan_id],
+                              task: {
+                                ...lodash.omit(plan.plant_task.task, [
+                                  ...omitKeysFromTasks,
+                                  ...editKeysFromTasks,
+                                ]),
+                                due_date: getAdjustedDate(
+                                  'due_date',
+                                  plan.plant_task.task,
+                                  firstTaskDate,
+                                  date,
+                                ),
+                                coordinates: plan.plant_task.task.coordinates, // TODO: Allow location changing
+                              },
+                            }
+                          : null,
+                        transplant_task: plan.transplant_task
+                          ? {
+                              ...lodash.omit(plan.transplant_task, [
+                                ...omitKeysFromTransplantTask,
+                                ...editKeysFromTransplantTask,
+                              ]),
+                              planting_management_plan_id:
+                                newPlantingManagementPlanUUIDs[plan.planting_management_plan_id],
+                              task: {
+                                ...lodash.omit(plan.transplant_task.task, [
+                                  ...omitKeysFromTasks,
+                                  ...editKeysFromTasks,
+                                ]),
+                                due_date: getAdjustedDate(
+                                  'due_date',
+                                  plan.transplant_task.task,
+                                  firstTaskDate,
+                                  date,
+                                ),
+                                coordinates: plan.transplant_task.task.coordinates, // TODO: Allow location changing
+                              },
+                              prev_planting_management_plan_id:
+                                newPlantingManagementPlanUUIDs[
+                                  plan.transplant_task.prev_planting_management_plan_id
+                                ], // can this be done here ?
+                            }
+                          : null,
+                      };
+                    },
+                  ),
+                },
+              };
+            }),
+          );
           //} else {
           // TODO translation
           //  throw "Can not add on to existing group"
@@ -292,19 +326,12 @@ const managementPlanController = {
         const newIds = [];
         const management_plan = await ManagementPlanModel.query(trx)
           .context({ user_id: req.auth.user_id })
-          .upsertGraph(
-            {
-              crop_management_plan: newManagementPlans[0].crop_management_plan,
-              crop_variety_id: newManagementPlans[0].crop_variety_id,
-              name: newManagementPlans[0].name,
-              notes: newManagementPlans[0].notes,
-            },
-            {
-              noUpdate: true,
-              noDelete: true,
-              noInsert: ['location', 'crop_variety'],
-            },
-          );
+          .upsertGraph(newManagementPlans[0], {
+            noUpdate: true,
+            noDelete: true,
+            noInsert: ['location', 'crop_variety'],
+            insertMissing: true,
+          });
         newIds.push(management_plan.management_plan_id);
         //insert graph
         // await newManagementPlans.forEach(async (newPlan) => {

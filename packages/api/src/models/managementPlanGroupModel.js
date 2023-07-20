@@ -41,7 +41,7 @@ class ManagementPlanGroup extends baseModel {
       properties: {
         management_plan_group_id: { type: 'string' },
         repetition_count: { type: 'integer' },
-        repetition_config: { type: 'string' },
+        repetition_config: { type: 'object' },
         ...this.baseProperties,
       },
       additionalProperties: false,

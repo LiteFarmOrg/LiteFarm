@@ -1,9 +1,10 @@
 import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
 import { loginSelector, onLoadingFail, onLoadingStart } from './userFarmSlice';
 import { createSelector } from 'reselect';
-import { cropEntitiesSelector } from './cropSlice';
+import { cropEntitiesSelector, cropStatusSelector } from './cropSlice';
 import { pick } from '../util/pick';
 import produce from 'immer';
+import { getTrackedReducerSelector } from '../util/reselect/reselect';
 
 const getCropVariety = (obj) => {
   return pick(obj, [
@@ -126,7 +127,7 @@ export default cropVarietySlice.reducer;
 export const cropVarietyReducerSelector = (state) => state.entitiesReducer[cropVarietySlice.name];
 
 const cropVarietySelectors = cropVarietyAdapter.getSelectors(
-  (state) => state.entitiesReducer[cropVarietySlice.name],
+  getTrackedReducerSelector(cropVarietySlice.name, cropStatusSelector),
 );
 
 export const cropVarietyEntitiesSelector = createSelector(

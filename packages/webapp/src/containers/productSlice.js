@@ -43,11 +43,8 @@ const productSlice = createSlice({
     deleteTaskSuccess: productAdapter.removeOne,
   },
 });
-export const {
-  onLoadingProductFail,
-  onLoadingProductStart,
-  getProductsSuccess,
-} = productSlice.actions;
+export const { onLoadingProductFail, onLoadingProductStart, getProductsSuccess } =
+  productSlice.actions;
 export default productSlice.reducer;
 
 export const productReducerSelector = (state) => state.entitiesReducer[productSlice.name];
@@ -67,3 +64,9 @@ export const productEntitiesSelector = productSelectors.selectEntities;
 
 export const productSelector = (product_id) => (state) =>
   productSelectors.selectById(state, product_id);
+export const productStatusSelector = createSelector(
+  [productReducerSelector],
+  ({ loading, error }) => {
+    return { loading, error };
+  },
+);

@@ -1,16 +1,22 @@
 import { all, call, put, select, takeLatest, takeLeading } from 'redux-saga/effects';
 import { createAction } from '@reduxjs/toolkit';
 import apiConfig from '../../apiConfig';
-import { axios, getHeader, getPlantingManagementPlansSuccessSaga, onReqSuccessSaga } from '../saga';
+import {
+  axios,
+  getHeader,
+  getManagementPlans,
+  getPlantingManagementPlansSuccessSaga,
+  onReqSuccessSaga,
+} from '../saga';
 import i18n from '../../locales/i18n';
 import { loginSelector, putUserSuccess } from '../userFarmSlice';
 import history from '../../history';
 import { enqueueErrorSnackbar, enqueueSuccessSnackbar } from '../Snackbar/snackbarSlice';
 import {
   addManyTasksFromGetReq,
+  deleteTaskSuccess,
   putTasksSuccess,
   putTaskSuccess,
-  deleteTaskSuccess,
 } from '../taskSlice';
 import { getProductsSuccess, onLoadingProductFail, onLoadingProductStart } from '../productSlice';
 import {
@@ -346,6 +352,10 @@ export function* getTasksSuccessSaga({ payload: tasks }) {
 export const getTasks = createAction('getTasksSaga');
 
 export function* getTasksSaga() {
+  put(getManagementPlans());
+  put(getTaskTypes());
+  put(getProducts());
+  put(getHarvestUseTypes());
   const { taskUrl } = apiConfig;
   let { user_id, farm_id } = yield select(loginSelector);
   const header = getHeader(user_id, farm_id);

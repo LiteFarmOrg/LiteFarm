@@ -135,12 +135,7 @@ import {
   onLoadingPlantingManagementPlanFail,
   onLoadingPlantingManagementPlanStart,
 } from './plantingManagementPlanSlice';
-import {
-  getHarvestUseTypesSaga,
-  getProductsSaga,
-  getTasksSaga,
-  getTaskTypesSaga,
-} from './Task/saga';
+import { getTasks } from './Task/saga';
 import notificationSaga, { getNotification } from './Notification/saga';
 import { appVersionSelector, setAppVersion } from './appSettingSlice';
 import { APP_VERSION } from '../util/constants';
@@ -272,7 +267,6 @@ export function* getFarmInfoSaga() {
       return;
     }
     localStorage.setItem('role_id', userFarm.role_id);
-    yield put(getLocations());
     yield put(getManagementPlans());
   } catch (e) {
     console.log(e);
@@ -450,6 +444,9 @@ export function* getPlantingManagementPlansSuccessSaga({ payload: plantingManage
 export const getManagementPlans = createAction('getManagementPlansSaga');
 
 export function* getManagementPlansSaga() {
+  put(getLocations());
+  put(getCrops());
+  put(getCropVarieties());
   const { managementPlanURL } = apiConfig;
   let { user_id, farm_id } = yield select(loginSelector);
   const header = getHeader(user_id, farm_id);
@@ -486,34 +483,6 @@ export function* getManagementPlansByDateSaga() {
   } catch (e) {
     yield put(onLoadingManagementPlanFail());
     console.log('failed to fetch field crops by date');
-  }
-}
-
-export const getCropsAndManagementPlans = createAction('getCropsAndManagementPlansSaga');
-
-export function* getCropsAndManagementPlansSaga() {
-  try {
-    yield all([call(getLocationsSaga), call(getCropsSaga)]);
-    yield call(getCropVarietiesSaga);
-    yield call(getManagementPlansSaga);
-  } catch (e) {
-    console.log(e);
-  }
-}
-
-export const getManagementPlansAndTasks = createAction('getManagementPlansAndTasksSaga');
-
-export function* getManagementPlansAndTasksSaga() {
-  try {
-    yield all([
-      call(getCropsAndManagementPlansSaga),
-      call(getProductsSaga),
-      call(getHarvestUseTypesSaga),
-      call(getTaskTypesSaga),
-    ]);
-    yield call(getTasksSaga);
-  } catch (e) {
-    console.log(e);
   }
 }
 
@@ -560,11 +529,7 @@ export function* fetchAllSaga() {
     put(getSales()),
     put(getExpense()),
   ];
-  const tasks = [
-    put(getRoles()),
-    put(getManagementPlansAndTasks()),
-    call(getAllUserFarmsByFarmIDSaga),
-  ];
+  const tasks = [put(getRoles()), put(getTasks()), call(getAllUserFarmsByFarmIDSaga)];
 
   yield all(isAdmin ? [...tasks, ...adminTasks] : tasks);
 
@@ -633,7 +598,5 @@ export default function* getFarmIdSaga() {
     getManagementPlanAndPlantingMethodSuccess.type,
     getManagementPlanAndPlantingMethodSuccessSaga,
   );
-  yield takeLeading(getManagementPlansAndTasks.type, getManagementPlansAndTasksSaga);
-  yield takeLatest(getCropsAndManagementPlans.type, getCropsAndManagementPlansSaga);
   yield takeLatest(getNotification.type, notificationSaga);
 }

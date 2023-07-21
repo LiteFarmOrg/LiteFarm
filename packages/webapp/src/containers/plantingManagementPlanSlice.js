@@ -139,11 +139,8 @@ export const plantingManagementPlanEntitiesSelector = createSelector(
       row_method: rowMethodEntities,
     };
     for (const planting_management_plan of plantingManagementPlans) {
-      const {
-        planting_management_plan_id,
-        planting_method,
-        location_id,
-      } = planting_management_plan;
+      const { planting_management_plan_id, planting_method, location_id } =
+        planting_management_plan;
       entities[planting_management_plan_id] = { ...planting_management_plan };
       const plantingMethodLowercase = planting_method?.toLowerCase();
       plantingMethodLowercase &&
@@ -174,5 +171,11 @@ export const plantingManagementPlanEntitiesByManagementPlanIdSelector = createSe
       }
     }
     return entitiesByManagementPlanId;
+  },
+);
+export const plantingManagementPlanStatusSelector = createSelector(
+  [plantingManagementPlanReducerSelector],
+  ({ loading, error }) => {
+    return { loading, error };
   },
 );

@@ -4,15 +4,12 @@ import { managementPlanSelector } from '../../managementPlanSlice';
 import { isAdminSelector } from '../../userFarmSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import FirstManagementPlanSpotlight from './FirstManagementPlanSpotlight';
-import {
-  pendingTasksByManagementPlanIdSelector,
-  tasksByManagementPlanIdSelector,
-} from '../../taskSlice';
+import { pendingTasksByManagementPlanIdSelector } from '../../taskSlice';
 import TaskCard from '../../Task/TaskCard';
 import React, { useEffect } from 'react';
 import { taskCardContentByManagementPlanSelector } from '../../Task/taskCardContentSelector';
 import { onAddTask } from '../../Task/onAddTask';
-import { getManagementPlansAndTasks } from '../../saga';
+import { getTasks } from '../../Task/saga.js';
 
 export default function ManagementTasks({ history, match, location }) {
   const dispatch = useDispatch();
@@ -24,7 +21,7 @@ export default function ManagementTasks({ history, match, location }) {
   const isAdmin = useSelector(isAdminSelector);
 
   useEffect(() => {
-    dispatch(getManagementPlansAndTasks());
+    dispatch(getTasks());
   }, []);
 
   const onBack = () => {

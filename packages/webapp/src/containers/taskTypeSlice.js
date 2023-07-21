@@ -2,6 +2,7 @@ import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
 import { loginSelector, onLoadingFail, onLoadingStart, userFarmSelector } from './userFarmSlice';
 import { pick } from '../util/pick';
 import { createSelector } from 'reselect';
+import { cropVarietyReducerSelector } from './cropVarietySlice.js';
 
 export const getTaskType = (obj) => {
   return pick(obj, ['task_type_id', 'task_name', 'task_translation_key', 'farm_id', 'deleted']);
@@ -44,12 +45,8 @@ const taskTypeSlice = createSlice({
     deleteTaskTypeSuccess: softDeleteTaskType,
   },
 });
-export const {
-  onLoadingProductFail,
-  taskTypes,
-  getTaskTypesSuccess,
-  deleteTaskTypeSuccess,
-} = taskTypeSlice.actions;
+export const { onLoadingProductFail, taskTypes, getTaskTypesSuccess, deleteTaskTypeSuccess } =
+  taskTypeSlice.actions;
 export default taskTypeSlice.reducer;
 
 export const taskTypeReducerSelector = (state) => state.entitiesReducer[taskTypeSlice.name];
@@ -84,4 +81,11 @@ export const taskTypeIdNoCropsSelector = createSelector([taskTypesSelector], (ta
   taskTypes
     .filter(({ task_translation_key }) => noCropsTaskTypes.includes(task_translation_key))
     .map(({ task_type_id }) => task_type_id),
+);
+
+export const taskTypeStatusSelector = createSelector(
+  [cropVarietyReducerSelector],
+  ({ loading, error }) => {
+    return { loading, error };
+  },
 );

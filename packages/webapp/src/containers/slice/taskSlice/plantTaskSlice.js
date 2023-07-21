@@ -2,8 +2,12 @@ import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
 import { onLoadingFail, onLoadingStart, onLoadingSuccess } from '../../userFarmSlice';
 import { createSelector } from 'reselect';
 import { pick } from '../../../util/pick';
-import { plantingManagementPlanEntitiesSelector } from '../../plantingManagementPlanSlice';
+import {
+  plantingManagementPlanEntitiesSelector,
+  plantingManagementPlanStatusSelector,
+} from '../../plantingManagementPlanSlice';
 import produce from 'immer';
+import { getTrackedReducerSelector } from '../../../util/reselect/reselect';
 
 const plantTaskProperties = ['planting_management_plan_id', 'task_id'];
 
@@ -56,7 +60,7 @@ export default plantTaskSlice.reducer;
 export const plantTaskReducerSelector = (state) => state.entitiesReducer[plantTaskSlice.name];
 
 const plantTaskSelectors = plantTaskAdapter.getSelectors(
-  (state) => state.entitiesReducer[plantTaskSlice.name],
+  getTrackedReducerSelector(plantTaskSlice.name, plantingManagementPlanStatusSelector),
 );
 
 export const plantTaskEntitiesSelector = createSelector(

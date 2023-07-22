@@ -16,38 +16,22 @@
 import ManagementPlanModel from '../models/managementPlanModel.js';
 import ManagementPlanGroup from '../models/managementPlanGroupModel.js';
 import CropManagementPlanModel from '../models/cropManagementPlanModel.js';
-import PlantingManagementPlanModel from '../models/plantingManagementPlanModel.js';
 import ManagementTasksModel from '../models/managementTasksModel.js';
 import TaskModel from '../models/taskModel.js';
 import TaskTypeModel from '../models/taskTypeModel.js';
 import FieldWorkTypeModel from '../models/fieldWorkTypeModel.js';
 import TransplantTaskModel from '../models/transplantTaskModel.js';
 import PlantTaskModel from '../models/plantTaskModel.js';
-import RowMethodModel from '../models/rowMethodModel.js';
-import BroadcastMethodModel from '../models/broadcastMethodModel.js';
-import BedMethodModel from '../models/bedMethodModel.js';
-import ContainerMethodModel from '../models/containerMethodModel.js';
 import UserFarmModel from '../models/userFarmModel.js';
 import objection, { raw } from 'objection';
-import _omit from 'lodash/omit.js';
 import _pick from 'lodash/pick.js';
 import { sendTaskNotification, TaskNotificationTypes } from './taskController.js';
 import {
-  getPropertiesToDelete,
   getDatesFromManagementPlanGraph,
-  getAdjustedDate,
+  getManagementPlanGroupTemplateGraph,
 } from '../util/copyCropPlan.js';
-import { getUUIDMap, getSortedDates } from '../util/util.js';
+import { getSortedDates } from '../util/util.js';
 const { transaction, Model } = objection;
-
-const getManagementPlanGraph = async (planId, trx) => {
-  return await ManagementPlanModel.query(trx)
-    .where('management_plan_id', planId)
-    .withGraphFetched(
-      'crop_management_plan.[planting_management_plans.[managementTasks.[task.[pest_control_task, irrigation_task, scouting_task, soil_task, field_work_task, harvest_task, cleaning_task, taskType]], plant_task.[task], transplant_task.[task], bed_method, container_method, broadcast_method, row_method]]',
-    )
-    .first();
-};
 
 // For testing returns unique taskIds
 // const getTasksFromManagementPlanGraph = (managementPlanGraph) => {
@@ -64,241 +48,50 @@ const managementPlanController = {
   repeatManagementPlan() {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
-      const {
-        startDates, // or calculate if necessary
-        managementPlanId,
-        templateIsPartOfGroup,
-        repetitionConfig,
-      } = req.body;
+      const { startDates, managementPlanId, templateIsPartOfGroup, repetitionConfig } = req.body;
       try {
         if (startDates.length != repetitionConfig.repetitions) {
           await trx.rollback();
           throw 'Repetitions does not match start dates';
         }
+        const createdByUser = req.auth.user_id;
+
         // Get source management plan entire graph acting as a template
-        const managementPlanGraph = await getManagementPlanGraph(managementPlanId, trx);
+        const managementPlanGraph = await ManagementPlanModel.query(trx)
+          .where('management_plan_id', managementPlanId)
+          .withGraphFetched(
+            'crop_management_plan.[planting_management_plans.[managementTasks.[task.[pest_control_task, irrigation_task, scouting_task, soil_task, field_work_task, harvest_task, cleaning_task, taskType]], plant_task.[task], transplant_task.[task], bed_method, container_method, broadcast_method, row_method]]',
+          )
+          .first();
 
         // Only assign tasks if JUST one 'Active' userFarm
         const activeUsers = await UserFarmModel.query(trx)
           .select('user_id', 'wage')
           .where('farm_id', req.headers.farm_id)
           .andWhere('status', 'Active');
-        console.log(activeUsers);
         const theOnlyActiveUserFarm = activeUsers.length == 1 ? activeUsers[0] : null;
 
         // Find the reference date
         const taskDates = getDatesFromManagementPlanGraph(managementPlanGraph);
+        // TODO: Do I need to check if startDates[0] != firstTaskDate ?
         const sortedStartDates = getSortedDates(startDates);
         const firstTaskDate = getSortedDates(taskDates)[0];
 
         //Create an upsert object based on the graphs table columns
         let newManagementPlanGroup = {};
         if (!templateIsPartOfGroup && sortedStartDates.length > 0) {
-          //if(group_id && repetition_number === 1){
-          newManagementPlanGroup = {
-            repetition_count: repetitionConfig.repetitions, // change to startDates.length
-            repetition_config: repetitionConfig,
-            management_plans: sortedStartDates.map((date, index) => {
-              const newPlantingManagementPlanUUIDs = getUUIDMap(
-                managementPlanGraph.crop_management_plan.planting_management_plans,
-                'planting_management_plan_id',
-              );
-              return {
-                ..._omit(managementPlanGraph, getPropertiesToDelete(ManagementPlanModel)),
-                name: `${managementPlanGraph.name} ${date}`,
-                crop_management_plan: {
-                  ..._omit(
-                    managementPlanGraph.crop_management_plan,
-                    getPropertiesToDelete(CropManagementPlanModel),
-                  ),
-                  seed_date: getAdjustedDate(
-                    'seed_date',
-                    managementPlanGraph.crop_management_plan,
-                    firstTaskDate,
-                    date,
-                  ),
-                  plant_date: getAdjustedDate(
-                    'plant_date',
-                    managementPlanGraph.crop_management_plan,
-                    firstTaskDate,
-                    date,
-                  ),
-                  germination_date: getAdjustedDate(
-                    'germination_date',
-                    managementPlanGraph.crop_management_plan,
-                    firstTaskDate,
-                    date,
-                  ),
-                  transplant_date: getAdjustedDate(
-                    'transplant_date',
-                    managementPlanGraph.crop_management_plan,
-                    firstTaskDate,
-                    date,
-                  ),
-                  harvest_date: getAdjustedDate(
-                    'harvest_date',
-                    managementPlanGraph.crop_management_plan,
-                    firstTaskDate,
-                    date,
-                  ),
-                  termination_date: getAdjustedDate(
-                    'termination_date',
-                    managementPlanGraph.crop_management_plan,
-                    firstTaskDate,
-                    date,
-                  ),
-                  planting_management_plans: managementPlanGraph.crop_management_plan.planting_management_plans.map(
-                    (plan) => {
-                      return {
-                        ..._omit(plan, getPropertiesToDelete(PlantingManagementPlanModel)),
-                        planting_management_plan_id:
-                          newPlantingManagementPlanUUIDs[plan.planting_management_plan_id],
-                        location_id: plan.location_id, // TODO: Allow location changing
-                        managementTasks: plan.managementTasks.map((managementTask) => {
-                          return {
-                            ..._omit(managementTask, getPropertiesToDelete(ManagementTasksModel)),
-                            planting_management_plan_id:
-                              newPlantingManagementPlanUUIDs[plan.planting_management_plan_id],
-                            task: {
-                              ..._omit(managementTask.task, getPropertiesToDelete(TaskModel)),
-                              due_date: getAdjustedDate(
-                                managementTask.task.complete_date ? 'complete_date' : 'due_date',
-                                managementTask.task,
-                                firstTaskDate,
-                                date,
-                              ),
-                              coordinates: managementTask.task.coordinates,
-                              owner_user_id: req.auth.user_id, // TODO: Allow location changing
-                              assignee_user_id: theOnlyActiveUserFarm
-                                ? theOnlyActiveUserFarm.user_id
-                                : null,
-                              wage_at_moment: theOnlyActiveUserFarm?.wage
-                                ? theOnlyActiveUserFarm.wage.amount
-                                : null,
-                              pest_control_task: null, //TODO cover case
-                              irrigation_task: null, //TODO cover case,
-                              scouting_task: null, //TODO cover case,
-                              soil_task: null, //TODO cover case,
-                              field_work_task: null, //TODO cover case,
-                              harvest_task: null, //TODO cover case,
-                              cleaning_task: null, //TODO cover case
-                              // locations: location_tasks
-                            },
-                          };
-                        }),
-                        plant_task: plan.plant_task
-                          ? {
-                              ..._omit(plan.plant_task, getPropertiesToDelete(PlantTaskModel)),
-                              planting_management_plan_id:
-                                newPlantingManagementPlanUUIDs[plan.planting_management_plan_id],
-                              task: {
-                                ..._omit(plan.plant_task.task, getPropertiesToDelete(TaskModel)),
-                                due_date: getAdjustedDate(
-                                  plan.plant_task.task.complete_date ? 'complete_date' : 'due_date',
-                                  plan.plant_task.task,
-                                  firstTaskDate,
-                                  date,
-                                ),
-                                owner_user_id: req.auth.user_id,
-                                assignee_user_id: theOnlyActiveUserFarm
-                                  ? theOnlyActiveUserFarm.user_id
-                                  : null,
-                                wage_at_moment: theOnlyActiveUserFarm?.wage
-                                  ? theOnlyActiveUserFarm.wage.amount
-                                  : null,
-                                coordinates: plan.plant_task.task.coordinates,
-                                // TODO: Allow location changing
-                                // locations: location_tasks
-                              },
-                            }
-                          : null,
-                        transplant_task: plan.transplant_task
-                          ? {
-                              ..._omit(
-                                plan.transplant_task,
-                                getPropertiesToDelete(TransplantTaskModel),
-                              ),
-                              planting_management_plan_id:
-                                newPlantingManagementPlanUUIDs[plan.planting_management_plan_id],
-                              task: {
-                                ..._omit(
-                                  plan.transplant_task.task,
-                                  getPropertiesToDelete(TaskModel),
-                                ),
-                                due_date: getAdjustedDate(
-                                  plan.transplant_task.task.complete_date
-                                    ? 'complete_date'
-                                    : 'due_date',
-                                  plan.transplant_task.task,
-                                  firstTaskDate,
-                                  date,
-                                ),
-                                owner_user_id: req.auth.user_id,
-                                assignee_user_id: theOnlyActiveUserFarm
-                                  ? theOnlyActiveUserFarm.user_id
-                                  : null,
-                                wage_at_moment: theOnlyActiveUserFarm?.wage
-                                  ? theOnlyActiveUserFarm.wage.amount
-                                  : null,
-                                coordinates: plan.transplant_task.task.coordinates,
-                                // TODO: Allow location changing
-                                // locations: location_tasks
-                              },
-                              prev_planting_management_plan_id:
-                                newPlantingManagementPlanUUIDs[
-                                  plan.transplant_task.prev_planting_management_plan_id
-                                ], // can this be done here ?
-                            }
-                          : null,
-                        bed_method: plan.bed_method
-                          ? {
-                              ..._omit(plan.bed_method, getPropertiesToDelete(BedMethodModel)),
-                              planting_management_plan_id:
-                                newPlantingManagementPlanUUIDs[plan.planting_management_plan_id],
-                            }
-                          : null,
-                        container_method: plan.container_method
-                          ? {
-                              ..._omit(
-                                plan.container_method,
-                                getPropertiesToDelete(ContainerMethodModel),
-                              ),
-                              planting_management_plan_id:
-                                newPlantingManagementPlanUUIDs[plan.planting_management_plan_id],
-                            }
-                          : null,
-                        broadcast_method: plan.broadcast_method
-                          ? {
-                              ..._omit(
-                                plan.broadcast_method,
-                                getPropertiesToDelete(BroadcastMethodModel),
-                              ),
-                              planting_management_plan_id:
-                                newPlantingManagementPlanUUIDs[plan.planting_management_plan_id],
-                            }
-                          : null,
-                        row_method: plan.row_method
-                          ? {
-                              ..._omit(plan.row_method, getPropertiesToDelete(RowMethodModel)),
-                              planting_management_plan_id:
-                                newPlantingManagementPlanUUIDs[plan.planting_management_plan_id],
-                            }
-                          : null,
-                      };
-                    },
-                  ),
-                },
-                repetition_number: index + 1,
-              };
-            }),
-          };
-          //} else {
-          // TODO translation
-          //  throw "Can not add on to existing group"
-          //}
+          //Using the template management plan this returns a really large object containing all data to be inserted
+          newManagementPlanGroup = getManagementPlanGroupTemplateGraph(
+            createdByUser,
+            repetitionConfig,
+            sortedStartDates,
+            managementPlanGraph,
+            theOnlyActiveUserFarm,
+            firstTaskDate,
+          );
         } else {
-          // TODO configure not part of group
-          throw 'Currently template plan cannot be part of a group';
+          // TODO: configure not part of group
+          throw 'Currently template plan cannot be part of the newly created group';
         }
 
         //Upsert management group

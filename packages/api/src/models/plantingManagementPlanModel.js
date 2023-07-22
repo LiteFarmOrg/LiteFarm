@@ -135,6 +135,34 @@ class plantingManagementPlanModel extends Model {
       },
     };
   }
+
+  // Custom function used in copy crop plan
+  // Should contain all jsonSchema() and relationMappings() keys
+  static get templateMappingSchema() {
+    return {
+      // jsonSchema()
+      planting_management_plan_id: 'edit',
+      management_plan_id: 'omit',
+      is_final_planting_management_plan: 'keep', //UNDO: null change transplant task violates this rule somehow
+      planting_task_type: 'keep',
+      planting_method: 'keep',
+      is_planting_method_known: 'keep',
+      estimated_seeds: 'keep',
+      estimated_seeds_unit: 'keep',
+      location_id: 'edit',
+      pin_coordinate: 'keep',
+      notes: 'keep',
+      // relationMappings
+      location: 'omit',
+      broadcast_method: 'edit',
+      container_method: 'edit',
+      bed_method: 'edit',
+      row_method: 'edit',
+      transplant_task: 'edit',
+      plant_task: 'edit',
+      managementTasks: 'edit',
+    };
+  }
 }
 
 export default plantingManagementPlanModel;

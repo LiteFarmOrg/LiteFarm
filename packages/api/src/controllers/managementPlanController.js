@@ -16,34 +16,29 @@
 import ManagementPlanModel from '../models/managementPlanModel.js';
 import ManagementPlanGroup from '../models/managementPlanGroupModel.js';
 import CropManagementPlanModel from '../models/cropManagementPlanModel.js';
+import PlantingManagementPlanModel from '../models/plantingManagementPlanModel.js';
 import ManagementTasksModel from '../models/managementTasksModel.js';
 import TaskModel from '../models/taskModel.js';
 import TaskTypeModel from '../models/taskTypeModel.js';
 import FieldWorkTypeModel from '../models/fieldWorkTypeModel.js';
 import TransplantTaskModel from '../models/transplantTaskModel.js';
 import PlantTaskModel from '../models/plantTaskModel.js';
+import RowMethodModel from '../models/rowMethodModel.js';
+import BroadcastMethodModel from '../models/broadcastMethodModel.js';
+import BedMethodModel from '../models/bedMethodModel.js';
+import ContainerMethodModel from '../models/containerMethodModel.js';
+import UserFarmModel from '../models/userFarmModel.js';
 import objection, { raw } from 'objection';
-import lodash from 'lodash';
+import _omit from 'lodash/omit.js';
+import _pick from 'lodash/pick.js';
 import { sendTaskNotification, TaskNotificationTypes } from './taskController.js';
 import {
-  omitKeysFromManagementPlan,
-  editKeysFromManagementPlan,
-  omitKeysFromCropManagementPlan,
-  editKeysFromCropManagementPlan,
-  omitKeysFromPlantingManagementPlan,
-  editKeysFromPlantingManagementPlan,
-  omitKeysFromManagementTask,
-  editKeysFromManagementTask,
-  omitKeysFromTasks,
-  editKeysFromTasks,
-  omitKeysFromPlantTask,
-  editKeysFromPlantTask,
-  omitKeysFromTransplantTask,
-  editKeysFromTransplantTask,
-  editKeysFromPlantingMethods,
-} from '../util/copyCropPlanTemplate.js';
+  getPropertiesToDelete,
+  getDatesFromManagementPlanGraph,
+  getAdjustedDate,
+} from '../util/copyCropPlan.js';
+import { getUUIDMap, getSortedDates } from '../util/util.js';
 const { transaction, Model } = objection;
-import { v4 as uuidv4 } from 'uuid';
 
 const getManagementPlanGraph = async (planId, trx) => {
   return await ManagementPlanModel.query(trx)
@@ -51,8 +46,6 @@ const getManagementPlanGraph = async (planId, trx) => {
     .withGraphFetched(
       'crop_management_plan.[planting_management_plans.[managementTasks.[task.[pest_control_task, irrigation_task, scouting_task, soil_task, field_work_task, harvest_task, cleaning_task, taskType]], plant_task.[task], transplant_task.[task], bed_method, container_method, broadcast_method, row_method]]',
     )
-    // TODO: replace when groups added
-    //.withGraphFetched('crop_management_plan.[planting_management_plans.[managementTasks.[task.[pest_control_task, irrigation_task, scouting_task, soil_task, field_work_task, harvest_task, cleaning_task, taskType]], plant_task.[task], transplant_task.[task], bed_method, container_method, broadcast_method, row_method]], management_plan_group')
     .first();
 };
 
@@ -67,74 +60,6 @@ const getManagementPlanGraph = async (planId, trx) => {
 //   return [...new Set(tasks)];
 // }
 
-const getDatesFromManagementPlanGraph = (managementPlanGraph) => {
-  const dates = [];
-  managementPlanGraph.crop_management_plan.planting_management_plans.forEach((plan) => {
-    if (plan.plant_task) {
-      plan.plant_task.task.complete_date
-        ? dates.push(plan.plant_task.task.complete_date)
-        : dates.push(plan.plant_task.task.due_date);
-    }
-    if (plan.transplant_task) {
-      plan.transplant_task.task?.complete_date
-        ? dates.push(plan.transplant_task.task.complete_date)
-        : dates.push(plan.transplant_task.task.due_date);
-    }
-    if (plan.managementTasks) {
-      plan.managementTasks.forEach((managementTask) => {
-        managementTask.task.complete_date
-          ? dates.push(managementTask.task.complete_date)
-          : dates.push(managementTask.task.due_date);
-      });
-    }
-  });
-  return dates;
-};
-
-const getSortedDates = (dates) => {
-  const jsDates = dates.map((date) => new Date(date));
-  return jsDates.sort((date1, date2) => date1 - date2);
-};
-
-const getAdjustedDate = (property, obj, firstTaskDate, date) => {
-  if (obj[property] === null) {
-    return null;
-  }
-  const templateDate = new Date(obj[property]);
-  const adjustment = templateDate - firstTaskDate;
-  const newTime = new Date(date).getTime() + adjustment;
-  const newDate = new Date(newTime);
-  const formattedDate = newDate.toISOString().split('T')[0];
-  return formattedDate;
-};
-
-// TODO: Uncomment - Update management plan group
-// const makeGroupAndPatchTemplatePlan = async (repetitions, templateIsPartOfGroup, userId, managementPlanId, repetitionNumber) => {
-//   let managementPlanGroup;
-//   //No group id needed if copying once
-//   if(repetitions > 1 || (repetitions === 1 && templateIsPartOfGroup)) {
-//     managementPlanGroup = await ManagementPlanGroupModel.query(trx).insert({
-//       user_id: userId,
-//       repetition_count: repetitions
-//     });
-//   }
-//   if(templateIsPartOfGroup){
-//     await ManagementPlanModel.query(trx).findById(managementPlanId).patch({
-//       group_id: managementPlanGroup.groupId,
-//       repetition_number: repetitionNumber
-//     })
-//   }
-// }
-
-const getUUIDMap = (arr, property) => {
-  // assign uuids to template uuids property
-  const uuidMap = {};
-  arr.forEach((item) => {
-    uuidMap[item[property]] = uuidv4();
-  });
-  return uuidMap;
-};
-
 const managementPlanController = {
   repeatManagementPlan() {
     return async (req, res) => {
@@ -143,40 +68,49 @@ const managementPlanController = {
         startDates, // or calculate if necessary
         managementPlanId,
         templateIsPartOfGroup,
-        repetitionConfig, //what in here?
+        repetitionConfig,
       } = req.body;
       try {
-        // Get template management plan
+        if (startDates.length != repetitionConfig.repetitions) {
+          await trx.rollback();
+          throw 'Repetitions does not match start dates';
+        }
+        // Get source management plan entire graph acting as a template
         const managementPlanGraph = await getManagementPlanGraph(managementPlanId, trx);
+
+        // Only assign tasks if JUST one 'Active' userFarm
+        const activeUsers = await UserFarmModel.query(trx)
+          .select('user_id', 'wage')
+          .where('farm_id', req.headers.farm_id)
+          .andWhere('status', 'Active');
+        console.log(activeUsers);
+        const theOnlyActiveUserFarm = activeUsers.length == 1 ? activeUsers[0] : null;
 
         // Find the reference date
         const taskDates = getDatesFromManagementPlanGraph(managementPlanGraph);
-        const sortedTaskDates = getSortedDates(startDates);
+        const sortedStartDates = getSortedDates(startDates);
         const firstTaskDate = getSortedDates(taskDates)[0];
 
+        //Create an upsert object based on the graphs table columns
         let newManagementPlanGroup = {};
-        if (templateIsPartOfGroup && sortedTaskDates.length > 0) {
+        if (!templateIsPartOfGroup && sortedStartDates.length > 0) {
           //if(group_id && repetition_number === 1){
           newManagementPlanGroup = {
             repetition_count: repetitionConfig.repetitions, // change to startDates.length
             repetition_config: repetitionConfig,
-            management_plans: sortedTaskDates.map((date, index) => {
+            management_plans: sortedStartDates.map((date, index) => {
               const newPlantingManagementPlanUUIDs = getUUIDMap(
                 managementPlanGraph.crop_management_plan.planting_management_plans,
                 'planting_management_plan_id',
               );
               return {
-                ...lodash.omit(managementPlanGraph, [
-                  ...omitKeysFromManagementPlan,
-                  ...editKeysFromManagementPlan,
-                ]),
+                ..._omit(managementPlanGraph, getPropertiesToDelete(ManagementPlanModel)),
                 name: `${managementPlanGraph.name} ${date}`,
-                notes: managementPlanGraph.notes,
                 crop_management_plan: {
-                  ...lodash.omit(managementPlanGraph.crop_management_plan, [
-                    ...omitKeysFromCropManagementPlan,
-                    ...editKeysFromCropManagementPlan,
-                  ]),
+                  ..._omit(
+                    managementPlanGraph.crop_management_plan,
+                    getPropertiesToDelete(CropManagementPlanModel),
+                  ),
                   seed_date: getAdjustedDate(
                     'seed_date',
                     managementPlanGraph.crop_management_plan,
@@ -216,31 +150,31 @@ const managementPlanController = {
                   planting_management_plans: managementPlanGraph.crop_management_plan.planting_management_plans.map(
                     (plan) => {
                       return {
-                        ...lodash.omit(plan, [
-                          ...omitKeysFromPlantingManagementPlan,
-                          ...editKeysFromPlantingManagementPlan,
-                        ]),
+                        ..._omit(plan, getPropertiesToDelete(PlantingManagementPlanModel)),
                         planting_management_plan_id:
                           newPlantingManagementPlanUUIDs[plan.planting_management_plan_id],
                         location_id: plan.location_id, // TODO: Allow location changing
                         managementTasks: plan.managementTasks.map((managementTask) => {
                           return {
-                            ...lodash.omit(managementTask, [
-                              ...omitKeysFromManagementTask,
-                              ...editKeysFromManagementTask,
-                            ]),
+                            ..._omit(managementTask, getPropertiesToDelete(ManagementTasksModel)),
+                            planting_management_plan_id:
+                              newPlantingManagementPlanUUIDs[plan.planting_management_plan_id],
                             task: {
-                              ...lodash.omit(managementTask.task, [
-                                ...omitKeysFromTasks,
-                                ...editKeysFromTasks,
-                              ]),
+                              ..._omit(managementTask.task, getPropertiesToDelete(TaskModel)),
                               due_date: getAdjustedDate(
                                 managementTask.task.complete_date ? 'complete_date' : 'due_date',
                                 managementTask.task,
                                 firstTaskDate,
                                 date,
                               ),
-                              coordinates: managementTask.task.coordinates, // TODO: Allow location changing
+                              coordinates: managementTask.task.coordinates,
+                              owner_user_id: req.auth.user_id, // TODO: Allow location changing
+                              assignee_user_id: theOnlyActiveUserFarm
+                                ? theOnlyActiveUserFarm.user_id
+                                : null,
+                              wage_at_moment: theOnlyActiveUserFarm?.wage
+                                ? theOnlyActiveUserFarm.wage.amount
+                                : null,
                               pest_control_task: null, //TODO cover case
                               irrigation_task: null, //TODO cover case,
                               scouting_task: null, //TODO cover case,
@@ -248,45 +182,49 @@ const managementPlanController = {
                               field_work_task: null, //TODO cover case,
                               harvest_task: null, //TODO cover case,
                               cleaning_task: null, //TODO cover case
+                              // locations: location_tasks
                             },
                           };
                         }),
                         plant_task: plan.plant_task
                           ? {
-                              ...lodash.omit(plan.plant_task, [
-                                ...omitKeysFromPlantTask,
-                                ...editKeysFromPlantTask,
-                              ]),
+                              ..._omit(plan.plant_task, getPropertiesToDelete(PlantTaskModel)),
                               planting_management_plan_id:
                                 newPlantingManagementPlanUUIDs[plan.planting_management_plan_id],
                               task: {
-                                ...lodash.omit(plan.plant_task.task, [
-                                  ...omitKeysFromTasks,
-                                  ...editKeysFromTasks,
-                                ]),
+                                ..._omit(plan.plant_task.task, getPropertiesToDelete(TaskModel)),
                                 due_date: getAdjustedDate(
                                   plan.plant_task.task.complete_date ? 'complete_date' : 'due_date',
                                   plan.plant_task.task,
                                   firstTaskDate,
                                   date,
                                 ),
-                                coordinates: plan.plant_task.task.coordinates, // TODO: Allow location changing
+                                owner_user_id: req.auth.user_id,
+                                assignee_user_id: theOnlyActiveUserFarm
+                                  ? theOnlyActiveUserFarm.user_id
+                                  : null,
+                                wage_at_moment: theOnlyActiveUserFarm?.wage
+                                  ? theOnlyActiveUserFarm.wage.amount
+                                  : null,
+                                coordinates: plan.plant_task.task.coordinates,
+                                // TODO: Allow location changing
+                                // locations: location_tasks
                               },
                             }
                           : null,
                         transplant_task: plan.transplant_task
                           ? {
-                              ...lodash.omit(plan.transplant_task, [
-                                ...omitKeysFromTransplantTask,
-                                ...editKeysFromTransplantTask,
-                              ]),
+                              ..._omit(
+                                plan.transplant_task,
+                                getPropertiesToDelete(TransplantTaskModel),
+                              ),
                               planting_management_plan_id:
                                 newPlantingManagementPlanUUIDs[plan.planting_management_plan_id],
                               task: {
-                                ...lodash.omit(plan.transplant_task.task, [
-                                  ...omitKeysFromTasks,
-                                  ...editKeysFromTasks,
-                                ]),
+                                ..._omit(
+                                  plan.transplant_task.task,
+                                  getPropertiesToDelete(TaskModel),
+                                ),
                                 due_date: getAdjustedDate(
                                   plan.transplant_task.task.complete_date
                                     ? 'complete_date'
@@ -295,7 +233,16 @@ const managementPlanController = {
                                   firstTaskDate,
                                   date,
                                 ),
-                                coordinates: plan.transplant_task.task.coordinates, // TODO: Allow location changing
+                                owner_user_id: req.auth.user_id,
+                                assignee_user_id: theOnlyActiveUserFarm
+                                  ? theOnlyActiveUserFarm.user_id
+                                  : null,
+                                wage_at_moment: theOnlyActiveUserFarm?.wage
+                                  ? theOnlyActiveUserFarm.wage.amount
+                                  : null,
+                                coordinates: plan.transplant_task.task.coordinates,
+                                // TODO: Allow location changing
+                                // locations: location_tasks
                               },
                               prev_planting_management_plan_id:
                                 newPlantingManagementPlanUUIDs[
@@ -305,28 +252,34 @@ const managementPlanController = {
                           : null,
                         bed_method: plan.bed_method
                           ? {
-                              ...lodash.omit(plan.bed_method, editKeysFromPlantingMethods),
+                              ..._omit(plan.bed_method, getPropertiesToDelete(BedMethodModel)),
                               planting_management_plan_id:
                                 newPlantingManagementPlanUUIDs[plan.planting_management_plan_id],
                             }
                           : null,
                         container_method: plan.container_method
                           ? {
-                              ...lodash.omit(plan.container_method, editKeysFromPlantingMethods),
+                              ..._omit(
+                                plan.container_method,
+                                getPropertiesToDelete(ContainerMethodModel),
+                              ),
                               planting_management_plan_id:
                                 newPlantingManagementPlanUUIDs[plan.planting_management_plan_id],
                             }
                           : null,
                         broadcast_method: plan.broadcast_method
                           ? {
-                              ...lodash.omit(plan.broadcast_method, editKeysFromPlantingMethods),
+                              ..._omit(
+                                plan.broadcast_method,
+                                getPropertiesToDelete(BroadcastMethodModel),
+                              ),
                               planting_management_plan_id:
                                 newPlantingManagementPlanUUIDs[plan.planting_management_plan_id],
                             }
                           : null,
                         row_method: plan.row_method
                           ? {
-                              ...lodash.omit(plan.row_method, editKeysFromPlantingMethods),
+                              ..._omit(plan.row_method, getPropertiesToDelete(RowMethodModel)),
                               planting_management_plan_id:
                                 newPlantingManagementPlanUUIDs[plan.planting_management_plan_id],
                             }
@@ -335,7 +288,7 @@ const managementPlanController = {
                     },
                   ),
                 },
-                repetition_number: index,
+                repetition_number: index + 1,
               };
             }),
           };
@@ -345,12 +298,11 @@ const managementPlanController = {
           //}
         } else {
           // TODO configure not part of group
-          throw 'Currently template plan must be part of group';
+          throw 'Currently template plan cannot be part of a group';
         }
 
         //Upsert management group
-        const newIds = [];
-        const management_plan = await ManagementPlanGroup.query(trx)
+        const managementPlanGroup = await ManagementPlanGroup.query(trx)
           .context({ user_id: req.auth.user_id })
           .upsertGraph(newManagementPlanGroup, {
             noUpdate: true,
@@ -358,12 +310,9 @@ const managementPlanController = {
             noInsert: ['location', 'crop_variety'],
             insertMissing: true,
           });
-        newIds.push(management_plan);
 
         await trx.commit();
-        // return res.status(201).send(managementPlanGraph);
-        // return res.status(201).send(newManagementPlans);
-        return res.status(201).send(newIds);
+        return res.status(201).send(managementPlanGroup);
       } catch (error) {
         await trx.rollback();
         console.log(error);
@@ -584,7 +533,7 @@ const managementPlanController = {
         const result = await ManagementPlanModel.query()
           .context(req.auth)
           .where({ management_plan_id: req.params.management_plan_id })
-          .patch(lodash.pick(req.body, ['complete_date', 'complete_notes', 'rating']));
+          .patch(_pick(req.body, ['complete_date', 'complete_notes', 'rating']));
         if (result) {
           return res.sendStatus(200);
         } else {
@@ -682,9 +631,7 @@ const managementPlanController = {
           return await ManagementPlanModel.query()
             .context(req.auth)
             .where({ management_plan_id })
-            .patch(
-              lodash.pick(req.body, ['abandon_date', 'complete_notes', 'rating', 'abandon_reason']),
-            );
+            .patch(_pick(req.body, ['abandon_date', 'complete_notes', 'rating', 'abandon_reason']));
         });
 
         if (result) {

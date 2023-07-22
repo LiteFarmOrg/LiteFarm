@@ -42,6 +42,20 @@ class BroadcastMethodModel extends Model {
   static get relationMappings() {
     return {};
   }
+
+  // Custom function used in copy crop plan
+  // Should contain all jsonSchema() and relationMappings() keys
+  static get templateMappingSchema() {
+    return {
+      // jsonSchema()
+      planting_management_plan_id: 'edit',
+      percentage_planted: 'keep',
+      area_used: 'keep',
+      area_used_unit: 'keep',
+      seeding_rate: 'keep',
+      // relationMappings
+    };
+  }
 }
 
 export default BroadcastMethodModel;

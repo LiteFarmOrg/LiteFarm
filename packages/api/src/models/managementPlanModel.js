@@ -85,6 +85,29 @@ class ManagementPlan extends baseModel {
       },
     };
   }
+
+  // Custom function used in copy crop plan
+  // Should contain all jsonSchema() and relationMappings() keys
+  static get templateMappingSchema() {
+    return {
+      // jsonSchema()
+      management_plan_id: 'omit',
+      crop_variety_id: 'keep',
+      name: 'edit',
+      notes: 'keep',
+      abandon_date: 'omit',
+      start_date: 'omit',
+      complete_date: 'omit',
+      complete_notes: 'omit',
+      rating: 'omit',
+      abandon_reason: 'omit',
+      management_plan_group_id: 'omit',
+      repetition_number: 'edit',
+      // relationMappings
+      crop_variety: 'omit',
+      crop_management_plan: 'edit',
+    };
+  }
 }
 
 export default ManagementPlan;

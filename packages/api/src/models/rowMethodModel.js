@@ -38,6 +38,31 @@ class RowMethodModel extends Model {
   static get relationMappings() {
     return {};
   }
+
+  // Custom function used in copy crop plan
+  // Should contain all jsonSchema() and relationMappings() keys
+  static get templateMappingSchema() {
+    return {
+      // jsonSchema()
+      planting_management_plan_id: 'edit',
+      same_length: 'keep',
+      number_of_rows: 'keep',
+      row_length: 'keep',
+      row_length_unit: 'keep',
+      plant_spacing: 'keep',
+      plant_spacing_unit: 'keep',
+      total_rows_length: 'keep',
+      total_rows_length_unit: 'keep',
+      specify_rows: 'keep',
+      planting_depth: 'keep',
+      planting_depth_unit: 'keep',
+      row_width: 'keep',
+      row_width_unit: 'keep',
+      row_spacing: 'keep',
+      row_spacing_unit: 'keep',
+      // relationMappings
+    };
+  }
 }
 
 export default RowMethodModel;

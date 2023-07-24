@@ -475,12 +475,13 @@ const managementPlanController = {
 };
 
 const planGraphFetchedQueryString =
-  '[crop_variety, crop_management_plan.[planting_management_plans.[bed_method, container_method, broadcast_method, row_method]]]';
+  '[crop_variety, management_plan_group, crop_management_plan.[planting_management_plans.[bed_method, container_method, broadcast_method, row_method]]]';
 const graphJoinedOptions = {
   aliases: {
     crop_management_plan: 'cmp',
     planting_management_plan: 'pmp',
     planting_management_plans: 'pmps',
+    management_plan_group: 'mpg',
   },
 };
 

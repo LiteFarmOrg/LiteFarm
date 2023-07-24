@@ -17,6 +17,7 @@ import baseModel from './baseModel.js';
 import moment from 'moment';
 import cropVarietyModel from './cropVarietyModel.js';
 import cropManagementPlanModel from './cropManagementPlanModel.js';
+import managementPlanGroup from './managementPlanGroupModel.js';
 
 class ManagementPlan extends baseModel {
   static get tableName() {
@@ -79,6 +80,14 @@ class ManagementPlan extends baseModel {
         join: {
           from: 'management_plan.management_plan_id',
           to: 'crop_management_plan.management_plan_id',
+        },
+      },
+      management_plan_group: {
+        relation: baseModel.BelongsToOneRelation,
+        modelClass: managementPlanGroup,
+        join: {
+          from: 'management_plan.management_plan_group_id',
+          to: 'management_plan_group.management_plan_group_id',
         },
       },
     };

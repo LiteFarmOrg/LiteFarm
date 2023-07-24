@@ -8,6 +8,8 @@ import PropTypes from 'prop-types';
 import styles from './styles.module.scss';
 import IncompleteTaskModal from '../../Modals/IncompleteTaskModal';
 import RouterTab from '../../RouterTab';
+import { useDispatch } from 'react-redux';
+import { setPersistedPaths } from '../../../containers/hooks/useHookFormPersist/hookFormPersistSlice';
 
 export default function PureManagementTasks({
   onCompleted,
@@ -25,7 +27,19 @@ export default function PureManagementTasks({
 }) {
   const { t } = useTranslation();
 
+  const dispatch = useDispatch();
+
   const title = plan.name;
+
+  const onRepeatPlan = (crop_id, plan_id) => {
+    dispatch(
+      setPersistedPaths([
+        `/crop/${crop_id}/management_plan/${plan_id}/repeat`,
+        `/crop/${crop_id}/management_plan/${plan_id}/repeat_confirmation`,
+      ]),
+    );
+    history.push(`/crop/${crop_id}/management_plan/${plan_id}/repeat`);
+  };
 
   const [showCompleteFailModal, setShowCompleteFailModal] = useState(false);
 
@@ -76,6 +90,13 @@ export default function PureManagementTasks({
           },
         ]}
       />
+
+      <Button
+        style={{ marginBlock: '20px' }}
+        onClick={() => onRepeatPlan(plan.crop_variety_id, plan.management_plan_id)}
+      >
+        Repeat Crop Plan
+      </Button>
 
       {isAdmin && isActiveOrPlanned && (
         <AddLink style={{ marginTop: '16px', marginBottom: '14px' }} onClick={onAddTask}>

@@ -261,6 +261,9 @@ const HarvestUses = React.lazy(() =>
   import('./containers/Task/TaskComplete/HarvestComplete/HarvestUses'),
 );
 const TaskCompleteStepOne = React.lazy(() => import('./containers/Task/TaskComplete/StepOne'));
+const TaskCompleteOnCreation = React.lazy(() =>
+  import('./containers/Task/TaskComplete/CompleteOnCreation'),
+);
 const TaskReadOnly = React.lazy(() => import('./containers/Task/TaskReadOnly'));
 const EditCustomTask = React.lazy(() => import('./containers/Task/EditCustomTask'));
 const TaskAbandon = React.lazy(() => import('./containers/Task/TaskAbandon'));
@@ -514,6 +517,11 @@ const Routes = () => {
             <Route path="/tasks/:task_id/read_only" exact component={TaskReadOnly} />
             <Route path="/tasks/:task_id/complete" exact component={TaskComplete} />
             <Route path="/tasks/:task_id/before_complete" exact component={TaskCompleteStepOne} />
+            <Route
+              path="/tasks/:task_id/complete_on_creation"
+              exact
+              component={TaskCompleteOnCreation}
+            />
             <Route
               path="/tasks/:task_id/complete_harvest_quantity"
               exact
@@ -904,6 +912,11 @@ const Routes = () => {
             <Route path="/tasks/:task_id/complete" exact component={TaskComplete} />
             <Route path="/tasks/:task_id/before_complete" exact component={TaskCompleteStepOne} />
             <Route
+              path="/tasks/:task_id/complete_on_creation"
+              exact
+              component={TaskCompleteOnCreation}
+            />
+            <Route
               path="/tasks/:task_id/complete_harvest_quantity"
               exact
               component={HarvestCompleteQuantity}
@@ -998,6 +1011,11 @@ const Routes = () => {
             <Route path="/tasks/:task_id/abandon" exact component={TaskAbandon} />
             <Route path="/tasks/:task_id/complete" exact component={TaskComplete} />
             <Route path="/tasks/:task_id/before_complete" exact component={TaskCompleteStepOne} />
+            <Route
+              path="/tasks/:task_id/complete_on_creation"
+              exact
+              component={TaskCompleteOnCreation}
+            />
             <Route
               path="/tasks/:task_id/complete_harvest_quantity"
               exact

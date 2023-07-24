@@ -1568,6 +1568,10 @@
       "MULTIPLE_CROPS": "Múltiples cultivos",
       "MULTIPLE_LOCATIONS": "Múltiples ubicaciones"
     },
+    "COMPLETE_ON_CREATION": {
+      "BODY": "MISSING",
+      "CANCEL": "MISSING"
+    },
     "COMPLETE": {
       "DATE": "Fecha de completar",
       "WHEN": "¿Cuándo se completó la tarea?"

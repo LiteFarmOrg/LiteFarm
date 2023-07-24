@@ -1569,6 +1569,10 @@
       "MULTIPLE_CROPS": "Plusieurs cultures",
       "MULTIPLE_LOCATIONS": "Plusieurs emplacements"
     },
+    "COMPLETE_ON_CREATION": {
+      "BODY": "MISSING",
+      "CANCEL": "MISSING"
+    },
     "COMPLETE": {
       "DATE": "Date d'achèvement",
       "WHEN": "Quand la tâche a-t-elle été terminée\u00a0?"

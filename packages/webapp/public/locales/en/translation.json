@@ -1661,6 +1661,10 @@
       "MULTIPLE_CROPS": "Multiple crops",
       "MULTIPLE_LOCATIONS": "Multiple locations"
     },
+    "COMPLETE_ON_CREATION": {
+      "BODY": "Your task has been saved. Do you want to mark it as completed now?",
+      "CANCEL": "Not Now"
+    },
     "COMPLETE": {
       "DATE": "Completion date",
       "WHEN": "When was the task completed?"

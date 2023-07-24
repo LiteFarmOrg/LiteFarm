@@ -177,6 +177,7 @@ export const getAdjustedDate = (property, obj, firstTaskDate, date) => {
 export const getManagementPlanTemplateGraph = (
   date,
   index,
+  repeatDetails,
   createdByUser,
   managementPlanGraph,
   theOnlyActiveUserFarm,
@@ -186,7 +187,7 @@ export const getManagementPlanTemplateGraph = (
   return {
     ..._omit(managementPlanGraph, getPropertiesToDelete(ManagementPlanModel)),
     //TODO: handle name
-    name: `${managementPlanGraph.name} ${date}`,
+    name: repeatDetails.planName,
     crop_management_plan: {
       ..._omit(
         managementPlanGraph.crop_management_plan,
@@ -421,7 +422,7 @@ export const getManagementPlanTemplateGraph = (
  * on the management plan group model.
  *
  * @param {string} createdByUser - The username of the user who initiated the management plan group repetition.
- * @param {Object} repetitionConfig - The repetition configuration for the management plan group template.
+ * @param {Object} repeatDetails - The repetition configuration for the management plan group template.
  * @param {Date[]} sortedStartDates - An array of sorted start dates for the management plan templates.
  * @param {Object} managementPlanGraph - The management plan graph used as the template object.
  * @param {Object} theOnlyActiveUserFarm - Null if more than one 'Active' userFarm.
@@ -431,15 +432,15 @@ export const getManagementPlanTemplateGraph = (
  */
 export const getManagementPlanGroupTemplateGraph = (
   createdByUser,
-  repetitionConfig,
+  repeatDetails,
   sortedStartDates,
   managementPlanGraph,
   theOnlyActiveUserFarm,
   firstTaskDate,
 ) => {
   return {
-    repetition_count: repetitionConfig.repetitions,
-    repetition_config: repetitionConfig,
+    repetition_count: sortedStartDates.length,
+    repetition_config: repeatDetails,
     management_plans: sortedStartDates.map((date, index) => {
       const newPlantingManagementPlanUUIDs = getUUIDMap(
         managementPlanGraph.crop_management_plan.planting_management_plans,
@@ -448,6 +449,7 @@ export const getManagementPlanGroupTemplateGraph = (
       return getManagementPlanTemplateGraph(
         date,
         index,
+        repeatDetails,
         createdByUser,
         managementPlanGraph,
         theOnlyActiveUserFarm,

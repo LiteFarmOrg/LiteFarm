@@ -38,12 +38,8 @@ const managementPlanController = {
   repeatManagementPlan() {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
-      const { startDates, management_plan_id, repetitionConfig } = req.body;
+      const { startDates, management_plan_id, repeatDetails } = req.body;
       try {
-        if (startDates.length != repetitionConfig.repetitions) {
-          await trx.rollback();
-          throw 'Repetitions does not match start dates';
-        }
         const createdByUser = req.auth.user_id;
 
         // Get source management plan entire graph acting as a template
@@ -75,7 +71,7 @@ const managementPlanController = {
           //Using the template management plan this returns a really large object containing all data to be inserted
           newManagementPlanGroup = getManagementPlanGroupTemplateGraph(
             createdByUser,
-            repetitionConfig,
+            repeatDetails,
             sortedStartDates,
             managementPlanGraph,
             theOnlyActiveUserFarm,

@@ -24,6 +24,7 @@ import PlantTaskModel from '../models/plantTaskModel.js';
 import { raw } from 'objection';
 import lodash from 'lodash';
 import { sendTaskNotification, TaskNotificationTypes } from './taskController.js';
+import PlantingManagementPlanModel from '../models/plantingManagementPlanModel.js';
 
 const managementPlanController = {
   addManagementPlan() {
@@ -206,12 +207,102 @@ const managementPlanController = {
   delManagementPlan() {
     return async (req, res) => {
       try {
-        const isDeleted = await ManagementPlanModel.query()
-          .context(req.auth)
-          .where({ management_plan_id: req.params.management_plan_id })
-          .delete();
-        if (isDeleted) {
-          return res.sendStatus(200);
+        const { management_plan_id } = req.params;
+        const result = await ManagementPlanModel.transaction(async (trx) => {
+          const tasksWithManagementPlanCount = await ManagementTasksModel.query()
+            .select('*')
+            .join(
+              'planting_management_plan',
+              'planting_management_plan.planting_management_plan_id',
+              'management_tasks.planting_management_plan_id',
+            )
+            .where('planting_management_plan.management_plan_id', management_plan_id)
+            .distinct('task_id')
+            .then((tasks) =>
+              ManagementTasksModel.query()
+                .join(
+                  'planting_management_plan',
+                  'planting_management_plan.planting_management_plan_id',
+                  'management_tasks.planting_management_plan_id',
+                )
+                .join('task', 'task.task_id', 'management_tasks.task_id')
+                .whereNull('task.complete_date')
+                .whereIn(
+                  'management_tasks.task_id',
+                  tasks.map(({ task_id }) => task_id),
+                )
+                .groupBy('management_tasks.task_id')
+                .count('planting_management_plan.management_plan_id')
+                .select('management_tasks.task_id'),
+            );
+
+          const transplantTasks = await TransplantTaskModel.query()
+            .select('*')
+            .join(
+              'planting_management_plan',
+              'planting_management_plan.planting_management_plan_id',
+              'transplant_task.planting_management_plan_id',
+            )
+            .join('task', 'task.task_id', 'transplant_task.task_id')
+            .whereNull('task.complete_date')
+            .where('planting_management_plan.management_plan_id', management_plan_id);
+
+          const plantTasks = await PlantTaskModel.query()
+            .select('*')
+            .join(
+              'planting_management_plan',
+              'planting_management_plan.planting_management_plan_id',
+              'plant_task.planting_management_plan_id',
+            )
+            .join('task', 'task.task_id', 'plant_task.task_id')
+            .whereNull('task.complete_date')
+            .where('planting_management_plan.management_plan_id', management_plan_id);
+
+          const taskIdsRelatedToOneManagementPlan = [
+            ...tasksWithManagementPlanCount.filter(({ count }) => count === '1'),
+            ...transplantTasks,
+            ...plantTasks,
+          ].map(({ task_id }) => task_id);
+
+          await TaskModel.query(trx)
+            .context(req.auth)
+            .whereIn('task_id', taskIdsRelatedToOneManagementPlan)
+            .delete();
+          const taskIdsRelatedToManyManagementPlans = tasksWithManagementPlanCount
+            .filter(({ count }) => Number(count) > 1)
+            .map(({ task_id }) => task_id);
+
+          // If a task is associated with more than one management plan, the record is deleted from management_tasks but the task is not deleted
+          // Raw because knex does not allow delete join, see: https://github.com/knex/knex/issues/873
+          taskIdsRelatedToManyManagementPlans.length &&
+            (await trx.raw(
+              'delete from "management_tasks" using "planting_management_plan" where "planting_management_plan"."planting_management_plan_id" = "management_tasks"."planting_management_plan_id" and "planting_management_plan"."management_plan_id" = ? and "management_tasks"."task_id" = ANY(?)',
+              [management_plan_id, taskIdsRelatedToManyManagementPlans],
+            ));
+
+          // Return associated planting management plans (no deletion necessary)
+          const plantingManagementPlans = await PlantingManagementPlanModel.query(trx)
+            .context(req.auth)
+            .where({ management_plan_id });
+
+          await ManagementPlanModel.query()
+            .context(req.auth)
+            .where({ management_plan_id })
+            .delete();
+
+          // send back deleted entities
+          return {
+            deletedTaskIds: taskIdsRelatedToOneManagementPlan,
+            plantTaskIds: plantTasks.map(({ task_id }) => task_id),
+            plantingManagementPlanIds: plantingManagementPlans.map(
+              ({ planting_management_plan_id }) => planting_management_plan_id,
+            ),
+            taskIdsRelatedToManyManagementPlans,
+          };
+        });
+
+        if (result) {
+          return res.status(200).json(result);
         } else {
           return res.sendStatus(404);
         }

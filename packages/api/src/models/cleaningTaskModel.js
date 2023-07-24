@@ -63,6 +63,25 @@ class CleaningTaskModel extends Model {
       },
     };
   }
+
+  // Custom function used in copy crop plan
+  // Should contain all jsonSchema() and relationMappings() keys
+  static get templateMappingSchema() {
+    return {
+      // jsonSchema()
+      task_id: 'omit',
+      product_id: 'keep',
+      other_purpose: 'keep',
+      cleaning_target: 'keep',
+      agent_used: 'keep',
+      water_usage: 'keep',
+      water_usage_unit: 'keep',
+      product_quantity: 'keep',
+      product_quantity_unit: 'keep',
+      // relationMappings
+      task: 'omit',
+    };
+  }
 }
 
 export default CleaningTaskModel;

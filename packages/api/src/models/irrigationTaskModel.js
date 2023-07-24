@@ -84,6 +84,35 @@ class IrrigationTaskModel extends Model {
       },
     };
   }
+
+  // Custom function used in copy crop plan
+  // Should contain all jsonSchema() and relationMappings() keys
+  static get templateMappingSchema() {
+    return {
+      // jsonSchema()
+      task_id: 'omit',
+      irrigation_type_id: 'keep',
+      irrigation_type_name: 'keep',
+      estimated_duration: 'keep',
+      estimated_duration_unit: 'keep',
+      estimated_flow_rate: 'keep',
+      estimated_flow_rate_unit: 'keep',
+      location_id: 'keep',
+      estimated_water_usage: 'keep',
+      estimated_water_usage_unit: 'keep',
+      application_depth: 'keep',
+      application_depth_unit: 'keep',
+      measuring_type: 'keep',
+      percent_of_location_irrigated: 'keep',
+      default_location_flow_rate: 'keep',
+      default_location_application_depth: 'keep',
+      default_irrigation_task_type_location: 'keep',
+      default_irrigation_task_type_measurement: 'keep',
+      // relationMappings
+      task: 'omit',
+      irrigation_type: 'omit',
+    };
+  }
 }
 
 export default IrrigationTaskModel;

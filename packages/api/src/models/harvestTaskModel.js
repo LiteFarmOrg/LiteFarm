@@ -70,6 +70,23 @@ class HarvestTaskModel extends Model {
       },
     };
   }
+
+  // Custom function used in copy crop plan
+  // Should contain all jsonSchema() and relationMappings() keys
+  static get templateMappingSchema() {
+    return {
+      // jsonSchema()
+      task_id: 'omit',
+      projected_quantity: 'keep',
+      projected_quantity_unit: 'keep',
+      actual_quantity: 'omit',
+      actual_quantity_unit: 'omit',
+      harvest_everything: 'keep',
+      // relationMappings
+      task: 'omit',
+      harvest_use: 'omit',
+    };
+  }
 }
 
 export default HarvestTaskModel;

@@ -75,6 +75,23 @@ class SoilAmendmentTaskModel extends Model {
       },
     };
   }
+
+  // Custom function used in copy crop plan
+  // Should contain all jsonSchema() and relationMappings() keys
+  static get templateMappingSchema() {
+    return {
+      // jsonSchema()
+      task_id: 'omit',
+      purpose: 'keep',
+      other_purpose: 'keep',
+      product_id: 'keep',
+      product_quantity: 'keep',
+      product_quantity_unit: 'keep',
+      // relationMappings
+      task: 'omit',
+      product: 'omit',
+    };
+  }
 }
 
 export default SoilAmendmentTaskModel;

@@ -94,6 +94,41 @@ class SoilTaskModel extends Model {
       },
     };
   }
+
+  // Custom function used in copy crop plan
+  // Should contain all jsonSchema() and relationMappings() keys
+  static get templateMappingSchema() {
+    return {
+      // jsonSchema()
+      task_id: 'omit',
+      start_depth: 'keep',
+      end_depth: 'keep',
+      depth_cm: 'keep',
+      texture: 'keep',
+      k: 'keep',
+      p: 'keep',
+      n: 'keep',
+      na: 'keep',
+      om: 'keep',
+      ph: 'keep',
+      'bulk_density_kg/m3': 'keep',
+      organic_carbon: 'keep',
+      inorganic_carbon: 'keep',
+      total_carbon: 'keep',
+      s: 'keep',
+      ca: 'keep',
+      mg: 'keep',
+      zn: 'keep',
+      mn: 'keep',
+      fe: 'keep',
+      cu: 'keep',
+      b: 'keep',
+      c: 'keep',
+      cec: 'keep',
+      // relationMappings
+      task: 'omit',
+    };
+  }
 }
 
 export default SoilTaskModel;

@@ -207,6 +207,14 @@ class TaskModel extends BaseModel {
           to: 'location.location_id',
         },
       },
+      locationTasks: {
+        modelClass: locationTasksModel,
+        relation: Model.HasManyRelation,
+        join: {
+          from: 'task.task_id',
+          to: 'location_tasks.task_id',
+        },
+      },
     };
   }
 

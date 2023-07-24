@@ -5,6 +5,14 @@ import ManagementTasksModel from '../models/managementTasksModel.js';
 import TaskModel from '../models/taskModel.js';
 import TransplantTaskModel from '../models/transplantTaskModel.js';
 import PlantTaskModel from '../models/plantTaskModel.js';
+import PestControlTaskModel from '../models/pestControlTask.js';
+import ScoutingTaskModel from '../models/scoutingTaskModel.js';
+import SoilTaskModel from '../models/soilTaskModel.js';
+import SoilAmendmentTaskModel from '../models/soilAmendmentTaskModel.js';
+import IrrigationTaskModel from '../models/irrigationTaskModel.js';
+import HarvestTaskModel from '../models/harvestTaskModel.js';
+import FieldWorkTaskModel from '../models/fieldWorkTaskModel.js';
+import CleaningTaskModel from '../models/cleaningTaskModel.js';
 import RowMethodModel from '../models/rowMethodModel.js';
 import BroadcastMethodModel from '../models/broadcastMethodModel.js';
 import BedMethodModel from '../models/bedMethodModel.js';
@@ -199,14 +207,57 @@ export const getManagementPlanTemplateGraph = (
                   wage_at_moment: theOnlyActiveUserFarm?.wage
                     ? theOnlyActiveUserFarm.wage.amount
                     : null,
-                  pest_control_task: null, //TODO cover case
-                  irrigation_task: null, //TODO cover case,
-                  scouting_task: null, //TODO cover case,
-                  soil_task: null, //TODO cover case,
-                  field_work_task: null, //TODO cover case,
-                  harvest_task: null, //TODO cover case,
-                  cleaning_task: null, //TODO cover case
-                  // locations: location_tasks
+                  pest_control_task: plan.pest_control_task
+                    ? {
+                        ..._omit(
+                          plan.pest_control_task,
+                          getPropertiesToDelete(PestControlTaskModel),
+                        ),
+                      }
+                    : null,
+                  irrigation_task: plan.irrigation_task
+                    ? {
+                        ..._omit(plan.irrigation_task, getPropertiesToDelete(IrrigationTaskModel)),
+                      }
+                    : null,
+                  scouting_task: plan.scouting_task
+                    ? {
+                        ..._omit(plan.scouting_task, getPropertiesToDelete(ScoutingTaskModel)),
+                      }
+                    : null,
+                  soil_task: plan.soil_task
+                    ? {
+                        ..._omit(plan.soil_task, getPropertiesToDelete(SoilTaskModel)),
+                      }
+                    : null,
+                  soil_amendment_task: plan.soil_amendment_task
+                    ? {
+                        ..._omit(
+                          plan.soil_amendment_task,
+                          getPropertiesToDelete(SoilAmendmentTaskModel),
+                        ),
+                      }
+                    : null,
+                  field_work_task: plan.field_work_task
+                    ? {
+                        ..._omit(plan.field_work_task, getPropertiesToDelete(FieldWorkTaskModel)),
+                      }
+                    : null,
+                  harvest_task: plan.harvest_task
+                    ? {
+                        ..._omit(plan.harvest_task, getPropertiesToDelete(HarvestTaskModel)),
+                      }
+                    : null,
+                  cleaning_task: plan.cleaning_task
+                    ? {
+                        ..._omit(plan.cleaning_task, getPropertiesToDelete(CleaningTaskModel)),
+                      }
+                    : null,
+                  locationTasks: managementTask.task.locationTasks.map((locationTask) => {
+                    return {
+                      location_id: locationTask.location_id,
+                    };
+                  }),
                 },
               };
             }),

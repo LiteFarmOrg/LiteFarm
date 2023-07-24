@@ -65,6 +65,22 @@ class PestControlTask extends Model {
       additionalProperties: false,
     };
   }
+
+  // Custom function used in copy crop plan
+  // Should contain all jsonSchema() and relationMappings() keys
+  static get templateMappingSchema() {
+    return {
+      // jsonSchema()
+      task_id: 'omit',
+      product_id: 'keep',
+      product_quantity: 'keep',
+      product_quantity_unit: 'keep',
+      other_method: 'keep',
+      pest_target: 'keep',
+      control_method: 'keep',
+      // relationMappings
+    };
+  }
 }
 
 export default PestControlTask;

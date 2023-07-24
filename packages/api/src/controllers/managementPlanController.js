@@ -60,7 +60,7 @@ const managementPlanController = {
         const managementPlanGraph = await ManagementPlanModel.query(trx)
           .where('management_plan_id', managementPlanId)
           .withGraphFetched(
-            'crop_management_plan.[planting_management_plans.[managementTasks.[task.[pest_control_task, irrigation_task, scouting_task, soil_task, field_work_task, harvest_task, cleaning_task, taskType]], plant_task.[task], transplant_task.[task], bed_method, container_method, broadcast_method, row_method]]',
+            'crop_management_plan.[planting_management_plans.[managementTasks.[task.[pest_control_task, irrigation_task, scouting_task, soil_task, soil_amendment_task, field_work_task, harvest_task, cleaning_task, locationTasks]], plant_task.[task], transplant_task.[task], bed_method, container_method, broadcast_method, row_method]]',
           )
           .first();
 
@@ -73,7 +73,6 @@ const managementPlanController = {
 
         // Find the reference date
         const taskDates = getDatesFromManagementPlanGraph(managementPlanGraph);
-        // TODO: Do I need to check if startDates[0] != firstTaskDate ?
         const sortedStartDates = getSortedDates(startDates);
         const firstTaskDate = getSortedDates(taskDates)[0];
 
@@ -90,7 +89,7 @@ const managementPlanController = {
             firstTaskDate,
           );
         } else {
-          // TODO: configure not part of group
+          // TODO: configure where template is part of group
           throw 'Currently template plan cannot be part of the newly created group';
         }
 
@@ -98,7 +97,7 @@ const managementPlanController = {
         const managementPlanGroup = await ManagementPlanGroup.query(trx)
           .context({ user_id: req.auth.user_id })
           .upsertGraph(newManagementPlanGroup, {
-            noUpdate: true,
+            noUpdate: ['location_tasks'],
             noDelete: true,
             noInsert: ['location', 'crop_variety'],
             insertMissing: true,

@@ -18,7 +18,7 @@ import { getRruleLanguage } from '../../util/rruleTranslation';
 import { getLanguageFromLocalStorage } from '../../util/getLanguageFromLocalStorage';
 import { parseISOStringToLocalDate } from '../Form/Input/utils';
 
-const RRULEDAYS = {
+export const RRULEDAYS = {
   Sunday: 'SU',
   Monday: 'MO',
   Tuesday: 'TU',

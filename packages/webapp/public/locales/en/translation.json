@@ -1376,7 +1376,6 @@
     "REPEAT_LIMIT_ERROR": "Cannot repeat this plan more than 20 times",
     "LATER_DATE_ERROR": "Please select a date after the starting date",
     "CONFIRMATION": {
-      "TITLE": "Repeat a crop plan",
       "HEADER": "Confirm how this plan repeats",
       "CROP_NAME": "Crop plan name",
       "BEGINNING": "Beginning",

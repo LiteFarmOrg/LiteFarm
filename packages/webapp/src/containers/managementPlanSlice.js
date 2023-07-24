@@ -200,7 +200,6 @@ export const isCompletedManagementPlan = (managementPlan) => {
 export const getCompletedManagementPlans = (managementPlans) =>
   managementPlans.filter((managementPlan) => isCompletedManagementPlan(managementPlan));
 
-
 export const currentManagementPlansSelector = createSelector(
   [managementPlansSelector, lastActiveDatetimeSelector],
   (managementPlans, lastActiveDatetime) => {
@@ -298,15 +297,13 @@ export const currentManagementPlanByCropIdSelector = (crop_id) =>
 export const abandonedManagementPlanByCropIdSelector = (crop_id) =>
   createSelector(
     [managementPlanByCropIdSelector(crop_id), cropCatalogueFilterDateSelector],
-    (managementPlans) =>
-      getAbandonedManagementPlans(managementPlans),
+    (managementPlans) => getAbandonedManagementPlans(managementPlans),
   );
 
 export const completedManagementPlanByCropIdSelector = (crop_id) =>
   createSelector(
     [managementPlanByCropIdSelector(crop_id), cropCatalogueFilterDateSelector],
-    (managementPlans) =>
-      getCompletedManagementPlans(managementPlans),
+    (managementPlans) => getCompletedManagementPlans(managementPlans),
   );
 
 export const plannedManagementPlanByCropIdSelector = (crop_id) =>

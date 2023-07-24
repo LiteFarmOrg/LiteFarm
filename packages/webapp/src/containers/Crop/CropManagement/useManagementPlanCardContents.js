@@ -9,9 +9,7 @@ import {
 import { useMemo } from 'react';
 import { lastActiveDatetimeSelector } from '../../userLogSlice';
 import { getTasksMinMaxDate } from '../../Task/getTasksMinMaxDate';
-import {
-  managementPlanWithCurrentLocationEntitiesSelector,
-} from '../../Task/TaskCrops/managementPlansWithLocationSelector';
+import { managementPlanWithCurrentLocationEntitiesSelector } from '../../Task/TaskCrops/managementPlansWithLocationSelector';
 
 export const useManagementPlanCardContents = (crop_variety_id) => {
   const tasksByManagementPlanId = useSelector(taskEntitiesByManagementPlanIdSelector);
@@ -93,6 +91,10 @@ const getNotes = (planting_management_plan) => {
 const getManagementPlanStartEndDate = (management_plan, tasks) => {
   const { startDate, endDate } = getTasksMinMaxDate(tasks);
   const { complete_date, abandon_date } = management_plan;
-  const managementPlanEndDate = complete_date ? complete_date : abandon_date ? abandon_date : endDate;
+  const managementPlanEndDate = complete_date
+    ? complete_date
+    : abandon_date
+    ? abandon_date
+    : endDate;
   return { startDate, endDate: managementPlanEndDate };
 };

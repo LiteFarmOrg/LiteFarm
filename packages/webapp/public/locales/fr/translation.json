@@ -995,10 +995,9 @@
     "SUBSURFACE": "Sous-surface"
   },
   "MANAGEMENT_DETAIL": {
-    "ABANDON_PLAN": "Abandonner ce plan de gestion",
+    "ABANDON_PLAN": "Abandonner",
     "ADD_A_TASK": "Ajouter une tâche",
     "DETAILS": "Détails",
-    "FAILED_CROP": "Echec de la culture\u00a0?",
     "TASKS": "Tâches"
   },
   "MANAGEMENT_PLAN": {
@@ -1041,6 +1040,17 @@
     "DAYS_FROM_SEEDING": "Jours entre la semance et\u00a0:",
     "DAYS_TO_HARVEST": "Jours entre le repiquage et la prochaine récolte\u00a0:",
     "DAYS_TO_TERMINATION": "Jours entre la greffe et la résiliation\u00a0:",
+    "DELETE": {
+      "DELETE_PLAN": "MISSING",
+      "DELETE_PLAN_QUESTION": "MISSING",
+      "DELETE_PLAN_MESSAGE": "MISSING",
+      "CONFIRM_DELETION": "MISSING",
+      "CANT_DELETE_MODIFIED_PLAN": "MISSING",
+      "CANT_DELETE_ABANDON_INSTEAD": "MISSING",
+      "CANT_DELETE_ABANDON": "MISSING",
+      "SUCCESS": "MISSING",
+      "FAILED": "MISSING"
+    },
     "DETAIL_SPOTLIGHT_CONTENTS": "Ici, vous pouvez modifier les détails de votre culture.",
     "DETAIL_SPOTLIGHT_TITLE": "Détails",
     "DO_YOU_WANT_TO_ABANDON_CONTENT": "Voulez-vous abandonner ce plan\u00a0?",

@@ -29,20 +29,10 @@ import { sendTaskNotification, TaskNotificationTypes } from './taskController.js
 import {
   getDatesFromManagementPlanGraph,
   getManagementPlanGroupTemplateGraph,
+  getFormattedManagementPlanData,
 } from '../util/copyCropPlan.js';
 import { getSortedDates } from '../util/util.js';
 const { transaction, Model } = objection;
-
-// For testing returns unique taskIds
-// const getTasksFromManagementPlanGraph = (managementPlanGraph) => {
-//   let tasks = [];
-//   managementPlanGraph.crop_management_plan.planting_management_plans.forEach((plan) => {
-//     plan.plant_task?.task_id ? tasks.push(plan.plant_task.task_id) : null;
-//     plan.transplant_task?.task_id ? tasks.push(plan.transplant_task.task_id) : null;
-//     plan.managementTasks?.length ? plan.managementTasks.forEach(task => tasks.push(task.task_id)) : null;
-//   });
-//   return [...new Set(tasks)];
-// }
 
 const managementPlanController = {
   repeatManagementPlan() {
@@ -103,8 +93,12 @@ const managementPlanController = {
             insertMissing: true,
           });
 
+        //Format return data
+        //TODO: Ideally returns managementPlanGroup or reconsider using upsertGraph
+        const result = getFormattedManagementPlanData(managementPlanGroup);
+
         await trx.commit();
-        return res.status(201).send(managementPlanGroup);
+        return res.status(201).send(result);
       } catch (error) {
         await trx.rollback();
         console.log(error);

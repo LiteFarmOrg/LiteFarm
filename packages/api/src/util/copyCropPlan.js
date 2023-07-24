@@ -1,3 +1,4 @@
+import BaseModel from '../models/baseModel.js';
 import ManagementPlanModel from '../models/managementPlanModel.js';
 import CropManagementPlanModel from '../models/cropManagementPlanModel.js';
 import PlantingManagementPlanModel from '../models/plantingManagementPlanModel.js';
@@ -19,6 +20,53 @@ import BedMethodModel from '../models/bedMethodModel.js';
 import ContainerMethodModel from '../models/containerMethodModel.js';
 import _omit from 'lodash/omit.js';
 import { getUUIDMap } from '../util/util.js';
+
+/**
+ * Formats and returns an array of management plan data based on the provided management plan group.
+ *
+ * The function takes a management plan group object (mpg) and processes its management plans
+ * to create a formatted array of data. Each item in the array contains information about the
+ * management plan, associated management plan group, and tasks related to the management plan.
+ *
+ * @param {Object} mpg - The management plan group object to extract data from.
+ * @returns {Object[]} - An array of formatted management plan data objects with associated tasks.
+ */
+export const getFormattedManagementPlanData = (mpg) => {
+  return mpg.management_plans.map((mp) => {
+    // Format tasks first
+    const tasks = [];
+    mp.crop_management_plan.planting_management_plans.forEach((pmp) => {
+      if (pmp.plant_task) {
+        const task = _omit(pmp.plant_task.task, Object.keys(BaseModel.baseProperties));
+        const plantTask = _omit(pmp.plant_task, ['task']);
+        tasks.push({ ...task, plant_task: plantTask });
+        delete pmp.plant_task;
+      }
+      if (pmp.transplant_task) {
+        const task = _omit(pmp.transplant_task.task, Object.keys(BaseModel.baseProperties));
+        const transplantTask = _omit(pmp.transplant_task, ['task']);
+        console.log(transplantTask);
+        tasks.push({ ...task, transplant_task: transplantTask });
+        delete pmp.transplant_task;
+      }
+      pmp.managementTasks.forEach((mt) => {
+        tasks.push(_omit(mt.task, [...Object.keys(BaseModel.baseProperties), 'locationTasks']));
+      });
+      delete pmp.managementTasks;
+    });
+
+    return {
+      management_plan: {
+        ..._omit(mp, Object.keys(BaseModel.baseProperties)),
+        management_plan_group: {
+          management_plan_group_id: mpg.management_plan_group_id,
+          repetition_count: mpg.repetition_count,
+        },
+      },
+      tasks,
+    };
+  });
+};
 
 /**
  * Retrieves the properties to delete from the Model based on its template mapping schema.

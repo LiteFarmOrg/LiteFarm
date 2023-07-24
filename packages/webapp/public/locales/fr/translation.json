@@ -328,7 +328,7 @@
     "PHYSIOLOGY_AND_ANATOMY": "Physiologie et anatomie",
     "TREATED": "Les semences de cette culture ont-elles été traitées\u00a0?",
     "UPLOAD_LATER": "Vous pourrez également télécharger des fichiers plus tard",
-    "REPEATED_PLANS_MODAL": {
+    "REPEAT_PLAN_MODAL": {
       "DELETED_PLANS": "MISSING"
     }
   },

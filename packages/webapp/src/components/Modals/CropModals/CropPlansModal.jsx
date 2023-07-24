@@ -54,7 +54,7 @@ export default function CropPlansModal({
     >
       <div ref={infoRef}>
         {!hasAllIterations && (
-          <Main className={styles.infoText}>{t('CROP.REPEATED_PLANS_MODAL.DELETED_PLANS')}</Main>
+          <Main className={styles.infoText}>{t('CROP.REPEAT_PLAN_MODAL.DELETED_PLANS')}</Main>
         )}
       </div>
       <div className={styles.content} style={{ maxHeight: contentHeight }}>

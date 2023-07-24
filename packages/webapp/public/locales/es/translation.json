@@ -328,7 +328,7 @@
     "PHYSIOLOGY_AND_ANATOMY": "Fisiología y anatomía",
     "TREATED": "¿Se han tratado las semillas de este cultivo?",
     "UPLOAD_LATER": "También puede cargar archivos en otro momento.",
-    "REPEATED_PLANS_MODAL": {
+    "REPEAT_PLAN_MODAL": {
       "DELETED_PLANS": "MISSING"
     }
   },

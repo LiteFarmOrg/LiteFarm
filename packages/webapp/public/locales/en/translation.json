@@ -328,7 +328,7 @@
     "PHYSIOLOGY_AND_ANATOMY": "Physiology and Anatomy",
     "TREATED": "Have the seeds for this crop been treated?",
     "UPLOAD_LATER": "You can upload files at a later time as well",
-    "REPEATED_PLANS_MODAL": {
+    "REPEAT_PLAN_MODAL": {
       "DELETED_PLANS": "Deleted crop plans that were part of this repetition won’t be shown."
     }
   },

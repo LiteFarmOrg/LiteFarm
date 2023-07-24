@@ -187,7 +187,7 @@ export const getManagementPlanTemplateGraph = (
             ..._omit(plan, getPropertiesToDelete(PlantingManagementPlanModel)),
             planting_management_plan_id:
               newPlantingManagementPlanUUIDs[plan.planting_management_plan_id],
-            location_id: plan.location_id, // TODO: Allow location changing
+            location_id: plan.location_id, //TODO: allow location changing
             managementTasks: plan.managementTasks.map((managementTask) => {
               return {
                 ..._omit(managementTask, getPropertiesToDelete(ManagementTasksModel)),
@@ -201,56 +201,74 @@ export const getManagementPlanTemplateGraph = (
                     firstTaskDate,
                     date,
                   ),
-                  coordinates: managementTask.task.coordinates,
-                  owner_user_id: createdByUser, // TODO: Allow location changing
+                  coordinates: managementTask.task.coordinates, // TODO: Allow location changing
+                  owner_user_id: createdByUser,
                   assignee_user_id: theOnlyActiveUserFarm ? theOnlyActiveUserFarm.user_id : null,
                   wage_at_moment: theOnlyActiveUserFarm?.wage
                     ? theOnlyActiveUserFarm.wage.amount
                     : null,
-                  pest_control_task: plan.pest_control_task
+                  pest_control_task: managementTask.task.pest_control_task
                     ? {
                         ..._omit(
-                          plan.pest_control_task,
+                          managementTask.task.pest_control_task,
                           getPropertiesToDelete(PestControlTaskModel),
                         ),
                       }
                     : null,
-                  irrigation_task: plan.irrigation_task
-                    ? {
-                        ..._omit(plan.irrigation_task, getPropertiesToDelete(IrrigationTaskModel)),
-                      }
-                    : null,
-                  scouting_task: plan.scouting_task
-                    ? {
-                        ..._omit(plan.scouting_task, getPropertiesToDelete(ScoutingTaskModel)),
-                      }
-                    : null,
-                  soil_task: plan.soil_task
-                    ? {
-                        ..._omit(plan.soil_task, getPropertiesToDelete(SoilTaskModel)),
-                      }
-                    : null,
-                  soil_amendment_task: plan.soil_amendment_task
+                  irrigation_task: managementTask.task.irrigation_task
                     ? {
                         ..._omit(
-                          plan.soil_amendment_task,
+                          managementTask.task.irrigation_task,
+                          getPropertiesToDelete(IrrigationTaskModel),
+                        ),
+                      }
+                    : null,
+                  scouting_task: managementTask.task.scouting_task
+                    ? {
+                        ..._omit(
+                          managementTask.task.scouting_task,
+                          getPropertiesToDelete(ScoutingTaskModel),
+                        ),
+                      }
+                    : null,
+                  soil_task: managementTask.task.soil_task
+                    ? {
+                        ..._omit(
+                          managementTask.task.soil_task,
+                          getPropertiesToDelete(SoilTaskModel),
+                        ),
+                      }
+                    : null,
+                  soil_amendment_task: managementTask.task.soil_amendment_task
+                    ? {
+                        ..._omit(
+                          managementTask.task.soil_amendment_task,
                           getPropertiesToDelete(SoilAmendmentTaskModel),
                         ),
                       }
                     : null,
-                  field_work_task: plan.field_work_task
+                  field_work_task: managementTask.task.field_work_task
                     ? {
-                        ..._omit(plan.field_work_task, getPropertiesToDelete(FieldWorkTaskModel)),
+                        ..._omit(
+                          managementTask.task.field_work_task,
+                          getPropertiesToDelete(FieldWorkTaskModel),
+                        ),
                       }
                     : null,
-                  harvest_task: plan.harvest_task
+                  harvest_task: managementTask.task.harvest_task
                     ? {
-                        ..._omit(plan.harvest_task, getPropertiesToDelete(HarvestTaskModel)),
+                        ..._omit(
+                          managementTask.task.harvest_task,
+                          getPropertiesToDelete(HarvestTaskModel),
+                        ),
                       }
                     : null,
-                  cleaning_task: plan.cleaning_task
+                  cleaning_task: managementTask.task.cleaning_task
                     ? {
-                        ..._omit(plan.cleaning_task, getPropertiesToDelete(CleaningTaskModel)),
+                        ..._omit(
+                          managementTask.task.cleaning_task,
+                          getPropertiesToDelete(CleaningTaskModel),
+                        ),
                       }
                     : null,
                   locationTasks: managementTask.task.locationTasks.map((locationTask) => {
@@ -280,8 +298,11 @@ export const getManagementPlanTemplateGraph = (
                       ? theOnlyActiveUserFarm.wage.amount
                       : null,
                     coordinates: plan.plant_task.task.coordinates,
-                    // TODO: Allow location changing
-                    // locations: location_tasks
+                    locationTasks: plan.plant_task.task.locationTasks.map((locationTask) => {
+                      return {
+                        location_id: locationTask.location_id,
+                      };
+                    }),
                   },
                 }
               : null,
@@ -304,13 +325,16 @@ export const getManagementPlanTemplateGraph = (
                       ? theOnlyActiveUserFarm.wage.amount
                       : null,
                     coordinates: plan.transplant_task.task.coordinates,
-                    // TODO: Allow location changing
-                    // locations: location_tasks
+                    locationTasks: plan.transplant_task.task.locationTasks.map((locationTask) => {
+                      return {
+                        location_id: locationTask.location_id,
+                      };
+                    }),
                   },
                   prev_planting_management_plan_id:
                     newPlantingManagementPlanUUIDs[
                       plan.transplant_task.prev_planting_management_plan_id
-                    ], // can this be done here ?
+                    ],
                 }
               : null,
             bed_method: plan.bed_method
@@ -373,7 +397,7 @@ export const getManagementPlanGroupTemplateGraph = (
   firstTaskDate,
 ) => {
   return {
-    repetition_count: repetitionConfig.repetitions, // change to startDates.length
+    repetition_count: repetitionConfig.repetitions,
     repetition_config: repetitionConfig,
     management_plans: sortedStartDates.map((date, index) => {
       const newPlantingManagementPlanUUIDs = getUUIDMap(

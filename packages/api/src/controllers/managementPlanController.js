@@ -60,10 +60,10 @@ const managementPlanController = {
         const managementPlanGraph = await ManagementPlanModel.query(trx)
           .where('management_plan_id', managementPlanId)
           .withGraphFetched(
-            'crop_management_plan.[planting_management_plans.[managementTasks.[task.[pest_control_task, irrigation_task, scouting_task, soil_task, soil_amendment_task, field_work_task, harvest_task, cleaning_task, locationTasks]], plant_task.[task], transplant_task.[task], bed_method, container_method, broadcast_method, row_method]]',
+            'crop_management_plan.[planting_management_plans.[managementTasks.[task.[pest_control_task, irrigation_task, scouting_task, soil_task, soil_amendment_task, field_work_task, harvest_task, cleaning_task, locationTasks]], plant_task.[task.[locationTasks]], transplant_task.[task.[locationTasks]], bed_method, container_method, broadcast_method, row_method]]',
           )
           .first();
-
+        console.log(managementPlanGraph);
         // Only assign tasks if JUST one 'Active' userFarm
         const activeUsers = await UserFarmModel.query(trx)
           .select('user_id', 'wage')

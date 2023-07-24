@@ -39,7 +39,7 @@ class SoilAmendmentTaskModel extends Model {
           type: 'string',
           enum: ['structure', 'moisture_retention', 'nutrient_availability', 'ph', 'other'],
         },
-        other_purpose: { type: 'string' },
+        other_purpose: { type: ['string', 'null'] },
         product_id: { type: 'integer', minimum: 0 },
         product_quantity: { type: 'number' },
         product_quantity_unit: {

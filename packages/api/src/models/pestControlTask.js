@@ -40,13 +40,13 @@ class PestControlTask extends Model {
 
       properties: {
         task_id: { type: 'integer' },
-        product_id: { type: 'integer' },
-        product_quantity: { type: 'number' },
+        product_id: { type: ['integer', 'null'] },
+        product_quantity: { type: ['number', 'null'] },
         product_quantity_unit: {
           type: 'string',
           enum: ['g', 'lb', 'kg', 't', 'mt', 'oz', 'l', 'gal', 'ml', 'fl-oz'],
         },
-        other_method: { type: 'string' },
+        other_method: { type: ['string', 'null'] },
         pest_target: { type: 'string' },
         control_method: {
           type: 'string',

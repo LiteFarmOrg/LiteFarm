@@ -35,7 +35,7 @@ class HarvestTaskModel extends Model {
 
       properties: {
         task_id: { type: 'integer' },
-        projected_quantity: { type: 'number' },
+        projected_quantity: { type: ['number', 'null'] },
         projected_quantity_unit: { type: 'string', enum: ['kg', 'mt', 'lb', 't'] },
         actual_quantity: { type: 'number' },
         actual_quantity_unit: { type: 'string', enum: ['kg', 'mt', 'lb', 't'] },

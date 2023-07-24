@@ -44,8 +44,7 @@ export default function CropPlansModal({
   }, [windowHeight, infoHeight]);
 
   const hasAllIterations = useMemo(() => {
-    //TODO:
-    return false;
+    return managementPlanCardContents[0].repetition_count === managementPlanCardContents.length;
   }, [managementPlanCardContents]);
 
   return (
@@ -91,9 +90,12 @@ CropPlansModal.propTypes = {
       numberOfPendingTask: PropTypes.number,
       status: PropTypes.oneOf(['active', 'planned', 'completed', 'abandoned']),
       management_plan_id: PropTypes.number,
+      management_plan_group_id: PropTypes.string,
+      repetition_count: PropTypes.number,
+      repetition_number: PropTypes.number,
     }),
-  ),
-  history: PropTypes.object,
-  variety: PropTypes.object,
-  dismissModal: PropTypes.func,
+  ).isRequired,
+  history: PropTypes.object.isRequired,
+  variety: PropTypes.object.isRequired,
+  dismissModal: PropTypes.func.isRequired,
 };

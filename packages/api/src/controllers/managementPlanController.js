@@ -38,7 +38,7 @@ const managementPlanController = {
   repeatManagementPlan() {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
-      const { startDates, management_plan_id, templateIsPartOfGroup, repetitionConfig } = req.body;
+      const { startDates, management_plan_id, repetitionConfig } = req.body;
       try {
         if (startDates.length != repetitionConfig.repetitions) {
           await trx.rollback();
@@ -65,6 +65,9 @@ const managementPlanController = {
         const taskDates = getDatesFromManagementPlanGraph(managementPlanGraph);
         const sortedStartDates = getSortedDates(startDates);
         const firstTaskDate = getSortedDates(taskDates)[0];
+
+        //TODO: Derive this or send it from frontend
+        const templateIsPartOfGroup = false;
 
         //Create an upsert object based on the graphs table columns
         let newManagementPlanGroup = {};

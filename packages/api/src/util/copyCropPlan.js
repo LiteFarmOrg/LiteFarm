@@ -45,7 +45,6 @@ export const getFormattedManagementPlanData = (mpg) => {
       if (pmp.transplant_task) {
         const task = _omit(pmp.transplant_task.task, Object.keys(BaseModel.baseProperties));
         const transplantTask = _omit(pmp.transplant_task, ['task']);
-        console.log(transplantTask);
         tasks.push({ ...task, transplant_task: transplantTask });
         delete pmp.transplant_task;
       }
@@ -252,9 +251,7 @@ export const getManagementPlanTemplateGraph = (
                   coordinates: managementTask.task.coordinates, // TODO: Allow location changing
                   owner_user_id: createdByUser,
                   assignee_user_id: theOnlyActiveUserFarm ? theOnlyActiveUserFarm.user_id : null,
-                  wage_at_moment: theOnlyActiveUserFarm?.wage
-                    ? theOnlyActiveUserFarm.wage.amount
-                    : null,
+                  wage_at_moment: null, //TODO: Set confidently without causing labour expense issues LF-3458
                   pest_control_task: managementTask.task.pest_control_task
                     ? {
                         ..._omit(
@@ -342,9 +339,7 @@ export const getManagementPlanTemplateGraph = (
                     ),
                     owner_user_id: createdByUser,
                     assignee_user_id: theOnlyActiveUserFarm ? theOnlyActiveUserFarm.user_id : null,
-                    wage_at_moment: theOnlyActiveUserFarm?.wage
-                      ? theOnlyActiveUserFarm.wage.amount
-                      : null,
+                    wage_at_moment: null, //TODO: Set confidently without causing labour expense issues LF-3458
                     coordinates: plan.plant_task.task.coordinates,
                     locationTasks: plan.plant_task.task.locationTasks.map((locationTask) => {
                       return {
@@ -369,9 +364,7 @@ export const getManagementPlanTemplateGraph = (
                     ),
                     owner_user_id: createdByUser,
                     assignee_user_id: theOnlyActiveUserFarm ? theOnlyActiveUserFarm.user_id : null,
-                    wage_at_moment: theOnlyActiveUserFarm?.wage
-                      ? theOnlyActiveUserFarm.wage.amount
-                      : null,
+                    wage_at_moment: null, //TODO: Set confidently without causing labour expense issues LF-3458,
                     coordinates: plan.transplant_task.task.coordinates,
                     locationTasks: plan.transplant_task.task.locationTasks.map((locationTask) => {
                       return {

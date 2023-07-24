@@ -243,6 +243,9 @@ const AbandonManagementPlan = React.lazy(() =>
   import('./containers/Crop/CompleteManagementPlan/AbandonManagementPlan'),
 );
 const RepeatCropPlan = React.lazy(() => import('./containers/Crop/RepeatCropPlan'));
+const RepeatCropPlanConfirmation = React.lazy(() =>
+  import('./containers/Crop/RepeatCropPlan/Confirmation'),
+);
 
 const TaskAssignment = React.lazy(() => import('./containers/Task/TaskAssignment'));
 const TaskDetails = React.lazy(() => import('./containers/Task/TaskDetails'));
@@ -488,6 +491,11 @@ const Routes = () => {
               path="/crop/:variety_id/management_plan/:management_plan_id/repeat"
               exact
               component={RepeatCropPlan}
+            />
+            <Route
+              path="/crop/:variety_id/management_plan/:management_plan_id/repeat_confirmation"
+              exact
+              component={RepeatCropPlanConfirmation}
             />
             <Route
               path="/crop/:variety_id/management_plan/:management_plan_id/edit"
@@ -784,6 +792,11 @@ const Routes = () => {
               path="/crop/:variety_id/management_plan/:management_plan_id/repeat"
               exact
               component={RepeatCropPlan}
+            />
+            <Route
+              path="/crop/:variety_id/management_plan/:management_plan_id/repeat_confirmation"
+              exact
+              component={RepeatCropPlanConfirmation}
             />
             <Route
               path="/crop/:variety_id/:management_plan_id/complete_management_plan"

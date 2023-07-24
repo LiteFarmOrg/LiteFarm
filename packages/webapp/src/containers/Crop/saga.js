@@ -91,6 +91,17 @@ export function* postManagementPlanSaga({ payload: managementPlanData }) {
   }
 }
 
+export const postRepeatCropPlan = createAction(`postRepeatCropPlanSaga`);
+
+export function* postRepeatCropPlanSaga({
+  payload: { crop_variety_id, management_plan_id, planName, startingDates, repeat_config },
+}) {
+  let { user_id, farm_id } = yield select(loginSelector);
+  const header = getHeader(user_id, farm_id);
+
+  // TODO: API call
+}
+
 export const patchFarmDefaultInitialLocation = createAction(`patchFarmDefaultInitialLocationSaga`);
 
 export function* patchFarmDefaultInitialLocationSaga({ payload: farm }) {
@@ -166,6 +177,7 @@ const formatDate = (currDate) => {
 
 export default function* managementPlanSaga() {
   yield takeLeading(postManagementPlan.type, postManagementPlanSaga);
+  yield takeLeading(postRepeatCropPlan.type, postRepeatCropPlanSaga);
   yield takeLeading(patchFarmDefaultInitialLocation.type, patchFarmDefaultInitialLocationSaga);
   yield takeLatest(getExpiredManagementPlans.type, getExpiredManagementPlansSaga);
   yield takeLeading(deleteManagementPlan.type, deleteManagementPlanSaga);

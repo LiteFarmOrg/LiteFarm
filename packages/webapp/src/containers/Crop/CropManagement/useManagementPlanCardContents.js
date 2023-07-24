@@ -26,6 +26,17 @@ export const useManagementPlanCardContents = (crop_variety_id) => {
         const planting_management_plan =
           managementPlanEntities[management_plan.management_plan_id].planting_management_plan;
         const tasks = tasksByManagementPlanId[management_plan.management_plan_id] || [];
+        const { management_plan_group, management_plan_group_id, repetition_number } =
+          management_plan;
+        const groupInfo =
+          management_plan_group?.repetition_count > 1
+            ? {
+                management_plan_group_id,
+                repetition_number,
+                repetition_count: management_plan_group.repetition_count,
+              }
+            : {};
+
         return {
           managementPlanName: management_plan.name,
           locationName: getLocationName(planting_management_plan),
@@ -37,6 +48,7 @@ export const useManagementPlanCardContents = (crop_variety_id) => {
           status,
           score: management_plan.rating,
           management_plan_id: management_plan.management_plan_id,
+          ...groupInfo,
         };
       })
       .sort(

@@ -15,7 +15,7 @@ import Form from '../../Form';
 export default function PureEditManagementDetail({ onBack, variety, plan, system, onSubmit }) {
   const { t } = useTranslation();
 
-  const title = plan.name;
+  const title = plan?.name;
 
   const {
     register,

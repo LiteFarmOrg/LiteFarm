@@ -135,6 +135,10 @@
       "UPDATE": "Venta actualizada exitosamente"
     }
   },
+  "SENSOR": {
+    "ERROR_UPDATE": "No se pudo actualizar el sensor",
+    "SUCCESSFUL_UPDATE": "Sensor actualizado con éxito"
+  },
   "TASK": {
     "ABANDON": {
       "FAILED": "No se pudo abandonar la tarea",
@@ -169,8 +173,8 @@
       "AGREEMENT": "No se pudo actualizar el acuerdo del(a) usuario",
       "EXISTS": "Usuario ya existe en la red de trabajo de LiteFarm",
       "INVITE": "Error al crear cuenta de usuario. Por favor contacte LiteFarm por asistencia.",
-      "NOTHING_CHANGED": "Nada ha cambiado",
       "MAX_RESET_EMAILS": "Se le ha enviado un enlace de restablecimiento de contraseña, por favor verifique su bandeja de entrada y su carpeta de correo no deseado.",
+      "NOTHING_CHANGED": "Nada ha cambiado",
       "RESET_PASSWORD": "Error al enviar email para cambiar contraseña. Por favor contacte LiteFarm por asistencia.",
       "RESTORE": "Hubo un error al restaurar acceso",
       "REVOKE": "Hubo un error al revocar acceso",
@@ -183,9 +187,5 @@
       "REVOKE": "Acceso de usuario(a) revocado!",
       "UPDATE": "Información del(a) usuario(a) actualizada exitosamente!"
     }
-  },
-  "SENSOR": {
-    "SUCCESSFUL_UPDATE": "Sensor actualizado con éxito",
-    "ERROR_UPDATE": "No se pudo actualizar el sensor"
   }
 }

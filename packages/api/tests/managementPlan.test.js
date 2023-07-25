@@ -361,6 +361,75 @@ describe('ManagementPlan Tests', () => {
           );
         });
       });
+
+      describe('Get harvested to date', () => {
+        test('should get all the harvested quantities that come from completed harvest_tasks in the management_plan', async (done) => {
+          const [harvestedCrop] = await mocks.cropFactory(
+            { promisedFarm: [farm] },
+            {
+              ...mocks.fakeCrop(),
+              crop_common_name: 'crop',
+              user_added: true,
+            },
+          );
+          const [harvestedCropVariety] = await mocks.crop_varietyFactory({
+            promisedFarm: [farm],
+            promisedCrop: [harvestedCrop],
+          });
+          const harvestedManagementPlan = await mocks.management_planFactory({
+            promisedFarm: [farm],
+            promisedCrop: [harvestedCrop],
+            promisedCropVariety: [harvestedCropVariety],
+          });
+
+          const [harvestedPlantingManagementPlan] = await mocks.planting_management_planFactory({
+            promisedManagementPlan: harvestedManagementPlan,
+          });
+          const [harvestTask] = await mocks.harvest_taskFactory(
+            {
+              promisedTask: mocks.taskFactory(
+                {
+                  promisedUser: [owner],
+                },
+                { ...mocks.fakeTask(), complete_date: new Date() },
+              ),
+            },
+            {
+              ...mocks.fakeHarvestTask(),
+              actual_quantity: 1011,
+            },
+          );
+          // check that not completed tasks are not taken into account by the query
+          const [harvestTask2] = await mocks.harvest_taskFactory(
+            {
+              promisedTask: mocks.taskFactory(
+                {
+                  promisedUser: [owner],
+                },
+                { ...mocks.fakeTask(), complete_date: null },
+              ),
+            },
+            {
+              ...mocks.fakeHarvestTask(),
+              actual_quantity: 122,
+            },
+          );
+          const union = await mocks.management_tasksFactory({
+            promisedTask: [harvestTask],
+            promisedPlantingManagementPlan: [harvestedPlantingManagementPlan],
+          });
+
+          getRequest(
+            `/management_plan/farm/${farm.farm_id}`,
+            { user_id: owner.user_id },
+            (err, res) => {
+              expect(res.status).toBe(200);
+              expect(res.body[0].harvested_to_date).toBe(1011);
+              done();
+            },
+          );
+        });
+      });
     });
 
     describe('Delete managementPlan', function () {

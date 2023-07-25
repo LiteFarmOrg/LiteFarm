@@ -57,7 +57,6 @@ const removeManagementPlanFromTask = (state, { payload }) => {
   state.error = null;
   state.loaded = true;
 
-  // You could possibly add some error checking here to make sure the task and management plan exist
   const task = state.entities[payload.task_id];
 
   const updatedTask = {
@@ -134,7 +133,7 @@ const taskSlice = createSlice({
     putTasksSuccess: updateManyTasks,
     createTaskSuccess: taskAdapter.addOne,
     deleteTaskSuccess: removeOne,
-    removePlanSuccess: removeManagementPlanFromTask,
+    removePlanFromTaskSuccess: removeManagementPlanFromTask,
   },
 });
 export const {
@@ -145,7 +144,7 @@ export const {
   putTasksSuccess,
   createTaskSuccess,
   deleteTaskSuccess,
-  removePlanSuccess,
+  removePlanFromTaskSuccess,
 } = taskSlice.actions;
 export default taskSlice.reducer;
 

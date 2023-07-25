@@ -34,7 +34,7 @@ import { enqueueErrorSnackbar, enqueueSuccessSnackbar } from '../Snackbar/snackb
 import { getTasksSuccessSaga } from '../Task/saga';
 import { setPersistedPaths } from './../hooks/useHookFormPersist/hookFormPersistSlice';
 import { deletePlantingManagementPlanSuccess } from '../plantingManagementPlanSlice';
-import { deleteTaskSuccess, removePlanSuccess } from '../taskSlice';
+import { deleteTaskSuccess, removePlanFromTaskSuccess } from '../taskSlice';
 import { deletePlantTaskSuccess } from '../slice/taskSlice/plantTaskSlice';
 import { deleteTransplantTaskSuccess } from '../slice/taskSlice/transplantTaskSlice';
 
@@ -175,10 +175,11 @@ export function* deleteManagementPlanSaga({ payload }) {
     }
 
     // Remove deleted management plan from tasks belonging to multiple plans
+    // This corresponds to the record being deleted from the management_tasks table on the backend
     if (taskIdsRelatedToManyManagementPlans) {
       yield all(
         taskIdsRelatedToManyManagementPlans.map((task_id) =>
-          put(removePlanSuccess({ task_id, management_plan_id })),
+          put(removePlanFromTaskSuccess({ task_id, management_plan_id })),
         ),
       );
     }

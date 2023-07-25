@@ -52,6 +52,24 @@ export const getTask = (obj) => {
   return task;
 };
 
+const removeManagementPlanFromTask = (state, { payload }) => {
+  state.loading = false;
+  state.error = null;
+  state.loaded = true;
+
+  // You could possibly add some error checking here to make sure the task and management plan exist
+  const task = state.entities[payload.task_id];
+
+  const updatedTask = {
+    ...task,
+    managementPlans: task.managementPlans.filter(
+      (plan) => plan.management_plan_id !== Number(payload.management_plan_id),
+    ),
+  };
+
+  taskAdapter.upsertOne(state, updatedTask);
+};
+
 const upsertManyTasks = (state, { payload: tasks }) => {
   state.loading = false;
   state.error = null;
@@ -116,6 +134,7 @@ const taskSlice = createSlice({
     putTasksSuccess: updateManyTasks,
     createTaskSuccess: taskAdapter.addOne,
     deleteTaskSuccess: removeOne,
+    removePlanSuccess: removeManagementPlanFromTask,
   },
 });
 export const {
@@ -126,6 +145,7 @@ export const {
   putTasksSuccess,
   createTaskSuccess,
   deleteTaskSuccess,
+  removePlanSuccess,
 } = taskSlice.actions;
 export default taskSlice.reducer;
 

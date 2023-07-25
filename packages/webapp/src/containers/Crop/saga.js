@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { call, put, select, takeLatest, takeLeading } from 'redux-saga/effects';
+import { call, put, select, takeLatest, takeLeading, all } from 'redux-saga/effects';
 import apiConfig from '../../apiConfig';
 import { loginSelector, patchFarmSuccess } from '../userFarmSlice';
 import {
@@ -33,6 +33,9 @@ import history from '../../history';
 import { enqueueErrorSnackbar, enqueueSuccessSnackbar } from '../Snackbar/snackbarSlice';
 import { getTasksSuccessSaga } from '../Task/saga';
 import { setPersistedPaths } from './../hooks/useHookFormPersist/hookFormPersistSlice';
+import { deletePlantingManagementPlanSuccess } from '../plantingManagementPlanSlice';
+import { deleteTaskSuccess, removePlanSuccess } from '../taskSlice';
+import { deletePlantTaskSuccess } from '../slice/taskSlice/plantTaskSlice';
 
 const DEC = 10;
 
@@ -136,19 +139,60 @@ export function* patchManagementPlanSaga({ payload: managementPlan }) {
 
 export const deleteManagementPlan = createAction(`deleteManagementPlanSaga`);
 
-export function* deleteManagementPlanSaga({ payload: management_plan_id }) {
-  const currentDate = formatDate(new Date());
+export function* deleteManagementPlanSaga({ payload }) {
+  const { management_plan_id, variety_id } = payload;
+
   const { managementPlanURL } = apiConfig;
   let { user_id, farm_id } = yield select(loginSelector);
   const header = getHeader(user_id, farm_id);
 
   try {
     const result = yield call(axios.delete, managementPlanURL + `/${management_plan_id}`, header);
+
+    const {
+      deletedTaskIds,
+      plantTaskIds,
+      plantingManagementPlanIds,
+      taskIdsRelatedToManyManagementPlans,
+    } = result.data;
+
+    // Clean up Redux store:
+    // Delete tasks associated with this management plan
+    if (deletedTaskIds?.length) {
+      yield all(deletedTaskIds.map((task_id) => put(deleteTaskSuccess({ task_id }))));
+    }
+
+    // Delete plant tasks (own entity) associated with this management plan
+    if (plantTaskIds?.length) {
+      yield all(plantTaskIds.map((task_id) => put(deletePlantTaskSuccess(task_id))));
+    }
+
+    // Remove deleted management plan from tasks belonging to multiple plans
+    if (taskIdsRelatedToManyManagementPlans) {
+      yield all(
+        taskIdsRelatedToManyManagementPlans.map((task_id) =>
+          put(removePlanSuccess({ task_id, management_plan_id })),
+        ),
+      );
+    }
+
+    // Delete planting management plans associated with this management plan
+    if (plantingManagementPlanIds?.length) {
+      yield all(
+        plantingManagementPlanIds.map((planting_mngmt_plan_id) =>
+          put(deletePlantingManagementPlanSuccess(planting_mngmt_plan_id)),
+        ),
+      );
+    }
+
     yield put(deleteManagementPlanSuccess(management_plan_id));
-    yield put(enqueueSuccessSnackbar(i18n.t('message:CROP.SUCCESS.DELETE')));
+
+    history.push(`/crop/${variety_id}/management`);
+
+    yield put(enqueueSuccessSnackbar(i18n.t('message:MANAGEMENT_PLAN.SUCCESS.DELETE')));
   } catch (e) {
-    console.log('Failed To Delete Field Crop Error: ', e);
-    yield put(enqueueErrorSnackbar(i18n.t('message:CROP.ERROR.DELETE')));
+    console.log('Failed To Delete Management Plan Error: ', e);
+    yield put(enqueueErrorSnackbar(i18n.t('message:MANAGEMENT_PLAN.ERROR.DELETE')));
   }
 }
 

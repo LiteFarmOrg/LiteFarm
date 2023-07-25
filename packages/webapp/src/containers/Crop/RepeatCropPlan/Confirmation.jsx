@@ -33,9 +33,8 @@ function RepeatCropPlanConfirmation({ history, match }) {
       postRepeatCropPlan({
         crop_variety_id: variety_id,
         management_plan_id,
-        planName: persistedFormData.crop_plan_name,
-        startingDates: occurrences,
-        repeat_config: persistedFormData,
+        startDates: occurrences,
+        repeatDetails: persistedFormData,
       }),
     );
   };

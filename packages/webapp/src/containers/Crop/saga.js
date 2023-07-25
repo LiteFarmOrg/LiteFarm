@@ -33,6 +33,7 @@ import history from '../../history';
 import { enqueueErrorSnackbar, enqueueSuccessSnackbar } from '../Snackbar/snackbarSlice';
 import { getTasksSuccessSaga } from '../Task/saga';
 import { setPersistedPaths } from './../hooks/useHookFormPersist/hookFormPersistSlice';
+import { CROP_PLAN_NAME } from '../../components/RepeatCropPlan/constants';
 
 const DEC = 10;
 
@@ -94,12 +95,39 @@ export function* postManagementPlanSaga({ payload: managementPlanData }) {
 export const postRepeatCropPlan = createAction(`postRepeatCropPlanSaga`);
 
 export function* postRepeatCropPlanSaga({
-  payload: { crop_variety_id, management_plan_id, planName, startingDates, repeat_config },
+  payload: { crop_variety_id, management_plan_id, startDates, repeatDetails },
 }) {
-  let { user_id, farm_id } = yield select(loginSelector);
+  const { user_id, farm_id } = yield select(loginSelector);
   const header = getHeader(user_id, farm_id);
+  const { managementPlanURL } = apiConfig;
+  const planName = repeatDetails[CROP_PLAN_NAME];
 
-  // TODO: API call
+  try {
+    const result = yield call(
+      axios.post,
+      `${managementPlanURL}/repeat_plan`,
+      { management_plan_id, startDates, repeatDetails },
+      header,
+    );
+
+    const managementPlans = [];
+    let managementTasks = [];
+
+    result.data.forEach(({ management_plan, tasks }) => {
+      managementPlans.push(management_plan);
+      managementTasks = managementTasks.concat(tasks);
+    });
+
+    yield call(getManagementPlanAndPlantingMethodSuccessSaga, { payload: managementPlans });
+    yield call(getTasksSuccessSaga, { payload: managementTasks });
+    yield call(onReqSuccessSaga, {
+      pathname: `/crop/${crop_variety_id}/management`,
+      message: i18n.t('message:REPEAT_PLAN.SUCCESS.POST', { planName }),
+    });
+  } catch (e) {
+    console.log(e);
+    yield put(enqueueErrorSnackbar(i18n.t('message:REPEAT_PLAN.ERROR.POST', { planName })));
+  }
 }
 
 export const patchFarmDefaultInitialLocation = createAction(`patchFarmDefaultInitialLocationSaga`);

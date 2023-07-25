@@ -3,7 +3,7 @@ import { createAction } from '@reduxjs/toolkit';
 import apiConfig from '../../apiConfig';
 import { axios, getHeader, getPlantingManagementPlansSuccessSaga, onReqSuccessSaga } from '../saga';
 import i18n from '../../locales/i18n';
-import { loginSelector, putUserSuccess } from '../userFarmSlice';
+import { loginSelector, putUserSuccess, userFarmEntitiesSelector } from '../userFarmSlice';
 import history from '../../history';
 import { enqueueErrorSnackbar, enqueueSuccessSnackbar } from '../Snackbar/snackbarSlice';
 import {
@@ -70,6 +70,7 @@ import {
   onLoadingHarvestUseTypeStart,
 } from '../harvestUseTypeSlice';
 import { managementPlanWithCurrentLocationEntitiesSelector } from './TaskCrops/managementPlansWithLocationSelector';
+import { setPersistedPaths } from '../hooks/useHookFormPersist/hookFormPersistSlice';
 
 const taskTypeEndpoint = [
   'cleaning_task',
@@ -500,7 +501,7 @@ export const createTask = createAction('createTaskSaga');
 
 export function* createTaskSaga({ payload }) {
   let { returnPath, ...data } = payload;
-
+  const userFarms = yield select(userFarmEntitiesSelector);
   const { taskUrl } = apiConfig;
   let { user_id, farm_id } = yield select(loginSelector);
   const { task_translation_key, farm_id: task_farm_id } = yield select(
@@ -533,10 +534,30 @@ export function* createTaskSaga({ payload }) {
       header,
     );
     if (result) {
+      const task_id = result.data.task_id;
+      const due_date = result.data.due_date;
+      const assignee = result.data.assignee_user_id;
+      const users = userFarms[farm_id];
+      let assigneeRole;
+
+      if (assignee) {
+        assigneeRole = Object.values(users).find((user) => user.user_id === assignee).role_id;
+      }
+      let pathName;
+
+      if (new Date(due_date) <= new Date() && (user_id === assignee || assigneeRole === 4)) {
+        const completePath = [`tasks/${task_id}/complete_on_creation`];
+        if (!returnPath) {
+          pathName = completePath[0];
+        } else {
+          pathName = returnPath;
+        }
+      }
+
       yield call(getTasksSuccessSaga, { payload: isHarvest ? result.data : [result.data] });
       yield call(onReqSuccessSaga, {
         message: i18n.t('message:TASK.CREATE.SUCCESS'),
-        pathname: returnPath ?? '/tasks',
+        pathname: pathName ?? '/tasks',
       });
     }
   } catch (e) {

@@ -102,7 +102,6 @@ export default function TaskManagement({ history, match, location }) {
       }
     });
     dispatch(createTask(postData));
-
     // for user who does not have a wage set, take the hourly wage action
     if (showHourlyWageInputs) {
       if (hourly_wage_action === hourlyWageActions.SET_HOURLY_WAGE) {
@@ -114,6 +113,7 @@ export default function TaskManagement({ history, match, location }) {
         dispatch(setUserFarmWageDoNotAskAgain({ user_id: assignee.value }));
       }
     }
+    history.push(`tasks/60/complete_on_creation`);
   };
 
   const handleGoBack = () => {

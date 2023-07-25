@@ -34,7 +34,7 @@ export default function CropPlansModal({
   dismissModal,
 }) {
   const { t } = useTranslation();
-  const infoRef = useRef();
+  const infoRef = useRef(null);
 
   const windowHeight = useWindowInnerHeight();
   const { elementHeight: infoHeight } = useElementHeight(infoRef);

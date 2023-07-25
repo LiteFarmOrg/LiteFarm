@@ -52,6 +52,12 @@ export const getDate = (planStartDate) => {
   return date.getDate();
 };
 
+export const getLocalizedDateString = (planStartDate) => {
+  const date = new Date(parseISOStringToLocalDate(planStartDate));
+
+  return new Intl.DateTimeFormat(getLanguageFromLocalStorage(), { dateStyle: 'long' }).format(date);
+};
+
 const calculateWeekdayOrdinal = (date) => {
   const dayOfMonth = date.getDate();
 

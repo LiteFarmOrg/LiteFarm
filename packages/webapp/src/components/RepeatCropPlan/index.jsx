@@ -26,7 +26,13 @@ import RadioGroup from '../Form/RadioGroup';
 import ReactSelect from '../Form/ReactSelect';
 import DaysOfWeekSelect from '../Form/DaysOfWeekSelect';
 import { Label, Main, Error } from '../Typography';
-import { getWeekday, getDate, calculateMonthlyOptions, countOccurrences } from './utils';
+import {
+  getWeekday,
+  getDate,
+  getLocalizedDateString,
+  calculateMonthlyOptions,
+  countOccurrences,
+} from './utils';
 import {
   CROP_PLAN_NAME,
   PLAN_START_DATE,
@@ -230,12 +236,21 @@ export default function PureRepeatCropPlan({
           errors={getInputErrors(errors, CROP_PLAN_NAME)}
         />
 
-        <Input
-          type="date"
-          label={t('REPEAT_PLAN.START_DATE')}
-          hookFormRegister={register(PLAN_START_DATE, { required: true })}
-          errors={getInputErrors(errors, PLAN_START_DATE)}
-        />
+        <div>
+          <Input
+            type="date"
+            label={t('REPEAT_PLAN.START_DATE')}
+            hookFormRegister={register(PLAN_START_DATE, { required: true })}
+            errors={getInputErrors(errors, PLAN_START_DATE)}
+          />
+
+          <Main className={styles.taskSubtext}>
+            {getLocalizedDateString(origStartDate)}{' '}
+            {t('REPEAT_PLAN.EARLIEST_TASK', {
+              dateType: t('REPEAT_PLAN.COMPLETION'),
+            })}
+          </Main>
+        </div>
 
         <div>
           <Label className={styles.label}>{t('REPEAT_PLAN.REPEAT_EVERY')}</Label>

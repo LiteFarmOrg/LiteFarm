@@ -294,6 +294,7 @@ const managementPlanController = {
           return {
             deletedTaskIds: taskIdsRelatedToOneManagementPlan,
             plantTaskIds: plantTasks.map(({ task_id }) => task_id),
+            transplantTaskIds: transplantTasks.map(({ task_id }) => task_id),
             plantingManagementPlanIds: plantingManagementPlans.map(
               ({ planting_management_plan_id }) => planting_management_plan_id,
             ),

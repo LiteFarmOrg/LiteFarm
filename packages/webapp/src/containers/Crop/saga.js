@@ -36,6 +36,7 @@ import { setPersistedPaths } from './../hooks/useHookFormPersist/hookFormPersist
 import { deletePlantingManagementPlanSuccess } from '../plantingManagementPlanSlice';
 import { deleteTaskSuccess, removePlanSuccess } from '../taskSlice';
 import { deletePlantTaskSuccess } from '../slice/taskSlice/plantTaskSlice';
+import { deleteTransplantTaskSuccess } from '../slice/taskSlice/transplantTaskSlice';
 
 const DEC = 10;
 
@@ -152,6 +153,7 @@ export function* deleteManagementPlanSaga({ payload }) {
     const {
       deletedTaskIds,
       plantTaskIds,
+      transplantTaskIds,
       plantingManagementPlanIds,
       taskIdsRelatedToManyManagementPlans,
     } = result.data;
@@ -165,6 +167,11 @@ export function* deleteManagementPlanSaga({ payload }) {
     // Delete plant tasks (own entity) associated with this management plan
     if (plantTaskIds?.length) {
       yield all(plantTaskIds.map((task_id) => put(deletePlantTaskSuccess(task_id))));
+    }
+
+    // Delete transplant tasks (own entity) associated with this management plan
+    if (transplantTaskIds?.length) {
+      yield all(transplantTaskIds.map((task_id) => put(deleteTransplantTaskSuccess(task_id))));
     }
 
     // Remove deleted management plan from tasks belonging to multiple plans

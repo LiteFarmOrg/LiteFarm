@@ -25,19 +25,7 @@ export default {
 
 const Template = (args) => <CropPlansModal {...args} />;
 
-const planBaseContents = {
-  managementPlanName: 'Management Plan',
-  locationName: 'Field 1',
-  notes: 'Row 1',
-  startDate: '01-01-2021',
-  endDate: '01-02-2021',
-  numberOfPendingTask: 0,
-  status: 'active',
-  management_plan_group_id: '97643f51-6105-4462-aa21-a5048117017f',
-};
-
-export const ModalWithTwoCard = Template.bind({});
-ModalWithTwoCard.args = {
+const commonArgs = {
   history: {
     location: { pathname: '/crop/variety_id/management' },
   },
@@ -54,6 +42,20 @@ ModalWithTwoCard.args = {
       'https://litefarm.nyc3.cdn.digitaloceanspaces.com/default_crop/v2/blueberry.webp',
   },
   dismissModal: () => console.log('dismiss'),
+};
+
+const planBaseContents = {
+  managementPlanName: 'Management Plan',
+  locationName: 'Field 1',
+  notes: 'Row 1',
+  numberOfPendingTask: 0,
+  status: 'active',
+  management_plan_group_id: '97643f51-6105-4462-aa21-a5048117017f',
+};
+
+export const ModalWithTwoCard = Template.bind({});
+ModalWithTwoCard.args = {
+  ...commonArgs,
   managementPlanCardContents: [...Array(2)].map((item, index) => {
     return {
       ...planBaseContents,
@@ -71,21 +73,7 @@ ModalWithTwoCard.parameters = {
 
 export const ModalWithManyCards = Template.bind({});
 ModalWithManyCards.args = {
-  history: {
-    location: { pathname: '/crop/variety_id/management' },
-  },
-  match: {
-    params: {
-      variety_id: 'variety_id',
-    },
-  },
-  variety: {
-    crop_translation_key: 'Blueberry',
-    crop_variety_name: 'Nantes',
-    supplier: 'Buckerfields',
-    crop_variety_photo_url:
-      'https://litefarm.nyc3.cdn.digitaloceanspaces.com/default_crop/v2/blueberry.webp',
-  },
+  ...commonArgs,
   managementPlanCardContents: [...Array(20)].map((item, index) => {
     return {
       ...planBaseContents,
@@ -102,21 +90,7 @@ ModalWithManyCards.parameters = {
 
 export const ModalWithDeletedIteration = Template.bind({});
 ModalWithDeletedIteration.args = {
-  history: {
-    location: { pathname: '/crop/variety_id/management' },
-  },
-  match: {
-    params: {
-      variety_id: 'variety_id',
-    },
-  },
-  variety: {
-    crop_translation_key: 'Blueberry',
-    crop_variety_name: 'Nantes',
-    supplier: 'Buckerfields',
-    crop_variety_photo_url:
-      'https://litefarm.nyc3.cdn.digitaloceanspaces.com/default_crop/v2/blueberry.webp',
-  },
+  ...commonArgs,
   managementPlanCardContents: [...Array(4)].map((item, index) => {
     return {
       ...planBaseContents,

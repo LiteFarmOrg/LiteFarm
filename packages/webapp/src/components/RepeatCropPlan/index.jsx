@@ -46,6 +46,7 @@ export default function PureRepeatCropPlan({
   onGoBack = () => {},
   onContinue = () => {},
   useHookFormPersist,
+  persistedFormData,
 }) {
   const { t } = useTranslation(['translation', 'common']);
   const {
@@ -70,6 +71,7 @@ export default function PureRepeatCropPlan({
       [DAYS_OF_WEEK]: [getWeekday(origStartDate)],
       [FINISH]: 'after',
       [AFTER_OCCURRENCES]: 3,
+      ...persistedFormData,
     },
   });
 

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import CropHeader from '../CropHeader';
 import { useTranslation } from 'react-i18next';
 import Button from '../../Form/Button';
-import { AddLink, Label, Underlined } from '../../Typography';
+import { AddLink, Label, Underlined, Main } from '../../Typography';
 import Layout from '../../Layout';
 import PropTypes from 'prop-types';
 import styles from './styles.module.scss';
@@ -10,6 +10,7 @@ import IncompleteTaskModal from '../../Modals/IncompleteTaskModal';
 import RouterTab from '../../RouterTab';
 import { useDispatch } from 'react-redux';
 import { setPersistedPaths } from '../../../containers/hooks/useHookFormPersist/hookFormPersistSlice';
+import { BsThreeDotsVertical } from 'react-icons/bs';
 
 export default function PureManagementTasks({
   onCompleted,
@@ -42,6 +43,7 @@ export default function PureManagementTasks({
   };
 
   const [showCompleteFailModal, setShowCompleteFailModal] = useState(false);
+  const [showCopyRepeatMenu, setShowCopyRepeatMenu] = useState(false);
 
   const onMarkComplete = () => {
     if (hasPendingTasks) {
@@ -72,6 +74,21 @@ export default function PureManagementTasks({
         <Label className={styles.title} style={{ marginTop: '24px' }}>
           {title}
         </Label>
+        <BsThreeDotsVertical
+          className={styles.menuIcon}
+          onClick={() => setShowCopyRepeatMenu((prev) => !prev)}
+        />
+        {showCopyRepeatMenu && (
+          <div className={styles.copyRepeatMenu}>
+            {/* <Main className={styles.menuItem}>Copy crop plan</Main> */}
+            <Main
+              className={styles.menuItem}
+              onClick={() => onRepeatPlan(plan.crop_variety_id, plan.management_plan_id)}
+            >
+              Repeat crop plan
+            </Main>
+          </div>
+        )}
       </div>
 
       <RouterTab
@@ -90,13 +107,6 @@ export default function PureManagementTasks({
           },
         ]}
       />
-
-      <Button
-        style={{ marginBlock: '20px' }}
-        onClick={() => onRepeatPlan(plan.crop_variety_id, plan.management_plan_id)}
-      >
-        Repeat Crop Plan
-      </Button>
 
       {isAdmin && isActiveOrPlanned && (
         <AddLink style={{ marginTop: '16px', marginBottom: '14px' }} onClick={onAddTask}>

@@ -38,8 +38,8 @@
   height: 48px;
   left: 0px;
   top: 20px;
-  background: #FAFAFD;
-  border: 1px solid #D4DAE3;
+  background: #fafafd;
+  border: 1px solid #d4dae3;
   box-sizing: border-box;
   border-radius: 4px;
 }
@@ -59,4 +59,17 @@
 
 .rating {
   display: table-row;
+}
+
+.deleteText {
+  padding-bottom: 16px;
+
+  span {
+    text-decoration: none;
+  }
+}
+
+.deleteSection {
+  margin-top: auto;
+  padding-top: 24px;
 }

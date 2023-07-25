@@ -20,7 +20,7 @@ import DescriptiveButton from '../../components/Inputs/DescriptiveButton';
 import history from '../../history';
 import { dateRangeSelector, expenseSelector, salesSelector } from './selectors';
 import { getDefaultExpenseType, getExpense, getSales, setDateRange } from './actions';
-import { calcOtherExpense, calcTotalLabour, calcActualRevenue } from './util';
+import { calcActualRevenue, calcOtherExpense, calcTotalLabour } from './util';
 import Moment from 'moment';
 import { roundToTwoDecimal } from '../../util';
 import DateRangeSelector from '../../components/Finances/DateRangeSelector';
@@ -29,12 +29,12 @@ import { extendMoment } from 'moment-range';
 import { userFarmSelector } from '../userFarmSlice';
 import { withTranslation } from 'react-i18next';
 import { managementPlansSelector } from '../managementPlanSlice';
-import { getManagementPlansAndTasks } from '../saga';
 import Button from '../../components/Form/Button';
 import { Semibold, Title } from '../../components/Typography';
 import grabCurrencySymbol from '../../util/grabCurrencySymbol';
 import { taskEntitiesByManagementPlanIdSelector, tasksSelector } from '../taskSlice';
 import { isTaskType } from '../Task/useIsTaskType';
+import { getTasks } from '../Task/saga.js';
 
 const moment = extendMoment(Moment);
 
@@ -68,7 +68,7 @@ class Finances extends Component {
     this.props.dispatch(getSales());
     this.props.dispatch(getExpense());
     this.props.dispatch(getDefaultExpenseType());
-    this.props.dispatch(getManagementPlansAndTasks());
+    this.props.dispatch(getTasks());
     //TODO fetch userFarm
     if (dateRange && dateRange.startDate && dateRange.endDate) {
       this.setState({
@@ -82,16 +82,6 @@ class Finances extends Component {
           endDate: this.state.endDate,
         }),
       );
-    }
-  }
-
-  componentDidUpdate(prevProps) {
-    // Typical usage (don't forget to compare props):
-    if (
-      this.props.sales !== prevProps.sales ||
-      this.props.expenses !== prevProps.expenses ||
-      this.props.dateRange !== prevProps.dateRange
-    ) {
     }
   }
 

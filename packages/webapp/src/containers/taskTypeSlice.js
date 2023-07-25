@@ -38,15 +38,15 @@ const taskTypeSlice = createSlice({
     loaded: false,
   }),
   reducers: {
-    onLoadingProductStart: onLoadingStart,
-    onLoadingProductFail: onLoadingFail,
+    onLoadingTaskTypesStart: onLoadingStart,
+    onLoadingTaskTypesFail: onLoadingFail,
     getTaskTypesSuccess: addManyTaskTypes,
     deleteTaskTypeSuccess: softDeleteTaskType,
   },
 });
 export const {
-  onLoadingProductFail,
-  taskTypes,
+  onLoadingTaskTypesStart,
+  onLoadingTaskTypesFail,
   getTaskTypesSuccess,
   deleteTaskTypeSuccess,
 } = taskTypeSlice.actions;
@@ -84,4 +84,11 @@ export const taskTypeIdNoCropsSelector = createSelector([taskTypesSelector], (ta
   taskTypes
     .filter(({ task_translation_key }) => noCropsTaskTypes.includes(task_translation_key))
     .map(({ task_type_id }) => task_type_id),
+);
+
+export const taskTypeStatusSelector = createSelector(
+  [taskTypeReducerSelector],
+  ({ loading, error, loaded }) => {
+    return { loading, error, loaded };
+  },
 );

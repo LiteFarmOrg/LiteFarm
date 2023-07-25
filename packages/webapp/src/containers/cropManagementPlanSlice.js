@@ -1,7 +1,8 @@
 import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
 import { onLoadingFail, onLoadingStart } from './userFarmSlice';
-
+import { createSelector } from 'reselect';
 import { pick } from '../util/pick';
+import { cropVarietyReducerSelector } from './cropVarietySlice.js';
 
 export const cropManagementPlanProperties = [
   'already_in_ground',
@@ -85,3 +86,10 @@ export const cropManagementPlanSelectors = cropManagementPlanAdapter.getSelector
 );
 
 export const cropManagementPlanEntitiesSelector = cropManagementPlanSelectors.selectEntities;
+
+export const cropManagementPlanStatusSelector = createSelector(
+  [cropVarietyReducerSelector],
+  ({ loading, error }) => {
+    return { loading, error };
+  },
+);

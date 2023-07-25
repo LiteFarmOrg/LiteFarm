@@ -11,15 +11,15 @@ import useCropTileListGap from '../../components/CropTile/useCropTileListGap';
 import PureCropTile from '../../components/CropTile';
 import PureCropTileContainer from '../../components/CropTile/CropTileContainer';
 import React, { useEffect, useState } from 'react';
-import { getCropsAndManagementPlans } from '../saga';
+import { getManagementPlans } from '../saga';
 import MuiFullPagePopup from '../../components/MuiFullPagePopup/v2';
 import CropCatalogueFilterPage from '../Filter/CropCatalogue';
 import {
   cropCatalogueFilterDateSelector,
   cropCatalogueFilterSelector,
   isFilterCurrentlyActiveSelector,
-  setCropCatalogueFilterDate,
   resetCropCatalogueFilter,
+  setCropCatalogueFilterDate,
 } from '../filterSlice';
 import { isAdminSelector } from '../userFarmSlice';
 import useCropCatalogue from './useCropCatalogue';
@@ -40,15 +40,23 @@ export default function CropCatalogue({ history }) {
 
   const [filterString, setFilterString] = useState('');
   const filterStringOnChange = (e) => setFilterString(e.target.value);
-  const { active, abandoned, planned, completed, noPlans, sum, cropCatalogue, filteredCropsWithoutManagementPlan } =
-    useCropCatalogue(filterString);
+  const {
+    active,
+    abandoned,
+    planned,
+    completed,
+    noPlans,
+    sum,
+    cropCatalogue,
+    filteredCropsWithoutManagementPlan,
+  } = useCropCatalogue(filterString);
   const crops = useStringFilteredCrops(
     useSortByCropTranslation(useSelector(cropsSelector)),
     filterString,
   );
   const { ref: containerRef, gap, padding, cardWidth } = useCropTileListGap([sum, crops.length]);
   useEffect(() => {
-    dispatch(getCropsAndManagementPlans());
+    dispatch(getManagementPlans());
   }, []);
 
   const [isFilterOpen, setIsFilterOpen] = useState(false);

@@ -20,35 +20,29 @@ import { Semibold, Underlined } from '../../components/Typography';
 import { useDispatch, useSelector } from 'react-redux';
 import React, { useEffect, useMemo, useState } from 'react';
 
-import {
-  isAdminSelector,
-  userFarmEntitiesSelector,
-  userFarmsByFarmSelector,
-  userFarmSelector,
-} from '../userFarmSlice';
+import { isAdminSelector, userFarmsByFarmSelector, userFarmSelector } from '../userFarmSlice';
 import { resetAndUnLockFormData } from '../hooks/useHookFormPersist/hookFormPersistSlice';
-import { getManagementPlansAndTasks } from '../saga';
 import TaskCard from './TaskCard';
 import { onAddTask } from './onAddTask';
 import MuiFullPagePopup from '../../components/MuiFullPagePopup/v2';
 import TasksFilterPage from '../Filter/Tasks';
 import {
+  clearTasksFilter,
   isFilterCurrentlyActiveSelector,
   setTasksFilter,
-  tasksFilterSelector,
-  setTasksFilterUnassignedDueThisWeek,
   setTasksFilterDueToday,
+  setTasksFilterUnassignedDueThisWeek,
+  tasksFilterSelector,
   updateTasksFilterObjects,
-  clearTasksFilter,
 } from '../filterSlice';
 import ActiveFilterBox from '../../components/ActiveFilterBox';
 import PureTaskDropdownFilter from '../../components/PopupFilter/PureTaskDropdownFilter';
 import produce from 'immer';
 import { IS_ASCENDING } from '../Filter/constants';
-import { WEEKLY_UNASSIGNED_TASKS, DAILY_TASKS_DUE_TODAY } from '../Notification/constants';
+import { DAILY_TASKS_DUE_TODAY, WEEKLY_UNASSIGNED_TASKS } from '../Notification/constants';
 import { filteredTaskCardContentSelector } from './taskCardContentSelector';
 import TaskCount from '../../components/Task/TaskCount';
-import { getTaskTypes } from './saga';
+import { getTasks } from './saga';
 import { getAllUserFarmsByFarmId } from '../Profile/People/saga';
 import { defaultTaskTypesSelector, userCreatedTaskTypesSelector } from '../taskTypeSlice';
 import { getSupportedTaskTypesSet } from '../../components/Task/getSupportedTaskTypesSet';
@@ -99,9 +93,8 @@ export default function TaskPage({ history }) {
   }, [activeUsers.length, taskTypes.length]);
 
   useEffect(() => {
-    dispatch(getTaskTypes());
     dispatch(getAllUserFarmsByFarmId());
-    dispatch(getManagementPlansAndTasks());
+    dispatch(getTasks());
     dispatch(resetAndUnLockFormData());
 
     const context = history.location?.state;

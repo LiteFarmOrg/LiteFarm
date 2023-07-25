@@ -1,6 +1,7 @@
 import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
 import { onLoadingFail, onLoadingStart } from './userFarmSlice';
 import { pick } from '../util/pick';
+import { createSelector } from 'reselect';
 
 export const bedMethodProperties = [
   'bed_length',
@@ -84,4 +85,10 @@ export const bedMethodReducerSelector = (state) => state.entitiesReducer[bedMeth
 
 export const bedMethodSelectors = bedMethodAdapter.getSelectors(
   (state) => state.entitiesReducer[bedMethodSlice.name],
+);
+export const bedMethodStatusSelector = createSelector(
+  [bedMethodReducerSelector],
+  ({ loading, error }) => {
+    return { loading, error };
+  },
 );

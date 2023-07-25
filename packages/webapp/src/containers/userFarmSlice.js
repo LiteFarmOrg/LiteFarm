@@ -8,7 +8,6 @@ export function onLoadingStart(state) {
 export function onLoadingFail(state, { payload: error }) {
   state.loading = false;
   state.error = error;
-  state.loaded = true;
 }
 
 export function onLoadingSuccess(state) {

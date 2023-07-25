@@ -4,23 +4,35 @@ import {
   onLoadingFail,
   onLoadingStart,
   userFarmEntitiesSelector,
+  userFarmStatusSelector,
 } from './userFarmSlice';
 import { createSelector } from 'reselect';
 import { pick } from '../util/pick';
-import { managementPlanEntitiesSelector } from './managementPlanSlice';
-import { productsSelector } from './productSlice';
-import { locationEntitiesSelector } from './locationSlice';
+import {
+  managementPlanEntitiesSelector,
+  managementPlanStatusSelector,
+} from './managementPlanSlice';
+import { productsSelector, productStatusSelector } from './productSlice';
+import { locationEntitiesSelector, locationStatusSelector } from './locationSlice';
 import { cleaningTaskEntitiesSelector } from './slice/taskSlice/cleaningTaskSlice';
 import { fieldWorkTaskEntitiesSelector } from './slice/taskSlice/fieldWorkTaskSlice';
 import { harvestTaskEntitiesSelector } from './slice/taskSlice/harvestTaskSlice';
 import { pestControlTaskEntitiesSelector } from './slice/taskSlice/pestControlTaskSlice';
 import { soilAmendmentTaskEntitiesSelector } from './slice/taskSlice/soilAmendmentTaskSlice';
 import produce from 'immer';
-import { taskTypeEntitiesSelector } from './taskTypeSlice';
+import { taskTypeEntitiesSelector, taskTypeStatusSelector } from './taskTypeSlice';
 import { plantTaskEntitiesSelector } from './slice/taskSlice/plantTaskSlice';
 import { transplantTaskEntitiesSelector } from './slice/taskSlice/transplantTaskSlice';
-import { plantingManagementPlanEntitiesSelector } from './plantingManagementPlanSlice';
+import {
+  plantingManagementPlanEntitiesSelector,
+  plantingManagementPlanStatusSelector,
+} from './plantingManagementPlanSlice';
 import { irrigationTaskEntitiesSelector } from './slice/taskSlice/irrigationTaskSlice';
+import { getTrackedReducerSelector } from '../util/reselect/reselect';
+import { cropVarietyStatusSelector } from './cropVarietySlice.js';
+import { cropStatusSelector } from './cropSlice.js';
+import { cropManagementPlanStatusSelector } from './cropManagementPlanSlice.js';
+import { harvestUseTypesStatusSelector } from './harvestUseTypeSlice.js';
 
 export const getTask = (obj) => {
   const task = pick(obj, [
@@ -131,7 +143,17 @@ export default taskSlice.reducer;
 
 export const taskReducerSelector = (state) => state.entitiesReducer[taskSlice.name];
 export const taskSelectors = taskAdapter.getSelectors(
-  (state) => state.entitiesReducer[taskSlice.name],
+  getTrackedReducerSelector(taskSlice.name),
+  userFarmStatusSelector,
+  taskTypeStatusSelector,
+  managementPlanStatusSelector,
+  cropVarietyStatusSelector,
+  cropStatusSelector,
+  cropManagementPlanStatusSelector,
+  locationStatusSelector,
+  plantingManagementPlanStatusSelector,
+  productStatusSelector,
+  harvestUseTypesStatusSelector,
 );
 
 //TODO: refactor

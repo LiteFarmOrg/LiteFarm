@@ -30,8 +30,7 @@ import {
 } from '../../../components/Crop/addManagementPlanPaths';
 import { useManagementPlanCardContents } from './useManagementPlanCardContents';
 import { useEffect } from 'react';
-import { getManagementPlans } from '../../saga';
-import { getTasks, getTaskTypes } from '../../Task/saga';
+import { getTasks } from '../../Task/saga';
 import { isAdminSelector } from '../../userFarmSlice';
 
 const seedingTypeIsSeedMap = {
@@ -105,8 +104,6 @@ function CropManagement({ history, match, location }) {
   };
 
   useEffect(() => {
-    dispatch(getTaskTypes());
-    dispatch(getManagementPlans());
     dispatch(getTasks());
   }, []);
 

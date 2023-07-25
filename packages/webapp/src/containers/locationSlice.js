@@ -246,8 +246,11 @@ export const cropLocationEntitiesSelector = createSelector(
   },
 );
 
-export const cropLocationByIdSelector = (location_id) =>
-  createSelector(cropLocationEntitiesSelector, (entities) => entities[location_id]);
+export const cropLocationByIdSelector = (location_id) => {
+  return (state) => {
+    return cropLocationEntitiesSelector(state)[location_id];
+  };
+};
 
 export const cropLocationStatusSelector = createSelector(
   [fieldStatusSelector, gardenStatusSelector, greenhouseStatusSelector, bufferZoneStatusSelector],
@@ -285,11 +288,6 @@ export const locationsSelector = createSelector(
   },
 );
 
-export const locationByIdSelector = (location_id) =>
-  createSelector(locationsSelector, (entities) =>
-    entities.find((entity) => entity.location_id === location_id),
-  );
-
 export const locationEntitiesSelector = createSelector(
   [
     barnEntitiesSelector,
@@ -314,4 +312,16 @@ export const locationEntitiesSelector = createSelector(
       {},
     );
   },
+);
+
+export const locationByIdSelector = (location_id) => (state) =>
+  locationEntitiesSelector(state)[location_id];
+
+export const locationStatusSelector = createSelector(
+  [areaStatusSelector, pointStatusSelector, lineStatusSelector],
+  (areaStatus, pointStatus, lineStatus) => ({
+    loading: areaStatus.loading || pointStatus.loading || lineStatus.loading,
+    loaded: areaStatus.loaded && pointStatus.loaded && lineStatus.loaded,
+    error: areaStatus.error || pointStatus.error || lineStatus.error,
+  }),
 );

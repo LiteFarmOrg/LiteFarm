@@ -78,3 +78,9 @@ export const harvestUseTypesSelector = createSelector(
 
 export const harvestUseTypeById = (harvest_use_type_id) => (state) =>
   harvestUseTypeSelectors.selectById(state, harvest_use_type_id);
+export const harvestUseTypesStatusSelector = createSelector(
+  [harvestUseTypeReducerSelector],
+  ({ loading, error }) => {
+    return { loading, error };
+  },
+);

@@ -1,16 +1,16 @@
-import { all, call, put, select, takeLatest, takeLeading } from 'redux-saga/effects';
+import { call, put, select, takeLatest, takeLeading, take } from 'redux-saga/effects';
 import { createAction } from '@reduxjs/toolkit';
 import apiConfig from '../../apiConfig';
-import { axios, getHeader, getPlantingManagementPlansSuccessSaga, onReqSuccessSaga } from '../saga';
+import { axios, getHeader, getManagementPlans, onReqSuccessSaga } from '../saga';
 import i18n from '../../locales/i18n';
 import { loginSelector, putUserSuccess } from '../userFarmSlice';
 import history from '../../history';
 import { enqueueErrorSnackbar, enqueueSuccessSnackbar } from '../Snackbar/snackbarSlice';
 import {
   addManyTasksFromGetReq,
+  deleteTaskSuccess,
   putTasksSuccess,
   putTaskSuccess,
-  deleteTaskSuccess,
 } from '../taskSlice';
 import { getProductsSuccess, onLoadingProductFail, onLoadingProductStart } from '../productSlice';
 import {
@@ -18,6 +18,9 @@ import {
   getTaskTypesSuccess,
   taskTypeEntitiesSelector,
   taskTypeSelector,
+  taskTypeStatusSelector,
+  onLoadingTaskTypesStart,
+  onLoadingTaskTypesFail,
 } from '../taskTypeSlice';
 import { pick } from '../../util/pick';
 import produce from 'immer';
@@ -217,10 +220,6 @@ export function* setUserFarmWageDoNotAskAgainSaga({ payload: user }) {
   }
 }
 
-export const getPlantingTasksAndPlantingManagementPlansSuccess = createAction(
-  'getPlantingTasksAndPlantingManagementPlansSuccessSaga',
-);
-
 export function* getPlantingTasksAndPlantingManagementPlansSuccessSaga({ payload: tasks }) {
   yield put(
     getPlantTasksSuccess(
@@ -232,18 +231,7 @@ export function* getPlantingTasksAndPlantingManagementPlansSuccessSaga({ payload
       })),
     ),
   );
-  yield all([
-    getPlantingManagementPlansSuccessSaga({
-      payload: tasks
-        .map((task) => task.planting_management_plan)
-        .filter((planting_management_plan) => planting_management_plan),
-    }),
-  ]);
 }
-
-export const getTransplantTasksAndPlantingManagementPlansSuccess = createAction(
-  'getTransplantTasksAndPlantingManagementPlansSuccessSaga',
-);
 
 export function* getTransplantTasksAndPlantingManagementPlansSuccessSaga({ payload: tasks }) {
   yield put(
@@ -256,11 +244,6 @@ export function* getTransplantTasksAndPlantingManagementPlansSuccessSaga({ paylo
       })),
     ),
   );
-  yield call(getPlantingManagementPlansSuccessSaga, {
-    payload: tasks
-      .map((task) => task.planting_management_plan)
-      .filter((planting_management_plan) => planting_management_plan),
-  });
 }
 
 // TODO: fix call(getTransplantTasksAndPlantingManagementPlansSuccessSaga) racing condition walk around
@@ -346,9 +329,27 @@ export function* getTasksSuccessSaga({ payload: tasks }) {
 export const getTasks = createAction('getTasksSaga');
 
 export function* getTasksSaga() {
+  yield put(getManagementPlans());
+  yield put(getProducts());
+  yield put(getHarvestUseTypes());
+  yield put(getTaskTypes());
+  const taskTypeStatus = yield select(taskTypeStatusSelector);
+  /**
+   * {@link getTasksSuccessSaga} requires default task type translation keys to hydrate
+   * taskEntities slice. If taskTypes haven't been loaded before or default task types
+   * are not in taskTypeEntities, wait for {@link getTaskTypesSuccess}. If task types
+   * can't be loaded, reject.
+   */
+  if (!taskTypeStatus.loaded) {
+    const action = yield take([getTaskTypesSuccess.type, onLoadingTaskTypesFail.type]);
+    if (action.type === onLoadingTaskTypesFail.type) {
+      return;
+    }
+  }
   const { taskUrl } = apiConfig;
   let { user_id, farm_id } = yield select(loginSelector);
   const header = getHeader(user_id, farm_id);
+
   try {
     yield put(onLoadingTaskStart());
     const result = yield call(axios.get, `${taskUrl}/${farm_id}`, header);
@@ -760,11 +761,13 @@ export function* getTaskTypesSaga() {
   const header = getHeader(user_id, farm_id);
 
   try {
+    yield put(onLoadingTaskTypesStart());
     const result = yield call(axios.get, `${taskTypeUrl}/farm/${farm_id}`, header);
     if (result) {
       yield put(getTaskTypesSuccess(result.data));
     }
   } catch (e) {
+    yield put(onLoadingTaskTypesFail(e));
     console.log('failed to fetch task types from database');
   }
 }
@@ -870,13 +873,5 @@ export default function* taskSaga() {
   yield takeLeading(deleteTaskType.type, deleteTaskTypeSaga);
   yield takeLatest(getHarvestUseTypes.type, getHarvestUseTypesSaga);
   yield takeLeading(addCustomHarvestUse.type, addCustomHarvestUseSaga);
-  yield takeLatest(
-    getTransplantTasksAndPlantingManagementPlansSuccess.type,
-    getTransplantTasksAndPlantingManagementPlansSuccessSaga,
-  );
-  yield takeLatest(
-    getPlantingTasksAndPlantingManagementPlansSuccess.type,
-    getPlantingTasksAndPlantingManagementPlansSuccessSaga,
-  );
   yield takeLeading(deleteTask.type, deleteTaskSaga);
 }

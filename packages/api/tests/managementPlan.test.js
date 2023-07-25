@@ -376,23 +376,24 @@ describe('ManagementPlan Tests', () => {
             promisedFarm: [farm],
             promisedCrop: [harvestedCrop],
           });
-          const harvestedManagementPlan = await mocks.management_planFactory({
+          const [harvestedManagementPlan] = await mocks.management_planFactory({
             promisedFarm: [farm],
             promisedCrop: [harvestedCrop],
             promisedCropVariety: [harvestedCropVariety],
           });
 
           const [harvestedPlantingManagementPlan] = await mocks.planting_management_planFactory({
-            promisedManagementPlan: harvestedManagementPlan,
+            promisedManagementPlan: [harvestedManagementPlan],
           });
+          const [baseTask] = await mocks.taskFactory(
+            {
+              promisedUser: [owner],
+            },
+            { ...mocks.fakeTask(), complete_date: new Date() },
+          );
           const [harvestTask] = await mocks.harvest_taskFactory(
             {
-              promisedTask: mocks.taskFactory(
-                {
-                  promisedUser: [owner],
-                },
-                { ...mocks.fakeTask(), complete_date: new Date() },
-              ),
+              promisedTask: [baseTask],
             },
             {
               ...mocks.fakeHarvestTask(),
@@ -415,7 +416,12 @@ describe('ManagementPlan Tests', () => {
             },
           );
           const union = await mocks.management_tasksFactory({
-            promisedTask: [harvestTask],
+            promisedTask: [baseTask],
+            promisedPlantingManagementPlan: [harvestedPlantingManagementPlan],
+          });
+
+          const union2 = await mocks.management_tasksFactory({
+            promisedTask: [harvestTask2],
             promisedPlantingManagementPlan: [harvestedPlantingManagementPlan],
           });
 
@@ -424,7 +430,11 @@ describe('ManagementPlan Tests', () => {
             { user_id: owner.user_id },
             (err, res) => {
               expect(res.status).toBe(200);
-              expect(res.body[0].harvested_to_date).toBe(1011);
+              const mp = res.body.find(
+                (mp) => mp.management_plan_id === harvestedManagementPlan.management_plan_id,
+              );
+              expect(mp).toBeDefined();
+              expect(mp.harvested_to_date).toBe(1011);
               done();
             },
           );

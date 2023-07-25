@@ -101,7 +101,7 @@ function PureRepeatCropPlanConfirmation({
     );
 
     const numberOfPlans = occurrences.length;
-    const numberOfTasks = tasks?.length * numberOfPlans;
+    const numberOfTasks = tasks.length * numberOfPlans;
 
     return {
       planName,

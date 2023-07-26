@@ -54,6 +54,8 @@ export default function PureManagementDetail({
       complete_date: isValidDate ? getDateInputFormat(plan.complete_date) : '',
       complete_notes: plan.complete_notes,
       notes: plan.notes,
+      harvested_to_date: plan.harvested_to_date ?? 0,
+      harvested_to_date_unit: null,
       crop_management_plan: {
         estimated_yield: plan.estimated_yield,
         estimated_yield_unit: plan.estimated_yield_unit,
@@ -71,6 +73,7 @@ export default function PureManagementDetail({
   const COMPLETE_NOTES = 'complete_notes';
   const PLAN_NOTES = 'notes';
   const HARVESTED_TO_DATE = 'harvested_to_date';
+  const HARVESTED_TO_DATE_UNIT = 'harvested_to_date_unit';
   const ESTIMATED_YIELD = `crop_management_plan.estimated_yield`;
   const ESTIMATED_YIELD_UNIT = `crop_management_plan.estimated_yield_unit`;
 
@@ -199,7 +202,7 @@ export default function PureManagementDetail({
         unitType={seedYield}
         name={HARVESTED_TO_DATE}
         label={t('MANAGEMENT_PLAN.HARVEST_TO_DATE')}
-        displayUnitName={ESTIMATED_YIELD_UNIT}
+        displayUnitName={HARVESTED_TO_DATE_UNIT}
         hookFormGetValue={getValues}
         hookFromWatch={watch}
         control={control}

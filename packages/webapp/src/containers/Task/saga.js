@@ -555,7 +555,6 @@ export function* createTaskSaga({ payload }) {
           pathName = returnPath;
         }
       }
-      //console.log(pathName);
       yield call(getTasksSuccessSaga, { payload: isHarvest ? result.data : [result.data] });
       yield call(onReqSuccessSaga, {
         message: i18n.t('message:TASK.CREATE.SUCCESS'),

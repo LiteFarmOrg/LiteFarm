@@ -32,7 +32,7 @@ export default function PureTaskComplete({
   const ANOTHER_DATE = 'date_another';
 
   const { t } = useTranslation();
-
+  console.log(persistedFormData);
   // Prepare dates
   const date_due = getDateInputFormat(persistedFormData.due_date);
   const date_today = getDateInputFormat();

@@ -26,9 +26,7 @@ export default function PureCompleteOnCreation({
   useHookFormPersist,
 }) {
   const { t } = useTranslation();
-  const defaultsToUse = persistedFormData.need_changes
-    ? cloneObject(persistedFormData)
-    : cloneObject(selectedTask);
+  const defaultsToUse = cloneObject(selectedTask);
   const {
     register,
     handleSubmit,
@@ -42,7 +40,7 @@ export default function PureCompleteOnCreation({
   } = useForm({
     mode: 'onChange',
     shouldUnregister: false,
-    defaultValues: { need_changes: false, ...defaultsToUse },
+    defaultValues: { ...defaultsToUse },
   });
 
   const { historyCancel } = useHookFormPersist(getValues);

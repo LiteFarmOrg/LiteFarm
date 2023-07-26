@@ -34,13 +34,12 @@ function TaskCompleteOnCreation({ history, match, location }) {
       ]),
     );
     if (selectedTaskType.task_translation_key == 'HARVEST_TASK') {
-      dispatch(setFormData({ task_id, taskType: task.taskType }));
       history.push(`/tasks/${task_id}/complete_harvest_quantity`, location?.state);
     } else if (selectedTaskType.farm_id == farm_id) {
       dispatch(setFormData({ task_id, taskType: task.taskType }));
       history.push(`/tasks/${task_id}/complete`, location?.state);
     } else {
-      dispatch(setFormData({ task_id, taskType: task.taskType }));
+      dispatch(setFormData({ selectedTask: task, selectedTaskType: task.taskType }));
       history.push(`/tasks/${task_id}/before_complete`, location?.state);
     }
   };

@@ -53,7 +53,7 @@ export default function PureCompleteOnCreation({
     <Form
       buttonGroup={
         <>
-          <Button data-cy="taskReadOnly-abandon" color={'secondary'} fullLength>
+          <Button data-cy="taskReadOnly-abandon" color={'secondary'} onClick={onGoBack} fullLength>
             {t('TASK.COMPLETE_ON_CREATION.CANCEL')}
           </Button>
           <Button data-cy="taskReadOnly-complete" color={'primary'} onClick={onContinue} fullLength>
@@ -66,7 +66,7 @@ export default function PureCompleteOnCreation({
       <MultiStepPageTitle
         style={{ marginBottom: '24px' }}
         onGoBack={onGoBack}
-        onCancel={historyCancel}
+        onCancel={onGoBack}
         cancelModalTitle={t('TASK.COMPLETE_TASK_FLOW')}
         title={t('TASK.COMPLETE_TASK')}
         value={0}

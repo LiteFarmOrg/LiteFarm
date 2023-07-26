@@ -95,18 +95,30 @@ export default function PureCropManagement({
       )}
       {managementPlanCardContents && (
         <CardWithStatusContainer style={{ paddingTop: '16px' }}>
-          {filteredManagementPlanCardContents.map((managementPlan, index) => (
-            <ManagementPlanCard
-              onClick={() =>
-                history.push(
-                  `/crop/${variety.crop_variety_id}/management_plan/${managementPlan.management_plan_id}/tasks`,
-                  location.state,
-                )
-              }
-              {...managementPlan}
-              key={index}
-            />
-          ))}
+          {filteredManagementPlanCardContents.map((managementPlan, index) => {
+            // Handle repeat plan info click event
+            const repeatPlanInfoOnClick =
+              managementPlan.repetition_count && managementPlan.repetition_number
+                ? (e) => {
+                    // TODO: Open model once LF-3370 is complete
+                    e.stopPropagation(); // to stop click propagating to parent
+                  }
+                : undefined;
+
+            return (
+              <ManagementPlanCard
+                onClick={() =>
+                  history.push(
+                    `/crop/${variety.crop_variety_id}/management_plan/${managementPlan.management_plan_id}/tasks`,
+                    location.state,
+                  )
+                }
+                {...managementPlan}
+                key={index}
+                repeatPlanInfoOnClick={repeatPlanInfoOnClick}
+              />
+            );
+          })}
         </CardWithStatusContainer>
       )}
     </Layout>
@@ -124,6 +136,9 @@ PureCropManagement.propTypes = {
       numberOfPendingTask: PropTypes.number,
       status: PropTypes.oneOf(['active', 'planned', 'completed', 'abandoned']),
       management_plan_id: PropTypes.number,
+      management_plan_group_id: PropTypes.string,
+      repetition_count: PropTypes.number,
+      repetition_number: PropTypes.number,
     }),
   ),
   history: PropTypes.object,

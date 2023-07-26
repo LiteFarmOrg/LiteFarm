@@ -23,6 +23,7 @@ import TransplantTaskModel from '../models/transplantTaskModel.js';
 import PlantTaskModel from '../models/plantTaskModel.js';
 import { raw } from 'objection';
 import lodash from 'lodash';
+import { sendTaskNotification, TaskNotificationTypes } from './taskController.js';
 
 const managementPlanController = {
   addManagementPlan() {
@@ -171,6 +172,23 @@ const managementPlanController = {
                 },
               );
             tasks.push(fieldWorkTask);
+          }
+
+          if (req.body.assignee_user_id) {
+            tasks.forEach(async (task) => {
+              const { assignee_user_id, task_type_id } = task;
+              const taskTypeTranslation = await TaskTypeModel.getTaskTranslationKeyById(
+                task_type_id,
+              );
+              await sendTaskNotification(
+                [assignee_user_id],
+                req.auth.user_id,
+                task.task_id,
+                TaskNotificationTypes.TASK_ASSIGNED,
+                taskTypeTranslation.task_translation_key,
+                req.headers.farm_id,
+              );
+            });
           }
 
           return { management_plan, tasks };
@@ -457,12 +475,13 @@ const managementPlanController = {
 };
 
 const planGraphFetchedQueryString =
-  '[crop_variety, crop_management_plan.[planting_management_plans.[bed_method, container_method, broadcast_method, row_method]]]';
+  '[crop_variety, management_plan_group, crop_management_plan.[planting_management_plans.[bed_method, container_method, broadcast_method, row_method]]]';
 const graphJoinedOptions = {
   aliases: {
     crop_management_plan: 'cmp',
     planting_management_plan: 'pmp',
     planting_management_plans: 'pmps',
+    management_plan_group: 'mpg',
   },
 };
 

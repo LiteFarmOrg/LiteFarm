@@ -27,6 +27,7 @@ import { typesOfTask } from './../middleware/validation/task.js';
 import IrrigationTypesModel from '../models/irrigationTypesModel.js';
 import FieldWorkTypeModel from '../models/fieldWorkTypeModel.js';
 import locationDefaultsModel from '../models/locationDefaultsModel.js';
+import TaskTypeModel from '../models/taskTypeModel.js';
 const adminRoles = [1, 2, 5];
 // const isDateInPast = (date) => {
 //   const today = new Date();
@@ -398,6 +399,7 @@ const taskController = {
 
       const result = await TaskModel.transaction(async (trx) => {
         const result = [];
+        let taskTypeTranslation = '';
         for (const harvest_task of harvest_tasks) {
           harvest_task.owner_user_id = user_id;
           if (harvest_task.assignee_user_id && !harvest_task.wage_at_moment) {
@@ -418,7 +420,26 @@ const taskController = {
               noInsert: nonModifiable,
               relate: ['locations', 'managementPlans'],
             });
-          // N.B. Notification not needed; these tasks are never assigned at creation.
+
+          if (task.assignee_user_id) {
+            const {
+              assignee_user_id,
+              harvest_task: { task_id },
+              task_type_id,
+            } = task;
+            if (!taskTypeTranslation) {
+              taskTypeTranslation = await TaskTypeModel.getTaskTranslationKeyById(task_type_id);
+            }
+            await sendTaskNotification(
+              [assignee_user_id],
+              user_id,
+              task_id,
+              TaskNotificationTypes.TASK_ASSIGNED,
+              taskTypeTranslation.task_translation_key,
+              req.headers.farm_id,
+            );
+          }
+
           result.push(removeNullTypes(task));
         }
         return result;
@@ -457,7 +478,20 @@ const taskController = {
             noInsert: nonModifiable,
           });
       });
-      // N.B. Notification not needed; these tasks are never assigned at creation.
+
+      if (result.assignee_user_id) {
+        const { assignee_user_id, task_id, task_type_id } = result;
+        const taskTypeTranslation = await TaskTypeModel.getTaskTranslationKeyById(task_type_id);
+        await sendTaskNotification(
+          [assignee_user_id],
+          user_id,
+          task_id,
+          TaskNotificationTypes.TASK_ASSIGNED,
+          taskTypeTranslation.task_translation_key,
+          req.headers.farm_id,
+        );
+      }
+
       return res.status(201).send(result);
     } catch (error) {
       console.log(error);
@@ -806,7 +840,7 @@ async function patchManagementPlanStartDate(trx, req, typeOfTask, task = req.bod
   }
 }
 
-const TaskNotificationTypes = {
+export const TaskNotificationTypes = {
   TASK_ASSIGNED: 'TASK_ASSIGNED',
   TASK_ABANDONED: 'TASK_ABANDONED',
   TASK_REASSIGNED: 'TASK_REASSIGNED',
@@ -834,7 +868,7 @@ const TaskNotificationUserTypes = {
  * @param {String} farmId
  * @return {Promise<void>}
  */
-async function sendTaskNotification(
+export async function sendTaskNotification(
   receiverIds,
   usernameVariableId,
   taskId,

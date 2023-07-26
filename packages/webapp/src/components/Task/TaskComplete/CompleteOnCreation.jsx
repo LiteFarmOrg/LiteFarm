@@ -69,7 +69,7 @@ export default function PureCompleteOnCreation({
         onCancel={historyCancel}
         cancelModalTitle={t('TASK.COMPLETE_TASK_FLOW')}
         title={t('TASK.COMPLETE_TASK')}
-        value={28}
+        value={0}
       />
 
       <Main style={{ marginBottom: '24px' }}>{t('TASK.COMPLETE_ON_CREATION.BODY')}</Main>

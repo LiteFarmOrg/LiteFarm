@@ -43,8 +43,6 @@ export default function PureCompleteOnCreation({
     defaultValues: { ...defaultsToUse },
   });
 
-  const { historyCancel } = useHookFormPersist(getValues);
-
   const CHANGES_NEEDED = 'need_changes';
   const changesRequired = watch(CHANGES_NEEDED);
   const taskType = selectedTaskType?.task_translation_key;

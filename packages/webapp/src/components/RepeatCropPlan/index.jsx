@@ -66,11 +66,11 @@ export default function PureRepeatCropPlan({
         planName: cropPlan.name,
       }),
       [PLAN_START_DATE]: origStartDate,
-      [REPEAT_FREQUENCY]: 1,
+      [REPEAT_FREQUENCY]: '1',
       [REPEAT_INTERVAL]: { value: 'week', label: t('REPEAT_PLAN.INTERVAL.WEEK') },
       [DAYS_OF_WEEK]: [getWeekday(origStartDate)],
       [FINISH]: 'after',
-      [AFTER_OCCURRENCES]: 3,
+      [AFTER_OCCURRENCES]: '3',
       ...persistedFormData,
     },
   });

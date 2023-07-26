@@ -183,7 +183,7 @@ PureRepeatCropPlanConfirmation.propTypes = {
   persistedFormData: PropTypes.shape({
     [CROP_PLAN_NAME]: PropTypes.string,
     [PLAN_START_DATE]: PropTypes.string,
-    [REPEAT_FREQUENCY]: PropTypes.number,
+    [REPEAT_FREQUENCY]: PropTypes.string,
     [REPEAT_INTERVAL]: PropTypes.shape({
       value: PropTypes.oneOf(['day', 'week', 'month', 'year']),
       label: PropTypes.string,
@@ -210,7 +210,7 @@ PureRepeatCropPlanConfirmation.propTypes = {
       label: PropTypes.string,
     }),
     [FINISH]: PropTypes.oneOf(['on', 'after']),
-    [AFTER_OCCURRENCES]: PropTypes.number,
+    [AFTER_OCCURRENCES]: PropTypes.string,
     [FINISH_ON_DATE]: PropTypes.string,
   }).isRequired,
 };

@@ -36,8 +36,8 @@ const persistedFormData = {
   crop_plan_name: 'Repetitions of Plan A',
   plan_start_date: '2023-08-01',
   finish: 'after',
-  repeat_frequency: 1,
-  after_occurrences: 10,
+  repeat_frequency: '1',
+  after_occurrences: '10',
 };
 
 export const Daily = Template.bind({});
@@ -46,7 +46,7 @@ Daily.args = {
   persistedFormData: {
     ...persistedFormData,
     repeat_interval: { value: 'day', label: 'day(s)' },
-    repeat_frequency: 3,
+    repeat_frequency: '3',
   },
 };
 

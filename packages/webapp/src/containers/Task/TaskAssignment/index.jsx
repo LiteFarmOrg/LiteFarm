@@ -113,7 +113,6 @@ export default function TaskManagement({ history, match, location }) {
         dispatch(setUserFarmWageDoNotAskAgain({ user_id: assignee.value }));
       }
     }
-    history.push(`tasks/60/complete_on_creation`);
   };
 
   const handleGoBack = () => {

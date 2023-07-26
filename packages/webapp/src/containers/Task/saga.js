@@ -534,9 +534,11 @@ export function* createTaskSaga({ payload }) {
       header,
     );
     if (result) {
-      const task_id = result.data.task_id;
-      const due_date = result.data.due_date;
-      const assignee = result.data.assignee_user_id;
+      const task = data.task_type_id == 8 ? result.data[0] : result.data;
+
+      const task_id = task.task_id;
+      const due_date = task.due_date;
+      const assignee = task.assignee_user_id;
       const users = userFarms[farm_id];
       let assigneeRole;
 
@@ -546,18 +548,19 @@ export function* createTaskSaga({ payload }) {
       let pathName;
 
       if (new Date(due_date) <= new Date() && (user_id === assignee || assigneeRole === 4)) {
-        const completePath = [`tasks/${task_id}/complete_on_creation`];
+        const completePath = [`/tasks/${task_id}/complete_on_creation`];
         if (!returnPath) {
           pathName = completePath[0];
         } else {
           pathName = returnPath;
         }
       }
-
+      //console.log(pathName);
       yield call(getTasksSuccessSaga, { payload: isHarvest ? result.data : [result.data] });
       yield call(onReqSuccessSaga, {
         message: i18n.t('message:TASK.CREATE.SUCCESS'),
         pathname: pathName ?? '/tasks',
+        state: data,
       });
     }
   } catch (e) {

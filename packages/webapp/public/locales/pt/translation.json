@@ -319,6 +319,9 @@
     "PERFORM_SEARCH": "Você fez uma busca de disponibilidade comercial?",
     "PHYSIOLOGY_AND_ANATOMY": "Fisiologia e Anatomia",
     "TREATED": "As sementes desta cultivo foram tratadas?",
+    "REPEAT_PLAN_MODAL": {
+      "DELETED_PLANS": "MISSING"
+    },
     "UPLOAD_LATER": "Você também pode fazer upload de arquivos posteriormente",
     "VARIETAL_IMAGE": "Personalize a imagem para variedade ou cultivar",
     "VARIETAL_IMAGE_INFO": "Se você deseja que esta variedade ou cultivar tenha uma imagem diferente da cultura padrão, você pode personalizar a imagem aqui.",

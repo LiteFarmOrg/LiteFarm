@@ -318,6 +318,9 @@
     "PERENNIAL": "Vivace",
     "PERFORM_SEARCH": "Avez-vous effectué une recherche de disponibilité commerciale\u00a0?",
     "PHYSIOLOGY_AND_ANATOMY": "Physiologie et anatomie",
+    "REPEAT_PLAN_MODAL": {
+      "DELETED_PLANS": "MISSING"
+    },
     "TREATED": "Les semences de cette culture ont-elles été traitées\u00a0?",
     "UPLOAD_LATER": "Vous pourrez également télécharger des fichiers plus tard",
     "VARIETAL_IMAGE": "Personnaliser l’image pour la variété ou le cultivar",

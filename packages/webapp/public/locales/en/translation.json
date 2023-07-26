@@ -318,6 +318,9 @@
     "PERENNIAL": "Perennial",
     "PERFORM_SEARCH": "Did you perform a commercial availability search?",
     "PHYSIOLOGY_AND_ANATOMY": "Physiology and Anatomy",
+    "REPEAT_PLAN_MODAL": {
+      "DELETED_PLANS": "Deleted crop plans that were part of this repetition won’t be shown."
+    },
     "TREATED": "Have the seeds for this crop been treated?",
     "UPLOAD_LATER": "You can upload files at a later time as well",
     "VARIETAL_IMAGE": "Customize image for varietal or cultivar",

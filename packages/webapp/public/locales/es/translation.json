@@ -318,6 +318,9 @@
     "PERENNIAL": "Perenne",
     "PERFORM_SEARCH": "¿Realizó una búsqueda de disponibilidad comercial?",
     "PHYSIOLOGY_AND_ANATOMY": "Fisiología y anatomía",
+    "REPEAT_PLAN_MODAL": {
+      "DELETED_PLANS": "MISSING"
+    },
     "TREATED": "¿Se han tratado las semillas de este cultivo?",
     "UPLOAD_LATER": "También puede cargar archivos en otro momento.",
     "VARIETAL_IMAGE": "Personalizar imagen para varietal o cultivar",

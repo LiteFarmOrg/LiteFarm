@@ -106,7 +106,7 @@ export function* postRepeatCropPlanSaga({
     const result = yield call(
       axios.post,
       `${managementPlanURL}/repeat_plan`,
-      { management_plan_id, startDates, repeatDetails },
+      { management_plan_id, start_dates: startDates, repeat_details: repeatDetails },
       header,
     );
 

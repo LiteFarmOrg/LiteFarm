@@ -192,8 +192,7 @@ export const getManagementPlanTemplateGraph = (
 ) => {
   return {
     ..._omit(managementPlanGraph, getPropertiesToDelete(ManagementPlanModel)),
-    //TODO: handle name
-    name: repeatDetails.planName,
+    name: repeatDetails.crop_plan_name,
     crop_management_plan: {
       ..._omit(
         managementPlanGraph.crop_management_plan,

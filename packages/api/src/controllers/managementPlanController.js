@@ -40,6 +40,9 @@ const managementPlanController = {
       const trx = await transaction.start(Model.knex());
       const { startDates, management_plan_id, repeatDetails } = req.body;
       try {
+        if (!startDates?.length > 0 || !management_plan_id || !repeatDetails?.crop_plan_name) {
+          throw 'Insufficient details to copy crop plan';
+        }
         const createdByUser = req.auth.user_id;
 
         // Get source management plan entire graph acting as a template
@@ -86,7 +89,7 @@ const managementPlanController = {
         const managementPlanGroup = await ManagementPlanGroup.query(trx)
           .context({ user_id: req.auth.user_id })
           .upsertGraph(newManagementPlanGroup, {
-            noUpdate: ['location_tasks'],
+            noUpdate: true,
             noDelete: true,
             noInsert: ['location', 'crop_variety'],
             insertMissing: true,

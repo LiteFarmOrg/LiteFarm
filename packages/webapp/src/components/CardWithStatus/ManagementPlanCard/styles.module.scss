@@ -32,6 +32,15 @@
   color: var(--fontColor);
 }
 
+.repeatPlan{
+  margin-left: 8px;
+  color: var(--teal700);
+}
+
+.underline{
+  text-decoration: underline;
+}
+
 @media (max-width: 359px) {
   .dateUserContainer {
     flex-direction: column;

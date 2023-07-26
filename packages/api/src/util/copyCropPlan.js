@@ -37,13 +37,19 @@ export const getFormattedManagementPlanData = (mpg) => {
     const tasks = [];
     mp.crop_management_plan.planting_management_plans.forEach((pmp) => {
       if (pmp.plant_task) {
-        const task = _omit(pmp.plant_task.task, Object.keys(BaseModel.baseProperties));
+        const task = _omit(pmp.plant_task.task, [
+          ...Object.keys(BaseModel.baseProperties),
+          'locationTasks',
+        ]);
         const plantTask = _omit(pmp.plant_task, ['task']);
         tasks.push({ ...task, plant_task: plantTask });
         delete pmp.plant_task;
       }
       if (pmp.transplant_task) {
-        const task = _omit(pmp.transplant_task.task, Object.keys(BaseModel.baseProperties));
+        const task = _omit(pmp.transplant_task.task, [
+          ...Object.keys(BaseModel.baseProperties),
+          'locationTasks',
+        ]);
         const transplantTask = _omit(pmp.transplant_task, ['task']);
         tasks.push({ ...task, transplant_task: transplantTask });
         delete pmp.transplant_task;
@@ -236,95 +242,101 @@ export const getManagementPlanTemplateGraph = (
             planting_management_plan_id:
               newPlantingManagementPlanUUIDs[plan.planting_management_plan_id],
             location_id: plan.location_id, //TODO: allow location changing
-            managementTasks: plan.managementTasks.map((managementTask) => {
-              return {
-                ..._omit(managementTask, getPropertiesToDelete(ManagementTasksModel)),
-                planting_management_plan_id:
-                  newPlantingManagementPlanUUIDs[plan.planting_management_plan_id],
-                task: {
-                  ..._omit(managementTask.task, getPropertiesToDelete(TaskModel)),
-                  due_date: getAdjustedDate(
-                    managementTask.task.complete_date ? 'complete_date' : 'due_date',
-                    managementTask.task,
-                    firstTaskDate,
-                    date,
-                  ),
-                  coordinates: managementTask.task.coordinates, // TODO: Allow location changing
-                  owner_user_id: createdByUser,
-                  assignee_user_id: theOnlyActiveUserFarm ? theOnlyActiveUserFarm.user_id : null,
-                  wage_at_moment: null, //TODO: Set confidently without causing labour expense issues LF-3458
-                  pest_control_task: managementTask.task.pest_control_task
-                    ? {
-                        ..._omit(
-                          managementTask.task.pest_control_task,
-                          getPropertiesToDelete(PestControlTaskModel),
-                        ),
-                      }
-                    : null,
-                  irrigation_task: managementTask.task.irrigation_task
-                    ? {
-                        ..._omit(
-                          managementTask.task.irrigation_task,
-                          getPropertiesToDelete(IrrigationTaskModel),
-                        ),
-                      }
-                    : null,
-                  scouting_task: managementTask.task.scouting_task
-                    ? {
-                        ..._omit(
-                          managementTask.task.scouting_task,
-                          getPropertiesToDelete(ScoutingTaskModel),
-                        ),
-                      }
-                    : null,
-                  soil_task: managementTask.task.soil_task
-                    ? {
-                        ..._omit(
-                          managementTask.task.soil_task,
-                          getPropertiesToDelete(SoilTaskModel),
-                        ),
-                      }
-                    : null,
-                  soil_amendment_task: managementTask.task.soil_amendment_task
-                    ? {
-                        ..._omit(
-                          managementTask.task.soil_amendment_task,
-                          getPropertiesToDelete(SoilAmendmentTaskModel),
-                        ),
-                      }
-                    : null,
-                  field_work_task: managementTask.task.field_work_task
-                    ? {
-                        ..._omit(
-                          managementTask.task.field_work_task,
-                          getPropertiesToDelete(FieldWorkTaskModel),
-                        ),
-                      }
-                    : null,
-                  harvest_task: managementTask.task.harvest_task
-                    ? {
-                        ..._omit(
-                          managementTask.task.harvest_task,
-                          getPropertiesToDelete(HarvestTaskModel),
-                        ),
-                      }
-                    : null,
-                  cleaning_task: managementTask.task.cleaning_task
-                    ? {
-                        ..._omit(
-                          managementTask.task.cleaning_task,
-                          getPropertiesToDelete(CleaningTaskModel),
-                        ),
-                      }
-                    : null,
-                  locationTasks: managementTask.task.locationTasks.map((locationTask) => {
-                    return {
-                      location_id: locationTask.location_id,
-                    };
-                  }),
-                },
-              };
-            }),
+            managementTasks: plan.managementTasks
+              ? plan.managementTasks.map((managementTask) => {
+                  return {
+                    ..._omit(managementTask, getPropertiesToDelete(ManagementTasksModel)),
+                    planting_management_plan_id:
+                      newPlantingManagementPlanUUIDs[plan.planting_management_plan_id],
+                    task: {
+                      ..._omit(managementTask.task, getPropertiesToDelete(TaskModel)),
+                      due_date: getAdjustedDate(
+                        managementTask.task.complete_date ? 'complete_date' : 'due_date',
+                        managementTask.task,
+                        firstTaskDate,
+                        date,
+                      ),
+                      coordinates: managementTask.task.coordinates, // TODO: Allow location changing
+                      owner_user_id: createdByUser,
+                      assignee_user_id: theOnlyActiveUserFarm
+                        ? theOnlyActiveUserFarm.user_id
+                        : null,
+                      wage_at_moment: null, //TODO: Set confidently without causing labour expense issues LF-3458
+                      pest_control_task: managementTask.task.pest_control_task
+                        ? {
+                            ..._omit(
+                              managementTask.task.pest_control_task,
+                              getPropertiesToDelete(PestControlTaskModel),
+                            ),
+                          }
+                        : null,
+                      irrigation_task: managementTask.task.irrigation_task
+                        ? {
+                            ..._omit(
+                              managementTask.task.irrigation_task,
+                              getPropertiesToDelete(IrrigationTaskModel),
+                            ),
+                          }
+                        : null,
+                      scouting_task: managementTask.task.scouting_task
+                        ? {
+                            ..._omit(
+                              managementTask.task.scouting_task,
+                              getPropertiesToDelete(ScoutingTaskModel),
+                            ),
+                          }
+                        : null,
+                      soil_task: managementTask.task.soil_task
+                        ? {
+                            ..._omit(
+                              managementTask.task.soil_task,
+                              getPropertiesToDelete(SoilTaskModel),
+                            ),
+                          }
+                        : null,
+                      soil_amendment_task: managementTask.task.soil_amendment_task
+                        ? {
+                            ..._omit(
+                              managementTask.task.soil_amendment_task,
+                              getPropertiesToDelete(SoilAmendmentTaskModel),
+                            ),
+                          }
+                        : null,
+                      field_work_task: managementTask.task.field_work_task
+                        ? {
+                            ..._omit(
+                              managementTask.task.field_work_task,
+                              getPropertiesToDelete(FieldWorkTaskModel),
+                            ),
+                          }
+                        : null,
+                      harvest_task: managementTask.task.harvest_task
+                        ? {
+                            ..._omit(
+                              managementTask.task.harvest_task,
+                              getPropertiesToDelete(HarvestTaskModel),
+                            ),
+                          }
+                        : null,
+                      cleaning_task: managementTask.task.cleaning_task
+                        ? {
+                            ..._omit(
+                              managementTask.task.cleaning_task,
+                              getPropertiesToDelete(CleaningTaskModel),
+                            ),
+                          }
+                        : null,
+                      locationTasks: managementTask.task.locationTasks
+                        ? managementTask.task.locationTasks.map((locationTask) => {
+                            return {
+                              location_id: locationTask.location_id,
+                            };
+                          })
+                        : null,
+                    },
+                  };
+                })
+              : null,
             plant_task: plan.plant_task
               ? {
                   ..._omit(plan.plant_task, getPropertiesToDelete(PlantTaskModel)),
@@ -342,11 +354,13 @@ export const getManagementPlanTemplateGraph = (
                     assignee_user_id: theOnlyActiveUserFarm ? theOnlyActiveUserFarm.user_id : null,
                     wage_at_moment: null, //TODO: Set confidently without causing labour expense issues LF-3458
                     coordinates: plan.plant_task.task.coordinates,
-                    locationTasks: plan.plant_task.task.locationTasks.map((locationTask) => {
-                      return {
-                        location_id: locationTask.location_id,
-                      };
-                    }),
+                    locationTasks: plan.plant_task.task.locationTasks
+                      ? plan.plant_task.task.locationTasks.map((locationTask) => {
+                          return {
+                            location_id: locationTask.location_id,
+                          };
+                        })
+                      : null,
                   },
                 }
               : null,
@@ -367,11 +381,13 @@ export const getManagementPlanTemplateGraph = (
                     assignee_user_id: theOnlyActiveUserFarm ? theOnlyActiveUserFarm.user_id : null,
                     wage_at_moment: null, //TODO: Set confidently without causing labour expense issues LF-3458,
                     coordinates: plan.transplant_task.task.coordinates,
-                    locationTasks: plan.transplant_task.task.locationTasks.map((locationTask) => {
-                      return {
-                        location_id: locationTask.location_id,
-                      };
-                    }),
+                    locationTasks: plan.transplant_task.task.locationTasks
+                      ? plan.transplant_task.task.locationTasks.map((locationTask) => {
+                          return {
+                            location_id: locationTask.location_id,
+                          };
+                        })
+                      : null,
                   },
                   prev_planting_management_plan_id:
                     newPlantingManagementPlanUUIDs[
@@ -457,5 +473,159 @@ export const getManagementPlanGroupTemplateGraph = (
         newPlantingManagementPlanUUIDs,
       );
     }),
+  };
+};
+
+export const getBareBonesManagementPlan = (managementPlanGraph) => {
+  return {
+    ..._omit(managementPlanGraph, getPropertiesToDelete(ManagementPlanModel)),
+    crop_management_plan: {
+      ..._omit(
+        managementPlanGraph.crop_management_plan,
+        getPropertiesToDelete(CropManagementPlanModel),
+      ),
+      planting_management_plans: managementPlanGraph.crop_management_plan.planting_management_plans.map(
+        (plan) => {
+          return {
+            ..._omit(plan, getPropertiesToDelete(PlantingManagementPlanModel)),
+            location_id: plan.location_id, //TODO: allow location changing
+            managementTasks: plan.managementTasks
+              ? plan.managementTasks.map((managementTask) => {
+                  return {
+                    ..._omit(managementTask, getPropertiesToDelete(ManagementTasksModel)),
+                    task: {
+                      ..._omit(managementTask.task, getPropertiesToDelete(TaskModel)),
+                      coordinates: managementTask.task.coordinates, // TODO: Allow location changing
+                      pest_control_task: managementTask.task.pest_control_task
+                        ? {
+                            ..._omit(
+                              managementTask.task.pest_control_task,
+                              getPropertiesToDelete(PestControlTaskModel),
+                            ),
+                          }
+                        : null,
+                      irrigation_task: managementTask.task.irrigation_task
+                        ? {
+                            ..._omit(
+                              managementTask.task.irrigation_task,
+                              getPropertiesToDelete(IrrigationTaskModel),
+                            ),
+                          }
+                        : null,
+                      scouting_task: managementTask.task.scouting_task
+                        ? {
+                            ..._omit(
+                              managementTask.task.scouting_task,
+                              getPropertiesToDelete(ScoutingTaskModel),
+                            ),
+                          }
+                        : null,
+                      soil_task: managementTask.task.soil_task
+                        ? {
+                            ..._omit(
+                              managementTask.task.soil_task,
+                              getPropertiesToDelete(SoilTaskModel),
+                            ),
+                          }
+                        : null,
+                      soil_amendment_task: managementTask.task.soil_amendment_task
+                        ? {
+                            ..._omit(
+                              managementTask.task.soil_amendment_task,
+                              getPropertiesToDelete(SoilAmendmentTaskModel),
+                            ),
+                          }
+                        : null,
+                      field_work_task: managementTask.task.field_work_task
+                        ? {
+                            ..._omit(
+                              managementTask.task.field_work_task,
+                              getPropertiesToDelete(FieldWorkTaskModel),
+                            ),
+                          }
+                        : null,
+                      harvest_task: managementTask.task.harvest_task
+                        ? {
+                            ..._omit(
+                              managementTask.task.harvest_task,
+                              getPropertiesToDelete(HarvestTaskModel),
+                            ),
+                          }
+                        : null,
+                      cleaning_task: managementTask.task.cleaning_task
+                        ? {
+                            ..._omit(
+                              managementTask.task.cleaning_task,
+                              getPropertiesToDelete(CleaningTaskModel),
+                            ),
+                          }
+                        : null,
+                      locationTasks: managementTask.task.locationTasks
+                        ? managementTask.task.locationTasks.map((locationTask) => {
+                            return {
+                              location_id: locationTask.location_id,
+                            };
+                          })
+                        : null,
+                    },
+                  };
+                })
+              : null,
+            plant_task: plan.plant_task
+              ? {
+                  ..._omit(plan.plant_task, getPropertiesToDelete(PlantTaskModel)),
+                  task: {
+                    ..._omit(plan.plant_task.task, getPropertiesToDelete(TaskModel)),
+                    coordinates: plan.plant_task.task.coordinates,
+                    locationTasks: plan.plant_task.task.locationTasks
+                      ? plan.plant_task.task.locationTasks.map((locationTask) => {
+                          return {
+                            location_id: locationTask.location_id,
+                          };
+                        })
+                      : null,
+                  },
+                }
+              : null,
+            transplant_task: plan.transplant_task
+              ? {
+                  ..._omit(plan.transplant_task, getPropertiesToDelete(TransplantTaskModel)),
+                  task: {
+                    ..._omit(plan.transplant_task.task, getPropertiesToDelete(TaskModel)),
+                    coordinates: plan.transplant_task.task.coordinates,
+                    locationTasks: plan.transplant_task.task.locationTasks
+                      ? plan.transplant_task.task.locationTasks.map((locationTask) => {
+                          return {
+                            location_id: locationTask.location_id,
+                          };
+                        })
+                      : null,
+                  },
+                }
+              : null,
+            bed_method: plan.bed_method
+              ? {
+                  ..._omit(plan.bed_method, getPropertiesToDelete(BedMethodModel)),
+                }
+              : null,
+            container_method: plan.container_method
+              ? {
+                  ..._omit(plan.container_method, getPropertiesToDelete(ContainerMethodModel)),
+                }
+              : null,
+            broadcast_method: plan.broadcast_method
+              ? {
+                  ..._omit(plan.broadcast_method, getPropertiesToDelete(BroadcastMethodModel)),
+                }
+              : null,
+            row_method: plan.row_method
+              ? {
+                  ..._omit(plan.row_method, getPropertiesToDelete(RowMethodModel)),
+                }
+              : null,
+          };
+        },
+      ),
+    },
   };
 };

@@ -48,7 +48,6 @@ export default function PureManagementPlanName({
     shouldUnregister: false,
     user: user,
     users: users,
-    isAssigned: false,
     defaultAssignee:
       users.length === 1
         ? { label: `${user.first_name} ${user.last_name}`, value: user.user_id, isDisabled: false }

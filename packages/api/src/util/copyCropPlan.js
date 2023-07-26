@@ -475,6 +475,15 @@ export const getManagementPlanGroupTemplateGraph = (
   };
 };
 
+/**
+ * Used for jest tests only generates a management plan group graph based on the provided parameters.
+ *
+ * The function constructs a management plan group graph object for testing equality between copies in jest tests
+ *
+ * @param {Object} managementPlanGraph - The management plan graph used as the template object.
+ *
+ * @returns {Object} - Only the 'keep' properties of model template mapping in the form of a management plan group graph object.
+ */
 export const getBareBonesManagementPlan = (managementPlanGraph) => {
   return {
     ..._omit(managementPlanGraph, getPropertiesToDelete(ManagementPlanModel)),

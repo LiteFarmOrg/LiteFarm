@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import CropHeader from '../CropHeader';
 import { useTranslation } from 'react-i18next';
 import Button from '../../Form/Button';
-import { AddLink, Label, IconLink } from '../../Typography';
+import { AddLink, Label, IconLink, Main } from '../../Typography';
 import Layout from '../../Layout';
 import PropTypes from 'prop-types';
 import styles from './styles.module.scss';
@@ -13,6 +13,7 @@ import { setPersistedPaths } from '../../../containers/hooks/useHookFormPersist/
 import DeleteBox from '../../Task/TaskReadOnly/DeleteBox';
 import { FiAlertTriangle } from 'react-icons/fi';
 import { ReactComponent as TrashIcon } from '../../../assets/images/document/trash.svg';
+import { BsThreeDotsVertical } from 'react-icons/bs';
 
 export default function PureManagementTasks({
   onCompleted,
@@ -47,6 +48,7 @@ export default function PureManagementTasks({
   };
 
   const [showCompleteFailModal, setShowCompleteFailModal] = useState(false);
+  const [showCopyRepeatMenu, setShowCopyRepeatMenu] = useState(false);
 
   const onMarkComplete = () => {
     if (hasPendingTasks) {
@@ -81,50 +83,62 @@ export default function PureManagementTasks({
         )
       }
     >
-      <CropHeader onBackClick={() => history.go(-1)} variety={variety} />
+      <div onClick={() => setShowCopyRepeatMenu(false)} style={{ height: '100%' }}>
+        <CropHeader onBackClick={() => history.go(-1)} variety={variety} />
 
-      <div className={styles.titlewrapper}>
-        <Label className={styles.title} style={{ marginTop: '24px' }}>
-          {title}
-        </Label>
+        <div className={styles.titlewrapper}>
+          <Label className={styles.title} style={{ marginTop: '24px' }}>
+            {title}
+          </Label>
+          <BsThreeDotsVertical
+            className={styles.menuIcon}
+            onClick={(event) => {
+              event.stopPropagation();
+              setShowCopyRepeatMenu((prev) => !prev);
+            }}
+          />
+          {showCopyRepeatMenu && (
+            <div className={styles.copyRepeatMenu}>
+              {/* <Main className={styles.menuItem}>Copy crop plan</Main> */}
+              <Main
+                className={styles.menuItem}
+                onClick={() => onRepeatPlan(plan.crop_variety_id, plan.management_plan_id)}
+              >
+                Repeat crop plan
+              </Main>
+            </div>
+          )}
+        </div>
+
+        <RouterTab
+          classes={{ container: { margin: '24px 0 26px 0' } }}
+          history={history}
+          tabs={[
+            {
+              label: t('MANAGEMENT_DETAIL.TASKS'),
+              path: `/crop/${match.params.variety_id}/management_plan/${match.params.management_plan_id}/tasks`,
+              state: location?.state,
+            },
+            {
+              label: t('MANAGEMENT_DETAIL.DETAILS'),
+              path: `/crop/${match.params.variety_id}/management_plan/${match.params.management_plan_id}/details`,
+              state: location?.state,
+            },
+          ]}
+        />
+
+        {isAdmin && isActiveOrPlanned && (
+          <AddLink style={{ marginTop: '16px', marginBottom: '14px' }} onClick={onAddTask}>
+            {t('MANAGEMENT_DETAIL.ADD_A_TASK')}
+          </AddLink>
+        )}
+        {children}
+
+        {showCompleteFailModal && (
+          <IncompleteTaskModal dismissModal={() => setShowCompleteFailModal(false)} />
+        )}
       </div>
-
-      <RouterTab
-        classes={{ container: { margin: '24px 0 26px 0' } }}
-        history={history}
-        tabs={[
-          {
-            label: t('MANAGEMENT_DETAIL.TASKS'),
-            path: `/crop/${match.params.variety_id}/management_plan/${match.params.management_plan_id}/tasks`,
-            state: location?.state,
-          },
-          {
-            label: t('MANAGEMENT_DETAIL.DETAILS'),
-            path: `/crop/${match.params.variety_id}/management_plan/${match.params.management_plan_id}/details`,
-            state: location?.state,
-          },
-        ]}
-      />
-
-      <Button
-        style={{ marginBlock: '20px' }}
-        onClick={() => onRepeatPlan(plan.crop_variety_id, plan.management_plan_id)}
-      >
-        Repeat Crop Plan
-      </Button>
-
-      {isAdmin && isActiveOrPlanned && (
-        <AddLink style={{ marginTop: '16px', marginBottom: '14px' }} onClick={onAddTask}>
-          {t('MANAGEMENT_DETAIL.ADD_A_TASK')}
-        </AddLink>
-      )}
-      {children}
-
-      {showCompleteFailModal && (
-        <IncompleteTaskModal dismissModal={() => setShowCompleteFailModal(false)} />
-      )}
-
-      <div className={styles.deleteSection}>
+      <div className={styles.deleteSection} onClick={() => setShowCopyRepeatMenu(false)}>
         {isAdmin && isActiveOrPlanned && !isDeleting && (
           <IconLink
             className={styles.deleteText}

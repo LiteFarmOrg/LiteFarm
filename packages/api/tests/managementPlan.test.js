@@ -953,7 +953,7 @@ describe('ManagementPlan Tests', () => {
         management_plan_id,
         startDates: [oneWeekLater, twoWeeksLater],
         repeatDetails: {
-          planName: 'Copied Plan',
+          crop_plan_name: 'Copied Plan',
         },
       };
     }

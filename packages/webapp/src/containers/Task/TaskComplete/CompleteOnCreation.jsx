@@ -45,7 +45,7 @@ function TaskCompleteOnCreation({ history, match, location }) {
   };
 
   const onGoBack = () => {
-    history.back();
+    history.push('/tasks');
   };
 
   return (

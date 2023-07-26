@@ -230,7 +230,7 @@ class TaskModel extends BaseModel {
       completion_notes: 'omit',
       owner_user_id: 'edit',
       assignee_user_id: 'edit',
-      coordinates: { template_omit_edit_keep: 'edit' },
+      coordinates: 'edit',
       duration: 'omit',
       wage_at_moment: 'edit',
       happiness: 'omit',

@@ -58,7 +58,7 @@ class ContainerMethodModel extends Model {
       in_ground: 'keep',
       plant_spacing: 'keep',
       plant_spacing_unit: 'keep',
-      total_plants: { template_omit_edit_keep: 'keep' },
+      total_plants: 'keep',
       number_of_containers: 'keep',
       plants_per_container: 'keep',
       planting_depth: 'keep',

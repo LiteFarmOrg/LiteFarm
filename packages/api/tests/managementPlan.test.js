@@ -944,17 +944,11 @@ describe('ManagementPlan Tests', () => {
       };
     }
 
-    function getRepeatBody(management_plan_id) {
-      const oneWeekLater = new Date();
-      const twoWeeksLater = new Date();
-      oneWeekLater.setDate(oneWeekLater.getDate() + 7);
-      twoWeeksLater.setDate(twoWeeksLater.getDate() + 14);
+    function getRepeatBody(management_plan_id, start_dates, repeat_details) {
       return {
         management_plan_id,
-        start_dates: [oneWeekLater, twoWeeksLater],
-        repeat_details: {
-          crop_plan_name: 'Copied Plan',
-        },
+        start_dates,
+        repeat_details,
       };
     }
 
@@ -1030,10 +1024,11 @@ describe('ManagementPlan Tests', () => {
         .first();
     }
 
-    async function expectManagementGroupPosted(res, management_plan_id) {
+    async function expectManagementGroupPosted(res, repeatBody) {
+      const { management_plan_id, start_dates } = repeatBody;
       expect(res.status).toBe(201);
       //Check repetition count set in getRepeatBody()
-      expect(res.body.length).toBe(2);
+      expect(res.body.length).toBe(start_dates.length);
 
       //Get graphs
       const templateManagementPlan = await getManagementPlanGraph(management_plan_id);
@@ -1182,7 +1177,14 @@ describe('ManagementPlan Tests', () => {
     });
 
     test('should copy an existing management plan with transplant', async (done) => {
-      let response;
+      const oneWeekLater = new Date();
+      const twoWeeksLater = new Date();
+      oneWeekLater.setDate(oneWeekLater.getDate() + 7);
+      twoWeeksLater.setDate(twoWeeksLater.getDate() + 14);
+      const start_dates = [oneWeekLater, twoWeeksLater];
+      const repeat_details = {
+        crop_plan_name: 'Copied Plan',
+      };
       //create management plan then repeat that plan
       postManagementPlanRequest(
         getBody('container_method', 'container_method'),
@@ -1193,12 +1195,12 @@ describe('ManagementPlan Tests', () => {
           }
           expect(res.status).toBe(201);
           const { management_plan_id } = res.body.management_plan;
-          const repeatBody = getRepeatBody(management_plan_id);
+          const repeatBody = getRepeatBody(management_plan_id, start_dates, repeat_details);
           await postRepeatManagementPlanRequest(repeatBody, userFarm, async (err, res) => {
             if (err) {
               throw err;
             }
-            await expectManagementGroupPosted(res, management_plan_id);
+            await expectManagementGroupPosted(res, repeatBody);
             done();
           });
         },

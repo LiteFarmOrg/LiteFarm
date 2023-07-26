@@ -86,11 +86,9 @@ export const getPropertiesToDelete = (Model) => {
     : [];
 
   // If there are properties in the template mapping schema, filter those marked for deletion ('omit' or 'edit').
-  return propertyAndRelationKeys.length
-    ? propertyAndRelationKeys.filter((key) =>
-        ['omit', 'edit'].includes(Model.templateMappingSchema[key]),
-      )
-    : [];
+  return propertyAndRelationKeys.filter((key) =>
+    ['omit', 'edit'].includes(Model.templateMappingSchema[key]),
+  );
 };
 
 /**
@@ -107,21 +105,21 @@ export const getDatesFromManagementPlanGraph = (managementPlanGraph) => {
   managementPlanGraph.crop_management_plan.planting_management_plans.forEach((plan) => {
     // Check if there are plant tasks, transplant tasks or management tasks
     // and add their complete_date or due_date to the dates array.
-    if (plan.plant_task) {
-      plan.plant_task.task.complete_date
-        ? dates.push(plan.plant_task.task.complete_date)
-        : dates.push(plan.plant_task.task.due_date);
+    const { plant_task, transplant_task, managementTasks } = plan;
+    if (plant_task) {
+      plant_task.task.complete_date
+        ? dates.push(plant_task.task.complete_date)
+        : dates.push(plant_task.task.due_date);
     }
-    if (plan.transplant_task) {
-      plan.transplant_task.task?.complete_date
-        ? dates.push(plan.transplant_task.task.complete_date)
-        : dates.push(plan.transplant_task.task.due_date);
+    if (transplant_task) {
+      transplant_task.task?.complete_date
+        ? dates.push(transplant_task.task.complete_date)
+        : dates.push(transplant_task.task.due_date);
     }
-    if (plan.managementTasks) {
-      plan.managementTasks.forEach((managementTask) => {
-        managementTask.task.complete_date
-          ? dates.push(managementTask.task.complete_date)
-          : dates.push(managementTask.task.due_date);
+    if (managementTasks) {
+      managementTasks.forEach((managementTask) => {
+        const { task } = managementTask;
+        task.complete_date ? dates.push(task.complete_date) : dates.push(task.due_date);
       });
     }
   });

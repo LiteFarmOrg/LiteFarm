@@ -183,7 +183,7 @@ export const getAdjustedDate = (property, obj, firstTaskDate, date) => {
 export const getManagementPlanTemplateGraph = (
   date,
   index,
-  repeatDetails,
+  repeat_details,
   createdByUser,
   managementPlanGraph,
   theOnlyActiveUserFarm,
@@ -192,12 +192,14 @@ export const getManagementPlanTemplateGraph = (
 ) => {
   return {
     ..._omit(managementPlanGraph, getPropertiesToDelete(ManagementPlanModel)),
-    name: repeatDetails.crop_plan_name,
+    name: repeat_details.crop_plan_name,
     crop_management_plan: {
       ..._omit(
         managementPlanGraph.crop_management_plan,
         getPropertiesToDelete(CropManagementPlanModel),
       ),
+      // Future looking for implementing LF-3460
+      already_in_ground: managementPlanGraph.crop_management_plan.already_in_ground,
       seed_date: getAdjustedDate(
         'seed_date',
         managementPlanGraph.crop_management_plan,
@@ -240,7 +242,8 @@ export const getManagementPlanTemplateGraph = (
             ..._omit(plan, getPropertiesToDelete(PlantingManagementPlanModel)),
             planting_management_plan_id:
               newPlantingManagementPlanUUIDs[plan.planting_management_plan_id],
-            location_id: plan.location_id, //TODO: allow location changing
+            //Future looking to allow location changing LF-3367
+            location_id: plan.location_id,
             managementTasks: plan.managementTasks
               ? plan.managementTasks.map((managementTask) => {
                   return {
@@ -255,12 +258,14 @@ export const getManagementPlanTemplateGraph = (
                         firstTaskDate,
                         date,
                       ),
-                      coordinates: managementTask.task.coordinates, // TODO: Allow location changing
+                      //Future looking to allow location changing LF-3367
+                      coordinates: managementTask.task.coordinates,
                       owner_user_id: createdByUser,
                       assignee_user_id: theOnlyActiveUserFarm
                         ? theOnlyActiveUserFarm.user_id
                         : null,
-                      wage_at_moment: null, //TODO: Set confidently without causing labour expense issues LF-3458
+                      //Set wage confidently without causing labour expense issues LF-3458
+                      wage_at_moment: null,
                       pest_control_task: managementTask.task.pest_control_task
                         ? {
                             ..._omit(
@@ -328,6 +333,7 @@ export const getManagementPlanTemplateGraph = (
                       locationTasks: managementTask.task.locationTasks
                         ? managementTask.task.locationTasks.map((locationTask) => {
                             return {
+                              //Future looking to allow location changing LF-3367
                               location_id: locationTask.location_id,
                             };
                           })
@@ -351,11 +357,15 @@ export const getManagementPlanTemplateGraph = (
                     ),
                     owner_user_id: createdByUser,
                     assignee_user_id: theOnlyActiveUserFarm ? theOnlyActiveUserFarm.user_id : null,
-                    wage_at_moment: null, //TODO: Set confidently without causing labour expense issues LF-3458
+                    // Set confidently without causing labour expense issues LF-3458
+                    wage_at_moment: null,
+                    //Future looking to allow location changing LF-3367
                     coordinates: plan.plant_task.task.coordinates,
+                    //Future looking to allow location changing LF-3367
                     locationTasks: plan.plant_task.task.locationTasks
                       ? plan.plant_task.task.locationTasks.map((locationTask) => {
                           return {
+                            //Future looking to allow location changing LF-3367
                             location_id: locationTask.location_id,
                           };
                         })
@@ -378,11 +388,13 @@ export const getManagementPlanTemplateGraph = (
                     ),
                     owner_user_id: createdByUser,
                     assignee_user_id: theOnlyActiveUserFarm ? theOnlyActiveUserFarm.user_id : null,
-                    wage_at_moment: null, //TODO: Set confidently without causing labour expense issues LF-3458,
+                    // Set confidently without causing labour expense issues LF-3458,
+                    wage_at_moment: null,
                     coordinates: plan.transplant_task.task.coordinates,
                     locationTasks: plan.transplant_task.task.locationTasks
                       ? plan.transplant_task.task.locationTasks.map((locationTask) => {
                           return {
+                            //Future looking to allow location changing LF-3367
                             location_id: locationTask.location_id,
                           };
                         })
@@ -437,7 +449,7 @@ export const getManagementPlanTemplateGraph = (
  * on the management plan group model.
  *
  * @param {string} createdByUser - The username of the user who initiated the management plan group repetition.
- * @param {Object} repeatDetails - The repetition configuration for the management plan group template.
+ * @param {Object} repeat_details - The repetition configuration for the management plan group template.
  * @param {Date[]} sortedStartDates - An array of sorted start dates for the management plan templates.
  * @param {Object} managementPlanGraph - The management plan graph used as the template object.
  * @param {Object} theOnlyActiveUserFarm - Null if more than one 'Active' userFarm.
@@ -447,7 +459,7 @@ export const getManagementPlanTemplateGraph = (
  */
 export const getManagementPlanGroupTemplateGraph = (
   createdByUser,
-  repeatDetails,
+  repeat_details,
   sortedStartDates,
   managementPlanGraph,
   theOnlyActiveUserFarm,
@@ -455,7 +467,7 @@ export const getManagementPlanGroupTemplateGraph = (
 ) => {
   return {
     repetition_count: sortedStartDates.length,
-    repetition_config: repeatDetails,
+    repetition_config: repeat_details,
     management_plans: sortedStartDates.map((date, index) => {
       const newPlantingManagementPlanUUIDs = getUUIDMap(
         managementPlanGraph.crop_management_plan.planting_management_plans,
@@ -464,7 +476,7 @@ export const getManagementPlanGroupTemplateGraph = (
       return getManagementPlanTemplateGraph(
         date,
         index,
-        repeatDetails,
+        repeat_details,
         createdByUser,
         managementPlanGraph,
         theOnlyActiveUserFarm,
@@ -496,14 +508,16 @@ export const getBareBonesManagementPlan = (managementPlanGraph) => {
         (plan) => {
           return {
             ..._omit(plan, getPropertiesToDelete(PlantingManagementPlanModel)),
-            location_id: plan.location_id, //TODO: allow location changing
+            //Future looking to allow location changing LF-3367
+            location_id: plan.location_id,
             managementTasks: plan.managementTasks
               ? plan.managementTasks.map((managementTask) => {
                   return {
                     ..._omit(managementTask, getPropertiesToDelete(ManagementTasksModel)),
                     task: {
                       ..._omit(managementTask.task, getPropertiesToDelete(TaskModel)),
-                      coordinates: managementTask.task.coordinates, // TODO: Allow location changing
+                      //Future looking to allow location changing LF-3367
+                      coordinates: managementTask.task.coordinates,
                       pest_control_task: managementTask.task.pest_control_task
                         ? {
                             ..._omit(
@@ -571,6 +585,7 @@ export const getBareBonesManagementPlan = (managementPlanGraph) => {
                       locationTasks: managementTask.task.locationTasks
                         ? managementTask.task.locationTasks.map((locationTask) => {
                             return {
+                              //Future looking to allow location changing LF-3367
                               location_id: locationTask.location_id,
                             };
                           })
@@ -588,6 +603,7 @@ export const getBareBonesManagementPlan = (managementPlanGraph) => {
                     locationTasks: plan.plant_task.task.locationTasks
                       ? plan.plant_task.task.locationTasks.map((locationTask) => {
                           return {
+                            //Future looking to allow location changing LF-3367
                             location_id: locationTask.location_id,
                           };
                         })
@@ -604,6 +620,7 @@ export const getBareBonesManagementPlan = (managementPlanGraph) => {
                     locationTasks: plan.transplant_task.task.locationTasks
                       ? plan.transplant_task.task.locationTasks.map((locationTask) => {
                           return {
+                            //Future looking to allow location changing LF-3367
                             location_id: locationTask.location_id,
                           };
                         })

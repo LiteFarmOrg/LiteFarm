@@ -79,9 +79,9 @@ class TaskModel extends BaseModel {
         other_abandonment_reason: { type: ['string', 'null'] },
         abandonment_notes: { type: ['string', 'null'], maxLength: 10000 },
         override_hourly_wage: { type: 'boolean' },
-        // TODO: deprecate photo if not in use
+        // photo deprecated LF-3471
         photo: { type: ['string', 'null'] },
-        //TODO: deprecate action_needed if not in use
+        // action_needed deprecated LF-3471
         action_needed: { type: 'boolean' },
         ...super.baseProperties,
       },

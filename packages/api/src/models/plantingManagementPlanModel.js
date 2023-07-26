@@ -39,7 +39,7 @@ class plantingManagementPlanModel extends Model {
       properties: {
         planting_management_plan_id: { type: 'string' },
         management_plan_id: { type: 'integer' },
-        is_final_planting_management_plan: { type: ['boolean', 'null'] }, //UNDO: null change transplant task violates this rule somehow
+        is_final_planting_management_plan: { type: ['boolean', 'null'] },
         planting_task_type: {
           type: ['string', 'null'],
           enum: ['TRANSPLANT_TASK', 'PLANT_TASK', null],
@@ -143,7 +143,7 @@ class plantingManagementPlanModel extends Model {
       // jsonSchema()
       planting_management_plan_id: 'edit',
       management_plan_id: 'omit',
-      is_final_planting_management_plan: 'keep', //UNDO: null change transplant task violates this rule somehow
+      is_final_planting_management_plan: 'keep',
       planting_task_type: 'keep',
       planting_method: 'keep',
       is_planting_method_known: 'keep',

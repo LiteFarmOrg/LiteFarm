@@ -99,8 +99,7 @@ class CropManagementPlanModel extends Model {
       transplant_date: 'edit',
       harvest_date: 'edit',
       termination_date: 'edit',
-      //TODO: convert already in ground to edit when planting method is known
-      already_in_ground: 'keep',
+      already_in_ground: 'edit',
       is_seed: 'keep',
       needs_transplant: 'keep',
       for_cover: 'keep',

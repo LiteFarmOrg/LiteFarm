@@ -951,8 +951,8 @@ describe('ManagementPlan Tests', () => {
       twoWeeksLater.setDate(twoWeeksLater.getDate() + 14);
       return {
         management_plan_id,
-        startDates: [oneWeekLater, twoWeeksLater],
-        repeatDetails: {
+        start_dates: [oneWeekLater, twoWeeksLater],
+        repeat_details: {
           crop_plan_name: 'Copied Plan',
         },
       };

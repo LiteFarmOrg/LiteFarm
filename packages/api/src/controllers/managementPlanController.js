@@ -38,9 +38,9 @@ const managementPlanController = {
   repeatManagementPlan() {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
-      const { startDates, management_plan_id, repeatDetails } = req.body;
+      const { start_dates, management_plan_id, repeat_details } = req.body;
       try {
-        if (!startDates?.length > 0 || !management_plan_id || !repeatDetails?.crop_plan_name) {
+        if (!start_dates?.length > 0 || !management_plan_id || !repeat_details?.crop_plan_name) {
           throw 'Insufficient details to copy crop plan';
         }
         const createdByUser = req.auth.user_id;
@@ -62,10 +62,10 @@ const managementPlanController = {
 
         // Find the reference date
         const taskDates = getDatesFromManagementPlanGraph(managementPlanGraph);
-        const sortedStartDates = getSortedDates(startDates);
+        const sortedStartDates = getSortedDates(start_dates);
         const firstTaskDate = getSortedDates(taskDates)[0];
 
-        //TODO: Derive this or send it from frontend
+        // Future looking piece for LF-3470
         const templateIsPartOfGroup = false;
 
         //Create an upsert object based on the graphs table columns
@@ -74,14 +74,13 @@ const managementPlanController = {
           //Using the template management plan this returns a really large object containing all data to be inserted
           newManagementPlanGroup = getManagementPlanGroupTemplateGraph(
             createdByUser,
-            repeatDetails,
+            repeat_details,
             sortedStartDates,
             managementPlanGraph,
             theOnlyActiveUserFarm,
             firstTaskDate,
           );
         } else {
-          // TODO: configure where template is part of group
           throw 'Currently template plan cannot be part of the newly created group';
         }
 
@@ -96,7 +95,6 @@ const managementPlanController = {
           });
 
         //Format return data
-        //TODO: Ideally returns managementPlanGroup or reconsider using upsertGraph
         const result = getFormattedManagementPlanData(managementPlanGroup);
 
         await trx.commit();
@@ -116,7 +114,7 @@ const managementPlanController = {
       try {
         //TODO: add none getNonModifiable
         const result = await ManagementPlanModel.transaction(async (trx) => {
-          // Upsert manament plan
+          // Upsert management plan graph
           const management_plan = await ManagementPlanModel.query(trx)
             .context({ user_id: req.auth.user_id })
             .upsertGraph(

@@ -40,13 +40,13 @@ class PestControlTask extends Model {
 
       properties: {
         task_id: { type: 'integer' },
-        product_id: { type: 'integer' },
-        product_quantity: { type: 'number' },
+        product_id: { type: ['integer', 'null'] },
+        product_quantity: { type: ['number', 'null'] },
         product_quantity_unit: {
           type: 'string',
           enum: ['g', 'lb', 'kg', 't', 'mt', 'oz', 'l', 'gal', 'ml', 'fl-oz'],
         },
-        other_method: { type: 'string' },
+        other_method: { type: ['string', 'null'] },
         pest_target: { type: 'string' },
         control_method: {
           type: 'string',
@@ -63,6 +63,22 @@ class PestControlTask extends Model {
         },
       },
       additionalProperties: false,
+    };
+  }
+
+  // Custom function used in copy crop plan
+  // Should contain all jsonSchema() and relationMappings() keys
+  static get templateMappingSchema() {
+    return {
+      // jsonSchema()
+      task_id: 'omit',
+      product_id: 'keep',
+      product_quantity: 'keep',
+      product_quantity_unit: 'keep',
+      other_method: 'keep',
+      pest_target: 'keep',
+      control_method: 'keep',
+      // relationMappings
     };
   }
 }

@@ -48,7 +48,6 @@ class TaskModel extends BaseModel {
     return {
       type: 'object',
       required: ['due_date', 'task_type_id'],
-
       properties: {
         task_id: { type: 'integer' },
         task_type_id: { type: 'integer' },
@@ -57,7 +56,7 @@ class TaskModel extends BaseModel {
         completion_notes: { type: ['string', 'null'], maxLength: 10000 },
         owner_user_id: { type: 'string' },
         assignee_user_id: { type: ['string', 'null'] },
-        coordinates: { type: 'object' },
+        coordinates: { type: ['object', 'null'] },
         duration: { type: ['number', 'null'] },
         wage_at_moment: { type: ['number', 'null'] },
         happiness: { type: ['integer', 'null'], minimum: 0, maximum: 5 },
@@ -80,6 +79,10 @@ class TaskModel extends BaseModel {
         other_abandonment_reason: { type: ['string', 'null'] },
         abandonment_notes: { type: ['string', 'null'], maxLength: 10000 },
         override_hourly_wage: { type: 'boolean' },
+        // photo deprecated LF-3471
+        photo: { type: ['string', 'null'] },
+        // action_needed deprecated LF-3471
+        action_needed: { type: 'boolean' },
         ...super.baseProperties,
       },
       additionalProperties: false,
@@ -153,7 +156,6 @@ class TaskModel extends BaseModel {
           to: 'cleaning_task.task_id',
         },
       },
-
       taskType: {
         relation: Model.BelongsToOneRelation,
         modelClass: taskTypeModel,
@@ -205,6 +207,57 @@ class TaskModel extends BaseModel {
           to: 'location.location_id',
         },
       },
+      locationTasks: {
+        modelClass: locationTasksModel,
+        relation: Model.HasManyRelation,
+        join: {
+          from: 'task.task_id',
+          to: 'location_tasks.task_id',
+        },
+      },
+    };
+  }
+
+  // Custom function used in copy crop plan
+  // Should contain all jsonSchema() and relationMappings() keys
+  static get templateMappingSchema() {
+    return {
+      // jsonSchema()
+      task_id: 'omit',
+      task_type_id: 'keep',
+      due_date: 'edit',
+      notes: 'keep',
+      completion_notes: 'omit',
+      owner_user_id: 'edit',
+      assignee_user_id: 'edit',
+      coordinates: 'edit',
+      duration: 'omit',
+      wage_at_moment: 'edit',
+      happiness: 'omit',
+      complete_date: 'omit',
+      late_time: 'omit',
+      for_review_time: 'omit',
+      abandon_date: 'omit',
+      abandonment_reason: 'omit',
+      other_abandonment_reason: 'omit',
+      abandonment_notes: 'omit',
+      override_hourly_wage: 'omit',
+      photo: 'omit',
+      action_needed: 'omit',
+      // relationMappings
+      soil_amendment_task: 'edit',
+      pest_control_task: 'edit',
+      irrigation_task: 'edit',
+      scouting_task: 'edit',
+      soil_task: 'edit',
+      field_work_task: 'edit',
+      harvest_task: 'edit',
+      cleaning_task: 'edit',
+      taskType: 'omit',
+      plant_task: 'edit',
+      transplant_task: 'edit',
+      managementPlans: 'omit',
+      locations: 'edit',
     };
   }
 

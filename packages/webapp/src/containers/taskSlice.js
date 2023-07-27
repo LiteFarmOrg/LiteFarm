@@ -73,7 +73,7 @@ const upsertManyTasks = (state, { payload: tasks }) => {
   state.loading = false;
   state.error = null;
   state.loaded = true;
-  taskAdapter.upsertMany(
+  taskAdapter.setAll(
     state,
     tasks.map((task) => getTask(task)),
   );
@@ -207,7 +207,12 @@ export const taskEntitiesSelector = createSelector(
     }) => {
       const management_plan_id =
         plantingManagementPlanEntities[planting_management_plan_id]?.management_plan_id;
+
       return produce(managementPlanEntities[management_plan_id], (managementPlan) => {
+        if (!managementPlan) {
+          return null;
+          // return {};
+        }
         managementPlan.planting_management_plan =
           plantingManagementPlanEntities[planting_management_plan_id];
         prev_planting_management_plan &&
@@ -228,6 +233,7 @@ export const taskEntitiesSelector = createSelector(
         const { task_translation_key, farm_id } = taskType;
         const subtask = subTaskEntities[task_id];
         !farm_id && (taskEntities[task_id][task_translation_key.toLowerCase()] = subtask);
+
         if (!farm_id && ['PLANT_TASK', 'TRANSPLANT_TASK'].includes(task_translation_key)) {
           taskEntities[task_id].locations = subtask.planting_management_plan.location_id
             ? [locationEntities[subtask.planting_management_plan.location_id]]
@@ -269,13 +275,16 @@ const getTaskEntitiesByManagementPlanId = (tasks) => {
   return tasks.reduce((obj, task) => {
     const { managementPlans } = task;
     let newObj = { ...obj };
-    managementPlans.forEach(({ management_plan_id }) => {
-      if (!newObj[management_plan_id]) {
-        newObj[management_plan_id] = [task];
-      } else {
-        newObj[management_plan_id].push(task);
-      }
-    });
+
+    managementPlans
+      .filter(Boolean) // filter out null values
+      .forEach(({ management_plan_id }) => {
+        if (!newObj[management_plan_id]) {
+          newObj[management_plan_id] = [task];
+        } else {
+          newObj[management_plan_id].push(task);
+        }
+      });
     return newObj;
   }, {});
 };

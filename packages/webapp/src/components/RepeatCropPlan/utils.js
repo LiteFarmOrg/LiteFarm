@@ -89,7 +89,7 @@ export const calculateMonthlyOptions = async (planStartDate, repeatFrequency) =>
     translations.language,
   );
 
-  return [
+  const options = [
     {
       value: date,
       label: dateString,
@@ -99,6 +99,21 @@ export const calculateMonthlyOptions = async (planStartDate, repeatFrequency) =>
       label: dayWeekString,
     },
   ];
+
+  // add 4th week option if planStartDate is both the 4th week of the month and the last
+  if (ordinal === -1 && Math.ceil(date / 7) === 4) {
+    const fourthWeekOptions = getTextRuleOptions('month', planStartDate, repeatFrequency, null, {
+      weekday,
+      ordinal: 4,
+    });
+    const fourthWeekString = new RRule(fourthWeekOptions).toText(
+      translations.getText,
+      translations.language,
+    );
+    options.splice(1, 0, { value: { ordinal: 4, weekday }, label: fourthWeekString });
+  }
+
+  return options;
 };
 
 export const countOccurrences = ({

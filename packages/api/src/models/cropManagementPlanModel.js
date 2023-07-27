@@ -86,6 +86,33 @@ class CropManagementPlanModel extends Model {
       },
     };
   }
+
+  // Custom function used in copy crop plan
+  // Should contain all jsonSchema() and relationMappings() keys
+  static get templateMappingSchema() {
+    return {
+      // jsonSchema()
+      management_plan_id: 'omit',
+      seed_date: 'edit',
+      plant_date: 'edit',
+      germination_date: 'edit',
+      transplant_date: 'edit',
+      harvest_date: 'edit',
+      termination_date: 'edit',
+      already_in_ground: 'edit',
+      is_seed: 'keep',
+      needs_transplant: 'keep',
+      for_cover: 'keep',
+      is_wild: 'keep',
+      estimated_revenue: 'keep',
+      estimated_yield: 'keep',
+      estimated_yield_unit: 'keep',
+      estimated_price_per_mass: 'keep',
+      estimated_price_per_mass_unit: 'keep',
+      // relationMappings
+      planting_management_plans: 'edit',
+    };
+  }
 }
 
 export default CropManagementPlanModel;

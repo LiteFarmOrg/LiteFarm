@@ -14,6 +14,7 @@
  */
 
 import ManagementPlanModel from '../models/managementPlanModel.js';
+import ManagementPlanGroup from '../models/managementPlanGroupModel.js';
 import CropManagementPlanModel from '../models/cropManagementPlanModel.js';
 import ManagementTasksModel from '../models/managementTasksModel.js';
 import TaskModel from '../models/taskModel.js';
@@ -21,16 +22,99 @@ import TaskTypeModel from '../models/taskTypeModel.js';
 import FieldWorkTypeModel from '../models/fieldWorkTypeModel.js';
 import TransplantTaskModel from '../models/transplantTaskModel.js';
 import PlantTaskModel from '../models/plantTaskModel.js';
-import { raw } from 'objection';
-import lodash from 'lodash';
+import UserFarmModel from '../models/userFarmModel.js';
+import objection, { raw } from 'objection';
+import _pick from 'lodash/pick.js';
 import { sendTaskNotification, TaskNotificationTypes } from './taskController.js';
+import {
+  getDatesFromManagementPlanGraph,
+  getManagementPlanGroupTemplateGraph,
+  getFormattedManagementPlanData,
+} from '../util/copyCropPlan.js';
+import { getSortedDates } from '../util/util.js';
+const { transaction, Model } = objection;
 
 const managementPlanController = {
+  repeatManagementPlan() {
+    return async (req, res) => {
+      const trx = await transaction.start(Model.knex());
+      const { start_dates, management_plan_id, repeat_details } = req.body;
+      try {
+        if (!start_dates?.length > 0 || !management_plan_id || !repeat_details?.crop_plan_name) {
+          throw 'Insufficient details to copy crop plan';
+        }
+        const createdByUser = req.auth.user_id;
+
+        // Get source management plan entire graph acting as a template
+        const managementPlanGraph = await ManagementPlanModel.query(trx)
+          .where('management_plan_id', management_plan_id)
+          .withGraphFetched(
+            'crop_management_plan.[planting_management_plans.[managementTasks.[task.[pest_control_task, irrigation_task, scouting_task, soil_task, soil_amendment_task, field_work_task, harvest_task, cleaning_task, locationTasks]], plant_task.[task.[locationTasks]], transplant_task.[task.[locationTasks]], bed_method, container_method, broadcast_method, row_method]]',
+          )
+          .first();
+
+        // Only assign tasks if JUST one 'Active' userFarm
+        const activeUsers = await UserFarmModel.query(trx)
+          .select('user_id', 'wage')
+          .where('farm_id', req.headers.farm_id)
+          .andWhere('status', 'Active');
+        const theOnlyActiveUserFarm = activeUsers.length == 1 ? activeUsers[0] : null;
+
+        // Find the reference date
+        const taskDates = getDatesFromManagementPlanGraph(managementPlanGraph);
+        const sortedStartDates = getSortedDates(start_dates);
+        const firstTaskDate = getSortedDates(taskDates)[0];
+
+        // Future looking piece for LF-3470
+        const templateIsPartOfGroup = false;
+
+        //Create an upsert object based on the graphs table columns
+        let newManagementPlanGroup = {};
+        if (!templateIsPartOfGroup && sortedStartDates.length > 0) {
+          //Using the template management plan this returns a really large object containing all data to be inserted
+          newManagementPlanGroup = getManagementPlanGroupTemplateGraph(
+            createdByUser,
+            repeat_details,
+            sortedStartDates,
+            managementPlanGraph,
+            theOnlyActiveUserFarm,
+            firstTaskDate,
+          );
+        } else {
+          throw 'Currently template plan cannot be part of the newly created group';
+        }
+
+        //Upsert management group
+        const managementPlanGroup = await ManagementPlanGroup.query(trx)
+          .context({ user_id: req.auth.user_id })
+          .upsertGraph(newManagementPlanGroup, {
+            noUpdate: true,
+            noDelete: true,
+            noInsert: ['location', 'crop_variety'],
+            insertMissing: true,
+          });
+
+        //Format return data
+        const result = getFormattedManagementPlanData(managementPlanGroup);
+
+        await trx.commit();
+        return res.status(201).send(result);
+      } catch (error) {
+        await trx.rollback();
+        console.log(error);
+        return res.status(400).json({
+          error,
+        });
+      }
+    };
+  },
+
   addManagementPlan() {
     return async (req, res) => {
       try {
         //TODO: add none getNonModifiable
         const result = await ManagementPlanModel.transaction(async (trx) => {
+          // Upsert management plan graph
           const management_plan = await ManagementPlanModel.query(trx)
             .context({ user_id: req.auth.user_id })
             .upsertGraph(
@@ -57,6 +141,8 @@ const managementPlanController = {
               ...task,
             };
           };
+
+          // Make plant task
           if (!req.body.crop_management_plan.already_in_ground) {
             const due_date =
               req.body.crop_management_plan.plant_date || req.body.crop_management_plan.seed_date;
@@ -83,6 +169,7 @@ const managementPlanController = {
             tasks.push(plantTask);
           }
 
+          //Make transplant task
           if (req.body.crop_management_plan.needs_transplant) {
             const due_date = req.body.crop_management_plan.transplant_date;
             const {
@@ -128,6 +215,8 @@ const managementPlanController = {
             locations: location_id ? [{ location_id }] : undefined,
             managementPlans: [{ planting_management_plan_id }],
           };
+
+          // Make Harvest or Termination task
           if (!req.body.crop_management_plan.for_cover) {
             const due_date = req.body.crop_management_plan.harvest_date;
             const harvestTaskType = await TaskTypeModel.query(trx)
@@ -316,7 +405,7 @@ const managementPlanController = {
         const result = await ManagementPlanModel.query()
           .context(req.auth)
           .where({ management_plan_id: req.params.management_plan_id })
-          .patch(lodash.pick(req.body, ['complete_date', 'complete_notes', 'rating']));
+          .patch(_pick(req.body, ['complete_date', 'complete_notes', 'rating']));
         if (result) {
           return res.sendStatus(200);
         } else {
@@ -425,9 +514,7 @@ const managementPlanController = {
           return await ManagementPlanModel.query()
             .context(req.auth)
             .where({ management_plan_id })
-            .patch(
-              lodash.pick(req.body, ['abandon_date', 'complete_notes', 'rating', 'abandon_reason']),
-            );
+            .patch(_pick(req.body, ['abandon_date', 'complete_notes', 'rating', 'abandon_reason']));
         });
 
         if (result) {

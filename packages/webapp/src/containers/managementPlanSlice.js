@@ -21,6 +21,9 @@ export const getManagementPlan = (obj) => {
       'rating',
       'complete_notes',
       'abandon_reason',
+      'management_plan_group_id',
+      'repetition_number',
+      'management_plan_group',
     ],
   );
 };

@@ -40,6 +40,17 @@ class ScoutingTaskModel extends Model {
       additionalProperties: false,
     };
   }
+
+  // Custom function used in copy crop plan
+  // Should contain all jsonSchema() and relationMappings() keys
+  static get templateMappingSchema() {
+    return {
+      // jsonSchema()
+      task_id: 'omit',
+      type: 'keep',
+      // relationMappings
+    };
+  }
 }
 
 export default ScoutingTaskModel;

@@ -91,7 +91,7 @@ export default function PureManagementTasks({
                 className={styles.menuItem}
                 onClick={() => onRepeatPlan(plan.crop_variety_id, plan.management_plan_id)}
               >
-                Repeat crop plan
+                {t('REPEAT_PLAN.MENU')}
               </Main>
             </div>
           </>

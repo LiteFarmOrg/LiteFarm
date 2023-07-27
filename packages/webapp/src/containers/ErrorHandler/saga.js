@@ -19,13 +19,12 @@ import { userFarmSelector } from '../userFarmSlice';
 import { getUserFarmsSaga } from '../ChooseFarm/saga';
 import { logout } from '../../util/jwt';
 
-
 export const handle403 = createAction(`handle403Saga`);
 
 export function* handle403Saga() {
   yield call(getUserFarmsSaga);
-  const { has_consent } = yield select(userFarmSelector);
-  if (has_consent) {
+  const { has_consent, status } = yield select(userFarmSelector);
+  if (has_consent || status !== 'Active') {
     logout();
   }
 }

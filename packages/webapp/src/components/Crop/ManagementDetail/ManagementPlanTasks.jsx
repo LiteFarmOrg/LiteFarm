@@ -68,13 +68,12 @@ export default function PureManagementTasks({
         )
       }
     >
-      <div onClick={() => setShowCopyRepeatMenu(false)} style={{ height: '100%' }}>
-        <CropHeader onBackClick={() => history.go(-1)} variety={variety} />
-
-        <div className={styles.titlewrapper}>
-          <Label className={styles.title} style={{ marginTop: '24px' }}>
-            {title}
-          </Label>
+      <CropHeader onBackClick={() => history.go(-1)} variety={variety} />
+      <div className={styles.titlewrapper}>
+        <Label className={styles.title} style={{ marginTop: '24px' }}>
+          {title}
+        </Label>
+        {isAdmin && (
           <BsThreeDotsVertical
             className={styles.menuIcon}
             onClick={(event) => {
@@ -82,7 +81,10 @@ export default function PureManagementTasks({
               setShowCopyRepeatMenu((prev) => !prev);
             }}
           />
-          {showCopyRepeatMenu && (
+        )}
+        {isAdmin && showCopyRepeatMenu && (
+          <>
+            <div onClick={() => setShowCopyRepeatMenu(false)} className={styles.menuCloseOverlay} />
             <div className={styles.copyRepeatMenu}>
               {/* <Main className={styles.menuItem}>Copy crop plan</Main> */}
               <Main
@@ -92,48 +94,42 @@ export default function PureManagementTasks({
                 Repeat crop plan
               </Main>
             </div>
-          )}
-        </div>
-
-        <RouterTab
-          classes={{ container: { margin: '24px 0 26px 0' } }}
-          history={history}
-          tabs={[
-            {
-              label: t('MANAGEMENT_DETAIL.TASKS'),
-              path: `/crop/${match.params.variety_id}/management_plan/${match.params.management_plan_id}/tasks`,
-              state: location?.state,
-            },
-            {
-              label: t('MANAGEMENT_DETAIL.DETAILS'),
-              path: `/crop/${match.params.variety_id}/management_plan/${match.params.management_plan_id}/details`,
-              state: location?.state,
-            },
-          ]}
-        />
-
-        {isAdmin && isActiveOrPlanned && (
-          <AddLink style={{ marginTop: '16px', marginBottom: '14px' }} onClick={onAddTask}>
-            {t('MANAGEMENT_DETAIL.ADD_A_TASK')}
-          </AddLink>
-        )}
-        {children}
-
-        {isAdmin && isActiveOrPlanned && (
-          <div
-            className={styles.abandonwrapper}
-            style={{ marginTop: '24px', marginBottom: '26px' }}
-          >
-            <Label>{t('MANAGEMENT_DETAIL.FAILED_CROP')}</Label>
-            <Underlined style={{ marginLeft: '6px' }} onClick={onAbandon}>
-              {t('MANAGEMENT_DETAIL.ABANDON_PLAN')}
-            </Underlined>
-          </div>
-        )}
-        {showCompleteFailModal && (
-          <IncompleteTaskModal dismissModal={() => setShowCompleteFailModal(false)} />
+          </>
         )}
       </div>
+      <RouterTab
+        classes={{ container: { margin: '24px 0 26px 0' } }}
+        history={history}
+        tabs={[
+          {
+            label: t('MANAGEMENT_DETAIL.TASKS'),
+            path: `/crop/${match.params.variety_id}/management_plan/${match.params.management_plan_id}/tasks`,
+            state: location?.state,
+          },
+          {
+            label: t('MANAGEMENT_DETAIL.DETAILS'),
+            path: `/crop/${match.params.variety_id}/management_plan/${match.params.management_plan_id}/details`,
+            state: location?.state,
+          },
+        ]}
+      />
+      {isAdmin && isActiveOrPlanned && (
+        <AddLink style={{ marginTop: '16px', marginBottom: '14px' }} onClick={onAddTask}>
+          {t('MANAGEMENT_DETAIL.ADD_A_TASK')}
+        </AddLink>
+      )}
+      {children}
+      {isAdmin && isActiveOrPlanned && (
+        <div className={styles.abandonwrapper} style={{ marginTop: '24px', marginBottom: '26px' }}>
+          <Label>{t('MANAGEMENT_DETAIL.FAILED_CROP')}</Label>
+          <Underlined style={{ marginLeft: '6px' }} onClick={onAbandon}>
+            {t('MANAGEMENT_DETAIL.ABANDON_PLAN')}
+          </Underlined>
+        </div>
+      )}
+      {showCompleteFailModal && (
+        <IncompleteTaskModal dismissModal={() => setShowCompleteFailModal(false)} />
+      )}
     </Layout>
   );
 }

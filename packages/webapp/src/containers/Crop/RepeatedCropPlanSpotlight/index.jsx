@@ -5,23 +5,24 @@ import { setSpotlightToShown } from '../../Map/saga';
 import React from 'react';
 import { TourProviderWrapper } from '../../../components/TourProviderWrapper/TourProviderWrapper';
 
-export default function RepeatedCropPlanSpotlight({ children }) {
+export default function RepeatedCropPlanSpotlight({ repeatingPlanCreated, children }) {
   const { t } = useTranslation();
   const dispatch = useDispatch();
-  const { repeated_crop_plan } = useSelector(showedSpotlightSelector);
-  const onFinish = () => dispatch(setSpotlightToShown('repeated_crop_plan'));
+  const { repeat_management_plan_creation } = useSelector(showedSpotlightSelector);
+  const onFinish = () => dispatch(setSpotlightToShown('repeat_management_plan_creation'));
 
   return (
     <TourProviderWrapper
-      open={true}
+      open={repeatingPlanCreated && !repeat_management_plan_creation}
       steps={[
         {
-          title: t('MANAGEMENT_PLAN.FIRST_MP_SPOTLIGHT.TITLE'),
-          contents: [t('MANAGEMENT_PLAN.FIRST_MP_SPOTLIGHT.BODY_PART1'), t('MANAGEMENT_PLAN.FIRST_MP_SPOTLIGHT.BODY_PART2')],
-          selector:  `#plan0`,
+          title: t('MANAGEMENT_PLAN.REPEATED_MP_SPOTLIGHT.TITLE'),
+          contents: [t('MANAGEMENT_PLAN.REPEATED_MP_SPOTLIGHT.BODY')],
+          selector: `#repeatPlan0`,
           position: 'center',
           offset: '1px',
           buttonText: t('common:GOT_IT'),
+          popoverStyles: { marginTop: '80px' },
         },
       ]}
       onFinish={onFinish}

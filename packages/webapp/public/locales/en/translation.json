@@ -1147,7 +1147,11 @@
     "WILD_CROP": "Are you harvesting a wild crop?",
     "ASSIGN_ALL_TASKS": "All tasks generated as part of this crop plan will be assigned to this individual. You can modify this assignment later",
     "CROP_PLAN_REPEAT": "This crop plan repeats",
-    "CROP_PLAN_REPEAT_SUBTEXT": "Clicking 'Save' will immediately save this crop plan. You'll then be prompted to describe how it repeats."
+    "CROP_PLAN_REPEAT_SUBTEXT": "Clicking 'Save' will immediately save this crop plan. You'll then be prompted to describe how it repeats.",
+    "REPEATED_MP_SPOTLIGHT": {
+      "BODY": "You can click here to see all crop plans in this group. Modifying an individual crop plan won’t change anything about others in the group.",
+      "TITLE": "Congrats! You’ve created your first repeating crop plan!"
+    }
   },
   "LOCATION_CREATION": {
     "TITLE": "No locations found!",

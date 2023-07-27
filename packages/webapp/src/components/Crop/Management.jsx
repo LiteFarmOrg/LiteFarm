@@ -115,6 +115,7 @@ export default function PureCropManagement({
                 }
                 {...managementPlan}
                 key={index}
+                indexKey={index}
                 repeatPlanInfoOnClick={repeatPlanInfoOnClick}
               />
             );

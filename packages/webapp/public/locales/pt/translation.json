@@ -1149,7 +1149,11 @@
     "WILD_CROP": "Você está colhendo uma planta silvestre?",
     "ASSIGN_ALL_TASKS": "MISSING",
     "CROP_PLAN_REPEAT": "MISSING",
-    "CROP_PLAN_REPEAT_SUBTEXT": "MISSING"
+    "CROP_PLAN_REPEAT_SUBTEXT": "MISSING",
+    "REPEATED_MP_SPOTLIGHT": {
+      "BODY": "MISSING",
+      "TITLE": "MISSING"
+    }
   },
   "LOCATION_CREATION": {
     "TITLE": "Nenhuma área encontrada",

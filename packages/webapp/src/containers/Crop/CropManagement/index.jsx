@@ -111,10 +111,11 @@ function CropManagement({ history, match, location }) {
     dispatch(getTasks());
   }, []);
 
+  const hasRepeatingPlans = !!managementPlanCardContents.find((plan) => !!plan.repetition_count);
+
   const isAdmin = useSelector(isAdminSelector);
   return (
     <CropVarietySpotlight>
-      <RepeatedCropPlanSpotlight>
       <PureCropManagement
         history={history}
         variety={selectedVariety}
@@ -125,7 +126,9 @@ function CropManagement({ history, match, location }) {
         isAdmin={isAdmin}
         location={location}
       />
-      </RepeatedCropPlanSpotlight>
+      <RepeatedCropPlanSpotlight
+        repeatingPlanCreated={hasRepeatingPlans}
+      ></RepeatedCropPlanSpotlight>
     </CropVarietySpotlight>
   );
 }

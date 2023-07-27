@@ -300,13 +300,17 @@ const taskController = {
             ({ management_plan_id }) => management_plan_id,
           );
 
-          // Return error if task associated with only a deleted plan
+          // Return error if task is associated with only a deleted plan
           if (validManagementPlanIds.length === 0) {
             return res.status(404).send('Management plan not found');
           }
 
-          data.managementPlans = data.managementPlans.filter(({ management_plan_id }) =>
-            validManagementPlanIds.includes(management_plan_id),
+          const validPlantingMangementPlans = plantingManagementPlans
+            .filter(({ management_plan_id }) => validManagementPlanIds.includes(management_plan_id))
+            .map(({ planting_management_plan_id }) => planting_management_plan_id);
+
+          data.managementPlans = data.managementPlans.filter(({ planting_management_plan_id }) =>
+            validPlantingMangementPlans.includes(planting_management_plan_id),
           );
         }
 

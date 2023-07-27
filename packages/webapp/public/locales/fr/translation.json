@@ -327,7 +327,10 @@
     "PERFORM_SEARCH": "Avez-vous effectué une recherche de disponibilité commerciale\u00a0?",
     "PHYSIOLOGY_AND_ANATOMY": "Physiologie et anatomie",
     "TREATED": "Les semences de cette culture ont-elles été traitées\u00a0?",
-    "UPLOAD_LATER": "Vous pourrez également télécharger des fichiers plus tard"
+    "UPLOAD_LATER": "Vous pourrez également télécharger des fichiers plus tard",
+    "REPEAT_PLAN_MODAL": {
+      "DELETED_PLANS": "MISSING"
+    }
   },
   "CROP_CATALOGUE": {
     "ADD_CROP": "Ajoutez une nouvelle culture",
@@ -1143,7 +1146,10 @@
     "WHAT_WAS_PLANTING_METHOD_INFO": "Sélectionner la bonne méthode de plantation aidera LiteFarm à estimer plus précisément la quantité de graines nécessaires, le rendement et d'autres informations utiles.",
     "WHERE_START_LOCATION": "Où est votre position de départ\u00a0?",
     "WHERE_TRANSPLANT_LOCATION": "Où allez-vous transplanter\u00a0?",
-    "WILD_CROP": "Récoltez-vous une culture sauvage\u00a0?"
+    "WILD_CROP": "Récoltez-vous une culture sauvage\u00a0?",
+    "ASSIGN_ALL_TASKS": "MISSING",
+    "CROP_PLAN_REPEAT": "MISSING",
+    "CROP_PLAN_REPEAT_SUBTEXT": "MISSING"
   },
   "LOCATION_CREATION": {
     "TITLE": "Aucun emplacement trouvé\u00a0!",
@@ -1348,6 +1354,29 @@
   "REACT_SELECT": {
     "CLEAR": "Supprimer",
     "CLEAR_ALL": "Supprimer tout"
+  },
+  "REPEAT_PLAN": {
+    "TITLE": "MISSING",
+    "REPEAT_PLAN_FLOW": "MISSING",
+    "SUBTITLE": "MISSING",
+    "REPETITIONS_OF": "MISSING {{planName}}",
+    "PLAN_NAME": "MISSING",
+    "DUPLICATE_NAME": "MISSING",
+    "START_DATE": "MISSING",
+    "REPEAT_EVERY": "MISSING",
+    "REPEAT_ON": "MISSING",
+    "FINISH": "MISSING",
+    "AFTER": "MISSING",
+    "REPETITIONS": "MISSING",
+    "ON": "MISSING",
+    "INTERVAL": {
+      "DAY": "MISSING",
+      "WEEK": "MISSING",
+      "MONTH": "MISSING",
+      "YEAR": "MISSING"
+    },
+    "REPEAT_LIMIT_ERROR": "MISSING",
+    "LATER_DATE_ERROR": "MISSING"
   },
   "REQUEST_CONFIRMATION_MODAL": {
     "BUTTON": "J'ai compris",

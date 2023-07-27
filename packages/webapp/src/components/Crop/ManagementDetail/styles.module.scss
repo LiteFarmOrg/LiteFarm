@@ -12,6 +12,7 @@
   flex-direction: row;
   align-items: baseline;
   justify-content: space-between;
+  position: relative;
 }
 
 .subtitle {
@@ -38,8 +39,8 @@
   height: 48px;
   left: 0px;
   top: 20px;
-  background: #FAFAFD;
-  border: 1px solid #D4DAE3;
+  background: #fafafd;
+  border: 1px solid #d4dae3;
   box-sizing: border-box;
   border-radius: 4px;
 }
@@ -59,4 +60,51 @@
 
 .rating {
   display: table-row;
+}
+
+.menuIcon {
+  width: 48px;
+  font-size: 20px;
+  color: var(--grey600);
+  cursor: pointer;
+}
+
+.copyRepeatMenu {
+  position: absolute;
+  right: 0;
+  top: 100%;
+  display: flex;
+  width: 260px;
+
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  flex-shrink: 0;
+  border-radius: 4px;
+  background: var(--white, #fff);
+  box-shadow: 0px 4px 12px 0px rgba(102, 115, 138, 0.4);
+}
+
+.menuItem {
+  border-radius: 4px;
+  padding-inline: 16px;
+  padding-block: 8px;
+  width: 100%;
+  cursor: pointer;
+
+  &:hover {
+    background-color: var(--grey100);
+  }
+
+  &:active {
+    background-color: var(--grey200);
+  }
+
+  &:first-child {
+    padding-top: 12px;
+  }
+
+  &:last-child {
+    padding-bottom: 12px;
+  }
 }

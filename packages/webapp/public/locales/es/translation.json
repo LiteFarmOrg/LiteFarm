@@ -327,7 +327,10 @@
     "PERFORM_SEARCH": "¿Realizó una búsqueda de disponibilidad comercial?",
     "PHYSIOLOGY_AND_ANATOMY": "Fisiología y anatomía",
     "TREATED": "¿Se han tratado las semillas de este cultivo?",
-    "UPLOAD_LATER": "También puede cargar archivos en otro momento."
+    "UPLOAD_LATER": "También puede cargar archivos en otro momento.",
+    "REPEAT_PLAN_MODAL": {
+      "DELETED_PLANS": "MISSING"
+    }
   },
   "CROP_CATALOGUE": {
     "ADD_CROP": "Agregar un nuevo cultivo",
@@ -1142,7 +1145,10 @@
     "WHAT_WAS_PLANTING_METHOD_INFO": "Seleccionar el método de siembra correcto ayudará a LiteFarm a estimar con mayor precisión la cantidad de semilla necesaria, el rendimiento y otros conocimientos útiles.",
     "WHERE_START_LOCATION": "¿Dónde está su ubicación inicial?",
     "WHERE_TRANSPLANT_LOCATION": "¿A dónde va a trasplantar?",
-    "WILD_CROP": "¿Estás cosechando un cultivo silvestre?"
+    "WILD_CROP": "¿Estás cosechando un cultivo silvestre?",
+    "ASSIGN_ALL_TASKS": "MISSING",
+    "CROP_PLAN_REPEAT": "MISSING",
+    "CROP_PLAN_REPEAT_SUBTEXT": "MISSING"
   },
   "LOCATION_CREATION": {
     "TITLE": "No se ha encontrado la ubicación",
@@ -1347,6 +1353,29 @@
   "REACT_SELECT": {
     "CLEAR": "Borrar",
     "CLEAR_ALL": "Borrar todo"
+  },
+  "REPEAT_PLAN": {
+    "TITLE": "MISSING",
+    "REPEAT_PLAN_FLOW": "MISSING",
+    "SUBTITLE": "MISSING",
+    "REPETITIONS_OF": "MISSING {{planName}}",
+    "PLAN_NAME": "MISSING",
+    "DUPLICATE_NAME": "MISSING",
+    "START_DATE": "MISSING",
+    "REPEAT_EVERY": "MISSING",
+    "REPEAT_ON": "MISSING",
+    "FINISH": "MISSING",
+    "AFTER": "MISSING",
+    "REPETITIONS": "MISSING",
+    "ON": "MISSING",
+    "INTERVAL": {
+      "DAY": "MISSING",
+      "WEEK": "MISSING",
+      "MONTH": "MISSING",
+      "YEAR": "MISSING"
+    },
+    "REPEAT_LIMIT_ERROR": "MISSING",
+    "LATER_DATE_ERROR": "MISSING"
   },
   "REQUEST_CONFIRMATION_MODAL": {
     "BUTTON": "Entendido",

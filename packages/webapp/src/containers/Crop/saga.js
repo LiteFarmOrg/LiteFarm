@@ -1,6 +1,6 @@
 /*
- *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>
- *  This file (saga.js) is part of LiteFarm.
+ *  Copyright 2021, 2022, 2023 LiteFarm.org
+ *  This file is part of LiteFarm.
  *
  *  LiteFarm is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -32,6 +32,7 @@ import i18n from '../../locales/i18n';
 import history from '../../history';
 import { enqueueErrorSnackbar, enqueueSuccessSnackbar } from '../Snackbar/snackbarSlice';
 import { getTasksSuccessSaga } from '../Task/saga';
+import { setPersistedPaths } from './../hooks/useHookFormPersist/hookFormPersistSlice';
 
 const DEC = 10;
 
@@ -54,7 +55,8 @@ export function* getExpiredManagementPlansSaga() {
 
 export const postManagementPlan = createAction(`postManagementPlanSaga`);
 
-export function* postManagementPlanSaga({ payload: managementPlan }) {
+export function* postManagementPlanSaga({ payload: managementPlanData }) {
+  const { repeat_crop_plan, ...managementPlan } = managementPlanData;
   const { managementPlanURL } = apiConfig;
   let { user_id, farm_id } = yield select(loginSelector);
   const header = getHeader(user_id, farm_id);
@@ -65,8 +67,21 @@ export function* postManagementPlanSaga({ payload: managementPlan }) {
     });
     yield call(getTasksSuccessSaga, { payload: result.data.tasks });
     const management_plan_id = result.data.management_plan.management_plan_id;
+
+    // conditionally render pathname
+    const path = repeat_crop_plan ? 'repeat' : 'tasks';
+
+    // set up repeat crop plan form state persistence
+    repeat_crop_plan &&
+      (yield put(
+        setPersistedPaths([
+          `/crop/${managementPlan.crop_variety_id}/management_plan/${management_plan_id}/repeat`,
+          `/crop/${managementPlan.crop_variety_id}/management_plan/${management_plan_id}/repeat_confirmation`,
+        ]),
+      ));
+
     yield call(onReqSuccessSaga, {
-      pathname: `/crop/${managementPlan.crop_variety_id}/management_plan/${management_plan_id}/tasks`,
+      pathname: `/crop/${managementPlan.crop_variety_id}/management_plan/${management_plan_id}/${path}`,
       state: { fromCreation: true },
       message: i18n.t('message:MANAGEMENT_PLAN.SUCCESS.POST'),
     });

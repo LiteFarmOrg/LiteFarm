@@ -20,6 +20,7 @@ import Form from '../Form';
 import Button from '../Form/Button';
 import MultiStepPageTitle from '../PageTitle/MultiStepPageTitle';
 import { getTextAndOccurrences, RRULEDAYS } from './utils';
+import { getDateWithDayOfWeek } from '../../util/date';
 import {
   CROP_PLAN_NAME,
   PLAN_START_DATE,
@@ -32,19 +33,6 @@ import {
   FINISH_ON_DATE,
 } from './constants';
 import styles from './styles.module.scss';
-
-/**
- * Function that formats date to include day of week.
- * @param {string} date Date to format. ex. '2023-12-31'
- * @param {string} language User's preferred language. ex. 'en', 'es', 'fr', 'pt'
- * @returns {string} Formatted date. ex. 'Sunday, December 31, 2023'
- */
-const getDate = (date, language = 'en') => {
-  const [year, month, day] = date.split('-');
-  return new Intl.DateTimeFormat(language, { dateStyle: 'full' }).format(
-    new Date(year, month - 1, day),
-  );
-};
 
 function PureRepeatCropPlanConfirmation({
   useHookFormPersist,
@@ -79,7 +67,7 @@ function PureRepeatCropPlanConfirmation({
     let finishingText = '';
     if (finish === 'on') {
       finishingText = t('REPEAT_PLAN.CONFIRMATION.ON_DATE', {
-        date: getDate(finishOnDate),
+        date: getDateWithDayOfWeek(finishOnDate),
       });
     } else if (finish === 'after') {
       finishingText = (
@@ -105,7 +93,7 @@ function PureRepeatCropPlanConfirmation({
 
     return {
       planName,
-      beginning: getDate(planStartDate),
+      beginning: getDateWithDayOfWeek(planStartDate),
       finishingText,
       numberOfPlans,
       numberOfTasks,

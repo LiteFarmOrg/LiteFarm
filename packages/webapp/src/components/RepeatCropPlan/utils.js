@@ -247,8 +247,7 @@ export const getTextAndOccurrences = async (
   );
 
   const currentLang = getLanguageFromLocalStorage();
-  const translations = await getTranslations(currentLang);
-  const { getText, language } = translations;
+  const { getText, language } = await getTranslations(currentLang);
 
   return {
     text: new RRule(textRuleOptions).toText(getText, language),

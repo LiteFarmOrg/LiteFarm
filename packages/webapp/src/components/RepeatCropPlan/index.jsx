@@ -156,6 +156,7 @@ export default function PureRepeatCropPlan({
       monthRepeatOn: monthRepeatOn ?? { value: getDate(planStartDate) },
       finishOnDate,
       finish,
+      origStartDate,
     });
 
     totalCount.current = count;

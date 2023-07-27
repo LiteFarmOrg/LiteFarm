@@ -47,6 +47,7 @@ function RepeatCropPlan({ history, match }) {
   const onContinue = () => {
     history.push(
       `/crop/${plan.crop_variety_id}/management_plan/${management_plan_id}/repeat_confirmation`,
+      { origStartDate: firstTaskDate },
     );
   };
 

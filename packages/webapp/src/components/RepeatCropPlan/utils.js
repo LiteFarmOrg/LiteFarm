@@ -108,6 +108,7 @@ export const countOccurrences = ({
   daysOfWeek,
   monthRepeatOn,
   finishOnDate,
+  origStartDate,
 }) => {
   const textRuleOptions = getTextRuleOptions(
     repeatInterval.value,
@@ -119,6 +120,7 @@ export const countOccurrences = ({
   const occurencesRuleOptions = getOccurrencesRuleOptions(
     textRuleOptions,
     repeatInterval.value,
+    origStartDate,
     planStartDate,
     'on',
     null,
@@ -185,12 +187,30 @@ const getTextRuleOptions = (
 const getOccurrencesRuleOptions = (
   textRuleOptions,
   repeatInterval,
+  originalStartDate,
   startDate,
   finish,
   count,
   endDate,
 ) => {
-  let options = { ...textRuleOptions, dtstart: parseISOStringToLocalDate(startDate) };
+  let options = { ...textRuleOptions };
+
+  // if startDate is original date and weekday is unchanged,
+  // occurrences should not include startDate
+  const startDateIsOriginalDate = startDate === originalStartDate;
+  let weekdayUnchanged = true;
+  let adjustedStartDate = startDate;
+
+  if (repeatInterval === 'week') {
+    const originalWeekday = repeatInterval === 'week' ? getWeekday(originalStartDate) : '';
+    weekdayUnchanged =
+      RRule[RRULEDAYS[originalWeekday]].weekday === textRuleOptions.byweekday[0].weekday;
+  }
+  if (startDateIsOriginalDate && weekdayUnchanged) {
+    const [year, month, day] = startDate.split('-');
+    adjustedStartDate = new Date(year, month - 1, +day + 1).toISOString().split('T')[0];
+  }
+  options.dtstart = parseISOStringToLocalDate(adjustedStartDate);
 
   if (finish === 'on') {
     options.until = parseISOStringToLocalDate(endDate);
@@ -221,6 +241,7 @@ const getOccurrencesRuleOptions = (
 
 export const getTextAndOccurrences = async (
   repeatInterval,
+  originalStartDate,
   startDate,
   repeatFrequency,
   finish,
@@ -240,6 +261,7 @@ export const getTextAndOccurrences = async (
   const occurrencesRuleOptions = getOccurrencesRuleOptions(
     textRuleOptions,
     repeatInterval,
+    originalStartDate,
     startDate,
     finish,
     count,

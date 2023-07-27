@@ -40,6 +40,7 @@ function PureRepeatCropPlanConfirmation({
   onGoBack,
   onSubmit,
   tasks,
+  origStartDate,
 }) {
   const { t } = useTranslation();
   const { historyCancel } = useHookFormPersist();
@@ -84,6 +85,7 @@ function PureRepeatCropPlanConfirmation({
 
     const { text: willRepeatText, occurrences } = await getTextAndOccurrences(
       repeatInterval.value,
+      origStartDate,
       planStartDate,
       repeatFrequencyNumber,
       finish,
@@ -177,6 +179,7 @@ PureRepeatCropPlanConfirmation.propTypes = {
   onGoBack: PropTypes.func,
   onContinue: PropTypes.func,
   tasks: PropTypes.array.isRequired,
+  origStartDate: PropTypes.string.isRequired,
   persistedFormData: PropTypes.shape({
     [CROP_PLAN_NAME]: PropTypes.string,
     [PLAN_START_DATE]: PropTypes.string,

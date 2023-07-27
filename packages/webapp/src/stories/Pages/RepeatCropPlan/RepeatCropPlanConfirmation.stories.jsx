@@ -30,6 +30,7 @@ const commonArgs = {
   onSubmit: (data) => console.log('Submitting data', data),
   onGoBack: () => ({}),
   tasks: [{}, {}],
+  origStartDate: '2023-07-31',
 };
 
 const persistedFormData = {
@@ -90,5 +91,20 @@ Yearly.args = {
   persistedFormData: {
     ...persistedFormData,
     repeat_interval: { value: 'year', label: 'year(s)' },
+  },
+};
+
+// 4 plans will be created instead of 5
+export const StartOnOrigDateWeekly = Template.bind({});
+StartOnOrigDateWeekly.args = {
+  ...commonArgs,
+  origStartDate: '2023-08-01',
+  persistedFormData: {
+    ...persistedFormData,
+    origStartDate: '2023-08-01',
+    repeat_interval: { value: 'week', label: 'week(s)' },
+    days_of_week: ['Tuesday'],
+    finish: 'on',
+    finish_on_date: '2023-08-31',
   },
 };

@@ -208,6 +208,17 @@ const managementPlanController = {
     return async (req, res) => {
       try {
         const { management_plan_id } = req.params;
+
+        const managementPlan = await ManagementPlanModel.query()
+          .context(req.auth)
+          .where({ management_plan_id })
+          .where('deleted', false)
+          .first();
+
+        if (!managementPlan) {
+          return res.status(404).send('Management plan not found');
+        }
+
         const result = await ManagementPlanModel.transaction(async (trx) => {
           const tasksWithManagementPlanCount = await ManagementTasksModel.query()
             .select('*')
@@ -341,6 +352,17 @@ const managementPlanController = {
     return async (req, res) => {
       try {
         const { management_plan_id } = req.params;
+
+        const managementPlan = await ManagementPlanModel.query()
+          .context(req.auth)
+          .where({ management_plan_id })
+          .where('deleted', false)
+          .first();
+
+        if (!managementPlan) {
+          return res.status(404).send('Management plan not found');
+        }
+
         const result = await ManagementPlanModel.transaction(async (trx) => {
           /**
            * Get all related task_ids and number of related management plans of each task_id
@@ -443,6 +465,17 @@ const managementPlanController = {
     return async (req, res) => {
       try {
         const management_plan_id = req.params.management_plan_id;
+
+        const managementPlan = await ManagementPlanModel.query()
+          .context(req.auth)
+          .where({ management_plan_id })
+          .where('deleted', false)
+          .first();
+
+        if (!managementPlan) {
+          return res.status(404).send('Management plan not found');
+        }
+
         const { name, notes } = req.body;
         const {
           estimated_yield,

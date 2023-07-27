@@ -52,23 +52,6 @@ export const getTask = (obj) => {
   return task;
 };
 
-const removeManagementPlanFromTask = (state, { payload }) => {
-  state.loading = false;
-  state.error = null;
-  state.loaded = true;
-
-  const task = state.entities[payload.task_id];
-
-  const updatedTask = {
-    ...task,
-    managementPlans: task.managementPlans.filter(
-      (plan) => plan.management_plan_id !== Number(payload.management_plan_id),
-    ),
-  };
-
-  taskAdapter.upsertOne(state, updatedTask);
-};
-
 const upsertManyTasks = (state, { payload: tasks }) => {
   state.loading = false;
   state.error = null;
@@ -133,7 +116,6 @@ const taskSlice = createSlice({
     putTasksSuccess: updateManyTasks,
     createTaskSuccess: taskAdapter.addOne,
     deleteTaskSuccess: removeOne,
-    removePlanFromTaskSuccess: removeManagementPlanFromTask,
   },
 });
 export const {
@@ -144,7 +126,6 @@ export const {
   putTasksSuccess,
   createTaskSuccess,
   deleteTaskSuccess,
-  removePlanFromTaskSuccess,
 } = taskSlice.actions;
 export default taskSlice.reducer;
 
@@ -207,7 +188,6 @@ export const taskEntitiesSelector = createSelector(
     }) => {
       const management_plan_id =
         plantingManagementPlanEntities[planting_management_plan_id]?.management_plan_id;
-
       return produce(managementPlanEntities[management_plan_id], (managementPlan) => {
         if (!managementPlan) {
           return {};
@@ -232,7 +212,6 @@ export const taskEntitiesSelector = createSelector(
         const { task_translation_key, farm_id } = taskType;
         const subtask = subTaskEntities[task_id];
         !farm_id && (taskEntities[task_id][task_translation_key.toLowerCase()] = subtask);
-
         if (!farm_id && ['PLANT_TASK', 'TRANSPLANT_TASK'].includes(task_translation_key)) {
           taskEntities[task_id].locations = subtask.planting_management_plan.location_id
             ? [locationEntities[subtask.planting_management_plan.location_id]]

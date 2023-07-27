@@ -210,8 +210,7 @@ export const taskEntitiesSelector = createSelector(
 
       return produce(managementPlanEntities[management_plan_id], (managementPlan) => {
         if (!managementPlan) {
-          return null;
-          // return {};
+          return {};
         }
         managementPlan.planting_management_plan =
           plantingManagementPlanEntities[planting_management_plan_id];
@@ -276,15 +275,13 @@ const getTaskEntitiesByManagementPlanId = (tasks) => {
     const { managementPlans } = task;
     let newObj = { ...obj };
 
-    managementPlans
-      .filter(Boolean) // filter out null values
-      .forEach(({ management_plan_id }) => {
-        if (!newObj[management_plan_id]) {
-          newObj[management_plan_id] = [task];
-        } else {
-          newObj[management_plan_id].push(task);
-        }
-      });
+    managementPlans.forEach(({ management_plan_id }) => {
+      if (!newObj[management_plan_id]) {
+        newObj[management_plan_id] = [task];
+      } else {
+        newObj[management_plan_id].push(task);
+      }
+    });
     return newObj;
   }, {});
 };

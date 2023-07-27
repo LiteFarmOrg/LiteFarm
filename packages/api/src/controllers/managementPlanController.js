@@ -24,7 +24,6 @@ import PlantTaskModel from '../models/plantTaskModel.js';
 import { raw } from 'objection';
 import lodash from 'lodash';
 import { sendTaskNotification, TaskNotificationTypes } from './taskController.js';
-import PlantingManagementPlanModel from '../models/plantingManagementPlanModel.js';
 
 const managementPlanController = {
   addManagementPlan() {
@@ -291,30 +290,14 @@ const managementPlanController = {
               [management_plan_id, taskIdsRelatedToManyManagementPlans],
             ));
 
-          // Return associated planting management plans (no deletion necessary)
-          const plantingManagementPlans = await PlantingManagementPlanModel.query(trx)
-            .context(req.auth)
-            .where({ management_plan_id });
-
-          await ManagementPlanModel.query()
+          return await ManagementPlanModel.query()
             .context(req.auth)
             .where({ management_plan_id })
             .delete();
-
-          // send back deleted entities
-          return {
-            deletedTaskIds: taskIdsRelatedToOneManagementPlan,
-            plantTaskIds: plantTasks.map(({ task_id }) => task_id),
-            transplantTaskIds: transplantTasks.map(({ task_id }) => task_id),
-            plantingManagementPlanIds: plantingManagementPlans.map(
-              ({ planting_management_plan_id }) => planting_management_plan_id,
-            ),
-            taskIdsRelatedToManyManagementPlans,
-          };
         });
 
         if (result) {
-          return res.status(200).json(result);
+          return res.sendStatus(200);
         } else {
           return res.sendStatus(404);
         }

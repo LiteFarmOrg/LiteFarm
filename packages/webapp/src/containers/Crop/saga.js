@@ -150,49 +150,6 @@ export function* deleteManagementPlanSaga({ payload }) {
   try {
     const result = yield call(axios.delete, managementPlanURL + `/${management_plan_id}`, header);
 
-    const {
-      deletedTaskIds,
-      plantTaskIds,
-      transplantTaskIds,
-      plantingManagementPlanIds,
-      taskIdsRelatedToManyManagementPlans,
-    } = result.data;
-
-    // Clean up Redux store:
-    // Delete tasks associated with this management plan
-    if (deletedTaskIds?.length) {
-      yield all(deletedTaskIds.map((task_id) => put(deleteTaskSuccess({ task_id }))));
-    }
-
-    // Delete plant tasks (own entity) associated with this management plan
-    if (plantTaskIds?.length) {
-      yield all(plantTaskIds.map((task_id) => put(deletePlantTaskSuccess(task_id))));
-    }
-
-    // Delete transplant tasks (own entity) associated with this management plan
-    if (transplantTaskIds?.length) {
-      yield all(transplantTaskIds.map((task_id) => put(deleteTransplantTaskSuccess(task_id))));
-    }
-
-    // Remove deleted management plan from tasks belonging to multiple plans
-    // This corresponds to the record being deleted from the management_tasks table on the backend
-    if (taskIdsRelatedToManyManagementPlans) {
-      yield all(
-        taskIdsRelatedToManyManagementPlans.map((task_id) =>
-          put(removePlanFromTaskSuccess({ task_id, management_plan_id })),
-        ),
-      );
-    }
-
-    // Delete planting management plans associated with this management plan
-    if (plantingManagementPlanIds?.length) {
-      yield all(
-        plantingManagementPlanIds.map((planting_mngmt_plan_id) =>
-          put(deletePlantingManagementPlanSuccess(planting_mngmt_plan_id)),
-        ),
-      );
-    }
-
     yield put(deleteManagementPlanSuccess(management_plan_id));
 
     history.push(`/crop/${variety_id}/management`);

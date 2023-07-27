@@ -33,10 +33,6 @@ import history from '../../history';
 import { enqueueErrorSnackbar, enqueueSuccessSnackbar } from '../Snackbar/snackbarSlice';
 import { getTasksSuccessSaga } from '../Task/saga';
 import { setPersistedPaths } from './../hooks/useHookFormPersist/hookFormPersistSlice';
-import { deletePlantingManagementPlanSuccess } from '../plantingManagementPlanSlice';
-import { deleteTaskSuccess, removePlanFromTaskSuccess } from '../taskSlice';
-import { deletePlantTaskSuccess } from '../slice/taskSlice/plantTaskSlice';
-import { deleteTransplantTaskSuccess } from '../slice/taskSlice/transplantTaskSlice';
 
 const DEC = 10;
 

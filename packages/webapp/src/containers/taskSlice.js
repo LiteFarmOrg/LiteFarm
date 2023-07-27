@@ -253,7 +253,6 @@ const getTaskEntitiesByManagementPlanId = (tasks) => {
   return tasks.reduce((obj, task) => {
     const { managementPlans } = task;
     let newObj = { ...obj };
-
     managementPlans.forEach(({ management_plan_id }) => {
       if (!newObj[management_plan_id]) {
         newObj[management_plan_id] = [task];

@@ -29,7 +29,6 @@ export default function PureCompleteStepOne({
   const defaultsToUse = persistedFormData.need_changes
     ? cloneObject(persistedFormData)
     : cloneObject(selectedTask);
-  console.log(defaultsToUse);
   const {
     register,
     handleSubmit,

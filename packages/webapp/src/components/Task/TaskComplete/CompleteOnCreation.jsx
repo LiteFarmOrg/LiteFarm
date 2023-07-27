@@ -43,10 +43,6 @@ export default function PureCompleteOnCreation({
     defaultValues: { ...defaultsToUse },
   });
 
-  const CHANGES_NEEDED = 'need_changes';
-  const changesRequired = watch(CHANGES_NEEDED);
-  const taskType = selectedTaskType?.task_translation_key;
-
   return (
     <Form
       buttonGroup={

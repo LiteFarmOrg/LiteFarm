@@ -39,7 +39,6 @@ function TaskCompleteOnCreation({ history, match, location }) {
       dispatch(setFormData({ task_id, taskType: task.taskType }));
       history.push(`/tasks/${task_id}/complete`, location?.state);
     } else {
-      dispatch(setFormData({ selectedTask: task, selectedTaskType: task.taskType }));
       history.push(`/tasks/${task_id}/before_complete`, location?.state);
     }
   };

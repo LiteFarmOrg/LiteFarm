@@ -11,6 +11,7 @@ import RouterTab from '../../RouterTab';
 import { useDispatch } from 'react-redux';
 import { setPersistedPaths } from '../../../containers/hooks/useHookFormPersist/hookFormPersistSlice';
 import { BsThreeDotsVertical } from 'react-icons/bs';
+import { ClickAwayListener } from '@mui/material';
 
 export default function PureManagementTasks({
   onCompleted,
@@ -76,15 +77,13 @@ export default function PureManagementTasks({
         {isAdmin && (
           <BsThreeDotsVertical
             className={styles.menuIcon}
-            onClick={(event) => {
-              event.stopPropagation();
+            onClick={() => {
               setShowCopyRepeatMenu((prev) => !prev);
             }}
           />
         )}
         {isAdmin && showCopyRepeatMenu && (
-          <>
-            <div onClick={() => setShowCopyRepeatMenu(false)} className={styles.menuCloseOverlay} />
+          <ClickAwayListener onClickAway={() => setShowCopyRepeatMenu(false)}>
             <div className={styles.copyRepeatMenu}>
               {/* <Main className={styles.menuItem}>Copy crop plan</Main> */}
               <Main
@@ -94,7 +93,7 @@ export default function PureManagementTasks({
                 {t('REPEAT_PLAN.MENU')}
               </Main>
             </div>
-          </>
+          </ClickAwayListener>
         )}
       </div>
       <RouterTab

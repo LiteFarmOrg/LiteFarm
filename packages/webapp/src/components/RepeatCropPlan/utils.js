@@ -219,7 +219,7 @@ const getOccurrencesRuleOptions = (
   return options;
 };
 
-export const getTextAndOccurrences = (
+export const getTextAndOccurrences = async (
   repeatInterval,
   startDate,
   repeatFrequency,
@@ -246,8 +246,12 @@ export const getTextAndOccurrences = (
     endDate,
   );
 
+  const currentLang = getLanguageFromLocalStorage();
+  const translations = await getTranslations(currentLang);
+  const { getText, language } = translations;
+
   return {
-    text: new RRule(textRuleOptions).toText(),
+    text: new RRule(textRuleOptions).toText(getText, language),
     occurrences: new RRule(occurrencesRuleOptions).all(),
   };
 };

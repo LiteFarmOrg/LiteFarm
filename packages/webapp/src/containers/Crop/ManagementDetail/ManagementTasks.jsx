@@ -20,9 +20,11 @@ export default function ManagementTasks({ history, match, location }) {
   const management_plan_id = match.params.management_plan_id;
   const plan = useSelector(managementPlanSelector(management_plan_id));
 
-  if (plan === undefined) {
-    history.replace('/unknown_record');
-  }
+  useEffect(() => {
+    if (plan === undefined) {
+      history.replace('/unknown_record');
+    }
+  }, [plan, history]);
 
   const isAdmin = useSelector(isAdminSelector);
 

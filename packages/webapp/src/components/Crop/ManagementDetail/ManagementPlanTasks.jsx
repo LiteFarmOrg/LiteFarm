@@ -35,7 +35,7 @@ export default function PureManagementTasks({
 
   const dispatch = useDispatch();
 
-  const title = plan.name;
+  const title = plan?.name;
 
   const onRepeatPlan = (crop_id, plan_id) => {
     dispatch(
@@ -58,7 +58,7 @@ export default function PureManagementTasks({
     }
   };
 
-  const isActiveOrPlanned = !plan.abandon_date && !plan.complete_date;
+  const isActiveOrPlanned = !plan?.abandon_date && !plan?.complete_date;
 
   const [isDeleting, setIsDeleting] = useState(false);
 

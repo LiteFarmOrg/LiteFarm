@@ -1354,6 +1354,7 @@
     "CLEAR_ALL": "Clear all"
   },
   "REPEAT_PLAN": {
+    "MENU": "Repeat crop plan",
     "TITLE": "Repeat a crop plan",
     "REPEAT_PLAN_FLOW": "crop plan repetition",
     "SUBTITLE": "Copy this crop plan and all its tasks according to the following schedule",

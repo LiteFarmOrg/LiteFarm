@@ -308,7 +308,7 @@ const managementPlanController = {
         }
 
         const result = await ManagementPlanModel.transaction(async (trx) => {
-          const tasksWithManagementPlanCount = await ManagementTasksModel.query()
+          const tasksWithManagementPlanCount = await ManagementTasksModel.query(trx)
             .select('*')
             .join(
               'planting_management_plan',
@@ -318,7 +318,7 @@ const managementPlanController = {
             .where('planting_management_plan.management_plan_id', management_plan_id)
             .distinct('task_id')
             .then((tasks) =>
-              ManagementTasksModel.query()
+              ManagementTasksModel.query(trx)
                 .join(
                   'planting_management_plan',
                   'planting_management_plan.planting_management_plan_id',
@@ -335,7 +335,7 @@ const managementPlanController = {
                 .select('management_tasks.task_id'),
             );
 
-          const transplantTasks = await TransplantTaskModel.query()
+          const transplantTasks = await TransplantTaskModel.query(trx)
             .select('*')
             .join(
               'planting_management_plan',
@@ -346,7 +346,7 @@ const managementPlanController = {
             .whereNull('task.complete_date')
             .where('planting_management_plan.management_plan_id', management_plan_id);
 
-          const plantTasks = await PlantTaskModel.query()
+          const plantTasks = await PlantTaskModel.query(trx)
             .select('*')
             .join(
               'planting_management_plan',
@@ -379,7 +379,7 @@ const managementPlanController = {
               [management_plan_id, taskIdsRelatedToManyManagementPlans],
             ));
 
-          return await ManagementPlanModel.query()
+          return await ManagementPlanModel.query(trx)
             .context(req.auth)
             .where({ management_plan_id })
             .delete();

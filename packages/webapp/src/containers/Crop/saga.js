@@ -20,6 +20,7 @@ import {
   axios,
   getHeader,
   getManagementPlanAndPlantingMethodSuccessSaga,
+  getManagementPlans,
   onReqSuccessSaga,
 } from '../saga';
 import { createAction } from '@reduxjs/toolkit';
@@ -31,7 +32,7 @@ import {
 import i18n from '../../locales/i18n';
 import history from '../../history';
 import { enqueueErrorSnackbar, enqueueSuccessSnackbar } from '../Snackbar/snackbarSlice';
-import { getTasksSuccessSaga } from '../Task/saga';
+import { getTasks, getTasksSuccessSaga } from '../Task/saga';
 import { setPersistedPaths } from './../hooks/useHookFormPersist/hookFormPersistSlice';
 import { CROP_PLAN_NAME } from '../../components/RepeatCropPlan/constants';
 
@@ -110,16 +111,9 @@ export function* postRepeatCropPlanSaga({
       header,
     );
 
-    const managementPlans = [];
-    let managementTasks = [];
+    yield put(getManagementPlans());
+    yield put(getTasks());
 
-    result.data.forEach(({ management_plan, tasks }) => {
-      managementPlans.push(management_plan);
-      managementTasks = managementTasks.concat(tasks);
-    });
-
-    yield call(getManagementPlanAndPlantingMethodSuccessSaga, { payload: managementPlans });
-    yield call(getTasksSuccessSaga, { payload: managementTasks });
     yield call(onReqSuccessSaga, {
       pathname: `/crop/${crop_variety_id}/management`,
       message: i18n.t('message:REPEAT_PLAN.SUCCESS.POST', { planName }),

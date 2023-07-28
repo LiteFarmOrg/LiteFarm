@@ -14,34 +14,8 @@ import { cloneObject } from '../../../util';
 import { PurePlantingTask } from '../PlantingTask';
 import PureIrrigationTask from '../PureIrrigationTask';
 
-export default function PureCompleteOnCreation({
-  persistedFormData,
-  onContinue,
-  onGoBack,
-  selectedTaskType,
-  selectedTask,
-  farm,
-  system,
-  products,
-  useHookFormPersist,
-}) {
+export default function PureCompleteOnCreation({ onContinue, onGoBack }) {
   const { t } = useTranslation();
-  const defaultsToUse = cloneObject(selectedTask);
-  const {
-    register,
-    handleSubmit,
-    watch,
-    getValues,
-    control,
-    setValue,
-    reset,
-    getFieldState,
-    formState: { errors, isValid },
-  } = useForm({
-    mode: 'onChange',
-    shouldUnregister: false,
-    defaultValues: { ...defaultsToUse },
-  });
 
   return (
     <Form
@@ -50,12 +24,12 @@ export default function PureCompleteOnCreation({
           <Button data-cy="taskReadOnly-abandon" color={'secondary'} onClick={onGoBack} fullLength>
             {t('TASK.COMPLETE_ON_CREATION.CANCEL')}
           </Button>
-          <Button data-cy="taskReadOnly-complete" color={'primary'} onClick={onContinue} fullLength>
+          <Button data-cy="taskReadOnly-complete" color={'primary'} fullLength>
             {t('common:MARK_COMPLETE')}
           </Button>
         </>
       }
-      onSubmit={handleSubmit(onContinue)}
+      onSubmit={onContinue}
     >
       <MultiStepPageTitle
         style={{ marginBottom: '24px' }}

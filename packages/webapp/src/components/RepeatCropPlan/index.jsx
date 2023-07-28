@@ -49,6 +49,7 @@ export default function PureRepeatCropPlan({
   cropPlan,
   farmManagementPlansForCrop,
   origStartDate,
+  origStartDateType,
   onGoBack = () => {},
   onContinue = () => {},
   useHookFormPersist,
@@ -211,6 +212,8 @@ export default function PureRepeatCropPlan({
     return true;
   };
 
+  const origStartDateTypes = { completion: t('REPEAT_PLAN.COMPLETION'), due: t('REPEAT_PLAN.DUE') };
+
   return (
     <Form
       buttonGroup={
@@ -250,7 +253,7 @@ export default function PureRepeatCropPlan({
           <Main className={styles.taskSubtext}>
             {getLocalizedDateString(origStartDate)}{' '}
             {t('REPEAT_PLAN.EARLIEST_TASK', {
-              dateType: t('REPEAT_PLAN.COMPLETION'),
+              dateType: origStartDateTypes[origStartDateType],
             })}
           </Main>
         </div>

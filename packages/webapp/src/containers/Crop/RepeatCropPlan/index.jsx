@@ -57,6 +57,7 @@ function RepeatCropPlan({ history, match }) {
         cropPlan={plan}
         farmManagementPlansForCrop={farmManagementPlansForCropVariety}
         origStartDate={firstTaskDate}
+        origStartDateType={sortedTasks[0].complete_date ? 'completion' : 'due'}
         onGoBack={() => history.back()}
         onContinue={onContinue}
         persistedFormData={persistedFormData}

@@ -51,7 +51,33 @@ const managementPlanController = {
           .withGraphFetched(
             'crop_management_plan.[planting_management_plans.[managementTasks.[task.[pest_control_task, irrigation_task, scouting_task, soil_task, soil_amendment_task, field_work_task, harvest_task, cleaning_task, locationTasks]], plant_task.[task.[locationTasks]], transplant_task.[task.[locationTasks]], bed_method, container_method, broadcast_method, row_method]]',
           )
+          .modifyGraph(
+            'crop_management_plan.[planting_management_plans.managementTasks]',
+            (builder) => {
+              builder
+                .join('task', 'management_tasks.task_id', 'task.task_id')
+                .where('task.deleted', 'false');
+            },
+          )
+          .modifyGraph('crop_management_plan.[planting_management_plans.plant_task]', (builder) => {
+            builder
+              .join('task', 'plant_task.task_id', 'task.task_id')
+              .where('task.deleted', 'false');
+          })
+          .modifyGraph(
+            'crop_management_plan.[planting_management_plans.transplant_task]',
+            (builder) => {
+              builder
+                .join('task', 'transplant_task.task_id', 'task.task_id')
+                .where('task.deleted', 'false');
+            },
+          )
+          .whereNotDeleted()
           .first();
+
+        if (!managementPlanGraph) {
+          throw 'Management plan does not exist or is deleted';
+        }
 
         // Only assign tasks if JUST one 'Active' userFarm
         const activeUsers = await UserFarmModel.query(trx)

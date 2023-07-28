@@ -36,10 +36,8 @@ import _isEqual from 'lodash/isEqual';
 import managementPlanModel from '../src/models/managementPlanModel.js';
 import locationModel from '../src/models/locationModel.js';
 import cropManagementPlanModel from '../src/models/cropManagementPlanModel.js';
-import {
-  getBareBonesManagementPlan,
-  getDatesFromManagementPlanGraph,
-} from '../src/util/copyCropPlan.js';
+import { getDatesFromManagementPlanGraph } from '../src/util/copyCropPlan.js';
+import { getBareBonesManagementPlan } from './utils/managementPlanTestUtils.js';
 import { getSortedDates } from '../src/util/util.js';
 
 const ONE_WEEK_IN_MILLISECONDS = 604800000;

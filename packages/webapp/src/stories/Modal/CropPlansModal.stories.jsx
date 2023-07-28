@@ -25,7 +25,7 @@ export default {
 
 const Template = (args) => <CropPlansModal {...args} />;
 
-const commonArgs = {
+export const commonArgs = {
   history: {
     location: { pathname: '/crop/variety_id/management' },
   },
@@ -44,7 +44,7 @@ const commonArgs = {
   dismissModal: () => console.log('dismiss'),
 };
 
-const planBaseContents = {
+export const planBaseContents = {
   managementPlanName: 'Management Plan',
   locationName: 'Field 1',
   notes: 'Row 1',

@@ -251,8 +251,8 @@ export default function PureRepeatCropPlan({
           />
 
           <Main className={styles.taskSubtext}>
-            {getLocalizedDateString(origStartDate)}{' '}
             {t('REPEAT_PLAN.EARLIEST_TASK', {
+              date: getLocalizedDateString(origStartDate),
               dateType: origStartDateTypes[origStartDateType],
             })}
           </Main>

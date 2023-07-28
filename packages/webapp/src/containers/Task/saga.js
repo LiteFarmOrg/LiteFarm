@@ -70,7 +70,7 @@ import {
   onLoadingHarvestUseTypeStart,
 } from '../harvestUseTypeSlice';
 import { managementPlanWithCurrentLocationEntitiesSelector } from './TaskCrops/managementPlansWithLocationSelector';
-import { setPersistedPaths } from '../hooks/useHookFormPersist/hookFormPersistSlice';
+import { isTaskType } from './useIsTaskType';
 
 const taskTypeEndpoint = [
   'cleaning_task',
@@ -534,20 +534,24 @@ export function* createTaskSaga({ payload }) {
       header,
     );
     if (result) {
-      const task = data.task_type_id == 8 ? result.data[0] : result.data;
+      const task = isHarvest ? result.data[0] : result.data;
 
-      const task_id = task.task_id;
-      const due_date = task.due_date;
-      const assignee = task.assignee_user_id;
+      const { task_id, due_date, assignee_user_id } = task;
       const users = userFarms[farm_id];
-      let assigneeRole;
+      let assigneeRoleId;
 
-      if (assignee) {
-        assigneeRole = Object.values(users).find((user) => user.user_id === assignee).role_id;
+      if (assignee_user_id) {
+        assigneeRoleId = Object.values(users).find(
+          (user) => user.user_id === assignee_user_id,
+        ).role_id;
       }
       let pathName;
 
-      if (new Date(due_date) <= new Date() && (user_id === assignee || assigneeRole === 4)) {
+      //role_id 4 is a worker without an account
+      if (
+        new Date(due_date) <= new Date() &&
+        (user_id === assignee_user_id || assigneeRoleId === 4)
+      ) {
         const completePath = [`/tasks/${task_id}/complete_on_creation`];
         if (!returnPath) {
           pathName = completePath[0];

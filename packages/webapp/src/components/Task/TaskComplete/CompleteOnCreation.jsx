@@ -35,7 +35,6 @@ export default function PureCompleteOnCreation({ onContinue, onGoBack }) {
         style={{ marginBottom: '24px' }}
         onGoBack={onGoBack}
         onCancel={onGoBack}
-        cancelModalTitle={t('TASK.COMPLETE_TASK_FLOW')}
         title={t('TASK.COMPLETE_TASK')}
         value={0}
       />

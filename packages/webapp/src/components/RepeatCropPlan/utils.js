@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { RRule } from 'rrule';
+import { RRule, datetime } from 'rrule';
 import { getRruleLanguage } from '../../util/rruleTranslation';
 import { getLanguageFromLocalStorage } from '../../util/getLanguageFromLocalStorage';
 import { parseISOStringToLocalDate } from '../Form/Input/utils';
@@ -71,6 +71,39 @@ const calculateWeekdayOrdinal = (date) => {
   }
 
   return ordinal;
+};
+
+/**
+ * Convert date to UTC and return it in locale date format.
+ * datetime() helper from RRule creates dates in the correct format using a 1-based month.
+ * @param {string} date Date in UTC. ex. '2023-12-31'
+ * @returns {string} Converted date.
+ *   ex. 'Sat Dec 30 2023 16:00:00 GMT-0800 (Pacific Standard Time)'
+ *        which is equivalent to 'Sun, 31 Dec 2023 00:00:00 GMT'
+ */
+const getUTCInLocale = (date) => {
+  const [year, month, day] = date.split('-');
+  return new Date(datetime(year, month, day));
+};
+
+/**
+ * Change UTC to locale date.
+ * ex: 'Fri, 21 Jun 2024 00:00:00 GMT' -> 'Fri Jun 21 2024 00:00:00 GMT-0700 (Pacific Daylight Time)'
+ * @param {string} date
+ *    ex. 'Thu Jun 20 2024 17:00:00 GMT-0700 (Pacific Daylight Time)'
+ *         which is equivalent to 'Fri, 21 Jun 2024 00:00:00 GMT'
+ * @returns {string} locale date.
+ *    ex. 'Fri Jun 21 2024 00:00:00 GMT-0700 (Pacific Daylight Time)'
+ */
+const changeUTCToLocaleDate = (localeDate) => {
+  // convert locale date to UTC
+  const date = new Date(localeDate);
+  const year = date.getUTCFullYear();
+  const month = date.getUTCMonth();
+  const day = date.getUTCDate();
+
+  // change UTC to locale date
+  return new Date(year, month, day);
 };
 
 export const calculateMonthlyOptions = async (planStartDate, repeatFrequency) => {
@@ -231,10 +264,10 @@ const getOccurrencesRuleOptions = (
     const [year, month, day] = startDate.split('-');
     adjustedStartDate = new Date(year, month - 1, +day + 1).toISOString().split('T')[0];
   }
-  options.dtstart = parseISOStringToLocalDate(adjustedStartDate);
+  options.dtstart = getUTCInLocale(adjustedStartDate);
 
   if (finish === 'on') {
-    options.until = parseISOStringToLocalDate(endDate);
+    options.until = getUTCInLocale(endDate);
   } else {
     options.count = count;
   }
@@ -294,6 +327,6 @@ export const getTextAndOccurrences = async (
 
   return {
     text: new RRule(textRuleOptions).toText(getText, language),
-    occurrences: new RRule(occurrencesRuleOptions).all(),
+    occurrences: new RRule(occurrencesRuleOptions).all().map(changeUTCToLocaleDate),
   };
 };

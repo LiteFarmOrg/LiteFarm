@@ -33,6 +33,7 @@ import history from '../../history';
 import { enqueueErrorSnackbar, enqueueSuccessSnackbar } from '../Snackbar/snackbarSlice';
 import { getTasksSuccessSaga } from '../Task/saga';
 import { setPersistedPaths } from './../hooks/useHookFormPersist/hookFormPersistSlice';
+import { CROP_PLAN_NAME } from '../../components/RepeatCropPlan/constants';
 
 const DEC = 10;
 
@@ -88,6 +89,44 @@ export function* postManagementPlanSaga({ payload: managementPlanData }) {
   } catch (e) {
     console.log(e);
     yield put(enqueueErrorSnackbar(i18n.t('message:MANAGEMENT_PLAN.ERROR.POST')));
+  }
+}
+
+export const postRepeatCropPlan = createAction(`postRepeatCropPlanSaga`);
+
+export function* postRepeatCropPlanSaga({
+  payload: { crop_variety_id, management_plan_id, startDates, repeatDetails },
+}) {
+  const { user_id, farm_id } = yield select(loginSelector);
+  const header = getHeader(user_id, farm_id);
+  const { managementPlanURL } = apiConfig;
+  const planName = repeatDetails[CROP_PLAN_NAME];
+
+  try {
+    const result = yield call(
+      axios.post,
+      `${managementPlanURL}/repeat_plan`,
+      { management_plan_id, start_dates: startDates, repeat_details: repeatDetails },
+      header,
+    );
+
+    const managementPlans = [];
+    let managementTasks = [];
+
+    result.data.forEach(({ management_plan, tasks }) => {
+      managementPlans.push(management_plan);
+      managementTasks = managementTasks.concat(tasks);
+    });
+
+    yield call(getManagementPlanAndPlantingMethodSuccessSaga, { payload: managementPlans });
+    yield call(getTasksSuccessSaga, { payload: managementTasks });
+    yield call(onReqSuccessSaga, {
+      pathname: `/crop/${crop_variety_id}/management`,
+      message: i18n.t('message:REPEAT_PLAN.SUCCESS.POST', { planName }),
+    });
+  } catch (e) {
+    console.log(e);
+    yield put(enqueueErrorSnackbar(i18n.t('message:REPEAT_PLAN.ERROR.POST', { planName })));
   }
 }
 
@@ -171,6 +210,7 @@ const formatDate = (currDate) => {
 
 export default function* managementPlanSaga() {
   yield takeLeading(postManagementPlan.type, postManagementPlanSaga);
+  yield takeLeading(postRepeatCropPlan.type, postRepeatCropPlanSaga);
   yield takeLeading(patchFarmDefaultInitialLocation.type, patchFarmDefaultInitialLocationSaga);
   yield takeLatest(getExpiredManagementPlans.type, getExpiredManagementPlansSaga);
   yield takeLeading(deleteManagementPlan.type, deleteManagementPlanSaga);

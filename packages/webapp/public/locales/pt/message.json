@@ -95,6 +95,14 @@
       "DELETE": "MISSING"
     }
   },
+  "REPEAT_PLAN": {
+    "ERROR": {
+      "POST": "MISSING"
+    },
+    "SUCCESS": {
+      "POST": "MISSING"
+    }
+  },
   "MAP": {
     "FAIL_PATCH": "Falha ao atualizar",
     "FAIL_POST": "Falha ao adicionar novo/a",

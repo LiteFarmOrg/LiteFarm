@@ -1365,6 +1365,7 @@
     "CLEAR_ALL": "Borrar todo"
   },
   "REPEAT_PLAN": {
+    "MENU": "MISSING",
     "TITLE": "MISSING",
     "REPEAT_PLAN_FLOW": "MISSING",
     "SUBTITLE": "MISSING",
@@ -1385,7 +1386,18 @@
       "YEAR": "MISSING"
     },
     "REPEAT_LIMIT_ERROR": "MISSING",
-    "LATER_DATE_ERROR": "MISSING"
+    "LATER_DATE_ERROR": "MISSING",
+    "CONFIRMATION": {
+      "HEADER": "MISSING",
+      "CROP_NAME": "MISSING",
+      "BEGINNING": "MISSING",
+      "FINISHING": "MISSING",
+      "WILL_REPEAT": "MISSING",
+      "WILL_CREATE": "MISSING",
+      "ON_DATE": "MISSING",
+      "WILL_CREATE_BODY": "MISSING",
+      "AFTER_REPETITIONS": "MISSING"
+    }
   },
   "REQUEST_CONFIRMATION_MODAL": {
     "BUTTON": "Entendido",

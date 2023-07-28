@@ -14,6 +14,7 @@ import DeleteBox from '../../Task/TaskReadOnly/DeleteBox';
 import { FiAlertTriangle } from 'react-icons/fi';
 import { ReactComponent as TrashIcon } from '../../../assets/images/document/trash.svg';
 import { BsThreeDotsVertical } from 'react-icons/bs';
+import { ClickAwayListener } from '@mui/material';
 
 export default function PureManagementTasks({
   onCompleted,
@@ -83,61 +84,64 @@ export default function PureManagementTasks({
         )
       }
     >
-      <div onClick={() => setShowCopyRepeatMenu(false)} style={{ height: '100%' }}>
-        <CropHeader onBackClick={() => history.go(-1)} variety={variety} />
+      <CropHeader onBackClick={() => history.go(-1)} variety={variety} />
 
-        <div className={styles.titlewrapper}>
-          <Label className={styles.title} style={{ marginTop: '24px' }}>
-            {title}
-          </Label>
+      <div className={styles.titlewrapper}>
+        <Label className={styles.title} style={{ marginTop: '24px' }}>
+          {title}
+        </Label>
+        {isAdmin && (
           <BsThreeDotsVertical
             className={styles.menuIcon}
-            onClick={(event) => {
-              event.stopPropagation();
+            onClick={() => {
               setShowCopyRepeatMenu((prev) => !prev);
             }}
           />
-          {showCopyRepeatMenu && (
+        )}
+
+        {isAdmin && showCopyRepeatMenu && (
+          <ClickAwayListener onClickAway={() => setShowCopyRepeatMenu(false)}>
             <div className={styles.copyRepeatMenu}>
               {/* <Main className={styles.menuItem}>Copy crop plan</Main> */}
               <Main
                 className={styles.menuItem}
                 onClick={() => onRepeatPlan(plan.crop_variety_id, plan.management_plan_id)}
               >
-                Repeat crop plan
+                {t('REPEAT_PLAN.MENU')}
               </Main>
             </div>
-          )}
-        </div>
-
-        <RouterTab
-          classes={{ container: { margin: '24px 0 26px 0' } }}
-          history={history}
-          tabs={[
-            {
-              label: t('MANAGEMENT_DETAIL.TASKS'),
-              path: `/crop/${match.params.variety_id}/management_plan/${match.params.management_plan_id}/tasks`,
-              state: location?.state,
-            },
-            {
-              label: t('MANAGEMENT_DETAIL.DETAILS'),
-              path: `/crop/${match.params.variety_id}/management_plan/${match.params.management_plan_id}/details`,
-              state: location?.state,
-            },
-          ]}
-        />
-
-        {isAdmin && isActiveOrPlanned && (
-          <AddLink style={{ marginTop: '16px', marginBottom: '14px' }} onClick={onAddTask}>
-            {t('MANAGEMENT_DETAIL.ADD_A_TASK')}
-          </AddLink>
-        )}
-        {children}
-
-        {showCompleteFailModal && (
-          <IncompleteTaskModal dismissModal={() => setShowCompleteFailModal(false)} />
+          </ClickAwayListener>
         )}
       </div>
+
+      <RouterTab
+        classes={{ container: { margin: '24px 0 26px 0' } }}
+        history={history}
+        tabs={[
+          {
+            label: t('MANAGEMENT_DETAIL.TASKS'),
+            path: `/crop/${match.params.variety_id}/management_plan/${match.params.management_plan_id}/tasks`,
+            state: location?.state,
+          },
+          {
+            label: t('MANAGEMENT_DETAIL.DETAILS'),
+            path: `/crop/${match.params.variety_id}/management_plan/${match.params.management_plan_id}/details`,
+            state: location?.state,
+          },
+        ]}
+      />
+
+      {isAdmin && isActiveOrPlanned && (
+        <AddLink style={{ marginTop: '16px', marginBottom: '14px' }} onClick={onAddTask}>
+          {t('MANAGEMENT_DETAIL.ADD_A_TASK')}
+        </AddLink>
+      )}
+      {children}
+
+      {showCompleteFailModal && (
+        <IncompleteTaskModal dismissModal={() => setShowCompleteFailModal(false)} />
+      )}
+
       <div className={styles.deleteSection} onClick={() => setShowCopyRepeatMenu(false)}>
         {isAdmin && isActiveOrPlanned && !isDeleting && (
           <IconLink

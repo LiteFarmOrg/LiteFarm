@@ -1364,6 +1364,7 @@
     "CLEAR_ALL": "Clear all"
   },
   "REPEAT_PLAN": {
+    "MENU": "Repeat crop plan",
     "TITLE": "Repeat a crop plan",
     "REPEAT_PLAN_FLOW": "crop plan repetition",
     "SUBTITLE": "Copy this crop plan and all its tasks according to the following schedule",
@@ -1384,7 +1385,18 @@
       "YEAR": "year(s)"
     },
     "REPEAT_LIMIT_ERROR": "Cannot repeat this plan more than 20 times",
-    "LATER_DATE_ERROR": "Please select a date after the starting date"
+    "LATER_DATE_ERROR": "Please select a date after the starting date",
+    "CONFIRMATION": {
+      "HEADER": "Confirm how this plan repeats",
+      "CROP_NAME": "Crop plan name",
+      "BEGINNING": "Beginning",
+      "FINISHING": "Finishing",
+      "WILL_REPEAT": "This plan will repeat",
+      "WILL_CREATE": "This will create",
+      "ON_DATE": "on {{date}}",
+      "WILL_CREATE_BODY": "<0>{{numberOfPlans}}</0> new crop plans and <2>{{numberOfTasks}}</2> new tasks",
+      "AFTER_REPETITIONS": "after <1>{{number}}</1> repetitions."
+    }
   },
   "REQUEST_CONFIRMATION_MODAL": {
     "BUTTON": "Got it",

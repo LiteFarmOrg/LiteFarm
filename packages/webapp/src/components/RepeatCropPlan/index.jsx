@@ -45,7 +45,6 @@ export default function PureRepeatCropPlan({
   origStartDate,
   onGoBack = () => {},
   onContinue = () => {},
-  onCancel = () => {},
   useHookFormPersist,
   persistedFormData,
 }) {
@@ -75,6 +74,8 @@ export default function PureRepeatCropPlan({
       ...persistedFormData,
     },
   });
+
+  const { historyCancel } = useHookFormPersist(getValues);
 
   const intervalOptions = [
     { value: 'day', label: t('REPEAT_PLAN.INTERVAL.DAY') },
@@ -213,7 +214,7 @@ export default function PureRepeatCropPlan({
     >
       <MultiStepPageTitle
         onGoBack={onGoBack}
-        onCancel={onCancel}
+        onCancel={historyCancel}
         cancelModalTitle={t('REPEAT_PLAN.REPEAT_PLAN_FLOW')}
         title={t('REPEAT_PLAN.TITLE')}
         value={33}
@@ -383,5 +384,4 @@ PureRepeatCropPlan.prototype = {
   useHookFormPersist: PropTypes.func,
   onGoBack: PropTypes.func,
   onContinue: PropTypes.func,
-  onCancel: PropTypes.func,
 };

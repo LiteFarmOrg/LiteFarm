@@ -563,7 +563,6 @@ export function* createTaskSaga({ payload }) {
       yield call(onReqSuccessSaga, {
         message: i18n.t('message:TASK.CREATE.SUCCESS'),
         pathname: pathName ?? '/tasks',
-        state: data,
       });
     }
   } catch (e) {

@@ -63,7 +63,7 @@ export default function PureRepeatCropPlan({
     setValue,
     watch,
     trigger,
-    formState: { errors, isValid, dirtyFields },
+    formState: { errors, isValid },
   } = useForm({
     mode: 'onChange',
     shouldUnregister: true,
@@ -125,15 +125,15 @@ export default function PureRepeatCropPlan({
     }
 
     const getAndSetMonthlyOptions = async () => {
+      // Utility function uses rrule to generate natural language strings
+      const options = await calculateMonthlyOptions(planStartDate, repeatFrequency);
+
       // Store which pattern is currently selected
-      const currentSelection = monthlyOptions?.findIndex(
+      const currentSelection = options?.findIndex(
         (option) =>
           // e.g. {"value":8,"label":"every month on the 8th"}
           JSON.stringify(option) === JSON.stringify(monthRepeatOn),
       );
-
-      // Utility function uses rrule to generate natural language strings
-      const options = await calculateMonthlyOptions(planStartDate, repeatFrequency);
 
       setMonthlyOptions(options);
 

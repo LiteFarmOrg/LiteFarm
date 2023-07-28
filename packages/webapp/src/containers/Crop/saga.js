@@ -87,6 +87,10 @@ export function* postManagementPlanSaga({ payload: managementPlanData }) {
       state: { fromCreation: true },
       message: i18n.t('message:MANAGEMENT_PLAN.SUCCESS.POST'),
     });
+
+    // Refresh Redux store
+    yield put(getManagementPlans());
+    yield put(getTasks());
   } catch (e) {
     console.log(e);
     yield put(enqueueErrorSnackbar(i18n.t('message:MANAGEMENT_PLAN.ERROR.POST')));

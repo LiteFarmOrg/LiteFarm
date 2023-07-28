@@ -93,6 +93,14 @@
       "POST": "Plan de cultivo agregado exitosamente"
     }
   },
+  "REPEAT_PLAN": {
+    "ERROR": {
+      "POST": "MISSING"
+    },
+    "SUCCESS": {
+      "POST": "MISSING"
+    }
+  },
   "MAP": {
     "FAIL_PATCH": "Fallo al actualizar",
     "FAIL_POST": "Fallo al crear",

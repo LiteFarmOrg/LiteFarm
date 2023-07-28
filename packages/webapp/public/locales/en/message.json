@@ -93,6 +93,14 @@
       "POST": "Successfully added crop plan!"
     }
   },
+  "REPEAT_PLAN": {
+    "ERROR": {
+      "POST": "Failed to repeat {{planName}}"
+    },
+    "SUCCESS": {
+      "POST": "{{planName}} repeated successfully"
+    }
+  },
   "MAP": {
     "FAIL_PATCH": "Failed to update",
     "FAIL_POST": "Failed to add new",

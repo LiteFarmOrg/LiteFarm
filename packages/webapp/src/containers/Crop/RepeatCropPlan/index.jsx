@@ -49,6 +49,9 @@ function RepeatCropPlan({ history, match }) {
       `/crop/${plan.crop_variety_id}/management_plan/${management_plan_id}/repeat_confirmation`,
     );
   };
+  const onCancel = () => {
+    history.push(`/crop/${plan.crop_variety_id}/management_plan/${management_plan_id}/tasks`);
+  };
 
   return (
     <HookFormPersistProvider>
@@ -57,6 +60,7 @@ function RepeatCropPlan({ history, match }) {
         farmManagementPlansForCrop={farmManagementPlansForCropVariety}
         origStartDate={firstTaskDate}
         onGoBack={() => history.back()}
+        onCancel={onCancel}
         onContinue={onContinue}
         persistedFormData={persistedFormData}
       />

@@ -68,6 +68,7 @@ export function* postManagementPlanSaga({ payload: managementPlanData }) {
       payload: [result.data.management_plan],
     });
     yield call(getTasksSuccessSaga, { payload: result.data.tasks });
+
     const management_plan_id = result.data.management_plan.management_plan_id;
 
     // conditionally render pathname
@@ -87,6 +88,10 @@ export function* postManagementPlanSaga({ payload: managementPlanData }) {
       state: { fromCreation: true },
       message: i18n.t('message:MANAGEMENT_PLAN.SUCCESS.POST'),
     });
+
+    // Refresh store entitites
+    yield put(getManagementPlans());
+    yield put(getTasks());
   } catch (e) {
     console.log(e);
     yield put(enqueueErrorSnackbar(i18n.t('message:MANAGEMENT_PLAN.ERROR.POST')));

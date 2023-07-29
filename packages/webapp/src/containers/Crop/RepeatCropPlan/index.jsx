@@ -50,6 +50,11 @@ function RepeatCropPlan({ history, match }) {
     );
   };
 
+  const persistedPaths = [
+    `/crop/${plan.crop_variety_id}/management_plan/${management_plan_id}/repeat`,
+    `/crop/${plan.crop_variety_id}/management_plan/${management_plan_id}/repeat_confirmation`,
+  ];
+
   return (
     <HookFormPersistProvider>
       <PureRepeatCropPlan
@@ -59,6 +64,7 @@ function RepeatCropPlan({ history, match }) {
         onGoBack={() => history.back()}
         onContinue={onContinue}
         persistedFormData={persistedFormData}
+        persistedPaths={persistedPaths}
       />
     </HookFormPersistProvider>
   );

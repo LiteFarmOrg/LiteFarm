@@ -33,7 +33,6 @@ import i18n from '../../locales/i18n';
 import history from '../../history';
 import { enqueueErrorSnackbar, enqueueSuccessSnackbar } from '../Snackbar/snackbarSlice';
 import { getTasks, getTasksSuccessSaga } from '../Task/saga';
-import { setPersistedPaths } from './../hooks/useHookFormPersist/hookFormPersistSlice';
 import { CROP_PLAN_NAME } from '../../components/RepeatCropPlan/constants';
 
 const DEC = 10;
@@ -72,15 +71,6 @@ export function* postManagementPlanSaga({ payload: managementPlanData }) {
 
     // conditionally render pathname
     const path = repeat_crop_plan ? 'repeat' : 'tasks';
-
-    // set up repeat crop plan form state persistence
-    repeat_crop_plan &&
-      (yield put(
-        setPersistedPaths([
-          `/crop/${managementPlan.crop_variety_id}/management_plan/${management_plan_id}/repeat`,
-          `/crop/${managementPlan.crop_variety_id}/management_plan/${management_plan_id}/repeat_confirmation`,
-        ]),
-      ));
 
     yield call(onReqSuccessSaga, {
       pathname: `/crop/${managementPlan.crop_variety_id}/management_plan/${management_plan_id}/${path}`,

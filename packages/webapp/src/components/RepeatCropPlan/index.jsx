@@ -47,6 +47,7 @@ export default function PureRepeatCropPlan({
   onContinue = () => {},
   useHookFormPersist,
   persistedFormData,
+  persistedPaths,
 }) {
   const { t } = useTranslation(['translation', 'common']);
   const {
@@ -75,7 +76,7 @@ export default function PureRepeatCropPlan({
     },
   });
 
-  const { historyCancel } = useHookFormPersist(getValues);
+  const { historyCancel } = useHookFormPersist(getValues, persistedPaths);
 
   const intervalOptions = [
     { value: 'day', label: t('REPEAT_PLAN.INTERVAL.DAY') },

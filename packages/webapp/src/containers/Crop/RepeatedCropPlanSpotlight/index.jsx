@@ -18,11 +18,10 @@ export default function RepeatedCropPlanSpotlight({ repeatingPlanCreated, childr
         {
           title: t('MANAGEMENT_PLAN.REPEATED_MP_SPOTLIGHT.TITLE'),
           contents: [t('MANAGEMENT_PLAN.REPEATED_MP_SPOTLIGHT.BODY')],
-          selector: `#repeatPlan0`,
-          position: 'center',
+          selector: `#repeatingPlan`,
+          position: 'top',
           offset: '1px',
           buttonText: t('common:GOT_IT'),
-          popoverStyles: { marginTop: '80px' },
         },
       ]}
       onFinish={onFinish}

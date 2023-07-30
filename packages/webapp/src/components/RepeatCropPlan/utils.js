@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { RRule } from 'rrule';
+import { RRule, datetime } from 'rrule';
 import { getRruleLanguage } from '../../util/rruleTranslation';
 import { getLanguageFromLocalStorage } from '../../util/getLanguageFromLocalStorage';
 import { parseISOStringToLocalDate } from '../Form/Input/utils';
@@ -52,6 +52,12 @@ export const getDate = (planStartDate) => {
   return date.getDate();
 };
 
+export const getLocalizedDateString = (planStartDate) => {
+  const date = new Date(parseISOStringToLocalDate(planStartDate));
+
+  return new Intl.DateTimeFormat(getLanguageFromLocalStorage(), { dateStyle: 'long' }).format(date);
+};
+
 const calculateWeekdayOrdinal = (date) => {
   const dayOfMonth = date.getDate();
 
@@ -65,6 +71,39 @@ const calculateWeekdayOrdinal = (date) => {
   }
 
   return ordinal;
+};
+
+/**
+ * Convert date to UTC and return it in locale date format.
+ * datetime() helper from RRule creates dates in the correct format using a 1-based month.
+ * @param {string} date Date in UTC. ex. '2023-12-31'
+ * @returns {string} Converted date.
+ *   ex. 'Sat Dec 30 2023 16:00:00 GMT-0800 (Pacific Standard Time)'
+ *        which is equivalent to 'Sun, 31 Dec 2023 00:00:00 GMT'
+ */
+const getUTCInLocale = (date) => {
+  const [year, month, day] = date.split('-');
+  return new Date(datetime(year, month, day));
+};
+
+/**
+ * Change UTC to locale date.
+ * ex: 'Fri, 21 Jun 2024 00:00:00 GMT' -> 'Fri Jun 21 2024 00:00:00 GMT-0700 (Pacific Daylight Time)'
+ * @param {string} date
+ *    ex. 'Thu Jun 20 2024 17:00:00 GMT-0700 (Pacific Daylight Time)'
+ *         which is equivalent to 'Fri, 21 Jun 2024 00:00:00 GMT'
+ * @returns {string} locale date.
+ *    ex. 'Fri Jun 21 2024 00:00:00 GMT-0700 (Pacific Daylight Time)'
+ */
+const changeUTCToLocaleDate = (localeDate) => {
+  // convert locale date to UTC
+  const date = new Date(localeDate);
+  const year = date.getUTCFullYear();
+  const month = date.getUTCMonth();
+  const day = date.getUTCDate();
+
+  // change UTC to locale date
+  return new Date(year, month, day);
 };
 
 export const calculateMonthlyOptions = async (planStartDate, repeatFrequency) => {
@@ -89,7 +128,7 @@ export const calculateMonthlyOptions = async (planStartDate, repeatFrequency) =>
     translations.language,
   );
 
-  return [
+  const options = [
     {
       value: date,
       label: dateString,
@@ -99,6 +138,21 @@ export const calculateMonthlyOptions = async (planStartDate, repeatFrequency) =>
       label: dayWeekString,
     },
   ];
+
+  // add 4th week option if planStartDate is both the 4th week of the month and the last
+  if (ordinal === -1 && Math.ceil(date / 7) === 4) {
+    const fourthWeekOptions = getTextRuleOptions('month', planStartDate, repeatFrequency, null, {
+      weekday,
+      ordinal: 4,
+    });
+    const fourthWeekString = new RRule(fourthWeekOptions).toText(
+      translations.getText,
+      translations.language,
+    );
+    options.splice(1, 0, { value: { ordinal: 4, weekday }, label: fourthWeekString });
+  }
+
+  return options;
 };
 
 export const countOccurrences = ({
@@ -108,6 +162,7 @@ export const countOccurrences = ({
   daysOfWeek,
   monthRepeatOn,
   finishOnDate,
+  origStartDate,
 }) => {
   const textRuleOptions = getTextRuleOptions(
     repeatInterval.value,
@@ -119,6 +174,7 @@ export const countOccurrences = ({
   const occurencesRuleOptions = getOccurrencesRuleOptions(
     textRuleOptions,
     repeatInterval.value,
+    origStartDate,
     planStartDate,
     'on',
     null,
@@ -185,15 +241,33 @@ const getTextRuleOptions = (
 const getOccurrencesRuleOptions = (
   textRuleOptions,
   repeatInterval,
+  originalStartDate,
   startDate,
   finish,
   count,
   endDate,
 ) => {
-  let options = { ...textRuleOptions, dtstart: parseISOStringToLocalDate(startDate) };
+  let options = { ...textRuleOptions };
+
+  // if startDate is original date and weekday is unchanged,
+  // occurrences should not include startDate
+  const startDateIsOriginalDate = startDate === originalStartDate;
+  let weekdayUnchanged = true;
+  let adjustedStartDate = startDate;
+
+  if (repeatInterval === 'week') {
+    const originalWeekday = repeatInterval === 'week' ? getWeekday(originalStartDate) : '';
+    weekdayUnchanged =
+      RRule[RRULEDAYS[originalWeekday]].weekday === textRuleOptions.byweekday[0].weekday;
+  }
+  if (startDateIsOriginalDate && weekdayUnchanged) {
+    const [year, month, day] = startDate.split('-');
+    adjustedStartDate = new Date(year, month - 1, +day + 1).toISOString().split('T')[0];
+  }
+  options.dtstart = getUTCInLocale(adjustedStartDate);
 
   if (finish === 'on') {
-    options.until = parseISOStringToLocalDate(endDate);
+    options.until = getUTCInLocale(endDate);
   } else {
     options.count = count;
   }
@@ -221,6 +295,7 @@ const getOccurrencesRuleOptions = (
 
 export const getTextAndOccurrences = async (
   repeatInterval,
+  originalStartDate,
   startDate,
   repeatFrequency,
   finish,
@@ -240,6 +315,7 @@ export const getTextAndOccurrences = async (
   const occurrencesRuleOptions = getOccurrencesRuleOptions(
     textRuleOptions,
     repeatInterval,
+    originalStartDate,
     startDate,
     finish,
     count,
@@ -251,6 +327,6 @@ export const getTextAndOccurrences = async (
 
   return {
     text: new RRule(textRuleOptions).toText(getText, language),
-    occurrences: new RRule(occurrencesRuleOptions).all(),
+    occurrences: new RRule(occurrencesRuleOptions).all().map(changeUTCToLocaleDate),
   };
 };

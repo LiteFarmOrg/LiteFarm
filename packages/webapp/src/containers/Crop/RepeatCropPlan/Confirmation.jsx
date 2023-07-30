@@ -46,6 +46,7 @@ function RepeatCropPlanConfirmation({ history, match }) {
         onSubmit={onSubmit}
         persistedFormData={persistedFormData}
         tasks={tasks}
+        origStartDate={history.location.state.origStartDate}
       />
     </HookFormPersistProvider>
   );

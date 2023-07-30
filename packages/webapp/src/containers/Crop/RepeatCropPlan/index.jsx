@@ -47,6 +47,7 @@ function RepeatCropPlan({ history, match }) {
   const onContinue = () => {
     history.push(
       `/crop/${plan.crop_variety_id}/management_plan/${management_plan_id}/repeat_confirmation`,
+      { origStartDate: firstTaskDate },
     );
   };
 
@@ -61,6 +62,7 @@ function RepeatCropPlan({ history, match }) {
         cropPlan={plan}
         farmManagementPlansForCrop={farmManagementPlansForCropVariety}
         origStartDate={firstTaskDate}
+        origStartDateType={sortedTasks[0].complete_date ? 'completion' : 'due'}
         onGoBack={() => history.back()}
         onContinue={onContinue}
         persistedFormData={persistedFormData}

@@ -26,7 +26,13 @@ import RadioGroup from '../Form/RadioGroup';
 import ReactSelect from '../Form/ReactSelect';
 import DaysOfWeekSelect from '../Form/DaysOfWeekSelect';
 import { Label, Main, Error } from '../Typography';
-import { getWeekday, getDate, calculateMonthlyOptions, countOccurrences } from './utils';
+import {
+  getWeekday,
+  getDate,
+  getLocalizedDateString,
+  calculateMonthlyOptions,
+  countOccurrences,
+} from './utils';
 import {
   CROP_PLAN_NAME,
   PLAN_START_DATE,
@@ -43,6 +49,7 @@ export default function PureRepeatCropPlan({
   cropPlan,
   farmManagementPlansForCrop,
   origStartDate,
+  origStartDateType,
   onGoBack = () => {},
   onContinue = () => {},
   useHookFormPersist,
@@ -58,7 +65,7 @@ export default function PureRepeatCropPlan({
     setValue,
     watch,
     trigger,
-    formState: { errors, isValid, dirtyFields },
+    formState: { errors, isValid },
   } = useForm({
     mode: 'onChange',
     shouldUnregister: true,
@@ -120,15 +127,16 @@ export default function PureRepeatCropPlan({
     }
 
     const getAndSetMonthlyOptions = async () => {
-      // Store which pattern is currently selected
-      const currentSelection = monthlyOptions?.findIndex(
+      // Utility function uses rrule to generate natural language strings
+      const options = await calculateMonthlyOptions(planStartDate, repeatFrequency);
+
+      // If already on this screen, store which pattern is currently selected.
+      // When returning from next screen, store the selected option
+      const currentSelection = [monthlyOptions.length ? monthlyOptions : options]?.findIndex(
         (option) =>
           // e.g. {"value":8,"label":"every month on the 8th"}
           JSON.stringify(option) === JSON.stringify(monthRepeatOn),
       );
-
-      // Utility function uses rrule to generate natural language strings
-      const options = await calculateMonthlyOptions(planStartDate, repeatFrequency);
 
       setMonthlyOptions(options);
 
@@ -157,6 +165,7 @@ export default function PureRepeatCropPlan({
       monthRepeatOn: monthRepeatOn ?? { value: getDate(planStartDate) },
       finishOnDate,
       finish,
+      origStartDate,
     });
 
     totalCount.current = count;
@@ -205,6 +214,8 @@ export default function PureRepeatCropPlan({
     return true;
   };
 
+  const origStartDateTypes = { completion: t('REPEAT_PLAN.COMPLETION'), due: t('REPEAT_PLAN.DUE') };
+
   return (
     <Form
       buttonGroup={
@@ -233,12 +244,21 @@ export default function PureRepeatCropPlan({
           errors={getInputErrors(errors, CROP_PLAN_NAME)}
         />
 
-        <Input
-          type="date"
-          label={t('REPEAT_PLAN.START_DATE')}
-          hookFormRegister={register(PLAN_START_DATE, { required: true })}
-          errors={getInputErrors(errors, PLAN_START_DATE)}
-        />
+        <div>
+          <Input
+            type="date"
+            label={t('REPEAT_PLAN.START_DATE')}
+            hookFormRegister={register(PLAN_START_DATE, { required: true })}
+            errors={getInputErrors(errors, PLAN_START_DATE)}
+          />
+
+          <Main className={styles.taskSubtext}>
+            {t('REPEAT_PLAN.EARLIEST_TASK', {
+              date: getLocalizedDateString(origStartDate),
+              dateType: origStartDateTypes[origStartDateType],
+            })}
+          </Main>
+        </div>
 
         <div>
           <Label className={styles.label}>{t('REPEAT_PLAN.REPEAT_EVERY')}</Label>

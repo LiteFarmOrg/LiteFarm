@@ -56,7 +56,7 @@ const upsertManyTasks = (state, { payload: tasks }) => {
   state.loading = false;
   state.error = null;
   state.loaded = true;
-  taskAdapter.upsertMany(
+  taskAdapter.setAll(
     state,
     tasks.map((task) => getTask(task)),
   );
@@ -189,6 +189,9 @@ export const taskEntitiesSelector = createSelector(
       const management_plan_id =
         plantingManagementPlanEntities[planting_management_plan_id]?.management_plan_id;
       return produce(managementPlanEntities[management_plan_id], (managementPlan) => {
+        if (!managementPlan) {
+          return {};
+        }
         managementPlan.planting_management_plan =
           plantingManagementPlanEntities[planting_management_plan_id];
         prev_planting_management_plan &&

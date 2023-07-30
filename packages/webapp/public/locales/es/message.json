@@ -85,12 +85,14 @@
     "ERROR": {
       "ABANDON": "¡No se pudo abandonar el plan de cultivo!",
       "COMPLETE": "¡No se pudo completar el plan de cultivo!",
-      "POST": "No se pudo agregar plan de cultivo"
+      "POST": "No se pudo agregar plan de cultivo",
+      "DELETE": "MISSING"
     },
     "SUCCESS": {
       "ABANDON": "¡Plan de gestión abandonado con éxito!",
       "COMPLETE": "¡Plan de gestión completado con éxito!",
-      "POST": "Plan de cultivo agregado exitosamente"
+      "POST": "Plan de cultivo agregado exitosamente",
+      "DELETE": "MISSING"
     }
   },
   "REPEAT_PLAN": {

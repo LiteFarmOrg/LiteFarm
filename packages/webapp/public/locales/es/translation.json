@@ -997,10 +997,9 @@
     "SUBSURFACE": "Subsuperficie"
   },
   "MANAGEMENT_DETAIL": {
-    "ABANDON_PLAN": "Abandonar este plan de cultivo",
+    "ABANDON_PLAN": "Abandonar",
     "ADD_A_TASK": "Agregar una tarea",
     "DETAILS": "Detalles",
-    "FAILED_CROP": "¿Cultivo fallido?",
     "TASKS": "Tareas"
   },
   "MANAGEMENT_PLAN": {
@@ -1043,6 +1042,17 @@
     "DAYS_FROM_SEEDING": "Días desde la siembra hasta:",
     "DAYS_TO_HARVEST": "Días hasta la próxima cosecha:",
     "DAYS_TO_TERMINATION": "Días hasta la terminación:",
+    "DELETE": {
+      "DELETE_PLAN": "MISSING",
+      "DELETE_PLAN_QUESTION": "MISSING",
+      "DELETE_PLAN_MESSAGE": "MISSING",
+      "CONFIRM_DELETION": "MISSING",
+      "CANT_DELETE_MODIFIED_PLAN": "MISSING",
+      "CANT_DELETE_ABANDON_INSTEAD": "MISSING",
+      "CANT_DELETE_ABANDON": "MISSING",
+      "SUCCESS": "MISSING",
+      "FAILED": "MISSING"
+    },
     "DETAIL_SPOTLIGHT_CONTENTS": "Aquí puede editar los detalles de su cultivo.",
     "DETAIL_SPOTLIGHT_TITLE": "Detalles",
     "DO_YOU_WANT_TO_ABANDON_CONTENT": "¿Quieres abandonar este plan?",

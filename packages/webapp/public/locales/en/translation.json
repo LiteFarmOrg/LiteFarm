@@ -996,10 +996,9 @@
     "SUBSURFACE": "Subsurface"
   },
   "MANAGEMENT_DETAIL": {
-    "ABANDON_PLAN": "Abandon this crop plan",
+    "ABANDON_PLAN": "Abandon",
     "ADD_A_TASK": "Add a task",
     "DETAILS": "Details",
-    "FAILED_CROP": "Failed crop?",
     "TASKS": "Tasks"
   },
   "MANAGEMENT_PLAN": {
@@ -1042,6 +1041,17 @@
     "DAYS_FROM_SEEDING": "Days from seed to:",
     "DAYS_TO_HARVEST": "Days from transplant to next harvest:",
     "DAYS_TO_TERMINATION": "Days from transplant to termination:",
+    "DELETE": {
+      "DELETE_PLAN": "Delete crop plan",
+      "DELETE_PLAN_QUESTION": "Delete crop plan?",
+      "DELETE_PLAN_MESSAGE": "This crop plan and all its tasks will be removed from your farm. If you would like to keep a record of this crop plan, click \"Abandon\" instead.",
+      "CONFIRM_DELETION": "Confirm deletion",
+      "CANT_DELETE_MODIFIED_PLAN": "Can't delete crop plan",
+      "CANT_DELETE_ABANDON_INSTEAD": "Do you want to abandon this crop plan instead?",
+      "CANT_DELETE_ABANDON": "Abandon",
+      "SUCCESS": "Crop plan successfully deleted",
+      "FAILED": "Failed to delete crop plan"
+    },
     "DETAIL_SPOTLIGHT_CONTENTS": "Here you can edit your crop details.",
     "DETAIL_SPOTLIGHT_TITLE": "Details",
     "DO_YOU_WANT_TO_ABANDON_CONTENT": "Do you want to abandon this plan?",

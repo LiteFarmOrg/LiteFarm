@@ -17,6 +17,7 @@ import TaskModel from '../models/taskModel.js';
 
 import UserFarmModel from '../models/userFarmModel.js';
 import ManagementPlanModel from '../models/managementPlanModel.js';
+import PlantingManagementPlanModel from '../models/plantingManagementPlanModel.js';
 import ManagementTasksModel from '../models/managementTasksModel.js';
 import TransplantTaskModel from '../models/transplantTaskModel.js';
 import PlantTaskModel from '../models/plantTaskModel.js';
@@ -275,6 +276,44 @@ const taskController = {
         let data = req.body;
         const { user_id } = req.auth;
         data.owner_user_id = user_id;
+
+        // Filter out deleted management plans from task
+        if (data.managementPlans && data.managementPlans.length > 0) {
+          const plantingManagementPlanIds = data.managementPlans.map(
+            ({ planting_management_plan_id }) => planting_management_plan_id,
+          );
+
+          const plantingManagementPlans = await PlantingManagementPlanModel.query()
+            .context(req.auth)
+            .whereIn('planting_management_plan_id', plantingManagementPlanIds);
+
+          const managementPlanIds = plantingManagementPlans.map(
+            ({ management_plan_id }) => management_plan_id,
+          );
+
+          const validManagementPlans = await ManagementPlanModel.query()
+            .context(req.auth)
+            .whereIn('management_plan_id', managementPlanIds)
+            .where('deleted', false);
+
+          const validManagementPlanIds = validManagementPlans.map(
+            ({ management_plan_id }) => management_plan_id,
+          );
+
+          // Return error if task is associated with only a deleted plan
+          if (validManagementPlanIds.length === 0) {
+            return res.status(404).send('Management plan not found');
+          }
+
+          const validPlantingMangementPlans = plantingManagementPlans
+            .filter(({ management_plan_id }) => validManagementPlanIds.includes(management_plan_id))
+            .map(({ planting_management_plan_id }) => planting_management_plan_id);
+
+          data.managementPlans = data.managementPlans.filter(({ planting_management_plan_id }) =>
+            validPlantingMangementPlans.includes(planting_management_plan_id),
+          );
+        }
+
         data = await this.checkCustomDependencies(typeOfTask, data, req.headers.farm_id);
         const result = await TaskModel.transaction(async (trx) => {
           const { task_id } = await TaskModel.query(trx)

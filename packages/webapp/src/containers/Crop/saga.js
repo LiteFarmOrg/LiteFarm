@@ -13,13 +13,14 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { call, put, select, takeLatest, takeLeading } from 'redux-saga/effects';
+import { call, put, select, takeLatest, takeLeading, all } from 'redux-saga/effects';
 import apiConfig from '../../apiConfig';
 import { loginSelector, patchFarmSuccess } from '../userFarmSlice';
 import {
   axios,
   getHeader,
   getManagementPlanAndPlantingMethodSuccessSaga,
+  getManagementPlans,
   onReqSuccessSaga,
 } from '../saga';
 import { createAction } from '@reduxjs/toolkit';
@@ -31,7 +32,7 @@ import {
 import i18n from '../../locales/i18n';
 import history from '../../history';
 import { enqueueErrorSnackbar, enqueueSuccessSnackbar } from '../Snackbar/snackbarSlice';
-import { getTasksSuccessSaga } from '../Task/saga';
+import { getTasks, getTasksSuccessSaga } from '../Task/saga';
 import { CROP_PLAN_NAME } from '../../components/RepeatCropPlan/constants';
 
 const DEC = 10;
@@ -76,6 +77,10 @@ export function* postManagementPlanSaga({ payload: managementPlanData }) {
       state: { fromCreation: true },
       message: i18n.t('message:MANAGEMENT_PLAN.SUCCESS.POST'),
     });
+
+    // Refresh Redux store
+    yield put(getManagementPlans());
+    yield put(getTasks());
   } catch (e) {
     console.log(e);
     yield put(enqueueErrorSnackbar(i18n.t('message:MANAGEMENT_PLAN.ERROR.POST')));
@@ -100,16 +105,9 @@ export function* postRepeatCropPlanSaga({
       header,
     );
 
-    const managementPlans = [];
-    let managementTasks = [];
+    yield put(getManagementPlans());
+    yield put(getTasks());
 
-    result.data.forEach(({ management_plan, tasks }) => {
-      managementPlans.push(management_plan);
-      managementTasks = managementTasks.concat(tasks);
-    });
-
-    yield call(getManagementPlanAndPlantingMethodSuccessSaga, { payload: managementPlans });
-    yield call(getTasksSuccessSaga, { payload: managementTasks });
     yield call(onReqSuccessSaga, {
       pathname: `/crop/${crop_variety_id}/management`,
       message: i18n.t('message:REPEAT_PLAN.SUCCESS.POST', { planName }),
@@ -165,19 +163,24 @@ export function* patchManagementPlanSaga({ payload: managementPlan }) {
 
 export const deleteManagementPlan = createAction(`deleteManagementPlanSaga`);
 
-export function* deleteManagementPlanSaga({ payload: management_plan_id }) {
-  const currentDate = formatDate(new Date());
+export function* deleteManagementPlanSaga({ payload }) {
+  const { management_plan_id, variety_id } = payload;
+
   const { managementPlanURL } = apiConfig;
   let { user_id, farm_id } = yield select(loginSelector);
   const header = getHeader(user_id, farm_id);
 
   try {
     const result = yield call(axios.delete, managementPlanURL + `/${management_plan_id}`, header);
+
     yield put(deleteManagementPlanSuccess(management_plan_id));
-    yield put(enqueueSuccessSnackbar(i18n.t('message:CROP.SUCCESS.DELETE')));
+
+    history.push(`/crop/${variety_id}/management`);
+
+    yield put(enqueueSuccessSnackbar(i18n.t('message:MANAGEMENT_PLAN.SUCCESS.DELETE')));
   } catch (e) {
-    console.log('Failed To Delete Field Crop Error: ', e);
-    yield put(enqueueErrorSnackbar(i18n.t('message:CROP.ERROR.DELETE')));
+    console.log('Failed To Delete Management Plan Error: ', e);
+    yield put(enqueueErrorSnackbar(i18n.t('message:MANAGEMENT_PLAN.ERROR.DELETE')));
   }
 }
 

@@ -85,12 +85,14 @@
     "ERROR": {
       "ABANDON": "Le plan de culture n'est pas abandonné !",
       "COMPLETE": "Impossible de terminer le plan de culture !",
-      "POST": "Le plan de culture n'est pas ajouté !"
+      "POST": "Le plan de culture n'est pas ajouté !",
+      "DELETE": "MISSING"
     },
     "SUCCESS": {
       "ABANDON": "Plan de culture abandonné avec succès !",
       "COMPLETE": "Plan de culture terminé avec succès !",
-      "POST": "Plan de culture ajouté avec succès !"
+      "POST": "Plan de culture ajouté avec succès !",
+      "DELETE": "MISSING"
     }
   },
   "REPEAT_PLAN": {

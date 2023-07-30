@@ -85,12 +85,14 @@
     "ERROR": {
       "ABANDON": "Failed to abandon crop plan!",
       "COMPLETE": "Failed to complete crop plan!",
-      "POST": "Failed to add crop plan!"
+      "POST": "Failed to add crop plan!",
+      "DELETE": "Failed to delete crop plan!"
     },
     "SUCCESS": {
       "ABANDON": "Successfully abandoned crop plan!",
       "COMPLETE": "Successfully completed crop plan!",
-      "POST": "Successfully added crop plan!"
+      "POST": "Successfully added crop plan!",
+      "DELETE": "Successfully deleted crop plan!"
     }
   },
   "REPEAT_PLAN": {

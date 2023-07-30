@@ -321,11 +321,97 @@ const managementPlanController = {
   delManagementPlan() {
     return async (req, res) => {
       try {
-        const isDeleted = await ManagementPlanModel.query()
+        const { management_plan_id } = req.params;
+
+        const managementPlan = await ManagementPlanModel.query()
           .context(req.auth)
-          .where({ management_plan_id: req.params.management_plan_id })
-          .delete();
-        if (isDeleted) {
+          .where({ management_plan_id })
+          .where('deleted', false)
+          .first();
+
+        if (!managementPlan) {
+          return res.status(404).send('Management plan not found');
+        }
+
+        const result = await ManagementPlanModel.transaction(async (trx) => {
+          const tasksWithManagementPlanCount = await ManagementTasksModel.query(trx)
+            .select('*')
+            .join(
+              'planting_management_plan',
+              'planting_management_plan.planting_management_plan_id',
+              'management_tasks.planting_management_plan_id',
+            )
+            .where('planting_management_plan.management_plan_id', management_plan_id)
+            .distinct('task_id')
+            .then((tasks) =>
+              ManagementTasksModel.query(trx)
+                .join(
+                  'planting_management_plan',
+                  'planting_management_plan.planting_management_plan_id',
+                  'management_tasks.planting_management_plan_id',
+                )
+                .join('task', 'task.task_id', 'management_tasks.task_id')
+                .whereNull('task.complete_date')
+                .whereIn(
+                  'management_tasks.task_id',
+                  tasks.map(({ task_id }) => task_id),
+                )
+                .groupBy('management_tasks.task_id')
+                .count('planting_management_plan.management_plan_id')
+                .select('management_tasks.task_id'),
+            );
+
+          const transplantTasks = await TransplantTaskModel.query(trx)
+            .select('*')
+            .join(
+              'planting_management_plan',
+              'planting_management_plan.planting_management_plan_id',
+              'transplant_task.planting_management_plan_id',
+            )
+            .join('task', 'task.task_id', 'transplant_task.task_id')
+            .whereNull('task.complete_date')
+            .where('planting_management_plan.management_plan_id', management_plan_id);
+
+          const plantTasks = await PlantTaskModel.query(trx)
+            .select('*')
+            .join(
+              'planting_management_plan',
+              'planting_management_plan.planting_management_plan_id',
+              'plant_task.planting_management_plan_id',
+            )
+            .join('task', 'task.task_id', 'plant_task.task_id')
+            .whereNull('task.complete_date')
+            .where('planting_management_plan.management_plan_id', management_plan_id);
+
+          const taskIdsRelatedToOneManagementPlan = [
+            ...tasksWithManagementPlanCount.filter(({ count }) => count === '1'),
+            ...transplantTasks,
+            ...plantTasks,
+          ].map(({ task_id }) => task_id);
+
+          await TaskModel.query(trx)
+            .context(req.auth)
+            .whereIn('task_id', taskIdsRelatedToOneManagementPlan)
+            .delete();
+          const taskIdsRelatedToManyManagementPlans = tasksWithManagementPlanCount
+            .filter(({ count }) => Number(count) > 1)
+            .map(({ task_id }) => task_id);
+
+          // If a task is associated with more than one management plan, the record is deleted from management_tasks but the task is not deleted
+          // Raw because knex does not allow delete join, see: https://github.com/knex/knex/issues/873
+          taskIdsRelatedToManyManagementPlans.length &&
+            (await trx.raw(
+              'delete from "management_tasks" using "planting_management_plan" where "planting_management_plan"."planting_management_plan_id" = "management_tasks"."planting_management_plan_id" and "planting_management_plan"."management_plan_id" = ? and "management_tasks"."task_id" = ANY(?)',
+              [management_plan_id, taskIdsRelatedToManyManagementPlans],
+            ));
+
+          return await ManagementPlanModel.query(trx)
+            .context(req.auth)
+            .where({ management_plan_id })
+            .delete();
+        });
+
+        if (result) {
           return res.sendStatus(200);
         } else {
           return res.sendStatus(404);
@@ -364,6 +450,17 @@ const managementPlanController = {
     return async (req, res) => {
       try {
         const { management_plan_id } = req.params;
+
+        const managementPlan = await ManagementPlanModel.query()
+          .context(req.auth)
+          .where({ management_plan_id })
+          .where('deleted', false)
+          .first();
+
+        if (!managementPlan) {
+          return res.status(404).send('Management plan not found');
+        }
+
         const result = await ManagementPlanModel.transaction(async (trx) => {
           /**
            * Get all related task_ids and number of related management plans of each task_id
@@ -464,6 +561,17 @@ const managementPlanController = {
     return async (req, res) => {
       try {
         const management_plan_id = req.params.management_plan_id;
+
+        const managementPlan = await ManagementPlanModel.query()
+          .context(req.auth)
+          .where({ management_plan_id })
+          .where('deleted', false)
+          .first();
+
+        if (!managementPlan) {
+          return res.status(404).send('Management plan not found');
+        }
+
         const { name, notes } = req.body;
         const {
           estimated_yield,

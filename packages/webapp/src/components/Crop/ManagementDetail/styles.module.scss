@@ -62,6 +62,19 @@
   display: table-row;
 }
 
+.deleteText {
+  padding-bottom: 16px;
+
+  span {
+    text-decoration: none;
+  }
+}
+
+.deleteSection {
+  margin-top: auto;
+  padding-top: 24px;
+}
+
 .menuIcon {
   width: 48px;
   font-size: 20px;

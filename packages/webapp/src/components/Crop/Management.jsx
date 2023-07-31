@@ -109,11 +109,6 @@ export default function PureCropManagement({
       {managementPlanCardContents && (
         <CardWithStatusContainer style={{ paddingTop: '16px' }}>
           {filteredManagementPlanCardContents.map((managementPlan, index) => {
-            if (index > 1 && index < 5) {
-              managementPlan.repetition_count = 3;
-              managementPlan.repetition_number = 3;
-            }
-
             // Handle repeat plan info click event
             const repeatPlanInfoOnClick =
               managementPlan.repetition_count && managementPlan.repetition_number

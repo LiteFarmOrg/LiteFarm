@@ -22,6 +22,7 @@ export default function RepeatedCropPlanSpotlight({ repeatingPlanCreated, childr
           position: 'top',
           offset: '1px',
           buttonText: t('common:GOT_IT'),
+          popoverStyles: { noArrow: true },
         },
       ]}
       onFinish={onFinish}

@@ -43,6 +43,9 @@ const managementPlanController = {
         if (!start_dates?.length > 0 || !management_plan_id || !repeat_details?.crop_plan_name) {
           throw 'Insufficient details to copy crop plan';
         }
+        if (start_dates?.length > 20) {
+          throw 'Cannot create more than 20 repetitions at a time';
+        }
         const createdByUser = req.auth.user_id;
 
         // Get source management plan entire graph acting as a template

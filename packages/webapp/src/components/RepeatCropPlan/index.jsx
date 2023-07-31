@@ -266,6 +266,7 @@ export default function PureRepeatCropPlan({
               })}
               type="number"
               stepper
+              onBlur={(e) => (e.target.value = Math.floor(e.target.value))}
               onKeyDown={integerOnKeyDown}
               min={1}
               max={50}
@@ -363,6 +364,7 @@ export default function PureRepeatCropPlan({
                         setValue(FINISH, 'after');
                         trigger(FINISH_ON_DATE);
                       }}
+                      onBlur={(e) => (e.target.value = Math.floor(e.target.value))}
                     />
                     <p>{t('REPEAT_PLAN.REPETITIONS')}</p>
                   </div>

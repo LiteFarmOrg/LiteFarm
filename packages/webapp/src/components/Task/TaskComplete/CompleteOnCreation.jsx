@@ -19,13 +19,10 @@ import { Main } from '../../Typography';
 import React from 'react';
 import Form from '../../Form';
 import { useTranslation } from 'react-i18next';
-import { useForm } from 'react-hook-form';
-import RadioGroup from '../../Form/RadioGroup';
 import PureCleaningTask from '../CleaningTask';
 import PureSoilAmendmentTask from '../SoilAmendmentTask';
 import PureFieldWorkTask from '../FieldWorkTask';
 import PurePestControlTask from '../PestControlTask';
-import { cloneObject } from '../../../util';
 import { PurePlantingTask } from '../PlantingTask';
 import PureIrrigationTask from '../PureIrrigationTask';
 

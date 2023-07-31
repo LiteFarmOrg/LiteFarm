@@ -270,7 +270,6 @@ const taskController = {
     const nonModifiable = getNonModifiable(typeOfTask);
     return async (req, res, next) => {
       try {
-        console.log(req.body);
         // OC: the "noInsert" rule will not fail if a relationship is present in the graph.
         // it will just ignore the insert on it. This is just a 2nd layer of protection
         // after the validation middleware.

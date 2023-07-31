@@ -8,7 +8,7 @@ import { Title } from '../../Typography';
 import ReactSelect from '../../Form/ReactSelect';
 import Rating from '../../Rating';
 import InputAutoSize from '../../Form/InputAutoSize';
-import Input from '../../Form/Input';
+import Input, { getInputErrors } from '../../Form/Input';
 import { getDateInputFormat } from '../../../util/moment';
 import AbandonManagementPlanModal from '../../Modals/AbandonManagementPlanModal';
 import i18n from '../../../locales/i18n';
@@ -91,7 +91,7 @@ export function PureCompleteManagementPlan({
           required: true,
           validate: isNotInFuture,
         })}
-        errors={errors[DATE] ? isNotInFuture() : null}
+        errors={getInputErrors(errors, DATE)}
         type={'date'}
         max={getDateInputFormat()}
         min={start_date}

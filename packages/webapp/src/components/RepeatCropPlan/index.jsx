@@ -126,29 +126,26 @@ export default function PureRepeatCropPlan({
       return;
     }
 
-    const getAndSetMonthlyOptions = async () => {
-      // Utility function uses rrule to generate natural language strings
-      const options = await calculateMonthlyOptions(planStartDate, repeatFrequency);
+    // Utility function uses rrule to generate natural language strings
+    const options = calculateMonthlyOptions(planStartDate, repeatFrequency);
 
-      // If already on this screen, store which pattern is currently selected.
-      // When returning from next screen, store the selected option
-      const currentSelection = (monthlyOptions.length ? monthlyOptions : options)?.findIndex(
-        (option) =>
-          // e.g. {"value":8,"label":"every month on the 8th"}
-          JSON.stringify(option) === JSON.stringify(monthRepeatOn),
-      );
+    // If already on this screen, store which pattern is currently selected.
+    // When returning from next screen, store the selected option
+    const currentSelection = (monthlyOptions.length ? monthlyOptions : options)?.findIndex(
+      (option) =>
+        // e.g. {"value":8,"label":"every month on the 8th"}
+        JSON.stringify(option) === JSON.stringify(monthRepeatOn),
+    );
 
-      setMonthlyOptions(options);
+    setMonthlyOptions(options);
 
-      // Persist original selection if there is one
-      if (options[currentSelection]) {
-        setValue(MONTH_REPEAT_ON, options[currentSelection]);
-      } else {
-        // or select first option by default
-        setValue(MONTH_REPEAT_ON, options[0]);
-      }
-    };
-    getAndSetMonthlyOptions();
+    // Persist original selection if there is one
+    if (options[currentSelection]) {
+      setValue(MONTH_REPEAT_ON, options[currentSelection]);
+    } else {
+      // or select first option by default
+      setValue(MONTH_REPEAT_ON, options[0]);
+    }
   }, [planStartDate, repeatFrequency, repeatInterval]);
 
   // Count occurences to given "finish on" date

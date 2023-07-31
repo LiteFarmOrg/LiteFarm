@@ -14,7 +14,7 @@
  */
 
 import { RRule, datetime } from 'rrule';
-import { getRruleLanguage } from '../../util/rruleTranslation';
+import { getRruleLanguage as getTranslations } from '../../util/rruleTranslation';
 import { getLanguageFromLocalStorage } from '../../util/getLanguageFromLocalStorage';
 import { parseISOStringToLocalDate } from '../Form/Input/utils';
 
@@ -26,18 +26,6 @@ export const RRULEDAYS = {
   Thursday: 'TH',
   Friday: 'FR',
   Saturday: 'SA',
-};
-
-const translationCache = {};
-
-// Returns rrule language definition if already imported, otherwise loads and saves it to memory
-const getTranslations = async (lang) => {
-  if (translationCache[lang]) {
-    return translationCache[lang];
-  }
-  const translation = await getRruleLanguage(lang);
-  translationCache[lang] = translation;
-  return translation;
 };
 
 export const getWeekday = (planStartDate) => {
@@ -106,10 +94,10 @@ const changeUTCToLocaleDate = (localeDate) => {
   return new Date(year, month, day);
 };
 
-export const calculateMonthlyOptions = async (planStartDate, repeatFrequency) => {
+export const calculateMonthlyOptions = (planStartDate, repeatFrequency) => {
   const currentLang = getLanguageFromLocalStorage();
 
-  const translations = await getTranslations(currentLang);
+  const translations = getTranslations(currentLang);
 
   const dt = parseISOStringToLocalDate(planStartDate);
   const weekday = RRULEDAYS[dt.toLocaleString('en', { weekday: 'long' })];
@@ -293,7 +281,7 @@ const getOccurrencesRuleOptions = (
   return options;
 };
 
-export const getTextAndOccurrences = async (
+export const getTextAndOccurrences = (
   repeatInterval,
   originalStartDate,
   startDate,
@@ -323,7 +311,7 @@ export const getTextAndOccurrences = async (
   );
 
   const currentLang = getLanguageFromLocalStorage();
-  const { getText, language } = await getTranslations(currentLang);
+  const { getText, language } = getTranslations(currentLang);
 
   return {
     text: new RRule(textRuleOptions).toText(getText, language),

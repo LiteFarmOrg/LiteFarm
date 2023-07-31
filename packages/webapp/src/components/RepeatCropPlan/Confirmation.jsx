@@ -12,7 +12,7 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
-import React, { useEffect, useState } from 'react';
+import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation, Trans } from 'react-i18next';
 import { Info, Main } from '../Typography';
@@ -45,20 +45,15 @@ function PureRepeatCropPlanConfirmation({
   const { t } = useTranslation();
   const { historyCancel } = useHookFormPersist();
 
-  const [
-    {
-      planName,
-      beginning,
-      finishingText,
-      numberOfPlans,
-      numberOfTasks,
-      willRepeatText,
-      occurrences,
-    },
-    setData,
-  ] = useState({});
-
-  const formatAndSetData = async () => {
+  const {
+    planName,
+    beginning,
+    finishingText,
+    numberOfPlans,
+    numberOfTasks,
+    willRepeatText,
+    occurrences,
+  } = useMemo(() => {
     const planName = persistedFormData[CROP_PLAN_NAME];
     const planStartDate = persistedFormData[PLAN_START_DATE];
     const repeatFrequencyNumber = persistedFormData[REPEAT_FREQUENCY];
@@ -83,7 +78,7 @@ function PureRepeatCropPlanConfirmation({
       );
     }
 
-    const { text: willRepeatText, occurrences } = await getTextAndOccurrences(
+    const { text: willRepeatText, occurrences } = getTextAndOccurrences(
       repeatInterval.value,
       origStartDate,
       planStartDate,
@@ -98,7 +93,7 @@ function PureRepeatCropPlanConfirmation({
     const numberOfPlans = occurrences.length;
     const numberOfTasks = tasks.length * numberOfPlans;
 
-    setData({
+    return {
       planName,
       beginning: getDateWithDayOfWeek(planStartDate),
       finishingText,
@@ -106,11 +101,7 @@ function PureRepeatCropPlanConfirmation({
       numberOfTasks,
       willRepeatText,
       occurrences,
-    });
-  };
-
-  useEffect(() => {
-    formatAndSetData();
+    };
   }, [persistedFormData]);
 
   const handleSubmit = (e) => {

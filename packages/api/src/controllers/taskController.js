@@ -270,6 +270,7 @@ const taskController = {
     const nonModifiable = getNonModifiable(typeOfTask);
     return async (req, res, next) => {
       try {
+        console.log(req.body);
         // OC: the "noInsert" rule will not fail if a relationship is present in the graph.
         // it will just ignore the insert on it. This is just a 2nd layer of protection
         // after the validation middleware.
@@ -404,7 +405,10 @@ const taskController = {
         row = {
           farm_id,
           field_work_name: field_work_task_type,
-          field_work_type_translation_key: field_work_task_type.toUpperCase().trim(),
+          field_work_type_translation_key: field_work_task_type
+            .toUpperCase()
+            .trim()
+            .replaceAll(' ', '_'),
           created_by_user_id: data.owner_user_id,
           updated_by_user_id: data.owner_user_id,
         };
@@ -414,7 +418,8 @@ const taskController = {
           field_work_name: field_work_task_type.field_work_name,
           field_work_type_translation_key: field_work_task_type.field_work_name
             .toUpperCase()
-            .trim(),
+            .trim()
+            .replaceAll(' ', '_'),
           created_by_user_id: data.owner_user_id,
           updated_by_user_id: data.owner_user_id,
         };

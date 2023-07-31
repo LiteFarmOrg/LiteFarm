@@ -83,6 +83,7 @@ async function tableCleanup(knex) {
     DELETE FROM "planting_management_plan";
     DELETE FROM "crop_management_plan";
     DELETE FROM "management_plan";
+    DELETE FROM "management_plan_group";
     DELETE FROM "crop_variety";
     DELETE FROM "crop";
     DELETE FROM "field";

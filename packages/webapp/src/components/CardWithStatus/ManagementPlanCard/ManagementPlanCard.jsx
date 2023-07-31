@@ -51,7 +51,7 @@ export function ManagementPlanCard({
       score={score}
     >
       <div className={styles.info}>
-        <div className={styles.mainTypographySansColor}>
+        <div className={clsx(styles.mainTypographySansColor, styles.planName)}>
           {managementPlanName}
 
           {repetition_count && repetition_number && (

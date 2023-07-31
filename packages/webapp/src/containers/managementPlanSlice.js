@@ -44,7 +44,7 @@ const addManyManagementPlan = (state, { payload: managementPlans }) => {
   state.loading = false;
   state.error = null;
   state.loaded = true;
-  managementPlanAdapter.upsertMany(
+  managementPlanAdapter.setAll(
     state,
     managementPlans.map((managementPlan) => getManagementPlan(managementPlan)),
   );

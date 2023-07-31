@@ -34,11 +34,11 @@ class CleaningTaskModel extends Model {
 
       properties: {
         task_id: { type: 'integer' },
-        product_id: { type: 'integer' },
+        product_id: { type: ['integer', 'null'] },
         other_purpose: { type: 'string' },
         cleaning_target: { type: ['string', 'null'] },
         agent_used: { type: ['boolean'] },
-        water_usage: { type: 'number' },
+        water_usage: { type: ['number', 'null'] },
         water_usage_unit: { type: 'string', enum: ['ml', 'l', 'gal', 'fl-oz'] },
         product_quantity: { type: ['number', 'null'] },
         product_quantity_unit: { type: 'string', enum: ['ml', 'l', 'gal', 'fl-oz'] },
@@ -61,6 +61,25 @@ class CleaningTaskModel extends Model {
           to: 'task.task_id',
         },
       },
+    };
+  }
+
+  // Custom function used in copy crop plan
+  // Should contain all jsonSchema() and relationMappings() keys
+  static get templateMappingSchema() {
+    return {
+      // jsonSchema()
+      task_id: 'omit',
+      product_id: 'keep',
+      other_purpose: 'keep',
+      cleaning_target: 'keep',
+      agent_used: 'keep',
+      water_usage: 'keep',
+      water_usage_unit: 'keep',
+      product_quantity: 'keep',
+      product_quantity_unit: 'keep',
+      // relationMappings
+      task: 'omit',
     };
   }
 }

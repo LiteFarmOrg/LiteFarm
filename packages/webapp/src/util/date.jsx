@@ -12,12 +12,16 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
-.infoText {
-  margin-top: -12px;
-  margin-bottom: 24px;
-  line-height: 20px;
-}
-.content {
-  overflow-y: auto;
-}
 
+/**
+ * Function that formats date to include day of week.
+ * @param {string} date Date to format. ex. '2023-12-31'
+ * @param {string} language User's preferred language. ex. 'en', 'es', 'fr', 'pt'
+ * @returns {string} Formatted date. ex. 'Sunday, December 31, 2023'
+ */
+export const getDateWithDayOfWeek = (date, language = 'en') => {
+  const [year, month, day] = date.split('-');
+  return new Intl.DateTimeFormat(language, { dateStyle: 'full' }).format(
+    new Date(year, month - 1, day),
+  );
+};

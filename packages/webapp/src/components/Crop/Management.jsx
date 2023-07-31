@@ -11,6 +11,7 @@ import Input from '../Form/Input';
 import { useSelector } from 'react-redux';
 import { cropLocationsSelector } from '../../containers/locationSlice';
 import LocationCreationModal from '../LocationCreationModal';
+import CropPlansModal from '../Modals/CropModals/CropPlansModal';
 
 export default function PureCropManagement({
   history,
@@ -24,6 +25,7 @@ export default function PureCropManagement({
 }) {
   const { t } = useTranslation();
   const [searchString, setSearchString] = useState('');
+  const [plansForModal, setPlansForModal] = useState([]);
   const searchStringOnChange = (e) => setSearchString(e.target.value);
   const filteredManagementPlanCardContents = useMemo(() => {
     return searchString
@@ -48,6 +50,17 @@ export default function PureCropManagement({
     } else {
       setCreateCropLocation(true);
     }
+  };
+
+  const setPlansInGroup = (groupId) => {
+    const plans = managementPlanCardContents.filter(({ management_plan_group_id }) => {
+      return management_plan_group_id === groupId;
+    });
+    setPlansForModal(plans);
+  };
+
+  const dismissCropPlansModal = () => {
+    setPlansForModal([]);
   };
 
   return (
@@ -105,8 +118,8 @@ export default function PureCropManagement({
             const repeatPlanInfoOnClick =
               managementPlan.repetition_count && managementPlan.repetition_number
                 ? (e) => {
-                    // TODO: Open model once LF-3370 is complete
                     e.stopPropagation(); // to stop click propagating to parent
+                    setPlansInGroup(managementPlan.management_plan_group_id);
                   }
                 : undefined;
 
@@ -126,6 +139,14 @@ export default function PureCropManagement({
             );
           })}
         </CardWithStatusContainer>
+      )}
+      {!!plansForModal.length && (
+        <CropPlansModal
+          history={history}
+          variety={variety}
+          managementPlanCardContents={plansForModal}
+          dismissModal={dismissCropPlansModal}
+        />
       )}
     </Layout>
   );

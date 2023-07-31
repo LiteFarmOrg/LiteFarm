@@ -62,7 +62,6 @@ export default function CropPlansModal({
           {managementPlanCardContents.map((managementPlan, index) => {
             return (
               <ManagementPlanCard
-                // TODO: Adjust once LF-3370 is complete
                 key={index}
                 {...managementPlan}
                 onClick={() =>

@@ -42,6 +42,29 @@ class BedMethodModel extends Model {
   static get relationMappings() {
     return {};
   }
+
+  // Custom function used in copy crop plan
+  // Should contain all jsonSchema() and relationMappings() keys
+  static get templateMappingSchema() {
+    return {
+      // jsonSchema()
+      planting_management_plan_id: 'edit',
+      number_of_beds: 'keep',
+      number_of_rows_in_bed: 'keep',
+      plant_spacing: 'keep',
+      plant_spacing_unit: 'keep',
+      bed_length: 'keep',
+      bed_length_unit: 'keep',
+      planting_depth: 'keep',
+      planting_depth_unit: 'keep',
+      bed_width: 'keep',
+      bed_width_unit: 'keep',
+      bed_spacing: 'keep',
+      bed_spacing_unit: 'keep',
+      specify_beds: 'keep',
+      // relationMappings
+    };
+  }
 }
 
 export default BedMethodModel;

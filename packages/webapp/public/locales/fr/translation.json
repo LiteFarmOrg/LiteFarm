@@ -998,10 +998,9 @@
     "SUBSURFACE": "Sous-surface"
   },
   "MANAGEMENT_DETAIL": {
-    "ABANDON_PLAN": "Abandonner ce plan de gestion",
+    "ABANDON_PLAN": "Abandonner",
     "ADD_A_TASK": "Ajouter une tâche",
     "DETAILS": "Détails",
-    "FAILED_CROP": "Echec de la culture\u00a0?",
     "TASKS": "Tâches"
   },
   "MANAGEMENT_PLAN": {
@@ -1044,6 +1043,17 @@
     "DAYS_FROM_SEEDING": "Jours entre la semance et\u00a0:",
     "DAYS_TO_HARVEST": "Jours entre le repiquage et la prochaine récolte\u00a0:",
     "DAYS_TO_TERMINATION": "Jours entre la greffe et la résiliation\u00a0:",
+    "DELETE": {
+      "DELETE_PLAN": "MISSING",
+      "DELETE_PLAN_QUESTION": "MISSING",
+      "DELETE_PLAN_MESSAGE": "MISSING",
+      "CONFIRM_DELETION": "MISSING",
+      "CANT_DELETE_MODIFIED_PLAN": "MISSING",
+      "CANT_DELETE_ABANDON_INSTEAD": "MISSING",
+      "CANT_DELETE_ABANDON": "MISSING",
+      "SUCCESS": "MISSING",
+      "FAILED": "MISSING"
+    },
     "DETAIL_SPOTLIGHT_CONTENTS": "Ici, vous pouvez modifier les détails de votre culture.",
     "DETAIL_SPOTLIGHT_TITLE": "Détails",
     "DO_YOU_WANT_TO_ABANDON_CONTENT": "Voulez-vous abandonner ce plan\u00a0?",
@@ -1360,6 +1370,7 @@
     "CLEAR_ALL": "Supprimer tout"
   },
   "REPEAT_PLAN": {
+    "MENU": "MISSING",
     "TITLE": "MISSING",
     "REPEAT_PLAN_FLOW": "MISSING",
     "SUBTITLE": "MISSING",
@@ -1367,6 +1378,9 @@
     "PLAN_NAME": "MISSING",
     "DUPLICATE_NAME": "MISSING",
     "START_DATE": "MISSING",
+    "EARLIEST_TASK": "MISSING",
+    "COMPLETION": "MISSING",
+    "DUE": "MISSING",
     "REPEAT_EVERY": "MISSING",
     "REPEAT_ON": "MISSING",
     "FINISH": "MISSING",
@@ -1380,7 +1394,18 @@
       "YEAR": "MISSING"
     },
     "REPEAT_LIMIT_ERROR": "MISSING",
-    "LATER_DATE_ERROR": "MISSING"
+    "LATER_DATE_ERROR": "MISSING",
+    "CONFIRMATION": {
+      "HEADER": "MISSING",
+      "CROP_NAME": "MISSING",
+      "BEGINNING": "MISSING",
+      "FINISHING": "MISSING",
+      "WILL_REPEAT": "MISSING",
+      "WILL_CREATE": "MISSING",
+      "ON_DATE": "MISSING",
+      "WILL_CREATE_BODY": "MISSING",
+      "AFTER_REPETITIONS": "MISSING"
+    }
   },
   "REQUEST_CONFIRMATION_MODAL": {
     "BUTTON": "J'ai compris",

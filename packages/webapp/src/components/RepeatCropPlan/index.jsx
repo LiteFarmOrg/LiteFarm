@@ -132,7 +132,7 @@ export default function PureRepeatCropPlan({
 
       // If already on this screen, store which pattern is currently selected.
       // When returning from next screen, store the selected option
-      const currentSelection = [monthlyOptions.length ? monthlyOptions : options]?.findIndex(
+      const currentSelection = (monthlyOptions.length ? monthlyOptions : options)?.findIndex(
         (option) =>
           // e.g. {"value":8,"label":"every month on the 8th"}
           JSON.stringify(option) === JSON.stringify(monthRepeatOn),

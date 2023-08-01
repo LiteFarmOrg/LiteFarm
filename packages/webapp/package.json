@@ -8,7 +8,7 @@
     "build": "tsc && NODE_OPTIONS=--max_old_space_size=3000 vite build",
     "preview": "vite preview",
     "lint": "eslint src",
-    "i18n": "npx i18next 'src/**/*.{js,jsx,ts,tsx}' -c src/locales/i18next-parser.config.cjs",
+    "i18n": "npx i18next 'src/**/*.{js,jsx,ts,tsx}' -c src/locales/i18next-parser.config.js",
     "chromatic": "npx chromatic --project-token gb9nrdyzl8b",
     "chromatic-local": "./node_modules/.bin/chromatic --project-token 594bdec1c518",
     "format": "npx prettier --write ./src",

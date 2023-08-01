@@ -7,20 +7,26 @@
     "ERROR": {
       "CREATE": "Falha ao criar documento",
       "FAILED_ARCHIVE": "Falha ao arquivar o documento",
-      "FAILED_UNARCHIVE": "Falha ao desarquivar documento",
       "FAILED_UPLOAD": "Anexos não carregados",
       "UPDATE": "Falha ao atualizar o documento"
     },
     "SUCCESS": {
       "ARCHIVE": "Documento arquivado com sucesso",
       "CREATE": "Documento criado com sucesso",
-      "UNARCHIVE": "Documento desarquivado com sucesso",
       "UPDATE": "Documento atualizado com sucesso"
     }
   },
-  "BULK_UPLOAD": {
+  "CROP_VARIETY": {
     "ERROR": {
-      "UPLOAD": "Falha ao carregar o arquivo CSV"
+      "ADD": "Erro: falha ao adicionar varietal ao banco de dados",
+      "ADD_ALREADY_EXISTS": "Erro: Varietal existe",
+      "DELETE": "Falha ao deletar variedade de cultivo",
+      "UPDATE": "Falha ao atualizar variedade de cultivo"
+    },
+    "SUCCESS": {
+      "ADD": "Varietal salvo com sucesso!",
+      "DELETE": "Variedade de cultivo deletado",
+      "UPDATE": "Variedade de cultivo atualizada com sucesso"
     }
   },
   "CROP": {
@@ -29,19 +35,6 @@
     },
     "SUCCESS": {
       "DELETE": "Cultivo excluído com sucesso"
-    }
-  },
-  "CROP_VARIETY": {
-    "ERROR": {
-      "ADD": "Erro: falha ao adicionar variedade ao banco de dados",
-      "ADD_ALREADY_EXISTS": "Erro: Variedade já existe",
-      "DELETE": "Falha ao deletar variedade de cultivo",
-      "UPDATE": "Falha ao atualizar variedade de cultivo"
-    },
-    "SUCCESS": {
-      "ADD": "Variedade salva com sucesso!",
-      "DELETE": "Variedade de cultivo deletado",
-      "UPDATE": "Variedade de cultivo atualizada com sucesso"
     }
   },
   "EXPENSE": {
@@ -83,23 +76,22 @@
   },
   "MANAGEMENT_PLAN": {
     "ERROR": {
-      "ABANDON": "Erro em abandonar o plano de cultivo!",
-      "COMPLETE": "Erro ao completar o plano de cultivo!",
-      "POST": "Erro ao adicionar plano de cultivo!"
+      "ABANDON": "Erro em abandonar o plano de manejo!",
+      "COMPLETE": "Erro ao completar o plano de manejo!",
+      "POST": "Erro ao adicionar plano de gestão!"
     },
     "SUCCESS": {
-      "ABANDON": "Plano de cultivo abandonado com sucesso!",
-      "COMPLETE": "Plano de cultivo concluído com sucesso! ",
-      "POST": "Plano de cultivo adicionado com sucesso!"
+      "ABANDON": "Plano de manejo abandonado com sucesso!",
+      "COMPLETE": "Plano de manejo concluído com sucesso! ",
+      "POST": "Plano de gestão adicionado com sucesso!"
     }
   },
   "MAP": {
     "FAIL_PATCH": "Falha ao atualizar",
-    "FAIL_POST": "Falha ao adicionar novo/a",
-    "SUCCESS_DELETE": " retirado/a com sucesso",
-    "SUCCESS_PATCH": " atualizado/a com sucesso",
-    "SUCCESS_POST": " salvo/a com sucesso",
-    "SUCCESS_UPLOAD": "Carregado com sucesso"
+    "FAIL_POST": "Falha ao adicionar novo",
+    "SUCCESS_DELETE": " retirado com sucesso",
+    "SUCCESS_PATCH": " atualizado com sucesso",
+    "SUCCESS_POST": " salvo com sucesso"
   },
   "ORGANIC_CERTIFIER_SURVEY": {
     "ERROR": {
@@ -109,10 +101,10 @@
   },
   "PLAN": {
     "ERROR": {
-      "EDIT": "Falha ao atualizar o plano de cultivo"
+      "EDIT": "Falha ao atualizar o plano de manejo"
     },
     "SUCCESS": {
-      "EDIT": "Plano de cultivo atualizado com sucesso"
+      "EDIT": "Plano de manejo atualizado com sucesso"
     }
   },
   "REVENUE": {
@@ -135,9 +127,32 @@
       "UPDATE": "Venda atualizada com sucesso"
     }
   },
-  "SENSOR": {
-    "ERROR_UPDATE": "Erro ao atualizar sensor",
-    "SUCCESSFUL_UPDATE": "Sensor atualizado com sucesso"
+  "SHIFT": {
+    "ERROR": {
+      "ADD": "Falha de adicionar novo turno",
+      "CROP_FIELDS_EACH": "Favor de atribuar culturas ou campos para cada tarefa",
+      "DELETE": "Falha na exclusão do turno :(",
+      "DURATION_FOR_CROPS": "Favor de atribuir uma duração para cada cultivo de campo.",
+      "ONLY_INTEGERS_DURATIONS": "Favor de atribuir apenas números às durações",
+      "REQUIRED_TASK": "Um nome de tarefa é obrigatório",
+      "SUBMIT_SHIFT": "Falha no envio de turno. Favor de enviar um pedido de ajuda a Litefarm para obter assistência.",
+      "UPDATE": "Falha na actualização do turno"
+    },
+    "SUCCESS": {
+      "ADD": "Novo turno adicionado com sucesso!",
+      "DELETE": "Turno excluído!",
+      "UPDATE": "Turno atualizado com sucesso!"
+    }
+  },
+  "TASK_TYPE": {
+    "CREATE": {
+      "FAILED": "Erro ao criar tarefa personalizada",
+      "SUCCESS": "Tarefa personalizada criada com sucesso"
+    },
+    "DELETE": {
+      "FAILED": "Erro ao deletar tarefa personalizada",
+      "SUCCESS": "Tarefa personalizada deletada com sucesso"
+    }
   },
   "TASK": {
     "ABANDON": {
@@ -151,20 +166,6 @@
     "CREATE": {
       "FAILED": "Erro ao completar tarefa",
       "SUCCESS": "Tarefa concluída com sucesso"
-    },
-    "UPDATE": {
-      "FAILED": "Falha ao atualizar a tarefa",
-      "SUCCESS": "Tarefa atualizada com sucesso"
-    }
-  },
-  "TASK_TYPE": {
-    "CREATE": {
-      "FAILED": "Erro ao criar tarefa personalizada",
-      "SUCCESS": "Tarefa personalizada criada com sucesso"
-    },
-    "DELETE": {
-      "FAILED": "Erro ao deletar tarefa personalizada",
-      "SUCCESS": "Tarefa personalizada deletada com sucesso"
     }
   },
   "USER": {
@@ -173,7 +174,6 @@
       "AGREEMENT": "Falha de atualizar o contrato do usuário",
       "EXISTS": "O usuário já existe na rede de LiteFarm",
       "INVITE": "Erro ao criar conta de usuário, entre em contato com LiteFarm para assistência.",
-      "MAX_RESET_EMAILS": "Um link de redefinição de senha foi enviado para você, por favor verifique sua caixa de entrada e pasta de spam.",
       "NOTHING_CHANGED": "Nada mudou",
       "RESET_PASSWORD": "Erro ao enviar e-mail de redefinição de senha, favor entrar em contato com a LiteFarm para obter assistência.",
       "RESTORE": "Ocorreu um erro, o acesso não foi restaurado",

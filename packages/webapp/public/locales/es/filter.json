@@ -16,26 +16,6 @@
     "OTHER": "Otro",
     "PEST_CONTROL_PRODUCT": "Producto de control de plagas",
     "SOIL_AMENDMENT": "Aditivo de suelo",
-    "SOIL_SAMPLE_RESULTS": "Resultados de muestras del suelo",
-    "WATER_SAMPLE_RESULTS": "Resultados de la muestra de agua",
-    "UNCATEGORIZED": "Sin categorizar",
-    "RECEIPTS": "Recibos",
-    "INVOICES": "Facturas"
-  },
-  "TASKS": {
-    "LOCATION": "Ubicación",
-    "ABANDONED": "Abandonada",
-    "COMPLETED": "Completada",
-    "FOR_REVIEW": "Para la revisión",
-    "LATE": "Tarde",
-    "PLANNED": "Planificada",
-    "STATUS": "Estatus",
-    "SUPPLIERS": "Proveedores",
-    "ACTIVE": "Activo"
-  },
-  "FILTER": {
-    "VALID_ON": "Válido en",
-    "FROM_DATE": "Desde",
-    "TO_DATE": "Hasta"
+    "UNCATEGORIZED": "Sin categorizar"
   }
 }

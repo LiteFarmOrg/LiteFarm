@@ -16,26 +16,6 @@
     "OTHER": "Outro",
     "PEST_CONTROL_PRODUCT": "Produto de controle de praga",
     "SOIL_AMENDMENT": "Correção de solo",
-    "SOIL_SAMPLE_RESULTS": "Resultados da amostra de solo",
-    "WATER_SAMPLE_RESULTS": "Resultados da amostra de água",
-    "UNCATEGORIZED": "Não categorizado",
-    "RECEIPTS": "Recibos",
-    "INVOICES": "Faturas"
-  },
-  "TASKS": {
-    "ABANDONED": "Abandonada",
-    "ACTIVE": "Ativa",
-    "COMPLETED": "Completa",
-    "FOR REVIEW": "Para revisão",
-    "LATE": "Atrasada",
-    "LOCATION": "Localização",
-    "PLANNED": "Planejada",
-    "STATUS": "Situação",
-    "SUPPLIERS": "Fornecedores"
-  },
-  "FILTER": {
-    "VALID_ON": "Válido em",
-    "FROM_DATE": "De",
-    "TO_DATE": "Até"
+    "UNCATEGORIZED": "Não categorizado"
   }
 }

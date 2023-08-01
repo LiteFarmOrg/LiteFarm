@@ -16,26 +16,6 @@
     "OTHER": "Other",
     "PEST_CONTROL_PRODUCT": "Pest control product",
     "SOIL_AMENDMENT": "Soil amendment",
-    "SOIL_SAMPLE_RESULTS": "Soil sample results",
-    "WATER_SAMPLE_RESULTS": "Water sample results",
-    "UNCATEGORIZED": "Uncategorized",
-    "RECEIPTS": "Receipts",
-    "INVOICES": "Invoices"
-  },
-  "TASKS": {
-    "LOCATION": "Location",
-    "STATUS": "Status",
-    "SUPPLIERS": "Suppliers",
-    "ACTIVE": "Active",
-    "ABANDONED": "Abandoned",
-    "COMPLETED": "Completed",
-    "LATE": "Late",
-    "PLANNED": "Planned",
-    "FOR_REVIEW": "For Review"
-  },
-  "FILTER": {
-    "VALID_ON": "Valid on",
-    "FROM_DATE": "From",
-    "TO_DATE": "To"
+    "UNCATEGORIZED": "Uncategorized"
   }
 }

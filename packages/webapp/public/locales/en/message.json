@@ -7,28 +7,13 @@
     "ERROR": {
       "CREATE": "Failed to create document",
       "FAILED_ARCHIVE": "Failed to archive document",
-      "FAILED_UNARCHIVE": "Failed to unarchive document",
       "FAILED_UPLOAD": "Failed to upload attachments",
       "UPDATE": "Failed to update document"
     },
     "SUCCESS": {
       "ARCHIVE": "Successfully archived document",
       "CREATE": "Successfully created document",
-      "UNARCHIVE": "Successfully unarchived document",
       "UPDATE": "Successfully updated document"
-    }
-  },
-  "BULK_UPLOAD": {
-    "ERROR": {
-      "UPLOAD": "Failed to upload the CSV file"
-    }
-  },
-  "CROP": {
-    "ERROR": {
-      "DELETE": "Failed To Delete Field Crop"
-    },
-    "SUCCESS": {
-      "DELETE": "Successfully Deleted Crop"
     }
   },
   "CROP_VARIETY": {
@@ -42,6 +27,14 @@
       "ADD": "Successfully saved varietal!",
       "DELETE": "Deleted crop variety",
       "UPDATE": "Successfully updated crop variety"
+    }
+  },
+  "CROP": {
+    "ERROR": {
+      "DELETE": "Failed To Delete Field Crop"
+    },
+    "SUCCESS": {
+      "DELETE": "Successfully Deleted Crop"
     }
   },
   "EXPENSE": {
@@ -83,23 +76,22 @@
   },
   "MANAGEMENT_PLAN": {
     "ERROR": {
-      "ABANDON": "Failed to abandon crop plan!",
-      "COMPLETE": "Failed to complete crop plan!",
-      "POST": "Failed to add crop plan!"
+      "ABANDON": "Failed to abandon management plan!",
+      "COMPLETE": "Failed to complete management plan!",
+      "POST": "Failed to add management plan!"
     },
     "SUCCESS": {
-      "ABANDON": "Successfully abandoned crop plan!",
-      "COMPLETE": "Successfully completed crop plan!",
-      "POST": "Successfully added crop plan!"
+      "ABANDON": "Successfully abandoned management plan!",
+      "COMPLETE": "Successfully completed management plan!",
+      "POST": "Successfully added management plan!"
     }
   },
   "MAP": {
     "FAIL_PATCH": "Failed to update",
     "FAIL_POST": "Failed to add new",
-    "SUCCESS_DELETE": "Successfully retired",
-    "SUCCESS_PATCH": "Successfully updated",
-    "SUCCESS_POST": "Successfully saved",
-    "SUCCESS_UPLOAD": "Successfully uploaded"
+    "SUCCESS_DELETE": " successfully retired",
+    "SUCCESS_PATCH": " successfully updated",
+    "SUCCESS_POST": " successfully saved"
   },
   "ORGANIC_CERTIFIER_SURVEY": {
     "ERROR": {
@@ -109,10 +101,10 @@
   },
   "PLAN": {
     "ERROR": {
-      "EDIT": "Failed to update crop plan"
+      "EDIT": "Failed to update management plan"
     },
     "SUCCESS": {
-      "EDIT": "crop plan successfully updated"
+      "EDIT": "Management plan successfully updated"
     }
   },
   "REVENUE": {
@@ -135,9 +127,32 @@
       "UPDATE": "Successfully updated sale"
     }
   },
-  "SENSOR": {
-    "ERROR_UPDATE": "Error updating sensor",
-    "SUCCESSFUL_UPDATE": "Sensor successfully updated"
+  "SHIFT": {
+    "ERROR": {
+      "ADD": "Failed to add new shift",
+      "CROP_FIELDS_EACH": "Please assign crops or fields for each task",
+      "DELETE": "Failed to delete the shift :(",
+      "DURATION_FOR_CROPS": "Please assign a duration for each crop.",
+      "ONLY_INTEGERS_DURATIONS": "Please assign only numbers to durations",
+      "REQUIRED_TASK": "A task name is required",
+      "SUBMIT_SHIFT": "Submit shift with crops failed. Litefarm's issue.",
+      "UPDATE": "Failed to update shift"
+    },
+    "SUCCESS": {
+      "ADD": "Successfully added new shift!",
+      "DELETE": "Deleted shift!",
+      "UPDATE": "Successfully updated shift!"
+    }
+  },
+  "TASK_TYPE": {
+    "CREATE": {
+      "FAILED": "Failed to create custom task",
+      "SUCCESS": "Successfully created custom task"
+    },
+    "DELETE": {
+      "FAILED": "Failed to delete custom task",
+      "SUCCESS": "Successfully deleted custom task"
+    }
   },
   "TASK": {
     "ABANDON": {
@@ -151,20 +166,6 @@
     "CREATE": {
       "FAILED": "Failed to create task",
       "SUCCESS": "Successfully created task"
-    },
-    "UPDATE": {
-      "FAILED": "Failed to update task",
-      "SUCCESS": "Successfully updated task"
-    }
-  },
-  "TASK_TYPE": {
-    "CREATE": {
-      "FAILED": "Failed to create custom task",
-      "SUCCESS": "Successfully created custom task"
-    },
-    "DELETE": {
-      "FAILED": "Failed to delete custom task",
-      "SUCCESS": "Successfully deleted custom task"
     }
   },
   "USER": {
@@ -173,7 +174,6 @@
       "AGREEMENT": "Failed to update user agreement",
       "EXISTS": "User already exists in LiteFarm Network",
       "INVITE": "Error creating user account, please contact LiteFarm for assistance.",
-      "MAX_RESET_EMAILS": "A password reset link has been emailed to you, please check your inbox and spam folder.",
       "NOTHING_CHANGED": "No data has changed",
       "RESET_PASSWORD": "Error with sending password reset email, please contact LiteFarm for assistance.",
       "RESTORE": "There was an error restoring access",

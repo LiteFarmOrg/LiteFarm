@@ -7,28 +7,13 @@
     "ERROR": {
       "CREATE": "No se pudo crear el documento",
       "FAILED_ARCHIVE": "No se pudo archivar el documento",
-      "FAILED_UNARCHIVE": "No se pudo desarchivar el documento",
       "FAILED_UPLOAD": "No se pudo subir los archivos adjuntos",
       "UPDATE": "No se pudo actualizar el documento"
     },
     "SUCCESS": {
       "ARCHIVE": "Documento archivado exitosamente",
       "CREATE": "Documento creado exitosamente",
-      "UNARCHIVE": "Documento desarchivado con éxito",
       "UPDATE": "Documento actualizado exitosamente"
-    }
-  },
-  "BULK_UPLOAD": {
-    "ERROR": {
-      "UPLOAD": "No se pudo subir el archivo CSV"
-    }
-  },
-  "CROP": {
-    "ERROR": {
-      "DELETE": "No se pudo borrar campo de cultivo"
-    },
-    "SUCCESS": {
-      "DELETE": "Cultivo borrado exitosamente"
     }
   },
   "CROP_VARIETY": {
@@ -42,6 +27,14 @@
       "ADD": "¡Variedad guardada con éxito!",
       "DELETE": "Cultivo eliminado exitosamente",
       "UPDATE": "Cultivo actualizado exitosamente"
+    }
+  },
+  "CROP": {
+    "ERROR": {
+      "DELETE": "No se pudo borrar campo de cultivo"
+    },
+    "SUCCESS": {
+      "DELETE": "Cultivo borrado exitosamente"
     }
   },
   "EXPENSE": {
@@ -83,23 +76,22 @@
   },
   "MANAGEMENT_PLAN": {
     "ERROR": {
-      "ABANDON": "¡No se pudo abandonar el plan de cultivo!",
-      "COMPLETE": "¡No se pudo completar el plan de cultivo!",
-      "POST": "No se pudo agregar plan de cultivo"
+      "ABANDON": "¡No se pudo abandonar el plan de manejo!",
+      "COMPLETE": "¡No se pudo completar el plan de manejo!",
+      "POST": "No se pudo agregar plan de manejo"
     },
     "SUCCESS": {
       "ABANDON": "¡Plan de gestión abandonado con éxito!",
       "COMPLETE": "¡Plan de gestión completado con éxito!",
-      "POST": "Plan de cultivo agregado exitosamente"
+      "POST": "Plan de manejo agregado exitosamente"
     }
   },
   "MAP": {
     "FAIL_PATCH": "Fallo al actualizar",
     "FAIL_POST": "Fallo al crear",
-    "SUCCESS_DELETE": " retirada/o con éxito",
-    "SUCCESS_PATCH": " actualizo/a con éxito.",
-    "SUCCESS_POST": " creo/a con éxito.",
-    "SUCCESS_UPLOAD": "Subido con éxito"
+    "SUCCESS_DELETE": " se retiro exitosamente.",
+    "SUCCESS_PATCH": " se actualizo exitosamente.",
+    "SUCCESS_POST": " se creo exitosamente."
   },
   "ORGANIC_CERTIFIER_SURVEY": {
     "ERROR": {
@@ -109,10 +101,10 @@
   },
   "PLAN": {
     "ERROR": {
-      "EDIT": "No se pudo actualizar el plan de cultivo"
+      "EDIT": "No se pudo actualizar el plan de manejo"
     },
     "SUCCESS": {
-      "EDIT": "Plan de cultivo actualizado con éxito"
+      "EDIT": "Plan de manejo actualizado con éxito"
     }
   },
   "REVENUE": {
@@ -135,9 +127,32 @@
       "UPDATE": "Venta actualizada exitosamente"
     }
   },
-  "SENSOR": {
-    "ERROR_UPDATE": "No se pudo actualizar el sensor",
-    "SUCCESSFUL_UPDATE": "Sensor actualizado con éxito"
+  "SHIFT": {
+    "ERROR": {
+      "ADD": "No se pudo agregar nuevo turno",
+      "CROP_FIELDS_EACH": "Por favor asigne cultivos o campos para cada tarea",
+      "DELETE": "No se pudo borrar el turno",
+      "DURATION_FOR_CROPS": "Por favor asigne una duración para cada cultvo.",
+      "ONLY_INTEGERS_DURATIONS": "Por favor asigne sólo numeros durationes",
+      "REQUIRED_TASK": "Se requiere un nombre para la tarea",
+      "SUBMIT_SHIFT": "No se pudo enviar turno con cultivos. Este es un problema de LiteFarm.",
+      "UPDATE": "No se pudo actualizar turno"
+    },
+    "SUCCESS": {
+      "ADD": "Nuevo turno agregado exitosamente!",
+      "DELETE": "Borrar turno!",
+      "UPDATE": "Turno agregado exitosamente!"
+    }
+  },
+  "TASK_TYPE": {
+    "CREATE": {
+      "FAILED": "No se pudo crear la tarea personalizada",
+      "SUCCESS": "Tarea personalizada creada con éxito"
+    },
+    "DELETE": {
+      "FAILED": "No se pudo borrar la tarea personalizada",
+      "SUCCESS": "Tarea personalizada borrada con éxito"
+    }
   },
   "TASK": {
     "ABANDON": {
@@ -151,20 +166,6 @@
     "CREATE": {
       "FAILED": "No se pudo crear la tarea",
       "SUCCESS": "Tarea creada con éxito"
-    },
-    "UPDATE": {
-      "FAILED": "No se pudo completar la tarea",
-      "SUCCESS": "Tarea creada con éxito"
-    }
-  },
-  "TASK_TYPE": {
-    "CREATE": {
-      "FAILED": "No se pudo crear la tarea personalizada",
-      "SUCCESS": "Tarea personalizada creada con éxito"
-    },
-    "DELETE": {
-      "FAILED": "No se pudo borrar la tarea personalizada",
-      "SUCCESS": "Tarea personalizada borrada con éxito"
     }
   },
   "USER": {
@@ -173,7 +174,6 @@
       "AGREEMENT": "No se pudo actualizar el acuerdo del(a) usuario",
       "EXISTS": "Usuario ya existe en la red de trabajo de LiteFarm",
       "INVITE": "Error al crear cuenta de usuario. Por favor contacte LiteFarm por asistencia.",
-      "MAX_RESET_EMAILS": "Se le ha enviado un enlace de restablecimiento de contraseña, por favor verifique su bandeja de entrada y su carpeta de correo no deseado.",
       "NOTHING_CHANGED": "Nada ha cambiado",
       "RESET_PASSWORD": "Error al enviar email para cambiar contraseña. Por favor contacte LiteFarm por asistencia.",
       "RESTORE": "Hubo un error al restaurar acceso",
@@ -185,7 +185,7 @@
       "ADD": "Usuario(a) de la finca agregado exitosamente!",
       "RESTORE": "Acceso de usuario(a) restaurado exitosamente",
       "REVOKE": "Acceso de usuario(a) revocado!",
-      "UPDATE": "Información del(a) usuario(a) actualizada exitosamente!"
+      "UPDATE": "Información del(a) usuario(a) actualizado exitosamente!"
     }
   }
 }

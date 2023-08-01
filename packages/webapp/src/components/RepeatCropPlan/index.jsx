@@ -118,12 +118,11 @@ export default function PureRepeatCropPlan({
 
   // Update DaysOfWeekSelect selection
   useEffect(() => {
-    if (
-      repeatInterval.value !== 'week' ||
-      // should not reset selected weekday when coming back from the confirmation view
-      (previousPlanStartDateRef.current === planStartDate &&
-        previousRepeatIntervalRef.current === repeatInterval)
-    ) {
+    const fromConfirmation =
+      previousPlanStartDateRef.current === planStartDate &&
+      previousRepeatIntervalRef.current === repeatInterval;
+
+    if (repeatInterval.value !== 'week' || fromConfirmation) {
       return;
     }
     const dayOfWeekString = getWeekday(planStartDate);

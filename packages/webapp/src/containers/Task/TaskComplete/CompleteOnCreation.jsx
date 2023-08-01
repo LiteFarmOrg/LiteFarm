@@ -64,16 +64,7 @@ function TaskCompleteOnCreation({ history, match, location }) {
 
   return (
     <HookFormPersistProvider>
-      <PureCompleteOnCreation
-        onContinue={onContinue}
-        onGoBack={onGoBack}
-        system={system}
-        farm={{ farm_id, country_id, interested }}
-        selectedTaskType={selectedTaskType}
-        products={products}
-        persistedPaths={persistedPaths}
-        selectedTask={task}
-      />
+      <PureCompleteOnCreation onContinue={onContinue} onGoBack={onGoBack} selectedTask={task} />
     </HookFormPersistProvider>
   );
 }

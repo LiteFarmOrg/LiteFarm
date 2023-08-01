@@ -104,6 +104,11 @@ export default function PureRepeatCropPlan({
   const finish = watch(FINISH);
   const finishOnDate = watch(FINISH_ON_DATE);
 
+  // Trigger validation of the crop plan name on initial load
+  useEffect(() => {
+    trigger(CROP_PLAN_NAME);
+  }, []);
+
   // Update DaysOfWeekSelect selection
   useEffect(() => {
     if (repeatInterval.value !== 'week') {

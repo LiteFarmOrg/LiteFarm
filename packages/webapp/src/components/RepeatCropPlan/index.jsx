@@ -263,10 +263,20 @@ export default function PureRepeatCropPlan({
             <Input
               hookFormRegister={register(REPEAT_FREQUENCY, {
                 required: true,
+                validate: (value) => {
+                  // These errors aren't displayed so no translation is necessary
+                  if (value < 1 || value > 50) {
+                    return 'must be between 1 and 50';
+                  }
+                  if (Math.floor(value) != value) {
+                    return 'must be an integer';
+                  }
+                  return true;
+                },
               })}
               type="number"
               stepper
-              onBlur={(e) => (e.target.value = Math.floor(e.target.value))}
+              onChange={(e) => (e.target.value = Math.floor(e.target.value))}
               onKeyDown={integerOnKeyDown}
               min={1}
               max={50}
@@ -356,15 +366,22 @@ export default function PureRepeatCropPlan({
                           if (!value && getValues(FINISH) === 'after') {
                             return t('common:REQUIRED');
                           }
+                          // These errors aren't displayed so no translation is necessary
+                          if (value < 1 || value > 20) {
+                            return 'must be between 1 and 20';
+                          }
+                          if (Math.floor(value) != value) {
+                            return 'must be an integer';
+                          }
                           return true;
                         },
                       })}
                       style={{ width: '72px' }}
-                      onChange={() => {
+                      onChange={(e) => {
+                        e.target.value = Math.floor(e.target.value);
                         setValue(FINISH, 'after');
                         trigger(FINISH_ON_DATE);
                       }}
-                      onBlur={(e) => (e.target.value = Math.floor(e.target.value))}
                     />
                     <p>{t('REPEAT_PLAN.REPETITIONS')}</p>
                   </div>

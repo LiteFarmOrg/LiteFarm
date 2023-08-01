@@ -1,8 +1,10 @@
 import chai from 'chai';
 import chaiHttp from 'chai-http';
+
 chai.use(chaiHttp);
 import server from '../src/server.js';
 import knex from '../src/util/knex.js';
+
 jest.mock('jsdom');
 jest.mock('../src/middleware/acl/checkJwt.js', () =>
   jest.fn((req, res, next) => {
@@ -1321,7 +1323,10 @@ describe('Task tests', () => {
           const [{ location_id }] = await mocks.fieldFactory({
             promisedFarm: [{ farm_id }],
           });
-          const [{ location_id: locationIdInFarm2 }] = await mocks.fieldFactory({
+          const [{ crop_variety_id }] = await mocks.crop_varietyFactory({
+            promisedFarm: [{ farm_id }],
+          });
+          const [{ crop_variety_id: cropVarietyIdInFarm2 }] = await mocks.crop_varietyFactory({
             promisedFarm: [{ farm_id: userFarm2.farm_id }],
           });
           const [{ task_type_id }] = await mocks.task_typeFactory({
@@ -1329,16 +1334,31 @@ describe('Task tests', () => {
           });
 
           const promisedManagement = await Promise.all(
-            [...Array(2)].map(async (item, index) => {
+            [...Array(3)].map(async (item, index) => {
               return mocks.planting_management_planFactory(
                 {
                   promisedFarm: [{ farm_id }],
-                  promisedField: [{ location_id: [location_id, locationIdInFarm2][index] }],
+                  promisedCropVariety: [
+                    {
+                      crop_variety_id: [crop_variety_id, crop_variety_id, cropVarietyIdInFarm2][
+                        index
+                      ],
+                    },
+                  ],
                 },
                 { start_date: null },
               );
             }),
           );
+          const pinLocationPlantingManagementPlan = await knex('planting_management_plan')
+            .where(
+              'planting_management_plan_id',
+              promisedManagement[0][0].planting_management_plan_id,
+            )
+            .update({
+              location_id: null,
+              pin_coordinate: { lng: 30, lat: 30 },
+            });
           const managementPlans = promisedManagement.map(([{ planting_management_plan_id }]) => ({
             planting_management_plan_id,
           }));

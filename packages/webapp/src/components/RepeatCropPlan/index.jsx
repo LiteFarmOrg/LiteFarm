@@ -104,6 +104,9 @@ export default function PureRepeatCropPlan({
   const finish = watch(FINISH);
   const finishOnDate = watch(FINISH_ON_DATE);
 
+  const previousPlanStartDateRef = useRef(planStartDate);
+  const previousRepeatIntervalRef = useRef(repeatInterval);
+
   // Trigger validation of the crop plan name on initial load
   useEffect(() => {
     trigger(CROP_PLAN_NAME);
@@ -111,12 +114,20 @@ export default function PureRepeatCropPlan({
 
   // Update DaysOfWeekSelect selection
   useEffect(() => {
-    if (repeatInterval.value !== 'week') {
+    if (
+      repeatInterval.value !== 'week' ||
+      // should not reset selected weekday when coming back from the confirmation view
+      (previousPlanStartDateRef.current === planStartDate &&
+        previousRepeatIntervalRef.current === repeatInterval)
+    ) {
       return;
     }
     const dayOfWeekString = getWeekday(planStartDate);
 
     setValue(DAYS_OF_WEEK, [dayOfWeekString]);
+
+    previousPlanStartDateRef.current = planStartDate;
+    previousRepeatIntervalRef.current = repeatInterval;
   }, [planStartDate, repeatInterval]);
 
   // Populate monthly options React Select

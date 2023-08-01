@@ -58,6 +58,7 @@ import {
   onLoadingPlantTaskStart,
 } from '../slice/taskSlice/plantTaskSlice';
 import {
+  deleteTransplantTaskSuccess,
   getTransplantTasksSuccess,
   onLoadingTransplantTaskFail,
   onLoadingTransplantTaskStart,
@@ -842,7 +843,11 @@ export function* deleteTaskSaga({ payload: data }) {
   try {
     const result = yield call(axios.delete, `${taskUrl}/${task_id}`, header);
     if (result) {
+      const task_type = yield select(taskTypeSelector(result.data.task_type_id));
       history.back();
+      if (task_type.task_translation_key === 'TRANSPLANT_TASK') {
+        yield put(deleteTransplantTaskSuccess(result.data.task_id));
+      }
       yield put(deleteTaskSuccess(result.data));
       yield put(enqueueSuccessSnackbar(i18n.t('TASK.DELETE.SUCCESS')));
     }

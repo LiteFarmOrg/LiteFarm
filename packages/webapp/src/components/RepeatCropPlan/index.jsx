@@ -14,10 +14,12 @@
  */
 
 import React, { useState, useEffect, useRef } from 'react';
+import { useDispatch } from 'react-redux';
 import styles from './styles.module.scss';
 import PropTypes from 'prop-types';
 import { Controller, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
+import { setPersistedPaths } from '../../containers/hooks/useHookFormPersist/hookFormPersistSlice';
 import MultiStepPageTitle from '../PageTitle/MultiStepPageTitle';
 import Form from '../Form';
 import Button from '../Form/Button';
@@ -57,6 +59,7 @@ export default function PureRepeatCropPlan({
   persistedPaths,
 }) {
   const { t } = useTranslation(['translation', 'common']);
+  const dispatch = useDispatch();
   const {
     register,
     handleSubmit,
@@ -110,6 +113,7 @@ export default function PureRepeatCropPlan({
   // Trigger validation of the crop plan name on initial load
   useEffect(() => {
     trigger(CROP_PLAN_NAME);
+    dispatch(setPersistedPaths(persistedPaths));
   }, []);
 
   // Update DaysOfWeekSelect selection

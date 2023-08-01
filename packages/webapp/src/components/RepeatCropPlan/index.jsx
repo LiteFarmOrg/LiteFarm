@@ -110,8 +110,8 @@ export default function PureRepeatCropPlan({
   const previousPlanStartDateRef = useRef(planStartDate);
   const previousRepeatIntervalRef = useRef(repeatInterval);
 
-  // Trigger validation of the crop plan name on initial load
   useEffect(() => {
+    // Trigger validation of the crop plan name on initial load
     trigger(CROP_PLAN_NAME);
     dispatch(setPersistedPaths(persistedPaths));
   }, []);

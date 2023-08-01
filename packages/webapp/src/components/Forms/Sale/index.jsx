@@ -58,6 +58,7 @@ const SaleForm = ({
 
   const {
     register,
+    unregister,
     handleSubmit,
     watch,
     getValues,
@@ -131,29 +132,36 @@ const SaleForm = ({
       let dynamicRegister = {};
       activeOptions.length ? setIsFilterValid(true) : setIsFilterValid(false);
       // Input does not support registering like Unit, dynamically register here
-      activeOptions.forEach((option) => {
-        dynamicRegisterNames[option.value] = {
+      cropVarietyOptions.forEach((option) => {
+        const isActive = filterState[STATUS][option.label].active;
+        const optionRegisterNames = {
           CROP_VARIETY_ID: `${CHOSEN_VARIETIES}.${option.value}.crop_variety_id`,
           SALE_VALUE: `${CHOSEN_VARIETIES}.${option.value}.sale_value`,
         };
-        dynamicRegister[option.value] = {
-          cropVarietyIdRegister: register(dynamicRegisterNames[option.value].CROP_VARIETY_ID, {
-            required: true,
-            value: option.value,
-          }),
-          saleValueRegister: register(dynamicRegisterNames[option.value].SALE_VALUE, {
-            required: true,
-            valueAsNumber: true,
-            min: { value: 0, message: t('SALE.ADD_SALE.SALE_VALUE_ERROR') },
-            max: { value: 999999999, message: t('SALE.ADD_SALE.SALE_VALUE_ERROR') },
-          }),
-        };
+        dynamicRegisterNames[option.value] = optionRegisterNames;
+        if (isActive) {
+          dynamicRegister[option.value] = {
+            cropVarietyIdRegister: register(optionRegisterNames.CROP_VARIETY_ID, {
+              required: true,
+              value: option.value,
+            }),
+            saleValueRegister: register(optionRegisterNames.SALE_VALUE, {
+              required: true,
+              valueAsNumber: true,
+              min: { value: 0, message: t('SALE.ADD_SALE.SALE_VALUE_ERROR') },
+              max: { value: 999999999, message: t('SALE.ADD_SALE.SALE_VALUE_ERROR') },
+            }),
+          };
+        } else {
+          unregister(optionRegisterNames.CROP_VARIETY_ID);
+          unregister(optionRegisterNames.SALE_VALUE);
+        }
       });
       setCropVarietyRegisterNames(dynamicRegisterNames);
       setCropVarietyRegisters(dynamicRegister);
       setChosenOptions(activeOptions);
     }
-  }, [filterState, isDirty]);
+  }, [cropVarietyOptions, filterState, isDirty, register, t, unregister]);
 
   return (
     <Form

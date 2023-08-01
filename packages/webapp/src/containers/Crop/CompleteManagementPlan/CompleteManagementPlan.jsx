@@ -14,7 +14,11 @@ export default function CompleteManagementPlan({ match, history, location }) {
   const [management_plan] = useSelector(
     managementPlanByManagementPlanIDSelector(management_plan_id),
   );
-  const completed = !!management_plan?.complete_date;
+  const status = management_plan?.complete_date
+    ? 'completed'
+    : management_plan?.abandon_date
+    ? 'abandoned'
+    : '';
   const { start_date } = useSelector(managementPlanSelector(management_plan_id));
   const dispatch = useDispatch();
 
@@ -34,7 +38,7 @@ export default function CompleteManagementPlan({ match, history, location }) {
       onGoBack={onGoBack}
       onSubmit={onSubmit}
       start_date={start_date}
-      completed={completed}
+      status={status}
     />
   );
 }

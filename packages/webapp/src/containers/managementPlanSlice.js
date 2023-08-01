@@ -24,6 +24,7 @@ export const getManagementPlan = (obj) => {
       'management_plan_group_id',
       'repetition_number',
       'management_plan_group',
+      'harvested_to_date',
     ],
   );
 };

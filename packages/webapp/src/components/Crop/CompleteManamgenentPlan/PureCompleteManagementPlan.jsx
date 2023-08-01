@@ -38,6 +38,7 @@ export function PureCompleteManagementPlan({
   isAbandonPage,
   reasonOptions,
   start_date,
+  completed,
 }) {
   const { t } = useTranslation();
   const DATE = isAbandonPage ? 'abandon_date' : 'complete_date';
@@ -62,7 +63,7 @@ export function PureCompleteManagementPlan({
 
   const [showAbandonModal, setShowAbandonModal] = useState(false);
 
-  const disabled = !isValid;
+  const disabled = !isValid || completed;
 
   return (
     <Form

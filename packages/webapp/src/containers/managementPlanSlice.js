@@ -40,11 +40,21 @@ const updateOneManagementPlan = (state, { payload }) => {
   managementPlanAdapter.upsertOne(state, getManagementPlan(payload));
 };
 
-const addManyManagementPlan = (state, { payload: managementPlans }) => {
+const addAllManagementPlan = (state, { payload: managementPlans }) => {
   state.loading = false;
   state.error = null;
   state.loaded = true;
   managementPlanAdapter.setAll(
+    state,
+    managementPlans.map((managementPlan) => getManagementPlan(managementPlan)),
+  );
+};
+
+const addManyManagementPlan = (state, { payload: managementPlans }) => {
+  state.loading = false;
+  state.error = null;
+  state.loaded = true;
+  managementPlanAdapter.upsertMany(
     state,
     managementPlans.map((managementPlan) => getManagementPlan(managementPlan)),
   );
@@ -64,6 +74,7 @@ const managementPlanSlice = createSlice({
   reducers: {
     onLoadingManagementPlanStart: onLoadingStart,
     onLoadingManagementPlanFail: onLoadingFail,
+    getAllManagementPlansSuccess: addAllManagementPlan,
     getManagementPlansSuccess: addManyManagementPlan,
     deleteManagementPlanSuccess: managementPlanAdapter.removeOne,
     deleteManagementPlansSuccess: managementPlanAdapter.removeMany,
@@ -72,6 +83,7 @@ const managementPlanSlice = createSlice({
 });
 export const {
   getManagementPlansSuccess,
+  getAllManagementPlansSuccess,
   onLoadingManagementPlanStart,
   onLoadingManagementPlanFail,
   deleteManagementPlanSuccess,

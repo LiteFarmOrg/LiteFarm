@@ -22,7 +22,7 @@ export default function RepeatedCropPlanSpotlight({ repeatingPlanCreated, childr
           position: 'top',
           offset: '1px',
           buttonText: t('common:GOT_IT'),
-          popoverStyles: { noArrow: true },
+          popoverStyles: { width: '90vw', noArrow: true },
         },
       ]}
       onFinish={onFinish}

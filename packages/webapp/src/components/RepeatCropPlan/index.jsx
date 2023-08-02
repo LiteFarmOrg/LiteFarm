@@ -13,13 +13,11 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import React, { useState, useEffect, useRef } from 'react';
-import { useDispatch } from 'react-redux';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import styles from './styles.module.scss';
 import PropTypes from 'prop-types';
 import { Controller, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import { setPersistedPaths } from '../../containers/hooks/useHookFormPersist/hookFormPersistSlice';
 import MultiStepPageTitle from '../PageTitle/MultiStepPageTitle';
 import Form from '../Form';
 import Button from '../Form/Button';
@@ -56,10 +54,8 @@ export default function PureRepeatCropPlan({
   onContinue = () => {},
   useHookFormPersist,
   persistedFormData,
-  persistedPaths,
 }) {
   const { t } = useTranslation(['translation', 'common']);
-  const dispatch = useDispatch();
   const {
     register,
     handleSubmit,
@@ -86,7 +82,7 @@ export default function PureRepeatCropPlan({
     },
   });
 
-  const { historyCancel } = useHookFormPersist(getValues, persistedPaths);
+  const { historyCancel } = useHookFormPersist(getValues);
 
   const intervalOptions = [
     { value: 'day', label: t('REPEAT_PLAN.INTERVAL.DAY') },
@@ -107,31 +103,25 @@ export default function PureRepeatCropPlan({
   const finish = watch(FINISH);
   const finishOnDate = watch(FINISH_ON_DATE);
 
-  const previousPlanStartDateRef = useRef(planStartDate);
-  const previousRepeatIntervalRef = useRef(repeatInterval);
-
+  // Trigger validation of the crop plan name on initial load
   useEffect(() => {
-    // Trigger validation of the crop plan name on initial load
     trigger(CROP_PLAN_NAME);
-    dispatch(setPersistedPaths(persistedPaths));
   }, []);
 
   // Update DaysOfWeekSelect selection
-  useEffect(() => {
-    const fromConfirmation =
-      previousPlanStartDateRef.current === planStartDate &&
-      previousRepeatIntervalRef.current === repeatInterval;
-
-    if (repeatInterval.value !== 'week' || fromConfirmation) {
+  const onPlantDateOrRepeatIntervalChange = useCallback((repeatInterval, planStartDate) => {
+    if (repeatInterval.value !== 'week') {
       return;
     }
     const dayOfWeekString = getWeekday(planStartDate);
-
     setValue(DAYS_OF_WEEK, [dayOfWeekString]);
-
-    previousPlanStartDateRef.current = planStartDate;
-    previousRepeatIntervalRef.current = repeatInterval;
-  }, [planStartDate, repeatInterval]);
+  }, []);
+  const onPlantDateChange = useCallback((e) => {
+    onPlantDateOrRepeatIntervalChange(getValues(REPEAT_INTERVAL), e.target.value);
+  }, []);
+  const onRepeatIntervalChange = useCallback((e) => {
+    onPlantDateOrRepeatIntervalChange(e, getValues(PLAN_START_DATE));
+  }, []);
 
   // Populate monthly options React Select
   useEffect(() => {
@@ -266,6 +256,7 @@ export default function PureRepeatCropPlan({
             label={t('REPEAT_PLAN.START_DATE')}
             hookFormRegister={register(PLAN_START_DATE, { required: true })}
             errors={getInputErrors(errors, PLAN_START_DATE)}
+            onChange={onPlantDateChange}
           />
 
           <Main className={styles.taskSubtext}>
@@ -310,6 +301,7 @@ export default function PureRepeatCropPlan({
                   options={intervalOptions}
                   onChange={(e) => {
                     onChange(e);
+                    onRepeatIntervalChange(e);
                   }}
                   value={value}
                   style={{ width: '100%' }}

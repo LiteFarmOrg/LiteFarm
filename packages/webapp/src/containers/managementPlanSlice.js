@@ -24,6 +24,7 @@ export const getManagementPlan = (obj) => {
       'management_plan_group_id',
       'repetition_number',
       'management_plan_group',
+      'harvested_to_date',
     ],
   );
 };
@@ -399,3 +400,10 @@ export const expiredManagementPlanByCropVarietyIdSelector = (crop_variety_id) =>
     (managementPlans, lastActiveDate) =>
       getExpiredManagementPlans(managementPlans, new Date(lastActiveDate).getTime()),
   );
+
+export const managementPlanByManagementPlanIDSelector = (management_plan_id) =>
+  createSelector([managementPlansSelector], (managementPlans) => {
+    return managementPlans.filter(
+      (managementPlan) => managementPlan.management_plan_id === parseInt(management_plan_id),
+    );
+  });

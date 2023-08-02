@@ -1374,7 +1374,7 @@
     "DUPLICATE_NAME": "Ya existe un plan de cultivo con éste nombre. Favor utilice otro nombre.",
     "START_DATE": "Inicio",
     "EARLIEST_TASK": "En el plan original la tarea más temprana {{dateType}} el {{date}}",
-    "COMPLETION": "termina",
+    "COMPLETION": "terminó",
     "DUE": "vence",
     "REPEAT_EVERY": "Repetir cada",
     "REPEAT_ON": "Repetir en",

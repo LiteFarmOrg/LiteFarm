@@ -29,6 +29,7 @@ export default function ManagementDetails({ history, match }) {
       data.crop_management_plan &&
         (data.crop_management_plan.management_plan_id = management_plan_id);
       data.crop_variety_id = variety_id;
+      data.harvested_to_date = plan.harvested_to_date;
     });
     dispatch(patchManagementPlan(getProcessedFormData(managementPlan)));
   };

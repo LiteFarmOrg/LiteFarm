@@ -20,7 +20,6 @@ import {
   axios,
   getHeader,
   getManagementPlanAndPlantingMethodSuccessSaga,
-  getManagementPlans,
   onReqSuccessSaga,
 } from '../saga';
 import { createAction } from '@reduxjs/toolkit';
@@ -32,7 +31,7 @@ import {
 import i18n from '../../locales/i18n';
 import history from '../../history';
 import { enqueueErrorSnackbar, enqueueSuccessSnackbar } from '../Snackbar/snackbarSlice';
-import { getTasks, getTasksSuccessSaga } from '../Task/saga';
+import { getTasksSuccessSaga } from '../Task/saga';
 import { CROP_PLAN_NAME } from '../../components/RepeatCropPlan/constants';
 
 const DEC = 10;
@@ -77,10 +76,6 @@ export function* postManagementPlanSaga({ payload: managementPlanData }) {
       state: { fromCreation: true },
       message: i18n.t('message:MANAGEMENT_PLAN.SUCCESS.POST'),
     });
-
-    // Refresh Redux store
-    yield put(getManagementPlans());
-    yield put(getTasks());
   } catch (e) {
     console.log(e);
     yield put(enqueueErrorSnackbar(i18n.t('message:MANAGEMENT_PLAN.ERROR.POST')));
@@ -105,8 +100,16 @@ export function* postRepeatCropPlanSaga({
       header,
     );
 
-    yield put(getManagementPlans());
-    yield put(getTasks());
+    const managementPlans = [];
+    let managementTasks = [];
+
+    result.data.forEach(({ management_plan, tasks }) => {
+      managementPlans.push(management_plan);
+      managementTasks = managementTasks.concat(tasks);
+    });
+
+    yield call(getManagementPlanAndPlantingMethodSuccessSaga, { payload: managementPlans });
+    yield call(getTasksSuccessSaga, { payload: managementTasks });
 
     yield call(onReqSuccessSaga, {
       pathname: `/crop/${crop_variety_id}/management`,

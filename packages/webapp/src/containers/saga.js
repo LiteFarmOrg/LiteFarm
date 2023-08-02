@@ -80,6 +80,7 @@ import { getGatesSuccess, onLoadingGateFail, onLoadingGateStart } from './gateSl
 import { getAllCropsSuccess, onLoadingCropFail, onLoadingCropStart } from './cropSlice';
 import {
   getManagementPlansSuccess,
+  getAllManagementPlansSuccess,
   onLoadingManagementPlanFail,
   onLoadingManagementPlanStart,
 } from './managementPlanSlice';
@@ -418,6 +419,30 @@ export function* getManagementPlanAndPlantingMethodSuccessSaga({ payload: manage
   yield call(getPlantingManagementPlansSuccessSaga, { payload: plantingManagementPlans });
 }
 
+export const getAllManagementPlanAndPlantingMethodSuccess = createAction(
+  'getManagementPlanAndPlantingMethodSuccessSaga',
+);
+
+export function* getAllManagementPlanAndPlantingMethodSuccessSaga({ payload: managementPlans }) {
+  yield put(getAllManagementPlansSuccess(managementPlans));
+  yield put(
+    getCropManagementPlansSuccess(
+      managementPlans.map((managementPlan) => managementPlan.crop_management_plan),
+    ),
+  );
+  const plantingManagementPlans = managementPlans.reduce(
+    (plantingManagementPlans, managementPlan) => {
+      for (const planting_management_plan of managementPlan?.crop_management_plan
+        ?.planting_management_plans || []) {
+        plantingManagementPlans.push(planting_management_plan);
+      }
+      return plantingManagementPlans;
+    },
+    [],
+  );
+  yield call(getPlantingManagementPlansSuccessSaga, { payload: plantingManagementPlans });
+}
+
 export function* getPlantingManagementPlansSuccessSaga({ payload: plantingManagementPlans }) {
   const plantingMethods = plantingManagementPlans.reduce(
     (plantingMethods, planting_management_plan) => {
@@ -459,7 +484,7 @@ export function* getManagementPlansSaga() {
   try {
     yield call(onLoadingManagementPlanAndPlantingMethodStartSaga);
     const result = yield call(axios.get, managementPlanURL + '/farm/' + farm_id, header);
-    yield call(getManagementPlanAndPlantingMethodSuccessSaga, { payload: result.data });
+    yield call(getAllManagementPlanAndPlantingMethodSuccessSaga, { payload: result.data });
   } catch (e) {
     console.log(e);
     yield put(onLoadingManagementPlanFail(e));

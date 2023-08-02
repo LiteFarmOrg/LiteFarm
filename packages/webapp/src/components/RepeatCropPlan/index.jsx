@@ -14,10 +14,12 @@
  */
 
 import React, { useState, useEffect, useRef } from 'react';
+import { useDispatch } from 'react-redux';
 import styles from './styles.module.scss';
 import PropTypes from 'prop-types';
 import { Controller, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
+import { setPersistedPaths } from '../../containers/hooks/useHookFormPersist/hookFormPersistSlice';
 import MultiStepPageTitle from '../PageTitle/MultiStepPageTitle';
 import Form from '../Form';
 import Button from '../Form/Button';
@@ -57,6 +59,7 @@ export default function PureRepeatCropPlan({
   persistedPaths,
 }) {
   const { t } = useTranslation(['translation', 'common']);
+  const dispatch = useDispatch();
   const {
     register,
     handleSubmit,
@@ -104,19 +107,30 @@ export default function PureRepeatCropPlan({
   const finish = watch(FINISH);
   const finishOnDate = watch(FINISH_ON_DATE);
 
-  // Trigger validation of the crop plan name on initial load
+  const previousPlanStartDateRef = useRef(planStartDate);
+  const previousRepeatIntervalRef = useRef(repeatInterval);
+
   useEffect(() => {
+    // Trigger validation of the crop plan name on initial load
     trigger(CROP_PLAN_NAME);
+    dispatch(setPersistedPaths(persistedPaths));
   }, []);
 
   // Update DaysOfWeekSelect selection
   useEffect(() => {
-    if (repeatInterval.value !== 'week') {
+    const fromConfirmation =
+      previousPlanStartDateRef.current === planStartDate &&
+      previousRepeatIntervalRef.current === repeatInterval;
+
+    if (repeatInterval.value !== 'week' || fromConfirmation) {
       return;
     }
     const dayOfWeekString = getWeekday(planStartDate);
 
     setValue(DAYS_OF_WEEK, [dayOfWeekString]);
+
+    previousPlanStartDateRef.current = planStartDate;
+    previousRepeatIntervalRef.current = repeatInterval;
   }, [planStartDate, repeatInterval]);
 
   // Populate monthly options React Select

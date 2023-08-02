@@ -43,10 +43,11 @@ const PurePestControlTask = ({
       : { value: controlMethodValue, label: controlMethod[controlMethodValue] };
   }, [controlMethodValue]);
 
+  //TODO: Need performance optimization check as it is setting values to null
+  //for few conditions even when not required.
   useEffect(() => {
     if (
       controlMethodExposedValue?.value &&
-      getValues('pest_control_task.product') &&
       !productPests.includes(controlMethodExposedValue?.value)
     ) {
       setValue('pest_control_task.product', null);

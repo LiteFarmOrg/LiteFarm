@@ -7,6 +7,7 @@ import { MediaWithAuthentication } from '../../../containers/MediaWithAuthentica
 import { mediaEnum } from '../../../containers/MediaWithAuthentication/constants';
 import { useTranslation } from 'react-i18next';
 import { DocumentIcon } from '../../../components/Icons/DocumentIcon';
+import Infoi from '../../../components/Tooltip/Infoi';
 
 export default function PureDocumentTile({
   className,
@@ -26,6 +27,11 @@ export default function PureDocumentTile({
   return (
     <div className={styles.previewWrapper}>
       <div className={clsx(styles.container, className)} onClick={onClick}>
+        <Infoi
+          style={{ position: 'absolute', right: 0, top: 0 }}
+          placement={'right-start'}
+          content={t('DOCUMENTS.VIEW_DETAIL')}
+        ></Infoi>
         {preview ? (
           imageComponent({
             className: styles.img,
@@ -66,13 +72,6 @@ export default function PureDocumentTile({
           )}
         </div>
       </div>
-      {fileUrl &&
-        fileDownloadComponent({
-          className: styles.downloadContainer,
-          fileUrl,
-          title: `${title}.${extensionName}`,
-          mediaType: mediaEnum.DOCUMENT,
-        })}
     </div>
   );
 }

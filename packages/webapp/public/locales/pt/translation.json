@@ -1070,6 +1070,8 @@
     "GERMINATION": "Germinação",
     "HARVEST": "Colheita",
     "HARVEST_DATE": "Quando será a próxima colheita?",
+    "HARVEST_TO_DATE": "MISSING",
+    "HARVEST_TO_DATE_INFO": "MISSING",
     "HISTORICAL_CONTAINER_OR_IN_GROUND": "Foi plantado em um recipiente ou no solo?",
     "IN_GROUND": "No solo",
     "INCOMPLETE_TASK_CONTENT": "Este plano têm tarefas que ainda não foram completadas. Você precisará marcar as tarefas como concluídas, a fim de concluir este plano de cultivo. ",

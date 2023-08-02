@@ -294,7 +294,6 @@ const Notification = React.lazy(() => import('./containers/Notification'));
 const NotificationReadOnly = React.lazy(() =>
   import('./containers/Notification/NotificationReadOnly'),
 );
-const Forbidden = React.lazy(() => import('./containers/ErrorHandler/Forbidden/Forbidden'));
 const UnknownRecord = React.lazy(() =>
   import('./containers/ErrorHandler/UnknownRecord/UnknownRecord'),
 );
@@ -643,7 +642,6 @@ const Routes = () => {
               exact
               component={NotificationReadOnly}
             />
-            <Route path="/403" exact component={Forbidden} />
             <Route path="/unknown_record" exact component={UnknownRecord} />
             <Redirect
               to={'/'}
@@ -948,7 +946,6 @@ const Routes = () => {
               exact
               component={NotificationReadOnly}
             />
-            <Route path="/403" exact component={Forbidden} />
             <Route path="/unknown_record" exact component={UnknownRecord} />
             <Redirect to={'/'} />
           </Switch>
@@ -1043,7 +1040,6 @@ const Routes = () => {
               exact
               component={NotificationReadOnly}
             />
-            <Route path="/403" exact component={Forbidden} />
             <Route path="/unknown_record" exact component={UnknownRecord} />
             <Redirect to={'/'} />
           </Switch>

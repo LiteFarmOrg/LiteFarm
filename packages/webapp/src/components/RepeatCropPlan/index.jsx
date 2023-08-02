@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import styles from './styles.module.scss';
 import PropTypes from 'prop-types';
 import { Controller, useForm } from 'react-hook-form';
@@ -54,7 +54,6 @@ export default function PureRepeatCropPlan({
   onContinue = () => {},
   useHookFormPersist,
   persistedFormData,
-  persistedPaths,
 }) {
   const { t } = useTranslation(['translation', 'common']);
   const {
@@ -83,7 +82,7 @@ export default function PureRepeatCropPlan({
     },
   });
 
-  const { historyCancel } = useHookFormPersist(getValues, persistedPaths);
+  const { historyCancel } = useHookFormPersist(getValues);
 
   const intervalOptions = [
     { value: 'day', label: t('REPEAT_PLAN.INTERVAL.DAY') },
@@ -104,15 +103,25 @@ export default function PureRepeatCropPlan({
   const finish = watch(FINISH);
   const finishOnDate = watch(FINISH_ON_DATE);
 
-  // Update DaysOfWeekSelect selection
+  // Trigger validation of the crop plan name on initial load
   useEffect(() => {
+    trigger(CROP_PLAN_NAME);
+  }, []);
+
+  // Update DaysOfWeekSelect selection
+  const onPlantDateOrRepeatIntervalChange = useCallback((repeatInterval, planStartDate) => {
     if (repeatInterval.value !== 'week') {
       return;
     }
     const dayOfWeekString = getWeekday(planStartDate);
-
     setValue(DAYS_OF_WEEK, [dayOfWeekString]);
-  }, [planStartDate, repeatInterval]);
+  }, []);
+  const onPlantDateChange = useCallback((e) => {
+    onPlantDateOrRepeatIntervalChange(getValues(REPEAT_INTERVAL), e.target.value);
+  }, []);
+  const onRepeatIntervalChange = useCallback((e) => {
+    onPlantDateOrRepeatIntervalChange(e, getValues(PLAN_START_DATE));
+  }, []);
 
   // Populate monthly options React Select
   useEffect(() => {
@@ -126,29 +135,26 @@ export default function PureRepeatCropPlan({
       return;
     }
 
-    const getAndSetMonthlyOptions = async () => {
-      // Utility function uses rrule to generate natural language strings
-      const options = await calculateMonthlyOptions(planStartDate, repeatFrequency);
+    // Utility function uses rrule to generate natural language strings
+    const options = calculateMonthlyOptions(planStartDate, repeatFrequency);
 
-      // If already on this screen, store which pattern is currently selected.
-      // When returning from next screen, store the selected option
-      const currentSelection = (monthlyOptions.length ? monthlyOptions : options)?.findIndex(
-        (option) =>
-          // e.g. {"value":8,"label":"every month on the 8th"}
-          JSON.stringify(option) === JSON.stringify(monthRepeatOn),
-      );
+    // If already on this screen, store which pattern is currently selected.
+    // When returning from next screen, store the selected option
+    const currentSelection = (monthlyOptions.length ? monthlyOptions : options)?.findIndex(
+      (option) =>
+        // e.g. {"value":8,"label":"every month on the 8th"}
+        JSON.stringify(option) === JSON.stringify(monthRepeatOn),
+    );
 
-      setMonthlyOptions(options);
+    setMonthlyOptions(options);
 
-      // Persist original selection if there is one
-      if (options[currentSelection]) {
-        setValue(MONTH_REPEAT_ON, options[currentSelection]);
-      } else {
-        // or select first option by default
-        setValue(MONTH_REPEAT_ON, options[0]);
-      }
-    };
-    getAndSetMonthlyOptions();
+    // Persist original selection if there is one
+    if (options[currentSelection]) {
+      setValue(MONTH_REPEAT_ON, options[currentSelection]);
+    } else {
+      // or select first option by default
+      setValue(MONTH_REPEAT_ON, options[0]);
+    }
   }, [planStartDate, repeatFrequency, repeatInterval]);
 
   // Count occurences to given "finish on" date
@@ -250,6 +256,7 @@ export default function PureRepeatCropPlan({
             label={t('REPEAT_PLAN.START_DATE')}
             hookFormRegister={register(PLAN_START_DATE, { required: true })}
             errors={getInputErrors(errors, PLAN_START_DATE)}
+            onChange={onPlantDateChange}
           />
 
           <Main className={styles.taskSubtext}>
@@ -266,9 +273,20 @@ export default function PureRepeatCropPlan({
             <Input
               hookFormRegister={register(REPEAT_FREQUENCY, {
                 required: true,
+                validate: (value) => {
+                  // These errors aren't displayed so no translation is necessary
+                  if (value < 1 || value > 50) {
+                    return 'must be between 1 and 50';
+                  }
+                  if (Math.floor(value) != value) {
+                    return 'must be an integer';
+                  }
+                  return true;
+                },
               })}
               type="number"
               stepper
+              onChange={(e) => (e.target.value = Math.floor(e.target.value))}
               onKeyDown={integerOnKeyDown}
               min={1}
               max={50}
@@ -283,6 +301,7 @@ export default function PureRepeatCropPlan({
                   options={intervalOptions}
                   onChange={(e) => {
                     onChange(e);
+                    onRepeatIntervalChange(e);
                   }}
                   value={value}
                   style={{ width: '100%' }}
@@ -358,11 +377,19 @@ export default function PureRepeatCropPlan({
                           if (!value && getValues(FINISH) === 'after') {
                             return t('common:REQUIRED');
                           }
+                          // These errors aren't displayed so no translation is necessary
+                          if (value < 1 || value > 20) {
+                            return 'must be between 1 and 20';
+                          }
+                          if (Math.floor(value) != value) {
+                            return 'must be an integer';
+                          }
                           return true;
                         },
                       })}
                       style={{ width: '72px' }}
-                      onChange={() => {
+                      onChange={(e) => {
+                        e.target.value = Math.floor(e.target.value);
                         setValue(FINISH, 'after');
                         trigger(FINISH_ON_DATE);
                       }}

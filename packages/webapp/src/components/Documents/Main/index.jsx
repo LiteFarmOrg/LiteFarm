@@ -109,7 +109,15 @@ function MainDocumentView({
               })}
             </div>
           ) : (
-            <CertifierSelectionMenuItem key={index} certifierName={file_name} />
+            <div className={styles.fileItemWrapper} key={index}>
+              {fileDownloadComponent({
+                className: styles.downloadContainer,
+                title: `${document.name}.${url.split('.').at(-1)}`,
+                fileUrl: url,
+                mediaType: mediaEnum.DOCUMENT,
+              })}
+              <CertifierSelectionMenuItem certifierName={file_name} />
+            </div>
           ),
         )}
       </div>

@@ -1071,6 +1071,8 @@
     "GERMINATION": "Germination",
     "HARVEST": "Récolte initiale",
     "HARVEST_DATE": "Quand prévoyez-vous votre prochaine récolte\u00a0?",
+    "HARVEST_TO_DATE": "MISSING",
+    "HARVEST_TO_DATE_INFO": "MISSING",
     "HISTORICAL_CONTAINER_OR_IN_GROUND": "A-t-il été planté dans un conteneur ou dans le sol\u00a0?",
     "IN_GROUND": "Déjà en terre",
     "INCOMPLETE_TASK_CONTENT": "Ce plan comporte des tâches qui ne sont pas encore terminées. Vous devrez marquer les tâches comme terminées afin de terminer ce plan de gestion des cultures.",

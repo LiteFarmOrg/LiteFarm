@@ -1069,6 +1069,8 @@
     "GERMINATION": "Germination",
     "HARVEST": "Initial harvest",
     "HARVEST_DATE": "When do you expect your next harvest?",
+    "HARVEST_TO_DATE": "Harvest to date",
+    "HARVEST_TO_DATE_INFO": "Harvest to date is calculated based on completed harvest tasks within this crop plan",
     "HISTORICAL_CONTAINER_OR_IN_GROUND": "Was it planted in a container or in the ground?",
     "IN_GROUND": "In ground",
     "INCOMPLETE_TASK_CONTENT": "This plan has tasks that aren’t completed yet. You’ll need to mark the tasks complete in order to complete this crop plan.",

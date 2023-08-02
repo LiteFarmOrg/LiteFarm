@@ -147,6 +147,8 @@ import { APP_VERSION } from '../util/constants';
 import axiosWithoutInterceptors from 'axios';
 import produce from 'immer';
 import { resetTasksFilter } from './filterSlice';
+import { store } from '../store/store.js';
+import { handle403 } from './ErrorHandler/saga.js';
 
 const logUserInfoUrl = () => `${url}/userLog`;
 const getCropsByFarmIdUrl = (farm_id) => `${url}/crop/farm/${farm_id}`;
@@ -161,8 +163,8 @@ axiosWithoutInterceptors.interceptors.response.use(
       if (localStorage.getItem('id_token')) {
         logout();
       }
-    } else if (error?.response?.status === 403 && history.location.pathname !== '/403') {
-      history.push('/403', { error });
+    } else if (error?.response?.status === 403) {
+      store?.dispatch(handle403());
     }
     return Promise.reject(error);
   },

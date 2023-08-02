@@ -12,16 +12,15 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
+import fr from './fr';
+import pt from './pt';
+import es from './es';
 
-const languageFiles = {
-  fr: './fr.js',
-  pt: './pt.js',
-  es: './es.js',
-};
+const languageFiles = { fr, pt, es };
 
-export const getRruleLanguage = async (language) => {
+export const getRruleLanguage = (language) => {
   if (!Object.keys(languageFiles).includes(language)) {
     return { getText: (id) => id, language: null };
   }
-  return await import(languageFiles[language]).then((language) => language.default);
+  return languageFiles[language];
 };

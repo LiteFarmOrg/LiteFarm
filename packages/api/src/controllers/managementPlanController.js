@@ -25,6 +25,7 @@ import PlantTaskModel from '../models/plantTaskModel.js';
 import UserFarmModel from '../models/userFarmModel.js';
 import objection, { raw } from 'objection';
 import _pick from 'lodash/pick.js';
+import knex from '../util/knex.js';
 import { sendTaskNotification, TaskNotificationTypes } from './taskController.js';
 import {
   getDatesFromManagementPlanGraph,
@@ -42,6 +43,9 @@ const managementPlanController = {
       try {
         if (!start_dates?.length > 0 || !management_plan_id || !repeat_details?.crop_plan_name) {
           throw 'Insufficient details to copy crop plan';
+        }
+        if (start_dates?.length > 20) {
+          throw 'Cannot create more than 20 repetitions at a time';
         }
         const createdByUser = req.auth.user_id;
 
@@ -643,8 +647,15 @@ const managementPlanController = {
           .whereNotDeleted()
           .withGraphJoined(planGraphFetchedQueryString, graphJoinedOptions)
           .where('crop_variety.farm_id', farm_id);
+        const harvestedPlans = await getHarvestedToDate(
+          managementPlans.map((mp) => mp.management_plan_id),
+        );
+        const transformedPlans = appendHarvestedToDate(
+          removeCropVarietyFromManagementPlans(managementPlans),
+          harvestedPlans,
+        );
         return managementPlans?.length
-          ? res.status(200).send(removeCropVarietyFromManagementPlans(managementPlans))
+          ? res.status(200).send(transformedPlans)
           : res.status(404).send('Field crop not found');
       } catch (error) {
         console.log(error);
@@ -720,6 +731,35 @@ const removeCropVarietyFromManagementPlans = (managementPlans) => {
   for (let i = 0; i < managementPlans.length; i++)
     removeCropVarietyFromManagementPlan(managementPlans[i]);
   return managementPlans;
+};
+
+// function to add harvested_to_date to management plans that have it.
+const appendHarvestedToDate = (managementPlans, plansWithHarvest) => {
+  return managementPlans.map((mp) => {
+    const harvest = plansWithHarvest
+      ? plansWithHarvest.find((pwh) => pwh.management_plan_id === mp.management_plan_id)
+      : null;
+    mp.harvested_to_date = harvest ? harvest.harvested_to_date : null;
+    return mp;
+  });
+};
+
+const getHarvestedToDate = async (managementPlanIds) => {
+  return ManagementPlanModel.query()
+    .select(knex.raw('SUM(actual_quantity) AS harvested_to_date, mp.management_plan_id'))
+    .from('harvest_task as ht')
+    .join('task as t', 't.task_id', '=', 'ht.task_id')
+    .join('management_tasks as mt', 'mt.task_id', '=', 't.task_id')
+    .join(
+      'planting_management_plan as pmp',
+      'pmp.planting_management_plan_id',
+      '=',
+      'mt.planting_management_plan_id',
+    )
+    .join('management_plan as mp', 'pmp.management_plan_id', '=', 'mp.management_plan_id')
+    .whereIn('mp.management_plan_id', managementPlanIds)
+    .andWhere('t.complete_date', 'IS NOT', null)
+    .groupBy('mp.management_plan_id');
 };
 
 export default managementPlanController;

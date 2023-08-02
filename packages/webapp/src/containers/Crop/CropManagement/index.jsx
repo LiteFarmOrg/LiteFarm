@@ -2,6 +2,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import PureCropManagement from '../../../components/Crop/Management';
 import { cropVarietySelector } from '../../cropVarietySlice';
 import CropVarietySpotlight from '../CropVarietySpotlight';
+import RepeatedCropPlanSpotlight from '../RepeatedCropPlanSpotlight';
 import {
   setFormData,
   setPersistedPaths,
@@ -110,6 +111,8 @@ function CropManagement({ history, match, location }) {
     dispatch(getTasks());
   }, []);
 
+  const hasRepeatingPlans = !!managementPlanCardContents.find((plan) => !!plan.repetition_count);
+
   const isAdmin = useSelector(isAdminSelector);
   return (
     <CropVarietySpotlight>
@@ -123,6 +126,9 @@ function CropManagement({ history, match, location }) {
         isAdmin={isAdmin}
         location={location}
       />
+      <RepeatedCropPlanSpotlight
+        repeatingPlanCreated={hasRepeatingPlans}
+      ></RepeatedCropPlanSpotlight>
     </CropVarietySpotlight>
   );
 }

@@ -129,6 +129,7 @@ export default function PureCropManagement({
                 {...managementPlan}
                 key={index}
                 repeatPlanInfoOnClick={repeatPlanInfoOnClick}
+                repeatingPlan={managementPlan.repetition_count && managementPlan.repetition_number}
               />
             );
           })}

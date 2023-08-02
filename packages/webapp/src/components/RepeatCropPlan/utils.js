@@ -75,23 +75,14 @@ const getUTCInLocale = (date) => {
 };
 
 /**
- * Change UTC to locale date.
- * ex: 'Fri, 21 Jun 2024 00:00:00 GMT' -> 'Fri Jun 21 2024 00:00:00 GMT-0700 (Pacific Daylight Time)'
- * @param {string} date
- *    ex. 'Thu Jun 20 2024 17:00:00 GMT-0700 (Pacific Daylight Time)'
- *         which is equivalent to 'Fri, 21 Jun 2024 00:00:00 GMT'
- * @returns {string} locale date.
- *    ex. 'Fri Jun 21 2024 00:00:00 GMT-0700 (Pacific Daylight Time)'
+ * Generate date in YYYY-MM-DD format.
+ * @param {number} year ex. 2023
+ * @param {number} month ex. 8
+ * @param {number} day ex. 1
+ * @returns {string} Date in YYYY-MM-DD format. ex. "2023-08-01"
  */
-const changeUTCToLocaleDate = (localeDate) => {
-  // convert locale date to UTC
-  const date = new Date(localeDate);
-  const year = date.getUTCFullYear();
-  const month = date.getUTCMonth();
-  const day = date.getUTCDate();
-
-  // change UTC to locale date
-  return new Date(year, month, day);
+const getDateInYYYYMMDD = (year, month, day) => {
+  return `${year}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`;
 };
 
 export const calculateMonthlyOptions = (planStartDate, repeatFrequency) => {
@@ -244,13 +235,13 @@ const getOccurrencesRuleOptions = (
   let adjustedStartDate = startDate;
 
   if (repeatInterval === 'week') {
-    const originalWeekday = repeatInterval === 'week' ? getWeekday(originalStartDate) : '';
+    const originalWeekday = getWeekday(originalStartDate);
     weekdayUnchanged =
       RRule[RRULEDAYS[originalWeekday]].weekday === textRuleOptions.byweekday[0].weekday;
   }
   if (startDateIsOriginalDate && weekdayUnchanged) {
     const [year, month, day] = startDate.split('-');
-    adjustedStartDate = new Date(year, month - 1, +day + 1).toISOString().split('T')[0];
+    adjustedStartDate = getDateInYYYYMMDD(year, month, +day + 1);
   }
   options.dtstart = getUTCInLocale(adjustedStartDate);
 
@@ -315,6 +306,9 @@ export const getTextAndOccurrences = (
 
   return {
     text: new RRule(textRuleOptions).toText(getText, language),
-    occurrences: new RRule(occurrencesRuleOptions).all().map(changeUTCToLocaleDate),
+    occurrences: new RRule(occurrencesRuleOptions).all().map((date) => {
+      const d = new Date(date);
+      return getDateInYYYYMMDD(d.getUTCFullYear(), d.getUTCMonth() + 1, d.getUTCDate());
+    }),
   };
 };

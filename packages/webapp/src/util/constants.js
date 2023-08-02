@@ -5,4 +5,4 @@ export const DO_ORIGIN_URL = `https://${
 export const DO_CDN_URL = `https://${
   import.meta.env.VITE_DO_BUCKET_NAME
 }.nyc3.cdn.digitaloceanspaces.com`;
-export const APP_VERSION = '3.3.2';
+export const APP_VERSION = '3.4.0';

@@ -1160,10 +1160,10 @@
     "WILD_CROP": "¿Estás cosechando un cultivo silvestre?",
     "ASSIGN_ALL_TASKS": "Todas las tareas generadas como parte de este plan de cultivo serán asignadas a este individuo, Ud. puede cambiar el responsable después",
     "CROP_PLAN_REPEAT": "Éste plan de cultivo se repite",
-    "CROP_PLAN_REPEAT_SUBTEXT": "Haciendo clic en 'Guardar' guardará inmediatamente éste plan de cultivo. Después se le preguntará como se repite.",
+    "CROP_PLAN_REPEAT_SUBTEXT": "Haciendo clic en 'Guardar' guardará inmediatamente éste plan de cultivo. Después se le preguntará cómo se repite.",
     "REPEATED_MP_SPOTLIGHT": {
-      "BODY": "MISSING",
-      "TITLE": "MISSING"
+      "BODY": "Ud. puede hacer clic para ver todos los planes de cultivo en éste grupo. Si modifica un plan de cultivo individual no cambiará nada en los otros planes del mismo grupo.",
+      "TITLE": "!Felicidades! Ud. ha creado su primer plan de cultivo repetido"
     }
   },
   "LOCATION_CREATION": {

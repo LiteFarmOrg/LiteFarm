@@ -4,6 +4,9 @@ import { managementPlanSelector } from '../../managementPlanSlice';
 import { isAdminSelector, measurementSelector } from '../../userFarmSlice';
 import { useSelector } from 'react-redux';
 import FirstManagementPlanSpotlight from './FirstManagementPlanSpotlight';
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { getManagementPlansAndTasks } from '../../saga';
 
 export default function ManagementDetails({ history, match }) {
   const variety_id = match.params.variety_id;
@@ -12,15 +15,22 @@ export default function ManagementDetails({ history, match }) {
   const management_plan_id = match.params.management_plan_id;
   const plan = useSelector(managementPlanSelector(management_plan_id));
 
-  if (plan === undefined) {
-    history.replace('/unknown_record');
-  }
+  useEffect(() => {
+    if (plan === undefined) {
+      history.replace(`/crop/${variety_id}/management_plan/${management_plan_id}/tasks`);
+    }
+  }, [plan, history]);
 
   const isAdmin = useSelector(isAdminSelector);
 
   const onBack = () => {
     history.push(`/crop/${variety_id}/management`);
   };
+
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getManagementPlansAndTasks());
+  }, []);
 
   const showSpotlight = history.location.state?.fromCreation;
 

@@ -7,6 +7,7 @@ import FirstManagementPlanSpotlight from './FirstManagementPlanSpotlight';
 import { patchManagementPlan } from '../saga';
 import { getProcessedFormData } from '../../hooks/useHookFormPersist/utils';
 import produce from 'immer';
+import { useEffect } from 'react';
 
 export default function ManagementDetails({ history, match }) {
   const dispatch = useDispatch();
@@ -15,6 +16,12 @@ export default function ManagementDetails({ history, match }) {
 
   const management_plan_id = match.params.management_plan_id;
   const plan = useSelector(managementPlanSelector(management_plan_id));
+
+  useEffect(() => {
+    if (plan === undefined) {
+      history.replace(`/crop/${variety_id}/management`);
+    }
+  }, [plan, history]);
 
   const onBack = () => {
     history.push(`/crop/${variety_id}/management_plan/${match.params.management_plan_id}/details`);

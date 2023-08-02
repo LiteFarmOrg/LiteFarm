@@ -27,21 +27,20 @@ export default function PureDocumentTile({
 
   return (
     <div className={styles.previewWrapper}>
-      <div className={clsx(styles.container, className)} onClick={onClick}>
-        {multipleFiles && (
+      {multipleFiles && (
+        <div style={{ position: 'absolute', right: 1, top: 1, zIndex: 1000 }}>
           <Infoi
             style={{
-              position: 'absolute',
-              right: 1,
-              top: 1,
               backgroundColor: '#028577',
               fill: 'white',
               borderRadius: '50%',
+              zIndex: 1000,
             }}
-            placement={'right-start'}
             content={t('DOCUMENTS.VIEW_DETAIL')}
           ></Infoi>
-        )}
+        </div>
+      )}
+      <div className={clsx(styles.container, className)} onClick={onClick}>
         {preview ? (
           imageComponent({
             className: styles.img,

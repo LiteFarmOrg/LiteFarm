@@ -41,7 +41,7 @@ class IrrigationTaskModel extends Model {
         estimated_duration_unit: { type: ['string', 'null'] },
         estimated_flow_rate: { type: ['number', 'null'] },
         estimated_flow_rate_unit: { type: ['string', 'null'] },
-        location_id: { type: 'string' },
+        location_id: { type: ['string', 'null'] },
         estimated_water_usage: { type: ['number', 'null'] },
         estimated_water_usage_unit: { type: ['string', 'null'] },
         application_depth: { type: ['number', 'null'] },

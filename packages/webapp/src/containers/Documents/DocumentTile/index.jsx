@@ -32,9 +32,10 @@ export default function PureDocumentTile({
           <Infoi
             style={{
               position: 'absolute',
-              right: 0,
-              top: 0,
-              backgroundColor: 'white',
+              right: 1,
+              top: 1,
+              backgroundColor: '#028577',
+              fill: 'white',
               borderRadius: '50%',
             }}
             placement={'right-start'}

@@ -21,17 +21,26 @@ export default function PureDocumentTile({
   fileUrl,
   imageComponent = (props) => <MediaWithAuthentication {...props} />,
   fileDownloadComponent = (props) => <MediaWithAuthentication {...props} />,
+  multipleFiles = false,
 }) {
   const { t } = useTranslation();
 
   return (
     <div className={styles.previewWrapper}>
       <div className={clsx(styles.container, className)} onClick={onClick}>
-        <Infoi
-          style={{ position: 'absolute', right: 0, top: 0 }}
-          placement={'right-start'}
-          content={t('DOCUMENTS.VIEW_DETAIL')}
-        ></Infoi>
+        {multipleFiles && (
+          <Infoi
+            style={{
+              position: 'absolute',
+              right: 0,
+              top: 0,
+              backgroundColor: 'white',
+              borderRadius: '50%',
+            }}
+            placement={'right-start'}
+            content={t('DOCUMENTS.VIEW_DETAIL')}
+          ></Infoi>
+        )}
         {preview ? (
           imageComponent({
             className: styles.img,
@@ -72,6 +81,14 @@ export default function PureDocumentTile({
           )}
         </div>
       </div>
+      {fileUrl &&
+        !multipleFiles &&
+        fileDownloadComponent({
+          className: styles.downloadContainer,
+          fileUrl,
+          title: `${title}.${extensionName}`,
+          mediaType: mediaEnum.DOCUMENT,
+        })}
     </div>
   );
 }

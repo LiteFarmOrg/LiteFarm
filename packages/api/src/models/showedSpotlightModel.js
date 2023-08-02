@@ -68,6 +68,8 @@ class ShowedSpotlight extends Model {
         planting_task_end: { type: ['string', 'null'] },
         sensor_reading_chart: { type: 'boolean' },
         sensor_reading_chart_end: { type: ['string', 'null'] },
+        repeat_management_plan_creation: { type: 'boolean' },
+        repeat_management_plan_creation_end: { type: ['string', 'null'] },
       },
     };
   }

@@ -1161,7 +1161,11 @@
     "WILD_CROP": "Récoltez-vous une culture sauvage\u00a0?",
     "ASSIGN_ALL_TASKS": "MISSING",
     "CROP_PLAN_REPEAT": "MISSING",
-    "CROP_PLAN_REPEAT_SUBTEXT": "MISSING"
+    "CROP_PLAN_REPEAT_SUBTEXT": "MISSING",
+    "REPEATED_MP_SPOTLIGHT": {
+      "BODY": "MISSING",
+      "TITLE": "MISSING"
+    }
   },
   "LOCATION_CREATION": {
     "TITLE": "Aucun emplacement trouvé\u00a0!",

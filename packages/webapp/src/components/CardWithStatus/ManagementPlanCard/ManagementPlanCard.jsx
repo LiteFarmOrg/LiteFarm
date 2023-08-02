@@ -36,6 +36,7 @@ export function ManagementPlanCard({
   repetition_count,
   repetition_number,
   repeatPlanInfoOnClick,
+  repeatingPlan,
 }) {
   const { t } = useTranslation();
 
@@ -55,6 +56,7 @@ export function ManagementPlanCard({
 
           {repetition_count && repetition_number && (
             <span
+              id={repeatingPlan ? 'repeatingPlan' : ''}
               className={clsx(styles.repeatPlan, { [styles.underline]: repeatPlanInfoOnClick })}
               onClick={repeatPlanInfoOnClick}
             >

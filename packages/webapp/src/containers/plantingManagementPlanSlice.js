@@ -51,18 +51,6 @@ const addManyPlantingManagementPlan = (state, { payload: plantingManagementPlans
   );
 };
 
-const addAllPlantingManagementPlan = (state, { payload: plantingManagementPlans }) => {
-  state.loading = false;
-  state.error = null;
-  state.loaded = true;
-  plantingManagementPlanAdapter.setAll(
-    state,
-    plantingManagementPlans.map((plantingManagementPlan) =>
-      getPlantingManagementPlan(plantingManagementPlan),
-    ),
-  );
-};
-
 const plantingManagementPlanAdapter = createEntityAdapter({
   selectId: (plantingManagementPlan) => plantingManagementPlan.planting_management_plan_id,
 });
@@ -78,13 +66,11 @@ const plantingManagementPlanSlice = createSlice({
     onLoadingPlantingManagementPlanStart: onLoadingStart,
     onLoadingPlantingManagementPlanFail: onLoadingFail,
     getPlantingManagementPlansSuccess: addManyPlantingManagementPlan,
-    getAllPlantingManagementPlansSuccess: addAllPlantingManagementPlan,
     deletePlantingManagementPlanSuccess: plantingManagementPlanAdapter.removeOne,
   },
 });
 export const {
   getPlantingManagementPlansSuccess,
-  getAllPlantingManagementPlansSuccess,
   onLoadingPlantingManagementPlanStart,
   onLoadingPlantingManagementPlanFail,
   deletePlantingManagementPlanSuccess,
@@ -153,8 +139,11 @@ export const plantingManagementPlanEntitiesSelector = createSelector(
       row_method: rowMethodEntities,
     };
     for (const planting_management_plan of plantingManagementPlans) {
-      const { planting_management_plan_id, planting_method, location_id } =
-        planting_management_plan;
+      const {
+        planting_management_plan_id,
+        planting_method,
+        location_id,
+      } = planting_management_plan;
       entities[planting_management_plan_id] = { ...planting_management_plan };
       const plantingMethodLowercase = planting_method?.toLowerCase();
       plantingMethodLowercase &&

@@ -1048,7 +1048,7 @@
       "DELETE_PLAN_MESSAGE": "Éste plan de cultivo y todas las tareas asociadas serán eliminadas de su finca. Si desea mantener un registro, haga clic en \"Abandonar\"",
       "CONFIRM_DELETION": "Confirmar eliminación",
       "CANT_DELETE_MODIFIED_PLAN": "No se puede eliminar el plan de cultivo",
-      "CANT_DELETE_ABANDON_INSTEAD": "¿Desea abandonar en lugar de borrar?",
+      "CANT_DELETE_ABANDON_INSTEAD": "¿Desea abandonar en lugar de eliminar?",
       "CANT_DELETE_ABANDON": "Abandonar",
       "SUCCESS": "Se ha eliminado el plan de cultivo",
       "FAILED": "No se ha eliminado el plan de cultivo"

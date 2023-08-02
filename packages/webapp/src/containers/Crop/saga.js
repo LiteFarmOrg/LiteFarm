@@ -21,7 +21,6 @@ import {
   getHeader,
   getManagementPlanAndPlantingMethodSuccessSaga,
   onReqSuccessSaga,
-  getManagementPlans,
 } from '../saga';
 import { createAction } from '@reduxjs/toolkit';
 import {
@@ -32,7 +31,7 @@ import {
 import i18n from '../../locales/i18n';
 import history from '../../history';
 import { enqueueErrorSnackbar, enqueueSuccessSnackbar } from '../Snackbar/snackbarSlice';
-import { getTasks, getTasksSuccessSaga } from '../Task/saga';
+import { getTasksSuccessSaga } from '../Task/saga';
 import { CROP_PLAN_NAME } from '../../components/RepeatCropPlan/constants';
 
 const DEC = 10;
@@ -101,18 +100,16 @@ export function* postRepeatCropPlanSaga({
       header,
     );
 
-    // const managementPlans = [];
-    // let managementTasks = [];
+    const managementPlans = [];
+    let managementTasks = [];
 
-    // result.data.forEach(({ management_plan, tasks }) => {
-    //   managementPlans.push(management_plan);
-    //   managementTasks = managementTasks.concat(tasks);
-    // });
+    result.data.forEach(({ management_plan, tasks }) => {
+      managementPlans.push(management_plan);
+      managementTasks = managementTasks.concat(tasks);
+    });
 
-    // yield call(getManagementPlanAndPlantingMethodSuccessSaga, { payload: managementPlans });
-    // yield call(getTasksSuccessSaga, { payload: managementTasks });
-    yield put(getManagementPlans());
-    yield put(getTasks());
+    yield call(getManagementPlanAndPlantingMethodSuccessSaga, { payload: managementPlans });
+    yield call(getTasksSuccessSaga, { payload: managementTasks });
 
     yield call(onReqSuccessSaga, {
       pathname: `/crop/${crop_variety_id}/management`,

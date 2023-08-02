@@ -56,6 +56,16 @@ const upsertManyTasks = (state, { payload: tasks }) => {
   state.loading = false;
   state.error = null;
   state.loaded = true;
+  taskAdapter.upsertMany(
+    state,
+    tasks.map((task) => getTask(task)),
+  );
+};
+
+const setAllTasks = (state, { payload: tasks }) => {
+  state.loading = false;
+  state.error = null;
+  state.loaded = true;
   taskAdapter.setAll(
     state,
     tasks.map((task) => getTask(task)),
@@ -112,6 +122,20 @@ const taskSlice = createSlice({
             })) || [],
         })),
       }),
+    addAllTasksFromGetReq: (state, { payload: tasks }) =>
+      setAllTasks(state, {
+        payload: tasks.map((task) => ({
+          ...task,
+          locations: task.locations?.map(({ location_id }) => location_id) || [],
+          location_defaults:
+            task.locations?.map(({ location_defaults }) => location_defaults) || [],
+          managementPlans:
+            task.managementPlans?.map(({ management_plan_id, planting_management_plan_id }) => ({
+              management_plan_id,
+              planting_management_plan_id,
+            })) || [],
+        })),
+      }),
     putTaskSuccess: upsertOneTask,
     putTasksSuccess: updateManyTasks,
     createTaskSuccess: taskAdapter.addOne,
@@ -122,6 +146,7 @@ export const {
   onLoadingTasksFail,
   onLoadingTasksStart,
   addManyTasksFromGetReq,
+  addAllTasksFromGetReq,
   putTaskSuccess,
   putTasksSuccess,
   createTaskSuccess,

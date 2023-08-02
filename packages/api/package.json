@@ -1,6 +1,6 @@
 {
   "name": "litefarm-api",
-  "version": "3.3.2",
+  "version": "3.4.0",
   "description": "LiteFarm API server",
   "main": "./api/src/server.js",
   "type": "module",

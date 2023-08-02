@@ -51,6 +51,16 @@ const addManyCropManagementPlan = (state, { payload: cropManagementPlans }) => {
   );
 };
 
+const addAllCropManagementPlan = (state, { payload: cropManagementPlans }) => {
+  state.loading = false;
+  state.error = null;
+  state.loaded = true;
+  cropManagementPlanAdapter.setAll(
+    state,
+    cropManagementPlans.map((cropManagementPlan) => getCropManagementPlan(cropManagementPlan)),
+  );
+};
+
 const cropManagementPlanAdapter = createEntityAdapter({
   selectId: (cropManagementPlan) => cropManagementPlan.management_plan_id,
 });
@@ -66,11 +76,13 @@ const cropManagementPlanSlice = createSlice({
     onLoadingCropManagementPlanStart: onLoadingStart,
     onLoadingCropManagementPlanFail: onLoadingFail,
     getCropManagementPlansSuccess: addManyCropManagementPlan,
+    getAllCropManagementPlansSuccess: addAllCropManagementPlan,
     deleteCropManagementPlanSuccess: cropManagementPlanAdapter.removeOne,
   },
 });
 export const {
   getCropManagementPlansSuccess,
+  getAllCropManagementPlansSuccess,
   onLoadingCropManagementPlanStart,
   onLoadingCropManagementPlanFail,
   deleteCropManagementPlanSuccess,

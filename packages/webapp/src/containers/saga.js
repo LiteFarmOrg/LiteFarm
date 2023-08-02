@@ -128,11 +128,13 @@ import {
 import { enqueueErrorSnackbar, enqueueSuccessSnackbar } from './Snackbar/snackbarSlice';
 import {
   getCropManagementPlansSuccess,
+  getAllCropManagementPlansSuccess,
   onLoadingCropManagementPlanFail,
   onLoadingCropManagementPlanStart,
 } from './cropManagementPlanSlice';
 import {
   getPlantingManagementPlansSuccess,
+  getAllPlantingManagementPlansSuccess,
   onLoadingPlantingManagementPlanFail,
   onLoadingPlantingManagementPlanStart,
 } from './plantingManagementPlanSlice';
@@ -426,7 +428,7 @@ export const getAllManagementPlanAndPlantingMethodSuccess = createAction(
 export function* getAllManagementPlanAndPlantingMethodSuccessSaga({ payload: managementPlans }) {
   yield put(getAllManagementPlansSuccess(managementPlans));
   yield put(
-    getCropManagementPlansSuccess(
+    getAllCropManagementPlansSuccess(
       managementPlans.map((managementPlan) => managementPlan.crop_management_plan),
     ),
   );
@@ -440,7 +442,7 @@ export function* getAllManagementPlanAndPlantingMethodSuccessSaga({ payload: man
     },
     [],
   );
-  yield call(getPlantingManagementPlansSuccessSaga, { payload: plantingManagementPlans });
+  yield call(getAllPlantingManagementPlansSuccessSaga, { payload: plantingManagementPlans });
 }
 
 export function* getPlantingManagementPlansSuccessSaga({ payload: plantingManagementPlans }) {
@@ -460,6 +462,37 @@ export function* getPlantingManagementPlansSuccessSaga({ payload: plantingManage
     },
   );
   yield put(getPlantingManagementPlansSuccess(plantingManagementPlans));
+  for (const planting_method in plantingMethodActionMap) {
+    try {
+      if (plantingMethods[planting_method]?.length) {
+        yield put(
+          plantingMethodActionMap[planting_method].success(plantingMethods[planting_method]),
+        );
+      }
+    } catch (e) {
+      yield put(plantingMethodActionMap[planting_method].fail(e));
+      console.log(e);
+    }
+  }
+}
+
+export function* getAllPlantingManagementPlansSuccessSaga({ payload: plantingManagementPlans }) {
+  const plantingMethods = plantingManagementPlans.reduce(
+    (plantingMethods, planting_management_plan) => {
+      planting_management_plan.planting_method &&
+        plantingMethods[planting_management_plan.planting_method].push(
+          planting_management_plan[planting_management_plan.planting_method.toLowerCase()],
+        );
+      return plantingMethods;
+    },
+    {
+      BROADCAST_METHOD: [],
+      CONTAINER_METHOD: [],
+      BED_METHOD: [],
+      ROW_METHOD: [],
+    },
+  );
+  yield put(getAllPlantingManagementPlansSuccess(plantingManagementPlans));
   for (const planting_method in plantingMethodActionMap) {
     try {
       if (plantingMethods[planting_method]?.length) {

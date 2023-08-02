@@ -25,17 +25,17 @@ export default function PureManagementDetail({
 }) {
   const { t } = useTranslation();
 
-  const title = plan.name;
+  const title = plan?.name;
   const isValidDate =
-    getDateInputFormat(plan.abandon_date) !== 'Invalid date' ||
-    getDateInputFormat(plan.complete_date) !== 'Invalid date';
+    getDateInputFormat(plan?.abandon_date) !== 'Invalid date' ||
+    getDateInputFormat(plan?.complete_date) !== 'Invalid date';
   const isSomethingElse =
-    plan.abandon_reason !== 'CROP_FAILURE' &&
-    plan.abandon_reason !== 'LABOUR_ISSUE' &&
-    plan.abandon_reason !== 'MARKET_PROBLEM' &&
-    plan.abandon_reason !== 'WEATHER' &&
-    plan.abandon_reason !== 'MACHINERY_ISSUE' &&
-    plan.abandon_reason !== 'SCHEDULING_ISSUE';
+    plan?.abandon_reason !== 'CROP_FAILURE' &&
+    plan?.abandon_reason !== 'LABOUR_ISSUE' &&
+    plan?.abandon_reason !== 'MARKET_PROBLEM' &&
+    plan?.abandon_reason !== 'WEATHER' &&
+    plan?.abandon_reason !== 'MACHINERY_ISSUE' &&
+    plan?.abandon_reason !== 'SCHEDULING_ISSUE';
 
   const {
     register,
@@ -47,26 +47,24 @@ export default function PureManagementDetail({
     formState: { errors, isValid },
   } = useForm({
     defaultValues: {
-      abandon_date: isValidDate ? getDateInputFormat(plan.abandon_date) : '',
+      abandon_date: isValidDate ? getDateInputFormat(plan?.abandon_date) : '',
       abandon_reason: isSomethingElse
-        ? plan.abandon_reason
-        : t(`MANAGEMENT_PLAN.COMPLETE_PLAN.REASON.${plan.abandon_reason}`),
-      complete_date: isValidDate ? getDateInputFormat(plan.complete_date) : '',
-      complete_notes: plan.complete_notes,
-      notes: plan.notes,
-      harvested_to_date: plan.harvested_to_date ?? 0,
-      harvested_to_date_unit: null,
+        ? plan?.abandon_reason
+        : t(`MANAGEMENT_PLAN.COMPLETE_PLAN.REASON.${plan?.abandon_reason}`),
+      complete_date: isValidDate ? getDateInputFormat(plan?.complete_date) : '',
+      complete_notes: plan?.complete_notes,
+      notes: plan?.notes,
       crop_management_plan: {
-        estimated_yield: plan.estimated_yield,
-        estimated_yield_unit: plan.estimated_yield_unit,
+        estimated_yield: plan?.estimated_yield,
+        estimated_yield_unit: plan?.estimated_yield_unit,
       },
     },
     shouldUnregister: false,
     mode: 'onChange',
   });
 
-  const isAbandoned = plan.abandon_date ? true : false;
-  const isCompleted = plan.complete_date ? true : false;
+  const isAbandoned = plan?.abandon_date ? true : false;
+  const isCompleted = plan?.complete_date ? true : false;
   const DATE_OF_STATUS_CHANGE = isAbandoned ? 'abandon_date' : 'complete_date';
   const ABANDON_REASON = 'abandon_reason';
   const DATE = isAbandoned ? 'ABANDON_DATE' : 'COMPLETE_DATE';

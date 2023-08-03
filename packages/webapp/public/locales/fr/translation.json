@@ -329,7 +329,7 @@
     "TREATED": "Les semences de cette culture ont-elles été traitées\u00a0?",
     "UPLOAD_LATER": "Vous pourrez également télécharger des fichiers plus tard",
     "REPEAT_PLAN_MODAL": {
-      "DELETED_PLANS": "MISSING"
+      "DELETED_PLANS": "Les plans de gestion supprimés qui faisaient partie de cette répétition ne seront pas affichés."
     }
   },
   "CROP_CATALOGUE": {
@@ -414,13 +414,13 @@
     "REVENUE_HELP_BODY": "Seuls les plans pour lesquels une tâche est prévue ou terminée dans la plage de dates indiquée s'afficheront."
   },
   "DAYS_OF_WEEK_SELECT": {
-    "SUNDAY": "MISSING",
-    "MONDAY": "MISSING",
-    "TUESDAY": "MISSING",
-    "WEDNESDAY": "MISSING",
-    "THURSDAY": "MISSING",
-    "FRIDAY": "MISSING",
-    "SATURDAY": "MISSING"
+    "SUNDAY": "D",
+    "MONDAY": "L",
+    "TUESDAY": "M",
+    "WEDNESDAY": "M",
+    "THURSDAY": "J",
+    "FRIDAY": "V",
+    "SATURDAY": "S"
   },
   "DOCUMENTS": {
     "ADD": {
@@ -440,7 +440,7 @@
     "CANCEL_MODAL": "création de document",
     "COMPLIANCE_DOCUMENTS_AND_CERTIFICATION": "Documents de conformité et votre certification",
     "DOCUMENTS": "Documents",
-    "VIEW_DETAIL": "MISSING",
+    "VIEW_DETAIL": "Voir la page détails pour télécharger plusieurs documents",
     "EDIT_DOCUMENT": "Modifier le document",
     "FILTER": {
       "TITLE": "Filtre de documents",
@@ -1045,15 +1045,15 @@
     "DAYS_TO_HARVEST": "Jours entre le repiquage et la prochaine récolte\u00a0:",
     "DAYS_TO_TERMINATION": "Jours entre la greffe et la résiliation\u00a0:",
     "DELETE": {
-      "DELETE_PLAN": "MISSING",
-      "DELETE_PLAN_QUESTION": "MISSING",
-      "DELETE_PLAN_MESSAGE": "MISSING",
-      "CONFIRM_DELETION": "MISSING",
-      "CANT_DELETE_MODIFIED_PLAN": "MISSING",
-      "CANT_DELETE_ABANDON_INSTEAD": "MISSING",
-      "CANT_DELETE_ABANDON": "MISSING",
-      "SUCCESS": "MISSING",
-      "FAILED": "MISSING"
+      "DELETE_PLAN": "Supprimer le plan de culture",
+      "DELETE_PLAN_QUESTION": "Supprimer le plan de culture?",
+      "DELETE_PLAN_MESSAGE": "Ce plan de culture et toutes ses tâches seront supprimés de votre ferme. Si vous voulez conserver une trace de ce plan de culture, cliquez plutôt sur \"Abandonner\"",
+      "CONFIRM_DELETION": "Confirmer la suppression",
+      "CANT_DELETE_MODIFIED_PLAN": "Impossible de supprimer le plan de culture",
+      "CANT_DELETE_ABANDON_INSTEAD": "Voulez-vous plutôt abandonner le plan de culture?",
+      "CANT_DELETE_ABANDON": "Abandonner",
+      "SUCCESS": "Le plan de culture a bien été supprimé",
+      "FAILED": "Le plan de culture n'a pas pu être supprimé"
     },
     "DETAIL_SPOTLIGHT_CONTENTS": "Ici, vous pouvez modifier les détails de votre culture.",
     "DETAIL_SPOTLIGHT_TITLE": "Détails",
@@ -1072,8 +1072,8 @@
     "GERMINATION": "Germination",
     "HARVEST": "Récolte initiale",
     "HARVEST_DATE": "Quand prévoyez-vous votre prochaine récolte\u00a0?",
-    "HARVEST_TO_DATE": "MISSING",
-    "HARVEST_TO_DATE_INFO": "MISSING",
+    "HARVEST_TO_DATE": "Récolte à date",
+    "HARVEST_TO_DATE_INFO": "La récolte à date est calculée à partir des tâche ",
     "HISTORICAL_CONTAINER_OR_IN_GROUND": "A-t-il été planté dans un conteneur ou dans le sol\u00a0?",
     "IN_GROUND": "Déjà en terre",
     "INCOMPLETE_TASK_CONTENT": "Ce plan comporte des tâches qui ne sont pas encore terminées. Vous devrez marquer les tâches comme terminées afin de terminer ce plan de gestion des cultures.",
@@ -1160,12 +1160,12 @@
     "WHERE_START_LOCATION": "Où est votre position de départ\u00a0?",
     "WHERE_TRANSPLANT_LOCATION": "Où allez-vous transplanter\u00a0?",
     "WILD_CROP": "Récoltez-vous une culture sauvage\u00a0?",
-    "ASSIGN_ALL_TASKS": "MISSING",
-    "CROP_PLAN_REPEAT": "MISSING",
-    "CROP_PLAN_REPEAT_SUBTEXT": "MISSING",
+    "ASSIGN_ALL_TASKS": "Toutes les tâches générées par ce plan de culture seront attribuées à cette personne. Vous pourrez modifier cette attribution plus tard.",
+    "CROP_PLAN_REPEAT": "Ce plan de culture se répète",
+    "CROP_PLAN_REPEAT_SUBTEXT": "Cliquer sur 'Sauvegarder' créera immédiatement ce plan de gestion. Il vous sera ensuite demandé de décrire comment il se répète.",
     "REPEATED_MP_SPOTLIGHT": {
-      "BODY": "MISSING",
-      "TITLE": "MISSING"
+      "BODY": "Vous pouvez cliquer ici pour voir tous les plans de culture de ce groupe. Modifier un plan de culture individuel ne changera rien aux autres du groupe.",
+      "TITLE": "Bravo\u00a0! Vous avez créé votre premier plan de culture répété\u00a0!"
     }
   },
   "LOCATION_CREATION": {
@@ -1373,41 +1373,41 @@
     "CLEAR_ALL": "Supprimer tout"
   },
   "REPEAT_PLAN": {
-    "MENU": "MISSING",
-    "TITLE": "MISSING",
-    "REPEAT_PLAN_FLOW": "MISSING",
-    "SUBTITLE": "MISSING",
-    "REPETITIONS_OF": "MISSING {{planName}}",
-    "PLAN_NAME": "MISSING",
-    "DUPLICATE_NAME": "MISSING",
-    "START_DATE": "MISSING",
-    "EARLIEST_TASK": "MISSING",
-    "COMPLETION": "MISSING",
-    "DUE": "MISSING",
-    "REPEAT_EVERY": "MISSING",
-    "REPEAT_ON": "MISSING",
-    "FINISH": "MISSING",
-    "AFTER": "MISSING",
-    "REPETITIONS": "MISSING",
-    "ON": "MISSING",
+    "MENU": "Plan de culture répété",
+    "TITLE": "Répéter un plan de culture",
+    "REPEAT_PLAN_FLOW": "répétition d'un plan de culture",
+    "SUBTITLE": "Copie ce plan de culture et toutes ses tâches selon le calendrier suivant",
+    "REPETITIONS_OF": "Répétition de {{planName}}",
+    "PLAN_NAME": "Nom du plan de culture répété",
+    "DUPLICATE_NAME": "Un plan de culture avec ce nom existe déjà. Merci d'en choisir un autre.",
+    "START_DATE": "Début",
+    "EARLIEST_TASK": "{{date}} est la première tâche {{dateType}} date du plan original",
+    "COMPLETION": "finalisation",
+    "DUE": "échéance",
+    "REPEAT_EVERY": "Répéter tous les",
+    "REPEAT_ON": "Répéter le",
+    "FINISH": "Terminer",
+    "AFTER": "Après",
+    "REPETITIONS": "répétitions",
+    "ON": "Le",
     "INTERVAL": {
-      "DAY": "MISSING",
-      "WEEK": "MISSING",
-      "MONTH": "MISSING",
-      "YEAR": "MISSING"
+      "DAY": "jour(s)",
+      "WEEK": "semaine(s)",
+      "MONTH": "mois",
+      "YEAR": "année(s)"
     },
-    "REPEAT_LIMIT_ERROR": "MISSING",
-    "LATER_DATE_ERROR": "MISSING",
+    "REPEAT_LIMIT_ERROR": "Impossible de répéter ce plan plus de 20 fois",
+    "LATER_DATE_ERROR": "Merci de sélectionner une date après la date de début",
     "CONFIRMATION": {
-      "HEADER": "MISSING",
-      "CROP_NAME": "MISSING",
-      "BEGINNING": "MISSING",
-      "FINISHING": "MISSING",
-      "WILL_REPEAT": "MISSING",
-      "WILL_CREATE": "MISSING",
-      "ON_DATE": "MISSING",
-      "WILL_CREATE_BODY": "MISSING",
-      "AFTER_REPETITIONS": "MISSING"
+      "HEADER": "Confirmer comment ce plan se répète",
+      "CROP_NAME": "Nom du plan de culture",
+      "BEGINNING": "Commence le",
+      "FINISHING": "Finit le",
+      "WILL_REPEAT": "Ce plan se répète",
+      "WILL_CREATE": "Ceci va créer",
+      "ON_DATE": "le {{date}}",
+      "WILL_CREATE_BODY": "<0>{{numberOfPlans}}</0> nouveaux plans de culture et <2>{{numberOfTasks}}</2> nouvelles tâches.",
+      "AFTER_REPETITIONS": "après <1>{{number}}</1> répétitions."
     }
   },
   "REQUEST_CONFIRMATION_MODAL": {

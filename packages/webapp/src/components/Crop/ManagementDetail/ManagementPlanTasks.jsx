@@ -33,6 +33,7 @@ export default function PureManagementTasks({
   const { t } = useTranslation();
 
   const title = plan?.name;
+  const hasTasks = !!children?.length;
 
   const onRepeatPlan = (crop_id, plan_id) => {
     history.push(`/crop/${crop_id}/management_plan/${plan_id}/repeat`);
@@ -80,7 +81,7 @@ export default function PureManagementTasks({
         <Label className={styles.title} style={{ marginTop: '24px' }}>
           {title}
         </Label>
-        {isAdmin && (
+        {isAdmin && hasTasks && (
           <BsThreeDotsVertical
             className={styles.menuIcon}
             onClick={() => {

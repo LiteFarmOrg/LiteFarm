@@ -86,21 +86,21 @@
       "ABANDON": "Erro em abandonar o plano de cultivo!",
       "COMPLETE": "Erro ao completar o plano de cultivo!",
       "POST": "Erro ao adicionar plano de cultivo!",
-      "DELETE": "MISSING"
+      "DELETE": "Falha ao remover o plano de cultivo!"
     },
     "SUCCESS": {
       "ABANDON": "Plano de cultivo abandonado com sucesso!",
       "COMPLETE": "Plano de cultivo concluído com sucesso! ",
       "POST": "Plano de cultivo adicionado com sucesso!",
-      "DELETE": "MISSING"
+      "DELETE": "Plano de cultivo removido com sucesso!"
     }
   },
   "REPEAT_PLAN": {
     "ERROR": {
-      "POST": "MISSING"
+      "POST": "Falha ao repetir {{planName}}"
     },
     "SUCCESS": {
-      "POST": "MISSING"
+      "POST": "{{planName}} repetido com sucesso"
     }
   },
   "MAP": {

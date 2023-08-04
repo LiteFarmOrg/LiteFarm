@@ -329,7 +329,7 @@
     "TREATED": "As sementes desta cultivo foram tratadas?",
     "UPLOAD_LATER": "Você também pode fazer upload de arquivos posteriormente",
     "REPEAT_PLAN_MODAL": {
-      "DELETED_PLANS": "MISSING"
+      "DELETED_PLANS": "Os planos de cultivo excluídos que faziam parte desta repetição não serão exibidos."
     }
   },
   "CROP_CATALOGUE": {
@@ -413,13 +413,13 @@
     "REVENUE_HELP_BODY": "Somente os planos que possuem uma tarefa de colheita planejada ou concluída dentro do intervalo de datas indicado serão mostrados."
   },
   "DAYS_OF_WEEK_SELECT": {
-    "SUNDAY": "MISSING",
-    "MONDAY": "MISSING",
-    "TUESDAY": "MISSING",
-    "WEDNESDAY": "MISSING",
-    "THURSDAY": "MISSING",
-    "FRIDAY": "MISSING",
-    "SATURDAY": "MISSING"
+    "SUNDAY": "D",
+    "MONDAY": "S",
+    "TUESDAY": "T",
+    "WEDNESDAY": "Q",
+    "THURSDAY": "Q",
+    "FRIDAY": "S",
+    "SATURDAY": "S"
   },
   "DOCUMENTS": {
     "ADD": {
@@ -439,7 +439,7 @@
     "CANCEL_MODAL": "criação de documento",
     "COMPLIANCE_DOCUMENTS_AND_CERTIFICATION": "Documentos de conformidade e sua certificação",
     "DOCUMENTS": "Documentos",
-    "VIEW_DETAIL": "MISSING",
+    "VIEW_DETAIL": "Veja a página de detalhes para baixar vários arquivos",
     "EDIT_DOCUMENT": "Editar documento",
     "FILTER": {
       "TITLE": "Filtro de documentos",
@@ -1044,15 +1044,15 @@
     "DAYS_TO_HARVEST": "Dias para a próxima colheita",
     "DAYS_TO_TERMINATION": "Dias para rescisão",
     "DELETE": {
-      "DELETE_PLAN": "MISSING",
-      "DELETE_PLAN_QUESTION": "MISSING",
-      "DELETE_PLAN_MESSAGE": "MISSING",
-      "CONFIRM_DELETION": "MISSING",
-      "CANT_DELETE_MODIFIED_PLAN": "MISSING",
-      "CANT_DELETE_ABANDON_INSTEAD": "MISSING",
-      "CANT_DELETE_ABANDON": "MISSING",
-      "SUCCESS": "MISSING",
-      "FAILED": "MISSING"
+      "DELETE_PLAN": "Remover plano de cultivo",
+      "DELETE_PLAN_QUESTION": "Remover plano de cultivo?",
+      "DELETE_PLAN_MESSAGE": "Este plano de cultivo e todas as suas tarefas serão removidos de sua fazenda. Se desejar manter um registro deste plano de cultivo, clique em \"Abandon\".",
+      "CONFIRM_DELETION": "Confirmar remoção",
+      "CANT_DELETE_MODIFIED_PLAN": "Não é possível remover o plano de manejo",
+      "CANT_DELETE_ABANDON_INSTEAD": "Você deseja abandonar este plano de cultivo?",
+      "CANT_DELETE_ABANDON": "Abandonar",
+      "SUCCESS": "Plano de cultivo removido com sucesso",
+      "FAILED": "Falha ao remover plano de cultivo"
     },
     "DETAIL_SPOTLIGHT_CONTENTS": "Aqui você pode editar os detalhes do seu cultivo.",
     "DETAIL_SPOTLIGHT_TITLE": "Detalhes",
@@ -1071,8 +1071,8 @@
     "GERMINATION": "Germinação",
     "HARVEST": "Colheita",
     "HARVEST_DATE": "Quando será a próxima colheita?",
-    "HARVEST_TO_DATE": "MISSING",
-    "HARVEST_TO_DATE_INFO": "MISSING",
+    "HARVEST_TO_DATE": "A colheita até o momento é calculada com base nas tarefas de colheita concluídas neste plano de cultivo",
+    "HARVEST_TO_DATE_INFO": "Foi plantado em um vaso ou no solo?",
     "HISTORICAL_CONTAINER_OR_IN_GROUND": "Foi plantado em um recipiente ou no solo?",
     "IN_GROUND": "No solo",
     "INCOMPLETE_TASK_CONTENT": "Este plano têm tarefas que ainda não foram completadas. Você precisará marcar as tarefas como concluídas, a fim de concluir este plano de cultivo. ",
@@ -1160,12 +1160,12 @@
     "WHERE_START_LOCATION": "Onde é o seu local de partida?",
     "WHERE_TRANSPLANT_LOCATION": "Onde você fará o transplante?",
     "WILD_CROP": "Você está colhendo uma planta silvestre?",
-    "ASSIGN_ALL_TASKS": "MISSING",
-    "CROP_PLAN_REPEAT": "MISSING",
-    "CROP_PLAN_REPEAT_SUBTEXT": "MISSING",
+    "ASSIGN_ALL_TASKS": "Todas as tarefas geradas como parte deste plano de cultivo serão atribuídas a este indivíduo. Você pode modificar esta atribuição mais tarde",
+    "CROP_PLAN_REPEAT": "Este plano de cultivo se repete",
+    "CROP_PLAN_REPEAT_SUBTEXT": "Clicar em 'Salvar' salvará imediatamente este plano de cultivo. Você será solicitado a descrever como ele se repete.",
     "REPEATED_MP_SPOTLIGHT": {
-      "BODY": "MISSING",
-      "TITLE": "MISSING"
+      "BODY": "você pode clicar aqui para ver todos os planos de cultivo neste grupo. A modificação de um plano de cultivo individual não mudará nada sobre os outros no grupo.",
+      "TITLE": "Parabéns! Você criou seu primeiro plano de cultivo repetido!"
     }
   },
   "LOCATION_CREATION": {
@@ -1373,41 +1373,41 @@
     "CLEAR_ALL": "Limpar tudo"
   },
   "REPEAT_PLAN": {
-    "MENU": "MISSING",
-    "TITLE": "MISSING",
-    "REPEAT_PLAN_FLOW": "MISSING",
-    "SUBTITLE": "MISSING",
-    "REPETITIONS_OF": "MISSING {{planName}}",
-    "PLAN_NAME": "MISSING",
-    "DUPLICATE_NAME": "MISSING",
-    "START_DATE": "MISSING",
-    "EARLIEST_TASK": "MISSING",
-    "COMPLETION": "MISSING",
-    "DUE": "MISSING",
-    "REPEAT_EVERY": "MISSING",
-    "REPEAT_ON": "MISSING",
-    "FINISH": "MISSING",
-    "AFTER": "MISSING",
-    "REPETITIONS": "MISSING",
-    "ON": "MISSING",
+    "MENU": "Repetir plano de cultivo",
+    "TITLE": "Repetir um plano de cultivo",
+    "REPEAT_PLAN_FLOW": "repetição do plano de cultivo",
+    "SUBTITLE": "Copie este plano de cultivo e todas as suas tarefas de acordo com o seguinte cronograma",
+    "REPETITIONS_OF": "Repetições de {{planName}}",
+    "PLAN_NAME": "Repetir o nome do plano de cultivo",
+    "DUPLICATE_NAME": "Já existe um plano de cultivo com este nome. Por favor escolha outro.",
+    "START_DATE": "Começando",
+    "EARLIEST_TASK": "{{date}} é a data da tarefa {{dateType}} mais antiga do plano original",
+    "COMPLETION": "conclusão",
+    "DUE": "para",
+    "REPEAT_EVERY": "Repeta cada",
+    "REPEAT_ON": "Repita em",
+    "FINISH": "Finalizar",
+    "AFTER": "Após",
+    "REPETITIONS": "repetições",
+    "ON": "Em",
     "INTERVAL": {
-      "DAY": "MISSING",
-      "WEEK": "MISSING",
-      "MONTH": "MISSING",
-      "YEAR": "MISSING"
+      "DAY": "dia(s)",
+      "WEEK": "semana(s)",
+      "MONTH": "mes(es)",
+      "YEAR": "ano(s)"
     },
-    "REPEAT_LIMIT_ERROR": "MISSING",
-    "LATER_DATE_ERROR": "MISSING",
+    "REPEAT_LIMIT_ERROR": "Não pode repetir este plano mais de 20 vezes",
+    "LATER_DATE_ERROR": "Selecione uma data após a data de início",
     "CONFIRMATION": {
-      "HEADER": "MISSING",
-      "CROP_NAME": "MISSING",
-      "BEGINNING": "MISSING",
-      "FINISHING": "MISSING",
-      "WILL_REPEAT": "MISSING",
-      "WILL_CREATE": "MISSING",
-      "ON_DATE": "MISSING",
-      "WILL_CREATE_BODY": "MISSING",
-      "AFTER_REPETITIONS": "MISSING"
+      "HEADER": "Confirme como este plano se repete",
+      "CROP_NAME": "Nome do plano de cultivo",
+      "BEGINNING": "Começando",
+      "FINISHING": "Finalizando",
+      "WILL_REPEAT": "Esse plano vai se repetir",
+      "WILL_CREATE": "Isso vai criar",
+      "ON_DATE": "em {{date}}",
+      "WILL_CREATE_BODY": "<0>{{numberOfPlans}}</0> planos de cultivos novos e <2>{{numberOfTasks}}</2> tarefas novas",
+      "AFTER_REPETITIONS": "após <1>{{number}}</1> repetições."
     }
   },
   "REQUEST_CONFIRMATION_MODAL": {

@@ -83,24 +83,24 @@
   },
   "MANAGEMENT_PLAN": {
     "ERROR": {
-      "ABANDON": "Le plan de culture n'est pas abandonné !",
+      "ABANDON": "Impossible d'abandonner le plan de culture !",
       "COMPLETE": "Impossible de terminer le plan de culture !",
-      "POST": "Le plan de culture n'est pas ajouté !",
-      "DELETE": "MISSING"
+      "POST": "Impossible d'ajouter le plan de culture !",
+      "DELETE": "Impossible de supprimer le plan de culture !"
     },
     "SUCCESS": {
       "ABANDON": "Plan de culture abandonné avec succès !",
       "COMPLETE": "Plan de culture terminé avec succès !",
       "POST": "Plan de culture ajouté avec succès !",
-      "DELETE": "MISSING"
+      "DELETE": "Plan de culture supprimé avec succès !"
     }
   },
   "REPEAT_PLAN": {
     "ERROR": {
-      "POST": "MISSING"
+      "POST": "Impossible de répéter {{planName}}"
     },
     "SUCCESS": {
-      "POST": "MISSING"
+      "POST": "{{planName}} a été répété avec succès"
     }
   },
   "MAP": {

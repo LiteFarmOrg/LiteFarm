@@ -93,7 +93,7 @@
 .labelContainer {
   display: flex;
   justify-content: space-between;
-  position: relative;
+  gap: 5px;
 }
 
 .hiddenInput {
@@ -137,12 +137,6 @@
 
 .noBorderRadius {
   border-radius: 0px;
-}
-
-.tooltipIconContainer {
-  width: 100%;
-  display: flex;
-  justify-content: flex-end;
 }
 
 .leaf {

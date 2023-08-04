@@ -58,6 +58,8 @@ export default function PureManagementDetail({
         estimated_yield: plan?.estimated_yield,
         estimated_yield_unit: plan?.estimated_yield_unit,
       },
+      harvested_to_date: plan?.harvested_to_date ?? 0,
+      harvested_to_date_unit: null,
     },
     shouldUnregister: false,
     mode: 'onChange',

@@ -47,7 +47,7 @@ class PestControlTask extends Model {
           enum: ['g', 'lb', 'kg', 't', 'mt', 'oz', 'l', 'gal', 'ml', 'fl-oz'],
         },
         other_method: { type: ['string', 'null'] },
-        pest_target: { type: 'string' },
+        pest_target: { type: ['string', 'null'] },
         control_method: {
           type: 'string',
           enum: [

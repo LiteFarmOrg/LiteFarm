@@ -71,6 +71,7 @@ export default function PureRepeatCropPlan({
     defaultValues: {
       [CROP_PLAN_NAME]: t('REPEAT_PLAN.REPETITIONS_OF', {
         planName: cropPlan.name,
+        interpolation: { escapeValue: false },
       }),
       [PLAN_START_DATE]: origStartDate,
       [REPEAT_FREQUENCY]: '1',

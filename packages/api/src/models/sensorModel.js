@@ -13,8 +13,8 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { transaction, Model } from 'objection';
-
+import { transaction } from 'objection';
+import Model from './baseFormatModel.js';
 import LocationModel from './locationModel.js';
 import PartnerReadingTypeModel from '../models/PartnerReadingTypeModel.js';
 import SensorReadingTypeModel from './SensorReadingTypeModel.js';
@@ -42,9 +42,9 @@ class Sensor extends Model {
         model: { type: 'string', maxLength: 255 },
         partner_id: { type: 'integer' },
         external_id: { type: 'string', maxLength: 255 },
-        depth: { type: 'float' },
+        depth: { type: ['number', 'null'], format: 'float' },
         depth_unit: { type: 'string', enum: ['cm', 'm', 'in', 'ft'] },
-        elevation: { type: 'float' },
+        elevation: { type: 'number', format: 'float' },
       },
       additionalProperties: false,
     };

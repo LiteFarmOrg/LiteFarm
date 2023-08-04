@@ -95,7 +95,7 @@ const sensorController = {
     }
     const { sendResponse } = syncAsyncResponse(res, timeLimit);
     const { farm_id } = req.headers;
-    const { user_id } = req.user;
+    const { user_id } = req.auth;
     try {
       const { access_token } = await IntegratingPartnersModel.getAccessAndRefreshTokens(
         'Ensemble Scientific',
@@ -545,7 +545,7 @@ const sensorController = {
   },
   async getAllSensorReadingsByLocationIds(req, res) {
     try {
-      const { locationIds = [], readingTypes = [], endDate = '' } = req.body;
+      const { locationIds = [], readingTypes = [], endUnixTime = 0, startUnixTime = 0 } = req.body;
 
       if (!locationIds.length || !Array.isArray(locationIds)) {
         return res.status(400).send('No location ids are present');
@@ -558,15 +558,21 @@ const sensorController = {
       if (!readingTypes.length) {
         return res.status(400).send('No read type is present');
       }
-
-      if (!endDate.length) {
+      if (!endUnixTime) {
         return res.status(400).send('No end date is present');
       }
 
+      if (!startUnixTime) {
+        return res.status(400).send('No start date is present');
+      }
+      const startDateTime = new Date(startUnixTime * 1000);
+      const endDateTime = new Date(endUnixTime * 1000);
+
       const result = await SensorReadingModel.getSensorReadingsByLocationIds(
-        new Date(endDate),
         locationIds,
         readingTypes,
+        endDateTime,
+        startDateTime,
       );
 
       const sensorsPoints = await SensorModel.getSensorLocationByLocationIds(locationIds);
@@ -595,7 +601,7 @@ const sensorController = {
       );
       const { partner_name } = brand[0];
 
-      const user_id = req.user.user_id;
+      const user_id = req.auth.user_id;
       const { access_token } = await IntegratingPartnersModel.getAccessAndRefreshTokens(
         'Ensemble Scientific',
       );

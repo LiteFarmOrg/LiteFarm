@@ -83,14 +83,24 @@
   },
   "MANAGEMENT_PLAN": {
     "ERROR": {
-      "ABANDON": "Le plan de culture n'est pas abandonné !",
+      "ABANDON": "Impossible d'abandonner le plan de culture !",
       "COMPLETE": "Impossible de terminer le plan de culture !",
-      "POST": "Le plan de culture n'est pas ajouté !"
+      "POST": "Impossible d'ajouter le plan de culture !",
+      "DELETE": "Impossible de supprimer le plan de culture !"
     },
     "SUCCESS": {
       "ABANDON": "Plan de culture abandonné avec succès !",
       "COMPLETE": "Plan de culture terminé avec succès !",
-      "POST": "Plan de culture ajouté avec succès !"
+      "POST": "Plan de culture ajouté avec succès !",
+      "DELETE": "Plan de culture supprimé avec succès !"
+    }
+  },
+  "REPEAT_PLAN": {
+    "ERROR": {
+      "POST": "Impossible de répéter {{planName}}"
+    },
+    "SUCCESS": {
+      "POST": "{{planName}} a été répété avec succès"
     }
   },
   "MAP": {
@@ -133,23 +143,6 @@
       "ADD": "Vente ajoutée avec succès",
       "DELETE": "Vente supprimée avec succès",
       "UPDATE": "Vente mise à jour avec succès"
-    }
-  },
-  "SHIFT": {
-    "ERROR": {
-      "ADD": "Incapable d'ajouter un nouveau quart de travail",
-      "CROP_FIELDS_EACH": "Veuillez attribuer des cultures ou des champs pour chaque tâche",
-      "DELETE": "Impossible de supprimer le quart de travail",
-      "DURATION_FOR_CROPS": "Veuillez attribuer une durée pour chaque culture",
-      "ONLY_INTEGERS_DURATIONS": "Veuillez n'attribuer des numéros qu'aux durées",
-      "REQUIRED_TASK": "Un nom de tâche est requis",
-      "SUBMIT_SHIFT": "La soumission du quart de travail a échoué; c'est le problème de LiteFarm.",
-      "UPDATE": "Le quart de travail n'est pas mis à jour"
-    },
-    "SUCCESS": {
-      "ADD": "Quart de travail ajouté avec succès !",
-      "DELETE": "Quart de travail supprimé avec succès !",
-      "UPDATE": "Quart de travail mis à jour avec succès "
     }
   },
   "TASK": {

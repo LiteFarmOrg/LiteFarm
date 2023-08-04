@@ -32,6 +32,10 @@ export const taskStatusTranslateKey = {
   abandoned: 'ABANDONED',
 };
 
+const getDate = (date, language = 'en') => {
+  return new Intl.DateTimeFormat(language, { dateStyle: 'medium' }).format(new Date(date));
+};
+
 export const PureTaskCard = ({
   taskType,
   status,
@@ -48,6 +52,7 @@ export const PureTaskCard = ({
   classes = { card: {} },
   isAdmin,
   isAssignee,
+  language,
   ...props
 }) => {
   const { t } = useTranslation();
@@ -62,10 +67,12 @@ export const PureTaskCard = ({
     onClickCompleteOrDueDate?.();
   };
 
-  let trueDate = completeOrDueDate;
-  if (status == 'abandoned') {
-    let [day, month, date, year] = new Date(props['abandonDate']).toDateString().split(' ');
-    trueDate = `${month} ${date}, ${year}`;
+  const isAssigneeInactive = assignee?.status === 'Inactive';
+  let assigneeName = '';
+  if (assignee !== null) {
+    const lastName =
+      assignee.last_name.length > 0 ? assignee.last_name.toUpperCase().charAt(0) + '.' : '';
+    assigneeName = `${assignee.first_name} ${lastName}`;
   }
 
   return (
@@ -98,7 +105,7 @@ export const PureTaskCard = ({
           {locationName || t('TASK.CARD.MULTIPLE_LOCATIONS')}
           {cropVarietyName && ` | ${cropVarietyName}`}
         </div>
-        <div data-cy="taskCard-dueDate" onClick={onAssignDate} className={styles.dateUserContainer}>
+        <div onClick={onAssignDate} className={styles.dateUserContainer}>
           <div
             className={
               status === 'completed' || status === 'abandoned' || !isAdmin
@@ -107,7 +114,9 @@ export const PureTaskCard = ({
             }
           >
             <CalendarIcon />
-            <div>{trueDate}</div>
+            <div data-cy="taskCard-dueDate">
+              {getDate(status === 'abandoned' ? props['abandonDate'] : completeOrDueDate, language)}
+            </div>
           </div>
           {assignee ? (
             <div
@@ -118,10 +127,20 @@ export const PureTaskCard = ({
               }
               onClick={onAssignTask}
             >
-              <div className={clsx(styles.firstInitial, styles.icon)}>
+              <div
+                className={clsx(
+                  styles.firstInitial,
+                  styles.icon,
+                  isAssigneeInactive ? styles.inactive : '',
+                )}
+              >
                 {assignee.first_name.toUpperCase().charAt(0)}
               </div>
-              <div>{`${assignee.first_name} ${assignee.last_name.charAt(0)}.`}</div>
+              <div className={clsx(isAssigneeInactive ? styles.inactive : '')}>
+                {isAssigneeInactive
+                  ? `${assigneeName} (${t('STATUS.INACTIVE').toLowerCase()})`
+                  : assigneeName}
+              </div>
             </div>
           ) : (
             <div
@@ -154,4 +173,5 @@ PureTaskCard.propTypes = {
   onClickAssignee: PropTypes.func,
   onClickCompleteOrDueDate: PropTypes.func,
   selected: PropTypes.bool,
+  language: PropTypes.oneOf(['en', 'es', 'fr', 'pt']),
 };

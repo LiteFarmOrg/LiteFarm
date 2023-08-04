@@ -16,9 +16,15 @@ class LocationDefaultsModel extends BaseModel {
       properties: {
         location_id: { type: 'string' },
         irrigation_type_id: { type: 'number' },
-        estimated_flow_rate: { type: 'float' },
+        estimated_flow_rate: {
+          type: 'number',
+          format: 'float',
+        },
         estimated_flow_rate_unit: { type: 'string' },
-        application_depth: { type: 'float' },
+        application_depth: {
+          type: 'number',
+          format: 'float',
+        },
         application_depth_unit: { type: 'string' },
         ...this.baseProperties,
       },

@@ -28,8 +28,8 @@ import insightHelpers from '../src/controllers/insightHelpers.js';
 jest.mock('jsdom');
 jest.mock('../src/middleware/acl/checkJwt.js', () =>
   jest.fn((req, res, next) => {
-    req.user = {};
-    req.user.user_id = req.get('user_id');
+    req.auth = {};
+    req.auth.user_id = req.get('user_id');
     next();
   }),
 );
@@ -38,325 +38,12 @@ import moment from 'moment';
 import insigntController from '../src/controllers/insightController';
 
 xdescribe('insights test', () => {
-  // let middleware;
   const emptyNutrients = { energy: 0, lipid: 0, protein: 0, vitc: 0, vita_rae: 0 };
-
-  beforeAll(() => {
-    // middleware = require('../src/middleware/acl/checkJwt');
-    // middleware.mockImplementation((req, res, next) => {
-    //   req.user = {};
-    //   req.user.user_id = req.get('user_id');
-    //   next();
-    // });
-  });
 
   afterAll(async (done) => {
     await tableCleanup(knex);
     await knex.destroy();
     done();
-  });
-
-  describe('People Fed', () => {
-    async function generateSaleData(crop, quantity, user) {
-      const [{ user_id, farm_id }] = user ? user : await createUserFarm(1);
-      const [location] = await mocks.locationFactory({ promisedFarm: [{ farm_id }] });
-      const { location_id, created_by_user_id } = location;
-      const [field] = await mocks.fieldFactory({ promisedLocation: [location] });
-      const [{ crop_id }] = await mocks.cropFactory({ promisedFarm: [{ farm_id }] }, crop);
-      const [{ crop_variety_id }] = await mocks.crop_varietyFactory({ promisedFarm, promisedCrop });
-      const [{ management_plan_id }] = await mocks.management_planFactory({
-        promisedLocation: [location],
-        promisedField: [field],
-        promisedCropVariety: [{ crop_variety_id }],
-      });
-      const [{ sale_id }] = await mocks.saleFactory({ promisedUserFarm: [{ user_id, farm_id }] });
-      const [{ crop_sale_id }] = await mocks.cropSaleFactory(
-        {
-          promisedCrop: [{ crop_id }],
-          promisedSale: [{ sale_id }],
-        },
-        { quantity_kg: quantity, sale_value: 3 },
-      );
-      return { user_id, farm_id, management_plan_id };
-    }
-
-    test('Should get people fed if Im on my farm as an owner', async (done) => {
-      const [{ user_id, farm_id }] = await createUserFarm(1);
-      getInsight(farm_id, user_id, 'people_fed', (err, res) => {
-        expect(res.status).toBe(200);
-        done();
-      });
-    });
-    test('Should get people fed if Im on my farm as a manager', async (done) => {
-      const [{ user_id, farm_id }] = await createUserFarm(2);
-      getInsight(farm_id, user_id, 'people_fed', (err, res) => {
-        expect(res.status).toBe(200);
-        done();
-      });
-    });
-
-    test('Should get people fed if Im on my farm as a worker', async (done) => {
-      const [{ user_id, farm_id }] = await createUserFarm(3);
-      getInsight(farm_id, user_id, 'people_fed', (err, res) => {
-        expect(res.status).toBe(200);
-        done();
-      });
-    });
-
-    describe('Meals calculation', () => {
-      afterEach(async () => {
-        await knex.raw('DELETE FROM "harvestUseType"');
-      });
-      test('Should get 9 meals in calories from a crop with 250 calories and 3kg sale', async (done) => {
-        const { user_id, farm_id } = await generateSaleData(
-          {
-            ...mocks.fakeCrop(),
-            percentrefuse: 0,
-            ...emptyNutrients,
-            energy: 250,
-          },
-          3,
-        );
-        getInsight(farm_id, user_id, 'people_fed', (err, res) => {
-          expect(res.status).toBe(200);
-          expect(res.body.preview).toBeGreaterThan(0);
-          const cals = res.body.data.find(({ label }) => label === 'Calories');
-          expect(cals.val).toBe(9);
-          done();
-        });
-      });
-
-      test('Should get 9 meals in calories from a crop with 250 calories and 1kg sale and 2 kg harvest log', async (done) => {
-        const { user_id, farm_id, management_plan_id } = await generateSaleData(
-          {
-            ...mocks.fakeCrop(),
-            percentrefuse: 0,
-            ...emptyNutrients,
-            energy: 250,
-          },
-          1,
-        );
-        const harvestUseType = await mocks.harvest_use_typeFactory(
-          {},
-          {
-            harvest_use_type_id: 2,
-            harvest_use_type_name: 'test',
-          },
-        );
-        await mocks.harvest_useFactory(
-          {
-            promisedManagementPlan: [{ management_plan_id }],
-            promisedHarvestUseType: harvestUseType,
-          },
-          { quantity_kg: 2 },
-        );
-        getInsight(farm_id, user_id, 'people_fed', (err, res) => {
-          expect(res.status).toBe(200);
-          expect(res.body.preview).toBeGreaterThan(0);
-          const cals = res.body.data.find(({ label }) => label === 'Calories');
-          expect(cals.val).toBe(9);
-          done();
-        });
-      });
-
-      test('Should get 9 meals in protein from a crop with 5.2g protein 1kg sale and 2 kg harvest log', async (done) => {
-        const { user_id, farm_id, management_plan_id } = await generateSaleData(
-          {
-            ...mocks.fakeCrop(),
-            percentrefuse: 0,
-            ...emptyNutrients,
-            protein: 5.2,
-          },
-          1,
-        );
-        const harvestUseType = await mocks.harvest_use_typeFactory(
-          {},
-          {
-            harvest_use_type_id: 2,
-            harvest_use_type_name: 'test',
-          },
-        );
-        await mocks.harvest_useFactory(
-          {
-            promisedManagementPlan: [{ management_plan_id }],
-            promisedHarvestUseType: harvestUseType,
-          },
-          { quantity_kg: 2 },
-        );
-        getInsight(farm_id, user_id, 'people_fed', (err, res) => {
-          expect(res.status).toBe(200);
-          expect(res.body.preview).toBeGreaterThan(0);
-          const cals = res.body.data.find(({ label }) => label === 'Protein');
-          expect(cals.val).toBe(9);
-          done();
-        });
-      });
-
-      test('Should get 9 meals in fat from a crop with 75g fat 1kg sale and 2 kg harvest log', async (done) => {
-        const { user_id, farm_id, management_plan_id } = await generateSaleData(
-          {
-            ...mocks.fakeCrop(),
-            percentrefuse: 0,
-            ...emptyNutrients,
-            lipid: 75,
-          },
-          1,
-        );
-        const harvestUseType = await mocks.harvest_use_typeFactory(
-          {},
-          {
-            harvest_use_type_id: 2,
-            harvest_use_type_name: 'test',
-          },
-        );
-        await mocks.harvest_useFactory(
-          {
-            promisedManagementPlan: [{ management_plan_id }],
-            promisedHarvestUseType: harvestUseType,
-          },
-          { quantity_kg: 2 },
-        );
-        getInsight(farm_id, user_id, 'people_fed', (err, res) => {
-          expect(res.status).toBe(200);
-          expect(res.body.preview).toBeGreaterThan(0);
-          const cals = res.body.data.find(({ label }) => label === 'Fat');
-          expect(cals.val).toBe(9);
-          done();
-        });
-      });
-
-      test('Should get 9 meals in vitamin c from a crop with 9g vitamin c 1kg sale and 2 kg harvest log', async (done) => {
-        const { user_id, farm_id, management_plan_id } = await generateSaleData(
-          {
-            ...mocks.fakeCrop(),
-            percentrefuse: 0,
-            ...emptyNutrients,
-            vitc: 9,
-          },
-          1,
-        );
-        const harvestUseType = await mocks.harvest_use_typeFactory(
-          {},
-          {
-            harvest_use_type_id: 2,
-            harvest_use_type_name: 'test',
-          },
-        );
-        await mocks.harvest_useFactory(
-          {
-            promisedManagementPlan: [{ management_plan_id }],
-            promisedHarvestUseType: harvestUseType,
-          },
-          { quantity_kg: 2 },
-        );
-        getInsight(farm_id, user_id, 'people_fed', (err, res) => {
-          expect(res.status).toBe(200);
-          expect(res.body.preview).toBeGreaterThan(0);
-          const cals = res.body.data.find(({ label }) => label === 'Vitamin C');
-          expect(cals.val).toBe(9);
-          done();
-        });
-      });
-
-      test('Should get 9 meals in vitamin A from a crop with 90g vitamin a 1kg sale and 2 kg harvest log', async (done) => {
-        const { user_id, farm_id, management_plan_id } = await generateSaleData(
-          {
-            ...mocks.fakeCrop(),
-            percentrefuse: 0,
-            ...emptyNutrients,
-            vita_rae: 90,
-          },
-          1,
-        );
-        const harvestUseType = await mocks.harvest_use_typeFactory(
-          {},
-          {
-            harvest_use_type_id: 2,
-            harvest_use_type_name: 'test',
-          },
-        );
-        await mocks.harvest_useFactory(
-          {
-            promisedManagementPlan: [{ management_plan_id }],
-            promisedHarvestUseType: harvestUseType,
-          },
-          { quantity_kg: 2 },
-        );
-        getInsight(farm_id, user_id, 'people_fed', (err, res) => {
-          expect(res.status).toBe(200);
-          expect(res.body.preview).toBeGreaterThan(0);
-          const cals = res.body.data.find(({ label }) => label === 'Vitamin A');
-          expect(cals.val).toBe(9);
-          done();
-        });
-      });
-
-      test('Should get average of 9 meals with 3 kg sales of crops that generate 9 meals themselves', async (done) => {
-        const { user_id, farm_id } = await generateSaleData(
-          {
-            ...mocks.fakeCrop(),
-            percentrefuse: 0,
-            ...emptyNutrients,
-            energy: 250,
-          },
-          3,
-        );
-        await generateSaleData(
-          {
-            ...mocks.fakeCrop(),
-            percentrefuse: 0,
-            ...emptyNutrients,
-            protein: 5.2,
-          },
-          3,
-          [{ user_id, farm_id }],
-        );
-        await generateSaleData(
-          { ...mocks.fakeCrop(), percentrefuse: 0, ...emptyNutrients, lipid: 75 },
-          3,
-          [
-            {
-              user_id,
-              farm_id,
-            },
-          ],
-        );
-        await generateSaleData(
-          { ...mocks.fakeCrop(), percentrefuse: 0, ...emptyNutrients, vitc: 9 },
-          3,
-          [
-            {
-              user_id,
-              farm_id,
-            },
-          ],
-        );
-        await generateSaleData(
-          {
-            ...mocks.fakeCrop(),
-            percentrefuse: 0,
-            ...emptyNutrients,
-            vita_rae: 90,
-          },
-          3,
-          [{ user_id, farm_id }],
-        );
-        getInsight(farm_id, user_id, 'people_fed', (err, res) => {
-          expect(res.status).toBe(200);
-          expect(res.body.preview).toBe(9);
-          done();
-        });
-      });
-
-      test('Should get no meals in preview from a crop with no sales and no harvests', async (done) => {
-        const [{ user_id, farm_id }] = await createUserFarm(1);
-        getInsight(farm_id, user_id, 'people_fed', (err, res) => {
-          expect(res.status).toBe(200);
-          expect(res.body.preview).toBe(0);
-          done();
-        });
-      });
-    });
   });
 
   describe('Soil Om', () => {
@@ -705,7 +392,7 @@ xdescribe('insights test', () => {
           const crop0TotalPrice =
             crop0Sales[0].sale_value + crop0Sales[1].sale_value + crop0Sales[7].sale_value;
           const crop0TotalQuantity =
-            crop0Sales[0].quantity_kg + crop0Sales[1].quantity_kg + crop0Sales[7].quantity_kg;
+            crop0Sales[0].quantity + crop0Sales[1].quantity + crop0Sales[7].quantity;
 
           const crop1CommonName = crops[1].crop_common_name;
           const crop1TotalPrice =
@@ -714,15 +401,14 @@ xdescribe('insights test', () => {
             crop1Sales[2].sale_value +
             crop1Sales[3].sale_value;
           const crop1TotalQuantity =
-            crop1Sales[0].quantity_kg +
-            crop1Sales[1].quantity_kg +
-            crop1Sales[2].quantity_kg +
-            crop1Sales[3].quantity_kg;
+            crop1Sales[0].quantity +
+            crop1Sales[1].quantity +
+            crop1Sales[2].quantity +
+            crop1Sales[3].quantity;
 
           const crop12020CommonName = crops[1].crop_common_name;
           const crop12020TotalPrice = crop12020Sales[0].sale_value + crop12020Sales[1].sale_value;
-          const crop12020TotalQuantity =
-            crop12020Sales[0].quantity_kg + crop12020Sales[1].quantity_kg;
+          const crop12020TotalQuantity = crop12020Sales[0].quantity + crop12020Sales[1].quantity;
           const data = res.body.data;
           for (const cropSaleRes of data) {
             if (cropSaleRes[crop0CommonName]) {
@@ -731,7 +417,7 @@ xdescribe('insights test', () => {
               );
               expect(
                 cropSaleRes[crop0CommonName][0].crop_price -
-                  crop0Sales[0].sale_value / crop0Sales[0].quantity_kg,
+                  crop0Sales[0].sale_value / crop0Sales[0].quantity,
               ).toBeLessThan(0.01);
               expect(
                 cropSaleRes[crop0CommonName][0].network_price -
@@ -743,7 +429,7 @@ xdescribe('insights test', () => {
               );
               expect(
                 cropSaleRes[crop1CommonName][0].crop_price -
-                  crop12020Sales[0].sale_value / crop12020Sales[0].quantity_kg,
+                  crop12020Sales[0].sale_value / crop12020Sales[0].quantity,
               ).toBeLessThan(0.01);
               expect(
                 cropSaleRes[crop1CommonName][0].network_price -
@@ -753,7 +439,7 @@ xdescribe('insights test', () => {
               expect(
                 cropSaleRes[crop1CommonName][1].crop_price -
                   (crop1Sales[0].sale_value + crop1Sales[1].sale_value) /
-                    (crop1Sales[0].quantity_kg + crop1Sales[1].quantity_kg),
+                    (crop1Sales[0].quantity + crop1Sales[1].quantity),
               ).toBeLessThan(0.01);
               expect(
                 cropSaleRes[crop1CommonName][1].network_price -
@@ -771,10 +457,10 @@ xdescribe('insights test', () => {
               crop0Sales[2].sale_value +
               crop0Sales[7].sale_value;
             const crop0TotalQuantity =
-              crop0Sales[0].quantity_kg +
-              crop0Sales[1].quantity_kg +
-              crop0Sales[2].quantity_kg +
-              crop0Sales[7].quantity_kg;
+              crop0Sales[0].quantity +
+              crop0Sales[1].quantity +
+              crop0Sales[2].quantity +
+              crop0Sales[7].quantity;
             const data = res.body.data;
             for (const cropSaleRes of data) {
               if (cropSaleRes[crop0CommonName]) {
@@ -783,7 +469,7 @@ xdescribe('insights test', () => {
                 );
                 expect(
                   cropSaleRes[crop0CommonName][0].crop_price -
-                    crop0Sales[0].sale_value / crop0Sales[0].quantity_kg,
+                    crop0Sales[0].sale_value / crop0Sales[0].quantity,
                 ).toBeLessThan(0.01);
                 expect(
                   cropSaleRes[crop0CommonName][0].network_price -
@@ -824,239 +510,6 @@ xdescribe('insights test', () => {
       });
     });
   });
-
-  describe('waterbalance', () => {
-    describe('GET', () => {
-      test('Should get waterbalance if Im on my farm as an owner', async (done) => {
-        const [{ user_id, farm_id }] = await createUserFarm(1);
-        getInsight(farm_id, user_id, 'waterbalance', (err, res) => {
-          expect(res.status).toBe(200);
-          done();
-        });
-      });
-      test('Should get waterbalance if Im on my farm as a manager', async (done) => {
-        const [{ user_id, farm_id }] = await createUserFarm(2);
-        getInsight(farm_id, user_id, 'waterbalance', (err, res) => {
-          expect(res.status).toBe(200);
-          done();
-        });
-      });
-
-      test('Should get waterbalance if Im on my farm as a worker', async (done) => {
-        const [{ user_id, farm_id }] = await createUserFarm(3);
-        getInsight(farm_id, user_id, 'waterbalance', (err, res) => {
-          expect(res.status).toBe(200);
-          done();
-        });
-      });
-    });
-
-    describe('POST', () => {
-      test('should create a water balance if Im on my farm as an owner', async (done) => {
-        const [{ user_id, farm_id }] = await createUserFarm(1);
-        const [field] = await mocks.fieldFactory({ promisedFarm: [{ farm_id }] });
-        const [{ crop_id, location_id }] = await mocks.management_planFactory({
-          promisedField: [field],
-        });
-        const waterBalance = { ...mocks.fakeWaterBalance(), crop_id, location_id };
-        postWaterBalance(waterBalance, { farm_id, user_id }, (err, res) => {
-          expect(res.status).toBe(201);
-          done();
-        });
-      });
-
-      test('should create a water balance if Im on my farm as a manager', async (done) => {
-        const [{ user_id, farm_id }] = await createUserFarm(2);
-        const [field] = await mocks.fieldFactory({ promisedFarm: [{ farm_id }] });
-        const [{ crop_id, location_id }] = await mocks.management_planFactory({
-          promisedField: [field],
-        });
-        const waterBalance = { ...mocks.fakeWaterBalance(), crop_id, location_id };
-        postWaterBalance(waterBalance, { farm_id, user_id }, (err, res) => {
-          expect(res.status).toBe(201);
-          done();
-        });
-      });
-
-      test('should fail to create  a water balance if Im on my farm as a Worker', async (done) => {
-        const [{ user_id, farm_id }] = await createUserFarm(3);
-        const [field] = await mocks.fieldFactory({ promisedFarm: [{ farm_id }] });
-        const [{ crop_id, location_id }] = await mocks.management_planFactory({
-          promisedField: [field],
-        });
-        const waterBalance = { ...mocks.fakeWaterBalance(), crop_id, location_id };
-        postWaterBalance(waterBalance, { farm_id, user_id }, (err, res) => {
-          expect(res.status).toBe(403);
-          done();
-        });
-      });
-    });
-  });
-
-  describe('waterbalance schedule', () => {
-    describe('GET', () => {
-      test('Should get waterbalance schedule if Im on my farm as an owner', async (done) => {
-        const [{ user_id, farm_id }] = await createUserFarm(1);
-        getInsight(farm_id, user_id, 'waterbalance/schedule', (err, res) => {
-          expect(res.status).toBe(200);
-          done();
-        });
-      });
-      test('Should get waterbalance schedule if Im on my farm as a manager', async (done) => {
-        const [{ user_id, farm_id }] = await createUserFarm(2);
-        getInsight(farm_id, user_id, 'waterbalance/schedule', (err, res) => {
-          expect(res.status).toBe(200);
-          done();
-        });
-      });
-      test('Should get waterbalance schedule if Im on my farm as a worker', async (done) => {
-        const [{ user_id, farm_id }] = await createUserFarm(3);
-        getInsight(farm_id, user_id, 'waterbalance/schedule', (err, res) => {
-          expect(res.status).toBe(200);
-          done();
-        });
-      });
-    });
-    describe('POST', () => {
-      test('Should register my farm to the water balance schedule as an owner', async (done) => {
-        const [{ user_id, farm_id }] = await createUserFarm(1);
-        postWaterBalanceSchedule({ farm_id, user_id }, async (err, res) => {
-          expect(res.status).toBe(200);
-          const schedule = await knex('waterBalanceSchedule').where({ farm_id }).first();
-          expect(schedule.farm_id).toBe(farm_id);
-          done();
-        });
-      });
-      test('Should register my farm to the water balance schedule as a manager', async (done) => {
-        const [{ user_id, farm_id }] = await createUserFarm(2);
-        postWaterBalanceSchedule({ farm_id, user_id }, async (err, res) => {
-          expect(res.status).toBe(200);
-          const schedule = await knex('waterBalanceSchedule').where({ farm_id }).first();
-          expect(schedule.farm_id).toBe(farm_id);
-          done();
-        });
-      });
-
-      test('Should fail to register my farm to the water balance schedule as a worker', async (done) => {
-        const [{ user_id, farm_id }] = await createUserFarm(3);
-        postWaterBalanceSchedule({ farm_id, user_id }, async (err, res) => {
-          expect(res.status).toBe(403);
-          done();
-        });
-      });
-    });
-  });
-
-  describe('nitrogenbalance', () => {
-    test('Should get nitrogenbalance if Im on my farm as an owner', async (done) => {
-      const [{ user_id, farm_id }] = await createUserFarm(1);
-      getInsight(farm_id, user_id, 'nitrogenbalance', (err, res) => {
-        expect(res.status).toBe(200);
-        done();
-      });
-    });
-    test('Should get nitrogenbalance if Im on my farm as a manager', async (done) => {
-      const [{ user_id, farm_id }] = await createUserFarm(2);
-      getInsight(farm_id, user_id, 'nitrogenbalance', (err, res) => {
-        expect(res.status).toBe(200);
-        done();
-      });
-    });
-
-    test('Should get nitrogenbalance if Im on my farm as a worker', async (done) => {
-      const [{ user_id, farm_id }] = await createUserFarm(3);
-      getInsight(farm_id, user_id, 'nitrogenbalance', (err, res) => {
-        expect(res.status).toBe(200);
-        done();
-      });
-    });
-  });
-
-  describe('nitrogenbalance schedule', () => {
-    describe('GET', () => {
-      test('Should get nitrogenbalance schedule if Im on my farm as an owner', async (done) => {
-        const [{ user_id, farm_id }] = await createUserFarm(1);
-        getInsight(farm_id, user_id, 'nitrogenbalance/schedule', (err, res) => {
-          expect(res.status).toBe(200);
-          done();
-        });
-      });
-
-      test('Should get nitrogenbalance schedule if Im on my farm as a manager', async (done) => {
-        const [{ user_id, farm_id }] = await createUserFarm(2);
-        getInsight(farm_id, user_id, 'nitrogenbalance/schedule', (err, res) => {
-          expect(res.status).toBe(200);
-          done();
-        });
-      });
-
-      test('Should get nitrogenbalance schedule if Im on my farm as a worker', async (done) => {
-        const [{ user_id, farm_id }] = await createUserFarm(3);
-        getInsight(farm_id, user_id, 'nitrogenbalance/schedule', (err, res) => {
-          expect(res.status).toBe(200);
-          done();
-        });
-      });
-    });
-
-    describe('POST', () => {
-      test('should create nitrogen balance schedule if Im on my farm as an owner', async (done) => {
-        const [{ user_id, farm_id }] = await createUserFarm(1);
-        const nitrogenSchedule = { ...mocks.fakeNitrogenSchedule(), farm_id };
-        postNitrogenSchedule(nitrogenSchedule, { farm_id, user_id }, (err, res) => {
-          expect(res.status).toBe(201);
-          done();
-        });
-      });
-
-      test('should createnitrogen balance if Im on my farm as a manager', async (done) => {
-        const [{ user_id, farm_id }] = await createUserFarm(2);
-        const nitrogenSchedule = { ...mocks.fakeNitrogenSchedule(), farm_id };
-        postNitrogenSchedule(nitrogenSchedule, { farm_id, user_id }, (err, res) => {
-          expect(res.status).toBe(201);
-          done();
-        });
-      });
-
-      test('should fail to create nitrogen balance if Im on my farm as a Worker', async (done) => {
-        const [{ user_id, farm_id }] = await createUserFarm(3);
-        const nitrogenSchedule = { ...mocks.fakeNitrogenSchedule(), farm_id };
-        postNitrogenSchedule(nitrogenSchedule, { farm_id, user_id }, (err, res) => {
-          expect(res.status).toBe(403);
-          done();
-        });
-      });
-    });
-
-    describe('DELETE', () => {
-      test('should delete nitrogen balance schedule if Im on my farm as an owner', async (done) => {
-        const [{ user_id, farm_id }] = await createUserFarm(1);
-        const [schedule] = await mocks.nitrogenScheduleFactory({ promisedFarm: [{ farm_id }] });
-        deleteNitrogenSchedule({ user_id, farm_id }, schedule.nitrogen_schedule_id, (err, res) => {
-          expect(res.status).toBe(200);
-          done();
-        });
-      });
-
-      test('should delete nitrogen balance schedule if Im on my farm as a manager', async (done) => {
-        const [{ user_id, farm_id }] = await createUserFarm(2);
-        const [schedule] = await mocks.nitrogenScheduleFactory({ promisedFarm: [{ farm_id }] });
-        deleteNitrogenSchedule({ user_id, farm_id }, schedule.nitrogen_schedule_id, (err, res) => {
-          expect(res.status).toBe(200);
-          done();
-        });
-      });
-
-      test('should fail to delete nitrogen balance schedule if Im on my farm as a worker', async (done) => {
-        const [{ user_id, farm_id }] = await createUserFarm(3);
-        const [schedule] = await mocks.nitrogenScheduleFactory({ promisedFarm: [{ farm_id }] });
-        deleteNitrogenSchedule({ user_id, farm_id }, schedule.nitrogen_schedule_id, (err, res) => {
-          expect(res.status).toBe(403);
-          done();
-        });
-      });
-    });
-  });
 });
 
 function createUserFarm(role) {
@@ -1088,44 +541,5 @@ function getInsightWithQuery(farmId, userId, route, query, callback) {
     )
     .set('farm_id', farmId)
     .set('user_id', userId)
-    .end(callback);
-}
-
-function postWaterBalance(data, { farm_id, user_id }, callback) {
-  chai
-    .request(server)
-    .post(`/insight/waterbalance`)
-    .set('farm_id', farm_id)
-    .set('user_id', user_id)
-    .send(data)
-    .end(callback);
-}
-
-function postNitrogenSchedule(data, { farm_id, user_id }, callback) {
-  chai
-    .request(server)
-    .post('/insight/nitrogenbalance/schedule')
-    .set('farm_id', farm_id)
-    .set('user_id', user_id)
-    .send(data)
-    .end(callback);
-}
-
-function postWaterBalanceSchedule({ farm_id, user_id }, callback) {
-  chai
-    .request(server)
-    .post(`/insight/waterbalance/schedule`)
-    .set('farm_id', farm_id)
-    .set('user_id', user_id)
-    .send({ farm_id })
-    .end(callback);
-}
-
-function deleteNitrogenSchedule({ farm_id, user_id }, nitrogenId, callback) {
-  chai
-    .request(server)
-    .delete(`/insight/nitrogenbalance/schedule/${nitrogenId}`)
-    .set('farm_id', farm_id)
-    .set('user_id', user_id)
     .end(callback);
 }

@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { Model } from 'objection';
+import Model from './baseFormatModel.js';
 import taskModel from './taskModel.js';
 import productModel from './productModel.js';
 
@@ -39,7 +39,7 @@ class SoilAmendmentTaskModel extends Model {
           type: 'string',
           enum: ['structure', 'moisture_retention', 'nutrient_availability', 'ph', 'other'],
         },
-        other_purpose: { type: 'string' },
+        other_purpose: { type: ['string', 'null'] },
         product_id: { type: 'integer', minimum: 0 },
         product_quantity: { type: 'number' },
         product_quantity_unit: {
@@ -73,6 +73,23 @@ class SoilAmendmentTaskModel extends Model {
           to: 'product.product_id',
         },
       },
+    };
+  }
+
+  // Custom function used in copy crop plan
+  // Should contain all jsonSchema() and relationMappings() keys
+  static get templateMappingSchema() {
+    return {
+      // jsonSchema()
+      task_id: 'omit',
+      purpose: 'keep',
+      other_purpose: 'keep',
+      product_id: 'keep',
+      product_quantity: 'keep',
+      product_quantity_unit: 'keep',
+      // relationMappings
+      task: 'omit',
+      product: 'omit',
     };
   }
 }

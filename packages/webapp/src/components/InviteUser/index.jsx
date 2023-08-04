@@ -110,7 +110,7 @@ export default function PureInviteUser({ onInvite, onGoBack, userFarmEmails, rol
           },
           validate: {
             existing: (value) => {
-              if (role.value === 3 && !value) {
+              if (role?.value === 3 && !value) {
                 return true;
               } else {
                 return (

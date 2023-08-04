@@ -29,7 +29,7 @@ export const getUnit = (farm, metricUnit, imperialUnit) => {
   return farm && farm.units && farm.units.measurement === 'metric' ? metricUnit : imperialUnit;
 };
 
-// converts current value to metric unit as stored in db ie. quantity_kg values should always be converted to kg
+// converts current value to metric unit as stored in db ie. quantity values should always be converted to kg
 export const convertToMetric = (value, currentUnit, metricUnit, inverse) => {
   if (inverse) {
     const inverted = 1 / value;
@@ -38,7 +38,7 @@ export const convertToMetric = (value, currentUnit, metricUnit, inverse) => {
   return convert(value).from(currentUnit).to(metricUnit);
 };
 
-// converts current value FROM metric unit as stored in db ie. quantity_kg values should always be converted from kg
+// converts current value FROM metric unit as stored in db ie. quantity values should always be converted from kg
 export const convertFromMetric = (value, currentUnit, metricUnit, inverse) => {
   if (inverse) {
     const inverted = 1 / value;

@@ -1,10 +1,10 @@
 {
   "name": "litefarm-webapp",
-  "version": "3.3.2",
+  "version": "3.4.0",
   "description": "LiteFarm Web application",
   "type": "module",
   "scripts": {
-    "dev": "CYPRESS_COVERAGE=TRUE vite --host",
+    "dev": "vite --host",
     "build": "tsc && NODE_OPTIONS=--max_old_space_size=3000 vite build",
     "preview": "vite preview",
     "lint": "eslint src",
@@ -17,17 +17,13 @@
     "test-storybook": "test-storybook",
     "precommit": "lint-staged"
   },
-  "lint-staged": {
-    "*.{js, jsx}": [
-      "eslint --quiet --fix"
-    ],
-    "*.{js,jsx,ts,tsx,json,md,html}": "prettier --write"
-  },
   "dependencies": {
     "@emotion/react": "^11.10.5",
+    "@emotion/styled": "^11.11.0",
     "@googlemaps/markerclusterer": "^2.0.14",
-    "@material-ui/core": "^4.12.4",
-    "@material-ui/icons": "^4.11.3",
+    "@mui/icons-material": "^5.11.16",
+    "@mui/material": "^5.13.5",
+    "@mui/styles": "^5.13.2",
     "@react-oauth/google": "^0.7.0",
     "@reactour/tour": "^3.1.6",
     "@reduxjs/toolkit": "^1.9.1",
@@ -49,7 +45,7 @@
     "immer": "^9.0.16",
     "moment": "^2.29.4",
     "moment-range": "^4.0.2",
-    "notistack": "^1.0.10",
+    "notistack": "^3.0.1",
     "prop-types": "^15.8.1",
     "rc-year-calendar": "^1.0.2",
     "react": "^18.2.0",
@@ -70,26 +66,25 @@
     "redux-persist": "^6.0.0",
     "redux-saga": "^1.2.1",
     "reselect": "^4.1.7",
-    "uuid": "^8.3.2",
-    "xlsx": "^0.18.5"
+    "rrule": "2.7.2",
+    "uuid": "^8.3.2"
   },
   "devDependencies": {
     "@babel/core": "^7.20.5",
-    "@cypress/code-coverage": "^3.10.0",
     "@emotion/babel-plugin": "^11.10.5",
     "@mdx-js/react": "^1.6.22",
     "@mdx-js/rollup": "^2.3.0",
-    "@storybook/addon-a11y": "^7.0.0-rc.4",
-    "@storybook/addon-actions": "^7.0.0-rc.4",
-    "@storybook/addon-docs": "7.0.0-rc.4",
-    "@storybook/addon-essentials": "^7.0.0-rc.4",
-    "@storybook/addon-interactions": "^7.0.0-rc.4",
-    "@storybook/addon-links": "^7.0.0-rc.4",
-    "@storybook/addon-mdx-gfm": "^7.0.0-rc.4",
-    "@storybook/addon-viewport": "7.0.0-rc.4",
+    "@storybook/addon-a11y": "7.0.27",
+    "@storybook/addon-actions": "7.0.27",
+    "@storybook/addon-docs": "7.0.27",
+    "@storybook/addon-essentials": "7.0.27",
+    "@storybook/addon-interactions": "7.0.27",
+    "@storybook/addon-links": "7.0.27",
+    "@storybook/addon-mdx-gfm": "7.0.27",
+    "@storybook/addon-viewport": "7.0.27",
     "@storybook/jest": "^0.0.10",
-    "@storybook/react": "^7.0.0-rc.4",
-    "@storybook/react-vite": "^7.0.0-rc.4",
+    "@storybook/react": "7.0.27",
+    "@storybook/react-vite": "7.0.27",
     "@storybook/test-runner": "^0.9.4",
     "@storybook/testing-library": "^0.0.14-next.1",
     "@types/d3": "^7.4.0",
@@ -102,9 +97,6 @@
     "babel-loader": "^8.3.0",
     "check-code-coverage": "^1.10.4",
     "chromatic": "^6.11.4",
-    "cypress": "^12.5.1",
-    "cypress-get-table": "^1.0.1",
-    "cypress-react-selector": "^2.3.20",
     "eslint": "^8.28.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-prettier": "^4.2.1",
@@ -117,11 +109,18 @@
     "nodemailer": "^6.8.0",
     "react-select-event": "^5.5.1",
     "sass": "^1.56.1",
-    "storybook": "^7.0.0-rc.4",
+    "storybook": "7.0.27",
     "typescript": "^4.9.5",
     "vite": "^4.1.1",
     "vite-plugin-istanbul": "^4.0.0",
     "vite-plugin-pwa": "^0.14.3",
     "vite-plugin-svgr": "^2.4.0"
+  },
+  "pnpm": {
+    "overrides": {
+      "trim@<0.0.3": ">=0.0.3",
+      "glob-parent@<5.1.2": ">=5.1.2",
+      "semver@<7.5.2": ">=7.5.2"
+    }
   }
 }

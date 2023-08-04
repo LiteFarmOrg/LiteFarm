@@ -11,6 +11,7 @@ import Input from '../Form/Input';
 import { useSelector } from 'react-redux';
 import { cropLocationsSelector } from '../../containers/locationSlice';
 import LocationCreationModal from '../LocationCreationModal';
+import CropPlansModal from '../Modals/CropModals/CropPlansModal';
 
 export default function PureCropManagement({
   history,
@@ -24,6 +25,7 @@ export default function PureCropManagement({
 }) {
   const { t } = useTranslation();
   const [searchString, setSearchString] = useState('');
+  const [plansForModal, setPlansForModal] = useState([]);
   const searchStringOnChange = (e) => setSearchString(e.target.value);
   const filteredManagementPlanCardContents = useMemo(() => {
     return searchString
@@ -48,6 +50,17 @@ export default function PureCropManagement({
     } else {
       setCreateCropLocation(true);
     }
+  };
+
+  const setPlansInGroup = (groupId) => {
+    const plans = managementPlanCardContents.filter(({ management_plan_group_id }) => {
+      return management_plan_group_id === groupId;
+    });
+    setPlansForModal(plans);
+  };
+
+  const dismissCropPlansModal = () => {
+    setPlansForModal([]);
   };
 
   return (
@@ -95,19 +108,40 @@ export default function PureCropManagement({
       )}
       {managementPlanCardContents && (
         <CardWithStatusContainer style={{ paddingTop: '16px' }}>
-          {filteredManagementPlanCardContents.map((managementPlan, index) => (
-            <ManagementPlanCard
-              onClick={() =>
-                history.push(
-                  `/crop/${variety.crop_variety_id}/management_plan/${managementPlan.management_plan_id}/tasks`,
-                  location.state,
-                )
-              }
-              {...managementPlan}
-              key={index}
-            />
-          ))}
+          {filteredManagementPlanCardContents.map((managementPlan, index) => {
+            // Handle repeat plan info click event
+            const repeatPlanInfoOnClick =
+              managementPlan.repetition_count && managementPlan.repetition_number
+                ? (e) => {
+                    e.stopPropagation(); // to stop click propagating to parent
+                    setPlansInGroup(managementPlan.management_plan_group_id);
+                  }
+                : undefined;
+
+            return (
+              <ManagementPlanCard
+                onClick={() =>
+                  history.push(
+                    `/crop/${variety.crop_variety_id}/management_plan/${managementPlan.management_plan_id}/tasks`,
+                    location.state,
+                  )
+                }
+                {...managementPlan}
+                key={index}
+                repeatPlanInfoOnClick={repeatPlanInfoOnClick}
+                repeatingPlan={managementPlan.repetition_count && managementPlan.repetition_number}
+              />
+            );
+          })}
         </CardWithStatusContainer>
+      )}
+      {!!plansForModal.length && (
+        <CropPlansModal
+          history={history}
+          variety={variety}
+          managementPlanCardContents={plansForModal}
+          dismissModal={dismissCropPlansModal}
+        />
       )}
     </Layout>
   );
@@ -124,6 +158,9 @@ PureCropManagement.propTypes = {
       numberOfPendingTask: PropTypes.number,
       status: PropTypes.oneOf(['active', 'planned', 'completed', 'abandoned']),
       management_plan_id: PropTypes.number,
+      management_plan_group_id: PropTypes.string,
+      repetition_count: PropTypes.number,
+      repetition_number: PropTypes.number,
     }),
   ),
   history: PropTypes.object,

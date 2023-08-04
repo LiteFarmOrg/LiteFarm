@@ -1,4 +1,5 @@
 .input {
+  width: 100%;
   border: 1px solid var(--grey400);
   box-sizing: border-box;
   border-radius: 4px;
@@ -17,6 +18,12 @@
 .input::-webkit-outer-spin-button {
   -webkit-appearance: none;
   margin: 0;
+}
+
+/* Hides native spinbutton in Firefox */
+input[type='number'] {
+  -moz-appearance: textfield;
+  appearance: textfield;
 }
 
 .input ::placeholder {
@@ -67,6 +74,7 @@ input:focus::placeholder {
   top: -8px;
   color: var(--iconDefault);
 }
+
 .icon > * {
   cursor: pointer;
 }
@@ -89,7 +97,9 @@ input:focus::placeholder {
   font-size: 22px;
   color: var(--iconDefault);
   cursor: pointer;
+  z-index: 1;
 }
+
 .labelContainer {
   display: flex;
   justify-content: space-between;
@@ -130,4 +140,44 @@ input:focus::placeholder {
   width: 100%;
   display: flex;
   justify-content: flex-end;
+}
+
+/* Wrapper for Input + stepper buttons */
+.inputWrapper {
+  position: relative;
+  width: 100%;
+}
+
+.stepper {
+  display: flex;
+  flex-flow: column nowrap;
+  position: absolute;
+  right: 3px;
+  top: 4px;
+
+  :nth-child(1) {
+    margin-bottom: -4px;
+  }
+
+  :nth-child(2) {
+    margin-top: -4px;
+  }
+}
+
+.stepper .stepperIcons {
+  font-size: 24px;
+  width: 32px;
+  border-radius: 4px;
+  transition: color 150ms;
+  color: var(--iconDefault);
+  cursor: pointer;
+
+  &:hover {
+    background-color: var(--grey200);
+    color: var(--grey600);
+  }
+}
+
+.inputWrapper input:disabled + .stepper .stepperIcons {
+  pointer-events: none;
 }

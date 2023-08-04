@@ -2,7 +2,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Main, Semibold } from '../../Typography';
 import { colors } from '../../../assets/theme';
-import { VscWarning } from 'react-icons/all';
+import { VscWarning } from 'react-icons/vsc';
 
 const UnregisteredCertifierSurvey = ({ email }) => {
   const { t } = useTranslation();

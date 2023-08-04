@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { Model } from 'objection';
+import Model from './baseFormatModel.js';
 
 import baseModel from './baseModel.js';
 import cropVarietySaleModel from './cropVarietySaleModel.js';

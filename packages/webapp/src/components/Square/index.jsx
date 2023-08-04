@@ -1,6 +1,6 @@
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@mui/styles';
 import { colors } from '../../assets/theme';
-import { FaExclamation } from 'react-icons/all';
+import { FaExclamation } from 'react-icons/fa';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 

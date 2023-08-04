@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { Model } from 'objection';
+import Model from './baseFormatModel.js';
 
 import BaseModel from './baseModel.js';
 import userFarmModel from './userFarmModel.js';
@@ -36,10 +36,10 @@ class organicCertifierSurveyModel extends BaseModel {
         survey_id: { type: 'string' },
         farm_id: { type: 'string' },
         interested: { type: 'boolean' },
-        certification_id: { type: ['integer', null] },
-        certifier_id: { type: ['integer', null] },
-        requested_certification: { type: ['string', null] },
-        requested_certifier: { type: ['string', null] },
+        certification_id: { type: ['integer', 'null'] },
+        certifier_id: { type: ['integer', 'null'] },
+        requested_certification: { type: ['string', 'null'] },
+        requested_certifier: { type: ['string', 'null'] },
         ...super.baseProperties,
       },
       additionalProperties: false,

@@ -23,8 +23,8 @@ import { tableCleanup } from './testEnvironment.js';
 jest.mock('jsdom');
 jest.mock('../src/middleware/acl/checkJwt.js', () =>
   jest.fn((req, res, next) => {
-    req.user = {};
-    req.user.user_id = req.get('user_id');
+    req.auth = {};
+    req.auth.user_id = req.get('user_id');
     next();
   }),
 );
@@ -78,15 +78,6 @@ describe('User Farm Tests', () => {
       })
       .end(callback);
   }
-
-  // function addUserFarmRequest(data, { user_id = owner.user_id, farm_id = farm.farm_id }, callback) {
-  //   chai.request(server).post('/user_farm')
-  //     .set('Content-Type', 'application/json')
-  //     .set('user_id', user_id)
-  //     .set('farm_id', farm_id)
-  //     .send(data)
-  //     .end(callback);
-  // }
 
   function getUserFarmsOfFarmRequest({ user_id, farm_id }, callback) {
     chai
@@ -160,15 +151,6 @@ describe('User Farm Tests', () => {
       .end(callback);
   }
 
-  // function fakeUserFarm(role_id=1, status='Active', has_consent=true) {
-  //   return ({
-  //     ...mocks.fakeUserFarm(),
-  //     role_id,
-  //     status,
-  //     has_consent,
-  //   });
-  // }
-
   // initialize a user and a farm
   async function setupUserFarm({ role_id = 1, status = 'Active', has_consent = true }) {
     const userFarmInfo = {
@@ -219,15 +201,6 @@ describe('User Farm Tests', () => {
     const inactiveUser = await createUserFarmAtFarm({ role_id: 3, status: 'Inactive' }, farm);
     return { owner, manager, worker, inactiveUser, farm };
   }
-
-  beforeEach(async () => {
-    // middleware = require('../src/middleware/acl/checkJwt');
-    // middleware.mockImplementation((req, res, next) => {
-    //   req.user = {};
-    //   req.user.user_id = req.get('user_id');
-    //   next();
-    // });
-  });
 
   afterAll(async (done) => {
     console.time('cleanup');
@@ -1102,22 +1075,6 @@ describe('User Farm Tests', () => {
           { promisedFarm: [farm] },
           { ...mocks.fakeUserFarm(), role_id: 4 },
         );
-        const [shift0] = await mocks.shiftFactory(
-          { promisedUserFarm: [psedoUserFarm] },
-          {
-            ...mocks.fakeShift(),
-            created_by_user_id: owner.user_id,
-            updated_by_user_id: owner.user_id,
-          },
-        );
-        const [shift1] = await mocks.shiftFactory(
-          { promisedUserFarm: [psedoUserFarm] },
-          {
-            ...mocks.fakeShift(),
-            created_by_user_id: owner.user_id,
-            updated_by_user_id: owner.user_id,
-          },
-        );
         const email = faker.internet.email().toLowerCase();
         const [existingUser] = await mocks.usersFactory({
           ...mocks.fakeUser(),
@@ -1147,10 +1104,6 @@ describe('User Farm Tests', () => {
             expect(updatedUserFarm.status_id).toBe(1);
             expect(updatedUserFarm.wage).toEqual(wage);
             expect(updatedUserFarm.role_id).toBe(role_id);
-            const updatedShift0 = await knex('shift').where({ shift_id: shift0.shift_id }).first();
-            expect(updatedShift0.user_id).toBe(existingUser.user_id);
-            const updatedShift1 = await knex('shift').where({ shift_id: shift1.shift_id }).first();
-            expect(updatedShift1.user_id).toBe(existingUser.user_id);
             done();
           },
         );
@@ -1162,29 +1115,12 @@ describe('User Farm Tests', () => {
           { promisedFarm: [farm] },
           { ...mocks.fakeUserFarm(), role_id: 4 },
         );
-        const [shift0] = await mocks.shiftFactory(
-          { promisedUserFarm: [psedoUserFarm] },
-          {
-            ...mocks.fakeShift(),
-            created_by_user_id: owner.user_id,
-            updated_by_user_id: owner.user_id,
-          },
-        );
-        const [shift1] = await mocks.shiftFactory(
-          { promisedUserFarm: [psedoUserFarm] },
-          {
-            ...mocks.fakeShift(),
-            created_by_user_id: owner.user_id,
-            updated_by_user_id: owner.user_id,
-          },
-        );
         const email = faker.internet.email().toLowerCase();
         const [existingUser] = await mocks.usersFactory({ ...mocks.fakeUser(), email });
         const [existringUserFarm] = await mocks.userFarmFactory({
           promisedFarm: [farm],
           promisedUser: [existingUser],
         });
-        const [existingShift] = await mocks.shiftFactory({ promisedUserFarm: [existringUserFarm] });
         const { wage, role_id } = mocks.fakeUserFarm();
         invitePseudoUserRequest(
           { email, role_id, wage },

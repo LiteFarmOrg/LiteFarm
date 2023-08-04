@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { Model } from 'objection';
+import Model from './baseFormatModel.js';
 
 import BaseModel from './baseModel.js';
 import yieldModel from './yieldModel.js';
@@ -91,7 +91,7 @@ class Crop extends BaseModel {
         crop_genus: { type: 'string', minLength: 1, maxLength: 255 },
         crop_specie: { type: 'string', minLength: 1, maxLength: 255 },
         crop_group: {
-          type: 'string, null',
+          type: ['string', 'null'],
           enum: [
             'Fruit and nuts',
             'Other crops',
@@ -107,7 +107,7 @@ class Crop extends BaseModel {
           ],
         },
         crop_subgroup: {
-          type: 'string, null',
+          type: ['string', 'null'],
           enum: [
             'Berries',
             'Cereals',
@@ -174,9 +174,9 @@ class Crop extends BaseModel {
         folate: { type: 'number' },
         vitb12: { type: 'number' },
         vitk: { type: 'number' },
-        is_avg_depth: { type: 'boolean, null' },
-        is_avg_nutrient: { type: 'boolean, null' },
-        is_avg_kc: { type: 'boolean, null' },
+        is_avg_depth: { type: ['boolean', 'null'] },
+        is_avg_nutrient: { type: ['boolean', 'null'] },
+        is_avg_kc: { type: ['boolean', 'null'] },
         user_added: { type: 'boolean' },
         nutrient_notes: { type: 'string' },
         refuse: { type: 'string' },
@@ -184,28 +184,28 @@ class Crop extends BaseModel {
         reviewed: { type: 'boolean' },
         crop_translation_key: { type: 'string' },
         crop_photo_url: { type: 'string' },
-        can_be_cover_crop: { type: ['boolean', null] },
-        planting_depth: { type: ['number', null] },
-        yield_per_area: { type: ['number', null] },
-        average_seed_weight: { type: ['number', null] },
-        yield_per_plant: { type: ['number', null] },
+        can_be_cover_crop: { type: ['boolean', 'null'] },
+        planting_depth: { type: ['number', 'null'] },
+        yield_per_area: { type: ['number', 'null'] },
+        average_seed_weight: { type: ['number', 'null'] },
+        yield_per_plant: { type: ['number', 'null'] },
         seeding_type: {
-          type: ['string', null],
-          enum: ['SEED', 'SEEDLING_OR_PLANTING_STOCK', null],
+          type: ['string', 'null'],
+          enum: ['SEED', 'SEEDLING_OR_PLANTING_STOCK', 'null'],
         },
-        lifecycle: { type: ['string', null], enum: ['ANNUAL', 'PERENNIAL', null] },
-        needs_transplant: { type: ['boolean', null] },
-        germination_days: { type: ['integer', null] },
-        transplant_days: { type: ['integer', null] },
-        harvest_days: { type: ['integer', null] },
-        termination_days: { type: ['integer', null] },
+        lifecycle: { type: ['string', 'null'], enum: ['ANNUAL', 'PERENNIAL', null] },
+        needs_transplant: { type: ['boolean', 'null'] },
+        germination_days: { type: ['integer', 'null'] },
+        transplant_days: { type: ['integer', 'null'] },
+        harvest_days: { type: ['integer', 'null'] },
+        termination_days: { type: ['integer', 'null'] },
         planting_method: {
-          type: ['string', null],
+          type: ['string', 'null'],
           enum: ['BROADCAST_METHOD', 'CONTAINER_METHOD', 'BED_METHOD', 'ROW_METHOD', null],
         },
-        plant_spacing: { type: ['number', null] },
-        seeding_rate: { type: ['number', null] },
-        hs_code_id: { type: ['string', 'number', null] },
+        plant_spacing: { type: ['number', 'null'] },
+        seeding_rate: { type: ['number', 'null'] },
+        hs_code_id: { anyOf: [{ type: 'string' }, { type: 'number' }, { type: 'null' }] },
         ...this.baseProperties,
       },
       additionalProperties: false,

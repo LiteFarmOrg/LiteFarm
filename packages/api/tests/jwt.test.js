@@ -437,11 +437,11 @@ describe('JWT Tests', () => {
       });
       googleUser = fakeGoogleTokenContent();
       checkGoogleJwt.mockImplementation(async (req, res, next) => {
-        req.user = { ...googleUser };
+        req.auth = { ...googleUser };
         return next();
       });
       checkGoogleAccessToken.mockImplementation(async (req, res, next) => {
-        req.user = { ...googleUser };
+        req.auth = { ...googleUser };
         return next();
       });
       // emailMiddleware.sendEmail.mockClear();
@@ -631,11 +631,6 @@ describe('JWT Tests', () => {
           status: 'Invited',
         },
       );
-      const [shift] = await mocks.shiftFactory({ promisedUserFarm: [userFarm] });
-      const [shift1] = await mocks.shiftFactory({ promisedUserFarm: [userFarm1] });
-      await knex('shift')
-        .where({ created_by_user_id: user.user_id })
-        .update({ created_by_user_id: newUser.user_id });
       const { user_id, farm_id } = userFarm1;
       getRequest(user, async (err, res) => {
         const verified = await jsonwebtoken.verify(invitationToken, tokenType.invite);
@@ -658,11 +653,6 @@ describe('JWT Tests', () => {
             200,
             resUser,
           );
-          const oldShift = await knex('shift').where({ user_id });
-          expect(oldShift.length).toBe(0);
-          const resShifts = await knex('shift').where({ user_id: googleUser.sub });
-          expect(resShifts.length).toBe(2);
-
           putAcceptInvitationWithGoogleAccountRequest(invitationToken, async (err, res) => {
             expect(res.status).toBe(401);
             done();

@@ -94,7 +94,7 @@ const passwordResetController = {
   resetPassword() {
     return async (req, res) => {
       const { password } = req.body;
-      const { user_id, email, first_name, language_preference } = req.user;
+      const { user_id, email, first_name, language_preference } = req.auth;
       try {
         const salt = await bcrypt.genSalt(10);
         const password_hash = await bcrypt.hash(password, salt);

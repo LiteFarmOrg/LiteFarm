@@ -1,8 +1,8 @@
 import React, { useMemo, useState } from 'react';
 import clsx from 'clsx';
-import { makeStyles } from '@material-ui/core/styles';
-import List from '@material-ui/core/List';
-import Divider from '@material-ui/core/Divider';
+import { makeStyles } from '@mui/styles';
+import List from '@mui/material/List';
+import Divider from '@mui/material/Divider';
 import { Label, Semibold, Underlined } from '../Typography';
 import { ReactComponent as MapBackground } from '../../assets/images/farmMapFilter/MapBackground.svg';
 import { ReactComponent as LabelIcon } from '../../assets/images/farmMapFilter/Label.svg';
@@ -21,7 +21,7 @@ import { ReactComponent as Fence } from '../../assets/images/farmMapFilter/Fence
 import { ReactComponent as Gate } from '../../assets/images/farmMapFilter/Gate.svg';
 import { ReactComponent as WaterValve } from '../../assets/images/farmMapFilter/WaterValve.svg';
 import { ReactComponent as Sensor } from '../../assets/images/farmMapFilter/Sensor.svg';
-import { Drawer } from '@material-ui/core';
+import { Drawer } from '@mui/material';
 import { colors } from '../../assets/theme';
 import { useTranslation } from 'react-i18next';
 import { motion, useAnimation } from 'framer-motion';

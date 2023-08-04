@@ -85,12 +85,22 @@
     "ERROR": {
       "ABANDON": "Erro em abandonar o plano de cultivo!",
       "COMPLETE": "Erro ao completar o plano de cultivo!",
-      "POST": "Erro ao adicionar plano de cultivo!"
+      "POST": "Erro ao adicionar plano de cultivo!",
+      "DELETE": "Falha ao remover o plano de cultivo!"
     },
     "SUCCESS": {
       "ABANDON": "Plano de cultivo abandonado com sucesso!",
       "COMPLETE": "Plano de cultivo concluído com sucesso! ",
-      "POST": "Plano de cultivo adicionado com sucesso!"
+      "POST": "Plano de cultivo adicionado com sucesso!",
+      "DELETE": "Plano de cultivo removido com sucesso!"
+    }
+  },
+  "REPEAT_PLAN": {
+    "ERROR": {
+      "POST": "Falha ao repetir {{planName}}"
+    },
+    "SUCCESS": {
+      "POST": "{{planName}} repetido com sucesso"
     }
   },
   "MAP": {
@@ -133,23 +143,6 @@
       "ADD": "Venda adicionada com sucesso",
       "DELETE": "Venda excluída com sucesso",
       "UPDATE": "Venda atualizada com sucesso"
-    }
-  },
-  "SHIFT": {
-    "ERROR": {
-      "ADD": "Falha de adicionar novo turno",
-      "CROP_FIELDS_EACH": "Favor de atribuar culturas ou campos para cada tarefa",
-      "DELETE": "Falha na exclusão do turno :(",
-      "DURATION_FOR_CROPS": "Favor de atribuir uma duração para cada cultivo de campo.",
-      "ONLY_INTEGERS_DURATIONS": "Favor de atribuir apenas números às durações",
-      "REQUIRED_TASK": "Um nome de tarefa é obrigatório",
-      "SUBMIT_SHIFT": "Falha no envio de turno. Favor de enviar um pedido de ajuda a Litefarm para obter assistência.",
-      "UPDATE": "Falha na actualização do turno"
-    },
-    "SUCCESS": {
-      "ADD": "Novo turno adicionado com sucesso!",
-      "DELETE": "Turno excluído!",
-      "UPDATE": "Turno atualizado com sucesso!"
     }
   },
   "TASK": {

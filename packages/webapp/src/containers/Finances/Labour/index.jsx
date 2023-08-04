@@ -6,7 +6,7 @@ import defaultStyles from '../styles.module.scss';
 import styles from './styles.module.scss';
 import Employee from './Employee';
 import Task from './Task';
-import { dateRangeSelector, shiftSelector } from '../selectors';
+import { dateRangeSelector } from '../selectors';
 import DateRangeSelector from '../../../components/Finances/DateRangeSelector';
 import { userFarmSelector } from '../../userFarmSlice';
 import { withTranslation } from 'react-i18next';
@@ -73,7 +73,6 @@ class Labour extends Component {
         text: this.props.t('SALE.LABOUR.EMPLOYEES'),
         onClick: () => this.sortBy('EMPLOYEES'),
       },
-      // { text: this.props.t('SALE.LABOUR.CROPS'), onClick: () => this.sortBy('CROPS') },
       { text: this.props.t('SALE.LABOUR.TASKS'), onClick: () => this.sortBy('TASKS') },
     ];
 
@@ -97,15 +96,6 @@ class Labour extends Component {
             endDate={this.state.endDate}
           />
         )}
-        {/* {dropDownTitle === 'CROPS' && (
-          <Crop
-            currencySymbol={symbol}
-            shifts={this.props.shifts}
-            startDate={this.state.startDate}
-            endDate={this.state.endDate}
-            managementPlans={this.props.managementPlans}
-          />
-        )} */}
         {dropDownTitle === 'TASKS' && (
           <Task
             currencySymbol={symbol}
@@ -121,7 +111,6 @@ class Labour extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    shifts: shiftSelector(state),
     tasks: tasksSelector(state),
     dateRange: dateRangeSelector(state),
     farm: userFarmSelector(state),

@@ -1,0 +1,22 @@
+{
+  "name": "end-to-end",
+  "version": "1.0.0",
+  "description": "Cypress e2e tests for LiteFarm",
+  "main": "index.js",
+  "scripts": {
+    "precommit": "lint-staged",
+    "cypress": "cypress open"
+  },
+  "author": "",
+  "license": "GPL-3.0",
+  "devDependencies": {
+    "cypress": "^12.14.0",
+    "eslint": "^8.43.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "lint-staged": "^13.2.3",
+    "prettier": "^2.8.8"
+  },
+  "dependencies": {
+    "eslint-plugin-cypress": "^2.13.3"
+  }
+}

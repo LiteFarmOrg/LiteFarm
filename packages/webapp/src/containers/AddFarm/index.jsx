@@ -1,5 +1,5 @@
 import { useForm } from 'react-hook-form';
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Script from 'react-load-script';
 import GoogleMap from 'google-map-react';
 import { VscLocation } from 'react-icons/vsc';
@@ -48,6 +48,7 @@ const AddFarm = () => {
 
   const gridPoints = watch(GRID_POINTS);
   const disabled = !isValid;
+  const [scriptLoaded, setScriptLoaded] = useState(false);
   const [isGettingLocation, setIsGettingLocation] = useState(false);
   const farmNameRegister = register(FARMNAME, {
     required: { value: true, message: t('ADD_FARM.FARM_IS_REQUIRED') },
@@ -112,6 +113,7 @@ const AddFarm = () => {
 
     // Fire Event when a suggested name is selected
     placesAutocompleteRef.current.addListener('place_changed', handlePlaceChanged);
+    setScriptLoaded(true);
   };
 
   const geocoderRef = useRef();
@@ -129,7 +131,7 @@ const AddFarm = () => {
             results.find((place) =>
               place?.address_components?.find((component) => {
                 if (component?.types?.includes?.('country')) {
-                  country = component.long_name;
+                  country = component.short_name;
                   return true;
                 }
                 return false;
@@ -142,6 +144,12 @@ const AddFarm = () => {
       isGettingLocation ? 0 : 500,
     );
   };
+
+  useEffect(() => {
+    if (scriptLoaded && gridPoints && !getValues(COUNTRY)) {
+      setCountryFromLatLng(gridPoints);
+    }
+  }, [scriptLoaded]);
 
   const parseLatLng = (latLngString) => {
     const coordRegex = /^(-?\d+(?:\.\d+)?)[,\s]\s*(-?\d+(\.\d+)?)$/;
@@ -184,7 +192,7 @@ const AddFarm = () => {
     if (place?.geometry?.location) {
       const countryLookup = place.address_components.find((component) =>
         component.types.includes('country'),
-      )?.long_name;
+      )?.short_name;
 
       setValue(
         GRID_POINTS,
@@ -265,6 +273,7 @@ const AddFarm = () => {
         ]}
         map={
           <Map
+            scriptLoaded={scriptLoaded}
             gridPoints={gridPoints || {}}
             isGettingLocation={isGettingLocation}
             errors={addressErrors}
@@ -275,7 +284,7 @@ const AddFarm = () => {
   );
 };
 
-function Map({ gridPoints, errors, isGettingLocation }) {
+function Map({ scriptLoaded, gridPoints, errors, isGettingLocation }) {
   return (
     <div
       style={{
@@ -290,7 +299,7 @@ function Map({ gridPoints, errors, isGettingLocation }) {
         display: 'flex',
       }}
     >
-      {(!isGettingLocation && gridPoints && gridPoints.lat && (
+      {(scriptLoaded && !isGettingLocation && gridPoints && gridPoints.lat && (
         <GoogleMap
           style={{ flexGrow: 1 }}
           center={gridPoints}

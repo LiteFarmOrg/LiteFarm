@@ -13,9 +13,12 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { Model } from 'objection';
-
+import Model from './baseFormatModel.js';
+// TODO: Deprecate objection soft delete
 import softDelete from 'objection-soft-delete';
+// Patch for mergeContext deprecation from objection
+import { QueryBuilder } from 'objection';
+QueryBuilder.prototype.mergeContext = QueryBuilder.prototype.context;
 
 class Role extends softDelete({ columnName: 'deleted' })(Model) {
   static get hidden() {

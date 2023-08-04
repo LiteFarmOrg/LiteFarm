@@ -1,13 +1,15 @@
 import chai from 'chai';
 import chaiHttp from 'chai-http';
+
 chai.use(chaiHttp);
 import server from '../src/server.js';
 import knex from '../src/util/knex.js';
+
 jest.mock('jsdom');
 jest.mock('../src/middleware/acl/checkJwt.js', () =>
   jest.fn((req, res, next) => {
-    req.user = {};
-    req.user.user_id = req.get('user_id');
+    req.auth = {};
+    req.auth.user_id = req.get('user_id');
     next();
   }),
 );
@@ -16,16 +18,6 @@ import { tableCleanup } from './testEnvironment.js';
 import { faker } from '@faker-js/faker';
 
 describe('Task tests', () => {
-  // let middleware;
-  beforeEach(() => {
-    // middleware = require('../src/middleware/acl/checkJwt');
-    // middleware.mockImplementation((req, res, next) => {
-    //   req.user = {};
-    //   req.user.user_id = req.get('user_id');
-    //   next();
-    // });
-  });
-
   /**
    * Converts a given Date to the local date in ISO-8601 extended format (YYYY-MM-DD).
    * Date.prototype.toISOString() returns the same format of the UTC (not local) date.
@@ -161,6 +153,10 @@ describe('Task tests', () => {
     return { ...mocks.fakeUserFarm(), role_id: role };
   }
 
+  function customFieldWorkTask(task) {
+    return { ...mocks.fakeFieldWorkTask(), field_work_task_type: task };
+  }
+
   async function userFarmTaskGenerator(linkPlan = true) {
     const userFarm = { ...fakeUserFarm(1), wage: { type: '', amount: 30 } };
     const [{ user_id, farm_id }] = await mocks.userFarmFactory({}, userFarm);
@@ -187,6 +183,23 @@ describe('Task tests', () => {
       task_type_id,
     };
   }
+
+  const generateUserFarms = async (number) => {
+    const userFarms = [];
+    const [user] = await mocks.usersFactory();
+
+    for (let i = 0; i < number; i++) {
+      const [farm] = await mocks.farmFactory();
+      const [{ farm_id }] = await mocks.userFarmFactory(
+        { promisedUser: [user], promisedFarm: [farm] },
+        { role_id: 1, status: 'Active' },
+      );
+
+      userFarms.push({ user_id: user.user_id, farm_id });
+    }
+
+    return userFarms;
+  };
 
   async function getTask(task_id) {
     return knex('task').where({ task_id }).first();
@@ -1022,7 +1035,7 @@ describe('Task tests', () => {
         harvest_task: () => mocks.fakeHarvestTask(),
       };
 
-      test('should succesfully create a bunch of harvest tasks', async (done) => {
+      test('should successfully create a bunch of harvest tasks', async (done) => {
         const userFarm = { ...fakeUserFarm(1), wage: { type: '', amount: 30 } };
         const [{ user_id, farm_id }] = await mocks.userFarmFactory({}, userFarm);
         const [{ task_type_id }] = await mocks.task_typeFactory({ promisedFarm: [{ farm_id }] });
@@ -1072,7 +1085,9 @@ describe('Task tests', () => {
               task_id: task_ids[i],
             });
             expect(isTaskRelatedToManagementPlans.length).toBe(1);
-            const created_harvest_task = await knex('harvest_task').where({ task_id: task_ids[i] });
+            const created_harvest_task = await knex('harvest_task').where({
+              task_id: task_ids[i],
+            });
             expect(created_harvest_task.length).toBe(1);
             expect(created_harvest_task[0].task_id).toBe(Number(task_ids[i]));
             expect(created_harvest_task[0].projected_quantity).toBe(300);
@@ -1159,6 +1174,34 @@ describe('Task tests', () => {
             });
           });
         });
+
+        test(`should fail to create a transplant task when plan's location is for a different farm`, async (done) => {
+          const [userFarm2] = await generateUserFarms(1);
+          const [{ location_id: locationIdInFarm2 }] = await mocks.fieldFactory({
+            promisedFarm: [{ farm_id: userFarm2.farm_id }],
+          });
+
+          const { transplant_task, userFarm } = await getBody('row_method');
+          transplant_task.transplant_task.planting_management_plan.location_id = locationIdInFarm2;
+          postTransplantTaskRequest(userFarm, transplant_task, async (err, res) => {
+            expect(res.status).toBe(403);
+            done();
+          });
+        });
+
+        test(`should fail to create a transplant task when previous plan is for different farm's location`, async (done) => {
+          const [userFarm2] = await generateUserFarms(1);
+          const { transplant_task, userFarm } = await getBody('row_method');
+          const [
+            { planting_management_plan_id: prev_planting_management_plan_id },
+          ] = await mocks.planting_management_planFactory({ promisedFarm: [userFarm2] });
+          transplant_task.transplant_task.prev_planting_management_plan_id = prev_planting_management_plan_id;
+
+          postTransplantTaskRequest(userFarm, transplant_task, async (err, res) => {
+            expect(res.status).toBe(403);
+            done();
+          });
+        });
       });
 
       // Object.keys(fakeTaskData).map((type) => {
@@ -1233,6 +1276,105 @@ describe('Task tests', () => {
             const specificTask = await knex(type).where({ task_id });
             expect(specificTask.length).toBe(1);
             expect(specificTask[0].task_id).toBe(task_id);
+            done();
+          });
+        });
+
+        test(`should fail to create a ${type} when locations contain different farm's location`, async (done) => {
+          const [userFarm1, userFarm2] = await generateUserFarms(2);
+          const { farm_id, user_id } = userFarm1;
+          const [{ location_id }] = await mocks.fieldFactory({
+            promisedFarm: [{ farm_id }],
+          });
+          const [{ location_id: locationIdInFarm2 }] = await mocks.fieldFactory({
+            promisedFarm: [{ farm_id: userFarm2.farm_id }],
+          });
+          const [{ task_type_id }] = await mocks.task_typeFactory({
+            promisedFarm: [{ farm_id }],
+          });
+          const [{ management_plan_id }] = await mocks.crop_management_planFactory({
+            promisedFarm: [{ farm_id }],
+            promisedLocation: [{ location_id }],
+            promisedField: [{ location_id }],
+          });
+          const [{ planting_management_plan_id }] = await knex('planting_management_plan').where({
+            management_plan_id,
+          });
+
+          const data = {
+            ...mocks.fakeTask({
+              [type]: { ...fakeTaskData[type]() },
+              task_type_id,
+              owner_user_id: user_id,
+            }),
+            locations: [{ location_id }, { location_id: locationIdInFarm2 }],
+            managementPlans: [{ planting_management_plan_id }],
+          };
+
+          postTaskRequest({ user_id, farm_id }, type, data, async (err, res) => {
+            expect(res.status).toBe(403);
+            done();
+          });
+        });
+
+        test(`should fail to create a ${type} when any managementPlan is for different farm's location`, async (done) => {
+          const [userFarm1, userFarm2] = await generateUserFarms(2);
+          const { farm_id, user_id } = userFarm1;
+          const [{ location_id }] = await mocks.fieldFactory({
+            promisedFarm: [{ farm_id }],
+          });
+          const [{ crop_variety_id }] = await mocks.crop_varietyFactory({
+            promisedFarm: [{ farm_id }],
+          });
+          const [{ crop_variety_id: cropVarietyIdInFarm2 }] = await mocks.crop_varietyFactory({
+            promisedFarm: [{ farm_id: userFarm2.farm_id }],
+          });
+          const [{ task_type_id }] = await mocks.task_typeFactory({
+            promisedFarm: [{ farm_id }],
+          });
+
+          const promisedManagement = await Promise.all(
+            [...Array(3)].map(async (item, index) => {
+              return mocks.planting_management_planFactory(
+                {
+                  promisedFarm: [{ farm_id }],
+                  promisedCropVariety: [
+                    {
+                      crop_variety_id: [crop_variety_id, crop_variety_id, cropVarietyIdInFarm2][
+                        index
+                      ],
+                    },
+                  ],
+                },
+                { start_date: null },
+              );
+            }),
+          );
+          const pinLocationPlantingManagementPlan = await knex('planting_management_plan')
+            .where(
+              'planting_management_plan_id',
+              promisedManagement[0][0].planting_management_plan_id,
+            )
+            .update({
+              location_id: null,
+              pin_coordinate: { lng: 30, lat: 30 },
+            });
+          const managementPlans = promisedManagement.map(([{ planting_management_plan_id }]) => ({
+            planting_management_plan_id,
+          }));
+
+          const data = {
+            ...mocks.fakeTask({
+              [type]: { ...fakeTaskData[type]() },
+              task_type_id,
+              owner_user_id: user_id,
+            }),
+            locations: [{ location_id }],
+            managementPlans,
+          };
+
+          postTaskRequest({ user_id, farm_id }, type, data, async (err, res) => {
+            expect(res.status).toBe(403);
             done();
           });
         });
@@ -1706,6 +1848,51 @@ describe('Task tests', () => {
           expect(patched_pest_control_task.control_method).toBe(
             new_pest_control_task.control_method,
           );
+          done();
+        },
+      );
+    });
+
+    test('should be able to complete a field work task with a new custom field work task type', async (done) => {
+      const userFarm = { ...fakeUserFarm(1), wage: { type: '', amount: 30 } };
+      const [{ user_id, farm_id }] = await mocks.userFarmFactory({}, userFarm);
+      const [{ task_type_id }] = await mocks.task_typeFactory({ promisedFarm: [{ farm_id }] });
+      const [{ location_id }] = await mocks.locationFactory({ promisedFarm: [{ farm_id }] });
+
+      const fakeTask = mocks.fakeTask({
+        task_type_id,
+        owner_user_id: user_id,
+        assignee_user_id: user_id,
+      });
+      const [{ task_id }] = await mocks.taskFactory(
+        {
+          promisedUser: [{ user_id }],
+          promisedTaskType: [{ task_type_id }],
+        },
+        fakeTask,
+      );
+      await mocks.location_tasksFactory({
+        promisedTask: [{ task_id }],
+        promisedField: [{ location_id }],
+      });
+      await mocks.field_work_taskFactory({ promisedTask: [{ task_id }] });
+
+      const new_field_work_task = customFieldWorkTask(faker.lorem.words(2));
+      completeTaskRequest(
+        { user_id, farm_id },
+        {
+          ...fakeCompletionData,
+          field_work_task: { task_id, ...new_field_work_task },
+        },
+        task_id,
+        'field_work_task',
+        async (err, res) => {
+          expect(res.status).toBe(200);
+          const completed_task = await knex('task').where({ task_id }).first();
+          expect(toLocal8601Extended(completed_task.complete_date)).toBe(complete_date);
+          expect(completed_task.duration).toBe(duration);
+          expect(completed_task.happiness).toBe(happiness);
+          expect(completed_task.completion_notes).toBe(notes);
           done();
         },
       );

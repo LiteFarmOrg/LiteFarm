@@ -2,17 +2,23 @@ import React, { useState } from 'react';
 import CropHeader from '../CropHeader';
 import { useTranslation } from 'react-i18next';
 import Button from '../../Form/Button';
-import { AddLink, Label, Underlined } from '../../Typography';
+import { AddLink, Label, IconLink, Main } from '../../Typography';
 import Layout from '../../Layout';
 import PropTypes from 'prop-types';
 import styles from './styles.module.scss';
 import IncompleteTaskModal from '../../Modals/IncompleteTaskModal';
 import RouterTab from '../../RouterTab';
+import DeleteBox from '../../Task/TaskReadOnly/DeleteBox';
+import { FiAlertTriangle } from 'react-icons/fi';
+import { ReactComponent as TrashIcon } from '../../../assets/images/document/trash.svg';
+import { BsThreeDotsVertical } from 'react-icons/bs';
+import { ClickAwayListener } from '@mui/material';
 
 export default function PureManagementTasks({
   onCompleted,
   onAbandon,
   onBack,
+  onDelete = () => {},
   onAddTask,
   variety,
   plan,
@@ -22,12 +28,19 @@ export default function PureManagementTasks({
   match,
   children,
   location,
+  eligibleForDeletion,
 }) {
   const { t } = useTranslation();
 
-  const title = plan.name;
+  const title = plan?.name;
+  const hasTasks = !!children?.length;
+
+  const onRepeatPlan = (crop_id, plan_id) => {
+    history.push(`/crop/${crop_id}/management_plan/${plan_id}/repeat`);
+  };
 
   const [showCompleteFailModal, setShowCompleteFailModal] = useState(false);
+  const [showCopyRepeatMenu, setShowCopyRepeatMenu] = useState(false);
 
   const onMarkComplete = () => {
     if (hasPendingTasks) {
@@ -37,7 +50,13 @@ export default function PureManagementTasks({
     }
   };
 
-  const isActiveOrPlanned = !plan.abandon_date && !plan.complete_date;
+  const isActiveOrPlanned = !plan?.abandon_date && !plan?.complete_date;
+
+  const [isDeleting, setIsDeleting] = useState(false);
+
+  const preDelete = () => {
+    setIsDeleting(true);
+  };
 
   return (
     <Layout
@@ -45,6 +64,10 @@ export default function PureManagementTasks({
         isAdmin &&
         isActiveOrPlanned && (
           <>
+            <Button color={'secondary'} fullLength onClick={onAbandon}>
+              {t('MANAGEMENT_DETAIL.ABANDON_PLAN')}
+            </Button>
+
             <Button fullLength onClick={onMarkComplete}>
               {t('common:MARK_COMPLETED')}
             </Button>
@@ -58,6 +81,28 @@ export default function PureManagementTasks({
         <Label className={styles.title} style={{ marginTop: '24px' }}>
           {title}
         </Label>
+        {isAdmin && hasTasks && (
+          <BsThreeDotsVertical
+            className={styles.menuIcon}
+            onClick={() => {
+              setShowCopyRepeatMenu((prev) => !prev);
+            }}
+          />
+        )}
+
+        {isAdmin && showCopyRepeatMenu && (
+          <ClickAwayListener onClickAway={() => setShowCopyRepeatMenu(false)}>
+            <div className={styles.copyRepeatMenu}>
+              {/* <Main className={styles.menuItem}>Copy crop plan</Main> */}
+              <Main
+                className={styles.menuItem}
+                onClick={() => onRepeatPlan(plan.crop_variety_id, plan.management_plan_id)}
+              >
+                {t('REPEAT_PLAN.MENU')}
+              </Main>
+            </div>
+          </ClickAwayListener>
+        )}
       </div>
 
       <RouterTab
@@ -84,17 +129,55 @@ export default function PureManagementTasks({
       )}
       {children}
 
-      {isAdmin && isActiveOrPlanned && (
-        <div className={styles.abandonwrapper} style={{ marginTop: '24px', marginBottom: '26px' }}>
-          <Label>{t('MANAGEMENT_DETAIL.FAILED_CROP')}</Label>
-          <Underlined style={{ marginLeft: '6px' }} onClick={onAbandon}>
-            {t('MANAGEMENT_DETAIL.ABANDON_PLAN')}
-          </Underlined>
-        </div>
-      )}
       {showCompleteFailModal && (
         <IncompleteTaskModal dismissModal={() => setShowCompleteFailModal(false)} />
       )}
+
+      <div className={styles.deleteSection} onClick={() => setShowCopyRepeatMenu(false)}>
+        {isAdmin && isActiveOrPlanned && !isDeleting && (
+          <IconLink
+            className={styles.deleteText}
+            style={{ color: 'var(--grey600)' }}
+            icon={
+              <TrashIcon
+                style={{
+                  fill: 'var(--grey600)',
+                  stroke: 'var(--grey600)',
+                  transform: 'translate(0px, 6px)',
+                }}
+              />
+            }
+            onClick={preDelete}
+            isIconClickable
+          >
+            {t('MANAGEMENT_PLAN.DELETE.DELETE_PLAN')}
+          </IconLink>
+        )}
+
+        {isDeleting && !eligibleForDeletion && (
+          <DeleteBox
+            color="warning"
+            onOk={onAbandon}
+            onCancel={() => setIsDeleting(false)}
+            header={t('MANAGEMENT_PLAN.DELETE.CANT_DELETE_MODIFIED_PLAN')}
+            headerIcon={<FiAlertTriangle />}
+            message={t('MANAGEMENT_PLAN.DELETE.CANT_DELETE_ABANDON_INSTEAD')}
+            primaryButtonLabel={t('MANAGEMENT_PLAN.DELETE.CANT_DELETE_ABANDON')}
+          />
+        )}
+
+        {isDeleting && eligibleForDeletion && (
+          <DeleteBox
+            color="error"
+            onOk={onDelete}
+            onCancel={() => setIsDeleting(false)}
+            header={t('MANAGEMENT_PLAN.DELETE.DELETE_PLAN_QUESTION')}
+            headerIcon={<TrashIcon />}
+            message={t('MANAGEMENT_PLAN.DELETE.DELETE_PLAN_MESSAGE')}
+            primaryButtonLabel={t('MANAGEMENT_PLAN.DELETE.CONFIRM_DELETION')}
+          />
+        )}
+      </div>
     </Layout>
   );
 }
@@ -105,4 +188,6 @@ PureManagementTasks.prototype = {
   plan: PropTypes.object,
   isAdmin: PropTypes.bool,
   onAbandon: PropTypes.func,
+  onDelete: PropTypes.func,
+  eligibleForDeletion: PropTypes.bool,
 };

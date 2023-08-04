@@ -327,7 +327,10 @@
     "PERFORM_SEARCH": "Did you perform a commercial availability search?",
     "PHYSIOLOGY_AND_ANATOMY": "Physiology and Anatomy",
     "TREATED": "Have the seeds for this crop been treated?",
-    "UPLOAD_LATER": "You can upload files at a later time as well"
+    "UPLOAD_LATER": "You can upload files at a later time as well",
+    "REPEAT_PLAN_MODAL": {
+      "DELETED_PLANS": "Deleted crop plans that were part of this repetition won’t be shown."
+    }
   },
   "CROP_CATALOGUE": {
     "ADD_CROP": "Add a new crop",
@@ -410,6 +413,15 @@
     "REVENUE_HELP_TITLE": "Date Range Help",
     "REVENUE_HELP_BODY": "Only plans that have a planned or completed harvest task within the indicated date range will be shown."
   },
+  "DAYS_OF_WEEK_SELECT": {
+    "SUNDAY": "S",
+    "MONDAY": "M",
+    "TUESDAY": "T",
+    "WEDNESDAY": "W",
+    "THURSDAY": "T",
+    "FRIDAY": "F",
+    "SATURDAY": "S"
+  },
   "DOCUMENTS": {
     "ADD": {
       "ADD_MORE_PAGES": "Add more pages",
@@ -428,6 +440,7 @@
     "CANCEL_MODAL": "document creation",
     "COMPLIANCE_DOCUMENTS_AND_CERTIFICATION": "Compliance documents and your certification",
     "DOCUMENTS": "Documents",
+    "VIEW_DETAIL": "View detail page to download multiple files",
     "EDIT_DOCUMENT": "Edit document",
     "FILTER": {
       "TITLE": "Documents Filter",
@@ -844,38 +857,6 @@
       "INFO": "LiteFarm estimates labour happiness by averaging the satisfaction scores individuals enter when marking a task as completed.",
       "TITLE": "Labour Happiness"
     },
-    "NITROGEN_BALANCE": {
-      "ABANDON": "Abandon schedule",
-      "CHOOSE_A_FREQUENCY": "Choose a frequency",
-      "CHOOSE_FREQUENCY": "Choose Frequency...",
-      "COUNT_MONTHS": "{{count}} month",
-      "COUNT_MONTHS_one": "{{count}} month",
-      "COUNT_MONTHS_other": "{{count}} months",
-      "COUNT_MONTHS_plural": "{{count}} months",
-      "CYCLE_INDICATOR": "Your Nitrogen Balance is on a {{frequency}} months cycle and data will show on: {{refreshDate}}",
-      "FIRST_TIME": "It looks like it's your first time running this! Please select a frequency to calculate your nitrogen balance.",
-      "GO_BACK": "Go back",
-      "HEADER": "Every {{frequency}} months: {{refreshDate}}",
-      "INFO_1": "The nitrogen balance tells you if you have applied too little or too much fertilizer. It relies on your harvest logs, nitrogen credits from legumes, and fertilization logs. You can run the balance on your desired time interval.",
-      "INFO_2": "Click the delete button to reset your schedule.",
-      "SELECT_FREQUENCY": "Select Frequency",
-      "TITLE": "Nitrogen Balance"
-    },
-    "PEOPLE_FED": {
-      "CALORIES": "Calories",
-      "FAT": "Fat",
-      "HEADER": "Number of Meals",
-      "INFO": "We estimate the number of potential meals provided by your farm based on sales data, and crop composition databases. We assume that daily requirements are divided equally across three meals a day.",
-      "MEAL_COUNT": "{{count}} meal",
-      "MEAL_COUNT_one": "{{count}} meal",
-      "MEAL_COUNT_other": "{{count}} meals",
-      "MEAL_COUNT_plural": "{{count}} meals",
-      "MEALS": "meals",
-      "PROTEIN": "Protein",
-      "TITLE": "People Fed",
-      "VITAMIN_A": "Vitamin A",
-      "VITAMIN_C": "Vitamin C"
-    },
     "PRICES": {
       "INFO": "We show you the trajectory of your sales prices against the sales prices for the same goods within a given distance of you, collected across the LiteFarm network.",
       "NEARBY_FARMS": "Network price is based on {{count}} farms in your local area",
@@ -897,15 +878,7 @@
       "TITLE": "Soil OM"
     },
     "TITLE": "Insights",
-    "UNAVAILABLE": "Unavailable",
-    "WATER_BALANCE": {
-      "FIRST_TIME": "Looks like this is your first time running this! For more info on what this does, please click the information button to see.",
-      "INFO_1": "The water balance tells you whether your crops have too little or too much water. It relies on weather data, and it is updated by your irrigation and soil texture data from your soil analysis logs.",
-      "INFO_2": "This feature has not been widely tested across farms with low surrounding weather station density so use with caution. We welcome feedback on how well it performs for your farm.",
-      "NO_SCHEDULE_RUN": "Your scheduled water balance hasn't run yet, please check back in two days and ensure you have at least one soil analysis that records soil texture for a field to see water balance data for crops in that field. If the problem persists please contact LiteFarm.",
-      "REGISTER_FARM": "Register Farm",
-      "TITLE": "Water Balance"
-    }
+    "UNAVAILABLE": "Unavailable"
   },
   "INTRODUCE_MAP": {
     "BODY": "The farm map has new features. It is now found under the My Farm menu.",
@@ -1024,10 +997,9 @@
     "SUBSURFACE": "Subsurface"
   },
   "MANAGEMENT_DETAIL": {
-    "ABANDON_PLAN": "Abandon this crop plan",
+    "ABANDON_PLAN": "Abandon",
     "ADD_A_TASK": "Add a task",
     "DETAILS": "Details",
-    "FAILED_CROP": "Failed crop?",
     "TASKS": "Tasks"
   },
   "MANAGEMENT_PLAN": {
@@ -1070,6 +1042,17 @@
     "DAYS_FROM_SEEDING": "Days from seed to:",
     "DAYS_TO_HARVEST": "Days from transplant to next harvest:",
     "DAYS_TO_TERMINATION": "Days from transplant to termination:",
+    "DELETE": {
+      "DELETE_PLAN": "Delete crop plan",
+      "DELETE_PLAN_QUESTION": "Delete crop plan?",
+      "DELETE_PLAN_MESSAGE": "This crop plan and all its tasks will be removed from your farm. If you would like to keep a record of this crop plan, click \"Abandon\" instead.",
+      "CONFIRM_DELETION": "Confirm deletion",
+      "CANT_DELETE_MODIFIED_PLAN": "Can't delete crop plan",
+      "CANT_DELETE_ABANDON_INSTEAD": "Do you want to abandon this crop plan instead?",
+      "CANT_DELETE_ABANDON": "Abandon",
+      "SUCCESS": "Crop plan successfully deleted",
+      "FAILED": "Failed to delete crop plan"
+    },
     "DETAIL_SPOTLIGHT_CONTENTS": "Here you can edit your crop details.",
     "DETAIL_SPOTLIGHT_TITLE": "Details",
     "DO_YOU_WANT_TO_ABANDON_CONTENT": "Do you want to abandon this plan?",
@@ -1087,6 +1070,8 @@
     "GERMINATION": "Germination",
     "HARVEST": "Initial harvest",
     "HARVEST_DATE": "When do you expect your next harvest?",
+    "HARVEST_TO_DATE": "Harvest to date",
+    "HARVEST_TO_DATE_INFO": "Harvest to date is calculated based on completed harvest tasks within this crop plan",
     "HISTORICAL_CONTAINER_OR_IN_GROUND": "Was it planted in a container or in the ground?",
     "IN_GROUND": "In ground",
     "INCOMPLETE_TASK_CONTENT": "This plan has tasks that aren’t completed yet. You’ll need to mark the tasks complete in order to complete this crop plan.",
@@ -1172,7 +1157,14 @@
     "WHAT_WAS_PLANTING_METHOD_INFO": "Selecting the right planting method will help LiteFarm more accurately estimate the quantity of seed needed, yield, and other helpful insights.",
     "WHERE_START_LOCATION": "Where is your starting location?",
     "WHERE_TRANSPLANT_LOCATION": "Where will you transplant to?",
-    "WILD_CROP": "Are you harvesting a wild crop?"
+    "WILD_CROP": "Are you harvesting a wild crop?",
+    "ASSIGN_ALL_TASKS": "All tasks generated as part of this crop plan will be assigned to this individual. You can modify this assignment later",
+    "CROP_PLAN_REPEAT": "This crop plan repeats",
+    "CROP_PLAN_REPEAT_SUBTEXT": "Clicking 'Save' will immediately save this crop plan. You'll then be prompted to describe how it repeats.",
+    "REPEATED_MP_SPOTLIGHT": {
+      "BODY": "You can click here to see all crop plans in this group. Modifying an individual crop plan won’t change anything about others in the group.",
+      "TITLE": "Congrats! You’ve created your first repeating crop plan!"
+    }
   },
   "LOCATION_CREATION": {
     "TITLE": "No locations found!",
@@ -1378,6 +1370,44 @@
     "CLEAR": "Clear",
     "CLEAR_ALL": "Clear all"
   },
+  "REPEAT_PLAN": {
+    "MENU": "Repeat crop plan",
+    "TITLE": "Repeat a crop plan",
+    "REPEAT_PLAN_FLOW": "crop plan repetition",
+    "SUBTITLE": "Copy this crop plan and all its tasks according to the following schedule",
+    "PLAN_NAME": "Repeating crop plan name",
+    "REPETITIONS_OF": "Repetitions of {{planName}}",
+    "DUPLICATE_NAME": "A crop plan with this name already exists. Please choose another.",
+    "START_DATE": "Beginning",
+    "EARLIEST_TASK": "{{date}} is the earliest task {{dateType}} date from the original plan",
+    "COMPLETION": "completion",
+    "DUE": "due",
+    "REPEAT_EVERY": "Repeat every",
+    "REPEAT_ON": "Repeat on",
+    "FINISH": "Finish",
+    "AFTER": "After",
+    "REPETITIONS": "repetitions",
+    "ON": "On",
+    "INTERVAL": {
+      "DAY": "day(s)",
+      "WEEK": "week(s)",
+      "MONTH": "month(s)",
+      "YEAR": "year(s)"
+    },
+    "REPEAT_LIMIT_ERROR": "Cannot repeat this plan more than 20 times",
+    "LATER_DATE_ERROR": "Please select a date after the starting date",
+    "CONFIRMATION": {
+      "HEADER": "Confirm how this plan repeats",
+      "CROP_NAME": "Crop plan name",
+      "BEGINNING": "Beginning",
+      "FINISHING": "Finishing",
+      "WILL_REPEAT": "This plan will repeat",
+      "WILL_CREATE": "This will create",
+      "ON_DATE": "on {{date}}",
+      "WILL_CREATE_BODY": "<0>{{numberOfPlans}}</0> new crop plans and <2>{{numberOfTasks}}</2> new tasks",
+      "AFTER_REPETITIONS": "after <1>{{number}}</1> repetitions."
+    }
+  },
   "REQUEST_CONFIRMATION_MODAL": {
     "BUTTON": "Got it",
     "DESCRIPTION": "Someone will be in touch within 48 hours.",
@@ -1571,61 +1601,10 @@
       "CONTENT": "Individual sensors can be shown or hidden by clicking their labels here."
     },
     "SECONDS_AGO": "{{time}} second(s) ago",
-    "MINUTES_AGO": "{{time}} minutes(s) ago",
+    "MINUTES_AGO": "{{time}} minute(s) ago",
     "HOURS_AGO": "{{time}} hour(s) ago",
     "DAYS_AGO": "{{time}} day(s) ago",
     "MONTHS_AGO": "{{time}} month(s) ago"
-  },
-  "SHIFT": {
-    "ACTION": "Action",
-    "ADD_NEW": "Add New Shift",
-    "EDIT_SHIFT": {
-      "ADD_CUSTOM_TASK": "Add Custom Task",
-      "ADD_TASK": "Add a Task",
-      "ALL": "All locations",
-      "ALL_CROPS": "All crops",
-      "ASSIGN_TIME_TO_TASK": "Assign time to task by",
-      "CHOOSE_DATE": "Choose a Date",
-      "CHOOSE_WORKERS": "Choose worker",
-      "CROPS": "Crops",
-      "CROPS_LABEL": "Crops",
-      "DID_NOT_PROVIDE_ANSWER": "Did not provide answer",
-      "HAPPY": "Happy",
-      "INDIVIDUAL_CROPS": "Individual Crops",
-      "LOCATIONS": "Locations",
-      "LOCATIONS_LABEL": "Locations",
-      "MOOD": "How did this shift make you feel?",
-      "NAME_TASK": "Name of the custom task",
-      "NEUTRAL": "Neutral",
-      "RATHER_NOT_SAY": "Rather Not Say",
-      "SAD": "Sad",
-      "SELECT_ALL": "Select All",
-      "SELECT_CROPS": "Select crops",
-      "SELECT_FIELDS": "Select locations",
-      "VERY_HAPPY": "Very Happy",
-      "VERY_SAD": "Very Sad",
-      "WHAT_TASKS_YOU_DID": "What tasks did you do today?",
-      "WORKER": "Worker",
-      "WORKER_MOOD": "How did this worker feel during this shift?"
-    },
-    "MY_SHIFT": {
-      "DELETE_CONFIRMATION": "Are you sure you want to delete this shift?",
-      "DURATION": "Duration",
-      "LOCATION_CROPS": "Locations/Crops",
-      "SUBMITTED_FOR": "Submitted For",
-      "TASK": "Task",
-      "TITLE": "Shift Detail"
-    },
-    "NAME": "Name",
-    "NEW_SHIFT": {
-      "STEP_ONE": "Add a shift",
-      "STEP_TWO": "Add a shift"
-    },
-    "RETIRED": "Location Retired",
-    "SHIFT_DATE": "Date",
-    "SHIFT_HISTORY": "Shift History",
-    "TIME_TOTAL": "Total",
-    "TITLE": "Shifts"
   },
   "SIGNUP": {
     "CHANGES": "Read about the changes",
@@ -1635,7 +1614,7 @@
     "EXPIRED_INVITATION_LINK_ERROR": "Invalid or expired invitation",
     "GOOGLE_BUTTON": "CONTINUE WITH GOOGLE",
     "INVITED_ERROR": "A farm invitation has been emailed to you, please check your inbox and spam folder.",
-    "LITEFARM_UPDATED": "LiteFarm v3.3 is now available!",
+    "LITEFARM_UPDATED": "LiteFarm v3.4 is now available!",
     "PASSWORD_ERROR": "Password incorrect",
     "SIGN_IN": "Sign In",
     "SSO_ERROR": "Please login by clicking the Google button above",

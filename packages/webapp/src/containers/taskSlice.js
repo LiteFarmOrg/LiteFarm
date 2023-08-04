@@ -62,6 +62,16 @@ const upsertManyTasks = (state, { payload: tasks }) => {
   );
 };
 
+const setAllTasks = (state, { payload: tasks }) => {
+  state.loading = false;
+  state.error = null;
+  state.loaded = true;
+  taskAdapter.setAll(
+    state,
+    tasks.map((task) => getTask(task)),
+  );
+};
+
 const upsertOneTask = (state, { payload: task }) => {
   state.loading = false;
   state.error = null;
@@ -112,6 +122,20 @@ const taskSlice = createSlice({
             })) || [],
         })),
       }),
+    addAllTasksFromGetReq: (state, { payload: tasks }) =>
+      setAllTasks(state, {
+        payload: tasks.map((task) => ({
+          ...task,
+          locations: task.locations?.map(({ location_id }) => location_id) || [],
+          location_defaults:
+            task.locations?.map(({ location_defaults }) => location_defaults) || [],
+          managementPlans:
+            task.managementPlans?.map(({ management_plan_id, planting_management_plan_id }) => ({
+              management_plan_id,
+              planting_management_plan_id,
+            })) || [],
+        })),
+      }),
     putTaskSuccess: upsertOneTask,
     putTasksSuccess: updateManyTasks,
     createTaskSuccess: taskAdapter.addOne,
@@ -122,6 +146,7 @@ export const {
   onLoadingTasksFail,
   onLoadingTasksStart,
   addManyTasksFromGetReq,
+  addAllTasksFromGetReq,
   putTaskSuccess,
   putTasksSuccess,
   createTaskSuccess,
@@ -189,6 +214,9 @@ export const taskEntitiesSelector = createSelector(
       const management_plan_id =
         plantingManagementPlanEntities[planting_management_plan_id]?.management_plan_id;
       return produce(managementPlanEntities[management_plan_id], (managementPlan) => {
+        if (!managementPlan) {
+          return {};
+        }
         managementPlan.planting_management_plan =
           plantingManagementPlanEntities[planting_management_plan_id];
         prev_planting_management_plan &&

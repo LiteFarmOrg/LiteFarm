@@ -38,7 +38,7 @@ import {
   getSoilWaterPotentialValue,
 } from '../../components/Map/PreviewPopup/utils.js';
 import { getLanguageFromLocalStorage } from '../../util/getLanguageFromLocalStorage';
-import { getLastUpdatedTime, getDates, roundDownToNearestHour } from './utils';
+import { getLastUpdatedTime, getDates, roundDownToNearestTimepoint } from './utils';
 import i18n from '../../locales/i18n';
 import { getUnitOptionMap } from '../../util/convert-units/getUnitOptionMap';
 import { ambientTemperature, soilWaterPotential } from '../../util/convert-units/unit';
@@ -77,7 +77,14 @@ export function* getSensorsReadingsSaga({ payload }) {
 
   try {
     yield put(bulkSensorReadingsLoading());
-    const { startUnixTime, endUnixTime, currentDateTime, formattedEndDate } = getDates();
+    const {
+      startUnixTime,
+      endUnixTime,
+      currentDateTime,
+      forwardUtcOffsetMinutes,
+      forwardAdjustmentUnix,
+      backAdjustmentUnix,
+    } = getDates();
 
     const header = getHeader(user_id, farm_id);
     const postData = {
@@ -85,7 +92,10 @@ export function* getSensorsReadingsSaga({ payload }) {
       user_id,
       locationIds,
       readingTypes,
-      endDate: formattedEndDate,
+      // Adjustments necessary to align with limitations on OpenWeatherAPI response
+      // OpenWeather time sampling resolution is only hourly on UTC hours
+      startUnixTime: startUnixTime + forwardAdjustmentUnix,
+      endUnixTime: endUnixTime + backAdjustmentUnix,
     };
 
     const result = yield call(axios.post, sensorReadingsUrl(), postData, header);
@@ -104,7 +114,10 @@ export function* getSensorsReadingsSaga({ payload }) {
             .filter((cv) => (cv.value ? cv.value : cv.value === 0))
             .map((cv) => new Date(cv.actual_read_time).valueOf() / 1000),
         );
-        readings.predictedXAxisLabel = roundDownToNearestHour(currentDateTime);
+        readings.predictedXAxisLabel = roundDownToNearestTimepoint(
+          currentDateTime,
+          forwardUtcOffsetMinutes,
+        );
         readings.unit = getUnit(measurement)[type];
 
         // reduce sensor data
@@ -113,13 +126,17 @@ export function* getSensorsReadingsSaga({ payload }) {
           const currentValueDateTimeString = new Date(currentValueUnixTime * 1000).toString();
 
           if (startUnixTime <= currentValueUnixTime && currentValueUnixTime < endUnixTime) {
-            const currentDateTime = `${currentValueDateTimeString?.split(':00:00')[0]}:00`;
+            const hourlyTimezoneOffsetString =
+              forwardUtcOffsetMinutes === 0 ? '00' : Math.abs(forwardUtcOffsetMinutes).toString();
+            const formattedCurrentValueDateTimeString = `${
+              currentValueDateTimeString?.split(`:${hourlyTimezoneOffsetString}:00`)[0]
+            }:${hourlyTimezoneOffsetString}`;
             if (!acc[currentValueUnixTime]) acc[currentValueUnixTime] = {};
             acc[currentValueUnixTime] = {
               [cv?.name]: isNaN(convertValues(type, cv?.value, measurement))
                 ? i18n.t('translation:SENSOR.NO_DATA')
                 : convertValues(type, cv?.value, measurement),
-              [CURRENT_DATE_TIME]: currentDateTime,
+              [CURRENT_DATE_TIME]: formattedCurrentValueDateTimeString,
             };
           }
           return acc;

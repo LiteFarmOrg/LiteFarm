@@ -39,16 +39,7 @@ class Fertilizer extends baseModel {
         p_percentage: { type: 'number' },
         k_percentage: { type: 'number' },
         fertilizer_translation_key: { type: 'string' },
-        farm_id: {
-          anyOf: [
-            {
-              type: 'string',
-            },
-            {
-              type: 'null',
-            },
-          ],
-        },
+        farm_id: { type: ['string', 'null'] },
         ...this.baseProperties,
       },
       additionalProperties: false,

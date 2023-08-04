@@ -17,17 +17,9 @@ import express from 'express';
 
 const router = express.Router();
 import insightController from '../controllers/insightController.js';
-import checkOwnership from '../middleware/acl/checkOwnership.js';
 import checkScope from '../middleware/acl/checkScope.js';
 import hasFarmAccess from '../middleware/acl/hasFarmAccess.js';
-// people fed specific stuff
-// get all the nutritional data that is displayed as a view on People Fed Module
-router.get(
-  '/people_fed/:farm_id',
-  hasFarmAccess({ params: 'farm_id' }),
-  checkScope(['get:insights']),
-  insightController.getPeopleFedData(),
-);
+
 // get one single number for generating meals page on the main insight page
 
 // soil om submodule
@@ -59,63 +51,6 @@ router.get(
   hasFarmAccess({ params: 'farm_id' }),
   checkScope(['get:insights']),
   insightController.getPricesNearbyByFarmID(),
-);
-
-router.get(
-  '/waterbalance/:farm_id',
-  hasFarmAccess({ params: 'farm_id' }),
-  checkScope(['get:insights']),
-  insightController.getWaterBalance(),
-);
-
-router.get(
-  '/waterbalance/schedule/:farm_id',
-  hasFarmAccess({ params: 'farm_id' }),
-  checkScope(['get:insights']),
-  insightController.getWaterSchedule(),
-);
-
-router.get(
-  '/nitrogenbalance/:farm_id',
-  hasFarmAccess({ params: 'farm_id' }),
-  checkScope(['get:insights']),
-  insightController.getNitrogenBalance(),
-);
-
-router.get(
-  '/nitrogenbalance/schedule/:farm_id',
-  hasFarmAccess({ params: 'farm_id' }),
-  checkScope(['get:insights']),
-  insightController.getNitrogenSchedule(),
-);
-
-// add calls
-router.post(
-  '/waterbalance',
-  hasFarmAccess({ body: 'location_id' }),
-  checkScope(['add:insights']),
-  insightController.addWaterBalance(),
-);
-router.post(
-  '/waterbalance/schedule',
-  hasFarmAccess({ body: 'farm_id' }),
-  checkScope(['add:insights']),
-  insightController.addWaterBalanceSchedule(),
-);
-router.post(
-  '/nitrogenbalance/schedule',
-  hasFarmAccess({ body: 'farm_id' }),
-  checkScope(['add:insights']),
-  insightController.addNitrogenSchedule(),
-);
-
-// delete calls
-router.delete(
-  '/nitrogenbalance/schedule/:nitrogen_schedule_id',
-  hasFarmAccess({ params: 'nitrogen_schedule_id' }),
-  checkOwnership('nitrogenSchedule'),
-  checkScope(['delete:insights']),
-  insightController.delNitrogenSchedule(),
 );
 
 export default router;

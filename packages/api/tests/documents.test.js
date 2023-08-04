@@ -6,8 +6,8 @@ import knex from '../src/util/knex.js';
 jest.mock('jsdom');
 jest.mock('../src/middleware/acl/checkJwt.js', () =>
   jest.fn((req, res, next) => {
-    req.user = {};
-    req.user.user_id = req.get('user_id');
+    req.auth = {};
+    req.auth.user_id = req.get('user_id');
     next();
   }),
 );
@@ -15,16 +15,6 @@ import mocks from './mock.factories.js';
 import { tableCleanup } from './testEnvironment.js';
 
 describe('Document tests', () => {
-  // let middleware;
-  beforeEach(() => {
-    // middleware = require('../src/middleware/acl/checkJwt');
-    // middleware.mockImplementation((req, res, next) => {
-    //   req.user = {};
-    //   req.user.user_id = req.get('user_id');
-    //   next();
-    // });
-  });
-
   function getRequest(url, { user_id, farm_id }, callback) {
     chai.request(server).get(url).set('user_id', user_id).set('farm_id', farm_id).end(callback);
   }
@@ -247,7 +237,7 @@ describe('Document tests', () => {
         return { ...document, files };
       }
 
-      const fakeDate = new Date(0);
+      const fakeDate = new Date(0).toISOString().split('T')[0];
 
       test('Owner should be able to edit a document, add files', async (done) => {
         const [{ user_id, farm_id }] = await mocks.userFarmFactory({}, fakeUserFarm(1));
@@ -260,7 +250,8 @@ describe('Document tests', () => {
           const document = await knex('document').where({ document_id: res.body.document_id });
           expect(document[0].name).toBe(newDocument.name);
           expect(document[0].type).toBe(newDocument.type);
-          expect(document[0].valid_until).toEqual(fakeDate);
+          //dates returned are not what is stored see LF-3396
+          expect(document[0].valid_until.toISOString().split('T')[0]).toEqual(fakeDate);
           const files = await knex('file').where({ document_id: res.body.document_id });
           expect(files.length).toBe(2);
           done();
@@ -278,7 +269,8 @@ describe('Document tests', () => {
           const document = await knex('document').where({ document_id: res.body.document_id });
           expect(document[0].name).toBe(newDocument.name);
           expect(document[0].type).toBe(newDocument.type);
-          expect(document[0].valid_until).toEqual(fakeDate);
+          //dates returned are not what is stored see LF-3396
+          expect(document[0].valid_until.toISOString().split('T')[0]).toEqual(fakeDate);
           const files = await knex('file').where({ document_id: res.body.document_id });
           expect(files.length).toBe(1);
           done();
@@ -296,7 +288,8 @@ describe('Document tests', () => {
           const document = await knex('document').where({ document_id: res.body.document_id });
           expect(document[0].name).toBe(newDocument.name);
           expect(document[0].type).toBe(newDocument.type);
-          expect(document[0].valid_until).toEqual(fakeDate);
+          //dates returned are not what is stored see LF-3396
+          expect(document[0].valid_until.toISOString().split('T')[0]).toEqual(fakeDate);
           const files = await knex('file').where({ document_id: res.body.document_id });
           expect(files.length).toBe(1);
           done();
@@ -314,7 +307,8 @@ describe('Document tests', () => {
           const document = await knex('document').where({ document_id: res.body.document_id });
           expect(document[0].name).toBe(newDocument.name);
           expect(document[0].type).toBe(newDocument.type);
-          expect(document[0].valid_until).toEqual(fakeDate);
+          //dates returned are not what is stored see LF-3396
+          expect(document[0].valid_until.toISOString().split('T')[0]).toEqual(fakeDate);
           const files = await knex('file').where({ document_id: res.body.document_id });
           expect(files.length).toBe(1);
           done();

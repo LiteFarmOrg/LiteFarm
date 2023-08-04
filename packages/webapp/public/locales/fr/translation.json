@@ -327,7 +327,10 @@
     "PERFORM_SEARCH": "Avez-vous effectué une recherche de disponibilité commerciale\u00a0?",
     "PHYSIOLOGY_AND_ANATOMY": "Physiologie et anatomie",
     "TREATED": "Les semences de cette culture ont-elles été traitées\u00a0?",
-    "UPLOAD_LATER": "Vous pourrez également télécharger des fichiers plus tard"
+    "UPLOAD_LATER": "Vous pourrez également télécharger des fichiers plus tard",
+    "REPEAT_PLAN_MODAL": {
+      "DELETED_PLANS": "Les plans de gestion supprimés qui faisaient partie de cette répétition ne seront pas affichés."
+    }
   },
   "CROP_CATALOGUE": {
     "ADD_CROP": "Ajoutez une nouvelle culture",
@@ -410,6 +413,15 @@
     "REVENUE_HELP_TITLE": "Aide sur la plage de dates",
     "REVENUE_HELP_BODY": "Seuls les plans pour lesquels une tâche est prévue ou terminée dans la plage de dates indiquée s'afficheront."
   },
+  "DAYS_OF_WEEK_SELECT": {
+    "SUNDAY": "D",
+    "MONDAY": "L",
+    "TUESDAY": "M",
+    "WEDNESDAY": "M",
+    "THURSDAY": "J",
+    "FRIDAY": "V",
+    "SATURDAY": "S"
+  },
   "DOCUMENTS": {
     "ADD": {
       "ADD_MORE_PAGES": "Ajouter plus de pages",
@@ -428,6 +440,7 @@
     "CANCEL_MODAL": "création de document",
     "COMPLIANCE_DOCUMENTS_AND_CERTIFICATION": "Documents de conformité et votre certification",
     "DOCUMENTS": "Documents",
+    "VIEW_DETAIL": "Voir la page détails pour télécharger plusieurs documents",
     "EDIT_DOCUMENT": "Modifier le document",
     "FILTER": {
       "TITLE": "Filtre de documents",
@@ -845,40 +858,6 @@
       "INFO": "Nous estimons l'impact de différentes tâches sur la satisfaction au travail en utilisant les scores de satisfaction et les heures de travail consacrées à chaque tâche à partir des tâches.",
       "TITLE": "Satisfaction au travail"
     },
-    "NITROGEN_BALANCE": {
-      "ABANDON": "Abandonner l'horaire",
-      "CHOOSE_A_FREQUENCY": "Choisissez une fréquence",
-      "CHOOSE_FREQUENCY": "Choisir la fréquence...",
-      "COUNT_MONTHS": "{{count}} mois",
-      "COUNT_MONTHS_one": "{{count}} mois",
-      "COUNT_MONTHS_many": "{{count}} mois",
-      "COUNT_MONTHS_other": "{{count}} mois",
-      "COUNT_MONTHS_plural": "{{count}} mois",
-      "CYCLE_INDICATOR": "Votre balance d'azote est sur un cycle de {{fréquence}} mois et les données s'afficheront le\u00a0: {{refreshDate}}",
-      "FIRST_TIME": "On dirait que c'est la première fois que vous utilisez cela\u00a0! Veuillez sélectionner une fréquence pour calculer votre bilan d'azote.",
-      "GO_BACK": "Retour",
-      "HEADER": "Tous les {{fréquence}} mois\u00a0: {{refreshDate}}",
-      "INFO_1": "Le bilan d'azote vous indique si vous avez appliqué trop ou trop peu d'engrais. Il repose sur vos journaux de récolte, les crédits d'azote des légumineuses et les journaux de fertilisation. Vous pouvez exécuter le bilan sur l'intervalle de temps souhaité.",
-      "INFO_2": "Cliquez sur le bouton Supprimer pour réinitialiser votre emploi du temps.",
-      "SELECT_FREQUENCY": "Sélectionner la fréquence",
-      "TITLE": "Bilan de l'azote"
-    },
-    "PEOPLE_FED": {
-      "CALORIES": "Calories",
-      "FAT": "Gras",
-      "HEADER": "Nombre de repas",
-      "INFO": "Nous estimons le nombre de repas potentiels fournis par votre ferme sur la base des données de soldes et des bases de données sur la composition des cultures. Nous supposons que les besoins quotidiens sont répartis également sur trois repas par jour.",
-      "MEAL_COUNT": "{{count}} repas",
-      "MEAL_COUNT_one": "{{count}} repas",
-      "MEAL_COUNT_many": "{{count}} repas",
-      "MEAL_COUNT_other": "{{count}} repas",
-      "MEAL_COUNT_plural": "{{count}} repas",
-      "MEALS": "repas",
-      "PROTEIN": "Protéine",
-      "TITLE": "Personnes nourries",
-      "VITAMIN_A": "Vitamine A",
-      "VITAMIN_C": "Vitamine C"
-    },
     "PRICES": {
       "INFO": "Nous vous montrons la tendance de vos prix de vente pour chacun de vos produits, et la comparons aux prix de ventes des mêmes produits rapportés par d’autres fermes proches de vous qui font partie du réseau LiteFarm.",
       "NEARBY_FARMS": "Le prix moyen du réseau est basé sur les prix de {{count}} autres fermes dans votre région",
@@ -901,15 +880,7 @@
       "TITLE": "Matière organique du Sol"
     },
     "TITLE": "Mesures additionnelles",
-    "UNAVAILABLE": "Indisponible",
-    "WATER_BALANCE": {
-      "FIRST_TIME": "On dirait que c'est la première fois que vous exécutez cela\u00a0! Pour plus d'informations sur ce que cela fait, veuillez cliquer sur le bouton d'information pour voir.",
-      "INFO_1": "Le bilan hydrique vous indique si vos cultures ont trop ou pas assez d'eau. Il s'appuie sur les données météorologiques, et il est mis à jour par vos données d'irrigation et de texture du sol à partir de vos journaux d'analyse de sol.",
-      "INFO_2": "Cette fonctionnalité n'a pas été largement testée dans les fermes avec une faible densité de stations météorologiques environnantes, donc utilisez-la avec prudence. Nous apprécions les commentaires sur ses performances pour votre ferme.",
-      "NO_SCHEDULE_RUN": "Votre bilan hydrique programmé n'a pas encore été exécuté, veuillez vérifier dans deux jours et vous assurer d'avoir au moins une analyse de sol qui enregistre la texture du sol pour un champ pour voir les données de bilan hydrique pour les cultures dans ce champ. Si le le problème persiste, veuillez contacter LiteFarm.",
-      "REGISTER_FARM": "Enregistrer la ferme",
-      "TITLE": "Equilibre de l'eau"
-    }
+    "UNAVAILABLE": "Indisponible"
   },
   "INTRODUCE_MAP": {
     "BODY": "La carte de la ferme intègre de nouvelles fonctionnalités. Elle se trouve maintenant dans le menu Ma Ferme.",
@@ -1028,10 +999,9 @@
     "SUBSURFACE": "Sous-surface"
   },
   "MANAGEMENT_DETAIL": {
-    "ABANDON_PLAN": "Abandonner ce plan de gestion",
+    "ABANDON_PLAN": "Abandonner",
     "ADD_A_TASK": "Ajouter une tâche",
     "DETAILS": "Détails",
-    "FAILED_CROP": "Echec de la culture\u00a0?",
     "TASKS": "Tâches"
   },
   "MANAGEMENT_PLAN": {
@@ -1074,6 +1044,17 @@
     "DAYS_FROM_SEEDING": "Jours entre la semance et\u00a0:",
     "DAYS_TO_HARVEST": "Jours entre le repiquage et la prochaine récolte\u00a0:",
     "DAYS_TO_TERMINATION": "Jours entre la greffe et la résiliation\u00a0:",
+    "DELETE": {
+      "DELETE_PLAN": "Supprimer le plan de culture",
+      "DELETE_PLAN_QUESTION": "Supprimer le plan de culture?",
+      "DELETE_PLAN_MESSAGE": "Ce plan de culture et toutes ses tâches seront supprimés de votre ferme. Si vous voulez conserver une trace de ce plan de culture, cliquez plutôt sur \"Abandonner\"",
+      "CONFIRM_DELETION": "Confirmer la suppression",
+      "CANT_DELETE_MODIFIED_PLAN": "Impossible de supprimer le plan de culture",
+      "CANT_DELETE_ABANDON_INSTEAD": "Voulez-vous plutôt abandonner le plan de culture?",
+      "CANT_DELETE_ABANDON": "Abandonner",
+      "SUCCESS": "Le plan de culture a bien été supprimé",
+      "FAILED": "Le plan de culture n'a pas pu être supprimé"
+    },
     "DETAIL_SPOTLIGHT_CONTENTS": "Ici, vous pouvez modifier les détails de votre culture.",
     "DETAIL_SPOTLIGHT_TITLE": "Détails",
     "DO_YOU_WANT_TO_ABANDON_CONTENT": "Voulez-vous abandonner ce plan\u00a0?",
@@ -1091,6 +1072,8 @@
     "GERMINATION": "Germination",
     "HARVEST": "Récolte initiale",
     "HARVEST_DATE": "Quand prévoyez-vous votre prochaine récolte\u00a0?",
+    "HARVEST_TO_DATE": "Récolte à date",
+    "HARVEST_TO_DATE_INFO": "La récolte à date est calculée à partir des tâche ",
     "HISTORICAL_CONTAINER_OR_IN_GROUND": "A-t-il été planté dans un conteneur ou dans le sol\u00a0?",
     "IN_GROUND": "Déjà en terre",
     "INCOMPLETE_TASK_CONTENT": "Ce plan comporte des tâches qui ne sont pas encore terminées. Vous devrez marquer les tâches comme terminées afin de terminer ce plan de gestion des cultures.",
@@ -1176,7 +1159,14 @@
     "WHAT_WAS_PLANTING_METHOD_INFO": "Sélectionner la bonne méthode de plantation aidera LiteFarm à estimer plus précisément la quantité de graines nécessaires, le rendement et d'autres informations utiles.",
     "WHERE_START_LOCATION": "Où est votre position de départ\u00a0?",
     "WHERE_TRANSPLANT_LOCATION": "Où allez-vous transplanter\u00a0?",
-    "WILD_CROP": "Récoltez-vous une culture sauvage\u00a0?"
+    "WILD_CROP": "Récoltez-vous une culture sauvage\u00a0?",
+    "ASSIGN_ALL_TASKS": "Toutes les tâches générées par ce plan de culture seront attribuées à cette personne. Vous pourrez modifier cette attribution plus tard.",
+    "CROP_PLAN_REPEAT": "Ce plan de culture se répète",
+    "CROP_PLAN_REPEAT_SUBTEXT": "Cliquer sur 'Sauvegarder' créera immédiatement ce plan de gestion. Il vous sera ensuite demandé de décrire comment il se répète.",
+    "REPEATED_MP_SPOTLIGHT": {
+      "BODY": "Vous pouvez cliquer ici pour voir tous les plans de culture de ce groupe. Modifier un plan de culture individuel ne changera rien aux autres du groupe.",
+      "TITLE": "Bravo\u00a0! Vous avez créé votre premier plan de culture répété\u00a0!"
+    }
   },
   "LOCATION_CREATION": {
     "TITLE": "Aucun emplacement trouvé\u00a0!",
@@ -1382,6 +1372,44 @@
     "CLEAR": "Supprimer",
     "CLEAR_ALL": "Supprimer tout"
   },
+  "REPEAT_PLAN": {
+    "MENU": "Plan de culture répété",
+    "TITLE": "Répéter un plan de culture",
+    "REPEAT_PLAN_FLOW": "répétition d'un plan de culture",
+    "SUBTITLE": "Copie ce plan de culture et toutes ses tâches selon le calendrier suivant",
+    "REPETITIONS_OF": "Répétition de {{planName}}",
+    "PLAN_NAME": "Nom du plan de culture répété",
+    "DUPLICATE_NAME": "Un plan de culture avec ce nom existe déjà. Merci d'en choisir un autre.",
+    "START_DATE": "Début",
+    "EARLIEST_TASK": "{{date}} est la première tâche {{dateType}} date du plan original",
+    "COMPLETION": "finalisation",
+    "DUE": "échéance",
+    "REPEAT_EVERY": "Répéter tous les",
+    "REPEAT_ON": "Répéter le",
+    "FINISH": "Terminer",
+    "AFTER": "Après",
+    "REPETITIONS": "répétitions",
+    "ON": "Le",
+    "INTERVAL": {
+      "DAY": "jour(s)",
+      "WEEK": "semaine(s)",
+      "MONTH": "mois",
+      "YEAR": "année(s)"
+    },
+    "REPEAT_LIMIT_ERROR": "Impossible de répéter ce plan plus de 20 fois",
+    "LATER_DATE_ERROR": "Merci de sélectionner une date après la date de début",
+    "CONFIRMATION": {
+      "HEADER": "Confirmer comment ce plan se répète",
+      "CROP_NAME": "Nom du plan de culture",
+      "BEGINNING": "Commence le",
+      "FINISHING": "Finit le",
+      "WILL_REPEAT": "Ce plan se répète",
+      "WILL_CREATE": "Ceci va créer",
+      "ON_DATE": "le {{date}}",
+      "WILL_CREATE_BODY": "<0>{{numberOfPlans}}</0> nouveaux plans de culture et <2>{{numberOfTasks}}</2> nouvelles tâches.",
+      "AFTER_REPETITIONS": "après <1>{{number}}</1> répétitions."
+    }
+  },
   "REQUEST_CONFIRMATION_MODAL": {
     "BUTTON": "J'ai compris",
     "DESCRIPTION": "Vous serez contacté dans les 48 heures.",
@@ -1486,57 +1514,6 @@
       "VALUE": "Valeur"
     }
   },
-  "SHIFT": {
-    "ACTION": "Action",
-    "ADD_NEW": "Ajouter nouveau poste de travail",
-    "EDIT_SHIFT": {
-      "ADD_CUSTOM_TASK": "Ajouter une tâche personnalisée",
-      "ADD_TASK": "Ajouter une tâche",
-      "ALL": "Tous les emplacements",
-      "ALL_CROPS": "Toutes les cultures",
-      "ASSIGN_TIME_TO_TASK": "Attribuer l'heure à la tâche par",
-      "CHOOSE_DATE": "Choisissez une date",
-      "CHOOSE_WORKERS": "Choisissez un travailleur",
-      "CROPS": "Cultures",
-      "CROPS_LABEL": "Cultures",
-      "DID_NOT_PROVIDE_ANSWER": "Aucune réponse entrée",
-      "HAPPY": "Content",
-      "INDIVIDUAL_CROPS": "Cultures individuelles",
-      "LOCATIONS": "Emplacements",
-      "LOCATIONS_LABEL": "Emplacements",
-      "MOOD": "Comment sentez vous après cette tâche\u00a0?",
-      "NAME_TASK": "Nom de la tâche personnalisée",
-      "NEUTRAL": "Neutre",
-      "RATHER_NOT_SAY": "Je préfère ne pas en parler",
-      "SAD": "Triste",
-      "SELECT_ALL": "Tout sélectionner",
-      "SELECT_CROPS": "Sélectionner les cultures",
-      "SELECT_FIELDS": "Sélectionner les emplacements",
-      "VERY_HAPPY": "Très heureux",
-      "VERY_SAD": "Très triste",
-      "WHAT_TASKS_YOU_DID": "Quelles tâches avez-vous effectuées aujourd'hui\u00a0?",
-      "WORKER": "Travailleur",
-      "WORKER_MOOD": "Comment se sentait cet travailleur pendant qu'il travaillait\u00a0?"
-    },
-    "MY_SHIFT": {
-      "DELETE_CONFIRMATION": "Êtes-vous certains que vous voulez supprimer cette poste\u00a0?",
-      "DURATION": "Duration",
-      "LOCATION_CROPS": "Emplacements des cultures",
-      "SUBMITTED_FOR": "Soumis pour",
-      "TASK": "Tâche",
-      "TITLE": "Détails de poste"
-    },
-    "NAME": "Nom",
-    "NEW_SHIFT": {
-      "STEP_ONE": "Ajouter un poste de travail",
-      "STEP_TWO": "Ajouter un poste de travail"
-    },
-    "RETIRED": "Zone Retiré",
-    "SHIFT_DATE": "Date",
-    "SHIFT_HISTORY": "Histoire du poste de travail",
-    "TIME_TOTAL": "Totale",
-    "TITLE": "Postes"
-  },
   "SIGNUP": {
     "CHANGES": "En savoir plus sur les changements",
     "EMAIL_INVALID": "Courriel non-valide",
@@ -1545,7 +1522,7 @@
     "EXPIRED_INVITATION_LINK_ERROR": "Invitation invalide ou expirée",
     "GOOGLE_BUTTON": "CONTINUER AVEC GOOGLE",
     "INVITED_ERROR": "L'invitation à la ferme vous a été envoyée par e-mail, veuillez vérifier votre boîte de réception et votre dossier spam.",
-    "LITEFARM_UPDATED": "LiteFarm v3.3 est maintenant disponible\u00a0!",
+    "LITEFARM_UPDATED": "LiteFarm v3.4 est maintenant disponible\u00a0!",
     "PASSWORD_ERROR": "Mot de passe incorrect",
     "SIGN_IN": "Se Connecter",
     "SSO_ERROR": "Veuillez connecter par cliquer le bouton Google au-dessus",

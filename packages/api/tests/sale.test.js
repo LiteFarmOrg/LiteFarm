@@ -23,8 +23,8 @@ import { tableCleanup } from './testEnvironment.js';
 jest.mock('jsdom');
 jest.mock('../src/middleware/acl/checkJwt.js', () =>
   jest.fn((req, res, next) => {
-    req.user = {};
-    req.user.user_id = req.get('user_id');
+    req.auth = {};
+    req.auth.user_id = req.get('user_id');
     next();
   }),
 );
@@ -107,13 +107,6 @@ describe('Sale Tests', () => {
     );
     [crop] = await mocks.cropFactory({ promisedFarm: [farm] });
     [cropVariety] = await mocks.crop_varietyFactory({ promisedFarm: [farm], promisedCrop: [crop] });
-
-    // middleware = require('../src/middleware/acl/checkJwt');
-    // middleware.mockImplementation((req, res, next) => {
-    //   req.user = {};
-    //   req.user.user_id = req.get('user_id');
-    //   next();
-    // });
   });
 
   afterAll(async (done) => {
@@ -597,7 +590,7 @@ describe('Sale Tests', () => {
           },
           {
             crop_variety_id: cropVariety2.crop_variety_id,
-            quantity: cropVarietySale1.quantity_kg + 5,
+            quantity: cropVarietySale1.quantity + 5,
             quantity_unit: 'lb',
             sale_value: cropVarietySale1.sale_value + 5,
           },
@@ -621,7 +614,7 @@ describe('Sale Tests', () => {
         },
         {
           crop_variety_id: cropVariety2.crop_variety_id,
-          quantity: cropVarietySale1.quantity_kg + 5,
+          quantity: cropVarietySale1.quantity + 5,
           quantity_unit: cropVarietySale1.quantity_unit,
           sale_value: cropVarietySale1.sale_value + 5,
         },
@@ -689,9 +682,7 @@ describe('Sale Tests', () => {
             .where('sale_id', sale.sale_id);
           expect(cropVarietySaleRes.length).toBe(patchData.crop_variety_sale.length);
           for (var i = 0; i < cropVarietySaleRes.length; i++) {
-            expect(cropVarietySaleRes[i].quantity_kg).toBe(
-              patchData.crop_variety_sale[i].quantity_kg,
-            );
+            expect(cropVarietySaleRes[i].quantity).toBe(patchData.crop_variety_sale[i].quantity);
             expect(cropVarietySaleRes[i].sale_value).toBe(
               patchData.crop_variety_sale[i].sale_value,
             );
@@ -711,9 +702,7 @@ describe('Sale Tests', () => {
             .where('sale_id', sale.sale_id);
           expect(cropVarietySaleRes.length).toBe(patchData.crop_variety_sale.length);
           for (var i = 0; i < cropVarietySaleRes.length; i++) {
-            expect(cropVarietySaleRes[i].quantity_kg).toBe(
-              patchData.crop_variety_sale[i].quantity_kg,
-            );
+            expect(cropVarietySaleRes[i].quantity).toBe(patchData.crop_variety_sale[i].quantity);
             expect(cropVarietySaleRes[i].sale_value).toBe(
               patchData.crop_variety_sale[i].sale_value,
             );
@@ -743,9 +732,7 @@ describe('Sale Tests', () => {
               .where('sale_id', workersSale.sale_id);
             expect(cropVarietySaleRes.length).toBe(patchData.crop_variety_sale.length);
             for (var i = 0; i < cropVarietySaleRes.length; i++) {
-              expect(cropVarietySaleRes[i].quantity_kg).toBe(
-                patchData.crop_variety_sale[i].quantity_kg,
-              );
+              expect(cropVarietySaleRes[i].quantity).toBe(patchData.crop_variety_sale[i].quantity);
               expect(cropVarietySaleRes[i].sale_value).toBe(
                 patchData.crop_variety_sale[i].sale_value,
               );

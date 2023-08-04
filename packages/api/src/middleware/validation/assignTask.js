@@ -20,7 +20,7 @@ import TaskModel from '../../models/taskModel.js';
 const adminRoles = [1, 2, 5];
 
 async function validateAssigneeId(req, res, next) {
-  const { user_id } = req.user;
+  const { user_id } = req.auth;
   const { farm_id } = req.headers;
   const { assignee_user_id } = req.body;
   if (!adminRoles.includes(req.role) && user_id !== assignee_user_id && assignee_user_id !== null) {
@@ -60,7 +60,7 @@ async function checkTaskStatusForAssignment(req, res, next) {
 
   if (
     !adminRoles.includes(req.role) &&
-    checkTaskStatus.assignee_user_id != req.user.user_id &&
+    checkTaskStatus.assignee_user_id != req.auth.user_id &&
     checkTaskStatus.assignee_user_id !== null
   ) {
     return res

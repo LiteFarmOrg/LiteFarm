@@ -14,42 +14,27 @@
  */
 
 import {
-  SET_CROPS_SOLD_NUTRITION,
   SET_SOLD_OM_DATA,
   SET_LABOUR_HAPPINESS_DATA,
   SET_BIODIVERSITY_DATA,
   SET_BIODIVERSITY_LOADING,
   SET_PRICES_DATA,
   SET_PRICES_DISTANCE,
-  SET_WATER_BALANCE_DATA,
-  SET_NITROGEN_BALANCE_DATA,
-  SET_FREQUENCY_NITROGEN_BALANCE,
-  SET_FREQUENCY_WATER_BALANCE,
   SET_BIODIVERSITY_ERROR,
 } from './constants';
 
 const initialState = {
-  cropNutritionData: { preview: 0, data: [] },
   soilOMData: { preview: 0, data: [] },
   labourHappinessData: { preview: 0, data: [] },
   biodiversityData: { preview: 0, data: [] },
   biodiversityLoading: false,
   biodiversityError: false,
   pricesData: { preview: 0, amountOfFarms: 0, data: [] },
-  waterBalanceData: { preview: 0, data: [] },
-  waterBalanceSchedule: {},
-  nitrogenBalanceData: { preview: 0, data: [] },
-  nitrogenFrequencyData: {},
   pricesDistance: 5,
 };
 
 function insightReducer(state = initialState, action) {
   switch (action.type) {
-    case SET_CROPS_SOLD_NUTRITION:
-      return Object.assign({}, state, {
-        cropNutritionData: action.cropNutritionData,
-      });
-
     case SET_SOLD_OM_DATA:
       return Object.assign({}, state, {
         soilOMData: action.soilOMData,
@@ -82,26 +67,6 @@ function insightReducer(state = initialState, action) {
     case SET_PRICES_DATA:
       return Object.assign({}, state, {
         pricesData: action.pricesData,
-      });
-
-    case SET_WATER_BALANCE_DATA:
-      return Object.assign({}, state, {
-        waterBalanceData: action.waterBalanceData,
-      });
-
-    case SET_FREQUENCY_WATER_BALANCE:
-      return Object.assign({}, state, {
-        waterBalanceSchedule: action.waterBalanceSchedule,
-      });
-
-    case SET_NITROGEN_BALANCE_DATA:
-      return Object.assign({}, state, {
-        nitrogenBalanceData: action.nitrogenBalanceData,
-      });
-
-    case SET_FREQUENCY_NITROGEN_BALANCE:
-      return Object.assign({}, state, {
-        nitrogenFrequencyData: action.data,
       });
 
     case SET_PRICES_DISTANCE:

@@ -64,7 +64,7 @@ import alertSaga from './containers/Navigation/Alert/saga';
 import mapSaga from './containers/Map/saga';
 import sensorReadingsSaga from './containers/SensorReadings/saga';
 import uploadDocumentSaga from './containers/Documents/DocumentUploader/saga';
-import { CssBaseline, ThemeProvider } from '@material-ui/core';
+import { CssBaseline, ThemeProvider, StyledEngineProvider } from '@mui/material';
 import theme from './assets/theme';
 import imageUploaderSaga from './containers/ImagePickerWrapper/saga';
 import certificationsSaga from './containers/Certifications/saga';
@@ -147,19 +147,21 @@ sagaMiddleware.run(irrigationTaskTypesSaga);
 ReactDOM.createRoot(document.getElementById('root')).render(
   <Provider store={store}>
     <PersistGate loading={null} persistor={persistor}>
-      <ThemeProvider theme={theme}>
-        <>
-          <GlobalScss />
-          <CssBaseline />
-          <GoogleOAuthProvider clientId={clientId}>
-            <Router history={history}>
-              <>
-                <App />
-              </>
-            </Router>
-          </GoogleOAuthProvider>
-        </>
-      </ThemeProvider>
+      <StyledEngineProvider injectFirst>
+        <ThemeProvider theme={theme}>
+          <>
+            <GlobalScss />
+            <CssBaseline />
+            <GoogleOAuthProvider clientId={clientId}>
+              <Router history={history}>
+                <>
+                  <App />
+                </>
+              </Router>
+            </GoogleOAuthProvider>
+          </>
+        </ThemeProvider>
+      </StyledEngineProvider>
     </PersistGate>
   </Provider>,
 );

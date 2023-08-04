@@ -42,6 +42,7 @@ const Radio = ({
         {...props}
         disabled={disabled}
         checked={checked}
+        className={styles.defaultRadio}
       />
       <span className={clsx(styles.label)} style={classes.label}>
         {label}

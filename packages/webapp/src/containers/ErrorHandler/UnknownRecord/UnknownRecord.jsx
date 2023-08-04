@@ -19,7 +19,7 @@ import Button from '../../../components/Form/Button';
 import PageTitle from '../../../components/PageTitle/v2';
 import { ReactComponent as DoesNotExistSplash } from '../../../assets/images/does-not-exist.svg';
 import { Title } from '../../../components/Typography';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@mui/styles';
 import { ReactComponent as Sunglasses } from '../../../assets/images/miscs/smiling-face-with-sunglasses-emoji.svg';
 
 const useStyles = makeStyles((theme) => ({

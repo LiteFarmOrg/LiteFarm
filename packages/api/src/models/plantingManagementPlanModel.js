@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { Model } from 'objection';
+import Model from './baseFormatModel.js';
 import locationModel from './locationModel.js';
 import broadcastMethodModel from './broadcastMethodModel.js';
 import containerMethodModel from './containerMethodModel.js';
@@ -39,29 +39,29 @@ class plantingManagementPlanModel extends Model {
       properties: {
         planting_management_plan_id: { type: 'string' },
         management_plan_id: { type: 'integer' },
-        is_final_planting_management_plan: { type: 'boolean' },
+        is_final_planting_management_plan: { type: ['boolean', 'null'] },
         planting_task_type: {
-          type: ['string', null],
+          type: ['string', 'null'],
           enum: ['TRANSPLANT_TASK', 'PLANT_TASK', null],
         },
         planting_method: {
-          type: ['string', null],
+          type: ['string', 'null'],
           enum: ['BROADCAST_METHOD', 'CONTAINER_METHOD', 'BED_METHOD', 'ROW_METHOD', null],
         },
         is_planting_method_known: {
-          type: ['boolean', null],
+          type: ['boolean', 'null'],
         },
-        estimated_seeds: { type: ['number', null] },
+        estimated_seeds: { type: ['number', 'null'] },
         estimated_seeds_unit: { type: ['string'], enum: ['g', 'kg', 'mt', 'oz', 'lb', 't'] },
-        location_id: { type: ['string', null] },
+        location_id: { type: ['string', 'null'] },
         pin_coordinate: {
-          type: ['object', null],
+          type: ['object', 'null'],
           properties: {
             lat: { type: 'number' },
             lng: { type: 'number' },
           },
         },
-        notes: { type: 'string' },
+        notes: { type: ['string', 'null'] },
       },
       additionalProperties: false,
     };
@@ -133,6 +133,34 @@ class plantingManagementPlanModel extends Model {
           to: 'management_tasks.planting_management_plan_id',
         },
       },
+    };
+  }
+
+  // Custom function used in copy crop plan
+  // Should contain all jsonSchema() and relationMappings() keys
+  static get templateMappingSchema() {
+    return {
+      // jsonSchema()
+      planting_management_plan_id: 'edit',
+      management_plan_id: 'omit',
+      is_final_planting_management_plan: 'keep',
+      planting_task_type: 'keep',
+      planting_method: 'keep',
+      is_planting_method_known: 'keep',
+      estimated_seeds: 'keep',
+      estimated_seeds_unit: 'keep',
+      location_id: 'edit',
+      pin_coordinate: 'keep',
+      notes: 'keep',
+      // relationMappings
+      location: 'omit',
+      broadcast_method: 'edit',
+      container_method: 'edit',
+      bed_method: 'edit',
+      row_method: 'edit',
+      transplant_task: 'edit',
+      plant_task: 'edit',
+      managementTasks: 'edit',
     };
   }
 }

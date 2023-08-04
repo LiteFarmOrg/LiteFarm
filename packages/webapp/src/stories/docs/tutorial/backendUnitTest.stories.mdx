@@ -30,8 +30,6 @@ import TechStackNavigation from '../teckStackNavigation';
 
 - crop.test.js
 
-- shift.test.js
-
 - disease.test.js
 
 - expense.test.js
@@ -61,8 +59,6 @@ These tests are more abstracted. They are difficult to read/debug/modify. You sh
 - price.test.js
 
 - logs.test.js
-
-- shift.test.js
 
 ### 2. Set up database before each test cases
 
@@ -118,7 +114,7 @@ async function tableCleanup(knex) {
 
 There are two ways to set up
 
-- Create set up functions and use them in each test (example: `location.test.js` or `shift.test.js`).
+- Create set up functions and use them in each test (example: `location.test.js`).
 
 ```js
   function appendFieldToFarm(farm_id, n = 1) {
@@ -179,7 +175,7 @@ Here are four example driver functions:
       .send(data) //set req.body
       .end(callback)
   }
-  // mock implementation of ./src/middleware/acl/checkJwt will further put header.user_id in req.user.user_id
+  // mock implementation of ./src/middleware/acl/checkJwt will further put header.user_id in req.auth.user_id
   // to mock jwt authentication result
 
   function getRequest(url, { user_id = newOwner.user_id, farm_id = farm.farm_id }, callback) {
@@ -272,7 +268,7 @@ const maliciousPatchUserFarmRequestBody = {
 After controllers are implemented, if test always fails, we might need to add mock implementations to functions that cause tests to fail
 
 Most endpoints are guarded by `checkJwt()` (jwt authentication middleware) . Authorization middleware `checkScope()` will then use the result (res.user) returned by jwt authentication middleware to check user permissions.
-In this case, we need to mock `checkJwt()` (jwt authentication middleware) so that `checkJwt()` will never return 401 and driver function can pass user_id into req.user for authorization.
+In this case, we need to mock `checkJwt()` (jwt authentication middleware) so that `checkJwt()` will never return 401 and driver function can pass user_id into req.auth for authorization.
 ```js
 jest.mock('jsdom')
 jest.mock('../src/middleware/acl/checkJwt')
@@ -281,8 +277,8 @@ describe('Crop Tests', () => {
     beforeEach(async () => {
       middleware = require('../src/middleware/acl/checkJwt');
       middleware.mockImplementation((req, res, next) => {
-        req.user = {};
-        req.user.user_id = req.get('user_id');
+        req.auth = {};
+        req.auth.user_id = req.get('user_id');
         next()
       });
   })

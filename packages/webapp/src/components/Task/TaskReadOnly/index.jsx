@@ -1,5 +1,5 @@
 /*
- *  Copyright 2019, 2020, 2021, 2022 LiteFarm.org
+ *  Copyright 2019, 2020, 2021, 2022, 2023 LiteFarm.org
  *  This file is part of LiteFarm.
  *
  *  LiteFarm is free software: you can redistribute it and/or modify
@@ -130,7 +130,14 @@ export default function PureTaskReadOnly({
   };
 
   const assignee = users.find((user) => user.user_id === task.assignee_user_id);
-  const assigneeName = assignee && `${assignee.first_name} ${assignee.last_name}`;
+  const isInactiveAssignee = assignee?.status === 'Inactive';
+  let assigneeName = '';
+  if (assignee !== undefined) {
+    const fullName = `${assignee.first_name} ${assignee.last_name}`.trim();
+    assigneeName = isInactiveAssignee ? `${fullName} (${t('STATUS.INACTIVE')})` : fullName;
+  }
+
+  const isAssignee = user.user_id === assignee?.user_id;
   const assignedToPseudoUser = assignee && assignee.role_id === 4;
 
   const isCompleted = !!task.complete_date;
@@ -204,7 +211,7 @@ export default function PureTaskReadOnly({
           disabled={true}
           value={assigneeName ? assigneeName : t('TASK.UNASSIGNED')}
         />
-        {isCurrent && (
+        {isCurrent && (!assignee || isAdmin || isAssignee) && (
           <BiPencil
             data-cy="taskReadOnly-pencil"
             className={styles.pencil}

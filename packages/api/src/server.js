@@ -24,9 +24,34 @@ import './dotenvConfig.js';
 // dotenv.config({ path: path.resolve(process.cwd(), '.env.local') });
 import express from 'express';
 const app = express();
+import * as Sentry from '@sentry/node';
 import expressOasGenerator from 'express-oas-generator';
 const environment = process.env.NODE_ENV || 'development';
 
+if (process.env.SENTRY_DSN && environment !== 'development') {
+  Sentry.init({
+    dsn: process.env.SENTRY_DSN,
+    integrations: [
+      // enable HTTP calls tracing
+      new Sentry.Integrations.Http({ tracing: true }),
+      // enable Express.js middleware tracing
+      new Sentry.Integrations.Express({ app }),
+      // Automatically instrument Node.js libraries and frameworks
+      ...Sentry.autoDiscoverNodePerformanceMonitoringIntegrations(),
+    ],
+
+    // Set tracesSampleRate to 1.0 to capture 100%
+    // of transactions for performance monitoring.
+    // We recommend adjusting this value in production
+    tracesSampleRate: 1.0,
+  });
+
+  // RequestHandler creates a separate execution context, so that all
+  // transactions/spans/breadcrumbs are isolated across requests
+  app.use(Sentry.Handlers.requestHandler());
+  // TracingHandler creates a trace for every incoming request
+  app.use(Sentry.Handlers.tracingHandler());
+}
 /*
  expressOasGenerator (EOG) automatically creates API documentation.
  Endpoint documentation is generated from route definitions.
@@ -70,7 +95,6 @@ expressOasGenerator.handleResponses(app, {
     'roles',
     'sale',
     'sensors',
-    'shift',
     'signup',
     'spotlight',
     'support',
@@ -110,7 +134,6 @@ import farmExpenseRoute from './routes/farmExpenseRoute.js';
 import farmExpenseTypeRoute from './routes/farmExpenseTypeRoute.js';
 import farmRoutes from './routes/farmRoute.js';
 import logRoutes from './routes/logRoute.js';
-import shiftRoutes from './routes/shiftRoute.js';
 import managementPlanRoute from './routes/managementPlanRoute.js';
 import fertilizerRoutes from './routes/fertilizerRoute.js';
 import diseaseRoutes from './routes/diseaseRoute.js';
@@ -126,10 +149,6 @@ import organicCertifierSurveyRoutes from './routes/organicCertifierSurveyRoute.j
 import passwordResetRoutes from './routes/passwordResetRoute.js';
 import showedSpotlightRoutes from './routes/showedSpotlightRoute.js';
 import nominationRoutes from './routes/nominationRoute.js';
-
-// const waterBalanceScheduler = require('./jobs/waterBalance/waterBalance');
-// const nitrogenBalanceScheduler = require('./jobs/nitrogenBalance/nitrogenBalance');
-// const farmDataScheduler = require('./jobs/sendFarmData/sendFarmData');
 import userLogRoute from './routes/userLogRoute.js';
 
 import supportTicketRoute from './routes/supportTicketRoute.js';
@@ -173,7 +192,6 @@ app.set('json replacer', (key, value) => {
     'harvest_date',
     'plant_date',
     'seed_date',
-    'shift_date',
     'start_date',
     'termination_date',
     'transition_date',
@@ -218,6 +236,7 @@ const rejectBodyInGetAndDelete = (req, res, next) => {
 app
   .use(applyExpressJSON)
   .use(express.urlencoded({ extended: true }))
+  .disable('x-powered-by')
 
   // prevent CORS errors
   .use(cors())
@@ -247,19 +266,13 @@ app
   .use('/crop', cropRoutes)
   .use('/crop_variety', cropVarietyRoutes)
   .use('/field', fieldRoutes)
-  // .use('/plan', planRoutes)
   .use('/sale', saleRoutes)
-  //.use('/shift_task', shiftTaskRoutes)
   .use('/task_type', taskTypeRoutes)
-  // .use('/todo', todoRoutes)
   .use('/user', userRoutes)
   .use('/expense', farmExpenseRoute)
   .use('/expense_type', farmExpenseTypeRoute)
-  // .use('/notification', notificationRoutes)
   .use('/farm', farmRoutes)
   .use('/log', logRoutes)
-  .use('/shift', shiftRoutes)
-  // .use('/notification_setting', notificationSettingRoutes)
   .use('/management_plan', managementPlanRoute)
   .use('/fertilizer', fertilizerRoutes)
   .use('/disease', diseaseRoutes)
@@ -285,6 +298,10 @@ app
 // Allow a 1MB limit on sensors to match incoming Ensemble data
 app.use('/sensor', express.json({ limit: '1MB' }), rejectBodyInGetAndDelete, sensorRoute);
 
+if (process.env.SENTRY_DSN && environment !== 'development') {
+  // The error handler must be before any other error middleware and after all controllers
+  app.use(Sentry.Handlers.errorHandler());
+}
 expressOasGenerator.handleRequests();
 
 // handle errors
@@ -313,14 +330,6 @@ if (
     // eslint-disable-next-line no-console
     logger.info('LiteFarm Backend listening on port ' + port);
   });
-  // waterBalanceScheduler.registerHourlyJob();
-  // waterBalanceScheduler.registerDailyJob();
-  //
-  // nitrogenBalanceScheduler.registerDailyJob();
-
-  // farmDataScheduler.registerJob();
-  // eslint-disable-next-line no-console
-  // console.log('LiteFarm Water Balance Scheduler Enabled');
 }
 
 app.on('close', () => {

@@ -1,5 +1,6 @@
 import React, { ReactNode } from 'react';
-import { makeStyles, Tooltip, TooltipProps } from '@material-ui/core';
+import { Tooltip, TooltipProps } from '@mui/material';
+import { makeStyles } from '@mui/styles';
 import { colors } from '../../assets/theme';
 
 const useStyles = ({ arrowOffset = 0, isChildrenIcon = false }) =>
@@ -42,24 +43,24 @@ const useStyles = ({ arrowOffset = 0, isChildrenIcon = false }) =>
   }));
 
 export type OverlayTooltipProps = Omit<TooltipProps, 'children' | 'title'> & {
-  content: TooltipProps['title'],
-  children?: ReactNode,
-  arrowOffset?: number,
-  autoOpen?: boolean,
-  isChildrenIcon?: boolean,
-  icon?: ReactNode,
-}
+  content: TooltipProps['title'];
+  children?: ReactNode;
+  arrowOffset?: number;
+  autoOpen?: boolean;
+  isChildrenIcon?: boolean;
+  icon?: ReactNode;
+};
 
 export default function OverlayTooltip({
-                                         children,
-                                         content,
-                                         placement,
-                                         arrowOffset,
-                                         autoOpen,
-                                         isChildrenIcon,
-                                         icon,
-                                         ...props
-                                       }: OverlayTooltipProps) {
+  children,
+  content,
+  placement,
+  arrowOffset,
+  autoOpen,
+  isChildrenIcon,
+  icon,
+  ...props
+}: OverlayTooltipProps) {
   const classes = useStyles({ arrowOffset, isChildrenIcon: !!icon || isChildrenIcon })();
   return (
     <Tooltip
@@ -75,4 +76,3 @@ export default function OverlayTooltip({
     </Tooltip>
   );
 }
-

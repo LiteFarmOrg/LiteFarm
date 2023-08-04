@@ -27,8 +27,8 @@ import mocks from './mock.factories.js';
 jest.mock('jsdom');
 jest.mock('../src/middleware/acl/checkJwt.js', () =>
   jest.fn((req, res, next) => {
-    req.user = {};
-    req.user.user_id = req.get('user_id');
+    req.auth = {};
+    req.auth.user_id = req.get('user_id');
     next();
   }),
 );
@@ -44,12 +44,6 @@ describe('Farm Tests', () => {
 
   beforeEach(async () => {
     [newUser] = await usersFactory();
-    // middleware = require('../src/middleware/acl/checkJwt');
-    // middleware.mockImplementation((req, res, next) => {
-    //   req.user = {};
-    //   req.user.user_id = newUser.user_id;
-    //   next();
-    // });
   });
 
   afterAll(async (done) => {
@@ -83,7 +77,7 @@ describe('Farm Tests', () => {
         lat: 22.33,
         lng: 122.33,
       },
-      country: 'United States',
+      country: 'US',
     };
 
     test('should return 400 status if blank farm is posted', (done) => {
@@ -108,7 +102,7 @@ describe('Farm Tests', () => {
           farm_name: 'Test Farm',
           address: 'ANSOFANSOD',
           grid_points: { lat: 'sa', long: '212' },
-          country: 'Canada',
+          country: 'CA',
         },
         newUser.user_id,
         (err, res) => {

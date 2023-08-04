@@ -147,7 +147,7 @@ router.post(
 router.post(
   '/transplant_task',
   modelMapping['transplant_task'],
-  hasFarmAccess({ mix: 'transplant_task' }),
+  hasFarmAccess({ mixed: 'transplant_task' }),
   isWorkerToSelfOrAdmin(),
   taskController.createTransplantTask,
 );

@@ -27,7 +27,7 @@ async function checkGoogleAccessToken(req, res, next) {
 
   try {
     const tokenInfo = await client.getTokenInfo(token);
-    req.user = { email: tokenInfo.email, sub: tokenInfo.sub };
+    req.auth = { email: tokenInfo.email, sub: tokenInfo.sub };
     return next();
   } catch (error) {
     console.error(error);

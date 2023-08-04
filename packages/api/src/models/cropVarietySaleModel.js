@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { Model } from 'objection';
+import Model from './baseFormatModel.js';
 import saleModel from './saleModel.js';
 import cropVarietyModel from './cropVarietyModel.js';
 
@@ -36,9 +36,15 @@ class CropVarietySale extends Model {
       properties: {
         // management_plan_id: { type: 'integer' },
         sale_id: { type: 'integer' },
-        quantity: { type: 'float' },
+        quantity: {
+          type: 'number',
+          format: 'float',
+        },
         quantity_unit: { type: 'string' },
-        sale_value: { type: 'float' },
+        sale_value: {
+          type: 'number',
+          format: 'float',
+        },
         crop_variety_id: { type: 'string' },
       },
       additionalProperties: false,

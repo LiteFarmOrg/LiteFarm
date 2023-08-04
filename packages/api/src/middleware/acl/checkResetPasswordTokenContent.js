@@ -16,7 +16,7 @@
 import passwordModel from './../../models/passwordModel.js';
 
 async function checkResetPasswordTokenContent(req, res, next) {
-  const { user_id, created_at } = req.user;
+  const { user_id, created_at } = req.auth;
   const result = await passwordModel.query().select('created_at').where('user_id', user_id).first();
   if (result.created_at.getTime() <= created_at) {
     next();

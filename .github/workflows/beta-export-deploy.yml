@@ -1,18 +1,30 @@
 name: 'Beta-Export-Server-Deploy'
 on:
-  push:
-    branches:
-      - integration
+  workflow_run:
+    workflows: ['Deploy']
+    types:
+      - completed
 
 jobs:
   deploy:
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     name: Deploy on beta export server
     runs-on: ubuntu-20.04
     steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Read deploy script contents
+        id: script
+        uses: juliangruber/read-file-action@v1
+        with:
+          path: beta-export-deploy.sh
+
       - name: Deploy beta export server over SSH
         uses: appleboy/ssh-action@v0.1.7
         with:
           host: ${{ secrets.BETA_EXPORT_SERVER_HOST }}
           username: ${{ secrets.BETA_EXPORT_SERVER_USER }}
           key: ${{ secrets.BETA_EXPORT_SERVER_KEY }}
-          script: ${{ secrets.BETA_EXPORT_SERVER_SCRIPT }}
+          script_stop: true
+          script: ${{ steps.script.outputs.content }}

@@ -19,7 +19,6 @@ import UserModel from '../models/userModel.js';
 import UserFarmModel from '../models/userFarmModel.js';
 import PasswordModel from '../models/passwordModel.js';
 import EmailTokenModel from '../models/emailTokenModel.js';
-import ShiftModel from '../models/shiftModel.js';
 import TaskModel from '../models/taskModel.js';
 import NotificationUserModel from '../models/notificationUserModel.js';
 import FarmModel from '../models/farmModel.js';
@@ -311,7 +310,7 @@ const userController = {
       const id = req.params.user_id;
 
       const data = await UserModel.query()
-        .context({ user_id: req.user.user_id })
+        .context({ user_id: req.auth.user_id })
         .findById(id)
         .select(
           'first_name',
@@ -423,7 +422,7 @@ const userController = {
     let result;
     try {
       const { password, first_name, last_name, gender, birth_year, language_preference } = req.body;
-      const { user_id, farm_id } = req.user;
+      const { user_id, farm_id } = req.auth;
       const salt = await bcrypt.genSalt(10);
       const password_hash = await bcrypt.hash(password, salt);
       await UserModel.transaction(async (trx) => {
@@ -469,18 +468,21 @@ const userController = {
 
   async acceptInvitationWithGoogleAccount(req, res) {
     let result;
-    const { sub, user_id, farm_id, email } = req.user;
+    const { sub, user_id, farm_id, email } = req.auth;
     const { first_name, last_name, gender, birth_year, language_preference } = req.body;
     try {
       await UserModel.transaction(async (trx) => {
+        // TODO: consider just deleting user and using the returned data
+        // A substitute email is applied to the temporary user
         const user = await UserModel.query(trx)
           .context({
             showHidden: true,
             shouldUpdateEmail: true,
           })
           .findById(user_id)
-          .patch({ email: user_id })
+          .patch({ email: 'fakeemail@litefarm.org' })
           .returning('*');
+        delete user.email;
         delete user.profile_picture;
         delete user.user_address;
         user.phone_number = user.phone_number ? user.phone_number : undefined;
@@ -505,10 +507,6 @@ const userController = {
         await UserFarmModel.query(trx).insert(
           userFarms.map((userFarm) => ({ ...userFarm, user_id: sub })),
         );
-        await ShiftModel.query(trx)
-          .context({ user_id: sub })
-          .where({ user_id })
-          .patch({ user_id: sub });
         await TaskModel.query(trx)
           .context({ user_id: sub })
           .where({ assignee_user_id: user_id })

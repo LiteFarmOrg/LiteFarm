@@ -17,6 +17,7 @@ import TaskModel from '../models/taskModel.js';
 
 import UserFarmModel from '../models/userFarmModel.js';
 import ManagementPlanModel from '../models/managementPlanModel.js';
+import PlantingManagementPlanModel from '../models/plantingManagementPlanModel.js';
 import ManagementTasksModel from '../models/managementTasksModel.js';
 import TransplantTaskModel from '../models/transplantTaskModel.js';
 import PlantTaskModel from '../models/plantTaskModel.js';
@@ -27,6 +28,7 @@ import { typesOfTask } from './../middleware/validation/task.js';
 import IrrigationTypesModel from '../models/irrigationTypesModel.js';
 import FieldWorkTypeModel from '../models/fieldWorkTypeModel.js';
 import locationDefaultsModel from '../models/locationDefaultsModel.js';
+import TaskTypeModel from '../models/taskTypeModel.js';
 const adminRoles = [1, 2, 5];
 // const isDateInPast = (date) => {
 //   const today = new Date();
@@ -42,14 +44,14 @@ const taskController = {
     try {
       const { task_id } = req.params;
       const { farm_id } = req.headers;
-      const { user_id } = req.user;
+      const { user_id } = req.auth;
       const { assignee_user_id: newAssigneeUserId } = req.body;
       const { assignee_user_id: oldAssigneeUserId, task_translation_key } = req.checkTaskStatus;
 
       // Avoid 1) making an empty update, and 2) sending a redundant notification.
       if (oldAssigneeUserId === newAssigneeUserId) return res.sendStatus(200);
 
-      const result = await TaskModel.assignTask(task_id, newAssigneeUserId, req.user);
+      const result = await TaskModel.assignTask(task_id, newAssigneeUserId, req.auth);
 
       if (!result) return res.status(404).send('Task not found');
 
@@ -85,7 +87,7 @@ const taskController = {
   async assignAllTasksOnDate(req, res) {
     try {
       const { farm_id } = req.headers;
-      const { user_id } = req.user;
+      const { user_id } = req.auth;
       const { assignee_user_id: newAssigneeUserId, date } = req.body;
       const {
         assignee_user_id: oldAssigneeUserId,
@@ -99,7 +101,7 @@ const taskController = {
       // if the current task was not previously unassigned or assigned to the same user,
       // assign the current task to newAssigneeUserId
       if (oldAssigneeUserId !== null && oldAssigneeUserId !== newAssigneeUserId) {
-        updatedTask = await TaskModel.assignTask(current_task_id, newAssigneeUserId, req.user);
+        updatedTask = await TaskModel.assignTask(current_task_id, newAssigneeUserId, req.auth);
 
         if (!updatedTask) return res.status(404).send('Task not found');
 
@@ -114,9 +116,9 @@ const taskController = {
       }
 
       // assign all other unassigned tasks due on this day to newAssigneeUserId
-      const available_tasks = await TaskModel.getAvailableTasksOnDate(taskIds, date, req.user);
+      const available_tasks = await TaskModel.getAvailableTasksOnDate(taskIds, date, req.auth);
       const availableTaskIds = available_tasks.map(({ task_id }) => task_id);
-      const result = await TaskModel.assignTasks(availableTaskIds, newAssigneeUserId, req.user);
+      const result = await TaskModel.assignTasks(availableTaskIds, newAssigneeUserId, req.auth);
       if (result) {
         await Promise.all(
           available_tasks.map(async (task) => {
@@ -157,7 +159,7 @@ const taskController = {
       }
 
       const result = await TaskModel.query()
-        .context(req.user)
+        .context(req.auth)
         .findById(task_id)
         .patch({ due_date });
       return result ? res.sendStatus(200) : res.status(404).send('Task not found');
@@ -173,7 +175,7 @@ const taskController = {
       const { wage_at_moment } = req.body;
 
       const result = await TaskModel.query()
-        .context(req.user)
+        .context(req.auth)
         .findById(task_id)
         .patch({ wage_at_moment, override_hourly_wage: true });
       return result ? res.sendStatus(200) : res.status(404).send('Task not found');
@@ -234,7 +236,7 @@ const taskController = {
       }
 
       const result = await TaskModel.query()
-        .context(req.user)
+        .context(req.auth)
         .findById(task_id)
         .patch({
           abandon_date,
@@ -272,12 +274,50 @@ const taskController = {
         // it will just ignore the insert on it. This is just a 2nd layer of protection
         // after the validation middleware.
         let data = req.body;
-        const { user_id } = req.user;
+        const { user_id } = req.auth;
         data.owner_user_id = user_id;
+
+        // Filter out deleted management plans from task
+        if (data.managementPlans && data.managementPlans.length > 0) {
+          const plantingManagementPlanIds = data.managementPlans.map(
+            ({ planting_management_plan_id }) => planting_management_plan_id,
+          );
+
+          const plantingManagementPlans = await PlantingManagementPlanModel.query()
+            .context(req.auth)
+            .whereIn('planting_management_plan_id', plantingManagementPlanIds);
+
+          const managementPlanIds = plantingManagementPlans.map(
+            ({ management_plan_id }) => management_plan_id,
+          );
+
+          const validManagementPlans = await ManagementPlanModel.query()
+            .context(req.auth)
+            .whereIn('management_plan_id', managementPlanIds)
+            .where('deleted', false);
+
+          const validManagementPlanIds = validManagementPlans.map(
+            ({ management_plan_id }) => management_plan_id,
+          );
+
+          // Return error if task is associated with only a deleted plan
+          if (validManagementPlanIds.length === 0) {
+            return res.status(404).send('Management plan not found');
+          }
+
+          const validPlantingMangementPlans = plantingManagementPlans
+            .filter(({ management_plan_id }) => validManagementPlanIds.includes(management_plan_id))
+            .map(({ planting_management_plan_id }) => planting_management_plan_id);
+
+          data.managementPlans = data.managementPlans.filter(({ planting_management_plan_id }) =>
+            validPlantingMangementPlans.includes(planting_management_plan_id),
+          );
+        }
+
         data = await this.checkCustomDependencies(typeOfTask, data, req.headers.farm_id);
         const result = await TaskModel.transaction(async (trx) => {
           const { task_id } = await TaskModel.query(trx)
-            .context({ user_id: req.user.user_id })
+            .context({ user_id: req.auth.user_id })
             .upsertGraph(data, {
               noUpdate: true,
               noDelete: true,
@@ -352,19 +392,37 @@ const taskController = {
 
   async checkAndAddCustomFieldWork(data, farm_id) {
     if (!data.field_work_task) return data;
+
     const containsFieldWorkTask = Object.prototype.hasOwnProperty.call(
       data.field_work_task,
       'field_work_task_type',
     );
     if (containsFieldWorkTask && typeof data.field_work_task.field_work_task_type !== 'number') {
       const field_work_task_type = data.field_work_task.field_work_task_type;
-      const row = {
-        farm_id,
-        field_work_name: field_work_task_type.field_work_name,
-        field_work_type_translation_key: field_work_task_type.field_work_name.toUpperCase().trim(),
-        created_by_user_id: data.owner_user_id,
-        updated_by_user_id: data.owner_user_id,
-      };
+      let row;
+      if (!field_work_task_type.field_work_name) {
+        row = {
+          farm_id,
+          field_work_name: field_work_task_type,
+          field_work_type_translation_key: field_work_task_type
+            .toUpperCase()
+            .trim()
+            .replaceAll(' ', '_'),
+          created_by_user_id: data.owner_user_id,
+          updated_by_user_id: data.owner_user_id,
+        };
+      } else {
+        row = {
+          farm_id,
+          field_work_name: field_work_task_type.field_work_name,
+          field_work_type_translation_key: field_work_task_type.field_work_name
+            .toUpperCase()
+            .trim()
+            .replaceAll(' ', '_'),
+          created_by_user_id: data.owner_user_id,
+          updated_by_user_id: data.owner_user_id,
+        };
+      }
       const fieldWork = await FieldWorkTypeModel.insertCustomFieldWorkType(row);
       delete data.field_work_task.field_work_task_type;
       data.field_work_task.field_work_type_id = fieldWork.field_work_type_id;
@@ -380,10 +438,11 @@ const taskController = {
       const nonModifiable = getNonModifiable('harvest_task');
       const harvest_tasks = req.body;
       const { farm_id } = req.headers;
-      const { user_id } = req.user;
+      const { user_id } = req.auth;
 
       const result = await TaskModel.transaction(async (trx) => {
         const result = [];
+        let taskTypeTranslation = '';
         for (const harvest_task of harvest_tasks) {
           harvest_task.owner_user_id = user_id;
           if (harvest_task.assignee_user_id && !harvest_task.wage_at_moment) {
@@ -397,14 +456,33 @@ const taskController = {
           }
 
           const task = await TaskModel.query(trx)
-            .context({ user_id: req.user.user_id })
+            .context({ user_id: req.auth.user_id })
             .upsertGraph(harvest_task, {
               noUpdate: true,
               noDelete: true,
               noInsert: nonModifiable,
               relate: ['locations', 'managementPlans'],
             });
-          // N.B. Notification not needed; these tasks are never assigned at creation.
+
+          if (task.assignee_user_id) {
+            const {
+              assignee_user_id,
+              harvest_task: { task_id },
+              task_type_id,
+            } = task;
+            if (!taskTypeTranslation) {
+              taskTypeTranslation = await TaskTypeModel.getTaskTranslationKeyById(task_type_id);
+            }
+            await sendTaskNotification(
+              [assignee_user_id],
+              user_id,
+              task_id,
+              TaskNotificationTypes.TASK_ASSIGNED,
+              taskTypeTranslation.task_translation_key,
+              req.headers.farm_id,
+            );
+          }
+
           result.push(removeNullTypes(task));
         }
         return result;
@@ -421,7 +499,7 @@ const taskController = {
       const nonModifiable = getNonModifiable('transplant_task');
       const transplant_task = req.body;
       const { farm_id } = req.headers;
-      const { user_id } = req.user;
+      const { user_id } = req.auth;
 
       const result = await TaskModel.transaction(async (trx) => {
         transplant_task.owner_user_id = user_id;
@@ -436,14 +514,27 @@ const taskController = {
         }
         //TODO: noInsert on planting_management_plan planting methods LF-1864
         return await TaskModel.query(trx)
-          .context({ user_id: req.user.user_id })
+          .context({ user_id: req.auth.user_id })
           .upsertGraph(transplant_task, {
             noUpdate: true,
             noDelete: true,
             noInsert: nonModifiable,
           });
       });
-      // N.B. Notification not needed; these tasks are never assigned at creation.
+
+      if (result.assignee_user_id) {
+        const { assignee_user_id, task_id, task_type_id } = result;
+        const taskTypeTranslation = await TaskTypeModel.getTaskTranslationKeyById(task_type_id);
+        await sendTaskNotification(
+          [assignee_user_id],
+          user_id,
+          task_id,
+          TaskNotificationTypes.TASK_ASSIGNED,
+          taskTypeTranslation.task_translation_key,
+          req.headers.farm_id,
+        );
+      }
+
       return res.status(201).send(result);
     } catch (error) {
       console.log(error);
@@ -457,7 +548,7 @@ const taskController = {
       try {
         let data = req.body;
         const { farm_id } = req.headers;
-        const { user_id } = req.user;
+        const { user_id } = req.auth;
         const { task_id } = req.params;
         const {
           assignee_user_id,
@@ -482,7 +573,7 @@ const taskController = {
         );
         const result = await TaskModel.transaction(async (trx) => {
           const task = await TaskModel.query(trx)
-            .context({ user_id: req.user.user_id })
+            .context({ user_id: req.auth.user_id })
             .upsertGraph(
               { task_id: parseInt(task_id), ...data, ...wagePatchData },
               {
@@ -525,7 +616,7 @@ const taskController = {
   async completeHarvestTask(req, res) {
     try {
       const nonModifiable = getNonModifiable('harvest_task');
-      const { user_id } = req.user;
+      const { user_id } = req.auth;
       const { farm_id } = req.headers;
       const task_id = parseInt(req.params.task_id);
       const { assignee_user_id, assignee_role_id } = await TaskModel.getTaskAssignee(task_id);
@@ -651,7 +742,7 @@ const taskController = {
         return res.status(400).send('Task has already been completed or abandoned');
       }
 
-      const result = await TaskModel.deleteTask(task_id, req.user);
+      const result = await TaskModel.deleteTask(task_id, req.auth);
       if (!result) return res.status(404).send('Task not found');
 
       await sendTaskNotification(
@@ -784,7 +875,7 @@ async function patchManagementPlanStartDate(trx, req, typeOfTask, task = req.bod
   const management_plan_ids = management_plans.map(({ management_plan_id }) => management_plan_id);
   if (management_plan_ids.length > 0) {
     await ManagementPlanModel.query(trx)
-      .context(req.user)
+      .context(req.auth)
       .patch({ start_date: task.complete_date })
       .whereIn('management_plan_id', management_plan_ids)
       .where('start_date', null)
@@ -792,7 +883,7 @@ async function patchManagementPlanStartDate(trx, req, typeOfTask, task = req.bod
   }
 }
 
-const TaskNotificationTypes = {
+export const TaskNotificationTypes = {
   TASK_ASSIGNED: 'TASK_ASSIGNED',
   TASK_ABANDONED: 'TASK_ABANDONED',
   TASK_REASSIGNED: 'TASK_REASSIGNED',
@@ -820,7 +911,7 @@ const TaskNotificationUserTypes = {
  * @param {String} farmId
  * @return {Promise<void>}
  */
-async function sendTaskNotification(
+export async function sendTaskNotification(
   receiverIds,
   usernameVariableId,
   taskId,

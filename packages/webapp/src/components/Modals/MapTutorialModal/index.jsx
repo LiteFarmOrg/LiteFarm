@@ -17,12 +17,20 @@ export default function MapTutorialModal({ title, steps, dismissModal, children,
         {steps?.length && (
           <ol className={clsx(styles.stepList, hasNoBullet && styles.noBullet)}>
             {steps.map((step) => (
-              <li className={styles.stepListItem}>{step}</li>
+              <li key={step} className={styles.stepListItem}>
+                {step}
+              </li>
             ))}
           </ol>
         )}
         {children}
-        <Button data-cy='mapTutorial-continue' color="primary" className={styles.button} onClick={dismissModal} sm>
+        <Button
+          data-cy="mapTutorial-continue"
+          color="primary"
+          className={styles.button}
+          onClick={dismissModal}
+          sm
+        >
           <div>{t('common:GOT_IT')}</div>
         </Button>
       </div>

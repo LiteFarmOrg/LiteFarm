@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { Model } from 'objection';
+import Model from './baseFormatModel.js';
 
 import baseModel from './baseModel.js';
 import priceModel from './priceModel.js';
@@ -242,7 +242,7 @@ class Farm extends baseModel {
             },
           },
         },
-        default_initial_location_id: { type: ['string', null] },
+        default_initial_location_id: { type: ['string', 'null'] },
         utc_offset: { type: 'integer' },
         ...this.baseProperties,
         // sandbox_bool: { type: 'boolean' },

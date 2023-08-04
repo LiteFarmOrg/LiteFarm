@@ -1312,6 +1312,59 @@ async function populateTaskTypes() {
   }
 }
 
+async function populateFieldWorkTaskTypes() {
+  const translationKeys = [
+    {
+      field_work_type_translation_key: 'COVERING_SOIL',
+      field_work_name: 'Covering soil',
+    },
+    {
+      field_work_type_translation_key: 'FENCING',
+      field_work_name: 'Fencing',
+    },
+    {
+      field_work_type_translation_key: 'PREPARING_BEDS_OR_ROWS',
+      field_work_name: 'Preparing beds or rows',
+    },
+    {
+      field_work_type_translation_key: 'PRUNING',
+      field_work_name: 'Pruning',
+    },
+    {
+      field_work_type_translation_key: 'SHADE_CLOTH',
+      field_work_name: 'Shade cloth',
+    },
+    {
+      field_work_type_translation_key: 'TERMINATION',
+      field_work_name: 'Termination',
+    },
+    {
+      field_work_type_translation_key: 'TILLAGE',
+      field_work_name: 'Tillage',
+    },
+    {
+      field_work_type_translation_key: 'WEEDING',
+      field_work_name: 'Weeding',
+    },
+  ];
+  for (const translationKey of translationKeys) {
+    const { field_work_type_translation_key } = translationKey;
+    const [taskTypeInDb] = await knex('field_work_type').where({
+      farm_id: null,
+      field_work_type_translation_key,
+    });
+    if (!taskTypeInDb) {
+      await knex('field_work_type')
+        .insert({
+          ...translationKey,
+          created_by_user_id: null,
+          updated_by_user_id: null,
+        })
+        .returning('*');
+    }
+  }
+}
+
 async function harvest_use_typeFactory(
   { promisedFarm = farmFactory() } = {},
   harvest_use_type = fakeHarvestUseType(),
@@ -1626,66 +1679,6 @@ function fakeScoutingTask(defaultData = {}) {
   };
 }
 
-async function shiftFactory({ promisedUserFarm = userFarmFactory() } = {}, shift = fakeShift()) {
-  const [userFarm] = await Promise.all([promisedUserFarm]);
-  const [{ user_id, farm_id }] = userFarm;
-  const base = baseProperties(user_id);
-  return knex('shift')
-    .insert({ user_id, farm_id, ...base, ...shift })
-    .returning('*');
-}
-
-function fakeShift(defaultData = {}) {
-  return {
-    shift_date: new Date().toISOString().split('T')[0],
-    mood: faker.helpers.arrayElement(['happy', 'neutral', 'very happy', 'sad', 'very sad', 'na']),
-    wage_at_moment: faker.datatype.number(20),
-    ...defaultData,
-  };
-}
-
-async function shiftTaskFactory(
-  {
-    promisedShift = shiftFactory(),
-    promisedManagementPlan = management_planFactory(),
-    promisedLocation = locationFactory(),
-    promisedTaskType = task_typeFactory(),
-    promisedUser = usersFactory(),
-  } = {},
-  shiftTask = fakeShiftTask(),
-) {
-  const [shift, managementPlan, field, task, user] = await Promise.all([
-    promisedShift,
-    promisedManagementPlan,
-    promisedLocation,
-    promisedTaskType,
-    promisedUser,
-  ]);
-  const [{ shift_id }] = shift;
-  const [{ management_plan_id }] = managementPlan;
-  const [{ location_id }] = field;
-  const [{ task_type_id }] = task;
-  const [{ user_id }] = user;
-  return knex('shiftTask')
-    .insert({
-      shift_id,
-      location_id,
-      management_plan_id,
-      task_id: task_type_id,
-      ...shiftTask,
-      ...baseProperties(user_id),
-    })
-    .returning('*');
-}
-
-function fakeShiftTask(defaultData = {}) {
-  return {
-    is_location: faker.datatype.boolean(),
-    duration: faker.datatype.number(200),
-    ...defaultData,
-  };
-}
-
 async function saleFactory({ promisedUserFarm = userFarmFactory() } = {}, sale = fakeSale()) {
   const [userFarm] = await Promise.all([promisedUserFarm]);
   const [{ user_id, farm_id }] = userFarm;
@@ -1707,46 +1700,6 @@ function fakeExpenseType(defaultData = {}) {
     expense_name: faker.finance.transactionType(),
     ...defaultData,
   };
-}
-
-function fakeWaterBalance(defaultData = {}) {
-  return {
-    created_at: faker.date.future(),
-    soil_water: faker.datatype.number(2000),
-    plant_available_water: faker.datatype.number(2000),
-    ...defaultData,
-  };
-}
-
-// async function waterBalanceFactory(
-//   { promisedManagementPlan = management_planFactory() } = {},
-//   waterBalance = fakeWaterBalance(),
-// ) {
-//   const [managementPlan] = await Promise.all([promisedManagementPlan]);
-//   const [{ field_id, crop_id }] = managementPlan;
-//   return knex('waterBalance')
-//     .insert({ field_id, crop_id, ...waterBalance })
-//     .returning('*');
-// }
-
-function fakeNitrogenSchedule(defaultData = {}) {
-  return {
-    created_at: faker.date.past(),
-    scheduled_at: faker.date.future(),
-    frequency: faker.datatype.number(10),
-    ...defaultData,
-  };
-}
-
-async function nitrogenScheduleFactory(
-  { promisedFarm = farmFactory() } = {},
-  nitrogenSchedule = fakeNitrogenSchedule(),
-) {
-  const [farm] = await Promise.all([promisedFarm]);
-  const [{ farm_id }] = farm;
-  return knex('nitrogenSchedule')
-    .insert({ farm_id, ...nitrogenSchedule })
-    .returning('*');
 }
 
 function fakeCropVarietySale(defaultData = {}) {
@@ -2223,10 +2176,6 @@ export default {
   fakeIrrigationTask,
   scouting_taskFactory,
   fakeScoutingTask,
-  shiftFactory,
-  fakeShift,
-  shiftTaskFactory,
-  fakeShiftTask,
   saleFactory,
   fakeSale,
   locationFactory,
@@ -2234,11 +2183,11 @@ export default {
   fakeTaskType,
   task_typeFactory,
   populateTaskTypes,
+  populateFieldWorkTaskTypes,
   yieldFactory,
   fakeYield,
   priceFactory,
   fakePrice,
-  fakeWaterBalance,
   fakeCropVarietySale,
   crop_variety_saleFactory,
   farmExpenseTypeFactory,
@@ -2254,8 +2203,6 @@ export default {
   lineFactory,
   management_tasksFactory,
   location_tasksFactory,
-  fakeNitrogenSchedule,
-  nitrogenScheduleFactory,
   fakeFarmDataSchedule,
   farmDataScheduleFactory,
   fakePriceInsightForTests,

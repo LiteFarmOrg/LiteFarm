@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { Model } from 'objection';
+import Model from './baseFormatModel.js';
 import userModel from './userModel.js';
 
 class Password extends Model {
@@ -36,7 +36,7 @@ class Password extends Model {
         user_id: { type: 'string' },
         password_hash: { type: 'string' },
         reset_token_version: { type: 'integer' },
-        created_at: { type: 'date-time' },
+        created_at: { type: 'string', format: 'date-time' },
       },
     };
   }
@@ -52,6 +52,14 @@ class Password extends Model {
         },
       },
     };
+  }
+  // Returned Date-time object from db is not compatible with ajv format types
+  $parseJson(json, opt) {
+    json = super.$parseJson(json, opt);
+    if (json.created_at && typeof json.created_at === 'object') {
+      json.created_at = json.created_at.toISOString();
+    }
+    return json;
   }
 
   async $beforeInsert(context) {

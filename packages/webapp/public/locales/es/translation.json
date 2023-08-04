@@ -177,7 +177,7 @@
     "SEEDING_RATE": "Tasa de siembra"
   },
   "CANCEL_FLOW_MODAL": {
-    "BODY": "Se descartará cualquier información que haya ingresado. Quieres proceder?",
+    "BODY": "Se descartará cualquier información que haya ingresado. ¿Quiere proceder?",
     "TITLE": "Cancelar su {{flow}}?"
   },
   "CERTIFICATION": {
@@ -327,7 +327,10 @@
     "PERFORM_SEARCH": "¿Realizó una búsqueda de disponibilidad comercial?",
     "PHYSIOLOGY_AND_ANATOMY": "Fisiología y anatomía",
     "TREATED": "¿Se han tratado las semillas de este cultivo?",
-    "UPLOAD_LATER": "También puede cargar archivos en otro momento."
+    "UPLOAD_LATER": "También puede cargar archivos en otro momento.",
+    "REPEAT_PLAN_MODAL": {
+      "DELETED_PLANS": "No se muestran planes de cultivo eliminados de esta repetición"
+    }
   },
   "CROP_CATALOGUE": {
     "ADD_CROP": "Agregar un nuevo cultivo",
@@ -409,6 +412,15 @@
     "REVENUE_HELP_TITLE": "Ayuda con el rango de fechas",
     "REVENUE_HELP_BODY": "Solo se mostrarán los planes que tengan una tarea de cosecha planificada o completada dentro del rango de fechas indicado."
   },
+  "DAYS_OF_WEEK_SELECT": {
+    "SUNDAY": "D",
+    "MONDAY": "L",
+    "TUESDAY": "M",
+    "WEDNESDAY": "X",
+    "THURSDAY": "J",
+    "FRIDAY": "V",
+    "SATURDAY": "S"
+  },
   "DOCUMENTS": {
     "ADD": {
       "ADD_MORE_PAGES": "Agregar más páginas",
@@ -427,6 +439,7 @@
     "CANCEL_MODAL": "creación de documentos",
     "COMPLIANCE_DOCUMENTS_AND_CERTIFICATION": "Documentos de cumplimiento y su certificación",
     "DOCUMENTS": "Documentos",
+    "VIEW_DETAIL": "Ver página de detalles para descargar varios archivos",
     "EDIT_DOCUMENT": "Editar documento",
     "FILTER": {
       "TITLE": "Filtro de documentos",
@@ -844,40 +857,6 @@
       "INFO": "Estimamos la satisfacción laboral tomando como referencia los puntajes de satisfacción de cada tarea y las horas trabajadas.",
       "TITLE": "Satisfaccion Laboral"
     },
-    "NITROGEN_BALANCE": {
-      "ABANDON": "Retirar programacion",
-      "CHOOSE_A_FREQUENCY": "Escoja una frecuencia",
-      "CHOOSE_FREQUENCY": "Escoja Frecuencia...",
-      "COUNT_MONTHS": "{{count}} mese",
-      "COUNT_MONTHS_one": "{{count}} mese",
-      "COUNT_MONTHS_many": "{{count}} meses",
-      "COUNT_MONTHS_other": "{{count}} meses",
-      "COUNT_MONTHS_plural": "{{count}} meses",
-      "CYCLE_INDICATOR": "Su balance de nitrogeno esta en {{frequency}} meses por ciclo y la data se vera en: {{refreshDate}}",
-      "FIRST_TIME": "Parece que es la primera vez que corres esto! Por favor, selecciona una frecuencia para calcular su balance de nitrogeno",
-      "GO_BACK": "Atras",
-      "HEADER": "Cada {{frequency}} meses: {{refreshDate}}",
-      "INFO_1": "El balance de nitrogeno se dice si aplicaste mucho o muy poco fertilizante. Depende en sus registros de cosecha, creditos de nitrogeno de legumbres, y registro de fertilizacion. Puedes correr el balance en su intervalo de tiempo deseado.",
-      "INFO_2": "Cliquea el boton de borrar para resetear la frecuencia de calculo.",
-      "SELECT_FREQUENCY": "Seleccione una frecuencia",
-      "TITLE": "Balance de Nitrogeno"
-    },
-    "PEOPLE_FED": {
-      "CALORIES": "Calorias",
-      "FAT": "Grasa",
-      "HEADER": "Numero de comidas",
-      "INFO": "Estimamos el numero de comidas potenciales provistas por su granja basandonos en los datos de sus ventas y la base de datos de la composicion de cultivos. Asumimos que los requerimientos diarios se dividen en partes iguales en 3 comidas al dia.",
-      "MEAL_COUNT": "{{count}} comida",
-      "MEAL_COUNT_one": "{{count}} comida",
-      "MEAL_COUNT_many": "{{count}} comidas",
-      "MEAL_COUNT_other": "{{count}} comidas",
-      "MEAL_COUNT_plural": "{{count}} comidas",
-      "MEALS": "Comidas",
-      "PROTEIN": "Proteina",
-      "TITLE": "Personas alimentadas",
-      "VITAMIN_A": "Vitamina A",
-      "VITAMIN_C": "Vitamina C"
-    },
     "PRICES": {
       "INFO": "Le mostramos la trayectoria de sus precios de venta en comparacion a los precios de venta de los mismos bienes cerca de su granja. Esta información es recolectada a través de la red de LiteFarm.",
       "NEARBY_FARMS": "El precio del mercado se basa en {{count}} granjas en su área local",
@@ -900,15 +879,7 @@
       "TITLE": "MO del Suelo"
     },
     "TITLE": "Reportes",
-    "UNAVAILABLE": "No Disponible",
-    "WATER_BALANCE": {
-      "FIRST_TIME": "Parece que es la primera vez que llega aca! Para mas información en que hace esto, por favor cliquea el boton de información.",
-      "INFO_1": "El balance de agua se dice si sus cultivos tienen deficiencia de agua o exceso. Depende de los datos meterologicos, y es actualizado por sus registros de riego .",
-      "INFO_2": "Esta funcionalidad no ha sido probada ampliamente en las granjas con una baja densidad de estaciones metereologicas  alrededor de ellas asi que uselo con precaucion. Por favor, cuentanos como funciona en su granja",
-      "NO_SCHEDULE_RUN": "Su balance de agua agendado aun no ha corrido, por favor, chequea en 2 dias y asegurate que tienes al menos un registro de textura de suelo para un campo para ver datos de balance de agua para cultivos en ese campo . Si el problema persiste, contacta a Litefarm.",
-      "REGISTER_FARM": "Registra su granja",
-      "TITLE": "Balance de agua"
-    }
+    "UNAVAILABLE": "No Disponible"
   },
   "INTRODUCE_MAP": {
     "BODY": "El mapa tiene funcionalidades nuevas. Ahora puede conseguirlo debajo del menu de Mi granja.",
@@ -1027,10 +998,9 @@
     "SUBSURFACE": "Subsuperficie"
   },
   "MANAGEMENT_DETAIL": {
-    "ABANDON_PLAN": "Abandonar este plan de cultivo",
+    "ABANDON_PLAN": "Abandonar",
     "ADD_A_TASK": "Agregar una tarea",
     "DETAILS": "Detalles",
-    "FAILED_CROP": "¿Cultivo fallido?",
     "TASKS": "Tareas"
   },
   "MANAGEMENT_PLAN": {
@@ -1073,6 +1043,17 @@
     "DAYS_FROM_SEEDING": "Días desde la siembra hasta:",
     "DAYS_TO_HARVEST": "Días hasta la próxima cosecha:",
     "DAYS_TO_TERMINATION": "Días hasta la terminación:",
+    "DELETE": {
+      "DELETE_PLAN": "Eliminar plan de cultivo",
+      "DELETE_PLAN_QUESTION": "¿Desea eliminar el plan de cultivo?",
+      "DELETE_PLAN_MESSAGE": "Éste plan de cultivo y todas las tareas asociadas serán eliminadas de su finca. Si desea mantener un registro, haga clic en \"Abandonar\"",
+      "CONFIRM_DELETION": "Confirmar eliminación",
+      "CANT_DELETE_MODIFIED_PLAN": "No se puede eliminar el plan de cultivo",
+      "CANT_DELETE_ABANDON_INSTEAD": "¿Desea abandonar en lugar de eliminar?",
+      "CANT_DELETE_ABANDON": "Abandonar",
+      "SUCCESS": "Se ha eliminado el plan de cultivo",
+      "FAILED": "No se ha eliminado el plan de cultivo"
+    },
     "DETAIL_SPOTLIGHT_CONTENTS": "Aquí puede editar los detalles de su cultivo.",
     "DETAIL_SPOTLIGHT_TITLE": "Detalles",
     "DO_YOU_WANT_TO_ABANDON_CONTENT": "¿Quieres abandonar este plan?",
@@ -1090,6 +1071,8 @@
     "GERMINATION": "Germinación",
     "HARVEST": "Cosechar",
     "HARVEST_DATE": "Fecha de cosecha",
+    "HARVEST_TO_DATE": "Cosecha hasta la fecha",
+    "HARVEST_TO_DATE_INFO": "La cosecha hasta la fecha se calcula en base a las tareas de cosecha completadas, dentro de éste plan de cosecha",
     "HISTORICAL_CONTAINER_OR_IN_GROUND": "¿Fue plantado en un contenedor o en el suelo?",
     "IN_GROUND": "En el suelo",
     "INCOMPLETE_TASK_CONTENT": "Este plan tiene tareas que aún no se completaron. Deberá marcar las tareas como completadas para completar este plan de cultivo de cultivos.",
@@ -1175,7 +1158,14 @@
     "WHAT_WAS_PLANTING_METHOD_INFO": "Seleccionar el método de siembra correcto ayudará a LiteFarm a estimar con mayor precisión la cantidad de semilla necesaria, el rendimiento y otros conocimientos útiles.",
     "WHERE_START_LOCATION": "¿Dónde está su ubicación inicial?",
     "WHERE_TRANSPLANT_LOCATION": "¿A dónde va a trasplantar?",
-    "WILD_CROP": "¿Estás cosechando un cultivo silvestre?"
+    "WILD_CROP": "¿Estás cosechando un cultivo silvestre?",
+    "ASSIGN_ALL_TASKS": "Todas las tareas generadas como parte de este plan de cultivo serán asignadas a este individuo, Ud. puede cambiar el responsable después",
+    "CROP_PLAN_REPEAT": "Éste plan de cultivo se repite",
+    "CROP_PLAN_REPEAT_SUBTEXT": "Haciendo clic en 'Guardar' guardará inmediatamente éste plan de cultivo. Después se le preguntará cómo se repite.",
+    "REPEATED_MP_SPOTLIGHT": {
+      "BODY": "Ud. puede hacer clic para ver todos los planes de cultivo en éste grupo. Si modifica un plan de cultivo individual no cambiará nada en los otros planes del mismo grupo.",
+      "TITLE": "!Felicidades! Ud. ha creado su primer plan de cultivo repetido"
+    }
   },
   "LOCATION_CREATION": {
     "TITLE": "No se ha encontrado la ubicación",
@@ -1381,6 +1371,44 @@
     "CLEAR": "Borrar",
     "CLEAR_ALL": "Borrar todo"
   },
+  "REPEAT_PLAN": {
+    "MENU": "Repetir plan de cultivo",
+    "TITLE": "Repetir plan de cultivo",
+    "REPEAT_PLAN_FLOW": "repetición de plan de cultivo",
+    "SUBTITLE": "Copia éste plan de cultivo y todas sus tareas con la siguiente programación:",
+    "REPETITIONS_OF": "Repeticiones de {{planName}}",
+    "PLAN_NAME": "Nombre de la repetición del plan de cultivo",
+    "DUPLICATE_NAME": "Ya existe un plan de cultivo con éste nombre. Favor utilice otro nombre.",
+    "START_DATE": "Inicio",
+    "EARLIEST_TASK": "En el plan original la tarea más temprana {{dateType}} el {{date}}",
+    "COMPLETION": "terminó",
+    "DUE": "vence",
+    "REPEAT_EVERY": "Repetir cada",
+    "REPEAT_ON": "Repetir en",
+    "FINISH": "Finalizar",
+    "AFTER": "Después",
+    "REPETITIONS": "repeticiones",
+    "ON": "En",
+    "INTERVAL": {
+      "DAY": "día(s)",
+      "WEEK": "semana(s)",
+      "MONTH": "mes(es)",
+      "YEAR": "año(s)"
+    },
+    "REPEAT_LIMIT_ERROR": "No se puede repetir éste plan de cultivo más de 20 veces",
+    "LATER_DATE_ERROR": "Favor elija una fecha después de la fecha de inicio",
+    "CONFIRMATION": {
+      "HEADER": "Confirme cómo se repite éste plan",
+      "CROP_NAME": "Nombre de plan de cultivo",
+      "BEGINNING": "Inicio",
+      "FINISHING": "Finaliza",
+      "WILL_REPEAT": "Éste plan se repetirá",
+      "WILL_CREATE": "Éste plan creará",
+      "ON_DATE": "en {{date}}",
+      "WILL_CREATE_BODY": "<0>{{numberOfPlans}}</0> nuevos planes de cultivo y <2>{{numberOfTasks}}</2> tareas nuevas",
+      "AFTER_REPETITIONS": "después de <1>{{number}}</1> repeticiones. "
+    }
+  },
   "REQUEST_CONFIRMATION_MODAL": {
     "BUTTON": "Entendido",
     "DESCRIPTION": "Alguien lo contactará dentro de 48 horas.",
@@ -1485,57 +1513,6 @@
       "VALUE": "Valor"
     }
   },
-  "SHIFT": {
-    "ACTION": "Acción",
-    "ADD_NEW": "Agregar nuevo turno",
-    "EDIT_SHIFT": {
-      "ADD_CUSTOM_TASK": "Agregar tarea habitual",
-      "ADD_TASK": "Agregar tarea",
-      "ALL": "Todo",
-      "ALL_CROPS": "Todos los cultivos",
-      "ASSIGN_TIME_TO_TASK": "Asignar tiempo para una tarea por",
-      "CHOOSE_DATE": "Elección de fecha",
-      "CHOOSE_WORKERS": "Elegir trabajador",
-      "CROPS": "Cultivos",
-      "CROPS_LABEL": "Cultivos",
-      "DID_NOT_PROVIDE_ANSWER": "No entregó respuesta",
-      "HAPPY": "Feliz",
-      "INDIVIDUAL_CROPS": "Cultivos individuales",
-      "LOCATIONS": "Ubicaciones",
-      "LOCATIONS_LABEL": "Ubicaciones",
-      "MOOD": "Cómo se sintió haciendo esta tarea?",
-      "NAME_TASK": "Nombre de la tarea habitual",
-      "NEUTRAL": "Neutral",
-      "RATHER_NOT_SAY": "Prefiero no decirlo",
-      "SAD": "Triste",
-      "SELECT_ALL": "Seleccionar todos",
-      "SELECT_CROPS": "Seleccionar cultivos",
-      "SELECT_FIELDS": "Seleccionar Campos",
-      "VERY_HAPPY": "Muy feliz",
-      "VERY_SAD": "Muy triste",
-      "WHAT_TASKS_YOU_DID": "Qué tareas hizo hoy?",
-      "WORKER": "Trabajador",
-      "WORKER_MOOD": "Como se sintio el trabajador en este turno?"
-    },
-    "MY_SHIFT": {
-      "DELETE_CONFIRMATION": "Está seguro(a) que quiere eliminar este turno?",
-      "DURATION": "Duración",
-      "LOCATION_CROPS": "Ubicaciones/Cultivos",
-      "SUBMITTED_FOR": "Enviado para",
-      "TASK": "Tarea",
-      "TITLE": "Detalle de turno"
-    },
-    "NAME": "Nombre",
-    "NEW_SHIFT": {
-      "STEP_ONE": "Agregar turno",
-      "STEP_TWO": "Agregar turno"
-    },
-    "RETIRED": "Retirado",
-    "SHIFT_DATE": "Fecha",
-    "SHIFT_HISTORY": "Historia del turno",
-    "TIME_TOTAL": "Total",
-    "TITLE": "Turnos"
-  },
   "SIGNUP": {
     "CHANGES": "Leer sobre los cambios",
     "EMAIL_INVALID": "Correo invalido",
@@ -1544,7 +1521,7 @@
     "EXPIRED_INVITATION_LINK_ERROR": "La invitación no está válida o caducada",
     "GOOGLE_BUTTON": "Continúe con Google",
     "INVITED_ERROR": "Se te ha enviado una invitación a una granja, por favor, revisa tu bandeja de entrada y carpeta de spam",
-    "LITEFARM_UPDATED": "LiteFarm v3.3 ya está disponible!",
+    "LITEFARM_UPDATED": "LiteFarm v3.4 ya está disponible!",
     "PASSWORD_ERROR": "Contraseña incorrecta",
     "SIGN_IN": "Registrarse",
     "SSO_ERROR": "Por favor inicie sesión haciendo clic el boton Google de arriba",

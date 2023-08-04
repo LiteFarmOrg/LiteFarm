@@ -22,7 +22,6 @@ import {
   GET_DEFAULT_EXPENSE_TYPE,
   GET_EXPENSE,
   GET_SALES,
-  GET_SHIFT_FINANCE,
   SET_DATE_RANGE,
   SET_DEFAULT_EXPENSE_TYPE,
   SET_EXPENSE,
@@ -33,7 +32,6 @@ import {
   SET_SELECTED_EDIT_EXPENSE,
   SET_SELECTED_EXPENSE_TYPE,
   SET_SELECTED_SALE,
-  SET_SHIFT_FINANCE,
   TEMP_DELETE_EXPENSE,
   TEMP_EDIT_EXPENSE,
   TEMP_SET_EXPENSE_TO_EDIT,
@@ -78,19 +76,6 @@ export const setSelectedSale = (sale) => {
   return {
     type: SET_SELECTED_SALE,
     sale,
-  };
-};
-
-export const getShifts = () => {
-  return {
-    type: GET_SHIFT_FINANCE,
-  };
-};
-
-export const setShifts = (shifts) => {
-  return {
-    type: SET_SHIFT_FINANCE,
-    shifts,
   };
 };
 

@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { Model } from 'objection';
+import Model from './baseFormatModel.js';
 
 class FileModel extends Model {
   static get tableName() {
@@ -33,7 +33,7 @@ class FileModel extends Model {
         document_id: { type: 'string' },
         file_name: { type: 'string' },
         url: { type: 'string' },
-        thumbnail_url: { type: ['string', null] },
+        thumbnail_url: { type: ['string', 'null'] },
       },
       additionalProperties: false,
     };

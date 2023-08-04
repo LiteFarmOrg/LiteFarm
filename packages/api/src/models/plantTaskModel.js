@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { Model } from 'objection';
+import Model from './baseFormatModel.js';
 import taskModel from './taskModel.js';
 import plantingManagementPlanModel from './plantingManagementPlanModel.js';
 
@@ -63,6 +63,19 @@ class PlantTaskModel extends Model {
           to: 'planting_management_plan.planting_management_plan_id',
         },
       },
+    };
+  }
+
+  // Custom function used in copy crop plan
+  // Should contain all jsonSchema() and relationMappings() keys
+  static get templateMappingSchema() {
+    return {
+      // jsonSchema()
+      task_id: 'omit',
+      planting_management_plan_id: 'edit',
+      // relationMappings
+      task: 'edit',
+      planting_management_plan: 'omit',
     };
   }
 }

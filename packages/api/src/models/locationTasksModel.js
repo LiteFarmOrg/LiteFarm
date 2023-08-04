@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { Model } from 'objection';
+import Model from './baseFormatModel.js';
 
 class LocationTaskModel extends Model {
   static get tableName() {
@@ -34,6 +34,17 @@ class LocationTaskModel extends Model {
         location_id: { type: 'string' },
         additionalProperties: false,
       },
+    };
+  }
+
+  // Custom function used in copy crop plan
+  // Should contain all jsonSchema() and relationMappings() keys
+  static get templateMappingSchema() {
+    return {
+      // jsonSchema()
+      task_id: 'omit',
+      location_id: 'edit',
+      // relationMappings
     };
   }
 }

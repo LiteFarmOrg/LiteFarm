@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import sharedStyles from '../shared.module.scss';
 import { Main } from '../../Typography';
-import { LinearProgress } from '@material-ui/core';
+import { LinearProgress } from '@mui/material';
 
 class LabourHappinessTask extends Component {
   render() {

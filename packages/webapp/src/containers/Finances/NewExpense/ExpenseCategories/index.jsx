@@ -15,7 +15,7 @@ import LandImg from '../../../../assets/images/log/land.svg';
 import { setSelectedExpenseTypes } from '../../actions';
 import history from '../../../../history';
 import { withTranslation } from 'react-i18next';
-import { Grid } from '@material-ui/core';
+import { Grid } from '@mui/material';
 import PropTypes from 'prop-types';
 
 const iconMap = {

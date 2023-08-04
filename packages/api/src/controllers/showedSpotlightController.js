@@ -21,7 +21,7 @@ const showedSpotlightController = {
   getSpotlightFlags() {
     return async (req, res) => {
       try {
-        const { user_id } = req.user;
+        const { user_id } = req.auth;
         const data = await ShowedSpotlightModel.query()
           .select(
             'map',
@@ -40,6 +40,7 @@ const showedSpotlightController = {
             'transplant',
             'management_plan_creation',
             'sensor_reading_chart',
+            'repeat_management_plan_creation',
           )
           .findById(user_id);
         res.status(200).send(data);
@@ -54,7 +55,7 @@ const showedSpotlightController = {
   },
   updateSpotlightFlags() {
     return async (req, res) => {
-      const { user_id } = req.user;
+      const { user_id } = req.auth;
       try {
         const isPatched = await baseController.updateIndividualById(
           ShowedSpotlightModel,

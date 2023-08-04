@@ -15,7 +15,7 @@ const Checkbox = ({
   hookFormRegister,
   errors,
   sm,
-  tooltipContent = null,
+  tooltipContent = undefined,
   ...props
 }) => {
   const name = hookFormRegister?.name ?? props?.name;
@@ -44,6 +44,7 @@ const Checkbox = ({
         className={clsx(styles.label, sm && styles.smallLabel)}
         style={classes.label}
         tooltipContent={tooltipContent}
+        data-cy="checkbox-component"
       >
         {label}
       </Main>

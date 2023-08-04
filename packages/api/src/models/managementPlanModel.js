@@ -13,12 +13,11 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { Model } from 'objection';
-
 import baseModel from './baseModel.js';
 import moment from 'moment';
 import cropVarietyModel from './cropVarietyModel.js';
 import cropManagementPlanModel from './cropManagementPlanModel.js';
+import managementPlanGroup from './managementPlanGroupModel.js';
 
 class ManagementPlan extends baseModel {
   static get tableName() {
@@ -52,13 +51,15 @@ class ManagementPlan extends baseModel {
         management_plan_id: { type: 'integer' },
         crop_variety_id: { type: 'string' },
         name: { type: 'string' },
-        notes: { type: ['string', null] },
-        abandon_date: { anyOf: [{ type: 'null' }, { type: 'date' }] },
-        start_date: { anyOf: [{ type: 'null' }, { type: 'date' }] },
-        complete_date: { anyOf: [{ type: 'null' }, { type: 'date' }] },
-        complete_notes: { type: ['string', null] },
-        rating: { type: ['integer', null], enum: [0, 1, 2, 3, 4, 5, null] },
-        abandon_reason: { type: ['string', null] },
+        notes: { type: ['string', 'null'] },
+        abandon_date: { type: ['string', 'null'], format: 'date' },
+        start_date: { type: ['string', 'null'], format: 'date' },
+        complete_date: { type: ['string', 'null'], format: 'date' },
+        complete_notes: { type: ['string', 'null'] },
+        rating: { type: ['integer', 'null'], enum: [0, 1, 2, 3, 4, 5, null] },
+        abandon_reason: { type: ['string', 'null'] },
+        management_plan_group_id: { type: ['string', 'null'] },
+        repetition_number: { type: ['integer', 'null'] },
         ...this.baseProperties,
       },
       additionalProperties: false,
@@ -68,7 +69,7 @@ class ManagementPlan extends baseModel {
   static get relationMappings() {
     return {
       crop_variety: {
-        relation: Model.BelongsToOneRelation,
+        relation: baseModel.BelongsToOneRelation,
         modelClass: cropVarietyModel,
         join: {
           from: 'management_plan.crop_variety_id',
@@ -77,12 +78,43 @@ class ManagementPlan extends baseModel {
       },
       crop_management_plan: {
         modelClass: cropManagementPlanModel,
-        relation: Model.HasOneRelation,
+        relation: baseModel.HasOneRelation,
         join: {
           from: 'management_plan.management_plan_id',
           to: 'crop_management_plan.management_plan_id',
         },
       },
+      management_plan_group: {
+        relation: baseModel.BelongsToOneRelation,
+        modelClass: managementPlanGroup,
+        join: {
+          from: 'management_plan.management_plan_group_id',
+          to: 'management_plan_group.management_plan_group_id',
+        },
+      },
+    };
+  }
+
+  // Custom function used in copy crop plan
+  // Should contain all jsonSchema() and relationMappings() keys
+  static get templateMappingSchema() {
+    return {
+      // jsonSchema()
+      management_plan_id: 'omit',
+      crop_variety_id: 'keep',
+      name: 'edit',
+      notes: 'keep',
+      abandon_date: 'omit',
+      start_date: 'omit',
+      complete_date: 'omit',
+      complete_notes: 'omit',
+      rating: 'omit',
+      abandon_reason: 'omit',
+      management_plan_group_id: 'omit',
+      repetition_number: 'edit',
+      // relationMappings
+      crop_variety: 'omit',
+      crop_management_plan: 'edit',
     };
   }
 }

@@ -22,22 +22,27 @@ LiteFarm is comprised of three applications which all reside in this monorepo.
 
 ## Preliminaries
 
-1. Check to see if you have Node.js installed. On a Mac use the command `node-v` in terminal. If it is installed, the version in use will be reported in the terminal. If not, install it from [node.js](https://nodejs.org/en/download/package-manager/).
-2. Check to see if you have pnpm installed. On a Mac use the command `pnpm -v`. If it is installed, the version will be reported. If you do not have it installed, run `npm install -g pnpm` in a terminal.
-3. Check to see if you have NVM installed. On a Mac use the command `nvm -v`. If you do not have NVM (Node Version Manager) installed, install it using these instructions: [NVM](https://www.loginradius.com/blog/engineering/run-multiple-nodejs-version-on-the-same-machine/)
+1. Check to see if you have Node.js installed. We use the version specified in the `.nvmrc` file of each folder with package imports. On a Mac use the command `node-v` in terminal. If it is installed, the version in use will be reported in the terminal. If not, install it from [node.js](https://nodejs.org/en/download/package-manager/).
+2. Check to see if you have NVM installed. On a Mac use the command `nvm -v`. If you do not have NVM (Node Version Manager) installed, install it using these instructions: [NVM](https://www.loginradius.com/blog/engineering/run-multiple-nodejs-version-on-the-same-machine/)
+3. Check to see if you have pnpm installed. On a Mac use the command `pnpm -v`. If it is installed, the version will be reported. If you do not have it installed, run `npm install -g pnpm` in a terminal.
 4. Clone the repository from Github to your computer. On a Mac, in a Terminal window navigate to the directory you want to put the files in. Then use the command `git clone https://github.com/LiteFarmOrg/LiteFarm.git`.
-5. In a terminal, navigate to the root folder of the repo and run `npm install`.
-6. Navigate to the `packages/api` folder, and run `npm install`.
-   If trying to run this command results in the error,
-   `npm ERR! code ERESOLVE
-npm ERR! ERESOLVE could not resolve
-npm ERR!
-npm ERR! While resolving: objection@2.2.17...`
+5. Install all packages:
 
-   Use nvm to install and use the Node version 16.15.0 with the commands, `nvm install 16.15.0` then `nvm use 16.15.0`. Then try again.
+- Switch to current version of Node.js by running `nvm use` in the root folder
+- Navigate to the root folder `/` of the repo and run `npm install`.
+- Navigate to the `packages/api` folder, and run `npm install`.
+- Navigate to the `packages/webapp` folder, and run `pnpm install`.
+- Navigate to the `packages/shared` folder, and run `npm install`.
 
-7. Navigate to the `packages/webapp` folder, and run `pnpm install`.
-8. (Highly recommended) Go to [Get Docker | Docker Documentation](https://docs.docker.com/get-docker/) and install Docker. Docker is the recommended method for setting up development dependencies, but alternative instructions will be provided as well if you are unable to use Docker.
+6. (Highly recommended) Go to [Get Docker | Docker Documentation](https://docs.docker.com/get-docker/) and install Docker. Docker is the recommended method for setting up development dependencies, but alternative instructions will be provided as well if you are unable to use Docker. There will be extra instructions for each operating system. For example: Windows requires Windows subsystem for linux (WSL). Mac users may need to enable experimental/beta settings for Mac users.
+
+## Adding environment files
+
+The applications are configured with environment variables stored in `.env` files. Configuration information includes secrets like API keys, so the `.env` files are not included in this git repository.
+
+This repository contains a `.env.default` file for both api and webapp. These files contain directions to acquire the personal keys needed to get LiteFarm running locally. Please note you will want to copy `.env.default` and rename the file to `.env`. Only after adding the `.env` file should you proceed to add the new keys. If you add your api keys to `.env.default` you may accidentally expose your keys since this file is tracked on git.
+
+If you have questions about the other api keys, or wish to join the LiteFarm team, please contact community@litefarm.org.
 
 ## Database setup
 
@@ -97,14 +102,6 @@ In a Terminal window:
 4. In a terminal, navigate to the `packages/api` folder. Execute `npm run migrate:dev:db` to run the [migrations](https://knexjs.org/#Migrations) that set up the PostgreSQL database used by the app.
 
 </details>
-
-## Adding environment files
-
-The applications are configured with environment variables stored in `.env` files. Configuration information includes secrets like API keys, so the `.env` files are not included in this git repository.
-
-This repository contains a `.env.default` file for api and webapp. These files contain directions to acquire the personal keys needed to get LiteFarm running locally. Please note you will want to copy `.env.default` and rename the file to `.env`. Only after adding the `.env` file should you proceed to add the new keys. If you add your api keys to `.env.default` you may accidentally expose your keys since this file is tracked on git.
-
-If you have questions about the other api keys, or wish to join the LiteFarm team, please contact community@litefarm.org.
 
 # Running the apps
 
@@ -237,7 +234,7 @@ You can also test LiteFarm on your actual mobile device using the network adddre
 
 Please see https://ngrok.com/ for more general information about ngrok.
 
-Use cases in which we currently utilize ngrok at LiteFarm include:
+While not required for most developers. Use cases in which we currently utilize ngrok at LiteFarm include:
 
 - Testing local changes on phones or different devices
 - Testing local changes when working with other APIs and integrations
@@ -284,6 +281,23 @@ Use cases in which we currently utilize docker at LiteFarm include:
 - After installation, the docker CLI will be available where you can run the docker commands.
 - create a `.env` file at the root directory of the project i.e. LiteFarm
 - Add key-value pairs in the `.env` by referring to the `docker-compose.[ENV].yml` that contains the docker env keys.
+
+## Troubleshooting
+
+1. DEPRECATED: During `npm install` of `/packages/api` you see the following:
+
+   ```
+   npm ERR! code ERESOLVE
+   npm ERR! ERESOLVE could not resolve
+   npm ERR!
+   npm ERR! While resolving: objection@2.2.17...
+   ```
+
+   Previously this package required the use of node 16.15.0 so `nvm use 16.15.0` would fix the issue. But this should no longer be visible . Use nvm to install and use the Node version 16.15.0 with the commands, `nvm install 16.15.0` then `nvm use 16.15.0`. Then try again.
+
+2. On Windows: During `npm run nodemon` of `/packages/api` there is an error - possibly with the client variable of knex.
+
+   The NODE_ENV variable is not being set properly you will need to adjust the nodemon script in `/packages/api/package.json`
 
 ## Commands
 

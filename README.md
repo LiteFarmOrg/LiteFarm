@@ -22,7 +22,7 @@ LiteFarm is comprised of three applications which all reside in this monorepo.
 
 ## Preliminaries
 
-1. Check to see if you have Node.js installed. We use the version specified in the `.nvmrc` file of each folder with package imports. On a Mac use the command `node-v` in terminal. If it is installed, the version in use will be reported in the terminal. If not, install it from [node.js](https://nodejs.org/en/download/package-manager/).
+1. Check to see if you have Node.js installed. We use the version specified in the `.nvmrc` file of each folder with package imports. On a Mac use the command `node -v` in terminal. If it is installed, the version in use will be reported in the terminal. If not, install it from [node.js](https://nodejs.org/en/download/package-manager/).
 2. Check to see if you have NVM installed. On a Mac use the command `nvm -v`. If you do not have NVM (Node Version Manager) installed, install it using these instructions: [NVM](https://www.loginradius.com/blog/engineering/run-multiple-nodejs-version-on-the-same-machine/)
 3. Check to see if you have pnpm installed. On a Mac use the command `pnpm -v`. If it is installed, the version will be reported. If you do not have it installed, run `npm install -g pnpm` in a terminal.
 4. Clone the repository from Github to your computer. On a Mac, in a Terminal window navigate to the directory you want to put the files in. Then use the command `git clone https://github.com/LiteFarmOrg/LiteFarm.git`.
@@ -234,7 +234,7 @@ You can also test LiteFarm on your actual mobile device using the network adddre
 
 Please see https://ngrok.com/ for more general information about ngrok.
 
-While not required for most developers. Use cases in which we currently utilize ngrok at LiteFarm include:
+While not required for most developers, use cases in which we currently utilize ngrok at LiteFarm include:
 
 - Testing local changes on phones or different devices
 - Testing local changes when working with other APIs and integrations
@@ -284,20 +284,11 @@ Use cases in which we currently utilize docker at LiteFarm include:
 
 ## Troubleshooting
 
-1. DEPRECATED: During `npm install` of `/packages/api` you see the following:
+1. On Windows: During `npm run nodemon` of `/packages/api` there is an error - possibly with the client variable of knex.
 
-   ```
-   npm ERR! code ERESOLVE
-   npm ERR! ERESOLVE could not resolve
-   npm ERR!
-   npm ERR! While resolving: objection@2.2.17...
-   ```
+   The NODE_ENV variable is not being set properly you will need to adjust the nodemon script in `/packages/api/package.json`.
 
-   Previously this package required the use of node 16.15.0 so `nvm use 16.15.0` would fix the issue. But this should no longer be visible . Use nvm to install and use the Node version 16.15.0 with the commands, `nvm install 16.15.0` then `nvm use 16.15.0`. Then try again.
-
-2. On Windows: During `npm run nodemon` of `/packages/api` there is an error - possibly with the client variable of knex.
-
-   The NODE_ENV variable is not being set properly you will need to adjust the nodemon script in `/packages/api/package.json`
+   We hope to improve our `package.json` scripts in the near future.
 
 ## Commands
 

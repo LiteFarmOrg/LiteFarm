@@ -20,6 +20,7 @@ const TaskCard = ({
   task_id,
   taskType,
   status,
+  pinned,
   locationName,
   cropVarietyName,
   completeOrDueDate,
@@ -69,6 +70,7 @@ const TaskCard = ({
       <PureTaskCard
         taskType={taskType}
         status={status}
+        pinned={pinned}
         locationName={locationName}
         cropVarietyName={cropVarietyName}
         completeOrDueDate={completeOrDueDate}
@@ -123,6 +125,7 @@ const TaskCard = ({
 TaskCard.propTypes = {
   style: PropTypes.object,
   status: PropTypes.oneOf(['late', 'planned', 'completed', 'abandoned', 'forReview']),
+  pinned: PropTypes.bool,
   classes: PropTypes.shape({ container: PropTypes.object, card: PropTypes.object }),
   onClick: PropTypes.func,
   happiness: PropTypes.oneOf([1, 2, 3, 4, 5, 0, null]),

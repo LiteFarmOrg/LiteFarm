@@ -16,6 +16,7 @@ const templateData = {
     task_translation_key: 'TRANSPORT_TASK',
   },
   status: 'planned',
+  pinned: false,
   locationName: 'Location 1',
   completeOrDueDate: getTaskCardDate('2021-04-20T16:22:41.108Z'),
   assignee: {
@@ -75,6 +76,12 @@ ClickableCard.args = {
   onClick: () => {
     console.log('clicked card');
   },
+};
+
+export const PlannedPinned = Template.bind({});
+PlannedPinned.args = {
+  ...templateData,
+  pinned: true,
 };
 
 export const PlannedSelected = Template.bind({});

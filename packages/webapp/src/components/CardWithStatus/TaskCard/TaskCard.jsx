@@ -1,14 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import clsx from 'clsx';
+import { useTranslation } from 'react-i18next';
+import { BsPinAngleFill } from 'react-icons/bs';
 import { ReactComponent as CalendarIcon } from '../../../assets/images/task/Calendar.svg';
 import { ReactComponent as UnassignedIcon } from '../../../assets/images/task/Unassigned.svg';
-import styles from './styles.module.scss';
-
 import getTaskTypeIcon from '../../util/getTaskTypeIcon';
-
-import { useTranslation } from 'react-i18next';
+import { colors } from '../../../assets/theme';
 import { CardWithStatus } from '../index';
-import clsx from 'clsx';
+import styles from './styles.module.scss';
 
 const statusColorMap = {
   planned: 'secondary',
@@ -53,6 +53,7 @@ export const PureTaskCard = ({
   isAdmin,
   isAssignee,
   language,
+  pinned,
   ...props
 }) => {
   const { t } = useTranslation();
@@ -100,6 +101,13 @@ export const PureTaskCard = ({
       <div className={styles.info}>
         <div className={styles.mainTypographySansColor}>
           {t(`task:${taskType.task_translation_key}`)}
+          {pinned && (
+            <BsPinAngleFill
+              aria-label={t(`TASK.PINNED`)}
+              style={{ marginLeft: '0.5em' }}
+              fill={colors.teal900}
+            />
+          )}
         </div>
         <div className={styles.subMain}>
           {locationName || t('TASK.CARD.MULTIPLE_LOCATIONS')}
@@ -162,6 +170,7 @@ export const PureTaskCard = ({
 PureTaskCard.propTypes = {
   style: PropTypes.object,
   status: PropTypes.oneOf(['late', 'planned', 'completed', 'abandoned', 'forReview']),
+  pinned: PropTypes.bool,
   classes: PropTypes.shape({ container: PropTypes.object, card: PropTypes.object }),
   onClick: PropTypes.func,
   happiness: PropTypes.oneOf([1, 2, 3, 4, 5, 0, null]),

@@ -1740,6 +1740,7 @@
     "NO_TASKS_TO_DISPLAY": "There are no tasks to display.",
     "NO_WORK_DONE": "No work was completed",
     "PAGE_TITLE": "Tasks",
+    "PINNED": "Pinned",
     "PREFER_NOT_TO_SAY": "I prefer not to say",
     "PROVIDE_RATING": "Provide a rating",
     "QUANTITY_CANNOT_EXCEED": "Harvest quantity used cannot exceed amount to allocate",

@@ -9,6 +9,7 @@ import getTaskTypeIcon from '../../util/getTaskTypeIcon';
 import { colors } from '../../../assets/theme';
 import { CardWithStatus } from '../index';
 import styles from './styles.module.scss';
+import { TaskMoreButton } from './TaskMoreButton.jsx';
 
 const statusColorMap = {
   planned: 'secondary',
@@ -47,6 +48,8 @@ export const PureTaskCard = ({
   onClick = null,
   onClickAssignee = null,
   onClickCompleteOrDueDate = null,
+  onPin = null,
+  onUnpin = null,
   selected,
   happiness,
   classes = { card: {} },
@@ -108,6 +111,7 @@ export const PureTaskCard = ({
               fill={colors.teal900}
             />
           )}
+          <TaskMoreButton pinned={pinned} onPin={onPin} onUnpin={onUnpin} />
         </div>
         <div className={styles.subMain}>
           {locationName || t('TASK.CARD.MULTIPLE_LOCATIONS')}

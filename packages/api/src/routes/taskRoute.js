@@ -45,6 +45,20 @@ router.patch(
 );
 
 router.patch(
+  '/pin/:task_id',
+  hasFarmAccess({ params: 'task_id' }),
+  checkScope(['edit:task']),
+  taskController.pinTask,
+);
+
+router.patch(
+  '/unpin/:task_id',
+  hasFarmAccess({ params: 'task_id' }),
+  checkScope(['edit:task']),
+  taskController.unpinTask,
+);
+
+router.patch(
   '/patch_due_date/:task_id',
   hasFarmAccess({ params: 'task_id' }),
   checkScope(['edit:task']),

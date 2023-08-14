@@ -120,6 +120,38 @@ export function* assignTaskSaga({ payload: { task_id, assignee_user_id } }) {
   }
 }
 
+export const pinTask = createAction('pinTask');
+
+export function* pinTaskSaga({ payload: { task_id } }) {
+  const { taskUrl } = apiConfig;
+  const { user_id, farm_id } = yield select(loginSelector);
+  const header = getHeader(user_id, farm_id);
+
+  try {
+    yield call(axios.patch, `${taskUrl}/pin/${task_id}`, {}, header);
+    yield put(putTaskSuccess({ task_id, pinned: true }));
+  } catch (e) {
+    console.log(e);
+    yield put(enqueueErrorSnackbar(i18n.t('message:PIN_TASK.ERROR')));
+  }
+}
+
+export const unpinTask = createAction('unpinTask');
+
+export function* unpinTaskSaga({ payload: { task_id } }) {
+  const { taskUrl } = apiConfig;
+  const { user_id, farm_id } = yield select(loginSelector);
+  const header = getHeader(user_id, farm_id);
+
+  try {
+    yield call(axios.patch, `${taskUrl}/unpin/${task_id}`, {}, header);
+    yield put(putTaskSuccess({ task_id, pinned: false }));
+  } catch (e) {
+    console.log(e);
+    yield put(enqueueErrorSnackbar(i18n.t('message:UNPIN_TASK.ERROR')));
+  }
+}
+
 export const assignTasksOnDate = createAction('assignTaskOnDateSaga');
 
 export function* assignTaskOnDateSaga({ payload: { task_id, date, assignee_user_id } }) {
@@ -890,6 +922,8 @@ export function* deleteTaskSaga({ payload: data }) {
 export default function* taskSaga() {
   yield takeLeading(addCustomTaskType.type, addTaskTypeSaga);
   yield takeLeading(assignTask.type, assignTaskSaga);
+  yield takeLeading(pinTask.type, pinTaskSaga);
+  yield takeLeading(unpinTask.type, unpinTaskSaga);
   yield takeLeading(changeTaskDate.type, changeTaskDateSaga);
   yield takeLeading(changeTaskWage.type, changeTaskWageSaga);
   yield takeLeading(updateUserFarmWage.type, updateUserFarmWageSaga);

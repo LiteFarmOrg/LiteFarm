@@ -13,6 +13,8 @@ import {
   changeTaskWage,
   updateUserFarmWage,
   setUserFarmWageDoNotAskAgain,
+  pinTask,
+  unpinTask,
 } from '../saga';
 import { getLanguageFromLocalStorage } from '../../../util/getLanguageFromLocalStorage';
 
@@ -41,6 +43,8 @@ const TaskCard = ({
   };
   const onAssignTasksOnDate = (task) => dispatch(assignTasksOnDate(task));
   const onAssignTask = (task) => dispatch(assignTask(task));
+  const onPinTask = () => dispatch(pinTask({ task_id }));
+  const onUnpinTask = () => dispatch(unpinTask({ task_id }));
   const onUpdateUserFarmWage = (user) => dispatch(updateUserFarmWage(user));
   const onSetUserFarmWageDoNotAskAgain = (user) => {
     dispatch(setUserFarmWageDoNotAskAgain(user));
@@ -88,6 +92,8 @@ const TaskCard = ({
             setShowDateAssignModal(true);
           }
         }}
+        onPin={onPinTask}
+        onUnpin={onUnpinTask}
         selected={selected}
         happiness={happiness}
         classes={classes}

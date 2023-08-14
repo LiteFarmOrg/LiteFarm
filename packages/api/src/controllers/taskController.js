@@ -142,6 +142,32 @@ const taskController = {
     }
   },
 
+  async pinTask(req, res) {
+    try {
+      const { task_id } = req.params;
+
+      return (await TaskModel.pinTask(task_id, req.auth))
+        ? res.sendStatus(200)
+        : res.status(404).send('Task not found');
+    } catch (error) {
+      console.log(error);
+      return res.status(400).json({ error });
+    }
+  },
+
+  async unpinTask(req, res) {
+    try {
+      const { task_id } = req.params;
+
+      return (await TaskModel.unpinTask(task_id, req.auth))
+        ? res.sendStatus(200)
+        : res.status(404).send('Task not found');
+    } catch (error) {
+      console.log(error);
+      return res.status(400).json({ error });
+    }
+  },
+
   async patchTaskDate(req, res) {
     try {
       const { task_id } = req.params;

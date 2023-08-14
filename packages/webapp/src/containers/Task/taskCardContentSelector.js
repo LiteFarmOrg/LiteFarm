@@ -16,6 +16,7 @@ const getTaskContents = (tasks, userFarmEntities, { farm_id }) => {
       task_id: task.task_id,
       taskType: task.taskType,
       status: getTaskStatus(task),
+      pinned: task.pinned,
       cropVarietyName: getCropVarietyName(managementPlans),
       locationName: getLocationNameOfTask(managementPlans, task.locations, task.taskType),
       completeOrDueDate: getTaskCardDate(task.complete_date || task.due_date),

@@ -56,6 +56,7 @@ class TaskModel extends BaseModel {
         completion_notes: { type: ['string', 'null'], maxLength: 10000 },
         owner_user_id: { type: 'string' },
         assignee_user_id: { type: ['string', 'null'] },
+        pinned: { type: 'boolean' },
         coordinates: { type: ['object', 'null'] },
         duration: { type: ['number', 'null'] },
         wage_at_moment: { type: ['number', 'null'] },
@@ -349,6 +350,14 @@ class TaskModel extends BaseModel {
     return await TaskModel.query()
       .context(user)
       .patchAndFetchById(taskId, { assignee_user_id: assigneeUserId });
+  }
+
+  static async pinTask(taskId, user) {
+    return await this.query().context(user).patchAndFetchById(taskId, { pinned: true });
+  }
+
+  static async unpinTask(taskId, user) {
+    return await this.query().context(user).patchAndFetchById(taskId, { pinned: false });
   }
 
   /**

@@ -3,6 +3,12 @@
     "ERROR": "Error al asignar tareas",
     "SUCCESS": "Tareas asignadas con éxito"
   },
+  "PIN_TASK": {
+    "ERROR": "No se pudo anclar la tarea"
+  },
+  "UNPIN_TASK": {
+    "ERROR": "No se pudo desanclar la tarea"
+  },
   "ATTACHMENTS": {
     "ERROR": {
       "CREATE": "No se pudo crear el documento",

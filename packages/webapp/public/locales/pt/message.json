@@ -3,6 +3,12 @@
     "ERROR": "Erro em atribuir as tarefas",
     "SUCCESS": "Tarefas foram atribuídas com sucesso"
   },
+  "PIN_TASK": {
+    "ERROR": "Falha ao fixar a tarefa"
+  },
+  "UNPIN_TASK": {
+    "ERROR": "Falha ao desafixar a tarefa"
+  },
   "ATTACHMENTS": {
     "ERROR": {
       "CREATE": "Falha ao criar documento",

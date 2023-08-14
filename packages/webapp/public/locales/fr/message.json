@@ -3,6 +3,12 @@
     "ERROR": "N'a pas réussi à attribuer les tâches",
     "SUCCESS": "Tâches attribuées avec succès"
   },
+  "PIN_TASK": {
+    "ERROR": "Impossible d’épingler la tâche"
+  },
+  "UNPIN_TASK": {
+    "ERROR": "Impossible de désépingler la tâche"
+  },
   "ATTACHMENTS": {
     "ERROR": {
       "CREATE": "N'a pas réussi à créer un document",

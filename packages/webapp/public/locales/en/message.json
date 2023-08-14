@@ -3,6 +3,12 @@
     "ERROR": "Failed to assign tasks",
     "SUCCESS": "Successfully assigned tasks"
   },
+  "PIN_TASK": {
+    "ERROR": "Failed to pin task"
+  },
+  "UNPIN_TASK": {
+    "ERROR": "Failed to unpin task"
+  },
   "ATTACHMENTS": {
     "ERROR": {
       "CREATE": "Failed to create document",

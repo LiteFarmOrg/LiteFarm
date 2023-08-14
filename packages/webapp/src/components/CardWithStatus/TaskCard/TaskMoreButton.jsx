@@ -14,8 +14,12 @@ export const TaskMoreButton = ({ pinned, onPin, onUnpin }) => {
   const handleOpen = (event) => {
     setAnchorEl(event.currentTarget);
   };
-
   const handleClose = () => setAnchorEl(null);
+
+  const closeAfterAction = (action) => () => {
+    action();
+    handleClose();
+  };
 
   return (
     <span onClick={stopEventPropagation}>
@@ -24,11 +28,11 @@ export const TaskMoreButton = ({ pinned, onPin, onUnpin }) => {
       </MoreButton>
       <Menu open={open} onClose={handleClose} anchorEl={anchorEl}>
         {pinned ? (
-          <MenuItem onClick={onUnpin}>
+          <MenuItem onClick={closeAfterAction(onUnpin)}>
             Unpin <BsPinAngle style={{ marginLeft: '0.5em' }} />
           </MenuItem>
         ) : (
-          <MenuItem onClick={onPin}>
+          <MenuItem onClick={closeAfterAction(onPin)}>
             Pin <BsPinAngleFill style={{ marginLeft: '0.5em' }} fill={colors.teal900} />
           </MenuItem>
         )}

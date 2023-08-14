@@ -31,6 +31,9 @@ const getTaskContents = (tasks, userFarmEntities, { farm_id }) => {
 
 export const sortTaskCardContent = (taskCardContents, isAscending = true) =>
   taskCardContents.sort((taskA, taskB) => {
+    if (taskA.pinned && !taskB.pinned) return -1;
+    if (!taskA.pinned && taskB.pinned) return 1;
+
     const order = isAscending ? 1 : -1;
     const bottomTwoStatus = ['completed', 'abandoned'];
     if (!bottomTwoStatus.includes(taskA.status) && bottomTwoStatus.includes(taskB.status)) {

@@ -21,22 +21,29 @@ import { Menu } from '@mui/material';
 import MenuItem from '@mui/material/MenuItem';
 import Button from '../../Form/Button';
 import { colors } from '../../../assets/theme';
-import { stopEventPropagation } from '../../../util/stopEventPropagation.js';
+import { stopEventPropagation } from '../../../util/stopEventPropagation';
+// @ts-ignore until userFarmSlice is migrated to TypeScript
 import { isAdminSelector } from '../../../containers/userFarmSlice.js';
 
-export const TaskMoreButton = ({ pinned, onPin, onUnpin }) => {
-  const [anchorEl, setAnchorEl] = React.useState(null);
+interface Props {
+  pinned: boolean;
+  onPin: () => void;
+  onUnpin: () => void;
+}
+
+export const TaskMoreButton = ({ pinned, onPin, onUnpin }: Props) => {
+  const [anchorEl, setAnchorEl] = React.useState<Element | null>(null);
   const isAdmin = useSelector(isAdminSelector);
   const open = Boolean(anchorEl);
 
   if (!isAdmin) return null;
 
-  const handleOpen = (event) => {
+  const handleOpen = (event: React.MouseEvent) => {
     setAnchorEl(event.currentTarget);
   };
   const handleClose = () => setAnchorEl(null);
 
-  const closeAfterAction = (action) => () => {
+  const closeAfterAction = (action: () => void) => () => {
     action();
     handleClose();
   };
@@ -61,7 +68,13 @@ export const TaskMoreButton = ({ pinned, onPin, onUnpin }) => {
   );
 };
 
-const MoreButton = ({ children, onClick }) => (
+const MoreButton = ({
+  children,
+  onClick,
+}: {
+  children: React.ReactNode;
+  onClick: React.ButtonHTMLAttributes<HTMLButtonElement>['onClick'];
+}) => (
   <Button
     color="secondary"
     onClick={onClick}
@@ -77,8 +90,8 @@ const MoreButton = ({ children, onClick }) => (
       marginLeft: '0.5em',
       border: 'none',
       color: 'black',
-      ariaHaspopup: 'true',
     }}
+    aria-haspopup="true"
   >
     {children}
   </Button>

@@ -3,6 +3,7 @@ import { initReactI18next } from 'react-i18next';
 import I18nextBrowserLanguageDetector from 'i18next-browser-languagedetector';
 import backend from 'i18next-xhr-backend';
 import { APP_VERSION } from '../util/constants';
+import { supportedLocales } from './supportedLocales';
 
 i18n
   .use(backend)
@@ -12,7 +13,7 @@ i18n
     defaultNS: 'translation',
     nsSeparator: ':',
     fallbackLng: 'en',
-    locales: ['en', 'pt', 'es', 'fr'],
+    locales: supportedLocales,
     debug: false,
     detection: {
       order: ['localStorage', 'navigator', 'querystring'],

@@ -1,29 +1,34 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import { useTranslation } from 'react-i18next';
 import { BsPinAngleFill } from 'react-icons/bs';
+import { TaskStatus } from '../../../../../domain/tasks/TaskStatus';
+import { Assignee } from '../../../../../domain/tasks/Assignee';
+import { Happiness } from '../../../../../domain/tasks/Happiness';
+import { SupportedLocale } from '../../../locales/supportedLocales';
 import { ReactComponent as CalendarIcon } from '../../../assets/images/task/Calendar.svg';
 import { ReactComponent as UnassignedIcon } from '../../../assets/images/task/Unassigned.svg';
 import getTaskTypeIcon from '../../util/getTaskTypeIcon';
 import { colors } from '../../../assets/theme';
 import { CardWithStatus } from '../index';
 import styles from './styles.module.scss';
-import { TaskMoreButton } from './TaskMoreButton.jsx';
+import { TaskMoreButton } from './TaskMoreButton';
 
 const statusColorMap = {
   planned: 'secondary',
   late: 'secondary',
   completed: 'completed',
   abandoned: 'completed',
-};
+  forReview: 'primary',
+} as const;
 
 const activeCardColorMap = {
   planned: 'taskCurrentActive',
   late: 'taskCurrentActive',
   completed: 'taskMarkedActive',
   abandoned: 'taskMarkedActive',
-};
+  forReview: 'primary',
+} as const;
 
 export const taskStatusTranslateKey = {
   forReview: 'FOR_REVIEW',
@@ -31,11 +36,34 @@ export const taskStatusTranslateKey = {
   completed: 'COMPLETED',
   late: 'LATE',
   abandoned: 'ABANDONED',
-};
+} as const;
 
-const getDate = (date, language = 'en') => {
+const getDate = (date: string, language = 'en') => {
   return new Intl.DateTimeFormat(language, { dateStyle: 'medium' }).format(new Date(date));
 };
+
+interface Props {
+  taskType: { farm_id: string; task_translation_key: string };
+  status: TaskStatus;
+  locationName: string;
+  cropVarietyName: string;
+  completeOrDueDate: string;
+  assignee?: Assignee | null;
+  style: React.CSSProperties;
+  onClick?: (() => void) | null;
+  onClickAssignee?: (() => void) | null;
+  onClickCompleteOrDueDate?: (() => void) | null;
+  onPin: () => void;
+  onUnpin: () => void;
+  selected: boolean;
+  happiness: Happiness;
+  classes: { card: {}; container: {} };
+  isAdmin: boolean;
+  isAssignee: boolean;
+  language: SupportedLocale;
+  pinned: boolean;
+  abandonDate: string;
+}
 
 export const PureTaskCard = ({
   taskType,
@@ -48,25 +76,25 @@ export const PureTaskCard = ({
   onClick = null,
   onClickAssignee = null,
   onClickCompleteOrDueDate = null,
-  onPin = null,
-  onUnpin = null,
+  onPin = () => {},
+  onUnpin = () => {},
   selected,
   happiness,
-  classes = { card: {} },
+  classes = { card: {}, container: {} },
   isAdmin,
   isAssignee,
   language,
   pinned,
   ...props
-}) => {
+}: Props) => {
   const { t } = useTranslation();
   const isCustomType = !!taskType.farm_id;
   const TaskIcon = getTaskTypeIcon(isCustomType ? 'CUSTOM_TASK' : taskType.task_translation_key);
-  const onAssignTask = (e) => {
+  const onAssignTask = (e: React.MouseEvent) => {
     e.stopPropagation();
     onClickAssignee?.();
   };
-  const onAssignDate = (e) => {
+  const onAssignDate = (e: React.MouseEvent) => {
     e.stopPropagation();
     onClickCompleteOrDueDate?.();
   };
@@ -169,22 +197,4 @@ export const PureTaskCard = ({
       </div>
     </CardWithStatus>
   );
-};
-
-PureTaskCard.propTypes = {
-  style: PropTypes.object,
-  status: PropTypes.oneOf(['late', 'planned', 'completed', 'abandoned', 'forReview']),
-  pinned: PropTypes.bool,
-  classes: PropTypes.shape({ container: PropTypes.object, card: PropTypes.object }),
-  onClick: PropTypes.func,
-  happiness: PropTypes.oneOf([1, 2, 3, 4, 5, 0, null]),
-  locationName: PropTypes.string,
-  taskType: PropTypes.object,
-  cropVarietyName: PropTypes.string,
-  completeOrDueDate: PropTypes.string,
-  assignee: PropTypes.object,
-  onClickAssignee: PropTypes.func,
-  onClickCompleteOrDueDate: PropTypes.func,
-  selected: PropTypes.bool,
-  language: PropTypes.oneOf(['en', 'es', 'fr', 'pt']),
 };

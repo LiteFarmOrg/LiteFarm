@@ -9,10 +9,12 @@ type ButtonProps = {
   disabled?: boolean;
   fullLength?: boolean;
   className?: string;
-  onClick?(): void;
+  onClick?: React.ButtonHTMLAttributes<HTMLButtonElement>['onClick'];
   type?: 'button' | 'submit' | 'reset';
   inputRef?: any;
   id?: string;
+  style?: React.ButtonHTMLAttributes<HTMLButtonElement>['style'];
+  'aria-haspopup'?: React.ButtonHTMLAttributes<HTMLButtonElement>['aria-haspopup'];
 };
 
 const Button = ({

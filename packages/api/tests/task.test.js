@@ -1,9 +1,12 @@
 import chai from 'chai';
 import chaiHttp from 'chai-http';
-
-chai.use(chaiHttp);
+import { faker } from '@faker-js/faker';
 import server from '../src/server.js';
 import knex from '../src/util/knex.js';
+import mocks from './mock.factories.js';
+import { tableCleanup } from './testEnvironment.js';
+
+chai.use(chaiHttp);
 
 jest.mock('jsdom');
 jest.mock('../src/middleware/acl/checkJwt.js', () =>
@@ -13,9 +16,6 @@ jest.mock('../src/middleware/acl/checkJwt.js', () =>
     next();
   }),
 );
-import mocks from './mock.factories.js';
-import { tableCleanup } from './testEnvironment.js';
-import { faker } from '@faker-js/faker';
 
 describe('Task tests', () => {
   /**
@@ -39,6 +39,25 @@ describe('Task tests', () => {
       .set('user_id', user_id)
       .set('farm_id', farm_id)
       .send(data)
+      .end(callback);
+  }
+
+  function pinTaskRequest({ user_id, farm_id }, task_id, callback) {
+    chai
+      .request(server)
+      .patch(`/task/pin/${task_id}`)
+      .set('user_id', user_id)
+      .set('farm_id', farm_id)
+      .send({})
+      .end(callback);
+  }
+  function unpinTaskRequest({ user_id, farm_id }, task_id, callback) {
+    chai
+      .request(server)
+      .patch(`/task/unpin/${task_id}`)
+      .set('user_id', user_id)
+      .set('farm_id', farm_id)
+      .send({})
       .end(callback);
   }
 
@@ -209,6 +228,229 @@ describe('Task tests', () => {
     await tableCleanup(knex);
     await knex.destroy();
     done();
+  });
+
+  describe('Pin task', () => {
+    let owner_user_id;
+    let manager_user_id;
+    let worker_user_id;
+    let worker_with_account_user_id;
+    let extension_officer_user_id;
+    let some_farm_id;
+    let some_task_id;
+    let pinned_task_id;
+    let owner_of_other_farm_id;
+    let some_other_farm_id;
+    let task_on_other_farm_id;
+
+    beforeEach(async () => {
+      [{ user_id: owner_user_id, farm_id: some_farm_id }] = await mocks.userFarmFactory(
+        {},
+        {
+          ...fakeUserFarm(1),
+        },
+      );
+
+      [{ user_id: manager_user_id }] = await mocks.userFarmFactory(
+        {},
+        {
+          ...fakeUserFarm(2),
+          farm_id: some_farm_id,
+        },
+      );
+      [{ user_id: worker_user_id }] = await mocks.userFarmFactory(
+        {},
+        {
+          ...fakeUserFarm(3),
+          farm_id: some_farm_id,
+        },
+      );
+      [{ user_id: worker_with_account_user_id }] = await mocks.userFarmFactory(
+        {},
+        {
+          ...fakeUserFarm(4),
+          farm_id: some_farm_id,
+        },
+      );
+      [{ user_id: extension_officer_user_id }] = await mocks.userFarmFactory(
+        {},
+        {
+          ...fakeUserFarm(5),
+          farm_id: some_farm_id,
+        },
+      );
+
+      [
+        { user_id: owner_of_other_farm_id, farm_id: some_other_farm_id },
+      ] = await mocks.userFarmFactory({}, { ...fakeUserFarm(1) });
+
+      const [{ location_id: some_location_id }] = await mocks.locationFactory({
+        promisedFarm: [{ farm_id: some_farm_id }],
+      });
+      const [{ location_id: some_location__on_other_farm_id }] = await mocks.locationFactory({
+        promisedFarm: [{ farm_id: some_other_farm_id }],
+      });
+
+      [{ task_id: some_task_id }] = await mocks.taskFactory({
+        promisedUser: [{ user_id: owner_user_id }],
+      });
+      await mocks.location_tasksFactory({
+        promisedTask: [{ task_id: some_task_id }],
+        promisedField: [{ location_id: some_location_id }],
+      });
+
+      [{ task_id: pinned_task_id }] = await mocks.taskFactory(
+        {
+          promisedUser: [{ user_id: owner_user_id }],
+        },
+        mocks.fakeTask({ pinned: true }),
+      );
+      await mocks.location_tasksFactory({
+        promisedTask: [{ task_id: pinned_task_id }],
+        promisedField: [{ location_id: some_location_id }],
+      });
+
+      [{ task_id: task_on_other_farm_id }] = await mocks.taskFactory({
+        promisedUser: [{ user_id: owner_of_other_farm_id }],
+      });
+      await mocks.location_tasksFactory({
+        promisedTask: [{ task_id: task_on_other_farm_id }],
+        promisedField: [{ location_id: some_location__on_other_farm_id }],
+      });
+    });
+
+    test('Owners should be able to pin a task', (done) => {
+      pinTaskRequest(
+        { user_id: owner_user_id, farm_id: some_farm_id },
+        some_task_id,
+        async (err, res) => {
+          expect(res.status).toBe(200);
+          const updated_task = await getTask(some_task_id);
+          expect(updated_task.pinned).toBe(true);
+          done();
+        },
+      );
+    });
+    test('Managers should be able to pin a task', (done) => {
+      pinTaskRequest(
+        { user_id: manager_user_id, farm_id: some_farm_id },
+        some_task_id,
+        async (err, res) => {
+          expect(res.status).toBe(200);
+          const updated_task = await getTask(some_task_id);
+          expect(updated_task.pinned).toBe(true);
+          done();
+        },
+      );
+    });
+    test('Workers should NOT be able to pin a task', (done) => {
+      pinTaskRequest(
+        { user_id: worker_user_id, farm_id: some_farm_id },
+        some_task_id,
+        async (err, res) => {
+          expect(res.status).toBe(403);
+          const updated_task = await getTask(some_task_id);
+          expect(updated_task.pinned).toBe(false);
+          done();
+        },
+      );
+    });
+    test('Workers without account should be NOT able to pin a task', (done) => {
+      pinTaskRequest(
+        { user_id: worker_with_account_user_id, farm_id: some_farm_id },
+        some_task_id,
+        async (err, res) => {
+          expect(res.status).toBe(403);
+          const updated_task = await getTask(some_task_id);
+          expect(updated_task.pinned).toBe(false);
+          done();
+        },
+      );
+    });
+    test('Extension officers should be able to pin a task', (done) => {
+      pinTaskRequest(
+        { user_id: extension_officer_user_id, farm_id: some_farm_id },
+        some_task_id,
+        async (err, res) => {
+          expect(res.status).toBe(200);
+          const updated_task = await getTask(some_task_id);
+          expect(updated_task.pinned).toBe(true);
+          done();
+        },
+      );
+    });
+    test('Owners should be able to unpin a task', (done) => {
+      unpinTaskRequest(
+        { user_id: owner_user_id, farm_id: some_farm_id },
+        pinned_task_id,
+        async (err, res) => {
+          expect(res.status).toBe(200);
+          const updated_task = await getTask(pinned_task_id);
+          expect(updated_task.pinned).toBe(false);
+          done();
+        },
+      );
+    });
+    test('Managers should be able to unpin a task', (done) => {
+      unpinTaskRequest(
+        { user_id: manager_user_id, farm_id: some_farm_id },
+        pinned_task_id,
+        async (err, res) => {
+          expect(res.status).toBe(200);
+          const updated_task = await getTask(pinned_task_id);
+          expect(updated_task.pinned).toBe(false);
+          done();
+        },
+      );
+    });
+    test('Workers should NOT be able to unpin a task', (done) => {
+      unpinTaskRequest(
+        { user_id: worker_user_id, farm_id: some_farm_id },
+        pinned_task_id,
+        async (err, res) => {
+          expect(res.status).toBe(403);
+          const updated_task = await getTask(pinned_task_id);
+          expect(updated_task.pinned).toBe(true);
+          done();
+        },
+      );
+    });
+    test('Workers without account should be NOT able to unpin a task', (done) => {
+      unpinTaskRequest(
+        { user_id: worker_with_account_user_id, farm_id: some_farm_id },
+        pinned_task_id,
+        async (err, res) => {
+          expect(res.status).toBe(403);
+          const updated_task = await getTask(pinned_task_id);
+          expect(updated_task.pinned).toBe(true);
+          done();
+        },
+      );
+    });
+    test('Extension officers should be able to unpin a task', (done) => {
+      unpinTaskRequest(
+        { user_id: extension_officer_user_id, farm_id: some_farm_id },
+        pinned_task_id,
+        async (err, res) => {
+          expect(res.status).toBe(200);
+          const updated_task = await getTask(pinned_task_id);
+          expect(updated_task.pinned).toBe(false);
+          done();
+        },
+      );
+    });
+    test('Owners should NOT be able to pin some other farm’s task', (done) => {
+      pinTaskRequest(
+        { user_id: owner_user_id, farm_id: some_other_farm_id },
+        task_on_other_farm_id,
+        async (err, res) => {
+          expect(res.status).toBe(403);
+          const updated_task = await getTask(task_on_other_farm_id);
+          expect(updated_task.pinned).toBe(false);
+          done();
+        },
+      );
+    });
   });
 
   describe('PATCH Assginee tests', () => {

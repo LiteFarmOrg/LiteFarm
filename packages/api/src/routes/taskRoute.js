@@ -1,5 +1,5 @@
 /*
- *  Copyright 2019, 2020, 2021, 2022 LiteFarm.org
+ *  Copyright 2019, 2020, 2021, 2022, 2023 LiteFarm.org
  *  This file is part of LiteFarm.
  *
  *  LiteFarm is free software: you can redistribute it and/or modify
@@ -47,14 +47,14 @@ router.patch(
 router.patch(
   '/pin/:task_id',
   hasFarmAccess({ params: 'task_id' }),
-  checkScope(['edit:task']),
+  checkScope(['pin:task']),
   taskController.pinTask,
 );
 
 router.patch(
   '/unpin/:task_id',
   hasFarmAccess({ params: 'task_id' }),
-  checkScope(['edit:task']),
+  checkScope(['pin:task']),
   taskController.unpinTask,
 );
 

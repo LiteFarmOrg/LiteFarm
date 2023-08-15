@@ -1,15 +1,20 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import { MdMoreHoriz } from 'react-icons/md';
+import { BsPinAngle, BsPinAngleFill } from 'react-icons/bs';
 import { Menu } from '@mui/material';
 import MenuItem from '@mui/material/MenuItem';
-import { BsPinAngle, BsPinAngleFill } from 'react-icons/bs';
 import Button from '../../Form/Button';
 import { colors } from '../../../assets/theme';
 import { stopEventPropagation } from '../../../util/stopEventPropagation.js';
+import { isAdminSelector } from '../../../containers/userFarmSlice.js';
 
 export const TaskMoreButton = ({ pinned, onPin, onUnpin }) => {
   const [anchorEl, setAnchorEl] = React.useState(null);
+  const isAdmin = useSelector(isAdminSelector);
   const open = Boolean(anchorEl);
+
+  if (!isAdmin) return null;
 
   const handleOpen = (event) => {
     setAnchorEl(event.currentTarget);

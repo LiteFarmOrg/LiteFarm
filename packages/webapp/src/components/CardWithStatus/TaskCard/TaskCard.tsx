@@ -1,7 +1,6 @@
 import React from 'react';
 import clsx from 'clsx';
 import { useTranslation } from 'react-i18next';
-import { BsPinAngleFill } from 'react-icons/bs';
 import { TaskStatus } from '../../../../../domain/tasks/TaskStatus';
 import { Assignee } from '../../../../../domain/tasks/Assignee';
 import { Happiness } from '../../../../../domain/tasks/Happiness';
@@ -9,10 +8,10 @@ import { SupportedLocale } from '../../../locales/supportedLocales';
 import { ReactComponent as CalendarIcon } from '../../../assets/images/task/Calendar.svg';
 import { ReactComponent as UnassignedIcon } from '../../../assets/images/task/Unassigned.svg';
 import getTaskTypeIcon from '../../util/getTaskTypeIcon';
-import { colors } from '../../../assets/theme';
 import { CardWithStatus } from '../index';
 import styles from './styles.module.scss';
 import { TaskMoreButton } from './TaskMoreButton';
+import { PinnedIcon } from './PinnedIcon';
 
 const statusColorMap = {
   planned: 'secondary',
@@ -132,13 +131,7 @@ export const PureTaskCard = ({
       <div className={styles.info}>
         <div className={styles.mainTypographySansColor}>
           {t(`task:${taskType.task_translation_key}`)}
-          {pinned && (
-            <BsPinAngleFill
-              aria-label={t(`TASK.PINNED`)}
-              style={{ marginLeft: '0.5em' }}
-              fill={colors.teal900}
-            />
-          )}
+          {pinned && <PinnedIcon />}
           <TaskMoreButton pinned={pinned} onPin={onPin} onUnpin={onUnpin} />
         </div>
         <div className={styles.subMain}>

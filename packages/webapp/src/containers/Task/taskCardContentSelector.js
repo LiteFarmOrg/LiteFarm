@@ -1,4 +1,5 @@
 import { createSelector } from 'reselect';
+import { sortTasks } from '../../../../domain/tasks/sortTasks.js';
 import { tasksByManagementPlanIdSelector, tasksSelector } from '../taskSlice';
 import i18n from '../../locales/i18n';
 import { isTaskType } from './useIsTaskType';
@@ -29,38 +30,6 @@ const getTaskContents = (tasks, userFarmEntities, { farm_id }) => {
   });
 };
 
-export const sortTaskCardContent = (taskCardContents, isAscending = true) =>
-  taskCardContents.sort((taskA, taskB) => {
-    if (taskA.pinned && !taskB.pinned) return -1;
-    if (!taskA.pinned && taskB.pinned) return 1;
-
-    const order = isAscending ? 1 : -1;
-    const bottomTwoStatus = ['completed', 'abandoned'];
-    if (!bottomTwoStatus.includes(taskA.status) && bottomTwoStatus.includes(taskB.status)) {
-      return -1;
-    }
-    if (
-      taskA.status === 'completed' &&
-      taskB.status === 'abandoned' &&
-      taskA.status !== 'abandoned' &&
-      taskB.status !== 'completed'
-    ) {
-      return -1;
-    }
-    if (!bottomTwoStatus.includes(taskA.status) && !bottomTwoStatus.includes(taskB.status)) {
-      return (new Date(taskA.date).getTime() - new Date(taskB.date).getTime()) * order;
-    }
-    if (taskA.status === 'completed' && taskB.status === 'completed') {
-      return (new Date(taskA.date).getTime() - new Date(taskB.date).getTime()) * order;
-    }
-    if (taskA.status === 'abandoned' && taskB.status === 'abandoned') {
-      return (
-        (new Date(taskA.abandon_date).getTime() - new Date(taskB.abandon_date).getTime()) * order
-      );
-    }
-    return 1;
-  });
-
 export const taskCardContentSelector = createSelector(
   [tasksSelector, userFarmEntitiesSelector, loginSelector],
   getTaskContents,
@@ -76,7 +45,7 @@ export const manualFilteredTaskCardContentSelector = (filter) =>
 export const filteredTaskCardContentSelector = createSelector(
   [tasksSelector, tasksFilterSelector, userFarmEntitiesSelector, loginSelector],
   (tasks, filters, userFarmEntities, userFarm) =>
-    sortTaskCardContent(
+    sortTasks(
       getTaskContents(filterTasks(tasks, filters), userFarmEntities, userFarm),
       filters[IS_ASCENDING],
     ),
@@ -86,7 +55,7 @@ export const taskCardContentByManagementPlanSelector = (management_plan_id) =>
   createSelector(
     [tasksByManagementPlanIdSelector(management_plan_id), userFarmEntitiesSelector, loginSelector],
     (tasks, userFarmEntities, { farm_id }) =>
-      sortTaskCardContent(getTaskContents(tasks, userFarmEntities, { farm_id })),
+      sortTasks(getTaskContents(tasks, userFarmEntities, { farm_id })),
   );
 
 export const getTaskStatus = (task) => {

@@ -1,9 +1,8 @@
 import React from 'react';
 import clsx from 'clsx';
 import { useTranslation } from 'react-i18next';
-import { TaskStatus } from '../../../../../domain/tasks/TaskStatus';
-import { Assignee } from '../../../../../domain/tasks/Assignee';
-import { Happiness } from '../../../../../domain/tasks/Happiness';
+import { Happiness, TaskStatus, TaskType } from '../../../../../domain/tasks';
+import { User } from '../../../../../domain/users';
 import { SupportedLocale } from '../../../locales/supportedLocales';
 import { ReactComponent as CalendarIcon } from '../../../assets/images/task/Calendar.svg';
 import { ReactComponent as UnassignedIcon } from '../../../assets/images/task/Unassigned.svg';
@@ -42,12 +41,12 @@ const getDate = (date: string, language = 'en') => {
 };
 
 interface Props {
-  taskType: { farm_id: string; task_translation_key: string };
+  taskType: TaskType;
   status: TaskStatus;
   locationName: string;
   cropVarietyName: string;
   completeOrDueDate: string;
-  assignee?: Assignee | null;
+  assignee?: User | null;
   style: React.CSSProperties;
   onClick?: (() => void) | null;
   onClickAssignee?: (() => void) | null;
@@ -56,7 +55,7 @@ interface Props {
   onUnpin: () => void;
   selected: boolean;
   happiness: Happiness;
-  classes: { card: {}; container: {} };
+  classes: { card: {}; container?: {} };
   isAdmin: boolean;
   isAssignee: boolean;
   language: SupportedLocale;

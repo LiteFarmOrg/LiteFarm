@@ -1,22 +1,46 @@
-import React, { useState } from 'react';
-import PropTypes from 'prop-types';
-
+import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { userFarmsByFarmSelector, userFarmSelector } from '../../userFarmSlice';
+import { Happiness, Task, TaskStatus, TaskType } from '../../../../../domain/tasks';
+import { User, UserInFarm, UserInFarmWithIsAdmin, Wage } from '../../../../../domain/users';
 import { PureTaskCard } from '../../../components/CardWithStatus/TaskCard/TaskCard';
+// @ts-ignore until migrated to TypeScript
 import TaskQuickAssignModal from '../../../components/Modals/QuickAssignModal';
+// @ts-ignore until migrated to TypeScript
 import UpdateTaskDateModal from '../../../components/Modals/UpdateTaskDateModal';
+// @ts-ignore until migrated to TypeScript
+import { userFarmsByFarmSelector, userFarmSelector } from '../../userFarmSlice';
 import {
   assignTask,
   assignTasksOnDate,
   changeTaskDate,
   changeTaskWage,
-  updateUserFarmWage,
-  setUserFarmWageDoNotAskAgain,
   pinTask,
+  setUserFarmWageDoNotAskAgain,
   unpinTask,
+  updateUserFarmWage,
+  // @ts-ignore until migrated to TypeScript
 } from '../saga';
 import { getLanguageFromLocalStorage } from '../../../util/getLanguageFromLocalStorage';
+
+interface Props {
+  style: React.CSSProperties;
+  status: TaskStatus;
+  pinned: boolean;
+  classes: { container?: {}; card: {} };
+  onClick?: (() => void) | null;
+  happiness: Happiness;
+  locationName: string;
+  taskType: TaskType;
+  cropVarietyName: string;
+  completeOrDueDate: string;
+  abandon_date: string;
+  assignee?: User | null;
+  onClickAssignee: () => void;
+  onClickCompleteOrDueDate: () => void;
+  selected: boolean;
+  task_id: number;
+  wage_at_moment: unknown;
+}
 
 const TaskCard = ({
   task_id,
@@ -34,26 +58,30 @@ const TaskCard = ({
   classes = { card: {} },
   wage_at_moment,
   ...props
-}) => {
-  const [showTaskAssignModal, setShowTaskAssignModal] = useState();
-  const [showDateAssignModal, setShowDateAssignModal] = useState();
+}: Props) => {
+  const [showTaskAssignModal, setShowTaskAssignModal] = React.useState<boolean>();
+  const [showDateAssignModal, setShowDateAssignModal] = React.useState<boolean>();
   const dispatch = useDispatch();
-  const onChangeTaskDate = (date) => {
+  const onChangeTaskDate = (date: string) => {
     dispatch(changeTaskDate({ task_id, due_date: date + 'T00:00:00.000' }));
   };
-  const onAssignTasksOnDate = (task) => dispatch(assignTasksOnDate(task));
-  const onAssignTask = (task) => dispatch(assignTask(task));
+  const onAssignTasksOnDate = (task: Task) => dispatch(assignTasksOnDate(task));
+  const onAssignTask = (task: Task) => dispatch(assignTask(task));
   const onPinTask = () => dispatch(pinTask({ task_id }));
   const onUnpinTask = () => dispatch(unpinTask({ task_id }));
-  const onUpdateUserFarmWage = (user) => dispatch(updateUserFarmWage(user));
-  const onSetUserFarmWageDoNotAskAgain = (user) => {
+  const onUpdateUserFarmWage = (user: UserInFarm) => dispatch(updateUserFarmWage(user));
+  const onSetUserFarmWageDoNotAskAgain = (user: UserInFarm) => {
     dispatch(setUserFarmWageDoNotAskAgain(user));
   };
-  const onChangeTaskWage = (wage) => {
+  const onChangeTaskWage = (wage: Wage) => {
     dispatch(changeTaskWage({ task_id, wage_at_moment: wage }));
   };
-  const users = useSelector(userFarmsByFarmSelector).filter((user) => user.status !== 'Inactive');
-  const user = useSelector(userFarmSelector);
+  // @ts-ignore until userSlice is migrated to TypeScript
+  const users: UserInFarmWithIsAdmin[] = useSelector(userFarmsByFarmSelector).filter(
+    (user: UserInFarmWithIsAdmin) => user.status !== 'Inactive',
+  );
+  const user: UserInFarmWithIsAdmin = useSelector(userFarmSelector);
+
   const immutableStatus = ['completed', 'abandoned'];
   let isAssignee = false;
   let isAdmin = false;
@@ -126,24 +154,6 @@ const TaskCard = ({
       )}
     </>
   );
-};
-
-TaskCard.propTypes = {
-  style: PropTypes.object,
-  status: PropTypes.oneOf(['late', 'planned', 'completed', 'abandoned', 'forReview']),
-  pinned: PropTypes.bool,
-  classes: PropTypes.shape({ container: PropTypes.object, card: PropTypes.object }),
-  onClick: PropTypes.func,
-  happiness: PropTypes.oneOf([1, 2, 3, 4, 5, 0, null]),
-  locationName: PropTypes.string,
-  taskType: PropTypes.object,
-  cropVarietyName: PropTypes.string,
-  completeOrDueDate: PropTypes.string,
-  assignee: PropTypes.object,
-  onClickAssignee: PropTypes.func,
-  onClickCompleteOrDueDate: PropTypes.func,
-  selected: PropTypes.bool,
-  task_id: PropTypes.number,
 };
 
 export default TaskCard;

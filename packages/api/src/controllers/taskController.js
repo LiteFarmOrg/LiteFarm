@@ -14,7 +14,6 @@
  */
 
 import TaskModel from '../models/taskModel.js';
-
 import UserFarmModel from '../models/userFarmModel.js';
 import ManagementPlanModel from '../models/managementPlanModel.js';
 import PlantingManagementPlanModel from '../models/plantingManagementPlanModel.js';
@@ -29,6 +28,9 @@ import IrrigationTypesModel from '../models/irrigationTypesModel.js';
 import FieldWorkTypeModel from '../models/fieldWorkTypeModel.js';
 import locationDefaultsModel from '../models/locationDefaultsModel.js';
 import TaskTypeModel from '../models/taskTypeModel.js';
+import pinATaskUseCase from '../../../domain/tasks/useCases/pinATask';
+import { responseForError } from '../responseForError.ts';
+
 const adminRoles = [1, 2, 5];
 // const isDateInPast = (date) => {
 //   const today = new Date();
@@ -142,30 +144,26 @@ const taskController = {
     }
   },
 
-  async pinTask(req, res) {
-    try {
-      const { task_id } = req.params;
+  pinTask: ({ tasksRepository }) => async (req, res) => {
+    const { task_id } = req.params;
+    const { farm_id } = req.headers;
+    const { user_id } = req.auth;
 
-      return (await TaskModel.pinTask(task_id, req.auth))
-        ? res.sendStatus(200)
-        : res.status(404).send('Task not found');
-    } catch (error) {
-      console.log(error);
-      return res.status(400).json({ error });
-    }
+    return pinATaskUseCase
+      .pinATask({ tasksRepository })(user_id, farm_id, task_id)
+      .catch(responseForError(res))
+      .then(() => res.sendStatus(200));
   },
 
-  async unpinTask(req, res) {
-    try {
-      const { task_id } = req.params;
+  unpinTask: ({ tasksRepository }) => (req, res) => {
+    const { task_id } = req.params;
+    const { farm_id } = req.headers;
+    const { user_id } = req.auth;
 
-      return (await TaskModel.unpinTask(task_id, req.auth))
-        ? res.sendStatus(200)
-        : res.status(404).send('Task not found');
-    } catch (error) {
-      console.log(error);
-      return res.status(400).json({ error });
-    }
+    return pinATaskUseCase
+      .pinATask({ tasksRepository })(user_id, farm_id, task_id, true)
+      .catch(responseForError(res))
+      .then(() => res.sendStatus(200));
   },
 
   async patchTaskDate(req, res) {

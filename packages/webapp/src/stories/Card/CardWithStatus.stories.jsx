@@ -1,6 +1,6 @@
 import React from 'react';
 import { componentDecorators } from '../Pages/config/Decorators';
-import { CardWithStatus } from '../../components/CardWithStatus/index';
+import { CardWithStatus } from '../../components/CardWithStatus';
 
 export default {
   title: 'Components/CardWithStatus',

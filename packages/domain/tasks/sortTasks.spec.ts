@@ -1,4 +1,4 @@
-import { hasTaskId, Task } from "./Task";
+import { hasTaskId, Task } from "./entities/Task";
 import { sortTasks } from "./sortTasks";
 
 describe("sortTasks", () => {

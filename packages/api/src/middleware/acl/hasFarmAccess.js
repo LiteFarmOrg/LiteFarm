@@ -265,6 +265,16 @@ function noFarmIdErrorResponse(res) {
   res.status(400).json({ error: 'no farm_id given' });
 }
 
+export const ensureFarmIdInHeaders = (req, res, next) => {
+  const { farm_id } = req.headers;
+
+  if (farm_id === undefined) {
+    return noFarmIdErrorResponse(res);
+  }
+
+  return next();
+};
+
 async function fromTaskManagementPlanAndLocation(req) {
   const farm_id = req.headers.farm_id;
   // harvest_tasks POST request body is an array

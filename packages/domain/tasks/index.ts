@@ -1,4 +1,2 @@
-export type { Task } from "./Task";
-export type { TaskStatus } from "./TaskStatus";
-export type { TaskType } from "./TaskType";
-export type { Happiness } from "./Happiness";
+export type { Task, TaskStatus, TaskType } from "./entities/Task";
+export type { Happiness } from "./entities/Happiness";

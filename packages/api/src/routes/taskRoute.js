@@ -14,9 +14,8 @@
  */
 
 import express from 'express';
-
 const router = express.Router();
-import hasFarmAccess from '../middleware/acl/hasFarmAccess.js';
+import hasFarmAccess, { ensureFarmIdInHeaders } from '../middleware/acl/hasFarmAccess.js';
 import checkScope from '../middleware/acl/checkScope.js';
 import { modelMapping, isWorkerToSelfOrAdmin } from '../middleware/validation/task.js';
 import {
@@ -25,6 +24,7 @@ import {
 } from '../middleware/validation/assignTask.js';
 import taskController from '../controllers/taskController.js';
 import { createOrPatchProduct } from '../middleware/validation/product.js';
+import { tasksDatabaseRepository } from '../infrastructure/tasksDatabaseRepository.ts';
 
 router.patch(
   '/assign/:task_id',
@@ -46,16 +46,14 @@ router.patch(
 
 router.patch(
   '/pin/:task_id',
-  hasFarmAccess({ params: 'task_id' }),
-  checkScope(['pin:task']),
-  taskController.pinTask,
+  ensureFarmIdInHeaders,
+  taskController.pinTask({ tasksRepository: tasksDatabaseRepository }),
 );
 
 router.patch(
   '/unpin/:task_id',
-  hasFarmAccess({ params: 'task_id' }),
-  checkScope(['pin:task']),
-  taskController.unpinTask,
+  ensureFarmIdInHeaders,
+  taskController.unpinTask({ tasksRepository: tasksDatabaseRepository }),
 );
 
 router.patch(

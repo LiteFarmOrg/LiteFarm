@@ -352,12 +352,12 @@ class TaskModel extends BaseModel {
       .patchAndFetchById(taskId, { assignee_user_id: assigneeUserId });
   }
 
-  static async pinTask(taskId, user) {
-    return await this.query().context(user).patchAndFetchById(taskId, { pinned: true });
+  static pinTask(taskId, user_id) {
+    return this.query().context({ user_id }).patchAndFetchById(taskId, { pinned: true });
   }
 
-  static async unpinTask(taskId, user) {
-    return await this.query().context(user).patchAndFetchById(taskId, { pinned: false });
+  static unpinTask(taskId, user_id) {
+    return this.query().context({ user_id }).patchAndFetchById(taskId, { pinned: false });
   }
 
   /**

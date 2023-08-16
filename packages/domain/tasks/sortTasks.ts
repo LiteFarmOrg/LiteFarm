@@ -1,11 +1,12 @@
-import { AbandonedTask, Task } from "./Task";
 import {
+  AbandonedTask,
   isTaskAbandoned,
   isTaskCompleted,
   isTaskCompletedOrAbandoned,
+  isTaskPinned,
   isTaskYetToBeDone,
-} from "./TaskStatus";
-import { isTaskPinned } from "./isTaskPinned";
+  Task,
+} from "./entities/Task";
 
 export const sortTasks = (tasks: Task[], isAscending = true) =>
   [...tasks].sort(byDefaultTaskOrder(isAscending));
@@ -45,6 +46,9 @@ const byAbandonDate = (taskA: AbandonedTask, taskB: AbandonedTask): number =>
   new Date(taskB.abandon_date).getTime();
 
 const withOrder =
-  (sortFn: (taskA: Task, taskB: Task) => number, isAscending: boolean) =>
-  (taskA: Task, taskB: Task) =>
+  <T extends Task>(
+    sortFn: (taskA: T, taskB: T) => number,
+    isAscending: boolean
+  ) =>
+  (taskA: T, taskB: T) =>
     sortFn(taskA, taskB) * (isAscending ? bBeforeA : aBeforeB);

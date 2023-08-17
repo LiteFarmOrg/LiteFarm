@@ -28,7 +28,6 @@
   cursor: pointer;
   text-align: center;
 
-
   svg {
     width: 13.3vw;
     height: 13.3vw;
@@ -123,7 +122,6 @@
   }
 }
 
-
 @media only screen and (min-width: 876px) {
   .matrixContainer {
     --emptySpace: calc(100% - 708px);
@@ -131,7 +129,6 @@
     column-gap: var(--gap);
   }
 }
-
 
 @media only screen and (min-width: 1024px) {
   .matrixContainer {

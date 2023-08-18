@@ -20,6 +20,7 @@ import {
   DELETE_EXPENSES,
   DELETE_SALE,
   GET_DEFAULT_EXPENSE_TYPE,
+  GET_FARM_EXPENSE_TYPE,
   GET_EXPENSE,
   GET_SALES,
   TEMP_DELETE_EXPENSE,
@@ -134,6 +135,21 @@ export function* getDefaultExpenseTypeSaga() {
 
   try {
     const result = yield call(axios.get, expenseTypeDefaultUrl, header);
+    if (result) {
+      yield put(setExpenseType(result.data));
+    }
+  } catch (e) {
+    console.log('failed to fetch expenses from database');
+  }
+}
+
+export function* getFarmExpenseTypeSaga() {
+  const { expenseTypeDefaultUrl } = apiConfig;
+  let { user_id, farm_id } = yield select(loginSelector);
+  const header = getHeader(user_id, farm_id);
+
+  try {
+    const result = yield call(axios.get, `${expenseTypeDefaultUrl}/farm/${farm_id}`, header);
     if (result) {
       yield put(setExpenseType(result.data));
     }
@@ -267,6 +283,7 @@ export default function* financeSaga() {
   yield takeLeading(ADD_OR_UPDATE_SALE, addSale);
   yield takeLatest(GET_EXPENSE, getExpenseSaga);
   yield takeLatest(GET_DEFAULT_EXPENSE_TYPE, getDefaultExpenseTypeSaga);
+  yield takeLatest(GET_FARM_EXPENSE_TYPE, getFarmExpenseTypeSaga);
   yield takeLeading(ADD_EXPENSES, addExpensesSaga);
   yield takeLeading(DELETE_SALE, deleteSale);
   yield takeLeading(DELETE_EXPENSES, deleteExpensesSaga);

@@ -20,6 +20,7 @@ import {
   DELETE_EXPENSES,
   DELETE_SALE,
   GET_DEFAULT_EXPENSE_TYPE,
+  GET_FARM_EXPENSE_TYPE,
   GET_EXPENSE,
   GET_SALES,
   SET_DATE_RANGE,
@@ -102,6 +103,12 @@ export const setExpenseType = (expense_types) => {
   return {
     type: SET_EXPENSE_TYPE,
     expense_types,
+  };
+};
+
+export const getFarmExpenseType = () => {
+  return {
+    type: GET_FARM_EXPENSE_TYPE,
   };
 };
 

@@ -4,7 +4,7 @@ import PageTitle from '../../../components/PageTitle';
 import connect from 'react-redux/es/connect/connect';
 import defaultStyles from '../styles.module.scss';
 import styles from './styles.module.scss';
-import { dateRangeSelector, expenseSelector, expenseTypeSelector } from '../selectors';
+import { dateRangeSelector, expenseSelector, allExpenseTypeSelector } from '../selectors';
 import Table from '../../../components/Table';
 import { getExpense, setExpenseDetailItem } from '../actions';
 import history from '../../../history';
@@ -274,7 +274,7 @@ class OtherExpense extends Component {
 const mapStateToProps = (state) => {
   return {
     expenses: expenseSelector(state),
-    expenseTypes: expenseTypeSelector(state),
+    expenseTypes: allExpenseTypeSelector(state),
     dateRange: dateRangeSelector(state),
     farm: userFarmSelector(state),
   };

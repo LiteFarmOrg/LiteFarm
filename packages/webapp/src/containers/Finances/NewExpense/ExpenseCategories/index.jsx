@@ -4,7 +4,7 @@ import Button from '../../../../components/Form/Button';
 import connect from 'react-redux/es/connect/connect';
 import defaultStyles from '../../styles.module.scss';
 import styles from './styles.module.scss';
-import { expenseTypeSelector } from '../../selectors';
+import { expenseTypeTileContentsSelector } from '../../selectors';
 import EquipImg from '../../../../assets/images/log/equipment.svg';
 import SoilAmendmentImg from '../../../../assets/images/log/fertilizing.svg';
 import PestImg from '../../../../assets/images/log/bug.svg';
@@ -96,49 +96,39 @@ class ExpenseCategories extends Component {
                 width: '100%',
               }}
             >
-              {expenseTypes
-                ?.sort((firstExpenseType, secondExpenseType) => {
-                  if (firstExpenseType.expense_translation_key === 'OTHER') return 1;
-                  if (secondExpenseType.expense_translation_key === 'OTHER') return -1;
-                  return this.props
-                    .t(`expense:${firstExpenseType.expense_translation_key}`)
-                    .localeCompare(
-                      this.props.t(`expense:${secondExpenseType.expense_translation_key}`),
-                    );
-                })
-                .map((type) => {
-                  return (
-                    <Grid
-                      item
-                      xs={4}
-                      md={3}
-                      lg={2}
-                      key={type.expense_type_id}
-                      style={{ marginBottom: '12px' }}
-                    >
-                      <div>
-                        <div
-                          style={
-                            selectedTypes.includes(type.expense_type_id)
-                              ? selectedStyle
-                              : unSelectedStyle
-                          }
-                          onClick={() => this.addRemoveType(type.expense_type_id)}
-                          className={styles.greenCircle}
-                        >
-                          <img
-                            src={iconMap[type.expense_translation_key]}
-                            alt=""
-                            className={styles.circleImg}
-                          />
-                        </div>
-                        <div className={styles.typeName}>
-                          {this.props.t(`expense:${type.expense_translation_key}`)}
-                        </div>
+              {expenseTypes?.map((type) => {
+                return (
+                  <Grid
+                    item
+                    xs={4}
+                    md={3}
+                    lg={2}
+                    key={type.expense_type_id}
+                    style={{ marginBottom: '12px' }}
+                  >
+                    <div>
+                      <div
+                        style={
+                          selectedTypes.includes(type.expense_type_id)
+                            ? selectedStyle
+                            : unSelectedStyle
+                        }
+                        onClick={() => this.addRemoveType(type.expense_type_id)}
+                        className={styles.greenCircle}
+                      >
+                        <img
+                          src={iconMap[type.expense_translation_key]}
+                          alt=""
+                          className={styles.circleImg}
+                        />
                       </div>
-                    </Grid>
-                  );
-                })}
+                      <div className={styles.typeName}>
+                        {this.props.t(`expense:${type.expense_translation_key}`)}
+                      </div>
+                    </div>
+                  </Grid>
+                );
+              })}
             </Grid>
           </div>
           <div>
@@ -175,7 +165,7 @@ ExpenseCategories.propTypes = {
 
 const mapStateToProps = (state) => {
   return {
-    expenseTypes: expenseTypeSelector(state),
+    expenseTypes: expenseTypeTileContentsSelector(state),
   };
 };
 

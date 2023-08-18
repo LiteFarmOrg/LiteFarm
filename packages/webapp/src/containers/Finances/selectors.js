@@ -14,6 +14,7 @@
  */
 
 import { createSelector } from 'reselect/es';
+import i18n from '../../locales/i18n';
 
 const financeSelector = (state) => state.financeReducer.financeReducer || {};
 
@@ -23,7 +24,33 @@ const selectedSaleSelector = createSelector(financeSelector, (state) => state.se
 
 const expenseSelector = createSelector(financeSelector, (state) => state.expenses);
 
-const expenseTypeSelector = createSelector(financeSelector, (state) => state.expense_types);
+const allExpenseTypeSelector = createSelector(financeSelector, (state) => state.expense_types);
+
+const expenseTypeSelector = createSelector(financeSelector, (state) => {
+  return state.expense_types.filter((type) => !type.deleted);
+});
+
+const expenseTypeTileContentsSelector = createSelector(financeSelector, (state) => {
+  const defaultTypes = [];
+  const customTypes = [];
+  state.expense_types.forEach((type) => {
+    if (!type.deleted) {
+      const arrayToUpdate = type.farm_id ? customTypes : defaultTypes;
+      arrayToUpdate.push(type);
+    }
+  });
+
+  return [
+    ...defaultTypes.sort((typeA, typeB) =>
+      i18n
+        .t(`expense:${typeA.expense_translation_key}`)
+        .localeCompare(i18n.t(`expense:${typeB.expense_translation_key}`)),
+    ),
+    ...customTypes.sort((typeA, typeB) =>
+      typeA.expense_translation_key.localeCompare(typeB.expense_translation_key),
+    ),
+  ];
+});
 
 const expenseDetailDateSelector = createSelector(
   financeSelector,
@@ -57,6 +84,8 @@ export {
   selectedSaleSelector,
   expenseSelector,
   expenseTypeSelector,
+  allExpenseTypeSelector,
+  expenseTypeTileContentsSelector,
   expenseDetailDateSelector,
   selectedExpenseSelector,
   expenseDetailSelector,

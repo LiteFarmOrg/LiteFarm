@@ -18,7 +18,7 @@ import { within } from '@storybook/testing-library';
 import { componentDecorators } from '../Pages/config/Decorators';
 import Tiles from '../../components/Tile/Tiles';
 import IconLabelTile from '../../components/Tile/IconLabelTile';
-import { tyleTypes } from '../../components/Tile/constants';
+import { tileTypes } from '../../components/Tile/constants';
 import { ReactComponent as SoilAmendment } from '../../assets/images/task/SoilAmendment.svg';
 
 export default {
@@ -57,9 +57,9 @@ export const IconLabeTilesAsChildren = {
   play: tileLengthTest(6, ['Label']),
 };
 
-export const IconLabeTilesAsData = {
+export const IconLabelTilesAsData = {
   args: {
-    tileType: tyleTypes.ICON_LABEL,
+    tileType: tileTypes.ICON_LABEL,
     tileData: new Array(6).fill().map((item, index) => {
       return {
         key: index,
@@ -73,9 +73,9 @@ export const IconLabeTilesAsData = {
   play: tileLengthTest(6, ['Label']),
 };
 
-export const IconLabeTilesAsDataWithFormatFunction = {
+export const IconLabelTilesAsDataWithFormatFunction = {
   args: {
-    tileType: tyleTypes.ICON_LABEL,
+    tileType: tileTypes.ICON_LABEL,
     tileData: new Array(6).fill().map((item, index) => {
       return {
         index,

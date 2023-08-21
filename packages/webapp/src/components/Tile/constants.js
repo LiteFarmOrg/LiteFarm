@@ -12,6 +12,6 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
-export const tyleTypes = {
+export const tileTypes = {
   ICON_LABEL: 'iconLabel',
 };

@@ -30,7 +30,7 @@ const args = {
     console.log('Go back');
   },
   inputLabel: 'Custom Type Name',
-  inputRegisterKey: 'custom_type_name',
+  customTypeRegister: 'custom_type_name',
 };
 
 export const AddCustomType = Template.bind({});
@@ -51,7 +51,7 @@ ReadOnlyCustomType.args = {
   pageTitle: 'Custom Type',
   defaultValue: 'This is my test name',
   onClick: () => {
-    console.log('Moving to edit Mode');
+    console.log('Moving to edit mode');
   },
   ...args,
 };

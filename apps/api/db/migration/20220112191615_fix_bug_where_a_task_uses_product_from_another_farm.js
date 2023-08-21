@@ -7,20 +7,22 @@ export const up = async function (knex) {
           [locations, managementPlans, soil_amendment_task, field_work_task, cleaning_task, pest_control_task, harvest_task.[harvest_use], plant_task, transplant_task]
         `);
   const getTaskFarmId = async (task) => {
-    if (task.locations?.[0]?.farm_id) return task.locations?.[0]?.farm_id;
-    else if (!task?.managementPlans?.length) return null;
+    if (task.locations && task.locations[0] && task.locations[0].farm_id)
+      return task.locations[0].farm_id;
+    else if (!task || !task.managementPlans || !task.managementPlans.length) return null;
     else {
       const [{ farm_id }] = await knex('crop_variety')
         .join('management_plan', 'crop_variety.crop_variety_id', 'management_plan.crop_variety_id')
-        .where('management_plan.management_plan_id', task.managementPlans?.[0]?.management_plan_id);
+        .where('management_plan.management_plan_id', task.managementPlans[0].management_plan_id);
       return farm_id;
     }
   };
   for (const task of graphTasks) {
     const product_id =
-      task?.soil_amendment_task?.product_id ||
-      task?.pest_control_task?.product_id ||
-      task?.cleaning_task?.product_id;
+      task &&
+      (task.soil_amendment_task.product_id ||
+        task.pest_control_task.product_id ||
+        task.cleaning_task.product_id);
     if (product_id) {
       const product = await knex('product').where({ product_id }).first();
       const farm_id = await getTaskFarmId(task);

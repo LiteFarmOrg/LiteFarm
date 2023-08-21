@@ -1,4 +1,4 @@
-import knex from '../../util/knex.js';
+import knex from '../../util/knex.ts';
 const entitiesGetters = {
   farm_expense_id: fromExpense,
   sale_id: fromSale,

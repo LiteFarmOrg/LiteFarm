@@ -157,7 +157,8 @@ export const up = async function (knex) {
       return {
         ...newStructure,
         survey_id: certifier.survey_id,
-        requested_certifier: certifier.certifiers?.length ? certifier.certifiers[0] : null,
+        requested_certifier:
+          certifier.certifiers && certifier.certifiers.length ? certifier.certifiers[0] : null,
       };
     }
   });

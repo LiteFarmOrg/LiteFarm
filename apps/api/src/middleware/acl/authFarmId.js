@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import knex from '../../util/knex.js';
+import knex from '../../util/knex.ts';
 
 async function authFarmId(req, res, next) {
   const farm_id = req.params.farm_id;

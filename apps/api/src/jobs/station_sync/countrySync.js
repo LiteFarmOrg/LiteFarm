@@ -18,14 +18,17 @@ async function mapFarmsToCountryId(knex) {
       .subscribe(async (farmData) => {
         const { farm_id, results } = farmData;
         let country;
-        results.find((place) =>
-          place?.address_components?.find((component) => {
-            if (component?.types?.includes?.('country')) {
-              country = component.long_name;
-              return true;
-            }
-            return false;
-          }),
+        results.find(
+          (place) =>
+            place &&
+            place.address_components &&
+            place.address_components.find((component) => {
+              if (component && component.types && component.types.includes('country')) {
+                country = component.long_name;
+                return true;
+              }
+              return false;
+            }),
         );
         country && (await insertCountryIdToFarm(knex, farm_id, country, countries));
       });
@@ -55,7 +58,7 @@ function getCountryIdFromFarm({ farm_id, grid_points }) {
 async function insertCountryIdToFarm(knex, farm, country, countries) {
   if (country && country !== '') {
     const lookup = countries.find((c) => c.country_name === country);
-    if (lookup?.id) {
+    if (lookup && lookup.id) {
       await knex('farm').update({ country_id: lookup.id }).where({ farm_id: farm });
     } else {
       console.log(`Found no country matching '${country}'; farm_id ${farm}`);

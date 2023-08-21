@@ -24,7 +24,7 @@ import LocationModel from '../models/locationModel.js';
 import DocumentModel from '../models/documentModel.js';
 import Queue from 'bull';
 import { v4 as uuidv4 } from 'uuid';
-import knex from '../util/knex.js';
+import knex from '../util/knex.ts';
 const redisConf = {
   redis: {
     host: process.env.REDIS_HOST,

@@ -2,7 +2,7 @@ import chai from 'chai';
 import chaiHttp from 'chai-http';
 import { faker } from '@faker-js/faker';
 import server from '../src/server.js';
-import knex from '../src/util/knex.js';
+import knex from '../src/util/knex.ts';
 import mocks from './mock.factories.js';
 import { tableCleanup } from './testEnvironment.js';
 

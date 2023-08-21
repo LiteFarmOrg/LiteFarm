@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import './dotenvConfig.js';
+import './dotenvConfig.ts';
 
 import express from 'express';
 const app = express();
@@ -64,8 +64,7 @@ if (process.env.SENTRY_DSN && environment !== 'development') {
 expressOasGenerator.handleResponses(app, {
   alwaysServeDocs: true,
   specOutputPath: process.env.UPDATE_OAS_FILES ? './oas.json' : undefined,
-  specOutputFileBehavior:
-    expressOasGenerator.SPEC_OUTPUT_FILE_BEHAVIOR.PRESERVE,
+  specOutputFileBehavior: expressOasGenerator.SPEC_OUTPUT_FILE_BEHAVIOR.PRESERVE,
   tags: [
     'contact',
     'crop',
@@ -107,7 +106,7 @@ import checkJwt from './middleware/acl/checkJwt.js';
 import cors from 'cors';
 
 // initialize knex
-import knex from './util/knex.js';
+import knex from './util/knex.ts';
 
 // bind all models to a knex instance
 Model.knex(knex);
@@ -201,7 +200,7 @@ app.set('json replacer', (key, value) => {
     if (matches) return `${matches[1]}T00:00:00.000`; // YYYY-MM-DD with midnight time, no timezone indicator.
 
     console.log(
-      `JSON payload problem: key '${key}' is reserved for db date fields; unexpected value ${value}.`
+      `JSON payload problem: key '${key}' is reserved for db date fields; unexpected value ${value}.`,
     );
   }
   return value;
@@ -238,13 +237,10 @@ app
     res.header('Access-Control-Allow-Origin', '*');
     res.header(
       'Access-Control-Allow-Headers',
-      'Origin, X-Requested-With, Content-Type, Accept, Authorization'
+      'Origin, X-Requested-With, Content-Type, Accept, Authorization',
     );
     if (req.method === 'OPTIONS') {
-      res.header(
-        'Access-Control-Allow-Methods',
-        'PUT, POST, PATCH, DELETE, GET'
-      );
+      res.header('Access-Control-Allow-Methods', 'PUT, POST, PATCH, DELETE, GET');
       return res.status(200).json({});
     }
 
@@ -293,12 +289,7 @@ app
   .use('/time_notification', timeNotificationRoute);
 
 // Allow a 1MB limit on sensors to match incoming Ensemble data
-app.use(
-  '/sensor',
-  express.json({ limit: '1MB' }),
-  rejectBodyInGetAndDelete,
-  sensorRoute
-);
+app.use('/sensor', express.json({ limit: '1MB' }), rejectBodyInGetAndDelete, sensorRoute);
 
 if (process.env.SENTRY_DSN && environment !== 'development') {
   // The error handler must be before any other error middleware and after all controllers

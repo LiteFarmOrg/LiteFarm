@@ -20,7 +20,7 @@ import moment from 'moment';
 import { faker } from '@faker-js/faker';
 chai.use(chaiHttp);
 import server from './../src/server.js';
-import knex from '../src/util/knex.js';
+import knex from '../src/util/knex.ts';
 import { tableCleanup } from './testEnvironment.js';
 jest.mock('jsdom');
 jest.mock('bull');

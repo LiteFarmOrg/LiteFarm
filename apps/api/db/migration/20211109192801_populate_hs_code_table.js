@@ -1,6 +1,6 @@
 import * as dotenv from 'dotenv';
 dotenv.config();
-import hscodes from '../seeds/seedData/hscode.json' assert { type: 'json' };
+import hscodes from '../seeds/seedData/hscode.json';
 
 export const up = function (knex) {
   if (process.env.NODE_ENV !== 'test') {

@@ -22,7 +22,7 @@ import { sign } from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
 import { faker } from '@faker-js/faker';
 import server from './../src/server.js';
-import knex from '../src/util/knex.js';
+import knex from '../src/util/knex.ts';
 import { tableCleanup } from './testEnvironment.js';
 import mocks from './mock.factories.js';
 const { usersFactory, farmFactory, userFarmFactory } = mocks;

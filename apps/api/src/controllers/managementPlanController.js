@@ -25,7 +25,7 @@ import PlantTaskModel from '../models/plantTaskModel.js';
 import UserFarmModel from '../models/userFarmModel.js';
 import objection, { raw } from 'objection';
 import _pick from 'lodash/pick.js';
-import knex from '../util/knex.js';
+import knex from '../util/knex.ts';
 import { sendTaskNotification, TaskNotificationTypes } from './taskController.js';
 import {
   getDatesFromManagementPlanGraph,

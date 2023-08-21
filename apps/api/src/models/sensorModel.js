@@ -18,7 +18,7 @@ import Model from './baseFormatModel.js';
 import LocationModel from './locationModel.js';
 import PartnerReadingTypeModel from '../models/PartnerReadingTypeModel.js';
 import SensorReadingTypeModel from './SensorReadingTypeModel.js';
-import knex from '../util/knex.js';
+import knex from '../util/knex.ts';
 
 class Sensor extends Model {
   static get tableName() {

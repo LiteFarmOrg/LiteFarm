@@ -12,7 +12,7 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
-import countryIsoCodes from '../seeds/seedData/country_iso_codes.json' assert { type: 'json' };
+import countryIsoCodes from '../seeds/seedData/country_iso_codes.json';
 
 export const up = function (knex) {
   return knex.transaction((trx) => {

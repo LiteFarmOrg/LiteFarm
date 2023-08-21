@@ -1,4 +1,4 @@
-import knex from '../../util/knex.js';
+import knex from '../../util/knex.ts';
 const typesOfTask = [
   'soil_amendment_task',
   'pest_control_task',

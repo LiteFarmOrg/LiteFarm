@@ -14,7 +14,7 @@
  */
 
 import Model from './baseFormatModel.js';
-import knex from '../util/knex.js';
+import knex from '../util/knex.ts';
 
 class SensorReading extends Model {
   // Returned Date-time object from db is not compatible with ajv format types

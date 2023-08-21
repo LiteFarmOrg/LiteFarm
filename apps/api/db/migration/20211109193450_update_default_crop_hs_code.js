@@ -1,4 +1,4 @@
-import cropsWithHsCode from '../seeds/seedData/cropHscodeByCropCommonNameV2.json' assert { type: 'json' };
+import cropsWithHsCode from '../seeds/seedData/cropHscodeByCropCommonNameV2.json';
 import { getCropUniqueIdentifier } from '../util.js';
 
 export const up = async function (knex) {

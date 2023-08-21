@@ -1,4 +1,4 @@
-import knex from '../../util/knex.js';
+import knex from '../../util/knex.ts';
 
 const seededEntities = ['pesticide_id', 'disease_id', 'task_type_id', 'crop_id', 'fertilizer_id'];
 const entitiesGetters = {

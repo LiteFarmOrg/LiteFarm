@@ -62,6 +62,15 @@
           "codeCoverage": true
         }
       }
+    },
+    "migrate-db": {
+      "command": "knex migrate:latest --esm --knexfile=./apps/api/db/knexfile.ts"
+    },
+    "rollback-db": {
+      "command": "knex migrate:rollback --esm --knexfile=./apps/api/db/knexfile.ts"
+    },
+    "seed-db": {
+      "command": "knex seed:run --esm --knexfile=./apps/api/db/knexfile.ts"
     }
   },
   "tags": []

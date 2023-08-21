@@ -38,7 +38,7 @@ import {
 import { databaseUnit } from '../util/unit.js';
 import { sensorErrors, parseSensorCsv } from '@litefarm/infra/csv';
 import syncAsyncResponse from '../util/syncAsyncResponse.js';
-import knex from '../util/knex.js';
+import knex from '../util/knex.ts';
 
 const sensorController = {
   async getSensorReadingTypes(req, res) {

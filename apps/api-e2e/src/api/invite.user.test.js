@@ -3,7 +3,7 @@ import chaiHttp from 'chai-http';
 import moment from 'moment';
 chai.use(chaiHttp);
 import server from './../src/server.js';
-import knex from '../src/util/knex.js';
+import knex from '../src/util/knex.ts';
 // import emailMiddleware from '../src/templates/sendEmailTemplate.js';
 jest.mock('jsdom');
 jest.mock('axios');

@@ -1,6 +1,6 @@
 import mocks from './mock.factories.js';
 import { tableCleanup } from './testEnvironment.js';
-import knex from '../src/util/knex.js';
+import knex from '../src/util/knex.ts';
 
 describe('Factories tests', () => {
   const factories = Object.keys(mocks).filter((k) => k.endsWith('Factory'));

@@ -12,7 +12,8 @@ export const up = async function (knex) {
         'plant_task.planting_management_plan_id',
       )
       .where('planting_management_plan.management_plan_id', management_plan_id);
-    const prev_planting_management_plan_id = prevManagementPlan[0]?.planting_management_plan_id;
+    const prev_planting_management_plan_id =
+      prevManagementPlan[0] && prevManagementPlan[0].planting_management_plan_id;
     if (prev_planting_management_plan_id) {
       await knex('transplant_task').where({ task_id }).update({ prev_planting_management_plan_id });
     }

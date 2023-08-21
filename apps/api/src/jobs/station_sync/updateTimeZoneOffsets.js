@@ -33,7 +33,7 @@ async function mapTimeZoneOffsetsToFarms(knex) {
         .update('utc_offset', timeZone.data.rawOffset)
         .where('farm_id', farm.farm_id);
     } catch (e) {
-      switch (e.response?.data?.status) {
+      switch (e.response && e.response.data && e.response.data.status) {
         case 'OVER_QUERY_LIMIT':
           console.log('Hit query limit for timezones API: waiting for query limit to reset');
           await new Promise((resolve) => setTimeout(resolve, 60000)); // Rate limit is on a per-minute basis

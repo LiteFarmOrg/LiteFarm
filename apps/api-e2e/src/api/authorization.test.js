@@ -18,7 +18,7 @@ import chaiHttp from 'chai-http';
 import moment from 'moment';
 chai.use(chaiHttp);
 import server from './../src/server.js';
-import knex from '../src/util/knex.js';
+import knex from '../src/util/knex.ts';
 jest.mock('jsdom');
 jest.mock('../src/middleware/acl/checkJwt.js', () =>
   jest.fn((req, res, next) => {

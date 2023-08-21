@@ -13,14 +13,12 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const dotenv = require('dotenv');
-const path = require('path');
-
-import '../src/dotenvConfig.js';
+import * as path from 'path';
+import '../src/dotenvConfig.ts';
 
 const root = path.resolve(__dirname, '../');
 
-module.exports = {
+export default {
   development: {
     client: 'postgresql',
     connection: {

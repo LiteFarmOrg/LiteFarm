@@ -19,7 +19,7 @@ import chaiHttp from 'chai-http';
 chai.use(chaiHttp);
 import mocks from './mock.factories.js';
 import server from './../src/server.js';
-import knex from '../src/util/knex.js';
+import knex from '../src/util/knex.ts';
 import { tableCleanup } from './testEnvironment.js';
 import { faker } from '@faker-js/faker';
 

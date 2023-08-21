@@ -20,7 +20,7 @@ chai.use(chaiHttp);
 const chai_assert = chai.assert; // Using Assert style
 const chai_expect = chai.expect; // Using Expect style
 const chai_should = chai.should(); // Using Should style
-import knex from '../src/util/knex.js';
+import knex from '../src/util/knex.ts';
 import server from './../src/server.js';
 import mocks from './mock.factories.js';
 import { tableCleanup } from './testEnvironment.js';

@@ -1,4 +1,4 @@
-import knex from '../util/knex.js';
+import knex from '../util/knex.ts';
 import BaseModel from './baseModel.js';
 import Model from './baseFormatModel.js';
 import IrrigationTaskModel from './irrigationTaskModel.js';

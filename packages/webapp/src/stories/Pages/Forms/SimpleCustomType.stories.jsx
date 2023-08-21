@@ -18,7 +18,7 @@ import PureSimpleCustomType from '../../../components/Forms/SimpleCustomType';
 import decorators from '../config/Decorators';
 
 export default {
-  title: 'Forms/PureSimpleCustomType',
+  title: 'Form/SimpleCustomType',
   decorators: decorators,
   component: PureSimpleCustomType,
 };

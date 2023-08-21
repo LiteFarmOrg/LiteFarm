@@ -11,7 +11,6 @@ const PureAddCustomTask = ({
   history,
   useHookFormPersist,
 
-
   persistedFormData,
   onSave,
 }) => {
@@ -55,7 +54,6 @@ const PureAddCustomTask = ({
             maxLength: { value: 25, message: t('ADD_TASK.CUSTOM_TASK_CHAR_LIMIT') },
           })}
           name={CUSTOM_TASK_TYPE}
-          hookFormSetValue={setValue}
           errors={getInputErrors(errors, CUSTOM_TASK_TYPE)}
           optional={false}
         />

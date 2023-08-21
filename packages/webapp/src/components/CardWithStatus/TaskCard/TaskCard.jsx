@@ -33,10 +33,8 @@ export const taskStatusTranslateKey = {
 };
 
 const getDate = (date, language = 'en') => {
-  const d = new Date(date);
-  d.setFullYear(date.split(', ')[1]);
   return new Intl.DateTimeFormat(language, { timeZone: 'UTC', dateStyle: 'medium' }).format(
-    new Date(d),
+    new Date(date),
   );
 };
 

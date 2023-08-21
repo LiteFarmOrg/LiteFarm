@@ -26,36 +26,32 @@ export const tasksDatabaseRepository: TasksRepository = {
   pinTask: async (taskId, userId): Promise<Task> => {
     return await handleRepositoryError(
       () => TaskModel.pinTask(taskId, userId),
-      'CANNOT_UPDATE_TASK'
+      'CANNOT_UPDATE_TASK',
     );
   },
   unpinTask: async (taskId, userId): Promise<Task> => {
     return await handleRepositoryError(
       () => TaskModel.unpinTask(taskId, userId),
-      'CANNOT_UPDATE_TASK'
+      'CANNOT_UPDATE_TASK',
     );
   },
   getOwnUserFarmForTask: async (taskId, userId): Promise<UserInFarm> => {
     return await handleRepositoryError(
       async () =>
         (await knex({ uF: 'userFarm' })
-          .leftJoin('location', 'userFarm.farm_id', 'location.farm_id')
-          .leftJoin(
-            'location_tasks',
-            'location_tasks.location_id',
-            'location.location_id'
-          )
+          .leftJoin('location', 'uF.farm_id', 'location.farm_id')
+          .leftJoin('location_tasks', 'location_tasks.location_id', 'location.location_id')
           .where('location_tasks.task_id', taskId)
-          .andWhere('uf.user_id', userId)
+          .andWhere('uF.user_id', userId)
           .first()) as UserInFarm,
-      'CANNOT_FETCH_USER_FARM'
+      'CANNOT_FETCH_USER_FARM',
     );
   },
 };
 
 const handleRepositoryError = async <T>(
   fn: () => Promise<T>,
-  errorMessage = 'CANNOT_UPDATE_TASK'
+  errorMessage = 'CANNOT_UPDATE_TASK',
 ) => {
   try {
     return await fn();

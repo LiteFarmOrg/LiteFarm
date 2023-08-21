@@ -48,17 +48,12 @@ const taskController = {
       const { farm_id } = req.headers;
       const { user_id } = req.auth;
       const { assignee_user_id: newAssigneeUserId } = req.body;
-      const { assignee_user_id: oldAssigneeUserId, task_translation_key } =
-        req.checkTaskStatus;
+      const { assignee_user_id: oldAssigneeUserId, task_translation_key } = req.checkTaskStatus;
 
       // Avoid 1) making an empty update, and 2) sending a redundant notification.
       if (oldAssigneeUserId === newAssigneeUserId) return res.sendStatus(200);
 
-      const result = await TaskModel.assignTask(
-        task_id,
-        newAssigneeUserId,
-        req.auth
-      );
+      const result = await TaskModel.assignTask(task_id, newAssigneeUserId, req.auth);
 
       if (!result) return res.status(404).send('Task not found');
 
@@ -68,12 +63,11 @@ const taskController = {
         oldAssigneeUserId,
         task_translation_key,
         farm_id,
-        user_id
+        user_id,
       );
 
       if (newAssigneeUserId === null) {
-        const farmManagementObjs =
-          await UserFarmModel.getFarmManagementByFarmId(farm_id);
+        const farmManagementObjs = await UserFarmModel.getFarmManagementByFarmId(farm_id);
         const farmManagement = farmManagementObjs.map((obj) => obj.user_id);
         await sendTaskNotification(
           farmManagement,
@@ -81,7 +75,7 @@ const taskController = {
           task_id,
           TaskNotificationTypes.TASK_UNASSIGNED,
           task_translation_key,
-          farm_id
+          farm_id,
         );
       }
 
@@ -108,15 +102,8 @@ const taskController = {
 
       // if the current task was not previously unassigned or assigned to the same user,
       // assign the current task to newAssigneeUserId
-      if (
-        oldAssigneeUserId !== null &&
-        oldAssigneeUserId !== newAssigneeUserId
-      ) {
-        updatedTask = await TaskModel.assignTask(
-          current_task_id,
-          newAssigneeUserId,
-          req.auth
-        );
+      if (oldAssigneeUserId !== null && oldAssigneeUserId !== newAssigneeUserId) {
+        updatedTask = await TaskModel.assignTask(current_task_id, newAssigneeUserId, req.auth);
 
         if (!updatedTask) return res.status(404).send('Task not found');
 
@@ -126,22 +113,14 @@ const taskController = {
           oldAssigneeUserId,
           currentTaskTranslationKey,
           farm_id,
-          user_id
+          user_id,
         );
       }
 
       // assign all other unassigned tasks due on this day to newAssigneeUserId
-      const available_tasks = await TaskModel.getAvailableTasksOnDate(
-        taskIds,
-        date,
-        req.auth
-      );
+      const available_tasks = await TaskModel.getAvailableTasksOnDate(taskIds, date, req.auth);
       const availableTaskIds = available_tasks.map(({ task_id }) => task_id);
-      const result = await TaskModel.assignTasks(
-        availableTaskIds,
-        newAssigneeUserId,
-        req.auth
-      );
+      const result = await TaskModel.assignTasks(availableTaskIds, newAssigneeUserId, req.auth);
       if (result) {
         await Promise.all(
           available_tasks.map(async (task) => {
@@ -151,15 +130,13 @@ const taskController = {
               task.task_id,
               TaskNotificationTypes.TASK_ASSIGNED,
               task.task_translation_key,
-              farm_id
+              farm_id,
             );
-          })
+          }),
         );
         return res
           .status(200)
-          .send(
-            updatedTask ? [...available_tasks, updatedTask] : available_tasks
-          );
+          .send(updatedTask ? [...available_tasks, updatedTask] : available_tasks);
       }
       return res.status(404).send('Tasks not found');
     } catch (error) {
@@ -175,8 +152,8 @@ const taskController = {
       const { user_id } = req.auth;
 
       return pinATask({ tasksRepository })(user_id, farm_id, task_id)
-        .catch(responseForError(res))
-        .then(() => res.sendStatus(200));
+        .then(() => res.sendStatus(200))
+        .catch(responseForError(res));
     },
 
   unpinTask:
@@ -187,8 +164,8 @@ const taskController = {
       const { user_id } = req.auth;
 
       return pinATask({ tasksRepository })(user_id, farm_id, task_id, true)
-        .catch(responseForError(res))
-        .then(() => res.sendStatus(200));
+        .then(() => res.sendStatus(200))
+        .catch(responseForError(res));
     },
 
   async patchTaskDate(req, res) {
@@ -211,9 +188,7 @@ const taskController = {
         .context(req.auth)
         .findById(task_id)
         .patch({ due_date });
-      return result
-        ? res.sendStatus(200)
-        : res.status(404).send('Task not found');
+      return result ? res.sendStatus(200) : res.status(404).send('Task not found');
     } catch (error) {
       console.log(error);
       return res.status(400).json({ error });
@@ -229,9 +204,7 @@ const taskController = {
         .context(req.auth)
         .findById(task_id)
         .patch({ wage_at_moment, override_hourly_wage: true });
-      return result
-        ? res.sendStatus(200)
-        : res.status(404).send('Task not found');
+      return result ? res.sendStatus(200) : res.status(404).send('Task not found');
     } catch (error) {
       console.log(error);
       return res.status(400).json({ error });
@@ -253,46 +226,27 @@ const taskController = {
 
       const checkTaskStatus = await TaskModel.getTaskStatus(task_id);
       if (checkTaskStatus.complete_date || checkTaskStatus.abandon_date) {
-        return res
-          .status(400)
-          .send('Task has already been completed or abandoned');
+        return res.status(400).send('Task has already been completed or abandoned');
       }
 
-      const {
-        owner_user_id,
-        assignee_user_id,
-        wage_at_moment,
-        override_hourly_wage,
-      } = await TaskModel.query()
-        .select(
-          'owner_user_id',
-          'assignee_user_id',
-          'wage_at_moment',
-          'override_hourly_wage'
-        )
-        .where({ task_id })
-        .first();
+      const { owner_user_id, assignee_user_id, wage_at_moment, override_hourly_wage } =
+        await TaskModel.query()
+          .select('owner_user_id', 'assignee_user_id', 'wage_at_moment', 'override_hourly_wage')
+          .where({ task_id })
+          .first();
       const isUserTaskOwner = user_id === owner_user_id;
       const isUserTaskAssignee = user_id === assignee_user_id;
       const hasAssignee = assignee_user_id !== null;
       // TODO: move to middleware
       // cannot abandon task if user is worker and not assignee and not creator
-      if (
-        !adminRoles.includes(req.role) &&
-        !isUserTaskOwner &&
-        !isUserTaskAssignee
-      ) {
+      if (!adminRoles.includes(req.role) && !isUserTaskOwner && !isUserTaskAssignee) {
         return res
           .status(403)
-          .send(
-            'A worker who is not assignee or owner of task cannot abandon it'
-          );
+          .send('A worker who is not assignee or owner of task cannot abandon it');
       }
       // cannot abandon an unassigned task with rating or duration
       if (!hasAssignee && (happiness || duration)) {
-        return res
-          .status(400)
-          .send('An unassigned task should not be rated or have time clocked');
+        return res.status(400).send('An unassigned task should not be rated or have time clocked');
       }
 
       let wage = { amount: 0 };
@@ -324,7 +278,7 @@ const taskController = {
         task_id,
         TaskNotificationTypes.TASK_ABANDONED,
         checkTaskStatus.task_translation_key,
-        farm_id
+        farm_id,
       );
 
       return res.status(200).send(result);
@@ -348,19 +302,15 @@ const taskController = {
         // Filter out deleted management plans from task
         if (data.managementPlans && data.managementPlans.length > 0) {
           const plantingManagementPlanIds = data.managementPlans.map(
-            ({ planting_management_plan_id }) => planting_management_plan_id
+            ({ planting_management_plan_id }) => planting_management_plan_id,
           );
 
-          const plantingManagementPlans =
-            await PlantingManagementPlanModel.query()
-              .context(req.auth)
-              .whereIn(
-                'planting_management_plan_id',
-                plantingManagementPlanIds
-              );
+          const plantingManagementPlans = await PlantingManagementPlanModel.query()
+            .context(req.auth)
+            .whereIn('planting_management_plan_id', plantingManagementPlanIds);
 
           const managementPlanIds = plantingManagementPlans.map(
-            ({ management_plan_id }) => management_plan_id
+            ({ management_plan_id }) => management_plan_id,
           );
 
           const validManagementPlans = await ManagementPlanModel.query()
@@ -369,7 +319,7 @@ const taskController = {
             .where('deleted', false);
 
           const validManagementPlanIds = validManagementPlans.map(
-            ({ management_plan_id }) => management_plan_id
+            ({ management_plan_id }) => management_plan_id,
           );
 
           // Return error if task is associated with only a deleted plan
@@ -378,24 +328,15 @@ const taskController = {
           }
 
           const validPlantingMangementPlans = plantingManagementPlans
-            .filter(({ management_plan_id }) =>
-              validManagementPlanIds.includes(management_plan_id)
-            )
-            .map(
-              ({ planting_management_plan_id }) => planting_management_plan_id
-            );
+            .filter(({ management_plan_id }) => validManagementPlanIds.includes(management_plan_id))
+            .map(({ planting_management_plan_id }) => planting_management_plan_id);
 
-          data.managementPlans = data.managementPlans.filter(
-            ({ planting_management_plan_id }) =>
-              validPlantingMangementPlans.includes(planting_management_plan_id)
+          data.managementPlans = data.managementPlans.filter(({ planting_management_plan_id }) =>
+            validPlantingMangementPlans.includes(planting_management_plan_id),
           );
         }
 
-        data = await this.checkCustomDependencies(
-          typeOfTask,
-          data,
-          req.headers.farm_id
-        );
+        data = await this.checkCustomDependencies(typeOfTask, data, req.headers.farm_id);
         const result = await TaskModel.transaction(async (trx) => {
           const { task_id } = await TaskModel.query(trx)
             .context({ user_id: req.auth.user_id })
@@ -410,7 +351,7 @@ const taskController = {
               `
           [locations.[location_defaults], managementPlans, taskType, soil_amendment_task, irrigation_task.[irrigation_type],scouting_task,
           field_work_task.[field_work_task_type], cleaning_task, pest_control_task, soil_task, harvest_task, plant_task]
-          `
+          `,
             )
             .where({ task_id });
           return removeNullTypes(task);
@@ -423,7 +364,7 @@ const taskController = {
             task_id,
             TaskNotificationTypes.TASK_ASSIGNED,
             taskType.task_translation_key,
-            req.headers.farm_id
+            req.headers.farm_id,
           );
         }
         return res.status(201).send(result);
@@ -443,10 +384,7 @@ const taskController = {
         return await (async () => {
           if (data.irrigation_task) {
             const { irrigation_type_id } =
-              await IrrigationTypesModel.checkAndAddCustomIrrigationType(
-                data,
-                farm_id
-              );
+              await IrrigationTypesModel.checkAndAddCustomIrrigationType(data, farm_id);
             if (data.irrigation_task.default_irrigation_task_type_measurement) {
               await IrrigationTypesModel.updateIrrigationType({
                 irrigation_type_id,
@@ -457,10 +395,7 @@ const taskController = {
             }
             data.irrigation_task.irrigation_type_id = irrigation_type_id;
           }
-          if (
-            data.location_defaults &&
-            data.location_defaults[0]?.irrigation_task_type
-          ) {
+          if (data.location_defaults && data.location_defaults[0]?.irrigation_task_type) {
             await locationDefaultsModel.createOrUpdateLocationDefaults({
               ...data.location_defaults[0],
               irrigation_type_id: data.irrigation_task.irrigation_type_id,
@@ -481,12 +416,9 @@ const taskController = {
 
     const containsFieldWorkTask = Object.prototype.hasOwnProperty.call(
       data.field_work_task,
-      'field_work_task_type'
+      'field_work_task_type',
     );
-    if (
-      containsFieldWorkTask &&
-      typeof data.field_work_task.field_work_task_type !== 'number'
-    ) {
+    if (containsFieldWorkTask && typeof data.field_work_task.field_work_task_type !== 'number') {
       const field_work_task_type = data.field_work_task.field_work_task_type;
       let row;
       if (!field_work_task_type.field_work_name) {
@@ -516,8 +448,7 @@ const taskController = {
       delete data.field_work_task.field_work_task_type;
       data.field_work_task.field_work_type_id = fieldWork.field_work_type_id;
     } else if (containsFieldWorkTask) {
-      data.field_work_task.field_work_type_id =
-        data.field_work_task.field_work_task_type;
+      data.field_work_task.field_work_type_id = data.field_work_task.field_work_task_type;
       delete data.field_work_task.field_work_task_type;
     }
     return data;
@@ -561,8 +492,7 @@ const taskController = {
               task_type_id,
             } = task;
             if (!taskTypeTranslation) {
-              taskTypeTranslation =
-                await TaskTypeModel.getTaskTranslationKeyById(task_type_id);
+              taskTypeTranslation = await TaskTypeModel.getTaskTranslationKeyById(task_type_id);
             }
             await sendTaskNotification(
               [assignee_user_id],
@@ -570,7 +500,7 @@ const taskController = {
               task_id,
               TaskNotificationTypes.TASK_ASSIGNED,
               taskTypeTranslation.task_translation_key,
-              req.headers.farm_id
+              req.headers.farm_id,
             );
           }
 
@@ -594,10 +524,7 @@ const taskController = {
 
       const result = await TaskModel.transaction(async (trx) => {
         transplant_task.owner_user_id = user_id;
-        if (
-          transplant_task.assignee_user_id &&
-          !transplant_task.wage_at_moment
-        ) {
+        if (transplant_task.assignee_user_id && !transplant_task.wage_at_moment) {
           const { wage } = await UserFarmModel.query()
             .where({
               user_id: transplant_task.assignee_user_id,
@@ -618,15 +545,14 @@ const taskController = {
 
       if (result.assignee_user_id) {
         const { assignee_user_id, task_id, task_type_id } = result;
-        const taskTypeTranslation =
-          await TaskTypeModel.getTaskTranslationKeyById(task_type_id);
+        const taskTypeTranslation = await TaskTypeModel.getTaskTranslationKeyById(task_type_id);
         await sendTaskNotification(
           [assignee_user_id],
           user_id,
           task_id,
           TaskNotificationTypes.TASK_ASSIGNED,
           taskTypeTranslation.task_translation_key,
-          req.headers.farm_id
+          req.headers.farm_id,
         );
       }
 
@@ -645,19 +571,11 @@ const taskController = {
         const { farm_id } = req.headers;
         const { user_id } = req.auth;
         const { task_id } = req.params;
-        const {
-          assignee_user_id,
-          assignee_role_id,
-          wage_at_moment,
-          override_hourly_wage,
-        } = await TaskModel.getTaskAssignee(task_id);
+        const { assignee_user_id, assignee_role_id, wage_at_moment, override_hourly_wage } =
+          await TaskModel.getTaskAssignee(task_id);
         const { role_id } = await UserFarmModel.getUserRoleId(user_id);
-        if (
-          !canCompleteTask(assignee_user_id, assignee_role_id, user_id, role_id)
-        ) {
-          return res
-            .status(403)
-            .send("Not authorized to complete other people's task");
+        if (!canCompleteTask(assignee_user_id, assignee_role_id, user_id, role_id)) {
+          return res.status(403).send("Not authorized to complete other people's task");
         }
         const { wage } = await UserFarmModel.query()
           .where({ user_id: assignee_user_id, farm_id })
@@ -668,7 +586,7 @@ const taskController = {
         data = await this.checkCustomDependencies(
           typeOfTask,
           { ...data, owner_user_id: user_id },
-          req.headers.farm_id
+          req.headers.farm_id,
         );
         const result = await TaskModel.transaction(async (trx) => {
           const task = await TaskModel.query(trx)
@@ -679,7 +597,7 @@ const taskController = {
                 noUpdate: nonModifiable,
                 noDelete: true,
                 noInsert: true,
-              }
+              },
             );
 
           await patchManagementPlanStartDate(trx, req, typeOfTask);
@@ -694,7 +612,7 @@ const taskController = {
             task_id,
             TaskNotificationTypes.TASK_COMPLETED_BY_OTHER_USER,
             taskType.task_translation_key,
-            farm_id
+            farm_id,
           );
           return res.status(200).send(result);
         } else {
@@ -718,15 +636,10 @@ const taskController = {
       const { user_id } = req.auth;
       const { farm_id } = req.headers;
       const task_id = parseInt(req.params.task_id);
-      const { assignee_user_id, assignee_role_id } =
-        await TaskModel.getTaskAssignee(task_id);
+      const { assignee_user_id, assignee_role_id } = await TaskModel.getTaskAssignee(task_id);
       const { role_id } = await UserFarmModel.getUserRoleId(user_id);
-      if (
-        !canCompleteTask(assignee_user_id, assignee_role_id, user_id, role_id)
-      ) {
-        return res
-          .status(403)
-          .send("Not authorized to complete other people's task");
+      if (!canCompleteTask(assignee_user_id, assignee_role_id, user_id, role_id)) {
+        return res.status(403).send("Not authorized to complete other people's task");
       }
       const result = await TaskModel.transaction(async (trx) => {
         const updated_task = await TaskModel.query(trx)
@@ -737,7 +650,7 @@ const taskController = {
               noUpdate: nonModifiable,
               noDelete: true,
               noInsert: true,
-            }
+            },
           );
         const result = removeNullTypes(updated_task);
         delete result.harvest_task; // Not needed by front end.
@@ -749,12 +662,7 @@ const taskController = {
         }));
         await HarvestUse.query(trx).context({ user_id }).insert(harvest_uses);
 
-        await patchManagementPlanStartDate(
-          trx,
-          req,
-          'harvest_task',
-          req.body.task
-        );
+        await patchManagementPlanStartDate(trx, req, 'harvest_task', req.body.task);
 
         return result;
       });
@@ -767,7 +675,7 @@ const taskController = {
           task_id,
           TaskNotificationTypes.TASK_COMPLETED_BY_OTHER_USER,
           task_translation_key,
-          farm_id
+          farm_id,
         );
         return res.status(200).send(result);
       } else {
@@ -789,7 +697,7 @@ const taskController = {
         .withGraphFetched(
           `[locations.[location_defaults], managementPlans, soil_amendment_task, field_work_task.[field_work_task_type], cleaning_task, pest_control_task, 
             harvest_task.[harvest_use], plant_task, transplant_task, irrigation_task.[irrigation_type]]
-        `
+        `,
         )
         .whereIn('task_id', taskIds);
       const filteredTasks = graphTasks.map(removeNullTypes);
@@ -823,9 +731,7 @@ const taskController = {
   async getFieldWorkTypes(req, res) {
     const { farm_id } = req.params;
     try {
-      const farmTypes = await FieldWorkTypeModel.getAllFieldWorkTypesByFarmId(
-        farm_id
-      );
+      const farmTypes = await FieldWorkTypeModel.getAllFieldWorkTypesByFarmId(farm_id);
       res.status(200).json(farmTypes);
     } catch (error) {
       console.log(error);
@@ -835,8 +741,9 @@ const taskController = {
   async getIrrigationTaskTypes(req, res) {
     const { farm_id } = req.params;
     try {
-      const irrigationTaskTypes =
-        await IrrigationTypesModel.getAllIrrigationTaskTypesByFarmId(farm_id);
+      const irrigationTaskTypes = await IrrigationTypesModel.getAllIrrigationTaskTypesByFarmId(
+        farm_id,
+      );
       res.status(200).json(irrigationTaskTypes);
     } catch (error) {
       return res.status(400).send(error);
@@ -849,9 +756,7 @@ const taskController = {
 
       const checkTaskStatus = await TaskModel.getTaskStatus(task_id);
       if (checkTaskStatus.complete_date || checkTaskStatus.abandon_date) {
-        return res
-          .status(400)
-          .send('Task has already been completed or abandoned');
+        return res.status(400).send('Task has already been completed or abandoned');
       }
 
       const result = await TaskModel.deleteTask(task_id, req.auth);
@@ -863,7 +768,7 @@ const taskController = {
         task_id,
         TaskNotificationTypes.TASK_DELETED,
         checkTaskStatus.task_translation_key,
-        farm_id
+        farm_id,
       );
 
       return res.status(200).send(result);
@@ -877,12 +782,9 @@ const taskController = {
 
 function getNonModifiable(asset) {
   const nonModifiableAssets = typesOfTask.filter((a) => a !== asset);
-  return [
-    'createdByUser',
-    'updatedByUser',
-    'location',
-    'management_plan',
-  ].concat(nonModifiableAssets);
+  return ['createdByUser', 'updatedByUser', 'location', 'management_plan'].concat(
+    nonModifiableAssets,
+  );
 }
 
 function removeNullTypes(task) {
@@ -893,86 +795,68 @@ function removeNullTypes(task) {
         ...reducer,
         [k]: task[k] === null ? undefined : task[k],
       }),
-      {}
+      {},
     );
   return { ...task, ...filtered };
 }
 
 //TODO: optimize after plant_task and transplant_task refactor
 async function getTasksForFarm(farm_id) {
-  const [managementTasks, locationTasks, plantTasks, transplantTasks] =
-    await Promise.all([
-      TaskModel.query()
-        .select('task.task_id')
-        .whereNotDeleted()
-        .distinct('task.task_id')
-        .join('management_tasks', 'management_tasks.task_id', 'task.task_id')
-        .join(
-          'planting_management_plan',
-          'management_tasks.planting_management_plan_id',
-          'planting_management_plan.planting_management_plan_id'
-        )
-        .join(
-          'management_plan',
-          'planting_management_plan.management_plan_id',
-          'management_plan.management_plan_id'
-        )
-        .join(
-          'crop_variety',
-          'crop_variety.crop_variety_id',
-          'management_plan.crop_variety_id'
-        )
-        .where('crop_variety.farm_id', farm_id),
-      TaskModel.query()
-        .select('task.task_id')
-        .whereNotDeleted()
-        .distinct('task.task_id')
-        .join('location_tasks', 'location_tasks.task_id', 'task.task_id')
-        .join('location', 'location.location_id', 'location_tasks.location_id')
-        .where('location.farm_id', farm_id),
-      PlantTaskModel.query()
-        .select('plant_task.task_id')
-        .join(
-          'planting_management_plan',
-          'planting_management_plan.planting_management_plan_id',
-          'plant_task.planting_management_plan_id'
-        )
-        .join(
-          'management_plan',
-          'management_plan.management_plan_id',
-          'planting_management_plan. management_plan_id'
-        )
-        .join(
-          'crop_variety',
-          'crop_variety.crop_variety_id',
-          'management_plan.crop_variety_id'
-        )
-        .where('crop_variety.farm_id', farm_id),
-      TransplantTaskModel.query()
-        .select('transplant_task.task_id')
-        .join(
-          'planting_management_plan',
-          'planting_management_plan.planting_management_plan_id',
-          'transplant_task.planting_management_plan_id'
-        )
-        .join(
-          'management_plan',
-          'management_plan.management_plan_id',
-          'planting_management_plan. management_plan_id'
-        )
-        .join(
-          'crop_variety',
-          'crop_variety.crop_variety_id',
-          'management_plan.crop_variety_id'
-        )
-        .where('crop_variety.farm_id', farm_id),
-    ]);
-  return [
-    ...managementTasks,
-    ...locationTasks,
-    ...plantTasks,
-    ...transplantTasks,
-  ];
+  const [managementTasks, locationTasks, plantTasks, transplantTasks] = await Promise.all([
+    TaskModel.query()
+      .select('task.task_id')
+      .whereNotDeleted()
+      .distinct('task.task_id')
+      .join('management_tasks', 'management_tasks.task_id', 'task.task_id')
+      .join(
+        'planting_management_plan',
+        'management_tasks.planting_management_plan_id',
+        'planting_management_plan.planting_management_plan_id',
+      )
+      .join(
+        'management_plan',
+        'planting_management_plan.management_plan_id',
+        'management_plan.management_plan_id',
+      )
+      .join('crop_variety', 'crop_variety.crop_variety_id', 'management_plan.crop_variety_id')
+      .where('crop_variety.farm_id', farm_id),
+    TaskModel.query()
+      .select('task.task_id')
+      .whereNotDeleted()
+      .distinct('task.task_id')
+      .join('location_tasks', 'location_tasks.task_id', 'task.task_id')
+      .join('location', 'location.location_id', 'location_tasks.location_id')
+      .where('location.farm_id', farm_id),
+    PlantTaskModel.query()
+      .select('plant_task.task_id')
+      .join(
+        'planting_management_plan',
+        'planting_management_plan.planting_management_plan_id',
+        'plant_task.planting_management_plan_id',
+      )
+      .join(
+        'management_plan',
+        'management_plan.management_plan_id',
+        'planting_management_plan. management_plan_id',
+      )
+      .join('crop_variety', 'crop_variety.crop_variety_id', 'management_plan.crop_variety_id')
+      .where('crop_variety.farm_id', farm_id),
+    TransplantTaskModel.query()
+      .select('transplant_task.task_id')
+      .join(
+        'planting_management_plan',
+        'planting_management_plan.planting_management_plan_id',
+        'transplant_task.planting_management_plan_id',
+      )
+      .join(
+        'management_plan',
+        'management_plan.management_plan_id',
+        'planting_management_plan. management_plan_id',
+      )
+      .join('crop_variety', 'crop_variety.crop_variety_id', 'management_plan.crop_variety_id')
+      .where('crop_variety.farm_id', farm_id),
+  ]);
+  return [...managementTasks, ...locationTasks, ...plantTasks, ...transplantTasks];
 }
 
 async function getManagementPlans(task_id, typeOfTask) {
@@ -982,7 +866,7 @@ async function getManagementPlans(task_id, typeOfTask) {
         .join(
           'planting_management_plan',
           'plant_task.planting_management_plan_id',
-          'planting_management_plan.planting_management_plan_id'
+          'planting_management_plan.planting_management_plan_id',
         )
         .where({ task_id })
         .select('*');
@@ -992,7 +876,7 @@ async function getManagementPlans(task_id, typeOfTask) {
         .join(
           'planting_management_plan',
           'transplant_task.planting_management_plan_id',
-          'planting_management_plan.planting_management_plan_id'
+          'planting_management_plan.planting_management_plan_id',
         )
         .where({ task_id })
         .select('*');
@@ -1002,23 +886,16 @@ async function getManagementPlans(task_id, typeOfTask) {
         .join(
           'planting_management_plan',
           'planting_management_plan.planting_management_plan_id',
-          'management_tasks.planting_management_plan_id'
+          'management_tasks.planting_management_plan_id',
         )
         .where('task_id', task_id);
   }
 }
 
-async function patchManagementPlanStartDate(
-  trx,
-  req,
-  typeOfTask,
-  task = req.body
-) {
+async function patchManagementPlanStartDate(trx, req, typeOfTask, task = req.body) {
   const task_id = parseInt(req.params.task_id);
   const management_plans = await getManagementPlans(task_id, typeOfTask);
-  const management_plan_ids = management_plans.map(
-    ({ management_plan_id }) => management_plan_id
-  );
+  const management_plan_ids = management_plans.map(({ management_plan_id }) => management_plan_id);
   if (management_plan_ids.length > 0) {
     await ManagementPlanModel.query(trx)
       .context(req.auth)
@@ -1063,11 +940,9 @@ export async function sendTaskNotification(
   taskId,
   notifyTranslationKey,
   taskTranslationKey,
-  farmId
+  farmId,
 ) {
-  const filteredReceiverIds = receiverIds.filter(
-    (id) => id !== null && id !== undefined
-  );
+  const filteredReceiverIds = receiverIds.filter((id) => id !== null && id !== undefined);
   if (filteredReceiverIds.length === 0) return;
 
   const userName = await User.getNameFromUserId(usernameVariableId);
@@ -1095,7 +970,7 @@ export async function sendTaskNotification(
       context: { task_translation_key: taskTranslationKey },
       farm_id: farmId,
     },
-    filteredReceiverIds
+    filteredReceiverIds,
   );
 }
 
@@ -1114,7 +989,7 @@ async function sendTaskReassignedNotifications(
   oldAssigneeUserId,
   taskTranslationKey,
   farmId,
-  assignerUserId
+  assignerUserId,
 ) {
   await Promise.all([
     sendTaskNotification(
@@ -1123,7 +998,7 @@ async function sendTaskReassignedNotifications(
       taskId,
       TaskNotificationTypes.TASK_ASSIGNED,
       taskTranslationKey,
-      farmId
+      farmId,
     ),
     sendTaskNotification(
       [oldAssigneeUserId],
@@ -1131,7 +1006,7 @@ async function sendTaskReassignedNotifications(
       taskId,
       TaskNotificationTypes.TASK_REASSIGNED,
       taskTranslationKey,
-      farmId
+      farmId,
     ),
   ]);
 }

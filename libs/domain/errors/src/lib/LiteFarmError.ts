@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 export abstract class LiteFarmError extends Error {
-  constructor(private readonly __tag: string, message?: string) {
+  constructor(private readonly __tag: string, readonly message: string) {
     super(message);
   }
 

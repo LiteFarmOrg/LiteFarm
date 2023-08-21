@@ -12,18 +12,16 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
-import { LiteFarmError } from "./LiteFarmError";
+import { LiteFarmError } from './LiteFarmError';
 
-const TAG = "REPOSITORY_ERROR";
+const TAG = 'REPOSITORY_ERROR';
 export class RepositoryError extends LiteFarmError {
-  constructor(message: string, private readonly error?: unknown) {
+  constructor(readonly message: string, private readonly error?: unknown) {
     super(
       TAG,
       `${TAG}: ${message} (${
-        error && typeof error === "object" && "message" in error
-          ? error?.message
-          : ""
-      })`
+        error && typeof error === 'object' && 'message' in error ? error?.message : ''
+      })`,
     );
   }
 

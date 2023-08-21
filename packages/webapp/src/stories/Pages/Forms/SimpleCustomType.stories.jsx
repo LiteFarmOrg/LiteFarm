@@ -26,25 +26,44 @@ export default {
 const Template = (args) => <PureSimpleCustomType {...args} />;
 
 const args = {
-  useHookFormPersist: () => ({}),
-  view: 'loading',
-  handleGoBack: () => ({}),
-  history: {},
-  persistedFormData: {},
-  onSave: () => ({}),
-  EDIThandleGoBack: () => ({}),
-  EDIThandleEdit: () => ({}),
-  EDIThandleRetire: () => ({}),
-  EDITselectedType: () => ({}),
-  UPEDIThandleGoBack: () => ({}),
-  UPEDIThistory: {},
-  onAdd: () => ({}),
-  handleEdit: () => ({}),
-  onUpdate: () => ({}),
-  onRetire: () => ({}),
+  handleGoBack: () => {
+    console.log('Go back');
+  },
+  inputLabel: 'Custom Type Name',
+  inputRegisterKey: 'custom_type_name',
 };
 
-export const Primary = Template.bind({});
-Primary.args = {
+export const AddCustomType = Template.bind({});
+AddCustomType.args = {
+  view: 'add',
+  buttonText: 'Save',
+  pageTitle: 'Add a custom type',
+  onSubmit: () => {
+    console.log('Added a new custom type');
+  },
+  ...args,
+};
+
+export const ReadOnlyCustomType = Template.bind({});
+ReadOnlyCustomType.args = {
+  view: 'read-only',
+  buttonText: 'Edit',
+  pageTitle: 'Custom Type',
+  defaultValue: 'This is my test name',
+  onClick: () => {
+    console.log('Moving to edit Mode');
+  },
+  ...args,
+};
+
+export const EditCustomType = Template.bind({});
+EditCustomType.args = {
+  view: 'edit',
+  buttonText: 'Update',
+  pageTitle: 'Edit custom type',
+  defaultValue: 'This is my test name',
+  onSubmit: () => {
+    console.log('Updated a custom type');
+  },
   ...args,
 };

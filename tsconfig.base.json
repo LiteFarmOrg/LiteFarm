@@ -1,0 +1,27 @@
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "rootDir": ".",
+    "sourceMap": true,
+    "declaration": false,
+    "moduleResolution": "node",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "importHelpers": true,
+    "target": "es2015",
+    "module": "esnext",
+    "lib": ["es2017", "dom"],
+    "skipLibCheck": true,
+    "skipDefaultLibCheck": true,
+    "baseUrl": ".",
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "paths": {
+      "@litefarm/domain/errors": ["libs/domain/errors/src/index.ts"],
+      "@litefarm/domain/tasks": ["libs/domain/tasks/src/index.ts"],
+      "@litefarm/domain/users": ["libs/domain/users/src/index.ts"],
+      "@litefarm/infra/csv": ["libs/infra/csv/src/index.ts"]
+    }
+  },
+  "exclude": ["node_modules", "tmp"]
+}

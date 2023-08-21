@@ -29,10 +29,7 @@ LiteFarm is comprised of three applications which all reside in this monorepo.
 5. In a terminal, navigate to the root folder of the repo and run `npm install`.
 6. Navigate to the `packages/api` folder, and run `npm install`.
    If trying to run this command results in the error,
-   `npm ERR! code ERESOLVE
-npm ERR! ERESOLVE could not resolve
-npm ERR!
-npm ERR! While resolving: objection@2.2.17...`
+   `npm ERR! code ERESOLVE npm ERR! ERESOLVE could not resolve npm ERR! npm ERR! While resolving: objection@2.2.17...`
 
    Use nvm to install and use the Node version 16.15.0 with the commands, `nvm install 16.15.0` then `nvm use 16.15.0`. Then try again.
 
@@ -229,7 +226,7 @@ To run [ESLint](https://eslint.org/) checks execute `pnpm lint`
 
 Since this is a mobile web application, webapp should be viewed in a mobile view in the browser.
 
-You can also test LiteFarm on your actual mobile device using the network adddress returned by `vite --host` when you start the webapp in development mode. To do this, also update `VITE_API_URL` in your `webapp/.env` file from localhost to that address (or your computer's network name) and the appropriate API port. Most of LiteFarm can be tested like this, but please note that Google SSO and some other functionality will not work over the local network.
+You can also test LiteFarm on your actual mobile device using the network adddress returned by `vite --host` when you start the webapp in development mode. To do this, also update `API_URL` in your `webapp/.env` file from localhost to that address (or your computer's network name) and the appropriate API port. Most of LiteFarm can be tested like this, but please note that Google SSO and some other functionality will not work over the local network.
 
 # ngrok
 

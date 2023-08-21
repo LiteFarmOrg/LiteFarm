@@ -1,7 +1,0 @@
-{
-  "name": "shared",
-  "type": "module",
-  "dependencies": {
-    "core-js": "^3.24.1"
-  }
-}

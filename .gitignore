@@ -1,6 +1,7 @@
 .idea
 node_modules
-lerna-debug.log
+dist
+apps/api/logs
 packages/api/coverage
 packages/api/.env.local
 packages/api/tickets

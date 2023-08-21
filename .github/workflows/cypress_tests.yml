@@ -1,6 +1,6 @@
 name: Run cypress happy path test
 
-on:   
+on:
   pull_request:
     branches:
       - integration
@@ -20,11 +20,10 @@ jobs:
       DEV_DATABASE: pg-litefarm
       DEV_DATABASE_USER: postgres
       DEV_DATABASE_PASSWORD: postgres
-      GOOGLE_API_KEY: ${{secrets.VITE_GOOGLE_MAPS_API_KEY}}
-      VITE_GOOGLE_MAPS_API_KEY: ${{secrets.VITE_GOOGLE_MAPS_API_KEY}}
-      VITE_WEATHER_API_KEY: ${{secrets.VITE_WEATHER_API_KEY}}
+      GOOGLE_API_KEY: ${{secrets.GOOGLE_API_KEY}}
+      OPEN_WEATHER_APP_ID: ${{secrets.OPEN_WEATHER_APP_ID}}
       NODE_ENV: development
-      
+
     strategy:
       matrix:
         node-version: [16.15.0]
@@ -52,22 +51,21 @@ jobs:
           npm run start &
         env:
           PORT: 5000
-          
+
       - name: Install pnpm
         uses: pnpm/action-setup@v2
         with:
           version: latest
 
       - name: Run and test app
-        env:   
-          VITE_WEATHER_API_KEY: ${{secrets.VITE_WEATHER_API_KEY}}
-          VITE_ENV: development
-          VITE_GOOGLE_OAUTH_CLIENT_ID: ${{secrets.VITE_GOOGLE_OAUTH_CLIENT_ID}}
-          VITE_DO_BUCKET_NAME: litefarm
+        env:
+          OPEN_WEATHER_APP_ID: ${{secrets.OPEN_WEATHER_APP_ID}}
+          GOOGLE_OAUTH_CLIENT_ID: ${{secrets.GOOGLE_OAUTH_CLIENT_ID}}
+          DO_BUCKET_NAME: litefarm
           NODE_ENV: development
-          VITE_API_URL: http://localhost:5000
-          CYPRESS_RECORD_KEY: "2630f414-4914-48b0-907d-aa3a9cc6a30b"
-        uses: cypress-io/github-action@v4.2.0 
+          API_URL: http://localhost:5000
+          CYPRESS_RECORD_KEY: '2630f414-4914-48b0-907d-aa3a9cc6a30b'
+        uses: cypress-io/github-action@v4.2.0
         with:
           working-directory: packages/webapp
           install-command: pnpm install --config.auto-install-peers=true --no-frozen-lockfile --force
@@ -84,7 +82,7 @@ jobs:
 
       - name: set code coverage badge
         run: npx -p check-code-coverage update-badge --from '${GITHUB_WORKSPACE}/packages/webapp/coverage/coverage-summary.json'
-        env: 
+        env:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
 
       - name: Archive code coverage results
@@ -99,6 +97,6 @@ jobs:
         continue-on-error: true
         working-directory: packages/webapp
         run: npx set-gh-status
-        env: 
+        env:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
           GH_SHA: ${{ github.event.after }}

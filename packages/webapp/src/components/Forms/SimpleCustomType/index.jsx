@@ -7,6 +7,9 @@ import Input, { getInputErrors } from '../../Form/Input';
 import Button from '../../Form/Button';
 import PropTypes from 'prop-types';
 
+// onSubmit: should be used in Add, Edit view
+// onClick: should be used in Read-only view
+// defaultValue: should be used in Read-only, Edit view
 const PureSimpleCustomType = ({
   handleGoBack,
   onSubmit,
@@ -15,7 +18,7 @@ const PureSimpleCustomType = ({
   buttonText,
   pageTitle,
   inputLabel,
-  inputRegisterKey,
+  customTypeRegister,
   defaultValue,
 }) => {
   const { t } = useTranslation();
@@ -26,13 +29,11 @@ const PureSimpleCustomType = ({
     formState: { errors, isValid },
   } = useForm({
     mode: 'onChange',
-    defaultValues: { [inputRegisterKey]: defaultValue || undefined },
+    defaultValues: { [customTypeRegister]: defaultValue || undefined },
   });
   const MAX_CHARS = 25;
-  const add = view === 'add' || false;
-  const edit = view === 'edit' || false;
   const readonly = view === 'read-only' || false;
-  const disabled = readonly;
+  const disabledInput = readonly;
 
   return (
     <Form
@@ -52,17 +53,17 @@ const PureSimpleCustomType = ({
       <Input
         style={{ marginBottom: '20px' }}
         label={inputLabel}
-        hookFormRegister={register(inputRegisterKey, {
+        hookFormRegister={register(customTypeRegister, {
           required: true,
           maxLength: {
             value: MAX_CHARS,
             message: t('common:CHAR_LIMIT_ERROR', { value: MAX_CHARS }),
           },
         })}
-        name={inputRegisterKey}
-        errors={getInputErrors(errors, inputRegisterKey)}
+        name={customTypeRegister}
+        errors={getInputErrors(errors, customTypeRegister)}
         optional={false}
-        disabled={disabled}
+        disabled={disabledInput}
       />
     </Form>
   );
@@ -76,7 +77,7 @@ PureSimpleCustomType.propTypes = {
   buttonText: PropTypes.string,
   pageTitle: PropTypes.string,
   inputLabel: PropTypes.string,
-  inputRegisterKey: PropTypes.string,
+  customTypeRegister: PropTypes.string,
   defaultValue: PropTypes.string,
 };
 

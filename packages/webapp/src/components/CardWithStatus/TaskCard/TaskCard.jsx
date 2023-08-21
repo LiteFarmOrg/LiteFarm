@@ -33,7 +33,11 @@ export const taskStatusTranslateKey = {
 };
 
 const getDate = (date, language = 'en') => {
-  return new Intl.DateTimeFormat(language, { dateStyle: 'medium' }).format(new Date(date));
+  const d = new Date(date);
+  d.setFullYear(date.split(', ')[1]);
+  return new Intl.DateTimeFormat(language, { timeZone: 'UTC', dateStyle: 'medium' }).format(
+    new Date(d),
+  );
 };
 
 export const PureTaskCard = ({

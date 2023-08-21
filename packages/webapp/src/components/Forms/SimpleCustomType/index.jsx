@@ -46,7 +46,7 @@ const PureSimpleCustomType = ({
     mode: 'onChange',
     defaultValues: { [customTypeRegister]: defaultValue || undefined },
   });
-  const MAX_CHARS = 25;
+  const MAX_CHARS = 100;
   const readonly = view === 'read-only' || false;
   const disabledInput = readonly;
 

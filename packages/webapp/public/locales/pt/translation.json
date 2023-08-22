@@ -487,7 +487,10 @@
       "MIN_ERROR": "Insira um valor maior que ",
       "REQUIRED_ERROR": "Expense is required",
       "TITLE_1": "Despesa Nova (1 de 2)",
-      "TITLE_2": "Despesa Nova (2 de 2)"
+      "TITLE_2": "Despesa Nova (2 de 2)",
+      "TITLE": "MISSING",
+      "FLOW": "MISSING",
+      "WHICH_TYPES_TO_RECORD": "MISSING"
     },
     "ADD_MORE_ITEMS": "Adicionar mais itens",
     "DETAILED_HISTORY": "História Detalhada",

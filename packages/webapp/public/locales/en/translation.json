@@ -488,7 +488,10 @@
       "MIN_ERROR": "Please enter a value greater than ",
       "REQUIRED_ERROR": "Expense is required",
       "TITLE_1": "New Expense (1 of 2)",
-      "TITLE_2": "New Expense (2 of 2)"
+      "TITLE_2": "New Expense (2 of 2)",
+      "TITLE": "Add expense",
+      "FLOW": "Expense creation",
+      "WHICH_TYPES_TO_RECORD": "Which types of expenses would you like to record?"
     },
     "ADD_MORE_ITEMS": "Add more items",
     "DETAILED_HISTORY": "Detailed History",

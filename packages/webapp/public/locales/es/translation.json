@@ -487,7 +487,10 @@
       "MIN_ERROR": "Por favor ingrese un valor mayor que ",
       "REQUIRED_ERROR": "Se requiere gasto",
       "TITLE_1": "Nuevo gasto (1 de 2)",
-      "TITLE_2": "Nuevo gasto (2 de 2)"
+      "TITLE_2": "Nuevo gasto (2 de 2)",
+      "TITLE": "MISSING",
+      "FLOW": "MISSING",
+      "WHICH_TYPES_TO_RECORD": "MISSING"
     },
     "ADD_MORE_ITEMS": "Agrega más unidades",
     "DETAILED_HISTORY": "Historia detallada",

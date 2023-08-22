@@ -484,7 +484,10 @@
   },
   "EXPENSE": {
     "ADD_EXPENSE": {
+      "ADD_CUSTOM_EXPENSE": "MISSING",
       "ALL_FIELDS_REQUIRED": "Tous les champs sont requis",
+      "CUSTOM_EXPENSE_NAME": "MISSING",
+      "CUSTOM_EXPENSE_TYPE": "MISSING",
       "MIN_ERROR": "Veuillez saisir une valeur supérieure à ",
       "REQUIRED_ERROR": "Une dépense est requise",
       "TITLE_1": "Nouvelle dépense (1 sur 2)",
@@ -496,6 +499,8 @@
       "DATE_PLACEHOLDER": "Choisissez une date",
       "DESELECTING_CATEGORY": "La désélection d'une catégorie supprimera les dépenses existantes dans cette catégorie pour ce journal des dépenses.",
       "REMOVE_ALL": "Vous avez supprimé toutes les dépenses, cliquez sur Enregistrer pour valider.",
+      "RETIRE_EXPENSE_MESSAGE": "MISSING",
+      "RETIRE_EXPENSE_TYPE": "MISSING",
       "TITLE_1": "Modifier les dépenses (1 sur 2)",
       "TITLE_2": "Modifier la dépense (2 sur 2)"
     },

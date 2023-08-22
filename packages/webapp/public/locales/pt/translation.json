@@ -483,7 +483,10 @@
   },
   "EXPENSE": {
     "ADD_EXPENSE": {
+      "ADD_CUSTOM_EXPENSE": "MISSING",
       "ALL_FIELDS_REQUIRED": "Todos os campos são obrigatórios",
+      "CUSTOM_EXPENSE_TYPE": "MISSING",
+      "CUSTOM_EXPENSE_NAME": "MISSING",
       "MIN_ERROR": "Insira um valor maior que ",
       "REQUIRED_ERROR": "Expense is required",
       "TITLE_1": "Despesa Nova (1 de 2)",
@@ -495,6 +498,8 @@
       "DATE_PLACEHOLDER": "Escolha uma data",
       "DESELECTING_CATEGORY": "Desmarcar uma categoria removerá as despesas existentes nesta categoria deste registro de despesas.",
       "REMOVE_ALL": "Você removeu todas as despesas, clique em Salvar para enviar.",
+      "RETIRE_EXPENSE_MESSAGE": "MISSING",
+      "RETIRE_EXPENSE_TYPE": "MISSING",
       "TITLE_1": "Editar Despesa (1 de 2)",
       "TITLE_2": "Editar Despesa (2 de 2)"
     },

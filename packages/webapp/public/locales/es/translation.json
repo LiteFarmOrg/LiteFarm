@@ -483,7 +483,10 @@
   },
   "EXPENSE": {
     "ADD_EXPENSE": {
+      "ADD_CUSTOM_EXPENSE": "MISSING",
       "ALL_FIELDS_REQUIRED": "Todos los campos son obligatorios",
+      "CUSTOM_EXPENSE_NAME": "MISSING",
+      "CUSTOM_EXPENSE_TYPE": "MISSING",
       "MIN_ERROR": "Por favor ingrese un valor mayor que ",
       "REQUIRED_ERROR": "Se requiere gasto",
       "TITLE_1": "Nuevo gasto (1 de 2)",
@@ -495,6 +498,8 @@
       "DATE_PLACEHOLDER": "Elige una fecha",
       "DESELECTING_CATEGORY": "Anular la selección de una categoría eliminará los gastos existentes bajo dicha categoría para este registro de gastos.",
       "REMOVE_ALL": "Ud. eliminó todos los gastos, haga clic en Guardar y así actualizar el cambio.",
+      "RETIRE_EXPENSE_MESSAGE": "MISSING",
+      "RETIRE_EXPENSE_TYPE": "MISSING",
       "TITLE_1": "Editar gastos (1 de 2)",
       "TITLE_2": "Editar gastos (2 de 2)"
     },

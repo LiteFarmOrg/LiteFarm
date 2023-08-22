@@ -41,7 +41,7 @@ const PureSimpleCustomType = ({
   const {
     handleSubmit,
     register,
-    formState: { errors, isValid },
+    formState: { errors, isValid, isDirty },
   } = useForm({
     mode: 'onChange',
     defaultValues: { [customTypeRegister]: defaultValue || undefined },
@@ -49,6 +49,7 @@ const PureSimpleCustomType = ({
   const MAX_CHARS = 100;
   const readonly = view === 'read-only' || false;
   const disabledInput = readonly;
+  const disabledButton = (!isValid || !isDirty) && !readonly;
 
   return (
     <Form
@@ -57,7 +58,7 @@ const PureSimpleCustomType = ({
         <Button
           color={'primary'}
           fullLength
-          disabled={!isValid}
+          disabled={disabledButton}
           onClick={onClick ? onClick : undefined}
         >
           {buttonText}

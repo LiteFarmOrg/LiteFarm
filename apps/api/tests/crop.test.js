@@ -17,10 +17,12 @@ import chai from 'chai';
 
 import chaiHttp from 'chai-http';
 chai.use(chaiHttp);
-import server from './../src/server.js';
-import knex from '../src/util/knex.ts';
+// eslint-disable-next-line @nx/enforce-module-boundaries
+import server from '../../../api/src/server.js';
+// eslint-disable-next-line @nx/enforce-module-boundaries
+import knex from '../../../api/src/util/knex.ts';
 jest.mock('jsdom');
-jest.mock('../src/middleware/acl/checkJwt.js', () =>
+jest.mock('../../../api/src/middleware/acl/checkJwt.js', () =>
   jest.fn((req, res, next) => {
     req.auth = {};
     req.auth.user_id = req.get('user_id');
@@ -29,7 +31,8 @@ jest.mock('../src/middleware/acl/checkJwt.js', () =>
 );
 import mocks from './mock.factories.js';
 import { tableCleanup } from './testEnvironment.js';
-import cropModel from '../src/models/cropModel.js';
+// eslint-disable-next-line @nx/enforce-module-boundaries
+import cropModel from '../../../api/src/models/cropModel.js';
 
 describe('Crop Tests', () => {
   let newOwner;

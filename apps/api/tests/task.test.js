@@ -1,3 +1,4 @@
+import util from 'util';
 import chai from 'chai';
 import chaiHttp from 'chai-http';
 import { faker } from '@faker-js/faker';
@@ -16,6 +17,13 @@ jest.mock('../src/middleware/acl/checkJwt.js', () =>
     next();
   }),
 );
+
+const expectResponsStatusTo = (responsePromise) => ({
+  toBe: async (status) => {
+    const res = await responsePromise;
+    expect(res.status).toEqual(status);
+  },
+});
 
 describe('Task tests', () => {
   /**
@@ -41,6 +49,7 @@ describe('Task tests', () => {
       .send(data)
       .end(callback);
   }
+  const assignTaskRequestAsPromise = util.promisify(assignTaskRequest);
 
   function pinTaskRequest({ user_id, farm_id }, task_id, callback) {
     chai
@@ -51,6 +60,8 @@ describe('Task tests', () => {
       .send({})
       .end(callback);
   }
+  const pinTaskRequestAsPromise = util.promisify(pinTaskRequest);
+
   function unpinTaskRequest({ user_id, farm_id }, task_id, callback) {
     chai
       .request(server)
@@ -60,6 +71,7 @@ describe('Task tests', () => {
       .send({})
       .end(callback);
   }
+  const unpinTaskRequestAsPromise = util.promisify(unpinTaskRequest);
 
   function postTaskRequest({ user_id, farm_id }, type, data, callback) {
     chai
@@ -70,6 +82,7 @@ describe('Task tests', () => {
       .send(data)
       .end(callback);
   }
+  const postTaskRequestAsPromise = util.promisify(postTaskRequest);
 
   function postHarvestTasksRequest({ user_id, farm_id }, data, callback) {
     chai
@@ -80,6 +93,7 @@ describe('Task tests', () => {
       .send(data)
       .end(callback);
   }
+  const postHarvestTasksRequestAsPromise = util.promisify(postHarvestTasksRequest);
 
   function postTransplantTaskRequest({ user_id, farm_id }, data, callback) {
     chai
@@ -90,6 +104,7 @@ describe('Task tests', () => {
       .send(data)
       .end(callback);
   }
+  const postTransplantTaskRequestAsPromise = util.promisify(postTransplantTaskRequest);
 
   function getTasksRequest({ user_id, farm_id }, callback) {
     chai
@@ -99,6 +114,7 @@ describe('Task tests', () => {
       .set('farm_id', farm_id)
       .end(callback);
   }
+  const getTasksRequestAsPromise = util.promisify(getTasksRequest);
 
   function getHarvestUsesRequest({ user_id, farm_id }, callback) {
     chai
@@ -108,6 +124,7 @@ describe('Task tests', () => {
       .set('farm_id', farm_id)
       .end(callback);
   }
+  const getHarvestUsesRequestAsPromise = util.promisify(getHarvestUsesRequest);
 
   function assignAllTasksOnDateRequest({ user_id, farm_id }, data, task_id, callback) {
     chai
@@ -118,6 +135,7 @@ describe('Task tests', () => {
       .send(data)
       .end(callback);
   }
+  const assignAllTasksOnDateRequestAsPromise = util.promisify(assignAllTasksOnDateRequest);
 
   function patchTaskDateRequest({ user_id, farm_id }, data, task_id, callback) {
     chai
@@ -128,6 +146,7 @@ describe('Task tests', () => {
       .send(data)
       .end(callback);
   }
+  const patchTaskDateRequestAsRequest = util.promisify(patchTaskDateRequest);
 
   function patchTaskWageRequest({ user_id, farm_id }, data, task_id, callback) {
     chai
@@ -138,6 +157,7 @@ describe('Task tests', () => {
       .send(data)
       .end(callback);
   }
+  const patchTaskWageRequestAsPromise = util.promisify(patchTaskDateRequest);
 
   function completeTaskRequest({ user_id, farm_id }, data, task_id, type, callback) {
     chai
@@ -148,6 +168,7 @@ describe('Task tests', () => {
       .send(data)
       .end(callback);
   }
+  const completeTaskRequestAsPromise = util.promisify(completeTaskRequest);
 
   function abandonTaskRequest({ user_id, farm_id }, data, task_id, callback) {
     chai
@@ -158,6 +179,7 @@ describe('Task tests', () => {
       .send(data)
       .end(callback);
   }
+  const abandonTaskRequestAsPromise = util.promisify(abandonTaskRequest);
 
   function deleteTaskRequest({ user_id, farm_id }, task_id, callback) {
     chai
@@ -167,6 +189,7 @@ describe('Task tests', () => {
       .set('farm_id', farm_id)
       .end(callback);
   }
+  const deleteTaskRequestAsPromise = util.promisify(deleteTaskRequest);
 
   function fakeUserFarm(role = 1) {
     return { ...mocks.fakeUserFarm(), role_id: role };
@@ -224,10 +247,9 @@ describe('Task tests', () => {
     return knex('task').where({ task_id }).first();
   }
 
-  afterAll(async (done) => {
+  afterAll(async () => {
     await tableCleanup(knex);
     await knex.destroy();
-    done();
   });
 
   describe('Pin task', () => {
@@ -280,9 +302,8 @@ describe('Task tests', () => {
         },
       );
 
-      [
-        { user_id: owner_of_other_farm_id, farm_id: some_other_farm_id },
-      ] = await mocks.userFarmFactory({}, { ...fakeUserFarm(1) });
+      [{ user_id: owner_of_other_farm_id, farm_id: some_other_farm_id }] =
+        await mocks.userFarmFactory({}, { ...fakeUserFarm(1) });
 
       const [{ location_id: some_location_id }] = await mocks.locationFactory({
         promisedFarm: [{ farm_id: some_farm_id }],
@@ -319,142 +340,109 @@ describe('Task tests', () => {
       });
     });
 
-    test('Owners should be able to pin a task', (done) => {
-      pinTaskRequest(
+    test('Owners should be able to pin a task', async () => {
+      const res = await pinTaskRequestAsPromise(
         { user_id: owner_user_id, farm_id: some_farm_id },
         some_task_id,
-        async (err, res) => {
-          expect(res.status).toBe(200);
-          const updated_task = await getTask(some_task_id);
-          expect(updated_task.pinned).toBe(true);
-          done();
-        },
       );
+      expect(res.status).toBe(200);
+      const updated_task = await getTask(some_task_id);
+      expect(updated_task.pinned).toBe(true);
     });
-    test('Managers should be able to pin a task', (done) => {
-      pinTaskRequest(
+    test('Managers should be able to pin a task', async () => {
+      const res = await pinTaskRequestAsPromise(
         { user_id: manager_user_id, farm_id: some_farm_id },
         some_task_id,
-        async (err, res) => {
-          expect(res.status).toBe(200);
-          const updated_task = await getTask(some_task_id);
-          expect(updated_task.pinned).toBe(true);
-          done();
-        },
       );
+      expect(res.status).toBe(200);
+      const updated_task = await getTask(some_task_id);
+      expect(updated_task.pinned).toBe(true);
     });
-    test('Workers should NOT be able to pin a task', (done) => {
-      pinTaskRequest(
+    test('Workers should NOT be able to pin a task', async () => {
+      const res = await pinTaskRequestAsPromise(
         { user_id: worker_user_id, farm_id: some_farm_id },
         some_task_id,
-        async (err, res) => {
-          expect(res.status).toBe(403);
-          const updated_task = await getTask(some_task_id);
-          expect(updated_task.pinned).toBe(false);
-          done();
-        },
       );
+      expect(res.status).toBe(403);
+      const updated_task = await getTask(some_task_id);
+      expect(updated_task.pinned).toBe(false);
     });
-    test('Workers without account should be NOT able to pin a task', (done) => {
-      pinTaskRequest(
+    test('Workers without account should be NOT able to pin a task', async () => {
+      const res = await pinTaskRequestAsPromise(
         { user_id: worker_with_account_user_id, farm_id: some_farm_id },
         some_task_id,
-        async (err, res) => {
-          expect(res.status).toBe(403);
-          const updated_task = await getTask(some_task_id);
-          expect(updated_task.pinned).toBe(false);
-          done();
-        },
       );
+      expect(res.status).toBe(403);
+      const updated_task = await getTask(some_task_id);
+      expect(updated_task.pinned).toBe(false);
     });
-    test('Extension officers should be able to pin a task', (done) => {
-      pinTaskRequest(
+    test('Extension officers should be able to pin a task', async () => {
+      const res = await pinTaskRequestAsPromise(
         { user_id: extension_officer_user_id, farm_id: some_farm_id },
         some_task_id,
-        async (err, res) => {
-          expect(res.status).toBe(200);
-          const updated_task = await getTask(some_task_id);
-          expect(updated_task.pinned).toBe(true);
-          done();
-        },
       );
+      expect(res.status).toBe(200);
+      const updated_task = await getTask(some_task_id);
+      expect(updated_task.pinned).toBe(true);
     });
-    test('Owners should be able to unpin a task', (done) => {
-      unpinTaskRequest(
+    test('Owners should be able to unpin a task', async () => {
+      const res = await unpinTaskRequestAsPromise(
         { user_id: owner_user_id, farm_id: some_farm_id },
         pinned_task_id,
-        async (err, res) => {
-          expect(res.status).toBe(200);
-          const updated_task = await getTask(pinned_task_id);
-          expect(updated_task.pinned).toBe(false);
-          done();
-        },
       );
+      expect(res.status).toBe(200);
+      const updated_task = await getTask(pinned_task_id);
+      expect(updated_task.pinned).toBe(false);
     });
-    test('Managers should be able to unpin a task', (done) => {
-      unpinTaskRequest(
+    test('Managers should be able to unpin a task', async () => {
+      const res = await unpinTaskRequestAsPromise(
         { user_id: manager_user_id, farm_id: some_farm_id },
         pinned_task_id,
-        async (err, res) => {
-          expect(res.status).toBe(200);
-          const updated_task = await getTask(pinned_task_id);
-          expect(updated_task.pinned).toBe(false);
-          done();
-        },
       );
+      expect(res.status).toBe(200);
+      const updated_task = await getTask(pinned_task_id);
+      expect(updated_task.pinned).toBe(false);
     });
-    test('Workers should NOT be able to unpin a task', (done) => {
-      unpinTaskRequest(
+    test('Workers should NOT be able to unpin a task', async () => {
+      const res = unpinTaskRequestAsPromise(
         { user_id: worker_user_id, farm_id: some_farm_id },
         pinned_task_id,
-        async (err, res) => {
-          expect(res.status).toBe(403);
-          const updated_task = await getTask(pinned_task_id);
-          expect(updated_task.pinned).toBe(true);
-          done();
-        },
       );
+      expect(res.status).toBe(403);
+      const updated_task = await getTask(pinned_task_id);
+      expect(updated_task.pinned).toBe(true);
     });
-    test('Workers without account should be NOT able to unpin a task', (done) => {
-      unpinTaskRequest(
+    test('Workers without account should be NOT able to unpin a task', async () => {
+      const res = await unpinTaskRequestAsPromise(
         { user_id: worker_with_account_user_id, farm_id: some_farm_id },
         pinned_task_id,
-        async (err, res) => {
-          expect(res.status).toBe(403);
-          const updated_task = await getTask(pinned_task_id);
-          expect(updated_task.pinned).toBe(true);
-          done();
-        },
       );
+      expect(res.status).toBe(403);
+      const updated_task = await getTask(pinned_task_id);
+      expect(updated_task.pinned).toBe(true);
     });
-    test('Extension officers should be able to unpin a task', (done) => {
-      unpinTaskRequest(
+    test('Extension officers should be able to unpin a task', async () => {
+      const res = await unpinTaskRequestAsPromise(
         { user_id: extension_officer_user_id, farm_id: some_farm_id },
         pinned_task_id,
-        async (err, res) => {
-          expect(res.status).toBe(200);
-          const updated_task = await getTask(pinned_task_id);
-          expect(updated_task.pinned).toBe(false);
-          done();
-        },
       );
+      expect(res.status).toBe(200);
+      const updated_task = await getTask(pinned_task_id);
+      expect(updated_task.pinned).toBe(false);
     });
-    test('Owners should NOT be able to pin some other farm’s task', (done) => {
-      pinTaskRequest(
+    test('Owners should NOT be able to pin some other farm’s task', async () => {
+      const res = await pinTaskRequestAsPromise(
         { user_id: owner_user_id, farm_id: some_other_farm_id },
         task_on_other_farm_id,
-        async (err, res) => {
-          expect(res.status).toBe(403);
-          const updated_task = await getTask(task_on_other_farm_id);
-          expect(updated_task.pinned).toBe(false);
-          done();
-        },
       );
+      expect(res.status).toBe(403);
+      const updated_task = await getTask(task_on_other_farm_id);
+      expect(updated_task.pinned).toBe(false);
     });
   });
 
   describe('PATCH Assginee tests', () => {
-    test('Owners should be able to assign person to task', async (done) => {
+    test('Owners should be able to assign person to task', async () => {
       const userFarm = { ...fakeUserFarm(1), wage: { type: '', amount: 30 } };
       const [{ user_id, farm_id }] = await mocks.userFarmFactory({}, userFarm);
       const [{ task_id }] = await mocks.taskFactory({ promisedUser: [{ user_id }] });
@@ -463,21 +451,18 @@ describe('Task tests', () => {
         promisedTask: [{ task_id }],
         promisedField: [{ location_id }],
       });
-      assignTaskRequest(
+      const res = await assignTaskRequestAsPromise(
         { user_id, farm_id },
         { assignee_user_id: user_id },
         task_id,
-        async (err, res) => {
-          expect(res.status).toBe(200);
-          const updated_task = await getTask(task_id);
-          // expect(updated_task.wage_at_moment).toBe(30);
-          expect(updated_task.assignee_user_id).toBe(user_id);
-          done();
-        },
       );
+      expect(res.status).toBe(200);
+      const updated_task = await getTask(task_id);
+      // expect(updated_task.wage_at_moment).toBe(30);
+      expect(updated_task.assignee_user_id).toBe(user_id);
     });
 
-    test('Should not be able to assign tasks to Inactive users', async (done) => {
+    test('Should not be able to assign tasks to Inactive users', async () => {
       const userFarm = { ...fakeUserFarm(1), wage: { type: '', amount: 30 } };
       const [{ user_id, farm_id }] = await mocks.userFarmFactory({}, userFarm);
       const [{ user_id: assignee_user_id }] = await mocks.userFarmFactory(
@@ -494,13 +479,12 @@ describe('Task tests', () => {
         promisedTask: [{ task_id }],
         promisedField: [{ location_id }],
       });
-      assignTaskRequest({ user_id, farm_id }, { assignee_user_id }, task_id, async (err, res) => {
-        expect(res.status).toBe(400);
-        done();
-      });
+      await expectResponsStatusTo(
+        assignTaskRequestAsPromise({ user_id, farm_id }, { assignee_user_id }, task_id),
+      ).toBe(400);
     });
 
-    test('Managers should be able to assign person to task', async (done) => {
+    test('Managers should be able to assign person to task', async () => {
       const [{ user_id, farm_id }] = await mocks.userFarmFactory({}, fakeUserFarm(2));
       const [{ task_id }] = await mocks.taskFactory({ promisedUser: [{ user_id }] });
       const [{ location_id }] = await mocks.locationFactory({ promisedFarm: [{ farm_id }] });
@@ -508,20 +492,17 @@ describe('Task tests', () => {
         promisedTask: [{ task_id }],
         promisedField: [{ location_id }],
       });
-      assignTaskRequest(
+      const res = await assignTaskRequestAsPromise(
         { user_id, farm_id },
         { assignee_user_id: user_id },
         task_id,
-        async (err, res) => {
-          expect(res.status).toBe(200);
-          const updated_task = await getTask(task_id);
-          expect(updated_task.assignee_user_id).toBe(user_id);
-          done();
-        },
       );
+      expect(res.status).toBe(200);
+      const updated_task = await getTask(task_id);
+      expect(updated_task.assignee_user_id).toBe(user_id);
     });
 
-    test('EO should be able to assign person to task', async (done) => {
+    test('EO should be able to assign person to task', async () => {
       const [{ user_id, farm_id }] = await mocks.userFarmFactory({}, fakeUserFarm(5));
       const [{ task_id }] = await mocks.taskFactory({ promisedUser: [{ user_id }] });
       const [{ location_id }] = await mocks.locationFactory({ promisedFarm: [{ farm_id }] });
@@ -529,20 +510,17 @@ describe('Task tests', () => {
         promisedTask: [{ task_id }],
         promisedField: [{ location_id }],
       });
-      assignTaskRequest(
+      const res = await assignTaskRequestAsPromise(
         { user_id, farm_id },
         { assignee_user_id: user_id },
         task_id,
-        async (err, res) => {
-          expect(res.status).toBe(200);
-          const updated_task = await getTask(task_id);
-          expect(updated_task.assignee_user_id).toBe(user_id);
-          done();
-        },
       );
+      expect(res.status).toBe(200);
+      const updated_task = await getTask(task_id);
+      expect(updated_task.assignee_user_id).toBe(user_id);
     });
 
-    test('Worker should be able to assign self to task', async (done) => {
+    test('Worker should be able to assign self to task', async () => {
       const [{ user_id, farm_id }] = await mocks.userFarmFactory({}, fakeUserFarm(3));
       const [{ task_id }] = await mocks.taskFactory({ promisedUser: [{ user_id }] });
       const [{ location_id }] = await mocks.locationFactory({ promisedFarm: [{ farm_id }] });
@@ -550,20 +528,17 @@ describe('Task tests', () => {
         promisedTask: [{ task_id }],
         promisedField: [{ location_id }],
       });
-      assignTaskRequest(
+      const res = await assignTaskRequest(
         { user_id, farm_id },
         { assignee_user_id: user_id },
         task_id,
-        async (err, res) => {
-          expect(res.status).toBe(200);
-          const updated_task = await getTask(task_id);
-          expect(updated_task.assignee_user_id).toBe(user_id);
-          done();
-        },
       );
+      expect(res.status).toBe(200);
+      const updated_task = await getTask(task_id);
+      expect(updated_task.assignee_user_id).toBe(user_id);
     });
 
-    test('Worker should not be able to assign another person to task', async (done) => {
+    test('Worker should not be able to assign another person to task', async () => {
       const [{ user_id, farm_id }] = await mocks.userFarmFactory({}, fakeUserFarm(3));
       const [{ user_id: other_user_id }] = await mocks.userFarmFactory(
         { promisedFarm: [{ farm_id }] },
@@ -575,18 +550,16 @@ describe('Task tests', () => {
         promisedTask: [{ task_id }],
         promisedField: [{ location_id }],
       });
-      assignTaskRequest(
-        { user_id, farm_id },
-        { assignee_user_id: other_user_id },
-        task_id,
-        async (err, res) => {
-          expect(res.status).toBe(403);
-          done();
-        },
-      );
+      await expectResponsStatusTo(
+        assignTaskRequestAsPromise(
+          { user_id, farm_id },
+          { assignee_user_id: other_user_id },
+          task_id,
+        ),
+      ).toBe(403);
     });
 
-    test('Farm worker should not be able to re-assign a task assigned to another person', async (done) => {
+    test('Farm worker should not be able to re-assign a task assigned to another person', async () => {
       const [{ user_id, farm_id }] = await mocks.userFarmFactory({}, fakeUserFarm(3));
       const [{ user_id: admin_user_id }] = await mocks.userFarmFactory(
         { promisedFarm: [{ farm_id }] },
@@ -606,15 +579,9 @@ describe('Task tests', () => {
         promisedTask: [{ task_id }],
         promisedField: [{ location_id }],
       });
-      assignTaskRequest(
-        { user_id, farm_id },
-        { assignee_user_id: user_id },
-        task_id,
-        async (err, res) => {
-          expect(res.status).toBe(403);
-          done();
-        },
-      );
+      await expectResponsStatusTo(
+        assignTaskRequestAsPromise({ user_id, farm_id }, { assignee_user_id: user_id }, task_id),
+      ).toBe(403);
     });
 
     test('Should not be able to re-assign completed tasks', async (done) => {
@@ -1362,12 +1329,11 @@ describe('Task tests', () => {
               task_name: 'Transplant',
             },
           );
-          const [
-            { location_id, management_plan_id },
-          ] = await mocks.planting_management_planFactory({ promisedFarm: [userFarm] });
-          const [
-            { planting_management_plan_id: prev_planting_management_plan_id },
-          ] = await mocks.planting_management_planFactory({ promisedFarm: [userFarm] });
+          const [{ location_id, management_plan_id }] = await mocks.planting_management_planFactory(
+            { promisedFarm: [userFarm] },
+          );
+          const [{ planting_management_plan_id: prev_planting_management_plan_id }] =
+            await mocks.planting_management_planFactory({ promisedFarm: [userFarm] });
           const transplant_task = {
             ...mocks.fakeTask(),
             task_type_id: transplantTaskType.task_type_id,
@@ -1434,10 +1400,10 @@ describe('Task tests', () => {
         test(`should fail to create a transplant task when previous plan is for different farm's location`, async (done) => {
           const [userFarm2] = await generateUserFarms(1);
           const { transplant_task, userFarm } = await getBody('row_method');
-          const [
-            { planting_management_plan_id: prev_planting_management_plan_id },
-          ] = await mocks.planting_management_planFactory({ promisedFarm: [userFarm2] });
-          transplant_task.transplant_task.prev_planting_management_plan_id = prev_planting_management_plan_id;
+          const [{ planting_management_plan_id: prev_planting_management_plan_id }] =
+            await mocks.planting_management_planFactory({ promisedFarm: [userFarm2] });
+          transplant_task.transplant_task.prev_planting_management_plan_id =
+            prev_planting_management_plan_id;
 
           postTransplantTaskRequest(userFarm, transplant_task, async (err, res) => {
             expect(res.status).toBe(403);
@@ -1486,13 +1452,8 @@ describe('Task tests', () => {
 
       Object.keys(fakeTaskData).map((type) => {
         test(`should successfully create a ${type} with a management plan`, async (done) => {
-          const {
-            user_id,
-            farm_id,
-            location_id,
-            planting_management_plan_id,
-            task_type_id,
-          } = await userFarmTaskGenerator();
+          const { user_id, farm_id, location_id, planting_management_plan_id, task_type_id } =
+            await userFarmTaskGenerator();
           const data = {
             ...mocks.fakeTask({
               [type]: { ...fakeTaskData[type]() },
@@ -1848,12 +1809,8 @@ describe('Task tests', () => {
       });
 
       test('should fail to create a task were a worker is trying to assign someone else', async (done) => {
-        const {
-          farm_id,
-          location_id,
-          management_plan_id,
-          task_type_id,
-        } = await userFarmTaskGenerator(true);
+        const { farm_id, location_id, management_plan_id, task_type_id } =
+          await userFarmTaskGenerator(true);
         const [{ user_id: worker_id }] = await mocks.userFarmFactory(
           { promisedFarm: [{ farm_id }] },
           fakeUserFarm(3),
@@ -1885,12 +1842,8 @@ describe('Task tests', () => {
       });
 
       test('should fail to create a task were a worker is trying to modify wage for himself ', async (done) => {
-        const {
-          farm_id,
-          location_id,
-          management_plan_id,
-          task_type_id,
-        } = await userFarmTaskGenerator(true);
+        const { farm_id, location_id, management_plan_id, task_type_id } =
+          await userFarmTaskGenerator(true);
         const [{ user_id: worker_id }] = await mocks.userFarmFactory(
           { promisedFarm: [{ farm_id }] },
           fakeUserFarm(3),
@@ -2671,7 +2624,7 @@ describe('Task tests', () => {
       });
     });
 
-    test('Owner should be able to delete a task they are not assigned to', async (done) => {
+    test('Owner should be able to delete a task they are not assigned to', async () => {
       const [{ user_id, farm_id }] = await mocks.userFarmFactory({}, fakeUserFarm(1));
       const [{ user_id: other_user_id }] = await mocks.userFarmFactory(
         { promisedFarm: [{ farm_id }] },
@@ -2684,12 +2637,11 @@ describe('Task tests', () => {
       );
       const [location] = await mocks.locationFactory({ promisedFarm: [{ farm_id }] });
       await mocks.location_tasksFactory({ promisedTask: [task], promisedField: [location] });
-      deleteTaskRequest({ user_id, farm_id }, task.task_id, async (err, res) => {
-        expect(res.status).toBe(200);
-        const updated_task = await getTask(task.task_id);
-        expect(updated_task.deleted).toBe(true);
-        done();
-      });
+
+      const res = await deleteTaskRequestAsPromise({ user_id, farm_id }, task.task_id);
+      expect(res.status).toBe(200);
+      const updated_task = await getTask(task.task_id);
+      expect(updated_task.deleted).toBe(true);
     });
 
     test('Worker should not be able to delete any task', async (done) => {
@@ -2786,7 +2738,7 @@ describe('Task tests', () => {
       });
     });
 
-    test('EO must be able to patch task due date to a future date', async (done) => {
+    test('EO must be able to patch task due date to a future date', async () => {
       const due_date = faker.date.future().toISOString().split('T')[0];
       const patchTaskDateBody = { due_date };
       const [{ user_id, farm_id }] = await mocks.userFarmFactory({}, fakeUserFarm(5));
@@ -2797,11 +2749,13 @@ describe('Task tests', () => {
         promisedField: [{ location_id }],
       });
 
-      patchTaskDateRequest({ user_id, farm_id }, patchTaskDateBody, task_id, async (err, res) => {
-        expect(res.status).toBe(200);
-        const updated_task = await getTask(task_id);
-        expect(toLocal8601Extended(updated_task.due_date)).toBe(due_date);
-        done();
+      await new Promise((resolve, reject) => {
+        patchTaskDateRequest({ user_id, farm_id }, patchTaskDateBody, task_id, async (err, res) => {
+          expect(res.status).toBe(200);
+          const updated_task = await getTask(task_id);
+          expect(toLocal8601Extended(updated_task.due_date)).toBe(due_date);
+          err ? reject(err) : resolve(res);
+        });
       });
     });
 

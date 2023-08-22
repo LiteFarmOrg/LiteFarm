@@ -14,5 +14,17 @@
       "files": ["*.js", "*.jsx"],
       "rules": {}
     }
-  ]
+  ],
+  "globals": {
+    "jest": "readonly",
+    "describe": "readonly",
+    "xdescribe": "readonly",
+    "test": "readonly",
+    "xtest": "readonly",
+    "beforeAll": "readonly",
+    "beforeEach": "readonly",
+    "afterAll": "readonly",
+    "afterEach": "readonly",
+    "expect": "readonly"
+  }
 }

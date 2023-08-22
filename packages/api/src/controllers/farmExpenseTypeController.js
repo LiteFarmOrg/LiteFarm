@@ -25,9 +25,28 @@ const farmExpenseTypeController = {
       try {
         const data = req.body;
         data.expense_translation_key = data.expense_name;
-        const result = await baseController.postWithResponse(ExpenseTypeModel, data, req, { trx });
-        await trx.commit();
-        res.status(201).send(result);
+
+        // check if records exixts in DB
+        const record = await ExpenseTypeModel.query()
+          .where({
+            expense_name: data.expense_name,
+            farm_id: data.farm_id,
+          })
+          .first();
+
+        //if record exists then set 'deleted' column to false
+        if (record) {
+          record['deleted'] = false;
+          await baseController.put(ExpenseTypeModel, record.expense_type_id, record, req, { trx });
+          await trx.commit();
+          res.status(204).send();
+        } else {
+          const result = await baseController.postWithResponse(ExpenseTypeModel, data, req, {
+            trx,
+          });
+          await trx.commit();
+          res.status(201).send(result);
+        }
       } catch (error) {
         //handle more exceptions
         await trx.rollback();
@@ -95,6 +114,40 @@ const farmExpenseTypeController = {
         res.status(400).json({
           error,
         });
+      }
+    };
+  },
+
+  updateFarmExpenseType() {
+    return async (req, res) => {
+      const trx = await transaction.start(Model.knex());
+      const { expense_type_id } = req.params;
+      const data = req.body;
+      data.expense_translation_key = data.expense_name;
+
+      try {
+        // check if records exixts in DB
+        const record = await ExpenseTypeModel.query()
+          .where({
+            expense_name: data.expense_name,
+            farm_id: data.farm_id,
+          })
+          .whereNot(ExpenseTypeModel.idColumn, expense_type_id)
+          .first();
+
+        // if record exists throw Conflict error
+        if (record) {
+          return res.status(409).send();
+        }
+
+        const result = await baseController.put(ExpenseTypeModel, expense_type_id, data, req, {
+          trx,
+        });
+        await trx.commit();
+        return result ? res.status(204).send() : res.status(404).send('Expense type not found');
+      } catch (error) {
+        await trx.rollback();
+        return res.status(400).send(error);
       }
     };
   },

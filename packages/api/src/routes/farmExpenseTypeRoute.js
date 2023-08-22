@@ -43,4 +43,11 @@ router.delete(
   farmExpenseTypeController.delFarmExpenseType(),
 );
 
+router.put(
+  '/:expense_type_id',
+  hasFarmAccess({ params: 'expense_type_id' }),
+  checkScope(['add:expense_types']),
+  farmExpenseTypeController.updateFarmExpenseType(),
+);
+
 export default router;

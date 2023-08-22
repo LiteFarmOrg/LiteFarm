@@ -16,11 +16,12 @@
 .financesContainer {
   width: 100%;
   max-width: 1024px;
-  min-height: 100vh;
+  min-height: 100%;
   height: auto;
   padding: 24px 24px 50px 24px;
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
 }
 
 .topContainer {
@@ -147,15 +148,6 @@
 .rightDiv {
   display: inline;
   float: right;
-}
-
-.expenseContainer {
-}
-
-.salesContainer {
-}
-
-.balanceContainer {
 }
 
 .table {

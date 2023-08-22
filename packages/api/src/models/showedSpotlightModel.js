@@ -70,6 +70,7 @@ class ShowedSpotlight extends Model {
         sensor_reading_chart_end: { type: ['string', 'null'] },
         repeat_management_plan_creation: { type: 'boolean' },
         repeat_management_plan_creation_end: { type: ['string', 'null'] },
+        manage_custom_expense_type: { type: ['string', 'null'] },
       },
     };
   }

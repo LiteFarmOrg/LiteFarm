@@ -34,3 +34,21 @@
   display: flex;
   align-items: center;
 }
+
+.manageCustomTypeIcon {
+  margin-right: 4px;
+}
+
+.manageCustomTypeLinkContainer {
+  display: inline-block;
+}
+
+.manageCustomTypeLink {
+  display: flex;
+  color: var(--grey600);
+  margin: auto;
+}
+
+.continueButton {
+  margin-top: 10px;
+}

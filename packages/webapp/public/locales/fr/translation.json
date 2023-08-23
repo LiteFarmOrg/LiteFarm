@@ -1477,6 +1477,11 @@
       "EXPENSES": "Dépenses",
       "FINANCE_HELP": "Aide Financière",
       "LABOUR_LABEL": "Coûts de main-d'œuvre",
+      "MANAGE_CUSTOM_EXPENSE_TYPES_SPOTLIGHT": {
+        "TITLE": "MISSING",
+        "BODY": "MISSING"
+      },
+      "MANAGE_CUSTOM_EXPENSE_TYPE": "MISSING",
       "OTHER_EXPENSES_LABEL": "Autres dépenses",
       "REVENUE": "Revenu",
       "TITLE": "Finances",

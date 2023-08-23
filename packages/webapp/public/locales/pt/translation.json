@@ -1477,6 +1477,11 @@
       "EXPENSES": "Despesas",
       "FINANCE_HELP": "Ajuda Financeira",
       "LABOUR_LABEL": "Trabalho",
+      "MANAGE_CUSTOM_EXPENSE_TYPES_SPOTLIGHT": {
+        "TITLE": "MISSING",
+        "BODY": "MISSING"
+      },
+      "MANAGE_CUSTOM_EXPENSE_TYPE": "MISSING",
       "OTHER_EXPENSES_LABEL": "Outras despesas",
       "REVENUE": "Receita",
       "TITLE": "Finanças",

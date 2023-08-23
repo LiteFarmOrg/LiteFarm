@@ -53,6 +53,10 @@ ReadOnlyCustomType.args = {
   onClick: () => {
     console.log('Moving to edit mode');
   },
+  retireLinkText: 'Retire expense type',
+  retireHeader: 'Retire expense type',
+  retireMessage:
+    'Retiring this expense type will remove it as a possible choice for future expenses. You can still search and filter for historical instances of this expense type on the Finances tab.',
   ...args,
 };
 

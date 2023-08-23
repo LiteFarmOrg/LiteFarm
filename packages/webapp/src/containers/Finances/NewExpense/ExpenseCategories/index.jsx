@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import connect from 'react-redux/es/connect/connect';
 import styles from './styles.module.scss';
-import { expenseTypeTileContentsSelector } from '../../selectors';
+import { expenseTypeTileContentsSelector, selectedExpenseSelector } from '../../selectors';
 import { ReactComponent as EquipIcon } from '../../../../assets/images/log/equipment.svg';
 import { ReactComponent as SoilAmendmentIcon } from '../../../../assets/images/log/fertilizing.svg';
 import { ReactComponent as PestIcon } from '../../../../assets/images/log/bug.svg';
@@ -33,7 +33,7 @@ class ExpenseCategories extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      selectedTypes: [],
+      selectedTypes: this.props.selectedExpense,
     };
 
     this.addRemoveType = this.addRemoveType.bind(this);
@@ -104,6 +104,7 @@ ExpenseCategories.propTypes = {
 const mapStateToProps = (state) => {
   return {
     expenseTypes: expenseTypeTileContentsSelector(state),
+    selectedExpense: selectedExpenseSelector(state),
   };
 };
 

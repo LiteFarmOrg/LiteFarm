@@ -1,58 +1,38 @@
 import React, { Component } from 'react';
-import PageTitle from '../../../../components/PageTitle';
-import Button from '../../../../components/Form/Button';
 import connect from 'react-redux/es/connect/connect';
-import defaultStyles from '../../styles.module.scss';
 import styles from './styles.module.scss';
 import { expenseTypeTileContentsSelector } from '../../selectors';
-import EquipImg from '../../../../assets/images/log/equipment.svg';
-import SoilAmendmentImg from '../../../../assets/images/log/fertilizing.svg';
-import PestImg from '../../../../assets/images/log/bug.svg';
-import FuelImg from '../../../../assets/images/log/fuel.svg';
-import MachineImg from '../../../../assets/images/log/machinery.svg';
-import SeedImg from '../../../../assets/images/log/seeding.svg';
-import OtherImg from '../../../../assets/images/log/other.svg';
-import LandImg from '../../../../assets/images/log/land.svg';
+import { ReactComponent as EquipIcon } from '../../../../assets/images/log/equipment.svg';
+import { ReactComponent as SoilAmendmentIcon } from '../../../../assets/images/log/fertilizing.svg';
+import { ReactComponent as PestIcon } from '../../../../assets/images/log/bug.svg';
+import { ReactComponent as FuelIcon } from '../../../../assets/images/log/fuel.svg';
+import { ReactComponent as MachineIcon } from '../../../../assets/images/log/machinery.svg';
+import { ReactComponent as SeedIcon } from '../../../../assets/images/log/seeding.svg';
+import { ReactComponent as OtherIcon } from '../../../../assets/images/log/other.svg';
+import { ReactComponent as LandIcon } from '../../../../assets/images/log/land.svg';
 import { setSelectedExpenseTypes } from '../../actions';
-import { IconLink } from '../../../../components/Typography';
 import history from '../../../../history';
 import { withTranslation } from 'react-i18next';
-import { Grid } from '@mui/material';
 import PropTypes from 'prop-types';
-import { BsGear } from 'react-icons/bs';
 import ManageCustomExpenseTypesSpotlight from '../ManageCustomExpenseTypesSpotlight';
+import PureFinanceTypeSelection from '../../../../components/Finances/PureFinanceTypeSelection';
+import { HookFormPersistProvider } from '../../../hooks/useHookFormPersist/HookFormPersistProvider';
 
-const iconMap = {
-  EQUIPMENT: EquipImg,
-  SOIL_AMENDMENT: SoilAmendmentImg,
-  PESTICIDE: PestImg,
-  FUEL: FuelImg,
-  MACHINERY: MachineImg,
-  SEEDS: SeedImg,
-  OTHER: OtherImg,
-  LAND: LandImg,
+export const icons = {
+  EQUIPMENT: <EquipIcon />,
+  SOIL_AMENDMENT: <SoilAmendmentIcon />,
+  PESTICIDE: <PestIcon />,
+  FUEL: <FuelIcon />,
+  MACHINERY: <MachineIcon />,
+  SEEDS: <SeedIcon />,
+  OTHER: <OtherIcon />,
+  LAND: <LandIcon />,
 };
 
 class ExpenseCategories extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      selectedStyle: {
-        width: '80px',
-        height: '80px',
-        borderRadius: '50px',
-        background: '#00756A',
-        margin: '0 auto',
-        boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.08)',
-      },
-      unSelectedStyle: {
-        width: '80px',
-        height: '80px',
-        borderRadius: '50px',
-        margin: '0 auto',
-        background: '#82CF9C',
-        boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.08)',
-      },
       selectedTypes: [],
     };
 
@@ -60,7 +40,8 @@ class ExpenseCategories extends Component {
     this.nextPage = this.nextPage.bind(this);
   }
 
-  nextPage() {
+  nextPage(event) {
+    event.preventDefault();
     this.props.dispatch(setSelectedExpenseTypes(this.state.selectedTypes));
     history.push('/add_expense');
   }
@@ -80,80 +61,37 @@ class ExpenseCategories extends Component {
 
   render() {
     const { expenseTypes } = this.props;
-    const { selectedStyle, unSelectedStyle, selectedTypes } = this.state;
+
     return (
       <ManageCustomExpenseTypesSpotlight>
-        <div className={defaultStyles.financesContainer}>
-          <div>
-            <PageTitle backUrl="/Finances" title={this.props.t('EXPENSE.ADD_EXPENSE.TITLE_1')} />
-            <Grid
-              container
-              spacing={3}
-              style={{
-                marginLeft: 0,
-                marginRight: 0,
-                marginTop: '24px',
-                width: '100%',
-              }}
-            >
-              {expenseTypes?.map((type) => {
-                return (
-                  <Grid
-                    item
-                    xs={4}
-                    md={3}
-                    lg={2}
-                    key={type.expense_type_id}
-                    style={{ marginBottom: '12px' }}
-                  >
-                    <div>
-                      <div
-                        style={
-                          selectedTypes.includes(type.expense_type_id)
-                            ? selectedStyle
-                            : unSelectedStyle
-                        }
-                        onClick={() => this.addRemoveType(type.expense_type_id)}
-                        className={styles.greenCircle}
-                      >
-                        <img
-                          src={iconMap[type.expense_translation_key]}
-                          alt=""
-                          className={styles.circleImg}
-                        />
-                      </div>
-                      <div className={styles.typeName}>
-                        {this.props.t(`expense:${type.expense_translation_key}`)}
-                      </div>
-                    </div>
-                  </Grid>
-                );
-              })}
-            </Grid>
-          </div>
-          <div>
-            <div className={styles.manageCustomTypeLinkContainer}>
-              <IconLink
-                id="manageCustomExpenseType"
-                className={styles.manageCustomTypeLink}
-                icon={<BsGear className={styles.manageCustomTypeIcon} />}
-                isIconClickable
-                underlined={false}
-              >
-                {this.props.t('SALE.FINANCES.MANAGE_CUSTOM_EXPENSE_TYPE')}
-              </IconLink>
-            </div>
-            <Button
-              color={'primary'}
-              fullLength
-              onClick={() => this.nextPage()}
-              disabled={!selectedTypes.length}
-              className={styles.continueButton}
-            >
-              {this.props.t('common:CONTINUE')}
-            </Button>
-          </div>
-        </div>
+        <HookFormPersistProvider>
+          <PureFinanceTypeSelection
+            title={this.props.t('EXPENSE.ADD_EXPENSE.TITLE')}
+            leadText={this.props.t('EXPENSE.ADD_EXPENSE.WHICH_TYPES_TO_RECORD')}
+            cancelTitle={this.props.t('EXPENSE.ADD_EXPENSE.FLOW')}
+            types={expenseTypes}
+            onContinue={this.nextPage}
+            onGoBack={this.props.history.back}
+            progressValue={50}
+            onGoToManageCustomType={() => history.push('/manage_custom_expense_types')}
+            isTypeSelected={!!this.state.selectedTypes.length}
+            formatTileData={(data) => {
+              const { farm_id, expense_translation_key, expense_type_id } = data;
+
+              return {
+                key: expense_type_id,
+                tileKey: expense_type_id,
+                icon: icons[farm_id ? 'OTHER' : expense_translation_key],
+                label: this.props.t(`expense:${expense_translation_key}`),
+                onClick: () => this.addRemoveType(expense_type_id),
+                selected: this.state.selectedTypes.includes(expense_type_id),
+                className: styles.labelIcon,
+              };
+            }}
+            useHookFormPersist={this.props.useHookFormPersist}
+            iconLinkId={'manageCustomExpenseType'}
+          />
+        </HookFormPersistProvider>
       </ManageCustomExpenseTypesSpotlight>
     );
   }

@@ -1,18 +1,3 @@
-.moodContainer {
-  width: 80%;
-  margin-bottom: 2em;
-  height: auto;
-}
-
-.circleImg {
-  display: block;
-  margin: 0 auto;
-}
-
-.typeName {
-  text-align: center;
-}
-
 .bottomContainer {
   width: 100%;
   max-width: 1024px;
@@ -30,25 +15,11 @@
   border-radius: 10px;
 }
 
-.greenCircle {
-  display: flex;
-  align-items: center;
-}
+.labelIcon {
+  font-weight: 600;
 
-.manageCustomTypeIcon {
-  margin-right: 4px;
-}
-
-.manageCustomTypeLinkContainer {
-  display: inline-block;
-}
-
-.manageCustomTypeLink {
-  display: flex;
-  color: var(--grey600);
-  margin: auto;
-}
-
-.continueButton {
-  margin-top: 10px;
+  svg {
+    border-top: solid 3px transparent;
+    border-bottom: solid 3px transparent;
+  }
 }

@@ -59,6 +59,21 @@ describe('Expense Type Tests', () => {
       .end(callback);
   }
 
+  function putExpenseTypeRequest(
+    data,
+    { user_id = newOwner.user_id, farm_id = farm.farm_id },
+    callback,
+  ) {
+    chai
+      .request(server)
+      .put(`/expense_type/${data.expense_type_id}`)
+      .set('Content-Type', 'application/json')
+      .set('user_id', user_id)
+      .set('farm_id', farm_id)
+      .send(data)
+      .end(callback);
+  }
+
   function fakeUserFarm(role = 1) {
     return { ...mocks.fakeUserFarm(), role_id: role };
   }
@@ -307,7 +322,7 @@ describe('Expense Type Tests', () => {
     test('Owner should get 403 if they try to delete default expense type', async (done) => {
       const { mainFarm, user } = await returnUserFarms(1);
       const expense = await returnDefaultExpenseType();
-      console.log(expense);
+      //console.log(expense);
       deleteRequest(expense.expense_type, { user_id: expense.user_id }, (err, res) => {
         expect(res.status).toBe(403);
         done();
@@ -413,6 +428,84 @@ describe('Expense Type Tests', () => {
           expect(res.status).toBe(403);
           expect(res.error.text).toBe(
             'User does not have the following permission(s): delete:expense_types',
+          );
+          done();
+        },
+      );
+    });
+  });
+
+  // Update expense type
+  describe('Update expense type tests', () => {
+    test('Owner should update expense type', async (done) => {
+      const { mainFarm, user } = await returnUserFarms(1);
+      const expense = await returnExpenseType(mainFarm);
+
+      putExpenseTypeRequest(
+        expense.expense_type,
+        { user_id: user.user_id, farm_id: mainFarm.farm_id },
+        async (err, res) => {
+          expect(res.status).toBe(204);
+          const expense_types = await farmExpenseTypeModel
+            .query()
+            .context({ showHidden: true })
+            .where('farm_id', mainFarm.farm_id);
+          expect(expense_types.length).toBe(1);
+          expect(expense_types[0].value).toBe(expense.expense_type.value);
+          done();
+        },
+      );
+    });
+    test('Manager should update expense type', async (done) => {
+      const { mainFarm, user } = await returnUserFarms(2);
+      const expense = await returnExpenseType(mainFarm);
+
+      putExpenseTypeRequest(
+        expense.expense_type,
+        { user_id: user.user_id, farm_id: mainFarm.farm_id },
+        async (err, res) => {
+          expect(res.status).toBe(204);
+          const expense_types = await farmExpenseTypeModel
+            .query()
+            .context({ showHidden: true })
+            .where('farm_id', mainFarm.farm_id);
+          expect(expense_types.length).toBe(1);
+          expect(expense_types[0].value).toBe(expense.expense_type.value);
+          done();
+        },
+      );
+    });
+    test('Worker should get 403 if they try to update expense type', async (done) => {
+      const { mainFarm, user } = await returnUserFarms(3);
+      const expense = await returnExpenseType(mainFarm);
+
+      putExpenseTypeRequest(
+        expense.expense_type,
+        { user_id: user.user_id, farm_id: mainFarm.farm_id },
+        async (err, res) => {
+          expect(res.status).toBe(403);
+          expect(res.error.text).toBe(
+            'User does not have the following permission(s): add:expense_types',
+          );
+          done();
+        },
+      );
+    });
+    test('Unauthorized user should get 403 if they try to update expense type', async (done) => {
+      const { mainFarm } = await returnUserFarms(3);
+      const expense = await returnExpenseType(mainFarm);
+      const [unAuthorizedUser] = await mocks.usersFactory();
+
+      putExpenseTypeRequest(
+        expense.expense_type,
+        {
+          user_id: unAuthorizedUser.user_id,
+          farm_id: mainFarm.farm_id,
+        },
+        async (err, res) => {
+          expect(res.status).toBe(403);
+          expect(res.error.text).toBe(
+            'User does not have the following permission(s): add:expense_types',
           );
           done();
         },

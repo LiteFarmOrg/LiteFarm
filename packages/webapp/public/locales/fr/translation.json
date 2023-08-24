@@ -489,9 +489,9 @@
       "REQUIRED_ERROR": "Une dépense est requise",
       "TITLE_1": "Nouvelle dépense (1 sur 2)",
       "TITLE_2": "Nouvelle dépense (2 sur 2)",
-      "TITLE": "MISSING",
-      "FLOW": "MISSING",
-      "WHICH_TYPES_TO_RECORD": "MISSING"
+      "TITLE": "Ajouter une dépense",
+      "FLOW": "Création d'une dépense",
+      "WHICH_TYPES_TO_RECORD": "Quel type de dépense voulez-vous enregistrer ?"
     },
     "ADD_MORE_ITEMS": "Ajouter d'autres articles",
     "DETAILED_HISTORY": "Historique détaillé",

@@ -115,3 +115,39 @@ export const Expense = {
   },
   parameters: { ...chromaticSmallScreen },
 };
+
+const revenueTypes = [
+  {
+    revenue_name: 'Crop sale',
+    farm_id: null,
+    revenue_type_id: '1fd85a60-22a9-11ee-9683-e66db4bef552',
+    deleted: false,
+    revenue_translation_key: 'CROP_SALE',
+  },
+];
+
+export const Revenue = {
+  args: {
+    title: 'Add Revenue',
+    leadText: 'Which type of revenue would you like to record?',
+    cancelTitle: 'Revenue creation',
+    types: revenueTypes,
+    onGoBack: () => console.log('Go back'),
+    progressValue: 50,
+    onGoToManageCustomType: () => console.log('Go to Management Custom Type'),
+    isTypeSelected: false,
+    formatTileData: (data) => {
+      const { farm_id, revenue_translation_key, revenue_name } = data;
+
+      return {
+        key: revenue_translation_key,
+        tileKey: revenue_translation_key,
+        icon: icons['SEEDS'],
+        label: revenue_name,
+        onClick: () => console.log(`${revenue_name} clicked!`),
+      };
+    },
+    useHookFormPersist: () => ({}),
+  },
+  parameters: { ...chromaticSmallScreen },
+};

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PageTitle from '../../../../components/PageTitle';
+import Button from '../../../../components/Form/Button';
 import connect from 'react-redux/es/connect/connect';
 import defaultStyles from '../../styles.module.scss';
 import styles from './styles.module.scss';
@@ -13,10 +14,13 @@ import SeedImg from '../../../../assets/images/log/seeding.svg';
 import OtherImg from '../../../../assets/images/log/other.svg';
 import LandImg from '../../../../assets/images/log/land.svg';
 import { setSelectedExpenseTypes } from '../../actions';
+import { IconLink } from '../../../../components/Typography';
 import history from '../../../../history';
 import { withTranslation } from 'react-i18next';
 import { Grid } from '@mui/material';
 import PropTypes from 'prop-types';
+import { BsGear } from 'react-icons/bs';
+import ManageCustomExpenseTypesSpotlight from '../ManageCustomExpenseTypesSpotlight';
 
 const iconMap = {
   EQUIPMENT: EquipImg,
@@ -78,68 +82,89 @@ class ExpenseCategories extends Component {
     const { expenseTypes } = this.props;
     const { selectedStyle, unSelectedStyle, selectedTypes } = this.state;
     return (
-      <div className={defaultStyles.financesContainer}>
-        <PageTitle backUrl="/Finances" title={this.props.t('EXPENSE.ADD_EXPENSE.TITLE_1')} />
-        <Grid
-          container
-          spacing={3}
-          style={{
-            marginLeft: 0,
-            marginRight: 0,
-            marginTop: '24px',
-            width: '100%',
-          }}
-        >
-          {expenseTypes
-            ?.sort((firstExpenseType, secondExpenseType) => {
-              if (firstExpenseType.expense_translation_key === 'OTHER') return 1;
-              if (secondExpenseType.expense_translation_key === 'OTHER') return -1;
-              return this.props
-                .t(`expense:${firstExpenseType.expense_translation_key}`)
-                .localeCompare(
-                  this.props.t(`expense:${secondExpenseType.expense_translation_key}`),
-                );
-            })
-            .map((type) => {
-              return (
-                <Grid
-                  item
-                  xs={4}
-                  md={3}
-                  lg={2}
-                  key={type.expense_type_id}
-                  style={{ marginBottom: '12px' }}
-                >
-                  <div>
-                    <div
-                      style={
-                        selectedTypes.includes(type.expense_type_id)
-                          ? selectedStyle
-                          : unSelectedStyle
-                      }
-                      onClick={() => this.addRemoveType(type.expense_type_id)}
-                      className={styles.greenCircle}
+      <ManageCustomExpenseTypesSpotlight>
+        <div className={defaultStyles.financesContainer}>
+          <div>
+            <PageTitle backUrl="/Finances" title={this.props.t('EXPENSE.ADD_EXPENSE.TITLE_1')} />
+            <Grid
+              container
+              spacing={3}
+              style={{
+                marginLeft: 0,
+                marginRight: 0,
+                marginTop: '24px',
+                width: '100%',
+              }}
+            >
+              {expenseTypes
+                ?.sort((firstExpenseType, secondExpenseType) => {
+                  if (firstExpenseType.expense_translation_key === 'OTHER') return 1;
+                  if (secondExpenseType.expense_translation_key === 'OTHER') return -1;
+                  return this.props
+                    .t(`expense:${firstExpenseType.expense_translation_key}`)
+                    .localeCompare(
+                      this.props.t(`expense:${secondExpenseType.expense_translation_key}`),
+                    );
+                })
+                .map((type) => {
+                  return (
+                    <Grid
+                      item
+                      xs={4}
+                      md={3}
+                      lg={2}
+                      key={type.expense_type_id}
+                      style={{ marginBottom: '12px' }}
                     >
-                      <img
-                        src={iconMap[type.expense_translation_key]}
-                        alt=""
-                        className={styles.circleImg}
-                      />
-                    </div>
-                    <div className={styles.typeName}>
-                      {this.props.t(`expense:${type.expense_translation_key}`)}
-                    </div>
-                  </div>
-                </Grid>
-              );
-            })}
-        </Grid>
-        <div className={styles.bottomContainer}>
-          <button className="btn btn-primary" onClick={() => this.nextPage()}>
-            {this.props.t('common:NEXT')}
-          </button>
+                      <div>
+                        <div
+                          style={
+                            selectedTypes.includes(type.expense_type_id)
+                              ? selectedStyle
+                              : unSelectedStyle
+                          }
+                          onClick={() => this.addRemoveType(type.expense_type_id)}
+                          className={styles.greenCircle}
+                        >
+                          <img
+                            src={iconMap[type.expense_translation_key]}
+                            alt=""
+                            className={styles.circleImg}
+                          />
+                        </div>
+                        <div className={styles.typeName}>
+                          {this.props.t(`expense:${type.expense_translation_key}`)}
+                        </div>
+                      </div>
+                    </Grid>
+                  );
+                })}
+            </Grid>
+          </div>
+          <div>
+            <div className={styles.manageCustomTypeLinkContainer}>
+              <IconLink
+                id="manageCustomExpenseType"
+                className={styles.manageCustomTypeLink}
+                icon={<BsGear className={styles.manageCustomTypeIcon} />}
+                isIconClickable
+                underlined={false}
+              >
+                {this.props.t('SALE.FINANCES.MANAGE_CUSTOM_EXPENSE_TYPE')}
+              </IconLink>
+            </div>
+            <Button
+              color={'primary'}
+              fullLength
+              onClick={() => this.nextPage()}
+              disabled={!selectedTypes.length}
+              className={styles.continueButton}
+            >
+              {this.props.t('common:CONTINUE')}
+            </Button>
+          </div>
         </div>
-      </div>
+      </ManageCustomExpenseTypesSpotlight>
     );
   }
 }

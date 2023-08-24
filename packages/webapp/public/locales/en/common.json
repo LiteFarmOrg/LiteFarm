@@ -10,6 +10,7 @@
   "CLEAR_ALL_FILTERS": "Clear all filters",
   "CLOSE": "Close",
   "CHANGE": "Change",
+  "CHAR_LIMIT_ERROR": "Limit is {{value}} characters",
   "CONFIRM": "Confirm",
   "CONTINUE": "Continue",
   "DATE": "Date",

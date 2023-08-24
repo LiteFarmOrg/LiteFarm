@@ -1476,6 +1476,11 @@
       "EXPENSES": "Gastos",
       "FINANCE_HELP": "Ayuda financiera",
       "LABOUR_LABEL": "Trabajo",
+      "MANAGE_CUSTOM_EXPENSE_TYPES_SPOTLIGHT": {
+        "TITLE": "Administrar tipos de gasto personalizados",
+        "BODY": "Aquí puede agregar, modificar o eliminar tipos de gasto personalizados para su granja."
+      },
+      "MANAGE_CUSTOM_EXPENSE_TYPE": "Administrar tipos personalizados",
       "OTHER_EXPENSES_LABEL": "Otros gastos",
       "REVENUE": "Ingresos",
       "TITLE": "Finanzas",

@@ -44,9 +44,11 @@ export default function PureFinanceTypeSelection({
   return (
     <Form
       buttonGroup={
-        <Button disabled={!isTypeSelected} onClick={onContinue} type={'submit'} fullLength>
-          {t('common:CONTINUE')}
-        </Button>
+        onContinue && (
+          <Button disabled={!isTypeSelected} onClick={onContinue} type={'submit'} fullLength>
+            {t('common:CONTINUE')}
+          </Button>
+        )
       }
     >
       <MultiStepPageTitle

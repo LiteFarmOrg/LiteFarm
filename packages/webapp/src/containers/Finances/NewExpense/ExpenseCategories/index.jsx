@@ -76,13 +76,13 @@ class ExpenseCategories extends Component {
             onGoToManageCustomType={() => history.push('/manage_custom_expense_types')}
             isTypeSelected={!!this.state.selectedTypes.length}
             formatTileData={(data) => {
-              const { farm_id, expense_translation_key, expense_type_id } = data;
+              const { farm_id, expense_translation_key, expense_type_id, expense_name } = data;
 
               return {
                 key: expense_type_id,
                 tileKey: expense_type_id,
                 icon: icons[farm_id ? 'OTHER' : expense_translation_key],
-                label: this.props.t(`expense:${expense_translation_key}`),
+                label: farm_id ? expense_name : this.props.t(`expense:${expense_translation_key}`),
                 onClick: () => this.addRemoveType(expense_type_id),
                 selected: this.state.selectedTypes.includes(expense_type_id),
                 className: styles.labelIcon,

@@ -68,6 +68,7 @@ export const loginUrl = `${URI}/login`;
 export const resetPasswordUrl = `${URI}/password_reset`;
 export const spotlightUrl = `${URI}/showed_spotlight`;
 export const taskUrl = `${URI}/task`;
+export const taskUrlV1 = `${URI}/v1/task'`;
 export const productsUrl = `${URI}/product`;
 export const alertsUrl = `${URI}/notification_user/subscribe`;
 export const notificationsUrl = `${URI}/notification_user`;

@@ -496,8 +496,10 @@
   },
   "EXPENSE": {
     "ADD_EXPENSE": {
+      "ADD_CUSTOM_EXPENSE_TYPE": "Add custom expense type",
       "ALL_FIELDS_REQUIRED": "All fields are required",
       "FLOW": "expense creation",
+      "MANAGE_CUSTOM_EXPENSE_TYPE": "Manage custom expense types",
       "MIN_ERROR": "Please enter a value greater than ",
       "REQUIRED_ERROR": "Expense is required",
       "TITLE": "Add expense",

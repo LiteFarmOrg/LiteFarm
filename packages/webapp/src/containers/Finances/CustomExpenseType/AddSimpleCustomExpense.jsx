@@ -16,8 +16,7 @@ import PureSimpleCustomType from '../../../components/Forms/SimpleCustomType';
 import { HookFormPersistProvider } from '../../hooks/useHookFormPersist/HookFormPersistProvider';
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
-//TODO: make this saga
-//import { addExpenseType } from '../saga';
+import { addCustomExpenseType } from '../actions';
 import { CUSTOM_EXPENSE_NAME } from './constants';
 
 function AddCustomExpense({ history }) {
@@ -29,7 +28,7 @@ function AddCustomExpense({ history }) {
   };
 
   const onSubmit = (payload) => {
-    // dispatch(addExpenseType(payload));
+    dispatch(addCustomExpenseType(payload));
   };
 
   return (

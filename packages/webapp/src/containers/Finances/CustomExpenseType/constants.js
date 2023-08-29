@@ -1,1 +1,1 @@
-export const CUSTOM_EXPENSE_NAME = 'CUSTOM_EXPENSE_NAME';
+export const CUSTOM_EXPENSE_NAME = 'expense_name';

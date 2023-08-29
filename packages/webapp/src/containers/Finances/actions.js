@@ -14,6 +14,7 @@
  */
 
 import {
+  ADD_CUSTOM_EXPENSE_TYPE,
   ADD_EXPENSES,
   ADD_OR_UPDATE_SALE,
   ADD_REMOVE_EXPENSE,
@@ -90,6 +91,13 @@ export const setExpense = (expenses) => {
   return {
     type: SET_EXPENSE,
     expenses,
+  };
+};
+
+export const addCustomExpenseType = (custom_expense_type) => {
+  return {
+    type: ADD_CUSTOM_EXPENSE_TYPE,
+    custom_expense_type,
   };
 };
 

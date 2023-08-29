@@ -56,6 +56,18 @@
       "UPDATE": "Successfully updated expenses!"
     }
   },
+  "EXPENSE_TYPE": {
+    "ERROR": {
+      "ADD": "Failed to create custom expense",
+      "DELETE": "Failed to delete custom expense",
+      "UPDATE": "Failed to update custom expense"
+    },
+    "SUCCESS": {
+      "ADD": "Successfully created custom expense",
+      "DELETE": "Successfully deleted custom expense",
+      "UPDATE": "Successfully updated custom expense"
+    }
+  },
   "FARM": {
     "ERROR": {
       "ADD": "Failed to add farm, please contact litefarm for assistance",

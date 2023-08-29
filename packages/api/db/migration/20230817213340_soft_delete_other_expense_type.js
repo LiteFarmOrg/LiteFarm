@@ -19,7 +19,8 @@
  */
 export const up = async function (knex) {
   await knex('farmExpenseType').where({ expense_name: 'Other', farm_id: null }).update({
-    deleted: true,
+    expense_name: 'Miscellaneous',
+    expense_translation_key: 'MISCELLANEOUS',
   });
 };
 
@@ -28,7 +29,8 @@ export const up = async function (knex) {
  * @returns { Promise<void> }
  */
 export const down = async function (knex) {
-  await knex('farmExpenseType').where({ expense_name: 'Other', farm_id: null }).update({
-    deleted: false,
+  await knex('farmExpenseType').where({ expense_name: 'Miscellaneous', farm_id: null }).update({
+    expense_name: 'Other',
+    expense_translation_key: 'OTHER',
   });
 };

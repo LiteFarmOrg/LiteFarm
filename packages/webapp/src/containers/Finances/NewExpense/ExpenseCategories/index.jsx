@@ -27,6 +27,7 @@ export const icons = {
   SEEDS: <SeedIcon />,
   OTHER: <OtherIcon />,
   LAND: <LandIcon />,
+  MISCELLANEOUS: <OtherIcon />,
 };
 
 class ExpenseCategories extends Component {

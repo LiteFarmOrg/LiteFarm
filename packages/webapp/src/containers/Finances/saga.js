@@ -26,7 +26,7 @@ import {
   TEMP_EDIT_EXPENSE,
   UPDATE_SALE,
 } from './constants';
-import { setDefaultExpenseType, setExpense, setSalesInState } from './actions';
+import { setExpenseType, setExpense, setSalesInState } from './actions';
 import { call, put, select, takeLatest, takeLeading, race, take } from 'redux-saga/effects';
 import apiConfig from './../../apiConfig';
 import { loginSelector } from '../userFarmSlice';
@@ -135,22 +135,22 @@ export function* getDefaultExpenseTypeSaga() {
   try {
     const result = yield call(axios.get, expenseTypeUrl, header);
     if (result) {
-      yield put(setDefaultExpenseType(result.data));
+      yield put(setExpenseType(result.data));
     }
   } catch (e) {
     console.log('failed to fetch expenses from database');
   }
 }
 
-export function* addCustomExpenseTypeSaga() {
+export function* getFarmExpenseTypeSaga() {
   const { expenseTypeUrl } = apiConfig;
   let { user_id, farm_id } = yield select(loginSelector);
   const header = getHeader(user_id, farm_id);
 
   try {
-    const result = yield call(axios.get, expenseTypeUrl, header);
+    const result = yield call(axios.get, `${expenseTypeUrl}/farm/${farm_id}`, header);
     if (result) {
-      yield put(setDefaultExpenseType(result.data));
+      yield put(setExpenseType(result.data));
     }
   } catch (e) {
     console.log('failed to fetch expenses from database');

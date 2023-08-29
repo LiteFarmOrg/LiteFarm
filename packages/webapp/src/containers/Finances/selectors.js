@@ -23,7 +23,11 @@ const selectedSaleSelector = createSelector(financeSelector, (state) => state.se
 
 const expenseSelector = createSelector(financeSelector, (state) => state.expenses);
 
-const expenseTypeSelector = createSelector(financeSelector, (state) => state.expense_types);
+const allExpenseTypeSelector = createSelector(financeSelector, (state) => state.expense_types);
+
+const expenseTypeSelector = createSelector(financeSelector, (state) => {
+  return state.expense_types.filter((type) => !type.deleted);
+});
 
 const expenseDetailDateSelector = createSelector(
   financeSelector,
@@ -57,6 +61,7 @@ export {
   selectedSaleSelector,
   expenseSelector,
   expenseTypeSelector,
+  allExpenseTypeSelector,
   expenseDetailDateSelector,
   selectedExpenseSelector,
   expenseDetailSelector,

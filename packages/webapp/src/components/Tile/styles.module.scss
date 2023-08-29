@@ -40,16 +40,19 @@
   font-family: 'Open Sans', 'SansSerif', serif;
 }
 
-.typeContainer:hover, .typeContainer:active {
+.typeContainerSelected,
+.typeContainer:active {
   border-color: var(--teal700);
   background-color: var(--green100);
   color: var(--teal900);
 }
 
-.typeContainerSelected {
-  border-color: var(--teal700);
-  background-color: var(--green100);
-  color: var(--teal900);
+@media (hover: hover) {
+  .typeContainer:hover {
+    border-color: var(--teal700);
+    background-color: var(--green100);
+    color: var(--teal900);
+  }
 }
 
 .taskTypeLabelContainer {

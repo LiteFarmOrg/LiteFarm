@@ -128,12 +128,27 @@ export function* getExpenseSaga() {
 }
 
 export function* getDefaultExpenseTypeSaga() {
-  const { expenseTypeDefaultUrl } = apiConfig;
+  const { expenseTypeUrl } = apiConfig;
   let { user_id, farm_id } = yield select(loginSelector);
   const header = getHeader(user_id, farm_id);
 
   try {
-    const result = yield call(axios.get, expenseTypeDefaultUrl, header);
+    const result = yield call(axios.get, expenseTypeUrl, header);
+    if (result) {
+      yield put(setDefaultExpenseType(result.data));
+    }
+  } catch (e) {
+    console.log('failed to fetch expenses from database');
+  }
+}
+
+export function* addCustomExpenseTypeSaga() {
+  const { expenseTypeUrl } = apiConfig;
+  let { user_id, farm_id } = yield select(loginSelector);
+  const header = getHeader(user_id, farm_id);
+
+  try {
+    const result = yield call(axios.get, expenseTypeUrl, header);
     if (result) {
       yield put(setDefaultExpenseType(result.data));
     }

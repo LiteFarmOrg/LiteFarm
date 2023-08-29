@@ -35,6 +35,7 @@ const PureSimpleCustomType = ({
   inputLabel,
   customTypeRegister,
   defaultValue,
+  inputMaxChars = 100,
 }) => {
   const { t } = useTranslation();
 
@@ -46,7 +47,6 @@ const PureSimpleCustomType = ({
     mode: 'onChange',
     defaultValues: { [customTypeRegister]: defaultValue || undefined },
   });
-  const MAX_CHARS = 100;
   const readonly = view === 'read-only' || false;
   const disabledInput = readonly;
   const disabledButton = (!isValid || !isDirty) && !readonly;
@@ -72,8 +72,8 @@ const PureSimpleCustomType = ({
         hookFormRegister={register(customTypeRegister, {
           required: true,
           maxLength: {
-            value: MAX_CHARS,
-            message: t('common:CHAR_LIMIT_ERROR', { value: MAX_CHARS }),
+            value: inputMaxChars,
+            message: t('common:CHAR_LIMIT_ERROR', { value: inputMaxChars }),
           },
         })}
         name={customTypeRegister}
@@ -95,6 +95,7 @@ PureSimpleCustomType.propTypes = {
   inputLabel: PropTypes.string,
   customTypeRegister: PropTypes.string,
   defaultValue: PropTypes.string,
+  inputMaxChars: PropTypes.number,
 };
 
 export default PureSimpleCustomType;

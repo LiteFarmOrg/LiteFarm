@@ -10,6 +10,7 @@ import { ReactComponent as MachineIcon } from '../../../../assets/images/log/mac
 import { ReactComponent as SeedIcon } from '../../../../assets/images/log/seeding.svg';
 import { ReactComponent as OtherIcon } from '../../../../assets/images/log/other.svg';
 import { ReactComponent as LandIcon } from '../../../../assets/images/log/land.svg';
+import { ReactComponent as MiscellaneousIcon } from '../../../../assets/images/log/miscellaneous.svg';
 import { setSelectedExpenseTypes } from '../../actions';
 import history from '../../../../history';
 import { withTranslation } from 'react-i18next';
@@ -27,7 +28,15 @@ export const icons = {
   SEEDS: <SeedIcon />,
   OTHER: <OtherIcon />,
   LAND: <LandIcon />,
-  MISCELLANEOUS: <OtherIcon />,
+  MISCELLANEOUS: (
+    <MiscellaneousIcon
+      style={{
+        border: 'solid 10px transparent',
+        filter:
+          'invert(30%) sepia(94%) saturate(787%) hue-rotate(136deg) brightness(103%) contrast(98%)',
+      }}
+    />
+  ),
 };
 
 class ExpenseCategories extends Component {

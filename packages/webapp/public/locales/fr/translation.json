@@ -800,7 +800,8 @@
     },
     "REVENUE": "Revenu",
     "VIEW_WITHIN_DATE_RANGE": "Voir les revenus dans cette plage de dates",
-    "WHOLE_FARM_REVENUE": "Revenu total de la ferme"
+    "WHOLE_FARM_REVENUE": "Revenu total de la ferme",
+    "MANAGE_CUSTOM_TYPE": "MISSING"
   },
   "FORM_VALIDATION": {
     "OVER_255_CHARS": "Le texte ne peut pas dépasser 255 caractères"
@@ -1484,7 +1485,6 @@
         "TITLE": "MISSING",
         "BODY": "MISSING"
       },
-      "MANAGE_CUSTOM_EXPENSE_TYPE": "MISSING",
       "OTHER_EXPENSES_LABEL": "Autres dépenses",
       "REVENUE": "Revenu",
       "TITLE": "Finances",

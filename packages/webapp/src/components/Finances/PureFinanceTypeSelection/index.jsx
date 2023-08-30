@@ -69,7 +69,7 @@ export default function PureFinanceTypeSelection({
           isIconClickable
           underlined={false}
         >
-          {t('SALE.FINANCES.MANAGE_CUSTOM_EXPENSE_TYPE')}
+          {t('FINANCES.MANAGE_CUSTOM_TYPE')}
         </IconLink>
       </div>
     </Form>

@@ -799,7 +799,8 @@
     },
     "REVENUE": "Ingresos",
     "VIEW_WITHIN_DATE_RANGE": "Ver ingresos dentro de este intervalo de fechas",
-    "WHOLE_FARM_REVENUE": "Ingresos de toda la granja"
+    "WHOLE_FARM_REVENUE": "Ingresos de toda la granja",
+    "MANAGE_CUSTOM_TYPE": "Administrar tipos personalizados"
   },
   "FORM_VALIDATION": {
     "OVER_255_CHARS": "El texto no puede superar los 255 caracteres"
@@ -1483,7 +1484,6 @@
         "TITLE": "Administrar tipos de gasto personalizados",
         "BODY": "Aquí puede agregar, modificar o eliminar tipos de gasto personalizados para su granja."
       },
-      "MANAGE_CUSTOM_EXPENSE_TYPE": "Administrar tipos personalizados",
       "OTHER_EXPENSES_LABEL": "Otros gastos",
       "REVENUE": "Ingresos",
       "TITLE": "Finanzas",

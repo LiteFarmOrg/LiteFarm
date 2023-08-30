@@ -799,7 +799,8 @@
     },
     "REVENUE": "Receita",
     "VIEW_WITHIN_DATE_RANGE": "Veja a receita neste intervalo de datas",
-    "WHOLE_FARM_REVENUE": "Receita de toda a propriedade"
+    "WHOLE_FARM_REVENUE": "Receita de toda a propriedade",
+    "MANAGE_CUSTOM_TYPE": "MISSING"
   },
   "FORM_VALIDATION": {
     "OVER_255_CHARS": "O texto não pode exceder 255 caracteres"
@@ -1484,7 +1485,6 @@
         "TITLE": "MISSING",
         "BODY": "MISSING"
       },
-      "MANAGE_CUSTOM_EXPENSE_TYPE": "MISSING",
       "OTHER_EXPENSES_LABEL": "Outras despesas",
       "REVENUE": "Receita",
       "TITLE": "Finanças",
